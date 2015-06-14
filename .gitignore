@@ -1,0 +1,39 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+*.vspscc
+/$tf
+/Development - 0.9.4.x
+/Development - 0.9.5.x
+/Development - 0.9.6.x
+/Development - 0.9.7.x
+/Release - 0.9.3.4
+/Development - 0.9.8.x/Developer Tools/temp_0.9.8.0
+/Development - 0.9.8.x/Developer Tools/Tweetinvi 0.9.8.0 - Merged Binaries.zip
+/Development - 0.9.8.x/Developer Tools/Tweetinvi 0.9.8.0 - Binaries.zip
+/Development - 0.9.8.x/Examplinvi/bin
+/Development - 0.9.8.x/Examplinvi/obj
+/Development - 0.9.8.x/Examplinvi.Web/bin
+/Development - 0.9.8.x/Examplinvi.Web/obj
+/Development - 0.9.8.x/packages
+/Development - 0.9.8.x/Testinvi/bin
+/Development - 0.9.8.x/Testinvi/obj
+/Development - 0.9.8.x/Tweetinvi/bin
+/Development - 0.9.8.x/Tweetinvi/obj
+/Development - 0.9.8.x/Tweetinvi.Controllers/bin
+/Development - 0.9.8.x/Tweetinvi.Controllers/obj
+/Development - 0.9.8.x/Tweetinvi.Core/bin
+/Development - 0.9.8.x/Tweetinvi.Core/obj
+/Development - 0.9.8.x/Tweetinvi.Credentials/bin
+/Development - 0.9.8.x/Tweetinvi.Credentials/obj
+/Development - 0.9.8.x/Tweetinvi.Factories/bin
+/Development - 0.9.8.x/Tweetinvi.Factories/obj
+/Development - 0.9.8.x/Tweetinvi.Logic/bin
+/Development - 0.9.8.x/Tweetinvi.Logic/obj
+/Development - 0.9.8.x/Tweetinvi.Security/bin
+/Development - 0.9.8.x/Tweetinvi.Security/obj
+/Development - 0.9.8.x/Tweetinvi.Streams/bin
+/Development - 0.9.8.x/Tweetinvi.Streams/obj
+/Development - 0.9.8.x/Tweetinvi.WebLogic/bin
+/Development - 0.9.8.x/Tweetinvi.WebLogic/obj
