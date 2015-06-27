@@ -196,7 +196,7 @@
     <Compile Include="Interfaces\Parameters\QueryParameters\IUserTimelineRequestQueryParameters.cs" />
     <Compile Include="Interfaces\Streaminvi\Parameters\WithFilterType.cs" />
     <Compile Include="Interfaces\Streaminvi\Parameters\RepliesFilterType.cs" />
-    <Compile Include="Interfaces\ITweetinviEvents.cs" />
+    <Compile Include="Events\TweetinviEvents.cs" />
     <Compile Include="Interfaces\Streaminvi\Parameters\StreamFilterLevel.cs" />
     <Compile Include="Interfaces\WebLogic\IWebRequestResult.cs" />
     <Compile Include="Parameters\AccountSettingsRequestParameters.cs" />

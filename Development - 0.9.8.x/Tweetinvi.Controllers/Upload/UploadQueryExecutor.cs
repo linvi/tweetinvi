@@ -89,7 +89,7 @@ namespace Tweetinvi.Controllers.Upload
         {
             if (_tweetQueryValidator.CanTweetDTOBePublished(tweetToPublish))
             {
-                UploadMedias(tweetToPublish.MediasToPublish, true);
+                UploadMedias(tweetToPublish.MediasToPublish, false);
             }
         }
     }

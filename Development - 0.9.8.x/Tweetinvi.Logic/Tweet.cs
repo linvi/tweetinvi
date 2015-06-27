@@ -365,6 +365,11 @@ namespace Tweetinvi.Logic
             return media;
         }
 
+        public void AddMedia(IMedia media)
+        {
+            AddMediaToPublishList(media);
+        }
+
         public IMedia AddMediaAsAClone(IMedia media)
         {
             var clone = media.CloneWithoutMediaInfo(media);

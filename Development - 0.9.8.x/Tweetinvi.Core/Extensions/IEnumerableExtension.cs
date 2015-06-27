@@ -41,6 +41,7 @@ namespace Tweetinvi.Core.Extensions
         {
             return !collection.Any();
         }
+
         public static TSource JustOneOrDefault<TSource>(this IEnumerable<TSource> source, Func<TSource, bool> isMatching) where TSource : class 
         {
             if (source == null)

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Text.RegularExpressions;
 using Tweetinvi.Core.Interfaces.Streaminvi;
 
@@ -96,16 +97,19 @@ namespace Tweetinvi.Streams.Helpers
 
         public void ClearTracks()
         {
-            _tracks.Clear();
-            _tracksKeywords.Clear();
-            _refreshTracking = true;
+            lock (this)
+            {
+                _tracks.Clear();
+                _tracksKeywords.Clear();
+                _refreshTracking = true;
+            }
         }
 
         // Manual Tracking
         // private string[] _uniqueKeywordsArray;
         private HashSet<string> _uniqueKeywordsHashSet;
         private string[][] _tracksKeywordsArray;
-        private bool _tracksContainsDollarTag;
+        private Regex _matchingRegex;
 
         /// <summary>
         /// Creates Arrays of string that cache information for later comparisons
@@ -122,7 +126,24 @@ namespace Tweetinvi.Streams.Helpers
                 _uniqueKeywordsHashSet.UnionWith(_tracksKeywordsArray[i]);
             }
 
-            _tracksContainsDollarTag = _uniqueKeywordsHashSet.Any(x => x.StartsWith("$"));
+            var tracksContainsAtSymbol = _uniqueKeywordsHashSet.Any(x => x.StartsWith("@"));
+            var tracksContainsDollarTag = _uniqueKeywordsHashSet.Any(x => x.StartsWith("$"));
+
+            var regexBuilder = new StringBuilder(@"[\#");
+            
+            if (tracksContainsAtSymbol)
+            {
+                regexBuilder.Append("@");
+            }
+
+            if (tracksContainsDollarTag)
+            {
+                regexBuilder.Append(@"\$");
+            }
+
+            regexBuilder.Append(@"]\w+|\w+");
+
+            _matchingRegex = new Regex(regexBuilder.ToString(), RegexOptions.IgnoreCase);
         }
 
         public bool Matches(string input)
@@ -145,7 +166,7 @@ namespace Tweetinvi.Streams.Helpers
         {
             // This behavior allows live refresh of the tracking
             // But reduces considerably the performances of the first test
-            // First attempt ~= 10 x Later Attemps
+            // First attempt ~= 10 x Later Attempts
             if (_refreshTracking)
             {
                 RefreshTracking();
@@ -194,9 +215,6 @@ namespace Tweetinvi.Streams.Helpers
                 return _matchingTracks(input).Select(x => x.Item1).ToList();
             }
         }
-
-        readonly Regex _getStringWordsRegex = new Regex(@"\#\w+|\w+", RegexOptions.IgnoreCase);
-        readonly Regex _getStringWordsWithCashTagRegex = new Regex(@"\#\w+|\$\w+|\w+", RegexOptions.IgnoreCase);
 
         private List<Tuple<string, Action<T>>> _matchingTracks(string input)
         {
@@ -247,9 +265,7 @@ namespace Tweetinvi.Streams.Helpers
 
         private string[] GetMatchingKeywords(string input)
         {
-            var regexToUse = _tracksContainsDollarTag ? _getStringWordsWithCashTagRegex : _getStringWordsRegex;
-
-            return regexToUse
+            return _matchingRegex
                 .Matches(input.ToLower())
                 .OfType<Match>()
                 .Where(match =>

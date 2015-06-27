@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Text;
@@ -109,7 +110,8 @@ namespace Tweetinvi.Streams
 
                 var matchingTrackAndActions = _streamTrackManager.GetMatchingTracksAndActions(tweet.Text);
                 var matchingTracks = matchingTrackAndActions.Select(x => x.Item1);
-                var machingLocationAndActions = GetMatchedLocations(tweet.Coordinates);
+                var machingLocationAndActions = GetMatchedLocations(tweet);
+
                 var matchingLocations = machingLocationAndActions.Select(x => x.Key);
 
                 CallMultipleActions(tweet, matchingTrackAndActions.Select(x => x.Item2));
@@ -153,7 +155,7 @@ namespace Tweetinvi.Streams
 
                 var matchingTrackAndActions = _streamTrackManager.GetMatchingTracksAndActions(tweet.Text);
                 var matchingTracks = matchingTrackAndActions.Select(x => x.Item1);
-                var machingLocationAndActions = GetMatchedLocations(tweet.Coordinates);
+                var machingLocationAndActions = GetMatchedLocations(tweet);
                 var matchingLocations = machingLocationAndActions.Select(x => x.Key);
 
                 if (!DoestTheTweetMatchAllConditions(tweet, matchingTracks, matchingLocations))
@@ -387,6 +389,38 @@ namespace Tweetinvi.Streams
         public void ClearLocations()
         {
             Locations.Clear();
+        }
+
+        private IEnumerable<KeyValuePair<ILocation, Action<ITweet>>> GetMatchedLocations(ITweet tweet)
+        {
+            var tweetCoordinates = tweet.Coordinates;
+            if (tweetCoordinates != null)
+            {
+                return GetMatchedLocations(tweetCoordinates);
+            }
+
+            var place = tweet.Place;
+            if (place != null)
+            {
+                var boundingBox = place.BoundingBox;
+                if (boundingBox != null)
+                {
+                    var placeCoordinates = boundingBox.Coordinates;
+                    return GetMatchedLocations(placeCoordinates);
+                }
+            }
+
+            return new List<KeyValuePair<ILocation, Action<ITweet>>>();
+        }
+
+        private IEnumerable<KeyValuePair<ILocation, Action<ITweet>>> GetMatchedLocations(IEnumerable<ICoordinates> coordinates)
+        {
+            if (_locations.IsEmpty() || coordinates.IsNullOrEmpty())
+            {
+                return new List<KeyValuePair<ILocation, Action<ITweet>>>();
+            }
+
+            return _locations.Where(x => coordinates.Any(c => Location.CoordinatesLocatedIn(c, x.Key))).ToList();
         }
 
         private IEnumerable<KeyValuePair<ILocation, Action<ITweet>>> GetMatchedLocations(ICoordinates coordinates)

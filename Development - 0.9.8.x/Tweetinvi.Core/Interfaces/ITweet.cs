@@ -229,6 +229,13 @@ namespace Tweetinvi.Core.Interfaces
         IMedia AddMedia(byte[] data, string name = null);
 
         /// <summary>
+        /// Add an existing media to a tweet.
+        /// Note that this will fail if the media has already been used in another publication
+        /// </summary>
+        /// <param name="media"></param>
+        void AddMedia(IMedia media);
+
+        /// <summary>
         /// Add a clone of an existing media to a Tweet
         /// </summary>
         IMedia AddMediaAsAClone(IMedia media);

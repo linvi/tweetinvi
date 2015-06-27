@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Tweetinvi.Core;
 using Tweetinvi.Core.Enum;
+using Tweetinvi.Core.Events;
 using Tweetinvi.Core.Events.EventArguments;
 using Tweetinvi.Core.Interfaces;
 using Tweetinvi.Core.Interfaces.Credentials;

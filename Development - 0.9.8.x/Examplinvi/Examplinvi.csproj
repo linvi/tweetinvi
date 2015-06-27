@@ -68,17 +68,9 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Tweetinvi.Controllers\Tweetinvi.Controllers.csproj">
-      <Project>{6048BD01-3CEF-4668-80D8-615914CC85A2}</Project>
-      <Name>Tweetinvi.Controllers</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Tweetinvi.Core\Tweetinvi.Core.csproj">
       <Project>{cd1ae921-d88a-4145-87b6-b82f276872f8}</Project>
       <Name>Tweetinvi.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Tweetinvi.Logic\Tweetinvi.Logic.csproj">
-      <Project>{1C74B83B-4B84-44E2-AFD7-1468BB90306D}</Project>
-      <Name>Tweetinvi.Logic</Name>
     </ProjectReference>
     <ProjectReference Include="..\Tweetinvi\Tweetinvi.csproj">
       <Project>{c03b362b-6779-4ef6-8a92-1593079ffe54}</Project>

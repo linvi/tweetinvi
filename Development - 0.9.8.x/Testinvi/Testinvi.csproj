@@ -98,6 +98,7 @@
     <Compile Include="Tweetinvi.Credentials\RateLimitTests\RateLimitUpdaterTests.cs" />
     <Compile Include="Tweetinvi.Credentials\TwitterAccessorTests.cs" />
     <Compile Include="Tweetinvi.Logic\TweetTests.cs" />
+    <Compile Include="Tweetinvi.Streams\StreamTrackManagerTests.cs" />
     <Compile Include="TweetinviControllers\AccountTests\AccountControllerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TweetinviControllers\AccountTests\AccountJsonControllerTests.cs" />
@@ -184,6 +185,10 @@
     <ProjectReference Include="..\Tweetinvi.Logic\Tweetinvi.Logic.csproj">
       <Project>{1c74b83b-4b84-44e2-afd7-1468bb90306d}</Project>
       <Name>Tweetinvi.Logic</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Tweetinvi.Streams\Tweetinvi.Streams.csproj">
+      <Project>{1EE99D68-D7CB-403B-830E-AEE8B87705FA}</Project>
+      <Name>Tweetinvi.Streams</Name>
     </ProjectReference>
     <ProjectReference Include="..\Tweetinvi.WebLogic\Tweetinvi.WebLogic.csproj">
       <Project>{059849d4-dfc0-42bc-8b34-0ad2df3210c7}</Project>
