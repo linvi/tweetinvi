@@ -1,0 +1,369 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <MinimumVisualStudioVersion>10.0</MinimumVisualStudioVersion>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{CD1AE921-D88A-4145-87B6-B82F276872F8}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Tweetinvi.Core</RootNamespace>
+    <AssemblyName>Tweetinvi.Core</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>Profile136</TargetFrameworkProfile>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>..\tweetinvi.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="Attributes\CustomTwitterEndpointAttribute.cs" />
+    <Compile Include="Attributes\TwitterEndpointAttribute.cs" />
+    <Compile Include="Enum\AllowContributorRequestMode.cs" />
+    <Compile Include="Enum\AllowDirectMessagesFrom.cs" />
+    <Compile Include="Enum\DistanceMeasure.cs" />
+    <Compile Include="Enum\HttpMethod.cs" />
+    <Compile Include="Enum\ImageSize.cs" />
+    <Compile Include="Enum\Language.cs" />
+    <Compile Include="Enum\PlaceType.cs" />
+    <Compile Include="Enum\PrivacyMode.cs" />
+    <Compile Include="Enum\MultiRequestsResult.cs" />
+    <Compile Include="Enum\SearchResultType.cs" />
+    <Compile Include="Enum\StreamState.cs" />
+    <Compile Include="Enum\TwitterTimeZone.cs" />
+    <Compile Include="Enum\WindowsTimeZone.cs" />
+    <Compile Include="Events\Delegates.cs" />
+    <Compile Include="Events\EventArguments\AccessRevokedEventArgs.cs" />
+    <Compile Include="Events\EventArguments\DisconnectedEventArgs.cs" />
+    <Compile Include="Events\EventArguments\ExceptionEventArgs.cs" />
+    <Compile Include="Events\EventArguments\GenericEventArgs.cs" />
+    <Compile Include="Events\EventArguments\JsonObjectEventArgs.cs" />
+    <Compile Include="Events\EventArguments\LimitReachedEventArgs.cs" />
+    <Compile Include="Events\EventArguments\ListEventArgs.cs" />
+    <Compile Include="Events\EventArguments\MessageEventArgs.cs" />
+    <Compile Include="Events\EventArguments\QueryAfterExecuteEventArgs.cs" />
+    <Compile Include="Events\EventArguments\QueryBeforeExecuteEventArgs.cs" />
+    <Compile Include="Events\EventArguments\QueryExecutionEventArgs.cs" />
+    <Compile Include="Events\EventArguments\TweetEventArgs.cs" />
+    <Compile Include="Events\EventArguments\TweetinviContainerEventArgs.cs" />
+    <Compile Include="Events\EventArguments\UnmanagedMessageReceivedEventArgs.cs" />
+    <Compile Include="Events\EventArguments\UserEventArgs.cs" />
+    <Compile Include="Events\EventArguments\WarningMessageEventArgs.cs" />
+    <Compile Include="Events\EventHelpers.cs" />
+    <Compile Include="Events\EventArguments\QueryAwaitingEventArgs.cs" />
+    <Compile Include="Events\WeakDelegate.cs" />
+    <Compile Include="Events\WeakEvent.cs" />
+    <Compile Include="Exceptions\AggregateExceptionHandler.cs" />
+    <Compile Include="Exceptions\ITwitterException.cs" />
+    <Compile Include="Exceptions\ITwitterExceptionInfo.cs" />
+    <Compile Include="Exceptions\IWebExceptionInfoExtractor.cs" />
+    <Compile Include="Exceptions\TwitterInvalidCredentialsException.cs" />
+    <Compile Include="Exceptions\TwitterNullCredentialsException.cs" />
+    <Compile Include="Exceptions\TwitterException.cs" />
+    <Compile Include="Exceptions\TwitterTimeoutException.cs" />
+    <Compile Include="Extensions\ExceptionUtils.cs" />
+    <Compile Include="Extensions\IEnumerableExtension.cs" />
+    <Compile Include="Extensions\LanguageExtension.cs" />
+    <Compile Include="Extensions\StringExtension.cs" />
+    <Compile Include="Extensions\StringFormater.cs" />
+    <Compile Include="Extensions\TwitterTimeZoneExtension.cs" />
+    <Compile Include="Helpers\AttributeHelper.cs" />
+    <Compile Include="Helpers\ResourcesHelper.cs" />
+    <Compile Include="Helpers\HttpUtility.cs" />
+    <Compile Include="Helpers\IJsonObjectConverter.cs" />
+    <Compile Include="Helpers\IJsonTwitterConverterRepository.cs" />
+    <Compile Include="Helpers\ITwitterStringFormatter.cs" />
+    <Compile Include="Helpers\IWebHelper.cs" />
+    <Compile Include="Helpers\SynchronousInvoker.cs" />
+    <Compile Include="Helpers\TaskFactory.cs" />
+    <Compile Include="Helpers\ThreadHelper.cs" />
+    <Compile Include="Injectinvi\ConstructorNamedParameter.cs" />
+    <Compile Include="Injectinvi\IFactory.cs" />
+    <Compile Include="Injectinvi\ITweetinviModule.cs" />
+    <Compile Include="Injectinvi\ITweetinviContainer.cs" />
+    <Compile Include="Injectinvi\RegistrationLifetime.cs" />
+    <Compile Include="Interfaces\Async\IMessageAsync.cs" />
+    <Compile Include="Interfaces\Async\ITweetAsync.cs" />
+    <Compile Include="Interfaces\Async\ITwitterListAsync.cs" />
+    <Compile Include="Interfaces\Async\IUserAsync.cs" />
+    <Compile Include="Interfaces\Controllers\IAccountController.cs" />
+    <Compile Include="Interfaces\Controllers\IFriendshipController.cs" />
+    <Compile Include="Interfaces\Controllers\IGeoController.cs" />
+    <Compile Include="Interfaces\Controllers\IHelperController.cs" />
+    <Compile Include="Interfaces\Controllers\IHelpQueryGenerator.cs" />
+    <Compile Include="Interfaces\Controllers\IMessageController.cs" />
+    <Compile Include="Interfaces\Controllers\ISavedSearchController.cs" />
+    <Compile Include="Interfaces\Controllers\ITimelineController.cs" />
+    <Compile Include="Interfaces\Controllers\ITrendsController.cs" />
+    <Compile Include="Interfaces\Controllers\ITweetController.cs" />
+    <Compile Include="Interfaces\Controllers\ITwitterListController.cs" />
+    <Compile Include="Interfaces\Controllers\IUserController.cs" />
+    <Compile Include="Interfaces\Credentials\ICredentialsAccessor.cs" />
+    <Compile Include="Interfaces\Credentials\ICredentialsStore.cs" />
+    <Compile Include="Interfaces\DTO\IUploadedVideoDetails.cs" />
+    <Compile Include="Interfaces\Models\ICategorySuggestion.cs" />
+    <Compile Include="Interfaces\DTO\QueryDTO\ITwitterListCursorQueryResultDTO.cs" />
+    <Compile Include="Interfaces\Factories\ITwitterListIdentifierFactory.cs" />
+    <Compile Include="Interfaces\Models\StreamMessages\AccessRevokedInfo.cs" />
+    <Compile Include="Interfaces\DTO\IMedia.cs" />
+    <Compile Include="Interfaces\DTO\ISearchMetadata.cs" />
+    <Compile Include="Interfaces\DTO\ISearchResultsDTO.cs" />
+    <Compile Include="Interfaces\DTO\ITweetFromSearchMetadata.cs" />
+    <Compile Include="Interfaces\DTO\ITweetWithSearchMetadataDTO.cs" />
+    <Compile Include="Interfaces\DTO\ITwitterConfiguration.cs" />
+    <Compile Include="Interfaces\DTO\IUploadedMediaInfo.cs" />
+    <Compile Include="Interfaces\DTO\IUploadedImageDetails.cs" />
+    <Compile Include="Interfaces\DTO\QueryDTO\ICursorQueryHelper.cs" />
+    <Compile Include="Interfaces\Factories\IUserIdentifierFactory.cs" />
+    <Compile Include="Interfaces\ILoggedUser.cs" />
+    <Compile Include="Interfaces\Async\ILoggedUserAsync.cs" />
+    <Compile Include="Interfaces\Credentials\IRateLimit.cs" />
+    <Compile Include="Interfaces\Credentials\ITokenRateLimit.cs" />
+    <Compile Include="Interfaces\Credentials\ITokenRateLimits.cs" />
+    <Compile Include="Interfaces\Credentials\ITwitterAccessor.cs" />
+    <Compile Include="Interfaces\Credentials\IWebTokenCreator.cs" />
+    <Compile Include="Interfaces\DTO\QueryDTO\IBaseCursorQueryDTO.cs" />
+    <Compile Include="Interfaces\DTO\QueryDTO\IIdsCursorQueryResultDTO.cs" />
+    <Compile Include="Interfaces\DTO\QueryDTO\IUserCursorQueryResultDTO.cs" />
+    <Compile Include="Interfaces\DTO\IAccountSettingsDTO.cs" />
+    <Compile Include="Interfaces\Models\StreamMessages\IDisconnectMessage.cs" />
+    <Compile Include="Interfaces\DTO\IMessageDTO.cs" />
+    <Compile Include="Interfaces\DTO\IOembedTweetDTO.cs" />
+    <Compile Include="Interfaces\DTO\IRelationshipDetailsDTO.cs" />
+    <Compile Include="Interfaces\DTO\IRelationshipStateDTO.cs" />
+    <Compile Include="Interfaces\DTO\ISavedSearchDTO.cs" />
+    <Compile Include="Interfaces\Models\StreamMessages\ITweetDeletedInfo.cs" />
+    <Compile Include="Interfaces\DTO\ITweetDTO.cs" />
+    <Compile Include="Interfaces\DTO\ITwitterListDTO.cs" />
+    <Compile Include="Interfaces\Models\StreamMessages\ITweetLocationDeletedInfo.cs" />
+    <Compile Include="Interfaces\Models\StreamMessages\ITweetLocationRemovedInfo.cs" />
+    <Compile Include="Interfaces\Models\StreamMessages\ITweetWitheldInfo.cs" />
+    <Compile Include="Interfaces\DTO\IUserDTO.cs" />
+    <Compile Include="Interfaces\Models\StreamMessages\IUserWitheldInfo.cs" />
+    <Compile Include="Interfaces\Exceptions\IExceptionHandler.cs" />
+    <Compile Include="Interfaces\Factories\IFriendshipFactory.cs" />
+    <Compile Include="Interfaces\Factories\IGeoFactory.cs" />
+    <Compile Include="Interfaces\Factories\IMessageFactory.cs" />
+    <Compile Include="Interfaces\Factories\ISavedSearchFactory.cs" />
+    <Compile Include="Interfaces\Factories\ITweetFactory.cs" />
+    <Compile Include="Interfaces\Factories\ITwitterListFactory.cs" />
+    <Compile Include="Interfaces\Factories\IUserFactory.cs" />
+    <Compile Include="Interfaces\IMention.cs" />
+    <Compile Include="Interfaces\IMessage.cs" />
+    <Compile Include="Interfaces\IRelationshipDetails.cs" />
+    <Compile Include="Interfaces\ISearchQueryResult.cs" />
+    <Compile Include="Interfaces\ISearchResult.cs" />
+    <Compile Include="Interfaces\ITweet.cs" />
+    <Compile Include="Interfaces\Models\Entities\IBaseTweetEntities.cs" />
+    <Compile Include="Interfaces\Models\Entities\ExtendedEntities\IVideoEntityVariant.cs" />
+    <Compile Include="Interfaces\Models\Entities\ISymbolEntity.cs" />
+    <Compile Include="Interfaces\Models\Entities\ExtendedEntities\IVideoInformationEntity.cs" />
+    <Compile Include="Interfaces\Models\ITwitterQuery.cs" />
+    <Compile Include="Interfaces\Parameters\IAccountSettingsRequestParameters.cs" />
+    <Compile Include="Interfaces\Parameters\IMessagesRetrieveRequestParametersBase.cs" />
+    <Compile Include="Interfaces\Parameters\IMessageGetLatestsReceivedRequestParameters.cs" />
+    <Compile Include="Interfaces\Parameters\IMessageGetLatestsSentRequestParameters.cs" />
+    <Compile Include="Interfaces\Parameters\ICustomRequestParameters.cs" />
+    <Compile Include="Interfaces\Parameters\IGetTweetsFromListParameters.cs" />
+    <Compile Include="Interfaces\Parameters\IPublishTweetOptionalParameters.cs" />
+    <Compile Include="Interfaces\Parameters\IUserSearchParameters.cs" />
+    <Compile Include="Interfaces\Parameters\QueryParameters\IPublishTweetParameters.cs" />
+    <Compile Include="Interfaces\Parameters\QueryParameters\ITwitterListUpdateQueryParameters.cs" />
+    <Compile Include="Interfaces\Parameters\QueryParameters\IGetTweetsFromListQueryParameters.cs" />
+    <Compile Include="Interfaces\Parameters\QueryParameters\IUserTimelineRequestQueryParameters.cs" />
+    <Compile Include="Interfaces\QueryGenerators\IUploadQueryGenerator.cs" />
+    <Compile Include="Interfaces\Streaminvi\Parameters\WithFilterType.cs" />
+    <Compile Include="Interfaces\Streaminvi\Parameters\RepliesFilterType.cs" />
+    <Compile Include="Events\TweetinviEvents.cs" />
+    <Compile Include="Interfaces\Streaminvi\Parameters\StreamFilterLevel.cs" />
+    <Compile Include="Interfaces\Controllers\Transactions\IChunkedUploader.cs" />
+    <Compile Include="Interfaces\WebLogic\IWebRequestResult.cs" />
+    <Compile Include="Parameters\AccountSettingsRequestParameters.cs" />
+    <Compile Include="Parameters\CustomRequestParameters.cs" />
+    <Compile Include="Parameters\GetTweetsFromListParameters.cs" />
+    <Compile Include="Parameters\HomeTimelineParameters.cs" />
+    <Compile Include="Parameters\MentionsTimelineParameters.cs" />
+    <Compile Include="Parameters\GetLatestMessagesReceivedRequestParameters.cs" />
+    <Compile Include="Parameters\GetLatestMessagesSentRequestParameters.cs" />
+    <Compile Include="Parameters\Models\Coordinates.cs" />
+    <Compile Include="Parameters\Models\GeoCode.cs" />
+    <Compile Include="Parameters\Models\Location.cs" />
+    <Compile Include="Parameters\Models\TweetIdentifier.cs" />
+    <Compile Include="Parameters\Models\TwitterListIdentifier.cs" />
+    <Compile Include="Parameters\Models\UserIdentifier.cs" />
+    <Compile Include="Parameters\PublishTweetOptionalParameters.cs" />
+    <Compile Include="Parameters\PublishTweetParameters.cs" />
+    <Compile Include="Parameters\RetweetsOfMeTimelineRequestParameter.cs" />
+    <Compile Include="Parameters\TimelineRequestParameters.cs" />
+    <Compile Include="Parameters\TweetSearchParameters.cs" />
+    <Compile Include="Parameters\TwitterListUpdateParameters.cs" />
+    <Compile Include="Parameters\UserSearchParameters.cs" />
+    <Compile Include="Parameters\UserTimelineParameters.cs" />
+    <Compile Include="TweetinviConsts.cs" />
+    <Compile Include="Interfaces\RateLimit\IRateLimitAwaiter.cs" />
+    <Compile Include="Interfaces\RateLimit\IRateLimitCache.cs" />
+    <Compile Include="Interfaces\RateLimit\IRateLimitCacheManager.cs" />
+    <Compile Include="Interfaces\RateLimit\IRateLimitHelper.cs" />
+    <Compile Include="Interfaces\RateLimit\IRateLimitUpdater.cs" />
+    <Compile Include="TweetinviSettings.cs" />
+    <Compile Include="Interfaces\ITwitterList.cs" />
+    <Compile Include="Interfaces\ITweetWithSearchMetadata.cs" />
+    <Compile Include="Interfaces\Models\Entities\IDescriptionEntity.cs" />
+    <Compile Include="Interfaces\Models\Entities\IUserEntities.cs" />
+    <Compile Include="Interfaces\Models\Entities\IWebsiteEntity.cs" />
+    <Compile Include="Interfaces\Factories\ISearchResultFactory.cs" />
+    <Compile Include="Interfaces\Parameters\IHomeTimelineParameters.cs" />
+    <Compile Include="Interfaces\Parameters\IMentionsTimelineParameters.cs" />
+    <Compile Include="Interfaces\Parameters\IRetweetsOfMeTimelineRequestParameters.cs" />
+    <Compile Include="Interfaces\Parameters\ITimelineRequestParameters.cs" />
+    <Compile Include="Interfaces\Parameters\ITweetSearchParameters.cs" />
+    <Compile Include="Interfaces\IUser.cs" />
+    <Compile Include="Interfaces\Models\IAccountSettings.cs" />
+    <Compile Include="Interfaces\Models\ICoordinates.cs" />
+    <Compile Include="Interfaces\Models\IFriendshipAuthorizations.cs" />
+    <Compile Include="Interfaces\Models\IGeo.cs" />
+    <Compile Include="Interfaces\Models\IGeoCode.cs" />
+    <Compile Include="Interfaces\Models\Entities\IHashTagEntity.cs" />
+    <Compile Include="Interfaces\Models\ILocation.cs" />
+    <Compile Include="Interfaces\Models\Entities\IMediaEntity.cs" />
+    <Compile Include="Interfaces\Models\Entities\IMediaEntitySize.cs" />
+    <Compile Include="Interfaces\Models\IOEmbedTweet.cs" />
+    <Compile Include="Interfaces\Models\IPlace.cs" />
+    <Compile Include="Interfaces\Models\IPlaceTrends.cs" />
+    <Compile Include="Interfaces\Models\IRelationshipState.cs" />
+    <Compile Include="Interfaces\Models\ISavedSearch.cs" />
+    <Compile Include="Interfaces\Models\ISearchEngine.cs" />
+    <Compile Include="Interfaces\Models\ISuggestedUserList.cs" />
+    <Compile Include="Interfaces\Models\ITimeZone.cs" />
+    <Compile Include="Interfaces\Models\ITrend.cs" />
+    <Compile Include="Interfaces\Models\ITrendLocation.cs" />
+    <Compile Include="Interfaces\Models\Entities\ITweetEntities.cs" />
+    <Compile Include="Interfaces\Models\Entities\IUrlEntity.cs" />
+    <Compile Include="Interfaces\Models\IUserIdentifier.cs" />
+    <Compile Include="Interfaces\Models\Entities\IUserMentionEntity.cs" />
+    <Compile Include="Interfaces\Models\IUserSearchEngine.cs" />
+    <Compile Include="Interfaces\Models\StreamMessages\IWarningMessage.cs" />
+    <Compile Include="Interfaces\Models\StreamMessages\IWarningMessageFallingBehind.cs" />
+    <Compile Include="Interfaces\Models\StreamMessages\IWarningMessageTooManyFollowers.cs" />
+    <Compile Include="Interfaces\Models\IWoeIdLocation.cs" />
+    <Compile Include="Interfaces\Parameters\IUserTimelineParameters.cs" />
+    <Compile Include="Interfaces\Models\TokenRateLimit.cs" />
+    <Compile Include="Interfaces\Models\TokenRateLimits.cs" />
+    <Compile Include="Interfaces\Models\ITweetIdentifier.cs" />
+    <Compile Include="Credentials\ConsumerCredentials.cs" />
+    <Compile Include="Credentials\TwitterCredentials.cs" />
+    <Compile Include="Interfaces\WebLogic\IOAuthWebRequestGenerator.cs" />
+    <Compile Include="Interfaces\WebLogic\IOAuthQueryParameter.cs" />
+    <Compile Include="Interfaces\WebLogic\ITwitterRequester.cs" />
+    <Compile Include="Interfaces\WebLogic\ITwitterRequestGenerator.cs" />
+    <Compile Include="Interfaces\WebLogic\IWebRequestExecutor.cs" />
+    <Compile Include="Interfaces\Models\ITwitterListIdentifier.cs" />
+    <Compile Include="Interfaces\Parameters\ITwitterListUpdateParameters.cs" />
+    <Compile Include="Interfaces\QueryGenerators\IFriendshipQueryGenerator.cs" />
+    <Compile Include="Interfaces\QueryGenerators\ITwitterListQueryParameterGenerator.cs" />
+    <Compile Include="Interfaces\QueryGenerators\ITweetQueryGenerator.cs" />
+    <Compile Include="Interfaces\QueryGenerators\IUserQueryGenerator.cs" />
+    <Compile Include="Interfaces\QueryGenerators\IUserQueryParameterGenerator.cs" />
+    <Compile Include="Interfaces\QueryValidators\ITwitterListQueryValidator.cs" />
+    <Compile Include="Interfaces\QueryValidators\IUserQueryValidator.cs" />
+    <Compile Include="Interfaces\Streaminvi\IFilteredStream.cs" />
+    <Compile Include="Interfaces\Streaminvi\ISampleStream.cs" />
+    <Compile Include="Interfaces\Streaminvi\IStream.cs" />
+    <Compile Include="Interfaces\Streaminvi\IStreamResultGenerator.cs" />
+    <Compile Include="Interfaces\Streaminvi\IStreamTrackManager.cs" />
+    <Compile Include="Interfaces\Streaminvi\IStringAnalyzer.cs" />
+    <Compile Include="Interfaces\Streaminvi\ITrackableStream.cs" />
+    <Compile Include="Interfaces\Streaminvi\ITrackedStream.cs" />
+    <Compile Include="Interfaces\Streaminvi\ITrackManager.cs" />
+    <Compile Include="Interfaces\Streaminvi\ITweetStream.cs" />
+    <Compile Include="Interfaces\Streaminvi\ITwitterStream.cs" />
+    <Compile Include="Interfaces\Streaminvi\IUserStream.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TweetinviCoreModule.cs" />
+    <Compile Include="TweetinviSettingsAccessor.cs" />
+    <Compile Include="Web\IWebProxyFactory.cs" />
+    <Compile Include="Web\TwitterClientHandler.cs" />
+    <Compile Include="Wrappers\IJConvertWrapper.cs" />
+    <Compile Include="Wrappers\IJObjectStaticWrapper.cs" />
+    <Compile Include="Wrappers\IParameterOverrideWrapper.cs" />
+    <Compile Include="Wrappers\IResolverOverrideWrapper.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.Threading.Tasks">
+      <HintPath>..\packages\Microsoft.Bcl.Async.1.0.168\lib\portable-net40+sl4+win8+wp71+wpa81\Microsoft.Threading.Tasks.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=7.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.7.0.1\lib\portable-net40+sl5+wp80+win8+wpa81\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.IO">
+      <HintPath>..\packages\Microsoft.Bcl.1.1.10\lib\portable-net40+sl5+win8+wp8+wpa81\System.IO.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Net.Http, Version=1.5.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Net.Http.2.2.29\lib\portable-net40+sl4+win8+wp71+wpa81\System.Net.Http.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Net.Http.Extensions, Version=1.5.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Net.Http.2.2.29\lib\portable-net40+sl4+win8+wp71+wpa81\System.Net.Http.Extensions.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Net.Http.Primitives, Version=1.5.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Net.Http.2.2.29\lib\portable-net40+sl4+win8+wp71+wpa81\System.Net.Http.Primitives.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Runtime">
+      <HintPath>..\packages\Microsoft.Bcl.1.1.10\lib\portable-net40+sl5+win8+wp8+wpa81\System.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Threading.Tasks">
+      <HintPath>..\packages\Microsoft.Bcl.1.1.10\lib\portable-net40+sl5+win8+wp8+wpa81\System.Threading.Tasks.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
+  <Import Project="..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets'))" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

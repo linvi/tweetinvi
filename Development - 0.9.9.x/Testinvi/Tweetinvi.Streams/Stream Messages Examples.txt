@@ -1,0 +1,13 @@
+﻿{  \"limit\":{    \"track\":1234  }}
+
+{  \"delete\":{    \"status\":{      \"id\":1234,      \"id_str\":\"1234\",      \"user_id\":3,      \"user_id_str\":\"3\"    }  }}
+
+{  \"scrub_geo\":{    \"user_id\":14090452,    \"user_id_str\":\"14090452\",    \"up_to_status_id\":23260136625,    \"up_to_status_id_str\":\"23260136625\"  }}
+
+{  \"user_withheld\":{    \"id\":123456,    \"withheld_in_countries\":[\"DE\",\"AR\"]  }}
+
+{  \"status_withheld\":{      \"id\":1234567890,      \"user_id\":123456,      \"withheld_in_countries\":[\"DE\", \"AR\"]  }}
+
+{  \"disconnect\":{    \"code\": 4,    \"stream_name\":\"< A stream identifier >\",    \"reason\":\"< Human readable status message >\"  }}
+
+{  \"warning\":{    \"code\":\"FALLING_BEHIND\",    \"message\":\"Your connection is falling behind and messages are being queued for delivery to you. Your queue is now over 60% full. You will be disconnected when the queue is full.\",    \"percent_full\": 60  }}
