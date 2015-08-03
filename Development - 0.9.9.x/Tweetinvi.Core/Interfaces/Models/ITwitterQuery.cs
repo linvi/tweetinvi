@@ -18,7 +18,7 @@ namespace Tweetinvi.Core.Interfaces.Models
         HttpMethod HttpMethod { get; set; }
         
         string Proxy { get; set; }
-        TimeSpan? Timeout { get; set; }
+        TimeSpan Timeout { get; set; }
 
         ITwitterCredentials TwitterCredentials { get; set; }
         IEnumerable<IOAuthQueryParameter> QueryParameters { get; set; }

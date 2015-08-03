@@ -2,7 +2,7 @@
 
 namespace Tweetinvi
 {
-    public class TweetinviConfig
+    public static class TweetinviConfig
     {
         /// <summary>
         /// Default settings used when creating a new Thread
@@ -22,7 +22,6 @@ namespace Tweetinvi
         static TweetinviConfig()
         {
             _currentSettingsAccessor = TweetinviContainer.Resolve<ITweetinviSettingsAccessor>();
-            _currentSettingsAccessor.CurrentThreadSettings = TweetinviContainer.Resolve<ITweetinviSettings>();
         }
 
         /// <summary>

@@ -4,7 +4,6 @@ using Newtonsoft.Json.Linq;
 using Tweetinvi.Core.Credentials;
 using Tweetinvi.Core.Enum;
 using Tweetinvi.Core.Exceptions;
-using Tweetinvi.Core.Helpers;
 using Tweetinvi.Core.Interfaces.Exceptions;
 using Tweetinvi.Core.Interfaces.WebLogic;
 using Tweetinvi.Core.Wrappers;
@@ -27,20 +26,17 @@ namespace Tweetinvi.Credentials
         private readonly IExceptionHandler _exceptionHandler;
         private readonly ITwitterRequestHandler _twitterRequestHandler;
         private readonly IOAuthWebRequestGenerator _oAuthWebRequestGenerator;
-        private readonly IJsonObjectConverter _jsonObjectConverter;
         private readonly IJObjectStaticWrapper _jObjectStaticWrapper;
 
         public CredentialsCreator(
             IExceptionHandler exceptionHandler,
             ITwitterRequestHandler twitterRequestHandler,
             IOAuthWebRequestGenerator oAuthWebRequestGenerator,
-            IJsonObjectConverter jsonObjectConverter,
             IJObjectStaticWrapper jObjectStaticWrapper)
         {
             _exceptionHandler = exceptionHandler;
             _twitterRequestHandler = twitterRequestHandler;
             _oAuthWebRequestGenerator = oAuthWebRequestGenerator;
-            _jsonObjectConverter = jsonObjectConverter;
             _jObjectStaticWrapper = jObjectStaticWrapper;
         }
 

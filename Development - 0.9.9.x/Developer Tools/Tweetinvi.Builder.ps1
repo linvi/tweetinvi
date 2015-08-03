@@ -1,8 +1,12 @@
-$version='0.9.9.0'
+$version='0.9.9.1'
 $assemblyinfoLocation = 'Properties\assemblyinfo.cs'
 $rootPath = '..\'
 $releaseMode = 'Release' # vs. 'Debug'
 $temporaryFolder = 'temp_' + $version
+$net40Folder = '.\TweetinviAPI\lib\net40'
+$net45Folder = '.\TweetinviAPI\lib\net45'
+$net40PortableFolder = '.\TweetinviAPI\lib\portable-net40+sl5+wp80+win8+wpa81'
+$net45PortableFolder = '.\TweetinviAPI\lib\portable-net45+wp80+win8+wpa81+dnxcore50'
 $tweetinviAPIMerged = 'TweetinviAPI.dll'
 
 $examplinvi = 'Examplinvi'
@@ -82,7 +86,14 @@ Else
 
 # Move dll into temporary folder
 $examplinviBin = $rootPath + $examplinvi + '\bin\' + $releaseMode
+
 Get-ChildItem -LiteralPath $examplinviBin -filter *.dll  | % { Copy-Item $_.fullname $temporaryFolder }
+
+Get-ChildItem -LiteralPath $examplinviBin -filter Tweetinvi*.dll  | % { Copy-Item $_.fullname $net40Folder }
+Get-ChildItem -LiteralPath $examplinviBin -filter Tweetinvi*.dll  | % { Copy-Item $_.fullname $net45Folder }
+Get-ChildItem -LiteralPath $examplinviBin -filter Tweetinvi*.dll  | % { Copy-Item $_.fullname $net40PortableFolder }
+Get-ChildItem -LiteralPath $examplinviBin -filter Tweetinvi*.dll  | % { Copy-Item $_.fullname $net45PortableFolder }
+
 Copy-Item $rootPath$examplinvi\Program.cs $temporaryFolder\Cheatsheet.cs
 
 # Create Merged assembly

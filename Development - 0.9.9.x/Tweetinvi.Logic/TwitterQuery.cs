@@ -20,16 +20,18 @@ namespace Tweetinvi.Logic
 
         public string Proxy { get; set; }
 
-        private TimeSpan? _timeout;
-
-        public TimeSpan? Timeout
+        private TimeSpan _timeout;
+        public TimeSpan Timeout
         {
-            get
-            {
-                return _timeout;
-            }
+            get { return _timeout; }
             set
             {
+                if (value.TotalMilliseconds <= 0)
+                {
+                    _timeout = TimeSpan.FromSeconds(10);
+                    return;
+                }
+
                 _timeout = value;
             }
         }

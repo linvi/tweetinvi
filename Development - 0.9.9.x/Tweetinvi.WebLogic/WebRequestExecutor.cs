@@ -22,18 +22,15 @@ namespace Tweetinvi.WebLogic
         private readonly IExceptionHandler _exceptionHandler;
         private readonly IHttpClientWebHelper _httpClientWebHelper;
         private readonly IFactory<IWebRequestResult> _webRequestResultFactory;
-        private readonly IFactory<ITwitterTimeoutException> _twitterTimeoutExceptionFactory;
 
         public WebRequestExecutor(
             IExceptionHandler exceptionHandler,
             IHttpClientWebHelper httpClientWebHelper,
-            IFactory<IWebRequestResult> webRequestResultFactory,
-            IFactory<ITwitterTimeoutException> twitterTimeoutExceptionFactory)
+            IFactory<IWebRequestResult> webRequestResultFactory)
         {
             _exceptionHandler = exceptionHandler;
             _httpClientWebHelper = httpClientWebHelper;
             _webRequestResultFactory = webRequestResultFactory;
-            _twitterTimeoutExceptionFactory = twitterTimeoutExceptionFactory;
         }
 
         // Simple Query
@@ -162,13 +159,13 @@ namespace Tweetinvi.WebLogic
 
                 if (taskCanceledException != null)
                 {
-                    var twitterTimeoutException = _twitterTimeoutExceptionFactory.Create(new ConstructorNamedParameter("url", twitterQuery.QueryURL));
+                    var twitterTimeoutException = new TwitterTimeoutException(twitterQuery);
                     if (_exceptionHandler.LogExceptions)
                     {
                         _exceptionHandler.AddTwitterException(twitterTimeoutException);
                     }
 
-                    throw (Exception)twitterTimeoutException;
+                    throw twitterTimeoutException;
                 }
 
                 throw;

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 
 namespace Tweetinvi.Core
 {
@@ -19,13 +20,15 @@ namespace Tweetinvi.Core
 
         public TweetinviSettingsAccessor()
         {
-            CurrentThreadSettings = TweetinviCoreModule.TweetinviContainer.Resolve<ITweetinviSettings>();
+            var threadSettings = TweetinviCoreModule.TweetinviContainer.Resolve<ITweetinviSettings>();
+            threadSettings.WebRequestTimeout = 10000;
+
+            CurrentThreadSettings = threadSettings;
+
 
 # if DEBUG
             CurrentThreadSettings.ShowDebug = true;
 #endif
-
-            CurrentThreadSettings.WebRequestTimeout = 10000;
         }
 
         [ThreadStatic]

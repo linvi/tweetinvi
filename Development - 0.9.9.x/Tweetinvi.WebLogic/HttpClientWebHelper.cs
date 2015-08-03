@@ -27,14 +27,7 @@ namespace Tweetinvi.WebLogic
 
             using (var client = new HttpClient(handler))
             {
-                if (twitterQuery.Timeout != null && twitterQuery.Timeout.Value.TotalMilliseconds > 0)
-                {
-                    client.Timeout = twitterQuery.Timeout.Value;
-                }
-                else
-                {
-                    client.Timeout = new TimeSpan(0, 0, 10);
-                }
+                client.Timeout = twitterQuery.Timeout;
 
                 var httpMethod = new HttpMethod(twitterQuery.HttpMethod.ToString());
 
