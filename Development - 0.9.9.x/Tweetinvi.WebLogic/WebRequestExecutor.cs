@@ -46,6 +46,11 @@ namespace Tweetinvi.WebLogic
 
                     var result = GetWebResultFromResponse(twitterQuery.QueryURL, httpResponseMessage);
 
+                    if (!result.IsSuccessStatusCode)
+                    {
+                        throw _exceptionHandler.TryLogFailedWebRequestResult(result);
+                    }
+
                     var stream = result.ResultStream;
 
                     if (stream != null)

@@ -65,7 +65,7 @@ namespace Tweetinvi.Controllers.TwitterLists
             IGetTweetsFromListParameters getTweetsFromListParameters)
         {
             var identifierParameter = TweetinviFactory.CreateConstructorParameter("listIdentifier", listIdentifier);
-            var queryParameter = TweetinviFactory.CreateConstructorParameter("queryParameters", getTweetsFromListParameters);
+            var queryParameter = TweetinviFactory.CreateConstructorParameter("parameters", getTweetsFromListParameters);
 
             return _tweetsFromListQueryParametersFactory.Create(identifierParameter, queryParameter);
         }
@@ -81,7 +81,7 @@ namespace Tweetinvi.Controllers.TwitterLists
             ITwitterListUpdateParameters listUpdateParameters)
         {
             var identifierParameter = TweetinviFactory.CreateConstructorParameter("listIdentifier", listIdentifier);
-            var queryParameter = TweetinviFactory.CreateConstructorParameter("queryParameters", listUpdateParameters);
+            var queryParameter = TweetinviFactory.CreateConstructorParameter("parameters", listUpdateParameters);
 
             return _updateTwitterListQueryParametersFactory.Create(identifierParameter, queryParameter);
         }

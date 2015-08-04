@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Tweetinvi;
 using Tweetinvi.Core.Extensions;
+using Tweetinvi.Core.Parameters;
 
 namespace Testinvi.Tweetinvi.Core
 {
@@ -168,6 +171,30 @@ namespace Testinvi.Tweetinvi.Core
             {
                 string message = "The quick brown fox jumps over the lazy dog. My dog is freaking amazing. https://www.google.nl/search?q=dog&source=lnms&tbm=isch&sa=X&ei=IZ7fU-CwJIO50QWtmICoCA&ved=0CAgQ_AUoAQ&biw=1528&bih=876";
                 Assert.AreEqual(message.TweetLength(), 96);
+            }
+
+            [TestMethod]
+            public void TweetWithURLAndMedia_URLHasNoSpaceBeforeIt()
+            {
+                string text = "abcdefghijklmnopqrstuvwxy abcdefghijklmnopqrstuvwxy abcdefghijklmnopqrstuvwxy abcdefghijklmophttp://bit.ly/tinyurlwiki";
+                Assert.AreEqual(Tweet.Length(text), 118);
+                Assert.AreEqual(Tweet.Length(text, new PublishTweetOptionalParameters()
+                {
+                    MediaBinaries = new List<byte[]> { new byte[10] }
+                }), 141);
+
+            }
+
+            [TestMethod]
+            public void TweetWithURLAndMedia()
+            {
+                string text = "abcdefghijklmnopqrstuvwxy abcdefghijklmnopqrstuvwxy abcdefghijklmnopqrstuvwxy abcdefghijklmop http://bit.ly/tinyurlwiki";
+                Assert.AreEqual(Tweet.Length(text), 116);
+                Assert.AreEqual(Tweet.Length(text, new PublishTweetOptionalParameters()
+                {
+                    MediaBinaries = new List<byte[]> { new byte[10] }
+                }), 139);
+
             }
         }
     }

@@ -91,7 +91,7 @@ namespace Tweetinvi.Controllers.Timeline
         public IUserTimelineQueryParameters CreateUserTimelineQueryParameters(IUserIdentifier userIdentifier, IUserTimelineParameters userTimelineParameters)
         {
             var userIdentifierParameter = TweetinviFactory.CreateConstructorParameter("userIdentifier", userIdentifier);
-            var queryParameters = TweetinviFactory.CreateConstructorParameter("queryParameters", userTimelineParameters);
+            var queryParameters = TweetinviFactory.CreateConstructorParameter("parameters", userTimelineParameters);
 
             return _userTimelineRequestQueryParameterFactory.Create(userIdentifierParameter, queryParameters);
         }
