@@ -31,7 +31,7 @@ namespace Tweetinvi.Core.Extensions
             @"(?:(?:\p{P}|=)+)" +                                      // Followed by at least 1 or multiple punctuation (twitter behavior)
             @")*(?:(?:\w|\d)+))" +                                     // And the end should be a literal char
             @"(?<lastChar>[/?])?";                                     // Or a '/'                               
-        
+
 
         // FOR COPY WITHIN REGEX EDITOR - KEEP Sync!
         // (?<=^|\s+)
@@ -242,7 +242,7 @@ namespace Tweetinvi.Core.Extensions
                 queryBuilder.Append("?");
             }
 
-            queryBuilder.Append(String.Format("{0}={1}", parameterName, parameterValue));
+            queryBuilder.Append(string.Format("{0}={1}", parameterName, parameterValue));
         }
 
         public static void AddParameterToQuery<T>(this StringBuilder queryBuilder, string parameterName, T parameterValue)
@@ -252,7 +252,7 @@ namespace Tweetinvi.Core.Extensions
                 return;
             }
 
-            var type = typeof (T);
+            var type = typeof(T);
             if (Nullable.GetUnderlyingType(type) != null)
             {
                 var stringValue = parameterValue.ToString();
@@ -263,11 +263,23 @@ namespace Tweetinvi.Core.Extensions
                     return;
                 }
 
+                var doubleValue = parameterValue as double?;
+                if (doubleValue != null)
+                {
+                    stringValue = doubleValue.Value.ToString(CultureInfo.InvariantCulture);
+                }
+
                 AddParameterToQuery(queryBuilder, parameterName, stringValue.ToLowerInvariant());
             }
             else
             {
                 var stringValue = parameterValue.ToString();
+
+                if (parameterValue is double)
+                {
+                    stringValue = ((double) (object) parameterValue).ToString(CultureInfo.InvariantCulture);
+                }
+
                 AddParameterToQuery(queryBuilder, parameterName, stringValue);
             }
         }
@@ -284,7 +296,7 @@ namespace Tweetinvi.Core.Extensions
                 query += "?";
             }
 
-            query += String.Format("{0}={1}", parameterName, parameterValue);
+            query += string.Format("{0}={1}", parameterName, parameterValue);
             return query;
         }
     }
