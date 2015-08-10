@@ -64,11 +64,16 @@ namespace Tweetinvi.Controllers.Search
             var json = GetJsonResultFromQuery(query);
             var jsonResult = new List<string> { json };
             var currentResult = _searchQueryHelper.GetTweetsFromJsonResponse(json);
-            List<ITweetDTO> tweetDTOResult = currentResult;
+            var tweetDTOResult = currentResult;
+
+            if (tweetDTOResult == null)
+            {
+                return jsonResult;
+            }
 
             while (tweetDTOResult.Count < tweetSearchParameters.MaximumNumberOfResults)
             {
-                if (currentResult.IsEmpty())
+                if (currentResult.IsNullOrEmpty())
                 {
                     // If Twitter does not any result left, stop the search
                     break;
@@ -81,10 +86,14 @@ namespace Tweetinvi.Controllers.Search
                 query = _searchQueryGenerator.GetSearchTweetsQuery(searchParameter);
                 
                 json = GetJsonResultFromQuery(query);
-                jsonResult.Add(json);
+
+                if (json != null)
+                {
+                    jsonResult.Add(json);
+                }
 
                 currentResult = _searchQueryHelper.GetTweetsFromJsonResponse(json);
-                tweetDTOResult.AddRange(currentResult);
+                tweetDTOResult.AddRangeSafely(currentResult);
             }
 
             return jsonResult;

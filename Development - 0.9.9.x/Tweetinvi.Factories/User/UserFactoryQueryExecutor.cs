@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Tweetinvi.Core.Extensions;
 using Tweetinvi.Core.Interfaces.Credentials;
 using Tweetinvi.Core.Interfaces.DTO;
 using Tweetinvi.Core.Interfaces.QueryGenerators;
@@ -45,13 +46,13 @@ namespace Tweetinvi.Factories.User
 
         public IUserDTO GetUserDTOFromId(long userId)
         {
-            string query = String.Format(Resources.User_GetUserFromId, userId);
+            string query = string.Format(Resources.User_GetUserFromId, userId);
             return _twitterAccessor.ExecuteGETQuery<IUserDTO>(query);
         }
 
         public IUserDTO GetUserDTOFromScreenName(string userName)
         {
-            string query = String.Format(Resources.User_GetUserFromName, userName);
+            string query = string.Format(Resources.User_GetUserFromName, userName);
             return _twitterAccessor.ExecuteGETQuery<UserDTO>(query);
         }
 
@@ -63,7 +64,7 @@ namespace Tweetinvi.Factories.User
             for (int i = 0; i < userIds.Count(); i += MAX_LOOKUP_USERS)
             {
                 var userIdsToLookup = userIds.Skip(i).Take(MAX_LOOKUP_USERS).ToList();
-                usersDTO.AddRange(LookupUserIds(userIdsToLookup));
+                usersDTO.AddRangeSafely(LookupUserIds(userIdsToLookup));
             }
 
             return usersDTO;
@@ -76,7 +77,7 @@ namespace Tweetinvi.Factories.User
             for (int i = 0; i < userScreenNames.Count(); i += MAX_LOOKUP_USERS)
             {
                 var userScreenNamesToLookup = userScreenNames.Skip(i).Take(MAX_LOOKUP_USERS).ToList();
-                usersDTO.AddRange(LookupUserScreenNames(userScreenNamesToLookup));
+                usersDTO.AddRangeSafely(LookupUserScreenNames(userScreenNamesToLookup));
             }
 
             return usersDTO;
@@ -91,7 +92,7 @@ namespace Tweetinvi.Factories.User
             }
 
             string userIdsParameter = _queryParameterGenerator.GenerateListOfIdsParameter(userIds);
-            string query = String.Format(Resources.User_GetUsersFromIds, userIdsParameter);
+            string query = string.Format(Resources.User_GetUsersFromIds, userIdsParameter);
 
             return _twitterAccessor.ExecutePOSTQuery<List<IUserDTO>>(query);
         }
@@ -104,7 +105,7 @@ namespace Tweetinvi.Factories.User
             }
 
             string userIdsParameter = _queryParameterGenerator.GenerateListOfScreenNameParameter(userName);
-            string query = String.Format(Resources.User_GetUsersFromNames, userIdsParameter);
+            string query = string.Format(Resources.User_GetUsersFromNames, userIdsParameter);
 
             return _twitterAccessor.ExecutePOSTQuery<List<IUserDTO>>(query);
         }

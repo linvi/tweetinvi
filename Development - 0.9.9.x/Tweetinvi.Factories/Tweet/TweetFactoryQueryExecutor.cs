@@ -49,6 +49,12 @@ namespace Tweetinvi.Factories.Tweet
                 var tweetIdsToAnalyze = tweetIdsArray.Skip(i).Take(MAX_NUMBER_OF_TWEET_TO_GET_IN_A_SINGLE_QUERY).ToArray();
                 string query = _tweetQueryGenerator.GetTweetsQuery(tweetIdsToAnalyze);
                 var tweetDTOs = _twitterAccessor.ExecuteGETQuery<IEnumerable<TweetDTO>>(query);
+
+                if (tweetDTOs == null)
+                {
+                    break;
+                }
+
                 distinctTweetDTOs.AddRange(tweetDTOs);
             }
 

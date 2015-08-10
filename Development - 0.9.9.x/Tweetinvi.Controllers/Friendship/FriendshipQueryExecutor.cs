@@ -162,6 +162,13 @@ namespace Tweetinvi.Controllers.Friendship
                 var userIdentifiersToAnalyze = targetUserIdentifiersArray.Skip(i).Take(TweetinviConsts.FRIENDSHIP_MAX_NUMBER_OF_FRIENDSHIP_TO_GET_IN_A_SINGLE_QUERY).ToArray();
                 var query = _friendshipQueryGenerator.GetMultipleRelationshipsQuery(userIdentifiersToAnalyze);
                 var relationshipStateDtos = _twitterAccessor.ExecuteGETQuery<IEnumerable<IRelationshipStateDTO>>(query);
+
+                // As soon as we cannot retrieve additional objects, we stop the query
+                if (relationshipStateDtos == null)
+                {
+                    break;
+                }
+
                 distinctRelationships.AddRange(relationshipStateDtos);
             }
 
@@ -178,6 +185,13 @@ namespace Tweetinvi.Controllers.Friendship
                 var userIdsToAnalyze = targetUserIdsArray.Skip(i).Take(TweetinviConsts.FRIENDSHIP_MAX_NUMBER_OF_FRIENDSHIP_TO_GET_IN_A_SINGLE_QUERY).ToArray();
                 var query = _friendshipQueryGenerator.GetMultipleRelationshipsQuery(userIdsToAnalyze);
                 var relationshipStateDtos = _twitterAccessor.ExecuteGETQuery<IEnumerable<IRelationshipStateDTO>>(query);
+
+                // As soon as we cannot retrieve additional objects, we stop the query
+                if (relationshipStateDtos == null)
+                {
+                    break;
+                }
+
                 distinctRelationships.AddRange(relationshipStateDtos);
             }
 
@@ -194,6 +208,13 @@ namespace Tweetinvi.Controllers.Friendship
                 var userScreenNamesToAnalyze = targetUserScreenNamesArray.Skip(i).Take(TweetinviConsts.FRIENDSHIP_MAX_NUMBER_OF_FRIENDSHIP_TO_GET_IN_A_SINGLE_QUERY).ToArray();
                 var query = _friendshipQueryGenerator.GetMultipleRelationshipsQuery(userScreenNamesToAnalyze);
                 var relationshipStateDtos = _twitterAccessor.ExecuteGETQuery<IEnumerable<IRelationshipStateDTO>>(query);
+
+                // As soon as we cannot retrieve additional objects, we stop the query
+                if (relationshipStateDtos == null)
+                {
+                    break;
+                }
+
                 distinctRelationships.AddRange(relationshipStateDtos);
             }
 

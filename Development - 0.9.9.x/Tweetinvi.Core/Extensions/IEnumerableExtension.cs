@@ -147,6 +147,14 @@ namespace Tweetinvi.Core.Extensions
             return result;
         }
 
+        public static void AddRangeSafely<TSource>(this List<TSource> source, IEnumerable<TSource> newElements)
+        {
+            if (newElements != null)
+            {
+                source.AddRange(newElements);
+            }
+        }
+
         public static IUserIdentifier[] GetDistinctUserIdentifiers(IEnumerable<IUserIdentifier> targetUserIdentifiers)
         {
             var distinctUserIdentifiers = targetUserIdentifiers.Distinct((identifier1, identifier2) =>
