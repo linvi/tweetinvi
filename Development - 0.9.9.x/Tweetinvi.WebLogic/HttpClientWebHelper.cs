@@ -42,7 +42,7 @@ namespace Tweetinvi.WebLogic
                         throw new ArgumentException("Cannot send HttpContent in a WebRequest that is not POST.");
                     }
 
-                    return await client.PostAsync(twitterQuery.QueryURL, httpContent);
+                    return await client.PostAsync(twitterQuery.QueryURL, httpContent).ConfigureAwait(false);
                 }
             }
         }
