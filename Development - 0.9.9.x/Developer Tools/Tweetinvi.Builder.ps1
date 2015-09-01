@@ -1,4 +1,4 @@
-$version='0.9.9.5'
+$version='0.9.9.6'
 $assemblyinfoLocation = 'Properties\assemblyinfo.cs'
 $rootPath = '..\'
 $releaseMode = 'Release' # vs. 'Debug'
