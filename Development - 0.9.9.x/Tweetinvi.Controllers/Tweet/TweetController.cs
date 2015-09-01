@@ -144,12 +144,12 @@ namespace Tweetinvi.Controllers.Tweet
 
         public bool CanBePublished(IPublishTweetParameters publishTweetParameters)
         {
-            return TweetinviConsts.MAX_TWEET_SIZE <= Length(publishTweetParameters);
+            return TweetinviConsts.MAX_TWEET_SIZE >= Length(publishTweetParameters);
         }
 
         public bool CanBePublished(string text, IPublishTweetOptionalParameters publishTweetOptionalParameters = null)
         {
-            return TweetinviConsts.MAX_TWEET_SIZE <= Length(text, publishTweetOptionalParameters);
+            return TweetinviConsts.MAX_TWEET_SIZE >= Length(text, publishTweetOptionalParameters);
         }
 
         private ITweetDTO InternalPublishTweet(IPublishTweetParameters parameters)
