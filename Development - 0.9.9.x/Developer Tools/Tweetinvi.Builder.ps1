@@ -1,4 +1,4 @@
-$version='0.9.9.4'
+$version='0.9.9.5'
 $assemblyinfoLocation = 'Properties\assemblyinfo.cs'
 $rootPath = '..\'
 $releaseMode = 'Release' # vs. 'Debug'
@@ -49,12 +49,16 @@ $additionalAssemblies =
     'System.Net.Http.Primitives.dll'
 )
 
-
-
 # Loading dependencies
 . .\Visual.Studio.Builder.ps1
 
 # Update application version
+
+$replaceNugetVersionRegex = '<version>[0-9\.]*</version>';
+$replaceNugetVersionWith = '<version>' + $version + '</version>';
+
+Get-Item 'TweetinviAPI\TweetinviAPI.nuspec' | .\Replace-Regex.ps1 -Pattern $replaceNugetVersionRegex -Replacement $replaceNugetVersionWith -overwrite
+
 for ($i=0; $i -lt $projects.length; $i++)
 {
 	$filePath = $rootPath + $projects[$i] + '\' + $assemblyinfoLocation
@@ -120,6 +124,8 @@ Write-Zip -OutputPath $tweetinviBinariesPackage (dir $temporaryFolder)
 Write-Zip -OutputPath $tweetinviMergedBinariesPackage (ls $temporaryFolder\$tweetinviAPIMerged,  $temporaryFolder\Cheatsheet.cs)
 
 #Cleanup
+rm DTAR_*
+rm -r .\obj
 $answer = Read-Host "Do you want to cleanup the temporary files? (y/n)"
 
 while("y", "yes", "n", "no" -notcontains $answer)

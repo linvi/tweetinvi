@@ -94,6 +94,7 @@
     <Compile Include="Upload.cs" />
     <Compile Include="User.cs" />
     <Compile Include="UserAsync.cs" />
+    <Compile Include="VideoUploader.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Autofac">

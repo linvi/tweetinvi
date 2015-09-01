@@ -41,6 +41,12 @@ namespace Examplinvi
                 // Console.WriteLine(args.QueryURL);
             };
 
+var tweet = Tweet.CreateTweetWithMedia("hello", new byte[20]);
+var twitterLength = tweet.Length;
+var remaining = tweet.TweetRemainingCharacters();
+
+
+
             GenerateCredentialExamples();
             UserLiveFeedExamples();
             TweetExamples();

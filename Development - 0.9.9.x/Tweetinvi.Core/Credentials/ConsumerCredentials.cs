@@ -34,6 +34,8 @@
         /// If this value is changed manually it will overridden by Tweetinvi.
         /// </summary>
         string VerifierCode { get; set; }
+
+        IConsumerCredentials Clone();
     }
 
     public class ConsumerCredentials : IConsumerCredentials
@@ -52,5 +54,22 @@
         public string AuthorizationKey { get; set; }
         public string AuthorizationSecret { get; set; }
         public string VerifierCode { get; set; }
+
+        public IConsumerCredentials Clone()
+        {
+            var clone = new ConsumerCredentials(ConsumerKey, ConsumerSecret);
+
+            CopyPropertiesToClone(clone);
+
+            return clone;
+        }
+
+        protected void CopyPropertiesToClone(IConsumerCredentials clone)
+        {
+            clone.ApplicationOnlyBearerToken = ApplicationOnlyBearerToken;
+            clone.AuthorizationKey = AuthorizationKey;
+            clone.AuthorizationSecret = AuthorizationSecret;
+            clone.VerifierCode = VerifierCode;
+        }
     }
 }

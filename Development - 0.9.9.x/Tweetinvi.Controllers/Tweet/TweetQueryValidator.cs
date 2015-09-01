@@ -29,7 +29,7 @@ namespace Tweetinvi.Controllers.Tweet
             var mediaObjectIds = parameters.Medias.Where(x => x.MediaId != null).Select(x => x.MediaId.Value);
             var mediaIds = parameters.MediaIds.Concat(mediaObjectIds).Distinct();
 
-            if ((mediaIds.Count() + parameters.MediaBinaries.Count()) > 4)
+            if (mediaIds.Count() > 4)
             {
                 throw new ArgumentException("Cannot publish a tweet with more than 4 medias.");
             }

@@ -19,7 +19,8 @@ namespace Tweetinvi.Core.Interfaces.Credentials
         // ADD https://api.twitter.com/1.1/friendships/update.json
 
         DateTime CreatedAt { get; }
-        string AccessToken { get; }
+        string RateLimitContext { get; }
+        bool IsApplicationOnlyCredentials { get; set; }
 
         // ACCOUNT
         ITokenRateLimit AccountLoginVerificationEnrollmentLimit { get; }

@@ -159,6 +159,20 @@ namespace Tweetinvi.Logic
             }
         }
 
+        public string ProfileImageUrl400x400
+        {
+            get
+            {
+                var profileImageURL = ProfileImageUrl;
+                if (string.IsNullOrEmpty(profileImageURL))
+                {
+                    return null;
+                }
+
+                return Regex.Replace(profileImageURL, REGEX_PROFILE_IMAGE_SIZE, "400x400");
+            }
+        }
+
         public string ProfileImageUrlHttps
         {
             get { return _userDTO.ProfileImageUrlHttps; }

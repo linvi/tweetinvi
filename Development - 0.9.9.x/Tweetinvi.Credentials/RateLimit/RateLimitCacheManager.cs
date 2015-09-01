@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Net;
 using Tweetinvi.Core.Credentials;
 using Tweetinvi.Core.Enum;
+using Tweetinvi.Core.Exceptions;
 using Tweetinvi.Core.Helpers;
 using Tweetinvi.Core.Interfaces.Controllers;
 using Tweetinvi.Core.Interfaces.Credentials;
@@ -84,12 +86,26 @@ namespace Tweetinvi.Credentials.RateLimit
                 return null;
             }
 
+            var isApplicationOnlyCreds = string.IsNullOrEmpty(credentials.AccessToken) || string.IsNullOrEmpty(credentials.AccessTokenSecret);
+            if (isApplicationOnlyCreds && string.IsNullOrEmpty(credentials.ApplicationOnlyBearerToken))
+            {
+                return null;
+            }
+
             _isRetrievingData = true;
             var result = _credentialsAccessor.ExecuteOperationWithCredentials(credentials, () =>
             {
                 var twitterQuery = _twitterQueryFactory.Create(_helpQueryGenerator.GetCredentialsLimitsQuery(), HttpMethod.GET, credentials);
-                string jsonResponse = _twitterRequester.ExecuteQuery(twitterQuery);
-                return _jsonObjectConverter.DeserializeObject<ITokenRateLimits>(jsonResponse);
+
+                try
+                {
+                    string jsonResponse = _twitterRequester.ExecuteQuery(twitterQuery);
+                    return _jsonObjectConverter.DeserializeObject<ITokenRateLimits>(jsonResponse);
+                }
+                catch (TwitterException)
+                {
+                    return null;
+                }
             });
 
             _isRetrievingData = false;

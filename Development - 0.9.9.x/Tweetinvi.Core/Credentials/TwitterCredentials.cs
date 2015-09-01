@@ -14,6 +14,8 @@
         /// Secret Key provided to the consumer to provide an authentication of the client
         /// </summary>
         string AccessTokenSecret { get; set; }
+
+        new ITwitterCredentials Clone();
     }
 
     /// <summary>
@@ -27,8 +29,6 @@
         public TwitterCredentials(string consumerKey, string consumerSecret) 
             : base(consumerKey, consumerSecret)
         {
-            ConsumerKey = consumerKey;
-            ConsumerSecret = consumerSecret;
         }
 
         public TwitterCredentials(string consumerKey, string consumerSecret, string accessToken, string accessTokenSecret)
@@ -44,13 +44,24 @@
             {
                 ConsumerKey = credentials.ConsumerKey;
                 ConsumerSecret = credentials.ConsumerSecret;
+
                 AuthorizationKey = credentials.AuthorizationKey;
                 AuthorizationSecret = credentials.AuthorizationSecret;
                 VerifierCode = credentials.VerifierCode;
+                ApplicationOnlyBearerToken = credentials.ApplicationOnlyBearerToken;
             }
         }
 
         public string AccessToken { get; set; }
         public string AccessTokenSecret { get; set; }
+
+        public new ITwitterCredentials Clone()
+        {
+            var clone = new TwitterCredentials(ConsumerKey, ConsumerSecret, AccessToken, AccessTokenSecret);
+
+            CopyPropertiesToClone(clone);
+
+            return clone;
+        }
     }
 }

@@ -527,7 +527,7 @@ namespace Testinvi.TweetinviControllers.TweetTests
             _expectedCoordinatesParameter = A.Fake<ICoordinates>();
 
             publishTweetParameters.CallsTo(x => x.Text).Returns(text);
-            //tweet.CallsTo(x => x.Id).Returns(tweetId);
+            publishTweetParameters.CallsTo(x => x.QuotedTweet).Returns(null);
 
             if (hasPlaceIdParameter)
             {

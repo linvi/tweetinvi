@@ -56,6 +56,8 @@ namespace Tweetinvi.Core.Interfaces
 
         string ProfileImageFullSizeUrl { get; }
 
+        string ProfileImageUrl400x400 { get; }
+
         string ProfileImageUrlHttps { get; }
 
         bool FollowRequestSent { get; }

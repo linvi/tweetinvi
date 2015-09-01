@@ -15,7 +15,8 @@ namespace Tweetinvi.Core.Interfaces.Models
 
         public DateTime CreatedAt { get; private set; }
 
-        public string AccessToken { get; set; }
+        public string RateLimitContext { get; set; }
+        public bool IsApplicationOnlyCredentials { get; set; }
 
         #region Account
         public ITokenRateLimit AccountLoginVerificationEnrollmentLimit
@@ -475,7 +476,16 @@ namespace Tweetinvi.Core.Interfaces.Models
         {
             set
             {
-                AccessToken = value["access_token"].ToObject<string>();
+                JToken jsonObj;
+                if (value.TryGetValue("access_token", out jsonObj))
+                {
+                    RateLimitContext = jsonObj.ToObject<string>();
+                }
+                else if (value.TryGetValue("application", out jsonObj))
+                {
+                    RateLimitContext = jsonObj.ToObject<string>();
+                    IsApplicationOnlyCredentials = true;
+                }
             }
         }
 

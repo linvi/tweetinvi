@@ -201,6 +201,9 @@ namespace Testinvi.Tweetinvi.Credentials.RateLimitTests
         private void InitializeData()
         {
             _credentials = A.Fake<ITwitterCredentials>();
+            _credentials.AccessToken = TestHelper.GenerateString();
+            _credentials.AccessTokenSecret = TestHelper.GenerateString();
+
             _tokenRateLimits = A.Fake<ITokenRateLimits>();
             _tokenRateLimit = A.Fake<ITokenRateLimit>();
             _tokenRateLimits2 = A.Fake<ITokenRateLimits>();

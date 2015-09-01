@@ -25,9 +25,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Testinvi", "Testinvi\Testin
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tweetinvi.Streams", "Tweetinvi.Streams\Tweetinvi.Streams.csproj", "{1EE99D68-D7CB-403B-830E-AEE8B87705FA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "App1", "App1\App1.csproj", "{BD2B78F5-2E95-4685-8752-211A2EF3EFD7}"
+EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 12
+		SccNumberOfProjects = 13
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = https://tfs.codeplex.com/tfs/tfs18
 		SccLocalPath0 = .
@@ -64,6 +66,9 @@ Global
 		SccProjectUniqueName11 = Tweetinvi.WebLogic\\Tweetinvi.WebLogic.csproj
 		SccProjectName11 = Tweetinvi.WebLogic
 		SccLocalPath11 = Tweetinvi.WebLogic
+		SccProjectUniqueName12 = App1\\App1.csproj
+		SccProjectName12 = App1
+		SccLocalPath12 = App1
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -162,6 +167,24 @@ Global
 		{1EE99D68-D7CB-403B-830E-AEE8B87705FA}.Release|Any CPU.Build.0 = Release|Any CPU
 		{1EE99D68-D7CB-403B-830E-AEE8B87705FA}.Release|ARM.ActiveCfg = Release|Any CPU
 		{1EE99D68-D7CB-403B-830E-AEE8B87705FA}.Release|x86.ActiveCfg = Release|Any CPU
+		{BD2B78F5-2E95-4685-8752-211A2EF3EFD7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BD2B78F5-2E95-4685-8752-211A2EF3EFD7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BD2B78F5-2E95-4685-8752-211A2EF3EFD7}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{BD2B78F5-2E95-4685-8752-211A2EF3EFD7}.Debug|ARM.ActiveCfg = Debug|ARM
+		{BD2B78F5-2E95-4685-8752-211A2EF3EFD7}.Debug|ARM.Build.0 = Debug|ARM
+		{BD2B78F5-2E95-4685-8752-211A2EF3EFD7}.Debug|ARM.Deploy.0 = Debug|ARM
+		{BD2B78F5-2E95-4685-8752-211A2EF3EFD7}.Debug|x86.ActiveCfg = Debug|x86
+		{BD2B78F5-2E95-4685-8752-211A2EF3EFD7}.Debug|x86.Build.0 = Debug|x86
+		{BD2B78F5-2E95-4685-8752-211A2EF3EFD7}.Debug|x86.Deploy.0 = Debug|x86
+		{BD2B78F5-2E95-4685-8752-211A2EF3EFD7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BD2B78F5-2E95-4685-8752-211A2EF3EFD7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BD2B78F5-2E95-4685-8752-211A2EF3EFD7}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{BD2B78F5-2E95-4685-8752-211A2EF3EFD7}.Release|ARM.ActiveCfg = Release|ARM
+		{BD2B78F5-2E95-4685-8752-211A2EF3EFD7}.Release|ARM.Build.0 = Release|ARM
+		{BD2B78F5-2E95-4685-8752-211A2EF3EFD7}.Release|ARM.Deploy.0 = Release|ARM
+		{BD2B78F5-2E95-4685-8752-211A2EF3EFD7}.Release|x86.ActiveCfg = Release|x86
+		{BD2B78F5-2E95-4685-8752-211A2EF3EFD7}.Release|x86.Build.0 = Release|x86
+		{BD2B78F5-2E95-4685-8752-211A2EF3EFD7}.Release|x86.Deploy.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
