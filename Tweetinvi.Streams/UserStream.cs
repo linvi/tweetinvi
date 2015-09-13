@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
+using Tweetinvi.Core.Enum;
 using Tweetinvi.Core.Events;
 using Tweetinvi.Core.Events.EventArguments;
 using Tweetinvi.Core.Exceptions;
@@ -127,13 +127,12 @@ namespace Tweetinvi.Streams
                 return;
             }
 
-            Func<HttpWebRequest> generateWebRequest = delegate
+            Func<ITwitterQuery> generateTwitterQuery = delegate
             {
                 var queryBuilder = new StringBuilder(Resources.Stream_UserStream);
                 AddBaseParametersToQuery(queryBuilder);
 
-                var streamQuery = _twitterQueryFactory.Create(queryBuilder.ToString());
-                return _twitterRequestGenerator.GetQueryWebRequest(streamQuery);
+                return _twitterQueryFactory.Create(queryBuilder.ToString(), HttpMethod.GET, true);
             };
 
             Action<string> eventReceived = json =>
@@ -150,7 +149,7 @@ namespace Tweetinvi.Streams
                 TryInvokeGlobalStreamMessages(json);
             };
 
-            await _streamResultGenerator.StartStreamAsync(eventReceived, generateWebRequest);
+            await _streamResultGenerator.StartStreamAsync(eventReceived, generateTwitterQuery);
         }
 
         // Parameters

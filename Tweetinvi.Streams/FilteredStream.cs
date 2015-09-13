@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
-using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using Tweetinvi.Core;
@@ -88,13 +86,12 @@ namespace Tweetinvi.Streams
 
         public async Task StartStreamMatchingAnyConditionAsync()
         {
-            Func<HttpWebRequest> generateWebRequest = () =>
+            Func<ITwitterQuery> generateWebRequest = () =>
             {
                 var queryBuilder = GenerateORFilterQuery();
                 AddBaseParametersToQuery(queryBuilder);
 
-                var streamQuery = _twitterQueryFactory.Create(queryBuilder.ToString(), HttpMethod.POST);
-                return _twitterRequestGenerator.GetQueryWebRequest(streamQuery);
+                return _twitterQueryFactory.Create(queryBuilder.ToString(), HttpMethod.POST, true);
             };
 
             Action<string> tweetReceived = json =>
@@ -133,13 +130,12 @@ namespace Tweetinvi.Streams
 
         public async Task StartStreamMatchingAllConditionsAsync()
         {
-            Func<HttpWebRequest> generateWebRequest = () =>
+            Func<ITwitterQuery> generateTwitterQuery = () =>
             {
                 var queryBuilder = GenerateANDFilterQuery();
                 AddBaseParametersToQuery(queryBuilder);
 
-                var streamQuery = _twitterQueryFactory.Create(queryBuilder.ToString(), HttpMethod.POST);
-                return _twitterRequestGenerator.GetQueryWebRequest(streamQuery);
+                return _twitterQueryFactory.Create(queryBuilder.ToString(), HttpMethod.POST, true);
             };
 
             Action<string> tweetReceived = json =>
@@ -171,7 +167,7 @@ namespace Tweetinvi.Streams
                 this.Raise(MatchingTweetAndLocationReceived, new MatchedTweetAndLocationReceivedEventArgs(tweet, matchingTracks, matchingLocations));
             };
 
-            await _streamResultGenerator.StartStreamAsync(tweetReceived, generateWebRequest);
+            await _streamResultGenerator.StartStreamAsync(tweetReceived, generateTwitterQuery);
         }
 
         private void CallMultipleActions<T>(T tweet, IEnumerable<Action<T>> tracksActionsIdenfied)

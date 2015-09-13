@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Threading;
 using Tweetinvi;
 using Tweetinvi.Core;
 using Tweetinvi.Core.Credentials;
@@ -32,6 +33,65 @@ namespace Examplinvi
 
     class Program
     {
+
+        static dynamic StartStream(ITwitterCredentials creds)
+        {
+            dynamic tmp = new System.Dynamic.ExpandoObject();
+            var tweets = new List<ITweet>();
+            tmp.tweets = tweets;
+
+            var lu1 = Auth.ExecuteOperationWithCredentials(creds, () => User.GetLoggedUser());
+
+            var thread = new Thread(() =>
+            {
+                Auth.SetCredentials(creds);
+                var lu = User.GetLoggedUser();
+
+                var stream = Stream.CreateSampleStream();
+                tmp.stream = stream;
+                tmp.user = lu;
+
+                stream.StreamStarted += (sender, args) =>
+                {
+                    Console.WriteLine("{0} - Stream Started", lu);
+                };
+
+                stream.StreamResumed += (sender, args) =>
+                {
+                    Console.WriteLine("{0} - Stream Resumed", lu);
+                };
+
+                stream.TweetReceived += (sender, args) =>
+                {
+                    tweets.Add(args.Tweet);
+
+                    if (tweets.Count % 10 == 0)
+                    {
+                        Console.WriteLine("{0} - {1} tweets received", lu, tweets.Count);
+                    }
+                };
+
+                stream.StreamStopped += (sender, args) =>
+                {
+                    Console.WriteLine("{0} - Stream Stopped", lu);
+
+                    if (args.DisconnectMessage != null || args.Exception != null)
+                    {
+                        Console.WriteLine("{0} - Stream Stopped With ERROR", lu);
+                    }
+                };
+
+                stream.StartStream();
+            });
+
+            thread.Name = lu1.ToString();
+            thread.Start();
+
+            tmp.thread = thread;
+
+            return tmp;
+        }
+
         static void Main()
         {
             Auth.SetUserCredentials("CONSUMER_KEY", "CONSUMER_SECRET", "ACCESS_TOKEN", "ACCESS_TOKEN_SECRET");
@@ -40,6 +100,75 @@ namespace Examplinvi
             {
                 // Console.WriteLine(args.QueryURL);
             };
+
+            var creds = new[]
+            {
+                new TwitterCredentials("xWMytIGSmXPuPe9OxwlQz1Wac", "n1l88uNwskBSu8hkuAumxieDRYKPKf7j4C13nbvAt0Z8ubu5iG", "42290825-2rSCRi3CYVsa4cVQt7Em7CEyGZZvsAdTQ88AiKydF", "Y4DwsgCGw4xYrEEUkoFojAK3ecBBuexhkoe3lZ8nt4xnd"),
+                new TwitterCredentials("xWMytIGSmXPuPe9OxwlQz1Wac", "n1l88uNwskBSu8hkuAumxieDRYKPKf7j4C13nbvAt0Z8ubu5iG", "1693649419-VMA9sF1hhTRzP0H6eBSsxBU4KOidn1PrVm8Uu2q", "b8kmpeAuuvotFB0O54YDCwT6nrnx6HCRQoyH3GHZQWlaZ"),
+                new TwitterCredentials("5EpUsp9mbMMRMJ0zqsug", "cau8CExOCUordXMJeoGfW0QoPTp6bUAOrqUELKk1CSM", "1577389800-c8ecF1YWfYJjFraEohBHxqv37xXDnsAOoQOP4vX", "YZ3wcpMDX7ydZ8IPVkbBpcUWIyRnTqTnudyjD9Fm8g")
+            };
+
+            var ts = new List<dynamic>();
+
+            Auth.SetCredentials(creds[1]);
+            var fs = Stream.CreateFilteredStream();
+            fs.AddTrack("obama");
+
+            fs.MatchingTweetReceived += (sender, args) =>
+            {
+                Console.WriteLine(args.Tweet);
+            };
+
+            fs.StreamStopped += (sender, args) =>
+            {
+                Console.WriteLine("pas content");
+            };
+
+            fs.StartStreamMatchingAllConditions();
+            //creds.ForEach(c =>
+            //{
+            //    ts.Add(StartStream(c));
+            //});
+
+
+            //Console.WriteLine("All streams have been started!");
+
+            //var run = true;
+            //while (run)
+            //{
+            //    var operation = Console.ReadLine();
+
+            //    if (operation == "stop")
+            //    {
+            //        ts.ForEach(x => x.stream.StopStream());
+            //    }
+
+            //    if (operation == "start")
+            //    {
+            //        ts.ForEach(x => x.stream.StartStreamAsync());
+            //    }
+
+            //    if (operation == "pause")
+            //    {
+            //        ts.ForEach(x => x.stream.PauseStream());
+            //        ts.ForEach(x =>
+            //        {
+            //            Console.WriteLine("{0} has received {1} tweets", x.user, x.tweets.Count);
+            //        });
+
+            //    }
+
+            //    if (operation == "resume")
+            //    {
+            //        ts.ForEach(x => x.stream.ResumeStream());
+            //    }
+
+            //    if (operation == "exit")
+            //    {
+            //        run = false;
+            //        Console.WriteLine("Stream have now exited!");
+            //    }
+            //}
 
             GenerateCredentialExamples();
             UserLiveFeedExamples();

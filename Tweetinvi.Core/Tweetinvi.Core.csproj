@@ -94,6 +94,7 @@
     <Compile Include="Extensions\StringFormater.cs" />
     <Compile Include="Extensions\TwitterTimeZoneExtension.cs" />
     <Compile Include="Helpers\AttributeHelper.cs" />
+    <Compile Include="Helpers\IHttpClientWebHelper.cs" />
     <Compile Include="Helpers\ResourcesHelper.cs" />
     <Compile Include="Helpers\HttpUtility.cs" />
     <Compile Include="Helpers\IJsonObjectConverter.cs" />
