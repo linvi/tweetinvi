@@ -55,6 +55,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="HttpClientWebHelper.cs" />
+    <Compile Include="TwitterClientHandler.cs" />
     <Compile Include="TwitterRequestGenerator.cs" />
     <Compile Include="TweetinviWebLogicModule.cs" />
     <Compile Include="OAuthQueryParameter.cs" />

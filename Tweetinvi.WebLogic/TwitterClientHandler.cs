@@ -10,7 +10,7 @@ using Tweetinvi.Core.Web;
 
 namespace Tweetinvi.WebLogic
 {
-    public class TwitterClientHandler : HttpClientHandler
+    public class TwitterClientHandler : HttpClientHandler, ITwitterClientHandler
     {
         private readonly Action<ITwitterQuery, HttpRequestMessage> _action;
         private readonly Func<ITwitterQuery, HttpRequestMessage, string> _func;
@@ -105,14 +105,12 @@ namespace Tweetinvi.WebLogic
 
         protected Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken, string authorizationHeader)
         {
-            request.Headers.Add("User-Agent", "Tweetinvi/0.9.10.x");
+            request.Headers.Add("User-Agent", "Tweetinvi/0.9.10.0");
             request.Headers.ExpectContinue = false;
             request.Headers.CacheControl = new CacheControlHeaderValue { NoCache = true };
             request.Headers.Add("Authorization", authorizationHeader);
 
             return base.SendAsync(request, cancellationToken);
         }
-
-
     }
 }

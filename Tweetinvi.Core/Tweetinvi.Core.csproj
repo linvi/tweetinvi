@@ -308,8 +308,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TweetinviCoreModule.cs" />
     <Compile Include="TweetinviSettingsAccessor.cs" />
+    <Compile Include="Web\ITwitterClientHandler.cs" />
     <Compile Include="Web\IWebProxyFactory.cs" />
-    <Compile Include="Web\TwitterClientHandler.cs" />
     <Compile Include="Wrappers\IJConvertWrapper.cs" />
     <Compile Include="Wrappers\IJObjectStaticWrapper.cs" />
     <Compile Include="Wrappers\IParameterOverrideWrapper.cs" />

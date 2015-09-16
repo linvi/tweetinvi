@@ -1,4 +1,6 @@
-$version='0.9.9.6'
+Param([Switch]$uv);
+
+$version='0.9.10.0'
 $assemblyinfoLocation = 'Properties\assemblyinfo.cs'
 $rootPath = '..\'
 $releaseMode = 'Release' # vs. 'Debug'
@@ -75,68 +77,74 @@ for ($i=0; $i -lt $projects.length; $i++)
 	Get-Item $filePath | .\Replace-Regex.ps1 -Pattern $replaceAssemblyFileVersionRegex -Replacement $replaceAssemblyFileVersion -overwrite
 }
 
-# Build solution
-Build $rootPath'Tweetinvi.sln' $releaseMode
+$filePath = $rootPath + $tweetinviWebLogic + '\TwitterClientHandler.cs';
+Get-Item $filePath | .\Replace-Regex.ps1 -Pattern '"Tweetinvi/(?<versionNumber>\d+(\.\d+)*)(.x)?"' -Replacement ('"Tweetinvi/' + $version + '"') -overwrite
 
-# Create temporary folder
-If (Test-Path $temporaryFolder)
-{
-	Remove-Item $temporaryFolder\*
-}
-Else
-{
-	mkdir $temporaryFolder
-}
 
-# Move dll into temporary folder
-$examplinviBin = $rootPath + $examplinvi + '\bin\' + $releaseMode
+if (!$uv.IsPresent) {
+	# Build solution
+	Build $rootPath'Tweetinvi.sln' $releaseMode
 
-Get-ChildItem -LiteralPath $examplinviBin -filter *.dll  | % { Copy-Item $_.fullname $temporaryFolder }
+	# Create temporary folder
+	If (Test-Path $temporaryFolder)
+	{
+		Remove-Item $temporaryFolder\*
+	}
+	Else
+	{
+		mkdir $temporaryFolder
+	}
 
-Get-ChildItem -LiteralPath $examplinviBin -filter Tweetinvi*.dll  | % { Copy-Item $_.fullname $net40Folder }
-Get-ChildItem -LiteralPath $examplinviBin -filter Tweetinvi*.dll  | % { Copy-Item $_.fullname $net45Folder }
-Get-ChildItem -LiteralPath $examplinviBin -filter Tweetinvi*.dll  | % { Copy-Item $_.fullname $net40PortableFolder }
-Get-ChildItem -LiteralPath $examplinviBin -filter Tweetinvi*.dll  | % { Copy-Item $_.fullname $net45PortableFolder }
+	# Move dll into temporary folder
+	$examplinviBin = $rootPath + $examplinvi + '\bin\' + $releaseMode
 
-Copy-Item $rootPath$examplinvi\Program.cs $temporaryFolder\Cheatsheet.cs
+	Get-ChildItem -LiteralPath $examplinviBin -filter *.dll  | % { Copy-Item $_.fullname $temporaryFolder }
 
-# Create Merged assembly
-$ILMergeCommand = '.\ILMerge.exe /target:library /out:' + $temporaryFolder + '/' + $tweetinviAPIMerged + ' '
+	Get-ChildItem -LiteralPath $examplinviBin -filter Tweetinvi*.dll  | % { Copy-Item $_.fullname $net40Folder }
+	Get-ChildItem -LiteralPath $examplinviBin -filter Tweetinvi*.dll  | % { Copy-Item $_.fullname $net45Folder }
+	Get-ChildItem -LiteralPath $examplinviBin -filter Tweetinvi*.dll  | % { Copy-Item $_.fullname $net40PortableFolder }
+	Get-ChildItem -LiteralPath $examplinviBin -filter Tweetinvi*.dll  | % { Copy-Item $_.fullname $net45PortableFolder }
 
-for ($i=0; $i -lt $additionalAssemblies.length; $i++)
-{
-	$ILMergeCommand = $ILMergeCommand +  $temporaryFolder + '/' + $additionalAssemblies[$i] + ' '
-}
+	Copy-Item $rootPath$examplinvi\Program.cs $temporaryFolder\Cheatsheet.cs
 
-for ($i=2; $i -lt $projects.length; $i++)
-{
-	$ILMergeCommand = $ILMergeCommand +  $temporaryFolder + '/' + $projects[$i] + '.dll '
-}
+	# Create Merged assembly
+	$ILMergeCommand = '.\ILMerge.exe /target:library /out:' + $temporaryFolder + '/' + $tweetinviAPIMerged + ' '
 
-Write-Host $ILMergeCommand
-Invoke-Expression $ILMergeCommand
+	for ($i=0; $i -lt $additionalAssemblies.length; $i++)
+	{
+		$ILMergeCommand = $ILMergeCommand +  $temporaryFolder + '/' + $additionalAssemblies[$i] + ' '
+	}
 
-# Create Zip files
-$tweetinviBinariesPackage = 'Tweetinvi ' + $version + ' - Binaries.zip'
-$tweetinviMergedBinariesPackage = 'Tweetinvi ' + $version + ' - Merged Binaries.zip'
+	for ($i=2; $i -lt $projects.length; $i++)
+	{
+		$ILMergeCommand = $ILMergeCommand +  $temporaryFolder + '/' + $projects[$i] + '.dll '
+	}
 
-Write-Zip -OutputPath $tweetinviBinariesPackage (dir $temporaryFolder)
-Write-Zip -OutputPath $tweetinviMergedBinariesPackage (ls $temporaryFolder\$tweetinviAPIMerged,  $temporaryFolder\Cheatsheet.cs)
+	Write-Host $ILMergeCommand
+	Invoke-Expression $ILMergeCommand
 
-#Cleanup
-rm DTAR_*
-rm -r .\obj
-$answer = Read-Host "Do you want to cleanup the temporary files? (y/n)"
+	# Create Zip files
+	$tweetinviBinariesPackage = 'Tweetinvi ' + $version + ' - Binaries.zip'
+	$tweetinviMergedBinariesPackage = 'Tweetinvi ' + $version + ' - Merged Binaries.zip'
 
-while("y", "yes", "n", "no" -notcontains $answer)
-{
-	$answer = Read-Host "Yes or No"
-}
+	Write-Zip -OutputPath $tweetinviBinariesPackage (dir $temporaryFolder)
+	Write-Zip -OutputPath $tweetinviMergedBinariesPackage (ls $temporaryFolder\$tweetinviAPIMerged,  $temporaryFolder\Cheatsheet.cs)
 
-if ($answer -eq "y" -or $answer -eq "yes")
-{
-	Remove-Item $temporaryFolder -Force -Recurse
-	Write-Host Temporary files successfully removed!
+	#Cleanup
+	rm DTAR_*
+	rm -r .\obj
+	$answer = Read-Host "Do you want to cleanup the temporary files? (y/n)"
+
+	while("y", "yes", "n", "no" -notcontains $answer)
+	{
+		$answer = Read-Host "Yes or No"
+	}
+
+	if ($answer -eq "y" -or $answer -eq "yes")
+	{
+		Remove-Item $temporaryFolder -Force -Recurse
+		Write-Host Temporary files successfully removed!
+	}
 }
 
 Write-Host Sript successfully terminated!

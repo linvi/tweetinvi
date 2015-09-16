@@ -12,6 +12,7 @@ using Tweetinvi.Core.Injectinvi;
 using Tweetinvi.Core.Interfaces.Exceptions;
 using Tweetinvi.Core.Interfaces.Models;
 using Tweetinvi.Core.Interfaces.WebLogic;
+using Tweetinvi.Core.Web;
 
 namespace Tweetinvi.WebLogic
 {
@@ -35,7 +36,7 @@ namespace Tweetinvi.WebLogic
         }
 
         // Simple Query
-        public string ExecuteQuery(ITwitterQuery twitterQuery, TwitterClientHandler handler = null)
+        public string ExecuteQuery(ITwitterQuery twitterQuery, ITwitterClientHandler handler = null)
         {
             return ExecuteTwitterQuerySafely(twitterQuery, () =>
             {

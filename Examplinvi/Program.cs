@@ -41,6 +41,18 @@ namespace Examplinvi
                 // Console.WriteLine(args.QueryURL);
             };
 
+            Auth.SetUserCredentials("xWMytIGSmXPuPe9OxwlQz1Wac", "n1l88uNwskBSu8hkuAumxieDRYKPKf7j4C13nbvAt0Z8ubu5iG", "1693649419-VMA9sF1hhTRzP0H6eBSsxBU4KOidn1PrVm8Uu2q", "b8kmpeAuuvotFB0O54YDCwT6nrnx6HCRQoyH3GHZQWlaZ");
+
+            Console.WriteLine(User.GetLoggedUser());
+            var stream = Stream.CreateSampleStream();
+
+            stream.TweetReceived += (sender, args) =>
+            {
+                Console.WriteLine(args.Tweet);
+            };
+
+            stream.StartStream();
+
             GenerateCredentialExamples();
             UserLiveFeedExamples();
             TweetExamples();

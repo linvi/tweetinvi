@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
-using System.Net.Http;
 using Tweetinvi.Core.Extensions;
 using Tweetinvi.Core.Interfaces.Models;
 using Tweetinvi.Core.Interfaces.WebLogic;
+using Tweetinvi.Core.Web;
 
 namespace Tweetinvi.WebLogic
 {
@@ -15,7 +15,7 @@ namespace Tweetinvi.WebLogic
             _webRequestExecutor = webRequestExecutor;
         }
 
-        public string ExecuteQuery(ITwitterQuery twitterQuery, TwitterClientHandler handler = null)
+        public string ExecuteQuery(ITwitterQuery twitterQuery, ITwitterClientHandler handler = null)
         {
             return _webRequestExecutor.ExecuteQuery(twitterQuery, handler);
         }

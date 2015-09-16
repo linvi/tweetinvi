@@ -3,12 +3,13 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Tweetinvi.Core.Helpers;
 using Tweetinvi.Core.Interfaces.Models;
+using Tweetinvi.Core.Web;
 
 namespace Tweetinvi.WebLogic
 {
     public class HttpClientWebHelper : IHttpClientWebHelper
     {
-        public async Task<HttpResponseMessage> GetHttpResponse(ITwitterQuery twitterQuery, HttpContent httpContent = null, TwitterClientHandler handler = null)
+        public async Task<HttpResponseMessage> GetHttpResponse(ITwitterQuery twitterQuery, HttpContent httpContent = null, ITwitterClientHandler handler = null)
         {
             using (var client = GetHttpClient(twitterQuery, handler))
             {
@@ -32,9 +33,9 @@ namespace Tweetinvi.WebLogic
             }
         }
 
-        public HttpClient GetHttpClient(ITwitterQuery twitterQuery, TwitterClientHandler handler = null)
+        public HttpClient GetHttpClient(ITwitterQuery twitterQuery, ITwitterClientHandler twitterHandler = null)
         {
-            handler = handler ?? new TwitterClientHandler();
+            var handler = (twitterHandler as TwitterClientHandler) ?? new TwitterClientHandler();
             handler.TwitterQuery = twitterQuery;
 
             var client = new HttpClient(handler)
