@@ -5,10 +5,19 @@ namespace Tweetinvi.Core.Enum
     public class LanguageAttribute : Attribute
     {
         public string Language { get; private set; }
+        public string[] Languages { get; private set; }
+        public bool HasMultipleCodes { get; private set; }
 
-        public LanguageAttribute(string lang)
+        public LanguageAttribute(params string[] languages)
         {
-            Language = lang;
+            if (languages == null || languages.Length == 0)
+            {
+                throw new ArgumentException("You must specify a language code to a Language");
+            }
+
+            Language = languages[0];
+            Languages = languages;
+            HasMultipleCodes = languages.Length > 1;
         }
     }
 
@@ -100,7 +109,7 @@ namespace Tweetinvi.Core.Enum
         [Language("is")] Icelandic,
         [Language("it")] Italian,
         [Language("iu")] Inuktitut,
-        [Language("ja")] Japanese,
+        [Language("ja", "jp")] Japanese,
         [Language("jv")] Javanese,
         [Language("kl")] Kalaallisut,
         [Language("kl")] Greenlandic,
@@ -201,7 +210,7 @@ namespace Tweetinvi.Core.Enum
         [Language("su")] Sundanese,
         [Language("sw")] Swahili,
         [Language("ss")] Swati,
-        [Language("sv")] Swedish,
+        [Language("sv", "se")] Swedish,
         [Language("ta")] Tamil,
         [Language("te")] Telugu,
         [Language("tg")] Tajik,
