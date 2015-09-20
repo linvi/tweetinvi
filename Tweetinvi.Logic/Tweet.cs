@@ -317,24 +317,18 @@ namespace Tweetinvi.Logic
                     throw new InvalidOperationException("Cannot calculate the length before the tweet has been published. Use the CalculateLength method instead.");
                 }
 
-                return GetLength();
+                return GetLength(false);
             }
         }
 
         public int CalculateLength(bool willBePublishedWithMedia)
         {
-            var mediaTweetLength = 0;
-            if (!_tweetDTO.IsTweetPublished && willBePublishedWithMedia)
-            {
-                mediaTweetLength = TweetinviConsts.MEDIA_CONTENT_SIZE;
-            }
-
-            return GetLength() + mediaTweetLength;
+            return GetLength(willBePublishedWithMedia);
         }
 
-        private int GetLength()
+        private int GetLength(bool willBePublishedWithMedia)
         {
-            var textLength = _tweetDTO.Text == null ? 0 : _tweetDTO.Text.TweetLength();
+            var textLength = _tweetDTO.Text == null ? 0 : _tweetDTO.Text.TweetLength(willBePublishedWithMedia);
 
             var mediaTweetLength = 0;
             if (_tweetDTO.IsTweetPublished && _tweetDTO.LegacyEntities != null && _tweetDTO.LegacyEntities.Medias != null && _tweetDTO.LegacyEntities.Medias.Any())

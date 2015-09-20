@@ -500,19 +500,6 @@ namespace Testinvi.TweetinviControllers.UserTests
         #region Block User
 
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
-        public void BlockUser_WithNullUser_ThrowsArgumentException()
-        {
-            // Arrange
-            var controller = CreateUserController();
-
-            _fakeUserQueryExecutor.CallsTo(x => x.BlockUser(A<IUserDTO>.Ignored)).Returns(true);
-
-            // Act
-            controller.BlockUser((IUser) null);
-        }
-
-        [TestMethod]
         public void BlockUser_WithUser_ReturnsUserExecutorResult_False()
         {
             // Arrange
@@ -534,10 +521,9 @@ namespace Testinvi.TweetinviControllers.UserTests
         {
             // Arrange
             var controller = CreateUserController();
-            var userDTO = A.Fake<IUserDTO>();
-            var user = TestHelper.GenerateUser(userDTO);
+            var user = TestHelper.GenerateUser(A.Fake<IUserDTO>());
 
-            _fakeUserQueryExecutor.CallsTo(x => x.BlockUser(userDTO)).Returns(true);
+            _fakeUserQueryExecutor.CallsTo(x => x.BlockUser(user)).Returns(true);
 
             // Act
             var result = controller.BlockUser(user);

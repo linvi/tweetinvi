@@ -67,9 +67,8 @@ namespace Tweetinvi.Core.Extensions
         /// <summary>
         /// Calculate the length of a string using Twitter algorithm
         /// </summary>
-        /// <param name="tweet">Text in the tweet</param>
         /// <returns>Size of the current Tweet</returns>
-        public static int TweetLength(this string tweet)
+        public static int TweetLength(this string tweet, bool willBePublishedWithMedia = false)
         {
             if (tweet == null)
             {
@@ -95,6 +94,11 @@ namespace Tweetinvi.Core.Extensions
                 size += link.Groups["isSecured"].Value == "s" ? 1 : 0;
             }
 
+            if (willBePublishedWithMedia)
+            {
+                size += TweetinviConsts.MEDIA_CONTENT_SIZE;
+            }
+
             return size;
         }
 
@@ -102,7 +106,6 @@ namespace Tweetinvi.Core.Extensions
         /// Clean a string so that it can be used in a URL and
         /// sent to Twitter
         /// </summary>
-        /// <param name="s">String to clean</param>
         /// <returns>Cleaned string</returns>
         public static string CleanStringForMySQL(this string s)
         {
