@@ -223,6 +223,11 @@ namespace Tweetinvi.Controllers.Search
 
             string query = _searchQueryGenerator.GetSearchUsersQuery(searchParameter);
             var currentResult = _twitterAccessor.ExecuteGETQuery<List<IUserDTO>>(query);
+            if (currentResult == null)
+            {
+                return null;
+            }
+
             var result = currentResult.ToDictionary(user => user.Id);
             var totalTweets = result.Count;
 
@@ -239,20 +244,24 @@ namespace Tweetinvi.Controllers.Search
                 query = _searchQueryGenerator.GetSearchUsersQuery(searchParameter);
                 currentResult = _twitterAccessor.ExecuteGETQuery<List<IUserDTO>>(query);
 
-                bool searchIsComplete = false;
-                foreach (var userDTO in currentResult)
+                bool searchIsComplete = currentResult == null;
+
+                if (!searchIsComplete)
                 {
-                    if (result.ContainsKey(userDTO.Id))
+                    foreach (var userDTO in currentResult)
                     {
-                        searchIsComplete = true;
-                    }
-                    else
-                    {
-                        result.Add(userDTO.Id, userDTO);
-                        ++totalTweets;
+                        if (result.ContainsKey(userDTO.Id))
+                        {
+                            searchIsComplete = true;
+                        }
+                        else
+                        {
+                            result.Add(userDTO.Id, userDTO);
+                            ++totalTweets;
+                        }
                     }
                 }
-
+                
                 if (searchIsComplete)
                 {
                     break;
