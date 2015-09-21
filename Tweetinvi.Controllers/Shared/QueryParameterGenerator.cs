@@ -1,5 +1,4 @@
-﻿using System;
-using Tweetinvi.Controllers.Properties;
+﻿using Tweetinvi.Controllers.Properties;
 using Tweetinvi.Core;
 using Tweetinvi.Core.Enum;
 using Tweetinvi.Core.Extensions;
@@ -27,45 +26,45 @@ namespace Tweetinvi.Controllers.Shared
         {
             if (count == -1)
             {
-                return String.Empty;
+                return string.Empty;
             }
 
-            return String.Format(Resources.QueryParameter_Count, count);
+            return string.Format(Resources.QueryParameter_Count, count);
         }
 
         public string GenerateTrimUserParameter(bool trimUser)
         {
-            return String.Format(Resources.QueryParameter_TrimUser, trimUser);
+            return string.Format(Resources.QueryParameter_TrimUser, trimUser);
         }
 
         public string GenerateSinceIdParameter(long? sinceId)
         {
             if (sinceId == null || sinceId == TweetinviSettings.DEFAULT_ID)
             {
-                return String.Empty;
+                return string.Empty;
             }
 
-            return String.Format(Resources.QueryParameter_SinceId, sinceId);
+            return string.Format(Resources.QueryParameter_SinceId, sinceId);
         }
 
         public string GenerateMaxIdParameter(long? maxId)
         {
             if (maxId == null || maxId == TweetinviSettings.DEFAULT_ID)
             {
-                return String.Empty;
+                return string.Empty;
             }
 
-            return String.Format(Resources.QueryParameter_MaxId, maxId);
+            return string.Format(Resources.QueryParameter_MaxId, maxId);
         }
 
         public string GenerateIncludeEntitiesParameter(bool includeEntities)
         {
-            return String.Format(Resources.QueryParameter_IncludeEntities, includeEntities);
+            return string.Format(Resources.QueryParameter_IncludeEntities, includeEntities);
         }
 
         public string GenerateSkipStatusParameter(bool skipStatus)
         {
-            return String.Format(Resources.QueryParameter_SkipStatus, skipStatus);
+            return string.Format(Resources.QueryParameter_SkipStatus, skipStatus);
         }
 
         public string GeneratePageNumberParameter(int? pageNumber)
@@ -75,7 +74,7 @@ namespace Tweetinvi.Controllers.Shared
                 return string.Empty;
             }
 
-            return String.Format(Resources.QueryParameter_PageNumber, pageNumber);
+            return string.Format(Resources.QueryParameter_PageNumber, pageNumber);
         }
 
         public string GenerateIncludeRetweetsParameter(bool includeRetweets)
