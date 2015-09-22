@@ -35,7 +35,7 @@ namespace Tweetinvi.Credentials.Properties
         public static string OAuthRequestTokenFailedValidation = "Failed to validate oauth signature and token";
 
         /// <summary>
-        ///  Looks up a localized string similar to tweetinvi_cred_id
+        ///  Looks up a localized string similar to authorization_id
         /// </summary>
         public static string RedirectRequest_CredsParamId = "authorization_id";
 
