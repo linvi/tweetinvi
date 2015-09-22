@@ -43,7 +43,7 @@ namespace Tweetinvi.Streams
         private RepliesFilterType _repliesFilterType;
         private WithFilterType _withFilterType;
 
-        public event EventHandler StreamRunning;
+        public event EventHandler StreamIsReady;
 
         public UserStream(
             IStreamResultGenerator streamResultGenerator,
@@ -382,10 +382,10 @@ namespace Tweetinvi.Streams
 
             if (friendIdsObject.TryGetValue("friends", out friendIdsToken))
             {
-                this.Raise(StreamRunning);
-
                 var friendIds = friendIdsToken.Values<long>();
                 _friendIds = new HashSet<long>(friendIds);
+
+                this.Raise(StreamIsReady);
                 this.Raise(FriendIdsReceived, new GenericEventArgs<IEnumerable<long>>(friendIds));
 
                 return true;

@@ -14,9 +14,9 @@ namespace Tweetinvi.Core.Interfaces.Streaminvi
         /// <summary>
         /// The user stream may take some time to get initialized.
         /// During this duration twitter does not send any live information
-        /// StreamRunning informs the developper that all the events are now captured.
+        /// StreamIsReady informs the developper that all the events are now captured.
         /// </summary>
-        event EventHandler StreamRunning;
+        event EventHandler StreamIsReady;
 
         /// <summary>
         /// Event informing that a Tweet has been created by the LoggedUser
