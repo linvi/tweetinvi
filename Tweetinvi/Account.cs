@@ -78,7 +78,7 @@ namespace Tweetinvi
             int? startSleepTime = null,
             int? endSleepTime = null)
         {
-            return _accountController.UpdateLoggedUserSettings(
+            return AccountController.UpdateLoggedUserSettings(
                 languages,
                 timeZone,
                 trendLocationWoeid,
@@ -92,7 +92,7 @@ namespace Tweetinvi
         /// </summary>
         public static IAccountSettings UpdateAccountSettings(IAccountSettingsRequestParameters settings)
         {
-            return _accountController.UpdateLoggedUserSettings(settings);
+            return AccountController.UpdateLoggedUserSettings(settings);
         }
 
         /// <summary>
@@ -309,7 +309,7 @@ namespace Tweetinvi
         /// </summary>
         public static IEnumerable<ICategorySuggestion> GetSuggestedCategories(Language? language = null)
         {
-            return _accountController.GetSuggestedCategories(language);
+            return AccountController.GetSuggestedCategories(language);
         }
 
         /// <summary>
@@ -317,7 +317,7 @@ namespace Tweetinvi
         /// </summary>
         public static IEnumerable<IUser> GetSuggestedUsers(string filter, Language? language = null)
         {
-            return _accountController.GetSuggestedUsers(filter, language);
+            return AccountController.GetSuggestedUsers(filter, language);
         }
 
         /// <summary>
@@ -325,7 +325,7 @@ namespace Tweetinvi
         /// </summary>
         public static IEnumerable<IUser> GetSuggestedUsersWithTheirLatestTweet(string filter)
         {
-            return _accountController.GetSuggestedUsersWithTheirLatestTweet(filter);
+            return AccountController.GetSuggestedUsersWithTheirLatestTweet(filter);
         }
     }
 }

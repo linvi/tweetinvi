@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using Newtonsoft.Json.Linq;
 using Tweetinvi.Core.Enum;
 using Tweetinvi.Core.Interfaces.Credentials;
-using Tweetinvi.Core.Interfaces.DTO;
 using Tweetinvi.Core.Interfaces.DTO.QueryDTO;
 
 namespace Tweetinvi
@@ -104,7 +103,7 @@ namespace Tweetinvi
         // MultiPart Query
         public static T ExecutePOSTMultipartQuery<T>(string query, IEnumerable<byte[]> binaries, string contentId) where T : class
         {
-            return _twitterAccessor.ExecuteMultipartQuery<T>(query, binaries, contentId);
+            return Accessor.ExecuteMultipartQuery<T>(query, binaries, contentId);
         }
 
         // Cusror Query

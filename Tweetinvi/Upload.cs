@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Tweetinvi.Controllers.Upload;
@@ -41,7 +40,7 @@ namespace Tweetinvi
         /// </summary>
         public static void UploadMedias(IEnumerable<IMedia> medias, bool forceReUpload)
         {
-            _uploadQueryExecutor.UploadMedias(medias, forceReUpload);
+            UploadQueryExecutor.UploadMedias(medias, forceReUpload);
         }
 
         /// <summary>
@@ -57,7 +56,7 @@ namespace Tweetinvi
         /// </summary>
         public static IEnumerable<IMedia> UploadBinaries(IEnumerable<byte[]> binaries)
         {
-            return _uploadQueryExecutor.UploadBinaries(binaries);
+            return UploadQueryExecutor.UploadBinaries(binaries);
         }
 
         /// <summary>
@@ -65,7 +64,7 @@ namespace Tweetinvi
         /// </summary>
         public static IMedia UploadImage(byte[] binary)
         {
-            return _uploadQueryExecutor.UploadBinary(binary);
+            return UploadQueryExecutor.UploadBinary(binary);
         }
 
         /// <summary>
@@ -73,7 +72,7 @@ namespace Tweetinvi
         /// </summary>
         public static IMedia UploadVideo(byte[] binary, string mediaType = "video/mp4")
         {
-            return _uploadQueryExecutor.UploadVideo(binary, mediaType);
+            return UploadQueryExecutor.UploadVideo(binary, mediaType);
         }
 
         /// <summary>
@@ -81,7 +80,7 @@ namespace Tweetinvi
         /// </summary>
         public static IMedia ChunkUploadBinary(byte[] binary, string mediaType)
         {
-            return _uploadQueryExecutor.ChunkUploadBinary(binary, mediaType);
+            return UploadQueryExecutor.ChunkUploadBinary(binary, mediaType);
         }
 
         /// <summary>
@@ -92,7 +91,7 @@ namespace Tweetinvi
         /// </summary>
         public static IChunkedUploader CreateChunkedUploader()
         {
-            return _uploadQueryExecutor.CreateChunkedUploader();
+            return UploadQueryExecutor.CreateChunkedUploader();
         }
     }
 }

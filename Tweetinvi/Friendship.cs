@@ -35,47 +35,47 @@ namespace Tweetinvi
         // Get Relationship Between
         public static IRelationshipDetails GetRelationshipDetailsBetween(IUserIdentifier sourceUserIdentifier, IUserIdentifier targetUserIdentifier)
         {
-            return _friendshipController.GetRelationshipBetween(sourceUserIdentifier, targetUserIdentifier);
+            return FriendshipController.GetRelationshipBetween(sourceUserIdentifier, targetUserIdentifier);
         }
 
         public static IRelationshipDetails GetRelationshipDetailsBetween(IUserIdentifier sourceUserIdentifier, long targetUserId)
         {
-            return _friendshipController.GetRelationshipBetween(sourceUserIdentifier, targetUserId);
+            return FriendshipController.GetRelationshipBetween(sourceUserIdentifier, targetUserId);
         }
 
         public static IRelationshipDetails GetRelationshipDetailsBetween(IUserIdentifier sourceUserIdentifier, string targetUserScreenName)
         {
-            return _friendshipController.GetRelationshipBetween(sourceUserIdentifier, targetUserScreenName);
+            return FriendshipController.GetRelationshipBetween(sourceUserIdentifier, targetUserScreenName);
         }
 
         public static IRelationshipDetails GetRelationshipDetailsBetween(long sourceUserId, IUserIdentifier targetUserIdentifier)
         {
-            return _friendshipController.GetRelationshipBetween(sourceUserId, targetUserIdentifier);
+            return FriendshipController.GetRelationshipBetween(sourceUserId, targetUserIdentifier);
         }
 
         public static IRelationshipDetails GetRelationshipDetailsBetween(string sourceUserScreenName, IUserIdentifier targetUserIdentifier)
         {
-            return _friendshipController.GetRelationshipBetween(sourceUserScreenName, targetUserIdentifier);
+            return FriendshipController.GetRelationshipBetween(sourceUserScreenName, targetUserIdentifier);
         }
 
         public static IRelationshipDetails GetRelationshipDetailsBetween(long sourceUserId, long targetUserId)
         {
-            return _friendshipController.GetRelationshipBetween(sourceUserId, targetUserId);
+            return FriendshipController.GetRelationshipBetween(sourceUserId, targetUserId);
         }
 
         public static IRelationshipDetails GetRelationshipDetailsBetween(long sourceUserId, string targetUserScreenName)
         {
-            return _friendshipController.GetRelationshipBetween(sourceUserId, targetUserScreenName);
+            return FriendshipController.GetRelationshipBetween(sourceUserId, targetUserScreenName);
         }
 
         public static IRelationshipDetails GetRelationshipDetailsBetween(string sourceUserScreenName, long targetUserId)
         {
-            return _friendshipController.GetRelationshipBetween(sourceUserScreenName, targetUserId);
+            return FriendshipController.GetRelationshipBetween(sourceUserScreenName, targetUserId);
         }
 
         public static IRelationshipDetails GetRelationshipDetailsBetween(string sourceUserScreenName, string targetUserScreenName)
         {
-            return _friendshipController.GetRelationshipBetween(sourceUserScreenName, targetUserScreenName);
+            return FriendshipController.GetRelationshipBetween(sourceUserScreenName, targetUserScreenName);
         }
     }
 }

@@ -68,7 +68,7 @@ namespace Tweetinvi
 
         public static IGeoCode GenerateGeoCode(ICoordinates coordinates, double radius, DistanceMeasure measure)
         {
-            return _geoFactory.GenerateGeoCode(coordinates, radius, measure);
+            return GeoFactory.GenerateGeoCode(coordinates, radius, measure);
         }
 
         // Controller

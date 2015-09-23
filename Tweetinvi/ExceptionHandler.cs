@@ -124,7 +124,7 @@ namespace Tweetinvi
         public static string GetLifetimeExceptionDetails()
         {
             StringBuilder strBuilder = new StringBuilder();
-            foreach (var twitterException in _exceptionHandler.ExceptionInfos)
+            foreach (var twitterException in CurrentThreadExceptionHandler.ExceptionInfos)
             {
                 strBuilder.Append(twitterException);
                 strBuilder.Append("---");

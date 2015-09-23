@@ -116,12 +116,12 @@ namespace Tweetinvi
 
         public static IUserIdentifier GenerateUserIdentifierFromId(long userId)
         {
-            return _userFactory.GenerateUserIdentifierFromId(userId);
+            return UserFactory.GenerateUserIdentifierFromId(userId);
         }
 
         public static IUserIdentifier GenerateUserIdentifierFromScreenName(string userScreenName)
         {
-            return _userFactory.GenerateUserIdentifierFromScreenName(userScreenName);
+            return UserFactory.GenerateUserIdentifierFromScreenName(userScreenName);
         }
 
         #endregion

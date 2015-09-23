@@ -100,17 +100,17 @@ namespace Tweetinvi
         // Owner Lists
         public static IEnumerable<ITwitterList> GetUserOwnedLists(long userId, int maximumNumberOfListsToRetrieve = TweetinviConsts.TWITTER_LIST_OWNED_COUNT)
         {
-            return _twitterListController.GetUserOwnedLists(userId, maximumNumberOfListsToRetrieve);
+            return TwitterListController.GetUserOwnedLists(userId, maximumNumberOfListsToRetrieve);
         }
 
         public static IEnumerable<ITwitterList> GetUserOwnedLists(string userScreenName, int maximumNumberOfListsToRetrieve = TweetinviConsts.TWITTER_LIST_OWNED_COUNT)
         {
-            return _twitterListController.GetUserOwnedLists(userScreenName, maximumNumberOfListsToRetrieve);
+            return TwitterListController.GetUserOwnedLists(userScreenName, maximumNumberOfListsToRetrieve);
         }
 
         public static IEnumerable<ITwitterList> GetUserOwnedLists(IUserIdentifier userIdentifier, int maximumNumberOfListsToRetrieve = TweetinviConsts.TWITTER_LIST_OWNED_COUNT)
         {
-            return _twitterListController.GetUserOwnedLists(userIdentifier, maximumNumberOfListsToRetrieve);
+            return TwitterListController.GetUserOwnedLists(userIdentifier, maximumNumberOfListsToRetrieve);
         }
 
         // Create List
@@ -246,378 +246,378 @@ namespace Tweetinvi
         // Create Member
         public static bool AddMemberToList(long listId, long newUserId)
         {
-            return _twitterListController.AddMemberToList(listId, newUserId);
+            return TwitterListController.AddMemberToList(listId, newUserId);
         }
 
         public static bool AddMemberToList(long listId, string newUserName)
         {
-            return _twitterListController.AddMemberToList(listId, newUserName);
+            return TwitterListController.AddMemberToList(listId, newUserName);
         }
 
         public static bool AddMemberToList(long listId, IUserIdentifier newUser)
         {
-            return _twitterListController.AddMemberToList(listId, newUser);
+            return TwitterListController.AddMemberToList(listId, newUser);
         }
 
         public static bool AddMemberToList(string slug, long ownerId, long newUserId)
         {
-            return _twitterListController.AddMemberToList(slug, ownerId, newUserId);
+            return TwitterListController.AddMemberToList(slug, ownerId, newUserId);
         }
 
         public static bool AddMemberToList(string slug, long ownerId, string newUserName)
         {
-            return _twitterListController.AddMemberToList(slug, ownerId, newUserName);
+            return TwitterListController.AddMemberToList(slug, ownerId, newUserName);
         }
 
         public static bool AddMemberToList(string slug, long ownerId, IUserIdentifier newUser)
         {
-            return _twitterListController.AddMemberToList(slug, ownerId, newUser);
+            return TwitterListController.AddMemberToList(slug, ownerId, newUser);
         }
 
         public static bool AddMemberToList(string slug, string ownerScreenName, long newUserId)
         {
-            return _twitterListController.AddMemberToList(slug, ownerScreenName, newUserId);
+            return TwitterListController.AddMemberToList(slug, ownerScreenName, newUserId);
         }
 
         public static bool AddMemberToList(string slug, string ownerScreenName, string newUserName)
         {
-            return _twitterListController.AddMemberToList(slug, ownerScreenName, newUserName);
+            return TwitterListController.AddMemberToList(slug, ownerScreenName, newUserName);
         }
 
         public static bool AddMemberToList(string slug, string ownerScreenName, IUserIdentifier newUser)
         {
-            return _twitterListController.AddMemberToList(slug, ownerScreenName, newUser);
+            return TwitterListController.AddMemberToList(slug, ownerScreenName, newUser);
         }
 
         public static bool AddMemberToList(string slug, IUserIdentifier owner, long newUserId)
         {
-            return _twitterListController.AddMemberToList(slug, owner, newUserId);
+            return TwitterListController.AddMemberToList(slug, owner, newUserId);
         }
 
         public static bool AddMemberToList(string slug, IUserIdentifier owner, string newUserName)
         {
-            return _twitterListController.AddMemberToList(slug, owner, newUserName);
+            return TwitterListController.AddMemberToList(slug, owner, newUserName);
         }
 
         public static bool AddMemberToList(string slug, IUserIdentifier owner, IUserIdentifier newUser)
         {
-            return _twitterListController.AddMemberToList(slug, owner, newUser);
+            return TwitterListController.AddMemberToList(slug, owner, newUser);
         }
 
         public static bool AddMemberToList(ITwitterListIdentifier list, long newUserId)
         {
-            return _twitterListController.AddMemberToList(list, newUserId);
+            return TwitterListController.AddMemberToList(list, newUserId);
         }
 
         public static bool AddMemberToList(ITwitterListIdentifier list, string newUserName)
         {
-            return _twitterListController.AddMemberToList(list, newUserName);
+            return TwitterListController.AddMemberToList(list, newUserName);
         }
 
         public static bool AddMemberToList(ITwitterListIdentifier list, IUserIdentifier newUser)
         {
-            return _twitterListController.AddMemberToList(list, newUser);
+            return TwitterListController.AddMemberToList(list, newUser);
         } 
 
         // Create Multiple Members
         public static MultiRequestsResult AddMultipleMembersToList(long listId, IEnumerable<long> newUserIds)
         {
-            return _twitterListController.AddMultipleMembersToList(listId, newUserIds);
+            return TwitterListController.AddMultipleMembersToList(listId, newUserIds);
         }
 
         public static MultiRequestsResult AddMultipleMembersToList(long listId, IEnumerable<string> newUserScreenNames)
         {
-            return _twitterListController.AddMultipleMembersToList(listId, newUserScreenNames);
+            return TwitterListController.AddMultipleMembersToList(listId, newUserScreenNames);
         }
 
         public static MultiRequestsResult AddMultipleMembersToList(long listId, IEnumerable<IUserIdentifier> newUsers)
         {
-            return _twitterListController.AddMultipleMembersToList(listId, newUsers);
+            return TwitterListController.AddMultipleMembersToList(listId, newUsers);
         }
 
         public static MultiRequestsResult AddMultipleMembersToList(string slug, long ownerId, IEnumerable<long> newUserIds)
         {
-            return _twitterListController.AddMultipleMembersToList(slug, ownerId, newUserIds);
+            return TwitterListController.AddMultipleMembersToList(slug, ownerId, newUserIds);
         }
 
         public static MultiRequestsResult AddMultipleMembersToList(string slug, long ownerId, IEnumerable<string> newUserScreenNames)
         {
-            return _twitterListController.AddMultipleMembersToList(slug, ownerId, newUserScreenNames);
+            return TwitterListController.AddMultipleMembersToList(slug, ownerId, newUserScreenNames);
         }
 
         public static MultiRequestsResult AddMultipleMembersToList(string slug, long ownerId, IEnumerable<IUserIdentifier> newUsers)
         {
-            return _twitterListController.AddMultipleMembersToList(slug, ownerId, newUsers);
+            return TwitterListController.AddMultipleMembersToList(slug, ownerId, newUsers);
         }
 
         public static MultiRequestsResult AddMultipleMembersToList(string slug, string ownerScreenName, IEnumerable<long> newUserIds)
         {
-            return _twitterListController.AddMultipleMembersToList(slug, ownerScreenName, newUserIds);
+            return TwitterListController.AddMultipleMembersToList(slug, ownerScreenName, newUserIds);
         }
 
         public static MultiRequestsResult AddMultipleMembersToList(string slug, string ownerScreenName, IEnumerable<string> newUserScreenNames)
         {
-            return _twitterListController.AddMultipleMembersToList(slug, ownerScreenName, newUserScreenNames);
+            return TwitterListController.AddMultipleMembersToList(slug, ownerScreenName, newUserScreenNames);
         }
 
         public static MultiRequestsResult AddMultipleMembersToList(string slug, string ownerScreenName, IEnumerable<IUserIdentifier> newUsers)
         {
-            return _twitterListController.AddMultipleMembersToList(slug, ownerScreenName, newUsers);
+            return TwitterListController.AddMultipleMembersToList(slug, ownerScreenName, newUsers);
         }
 
         public static MultiRequestsResult AddMultipleMembersToList(string slug, IUserIdentifier owner, IEnumerable<long> newUserIds)
         {
-            return _twitterListController.AddMultipleMembersToList(slug, owner, newUserIds);
+            return TwitterListController.AddMultipleMembersToList(slug, owner, newUserIds);
         }
 
         public static MultiRequestsResult AddMultipleMembersToList(string slug, IUserIdentifier owner, IEnumerable<string> newUserScreenNames)
         {
-            return _twitterListController.AddMultipleMembersToList(slug, owner, newUserScreenNames);
+            return TwitterListController.AddMultipleMembersToList(slug, owner, newUserScreenNames);
         }
 
         public static MultiRequestsResult AddMultipleMembersToList(string slug, IUserIdentifier owner, IEnumerable<IUserIdentifier> newUsers)
         {
-            return _twitterListController.AddMultipleMembersToList(slug, owner, newUsers);
+            return TwitterListController.AddMultipleMembersToList(slug, owner, newUsers);
         }
 
         public static MultiRequestsResult AddMultipleMembersToList(ITwitterListIdentifier list, IEnumerable<long> newUserIds)
         {
-            return _twitterListController.AddMultipleMembersToList(list, newUserIds);
+            return TwitterListController.AddMultipleMembersToList(list, newUserIds);
         }
 
         public static MultiRequestsResult AddMultipleMembersToList(ITwitterListIdentifier list, IEnumerable<string> newUserScreenNames)
         {
-            return _twitterListController.AddMultipleMembersToList(list, newUserScreenNames);
+            return TwitterListController.AddMultipleMembersToList(list, newUserScreenNames);
         }
 
         public static MultiRequestsResult AddMultipleMembersToList(ITwitterListIdentifier list, IEnumerable<IUserIdentifier> userIdentifiers)
         {
-            return _twitterListController.AddMultipleMembersToList(list, userIdentifiers);
+            return TwitterListController.AddMultipleMembersToList(list, userIdentifiers);
         }
 
 
         // Remove Member From List
         public static bool RemoveMemberFromList(long listId, long userId)
         {
-            return _twitterListController.RemoveMemberFromList(listId, userId);
+            return TwitterListController.RemoveMemberFromList(listId, userId);
         }
 
         public static bool RemoveMemberFromList(long listId, string userName)
         {
-            return _twitterListController.RemoveMemberFromList(listId, userName);
+            return TwitterListController.RemoveMemberFromList(listId, userName);
         }
 
         public static bool RemoveMemberFromList(long listId, IUserIdentifier user)
         {
-            return _twitterListController.RemoveMemberFromList(listId, user);
+            return TwitterListController.RemoveMemberFromList(listId, user);
         }
 
         public static bool RemoveMemberFromList(string slug, long ownerId, long userId)
         {
-            return _twitterListController.RemoveMemberFromList(slug, ownerId, userId);
+            return TwitterListController.RemoveMemberFromList(slug, ownerId, userId);
         }
 
         public static bool RemoveMemberFromList(string slug, long ownerId, string userName)
         {
-            return _twitterListController.RemoveMemberFromList(slug, ownerId, userName);
+            return TwitterListController.RemoveMemberFromList(slug, ownerId, userName);
         }
 
         public static bool RemoveMemberFromList(string slug, long ownerId, IUserIdentifier user)
         {
-            return _twitterListController.RemoveMemberFromList(slug, ownerId, user);
+            return TwitterListController.RemoveMemberFromList(slug, ownerId, user);
         }
 
         public static bool RemoveMemberFromList(string slug, string ownerScreenName, long userId)
         {
-            return _twitterListController.RemoveMemberFromList(slug, ownerScreenName, userId);
+            return TwitterListController.RemoveMemberFromList(slug, ownerScreenName, userId);
         }
 
         public static bool RemoveMemberFromList(string slug, string ownerScreenName, string userName)
         {
-            return _twitterListController.RemoveMemberFromList(slug, ownerScreenName, userName);
+            return TwitterListController.RemoveMemberFromList(slug, ownerScreenName, userName);
         }
 
         public static bool RemoveMemberFromList(string slug, string ownerScreenName, IUserIdentifier user)
         {
-            return _twitterListController.RemoveMemberFromList(slug, ownerScreenName, user);
+            return TwitterListController.RemoveMemberFromList(slug, ownerScreenName, user);
         }
 
         public static bool RemoveMemberFromList(string slug, IUserIdentifier owner, long userId)
         {
-            return _twitterListController.RemoveMemberFromList(slug, owner, userId);
+            return TwitterListController.RemoveMemberFromList(slug, owner, userId);
         }
 
         public static bool RemoveMemberFromList(string slug, IUserIdentifier owner, string userName)
         {
-            return _twitterListController.RemoveMemberFromList(slug, owner, userName);
+            return TwitterListController.RemoveMemberFromList(slug, owner, userName);
         }
 
         public static bool RemoveMemberFromList(string slug, IUserIdentifier owner, IUserIdentifier user)
         {
-            return _twitterListController.RemoveMemberFromList(slug, owner, user);
+            return TwitterListController.RemoveMemberFromList(slug, owner, user);
         }
 
         public static bool RemoveMemberFromList(ITwitterListIdentifier list, long userId)
         {
-            return _twitterListController.RemoveMemberFromList(list, userId);
+            return TwitterListController.RemoveMemberFromList(list, userId);
         }
 
         public static bool RemoveMemberFromList(ITwitterListIdentifier list, string userName)
         {
-            return _twitterListController.RemoveMemberFromList(list, userName);
+            return TwitterListController.RemoveMemberFromList(list, userName);
         }
 
         public static bool RemoveMemberFromList(ITwitterListIdentifier list, IUserIdentifier user)
         {
-            return _twitterListController.RemoveMemberFromList(list, user);
+            return TwitterListController.RemoveMemberFromList(list, user);
         }
 
         // Remove Multiple
         public static MultiRequestsResult RemoveMultipleMembersFromList(long listId, IEnumerable<long> userIdsToRemove)
         {
-            return _twitterListController.RemoveMultipleMembersFromList(listId, userIdsToRemove);
+            return TwitterListController.RemoveMultipleMembersFromList(listId, userIdsToRemove);
         }
 
         public static MultiRequestsResult RemoveMultipleMembersFromList(long listId, IEnumerable<string> userScreenNamesToRemove)
         {
-            return _twitterListController.RemoveMultipleMembersFromList(listId, userScreenNamesToRemove);
+            return TwitterListController.RemoveMultipleMembersFromList(listId, userScreenNamesToRemove);
         }
 
         public static MultiRequestsResult RemoveMultipleMembersFromList(long listId, IEnumerable<IUserIdentifier> userIdentifiersToRemove)
         {
-            return _twitterListController.RemoveMultipleMembersFromList(listId, userIdentifiersToRemove);
+            return TwitterListController.RemoveMultipleMembersFromList(listId, userIdentifiersToRemove);
         }
 
         public static MultiRequestsResult RemoveMultipleMembersFromList(string slug, long ownerId, IEnumerable<long> userIdsToRemove)
         {
-            return _twitterListController.RemoveMultipleMembersFromList(slug, ownerId, userIdsToRemove);
+            return TwitterListController.RemoveMultipleMembersFromList(slug, ownerId, userIdsToRemove);
         }
 
         public static MultiRequestsResult RemoveMultipleMembersFromList(string slug, long ownerId, IEnumerable<string> userScreenNamesToRemove)
         {
-            return _twitterListController.RemoveMultipleMembersFromList(slug, ownerId, userScreenNamesToRemove);
+            return TwitterListController.RemoveMultipleMembersFromList(slug, ownerId, userScreenNamesToRemove);
         }
 
         public static MultiRequestsResult RemoveMultipleMembersFromList(string slug, long ownerId, IEnumerable<IUserIdentifier> userIdentifiersToRemove)
         {
-            return _twitterListController.RemoveMultipleMembersFromList(slug, ownerId, userIdentifiersToRemove);
+            return TwitterListController.RemoveMultipleMembersFromList(slug, ownerId, userIdentifiersToRemove);
         }
 
         public static MultiRequestsResult RemoveMultipleMembersFromList(string slug, string ownerScreenName, IEnumerable<long> userIdsToRemove)
         {
-            return _twitterListController.RemoveMultipleMembersFromList(slug, ownerScreenName, userIdsToRemove);
+            return TwitterListController.RemoveMultipleMembersFromList(slug, ownerScreenName, userIdsToRemove);
         }
 
         public static MultiRequestsResult RemoveMultipleMembersFromList(string slug, string ownerScreenName, IEnumerable<string> userScreenNamesToRemove)
         {
-            return _twitterListController.RemoveMultipleMembersFromList(slug, ownerScreenName, userScreenNamesToRemove);
+            return TwitterListController.RemoveMultipleMembersFromList(slug, ownerScreenName, userScreenNamesToRemove);
         }
 
         public static MultiRequestsResult RemoveMultipleMembersFromList(string slug, string ownerScreenName, IEnumerable<IUserIdentifier> userIdentifiersToRemove)
         {
-            return _twitterListController.RemoveMultipleMembersFromList(slug, ownerScreenName, userIdentifiersToRemove);
+            return TwitterListController.RemoveMultipleMembersFromList(slug, ownerScreenName, userIdentifiersToRemove);
         }
 
         public static MultiRequestsResult RemoveMultipleMembersFromList(string slug, IUserIdentifier owner, IEnumerable<long> userIdsToRemove)
         {
-            return _twitterListController.RemoveMultipleMembersFromList(slug, owner, userIdsToRemove);
+            return TwitterListController.RemoveMultipleMembersFromList(slug, owner, userIdsToRemove);
         }
 
         public static MultiRequestsResult RemoveMultipleMembersFromList(string slug, IUserIdentifier owner, IEnumerable<string> userScreenNamesToRemove)
         {
-            return _twitterListController.RemoveMultipleMembersFromList(slug, owner, userScreenNamesToRemove);
+            return TwitterListController.RemoveMultipleMembersFromList(slug, owner, userScreenNamesToRemove);
         }
 
         public static MultiRequestsResult RemoveMultipleMembersFromList(string slug, IUserIdentifier owner, IEnumerable<IUserIdentifier> userIdentifiersToRemove)
         {
-            return _twitterListController.RemoveMultipleMembersFromList(slug, owner, userIdentifiersToRemove);
+            return TwitterListController.RemoveMultipleMembersFromList(slug, owner, userIdentifiersToRemove);
         }
 
         public static MultiRequestsResult RemoveMultipleMembersFromList(ITwitterListIdentifier list, IEnumerable<long> userIdsToRemove)
         {
-            return _twitterListController.RemoveMultipleMembersFromList(list, userIdsToRemove);
+            return TwitterListController.RemoveMultipleMembersFromList(list, userIdsToRemove);
         }
 
         public static MultiRequestsResult RemoveMultipleMembersFromList(ITwitterListIdentifier list, IEnumerable<string> userScreenNamesToRemove)
         {
-            return _twitterListController.RemoveMultipleMembersFromList(list, userScreenNamesToRemove);
+            return TwitterListController.RemoveMultipleMembersFromList(list, userScreenNamesToRemove);
         }
 
         public static MultiRequestsResult RemoveMultipleMembersFromList(ITwitterListIdentifier list, IEnumerable<IUserIdentifier> userIdentifiersToRemove)
         {
-            return _twitterListController.RemoveMultipleMembersFromList(list, userIdentifiersToRemove);
+            return TwitterListController.RemoveMultipleMembersFromList(list, userIdentifiersToRemove);
         }
 
         // Check Membership
 
         public static bool CheckIfUserIsAListMember(long listId, long newUserId)
         {
-            return _twitterListController.CheckIfUserIsAListMember(listId, newUserId);
+            return TwitterListController.CheckIfUserIsAListMember(listId, newUserId);
         }
 
         public static bool CheckIfUserIsAListMember(long listId, string newUserName)
         {
-            return _twitterListController.CheckIfUserIsAListMember(listId, newUserName);
+            return TwitterListController.CheckIfUserIsAListMember(listId, newUserName);
         }
 
         public static bool CheckIfUserIsAListMember(long listId, IUserIdentifier newUser)
         {
-            return _twitterListController.CheckIfUserIsAListMember(listId, newUser);
+            return TwitterListController.CheckIfUserIsAListMember(listId, newUser);
         }
 
         public static bool CheckIfUserIsAListMember(string slug, long ownerId, long newUserId)
         {
-            return _twitterListController.CheckIfUserIsAListMember(slug, ownerId, newUserId);
+            return TwitterListController.CheckIfUserIsAListMember(slug, ownerId, newUserId);
         }
 
         public static bool CheckIfUserIsAListMember(string slug, long ownerId, string newUserName)
         {
-            return _twitterListController.CheckIfUserIsAListMember(slug, ownerId, newUserName);
+            return TwitterListController.CheckIfUserIsAListMember(slug, ownerId, newUserName);
         }
 
         public static bool CheckIfUserIsAListMember(string slug, long ownerId, IUserIdentifier newUser)
         {
-            return _twitterListController.CheckIfUserIsAListMember(slug, ownerId, newUser);
+            return TwitterListController.CheckIfUserIsAListMember(slug, ownerId, newUser);
         }
 
         public static bool CheckIfUserIsAListMember(string slug, string ownerScreenName, long newUserId)
         {
-            return _twitterListController.CheckIfUserIsAListMember(slug, ownerScreenName, newUserId);
+            return TwitterListController.CheckIfUserIsAListMember(slug, ownerScreenName, newUserId);
         }
 
         public static bool CheckIfUserIsAListMember(string slug, string ownerScreenName, string newUserName)
         {
-            return _twitterListController.CheckIfUserIsAListMember(slug, ownerScreenName, newUserName);
+            return TwitterListController.CheckIfUserIsAListMember(slug, ownerScreenName, newUserName);
         }
 
         public static bool CheckIfUserIsAListMember(string slug, string ownerScreenName, IUserIdentifier newUser)
         {
-            return _twitterListController.CheckIfUserIsAListMember(slug, ownerScreenName, newUser);
+            return TwitterListController.CheckIfUserIsAListMember(slug, ownerScreenName, newUser);
         }
 
         public static bool CheckIfUserIsAListMember(string slug, IUserIdentifier owner, long newUserId)
         {
-            return _twitterListController.CheckIfUserIsAListMember(slug, owner, newUserId);
+            return TwitterListController.CheckIfUserIsAListMember(slug, owner, newUserId);
         }
 
         public static bool CheckIfUserIsAListMember(string slug, IUserIdentifier owner, string newUserName)
         {
-            return _twitterListController.CheckIfUserIsAListMember(slug, owner, newUserName);
+            return TwitterListController.CheckIfUserIsAListMember(slug, owner, newUserName);
         }
 
         public static bool CheckIfUserIsAListMember(string slug, IUserIdentifier owner, IUserIdentifier newUser)
         {
-            return _twitterListController.CheckIfUserIsAListMember(slug, owner, newUser);
+            return TwitterListController.CheckIfUserIsAListMember(slug, owner, newUser);
         }
 
         public static bool CheckIfUserIsAListMember(ITwitterListIdentifier list, long newUserId)
         {
-            return _twitterListController.CheckIfUserIsAListMember(list, newUserId);
+            return TwitterListController.CheckIfUserIsAListMember(list, newUserId);
         }
 
         public static bool CheckIfUserIsAListMember(ITwitterListIdentifier list, string newUserName)
         {
-            return _twitterListController.CheckIfUserIsAListMember(list, newUserName);
+            return TwitterListController.CheckIfUserIsAListMember(list, newUserName);
         }
 
         public static bool CheckIfUserIsAListMember(ITwitterListIdentifier listIdentifier, IUserIdentifier userIdentifier)
@@ -644,27 +644,27 @@ namespace Tweetinvi
         // Get List Subscribers
         public static IEnumerable<IUser> GetListSubscribers(long listId, int maximumNumberOfUsersToRetrieve = 100)
         {
-            return _twitterListController.GetListSubscribers(listId, maximumNumberOfUsersToRetrieve);
+            return TwitterListController.GetListSubscribers(listId, maximumNumberOfUsersToRetrieve);
         }
 
         public static IEnumerable<IUser> GetListSubscribers(string slug, IUserIdentifier owner, int maximumNumberOfUsersToRetrieve = 100)
         {
-            return _twitterListController.GetListSubscribers(slug, owner, maximumNumberOfUsersToRetrieve);
+            return TwitterListController.GetListSubscribers(slug, owner, maximumNumberOfUsersToRetrieve);
         }
 
         public static IEnumerable<IUser> GetListSubscribers(string slug, string ownerScreenName, int maximumNumberOfUsersToRetrieve = 100)
         {
-            return _twitterListController.GetListSubscribers(slug, ownerScreenName, maximumNumberOfUsersToRetrieve);
+            return TwitterListController.GetListSubscribers(slug, ownerScreenName, maximumNumberOfUsersToRetrieve);
         }
 
         public static IEnumerable<IUser> GetListSubscribers(string slug, long ownerId, int maximumNumberOfUsersToRetrieve = 100)
         {
-            return _twitterListController.GetListSubscribers(slug, ownerId, maximumNumberOfUsersToRetrieve);
+            return TwitterListController.GetListSubscribers(slug, ownerId, maximumNumberOfUsersToRetrieve);
         }
 
         public static IEnumerable<IUser> GetListSubscribers(ITwitterListIdentifier list, int maximumNumberOfUsersToRetrieve = 100)
         {
-            return _twitterListController.GetListSubscribers(list, maximumNumberOfUsersToRetrieve);
+            return TwitterListController.GetListSubscribers(list, maximumNumberOfUsersToRetrieve);
         } 
 
         // CREATE Subscription
@@ -772,72 +772,72 @@ namespace Tweetinvi
         // Check Subscription
         public static bool CheckIfUserIsAListSubscriber(long listId, long newUserId)
         {
-            return _twitterListController.CheckIfUserIsAListSubscriber(listId, newUserId);
+            return TwitterListController.CheckIfUserIsAListSubscriber(listId, newUserId);
         }
 
         public static bool CheckIfUserIsAListSubscriber(long listId, string newUserName)
         {
-            return _twitterListController.CheckIfUserIsAListSubscriber(listId, newUserName);
+            return TwitterListController.CheckIfUserIsAListSubscriber(listId, newUserName);
         }
 
         public static bool CheckIfUserIsAListSubscriber(long listId, IUserIdentifier newUser)
         {
-            return _twitterListController.CheckIfUserIsAListSubscriber(listId, newUser);
+            return TwitterListController.CheckIfUserIsAListSubscriber(listId, newUser);
         }
 
         public static bool CheckIfUserIsAListSubscriber(string slug, long ownerId, long newUserId)
         {
-            return _twitterListController.CheckIfUserIsAListSubscriber(slug, ownerId, newUserId);
+            return TwitterListController.CheckIfUserIsAListSubscriber(slug, ownerId, newUserId);
         }
 
         public static bool CheckIfUserIsAListSubscriber(string slug, long ownerId, string newUserName)
         {
-            return _twitterListController.CheckIfUserIsAListSubscriber(slug, ownerId, newUserName);
+            return TwitterListController.CheckIfUserIsAListSubscriber(slug, ownerId, newUserName);
         }
 
         public static bool CheckIfUserIsAListSubscriber(string slug, long ownerId, IUserIdentifier newUser)
         {
-            return _twitterListController.CheckIfUserIsAListSubscriber(slug, ownerId, newUser);
+            return TwitterListController.CheckIfUserIsAListSubscriber(slug, ownerId, newUser);
         }
 
         public static bool CheckIfUserIsAListSubscriber(string slug, string ownerScreenName, long newUserId)
         {
-            return _twitterListController.CheckIfUserIsAListSubscriber(slug, ownerScreenName, newUserId);
+            return TwitterListController.CheckIfUserIsAListSubscriber(slug, ownerScreenName, newUserId);
         }
 
         public static bool CheckIfUserIsAListSubscriber(string slug, string ownerScreenName, string newUserName)
         {
-            return _twitterListController.CheckIfUserIsAListSubscriber(slug, ownerScreenName, newUserName);
+            return TwitterListController.CheckIfUserIsAListSubscriber(slug, ownerScreenName, newUserName);
         }
 
         public static bool CheckIfUserIsAListSubscriber(string slug, string ownerScreenName, IUserIdentifier newUser)
         {
-            return _twitterListController.CheckIfUserIsAListSubscriber(slug, ownerScreenName, newUser);
+            return TwitterListController.CheckIfUserIsAListSubscriber(slug, ownerScreenName, newUser);
         }
 
         public static bool CheckIfUserIsAListSubscriber(string slug, IUserIdentifier owner, long newUserId)
         {
-            return _twitterListController.CheckIfUserIsAListSubscriber(slug, owner, newUserId);
+            return TwitterListController.CheckIfUserIsAListSubscriber(slug, owner, newUserId);
         }
 
         public static bool CheckIfUserIsAListSubscriber(string slug, IUserIdentifier owner, string newUserName)
         {
-            return _twitterListController.CheckIfUserIsAListSubscriber(slug, owner, newUserName);
+            return TwitterListController.CheckIfUserIsAListSubscriber(slug, owner, newUserName);
         }
 
         public static bool CheckIfUserIsAListSubscriber(string slug, IUserIdentifier owner, IUserIdentifier newUser)
         {
-            return _twitterListController.CheckIfUserIsAListSubscriber(slug, owner, newUser);
+            return TwitterListController.CheckIfUserIsAListSubscriber(slug, owner, newUser);
         }
 
         public static bool CheckIfUserIsAListSubscriber(ITwitterListIdentifier list, long newUserId)
         {
-            return _twitterListController.CheckIfUserIsAListSubscriber(list, newUserId);
+            return TwitterListController.CheckIfUserIsAListSubscriber(list, newUserId);
         }
 
         public static bool CheckIfUserIsAListSubscriber(ITwitterListIdentifier list, string newUserName)
         {
-            return _twitterListController.CheckIfUserIsAListMember(list, newUserName);
+            return TwitterListController.CheckIfUserIsAListMember(list, newUserName);
         }
 
         public static bool CheckIfUserIsAListSubscriber(ITwitterListIdentifier listIdentifier, IUserIdentifier userIdentifier)

@@ -25,30 +25,18 @@ namespace Tweetinvi
             }
         }
 
-        [ThreadStatic]
-        private static ISearchQueryParameterGenerator _searchQueryParameterGenerator;
-        public static ISearchQueryParameterGenerator SearchQueryParameterGenerator
-        {
-            get
-            {
-                if (_searchQueryParameterGenerator == null)
-                {
-                    Initialize();
-                }
-
-                return _searchQueryParameterGenerator;
-            }
-        }
+        public static ISearchQueryParameterGenerator SearchQueryParameterGenerator { get; set; }
 
         static Search()
         {
             Initialize();
+
+            SearchQueryParameterGenerator = TweetinviContainer.Resolve<ISearchQueryParameterGenerator>();
         }
 
         private static void Initialize()
         {
             _searchController = TweetinviContainer.Resolve<ISearchController>();
-            _searchQueryParameterGenerator = TweetinviContainer.Resolve<ISearchQueryParameterGenerator>();
         }
 
         // TWEET
@@ -113,12 +101,7 @@ namespace Tweetinvi
 
         public static IUserSearchParameters CreateUserSearchParameter(string query)
         {
-            return _searchQueryParameterGenerator.CreateUserSearchParameters(query);
-        }
-
-        public static IEnumerable<IUser> SearchUsers(string query)
-        {
-            return SearchUsers(query, 0);
+            return SearchQueryParameterGenerator.CreateUserSearchParameters(query);
         }
 
         public static IEnumerable<IUser> SearchUsers(string query, int maximumNumberOfResults = 20, int page = 0)
@@ -127,7 +110,7 @@ namespace Tweetinvi
             searchParameters.Page = page;
             searchParameters.MaximumNumberOfResults = maximumNumberOfResults;
 
-            return _searchController.SearchUsers(searchParameters);
+            return SearchController.SearchUsers(searchParameters);
         }
     }
 }
