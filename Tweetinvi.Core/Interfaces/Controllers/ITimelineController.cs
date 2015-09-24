@@ -24,6 +24,6 @@ namespace Tweetinvi.Core.Interfaces.Controllers
         IEnumerable<IMention> GetMentionsTimeline(IMentionsTimelineParameters mentionsTimelineParameters);
 
         // Retweets Of Me Timeline
-        IEnumerable<ITweet> GetRetweetsOfMeTimeline(IRetweetsOfMeTimelineRequestParameters parameters);
+        IEnumerable<ITweet> GetRetweetsOfMeTimeline(IRetweetsOfMeTimelineParameters parameters);
     }
 }

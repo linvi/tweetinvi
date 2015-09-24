@@ -21,7 +21,7 @@ namespace Tweetinvi.Controllers.Timeline
         string GetMentionsTimelineQuery(IMentionsTimelineParameters mentionsTimelineParameters);
 
         // Retweets of Me Timeline
-        string GetRetweetsOfMeTimelineQuery(IRetweetsOfMeTimelineRequestParameters retweetsOfMeTimelineRequestParameters);
+        string GetRetweetsOfMeTimelineQuery(IRetweetsOfMeTimelineParameters retweetsOfMeTimelineParameters);
     }
 
     public class TimelineQueryGenerator : ITimelineQueryGenerator
@@ -113,10 +113,10 @@ namespace Tweetinvi.Controllers.Timeline
         }
         
         // Retweets of Me Timeline
-        public string GetRetweetsOfMeTimelineQuery(IRetweetsOfMeTimelineRequestParameters retweetsOfMeTimelineRequestParameters)
+        public string GetRetweetsOfMeTimelineQuery(IRetweetsOfMeTimelineParameters retweetsOfMeTimelineParameters)
         {
-            var includeUserEntitiesParameter = _timelineQueryParameterGenerator.GenerateIncludeUserEntitiesParameter(retweetsOfMeTimelineRequestParameters.IncludeUserEntities);
-            var timelineRequestParameter = GenerateTimelineRequestParameter(retweetsOfMeTimelineRequestParameters);
+            var includeUserEntitiesParameter = _timelineQueryParameterGenerator.GenerateIncludeUserEntitiesParameter(retweetsOfMeTimelineParameters.IncludeUserEntities);
+            var timelineRequestParameter = GenerateTimelineRequestParameter(retweetsOfMeTimelineParameters);
             var requestParameters = string.Format("{0}{1}", timelineRequestParameter, includeUserEntitiesParameter);
                
             return String.Format(Resources.Timeline_GetRetweetsOfMeTimeline, requestParameters);

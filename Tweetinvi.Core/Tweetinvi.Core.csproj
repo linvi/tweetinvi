@@ -220,7 +220,7 @@
     <Compile Include="Parameters\Models\UserIdentifier.cs" />
     <Compile Include="Parameters\PublishTweetOptionalParameters.cs" />
     <Compile Include="Parameters\PublishTweetParameters.cs" />
-    <Compile Include="Parameters\RetweetsOfMeTimelineRequestParameter.cs" />
+    <Compile Include="Parameters\RetweetsOfMeTimelineParameter.cs" />
     <Compile Include="Parameters\TimelineRequestParameters.cs" />
     <Compile Include="Parameters\TweetSearchParameters.cs" />
     <Compile Include="Parameters\TwitterListUpdateParameters.cs" />
@@ -241,7 +241,7 @@
     <Compile Include="Interfaces\Factories\ISearchResultFactory.cs" />
     <Compile Include="Interfaces\Parameters\IHomeTimelineParameters.cs" />
     <Compile Include="Interfaces\Parameters\IMentionsTimelineParameters.cs" />
-    <Compile Include="Interfaces\Parameters\IRetweetsOfMeTimelineRequestParameters.cs" />
+    <Compile Include="Interfaces\Parameters\IRetweetsOfMeTimelineParameters.cs" />
     <Compile Include="Interfaces\Parameters\ITimelineRequestParameters.cs" />
     <Compile Include="Interfaces\Parameters\ITweetSearchParameters.cs" />
     <Compile Include="Interfaces\IUser.cs" />

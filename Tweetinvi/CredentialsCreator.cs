@@ -127,18 +127,6 @@ namespace Tweetinvi
         }
 
         /// <summary>
-        /// PLEASE READ. If you are being redirected make sure that the ConsumerCredentials have its
-        /// AuthorizationKey and AuthorizationSecret set up as they were before the redirect.
-        /// 
-        /// If a user has selected CALLBACK authentication, Twitter redirects to the URL you've specified.
-        /// The url will contain authentication parameters. 
-        /// Please provide the entire URL including the authentication parameters!
-        /// </summary>
-        
-        // plop
-
-
-        /// <summary>
         /// Get the credentials from an entire callback URL.
         /// Please note that the appCredentials needs to contain the AuthorizationKey and AuthorizationSecret set up as they were before the redirect.
         /// </summary>

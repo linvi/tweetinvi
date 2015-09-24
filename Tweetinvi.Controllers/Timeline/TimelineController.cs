@@ -118,7 +118,7 @@ namespace Tweetinvi.Controllers.Timeline
         }
 
         // Retweets Of Me Timeline
-        public IEnumerable<ITweet> GetRetweetsOfMeTimeline(IRetweetsOfMeTimelineRequestParameters parameters)
+        public IEnumerable<ITweet> GetRetweetsOfMeTimeline(IRetweetsOfMeTimelineParameters parameters)
         {
             if (parameters == null)
             {

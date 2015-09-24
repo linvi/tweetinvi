@@ -18,7 +18,7 @@ namespace Tweetinvi.Controllers.Timeline
         IEnumerable<ITweetDTO> GetMentionsTimeline(IMentionsTimelineParameters timelineParameters);
 
         // Retweets Of Me Timeline
-        IEnumerable<ITweetDTO> GetRetweetsOfMeTimeline(IRetweetsOfMeTimelineRequestParameters timelineRequestParameters);
+        IEnumerable<ITweetDTO> GetRetweetsOfMeTimeline(IRetweetsOfMeTimelineParameters timelineParameters);
     }
 
     public class TimelineQueryExecutor : ITimelineQueryExecutor
@@ -56,9 +56,9 @@ namespace Tweetinvi.Controllers.Timeline
         }
 
         // Retweets of Me Timeline
-        public IEnumerable<ITweetDTO> GetRetweetsOfMeTimeline(IRetweetsOfMeTimelineRequestParameters timelineRequestParameters)
+        public IEnumerable<ITweetDTO> GetRetweetsOfMeTimeline(IRetweetsOfMeTimelineParameters timelineParameters)
         {
-            string query = _timelineQueryGenerator.GetRetweetsOfMeTimelineQuery(timelineRequestParameters);
+            string query = _timelineQueryGenerator.GetRetweetsOfMeTimelineQuery(timelineParameters);
             return _twitterAccessor.ExecuteGETQuery<IEnumerable<ITweetDTO>>(query);
         }
     }

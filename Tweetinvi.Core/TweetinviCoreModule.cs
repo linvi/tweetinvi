@@ -71,7 +71,7 @@ namespace Tweetinvi.Core
             _container.RegisterType<IHomeTimelineParameters, HomeTimelineParameters>();
             _container.RegisterType<IUserTimelineParameters, UserTimelineParameters>();
             _container.RegisterType<IMentionsTimelineParameters, MentionsTimelineParameters>();
-            _container.RegisterType<IRetweetsOfMeTimelineRequestParameters, RetweetsOfMeTimelineRequestParameter>();
+            _container.RegisterType<IRetweetsOfMeTimelineParameters, RetweetsOfMeTimelineParameter>();
 
             // Message
             _container.RegisterType<IMessageGetLatestsReceivedRequestParameters, GetLatestMessagesReceivedRequestParameters>();

@@ -2,9 +2,9 @@
 
 namespace Tweetinvi.Core.Parameters
 {
-    public class RetweetsOfMeTimelineRequestParameter : TimelineRequestParameters, IRetweetsOfMeTimelineRequestParameters
+    public class RetweetsOfMeTimelineParameter : TimelineRequestParameters, IRetweetsOfMeTimelineParameters
     {
-        public RetweetsOfMeTimelineRequestParameter()
+        public RetweetsOfMeTimelineParameter()
         {
             MaximumNumberOfTweetsToRetrieve = TweetinviConsts.TIMELINE_RETWEETS_OF_ME_COUNT;
             
