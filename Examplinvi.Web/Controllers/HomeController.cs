@@ -11,12 +11,9 @@ namespace Examplinvi.Web.Controllers
             return View();
         }
 
-        public static string CONSUMER_KEY = "PUT_YOURS!";
-        public static string CONSUMER_SECRET = "PUT_YOURS!";
-
         public ActionResult TwitterAuth()
         {
-            var appCreds = new ConsumerCredentials(CONSUMER_KEY, CONSUMER_SECRET);
+            var appCreds = new ConsumerCredentials(MyCredentials.CONSUMER_KEY, MyCredentials.CONSUMER_SECRET);
             var redirectURL = "http://" + Request.Url.Authority + "/Home/ValidateTwitterAuth";
             var url = CredentialsCreator.GetAuthorizationURL(appCreds, redirectURL);
 

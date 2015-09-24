@@ -1,0 +1,23 @@
+﻿@if (@ViewBag.Success == true)
+{
+    <h2>Operation Tweet @ViewBag.ActionType succeeded!</h2>
+}
+else
+{
+    <h2>Operation Tweet @ViewBag.ActionType failed!</h2>
+}
+
+<div>
+    <a href="https://twitter.com/statuses/@ViewBag.TweetId">View your tweet on Twitter</a>
+</div>
+<div>
+    @if (@ViewBag.ActionType == "Delete" && @ViewBag.Success == true)
+    {
+        <div>Tweet has already been deleted!</div>
+    }
+    else
+    {
+        @Html.ActionLink("Delete Tweet", "DeleteTweet", "Tweet", new { id = @ViewBag.TweetId }, null)
+    }
+    
+</div>
