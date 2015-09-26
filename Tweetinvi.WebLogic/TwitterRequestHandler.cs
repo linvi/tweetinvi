@@ -133,18 +133,39 @@ namespace Tweetinvi.WebLogic
             twitterQuery = _twitterQueryFactory.Create(query, httpMethod, credentials ?? _credentialsAccessor.CurrentThreadCredentials);
 
             var beforeQueryExecuteEventArgs = new QueryBeforeExecuteEventArgs(twitterQuery);
-            _tweetinviEvents.RaiseBeforeQueryExecute(beforeQueryExecuteEventArgs);
 
-            if (beforeQueryExecuteEventArgs.Cancel)
+
+            if (rateLimitTrackerOption == RateLimitTrackerOptions.TrackOnly ||
+                rateLimitTrackerOption == RateLimitTrackerOptions.TrackAndAwait)
             {
-                twitterQuery = null;
-                return false;
+                var timeToWait = _rateLimitAwaiter.TimeToWaitBeforeTwitterRequest(query, twitterQuery.TwitterCredentials);
+
+                twitterQuery.DateWhenCredentialsWillHaveRequiredRateLimits = DateTime.Now.AddMilliseconds(timeToWait);
+                _tweetinviEvents.RaiseBeforeQueryExecute(beforeQueryExecuteEventArgs);
+
+                if (beforeQueryExecuteEventArgs.Cancel)
+                {
+                    twitterQuery = null;
+                    return false;
+                }
+
+                if (rateLimitTrackerOption == RateLimitTrackerOptions.TrackAndAwait)
+                {
+                    _rateLimitAwaiter.Wait(timeToWait);
+                }
+            }
+            else
+            {
+                _tweetinviEvents.RaiseBeforeQueryExecute(beforeQueryExecuteEventArgs);
+
+                if (beforeQueryExecuteEventArgs.Cancel)
+                {
+                    twitterQuery = null;
+                    return false;
+                }
             }
 
-            if (rateLimitTrackerOption == RateLimitTrackerOptions.TrackAndAwait)
-            {
-                _rateLimitAwaiter.WaitForCurrentCredentialsRateLimit(query);
-            }
+            _tweetinviEvents.RaiseBeforeExecuteAfterRateLimitAwait(beforeQueryExecuteEventArgs);
 
             return true;
         }

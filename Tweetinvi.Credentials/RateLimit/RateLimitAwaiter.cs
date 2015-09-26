@@ -56,6 +56,11 @@ namespace Tweetinvi.Credentials.RateLimit
         {
             var timeToWait = GetTimeToWaitFromQueryRateLimit(tokenRateLimit);
 
+            Wait(timeToWait);
+        }
+
+        public void Wait(int timeToWait)
+        {
             if (timeToWait > 0)
             {
                 _threadHelper.Sleep(timeToWait);

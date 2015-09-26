@@ -8,6 +8,9 @@ namespace Tweetinvi.Core.Events
         event EventHandler<QueryBeforeExecuteEventArgs> QueryBeforeExecute;
         void RaiseBeforeQueryExecute(QueryBeforeExecuteEventArgs queryExecutedEventArgs);
 
+        event EventHandler<QueryBeforeExecuteEventArgs> QueryBeforeExecuteAfterRateLimitAwait;
+        void RaiseBeforeExecuteAfterRateLimitAwait(QueryBeforeExecuteEventArgs queryExecutedEventArgs);
+
         event EventHandler<QueryAfterExecuteEventArgs> QueryAfterExecute;
         void RaiseAfterQueryExecuted(QueryAfterExecuteEventArgs queryAfterExecuteEventArgs);
     }
@@ -15,13 +18,18 @@ namespace Tweetinvi.Core.Events
     public class InternalTweetinviEvents : ITweetinviEvents
     {
         public event EventHandler<QueryBeforeExecuteEventArgs> QueryBeforeExecute;
-        public event EventHandler<QueryAfterExecuteEventArgs> QueryAfterExecute;
-
         public void RaiseBeforeQueryExecute(QueryBeforeExecuteEventArgs queryAfterExecuteEventArgs)
         {
             this.Raise(QueryBeforeExecute, queryAfterExecuteEventArgs);
         }
 
+        public event EventHandler<QueryBeforeExecuteEventArgs> QueryBeforeExecuteAfterRateLimitAwait;
+        public void RaiseBeforeExecuteAfterRateLimitAwait(QueryBeforeExecuteEventArgs queryExecutedEventArgs)
+        {
+            this.Raise(QueryBeforeExecuteAfterRateLimitAwait, queryExecutedEventArgs);
+        }
+
+        public event EventHandler<QueryAfterExecuteEventArgs> QueryAfterExecute;
         public void RaiseAfterQueryExecuted(QueryAfterExecuteEventArgs queryAfterExecuteEventArgs)
         {
             this.Raise(QueryAfterExecute, queryAfterExecuteEventArgs);

@@ -8,9 +8,14 @@ namespace Tweetinvi.Core.Interfaces.RateLimit
 {
     public interface IRateLimitAwaiter
     {
+        event EventHandler<QueryAwaitingEventArgs> QueryAwaitingForRateLimit;
+
         void WaitForCurrentCredentialsRateLimit(string query);
         void WaitForCredentialsRateLimit(string query, ITwitterCredentials credentials);
-        event EventHandler<QueryAwaitingEventArgs> QueryAwaitingForRateLimit;
         void WaitForCredentialsRateLimit(ITokenRateLimit tokenRateLimit);
+
+        void Wait(int timeToWait);
+
+        int TimeToWaitBeforeTwitterRequest(string query, ITwitterCredentials credentials);
     }
 }

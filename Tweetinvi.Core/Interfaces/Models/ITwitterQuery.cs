@@ -23,6 +23,9 @@ namespace Tweetinvi.Core.Interfaces.Models
         ITwitterCredentials TwitterCredentials { get; set; }
         IEnumerable<IOAuthQueryParameter> QueryParameters { get; set; }
 
+        DateTime? DateWhenCredentialsWillHaveRequiredRateLimits { get; set; }
+        int? TimeToWaitBeforeExecutingTheQueryInMilliSeconds { get; }
+
         ITwitterQuery Clone();
     }
 }

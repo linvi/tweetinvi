@@ -13,16 +13,22 @@ namespace Tweetinvi
             _tweetinviEvents = TweetinviContainer.Resolve<ITweetinviEvents>();
         }
 
-        public static event EventHandler<QueryAfterExecuteEventArgs> QueryAfterExecute
-        {
-            add { _tweetinviEvents.QueryAfterExecute += value; }
-            remove { _tweetinviEvents.QueryAfterExecute -= value; }
-        }
-
         public static event EventHandler<QueryBeforeExecuteEventArgs> QueryBeforeExecute
         {
             add { _tweetinviEvents.QueryBeforeExecute += value; }
             remove { _tweetinviEvents.QueryBeforeExecute -= value; }
+        }
+
+        public static event EventHandler<QueryBeforeExecuteEventArgs> QueryBeforeExecuteAfterRateLimitAwait
+        {
+            add { _tweetinviEvents.QueryBeforeExecuteAfterRateLimitAwait += value; }
+            remove { _tweetinviEvents.QueryBeforeExecuteAfterRateLimitAwait -= value; }
+        }
+
+        public static event EventHandler<QueryAfterExecuteEventArgs> QueryAfterExecute
+        {
+            add { _tweetinviEvents.QueryAfterExecute += value; }
+            remove { _tweetinviEvents.QueryAfterExecute -= value; }
         }
     }
 }
