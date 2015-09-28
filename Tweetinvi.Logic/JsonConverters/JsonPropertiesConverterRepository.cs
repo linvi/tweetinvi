@@ -7,7 +7,7 @@ using Tweetinvi.Core.Interfaces.DTO;
 using Tweetinvi.Core.Interfaces.Models;
 using Tweetinvi.Core.Interfaces.Models.Entities;
 using Tweetinvi.Core.Interfaces.Models.Entities.ExtendedEntities;
-using Tweetinvi.Core.Parameters.Models;
+using Tweetinvi.Core.Parameters;
 using Tweetinvi.Logic.DTO;
 using Tweetinvi.Logic.Exceptions;
 using Tweetinvi.Logic.Model;

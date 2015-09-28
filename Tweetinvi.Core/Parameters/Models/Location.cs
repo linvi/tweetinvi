@@ -1,6 +1,6 @@
 ﻿using Tweetinvi.Core.Interfaces.Models;
 
-namespace Tweetinvi.Core.Parameters.Models
+namespace Tweetinvi.Core.Parameters
 {
     public class Location : ILocation
     {
@@ -11,6 +11,12 @@ namespace Tweetinvi.Core.Parameters.Models
         {
             Coordinate1 = coordinates1;
             Coordinate2 = coordinates2;
+        }
+
+        public Location(double longitude1, double latitude1, double longitude2, double latitude2)
+        {
+            Coordinate1 = new Coordinates(longitude1, latitude1);
+            Coordinate2 = new Coordinates(longitude2, latitude2);
         }
 
         public static bool CoordinatesLocatedIn(ICoordinates coordinates, ILocation location)
