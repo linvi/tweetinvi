@@ -115,7 +115,8 @@ namespace Tweetinvi.Streams
                             continue;
                         }
 
-                        break;
+
+                        throw new WebException("Stream cannot be read.");
                     }
 
                     numberOfRepeatedFailures = 0;
