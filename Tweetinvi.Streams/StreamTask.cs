@@ -9,6 +9,7 @@ using Tweetinvi.Core.Enum;
 using Tweetinvi.Core.Events;
 using Tweetinvi.Core.Events.EventArguments;
 using Tweetinvi.Core.Exceptions;
+using Tweetinvi.Core.Extensions;
 using Tweetinvi.Core.Helpers;
 using Tweetinvi.Core.Injectinvi;
 using Tweetinvi.Core.Interfaces.Exceptions;
@@ -179,10 +180,29 @@ namespace Tweetinvi.Streams
         {
             try
             {
+                var uri = new Uri(twitterQuery.QueryURL);
+                var endpoint = uri.GetEndpointURL();
+                var queryParameters = uri.Query.Remove(0, 1);
                 var httpMethod = new HttpMethod(twitterQuery.HttpMethod.ToString());
-                var request = new HttpRequestMessage(httpMethod, twitterQuery.QueryURL);
-                var response = await client.SendAsync(request, HttpCompletionOption.ResponseHeadersRead);
+
+                HttpRequestMessage request;
+
+                if (httpMethod == HttpMethod.Post)
+                {
+                    request = new HttpRequestMessage(httpMethod, endpoint)
+                    {
+                        Content = new StringContent(queryParameters, Encoding.UTF8, "application/x-www-form-urlencoded")
+                    };
+                }
+                else
+                {
+                    request = new HttpRequestMessage(httpMethod, twitterQuery.QueryURL);
+                }
+                
+
+                var response = await client.SendAsync(request, HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false);
                 var body = await response.Content.ReadAsStreamAsync();
+
                 return new StreamReader(body, Encoding.GetEncoding("utf-8"));
             }
             catch (WebException wex)
@@ -240,7 +260,7 @@ namespace Tweetinvi.Streams
             {
                 _currentStreamReader.Dispose();
                 _currentHttpClient.Dispose();
-                
+
                 _currentHttpClient = GetHttpClient(_twitterQuery);
                 _currentStreamReader = GetStreamReader(_currentHttpClient, _twitterQuery).Result;
                 return true;

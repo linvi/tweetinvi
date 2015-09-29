@@ -93,6 +93,7 @@
     <Compile Include="Extensions\StringExtension.cs" />
     <Compile Include="Extensions\StringFormater.cs" />
     <Compile Include="Extensions\TwitterTimeZoneExtension.cs" />
+    <Compile Include="Extensions\UriExtensions.cs" />
     <Compile Include="Helpers\AttributeHelper.cs" />
     <Compile Include="Helpers\IHttpClientWebHelper.cs" />
     <Compile Include="Helpers\ResourcesHelper.cs" />

@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Text;
 using Tweetinvi;
 using Tweetinvi.Core;
 using Tweetinvi.Core.Credentials;
@@ -40,18 +41,6 @@ namespace Examplinvi
             {
                 // Console.WriteLine(args.QueryURL);
             };
-
-            Auth.SetUserCredentials("xWMytIGSmXPuPe9OxwlQz1Wac", "n1l88uNwskBSu8hkuAumxieDRYKPKf7j4C13nbvAt0Z8ubu5iG", "1693649419-VMA9sF1hhTRzP0H6eBSsxBU4KOidn1PrVm8Uu2q", "b8kmpeAuuvotFB0O54YDCwT6nrnx6HCRQoyH3GHZQWlaZ");
-
-            Console.WriteLine(User.GetLoggedUser());
-            var stream = Stream.CreateSampleStream();
-
-            stream.TweetReceived += (sender, args) =>
-            {
-                Console.WriteLine(args.Tweet);
-            };
-
-            stream.StartStream();
 
             GenerateCredentialExamples();
             UserLiveFeedExamples();
@@ -141,22 +130,22 @@ namespace Examplinvi
             }
 
             Examples.User_GetCurrentUser();
-
+            
             Examples.User_GetUserFromId(1478171);
             Examples.User_GetUserFromName(Examples.USER_SCREEN_NAME_TO_TEST);
 
             Examples.User_GetFavorites(Examples.USER_SCREEN_NAME_TO_TEST);
-
+            
             Examples.User_GetFriends(Examples.USER_SCREEN_NAME_TO_TEST);
             Examples.User_GetFriendIds(Examples.USER_SCREEN_NAME_TO_TEST);
             Examples.User_GetFriendIdsUpTo(Examples.USER_SCREEN_NAME_TO_TEST, 10000);
-
+            
             Examples.User_GetFollowers(Examples.USER_SCREEN_NAME_TO_TEST);
             Examples.User_GetFollowerIds(Examples.USER_SCREEN_NAME_TO_TEST);
             Examples.User_GetFollowerIdsUpTo(Examples.USER_SCREEN_NAME_TO_TEST, 10000);
-
+            
             Examples.User_GetRelationshipBetween("tweetinvitest", Examples.USER_SCREEN_NAME_TO_TEST);
-
+            
             Examples.User_BlockUser(Examples.USER_SCREEN_NAME_TO_TEST);
             Examples.User_UnBlockUser(Examples.USER_SCREEN_NAME_TO_TEST);
             Examples.User_GetBlockedUsers();
@@ -232,7 +221,7 @@ namespace Examplinvi
 
             Examples.TwitterList_GetUserOwnedLists();
             Examples.TwitterList_GetUserSubscribedLists();
-
+            
             Examples.TwitterList_CreateList();
             Examples.TwitterList_GetExistingListById(105601767);
             Examples.TwitterList_UpdateList(105601767);
@@ -343,7 +332,7 @@ namespace Examplinvi
             Examples.ChunkedUpload(new byte[10], "video/mp4");
             Examples.Tweet_PublishTweetWithImage("publish with img", "filePath");
         }
-
+        
         #endregion
     }
 
@@ -869,7 +858,7 @@ namespace Examplinvi
         public static void Stream_FilteredStreamExample()
         {
             var stream = Stream.CreateFilteredStream();
-            var location = Geo.GenerateLocation(-124.75, 36.8, -126.89, 32.75);
+            var location = new Location(-124.75, 36.8, -126.89, 32.75);
 
             stream.AddLocation(location);
             stream.AddTrack("tweetinvi");
@@ -1112,7 +1101,7 @@ namespace Examplinvi
 
             var searchParameter = Search.CreateTweetSearchParameter("obama");
 
-            searchParameter.SetGeoCode(Geo.GenerateCoordinates(-122.398720, 37.781157), 1, DistanceMeasure.Miles);
+            searchParameter.SetGeoCode(new Coordinates(-122.398720, 37.781157), 1, DistanceMeasure.Miles);
             searchParameter.Lang = Language.English;
             searchParameter.SearchType = SearchResultType.Popular;
             searchParameter.MaximumNumberOfResults = 100;
@@ -1639,13 +1628,13 @@ namespace Examplinvi
                 return;
             }
 
-            TweetinviConfig.CURRENT_PROXY_URL = "http://228.23.13.21:4287";
+             TweetinviConfig.CURRENT_PROXY_URL = "http://228.23.13.21:4287";
 
-            // Configure a proxy with Proxy with username and password
-            TweetinviConfig.CURRENT_PROXY_URL = "http://user:pass@228.23.13.21:4287";
+             // Configure a proxy with Proxy with username and password
+             TweetinviConfig.CURRENT_PROXY_URL = "http://user:pass@228.23.13.21:4287";
 
-            TweetinviConfig.CURRENT_WEB_REQUEST_TIMEOUT = 5000;
-            TweetinviConfig.CURRENT_SHOW_DEBUG = false;
+             TweetinviConfig.CURRENT_WEB_REQUEST_TIMEOUT = 5000;
+             TweetinviConfig.CURRENT_SHOW_DEBUG = false;
         }
 
         public static void GlobalEvents()

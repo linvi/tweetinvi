@@ -23,7 +23,7 @@ namespace Tweetinvi.Core.Enum
 
     public enum Language
     {
-        [Language("undefined")] Undefined = 0,
+        [Language("undefined", "xx")] Undefined = 0,
         [Language("poi")] Poi,
         [Language("ab")] Abkhaz,
         [Language("aa")] Afar,
