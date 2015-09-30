@@ -51,17 +51,28 @@ namespace Tweetinvi
         }
 
         // Factory
+
+        /// <summary>
+        /// Create a saved search to be published on Twitter
+        /// </summary>
         public static ISavedSearch CreateSavedSearch(string query)
         {
             return SavedSearchFactory.CreateSavedSearch(query);
         }
 
+        /// <summary>
+        /// Get a saved search from its identifier
+        /// </summary>
         public static ISavedSearch GetSavedSearch(long searchId)
         {
             return SavedSearchFactory.GetSavedSearch(searchId);
         }
 
         // Controller
+
+        /// <summary>
+        /// Get the saved searches of the authenticated user
+        /// </summary>
         public static List<ISavedSearch> GetSavedSearches()
         {
             var savedSearches = SavedSearchController.GetSavedSearches();
@@ -74,11 +85,17 @@ namespace Tweetinvi
             return savedSearches.ToList();
         }
 
+        /// <summary>
+        /// Delete a saved search own by the authenticated user
+        /// </summary>
         public static bool DestroySavedSearch(ISavedSearch savedSearch)
         {
             return SavedSearchController.DestroySavedSearch(savedSearch);
         }
 
+        /// <summary>
+        /// Delete a saved search own by the authenticated user
+        /// </summary>
         public static bool DestroySavedSearch(long searchId)
         {
             return SavedSearchController.DestroySavedSearch(searchId);
