@@ -60,95 +60,127 @@ namespace Tweetinvi
         }
 
         // Factory
+
+        /// <summary>
+        /// Get an existing message from its id
+        /// </summary>
         public static IMessage GetExistingMessage(long messageId)
         {
             return MessageFactory.GetExistingMessage(messageId);
         }
 
+        /// <summary>
+        /// Create a message to publish
+        /// </summary>
         public static IMessage CreateMessage(string text, IUser recipient = null)
         {
             return MessageFactory.CreateMessage(text, recipient);
         }
 
         // Controller
+
+        /// <summary>
+        /// Get the latest messages received
+        /// </summary>
         public static IEnumerable<IMessage> GetLatestMessagesReceived(int maximumMessages = TweetinviConsts.MESSAGE_GET_COUNT)
         {
             return MessageController.GetLatestMessagesReceived(maximumMessages);
         }
 
+        /// <summary>
+        /// Get the latest messages received
+        /// </summary>
         public static IEnumerable<IMessage> GetLatestMessagesReceived(IMessageGetLatestsReceivedRequestParameters messageGetLatestsReceivedRequestParameters)
         {
             return MessageController.GetLatestMessagesReceived(messageGetLatestsReceivedRequestParameters);
         }
 
+        /// <summary>
+        /// Get the latest messages sent
+        /// </summary>
         public static IEnumerable<IMessage> GetLatestMessagesSent(int maximumMessages = TweetinviConsts.MESSAGE_GET_COUNT)
         {
             return MessageController.GetLatestMessagesSent(maximumMessages);
         }
 
+        /// <summary>
+        /// Get the latest messages sent
+        /// </summary>
         public static IEnumerable<IMessage> GetLatestMessagesSent(IMessageGetLatestsSentRequestParameters messageGetLatestsSentRequestParameters)
         {
             return MessageController.GetLatestMessagesSent(messageGetLatestsSentRequestParameters);
         }
 
+        /// <summary>
+        /// Publish a message
+        /// </summary>
         public static IMessage PublishMessage(IMessage message)
         {
             return MessageController.PublishMessage(message);
         }
 
+        /// <summary>
+        /// Publish a message
+        /// </summary>
         public static IMessage PublishMessage(IMessageDTO messageDTO)
         {
             return MessageController.PublishMessage(messageDTO);
         }
 
+        /// <summary>
+        /// Publish a message
+        /// </summary>
         public static IMessage PublishMessage(string text, IUser targetUser)
         {
             return MessageController.PublishMessage(text, targetUser);
         }
 
+        /// <summary>
+        /// Publish a message
+        /// </summary>
         public static IMessage PublishMessage(string text, IUserIdentifier targetUserDTO)
         {
             return MessageController.PublishMessage(text, targetUserDTO);
         }
 
+        /// <summary>
+        /// Publish a message
+        /// </summary>
         public static IMessage PublishMessage(string text, long targetUserId)
         {
             return MessageController.PublishMessage(text, targetUserId);
         }
 
+        /// <summary>
+        /// Publish a message
+        /// </summary>
         public static IMessage PublishMessage(string text, string targetUserScreenName)
         {
             return MessageController.PublishMessage(text, targetUserScreenName);
         }
 
+        /// <summary>
+        /// Destroy a message
+        /// </summary>
         public static bool DestroyMessage(IMessage message)
         {
             return MessageController.DestroyMessage(message);
         }
 
+        /// <summary>
+        /// Destroy a message
+        /// </summary>
         public static bool DestroyMessage(IMessageDTO messageDTO)
         {
             return MessageController.DestroyMessage(messageDTO);
         }
 
+        /// <summary>
+        /// Destroy a message
+        /// </summary>
         public static bool DestroyMessage(long messageId)
         {
             return MessageController.DestroyMessage(messageId);
-        }
-
-        // Parameters
-        public static IMessageGetLatestsReceivedRequestParameters CreateGetLatestsReceivedRequestParameter(int maximumMessages = TweetinviConsts.MESSAGE_GET_COUNT)
-        {
-            var parameter = _messageGetLatestsReceivedRequestParametersFactory.Create();
-            parameter.MaximumNumberOfMessagesToRetrieve = maximumMessages;
-            return parameter;
-        }
-
-        public static IMessageGetLatestsSentRequestParameters CreateGetLatestsSentRequestParameter(int maximumMessages = TweetinviConsts.MESSAGE_GET_COUNT)
-        {
-            var parameter = _messageGetLatestsSentRequestParametersFactory.Create();
-            parameter.MaximumNumberOfMessagesToRetrieve = maximumMessages;
-            return parameter;
         }
     }
 }

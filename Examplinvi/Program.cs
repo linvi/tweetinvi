@@ -1191,13 +1191,13 @@ namespace Examplinvi
         {
             // Messages Received
             var latestMessagesReceived = Message.GetLatestMessagesReceived();
-            var latestMessagesReceivedParameter = Message.CreateGetLatestsReceivedRequestParameter();
+            var latestMessagesReceivedParameter = new GetLatestMessagesReceivedRequestParameters();
             latestMessagesReceivedParameter.SinceId = 10029230923;
             var latestMessagesReceivedFromParameter = Message.GetLatestMessagesReceived(latestMessagesReceivedParameter);
 
             // Messages Sent
             var latestMessagesSent = Message.GetLatestMessagesSent();
-            var latestMessagesSentParameter = Message.CreateGetLatestsSentRequestParameter();
+            var latestMessagesSentParameter = new GetLatestMessagesSentRequestParameters();
             latestMessagesSentParameter.PageNumber = 239823;
             var latestMessagesSentFromParameter = Message.GetLatestMessagesSent(latestMessagesSentParameter);
         }
