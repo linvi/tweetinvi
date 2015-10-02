@@ -10,6 +10,9 @@ namespace Tweetinvi.Logic.Model
         [JsonProperty("characters_reserved_per_media")]
         public int CharactersReservedPerMedia { get; private set; }
 
+        [JsonProperty("dm_text_character_limit")]
+        public int MessageTextCharacterLimit { get; private set; }
+
         [JsonProperty("max_media_per_upload")]
         public int MaxMediaPerUpload { get; private set; }
 

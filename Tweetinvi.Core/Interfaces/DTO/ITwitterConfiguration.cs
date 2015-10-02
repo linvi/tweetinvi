@@ -6,6 +6,8 @@ namespace Tweetinvi.Core.Interfaces.DTO
     public interface ITwitterConfiguration
     {
         int CharactersReservedPerMedia { get; }
+
+        int MessageTextCharacterLimit { get; }
         
         int MaxMediaPerUpload { get; }
         
