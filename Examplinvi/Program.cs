@@ -4,7 +4,6 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Text;
 using Tweetinvi;
 using Tweetinvi.Core;
 using Tweetinvi.Core.Credentials;
@@ -14,11 +13,9 @@ using Tweetinvi.Core.Interfaces;
 using Tweetinvi.Core.Interfaces.Controllers;
 using Tweetinvi.Core.Interfaces.DTO;
 using Tweetinvi.Core.Interfaces.Models;
-using Tweetinvi.Core.Interfaces.Parameters;
 using Tweetinvi.Core.Interfaces.Streaminvi;
 using Tweetinvi.Core.Parameters;
 using Tweetinvi.Json;
-using Geo = Tweetinvi.Geo;
 using SavedSearch = Tweetinvi.SavedSearch;
 using Stream = Tweetinvi.Stream;
 
@@ -1191,13 +1188,13 @@ namespace Examplinvi
         {
             // Messages Received
             var latestMessagesReceived = Message.GetLatestMessagesReceived();
-            var latestMessagesReceivedParameter = new GetLatestMessagesReceivedRequestParameters();
+            var latestMessagesReceivedParameter = new MessagesReceivedParameters();
             latestMessagesReceivedParameter.SinceId = 10029230923;
             var latestMessagesReceivedFromParameter = Message.GetLatestMessagesReceived(latestMessagesReceivedParameter);
 
             // Messages Sent
             var latestMessagesSent = Message.GetLatestMessagesSent();
-            var latestMessagesSentParameter = new GetLatestMessagesSentRequestParameters();
+            var latestMessagesSentParameter = new MessagesSentParameters();
             latestMessagesSentParameter.PageNumber = 239823;
             var latestMessagesSentFromParameter = Message.GetLatestMessagesSent(latestMessagesSentParameter);
         }
@@ -1205,7 +1202,7 @@ namespace Examplinvi
         public static void Message_GetMessageFromId(long messageId)
         {
             var message = Message.GetExistingMessage(messageId);
-            Console.WriteLine("Message from {0} to {1} : {2}", message.Sender, message.Receiver, message.Text);
+            Console.WriteLine("Message from {0} to {1} : {2}", message.Sender, message.Recipient, message.Text);
         }
 
         public static void Message_DestroyMessageFromId(long messageId)
