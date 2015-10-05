@@ -13,7 +13,6 @@ namespace Tweetinvi
 {
     public static class Message
     {
-        [ThreadStatic]
         private static IMessageFactory _messageFactory;
         public static IMessageFactory MessageFactory
         {
@@ -43,9 +42,6 @@ namespace Tweetinvi
             }
         }
 
-        private static IFactory<IMessagesReceivedParameters> _messageGetLatestsReceivedRequestParametersFactory;
-        private static IFactory<IMessagesSentParameters> _messageGetLatestsSentRequestParametersFactory;
-
         static Message()
         {
             Initialize();
@@ -55,8 +51,6 @@ namespace Tweetinvi
         {
             _messageFactory = TweetinviContainer.Resolve<IMessageFactory>();
             _messageController = TweetinviContainer.Resolve<IMessageController>();
-            _messageGetLatestsReceivedRequestParametersFactory = TweetinviContainer.Resolve<IFactory<IMessagesReceivedParameters>>();
-            _messageGetLatestsSentRequestParametersFactory = TweetinviContainer.Resolve<IFactory<IMessagesSentParameters>>();
         }
 
         // Factory
@@ -67,14 +61,6 @@ namespace Tweetinvi
         public static IMessage GetExistingMessage(long messageId)
         {
             return MessageFactory.GetExistingMessage(messageId);
-        }
-
-        /// <summary>
-        /// Create a message to publish
-        /// </summary>
-        public static IMessage CreateMessage(string text, IUser recipient = null)
-        {
-            return MessageFactory.CreateMessage(text, recipient);
         }
 
         // Controller
