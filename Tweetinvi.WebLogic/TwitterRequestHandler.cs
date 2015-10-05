@@ -130,7 +130,14 @@ namespace Tweetinvi.WebLogic
             ITwitterCredentials credentials,
             out ITwitterQuery twitterQuery)
         {
-            twitterQuery = _twitterQueryFactory.Create(query, httpMethod, credentials ?? _credentialsAccessor.CurrentThreadCredentials);
+            credentials = credentials ?? _credentialsAccessor.CurrentThreadCredentials;
+
+            if (credentials == null)
+            {
+                throw new TwitterNullCredentialsException();
+            }
+
+            twitterQuery = _twitterQueryFactory.Create(query, httpMethod, credentials);
 
             var beforeQueryExecuteEventArgs = new QueryBeforeExecuteEventArgs(twitterQuery);
 

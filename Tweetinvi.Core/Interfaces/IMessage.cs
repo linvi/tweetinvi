@@ -45,8 +45,6 @@ namespace Tweetinvi.Core.Interfaces
         /// </summary>
         IUser Recipient { get; }
 
-        bool Publish();
-        bool PublishTo(IUser recipient);
         bool Destroy();
 
         void SetRecipient(IUser recipient);

@@ -111,25 +111,6 @@ namespace Tweetinvi.Logic
             get { return _messageDTO.IsMessageDestroyed; }
         }
 
-        // Publish
-        public bool Publish()
-        {
-            var publishedMessage = _messageController.PublishMessage(_messageDTO);
-            if (publishedMessage == null)
-            {
-                return false;
-            }
-
-            _messageDTO = publishedMessage.MessageDTO;
-            return true;
-        }
-
-        public bool PublishTo(IUser recipient)
-        {
-            SetRecipient(recipient);
-            return Publish();
-        }
-
         // Destroy
         public bool Destroy()
         {
@@ -154,20 +135,12 @@ namespace Tweetinvi.Logic
         }
 
         #region Async
-        public async Task<bool> PublishAsync()
-        {
-            return await _taskFactory.ExecuteTaskAsync(() => Publish());
-        }
-
-        public async Task<bool> PublishToAsync(IUser recipient)
-        {
-            return await _taskFactory.ExecuteTaskAsync(() => PublishTo(recipient));
-        }
 
         public async Task<bool> DestroyAsync()
         {
             return await _taskFactory.ExecuteTaskAsync(() => Destroy());
         } 
+
         #endregion
 
         public override string ToString()

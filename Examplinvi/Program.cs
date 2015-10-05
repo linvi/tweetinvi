@@ -192,8 +192,7 @@ namespace Examplinvi
 
             Examples.Message_GetLatests();
             Examples.Message_GetMessageFromId(381069551028293633);
-            Examples.Message_PublishMessage(Examples.USER_SCREEN_NAME_TO_TEST);
-            Examples.Message_PublishMessageTo(Examples.USER_SCREEN_NAME_TO_TEST);
+            Examples.Message_PublishMessage("I love tweetinvi", Examples.USER_SCREEN_NAME_TO_TEST);
         }
 
         private static void StreamExamples()
@@ -1214,23 +1213,12 @@ namespace Examplinvi
             }
         }
 
-        public static void Message_PublishMessage(string username)
+        public static void Message_PublishMessage(string text, string username)
         {
             var recipient = User.GetUserFromScreenName(username);
-            var message = Message.CreateMessage("piloupe", recipient);
+            var message = Message.PublishMessage(text, recipient);
 
-            if (message.Publish())
-            {
-                Console.WriteLine("Message published : {0}", message.IsMessagePublished);
-            }
-        }
-
-        public static void Message_PublishMessageTo(string username)
-        {
-            var recipient = User.GetUserFromScreenName(username);
-            var message = Message.CreateMessage("piloupe");
-
-            if (message.PublishTo(recipient))
+            if (message != null)
             {
                 Console.WriteLine("Message published : {0}", message.IsMessagePublished);
             }
