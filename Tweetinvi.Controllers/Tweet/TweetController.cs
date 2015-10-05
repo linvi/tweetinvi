@@ -85,7 +85,7 @@ namespace Tweetinvi.Controllers.Tweet
         public ITweet PublishTweetWithVideo(string text, byte[] video)
         {
             var media = _uploadQueryExecutor.UploadVideo(video);
-            if (media == null || media.MediaId == null)
+            if (media == null || media.MediaId == null || !media.HasBeenUploaded)
             {
                 throw new OperationCanceledException("The tweet cannot be published as some of the medias could not be published!");
             }
