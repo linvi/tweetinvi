@@ -4,7 +4,7 @@ using Tweetinvi.Core;
 using Tweetinvi.Core.Interfaces;
 using Tweetinvi.Core.Interfaces.DTO;
 using Tweetinvi.Core.Interfaces.Models;
-using Tweetinvi.Core.Interfaces.Parameters;
+using Tweetinvi.Core.Parameters;
 
 namespace Tweetinvi
 {
@@ -22,9 +22,9 @@ namespace Tweetinvi
             return await Sync.ExecuteTaskAsync(() => Message.GetLatestMessagesReceived(maximumMessages));
         }
 
-        public static async Task<IEnumerable<IMessage>> GetLatestMessagesReceived(IMessageGetLatestsReceivedRequestParameters messageGetLatestsReceivedRequestParameters)
+        public static async Task<IEnumerable<IMessage>> GetLatestMessagesReceived(IMessagesReceivedParameters messagesReceivedParameters)
         {
-            return await Sync.ExecuteTaskAsync(() => Message.GetLatestMessagesReceived(messageGetLatestsReceivedRequestParameters));
+            return await Sync.ExecuteTaskAsync(() => Message.GetLatestMessagesReceived(messagesReceivedParameters));
         }
 
         public static async Task<IEnumerable<IMessage>> GetLatestMessagesSent(int maximumMessages = TweetinviConsts.MESSAGE_GET_COUNT)
@@ -32,20 +32,15 @@ namespace Tweetinvi
             return await Sync.ExecuteTaskAsync(() => Message.GetLatestMessagesSent(maximumMessages));
         }
 
-        public static async Task<IEnumerable<IMessage>> GetLatestMessagesSent(IMessageGetLatestsSentRequestParameters messageGetLatestsSentRequestParameters)
+        public static async Task<IEnumerable<IMessage>> GetLatestMessagesSent(IMessagesSentParameters messagesSentParameters)
         {
-            return await Sync.ExecuteTaskAsync(() => Message.GetLatestMessagesSent(messageGetLatestsSentRequestParameters));
+            return await Sync.ExecuteTaskAsync(() => Message.GetLatestMessagesSent(messagesSentParameters));
         }
 
         // Publish Message
-        public static async Task<IMessage> PublishMessage(IMessage message)
+        public static async Task<IMessage> PublishMessage(IMessagePublishParameters parameters)
         {
-            return await Sync.ExecuteTaskAsync(() => Message.PublishMessage(message));
-        }
-
-        public static async Task<IMessage> PublishMessage(IMessageDTO messageDTO)
-        {
-            return await Sync.ExecuteTaskAsync(() => Message.PublishMessage(messageDTO));
+            return await Sync.ExecuteTaskAsync(() => Message.PublishMessage(parameters));
         }
 
         public static async Task<IMessage> PublishMessage(string text, IUser targetUser)

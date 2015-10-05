@@ -4,24 +4,24 @@ using Tweetinvi.Core.Interfaces;
 using Tweetinvi.Core.Interfaces.Credentials;
 using Tweetinvi.Core.Interfaces.DTO;
 using Tweetinvi.Core.Interfaces.Models;
-using Tweetinvi.Core.Interfaces.Parameters;
+using Tweetinvi.Core.Parameters;
 
 namespace Tweetinvi.Controllers.Messages
 {
     public interface IMessageJsonController
     {
         string GetLatestMessagesReceived(int maximumMessages = TweetinviConsts.MESSAGE_GET_COUNT);
-        string GetLatestMessagesReceived(IMessageGetLatestsReceivedRequestParameters queryParameters);
+        string GetLatestMessagesReceived(IMessagesReceivedParameters queryParameters);
 
         string GetLatestMessagesSent(int maximumMessages = TweetinviConsts.MESSAGE_GET_COUNT);
-        string GetLatestMessagesSent(IMessageGetLatestsSentRequestParameters queryParameters);
+        string GetLatestMessagesSent(IMessagesSentParameters queryParameters);
 
         // Publish Message
         string PublishMessage(IMessage message);
-        string PublishMessage(IMessageDTO messageDTO);
-        string PublishMessage(string text, IUserIdentifier targetUserDTO);
-        string PublishMessage(string text, string targetUserScreenName);
-        string PublishMessage(string text, long targetUserId);
+        string PublishMessage(IMessageDTO message);
+        string PublishMessage(string text, IUserIdentifier recipient);
+        string PublishMessage(string text, string recipientScreenName);
+        string PublishMessage(string text, long recipientId);
 
         // Destroy Message
         string DestroyMessage(IMessage message);
@@ -49,7 +49,7 @@ namespace Tweetinvi.Controllers.Messages
             return _twitterAccessor.ExecuteJsonGETQuery(query);
         }
 
-        public string GetLatestMessagesReceived(IMessageGetLatestsReceivedRequestParameters queryParameters)
+        public string GetLatestMessagesReceived(IMessagesReceivedParameters queryParameters)
         {
             string query = _messageQueryGenerator.GetLatestMessagesReceivedQuery(queryParameters);
             return _twitterAccessor.ExecuteJsonGETQuery(query);
@@ -61,7 +61,7 @@ namespace Tweetinvi.Controllers.Messages
             return _twitterAccessor.ExecuteJsonGETQuery(query);
         }
 
-        public string GetLatestMessagesSent(IMessageGetLatestsSentRequestParameters queryParameters)
+        public string GetLatestMessagesSent(IMessagesSentParameters queryParameters)
         {
             string query = _messageQueryGenerator.GetLatestMessagesSentQuery(queryParameters);
             return _twitterAccessor.ExecuteJsonGETQuery(query);
@@ -70,35 +70,32 @@ namespace Tweetinvi.Controllers.Messages
         // Publish Message
         public string PublishMessage(IMessage message)
         {
-            if (message == null)
-            {
-                throw new ArgumentException("Message cannot be null");
-            }
-
-            return PublishMessage(message.MessageDTO);
+            return PublishMessage(new MessagePublishParameters(message));
         }
 
-        public string PublishMessage(IMessageDTO messageDTO)
+        public string PublishMessage(IMessageDTO message)
         {
-            string query = _messageQueryGenerator.GetPublishMessageQuery(messageDTO);
-            return _twitterAccessor.ExecuteJsonPOSTQuery(query);
+            return PublishMessage(new MessagePublishParameters(message));
         }
 
-        public string PublishMessage(string messageText, IUserIdentifier targetUserDTO)
+        public string PublishMessage(string messageText, string recipientScreenName)
         {
-            string query = _messageQueryGenerator.GetPublishMessageQuery(messageText, targetUserDTO);
-            return _twitterAccessor.ExecuteJsonPOSTQuery(query);
+            return PublishMessage(new MessagePublishParameters(messageText, recipientScreenName));
         }
 
-        public string PublishMessage(string messageText, string targetUserScreenName)
+        public string PublishMessage(string messageText, long recipientId)
         {
-            string query = _messageQueryGenerator.GetPublishMessageQuery(messageText, targetUserScreenName);
-            return _twitterAccessor.ExecuteJsonPOSTQuery(query);
+            return PublishMessage(new MessagePublishParameters(messageText, recipientId));
         }
 
-        public string PublishMessage(string messageText, long targetUserId)
+        public string PublishMessage(string messageText, IUserIdentifier recipient)
         {
-            string query = _messageQueryGenerator.GetPublishMessageQuery(messageText, targetUserId);
+            return PublishMessage(new MessagePublishParameters(messageText, recipient));
+        }
+
+        public string PublishMessage(IMessagePublishParameters parameters)
+        {
+            string query = _messageQueryGenerator.GetPublishMessageQuery(parameters);
             return _twitterAccessor.ExecuteJsonPOSTQuery(query);
         }
 

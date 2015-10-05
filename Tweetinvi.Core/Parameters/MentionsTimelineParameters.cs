@@ -1,7 +1,10 @@
-﻿using Tweetinvi.Core.Interfaces.Parameters;
-
-namespace Tweetinvi.Core.Parameters
+﻿namespace Tweetinvi.Core.Parameters
 {
+    public interface IMentionsTimelineParameters : ITimelineRequestParameters
+    {
+        bool IncludeContributorDetails { get; set; }
+    }
+
     public class MentionsTimelineParameters : TimelineRequestParameters, IMentionsTimelineParameters
     {
         public MentionsTimelineParameters()

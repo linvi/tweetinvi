@@ -8,6 +8,8 @@ using Tweetinvi.Controllers.Messages;
 using Tweetinvi.Core.Interfaces;
 using Tweetinvi.Core.Interfaces.DTO;
 using Tweetinvi.Core.Interfaces.Factories;
+using Tweetinvi.Core.Interfaces.Models;
+using Tweetinvi.Core.Parameters;
 
 namespace Testinvi.TweetinviControllers.MessageTests
 {
@@ -87,271 +89,118 @@ namespace Testinvi.TweetinviControllers.MessageTests
         #region Publish Message
 
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
-        public void PublishMessage_MessageIsNull_ThrowArgumentException(bool messageDTOExists, IMessage result)
+        public void PublishMessage_MessageIsNull_ThrowArgumentException()
         {
-            var message = A.Fake<IMessage>();
-            var sourceMessageDTO = messageDTOExists ? A.Fake<IMessageDTO>() : null;
-            message.CallsTo(x => x.MessageDTO).Returns(sourceMessageDTO);
-
-            // Arrange
-            var controller = CreateMessageController();
-            var resultMessageDTO = A.Fake<IMessageDTO>();
-
-            ArrangeQueryExecutorPublishMessageWithMessageDTO(It.IsAny<IMessageDTO>(), resultMessageDTO);
-            ArrangeMessageFactoryGenerateMessage(resultMessageDTO, result);
-
-            // Act
-            controller.PublishMessage((IMessage)null);
-        }
-
-        [TestMethod]
-        public void PublishMessage_Message_QueryExecutorDTOTransformedIntoModel()
-        {
-            var expectedMessage1 = A.Fake<IMessage>();
-            var expectedMessage2 = A.Fake<IMessage>();
-
-            // Arrange - Act
-            var message1 = PublishMessage_Message_QueryExecutorDTOTransformedIntoModel(true, expectedMessage1);
-            var message2 = PublishMessage_Message_QueryExecutorDTOTransformedIntoModel(false, expectedMessage2);
-
-            // Assert
-            Assert.AreEqual(message1, expectedMessage1);
-            Assert.AreEqual(message2, expectedMessage2);
-        }
-
-        private IMessage PublishMessage_Message_QueryExecutorDTOTransformedIntoModel(bool messageDTOExists, IMessage result)
-        {
-            var message = A.Fake<IMessage>();
-            var sourceMessageDTO = messageDTOExists ? A.Fake<IMessageDTO>() : null;
-            message.CallsTo(x => x.MessageDTO).Returns(sourceMessageDTO);
-
-            // Arrange
-            var controller = CreateMessageController();
-            var resultMessageDTO = A.Fake<IMessageDTO>();
-
-            ArrangeQueryExecutorPublishMessageWithMessageDTO(sourceMessageDTO, resultMessageDTO);
-            ArrangeMessageFactoryGenerateMessage(resultMessageDTO, result);
-
-            // Act
-            return controller.PublishMessage(message);
-        }
-
-        [TestMethod]
-        public void PublishMessage_MessageDTO_QueryExecutorDTOTransformedIntoModel()
-        {
-            var expectedMessage1 = A.Fake<IMessage>();
-            var expectedMessage2 = A.Fake<IMessage>();
-
-            // Arrange - Act
-            var message1 = PublishMessage_MessageDTO_QueryExecutorDTOTransformedIntoModel(true, expectedMessage1);
-            var message2 = PublishMessage_MessageDTO_QueryExecutorDTOTransformedIntoModel(false, expectedMessage2);
-
-            // Assert
-            Assert.AreEqual(message1, expectedMessage1);
-            Assert.AreEqual(message2, expectedMessage2);
-        }
-
-        private IMessage PublishMessage_MessageDTO_QueryExecutorDTOTransformedIntoModel(bool messageExists, IMessage result)
-        {
-            var sourceMessageDTO = messageExists ? A.Fake<IMessageDTO>() : null;
-            var resultMessageDTO = A.Fake<IMessageDTO>();
-
             // Arrange
             var controller = CreateMessageController();
 
-            ArrangeQueryExecutorPublishMessageWithMessageDTO(sourceMessageDTO, resultMessageDTO);
-            ArrangeMessageFactoryGenerateMessage(resultMessageDTO, result);
-
             // Act
-            return controller.PublishMessage(sourceMessageDTO);
-        }
+            try
+            {
+                controller.PublishMessage((IMessage)null);
 
+            }
+            catch (ArgumentNullException)
+            {
+                return;
+            }
+
+            Assert.Fail("Argument Null Exception is expected");
+        }
+     
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
         public void PublishMessage_TextAndUser_UserIsNull_ThrowArgumentException()
         {
             // Arrange
             var controller = CreateMessageController();
             var text = TestHelper.GenerateString();
 
-            ArrangeQueryExecutorPublishMessageWithTextAndUserDTO(It.IsAny<string>(), It.IsAny<IUserDTO>(), A.Fake<IMessageDTO>());
+            // Act - Assert
+            try
+            {
+                controller.PublishMessage(text, (IUser)null);
+            }
+            catch (ArgumentNullException)
+            {
+                return;
+            }
 
-            // Act
-            controller.PublishMessage(text, (IUser)null);
+            Assert.Fail("Argument Null Exception is expected");
         }
 
         [TestMethod]
-        public void PublishMessage_TextAndUser_QueryExecutorDTOTransformedIntoModel()
+        public void PublishMessage_Parameter_IsNull_ThrowArgumentException()
         {
-            var resultMessage1 = A.Fake<IMessage>();
-            var resultMessage2 = A.Fake<IMessage>();
-            var resultMessage3 = A.Fake<IMessage>();
-            var resultMessage4 = A.Fake<IMessage>();
-
-            // Arrange - Act
-            var message1 = PublishMessage_TextAndUser_QueryExecutorDTOTransformedIntoModel(false, false, resultMessage1);
-            var message2 = PublishMessage_TextAndUser_QueryExecutorDTOTransformedIntoModel(false, true, resultMessage2);
-
-            var message3 = PublishMessage_TextAndUser_QueryExecutorDTOTransformedIntoModel(true, false, resultMessage3);
-            var message4 = PublishMessage_TextAndUser_QueryExecutorDTOTransformedIntoModel(true, true, resultMessage4);
-
-            // Assert
-            Assert.AreEqual(message1, resultMessage1);
-            Assert.AreEqual(message2, resultMessage2);
-            Assert.AreEqual(message3, resultMessage3);
-            Assert.AreEqual(message4, resultMessage4);
-        }
-
-        private IMessage PublishMessage_TextAndUser_QueryExecutorDTOTransformedIntoModel(bool textExists, bool recipientDTOExists, IMessage result)
-        {
-            string text = textExists ? Guid.NewGuid().ToString() : null;
-            var recipient = A.Fake<IUser>();
-            var recipientDTO = recipientDTOExists ? A.Fake<IUserDTO>() : null;
-            recipient.CallsTo(x => x.UserDTO).Returns(recipientDTO);
-
             // Arrange
             var controller = CreateMessageController();
-            var messageDTO = A.Fake<IMessageDTO>();
+            var text = TestHelper.GenerateString();
 
-            ArrangeQueryExecutorPublishMessageWithTextAndUserDTO(text, recipientDTO, messageDTO);
-            ArrangeMessageFactoryGenerateMessage(messageDTO, result);
+            // Act - Assert
+            try
+            {
+                controller.PublishMessage(text, (IUser)null);
+            }
+            catch (ArgumentNullException)
+            {
+                return;
+            }
 
-            // Act
-            return controller.PublishMessage(text, recipient);
+            Assert.Fail("Argument Null Exception is expected");
         }
 
         [TestMethod]
-        public void PublishMessage_TextAndUserDTO_QueryExecutorDTOTransformedIntoModel()
+        public void PublishMessage_WithMessage_ExecuteQuery()
         {
-            var expectedMessage1 = A.Fake<IMessage>();
-            var expectedMessage2 = A.Fake<IMessage>();
-            var expectedMessage3 = A.Fake<IMessage>();
-            var expectedMessage4 = A.Fake<IMessage>();
-
-            // Arrange - Act
-            var message1 = PublishMessage_TextAndUserDTO_QueryExecutorDTOTransformedIntoModel(true, true, expectedMessage1);
-            var message2 = PublishMessage_TextAndUserDTO_QueryExecutorDTOTransformedIntoModel(true, false, expectedMessage2);
-            var message3 = PublishMessage_TextAndUserDTO_QueryExecutorDTOTransformedIntoModel(false, true, expectedMessage3);
-            var message4 = PublishMessage_TextAndUserDTO_QueryExecutorDTOTransformedIntoModel(false, false, expectedMessage4);
-
-            // Assert
-            Assert.AreEqual(message1, expectedMessage1);
-            Assert.AreEqual(message2, expectedMessage2);
-            Assert.AreEqual(message3, expectedMessage3);
-            Assert.AreEqual(message4, expectedMessage4);
-        }
-
-        private IMessage PublishMessage_TextAndUserDTO_QueryExecutorDTOTransformedIntoModel(bool textExists, bool recipientExists, IMessage result)
-        {
-            string text = textExists ? Guid.NewGuid().ToString() : null;
-            var recipient = recipientExists ? A.Fake<IUserDTO>() : null;
-
             // Arrange
             var controller = CreateMessageController();
-            var messageDTO = A.Fake<IMessageDTO>();
+            var message = A.Fake<IMessage>();
+            message.CallsTo(x => x.Recipient).Returns(A.Fake<IUser>());
+            message.CallsTo(x => x.Text).Returns(TestHelper.GenerateString());
+            message.CallsTo(x => x.MessageDTO).Returns(A.Fake<IMessageDTO>());
 
-            ArrangeQueryExecutorPublishMessageWithTextAndUserDTO(text, recipient, messageDTO);
-            ArrangeMessageFactoryGenerateMessage(messageDTO, result);
+            var parameter = new MessagePublishParameters(message);
 
             // Act
-            return controller.PublishMessage(text, recipient);
+            controller.PublishMessage(parameter);
+
+            // Assert
+            _fakeMessageQueryExecutor
+                .CallsTo(x => x.PublishMessage(A<IMessagePublishParameters>.That.Matches(p => p.Message == message.MessageDTO)))
+                .MustHaveHappened();
         }
 
         [TestMethod]
-        public void PublishMessage_TextAndUserId_QueryExecutorDTOTransformedIntoModel()
+        public void PublishMessage_WithMessageDTO_ExecuteQuery()
         {
-            var expectedMessage1 = A.Fake<IMessage>();
-            var expectedMessage2 = A.Fake<IMessage>();
-
-            // Arrange - Act
-            var message1 = PublishMessage_TextAndUserId_QueryExecutorDTOTransformedIntoModel(true, expectedMessage1);
-            var message2 = PublishMessage_TextAndUserId_QueryExecutorDTOTransformedIntoModel(false, expectedMessage2);
-
-            // Assert
-            Assert.AreEqual(message1, expectedMessage1);
-            Assert.AreEqual(message2, expectedMessage2);
-        }
-
-        private IMessage PublishMessage_TextAndUserId_QueryExecutorDTOTransformedIntoModel(bool textExists, IMessage result)
-        {
-            string text = textExists ? Guid.NewGuid().ToString() : null;
-            var recipientId = TestHelper.GenerateRandomLong();
-
             // Arrange
             var controller = CreateMessageController();
-            var messageDTO = A.Fake<IMessageDTO>();
+            var message = A.Fake<IMessageDTO>();
+            message.CallsTo(x => x.Recipient).Returns(A.Fake<IUserDTO>());
+            message.CallsTo(x => x.Text).Returns(TestHelper.GenerateString());
 
-            ArrangeQueryExecutorPublishMessageWithTextAndUserId(text, recipientId, messageDTO);
-            ArrangeMessageFactoryGenerateMessage(messageDTO, result);
+            var parameter = new MessagePublishParameters(message);
 
             // Act
-            return controller.PublishMessage(text, recipientId);
+            controller.PublishMessage(parameter);
+
+            // Assert
+            _fakeMessageQueryExecutor
+                .CallsTo(x => x.PublishMessage(A<IMessagePublishParameters>.That.Matches(p => p.Message == message)))
+                .MustHaveHappened();
         }
 
         [TestMethod]
-        public void PublishMessage_TextAndScreenName_QueryExecutorDTOTransformedIntoModel()
+        public void PublishMessage_WithParameter_ExecuteQuery()
         {
-            var expectedMessage1 = A.Fake<IMessage>();
-            var expectedMessage2 = A.Fake<IMessage>();
-            var expectedMessage3 = A.Fake<IMessage>();
-            var expectedMessage4 = A.Fake<IMessage>();
-
-            // Arrange - Act
-            var message1 = PublishMessage_TextAndScreenName_QueryExecutorDTOTransformedIntoModel(true, true, expectedMessage1);
-            var message2 = PublishMessage_TextAndScreenName_QueryExecutorDTOTransformedIntoModel(true, false, expectedMessage2);
-            var message3 = PublishMessage_TextAndScreenName_QueryExecutorDTOTransformedIntoModel(false, true, expectedMessage3);
-            var message4 = PublishMessage_TextAndScreenName_QueryExecutorDTOTransformedIntoModel(false, false, expectedMessage4);
-
-            // Assert
-            Assert.AreEqual(message1, expectedMessage1);
-            Assert.AreEqual(message2, expectedMessage2);
-            Assert.AreEqual(message3, expectedMessage3);
-            Assert.AreEqual(message4, expectedMessage4);
-        }
-
-        private IMessage PublishMessage_TextAndScreenName_QueryExecutorDTOTransformedIntoModel(bool textExists, bool recipientExists, IMessage result)
-        {
-            string text = textExists ? Guid.NewGuid().ToString() : null;
-            string recipient = recipientExists ? Guid.NewGuid().ToString() : null;
-
             // Arrange
             var controller = CreateMessageController();
-            var messageDTO = A.Fake<IMessageDTO>();
-
-            ArrangeQueryExecutorPublishMessageWithTextAndScreenName(text, recipient, messageDTO);
-            ArrangeMessageFactoryGenerateMessage(messageDTO, result);
+            var parameter = new MessagePublishParameters(TestHelper.GenerateString(), TestHelper.GenerateRandomInt());
 
             // Act
-            return controller.PublishMessage(text, recipient);
-        }
+            controller.PublishMessage(parameter);
 
-        private void ArrangeQueryExecutorPublishMessageWithMessageDTO(IMessageDTO sourceMessage, IMessageDTO result)
-        {
-            _fakeMessageQueryExecutor
-                .CallsTo(x => x.PublishMessage(sourceMessage))
-                .Returns(result);
-        }
-
-        private void ArrangeQueryExecutorPublishMessageWithTextAndUserDTO(string text, IUserDTO recipient, IMessageDTO result)
-        {
-            _fakeMessageQueryExecutor
-                .CallsTo(x => x.PublishMessage(text, recipient))
-                .Returns(result);
-        }
-
-        private void ArrangeQueryExecutorPublishMessageWithTextAndUserId(string text, long recipientId, IMessageDTO result)
-        {
-            _fakeMessageQueryExecutor
-                .CallsTo(x => x.PublishMessage(text, recipientId))
-                .Returns(result);
-        }
-
-        private void ArrangeQueryExecutorPublishMessageWithTextAndScreenName(string text, string recipient, IMessageDTO result)
-        {
-            _fakeMessageQueryExecutor
-                .CallsTo(x => x.PublishMessage(text, recipient))
-                .Returns(result);
+            // Assert
+            _fakeMessageQueryExecutor.CallsTo(x => x.PublishMessage(parameter)).MustHaveHappened();
         }
 
         #endregion

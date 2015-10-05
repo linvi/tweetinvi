@@ -6,7 +6,7 @@ using Tweetinvi.Controllers.Search;
 using Tweetinvi.Core.Interfaces;
 using Tweetinvi.Core.Interfaces.DTO;
 using Tweetinvi.Core.Interfaces.Factories;
-using Tweetinvi.Core.Interfaces.Parameters;
+using Tweetinvi.Core.Parameters;
 
 namespace Testinvi.TweetinviControllers.SearchTests
 {

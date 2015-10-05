@@ -1,8 +1,8 @@
 ﻿using System;
 using Tweetinvi.Core;
 using Tweetinvi.Core.Interfaces.Models;
-using Tweetinvi.Core.Interfaces.Parameters;
 using Tweetinvi.Core.Interfaces.QueryValidators;
+using Tweetinvi.Core.Parameters;
 
 namespace Tweetinvi.Controllers.TwitterLists
 {

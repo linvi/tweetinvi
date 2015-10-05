@@ -8,6 +8,7 @@ using Tweetinvi.Controllers.Messages;
 using Tweetinvi.Core;
 using Tweetinvi.Core.Interfaces.DTO;
 using Tweetinvi.Core.Interfaces.QueryValidators;
+using Tweetinvi.Core.Parameters;
 
 namespace Testinvi.TweetinviControllers.MessageTests
 {
@@ -28,13 +29,13 @@ namespace Testinvi.TweetinviControllers.MessageTests
         #region Can Message Be Published
 
         [TestMethod]
-        public void CanMessageDTOBePublished_BasedOnMessageHasBeenPublishedOrDestroyed()
+        public void CanMessageBePublished_BasedOnMessageHasBeenPublishedOrDestroyed()
         {
             // Arrange - Act
-            var result1 = CanMessageDTOBePublished_BasedOnPublishedAndDestroyed(true, true);
-            var result2 = CanMessageDTOBePublished_BasedOnPublishedAndDestroyed(true, false);
-            var result3 = CanMessageDTOBePublished_BasedOnPublishedAndDestroyed(false, true);
-            var result4 = CanMessageDTOBePublished_BasedOnPublishedAndDestroyed(false, false);
+            var result1 = CanMessageBePublished_BasedOnPublishedAndDestroyed(true, true);
+            var result2 = CanMessageBePublished_BasedOnPublishedAndDestroyed(true, false);
+            var result3 = CanMessageBePublished_BasedOnPublishedAndDestroyed(false, true);
+            var result4 = CanMessageBePublished_BasedOnPublishedAndDestroyed(false, false);
 
             // Assert
             Assert.IsFalse(result1);
@@ -43,16 +44,20 @@ namespace Testinvi.TweetinviControllers.MessageTests
             Assert.IsTrue(result4);
         }
 
-        private bool CanMessageDTOBePublished_BasedOnPublishedAndDestroyed(bool messageHasBeenPublished, bool messageHasBeenDestroyed)
+        private bool CanMessageBePublished_BasedOnPublishedAndDestroyed(bool messageHasBeenPublished, bool messageHasBeenDestroyed)
         {
             // Arrange
             var queryValidator = CreateMessageQueryValidator();
             var messageDTO = CreateMessageDTO(messageHasBeenPublished, messageHasBeenDestroyed);
-            ArrangeMessageDTOText(messageDTO, true, true);
-            ArrangeMessageDTORecipient(messageDTO, true, true, true);
+
+            var parameters = A.Fake<IMessagePublishParameters>();
+            parameters.CallsTo(x => x.Message).Returns(messageDTO);
+
+            ArrangeMessagePublishParameterText(parameters, true, true);
+            ArrangeMessageDTORecipient(parameters, true, true, true);
 
             // Act
-            return queryValidator.CanMessageDTOBePublished(messageDTO);
+            return queryValidator.CanMessageBePublished(parameters);
         }
 
         [TestMethod]
@@ -71,31 +76,33 @@ namespace Testinvi.TweetinviControllers.MessageTests
             Assert.IsFalse(result4);
         }
 
-        private bool CanMessageDTOBePublished_BasedOnText(bool textExist, bool textContainsChars)
+        private bool CanMessageDTOBePublished_BasedOnText(bool doesTextExists, bool textContainsChars)
         {
             // Arrange
             var queryValidator = CreateMessageQueryValidator();
-            var messageDTO = CreateMessageDTO(false, false);
-            ArrangeMessageDTOText(messageDTO, textExist, textContainsChars);
-            ArrangeMessageDTORecipient(messageDTO, true, true, true);
+
+            var parameters = A.Fake<IMessagePublishParameters>();
+            parameters.CallsTo(x => x.Message).Returns(null);
+
+            ArrangeMessagePublishParameterText(parameters, doesTextExists, textContainsChars);
 
             // Act
-            return queryValidator.CanMessageDTOBePublished(messageDTO);
+            return queryValidator.CanMessageBePublished(parameters);
         }
 
         [TestMethod]
-        public void CanMessageDTOBePublished_BasedOnRecipient()
+        public void CanMessageBePublished_BasedOnRecipient()
         {
             // Arrange - Act
-            var result1 = CanMessageDTOBePublished_BasedOnRecipient(true, true, true);
-            var result2 = CanMessageDTOBePublished_BasedOnRecipient(true, true, false);
-            var result3 = CanMessageDTOBePublished_BasedOnRecipient(true, false, true);
-            var result4 = CanMessageDTOBePublished_BasedOnRecipient(true, false, false);
+            var result1 = CanMessageBePublished_BasedOnRecipient(true, true, true);
+            var result2 = CanMessageBePublished_BasedOnRecipient(true, true, false);
+            var result3 = CanMessageBePublished_BasedOnRecipient(true, false, true);
+            var result4 = CanMessageBePublished_BasedOnRecipient(true, false, false);
 
-            var result5 = CanMessageDTOBePublished_BasedOnRecipient(false, true, true);
-            var result6 = CanMessageDTOBePublished_BasedOnRecipient(false, true, false);
-            var result7 = CanMessageDTOBePublished_BasedOnRecipient(false, false, true);
-            var result8 = CanMessageDTOBePublished_BasedOnRecipient(false, false, false);
+            var result5 = CanMessageBePublished_BasedOnRecipient(false, true, true);
+            var result6 = CanMessageBePublished_BasedOnRecipient(false, true, false);
+            var result7 = CanMessageBePublished_BasedOnRecipient(false, false, true);
+            var result8 = CanMessageBePublished_BasedOnRecipient(false, false, false);
 
             // Assert
             Assert.IsTrue(result1);
@@ -108,34 +115,28 @@ namespace Testinvi.TweetinviControllers.MessageTests
             Assert.IsFalse(result8);
         }
 
-        private bool CanMessageDTOBePublished_BasedOnRecipient(
-            bool isRecipientValid,
-            bool isRecipientIdValid,
-            bool isRecipientScreenNameValid)
+        private bool CanMessageBePublished_BasedOnRecipient( bool isRecipientValid, bool isRecipientIdValid, bool isRecipientScreenNameValid)
         {
             // Arrange
             var queryValidator = CreateMessageQueryValidator();
-            var messageDTO = CreateMessageDTO(false, false);
-            ArrangeMessageDTOText(messageDTO, true, true);
+            var parameter = A.Fake<IMessagePublishParameters>();
+            parameter.CallsTo(x => x.Text).Returns(TestHelper.GenerateString());
 
-            ArrangeMessageDTORecipient(messageDTO,
-                                       isRecipientValid,
-                                       isRecipientIdValid,
-                                       isRecipientScreenNameValid);
+            ArrangeMessageDTORecipient(parameter, isRecipientValid, isRecipientIdValid, isRecipientScreenNameValid);
 
             // Act
-            return queryValidator.CanMessageDTOBePublished(messageDTO);
+            return queryValidator.CanMessageBePublished(parameter);
         }
 
-        private void ArrangeMessageDTOText(IMessageDTO messageDTO, bool doesTextExists, bool textContainsChars)
+        private void ArrangeMessagePublishParameterText(IMessagePublishParameters parameters, bool doesTextExists, bool textContainsChars)
         {
-            string text = doesTextExists ? textContainsChars ? Guid.NewGuid().ToString() : String.Empty : null;
+            string text = doesTextExists ? textContainsChars ? TestHelper.GenerateString() : string.Empty : null;
 
-            messageDTO.CallsTo(x => x.Text).Returns(text);
+            parameters.CallsTo(x => x.Text).Returns(text);
         }
 
         private void ArrangeMessageDTORecipient(
-            IMessageDTO messageDTO,
+            IMessagePublishParameters parameters,
             bool isRecipientValid,
             bool isRecipientIdValid,
             bool isRecipientScreenNameValid)
@@ -144,9 +145,9 @@ namespace Testinvi.TweetinviControllers.MessageTests
             var recipientId = TestHelper.GenerateRandomLong();
             var recipientScreenName = TestHelper.GenerateString();
 
-            messageDTO.CallsTo(x => x.Recipient).Returns(recipient);
-            messageDTO.CallsTo(x => x.RecipientId).Returns(recipientId);
-            messageDTO.CallsTo(x => x.RecipientScreenName).Returns(recipientScreenName);
+            parameters.CallsTo(x => x.Recipient).Returns(recipient);
+            parameters.CallsTo(x => x.RecipientId).Returns(recipientId);
+            parameters.CallsTo(x => x.RecipientScreenName).Returns(recipientScreenName);
 
             _fakeUserQueryValidator.CallsTo(x => x.CanUserBeIdentified(recipient)).Returns(isRecipientValid);
             _fakeUserQueryValidator.CallsTo(x => x.IsUserIdValid(recipientId)).Returns(isRecipientIdValid);

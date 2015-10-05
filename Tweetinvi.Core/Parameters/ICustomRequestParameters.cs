@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Tweetinvi.Core.Interfaces.Parameters
+namespace Tweetinvi.Core.Parameters
 {
     public interface ICustomRequestParameters
     {

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Tweetinvi.Core.Interfaces.DTO;
-using Tweetinvi.Core.Interfaces.Parameters.QueryParameters;
+using Tweetinvi.Core.Parameters;
+using Tweetinvi.Core.Parameters.QueryParameters;
 
 namespace Tweetinvi.Core.Interfaces.QueryGenerators
 {

@@ -37,13 +37,13 @@ namespace Tweetinvi.Core.Interfaces
         /// </summary>
         IUser Sender { get; }
 
-        long ReceiverId { get; }
-        string ReceiverScreenName { get; }
+        long RecipientId { get; }
+        string RecipientScreenName { get; }
 
         /// <summary>
-        /// Receiver of the message
+        /// Recipient of the message
         /// </summary>
-        IUser Receiver { get; }
+        IUser Recipient { get; }
 
         bool Publish();
         bool PublishTo(IUser recipient);

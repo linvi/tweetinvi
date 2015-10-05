@@ -1,7 +1,16 @@
-﻿using Tweetinvi.Core.Interfaces.Parameters;
-
+﻿
 namespace Tweetinvi.Core.Parameters
 {
+    public interface IGetTweetsFromListParameters : ICustomRequestParameters
+    {
+        int MaximumNumberOfTweetsToRetrieve { get; set; }
+
+        long? SinceId { get; set; }
+        long? MaxId { get; set; }
+        bool IncludeEntities { get; set; }
+        bool IncludeRetweets { get; set; }
+    }
+
     public class GetTweetsFromListParameters : CustomRequestParameters, IGetTweetsFromListParameters
     {
         public GetTweetsFromListParameters()

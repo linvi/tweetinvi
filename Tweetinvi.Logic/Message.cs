@@ -73,17 +73,17 @@ namespace Tweetinvi.Logic
             }
         }
 
-        public long ReceiverId
+        public long RecipientId
         {
             get { return _messageDTO.RecipientId; }
         }
 
-        public string ReceiverScreenName
+        public string RecipientScreenName
         {
             get { return _messageDTO.RecipientScreenName; }
         }
 
-        public IUser Receiver
+        public IUser Recipient
         {
             get
             {
@@ -148,7 +148,7 @@ namespace Tweetinvi.Logic
                 Id == other.Id && 
                 Text == other.Text &&
                 Sender.Equals(other.Sender) &&
-                Receiver.Equals(other.Receiver);
+                Recipient.Equals(other.Recipient);
 
             return result;
         }

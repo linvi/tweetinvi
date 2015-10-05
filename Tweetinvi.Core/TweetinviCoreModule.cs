@@ -3,9 +3,8 @@ using Tweetinvi.Core.Exceptions;
 using Tweetinvi.Core.Helpers;
 using Tweetinvi.Core.Injectinvi;
 using Tweetinvi.Core.Interfaces.Models;
-using Tweetinvi.Core.Interfaces.Parameters;
-using Tweetinvi.Core.Interfaces.Parameters.QueryParameters;
 using Tweetinvi.Core.Parameters;
+using Tweetinvi.Core.Parameters.QueryParameters;
 
 namespace Tweetinvi.Core
 {
@@ -74,8 +73,8 @@ namespace Tweetinvi.Core
             _container.RegisterType<IRetweetsOfMeTimelineParameters, RetweetsOfMeTimelineParameter>();
 
             // Message
-            _container.RegisterType<IMessageGetLatestsReceivedRequestParameters, GetLatestMessagesReceivedRequestParameters>();
-            _container.RegisterType<IMessageGetLatestsSentRequestParameters, GetLatestMessagesSentRequestParameters>();
+            _container.RegisterType<IMessagesReceivedParameters, MessagesReceivedParameters>();
+            _container.RegisterType<IMessagesSentParameters, MessagesSentParameters>();
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿using Tweetinvi.Core.Interfaces.Models;
 
-namespace Tweetinvi.Core.Interfaces.Parameters.QueryParameters
+namespace Tweetinvi.Core.Parameters.QueryParameters
 {
     public interface IUserTimelineQueryParameters
     {

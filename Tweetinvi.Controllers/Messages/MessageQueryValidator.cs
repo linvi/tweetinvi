@@ -2,6 +2,7 @@
 using Tweetinvi.Core;
 using Tweetinvi.Core.Interfaces.DTO;
 using Tweetinvi.Core.Interfaces.QueryValidators;
+using Tweetinvi.Core.Parameters;
 
 namespace Tweetinvi.Controllers.Messages
 {
@@ -10,7 +11,7 @@ namespace Tweetinvi.Controllers.Messages
         bool IsMessageTextValid(string message);
         bool IsMessageIdValid(long messageId);
 
-        bool CanMessageDTOBePublished(IMessageDTO messageDTO);
+        bool CanMessageBePublished(IMessagePublishParameters parameters);
         bool CanMessageDTOBeDestroyed(IMessageDTO messageDTO);
     }
 
@@ -25,7 +26,7 @@ namespace Tweetinvi.Controllers.Messages
 
         public bool IsMessageTextValid(string message)
         {
-            return !String.IsNullOrEmpty(message);
+            return !string.IsNullOrEmpty(message);
         }
 
         public bool IsMessageIdValid(long messageId)
@@ -33,22 +34,22 @@ namespace Tweetinvi.Controllers.Messages
             return messageId != TweetinviSettings.DEFAULT_ID;
         }
 
-        public bool CanMessageDTOBePublished(IMessageDTO messageDTO)
+        public bool CanMessageBePublished(IMessagePublishParameters parameters)
         {
-            bool isMessageInValidState = messageDTO != null &&
-                                         !messageDTO.IsMessagePublished &&
-                                         !messageDTO.IsMessageDestroyed;
+            var message = parameters.Message;
+            var text = parameters.Text;
+
+            bool messageTextIsValid = IsMessageTextValid(text);
+            bool isRecipientValid = _userQueryValidator.CanUserBeIdentified(parameters.Recipient) ||
+                                    _userQueryValidator.IsUserIdValid(parameters.RecipientId) ||
+                                    _userQueryValidator.IsScreenNameValid(parameters.RecipientScreenName);
+
+            bool isMessageInValidState = message == null || (!message.IsMessagePublished && !message.IsMessageDestroyed);
 
             if (!isMessageInValidState)
             {
                 return false;
             }
-
-            bool isRecipientValid = _userQueryValidator.CanUserBeIdentified(messageDTO.Recipient) ||
-                                    _userQueryValidator.IsUserIdValid(messageDTO.RecipientId) ||
-                                    _userQueryValidator.IsScreenNameValid(messageDTO.RecipientScreenName);
-
-            bool messageTextIsValid = IsMessageTextValid(messageDTO.Text);
 
             return isRecipientValid && messageTextIsValid;
         }

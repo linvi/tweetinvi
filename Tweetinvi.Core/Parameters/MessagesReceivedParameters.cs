@@ -1,13 +1,16 @@
-﻿using Tweetinvi.Core.Interfaces.Parameters;
-
-namespace Tweetinvi.Core.Parameters
+﻿namespace Tweetinvi.Core.Parameters
 {
-    public class GetLatestMessagesReceivedRequestParameters : CustomRequestParameters, IMessageGetLatestsReceivedRequestParameters
+    public interface IMessagesReceivedParameters : IMessagesRetrieveRequestParametersBase
     {
-        public GetLatestMessagesReceivedRequestParameters()
+        bool SkipStatus { get; set; }
+    }
+
+    public class MessagesReceivedParameters : CustomRequestParameters, IMessagesReceivedParameters
+    {
+        public MessagesReceivedParameters()
         {
             MaximumNumberOfMessagesToRetrieve = TweetinviConsts.MESSAGE_GET_COUNT;
-
+            FullText = true;
             IncludeEntities = true;
         }
 
@@ -15,6 +18,7 @@ namespace Tweetinvi.Core.Parameters
         public long? SinceId { get; set; }
         public long? MaxId { get; set; }
         public bool IncludeEntities { get; set; }
+        public bool FullText { get; set; }
 
         public bool SkipStatus { get; set; }
     }

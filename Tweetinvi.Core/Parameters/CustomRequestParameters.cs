@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using Tweetinvi.Core.Interfaces.Parameters;
 
 namespace Tweetinvi.Core.Parameters
 {

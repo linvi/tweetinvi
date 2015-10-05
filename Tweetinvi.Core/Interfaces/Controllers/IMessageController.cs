@@ -1,25 +1,25 @@
 ﻿using System.Collections.Generic;
 using Tweetinvi.Core.Interfaces.DTO;
 using Tweetinvi.Core.Interfaces.Models;
-using Tweetinvi.Core.Interfaces.Parameters;
+using Tweetinvi.Core.Parameters;
 
 namespace Tweetinvi.Core.Interfaces.Controllers
 {
     public interface IMessageController
     {
         IEnumerable<IMessage> GetLatestMessagesReceived(int maximumMessages = TweetinviConsts.MESSAGE_GET_COUNT);
-        IEnumerable<IMessage> GetLatestMessagesReceived(IMessageGetLatestsReceivedRequestParameters messageGetLatestsReceivedRequestParameters);
+        IEnumerable<IMessage> GetLatestMessagesReceived(IMessagesReceivedParameters messagesReceivedParameters);
 
         IEnumerable<IMessage> GetLatestMessagesSent(int maximumMessages = TweetinviConsts.MESSAGE_GET_COUNT);
-        IEnumerable<IMessage> GetLatestMessagesSent(IMessageGetLatestsSentRequestParameters messageGetLatestsSentRequestParameters);
+        IEnumerable<IMessage> GetLatestMessagesSent(IMessagesSentParameters messagesSentParameters);
 
         // Publish Message
         IMessage PublishMessage(IMessage message);
         IMessage PublishMessage(IMessageDTO messageDTO);
-        IMessage PublishMessage(string text, IUser targetUser);
-        IMessage PublishMessage(string text, IUserIdentifier targetUserDTO);
-        IMessage PublishMessage(string text, long targetUserId);
-        IMessage PublishMessage(string text, string targetUserScreenName);
+        IMessage PublishMessage(string text, IUserIdentifier recipient);
+        IMessage PublishMessage(string text, long recipientId);
+        IMessage PublishMessage(string text, string recipientUserName);
+        IMessage PublishMessage(IMessagePublishParameters parameter);
 
         // Destroy Message
         bool DestroyMessage(IMessage message);

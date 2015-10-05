@@ -1,7 +1,10 @@
-﻿using Tweetinvi.Core.Interfaces.Parameters;
-
-namespace Tweetinvi.Core.Parameters
+﻿namespace Tweetinvi.Core.Parameters
 {
+    public interface IRetweetsOfMeTimelineParameters : ITimelineRequestParameters
+    {
+        bool IncludeUserEntities { get; set; }
+    }
+
     public class RetweetsOfMeTimelineParameter : TimelineRequestParameters, IRetweetsOfMeTimelineParameters
     {
         public RetweetsOfMeTimelineParameter()

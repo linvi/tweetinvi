@@ -1,4 +1,4 @@
-﻿namespace Tweetinvi.Core.Interfaces.Parameters
+﻿namespace Tweetinvi.Core.Parameters
 {
     public interface IMessagesRetrieveRequestParametersBase : ICustomRequestParameters
     {
@@ -8,5 +8,6 @@
         long? MaxId { get; set; }
 
         bool IncludeEntities { get; set; }
+        bool FullText { get; set; }
     }
 }

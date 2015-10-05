@@ -7,7 +7,7 @@ using Tweetinvi.Core.Interfaces.Controllers;
 using Tweetinvi.Core.Interfaces.DTO;
 using Tweetinvi.Core.Interfaces.Factories;
 using Tweetinvi.Core.Interfaces.Models;
-using Tweetinvi.Core.Interfaces.Parameters;
+using Tweetinvi.Core.Parameters;
 
 namespace Tweetinvi
 {
@@ -43,8 +43,8 @@ namespace Tweetinvi
             }
         }
 
-        private static IFactory<IMessageGetLatestsReceivedRequestParameters> _messageGetLatestsReceivedRequestParametersFactory;
-        private static IFactory<IMessageGetLatestsSentRequestParameters> _messageGetLatestsSentRequestParametersFactory;
+        private static IFactory<IMessagesReceivedParameters> _messageGetLatestsReceivedRequestParametersFactory;
+        private static IFactory<IMessagesSentParameters> _messageGetLatestsSentRequestParametersFactory;
 
         static Message()
         {
@@ -55,8 +55,8 @@ namespace Tweetinvi
         {
             _messageFactory = TweetinviContainer.Resolve<IMessageFactory>();
             _messageController = TweetinviContainer.Resolve<IMessageController>();
-            _messageGetLatestsReceivedRequestParametersFactory = TweetinviContainer.Resolve<IFactory<IMessageGetLatestsReceivedRequestParameters>>();
-            _messageGetLatestsSentRequestParametersFactory = TweetinviContainer.Resolve<IFactory<IMessageGetLatestsSentRequestParameters>>();
+            _messageGetLatestsReceivedRequestParametersFactory = TweetinviContainer.Resolve<IFactory<IMessagesReceivedParameters>>();
+            _messageGetLatestsSentRequestParametersFactory = TweetinviContainer.Resolve<IFactory<IMessagesSentParameters>>();
         }
 
         // Factory
@@ -90,9 +90,9 @@ namespace Tweetinvi
         /// <summary>
         /// Get the latest messages received
         /// </summary>
-        public static IEnumerable<IMessage> GetLatestMessagesReceived(IMessageGetLatestsReceivedRequestParameters messageGetLatestsReceivedRequestParameters)
+        public static IEnumerable<IMessage> GetLatestMessagesReceived(IMessagesReceivedParameters messagesReceivedParameters)
         {
-            return MessageController.GetLatestMessagesReceived(messageGetLatestsReceivedRequestParameters);
+            return MessageController.GetLatestMessagesReceived(messagesReceivedParameters);
         }
 
         /// <summary>
@@ -106,57 +106,49 @@ namespace Tweetinvi
         /// <summary>
         /// Get the latest messages sent
         /// </summary>
-        public static IEnumerable<IMessage> GetLatestMessagesSent(IMessageGetLatestsSentRequestParameters messageGetLatestsSentRequestParameters)
+        public static IEnumerable<IMessage> GetLatestMessagesSent(IMessagesSentParameters messagesSentParameters)
         {
-            return MessageController.GetLatestMessagesSent(messageGetLatestsSentRequestParameters);
+            return MessageController.GetLatestMessagesSent(messagesSentParameters);
         }
 
         /// <summary>
         /// Publish a message
         /// </summary>
-        public static IMessage PublishMessage(IMessage message)
+        public static IMessage PublishMessage(string text, IUser recipient)
         {
-            return MessageController.PublishMessage(message);
+            return MessageController.PublishMessage(text, recipient);
         }
 
         /// <summary>
         /// Publish a message
         /// </summary>
-        public static IMessage PublishMessage(IMessageDTO messageDTO)
+        public static IMessage PublishMessage(string text, IUserIdentifier recipient)
         {
-            return MessageController.PublishMessage(messageDTO);
+            return MessageController.PublishMessage(text, recipient);
         }
 
         /// <summary>
         /// Publish a message
         /// </summary>
-        public static IMessage PublishMessage(string text, IUser targetUser)
+        public static IMessage PublishMessage(string text, long recipientId)
         {
-            return MessageController.PublishMessage(text, targetUser);
+            return MessageController.PublishMessage(text, recipientId);
         }
 
         /// <summary>
         /// Publish a message
         /// </summary>
-        public static IMessage PublishMessage(string text, IUserIdentifier targetUserDTO)
+        public static IMessage PublishMessage(string text, string recipientScreenName)
         {
-            return MessageController.PublishMessage(text, targetUserDTO);
+            return MessageController.PublishMessage(text, recipientScreenName);
         }
 
         /// <summary>
         /// Publish a message
         /// </summary>
-        public static IMessage PublishMessage(string text, long targetUserId)
+        public static IMessage PublishMessage(IMessagePublishParameters parameters)
         {
-            return MessageController.PublishMessage(text, targetUserId);
-        }
-
-        /// <summary>
-        /// Publish a message
-        /// </summary>
-        public static IMessage PublishMessage(string text, string targetUserScreenName)
-        {
-            return MessageController.PublishMessage(text, targetUserScreenName);
+            return MessageController.PublishMessage(parameters);
         }
 
         /// <summary>

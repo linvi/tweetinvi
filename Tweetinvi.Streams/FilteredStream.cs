@@ -13,7 +13,6 @@ using Tweetinvi.Core.Helpers;
 using Tweetinvi.Core.Interfaces;
 using Tweetinvi.Core.Interfaces.Factories;
 using Tweetinvi.Core.Interfaces.Models;
-using Tweetinvi.Core.Interfaces.Parameters;
 using Tweetinvi.Core.Interfaces.Streaminvi;
 using Tweetinvi.Core.Interfaces.WebLogic;
 using Tweetinvi.Core.Parameters;

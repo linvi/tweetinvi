@@ -4,7 +4,7 @@ using Tweetinvi.Core;
 using Tweetinvi.Core.Interfaces;
 using Tweetinvi.Core.Interfaces.DTO;
 using Tweetinvi.Core.Interfaces.Models;
-using Tweetinvi.Core.Interfaces.Parameters;
+using Tweetinvi.Core.Parameters;
 
 namespace Tweetinvi.Json
 {
@@ -41,7 +41,7 @@ namespace Tweetinvi.Json
             return MessageJsonController.GetLatestMessagesReceived(maximumMessages);
         }
 
-        public static string GetLatestMessagesReceived(IMessageGetLatestsReceivedRequestParameters queryParameters)
+        public static string GetLatestMessagesReceived(IMessagesReceivedParameters queryParameters)
         {
             return MessageJsonController.GetLatestMessagesReceived(queryParameters);
         }
@@ -51,7 +51,7 @@ namespace Tweetinvi.Json
             return MessageJsonController.GetLatestMessagesSent(maximumMessages);
         }
 
-        public static string GetLatestMessagesSent(IMessageGetLatestsSentRequestParameters queryParameters)
+        public static string GetLatestMessagesSent(IMessagesSentParameters queryParameters)
         {
             return MessageJsonController.GetLatestMessagesSent(queryParameters);
         }

@@ -48,6 +48,10 @@
       <Project>{cd1ae921-d88a-4145-87b6-b82f276872f8}</Project>
       <Name>Tweetinvi.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Tweetinvi.Logic\Tweetinvi.Logic.csproj">
+      <Project>{1C74B83B-4B84-44E2-AFD7-1468BB90306D}</Project>
+      <Name>Tweetinvi.Logic</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Account\AccountController.cs" />

@@ -7,8 +7,8 @@ using Tweetinvi.Core.Events.EventArguments;
 using Tweetinvi.Core.Helpers;
 using Tweetinvi.Core.Interfaces.Factories;
 using Tweetinvi.Core.Interfaces.Models;
-using Tweetinvi.Core.Interfaces.Parameters;
 using Tweetinvi.Core.Interfaces.Streaminvi;
+using Tweetinvi.Core.Parameters;
 using Tweetinvi.Core.Wrappers;
 
 namespace Tweetinvi.Streams
