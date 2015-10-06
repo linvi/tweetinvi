@@ -32,11 +32,17 @@ namespace Tweetinvi
             _trendsController = TweetinviContainer.Resolve<ITrendsController>();
         }
 
+        /// <summary>
+        /// Get the trends at a specific location
+        /// </summary>
         public static IPlaceTrends GetTrendsAt(long woeid)
         {
             return TrendsController.GetPlaceTrendsAt(woeid);
         }
 
+        /// <summary>
+        /// Get the trends at a specific location
+        /// </summary>
         public static IPlaceTrends GetTrendsAt(IWoeIdLocation woeIdLocation)
         {
             return TrendsController.GetPlaceTrendsAt(woeIdLocation);

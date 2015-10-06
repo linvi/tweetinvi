@@ -37,6 +37,10 @@ namespace Tweetinvi
         }
 
         // ALERT : THIS CODE IS AWESOME :D
+
+        /// <summary>
+        /// Execute a task asynchronously with Tweetinvi
+        /// </summary>
         public static async Task ExecuteTaskAsync(Action action)
         {
             // We store the credentials at the time of the call within the local memory
@@ -57,6 +61,10 @@ namespace Tweetinvi
         }
 
         // ALERT : THIS CODE IS AWESOME :D
+
+        /// <summary>
+        /// Execute a task asynchronously with Tweetinvi
+        /// </summary>
         public static async Task<T> ExecuteTaskAsync<T>(Func<T> resultFunc)
         {
             // We store the credentials at the time of the call within the local memory
@@ -68,7 +76,7 @@ namespace Tweetinvi
             {
                 // We get the newly created credentialsAccessor for the async thread (CredentialsAccessor are Thread specific)
                 var credentialsAccessor = TweetinviContainer.Resolve<ICredentialsAccessor>();
-                
+
                 // We now use credentials of the lambda expression local variables to perform our operation
                 return credentialsAccessor.ExecuteOperationWithCredentials(credentialsAtInvokeTime, resultFunc);
             });
