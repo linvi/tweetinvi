@@ -1,5 +1,6 @@
 ﻿using Tweetinvi;
 using Tweetinvi.Core.Enum;
+using Tweetinvi.Core.Parameters;
 
 namespace Testinvi.IntegrationTests
 {
@@ -11,7 +12,7 @@ namespace Testinvi.IntegrationTests
             var newList = TwitterList.CreateList("myTemporaryList", PrivacyMode.Private, "tmp");
             var userLists = TwitterList.GetUserSubscribedLists(loggedUser);
             var newListVerify = TwitterList.GetExistingList(newList);
-            var updateParameter = TwitterList.CreateUpdateParameters();
+            var updateParameter = new TwitterListUpdateParameters();
             updateParameter.Name = "piloupe";
             newListVerify.Update(updateParameter);
             newListVerify.Destroy();

@@ -7,7 +7,7 @@ namespace Tweetinvi.Core.Parameters
         private TwitterListIdentifier()
         {
             Id = TweetinviSettings.DEFAULT_ID;
-            OwnerId = TweetinviSettings.DEFAULT_ID;
+            Owner = new UserIdentifier(TweetinviSettings.DEFAULT_ID);
         }
 
         public TwitterListIdentifier(long listId) : this()
@@ -18,18 +18,34 @@ namespace Tweetinvi.Core.Parameters
         public TwitterListIdentifier(string slug, long ownerId) : this()
         {
             Slug = slug;
-            OwnerId = ownerId;
+            Owner = new UserIdentifier(ownerId);
         }
 
         public TwitterListIdentifier(string slug, string ownerScreenName) : this()
         {
             Slug = slug;
-            OwnerScreenName = ownerScreenName;
+            Owner = new UserIdentifier(ownerScreenName);
+        }
+
+        public TwitterListIdentifier(string slug, IUserIdentifier owner)
+        {
+            Slug = slug;
+            Owner = owner;
         }
 
         public long Id { get; private set; }
         public string Slug { get; private set; }
-        public long OwnerId { get; private set; }
-        public string OwnerScreenName { get; private set; }
+
+        public long OwnerId
+        {
+            get { return Owner.Id; }
+        }
+
+        public string OwnerScreenName
+        {
+            get { return Owner.ScreenName; }
+        }
+
+        public IUserIdentifier Owner { get; private set; }
     }
 }

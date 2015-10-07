@@ -1259,7 +1259,7 @@ namespace Examplinvi
         public static void TwitterList_UpdateList(long listId)
         {
             var list = TwitterList.GetExistingList(listId);
-            var updateParameters = TwitterList.CreateUpdateParameters();
+            var updateParameters = new TwitterListUpdateParameters();
             updateParameters.Name = "piloupe";
             updateParameters.Description = "pilouping description";
             updateParameters.PrivacyMode = PrivacyMode.Private;
