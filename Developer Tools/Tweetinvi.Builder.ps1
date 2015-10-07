@@ -12,6 +12,9 @@ $net45PortableFolder = '.\TweetinviAPI\lib\portable-net45+wp80+win8+wpa81+dnxcor
 $tweetinviAPIMerged = 'TweetinviAPI.dll'
 
 $examplinvi = 'Examplinvi'
+$examplinviUniversalApp = 'Examplinvi.UniversalApp'
+$examplinviWeb = 'Examplinvi.Web'
+
 $testinvi = 'Testinvi'
 $tweetinvi = 'Tweetinvi'
 $tweetinviSecurity = 'Tweetinvi.Security'
@@ -27,6 +30,8 @@ $projects =
 @(
 	# Other projects
 	$examplinvi,
+	$examplinviUniversalApp,
+	$examplinviWeb,
 	$testinvi,
 	
 	# Tweetinvi API
@@ -100,6 +105,13 @@ if (!$uv.IsPresent) {
 
 	Get-ChildItem -LiteralPath $examplinviBin -filter *.dll  | % { Copy-Item $_.fullname $temporaryFolder }
 
+	# Ensure the nuget folders have been created
+	mkdir $net40Folder -Force | Out-Null
+	mkdir $net45Folder -Force | Out-Null
+	mkdir $net40PortableFolder -Force | Out-Null
+	mkdir $net45PortableFolder -Force | Out-Null
+
+	# Add .dll into nuget folders
 	Get-ChildItem -LiteralPath $examplinviBin -filter Tweetinvi*.dll  | % { Copy-Item $_.fullname $net40Folder }
 	Get-ChildItem -LiteralPath $examplinviBin -filter Tweetinvi*.dll  | % { Copy-Item $_.fullname $net45Folder }
 	Get-ChildItem -LiteralPath $examplinviBin -filter Tweetinvi*.dll  | % { Copy-Item $_.fullname $net40PortableFolder }
@@ -115,7 +127,7 @@ if (!$uv.IsPresent) {
 		$ILMergeCommand = $ILMergeCommand +  $temporaryFolder + '/' + $additionalAssemblies[$i] + ' '
 	}
 
-	for ($i=2; $i -lt $projects.length; $i++)
+	for ($i=4; $i -lt $projects.length; $i++) # start at 4 as there are 4 projects that are not part of the library core
 	{
 		$ILMergeCommand = $ILMergeCommand +  $temporaryFolder + '/' + $projects[$i] + '.dll '
 	}
@@ -147,4 +159,4 @@ if (!$uv.IsPresent) {
 	}
 }
 
-Write-Host Sript successfully terminated!
+Write-Host Script successfully terminated!
