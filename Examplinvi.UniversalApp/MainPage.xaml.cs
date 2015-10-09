@@ -1,18 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
-using Windows.UI.Core;
+﻿using Windows.UI.Core;
 using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
 using Tweetinvi;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
@@ -22,11 +9,11 @@ namespace Examplinvi.UniversalApp
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class MainPage : Page
+    public sealed partial class MainPage
     {
         public MainPage()
         {
-            this.InitializeComponent();
+            InitializeComponent();
             Loaded += OnLoaded;
         }
 
@@ -45,16 +32,17 @@ namespace Examplinvi.UniversalApp
             }
             else
             {
-                Message.Text = string.Format("Hi '{0}'. Welcome on board with Windows 10 Universal App!", User.GetLoggedUser().Name);
-            }
+                var user = User.GetLoggedUser();
+                Message.Text = string.Format("Hi '{0}'. Welcome on board with Windows 10 Universal App!", user.Name);
 
-            RunSampleStream();
+                RunSampleStream();
+            }
         }
 
         private void RunSampleStream()
         {
             var uiDispatcher = Dispatcher;
-            var s = Tweetinvi.Stream.CreateSampleStream();
+            var s = Stream.CreateSampleStream();
 
             s.TweetReceived += (o, args) =>
             {

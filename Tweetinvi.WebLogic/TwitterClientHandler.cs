@@ -109,6 +109,7 @@ namespace Tweetinvi.WebLogic
             request.Headers.ExpectContinue = false;
             request.Headers.CacheControl = new CacheControlHeaderValue { NoCache = true };
             request.Headers.Add("Authorization", authorizationHeader);
+            request.Version = new Version("1.1");
 
             return base.SendAsync(request, cancellationToken);
         }
