@@ -62,6 +62,7 @@ namespace Tweetinvi.Core
 
             // Tweet
             _container.RegisterType<IPublishTweetParameters, PublishTweetParameters>();
+            _container.RegisterType<IPublishTweetOptionalParameters, PublishTweetOptionalParameters>();
 
             // Account
             _container.RegisterType<IAccountSettingsRequestParameters, AccountSettingsRequestParameters>();
@@ -75,6 +76,7 @@ namespace Tweetinvi.Core
             // Message
             _container.RegisterType<IMessagesReceivedParameters, MessagesReceivedParameters>();
             _container.RegisterType<IMessagesSentParameters, MessagesSentParameters>();
+            _container.RegisterType<IMessagePublishParameters, MessagePublishParameters>();
         }
     }
 }

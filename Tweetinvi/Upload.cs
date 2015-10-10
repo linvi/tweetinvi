@@ -11,6 +11,10 @@ namespace Tweetinvi
     {
         [ThreadStatic]
         private static IUploadQueryExecutor _uploadQueryExecutor;
+
+        /// <summary>
+        /// Controller handling any Upload request
+        /// </summary>
         public static IUploadQueryExecutor UploadQueryExecutor
         {
             get

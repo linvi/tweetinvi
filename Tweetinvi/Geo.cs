@@ -8,6 +8,10 @@ namespace Tweetinvi
     {
         [ThreadStatic]
         private static IGeoController _geoController;
+
+        /// <summary>
+        /// Controller handling any Geo request
+        /// </summary>
         public static IGeoController GeoController
         {
             get

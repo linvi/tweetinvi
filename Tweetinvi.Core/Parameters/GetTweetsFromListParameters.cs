@@ -1,5 +1,4 @@
-﻿
-namespace Tweetinvi.Core.Parameters
+﻿namespace Tweetinvi.Core.Parameters
 {
     public interface IGetTweetsFromListParameters : ICustomRequestParameters
     {

@@ -14,6 +14,10 @@ namespace Tweetinvi
     public static class Message
     {
         private static IMessageFactory _messageFactory;
+
+        /// <summary>
+        /// Factory used to create Messages
+        /// </summary>
         public static IMessageFactory MessageFactory
         {
             get
@@ -29,6 +33,10 @@ namespace Tweetinvi
 
         [ThreadStatic]
         private static IMessageController _messageController;
+
+        /// <summary>
+        /// Controller handling any Message request
+        /// </summary>
         public static IMessageController MessageController
         {
             get
@@ -42,9 +50,17 @@ namespace Tweetinvi
             }
         }
 
+        private static IFactory<IMessagesReceivedParameters> _messageGetLatestsReceivedRequestParametersFactory;
+        private static IFactory<IMessagesSentParameters> _messageGetLatestsSentRequestParametersFactory;
+        private static IFactory<IMessagePublishParameters> _messagePublishParametersFactory;
+
         static Message()
         {
             Initialize();
+
+            _messageGetLatestsReceivedRequestParametersFactory = TweetinviContainer.Resolve<IFactory<IMessagesReceivedParameters>>();
+            _messageGetLatestsSentRequestParametersFactory = TweetinviContainer.Resolve<IFactory<IMessagesSentParameters>>();
+            _messagePublishParametersFactory = TweetinviContainer.Resolve<IFactory<IMessagePublishParameters>>();
         }
 
         private static void Initialize()
@@ -159,6 +175,21 @@ namespace Tweetinvi
         public static bool DestroyMessage(long messageId)
         {
             return MessageController.DestroyMessage(messageId);
+        }
+
+        // Parameters
+        public static IMessagesReceivedParameters CreateGetLatestsReceivedRequestParameter(int maximumMessages = TweetinviConsts.MESSAGE_GET_COUNT)
+        {
+            var parameter = _messageGetLatestsReceivedRequestParametersFactory.Create();
+            parameter.MaximumNumberOfMessagesToRetrieve = maximumMessages;
+            return parameter;
+        }
+
+        public static IMessagesSentParameters CreateGetLatestsSentRequestParameter(int maximumMessages = TweetinviConsts.MESSAGE_GET_COUNT)
+        {
+            var parameter = _messageGetLatestsSentRequestParametersFactory.Create();
+            parameter.MaximumNumberOfMessagesToRetrieve = maximumMessages;
+            return parameter;
         }
     }
 }

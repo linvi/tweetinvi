@@ -12,6 +12,10 @@ namespace Tweetinvi
     {
         [ThreadStatic]
         private static ITimelineController _timelineController;
+
+        /// <summary>
+        /// Controller handling any Timeline request
+        /// </summary>
         public static ITimelineController TimelineController
         {
             get

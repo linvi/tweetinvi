@@ -1284,5 +1284,23 @@ namespace Tweetinvi
         {
             return TwitterListController.CheckIfUserIsAListSubscriber(listIdentifier, userIdentifier);
         }
+
+        // Parameters - Tweets From List
+
+        /// <summary>
+        /// Create a parameter to get tweets from a List
+        /// </summary>
+        public static IGetTweetsFromListParameters CreateTweetsFromListParameters()
+        {
+            return TwitterListQueryParameterGenerator.CreateTweetsFromListParameters();
+        }
+
+        /// <summary>
+        /// Create a parameter to update a list
+        /// </summary>
+        public static ITwitterListUpdateParameters CreateUpdateParameters()
+        {
+            return TwitterListQueryParameterGenerator.CreateUpdateListParameters();
+        }
     }
 }

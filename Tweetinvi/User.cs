@@ -14,6 +14,10 @@ namespace Tweetinvi
     {
         [ThreadStatic]
         private static IUserFactory _userFactory;
+
+        /// <summary>
+        /// Factory creating Users
+        /// </summary>
         public static IUserFactory UserFactory
         {
             get
@@ -29,6 +33,10 @@ namespace Tweetinvi
 
         [ThreadStatic]
         private static IUserController _userController;
+        
+        /// <summary>
+        /// Controller handling any User request
+        /// </summary>
         public static IUserController UserController
         {
             get
@@ -44,6 +52,10 @@ namespace Tweetinvi
 
         [ThreadStatic]
         private static IFriendshipController _friendshipController;
+
+        /// <summary>
+        /// Controller handling any Friendship request
+        /// </summary>
         public static IFriendshipController FriendshipController
         {
             get

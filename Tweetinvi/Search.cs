@@ -12,6 +12,10 @@ namespace Tweetinvi
     {
         [ThreadStatic]
         private static ISearchController _searchController;
+
+        /// <summary>
+        /// Controller handling any Search request
+        /// </summary>
         public static ISearchController SearchController
         {
             get

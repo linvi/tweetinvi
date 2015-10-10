@@ -14,7 +14,7 @@ namespace Tweetinvi.Core.Interfaces.Async
         Task<IMessage> PublishMessageAsync(IMessage message);
 
         Task<IEnumerable<ITweet>> GetHomeTimelineAsync(int count = 40);
-        Task<IEnumerable<ITweet>> GetHomeTimelineAsync(ITimelineRequestParameters timelineRequestParameters);
+        Task<IEnumerable<ITweet>> GetHomeTimelineAsync(IHomeTimelineParameters timelineRequestParameters);
         Task<IEnumerable<IMention>> GetMentionsTimelineAsync(int count = 40);
 
         Task<IRelationshipDetails> GetRelationshipWithAsync(IUserIdentifier userIdentifier);

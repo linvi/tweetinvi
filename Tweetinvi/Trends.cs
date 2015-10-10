@@ -9,11 +9,9 @@ namespace Tweetinvi
         [ThreadStatic]
         private static ITrendsController _trendsController;
 
-        static Trends()
-        {
-            Initialize();
-        }
-
+        /// <summary>
+        /// Controller handling any Trends request
+        /// </summary>
         public static ITrendsController TrendsController
         {
             get
@@ -25,6 +23,11 @@ namespace Tweetinvi
 
                 return _trendsController;
             }
+        }
+
+        static Trends()
+        {
+            Initialize();
         }
 
         private static void Initialize()

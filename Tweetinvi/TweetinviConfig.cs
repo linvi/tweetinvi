@@ -12,6 +12,9 @@ namespace Tweetinvi
             get { return _currentSettingsAccessor.ApplicationSettings; }
         }
 
+        /// <summary>
+        /// Current Thread settings
+        /// </summary>
         public static ITweetinviSettings CurrentSettings
         {
             get { return _currentSettingsAccessor.CurrentThreadSettings; }

@@ -14,6 +14,10 @@ namespace Tweetinvi
     {
         [ThreadStatic]
         private static IAccountController _accountController;
+
+        /// <summary>
+        /// Controller handling any Account request
+        /// </summary>
         public static IAccountController AccountController
         {
             get

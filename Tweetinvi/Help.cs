@@ -8,6 +8,10 @@ namespace Tweetinvi
     {
         [ThreadStatic]
         private static IHelpController _helpController;
+
+        /// <summary>
+        /// Controller handling any Help request
+        /// </summary>
         public static IHelpController HelpController
         {
             get

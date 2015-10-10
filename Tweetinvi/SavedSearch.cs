@@ -11,6 +11,10 @@ namespace Tweetinvi
     {
         [ThreadStatic]
         private static ISavedSearchFactory _savedSearchFactory;
+
+        /// <summary>
+        /// Factory creating Saved Searches
+        /// </summary>
         public static ISavedSearchFactory SavedSearchFactory
         {
             get
@@ -26,6 +30,10 @@ namespace Tweetinvi
 
         [ThreadStatic]
         private static ISavedSearchController _savedSearchController;
+
+        /// <summary>
+        /// Controller handling any SavedSearch request
+        /// </summary>
         public static ISavedSearchController SavedSearchController
         {
             get

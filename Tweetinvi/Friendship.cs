@@ -9,6 +9,10 @@ namespace Tweetinvi
     {
         [ThreadStatic]
         private static IFriendshipController _friendshipController;
+
+        /// <summary>
+        /// Controller handling any Friendship request
+        /// </summary>
         public static IFriendshipController FriendshipController
         {
             get

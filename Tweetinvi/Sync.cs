@@ -11,6 +11,10 @@ namespace Tweetinvi
 
         [ThreadStatic]
         private static ICredentialsAccessor _credentialsAccessor;
+
+        /// <summary>
+        /// Object storing the current thread credentials
+        /// </summary>
         public static ICredentialsAccessor CredentialsAccessor
         {
             get

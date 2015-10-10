@@ -101,9 +101,9 @@ namespace Tweetinvi.Logic
             return ExecuteLoggedUserOperation(() => _timelineController.GetHomeTimeline(maximumNumberOfTweets));
         }
 
-        public IEnumerable<ITweet> GetHomeTimeline(ITimelineRequestParameters timelineRequestParameters)
+        public IEnumerable<ITweet> GetHomeTimeline(IHomeTimelineParameters timelineRequestParameters)
         {
-            return ExecuteLoggedUserOperation(() => _timelineController.GetHomeTimeline((IHomeTimelineParameters)timelineRequestParameters));
+            return ExecuteLoggedUserOperation(() => _timelineController.GetHomeTimeline(timelineRequestParameters));
         }
 
         // Mentions Timeline
@@ -440,7 +440,7 @@ namespace Tweetinvi.Logic
             return await ExecuteLoggedUserOperation(() => _taskFactory.ExecuteTaskAsync(() => GetHomeTimeline(count)));
         }
 
-        public async Task<IEnumerable<ITweet>> GetHomeTimelineAsync(ITimelineRequestParameters timelineRequestParameters)
+        public async Task<IEnumerable<ITweet>> GetHomeTimelineAsync(IHomeTimelineParameters timelineRequestParameters)
         {
             return await ExecuteLoggedUserOperation(() => _taskFactory.ExecuteTaskAsync(() => GetHomeTimeline(timelineRequestParameters)));
         }

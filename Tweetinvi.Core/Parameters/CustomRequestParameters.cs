@@ -4,6 +4,15 @@ using System.Text;
 
 namespace Tweetinvi.Core.Parameters
 {
+    public interface ICustomRequestParameters
+    {
+        List<Tuple<string, string>> CustomQueryParameters { get; }
+        string FormattedCustomQueryParameters { get; }
+
+        void AddCustomQueryParameter(string name, string value);
+        void ClearCustomQueryParameters();
+    }
+
     public class CustomRequestParameters : ICustomRequestParameters
     {
         private readonly List<Tuple<string, string>> _customQueryParameters;

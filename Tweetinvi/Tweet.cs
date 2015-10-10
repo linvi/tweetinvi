@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Tweetinvi.Core.Injectinvi;
 using Tweetinvi.Core.Interfaces;
 using Tweetinvi.Core.Interfaces.Controllers;
 using Tweetinvi.Core.Interfaces.DTO;
@@ -73,6 +74,16 @@ namespace Tweetinvi
         public static IEnumerable<ITweet> GenerateTweetsFromDTO(IEnumerable<ITweetDTO> tweetsDTO)
         {
             return TweetFactory.GenerateTweetsFromDTO(tweetsDTO);
+        }
+
+        public static IPublishTweetParameters CreatePublishTweetParameters(string text, IPublishTweetOptionalParameters optionalParameters = null)
+        {
+            return new PublishTweetParameters(text, optionalParameters);
+        }
+
+        public static IPublishTweetOptionalParameters CreatePublishTweetOptionalParameters()
+        {
+            return new PublishTweetOptionalParameters();
         }
 
         #endregion

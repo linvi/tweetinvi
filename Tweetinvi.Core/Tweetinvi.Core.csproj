@@ -188,7 +188,6 @@
     <Compile Include="Interfaces\Models\Entities\ExtendedEntities\IVideoInformationEntity.cs" />
     <Compile Include="Interfaces\Models\ITwitterQuery.cs" />
     <Compile Include="Parameters\IMessagesRetrieveRequestParametersBase.cs" />
-    <Compile Include="Parameters\ICustomRequestParameters.cs" />
     <Compile Include="Parameters\QueryParameters\IGetTweetsFromListQueryParameters.cs" />
     <Compile Include="Parameters\QueryParameters\ITwitterListUpdateQueryParameters.cs" />
     <Compile Include="Parameters\QueryParameters\IUserTimelineRequestQueryParameters.cs" />
@@ -234,7 +233,6 @@
     <Compile Include="Interfaces\Models\Entities\IUserEntities.cs" />
     <Compile Include="Interfaces\Models\Entities\IWebsiteEntity.cs" />
     <Compile Include="Interfaces\Factories\ISearchResultFactory.cs" />
-    <Compile Include="Parameters\ITimelineRequestParameters.cs" />
     <Compile Include="Interfaces\IUser.cs" />
     <Compile Include="Interfaces\Models\IAccountSettings.cs" />
     <Compile Include="Interfaces\Models\ICoordinates.cs" />
