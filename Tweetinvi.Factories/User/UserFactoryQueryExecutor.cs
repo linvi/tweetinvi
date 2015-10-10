@@ -40,31 +40,37 @@ namespace Tweetinvi.Factories.User
         // Get single user
         public IUserDTO GetLoggedUser()
         {
-            string query = Resources.TokenUser_GetCurrentUser;
+            var query = Resources.TokenUser_GetCurrentUser;
             return _twitterAccessor.ExecuteGETQuery<IUserDTO>(query);
         }
 
         public IUserDTO GetUserDTOFromId(long userId)
         {
-            string query = string.Format(Resources.User_GetUserFromId, userId);
+            var query = string.Format(Resources.User_GetUserFromId, userId);
             return _twitterAccessor.ExecuteGETQuery<IUserDTO>(query);
         }
 
         public IUserDTO GetUserDTOFromScreenName(string userName)
         {
-            string query = string.Format(Resources.User_GetUserFromName, userName);
+            var query = string.Format(Resources.User_GetUserFromName, userName);
             return _twitterAccessor.ExecuteGETQuery<UserDTO>(query);
         }
 
         // Get Multiple users
         public List<IUserDTO> GetUsersDTOFromIds(IEnumerable<long> userIds)
         {
-            List<IUserDTO> usersDTO = new List<IUserDTO>();
+            var usersDTO = new List<IUserDTO>();
 
             for (int i = 0; i < userIds.Count(); i += MAX_LOOKUP_USERS)
             {
                 var userIdsToLookup = userIds.Skip(i).Take(MAX_LOOKUP_USERS).ToList();
-                usersDTO.AddRangeSafely(LookupUserIds(userIdsToLookup));
+                var retrievedUsers = LookupUserIds(userIdsToLookup);
+                usersDTO.AddRangeSafely(retrievedUsers);
+
+                if (retrievedUsers == null)
+                {
+                    break;
+                }
             }
 
             return usersDTO;
@@ -72,12 +78,18 @@ namespace Tweetinvi.Factories.User
 
         public List<IUserDTO> GetUsersDTOFromScreenNames(IEnumerable<string> userScreenNames)
         {
-            List<IUserDTO> usersDTO = new List<IUserDTO>();
+            var usersDTO = new List<IUserDTO>();
 
             for (int i = 0; i < userScreenNames.Count(); i += MAX_LOOKUP_USERS)
             {
                 var userScreenNamesToLookup = userScreenNames.Skip(i).Take(MAX_LOOKUP_USERS).ToList();
-                usersDTO.AddRangeSafely(LookupUserScreenNames(userScreenNamesToLookup));
+                var retrievedUsers = LookupUserScreenNames(userScreenNamesToLookup);
+                usersDTO.AddRangeSafely(retrievedUsers);
+
+                if (retrievedUsers == null)
+                {
+                    break;
+                }
             }
 
             return usersDTO;
@@ -91,8 +103,8 @@ namespace Tweetinvi.Factories.User
                 throw new InvalidOperationException("Cannot retrieve that quantity of users at once");
             }
 
-            string userIdsParameter = _queryParameterGenerator.GenerateListOfIdsParameter(userIds);
-            string query = string.Format(Resources.User_GetUsersFromIds, userIdsParameter);
+            var userIdsParameter = _queryParameterGenerator.GenerateListOfIdsParameter(userIds);
+            var query = string.Format(Resources.User_GetUsersFromIds, userIdsParameter);
 
             return _twitterAccessor.ExecutePOSTQuery<List<IUserDTO>>(query);
         }
@@ -104,8 +116,8 @@ namespace Tweetinvi.Factories.User
                 throw new InvalidOperationException("Cannot retrieve that quantity of users at once");
             }
 
-            string userIdsParameter = _queryParameterGenerator.GenerateListOfScreenNameParameter(userName);
-            string query = string.Format(Resources.User_GetUsersFromNames, userIdsParameter);
+            var userIdsParameter = _queryParameterGenerator.GenerateListOfScreenNameParameter(userName);
+            var query = string.Format(Resources.User_GetUsersFromNames, userIdsParameter);
 
             return _twitterAccessor.ExecutePOSTQuery<List<IUserDTO>>(query);
         }
