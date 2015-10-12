@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Net.Http;
 using System.Reflection;
 using Tweetinvi;
 using Tweetinvi.Core;
@@ -127,22 +128,22 @@ namespace Examplinvi
             }
 
             Examples.User_GetCurrentUser();
-            
+
             Examples.User_GetUserFromId(1478171);
             Examples.User_GetUserFromName(Examples.USER_SCREEN_NAME_TO_TEST);
 
             Examples.User_GetFavorites(Examples.USER_SCREEN_NAME_TO_TEST);
-            
+
             Examples.User_GetFriends(Examples.USER_SCREEN_NAME_TO_TEST);
             Examples.User_GetFriendIds(Examples.USER_SCREEN_NAME_TO_TEST);
             Examples.User_GetFriendIdsUpTo(Examples.USER_SCREEN_NAME_TO_TEST, 10000);
-            
+
             Examples.User_GetFollowers(Examples.USER_SCREEN_NAME_TO_TEST);
             Examples.User_GetFollowerIds(Examples.USER_SCREEN_NAME_TO_TEST);
             Examples.User_GetFollowerIdsUpTo(Examples.USER_SCREEN_NAME_TO_TEST, 10000);
-            
+
             Examples.User_GetRelationshipBetween("tweetinvitest", Examples.USER_SCREEN_NAME_TO_TEST);
-            
+
             Examples.User_BlockUser(Examples.USER_SCREEN_NAME_TO_TEST);
             Examples.User_UnBlockUser(Examples.USER_SCREEN_NAME_TO_TEST);
             Examples.User_GetBlockedUsers();
@@ -217,7 +218,7 @@ namespace Examplinvi
 
             Examples.TwitterList_GetUserOwnedLists();
             Examples.TwitterList_GetUserSubscribedLists();
-            
+
             Examples.TwitterList_CreateList();
             Examples.TwitterList_GetExistingListById(105601767);
             Examples.TwitterList_UpdateList(105601767);
@@ -328,7 +329,7 @@ namespace Examplinvi
             Examples.ChunkedUpload(new byte[10], "video/mp4");
             Examples.Tweet_PublishTweetWithImage("publish with img", "filePath");
         }
-        
+
         #endregion
     }
 
@@ -441,10 +442,14 @@ namespace Examplinvi
             }
         }
 
-        public static void Tweet_PublishTweetInReplyToAnotherTweet(string text, long tweetIdtoRespondTo)
+        public static void Tweet_PublishTweetInReplyToAnotherTweet(string text, long tweetIdtoReplyTo)
         {
-            var tweet = Tweet.PublishTweetInReplyTo(text, tweetIdtoRespondTo);
-            Console.WriteLine("success ? {0}", tweet != null);
+            var tweetToReplyTo = Tweet.GetTweet(tweetIdtoReplyTo);
+
+            // We must add @screenName of the author of the tweet we want to reply to
+            var textToPublish = string.Format("@{0} {1}",tweetToReplyTo.CreatedBy.ScreenName, text);
+            var tweet = Tweet.PublishTweetInReplyTo(textToPublish, tweetIdtoReplyTo);
+            Console.WriteLine("Publish success? {0}", tweet != null);
         }
 
         public static void Tweet_PublishTweetWithGeo(string text)
@@ -1613,13 +1618,13 @@ namespace Examplinvi
                 return;
             }
 
-             TweetinviConfig.CURRENT_PROXY_URL = "http://228.23.13.21:4287";
+            TweetinviConfig.CURRENT_PROXY_URL = "http://228.23.13.21:4287";
 
-             // Configure a proxy with Proxy with username and password
-             TweetinviConfig.CURRENT_PROXY_URL = "http://user:pass@228.23.13.21:4287";
+            // Configure a proxy with Proxy with username and password
+            TweetinviConfig.CURRENT_PROXY_URL = "http://user:pass@228.23.13.21:4287";
 
-             TweetinviConfig.CURRENT_WEB_REQUEST_TIMEOUT = 5000;
-             TweetinviConfig.CURRENT_SHOW_DEBUG = false;
+            TweetinviConfig.CURRENT_WEB_REQUEST_TIMEOUT = 5000;
+            TweetinviConfig.CURRENT_SHOW_DEBUG = false;
         }
 
         public static void GlobalEvents()
