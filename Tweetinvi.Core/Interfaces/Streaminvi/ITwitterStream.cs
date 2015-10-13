@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Tweetinvi.Core.Credentials;
 using Tweetinvi.Core.Enum;
 using Tweetinvi.Core.Events.EventArguments;
 using Tweetinvi.Core.Interfaces.Streaminvi.Parameters;
@@ -71,6 +72,7 @@ namespace Tweetinvi.Core.Interfaces.Streaminvi
 
         List<Tuple<string, string>> CustomQueryParameters { get; }
         string FormattedCustomQueryParameters { get; }
+        ITwitterCredentials Credentials { get; set; }
 
         void AddCustomQueryParameter(string name, string value);
         void ClearCustomQueryParameters();

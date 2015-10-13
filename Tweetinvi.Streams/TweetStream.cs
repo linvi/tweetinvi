@@ -41,7 +41,7 @@ namespace Tweetinvi.Streams
                 var queryBuilder = new StringBuilder(url);
                 AddBaseParametersToQuery(queryBuilder);
 
-                return _twitterQueryFactory.Create(queryBuilder.ToString(), HttpMethod.GET, true);
+                return _twitterQueryFactory.Create(queryBuilder.ToString(), HttpMethod.GET, Credentials);
             };
 
             Action<string> generateTweetDelegate = json =>

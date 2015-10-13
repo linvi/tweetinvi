@@ -1,4 +1,7 @@
-﻿using Tweetinvi.Core.Injectinvi;
+﻿using System;
+using Tweetinvi.Core.Credentials;
+using Tweetinvi.Core.Injectinvi;
+using Tweetinvi.Core.Interfaces.Credentials;
 using Tweetinvi.Core.Interfaces.Streaminvi;
 
 namespace Tweetinvi
@@ -10,6 +13,21 @@ namespace Tweetinvi
         private static readonly IFactory<ISampleStream> _sampleStreamUnityFactory;
         private static readonly IFactory<ITrackedStream> _trackedStreamUnityFactory;
         private static readonly IFactory<IFilteredStream> _filteredStreamUnityFactory;
+
+        [ThreadStatic]
+        private static ICredentialsAccessor _credentialsAccessor;
+        private static ICredentialsAccessor ThreadCredentialsAccessor
+        {
+            get
+            {
+                if (_credentialsAccessor == null)
+                {
+                    _credentialsAccessor = TweetinviContainer.Resolve<ICredentialsAccessor>();
+                }
+
+                return _credentialsAccessor;
+            }
+        }
 
         static Stream()
         {
@@ -23,44 +41,54 @@ namespace Tweetinvi
         /// <summary>
         /// Create a stream that receive tweets
         /// </summary>
-        public static ITweetStream CreateTweetStream()
+        public static ITweetStream CreateTweetStream(ITwitterCredentials credentials = null)
         {
-            return _tweetStreamUnityFactory.Create();
+            var stream = _tweetStreamUnityFactory.Create();
+            stream.Credentials = credentials ?? ThreadCredentialsAccessor.CurrentThreadCredentials;
+            return stream;
         }
 
         /// <summary>
         /// Create a stream that receive tweets. In addition this stream allow you to filter the results received.
         /// </summary>
-        public static ITrackedStream CreateTrackedStream()
+        public static ITrackedStream CreateTrackedStream(ITwitterCredentials credentials = null)
         {
-            return _trackedStreamUnityFactory.Create();
+            var stream = _trackedStreamUnityFactory.Create();
+            stream.Credentials = credentials ?? ThreadCredentialsAccessor.CurrentThreadCredentials;
+            return stream;
         }
 
         /// <summary>
         /// Create a a stream that get the tweets from the Twitter public Sample stream
         /// https://dev.twitter.com/streaming/reference/get/statuses/sample
         /// </summary>
-        public static ISampleStream CreateSampleStream()
+        public static ISampleStream CreateSampleStream(ITwitterCredentials credentials = null)
         {
-            return _sampleStreamUnityFactory.Create();
+            var stream = _sampleStreamUnityFactory.Create();
+            stream.Credentials = credentials ?? ThreadCredentialsAccessor.CurrentThreadCredentials;
+            return stream;
         }
 
         /// <summary>
         /// Create a a stream that get the tweets from the Twitter public Sample stream
         /// https://dev.twitter.com/streaming/reference/post/statuses/filter
         /// </summary>
-        public static IFilteredStream CreateFilteredStream()
+        public static IFilteredStream CreateFilteredStream(ITwitterCredentials credentials = null)
         {
-            return _filteredStreamUnityFactory.Create();
+            var stream = _filteredStreamUnityFactory.Create();
+            stream.Credentials = credentials ?? ThreadCredentialsAccessor.CurrentThreadCredentials;
+            return stream;
         }
 
         /// <summary>
         /// Create a a stream that get the tweets from the Twitter public Sample stream
         /// https://dev.twitter.com/streaming/reference/get/user
         /// </summary>
-        public static IUserStream CreateUserStream()
+        public static IUserStream CreateUserStream(ITwitterCredentials credentials = null)
         {
-            return _userStreamFactory.Create();
+            var stream = _userStreamFactory.Create();
+            stream.Credentials = credentials ?? ThreadCredentialsAccessor.CurrentThreadCredentials;
+            return stream;
         }
     }
 }

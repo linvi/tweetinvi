@@ -14,7 +14,6 @@ using Tweetinvi.Core.Interfaces;
 using Tweetinvi.Core.Interfaces.Factories;
 using Tweetinvi.Core.Interfaces.Models;
 using Tweetinvi.Core.Interfaces.Streaminvi;
-using Tweetinvi.Core.Interfaces.WebLogic;
 using Tweetinvi.Core.Parameters;
 using Tweetinvi.Core.Wrappers;
 using Tweetinvi.Streams.Helpers;
@@ -53,7 +52,6 @@ namespace Tweetinvi.Streams
             IJObjectStaticWrapper jObjectStaticWrapper,
             IStreamResultGenerator streamResultGenerator,
             ITweetFactory tweetFactory,
-            ITwitterRequestGenerator twitterRequestGenerator,
             ISynchronousInvoker synchronousInvoker,
             ICustomRequestParameters customRequestParameters,
             ITwitterQueryFactory twitterQueryFactory,
@@ -65,7 +63,6 @@ namespace Tweetinvi.Streams
                 jObjectStaticWrapper,
                 streamResultGenerator,
                 tweetFactory,
-                twitterRequestGenerator, 
                 synchronousInvoker,
                 customRequestParameters,
                 twitterQueryFactory,
@@ -90,7 +87,7 @@ namespace Tweetinvi.Streams
                 var queryBuilder = GenerateORFilterQuery();
                 AddBaseParametersToQuery(queryBuilder);
 
-                return _twitterQueryFactory.Create(queryBuilder.ToString(), HttpMethod.POST, true);
+                return _twitterQueryFactory.Create(queryBuilder.ToString(), HttpMethod.POST, Credentials);
             };
 
             Action<string> tweetReceived = json =>
@@ -134,7 +131,7 @@ namespace Tweetinvi.Streams
                 var queryBuilder = GenerateANDFilterQuery();
                 AddBaseParametersToQuery(queryBuilder);
 
-                return _twitterQueryFactory.Create(queryBuilder.ToString(), HttpMethod.POST, true);
+                return _twitterQueryFactory.Create(queryBuilder.ToString(), HttpMethod.POST, Credentials);
             };
 
             Action<string> tweetReceived = json =>

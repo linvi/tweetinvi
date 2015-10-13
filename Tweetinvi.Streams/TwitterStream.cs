@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Newtonsoft.Json.Linq;
+using Tweetinvi.Core.Credentials;
 using Tweetinvi.Core.Enum;
 using Tweetinvi.Core.Events;
 using Tweetinvi.Core.Events.EventArguments;
@@ -36,12 +37,28 @@ namespace Tweetinvi.Streams
             _jsonObjectConverter = jsonObjectConverter;
             _jObjectWrapper = jObjectWrapper;
             _customRequestParameters = customRequestParameters;
+
             _streamEventsActions = new Dictionary<string, Action<JToken>>();
             _filteredLanguages = new List<string>();
 
             StallWarnings = true;
 
             InitializeStreamEventsActions();
+        }
+
+        private ITwitterCredentials _credentials;
+        public ITwitterCredentials Credentials
+        {
+            get { return _credentials; }
+            set
+            {
+                if (StreamState != StreamState.Stop)
+                {
+                    throw new InvalidOperationException("Credentials cannot be changed while the stream is running.");
+                }
+
+                _credentials = value;
+            }
         }
 
         private void InitializeStreamEventsActions()

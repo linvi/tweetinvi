@@ -12,7 +12,6 @@ using Tweetinvi.Core.Interfaces;
 using Tweetinvi.Core.Interfaces.Factories;
 using Tweetinvi.Core.Interfaces.Models;
 using Tweetinvi.Core.Interfaces.Streaminvi;
-using Tweetinvi.Core.Interfaces.WebLogic;
 using Tweetinvi.Core.Parameters;
 using Tweetinvi.Core.Wrappers;
 using Tweetinvi.Streams.Properties;
@@ -26,7 +25,6 @@ namespace Tweetinvi.Streams
         protected readonly IStreamTrackManager<ITweet> _streamTrackManager;
         protected readonly IJsonObjectConverter _jsonObjectConverter;
         protected readonly ITweetFactory _tweetFactory;
-        protected readonly ITwitterRequestGenerator _twitterRequestGenerator;
         protected readonly ISynchronousInvoker _synchronousInvoker;
         private readonly ISingleAggregateExceptionThrower _singleAggregateExceptionThrower;
         private readonly ITwitterQueryFactory _twitterQueryFactory;
@@ -39,7 +37,6 @@ namespace Tweetinvi.Streams
             IJObjectStaticWrapper jObjectStaticWrapper,
             IStreamResultGenerator streamResultGenerator,
             ITweetFactory tweetFactory,
-            ITwitterRequestGenerator twitterRequestGenerator,
             ISynchronousInvoker synchronousInvoker,
             ICustomRequestParameters customRequestParameters,
             ITwitterQueryFactory twitterQueryFactory,
@@ -50,7 +47,6 @@ namespace Tweetinvi.Streams
             _streamTrackManager = streamTrackManager;
             _jsonObjectConverter = jsonObjectConverter;
             _tweetFactory = tweetFactory;
-            _twitterRequestGenerator = twitterRequestGenerator;
             _synchronousInvoker = synchronousInvoker;
             _singleAggregateExceptionThrower = singleAggregateExceptionThrower;
             _twitterQueryFactory = twitterQueryFactory;
@@ -69,7 +65,7 @@ namespace Tweetinvi.Streams
                 var queryBuilder = new StringBuilder(url);
                 AddBaseParametersToQuery(queryBuilder);
 
-                return _twitterQueryFactory.Create(queryBuilder.ToString(), HttpMethod.GET, true);
+                return _twitterQueryFactory.Create(queryBuilder.ToString(), HttpMethod.GET, Credentials);
             };
 
             Action<string> generateTweetDelegate = json =>

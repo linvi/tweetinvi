@@ -2,7 +2,6 @@
 using System.Threading.Tasks;
 using Tweetinvi.Core.Exceptions;
 using Tweetinvi.Core.Helpers;
-using Tweetinvi.Core.Interfaces.Credentials;
 using Tweetinvi.Core.Interfaces.Factories;
 using Tweetinvi.Core.Interfaces.Models;
 using Tweetinvi.Core.Interfaces.Streaminvi;
@@ -19,14 +18,20 @@ namespace Tweetinvi.Streams
 
         public SampleStream(
             IStreamResultGenerator streamResultGenerator,
-            IJsonObjectConverter jsonObjectConverter, 
-            IJObjectStaticWrapper jObjectStaticWrapper, 
+            IJsonObjectConverter jsonObjectConverter,
+            IJObjectStaticWrapper jObjectStaticWrapper,
             ITweetFactory tweetFactory,
             ISynchronousInvoker synchronousInvoker,
             ICustomRequestParameters customRequestParameters,
             ISingleAggregateExceptionThrower singleAggregateExceptionThrower,
             ITwitterQueryFactory twitterQueryFactory)
-            : base(streamResultGenerator, jsonObjectConverter, jObjectStaticWrapper, tweetFactory, customRequestParameters, twitterQueryFactory)
+            : base(
+            streamResultGenerator,
+            jsonObjectConverter,
+            jObjectStaticWrapper,
+            tweetFactory,
+            customRequestParameters,
+            twitterQueryFactory)
         {
             _synchronousInvoker = synchronousInvoker;
             _singleAggregateExceptionThrower = singleAggregateExceptionThrower;
