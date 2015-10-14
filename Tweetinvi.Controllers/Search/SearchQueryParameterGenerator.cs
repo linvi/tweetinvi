@@ -5,7 +5,6 @@ using Tweetinvi.Core.Enum;
 using Tweetinvi.Core.Extensions;
 using Tweetinvi.Core.Helpers;
 using Tweetinvi.Core.Interfaces.Models;
-using Tweetinvi.Core.Interfaces.Parameters;
 using Tweetinvi.Core.Parameters;
 
 namespace Tweetinvi.Controllers.Search
@@ -64,39 +63,39 @@ namespace Tweetinvi.Controllers.Search
         public string GenerateSearchQueryParameter(string searchQuery)
         {
             var formattedQuery = _twitterStringFormatter.TwitterEncode(searchQuery);
-            return String.Format(Resources.Search_SearchTweets, formattedQuery);
+            return string.Format(Resources.Search_SearchTweets, formattedQuery);
         }
 
         public string GenerateSearchTypeParameter(SearchResultType searchType)
         {
-            return String.Format(Resources.SearchParameter_ResultType, searchType.ToString().ToLowerInvariant());
+            return string.Format(Resources.SearchParameter_ResultType, searchType.ToString().ToLowerInvariant());
         }
 
         public string GenerateSinceParameter(DateTime since)
         {
             if (!_searchQueryValidator.IsDateTimeDefined(since))
             {
-                return String.Empty;
+                return string.Empty;
             }
 
-            return String.Format(Resources.SearchParameter_Since, since.ToString("yyyy-MM-dd"));
+            return string.Format(Resources.SearchParameter_Since, since.ToString("yyyy-MM-dd"));
         }
 
         public string GenerateUntilParameter(DateTime until)
         {
             if (!_searchQueryValidator.IsDateTimeDefined(until))
             {
-                return String.Empty;
+                return string.Empty;
             }
 
-            return String.Format(Resources.SearchParameter_Until, until.ToString("yyyy-MM-dd"));
+            return string.Format(Resources.SearchParameter_Until, until.ToString("yyyy-MM-dd"));
         }
 
         public string GenerateLocaleParameter(string locale)
         {
             if (!_searchQueryValidator.IsLocaleParameterValid(locale))
             {
-                return String.Empty;
+                return string.Empty;
             }
 
             return locale;
@@ -106,24 +105,24 @@ namespace Tweetinvi.Controllers.Search
         {
             if (!_searchQueryValidator.IsLangDefined(lang))
             {
-                return String.Empty;
+                return string.Empty;
             }
 
-            return String.Format(Resources.SearchParameter_Lang, lang.GetLanguageCode());
+            return string.Format(Resources.SearchParameter_Lang, lang.GetLanguageCode());
         }
 
         public string GenerateGeoCodeParameter(IGeoCode geoCode)
         {
             if (!_searchQueryValidator.IsGeoCodeValid(geoCode))
             {
-                return String.Empty;
+                return string.Empty;
             }
 
             string latitude = geoCode.Coordinates.Latitude.ToString(CultureInfo.InvariantCulture);
             string longitude = geoCode.Coordinates.Longitude.ToString(CultureInfo.InvariantCulture);
             string radius = geoCode.Radius.ToString(CultureInfo.InvariantCulture);
             string measure = geoCode.DistanceMeasure == DistanceMeasure.Kilometers ? "km" : "mi";
-            return String.Format(Resources.SearchParameter_GeoCode, latitude, longitude, radius, measure, CultureInfo.InvariantCulture);
+            return string.Format(Resources.SearchParameter_GeoCode, latitude, longitude, radius, measure, CultureInfo.InvariantCulture);
         }
 
         public IUserSearchParameters CreateUserSearchParameters(string query)

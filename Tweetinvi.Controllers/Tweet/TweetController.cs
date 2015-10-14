@@ -9,9 +9,8 @@ using Tweetinvi.Core.Interfaces.Controllers;
 using Tweetinvi.Core.Interfaces.DTO;
 using Tweetinvi.Core.Interfaces.Factories;
 using Tweetinvi.Core.Interfaces.Models;
-using Tweetinvi.Core.Interfaces.Parameters;
-using Tweetinvi.Core.Interfaces.Parameters.QueryParameters;
 using Tweetinvi.Core.Parameters;
+using Tweetinvi.Core.Parameters.QueryParameters;
 
 namespace Tweetinvi.Controllers.Tweet
 {
@@ -86,7 +85,7 @@ namespace Tweetinvi.Controllers.Tweet
         public ITweet PublishTweetWithVideo(string text, byte[] video)
         {
             var media = _uploadQueryExecutor.UploadVideo(video);
-            if (media == null || media.MediaId == null)
+            if (media == null || media.MediaId == null || !media.HasBeenUploaded)
             {
                 throw new OperationCanceledException("The tweet cannot be published as some of the medias could not be published!");
             }

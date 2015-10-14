@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/10/nuspec.xsd">
+    <metadata>
+        <id>TweetinviAPI</id>
+        <version>0.9.10.0</version>
+        <title>Tweetinvi</title>
+        <authors>Linvi</authors>
+        <owners>Linvi</owners>
+        <licenseUrl>http://tweetinvi.codeplex.com/license</licenseUrl>
+        <projectUrl>http://tweetinvi.codeplex.com/</projectUrl>
+        <requireLicenseAcceptance>false</requireLicenseAcceptance>
+        <description>Tweetinvi is an intuitive .NET C# library to access the Twitter REST API. It is a Portable Class Library that can be used for development on Windows, Windows RT, Windows Phone, Mono, Xamarin Android and Xamarin iOS. Tweetinvi is also compatible for Universal App development.</description>
+        <copyright>Tweetinvi 2015</copyright>
+        <language>en-US</language>
+        <tags>twitter c# rest rest api 1.1 .net</tags>
+        <dependencies>
+            <dependency id="Autofac" version="3.5.2" />
+            <dependency id="Microsoft.Bcl.Async" version="1.0.168" />
+            <dependency id="Microsoft.Bcl.Build" version="1.0.21" />
+            <dependency id="Microsoft.Net.Http" version="2.2.29" />
+            <dependency id="Newtonsoft.Json" version="7.0.1" />
+        </dependencies>
+    </metadata>
+</package>

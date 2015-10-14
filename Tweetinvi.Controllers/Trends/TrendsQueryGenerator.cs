@@ -14,7 +14,7 @@ namespace Tweetinvi.Controllers.Trends
     {
         public string GetPlaceTrendsAtQuery(long woeid)
         {
-            return String.Format(Resources.Trends_GetTrendsFromWoeId, woeid);
+            return string.Format(Resources.Trends_GetTrendsFromWoeId, woeid);
         }
 
         public string GetPlaceTrendsAtQuery(IWoeIdLocation woeIdLocation)

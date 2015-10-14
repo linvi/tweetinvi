@@ -20,7 +20,7 @@ namespace Tweetinvi.Core.Extensions
             {
                 if (!String.IsNullOrEmpty(descriptionValue))
                 {
-                    descriptionValue = descriptionValue.Substring(0, 2);
+                    descriptionValue = descriptionValue.Substring(0, 2).ToLower();
                 }
 
                 var language = typeof(Language).GetFields().First(field => IsValidDescriptionField(descriptionValue, field));
@@ -41,8 +41,16 @@ namespace Tweetinvi.Core.Extensions
             {
                 return false;
             }
-
-            return ((LanguageAttribute) descriptionAttribute).Language == descriptionValue;
+            
+            var attribute = ((LanguageAttribute) descriptionAttribute);
+            if (!attribute.HasMultipleCodes)
+            {
+                return attribute.Language == descriptionValue;
+            }
+            else
+            {
+                return attribute.Languages.Any(x => x == descriptionValue);
+            }
         }
     }
 }

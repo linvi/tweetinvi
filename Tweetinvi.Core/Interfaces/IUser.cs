@@ -6,7 +6,7 @@ using Tweetinvi.Core.Interfaces.Async;
 using Tweetinvi.Core.Interfaces.DTO;
 using Tweetinvi.Core.Interfaces.Models;
 using Tweetinvi.Core.Interfaces.Models.Entities;
-using Tweetinvi.Core.Interfaces.Parameters;
+using Tweetinvi.Core.Parameters;
 
 namespace Tweetinvi.Core.Interfaces
 {
@@ -54,7 +54,7 @@ namespace Tweetinvi.Core.Interfaces
 
         string ProfileImageUrl { get; }
 
-        string ProfileImageFullSizeUrl { get; }
+        string ProfileImageUrlFullSize { get; }
 
         string ProfileImageUrl400x400 { get; }
 

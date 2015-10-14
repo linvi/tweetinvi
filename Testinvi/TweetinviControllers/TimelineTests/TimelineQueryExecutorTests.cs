@@ -6,8 +6,8 @@ using Testinvi.SetupHelpers;
 using Tweetinvi.Controllers.Timeline;
 using Tweetinvi.Core.Interfaces.Credentials;
 using Tweetinvi.Core.Interfaces.DTO;
-using Tweetinvi.Core.Interfaces.Parameters;
-using Tweetinvi.Core.Interfaces.Parameters.QueryParameters;
+using Tweetinvi.Core.Parameters;
+using Tweetinvi.Core.Parameters.QueryParameters;
 
 namespace Testinvi.TweetinviControllers.TimelineTests
 {

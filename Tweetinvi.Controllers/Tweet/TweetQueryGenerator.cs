@@ -8,8 +8,8 @@ using Tweetinvi.Controllers.Shared;
 using Tweetinvi.Core.Extensions;
 using Tweetinvi.Core.Helpers;
 using Tweetinvi.Core.Interfaces.DTO;
-using Tweetinvi.Core.Interfaces.Parameters.QueryParameters;
 using Tweetinvi.Core.Interfaces.QueryGenerators;
+using Tweetinvi.Core.Parameters;
 
 namespace Tweetinvi.Controllers.Tweet
 {

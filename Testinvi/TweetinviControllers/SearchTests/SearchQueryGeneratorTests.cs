@@ -8,7 +8,7 @@ using Tweetinvi.Controllers.Shared;
 using Tweetinvi.Core.Enum;
 using Tweetinvi.Core.Extensions;
 using Tweetinvi.Core.Interfaces.Models;
-using Tweetinvi.Core.Interfaces.Parameters;
+using Tweetinvi.Core.Parameters;
 
 namespace Testinvi.TweetinviControllers.SearchTests
 {

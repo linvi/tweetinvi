@@ -2,8 +2,7 @@
 using Tweetinvi.Core;
 using Tweetinvi.Core.Interfaces.Credentials;
 using Tweetinvi.Core.Interfaces.DTO;
-using Tweetinvi.Core.Interfaces.Models;
-using Tweetinvi.Core.Interfaces.Parameters;
+using Tweetinvi.Core.Parameters;
 
 namespace Tweetinvi.Controllers.Messages
 {
@@ -11,16 +10,13 @@ namespace Tweetinvi.Controllers.Messages
     {
         // Get messages
         IEnumerable<IMessageDTO> GetLatestMessagesReceived(int maximumMessages = TweetinviConsts.MESSAGE_GET_COUNT);
-        IEnumerable<IMessageDTO> GetLatestMessagesReceived(IMessageGetLatestsReceivedRequestParameters queryParameters);
+        IEnumerable<IMessageDTO> GetLatestMessagesReceived(IMessagesReceivedParameters queryParameters);
 
         IEnumerable<IMessageDTO> GetLatestMessagesSent(int maximumMessages = TweetinviConsts.MESSAGE_GET_COUNT);
-        IEnumerable<IMessageDTO> GetLatestMessagesSent(IMessageGetLatestsSentRequestParameters queryParameters);
+        IEnumerable<IMessageDTO> GetLatestMessagesSent(IMessagesSentParameters queryParameters);
 
         // Publish Message
-        IMessageDTO PublishMessage(IMessageDTO messageDTO);
-        IMessageDTO PublishMessage(string messageText, IUserIdentifier targetUserDTO);
-        IMessageDTO PublishMessage(string messageText, string targetUserScreenName);
-        IMessageDTO PublishMessage(string messageText, long targetUserId);
+        IMessageDTO PublishMessage(IMessagePublishParameters parameters);
 
         // Detroy Message
         bool DestroyMessage(IMessageDTO messageDTO);
@@ -47,7 +43,7 @@ namespace Tweetinvi.Controllers.Messages
             return _twitterAccessor.ExecuteGETQuery<IEnumerable<IMessageDTO>>(query);
         }
 
-        public IEnumerable<IMessageDTO> GetLatestMessagesReceived(IMessageGetLatestsReceivedRequestParameters queryParameters)
+        public IEnumerable<IMessageDTO> GetLatestMessagesReceived(IMessagesReceivedParameters queryParameters)
         {
             string query = _messageQueryGenerator.GetLatestMessagesReceivedQuery(queryParameters);
             return _twitterAccessor.ExecuteGETQuery<IEnumerable<IMessageDTO>>(query);
@@ -59,36 +55,19 @@ namespace Tweetinvi.Controllers.Messages
             return _twitterAccessor.ExecuteGETQuery<IEnumerable<IMessageDTO>>(query);
         }
 
-        public IEnumerable<IMessageDTO> GetLatestMessagesSent(IMessageGetLatestsSentRequestParameters queryParameters)
+        public IEnumerable<IMessageDTO> GetLatestMessagesSent(IMessagesSentParameters queryParameters)
         {
             string query = _messageQueryGenerator.GetLatestMessagesSentQuery(queryParameters);
             return _twitterAccessor.ExecuteGETQuery<IEnumerable<IMessageDTO>>(query);
         }
 
         // Publish Message
-        public IMessageDTO PublishMessage(IMessageDTO messageDTO)
+        public IMessageDTO PublishMessage(IMessagePublishParameters parameters)
         {
-            string query = _messageQueryGenerator.GetPublishMessageQuery(messageDTO);
+            string query = _messageQueryGenerator.GetPublishMessageQuery(parameters);
             return _twitterAccessor.ExecutePOSTQuery<IMessageDTO>(query);
         }
 
-        public IMessageDTO PublishMessage(string messageText, IUserIdentifier targetUserDTO)
-        {
-            string query = _messageQueryGenerator.GetPublishMessageQuery(messageText, targetUserDTO);
-            return _twitterAccessor.ExecutePOSTQuery<IMessageDTO>(query);
-        }
-
-        public IMessageDTO PublishMessage(string messageText, string targetUserScreenName)
-        {
-            string query = _messageQueryGenerator.GetPublishMessageQuery(messageText, targetUserScreenName);
-            return _twitterAccessor.ExecutePOSTQuery<IMessageDTO>(query);
-        }
-
-        public IMessageDTO PublishMessage(string messageText, long targetUserId)
-        {
-            string query = _messageQueryGenerator.GetPublishMessageQuery(messageText, targetUserId);
-            return _twitterAccessor.ExecutePOSTQuery<IMessageDTO>(query);
-        }
 
         // Destroy Message
         public bool DestroyMessage(IMessageDTO messageDTO)

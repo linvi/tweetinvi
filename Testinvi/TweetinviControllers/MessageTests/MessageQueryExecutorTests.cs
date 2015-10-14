@@ -7,6 +7,7 @@ using Testinvi.SetupHelpers;
 using Tweetinvi.Controllers.Messages;
 using Tweetinvi.Core.Interfaces.Credentials;
 using Tweetinvi.Core.Interfaces.DTO;
+using Tweetinvi.Core.Parameters;
 
 namespace Testinvi.TweetinviControllers.MessageTests
 {
@@ -25,247 +26,166 @@ namespace Testinvi.TweetinviControllers.MessageTests
             _fakeTwitterAccessor = _fakeBuilder.GetFake<ITwitterAccessor>();
         }
 
-            #region GetLatestMessagesReceived
-            [TestMethod]
-            public void GetLatestMessagesReceived_ReturnsTwitterAccessorResult()
-            {
-                IEnumerable<IMessageDTO> expectedResult = new List<IMessageDTO> { A.Fake<IMessageDTO>() };
+        #region GetLatestMessagesReceived
+        [TestMethod]
+        public void GetLatestMessagesReceived_ReturnsTwitterAccessorResult()
+        {
+            IEnumerable<IMessageDTO> expectedResult = new List<IMessageDTO> { A.Fake<IMessageDTO>() };
 
-                // Arrange
-                var queryExecutor = CreateMessageQueryExecutor();
-                var maximumMessages = new Random().Next();
-                var query = Guid.NewGuid().ToString();
+            // Arrange
+            var queryExecutor = CreateMessageQueryExecutor();
+            var maximumMessages = new Random().Next();
+            var query = Guid.NewGuid().ToString();
 
-                ArrangeQueryGeneratorGetLatestMessagesReceived(maximumMessages, query);
-                _fakeTwitterAccessor.ArrangeExecuteGETQuery(query, expectedResult);
+            ArrangeQueryGeneratorGetLatestMessagesReceived(maximumMessages, query);
+            _fakeTwitterAccessor.ArrangeExecuteGETQuery(query, expectedResult);
 
-                // Act
-                var result = queryExecutor.GetLatestMessagesReceived(maximumMessages);
+            // Act
+            var result = queryExecutor.GetLatestMessagesReceived(maximumMessages);
 
-                // Assert
-                Assert.AreEqual(result, expectedResult);
-            }
+            // Assert
+            Assert.AreEqual(result, expectedResult);
+        }
 
-            private void ArrangeQueryGeneratorGetLatestMessagesReceived(int maximumMessages, string query)
-            {
-                _fakeMessageQueryGenerator
-                    .CallsTo(x => x.GetLatestMessagesReceivedQuery(maximumMessages))
-                    .Returns(query);
-            } 
+        private void ArrangeQueryGeneratorGetLatestMessagesReceived(int maximumMessages, string query)
+        {
+            _fakeMessageQueryGenerator
+                .CallsTo(x => x.GetLatestMessagesReceivedQuery(maximumMessages))
+                .Returns(query);
+        }
 
-            #endregion
+        #endregion
 
-            #region GetLatestMessagesSent
+        #region GetLatestMessagesSent
 
-            [TestMethod]
-            public void GetLatestMessagesSent_ReturnsTwitterAccessorResult()
-            {
-                IEnumerable<IMessageDTO> expectedResult = new List<IMessageDTO> { A.Fake<IMessageDTO>() };
+        [TestMethod]
+        public void GetLatestMessagesSent_ReturnsTwitterAccessorResult()
+        {
+            IEnumerable<IMessageDTO> expectedResult = new List<IMessageDTO> { A.Fake<IMessageDTO>() };
 
-                // Arrange
-                var queryExecutor = CreateMessageQueryExecutor();
-                var maximumMessages = new Random().Next();
-                var query = Guid.NewGuid().ToString();
+            // Arrange
+            var queryExecutor = CreateMessageQueryExecutor();
+            var maximumMessages = new Random().Next();
+            var query = Guid.NewGuid().ToString();
 
-                ArrangeQueryGeneratorGetLatestMessagesSent(maximumMessages, query);
-                _fakeTwitterAccessor.ArrangeExecuteGETQuery(query, expectedResult);
+            ArrangeQueryGeneratorGetLatestMessagesSent(maximumMessages, query);
+            _fakeTwitterAccessor.ArrangeExecuteGETQuery(query, expectedResult);
 
-                // Act
-                var result = queryExecutor.GetLatestMessagesSent(maximumMessages);
+            // Act
+            var result = queryExecutor.GetLatestMessagesSent(maximumMessages);
 
-                // Assert
-                Assert.AreEqual(result, expectedResult);
-            }
+            // Assert
+            Assert.AreEqual(result, expectedResult);
+        }
 
-            private void ArrangeQueryGeneratorGetLatestMessagesSent(int maximumMessages, string query)
-            {
-                _fakeMessageQueryGenerator
-                    .CallsTo(x => x.GetLatestMessagesSentQuery(maximumMessages))
-                    .Returns(query);
-            }
+        private void ArrangeQueryGeneratorGetLatestMessagesSent(int maximumMessages, string query)
+        {
+            _fakeMessageQueryGenerator
+                .CallsTo(x => x.GetLatestMessagesSentQuery(maximumMessages))
+                .Returns(query);
+        }
 
-            #endregion
+        #endregion
 
-            #region Publish Message
+        #region Publish Message
 
-            [TestMethod]
-            public void PublishMessage_WithMessageDTO_ReturnsTwitterAccessor()
-            {
-                // Arrange
-                var queryExecutor = CreateMessageQueryExecutor();
-                var sourceMessageDTO = A.Fake<IMessageDTO>();
-                var resultMessageDTO = A.Fake<IMessageDTO>();
-                var query = Guid.NewGuid().ToString();
+        [TestMethod]
+        public void PublishMessage_WithMessageDTO_ReturnsTwitterAccessor()
+        {
+            // Arrange
+            var queryExecutor = CreateMessageQueryExecutor();
+            var parameters = A.Fake<IMessagePublishParameters>();
+            var resultMessageDTO = A.Fake<IMessageDTO>();
+            var query = TestHelper.GenerateString();
 
-                ArrangeQueryGeneratorPublishMessage(sourceMessageDTO, query);
-                _fakeTwitterAccessor.ArrangeExecutePOSTQuery(query, resultMessageDTO);
+            ArrangeQueryGeneratorPublishMessage(parameters, query);
+            _fakeTwitterAccessor.ArrangeExecutePOSTQuery(query, resultMessageDTO);
 
-                // Act
-                var result = queryExecutor.PublishMessage(sourceMessageDTO);
+            // Act
+            var result = queryExecutor.PublishMessage(parameters);
 
-                // Assert
-                Assert.AreEqual(result, resultMessageDTO);
-            }
+            // Assert
+            Assert.AreEqual(result, resultMessageDTO);
+        }
 
-            [TestMethod]
-            public void PublishMessage_WithTextAndUserDTO_ReturnsTwitterAccessor()
-            {
-                // Arrange
-                var queryExecutor = CreateMessageQueryExecutor();
-                var text = Guid.NewGuid().ToString();
-                var targetUserDTO = A.Fake<IUserDTO>();
-                var resultMessageDTO = A.Fake<IMessageDTO>();
-                var query = Guid.NewGuid().ToString();
+        private void ArrangeQueryGeneratorPublishMessage(IMessagePublishParameters parameters, string query)
+        {
+            _fakeMessageQueryGenerator
+                .CallsTo(x => x.GetPublishMessageQuery(parameters))
+                .Returns(query);
+        }
 
-                ArrangeQueryGeneratorPublishMessage(text, targetUserDTO, query);
-                _fakeTwitterAccessor.ArrangeExecutePOSTQuery(query, resultMessageDTO);
+        #endregion
 
-                // Act
-                var result = queryExecutor.PublishMessage(text, targetUserDTO);
+        #region Destroy Message
 
-                // Assert
-                Assert.AreEqual(result, resultMessageDTO);
-            }
+        [TestMethod]
+        public void DestroyMessage_WithMessageDTO_ReturnsTwitterAccessorResult()
+        {
+            // Arrange - Act
+            var result1 = DestroyMessage_WithMessageDTO_Returns(true);
+            var result2 = DestroyMessage_WithMessageDTO_Returns(false);
 
-            [TestMethod]
-            public void PublishMessage_WithTextAndScreenName_ReturnsTwitterAccessor()
-            {
-                // Arrange
-                var queryExecutor = CreateMessageQueryExecutor();
-                var text = Guid.NewGuid().ToString();
-                var screenName = Guid.NewGuid().ToString();
-                var resultMessageDTO = A.Fake<IMessageDTO>();
-                var query = Guid.NewGuid().ToString();
+            // Assert
+            Assert.IsTrue(result1);
+            Assert.IsFalse(result2);
+        }
 
-                ArrangeQueryGeneratorPublishMessage(text, screenName, query);
-                _fakeTwitterAccessor.ArrangeExecutePOSTQuery(query, resultMessageDTO);
+        public bool DestroyMessage_WithMessageDTO_Returns(bool expectedResult)
+        {
+            // Arrange
+            var queryExecutor = CreateMessageQueryExecutor();
+            var messageDTO = A.Fake<IMessageDTO>();
+            var query = Guid.NewGuid().ToString();
 
-                // Act
-                var result = queryExecutor.PublishMessage(text, screenName);
+            ArrangeQueryGeneratorDestroyMessage(messageDTO, query);
+            _fakeTwitterAccessor.ArrangeTryExecutePOSTQuery(query, expectedResult);
 
-                // Assert
-                Assert.AreEqual(result, resultMessageDTO);
-            }
+            // Act
+            return queryExecutor.DestroyMessage(messageDTO);
+        }
 
-            [TestMethod]
-            public void PublishMessage_WithTextAndUserId_ReturnsTwitterAccessor()
-            {
-                // Arrange
-                var queryExecutor = CreateMessageQueryExecutor();
-                var text = Guid.NewGuid().ToString();
-                var userId = new Random().Next();
-                var resultMessageDTO = A.Fake<IMessageDTO>();
-                var query = Guid.NewGuid().ToString();
+        private void ArrangeQueryGeneratorDestroyMessage(IMessageDTO messageDTO, string query)
+        {
+            _fakeMessageQueryGenerator
+                .CallsTo(x => x.GetDestroyMessageQuery(messageDTO))
+                .Returns(query);
+        }
 
-                ArrangeQueryGeneratorPublishMessage(text, userId, query);
-                _fakeTwitterAccessor.ArrangeExecutePOSTQuery(query, resultMessageDTO);
+        [TestMethod]
+        public void DestroyMessage_WithMessageId_ReturnsTwitterAccessorResult()
+        {
+            // Arrange - Act
+            var result1 = DestroyMessage_WithMessageId_Returns(true);
+            var result2 = DestroyMessage_WithMessageId_Returns(false);
 
-                // Act
-                var result = queryExecutor.PublishMessage(text, userId);
+            // Assert
+            Assert.IsTrue(result1);
+            Assert.IsFalse(result2);
+        }
 
-                // Assert
-                Assert.AreEqual(result, resultMessageDTO);
-            }
+        public bool DestroyMessage_WithMessageId_Returns(bool expectedResult)
+        {
+            // Arrange
+            var queryExecutor = CreateMessageQueryExecutor();
+            var messageId = new Random().Next();
+            var query = Guid.NewGuid().ToString();
 
-            private void ArrangeQueryGeneratorPublishMessage(IMessageDTO messageDTO, string query)
-            {
-                _fakeMessageQueryGenerator
-                    .CallsTo(x => x.GetPublishMessageQuery(messageDTO))
-                    .Returns(query);
-            }
+            ArrangeQueryGeneratorDestroyMessage(messageId, query);
+            _fakeTwitterAccessor.ArrangeTryExecutePOSTQuery(query, expectedResult);
 
-            private void ArrangeQueryGeneratorPublishMessage(string text, IUserDTO targetUserDTO, string query)
-            {
-                _fakeMessageQueryGenerator
-                    .CallsTo(x => x.GetPublishMessageQuery(text, targetUserDTO))
-                    .Returns(query);
-            }
+            // Act
+            return queryExecutor.DestroyMessage(messageId);
+        }
 
-            private void ArrangeQueryGeneratorPublishMessage(string text, string screenName, string query)
-            {
-                _fakeMessageQueryGenerator
-                    .CallsTo(x => x.GetPublishMessageQuery(text, screenName))
-                    .Returns(query);
-            }
+        private void ArrangeQueryGeneratorDestroyMessage(long userId, string query)
+        {
+            _fakeMessageQueryGenerator
+                .CallsTo(x => x.GetDestroyMessageQuery(userId))
+                .Returns(query);
+        }
 
-            private void ArrangeQueryGeneratorPublishMessage(string text, long userId, string query)
-            {
-                _fakeMessageQueryGenerator
-                    .CallsTo(x => x.GetPublishMessageQuery(text, userId))
-                    .Returns(query);
-            } 
-
-            #endregion
-
-            #region Destroy Message
-
-            [TestMethod]
-            public void DestroyMessage_WithMessageDTO_ReturnsTwitterAccessorResult()
-            {
-                // Arrange - Act
-                var result1 = DestroyMessage_WithMessageDTO_Returns(true);
-                var result2 = DestroyMessage_WithMessageDTO_Returns(false);
-
-                // Assert
-                Assert.IsTrue(result1);
-                Assert.IsFalse(result2);
-            }
-
-            public bool DestroyMessage_WithMessageDTO_Returns(bool expectedResult)
-            {
-                // Arrange
-                var queryExecutor = CreateMessageQueryExecutor();
-                var messageDTO = A.Fake<IMessageDTO>();
-                var query = Guid.NewGuid().ToString();
-
-                ArrangeQueryGeneratorDestroyMessage(messageDTO, query);
-                _fakeTwitterAccessor.ArrangeTryExecutePOSTQuery(query, expectedResult);
-
-                // Act
-                return queryExecutor.DestroyMessage(messageDTO);
-            }
-
-            private void ArrangeQueryGeneratorDestroyMessage(IMessageDTO messageDTO, string query)
-            {
-                _fakeMessageQueryGenerator
-                    .CallsTo(x => x.GetDestroyMessageQuery(messageDTO))
-                    .Returns(query);
-            } 
-
-            [TestMethod]
-            public void DestroyMessage_WithMessageId_ReturnsTwitterAccessorResult()
-            {
-                // Arrange - Act
-                var result1 = DestroyMessage_WithMessageId_Returns(true);
-                var result2 = DestroyMessage_WithMessageId_Returns(false);
-
-                // Assert
-                Assert.IsTrue(result1);
-                Assert.IsFalse(result2);
-            }
-        
-            public bool DestroyMessage_WithMessageId_Returns(bool expectedResult)
-            {
-                // Arrange
-                var queryExecutor = CreateMessageQueryExecutor();
-                var messageId = new Random().Next();
-                var query = Guid.NewGuid().ToString();
-
-                ArrangeQueryGeneratorDestroyMessage(messageId, query);
-                _fakeTwitterAccessor.ArrangeTryExecutePOSTQuery(query, expectedResult);
-
-                // Act
-                return queryExecutor.DestroyMessage(messageId);
-            }
-
-            private void ArrangeQueryGeneratorDestroyMessage(long userId, string query)
-            {
-                _fakeMessageQueryGenerator
-                    .CallsTo(x => x.GetDestroyMessageQuery(userId))
-                    .Returns(query);
-            } 
-
-            #endregion
+        #endregion
 
         public MessageQueryExecutor CreateMessageQueryExecutor()
         {

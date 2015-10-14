@@ -2,12 +2,12 @@
 using System.Text;
 using Tweetinvi.Controllers.Properties;
 using Tweetinvi.Controllers.Shared;
+using Tweetinvi.Core.Extensions;
 using Tweetinvi.Core.Helpers;
 using Tweetinvi.Core.Interfaces.DTO;
-using Tweetinvi.Core.Interfaces.Models;
-using Tweetinvi.Core.Interfaces.Parameters;
 using Tweetinvi.Core.Interfaces.QueryGenerators;
 using Tweetinvi.Core.Interfaces.QueryValidators;
+using Tweetinvi.Core.Parameters;
 
 namespace Tweetinvi.Controllers.Messages
 {
@@ -15,16 +15,13 @@ namespace Tweetinvi.Controllers.Messages
     {
         // Get messages
         string GetLatestMessagesReceivedQuery(int maximumMessages);
-        string GetLatestMessagesReceivedQuery(IMessageGetLatestsReceivedRequestParameters queryParameters);
+        string GetLatestMessagesReceivedQuery(IMessagesReceivedParameters queryParameters);
 
         string GetLatestMessagesSentQuery(int maximumMessages);
-        string GetLatestMessagesSentQuery(IMessageGetLatestsSentRequestParameters queryParameters);
+        string GetLatestMessagesSentQuery(IMessagesSentParameters queryParameters);
 
         // Publish Message
-        string GetPublishMessageQuery(IMessageDTO messageDTO);
-        string GetPublishMessageQuery(string messageText, IUserIdentifier targetUserDTO);
-        string GetPublishMessageQuery(string messageText, string targetUserScreenName);
-        string GetPublishMessageQuery(string messageText, long targetUserId);
+        string GetPublishMessageQuery(IMessagePublishParameters parameters);
 
         // Detroy Message
         string GetDestroyMessageQuery(IMessageDTO messageDTO);
@@ -56,99 +53,73 @@ namespace Tweetinvi.Controllers.Messages
         // Get collection of messages
         public string GetLatestMessagesReceivedQuery(int maximumMessages)
         {
-            return String.Format(Resources.Message_GetMessagesReceived, maximumMessages);
+            var parameter = new MessagesReceivedParameters
+            {
+                MaximumNumberOfMessagesToRetrieve = maximumMessages
+            };
+
+            return GetLatestMessagesReceivedQuery(parameter);
         }
 
-        public string GetLatestMessagesReceivedQuery(IMessageGetLatestsReceivedRequestParameters queryParameters)
+        public string GetLatestMessagesReceivedQuery(IMessagesReceivedParameters queryParameters)
         {
-            var query = new StringBuilder(String.Format(Resources.Message_GetMessagesReceived, queryParameters.MaximumNumberOfMessagesToRetrieve));
+            var query = new StringBuilder(string.Format(Resources.Message_GetMessagesReceived, queryParameters.MaximumNumberOfMessagesToRetrieve));
             
             query.Append(_queryParameterGenerator.GenerateMaxIdParameter(queryParameters.MaxId));
             query.Append(_queryParameterGenerator.GenerateSinceIdParameter(queryParameters.SinceId));
             query.Append(_queryParameterGenerator.GenerateIncludeEntitiesParameter(queryParameters.IncludeEntities));
             query.Append(_queryParameterGenerator.GenerateSkipStatusParameter(queryParameters.SkipStatus));
             query.Append(_queryParameterGenerator.GenerateAdditionalRequestParameters(queryParameters.FormattedCustomQueryParameters));
+            query.AddParameterToQuery("full_text", queryParameters.FullText);
 
             return query.ToString();
         }
 
         public string GetLatestMessagesSentQuery(int maximumMessages)
         {
-            return String.Format(Resources.Message_GetMessagesSent, maximumMessages);
+            var parameter = new MessagesSentParameters
+            {
+                MaximumNumberOfMessagesToRetrieve = maximumMessages
+            };
+
+            return GetLatestMessagesSentQuery(parameter);
         }
 
-        public string GetLatestMessagesSentQuery(IMessageGetLatestsSentRequestParameters queryParameters)
+        public string GetLatestMessagesSentQuery(IMessagesSentParameters queryParameters)
         {
-            var query = new StringBuilder(String.Format(Resources.Message_GetMessagesSent, queryParameters.MaximumNumberOfMessagesToRetrieve));
+            var query = new StringBuilder(string.Format(Resources.Message_GetMessagesSent, queryParameters.MaximumNumberOfMessagesToRetrieve));
 
             query.Append(_queryParameterGenerator.GenerateMaxIdParameter(queryParameters.MaxId));
             query.Append(_queryParameterGenerator.GenerateSinceIdParameter(queryParameters.SinceId));
             query.Append(_queryParameterGenerator.GenerateIncludeEntitiesParameter(queryParameters.IncludeEntities));
             query.Append(_queryParameterGenerator.GeneratePageNumberParameter(queryParameters.PageNumber));
             query.Append(_queryParameterGenerator.GenerateAdditionalRequestParameters(queryParameters.FormattedCustomQueryParameters));
+            query.AddParameterToQuery("full_text", queryParameters.FullText);
 
             return query.ToString();
         }
 
         // Publish Message
-        public string GetPublishMessageQuery(IMessageDTO messageDTO)
+        public string GetPublishMessageQuery(IMessagePublishParameters parameters)
         {
-            if (!_messageQueryValidator.CanMessageDTOBePublished(messageDTO))
+            var messageText = parameters.Text;
+            var recipient = parameters.Recipient;
+
+            if (!_messageQueryValidator.IsMessageTextValid(messageText) || !_userQueryValidator.CanUserBeIdentified(recipient))
             {
                 return null;
             }
 
-            if (_userQueryValidator.CanUserBeIdentified(messageDTO.Recipient))
-            {
-                return GetPublishMessageQuery(messageDTO.Text, messageDTO.Recipient);
-            }
-
-            if (_userQueryValidator.IsUserIdValid(messageDTO.RecipientId))
-            {
-                return GetPublishMessageQuery(messageDTO.Text, messageDTO.RecipientId);
-            }
-
-            return GetPublishMessageQuery(messageDTO.Text, messageDTO.RecipientScreenName);
-        }
-
-        public string GetPublishMessageQuery(string messageText, IUserIdentifier targetUserDTO)
-        {
-            if (!_messageQueryValidator.IsMessageTextValid(messageText) || !_userQueryValidator.CanUserBeIdentified(targetUserDTO))
-            {
-                return null;
-            }
-
-            string identifierParameter = _userQueryParameterGenerator.GenerateIdOrScreenNameParameter(targetUserDTO);
+            string identifierParameter = _userQueryParameterGenerator.GenerateIdOrScreenNameParameter(recipient);
             return GetPublishMessageFormattedQuery(messageText, identifierParameter);
-        }
-
-        public string GetPublishMessageQuery(string messageText, string targetUserScreenName)
-        {
-            if (!_messageQueryValidator.IsMessageTextValid(messageText) || !_userQueryValidator.IsScreenNameValid(targetUserScreenName))
-            {
-                return null;
-            }
-
-            string userScreenNameParameter = _userQueryParameterGenerator.GenerateScreenNameParameter(targetUserScreenName);
-            return GetPublishMessageFormattedQuery(messageText, userScreenNameParameter);
-        }
-
-        public string GetPublishMessageQuery(string messageText, long targetUserId)
-        {
-            if (!_messageQueryValidator.IsMessageTextValid(messageText) || !_userQueryValidator.IsUserIdValid(targetUserId))
-            {
-                return null;
-            }
-
-            string userIdParameter = _userQueryParameterGenerator.GenerateUserIdParameter(targetUserId);
-            return GetPublishMessageFormattedQuery(messageText, userIdParameter);
         }
 
         private string GetPublishMessageFormattedQuery(string message, string userIdentifier)
         {
-            return String.Format(Resources.Message_NewMessage, _twitterStringFormatter.TwitterEncode(message), userIdentifier);
+            return string.Format(Resources.Message_NewMessage, _twitterStringFormatter.TwitterEncode(message), userIdentifier);
         }
 
+        // Destroy Message
         public string GetDestroyMessageQuery(IMessageDTO messageDTO)
         {
             if (!_messageQueryValidator.CanMessageDTOBeDestroyed(messageDTO))
@@ -159,7 +130,6 @@ namespace Tweetinvi.Controllers.Messages
             return GetDestroyMessageQuery(messageDTO.Id);
         }
 
-        // Destroy Message
         public string GetDestroyMessageQuery(long messageId)
         {
             if (!_messageQueryValidator.IsMessageIdValid(messageId))

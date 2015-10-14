@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
-using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using Tweetinvi.Core;
@@ -15,10 +13,8 @@ using Tweetinvi.Core.Helpers;
 using Tweetinvi.Core.Interfaces;
 using Tweetinvi.Core.Interfaces.Factories;
 using Tweetinvi.Core.Interfaces.Models;
-using Tweetinvi.Core.Interfaces.Parameters;
 using Tweetinvi.Core.Interfaces.Streaminvi;
-using Tweetinvi.Core.Interfaces.WebLogic;
-using Tweetinvi.Core.Parameters.Models;
+using Tweetinvi.Core.Parameters;
 using Tweetinvi.Core.Wrappers;
 using Tweetinvi.Streams.Helpers;
 using Tweetinvi.Streams.Properties;
@@ -56,7 +52,6 @@ namespace Tweetinvi.Streams
             IJObjectStaticWrapper jObjectStaticWrapper,
             IStreamResultGenerator streamResultGenerator,
             ITweetFactory tweetFactory,
-            ITwitterRequestGenerator twitterRequestGenerator,
             ISynchronousInvoker synchronousInvoker,
             ICustomRequestParameters customRequestParameters,
             ITwitterQueryFactory twitterQueryFactory,
@@ -68,7 +63,6 @@ namespace Tweetinvi.Streams
                 jObjectStaticWrapper,
                 streamResultGenerator,
                 tweetFactory,
-                twitterRequestGenerator, 
                 synchronousInvoker,
                 customRequestParameters,
                 twitterQueryFactory,
@@ -88,13 +82,12 @@ namespace Tweetinvi.Streams
 
         public async Task StartStreamMatchingAnyConditionAsync()
         {
-            Func<HttpWebRequest> generateWebRequest = () =>
+            Func<ITwitterQuery> generateWebRequest = () =>
             {
                 var queryBuilder = GenerateORFilterQuery();
                 AddBaseParametersToQuery(queryBuilder);
 
-                var streamQuery = _twitterQueryFactory.Create(queryBuilder.ToString(), HttpMethod.POST);
-                return _twitterRequestGenerator.GetQueryWebRequest(streamQuery);
+                return _twitterQueryFactory.Create(queryBuilder.ToString(), HttpMethod.POST, Credentials);
             };
 
             Action<string> tweetReceived = json =>
@@ -133,13 +126,12 @@ namespace Tweetinvi.Streams
 
         public async Task StartStreamMatchingAllConditionsAsync()
         {
-            Func<HttpWebRequest> generateWebRequest = () =>
+            Func<ITwitterQuery> generateTwitterQuery = () =>
             {
                 var queryBuilder = GenerateANDFilterQuery();
                 AddBaseParametersToQuery(queryBuilder);
 
-                var streamQuery = _twitterQueryFactory.Create(queryBuilder.ToString(), HttpMethod.POST);
-                return _twitterRequestGenerator.GetQueryWebRequest(streamQuery);
+                return _twitterQueryFactory.Create(queryBuilder.ToString(), HttpMethod.POST, Credentials);
             };
 
             Action<string> tweetReceived = json =>
@@ -171,7 +163,7 @@ namespace Tweetinvi.Streams
                 this.Raise(MatchingTweetAndLocationReceived, new MatchedTweetAndLocationReceivedEventArgs(tweet, matchingTracks, matchingLocations));
             };
 
-            await _streamResultGenerator.StartStreamAsync(tweetReceived, generateWebRequest);
+            await _streamResultGenerator.StartStreamAsync(tweetReceived, generateTwitterQuery);
         }
 
         private void CallMultipleActions<T>(T tweet, IEnumerable<Action<T>> tracksActionsIdenfied)

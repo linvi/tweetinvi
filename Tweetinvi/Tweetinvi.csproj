@@ -1,0 +1,169 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <MinimumVisualStudioVersion>10.0</MinimumVisualStudioVersion>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{C03B362B-6779-4EF6-8A92-1593079FFE54}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Tweetinvi</RootNamespace>
+    <AssemblyName>Tweetinvi</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>Profile328</TargetFrameworkProfile>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>..\tweetinvi.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="Account.cs" />
+    <Compile Include="AccountAsync.cs" />
+    <Compile Include="CredentialsCreator.cs" />
+    <Compile Include="ExceptionHandler.cs" />
+    <Compile Include="Friendship.cs" />
+    <Compile Include="FriendshipAsync.cs" />
+    <Compile Include="Geo.cs" />
+    <Compile Include="Help.cs" />
+    <Compile Include="HelpAsync.cs" />
+    <Compile Include="Injectinvi\AutofacContainer.cs" />
+    <Compile Include="Injectinvi\AutofacThreadContainer.cs" />
+    <Compile Include="Json\AccountJson.cs" />
+    <Compile Include="Json\FriendshipJson.cs" />
+    <Compile Include="Json\GeoJson.cs" />
+    <Compile Include="Json\HelpJson.cs" />
+    <Compile Include="Json\MessageJson.cs" />
+    <Compile Include="Json\SavedSearchJson.cs" />
+    <Compile Include="Json\SearchJson.cs" />
+    <Compile Include="Json\TimelineJson.cs" />
+    <Compile Include="Json\TrendsJson.cs" />
+    <Compile Include="Json\TweetJson.cs" />
+    <Compile Include="Json\UserJson.cs" />
+    <Compile Include="Message.cs" />
+    <Compile Include="MessageAsync.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RateLimit.cs" />
+    <Compile Include="RateLimitAsync.cs" />
+    <Compile Include="SavedSearch.cs" />
+    <Compile Include="SavedSearchAsync.cs" />
+    <Compile Include="Search.cs" />
+    <Compile Include="SearchAsync.cs" />
+    <Compile Include="Stream.cs" />
+    <Compile Include="Sync.cs" />
+    <Compile Include="Timeline.cs" />
+    <Compile Include="TimelineAsync.cs" />
+    <Compile Include="Trends.cs" />
+    <Compile Include="TrendsAsync.cs" />
+    <Compile Include="Tweet.cs" />
+    <Compile Include="TweetAsync.cs" />
+    <Compile Include="TweetinviConfig.cs" />
+    <Compile Include="TweetinviContainer.cs" />
+    <Compile Include="TweetinviEvents.cs" />
+    <Compile Include="TweetinviModule.cs" />
+    <Compile Include="TwitterList.cs" />
+    <Compile Include="TwitterListAsync.cs" />
+    <Compile Include="TwitterAccessor.cs" />
+    <Compile Include="TwitterAccessorAsync.cs" />
+    <Compile Include="Auth.cs" />
+    <Compile Include="Upload.cs" />
+    <Compile Include="User.cs" />
+    <Compile Include="UserAsync.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Autofac">
+      <HintPath>..\packages\Autofac.3.5.2\lib\portable-net4+sl5+netcore45+wpa81+wp8+MonoAndroid1+MonoTouch1\Autofac.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Threading.Tasks">
+      <HintPath>..\packages\Microsoft.Bcl.Async.1.0.168\lib\portable-net40+sl4+win8+wp71+wpa81\Microsoft.Threading.Tasks.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=7.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.7.0.1\lib\portable-net40+sl5+wp80+win8+wpa81\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.IO">
+      <HintPath>..\packages\Microsoft.Bcl.1.1.10\lib\portable-net40+sl5+win8+wp8+wpa81\System.IO.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime">
+      <HintPath>..\packages\Microsoft.Bcl.1.1.10\lib\portable-net40+sl5+win8+wp8+wpa81\System.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Threading.Tasks">
+      <HintPath>..\packages\Microsoft.Bcl.1.1.10\lib\portable-net40+sl5+win8+wp8+wpa81\System.Threading.Tasks.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Tweetinvi.Streams\Tweetinvi.Streams.csproj">
+      <Project>{1ee99d68-d7cb-403b-830e-aee8b87705fa}</Project>
+      <Name>Tweetinvi.Streams</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Tweetinvi.Controllers\Tweetinvi.Controllers.csproj">
+      <Project>{6048bd01-3cef-4668-80d8-615914cc85a2}</Project>
+      <Name>Tweetinvi.Controllers</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Tweetinvi.Core\Tweetinvi.Core.csproj">
+      <Project>{cd1ae921-d88a-4145-87b6-b82f276872f8}</Project>
+      <Name>Tweetinvi.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Tweetinvi.Credentials\Tweetinvi.Credentials.csproj">
+      <Project>{612cdda5-c4ce-421f-bf86-c542316f12ab}</Project>
+      <Name>Tweetinvi.Credentials</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Tweetinvi.Factories\Tweetinvi.Factories.csproj">
+      <Project>{d39434bf-9482-48f0-8717-c02c420c7e4f}</Project>
+      <Name>Tweetinvi.Factories</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Tweetinvi.Logic\Tweetinvi.Logic.csproj">
+      <Project>{1c74b83b-4b84-44e2-afd7-1468bb90306d}</Project>
+      <Name>Tweetinvi.Logic</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Tweetinvi.WebLogic\Tweetinvi.WebLogic.csproj">
+      <Project>{059849d4-dfc0-42bc-8b34-0ad2df3210c7}</Project>
+      <Name>Tweetinvi.WebLogic</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
+  <Import Project="..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets'))" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -1,0 +1,179 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <MinimumVisualStudioVersion>10.0</MinimumVisualStudioVersion>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{1C74B83B-4B84-44E2-AFD7-1468BB90306D}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Tweetinvi.Logic</RootNamespace>
+    <AssemblyName>Tweetinvi.Logic</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>Profile328</TargetFrameworkProfile>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>..\tweetinvi.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <!-- A reference to the entire .NET Framework is automatically included -->
+    <ProjectReference Include="..\Tweetinvi.Core\Tweetinvi.Core.csproj">
+      <Project>{cd1ae921-d88a-4145-87b6-b82f276872f8}</Project>
+      <Name>Tweetinvi.Core</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="DTO\AccountSettingsDTO.cs" />
+    <Compile Include="DTO\MessageDTO.cs" />
+    <Compile Include="DTO\OembedTweetDTO.cs" />
+    <Compile Include="DTO\RelationshipDetailsDTO.cs" />
+    <Compile Include="DTO\RelationshipStateDTO.cs" />
+    <Compile Include="DTO\SavedSearchDTO.cs" />
+    <Compile Include="DTO\SearchMetadata.cs" />
+    <Compile Include="DTO\SearchResultDTO.cs" />
+    <Compile Include="DTO\TweetDTO.cs" />
+    <Compile Include="DTO\TweetFromSearchMetadata.cs" />
+    <Compile Include="DTO\TweetIdentifierDTO.cs" />
+    <Compile Include="DTO\TwitterListDTO.cs" />
+    <Compile Include="DTO\TweetWithSearchMetadataDTO.cs" />
+    <Compile Include="DTO\UploadedMediaInfo.cs" />
+    <Compile Include="DTO\UploadedImageDetailsDTO.cs" />
+    <Compile Include="DTO\UploadedVideoDetailsDTO.cs" />
+    <Compile Include="DTO\UserDTO.cs" />
+    <Compile Include="DTO\UserIdentifierDTO.cs" />
+    <Compile Include="Exceptions\ExceptionHandler.cs" />
+    <Compile Include="Exceptions\TwitterExceptionInfo.cs" />
+    <Compile Include="Exceptions\WebExceptionInfoExtractor.cs" />
+    <Compile Include="Helpers\TwitterStringFormatter.cs" />
+    <Compile Include="JsonConverters\JsonAllowContributorRequestConverter.cs" />
+    <Compile Include="JsonConverters\JsonAllowDirectMessagesConverter.cs" />
+    <Compile Include="JsonConverters\JsonCoordinatesConverter.cs" />
+    <Compile Include="JsonConverters\JsonInterfaceToObjectConverter.cs" />
+    <Compile Include="JsonConverters\JsonLanguageConverter.cs" />
+    <Compile Include="JsonConverters\JsonObjectConverter.cs" />
+    <Compile Include="JsonConverters\JsonPrivacyModeConverter.cs" />
+    <Compile Include="JsonConverters\JsonPropertiesConverterRepository.cs" />
+    <Compile Include="JsonConverters\JsonPropertyConverterRepository.cs" />
+    <Compile Include="JsonConverters\JsonTwitterDateTimeConverter.cs" />
+    <Compile Include="JsonConverters\JsonTwitterNullableConverter.cs" />
+    <Compile Include="LoggedUser.cs" />
+    <Compile Include="Mention.cs" />
+    <Compile Include="Message.cs" />
+    <Compile Include="Model\AccountSettings.cs" />
+    <Compile Include="Model\CategorySuggestion.cs" />
+    <Compile Include="DTO\CoordinatesDTO.cs" />
+    <Compile Include="Model\Geo.cs" />
+    <Compile Include="MultiPartTwitterQuery.cs" />
+    <Compile Include="QueryParameters\TwitterListUpdateQueryParameters.cs" />
+    <Compile Include="QueryParameters\GetTweetsFromListQueryParameters.cs" />
+    <Compile Include="QueryParameters\UserTimelineRequestQueryParameters.cs" />
+    <Compile Include="Model\Media.cs" />
+    <Compile Include="Model\OEmbedTweet.cs" />
+    <Compile Include="Model\Place.cs" />
+    <Compile Include="Model\PlaceTrends.cs" />
+    <Compile Include="Model\SavedSearch.cs" />
+    <Compile Include="Model\SearchQueryResult.cs" />
+    <Compile Include="Model\SearchResult.cs" />
+    <Compile Include="Model\TimeZone.cs" />
+    <Compile Include="Model\Trend.cs" />
+    <Compile Include="Model\TrendLocation.cs" />
+    <Compile Include="Model\TwitterConfiguration.cs" />
+    <Compile Include="Model\WoeIdLocation.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.cs" />
+    <Compile Include="Tweet.cs" />
+    <Compile Include="TweetinviLogicModule.cs" />
+    <Compile Include="TwitterList.cs" />
+    <Compile Include="TweetWithSearchMetadata.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DTO\BaseTweetEntitiesDTO.cs" />
+    <Compile Include="TwitterEntities\DescriptionEntity.cs" />
+    <Compile Include="TwitterEntities\ExtendedEntities\VideoEntityVariants.cs" />
+    <Compile Include="TwitterEntities\ExtendedEntities\VideoInformationEntity.cs" />
+    <Compile Include="TwitterEntities\HashTagEntity.cs" />
+    <Compile Include="TwitterEntities\TweetEntities.cs" />
+    <Compile Include="TwitterEntities\MediaEntity.cs" />
+    <Compile Include="TwitterEntities\MediaEntitySize.cs" />
+    <Compile Include="TwitterEntities\RelationshipDetails.cs" />
+    <Compile Include="TwitterEntities\RelationshipState.cs" />
+    <Compile Include="TwitterEntities\SymbolEntity.cs" />
+    <Compile Include="DTO\TweetEntitiesDTO.cs" />
+    <Compile Include="TwitterEntities\UrlEntity.cs" />
+    <Compile Include="TwitterEntities\UserEntities.cs" />
+    <Compile Include="TwitterEntities\UserMentionEntity.cs" />
+    <Compile Include="TwitterEntities\WebsiteEntity.cs" />
+    <Compile Include="TwitterQuery.cs" />
+    <Compile Include="User.cs" />
+    <Compile Include="Wrapper\JObjectStaticWrapper.cs" />
+    <Compile Include="Wrapper\JsonConvertWrapper.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.Threading.Tasks">
+      <HintPath>..\packages\Microsoft.Bcl.Async.1.0.168\lib\portable-net40+sl4+win8+wp71+wpa81\Microsoft.Threading.Tasks.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=7.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.7.0.1\lib\portable-net40+sl5+wp80+win8+wpa81\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.IO">
+      <HintPath>..\packages\Microsoft.Bcl.1.1.10\lib\portable-net40+sl5+win8+wp8+wpa81\System.IO.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Runtime">
+      <HintPath>..\packages\Microsoft.Bcl.1.1.10\lib\portable-net40+sl5+win8+wp8+wpa81\System.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Threading.Tasks">
+      <HintPath>..\packages\Microsoft.Bcl.1.1.10\lib\portable-net40+sl5+win8+wp8+wpa81\System.Threading.Tasks.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
+  <Import Project="..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets'))" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

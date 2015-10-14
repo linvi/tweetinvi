@@ -8,8 +8,7 @@ using Tweetinvi.Core.Interfaces.Controllers;
 using Tweetinvi.Core.Interfaces.Credentials;
 using Tweetinvi.Core.Interfaces.DTO;
 using Tweetinvi.Core.Interfaces.Models;
-using Tweetinvi.Core.Interfaces.Parameters;
-using Tweetinvi.Core.Interfaces.WebLogic;
+using Tweetinvi.Core.Parameters;
 using Tweetinvi.Logic;
 
 namespace Testinvi.TweetinviLogic

@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
+using Tweetinvi.Core.Enum;
 using Tweetinvi.Core.Events;
 using Tweetinvi.Core.Events.EventArguments;
 using Tweetinvi.Core.Exceptions;
@@ -14,9 +14,8 @@ using Tweetinvi.Core.Interfaces;
 using Tweetinvi.Core.Interfaces.DTO;
 using Tweetinvi.Core.Interfaces.Factories;
 using Tweetinvi.Core.Interfaces.Models;
-using Tweetinvi.Core.Interfaces.Parameters;
 using Tweetinvi.Core.Interfaces.Streaminvi;
-using Tweetinvi.Core.Interfaces.WebLogic;
+using Tweetinvi.Core.Parameters;
 using Tweetinvi.Core.Wrappers;
 using Tweetinvi.Streams.Model;
 using Tweetinvi.Streams.Properties;
@@ -43,7 +42,7 @@ namespace Tweetinvi.Streams
         private RepliesFilterType _repliesFilterType;
         private WithFilterType _withFilterType;
 
-        public event EventHandler StreamRunning;
+        public event EventHandler StreamIsReady;
 
         public UserStream(
             IStreamResultGenerator streamResultGenerator,
@@ -53,7 +52,6 @@ namespace Tweetinvi.Streams
             ITwitterListFactory twitterListFactory,
             IJObjectStaticWrapper jObjectWrapper,
             IJsonObjectConverter jsonObjectConverter,
-            ITwitterRequestGenerator twitterRequestGenerator,
             IStreamTrackManager<ITweet> streamTrackManager,
             ISynchronousInvoker synchronousInvoker,
             ITaskFactory taskFactory,
@@ -67,7 +65,6 @@ namespace Tweetinvi.Streams
                 jObjectWrapper,
                 streamResultGenerator,
                 tweetFactory,
-                twitterRequestGenerator,
                 synchronousInvoker,
                 customRequestParameters,
                 twitterQueryFactory,
@@ -127,13 +124,12 @@ namespace Tweetinvi.Streams
                 return;
             }
 
-            Func<HttpWebRequest> generateWebRequest = delegate
+            Func<ITwitterQuery> generateTwitterQuery = delegate
             {
                 var queryBuilder = new StringBuilder(Resources.Stream_UserStream);
                 AddBaseParametersToQuery(queryBuilder);
 
-                var streamQuery = _twitterQueryFactory.Create(queryBuilder.ToString());
-                return _twitterRequestGenerator.GetQueryWebRequest(streamQuery);
+                return _twitterQueryFactory.Create(queryBuilder.ToString(), HttpMethod.GET, Credentials);
             };
 
             Action<string> eventReceived = json =>
@@ -150,7 +146,7 @@ namespace Tweetinvi.Streams
                 TryInvokeGlobalStreamMessages(json);
             };
 
-            await _streamResultGenerator.StartStreamAsync(eventReceived, generateWebRequest);
+            await _streamResultGenerator.StartStreamAsync(eventReceived, generateTwitterQuery);
         }
 
         // Parameters
@@ -331,7 +327,7 @@ namespace Tweetinvi.Streams
                     this.Raise(MessageSent, messageEventArgs);
                 }
 
-                if (message.ReceiverId == _loggedUser.Id)
+                if (message.RecipientId == _loggedUser.Id)
                 {
                     this.Raise(MessageReceived, messageEventArgs);
                 }
@@ -383,10 +379,10 @@ namespace Tweetinvi.Streams
 
             if (friendIdsObject.TryGetValue("friends", out friendIdsToken))
             {
-                this.Raise(StreamRunning);
-
                 var friendIds = friendIdsToken.Values<long>();
                 _friendIds = new HashSet<long>(friendIds);
+
+                this.Raise(StreamIsReady);
                 this.Raise(FriendIdsReceived, new GenericEventArgs<IEnumerable<long>>(friendIds));
 
                 return true;

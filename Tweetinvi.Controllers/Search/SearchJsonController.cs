@@ -4,7 +4,7 @@ using Tweetinvi.Controllers.Tweet;
 using Tweetinvi.Core.Extensions;
 using Tweetinvi.Core.Interfaces.Credentials;
 using Tweetinvi.Core.Interfaces.DTO;
-using Tweetinvi.Core.Interfaces.Parameters;
+using Tweetinvi.Core.Parameters;
 
 namespace Tweetinvi.Controllers.Search
 {

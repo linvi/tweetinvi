@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Net.Http;
 using System.Reflection;
 using Tweetinvi;
 using Tweetinvi.Core;
@@ -13,11 +14,9 @@ using Tweetinvi.Core.Interfaces;
 using Tweetinvi.Core.Interfaces.Controllers;
 using Tweetinvi.Core.Interfaces.DTO;
 using Tweetinvi.Core.Interfaces.Models;
-using Tweetinvi.Core.Interfaces.Parameters;
 using Tweetinvi.Core.Interfaces.Streaminvi;
 using Tweetinvi.Core.Parameters;
 using Tweetinvi.Json;
-using Geo = Tweetinvi.Geo;
 using SavedSearch = Tweetinvi.SavedSearch;
 using Stream = Tweetinvi.Stream;
 
@@ -35,7 +34,7 @@ namespace Examplinvi
         static void Main()
         {
             Auth.SetUserCredentials("CONSUMER_KEY", "CONSUMER_SECRET", "ACCESS_TOKEN", "ACCESS_TOKEN_SECRET");
-            
+
             TweetinviEvents.QueryBeforeExecute += (sender, args) =>
             {
                 // Console.WriteLine(args.QueryURL);
@@ -129,22 +128,22 @@ namespace Examplinvi
             }
 
             Examples.User_GetCurrentUser();
-            
+
             Examples.User_GetUserFromId(1478171);
             Examples.User_GetUserFromName(Examples.USER_SCREEN_NAME_TO_TEST);
 
             Examples.User_GetFavorites(Examples.USER_SCREEN_NAME_TO_TEST);
-            
+
             Examples.User_GetFriends(Examples.USER_SCREEN_NAME_TO_TEST);
             Examples.User_GetFriendIds(Examples.USER_SCREEN_NAME_TO_TEST);
             Examples.User_GetFriendIdsUpTo(Examples.USER_SCREEN_NAME_TO_TEST, 10000);
-            
+
             Examples.User_GetFollowers(Examples.USER_SCREEN_NAME_TO_TEST);
             Examples.User_GetFollowerIds(Examples.USER_SCREEN_NAME_TO_TEST);
             Examples.User_GetFollowerIdsUpTo(Examples.USER_SCREEN_NAME_TO_TEST, 10000);
-            
+
             Examples.User_GetRelationshipBetween("tweetinvitest", Examples.USER_SCREEN_NAME_TO_TEST);
-            
+
             Examples.User_BlockUser(Examples.USER_SCREEN_NAME_TO_TEST);
             Examples.User_UnBlockUser(Examples.USER_SCREEN_NAME_TO_TEST);
             Examples.User_GetBlockedUsers();
@@ -194,8 +193,7 @@ namespace Examplinvi
 
             Examples.Message_GetLatests();
             Examples.Message_GetMessageFromId(381069551028293633);
-            Examples.Message_PublishMessage(Examples.USER_SCREEN_NAME_TO_TEST);
-            Examples.Message_PublishMessageTo(Examples.USER_SCREEN_NAME_TO_TEST);
+            Examples.Message_PublishMessage("I love tweetinvi", Examples.USER_SCREEN_NAME_TO_TEST);
         }
 
         private static void StreamExamples()
@@ -220,7 +218,7 @@ namespace Examplinvi
 
             Examples.TwitterList_GetUserOwnedLists();
             Examples.TwitterList_GetUserSubscribedLists();
-            
+
             Examples.TwitterList_CreateList();
             Examples.TwitterList_GetExistingListById(105601767);
             Examples.TwitterList_UpdateList(105601767);
@@ -331,7 +329,7 @@ namespace Examplinvi
             Examples.ChunkedUpload(new byte[10], "video/mp4");
             Examples.Tweet_PublishTweetWithImage("publish with img", "filePath");
         }
-        
+
         #endregion
     }
 
@@ -444,10 +442,14 @@ namespace Examplinvi
             }
         }
 
-        public static void Tweet_PublishTweetInReplyToAnotherTweet(string text, long tweetIdtoRespondTo)
+        public static void Tweet_PublishTweetInReplyToAnotherTweet(string text, long tweetIdtoReplyTo)
         {
-            var tweet = Tweet.PublishTweetInReplyTo(text, tweetIdtoRespondTo);
-            Console.WriteLine("success ? {0}", tweet != null);
+            var tweetToReplyTo = Tweet.GetTweet(tweetIdtoReplyTo);
+
+            // We must add @screenName of the author of the tweet we want to reply to
+            var textToPublish = string.Format("@{0} {1}",tweetToReplyTo.CreatedBy.ScreenName, text);
+            var tweet = Tweet.PublishTweetInReplyTo(textToPublish, tweetIdtoReplyTo);
+            Console.WriteLine("Publish success? {0}", tweet != null);
         }
 
         public static void Tweet_PublishTweetWithGeo(string text)
@@ -857,7 +859,7 @@ namespace Examplinvi
         public static void Stream_FilteredStreamExample()
         {
             var stream = Stream.CreateFilteredStream();
-            var location = Geo.GenerateLocation(-124.75, 36.8, -126.89, 32.75);
+            var location = new Location(-124.75, 36.8, -126.89, 32.75);
 
             stream.AddLocation(location);
             stream.AddTrack("tweetinvi");
@@ -1100,7 +1102,7 @@ namespace Examplinvi
 
             var searchParameter = Search.CreateTweetSearchParameter("obama");
 
-            searchParameter.SetGeoCode(Geo.GenerateCoordinates(-122.398720, 37.781157), 1, DistanceMeasure.Miles);
+            searchParameter.SetGeoCode(new Coordinates(-122.398720, 37.781157), 1, DistanceMeasure.Miles);
             searchParameter.Lang = Language.English;
             searchParameter.SearchType = SearchResultType.Popular;
             searchParameter.MaximumNumberOfResults = 100;
@@ -1190,13 +1192,13 @@ namespace Examplinvi
         {
             // Messages Received
             var latestMessagesReceived = Message.GetLatestMessagesReceived();
-            var latestMessagesReceivedParameter = Message.CreateGetLatestsReceivedRequestParameter();
+            var latestMessagesReceivedParameter = new MessagesReceivedParameters();
             latestMessagesReceivedParameter.SinceId = 10029230923;
             var latestMessagesReceivedFromParameter = Message.GetLatestMessagesReceived(latestMessagesReceivedParameter);
 
             // Messages Sent
             var latestMessagesSent = Message.GetLatestMessagesSent();
-            var latestMessagesSentParameter = Message.CreateGetLatestsSentRequestParameter();
+            var latestMessagesSentParameter = new MessagesSentParameters();
             latestMessagesSentParameter.PageNumber = 239823;
             var latestMessagesSentFromParameter = Message.GetLatestMessagesSent(latestMessagesSentParameter);
         }
@@ -1204,7 +1206,7 @@ namespace Examplinvi
         public static void Message_GetMessageFromId(long messageId)
         {
             var message = Message.GetExistingMessage(messageId);
-            Console.WriteLine("Message from {0} to {1} : {2}", message.Sender, message.Receiver, message.Text);
+            Console.WriteLine("Message from {0} to {1} : {2}", message.Sender, message.Recipient, message.Text);
         }
 
         public static void Message_DestroyMessageFromId(long messageId)
@@ -1216,23 +1218,12 @@ namespace Examplinvi
             }
         }
 
-        public static void Message_PublishMessage(string username)
+        public static void Message_PublishMessage(string text, string username)
         {
             var recipient = User.GetUserFromScreenName(username);
-            var message = Message.CreateMessage("piloupe", recipient);
+            var message = Message.PublishMessage(text, recipient);
 
-            if (message.Publish())
-            {
-                Console.WriteLine("Message published : {0}", message.IsMessagePublished);
-            }
-        }
-
-        public static void Message_PublishMessageTo(string username)
-        {
-            var recipient = User.GetUserFromScreenName(username);
-            var message = Message.CreateMessage("piloupe");
-
-            if (message.PublishTo(recipient))
+            if (message != null)
             {
                 Console.WriteLine("Message published : {0}", message.IsMessagePublished);
             }
@@ -1273,7 +1264,7 @@ namespace Examplinvi
         public static void TwitterList_UpdateList(long listId)
         {
             var list = TwitterList.GetExistingList(listId);
-            var updateParameters = TwitterList.CreateUpdateParameters();
+            var updateParameters = new TwitterListUpdateParameters();
             updateParameters.Name = "piloupe";
             updateParameters.Description = "pilouping description";
             updateParameters.PrivacyMode = PrivacyMode.Private;
@@ -1627,13 +1618,13 @@ namespace Examplinvi
                 return;
             }
 
-             TweetinviConfig.CURRENT_PROXY_URL = "http://228.23.13.21:4287";
+            TweetinviConfig.CURRENT_PROXY_URL = "http://228.23.13.21:4287";
 
-             // Configure a proxy with Proxy with username and password
-             TweetinviConfig.CURRENT_PROXY_URL = "http://user:pass@228.23.13.21:4287";
+            // Configure a proxy with Proxy with username and password
+            TweetinviConfig.CURRENT_PROXY_URL = "http://user:pass@228.23.13.21:4287";
 
-             TweetinviConfig.CURRENT_WEB_REQUEST_TIMEOUT = 5000;
-             TweetinviConfig.CURRENT_SHOW_DEBUG = false;
+            TweetinviConfig.CURRENT_WEB_REQUEST_TIMEOUT = 5000;
+            TweetinviConfig.CURRENT_SHOW_DEBUG = false;
         }
 
         public static void GlobalEvents()

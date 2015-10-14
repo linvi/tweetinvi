@@ -11,7 +11,7 @@
     <RootNamespace>Tweetinvi.Controllers</RootNamespace>
     <AssemblyName>Tweetinvi.Controllers</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-    <TargetFrameworkProfile>Profile136</TargetFrameworkProfile>
+    <TargetFrameworkProfile>Profile328</TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <SccProjectName>SAK</SccProjectName>
@@ -47,6 +47,10 @@
     <ProjectReference Include="..\Tweetinvi.Core\Tweetinvi.Core.csproj">
       <Project>{cd1ae921-d88a-4145-87b6-b82f276872f8}</Project>
       <Name>Tweetinvi.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Tweetinvi.Logic\Tweetinvi.Logic.csproj">
+      <Project>{1C74B83B-4B84-44E2-AFD7-1468BB90306D}</Project>
+      <Name>Tweetinvi.Logic</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

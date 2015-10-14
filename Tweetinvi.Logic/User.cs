@@ -11,7 +11,7 @@ using Tweetinvi.Core.Interfaces.Controllers;
 using Tweetinvi.Core.Interfaces.DTO;
 using Tweetinvi.Core.Interfaces.Models;
 using Tweetinvi.Core.Interfaces.Models.Entities;
-using Tweetinvi.Core.Interfaces.Parameters;
+using Tweetinvi.Core.Parameters;
 
 namespace Tweetinvi.Logic
 {
@@ -20,7 +20,7 @@ namespace Tweetinvi.Logic
     /// </summary>
     public class User : IUser
     {
-        private const string REGEX_PROFILE_IMAGE_SIZE = "_\\w+(?=(?:\\.[a-zA-Z0-9]+$))";
+        private const string REGEX_PROFILE_IMAGE_SIZE = "_[^\\W_]+(?=(?:\\.[a-zA-Z0-9_]+$))";
 
         protected IUserDTO _userDTO;
         protected readonly ITimelineController _timelineController;
@@ -145,7 +145,7 @@ namespace Tweetinvi.Logic
             get { return _userDTO.ProfileImageUrl; }
         }
 
-        public string ProfileImageFullSizeUrl
+        public string ProfileImageUrlFullSize
         {
             get
             {
@@ -169,7 +169,7 @@ namespace Tweetinvi.Logic
                     return null;
                 }
 
-                return Regex.Replace(profileImageURL, REGEX_PROFILE_IMAGE_SIZE, "400x400");
+                return Regex.Replace(profileImageURL, REGEX_PROFILE_IMAGE_SIZE, "_400x400");
             }
         }
 

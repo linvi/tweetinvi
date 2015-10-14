@@ -1,0 +1,15 @@
+﻿*.pdb
+*.dll
+*.xml
+*.cache
+*.dll.config
+*.FileListAbsolute
+*/obj
+*/bin
+*.exe
+/.vs
+/packages
+/Developer Tools/temp*
+/Developer Tools/TweetinviAPI/lib
+/Examplinvi.Web/App_Data
+*.zip

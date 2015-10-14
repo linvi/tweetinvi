@@ -98,35 +98,35 @@ namespace Tweetinvi.Controllers
 
         private void InitializeQueryGenerators()
         {
-            _container.RegisterType<IAccountQueryGenerator, AccountQueryGenerator>();
-            _container.RegisterType<IFriendshipQueryGenerator, FriendshipQueryGenerator>();
-            _container.RegisterType<IGeoQueryGenerator, GeoQueryGenerator>();
-            _container.RegisterType<IHelpQueryGenerator, HelpQueryGenerator>();
-            _container.RegisterType<IMessageQueryGenerator, MessageQueryGenerator>();
-            _container.RegisterType<ISavedSearchQueryGenerator, SavedSearchQueryGenerator>();
-            _container.RegisterType<ITimelineQueryGenerator, TimelineQueryGenerator>();
-            _container.RegisterType<ITrendsQueryGenerator, TrendsQueryGenerator>();
-            _container.RegisterType<ITweetQueryGenerator, TweetQueryGenerator>();
-            _container.RegisterType<IUserQueryGenerator, UserQueryGenerator>();
-            _container.RegisterType<ISearchQueryGenerator, SearchQueryGenerator>();
-            _container.RegisterType<ITwitterListQueryGenerator, TwitterListQueryGenerator>();
+            _container.RegisterType<IAccountQueryGenerator, AccountQueryGenerator>(RegistrationLifetime.InstancePerApplication);
+            _container.RegisterType<IFriendshipQueryGenerator, FriendshipQueryGenerator>(RegistrationLifetime.InstancePerApplication);
+            _container.RegisterType<IGeoQueryGenerator, GeoQueryGenerator>(RegistrationLifetime.InstancePerApplication);
+            _container.RegisterType<IHelpQueryGenerator, HelpQueryGenerator>(RegistrationLifetime.InstancePerApplication);
+            _container.RegisterType<IMessageQueryGenerator, MessageQueryGenerator>(RegistrationLifetime.InstancePerApplication);
+            _container.RegisterType<ISavedSearchQueryGenerator, SavedSearchQueryGenerator>(RegistrationLifetime.InstancePerApplication);
+            _container.RegisterType<ITimelineQueryGenerator, TimelineQueryGenerator>(RegistrationLifetime.InstancePerApplication);
+            _container.RegisterType<ITrendsQueryGenerator, TrendsQueryGenerator>(RegistrationLifetime.InstancePerApplication);
+            _container.RegisterType<ITweetQueryGenerator, TweetQueryGenerator>(RegistrationLifetime.InstancePerApplication);
+            _container.RegisterType<IUserQueryGenerator, UserQueryGenerator>(RegistrationLifetime.InstancePerApplication);
+            _container.RegisterType<ISearchQueryGenerator, SearchQueryGenerator>(RegistrationLifetime.InstancePerApplication);
+            _container.RegisterType<ITwitterListQueryGenerator, TwitterListQueryGenerator>(RegistrationLifetime.InstancePerApplication);
             
-            _container.RegisterType<IQueryParameterGenerator, QueryParameterGenerator>();
-            _container.RegisterType<ITwitterListQueryParameterGenerator, TwittertListQueryParameterGenerator>();
-            _container.RegisterType<IUserQueryParameterGenerator, UserQueryParameterGenerator>();
-            _container.RegisterType<ISearchQueryParameterGenerator, SearchQueryParameterGenerator>();
-            _container.RegisterType<ITimelineQueryParameterGenerator, TimelineQueryParameterGenerator>();
+            _container.RegisterType<IQueryParameterGenerator, QueryParameterGenerator>(RegistrationLifetime.InstancePerApplication);
+            _container.RegisterType<ITwitterListQueryParameterGenerator, TwittertListQueryParameterGenerator>(RegistrationLifetime.InstancePerApplication);
+            _container.RegisterType<IUserQueryParameterGenerator, UserQueryParameterGenerator>(RegistrationLifetime.InstancePerApplication);
+            _container.RegisterType<ISearchQueryParameterGenerator, SearchQueryParameterGenerator>(RegistrationLifetime.InstancePerApplication);
+            _container.RegisterType<ITimelineQueryParameterGenerator, TimelineQueryParameterGenerator>(RegistrationLifetime.InstancePerApplication);
 
             _container.RegisterType<IUploadQueryGenerator, UploadQueryGenerator>(RegistrationLifetime.InstancePerApplication);
         }
 
         private void InitializeQueryValidators()
         {
-            _container.RegisterType<IMessageQueryValidator, MessageQueryValidator>();
-            _container.RegisterType<ITweetQueryValidator, TweetQueryValidator>();
-            _container.RegisterType<IUserQueryValidator, UserQueryValidator>();
-            _container.RegisterType<ISearchQueryValidator, SearchQueryValidator>();
-            _container.RegisterType<ITwitterListQueryValidator, TwitterListQueryValidator>();
+            _container.RegisterType<IMessageQueryValidator, MessageQueryValidator>(RegistrationLifetime.InstancePerApplication);
+            _container.RegisterType<ITweetQueryValidator, TweetQueryValidator>(RegistrationLifetime.InstancePerApplication);
+            _container.RegisterType<IUserQueryValidator, UserQueryValidator>(RegistrationLifetime.InstancePerApplication);
+            _container.RegisterType<ISearchQueryValidator, SearchQueryValidator>(RegistrationLifetime.InstancePerApplication);
+            _container.RegisterType<ITwitterListQueryValidator, TwitterListQueryValidator>(RegistrationLifetime.InstancePerApplication);
         }
 
         private void InitializeHelpers()

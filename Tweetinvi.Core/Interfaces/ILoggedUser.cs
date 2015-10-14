@@ -4,8 +4,7 @@ using Tweetinvi.Core.Credentials;
 using Tweetinvi.Core.Enum;
 using Tweetinvi.Core.Interfaces.Async;
 using Tweetinvi.Core.Interfaces.Models;
-using Tweetinvi.Core.Interfaces.Parameters;
-using Tweetinvi.Core.Interfaces.WebLogic;
+using Tweetinvi.Core.Parameters;
 
 namespace Tweetinvi.Core.Interfaces
 {
@@ -67,14 +66,14 @@ namespace Tweetinvi.Core.Interfaces
         IEnumerable<ITweet> LatestHomeTimeline { get; set; }
 
         /// <summary>
-        /// Get the latest tweets of the TokenUser Home timeline
+        /// Get the latest tweets of the authenticated user Home timeline
         /// </summary>
         IEnumerable<ITweet> GetHomeTimeline(int maximumNumberOfTweets = 40);
 
         /// <summary>
-        /// Get the latest tweets of the TokenUser Home timeline
+        /// Get the latest tweets of the authenticated user Home timeline
         /// </summary>
-        IEnumerable<ITweet> GetHomeTimeline(ITimelineRequestParameters timelineRequestParameters);
+        IEnumerable<ITweet> GetHomeTimeline(IHomeTimelineParameters timelineRequestParameters);
 
         /// <summary>
         /// List of tweets as displayed on the Mentions timeline
@@ -84,7 +83,7 @@ namespace Tweetinvi.Core.Interfaces
         IEnumerable<IMention> LatestMentionsTimeline { get; set; }
 
         /// <summary>
-        /// Get the latest tweets of the TokenUser Mentions timeline
+        /// Get the latest tweets of the authenticated user Mentions timeline
         /// </summary>
         /// <param name="maximumNumberOfMentions">Number of tweets expected</param>
         /// <returns>Tweets of the Mentions timeline of the connected user</returns>

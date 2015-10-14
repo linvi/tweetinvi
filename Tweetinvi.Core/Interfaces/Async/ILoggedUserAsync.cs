@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Tweetinvi.Core.Enum;
 using Tweetinvi.Core.Interfaces.Models;
-using Tweetinvi.Core.Interfaces.Parameters;
+using Tweetinvi.Core.Parameters;
 
 namespace Tweetinvi.Core.Interfaces.Async
 {
@@ -14,7 +14,7 @@ namespace Tweetinvi.Core.Interfaces.Async
         Task<IMessage> PublishMessageAsync(IMessage message);
 
         Task<IEnumerable<ITweet>> GetHomeTimelineAsync(int count = 40);
-        Task<IEnumerable<ITweet>> GetHomeTimelineAsync(ITimelineRequestParameters timelineRequestParameters);
+        Task<IEnumerable<ITweet>> GetHomeTimelineAsync(IHomeTimelineParameters timelineRequestParameters);
         Task<IEnumerable<IMention>> GetMentionsTimelineAsync(int count = 40);
 
         Task<IRelationshipDetails> GetRelationshipWithAsync(IUserIdentifier userIdentifier);

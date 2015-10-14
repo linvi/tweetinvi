@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using Newtonsoft.Json.Linq;
 using Tweetinvi.Core.Interfaces.DTO;
-using Tweetinvi.Core.Interfaces.Parameters;
 using Tweetinvi.Core.Parameters;
 using Tweetinvi.Core.Wrappers;
 

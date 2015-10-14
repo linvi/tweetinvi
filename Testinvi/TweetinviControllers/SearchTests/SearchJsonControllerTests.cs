@@ -5,7 +5,7 @@ using Testinvi.Helpers;
 using Testinvi.SetupHelpers;
 using Tweetinvi.Controllers.Search;
 using Tweetinvi.Core.Interfaces.Credentials;
-using Tweetinvi.Core.Interfaces.Parameters;
+using Tweetinvi.Core.Parameters;
 
 namespace Testinvi.TweetinviControllers.SearchTests
 {

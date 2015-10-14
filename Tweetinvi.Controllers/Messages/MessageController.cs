@@ -6,7 +6,7 @@ using Tweetinvi.Core.Interfaces.Controllers;
 using Tweetinvi.Core.Interfaces.DTO;
 using Tweetinvi.Core.Interfaces.Factories;
 using Tweetinvi.Core.Interfaces.Models;
-using Tweetinvi.Core.Interfaces.Parameters;
+using Tweetinvi.Core.Parameters;
 
 namespace Tweetinvi.Controllers.Messages
 {
@@ -29,9 +29,9 @@ namespace Tweetinvi.Controllers.Messages
             return _messageFactory.GenerateMessagesFromMessagesDTO(messagesDTO);
         }
 
-        public IEnumerable<IMessage> GetLatestMessagesReceived(IMessageGetLatestsReceivedRequestParameters messageGetLatestsReceivedRequestParameters)
+        public IEnumerable<IMessage> GetLatestMessagesReceived(IMessagesReceivedParameters messagesReceivedParameters)
         {
-            var messagesDTO = _messageQueryExecutor.GetLatestMessagesReceived(messageGetLatestsReceivedRequestParameters);
+            var messagesDTO = _messageQueryExecutor.GetLatestMessagesReceived(messagesReceivedParameters);
             return _messageFactory.GenerateMessagesFromMessagesDTO(messagesDTO);
         }
 
@@ -41,54 +41,46 @@ namespace Tweetinvi.Controllers.Messages
             return _messageFactory.GenerateMessagesFromMessagesDTO(messagesDTO);
         }
 
-        public IEnumerable<IMessage> GetLatestMessagesSent(IMessageGetLatestsSentRequestParameters messageGetLatestsSentRequestParameters)
+        public IEnumerable<IMessage> GetLatestMessagesSent(IMessagesSentParameters messagesSentParameters)
         {
-            var messagesDTO = _messageQueryExecutor.GetLatestMessagesSent(messageGetLatestsSentRequestParameters);
+            var messagesDTO = _messageQueryExecutor.GetLatestMessagesSent(messagesSentParameters);
             return _messageFactory.GenerateMessagesFromMessagesDTO(messagesDTO);
         }
 
         // Publish Message
         public IMessage PublishMessage(IMessage message)
         {
-            if (message == null)
-            {
-                throw new ArgumentException("Message cannot be null");
-            }
-
-            return PublishMessage(message.MessageDTO);
+            return PublishMessage(new MessagePublishParameters(message));
         }
 
         public IMessage PublishMessage(IMessageDTO messageDTO)
         {
-            var publishedMessageDTO = _messageQueryExecutor.PublishMessage(messageDTO);
-            return _messageFactory.GenerateMessageFromMessageDTO(publishedMessageDTO);
+            return PublishMessage(new MessagePublishParameters(messageDTO));
         }
 
-        public IMessage PublishMessage(string text, IUser targetUser)
+       public IMessage PublishMessage(string text, long recipientId)
         {
-            if (targetUser == null)
+            return PublishMessage(text, new UserIdentifier(recipientId));
+        }
+
+        public IMessage PublishMessage(string text, string recipientUserName)
+        {
+            return PublishMessage(text, new UserIdentifier(recipientUserName));
+        }
+
+        public IMessage PublishMessage(string text, IUserIdentifier recipient)
+        {
+            return PublishMessage(new MessagePublishParameters(text, recipient));
+        }
+
+        public IMessage PublishMessage(IMessagePublishParameters parameter)
+        {
+            if (parameter == null)
             {
-                throw new ArgumentException("Target user cannot be null");
+                throw new ArgumentNullException("Parameter cannot be null.");
             }
 
-            return PublishMessage(text, targetUser.UserDTO);
-        }
-
-        public IMessage PublishMessage(string text, IUserIdentifier targetUserDTO)
-        {
-            var publishedMessageDTO = _messageQueryExecutor.PublishMessage(text, targetUserDTO);
-            return _messageFactory.GenerateMessageFromMessageDTO(publishedMessageDTO);
-        }
-
-        public IMessage PublishMessage(string text, long targetUserId)
-        {
-            var publishedMessageDTO = _messageQueryExecutor.PublishMessage(text, targetUserId);
-            return _messageFactory.GenerateMessageFromMessageDTO(publishedMessageDTO);
-        }
-
-        public IMessage PublishMessage(string text, string targetUserScreenName)
-        {
-            var publishedMessageDTO = _messageQueryExecutor.PublishMessage(text, targetUserScreenName);
+            var publishedMessageDTO = _messageQueryExecutor.PublishMessage(parameter);
             return _messageFactory.GenerateMessageFromMessageDTO(publishedMessageDTO);
         }
 
