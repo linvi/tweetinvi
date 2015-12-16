@@ -81,17 +81,16 @@ namespace Tweetinvi.Core.Extensions
             {
                 // If an url ends with . and 2 followed chars twitter does not
                 // consider it as an URL
-                if (link.Groups["start"].Value == String.Empty &&
-                    link.Groups["multiplePathElements"].Value == String.Empty &&
-                    link.Groups["secondPathElement"].Value.Length <= 2 &&
-                    link.Groups["specialChar"].Value == String.Empty &&
+                if (link.Groups["start"].Value == string.Empty &&
+                    link.Groups["multiplePathElements"].Value == string.Empty &&
+                    link.Groups["secondPathElement"].Value.Length < 2 &&
+                    link.Groups["specialChar"].Value == string.Empty &&
                     link.Groups["lastChar"].Value != "/")
                 {
                     continue;
                 }
 
-                size = size - link.Value.Length + 22;
-                size += link.Groups["isSecured"].Value == "s" ? 1 : 0;
+                size = size - link.Value.Length + 23;
             }
 
             if (willBePublishedWithMedia)
