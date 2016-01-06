@@ -107,27 +107,27 @@ namespace Tweetinvi.Controllers.Upload
 
         public IMedia ChunkUploadBinary(byte[] binary, string mediaType)
         {
-        //problem we upload more than 5MB for chunk(Max video 15MB)
-        //we solve it by divide all binary in three chunks
-        // 15MB/5MB = 3 chunks
-        var uploader = CreateChunkedUploader();
-        int len = binary.Length / 3;
-
-        if (uploader.Init(mediaType, binary.Length))
-        {
-            int x;
-            for(int i=0;i<3;i++)
+            //problem we upload more than 5MB for chunk(Max video 15MB)
+            //we solve it by divide all binary in three chunks
+            // 15MB/5MB = 3 chunks
+            var uploader = CreateChunkedUploader();
+            int len = binary.Length / 3;
+    
+            if (uploader.Init(mediaType, binary.Length))
             {
-                x =(i==2)? binary.Length - (len * i) : len;
-                if (!uploader.Append(binary.Skip(len * i).Take(x).ToArray()))
+                int x;
+                for(int i=0;i<3;i++)
                 {
-                    return null;
+                    x =(i==2)? binary.Length - (len * i) : len;
+                    if (!uploader.Append(binary.Skip(len * i).Take(x).ToArray()))
+                    {
+                        return null;
+                    }
                 }
+                return uploader.Complete();
             }
-            return uploader.Complete();
-        }
-
-        return null;
+    
+            return null;
         }
 
         public IMedia UploadVideo(byte[] binary, string mediaType = "video/mp4")
