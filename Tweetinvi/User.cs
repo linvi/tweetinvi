@@ -260,6 +260,22 @@ namespace Tweetinvi
         {
             return UserController.BlockUser(userScreenName);
         }
+        
+        // Un BlockUser User
+        public static bool UnBlockUser(IUserIdentifier userIdentifier)
+        {
+        return UserController.UnBlockUser(userIdentifier);
+        }
+
+        public static bool UnBlockUser(long userId)
+        {
+        return UserController.UnBlockUser(userId);
+        }
+
+        public static bool UnBlockUser(string userScreenName)
+        {
+        return UserController.UnBlockUser(userScreenName);
+        }
 
         // Stream Profile Image 
         public static System.IO.Stream GetProfileImageStream(IUser user, ImageSize imageSize = ImageSize.normal)
