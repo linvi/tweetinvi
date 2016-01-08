@@ -75,7 +75,7 @@ namespace Tweetinvi.Core.Extensions
                 return 0;
             }
 
-            int size = tweet.Length;
+            int length = tweet.UTF32Length();
 
             foreach (Match link in LinkParser.Matches(tweet))
             {
@@ -90,15 +90,41 @@ namespace Tweetinvi.Core.Extensions
                     continue;
                 }
 
-                size = size - link.Value.Length + 23;
+                length = length - link.Value.Length + 23;
             }
 
             if (willBePublishedWithMedia)
             {
-                size += TweetinviConsts.MEDIA_CONTENT_SIZE;
+                length += TweetinviConsts.MEDIA_CONTENT_SIZE;
             }
 
-            return size;
+            return length;
+        }
+
+        private const char HIGH_SURROGATE_START = '\uD800';
+        private const char HIGH_SURROGATE_END = '\uDBFF';
+        private const char LOW_SURROGATE_START = '\uDC00';
+        private const char LOW_SURROGATE_END = '\uDFFF';
+
+        /// <summary>
+        /// Get the UTF32 length of a string
+        /// </summary>
+        public static int UTF32Length(this string s)
+        {
+            var length = 0;
+
+            for (int i = 0; i < s.Length; ++i)
+            {
+                if (s[i] >= HIGH_SURROGATE_START && s[i] <= HIGH_SURROGATE_END &&
+                    s[i + 1] >= LOW_SURROGATE_START && s[i + 1] <= LOW_SURROGATE_END)
+                {
+                    i++;
+                }
+
+                ++length;
+            }
+
+            return length;
         }
 
         /// <summary>

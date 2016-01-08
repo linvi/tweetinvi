@@ -211,6 +211,18 @@ namespace Testinvi.Tweetinvi.Core
                     MediaBinaries = new List<byte[]> { new byte[10] }
                 }), 142);
             }
+
+            [TestMethod]
+            public void TweetWithUTF32Character()
+            {
+                Assert.AreEqual(6, Tweet.Length("sa🚒osa"));
+            }
+
+            [TestMethod]
+            public void UTF32Length()
+            {
+                Assert.AreEqual(6, "sa🚒osa".UTF32Length());
+            }
         }
     }
 }
