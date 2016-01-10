@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Newtonsoft.Json;
 using Tweetinvi.Core.Exceptions;
+using Tweetinvi.Core.Extensions;
 using Tweetinvi.Core.Interfaces;
 using Tweetinvi.Core.Interfaces.Credentials;
 using Tweetinvi.Core.Interfaces.DTO;
@@ -86,6 +88,19 @@ namespace Tweetinvi.Logic.JsonConverters
             };
 
             Converters = converters.ToArray();
+        }
+
+        public static void TryOverride<T, U>() where U : T
+        {
+            var converter = Converters.OfType<IJsonInterfaceToObjectConverter>().JustOneOrDefault(x => x.InterfaceType == typeof (T));
+
+            if (converter != null)
+            {
+                var converters = Converters.ToList();
+                converters.Remove((JsonConverter)converter);
+                converters.Add(new JsonInterfaceToObjectConverter<T, U>());
+                Converters = converters.ToArray();
+            }
         }
     }
 }
