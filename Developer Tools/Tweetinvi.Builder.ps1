@@ -6,7 +6,7 @@ Param(
 	[Switch]$help,				 # Help
 	[Switch]$iel,				 # Include External Libraries	
 	[Switch]$uv,				 # Update Version Only
-	[Switch]$nugetMultipleDLLs      # Add non merged DLLs to nuget folders
+	[Switch]$nugetMultipleDLLs   # Add non merged DLLs to nuget folders
 );
 
 $version = $v;

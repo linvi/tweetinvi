@@ -3,7 +3,6 @@ using Tweetinvi.Core.Events.EventArguments;
 using Tweetinvi.Core.Injectinvi;
 using Tweetinvi.Logic.JsonConverters;
 
-
 namespace Tweetinvi.Injectinvi
 {
     public class OverridableContainer : ITweetinviContainer
