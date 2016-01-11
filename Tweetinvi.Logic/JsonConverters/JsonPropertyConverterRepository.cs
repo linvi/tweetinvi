@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Newtonsoft.Json;
 using Tweetinvi.Core.Enum;
+using Tweetinvi.Core.Extensions;
 using Tweetinvi.Core.Helpers;
 using Tweetinvi.Core.Interfaces.Credentials;
 using Tweetinvi.Core.Interfaces.DTO;
@@ -156,6 +158,18 @@ namespace Tweetinvi.Logic.JsonConverters
 
             JsonConverters.Add(typeof(IVideoEntityVariant), videoEntityVariantConverter);
             JsonConverters.Add(typeof(IVideoInformationEntity), videoInformationEntityConverter);
+        }
+
+        public static void TryOverride<T, U>() where U : T
+        {
+            var jsonInterfaceToObjectConverter = JsonConverters.Where(x => x.Value is IJsonInterfaceToObjectConverter);
+            var matchingConverter = jsonInterfaceToObjectConverter.Where(x => ((IJsonInterfaceToObjectConverter)x.Value).InterfaceType == typeof(T)).ToArray();
+
+            if (matchingConverter.Length == 1)
+            {
+                JsonConverters.Remove(typeof(T));
+                JsonConverters.Add(typeof(T), new JsonInterfaceToObjectConverter<T, U>());
+            }
         }
 
         public JsonConverter GetObjectConverter(object objectToConvert)

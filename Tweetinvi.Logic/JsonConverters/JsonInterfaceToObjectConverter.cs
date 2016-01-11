@@ -3,7 +3,12 @@ using Newtonsoft.Json;
 
 namespace Tweetinvi.Logic.JsonConverters
 {
-    public class JsonInterfaceToObjectConverter<T, U> : JsonConverter 
+    public interface IJsonInterfaceToObjectConverter
+    {
+        Type InterfaceType { get; }
+    }
+
+    public class JsonInterfaceToObjectConverter<T, U> : JsonConverter, IJsonInterfaceToObjectConverter
         where U : T
     {
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
@@ -13,7 +18,13 @@ namespace Tweetinvi.Logic.JsonConverters
 
         public override bool CanConvert(Type objectType)
         {
-            return (objectType == typeof (T));
+            var canConvert = objectType == typeof (T);
+            return canConvert;
+        }
+
+        public Type InterfaceType
+        {
+            get { return typeof (T); }
         }
 
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
