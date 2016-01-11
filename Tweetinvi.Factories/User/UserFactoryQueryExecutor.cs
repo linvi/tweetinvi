@@ -53,7 +53,7 @@ namespace Tweetinvi.Factories.User
         public IUserDTO GetUserDTOFromScreenName(string userName)
         {
             var query = string.Format(Resources.User_GetUserFromName, userName);
-            return _twitterAccessor.ExecuteGETQuery<UserDTO>(query);
+            return _twitterAccessor.ExecuteGETQuery<IUserDTO>(query);
         }
 
         // Get Multiple users
