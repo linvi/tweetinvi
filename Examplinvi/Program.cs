@@ -33,10 +33,6 @@ namespace Examplinvi
     {
         static void Main()
         {
-            Auth.SetUserCredentials("xWMytIGSmXPuPe9OxwlQz1Wac", "n1l88uNwskBSu8hkuAumxieDRYKPKf7j4C13nbvAt0Z8ubu5iG", "1693649419-VMA9sF1hhTRzP0H6eBSsxBU4KOidn1PrVm8Uu2q", "b8kmpeAuuvotFB0O54YDCwT6nrnx6HCRQoyH3GHZQWlaZ");
-
-            var lu = User.GetLoggedUser();
-
             TweetinviEvents.QueryBeforeExecute += (sender, args) =>
             {
                 // Console.WriteLine(args.QueryURL);
