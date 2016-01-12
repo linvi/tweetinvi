@@ -118,7 +118,7 @@ namespace Tweetinvi.Streams
                 {
                     var json = GetJsonResponseFromReader(_currentStreamReader, _twitterQuery);
 
-                    var isJsonResponseValid = json != null;
+                    var isJsonResponseValid = json.IsMatchingJsonFormat();
                     if (!isJsonResponseValid)
                     {
                         if (TryHandleInvalidResponse(numberOfRepeatedFailures))
@@ -126,7 +126,6 @@ namespace Tweetinvi.Streams
                             ++numberOfRepeatedFailures;
                             continue;
                         }
-
 
                         throw new WebException("Stream cannot be read.");
                     }

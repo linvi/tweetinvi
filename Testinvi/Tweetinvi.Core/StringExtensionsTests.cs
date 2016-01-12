@@ -223,6 +223,18 @@ namespace Testinvi.Tweetinvi.Core
             {
                 Assert.AreEqual(6, "sa🚒osa".UTF32Length());
             }
+
+            [TestMethod]
+            public void IsMatchingJsonFormat()
+            {
+                Assert.IsTrue("{}".IsMatchingJsonFormat());
+                Assert.IsTrue("[]".IsMatchingJsonFormat());
+                Assert.IsTrue("{ test : ''}".IsMatchingJsonFormat());
+                Assert.IsTrue("[{ test : ''}]".IsMatchingJsonFormat());
+
+                Assert.IsFalse(((string)null).IsMatchingJsonFormat());
+                Assert.IsFalse("hello".IsMatchingJsonFormat());
+            }
         }
     }
 }

@@ -139,7 +139,7 @@ namespace Tweetinvi.Core.Extensions
 
         public static bool IsMatchingJsonFormat(this string json)
         {
-            return !string.IsNullOrEmpty(json) && json.Length >= 2 && (json[0] == '{' || json[0] == '[') && (json[json.Length - 1] == '}' || json[json.Length - 1] == ']');
+            return !string.IsNullOrEmpty(json) && json.Length >= 2 && ((json[0] == '{' && json[json.Length - 1] == '}') || (json[0] == '[' && json[json.Length - 1] == ']'));
         }
 
         /// <summary>
