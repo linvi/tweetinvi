@@ -193,6 +193,24 @@ namespace Tweetinvi
         {
             return TweetController.PublishRetweet(tweetId);
         }
+        
+        // Publish UnRetweet
+
+        /// <summary>
+        /// Publish a unretweet tweet
+        /// </summary>
+        public static ITweet PublishUnRetweet(ITweet tweet)
+        {
+            return TweetController.PublishUnRetweet(tweet);
+        }
+
+        /// <summary>
+        /// Publish a unretweet tweet
+        /// </summary>
+        public static ITweet PublishUnRetweet(long tweetId)
+        {
+            return TweetController.PublishUnRetweet(tweetId);
+        }
 
         // Get Retweet
 
