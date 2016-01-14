@@ -16,6 +16,10 @@ namespace Tweetinvi.Controllers.Tweet
         // Publish Retweet
         ITweetDTO PublishRetweet(ITweetDTO tweetToRetweet);
         ITweetDTO PublishRetweet(long tweetId);
+        
+        // Publish UnRetweet
+        ITweetDTO PublishUnRetweet(ITweetDTO tweetToRetweet);
+        ITweetDTO PublishUnRetweet(long tweetId);
 
         // Get Retweets
         IEnumerable<ITweetDTO> GetRetweets(ITweetDTO tweet);
