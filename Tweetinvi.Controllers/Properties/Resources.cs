@@ -428,6 +428,11 @@ namespace Tweetinvi.Controllers.Properties
         ///   Looks up a localized string similar to https://api.twitter.com/1.1/statuses/retweets/{0}.json.
         /// </summary>
         public static string Tweet_Retweet_GetRetweets = "https://api.twitter.com/1.1/statuses/retweets/{0}.json";
+        
+        /// <summary>
+        ///   Looks up a localized string similar to https://api.twitter.com/1.1/statuses/unretweet/{0}.json?trim_user=true.
+        /// </summary>
+        public static string Tweet_UnRetweet_Publish = "https://api.twitter.com/1.1/statuses/unretweet/{0}.json?trim_user=true";
 
         /// <summary>
         ///   Looks up a localized string similar to https://api.twitter.com/1.1/statuses/retweet/{0}.json?trim_user=true.
