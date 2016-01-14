@@ -211,6 +211,29 @@ namespace Tweetinvi.Controllers.Tweet
             var tweetDTO = _tweetQueryExecutor.PublishRetweet(tweetId);
             return _tweetFactory.GenerateTweetFromDTO(tweetDTO);
         }
+        
+        // Publish UnRetweet
+        public ITweet PublishUnRetweet(ITweet tweet)
+        {
+            if (tweet == null)
+            {
+                throw new ArgumentException("Tweet cannot be null!");
+            }
+
+            return PublishUnRetweet(tweet.TweetDTO);
+        }
+
+        public ITweet PublishUnRetweet(ITweetDTO tweet)
+        {
+            var tweetDTO = _tweetQueryExecutor.PublishUnRetweet(tweet);
+            return _tweetFactory.GenerateTweetFromDTO(tweetDTO);
+        }
+
+        public ITweet PublishUnRetweet(long tweetId)
+        {
+            var tweetDTO = _tweetQueryExecutor.PublishUnRetweet(tweetId);
+            return _tweetFactory.GenerateTweetFromDTO(tweetDTO);
+        }
 
         // Publish GetRetweets
         public IEnumerable<ITweet> GetRetweets(ITweet tweet)
