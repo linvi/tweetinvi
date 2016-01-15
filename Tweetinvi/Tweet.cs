@@ -193,6 +193,24 @@ namespace Tweetinvi
         {
             return TweetController.PublishRetweet(tweetId);
         }
+        
+        // Publish UnRetweet
+
+        /// <summary>
+        /// Publish a unretweet tweet
+        /// </summary>
+        public static ITweet PublishUnRetweet(ITweet tweet)
+        {
+            return TweetController.PublishUnRetweet(tweet);
+        }
+
+        /// <summary>
+        /// Publish a unretweet tweet
+        /// </summary>
+        public static ITweet PublishUnRetweet(long tweetId)
+        {
+            return TweetController.PublishUnRetweet(tweetId);
+        }
 
         // Get Retweet
 
@@ -246,6 +264,24 @@ namespace Tweetinvi
         public static bool FavoriteTweet(long tweetId)
         {
             return TweetController.FavoriteTweet(tweetId);
+        }
+        
+        // UnFavorite Tweet
+
+        /// <summary>
+        /// UnFavorite a specific tweet
+        /// </summary>
+        public static bool UnFavoriteTweet(ITweet tweet)
+        {
+            return TweetController.UnFavoriteTweet(tweet);
+        }
+
+        /// <summary>
+        /// UnFavorite a specific tweet
+        /// </summary>
+        public static bool UnFavoriteTweet(long tweetId)
+        {
+            return TweetController.UnFavoriteTweet(tweetId);
         }
 
         // Generate OEmbedTweet

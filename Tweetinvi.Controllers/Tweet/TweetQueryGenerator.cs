@@ -133,6 +133,22 @@ namespace Tweetinvi.Controllers.Tweet
         {
             return String.Format(Resources.Tweet_Retweet_GetRetweets, tweetId);
         }
+        
+        // Publish UnRetweet
+        public string GetPublishUnRetweetQuery(ITweetDTO tweetDTO)
+        {
+            if (!_tweetQueryValidator.IsTweetPublished(tweetDTO))
+            {
+                return null;
+            }
+
+            return GetPublishUnRetweetQuery(tweetDTO.Id);
+        }
+
+        public string GetPublishUnRetweetQuery(long tweetId)
+        {
+            return String.Format(Resources.Tweet_UnRetweet_Publish, tweetId);
+        }
 
         // Destroy Tweet
         public string GetDestroyTweetQuery(ITweetDTO tweetDTO)

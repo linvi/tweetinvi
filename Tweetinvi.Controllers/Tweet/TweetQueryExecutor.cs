@@ -16,6 +16,10 @@ namespace Tweetinvi.Controllers.Tweet
         // Publish Retweet
         ITweetDTO PublishRetweet(ITweetDTO tweetToRetweet);
         ITweetDTO PublishRetweet(long tweetId);
+        
+        // Publish UnRetweet
+        ITweetDTO PublishUnRetweet(ITweetDTO tweetToRetweet);
+        ITweetDTO PublishUnRetweet(long tweetId);
 
         // Get Retweets
         IEnumerable<ITweetDTO> GetRetweets(ITweetDTO tweet);
@@ -68,6 +72,19 @@ namespace Tweetinvi.Controllers.Tweet
         public ITweetDTO PublishRetweet(long tweetId)
         {
             string query = _tweetQueryGenerator.GetPublishRetweetQuery(tweetId);
+            return _twitterAccessor.ExecutePOSTQuery<ITweetDTO>(query);
+        }
+        
+        // Publish UnRetweet
+        public ITweetDTO PublishUnRetweet(ITweetDTO tweetToRetweet)
+        {
+            string query = _tweetQueryGenerator.GetPublishUnRetweetQuery(tweetToRetweet);
+            return _twitterAccessor.ExecutePOSTQuery<ITweetDTO>(query);
+        }
+
+        public ITweetDTO PublishUnRetweet(long tweetId)
+        {
+            string query = _tweetQueryGenerator.GetPublishUnRetweetQuery(tweetId);
             return _twitterAccessor.ExecutePOSTQuery<ITweetDTO>(query);
         }
 
