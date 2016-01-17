@@ -105,6 +105,7 @@ namespace Tweetinvi.Logic.DTO
         public ITweetDTO QuotedTweetDTO { get; set; }
 
         [JsonProperty("retweet_count")]
+        [JsonConverter(typeof(JsonPropertyConverterRepository))]
         public int RetweetCount { get; set; }
 
         [JsonProperty("retweeted")]

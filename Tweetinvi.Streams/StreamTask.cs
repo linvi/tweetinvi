@@ -121,6 +121,11 @@ namespace Tweetinvi.Streams
                     var isJsonResponseValid = json.IsMatchingJsonFormat();
                     if (!isJsonResponseValid)
                     {
+                        if (json != null)
+                        {
+                            throw new WebException(json);
+                        }
+
                         if (TryHandleInvalidResponse(numberOfRepeatedFailures))
                         {
                             ++numberOfRepeatedFailures;
