@@ -43,7 +43,7 @@ $net40Folder = '.\TweetinviAPI\lib\net40'
 $net45Folder = '.\TweetinviAPI\lib\net45'
 $net40PortableFolder = '.\TweetinviAPI\lib\portable-net40+sl5+wp80+win8+wpa81'
 $net45PortableFolder = '.\TweetinviAPI\lib\portable-net45+wp80+win8+wpa81+dnxcore50'
-$tweetinviAPIMerged = 'TweetinviAPI.dll'
+$tweetinviAPIMerged = 'Tweetinvi.dll'
 
 $examplinvi = 'Examplinvi'
 $examplinviUniversalApp = 'Examplinvi.UniversalApp'
@@ -137,7 +137,7 @@ if (!$uv.IsPresent) {
 	# Create temporary folder
 	If (Test-Path $temporaryFolder)
 	{
-		Remove-Item $temporaryFolder\*
+		Remove-Item -r $temporaryFolder\*
 	}
 	Else
 	{
@@ -174,7 +174,11 @@ if (!$uv.IsPresent) {
 	Copy-Item $rootPath$examplinvi\Program.cs $temporaryFolder\Cheatsheet.cs
 
 	# Create Merged assembly
-	$mergedDLLPath = $temporaryFolder + '\' + $tweetinviAPIMerged
+
+    $outputFolder = $temporaryFolder + '\output';
+    mkdir $outputFolder -Force | Out-Null
+
+	$mergedDLLPath = $temporaryFolder + '\output\' + $tweetinviAPIMerged
 	$ILMergeCommand = '.\ILMerge.exe /target:library /out:' + $mergedDLLPath + ' '
 
     if ($iel.IsPresent)
