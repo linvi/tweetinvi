@@ -2,7 +2,7 @@
 
 namespace Tweetinvi.Core.Exceptions
 {
-    public class TwitterNullCredentialsException : ArgumentNullException
+    public class TwitterNullCredentialsException : TwitterInvalidCredentialsException
     {
         public TwitterNullCredentialsException() : base("You must set the credentials to use the Twitter API. (Read the exception description field for more information)")
         {
@@ -10,7 +10,6 @@ namespace Tweetinvi.Core.Exceptions
 
         public TwitterNullCredentialsException(string message) : base(message)
         {
-            
         }
 
         public string Description

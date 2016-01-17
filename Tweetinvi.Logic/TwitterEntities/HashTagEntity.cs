@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Tweetinvi.Core.Extensions;
 using Tweetinvi.Core.Interfaces.Models.Entities;
 
 namespace Tweetinvi.Logic.TwitterEntities
@@ -27,20 +28,7 @@ namespace Tweetinvi.Logic.TwitterEntities
                 return Indices == other.Indices;
             }
 
-            if (Indices.Length != other.Indices.Length)
-            {
-                return false;
-            }
-
-            for (int i = 0; i < Indices.Length; ++i)
-            {
-                if (Indices[i] != other.Indices[i])
-                {
-                    return false;
-                }
-            }
-
-            return true;
+            return Indices.ContainsSameObjectsAs(other.Indices, true);
         }
     }
 }

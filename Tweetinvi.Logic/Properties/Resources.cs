@@ -40,6 +40,11 @@ namespace Tweetinvi.Logic.Properties
         public static string ExceptionDescription_410 = "Gone - This resource is gone. Used to indicate that an API endpoint has been turned off. For example: \"The Twitter REST API v1 will soon stop functioning. Please migrate to API v1.1.\"";
 
         /// <summary>
+        ///   Looks up a localized string similar to Enhance Your Calm
+        /// </summary>
+        public static string ExceptionDescription_420 = "Enhance Your Calm";
+
+        /// <summary>
         ///   Looks up a localized string similar to Unprocessable Entity - Returned when an image uploaded to POST account/update_profile_banner is unable to be processed..
         /// </summary>
         public static string ExceptionDescription_422 = "Unprocessable Entity - Returned when an image uploaded to POST account/update_profile_banner is unable to be processed.";

@@ -18,6 +18,8 @@ namespace Tweetinvi.Injectinvi
     {
     }
 
+   
+
     public class AutofacContainer : IAutofacContainer
     {
         private static IContainer _container;
@@ -55,7 +57,8 @@ namespace Tweetinvi.Injectinvi
             RegisterModules();
             InitializeModules();
 
-            this.Raise(BeforeRegistrationCompletes, new TweetinviContainerEventArgs(this));
+            var overridableContainer = new OverridableContainer(this);
+            this.Raise(BeforeRegistrationCompletes, new TweetinviContainerEventArgs(overridableContainer));
 
             _container = _containerBuilder.Build();
         }
@@ -86,7 +89,7 @@ namespace Tweetinvi.Injectinvi
             return new AutofacThreadContainer(_container);
         }
 
-        public void RegisterType<T, U>(RegistrationLifetime registrationLifetime = RegistrationLifetime.InstancePerResolve) where U : T
+        public virtual void RegisterType<T, U>(RegistrationLifetime registrationLifetime = RegistrationLifetime.InstancePerResolve) where U : T
         {
             switch (registrationLifetime)
             {
@@ -102,7 +105,7 @@ namespace Tweetinvi.Injectinvi
             }
         }
 
-        public void RegisterGeneric(Type sourceType, Type targetType, RegistrationLifetime registrationLifetime = RegistrationLifetime.InstancePerResolve)
+        public virtual void RegisterGeneric(Type sourceType, Type targetType, RegistrationLifetime registrationLifetime = RegistrationLifetime.InstancePerResolve)
         {
             switch (registrationLifetime)
             {
@@ -118,7 +121,7 @@ namespace Tweetinvi.Injectinvi
             }
         }
 
-        public void RegisterInstance(Type targetType, object value)
+        public virtual void RegisterInstance(Type targetType, object value)
         {
             _containerBuilder.RegisterInstance(value).As(targetType).ExternallyOwned();
         }

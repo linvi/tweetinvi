@@ -79,7 +79,7 @@ namespace Tweetinvi.Core.Exceptions
             IWebExceptionInfoExtractor webExceptionInfoExtractor,
             WebException webException,
             string url)
-            : this(url)
+            : this(url, webException.Message)
         {
             WebException = webException;
             StatusCode = webExceptionInfoExtractor.GetWebExceptionStatusNumber(webException);
@@ -90,9 +90,10 @@ namespace Tweetinvi.Core.Exceptions
         public override string ToString()
         {
             string date = string.Format("--- Date : {0}\r\n", CreationDate.ToLocalTime());
-            string url = URL == null ? String.Empty : string.Format("URL : {0}\r\n", URL);
+            string url = URL == null ? string.Empty : string.Format("URL : {0}\r\n", URL);
             string code = string.Format("Code : {0}\r\n", StatusCode);
             string description = string.Format("Error documentation description : {0}\r\n", TwitterDescription);
+            string exceptionMessage = string.Format("Error message : {0}\r\n", Message);
 
             string exceptionInfos = string.Empty;
 
@@ -104,7 +105,7 @@ namespace Tweetinvi.Core.Exceptions
                 }
             }
 
-            return string.Format("{0}{1}{2}{3}{4}", date, url, code, description, exceptionInfos);
+            return string.Format("{0}{1}{2}{3}{4}{5}", date, url, code, description, exceptionMessage, exceptionInfos);
         }
     }
 }

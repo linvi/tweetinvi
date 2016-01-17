@@ -16,6 +16,8 @@
         string AccessTokenSecret { get; set; }
 
         new ITwitterCredentials Clone();
+
+        bool AreSetupForUserAuthentication();
     }
 
     /// <summary>
@@ -62,6 +64,13 @@
             CopyPropertiesToClone(clone);
 
             return clone;
+        }
+
+        public bool AreSetupForUserAuthentication()
+        {
+            return AreSetupForApplicationAuthentication() &&
+                   !string.IsNullOrEmpty(AccessToken) &&
+                   !string.IsNullOrEmpty(AccessTokenSecret);
         }
     }
 }

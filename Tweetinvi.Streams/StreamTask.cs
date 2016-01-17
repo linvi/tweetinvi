@@ -86,6 +86,17 @@ namespace Tweetinvi.Streams
             SetStreamState(StreamState.Resume);
 
             _twitterQuery = _generateTwitterQuery();
+
+            if (_twitterQuery.TwitterCredentials == null)
+            {
+                throw new TwitterNullCredentialsException();
+            }
+
+            if (!_twitterQuery.TwitterCredentials.AreSetupForUserAuthentication())
+            {
+                throw new TwitterInvalidCredentialsException(_twitterQuery.TwitterCredentials);
+            }
+
             _currentHttpClient = GetHttpClient(_twitterQuery);
             _currentStreamReader = GetStreamReader(_currentHttpClient, _twitterQuery).Result;
 
@@ -107,15 +118,19 @@ namespace Tweetinvi.Streams
                 {
                     var json = GetJsonResponseFromReader(_currentStreamReader, _twitterQuery);
 
-                    var isJsonResponseValid = json != null;
+                    var isJsonResponseValid = json.IsMatchingJsonFormat();
                     if (!isJsonResponseValid)
                     {
+                        if (json != null)
+                        {
+                            throw new WebException(json);
+                        }
+
                         if (TryHandleInvalidResponse(numberOfRepeatedFailures))
                         {
                             ++numberOfRepeatedFailures;
                             continue;
                         }
-
 
                         throw new WebException("Stream cannot be read.");
                     }
@@ -198,7 +213,7 @@ namespace Tweetinvi.Streams
                 {
                     request = new HttpRequestMessage(httpMethod, twitterQuery.QueryURL);
                 }
-                
+
 
                 var response = await client.SendAsync(request, HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false);
                 var body = await response.Content.ReadAsStreamAsync();

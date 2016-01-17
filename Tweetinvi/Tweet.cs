@@ -247,6 +247,24 @@ namespace Tweetinvi
         {
             return TweetController.FavoriteTweet(tweetId);
         }
+        
+        // UnFavorite Tweet
+
+        /// <summary>
+        /// UnFavorite a specific tweet
+        /// </summary>
+        public static bool UnFavoriteTweet(ITweet tweet)
+        {
+            return TweetController.UnFavoriteTweet(tweet);
+        }
+
+        /// <summary>
+        /// UnFavorite a specific tweet
+        /// </summary>
+        public static bool UnFavoriteTweet(long tweetId)
+        {
+            return TweetController.UnFavoriteTweet(tweetId);
+        }
 
         // Generate OEmbedTweet
 

@@ -4,8 +4,8 @@ namespace Tweetinvi.Core
 {
     public static class TweetinviConsts
     {
-        public const Int16 MAX_TWEET_SIZE = 140;
-        public const Int16 MEDIA_CONTENT_SIZE = 23;
+        public const int MAX_TWEET_SIZE = 140;
+        public const int MEDIA_CONTENT_SIZE = 24;
 
 
         public const int STATUS_CODE_TOO_MANY_REQUEST = 429;

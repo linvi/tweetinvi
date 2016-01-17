@@ -36,6 +36,8 @@
         string VerifierCode { get; set; }
 
         IConsumerCredentials Clone();
+
+        bool AreSetupForApplicationAuthentication();
     }
 
     public class ConsumerCredentials : IConsumerCredentials
@@ -62,6 +64,12 @@
             CopyPropertiesToClone(clone);
 
             return clone;
+        }
+
+        public bool AreSetupForApplicationAuthentication()
+        {
+            return !string.IsNullOrEmpty(ConsumerKey) &&
+                   !string.IsNullOrEmpty(ConsumerSecret);
         }
 
         protected void CopyPropertiesToClone(IConsumerCredentials clone)

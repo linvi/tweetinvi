@@ -32,6 +32,59 @@ namespace Tweetinvi.Core.Extensions
             return collection.Count() == collection2.Count() && collection.Except(collection2).IsEmpty();
         }
 
+        public static bool ContainsSameObjectsAs<T>(this T[] collection, T[] collection2, bool enforceOrder = false) where T : IEquatable<T>
+        {
+            // Small optimization compared to the IEnumerable version
+
+            if (collection.Length != collection2.Length)
+            {
+                return false;
+            }
+
+            if (!enforceOrder)
+            {
+                return collection.Except(collection2).IsEmpty();
+            }
+            else
+            {
+                for (int i = 0; i < collection.Length; ++i)
+                {
+                    if (!collection[i].Equals(collection2[i]))
+                    {
+                        return false;
+                    }
+                }
+
+                return true;
+            }
+        }
+
+        public static bool ContainsSameObjectsAs<T>(this IList<T> collection, IList<T> collection2, bool enforceOrder = false) where T : IEquatable<T>
+        {
+            // Small optimization compared to the IEnumerable version
+            if (collection.Count != collection2.Count)
+            {
+                return false;
+            }
+
+            if (!enforceOrder)
+            {
+                return collection.Except(collection2).IsEmpty();
+            }
+            else
+            {
+                for (int i = 0; i < collection.Count; ++i)
+                {
+                    if (!collection[i].Equals(collection2[i]))
+                    {
+                        return false;
+                    }
+                }
+
+                return true;
+            }
+        }
+
         public static bool IsNullOrEmpty<T>(this IEnumerable<T> collection)
         {
             return collection == null || !collection.Any();
