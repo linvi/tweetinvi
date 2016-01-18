@@ -24,6 +24,8 @@ namespace Tweetinvi.Core.Interfaces.DTO
 
         Language Language { get; set; }
 
+        string Email { get; set; }
+
         int StatusesCount { get; set; }
 
         int FollowersCount { get; set; }

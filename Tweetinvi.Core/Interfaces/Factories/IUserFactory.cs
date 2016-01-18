@@ -2,14 +2,13 @@
 using Tweetinvi.Core.Credentials;
 using Tweetinvi.Core.Interfaces.DTO;
 using Tweetinvi.Core.Interfaces.Models;
-using Tweetinvi.Core.Interfaces.WebLogic;
+using Tweetinvi.Core.Parameters;
 
 namespace Tweetinvi.Core.Interfaces.Factories
 {
     public interface IUserFactory
     {
-        ILoggedUser GetLoggedUser();
-        ILoggedUser GetLoggedUser(ITwitterCredentials credentials);
+        ILoggedUser GetLoggedUser(ITwitterCredentials credentials = null, IGetLoggedUserParameters parameters = null);
 
         IUser GetUserFromId(long userId);
         IUser GetUserFromScreenName(string userName);

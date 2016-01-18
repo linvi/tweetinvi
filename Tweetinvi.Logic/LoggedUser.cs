@@ -56,6 +56,8 @@ namespace Tweetinvi.Logic
             Credentials = _credentialsAccessor.CurrentThreadCredentials;
         }
 
+        public string Email { get { return _userDTO.Email; } }
+
         public void SetCredentials(ITwitterCredentials credentials)
         {
             Credentials = credentials;

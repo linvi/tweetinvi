@@ -35,11 +35,6 @@ namespace Tweetinvi.Factories.Properties
         public static string SavedSearch_Get = "https://api.twitter.com/1.1/saved_searches/show/{0}.json";
 
         /// <summary>
-        ///   Looks up a localized string similar to https://api.twitter.com/1.1/account/verify_credentials.json.
-        /// </summary>
-        public static string TokenUser_GetCurrentUser = "https://api.twitter.com/1.1/account/verify_credentials.json";
-
-        /// <summary>
         ///   Looks up a localized string similar to https://api.twitter.com/1.1/users/show.json?user_id={0}.
         /// </summary>
         public static string User_GetUserFromId = "https://api.twitter.com/1.1/users/show.json?user_id={0}";

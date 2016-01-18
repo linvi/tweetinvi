@@ -39,6 +39,9 @@ namespace Tweetinvi.Logic.DTO
         [JsonConverter(typeof(JsonPropertyConverterRepository))]
         public Language Language { get; set; }
 
+        [JsonProperty("email")]
+        public string Email { get; set; }
+
         [JsonProperty("statuses_count")]
         public int StatusesCount { get; set; }
 

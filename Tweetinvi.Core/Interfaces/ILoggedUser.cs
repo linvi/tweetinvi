@@ -14,6 +14,8 @@ namespace Tweetinvi.Core.Interfaces
     /// </summary>
     public interface ILoggedUser : ILoggedUserAsync, IUser
     {
+        string Email { get; }
+
         ITwitterCredentials Credentials { get; }
 
         void SetCredentials(ITwitterCredentials credentials);

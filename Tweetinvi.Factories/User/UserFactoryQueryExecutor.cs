@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using Tweetinvi.Core.Extensions;
 using Tweetinvi.Core.Interfaces.Credentials;
 using Tweetinvi.Core.Interfaces.DTO;
 using Tweetinvi.Core.Interfaces.QueryGenerators;
+using Tweetinvi.Core.Parameters;
 using Tweetinvi.Factories.Properties;
 using Tweetinvi.Logic.DTO;
 
@@ -12,7 +14,7 @@ namespace Tweetinvi.Factories.User
 {
     public interface IUserFactoryQueryExecutor
     {
-        IUserDTO GetLoggedUser();
+        IUserDTO GetLoggedUser(IGetLoggedUserParameters parameters);
 
         IUserDTO GetUserDTOFromId(long userId);
         IUserDTO GetUserDTOFromScreenName(string userName);
@@ -29,18 +31,18 @@ namespace Tweetinvi.Factories.User
         private const int MAX_LOOKUP_USERS = 100;
 
         private readonly ITwitterAccessor _twitterAccessor;
-        private readonly IUserQueryParameterGenerator _queryParameterGenerator;
+        private readonly IUserQueryParameterGenerator _userQueryParameterGenerator;
 
-        public UserFactoryQueryExecutor(ITwitterAccessor twitterAccessor, IUserQueryParameterGenerator queryParameterGenerator)
+        public UserFactoryQueryExecutor(ITwitterAccessor twitterAccessor, IUserQueryParameterGenerator userQueryParameterGenerator)
         {
             _twitterAccessor = twitterAccessor;
-            _queryParameterGenerator = queryParameterGenerator;
+            _userQueryParameterGenerator = userQueryParameterGenerator;
         }
 
         // Get single user
-        public IUserDTO GetLoggedUser()
+        public IUserDTO GetLoggedUser(IGetLoggedUserParameters parameters)
         {
-            var query = Resources.TokenUser_GetCurrentUser;
+            var query = _userQueryParameterGenerator.GetLoggedUserQuery(parameters);
             return _twitterAccessor.ExecuteGETQuery<IUserDTO>(query);
         }
 
@@ -103,7 +105,7 @@ namespace Tweetinvi.Factories.User
                 throw new InvalidOperationException("Cannot retrieve that quantity of users at once");
             }
 
-            var userIdsParameter = _queryParameterGenerator.GenerateListOfIdsParameter(userIds);
+            var userIdsParameter = _userQueryParameterGenerator.GenerateListOfIdsParameter(userIds);
             var query = string.Format(Resources.User_GetUsersFromIds, userIdsParameter);
 
             return _twitterAccessor.ExecutePOSTQuery<List<IUserDTO>>(query);
@@ -116,7 +118,7 @@ namespace Tweetinvi.Factories.User
                 throw new InvalidOperationException("Cannot retrieve that quantity of users at once");
             }
 
-            var userIdsParameter = _queryParameterGenerator.GenerateListOfScreenNameParameter(userName);
+            var userIdsParameter = _userQueryParameterGenerator.GenerateListOfScreenNameParameter(userName);
             var query = string.Format(Resources.User_GetUsersFromNames, userIdsParameter);
 
             return _twitterAccessor.ExecutePOSTQuery<List<IUserDTO>>(query);

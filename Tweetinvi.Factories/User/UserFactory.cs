@@ -8,7 +8,6 @@ using Tweetinvi.Core.Interfaces.Credentials;
 using Tweetinvi.Core.Interfaces.DTO;
 using Tweetinvi.Core.Interfaces.Factories;
 using Tweetinvi.Core.Interfaces.Models;
-using Tweetinvi.Core.Interfaces.WebLogic;
 using Tweetinvi.Core.Parameters;
 
 namespace Tweetinvi.Factories.User
@@ -36,22 +35,25 @@ namespace Tweetinvi.Factories.User
         }
 
         // Get User
-        public ILoggedUser GetLoggedUser()
+        public ILoggedUser GetLoggedUser(ITwitterCredentials credentials = null, IGetLoggedUserParameters parameters = null)
         {
-            var userDTO = _userFactoryQueryExecutor.GetLoggedUser();
-            return GenerateLoggedUserFromDTO(userDTO);
-        }
+            IUserDTO userDTO;
 
-        public ILoggedUser GetLoggedUser(ITwitterCredentials credentials)
-        {
-            var userDTO = _credentialsAccessor.ExecuteOperationWithCredentials(credentials, () =>
+            if (credentials == null)
             {
-                return _userFactoryQueryExecutor.GetLoggedUser();
-            });
+                credentials = _credentialsAccessor.CurrentThreadCredentials;
+                userDTO = _userFactoryQueryExecutor.GetLoggedUser(parameters);
+            }
+            else
+            {
+                userDTO = _credentialsAccessor.ExecuteOperationWithCredentials(credentials, () =>
+                {
+                    return _userFactoryQueryExecutor.GetLoggedUser(parameters);
+                });
+            }
 
             var loggedUser = GenerateLoggedUserFromDTO(userDTO);
             loggedUser.SetCredentials(credentials);
-
             return loggedUser;
         }
 

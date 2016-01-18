@@ -37,7 +37,7 @@ namespace Tweetinvi.Controllers.Tweet
         // Get Tweet
         public string GetTweetQuery(long tweetId)
         {
-            return String.Format(Resources.Tweet_Get, tweetId);
+            return string.Format(Resources.Tweet_Get, tweetId);
         }
 
         public string GetTweetsQuery(IEnumerable<long> tweetIds)

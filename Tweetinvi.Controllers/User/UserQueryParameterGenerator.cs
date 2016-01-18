@@ -2,20 +2,41 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Tweetinvi.Controllers.Properties;
+using Tweetinvi.Controllers.Shared;
 using Tweetinvi.Core;
+using Tweetinvi.Core.Extensions;
 using Tweetinvi.Core.Interfaces.Models;
 using Tweetinvi.Core.Interfaces.QueryGenerators;
 using Tweetinvi.Core.Interfaces.QueryValidators;
+using Tweetinvi.Core.Parameters;
 
 namespace Tweetinvi.Controllers.User
 {
     public class UserQueryParameterGenerator : IUserQueryParameterGenerator
     {
+        private readonly IQueryParameterGenerator _queryParameterGenerator;
         private readonly IUserQueryValidator _userQueryValidator;
 
-        public UserQueryParameterGenerator(IUserQueryValidator userQueryValidator)
+        public UserQueryParameterGenerator(
+            IQueryParameterGenerator queryParameterGenerator,
+            IUserQueryValidator userQueryValidator)
         {
+            _queryParameterGenerator = queryParameterGenerator;
             _userQueryValidator = userQueryValidator;
+        }
+
+        public string GetLoggedUserQuery(IGetLoggedUserParameters parameters)
+        {
+            var query = new StringBuilder(Resources.User_GetCurrentUser);
+            parameters = parameters ?? new GetLoggedUserParameters();
+
+            query.AddParameterToQuery("skip_status", parameters.SkipStatus);
+            query.AddParameterToQuery("include_entities", parameters.IncludeEntities);
+            query.AddParameterToQuery("include_email", parameters.IncludeEmail);
+            query.Append(_queryParameterGenerator.GenerateAdditionalRequestParameters(parameters.FormattedCustomQueryParameters));
+
+            return query.ToString();
         }
 
         public string GenerateUserIdParameter(long userId, string parameterName = "user_id")
