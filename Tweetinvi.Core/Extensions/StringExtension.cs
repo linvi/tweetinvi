@@ -270,7 +270,7 @@ namespace Tweetinvi.Core.Extensions
                 queryBuilder.Append("?");
             }
 
-            queryBuilder.Append(string.Format("{0}={1}", parameterName, parameterValue));
+            queryBuilder.Append(string.Format("{0}={1}", parameterName, parameterValue.ToLowerInvariant()));
         }
 
         public static void AddParameterToQuery<T>(this StringBuilder queryBuilder, string parameterName, T parameterValue)
@@ -308,7 +308,7 @@ namespace Tweetinvi.Core.Extensions
                     stringValue = ((double) (object) parameterValue).ToString(CultureInfo.InvariantCulture);
                 }
 
-                AddParameterToQuery(queryBuilder, parameterName, stringValue);
+                AddParameterToQuery(queryBuilder, parameterName, stringValue.ToLowerInvariant());
             }
         }
 
@@ -324,7 +324,7 @@ namespace Tweetinvi.Core.Extensions
                 query += "?";
             }
 
-            query += string.Format("{0}={1}", parameterName, parameterValue);
+            query += string.Format("{0}={1}", parameterName, parameterValue.ToLowerInvariant());
             return query;
         }
     }
