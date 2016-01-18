@@ -211,7 +211,7 @@ namespace Tweetinvi.Streams
         // Events
         protected void TryInvokeGlobalStreamMessages(string json)
         {
-            if (String.IsNullOrEmpty(json))
+            if (string.IsNullOrEmpty(json))
             {
                 return;
             }

@@ -75,31 +75,56 @@ namespace Tweetinvi.Core.Extensions
                 return 0;
             }
 
-            int size = tweet.Length;
+            int length = tweet.UTF32Length();
 
             foreach (Match link in LinkParser.Matches(tweet))
             {
                 // If an url ends with . and 2 followed chars twitter does not
                 // consider it as an URL
-                if (link.Groups["start"].Value == String.Empty &&
-                    link.Groups["multiplePathElements"].Value == String.Empty &&
-                    link.Groups["secondPathElement"].Value.Length <= 2 &&
-                    link.Groups["specialChar"].Value == String.Empty &&
+                if (link.Groups["start"].Value == string.Empty &&
+                    link.Groups["multiplePathElements"].Value == string.Empty &&
+                    link.Groups["secondPathElement"].Value.Length < 2 &&
+                    link.Groups["specialChar"].Value == string.Empty &&
                     link.Groups["lastChar"].Value != "/")
                 {
                     continue;
                 }
 
-                size = size - link.Value.Length + 22;
-                size += link.Groups["isSecured"].Value == "s" ? 1 : 0;
+                length = length - link.Value.Length + 23;
             }
 
             if (willBePublishedWithMedia)
             {
-                size += TweetinviConsts.MEDIA_CONTENT_SIZE;
+                length += TweetinviConsts.MEDIA_CONTENT_SIZE;
             }
 
-            return size;
+            return length;
+        }
+
+        private const char HIGH_SURROGATE_START = '\uD800';
+        private const char HIGH_SURROGATE_END = '\uDBFF';
+        private const char LOW_SURROGATE_START = '\uDC00';
+        private const char LOW_SURROGATE_END = '\uDFFF';
+
+        /// <summary>
+        /// Get the UTF32 length of a string
+        /// </summary>
+        public static int UTF32Length(this string s)
+        {
+            var length = 0;
+
+            for (int i = 0; i < s.Length; ++i)
+            {
+                if (s[i] >= HIGH_SURROGATE_START && s[i] <= HIGH_SURROGATE_END &&
+                    s[i + 1] >= LOW_SURROGATE_START && s[i + 1] <= LOW_SURROGATE_END)
+                {
+                    i++;
+                }
+
+                ++length;
+            }
+
+            return length;
         }
 
         /// <summary>
@@ -114,7 +139,7 @@ namespace Tweetinvi.Core.Extensions
 
         public static bool IsMatchingJsonFormat(this string json)
         {
-            return !string.IsNullOrEmpty(json) && json.Length >= 2 && (json[0] == '{' || json[0] == '[') && (json[json.Length - 1] == '}' || json[json.Length - 1] == ']');
+            return !string.IsNullOrEmpty(json) && json.Length >= 2 && ((json[0] == '{' && json[json.Length - 1] == '}') || (json[0] == '[' && json[json.Length - 1] == ']'));
         }
 
         /// <summary>

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Newtonsoft.Json;
+using Tweetinvi.Core.Extensions;
 using Tweetinvi.Core.Interfaces.Models.Entities;
 
 namespace Tweetinvi.Logic.TwitterEntities
@@ -26,7 +27,22 @@ namespace Tweetinvi.Logic.TwitterEntities
 
         public bool Equals(IUserMentionEntity other)
         {
-            return Id != null && Id == other.Id;
+            if (!Id.HasValue || !other.Id.HasValue)
+            {
+                return false;
+            }
+
+            if (Id.Value != other.Id.Value)
+            {
+                return false;
+            }
+
+            if (Indices == null || other.Indices == null)
+            {
+                return Indices == other.Indices;
+            }
+
+            return Indices.ContainsSameObjectsAs(other.Indices, true);
         }
     }
 }

@@ -42,7 +42,7 @@ namespace Testinvi.Tweetinvi.Logic
             var length = tweet.CalculateLength(true);
 
             // Assert
-            Assert.AreEqual(length, 28);
+            Assert.AreEqual(length, 29);
         }
 
         public Tweet CreateTweet()

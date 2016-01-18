@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Newtonsoft.Json;
+using Tweetinvi.Core.Extensions;
 using Tweetinvi.Core.Interfaces.Models.Entities;
 using Tweetinvi.Core.Interfaces.Models.Entities.ExtendedEntities;
 using Tweetinvi.Logic.JsonConverters;
@@ -47,7 +48,17 @@ namespace Tweetinvi.Logic.TwitterEntities
 
         public bool Equals(IMediaEntity other)
         {
-            return Id != null && Id == other.Id;
+            if (Id == null || Id != other.Id)
+            {
+                return false;
+            }
+
+            if (Indices == null || other.Indices == null)
+            {
+                return Indices == other.Indices;
+            }
+
+            return Indices.ContainsSameObjectsAs(other.Indices, true);
         }
     }
 }
