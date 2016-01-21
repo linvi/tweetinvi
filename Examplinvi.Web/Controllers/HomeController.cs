@@ -25,10 +25,13 @@ namespace Examplinvi.Web.Controllers
             var verifierCode = Request.Params.Get("oauth_verifier");
             var authorizationId = Request.Params.Get("authorization_id");
 
-            var userCreds = CredentialsCreator.GetCredentialsFromVerifierCode(verifierCode, authorizationId);
-            var user = Tweetinvi.User.GetLoggedUser(userCreds);
+            if (verifierCode != null)
+            {
+                var userCreds = CredentialsCreator.GetCredentialsFromVerifierCode(verifierCode, authorizationId);
+                var user = Tweetinvi.User.GetLoggedUser(userCreds);
 
-            ViewBag.User = user;
+                ViewBag.User = user;
+            }
 
             return View();
         }

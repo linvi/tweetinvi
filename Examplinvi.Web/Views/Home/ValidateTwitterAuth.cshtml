@@ -1,3 +1,10 @@
-﻿<h2>Twitter Authentication Complete!</h2>
-
-Welcome <b>@ViewBag.User.Name</b>, you've successfully been logged in through Twitter.
+﻿@if (@ViewBag.User != null)
+{
+    <h2>Twitter Authentication Complete!</h2>
+    <p>Welcome <b>@ViewBag.User.Name</b>, you've successfully been logged in through Twitter.</p>
+}
+else
+{
+    <h2>Authentication failed!</h2>
+    <p>Something went wrong during the authentication, please <a href="/Home/TwitterAuth">try again</a>!</p>
+}

@@ -45,6 +45,12 @@ namespace Tweetinvi.Credentials
         {
             try
             {
+                if (verifierCode == null)
+                {
+                    throw new ArgumentNullException("VerifierCode", "If you've received a verifier code that is null, " +
+                                                                    "it means that authentication has failed!");
+                }
+
                 var callbackParameter = _oAuthWebRequestGenerator.GenerateParameter("oauth_verifier", verifierCode, true, true, false);
 
                 var authHandler = new AuthHttpHandler(callbackParameter);
