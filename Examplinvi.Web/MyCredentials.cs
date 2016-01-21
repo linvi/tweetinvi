@@ -1,6 +1,6 @@
 ﻿using Tweetinvi.Core.Credentials;
 
-namespace Examplinvi.Web.Controllers
+namespace Examplinvi.Web
 {
     public static class MyCredentials
     {
