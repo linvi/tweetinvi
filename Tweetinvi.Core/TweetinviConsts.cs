@@ -46,5 +46,9 @@ namespace Tweetinvi.Core
 
         // https://dev.twitter.com/rest/reference/get/friendships/lookup
         public const int FRIENDSHIP_MAX_NUMBER_OF_FRIENDSHIP_TO_GET_IN_A_SINGLE_QUERY = 100;
+
+        // https://dev.twitter.com/rest/reference/get/help/configuration
+        public const int MAX_SHORT_URL_LENGTH = 23;
+        public const int MAX_SHORT_URL_HTTPS_LENGTH = 23;
     }
 }
