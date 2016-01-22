@@ -120,7 +120,7 @@ namespace Tweetinvi.Streams
             _loggedUser = await _taskFactory.ExecuteTaskAsync(() => _userFactory.GetLoggedUser());
             if (_loggedUser == null)
             {
-                StopStream(new WebException("Could not receive information related with currently logged user."));
+                StopStream(new UserStreamFailedToInitialize("Could not receive information related with currently logged user."));
                 return;
             }
 
