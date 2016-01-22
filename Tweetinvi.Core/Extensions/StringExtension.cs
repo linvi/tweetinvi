@@ -90,7 +90,10 @@ namespace Tweetinvi.Core.Extensions
                     continue;
                 }
 
-                length = length - link.Value.Length + 23;
+                var isHttps = link.Groups["isSecured"].Value == "s";
+                var linkSize = isHttps ? TweetinviConsts.HTTPS_LINK_SIZE : TweetinviConsts.HTTP_LINK_SIZE;
+                
+                length = length - link.Value.Length + linkSize;
             }
 
             if (willBePublishedWithMedia)
