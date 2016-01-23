@@ -21,6 +21,10 @@ namespace Tweetinvi.Core.Interfaces.QueryGenerators
         // Get Retweets
         string GetRetweetsQuery(ITweetDTO tweetDTO);
         string GetRetweetsQuery(long tweetId);
+        
+        // Publish UnRetweet
+        string GetUnRetweetQuery(ITweetDTO tweetDTO);
+        string GetUnRetweetQuery(long tweetId);
 
         // Destroy Tweet
         string GetDestroyTweetQuery(ITweetDTO tweetDTO);

@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Tweetinvi;
+using Tweetinvi.Core;
 using Tweetinvi.Core.Extensions;
 using Tweetinvi.Core.Parameters;
 
@@ -234,6 +237,27 @@ namespace Testinvi.Tweetinvi.Core
 
                 Assert.IsFalse(((string)null).IsMatchingJsonFormat());
                 Assert.IsFalse("hello".IsMatchingJsonFormat());
+            }
+
+            
+
+            [TestMethod]
+            public void MyTest()
+            {
+                var l = new int[] { 0, 1, 2, 3, 4, 5, 6 };
+                var result = new List<int[]>();
+
+                var numberOfChunks = (int)Math.Ceiling((double)l.Length / TweetinviConsts.UPLOAD_MAX_CHUNK_SIZE);
+
+                for (int i = 0; i < numberOfChunks; ++i)
+                {
+                    var elts = l.Skip(i * TweetinviConsts.UPLOAD_MAX_CHUNK_SIZE).Take(Math.Min((i + 1) * TweetinviConsts.UPLOAD_MAX_CHUNK_SIZE, l.Length)).ToArray();
+                    result.Add(elts);
+                }
+
+                var all = result.SelectMany(x => x).ToArray();
+
+                Assert.AreEqual(l.Length, all.Length);
             }
         }
     }

@@ -115,7 +115,7 @@ namespace Tweetinvi.Controllers.Tweet
 
         public string GetPublishRetweetQuery(long tweetId)
         {
-            return String.Format(Resources.Tweet_Retweet_Publish, tweetId);
+            return string.Format(Resources.Tweet_Retweet_Publish, tweetId);
         }
 
         // Get Retweets
@@ -131,7 +131,23 @@ namespace Tweetinvi.Controllers.Tweet
 
         public string GetRetweetsQuery(long tweetId)
         {
-            return String.Format(Resources.Tweet_Retweet_GetRetweets, tweetId);
+            return string.Format(Resources.Tweet_Retweet_GetRetweets, tweetId);
+        }
+        
+        // UnRetweet
+        public string GetUnRetweetQuery(ITweetDTO tweetDTO)
+        {
+            if (!_tweetQueryValidator.IsTweetPublished(tweetDTO))
+            {
+                return null;
+            }
+
+            return GetUnRetweetQuery(tweetDTO.Id);
+        }
+
+        public string GetUnRetweetQuery(long tweetId)
+        {
+            return string.Format(Resources.Tweet_UnRetweet, tweetId);
         }
 
         // Destroy Tweet
@@ -147,7 +163,7 @@ namespace Tweetinvi.Controllers.Tweet
 
         public string GetDestroyTweetQuery(long tweetId)
         {
-            return String.Format(Resources.Tweet_Destroy, tweetId);
+            return string.Format(Resources.Tweet_Destroy, tweetId);
         }
 
         // Favorite Tweet
@@ -163,7 +179,7 @@ namespace Tweetinvi.Controllers.Tweet
 
         public string GetFavouriteTweetQuery(long tweetId)
         {
-            return String.Format(Resources.Tweet_Favorite_Create, tweetId);
+            return string.Format(Resources.Tweet_Favorite_Create, tweetId);
         }
 
         // Unfavourite Tweet
@@ -179,7 +195,7 @@ namespace Tweetinvi.Controllers.Tweet
 
         public string GetUnFavouriteTweetQuery(long tweetId)
         {
-            return String.Format(Resources.Tweet_Favorite_Destroy, tweetId);
+            return string.Format(Resources.Tweet_Favorite_Destroy, tweetId);
         }
 
         // OEmbed Tweet
@@ -195,7 +211,7 @@ namespace Tweetinvi.Controllers.Tweet
 
         public string GetGenerateOEmbedTweetQuery(long tweetId)
         {
-            return String.Format(Resources.Tweet_GenerateOEmbed, tweetId);
+            return string.Format(Resources.Tweet_GenerateOEmbed, tweetId);
         }
     }
 }

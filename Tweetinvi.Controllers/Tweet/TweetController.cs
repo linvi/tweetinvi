@@ -10,7 +10,6 @@ using Tweetinvi.Core.Interfaces.DTO;
 using Tweetinvi.Core.Interfaces.Factories;
 using Tweetinvi.Core.Interfaces.Models;
 using Tweetinvi.Core.Parameters;
-using Tweetinvi.Core.Parameters.QueryParameters;
 
 namespace Tweetinvi.Controllers.Tweet
 {
@@ -209,6 +208,29 @@ namespace Tweetinvi.Controllers.Tweet
         public ITweet PublishRetweet(long tweetId)
         {
             var tweetDTO = _tweetQueryExecutor.PublishRetweet(tweetId);
+            return _tweetFactory.GenerateTweetFromDTO(tweetDTO);
+        }
+        
+        // Publish UnRetweet
+        public ITweet UnRetweet(ITweet tweet)
+        {
+            if (tweet == null)
+            {
+                throw new ArgumentException("Tweet cannot be null!");
+            }
+
+            return UnRetweet(tweet.TweetDTO);
+        }
+
+        public ITweet UnRetweet(ITweetDTO tweet)
+        {
+            var tweetDTO = _tweetQueryExecutor.UnRetweet(tweet);
+            return _tweetFactory.GenerateTweetFromDTO(tweetDTO);
+        }
+
+        public ITweet UnRetweet(long tweetId)
+        {
+            var tweetDTO = _tweetQueryExecutor.UnRetweet(tweetId);
             return _tweetFactory.GenerateTweetFromDTO(tweetDTO);
         }
 

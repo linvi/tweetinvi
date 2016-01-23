@@ -48,5 +48,11 @@ namespace Tweetinvi.Core
 
         // https://dev.twitter.com/rest/reference/get/friendships/lookup
         public const int FRIENDSHIP_MAX_NUMBER_OF_FRIENDSHIP_TO_GET_IN_A_SINGLE_QUERY = 100;
+
+        // https://dev.twitter.com/rest/reference/post/media/upload
+        // https://dev.twitter.com/rest/public/uploading-media
+        public const int UPLOAD_MAX_IMAGE_SIZE = 5 * 1024 * 1024;
+        public const int UPLOAD_MAX_VIDEO_SIZE = 15 * 1024 * 1024;
+        public const int UPLOAD_MAX_CHUNK_SIZE = 5 * 1024 * 1024;
     }
 }

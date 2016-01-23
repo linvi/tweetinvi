@@ -27,7 +27,7 @@ namespace Tweetinvi
                 return _tweetFactory;
             }
         }
-        
+
         [ThreadStatic]
         private static ITweetController _tweetController;
         public static ITweetController TweetController
@@ -55,7 +55,7 @@ namespace Tweetinvi
         }
 
         #region Tweet Factory
-        
+
         public static ITweet GetTweet(long tweetId)
         {
             return TweetFactory.GetTweet(tweetId);
@@ -194,6 +194,24 @@ namespace Tweetinvi
             return TweetController.PublishRetweet(tweetId);
         }
 
+        // UnRetweet
+
+        /// <summary>
+        /// Publish a unretweet tweet
+        /// </summary>
+        public static ITweet PublishUnRetweet(ITweet tweet)
+        {
+            return TweetController.UnRetweet(tweet);
+        }
+
+        /// <summary>
+        /// Publish a unretweet tweet
+        /// </summary>
+        public static ITweet PublishUnRetweet(long tweetId)
+        {
+            return TweetController.UnRetweet(tweetId);
+        }
+
         // Get Retweet
 
         /// <summary>
@@ -247,7 +265,7 @@ namespace Tweetinvi
         {
             return TweetController.FavoriteTweet(tweetId);
         }
-        
+
         // UnFavorite Tweet
 
         /// <summary>
