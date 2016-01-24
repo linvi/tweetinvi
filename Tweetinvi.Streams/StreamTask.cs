@@ -248,8 +248,8 @@ namespace Tweetinvi.Streams
 
             if (resultingTask != requestTask)
             {
-                var urlParameter = new ConstructorNamedParameter("url", twitterQuery.QueryURL);
-                var twitterTimeoutException = _twitterTimeoutExceptionFactory.Create(urlParameter);
+                var twitterQueryParameter = _twitterTimeoutExceptionFactory.GenerateParameterOverrideWrapper("twitterQuery", twitterQuery);
+                var twitterTimeoutException = _twitterTimeoutExceptionFactory.Create(twitterQueryParameter);
                 throw (Exception)twitterTimeoutException;
             }
 
