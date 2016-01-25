@@ -121,6 +121,11 @@ namespace Tweetinvi.Streams
                     var isJsonResponseValid = json.IsMatchingJsonFormat();
                     if (!isJsonResponseValid)
                     {
+                        if (json == string.Empty)
+                        {
+                            continue;
+                        }
+
                         if (json != null)
                         {
                             throw new WebException(json);
@@ -136,11 +141,6 @@ namespace Tweetinvi.Streams
                     }
 
                     numberOfRepeatedFailures = 0;
-
-                    if (json == string.Empty)
-                    {
-                        continue;
-                    }
 
                     if (StreamState == StreamState.Resume && !_processObject(json))
                     {
