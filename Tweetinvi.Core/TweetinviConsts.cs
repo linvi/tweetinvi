@@ -53,6 +53,6 @@ namespace Tweetinvi.Core
         // https://dev.twitter.com/rest/public/uploading-media
         public const int UPLOAD_MAX_IMAGE_SIZE = 5 * 1024 * 1024;
         public const int UPLOAD_MAX_VIDEO_SIZE = 15 * 1024 * 1024;
-        public const int UPLOAD_MAX_CHUNK_SIZE = 5 * 1024 * 1024;
+        public const int UPLOAD_MAX_CHUNK_SIZE = 2 * 1024 * 1024;
     }
 }

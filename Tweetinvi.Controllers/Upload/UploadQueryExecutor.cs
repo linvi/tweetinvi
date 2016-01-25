@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Tweetinvi.Controllers.Properties;
+using Tweetinvi.Core;
 using Tweetinvi.Core.Extensions;
 using Tweetinvi.Core.Injectinvi;
 using Tweetinvi.Core.Interfaces.Controllers.Transactions;
@@ -111,13 +112,38 @@ namespace Tweetinvi.Controllers.Upload
 
             if (uploader.Init(mediaType, binary.Length))
             {
-                if (uploader.Append(binary))
+                var binaryChunks = GetBinaryChunks(binary, TweetinviConsts.UPLOAD_MAX_CHUNK_SIZE);
+
+                foreach (var binaryChunk in binaryChunks)
                 {
-                    return uploader.Complete();
+                    if (!uploader.Append(binaryChunk))
+                    {
+                        return null;
+                    }
                 }
+
+                return uploader.Complete();
             }
 
             return null;
+        }
+
+        private List<byte[]> GetBinaryChunks(byte[] binary, int chunkSize)
+        {
+            var result = new List<byte[]>();
+            var numberOfChunks = (int)Math.Ceiling((double)binary.Length / chunkSize);
+
+            for (int i = 0; i < numberOfChunks; ++i)
+            {
+                var skip = i * chunkSize;
+                var take = Math.Min(chunkSize, binary.Length - skip);
+
+                var elts = binary.Skip(skip).Take(take).ToArray();
+
+                result.Add(elts);
+            }
+
+            return result;
         }
 
         public IMedia UploadVideo(byte[] binary, string mediaType = "video/mp4")
