@@ -254,6 +254,9 @@ namespace Tweetinvi.Core.Extensions
             return s[s.Length - 1];
         }
 
+        /// <summary>
+        /// IMPORTANT! Add the parameters as LOWERED
+        /// </summary>
         public static void AddParameterToQuery(this StringBuilder queryBuilder, string parameterName, string parameterValue)
         {
             if (string.IsNullOrEmpty(parameterValue))
@@ -276,6 +279,9 @@ namespace Tweetinvi.Core.Extensions
             queryBuilder.Append(string.Format("{0}={1}", parameterName, parameterValue.ToLowerInvariant()));
         }
 
+        /// <summary>
+        /// IMPORTANT! Add the parameters as LOWERED
+        /// </summary>
         public static void AddParameterToQuery<T>(this StringBuilder queryBuilder, string parameterName, T parameterValue)
         {
             if (parameterValue == null)
@@ -315,6 +321,9 @@ namespace Tweetinvi.Core.Extensions
             }
         }
 
+        /// <summary>
+        /// IMPORTANT! Add the parameters as is and not LOWERED
+        /// </summary>
         public static string AddParameterToQuery(this string query, string parameterName, string parameterValue)
         {
             if (query.Contains("?") && query[query.Length - 1] != '?' && query[query.Length - 1] != '&')
