@@ -42,7 +42,7 @@ namespace Tweetinvi.Controllers.Tweet
 
         public string GetTweetsQuery(IEnumerable<long> tweetIds)
         {
-            if (tweetIds == null || tweetIds.Count() == 1)
+            if (tweetIds.IsNullOrEmpty())
             {
                 return null;
             }
