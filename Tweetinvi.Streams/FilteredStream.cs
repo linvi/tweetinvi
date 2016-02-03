@@ -196,7 +196,7 @@ namespace Tweetinvi.Streams
                 return false;
             }
 
-            bool followMatches = FollowingUserIds.IsEmpty() || ContainsFollow(tweet.CreatedBy.Id);
+            bool followMatches = FollowingUserIds.IsEmpty() || ContainsFollow(tweet.CreatedBy.Id) || ContainsFollow(tweet.InReplyToUserId);
             bool tracksMatches = Tracks.IsEmpty() || matchingTracks.Any();
             bool locationMatches = Locations.IsEmpty() || matchingLocations.Any();
 
