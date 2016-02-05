@@ -1,5 +1,6 @@
 ﻿using System;
 using Tweetinvi.Core.Credentials;
+using Tweetinvi.Core.Interfaces.Credentials;
 using Tweetinvi.Core.Interfaces.Models;
 
 namespace Tweetinvi.Core.Events.EventArguments
@@ -18,10 +19,12 @@ namespace Tweetinvi.Core.Events.EventArguments
         public string QueryURL { get { return _twitterQuery.QueryURL; } }
         public ITwitterCredentials Credentials { get { return _twitterQuery.TwitterCredentials; } }
 
+        public ITokenRateLimit QueryRateLimit {  get { return _twitterQuery.QueryRateLimit; } }
+
         /// <summary>
         /// Date at which the Twitter query will be ready to be executed
         /// </summary>
-        public DateTime? DateOfQueryExecution { get { return _twitterQuery.DateWhenCredentialsWillHaveRequiredRateLimits; } }
+        public DateTime? DateOfQueryExecution { get { return _twitterQuery.DateWhenCredentialsWillHaveTheRequiredRateLimits; } }
 
         public int? TimeToWaitBeforeExecutingTheQueryInMilliSeconds { get { return _twitterQuery.TimeToWaitBeforeExecutingTheQueryInMilliSeconds; } }
     }

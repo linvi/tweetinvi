@@ -74,7 +74,7 @@ namespace Tweetinvi.Credentials.RateLimit
             return GetTimeToWaitFromQueryRateLimit(queryRateLimits);
         }
 
-        private int GetTimeToWaitFromQueryRateLimit(ITokenRateLimit queryRateLimit)
+        public int GetTimeToWaitFromQueryRateLimit(ITokenRateLimit queryRateLimit)
         {
             if (queryRateLimit == null)
             {

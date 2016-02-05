@@ -24,6 +24,7 @@ namespace Tweetinvi.WebLogic
         private readonly ITweetinviEvents _tweetinviEvents;
         private readonly IRateLimitAwaiter _rateLimitAwaiter;
         private readonly IRateLimitUpdater _rateLimitUpdater;
+        private readonly IRateLimitCacheManager _rateLimitCacheManager;
         private readonly ITwitterRequester _twitterRequester;
         private readonly ICredentialsAccessor _credentialsAccessor;
         private readonly ITweetinviSettingsAccessor _tweetinviSettingsAccessor;
@@ -33,6 +34,7 @@ namespace Tweetinvi.WebLogic
             ITweetinviEvents tweetinviEvents,
             IRateLimitAwaiter rateLimitAwaiter,
             IRateLimitUpdater rateLimitUpdater,
+            IRateLimitCacheManager rateLimitCacheManager,
             ITwitterRequester twitterRequester,
             ICredentialsAccessor credentialsAccessor,
             ITweetinviSettingsAccessor tweetinviSettingsAccessor,
@@ -41,6 +43,7 @@ namespace Tweetinvi.WebLogic
             _tweetinviEvents = tweetinviEvents;
             _rateLimitAwaiter = rateLimitAwaiter;
             _rateLimitUpdater = rateLimitUpdater;
+            _rateLimitCacheManager = rateLimitCacheManager;
             _twitterRequester = twitterRequester;
             _credentialsAccessor = credentialsAccessor;
             _tweetinviSettingsAccessor = tweetinviSettingsAccessor;
@@ -145,9 +148,23 @@ namespace Tweetinvi.WebLogic
             if (rateLimitTrackerOption == RateLimitTrackerOptions.TrackOnly ||
                 rateLimitTrackerOption == RateLimitTrackerOptions.TrackAndAwait)
             {
-                var timeToWait = _rateLimitAwaiter.TimeToWaitBeforeTwitterRequest(query, twitterQuery.TwitterCredentials);
+                // Use the RateLimitCacheManager instead of RateLimitHelper to get the queryRateLimits to ensure the cache is up to date!
+                var credentialRateLimits = _rateLimitCacheManager.GetTokenRateLimits(twitterQuery.TwitterCredentials);
 
-                twitterQuery.DateWhenCredentialsWillHaveRequiredRateLimits = DateTime.Now.AddMilliseconds(timeToWait);
+                ITokenRateLimit queryRateLimit = null;
+
+                // If we were not able to retrieve the credentials few ms before there is no reason why it would work now.
+                if (credentialRateLimits != null) 
+                {
+                    _rateLimitCacheManager.GetQueryRateLimit(query, twitterQuery.TwitterCredentials);
+                }
+                
+                var timeToWait = _rateLimitAwaiter.GetTimeToWaitFromQueryRateLimit(queryRateLimit);
+
+                twitterQuery.CredentialsRateLimits = credentialRateLimits;
+                twitterQuery.QueryRateLimit = queryRateLimit;
+                twitterQuery.DateWhenCredentialsWillHaveTheRequiredRateLimits = DateTime.Now.AddMilliseconds(timeToWait);
+
                 _tweetinviEvents.RaiseBeforeQueryExecute(beforeQueryExecuteEventArgs);
 
                 if (beforeQueryExecuteEventArgs.Cancel)

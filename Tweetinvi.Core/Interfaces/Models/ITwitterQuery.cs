@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Tweetinvi.Core.Credentials;
 using Tweetinvi.Core.Enum;
+using Tweetinvi.Core.Interfaces.Credentials;
 using Tweetinvi.Core.Interfaces.WebLogic;
 
 namespace Tweetinvi.Core.Interfaces.Models
@@ -23,7 +24,9 @@ namespace Tweetinvi.Core.Interfaces.Models
         ITwitterCredentials TwitterCredentials { get; set; }
         IEnumerable<IOAuthQueryParameter> QueryParameters { get; set; }
 
-        DateTime? DateWhenCredentialsWillHaveRequiredRateLimits { get; set; }
+        ITokenRateLimit QueryRateLimit { get; set; }
+        ITokenRateLimits CredentialsRateLimits { get; set; }
+        DateTime? DateWhenCredentialsWillHaveTheRequiredRateLimits { get; set; }
         int? TimeToWaitBeforeExecutingTheQueryInMilliSeconds { get; }
 
         ITwitterQuery Clone();

@@ -1,6 +1,5 @@
 ﻿using Tweetinvi.Core.Credentials;
 using Tweetinvi.Core.Interfaces.Credentials;
-using Tweetinvi.Core.Interfaces.WebLogic;
 
 namespace Tweetinvi.Core.Interfaces.RateLimit
 {
