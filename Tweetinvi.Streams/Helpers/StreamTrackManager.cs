@@ -219,7 +219,7 @@ namespace Tweetinvi.Streams.Helpers
         private List<Tuple<string, Action<T>>> _matchingTracks(string input)
         {
             // Missing match of # for simple tracked keywords
-            if (String.IsNullOrEmpty(input) || _tracks.Count == 0)
+            if (string.IsNullOrEmpty(input) || _tracks.Count == 0)
             {
                 return new List<Tuple<string, Action<T>>>();
             }

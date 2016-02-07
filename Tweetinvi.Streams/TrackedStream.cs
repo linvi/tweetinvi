@@ -21,11 +21,13 @@ namespace Tweetinvi.Streams
     public class TrackedStream : TwitterStream, ITrackedStream
     {
         public event EventHandler<MatchedTweetReceivedEventArgs> MatchingTweetReceived;
+        public event EventHandler<TweetEventArgs> NonMatchingTweetReceived;
 
         protected readonly IStreamTrackManager<ITweet> _streamTrackManager;
         protected readonly IJsonObjectConverter _jsonObjectConverter;
         protected readonly ITweetFactory _tweetFactory;
         protected readonly ISynchronousInvoker _synchronousInvoker;
+
         private readonly ISingleAggregateExceptionThrower _singleAggregateExceptionThrower;
         private readonly ITwitterQueryFactory _twitterQueryFactory;
 
@@ -83,7 +85,17 @@ namespace Tweetinvi.Streams
                 var detectedTracks = detectedTracksAndActions.Select(x => x.Item1);
                 if (detectedTracksAndActions.Any())
                 {
-                    this.Raise(MatchingTweetReceived, new MatchedTweetReceivedEventArgs(tweet, detectedTracks));
+                    var eventArgs = new MatchedTweetReceivedEventArgs(tweet)
+                    {
+                        MatchingTracks = detectedTracks.ToArray(),
+                        StreamMatchType = StreamMatchType.TweetText
+                    };
+
+                    this.Raise(MatchingTweetReceived, eventArgs);
+                }
+                else
+                {
+                    RaiseNonMatchingTweetReceived(new TweetEventArgs(tweet));
                 }
             };
 
@@ -148,6 +160,11 @@ namespace Tweetinvi.Streams
         protected void RaiseMatchingTweetReceived(MatchedTweetReceivedEventArgs eventArgs)
         {
             this.Raise(MatchingTweetReceived, eventArgs);
+        }
+
+        protected void RaiseNonMatchingTweetReceived(TweetEventArgs eventArgs)
+        {
+            this.Raise(NonMatchingTweetReceived, eventArgs);
         }
     }
 }

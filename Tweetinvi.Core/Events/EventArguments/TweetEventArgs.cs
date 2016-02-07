@@ -1,8 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using Tweetinvi.Core.Interfaces;
 using Tweetinvi.Core.Interfaces.Models;
 using Tweetinvi.Core.Interfaces.Models.StreamMessages;
+using Tweetinvi.Core.Interfaces.Streaminvi;
 
 namespace Tweetinvi.Core.Events.EventArguments
 {
@@ -35,23 +35,14 @@ namespace Tweetinvi.Core.Events.EventArguments
 
     public class MatchedTweetReceivedEventArgs : TweetEventArgs
     {
-        public MatchedTweetReceivedEventArgs(ITweet tweet, IEnumerable<string> matchingTracks) : base(tweet)
+        public MatchedTweetReceivedEventArgs(ITweet tweet) : base(tweet)
         {
-            MatchingTracks = matchingTracks;
         }
 
-        public IEnumerable<string> MatchingTracks { get; private set; }
-    }
-
-    public class MatchedTweetAndLocationReceivedEventArgs : MatchedTweetReceivedEventArgs
-    {
-        public MatchedTweetAndLocationReceivedEventArgs(ITweet tweet, IEnumerable<string> matchingTracks, IEnumerable<ILocation> matchingLocations)
-            : base(tweet, matchingTracks)
-        {
-            MatchedLocations = matchingLocations;
-        }
-
-        public IEnumerable<ILocation> MatchedLocations { get; private set; }
+        public string[] MatchingTracks { get; set; }
+        public ILocation[] MatchingLocations { get; set; }
+        public long[] MatchingFollowers { get; set; }
+        public StreamMatchType? StreamMatchType { get; set; }
     }
 
     public class TweetDeletedEventArgs : EventArgs

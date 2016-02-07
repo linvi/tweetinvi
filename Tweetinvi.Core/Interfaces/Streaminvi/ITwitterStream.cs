@@ -60,8 +60,19 @@ namespace Tweetinvi.Core.Interfaces.Streaminvi
         /// </summary>
         void StopStream();
 
+        /// <summary>
+        /// Languages that you want to receive. If empty all languages will be matched.
+        /// </summary>
         string[] FilteredLanguages { get; }
+
+        /// <summary>
+        /// Add a language that you want the tweets to be filtered by.
+        /// </summary>
         void AddTweetLanguageFilter(string language);
+
+        /// <summary>
+        /// Add a language that you want the tweets to be filtered by.
+        /// </summary>
         void AddTweetLanguageFilter(Language language);
         void RemoveTweetLanguageFilter(string language);
         void RemoveTweetLanguageFilter(Language language);

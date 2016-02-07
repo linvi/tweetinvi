@@ -5,7 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 using Tweetinvi.Core;
 using Tweetinvi.Core.Enum;
-using Tweetinvi.Core.Events;
 using Tweetinvi.Core.Events.EventArguments;
 using Tweetinvi.Core.Exceptions;
 using Tweetinvi.Core.Extensions;
@@ -30,7 +29,7 @@ namespace Tweetinvi.Streams
         private const int MAXIMUM_TRACKED_USER_ID_AUTHORIZED = 5000;
 
         // Events
-        public event EventHandler<MatchedTweetAndLocationReceivedEventArgs> MatchingTweetAndLocationReceived;
+        public StreamMatchType MatchType { get; set; }
 
         // Properties
         private readonly Dictionary<long?, Action<ITweet>> _followingUserIds;
@@ -72,6 +71,15 @@ namespace Tweetinvi.Streams
             _singleAggregateExceptionThrower = singleAggregateExceptionThrower;
             _followingUserIds = new Dictionary<long?, Action<ITweet>>();
             _locations = new Dictionary<ILocation, Action<ITweet>>();
+
+            MatchType = StreamMatchType.TweetText |
+                        StreamMatchType.AllEntities |
+                        StreamMatchType.Follower |
+                        StreamMatchType.FollowerInReplyTo |
+                        StreamMatchType.TweetLocation |
+                        StreamMatchType.URLEntity |
+                        StreamMatchType.HashTagEntity |
+                        StreamMatchType.UserMentionEntity;
         }
 
         public void StartStreamMatchingAnyCondition()
@@ -101,18 +109,20 @@ namespace Tweetinvi.Streams
                     return;
                 }
 
-                var matchingTrackAndActions = _streamTrackManager.GetMatchingTracksAndActions(tweet.Text);
-                var matchingTracks = matchingTrackAndActions.Select(x => x.Item1);
-                var machingLocationAndActions = GetMatchedLocations(tweet);
+                var matchingTracksEvenArgs = GetMatchingTweetEventArgsAndRaiseMatchingElements(tweet);
 
-                var matchingLocations = machingLocationAndActions.Select(x => x.Key);
+                var matchingTracks = matchingTracksEvenArgs.MatchingTracks;
+                var matchingLocations = matchingTracksEvenArgs.MatchingLocations;
+                var matchingFollowers = matchingTracksEvenArgs.MatchingFollowers;
 
-                CallMultipleActions(tweet, matchingTrackAndActions.Select(x => x.Item2));
-                CallMultipleActions(tweet, machingLocationAndActions.Select(x => x.Value));
-                CallFollowerAction(tweet);
-
-                RaiseMatchingTweetReceived(new MatchedTweetReceivedEventArgs(tweet, matchingTracks));
-                this.Raise(MatchingTweetAndLocationReceived, new MatchedTweetAndLocationReceivedEventArgs(tweet, matchingTracks, matchingLocations));
+                if (matchingTracks.Length != 0 || matchingLocations.Length != 0 || matchingFollowers.Length != 0)
+                {
+                    RaiseMatchingTweetReceived(matchingTracksEvenArgs);
+                }
+                else
+                {
+                    RaiseNonMatchingTweetReceived(new TweetEventArgs(tweet));
+                }
             };
 
             await _streamResultGenerator.StartStreamAsync(tweetReceived, generateWebRequest);
@@ -145,32 +155,197 @@ namespace Tweetinvi.Streams
                     return;
                 }
 
-                var matchingTrackAndActions = _streamTrackManager.GetMatchingTracksAndActions(tweet.Text);
-                var matchingTracks = matchingTrackAndActions.Select(x => x.Item1);
-                var machingLocationAndActions = GetMatchedLocations(tweet);
-                var matchingLocations = machingLocationAndActions.Select(x => x.Key);
+                var matchingTracksEvenArgs = GetMatchingTweetEventArgsAndRaiseMatchingElements(tweet);
 
-                if (!DoestTheTweetMatchAllConditions(tweet, matchingTracks, matchingLocations))
+                var matchingTracks = matchingTracksEvenArgs.MatchingTracks;
+                var matchingLocations = matchingTracksEvenArgs.MatchingLocations;
+                var matchingFollowers = matchingTracksEvenArgs.MatchingFollowers;
+
+                if (DoestTheTweetMatchAllConditions(tweet, matchingTracks, matchingLocations, matchingFollowers))
                 {
-                    return;
+                    RaiseMatchingTweetReceived(matchingTracksEvenArgs);
                 }
-
-                CallMultipleActions(tweet, matchingTrackAndActions.Select(x => x.Item2));
-                CallMultipleActions(tweet, machingLocationAndActions.Select(x => x.Value));
-                CallFollowerAction(tweet);
-
-                RaiseMatchingTweetReceived(new MatchedTweetReceivedEventArgs(tweet, matchingTracks));
-                this.Raise(MatchingTweetAndLocationReceived, new MatchedTweetAndLocationReceivedEventArgs(tweet, matchingTracks, matchingLocations));
+                else
+                {
+                    RaiseNonMatchingTweetReceived(new TweetEventArgs(tweet));
+                }
             };
 
             await _streamResultGenerator.StartStreamAsync(tweetReceived, generateTwitterQuery);
         }
 
-        private void CallMultipleActions<T>(T tweet, IEnumerable<Action<T>> tracksActionsIdenfied)
+        private void SetMatchedTweetEventArgsStreamMatchType(MatchedTweetReceivedEventArgs eventArgs, StreamMatchType streamMatchType)
         {
-            if (tracksActionsIdenfied != null)
+            if (eventArgs.StreamMatchType == null)
             {
-                tracksActionsIdenfied.ForEach(action =>
+                eventArgs.StreamMatchType = streamMatchType;
+            }
+            else
+            {
+                eventArgs.StreamMatchType |= streamMatchType;
+            }
+        }
+
+        private MatchedTweetReceivedEventArgs GetMatchingTweetEventArgsAndRaiseMatchingElements(ITweet tweet)
+        {
+            var matchingTracksEvenArgs = new MatchedTweetReceivedEventArgs(tweet);
+
+            var matchingTrackAndActions = new Dictionary<string, Action<ITweet>>();
+            var matchingLocationAndActions = new Dictionary<ILocation, Action<ITweet>>();
+            var matchingFollowersAndActions = new Dictionary<long, Action<ITweet>>();
+
+            if (MatchType.HasFlag(StreamMatchType.TweetText))
+            {
+                var tracksMatchingTweetText = _streamTrackManager.GetMatchingTracksAndActions(tweet.Text);
+
+                tracksMatchingTweetText.ForEach(x =>
+                {
+                    matchingTrackAndActions.TryAdd(x.Item1, x.Item2);
+                });
+
+                if (tracksMatchingTweetText.Count > 0)
+                {
+                    SetMatchedTweetEventArgsStreamMatchType(matchingTracksEvenArgs, StreamMatchType.TweetText);
+                }
+            }
+
+            if (MatchType.HasFlag(StreamMatchType.AllEntities) || MatchType.HasFlag(StreamMatchType.URLEntity))
+            {
+                var expandedURLs = tweet.Entities.Urls.Select(x => x.ExpandedURL);
+                expandedURLs.Union(tweet.Entities.Medias.Select(x => x.ExpandedURL));
+
+                expandedURLs.ForEach(x =>
+                {
+                    var tracksMatchingExpandedURL = _streamTrackManager.GetMatchingTracksAndActions(x);
+                    tracksMatchingExpandedURL.ForEach(t =>
+                    {
+                        matchingTrackAndActions.TryAdd(t.Item1, t.Item2);
+                    });
+
+                    if (tracksMatchingExpandedURL.Count > 0)
+                    {
+                        SetMatchedTweetEventArgsStreamMatchType(matchingTracksEvenArgs, StreamMatchType.URLEntity);
+                    }
+                });
+
+                var displayedURLs = tweet.Entities.Urls.Select(x => x.DisplayedURL);
+                displayedURLs.Union(tweet.Entities.Medias.Select(x => x.DisplayURL));
+
+                displayedURLs.ForEach(x =>
+                {
+                    var tracksMatchingDisplayedURL = _streamTrackManager.GetMatchingTracksAndActions(x);
+
+                    tracksMatchingDisplayedURL.ForEach(t =>
+                    {
+                        matchingTrackAndActions.TryAdd(t.Item1, t.Item2);
+                    });
+
+                    if (tracksMatchingDisplayedURL.Count > 0)
+                    {
+                        SetMatchedTweetEventArgsStreamMatchType(matchingTracksEvenArgs, StreamMatchType.URLEntity);
+                    }
+                });
+            }
+
+            if (MatchType.HasFlag(StreamMatchType.AllEntities) || MatchType.HasFlag(StreamMatchType.HashTagEntity))
+            {
+                var hashTags = tweet.Entities.Hashtags.Select(x => x.Text);
+
+                hashTags.ForEach(x =>
+                {
+                    var tracksMatchingHashTag = _streamTrackManager.GetMatchingTracksAndActions(x);
+
+                    tracksMatchingHashTag.ForEach(t =>
+                    {
+                        matchingTrackAndActions.TryAdd(t.Item1, t.Item2);
+                    });
+
+                    if (tracksMatchingHashTag.Count > 0)
+                    {
+                        SetMatchedTweetEventArgsStreamMatchType(matchingTracksEvenArgs, StreamMatchType.HashTagEntity);
+                    }
+                });
+            }
+
+            if (MatchType.HasFlag(StreamMatchType.AllEntities) || MatchType.HasFlag(StreamMatchType.UserMentionEntity))
+            {
+                var mentionsScreenName = tweet.Entities.UserMentions.Select(x => x.ScreenName);
+
+                mentionsScreenName.ForEach(x =>
+                {
+                    var tracksMatchingMentionScreenName = _streamTrackManager.GetMatchingTracksAndActions(x);
+
+                    tracksMatchingMentionScreenName.ForEach(t =>
+                    {
+                        matchingTrackAndActions.TryAdd(t.Item1, t.Item2);
+                    });
+
+                    if (tracksMatchingMentionScreenName.Count > 0)
+                    {
+                        SetMatchedTweetEventArgsStreamMatchType(matchingTracksEvenArgs, StreamMatchType.UserMentionEntity);
+                    }
+                });
+            }
+
+            if (MatchType.HasFlag(StreamMatchType.TweetLocation))
+            {
+                var matchedLocations = GetMatchedLocations(tweet).ToArray();
+
+                matchedLocations.ForEach(x =>
+                {
+                    matchingLocationAndActions.TryAdd(x.Key, x.Value);
+                });
+
+                if (matchedLocations.Length > 0)
+                {
+                    SetMatchedTweetEventArgsStreamMatchType(matchingTracksEvenArgs, StreamMatchType.TweetLocation);
+                }
+            }
+
+            if (MatchType.HasFlag(StreamMatchType.Follower))
+            {
+                var userId = tweet.CreatedBy?.Id;
+                Action<ITweet> actionToExecuteWhenMatchingFollower;
+
+                if (userId != null && _followingUserIds.TryGetValue(userId, out actionToExecuteWhenMatchingFollower))
+                {
+                    matchingFollowersAndActions.TryAdd(userId.Value, actionToExecuteWhenMatchingFollower);
+                    SetMatchedTweetEventArgsStreamMatchType(matchingTracksEvenArgs, StreamMatchType.Follower);
+                }
+            }
+
+            if (MatchType.HasFlag(StreamMatchType.FollowerInReplyTo))
+            {
+                var userId = tweet.InReplyToUserId;
+                Action<ITweet> actionToExecuteWhenMatchingFollower;
+
+                if (userId != null && _followingUserIds.TryGetValue(userId, out actionToExecuteWhenMatchingFollower))
+                {
+                    matchingFollowersAndActions.TryAdd(userId.Value, actionToExecuteWhenMatchingFollower);
+                    SetMatchedTweetEventArgsStreamMatchType(matchingTracksEvenArgs, StreamMatchType.FollowerInReplyTo);
+                }
+            }
+
+            var matchingTracks = matchingTrackAndActions.Select(x => x.Key).ToArray();
+            var matchingLocations = matchingLocationAndActions.Select(x => x.Key).ToArray();
+            var matchingFollowers = matchingFollowersAndActions.Select(x => x.Key).ToArray();
+
+            matchingTracksEvenArgs.MatchingTracks = matchingTracks;
+            matchingTracksEvenArgs.MatchingLocations = matchingLocations;
+            matchingTracksEvenArgs.MatchingFollowers = matchingFollowers;
+
+            CallMultipleActions(tweet, matchingTrackAndActions.Select(x => x.Value));
+            CallMultipleActions(tweet, matchingLocationAndActions.Select(x => x.Value));
+            CallMultipleActions(tweet, matchingFollowersAndActions.Select(x => x.Value));
+
+            return matchingTracksEvenArgs;
+        }
+
+        private void CallMultipleActions<T>(T tweet, IEnumerable<Action<T>> actions)
+        {
+            if (actions != null)
+            {
+                actions.ForEach(action =>
                 {
                     if (action != null)
                     {
@@ -189,14 +364,14 @@ namespace Tweetinvi.Streams
             }
         }
 
-        private bool DoestTheTweetMatchAllConditions(ITweet tweet, IEnumerable<string> matchingTracks, IEnumerable<ILocation> matchingLocations)
+        private bool DoestTheTweetMatchAllConditions(ITweet tweet, string[] matchingTracks, ILocation[] matchingLocations, long[] matchingFollowers)
         {
             if (tweet.CreatedBy.Id == TweetinviSettings.DEFAULT_ID)
             {
                 return false;
             }
 
-            bool followMatches = FollowingUserIds.IsEmpty() || ContainsFollow(tweet.CreatedBy.Id) || ContainsFollow(tweet.InReplyToUserId);
+            bool followMatches = FollowingUserIds.IsEmpty() || matchingFollowers.Any();
             bool tracksMatches = Tracks.IsEmpty() || matchingTracks.Any();
             bool locationMatches = Locations.IsEmpty() || matchingLocations.Any();
 
@@ -204,12 +379,12 @@ namespace Tweetinvi.Streams
             {
                 return followMatches && tracksMatches && locationMatches;
             }
-            
+
             if (Tracks.Any())
             {
                 return tracksMatches && locationMatches;
             }
-            
+
             if (Locations.Any())
             {
                 return locationMatches;
@@ -409,7 +584,7 @@ namespace Tweetinvi.Streams
         {
             var top = coordinates.Max(x => x.Longitude);
             var left = coordinates.Min(x => x.Latitude);
-            
+
             var bottom = coordinates.Min(x => x.Longitude);
             var right = coordinates.Max(x => x.Latitude);
 

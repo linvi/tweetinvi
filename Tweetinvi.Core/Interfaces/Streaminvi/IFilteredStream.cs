@@ -9,7 +9,9 @@ namespace Tweetinvi.Core.Interfaces.Streaminvi
     public interface IFilteredStream : ITwitterStream, ITrackableStream<ITweet>
     {
         event EventHandler<MatchedTweetReceivedEventArgs> MatchingTweetReceived;
-        event EventHandler<MatchedTweetAndLocationReceivedEventArgs> MatchingTweetAndLocationReceived;
+        event EventHandler<TweetEventArgs> NonMatchingTweetReceived;
+
+        StreamMatchType MatchType { get; set; }
 
         void StartStreamMatchingAnyCondition();
         void StartStreamMatchingAllConditions();

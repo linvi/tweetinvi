@@ -7,6 +7,7 @@ namespace Tweetinvi.Core.Interfaces.Streaminvi
     public interface ITrackedStream : ITwitterStream, ITrackableStream<ITweet>
     {
         event EventHandler<MatchedTweetReceivedEventArgs> MatchingTweetReceived;
+        event EventHandler<TweetEventArgs> NonMatchingTweetReceived;
 
         void StartStream(string url);
         Task StartStreamAsync(string url);

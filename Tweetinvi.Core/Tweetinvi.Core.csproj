@@ -88,6 +88,7 @@
     <Compile Include="Exceptions\TwitterException.cs" />
     <Compile Include="Exceptions\TwitterTimeoutException.cs" />
     <Compile Include="Exceptions\UserStreamFailedToInitialize.cs" />
+    <Compile Include="Extensions\DictionaryExtensions.cs" />
     <Compile Include="Extensions\ExceptionUtils.cs" />
     <Compile Include="Extensions\IEnumerableExtension.cs" />
     <Compile Include="Extensions\LanguageExtension.cs" />
@@ -188,6 +189,7 @@
     <Compile Include="Interfaces\Models\Entities\ISymbolEntity.cs" />
     <Compile Include="Interfaces\Models\Entities\ExtendedEntities\IVideoInformationEntity.cs" />
     <Compile Include="Interfaces\Models\ITwitterQuery.cs" />
+    <Compile Include="Interfaces\Streaminvi\StreamMatchType.cs" />
     <Compile Include="Parameters\GetLoggedUserParameters.cs" />
     <Compile Include="Parameters\IMessagesRetrieveRequestParametersBase.cs" />
     <Compile Include="Parameters\QueryParameters\IGetTweetsFromListQueryParameters.cs" />

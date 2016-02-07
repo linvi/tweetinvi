@@ -448,7 +448,7 @@ namespace Examplinvi
             var tweetToReplyTo = Tweet.GetTweet(tweetIdtoReplyTo);
 
             // We must add @screenName of the author of the tweet we want to reply to
-            var textToPublish = string.Format("@{0} {1}",tweetToReplyTo.CreatedBy.ScreenName, text);
+            var textToPublish = string.Format("@{0} {1}", tweetToReplyTo.CreatedBy.ScreenName, text);
             var tweet = Tweet.PublishTweetInReplyTo(textToPublish, tweetIdtoReplyTo);
             Console.WriteLine("Publish success? {0}", tweet != null);
         }
@@ -866,12 +866,12 @@ namespace Examplinvi
             stream.AddTrack("tweetinvi");
             stream.AddTrack("linvi");
 
-            stream.MatchingTweetAndLocationReceived += (sender, args) =>
+            stream.MatchingTweetReceived += (sender, args) =>
             {
                 var tweet = args.Tweet;
                 Console.WriteLine("{0} was detected between the following tracked locations:", tweet.Id);
 
-                IEnumerable<ILocation> matchingLocations = args.MatchedLocations;
+                IEnumerable<ILocation> matchingLocations = args.MatchingLocations;
                 foreach (var matchingLocation in matchingLocations)
                 {
                     Console.Write("({0}, {1}) ;", matchingLocation.Coordinate1.Latitude, matchingLocation.Coordinate1.Longitude);
