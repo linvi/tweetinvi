@@ -115,7 +115,9 @@ namespace Tweetinvi.Streams
                 var matchingLocations = matchingTracksEvenArgs.MatchingLocations;
                 var matchingFollowers = matchingTracksEvenArgs.MatchingFollowers;
 
-                if (matchingTracks.Length != 0 || matchingLocations.Length != 0 || matchingFollowers.Length != 0)
+                RaiseTweetReceived(matchingTracksEvenArgs);
+
+                if (matchingTracks.Length == 0 || matchingLocations.Length != 0 || matchingFollowers.Length != 0)
                 {
                     RaiseMatchingTweetReceived(matchingTracksEvenArgs);
                 }
@@ -161,6 +163,8 @@ namespace Tweetinvi.Streams
                 var matchingLocations = matchingTracksEvenArgs.MatchingLocations;
                 var matchingFollowers = matchingTracksEvenArgs.MatchingFollowers;
 
+                RaiseTweetReceived(matchingTracksEvenArgs);
+
                 if (DoestTheTweetMatchAllConditions(tweet, matchingTracks, matchingLocations, matchingFollowers))
                 {
                     RaiseMatchingTweetReceived(matchingTracksEvenArgs);
@@ -174,21 +178,9 @@ namespace Tweetinvi.Streams
             await _streamResultGenerator.StartStreamAsync(tweetReceived, generateTwitterQuery);
         }
 
-        private void SetMatchedTweetEventArgsStreamMatchType(MatchedTweetReceivedEventArgs eventArgs, StreamMatchType streamMatchType)
-        {
-            if (eventArgs.StreamMatchType == null)
-            {
-                eventArgs.StreamMatchType = streamMatchType;
-            }
-            else
-            {
-                eventArgs.StreamMatchType |= streamMatchType;
-            }
-        }
-
         private MatchedTweetReceivedEventArgs GetMatchingTweetEventArgsAndRaiseMatchingElements(ITweet tweet)
         {
-            var matchingTracksEvenArgs = new MatchedTweetReceivedEventArgs(tweet);
+            var matchingTracksEventArgs = new MatchedTweetReceivedEventArgs(tweet);
 
             var matchingTrackAndActions = new Dictionary<string, Action<ITweet>>();
             var matchingLocationAndActions = new Dictionary<ILocation, Action<ITweet>>();
@@ -205,7 +197,7 @@ namespace Tweetinvi.Streams
 
                 if (tracksMatchingTweetText.Count > 0)
                 {
-                    SetMatchedTweetEventArgsStreamMatchType(matchingTracksEvenArgs, StreamMatchType.TweetText);
+                    matchingTracksEventArgs.StreamMatchType |= StreamMatchType.TweetText;
                 }
             }
 
@@ -224,7 +216,7 @@ namespace Tweetinvi.Streams
 
                     if (tracksMatchingExpandedURL.Count > 0)
                     {
-                        SetMatchedTweetEventArgsStreamMatchType(matchingTracksEvenArgs, StreamMatchType.URLEntity);
+                        matchingTracksEventArgs.StreamMatchType |= StreamMatchType.URLEntity;
                     }
                 });
 
@@ -242,7 +234,7 @@ namespace Tweetinvi.Streams
 
                     if (tracksMatchingDisplayedURL.Count > 0)
                     {
-                        SetMatchedTweetEventArgsStreamMatchType(matchingTracksEvenArgs, StreamMatchType.URLEntity);
+                        matchingTracksEventArgs.StreamMatchType |= StreamMatchType.URLEntity;
                     }
                 });
             }
@@ -262,7 +254,7 @@ namespace Tweetinvi.Streams
 
                     if (tracksMatchingHashTag.Count > 0)
                     {
-                        SetMatchedTweetEventArgsStreamMatchType(matchingTracksEvenArgs, StreamMatchType.HashTagEntity);
+                        matchingTracksEventArgs.StreamMatchType |= StreamMatchType.HashTagEntity;
                     }
                 });
             }
@@ -282,7 +274,7 @@ namespace Tweetinvi.Streams
 
                     if (tracksMatchingMentionScreenName.Count > 0)
                     {
-                        SetMatchedTweetEventArgsStreamMatchType(matchingTracksEvenArgs, StreamMatchType.UserMentionEntity);
+                        matchingTracksEventArgs.StreamMatchType |= StreamMatchType.UserMentionEntity;
                     }
                 });
             }
@@ -298,7 +290,7 @@ namespace Tweetinvi.Streams
 
                 if (matchedLocations.Length > 0)
                 {
-                    SetMatchedTweetEventArgsStreamMatchType(matchingTracksEvenArgs, StreamMatchType.TweetLocation);
+                    matchingTracksEventArgs.StreamMatchType |= StreamMatchType.TweetLocation;
                 }
             }
 
@@ -310,7 +302,7 @@ namespace Tweetinvi.Streams
                 if (userId != null && _followingUserIds.TryGetValue(userId, out actionToExecuteWhenMatchingFollower))
                 {
                     matchingFollowersAndActions.TryAdd(userId.Value, actionToExecuteWhenMatchingFollower);
-                    SetMatchedTweetEventArgsStreamMatchType(matchingTracksEvenArgs, StreamMatchType.Follower);
+                    matchingTracksEventArgs.StreamMatchType |= StreamMatchType.Follower;
                 }
             }
 
@@ -322,7 +314,7 @@ namespace Tweetinvi.Streams
                 if (userId != null && _followingUserIds.TryGetValue(userId, out actionToExecuteWhenMatchingFollower))
                 {
                     matchingFollowersAndActions.TryAdd(userId.Value, actionToExecuteWhenMatchingFollower);
-                    SetMatchedTweetEventArgsStreamMatchType(matchingTracksEvenArgs, StreamMatchType.FollowerInReplyTo);
+                    matchingTracksEventArgs.StreamMatchType |= StreamMatchType.FollowerInReplyTo;
                 }
             }
 
@@ -330,15 +322,15 @@ namespace Tweetinvi.Streams
             var matchingLocations = matchingLocationAndActions.Select(x => x.Key).ToArray();
             var matchingFollowers = matchingFollowersAndActions.Select(x => x.Key).ToArray();
 
-            matchingTracksEvenArgs.MatchingTracks = matchingTracks;
-            matchingTracksEvenArgs.MatchingLocations = matchingLocations;
-            matchingTracksEvenArgs.MatchingFollowers = matchingFollowers;
+            matchingTracksEventArgs.MatchingTracks = matchingTracks;
+            matchingTracksEventArgs.MatchingLocations = matchingLocations;
+            matchingTracksEventArgs.MatchingFollowers = matchingFollowers;
 
             CallMultipleActions(tweet, matchingTrackAndActions.Select(x => x.Value));
             CallMultipleActions(tweet, matchingLocationAndActions.Select(x => x.Value));
             CallMultipleActions(tweet, matchingFollowersAndActions.Select(x => x.Value));
 
-            return matchingTracksEvenArgs;
+            return matchingTracksEventArgs;
         }
 
         private void CallMultipleActions<T>(T tweet, IEnumerable<Action<T>> actions)
@@ -352,15 +344,6 @@ namespace Tweetinvi.Streams
                         action(tweet);
                     }
                 });
-            }
-        }
-
-        private void CallFollowerAction(ITweet tweet)
-        {
-            var isFollowerTracked = ContainsFollow(tweet.CreatedBy);
-            if (isFollowerTracked && _followingUserIds[tweet.CreatedBy.Id] != null)
-            {
-                _followingUserIds[tweet.CreatedBy.Id](tweet);
             }
         }
 
@@ -397,25 +380,25 @@ namespace Tweetinvi.Streams
 
         private StringBuilder GenerateORFilterQuery()
         {
-            StringBuilder queryBuilder = new StringBuilder(Resources.Stream_Filter);
+            var queryBuilder = new StringBuilder(Resources.Stream_Filter);
 
             var followPostRequest = QueryGeneratorHelper.GenerateFilterFollowRequest(FollowingUserIds.Keys.ToList());
             var trackPostRequest = QueryGeneratorHelper.GenerateFilterTrackRequest(Tracks.Keys.ToList());
             var locationPostRequest = QueryGeneratorHelper.GenerateFilterLocationRequest(Locations.Keys.ToList());
 
-            if (!String.IsNullOrEmpty(trackPostRequest))
+            if (!string.IsNullOrEmpty(trackPostRequest))
             {
                 queryBuilder.Append(trackPostRequest);
             }
 
-            if (!String.IsNullOrEmpty(followPostRequest))
+            if (!string.IsNullOrEmpty(followPostRequest))
             {
-                queryBuilder.Append(queryBuilder.Length == 0 ? followPostRequest : String.Format("&{0}", followPostRequest));
+                queryBuilder.Append(queryBuilder.Length == 0 ? followPostRequest : string.Format("&{0}", followPostRequest));
             }
 
-            if (!String.IsNullOrEmpty(locationPostRequest))
+            if (!string.IsNullOrEmpty(locationPostRequest))
             {
-                queryBuilder.Append(queryBuilder.Length == 0 ? locationPostRequest : String.Format("&{0}", locationPostRequest));
+                queryBuilder.Append(queryBuilder.Length == 0 ? locationPostRequest : string.Format("&{0}", locationPostRequest));
             }
 
             return queryBuilder;
@@ -423,21 +406,21 @@ namespace Tweetinvi.Streams
 
         private StringBuilder GenerateANDFilterQuery()
         {
-            StringBuilder queryBuilder = new StringBuilder(Resources.Stream_Filter);
+            var queryBuilder = new StringBuilder(Resources.Stream_Filter);
 
             var followPostRequest = QueryGeneratorHelper.GenerateFilterFollowRequest(FollowingUserIds.Keys.ToList());
             var trackPostRequest = QueryGeneratorHelper.GenerateFilterTrackRequest(Tracks.Keys.ToList());
             var locationPostRequest = QueryGeneratorHelper.GenerateFilterLocationRequest(Locations.Keys.ToList());
 
-            if (!String.IsNullOrEmpty(followPostRequest))
+            if (!string.IsNullOrEmpty(followPostRequest))
             {
                 queryBuilder.Append(followPostRequest);
             }
-            else if (!String.IsNullOrEmpty(trackPostRequest))
+            else if (!string.IsNullOrEmpty(trackPostRequest))
             {
                 queryBuilder.Append(trackPostRequest);
             }
-            else if (!String.IsNullOrEmpty(locationPostRequest))
+            else if (!string.IsNullOrEmpty(locationPostRequest))
             {
                 queryBuilder.Append(locationPostRequest);
             }

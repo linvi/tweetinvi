@@ -10,6 +10,11 @@ namespace Tweetinvi.Core.Interfaces.Streaminvi
     public enum StreamMatchType
     {
         /// <summary>
+        /// Nothing to match.
+        /// </summary>
+        None,
+
+        /// <summary>
         /// The tweet text matches a track you follow.
         /// </summary>
         TweetText = 1,
