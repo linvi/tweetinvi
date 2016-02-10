@@ -58,7 +58,7 @@ namespace Tweetinvi.Streams
                 this.Raise(TweetReceived, new TweetReceivedEventArgs(tweet));
             };
 
-            await _streamResultGenerator.StartStreamAsync(generateTweetDelegate, generateTwitterQuery);
+            await _streamResultGenerator.StartStreamAsync(generateTweetDelegate, generateTwitterQuery).ConfigureAwait(false);
         }
     }
 }

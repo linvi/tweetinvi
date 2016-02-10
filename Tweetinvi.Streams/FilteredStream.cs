@@ -84,7 +84,7 @@ namespace Tweetinvi.Streams
 
         public void StartStreamMatchingAnyCondition()
         {
-            Action startStreamAction = () => _synchronousInvoker.ExecuteSynchronously(StartStreamMatchingAnyConditionAsync());
+            Action startStreamAction = () => _synchronousInvoker.ExecuteSynchronously(() => StartStreamMatchingAnyConditionAsync());
             _singleAggregateExceptionThrower.ExecuteActionAndThrowJustOneExceptionIfExist(startStreamAction);
         }
 
@@ -132,7 +132,7 @@ namespace Tweetinvi.Streams
 
         public void StartStreamMatchingAllConditions()
         {
-            Action startStreamAction = () => _synchronousInvoker.ExecuteSynchronously(StartStreamMatchingAllConditionsAsync());
+            Action startStreamAction = () => _synchronousInvoker.ExecuteSynchronously(() => StartStreamMatchingAllConditionsAsync());
             _singleAggregateExceptionThrower.ExecuteActionAndThrowJustOneExceptionIfExist(startStreamAction);
         }
 

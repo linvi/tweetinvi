@@ -111,7 +111,7 @@ namespace Tweetinvi.Streams
 
         public void StartStream()
         {
-            Action startStreamAction = () => _synchronousInvoker.ExecuteSynchronously(StartStreamAsync());
+            Action startStreamAction = () => _synchronousInvoker.ExecuteSynchronously(() => StartStreamAsync());
             _singleAggregateExceptionThrower.ExecuteActionAndThrowJustOneExceptionIfExist(startStreamAction);
         }
 

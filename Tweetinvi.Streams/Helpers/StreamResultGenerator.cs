@@ -90,7 +90,7 @@ namespace Tweetinvi.Streams.Helpers
             await TaskEx.Run(() =>
             {
                 streamTask.Start();
-            });
+            }).ConfigureAwait(false);
         }
 
         private void StreamTaskStarted(object sender, EventArgs eventArgs)
