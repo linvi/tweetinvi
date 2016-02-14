@@ -13,3 +13,4 @@
 /Developer Tools/TweetinviAPI/lib
 /Examplinvi.Web/App_Data
 *.zip
+/Examplinvi.UniversalApp/Examplinvi.UniversalApp.nuget.targets
