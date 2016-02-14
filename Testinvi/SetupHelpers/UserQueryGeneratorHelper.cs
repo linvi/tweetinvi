@@ -43,22 +43,22 @@ namespace Testinvi.SetupHelpers
         
         public static string GenerateParameterExpectedResult(long userId, string parameterName = "user_id")
         {
-            return String.Format("{0}={1}", parameterName, userId);
+            return string.Format("{0}={1}", parameterName, userId);
         }
 
         public static string GenerateParameterExpectedResult(string screenName, string parameterName = "screen_name")
         {
-            return String.Format("{0}={1}", parameterName, screenName);
+            return string.Format("{0}={1}", parameterName, screenName);
         }
 
         public static string GenerateParameterExpectedResult(IUserIdentifier userDTO, string idParameterName = "user_id", string screenNameParameterName = "screen_name")
         {
             if (userDTO.Id != TweetinviSettings.DEFAULT_ID)
             {
-                return String.Format("{0}={1}", idParameterName, userDTO.GetHashCode());
+                return string.Format("{0}={1}", idParameterName, userDTO.GetHashCode());
             }
 
-            return String.Format("{0}={1}", screenNameParameterName, userDTO.GetHashCode());
+            return string.Format("{0}={1}", screenNameParameterName, userDTO.GetHashCode());
         }
     }
 }

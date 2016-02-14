@@ -46,7 +46,7 @@ namespace Testinvi.TweetinviControllers.SavedSearchTests
             var result = queryGenerator.GetDestroySavedSearchQuery(savedSearch);
 
             // Assert
-            string expectedResult = String.Format(Resources.SavedSearch_Destroy, searchId);
+            string expectedResult = string.Format(Resources.SavedSearch_Destroy, searchId);
             Assert.AreEqual(result, expectedResult);
         }
 
@@ -90,7 +90,7 @@ namespace Testinvi.TweetinviControllers.SavedSearchTests
             var result = queryGenerator.GetDestroySavedSearchQuery(searchId);
 
             // Assert
-            string expectedResult = String.Format(Resources.SavedSearch_Destroy, searchId);
+            string expectedResult = string.Format(Resources.SavedSearch_Destroy, searchId);
             Assert.AreEqual(result, expectedResult);
         }
 

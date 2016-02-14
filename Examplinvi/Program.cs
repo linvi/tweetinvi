@@ -105,11 +105,11 @@ namespace Examplinvi
 
             Examples.Tweet_GetExistingTweet(210462857140252672);
 
-            Examples.Tweet_PublishTweet(String.Format("I love tweetinvi! ({0})", Guid.NewGuid()));
+            Examples.Tweet_PublishTweet(string.Format("I love tweetinvi! ({0})", Guid.NewGuid()));
             Examples.Tweet_PublishTweetWithImage("Uploadinvi?", "YOUR_FILE_PATH.png");
 
-            Examples.Tweet_PublishTweetInReplyToAnotherTweet(String.Format("I love tweetinvi! ({0})", Guid.NewGuid()), 392711547081854976);
-            Examples.Tweet_PublishTweetWithGeo(String.Format("I love tweetinvi! ({0})", Guid.NewGuid()));
+            Examples.Tweet_PublishTweetInReplyToAnotherTweet(string.Format("I love tweetinvi! ({0})", Guid.NewGuid()), 392711547081854976);
+            Examples.Tweet_PublishTweetWithGeo(string.Format("I love tweetinvi! ({0})", Guid.NewGuid()));
 
             Examples.Tweet_Destroy();
 
@@ -674,7 +674,7 @@ namespace Examplinvi
         {
             var user = User.GetUserFromScreenName(userName);
             var stream = user.GetProfileImageStream(ImageSize.bigger);
-            var fileStream = new FileStream(String.Format("{0}.jpg", user.Id), FileMode.Create);
+            var fileStream = new FileStream(string.Format("{0}.jpg", user.Id), FileMode.Create);
             stream.CopyTo(fileStream);
 
             string assemblyPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().CodeBase);

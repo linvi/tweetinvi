@@ -46,7 +46,7 @@ namespace Testinvi.TweetinviControllers.GeoTests
             var result = controller.GeneratePlaceIdParameter(placeId);
 
             // Assert
-            Assert.AreEqual(result, String.Format(Resources.Geo_PlaceIdParameter, placeId));
+            Assert.AreEqual(result, string.Format(Resources.Geo_PlaceIdParameter, placeId));
         } 
 
         #endregion
@@ -81,7 +81,7 @@ namespace Testinvi.TweetinviControllers.GeoTests
             // Assert
             string expectedLongitude = coordinates.Longitude.ToString(CultureInfo.InvariantCulture);
             string expectedLatitude = coordinates.Latitude.ToString(CultureInfo.InvariantCulture);
-            Assert.AreEqual(result, String.Format(Resources.Geo_CoordinatesParameter, expectedLongitude, expectedLatitude));
+            Assert.AreEqual(result, string.Format(Resources.Geo_CoordinatesParameter, expectedLongitude, expectedLatitude));
         }
 
         #endregion
@@ -112,7 +112,7 @@ namespace Testinvi.TweetinviControllers.GeoTests
             var result = controller.GetPlaceFromIdQuery(placeId);
 
             // Assert
-            Assert.AreEqual(result, String.Format(Resources.Geo_GetPlaceFromId, placeId));
+            Assert.AreEqual(result, string.Format(Resources.Geo_GetPlaceFromId, placeId));
         }
 
         #endregion

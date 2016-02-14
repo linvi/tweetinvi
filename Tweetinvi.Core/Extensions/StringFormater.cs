@@ -27,7 +27,7 @@ namespace Tweetinvi.Core.Extensions
                 }
                 else
                 {
-                    result.Append('%' + String.Format("{0:X2}", (int)c));
+                    result.Append('%' + string.Format("{0:X2}", (int)c));
                 }
             }
 

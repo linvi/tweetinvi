@@ -96,7 +96,7 @@ namespace Tweetinvi.Controllers.User
 
         private string GenerateGetFollowerIdsQuery(string userIdentifierParameter, int maxFollowersToRetrieve)
         {
-            return String.Format(Resources.User_GetFollowers, userIdentifierParameter, maxFollowersToRetrieve);
+            return string.Format(Resources.User_GetFollowers, userIdentifierParameter, maxFollowersToRetrieve);
         }
 
         // Favourites
@@ -135,7 +135,7 @@ namespace Tweetinvi.Controllers.User
 
         private string GenerateGetFavouriteTweetsQuery(string userIdentifierParameter, int maxFavouritesToRetrieve)
         {
-            return String.Format(Resources.User_GetFavourites, userIdentifierParameter, maxFavouritesToRetrieve);
+            return string.Format(Resources.User_GetFavourites, userIdentifierParameter, maxFavouritesToRetrieve);
         }
 
         // Block User
@@ -147,7 +147,7 @@ namespace Tweetinvi.Controllers.User
             }
 
             string userIdentifierParameter = _userQueryParameterGenerator.GenerateIdOrScreenNameParameter(userDTO);
-            return String.Format(Resources.User_Block_Create, userIdentifierParameter);
+            return string.Format(Resources.User_Block_Create, userIdentifierParameter);
         }
 
         public string GetBlockUserQuery(long userId)
@@ -158,7 +158,7 @@ namespace Tweetinvi.Controllers.User
             }
 
             string userIdParameter = _userQueryParameterGenerator.GenerateUserIdParameter(userId);
-            return String.Format(Resources.User_Block_Create, userIdParameter);
+            return string.Format(Resources.User_Block_Create, userIdParameter);
         }
 
         public string GetBlockUserQuery(string userScreenName)
@@ -169,7 +169,7 @@ namespace Tweetinvi.Controllers.User
             }
 
             string userIdParameter = _userQueryParameterGenerator.GenerateScreenNameParameter(userScreenName);
-            return String.Format(Resources.User_Block_Create, userIdParameter);
+            return string.Format(Resources.User_Block_Create, userIdParameter);
         }
 
         // Unblock
@@ -181,7 +181,7 @@ namespace Tweetinvi.Controllers.User
             }
 
             string userIdentifierParameter = _userQueryParameterGenerator.GenerateIdOrScreenNameParameter(userDTO);
-            return String.Format(Resources.User_Block_Destroy, userIdentifierParameter);
+            return string.Format(Resources.User_Block_Destroy, userIdentifierParameter);
         }
 
         public string GetUnBlockUserQuery(long userId)
@@ -192,7 +192,7 @@ namespace Tweetinvi.Controllers.User
             }
 
             string userIdParameter = _userQueryParameterGenerator.GenerateUserIdParameter(userId);
-            return String.Format(Resources.User_Block_Destroy, userIdParameter);
+            return string.Format(Resources.User_Block_Destroy, userIdParameter);
         }
 
         public string GetUnBlockUserQuery(string userScreenName)
@@ -203,7 +203,7 @@ namespace Tweetinvi.Controllers.User
             }
 
             string userIdParameter = _userQueryParameterGenerator.GenerateScreenNameParameter(userScreenName);
-            return String.Format(Resources.User_Block_Destroy, userIdParameter);
+            return string.Format(Resources.User_Block_Destroy, userIdParameter);
         }
 
         // Get Blocked Users
@@ -227,7 +227,7 @@ namespace Tweetinvi.Controllers.User
                 return null;
             }
 
-            return url.Replace("_normal", String.Format("_{0}", imageSize));
+            return url.Replace("_normal", string.Format("_{0}", imageSize));
         }
 
         public string DownloadProfileImageInHttpURL(IUserDTO userDTO, ImageSize imageSize = ImageSize.normal)
@@ -239,7 +239,7 @@ namespace Tweetinvi.Controllers.User
                 return null;
             }
 
-            return url.Replace("_normal", String.Format("_{0}", imageSize));
+            return url.Replace("_normal", string.Format("_{0}", imageSize));
         }
 
         // Report Spam
@@ -251,7 +251,7 @@ namespace Tweetinvi.Controllers.User
             }
 
             string userIdentifierParameter = _userQueryParameterGenerator.GenerateIdOrScreenNameParameter(userIdentifier);
-            return String.Format(Resources.User_Report_Spam, userIdentifierParameter);
+            return string.Format(Resources.User_Report_Spam, userIdentifierParameter);
         }
 
         public string GetReportUserForSpamQuery(long userId)
@@ -262,7 +262,7 @@ namespace Tweetinvi.Controllers.User
             }
 
             string userIdParameter = _userQueryParameterGenerator.GenerateUserIdParameter(userId);
-            return String.Format(Resources.User_Report_Spam, userIdParameter);
+            return string.Format(Resources.User_Report_Spam, userIdParameter);
         }
 
         public string GetReportUserForSpamQuery(string userScreenName)
@@ -273,7 +273,7 @@ namespace Tweetinvi.Controllers.User
             }
 
             string userIdParameter = _userQueryParameterGenerator.GenerateScreenNameParameter(userScreenName);
-            return String.Format(Resources.User_Report_Spam, userIdParameter);
+            return string.Format(Resources.User_Report_Spam, userIdParameter);
         }
     }
 }

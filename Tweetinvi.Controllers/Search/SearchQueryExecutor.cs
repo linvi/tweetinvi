@@ -169,7 +169,7 @@ namespace Tweetinvi.Controllers.Search
                 throw new ArgumentException("TweetDTO cannot be null");
             }
 
-            var searchTweets = SearchTweets(String.Format(tweetDTO.CreatedBy.ScreenName)).ToList();
+            var searchTweets = SearchTweets(string.Format(tweetDTO.CreatedBy.ScreenName)).ToList();
 
             if (recursiveReplies)
             {

@@ -349,7 +349,7 @@ namespace Tweetinvi.Credentials
 
         private T ExecuteCursorQuery<T>(string baseQuery, long cursor, bool storeJson) where T : class, IBaseCursorQueryDTO
         {
-            var query = String.Format("{0}cursor={1}", baseQuery, cursor);
+            var query = string.Format("{0}cursor={1}", baseQuery, cursor);
 
             string json;
             if (TryExecuteJsonGETQuery(query, out json))

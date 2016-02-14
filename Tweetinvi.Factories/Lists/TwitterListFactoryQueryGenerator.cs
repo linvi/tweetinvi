@@ -28,11 +28,11 @@ namespace Tweetinvi.Factories.Lists
 
         public string GetCreateListQuery(string name, PrivacyMode privacyMode, string description)
         {
-            var baseQuery = String.Format(Resources.List_Create, name, privacyMode.ToString().ToLower());
+            var baseQuery = string.Format(Resources.List_Create, name, privacyMode.ToString().ToLower());
 
             if (_listsQueryValidator.IsDescriptionParameterValid(description))
             {
-                baseQuery += String.Format(Resources.List_Create_DescriptionParameter, description);
+                baseQuery += string.Format(Resources.List_Create_DescriptionParameter, description);
             }
 
             return baseQuery;
@@ -46,7 +46,7 @@ namespace Tweetinvi.Factories.Lists
             }
 
             var identifierParameter = _listQueryParameterGenerator.GenerateIdentifierParameter(twitterListIdentifier);
-            return String.Format(Resources.List_GetExistingList, identifierParameter);
+            return string.Format(Resources.List_GetExistingList, identifierParameter);
         }
     }
 }

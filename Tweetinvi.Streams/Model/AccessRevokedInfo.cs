@@ -33,8 +33,10 @@ namespace Tweetinvi.Streams.Model
         }
 
         // ReSharper disable once UnassignedField.Compiler
+#pragma warning disable 649
         [JsonProperty("client_application")]
         private AccessRevokedClientApplication _accessRevokedClientApplication;
+#pragma warning restore 649
 
         // ReSharper disable once ClassNeverInstantiated.Local
         private class AccessRevokedClientApplication

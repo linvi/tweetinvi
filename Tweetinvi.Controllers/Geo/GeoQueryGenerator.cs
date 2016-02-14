@@ -21,7 +21,7 @@ namespace Tweetinvi.Controllers.Geo
                 return null;
             }
 
-            return String.Format(Resources.Geo_PlaceIdParameter, placeId);
+            return string.Format(Resources.Geo_PlaceIdParameter, placeId);
         }
 
         public string GenerateGeoParameter(ICoordinates coordinates)
@@ -34,7 +34,7 @@ namespace Tweetinvi.Controllers.Geo
             string latitudeValue = coordinates.Latitude.ToString(CultureInfo.InvariantCulture);
             string longitudeValue = coordinates.Longitude.ToString(CultureInfo.InvariantCulture);
 
-            return String.Format(Resources.Geo_CoordinatesParameter, longitudeValue, latitudeValue);
+            return string.Format(Resources.Geo_CoordinatesParameter, longitudeValue, latitudeValue);
         }
 
         public string GetPlaceFromIdQuery(string placeId)
@@ -44,7 +44,7 @@ namespace Tweetinvi.Controllers.Geo
                 return null;
             }
 
-            return String.Format(Resources.Geo_GetPlaceFromId, placeId);
+            return string.Format(Resources.Geo_GetPlaceFromId, placeId);
         }
     }
 }

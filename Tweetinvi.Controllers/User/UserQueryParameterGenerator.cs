@@ -46,7 +46,7 @@ namespace Tweetinvi.Controllers.User
                 return null;
             }
 
-            return String.Format("{0}={1}", parameterName, userId);
+            return string.Format("{0}={1}", parameterName, userId);
         }
 
         public string GenerateScreenNameParameter(string screenName, string parameterName = "screen_name")
@@ -56,7 +56,7 @@ namespace Tweetinvi.Controllers.User
                 return null;
             }
 
-            return String.Format("{0}={1}", parameterName, screenName);
+            return string.Format("{0}={1}", parameterName, screenName);
         }
 
         public string GenerateIdOrScreenNameParameter(
@@ -102,11 +102,11 @@ namespace Tweetinvi.Controllers.User
 
                 if (userDTO.Id != TweetinviSettings.DEFAULT_ID)
                 {
-                    idsBuilder.Append(String.Format("{0}%2C", userDTO.Id));
+                    idsBuilder.Append(string.Format("{0}%2C", userDTO.Id));
                 }
                 else
                 {
-                    screeNameBuilder.Append(String.Format("{0}%2C", userDTO.ScreenName));
+                    screeNameBuilder.Append(string.Format("{0}%2C", userDTO.ScreenName));
                 }
             }
 
@@ -143,7 +143,7 @@ namespace Tweetinvi.Controllers.User
 
             for (int i = 0; i < idsList.Count - 1; ++i)
             {
-                builder.Append(String.Format("{0}%2C", ids.ElementAt(i)));
+                builder.Append(string.Format("{0}%2C", ids.ElementAt(i)));
             }
 
             builder.Append(idsList.ElementAt(idsList.Count - 1));
@@ -158,7 +158,7 @@ namespace Tweetinvi.Controllers.User
 
             for (int i = 0; i < screenNamesList.Count - 1; ++i)
             {
-                builder.Append(String.Format("{0}%2C", screenNamesList.ElementAt(i)));
+                builder.Append(string.Format("{0}%2C", screenNamesList.ElementAt(i)));
             }
 
             builder.Append(screenNamesList.ElementAt(screenNamesList.Count - 1));

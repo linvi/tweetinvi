@@ -98,7 +98,7 @@ namespace Tweetinvi.Controllers.TwitterLists
 
         private string GenerateUserListsQuery(string userIdentifier, bool getOwnedListsFirst)
         {
-            return String.Format(Resources.List_GetUserLists, userIdentifier, getOwnedListsFirst);
+            return string.Format(Resources.List_GetUserLists, userIdentifier, getOwnedListsFirst);
         }
 
         // Owned Lists
@@ -125,26 +125,26 @@ namespace Tweetinvi.Controllers.TwitterLists
             var listIdentifierParameter = _twitterListQueryParameterGenerator.GenerateIdentifierParameter(parameters.TwitterListIdentifier);
             var updateQueryParameters = GenerateUpdateAdditionalParameters(parameters.Parameters);
 
-            var queryParameters = String.Format("{0}{1}", listIdentifierParameter, updateQueryParameters);
-            return String.Format(Resources.List_Update, queryParameters);
+            var queryParameters = string.Format("{0}{1}", listIdentifierParameter, updateQueryParameters);
+            return string.Format(Resources.List_Update, queryParameters);
         }
 
         
         private string GenerateUpdateAdditionalParameters(ITwitterListUpdateParameters parameters)
         {
-            string privacyModeParameter = String.Format(Resources.List_PrivacyModeParameter, parameters.PrivacyMode.ToString().ToLower());
+            string privacyModeParameter = string.Format(Resources.List_PrivacyModeParameter, parameters.PrivacyMode.ToString().ToLower());
 
             StringBuilder queryParameterBuilder = new StringBuilder(privacyModeParameter);
 
             if (_listsQueryValidator.IsDescriptionParameterValid(parameters.Description))
             {
-                string descriptionParameter = String.Format(Resources.List_DescriptionParameter, parameters.Description);
+                string descriptionParameter = string.Format(Resources.List_DescriptionParameter, parameters.Description);
                 queryParameterBuilder.Append(descriptionParameter);
             }
 
             if (_listsQueryValidator.IsNameParameterValid(parameters.Name))
             {
-                string nameParameter = String.Format(Resources.List_NameParameter, parameters.Name);
+                string nameParameter = string.Format(Resources.List_NameParameter, parameters.Name);
                 queryParameterBuilder.Append(nameParameter);
             }
 
@@ -160,7 +160,7 @@ namespace Tweetinvi.Controllers.TwitterLists
             }
 
             var identifierParameter = _twitterListQueryParameterGenerator.GenerateIdentifierParameter(identifier);
-            return String.Format(Resources.List_Destroy, identifierParameter);
+            return string.Format(Resources.List_Destroy, identifierParameter);
         }
         
 

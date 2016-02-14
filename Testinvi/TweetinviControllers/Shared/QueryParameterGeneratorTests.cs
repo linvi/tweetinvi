@@ -41,7 +41,7 @@ namespace Testinvi.TweetinviControllers.Shared
             var result = queryParameterGenerator.GenerateSinceIdParameter(TestHelper.GenerateRandomLong());
 
             // Assert
-            Assert.AreEqual(result, String.Format(""));
+            Assert.AreEqual(result, string.Format(""));
         }
 
         #endregion 

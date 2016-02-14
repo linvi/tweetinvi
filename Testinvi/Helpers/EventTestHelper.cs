@@ -49,7 +49,7 @@ namespace Testinvi.Helpers
         {
             if (TotalNumberOfCalls != expectedTimes)
             {
-                throw new Exception(String.Format("Fail : Expected<{0}> - Value<{1}>", expectedTimes, TotalNumberOfCalls));
+                throw new Exception(string.Format("Fail : Expected<{0}> - Value<{1}>", expectedTimes, TotalNumberOfCalls));
             }
         }
 
@@ -64,7 +64,7 @@ namespace Testinvi.Helpers
                 }
             }
 
-            throw new Exception(String.Format("Fail : Expected<{0}> - Value<{1}>", expectedTimes, nbCallsWithTheArgument));
+            throw new Exception(string.Format("Fail : Expected<{0}> - Value<{1}>", expectedTimes, nbCallsWithTheArgument));
         }
 
         public void VerifyArgumentAt<R>(
@@ -80,7 +80,7 @@ namespace Testinvi.Helpers
 
             if (Arguments.Count <= callNumber)
             {
-                throw new IndexOutOfRangeException(String.Format("There has been less than {0} calls to the event", callNumber));
+                throw new IndexOutOfRangeException(string.Format("There has been less than {0} calls to the event", callNumber));
             }
 
             T callArgument = Arguments[callNumber];
@@ -88,7 +88,7 @@ namespace Testinvi.Helpers
 
             if (!Equals(value, expectedValue))
             {
-                throw new Exception(String.Format("Fail : Expected<{0}> - Value<{1}>", value, expectedValue));
+                throw new Exception(string.Format("Fail : Expected<{0}> - Value<{1}>", value, expectedValue));
             }
         }
 
@@ -102,12 +102,12 @@ namespace Testinvi.Helpers
 
             if (Arguments.Count <= callNumber)
             {
-                throw new IndexOutOfRangeException(String.Format("There has been less than {0} calls to the event", callNumber));
+                throw new IndexOutOfRangeException(string.Format("There has been less than {0} calls to the event", callNumber));
             }
 
             if (!where(Arguments[callNumber]))
             {
-                throw new Exception(String.Format("Fail : Call [{0}] does not match the condition", callNumber));
+                throw new Exception(string.Format("Fail : Call [{0}] does not match the condition", callNumber));
             }
         }
 
@@ -124,7 +124,7 @@ namespace Testinvi.Helpers
 
             if (nbCallsMatchingTheCondition != expectedTimes)
             {
-                throw new Exception(String.Format("Fail : Expected<{0}> - Value<{1}>", expectedTimes, nbCallsMatchingTheCondition));
+                throw new Exception(string.Format("Fail : Expected<{0}> - Value<{1}>", expectedTimes, nbCallsMatchingTheCondition));
             }
         }
 

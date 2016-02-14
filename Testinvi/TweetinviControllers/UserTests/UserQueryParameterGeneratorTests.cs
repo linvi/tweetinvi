@@ -55,7 +55,7 @@ namespace Testinvi.TweetinviControllers.UserTests
             var result = queryGenerator.GenerateUserIdParameter(userId, parameterName);
 
             // Assert
-            var expectedQuery = String.Format("{0}={1}", parameterName, userId);
+            var expectedQuery = string.Format("{0}={1}", parameterName, userId);
             Assert.AreEqual(result, expectedQuery);
         }
         #endregion
@@ -93,7 +93,7 @@ namespace Testinvi.TweetinviControllers.UserTests
             var result = queryGenerator.GenerateScreenNameParameter(userScreenName, parameterName);
 
             // Assert
-            var expectedQuery = String.Format("{0}={1}", parameterName, userScreenName);
+            var expectedQuery = string.Format("{0}={1}", parameterName, userScreenName);
             Assert.AreEqual(result, expectedQuery);
         }
 
@@ -169,7 +169,7 @@ namespace Testinvi.TweetinviControllers.UserTests
             var result = queryGenerator.GenerateIdOrScreenNameParameter(userDTO, idParameterName, screenNameParameterName);
 
             // Assert
-            var expectedParameter = String.Format("{0}={1}", idParameterName, userId);
+            var expectedParameter = string.Format("{0}={1}", idParameterName, userId);
             Assert.AreEqual(result, expectedParameter);
         }
 
@@ -193,7 +193,7 @@ namespace Testinvi.TweetinviControllers.UserTests
             var result = queryGenerator.GenerateIdOrScreenNameParameter(userDTO, idParameterName, screenNameParameterName);
 
             // Assert
-            var expectedParameter = String.Format("{0}={1}", screenNameParameterName, screenName);
+            var expectedParameter = string.Format("{0}={1}", screenNameParameterName, screenName);
             Assert.AreEqual(result, expectedParameter);
         }
 
@@ -217,7 +217,7 @@ namespace Testinvi.TweetinviControllers.UserTests
             var result = queryGenerator.GenerateIdOrScreenNameParameter(userDTO, idParameterName, screenNameParameterName);
 
             // Assert
-            var expectedParameter = String.Format("{0}={1}", idParameterName, userId);
+            var expectedParameter = string.Format("{0}={1}", idParameterName, userId);
             Assert.AreEqual(result, expectedParameter);
         }
 

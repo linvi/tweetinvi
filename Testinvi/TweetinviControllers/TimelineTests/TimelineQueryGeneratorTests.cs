@@ -114,9 +114,9 @@ namespace Testinvi.TweetinviControllers.TimelineTests
             var homeQueryParameter = _excludeRepliesParameter + queryParameterBuilder;
             var userQueryParameter = _userIdentifierParameter + _includeRTSParameter + _excludeRepliesParameter + queryParameterBuilder;
 
-            _expectedTimelineQuery = String.Format(Resources.Timeline_GetHomeTimeline, homeQueryParameter);
-            _expectedUserTimelineQuery = String.Format(Resources.Timeline_GetUserTimeline, userQueryParameter);
-            _expectedMentionsTimelineQuery = String.Format(Resources.Timeline_GetMentionsTimeline, queryParameterBuilder);
+            _expectedTimelineQuery = string.Format(Resources.Timeline_GetHomeTimeline, homeQueryParameter);
+            _expectedUserTimelineQuery = string.Format(Resources.Timeline_GetUserTimeline, userQueryParameter);
+            _expectedMentionsTimelineQuery = string.Format(Resources.Timeline_GetMentionsTimeline, queryParameterBuilder);
         }
 
         #region GetHomeTimelineQuery

@@ -212,8 +212,8 @@ namespace Tweetinvi.Core.Extensions
         /// </summary>
         public static string CleanForRegexGroupName(this string groupName)
         {
-            string res = Regex.Replace(groupName, @"^[^a-zA-Z]", match => String.Format("special{0}", (int)match.Value[0]));
-            return Regex.Replace(res, @"[^a-zA-Z0-9]", match => String.Format("special{0}", (int)match.Value[0]));
+            string res = Regex.Replace(groupName, @"^[^a-zA-Z]", match => string.Format("special{0}", (int)match.Value[0]));
+            return Regex.Replace(res, @"[^a-zA-Z0-9]", match => string.Format("special{0}", (int)match.Value[0]));
         }
 
         /// <summary>
@@ -221,7 +221,7 @@ namespace Tweetinvi.Core.Extensions
         /// </summary>
         public static string CleanForRegex(this string regexKeyword)
         {
-            return Regex.Replace(regexKeyword, @"[.^$*+?()[{\|#]", match => String.Format(@"\{0}", match));
+            return Regex.Replace(regexKeyword, @"[.^$*+?()[{\|#]", match => string.Format(@"\{0}", match));
         }
 
         /// <summary>
@@ -233,7 +233,7 @@ namespace Tweetinvi.Core.Extensions
             StringBuilder patternBuilder = new StringBuilder();
             foreach (var keywordPattern in keywords)
             {
-                patternBuilder.Append(String.Format(@"(?=.*(?<{0}>(?:^|\s+){1}(?:\s+|$)))?",
+                patternBuilder.Append(string.Format(@"(?=.*(?<{0}>(?:^|\s+){1}(?:\s+|$)))?",
                    CleanForRegexGroupName(keywordPattern), CleanForRegex(keywordPattern)));
             }
 

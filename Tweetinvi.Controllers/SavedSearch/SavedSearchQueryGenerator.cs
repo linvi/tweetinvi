@@ -37,7 +37,7 @@ namespace Tweetinvi.Controllers.SavedSearch
                 return null;
             }
 
-            return String.Format(Resources.SavedSearch_Destroy, searchId);
+            return string.Format(Resources.SavedSearch_Destroy, searchId);
         }
     }
 }

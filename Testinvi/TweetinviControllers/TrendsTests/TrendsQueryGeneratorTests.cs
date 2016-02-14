@@ -31,7 +31,7 @@ namespace Testinvi.TweetinviControllers.TrendsTests
             var result = queryGenerator.GetPlaceTrendsAtQuery(locationId);
 
             // Assert
-            var expectedQuery = String.Format(Resources.Trends_GetTrendsFromWoeId, locationId);
+            var expectedQuery = string.Format(Resources.Trends_GetTrendsFromWoeId, locationId);
             Assert.AreEqual(result, expectedQuery);
         }
 
@@ -60,7 +60,7 @@ namespace Testinvi.TweetinviControllers.TrendsTests
             var result = queryGenerator.GetPlaceTrendsAtQuery(woeIdLocation);
 
             // Assert
-            var expectedQuery = String.Format(Resources.Trends_GetTrendsFromWoeId, locationId);
+            var expectedQuery = string.Format(Resources.Trends_GetTrendsFromWoeId, locationId);
             Assert.AreEqual(result, expectedQuery);
         }
 

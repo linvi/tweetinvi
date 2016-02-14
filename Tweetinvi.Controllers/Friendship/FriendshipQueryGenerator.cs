@@ -71,7 +71,7 @@ namespace Tweetinvi.Controllers.Friendship
             }
 
             string userIds = _userQueryParameterGenerator.GenerateListOfIdsParameter(targetUsersId);
-            string userIdsParameter = String.Format("user_id={0}", userIds);
+            string userIdsParameter = string.Format("user_id={0}", userIds);
             return string.Format(Resources.Friendship_GetRelationships, userIdsParameter);
         }
 
@@ -83,7 +83,7 @@ namespace Tweetinvi.Controllers.Friendship
             }
 
             string userScreenNames = _userQueryParameterGenerator.GenerateListOfScreenNameParameter(targetUsersScreenName);
-            string userScreenNamesParameter = String.Format("screen_name={0}", userScreenNames);
+            string userScreenNamesParameter = string.Format("screen_name={0}", userScreenNames);
             return string.Format(Resources.Friendship_GetRelationships, userScreenNamesParameter);
         }
 
@@ -123,7 +123,7 @@ namespace Tweetinvi.Controllers.Friendship
 
         private string GenerateCreateFriendshipQuery(string userIdentifierParameter)
         {
-            return String.Format(Resources.Friendship_Create, userIdentifierParameter);
+            return string.Format(Resources.Friendship_Create, userIdentifierParameter);
         }
 
         // Destroy Friendship
@@ -162,7 +162,7 @@ namespace Tweetinvi.Controllers.Friendship
 
         private string GenerateDestroyFriendshipQuery(string userIdentifierParameter)
         {
-            return String.Format(Resources.Friendship_Destroy, userIdentifierParameter);
+            return string.Format(Resources.Friendship_Destroy, userIdentifierParameter);
         }
 
         // Update Relationship

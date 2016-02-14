@@ -226,7 +226,7 @@ namespace Testinvi.TweetinviControllers.TweetTests
             var result = queryGenerator.GetPublishRetweetQuery(tweetToRetweet);
 
             // Assert
-            var expectedResult = String.Format(Resources.Tweet_Retweet_Publish, tweetToRetweetId);
+            var expectedResult = string.Format(Resources.Tweet_Retweet_Publish, tweetToRetweetId);
             Assert.AreEqual(result, expectedResult);
         }
 
@@ -241,7 +241,7 @@ namespace Testinvi.TweetinviControllers.TweetTests
             var result = queryGenerator.GetPublishRetweetQuery(tweetToRetweetId);
 
             // Assert
-            var expectedResult = String.Format(Resources.Tweet_Retweet_Publish, tweetToRetweetId);
+            var expectedResult = string.Format(Resources.Tweet_Retweet_Publish, tweetToRetweetId);
             Assert.AreEqual(result, expectedResult);
         }
 
@@ -280,7 +280,7 @@ namespace Testinvi.TweetinviControllers.TweetTests
             var result = queryGenerator.GetRetweetsQuery(tweetToRetweet);
 
             // Assert
-            var expectedResult = String.Format(Resources.Tweet_Retweet_GetRetweets, tweetToRetweetId);
+            var expectedResult = string.Format(Resources.Tweet_Retweet_GetRetweets, tweetToRetweetId);
             Assert.AreEqual(result, expectedResult);
         }
 
@@ -295,7 +295,7 @@ namespace Testinvi.TweetinviControllers.TweetTests
             var result = queryGenerator.GetRetweetsQuery(tweetToRetweetId);
 
             // Assert
-            var expectedResult = String.Format(Resources.Tweet_Retweet_GetRetweets, tweetToRetweetId);
+            var expectedResult = string.Format(Resources.Tweet_Retweet_GetRetweets, tweetToRetweetId);
             Assert.AreEqual(result, expectedResult);
         }
 
@@ -334,7 +334,7 @@ namespace Testinvi.TweetinviControllers.TweetTests
             var result = queryGenerator.GetDestroyTweetQuery(tweetToDestroy);
 
             // Assert
-            var expectedResult = String.Format(Resources.Tweet_Destroy, tweetToDestroyId);
+            var expectedResult = string.Format(Resources.Tweet_Destroy, tweetToDestroyId);
             Assert.AreEqual(result, expectedResult);
         }
 
@@ -349,7 +349,7 @@ namespace Testinvi.TweetinviControllers.TweetTests
             var result = queryGenerator.GetDestroyTweetQuery(tweetToDestroyId);
 
             // Assert
-            var expectedResult = String.Format(Resources.Tweet_Destroy, tweetToDestroyId);
+            var expectedResult = string.Format(Resources.Tweet_Destroy, tweetToDestroyId);
             Assert.AreEqual(result, expectedResult);
         }
 
@@ -388,7 +388,7 @@ namespace Testinvi.TweetinviControllers.TweetTests
             var result = queryGenerator.GetFavouriteTweetQuery(tweetToFavourite);
 
             // Assert
-            var expectedResult = String.Format(Resources.Tweet_Favorite_Create, tweetToFavouriteId);
+            var expectedResult = string.Format(Resources.Tweet_Favorite_Create, tweetToFavouriteId);
             Assert.AreEqual(result, expectedResult);
         }
 
@@ -403,7 +403,7 @@ namespace Testinvi.TweetinviControllers.TweetTests
             var result = queryGenerator.GetFavouriteTweetQuery(tweetToFavouriteId);
 
             // Assert
-            var expectedResult = String.Format(Resources.Tweet_Favorite_Create, tweetToFavouriteId);
+            var expectedResult = string.Format(Resources.Tweet_Favorite_Create, tweetToFavouriteId);
             Assert.AreEqual(result, expectedResult);
         }
 
@@ -442,7 +442,7 @@ namespace Testinvi.TweetinviControllers.TweetTests
             var result = queryGenerator.GetUnFavouriteTweetQuery(tweetToUnFavourite);
 
             // Assert
-            var expectedResult = String.Format(Resources.Tweet_Favorite_Destroy, tweetToUnFavouriteId);
+            var expectedResult = string.Format(Resources.Tweet_Favorite_Destroy, tweetToUnFavouriteId);
             Assert.AreEqual(result, expectedResult);
         }
 
@@ -457,7 +457,7 @@ namespace Testinvi.TweetinviControllers.TweetTests
             var result = queryGenerator.GetUnFavouriteTweetQuery(tweetToUnFavouriteId);
 
             // Assert
-            var expectedResult = String.Format(Resources.Tweet_Favorite_Destroy, tweetToUnFavouriteId);
+            var expectedResult = string.Format(Resources.Tweet_Favorite_Destroy, tweetToUnFavouriteId);
             Assert.AreEqual(result, expectedResult);
         }
 
@@ -496,7 +496,7 @@ namespace Testinvi.TweetinviControllers.TweetTests
             var result = queryGenerator.GetGenerateOEmbedTweetQuery(tweet);
 
             // Assert
-            var expectedResult = String.Format(Resources.Tweet_GenerateOEmbed, tweetId);
+            var expectedResult = string.Format(Resources.Tweet_GenerateOEmbed, tweetId);
             Assert.AreEqual(result, expectedResult);
         }
 
@@ -511,7 +511,7 @@ namespace Testinvi.TweetinviControllers.TweetTests
             var result = queryGenerator.GetGenerateOEmbedTweetQuery(tweetToRetweetId);
 
             // Assert
-            var expectedResult = String.Format(Resources.Tweet_GenerateOEmbed, tweetToRetweetId);
+            var expectedResult = string.Format(Resources.Tweet_GenerateOEmbed, tweetToRetweetId);
             Assert.AreEqual(result, expectedResult);
         }
 
@@ -575,12 +575,12 @@ namespace Testinvi.TweetinviControllers.TweetTests
 
         private string GeneratePlaceIdParameter()
         {
-            return String.Format("&{0}", _expectedPlaceIdParameter);
+            return string.Format("&{0}", _expectedPlaceIdParameter);
         }
 
         private string GenerateCoordinatesParameter()
         {
-            return String.Format("&{0}", _expectedCoordinatesParameter);
+            return string.Format("&{0}", _expectedCoordinatesParameter);
         }
 
         public TweetQueryGenerator CreateTweetQueryGenerator()

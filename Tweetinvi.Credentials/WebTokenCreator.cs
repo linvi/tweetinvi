@@ -69,7 +69,7 @@ namespace Tweetinvi.Credentials
                     appCredentials.AuthorizationKey = tokenInformation.Groups["oauth_token"].Value;
                     appCredentials.AuthorizationSecret = tokenInformation.Groups["oauth_token_secret"].Value;
 
-                    return String.Format("{0}?oauth_token={1}", Resources.OAuthRequestAuthorize, appCredentials.AuthorizationKey);
+                    return string.Format("{0}?oauth_token={1}", Resources.OAuthRequestAuthorize, appCredentials.AuthorizationKey);
                 }
             }
             catch (TwitterException ex)

@@ -15,7 +15,10 @@ namespace Tweetinvi.Injectinvi
         }
 
         public bool IsInitialized { get { return false; } }
+
+#pragma warning disable 67
         public event EventHandler<TweetinviContainerEventArgs> BeforeRegistrationCompletes;
+#pragma warning restore 67
 
         public void Initialize()
         {

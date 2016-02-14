@@ -23,7 +23,7 @@ namespace Examplinvi.UniversalApp
 
             if (Auth.Credentials == null ||
                 string.IsNullOrEmpty(Auth.Credentials.ConsumerKey) ||
-                string.IsNullOrEmpty(Auth.Credentials.ConsumerSecret) || 
+                string.IsNullOrEmpty(Auth.Credentials.ConsumerSecret) ||
                 string.IsNullOrEmpty(Auth.Credentials.AccessToken) ||
                 string.IsNullOrEmpty(Auth.Credentials.AccessTokenSecret) ||
                 Auth.Credentials.AccessToken == "ACCESS_TOKEN")
@@ -46,10 +46,12 @@ namespace Examplinvi.UniversalApp
 
             s.TweetReceived += (o, args) =>
             {
+#pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
                 uiDispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                 {
                     Message.Text = args.Tweet.ToString();
                 });
+#pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
             };
 
             s.StartStreamAsync();

@@ -137,7 +137,7 @@ namespace Tweetinvi.Controllers.Messages
                 return null;
             }
 
-            return String.Format(Resources.Message_DestroyMessage, messageId);
+            return string.Format(Resources.Message_DestroyMessage, messageId);
         }
     }
 }

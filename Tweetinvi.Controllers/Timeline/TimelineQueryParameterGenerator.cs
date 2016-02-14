@@ -48,17 +48,17 @@ namespace Tweetinvi.Controllers.Timeline
 
         public string GenerateExcludeRepliesParameter(bool excludeReplies)
         {
-            return String.Format(Resources.TimelineParameter_ExcludeReplies, excludeReplies);
+            return string.Format(Resources.TimelineParameter_ExcludeReplies, excludeReplies);
         }
 
         public string GenerateIncludeContributorDetailsParameter(bool includeContributorDetails)
         {
-            return String.Format(Resources.TimelineParameter_IncludeContributorDetails, includeContributorDetails);
+            return string.Format(Resources.TimelineParameter_IncludeContributorDetails, includeContributorDetails);
         }
 
         public string GenerateIncludeRTSParameter(bool includeRTS)
         {
-            return String.Format(Resources.QueryParameter_IncludeRetweets, includeRTS);
+            return string.Format(Resources.QueryParameter_IncludeRetweets, includeRTS);
         }
 
         public string GenerateIncludeUserEntitiesParameter(bool includeUserEntities)

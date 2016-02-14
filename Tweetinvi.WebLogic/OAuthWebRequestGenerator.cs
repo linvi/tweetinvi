@@ -88,7 +88,7 @@ namespace Tweetinvi.WebLogic
 
             for (int i = 0; i < oAuthSecretKeyHeaders.Count(); ++i)
             {
-                oAuthSecretkey += String.Format("{0}{1}",
+                oAuthSecretkey += string.Format("{0}{1}",
                     StringFormater.UrlEncode(oAuthSecretKeyHeaders.ElementAt(i).Value),
                     (i == oAuthSecretKeyHeaders.Count() - 1) ? "" : "&");
             }

@@ -51,8 +51,8 @@ namespace Tweetinvi.Controllers.Timeline
             var homeTimelineRequestQueryParameter = GenerateHomeTimelineParameters(timelineParameters);
             var includeContributorDetailsQueryParameter = GenerateIncludeContributorsDetailsParameter(timelineParameters.IncludeContributorDetails);
             var timelineRequestQueryParameter = GenerateTimelineRequestParameter(timelineParameters);
-            var requestParameters = String.Format("{0}{1}{2}", homeTimelineRequestQueryParameter, includeContributorDetailsQueryParameter, timelineRequestQueryParameter);
-            return String.Format(Resources.Timeline_GetHomeTimeline, requestParameters);
+            var requestParameters = string.Format("{0}{1}{2}", homeTimelineRequestQueryParameter, includeContributorDetailsQueryParameter, timelineRequestQueryParameter);
+            return string.Format(Resources.Timeline_GetHomeTimeline, requestParameters);
         }
 
         private string GenerateHomeTimelineParameters(IHomeTimelineParameters timelineParameters)
@@ -84,9 +84,9 @@ namespace Tweetinvi.Controllers.Timeline
             var userTimelineRequestParameter = GenerateUserTimelineRequestParameters(userTimelineQueryParameters);
             var includeContributorDetailsQueryParameter = GenerateIncludeContributorsDetailsParameter(queryParameters.IncludeContributorDetails);
             var timelineRequestParameter = GenerateTimelineRequestParameter(queryParameters);
-            var requestParameters = String.Format("{0}{1}{2}", userTimelineRequestParameter, includeContributorDetailsQueryParameter, timelineRequestParameter);
+            var requestParameters = string.Format("{0}{1}{2}", userTimelineRequestParameter, includeContributorDetailsQueryParameter, timelineRequestParameter);
 
-            return String.Format(Resources.Timeline_GetUserTimeline, requestParameters);
+            return string.Format(Resources.Timeline_GetUserTimeline, requestParameters);
         }
 
         private string GenerateUserTimelineRequestParameters(IUserTimelineQueryParameters timelineQueryParameters)
@@ -107,9 +107,9 @@ namespace Tweetinvi.Controllers.Timeline
         {
             var includeContributorDetailsQueryParameter = GenerateIncludeContributorsDetailsParameter(mentionsTimelineParameters.IncludeContributorDetails);
             var timelineRequestParameter = GenerateTimelineRequestParameter(mentionsTimelineParameters);
-            var requestParameters = String.Format("{0}{1}", includeContributorDetailsQueryParameter, timelineRequestParameter);
+            var requestParameters = string.Format("{0}{1}", includeContributorDetailsQueryParameter, timelineRequestParameter);
 
-            return String.Format(Resources.Timeline_GetMentionsTimeline, requestParameters);
+            return string.Format(Resources.Timeline_GetMentionsTimeline, requestParameters);
         }
         
         // Retweets of Me Timeline
@@ -119,7 +119,7 @@ namespace Tweetinvi.Controllers.Timeline
             var timelineRequestParameter = GenerateTimelineRequestParameter(retweetsOfMeTimelineParameters);
             var requestParameters = string.Format("{0}{1}", timelineRequestParameter, includeUserEntitiesParameter);
                
-            return String.Format(Resources.Timeline_GetRetweetsOfMeTimeline, requestParameters);
+            return string.Format(Resources.Timeline_GetRetweetsOfMeTimeline, requestParameters);
         }
 
         // Base Timeline Query Generator

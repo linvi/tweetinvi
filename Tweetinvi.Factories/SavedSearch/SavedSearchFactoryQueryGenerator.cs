@@ -13,12 +13,12 @@ namespace Tweetinvi.Factories.SavedSearch
     {
         public string GetCreateSavedSearchQuery(string searchQuery)
         {
-            return String.Format(Resources.SavedSearch_Create, searchQuery);
+            return string.Format(Resources.SavedSearch_Create, searchQuery);
         }
 
         public string GetSavedSearchQuery(long searchId)
         {
-            return String.Format(Resources.SavedSearch_Get, searchId);
+            return string.Format(Resources.SavedSearch_Get, searchId);
         }
     }
 }

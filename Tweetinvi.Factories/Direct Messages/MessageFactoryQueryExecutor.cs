@@ -29,7 +29,7 @@ namespace Tweetinvi.Factories
         // Get existing message
         public IMessageDTO GetExistingMessage(long messageId)
         {
-            string query = String.Format(Resources.Message_GetMessageFromId, messageId);
+            string query = string.Format(Resources.Message_GetMessageFromId, messageId);
             return _twitterAccessor.ExecuteGETQuery<IMessageDTO>(query);
         }
 

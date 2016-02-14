@@ -21,7 +21,7 @@ namespace Tweetinvi.Streams.Helpers
             queryBuilder.Append("track=");
             for (int i = 0; i < tracks.Count - 1; ++i)
             {
-                queryBuilder.Append(Uri.EscapeDataString(String.Format("{0},", tracks.ElementAt(i))));
+                queryBuilder.Append(Uri.EscapeDataString(string.Format("{0},", tracks.ElementAt(i))));
             }
 
             queryBuilder.Append(Uri.EscapeDataString(tracks.ElementAt(tracks.Count - 1)));
@@ -40,7 +40,7 @@ namespace Tweetinvi.Streams.Helpers
             queryBuilder.Append("follow=");
             for (int i = 0; i < followUserIds.Count - 1; ++i)
             {
-                queryBuilder.Append(Uri.EscapeDataString(String.Format("{0},", followUserIds.ElementAt(i))));
+                queryBuilder.Append(Uri.EscapeDataString(string.Format("{0},", followUserIds.ElementAt(i))));
             }
 
             queryBuilder.Append(followUserIds.ElementAt(followUserIds.Count - 1));
@@ -56,7 +56,7 @@ namespace Tweetinvi.Streams.Helpers
             var minLongitude = Math.Min(location.Coordinate1.Longitude, location.Coordinate2.Longitude);
             var minLatitude = Math.Min(location.Coordinate1.Latitude, location.Coordinate2.Latitude);
 
-            return String.Format("{0},{1},{2},{3}{4}", minLongitude.ToString(CultureInfo.InvariantCulture),
+            return string.Format("{0},{1},{2},{3}{4}", minLongitude.ToString(CultureInfo.InvariantCulture),
                                                        minLatitude.ToString(CultureInfo.InvariantCulture),
                                                        maxLongitude.ToString(CultureInfo.InvariantCulture), 
                                                        maxLatitude.ToString(CultureInfo.InvariantCulture),
@@ -79,7 +79,7 @@ namespace Tweetinvi.Streams.Helpers
 
             queryBuilder.Append(GenerateLocationParameters(locations[locations.Count - 1], true));
 
-            return String.Format("locations={0}", StringFormater.UrlEncode(queryBuilder.ToString()));
+            return string.Format("locations={0}", StringFormater.UrlEncode(queryBuilder.ToString()));
         }
     }
 }

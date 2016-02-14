@@ -73,7 +73,7 @@ namespace Testinvi.TweetinviControllers.FriendshipTests
 
             // Assert
             string expectedUserIdParameter = UserQueryGeneratorHelper.GenerateParameterExpectedResult(fakeUserDTO);
-            Assert.AreEqual(query, String.Format(Resources.Friendship_Create, expectedUserIdParameter));
+            Assert.AreEqual(query, string.Format(Resources.Friendship_Create, expectedUserIdParameter));
         }
 
         [TestMethod]
@@ -104,7 +104,7 @@ namespace Testinvi.TweetinviControllers.FriendshipTests
 
             // Assert
             string expectedUserScreenNameParameter = UserQueryGeneratorHelper.GenerateParameterExpectedResult(screenName);
-            Assert.AreEqual(query, String.Format(Resources.Friendship_Create, expectedUserScreenNameParameter));
+            Assert.AreEqual(query, string.Format(Resources.Friendship_Create, expectedUserScreenNameParameter));
         }
 
         [TestMethod]
@@ -149,7 +149,7 @@ namespace Testinvi.TweetinviControllers.FriendshipTests
 
             // Assert
             string expectedUserIdParameter = UserQueryGeneratorHelper.GenerateParameterExpectedResult(userId);
-            Assert.AreEqual(query, String.Format(Resources.Friendship_Create, expectedUserIdParameter));
+            Assert.AreEqual(query, string.Format(Resources.Friendship_Create, expectedUserIdParameter));
         }
 
         #endregion
@@ -168,7 +168,7 @@ namespace Testinvi.TweetinviControllers.FriendshipTests
 
             // Assert
             string expectedUserIdParameter = UserQueryGeneratorHelper.GenerateParameterExpectedResult(userDTO);
-            Assert.AreEqual(query, String.Format(Resources.Friendship_Destroy, expectedUserIdParameter));
+            Assert.AreEqual(query, string.Format(Resources.Friendship_Destroy, expectedUserIdParameter));
         }
 
         [TestMethod]
@@ -215,7 +215,7 @@ namespace Testinvi.TweetinviControllers.FriendshipTests
 
             // Assert
             string expectedUserScreenNameParameter = UserQueryGeneratorHelper.GenerateParameterExpectedResult(screenName);
-            Assert.AreEqual(query, String.Format(Resources.Friendship_Destroy, expectedUserScreenNameParameter));
+            Assert.AreEqual(query, string.Format(Resources.Friendship_Destroy, expectedUserScreenNameParameter));
         }
 
         [TestMethod]
@@ -244,7 +244,7 @@ namespace Testinvi.TweetinviControllers.FriendshipTests
 
             // Assert
             string expectedUserIdParameter = UserQueryGeneratorHelper.GenerateParameterExpectedResult(userId);
-            Assert.AreEqual(query, String.Format(Resources.Friendship_Destroy, expectedUserIdParameter));
+            Assert.AreEqual(query, string.Format(Resources.Friendship_Destroy, expectedUserIdParameter));
         }
 
         #endregion
