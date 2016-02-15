@@ -14,7 +14,7 @@
     {
         public GetTweetsFromListParameters()
         {
-            MaximumNumberOfTweetsToRetrieve = TweetinviConsts.TWITTER_LIST_GET_TWEETS_COUNT;
+            MaximumNumberOfTweetsToRetrieve = TweetinviConsts.LIST_GET_TWEETS_COUNT;
 
             IncludeEntities = true;
             IncludeRetweets = true;

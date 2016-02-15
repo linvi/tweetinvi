@@ -188,7 +188,7 @@ namespace Tweetinvi.Controllers.TwitterLists
             }
             else
             {
-                queryParameters.Append(_queryParameterGenerator.GenerateCountParameter(TweetinviConsts.TWITTER_LIST_GET_TWEETS_COUNT));
+                queryParameters.Append(_queryParameterGenerator.GenerateCountParameter(TweetinviConsts.LIST_GET_TWEETS_COUNT));
             }
 
             return string.Format(Resources.List_GetTweetsFromList, queryParameters);

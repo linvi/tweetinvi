@@ -115,9 +115,9 @@ namespace Tweetinvi.Controllers.TwitterLists
         {
             var userIdentifiersArray = IEnumerableExtension.GetDistinctUserIdentifiers(userIdentifiers);
 
-            for (int i = 0; i < userIdentifiersArray.Length; i += TweetinviConsts.TWITTER_LIST_ADD_OR_REMOVE_MULTIPLE_MEMBERS_MAX)
+            for (int i = 0; i < userIdentifiersArray.Length; i += TweetinviConsts.LIST_ADD_OR_REMOVE_MULTIPLE_MEMBERS_MAX)
             {
-                var userIdentifiersToAdd = userIdentifiersArray.Skip(i).Take(TweetinviConsts.TWITTER_LIST_ADD_OR_REMOVE_MULTIPLE_MEMBERS_MAX).ToArray();
+                var userIdentifiersToAdd = userIdentifiersArray.Skip(i).Take(TweetinviConsts.LIST_ADD_OR_REMOVE_MULTIPLE_MEMBERS_MAX).ToArray();
                 var query = _listsQueryGenerator.GetAddMultipleMembersToListQuery(listIdentifier, userIdentifiersToAdd);
 
                 if (!_twitterAccessor.TryExecuteGETQuery(query))
@@ -139,9 +139,9 @@ namespace Tweetinvi.Controllers.TwitterLists
         {
             var userIdentifiersArray = IEnumerableExtension.GetDistinctUserIdentifiers(userIdentifiers);
 
-            for (int i = 0; i < userIdentifiersArray.Length; i += TweetinviConsts.TWITTER_LIST_ADD_OR_REMOVE_MULTIPLE_MEMBERS_MAX)
+            for (int i = 0; i < userIdentifiersArray.Length; i += TweetinviConsts.LIST_ADD_OR_REMOVE_MULTIPLE_MEMBERS_MAX)
             {
-                var userIdentifiersToAdd = userIdentifiersArray.Skip(i).Take(TweetinviConsts.TWITTER_LIST_ADD_OR_REMOVE_MULTIPLE_MEMBERS_MAX).ToArray();
+                var userIdentifiersToAdd = userIdentifiersArray.Skip(i).Take(TweetinviConsts.LIST_ADD_OR_REMOVE_MULTIPLE_MEMBERS_MAX).ToArray();
                 var query = _listsQueryGenerator.GetRemoveMultipleMembersFromListQuery(listIdentifier, userIdentifiersToAdd);
 
                 if (!_twitterAccessor.TryExecuteGETQuery(query))

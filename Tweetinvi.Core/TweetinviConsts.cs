@@ -34,17 +34,17 @@ namespace Tweetinvi.Core
         public const int SEARCH_USERS_COUNT = 20;
 
         // https://dev.twitter.com/rest/reference/get/lists/statuses
-        public const int TWITTER_LIST_GET_TWEETS_COUNT = 100;
+        public const int LIST_GET_TWEETS_COUNT = 100;
 
         // https://dev.twitter.com/rest/reference/get/lists/subscriptions
-        public const int TWITTER_LIST_GET_USER_SUBSCRIPTIONS_COUNT = 1000;
+        public const int LIST_GET_USER_SUBSCRIPTIONS_COUNT = 1000;
 
         // 
-        public const int TWITTER_LIST_OWNED_COUNT = 1000;
+        public const int LIST_OWNED_COUNT = 1000;
 
         // https://dev.twitter.com/rest/reference/post/lists/members/create_all
         // https://dev.twitter.com/rest/reference/post/lists/members/destroy_all
-        public const int TWITTER_LIST_ADD_OR_REMOVE_MULTIPLE_MEMBERS_MAX = 100;
+        public const int LIST_ADD_OR_REMOVE_MULTIPLE_MEMBERS_MAX = 100;
 
         // https://dev.twitter.com/rest/reference/get/friendships/lookup
         public const int FRIENDSHIP_MAX_NUMBER_OF_FRIENDSHIP_TO_GET_IN_A_SINGLE_QUERY = 100;

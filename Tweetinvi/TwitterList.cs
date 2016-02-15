@@ -119,7 +119,7 @@ namespace Tweetinvi
         /// <summary>
         /// Get the authenticated user's lists
         /// </summary>
-        public static IEnumerable<ITwitterList> GetUserOwnedLists(long userId, int maximumNumberOfListsToRetrieve = TweetinviConsts.TWITTER_LIST_OWNED_COUNT)
+        public static IEnumerable<ITwitterList> GetUserOwnedLists(long userId, int maximumNumberOfListsToRetrieve = TweetinviConsts.LIST_OWNED_COUNT)
         {
             return TwitterListController.GetUserOwnedLists(userId, maximumNumberOfListsToRetrieve);
         }
@@ -127,7 +127,7 @@ namespace Tweetinvi
         /// <summary>
         /// Get the authenticated user's lists
         /// </summary>
-        public static IEnumerable<ITwitterList> GetUserOwnedLists(string userScreenName, int maximumNumberOfListsToRetrieve = TweetinviConsts.TWITTER_LIST_OWNED_COUNT)
+        public static IEnumerable<ITwitterList> GetUserOwnedLists(string userScreenName, int maximumNumberOfListsToRetrieve = TweetinviConsts.LIST_OWNED_COUNT)
         {
             return TwitterListController.GetUserOwnedLists(userScreenName, maximumNumberOfListsToRetrieve);
         }
@@ -135,7 +135,7 @@ namespace Tweetinvi
         /// <summary>
         /// Get the authenticated user's lists
         /// </summary>
-        public static IEnumerable<ITwitterList> GetUserOwnedLists(IUserIdentifier userIdentifier, int maximumNumberOfListsToRetrieve = TweetinviConsts.TWITTER_LIST_OWNED_COUNT)
+        public static IEnumerable<ITwitterList> GetUserOwnedLists(IUserIdentifier userIdentifier, int maximumNumberOfListsToRetrieve = TweetinviConsts.LIST_OWNED_COUNT)
         {
             return TwitterListController.GetUserOwnedLists(userIdentifier, maximumNumberOfListsToRetrieve);
         }
@@ -966,7 +966,7 @@ namespace Tweetinvi
         /// <summary>
         /// Get the lists the authenticated user has subsribed to
         /// </summary>
-        public static IEnumerable<ITwitterList> GetUserSubscribedLists(long userId, int maxNumberOfListsToRetrieve = TweetinviConsts.TWITTER_LIST_GET_USER_SUBSCRIPTIONS_COUNT)
+        public static IEnumerable<ITwitterList> GetUserSubscribedLists(long userId, int maxNumberOfListsToRetrieve = TweetinviConsts.LIST_GET_USER_SUBSCRIPTIONS_COUNT)
         {
             return TwitterListController.GetUserSubscribedLists(userId, maxNumberOfListsToRetrieve);
         }
@@ -974,7 +974,7 @@ namespace Tweetinvi
         /// <summary>
         /// Get the lists the authenticated user has subsribed to
         /// </summary>
-        public static IEnumerable<ITwitterList> GetUserSubscribedLists(string userScreenName, int maxNumberOfListsToRetrieve = TweetinviConsts.TWITTER_LIST_GET_USER_SUBSCRIPTIONS_COUNT)
+        public static IEnumerable<ITwitterList> GetUserSubscribedLists(string userScreenName, int maxNumberOfListsToRetrieve = TweetinviConsts.LIST_GET_USER_SUBSCRIPTIONS_COUNT)
         {
             return TwitterListController.GetUserSubscribedLists(userScreenName, maxNumberOfListsToRetrieve);
         }
@@ -982,7 +982,7 @@ namespace Tweetinvi
         /// <summary>
         /// Get the lists the authenticated user has subsribed to
         /// </summary>
-        public static IEnumerable<ITwitterList> GetUserSubscribedLists(IUserIdentifier userIdentifier, int maxNumberOfListsToRetrieve = TweetinviConsts.TWITTER_LIST_GET_USER_SUBSCRIPTIONS_COUNT)
+        public static IEnumerable<ITwitterList> GetUserSubscribedLists(IUserIdentifier userIdentifier, int maxNumberOfListsToRetrieve = TweetinviConsts.LIST_GET_USER_SUBSCRIPTIONS_COUNT)
         {
             return TwitterListController.GetUserSubscribedLists(userIdentifier, maxNumberOfListsToRetrieve);
         }

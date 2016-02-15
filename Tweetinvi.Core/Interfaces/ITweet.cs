@@ -155,6 +155,9 @@ namespace Tweetinvi.Core.Interfaces
 
         #region Tweetinvi API Properties
 
+        /// <summary>
+        /// Property used to store the data received from Twitter
+        /// </summary>
         ITweetDTO TweetDTO { get; set; }
 
         /// <summary>

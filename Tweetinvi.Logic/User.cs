@@ -380,12 +380,12 @@ namespace Tweetinvi.Logic
         }
 
         // Lists
-        public IEnumerable<ITwitterList> GetSubscribedLists(int maximumNumberOfListsToRetrieve = TweetinviConsts.TWITTER_LIST_GET_USER_SUBSCRIPTIONS_COUNT)
+        public IEnumerable<ITwitterList> GetSubscribedLists(int maximumNumberOfListsToRetrieve = TweetinviConsts.LIST_GET_USER_SUBSCRIPTIONS_COUNT)
         {
             return _twitterListController.GetUserSubscribedLists(this, maximumNumberOfListsToRetrieve);
         }
 
-        public IEnumerable<ITwitterList> GetOwnedLists(int maximumNumberOfListsToRetrieve = TweetinviConsts.TWITTER_LIST_OWNED_COUNT)
+        public IEnumerable<ITwitterList> GetOwnedLists(int maximumNumberOfListsToRetrieve = TweetinviConsts.LIST_OWNED_COUNT)
         {
             return _twitterListController.GetUserOwnedLists(this, maximumNumberOfListsToRetrieve);
         }

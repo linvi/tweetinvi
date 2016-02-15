@@ -43,17 +43,17 @@ namespace Tweetinvi
         }
 
         // Owned Lists
-        public static async Task<IEnumerable<ITwitterList>> GetUserOwnedLists(long userId, int maximumNumberOfListsToRetrieve = TweetinviConsts.TWITTER_LIST_OWNED_COUNT)
+        public static async Task<IEnumerable<ITwitterList>> GetUserOwnedLists(long userId, int maximumNumberOfListsToRetrieve = TweetinviConsts.LIST_OWNED_COUNT)
         {
             return await Sync.ExecuteTaskAsync(() => TwitterList.GetUserOwnedLists(userId, maximumNumberOfListsToRetrieve));
         }
 
-        public static async Task<IEnumerable<ITwitterList>> GetUserOwnedLists(string userScreenName, int maximumNumberOfListsToRetrieve = TweetinviConsts.TWITTER_LIST_OWNED_COUNT)
+        public static async Task<IEnumerable<ITwitterList>> GetUserOwnedLists(string userScreenName, int maximumNumberOfListsToRetrieve = TweetinviConsts.LIST_OWNED_COUNT)
         {
             return await Sync.ExecuteTaskAsync(() => TwitterList.GetUserOwnedLists(userScreenName, maximumNumberOfListsToRetrieve));
         }
 
-        public static async Task<IEnumerable<ITwitterList>> GetUserOwnedLists(IUserIdentifier userIdentifier, int maximumNumberOfListsToRetrieve = TweetinviConsts.TWITTER_LIST_OWNED_COUNT)
+        public static async Task<IEnumerable<ITwitterList>> GetUserOwnedLists(IUserIdentifier userIdentifier, int maximumNumberOfListsToRetrieve = TweetinviConsts.LIST_OWNED_COUNT)
         {
             return await Sync.ExecuteTaskAsync(() => TwitterList.GetUserOwnedLists(userIdentifier, maximumNumberOfListsToRetrieve));
         }
@@ -217,7 +217,7 @@ namespace Tweetinvi
         }
 
         // Get Subscriptions
-        public static async Task<IEnumerable<ITwitterList>> GetUserSubscribedLists(IUserIdentifier userIdentifier, int maxNumberOfListsToRetrieve = TweetinviConsts.TWITTER_LIST_GET_USER_SUBSCRIPTIONS_COUNT)
+        public static async Task<IEnumerable<ITwitterList>> GetUserSubscribedLists(IUserIdentifier userIdentifier, int maxNumberOfListsToRetrieve = TweetinviConsts.LIST_GET_USER_SUBSCRIPTIONS_COUNT)
         {
             return await Sync.ExecuteTaskAsync(() => TwitterList.GetUserSubscribedLists(userIdentifier, maxNumberOfListsToRetrieve));
         }
