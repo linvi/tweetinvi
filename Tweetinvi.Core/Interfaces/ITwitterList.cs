@@ -37,7 +37,6 @@ namespace Tweetinvi.Core.Interfaces
         /// </summary>
         DateTime CreatedAt { get; }
 
-
         string Uri { get; }
 
         /// <summary>

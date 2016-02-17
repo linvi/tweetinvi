@@ -20,7 +20,14 @@ namespace Tweetinvi.Core.Interfaces
 
         void SetCredentials(ITwitterCredentials credentials);
 
+        /// <summary>
+        /// Execute an operation with the context of this authenticated user.
+        /// </summary>
         T ExecuteLoggedUserOperation<T>(Func<T> operation);
+
+        /// <summary>
+        /// Execute an operation with the context of this authenticated user.
+        /// </summary>
         void ExecuteLoggedUserOperation(Action operation);
 
         #region Tweets
