@@ -52,7 +52,7 @@ namespace Tweetinvi.Controllers.Search
                 return null;
             }
 
-            StringBuilder query = new StringBuilder();
+            var query = new StringBuilder();
 
             query.Append(_searchQueryParameterGenerator.GenerateSearchQueryParameter(searchQuery));
             query.Append(_searchQueryParameterGenerator.GenerateSearchTypeParameter(tweetSearchParameters.SearchType));

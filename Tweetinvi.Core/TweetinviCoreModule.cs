@@ -76,7 +76,7 @@ namespace Tweetinvi.Core
             // Message
             _container.RegisterType<IMessagesReceivedParameters, MessagesReceivedParameters>();
             _container.RegisterType<IMessagesSentParameters, MessagesSentParameters>();
-            _container.RegisterType<IMessagePublishParameters, MessagePublishParameters>();
+            _container.RegisterType<IPublishMessageParameters, PublishMessageParameters>();
         }
     }
 }

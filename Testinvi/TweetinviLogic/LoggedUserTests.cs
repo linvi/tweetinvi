@@ -291,18 +291,16 @@ namespace Testinvi.TweetinviLogic
         public void PublishMessage_CurrentCredentialsAreNotLoggedUserCredentials_OperationPerformedWithAppropriateCredentials()
         {
             // Arrange
-            var messageDTO = A.Fake<IMessageDTO>();
-            var message = A.Fake<IMessage>();
-            message.CallsTo(x => x.MessageDTO).Returns(messageDTO);
+            var parameters = A.Fake<IPublishMessageParameters>();
 
             ITwitterCredentials startOperationWithCredentials = null;
-            _fakeMessageController.CallsTo(x => x.PublishMessage(messageDTO)).Invokes(() =>
+            _fakeMessageController.CallsTo(x => x.PublishMessage(parameters)).Invokes(() =>
             {
                 startOperationWithCredentials = _fakeCredentialsAccessor.FakedObject.CurrentThreadCredentials;
             });
 
             // Act
-            _loggedUser.PublishMessage(message);
+            _loggedUser.PublishMessage(parameters);
 
             // Assert
             Assert.AreEqual(startOperationWithCredentials, _loggedUserCredentials);

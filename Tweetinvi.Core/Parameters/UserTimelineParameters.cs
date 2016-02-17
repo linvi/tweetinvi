@@ -9,7 +9,14 @@
         /// </summary>
         bool IncludeRTS { get; set; }
 
+        /// <summary>
+        /// Exclude replies.
+        /// </summary>
         bool ExcludeReplies { get; set; }
+
+        /// <summary>
+        /// Include contributors details.
+        /// </summary>
         bool IncludeContributorDetails { get; set; }
     }
 

@@ -70,30 +70,30 @@ namespace Tweetinvi.Controllers.Messages
         // Publish Message
         public string PublishMessage(IMessage message)
         {
-            return PublishMessage(new MessagePublishParameters(message));
+            return PublishMessage(new PublishMessageParameters(message));
         }
 
         public string PublishMessage(IMessageDTO message)
         {
-            return PublishMessage(new MessagePublishParameters(message));
+            return PublishMessage(new PublishMessageParameters(message));
         }
 
         public string PublishMessage(string messageText, string recipientScreenName)
         {
-            return PublishMessage(new MessagePublishParameters(messageText, recipientScreenName));
+            return PublishMessage(new PublishMessageParameters(messageText, recipientScreenName));
         }
 
         public string PublishMessage(string messageText, long recipientId)
         {
-            return PublishMessage(new MessagePublishParameters(messageText, recipientId));
+            return PublishMessage(new PublishMessageParameters(messageText, recipientId));
         }
 
         public string PublishMessage(string messageText, IUserIdentifier recipient)
         {
-            return PublishMessage(new MessagePublishParameters(messageText, recipient));
+            return PublishMessage(new PublishMessageParameters(messageText, recipient));
         }
 
-        public string PublishMessage(IMessagePublishParameters parameters)
+        public string PublishMessage(IPublishMessageParameters parameters)
         {
             string query = _messageQueryGenerator.GetPublishMessageQuery(parameters);
             return _twitterAccessor.ExecuteJsonPOSTQuery(query);

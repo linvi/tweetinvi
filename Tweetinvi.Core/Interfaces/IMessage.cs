@@ -6,6 +6,7 @@ namespace Tweetinvi.Core.Interfaces
 {
     /// <summary>
     /// Message that can be sent privately between Twitter users privately.
+    /// https://dev.twitter.com/rest/reference/post/direct_messages/new
     /// </summary>
     public interface IMessage : IMessageAsync, IEquatable<IMessage>
     {
@@ -25,21 +26,28 @@ namespace Tweetinvi.Core.Interfaces
         bool IsMessageDestroyed { get; }
 
         /// <summary>
-        /// Id of the Message
+        /// Id of the Message.
         /// </summary>
         long Id { get; }
 
         /// <summary>
-        /// Text contained in the message
+        /// Text contained in the message.
         /// </summary>
         string Text { get; }
 
         /// <summary>
-        /// Creation date of the message
+        /// Creation date of the message.
         /// </summary>
         DateTime CreatedAt { get; }
 
+        /// <summary>
+        /// Id of the user who sent the message.
+        /// </summary>
         long SenderId { get; }
+
+        /// <summary>
+        /// Screen name of the user who sent the message.
+        /// </summary>
         string SenderScreenName { get; }
 
         /// <summary>
@@ -48,17 +56,17 @@ namespace Tweetinvi.Core.Interfaces
         IUser Sender { get; }
 
         /// <summary>
-        /// User id who received the message.
+        /// Id of the user who received the message.
         /// </summary>
         long RecipientId { get; }
 
         /// <summary>
-        /// User screen name who received the message
+        /// Screen name of the user who received the message.
         /// </summary>
         string RecipientScreenName { get; }
 
         /// <summary>
-        /// User who receive the message.
+        /// User who received the message.
         /// </summary>
         IUser Recipient { get; }
 
@@ -68,7 +76,7 @@ namespace Tweetinvi.Core.Interfaces
         bool Destroy();
 
         /// <summary>
-        /// Set the recipient to a message that has not yet been published
+        /// Set the recipient to a message that has not yet been published.
         /// </summary>
         void SetRecipient(IUser recipient);
     }
