@@ -27,11 +27,5 @@
         /// A slug needs to be provided in addition to identify the list.
         /// </summary>
         string OwnerScreenName { get; }
-
-        /// <summary>
-        /// User owning the list.
-        /// A slug needs to be provided in addition to identify the list.
-        /// </summary>
-        IUserIdentifier Owner { get; }
     }
 }
