@@ -6,10 +6,24 @@ namespace Tweetinvi.Core.Parameters
 {
     public interface ICustomRequestParameters
     {
+        /// <summary>
+        /// Collection of custom query parameters.
+        /// </summary>
         List<Tuple<string, string>> CustomQueryParameters { get; }
+
+        /// <summary>
+        /// Formatted string containing all the query parameters to append to a query.
+        /// </summary>
         string FormattedCustomQueryParameters { get; }
 
+        /// <summary>
+        /// Add a custom query parameter.
+        /// </summary>
         void AddCustomQueryParameter(string name, string value);
+
+        /// <summary>
+        /// Clear the query parameters of the query.
+        /// </summary>
         void ClearCustomQueryParameters();
     }
 

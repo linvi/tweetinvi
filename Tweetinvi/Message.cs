@@ -52,7 +52,7 @@ namespace Tweetinvi
 
         private static IFactory<IMessagesReceivedParameters> _messageGetLatestsReceivedRequestParametersFactory;
         private static IFactory<IMessagesSentParameters> _messageGetLatestsSentRequestParametersFactory;
-        private static IFactory<IMessagePublishParameters> _messagePublishParametersFactory;
+        private static IFactory<IPublishMessageParameters> _messagePublishParametersFactory;
 
         static Message()
         {
@@ -60,7 +60,7 @@ namespace Tweetinvi
 
             _messageGetLatestsReceivedRequestParametersFactory = TweetinviContainer.Resolve<IFactory<IMessagesReceivedParameters>>();
             _messageGetLatestsSentRequestParametersFactory = TweetinviContainer.Resolve<IFactory<IMessagesSentParameters>>();
-            _messagePublishParametersFactory = TweetinviContainer.Resolve<IFactory<IMessagePublishParameters>>();
+            _messagePublishParametersFactory = TweetinviContainer.Resolve<IFactory<IPublishMessageParameters>>();
         }
 
         private static void Initialize()
@@ -148,7 +148,7 @@ namespace Tweetinvi
         /// <summary>
         /// Publish a message
         /// </summary>
-        public static IMessage PublishMessage(IMessagePublishParameters parameters)
+        public static IMessage PublishMessage(IPublishMessageParameters parameters)
         {
             return MessageController.PublishMessage(parameters);
         }

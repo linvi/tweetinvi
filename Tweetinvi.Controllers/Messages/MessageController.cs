@@ -50,12 +50,12 @@ namespace Tweetinvi.Controllers.Messages
         // Publish Message
         public IMessage PublishMessage(IMessage message)
         {
-            return PublishMessage(new MessagePublishParameters(message));
+            return PublishMessage(new PublishMessageParameters(message));
         }
 
         public IMessage PublishMessage(IMessageDTO messageDTO)
         {
-            return PublishMessage(new MessagePublishParameters(messageDTO));
+            return PublishMessage(new PublishMessageParameters(messageDTO));
         }
 
        public IMessage PublishMessage(string text, long recipientId)
@@ -70,10 +70,10 @@ namespace Tweetinvi.Controllers.Messages
 
         public IMessage PublishMessage(string text, IUserIdentifier recipient)
         {
-            return PublishMessage(new MessagePublishParameters(text, recipient));
+            return PublishMessage(new PublishMessageParameters(text, recipient));
         }
 
-        public IMessage PublishMessage(IMessagePublishParameters parameter)
+        public IMessage PublishMessage(IPublishMessageParameters parameter)
         {
             if (parameter == null)
             {

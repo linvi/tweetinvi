@@ -158,14 +158,14 @@ namespace Testinvi.TweetinviControllers.MessageTests
             message.CallsTo(x => x.Text).Returns(TestHelper.GenerateString());
             message.CallsTo(x => x.MessageDTO).Returns(A.Fake<IMessageDTO>());
 
-            var parameter = new MessagePublishParameters(message);
+            var parameter = new PublishMessageParameters(message);
 
             // Act
             controller.PublishMessage(parameter);
 
             // Assert
             _fakeMessageQueryExecutor
-                .CallsTo(x => x.PublishMessage(A<IMessagePublishParameters>.That.Matches(p => p.Message == message.MessageDTO)))
+                .CallsTo(x => x.PublishMessage(A<IPublishMessageParameters>.That.Matches(p => p.Message == message.MessageDTO)))
                 .MustHaveHappened();
         }
 
@@ -178,14 +178,14 @@ namespace Testinvi.TweetinviControllers.MessageTests
             message.CallsTo(x => x.Recipient).Returns(A.Fake<IUserDTO>());
             message.CallsTo(x => x.Text).Returns(TestHelper.GenerateString());
 
-            var parameter = new MessagePublishParameters(message);
+            var parameter = new PublishMessageParameters(message);
 
             // Act
             controller.PublishMessage(parameter);
 
             // Assert
             _fakeMessageQueryExecutor
-                .CallsTo(x => x.PublishMessage(A<IMessagePublishParameters>.That.Matches(p => p.Message == message)))
+                .CallsTo(x => x.PublishMessage(A<IPublishMessageParameters>.That.Matches(p => p.Message == message)))
                 .MustHaveHappened();
         }
 
@@ -194,7 +194,7 @@ namespace Testinvi.TweetinviControllers.MessageTests
         {
             // Arrange
             var controller = CreateMessageController();
-            var parameter = new MessagePublishParameters(TestHelper.GenerateString(), TestHelper.GenerateRandomInt());
+            var parameter = new PublishMessageParameters(TestHelper.GenerateString(), TestHelper.GenerateRandomInt());
 
             // Act
             controller.PublishMessage(parameter);

@@ -14,3 +14,5 @@
 /Examplinvi.Web/App_Data
 *.zip
 /Examplinvi.UniversalApp/Examplinvi.UniversalApp.nuget.targets
+/Developer Tools/OpenSSL
+/Developer Tools/TweetinviAPI

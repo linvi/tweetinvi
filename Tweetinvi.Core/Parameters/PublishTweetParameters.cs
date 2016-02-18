@@ -68,8 +68,7 @@ namespace Tweetinvi.Core.Parameters
         bool? PossiblySensitive { get; set; }
 
         /// <summary>
-        /// Tweet's creator will not be populated. 
-        /// Only the user id property will be available.
+        /// If set to true, the creator property (IUser) will only contain the id.
         /// </summary>
         bool? TrimUser { get; set; }
 

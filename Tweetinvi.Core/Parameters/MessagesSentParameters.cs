@@ -2,6 +2,9 @@
 {
     public interface IMessagesSentParameters : IMessagesRetrieveRequestParametersBase
     {
+        /// <summary>
+        /// Specifies the page of results to retrieve.
+        /// </summary>
         int? PageNumber { get; set; }
     }
 

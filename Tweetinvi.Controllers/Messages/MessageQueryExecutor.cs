@@ -16,7 +16,7 @@ namespace Tweetinvi.Controllers.Messages
         IEnumerable<IMessageDTO> GetLatestMessagesSent(IMessagesSentParameters queryParameters);
 
         // Publish Message
-        IMessageDTO PublishMessage(IMessagePublishParameters parameters);
+        IMessageDTO PublishMessage(IPublishMessageParameters parameters);
 
         // Detroy Message
         bool DestroyMessage(IMessageDTO messageDTO);
@@ -62,7 +62,7 @@ namespace Tweetinvi.Controllers.Messages
         }
 
         // Publish Message
-        public IMessageDTO PublishMessage(IMessagePublishParameters parameters)
+        public IMessageDTO PublishMessage(IPublishMessageParameters parameters)
         {
             string query = _messageQueryGenerator.GetPublishMessageQuery(parameters);
             return _twitterAccessor.ExecutePOSTQuery<IMessageDTO>(query);

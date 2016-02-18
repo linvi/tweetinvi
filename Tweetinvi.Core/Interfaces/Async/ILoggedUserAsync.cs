@@ -11,7 +11,7 @@ namespace Tweetinvi.Core.Interfaces.Async
     {
         Task<IEnumerable<IMessage>> GetLatestMessagesReceivedAsync(int count = 40);
         Task<IEnumerable<IMessage>> GetLatestMessagesSentAsync(int maximumMessages = 40);
-        Task<IMessage> PublishMessageAsync(IMessage message);
+        Task<IMessage> PublishMessageAsync(IPublishMessageParameters publishMessageParameters);
 
         Task<IEnumerable<ITweet>> GetHomeTimelineAsync(int count = 40);
         Task<IEnumerable<ITweet>> GetHomeTimelineAsync(IHomeTimelineParameters timelineRequestParameters);

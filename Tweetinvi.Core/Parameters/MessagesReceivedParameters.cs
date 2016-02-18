@@ -2,6 +2,9 @@
 {
     public interface IMessagesReceivedParameters : IMessagesRetrieveRequestParametersBase
     {
+        /// <summary>
+        /// Tweets will not be included in the returned user objects.
+        /// </summary>
         bool SkipStatus { get; set; }
     }
 

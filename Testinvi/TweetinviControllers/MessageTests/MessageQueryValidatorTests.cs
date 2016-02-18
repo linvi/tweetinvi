@@ -50,7 +50,7 @@ namespace Testinvi.TweetinviControllers.MessageTests
             var queryValidator = CreateMessageQueryValidator();
             var messageDTO = CreateMessageDTO(messageHasBeenPublished, messageHasBeenDestroyed);
 
-            var parameters = A.Fake<IMessagePublishParameters>();
+            var parameters = A.Fake<IPublishMessageParameters>();
             parameters.CallsTo(x => x.Message).Returns(messageDTO);
 
             ArrangeMessagePublishParameterText(parameters, true, true);
@@ -81,7 +81,7 @@ namespace Testinvi.TweetinviControllers.MessageTests
             // Arrange
             var queryValidator = CreateMessageQueryValidator();
 
-            var parameters = A.Fake<IMessagePublishParameters>();
+            var parameters = A.Fake<IPublishMessageParameters>();
             parameters.CallsTo(x => x.Message).Returns(null);
 
             ArrangeMessagePublishParameterText(parameters, doesTextExists, textContainsChars);
@@ -119,7 +119,7 @@ namespace Testinvi.TweetinviControllers.MessageTests
         {
             // Arrange
             var queryValidator = CreateMessageQueryValidator();
-            var parameter = A.Fake<IMessagePublishParameters>();
+            var parameter = A.Fake<IPublishMessageParameters>();
             parameter.CallsTo(x => x.Text).Returns(TestHelper.GenerateString());
 
             ArrangeMessageDTORecipient(parameter, isRecipientValid, isRecipientIdValid, isRecipientScreenNameValid);
@@ -128,7 +128,7 @@ namespace Testinvi.TweetinviControllers.MessageTests
             return queryValidator.CanMessageBePublished(parameter);
         }
 
-        private void ArrangeMessagePublishParameterText(IMessagePublishParameters parameters, bool doesTextExists, bool textContainsChars)
+        private void ArrangeMessagePublishParameterText(IPublishMessageParameters parameters, bool doesTextExists, bool textContainsChars)
         {
             string text = doesTextExists ? textContainsChars ? TestHelper.GenerateString() : string.Empty : null;
 
@@ -136,7 +136,7 @@ namespace Testinvi.TweetinviControllers.MessageTests
         }
 
         private void ArrangeMessageDTORecipient(
-            IMessagePublishParameters parameters,
+            IPublishMessageParameters parameters,
             bool isRecipientValid,
             bool isRecipientIdValid,
             bool isRecipientScreenNameValid)

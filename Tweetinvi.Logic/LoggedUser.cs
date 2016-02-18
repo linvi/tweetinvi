@@ -272,9 +272,9 @@ namespace Tweetinvi.Logic
         }
 
         // Direct Messages
-        public IEnumerable<IMessage> GetLatestMessagesReceived(int maximumMessages = 40)
+        public IEnumerable<IMessage> GetLatestMessagesReceived(int maximumNumberOfMessagesToRetrieve = 40)
         {
-            return ExecuteLoggedUserOperation(() => _messageController.GetLatestMessagesReceived(maximumMessages));
+            return ExecuteLoggedUserOperation(() => _messageController.GetLatestMessagesReceived(maximumNumberOfMessagesToRetrieve));
         }
 
         public IEnumerable<IMessage> GetLatestMessagesSent(int maximumMessages = 40)
@@ -282,9 +282,9 @@ namespace Tweetinvi.Logic
             return ExecuteLoggedUserOperation(() => _messageController.GetLatestMessagesSent(maximumMessages));
         }
 
-        public IMessage PublishMessage(IMessage message)
+        public IMessage PublishMessage(IPublishMessageParameters publishMessageParameters)
         {
-            return ExecuteLoggedUserOperation(() => _messageController.PublishMessage(message.MessageDTO));
+            return ExecuteLoggedUserOperation(() => _messageController.PublishMessage(publishMessageParameters));
         }
 
         // Tweet
@@ -431,9 +431,9 @@ namespace Tweetinvi.Logic
         }
 
         
-        public async Task<IMessage> PublishMessageAsync(IMessage message)
+        public async Task<IMessage> PublishMessageAsync(IPublishMessageParameters publishMessageParameters)
         {
-            return await ExecuteLoggedUserOperation(() => _taskFactory.ExecuteTaskAsync(() => PublishMessage(message)));
+            return await ExecuteLoggedUserOperation(() => _taskFactory.ExecuteTaskAsync(() => PublishMessage(publishMessageParameters)));
         }
 
         // Home Timeline

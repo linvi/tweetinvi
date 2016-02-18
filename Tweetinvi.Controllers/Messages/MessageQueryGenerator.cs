@@ -21,7 +21,7 @@ namespace Tweetinvi.Controllers.Messages
         string GetLatestMessagesSentQuery(IMessagesSentParameters queryParameters);
 
         // Publish Message
-        string GetPublishMessageQuery(IMessagePublishParameters parameters);
+        string GetPublishMessageQuery(IPublishMessageParameters parameters);
 
         // Detroy Message
         string GetDestroyMessageQuery(IMessageDTO messageDTO);
@@ -100,7 +100,7 @@ namespace Tweetinvi.Controllers.Messages
         }
 
         // Publish Message
-        public string GetPublishMessageQuery(IMessagePublishParameters parameters)
+        public string GetPublishMessageQuery(IPublishMessageParameters parameters)
         {
             var messageText = parameters.Text;
             var recipient = parameters.Recipient;
