@@ -117,7 +117,7 @@ namespace Tweetinvi.Streams
 
                 RaiseTweetReceived(matchingTracksEvenArgs);
 
-                if (matchingTracks.Length == 0 || matchingLocations.Length != 0 || matchingFollowers.Length != 0)
+                if (matchingTracks.Length != 0 || matchingLocations.Length != 0 || matchingFollowers.Length != 0)
                 {
                     RaiseMatchingTweetReceived(matchingTracksEvenArgs);
                 }
