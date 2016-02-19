@@ -4,8 +4,20 @@ namespace Tweetinvi.Core.Parameters
 {
     public interface IGetLoggedUserParameters : ICustomRequestParameters
     {
+        /// <summary>
+        /// Include user entities.
+        /// </summary>
         bool IncludeEntities { get; set; }
+
+        /// <summary>
+        /// Include the email of the user. This is only available if the application 
+        /// has been verified and approved by Twitter.
+        /// </summary>
         bool IncludeEmail { get; set; }
+
+        /// <summary>
+        /// Do not included the latest tweets of the user.
+        /// </summary>
         bool SkipStatus { get; set; }
     }
 

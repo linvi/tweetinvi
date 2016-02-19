@@ -2,6 +2,9 @@
 {
     public interface IRetweetsOfMeTimelineParameters : ITimelineRequestParameters
     {
+        /// <summary>
+        /// Include user entities.
+        /// </summary>
         bool IncludeUserEntities { get; set; }
     }
 

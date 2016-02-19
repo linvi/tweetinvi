@@ -5,7 +5,7 @@ using Tweetinvi.Core.Interfaces.Models;
 
 namespace Tweetinvi.Core.Parameters
 {
-    public interface IMessagePublishParameters : ICustomRequestParameters
+    public interface IPublishMessageParameters : ICustomRequestParameters
     {
         string Text { get; }
         long RecipientId { get; }
@@ -15,24 +15,24 @@ namespace Tweetinvi.Core.Parameters
         IMessageDTO Message { get; }
     }
 
-    public class MessagePublishParameters : CustomRequestParameters, IMessagePublishParameters
+    public class PublishMessageParameters : CustomRequestParameters, IPublishMessageParameters
     {
-        public MessagePublishParameters(string text, IUserIdentifier recipient)
+        public PublishMessageParameters(string text, IUserIdentifier recipient)
         {
             Initialize(text, recipient);
         }
 
-        public MessagePublishParameters(string text, long recipientId)
+        public PublishMessageParameters(string text, long recipientId)
         {
             Initialize(text, new UserIdentifier(recipientId));
         }
 
-        public MessagePublishParameters(string text, string recipientScreenName) : this(text, new UserIdentifier(recipientScreenName))
+        public PublishMessageParameters(string text, string recipientScreenName) : this(text, new UserIdentifier(recipientScreenName))
         {
             Initialize(text, new UserIdentifier(recipientScreenName));
         }
 
-        public MessagePublishParameters(IMessageDTO message)
+        public PublishMessageParameters(IMessageDTO message)
         {
             if (message == null)
             {
@@ -44,7 +44,7 @@ namespace Tweetinvi.Core.Parameters
             Message = message;
         }
 
-        public MessagePublishParameters(IMessage message)
+        public PublishMessageParameters(IMessage message)
         {
             if (message == null)
             {

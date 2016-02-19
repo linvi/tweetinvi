@@ -11,7 +11,7 @@ namespace Tweetinvi.Controllers.Messages
         bool IsMessageTextValid(string message);
         bool IsMessageIdValid(long messageId);
 
-        bool CanMessageBePublished(IMessagePublishParameters parameters);
+        bool CanMessageBePublished(IPublishMessageParameters parameters);
         bool CanMessageDTOBeDestroyed(IMessageDTO messageDTO);
     }
 
@@ -34,7 +34,7 @@ namespace Tweetinvi.Controllers.Messages
             return messageId != TweetinviSettings.DEFAULT_ID;
         }
 
-        public bool CanMessageBePublished(IMessagePublishParameters parameters)
+        public bool CanMessageBePublished(IPublishMessageParameters parameters)
         {
             var message = parameters.Message;
             var text = parameters.Text;

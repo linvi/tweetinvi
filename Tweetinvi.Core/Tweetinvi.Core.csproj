@@ -194,7 +194,7 @@
     <Compile Include="Parameters\IMessagesRetrieveRequestParametersBase.cs" />
     <Compile Include="Parameters\QueryParameters\IGetTweetsFromListQueryParameters.cs" />
     <Compile Include="Parameters\QueryParameters\ITwitterListUpdateQueryParameters.cs" />
-    <Compile Include="Parameters\QueryParameters\IUserTimelineRequestQueryParameters.cs" />
+    <Compile Include="Parameters\QueryParameters\IUserTimelineQueryParameters.cs" />
     <Compile Include="Interfaces\QueryGenerators\IUploadQueryGenerator.cs" />
     <Compile Include="Interfaces\Streaminvi\Parameters\WithFilterType.cs" />
     <Compile Include="Interfaces\Streaminvi\Parameters\RepliesFilterType.cs" />
@@ -209,7 +209,7 @@
     <Compile Include="Parameters\MentionsTimelineParameters.cs" />
     <Compile Include="Parameters\MessagesReceivedParameters.cs" />
     <Compile Include="Parameters\MessagesSentParameters.cs" />
-    <Compile Include="Parameters\MessagePublishParameters.cs" />
+    <Compile Include="Parameters\PublishMessageParameters.cs" />
     <Compile Include="Parameters\Models\Coordinates.cs" />
     <Compile Include="Parameters\Models\GeoCode.cs" />
     <Compile Include="Parameters\Models\Location.cs" />

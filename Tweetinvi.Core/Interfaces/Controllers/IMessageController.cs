@@ -19,7 +19,7 @@ namespace Tweetinvi.Core.Interfaces.Controllers
         IMessage PublishMessage(string text, IUserIdentifier recipient);
         IMessage PublishMessage(string text, long recipientId);
         IMessage PublishMessage(string text, string recipientUserName);
-        IMessage PublishMessage(IMessagePublishParameters parameter);
+        IMessage PublishMessage(IPublishMessageParameters parameter);
 
         // Destroy Message
         bool DestroyMessage(IMessage message);

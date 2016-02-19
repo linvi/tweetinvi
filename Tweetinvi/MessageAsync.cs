@@ -38,7 +38,7 @@ namespace Tweetinvi
         }
 
         // Publish Message
-        public static async Task<IMessage> PublishMessage(IMessagePublishParameters parameters)
+        public static async Task<IMessage> PublishMessage(IPublishMessageParameters parameters)
         {
             return await Sync.ExecuteTaskAsync(() => Message.PublishMessage(parameters));
         }

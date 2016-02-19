@@ -94,7 +94,7 @@ namespace Testinvi.TweetinviControllers.MessageTests
         {
             // Arrange
             var queryExecutor = CreateMessageQueryExecutor();
-            var parameters = A.Fake<IMessagePublishParameters>();
+            var parameters = A.Fake<IPublishMessageParameters>();
             var resultMessageDTO = A.Fake<IMessageDTO>();
             var query = TestHelper.GenerateString();
 
@@ -108,7 +108,7 @@ namespace Testinvi.TweetinviControllers.MessageTests
             Assert.AreEqual(result, resultMessageDTO);
         }
 
-        private void ArrangeQueryGeneratorPublishMessage(IMessagePublishParameters parameters, string query)
+        private void ArrangeQueryGeneratorPublishMessage(IPublishMessageParameters parameters, string query)
         {
             _fakeMessageQueryGenerator
                 .CallsTo(x => x.GetPublishMessageQuery(parameters))

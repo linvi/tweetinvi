@@ -2,6 +2,9 @@
 {
     public interface IMentionsTimelineParameters : ITimelineRequestParameters
     {
+        /// <summary>
+        /// Add details to the contributors who participated to the tweets.
+        /// </summary>
         bool IncludeContributorDetails { get; set; }
     }
 
