@@ -1,6 +1,6 @@
 ﻿namespace Tweetinvi.Core
 {
-    public enum RateLimitTrackerOptions
+    public enum RateLimitTrackerMode
     {
         /// <summary>
         /// By default Tweetinvi let you handle the RateLimits on your own
@@ -25,7 +25,7 @@
     {
         string ProxyURL { get; set; }
         int WebRequestTimeout { get; set; }
-        RateLimitTrackerOptions RateLimitTrackerOption { get; set; }
+        RateLimitTrackerMode RateLimitTrackerMode { get; set; }
 
         void InitialiseFrom(ITweetinviSettings other);
         ITweetinviSettings Clone();
@@ -37,14 +37,14 @@
 
         public string ProxyURL { get; set; }
         public int WebRequestTimeout { get; set; }
-        public RateLimitTrackerOptions RateLimitTrackerOption { get; set; }
+        public RateLimitTrackerMode RateLimitTrackerMode { get; set; }
 
         public ITweetinviSettings Clone()
         {
             var clone = new TweetinviSettings();
             clone.ProxyURL = ProxyURL;
             clone.WebRequestTimeout = WebRequestTimeout;
-            clone.RateLimitTrackerOption = RateLimitTrackerOption;
+            clone.RateLimitTrackerMode = RateLimitTrackerMode;
             return clone;
         }
 
@@ -52,7 +52,7 @@
         {
             ProxyURL = other.ProxyURL;
             WebRequestTimeout = other.WebRequestTimeout;
-            RateLimitTrackerOption = other.RateLimitTrackerOption;
+            RateLimitTrackerMode = other.RateLimitTrackerMode;
         }
     }
 }

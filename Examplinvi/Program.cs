@@ -1347,7 +1347,7 @@ namespace Examplinvi
         public static void RateLimits_Track_Examples()
         {
             // Enable Tweetinvi RateLimit Handler
-            RateLimit.RateLimitTrackerOption = RateLimitTrackerOptions.TrackAndAwait;
+            RateLimit.RateLimitTrackerMode = RateLimitTrackerMode.TrackAndAwait;
 
             // Get notified when your application is being stopped to wait for RateLimits to be available
             RateLimit.QueryAwaitingForRateLimit += (sender, args) =>

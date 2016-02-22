@@ -57,7 +57,7 @@ namespace Tweetinvi.WebLogic
             ITwitterCredentials credentials = null)
         {
             CleanupQueryURL(ref queryURL);
-            var rateLimitTrackerOption = _tweetinviSettingsAccessor.RateLimitTrackerOption;
+            var rateLimitTrackerOption = _tweetinviSettingsAccessor.RateLimitTrackerMode;
             
             ITwitterQuery twitterQuery;
             if (!TryPrepareRequest(queryURL, httpMethod, rateLimitTrackerOption, credentials, out twitterQuery))
@@ -84,7 +84,7 @@ namespace Tweetinvi.WebLogic
         public string ExecuteMultipartQuery(string queryURL, string contentId, HttpMethod httpMethod, IEnumerable<byte[]> binaries)
         {
             CleanupQueryURL(ref queryURL);
-            var rateLimitTrackerOption = _tweetinviSettingsAccessor.RateLimitTrackerOption;
+            var rateLimitTrackerOption = _tweetinviSettingsAccessor.RateLimitTrackerMode;
             
             ITwitterQuery twitterQuery;
             if (!TryPrepareRequest(queryURL, httpMethod, rateLimitTrackerOption, null, out twitterQuery))
@@ -129,7 +129,7 @@ namespace Tweetinvi.WebLogic
         private bool TryPrepareRequest(
             string query, 
             HttpMethod httpMethod, 
-            RateLimitTrackerOptions rateLimitTrackerOption,
+            RateLimitTrackerMode rateLimitTrackerMode,
             ITwitterCredentials credentials,
             out ITwitterQuery twitterQuery)
         {
@@ -145,8 +145,8 @@ namespace Tweetinvi.WebLogic
             var beforeQueryExecuteEventArgs = new QueryBeforeExecuteEventArgs(twitterQuery);
 
 
-            if (rateLimitTrackerOption == RateLimitTrackerOptions.TrackOnly ||
-                rateLimitTrackerOption == RateLimitTrackerOptions.TrackAndAwait)
+            if (rateLimitTrackerMode == RateLimitTrackerMode.TrackOnly ||
+                rateLimitTrackerMode == RateLimitTrackerMode.TrackAndAwait)
             {
                 // Use the RateLimitCacheManager instead of RateLimitHelper to get the queryRateLimits to ensure the cache is up to date!
                 var credentialRateLimits = _rateLimitCacheManager.GetTokenRateLimits(twitterQuery.TwitterCredentials);
@@ -173,7 +173,7 @@ namespace Tweetinvi.WebLogic
                     return false;
                 }
 
-                if (rateLimitTrackerOption == RateLimitTrackerOptions.TrackAndAwait)
+                if (rateLimitTrackerMode == RateLimitTrackerMode.TrackAndAwait)
                 {
                     _rateLimitAwaiter.Wait(timeToWait);
                 }
@@ -194,9 +194,9 @@ namespace Tweetinvi.WebLogic
             return true;
         }
 
-        private void QueryCompleted(ITwitterQuery twitterQuery, string jsonResult, RateLimitTrackerOptions rateLimitTrackerOptions)
+        private void QueryCompleted(ITwitterQuery twitterQuery, string jsonResult, RateLimitTrackerMode rateLimitTrackerMode)
         {
-            if (rateLimitTrackerOptions != RateLimitTrackerOptions.None)
+            if (rateLimitTrackerMode != RateLimitTrackerMode.None)
             {
                 _rateLimitUpdater.QueryExecuted(twitterQuery.QueryURL, _credentialsAccessor.CurrentThreadCredentials);
             }
@@ -204,9 +204,9 @@ namespace Tweetinvi.WebLogic
             _tweetinviEvents.RaiseAfterQueryExecuted(new QueryAfterExecuteEventArgs(twitterQuery, jsonResult));
         }
 
-        private void HandleException(string queryURL, RateLimitTrackerOptions rateLimitTrackerOption, int statusCode, ITwitterQuery queryParameter)
+        private void HandleException(string queryURL, RateLimitTrackerMode rateLimitTrackerMode, int statusCode, ITwitterQuery queryParameter)
         {
-            if (rateLimitTrackerOption != RateLimitTrackerOptions.None && statusCode == TweetinviConsts.STATUS_CODE_TOO_MANY_REQUEST)
+            if (rateLimitTrackerMode != RateLimitTrackerMode.None && statusCode == TweetinviConsts.STATUS_CODE_TOO_MANY_REQUEST)
             {
                 _rateLimitUpdater.ClearRateLimitsForQuery(queryURL);
             }

@@ -55,10 +55,10 @@ namespace Tweetinvi
         /// <summary>
         /// Configure how to Tweetinvi will handle RateLimits
         /// </summary>
-        public static RateLimitTrackerOptions RateLimitTrackerOption
+        public static RateLimitTrackerMode RateLimitTrackerMode
         {
-            get { return TweetinviConfig.CURRENT_RATELIMIT_TRACKER_OPTION; }
-            set { TweetinviConfig.CURRENT_RATELIMIT_TRACKER_OPTION = value; }
+            get { return TweetinviConfig.CURRENT_RATELIMIT_TRACKER_MODE; }
+            set { TweetinviConfig.CURRENT_RATELIMIT_TRACKER_MODE = value; }
         }
 
         /// <summary>

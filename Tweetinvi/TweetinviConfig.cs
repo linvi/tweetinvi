@@ -49,10 +49,10 @@ namespace Tweetinvi
         /// <summary>
         /// When a query is performed Tweetinvi will wait for the rate limit to be available before executing the query
         /// </summary>
-        public static RateLimitTrackerOptions APPLICATION_RATELIMIT_TRACKER_OPTION
+        public static RateLimitTrackerMode APPLICATION_RATELIMIT_TRACKER_MODE
         {
-            get { return ApplicationSettings.RateLimitTrackerOption; }
-            set { ApplicationSettings.RateLimitTrackerOption = value; }
+            get { return ApplicationSettings.RateLimitTrackerMode; }
+            set { ApplicationSettings.RateLimitTrackerMode = value; }
         }
 
         /// <summary>
@@ -77,10 +77,10 @@ namespace Tweetinvi
         /// <summary>
         /// When a query is performed Tweetinvi will wait for the rate limit to be available before executing the query
         /// </summary>
-        public static RateLimitTrackerOptions CURRENT_RATELIMIT_TRACKER_OPTION
+        public static RateLimitTrackerMode CURRENT_RATELIMIT_TRACKER_MODE
         {
-            get { return CurrentSettings.RateLimitTrackerOption; }
-            set { CurrentSettings.RateLimitTrackerOption = value; }
+            get { return CurrentSettings.RateLimitTrackerMode; }
+            set { CurrentSettings.RateLimitTrackerMode = value; }
         }
     }
 }

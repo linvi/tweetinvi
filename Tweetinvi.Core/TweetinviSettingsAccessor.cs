@@ -10,7 +10,7 @@ namespace Tweetinvi.Core
 
         string ProxyURL { get; set; }
         int WebRequestTimeout { get; set; }
-        RateLimitTrackerOptions RateLimitTrackerOption { get; set; }
+        RateLimitTrackerMode RateLimitTrackerMode { get; set; }
     }
 
     public class TweetinviSettingsAccessor : ITweetinviSettingsAccessor
@@ -86,10 +86,10 @@ namespace Tweetinvi.Core
             set { CurrentThreadSettings.WebRequestTimeout = value; }
         }
 
-        public RateLimitTrackerOptions RateLimitTrackerOption
+        public RateLimitTrackerMode RateLimitTrackerMode
         {
-            get { return CurrentThreadSettings.RateLimitTrackerOption; }
-            set { CurrentThreadSettings.RateLimitTrackerOption = value; }
+            get { return CurrentThreadSettings.RateLimitTrackerMode; }
+            set { CurrentThreadSettings.RateLimitTrackerMode = value; }
         }
     }
 }
