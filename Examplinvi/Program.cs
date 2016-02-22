@@ -32,17 +32,14 @@ namespace Examplinvi
     {
         static void Main()
         {
-            Auth.SetUserCredentials("jjMV4k3n9EswD9hlhRZqQCZrl", "N4gpJ4HDA2Gtl3WotRP97f2I6ZiKJd4Djl6V9bDJHFmhJs6YB0", "1693649419-BlEivyWIiOVrb22JjdzRipXWp4ltVdo4VLye1VW", "CcPCLv4CgNXEOfLVGhRxzVkIgLqG4WDplMFcUABmFor0E");
+            Auth.SetUserCredentials("CONSUMER_KEY", "CONSUMER_SECRET", "ACCESS_TOKEN", "ACCESS_TOKEN_SECRET");
 
             TweetinviEvents.QueryBeforeExecute += (sender, args) =>
             {
                 Console.WriteLine(args.QueryURL);
             };
 
-            //Message.PublishMessage()
-
-            var authenticatedUser = User.GetUserFromScreenName("tweetinviapi");
-            var s = authenticatedUser.Status;
+            var authenticatedUser = User.GetLoggedUser();
 
             GenerateCredentialExamples();
             UserLiveFeedExamples();
@@ -1628,7 +1625,6 @@ namespace Examplinvi
             TweetinviConfig.CURRENT_PROXY_URL = "http://user:pass@228.23.13.21:4287";
 
             TweetinviConfig.CURRENT_WEB_REQUEST_TIMEOUT = 5000;
-            TweetinviConfig.CURRENT_SHOW_DEBUG = false;
         }
 
         public static void GlobalEvents()

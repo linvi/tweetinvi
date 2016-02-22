@@ -8,7 +8,6 @@ namespace Tweetinvi.Core
         ITweetinviSettings CurrentThreadSettings { get; set; }
         ITweetinviSettings ApplicationSettings { get; set; }
 
-        bool ShowDebug { get; set; }
         string ProxyURL { get; set; }
         int WebRequestTimeout { get; set; }
         RateLimitTrackerOptions RateLimitTrackerOption { get; set; }
@@ -24,11 +23,6 @@ namespace Tweetinvi.Core
             threadSettings.WebRequestTimeout = 10000;
 
             CurrentThreadSettings = threadSettings;
-
-
-# if DEBUG
-            CurrentThreadSettings.ShowDebug = true;
-#endif
         }
 
         [ThreadStatic]
@@ -78,12 +72,6 @@ namespace Tweetinvi.Core
         private bool HasTheApplicationSettingsBeenInitialized()
         {
             return StaticTweetinviSettings != null;
-        }
-
-        public bool ShowDebug
-        {
-            get { return CurrentThreadSettings.ShowDebug; }
-            set { CurrentThreadSettings.ShowDebug = value; }
         }
 
         public string ProxyURL

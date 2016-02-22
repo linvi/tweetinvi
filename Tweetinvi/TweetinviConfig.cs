@@ -37,16 +37,6 @@ namespace Tweetinvi
         }
 
         /// <summary>
-        /// Value indicating whether some debug information will be printed in the console.
-        /// By default it is enabled in debug and disabled in release.
-        /// </summary>
-        public static bool APPLICATION_SHOW_DEBUG
-        {
-            get { return ApplicationSettings.ShowDebug; }
-            set { ApplicationSettings.ShowDebug = value; }
-        }
-
-        /// <summary>
         /// Duration in milliseconds before Tweetinvi considers that the WebRequest has failed to execute.
         /// A value of -1 indicates that the query will wait indifinitely for a response.
         /// </summary>
@@ -72,16 +62,6 @@ namespace Tweetinvi
         {
             get { return CurrentSettings.ProxyURL; }
             set { CurrentSettings.ProxyURL = value; }
-        }
-
-        /// <summary>
-        /// Value indicating whether some debug information will be printed in the console.
-        /// By default it is enabled in debug and disabled in release.
-        /// </summary>
-        public static bool CURRENT_SHOW_DEBUG
-        {
-            get { return CurrentSettings.ShowDebug; }
-            set { CurrentSettings.ShowDebug = value; }
         }
 
         /// <summary>

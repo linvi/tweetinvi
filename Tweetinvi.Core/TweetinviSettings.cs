@@ -23,7 +23,6 @@
 
     public interface ITweetinviSettings
     {
-        bool ShowDebug { get; set; }
         string ProxyURL { get; set; }
         int WebRequestTimeout { get; set; }
         RateLimitTrackerOptions RateLimitTrackerOption { get; set; }
@@ -36,7 +35,6 @@
     {
         public const long DEFAULT_ID = -1;
 
-        public bool ShowDebug { get; set; }
         public string ProxyURL { get; set; }
         public int WebRequestTimeout { get; set; }
         public RateLimitTrackerOptions RateLimitTrackerOption { get; set; }
@@ -44,7 +42,6 @@
         public ITweetinviSettings Clone()
         {
             var clone = new TweetinviSettings();
-            clone.ShowDebug = ShowDebug;
             clone.ProxyURL = ProxyURL;
             clone.WebRequestTimeout = WebRequestTimeout;
             clone.RateLimitTrackerOption = RateLimitTrackerOption;
@@ -53,7 +50,6 @@
 
         public void InitialiseFrom(ITweetinviSettings other)
         {
-            ShowDebug = other.ShowDebug;
             ProxyURL = other.ProxyURL;
             WebRequestTimeout = other.WebRequestTimeout;
             RateLimitTrackerOption = other.RateLimitTrackerOption;
