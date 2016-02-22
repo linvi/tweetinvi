@@ -3,13 +3,34 @@ using System.Diagnostics;
 
 namespace Tweetinvi.Core
 {
+    /// <summary>
+    /// @Injectable : use in order to retrieve tweetinvi settings anywhere in the application.
+    /// </summary>
     public interface ITweetinviSettingsAccessor
     {
+        /// <summary>
+        /// Current thread settings.
+        /// </summary>
         ITweetinviSettings CurrentThreadSettings { get; set; }
+
+        /// <summary>
+        /// Application thread settings.
+        /// </summary>
         ITweetinviSettings ApplicationSettings { get; set; }
 
+        /// <summary>
+        /// Proxy URL used by the current thread.
+        /// </summary>
         string ProxyURL { get; set; }
+
+        /// <summary>
+        /// Http requests timeout in the current thread.
+        /// </summary>
         int WebRequestTimeout { get; set; }
+
+        /// <summary>
+        /// Solution used to track the rate limits in the current thread.
+        /// </summary>
         RateLimitTrackerMode RateLimitTrackerMode { get; set; }
     }
 

@@ -1,5 +1,8 @@
 ﻿namespace Tweetinvi.Core
 {
+    /// <summary>
+    /// Provide a set of preconfigured solutions that you can use to track the Twitter rate limits.
+    /// </summary>
     public enum RateLimitTrackerMode
     {
         /// <summary>
@@ -23,11 +26,29 @@
 
     public interface ITweetinviSettings
     {
+        /// <summary>
+        /// Proxy URL used to execute Http Requests.
+        /// </summary>
         string ProxyURL { get; set; }
+
+        /// <summary>
+        /// Http Requests Timeout duration in milliseconds.
+        /// </summary>
         int WebRequestTimeout { get; set; }
+
+        /// <summary>
+        /// Solution used to track the RateLimits.
+        /// </summary>
         RateLimitTrackerMode RateLimitTrackerMode { get; set; }
 
+        /// <summary>
+        /// Initialize a setting from another one.
+        /// </summary>
         void InitialiseFrom(ITweetinviSettings other);
+
+        /// <summary>
+        /// Clone settings.
+        /// </summary>
         ITweetinviSettings Clone();
     }
 

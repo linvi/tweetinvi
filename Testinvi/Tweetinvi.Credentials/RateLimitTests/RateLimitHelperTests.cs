@@ -7,7 +7,6 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Testinvi.Helpers;
 using Tweetinvi.Core;
 using Tweetinvi.Core.Attributes;
-using Tweetinvi.Core.Extensions;
 using Tweetinvi.Core.Helpers;
 using Tweetinvi.Core.Injectinvi;
 using Tweetinvi.Core.Interfaces.Credentials;
@@ -106,23 +105,6 @@ namespace Testinvi.Tweetinvi.Credentials.RateLimitTests
 
             // Assert
             Assert.IsFalse(isQueryAssociatedToARateLimit);
-        }
-
-        // ReSharper disable once UnassignedField.Compiler
-        [CustomTwitterEndpoint("salut")]
-        private void NonMatchingTestMethod() { }
-
-        [TestMethod]
-        public void GetTokenRateLimitsFromMethod_2()
-        {
-            // Arrange
-            var rateLimitHelper = CreateRateLimitHelper();
-
-            // Act
-            var tokenRateLimits = rateLimitHelper.GetTokenRateLimitsFromMethod(() => NonMatchingTestMethod(), _tokenRateLimits);
-
-            // Assert
-            Assert.IsTrue(tokenRateLimits.IsEmpty());
         }
 
         [CustomTwitterEndpoint("https://api.twitter.com/1.1/account/settings.json")]

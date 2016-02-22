@@ -1,7 +1,8 @@
-﻿using System;
-
-namespace Tweetinvi.Core
+﻿namespace Tweetinvi.Core
 {
+    /// <summary>
+    /// Application wide constants.
+    /// </summary>
     public static class TweetinviConsts
     {
         // https://dev.twitter.com/rest/reference/get/help/configuration

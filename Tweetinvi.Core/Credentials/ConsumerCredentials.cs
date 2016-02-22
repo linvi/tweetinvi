@@ -35,8 +35,14 @@
         /// </summary>
         string VerifierCode { get; set; }
 
+        /// <summary>
+        /// Clone the current credentials.
+        /// </summary>
         IConsumerCredentials Clone();
 
+        /// <summary>
+        /// Are credentials correctly set up for application only authentication.
+        /// </summary>
         bool AreSetupForApplicationAuthentication();
     }
 
