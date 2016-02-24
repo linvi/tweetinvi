@@ -2,6 +2,9 @@
 
 namespace Tweetinvi.Core.Interfaces
 {
+    /// <summary>
+    /// Object containing the data returned by the Twitter search api.
+    /// </summary>
     public interface ISearchResult
     {
         /// <summary>

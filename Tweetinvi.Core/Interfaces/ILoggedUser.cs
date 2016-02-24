@@ -88,12 +88,12 @@ namespace Tweetinvi.Core.Interfaces
         IEnumerable<ITweet> LatestHomeTimeline { get; set; }
 
         /// <summary>
-        /// Get the latest tweets of the authenticated user Home timeline
+        /// Get the latest tweets of the authenticated user Home timeline.
         /// </summary>
         IEnumerable<ITweet> GetHomeTimeline(int maximumNumberOfTweets = 40);
 
         /// <summary>
-        /// Get the latest tweets of the authenticated user Home timeline
+        /// Get the latest tweets of the authenticated user Home timeline.
         /// </summary>
         IEnumerable<ITweet> GetHomeTimeline(IHomeTimelineParameters timelineRequestParameters);
 
@@ -156,32 +156,32 @@ namespace Tweetinvi.Core.Interfaces
         IEnumerable<IUser> GetUsersYouRequestedToFollow(int maximumUserIdsToRetrieve = 5000);
 
         /// <summary>
-        /// Folow a specific user
+        /// Folow a specific user.
         /// </summary>
         bool FollowUser(IUser user);
 
         /// <summary>
-        /// Folow a specific user
+        /// Folow a specific user.
         /// </summary>
         bool FollowUser(long userId);
 
         /// <summary>
-        /// Folow a specific user
+        /// Folow a specific user.
         /// </summary>
         bool FollowUser(string screenName);
 
         /// <summary>
-        /// Unfolow a specific user
+        /// Unfollow a specific user.
         /// </summary>
         bool UnFollowUser(IUser user);
 
         /// <summary>
-        /// Unfolow a specific user
+        /// Unfollow a specific user.
         /// </summary>
         bool UnFollowUser(long userId);
 
         /// <summary>
-        /// Unfolow a specific user
+        /// Unfollow a specific user.
         /// </summary>
         bool UnFollowUser(string screenName);
 

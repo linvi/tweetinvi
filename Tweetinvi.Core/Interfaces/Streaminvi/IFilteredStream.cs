@@ -8,15 +8,43 @@ namespace Tweetinvi.Core.Interfaces.Streaminvi
 {
     public interface IFilteredStream : ITwitterStream, ITrackableStream<ITweet>
     {
+        /// <summary>
+        /// Tweet matching the specified filter criteria has been received.
+        /// </summary>
         event EventHandler<MatchedTweetReceivedEventArgs> MatchingTweetReceived;
+
+        /// <summary>
+        /// Tweet not matching the specified filters has been received.
+        /// </summary>
         event EventHandler<TweetEventArgs> NonMatchingTweetReceived;
 
+        /// <summary>
+        /// Specify the fields that need to be used to filter the stream.
+        /// </summary>
         StreamMatchType MatchType { get; set; }
 
+        /// <summary>
+        /// A tweet will match if ANY of the global parameters are successfully been matched.
+        /// { 'Track' OR 'Location' OR 'Follower' }.
+        /// </summary>
         void StartStreamMatchingAnyCondition();
+
+        /// <summary>
+        /// A tweet will match if ALL of the global parameters are successfully been matched.
+        /// { 'Track' AND 'Location' AND 'Follower' }.
+        /// </summary>
         void StartStreamMatchingAllConditions();
 
+        /// <summary>
+        /// A tweet will match if ANY of the global parameters are successfully been matched.
+        /// { 'Track' OR 'Location' OR 'Follower' }.
+        /// </summary>
         Task StartStreamMatchingAnyConditionAsync();
+
+        /// <summary>
+        /// A tweet will match if ALL of the global parameters are successfully been matched.
+        /// { 'Track' AND 'Location' AND 'Follower' }.
+        /// </summary>
         Task StartStreamMatchingAllConditionsAsync();
 
         #region Follow

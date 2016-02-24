@@ -268,7 +268,7 @@ namespace Tweetinvi.Core.Interfaces
         bool Destroy();
 
         /// <summary>
-        /// Generate an OEmbedTweet
+        /// Generate an OEmbedTweet.
         /// </summary>
         IOEmbedTweet GenerateOEmbedTweet();
     }

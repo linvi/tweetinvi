@@ -568,7 +568,7 @@ namespace Tweetinvi.Logic
                 )));
         }
 
-        public async Task<IAccountSettings> UpdateLoggedUserSettingsAsync(IAccountSettingsRequestParameters accountSettingsRequestParameters)
+        public async Task<IAccountSettings> UpdateAccountSettingsAsync(IAccountSettingsRequestParameters accountSettingsRequestParameters)
         {
             return await ExecuteLoggedUserOperation(() => _taskFactory.ExecuteTaskAsync(() => UpdateAccountSettings(accountSettingsRequestParameters)));
         }
