@@ -7,7 +7,7 @@ namespace Tweetinvi.Core.Interfaces.Streaminvi
     /// https://dev.twitter.com/streaming/overview/request-parameters.
     /// </summary>
     [Flags]
-    public enum StreamMatchType
+    public enum MatchOn
     {
         /// <summary>
         /// Nothing to match.
@@ -15,43 +15,48 @@ namespace Tweetinvi.Core.Interfaces.Streaminvi
         None,
 
         /// <summary>
+        /// Match on all the fields used by Twitter filter stream.
+        /// </summary>
+        Everything = 1,
+
+        /// <summary>
         /// The tweet text matches a track you follow.
         /// </summary>
-        TweetText = 1,
+        TweetText = 2,
 
         /// <summary>
         /// The follower is the person who sent the tweet.
         /// </summary>
-        Follower = 2,
+        Follower = 4,
 
         /// <summary>
         /// The tweet location has matched a location you follow.
         /// </summary>
-        TweetLocation = 4,
+        TweetLocation = 8,
 
         /// <summary>
         /// When a tweet is sent directly to a follower of your list.
         /// </summary>
-        FollowerInReplyTo = 8,
+        FollowerInReplyTo = 16,
 
         /// <summary>
         /// The tweet entities matches a track you follow.
         /// </summary>
-        AllEntities = 16,
+        AllEntities = 32,
 
         /// <summary>
         /// The track matches the text contained within a URL of a link or a media.
         /// </summary>
-        URLEntity = 32,
+        URLEntities = 64,
 
         /// <summary>
         /// The track matches the text contained within a Hashtag.
         /// </summary>
-        HashTagEntity = 64,
+        HashTagEntities = 128,
 
         /// <summary>
         /// The track matches the text contained within a user mention.
         /// </summary>
-        UserMentionEntity = 128
+        UserMentionEntities = 256
     }
 }

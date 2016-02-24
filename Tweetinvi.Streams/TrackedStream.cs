@@ -92,7 +92,7 @@ namespace Tweetinvi.Streams
 
                 if (detectedTracksAndActions.Any())
                 {
-                    eventArgs.StreamMatchType = StreamMatchType.TweetText;
+                    eventArgs.MatchOn = MatchOn.TweetText;
 
                     RaiseTweetReceived(eventArgs);
                     RaiseMatchingTweetReceived(eventArgs);

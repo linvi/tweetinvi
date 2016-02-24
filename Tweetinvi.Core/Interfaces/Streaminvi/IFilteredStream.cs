@@ -21,7 +21,7 @@ namespace Tweetinvi.Core.Interfaces.Streaminvi
         /// <summary>
         /// Specify the fields that need to be used to filter the stream.
         /// </summary>
-        StreamMatchType MatchType { get; set; }
+        MatchOn MatchOn { get; set; }
 
         /// <summary>
         /// A tweet will match if ANY of the global parameters are successfully been matched.
