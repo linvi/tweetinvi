@@ -59,7 +59,7 @@ namespace Tweetinvi
         }
 
         /// <summary>
-        /// Create a a stream that get the tweets from the Twitter public Sample stream
+        /// Create a stream notifying that a random tweets has been created.
         /// https://dev.twitter.com/streaming/reference/get/statuses/sample
         /// </summary>
         public static ISampleStream CreateSampleStream(ITwitterCredentials credentials = null)
@@ -70,7 +70,7 @@ namespace Tweetinvi
         }
 
         /// <summary>
-        /// Create a a stream that get the tweets from the Twitter public Sample stream
+        /// Create a stream notifying the client when a tweet matching the specified criteria is created.
         /// https://dev.twitter.com/streaming/reference/post/statuses/filter
         /// </summary>
         public static IFilteredStream CreateFilteredStream(ITwitterCredentials credentials = null)
@@ -81,7 +81,7 @@ namespace Tweetinvi
         }
 
         /// <summary>
-        /// Create a a stream that get the tweets from the Twitter public Sample stream
+        /// Create a stream notifying the client about everything that can happen to a user.
         /// https://dev.twitter.com/streaming/reference/get/user
         /// </summary>
         public static IUserStream CreateUserStream(ITwitterCredentials credentials = null)
