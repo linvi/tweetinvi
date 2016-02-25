@@ -84,9 +84,9 @@ namespace Tweetinvi
 
         #region User Factory
 
-        public static ILoggedUser GetLoggedUser(ITwitterCredentials credentials = null, IGetLoggedUserParameters parameters = null)
+        public static IAuthenticatedUser GetAuthenticatedUser(ITwitterCredentials credentials = null, IGetAuthenticatedUserParameters parameters = null)
         {
-            return UserFactory.GetLoggedUser(credentials, parameters);
+            return UserFactory.GetAuthenticatedUser(credentials, parameters);
         }
 
         public static IUser GetUserFromId(long userId)

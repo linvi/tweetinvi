@@ -14,7 +14,7 @@ namespace Tweetinvi.Factories.User
 {
     public interface IUserFactoryQueryExecutor
     {
-        IUserDTO GetLoggedUser(IGetLoggedUserParameters parameters);
+        IUserDTO GetAuthenticatedUser(IGetAuthenticatedUserParameters parameters);
 
         IUserDTO GetUserDTOFromId(long userId);
         IUserDTO GetUserDTOFromScreenName(string userName);
@@ -40,9 +40,9 @@ namespace Tweetinvi.Factories.User
         }
 
         // Get single user
-        public IUserDTO GetLoggedUser(IGetLoggedUserParameters parameters)
+        public IUserDTO GetAuthenticatedUser(IGetAuthenticatedUserParameters parameters)
         {
-            var query = _userQueryParameterGenerator.GetLoggedUserQuery(parameters);
+            var query = _userQueryParameterGenerator.GetAuthenticatedUserQuery(parameters);
             return _twitterAccessor.ExecuteGETQuery<IUserDTO>(query);
         }
 

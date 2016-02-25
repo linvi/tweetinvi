@@ -15,46 +15,46 @@ namespace Tweetinvi.Factories.User
     public class UserFactory : IUserFactory
     {
         private readonly IUserFactoryQueryExecutor _userFactoryQueryExecutor;
-        private readonly IFactory<ILoggedUser> _loggedUserUnityFactory;
+        private readonly IFactory<IAuthenticatedUser> _authenticatedUserUnityFactory;
         private readonly IFactory<IUser> _userUnityFactory;
         private readonly IJsonObjectConverter _jsonObjectConverter;
         private readonly ICredentialsAccessor _credentialsAccessor;
 
         public UserFactory(
             IUserFactoryQueryExecutor userFactoryQueryExecutor,
-            IFactory<ILoggedUser> loggedUserUnityFactory,
+            IFactory<IAuthenticatedUser> authenticatedUserUnityFactory,
             IFactory<IUser> userUnityFactory,
             IJsonObjectConverter jsonObjectConverter,
             ICredentialsAccessor credentialsAccessor)
         {
             _userFactoryQueryExecutor = userFactoryQueryExecutor;
-            _loggedUserUnityFactory = loggedUserUnityFactory;
+            _authenticatedUserUnityFactory = authenticatedUserUnityFactory;
             _userUnityFactory = userUnityFactory;
             _jsonObjectConverter = jsonObjectConverter;
             _credentialsAccessor = credentialsAccessor;
         }
 
         // Get User
-        public ILoggedUser GetLoggedUser(ITwitterCredentials credentials = null, IGetLoggedUserParameters parameters = null)
+        public IAuthenticatedUser GetAuthenticatedUser(ITwitterCredentials credentials = null, IGetAuthenticatedUserParameters parameters = null)
         {
             IUserDTO userDTO;
 
             if (credentials == null)
             {
                 credentials = _credentialsAccessor.CurrentThreadCredentials;
-                userDTO = _userFactoryQueryExecutor.GetLoggedUser(parameters);
+                userDTO = _userFactoryQueryExecutor.GetAuthenticatedUser(parameters);
             }
             else
             {
                 userDTO = _credentialsAccessor.ExecuteOperationWithCredentials(credentials, () =>
                 {
-                    return _userFactoryQueryExecutor.GetLoggedUser(parameters);
+                    return _userFactoryQueryExecutor.GetAuthenticatedUser(parameters);
                 });
             }
 
-            var loggedUser = GenerateLoggedUserFromDTO(userDTO);
-            loggedUser.SetCredentials(credentials);
-            return loggedUser;
+            var authenticatedUser = GenerateAuthenticatedUserFromDTO(userDTO);
+            authenticatedUser.SetCredentials(credentials);
+            return authenticatedUser;
         }
 
         public IUser GetUserFromId(long userId)
@@ -100,15 +100,15 @@ namespace Tweetinvi.Factories.User
         }
 
         // Generate from DTO
-        public ILoggedUser GenerateLoggedUserFromDTO(IUserDTO userDTO)
+        public IAuthenticatedUser GenerateAuthenticatedUserFromDTO(IUserDTO userDTO)
         {
             if (userDTO == null)
             {
                 return null;
             }
 
-            var userDTOParameterOverride = _loggedUserUnityFactory.GenerateParameterOverrideWrapper("userDTO", userDTO);
-            var user = _loggedUserUnityFactory.Create(userDTOParameterOverride);
+            var userDTOParameterOverride = _authenticatedUserUnityFactory.GenerateParameterOverrideWrapper("userDTO", userDTO);
+            var user = _authenticatedUserUnityFactory.Create(userDTOParameterOverride);
 
             return user;
         }

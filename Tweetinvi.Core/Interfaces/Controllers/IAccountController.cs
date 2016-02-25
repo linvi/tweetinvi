@@ -8,9 +8,9 @@ namespace Tweetinvi.Core.Interfaces.Controllers
 {
     public interface IAccountController
     {
-        IAccountSettings GetLoggedUserSettings();
+        IAccountSettings GetAuthenticatedUserSettings();
 
-        IAccountSettings UpdateLoggedUserSettings(
+        IAccountSettings UpdateAuthenticatedUserSettings(
             IEnumerable<Language> languages = null,
             string timeZone = null,
             long? trendLocationWoeid = null,
@@ -18,7 +18,7 @@ namespace Tweetinvi.Core.Interfaces.Controllers
             int? startSleepTime = null,
             int? endSleepTime = null);
 
-        IAccountSettings UpdateLoggedUserSettings(IAccountSettingsRequestParameters accountSettingsRequestParameters);
+        IAccountSettings UpdateAuthenticatedUserSettings(IAccountSettingsRequestParameters accountSettingsRequestParameters);
 
         // Mute
         IEnumerable<long> GetMutedUserIds(int maxUserIds = Int32.MaxValue);

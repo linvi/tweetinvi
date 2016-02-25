@@ -253,7 +253,7 @@ namespace Tweetinvi.Core.Interfaces
         #endregion
 
         /// <summary>
-        /// Retweet the current tweet from the currently logged user
+        /// Retweet the current tweet from the authenticated user.
         /// </summary>
         ITweet PublishRetweet();
 

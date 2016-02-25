@@ -65,12 +65,12 @@ namespace Tweetinvi.Core.Interfaces.Async
         /// <summary>
         /// Subscribe the authenticated user to the list.
         /// </summary>
-        Task<bool> SubscribeLoggedUserToListAsync(ILoggedUser loggedUser = null);
+        Task<bool> SubscribeAuthenticatedUserToListAsync(IAuthenticatedUser authenticatedUser = null);
 
         /// <summary>
         /// Unsubscribe the authenticated user from the list.
         /// </summary>
-        Task<bool> UnSubscribeLoggedUserFromListAsync(ILoggedUser loggedUser = null);
+        Task<bool> UnSubscribeAuthenticatedUserFromListAsync(IAuthenticatedUser authenticatedUser = null);
 
         /// <summary>
         /// Check whether a user has subscribed to the list.

@@ -8,9 +8,9 @@ namespace Testinvi.IntegrationTests
     {
         public void TwitterList_Lifecycle()
         {
-            var loggedUser = User.GetLoggedUser();
+            var authenticatedUser = User.GetAuthenticatedUser();
             var newList = TwitterList.CreateList("myTemporaryList", PrivacyMode.Private, "tmp");
-            var userLists = TwitterList.GetUserSubscribedLists(loggedUser);
+            var userLists = TwitterList.GetUserSubscribedLists(authenticatedUser);
             var newListVerify = TwitterList.GetExistingList(newList);
             var updateParameter = new TwitterListUpdateParameters();
             updateParameter.Name = "piloupe";

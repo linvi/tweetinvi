@@ -12,14 +12,14 @@ namespace Tweetinvi
     public static class UserAsync
     {
         // User Factory
-        public static async Task<ILoggedUser> GetLoggedUser()
+        public static async Task<IAuthenticatedUser> GetAuthenticatedUser()
         {
-            return await Sync.ExecuteTaskAsync(() => User.GetLoggedUser());
+            return await Sync.ExecuteTaskAsync(() => User.GetAuthenticatedUser());
         }
 
-        public static async Task<ILoggedUser> GetLoggedUser(ITwitterCredentials credentials)
+        public static async Task<IAuthenticatedUser> GetAuthenticatedUser(ITwitterCredentials credentials)
         {
-            return await Sync.ExecuteTaskAsync(() => User.GetLoggedUser(credentials));
+            return await Sync.ExecuteTaskAsync(() => User.GetAuthenticatedUser(credentials));
         }
 
         public static async Task<IUser> GetUserFromId(long userId)

@@ -145,8 +145,8 @@
     <Compile Include="Interfaces\DTO\IUploadedImageDetails.cs" />
     <Compile Include="Interfaces\DTO\QueryDTO\ICursorQueryHelper.cs" />
     <Compile Include="Interfaces\Factories\IUserIdentifierFactory.cs" />
-    <Compile Include="Interfaces\ILoggedUser.cs" />
-    <Compile Include="Interfaces\Async\ILoggedUserAsync.cs" />
+    <Compile Include="Interfaces\IAuthenticatedUser.cs" />
+    <Compile Include="Interfaces\Async\IAuthenticatedUserAsync.cs" />
     <Compile Include="Interfaces\Credentials\IRateLimit.cs" />
     <Compile Include="Interfaces\Credentials\ITokenRateLimit.cs" />
     <Compile Include="Interfaces\Credentials\ITokenRateLimits.cs" />
@@ -190,7 +190,7 @@
     <Compile Include="Interfaces\Models\Entities\ExtendedEntities\IVideoInformationEntity.cs" />
     <Compile Include="Interfaces\Models\ITwitterQuery.cs" />
     <Compile Include="Interfaces\Streaminvi\MatchOn.cs" />
-    <Compile Include="Parameters\GetLoggedUserParameters.cs" />
+    <Compile Include="Parameters\GetAuthenticatedUserParameters.cs" />
     <Compile Include="Parameters\IMessagesRetrieveRequestParametersBase.cs" />
     <Compile Include="Parameters\QueryParameters\IGetTweetsFromListQueryParameters.cs" />
     <Compile Include="Parameters\QueryParameters\ITwitterListUpdateQueryParameters.cs" />

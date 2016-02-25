@@ -12,7 +12,7 @@ namespace Tweetinvi.Core.Interfaces
     /// User associated with a Token, this "privileged" user
     /// has access private information like messages, timeline...
     /// </summary>
-    public interface ILoggedUser : ILoggedUserAsync, IUser
+    public interface IAuthenticatedUser : IAuthenticatedUserAsync, IUser
     {
         /// <summary>
         /// Authenticated user email. This value will be null if the application has not been verified and authorized by Twitter.
@@ -33,12 +33,12 @@ namespace Tweetinvi.Core.Interfaces
         /// <summary>
         /// Execute an operation with the context of this authenticated user.
         /// </summary>
-        T ExecuteLoggedUserOperation<T>(Func<T> operation);
+        T ExecuteAuthenticatedUserOperation<T>(Func<T> operation);
 
         /// <summary>
         /// Execute an operation with the context of this authenticated user.
         /// </summary>
-        void ExecuteLoggedUserOperation(Action operation);
+        void ExecuteAuthenticatedUserOperation(Action operation);
 
         #region Tweets
 

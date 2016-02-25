@@ -14,14 +14,14 @@ namespace Tweetinvi.Core.Events.EventArguments
         public IUser User { get; private set; }
     }
 
-    public class LoggedUserUpdatedEventArgs : EventArgs
+    public class AuthenticatedUserUpdatedEventArgs : EventArgs
     {
-        public LoggedUserUpdatedEventArgs(ILoggedUser loggedUser)
+        public AuthenticatedUserUpdatedEventArgs(IAuthenticatedUser authenticatedUser)
         {
-            LoggedUser = loggedUser;
+            AuthenticatedUser = authenticatedUser;
         }
 
-        public ILoggedUser LoggedUser { get; private set; }
+        public IAuthenticatedUser AuthenticatedUser { get; private set; }
     }
 
     public class UserFollowedEventArgs : UserEventArgs

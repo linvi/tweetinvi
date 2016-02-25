@@ -11,8 +11,8 @@ namespace Tweetinvi.Controllers.Account
 {
     public interface IAccountQueryExecutor
     {
-        IAccountSettingsDTO GetLoggedUserAccountSettings();
-        IAccountSettingsDTO UpdateLoggedUserSettings(IAccountSettingsRequestParameters accountSettingsRequestParameters);
+        IAccountSettingsDTO GetAuthenticatedUserAccountSettings();
+        IAccountSettingsDTO UpdateAuthenticatedUserSettings(IAccountSettingsRequestParameters accountSettingsRequestParameters);
 
         // Mute
         IEnumerable<long> GetMutedUserIds(int maxUserIds = Int32.MaxValue);
@@ -44,15 +44,15 @@ namespace Tweetinvi.Controllers.Account
             _accountQueryGenerator = accountQueryGenerator;
         }
 
-        public IAccountSettingsDTO GetLoggedUserAccountSettings()
+        public IAccountSettingsDTO GetAuthenticatedUserAccountSettings()
         {
-            string query = _accountQueryGenerator.GetLoggedUserAccountSettingsQuery();
+            string query = _accountQueryGenerator.GetAuthenticatedUserAccountSettingsQuery();
             return _twitterAccessor.ExecuteGETQuery<IAccountSettingsDTO>(query);
         }
 
-        public IAccountSettingsDTO UpdateLoggedUserSettings(IAccountSettingsRequestParameters accountSettingsRequestParameters)
+        public IAccountSettingsDTO UpdateAuthenticatedUserSettings(IAccountSettingsRequestParameters accountSettingsRequestParameters)
         {
-            string query = _accountQueryGenerator.GetUpdateLoggedUserAccountSettingsQuery(accountSettingsRequestParameters);
+            string query = _accountQueryGenerator.GetUpdateAuthenticatedUserAccountSettingsQuery(accountSettingsRequestParameters);
             return _twitterAccessor.ExecutePOSTQuery<IAccountSettingsDTO>(query);
         }
 

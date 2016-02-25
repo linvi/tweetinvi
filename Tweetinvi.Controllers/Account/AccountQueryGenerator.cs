@@ -15,8 +15,8 @@ namespace Tweetinvi.Controllers.Account
 {
     public interface IAccountQueryGenerator
     {
-        string GetLoggedUserAccountSettingsQuery();
-        string GetUpdateLoggedUserAccountSettingsQuery(IAccountSettingsRequestParameters accountSettingsRequestParameters);
+        string GetAuthenticatedUserAccountSettingsQuery();
+        string GetUpdateAuthenticatedUserAccountSettingsQuery(IAccountSettingsRequestParameters accountSettingsRequestParameters);
 
         // Mute
         string GetMutedUserIdsQuery();
@@ -51,12 +51,12 @@ namespace Tweetinvi.Controllers.Account
             _queryParameterGenerator = queryParameterGenerator;
         }
 
-        public string GetLoggedUserAccountSettingsQuery()
+        public string GetAuthenticatedUserAccountSettingsQuery()
         {
             return Resources.Account_GetSettings;
         }
 
-        public string GetUpdateLoggedUserAccountSettingsQuery(IAccountSettingsRequestParameters accountSettingsRequestParameters)
+        public string GetUpdateAuthenticatedUserAccountSettingsQuery(IAccountSettingsRequestParameters accountSettingsRequestParameters)
         {
             var baseQuery = new StringBuilder(Resources.Account_UpdateSettings);
 

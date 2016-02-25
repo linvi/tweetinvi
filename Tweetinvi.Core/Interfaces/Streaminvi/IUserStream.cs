@@ -19,7 +19,7 @@ namespace Tweetinvi.Core.Interfaces.Streaminvi
         event EventHandler StreamIsReady;
 
         /// <summary>
-        /// Event informing that a Tweet has been created by the LoggedUser
+        /// Event informing that a Tweet has been created by the AuthenticatedUser
         /// </summary>
         event EventHandler<TweetReceivedEventArgs> TweetCreatedByMe;
         event EventHandler<TweetReceivedEventArgs> TweetCreatedByFriend;
@@ -55,16 +55,16 @@ namespace Tweetinvi.Core.Interfaces.Streaminvi
         event EventHandler<ListEventArgs> ListUpdated;
         event EventHandler<ListEventArgs> ListDestroyed;
 
-        event EventHandler<ListUserUpdatedEventArgs> LoggedUserAddedMemberToList;
-        event EventHandler<ListUserUpdatedEventArgs> LoggedUserAddedToListBy;
+        event EventHandler<ListUserUpdatedEventArgs> AuthenticatedUserAddedMemberToList;
+        event EventHandler<ListUserUpdatedEventArgs> AuthenticatedUserAddedToListBy;
 
-        event EventHandler<ListUserUpdatedEventArgs> LoggedUserRemovedMemberFromList;
-        event EventHandler<ListUserUpdatedEventArgs> LoggedUserRemovedFromListBy;
+        event EventHandler<ListUserUpdatedEventArgs> AuthenticatedUserRemovedMemberFromList;
+        event EventHandler<ListUserUpdatedEventArgs> AuthenticatedUserRemovedFromListBy;
 
-        event EventHandler<ListUserUpdatedEventArgs> LoggedUserSubscribedToListCreatedBy;
+        event EventHandler<ListUserUpdatedEventArgs> AuthenticatedUserSubscribedToListCreatedBy;
         event EventHandler<ListUserUpdatedEventArgs> UserSubscribedToListCreatedByMe;
 
-        event EventHandler<ListUserUpdatedEventArgs> LoggedUserUnsubscribedToListCreatedBy;
+        event EventHandler<ListUserUpdatedEventArgs> AuthenticatedUserUnsubscribedToListCreatedBy;
         event EventHandler<ListUserUpdatedEventArgs> UserUnsubscribedToListCreatedByMe;
 
         // Blocked - Unblocked
@@ -72,7 +72,7 @@ namespace Tweetinvi.Core.Interfaces.Streaminvi
         event EventHandler<UserBlockedEventArgs> UnBlockedUser;
 
         // User Updated
-        event EventHandler<LoggedUserUpdatedEventArgs> LoggedUserProfileUpdated;
+        event EventHandler<AuthenticatedUserUpdatedEventArgs> AuthenticatedUserProfileUpdated;
 
         // Warning
         event EventHandler<WarningTooManyFollowersEventArgs> WarningTooManyFollowersDetected;

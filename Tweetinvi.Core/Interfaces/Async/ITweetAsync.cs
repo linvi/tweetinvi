@@ -9,7 +9,7 @@ namespace Tweetinvi.Core.Interfaces.Async
         // Retweet
 
         /// <summary>
-        /// Retweet the current tweet from the currently logged user
+        /// Retweet the current tweet from the currently authenticated user.
         /// </summary>
         Task<ITweet> PublishRetweetAsync();
 

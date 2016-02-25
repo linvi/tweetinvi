@@ -31,13 +31,13 @@ namespace Tweetinvi.Controllers.Account
             _accountSettingsRequestParametersFactory = accountSettingsRequestParametersFactory;
         }
 
-        public IAccountSettings GetLoggedUserSettings()
+        public IAccountSettings GetAuthenticatedUserSettings()
         {
-            var accountSettingsDTO = _accountQueryExecutor.GetLoggedUserAccountSettings();
+            var accountSettingsDTO = _accountQueryExecutor.GetAuthenticatedUserAccountSettings();
             return GenerateAccountSettingsFromDTO(accountSettingsDTO);
         }
 
-        public IAccountSettings UpdateLoggedUserSettings(
+        public IAccountSettings UpdateAuthenticatedUserSettings(
             IEnumerable<Language> languages = null,
             string timeZone = null, 
             long? trendLocationWoeid = null, 
@@ -54,12 +54,12 @@ namespace Tweetinvi.Controllers.Account
             settings.StartSleepTime = startSleepTime;
             settings.EndSleepTime = endSleepTime;
 
-            return UpdateLoggedUserSettings(settings);
+            return UpdateAuthenticatedUserSettings(settings);
         }
 
-        public IAccountSettings UpdateLoggedUserSettings(IAccountSettingsRequestParameters accountSettingsRequestParameters)
+        public IAccountSettings UpdateAuthenticatedUserSettings(IAccountSettingsRequestParameters accountSettingsRequestParameters)
         {
-            var accountSettingsDTO = _accountQueryExecutor.UpdateLoggedUserSettings(accountSettingsRequestParameters);
+            var accountSettingsDTO = _accountQueryExecutor.UpdateAuthenticatedUserSettings(accountSettingsRequestParameters);
             return GenerateAccountSettingsFromDTO(accountSettingsDTO);
         }
 

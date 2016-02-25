@@ -6,7 +6,7 @@ namespace Tweetinvi.Core.Interfaces.QueryGenerators
 {
     public interface IUserQueryParameterGenerator
     {
-        string GetLoggedUserQuery(IGetLoggedUserParameters parameters);
+        string GetAuthenticatedUserQuery(IGetAuthenticatedUserParameters parameters);
 
         string GenerateUserIdParameter(long userId, string parameterName = "user_id");
         string GenerateScreenNameParameter(string screenName, string parameterName = "screen_name");

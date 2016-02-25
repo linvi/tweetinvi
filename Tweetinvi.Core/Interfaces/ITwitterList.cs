@@ -157,12 +157,12 @@ namespace Tweetinvi.Core.Interfaces
         /// <summary>
         /// Subscribe the authenticated user to the list.
         /// </summary>
-        bool SubscribeLoggedUserToList(ILoggedUser loggedUser = null);
+        bool SubscribeAuthenticatedUserToList(IAuthenticatedUser authenticatedUser = null);
 
         /// <summary>
         /// Unsubscribe the authenticated user from the list.
         /// </summary>
-        bool UnSubscribeLoggedUserFromList(ILoggedUser loggedUser = null);
+        bool UnSubscribeAuthenticatedUserFromList(IAuthenticatedUser authenticatedUser = null);
 
         /// <summary>
         /// Check whether a user has subscribed to the list.

@@ -34,8 +34,8 @@ namespace Tweetinvi.Controllers.TwitterLists
         IEnumerable<ITwitterListDTO> GetUserSubscribedLists(IUserIdentifier userIdentifier, int maximumNumberOfListsToRetrieve);
 
         IEnumerable<IUserDTO> GetListSubscribers(ITwitterListIdentifier listIdentifier, int maximumNumberOfSubscribersToRetrieve);
-        bool SubscribeLoggedUserToList(ITwitterListIdentifier listIdentifier);
-        bool UnSubscribeLoggedUserFromList(ITwitterListIdentifier listIdentifier);
+        bool SubscribeAuthenticatedUserToList(ITwitterListIdentifier listIdentifier);
+        bool UnSubscribeAuthenticatedUserFromList(ITwitterListIdentifier listIdentifier);
         bool CheckIfUserIsAListSubscriber(ITwitterListIdentifier listIdentifier, IUserIdentifier userIdentifier);
         IEnumerable<ITwitterListDTO> GetUserOwnedLists(IUserIdentifier userIdentifier, int maximumNumberOfListsToRetrieve);
     }
@@ -172,13 +172,13 @@ namespace Tweetinvi.Controllers.TwitterLists
             return _twitterAccessor.ExecuteCursorGETQuery<IUserDTO, IUserCursorQueryResultDTO>(baseQuery, maximumNumberOfSubscribersToRetrieve);
         }
 
-        public bool SubscribeLoggedUserToList(ITwitterListIdentifier listIdentifier)
+        public bool SubscribeAuthenticatedUserToList(ITwitterListIdentifier listIdentifier)
         {
             var query = _listsQueryGenerator.GetSubscribeUserToListQuery(listIdentifier);
             return _twitterAccessor.TryExecutePOSTQuery(query);
         }
 
-        public bool UnSubscribeLoggedUserFromList(ITwitterListIdentifier listIdentifier)
+        public bool UnSubscribeAuthenticatedUserFromList(ITwitterListIdentifier listIdentifier)
         {
             var query = _listsQueryGenerator.GetUnSubscribeUserFromListQuery(listIdentifier);
             return _twitterAccessor.TryExecutePOSTQuery(query);

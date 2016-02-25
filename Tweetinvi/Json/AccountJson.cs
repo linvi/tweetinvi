@@ -30,9 +30,9 @@ namespace Tweetinvi.Json
             _accountJsonController = TweetinviContainer.Resolve<IAccountJsonController>();
         }
 
-        public static string GetLoggedUserSettingsJson()
+        public static string GetAuthenticatedUserSettingsJson()
         {
-            return AccountJsonController.GetLoggedUserSettingsJson();
+            return AccountJsonController.GetAuthenticatedUserSettingsJson();
         }
     }
 }

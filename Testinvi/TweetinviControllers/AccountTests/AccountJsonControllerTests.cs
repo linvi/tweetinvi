@@ -24,7 +24,7 @@ namespace Testinvi.TweetinviControllers.AccountTests
         }
 
         [TestMethod]
-        public void GetLoggedUserSettingsJson_ReturnsAccessorJsonResult()
+        public void GetAuthenticatedUserSettingsJson_ReturnsAccessorJsonResult()
         {
             string query = Guid.NewGuid().ToString();
             string jsonResult = Guid.NewGuid().ToString();
@@ -32,20 +32,20 @@ namespace Testinvi.TweetinviControllers.AccountTests
             // Arrange
             var controller = CreateAccountJsonController();
 
-            ArrangeGetLoggedUserAccountSettingsQuery(query);
+            ArrangeGetAuthenticatedUserAccountSettingsQuery(query);
             _fakeTwitterAccessor.ArrangeExecuteJsonGETQuery(query, jsonResult);
 
             // Act
-            var result = controller.GetLoggedUserSettingsJson();
+            var result = controller.GetAuthenticatedUserSettingsJson();
 
             // Assert
             Assert.AreEqual(result, jsonResult);
         }
 
-        private void ArrangeGetLoggedUserAccountSettingsQuery(string query)
+        private void ArrangeGetAuthenticatedUserAccountSettingsQuery(string query)
         {
             _fakeAccountQueryGenerator
-                .CallsTo(x => x.GetLoggedUserAccountSettingsQuery())
+                .CallsTo(x => x.GetAuthenticatedUserAccountSettingsQuery())
                 .Returns(query);
         }
 

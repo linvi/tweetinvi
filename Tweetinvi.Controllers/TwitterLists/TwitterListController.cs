@@ -710,63 +710,63 @@ namespace Tweetinvi.Controllers.TwitterLists
         } 
 
         // Add subscriber to List
-        public bool SubscribeLoggedUserToList(long listId)
+        public bool SubscribeAuthenticatedUserToList(long listId)
         {
             var identifier = _twitterListIdentifierFactory.Create(listId);
-            return SubscribeLoggedUserToList(identifier);
+            return SubscribeAuthenticatedUserToList(identifier);
         }
 
-        public bool SubscribeLoggedUserToList(string slug, long ownerId)
+        public bool SubscribeAuthenticatedUserToList(string slug, long ownerId)
         {
             var identifier = _twitterListIdentifierFactory.Create(slug, ownerId);
-            return SubscribeLoggedUserToList(identifier);
+            return SubscribeAuthenticatedUserToList(identifier);
         }
 
-        public bool SubscribeLoggedUserToList(string slug, string ownerScreenName)
+        public bool SubscribeAuthenticatedUserToList(string slug, string ownerScreenName)
         {
             var identifier = _twitterListIdentifierFactory.Create(slug, ownerScreenName);
-            return SubscribeLoggedUserToList(identifier);
+            return SubscribeAuthenticatedUserToList(identifier);
         }
 
-        public bool SubscribeLoggedUserToList(string slug, IUserIdentifier owner)
+        public bool SubscribeAuthenticatedUserToList(string slug, IUserIdentifier owner)
         {
             var identifier = _twitterListIdentifierFactory.Create(slug, owner);
-            return SubscribeLoggedUserToList(identifier);
+            return SubscribeAuthenticatedUserToList(identifier);
         }
 
-        public bool SubscribeLoggedUserToList(ITwitterListIdentifier list)
+        public bool SubscribeAuthenticatedUserToList(ITwitterListIdentifier list)
         {
-            return _twitterListQueryExecutor.SubscribeLoggedUserToList(list);
+            return _twitterListQueryExecutor.SubscribeAuthenticatedUserToList(list);
         }
 
         // Remove subscriber from list
-        public bool UnSubscribeLoggedUserFromList(long listId)
+        public bool UnSubscribeAuthenticatedUserFromList(long listId)
         {
             var identifier = _twitterListIdentifierFactory.Create(listId);
-            return UnSubscribeLoggedUserFromList(identifier);
+            return UnSubscribeAuthenticatedUserFromList(identifier);
         }
 
-        public bool UnSubscribeLoggedUserFromList(string slug, long ownerId)
+        public bool UnSubscribeAuthenticatedUserFromList(string slug, long ownerId)
         {
             var identifier = _twitterListIdentifierFactory.Create(slug, ownerId);
-            return UnSubscribeLoggedUserFromList(identifier);
+            return UnSubscribeAuthenticatedUserFromList(identifier);
         }
 
-        public bool UnSubscribeLoggedUserFromList(string slug, string ownerScreenName)
+        public bool UnSubscribeAuthenticatedUserFromList(string slug, string ownerScreenName)
         {
             var identifier = _twitterListIdentifierFactory.Create(slug, ownerScreenName);
-            return UnSubscribeLoggedUserFromList(identifier);
+            return UnSubscribeAuthenticatedUserFromList(identifier);
         }
 
-        public bool UnSubscribeLoggedUserFromList(string slug, IUserIdentifier owner)
+        public bool UnSubscribeAuthenticatedUserFromList(string slug, IUserIdentifier owner)
         {
             var identifier = _twitterListIdentifierFactory.Create(slug, owner);
-            return UnSubscribeLoggedUserFromList(identifier);
+            return UnSubscribeAuthenticatedUserFromList(identifier);
         }
 
-        public bool UnSubscribeLoggedUserFromList(ITwitterListIdentifier list)
+        public bool UnSubscribeAuthenticatedUserFromList(ITwitterListIdentifier list)
         {
-            return _twitterListQueryExecutor.UnSubscribeLoggedUserFromList(list);
+            return _twitterListQueryExecutor.UnSubscribeAuthenticatedUserFromList(list);
         }
 
         // Check Subscriptions

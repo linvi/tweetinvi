@@ -157,18 +157,18 @@ namespace Tweetinvi.Core.Interfaces.Controllers
         IEnumerable<IUser> GetListSubscribers(ITwitterListIdentifier list, int maximumNumberOfUsersToRetrieve = 100);
 
         // Add subscribers
-        bool SubscribeLoggedUserToList(long listId);
-        bool SubscribeLoggedUserToList(string slug, long ownerId);
-        bool SubscribeLoggedUserToList(string slug, string ownerScreenName);
-        bool SubscribeLoggedUserToList(string slug, IUserIdentifier owner);
-        bool SubscribeLoggedUserToList(ITwitterListIdentifier list);
+        bool SubscribeAuthenticatedUserToList(long listId);
+        bool SubscribeAuthenticatedUserToList(string slug, long ownerId);
+        bool SubscribeAuthenticatedUserToList(string slug, string ownerScreenName);
+        bool SubscribeAuthenticatedUserToList(string slug, IUserIdentifier owner);
+        bool SubscribeAuthenticatedUserToList(ITwitterListIdentifier list);
 
         // Remove subscriber from List
-        bool UnSubscribeLoggedUserFromList(long listId);
-        bool UnSubscribeLoggedUserFromList(string slug, long ownerId);
-        bool UnSubscribeLoggedUserFromList(string slug, string ownerScreenName);
-        bool UnSubscribeLoggedUserFromList(string slug, IUserIdentifier owner);
-        bool UnSubscribeLoggedUserFromList(ITwitterListIdentifier list);
+        bool UnSubscribeAuthenticatedUserFromList(long listId);
+        bool UnSubscribeAuthenticatedUserFromList(string slug, long ownerId);
+        bool UnSubscribeAuthenticatedUserFromList(string slug, string ownerScreenName);
+        bool UnSubscribeAuthenticatedUserFromList(string slug, IUserIdentifier owner);
+        bool UnSubscribeAuthenticatedUserFromList(ITwitterListIdentifier list);
 
         // Check Subscription
         bool CheckIfUserIsAListSubscriber(long listId, long userId);

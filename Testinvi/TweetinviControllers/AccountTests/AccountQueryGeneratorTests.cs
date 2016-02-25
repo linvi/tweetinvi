@@ -17,13 +17,13 @@ namespace Testinvi.TweetinviControllers.AccountTests
         }
 
         [TestMethod]
-        public void GetLoggedUserAccountSettingsQuery_ReturnsFixedResource()
+        public void GetAuthenticatedUserAccountSettingsQuery_ReturnsFixedResource()
         {
             // Arrange
             var queryGenerator = CreateAccountQueryGenerator();
 
             // Act
-            var result = queryGenerator.GetLoggedUserAccountSettingsQuery();
+            var result = queryGenerator.GetAuthenticatedUserAccountSettingsQuery();
 
             // Assert
             Assert.AreEqual(result, Resources.Account_GetSettings);

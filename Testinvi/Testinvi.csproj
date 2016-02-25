@@ -152,7 +152,7 @@
     <Compile Include="TweetinviControllers\UserTests\UserQueryGeneratorTests.cs" />
     <Compile Include="TweetinviControllers\UserTests\UserQueryParameterGeneratorTests.cs" />
     <Compile Include="TweetinviControllers\UserTests\UserQueryValidatorTests.cs" />
-    <Compile Include="TweetinviLogic\LoggedUserTests.cs" />
+    <Compile Include="TweetinviLogic\AuthenticatedUserTests.cs" />
     <Compile Include="TweetinviWebLogic\WebHelperTests.cs" />
     <Compile Include="Tweetinvi\AuthTests.cs" />
   </ItemGroup>

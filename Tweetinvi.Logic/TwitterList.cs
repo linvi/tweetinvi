@@ -214,24 +214,24 @@ namespace Tweetinvi.Logic
             return _twitterListController.GetListSubscribers(this, maximumNumberOfUsersToRetrieve);
         }
 
-        public bool SubscribeLoggedUserToList(ILoggedUser loggedUser = null)
+        public bool SubscribeAuthenticatedUserToList(IAuthenticatedUser authenticatedUser = null)
         {
-            if (loggedUser != null)
+            if (authenticatedUser != null)
             {
-                return loggedUser.SubsribeToList(this);
+                return authenticatedUser.SubsribeToList(this);
             }
 
-            return _twitterListController.SubscribeLoggedUserToList(this);
+            return _twitterListController.SubscribeAuthenticatedUserToList(this);
         }
 
-        public bool UnSubscribeLoggedUserFromList(ILoggedUser loggedUser = null)
+        public bool UnSubscribeAuthenticatedUserFromList(IAuthenticatedUser authenticatedUser = null)
         {
-            if (loggedUser != null)
+            if (authenticatedUser != null)
             {
-                return loggedUser.UnSubscribeFromList(this);
+                return authenticatedUser.UnSubscribeFromList(this);
             }
 
-            return _twitterListController.UnSubscribeLoggedUserFromList(this);
+            return _twitterListController.UnSubscribeAuthenticatedUserFromList(this);
         }
 
         
@@ -331,14 +331,14 @@ namespace Tweetinvi.Logic
             return await _taskFactory.ExecuteTaskAsync(() => GetSubscribers(maximumNumberOfUsersToRetrieve));
         }
 
-        public async Task<bool> SubscribeLoggedUserToListAsync(ILoggedUser loggedUser = null)
+        public async Task<bool> SubscribeAuthenticatedUserToListAsync(IAuthenticatedUser authenticatedUser = null)
         {
-            return await _taskFactory.ExecuteTaskAsync(() => SubscribeLoggedUserToList(loggedUser));
+            return await _taskFactory.ExecuteTaskAsync(() => SubscribeAuthenticatedUserToList(authenticatedUser));
         }
 
-        public async Task<bool> UnSubscribeLoggedUserFromListAsync(ILoggedUser loggedUser = null)
+        public async Task<bool> UnSubscribeAuthenticatedUserFromListAsync(IAuthenticatedUser authenticatedUser = null)
         {
-            return await _taskFactory.ExecuteTaskAsync(() => UnSubscribeLoggedUserFromList(loggedUser));
+            return await _taskFactory.ExecuteTaskAsync(() => UnSubscribeAuthenticatedUserFromList(authenticatedUser));
         }
 
         public async Task<bool> CheckUserSubscriptionAsync(IUserIdentifier user)

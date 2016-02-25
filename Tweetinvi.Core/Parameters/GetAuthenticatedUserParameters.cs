@@ -1,8 +1,6 @@
-﻿using Tweetinvi.Core.Credentials;
-
-namespace Tweetinvi.Core.Parameters
+﻿namespace Tweetinvi.Core.Parameters
 {
-    public interface IGetLoggedUserParameters : ICustomRequestParameters
+    public interface IGetAuthenticatedUserParameters : ICustomRequestParameters
     {
         /// <summary>
         /// Include user entities.
@@ -21,9 +19,9 @@ namespace Tweetinvi.Core.Parameters
         bool SkipStatus { get; set; }
     }
 
-    public class GetLoggedUserParameters : CustomRequestParameters, IGetLoggedUserParameters
+    public class GetAuthenticatedUserParameters : CustomRequestParameters, IGetAuthenticatedUserParameters
     {
-        public GetLoggedUserParameters()
+        public GetAuthenticatedUserParameters()
         {
             IncludeEntities = true;
             IncludeEmail = true;

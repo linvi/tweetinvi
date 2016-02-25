@@ -32,7 +32,7 @@ namespace Examplinvi.UniversalApp
             }
             else
             {
-                var user = User.GetLoggedUser();
+                var user = User.GetAuthenticatedUser();
                 Message.Text = string.Format("Hi '{0}'. Welcome on board with Windows 10 Universal App!", user.Name);
 
                 RunSampleStream();

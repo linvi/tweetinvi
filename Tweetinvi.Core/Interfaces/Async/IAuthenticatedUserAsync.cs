@@ -7,7 +7,7 @@ using Tweetinvi.Core.Parameters;
 
 namespace Tweetinvi.Core.Interfaces.Async
 {
-    public interface ILoggedUserAsync
+    public interface IAuthenticatedUserAsync
     {
         /// <summary>
         /// Get the list of direct messages received by the user.

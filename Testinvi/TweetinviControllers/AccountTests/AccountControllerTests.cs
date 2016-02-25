@@ -26,7 +26,7 @@ namespace Testinvi.TweetinviControllers.AccountTests
         }
 
         [TestMethod]
-        public void GetLoggedUserSettings_ExecuteQuery()
+        public void GetAuthenticatedUserSettings_ExecuteQuery()
         {
             var fakeAccountSettingsDTO = A.Fake<IAccountSettingsDTO>();
             var fakeAccountSettings = A.Fake<IAccountSettings>();
@@ -34,7 +34,7 @@ namespace Testinvi.TweetinviControllers.AccountTests
             // Arrange
             var controller = CreateAccountController();
 
-            ArrangeGetLoggedUserAccountSettings(fakeAccountSettingsDTO);
+            ArrangeGetAuthenticatedUserAccountSettings(fakeAccountSettingsDTO);
 
             _fakeAccountSettingsFactory.ArrangeGenerateParameterOverride<IAccountSettingsDTO, IAccountSettings>();
             _fakeAccountSettingsFactory
@@ -45,16 +45,16 @@ namespace Testinvi.TweetinviControllers.AccountTests
                 .Returns(fakeAccountSettings);
 
             // Act
-            var result = controller.GetLoggedUserSettings();
+            var result = controller.GetAuthenticatedUserSettings();
 
             // Assert
             Assert.AreEqual(result, fakeAccountSettings);
         }
 
-        private void ArrangeGetLoggedUserAccountSettings(IAccountSettingsDTO result)
+        private void ArrangeGetAuthenticatedUserAccountSettings(IAccountSettingsDTO result)
         {
             _fakeAccountQueryExecutor
-                .CallsTo(x => x.GetLoggedUserAccountSettings())
+                .CallsTo(x => x.GetAuthenticatedUserAccountSettings())
                 .Returns(result);
         }
 

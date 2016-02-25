@@ -228,15 +228,15 @@ namespace Tweetinvi
         } 
 
         // Subscribe
-        public static async Task<bool> SubscribeLoggedUserToList(ITwitterListIdentifier listIdentifier, ILoggedUser loggedUser = null)
+        public static async Task<bool> SubscribeAuthenticatedUserToList(ITwitterListIdentifier listIdentifier, IAuthenticatedUser authenticatedUser = null)
         {
-            return await Sync.ExecuteTaskAsync(() => TwitterList.SubscribeLoggedUserToList(listIdentifier, loggedUser));
+            return await Sync.ExecuteTaskAsync(() => TwitterList.SubscribeAuthenticatedUserToList(listIdentifier, authenticatedUser));
         }
 
         // Unsubscribe
-        public static async Task<bool> UnSubscribeLoggedUserFromList(ITwitterListIdentifier listIdentifier, ILoggedUser loggedUser = null)
+        public static async Task<bool> UnSubscribeAuthenticatedUserFromList(ITwitterListIdentifier listIdentifier, IAuthenticatedUser authenticatedUser = null)
         {
-            return await Sync.ExecuteTaskAsync(() => TwitterList.UnSubscribeLoggedUserFromList(listIdentifier, loggedUser));
+            return await Sync.ExecuteTaskAsync(() => TwitterList.UnSubscribeAuthenticatedUserFromList(listIdentifier, authenticatedUser));
         }
 
         // Check Subscription
