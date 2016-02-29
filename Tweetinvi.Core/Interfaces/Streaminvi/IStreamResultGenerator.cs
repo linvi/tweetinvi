@@ -38,6 +38,9 @@ namespace Tweetinvi.Core.Interfaces.Streaminvi
         /// </summary>
         StreamState StreamState { get; }
 
+        /// <summary>
+        /// Start extracting objects from the stream
+        /// </summary>
         Task StartStreamAsync(Action<string> processObject, Func<ITwitterQuery> generateTwitterQuery);
 
         /// <summary>

@@ -2,7 +2,7 @@
 namespace Tweetinvi.Core.Interfaces.Streaminvi
 {
     /// <summary>
-    /// Filter the list of replies received in the stream.
+    /// Filter the type of replies received in the stream.
     /// https://dev.twitter.com/streaming/overview/request-parameters#replies
     /// </summary>
     public enum RepliesFilterType

@@ -11,7 +11,16 @@ namespace Tweetinvi.Core.Interfaces.Streaminvi
     public interface IUserStream : ITwitterStream
     {
         // Parameters
+
+        /// <summary>
+        /// Filter the type of replies received in the stream.
+        /// </summary>
         RepliesFilterType RepliesFilterType { get; set; }
+
+        /// <summary>
+        /// Filter the tweets based on whether it has been received by the 
+        /// authenticated user or one of the user he follows.
+        /// </summary>
         WithFilterType WithFilterType { get; set; }
 
         /// <summary>

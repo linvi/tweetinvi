@@ -1,7 +1,7 @@
 ﻿namespace Tweetinvi.Core.Interfaces.Streaminvi
 {
     /// <summary>
-    /// Filter the messages based on their creator.
+    /// Filter the tweets based on their creator.
     /// https://dev.twitter.com/streaming/overview/request-parameters#with
     /// </summary>
     public enum WithFilterType
