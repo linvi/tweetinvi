@@ -25,22 +25,52 @@ namespace Tweetinvi
             }
         }
 
-        private static readonly IRateLimitAwaiter _rateLimitAwaiter;
-        private static readonly IRateLimitCacheManager _rateLimitCacheManager;
+        [ThreadStatic]
+        private static IRateLimitCacheManager _rateLimitCacheManager;
+
+        private static IRateLimitCacheManager RateLimitCacheManager
+        {
+            get
+            {
+                if (_rateLimitCacheManager == null)
+                {
+                    Initialize();
+                }
+
+                return _rateLimitCacheManager;
+            }
+        }
+
+        [ThreadStatic]
+        private static IRateLimitAwaiter _rateLimitAwaiter;
+
+        private static IRateLimitAwaiter RateLimitAwaiter
+        {
+            get
+            {
+                if (_rateLimitAwaiter == null)
+                {
+                    Initialize();
+                }
+
+                return _rateLimitAwaiter;
+            }
+        }
+
         private static readonly IRateLimitCache _rateLimitCache;
 
         static RateLimit()
         {
             Initialize();
 
-            _rateLimitAwaiter = TweetinviContainer.Resolve<IRateLimitAwaiter>();
-            _rateLimitCacheManager = TweetinviContainer.Resolve<IRateLimitCacheManager>();
             _rateLimitCache = TweetinviContainer.Resolve<IRateLimitCache>();
         }
 
         static void Initialize()
         {
             _helpController = TweetinviContainer.Resolve<IHelpController>();
+            _rateLimitCacheManager = TweetinviContainer.Resolve<IRateLimitCacheManager>();
+            _rateLimitAwaiter = TweetinviContainer.Resolve<IRateLimitAwaiter>();
         }
 
         /// <summary>
@@ -48,8 +78,8 @@ namespace Tweetinvi
         /// </summary>
         public static event EventHandler<QueryAwaitingEventArgs> QueryAwaitingForRateLimit
         {
-            add { _rateLimitAwaiter.QueryAwaitingForRateLimit += value; }
-            remove { _rateLimitAwaiter.QueryAwaitingForRateLimit -= value; }
+            add { RateLimitAwaiter.QueryAwaitingForRateLimit += value; }
+            remove { RateLimitAwaiter.QueryAwaitingForRateLimit -= value; }
         }
 
         /// <summary>
@@ -90,7 +120,7 @@ namespace Tweetinvi
         /// </summary>
         public static void AwaitForQueryRateLimit(string query, ITwitterCredentials credentials)
         {
-            _rateLimitAwaiter.WaitForCredentialsRateLimit(query, credentials);
+            RateLimitAwaiter.WaitForCredentialsRateLimit(query, credentials);
         }
 
         /// <summary>
@@ -98,7 +128,7 @@ namespace Tweetinvi
         /// </summary>
         public static void AwaitForQueryRateLimit(ITokenRateLimit tokenRateLimit)
         {
-            _rateLimitAwaiter.WaitForCredentialsRateLimit(tokenRateLimit);
+            RateLimitAwaiter.WaitForCredentialsRateLimit(tokenRateLimit);
         }
 
         /// <summary>
@@ -106,7 +136,7 @@ namespace Tweetinvi
         /// </summary>
         public static ITokenRateLimit GetQueryRateLimit(string query)
         {
-            return _rateLimitCacheManager.GetQueryRateLimit(query, Auth.Credentials);
+            return RateLimitCacheManager.GetQueryRateLimit(query, Auth.Credentials);
         }
 
         /// <summary>
@@ -114,7 +144,7 @@ namespace Tweetinvi
         /// </summary>
         public static ITokenRateLimit GetQueryRateLimit(string query, ITwitterCredentials credentials)
         {
-            return _rateLimitCacheManager.GetQueryRateLimit(query, credentials);
+            return RateLimitCacheManager.GetQueryRateLimit(query, credentials);
         }
 
         /// <summary>
@@ -126,11 +156,11 @@ namespace Tweetinvi
             if (!useRateLimitCache)
             {
                 tokenRateLimits = HelpController.GetCurrentCredentialsRateLimits();
-                _rateLimitCacheManager.UpdateTokenRateLimits(Auth.Credentials, tokenRateLimits);
+                RateLimitCacheManager.UpdateTokenRateLimits(Auth.Credentials, tokenRateLimits);
             }
             else
             {
-                tokenRateLimits = _rateLimitCacheManager.GetTokenRateLimits(Auth.Credentials);
+                tokenRateLimits = RateLimitCacheManager.GetTokenRateLimits(Auth.Credentials);
             }
 
             return tokenRateLimits;
@@ -143,7 +173,7 @@ namespace Tweetinvi
         {
             if (useRateLimitCache)
             {
-                return _rateLimitCacheManager.GetTokenRateLimits(credentials);
+                return RateLimitCacheManager.GetTokenRateLimits(credentials);
             }
             else
             {
