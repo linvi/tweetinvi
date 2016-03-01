@@ -233,17 +233,6 @@ namespace Tweetinvi.WebLogic
             Uri uri = new Uri(url);
             var header = GenerateAuthorizationHeader(uri, httpMethod, parameters);
 
-            // This debug is only compiled in debug mode and display the executed queries
-# if DEBUG
-            // ReSharper disable once ConditionIsAlwaysTrueOrFalse
-            if (_tweetinviSettingsAccessor.ShowDebug)
-            // ReSharper disable once CSharpWarnings::CS0162
-            {
-                Debug.WriteLine("{0} : {1}", httpMethod, uri.AbsoluteUri);
-                Debug.WriteLine("Header {0}", header);
-            }
-# endif
-
             var webRequest = WebRequest.CreateHttp(uri.AbsoluteUri);
             webRequest.Method = httpMethod.ToString();
             webRequest.Headers["Authorization"] = header;

@@ -4,7 +4,7 @@ using Tweetinvi.Core.Attributes;
 namespace Tweetinvi.Core.Interfaces.Credentials
 {
     /// <summary>
-    /// Lists of Rate Limits provided by Twitter API 1.1
+    /// Lists the state of all the twitter api endpoints rate limits.
     /// https://dev.twitter.com/docs/rate-limiting/1.1/limits
     /// </summary>
     public interface ITokenRateLimits

@@ -15,8 +15,14 @@
         /// </summary>
         string AccessTokenSecret { get; set; }
 
+        /// <summary>
+        /// Clone the current credentials.
+        /// </summary>
         new ITwitterCredentials Clone();
 
+        /// <summary>
+        /// Are credentials correctly set up for user authentication.
+        /// </summary>
         bool AreSetupForUserAuthentication();
     }
 

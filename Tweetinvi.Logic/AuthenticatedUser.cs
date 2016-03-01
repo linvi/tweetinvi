@@ -18,7 +18,7 @@ namespace Tweetinvi.Logic
     /// be executed from the connected user and that are not available
     /// from another user like (read my messages)
     /// </summary>
-    public class LoggedUser : User, ILoggedUser
+    public class AuthenticatedUser : User, IAuthenticatedUser
     {
         private readonly ICredentialsAccessor _credentialsAccessor;
         private readonly ITweetController _tweetController;
@@ -30,7 +30,7 @@ namespace Tweetinvi.Logic
 
         private ITwitterCredentials _savedCredentials;
 
-        public LoggedUser(
+        public AuthenticatedUser(
             IUserDTO userDTO,
             ICredentialsAccessor credentialsAccessor,
             ITimelineController timelineController,
@@ -71,28 +71,28 @@ namespace Tweetinvi.Logic
 
         public IEnumerable<ISuggestedUserList> SuggestedUserList { get; set; }
 
-        public T ExecuteLoggedUserOperation<T>(Func<T> operation)
+        public T ExecuteAuthenticatedUserOperation<T>(Func<T> operation)
         {
-            StartLoggedUserOperation();
+            StartAuthenticatedUserOperation();
             var result = operation();
-            CompletedLoggedUserOperation();
+            CompletedAuthenticatedUserOperation();
             return result;
         }
 
-        public void ExecuteLoggedUserOperation(Action operation)
+        public void ExecuteAuthenticatedUserOperation(Action operation)
         {
-            StartLoggedUserOperation();
+            StartAuthenticatedUserOperation();
             operation();
-            CompletedLoggedUserOperation();
+            CompletedAuthenticatedUserOperation();
         }
 
-        private void StartLoggedUserOperation()
+        private void StartAuthenticatedUserOperation()
         {
             _savedCredentials = _credentialsAccessor.CurrentThreadCredentials;
             _credentialsAccessor.CurrentThreadCredentials = Credentials;
         }
 
-        private void CompletedLoggedUserOperation()
+        private void CompletedAuthenticatedUserOperation()
         {
             _credentialsAccessor.CurrentThreadCredentials = _savedCredentials;
         }
@@ -100,96 +100,96 @@ namespace Tweetinvi.Logic
         // Home Timeline
         public IEnumerable<ITweet> GetHomeTimeline(int maximumNumberOfTweets = 40)
         {
-            return ExecuteLoggedUserOperation(() => _timelineController.GetHomeTimeline(maximumNumberOfTweets));
+            return ExecuteAuthenticatedUserOperation(() => _timelineController.GetHomeTimeline(maximumNumberOfTweets));
         }
 
         public IEnumerable<ITweet> GetHomeTimeline(IHomeTimelineParameters timelineRequestParameters)
         {
-            return ExecuteLoggedUserOperation(() => _timelineController.GetHomeTimeline(timelineRequestParameters));
+            return ExecuteAuthenticatedUserOperation(() => _timelineController.GetHomeTimeline(timelineRequestParameters));
         }
 
         // Mentions Timeline
         public IEnumerable<IMention> GetMentionsTimeline(int maximumNumberOfMentions = 40)
         {
-            return ExecuteLoggedUserOperation(() => _timelineController.GetMentionsTimeline(maximumNumberOfMentions));
+            return ExecuteAuthenticatedUserOperation(() => _timelineController.GetMentionsTimeline(maximumNumberOfMentions));
         }
 
         // Frienships
         public IRelationshipDetails GetRelationshipWith(IUserIdentifier userIdentifier)
         {
-            return ExecuteLoggedUserOperation(() => _friendshipController.GetRelationshipBetween(this, userIdentifier));
+            return ExecuteAuthenticatedUserOperation(() => _friendshipController.GetRelationshipBetween(this, userIdentifier));
         }
 
         public IRelationshipDetails GetRelationshipWith(long userId)
         {
-            return ExecuteLoggedUserOperation(() => _friendshipController.GetRelationshipBetween(Id, userId));
+            return ExecuteAuthenticatedUserOperation(() => _friendshipController.GetRelationshipBetween(Id, userId));
         }
 
         public IRelationshipDetails GetRelationshipWith(string screenName)
         {
-            return ExecuteLoggedUserOperation(() => _friendshipController.GetRelationshipBetween(ScreenName, screenName));
+            return ExecuteAuthenticatedUserOperation(() => _friendshipController.GetRelationshipBetween(ScreenName, screenName));
         }
 
         public bool UpdateRelationshipAuthorizationsWith(IUserIdentifier userIdentifier, bool retweetsEnabled, bool deviceNotificationsEnabled)
         {
-            return ExecuteLoggedUserOperation(() => _friendshipController.UpdateRelationshipAuthorizationsWith(userIdentifier, retweetsEnabled, deviceNotificationsEnabled));
+            return ExecuteAuthenticatedUserOperation(() => _friendshipController.UpdateRelationshipAuthorizationsWith(userIdentifier, retweetsEnabled, deviceNotificationsEnabled));
         }
 
         public bool UpdateRelationshipAuthorizationsWith(long userId, bool retweetsEnabled, bool deviceNotificationsEnabled)
         {
-            return ExecuteLoggedUserOperation(() => _friendshipController.UpdateRelationshipAuthorizationsWith(userId, retweetsEnabled, deviceNotificationsEnabled));
+            return ExecuteAuthenticatedUserOperation(() => _friendshipController.UpdateRelationshipAuthorizationsWith(userId, retweetsEnabled, deviceNotificationsEnabled));
         }
 
         public bool UpdateRelationshipAuthorizationsWith(string screenName, bool retweetsEnabled, bool deviceNotificationsEnabled)
         {
-            return ExecuteLoggedUserOperation(() => _friendshipController.UpdateRelationshipAuthorizationsWith(screenName, retweetsEnabled, deviceNotificationsEnabled));
+            return ExecuteAuthenticatedUserOperation(() => _friendshipController.UpdateRelationshipAuthorizationsWith(screenName, retweetsEnabled, deviceNotificationsEnabled));
         }
 
         // Friends - Followers
         public IEnumerable<IUser> GetUsersRequestingFriendship(int maximumUserIdsToRetrieve = 75000)
         {
-            return ExecuteLoggedUserOperation(() => _friendshipController.GetUsersRequestingFriendship(maximumUserIdsToRetrieve));
+            return ExecuteAuthenticatedUserOperation(() => _friendshipController.GetUsersRequestingFriendship(maximumUserIdsToRetrieve));
         }
 
         public IEnumerable<IUser> GetUsersYouRequestedToFollow(int maximumUserIdsToRetrieve = 75000)
         {
-            return ExecuteLoggedUserOperation(() => _friendshipController.GetUsersYouRequestedToFollow(maximumUserIdsToRetrieve));
+            return ExecuteAuthenticatedUserOperation(() => _friendshipController.GetUsersYouRequestedToFollow(maximumUserIdsToRetrieve));
         }
 
         // Follow
         public bool FollowUser(IUser user)
         {
-            return ExecuteLoggedUserOperation(() => _friendshipController.CreateFriendshipWith(user));
+            return ExecuteAuthenticatedUserOperation(() => _friendshipController.CreateFriendshipWith(user));
         }
 
         public bool FollowUser(long userId)
         {
-            return ExecuteLoggedUserOperation(() => _friendshipController.CreateFriendshipWith(userId));
+            return ExecuteAuthenticatedUserOperation(() => _friendshipController.CreateFriendshipWith(userId));
         }
 
         public bool FollowUser(string screenName)
         {
-            return ExecuteLoggedUserOperation(() => _friendshipController.CreateFriendshipWith(screenName));
+            return ExecuteAuthenticatedUserOperation(() => _friendshipController.CreateFriendshipWith(screenName));
         }
 
         public bool UnFollowUser(IUser user)
         {
-            return ExecuteLoggedUserOperation(() => _friendshipController.DestroyFriendshipWith(user));
+            return ExecuteAuthenticatedUserOperation(() => _friendshipController.DestroyFriendshipWith(user));
         }
 
         public bool UnFollowUser(long userId)
         {
-            return ExecuteLoggedUserOperation(() => _friendshipController.DestroyFriendshipWith(userId));
+            return ExecuteAuthenticatedUserOperation(() => _friendshipController.DestroyFriendshipWith(userId));
         }
 
         public bool UnFollowUser(string screenName)
         {
-            return ExecuteLoggedUserOperation(() => _friendshipController.DestroyFriendshipWith(screenName));
+            return ExecuteAuthenticatedUserOperation(() => _friendshipController.DestroyFriendshipWith(screenName));
         }
 
         public IEnumerable<ISavedSearch> GetSavedSearches()
         {
-            return ExecuteLoggedUserOperation(() => _savedSearchController.GetSavedSearches());
+            return ExecuteAuthenticatedUserOperation(() => _savedSearchController.GetSavedSearches());
         }
 
         // Block
@@ -200,17 +200,17 @@ namespace Tweetinvi.Logic
 
         public bool BlockUser(IUserIdentifier userIdentifier)
         {
-            return ExecuteLoggedUserOperation(() => _userController.BlockUser(userIdentifier));
+            return ExecuteAuthenticatedUserOperation(() => _userController.BlockUser(userIdentifier));
         }
 
         public bool BlockUser(long userId)
         {
-            return ExecuteLoggedUserOperation(() => _userController.BlockUser(userId));
+            return ExecuteAuthenticatedUserOperation(() => _userController.BlockUser(userId));
         }
 
         public bool BlockUser(string userName)
         {
-            return ExecuteLoggedUserOperation(() => _userController.BlockUser(userName));
+            return ExecuteAuthenticatedUserOperation(() => _userController.BlockUser(userName));
         }
 
         // Unblock
@@ -221,28 +221,28 @@ namespace Tweetinvi.Logic
 
         public bool UnBlockUser(IUserIdentifier userIdentifier)
         {
-            return ExecuteLoggedUserOperation(() => _userController.UnBlockUser(userIdentifier));
+            return ExecuteAuthenticatedUserOperation(() => _userController.UnBlockUser(userIdentifier));
         }
 
         public bool UnBlockUser(long userId)
         {
-            return ExecuteLoggedUserOperation(() => _userController.UnBlockUser(userId));
+            return ExecuteAuthenticatedUserOperation(() => _userController.UnBlockUser(userId));
         }
 
         public bool UnBlockUser(string userName)
         {
-            return ExecuteLoggedUserOperation(() => _userController.UnBlockUser(userName));
+            return ExecuteAuthenticatedUserOperation(() => _userController.UnBlockUser(userName));
         }
 
         // Get Blocked Users
         public IEnumerable<long> GetBlockedUserIds()
         {
-            return ExecuteLoggedUserOperation(() => _userController.GetBlockedUserIds());
+            return ExecuteAuthenticatedUserOperation(() => _userController.GetBlockedUserIds());
         }
 
         public IEnumerable<IUser> GetBlockedUsers()
         {
-            return ExecuteLoggedUserOperation(() => _userController.GetBlockedUsers());
+            return ExecuteAuthenticatedUserOperation(() => _userController.GetBlockedUsers());
         }
 
         // Spam
@@ -253,44 +253,44 @@ namespace Tweetinvi.Logic
 
         public bool ReportUserForSpam(IUser user)
         {
-            return ExecuteLoggedUserOperation(() => _userController.BlockUser(user));
+            return ExecuteAuthenticatedUserOperation(() => _userController.BlockUser(user));
         }
 
         public bool ReportUserForSpam(IUserIdentifier userIdentifier)
         {
-            return ExecuteLoggedUserOperation(() => _userController.BlockUser(userIdentifier));
+            return ExecuteAuthenticatedUserOperation(() => _userController.BlockUser(userIdentifier));
         }
 
         public bool ReportUserForSpam(string userName)
         {
-            return ExecuteLoggedUserOperation(() => _userController.BlockUser(userName));
+            return ExecuteAuthenticatedUserOperation(() => _userController.BlockUser(userName));
         }
 
         public bool ReportUserForSpam(long userId)
         {
-            return ExecuteLoggedUserOperation(() => _userController.BlockUser(userId));
+            return ExecuteAuthenticatedUserOperation(() => _userController.BlockUser(userId));
         }
 
         // Direct Messages
         public IEnumerable<IMessage> GetLatestMessagesReceived(int maximumNumberOfMessagesToRetrieve = 40)
         {
-            return ExecuteLoggedUserOperation(() => _messageController.GetLatestMessagesReceived(maximumNumberOfMessagesToRetrieve));
+            return ExecuteAuthenticatedUserOperation(() => _messageController.GetLatestMessagesReceived(maximumNumberOfMessagesToRetrieve));
         }
 
         public IEnumerable<IMessage> GetLatestMessagesSent(int maximumMessages = 40)
         {
-            return ExecuteLoggedUserOperation(() => _messageController.GetLatestMessagesSent(maximumMessages));
+            return ExecuteAuthenticatedUserOperation(() => _messageController.GetLatestMessagesSent(maximumMessages));
         }
 
         public IMessage PublishMessage(IPublishMessageParameters publishMessageParameters)
         {
-            return ExecuteLoggedUserOperation(() => _messageController.PublishMessage(publishMessageParameters));
+            return ExecuteAuthenticatedUserOperation(() => _messageController.PublishMessage(publishMessageParameters));
         }
 
         // Tweet
         public ITweet PublishTweet(string text, IPublishTweetOptionalParameters parameters)
         {
-            return ExecuteLoggedUserOperation(() =>  _tweetController.PublishTweet(text, parameters));
+            return ExecuteAuthenticatedUserOperation(() =>  _tweetController.PublishTweet(text, parameters));
         }
 
         // Settings
@@ -301,7 +301,7 @@ namespace Tweetinvi.Logic
         /// </summary>
         public IAccountSettings GetAccountSettings()
         {
-            return ExecuteLoggedUserOperation(() => _accountController.GetLoggedUserSettings());
+            return ExecuteAuthenticatedUserOperation(() => _accountController.GetAuthenticatedUserSettings());
         }
 
         public IAccountSettings UpdateAccountSettings(
@@ -312,7 +312,7 @@ namespace Tweetinvi.Logic
             int? startSleepTime = null,
             int? endSleepTime = null)
         {
-            return ExecuteLoggedUserOperation(() => _accountController.UpdateLoggedUserSettings(
+            return ExecuteAuthenticatedUserOperation(() => _accountController.UpdateAuthenticatedUserSettings(
                 languages,
                 timeZone,
                 trendLocationWoeid,
@@ -323,230 +323,230 @@ namespace Tweetinvi.Logic
 
         public IAccountSettings UpdateAccountSettings(IAccountSettingsRequestParameters accountSettingsRequestParameters)
         {
-            return ExecuteLoggedUserOperation(() => _accountController.UpdateLoggedUserSettings(accountSettingsRequestParameters));
+            return ExecuteAuthenticatedUserOperation(() => _accountController.UpdateAuthenticatedUserSettings(accountSettingsRequestParameters));
         }
 
         // Twitter Lists
         public bool SubsribeToList(ITwitterListIdentifier list)
         {
-            return ExecuteLoggedUserOperation(() => _twitterListController.SubscribeLoggedUserToList(list));
+            return ExecuteAuthenticatedUserOperation(() => _twitterListController.SubscribeAuthenticatedUserToList(list));
         }
 
         public bool SubsribeToList(long listId)
         {
-            return ExecuteLoggedUserOperation(() => _twitterListController.SubscribeLoggedUserToList(listId));
+            return ExecuteAuthenticatedUserOperation(() => _twitterListController.SubscribeAuthenticatedUserToList(listId));
         }
 
         public bool SubsribeToList(string slug, long ownerId)
         {
-            return ExecuteLoggedUserOperation(() => _twitterListController.SubscribeLoggedUserToList(slug, ownerId));
+            return ExecuteAuthenticatedUserOperation(() => _twitterListController.SubscribeAuthenticatedUserToList(slug, ownerId));
         }
 
         public bool SubsribeToList(string slug, string ownerScreenName)
         {
-            return ExecuteLoggedUserOperation(() => _twitterListController.SubscribeLoggedUserToList(slug, ownerScreenName));
+            return ExecuteAuthenticatedUserOperation(() => _twitterListController.SubscribeAuthenticatedUserToList(slug, ownerScreenName));
         }
 
         public bool SubsribeToList(string slug, IUserIdentifier owner)
         {
-            return ExecuteLoggedUserOperation(() => _twitterListController.SubscribeLoggedUserToList(slug, owner));
+            return ExecuteAuthenticatedUserOperation(() => _twitterListController.SubscribeAuthenticatedUserToList(slug, owner));
         }
 
         public bool UnSubscribeFromList(ITwitterListIdentifier list)
         {
-            return ExecuteLoggedUserOperation(() => _twitterListController.UnSubscribeLoggedUserFromList(list));
+            return ExecuteAuthenticatedUserOperation(() => _twitterListController.UnSubscribeAuthenticatedUserFromList(list));
         }
 
         public bool UnSubscribeFromList(long listId)
         {
-            return ExecuteLoggedUserOperation(() => _twitterListController.UnSubscribeLoggedUserFromList(listId));
+            return ExecuteAuthenticatedUserOperation(() => _twitterListController.UnSubscribeAuthenticatedUserFromList(listId));
         }
 
         public bool UnSubscribeFromList(string slug, long ownerId)
         {
-            return ExecuteLoggedUserOperation(() => _twitterListController.UnSubscribeLoggedUserFromList(slug, ownerId));
+            return ExecuteAuthenticatedUserOperation(() => _twitterListController.UnSubscribeAuthenticatedUserFromList(slug, ownerId));
         }
 
         public bool UnSubscribeFromList(string slug, string ownerScreenName)
         {
-            return ExecuteLoggedUserOperation(() => _twitterListController.UnSubscribeLoggedUserFromList(slug, ownerScreenName));
+            return ExecuteAuthenticatedUserOperation(() => _twitterListController.UnSubscribeAuthenticatedUserFromList(slug, ownerScreenName));
         }
 
         public bool UnSubscribeFromList(string slug, IUserIdentifier owner)
         {
-            return ExecuteLoggedUserOperation(() => _twitterListController.UnSubscribeLoggedUserFromList(slug, owner));
+            return ExecuteAuthenticatedUserOperation(() => _twitterListController.UnSubscribeAuthenticatedUserFromList(slug, owner));
         }
 
         // Mute
         public IEnumerable<long> GetMutedUserIds(int maxUserIdsToRetrieve = Int32.MaxValue)
         {
-            return ExecuteLoggedUserOperation(() => _accountController.GetMutedUserIds(maxUserIdsToRetrieve));
+            return ExecuteAuthenticatedUserOperation(() => _accountController.GetMutedUserIds(maxUserIdsToRetrieve));
         }
 
         public IEnumerable<IUser> GetMutedUsers(int maxUsersToRetrieve = 250)
         {
-            return ExecuteLoggedUserOperation(() => _accountController.GetMutedUsers(maxUsersToRetrieve));
+            return ExecuteAuthenticatedUserOperation(() => _accountController.GetMutedUsers(maxUsersToRetrieve));
         }
 
         public bool MuteUser(IUserIdentifier userIdentifier)
         {
-            return ExecuteLoggedUserOperation(() => _accountController.MuteUser(userIdentifier));
+            return ExecuteAuthenticatedUserOperation(() => _accountController.MuteUser(userIdentifier));
         }
 
         public bool MuteUser(long userId)
         {
-            return ExecuteLoggedUserOperation(() => _accountController.MuteUser(userId));
+            return ExecuteAuthenticatedUserOperation(() => _accountController.MuteUser(userId));
         }
 
         public bool MuteUser(string screenName)
         {
-            return ExecuteLoggedUserOperation(() => _accountController.MuteUser(screenName));
+            return ExecuteAuthenticatedUserOperation(() => _accountController.MuteUser(screenName));
         }
 
         public bool UnMuteUser(IUserIdentifier userIdentifier)
         {
-            return ExecuteLoggedUserOperation(() => _accountController.UnMuteUser(userIdentifier));
+            return ExecuteAuthenticatedUserOperation(() => _accountController.UnMuteUser(userIdentifier));
         }
 
         public bool UnMuteUser(long userId)
         {
-            return ExecuteLoggedUserOperation(() => _accountController.UnMuteUser(userId));
+            return ExecuteAuthenticatedUserOperation(() => _accountController.UnMuteUser(userId));
         }
 
         public bool UnMuteUser(string screenName)
         {
-            return ExecuteLoggedUserOperation(() => _accountController.UnMuteUser(screenName));
+            return ExecuteAuthenticatedUserOperation(() => _accountController.UnMuteUser(screenName));
         }
 
         #region Async
 
         public async Task<IEnumerable<IMessage>> GetLatestMessagesReceivedAsync(int count = 40)
         {
-            return await ExecuteLoggedUserOperation(() => _taskFactory.ExecuteTaskAsync(() => GetLatestMessagesReceived(count)));
+            return await ExecuteAuthenticatedUserOperation(() => _taskFactory.ExecuteTaskAsync(() => GetLatestMessagesReceived(count)));
         }
 
         public async Task<IEnumerable<IMessage>> GetLatestMessagesSentAsync(int maximumMessages = 40)
         {
-            return await ExecuteLoggedUserOperation(() => _taskFactory.ExecuteTaskAsync(() => GetLatestMessagesSent(maximumMessages)));
+            return await ExecuteAuthenticatedUserOperation(() => _taskFactory.ExecuteTaskAsync(() => GetLatestMessagesSent(maximumMessages)));
         }
 
         
         public async Task<IMessage> PublishMessageAsync(IPublishMessageParameters publishMessageParameters)
         {
-            return await ExecuteLoggedUserOperation(() => _taskFactory.ExecuteTaskAsync(() => PublishMessage(publishMessageParameters)));
+            return await ExecuteAuthenticatedUserOperation(() => _taskFactory.ExecuteTaskAsync(() => PublishMessage(publishMessageParameters)));
         }
 
         // Home Timeline
         public async Task<IEnumerable<ITweet>> GetHomeTimelineAsync(int count = 40)
         {
-            return await ExecuteLoggedUserOperation(() => _taskFactory.ExecuteTaskAsync(() => GetHomeTimeline(count)));
+            return await ExecuteAuthenticatedUserOperation(() => _taskFactory.ExecuteTaskAsync(() => GetHomeTimeline(count)));
         }
 
         public async Task<IEnumerable<ITweet>> GetHomeTimelineAsync(IHomeTimelineParameters timelineRequestParameters)
         {
-            return await ExecuteLoggedUserOperation(() => _taskFactory.ExecuteTaskAsync(() => GetHomeTimeline(timelineRequestParameters)));
+            return await ExecuteAuthenticatedUserOperation(() => _taskFactory.ExecuteTaskAsync(() => GetHomeTimeline(timelineRequestParameters)));
         }
 
         // Mentions Timeline
         public async Task<IEnumerable<IMention>> GetMentionsTimelineAsync(int count = 40)
         {
-            return await ExecuteLoggedUserOperation(() => _taskFactory.ExecuteTaskAsync(() => GetMentionsTimeline(count)));
+            return await ExecuteAuthenticatedUserOperation(() => _taskFactory.ExecuteTaskAsync(() => GetMentionsTimeline(count)));
         }
 
         // Relationships
         public async Task<IRelationshipDetails> GetRelationshipWithAsync(IUserIdentifier userIdentifier)
         {
-            return await ExecuteLoggedUserOperation(() => _taskFactory.ExecuteTaskAsync(() => GetRelationshipWith(userIdentifier)));
+            return await ExecuteAuthenticatedUserOperation(() => _taskFactory.ExecuteTaskAsync(() => GetRelationshipWith(userIdentifier)));
         }
 
         public async Task<IRelationshipDetails> GetRelationshipWithAsync(long userId)
         {
-            return await ExecuteLoggedUserOperation(() => _taskFactory.ExecuteTaskAsync(() => GetRelationshipWith(userId)));
+            return await ExecuteAuthenticatedUserOperation(() => _taskFactory.ExecuteTaskAsync(() => GetRelationshipWith(userId)));
         }
 
         public async Task<IRelationshipDetails> GetRelationshipWithAsync(string screenName)
         {
-            return await ExecuteLoggedUserOperation(() => _taskFactory.ExecuteTaskAsync(() => GetRelationshipWith(screenName)));
+            return await ExecuteAuthenticatedUserOperation(() => _taskFactory.ExecuteTaskAsync(() => GetRelationshipWith(screenName)));
         }
 
 
         public async Task<bool> UpdateRelationshipAuthorizationsWithAsync(IUserIdentifier user, bool retweetsEnabled, bool deviceNotificationsEnabled)
         {
-            return await ExecuteLoggedUserOperation(() => _taskFactory.ExecuteTaskAsync(() => UpdateRelationshipAuthorizationsWith(user, retweetsEnabled, deviceNotificationsEnabled)));
+            return await ExecuteAuthenticatedUserOperation(() => _taskFactory.ExecuteTaskAsync(() => UpdateRelationshipAuthorizationsWith(user, retweetsEnabled, deviceNotificationsEnabled)));
         }
 
         public async Task<bool> UpdateRelationshipAuthorizationsWithAsync(long userId, bool retweetsEnabled, bool deviceNotificationsEnabled)
         {
-            return await ExecuteLoggedUserOperation(() => _taskFactory.ExecuteTaskAsync(() => UpdateRelationshipAuthorizationsWith(userId, retweetsEnabled, deviceNotificationsEnabled)));
+            return await ExecuteAuthenticatedUserOperation(() => _taskFactory.ExecuteTaskAsync(() => UpdateRelationshipAuthorizationsWith(userId, retweetsEnabled, deviceNotificationsEnabled)));
         }
 
         public async Task<bool> UpdateRelationshipAuthorizationsWithAsync(string screenName, bool retweetsEnabled, bool deviceNotificationsEnabled)
         {
-            return await ExecuteLoggedUserOperation(() => _taskFactory.ExecuteTaskAsync(() => UpdateRelationshipAuthorizationsWith(screenName, retweetsEnabled, deviceNotificationsEnabled)));
+            return await ExecuteAuthenticatedUserOperation(() => _taskFactory.ExecuteTaskAsync(() => UpdateRelationshipAuthorizationsWith(screenName, retweetsEnabled, deviceNotificationsEnabled)));
         }
 
         
         public async Task<IEnumerable<IUser>> GetUsersRequestingFriendshipAsync(int maximumUserIdsToRetrieve = 75000)
         {
-            return await ExecuteLoggedUserOperation(() => _taskFactory.ExecuteTaskAsync(() => GetUsersRequestingFriendship(maximumUserIdsToRetrieve)));
+            return await ExecuteAuthenticatedUserOperation(() => _taskFactory.ExecuteTaskAsync(() => GetUsersRequestingFriendship(maximumUserIdsToRetrieve)));
         }
 
         public async Task<IEnumerable<IUser>> GetUsersYouRequestedToFollowAsync(int maximumUsersToRetrieve = 75000)
         {
-            return await ExecuteLoggedUserOperation(() => _taskFactory.ExecuteTaskAsync(() => GetUsersYouRequestedToFollow(maximumUsersToRetrieve)));
+            return await ExecuteAuthenticatedUserOperation(() => _taskFactory.ExecuteTaskAsync(() => GetUsersYouRequestedToFollow(maximumUsersToRetrieve)));
 
         }
 
       
         public async Task<bool> FollowUserAsync(IUser user)
         {
-            return await ExecuteLoggedUserOperation(() => _taskFactory.ExecuteTaskAsync(() => FollowUser(user)));
+            return await ExecuteAuthenticatedUserOperation(() => _taskFactory.ExecuteTaskAsync(() => FollowUser(user)));
         }
 
         public async Task<bool> FollowUserAsync(long userId)
         {
-            return await ExecuteLoggedUserOperation(() => _taskFactory.ExecuteTaskAsync(() => FollowUser(userId)));
+            return await ExecuteAuthenticatedUserOperation(() => _taskFactory.ExecuteTaskAsync(() => FollowUser(userId)));
         }
 
         public async Task<bool> FollowUserAsync(string screenName)
         {
-            return await ExecuteLoggedUserOperation(() => _taskFactory.ExecuteTaskAsync(() => FollowUser(screenName)));
+            return await ExecuteAuthenticatedUserOperation(() => _taskFactory.ExecuteTaskAsync(() => FollowUser(screenName)));
         }
 
         public async Task<bool> UnFollowUserAsync(IUser user)
         {
-            return await ExecuteLoggedUserOperation(() => _taskFactory.ExecuteTaskAsync(() => UnFollowUser(user)));
+            return await ExecuteAuthenticatedUserOperation(() => _taskFactory.ExecuteTaskAsync(() => UnFollowUser(user)));
         }
 
         public async Task<bool> UnFollowUserAsync(long userId)
         {
-            return await ExecuteLoggedUserOperation(() => _taskFactory.ExecuteTaskAsync(() => UnFollowUser(userId)));
+            return await ExecuteAuthenticatedUserOperation(() => _taskFactory.ExecuteTaskAsync(() => UnFollowUser(userId)));
         }
 
         public async Task<bool> UnFollowUserAsync(string screenName)
         {
-            return await ExecuteLoggedUserOperation(() => _taskFactory.ExecuteTaskAsync(() => UnFollowUser(screenName)));
+            return await ExecuteAuthenticatedUserOperation(() => _taskFactory.ExecuteTaskAsync(() => UnFollowUser(screenName)));
         }
 
 
         public async Task<IEnumerable<ISavedSearch>> GetSavedSearchesAsync()
         {
-            return await ExecuteLoggedUserOperation(() => _taskFactory.ExecuteTaskAsync(() => GetSavedSearches()));
+            return await ExecuteAuthenticatedUserOperation(() => _taskFactory.ExecuteTaskAsync(() => GetSavedSearches()));
         }
 
         public async Task<IEnumerable<long>> GetBlockedUsersIdsAsync()
         {
-            return await ExecuteLoggedUserOperation(() => _taskFactory.ExecuteTaskAsync(() => GetBlockedUserIds()));
+            return await ExecuteAuthenticatedUserOperation(() => _taskFactory.ExecuteTaskAsync(() => GetBlockedUserIds()));
         }
 
         public async Task<IEnumerable<IUser>> GetBlockedUsersAsync()
         {
-            return await ExecuteLoggedUserOperation(() => _taskFactory.ExecuteTaskAsync(() => GetBlockedUsers()));
+            return await ExecuteAuthenticatedUserOperation(() => _taskFactory.ExecuteTaskAsync(() => GetBlockedUsers()));
         }
 
         public async Task<IAccountSettings> GetAccountSettingsAsync()
         {
-            return await ExecuteLoggedUserOperation(() => _taskFactory.ExecuteTaskAsync(() => GetAccountSettings()));
+            return await ExecuteAuthenticatedUserOperation(() => _taskFactory.ExecuteTaskAsync(() => GetAccountSettings()));
         }
 
         public async Task<IAccountSettings> UpdateAccountSettingsAsync(
@@ -557,7 +557,7 @@ namespace Tweetinvi.Logic
             int? startSleepTime = null,
             int? endSleepTime = null)
         {
-            return await ExecuteLoggedUserOperation(() => _taskFactory.ExecuteTaskAsync(() =>
+            return await ExecuteAuthenticatedUserOperation(() => _taskFactory.ExecuteTaskAsync(() =>
                 UpdateAccountSettings(
                     languages,
                     timeZone,
@@ -568,102 +568,102 @@ namespace Tweetinvi.Logic
                 )));
         }
 
-        public async Task<IAccountSettings> UpdateLoggedUserSettingsAsync(IAccountSettingsRequestParameters accountSettingsRequestParameters)
+        public async Task<IAccountSettings> UpdateAccountSettingsAsync(IAccountSettingsRequestParameters accountSettingsRequestParameters)
         {
-            return await ExecuteLoggedUserOperation(() => _taskFactory.ExecuteTaskAsync(() => UpdateAccountSettings(accountSettingsRequestParameters)));
+            return await ExecuteAuthenticatedUserOperation(() => _taskFactory.ExecuteTaskAsync(() => UpdateAccountSettings(accountSettingsRequestParameters)));
         }
 
         // Subscribe to List
         public async Task<bool> SubscribeToListAsync(ITwitterListIdentifier list)
         {
-            return await ExecuteLoggedUserOperation(() => _taskFactory.ExecuteTaskAsync(() => _twitterListController.SubscribeLoggedUserToList(list)));
+            return await ExecuteAuthenticatedUserOperation(() => _taskFactory.ExecuteTaskAsync(() => _twitterListController.SubscribeAuthenticatedUserToList(list)));
         }
 
         public async Task<bool> SubscribeToListAsync(long listId)
         {
-            return await ExecuteLoggedUserOperation(() => _taskFactory.ExecuteTaskAsync(() => _twitterListController.SubscribeLoggedUserToList(listId)));
+            return await ExecuteAuthenticatedUserOperation(() => _taskFactory.ExecuteTaskAsync(() => _twitterListController.SubscribeAuthenticatedUserToList(listId)));
         }
 
         public async Task<bool> SubscribeToListAsync(string slug, long ownerId)
         {
-            return await ExecuteLoggedUserOperation(() => _taskFactory.ExecuteTaskAsync(() => _twitterListController.SubscribeLoggedUserToList(slug, ownerId)));
+            return await ExecuteAuthenticatedUserOperation(() => _taskFactory.ExecuteTaskAsync(() => _twitterListController.SubscribeAuthenticatedUserToList(slug, ownerId)));
         }
 
         public async Task<bool> SubscribeToListAsync(string slug, string ownerScreenName)
         {
-            return await ExecuteLoggedUserOperation(() => _taskFactory.ExecuteTaskAsync(() => _twitterListController.SubscribeLoggedUserToList(slug, ownerScreenName)));
+            return await ExecuteAuthenticatedUserOperation(() => _taskFactory.ExecuteTaskAsync(() => _twitterListController.SubscribeAuthenticatedUserToList(slug, ownerScreenName)));
         }
 
         public async Task<bool> SubscribeToListAsync(string slug, IUserIdentifier owner)
         {
-            return await ExecuteLoggedUserOperation(() => _taskFactory.ExecuteTaskAsync(() => _twitterListController.SubscribeLoggedUserToList(slug, owner)));
+            return await ExecuteAuthenticatedUserOperation(() => _taskFactory.ExecuteTaskAsync(() => _twitterListController.SubscribeAuthenticatedUserToList(slug, owner)));
         }
 
         // Unsubscribe From list
         public async Task<bool> UnSubscribeFromListAsync(ITwitterListIdentifier list)
         {
-            return await ExecuteLoggedUserOperation(() => _taskFactory.ExecuteTaskAsync(() => _twitterListController.UnSubscribeLoggedUserFromList(list)));
+            return await ExecuteAuthenticatedUserOperation(() => _taskFactory.ExecuteTaskAsync(() => _twitterListController.UnSubscribeAuthenticatedUserFromList(list)));
         }
 
         public async Task<bool> UnSubscribeFromListAsync(long listId)
         {
-            return await ExecuteLoggedUserOperation(() => _taskFactory.ExecuteTaskAsync(() => _twitterListController.UnSubscribeLoggedUserFromList(listId)));
+            return await ExecuteAuthenticatedUserOperation(() => _taskFactory.ExecuteTaskAsync(() => _twitterListController.UnSubscribeAuthenticatedUserFromList(listId)));
         }
 
         public async Task<bool> UnSubscribeFromListAsync(string slug, long ownerId)
         {
-            return await ExecuteLoggedUserOperation(() => _taskFactory.ExecuteTaskAsync(() => _twitterListController.UnSubscribeLoggedUserFromList(slug, ownerId)));
+            return await ExecuteAuthenticatedUserOperation(() => _taskFactory.ExecuteTaskAsync(() => _twitterListController.UnSubscribeAuthenticatedUserFromList(slug, ownerId)));
         }
 
         public async Task<bool> UnSubscribeFromListAsync(string slug, string ownerScreenName)
         {
-            return await ExecuteLoggedUserOperation(() => _taskFactory.ExecuteTaskAsync(() => _twitterListController.UnSubscribeLoggedUserFromList(slug, ownerScreenName)));
+            return await ExecuteAuthenticatedUserOperation(() => _taskFactory.ExecuteTaskAsync(() => _twitterListController.UnSubscribeAuthenticatedUserFromList(slug, ownerScreenName)));
         }
 
         public async Task<bool> UnSubscribeFromListAsync(string slug, IUserIdentifier owner)
         {
-            return await ExecuteLoggedUserOperation(() => _taskFactory.ExecuteTaskAsync(() => _twitterListController.UnSubscribeLoggedUserFromList(slug, owner)));
+            return await ExecuteAuthenticatedUserOperation(() => _taskFactory.ExecuteTaskAsync(() => _twitterListController.UnSubscribeAuthenticatedUserFromList(slug, owner)));
         }
 
         // Get Muted Users
         public async Task<IEnumerable<long>> GetMutedUserIdsAsync(int maxUserIds = Int32.MaxValue)
         {
-            return await ExecuteLoggedUserOperation(() => _taskFactory.ExecuteTaskAsync(() => GetMutedUserIds(maxUserIds)));
+            return await ExecuteAuthenticatedUserOperation(() => _taskFactory.ExecuteTaskAsync(() => GetMutedUserIds(maxUserIds)));
         }
 
         public async Task<IEnumerable<IUser>> GetMutedUsersAsync(int maxUserIds = 250)
         {
-            return await ExecuteLoggedUserOperation(() => _taskFactory.ExecuteTaskAsync(() => GetMutedUsers(maxUserIds)));
+            return await ExecuteAuthenticatedUserOperation(() => _taskFactory.ExecuteTaskAsync(() => GetMutedUsers(maxUserIds)));
         }
 
         public async Task<bool> MuteUserAsync(IUserIdentifier userIdentifier)
         {
-            return await ExecuteLoggedUserOperation(() => _taskFactory.ExecuteTaskAsync(() => MuteUser(userIdentifier)));
+            return await ExecuteAuthenticatedUserOperation(() => _taskFactory.ExecuteTaskAsync(() => MuteUser(userIdentifier)));
         }
 
         public async Task<bool> MuteUserAsync(long userId)
         {
-            return await ExecuteLoggedUserOperation(() => _taskFactory.ExecuteTaskAsync(() => MuteUser(userId)));
+            return await ExecuteAuthenticatedUserOperation(() => _taskFactory.ExecuteTaskAsync(() => MuteUser(userId)));
         }
 
         public async Task<bool> MuteUserAsync(string screenName)
         {
-            return await ExecuteLoggedUserOperation(() => _taskFactory.ExecuteTaskAsync(() => MuteUser(screenName)));
+            return await ExecuteAuthenticatedUserOperation(() => _taskFactory.ExecuteTaskAsync(() => MuteUser(screenName)));
         }
 
         public async Task<bool> UnMuteUserAsync(IUserIdentifier userIdentifier)
         {
-            return await ExecuteLoggedUserOperation(() => _taskFactory.ExecuteTaskAsync(() => UnMuteUser(userIdentifier)));
+            return await ExecuteAuthenticatedUserOperation(() => _taskFactory.ExecuteTaskAsync(() => UnMuteUser(userIdentifier)));
         }
 
         public async Task<bool> UnMuteUserAsync(long userId)
         {
-            return await ExecuteLoggedUserOperation(() => _taskFactory.ExecuteTaskAsync(() => UnMuteUser(userId)));
+            return await ExecuteAuthenticatedUserOperation(() => _taskFactory.ExecuteTaskAsync(() => UnMuteUser(userId)));
         }
 
         public async Task<bool> UnMuteUserAsync(string screenName)
         {
-            return await ExecuteLoggedUserOperation(() => _taskFactory.ExecuteTaskAsync(() => UnMuteUser(screenName)));
+            return await ExecuteAuthenticatedUserOperation(() => _taskFactory.ExecuteTaskAsync(() => UnMuteUser(screenName)));
         }
 
         #endregion

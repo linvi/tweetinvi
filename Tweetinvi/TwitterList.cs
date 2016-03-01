@@ -1034,66 +1034,66 @@ namespace Tweetinvi
         /// <summary>
         /// Subscribe the authenticated user to a specific list
         /// </summary>
-        public static bool SubscribeLoggedUserToList(long listId, ILoggedUser loggedUser = null)
+        public static bool SubscribeAuthenticatedUserToList(long listId, IAuthenticatedUser authenticatedUser = null)
         {
-            if (loggedUser != null)
+            if (authenticatedUser != null)
             {
-                return loggedUser.UnSubscribeFromList(listId);
+                return authenticatedUser.UnSubscribeFromList(listId);
             }
 
-            return TwitterListController.SubscribeLoggedUserToList(listId);
+            return TwitterListController.SubscribeAuthenticatedUserToList(listId);
         }
 
         /// <summary>
         /// Subscribe the authenticated user to a specific list
         /// </summary>
-        public static bool SubscribeLoggedUserToList(string slug, IUserIdentifier owner, ILoggedUser loggedUser = null)
+        public static bool SubscribeAuthenticatedUserToList(string slug, IUserIdentifier owner, IAuthenticatedUser authenticatedUser = null)
         {
-            if (loggedUser != null)
+            if (authenticatedUser != null)
             {
-                return loggedUser.UnSubscribeFromList(slug, owner);
+                return authenticatedUser.UnSubscribeFromList(slug, owner);
             }
 
-            return TwitterListController.SubscribeLoggedUserToList(slug, owner);
+            return TwitterListController.SubscribeAuthenticatedUserToList(slug, owner);
         }
 
         /// <summary>
         /// Subscribe the authenticated user to a specific list
         /// </summary>
-        public static bool SubscribeLoggedUserToList(string slug, string ownerScreenName, ILoggedUser loggedUser = null)
+        public static bool SubscribeAuthenticatedUserToList(string slug, string ownerScreenName, IAuthenticatedUser authenticatedUser = null)
         {
-            if (loggedUser != null)
+            if (authenticatedUser != null)
             {
-                return loggedUser.UnSubscribeFromList(slug, ownerScreenName);
+                return authenticatedUser.UnSubscribeFromList(slug, ownerScreenName);
             }
 
-            return TwitterListController.SubscribeLoggedUserToList(slug, ownerScreenName);
+            return TwitterListController.SubscribeAuthenticatedUserToList(slug, ownerScreenName);
         }
 
         /// <summary>
         /// Subscribe the authenticated user to a specific list
         /// </summary>
-        public static bool SubscribeLoggedUserToList(string slug, long ownerId, ILoggedUser loggedUser = null)
+        public static bool SubscribeAuthenticatedUserToList(string slug, long ownerId, IAuthenticatedUser authenticatedUser = null)
         {
-            if (loggedUser != null)
+            if (authenticatedUser != null)
             {
-                return loggedUser.UnSubscribeFromList(slug, ownerId);
+                return authenticatedUser.UnSubscribeFromList(slug, ownerId);
             }
 
-            return TwitterListController.SubscribeLoggedUserToList(slug, ownerId);
+            return TwitterListController.SubscribeAuthenticatedUserToList(slug, ownerId);
         }
 
         /// <summary>
         /// Subscribe the authenticated user to a specific list
         /// </summary>
-        public static bool SubscribeLoggedUserToList(ITwitterListIdentifier listIdentifier, ILoggedUser loggedUser = null)
+        public static bool SubscribeAuthenticatedUserToList(ITwitterListIdentifier listIdentifier, IAuthenticatedUser authenticatedUser = null)
         {
-            if (loggedUser != null)
+            if (authenticatedUser != null)
             {
-                return loggedUser.UnSubscribeFromList(listIdentifier);
+                return authenticatedUser.UnSubscribeFromList(listIdentifier);
             }
 
-            return TwitterListController.SubscribeLoggedUserToList(listIdentifier);
+            return TwitterListController.SubscribeAuthenticatedUserToList(listIdentifier);
         }
 
         // Remove Subscription
@@ -1101,66 +1101,66 @@ namespace Tweetinvi
         /// <summary>
         /// Unubscribe the authenticated user to a specific list
         /// </summary>
-        public static bool UnSubscribeLoggedUserToList(long listId, ILoggedUser loggedUser = null)
+        public static bool UnSubscribeAuthenticatedUserToList(long listId, IAuthenticatedUser authenticatedUser = null)
         {
-            if (loggedUser != null)
+            if (authenticatedUser != null)
             {
-                return loggedUser.UnSubscribeFromList(listId);
+                return authenticatedUser.UnSubscribeFromList(listId);
             }
 
-            return TwitterListController.UnSubscribeLoggedUserFromList(listId);
+            return TwitterListController.UnSubscribeAuthenticatedUserFromList(listId);
         }
 
         /// <summary>
         /// Unubscribe the authenticated user to a specific list
         /// </summary>
-        public static bool UnSubscribeLoggedUserFromList(string slug, IUserIdentifier owner, ILoggedUser loggedUser = null)
+        public static bool UnSubscribeAuthenticatedUserFromList(string slug, IUserIdentifier owner, IAuthenticatedUser authenticatedUser = null)
         {
-            if (loggedUser != null)
+            if (authenticatedUser != null)
             {
-                return loggedUser.UnSubscribeFromList(slug, owner);
+                return authenticatedUser.UnSubscribeFromList(slug, owner);
             }
 
-            return TwitterListController.UnSubscribeLoggedUserFromList(slug, owner);
+            return TwitterListController.UnSubscribeAuthenticatedUserFromList(slug, owner);
         }
 
         /// <summary>
         /// Unubscribe the authenticated user to a specific list
         /// </summary>
-        public static bool UnSubscribeLoggedUserFromList(string slug, string ownerScreenName, ILoggedUser loggedUser = null)
+        public static bool UnSubscribeAuthenticatedUserFromList(string slug, string ownerScreenName, IAuthenticatedUser authenticatedUser = null)
         {
-            if (loggedUser != null)
+            if (authenticatedUser != null)
             {
-                return loggedUser.UnSubscribeFromList(slug, ownerScreenName);
+                return authenticatedUser.UnSubscribeFromList(slug, ownerScreenName);
             }
 
-            return TwitterListController.UnSubscribeLoggedUserFromList(slug, ownerScreenName);
+            return TwitterListController.UnSubscribeAuthenticatedUserFromList(slug, ownerScreenName);
         }
 
         /// <summary>
         /// Unubscribe the authenticated user to a specific list
         /// </summary>
-        public static bool UnSubscribeLoggedUserFromList(string slug, long ownerId, ILoggedUser loggedUser = null)
+        public static bool UnSubscribeAuthenticatedUserFromList(string slug, long ownerId, IAuthenticatedUser authenticatedUser = null)
         {
-            if (loggedUser != null)
+            if (authenticatedUser != null)
             {
-                return loggedUser.UnSubscribeFromList(slug, ownerId);
+                return authenticatedUser.UnSubscribeFromList(slug, ownerId);
             }
 
-            return TwitterListController.UnSubscribeLoggedUserFromList(slug, ownerId);
+            return TwitterListController.UnSubscribeAuthenticatedUserFromList(slug, ownerId);
         }
 
         /// <summary>
         /// Unubscribe the authenticated user to a specific list
         /// </summary>
-        public static bool UnSubscribeLoggedUserFromList(ITwitterListIdentifier listIdentifier, ILoggedUser loggedUser = null)
+        public static bool UnSubscribeAuthenticatedUserFromList(ITwitterListIdentifier listIdentifier, IAuthenticatedUser authenticatedUser = null)
         {
-            if (loggedUser != null)
+            if (authenticatedUser != null)
             {
-                return loggedUser.UnSubscribeFromList(listIdentifier);
+                return authenticatedUser.UnSubscribeFromList(listIdentifier);
             }
 
-            return TwitterListController.UnSubscribeLoggedUserFromList(listIdentifier);
+            return TwitterListController.UnSubscribeAuthenticatedUserFromList(listIdentifier);
         }
 
         // Check Subscription

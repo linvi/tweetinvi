@@ -85,7 +85,7 @@ namespace Tweetinvi
         // Home Timeline
 
         /// <summary>
-        /// Get the tweets visible on the logged in user Timeline
+        /// Get the tweets visible on the authenticated user timeline.
         /// </summary>
         public static IEnumerable<ITweet> GetHomeTimeline(int maximumTweets = 40)
         {
@@ -93,7 +93,7 @@ namespace Tweetinvi
         }
 
         /// <summary>
-        /// Get the tweets visible on the logged in user Timeline
+        /// Get the tweets visible on the authenticated user timeline.
         /// </summary>
         public static IEnumerable<ITweet> GetHomeTimeline(IHomeTimelineParameters homeTimelineParameters)
         {

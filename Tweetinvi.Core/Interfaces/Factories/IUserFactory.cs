@@ -8,7 +8,7 @@ namespace Tweetinvi.Core.Interfaces.Factories
 {
     public interface IUserFactory
     {
-        ILoggedUser GetLoggedUser(ITwitterCredentials credentials = null, IGetLoggedUserParameters parameters = null);
+        IAuthenticatedUser GetAuthenticatedUser(ITwitterCredentials credentials = null, IGetAuthenticatedUserParameters parameters = null);
 
         IUser GetUserFromId(long userId);
         IUser GetUserFromScreenName(string userName);
@@ -22,7 +22,7 @@ namespace Tweetinvi.Core.Interfaces.Factories
 
         // Generate user from DTO
         IUser GenerateUserFromDTO(IUserDTO userDTO);
-        ILoggedUser GenerateLoggedUserFromDTO(IUserDTO userDTO);
+        IAuthenticatedUser GenerateAuthenticatedUserFromDTO(IUserDTO userDTO);
         IEnumerable<IUser> GenerateUsersFromDTO(IEnumerable<IUserDTO> usersDTO);
 
         // Generate userIdentifier from

@@ -83,7 +83,7 @@
     <Compile Include="JsonConverters\JsonPropertyConverterRepository.cs" />
     <Compile Include="JsonConverters\JsonTwitterDateTimeConverter.cs" />
     <Compile Include="JsonConverters\JsonTwitterNullableConverter.cs" />
-    <Compile Include="LoggedUser.cs" />
+    <Compile Include="AuthenticatedUser.cs" />
     <Compile Include="Mention.cs" />
     <Compile Include="Message.cs" />
     <Compile Include="Model\AccountSettings.cs" />

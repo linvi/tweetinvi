@@ -1,5 +1,8 @@
 ﻿namespace Tweetinvi.Core.Interfaces.Models
 {
+    /// <summary>
+    /// Object containing information to uniquely identify a user.
+    /// </summary>
     public interface IUserIdentifier
     {
         /// <summary>

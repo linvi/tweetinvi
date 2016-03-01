@@ -1,6 +1,9 @@
 ﻿namespace Tweetinvi.Core
 {
-    public enum RateLimitTrackerOptions
+    /// <summary>
+    /// Provide a set of preconfigured solutions that you can use to track the Twitter rate limits.
+    /// </summary>
+    public enum RateLimitTrackerMode
     {
         /// <summary>
         /// By default Tweetinvi let you handle the RateLimits on your own
@@ -23,12 +26,29 @@
 
     public interface ITweetinviSettings
     {
-        bool ShowDebug { get; set; }
+        /// <summary>
+        /// Proxy URL used to execute Http Requests.
+        /// </summary>
         string ProxyURL { get; set; }
-        int WebRequestTimeout { get; set; }
-        RateLimitTrackerOptions RateLimitTrackerOption { get; set; }
 
+        /// <summary>
+        /// Http Requests Timeout duration in milliseconds.
+        /// </summary>
+        int WebRequestTimeout { get; set; }
+
+        /// <summary>
+        /// Solution used to track the RateLimits.
+        /// </summary>
+        RateLimitTrackerMode RateLimitTrackerMode { get; set; }
+
+        /// <summary>
+        /// Initialize a setting from another one.
+        /// </summary>
         void InitialiseFrom(ITweetinviSettings other);
+
+        /// <summary>
+        /// Clone settings.
+        /// </summary>
         ITweetinviSettings Clone();
     }
 
@@ -36,27 +56,24 @@
     {
         public const long DEFAULT_ID = -1;
 
-        public bool ShowDebug { get; set; }
         public string ProxyURL { get; set; }
         public int WebRequestTimeout { get; set; }
-        public RateLimitTrackerOptions RateLimitTrackerOption { get; set; }
+        public RateLimitTrackerMode RateLimitTrackerMode { get; set; }
 
         public ITweetinviSettings Clone()
         {
             var clone = new TweetinviSettings();
-            clone.ShowDebug = ShowDebug;
             clone.ProxyURL = ProxyURL;
             clone.WebRequestTimeout = WebRequestTimeout;
-            clone.RateLimitTrackerOption = RateLimitTrackerOption;
+            clone.RateLimitTrackerMode = RateLimitTrackerMode;
             return clone;
         }
 
         public void InitialiseFrom(ITweetinviSettings other)
         {
-            ShowDebug = other.ShowDebug;
             ProxyURL = other.ProxyURL;
             WebRequestTimeout = other.WebRequestTimeout;
-            RateLimitTrackerOption = other.RateLimitTrackerOption;
+            RateLimitTrackerMode = other.RateLimitTrackerMode;
         }
     }
 }

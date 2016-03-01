@@ -28,8 +28,8 @@ namespace Tweetinvi.Streams
         private const int MAXIMUM_TRACKED_LOCATIONS_AUTHORIZED = 25;
         private const int MAXIMUM_TRACKED_USER_ID_AUTHORIZED = 5000;
 
-        // Events
-        public StreamMatchType MatchType { get; set; }
+        // Filters
+        public MatchOn MatchOn { get; set; }
 
         // Properties
         private readonly Dictionary<long?, Action<ITweet>> _followingUserIds;
@@ -72,14 +72,7 @@ namespace Tweetinvi.Streams
             _followingUserIds = new Dictionary<long?, Action<ITweet>>();
             _locations = new Dictionary<ILocation, Action<ITweet>>();
 
-            MatchType = StreamMatchType.TweetText |
-                        StreamMatchType.AllEntities |
-                        StreamMatchType.Follower |
-                        StreamMatchType.FollowerInReplyTo |
-                        StreamMatchType.TweetLocation |
-                        StreamMatchType.URLEntity |
-                        StreamMatchType.HashTagEntity |
-                        StreamMatchType.UserMentionEntity;
+            MatchOn = MatchOn.Everything;
         }
 
         public void StartStreamMatchingAnyCondition()
@@ -186,7 +179,8 @@ namespace Tweetinvi.Streams
             var matchingLocationAndActions = new Dictionary<ILocation, Action<ITweet>>();
             var matchingFollowersAndActions = new Dictionary<long, Action<ITweet>>();
 
-            if (MatchType.HasFlag(StreamMatchType.TweetText))
+            if (MatchOn.HasFlag(MatchOn.Everything) ||
+                MatchOn.HasFlag(MatchOn.TweetText))
             {
                 var tracksMatchingTweetText = _streamTrackManager.GetMatchingTracksAndActions(tweet.Text);
 
@@ -197,11 +191,13 @@ namespace Tweetinvi.Streams
 
                 if (tracksMatchingTweetText.Count > 0)
                 {
-                    matchingTracksEventArgs.StreamMatchType |= StreamMatchType.TweetText;
+                    matchingTracksEventArgs.MatchOn |= MatchOn.TweetText;
                 }
             }
 
-            if (MatchType.HasFlag(StreamMatchType.AllEntities) || MatchType.HasFlag(StreamMatchType.URLEntity))
+            if (MatchOn.HasFlag(MatchOn.Everything) ||
+                MatchOn.HasFlag(MatchOn.AllEntities) || 
+                MatchOn.HasFlag(MatchOn.URLEntities))
             {
                 var expandedURLs = tweet.Entities.Urls.Select(x => x.ExpandedURL);
                 expandedURLs.Union(tweet.Entities.Medias.Select(x => x.ExpandedURL));
@@ -216,7 +212,7 @@ namespace Tweetinvi.Streams
 
                     if (tracksMatchingExpandedURL.Count > 0)
                     {
-                        matchingTracksEventArgs.StreamMatchType |= StreamMatchType.URLEntity;
+                        matchingTracksEventArgs.MatchOn |= MatchOn.URLEntities;
                     }
                 });
 
@@ -234,12 +230,14 @@ namespace Tweetinvi.Streams
 
                     if (tracksMatchingDisplayedURL.Count > 0)
                     {
-                        matchingTracksEventArgs.StreamMatchType |= StreamMatchType.URLEntity;
+                        matchingTracksEventArgs.MatchOn |= MatchOn.URLEntities;
                     }
                 });
             }
 
-            if (MatchType.HasFlag(StreamMatchType.AllEntities) || MatchType.HasFlag(StreamMatchType.HashTagEntity))
+            if (MatchOn.HasFlag(MatchOn.Everything) ||
+                MatchOn.HasFlag(MatchOn.AllEntities) || 
+                MatchOn.HasFlag(MatchOn.HashTagEntities))
             {
                 var hashTags = tweet.Entities.Hashtags.Select(x => x.Text);
 
@@ -254,12 +252,14 @@ namespace Tweetinvi.Streams
 
                     if (tracksMatchingHashTag.Count > 0)
                     {
-                        matchingTracksEventArgs.StreamMatchType |= StreamMatchType.HashTagEntity;
+                        matchingTracksEventArgs.MatchOn |= MatchOn.HashTagEntities;
                     }
                 });
             }
 
-            if (MatchType.HasFlag(StreamMatchType.AllEntities) || MatchType.HasFlag(StreamMatchType.UserMentionEntity))
+            if (MatchOn.HasFlag(MatchOn.Everything) ||
+                MatchOn.HasFlag(MatchOn.AllEntities) || 
+                MatchOn.HasFlag(MatchOn.UserMentionEntities))
             {
                 var mentionsScreenName = tweet.Entities.UserMentions.Select(x => x.ScreenName);
 
@@ -274,12 +274,13 @@ namespace Tweetinvi.Streams
 
                     if (tracksMatchingMentionScreenName.Count > 0)
                     {
-                        matchingTracksEventArgs.StreamMatchType |= StreamMatchType.UserMentionEntity;
+                        matchingTracksEventArgs.MatchOn |= MatchOn.UserMentionEntities;
                     }
                 });
             }
 
-            if (MatchType.HasFlag(StreamMatchType.TweetLocation))
+            if (MatchOn.HasFlag(MatchOn.Everything) ||
+                MatchOn.HasFlag(MatchOn.TweetLocation))
             {
                 var matchedLocations = GetMatchedLocations(tweet).ToArray();
 
@@ -290,11 +291,12 @@ namespace Tweetinvi.Streams
 
                 if (matchedLocations.Length > 0)
                 {
-                    matchingTracksEventArgs.StreamMatchType |= StreamMatchType.TweetLocation;
+                    matchingTracksEventArgs.MatchOn |= MatchOn.TweetLocation;
                 }
             }
 
-            if (MatchType.HasFlag(StreamMatchType.Follower))
+            if (MatchOn.HasFlag(MatchOn.Everything) ||
+                MatchOn.HasFlag(MatchOn.Follower))
             {
                 var userId = tweet.CreatedBy?.Id;
                 Action<ITweet> actionToExecuteWhenMatchingFollower;
@@ -302,11 +304,12 @@ namespace Tweetinvi.Streams
                 if (userId != null && _followingUserIds.TryGetValue(userId, out actionToExecuteWhenMatchingFollower))
                 {
                     matchingFollowersAndActions.TryAdd(userId.Value, actionToExecuteWhenMatchingFollower);
-                    matchingTracksEventArgs.StreamMatchType |= StreamMatchType.Follower;
+                    matchingTracksEventArgs.MatchOn |= MatchOn.Follower;
                 }
             }
 
-            if (MatchType.HasFlag(StreamMatchType.FollowerInReplyTo))
+            if (MatchOn.HasFlag(MatchOn.Everything) ||
+                MatchOn.HasFlag(MatchOn.FollowerInReplyTo))
             {
                 var userId = tweet.InReplyToUserId;
                 Action<ITweet> actionToExecuteWhenMatchingFollower;
@@ -314,7 +317,7 @@ namespace Tweetinvi.Streams
                 if (userId != null && _followingUserIds.TryGetValue(userId, out actionToExecuteWhenMatchingFollower))
                 {
                     matchingFollowersAndActions.TryAdd(userId.Value, actionToExecuteWhenMatchingFollower);
-                    matchingTracksEventArgs.StreamMatchType |= StreamMatchType.FollowerInReplyTo;
+                    matchingTracksEventArgs.MatchOn |= MatchOn.FollowerInReplyTo;
                 }
             }
 

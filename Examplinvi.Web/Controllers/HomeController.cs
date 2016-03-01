@@ -28,7 +28,7 @@ namespace Examplinvi.Web.Controllers
             if (verifierCode != null)
             {
                 var userCreds = CredentialsCreator.GetCredentialsFromVerifierCode(verifierCode, authorizationId);
-                var user = Tweetinvi.User.GetLoggedUser(userCreds);
+                var user = Tweetinvi.User.GetAuthenticatedUser(userCreds);
 
                 ViewBag.User = user;
             }

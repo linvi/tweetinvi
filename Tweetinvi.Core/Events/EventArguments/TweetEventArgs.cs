@@ -42,7 +42,7 @@ namespace Tweetinvi.Core.Events.EventArguments
         public string[] MatchingTracks { get; set; }
         public ILocation[] MatchingLocations { get; set; }
         public long[] MatchingFollowers { get; set; }
-        public StreamMatchType StreamMatchType { get; set; }
+        public MatchOn MatchOn { get; set; }
     }
 
     public class TweetDeletedEventArgs : EventArgs

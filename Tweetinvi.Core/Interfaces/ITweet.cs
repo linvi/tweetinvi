@@ -253,7 +253,7 @@ namespace Tweetinvi.Core.Interfaces
         #endregion
 
         /// <summary>
-        /// Retweet the current tweet from the currently logged user
+        /// Retweet the current tweet from the authenticated user.
         /// </summary>
         ITweet PublishRetweet();
 
@@ -268,7 +268,7 @@ namespace Tweetinvi.Core.Interfaces
         bool Destroy();
 
         /// <summary>
-        /// Generate an OEmbedTweet
+        /// Generate an OEmbedTweet.
         /// </summary>
         IOEmbedTweet GenerateOEmbedTweet();
     }

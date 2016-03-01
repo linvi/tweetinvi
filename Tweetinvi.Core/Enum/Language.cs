@@ -2,10 +2,24 @@
 
 namespace Tweetinvi.Core.Enum
 {
+    /// <summary>
+    /// Attribute allowing to link a language with its Twitter code.
+    /// </summary>
     public class LanguageAttribute : Attribute
     {
+        /// <summary>
+        /// Primary language code.
+        /// </summary>
         public string Language { get; private set; }
+
+        /// <summary>
+        /// All available language codes.
+        /// </summary>
         public string[] Languages { get; private set; }
+
+        /// <summary>
+        /// Does Twitter represent this language with different codes.
+        /// </summary>
         public bool HasMultipleCodes { get; private set; }
 
         public LanguageAttribute(params string[] languages)
@@ -21,6 +35,10 @@ namespace Tweetinvi.Core.Enum
         }
     }
 
+    /// <summary>
+    /// Languages available on Twitter. Some code returned by Twitter are not documented and will return Undefined.
+    /// If a language code is not supported but you know what it represent, please to open an issue.
+    /// </summary>
     public enum Language
     {
         [Language("undefined", "xx")] Undefined = 0,

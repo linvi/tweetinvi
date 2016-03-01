@@ -12,7 +12,7 @@ namespace Tweetinvi.Core.Interfaces
     /// User associated with a Token, this "privileged" user
     /// has access private information like messages, timeline...
     /// </summary>
-    public interface ILoggedUser : ILoggedUserAsync, IUser
+    public interface IAuthenticatedUser : IAuthenticatedUserAsync, IUser
     {
         /// <summary>
         /// Authenticated user email. This value will be null if the application has not been verified and authorized by Twitter.
@@ -33,12 +33,12 @@ namespace Tweetinvi.Core.Interfaces
         /// <summary>
         /// Execute an operation with the context of this authenticated user.
         /// </summary>
-        T ExecuteLoggedUserOperation<T>(Func<T> operation);
+        T ExecuteAuthenticatedUserOperation<T>(Func<T> operation);
 
         /// <summary>
         /// Execute an operation with the context of this authenticated user.
         /// </summary>
-        void ExecuteLoggedUserOperation(Action operation);
+        void ExecuteAuthenticatedUserOperation(Action operation);
 
         #region Tweets
 
@@ -88,12 +88,12 @@ namespace Tweetinvi.Core.Interfaces
         IEnumerable<ITweet> LatestHomeTimeline { get; set; }
 
         /// <summary>
-        /// Get the latest tweets of the authenticated user Home timeline
+        /// Get the latest tweets of the authenticated user Home timeline.
         /// </summary>
         IEnumerable<ITweet> GetHomeTimeline(int maximumNumberOfTweets = 40);
 
         /// <summary>
-        /// Get the latest tweets of the authenticated user Home timeline
+        /// Get the latest tweets of the authenticated user Home timeline.
         /// </summary>
         IEnumerable<ITweet> GetHomeTimeline(IHomeTimelineParameters timelineRequestParameters);
 
@@ -156,32 +156,32 @@ namespace Tweetinvi.Core.Interfaces
         IEnumerable<IUser> GetUsersYouRequestedToFollow(int maximumUserIdsToRetrieve = 5000);
 
         /// <summary>
-        /// Folow a specific user
+        /// Folow a specific user.
         /// </summary>
         bool FollowUser(IUser user);
 
         /// <summary>
-        /// Folow a specific user
+        /// Folow a specific user.
         /// </summary>
         bool FollowUser(long userId);
 
         /// <summary>
-        /// Folow a specific user
+        /// Folow a specific user.
         /// </summary>
         bool FollowUser(string screenName);
 
         /// <summary>
-        /// Unfolow a specific user
+        /// Unfollow a specific user.
         /// </summary>
         bool UnFollowUser(IUser user);
 
         /// <summary>
-        /// Unfolow a specific user
+        /// Unfollow a specific user.
         /// </summary>
         bool UnFollowUser(long userId);
 
         /// <summary>
-        /// Unfolow a specific user
+        /// Unfollow a specific user.
         /// </summary>
         bool UnFollowUser(string screenName);
 

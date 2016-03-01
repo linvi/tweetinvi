@@ -13,7 +13,7 @@ namespace Tweetinvi.Core.Interfaces
         ITwitterListDTO TwitterListDTO { get; set; }
 
         /// <summary>
-        /// List Id as a string provided by Twitter
+        /// List Id as a string provided by Twitter.
         /// </summary>
         string IdStr { get; }
 
@@ -28,44 +28,44 @@ namespace Tweetinvi.Core.Interfaces
         string FullName { get; }
 
         /// <summary>
-        /// User who owns the list
+        /// User who owns the list.
         /// </summary>
         IUser Owner { get; }
 
         /// <summary>
-        /// Date when the list was created
+        /// Date when the list was created.
         /// </summary>
         DateTime CreatedAt { get; }
 
         string Uri { get; }
 
         /// <summary>
-        /// Description of the list
+        /// Description of the list.
         /// </summary>
         string Description { get; }
 
         /// <summary>
-        /// Is the authenticated user following this list
+        /// Is the authenticated user following this list.
         /// </summary>
         bool Following { get; }
 
         /// <summary>
-        /// Whether this list is private or public
+        /// Whether this list is private or public.
         /// </summary>
         PrivacyMode PrivacyMode { get; }
 
         /// <summary>
-        /// Number of members in this list
+        /// Number of members in this list.
         /// </summary>
         int MemberCount { get; }
 
         /// <summary>
-        /// Number of users who subscribed to this list
+        /// Number of users who subscribed to this list.
         /// </summary>
         int SubscriberCount { get; }
 
         /// <summary>
-        /// Get the tweets from this list
+        /// Get the tweets from this list.
         /// </summary>
         IEnumerable<ITweet> GetTweets(IGetTweetsFromListParameters getTweetsFromListParameters = null);
 
@@ -150,42 +150,42 @@ namespace Tweetinvi.Core.Interfaces
         bool CheckUserMembership(IUserIdentifier user);
 
         /// <summary>
-        /// Get the subscribers of the list
+        /// Get the subscribers of the list.
         /// </summary>
         IEnumerable<IUser> GetSubscribers(int maximumNumberOfUsersToRetrieve = 100);
 
         /// <summary>
-        /// Subscribe the authenticated user to the list
+        /// Subscribe the authenticated user to the list.
         /// </summary>
-        bool SubscribeLoggedUserToList(ILoggedUser loggedUser = null);
+        bool SubscribeAuthenticatedUserToList(IAuthenticatedUser authenticatedUser = null);
 
         /// <summary>
-        /// Unsubscribe the authenticated user to the list
+        /// Unsubscribe the authenticated user from the list.
         /// </summary>
-        bool UnSubscribeLoggedUserFromList(ILoggedUser loggedUser = null);
+        bool UnSubscribeAuthenticatedUserFromList(IAuthenticatedUser authenticatedUser = null);
 
         /// <summary>
-        /// Check whether a user has subscribed to the list
+        /// Check whether a user has subscribed to the list.
         /// </summary>
         bool CheckUserSubscription(long userId);
 
         /// <summary>
-        /// Check whether a user has subscribed to the list
+        /// Check whether a user has subscribed to the list.
         /// </summary>
         bool CheckUserSubscription(string userScreenName);
 
         /// <summary>
-        /// Check whether a user has subscribed to the list
+        /// Check whether a user has subscribed to the list.
         /// </summary>
         bool CheckUserSubscription(IUserIdentifier user);
 
         /// <summary>
-        /// Update the list
+        /// Update the list.
         /// </summary>
         bool Update(ITwitterListUpdateParameters parameters);
 
         /// <summary>
-        /// Destroy the list
+        /// Destroy the list.
         /// </summary>
         bool Destroy();
     }

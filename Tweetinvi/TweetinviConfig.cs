@@ -37,16 +37,6 @@ namespace Tweetinvi
         }
 
         /// <summary>
-        /// Value indicating whether some debug information will be printed in the console.
-        /// By default it is enabled in debug and disabled in release.
-        /// </summary>
-        public static bool APPLICATION_SHOW_DEBUG
-        {
-            get { return ApplicationSettings.ShowDebug; }
-            set { ApplicationSettings.ShowDebug = value; }
-        }
-
-        /// <summary>
         /// Duration in milliseconds before Tweetinvi considers that the WebRequest has failed to execute.
         /// A value of -1 indicates that the query will wait indifinitely for a response.
         /// </summary>
@@ -59,10 +49,10 @@ namespace Tweetinvi
         /// <summary>
         /// When a query is performed Tweetinvi will wait for the rate limit to be available before executing the query
         /// </summary>
-        public static RateLimitTrackerOptions APPLICATION_RATELIMIT_TRACKER_OPTION
+        public static RateLimitTrackerMode APPLICATION_RATELIMIT_TRACKER_MODE
         {
-            get { return ApplicationSettings.RateLimitTrackerOption; }
-            set { ApplicationSettings.RateLimitTrackerOption = value; }
+            get { return ApplicationSettings.RateLimitTrackerMode; }
+            set { ApplicationSettings.RateLimitTrackerMode = value; }
         }
 
         /// <summary>
@@ -72,16 +62,6 @@ namespace Tweetinvi
         {
             get { return CurrentSettings.ProxyURL; }
             set { CurrentSettings.ProxyURL = value; }
-        }
-
-        /// <summary>
-        /// Value indicating whether some debug information will be printed in the console.
-        /// By default it is enabled in debug and disabled in release.
-        /// </summary>
-        public static bool CURRENT_SHOW_DEBUG
-        {
-            get { return CurrentSettings.ShowDebug; }
-            set { CurrentSettings.ShowDebug = value; }
         }
 
         /// <summary>
@@ -97,10 +77,10 @@ namespace Tweetinvi
         /// <summary>
         /// When a query is performed Tweetinvi will wait for the rate limit to be available before executing the query
         /// </summary>
-        public static RateLimitTrackerOptions CURRENT_RATELIMIT_TRACKER_OPTION
+        public static RateLimitTrackerMode CURRENT_RATELIMIT_TRACKER_MODE
         {
-            get { return CurrentSettings.RateLimitTrackerOption; }
-            set { CurrentSettings.RateLimitTrackerOption = value; }
+            get { return CurrentSettings.RateLimitTrackerMode; }
+            set { CurrentSettings.RateLimitTrackerMode = value; }
         }
     }
 }

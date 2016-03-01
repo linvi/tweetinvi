@@ -68,7 +68,7 @@ namespace Tweetinvi
         /// </summary>
         public static IAccountSettings GetCurrentAccountSettings()
         {
-            return AccountController.GetLoggedUserSettings();
+            return AccountController.GetAuthenticatedUserSettings();
         }
 
         /// <summary>
@@ -82,7 +82,7 @@ namespace Tweetinvi
             int? startSleepTime = null,
             int? endSleepTime = null)
         {
-            return AccountController.UpdateLoggedUserSettings(
+            return AccountController.UpdateAuthenticatedUserSettings(
                 languages,
                 timeZone,
                 trendLocationWoeid,
@@ -96,7 +96,7 @@ namespace Tweetinvi
         /// </summary>
         public static IAccountSettings UpdateAccountSettings(IAccountSettingsRequestParameters settings)
         {
-            return AccountController.UpdateLoggedUserSettings(settings);
+            return AccountController.UpdateAuthenticatedUserSettings(settings);
         }
 
         /// <summary>

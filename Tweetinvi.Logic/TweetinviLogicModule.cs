@@ -59,7 +59,7 @@ namespace Tweetinvi.Logic
             _container.RegisterType<IOEmbedTweet, OEmbedTweet>();
 
             _container.RegisterType<IUser, User>();
-            _container.RegisterType<ILoggedUser, LoggedUser>();
+            _container.RegisterType<IAuthenticatedUser, AuthenticatedUser>();
 
             _container.RegisterType<ITwitterList, TwitterList>();
 

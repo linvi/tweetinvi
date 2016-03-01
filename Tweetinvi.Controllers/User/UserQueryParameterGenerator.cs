@@ -26,10 +26,10 @@ namespace Tweetinvi.Controllers.User
             _userQueryValidator = userQueryValidator;
         }
 
-        public string GetLoggedUserQuery(IGetLoggedUserParameters parameters)
+        public string GetAuthenticatedUserQuery(IGetAuthenticatedUserParameters parameters)
         {
             var query = new StringBuilder(Resources.User_GetCurrentUser);
-            parameters = parameters ?? new GetLoggedUserParameters();
+            parameters = parameters ?? new GetAuthenticatedUserParameters();
 
             query.AddParameterToQuery("skip_status", parameters.SkipStatus);
             query.AddParameterToQuery("include_entities", parameters.IncludeEntities);

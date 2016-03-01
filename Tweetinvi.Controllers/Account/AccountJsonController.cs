@@ -4,7 +4,7 @@ namespace Tweetinvi.Controllers.Account
 {
     public interface IAccountJsonController
     {
-        string  GetLoggedUserSettingsJson();
+        string  GetAuthenticatedUserSettingsJson();
     }
 
     public class AccountJsonController : IAccountJsonController
@@ -20,9 +20,9 @@ namespace Tweetinvi.Controllers.Account
             _accountQueryGenerator = accountQueryGenerator;
         }
 
-        public string GetLoggedUserSettingsJson()
+        public string GetAuthenticatedUserSettingsJson()
         {
-            string query = _accountQueryGenerator.GetLoggedUserAccountSettingsQuery();
+            string query = _accountQueryGenerator.GetAuthenticatedUserAccountSettingsQuery();
             return _twitterAccessor.ExecuteJsonGETQuery(query);
         }
     }

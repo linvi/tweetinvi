@@ -12,9 +12,25 @@ namespace Tweetinvi.Core.Interfaces.Streaminvi
     /// </summary>
     public interface IStreamResultGenerator
     {
+        /// <summary>
+        /// The stream has started.
+        /// </summary>
         event EventHandler StreamStarted;
+
+        /// <summary>
+        /// The stream has resumed after being paused.
+        /// </summary>
         event EventHandler StreamResumed;
+
+        /// <summary>
+        /// The stream has paused.
+        /// </summary>
         event EventHandler StreamPaused;
+
+        /// <summary>
+        /// The stream has stopped. This can be due by an exception.
+        /// If it is the case the event args will contain the exception details.
+        /// </summary>
         event EventHandler<StreamExceptionEventArgs> StreamStopped;
 
         /// <summary>
@@ -22,6 +38,9 @@ namespace Tweetinvi.Core.Interfaces.Streaminvi
         /// </summary>
         StreamState StreamState { get; }
 
+        /// <summary>
+        /// Start extracting objects from the stream
+        /// </summary>
         Task StartStreamAsync(Action<string> processObject, Func<ITwitterQuery> generateTwitterQuery);
 
         /// <summary>
