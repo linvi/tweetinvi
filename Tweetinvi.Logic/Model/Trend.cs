@@ -16,5 +16,8 @@ namespace Tweetinvi.Logic.Model
 
         [JsonProperty("promoted_content")]
         public string PromotedContent { get; set; }
+
+        [JsonProperty("tweet_volume")] 
+        public int? TweetVolume { get; set; }
     }
 }

@@ -7,9 +7,19 @@ using Tweetinvi.Core.Interfaces.WebLogic;
 
 namespace Tweetinvi.Core.Interfaces.Models
 {
+    /// <summary>
+    /// Create a twitter query
+    /// </summary>
     public interface ITwitterQueryFactory
     {
+        /// <summary>
+        /// Create a twitter query.
+        /// </summary>
         ITwitterQuery Create(string queryURL, HttpMethod httpMethod = HttpMethod.GET, bool withThreadCredentials = false);
+
+        /// <summary>
+        /// Create a twitter query.
+        /// </summary>
         ITwitterQuery Create(string queryURL, HttpMethod httpMethod, ITwitterCredentials twitterCredentials);
     }
 
