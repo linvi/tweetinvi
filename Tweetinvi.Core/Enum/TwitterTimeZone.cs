@@ -26,433 +26,433 @@ namespace Tweetinvi.Core.Enum
     public enum TwitterTimeZone
     {
         [TwitterTimeZone("Pacific/Midway", "International Date Line West")]
-International_Date_Line_West,
+        International_Date_Line_West,
 
-[TwitterTimeZone("Pacific/Midway", "Midway Island")]
-Midway_Island,
+        [TwitterTimeZone("Pacific/Midway", "Midway Island")]
+        Midway_Island,
 
-[TwitterTimeZone("Pacific/Pago_Pago", "American Samoa")]
-American_Samoa,
+        [TwitterTimeZone("Pacific/Pago_Pago", "American Samoa")]
+        American_Samoa,
 
-[TwitterTimeZone("Pacific/Honolulu", "Hawaii")]
-Hawaii,
+        [TwitterTimeZone("Pacific/Honolulu", "Hawaii")]
+        Hawaii,
 
-[TwitterTimeZone("America/Juneau", "Alaska")]
-Alaska,
+        [TwitterTimeZone("America/Juneau", "Alaska")]
+        Alaska,
 
-[TwitterTimeZone("America/Tijuana", "Tijuana")]
-Tijuana,
+        [TwitterTimeZone("America/Tijuana", "Tijuana")]
+        Tijuana,
 
-[TwitterTimeZone("America/Phoenix", "Arizona")]
-Arizona,
+        [TwitterTimeZone("America/Phoenix", "Arizona")]
+        Arizona,
 
-[TwitterTimeZone("America/Chihuahua", "Chihuahua")]
-Chihuahua,
+        [TwitterTimeZone("America/Chihuahua", "Chihuahua")]
+        Chihuahua,
 
-[TwitterTimeZone("America/Mazatlan", "Mazatlan")]
-Mazatlan,
+        [TwitterTimeZone("America/Mazatlan", "Mazatlan")]
+        Mazatlan,
 
-[TwitterTimeZone("America/Regina", "Saskatchewan")]
-Saskatchewan,
+        [TwitterTimeZone("America/Regina", "Saskatchewan")]
+        Saskatchewan,
 
-[TwitterTimeZone("America/Mexico_City", "Guadalajara")]
-Guadalajara,
+        [TwitterTimeZone("America/Mexico_City", "Guadalajara")]
+        Guadalajara,
 
-[TwitterTimeZone("America/Mexico_City", "Mexico City")]
-Mexico_City,
+        [TwitterTimeZone("America/Mexico_City", "Mexico City")]
+        Mexico_City,
 
-[TwitterTimeZone("America/Monterrey", "Monterrey")]
-Monterrey,
+        [TwitterTimeZone("America/Monterrey", "Monterrey")]
+        Monterrey,
 
-[TwitterTimeZone("America/Guatemala", "Central America")]
-Central_America,
+        [TwitterTimeZone("America/Guatemala", "Central America")]
+        Central_America,
 
-[TwitterTimeZone("America/Bogota", "Bogota")]
-Bogota,
+        [TwitterTimeZone("America/Bogota", "Bogota")]
+        Bogota,
 
-[TwitterTimeZone("America/Lima", "Lima")]
-Lima,
+        [TwitterTimeZone("America/Lima", "Lima")]
+        Lima,
 
-[TwitterTimeZone("America/Lima", "Quito")]
-Quito,
+        [TwitterTimeZone("America/Lima", "Quito")]
+        Quito,
 
-[TwitterTimeZone("America/Caracas", "Caracas")]
-Caracas,
+        [TwitterTimeZone("America/Caracas", "Caracas")]
+        Caracas,
 
-[TwitterTimeZone("America/La_Paz", "La Paz")]
-La_Paz,
+        [TwitterTimeZone("America/La_Paz", "La Paz")]
+        La_Paz,
 
-[TwitterTimeZone("America/Santiago", "Santiago")]
-Santiago,
+        [TwitterTimeZone("America/Santiago", "Santiago")]
+        Santiago,
 
-[TwitterTimeZone("America/St_Johns", "Newfoundland")]
-Newfoundland,
+        [TwitterTimeZone("America/St_Johns", "Newfoundland")]
+        Newfoundland,
 
-[TwitterTimeZone("America/Sao_Paulo", "Brasilia")]
-Brasilia,
+        [TwitterTimeZone("America/Sao_Paulo", "Brasilia")]
+        Brasilia,
 
-[TwitterTimeZone("America/Argentina/Buenos_Aires", "Buenos Aires")]
-Buenos_Aires,
+        [TwitterTimeZone("America/Argentina/Buenos_Aires", "Buenos Aires")]
+        Buenos_Aires,
 
-[TwitterTimeZone("America/Montevideo", "Montevideo")]
-Montevideo,
+        [TwitterTimeZone("America/Montevideo", "Montevideo")]
+        Montevideo,
 
-[TwitterTimeZone("America/Guyana", "Georgetown")]
-Georgetown,
+        [TwitterTimeZone("America/Guyana", "Georgetown")]
+        Georgetown,
 
-[TwitterTimeZone("America/Godthab", "Greenland")]
-Greenland,
+        [TwitterTimeZone("America/Godthab", "Greenland")]
+        Greenland,
 
-[TwitterTimeZone("Atlantic/South_Georgia", "Mid-Atlantic")]
-Mid_Atlantic,
+        [TwitterTimeZone("Atlantic/South_Georgia", "Mid-Atlantic")]
+        Mid_Atlantic,
 
-[TwitterTimeZone("Atlantic/Azores", "Azores")]
-Azores,
+        [TwitterTimeZone("Atlantic/Azores", "Azores")]
+        Azores,
 
-[TwitterTimeZone("Atlantic/Cape_Verde", "Cape Verde Is.")]
-Cape_Verde_Island,
+        [TwitterTimeZone("Atlantic/Cape_Verde", "Cape Verde Is.")]
+        Cape_Verde_Island,
 
-[TwitterTimeZone("Europe/Dublin", "Dublin")]
-Dublin,
+        [TwitterTimeZone("Europe/Dublin", "Dublin")]
+        Dublin,
 
-[TwitterTimeZone("Europe/London", "Edinburgh")]
-Edinburgh,
+        [TwitterTimeZone("Europe/London", "Edinburgh")]
+        Edinburgh,
 
-[TwitterTimeZone("Europe/Lisbon", "Lisbon")]
-Lisbon,
+        [TwitterTimeZone("Europe/Lisbon", "Lisbon")]
+        Lisbon,
 
-[TwitterTimeZone("Europe/London", "London")]
-London,
+        [TwitterTimeZone("Europe/London", "London")]
+        London,
 
-[TwitterTimeZone("Africa/Casablanca", "Casablanca")]
-Casablanca,
+        [TwitterTimeZone("Africa/Casablanca", "Casablanca")]
+        Casablanca,
 
-[TwitterTimeZone("Africa/Monrovia", "Monrovia")]
-Monrovia,
+        [TwitterTimeZone("Africa/Monrovia", "Monrovia")]
+        Monrovia,
 
-[TwitterTimeZone("Etc/UTC", "UTC")]
-UTC,
+        [TwitterTimeZone("Etc/UTC", "UTC")]
+        UTC,
 
-[TwitterTimeZone("Europe/Belgrade", "Belgrade")]
-Belgrade,
+        [TwitterTimeZone("Europe/Belgrade", "Belgrade")]
+        Belgrade,
 
-[TwitterTimeZone("Europe/Bratislava", "Bratislava")]
-Bratislava,
+        [TwitterTimeZone("Europe/Bratislava", "Bratislava")]
+        Bratislava,
 
-[TwitterTimeZone("Europe/Budapest", "Budapest")]
-Budapest,
+        [TwitterTimeZone("Europe/Budapest", "Budapest")]
+        Budapest,
 
-[TwitterTimeZone("Europe/Ljubljana", "Ljubljana")]
-Ljubljana,
+        [TwitterTimeZone("Europe/Ljubljana", "Ljubljana")]
+        Ljubljana,
 
-[TwitterTimeZone("Europe/Prague", "Prague")]
-Prague,
+        [TwitterTimeZone("Europe/Prague", "Prague")]
+        Prague,
 
-[TwitterTimeZone("Europe/Sarajevo", "Sarajevo")]
-Sarajevo,
+        [TwitterTimeZone("Europe/Sarajevo", "Sarajevo")]
+        Sarajevo,
 
-[TwitterTimeZone("Europe/Skopje", "Skopje")]
-Skopje,
+        [TwitterTimeZone("Europe/Skopje", "Skopje")]
+        Skopje,
 
-[TwitterTimeZone("Europe/Warsaw", "Warsaw")]
-Warsaw,
+        [TwitterTimeZone("Europe/Warsaw", "Warsaw")]
+        Warsaw,
 
-[TwitterTimeZone("Europe/Zagreb", "Zagreb")]
-Zagreb,
+        [TwitterTimeZone("Europe/Zagreb", "Zagreb")]
+        Zagreb,
 
-[TwitterTimeZone("Europe/Brussels", "Brussels")]
-Brussels,
+        [TwitterTimeZone("Europe/Brussels", "Brussels")]
+        Brussels,
 
-[TwitterTimeZone("Europe/Copenhagen", "Copenhagen")]
-Copenhagen,
+        [TwitterTimeZone("Europe/Copenhagen", "Copenhagen")]
+        Copenhagen,
 
-[TwitterTimeZone("Europe/Madrid", "Madrid")]
-Madrid,
+        [TwitterTimeZone("Europe/Madrid", "Madrid")]
+        Madrid,
 
-[TwitterTimeZone("Europe/Paris", "Paris")]
-Paris,
+        [TwitterTimeZone("Europe/Paris", "Paris")]
+        Paris,
 
-[TwitterTimeZone("Europe/Amsterdam", "Amsterdam")]
-Amsterdam,
+        [TwitterTimeZone("Europe/Amsterdam", "Amsterdam")]
+        Amsterdam,
 
-[TwitterTimeZone("Europe/Berlin", "Berlin")]
-Berlin,
+        [TwitterTimeZone("Europe/Berlin", "Berlin")]
+        Berlin,
 
-[TwitterTimeZone("Europe/Berlin", "Bern")]
-Bern,
+        [TwitterTimeZone("Europe/Berlin", "Bern")]
+        Bern,
 
-[TwitterTimeZone("Europe/Rome", "Rome")]
-Rome,
+        [TwitterTimeZone("Europe/Rome", "Rome")]
+        Rome,
 
-[TwitterTimeZone("Europe/Stockholm", "Stockholm")]
-Stockholm,
+        [TwitterTimeZone("Europe/Stockholm", "Stockholm")]
+        Stockholm,
 
-[TwitterTimeZone("Europe/Vienna", "Vienna")]
-Vienna,
+        [TwitterTimeZone("Europe/Vienna", "Vienna")]
+        Vienna,
 
-[TwitterTimeZone("Africa/Algiers", "West Central Africa")]
-West_Central_Africa,
+        [TwitterTimeZone("Africa/Algiers", "West Central Africa")]
+        West_Central_Africa,
 
-[TwitterTimeZone("Europe/Bucharest", "Bucharest")]
-Bucharest,
+        [TwitterTimeZone("Europe/Bucharest", "Bucharest")]
+        Bucharest,
 
-[TwitterTimeZone("Africa/Cairo", "Cairo")]
-Cairo,
+        [TwitterTimeZone("Africa/Cairo", "Cairo")]
+        Cairo,
 
-[TwitterTimeZone("Europe/Helsinki", "Helsinki")]
-Helsinki,
+        [TwitterTimeZone("Europe/Helsinki", "Helsinki")]
+        Helsinki,
 
-[TwitterTimeZone("Europe/Kiev", "Kyiv")]
-Kyiv,
+        [TwitterTimeZone("Europe/Kiev", "Kyiv")]
+        Kyiv,
 
-[TwitterTimeZone("Europe/Riga", "Riga")]
-Riga,
+        [TwitterTimeZone("Europe/Riga", "Riga")]
+        Riga,
 
-[TwitterTimeZone("Europe/Sofia", "Sofia")]
-Sofia,
+        [TwitterTimeZone("Europe/Sofia", "Sofia")]
+        Sofia,
 
-[TwitterTimeZone("Europe/Tallinn", "Tallinn")]
-Tallinn,
+        [TwitterTimeZone("Europe/Tallinn", "Tallinn")]
+        Tallinn,
 
-[TwitterTimeZone("Europe/Vilnius", "Vilnius")]
-Vilnius,
+        [TwitterTimeZone("Europe/Vilnius", "Vilnius")]
+        Vilnius,
 
-[TwitterTimeZone("Europe/Athens", "Athens")]
-Athens,
+        [TwitterTimeZone("Europe/Athens", "Athens")]
+        Athens,
 
-[TwitterTimeZone("Europe/Istanbul", "Istanbul")]
-Istanbul,
+        [TwitterTimeZone("Europe/Istanbul", "Istanbul")]
+        Istanbul,
 
-[TwitterTimeZone("Europe/Minsk", "Minsk")]
-Minsk,
+        [TwitterTimeZone("Europe/Minsk", "Minsk")]
+        Minsk,
 
-[TwitterTimeZone("Asia/Jerusalem", "Jerusalem")]
-Jerusalem,
+        [TwitterTimeZone("Asia/Jerusalem", "Jerusalem")]
+        Jerusalem,
 
-[TwitterTimeZone("Africa/Harare", "Harare")]
-Harare,
+        [TwitterTimeZone("Africa/Harare", "Harare")]
+        Harare,
 
-[TwitterTimeZone("Africa/Johannesburg", "Pretoria")]
-Pretoria,
+        [TwitterTimeZone("Africa/Johannesburg", "Pretoria")]
+        Pretoria,
 
-[TwitterTimeZone("Europe/Kaliningrad", "Kaliningrad")]
-Kaliningrad,
+        [TwitterTimeZone("Europe/Kaliningrad", "Kaliningrad")]
+        Kaliningrad,
 
-[TwitterTimeZone("Europe/Moscow", "Moscow")]
-Moscow,
+        [TwitterTimeZone("Europe/Moscow", "Moscow")]
+        Moscow,
 
-[TwitterTimeZone("Europe/Moscow", "St. Petersburg")]
-St_Petersburg,
+        [TwitterTimeZone("Europe/Moscow", "St. Petersburg")]
+        St_Petersburg,
 
-[TwitterTimeZone("Europe/Volgograd", "Volgograd")]
-Volgograd,
+        [TwitterTimeZone("Europe/Volgograd", "Volgograd")]
+        Volgograd,
 
-[TwitterTimeZone("Europe/Samara", "Samara")]
-Samara,
+        [TwitterTimeZone("Europe/Samara", "Samara")]
+        Samara,
 
-[TwitterTimeZone("Asia/Kuwait", "Kuwait")]
-Kuwait,
+        [TwitterTimeZone("Asia/Kuwait", "Kuwait")]
+        Kuwait,
 
-[TwitterTimeZone("Asia/Riyadh", "Riyadh")]
-Riyadh,
+        [TwitterTimeZone("Asia/Riyadh", "Riyadh")]
+        Riyadh,
 
-[TwitterTimeZone("Africa/Nairobi", "Nairobi")]
-Nairobi,
+        [TwitterTimeZone("Africa/Nairobi", "Nairobi")]
+        Nairobi,
 
-[TwitterTimeZone("Asia/Baghdad", "Baghdad")]
-Baghdad,
+        [TwitterTimeZone("Asia/Baghdad", "Baghdad")]
+        Baghdad,
 
-[TwitterTimeZone("Asia/Tehran", "Tehran")]
-Tehran,
+        [TwitterTimeZone("Asia/Tehran", "Tehran")]
+        Tehran,
 
-[TwitterTimeZone("Asia/Muscat", "Abu Dhabi")]
-Abu_Dhabi,
+        [TwitterTimeZone("Asia/Muscat", "Abu Dhabi")]
+        Abu_Dhabi,
 
-[TwitterTimeZone("Asia/Muscat", "Muscat")]
-Muscat,
+        [TwitterTimeZone("Asia/Muscat", "Muscat")]
+        Muscat,
 
-[TwitterTimeZone("Asia/Baku", "Baku")]
-Baku,
+        [TwitterTimeZone("Asia/Baku", "Baku")]
+        Baku,
 
-[TwitterTimeZone("Asia/Tbilisi", "Tbilisi")]
-Tbilisi,
+        [TwitterTimeZone("Asia/Tbilisi", "Tbilisi")]
+        Tbilisi,
 
-[TwitterTimeZone("Asia/Yerevan", "Yerevan")]
-Yerevan,
+        [TwitterTimeZone("Asia/Yerevan", "Yerevan")]
+        Yerevan,
 
-[TwitterTimeZone("Asia/Kabul", "Kabul")]
-Kabul,
+        [TwitterTimeZone("Asia/Kabul", "Kabul")]
+        Kabul,
 
-[TwitterTimeZone("Asia/Yekaterinburg", "Ekaterinburg")]
-Ekaterinburg,
+        [TwitterTimeZone("Asia/Yekaterinburg", "Ekaterinburg")]
+        Ekaterinburg,
 
-[TwitterTimeZone("Asia/Karachi", "Islamabad")]
-Islamabad,
+        [TwitterTimeZone("Asia/Karachi", "Islamabad")]
+        Islamabad,
 
-[TwitterTimeZone("Asia/Karachi", "Karachi")]
-Karachi,
+        [TwitterTimeZone("Asia/Karachi", "Karachi")]
+        Karachi,
 
-[TwitterTimeZone("Asia/Tashkent", "Tashkent")]
-Tashkent,
+        [TwitterTimeZone("Asia/Tashkent", "Tashkent")]
+        Tashkent,
 
-[TwitterTimeZone("Asia/Kolkata", "Chennai")]
-Chennai,
+        [TwitterTimeZone("Asia/Kolkata", "Chennai")]
+        Chennai,
 
-[TwitterTimeZone("Asia/Kolkata", "Kolkata")]
-Kolkata,
+        [TwitterTimeZone("Asia/Kolkata", "Kolkata")]
+        Kolkata,
 
-[TwitterTimeZone("Asia/Kolkata", "Mumbai")]
-Mumbai,
+        [TwitterTimeZone("Asia/Kolkata", "Mumbai")]
+        Mumbai,
 
-[TwitterTimeZone("Asia/Kolkata", "New Delhi")]
-New_Delhi,
+        [TwitterTimeZone("Asia/Kolkata", "New Delhi")]
+        New_Delhi,
 
-[TwitterTimeZone("Asia/Kathmandu", "Kathmandu")]
-Kathmandu,
+        [TwitterTimeZone("Asia/Kathmandu", "Kathmandu")]
+        Kathmandu,
 
-[TwitterTimeZone("Asia/Dhaka", "Astana")]
-Astana,
+        [TwitterTimeZone("Asia/Dhaka", "Astana")]
+        Astana,
 
-[TwitterTimeZone("Asia/Dhaka", "Dhaka")]
-Dhaka,
+        [TwitterTimeZone("Asia/Dhaka", "Dhaka")]
+        Dhaka,
 
-[TwitterTimeZone("Asia/Colombo", "Sri Jayawardenepura")]
-Sri_Jayawardenepura,
+        [TwitterTimeZone("Asia/Colombo", "Sri Jayawardenepura")]
+        Sri_Jayawardenepura,
 
-[TwitterTimeZone("Asia/Almaty", "Almaty")]
-Almaty,
+        [TwitterTimeZone("Asia/Almaty", "Almaty")]
+        Almaty,
 
-[TwitterTimeZone("Asia/Novosibirsk", "Novosibirsk")]
-Novosibirsk,
+        [TwitterTimeZone("Asia/Novosibirsk", "Novosibirsk")]
+        Novosibirsk,
 
-[TwitterTimeZone("Asia/Rangoon", "Rangoon")]
-Rangoon,
+        [TwitterTimeZone("Asia/Rangoon", "Rangoon")]
+        Rangoon,
 
-[TwitterTimeZone("Asia/Bangkok", "Bangkok")]
-Bangkok,
+        [TwitterTimeZone("Asia/Bangkok", "Bangkok")]
+        Bangkok,
 
-[TwitterTimeZone("Asia/Bangkok", "Hanoi")]
-Hanoi,
+        [TwitterTimeZone("Asia/Bangkok", "Hanoi")]
+        Hanoi,
 
-[TwitterTimeZone("Asia/Jakarta", "Jakarta")]
-Jakarta,
+        [TwitterTimeZone("Asia/Jakarta", "Jakarta")]
+        Jakarta,
 
-[TwitterTimeZone("Asia/Krasnoyarsk", "Krasnoyarsk")]
-Krasnoyarsk,
+        [TwitterTimeZone("Asia/Krasnoyarsk", "Krasnoyarsk")]
+        Krasnoyarsk,
 
-[TwitterTimeZone("Asia/Shanghai", "Beijing")]
-Beijing,
+        [TwitterTimeZone("Asia/Shanghai", "Beijing")]
+        Beijing,
 
-[TwitterTimeZone("Asia/Chongqing", "Chongqing")]
-Chongqing,
+        [TwitterTimeZone("Asia/Chongqing", "Chongqing")]
+        Chongqing,
 
-[TwitterTimeZone("Asia/Hong_Kong", "Hong Kong")]
-Hong_Kong,
+        [TwitterTimeZone("Asia/Hong_Kong", "Hong Kong")]
+        Hong_Kong,
 
-[TwitterTimeZone("Asia/Urumqi", "Urumqi")]
-Urumqi,
+        [TwitterTimeZone("Asia/Urumqi", "Urumqi")]
+        Urumqi,
 
-[TwitterTimeZone("Asia/Kuala_Lumpur", "Kuala Lumpur")]
-Kuala_Lumpur,
+        [TwitterTimeZone("Asia/Kuala_Lumpur", "Kuala Lumpur")]
+        Kuala_Lumpur,
 
-[TwitterTimeZone("Asia/Singapore", "Singapore")]
-Singapore,
+        [TwitterTimeZone("Asia/Singapore", "Singapore")]
+        Singapore,
 
-[TwitterTimeZone("Asia/Taipei", "Taipei")]
-Taipei,
+        [TwitterTimeZone("Asia/Taipei", "Taipei")]
+        Taipei,
 
-[TwitterTimeZone("Australia/Perth", "Perth")]
-Perth,
+        [TwitterTimeZone("Australia/Perth", "Perth")]
+        Perth,
 
-[TwitterTimeZone("Asia/Irkutsk", "Irkutsk")]
-Irkutsk,
+        [TwitterTimeZone("Asia/Irkutsk", "Irkutsk")]
+        Irkutsk,
 
-[TwitterTimeZone("Asia/Ulaanbaatar", "Ulaanbaatar")]
-Ulaanbaatar,
+        [TwitterTimeZone("Asia/Ulaanbaatar", "Ulaanbaatar")]
+        Ulaanbaatar,
 
-[TwitterTimeZone("Asia/Seoul", "Seoul")]
-Seoul,
+        [TwitterTimeZone("Asia/Seoul", "Seoul")]
+        Seoul,
 
-[TwitterTimeZone("Asia/Tokyo", "Osaka")]
-Osaka,
+        [TwitterTimeZone("Asia/Tokyo", "Osaka")]
+        Osaka,
 
-[TwitterTimeZone("Asia/Tokyo", "Sapporo")]
-Sapporo,
+        [TwitterTimeZone("Asia/Tokyo", "Sapporo")]
+        Sapporo,
 
-[TwitterTimeZone("Asia/Tokyo", "Tokyo")]
-Tokyo,
+        [TwitterTimeZone("Asia/Tokyo", "Tokyo")]
+        Tokyo,
 
-[TwitterTimeZone("Asia/Yakutsk", "Yakutsk")]
-Yakutsk,
+        [TwitterTimeZone("Asia/Yakutsk", "Yakutsk")]
+        Yakutsk,
 
-[TwitterTimeZone("Australia/Darwin", "Darwin")]
-Darwin,
+        [TwitterTimeZone("Australia/Darwin", "Darwin")]
+        Darwin,
 
-[TwitterTimeZone("Australia/Adelaide", "Adelaide")]
-Adelaide,
+        [TwitterTimeZone("Australia/Adelaide", "Adelaide")]
+        Adelaide,
 
-[TwitterTimeZone("Australia/Melbourne", "Canberra")]
-Canberra,
+        [TwitterTimeZone("Australia/Melbourne", "Canberra")]
+        Canberra,
 
-[TwitterTimeZone("Australia/Melbourne", "Melbourne")]
-Melbourne,
+        [TwitterTimeZone("Australia/Melbourne", "Melbourne")]
+        Melbourne,
 
-[TwitterTimeZone("Australia/Sydney", "Sydney")]
-Sydney,
+        [TwitterTimeZone("Australia/Sydney", "Sydney")]
+        Sydney,
 
-[TwitterTimeZone("Australia/Brisbane", "Brisbane")]
-Brisbane,
+        [TwitterTimeZone("Australia/Brisbane", "Brisbane")]
+        Brisbane,
 
-[TwitterTimeZone("Australia/Hobart", "Hobart")]
-Hobart,
+        [TwitterTimeZone("Australia/Hobart", "Hobart")]
+        Hobart,
 
-[TwitterTimeZone("Asia/Vladivostok", "Vladivostok")]
-Vladivostok,
+        [TwitterTimeZone("Asia/Vladivostok", "Vladivostok")]
+        Vladivostok,
 
-[TwitterTimeZone("Pacific/Guam", "Guam")]
-Guam,
+        [TwitterTimeZone("Pacific/Guam", "Guam")]
+        Guam,
 
-[TwitterTimeZone("Pacific/Port_Moresby", "Port Moresby")]
-Port_Moresby,
+        [TwitterTimeZone("Pacific/Port_Moresby", "Port Moresby")]
+        Port_Moresby,
 
-[TwitterTimeZone("Asia/Magadan", "Magadan")]
-Magadan,
+        [TwitterTimeZone("Asia/Magadan", "Magadan")]
+        Magadan,
 
-[TwitterTimeZone("Asia/Srednekolymsk", "Srednekolymsk")]
-Srednekolymsk,
+        [TwitterTimeZone("Asia/Srednekolymsk", "Srednekolymsk")]
+        Srednekolymsk,
 
-[TwitterTimeZone("Pacific/Guadalcanal", "Solomon Is.")]
-Solomon_Island,
+        [TwitterTimeZone("Pacific/Guadalcanal", "Solomon Is.")]
+        Solomon_Island,
 
-[TwitterTimeZone("Pacific/Noumea", "New Caledonia")]
-New_Caledonia,
+        [TwitterTimeZone("Pacific/Noumea", "New Caledonia")]
+        New_Caledonia,
 
-[TwitterTimeZone("Pacific/Fiji", "Fiji")]
-Fiji,
+        [TwitterTimeZone("Pacific/Fiji", "Fiji")]
+        Fiji,
 
-[TwitterTimeZone("Asia/Kamchatka", "Kamchatka")]
-Kamchatka,
+        [TwitterTimeZone("Asia/Kamchatka", "Kamchatka")]
+        Kamchatka,
 
-[TwitterTimeZone("Pacific/Majuro", "Marshall Is.")]
-Marshall_Island,
+        [TwitterTimeZone("Pacific/Majuro", "Marshall Is.")]
+        Marshall_Island,
 
-[TwitterTimeZone("Pacific/Auckland", "Auckland")]
-Auckland,
+        [TwitterTimeZone("Pacific/Auckland", "Auckland")]
+        Auckland,
 
-[TwitterTimeZone("Pacific/Auckland", "Wellington")]
-Wellington,
+        [TwitterTimeZone("Pacific/Auckland", "Wellington")]
+        Wellington,
 
-[TwitterTimeZone("Pacific/Tongatapu", "Nuku'alofa")]
-Nuku_alofa,
+        [TwitterTimeZone("Pacific/Tongatapu", "Nuku'alofa")]
+        Nuku_alofa,
 
-[TwitterTimeZone("Pacific/Fakaofo", "Tokelau Is.")]
-Tokelau_Island,
+        [TwitterTimeZone("Pacific/Fakaofo", "Tokelau Is.")]
+        Tokelau_Island,
 
-[TwitterTimeZone("Pacific/Chatham", "Chatham Is.")]
-Chatham_Island,
+        [TwitterTimeZone("Pacific/Chatham", "Chatham Is.")]
+        Chatham_Island,
 
-[TwitterTimeZone("Pacific/Apia", "Samoa")]
-Samoa,
+        [TwitterTimeZone("Pacific/Apia", "Samoa")]
+        Samoa,
 
 
     }

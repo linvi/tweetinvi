@@ -34,7 +34,7 @@ namespace Tweetinvi.Streams.Helpers
 
         private bool IsRunning
         {
-            get { return StreamState == StreamState.Resume || StreamState == StreamState.Pause; }
+            get { return StreamState == StreamState.Running || StreamState == StreamState.Pause; }
         }
 
         public StreamState StreamState
@@ -103,7 +103,7 @@ namespace Tweetinvi.Streams.Helpers
             var streamState = args.Value;
             switch (streamState)
             {
-                case StreamState.Resume:
+                case StreamState.Running:
                     this.Raise(StreamResumed);
                     break;
                 case StreamState.Pause:
