@@ -22,11 +22,11 @@ namespace Tweetinvi.Core.Interfaces.RateLimit
         /// <summary>
         /// Manually set a rate limit entry for a specific set of credentials.
         /// </summary>
-        void RefreshEntry(ITwitterCredentials credentials, ITokenRateLimits credentialsRateLimits);
+        void RefreshEntry(ITwitterCredentials credentials, ICredentialsRateLimits credentialsRateLimits);
 
         /// <summary>
         /// Return the rate limits entry for a set of credentials.
         /// </summary>
-        ITokenRateLimits GetTokenRateLimits(ITwitterCredentials credentials);
+        ICredentialsRateLimits GetCredentialsRateLimits(ITwitterCredentials credentials);
     }
 }

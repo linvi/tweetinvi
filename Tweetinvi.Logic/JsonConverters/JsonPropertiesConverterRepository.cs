@@ -73,7 +73,7 @@ namespace Tweetinvi.Logic.JsonConverters
                 
                 
                 new JsonInterfaceToObjectConverter<IEndpointRateLimit, EndpointRateLimit>(),
-                new JsonInterfaceToObjectConverter<ITokenRateLimits, TokenRateLimits>(),
+                new JsonInterfaceToObjectConverter<ICredentialsRateLimits, CredentialsRateLimits>(),
                 new JsonInterfaceToObjectConverter<ISavedSearchDTO, SavedSearchDTO>(),
                 new JsonInterfaceToObjectConverter<ITwitterExceptionInfo, TwitterExceptionInfo>(),
                 

@@ -67,7 +67,7 @@ namespace Tweetinvi.Core.Interfaces.Models
         /// <summary>
         /// All the endpoint RateLimits for the query credentials.
         /// </summary>
-        ITokenRateLimits CredentialsRateLimits { get; set; }
+        ICredentialsRateLimits CredentialsRateLimits { get; set; }
 
         /// <summary>
         /// Date when the credentials will have the required rate limits to execute the query.

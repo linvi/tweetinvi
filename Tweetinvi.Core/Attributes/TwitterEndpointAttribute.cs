@@ -17,7 +17,7 @@ namespace Tweetinvi.Core.Attributes
 
     /// <summary>
     /// Attribute indicating how to match an endpoint rate limits with a specific url
-    /// as well as the number of available tokens for this endpoint.
+    /// as well as the number of available requests for this endpoint.
     /// </summary>
     [AttributeUsage(AttributeTargets.All, AllowMultiple = true)]
     public class TwitterEndpointAttribute : Attribute, ITwitterEndpointAttribute

@@ -2,7 +2,6 @@
 using Tweetinvi.Core.Interfaces.Controllers;
 using Tweetinvi.Core.Interfaces.Credentials;
 using Tweetinvi.Core.Interfaces.DTO;
-using Tweetinvi.Core.Interfaces.WebLogic;
 
 namespace Tweetinvi.Controllers.Help
 {
@@ -15,12 +14,12 @@ namespace Tweetinvi.Controllers.Help
             _helpQueryExecutor = helpQueryExecutor;
         }
 
-        public ITokenRateLimits GetCurrentCredentialsRateLimits()
+        public ICredentialsRateLimits GetCurrentCredentialsRateLimits()
         {
             return _helpQueryExecutor.GetCurrentCredentialsRateLimits();
         }
 
-        public ITokenRateLimits GetCredentialsRateLimits(ITwitterCredentials credentials)
+        public ICredentialsRateLimits GetCredentialsRateLimits(ITwitterCredentials credentials)
         {
             return _helpQueryExecutor.GetCredentialsRateLimits(credentials);
         }

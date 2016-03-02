@@ -7,7 +7,7 @@ namespace Tweetinvi.Core.Interfaces.Credentials
     /// Lists the state of all the twitter api endpoints rate limits.
     /// https://dev.twitter.com/docs/rate-limiting/1.1/limits
     /// </summary>
-    public interface ITokenRateLimits
+    public interface ICredentialsRateLimits
     {
         // TODO LINVI : 
         // ADD https://dev.twitter.com/rest/reference/post/statuses/destroy/%3Aid

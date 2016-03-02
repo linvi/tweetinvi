@@ -8,17 +8,17 @@ namespace Testinvi.Tweetinvi.Core
     [TestClass]
     public class TokenRateLimitsTests
     {
-        private FakeClassBuilder<TokenRateLimits> _fakeBuilder;
+        private FakeClassBuilder<CredentialsRateLimits> _fakeBuilder;
         private IAttributeHelper _attributeHelper;
 
         [TestInitialize]
         public void TestInitialize()
         {
-            _fakeBuilder = new FakeClassBuilder<TokenRateLimits>();
+            _fakeBuilder = new FakeClassBuilder<CredentialsRateLimits>();
             _attributeHelper = new AttributeHelper();
         }
 
-        public TokenRateLimits CreateTokenRateLimits()
+        public CredentialsRateLimits CreateTokenRateLimits()
         {
             return _fakeBuilder.GenerateClass();
         }

@@ -17,8 +17,8 @@ namespace Testinvi.Tweetinvi.Credentials.RateLimitTests
 
         private ITwitterCredentials _credentials;
         private ITwitterCredentials _credentials2;
-        private ITokenRateLimits _tokenRateLimits;
-        private ITokenRateLimits _tokenRateLimits2; 
+        private ICredentialsRateLimits _credentialsRateLimits;
+        private ICredentialsRateLimits _credentialsRateLimits2; 
 
         [TestInitialize]
         public void Itinialize()
@@ -27,8 +27,8 @@ namespace Testinvi.Tweetinvi.Credentials.RateLimitTests
 
             _credentials = A.Fake<ITwitterCredentials>();
             _credentials2 = A.Fake<ITwitterCredentials>();
-            _tokenRateLimits = A.Fake<ITokenRateLimits>();
-            _tokenRateLimits2 = A.Fake<ITokenRateLimits>();
+            _credentialsRateLimits = A.Fake<ICredentialsRateLimits>();
+            _credentialsRateLimits2 = A.Fake<ICredentialsRateLimits>();
         }
 
         [TestMethod]
@@ -38,7 +38,7 @@ namespace Testinvi.Tweetinvi.Credentials.RateLimitTests
             var rateLimitCache = CreateRateLimitCache();
 
             // Act
-            var result = rateLimitCache.GetTokenRateLimits(_credentials);
+            var result = rateLimitCache.GetCredentialsRateLimits(_credentials);
 
             // Assert
             Assert.IsNull(result);
@@ -49,16 +49,16 @@ namespace Testinvi.Tweetinvi.Credentials.RateLimitTests
         {
             //// Arrange
             var rateLimitCache = CreateRateLimitCache();
-            rateLimitCache.RefreshEntry(_credentials, _tokenRateLimits);
-            rateLimitCache.RefreshEntry(_credentials2, _tokenRateLimits2);
+            rateLimitCache.RefreshEntry(_credentials, _credentialsRateLimits);
+            rateLimitCache.RefreshEntry(_credentials2, _credentialsRateLimits2);
 
             // Act
-            var result = rateLimitCache.GetTokenRateLimits(_credentials);
-            var result2 = rateLimitCache.GetTokenRateLimits(_credentials2);
+            var result = rateLimitCache.GetCredentialsRateLimits(_credentials);
+            var result2 = rateLimitCache.GetCredentialsRateLimits(_credentials2);
 
             // Assert
-            Assert.AreEqual(result, _tokenRateLimits);
-            Assert.AreEqual(result2, _tokenRateLimits2);
+            Assert.AreEqual(result, _credentialsRateLimits);
+            Assert.AreEqual(result2, _credentialsRateLimits2);
         }
 
         [TestMethod]
@@ -66,15 +66,15 @@ namespace Testinvi.Tweetinvi.Credentials.RateLimitTests
         {
             // Arrange
             var rateLimitCache = CreateRateLimitCache();
-            rateLimitCache.RefreshEntry(_credentials, _tokenRateLimits);
+            rateLimitCache.RefreshEntry(_credentials, _credentialsRateLimits);
 
             // Act
-            rateLimitCache.RefreshEntry(_credentials, _tokenRateLimits2);
+            rateLimitCache.RefreshEntry(_credentials, _credentialsRateLimits2);
 
             // Assert
-            var result = rateLimitCache.GetTokenRateLimits(_credentials);
+            var result = rateLimitCache.GetCredentialsRateLimits(_credentials);
 
-            Assert.AreEqual(result, _tokenRateLimits2);
+            Assert.AreEqual(result, _credentialsRateLimits2);
         }
 
         [TestMethod]
@@ -83,18 +83,18 @@ namespace Testinvi.Tweetinvi.Credentials.RateLimitTests
 
             // Arrange
             var rateLimitCache = CreateRateLimitCache();
-            rateLimitCache.RefreshEntry(_credentials, _tokenRateLimits);
-            rateLimitCache.RefreshEntry(_credentials2, _tokenRateLimits2);
+            rateLimitCache.RefreshEntry(_credentials, _credentialsRateLimits);
+            rateLimitCache.RefreshEntry(_credentials2, _credentialsRateLimits2);
 
             // Act
             rateLimitCache.Clear(_credentials);
 
             // Assert
-            var result = rateLimitCache.GetTokenRateLimits(_credentials);
-            var result2 = rateLimitCache.GetTokenRateLimits(_credentials2);
+            var result = rateLimitCache.GetCredentialsRateLimits(_credentials);
+            var result2 = rateLimitCache.GetCredentialsRateLimits(_credentials2);
 
             Assert.IsNull(result);
-            Assert.AreEqual(result2, _tokenRateLimits2);
+            Assert.AreEqual(result2, _credentialsRateLimits2);
         }
 
         [TestMethod]
@@ -102,15 +102,15 @@ namespace Testinvi.Tweetinvi.Credentials.RateLimitTests
         {
             // Arrange
             var rateLimitCache = CreateRateLimitCache();
-            rateLimitCache.RefreshEntry(_credentials, _tokenRateLimits);
-            rateLimitCache.RefreshEntry(_credentials2, _tokenRateLimits2);
+            rateLimitCache.RefreshEntry(_credentials, _credentialsRateLimits);
+            rateLimitCache.RefreshEntry(_credentials2, _credentialsRateLimits2);
 
             // Act
             rateLimitCache.ClearAll();
 
             // Assert
-            var result = rateLimitCache.GetTokenRateLimits(_credentials);
-            var result2 = rateLimitCache.GetTokenRateLimits(_credentials2);
+            var result = rateLimitCache.GetCredentialsRateLimits(_credentials);
+            var result2 = rateLimitCache.GetCredentialsRateLimits(_credentials2);
 
             Assert.IsNull(result);
             Assert.IsNull(result2);

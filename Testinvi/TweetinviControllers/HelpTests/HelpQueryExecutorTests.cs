@@ -28,7 +28,7 @@ namespace Testinvi.TweetinviControllers.HelpTests
         [TestMethod]
         public void GetTokenRateLimits_ReturnsJsonTwitterAccessor()
         {
-            var expectedResult = A.Fake<ITokenRateLimits>();
+            var expectedResult = A.Fake<ICredentialsRateLimits>();
 
             // Arrange
             var queryExecutor = CreateHelpQueryExecutor();

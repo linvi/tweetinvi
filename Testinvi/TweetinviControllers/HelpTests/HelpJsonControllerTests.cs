@@ -37,7 +37,7 @@ namespace Testinvi.TweetinviControllers.HelpTests
             _fakeTwitterAccessor.ArrangeExecuteJsonGETQuery(query, expectedResult);
 
             // Act
-            var result = jsonController.GetTokenRateLimits();
+            var result = jsonController.GetCredentialsRateLimits();
 
             // Assert
             Assert.AreEqual(result, expectedResult);

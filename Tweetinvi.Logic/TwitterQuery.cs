@@ -42,7 +42,7 @@ namespace Tweetinvi.Logic
 
 
         public IEndpointRateLimit QueryRateLimit { get; set; }
-        public ITokenRateLimits CredentialsRateLimits { get; set; }
+        public ICredentialsRateLimits CredentialsRateLimits { get; set; }
 
         /// <summary>
         /// Date at which the Twitter query will be ready to be executed

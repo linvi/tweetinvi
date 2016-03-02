@@ -11,11 +11,11 @@ namespace Tweetinvi.Core.Interfaces.RateLimit
         /// <summary>
         /// Detect if the query can be identified as being a rate limited query.
         /// </summary>
-        bool IsQueryAssociatedWithTokenRateLimit(string query, ITokenRateLimits rateLimits);
+        bool IsQueryAssociatedWithEndpointRateLimit(string query, ICredentialsRateLimits rateLimits);
 
         /// <summary>
-        /// Return the specified query rate limits if the query can be identified in the TokenRateLimits.
+        /// Return the specified query rate limits if the query can be identified in the credentialsRateLimits.
         /// </summary>
-        IEndpointRateLimit GetEndpointRateLimitFromQuery(string query, ITokenRateLimits rateLimits);
+        IEndpointRateLimit GetEndpointRateLimitFromQuery(string query, ICredentialsRateLimits rateLimits);
     }
 }

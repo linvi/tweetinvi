@@ -149,7 +149,7 @@ namespace Tweetinvi.WebLogic
                 rateLimitTrackerMode == RateLimitTrackerMode.TrackAndAwait)
             {
                 // Use the RateLimitCacheManager instead of RateLimitHelper to get the queryRateLimits to ensure the cache is up to date!
-                var credentialRateLimits = _rateLimitCacheManager.GetTokenRateLimits(twitterQuery.TwitterCredentials);
+                var credentialRateLimits = _rateLimitCacheManager.GetCredentialsRateLimits(twitterQuery.TwitterCredentials);
 
                 IEndpointRateLimit queryRateLimit = null;
 

@@ -23,7 +23,7 @@ namespace Testinvi.TweetinviControllers.HelpTests
         [TestMethod]
         public void GetTokenRateLimits_ReturnsQueryExecutor()
         {
-            var expectedResult = A.Fake<ITokenRateLimits>();
+            var expectedResult = A.Fake<ICredentialsRateLimits>();
 
             // Arrange
             var helpController = CreateHelpControllerTests();
@@ -36,7 +36,7 @@ namespace Testinvi.TweetinviControllers.HelpTests
             Assert.AreEqual(result, expectedResult);
         }
 
-        private void ArrangeQueryExecutorGetTokenRateLimits(ITokenRateLimits result)
+        private void ArrangeQueryExecutorGetTokenRateLimits(ICredentialsRateLimits result)
         {
             _fakeHelpQueryExecutor
                 .CallsTo(x => x.GetCurrentCredentialsRateLimits())

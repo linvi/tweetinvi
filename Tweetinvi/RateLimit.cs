@@ -150,30 +150,30 @@ namespace Tweetinvi
         /// <summary>
         /// Get all the rate limits of all the Twitter endpoints
         /// </summary>
-        public static ITokenRateLimits GetCurrentCredentialsRateLimits(bool useRateLimitCache = false)
+        public static ICredentialsRateLimits GetCurrentCredentialsRateLimits(bool useRateLimitCache = false)
         {
-            ITokenRateLimits tokenRateLimits = null;
+            ICredentialsRateLimits credentialsRateLimits = null;
             if (!useRateLimitCache)
             {
-                tokenRateLimits = HelpController.GetCurrentCredentialsRateLimits();
-                RateLimitCacheManager.UpdateTokenRateLimits(Auth.Credentials, tokenRateLimits);
+                credentialsRateLimits = HelpController.GetCurrentCredentialsRateLimits();
+                RateLimitCacheManager.UpdateCredentialsRateLimits(Auth.Credentials, credentialsRateLimits);
             }
             else
             {
-                tokenRateLimits = RateLimitCacheManager.GetTokenRateLimits(Auth.Credentials);
+                credentialsRateLimits = RateLimitCacheManager.GetCredentialsRateLimits(Auth.Credentials);
             }
 
-            return tokenRateLimits;
+            return credentialsRateLimits;
         }
 
         /// <summary>
         /// Get all the rate limits of all the Twitter endpoints
         /// </summary>
-        public static ITokenRateLimits GetCredentialsRateLimits(ITwitterCredentials credentials, bool useRateLimitCache = false)
+        public static ICredentialsRateLimits GetCredentialsRateLimits(ITwitterCredentials credentials, bool useRateLimitCache = false)
         {
             if (useRateLimitCache)
             {
-                return RateLimitCacheManager.GetTokenRateLimits(credentials);
+                return RateLimitCacheManager.GetCredentialsRateLimits(credentials);
             }
             else
             {

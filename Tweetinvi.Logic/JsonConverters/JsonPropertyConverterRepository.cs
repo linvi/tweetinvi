@@ -84,7 +84,7 @@ namespace Tweetinvi.Logic.JsonConverters
             var placeTrendsConverter = new JsonInterfaceToObjectConverter<IPlaceTrends, PlaceTrends>();
             var woeIdLocationConverter = new JsonInterfaceToObjectConverter<IWoeIdLocation, WoeIdLocation>();
             var endpointRateLimitConverter = new JsonInterfaceToObjectConverter<IEndpointRateLimit, EndpointRateLimit>();
-            var tokenRateLimitsConverter = new JsonInterfaceToObjectConverter<ITokenRateLimits, TokenRateLimits>();
+            var credentialsRateLimitsConverter = new JsonInterfaceToObjectConverter<ICredentialsRateLimits, CredentialsRateLimits>();
             var savedSearchConverter = new JsonInterfaceToObjectConverter<ISavedSearchDTO, SavedSearchDTO>();
             var searchMetadataConverter = new JsonInterfaceToObjectConverter<ISearchMetadata, SearchMetadata>();
             var tweetWithSearchMetadataConverter = new JsonInterfaceToObjectConverter<ITweetWithSearchMetadataDTO, TweetWithSearchMetadataDTO>();
@@ -116,7 +116,7 @@ namespace Tweetinvi.Logic.JsonConverters
             JsonConverters.Add(typeof(IPlaceTrends), placeTrendsConverter);
 
             JsonConverters.Add(typeof(IEndpointRateLimit), endpointRateLimitConverter);
-            JsonConverters.Add(typeof(ITokenRateLimits), tokenRateLimitsConverter);
+            JsonConverters.Add(typeof(ICredentialsRateLimits), credentialsRateLimitsConverter);
             JsonConverters.Add(typeof(ISavedSearch), savedSearchConverter);
 
             JsonConverters.Add(typeof(ISearchMetadata), searchMetadataConverter);

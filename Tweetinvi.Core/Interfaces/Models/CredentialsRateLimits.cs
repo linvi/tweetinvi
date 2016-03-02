@@ -6,9 +6,9 @@ using Tweetinvi.Core.Interfaces.Credentials;
 
 namespace Tweetinvi.Core.Interfaces.Models
 {
-    public class TokenRateLimits : ITokenRateLimits
+    public class CredentialsRateLimits : ICredentialsRateLimits
     {
-        public TokenRateLimits()
+        public CredentialsRateLimits()
         {
             CreatedAt = DateTime.Now;
         }
