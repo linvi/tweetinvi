@@ -62,7 +62,7 @@ namespace Tweetinvi.Core.Interfaces.Models
         /// RateLimit for the specific query. These can be null if the query url, 
         /// could not be matched with any documented RateLimit field.
         /// </summary>
-        ITokenRateLimit QueryRateLimit { get; set; }
+        IEndpointRateLimit QueryRateLimit { get; set; }
 
         /// <summary>
         /// All the endpoint RateLimits for the query credentials.

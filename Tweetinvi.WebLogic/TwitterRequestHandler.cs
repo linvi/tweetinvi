@@ -151,7 +151,7 @@ namespace Tweetinvi.WebLogic
                 // Use the RateLimitCacheManager instead of RateLimitHelper to get the queryRateLimits to ensure the cache is up to date!
                 var credentialRateLimits = _rateLimitCacheManager.GetTokenRateLimits(twitterQuery.TwitterCredentials);
 
-                ITokenRateLimit queryRateLimit = null;
+                IEndpointRateLimit queryRateLimit = null;
 
                 // If we were not able to retrieve the credentials few ms before there is no reason why it would work now.
                 if (credentialRateLimits != null) 

@@ -16,6 +16,6 @@ namespace Tweetinvi.Core.Interfaces.RateLimit
         /// <summary>
         /// Return the specified query rate limits if the query can be identified in the TokenRateLimits.
         /// </summary>
-        ITokenRateLimit GetTokenRateLimitFromQuery(string query, ITokenRateLimits rateLimits);
+        IEndpointRateLimit GetEndpointRateLimitFromQuery(string query, ITokenRateLimits rateLimits);
     }
 }

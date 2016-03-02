@@ -28,7 +28,7 @@ namespace Testinvi.Tweetinvi.Credentials.RateLimitTests
         private WeakEvent<EventHandler<QueryAwaitingEventArgs>> _weakEvent;
 
         private ITwitterCredentials _credentials;
-        private ITokenRateLimit _tokenRateLimit;
+        private IEndpointRateLimit _endpointRateLimit;
 
         [TestInitialize]
         public void TestInitialize()
@@ -39,11 +39,11 @@ namespace Testinvi.Tweetinvi.Credentials.RateLimitTests
             _fakeThreadHelper = _fakeBuilder.GetFake<IThreadHelper>();
 
             _credentials = A.Fake<ITwitterCredentials>();
-            _tokenRateLimit = A.Fake<ITokenRateLimit>();
-            _tokenRateLimit.CallsTo(x => x.Remaining).Returns(0);
-            _tokenRateLimit.CallsTo(x => x.ResetDateTimeInMilliseconds).Returns(TIME_TO_WAIT);
+            _endpointRateLimit = A.Fake<IEndpointRateLimit>();
+            _endpointRateLimit.CallsTo(x => x.Remaining).Returns(0);
+            _endpointRateLimit.CallsTo(x => x.ResetDateTimeInMilliseconds).Returns(TIME_TO_WAIT);
 
-            _fakeRateLimitCacheManager.CallsTo(x => x.GetQueryRateLimit(TEST_QUERY, _credentials)).Returns(_tokenRateLimit);
+            _fakeRateLimitCacheManager.CallsTo(x => x.GetQueryRateLimit(TEST_QUERY, _credentials)).Returns(_endpointRateLimit);
             _fakeCredentialsAccessor.CallsTo(x => x.CurrentThreadCredentials).Returns(_credentials);
         }
 
@@ -112,7 +112,7 @@ namespace Testinvi.Tweetinvi.Credentials.RateLimitTests
         {
             // Arrange
             var rateLimitAwaiter = CreateRateLimitAwaiter();
-            _tokenRateLimit.CallsTo(x => x.Remaining).Returns(15);
+            _endpointRateLimit.CallsTo(x => x.Remaining).Returns(15);
 
             // Act
             rateLimitAwaiter.WaitForCredentialsRateLimit(TEST_QUERY, _credentials);
@@ -140,7 +140,7 @@ namespace Testinvi.Tweetinvi.Credentials.RateLimitTests
         {
             // Arrange
             var rateLimitAwaiter = CreateRateLimitAwaiter();
-            _tokenRateLimit.CallsTo(x => x.Remaining).Returns(9);
+            _endpointRateLimit.CallsTo(x => x.Remaining).Returns(9);
 
             // Act
             var result = rateLimitAwaiter.TimeToWaitBeforeTwitterRequest(TEST_QUERY, _credentials);

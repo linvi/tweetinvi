@@ -6,7 +6,7 @@ namespace Tweetinvi.Core.Interfaces.Credentials
     /// Give information regarding the rate limits for a specific
     /// endpoint of the Twitter API.
     /// </summary>
-    public interface ITokenRateLimit
+    public interface IEndpointRateLimit
     {
         /// <summary>
         /// Remaining operation authorized with the associated credentials.

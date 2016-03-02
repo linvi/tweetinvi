@@ -19,7 +19,7 @@ namespace Testinvi.Tweetinvi.Credentials.RateLimitTests
         private Fake<IRateLimitCacheManager> _fakeRateLimitCacheManager;
         private Fake<ICredentialsAccessor> _fakeCredentialsAccessor;
 
-        private ITokenRateLimit _tokenRateLimit;
+        private IEndpointRateLimit _endpointRateLimit;
         private ITwitterCredentials _credentials;
 
         [TestInitialize]
@@ -31,7 +31,7 @@ namespace Testinvi.Tweetinvi.Credentials.RateLimitTests
 
             InitializeData();
 
-            _fakeRateLimitCacheManager.CallsTo(x => x.GetQueryRateLimit(TEST_QUERY, _credentials)).Returns(_tokenRateLimit);
+            _fakeRateLimitCacheManager.CallsTo(x => x.GetQueryRateLimit(TEST_QUERY, _credentials)).Returns(_endpointRateLimit);
             _fakeCredentialsAccessor.CallsTo(x => x.CurrentThreadCredentials).Returns(_credentials);
         }
 
@@ -46,7 +46,7 @@ namespace Testinvi.Tweetinvi.Credentials.RateLimitTests
             cacheUpdater.QueryExecuted(TEST_QUERY);
 
             // Assert
-            Assert.AreEqual(_tokenRateLimit.Remaining, 5);
+            Assert.AreEqual(_endpointRateLimit.Remaining, 5);
         }
 
         [TestMethod]
@@ -60,7 +60,7 @@ namespace Testinvi.Tweetinvi.Credentials.RateLimitTests
             cacheUpdater.QueryExecuted(TEST_QUERY, _credentials);
 
             // Assert
-            Assert.AreEqual(_tokenRateLimit.Remaining, 5);
+            Assert.AreEqual(_endpointRateLimit.Remaining, 5);
         }
 
         [TestMethod]
@@ -73,7 +73,7 @@ namespace Testinvi.Tweetinvi.Credentials.RateLimitTests
             cacheUpdater.QueryExecuted(TEST_QUERY, _credentials);
 
             // Assert
-            Assert.AreEqual(_tokenRateLimit.Remaining, 4);
+            Assert.AreEqual(_endpointRateLimit.Remaining, 4);
         }
 
         [TestMethod]
@@ -86,7 +86,7 @@ namespace Testinvi.Tweetinvi.Credentials.RateLimitTests
             cacheUpdater.QueryExecuted(TEST_QUERY, _credentials, 3);
 
             // Assert
-            Assert.AreEqual(_tokenRateLimit.Remaining, 2);
+            Assert.AreEqual(_endpointRateLimit.Remaining, 2);
         }
 
         [TestMethod]
@@ -94,13 +94,13 @@ namespace Testinvi.Tweetinvi.Credentials.RateLimitTests
         {
             // Arrange
             var cacheUpdater = CreateRateLimitUpdater();
-            _tokenRateLimit.CallsTo(x => x.Remaining).Returns(2);
+            _endpointRateLimit.CallsTo(x => x.Remaining).Returns(2);
 
             // Act
             cacheUpdater.QueryExecuted(TEST_QUERY, _credentials, 3);
 
             // Assert
-            Assert.AreEqual(_tokenRateLimit.Remaining, 0);
+            Assert.AreEqual(_endpointRateLimit.Remaining, 0);
         }
 
         [TestMethod]
@@ -108,13 +108,13 @@ namespace Testinvi.Tweetinvi.Credentials.RateLimitTests
         {
             // Arrange
             var cacheUpdater = CreateRateLimitUpdater();
-            _tokenRateLimit.CallsTo(x => x.Remaining).Returns(0);
+            _endpointRateLimit.CallsTo(x => x.Remaining).Returns(0);
 
             // Act
             cacheUpdater.QueryExecuted(TEST_QUERY, _credentials);
 
             // Assert
-            Assert.AreEqual(_tokenRateLimit.Remaining, 0);
+            Assert.AreEqual(_endpointRateLimit.Remaining, 0);
         }
 
         [TestMethod]
@@ -127,14 +127,14 @@ namespace Testinvi.Tweetinvi.Credentials.RateLimitTests
             rateLimitUpdater.ClearRateLimitsForQuery(TEST_QUERY);
 
             // Assert
-            Assert.AreEqual(_tokenRateLimit.Remaining, 0);
+            Assert.AreEqual(_endpointRateLimit.Remaining, 0);
         }
 
         private void InitializeData()
         {
             _credentials = A.Fake<ITwitterCredentials>();
-            _tokenRateLimit = A.Fake<ITokenRateLimit>();
-            _tokenRateLimit.CallsTo(x => x.Remaining).Returns(5);
+            _endpointRateLimit = A.Fake<IEndpointRateLimit>();
+            _endpointRateLimit.CallsTo(x => x.Remaining).Returns(5);
         }
 
         public RateLimitUpdater CreateRateLimitUpdater()

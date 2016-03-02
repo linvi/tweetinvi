@@ -34,9 +34,9 @@ namespace Testinvi.Tweetinvi.Credentials.RateLimitTests
 
         private ITwitterQuery _twitterQuery;
         private ITokenRateLimits _tokenRateLimits;
-        private ITokenRateLimit _tokenRateLimit;
+        private IEndpointRateLimit _endpointRateLimit;
         private ITokenRateLimits _refreshedTokenRateLimits;
-        private ITokenRateLimit _refreshedTokenRateLimit;
+        private IEndpointRateLimit _refreshedEndpointRateLimit;
         private ITwitterCredentials _credentials;
         private ITokenRateLimits _tokenRateLimits2; 
 
@@ -54,13 +54,13 @@ namespace Testinvi.Tweetinvi.Credentials.RateLimitTests
 
             InitializeData();
 
-            _fakeRateLimitHelper.CallsTo(x => x.GetTokenRateLimitFromQuery(TEST_QUERY, _tokenRateLimits)).Returns(_tokenRateLimit);
+            _fakeRateLimitHelper.CallsTo(x => x.GetEndpointRateLimitFromQuery(TEST_QUERY, _tokenRateLimits)).Returns(_endpointRateLimit);
             _fakeRateLimitCache.CallsTo(x => x.GetTokenRateLimits(_credentials)).Returns(_tokenRateLimits);
 
             _fakeRateLimitCache.CallsTo(x => x.RefreshEntry(_credentials, _tokenRateLimits)).Invokes(() =>
             {
                 _fakeRateLimitCache.CallsTo(x => x.GetTokenRateLimits(_credentials)).Returns(_refreshedTokenRateLimits);
-                _fakeRateLimitHelper.CallsTo(x => x.GetTokenRateLimitFromQuery(TEST_QUERY, _refreshedTokenRateLimits)).Returns(_refreshedTokenRateLimit);
+                _fakeRateLimitHelper.CallsTo(x => x.GetEndpointRateLimitFromQuery(TEST_QUERY, _refreshedTokenRateLimits)).Returns(_refreshedEndpointRateLimit);
             });
 
             _fakeCredentialsAccessor.SetupPassThrough<ITokenRateLimits>();
@@ -85,7 +85,7 @@ namespace Testinvi.Tweetinvi.Credentials.RateLimitTests
             var result = cacheManager.GetQueryRateLimit(TEST_QUERY, _credentials);
 
             // Assert
-            Assert.AreEqual(result, _refreshedTokenRateLimit);
+            Assert.AreEqual(result, _refreshedEndpointRateLimit);
             _fakeRateLimitCache.CallsTo(x => x.RefreshEntry(It.IsAny<ITwitterCredentials>(), It.IsAny<ITokenRateLimits>())).MustHaveHappened(Repeated.Exactly.Once);
         }
 
@@ -95,7 +95,7 @@ namespace Testinvi.Tweetinvi.Credentials.RateLimitTests
             // Arrange
             var cacheManager = CreateRateLimitCacheManager();
 
-            _fakeRateLimitHelper.CallsTo(x => x.GetTokenRateLimitFromQuery(TEST_QUERY, _tokenRateLimits)).Returns(null);
+            _fakeRateLimitHelper.CallsTo(x => x.GetEndpointRateLimitFromQuery(TEST_QUERY, _tokenRateLimits)).Returns(null);
 
             // Act
             var result = cacheManager.GetQueryRateLimit(TEST_QUERY, _credentials);
@@ -115,7 +115,7 @@ namespace Testinvi.Tweetinvi.Credentials.RateLimitTests
             var result = cacheManager.GetQueryRateLimit(TEST_QUERY, _credentials);
 
             // Assert
-            Assert.AreEqual(result, _tokenRateLimit);
+            Assert.AreEqual(result, _endpointRateLimit);
             _fakeRateLimitCache.CallsTo(x => x.RefreshEntry(It.IsAny<ITwitterCredentials>(), It.IsAny<ITokenRateLimits>())).MustNotHaveHappened();
         }
 
@@ -124,7 +124,7 @@ namespace Testinvi.Tweetinvi.Credentials.RateLimitTests
         {
             // Arrange
             var cacheManager = CreateRateLimitCacheManager();
-            _tokenRateLimit.CallsTo(x => x.ResetDateTime).Returns(DateTime.Now.AddMinutes(1));
+            _endpointRateLimit.CallsTo(x => x.ResetDateTime).Returns(DateTime.Now.AddMinutes(1));
 
             // Act
             cacheManager.GetQueryRateLimit(TEST_QUERY, _credentials);
@@ -138,13 +138,13 @@ namespace Testinvi.Tweetinvi.Credentials.RateLimitTests
         {
             // Arrange
             var cacheManager = CreateRateLimitCacheManager();
-            _tokenRateLimit.CallsTo(x => x.ResetDateTime).Returns(DateTime.Now.AddMinutes(-1));
+            _endpointRateLimit.CallsTo(x => x.ResetDateTime).Returns(DateTime.Now.AddMinutes(-1));
 
             // Act
             var result = cacheManager.GetQueryRateLimit(TEST_QUERY, _credentials);
 
             // Assert
-            Assert.AreEqual(result, _refreshedTokenRateLimit);
+            Assert.AreEqual(result, _refreshedEndpointRateLimit);
             _fakeRateLimitCache.CallsTo(x => x.RefreshEntry(It.IsAny<ITwitterCredentials>(), It.IsAny<ITokenRateLimits>())).MustHaveHappened(Repeated.Exactly.Once);
         }
 
@@ -205,14 +205,14 @@ namespace Testinvi.Tweetinvi.Credentials.RateLimitTests
             _credentials.AccessTokenSecret = TestHelper.GenerateString();
 
             _tokenRateLimits = A.Fake<ITokenRateLimits>();
-            _tokenRateLimit = A.Fake<ITokenRateLimit>();
+            _endpointRateLimit = A.Fake<IEndpointRateLimit>();
             _tokenRateLimits2 = A.Fake<ITokenRateLimits>();
 
             _refreshedTokenRateLimits = A.Fake<ITokenRateLimits>();
-            _refreshedTokenRateLimit = A.Fake<ITokenRateLimit>();
+            _refreshedEndpointRateLimit = A.Fake<IEndpointRateLimit>();
 
-            _tokenRateLimit.CallsTo(x => x.Remaining).Returns(0);
-            _tokenRateLimit.CallsTo(x => x.ResetDateTime).Returns(DateTime.Now.AddMinutes(1));
+            _endpointRateLimit.CallsTo(x => x.Remaining).Returns(0);
+            _endpointRateLimit.CallsTo(x => x.ResetDateTime).Returns(DateTime.Now.AddMinutes(1));
 
             _twitterQuery = A.Fake<ITwitterQuery>();
             _twitterQuery.CallsTo(x => x.QueryURL).Returns(TEST_QUERY);

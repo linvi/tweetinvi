@@ -148,7 +148,7 @@
     <Compile Include="Interfaces\IAuthenticatedUser.cs" />
     <Compile Include="Interfaces\Async\IAuthenticatedUserAsync.cs" />
     <Compile Include="Interfaces\Credentials\IRateLimit.cs" />
-    <Compile Include="Interfaces\Credentials\ITokenRateLimit.cs" />
+    <Compile Include="Interfaces\Credentials\IEndpointRateLimit.cs" />
     <Compile Include="Interfaces\Credentials\ITokenRateLimits.cs" />
     <Compile Include="Interfaces\Credentials\ITwitterAccessor.cs" />
     <Compile Include="Interfaces\Credentials\IWebTokenCreator.cs" />
@@ -266,7 +266,7 @@
     <Compile Include="Interfaces\Models\StreamMessages\IWarningMessageFallingBehind.cs" />
     <Compile Include="Interfaces\Models\StreamMessages\IWarningMessageTooManyFollowers.cs" />
     <Compile Include="Interfaces\Models\IWoeIdLocation.cs" />
-    <Compile Include="Interfaces\Models\TokenRateLimit.cs" />
+    <Compile Include="Interfaces\Models\EndpointRateLimit.cs" />
     <Compile Include="Interfaces\Models\TokenRateLimits.cs" />
     <Compile Include="Interfaces\Models\ITweetIdentifier.cs" />
     <Compile Include="Credentials\ConsumerCredentials.cs" />

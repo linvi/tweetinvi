@@ -25,10 +25,10 @@ namespace Tweetinvi.Credentials.RateLimit
 
         public bool IsQueryAssociatedWithTokenRateLimit(string query, ITokenRateLimits rateLimits)
         {
-            return GetTokenRateLimitFromQuery(query, rateLimits) != null;
+            return GetEndpointRateLimitFromQuery(query, rateLimits) != null;
         }
 
-        public IEnumerable<ITokenRateLimit> GetTokenRateLimitsFromMethod(Expression<Action> expression, ITokenRateLimits rateLimits)
+        public IEnumerable<IEndpointRateLimit> GetTokenRateLimitsFromMethod(Expression<Action> expression, ITokenRateLimits rateLimits)
         {
             if (expression == null)
             {
@@ -50,7 +50,7 @@ namespace Tweetinvi.Credentials.RateLimit
             return null;
         }
 
-        public ITokenRateLimit GetTokenRateLimitFromQuery(string query, ITokenRateLimits rateLimits)
+        public IEndpointRateLimit GetEndpointRateLimitFromQuery(string query, ITokenRateLimits rateLimits)
         {
             var queryBaseURL = _webHelper.GetBaseURL(query);
             if (rateLimits == null || queryBaseURL == null)
@@ -70,9 +70,9 @@ namespace Tweetinvi.Credentials.RateLimit
             return GetRateLimitFromProperty(matchingProperty, rateLimits);
         }
 
-        private ITokenRateLimit GetRateLimitFromProperty(PropertyInfo propertyInfo, ITokenRateLimits rateLimits)
+        private IEndpointRateLimit GetRateLimitFromProperty(PropertyInfo propertyInfo, ITokenRateLimits rateLimits)
         {
-            var rateLimit = propertyInfo.GetValue(rateLimits, null) as ITokenRateLimit;
+            var rateLimit = propertyInfo.GetValue(rateLimits, null) as IEndpointRateLimit;
             return rateLimit;
         }
 

@@ -42,15 +42,15 @@ namespace Tweetinvi.Credentials.RateLimit
             _twitterQueryFactory = twitterQueryFactory;
         }
 
-        public ITokenRateLimit GetQueryRateLimit(string query, ITwitterCredentials credentials)
+        public IEndpointRateLimit GetQueryRateLimit(string query, ITwitterCredentials credentials)
         {
             var rateLimits = _rateLimitCache.GetTokenRateLimits(credentials);
-            var queryRateLimit = _rateLimitHelper.GetTokenRateLimitFromQuery(query, rateLimits);
+            var queryRateLimit = _rateLimitHelper.GetEndpointRateLimitFromQuery(query, rateLimits);
 
             if (rateLimits == null || DoesQueryNeedsToRefreshTheCacheInformation(queryRateLimit))
             {
                 rateLimits = RefreshCredentialsRateLimits(credentials);
-                queryRateLimit = _rateLimitHelper.GetTokenRateLimitFromQuery(query, rateLimits);
+                queryRateLimit = _rateLimitHelper.GetEndpointRateLimitFromQuery(query, rateLimits);
             }
 
             return queryRateLimit;
@@ -112,7 +112,7 @@ namespace Tweetinvi.Credentials.RateLimit
             return result;
         }
 
-        private bool DoesQueryNeedsToRefreshTheCacheInformation(ITokenRateLimit rateLimit)
+        private bool DoesQueryNeedsToRefreshTheCacheInformation(IEndpointRateLimit rateLimit)
         {
             return rateLimit != null && rateLimit.ResetDateTime < DateTime.Now;
         }

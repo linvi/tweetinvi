@@ -126,15 +126,15 @@ namespace Tweetinvi
         /// <summary>
         /// Wait for the rate limits to be available. This should be used before executing a query
         /// </summary>
-        public static void AwaitForQueryRateLimit(ITokenRateLimit tokenRateLimit)
+        public static void AwaitForQueryRateLimit(IEndpointRateLimit endpointRateLimit)
         {
-            RateLimitAwaiter.WaitForCredentialsRateLimit(tokenRateLimit);
+            RateLimitAwaiter.WaitForCredentialsRateLimit(endpointRateLimit);
         }
 
         /// <summary>
         /// Get the rate limits information for an url
         /// </summary>
-        public static ITokenRateLimit GetQueryRateLimit(string query)
+        public static IEndpointRateLimit GetQueryRateLimit(string query)
         {
             return RateLimitCacheManager.GetQueryRateLimit(query, Auth.Credentials);
         }
@@ -142,7 +142,7 @@ namespace Tweetinvi
         /// <summary>
         /// Get the rate limits information for an url
         /// </summary>
-        public static ITokenRateLimit GetQueryRateLimit(string query, ITwitterCredentials credentials)
+        public static IEndpointRateLimit GetQueryRateLimit(string query, ITwitterCredentials credentials)
         {
             return RateLimitCacheManager.GetQueryRateLimit(query, credentials);
         }

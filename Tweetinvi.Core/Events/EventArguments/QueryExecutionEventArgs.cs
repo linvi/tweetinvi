@@ -19,7 +19,7 @@ namespace Tweetinvi.Core.Events.EventArguments
         public string QueryURL { get { return _twitterQuery.QueryURL; } }
         public ITwitterCredentials Credentials { get { return _twitterQuery.TwitterCredentials; } }
 
-        public ITokenRateLimit QueryRateLimit {  get { return _twitterQuery.QueryRateLimit; } }
+        public IEndpointRateLimit QueryRateLimit {  get { return _twitterQuery.QueryRateLimit; } }
 
         /// <summary>
         /// Date at which the Twitter query will be ready to be executed

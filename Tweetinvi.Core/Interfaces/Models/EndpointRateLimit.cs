@@ -4,7 +4,7 @@ using Tweetinvi.Core.Interfaces.Credentials;
 
 namespace Tweetinvi.Core.Interfaces.Models
 {
-    public class TokenRateLimit : ITokenRateLimit
+    public class EndpointRateLimit : IEndpointRateLimit
     {
         private long _reset;
 

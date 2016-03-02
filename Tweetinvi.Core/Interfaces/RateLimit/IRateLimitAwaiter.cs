@@ -29,7 +29,7 @@ namespace Tweetinvi.Core.Interfaces.RateLimit
         /// <summary>
         /// Wait before executing a query using the specified rate limits.
         /// </summary>
-        void WaitForCredentialsRateLimit(ITokenRateLimit tokenRateLimit);
+        void WaitForCredentialsRateLimit(IEndpointRateLimit endpointRateLimit);
 
         /// <summary>
         /// Wrapper to wait for a specific amount of time safely.
@@ -44,6 +44,6 @@ namespace Tweetinvi.Core.Interfaces.RateLimit
         /// <summary>
         /// Get the duration (milliseconds) to wait before executing a query using the specified rate limits.
         /// </summary>
-        int GetTimeToWaitFromQueryRateLimit(ITokenRateLimit queryRateLimit);
+        int GetTimeToWaitFromQueryRateLimit(IEndpointRateLimit queryRateLimit);
     }
 }
