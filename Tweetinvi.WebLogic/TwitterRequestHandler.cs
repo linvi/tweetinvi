@@ -156,7 +156,7 @@ namespace Tweetinvi.WebLogic
                 // If we were not able to retrieve the credentials few ms before there is no reason why it would work now.
                 if (credentialRateLimits != null) 
                 {
-                    _rateLimitCacheManager.GetQueryRateLimit(query, twitterQuery.TwitterCredentials);
+                    queryRateLimit = _rateLimitCacheManager.GetQueryRateLimit(query, twitterQuery.TwitterCredentials);
                 }
                 
                 var timeToWait = _rateLimitAwaiter.GetTimeToWaitFromQueryRateLimit(queryRateLimit);
