@@ -157,7 +157,7 @@ namespace Tweetinvi
         /// </summary>
         public static bool InvalidateCredentials(ITwitterCredentials credentials = null)
         {
-            return _credentialsCreator.InvalidateToken(credentials ?? CredentialsAccessor.CurrentThreadCredentials);
+            return _credentialsCreator.InvalidateCredentials(credentials ?? CredentialsAccessor.CurrentThreadCredentials);
         }
 
         /// <summary>

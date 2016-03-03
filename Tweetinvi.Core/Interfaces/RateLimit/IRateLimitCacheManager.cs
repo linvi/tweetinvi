@@ -12,17 +12,17 @@ namespace Tweetinvi.Core.Interfaces.RateLimit
         /// Return the rate limits for a specific query. 
         /// If the rate limits are not located in the cache, they will be retrieved from Twitter.
         /// </summary>
-        ITokenRateLimit GetQueryRateLimit(string query, ITwitterCredentials credentials);
+        IEndpointRateLimit GetQueryRateLimit(string query, ITwitterCredentials credentials);
 
         /// <summary>
         /// Return the all the rate limits for a specific set of credentials.
         /// If the rate limits are not located in the cache, they will be retrieved from Twitter.
         /// </summary>
-        ITokenRateLimits GetTokenRateLimits(ITwitterCredentials credentials);
+        ICredentialsRateLimits GetCredentialsRateLimits(ITwitterCredentials credentials);
 
         /// <summary>
         /// Update the rate limit cache with a specific set of rate limits.
         /// </summary>
-        void UpdateTokenRateLimits(ITwitterCredentials credentials, ITokenRateLimits tokenRateLimits);
+        void UpdateCredentialsRateLimits(ITwitterCredentials credentials, ICredentialsRateLimits credentialsRateLimits);
     }
 }

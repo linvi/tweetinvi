@@ -18,7 +18,7 @@ namespace Tweetinvi.Credentials
         void InitializeApplicationBearer(ITwitterCredentials credentials);
         
         ITwitterCredentials GetCredentialsFromVerifierCode(string verifierCode, IConsumerCredentials appCredentials);
-        bool InvalidateToken(ITwitterCredentials credentials);
+        bool InvalidateCredentials(ITwitterCredentials credentials);
     }
 
     public class CredentialsCreator : ICredentialsCreator
@@ -108,7 +108,7 @@ namespace Tweetinvi.Credentials
             }
         }
 
-        public bool InvalidateToken(ITwitterCredentials credentials)
+        public bool InvalidateCredentials(ITwitterCredentials credentials)
         {
             var url = "https://api.twitter.com/oauth2/invalidate_token";
 

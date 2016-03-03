@@ -1534,7 +1534,7 @@ namespace Examplinvi
 
         public static void Json_GetJsonForHelpRequestExample()
         {
-            var jsonResponse = HelpJson.GetTokenRateLimits();
+            var jsonResponse = HelpJson.GetCredentialsRateLimits();
             Console.WriteLine(jsonResponse);
         }
 

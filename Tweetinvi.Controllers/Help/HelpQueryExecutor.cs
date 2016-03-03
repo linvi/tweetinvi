@@ -2,14 +2,13 @@
 using Tweetinvi.Core.Interfaces.Controllers;
 using Tweetinvi.Core.Interfaces.Credentials;
 using Tweetinvi.Core.Interfaces.DTO;
-using Tweetinvi.Core.Interfaces.WebLogic;
 
 namespace Tweetinvi.Controllers.Help
 {
     public interface IHelpQueryExecutor
     {
-        ITokenRateLimits GetCurrentCredentialsRateLimits();
-        ITokenRateLimits GetCredentialsRateLimits(ITwitterCredentials credentials);
+        ICredentialsRateLimits GetCurrentCredentialsRateLimits();
+        ICredentialsRateLimits GetCredentialsRateLimits(ITwitterCredentials credentials);
         string GetTwitterPrivacyPolicy();
         ITwitterConfiguration GetTwitterConfiguration();
     }
@@ -30,13 +29,13 @@ namespace Tweetinvi.Controllers.Help
             _credentialsAccessor = credentialsAccessor;
         }
 
-        public ITokenRateLimits GetCurrentCredentialsRateLimits()
+        public ICredentialsRateLimits GetCurrentCredentialsRateLimits()
         {
             string query = _helpQueryGenerator.GetCredentialsLimitsQuery();
-            return _twitterAccessor.ExecuteGETQuery<ITokenRateLimits>(query);
+            return _twitterAccessor.ExecuteGETQuery<ICredentialsRateLimits>(query);
         }
 
-        public ITokenRateLimits GetCredentialsRateLimits(ITwitterCredentials credentials)
+        public ICredentialsRateLimits GetCredentialsRateLimits(ITwitterCredentials credentials)
         {
             var savedCredentials = _credentialsAccessor.CurrentThreadCredentials;
             _credentialsAccessor.CurrentThreadCredentials = credentials;

@@ -23,12 +23,12 @@ namespace Tweetinvi.Credentials.RateLimit
             _attributeHelper = attributeHelper;
         }
 
-        public bool IsQueryAssociatedWithTokenRateLimit(string query, ITokenRateLimits rateLimits)
+        public bool IsQueryAssociatedWithEndpointRateLimit(string query, ICredentialsRateLimits rateLimits)
         {
-            return GetTokenRateLimitFromQuery(query, rateLimits) != null;
+            return GetEndpointRateLimitFromQuery(query, rateLimits) != null;
         }
 
-        public IEnumerable<ITokenRateLimit> GetTokenRateLimitsFromMethod(Expression<Action> expression, ITokenRateLimits rateLimits)
+        public IEnumerable<IEndpointRateLimit> GetTokenRateLimitsFromMethod(Expression<Action> expression, ICredentialsRateLimits rateLimits)
         {
             if (expression == null)
             {
@@ -42,7 +42,7 @@ namespace Tweetinvi.Credentials.RateLimit
             {
                 var method = methodCallExpression.Method;
                 var attributes = _attributeHelper.GetAttributes<CustomTwitterEndpointAttribute>(method);
-                var tokenAttributes = _attributeHelper.GetAllPropertiesAttributes<ITokenRateLimits, TwitterEndpointAttribute>();
+                var tokenAttributes = _attributeHelper.GetAllPropertiesAttributes<ICredentialsRateLimits, TwitterEndpointAttribute>();
                 var validKeys = tokenAttributes.Keys.Where(x => attributes.Any(a => a.EndpointURL == x.EndpointURL));
                 return validKeys.Select(key => GetRateLimitFromProperty(tokenAttributes[key], rateLimits));
             }
@@ -50,7 +50,7 @@ namespace Tweetinvi.Credentials.RateLimit
             return null;
         }
 
-        public ITokenRateLimit GetTokenRateLimitFromQuery(string query, ITokenRateLimits rateLimits)
+        public IEndpointRateLimit GetEndpointRateLimitFromQuery(string query, ICredentialsRateLimits rateLimits)
         {
             var queryBaseURL = _webHelper.GetBaseURL(query);
             if (rateLimits == null || queryBaseURL == null)
@@ -58,7 +58,7 @@ namespace Tweetinvi.Credentials.RateLimit
                 return null;
             }
 
-            var tokenAttributes = _attributeHelper.GetAllPropertiesAttributes<ITokenRateLimits, TwitterEndpointAttribute>();
+            var tokenAttributes = _attributeHelper.GetAllPropertiesAttributes<ICredentialsRateLimits, TwitterEndpointAttribute>();
             var matchingAttribute = tokenAttributes.Keys.JustOneOrDefault(x => IsEndpointURLMatchingQueryURL(queryBaseURL, x));
 
             if (matchingAttribute == null)
@@ -70,9 +70,9 @@ namespace Tweetinvi.Credentials.RateLimit
             return GetRateLimitFromProperty(matchingProperty, rateLimits);
         }
 
-        private ITokenRateLimit GetRateLimitFromProperty(PropertyInfo propertyInfo, ITokenRateLimits rateLimits)
+        private IEndpointRateLimit GetRateLimitFromProperty(PropertyInfo propertyInfo, ICredentialsRateLimits rateLimits)
         {
-            var rateLimit = propertyInfo.GetValue(rateLimits, null) as ITokenRateLimit;
+            var rateLimit = propertyInfo.GetValue(rateLimits, null) as IEndpointRateLimit;
             return rateLimit;
         }
 

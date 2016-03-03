@@ -5,7 +5,7 @@ namespace Tweetinvi.Controllers.Help
 {
     public interface IHelpJsonController
     {
-        string GetTokenRateLimits();
+        string GetCredentialsRateLimits();
         string GetTwitterPrivacyPolicy();
     }
 
@@ -22,7 +22,7 @@ namespace Tweetinvi.Controllers.Help
             _twitterAccessor = twitterAccessor;
         }
 
-        public string GetTokenRateLimits()
+        public string GetCredentialsRateLimits()
         {
             string query = _helpQueryGenerator.GetCredentialsLimitsQuery();
             return _twitterAccessor.ExecuteJsonGETQuery(query);

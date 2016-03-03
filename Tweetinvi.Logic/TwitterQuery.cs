@@ -41,8 +41,8 @@ namespace Tweetinvi.Logic
         public IEnumerable<IOAuthQueryParameter> QueryParameters { get; set; }
 
 
-        public ITokenRateLimit QueryRateLimit { get; set; }
-        public ITokenRateLimits CredentialsRateLimits { get; set; }
+        public IEndpointRateLimit QueryRateLimit { get; set; }
+        public ICredentialsRateLimits CredentialsRateLimits { get; set; }
 
         /// <summary>
         /// Date at which the Twitter query will be ready to be executed

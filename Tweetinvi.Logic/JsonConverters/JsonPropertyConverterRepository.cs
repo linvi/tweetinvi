@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json;
 using Tweetinvi.Core.Enum;
-using Tweetinvi.Core.Extensions;
 using Tweetinvi.Core.Helpers;
 using Tweetinvi.Core.Interfaces.Credentials;
 using Tweetinvi.Core.Interfaces.DTO;
@@ -84,8 +83,8 @@ namespace Tweetinvi.Logic.JsonConverters
             var trendConverter = new JsonInterfaceToObjectConverter<ITrend, Trend>();
             var placeTrendsConverter = new JsonInterfaceToObjectConverter<IPlaceTrends, PlaceTrends>();
             var woeIdLocationConverter = new JsonInterfaceToObjectConverter<IWoeIdLocation, WoeIdLocation>();
-            var tokenRateLimitConverter = new JsonInterfaceToObjectConverter<ITokenRateLimit, TokenRateLimit>();
-            var tokenRateLimitsConverter = new JsonInterfaceToObjectConverter<ITokenRateLimits, TokenRateLimits>();
+            var endpointRateLimitConverter = new JsonInterfaceToObjectConverter<IEndpointRateLimit, EndpointRateLimit>();
+            var credentialsRateLimitsConverter = new JsonInterfaceToObjectConverter<ICredentialsRateLimits, CredentialsRateLimits>();
             var savedSearchConverter = new JsonInterfaceToObjectConverter<ISavedSearchDTO, SavedSearchDTO>();
             var searchMetadataConverter = new JsonInterfaceToObjectConverter<ISearchMetadata, SearchMetadata>();
             var tweetWithSearchMetadataConverter = new JsonInterfaceToObjectConverter<ITweetWithSearchMetadataDTO, TweetWithSearchMetadataDTO>();
@@ -116,8 +115,8 @@ namespace Tweetinvi.Logic.JsonConverters
             JsonConverters.Add(typeof(ITrend), trendConverter);
             JsonConverters.Add(typeof(IPlaceTrends), placeTrendsConverter);
 
-            JsonConverters.Add(typeof(ITokenRateLimit), tokenRateLimitConverter);
-            JsonConverters.Add(typeof(ITokenRateLimits), tokenRateLimitsConverter);
+            JsonConverters.Add(typeof(IEndpointRateLimit), endpointRateLimitConverter);
+            JsonConverters.Add(typeof(ICredentialsRateLimits), credentialsRateLimitsConverter);
             JsonConverters.Add(typeof(ISavedSearch), savedSearchConverter);
 
             JsonConverters.Add(typeof(ISearchMetadata), searchMetadataConverter);

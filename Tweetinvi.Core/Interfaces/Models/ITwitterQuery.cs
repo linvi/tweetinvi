@@ -7,9 +7,19 @@ using Tweetinvi.Core.Interfaces.WebLogic;
 
 namespace Tweetinvi.Core.Interfaces.Models
 {
+    /// <summary>
+    /// Create a twitter query
+    /// </summary>
     public interface ITwitterQueryFactory
     {
+        /// <summary>
+        /// Create a twitter query.
+        /// </summary>
         ITwitterQuery Create(string queryURL, HttpMethod httpMethod = HttpMethod.GET, bool withThreadCredentials = false);
+
+        /// <summary>
+        /// Create a twitter query.
+        /// </summary>
         ITwitterQuery Create(string queryURL, HttpMethod httpMethod, ITwitterCredentials twitterCredentials);
     }
 
@@ -52,12 +62,12 @@ namespace Tweetinvi.Core.Interfaces.Models
         /// RateLimit for the specific query. These can be null if the query url, 
         /// could not be matched with any documented RateLimit field.
         /// </summary>
-        ITokenRateLimit QueryRateLimit { get; set; }
+        IEndpointRateLimit QueryRateLimit { get; set; }
 
         /// <summary>
         /// All the endpoint RateLimits for the query credentials.
         /// </summary>
-        ITokenRateLimits CredentialsRateLimits { get; set; }
+        ICredentialsRateLimits CredentialsRateLimits { get; set; }
 
         /// <summary>
         /// Date when the credentials will have the required rate limits to execute the query.

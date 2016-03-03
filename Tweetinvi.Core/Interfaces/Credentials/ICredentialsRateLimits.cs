@@ -7,7 +7,7 @@ namespace Tweetinvi.Core.Interfaces.Credentials
     /// Lists the state of all the twitter api endpoints rate limits.
     /// https://dev.twitter.com/docs/rate-limiting/1.1/limits
     /// </summary>
-    public interface ITokenRateLimits
+    public interface ICredentialsRateLimits
     {
         // TODO LINVI : 
         // ADD https://dev.twitter.com/rest/reference/post/statuses/destroy/%3Aid
@@ -23,226 +23,226 @@ namespace Tweetinvi.Core.Interfaces.Credentials
         bool IsApplicationOnlyCredentials { get; set; }
 
         // ACCOUNT
-        ITokenRateLimit AccountLoginVerificationEnrollmentLimit { get; }
+        IEndpointRateLimit AccountLoginVerificationEnrollmentLimit { get; }
         
         [TwitterEndpoint("https://api.twitter.com/1.1/account/settings.json")]
-        ITokenRateLimit AccountSettingsLimit { get; }
+        IEndpointRateLimit AccountSettingsLimit { get; }
 
         [TwitterEndpoint("https://api.twitter.com/1.1/account/update_profile.json")]
-        ITokenRateLimit AccountUpdateProfileLimit { get; }
+        IEndpointRateLimit AccountUpdateProfileLimit { get; }
 
         [TwitterEndpoint("https://api.twitter.com/1.1/account/verify_credentials.json")]
-        ITokenRateLimit AccountVerifyCredentialsLimit { get; }
+        IEndpointRateLimit AccountVerifyCredentialsLimit { get; }
 
         // APPLICATION
         [TwitterEndpoint("https://api.twitter.com/1.1/application/rate_limit_status.json")]
-        ITokenRateLimit ApplicationRateLimitStatusLimit { get; }
+        IEndpointRateLimit ApplicationRateLimitStatusLimit { get; }
 
         // BLOCK
         [TwitterEndpoint("https://api.twitter.com/1.1/blocks/ids.json")]
-        ITokenRateLimit BlocksIdsLimit { get; }
+        IEndpointRateLimit BlocksIdsLimit { get; }
 
         [TwitterEndpoint("https://api.twitter.com/1.1/blocks/list.json")]
-        ITokenRateLimit BlocksListLimit { get; }
+        IEndpointRateLimit BlocksListLimit { get; }
 
         // OTHER
-        ITokenRateLimit DeviceTokenLimit { get; }
+        IEndpointRateLimit DeviceTokenLimit { get; }
 
         // DIRECT MESSAGES
         [TwitterEndpoint("https://api.twitter.com/1.1/direct_messages.json")]
-        ITokenRateLimit DirectMessagesLimit { get; }
+        IEndpointRateLimit DirectMessagesLimit { get; }
 
         [TwitterEndpoint("https://api.twitter.com/1.1/direct_messages/sent.json")]
-        ITokenRateLimit DirectMessagesSentLimit { get; }
+        IEndpointRateLimit DirectMessagesSentLimit { get; }
 
         // TODO (LINVI) : FIND OUT THE QUERY IT IS RELATED WITH
-        ITokenRateLimit DirectMessagesSentAndReceivedLimit { get; }
+        IEndpointRateLimit DirectMessagesSentAndReceivedLimit { get; }
 
         [TwitterEndpoint("https://api.twitter.com/1.1/direct_messages/show.json")]
-        ITokenRateLimit DirectMessagesShowLimit { get; }
+        IEndpointRateLimit DirectMessagesShowLimit { get; }
 
         // FAVOURITES
         [TwitterEndpoint("https://api.twitter.com/1.1/favorites/list.json")]
-        ITokenRateLimit FavoritesListLimit { get; }
+        IEndpointRateLimit FavoritesListLimit { get; }
 
         // FOLLOWERS
         [TwitterEndpoint("https://api.twitter.com/1.1/followers/ids.json")]
-        ITokenRateLimit FollowersIdsLimit { get; }
+        IEndpointRateLimit FollowersIdsLimit { get; }
 
         [TwitterEndpoint("https://api.twitter.com/1.1/followers/list.json")]
-        ITokenRateLimit FollowersListLimit { get; }
+        IEndpointRateLimit FollowersListLimit { get; }
 
         // FRIENDS
         [TwitterEndpoint("https://api.twitter.com/1.1/friends/ids.json")]
-        ITokenRateLimit FriendsIdsLimit { get; }
+        IEndpointRateLimit FriendsIdsLimit { get; }
 
         [TwitterEndpoint("https://api.twitter.com/1.1/friends/list.json")]
-        ITokenRateLimit FriendsListLimit { get; }
-        ITokenRateLimit FriendsFollowingIdsLimit { get; }
-        ITokenRateLimit FriendsFollowingListLimit { get; }
+        IEndpointRateLimit FriendsListLimit { get; }
+        IEndpointRateLimit FriendsFollowingIdsLimit { get; }
+        IEndpointRateLimit FriendsFollowingListLimit { get; }
 
         // FRIENDSHIP
         [TwitterEndpoint("https://api.twitter.com/1.1/friendships/incoming.json")]
-        ITokenRateLimit FriendshipsIncomingLimit { get; }
+        IEndpointRateLimit FriendshipsIncomingLimit { get; }
 
         [TwitterEndpoint("https://api.twitter.com/1.1/friendships/lookup.json")]
-        ITokenRateLimit FriendshipsLookupLimit { get; }
+        IEndpointRateLimit FriendshipsLookupLimit { get; }
 
         [TwitterEndpoint("https://api.twitter.com/1.1/friendships/no_retweets/ids.json")]
-        ITokenRateLimit FriendshipsNoRetweetsIdsLimit { get; }
+        IEndpointRateLimit FriendshipsNoRetweetsIdsLimit { get; }
 
         [TwitterEndpoint("https://api.twitter.com/1.1/friendships/outgoing.json")]
-        ITokenRateLimit FriendshipsOutgoingLimit { get; }
+        IEndpointRateLimit FriendshipsOutgoingLimit { get; }
 
         [TwitterEndpoint("https://api.twitter.com/1.1/friendships/show.json")]
-        ITokenRateLimit FriendshipsShowLimit { get; }
+        IEndpointRateLimit FriendshipsShowLimit { get; }
 
         // GEO
         [TwitterEndpoint("https://api.twitter.com/1.1/geo/id/[a-zA-Z0-9]+\\.json", true)]
-        ITokenRateLimit GeoGetPlaceFromIdLimit { get; }
+        IEndpointRateLimit GeoGetPlaceFromIdLimit { get; }
 
         [TwitterEndpoint("https://api.twitter.com/1.1/geo/reverse_geocode.json")]
-        ITokenRateLimit GeoReverseGeoCodeLimit { get; }
+        IEndpointRateLimit GeoReverseGeoCodeLimit { get; }
 
         [TwitterEndpoint("https://api.twitter.com/1.1/geo/search.json")]
-        ITokenRateLimit GeoSearchLimit { get; }
+        IEndpointRateLimit GeoSearchLimit { get; }
 
         [TwitterEndpoint("https://api.twitter.com/1.1/geo/similar_places.json")]
-        ITokenRateLimit GeoSimilarPlacesLimit { get; }
+        IEndpointRateLimit GeoSimilarPlacesLimit { get; }
 
         // HELP
         [TwitterEndpoint("https://api.twitter.com/1.1/help/configuration.json")]
-        ITokenRateLimit HelpConfigurationLimit { get; }
+        IEndpointRateLimit HelpConfigurationLimit { get; }
 
         [TwitterEndpoint("https://api.twitter.com/1.1/help/languages.json")]
-        ITokenRateLimit HelpLanguagesLimit { get; }
+        IEndpointRateLimit HelpLanguagesLimit { get; }
 
         [TwitterEndpoint("https://api.twitter.com/1.1/help/privacy.json")]
-        ITokenRateLimit HelpPrivacyLimit { get; }
+        IEndpointRateLimit HelpPrivacyLimit { get; }
 
-        ITokenRateLimit HelpSettingsLimit { get; }
+        IEndpointRateLimit HelpSettingsLimit { get; }
 
         [TwitterEndpoint("https://api.twitter.com/1.1/help/tos.json")]
-        ITokenRateLimit HelpTosLimit { get; }
+        IEndpointRateLimit HelpTosLimit { get; }
 
         // LIST
         [TwitterEndpoint("https://api.twitter.com/1.1/lists/list.json")]
-        ITokenRateLimit ListsListLimit { get; }
+        IEndpointRateLimit ListsListLimit { get; }
 
         [TwitterEndpoint("https://api.twitter.com/1.1/lists/members.json")]
-        ITokenRateLimit ListsMembersLimit { get; }
+        IEndpointRateLimit ListsMembersLimit { get; }
 
         [TwitterEndpoint("https://api.twitter.com/1.1/lists/members/show.json")]
-        ITokenRateLimit ListsMembersShowLimit { get; }
+        IEndpointRateLimit ListsMembersShowLimit { get; }
 
         [TwitterEndpoint("https://api.twitter.com/1.1/lists/memberships.json")]
-        ITokenRateLimit ListsMembershipsLimit { get; }
+        IEndpointRateLimit ListsMembershipsLimit { get; }
 
         [TwitterEndpoint("https://api.twitter.com/1.1/lists/ownerships.json")]
-        ITokenRateLimit ListsOwnershipsLimit { get; }
+        IEndpointRateLimit ListsOwnershipsLimit { get; }
 
         [TwitterEndpoint("https://api.twitter.com/1.1/lists/show.json")]
-        ITokenRateLimit ListsShowLimit { get; }
+        IEndpointRateLimit ListsShowLimit { get; }
 
         [TwitterEndpoint("https://api.twitter.com/1.1/lists/statuses.json")]
-        ITokenRateLimit ListsStatusesLimit { get; }
+        IEndpointRateLimit ListsStatusesLimit { get; }
 
         [TwitterEndpoint("https://api.twitter.com/1.1/lists/subscribers.json")]
-        ITokenRateLimit ListsSubscribersLimit { get; }
+        IEndpointRateLimit ListsSubscribersLimit { get; }
 
         [TwitterEndpoint("https://api.twitter.com/1.1/lists/subscribers/show.json")]
-        ITokenRateLimit ListsSubscribersShowLimit { get; }
+        IEndpointRateLimit ListsSubscribersShowLimit { get; }
 
         [TwitterEndpoint("https://api.twitter.com/1.1/lists/subscriptions.json")]
-        ITokenRateLimit ListsSubscriptionsLimit { get; }
+        IEndpointRateLimit ListsSubscriptionsLimit { get; }
 
         // MUTES
         [TwitterEndpoint("https://api.twitter.com/1.1/mutes/users/list.json")]
-        ITokenRateLimit MutesUserList { get; }
+        IEndpointRateLimit MutesUserList { get; }
 
         [TwitterEndpoint("https://api.twitter.com/1.1/mutes/users/ids.json")]
-        ITokenRateLimit MutesUserIds { get; }
+        IEndpointRateLimit MutesUserIds { get; }
 
         // SAVED SEARCHES
         [TwitterEndpoint("https://api.twitter.com/1.1/saved_searches/destroy/[a-zA-Z0-9]+\\.json", true)]
-        ITokenRateLimit SavedSearchDestroyList { get; }
+        IEndpointRateLimit SavedSearchDestroyList { get; }
 
         [TwitterEndpoint("https://api.twitter.com/1.1/saved_searches/list.json")]
-        ITokenRateLimit SavedSearchesListLimit { get; }
+        IEndpointRateLimit SavedSearchesListLimit { get; }
 
         [TwitterEndpoint("https://api.twitter.com/1.1/saved_searches/show/[a-zA-Z0-9]+\\.json", true)]
-        ITokenRateLimit SavedSearchesShowIdLimit { get; }
+        IEndpointRateLimit SavedSearchesShowIdLimit { get; }
 
         // SEARCH
         [TwitterEndpoint("https://api.twitter.com/1.1/search/tweets.json")]
-        ITokenRateLimit SearchTweetsLimit { get; }
+        IEndpointRateLimit SearchTweetsLimit { get; }
 
         // STATUSES
         // TODO LINVI
-        ITokenRateLimit StatusesFriendsLimit { get; }
+        IEndpointRateLimit StatusesFriendsLimit { get; }
 
         [TwitterEndpoint("https://api.twitter.com/1.1/statuses/home_timeline.json")]
-        ITokenRateLimit StatusesHomeTimelineLimit { get; }
+        IEndpointRateLimit StatusesHomeTimelineLimit { get; }
 
         [TwitterEndpoint("https://api.twitter.com/1.1/statuses/lookup.json")]
-        ITokenRateLimit StatusesLookupLimit { get; }
+        IEndpointRateLimit StatusesLookupLimit { get; }
 
         [TwitterEndpoint("https://api.twitter.com/1.1/statuses/mentions_timeline.json")]
-        ITokenRateLimit StatusesMentionsTimelineLimit { get; }
+        IEndpointRateLimit StatusesMentionsTimelineLimit { get; }
 
         [TwitterEndpoint("https://api.twitter.com/1.1/statuses/oembed.json")]
-        ITokenRateLimit StatusesOembedLimit { get; }
+        IEndpointRateLimit StatusesOembedLimit { get; }
 
         [TwitterEndpoint("https://api.twitter.com/1.1/statuses/retweeters/ids.json")]
-        ITokenRateLimit StatusesRetweetersIdsLimit { get; }
+        IEndpointRateLimit StatusesRetweetersIdsLimit { get; }
 
         [TwitterEndpoint("https://api.twitter.com/1.1/statuses/retweets/[0-9]+\\.json", true)]
-        ITokenRateLimit StatusesRetweetsIdLimit { get; }
+        IEndpointRateLimit StatusesRetweetsIdLimit { get; }
 
         [TwitterEndpoint("https://api.twitter.com/1.1/statuses/retweets_of_me.json")]
-        ITokenRateLimit StatusesRetweetsOfMeLimit { get; }
+        IEndpointRateLimit StatusesRetweetsOfMeLimit { get; }
 
         [TwitterEndpoint("https://api.twitter.com/1.1/statuses/show.json")]
-        ITokenRateLimit StatusesShowIdLimit { get; }
+        IEndpointRateLimit StatusesShowIdLimit { get; }
 
         [TwitterEndpoint("https://api.twitter.com/1.1/statuses/user_timeline.json")]
-        ITokenRateLimit StatusesUserTimelineLimit { get; }
+        IEndpointRateLimit StatusesUserTimelineLimit { get; }
 
         // TRENDS
         [TwitterEndpoint("https://api.twitter.com/1.1/trends/available.json")]
-        ITokenRateLimit TrendsAvailableLimit { get; }
+        IEndpointRateLimit TrendsAvailableLimit { get; }
 
         [TwitterEndpoint("https://api.twitter.com/1.1/trends/closest.json")]
-        ITokenRateLimit TrendsClosestLimit { get; }
+        IEndpointRateLimit TrendsClosestLimit { get; }
 
         [TwitterEndpoint("https://api.twitter.com/1.1/trends/place.json")]
-        ITokenRateLimit TrendsPlaceLimit { get; }
+        IEndpointRateLimit TrendsPlaceLimit { get; }
 
         // USER
-        ITokenRateLimit UsersDerivedInfoLimit { get; }
+        IEndpointRateLimit UsersDerivedInfoLimit { get; }
 
         [TwitterEndpoint("https://api.twitter.com/1.1/users/lookup.json")]
-        ITokenRateLimit UsersLookupLimit { get; }
+        IEndpointRateLimit UsersLookupLimit { get; }
 
         [TwitterEndpoint("https://api.twitter.com/1.1/users/profile_banner.json")]
-        ITokenRateLimit UsersProfileBannerLimit { get; }
+        IEndpointRateLimit UsersProfileBannerLimit { get; }
 
         [TwitterEndpoint("https://api.twitter.com/1.1/users/report_spam.json")]
-        ITokenRateLimit UsersReportSpamLimit { get; }
+        IEndpointRateLimit UsersReportSpamLimit { get; }
 
         [TwitterEndpoint("https://api.twitter.com/1.1/users/search.json")]
-        ITokenRateLimit UsersSearchLimit { get; }
+        IEndpointRateLimit UsersSearchLimit { get; }
 
         [TwitterEndpoint("https://api.twitter.com/1.1/users/show.json")]
-        ITokenRateLimit UsersShowIdLimit { get; }
+        IEndpointRateLimit UsersShowIdLimit { get; }
 
         [TwitterEndpoint("https://api.twitter.com/1.1/users/suggestions.json")]
-        ITokenRateLimit UsersSuggestionsLimit { get; }
+        IEndpointRateLimit UsersSuggestionsLimit { get; }
 
         [TwitterEndpoint("https://api.twitter.com/1.1/users/suggestions/[a-zA-Z0-9]+\\.json", true)]
-        ITokenRateLimit UsersSuggestionsSlugLimit { get; }
+        IEndpointRateLimit UsersSuggestionsSlugLimit { get; }
 
         [TwitterEndpoint("https://api.twitter.com/1.1/users/suggestions/[a-zA-Z0-9]+/members.json", true)]
-        ITokenRateLimit UsersSuggestionsSlugMembersLimit { get; }
+        IEndpointRateLimit UsersSuggestionsSlugMembersLimit { get; }
     }
 }

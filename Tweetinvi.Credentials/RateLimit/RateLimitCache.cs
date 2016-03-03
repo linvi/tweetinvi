@@ -18,21 +18,21 @@ namespace Tweetinvi.Credentials.RateLimit
     {
         private readonly IHelpQueryGenerator _helpQueryGenerator;
         private readonly IJsonObjectConverter _jsonObjectConverter;
-        private readonly ITweetinviContainer _tweetinviContainer;
-        private readonly Dictionary<ITwitterCredentials, ITokenRateLimits> _tokenRateLimits;
+        private readonly ITweetinviContainer _container;
+        private readonly Dictionary<ITwitterCredentials, ICredentialsRateLimits> _credentialsRateLimits;
 
         private readonly object _lockRefresh = new Object();
-        private readonly object _lockTokenRateLimitsDictionary = new object();
+        private readonly object _lockCredentialsRateLimitsDictionary = new object();
 
         public RateLimitCache(
             IHelpQueryGenerator helpQueryGenerator,
             IJsonObjectConverter jsonObjectConverter,
-            ITweetinviContainer tweetinviContainer)
+            ITweetinviContainer container)
         {
             _helpQueryGenerator = helpQueryGenerator;
             _jsonObjectConverter = jsonObjectConverter;
-            _tweetinviContainer = tweetinviContainer;
-            _tokenRateLimits = new Dictionary<ITwitterCredentials, ITokenRateLimits>();
+            _container = container;
+            _credentialsRateLimits = new Dictionary<ITwitterCredentials, ICredentialsRateLimits>();
         }
 
         public void Clear(ITwitterCredentials credentials)
@@ -41,11 +41,11 @@ namespace Tweetinvi.Credentials.RateLimit
             // is not cleared during a refresh or when it is being accessed
             lock (_lockRefresh)
             {
-                lock (_lockTokenRateLimitsDictionary)
+                lock (_lockCredentialsRateLimitsDictionary)
                 {
-                    if (_tokenRateLimits.ContainsKey(credentials))
+                    if (_credentialsRateLimits.ContainsKey(credentials))
                     {
-                        _tokenRateLimits.Remove(credentials);
+                        _credentialsRateLimits.Remove(credentials);
                     }
                 }
             }
@@ -57,19 +57,19 @@ namespace Tweetinvi.Credentials.RateLimit
             // is not cleared during a refresh or when it is being accessed
             lock (_lockRefresh)
             {
-                lock (_lockTokenRateLimitsDictionary)
+                lock (_lockCredentialsRateLimitsDictionary)
                 {
-                    _tokenRateLimits.Clear();
+                    _credentialsRateLimits.Clear();
                 }
             }
         }
 
-        public ITokenRateLimits GetTokenRateLimits(ITwitterCredentials credentials)
+        public ICredentialsRateLimits GetCredentialsRateLimits(ITwitterCredentials credentials)
         {
-            lock (_lockTokenRateLimitsDictionary)
+            lock (_lockCredentialsRateLimitsDictionary)
             {
-                ITokenRateLimits credentialsRateLimits;
-                if (_tokenRateLimits.TryGetValue(credentials, out credentialsRateLimits))
+                ICredentialsRateLimits credentialsRateLimits;
+                if (_credentialsRateLimits.TryGetValue(credentials, out credentialsRateLimits))
                 {
                     return credentialsRateLimits;
                 }
@@ -80,17 +80,17 @@ namespace Tweetinvi.Credentials.RateLimit
             }
         }
 
-        public void RefreshEntry(ITwitterCredentials credentials, ITokenRateLimits credentialsRateLimits)
+        public void RefreshEntry(ITwitterCredentials credentials, ICredentialsRateLimits credentialsRateLimits)
         {
-            lock (_lockTokenRateLimitsDictionary)
+            lock (_lockCredentialsRateLimitsDictionary)
             {
-                if (_tokenRateLimits.ContainsKey(credentials))
+                if (_credentialsRateLimits.ContainsKey(credentials))
                 {
-                    _tokenRateLimits[credentials] = credentialsRateLimits;
+                    _credentialsRateLimits[credentials] = credentialsRateLimits;
                 }
                 else
                 {
-                    _tokenRateLimits.Add(credentials, credentialsRateLimits);
+                    _credentialsRateLimits.Add(credentials, credentialsRateLimits);
                 }
             }
         }

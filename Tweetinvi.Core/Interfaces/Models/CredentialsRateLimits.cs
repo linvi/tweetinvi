@@ -6,9 +6,9 @@ using Tweetinvi.Core.Interfaces.Credentials;
 
 namespace Tweetinvi.Core.Interfaces.Models
 {
-    public class TokenRateLimits : ITokenRateLimits
+    public class CredentialsRateLimits : ICredentialsRateLimits
     {
-        public TokenRateLimits()
+        public CredentialsRateLimits()
         {
             CreatedAt = DateTime.Now;
         }
@@ -19,111 +19,111 @@ namespace Tweetinvi.Core.Interfaces.Models
         public bool IsApplicationOnlyCredentials { get; set; }
 
         #region Account
-        public ITokenRateLimit AccountLoginVerificationEnrollmentLimit
+        public IEndpointRateLimit AccountLoginVerificationEnrollmentLimit
         {
             get { return _resources.AccountRateLimits["/account/login_verification_enrollment"]; }
         }
 
-        public ITokenRateLimit AccountSettingsLimit
+        public IEndpointRateLimit AccountSettingsLimit
         {
             get { return _resources.AccountRateLimits["/account/settings"]; }
         }
 
-        public ITokenRateLimit AccountUpdateProfileLimit
+        public IEndpointRateLimit AccountUpdateProfileLimit
         {
             get { return _resources.AccountRateLimits["/account/update_profile"]; }
         }
 
-        public ITokenRateLimit AccountVerifyCredentialsLimit
+        public IEndpointRateLimit AccountVerifyCredentialsLimit
         {
             get { return _resources.AccountRateLimits["/account/verify_credentials"]; }
         }
         #endregion
 
         #region Application
-        public ITokenRateLimit ApplicationRateLimitStatusLimit
+        public IEndpointRateLimit ApplicationRateLimitStatusLimit
         {
             get { return _resources.ApplicationRateLimits["/application/rate_limit_status"]; }
         }
         #endregion
 
         #region Block
-        public ITokenRateLimit BlocksIdsLimit
+        public IEndpointRateLimit BlocksIdsLimit
         {
             get { return _resources.BlocksRateLimits["/blocks/ids"]; }
         }
 
-        public ITokenRateLimit BlocksListLimit
+        public IEndpointRateLimit BlocksListLimit
         {
             get { return _resources.BlocksRateLimits["/blocks/list"]; }
         }
         #endregion
 
         #region Device
-        public ITokenRateLimit DeviceTokenLimit
+        public IEndpointRateLimit DeviceTokenLimit
         {
             get { return _resources.DeviceRateLimits["/device/token"]; }
         }
         #endregion
 
         #region DirectMessages
-        public ITokenRateLimit DirectMessagesLimit
+        public IEndpointRateLimit DirectMessagesLimit
         {
             get { return _resources.DirectMessagesRateLimits["/direct_messages"]; }
         }
 
-        public ITokenRateLimit DirectMessagesSentLimit
+        public IEndpointRateLimit DirectMessagesSentLimit
         {
             get { return _resources.DirectMessagesRateLimits["/direct_messages/sent"]; }
         }
 
-        public ITokenRateLimit DirectMessagesSentAndReceivedLimit
+        public IEndpointRateLimit DirectMessagesSentAndReceivedLimit
         {
             get { return _resources.DirectMessagesRateLimits["/direct_messages/sent_and_received"]; }
         }
 
-        public ITokenRateLimit DirectMessagesShowLimit
+        public IEndpointRateLimit DirectMessagesShowLimit
         {
             get { return _resources.DirectMessagesRateLimits["/direct_messages/show"]; }
         }
         #endregion
 
         #region Favourite
-        public ITokenRateLimit FavoritesListLimit
+        public IEndpointRateLimit FavoritesListLimit
         {
             get { return _resources.FavoritesRateLimits["/favorites/list"]; }
         }
         #endregion
 
         #region Followers
-        public ITokenRateLimit FollowersIdsLimit
+        public IEndpointRateLimit FollowersIdsLimit
         {
             get { return _resources.FollowersRateLimits["/followers/ids"]; }
         }
 
-        public ITokenRateLimit FollowersListLimit
+        public IEndpointRateLimit FollowersListLimit
         {
             get { return _resources.FollowersRateLimits["/followers/list"]; }
         }
         #endregion
 
         #region Friends
-        public ITokenRateLimit FriendsIdsLimit
+        public IEndpointRateLimit FriendsIdsLimit
         {
             get { return _resources.FriendsRateLimits["/friends/ids"]; }
         }
 
-        public ITokenRateLimit FriendsListLimit
+        public IEndpointRateLimit FriendsListLimit
         {
             get { return _resources.FriendsRateLimits["/friends/list"]; }
         }
 
-        public ITokenRateLimit FriendsFollowingIdsLimit
+        public IEndpointRateLimit FriendsFollowingIdsLimit
         {
             get { return _resources.FriendsRateLimits["/friends/following/ids"]; }
         }
 
-        public ITokenRateLimit FriendsFollowingListLimit
+        public IEndpointRateLimit FriendsFollowingListLimit
         {
             get { return _resources.FriendsRateLimits["/friends/following/list"]; }
         }
@@ -131,140 +131,140 @@ namespace Tweetinvi.Core.Interfaces.Models
         #endregion
 
         #region Friendships
-        public ITokenRateLimit FriendshipsIncomingLimit
+        public IEndpointRateLimit FriendshipsIncomingLimit
         {
             get { return _resources.FriendshipsRateLimits["/friendships/incoming"]; }
         }
 
-        public ITokenRateLimit FriendshipsLookupLimit
+        public IEndpointRateLimit FriendshipsLookupLimit
         {
             get { return _resources.FriendshipsRateLimits["/friendships/lookup"]; }
         }
 
-        public ITokenRateLimit FriendshipsNoRetweetsIdsLimit
+        public IEndpointRateLimit FriendshipsNoRetweetsIdsLimit
         {
             get { return _resources.FriendshipsRateLimits["/friendships/no_retweets/ids"]; }
         }
 
-        public ITokenRateLimit FriendshipsOutgoingLimit
+        public IEndpointRateLimit FriendshipsOutgoingLimit
         {
             get { return _resources.FriendshipsRateLimits["/friendships/outgoing"]; }
         }
 
-        public ITokenRateLimit FriendshipsShowLimit
+        public IEndpointRateLimit FriendshipsShowLimit
         {
             get { return _resources.FriendshipsRateLimits["/friendships/show"]; }
         }
         #endregion
 
         #region Geo
-        public ITokenRateLimit GeoGetPlaceFromIdLimit
+        public IEndpointRateLimit GeoGetPlaceFromIdLimit
         {
             get { return _resources.GeoRateLimits["/geo/id/:place_id"]; }
         }
 
-        public ITokenRateLimit GeoReverseGeoCodeLimit
+        public IEndpointRateLimit GeoReverseGeoCodeLimit
         {
             get { return _resources.GeoRateLimits["/geo/reverse_geocode"]; }
         }
 
-        public ITokenRateLimit GeoSearchLimit
+        public IEndpointRateLimit GeoSearchLimit
         {
             get { return _resources.GeoRateLimits["/geo/search"]; }
         }
 
-        public ITokenRateLimit GeoSimilarPlacesLimit
+        public IEndpointRateLimit GeoSimilarPlacesLimit
         {
             get { return _resources.GeoRateLimits["/geo/similar_places"]; }
         }
         #endregion
 
         #region Help
-        public ITokenRateLimit HelpConfigurationLimit
+        public IEndpointRateLimit HelpConfigurationLimit
         {
             get { return _resources.HelpRateLimits["/help/configuration"]; }
         }
 
-        public ITokenRateLimit HelpLanguagesLimit
+        public IEndpointRateLimit HelpLanguagesLimit
         {
             get { return _resources.HelpRateLimits["/help/languages"]; }
         }
 
-        public ITokenRateLimit HelpPrivacyLimit
+        public IEndpointRateLimit HelpPrivacyLimit
         {
             get { return _resources.HelpRateLimits["/help/privacy"]; }
         }
 
-        public ITokenRateLimit HelpSettingsLimit
+        public IEndpointRateLimit HelpSettingsLimit
         {
             get { return _resources.HelpRateLimits["/help/settings"]; }
         }
 
-        public ITokenRateLimit HelpTosLimit
+        public IEndpointRateLimit HelpTosLimit
         {
             get { return _resources.HelpRateLimits["/help/tos"]; }
         }
         #endregion
 
         #region Lists
-        public ITokenRateLimit ListsListLimit
+        public IEndpointRateLimit ListsListLimit
         {
             get { return _resources.ListsRateLimits["/lists/list"]; }
         }
 
-        public ITokenRateLimit ListsMembersLimit
+        public IEndpointRateLimit ListsMembersLimit
         {
             get { return _resources.ListsRateLimits["/lists/members"]; }
         }
 
-        public ITokenRateLimit ListsMembersShowLimit
+        public IEndpointRateLimit ListsMembersShowLimit
         {
             get { return _resources.ListsRateLimits["/lists/members/show"]; }
         }
 
-        public ITokenRateLimit ListsMembershipsLimit
+        public IEndpointRateLimit ListsMembershipsLimit
         {
             get { return _resources.ListsRateLimits["/lists/memberships"]; }
         }
 
-        public ITokenRateLimit ListsOwnershipsLimit
+        public IEndpointRateLimit ListsOwnershipsLimit
         {
             get { return _resources.ListsRateLimits["/lists/ownerships"]; }
         }
 
-        public ITokenRateLimit ListsShowLimit
+        public IEndpointRateLimit ListsShowLimit
         {
             get { return _resources.ListsRateLimits["/lists/show"]; }
         }
 
-        public ITokenRateLimit ListsStatusesLimit
+        public IEndpointRateLimit ListsStatusesLimit
         {
             get { return _resources.ListsRateLimits["/lists/statuses"]; }
         }
 
-        public ITokenRateLimit ListsSubscribersLimit
+        public IEndpointRateLimit ListsSubscribersLimit
         {
             get { return _resources.ListsRateLimits["/lists/subscribers"]; }
         }
 
-        public ITokenRateLimit ListsSubscribersShowLimit
+        public IEndpointRateLimit ListsSubscribersShowLimit
         {
             get { return _resources.ListsRateLimits["/lists/subscribers/show"]; }
         }
 
-        public ITokenRateLimit ListsSubscriptionsLimit
+        public IEndpointRateLimit ListsSubscriptionsLimit
         {
             get { return _resources.ListsRateLimits["/lists/subscriptions"]; }
         }
         #endregion
 
         #region Mutes
-        public ITokenRateLimit MutesUserList
+        public IEndpointRateLimit MutesUserList
         {
             get { return _resources.MutesRateLimits["/mutes/users/list"]; }
         }
 
-        public ITokenRateLimit MutesUserIds
+        public IEndpointRateLimit MutesUserIds
         {
             get { return _resources.MutesRateLimits["/mutes/users/ids"]; }
         }
@@ -272,24 +272,24 @@ namespace Tweetinvi.Core.Interfaces.Models
         #endregion
 
         #region SavedSearches
-        public ITokenRateLimit SavedSearchDestroyList
+        public IEndpointRateLimit SavedSearchDestroyList
         {
             get { return _resources.SavedSearchesRateLimits["/saved_searches/destroy/:id"]; }
         }
 
-        public ITokenRateLimit SavedSearchesListLimit
+        public IEndpointRateLimit SavedSearchesListLimit
         {
             get { return _resources.SavedSearchesRateLimits["/saved_searches/list"]; }
         }
 
-        public ITokenRateLimit SavedSearchesShowIdLimit
+        public IEndpointRateLimit SavedSearchesShowIdLimit
         {
             get { return _resources.SavedSearchesRateLimits["/saved_searches/show/:id"]; }
         }
         #endregion
 
         #region Search
-        public ITokenRateLimit SearchTweetsLimit
+        public IEndpointRateLimit SearchTweetsLimit
         {
             get { return _resources.SearchRateLimits["/search/tweets"]; }
         }
@@ -297,69 +297,69 @@ namespace Tweetinvi.Core.Interfaces.Models
 
         #region Statuses
 
-        public ITokenRateLimit StatusesFriendsLimit
+        public IEndpointRateLimit StatusesFriendsLimit
         {
             get { return _resources.StatusesRateLimits["/statuses/friends"]; }
         }
 
-        public ITokenRateLimit StatusesHomeTimelineLimit
+        public IEndpointRateLimit StatusesHomeTimelineLimit
         {
             get { return _resources.StatusesRateLimits["/statuses/home_timeline"]; }
         }
 
-        public ITokenRateLimit StatusesLookupLimit
+        public IEndpointRateLimit StatusesLookupLimit
         {
             get { return _resources.StatusesRateLimits["/statuses/lookup"]; }
         }
 
-        public ITokenRateLimit StatusesMentionsTimelineLimit
+        public IEndpointRateLimit StatusesMentionsTimelineLimit
         {
             get { return _resources.StatusesRateLimits["/statuses/mentions_timeline"]; }
         }
 
-        public ITokenRateLimit StatusesOembedLimit
+        public IEndpointRateLimit StatusesOembedLimit
         {
             get { return _resources.StatusesRateLimits["/statuses/oembed"]; }
         }
 
-        public ITokenRateLimit StatusesRetweetersIdsLimit
+        public IEndpointRateLimit StatusesRetweetersIdsLimit
         {
             get { return _resources.StatusesRateLimits["/statuses/retweeters/ids"]; }
         }
 
-        public ITokenRateLimit StatusesRetweetsIdLimit
+        public IEndpointRateLimit StatusesRetweetsIdLimit
         {
             get { return _resources.StatusesRateLimits["/statuses/retweets/:id"]; }
         }
 
-        public ITokenRateLimit StatusesRetweetsOfMeLimit
+        public IEndpointRateLimit StatusesRetweetsOfMeLimit
         {
             get { return _resources.StatusesRateLimits["/statuses/retweets_of_me"]; }
         }
 
-        public ITokenRateLimit StatusesShowIdLimit
+        public IEndpointRateLimit StatusesShowIdLimit
         {
             get { return _resources.StatusesRateLimits["/statuses/show/:id"]; }
         }
 
-        public ITokenRateLimit StatusesUserTimelineLimit
+        public IEndpointRateLimit StatusesUserTimelineLimit
         {
             get { return _resources.StatusesRateLimits["/statuses/user_timeline"]; }
         }
         #endregion
 
         #region Trends
-        public ITokenRateLimit TrendsAvailableLimit
+        public IEndpointRateLimit TrendsAvailableLimit
         {
             get { return _resources.TrendsRateLimits["/trends/available"]; }
         }
 
-        public ITokenRateLimit TrendsClosestLimit
+        public IEndpointRateLimit TrendsClosestLimit
         {
             get { return _resources.TrendsRateLimits["/trends/closest"]; }
         }
 
-        public ITokenRateLimit TrendsPlaceLimit
+        public IEndpointRateLimit TrendsPlaceLimit
         {
             get { return _resources.TrendsRateLimits["/trends/place"]; }
         }
@@ -367,47 +367,47 @@ namespace Tweetinvi.Core.Interfaces.Models
 
         #region Users
 
-        public ITokenRateLimit UsersDerivedInfoLimit
+        public IEndpointRateLimit UsersDerivedInfoLimit
         {
             get { return _resources.UsersRateLimits["/users/derived_info"]; }
         }
 
-        public ITokenRateLimit UsersLookupLimit
+        public IEndpointRateLimit UsersLookupLimit
         {
             get { return _resources.UsersRateLimits["/users/lookup"]; }
         }
 
-        public ITokenRateLimit UsersProfileBannerLimit
+        public IEndpointRateLimit UsersProfileBannerLimit
         {
             get { return _resources.UsersRateLimits["/users/profile_banner"]; }
         }
 
-        public ITokenRateLimit UsersReportSpamLimit
+        public IEndpointRateLimit UsersReportSpamLimit
         {
             get { return _resources.UsersRateLimits["/users/report_spam"]; }
         }
 
-        public ITokenRateLimit UsersSearchLimit
+        public IEndpointRateLimit UsersSearchLimit
         {
             get { return _resources.UsersRateLimits["/users/search"]; }
         }
 
-        public ITokenRateLimit UsersShowIdLimit
+        public IEndpointRateLimit UsersShowIdLimit
         {
             get { return _resources.UsersRateLimits["/users/show/:id"]; }
         }
 
-        public ITokenRateLimit UsersSuggestionsLimit
+        public IEndpointRateLimit UsersSuggestionsLimit
         {
             get { return _resources.UsersRateLimits["/users/suggestions"]; }
         }
 
-        public ITokenRateLimit UsersSuggestionsSlugLimit
+        public IEndpointRateLimit UsersSuggestionsSlugLimit
         {
             get { return _resources.UsersRateLimits["/users/suggestions/:slug"]; }
         }
 
-        public ITokenRateLimit UsersSuggestionsSlugMembersLimit
+        public IEndpointRateLimit UsersSuggestionsSlugMembersLimit
         {
             get { return _resources.UsersRateLimits["/users/suggestions/:slug/members"]; }
         }
@@ -417,58 +417,58 @@ namespace Tweetinvi.Core.Interfaces.Models
         private class RateLimitResources
         {
             [JsonProperty("account")]
-            public Dictionary<string, ITokenRateLimit> AccountRateLimits { get; set; }
+            public Dictionary<string, IEndpointRateLimit> AccountRateLimits { get; set; }
 
             [JsonProperty("application")]
-            public Dictionary<string, ITokenRateLimit> ApplicationRateLimits { get; set; }
+            public Dictionary<string, IEndpointRateLimit> ApplicationRateLimits { get; set; }
 
             [JsonProperty("blocks")]
-            public Dictionary<string, ITokenRateLimit> BlocksRateLimits { get; set; }
+            public Dictionary<string, IEndpointRateLimit> BlocksRateLimits { get; set; }
 
             [JsonProperty("device")]
-            public Dictionary<string, ITokenRateLimit> DeviceRateLimits { get; set; }
+            public Dictionary<string, IEndpointRateLimit> DeviceRateLimits { get; set; }
 
             [JsonProperty("direct_messages")]
-            public Dictionary<string, ITokenRateLimit> DirectMessagesRateLimits { get; set; }
+            public Dictionary<string, IEndpointRateLimit> DirectMessagesRateLimits { get; set; }
 
             [JsonProperty("favorites")]
-            public Dictionary<string, ITokenRateLimit> FavoritesRateLimits { get; set; }
+            public Dictionary<string, IEndpointRateLimit> FavoritesRateLimits { get; set; }
 
             [JsonProperty("followers")]
-            public Dictionary<string, ITokenRateLimit> FollowersRateLimits { get; set; }
+            public Dictionary<string, IEndpointRateLimit> FollowersRateLimits { get; set; }
 
             [JsonProperty("friends")]
-            public Dictionary<string, ITokenRateLimit> FriendsRateLimits { get; set; }
+            public Dictionary<string, IEndpointRateLimit> FriendsRateLimits { get; set; }
 
             [JsonProperty("friendships")]
-            public Dictionary<string, ITokenRateLimit> FriendshipsRateLimits { get; set; }
+            public Dictionary<string, IEndpointRateLimit> FriendshipsRateLimits { get; set; }
 
             [JsonProperty("geo")]
-            public Dictionary<string, ITokenRateLimit> GeoRateLimits { get; set; }
+            public Dictionary<string, IEndpointRateLimit> GeoRateLimits { get; set; }
 
             [JsonProperty("help")]
-            public Dictionary<string, ITokenRateLimit> HelpRateLimits { get; set; }
+            public Dictionary<string, IEndpointRateLimit> HelpRateLimits { get; set; }
 
             [JsonProperty("lists")]
-            public Dictionary<string, ITokenRateLimit> ListsRateLimits { get; set; }
+            public Dictionary<string, IEndpointRateLimit> ListsRateLimits { get; set; }
 
             [JsonProperty("mutes")]
-            public Dictionary<string, ITokenRateLimit> MutesRateLimits { get; set; }
+            public Dictionary<string, IEndpointRateLimit> MutesRateLimits { get; set; }
 
             [JsonProperty("saved_searches")]
-            public Dictionary<string, ITokenRateLimit> SavedSearchesRateLimits { get; set; }
+            public Dictionary<string, IEndpointRateLimit> SavedSearchesRateLimits { get; set; }
 
             [JsonProperty("search")]
-            public Dictionary<string, ITokenRateLimit> SearchRateLimits { get; set; }
+            public Dictionary<string, IEndpointRateLimit> SearchRateLimits { get; set; }
 
             [JsonProperty("statuses")]
-            public Dictionary<string, ITokenRateLimit> StatusesRateLimits { get; set; }
+            public Dictionary<string, IEndpointRateLimit> StatusesRateLimits { get; set; }
 
             [JsonProperty("trends")]
-            public Dictionary<string, ITokenRateLimit> TrendsRateLimits { get; set; }
+            public Dictionary<string, IEndpointRateLimit> TrendsRateLimits { get; set; }
 
             [JsonProperty("users")]
-            public Dictionary<string, ITokenRateLimit> UsersRateLimits { get; set; }
+            public Dictionary<string, IEndpointRateLimit> UsersRateLimits { get; set; }
         }
 
         [JsonProperty("rate_limit_context")]

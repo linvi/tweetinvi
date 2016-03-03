@@ -30,9 +30,9 @@ namespace Tweetinvi.Json
             _helpJsonController = TweetinviContainer.Resolve<IHelpJsonController>();
         }
 
-        public static string GetTokenRateLimits()
+        public static string GetCredentialsRateLimits()
         {
-            return HelpJsonController.GetTokenRateLimits();
+            return HelpJsonController.GetCredentialsRateLimits();
         }
 
         public static string GetTwitterPrivacyPolicy()

@@ -83,7 +83,7 @@ namespace Tweetinvi.Streams
             }
 
             this.Raise(StreamStarted);
-            SetStreamState(StreamState.Resume);
+            SetStreamState(StreamState.Running);
 
             _twitterQuery = _generateTwitterQuery();
 
@@ -142,7 +142,7 @@ namespace Tweetinvi.Streams
 
                     numberOfRepeatedFailures = 0;
 
-                    if (StreamState == StreamState.Resume && !_processObject(json))
+                    if (StreamState == StreamState.Running && !_processObject(json))
                     {
                         SetStreamState(StreamState.Stop);
                         break;
@@ -338,7 +338,7 @@ namespace Tweetinvi.Streams
 
         public void Resume()
         {
-            SetStreamState(StreamState.Resume);
+            SetStreamState(StreamState.Running);
         }
 
         public void Pause()
@@ -368,7 +368,7 @@ namespace Tweetinvi.Streams
                 return;
             }
 
-            if (_isNew && value == StreamState.Resume)
+            if (_isNew && value == StreamState.Running)
             {
                 _isNew = false;
             }
