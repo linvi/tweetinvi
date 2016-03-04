@@ -17,6 +17,7 @@ namespace Tweetinvi.Core.Interfaces.Models
         Dictionary<string, string> Attributes { get; set; }
 
         List<IPlace> ContainedWithin { get; set; }
+
         IGeo BoundingBox { get; set; }
         IGeo Geometry { get; set; }
     }
