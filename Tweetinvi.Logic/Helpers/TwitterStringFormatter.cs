@@ -9,17 +9,17 @@ namespace Tweetinvi.Logic.Helpers
         {
             if (source == null)
             {
-                return String.Empty;
+                return string.Empty;
             }
 
-            return Uri.EscapeDataString(source);
+            return Uri.EscapeUriString(source);
         }
 
         public string TwitterDecode(string source)
         {
             if (source == null)
             {
-                return String.Empty;
+                return string.Empty;
             }
 
             return Uri.UnescapeDataString(source);
