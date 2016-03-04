@@ -35,8 +35,14 @@ namespace Examplinvi.UniversalApp
                 var user = User.GetAuthenticatedUser();
                 Message.Text = string.Format("Hi '{0}'. Welcome on board with Windows 10 Universal App!", user.Name);
 
+                PublishTweet();
                 RunSampleStream();
             }
+        }
+
+        private void PublishTweet()
+        {
+            Tweet.PublishTweet("Check out #tweetinvi, the best c# library!");
         }
 
         private void RunSampleStream()
