@@ -409,6 +409,12 @@ namespace Tweetinvi.Logic
 
         public bool UnRetweet()
         {
+            var updatedTweet = _tweetController.UnRetweet(this);
+            if (updatedTweet != null)
+            {
+                _tweetDTO.Retweeted = false;
+            }
+
             return _tweetController.UnRetweet(this) != null;
         }
 
