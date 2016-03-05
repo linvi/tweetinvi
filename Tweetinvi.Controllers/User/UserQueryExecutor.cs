@@ -8,6 +8,7 @@ using Tweetinvi.Core.Interfaces.DTO;
 using Tweetinvi.Core.Interfaces.DTO.QueryDTO;
 using Tweetinvi.Core.Interfaces.Models;
 using Tweetinvi.Core.Interfaces.QueryGenerators;
+using Tweetinvi.Core.Parameters.QueryParameters;
 
 namespace Tweetinvi.Controllers.User
 {
@@ -24,9 +25,7 @@ namespace Tweetinvi.Controllers.User
         IEnumerable<long> GetFollowerIds(string userScreenName, int maxFollowersToRetrieve);
 
         // Favourites
-        IEnumerable<ITweetDTO> GetFavouriteTweets(IUserIdentifier userDTO, int maxFavouritesToRetrieve);
-        IEnumerable<ITweetDTO> GetFavouriteTweets(long userId, int maxFavouritesToRetrieve);
-        IEnumerable<ITweetDTO> GetFavouriteTweets(string userScreenName, int maxFavouritesToRetrieve);
+        IEnumerable<ITweetDTO> GetFavoriteTweets(IGetUserFavoritesQueryParameters parameters);
 
         // Block User
         bool BlockUser(IUserIdentifier userDTO);
@@ -106,21 +105,9 @@ namespace Tweetinvi.Controllers.User
         }
 
         // Favourites
-        public IEnumerable<ITweetDTO> GetFavouriteTweets(IUserIdentifier userDTO, int maxFavouritesToRetrieve)
+        public IEnumerable<ITweetDTO> GetFavoriteTweets(IGetUserFavoritesQueryParameters parameters)
         {
-            string query = _userQueryGenerator.GetFavouriteTweetsQuery(userDTO, maxFavouritesToRetrieve);
-            return _twitterAccessor.ExecuteGETQuery<IEnumerable<ITweetDTO>>(query);
-        }
-
-        public IEnumerable<ITweetDTO> GetFavouriteTweets(long userId, int maxFavouritesToRetrieve)
-        {
-            string query = _userQueryGenerator.GetFavouriteTweetsQuery(userId, maxFavouritesToRetrieve);
-            return _twitterAccessor.ExecuteGETQuery<IEnumerable<ITweetDTO>>(query);
-        }
-
-        public IEnumerable<ITweetDTO> GetFavouriteTweets(string userScreenName, int maxFavouritesToRetrieve)
-        {
-            string query = _userQueryGenerator.GetFavouriteTweetsQuery(userScreenName, maxFavouritesToRetrieve);
+            var query = _userQueryGenerator.GetFavoriteTweetsQuery(parameters);
             return _twitterAccessor.ExecuteGETQuery<IEnumerable<ITweetDTO>>(query);
         }
 

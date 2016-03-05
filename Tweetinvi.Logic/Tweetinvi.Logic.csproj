@@ -91,6 +91,7 @@
     <Compile Include="DTO\CoordinatesDTO.cs" />
     <Compile Include="Model\Geo.cs" />
     <Compile Include="MultiPartTwitterQuery.cs" />
+    <Compile Include="QueryParameters\GetUserFavoritesQueryParameters.cs" />
     <Compile Include="QueryParameters\TwitterListUpdateQueryParameters.cs" />
     <Compile Include="QueryParameters\GetTweetsFromListQueryParameters.cs" />
     <Compile Include="QueryParameters\UserTimelineRequestQueryParameters.cs" />

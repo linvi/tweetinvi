@@ -14,9 +14,9 @@ namespace Tweetinvi.Core.Interfaces.DTO
 
         string Text { get; set; }
 
-        bool Favourited { get; set; }
+        bool Favorited { get; set; }
 
-        int FavouriteCount { get; set; }
+        int FavoriteCount { get; set; }
 
         IUserDTO CreatedBy { get; set; }
 

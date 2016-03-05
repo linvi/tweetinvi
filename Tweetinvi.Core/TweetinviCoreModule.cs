@@ -4,6 +4,7 @@ using Tweetinvi.Core.Helpers;
 using Tweetinvi.Core.Injectinvi;
 using Tweetinvi.Core.Interfaces.Models;
 using Tweetinvi.Core.Parameters;
+using Tweetinvi.Core.Parameters.QueryParameters;
 
 namespace Tweetinvi.Core
 {
@@ -62,6 +63,7 @@ namespace Tweetinvi.Core
             // Tweet
             _container.RegisterType<IPublishTweetParameters, PublishTweetParameters>();
             _container.RegisterType<IPublishTweetOptionalParameters, PublishTweetOptionalParameters>();
+            _container.RegisterType<IGetUserFavoritesParameters, GetUserFavoritesParameters>();
 
             // Account
             _container.RegisterType<IAccountSettingsRequestParameters, AccountSettingsRequestParameters>();

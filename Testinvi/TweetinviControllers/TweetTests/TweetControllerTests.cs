@@ -460,7 +460,7 @@ namespace Testinvi.TweetinviControllers.TweetTests
             var tweetDTO = doesTweetDTOExists ? A.Fake<ITweetDTO>() : null;
             var tweet = GenerateTweet(tweetDTO);
 
-            _fakeTweetQueryExecutor.CallsTo(x => x.FavouriteTweet(tweetDTO)).Returns(expectedResult);
+            _fakeTweetQueryExecutor.CallsTo(x => x.FavoriteTweet(tweetDTO)).Returns(expectedResult);
 
             // Act
             var result = controller.FavoriteTweet(tweet);
@@ -484,7 +484,7 @@ namespace Testinvi.TweetinviControllers.TweetTests
             var controller = CreateTweetController();
             var tweetDTO = tweetExists ? A.Fake<ITweetDTO>() : null;
 
-            _fakeTweetQueryExecutor.CallsTo(x => x.FavouriteTweet(tweetDTO)).Returns(expectedResult);
+            _fakeTweetQueryExecutor.CallsTo(x => x.FavoriteTweet(tweetDTO)).Returns(expectedResult);
 
             // Act
             var result = controller.FavoriteTweet(tweetDTO);
@@ -506,7 +506,7 @@ namespace Testinvi.TweetinviControllers.TweetTests
             var controller = CreateTweetController();
             var tweetId = TestHelper.GenerateRandomLong();
 
-            _fakeTweetQueryExecutor.CallsTo(x => x.FavouriteTweet(tweetId)).Returns(expectedResult);
+            _fakeTweetQueryExecutor.CallsTo(x => x.FavoriteTweet(tweetId)).Returns(expectedResult);
 
             // Act
             var result = controller.FavoriteTweet(tweetId);
@@ -546,7 +546,7 @@ namespace Testinvi.TweetinviControllers.TweetTests
             var tweetDTO = doesTweetDTOExists ? A.Fake<ITweetDTO>() : null;
             var tweet = GenerateTweet(tweetDTO);
 
-            _fakeTweetQueryExecutor.CallsTo(x => x.UnFavouriteTweet(tweetDTO)).Returns(expectedResult);
+            _fakeTweetQueryExecutor.CallsTo(x => x.UnFavoriteTweet(tweetDTO)).Returns(expectedResult);
 
             // Act
             var result = controller.UnFavoriteTweet(tweet);
@@ -570,7 +570,7 @@ namespace Testinvi.TweetinviControllers.TweetTests
             var controller = CreateTweetController();
             var tweetDTO = tweetExists ? A.Fake<ITweetDTO>() : null;
 
-            _fakeTweetQueryExecutor.CallsTo(x => x.UnFavouriteTweet(tweetDTO)).Returns(expectedResult);
+            _fakeTweetQueryExecutor.CallsTo(x => x.UnFavoriteTweet(tweetDTO)).Returns(expectedResult);
 
             // Act
             var result = controller.UnFavoriteTweet(tweetDTO);
@@ -592,7 +592,7 @@ namespace Testinvi.TweetinviControllers.TweetTests
             var controller = CreateTweetController();
             var tweetId = TestHelper.GenerateRandomLong();
 
-            _fakeTweetQueryExecutor.CallsTo(x => x.UnFavouriteTweet(tweetId)).Returns(expectedResult);
+            _fakeTweetQueryExecutor.CallsTo(x => x.UnFavoriteTweet(tweetId)).Returns(expectedResult);
 
             // Act
             var result = controller.UnFavoriteTweet(tweetId);

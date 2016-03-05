@@ -7,6 +7,9 @@ using Tweetinvi.Core.Interfaces.Controllers;
 using Tweetinvi.Core.Interfaces.DTO;
 using Tweetinvi.Core.Interfaces.Factories;
 using Tweetinvi.Core.Interfaces.Models;
+using Tweetinvi.Core.Parameters;
+using Tweetinvi.Core.Parameters.QueryParameters;
+using Tweetinvi.Logic.QueryParameters;
 
 namespace Tweetinvi.Controllers.User
 {
@@ -140,32 +143,16 @@ namespace Tweetinvi.Controllers.User
         }
 
         // Favourites
-        public IEnumerable<ITweet> GetFavouriteTweets(IUser user, int maxFavouritesToRetrieve = 40)
+        public IEnumerable<ITweet> GetFavoriteTweets(IUserIdentifier userIdentifier, IGetUserFavoritesParameters parameters)
         {
-            if (user == null)
-            {
-                throw new ArgumentException("User cannot be null");
-            }
-
-            return GetFavouriteTweets(user.UserDTO, maxFavouritesToRetrieve);
+            var favoriteParameters = new GetUserFavoritesQueryParameters(userIdentifier, parameters);
+            return GetFavoriteTweets(favoriteParameters);
         }
 
-        public IEnumerable<ITweet> GetFavouriteTweets(IUserIdentifier userDTO, int maxFavouritesToRetrieve = 40)
+        public IEnumerable<ITweet> GetFavoriteTweets(IGetUserFavoritesQueryParameters parameters)
         {
-            var favoriteTweetsDTO = _userQueryExecutor.GetFavouriteTweets(userDTO, maxFavouritesToRetrieve);
-            return _tweetFactory.GenerateTweetsFromDTO(favoriteTweetsDTO);
-        }
-
-        public IEnumerable<ITweet> GetFavouriteTweets(long userId, int maxFavouritesToRetrieve = 40)
-        {
-            var favoriteTweetsDTO = _userQueryExecutor.GetFavouriteTweets(userId, maxFavouritesToRetrieve);
-            return _tweetFactory.GenerateTweetsFromDTO(favoriteTweetsDTO);
-        }
-
-        public IEnumerable<ITweet> GetFavouriteTweets(string userScreenName, int maxFavouritesToRetrieve = 40)
-        {
-            var favoriteTweetsDTO = _userQueryExecutor.GetFavouriteTweets(userScreenName, maxFavouritesToRetrieve);
-            return _tweetFactory.GenerateTweetsFromDTO(favoriteTweetsDTO);
+            var tweetDTOs = _userQueryExecutor.GetFavoriteTweets(parameters);
+            return _tweetFactory.GenerateTweetsFromDTO(tweetDTOs);
         }
 
         // Block User

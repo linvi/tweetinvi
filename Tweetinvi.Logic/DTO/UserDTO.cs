@@ -86,7 +86,7 @@ namespace Tweetinvi.Logic.DTO
         public bool DefaultProfileImage { get; set; }
 
         [JsonProperty("favourites_count")]
-        public int? FavouritesCount { get; set; }
+        public int? FavoritesCount { get; set; }
 
         [JsonProperty("listed_count")]
         public int? ListedCount { get; set; }

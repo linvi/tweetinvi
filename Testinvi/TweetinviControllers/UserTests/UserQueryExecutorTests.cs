@@ -11,6 +11,7 @@ using Tweetinvi.Core.Interfaces.Credentials;
 using Tweetinvi.Core.Interfaces.DTO;
 using Tweetinvi.Core.Interfaces.DTO.QueryDTO;
 using Tweetinvi.Core.Interfaces.QueryGenerators;
+using Tweetinvi.Core.Parameters.QueryParameters;
 
 namespace Testinvi.TweetinviControllers.UserTests
 {
@@ -208,56 +209,16 @@ namespace Testinvi.TweetinviControllers.UserTests
         {
             // Arrange
             var queryExecutor = CreateUserQueryExecutor();
-            var userDTO = A.Fake<IUserDTO>();
-            var maximumNumberOfTweets = TestHelper.GenerateRandomInt();
+            TestHelper.GenerateRandomInt();
             var expectedQuery = TestHelper.GenerateString();
             IEnumerable<ITweetDTO> expectedResult = new[] { A.Fake<ITweetDTO>() };
+            var parameters = It.IsAny<IGetUserFavoritesQueryParameters>();
 
-            _fakeUserQueryGenerator.CallsTo(x => x.GetFavouriteTweetsQuery(userDTO, maximumNumberOfTweets)).Returns(expectedQuery);
+            _fakeUserQueryGenerator.CallsTo(x => x.GetFavoriteTweetsQuery(parameters)).Returns(expectedQuery);
             _fakeTwitterAccessor.ArrangeExecuteGETQuery(expectedQuery, expectedResult);
 
             // Act
-            var result = queryExecutor.GetFavouriteTweets(userDTO, maximumNumberOfTweets);
-
-            // Assert
-            Assert.AreEqual(result, expectedResult);
-        }
-
-        [TestMethod]
-        public void GetFavouriteTweetsWithUserScreenName_AnyData_ReturnsTwitterAccessorResult()
-        {
-            // Arrange
-            var queryExecutor = CreateUserQueryExecutor();
-            var userScreenName = TestHelper.GenerateString();
-            var maximumNumberOfTweets = TestHelper.GenerateRandomInt();
-            var expectedQuery = TestHelper.GenerateString();
-            IEnumerable<ITweetDTO> expectedResult = new[] { A.Fake<ITweetDTO>() };
-
-            _fakeUserQueryGenerator.CallsTo(x => x.GetFavouriteTweetsQuery(userScreenName, maximumNumberOfTweets)).Returns(expectedQuery);
-            _fakeTwitterAccessor.ArrangeExecuteGETQuery(expectedQuery, expectedResult);
-
-            // Act
-            var result = queryExecutor.GetFavouriteTweets(userScreenName, maximumNumberOfTweets);
-
-            // Assert
-            Assert.AreEqual(result, expectedResult);
-        }
-
-        [TestMethod]
-        public void GetFavouriteTweetsWithUserId_AnyData_ReturnsTwitterAccessorResult()
-        {
-            // Arrange
-            var queryExecutor = CreateUserQueryExecutor();
-            var userId = TestHelper.GenerateRandomLong();
-            var maximumNumberOfTweets = TestHelper.GenerateRandomInt();
-            var expectedQuery = TestHelper.GenerateString();
-            IEnumerable<ITweetDTO> expectedResult = new[] { A.Fake<ITweetDTO>() };
-
-            _fakeUserQueryGenerator.CallsTo(x => x.GetFavouriteTweetsQuery(userId, maximumNumberOfTweets)).Returns(expectedQuery);
-            _fakeTwitterAccessor.ArrangeExecuteGETQuery(expectedQuery, expectedResult);
-
-            // Act
-            var result = queryExecutor.GetFavouriteTweets(userId, maximumNumberOfTweets);
+            var result = queryExecutor.GetFavoriteTweets(parameters);
 
             // Assert
             Assert.AreEqual(result, expectedResult);

@@ -68,14 +68,14 @@ namespace Tweetinvi.Logic
             set { _tweetDTO.Text = value; }
         }
 
-        public bool Favourited
+        public bool Favorited
         {
-            get { return _tweetDTO.Favourited; }
+            get { return _tweetDTO.Favorited; }
         }
 
-        public int FavouriteCount
+        public int FavoriteCount
         {
-            get { return _tweetDTO.FavouriteCount; }
+            get { return _tweetDTO.FavoriteCount; }
         }
 
         public ICoordinates Coordinates
@@ -417,19 +417,19 @@ namespace Tweetinvi.Logic
             return _tweetController.DestroyTweet(_tweetDTO);
         }
 
-        public void Favourite()
+        public void Favorite()
         {
             if (_tweetController.FavoriteTweet(_tweetDTO))
             {
-                _tweetDTO.Favourited = true;
+                _tweetDTO.Favorited = true;
             }
         }
 
-        public void UnFavourite()
+        public void UnFavorite()
         {
             if (_tweetController.UnFavoriteTweet(_tweetDTO))
             {
-                _tweetDTO.Favourited = false;
+                _tweetDTO.Favorited = false;
             }
         }
 
@@ -476,14 +476,14 @@ namespace Tweetinvi.Logic
             return await _taskFactory.ExecuteTaskAsync(() => GetRetweets());
         }
 
-        public async Task FavouriteAsync()
+        public async Task FavoriteAsync()
         {
-            await _taskFactory.ExecuteTaskAsync(Favourite);
+            await _taskFactory.ExecuteTaskAsync(Favorite);
         }
 
-        public async Task UnFavouriteAsync()
+        public async Task UnFavoriteAsync()
         {
-            await _taskFactory.ExecuteTaskAsync(UnFavourite);
+            await _taskFactory.ExecuteTaskAsync(UnFavorite);
         }
 
         public async Task<IOEmbedTweet> GenerateOEmbedTweetAsync()

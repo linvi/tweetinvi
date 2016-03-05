@@ -94,35 +94,35 @@ namespace Tweetinvi.Json
         }
 
         // Favorite Tweet
-        public static string FavouriteTweet(ITweet tweet)
+        public static string FavoriteTweet(ITweet tweet)
         {
-            return TweetJsonController.FavouriteTweet(tweet);
+            return TweetJsonController.FavoriteTweet(tweet);
         }
 
-        public static string FavouriteTweet(ITweetDTO tweetDTO)
+        public static string FavoriteTweet(ITweetDTO tweetDTO)
         {
-            return TweetJsonController.FavouriteTweet(tweetDTO);
+            return TweetJsonController.FavoriteTweet(tweetDTO);
         }
 
-        public static string FavouriteTweet(long tweetId)
+        public static string FavoriteTweet(long tweetId)
         {
-            return TweetJsonController.FavouriteTweet(tweetId);
+            return TweetJsonController.FavoriteTweet(tweetId);
         }
 
         // UnFavourite
-        public static string UnFavouriteTweet(ITweet tweet)
+        public static string UnFavoriteTweet(ITweet tweet)
         {
-            return TweetJsonController.UnFavouriteTweet(tweet);
+            return TweetJsonController.UnFavoriteTweet(tweet);
         }
 
-        public static string UnFavouriteTweet(ITweetDTO tweetDTO)
+        public static string UnFavoriteTweet(ITweetDTO tweetDTO)
         {
-            return TweetJsonController.UnFavouriteTweet(tweetDTO);
+            return TweetJsonController.UnFavoriteTweet(tweetDTO);
         }
 
-        public static string UnFavouriteTweet(long tweetId)
+        public static string UnFavoriteTweet(long tweetId)
         {
-            return TweetJsonController.UnFavouriteTweet(tweetId);
+            return TweetJsonController.UnFavoriteTweet(tweetId);
         }
 
         // Generate OEmbedTweet

@@ -303,13 +303,13 @@ namespace Tweetinvi.Controllers.Tweet
             }
 
             // if the favourite operation failed the tweet should still be favourited if it previously was
-            tweetDTO.Favourited |= _tweetQueryExecutor.FavouriteTweet(tweetDTO);
-            return tweetDTO.Favourited;
+            tweetDTO.Favorited |= _tweetQueryExecutor.FavoriteTweet(tweetDTO);
+            return tweetDTO.Favorited;
         }
 
         public bool FavoriteTweet(long tweetId)
         {
-            return _tweetQueryExecutor.FavouriteTweet(tweetId);
+            return _tweetQueryExecutor.FavoriteTweet(tweetId);
         }
 
         // UnFavorite
@@ -325,12 +325,12 @@ namespace Tweetinvi.Controllers.Tweet
 
         public bool UnFavoriteTweet(ITweetDTO tweetDTO)
         {
-            return _tweetQueryExecutor.UnFavouriteTweet(tweetDTO);
+            return _tweetQueryExecutor.UnFavoriteTweet(tweetDTO);
         }
 
         public bool UnFavoriteTweet(long tweetId)
         {
-            return _tweetQueryExecutor.UnFavouriteTweet(tweetId);
+            return _tweetQueryExecutor.UnFavoriteTweet(tweetId);
         }
 
         // Generate OembedTweet

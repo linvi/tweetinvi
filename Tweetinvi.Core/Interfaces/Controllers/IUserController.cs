@@ -4,6 +4,8 @@ using System.IO;
 using Tweetinvi.Core.Enum;
 using Tweetinvi.Core.Interfaces.DTO;
 using Tweetinvi.Core.Interfaces.Models;
+using Tweetinvi.Core.Parameters;
+using Tweetinvi.Core.Parameters.QueryParameters;
 
 namespace Tweetinvi.Core.Interfaces.Controllers
 {
@@ -32,10 +34,8 @@ namespace Tweetinvi.Core.Interfaces.Controllers
         IEnumerable<IUser> GetFollowers(string userScreenName, int maxFollowersToRetrieve = 250);
 
         // Favourites
-        IEnumerable<ITweet> GetFavouriteTweets(IUser user, int maxFavouritesToRetrieve = 40);
-        IEnumerable<ITweet> GetFavouriteTweets(IUserIdentifier userDTO, int maxFavouritesToRetrieve = 40);
-        IEnumerable<ITweet> GetFavouriteTweets(long userId, int maxFavouritesToRetrieve = 40);
-        IEnumerable<ITweet> GetFavouriteTweets(string userScreenName, int maxFavouritesToRetrieve = 40);
+        IEnumerable<ITweet> GetFavoriteTweets(IGetUserFavoritesQueryParameters parameters);
+        IEnumerable<ITweet> GetFavoriteTweets(IUserIdentifier userIdentifier, IGetUserFavoritesParameters parameters);
 
         // Block User
         bool BlockUser(IUserIdentifier userIdentifier);

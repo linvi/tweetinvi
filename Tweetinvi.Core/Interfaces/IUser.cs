@@ -7,6 +7,7 @@ using Tweetinvi.Core.Interfaces.DTO;
 using Tweetinvi.Core.Interfaces.Models;
 using Tweetinvi.Core.Interfaces.Models.Entities;
 using Tweetinvi.Core.Parameters;
+using Tweetinvi.Core.Parameters.QueryParameters;
 
 namespace Tweetinvi.Core.Interfaces
 {
@@ -352,6 +353,11 @@ namespace Tweetinvi.Core.Interfaces
         /// Get the tweets favourited by the user.
         /// </summary>
         IEnumerable<ITweet> GetFavorites(int maximumNumberOfTweets = 40);
+
+        /// <summary>
+        /// Get the tweets favourited by the user.
+        /// </summary>
+        IEnumerable<ITweet> GetFavorites(IGetUserFavoritesParameters parameters);
 
         // Lists
 

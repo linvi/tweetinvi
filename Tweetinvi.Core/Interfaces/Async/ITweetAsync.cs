@@ -23,12 +23,12 @@ namespace Tweetinvi.Core.Interfaces.Async
         /// <summary>
         /// Favorites the tweet
         /// </summary>
-        Task FavouriteAsync();
+        Task FavoriteAsync();
 
         /// <summary>
         /// Remove the tweet from favourites
         /// </summary>
-        Task UnFavouriteAsync();
+        Task UnFavoriteAsync();
 
         // Oembed
 

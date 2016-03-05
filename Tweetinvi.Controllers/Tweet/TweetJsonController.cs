@@ -34,13 +34,13 @@ namespace Tweetinvi.Controllers.Tweet
         string DestroyTweet(long tweetId);
 
         // Favourite Tweet
-        string FavouriteTweet(ITweet tweet);
-        string FavouriteTweet(ITweetDTO tweetDTO);
-        string FavouriteTweet(long tweetId);
+        string FavoriteTweet(ITweet tweet);
+        string FavoriteTweet(ITweetDTO tweetDTO);
+        string FavoriteTweet(long tweetId);
 
-        string UnFavouriteTweet(ITweet tweet);
-        string UnFavouriteTweet(ITweetDTO tweetDTO);
-        string UnFavouriteTweet(long tweetId);
+        string UnFavoriteTweet(ITweet tweet);
+        string UnFavoriteTweet(ITweetDTO tweetDTO);
+        string UnFavoriteTweet(long tweetId);
 
         // Generate OembedTweet
         string GenerateOEmbedTweet(ITweet tweet);
@@ -163,47 +163,47 @@ namespace Tweetinvi.Controllers.Tweet
         }
 
         // Favourite Tweet
-        public string FavouriteTweet(ITweet tweet)
+        public string FavoriteTweet(ITweet tweet)
         {
             if (tweet == null)
             {
                 throw new ArgumentException("Tweet cannot be null");
             }
 
-            return FavouriteTweet(tweet.TweetDTO);
+            return FavoriteTweet(tweet.TweetDTO);
         }
 
-        public string FavouriteTweet(long tweetId)
+        public string FavoriteTweet(long tweetId)
         {
-            string query = _tweetQueryGenerator.GetFavouriteTweetQuery(tweetId);
+            string query = _tweetQueryGenerator.GetFavoriteTweetQuery(tweetId);
             return _twitterAccessor.ExecuteJsonPOSTQuery(query);
         }
 
-        public string FavouriteTweet(ITweetDTO tweetDTO)
+        public string FavoriteTweet(ITweetDTO tweetDTO)
         {
-            string query = _tweetQueryGenerator.GetFavouriteTweetQuery(tweetDTO);
+            string query = _tweetQueryGenerator.GetFavoriteTweetQuery(tweetDTO);
             return _twitterAccessor.ExecuteJsonPOSTQuery(query);
         }
 
-        public string UnFavouriteTweet(ITweet tweet)
+        public string UnFavoriteTweet(ITweet tweet)
         {
             if (tweet == null)
             {
                 throw new ArgumentException("Tweet cannot be null");
             }
 
-            return UnFavouriteTweet(tweet.TweetDTO);
+            return UnFavoriteTweet(tweet.TweetDTO);
         }
 
-        public string UnFavouriteTweet(ITweetDTO tweetDTO)
+        public string UnFavoriteTweet(ITweetDTO tweetDTO)
         {
-            string query = _tweetQueryGenerator.GetUnFavouriteTweetQuery(tweetDTO);
+            string query = _tweetQueryGenerator.GetUnFavoriteTweetQuery(tweetDTO);
             return _twitterAccessor.ExecuteJsonPOSTQuery(query);
         }
 
-        public string UnFavouriteTweet(long tweetId)
+        public string UnFavoriteTweet(long tweetId)
         {
-            string query = _tweetQueryGenerator.GetUnFavouriteTweetQuery(tweetId);
+            string query = _tweetQueryGenerator.GetUnFavoriteTweetQuery(tweetId);
             return _twitterAccessor.ExecuteJsonPOSTQuery(query);
         }
 

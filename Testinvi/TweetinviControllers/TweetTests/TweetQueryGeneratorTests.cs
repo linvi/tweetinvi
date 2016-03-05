@@ -367,7 +367,7 @@ namespace Testinvi.TweetinviControllers.TweetTests
             _fakeTweetQueryValidator.CallsTo(x => x.IsTweetPublished(tweetToRetweet)).Returns(false);
 
             // Act
-            var result = queryGenerator.GetFavouriteTweetQuery(tweetToRetweet);
+            var result = queryGenerator.GetFavoriteTweetQuery(tweetToRetweet);
 
             // Assert
             Assert.AreEqual(result, null);
@@ -385,7 +385,7 @@ namespace Testinvi.TweetinviControllers.TweetTests
             _fakeTweetQueryValidator.CallsTo(x => x.IsTweetPublished(tweetToFavourite)).Returns(true);
 
             // Act
-            var result = queryGenerator.GetFavouriteTweetQuery(tweetToFavourite);
+            var result = queryGenerator.GetFavoriteTweetQuery(tweetToFavourite);
 
             // Assert
             var expectedResult = string.Format(Resources.Tweet_Favorite_Create, tweetToFavouriteId);
@@ -400,7 +400,7 @@ namespace Testinvi.TweetinviControllers.TweetTests
             var tweetToFavouriteId = TestHelper.GenerateRandomLong();
 
             // Act
-            var result = queryGenerator.GetFavouriteTweetQuery(tweetToFavouriteId);
+            var result = queryGenerator.GetFavoriteTweetQuery(tweetToFavouriteId);
 
             // Assert
             var expectedResult = string.Format(Resources.Tweet_Favorite_Create, tweetToFavouriteId);
@@ -409,7 +409,7 @@ namespace Testinvi.TweetinviControllers.TweetTests
 
         #endregion
 
-        #region GetUnFavouriteTweetQuery
+        #region GetUnFavoriteTweetQuery
 
         [TestMethod]
         public void GetUnFavouriteTweetQuery_TweetNotPublished_ReturnsNull()
@@ -421,7 +421,7 @@ namespace Testinvi.TweetinviControllers.TweetTests
             _fakeTweetQueryValidator.CallsTo(x => x.IsTweetPublished(tweetToRetweet)).Returns(false);
 
             // Act
-            var result = queryGenerator.GetUnFavouriteTweetQuery(tweetToRetweet);
+            var result = queryGenerator.GetUnFavoriteTweetQuery(tweetToRetweet);
 
             // Assert
             Assert.AreEqual(result, null);
@@ -439,7 +439,7 @@ namespace Testinvi.TweetinviControllers.TweetTests
             _fakeTweetQueryValidator.CallsTo(x => x.IsTweetPublished(tweetToUnFavourite)).Returns(true);
 
             // Act
-            var result = queryGenerator.GetUnFavouriteTweetQuery(tweetToUnFavourite);
+            var result = queryGenerator.GetUnFavoriteTweetQuery(tweetToUnFavourite);
 
             // Assert
             var expectedResult = string.Format(Resources.Tweet_Favorite_Destroy, tweetToUnFavouriteId);
@@ -454,7 +454,7 @@ namespace Testinvi.TweetinviControllers.TweetTests
             var tweetToUnFavouriteId = TestHelper.GenerateRandomLong();
 
             // Act
-            var result = queryGenerator.GetUnFavouriteTweetQuery(tweetToUnFavouriteId);
+            var result = queryGenerator.GetUnFavoriteTweetQuery(tweetToUnFavouriteId);
 
             // Assert
             var expectedResult = string.Format(Resources.Tweet_Favorite_Destroy, tweetToUnFavouriteId);

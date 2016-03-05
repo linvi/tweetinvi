@@ -264,7 +264,7 @@ namespace Testinvi.TweetinviControllers.TweetTests
             var queryExecutor = CreateTweetJsonController();
 
             // Act
-            queryExecutor.FavouriteTweet((ITweet)null);
+            queryExecutor.FavoriteTweet((ITweet)null);
         }
 
         [TestMethod]
@@ -280,11 +280,11 @@ namespace Testinvi.TweetinviControllers.TweetTests
             var query = TestHelper.GenerateString();
             var expectedResult = TestHelper.GenerateString();
 
-            _fakeTweetQueryGenerator.CallsTo(x => x.GetFavouriteTweetQuery(tweetDTO)).Returns(query);
+            _fakeTweetQueryGenerator.CallsTo(x => x.GetFavoriteTweetQuery(tweetDTO)).Returns(query);
             _fakeTwitterAccessor.ArrangeExecuteJsonPOSTQuery(query, expectedResult);
 
             // Act
-            var result = queryExecutor.FavouriteTweet(tweet);
+            var result = queryExecutor.FavoriteTweet(tweet);
 
             // Assert
             Assert.AreEqual(result, expectedResult);
@@ -299,11 +299,11 @@ namespace Testinvi.TweetinviControllers.TweetTests
             var query = TestHelper.GenerateString();
             var expectedResult = TestHelper.GenerateString();
 
-            _fakeTweetQueryGenerator.CallsTo(x => x.GetFavouriteTweetQuery(tweetDTO)).Returns(query);
+            _fakeTweetQueryGenerator.CallsTo(x => x.GetFavoriteTweetQuery(tweetDTO)).Returns(query);
             _fakeTwitterAccessor.ArrangeExecuteJsonPOSTQuery(query, expectedResult);
 
             // Act
-            var result = queryExecutor.FavouriteTweet(tweetDTO);
+            var result = queryExecutor.FavoriteTweet(tweetDTO);
 
             // Assert
             Assert.AreEqual(result, expectedResult);
@@ -318,11 +318,11 @@ namespace Testinvi.TweetinviControllers.TweetTests
             var query = TestHelper.GenerateString();
             var expectedResult = TestHelper.GenerateString();
 
-            _fakeTweetQueryGenerator.CallsTo(x => x.GetFavouriteTweetQuery(tweetId)).Returns(query);
+            _fakeTweetQueryGenerator.CallsTo(x => x.GetFavoriteTweetQuery(tweetId)).Returns(query);
             _fakeTwitterAccessor.ArrangeExecuteJsonPOSTQuery(query, expectedResult);
 
             // Act
-            var result = queryExecutor.FavouriteTweet(tweetId);
+            var result = queryExecutor.FavoriteTweet(tweetId);
 
             // Assert
             Assert.AreEqual(result, expectedResult);
@@ -330,7 +330,7 @@ namespace Testinvi.TweetinviControllers.TweetTests
 
         #endregion
 
-        #region UnFavouriteTweet
+        #region UnFavoriteTweet
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentException))]
@@ -340,7 +340,7 @@ namespace Testinvi.TweetinviControllers.TweetTests
             var queryExecutor = CreateTweetJsonController();
 
             // Act
-            queryExecutor.UnFavouriteTweet((ITweet)null);
+            queryExecutor.UnFavoriteTweet((ITweet)null);
         }
 
         [TestMethod]
@@ -356,11 +356,11 @@ namespace Testinvi.TweetinviControllers.TweetTests
             var query = TestHelper.GenerateString();
             var expectedResult = TestHelper.GenerateString();
 
-            _fakeTweetQueryGenerator.CallsTo(x => x.GetUnFavouriteTweetQuery(tweetDTO)).Returns(query);
+            _fakeTweetQueryGenerator.CallsTo(x => x.GetUnFavoriteTweetQuery(tweetDTO)).Returns(query);
             _fakeTwitterAccessor.ArrangeExecuteJsonPOSTQuery(query, expectedResult);
 
             // Act
-            var result = queryExecutor.UnFavouriteTweet(tweet);
+            var result = queryExecutor.UnFavoriteTweet(tweet);
 
             // Assert
             Assert.AreEqual(result, expectedResult);
@@ -375,11 +375,11 @@ namespace Testinvi.TweetinviControllers.TweetTests
             var query = TestHelper.GenerateString();
             var expectedResult = TestHelper.GenerateString();
 
-            _fakeTweetQueryGenerator.CallsTo(x => x.GetUnFavouriteTweetQuery(tweetDTO)).Returns(query);
+            _fakeTweetQueryGenerator.CallsTo(x => x.GetUnFavoriteTweetQuery(tweetDTO)).Returns(query);
             _fakeTwitterAccessor.ArrangeExecuteJsonPOSTQuery(query, expectedResult);
 
             // Act
-            var result = queryExecutor.UnFavouriteTweet(tweetDTO);
+            var result = queryExecutor.UnFavoriteTweet(tweetDTO);
 
             // Assert
             Assert.AreEqual(result, expectedResult);
@@ -394,11 +394,11 @@ namespace Testinvi.TweetinviControllers.TweetTests
             var query = TestHelper.GenerateString();
             var expectedResult = TestHelper.GenerateString();
 
-            _fakeTweetQueryGenerator.CallsTo(x => x.GetUnFavouriteTweetQuery(tweetId)).Returns(query);
+            _fakeTweetQueryGenerator.CallsTo(x => x.GetUnFavoriteTweetQuery(tweetId)).Returns(query);
             _fakeTwitterAccessor.ArrangeExecuteJsonPOSTQuery(query, expectedResult);
 
             // Act
-            var result = queryExecutor.UnFavouriteTweet(tweetId);
+            var result = queryExecutor.UnFavoriteTweet(tweetId);
 
             // Assert
             Assert.AreEqual(result, expectedResult);

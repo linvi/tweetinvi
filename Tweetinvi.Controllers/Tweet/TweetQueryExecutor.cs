@@ -30,11 +30,11 @@ namespace Tweetinvi.Controllers.Tweet
         bool DestroyTweet(long tweetId);
 
         // Favorite Tweet
-        bool FavouriteTweet(ITweetDTO tweet);
-        bool FavouriteTweet(long tweetId);
+        bool FavoriteTweet(ITweetDTO tweet);
+        bool FavoriteTweet(long tweetId);
 
-        bool UnFavouriteTweet(ITweetDTO tweet);
-        bool UnFavouriteTweet(long tweetId);
+        bool UnFavoriteTweet(ITweetDTO tweet);
+        bool UnFavoriteTweet(long tweetId);
 
         // Generate OEmbedTweet
         IOEmbedTweetDTO GenerateOEmbedTweet(ITweetDTO tweetDTO);
@@ -115,19 +115,19 @@ namespace Tweetinvi.Controllers.Tweet
         }
 
         // Favourite Tweet
-        public bool FavouriteTweet(ITweetDTO tweet)
+        public bool FavoriteTweet(ITweetDTO tweet)
         {
-            string query = _tweetQueryGenerator.GetFavouriteTweetQuery(tweet);
-            return ExecuteFavouriteQuery(query);
+            string query = _tweetQueryGenerator.GetFavoriteTweetQuery(tweet);
+            return ExecuteFavoriteQuery(query);
         }
 
-        public bool FavouriteTweet(long tweetId)
+        public bool FavoriteTweet(long tweetId)
         {
-            string query = _tweetQueryGenerator.GetFavouriteTweetQuery(tweetId);
-            return ExecuteFavouriteQuery(query);
+            string query = _tweetQueryGenerator.GetFavoriteTweetQuery(tweetId);
+            return ExecuteFavoriteQuery(query);
         }
 
-        private bool ExecuteFavouriteQuery(string query)
+        private bool ExecuteFavoriteQuery(string query)
         {
             // We need the try catch here as we need to know whether if the operation has failed and why it did!
             try
@@ -150,15 +150,15 @@ namespace Tweetinvi.Controllers.Tweet
             }
         }
 
-        public bool UnFavouriteTweet(ITweetDTO tweet)
+        public bool UnFavoriteTweet(ITweetDTO tweet)
         {
-            string query = _tweetQueryGenerator.GetUnFavouriteTweetQuery(tweet);
+            string query = _tweetQueryGenerator.GetUnFavoriteTweetQuery(tweet);
             return _twitterAccessor.TryExecutePOSTQuery(query);
         }
 
-        public bool UnFavouriteTweet(long tweetId)
+        public bool UnFavoriteTweet(long tweetId)
         {
-            string query = _tweetQueryGenerator.GetUnFavouriteTweetQuery(tweetId);
+            string query = _tweetQueryGenerator.GetUnFavoriteTweetQuery(tweetId);
             return _twitterAccessor.TryExecutePOSTQuery(query);
         }
 

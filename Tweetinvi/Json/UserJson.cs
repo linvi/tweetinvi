@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Tweetinvi.Controllers.User;
 using Tweetinvi.Core.Interfaces;
 using Tweetinvi.Core.Interfaces.Models;
+using Tweetinvi.Core.Parameters;
 
 namespace Tweetinvi.Json
 {
@@ -77,24 +78,20 @@ namespace Tweetinvi.Json
         }
 
         // Favorites
-        public static string GetFavouriteTweets(IUser user, int maxFavouritesToRetrieve = 40)
+        
+        public static string GetFavoriteTweets(IUserIdentifier userIdentifier, IGetUserFavoritesParameters parameters = null)
         {
-            return UserJsonController.GetFavouriteTweets(user, maxFavouritesToRetrieve);
+            return UserJsonController.GetFavoriteTweets(userIdentifier, parameters);
         }
 
-        public static string GetFavouriteList(IUserIdentifier userDTO, int maxFavouritesToRetrieve = 40)
+        public static string GetFavoriteTweets(long userId, IGetUserFavoritesParameters parameters = null)
         {
-            return UserJsonController.GetFavouriteTweets(userDTO, maxFavouritesToRetrieve);
+            return UserJsonController.GetFavoriteTweets(new UserIdentifier(userId), parameters);
         }
 
-        public static string GetFavouriteList(long userId, int maxFavouritesToRetrieve = 40)
+        public static string GetFavoriteTweets(string userScreenName, IGetUserFavoritesParameters parameters = null)
         {
-            return UserJsonController.GetFavouriteTweets(userId, maxFavouritesToRetrieve);
-        }
-
-        public static string GetFavouriteList(string userScreenName, int maxFavouritesToRetrieve = 40)
-        {
-            return UserJsonController.GetFavouriteTweets(userScreenName, maxFavouritesToRetrieve);
+            return UserJsonController.GetFavoriteTweets(new UserIdentifier(userScreenName), parameters);
         }
     }
 }

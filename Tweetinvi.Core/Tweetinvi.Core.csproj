@@ -191,6 +191,9 @@
     <Compile Include="Interfaces\Models\ITwitterQuery.cs" />
     <Compile Include="Interfaces\Streaminvi\MatchOn.cs" />
     <Compile Include="Parameters\GetAuthenticatedUserParameters.cs" />
+    <Compile Include="Parameters\GetUserFavoritesParameters.cs" />
+    <Compile Include="Parameters\IGetUserFavoritesParameters.cs" />
+    <Compile Include="Parameters\QueryParameters\IGetUserFavoritesParameter.cs" />
     <Compile Include="Parameters\IMessagesRetrieveRequestParametersBase.cs" />
     <Compile Include="Parameters\QueryParameters\IGetTweetsFromListQueryParameters.cs" />
     <Compile Include="Parameters\QueryParameters\ITwitterListUpdateQueryParameters.cs" />

@@ -5,6 +5,9 @@ using Tweetinvi.Core.Interfaces.Credentials;
 using Tweetinvi.Core.Interfaces.DTO.QueryDTO;
 using Tweetinvi.Core.Interfaces.Models;
 using Tweetinvi.Core.Interfaces.QueryGenerators;
+using Tweetinvi.Core.Parameters;
+using Tweetinvi.Core.Parameters.QueryParameters;
+using Tweetinvi.Logic.QueryParameters;
 
 namespace Tweetinvi.Controllers.User
 {
@@ -23,10 +26,8 @@ namespace Tweetinvi.Controllers.User
         IEnumerable<string> GetFollowerIds(string userScreenName, int maxFollowersToRetrieve = 5000);
 
         // Favorites
-        string GetFavouriteTweets(IUser user, int maxFavouritesToRetrieve = 40);
-        string GetFavouriteTweets(IUserIdentifier userDTO, int maxFavouritesToRetrieve = 40);
-        string GetFavouriteTweets(long userId, int maxFavouritesToRetrieve = 40);
-        string GetFavouriteTweets(string userScreenName, int maxFavouritesToRetrieve = 40);
+        string GetFavoriteTweets(IGetUserFavoritesQueryParameters parameters);
+        string GetFavoriteTweets(IUserIdentifier userIdentifier, IGetUserFavoritesParameters parameters);
 
         // Block User
         string BlockUser(IUser user);
@@ -107,32 +108,16 @@ namespace Tweetinvi.Controllers.User
         }
 
         // Favourites
-        public string GetFavouriteTweets(IUser user, int maxFavouritesToRetrieve = 40)
+        public string GetFavoriteTweets(IGetUserFavoritesQueryParameters parameters)
         {
-            if (user == null)
-            {
-                throw new ArgumentException("User cannot be null");
-            }
-
-            return GetFavouriteTweets(user.UserDTO, maxFavouritesToRetrieve);
-        }
-
-        public string GetFavouriteTweets(IUserIdentifier userDTO, int maxFavouritesToRetrieve = 40)
-        {
-            string query = _userQueryGenerator.GetFavouriteTweetsQuery(userDTO, maxFavouritesToRetrieve);
+            var query = _userQueryGenerator.GetFavoriteTweetsQuery(parameters);
             return _twitterAccessor.ExecuteJsonGETQuery(query);
         }
 
-        public string GetFavouriteTweets(long userId, int maxFavouritesToRetrieve = 40)
+        public string GetFavoriteTweets(IUserIdentifier userIdentifier, IGetUserFavoritesParameters parameters)
         {
-            string query = _userQueryGenerator.GetFavouriteTweetsQuery(userId, maxFavouritesToRetrieve);
-            return _twitterAccessor.ExecuteJsonGETQuery(query);
-        }
-
-        public string GetFavouriteTweets(string userScreenName, int maxFavouritesToRetrieve = 40)
-        {
-            string query = _userQueryGenerator.GetFavouriteTweetsQuery(userScreenName, maxFavouritesToRetrieve);
-            return _twitterAccessor.ExecuteJsonGETQuery(query);
+            var favoritesParameters = new GetUserFavoritesQueryParameters(userIdentifier, parameters);
+            return GetFavoriteTweets(favoritesParameters);
         }
 
         // Block User

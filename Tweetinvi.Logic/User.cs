@@ -12,6 +12,7 @@ using Tweetinvi.Core.Interfaces.DTO;
 using Tweetinvi.Core.Interfaces.Models;
 using Tweetinvi.Core.Interfaces.Models.Entities;
 using Tweetinvi.Core.Parameters;
+using Tweetinvi.Core.Parameters.QueryParameters;
 
 namespace Tweetinvi.Logic
 {
@@ -195,7 +196,7 @@ namespace Tweetinvi.Logic
 
         public int FavouritesCount
         {
-            get { return _userDTO.FavouritesCount ?? 0; }
+            get { return _userDTO.FavoritesCount ?? 0; }
         }
 
         public int ListedCount
@@ -376,7 +377,12 @@ namespace Tweetinvi.Logic
         // Favorites
         public virtual IEnumerable<ITweet> GetFavorites(int maximumNumberOfTweets = 40)
         {
-            return _userController.GetFavouriteTweets(_userDTO, maximumNumberOfTweets);
+            return _userController.GetFavoriteTweets(this, new GetUserFavoritesParameters { MaximumNumberOfTweetsToRetrieve =  maximumNumberOfTweets});
+        }
+
+        public IEnumerable<ITweet> GetFavorites(IGetUserFavoritesParameters parameters)
+        {
+            return _userController.GetFavoriteTweets(this, parameters);
         }
 
         // Lists

@@ -1,6 +1,7 @@
 ﻿using Tweetinvi.Core.Enum;
 using Tweetinvi.Core.Interfaces.DTO;
 using Tweetinvi.Core.Interfaces.Models;
+using Tweetinvi.Core.Parameters.QueryParameters;
 
 namespace Tweetinvi.Core.Interfaces.QueryGenerators
 {
@@ -17,9 +18,7 @@ namespace Tweetinvi.Core.Interfaces.QueryGenerators
         string GetFollowerIdsQuery(string screenName, int maxFollowersToRetrieve);
 
         // Favourites
-        string GetFavouriteTweetsQuery(IUserIdentifier userDTO, int maxFavoritesToRetrieve);
-        string GetFavouriteTweetsQuery(long userId, int maxFavoritesToRetrieve);
-        string GetFavouriteTweetsQuery(string screenName, int maxFavoritesToRetrieve);
+        string GetFavoriteTweetsQuery(IGetUserFavoritesQueryParameters parameters);
 
         // Block User
         string GetBlockUserQuery(IUserIdentifier userDTO);

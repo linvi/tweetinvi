@@ -167,33 +167,33 @@ namespace Tweetinvi.Controllers.Tweet
         }
 
         // Favorite Tweet
-        public string GetFavouriteTweetQuery(ITweetDTO tweetDTO)
+        public string GetFavoriteTweetQuery(ITweetDTO tweetDTO)
         {
             if (!_tweetQueryValidator.IsTweetPublished(tweetDTO))
             {
                 return null;
             }
 
-            return GetFavouriteTweetQuery(tweetDTO.Id);
+            return GetFavoriteTweetQuery(tweetDTO.Id);
         }
 
-        public string GetFavouriteTweetQuery(long tweetId)
+        public string GetFavoriteTweetQuery(long tweetId)
         {
             return string.Format(Resources.Tweet_Favorite_Create, tweetId);
         }
 
         // Unfavourite Tweet
-        public string GetUnFavouriteTweetQuery(ITweetDTO tweetDTO)
+        public string GetUnFavoriteTweetQuery(ITweetDTO tweetDTO)
         {
             if (!_tweetQueryValidator.IsTweetPublished(tweetDTO))
             {
                 return null;
             }
 
-            return GetUnFavouriteTweetQuery(tweetDTO.Id);
+            return GetUnFavoriteTweetQuery(tweetDTO.Id);
         }
 
-        public string GetUnFavouriteTweetQuery(long tweetId)
+        public string GetUnFavoriteTweetQuery(long tweetId)
         {
             return string.Format(Resources.Tweet_Favorite_Destroy, tweetId);
         }

@@ -99,12 +99,12 @@ namespace Tweetinvi.Core.Interfaces
         /// <summary>
         /// Is the tweet favourited
         /// </summary>
-        bool Favourited { get; }
+        bool Favorited { get; }
 
         /// <summary>
         /// Number of time the tweet has been favourited
         /// </summary>
-        int FavouriteCount { get; }
+        int FavoriteCount { get; }
 
         /// <summary>
         /// Has the tweet been retweeted
@@ -243,12 +243,12 @@ namespace Tweetinvi.Core.Interfaces
         /// <summary>
         /// Favorites the tweet
         /// </summary>
-        void Favourite();
+        void Favorite();
 
         /// <summary>
         /// Remove the tweet from favourites
         /// </summary>
-        void UnFavourite();
+        void UnFavorite();
 
         #endregion
 

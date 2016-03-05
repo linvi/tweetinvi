@@ -8,6 +8,7 @@ using Tweetinvi.Core.Enum;
 using Tweetinvi.Core.Interfaces;
 using Tweetinvi.Core.Interfaces.DTO;
 using Tweetinvi.Core.Interfaces.Factories;
+using Tweetinvi.Core.Parameters.QueryParameters;
 
 namespace Testinvi.TweetinviControllers.UserTests
 {
@@ -403,93 +404,19 @@ namespace Testinvi.TweetinviControllers.UserTests
         #region Get Favourites
 
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
-        public void GetFavouriteTweets_WithNullUser_ThrowsArgumentException()
-        {
-            // Arrange
-            var controller = CreateUserController();
-            var maximumNumberOfTweets = TestHelper.GenerateRandomInt();
-
-            // Act
-            controller.GetFavouriteTweets((IUser)null, maximumNumberOfTweets);
-        }
-
-        [TestMethod]
         public void GetFavouriteTweets_WithUser_ReturnsUserExecutorResult()
         {
             // Arrange
             var controller = CreateUserController();
-            var userDTO = A.Fake<IUserDTO>();
-            var user = TestHelper.GenerateUser(userDTO);
-            var maximumNumberOfTweets = TestHelper.GenerateRandomInt();
             var tweetsDTO = new[] { A.Fake<ITweetDTO>() };
             var tweets = new[] { A.Fake<ITweet>() };
+            var parameters = It.IsAny<IGetUserFavoritesQueryParameters>();
 
-            _fakeUserQueryExecutor.CallsTo(x => x.GetFavouriteTweets(userDTO, maximumNumberOfTweets)).Returns(tweetsDTO);
+            _fakeUserQueryExecutor.CallsTo(x => x.GetFavoriteTweets(parameters)).Returns(tweetsDTO);
             _fakeTweetFactory.CallsTo(x => x.GenerateTweetsFromDTO(tweetsDTO)).Returns(tweets);
 
             // Act
-            var result = controller.GetFavouriteTweets(user, maximumNumberOfTweets);
-
-            // Assert
-            Assert.AreEqual(result, tweets);
-        }
-
-        [TestMethod]
-        public void GetFavouriteTweets_WithUserDTO_ReturnsUserExecutorResult()
-        {
-            // Arrange
-            var controller = CreateUserController();
-            var userDTO = A.Fake<IUserDTO>();
-            var maximumNumberOfTweets = TestHelper.GenerateRandomInt();
-            var tweetsDTO = new[] { A.Fake<ITweetDTO>() };
-            var tweets = new[] { A.Fake<ITweet>() };
-
-            _fakeUserQueryExecutor.CallsTo(x => x.GetFavouriteTweets(userDTO, maximumNumberOfTweets)).Returns(tweetsDTO);
-            _fakeTweetFactory.CallsTo(x => x.GenerateTweetsFromDTO(tweetsDTO)).Returns(tweets);
-
-            // Act
-            var result = controller.GetFavouriteTweets(userDTO, maximumNumberOfTweets);
-
-            // Assert
-            Assert.AreEqual(result, tweets);
-        }
-
-        [TestMethod]
-        public void GetFavouriteTweets_WithUserScreenName_ReturnsUserExecutorResult()
-        {
-            // Arrange
-            var controller = CreateUserController();
-            var userScreenName = TestHelper.GenerateString();
-            var maximumNumberOfTweets = TestHelper.GenerateRandomInt();
-            var tweetsDTO = new[] { A.Fake<ITweetDTO>() };
-            var tweets = new[] { A.Fake<ITweet>() };
-
-            _fakeUserQueryExecutor.CallsTo(x => x.GetFavouriteTweets(userScreenName, maximumNumberOfTweets)).Returns(tweetsDTO);
-            _fakeTweetFactory.CallsTo(x => x.GenerateTweetsFromDTO(tweetsDTO)).Returns(tweets);
-
-            // Act
-            var result = controller.GetFavouriteTweets(userScreenName, maximumNumberOfTweets);
-
-            // Assert
-            Assert.AreEqual(result, tweets);
-        }
-
-        [TestMethod]
-        public void GetFavouriteTweets_WithUserId_ReturnsUserExecutorResult()
-        {
-            // Arrange
-            var controller = CreateUserController();
-            var userId = TestHelper.GenerateRandomLong();
-            var maximumNumberOfTweets = TestHelper.GenerateRandomInt();
-            var tweetsDTO = new[] { A.Fake<ITweetDTO>() };
-            var tweets = new[] { A.Fake<ITweet>() };
-
-            _fakeUserQueryExecutor.CallsTo(x => x.GetFavouriteTweets(userId, maximumNumberOfTweets)).Returns(tweetsDTO);
-            _fakeTweetFactory.CallsTo(x => x.GenerateTweetsFromDTO(tweetsDTO)).Returns(tweets);
-
-            // Act
-            var result = controller.GetFavouriteTweets(userId, maximumNumberOfTweets);
+            var result = controller.GetFavoriteTweets(parameters);
 
             // Assert
             Assert.AreEqual(result, tweets);

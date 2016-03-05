@@ -35,10 +35,10 @@ namespace Tweetinvi.Core.Interfaces.QueryGenerators
         string GetGenerateOEmbedTweetQuery(long tweetId);
 
         // Favorite Tweet
-        string GetFavouriteTweetQuery(ITweetDTO tweetDTO);
-        string GetFavouriteTweetQuery(long tweetId);
+        string GetFavoriteTweetQuery(ITweetDTO tweetDTO);
+        string GetFavoriteTweetQuery(long tweetId);
 
-        string GetUnFavouriteTweetQuery(ITweetDTO tweetDTO);
-        string GetUnFavouriteTweetQuery(long tweetId);
+        string GetUnFavoriteTweetQuery(ITweetDTO tweetDTO);
+        string GetUnFavoriteTweetQuery(long tweetId);
     }
 }
