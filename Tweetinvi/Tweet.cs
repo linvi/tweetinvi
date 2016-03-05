@@ -199,17 +199,17 @@ namespace Tweetinvi
         /// <summary>
         /// Publish a unretweet tweet
         /// </summary>
-        public static ITweet UnRetweet(ITweetIdentifier tweet)
+        public static bool UnRetweet(ITweetIdentifier tweet)
         {
-            return TweetController.UnRetweet(tweet);
+            return TweetController.UnRetweet(tweet) != null;
         }
 
         /// <summary>
         /// Publish a unretweet tweet
         /// </summary>
-        public static ITweet UnRetweet(long tweetId)
+        public static bool UnRetweet(long tweetId)
         {
-            return TweetController.UnRetweet(tweetId);
+            return TweetController.UnRetweet(tweetId) != null;
         }
 
         // Get Retweet
