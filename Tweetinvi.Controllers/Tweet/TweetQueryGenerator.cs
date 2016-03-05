@@ -8,6 +8,7 @@ using Tweetinvi.Controllers.Shared;
 using Tweetinvi.Core.Extensions;
 using Tweetinvi.Core.Helpers;
 using Tweetinvi.Core.Interfaces.DTO;
+using Tweetinvi.Core.Interfaces.Models;
 using Tweetinvi.Core.Interfaces.QueryGenerators;
 using Tweetinvi.Core.Parameters;
 
@@ -135,14 +136,14 @@ namespace Tweetinvi.Controllers.Tweet
         }
         
         // UnRetweet
-        public string GetUnRetweetQuery(ITweetDTO tweetDTO)
+        public string GetUnRetweetQuery(ITweetIdentifier tweetIdentifier)
         {
-            if (!_tweetQueryValidator.IsTweetPublished(tweetDTO))
+            if (tweetIdentifier == null)
             {
                 return null;
             }
 
-            return GetUnRetweetQuery(tweetDTO.Id);
+            return GetUnRetweetQuery(tweetIdentifier.Id);
         }
 
         public string GetUnRetweetQuery(long tweetId)

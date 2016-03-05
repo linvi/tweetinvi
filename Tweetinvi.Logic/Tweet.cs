@@ -407,6 +407,11 @@ namespace Tweetinvi.Logic
             return retweets.ToList();
         }
 
+        public bool UnRetweet()
+        {
+            return _tweetController.UnRetweet(this) != null;
+        }
+
         public IOEmbedTweet GenerateOEmbedTweet()
         {
             return _tweetController.GenerateOEmbedTweet(_tweetDTO);

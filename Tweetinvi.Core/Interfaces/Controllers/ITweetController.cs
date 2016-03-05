@@ -2,7 +2,6 @@
 using Tweetinvi.Core.Interfaces.DTO;
 using Tweetinvi.Core.Interfaces.Models;
 using Tweetinvi.Core.Parameters;
-using Tweetinvi.Core.Parameters.QueryParameters;
 
 namespace Tweetinvi.Core.Interfaces.Controllers
 {
@@ -33,8 +32,7 @@ namespace Tweetinvi.Core.Interfaces.Controllers
         ITweet PublishRetweet(long tweetId);
         
         // Publish UnRetweet
-        ITweet UnRetweet(ITweet tweetToPublish);
-        ITweet UnRetweet(ITweetDTO tweetToPublish);
+        ITweet UnRetweet(ITweetIdentifier tweetToPublish);
         ITweet UnRetweet(long tweetId);
 
         // Get Retweets

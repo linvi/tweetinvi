@@ -263,6 +263,11 @@ namespace Tweetinvi.Core.Interfaces
         List<ITweet> GetRetweets();
 
         /// <summary>
+        /// Remove your retweet.
+        /// </summary>
+        bool UnRetweet();
+
+        /// <summary>
         /// Delete a tweet from Twitter
         /// </summary>
         bool Destroy();

@@ -3,6 +3,7 @@ using System.Linq;
 using Tweetinvi.Core.Exceptions;
 using Tweetinvi.Core.Interfaces.Credentials;
 using Tweetinvi.Core.Interfaces.DTO;
+using Tweetinvi.Core.Interfaces.Models;
 using Tweetinvi.Core.Interfaces.QueryGenerators;
 using Tweetinvi.Core.Parameters;
 
@@ -16,9 +17,9 @@ namespace Tweetinvi.Controllers.Tweet
         // Publish Retweet
         ITweetDTO PublishRetweet(ITweetDTO tweetToRetweet);
         ITweetDTO PublishRetweet(long tweetId);
-        
+
         // UnRetweet
-        ITweetDTO UnRetweet(ITweetDTO tweetToRetweet);
+        ITweetDTO UnRetweet(ITweetIdentifier tweetToRetweet);
         ITweetDTO UnRetweet(long tweetId);
 
         // Get Retweets
@@ -76,7 +77,7 @@ namespace Tweetinvi.Controllers.Tweet
         }
         
         // Publish UnRetweet
-        public ITweetDTO UnRetweet(ITweetDTO tweetToRetweet)
+        public ITweetDTO UnRetweet(ITweetIdentifier tweetToRetweet)
         {
             string query = _tweetQueryGenerator.GetUnRetweetQuery(tweetToRetweet);
             return _twitterAccessor.ExecutePOSTQuery<ITweetDTO>(query);

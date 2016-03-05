@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Tweetinvi.Core.Interfaces.DTO;
+using Tweetinvi.Core.Interfaces.Models;
 using Tweetinvi.Core.Parameters;
 using Tweetinvi.Core.Parameters.QueryParameters;
 
@@ -21,9 +22,9 @@ namespace Tweetinvi.Core.Interfaces.QueryGenerators
         // Get Retweets
         string GetRetweetsQuery(ITweetDTO tweetDTO);
         string GetRetweetsQuery(long tweetId);
-        
+
         // Publish UnRetweet
-        string GetUnRetweetQuery(ITweetDTO tweetDTO);
+        string GetUnRetweetQuery(ITweetIdentifier tweetIdentifier);
         string GetUnRetweetQuery(long tweetId);
 
         // Destroy Tweet

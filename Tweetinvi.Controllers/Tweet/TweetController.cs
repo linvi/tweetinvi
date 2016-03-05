@@ -212,17 +212,8 @@ namespace Tweetinvi.Controllers.Tweet
         }
         
         // Publish UnRetweet
-        public ITweet UnRetweet(ITweet tweet)
-        {
-            if (tweet == null)
-            {
-                throw new ArgumentException("Tweet cannot be null!");
-            }
 
-            return UnRetweet(tweet.TweetDTO);
-        }
-
-        public ITweet UnRetweet(ITweetDTO tweet)
+        public ITweet UnRetweet(ITweetIdentifier tweet)
         {
             var tweetDTO = _tweetQueryExecutor.UnRetweet(tweet);
             return _tweetFactory.GenerateTweetFromDTO(tweetDTO);
