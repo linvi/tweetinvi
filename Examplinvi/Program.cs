@@ -523,8 +523,8 @@ namespace Examplinvi
         public static void Tweet_SetTweetAsFavorite(long tweetId)
         {
             var tweet = Tweet.GetTweet(tweetId);
-            tweet.Favourite();
-            Console.WriteLine("Is tweet now favourite? -> {0}", tweet.Favourited);
+            tweet.Favorite();
+            Console.WriteLine("Is tweet now favourite? -> {0}", tweet.Favorited);
         }
 
         #endregion

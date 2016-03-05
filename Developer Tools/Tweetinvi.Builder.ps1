@@ -161,17 +161,7 @@ if (!$uv.IsPresent) {
 	rm -Force ($net40PortableFolder + '\*');
 	rm -Force ($net45PortableFolder + '\*');
 
-	# Add .dll into nuget folders
-
-	if ($nugetMultipleDLLs.IsPresent)
-	{
-		Get-ChildItem -LiteralPath $examplinviBin -filter Tweetinvi*.dll  | % { Copy-Item $_.fullname $net40Folder }
-		Get-ChildItem -LiteralPath $examplinviBin -filter Tweetinvi*.dll  | % { Copy-Item $_.fullname $net45Folder }
-		Get-ChildItem -LiteralPath $examplinviBin -filter Tweetinvi*.dll  | % { Copy-Item $_.fullname $net40PortableFolder }
-		Get-ChildItem -LiteralPath $examplinviBin -filter Tweetinvi*.dll  | % { Copy-Item $_.fullname $net45PortableFolder }
-	}
-
-	Copy-Item $rootPath$examplinvi\Program.cs $temporaryFolder\Cheatsheet.cs
+    Copy-Item $rootPath$examplinvi\Program.cs $temporaryFolder\Cheatsheet.cs
 
 	# Create Merged assembly
 
@@ -198,8 +188,19 @@ if (!$uv.IsPresent) {
 	Write-Host $ILMergeCommand
 	Invoke-Expression $ILMergeCommand
 
-	# Move Merged DLL into Nuget folder
+	if ($nugetMultipleDLLs.IsPresent)
+	{
+        # Copy *.dll into nuget folders
+		Get-ChildItem -LiteralPath $examplinviBin -filter Tweetinvi*.dll  | % { Copy-Item $_.fullname $net40Folder }
+		Get-ChildItem -LiteralPath $examplinviBin -filter Tweetinvi*.dll  | % { Copy-Item $_.fullname $net45Folder }
+		Get-ChildItem -LiteralPath $examplinviBin -filter Tweetinvi*.dll  | % { Copy-Item $_.fullname $net40PortableFolder }
+		Get-ChildItem -LiteralPath $examplinviBin -filter Tweetinvi*.dll  | % { Copy-Item $_.fullname $net45PortableFolder }
+	}
+
+	
 	if (!$nugetMultipleDLLs.IsPresent) {
+        # Copy Merged DLL into Nuget folder
+
 		Write-Host 'Copying merged DLL into nuget...' 
 		Write-Host $mergedDLLPath;
 
@@ -208,7 +209,8 @@ if (!$uv.IsPresent) {
 		Copy-Item $mergedDLLPath ($net40Folder + '\Tweetinvi.dll');
 		Copy-Item $mergedDLLPath ($net45Folder + '\Tweetinvi.dll');
 		Copy-Item $mergedDLLPath ($net40PortableFolder + '\Tweetinvi.dll');
-		Copy-Item $mergedDLLPath ($net45PortableFolder + '\Tweetinvi.dll');
+
+		Get-ChildItem -LiteralPath $temporaryFolder -filter Tweetinvi*.dll  | % { Copy-Item $_.fullname $net45PortableFolder }
 	}
 
 	# Create Zip files
