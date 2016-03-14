@@ -83,8 +83,8 @@ namespace Tweetinvi.Controllers.Tweet
 
                 if (queryParameters.Coordinates != null)
                 {
-                    query.AddParameterToQuery("lat", queryParameters.Coordinates.Latitude);
-                    query.AddParameterToQuery("long", queryParameters.Coordinates.Longitude);
+                    query.AddParameterToQuery("lat", queryParameters.Coordinates.Latitude.ToString(CultureInfo.InvariantCulture));
+                    query.AddParameterToQuery("long", queryParameters.Coordinates.Longitude.ToString(CultureInfo.InvariantCulture));
                 }
 
                 query.AddParameterToQuery("place_id", queryParameters.PlaceId);

@@ -9,6 +9,7 @@ namespace Tweetinvi.Controllers.Trends
         IPlaceTrends GetPlaceTrendsAt(long woeid);
         IPlaceTrends GetPlaceTrendsAt(IWoeIdLocation woeIdLocation);
         IEnumerable<ITrendLocation> GetAvailableTrendLocations();
+        IEnumerable<ITrendLocation> GetClosestTrendLocations(ICoordinates coordinates);
     }
 
     public class TrendsQueryExecutor : ITrendsQueryExecutor
@@ -39,6 +40,12 @@ namespace Tweetinvi.Controllers.Trends
         public IEnumerable<ITrendLocation> GetAvailableTrendLocations()
         {
             var query = _trendsQueryGenerator.GetAvailableTrendLocationsQuery();
+            return _twitterAccessor.ExecuteGETQuery<ITrendLocation[]>(query);
+        }
+
+        public IEnumerable<ITrendLocation> GetClosestTrendLocations(ICoordinates coordinates)
+        {
+            var query = _trendsQueryGenerator.GetClosestTrendLocationsQuery(coordinates);
             return _twitterAccessor.ExecuteGETQuery<ITrendLocation[]>(query);
         }
     }

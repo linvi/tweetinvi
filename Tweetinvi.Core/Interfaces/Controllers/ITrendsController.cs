@@ -8,5 +8,7 @@ namespace Tweetinvi.Core.Interfaces.Controllers
         IPlaceTrends GetPlaceTrendsAt(long woeid);
         IPlaceTrends GetPlaceTrendsAt(IWoeIdLocation woeIdLocation);
         IEnumerable<ITrendLocation> GetAvailableTrendLocations();
+        IEnumerable<ITrendLocation> GetClosestTrendLocations(double longitude, double latitude);
+        IEnumerable<ITrendLocation> GetClosestTrendLocations(ICoordinates coordinates);
     }
 }

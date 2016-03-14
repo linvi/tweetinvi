@@ -59,5 +59,21 @@ namespace Tweetinvi
         {
             return TrendsController.GetAvailableTrendLocations();
         }
+
+        /// <summary>
+        /// Returns the locations that Twitter has trending topic information for, closest to a specified location.
+        /// </summary>
+        public static IEnumerable<ITrendLocation> GetClosestTrendLocations(double longitude, double latitude)
+        {
+            return TrendsController.GetClosestTrendLocations(longitude, latitude);
+        }
+
+        /// <summary>
+        /// Returns the locations that Twitter has trending topic information for, closest to a specified location.
+        /// </summary>
+        public static IEnumerable<ITrendLocation> GetClosestTrendLocations(ICoordinates coordinates)
+        {
+            return TrendsController.GetClosestTrendLocations(coordinates);
+        }
     }
 }
