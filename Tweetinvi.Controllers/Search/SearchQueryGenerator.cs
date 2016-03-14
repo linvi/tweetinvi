@@ -82,7 +82,7 @@ namespace Tweetinvi.Controllers.Search
             {
                 if (entitiesTypeFilter != TweetSearchFilters.None)
                 {
-                    var filter = entitiesTypeFilter.ToString().ToLowerInvariant();
+                    var filter = entitiesTypeFilter.GetQueryFilterName();
                     query += string.Format(" filter:{0}", filter);
                 }
             }

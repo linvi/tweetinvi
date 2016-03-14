@@ -4,32 +4,6 @@ using Tweetinvi.Core.Interfaces.Models;
 
 namespace Tweetinvi.Core.Parameters
 {
-    /// <summary>
-    /// List of filters to detect whether the tweet is new.
-    /// </summary>
-    public enum TweetSearchType
-    {
-        All,
-        OriginalTweetsOnly,
-        RetweetsOnly,
-    }
-
-    /// <summary>
-    /// List of filters that can be used to retrieve tweets.
-    /// </summary>
-    [Flags]
-    public enum TweetSearchFilters
-    {
-        None = 1,
-        Hashtags = 2,
-        Links = 4,
-        Images = 8,
-        News = 16,
-        Replies = 32,
-        Verified = 64,
-        Videos = 128
-    }
-
     public interface ITweetSearchParameters : ICustomRequestParameters
     {
         /// <summary>
