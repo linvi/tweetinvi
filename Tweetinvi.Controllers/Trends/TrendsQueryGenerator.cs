@@ -8,6 +8,7 @@ namespace Tweetinvi.Controllers.Trends
     {
         string GetPlaceTrendsAtQuery(long woeid);
         string GetPlaceTrendsAtQuery(IWoeIdLocation woeIdLocation);
+        string GetAvailableTrendLocationsQuery();
     }
 
     public class TrendsQueryGenerator : ITrendsQueryGenerator
@@ -25,6 +26,11 @@ namespace Tweetinvi.Controllers.Trends
             }
 
             return GetPlaceTrendsAtQuery(woeIdLocation.WoeId);
+        }
+
+        public string GetAvailableTrendLocationsQuery()
+        {
+            return Resources.Trends_GetAvailableTrendsLocations;
         }
     }
 }

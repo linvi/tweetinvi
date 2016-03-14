@@ -1,4 +1,5 @@
-﻿using Tweetinvi.Core.Interfaces.Models;
+﻿using System.Collections.Generic;
+using Tweetinvi.Core.Interfaces.Models;
 
 namespace Tweetinvi.Core.Interfaces.Controllers
 {
@@ -6,5 +7,6 @@ namespace Tweetinvi.Core.Interfaces.Controllers
     {
         IPlaceTrends GetPlaceTrendsAt(long woeid);
         IPlaceTrends GetPlaceTrendsAt(IWoeIdLocation woeIdLocation);
+        IEnumerable<ITrendLocation> GetAvailableTrendLocations();
     }
 }

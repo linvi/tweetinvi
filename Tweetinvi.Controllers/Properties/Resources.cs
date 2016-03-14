@@ -375,6 +375,11 @@ namespace Tweetinvi.Controllers.Properties
         public static string Trends_GetTrendsFromWoeId = "https://api.twitter.com/1.1/trends/place.json?id={0}";
 
         /// <summary>
+        ///   Looks up a localized string similar to https://api.twitter.com/1.1/trends/available.json.
+        /// </summary>
+        public static string Trends_GetAvailableTrendsLocations = "https://api.twitter.com/1.1/trends/available.json";
+
+        /// <summary>
         ///   Looks up a localized string similar to https://api.twitter.com/1.1/statuses/destroy/{0}.json.
         /// </summary>
         public static string Tweet_Destroy = "https://api.twitter.com/1.1/statuses/destroy/{0}.json";

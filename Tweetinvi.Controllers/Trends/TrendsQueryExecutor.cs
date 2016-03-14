@@ -1,4 +1,5 @@
-﻿using Tweetinvi.Core.Interfaces.Credentials;
+﻿using System.Collections.Generic;
+using Tweetinvi.Core.Interfaces.Credentials;
 using Tweetinvi.Core.Interfaces.Models;
 
 namespace Tweetinvi.Controllers.Trends
@@ -7,6 +8,7 @@ namespace Tweetinvi.Controllers.Trends
     {
         IPlaceTrends GetPlaceTrendsAt(long woeid);
         IPlaceTrends GetPlaceTrendsAt(IWoeIdLocation woeIdLocation);
+        IEnumerable<ITrendLocation> GetAvailableTrendLocations();
     }
 
     public class TrendsQueryExecutor : ITrendsQueryExecutor
@@ -32,6 +34,12 @@ namespace Tweetinvi.Controllers.Trends
         {
             string query = _trendsQueryGenerator.GetPlaceTrendsAtQuery(woeIdLocation);
             return _twitterAccessor.ExecuteGETQuery<IPlaceTrends[]>(query)[0];
+        }
+
+        public IEnumerable<ITrendLocation> GetAvailableTrendLocations()
+        {
+            var query = _trendsQueryGenerator.GetAvailableTrendLocationsQuery();
+            return _twitterAccessor.ExecuteGETQuery<ITrendLocation[]>(query);
         }
     }
 }
