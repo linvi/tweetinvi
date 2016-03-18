@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Tweetinvi.Core.Enum;
-using Tweetinvi.Core.Interfaces.DTO;
 using Tweetinvi.Core.Interfaces.DTO.QueryDTO;
+using Tweetinvi.Core.Web;
 
 namespace Tweetinvi.Core.Interfaces.Credentials
 {
@@ -43,17 +43,17 @@ namespace Tweetinvi.Core.Interfaces.Credentials
         /// <summary>
         /// Starts a multipart HttpWebRequest required by Twitter to upload binaries
         /// </summary>
-        string ExecuteMultipartQuery(string query, IEnumerable<byte[]> binaries, string contentId = "media");
+        string ExecuteMultipartQuery(IUploadQueryParameters parameters);
 
         /// <summary>
         /// Starts a multipart HttpWebRequest required by Twitter to upload binaries
         /// </summary>
-        T ExecuteMultipartQuery<T>(string query, IEnumerable<byte[]> binaries, string contentId = "media", JsonConverter[] converters = null) where T : class;
+        T ExecuteMultipartQuery<T>(IUploadQueryParameters parameters, JsonConverter[] converters = null) where T : class;
 
         /// <summary>
         /// Starts a multipart HttpWebRequest required by Twitter to upload binaries
         /// </summary>
-        bool TryExecuteMultipartQuery(string query, IEnumerable<byte[]> binaries, string contentId = "media");
+        bool TryExecuteMultipartQuery(IUploadQueryParameters parameters);
 
         // Cursor Query
         IEnumerable<string> ExecuteJsonCursorGETQuery<T>(

@@ -29,6 +29,11 @@ namespace Tweetinvi.Core
         int WebRequestTimeout { get; set; }
 
         /// <summary>
+        /// Upload timeout in the current thread.
+        /// </summary>
+        int UploadTimeout { get; set; }
+
+        /// <summary>
         /// Solution used to track the rate limits in the current thread.
         /// </summary>
         RateLimitTrackerMode RateLimitTrackerMode { get; set; }
@@ -105,6 +110,12 @@ namespace Tweetinvi.Core
         {
             get { return CurrentThreadSettings.WebRequestTimeout; }
             set { CurrentThreadSettings.WebRequestTimeout = value; }
+        }
+
+        public int UploadTimeout
+        {
+            get { return CurrentThreadSettings.UploadTimeout; }
+            set { CurrentThreadSettings.UploadTimeout = value; }
         }
 
         public RateLimitTrackerMode RateLimitTrackerMode

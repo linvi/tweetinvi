@@ -4,6 +4,7 @@ using Newtonsoft.Json.Linq;
 using Tweetinvi.Core.Enum;
 using Tweetinvi.Core.Interfaces.Credentials;
 using Tweetinvi.Core.Interfaces.DTO.QueryDTO;
+using Tweetinvi.Core.Web;
 
 namespace Tweetinvi
 {
@@ -135,9 +136,9 @@ namespace Tweetinvi
         /// <summary>
         /// Execute a POST mutlipart query an return whether the result as an object of type T
         /// </summary>
-        public static T ExecutePOSTMultipartQuery<T>(string query, IEnumerable<byte[]> binaries, string contentId) where T : class
+        public static T ExecutePOSTMultipartQuery<T>(IUploadQueryParameters parameters) where T : class
         {
-            return Accessor.ExecuteMultipartQuery<T>(query, binaries, contentId);
+            return Accessor.ExecuteMultipartQuery<T>(parameters);
         }
 
         /// <summary>

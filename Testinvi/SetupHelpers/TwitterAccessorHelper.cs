@@ -5,6 +5,7 @@ using Newtonsoft.Json.Linq;
 using Testinvi.Helpers;
 using Tweetinvi.Core.Interfaces.Credentials;
 using Tweetinvi.Core.Interfaces.DTO.QueryDTO;
+using Tweetinvi.Core.Web;
 
 namespace Testinvi.SetupHelpers
 {
@@ -57,7 +58,7 @@ namespace Testinvi.SetupHelpers
             T result) where T : class
         {
             fakeTwitterAccessor
-                .CallsTo(x => x.ExecuteMultipartQuery<T>(query, It.IsAny<IEnumerable<byte[]>>(), It.IsAny<string>(), null))
+                .CallsTo(x => x.ExecuteMultipartQuery<T>(A<IUploadQueryParameters>.That.Matches(y => y.Query == query), null))
                 .Returns(result);
         }
 

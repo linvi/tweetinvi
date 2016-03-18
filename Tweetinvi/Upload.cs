@@ -4,6 +4,7 @@ using System.Linq;
 using Tweetinvi.Controllers.Upload;
 using Tweetinvi.Core.Interfaces.Controllers.Transactions;
 using Tweetinvi.Core.Interfaces.DTO;
+using Tweetinvi.Core.Web;
 
 namespace Tweetinvi
 {
@@ -80,11 +81,19 @@ namespace Tweetinvi
         }
 
         /// <summary>
-        /// Upload a binary using th chunked upload mechanism.
+        /// Upload a binary using the chunked upload mechanism.
         /// </summary>
         public static IMedia ChunkUploadBinary(byte[] binary, string mediaType)
         {
             return UploadQueryExecutor.ChunkUploadBinary(binary, mediaType);
+        }
+
+        /// <summary>
+        /// Upload a binary using the chunked upload mechanism.
+        /// </summary>
+        public static IMedia ChunkUploadBinary(IUploadQueryParameters parameters)
+        {
+            return UploadQueryExecutor.ChunkUploadBinary(parameters);
         }
 
         /// <summary>

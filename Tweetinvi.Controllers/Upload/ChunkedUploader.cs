@@ -9,6 +9,7 @@ using Tweetinvi.Core.Interfaces.Controllers.Transactions;
 using Tweetinvi.Core.Interfaces.Credentials;
 using Tweetinvi.Core.Interfaces.DTO;
 using Tweetinvi.Core.Interfaces.QueryGenerators;
+using Tweetinvi.Core.Web;
 
 namespace Tweetinvi.Controllers.Upload
 {
@@ -68,15 +69,22 @@ namespace Tweetinvi.Controllers.Upload
             }
 
             var appendQuery = _uploadQueryGenerator.GetChunkedUploadAppendQuery(MediaId.Value, segmentIndex.Value);
-            var sucess = _twitterAccessor.TryExecuteMultipartQuery(appendQuery, new[] { binary });
 
-            if (sucess)
+            var parameters = new UploadQueryParameters()
+            {
+                Query = appendQuery,
+                Binaries = new List<byte[]> { binary }
+            };
+
+            var success = _twitterAccessor.TryExecuteMultipartQuery(parameters);
+
+            if (success)
             {
                 UploadedSegments.Add(segmentIndex.Value, binary);
                 ++NextSegmentIndex;
             }
 
-            return sucess;
+            return success;
         }
 
         public IMedia Complete()

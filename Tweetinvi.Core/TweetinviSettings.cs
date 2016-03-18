@@ -37,6 +37,11 @@
         int WebRequestTimeout { get; set; }
 
         /// <summary>
+        /// Upload Timeout duration in milliseconds.
+        /// </summary>
+        int UploadTimeout { get; set; }
+
+        /// <summary>
         /// Solution used to track the RateLimits.
         /// </summary>
         RateLimitTrackerMode RateLimitTrackerMode { get; set; }
@@ -59,12 +64,14 @@
         public string ProxyURL { get; set; }
         public int WebRequestTimeout { get; set; }
         public RateLimitTrackerMode RateLimitTrackerMode { get; set; }
+        public int UploadTimeout { get; set; }
 
         public ITweetinviSettings Clone()
         {
             var clone = new TweetinviSettings();
             clone.ProxyURL = ProxyURL;
             clone.WebRequestTimeout = WebRequestTimeout;
+            clone.UploadTimeout = UploadTimeout;
             clone.RateLimitTrackerMode = RateLimitTrackerMode;
             return clone;
         }
@@ -73,6 +80,7 @@
         {
             ProxyURL = other.ProxyURL;
             WebRequestTimeout = other.WebRequestTimeout;
+            UploadTimeout = other.UploadTimeout;
             RateLimitTrackerMode = other.RateLimitTrackerMode;
         }
     }

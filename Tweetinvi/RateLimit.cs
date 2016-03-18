@@ -87,8 +87,8 @@ namespace Tweetinvi
         /// </summary>
         public static RateLimitTrackerMode RateLimitTrackerMode
         {
-            get { return TweetinviConfig.CURRENT_RATELIMIT_TRACKER_MODE; }
-            set { TweetinviConfig.CURRENT_RATELIMIT_TRACKER_MODE = value; }
+            get { return TweetinviConfig.CurrentThreadSettings.RateLimitTrackerMode; }
+            set { TweetinviConfig.CurrentThreadSettings.RateLimitTrackerMode = value; }
         }
 
         /// <summary>

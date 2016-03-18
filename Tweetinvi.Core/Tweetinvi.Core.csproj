@@ -92,6 +92,7 @@
     <Compile Include="Extensions\ExceptionUtils.cs" />
     <Compile Include="Extensions\IEnumerableExtension.cs" />
     <Compile Include="Extensions\LanguageExtension.cs" />
+    <Compile Include="Extensions\UploadQueryParametersExtensions.cs" />
     <Compile Include="Extensions\StringExtension.cs" />
     <Compile Include="Extensions\StringFormater.cs" />
     <Compile Include="Extensions\TweetSearchFiltersExtension.cs" />
@@ -307,6 +308,7 @@
     <Compile Include="TweetinviSettingsAccessor.cs" />
     <Compile Include="Web\ITwitterClientHandler.cs" />
     <Compile Include="Web\IWebProxyFactory.cs" />
+    <Compile Include="Web\UploadQueryParameters.cs" />
     <Compile Include="Wrappers\IJConvertWrapper.cs" />
     <Compile Include="Wrappers\IJObjectStaticWrapper.cs" />
     <Compile Include="Wrappers\IParameterOverrideWrapper.cs" />

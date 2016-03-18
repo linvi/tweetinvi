@@ -9,6 +9,7 @@ using Tweetinvi.Core.Interfaces.Credentials;
 using Tweetinvi.Core.Interfaces.Models;
 using Tweetinvi.Core.Interfaces.RateLimit;
 using Tweetinvi.Core.Interfaces.WebLogic;
+using Tweetinvi.Core.Web;
 using HttpMethod = Tweetinvi.Core.Enum.HttpMethod;
 
 namespace Tweetinvi.WebLogic
@@ -16,7 +17,7 @@ namespace Tweetinvi.WebLogic
     public interface ITwitterRequestHandler
     {
         string ExecuteQuery(string queryURL, HttpMethod method, TwitterClientHandler handler = null, ITwitterCredentials twitterCredentials = null);
-        string ExecuteMultipartQuery(string queryURL, string contentId, HttpMethod httpMethod, IEnumerable<byte[]> binaries);
+        string ExecuteMultipartQuery(IUploadQueryParameters parameters);
     }
 
     public class TwitterRequestHandler : ITwitterRequestHandler
@@ -56,7 +57,7 @@ namespace Tweetinvi.WebLogic
             TwitterClientHandler handler = null,
             ITwitterCredentials credentials = null)
         {
-            CleanupQueryURL(ref queryURL);
+            queryURL = CleanupQueryURL(queryURL);
             var rateLimitTrackerOption = _tweetinviSettingsAccessor.RateLimitTrackerMode;
             
             ITwitterQuery twitterQuery;
@@ -81,20 +82,31 @@ namespace Tweetinvi.WebLogic
             }
         }
 
-        public string ExecuteMultipartQuery(string queryURL, string contentId, HttpMethod httpMethod, IEnumerable<byte[]> binaries)
+        public string ExecuteMultipartQuery(IUploadQueryParameters parameters)
         {
-            CleanupQueryURL(ref queryURL);
+            var queryURL = parameters.Query;
+
+            CleanupQueryURL(queryURL);
             var rateLimitTrackerOption = _tweetinviSettingsAccessor.RateLimitTrackerMode;
             
             ITwitterQuery twitterQuery;
-            if (!TryPrepareRequest(queryURL, httpMethod, rateLimitTrackerOption, null, out twitterQuery))
+            if (!TryPrepareRequest(queryURL, parameters.HttpMethod, rateLimitTrackerOption, null, out twitterQuery))
             {
                 return null;
             }
 
+            if (parameters.Timeout != null)
+            {
+                twitterQuery.Timeout = parameters.Timeout.Value;
+            }
+            else
+            {
+                twitterQuery.Timeout = TimeSpan.FromMilliseconds(_tweetinviSettingsAccessor.UploadTimeout);
+            }
+
             try
             {
-                var jsonResult = _twitterRequester.ExecuteMultipartQuery(twitterQuery, contentId, binaries);
+                var jsonResult = _twitterRequester.ExecuteMultipartQuery(twitterQuery, parameters.ContentId, parameters.Binaries);
 
                 QueryCompleted(twitterQuery, jsonResult, rateLimitTrackerOption);
 
@@ -108,7 +120,7 @@ namespace Tweetinvi.WebLogic
             }
         }
 
-        private void CleanupQueryURL(ref string query)
+        private string CleanupQueryURL(string query)
         {
             var index = query.IndexOf("?", StringComparison.OrdinalIgnoreCase);
             if (index > 0)
@@ -116,7 +128,7 @@ namespace Tweetinvi.WebLogic
                 if (query.Length == index + 1)
                 {
                     query = query.Remove(index);
-                    return;
+                    return query;
                 }
 
                 if (query.Length > index && query[index + 1] == '&')
@@ -124,6 +136,8 @@ namespace Tweetinvi.WebLogic
                     query = query.Remove(index + 1, 1);
                 }
             }
+
+            return query;
         }
 
         private bool TryPrepareRequest(

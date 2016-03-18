@@ -8,9 +8,9 @@ using Tweetinvi.Core.Helpers;
 using Tweetinvi.Core.Interfaces.Credentials;
 using Tweetinvi.Core.Interfaces.DTO.QueryDTO;
 using Tweetinvi.Core.Interfaces.Exceptions;
+using Tweetinvi.Core.Web;
 using Tweetinvi.Core.Wrappers;
 using Tweetinvi.Credentials.QueryJsonConverters;
-using Tweetinvi.Logic.Exceptions;
 using Tweetinvi.WebLogic;
 
 namespace Tweetinvi.Credentials
@@ -224,22 +224,22 @@ namespace Tweetinvi.Credentials
         }
 
         // Multipart Query
-        public T ExecuteMultipartQuery<T>(string query, IEnumerable<byte[]> binaries, string contentId, JsonConverter[] converters = null) where T : class
+        public T ExecuteMultipartQuery<T>(IUploadQueryParameters parameters, JsonConverter[] converters = null) where T : class
         {
-            string jsonResponse = ExecuteMultipartQuery(query, binaries, contentId);
+            string jsonResponse = ExecuteMultipartQuery(parameters);
             return _jsonObjectConverter.DeserializeObject<T>(jsonResponse, converters);
         }
 
-        public bool TryExecuteMultipartQuery(string query, IEnumerable<byte[]> binaries, string contentId)
+        public bool TryExecuteMultipartQuery(IUploadQueryParameters parameters)
         {
             string unused;
-            return TryExecuteMultipartQuery(query, binaries, contentId, out unused);
+            return TryExecuteMultipartQuery(parameters, out unused);
         }
 
-        public string ExecuteMultipartQuery(string query, IEnumerable<byte[]> binaries, string contentId)
+        public string ExecuteMultipartQuery(IUploadQueryParameters parameters)
         {
             string result;
-            TryExecuteMultipartQuery(query, binaries, contentId, out result);
+            TryExecuteMultipartQuery(parameters, out result);
 
             return result;
         }
@@ -387,16 +387,16 @@ namespace Tweetinvi.Credentials
             }
         }
 
-        private bool TryExecuteMultipartQuery(string query, IEnumerable<byte[]> binaries, string contentId, out string result)
+        private bool TryExecuteMultipartQuery(IUploadQueryParameters parameters, out string result)
         {
-            if (query == null)
+            if (parameters.Query == null)
             {
                 throw new ArgumentException("At least one of the arguments provided to the query was invalid.");
             }
 
             try
             {
-                result = _twitterRequestHandler.ExecuteMultipartQuery(query, contentId, HttpMethod.POST, binaries);
+                result = _twitterRequestHandler.ExecuteMultipartQuery(parameters);
                 return true;
             }
             catch (TwitterException ex)
