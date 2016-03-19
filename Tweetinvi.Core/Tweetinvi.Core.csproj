@@ -308,7 +308,6 @@
     <Compile Include="TweetinviCoreModule.cs" />
     <Compile Include="TweetinviSettingsAccessor.cs" />
     <Compile Include="Web\ChunkUploadAppendParameters.cs" />
-    <Compile Include="Web\ChunkUploadFinalizeParameters.cs" />
     <Compile Include="Web\ChunkUploadInitParameters.cs" />
     <Compile Include="Web\HttpRequestParameters.cs" />
     <Compile Include="Web\ITwitterClientHandler.cs" />

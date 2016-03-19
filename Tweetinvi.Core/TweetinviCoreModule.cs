@@ -83,7 +83,6 @@ namespace Tweetinvi.Core
             // Upload
             _container.RegisterType<IChunkUploadInitParameters, ChunkUploadInitParameters>();
             _container.RegisterType<IChunkUploadAppendParameters, ChunkUploadAppendParameters>();
-            _container.RegisterType<IChunkUploadFinalizeParameters, ChunkUploadFinalizeParameters>();
         }
     }
 }
