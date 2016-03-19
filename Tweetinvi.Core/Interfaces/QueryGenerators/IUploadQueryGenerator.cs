@@ -1,9 +1,11 @@
-﻿namespace Tweetinvi.Core.Interfaces.QueryGenerators
+﻿using Tweetinvi.Core.Web;
+
+namespace Tweetinvi.Core.Interfaces.QueryGenerators
 {
     public interface IUploadQueryGenerator
     {
-        string GetChunkedUploadInitQuery(string mediaType, long totalBinaryLength);
-        string GetChunkedUploadAppendQuery(long mediaId, int segmentIndex);
+        string GetChunkedUploadInitQuery(IChunkUploadInitParameters chunkUploadInitParameters);
+        string GetChunkedUploadAppendQuery(IChunkUploadAppendParameters parameters);
         string GetChunkedUploadFinalizeQuery(long mediaId);
     }
 }

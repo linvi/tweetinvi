@@ -41,12 +41,23 @@ namespace Tweetinvi.Controllers.Upload
 
         public bool Init(string mediaType, int totalBinaryLength)
         {
-            var initQuery = _uploadQueryGenerator.GetChunkedUploadInitQuery(mediaType, totalBinaryLength);
+            var parameters = new ChunkUploadInitParameters
+            {
+                MediaType = mediaType,
+                TotalBinaryLength = totalBinaryLength
+            };
+
+            return Init(parameters);
+        }
+
+        public bool Init(IChunkUploadInitParameters initParameters)
+        {
+            var initQuery = _uploadQueryGenerator.GetChunkedUploadInitQuery(initParameters);
 
             var initModel = _twitterAccessor.ExecutePOSTQuery<UploadInitModel>(initQuery);
             if (initModel != null)
             {
-                _expectedBinaryLength = totalBinaryLength;
+                _expectedBinaryLength = initParameters.TotalBinaryLength;
                 _media.MediaId = initModel.MediaId;
             }
 
@@ -67,8 +78,17 @@ namespace Tweetinvi.Controllers.Upload
                 throw new InvalidOperationException("You cannot append content to a non initialized chunked upload. You need to invoke the initialize method OR set the MediaId property of an existing ChunkedUpload.");
             }
 
-            var segmentIndex = parameters.SegmentIndex ?? NextSegmentIndex;
-            var appendQuery = _uploadQueryGenerator.GetChunkedUploadAppendQuery(MediaId.Value, segmentIndex);
+            if (parameters.SegmentIndex == null)
+            {
+                parameters.SegmentIndex = NextSegmentIndex;
+            }
+
+            if (parameters.MediaId == null)
+            {
+                parameters.MediaId = MediaId;
+            }
+
+            var appendQuery = _uploadQueryGenerator.GetChunkedUploadAppendQuery(parameters);
 
             var multiPartRequestParameters = new MultipartHttpRequestParameters
             {
@@ -82,7 +102,7 @@ namespace Tweetinvi.Controllers.Upload
 
             if (success)
             {
-                UploadedSegments.Add(segmentIndex, parameters.Binary);
+                UploadedSegments.Add(parameters.SegmentIndex.Value, parameters.Binary);
                 ++NextSegmentIndex;
             }
 

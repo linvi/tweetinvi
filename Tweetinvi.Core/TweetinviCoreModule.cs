@@ -5,6 +5,7 @@ using Tweetinvi.Core.Injectinvi;
 using Tweetinvi.Core.Interfaces.Models;
 using Tweetinvi.Core.Parameters;
 using Tweetinvi.Core.Parameters.QueryParameters;
+using Tweetinvi.Core.Web;
 
 namespace Tweetinvi.Core
 {
@@ -78,6 +79,11 @@ namespace Tweetinvi.Core
             _container.RegisterType<IMessagesReceivedParameters, MessagesReceivedParameters>();
             _container.RegisterType<IMessagesSentParameters, MessagesSentParameters>();
             _container.RegisterType<IPublishMessageParameters, PublishMessageParameters>();
+
+            // Upload
+            _container.RegisterType<IChunkUploadInitParameters, ChunkUploadInitParameters>();
+            _container.RegisterType<IChunkUploadAppendParameters, ChunkUploadAppendParameters>();
+            _container.RegisterType<IChunkUploadFinalizeParameters, ChunkUploadFinalizeParameters>();
         }
     }
 }

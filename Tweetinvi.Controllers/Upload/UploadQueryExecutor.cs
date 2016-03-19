@@ -159,19 +159,37 @@ namespace Tweetinvi.Controllers.Upload
             var binary = uploadQueryParameters.Binaries[0];
             var uploader = CreateChunkedUploader();
 
-            if (uploader.Init(uploadQueryParameters.MediaType, binary.Length))
+            var initParameters = new ChunkUploadInitParameters
+            {
+                TotalBinaryLength = binary.Length,
+                MediaType = uploadQueryParameters.MediaType,
+                AdditionalOwnerIds = uploadQueryParameters.AdditionalOwnerIds,
+                CustomRequestParameters = uploadQueryParameters.InitCustomRequestParameters,
+            };
+
+            if (uploader.Init(initParameters))
             {
                 var binaryChunks = GetBinaryChunks(binary, uploadQueryParameters.MaxChunkSize);
 
+                var totalsize = 0;
+
                 foreach (var binaryChunk in binaryChunks)
                 {
-                    var appendParameters = new ChunkUploadAppendParameters(binaryChunk, uploadQueryParameters.MediaType, uploadQueryParameters.Timeout);
+                    totalsize += binaryChunk.Length;
+                    var appendParameters = new ChunkUploadAppendParameters(
+                        binaryChunk, 
+                        "media", // Must be media, if using the real media type as content id, Twitter does not accept when invoking .Finalize().
+                        uploadQueryParameters.Timeout);
+
+                    appendParameters.CustomRequestParameters = uploadQueryParameters.AppendCustomRequestParameters;
 
                     if (!uploader.Append(appendParameters))
                     {
                         return null;
                     }
                 }
+
+                var isTrue = totalsize == binary.Length;
 
                 return uploader.Complete();
             }

@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Tweetinvi.Core.Parameters.QueryParameters;
+using Tweetinvi.Core.Parameters;
 
 namespace Tweetinvi.Core.Web
 {
@@ -12,6 +9,8 @@ namespace Tweetinvi.Core.Web
         string MediaType { get; }
         TimeSpan? Timeout { get; }
         int? SegmentIndex { get; set; }
+        long? MediaId { get; set; }
+        ICustomRequestParameters CustomRequestParameters { get; set; }
     }
 
     public class ChunkUploadAppendParameters : IChunkUploadAppendParameters
@@ -27,5 +26,7 @@ namespace Tweetinvi.Core.Web
         public string MediaType { get; private set; }
         public TimeSpan? Timeout { get; private set; }
         public int? SegmentIndex { get; set; }
+        public long? MediaId { get; set; }
+        public ICustomRequestParameters CustomRequestParameters { get; set; }
     }
 }

@@ -326,6 +326,11 @@ namespace Tweetinvi.Core.Extensions
         /// </summary>
         public static string AddParameterToQuery(this string query, string parameterName, string parameterValue)
         {
+            if (parameterValue == null)
+            {
+                return query;
+            }
+
             if (query.Contains("?") && query[query.Length - 1] != '?' && query[query.Length - 1] != '&')
             {
                 query += "&";

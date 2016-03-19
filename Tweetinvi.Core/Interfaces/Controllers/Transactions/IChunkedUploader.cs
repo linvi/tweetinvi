@@ -15,5 +15,6 @@ namespace Tweetinvi.Core.Interfaces.Controllers.Transactions
         bool Append(byte[] binary, string mediaType, TimeSpan? timeout = null, int ? segmentIndex = null);
         bool Append(IChunkUploadAppendParameters parameters);
         IMedia Complete();
+        bool Init(IChunkUploadInitParameters initParameters);
     }
 }
