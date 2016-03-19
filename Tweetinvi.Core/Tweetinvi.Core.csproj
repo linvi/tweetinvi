@@ -92,7 +92,7 @@
     <Compile Include="Extensions\ExceptionUtils.cs" />
     <Compile Include="Extensions\IEnumerableExtension.cs" />
     <Compile Include="Extensions\LanguageExtension.cs" />
-    <Compile Include="Extensions\UploadQueryParametersExtensions.cs" />
+    <Compile Include="Extensions\MultipartHttpRequestParametersExtensions.cs" />
     <Compile Include="Extensions\StringExtension.cs" />
     <Compile Include="Extensions\StringFormater.cs" />
     <Compile Include="Extensions\TweetSearchFiltersExtension.cs" />
@@ -225,6 +225,7 @@
     <Compile Include="Parameters\Models\UserIdentifier.cs" />
     <Compile Include="Parameters\PublishTweetOptionalParameters.cs" />
     <Compile Include="Parameters\PublishTweetParameters.cs" />
+    <Compile Include="Parameters\QueryParameters\UploadQueryParameters.cs" />
     <Compile Include="Parameters\RetweetsOfMeTimelineParameter.cs" />
     <Compile Include="Parameters\TimelineRequestParameters.cs" />
     <Compile Include="Parameters\TweetSearchParameters.cs" />
@@ -306,9 +307,11 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TweetinviCoreModule.cs" />
     <Compile Include="TweetinviSettingsAccessor.cs" />
+    <Compile Include="Web\ChunkUploadAppendParameters.cs" />
+    <Compile Include="Web\HttpRequestParameters.cs" />
     <Compile Include="Web\ITwitterClientHandler.cs" />
     <Compile Include="Web\IWebProxyFactory.cs" />
-    <Compile Include="Web\UploadQueryParameters.cs" />
+    <Compile Include="Web\MultipartHttpRequestParameters.cs" />
     <Compile Include="Wrappers\IJConvertWrapper.cs" />
     <Compile Include="Wrappers\IJObjectStaticWrapper.cs" />
     <Compile Include="Wrappers\IParameterOverrideWrapper.cs" />

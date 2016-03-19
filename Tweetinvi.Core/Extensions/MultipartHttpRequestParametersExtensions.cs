@@ -3,11 +3,11 @@ using Tweetinvi.Core.Web;
 
 namespace Tweetinvi.Core.Extensions
 {
-    public static class UploadQueryParametersExtensions
+    public static class MultipartHttpRequestParametersExtensions
     {
-        public static IUploadQueryParameters CloneForSingleBinary(this IUploadQueryParameters parameters, byte[] binary)
+        public static IMultipartHttpRequestParameters CloneForSingleBinary(this IMultipartHttpRequestParameters parameters, byte[] binary)
         {
-            return new UploadQueryParameters
+            return new MultipartHttpRequestParameters
             {
                 Query = parameters.Query,
                 Binaries = new List<byte[]> { binary },

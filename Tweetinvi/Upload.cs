@@ -4,7 +4,7 @@ using System.Linq;
 using Tweetinvi.Controllers.Upload;
 using Tweetinvi.Core.Interfaces.Controllers.Transactions;
 using Tweetinvi.Core.Interfaces.DTO;
-using Tweetinvi.Core.Web;
+using Tweetinvi.Core.Parameters.QueryParameters;
 
 namespace Tweetinvi
 {

@@ -43,17 +43,17 @@ namespace Tweetinvi.Core.Interfaces.Credentials
         /// <summary>
         /// Starts a multipart HttpWebRequest required by Twitter to upload binaries
         /// </summary>
-        string ExecuteMultipartQuery(IUploadQueryParameters parameters);
+        string ExecuteMultipartQuery(IMultipartHttpRequestParameters parameters);
 
         /// <summary>
         /// Starts a multipart HttpWebRequest required by Twitter to upload binaries
         /// </summary>
-        T ExecuteMultipartQuery<T>(IUploadQueryParameters parameters, JsonConverter[] converters = null) where T : class;
+        T ExecuteMultipartQuery<T>(IMultipartHttpRequestParameters parameters, JsonConverter[] converters = null) where T : class;
 
         /// <summary>
         /// Starts a multipart HttpWebRequest required by Twitter to upload binaries
         /// </summary>
-        bool TryExecuteMultipartQuery(IUploadQueryParameters parameters);
+        bool TryExecuteMultipartQuery(IMultipartHttpRequestParameters parameters);
 
         // Cursor Query
         IEnumerable<string> ExecuteJsonCursorGETQuery<T>(

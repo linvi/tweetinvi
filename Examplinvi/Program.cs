@@ -1496,9 +1496,9 @@ namespace Examplinvi
 
             if (uploader.Init(mediaType, binary.Length))
             {
-                if (uploader.Append(first))
+                if (uploader.Append(first, "media"))
                 {
-                    if (uploader.Append(second))
+                    if (uploader.Append(second, "media"))
                     {
                         return uploader.Complete();
                     }
@@ -1619,12 +1619,14 @@ namespace Examplinvi
                 return;
             }
 
-            TweetinviConfig.CURRENT_PROXY_URL = "http://228.23.13.21:4287";
+            TweetinviConfig.CurrentThreadSettings.ProxyURL = "http://228.23.13.21:4287";
 
             // Configure a proxy with Proxy with username and password
-            TweetinviConfig.CURRENT_PROXY_URL = "http://user:pass@228.23.13.21:4287";
+            TweetinviConfig.CurrentThreadSettings.ProxyURL = "http://user:pass@228.23.13.21:4287";
 
-            TweetinviConfig.CURRENT_WEB_REQUEST_TIMEOUT = 5000;
+            TweetinviConfig.CurrentThreadSettings.WebRequestTimeout = 5000;
+
+            TweetinviConfig.CurrentThreadSettings.UploadTimeout = 90000;
         }
 
         public static void GlobalEvents()

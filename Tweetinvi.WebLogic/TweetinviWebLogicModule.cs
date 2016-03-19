@@ -2,6 +2,7 @@
 using Tweetinvi.Core.Helpers;
 using Tweetinvi.Core.Injectinvi;
 using Tweetinvi.Core.Interfaces.WebLogic;
+using Tweetinvi.Core.Parameters.QueryParameters;
 using Tweetinvi.Core.Web;
 
 namespace Tweetinvi.WebLogic

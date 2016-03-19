@@ -58,7 +58,7 @@ namespace Testinvi.SetupHelpers
             T result) where T : class
         {
             fakeTwitterAccessor
-                .CallsTo(x => x.ExecuteMultipartQuery<T>(A<IUploadQueryParameters>.That.Matches(y => y.Query == query), null))
+                .CallsTo(x => x.ExecuteMultipartQuery<T>(A<IMultipartHttpRequestParameters>.That.Matches(y => y.Query == query), null))
                 .Returns(result);
         }
 

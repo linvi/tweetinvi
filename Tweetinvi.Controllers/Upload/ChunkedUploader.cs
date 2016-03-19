@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using Newtonsoft.Json;
-using Tweetinvi.Controllers.Properties;
-using Tweetinvi.Core.Extensions;
 using Tweetinvi.Core.Interfaces.Controllers.Transactions;
 using Tweetinvi.Core.Interfaces.Credentials;
 using Tweetinvi.Core.Interfaces.DTO;
@@ -56,31 +53,36 @@ namespace Tweetinvi.Controllers.Upload
             return initModel != null;
         }
 
-        public bool Append(byte[] binary, int? segmentIndex = null)
+        public bool Append(byte[] binary, string mediaType, TimeSpan? timeout = null, int? segmentIndex = null)
+        {
+            var parameters = new ChunkUploadAppendParameters(binary, mediaType, timeout);
+            parameters.SegmentIndex = segmentIndex;
+            return Append(parameters);
+        }
+
+        public bool Append(IChunkUploadAppendParameters parameters)
         {
             if (MediaId == null)
             {
                 throw new InvalidOperationException("You cannot append content to a non initialized chunked upload. You need to invoke the initialize method OR set the MediaId property of an existing ChunkedUpload.");
             }
 
-            if (segmentIndex == null)
-            {
-                segmentIndex = NextSegmentIndex;
-            }
+            var segmentIndex = parameters.SegmentIndex ?? NextSegmentIndex;
+            var appendQuery = _uploadQueryGenerator.GetChunkedUploadAppendQuery(MediaId.Value, segmentIndex);
 
-            var appendQuery = _uploadQueryGenerator.GetChunkedUploadAppendQuery(MediaId.Value, segmentIndex.Value);
-
-            var parameters = new UploadQueryParameters()
+            var multiPartRequestParameters = new MultipartHttpRequestParameters
             {
                 Query = appendQuery,
-                Binaries = new List<byte[]> { binary }
+                Binaries = new List<byte[]> { parameters.Binary },
+                Timeout = parameters.Timeout,
+                ContentId = parameters.MediaType
             };
 
-            var success = _twitterAccessor.TryExecuteMultipartQuery(parameters);
+            var success = _twitterAccessor.TryExecuteMultipartQuery(multiPartRequestParameters);
 
             if (success)
             {
-                UploadedSegments.Add(segmentIndex.Value, binary);
+                UploadedSegments.Add(segmentIndex, parameters.Binary);
                 ++NextSegmentIndex;
             }
 

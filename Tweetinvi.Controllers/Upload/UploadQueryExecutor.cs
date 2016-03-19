@@ -8,6 +8,7 @@ using Tweetinvi.Core.Injectinvi;
 using Tweetinvi.Core.Interfaces.Controllers.Transactions;
 using Tweetinvi.Core.Interfaces.Credentials;
 using Tweetinvi.Core.Interfaces.DTO;
+using Tweetinvi.Core.Parameters.QueryParameters;
 using Tweetinvi.Core.Web;
 
 namespace Tweetinvi.Controllers.Upload
@@ -114,19 +115,24 @@ namespace Tweetinvi.Controllers.Upload
 
             foreach (var mediaToPublish in mediasToPublish)
             {
-                var parameters = new UploadQueryParameters()
-                {
-                    Query = Resources.Upload_URL,
-                    Binaries = new List<byte[]> { mediaToPublish.Data }
-                };
-
                 if (mediaToPublish.Data.Length < TweetinviConsts.UPLOAD_MAX_CHUNK_SIZE)
                 {
-                    mediaToPublish.UploadedMediaInfo = _twitterAccessor.ExecuteMultipartQuery<IUploadedMediaInfo>(parameters);
+                    var multipartHttpRequestParameters = new MultipartHttpRequestParameters
+                    {
+                        Query = Resources.Upload_URL,
+                        Binaries = new List<byte[]> { mediaToPublish.Data }
+                    };
+
+                    mediaToPublish.UploadedMediaInfo = _twitterAccessor.ExecuteMultipartQuery<IUploadedMediaInfo>(multipartHttpRequestParameters);
                 }
                 else
                 {
-                    var media = ChunkUploadBinary(parameters);
+                    var uploadQueryParameters = new UploadQueryParameters
+                    {
+                        Binaries = new List<byte[]> {mediaToPublish.Data}
+                    };
+
+                    var media = ChunkUploadBinary(uploadQueryParameters);
                     mediaToPublish.UploadedMediaInfo = media.UploadedMediaInfo;
                 }
             }
@@ -137,7 +143,7 @@ namespace Tweetinvi.Controllers.Upload
             var parameters = new UploadQueryParameters()
             {
                 Binaries = new List<byte[]> { binary },
-                ContentId = mediaType,
+                MediaType = mediaType,
             };
 
             return ChunkUploadBinary(parameters);
@@ -153,13 +159,15 @@ namespace Tweetinvi.Controllers.Upload
             var binary = uploadQueryParameters.Binaries[0];
             var uploader = CreateChunkedUploader();
 
-            if (uploader.Init(uploadQueryParameters.ContentId, binary.Length))
+            if (uploader.Init(uploadQueryParameters.MediaType, binary.Length))
             {
                 var binaryChunks = GetBinaryChunks(binary, uploadQueryParameters.MaxChunkSize);
 
                 foreach (var binaryChunk in binaryChunks)
                 {
-                    if (!uploader.Append(binaryChunk))
+                    var appendParameters = new ChunkUploadAppendParameters(binaryChunk, uploadQueryParameters.MediaType, uploadQueryParameters.Timeout);
+
+                    if (!uploader.Append(appendParameters))
                     {
                         return null;
                     }

@@ -224,19 +224,19 @@ namespace Tweetinvi.Credentials
         }
 
         // Multipart Query
-        public T ExecuteMultipartQuery<T>(IUploadQueryParameters parameters, JsonConverter[] converters = null) where T : class
+        public T ExecuteMultipartQuery<T>(IMultipartHttpRequestParameters parameters, JsonConverter[] converters = null) where T : class
         {
             string jsonResponse = ExecuteMultipartQuery(parameters);
             return _jsonObjectConverter.DeserializeObject<T>(jsonResponse, converters);
         }
 
-        public bool TryExecuteMultipartQuery(IUploadQueryParameters parameters)
+        public bool TryExecuteMultipartQuery(IMultipartHttpRequestParameters parameters)
         {
             string unused;
             return TryExecuteMultipartQuery(parameters, out unused);
         }
 
-        public string ExecuteMultipartQuery(IUploadQueryParameters parameters)
+        public string ExecuteMultipartQuery(IMultipartHttpRequestParameters parameters)
         {
             string result;
             TryExecuteMultipartQuery(parameters, out result);
@@ -387,7 +387,7 @@ namespace Tweetinvi.Credentials
             }
         }
 
-        private bool TryExecuteMultipartQuery(IUploadQueryParameters parameters, out string result)
+        private bool TryExecuteMultipartQuery(IMultipartHttpRequestParameters parameters, out string result)
         {
             if (parameters.Query == null)
             {

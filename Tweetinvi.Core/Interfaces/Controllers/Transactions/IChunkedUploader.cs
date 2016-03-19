@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Tweetinvi.Core.Interfaces.DTO;
+using Tweetinvi.Core.Web;
 
 namespace Tweetinvi.Core.Interfaces.Controllers.Transactions
 {
@@ -10,7 +12,8 @@ namespace Tweetinvi.Core.Interfaces.Controllers.Transactions
         Dictionary<long, byte[]> UploadedSegments { get; }
 
         bool Init(string mediaType, int totalBinaryLength);
-        bool Append(byte[] binary, int? segmentIndex = null);
+        bool Append(byte[] binary, string mediaType, TimeSpan? timeout = null, int ? segmentIndex = null);
+        bool Append(IChunkUploadAppendParameters parameters);
         IMedia Complete();
     }
 }

@@ -47,6 +47,7 @@ namespace Tweetinvi.Core
         {
             var threadSettings = TweetinviCoreModule.TweetinviContainer.Resolve<ITweetinviSettings>();
             threadSettings.WebRequestTimeout = 10000;
+            threadSettings.UploadTimeout = 60000;
 
             CurrentThreadSettings = threadSettings;
         }
