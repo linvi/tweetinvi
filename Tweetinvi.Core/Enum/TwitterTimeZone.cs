@@ -476,8 +476,8 @@ namespace Tweetinvi.Core.Enum.Internal.Generators
             {
                 var initialDescription = timeZoneInfos.Groups["description"].Value;
                 var description = initialDescription.Replace(" ", "_");
-                description.Replace("'", "_");
-                description.Replace("-", "_");
+                description = description.Replace("'", "_");
+                description = description.Replace("-", "_");
                 description = description.Replace("Is.", "Island");
 
                 var tzinfo = timeZoneInfos.Groups["tzinfo"].Value;
@@ -485,7 +485,7 @@ namespace Tweetinvi.Core.Enum.Internal.Generators
                 var flags = string.Format("[TwitterTimeZone(\"{0}\", \"{1}\")]\r\n", tzinfo, initialDescription);
                 var name = string.Format("{0},\r\n", description);
 
-                Debug.WriteLine(string.Format("{0}{1}", flags, name));
+                Debug.WriteLine("{0}{1}", flags, name);
             }
         }
     }

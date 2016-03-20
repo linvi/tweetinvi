@@ -17,16 +17,12 @@ namespace Tweetinvi.Core.Exceptions
             }
             catch (AggregateException aex)
             {
-                if (aex.InnerExceptions.Count == 1)
+                if (aex.InnerException != null && aex.InnerExceptions.Count == 1)
                 {
                     var expectedExceptionType = aex.InnerExceptions[0];
                     throw expectedExceptionType;
                 }
 
-                throw;
-            }
-            catch (Exception)
-            {
                 throw;
             }
         }

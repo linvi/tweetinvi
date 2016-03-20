@@ -110,8 +110,13 @@ namespace Tweetinvi.Controllers.Messages
                 return null;
             }
 
-            string identifierParameter = _userQueryParameterGenerator.GenerateIdOrScreenNameParameter(recipient);
-            return GetPublishMessageFormattedQuery(messageText, identifierParameter);
+            var identifierParameter = _userQueryParameterGenerator.GenerateIdOrScreenNameParameter(recipient);
+
+            var query = GetPublishMessageFormattedQuery(messageText, identifierParameter);
+
+            query += _queryParameterGenerator.GenerateAdditionalRequestParameters(parameters.FormattedCustomQueryParameters);
+
+            return query;
         }
 
         private string GetPublishMessageFormattedQuery(string message, string userIdentifier)
