@@ -12,7 +12,7 @@ namespace Tweetinvi.Logic.Helpers
                 return string.Empty;
             }
 
-            return Uri.EscapeUriString(source);
+            return Uri.EscapeDataString(source);
         }
 
         public string TwitterDecode(string source)

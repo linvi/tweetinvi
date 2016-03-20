@@ -1,5 +1,5 @@
 Param(
-	$v = '0.9.11.0',			 # Version number
+	$v = '0.9.11.2',			 # Version number
 	$m = 'Release',              # Visual Studio Build Mode
 	[Switch]$dnr,				 # Do Not Rebuild 
 	[Switch]$h,					 # Help
