@@ -32,12 +32,23 @@ namespace Examplinvi
     {
         static void Main()
         {
-            Auth.SetUserCredentials("CONSUMER_KEY", "CONSUMER_SECRET", "ACCESS_TOKEN", "ACCESS_TOKEN_SECRET");
+            Auth.SetUserCredentials("jjMV4k3n9EswD9hlhRZqQCZrl", "N4gpJ4HDA2Gtl3WotRP97f2I6ZiKJd4Djl6V9bDJHFmhJs6YB0", "1693649419-BlEivyWIiOVrb22JjdzRipXWp4ltVdo4VLye1VW", "CcPCLv4CgNXEOfLVGhRxzVkIgLqG4WDplMFcUABmFor0E");
 
             TweetinviEvents.QueryBeforeExecute += (sender, args) =>
             {
                 Console.WriteLine(args.QueryURL);
             };
+
+            var fs = Stream.CreateFilteredStream();
+
+            fs.AddTrack("apple");
+
+            fs.MatchingTweetReceived += (sender, args) =>
+            {
+                Console.WriteLine("tweet");
+            };
+
+            fs.StartStreamMatchingAllConditions();
 
             var authenticatedUser = User.GetAuthenticatedUser();
 
