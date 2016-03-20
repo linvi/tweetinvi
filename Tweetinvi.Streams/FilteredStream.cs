@@ -200,7 +200,7 @@ namespace Tweetinvi.Streams
                 MatchOn.HasFlag(MatchOn.URLEntities))
             {
                 var expandedURLs = tweet.Entities.Urls.Select(x => x.ExpandedURL);
-                expandedURLs.Union(tweet.Entities.Medias.Select(x => x.ExpandedURL));
+                expandedURLs = expandedURLs.Union(tweet.Entities.Medias.Select(x => x.ExpandedURL));
 
                 expandedURLs.ForEach(x =>
                 {
@@ -217,7 +217,7 @@ namespace Tweetinvi.Streams
                 });
 
                 var displayedURLs = tweet.Entities.Urls.Select(x => x.DisplayedURL);
-                displayedURLs.Union(tweet.Entities.Medias.Select(x => x.DisplayURL));
+                displayedURLs = displayedURLs.Union(tweet.Entities.Medias.Select(x => x.DisplayURL));
 
                 displayedURLs.ForEach(x =>
                 {
