@@ -54,12 +54,12 @@ namespace Tweetinvi.Core.Interfaces
         /// <summary>
         /// List of Messages received
         /// </summary>
-        IEnumerable<IMessage> LatestDirectMessagesReceived { get; }
+        IEnumerable<IMessage> LatestDirectMessagesReceived { get; set; }
 
         /// <summary>
         /// List of messages sent
         /// </summary>
-        IEnumerable<IMessage> LatestDirectMessagesSent { get; }
+        IEnumerable<IMessage> LatestDirectMessagesSent { get; set; }
 
         /// <summary>
         /// Get the list of direct messages received by the user.
