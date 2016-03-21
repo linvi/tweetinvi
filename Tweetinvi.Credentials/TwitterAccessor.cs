@@ -112,20 +112,8 @@ namespace Tweetinvi.Credentials
         {
             if (paths != null && paths.Length > 0)
             {
-                JToken token;
-                if (!jObject.TryGetValue(paths[0], out token))
-                {
-                    return null;
-                }
-
-                for (int i = 1; i < paths.Length; ++i)
-                {
-                    if (!jObject.TryGetValue(paths[i], out token))
-                    {
-                        return null;
-                    }
-                }
-
+                var path = string.Join(".", paths);
+                var token = jObject.SelectToken(path);
                 return _jObjectStaticWrapper.ToObject<T>(token);
             }
 

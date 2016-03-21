@@ -194,6 +194,7 @@
     <Compile Include="Interfaces\Streaminvi\MatchOn.cs" />
     <Compile Include="Parameters\Enum\TweetSearchFilters.cs" />
     <Compile Include="Parameters\Enum\TweetSearchType.cs" />
+    <Compile Include="Parameters\GeoSearchParameters.cs" />
     <Compile Include="Parameters\GetAuthenticatedUserParameters.cs" />
     <Compile Include="Parameters\GetUserFavoritesParameters.cs" />
     <Compile Include="Parameters\IGetUserFavoritesParameters.cs" />

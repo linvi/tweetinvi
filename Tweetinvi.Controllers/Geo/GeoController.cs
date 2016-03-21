@@ -1,5 +1,7 @@
-﻿using Tweetinvi.Core.Interfaces.Controllers;
+﻿using System.Collections.Generic;
+using Tweetinvi.Core.Interfaces.Controllers;
 using Tweetinvi.Core.Interfaces.Models;
+using Tweetinvi.Core.Parameters;
 
 namespace Tweetinvi.Controllers.Geo
 {
@@ -15,6 +17,11 @@ namespace Tweetinvi.Controllers.Geo
         public IPlace GetPlaceFromId(string placeId)
         {
             return _geoQueryExecutor.GetPlaceFromId(placeId);
+        }
+
+        public IEnumerable<IPlace> SearchGeo(IGeoSearchParameters parameters)
+        {
+            return _geoQueryExecutor.SearchGeo(parameters);
         }
     }
 }

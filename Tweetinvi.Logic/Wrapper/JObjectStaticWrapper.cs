@@ -36,8 +36,13 @@ namespace Tweetinvi.Logic.Wrapper
             return jObject.ToObject<T>(_serializer);
         }
 
-        public T ToObject<T>(JToken jToken)
+        public T ToObject<T>(JToken jToken) where T : class 
         {
+            if (jToken == null)
+            {
+                return null;
+            }
+
             return jToken.ToObject<T>(_serializer);
         }
 

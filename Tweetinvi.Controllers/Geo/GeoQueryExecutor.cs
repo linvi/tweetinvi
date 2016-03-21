@@ -1,11 +1,14 @@
-﻿using Tweetinvi.Core.Interfaces.Credentials;
+﻿using System.Collections.Generic;
+using Tweetinvi.Core.Interfaces.Credentials;
 using Tweetinvi.Core.Interfaces.Models;
+using Tweetinvi.Core.Parameters;
 
 namespace Tweetinvi.Controllers.Geo
 {
     public interface IGeoQueryExecutor
     {
         IPlace GetPlaceFromId(string placeId);
+        IEnumerable<IPlace> SearchGeo(IGeoSearchParameters parameters);
     }
 
     public class GeoQueryExecutor : IGeoQueryExecutor
@@ -25,6 +28,12 @@ namespace Tweetinvi.Controllers.Geo
         {
             string query = _geoQueryGenerator.GetPlaceFromIdQuery(placeId);
             return _twitterAccessor.ExecuteGETQuery<IPlace>(query);
+        }
+
+        public IEnumerable<IPlace> SearchGeo(IGeoSearchParameters parameters)
+        {
+            var query = _geoQueryGenerator.GetSearchGeoQuery(parameters);
+            return _twitterAccessor.ExecuteGETQueryWithPath<IEnumerable<IPlace>>(query, "result", "places");
         }
     }
 }

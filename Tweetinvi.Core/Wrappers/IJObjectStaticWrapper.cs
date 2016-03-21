@@ -6,7 +6,7 @@ namespace Tweetinvi.Core.Wrappers
     {
         JObject GetJobjectFromJson(string json);
         T ToObject<T>(JObject jObject);
-        T ToObject<T>(JToken jToken);
+        T ToObject<T>(JToken jToken) where T : class;
         string GetNodeRootName(JToken jToken);
     }
 }

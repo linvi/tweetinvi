@@ -279,6 +279,28 @@ namespace Tweetinvi.Core.Extensions
             queryBuilder.Append(string.Format("{0}={1}", parameterName, parameterValue.ToLowerInvariant()));
         }
 
+        public static void AddFormattedParameterToQuery(this StringBuilder queryBuilder, string parameter)
+        {
+            if (string.IsNullOrEmpty(parameter))
+            {
+                return;
+            }
+
+            var query = queryBuilder.ToString();
+
+            if (query.Contains("?") && query[query.Length - 1] != '?' && query[query.Length - 1] != '&')
+            {
+                queryBuilder.Append("&");
+            }
+
+            if (!query.Contains("?"))
+            {
+                queryBuilder.Append("?");
+            }
+
+            queryBuilder.Append(parameter);
+        }
+
         /// <summary>
         /// IMPORTANT! Add the parameters as LOWERED
         /// </summary>
