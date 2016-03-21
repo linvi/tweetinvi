@@ -25,6 +25,15 @@ namespace Tweetinvi.Core.Events
             }
         }
 
+        public static void Raise<T>(this object o, object sender, EventHandler<T> handler, T arg)
+            where T : EventArgs
+        {
+            if (handler != null)
+            {
+                handler(sender, arg);
+            }
+        }
+
         public static void Raise<T>(this object o, EventHandler<GenericEventArgs<T>> handler, T arg)
         {
             if (handler != null)

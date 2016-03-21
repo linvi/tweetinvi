@@ -1645,6 +1645,11 @@ namespace Examplinvi
             {
                 Console.WriteLine("The query {0} has just been executed.", args.TwitterQuery);
             };
+
+            TweetinviEvents.CurrentThreadEvents.QueryBeforeExecute += (sender, args) =>
+            {
+                Console.WriteLine("The query {0} is about to be executed in the main Thread.", args.TwitterQuery);
+            };
         }
 
         #endregion

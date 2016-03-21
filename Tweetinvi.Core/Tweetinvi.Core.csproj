@@ -77,6 +77,7 @@
     <Compile Include="Events\EventArguments\WarningMessageEventArgs.cs" />
     <Compile Include="Events\EventHelpers.cs" />
     <Compile Include="Events\EventArguments\QueryAwaitingEventArgs.cs" />
+    <Compile Include="Events\TweetinviThreadEvents.cs" />
     <Compile Include="Events\WeakDelegate.cs" />
     <Compile Include="Events\WeakEvent.cs" />
     <Compile Include="Exceptions\AggregateExceptionHandler.cs" />
