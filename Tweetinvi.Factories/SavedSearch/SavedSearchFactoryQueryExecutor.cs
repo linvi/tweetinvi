@@ -26,16 +26,16 @@ namespace Tweetinvi.Factories.SavedSearch
         {
             if (searchQuery.Length > 100)
             {
-                throw new System.ArgumentException("Query parameters for saved search should be 100 characters or less.");
+                throw new System.ArgumentException("Saved search query should be bigger than 100 characters.");
             }
 
-            string query = _savedSearchQueryGenerator.GetCreateSavedSearchQuery(searchQuery);
+            var query = _savedSearchQueryGenerator.GetCreateSavedSearchQuery(searchQuery);
             return _twitterAccessor.ExecutePOSTQuery<ISavedSearch>(query);
         }
 
         public ISavedSearch GetSavedSearch(long searchId)
         {
-            string query = _savedSearchQueryGenerator.GetSavedSearchQuery(searchId);
+            var query = _savedSearchQueryGenerator.GetSavedSearchQuery(searchId);
             return _twitterAccessor.ExecuteGETQuery<ISavedSearch>(query);
         }
     }
