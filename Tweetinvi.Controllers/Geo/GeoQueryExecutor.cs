@@ -9,6 +9,7 @@ namespace Tweetinvi.Controllers.Geo
     {
         IPlace GetPlaceFromId(string placeId);
         IEnumerable<IPlace> SearchGeo(IGeoSearchParameters parameters);
+        IEnumerable<IPlace> SearchGeoReverse(IGeoSearchReverseParameters parameters);
     }
 
     public class GeoQueryExecutor : IGeoQueryExecutor
@@ -33,6 +34,12 @@ namespace Tweetinvi.Controllers.Geo
         public IEnumerable<IPlace> SearchGeo(IGeoSearchParameters parameters)
         {
             var query = _geoQueryGenerator.GetSearchGeoQuery(parameters);
+            return _twitterAccessor.ExecuteGETQueryWithPath<IEnumerable<IPlace>>(query, "result", "places");
+        }
+
+        public IEnumerable<IPlace> SearchGeoReverse(IGeoSearchReverseParameters parameters)
+        {
+            var query = _geoQueryGenerator.GetSearchGeoReverseQuery(parameters);
             return _twitterAccessor.ExecuteGETQueryWithPath<IEnumerable<IPlace>>(query, "result", "places");
         }
     }

@@ -3,7 +3,6 @@ using System.Globalization;
 using System.Text;
 using Tweetinvi.Controllers.Properties;
 using Tweetinvi.Core.Extensions;
-using Tweetinvi.Core.Interfaces.DTO.QueryDTO;
 using Tweetinvi.Core.Interfaces.Models;
 using Tweetinvi.Core.Parameters;
 
@@ -15,6 +14,7 @@ namespace Tweetinvi.Controllers.Geo
         string GeneratePlaceIdParameter(string placeId);
         string GenerateGeoParameter(ICoordinates coordinates);
         string GetSearchGeoQuery(IGeoSearchParameters parameters);
+        string GetSearchGeoReverseQuery(IGeoSearchReverseParameters parameters);
     }
 
     public class GeoQueryGenerator : IGeoQueryGenerator
@@ -59,8 +59,8 @@ namespace Tweetinvi.Controllers.Geo
 
             if (parameters.Coordinates != null)
             {
-                query.AddParameterToQuery("latitude", parameters.Coordinates.Latitude);
-                query.AddParameterToQuery("longitude", parameters.Coordinates.Longitude);
+                query.AddParameterToQuery("lat", parameters.Coordinates.Latitude);
+                query.AddParameterToQuery("long", parameters.Coordinates.Longitude);
             }
 
             foreach (var attribute in parameters.Attributes)
@@ -76,6 +76,35 @@ namespace Tweetinvi.Controllers.Geo
             query.AddParameterToQuery("accuracy", parameters.Accuracy);
             query.AddParameterToQuery("max_results", parameters.MaximumNumberOfResults);
             query.AddParameterToQuery("contained_within", parameters.ContainedWithin);
+            query.AddParameterToQuery("callback", parameters.Callback);
+
+            query.AddFormattedParameterToQuery(parameters.FormattedCustomQueryParameters);
+
+            return query.ToString();
+        }
+
+        public string GetSearchGeoReverseQuery(IGeoSearchReverseParameters parameters)
+        {
+            if (parameters.Coordinates == null)
+            {
+                throw new ArgumentException("You must provide valid coordinates.");
+            }
+
+            var query = new StringBuilder(Resources.Geo_SearchGeoReverse);
+
+            if (parameters.Coordinates != null)
+            {
+                query.AddParameterToQuery("lat", parameters.Coordinates.Latitude);
+                query.AddParameterToQuery("long", parameters.Coordinates.Longitude);
+            }
+
+            if (parameters.Granularity != Granularity.Undefined)
+            {
+                query.AddParameterToQuery("granularity", parameters.Granularity.ToString().ToLowerInvariant());
+            }
+
+            query.AddParameterToQuery("accuracy", parameters.Accuracy);
+            query.AddParameterToQuery("max_results", parameters.MaximumNumberOfResults);
             query.AddParameterToQuery("callback", parameters.Callback);
 
             query.AddFormattedParameterToQuery(parameters.FormattedCustomQueryParameters);

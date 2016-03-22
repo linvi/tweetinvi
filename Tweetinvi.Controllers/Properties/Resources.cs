@@ -100,6 +100,11 @@ namespace Tweetinvi.Controllers.Properties
         public static string Geo_SearchGeo = "https://api.twitter.com/1.1/geo/search.json";
 
         /// <summary>
+        ///   Looks up a localized string similar to https://api.twitter.com/1.1/geo/reverse_geocode.json.
+        /// </summary>
+        public static string Geo_SearchGeoReverse = "https://api.twitter.com/1.1/geo/reverse_geocode.json";
+
+        /// <summary>
         ///   Looks up a localized string similar to place_id={0}.
         /// </summary>
         public static string Geo_PlaceIdParameter = "place_id={0}";

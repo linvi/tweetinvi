@@ -48,9 +48,20 @@ namespace Tweetinvi
             return GeoController.GetPlaceFromId(placeId);
         }
 
+        /// <summary>
+        /// Search for places that can be attached to a statuses/update. Given a latitude and a longitude pair, an IP address, or a name.
+        /// </summary>
         public static IEnumerable<IPlace> SearchGeo(IGeoSearchParameters parameters)
         {
             return GeoController.SearchGeo(parameters);
+        }
+
+        /// <summary>
+        /// Given a latitude and a longitude, searches for up to 20 places that can be used as a place_id when updating a status.
+        /// </summary>
+        public static IEnumerable<IPlace> SearchGeoReverse(IGeoSearchReverseParameters parameters)
+        {
+            return GeoController.SearchGeoReverse(parameters);
         }
     }
 }

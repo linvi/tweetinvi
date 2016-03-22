@@ -8,5 +8,6 @@ namespace Tweetinvi.Core.Interfaces.Controllers
     {
         IPlace GetPlaceFromId(string placeId);
         IEnumerable<IPlace> SearchGeo(IGeoSearchParameters parameters);
+        IEnumerable<IPlace> SearchGeoReverse(IGeoSearchReverseParameters parameters);
     }
 }
