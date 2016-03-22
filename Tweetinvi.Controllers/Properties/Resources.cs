@@ -505,9 +505,9 @@ namespace Tweetinvi.Controllers.Properties
         public static string User_GetFriends = "https://api.twitter.com/1.1/friends/ids.json?{0}&count={1}";
 
         /// <summary>
-        ///   Looks up a localized string similar to https://dev.twitter.com/rest/reference/post/users/report_spam?{0}.
+        ///   Looks up a localized string similar to https://api.twitter.com/1.1/users/report_spam.json?{0}.
         /// </summary>
-        public static string User_Report_Spam = "https://dev.twitter.com/rest/reference/post/users/report_spam?{0}";
+        public static string User_Report_Spam = "https://api.twitter.com/1.1/users/report_spam.json?{0}";
 
         public static string GetResourceByName(string resourceName)
         {
