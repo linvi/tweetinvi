@@ -5,5 +5,6 @@
         string GetCredentialsLimitsQuery();
         string GetTwitterPrivacyPolicyQuery();
         string GetTwitterConfigurationQuery();
+        string GetTermsOfServiceQuery();
     }
 }
