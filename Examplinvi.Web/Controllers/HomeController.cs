@@ -15,9 +15,9 @@ namespace Examplinvi.Web.Controllers
         {
             var appCreds = new ConsumerCredentials(MyCredentials.CONSUMER_KEY, MyCredentials.CONSUMER_SECRET);
             var redirectURL = "http://" + Request.Url.Authority + "/Home/ValidateTwitterAuth";
-            var url = CredentialsCreator.GetAuthorizationURL(appCreds, redirectURL);
+            var authenticationContext = CredentialsCreator.InitAuthentication(appCreds, redirectURL);
 
-            return new RedirectResult(url);
+            return new RedirectResult(authenticationContext.AuthorizationURL);
         }
 
         public ActionResult ValidateTwitterAuth()

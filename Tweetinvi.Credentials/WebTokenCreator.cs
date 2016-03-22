@@ -9,7 +9,6 @@ using Tweetinvi.Core.Interfaces.Exceptions;
 using Tweetinvi.Core.Interfaces.WebLogic;
 using Tweetinvi.Credentials.AuthHttpHandlers;
 using Tweetinvi.Credentials.Properties;
-using Tweetinvi.Logic.Exceptions;
 using Tweetinvi.WebLogic;
 
 namespace Tweetinvi.Credentials
@@ -34,10 +33,13 @@ namespace Tweetinvi.Credentials
         }
 
         // Step 1 - Generate Authorization URL
-        public string GetAuthorizationURL(IConsumerCredentials appCredentials, string callbackURL, bool updateQueryIsAuthorized)
+        public IAuthenticationContext InitAuthenticationProcess(IConsumerCredentials appCredentials, string callbackURL, bool updateQueryIsAuthorized)
         {
             try
             {
+                var authContext = new AuthenticationContext(appCredentials);
+                var token = authContext.Token;
+
                 if (string.IsNullOrEmpty(callbackURL))
                 {
                     callbackURL = Resources.OAuth_PINCode_CallbackURL;
@@ -45,14 +47,14 @@ namespace Tweetinvi.Credentials
                 else if (updateQueryIsAuthorized)
                 {
                     var credsIdentifier = Guid.NewGuid();
-                    _credentialsStore.CallbackCredentialsStore.Add(credsIdentifier, appCredentials);
+                    _credentialsStore.CallbackAuthenticationContextStore.Add(credsIdentifier, authContext);
 
                     callbackURL = callbackURL.AddParameterToQuery(Resources.RedirectRequest_CredsParamId, credsIdentifier.ToString());
                 }
 
                 var callbackParameter = _oAuthWebRequestGenerator.GenerateParameter("oauth_callback", callbackURL, true, true, false);
 
-                var authHandler = new AuthHttpHandler(callbackParameter);
+                var authHandler = new AuthHttpHandler(callbackParameter, authContext.Token);
                 var requestTokenResponse = _twitterRequestHandler.ExecuteQuery(Resources.OAuthRequestToken, HttpMethod.POST, authHandler,
                     new TwitterCredentials(appCredentials));
 
@@ -66,10 +68,12 @@ namespace Tweetinvi.Credentials
                         return null;
                     }
 
-                    appCredentials.AuthorizationKey = tokenInformation.Groups["oauth_token"].Value;
-                    appCredentials.AuthorizationSecret = tokenInformation.Groups["oauth_token_secret"].Value;
+                    token.AuthorizationKey = tokenInformation.Groups["oauth_token"].Value;
+                    token.AuthorizationSecret = tokenInformation.Groups["oauth_token_secret"].Value;
 
-                    return string.Format("{0}?oauth_token={1}", Resources.OAuthRequestAuthorize, appCredentials.AuthorizationKey);
+                    authContext.AuthorizationURL = string.Format("{0}?oauth_token={1}", Resources.OAuthRequestAuthorize, token.AuthorizationKey);
+
+                    return authContext;
                 }
             }
             catch (TwitterException ex)
@@ -92,37 +96,37 @@ namespace Tweetinvi.Credentials
             return urlInformation.Groups["oauth_verifier"].Value;
         }
 
-        public ITwitterCredentials GetCredentialsFromCallbackURL(string callbackURL, IConsumerCredentials appCredentials)
+        public ITwitterCredentials GetCredentialsFromCallbackURL(string callbackURL, IAuthenticationToken authToken)
         {
             Match urlInformation = Regex.Match(callbackURL, Resources.OAuthToken_GetVerifierCode_Regex);
 
-            String responseOAuthToken = urlInformation.Groups["oauth_token"].Value;
-            String verifierCode = urlInformation.Groups["oauth_verifier"].Value;
+            var responseOAuthToken = urlInformation.Groups["oauth_token"].Value;
+            var verifierCode = urlInformation.Groups["oauth_verifier"].Value;
 
             // Check that the callback URL response passed in is for our current credentials....
-            if (String.Equals(responseOAuthToken, appCredentials.AuthorizationKey))
+            if (string.Equals(responseOAuthToken, authToken.AuthorizationKey))
             {
-                GetCredentialsFromVerifierCode(verifierCode, appCredentials);
+                GetCredentialsFromVerifierCode(verifierCode, authToken);
             }
 
             return null;
         }
 
-        public ITwitterCredentials GetCredentialsFromVerifierCode(string verifierCode, IConsumerCredentials appCredentials)
+        public ITwitterCredentials GetCredentialsFromVerifierCode(string verifierCode, IAuthenticationToken authToken)
         {
-            appCredentials.VerifierCode = verifierCode;
-            return GenerateToken(appCredentials);
+            authToken.VerifierCode = verifierCode;
+            return GenerateToken(authToken);
         }
 
-        public ITwitterCredentials GenerateToken(IConsumerCredentials appCredentials)
+        public ITwitterCredentials GenerateToken(IAuthenticationToken authToken)
         {
-            var callbackParameter = _oAuthWebRequestGenerator.GenerateParameter("oauth_verifier", appCredentials.VerifierCode, true, true, false);
+            var callbackParameter = _oAuthWebRequestGenerator.GenerateParameter("oauth_verifier", authToken.VerifierCode, true, true, false);
 
             try
             {
-                var authHandler = new AuthHttpHandler(callbackParameter);
+                var authHandler = new AuthHttpHandler(callbackParameter, authToken);
                 var response = _twitterRequestHandler.ExecuteQuery(Resources.OAuthRequestAccessToken, HttpMethod.POST, authHandler, 
-                    new TwitterCredentials(appCredentials));
+                    new TwitterCredentials(authToken.ConsumerCredentials));
 
                 if (response == null)
                 {
@@ -134,8 +138,8 @@ namespace Tweetinvi.Credentials
                 var credentials = new TwitterCredentials();
                 credentials.AccessToken = responseInformation.Groups["oauth_token"].Value;
                 credentials.AccessTokenSecret = responseInformation.Groups["oauth_token_secret"].Value;
-                credentials.ConsumerKey = appCredentials.ConsumerKey;
-                credentials.ConsumerSecret = appCredentials.ConsumerSecret;
+                credentials.ConsumerKey = authToken.ConsumerKey;
+                credentials.ConsumerSecret = authToken.ConsumerSecret;
 
                 return credentials;
             }

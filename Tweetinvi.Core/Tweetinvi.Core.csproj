@@ -45,6 +45,8 @@
   <ItemGroup>
     <Compile Include="Attributes\CustomTwitterEndpointAttribute.cs" />
     <Compile Include="Attributes\TwitterEndpointAttribute.cs" />
+    <Compile Include="Credentials\AuthenticationContext.cs" />
+    <Compile Include="Credentials\AuthenticationToken.cs" />
     <Compile Include="Enum\AllowContributorRequestMode.cs" />
     <Compile Include="Enum\AllowDirectMessagesFrom.cs" />
     <Compile Include="Enum\DistanceMeasure.cs" />

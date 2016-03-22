@@ -24,7 +24,10 @@ namespace Tweetinvi.Core.Interfaces.WebLogic
         /// <summary>
         /// Generate all the query parameters for an application connection.
         /// </summary>
-        IEnumerable<IOAuthQueryParameter> GenerateApplicationParameters(IConsumerCredentials temporaryCredentials, IEnumerable<IOAuthQueryParameter> additionalParameters = null);
+        IEnumerable<IOAuthQueryParameter> GenerateApplicationParameters(
+            IConsumerCredentials temporaryCredentials, 
+            IAuthenticationToken authenticationToken = null,
+            IEnumerable<IOAuthQueryParameter> additionalParameters = null);
 
         /// <summary>
         /// Generate the authentication parameters from Twitter credentials.

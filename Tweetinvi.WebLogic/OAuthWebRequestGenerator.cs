@@ -173,17 +173,20 @@ namespace Tweetinvi.WebLogic
             return consumerHeaders;
         }
 
-        public IEnumerable<IOAuthQueryParameter> GenerateApplicationParameters(IConsumerCredentials temporaryCredentials, IEnumerable<IOAuthQueryParameter> additionalParameters = null)
+        public IEnumerable<IOAuthQueryParameter> GenerateApplicationParameters(
+            IConsumerCredentials temporaryCredentials, 
+            IAuthenticationToken authenticationToken = null,
+            IEnumerable<IOAuthQueryParameter> additionalParameters = null)
         {
             var headers = GenerateConsumerParameters(temporaryCredentials).ToList();
 
             // Add Header for authenticated connection to a Twitter Application
-            if (temporaryCredentials != null &&
-                !string.IsNullOrEmpty(temporaryCredentials.AuthorizationKey) &&
-                !string.IsNullOrEmpty(temporaryCredentials.AuthorizationSecret))
+            if (authenticationToken != null &&
+                !string.IsNullOrEmpty(authenticationToken.AuthorizationKey) &&
+                !string.IsNullOrEmpty(authenticationToken.AuthorizationSecret))
             {
-                headers.Add(new OAuthQueryParameter("oauth_token", StringFormater.UrlEncode(temporaryCredentials.AuthorizationKey), true, true, false));
-                headers.Add(new OAuthQueryParameter("oauth_token_secret", StringFormater.UrlEncode(temporaryCredentials.AuthorizationSecret), false, false, true));
+                headers.Add(new OAuthQueryParameter("oauth_token", StringFormater.UrlEncode(authenticationToken.AuthorizationKey), true, true, false));
+                headers.Add(new OAuthQueryParameter("oauth_token_secret", StringFormater.UrlEncode(authenticationToken.AuthorizationSecret), false, false, true));
             }
             else
             {

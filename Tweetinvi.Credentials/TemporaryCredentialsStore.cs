@@ -7,19 +7,19 @@ namespace Tweetinvi.Credentials
 {
     public class CredentialsStore : ICredentialsStore
     {
-        private static readonly Dictionary<Guid, IConsumerCredentials> _callbackCredentialsStore = new Dictionary<Guid, IConsumerCredentials>();
+        private static readonly Dictionary<Guid, IAuthenticationContext> _callbackAuthenticationContextStore = new Dictionary<Guid, IAuthenticationContext>();
 
-        public Dictionary<Guid, IConsumerCredentials> CallbackCredentialsStore
+        public Dictionary<Guid, IAuthenticationContext> CallbackAuthenticationContextStore
         {
-            get { return _callbackCredentialsStore; }
+            get { return _callbackAuthenticationContextStore; }
         }
 
-        public bool TryGetValue(Guid identifier, out IConsumerCredentials creds)
+        public bool TryGetValue(Guid identifier, out IAuthenticationContext creds)
         {
-            return _callbackCredentialsStore.TryGetValue(identifier, out creds);
+            return _callbackAuthenticationContextStore.TryGetValue(identifier, out creds);
         }
 
-        public bool TryGetValue(string identifier, out IConsumerCredentials creds)
+        public bool TryGetValue(string identifier, out IAuthenticationContext creds)
         {
             creds = null;
 

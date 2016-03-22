@@ -17,7 +17,7 @@ namespace Tweetinvi.Credentials
     {
         void InitializeApplicationBearer(ITwitterCredentials credentials);
         
-        ITwitterCredentials GetCredentialsFromVerifierCode(string verifierCode, IConsumerCredentials appCredentials);
+        ITwitterCredentials GetCredentialsFromVerifierCode(string verifierCode, IAuthenticationToken authToken);
         bool InvalidateCredentials(ITwitterCredentials credentials);
     }
 
@@ -41,7 +41,7 @@ namespace Tweetinvi.Credentials
         }
 
         // Step 2 - Generate User Credentials
-        public ITwitterCredentials GetCredentialsFromVerifierCode(string verifierCode, IConsumerCredentials appCredentials)
+        public ITwitterCredentials GetCredentialsFromVerifierCode(string verifierCode, IAuthenticationToken authToken)
         {
             try
             {
@@ -53,24 +53,24 @@ namespace Tweetinvi.Credentials
 
                 var callbackParameter = _oAuthWebRequestGenerator.GenerateParameter("oauth_verifier", verifierCode, true, true, false);
 
-                var authHandler = new AuthHttpHandler(callbackParameter);
+                var authHandler = new AuthHttpHandler(callbackParameter, authToken);
                 var response = _twitterRequestHandler.ExecuteQuery(Resources.OAuthRequestAccessToken, HttpMethod.POST, authHandler, 
-                    new TwitterCredentials(appCredentials));
+                    new TwitterCredentials(authToken.ConsumerCredentials));
 
                 if (response == null)
                 {
                     return null;
                 }
 
-                Match responseInformation = Regex.Match(response, Resources.OAuthTokenAccessRegex);
+                var responseInformation = Regex.Match(response, Resources.OAuthTokenAccessRegex);
                 if (responseInformation.Groups["oauth_token"] == null || responseInformation.Groups["oauth_token_secret"] == null)
                 {
                     return null;
                 }
 
                 var credentials = new TwitterCredentials(
-                    appCredentials.ConsumerKey,
-                    appCredentials.ConsumerSecret,
+                    authToken.ConsumerKey,
+                    authToken.ConsumerSecret,
                     responseInformation.Groups["oauth_token"].Value,
                     responseInformation.Groups["oauth_token_secret"].Value);
 

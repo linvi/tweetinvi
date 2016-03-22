@@ -53,9 +53,6 @@
                 ConsumerKey = credentials.ConsumerKey;
                 ConsumerSecret = credentials.ConsumerSecret;
 
-                AuthorizationKey = credentials.AuthorizationKey;
-                AuthorizationSecret = credentials.AuthorizationSecret;
-                VerifierCode = credentials.VerifierCode;
                 ApplicationOnlyBearerToken = credentials.ApplicationOnlyBearerToken;
             }
         }
