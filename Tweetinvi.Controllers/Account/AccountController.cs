@@ -74,7 +74,14 @@ namespace Tweetinvi.Controllers.Account
             return _accountSettingsUnityFactory.Create(parameterOverride);
         }
 
-        // Mute
+
+        public bool UpdateAccountUpdateDeliveryDevice(UpdateDeliveryDeviceType device, bool? includeEntities)
+        {
+            return _accountQueryExecutor.UpdateAccountUpdateDeliveryDevice(device, includeEntities);
+        }
+
+        #region Mute
+
         public IEnumerable<long> GetMutedUserIds(int maxUserIds = Int32.MaxValue)
         {
             return _accountQueryExecutor.GetMutedUserIds(maxUserIds);
@@ -116,6 +123,8 @@ namespace Tweetinvi.Controllers.Account
             return _accountQueryExecutor.UnMuteUser(screenName);
         }
 
+        #endregion  
+
         // Suggestions
         public IEnumerable<ICategorySuggestion> GetSuggestedCategories(Language? language)
         {
@@ -133,5 +142,6 @@ namespace Tweetinvi.Controllers.Account
             var userDTOs = _accountQueryExecutor.GetSuggestedUsersWithTheirLatestTweet(slug);
             return _userFactory.GenerateUsersFromDTO(userDTOs);
         }
+
     }
 }

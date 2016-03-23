@@ -134,7 +134,20 @@ namespace Tweetinvi
             return accountSettingsParameter;
         }
 
-        // Mute
+        #region Account
+
+        /// <summary>
+        /// Sets which device Twitter delivers updates for user authentication
+        /// </summary>
+        public static bool UpdateAccountUpdateDeliveryDevice(UpdateDeliveryDeviceType device, bool? includeEntities = null)
+        {
+            return AccountController.UpdateAccountUpdateDeliveryDevice(device, includeEntities);
+        }
+
+
+        #endregion
+
+        #region Mute
 
         /// <summary>
         /// Get the muted user's ids of the current account.
@@ -199,6 +212,7 @@ namespace Tweetinvi
         {
             return AccountController.UnMuteUser(screenName);
         }
+        #endregion
 
         #region Friendship
 
