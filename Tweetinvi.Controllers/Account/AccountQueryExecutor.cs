@@ -14,6 +14,8 @@ namespace Tweetinvi.Controllers.Account
         IAccountSettingsDTO GetAuthenticatedUserAccountSettings();
         IAccountSettingsDTO UpdateAuthenticatedUserSettings(IAccountSettingsRequestParameters accountSettingsRequestParameters);
 
+        bool UpdateAccountUpdateDeliveryDevice(UpdateDeliveryDeviceType device, bool? includeEntities);
+
         // Mute
         IEnumerable<long> GetMutedUserIds(int maxUserIds = Int32.MaxValue);
 
@@ -56,8 +58,13 @@ namespace Tweetinvi.Controllers.Account
             return _twitterAccessor.ExecutePOSTQuery<IAccountSettingsDTO>(query);
         }
 
+        public bool UpdateAccountUpdateDeliveryDevice(UpdateDeliveryDeviceType device, bool? includeEntities)
+        {
+            var query = _accountQueryGenerator.GetAccountUpdateDeliveryDeviceQuery(device, includeEntities);
+            return _twitterAccessor.TryExecutePOSTQuery(query);
+        }
 
-        // Mute
+        #region Mute
         public IEnumerable<long> GetMutedUserIds(int maxUserIds = Int32.MaxValue)
         {
             string query = _accountQueryGenerator.GetMutedUserIdsQuery();
@@ -99,6 +106,8 @@ namespace Tweetinvi.Controllers.Account
             var query = _accountQueryGenerator.GetUnMuteQuery(screenName);
             return _twitterAccessor.TryExecutePOSTQuery(query);
         }
+
+        #endregion  
 
         // Suggestions
         public IEnumerable<ICategorySuggestion> GetSuggestedCategories(Language? language)

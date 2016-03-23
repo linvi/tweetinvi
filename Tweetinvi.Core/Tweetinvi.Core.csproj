@@ -57,6 +57,7 @@
     <Compile Include="Enum\SearchResultType.cs" />
     <Compile Include="Enum\StreamState.cs" />
     <Compile Include="Enum\TwitterTimeZone.cs" />
+    <Compile Include="Enum\UpdateDeliveryDeviceType.cs" />
     <Compile Include="Enum\WindowsTimeZone.cs" />
     <Compile Include="Events\Delegates.cs" />
     <Compile Include="Events\EventArguments\AccessRevokedEventArgs.cs" />

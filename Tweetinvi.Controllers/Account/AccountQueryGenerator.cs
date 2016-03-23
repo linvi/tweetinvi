@@ -18,6 +18,8 @@ namespace Tweetinvi.Controllers.Account
         string GetAuthenticatedUserAccountSettingsQuery();
         string GetUpdateAuthenticatedUserAccountSettingsQuery(IAccountSettingsRequestParameters accountSettingsRequestParameters);
 
+        string GetAccountUpdateDeliveryDeviceQuery(UpdateDeliveryDeviceType device, bool? includeEntities);
+
         // Mute
         string GetMutedUserIdsQuery();
 
@@ -84,6 +86,19 @@ namespace Tweetinvi.Controllers.Account
             var parameters = string.Join(Uri.EscapeDataString(", "), validLanguages);
 
             return string.Format("&lang={0}", parameters);
+        }
+
+        public string GetAccountUpdateDeliveryDeviceQuery(UpdateDeliveryDeviceType device, bool? includeEntities)
+        {
+            string queryParams;
+            if (includeEntities.HasValue)
+            {
+                queryParams = string.Format("device={0}&include_entities={1}", device.ToString().ToLower(), includeEntities.Value);
+            }
+            else {
+                queryParams = string.Format("device={0}", device.ToString().ToLower());
+            }
+            return string.Format(Resources.Account_UpdateDeliveryDevice, queryParams);
         }
 
         // Mute
