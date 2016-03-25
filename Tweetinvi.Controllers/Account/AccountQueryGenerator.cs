@@ -33,6 +33,7 @@ namespace Tweetinvi.Controllers.Account
         string GetSuggestedCategories(Language? language);
         string GetUserSuggestionsQuery(string slug, Language? language);
         string GetSuggestedUsersWithTheirLatestTweetQuery(string slug);
+        string GetUpdateProfileParametersQuery(IAccountUpdateProfileParameters parameters);
     }
 
     public class AccountQueryGenerator : IAccountQueryGenerator
@@ -70,6 +71,23 @@ namespace Tweetinvi.Controllers.Account
             baseQuery.Append(_queryParameterGenerator.GenerateAdditionalRequestParameters(accountSettingsRequestParameters.FormattedCustomQueryParameters));
 
             return baseQuery.ToString();
+        }
+
+        public string GetUpdateProfileParametersQuery(IAccountUpdateProfileParameters parameters)
+        {
+            var query = new StringBuilder(Resources.Account_UpdateProfile);
+
+            query.AddParameterToQuery("name", parameters.Name);
+            query.AddParameterToQuery("url", parameters.Url);
+            query.AddParameterToQuery("location", parameters.Location);
+            query.AddParameterToQuery("description", parameters.Description);
+            query.AddParameterToQuery("profile_link_color", parameters.ProfileLinkColor);
+            query.AddParameterToQuery("include_entities", parameters.IncludeEntities);
+            query.AddParameterToQuery("skip_status", parameters.SkipStatus);
+
+            query.AddFormattedParameterToQuery(parameters.FormattedCustomQueryParameters);
+
+            return query.ToString();
         }
 
         private string GetLanguagesParameter(IEnumerable<Language> languages)

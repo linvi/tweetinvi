@@ -74,6 +74,13 @@ namespace Tweetinvi.Controllers.Account
             return _accountSettingsUnityFactory.Create(parameterOverride);
         }
 
+        public IAuthenticatedUser UpdateAccountProfile(IAccountUpdateProfileParameters parameters)
+        {
+            var userDTO = _accountQueryExecutor.UpdateProfileParameters(parameters);
+            return _userFactory.GenerateAuthenticatedUserFromDTO(userDTO);
+        }
+
+
         // Mute
         public IEnumerable<long> GetMutedUserIds(int maxUserIds = Int32.MaxValue)
         {

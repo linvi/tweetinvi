@@ -20,6 +20,8 @@ namespace Tweetinvi.Core.Interfaces.Controllers
 
         IAccountSettings UpdateAuthenticatedUserSettings(IAccountSettingsRequestParameters accountSettingsRequestParameters);
 
+        IAuthenticatedUser UpdateAccountProfile(IAccountUpdateProfileParameters parameters);
+
         // Mute
         IEnumerable<long> GetMutedUserIds(int maxUserIds = Int32.MaxValue);
         IEnumerable<IUser> GetMutedUsers(int maxUsersToRetrieve = 250);

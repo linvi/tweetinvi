@@ -91,6 +91,8 @@ namespace Tweetinvi
                 endSleepTime);
         }
 
+        
+
         /// <summary>
         /// Update the current account settings
         /// </summary>
@@ -132,6 +134,11 @@ namespace Tweetinvi
             }
 
             return accountSettingsParameter;
+        }
+
+        public static IAuthenticatedUser UpdateAccountProfile(IAccountUpdateProfileParameters parameters)
+        {
+            return AccountController.UpdateAccountProfile(parameters);
         }
 
         // Mute

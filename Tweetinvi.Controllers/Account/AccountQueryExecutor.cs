@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Tweetinvi.Core.Enum;
+using Tweetinvi.Core.Interfaces;
 using Tweetinvi.Core.Interfaces.Credentials;
 using Tweetinvi.Core.Interfaces.DTO;
 using Tweetinvi.Core.Interfaces.DTO.QueryDTO;
@@ -13,6 +14,7 @@ namespace Tweetinvi.Controllers.Account
     {
         IAccountSettingsDTO GetAuthenticatedUserAccountSettings();
         IAccountSettingsDTO UpdateAuthenticatedUserSettings(IAccountSettingsRequestParameters accountSettingsRequestParameters);
+        IUserDTO UpdateProfileParameters(IAccountUpdateProfileParameters parameters);
 
         // Mute
         IEnumerable<long> GetMutedUserIds(int maxUserIds = Int32.MaxValue);
@@ -56,6 +58,11 @@ namespace Tweetinvi.Controllers.Account
             return _twitterAccessor.ExecutePOSTQuery<IAccountSettingsDTO>(query);
         }
 
+        public IUserDTO UpdateProfileParameters(IAccountUpdateProfileParameters parameters)
+        {
+            var query = _accountQueryGenerator.GetUpdateProfileParametersQuery(parameters);
+            return _twitterAccessor.ExecutePOSTQuery<IUserDTO>(query);
+        }
 
         // Mute
         public IEnumerable<long> GetMutedUserIds(int maxUserIds = Int32.MaxValue)

@@ -195,6 +195,7 @@
     <Compile Include="Interfaces\Models\Entities\ExtendedEntities\IVideoInformationEntity.cs" />
     <Compile Include="Interfaces\Models\ITwitterQuery.cs" />
     <Compile Include="Interfaces\Streaminvi\MatchOn.cs" />
+    <Compile Include="Parameters\AccountUpdateProfileParameters.cs" />
     <Compile Include="Parameters\Enum\TweetSearchFilters.cs" />
     <Compile Include="Parameters\Enum\TweetSearchType.cs" />
     <Compile Include="Parameters\GeoSearchReverseParameters.cs" />
