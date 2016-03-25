@@ -53,7 +53,12 @@ namespace Tweetinvi.Factories.User
             }
 
             var authenticatedUser = GenerateAuthenticatedUserFromDTO(userDTO);
-            authenticatedUser.SetCredentials(credentials);
+
+            if (authenticatedUser != null)
+            {
+                authenticatedUser.SetCredentials(credentials);
+            }
+
             return authenticatedUser;
         }
 
