@@ -125,6 +125,11 @@ namespace Tweetinvi.Controllers.Properties
         public static string Help_GetTwitterConfiguration = "https://api.twitter.com/1.1/help/configuration.json";
 
         /// <summary>
+        ///   Looks up a localized string similar to https://api.twitter.com/1.1/help/tos.json.
+        /// </summary>
+        public static string Help_GetTermsOfService = "https://api.twitter.com/1.1/help/tos.json";
+
+        /// <summary>
         ///   Looks up a localized string similar to https://api.twitter.com/1.1/help/privacy.json.
         /// </summary>
         public static string Help_GetTwitterPrivacyPolicy = "https://api.twitter.com/1.1/help/privacy.json";
@@ -510,9 +515,9 @@ namespace Tweetinvi.Controllers.Properties
         public static string User_GetFriends = "https://api.twitter.com/1.1/friends/ids.json?{0}&count={1}";
 
         /// <summary>
-        ///   Looks up a localized string similar to https://dev.twitter.com/rest/reference/post/users/report_spam?{0}.
+        ///   Looks up a localized string similar to https://api.twitter.com/1.1/users/report_spam.json?{0}.
         /// </summary>
-        public static string User_Report_Spam = "https://dev.twitter.com/rest/reference/post/users/report_spam?{0}";
+        public static string User_Report_Spam = "https://api.twitter.com/1.1/users/report_spam.json?{0}";
 
         public static string GetResourceByName(string resourceName)
         {

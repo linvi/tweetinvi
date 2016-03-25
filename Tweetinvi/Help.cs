@@ -50,5 +50,13 @@ namespace Tweetinvi
         {
             return HelpController.GetTwitterConfiguration();
         }
+
+        /// <summary>
+        /// Get Twitter Terms of Service
+        /// </summary>
+        public static string GetTermsOfService()
+        {
+            return HelpController.GetTermsOfService();
+        }
     }
 }

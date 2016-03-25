@@ -11,6 +11,7 @@ namespace Tweetinvi.Controllers.Help
         ICredentialsRateLimits GetCredentialsRateLimits(ITwitterCredentials credentials);
         string GetTwitterPrivacyPolicy();
         ITwitterConfiguration GetTwitterConfiguration();
+        string GetTermsOfService();
     }
 
     public class HelpQueryExecutor : IHelpQueryExecutor
@@ -61,6 +62,12 @@ namespace Tweetinvi.Controllers.Help
         {
             string query = _helpQueryGenerator.GetTwitterConfigurationQuery();
             return _twitterAccessor.ExecuteGETQuery<ITwitterConfiguration>(query);
+        }
+
+        public string GetTermsOfService()
+        {
+            var query = _helpQueryGenerator.GetTermsOfServiceQuery();
+            return _twitterAccessor.ExecuteGETQueryWithPath<string>(query, "tos");
         }
     }
 }

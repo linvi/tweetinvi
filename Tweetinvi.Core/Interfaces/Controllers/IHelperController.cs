@@ -11,5 +11,6 @@ namespace Tweetinvi.Core.Interfaces.Controllers
         string GetTwitterPrivacyPolicy();
 
         ITwitterConfiguration GetTwitterConfiguration();
+        string GetTermsOfService();
     }
 }

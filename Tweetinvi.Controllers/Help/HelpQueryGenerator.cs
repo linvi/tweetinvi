@@ -19,5 +19,10 @@ namespace Tweetinvi.Controllers.Help
         {
             return Resources.Help_GetTwitterConfiguration;
         }
+
+        public string GetTermsOfServiceQuery()
+        {
+            return Resources.Help_GetTermsOfService;
+        }
     }
 }
