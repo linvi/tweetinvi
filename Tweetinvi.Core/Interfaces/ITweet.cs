@@ -236,6 +236,11 @@ namespace Tweetinvi.Core.Interfaces
         /// </summary>
         bool IsTweetDestroyed { get; }
 
+        /// <summary>
+        /// URL of the tweet on twitter.com
+        /// </summary>
+        string Url { get; }
+
         #endregion
 
         #region Favourites

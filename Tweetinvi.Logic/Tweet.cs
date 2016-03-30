@@ -349,6 +349,11 @@ namespace Tweetinvi.Logic
             get { return _tweetDTO.IsTweetDestroyed; }
         }
 
+        public string Url
+        {
+            get { return string.Format("https://twitter.com/{0}/status/{1}", CreatedBy?.ScreenName, Id.ToString().ToLowerInvariant()); }
+        }
+
         private readonly DateTime _tweetLocalCreationDate = DateTime.Now;
         public DateTime TweetLocalCreationDate
         {
