@@ -1,5 +1,8 @@
 ﻿namespace Tweetinvi.Core.Parameters
 {
+    /// <summary>
+    /// For more information visit : https://dev.twitter.com/rest/reference/get/account/verify_credentials
+    /// </summary>
     public interface IGetAuthenticatedUserParameters : ICustomRequestParameters
     {
         /// <summary>
@@ -19,6 +22,9 @@
         bool SkipStatus { get; set; }
     }
 
+    /// <summary>
+    /// For more information visit : https://dev.twitter.com/rest/reference/get/account/verify_credentials
+    /// </summary>
     public class GetAuthenticatedUserParameters : CustomRequestParameters, IGetAuthenticatedUserParameters
     {
         public GetAuthenticatedUserParameters()

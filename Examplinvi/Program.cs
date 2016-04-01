@@ -78,12 +78,12 @@ namespace Examplinvi
             }
 
             // With captcha
-            Examples.CredentialsCreator_WithCaptcha_StepByStep("consumer_key", "consumer_secret");
+            Examples.AuthFactory_WithCaptcha_StepByStep("consumer_key", "consumer_secret");
 
             // With callback URL
-            Examples.CredentialsCreator_CreateFromRedirectedCallbackURL_StepByStep("consumer_key", "consumer_secret");
+            Examples.AuthFactory_CreateFromRedirectedCallbackURL_StepByStep("consumer_key", "consumer_secret");
 
-            Examples.CredentialsCreator_CreateFromRedirectedVerifierCode_StepByStep("consumer_key", "consumer_secret");
+            Examples.AuthFactory_CreateFromRedirectedVerifierCode_StepByStep("consumer_key", "consumer_secret");
         }
 
         private static void UserLiveFeedExamples()
@@ -343,7 +343,7 @@ namespace Examplinvi
 
         // Get credentials with captcha system
         // ReSharper disable UnusedMethodReturnValue.Local
-        public static ITwitterCredentials CredentialsCreator_WithCaptcha_StepByStep(string consumerKey, string consumerSecret)
+        public static ITwitterCredentials AuthFactory_WithCaptcha_StepByStep(string consumerKey, string consumerSecret)
         {
             var applicationCredentials = new ConsumerCredentials(consumerKey, consumerSecret);
             var authenticationContext = AuthFactory.GetAuthenticationContext(applicationCredentials);
@@ -368,7 +368,7 @@ namespace Examplinvi
         }
 
         // Get credentials with callbackURL system
-        public static ITwitterCredentials CredentialsCreator_CreateFromRedirectedCallbackURL_StepByStep(string consumerKey, string consumerSecret)
+        public static ITwitterCredentials AuthFactory_CreateFromRedirectedCallbackURL_StepByStep(string consumerKey, string consumerSecret)
         {
             var applicationCredentials = new ConsumerCredentials(consumerKey, consumerSecret);
             var authenticationContext = AuthFactory.GetAuthenticationContext(applicationCredentials, "https://tweetinvi.codeplex.com");
@@ -387,7 +387,7 @@ namespace Examplinvi
             return newCredentials;
         }
 
-        public static ITwitterCredentials CredentialsCreator_CreateFromRedirectedVerifierCode_StepByStep(string consumerKey, string consumerSecret)
+        public static ITwitterCredentials AuthFactory_CreateFromRedirectedVerifierCode_StepByStep(string consumerKey, string consumerSecret)
         {
             var applicationCredentials = new ConsumerCredentials(consumerKey, consumerSecret);
             var authenticationContext = AuthFactory.GetAuthenticationContext(applicationCredentials, "https://tweetinvi.codeplex.com");

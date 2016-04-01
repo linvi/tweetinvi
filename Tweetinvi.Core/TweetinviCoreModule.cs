@@ -57,6 +57,9 @@ namespace Tweetinvi.Core
             _container.RegisterType<ITwitterListUpdateParameters, TwitterListUpdateParameters>();
             _container.RegisterType<IGetTweetsFromListParameters, GetTweetsFromListParameters>();
 
+            // Account
+            _container.RegisterType<IAccountUpdateProfileBannerParameters, AccountUpdateProfileBannerParameters>();
+
             // Search
             _container.RegisterType<ITweetSearchParameters, TweetSearchParameters>();
             _container.RegisterType<IUserSearchParameters, UserSearchParameters>();
