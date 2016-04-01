@@ -124,7 +124,7 @@ namespace Tweetinvi
         }
 
         /// <summary>
-        /// Try to execute a POST query an return whether the query has succeeded
+        /// Try to execute a POST query an return whether the query has succeeded.
         /// </summary>
         public static bool TryExecutePOSTQuery(string query)
         {
@@ -134,11 +134,19 @@ namespace Tweetinvi
         // MultiPart Query
 
         /// <summary>
-        /// Execute a POST mutlipart query an return whether the result as an object of type T
+        /// Execute a POST mutlipart query an return the result as an object of type T.
         /// </summary>
         public static T ExecutePOSTMultipartQuery<T>(IMultipartHttpRequestParameters parameters) where T : class
         {
             return Accessor.ExecuteMultipartQuery<T>(parameters);
+        }
+
+        /// <summary>
+        /// Execute a POST mutlipart query an return the json result.
+        /// </summary>
+        public static string ExecuteJsonPOSTMultipartQuery(IMultipartHttpRequestParameters parameters)
+        {
+            return Accessor.ExecuteMultipartQuery(parameters);
         }
 
         /// <summary>
