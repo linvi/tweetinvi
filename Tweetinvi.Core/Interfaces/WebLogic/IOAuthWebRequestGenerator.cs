@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net;
-using Tweetinvi.Core.Credentials;
+using Tweetinvi.Core.Authentication;
 using Tweetinvi.Core.Enum;
 
 namespace Tweetinvi.Core.Interfaces.WebLogic

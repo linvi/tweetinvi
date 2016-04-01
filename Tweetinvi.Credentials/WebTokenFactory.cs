@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Text.RegularExpressions;
-using Tweetinvi.Core.Credentials;
+using Tweetinvi.Core.Authentication;
 using Tweetinvi.Core.Enum;
 using Tweetinvi.Core.Exceptions;
 using Tweetinvi.Core.Extensions;
@@ -8,19 +8,20 @@ using Tweetinvi.Core.Interfaces.Credentials;
 using Tweetinvi.Core.Interfaces.Exceptions;
 using Tweetinvi.Core.Interfaces.WebLogic;
 using Tweetinvi.Credentials.AuthHttpHandlers;
+using Tweetinvi.Credentials.Models;
 using Tweetinvi.Credentials.Properties;
 using Tweetinvi.WebLogic;
 
 namespace Tweetinvi.Credentials
 {
-    public class WebTokenCreator : IWebTokenCreator
+    public class WebTokenFactory : IWebTokenFactory
     {
         private readonly IExceptionHandler _exceptionHandler;
         private readonly IOAuthWebRequestGenerator _oAuthWebRequestGenerator;
         private readonly ICredentialsStore _credentialsStore;
         private readonly ITwitterRequestHandler _twitterRequestHandler;
 
-        public WebTokenCreator(
+        public WebTokenFactory(
             IExceptionHandler exceptionHandler,
             IOAuthWebRequestGenerator oAuthWebRequestGenerator,
             ICredentialsStore credentialsStore,

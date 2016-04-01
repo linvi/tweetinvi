@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text.RegularExpressions;
 using Newtonsoft.Json.Linq;
-using Tweetinvi.Core.Credentials;
+using Tweetinvi.Core.Authentication;
 using Tweetinvi.Core.Enum;
 using Tweetinvi.Core.Exceptions;
 using Tweetinvi.Core.Interfaces.Exceptions;
@@ -13,7 +13,7 @@ using Tweetinvi.WebLogic;
 
 namespace Tweetinvi.Credentials
 {
-    public interface ICredentialsCreator
+    public interface IAuthFactory
     {
         void InitializeApplicationBearer(ITwitterCredentials credentials);
         
@@ -21,14 +21,14 @@ namespace Tweetinvi.Credentials
         bool InvalidateCredentials(ITwitterCredentials credentials);
     }
 
-    public class CredentialsCreator : ICredentialsCreator
+    public class AuthFactory : IAuthFactory
     {
         private readonly IExceptionHandler _exceptionHandler;
         private readonly ITwitterRequestHandler _twitterRequestHandler;
         private readonly IOAuthWebRequestGenerator _oAuthWebRequestGenerator;
         private readonly IJObjectStaticWrapper _jObjectStaticWrapper;
 
-        public CredentialsCreator(
+        public AuthFactory(
             IExceptionHandler exceptionHandler,
             ITwitterRequestHandler twitterRequestHandler,
             IOAuthWebRequestGenerator oAuthWebRequestGenerator,

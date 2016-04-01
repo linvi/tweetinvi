@@ -45,7 +45,7 @@
   <ItemGroup>
     <Compile Include="Account.cs" />
     <Compile Include="AccountAsync.cs" />
-    <Compile Include="CredentialsCreator.cs" />
+    <Compile Include="AuthFactory.cs" />
     <Compile Include="ExceptionHandler.cs" />
     <Compile Include="Friendship.cs" />
     <Compile Include="FriendshipAsync.cs" />

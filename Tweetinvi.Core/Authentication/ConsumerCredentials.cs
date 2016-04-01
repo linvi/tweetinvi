@@ -1,4 +1,4 @@
-﻿namespace Tweetinvi.Core.Credentials
+﻿namespace Tweetinvi.Core.Authentication
 {
     public interface IConsumerCredentials
     {

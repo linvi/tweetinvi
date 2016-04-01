@@ -1,6 +1,6 @@
 ﻿using System;
 using Tweetinvi.Core;
-using Tweetinvi.Core.Credentials;
+using Tweetinvi.Core.Authentication;
 using Tweetinvi.Core.Events.EventArguments;
 using Tweetinvi.Core.Interfaces.Controllers;
 using Tweetinvi.Core.Interfaces.Credentials;

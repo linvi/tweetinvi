@@ -2,7 +2,7 @@
 using FakeItEasy.ExtensionSyntax.Full;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Testinvi.Helpers;
-using Tweetinvi.Core.Credentials;
+using Tweetinvi.Core.Authentication;
 using Tweetinvi.Core.Interfaces;
 using Tweetinvi.Core.Interfaces.Controllers;
 using Tweetinvi.Core.Interfaces.Credentials;

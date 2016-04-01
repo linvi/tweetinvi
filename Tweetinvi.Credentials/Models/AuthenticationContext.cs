@@ -1,18 +1,10 @@
-﻿namespace Tweetinvi.Core.Credentials
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using Tweetinvi.Core.Authentication;
+
+namespace Tweetinvi.Credentials.Models
 {
-    public interface IAuthenticationContext
-    {
-        /// <summary>
-        /// URL directing the user to Twitter authentication page for your application.
-        /// </summary>
-        string AuthorizationURL { get; set; }
-
-        /// <summary>
-        /// Internal information used through the authentication process
-        /// </summary>
-        IAuthenticationToken Token { get; }
-    }
-
     public class AuthenticationContext : IAuthenticationContext
     {
         public AuthenticationContext(IConsumerCredentials consumerCredentials)

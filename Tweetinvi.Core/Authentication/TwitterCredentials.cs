@@ -1,4 +1,4 @@
-﻿namespace Tweetinvi.Core.Credentials
+﻿namespace Tweetinvi.Core.Authentication
 {
     /// <summary>
     /// Defines a contract of 4 information to connect to an OAuth service

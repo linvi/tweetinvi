@@ -1,4 +1,4 @@
-﻿using Tweetinvi.Core.Credentials;
+﻿using Tweetinvi.Core.Authentication;
 using Tweetinvi.Core.Interfaces.Controllers;
 using Tweetinvi.Core.Interfaces.Credentials;
 using Tweetinvi.Core.Interfaces.DTO;

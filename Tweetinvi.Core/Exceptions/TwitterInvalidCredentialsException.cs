@@ -1,5 +1,5 @@
 ﻿using System;
-using Tweetinvi.Core.Credentials;
+using Tweetinvi.Core.Authentication;
 
 namespace Tweetinvi.Core.Exceptions
 {

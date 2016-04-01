@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Tweetinvi.Core.Credentials;
+using Tweetinvi.Core.Authentication;
 using Tweetinvi.Core.Interfaces.DTO;
 using Tweetinvi.Core.Interfaces.Models;
 using Tweetinvi.Core.Parameters;

@@ -45,8 +45,8 @@
   <ItemGroup>
     <Compile Include="Attributes\CustomTwitterEndpointAttribute.cs" />
     <Compile Include="Attributes\TwitterEndpointAttribute.cs" />
-    <Compile Include="Credentials\AuthenticationContext.cs" />
-    <Compile Include="Credentials\AuthenticationToken.cs" />
+    <Compile Include="Authentication\IAuthenticationContext.cs" />
+    <Compile Include="Authentication\IAuthenticationToken.cs" />
     <Compile Include="Enum\AllowContributorRequestMode.cs" />
     <Compile Include="Enum\AllowDirectMessagesFrom.cs" />
     <Compile Include="Enum\DistanceMeasure.cs" />
@@ -156,7 +156,7 @@
     <Compile Include="Interfaces\Credentials\IEndpointRateLimit.cs" />
     <Compile Include="Interfaces\Credentials\ICredentialsRateLimits.cs" />
     <Compile Include="Interfaces\Credentials\ITwitterAccessor.cs" />
-    <Compile Include="Interfaces\Credentials\IWebTokenCreator.cs" />
+    <Compile Include="Interfaces\Credentials\IWebTokenFactory.cs" />
     <Compile Include="Interfaces\DTO\QueryDTO\IBaseCursorQueryDTO.cs" />
     <Compile Include="Interfaces\DTO\QueryDTO\IIdsCursorQueryResultDTO.cs" />
     <Compile Include="Interfaces\DTO\QueryDTO\IUserCursorQueryResultDTO.cs" />
@@ -283,8 +283,8 @@
     <Compile Include="Interfaces\Models\EndpointRateLimit.cs" />
     <Compile Include="Interfaces\Models\CredentialsRateLimits.cs" />
     <Compile Include="Interfaces\Models\ITweetIdentifier.cs" />
-    <Compile Include="Credentials\ConsumerCredentials.cs" />
-    <Compile Include="Credentials\TwitterCredentials.cs" />
+    <Compile Include="Authentication\ConsumerCredentials.cs" />
+    <Compile Include="Authentication\TwitterCredentials.cs" />
     <Compile Include="Interfaces\WebLogic\IOAuthWebRequestGenerator.cs" />
     <Compile Include="Interfaces\WebLogic\IOAuthQueryParameter.cs" />
     <Compile Include="Interfaces\WebLogic\ITwitterRequester.cs" />

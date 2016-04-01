@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Net;
-using Tweetinvi.Core.Credentials;
+using Tweetinvi.Core.Authentication;
 using Tweetinvi.Core.Enum;
 using Tweetinvi.Core.Exceptions;
 using Tweetinvi.Core.Helpers;

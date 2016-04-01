@@ -1,4 +1,4 @@
-﻿namespace Tweetinvi.Core.Credentials
+﻿namespace Tweetinvi.Core.Authentication
 {
     public interface IAuthenticationToken
     {
@@ -31,16 +31,5 @@
         /// If this value is changed manually it will overridden by Tweetinvi.
         /// </summary>
         string VerifierCode { get; set; }
-    }
-
-    public class AuthenticationToken : IAuthenticationToken
-    {
-        public IConsumerCredentials ConsumerCredentials { get; set; }
-        public string ConsumerKey { get { return ConsumerCredentials.ConsumerKey; } }
-        public string ConsumerSecret { get { return ConsumerCredentials.ConsumerSecret; } }
-        public string AuthorizationKey { get; set; }
-        public string AuthorizationSecret { get; set; }
-        
-        public string VerifierCode { get; set; }
     }
 }

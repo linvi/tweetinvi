@@ -22,8 +22,8 @@ namespace Tweetinvi.Credentials
             _container.RegisterType<ICredentialsAccessor, CredentialsAccessor>(RegistrationLifetime.InstancePerThread);
             _container.RegisterType<ICredentialsStore, CredentialsStore>(RegistrationLifetime.InstancePerApplication);
 
-            _container.RegisterType<ICredentialsCreator, CredentialsCreator>();
-            _container.RegisterType<IWebTokenCreator, WebTokenCreator>();
+            _container.RegisterType<IAuthFactory, AuthFactory>();
+            _container.RegisterType<IWebTokenFactory, WebTokenFactory>();
             _container.RegisterType<ICursorQueryHelper, CursorQueryHelper>();
 
             RegisterRateLimitHandler();

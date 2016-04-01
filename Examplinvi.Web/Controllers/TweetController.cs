@@ -4,7 +4,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 using Tweetinvi;
-using Tweetinvi.Core.Credentials;
+using Tweetinvi.Core.Authentication;
 using Tweetinvi.Core.Parameters;
 
 namespace Examplinvi.Web.Controllers

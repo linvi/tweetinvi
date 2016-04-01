@@ -6,7 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using Tweetinvi.Core;
-using Tweetinvi.Core.Credentials;
+using Tweetinvi.Core.Authentication;
 using Tweetinvi.Core.Enum;
 using Tweetinvi.Core.Extensions;
 using Tweetinvi.Core.Helpers;

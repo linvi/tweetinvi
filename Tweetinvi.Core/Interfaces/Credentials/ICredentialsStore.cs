@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Tweetinvi.Core.Credentials;
+using Tweetinvi.Core.Authentication;
 
 namespace Tweetinvi.Core.Interfaces.Credentials
 {

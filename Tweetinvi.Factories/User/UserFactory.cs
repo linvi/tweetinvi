@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Tweetinvi.Core.Credentials;
+using Tweetinvi.Core.Authentication;
 using Tweetinvi.Core.Helpers;
 using Tweetinvi.Core.Injectinvi;
 using Tweetinvi.Core.Interfaces;

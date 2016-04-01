@@ -6,7 +6,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
 using Testinvi.Helpers;
 using Testinvi.SetupHelpers;
-using Tweetinvi.Core.Credentials;
+using Tweetinvi.Core.Authentication;
 using Tweetinvi.Core.Helpers;
 using Tweetinvi.Core.Interfaces.Controllers;
 using Tweetinvi.Core.Interfaces.Credentials;

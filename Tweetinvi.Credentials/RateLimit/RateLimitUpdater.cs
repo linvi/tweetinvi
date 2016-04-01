@@ -1,5 +1,5 @@
 ﻿using System;
-using Tweetinvi.Core.Credentials;
+using Tweetinvi.Core.Authentication;
 using Tweetinvi.Core.Interfaces.Credentials;
 using Tweetinvi.Core.Interfaces.RateLimit;
 using Tweetinvi.Core.Interfaces.WebLogic;

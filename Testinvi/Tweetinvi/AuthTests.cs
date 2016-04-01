@@ -2,7 +2,7 @@
 using System.Threading;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Tweetinvi;
-using Tweetinvi.Core.Credentials;
+using Tweetinvi.Core.Authentication;
 using Tweetinvi.Core.Interfaces.WebLogic;
 
 namespace Testinvi.Tweetinvi

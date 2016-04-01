@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Tweetinvi.Core;
-using Tweetinvi.Core.Credentials;
+using Tweetinvi.Core.Authentication;
 using Tweetinvi.Core.Events;
 using Tweetinvi.Core.Events.EventArguments;
 using Tweetinvi.Core.Exceptions;
