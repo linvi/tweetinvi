@@ -225,28 +225,31 @@ namespace Tweetinvi.Controllers.Tweet
             return _tweetFactory.GenerateTweetFromDTO(tweetDTO);
         }
 
-        // Publish GetRetweets
-        public IEnumerable<ITweet> GetRetweets(ITweet tweet)
+        #region GetRetweets
+
+        public IEnumerable<ITweet> GetRetweets(ITweet tweet, int maxRetweetsToRetrieve = 100)
         {
             if (tweet == null)
             {
                 throw new ArgumentException("Tweet cannot be null!");
             }
 
-            return GetRetweets(tweet.TweetDTO);
+            return GetRetweets(tweet.TweetDTO, maxRetweetsToRetrieve);
         }
 
-        public IEnumerable<ITweet> GetRetweets(ITweetDTO tweet)
+        public IEnumerable<ITweet> GetRetweets(ITweetDTO tweet, int maxRetweetsToRetrieve = 100)
         {
-            var retweetsDTO = _tweetQueryExecutor.GetRetweets(tweet);
+            var retweetsDTO = _tweetQueryExecutor.GetRetweets(tweet, maxRetweetsToRetrieve);
             return _tweetFactory.GenerateTweetsFromDTO(retweetsDTO);
         }
 
-        public IEnumerable<ITweet> GetRetweets(long tweetId)
+        public IEnumerable<ITweet> GetRetweets(long tweetId, int maxRetweetsToRetrieve = 100)
         {
-            var retweetsDTO = _tweetQueryExecutor.GetRetweets(tweetId);
+            var retweetsDTO = _tweetQueryExecutor.GetRetweets(tweetId, maxRetweetsToRetrieve);
             return _tweetFactory.GenerateTweetsFromDTO(retweetsDTO);
         }
+        
+        #endregion
 
         // Destroy Tweet
         public bool DestroyTweet(ITweet tweet)

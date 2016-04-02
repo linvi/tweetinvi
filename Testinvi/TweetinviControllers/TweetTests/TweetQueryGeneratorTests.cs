@@ -255,11 +255,11 @@ namespace Testinvi.TweetinviControllers.TweetTests
             // Arrange
             var queryGenerator = CreateTweetQueryGenerator();
             var tweetToRetweet = A.Fake<ITweetDTO>();
-
+            var maxRetweetsToRetrieve = TestHelper.GenerateRandomInt();
             _fakeTweetQueryValidator.CallsTo(x => x.IsTweetPublished(tweetToRetweet)).Returns(false);
 
             // Act
-            var result = queryGenerator.GetRetweetsQuery(tweetToRetweet);
+            var result = queryGenerator.GetRetweetsQuery(tweetToRetweet, maxRetweetsToRetrieve);
 
             // Assert
             Assert.AreEqual(result, null);
@@ -272,15 +272,16 @@ namespace Testinvi.TweetinviControllers.TweetTests
             var queryGenerator = CreateTweetQueryGenerator();
             var tweetToRetweetId = TestHelper.GenerateRandomLong();
             var tweetToRetweet = A.Fake<ITweetDTO>();
+            var maxRetweetsToRetrieve = TestHelper.GenerateRandomInt();
             tweetToRetweet.CallsTo(x => x.Id).Returns(tweetToRetweetId);
 
             _fakeTweetQueryValidator.CallsTo(x => x.IsTweetPublished(tweetToRetweet)).Returns(true);
 
             // Act
-            var result = queryGenerator.GetRetweetsQuery(tweetToRetweet);
+            var result = queryGenerator.GetRetweetsQuery(tweetToRetweet, maxRetweetsToRetrieve);
 
             // Assert
-            var expectedResult = string.Format(Resources.Tweet_Retweet_GetRetweets, tweetToRetweetId);
+            var expectedResult = string.Format(Resources.Tweet_Retweet_GetRetweets, tweetToRetweetId, maxRetweetsToRetrieve);
             Assert.AreEqual(result, expectedResult);
         }
 
@@ -290,12 +291,13 @@ namespace Testinvi.TweetinviControllers.TweetTests
             // Arrange
             var queryGenerator = CreateTweetQueryGenerator();
             var tweetToRetweetId = TestHelper.GenerateRandomLong();
+            var maxRetweetsToRetrieve = TestHelper.GenerateRandomInt();
 
             // Act
-            var result = queryGenerator.GetRetweetsQuery(tweetToRetweetId);
+            var result = queryGenerator.GetRetweetsQuery(tweetToRetweetId, maxRetweetsToRetrieve);
 
             // Assert
-            var expectedResult = string.Format(Resources.Tweet_Retweet_GetRetweets, tweetToRetweetId);
+            var expectedResult = string.Format(Resources.Tweet_Retweet_GetRetweets, tweetToRetweetId, maxRetweetsToRetrieve);
             Assert.AreEqual(result, expectedResult);
         }
 

@@ -20,8 +20,8 @@ namespace Tweetinvi.Core.Interfaces.QueryGenerators
         string GetPublishRetweetQuery(long tweetId);
 
         // Get Retweets
-        string GetRetweetsQuery(ITweetDTO tweetDTO);
-        string GetRetweetsQuery(long tweetId);
+        string GetRetweetsQuery(ITweetDTO tweetDTO, int maxRetweetsToRetrieve);
+        string GetRetweetsQuery(long tweetId, int maxRetweetsToRetrieve);
 
         // Publish UnRetweet
         string GetUnRetweetQuery(ITweetIdentifier tweetIdentifier);

@@ -36,9 +36,9 @@ namespace Tweetinvi.Core.Interfaces.Controllers
         ITweet UnRetweet(long tweetId);
 
         // Get Retweets
-        IEnumerable<ITweet> GetRetweets(ITweet tweet);
-        IEnumerable<ITweet> GetRetweets(ITweetDTO tweetDTO);
-        IEnumerable<ITweet> GetRetweets(long tweetId);
+        IEnumerable<ITweet> GetRetweets(ITweet tweet, int maxRetweetsToRetrieve = 100);
+        IEnumerable<ITweet> GetRetweets(ITweetDTO tweetDTO, int maxRetweetsToRetrieve = 100);
+        IEnumerable<ITweet> GetRetweets(long tweetId, int maxRetweetsToRetrieve = 100);
 
         // Destroy Tweet
         bool DestroyTweet(ITweet tweet);

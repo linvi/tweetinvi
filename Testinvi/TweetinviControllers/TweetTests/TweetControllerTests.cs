@@ -171,10 +171,11 @@ namespace Testinvi.TweetinviControllers.TweetTests
             // Arrange
             var controller = CreateTweetController();
             var tweet = GenerateTweet();
+            var maxRetweetsToRetrieve = TestHelper.GenerateRandomInt();
             IEnumerable<ITweetDTO> expectedTweetsDTO = new List<ITweetDTO> { A.Fake<ITweetDTO>() };
             IEnumerable<ITweet> expectedTweets = new List<ITweet> { A.Fake<ITweet>() };
 
-            _fakeTweetQueryExecutor.CallsTo(x => x.GetRetweets(null)).Returns(expectedTweetsDTO);
+            _fakeTweetQueryExecutor.CallsTo(x => x.GetRetweets(null, maxRetweetsToRetrieve)).Returns(expectedTweetsDTO);
             _fakeTweetFactory.CallsTo(x => x.GenerateTweetsFromDTO(expectedTweetsDTO)).Returns(expectedTweets);
 
             // Act
@@ -191,10 +192,11 @@ namespace Testinvi.TweetinviControllers.TweetTests
             var controller = CreateTweetController();
             var tweetDTO = A.Fake<ITweetDTO>();
             var tweet = GenerateTweet(tweetDTO);
+            var maxRetweetsToRetrieve = TestHelper.GenerateRandomInt();
             IEnumerable<ITweetDTO> expectedTweetsDTO = new List<ITweetDTO> { A.Fake<ITweetDTO>() };
             IEnumerable<ITweet> expectedTweets = new List<ITweet> { A.Fake<ITweet>() };
 
-            _fakeTweetQueryExecutor.CallsTo(x => x.GetRetweets(tweetDTO)).Returns(expectedTweetsDTO);
+            _fakeTweetQueryExecutor.CallsTo(x => x.GetRetweets(tweetDTO, maxRetweetsToRetrieve)).Returns(expectedTweetsDTO);
             _fakeTweetFactory.CallsTo(x => x.GenerateTweetsFromDTO(expectedTweetsDTO)).Returns(expectedTweets);
 
             // Act
@@ -211,8 +213,10 @@ namespace Testinvi.TweetinviControllers.TweetTests
             var controller = CreateTweetController();
             IEnumerable<ITweetDTO> expectedTweetsDTO = new List<ITweetDTO> { A.Fake<ITweetDTO>() };
             IEnumerable<ITweet> expectedTweets = new List<ITweet> { A.Fake<ITweet>() };
+            var maxRetweetsToRetrieve = TestHelper.GenerateRandomInt();
 
-            _fakeTweetQueryExecutor.CallsTo(x => x.GetRetweets(null)).Returns(expectedTweetsDTO);
+
+            _fakeTweetQueryExecutor.CallsTo(x => x.GetRetweets(null, maxRetweetsToRetrieve)).Returns(expectedTweetsDTO);
             _fakeTweetFactory.CallsTo(x => x.GenerateTweetsFromDTO(expectedTweetsDTO)).Returns(expectedTweets);
 
             // Act
@@ -230,8 +234,9 @@ namespace Testinvi.TweetinviControllers.TweetTests
             var tweetDTO = A.Fake<ITweetDTO>();
             IEnumerable<ITweetDTO> expectedTweetsDTO = new List<ITweetDTO> { A.Fake<ITweetDTO>() };
             IEnumerable<ITweet> expectedTweets = new List<ITweet> { A.Fake<ITweet>() };
+            var maxRetweetsToRetrieve = TestHelper.GenerateRandomInt();
 
-            _fakeTweetQueryExecutor.CallsTo(x => x.GetRetweets(tweetDTO)).Returns(expectedTweetsDTO);
+            _fakeTweetQueryExecutor.CallsTo(x => x.GetRetweets(tweetDTO, maxRetweetsToRetrieve)).Returns(expectedTweetsDTO);
             _fakeTweetFactory.CallsTo(x => x.GenerateTweetsFromDTO(expectedTweetsDTO)).Returns(expectedTweets);
 
             // Act
@@ -247,10 +252,11 @@ namespace Testinvi.TweetinviControllers.TweetTests
             // Arrange
             var controller = CreateTweetController();
             var tweetId = TestHelper.GenerateRandomLong();
+            var maxRetweetsToRetrieve = TestHelper.GenerateRandomInt();
             IEnumerable<ITweetDTO> expectedTweetsDTO = new List<ITweetDTO> { A.Fake<ITweetDTO>() };
             IEnumerable<ITweet> expectedTweets = new List<ITweet> { A.Fake<ITweet>() };
 
-            _fakeTweetQueryExecutor.CallsTo(x => x.GetRetweets(tweetId)).Returns(expectedTweetsDTO);
+            _fakeTweetQueryExecutor.CallsTo(x => x.GetRetweets(tweetId, maxRetweetsToRetrieve)).Returns(expectedTweetsDTO);
             _fakeTweetFactory.CallsTo(x => x.GenerateTweetsFromDTO(expectedTweetsDTO)).Returns(expectedTweets);
 
             // Act

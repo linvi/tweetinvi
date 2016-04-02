@@ -120,19 +120,19 @@ namespace Tweetinvi.Controllers.Tweet
         }
 
         // Get Retweets
-        public string GetRetweetsQuery(ITweetDTO tweetDTO)
+        public string GetRetweetsQuery(ITweetDTO tweetDTO, int maxRetweetsToRetrieve)
         {
             if (!_tweetQueryValidator.IsTweetPublished(tweetDTO))
             {
                 return null;
             }
 
-            return GetRetweetsQuery(tweetDTO.Id);
+            return GetRetweetsQuery(tweetDTO.Id, maxRetweetsToRetrieve);
         }
 
-        public string GetRetweetsQuery(long tweetId)
+        public string GetRetweetsQuery(long tweetId, int maxRetweetsToRetrieve)
         {
-            return string.Format(Resources.Tweet_Retweet_GetRetweets, tweetId);
+            return string.Format(Resources.Tweet_Retweet_GetRetweets, tweetId, maxRetweetsToRetrieve);
         }
         
         // UnRetweet

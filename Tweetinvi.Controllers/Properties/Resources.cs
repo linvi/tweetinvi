@@ -455,9 +455,9 @@ namespace Tweetinvi.Controllers.Properties
         public static string Tweet_PublishWithMediaInReplyTo = "https://api.twitter.com/1.1/statuses/update_with_media.json?status={0}&in_reply_to_status_id={1}";
 
         /// <summary>
-        ///   Looks up a localized string similar to https://api.twitter.com/1.1/statuses/retweets/{0}.json.
+        ///   Looks up a localized string similar to https://api.twitter.com/1.1/statuses/retweets/{0}.json?count={1}.
         /// </summary>
-        public static string Tweet_Retweet_GetRetweets = "https://api.twitter.com/1.1/statuses/retweets/{0}.json";
+        public static string Tweet_Retweet_GetRetweets = "https://api.twitter.com/1.1/statuses/retweets/{0}.json?count={1}";
         
         /// <summary>
         ///   Looks up a localized string similar to https://api.twitter.com/1.1/statuses/unretweet/{0}.json?trim_user=true.

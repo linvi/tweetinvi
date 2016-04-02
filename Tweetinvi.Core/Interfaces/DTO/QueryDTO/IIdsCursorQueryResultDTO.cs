@@ -4,4 +4,9 @@
     {
         long[] Ids { get; set; }
     }
+
+    public interface IRetweetsCursorQueryResultDTO : IBaseCursorQueryDTO<ITweetDTO>
+    {
+        ITweetDTO[] results { get; set; }
+    }
 }
