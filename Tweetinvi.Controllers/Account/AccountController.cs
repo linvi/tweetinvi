@@ -81,14 +81,24 @@ namespace Tweetinvi.Controllers.Account
             return _userFactory.GenerateAuthenticatedUserFromDTO(userDTO);
         }
 
-        public bool UpdateUserProfileBanner(byte[] imageBinary)
+        public bool UpdateProfileImage(byte[] imageBinary)
         {
-            return UpdateUserProfileBanner(new AccountUpdateProfileBannerParameters(imageBinary));
+            return UpdateProfileImage(new AccountUpdateProfileImageParameters(imageBinary));
         }
 
-        public bool UpdateUserProfileBanner(IAccountUpdateProfileBannerParameters parameters)
+        public bool UpdateProfileImage(IAccountUpdateProfileImageParameters parameters)
         {
-            return _accountQueryExecutor.UpdateUserProfileBanner(parameters);
+            return _accountQueryExecutor.UpdateProfileImage(parameters);
+        }
+
+        public bool UpdateProfileBanner(byte[] imageBinary)
+        {
+            return UpdateProfileBanner(new AccountUpdateProfileBannerParameters(imageBinary));
+        }
+
+        public bool UpdateProfileBanner(IAccountUpdateProfileBannerParameters parameters)
+        {
+            return _accountQueryExecutor.UpdateProfileBanner(parameters);
         }
 
         public bool RemoveUserProfileBanner()

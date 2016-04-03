@@ -16,8 +16,9 @@ namespace Tweetinvi.Controllers.Account
         IAccountSettingsDTO UpdateAuthenticatedUserSettings(IAccountSettingsRequestParameters accountSettingsRequestParameters);
 
         // Profile
+        bool UpdateProfileImage(IAccountUpdateProfileImageParameters parameters);
         IUserDTO UpdateProfileParameters(IAccountUpdateProfileParameters parameters);
-        bool UpdateUserProfileBanner(IAccountUpdateProfileBannerParameters parameters);
+        bool UpdateProfileBanner(IAccountUpdateProfileBannerParameters parameters);
         bool RemoveUserProfileBanner();
 
         // Mute
@@ -52,14 +53,28 @@ namespace Tweetinvi.Controllers.Account
 
         public IAccountSettingsDTO GetAuthenticatedUserAccountSettings()
         {
-            string query = _accountQueryGenerator.GetAuthenticatedUserAccountSettingsQuery();
+            var query = _accountQueryGenerator.GetAuthenticatedUserAccountSettingsQuery();
             return _twitterAccessor.ExecuteGETQuery<IAccountSettingsDTO>(query);
         }
 
         public IAccountSettingsDTO UpdateAuthenticatedUserSettings(IAccountSettingsRequestParameters accountSettingsRequestParameters)
         {
-            string query = _accountQueryGenerator.GetUpdateAuthenticatedUserAccountSettingsQuery(accountSettingsRequestParameters);
+            var query = _accountQueryGenerator.GetUpdateAuthenticatedUserAccountSettingsQuery(accountSettingsRequestParameters);
             return _twitterAccessor.ExecutePOSTQuery<IAccountSettingsDTO>(query);
+        }
+
+        public bool UpdateProfileImage(IAccountUpdateProfileImageParameters parameters)
+        {
+            var query = _accountQueryGenerator.GetUpdateProfileImageQuery(parameters);
+
+            return _twitterAccessor.TryExecuteMultipartQuery(new MultipartHttpRequestParameters
+            {
+                Query = query,
+                HttpMethod = HttpMethod.POST,
+                Binaries = new [] { parameters.Binary },
+                ContentId = "image",
+                Timeout = parameters.Timeout
+            });
         }
 
         public IUserDTO UpdateProfileParameters(IAccountUpdateProfileParameters parameters)
@@ -68,9 +83,9 @@ namespace Tweetinvi.Controllers.Account
             return _twitterAccessor.ExecutePOSTQuery<IUserDTO>(query);
         }
 
-        public bool UpdateUserProfileBanner(IAccountUpdateProfileBannerParameters parameters)
+        public bool UpdateProfileBanner(IAccountUpdateProfileBannerParameters parameters)
         {
-            var query = _accountQueryGenerator.GetUpdateUserProfileBannerQuery(parameters);
+            var query = _accountQueryGenerator.GetUpdateProfileBannerQuery(parameters);
 
             if (parameters.Binary == null)
             {

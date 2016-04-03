@@ -37,7 +37,7 @@ namespace Tweetinvi.Core.Parameters
         bool IncludeEntities { get; set; }
 
         /// <summary>
-        /// When set to either true, statuses will not be included in the returned user objects.
+        /// When set to true, statuses will not be included in the returned user objects.
         /// </summary>
         bool SkipStatus { get; set; }
     }

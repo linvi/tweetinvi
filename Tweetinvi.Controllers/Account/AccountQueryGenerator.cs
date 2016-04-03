@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using Tweetinvi.Controllers.Properties;
 using Tweetinvi.Controllers.Shared;
@@ -10,6 +11,7 @@ using Tweetinvi.Core.Interfaces.Models;
 using Tweetinvi.Core.Interfaces.QueryGenerators;
 using Tweetinvi.Core.Interfaces.QueryValidators;
 using Tweetinvi.Core.Parameters;
+using Tweetinvi.Core.Web;
 
 namespace Tweetinvi.Controllers.Account
 {
@@ -20,8 +22,9 @@ namespace Tweetinvi.Controllers.Account
 
         // Profile
         string GetUpdateProfileParametersQuery(IAccountUpdateProfileParameters parameters);
+        string GetUpdateProfileImageQuery(IAccountUpdateProfileImageParameters parameters);
 
-        string GetUpdateUserProfileBannerQuery(IAccountUpdateProfileBannerParameters parameters);
+        string GetUpdateProfileBannerQuery(IAccountUpdateProfileBannerParameters parameters);
         string GetRemoveUserProfileBannerQuery();
 
         // Mute
@@ -109,7 +112,19 @@ namespace Tweetinvi.Controllers.Account
             return query.ToString();
         }
 
-        public string GetUpdateUserProfileBannerQuery(IAccountUpdateProfileBannerParameters parameters)
+        public string GetUpdateProfileImageQuery(IAccountUpdateProfileImageParameters parameters)
+        {
+            var query = new StringBuilder(Resources.Account_UpdateProfileImage);
+
+            query.AddParameterToQuery("include_entities", parameters.IncludeEntities);
+            query.AddParameterToQuery("skip_status", parameters.SkipStatus);
+
+            query.AddFormattedParameterToQuery(parameters.FormattedCustomQueryParameters);
+
+            return query.ToString();
+        }
+
+        public string GetUpdateProfileBannerQuery(IAccountUpdateProfileBannerParameters parameters)
         {
             var query = new StringBuilder(Resources.Account_UpdateProfileBanner);
 
@@ -117,6 +132,8 @@ namespace Tweetinvi.Controllers.Account
             query.AddParameterToQuery("height", parameters.Height);
             query.AddParameterToQuery("offset_left", parameters.OffsetLeft);
             query.AddParameterToQuery("offset_top", parameters.OffsetTop);
+
+            query.AddFormattedParameterToQuery(parameters.FormattedCustomQueryParameters);
 
             return query.ToString();
         }

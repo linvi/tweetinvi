@@ -45,6 +45,11 @@ namespace Tweetinvi.Controllers.Properties
         public static string Account_UpdateProfile = "https://api.twitter.com/1.1/account/update_profile.json";
 
         /// <summary>
+        ///   Looks up a localized string similar to https://api.twitter.com/1.1/account/update_profile_image.json.
+        /// </summary>
+        public static string Account_UpdateProfileImage = "https://api.twitter.com/1.1/account/update_profile_image.json";
+
+        /// <summary>
         ///   Looks up a localized string similar to https://api.twitter.com/1.1/account/update_profile_banner.json.
         /// </summary>
         public static string Account_UpdateProfileBanner = "https://api.twitter.com/1.1/account/update_profile_banner.json";

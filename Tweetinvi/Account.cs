@@ -144,20 +144,44 @@ namespace Tweetinvi
             return AccountController.UpdateAccountProfile(parameters);
         }
 
-        public static bool UpdateUserProfileBanner(byte[] imageBinary)
+        /// <summary>
+        /// Updates the authenticated user’s profile image. 
+        /// </summary>
+        public static bool UpdateProfileImage(byte[] imageBinary)
         {
-            return AccountController.UpdateUserProfileBanner(imageBinary);
+            return AccountController.UpdateProfileImage(imageBinary);
         }
 
-        public static bool UpdateUserProfileBanner(IAccountUpdateProfileBannerParameters parameters)
+        public static bool UpdateProfileImage(IAccountUpdateProfileImageParameters parameters)
         {
-            return AccountController.UpdateUserProfileBanner(parameters);
+            return AccountController.UpdateProfileImage(parameters);
         }
 
+        /// <summary>
+        /// Uploads a profile banner on behalf of the authenticated user.
+        /// </summary>
+        public static bool UpdateProfileBanner(byte[] imageBinary)
+        {
+            return AccountController.UpdateProfileBanner(imageBinary);
+        }
+
+        /// <summary>
+        /// Uploads a profile banner on behalf of the authenticated user.
+        /// </summary>
+        public static bool UpdateProfileBanner(IAccountUpdateProfileBannerParameters parameters)
+        {
+            return AccountController.UpdateProfileBanner(parameters);
+        }
+
+        /// <summary>
+        /// Removes the uploaded profile banner for the authenticated user.
+        /// </summary>
         public static bool RemoveUserProfileBanner()
         {
             return AccountController.RemoveUserProfileBanner();
         }
+
+
 
         // Mute
 

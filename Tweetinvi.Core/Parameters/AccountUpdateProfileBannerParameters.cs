@@ -6,7 +6,7 @@ namespace Tweetinvi.Core.Parameters
     /// Parameters used to upload a banner for the user profile.
     /// For more description visit : https://dev.twitter.com/rest/reference/post/account/update_profile_banner
     /// </summary>
-    public interface IAccountUpdateProfileBannerParameters
+    public interface IAccountUpdateProfileBannerParameters : ICustomRequestParameters
     {
         /// <summary>
         /// Binary of the banner image.
@@ -43,7 +43,7 @@ namespace Tweetinvi.Core.Parameters
     /// Parameters used to upload a banner for the user profile.
     /// For more description visit : https://dev.twitter.com/rest/reference/post/account/update_profile_banner
     /// </summary>
-    public class AccountUpdateProfileBannerParameters : IAccountUpdateProfileBannerParameters
+    public class AccountUpdateProfileBannerParameters : CustomRequestParameters, IAccountUpdateProfileBannerParameters
     {
         public AccountUpdateProfileBannerParameters(byte[] image)
         {

@@ -23,8 +23,12 @@ namespace Tweetinvi.Core.Interfaces.Controllers
         // Profile
         IAuthenticatedUser UpdateAccountProfile(IAccountUpdateProfileParameters parameters);
 
-        bool UpdateUserProfileBanner(byte[] imageBinary);
-        bool UpdateUserProfileBanner(IAccountUpdateProfileBannerParameters parameters);
+        bool UpdateProfileImage(byte[] imageBinary);
+        bool UpdateProfileImage(IAccountUpdateProfileImageParameters parameters);
+
+
+        bool UpdateProfileBanner(byte[] imageBinary);
+        bool UpdateProfileBanner(IAccountUpdateProfileBannerParameters parameters);
         bool RemoveUserProfileBanner();
 
         // Mute
