@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using Tweetinvi.Core.Enum;
-using Tweetinvi.Core.Interfaces;
 using Tweetinvi.Core.Interfaces.Credentials;
 using Tweetinvi.Core.Interfaces.DTO;
 using Tweetinvi.Core.Interfaces.DTO.QueryDTO;
 using Tweetinvi.Core.Interfaces.Models;
 using Tweetinvi.Core.Parameters;
+using Tweetinvi.Core.Web;
 
 namespace Tweetinvi.Controllers.Account
 {
@@ -14,7 +14,10 @@ namespace Tweetinvi.Controllers.Account
     {
         IAccountSettingsDTO GetAuthenticatedUserAccountSettings();
         IAccountSettingsDTO UpdateAuthenticatedUserSettings(IAccountSettingsRequestParameters accountSettingsRequestParameters);
+
+        // Profile
         IUserDTO UpdateProfileParameters(IAccountUpdateProfileParameters parameters);
+        bool UpdateUserProfileBanner(IAccountUpdateProfileBannerParameters parameters);
 
         // Mute
         IEnumerable<long> GetMutedUserIds(int maxUserIds = Int32.MaxValue);
@@ -62,6 +65,27 @@ namespace Tweetinvi.Controllers.Account
         {
             var query = _accountQueryGenerator.GetUpdateProfileParametersQuery(parameters);
             return _twitterAccessor.ExecutePOSTQuery<IUserDTO>(query);
+        }
+
+        public bool UpdateUserProfileBanner(IAccountUpdateProfileBannerParameters parameters)
+        {
+            var query = _accountQueryGenerator.GetUpdateUserProfileBannerQuery(parameters);
+
+            if (parameters.Binary == null)
+            {
+                throw new ArgumentNullException("Banner binary cannot be null.");
+            }
+
+            var multipartParameters = new MultipartHttpRequestParameters
+            {
+                Query = query,
+                HttpMethod = HttpMethod.POST,
+                Binaries = new [] { parameters.Binary }, 
+                ContentId = "banner",
+                Timeout = parameters.Timeout
+            };
+
+            return _twitterAccessor.TryExecuteMultipartQuery(multipartParameters);
         }
 
         // Mute

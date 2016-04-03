@@ -31,7 +31,7 @@ namespace Tweetinvi
             }
         }
 
-        [ThreadStatic] 
+        [ThreadStatic]
         private static IFriendshipController _friendshipController;
         private static IFriendshipController FriendshipController
         {
@@ -60,7 +60,7 @@ namespace Tweetinvi
             _accountController = TweetinviContainer.Resolve<IAccountController>();
             _friendshipController = TweetinviContainer.Resolve<IFriendshipController>();
         }
-        
+
         // Settings
 
         /// <summary>
@@ -90,8 +90,6 @@ namespace Tweetinvi
                 startSleepTime,
                 endSleepTime);
         }
-
-        
 
         /// <summary>
         /// Update the current account settings
@@ -136,9 +134,24 @@ namespace Tweetinvi
             return accountSettingsParameter;
         }
 
+        // Profile
+
+        /// <summary>
+        /// Update the information of the authenticated user profile.
+        /// </summary>
         public static IAuthenticatedUser UpdateAccountProfile(IAccountUpdateProfileParameters parameters)
         {
             return AccountController.UpdateAccountProfile(parameters);
+        }
+
+        public static bool UpdateUserProfileBanner(byte[] imageBinary)
+        {
+            return AccountController.UpdateUserProfileBanner(imageBinary);
+        }
+
+        public static bool UpdateUserProfileBanner(IAccountUpdateProfileBannerParameters parameters)
+        {
+            return AccountController.UpdateUserProfileBanner(parameters);
         }
 
         // Mute

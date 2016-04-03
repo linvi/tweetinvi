@@ -18,6 +18,11 @@ namespace Tweetinvi.Controllers.Account
         string GetAuthenticatedUserAccountSettingsQuery();
         string GetUpdateAuthenticatedUserAccountSettingsQuery(IAccountSettingsRequestParameters accountSettingsRequestParameters);
 
+        // Profile
+        string GetUpdateProfileParametersQuery(IAccountUpdateProfileParameters parameters);
+
+        string GetUpdateUserProfileBannerQuery(IAccountUpdateProfileBannerParameters parameters);
+
         // Mute
         string GetMutedUserIdsQuery();
 
@@ -33,7 +38,6 @@ namespace Tweetinvi.Controllers.Account
         string GetSuggestedCategories(Language? language);
         string GetUserSuggestionsQuery(string slug, Language? language);
         string GetSuggestedUsersWithTheirLatestTweetQuery(string slug);
-        string GetUpdateProfileParametersQuery(IAccountUpdateProfileParameters parameters);
     }
 
     public class AccountQueryGenerator : IAccountQueryGenerator
@@ -72,7 +76,21 @@ namespace Tweetinvi.Controllers.Account
 
             return baseQuery.ToString();
         }
+        private string GetLanguagesParameter(IEnumerable<Language> languages)
+        {
+            // ReSharper disable once SimplifyLinqExpression
+            if (languages == null || !languages.Any(x => x != Language.Undefined))
+            {
+                return string.Empty;
+            }
 
+            var validLanguages = languages.Where(x => x != Language.Undefined).Select(x => x.GetLanguageCode());
+            var parameters = string.Join(Uri.EscapeDataString(", "), validLanguages);
+
+            return string.Format("&lang={0}", parameters);
+        }
+
+        // Profile
         public string GetUpdateProfileParametersQuery(IAccountUpdateProfileParameters parameters)
         {
             var query = new StringBuilder(Resources.Account_UpdateProfile);
@@ -90,18 +108,16 @@ namespace Tweetinvi.Controllers.Account
             return query.ToString();
         }
 
-        private string GetLanguagesParameter(IEnumerable<Language> languages)
+        public string GetUpdateUserProfileBannerQuery(IAccountUpdateProfileBannerParameters parameters)
         {
-            // ReSharper disable once SimplifyLinqExpression
-            if (languages == null || !languages.Any(x => x != Language.Undefined))
-            {
-                return string.Empty;
-            }
+            var query = new StringBuilder(Resources.Account_UpdateProfileBanner);
 
-            var validLanguages = languages.Where(x => x != Language.Undefined).Select(x => x.GetLanguageCode());
-            var parameters = string.Join(Uri.EscapeDataString(", "), validLanguages);
+            query.AddParameterToQuery("width", parameters.Width);
+            query.AddParameterToQuery("height", parameters.Height);
+            query.AddParameterToQuery("offset_left", parameters.OffsetLeft);
+            query.AddParameterToQuery("offset_top", parameters.OffsetTop);
 
-            return string.Format("&lang={0}", parameters);
+            return query.ToString();
         }
 
         // Mute
