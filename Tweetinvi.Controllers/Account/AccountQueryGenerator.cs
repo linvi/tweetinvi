@@ -22,6 +22,7 @@ namespace Tweetinvi.Controllers.Account
         string GetUpdateProfileParametersQuery(IAccountUpdateProfileParameters parameters);
 
         string GetUpdateUserProfileBannerQuery(IAccountUpdateProfileBannerParameters parameters);
+        string GetRemoveUserProfileBannerQuery();
 
         // Mute
         string GetMutedUserIdsQuery();
@@ -118,6 +119,11 @@ namespace Tweetinvi.Controllers.Account
             query.AddParameterToQuery("offset_top", parameters.OffsetTop);
 
             return query.ToString();
+        }
+
+        public string GetRemoveUserProfileBannerQuery()
+        {
+            return Resources.Account_RemoveProfileBanner;
         }
 
         // Mute

@@ -154,6 +154,11 @@ namespace Tweetinvi
             return AccountController.UpdateUserProfileBanner(parameters);
         }
 
+        public static bool RemoveUserProfileBanner()
+        {
+            return AccountController.RemoveUserProfileBanner();
+        }
+
         // Mute
 
         /// <summary>

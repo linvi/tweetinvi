@@ -18,6 +18,7 @@ namespace Tweetinvi.Controllers.Account
         // Profile
         IUserDTO UpdateProfileParameters(IAccountUpdateProfileParameters parameters);
         bool UpdateUserProfileBanner(IAccountUpdateProfileBannerParameters parameters);
+        bool RemoveUserProfileBanner();
 
         // Mute
         IEnumerable<long> GetMutedUserIds(int maxUserIds = Int32.MaxValue);
@@ -86,6 +87,12 @@ namespace Tweetinvi.Controllers.Account
             };
 
             return _twitterAccessor.TryExecuteMultipartQuery(multipartParameters);
+        }
+
+        public bool RemoveUserProfileBanner()
+        {
+            var query = _accountQueryGenerator.GetRemoveUserProfileBannerQuery();
+            return _twitterAccessor.TryExecutePOSTQuery(query);
         }
 
         // Mute

@@ -91,6 +91,11 @@ namespace Tweetinvi.Controllers.Account
             return _accountQueryExecutor.UpdateUserProfileBanner(parameters);
         }
 
+        public bool RemoveUserProfileBanner()
+        {
+            return _accountQueryExecutor.RemoveUserProfileBanner();
+        }
+
         // Mute
         public IEnumerable<long> GetMutedUserIds(int maxUserIds = Int32.MaxValue)
         {
