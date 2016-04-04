@@ -248,6 +248,25 @@ namespace Tweetinvi.Controllers.Tweet
             var retweetsDTO = _tweetQueryExecutor.GetRetweets(tweetId, maxRetweetsToRetrieve);
             return _tweetFactory.GenerateTweetsFromDTO(retweetsDTO);
         }
+
+        #endregion
+
+        #region Get Retweeters Ids
+
+        public IEnumerable<long> GetRetweetersIds(ITweetIdentifier tweetIdentifier, int maxRetweetersToRetrieve = 100)
+        {
+            if (tweetIdentifier == null)
+            {
+                throw new ArgumentException("Tweet Identified cannot be null!");
+            }
+
+            return GetRetweetersIds(tweetIdentifier.Id, maxRetweetersToRetrieve);
+        }
+
+        public IEnumerable<long> GetRetweetersIds(long tweetId, int maxRetweetersToRetrieve = 100)
+        {
+            return _tweetQueryExecutor.GetRetweetersIds(tweetId, maxRetweetersToRetrieve);
+        }
         
         #endregion
 

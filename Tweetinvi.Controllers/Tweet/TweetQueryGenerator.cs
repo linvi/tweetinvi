@@ -134,7 +134,23 @@ namespace Tweetinvi.Controllers.Tweet
         {
             return string.Format(Resources.Tweet_Retweet_GetRetweets, tweetId, maxRetweetsToRetrieve);
         }
-        
+
+        #region Get Retweeter Ids
+        public string GetRetweeterIdsQuery(ITweetIdentifier tweetIdentifier, int maxRetweetersToRetrieve = 100)
+        {
+            if (!_tweetQueryValidator.IsValidTweetIdentifier(tweetIdentifier))
+            { return null;
+            }
+            return GetRetweeterIdsQuery(tweetIdentifier.Id, maxRetweetersToRetrieve);
+        }
+
+        public string GetRetweeterIdsQuery(long tweetId, int maxRetweetersToRetrieve)
+        {
+            return string.Format(Resources.Tweet_GetRetweeters, tweetId, maxRetweetersToRetrieve);
+        }
+
+        #endregion
+
         // UnRetweet
         public string GetUnRetweetQuery(ITweetIdentifier tweetIdentifier)
         {
@@ -214,5 +230,6 @@ namespace Tweetinvi.Controllers.Tweet
         {
             return string.Format(Resources.Tweet_GenerateOEmbed, tweetId);
         }
+
     }
 }

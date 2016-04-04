@@ -230,6 +230,25 @@ namespace Tweetinvi
             return TweetController.GetRetweets(tweetId);
         }
 
+        // Get Retweeters Ids
+
+        /// <summary>
+        /// Get the retweeter Ids who tweeted a specific tweet
+        /// </summary>
+        public static IEnumerable<long> GetRetweetersIds(ITweetIdentifier tweetIdentifier, int maxRetweetersToRetrieve=100)
+        {
+            return TweetController.GetRetweetersIds(tweetIdentifier, maxRetweetersToRetrieve);
+        }
+
+        /// <summary>
+        /// Get the retweeter Ids who tweeted a specific tweet
+        /// </summary>
+        public static IEnumerable<long> GetRetweetersIds(long tweetId, int maxRetweetersToRetrieve)
+        {
+            return TweetController.GetRetweetersIds(tweetId, maxRetweetersToRetrieve);
+        }
+
+
         // Destroy Tweet
 
         /// <summary>
