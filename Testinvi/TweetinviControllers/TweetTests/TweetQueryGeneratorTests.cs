@@ -250,7 +250,7 @@ namespace Testinvi.TweetinviControllers.TweetTests
         #region GetRetweetsQuery
 
         [TestMethod]
-        public void GetRetweetsQuery_RetweetingTweetUnpublished_ReturnsNull()
+        public void GetRetweetsQuery_WithValidTweetDTO_ReturnsNull()
         {
             // Arrange
             var queryGenerator = CreateTweetQueryGenerator();
@@ -266,7 +266,7 @@ namespace Testinvi.TweetinviControllers.TweetTests
         }
 
         [TestMethod]
-        public void GetRetweetsQuery_RetweetingTweetPublished_ReturnsExpectedQuery()
+        public void GetRetweetsQuery_WithValidTweetDTO_ReturnsExpectedQuery()
         {
             // Arrange
             var queryGenerator = CreateTweetQueryGenerator();
@@ -298,6 +298,59 @@ namespace Testinvi.TweetinviControllers.TweetTests
 
             // Assert
             var expectedResult = string.Format(Resources.Tweet_Retweet_GetRetweets, tweetToRetweetId, maxRetweetsToRetrieve);
+            Assert.AreEqual(result, expectedResult);
+        }
+
+        #endregion
+
+        #region Get Retweeter Ids Query
+
+        [TestMethod]
+        public void GetRetweeterIdsQuery_WithInValidTweetIdentifier_ReturnsNull()
+        {
+            // Arrange
+            var queryGenerator = CreateTweetQueryGenerator();
+            var tweetIdentifier = A.Fake<ITweetIdentifier>();
+            var maxRetweetersToRetrieve = TestHelper.GenerateRandomInt();
+            _fakeTweetQueryValidator.CallsTo(x => x.IsValidTweetIdentifier(tweetIdentifier)).Returns(false);
+
+            // Act
+            var result = queryGenerator.GetRetweeterIdsQuery(tweetIdentifier, maxRetweetersToRetrieve);
+
+            // Assert
+            Assert.AreEqual(result, null);
+        }
+
+        [TestMethod]
+        public void GetRetweeterIdsQuery_WithInValidTweetIdentifier_ReturnsExpectedQuery()
+        {
+            // Arrange
+            var queryGenerator = CreateTweetQueryGenerator();
+            var tweetIdentifier = A.Fake<ITweetIdentifier>();
+            var maxRetweetersToRetrieve = TestHelper.GenerateRandomInt();
+            _fakeTweetQueryValidator.CallsTo(x => x.IsValidTweetIdentifier(tweetIdentifier)).Returns(true);
+
+            // Act
+            var result = queryGenerator.GetRetweeterIdsQuery(tweetIdentifier, maxRetweetersToRetrieve);
+
+            // Assert
+            var expectedResult = string.Format(Resources.User_GetFollowers, tweetIdentifier.Id, maxRetweetersToRetrieve);
+            Assert.AreEqual(result, expectedResult);
+        }
+        
+        [TestMethod]
+        public void GetRetweeterIdsQuery_WithInValidTweetId_ReturnsExpectedQuery()
+        {
+            // Arrange
+            var queryGenerator = CreateTweetQueryGenerator();
+            var tweetId = TestHelper.GenerateRandomLong();
+            var maxRetweetersToRetrieve = TestHelper.GenerateRandomInt();
+
+            // Act
+            var result = queryGenerator.GetRetweeterIdsQuery(tweetId, maxRetweetersToRetrieve);
+
+            // Assert
+            var expectedResult = string.Format(Resources.User_GetFollowers, tweetId, maxRetweetersToRetrieve);
             Assert.AreEqual(result, expectedResult);
         }
 

@@ -139,7 +139,8 @@ namespace Tweetinvi.Controllers.Tweet
         public string GetRetweeterIdsQuery(ITweetIdentifier tweetIdentifier, int maxRetweetersToRetrieve = 100)
         {
             if (!_tweetQueryValidator.IsValidTweetIdentifier(tweetIdentifier))
-            { return null;
+            {
+                return null;
             }
             return GetRetweeterIdsQuery(tweetIdentifier.Id, maxRetweetersToRetrieve);
         }

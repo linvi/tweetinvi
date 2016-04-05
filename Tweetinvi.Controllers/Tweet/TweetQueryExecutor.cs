@@ -100,9 +100,6 @@ namespace Tweetinvi.Controllers.Tweet
         {
             string query = _tweetQueryGenerator.GetRetweetsQuery(tweet, maxRetweetsToRetrieve);
             return _twitterAccessor.ExecuteCursorGETQuery<ITweetDTO, IRetweetsCursorQueryResultDTO>(query, maxRetweetsToRetrieve);
-
-            //return _twitterAccessor.ExecuteCursorGETQuery<IEnumerable<ITweetDTO>>(query);
-            //return _twitterAccessor.ExecuteCursorGETQuery<long, IIdsCursorQueryResultDTO>(query, maxFollowersToRetrieve);
         }
 
         public IEnumerable<ITweetDTO> GetRetweets(long tweetId, int maxRetweetsToRetrieve)
@@ -117,12 +114,12 @@ namespace Tweetinvi.Controllers.Tweet
         public IEnumerable<long> GetRetweetersIds(ITweetIdentifier tweetIdentifier, int maxRetweetersToRetrieve)
         {
             string query = _tweetQueryGenerator.GetRetweeterIdsQuery(tweetIdentifier, maxRetweetersToRetrieve);
-            return _twitterAccessor.ExecuteGETQuery<IEnumerable<long>>(query);
+            return _twitterAccessor.ExecuteCursorGETQuery<long, IIdsCursorQueryResultDTO>(query);
         }
         public IEnumerable<long> GetRetweetersIds(long tweetId, int maxRetweetersToRetrieve)
         {
             string query = _tweetQueryGenerator.GetRetweeterIdsQuery(tweetId, maxRetweetersToRetrieve);
-            return _twitterAccessor.ExecuteGETQuery<IEnumerable<long>>(query);
+            return _twitterAccessor.ExecuteCursorGETQuery<long, IIdsCursorQueryResultDTO>(query);
         }
 
         #endregion
