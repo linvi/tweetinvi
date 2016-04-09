@@ -147,11 +147,16 @@ namespace Tweetinvi
         /// <summary>
         /// Updates the authenticated user’s profile image. 
         /// </summary>
+        /// <param name="imageBinary">Must be a valid GIF, JPG, or PNG image of less than 800 kilobytes in size. Images with width larger than 2048 pixels will be forcibly scaled down.</param>
         public static bool UpdateProfileImage(byte[] imageBinary)
         {
             return AccountController.UpdateProfileImage(imageBinary);
         }
 
+        /// <summary>
+        /// Updates the authenticated user’s profile image. 
+        /// </summary>
+        /// <param name="parameters">The parameters must contain a valid GIF, JPG, or PNG image of less than 800 kilobytes in size. Images with width larger than 2048 pixels will be forcibly scaled down.</param>
         public static bool UpdateProfileImage(IAccountUpdateProfileImageParameters parameters)
         {
             return AccountController.UpdateProfileImage(parameters);
@@ -181,7 +186,29 @@ namespace Tweetinvi
             return AccountController.RemoveUserProfileBanner();
         }
 
+        /// <summary>
+        /// Updates the authenticated user’s profile background image. 
+        /// </summary>
+        public static bool UpdateProfileBackgroundImage(byte[] imageBinary)
+        {
+            return AccountController.UpdateProfileBackgroundImage(imageBinary);
+        }
 
+        /// <summary>
+        /// Updates the authenticated user’s profile background image. 
+        /// </summary>
+        public static bool UpdateProfileBackgroundImage(long mediaId)
+        {
+            return AccountController.UpdateProfileBackgroundImage(mediaId);
+        }
+
+        /// <summary>
+        /// Updates the authenticated user’s profile background image. 
+        /// </summary>
+        public static bool UpdateProfileBackgroundImage(IAccountUpdateProfileBackgroundImageParameters parameters)
+        {
+            return AccountController.UpdateProfileBackgroundImage(parameters);
+        }
 
         // Mute
 

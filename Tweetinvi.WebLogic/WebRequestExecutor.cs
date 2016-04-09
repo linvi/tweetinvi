@@ -50,7 +50,7 @@ namespace Tweetinvi.WebLogic
 
                     if (!result.IsSuccessStatusCode)
                     {
-                        throw _exceptionHandler.TryLogFailedWebRequestResult(result);
+                            throw _exceptionHandler.TryLogFailedWebRequestResult(result);
                     }
 
                     var stream = result.ResultStream;

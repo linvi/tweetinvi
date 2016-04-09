@@ -31,6 +31,10 @@ namespace Tweetinvi.Core.Interfaces.Controllers
         bool UpdateProfileBanner(IAccountUpdateProfileBannerParameters parameters);
         bool RemoveUserProfileBanner();
 
+        bool UpdateProfileBackgroundImage(byte[] imageBinary);
+        bool UpdateProfileBackgroundImage(long mediaId);
+        bool UpdateProfileBackgroundImage(IAccountUpdateProfileBackgroundImageParameters parameters);
+
         // Mute
         IEnumerable<long> GetMutedUserIds(int maxUserIds = Int32.MaxValue);
         IEnumerable<IUser> GetMutedUsers(int maxUsersToRetrieve = 250);

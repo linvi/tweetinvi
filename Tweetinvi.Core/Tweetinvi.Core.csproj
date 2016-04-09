@@ -195,6 +195,7 @@
     <Compile Include="Interfaces\Models\Entities\ExtendedEntities\IVideoInformationEntity.cs" />
     <Compile Include="Interfaces\Models\ITwitterQuery.cs" />
     <Compile Include="Interfaces\Streaminvi\MatchOn.cs" />
+    <Compile Include="Parameters\AccountUpdateProfileBackgroundImageParameters.cs" />
     <Compile Include="Parameters\AccountUpdateProfileImageParameters.cs" />
     <Compile Include="Parameters\AccountUpdateProfileBannerParameters.cs" />
     <Compile Include="Parameters\AccountUpdateProfileParameters.cs" />

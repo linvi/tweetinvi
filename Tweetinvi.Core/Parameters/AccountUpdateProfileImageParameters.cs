@@ -10,7 +10,8 @@ namespace Tweetinvi.Core.Parameters
     public interface IAccountUpdateProfileImageParameters : ICustomRequestParameters
     {
         /// <summary>
-        /// Binary of the banner image.
+        /// Binary of the profile image. 
+        /// Must be a valid GIF, JPG, or PNG image of less than 700 kilobytes in size. Images with width larger than 400 pixels will be scaled down.
         /// </summary>
         byte[] Binary { get; set; }
 

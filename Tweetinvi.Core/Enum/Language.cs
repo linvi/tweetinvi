@@ -33,6 +33,7 @@ namespace Tweetinvi.Core.Enum
             Languages = languages;
             HasMultipleCodes = languages.Length > 1;
         }
+        
     }
 
     /// <summary>

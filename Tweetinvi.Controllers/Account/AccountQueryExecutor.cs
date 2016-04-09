@@ -20,6 +20,7 @@ namespace Tweetinvi.Controllers.Account
         IUserDTO UpdateProfileParameters(IAccountUpdateProfileParameters parameters);
         bool UpdateProfileBanner(IAccountUpdateProfileBannerParameters parameters);
         bool RemoveUserProfileBanner();
+        bool UpdateProfileBackgroundImage(IAccountUpdateProfileBackgroundImageParameters parameters);
 
         // Mute
         IEnumerable<long> GetMutedUserIds(int maxUserIds = Int32.MaxValue);
@@ -107,6 +108,25 @@ namespace Tweetinvi.Controllers.Account
         public bool RemoveUserProfileBanner()
         {
             var query = _accountQueryGenerator.GetRemoveUserProfileBannerQuery();
+            return _twitterAccessor.TryExecutePOSTQuery(query);
+        }
+
+        public bool UpdateProfileBackgroundImage(IAccountUpdateProfileBackgroundImageParameters parameters)
+        {
+            var query = _accountQueryGenerator.GetUpdateProfilBackgroundImageQuery(parameters);
+
+            if (parameters.Binary != null)
+            {
+                return _twitterAccessor.TryExecuteMultipartQuery(new MultipartHttpRequestParameters
+                {
+                    Query = query,
+                    HttpMethod = HttpMethod.POST,
+                    Binaries = new [] { parameters.Binary },
+                    ContentId = "image",
+                    Timeout = parameters.Timeout
+                });
+            }
+
             return _twitterAccessor.TryExecutePOSTQuery(query);
         }
 

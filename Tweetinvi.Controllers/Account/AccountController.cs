@@ -106,6 +106,21 @@ namespace Tweetinvi.Controllers.Account
             return _accountQueryExecutor.RemoveUserProfileBanner();
         }
 
+        public bool UpdateProfileBackgroundImage(byte[] imageBinary)
+        {
+            return UpdateProfileBackgroundImage(new AccountUpdateProfileBackgroundImageParameters(imageBinary));
+        }
+
+        public bool UpdateProfileBackgroundImage(long mediaId)
+        {
+            return UpdateProfileBackgroundImage(new AccountUpdateProfileBackgroundImageParameters(mediaId));
+        }
+
+        public bool UpdateProfileBackgroundImage(IAccountUpdateProfileBackgroundImageParameters parameters)
+        {
+            return _accountQueryExecutor.UpdateProfileBackgroundImage(parameters);
+        }
+
         // Mute
         public IEnumerable<long> GetMutedUserIds(int maxUserIds = Int32.MaxValue)
         {

@@ -26,6 +26,7 @@ namespace Tweetinvi.Controllers.Account
 
         string GetUpdateProfileBannerQuery(IAccountUpdateProfileBannerParameters parameters);
         string GetRemoveUserProfileBannerQuery();
+        string GetUpdateProfilBackgroundImageQuery(IAccountUpdateProfileBackgroundImageParameters parameters);
 
         // Mute
         string GetMutedUserIdsQuery();
@@ -141,6 +142,24 @@ namespace Tweetinvi.Controllers.Account
         public string GetRemoveUserProfileBannerQuery()
         {
             return Resources.Account_RemoveProfileBanner;
+        }
+
+        public string GetUpdateProfilBackgroundImageQuery(IAccountUpdateProfileBackgroundImageParameters parameters)
+        {
+            var query = new StringBuilder(Resources.Account_UpdateProfileBackgroundImage);
+
+            if (parameters.Binary == null)
+            {
+                query.AddParameterToQuery("media_id", parameters.MediaId);
+            }
+
+            query.AddParameterToQuery("tile", parameters.UseTileMode);
+            query.AddParameterToQuery("include_entities", parameters.IncludeEntities);
+            query.AddParameterToQuery("skip_status", parameters.SkipStatus);
+
+            query.AddFormattedParameterToQuery(parameters.FormattedCustomQueryParameters);
+
+            return query.ToString();
         }
 
         // Mute

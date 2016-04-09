@@ -60,6 +60,11 @@ namespace Tweetinvi.Controllers.Properties
         public static string Account_RemoveProfileBanner = "https://api.twitter.com/1.1/account/remove_profile_banner.json";
 
         /// <summary>
+        ///   Looks up a localized string similar to https://api.twitter.com/1.1/account/update_profile_background_image.json.
+        /// </summary>
+        public static string Account_UpdateProfileBackgroundImage = "https://api.twitter.com/1.1/account/update_profile_background_image.json";
+
+        /// <summary>
         ///   Looks up a localized string similar to https://api.twitter.com/1.1/users/suggestions/{0}.json?{1}.
         /// </summary>
         public static string Account_UserSuggestions = "https://api.twitter.com/1.1/users/suggestions/{0}.json?{1}";
