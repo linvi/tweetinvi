@@ -6,7 +6,8 @@ Param(
 	[Switch]$help,				 # Help
 	[Switch]$iel,				 # Include External Libraries	
 	[Switch]$uv,				 # Update Version Only
-	[Switch]$nugetMultipleDLLs   # Add non merged DLLs to nuget folders
+	[Switch]$nugetMultipleDLLs,  # Add non merged DLLs to nuget folders
+	[Switch]$b 					 # Build only
 );
 
 $version = $v;
@@ -23,7 +24,7 @@ if ($h.IsPresent -or $help.IsPresent) {
 	Write-Host '-uv   : Only update assemblies'' versions.'
 	Write-Host '-v    : Set the version of the assemblies and build (default:' $v').';
 	Write-Host ''
-	Write-Host 'NUGET Argumements'
+	Write-Host 'NUGET Arguments'
 	Write-Host '-nugetMultipleDLLs : Use multiple binaries instead of a merged one.'
 	Write-Host
 	return;
@@ -127,6 +128,13 @@ if (!$uv.IsPresent) {
 	$p = Start-Process -Filepath '.\nuget.exe' -ArgumentList 'restore ../' -PassThru -NoNewWindow;
 	$null = $p.WaitForExit(-1);
 
+	# Remove previous binaries
+	$examplinviBin = $rootPath + $examplinvi + '\bin\' + $releaseMode
+	
+	if (Test-Path $examplinviBin) {
+		rmdir -r $examplinviBin
+	}
+	
 	# Build solution
 
     if (!$dnr.IsPresent)
@@ -145,10 +153,12 @@ if (!$uv.IsPresent) {
 	}
 
 	# Move dll into temporary folder
-	$examplinviBin = $rootPath + $examplinvi + '\bin\' + $releaseMode
-
 	Get-ChildItem -LiteralPath $examplinviBin -filter *.dll  | % { Copy-Item $_.fullname $temporaryFolder }
 
+	if ($b.IsPresent) {
+		Exit;
+	}
+	
 	# Ensure the nuget folders have been created
 	mkdir $net40Folder -Force | Out-Null
 	mkdir $net45Folder -Force | Out-Null
