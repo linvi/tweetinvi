@@ -1,4 +1,4 @@
-﻿using System;
+﻿﻿using System;
 using System.Collections.Generic;
 using System.Text;
 using Tweetinvi.Controllers.Properties;
@@ -13,7 +13,6 @@ namespace Tweetinvi.Controllers.Search
         string GetSearchTweetsQuery(string query);
         string GetSearchTweetsQuery(ITweetSearchParameters tweetSearchParameters);
 
-        string GetSearchUsersQuery(string query);
         string GetSearchUsersQuery(IUserSearchParameters userSearchParameters);
     }
 
@@ -52,9 +51,9 @@ namespace Tweetinvi.Controllers.Search
                 return null;
             }
 
-            var query = new StringBuilder();
+            var query = new StringBuilder(Resources.Search_SearchTweets);
 
-            query.Append(_searchQueryParameterGenerator.GenerateSearchQueryParameter(searchQuery));
+            query.AddParameterToQuery("q", _searchQueryParameterGenerator.GenerateSearchQueryParameter(searchQuery));
             query.Append(_searchQueryParameterGenerator.GenerateSearchTypeParameter(tweetSearchParameters.SearchType));
 
             query.Append(_queryParameterGenerator.GenerateSinceIdParameter(tweetSearchParameters.SinceId));
@@ -82,7 +81,7 @@ namespace Tweetinvi.Controllers.Search
             {
                 if (entitiesTypeFilter != TweetSearchFilters.None)
                 {
-                    var filter = entitiesTypeFilter.GetQueryFilterName();
+                    var filter = entitiesTypeFilter.ToString().ToLowerInvariant();
                     query += string.Format(" filter:{0}", filter);
                 }
             }
@@ -101,26 +100,16 @@ namespace Tweetinvi.Controllers.Search
             }
         }
 
-        public string GetSearchUsersQuery(string query)
-        {
-            if (!_searchQueryValidator.IsSearchTweetsQueryValid(query))
-            {
-                return null;
-            }
-
-            return string.Format(Resources.Search_SearchUsers, query);
-        }
-
         public string GetSearchUsersQuery(IUserSearchParameters userSearchParameters)
         {
-            var baseQuery = GetSearchUsersQuery(userSearchParameters.SearchQuery);
-            if (string.IsNullOrEmpty(baseQuery))
+            if (!_searchQueryValidator.IsSearchTweetsQueryValid(userSearchParameters.SearchQuery))
             {
                 return null;
             }
 
-            var queryBuilder = new StringBuilder(baseQuery);
+            var queryBuilder = new StringBuilder(Resources.Search_SearchUsers);
 
+            queryBuilder.AddParameterToQuery("q", _searchQueryParameterGenerator.GenerateSearchQueryParameter(userSearchParameters.SearchQuery));
             queryBuilder.AddParameterToQuery("page", userSearchParameters.Page);
             queryBuilder.Append(_queryParameterGenerator.GenerateCountParameter(userSearchParameters.MaximumNumberOfResults));
             queryBuilder.Append(_queryParameterGenerator.GenerateIncludeEntitiesParameter(userSearchParameters.IncludeEntities));

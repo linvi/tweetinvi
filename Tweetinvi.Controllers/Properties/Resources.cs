@@ -335,14 +335,14 @@ namespace Tweetinvi.Controllers.Properties
         public static string SavedSearches_GetList = "https://api.twitter.com/1.1/saved_searches/list.json";
 
         /// <summary>
-        ///   Looks up a localized string similar to https://api.twitter.com/1.1/search/tweets.json?q={0}.
+        ///   Looks up a localized string similar to https://api.twitter.com/1.1/search/tweets.json.
         /// </summary>
-        public static string Search_SearchTweets = "https://api.twitter.com/1.1/search/tweets.json?q={0}";
+        public static string Search_SearchTweets = "https://api.twitter.com/1.1/search/tweets.json";
 
         /// <summary>
-        ///   Looks up a localized string similar to https://api.twitter.com/1.1/users/search.json?q={0}.
+        ///   Looks up a localized string similar to https://api.twitter.com/1.1/users/search.json.
         /// </summary>
-        public static string Search_SearchUsers = "https://api.twitter.com/1.1/users/search.json?q={0}";
+        public static string Search_SearchUsers = "https://api.twitter.com/1.1/users/search.json";
 
         /// <summary>
         ///   Looks up a localized string similar to &amp;geocode={0}%2C{1}%2C{2}{3}.

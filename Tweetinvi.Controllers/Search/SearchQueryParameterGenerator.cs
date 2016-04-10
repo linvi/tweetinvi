@@ -33,7 +33,7 @@ namespace Tweetinvi.Controllers.Search
         private readonly ITwitterStringFormatter _twitterStringFormatter;
 
         public SearchQueryParameterGenerator(
-            ISearchQueryValidator searchQueryValidator, 
+            ISearchQueryValidator searchQueryValidator,
             ITwitterStringFormatter twitterStringFormatter)
         {
             _searchQueryValidator = searchQueryValidator;
@@ -62,8 +62,7 @@ namespace Tweetinvi.Controllers.Search
 
         public string GenerateSearchQueryParameter(string searchQuery)
         {
-            var formattedQuery = _twitterStringFormatter.TwitterEncode(searchQuery);
-            return string.Format(Resources.Search_SearchTweets, formattedQuery);
+            return _twitterStringFormatter.TwitterEncode(searchQuery);
         }
 
         public string GenerateSearchTypeParameter(SearchResultType searchType)
