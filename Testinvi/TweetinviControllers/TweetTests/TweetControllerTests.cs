@@ -289,12 +289,13 @@ namespace Testinvi.TweetinviControllers.TweetTests
             var controller = CreateTweetController();
             var tweetIdentifier = A.Fake<ITweetIdentifier>();
             var maxRetweetersToRetrieve = TestHelper.GenerateRandomInt();
+            var stringifyIds = TestHelper.GenerateRandomBool();
             var retweeterIds = new[] { TestHelper.GenerateRandomLong() };
 
-            _fakeTweetQueryExecutor.CallsTo(x => x.GetRetweetersIds(tweetIdentifier.Id, maxRetweetersToRetrieve)).Returns(retweeterIds);
+            _fakeTweetQueryExecutor.CallsTo(x => x.GetRetweetersIds(tweetIdentifier.Id, maxRetweetersToRetrieve, stringifyIds)).Returns(retweeterIds);
 
             // Act
-            var result = controller.GetRetweetersIds(tweetIdentifier, maxRetweetersToRetrieve);
+            var result = controller.GetRetweetersIds(tweetIdentifier, maxRetweetersToRetrieve, stringifyIds);
 
             // Assert
             Assert.AreEqual(result, retweeterIds);
@@ -307,12 +308,13 @@ namespace Testinvi.TweetinviControllers.TweetTests
             var controller = CreateTweetController();
             var tweetId = TestHelper.GenerateRandomLong();
             var maxRetweetersToRetrieve = TestHelper.GenerateRandomInt();
+            var stringifyIds = TestHelper.GenerateRandomBool();
             var retweeterIds = new[] { TestHelper.GenerateRandomLong() };
 
-            _fakeTweetQueryExecutor.CallsTo(x => x.GetRetweetersIds(tweetId, maxRetweetersToRetrieve)).Returns(retweeterIds);
+            _fakeTweetQueryExecutor.CallsTo(x => x.GetRetweetersIds(tweetId, maxRetweetersToRetrieve, stringifyIds)).Returns(retweeterIds);
 
             // Act
-            var result = controller.GetRetweetersIds(tweetId, maxRetweetersToRetrieve);
+            var result = controller.GetRetweetersIds(tweetId, maxRetweetersToRetrieve, stringifyIds);
 
             // Assert
             Assert.AreEqual(result, retweeterIds);

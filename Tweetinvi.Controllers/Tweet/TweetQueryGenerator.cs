@@ -136,18 +136,18 @@ namespace Tweetinvi.Controllers.Tweet
         }
 
         #region Get Retweeter Ids
-        public string GetRetweeterIdsQuery(ITweetIdentifier tweetIdentifier, int maxRetweetersToRetrieve = 100)
+        public string GetRetweeterIdsQuery(ITweetIdentifier tweetIdentifier, bool stringifyIds)
         {
             if (!_tweetQueryValidator.IsValidTweetIdentifier(tweetIdentifier))
             {
                 return null;
             }
-            return GetRetweeterIdsQuery(tweetIdentifier.Id, maxRetweetersToRetrieve);
+            return GetRetweeterIdsQuery(tweetIdentifier.Id, stringifyIds);
         }
 
-        public string GetRetweeterIdsQuery(long tweetId, int maxRetweetersToRetrieve)
+        public string GetRetweeterIdsQuery(long tweetId, bool stringifyIds)
         {
-            return string.Format(Resources.Tweet_GetRetweeters, tweetId, maxRetweetersToRetrieve);
+            return string.Format(Resources.Tweet_GetRetweeters, tweetId, stringifyIds.ToString());
         }
 
         #endregion

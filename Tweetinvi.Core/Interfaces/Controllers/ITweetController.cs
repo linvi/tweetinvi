@@ -41,8 +41,8 @@ namespace Tweetinvi.Core.Interfaces.Controllers
         IEnumerable<ITweet> GetRetweets(long tweetId, int maxRetweetsToRetrieve = 100);
 
         // Get Retweeters
-        IEnumerable<long> GetRetweetersIds(ITweetIdentifier tweet, int maxRetweetersToRetrieve = 100);
-        IEnumerable<long> GetRetweetersIds(long tweetId, int maxRetweetersToRetrieve = 100);
+        IEnumerable<long> GetRetweetersIds(ITweetIdentifier tweet, int maxRetweetersToRetrieve = 100, bool stringifyIds=true);
+        IEnumerable<long> GetRetweetersIds(long tweetId, int maxRetweetersToRetrieve = 100, bool stringifyIds=true);
 
         // Destroy Tweet
         bool DestroyTweet(ITweet tweet);

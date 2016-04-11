@@ -134,7 +134,7 @@ namespace Testinvi.TweetinviControllers.TweetTests
             _fakeTwitterAccessor.ArrangeExecuteJsonGETQuery(query, expectedResult);
 
             // Act
-            var result = queryExecutor.GetRetweets(tweet);
+            var result = queryExecutor.GetRetweets(tweet, maxRetweetsToRetrieve);
 
             // Assert
             Assert.AreEqual(result, expectedResult);
@@ -154,7 +154,7 @@ namespace Testinvi.TweetinviControllers.TweetTests
             _fakeTwitterAccessor.ArrangeExecuteJsonGETQuery(query, expectedResult);
 
             // Act
-            var result = queryExecutor.GetRetweets(tweetDTO);
+            var result = queryExecutor.GetRetweets(tweetDTO, maxRetweetsToRetrieve);
 
             // Assert
             Assert.AreEqual(result, expectedResult);
@@ -174,7 +174,7 @@ namespace Testinvi.TweetinviControllers.TweetTests
             _fakeTwitterAccessor.ArrangeExecuteJsonGETQuery(query, expectedResult);
 
             // Act
-            var result = queryExecutor.GetRetweets(tweetId);
+            var result = queryExecutor.GetRetweets(tweetId, maxRetweetsToRetrieve);
 
             // Assert
             Assert.AreEqual(result, expectedResult);

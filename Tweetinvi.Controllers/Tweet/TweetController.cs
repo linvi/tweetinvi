@@ -253,19 +253,19 @@ namespace Tweetinvi.Controllers.Tweet
 
         #region Get Retweeters Ids
 
-        public IEnumerable<long> GetRetweetersIds(ITweetIdentifier tweetIdentifier, int maxRetweetersToRetrieve = 100)
+        public IEnumerable<long> GetRetweetersIds(ITweetIdentifier tweetIdentifier, int maxRetweetersToRetrieve = 100, bool stringifyIds=true)
         {
             if (tweetIdentifier == null)
             {
                 throw new ArgumentException("Tweet Identified cannot be null!");
             }
 
-            return GetRetweetersIds(tweetIdentifier.Id, maxRetweetersToRetrieve);
+            return GetRetweetersIds(tweetIdentifier.Id, maxRetweetersToRetrieve, stringifyIds);
         }
 
-        public IEnumerable<long> GetRetweetersIds(long tweetId, int maxRetweetersToRetrieve = 100)
+        public IEnumerable<long> GetRetweetersIds(long tweetId, int maxRetweetersToRetrieve = 100, bool stringifyIds = true)
         {
-            return _tweetQueryExecutor.GetRetweetersIds(tweetId, maxRetweetersToRetrieve);
+            return _tweetQueryExecutor.GetRetweetersIds(tweetId, maxRetweetersToRetrieve, stringifyIds);
         }
         
         #endregion

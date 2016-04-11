@@ -40,6 +40,12 @@ namespace Testinvi.Helpers
             return result;
         }
 
+
+        public static bool GenerateRandomBool()
+        {
+            return new Random().Next() % 2 == 0;            
+        }
+
         public static long DefaultId()
         {
             return TweetinviSettings.DEFAULT_ID;

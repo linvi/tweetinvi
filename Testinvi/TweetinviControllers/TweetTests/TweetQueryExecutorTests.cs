@@ -131,7 +131,7 @@ namespace Testinvi.TweetinviControllers.TweetTests
             IEnumerable<ITweetDTO> expectedResult = GenerateExpectedIRetweetsCursorResults();
 
             _fakeTweetQueryGenerator.CallsTo(x => x.GetRetweetsQuery(tweetDTO, maxRetweetsToRetrieve)).Returns(query);
-            _fakeTwitterAccessor.ArrangeExecuteCursorGETQuery<ITweetDTO, IRetweetsCursorQueryResultDTO>(query, expectedResult);
+            _fakeTwitterAccessor.ArrangeExecuteGETQuery<IEnumerable<ITweetDTO>>(query, expectedResult);
 
             // Act
             var result = queryExecutor.GetRetweets(tweetDTO, maxRetweetsToRetrieve);
@@ -151,7 +151,7 @@ namespace Testinvi.TweetinviControllers.TweetTests
             IEnumerable<ITweetDTO> expectedResult = GenerateExpectedIRetweetsCursorResults();
 
             _fakeTweetQueryGenerator.CallsTo(x => x.GetRetweetsQuery(tweetId, maxRetweetsToRetrieve)).Returns(query);
-            _fakeTwitterAccessor.ArrangeExecuteCursorGETQuery<ITweetDTO, IRetweetsCursorQueryResultDTO>(query, expectedResult);
+            _fakeTwitterAccessor.ArrangeExecuteGETQuery<IEnumerable<ITweetDTO>>(query, expectedResult);
 
             // Act
             var result = queryExecutor.GetRetweets(tweetId, maxRetweetsToRetrieve);
@@ -171,14 +171,15 @@ namespace Testinvi.TweetinviControllers.TweetTests
             var queryExecutor = CreateTweetQueryExecutor();
             var tweetIdentifier = A.Fake<ITweetIdentifier>();
             var maxRetweetersToRetrieve = TestHelper.GenerateRandomInt();
+            var stringifyIds = TestHelper.GenerateRandomBool();
             var query = TestHelper.GenerateString();
             var expectedCursorResults = GenerateExpectedCursorResults();
 
-            _fakeTweetQueryGenerator.CallsTo(x => x.GetRetweeterIdsQuery(tweetIdentifier, maxRetweetersToRetrieve)).Returns(query);
+            _fakeTweetQueryGenerator.CallsTo(x => x.GetRetweeterIdsQuery(tweetIdentifier, stringifyIds)).Returns(query);
             _fakeTwitterAccessor.ArrangeExecuteCursorGETQuery<long, IIdsCursorQueryResultDTO>(query, expectedCursorResults);
 
             // Act
-            var result = queryExecutor.GetRetweetersIds(tweetIdentifier, maxRetweetersToRetrieve);
+            var result = queryExecutor.GetRetweetersIds(tweetIdentifier, maxRetweetersToRetrieve, stringifyIds);
 
             // Assert
             Assert.IsTrue(result.ContainsAll(_cursorQueryIds));
@@ -191,10 +192,11 @@ namespace Testinvi.TweetinviControllers.TweetTests
             var queryExecutor = CreateTweetQueryExecutor();
             var tweetId = TestHelper.GenerateRandomLong();
             var maxRetweetersToRetrieve = TestHelper.GenerateRandomInt();
+            var stringifyIds = TestHelper.GenerateRandomBool();
             var query = TestHelper.GenerateString();
             var expectedCursorResults = GenerateExpectedCursorResults();
 
-            _fakeTweetQueryGenerator.CallsTo(x => x.GetRetweeterIdsQuery(tweetId, maxRetweetersToRetrieve)).Returns(query);
+            _fakeTweetQueryGenerator.CallsTo(x => x.GetRetweeterIdsQuery(tweetId, stringifyIds)).Returns(query);
             _fakeTwitterAccessor.ArrangeExecuteCursorGETQuery<long, IIdsCursorQueryResultDTO>(query, expectedCursorResults);
 
             // Act
