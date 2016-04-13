@@ -157,19 +157,22 @@ namespace Tweetinvi.Streams.Helpers
         {
             lock (_lockStream)
             {
-                StopStreamAndUnsubscribeFromEvents();
-
-                if (exception is ITwitterTimeoutException && disconnectMessage == null)
+                if (StreamState != StreamState.Stop)
                 {
-                    disconnectMessage = new DisconnectMessage
-                    {
-                        Code = 503,
-                        Reason = "Timeout"
-                    };
-                }
+                    StopStreamAndUnsubscribeFromEvents();
 
-                var streamExceptionEventArgs = new StreamExceptionEventArgs(exception, disconnectMessage);
-                this.Raise(StreamStopped, streamExceptionEventArgs);
+                    if (exception is ITwitterTimeoutException && disconnectMessage == null)
+                    {
+                        disconnectMessage = new DisconnectMessage
+                        {
+                            Code = 503,
+                            Reason = "Timeout"
+                        };
+                    }
+
+                    var streamExceptionEventArgs = new StreamExceptionEventArgs(exception, disconnectMessage);
+                    this.Raise(StreamStopped, streamExceptionEventArgs);
+                }
             }
         }
 

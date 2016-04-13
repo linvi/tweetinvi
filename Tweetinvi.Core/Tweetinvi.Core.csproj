@@ -302,7 +302,6 @@
     <Compile Include="Interfaces\QueryValidators\IUserQueryValidator.cs" />
     <Compile Include="Interfaces\Streaminvi\IFilteredStream.cs" />
     <Compile Include="Interfaces\Streaminvi\ISampleStream.cs" />
-    <Compile Include="Interfaces\Streaminvi\IStream.cs" />
     <Compile Include="Interfaces\Streaminvi\IStreamResultGenerator.cs" />
     <Compile Include="Interfaces\Streaminvi\IStreamTrackManager.cs" />
     <Compile Include="Interfaces\Streaminvi\IStringAnalyzer.cs" />
