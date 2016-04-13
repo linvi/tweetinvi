@@ -1,5 +1,8 @@
 ﻿namespace Tweetinvi.Core.Parameters
 {
+    /// <summary>
+    /// https://dev.twitter.com/rest/reference/get/statuses/user_timeline
+    /// </summary>
     public interface IUserTimelineParameters : ITimelineRequestParameters
     {
         /// <summary>
@@ -20,6 +23,9 @@
         bool IncludeContributorDetails { get; set; }
     }
 
+    /// <summary>
+    /// https://dev.twitter.com/rest/reference/get/statuses/user_timeline
+    /// </summary>
     public class UserTimelineParameters : TimelineRequestParameters, IUserTimelineParameters
     {
         public UserTimelineParameters()

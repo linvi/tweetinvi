@@ -33,8 +33,8 @@ namespace Tweetinvi.Core.Parameters
     }
 
     /// <summary>
-    /// Parameters used to upload a banner for the user profile.
-    /// For more description visit : https://dev.twitter.com/rest/reference/post/account/update_profile_banner
+    /// Parameters used to upload the user image.
+    /// For more description visit : https://dev.twitter.com/rest/reference/post/account/update_profile_image
     /// </summary>
     public class AccountUpdateProfileImageParameters : CustomRequestParameters, IAccountUpdateProfileImageParameters
     {

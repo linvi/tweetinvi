@@ -2,6 +2,9 @@
 
 namespace Tweetinvi.Core.Parameters.QueryParameters
 {
+    /// <summary>
+    /// https://dev.twitter.com/rest/reference/post/lists/update
+    /// </summary>
     public interface ITwitterListUpdateQueryParameters
     {
         /// <summary>

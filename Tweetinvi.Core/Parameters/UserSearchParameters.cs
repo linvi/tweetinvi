@@ -27,6 +27,9 @@
         bool IncludeEntities { get; set; }
     }
 
+    /// <summary>
+    /// https://dev.twitter.com/rest/reference/get/users/search
+    /// </summary>
     public class UserSearchParameters : CustomRequestParameters, IUserSearchParameters
     {
         public UserSearchParameters(string query)

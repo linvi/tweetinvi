@@ -1,11 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Tweetinvi.Core.Interfaces.Models;
+﻿using Tweetinvi.Core.Interfaces.Models;
 
 namespace Tweetinvi.Core.Parameters
 {
+    /// <summary>
+    /// https://dev.twitter.com/rest/reference/get/geo/reverse_geocode
+    /// </summary>
     public interface IGeoSearchReverseParameters : ICustomRequestParameters
     {
         /// <summary>
@@ -35,6 +34,9 @@ namespace Tweetinvi.Core.Parameters
         string Callback { get; set; }
     }
 
+    /// <summary>
+    /// https://dev.twitter.com/rest/reference/get/geo/reverse_geocode
+    /// </summary>
     public class GeoSearchReverseParameters : CustomRequestParameters, IGeoSearchReverseParameters
     {
         public ICoordinates Coordinates { get; set; }

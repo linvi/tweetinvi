@@ -1,5 +1,8 @@
 ﻿namespace Tweetinvi.Core.Parameters
 {
+    /// <summary>
+    /// https://dev.twitter.com/rest/reference/get/direct_messages/sent
+    /// </summary>
     public interface IMessagesSentParameters : IMessagesRetrieveRequestParametersBase
     {
         /// <summary>
@@ -8,6 +11,9 @@
         int? PageNumber { get; set; }
     }
 
+    /// <summary>
+    /// https://dev.twitter.com/rest/reference/get/direct_messages/sent
+    /// </summary>
     public class MessagesSentParameters : CustomRequestParameters, IMessagesSentParameters
     {
         public MessagesSentParameters()

@@ -14,6 +14,9 @@ namespace Tweetinvi.Core.Parameters
         Country
     }
 
+    /// <summary>
+    /// https://dev.twitter.com/rest/reference/get/geo/search
+    /// </summary>
     public interface IGeoSearchParameters : ICustomRequestParameters
     {
         /// <summary>
@@ -64,6 +67,9 @@ namespace Tweetinvi.Core.Parameters
         string Callback { get; set; }
     }
 
+    /// <summary>
+    /// https://dev.twitter.com/rest/reference/get/geo/search
+    /// </summary>
     public class GeoSearchParameters : CustomRequestParameters, IGeoSearchParameters
     {
         public GeoSearchParameters()

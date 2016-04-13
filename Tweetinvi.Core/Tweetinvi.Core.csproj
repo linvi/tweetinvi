@@ -205,8 +205,7 @@
     <Compile Include="Parameters\GeoSearchParameters.cs" />
     <Compile Include="Parameters\GetAuthenticatedUserParameters.cs" />
     <Compile Include="Parameters\GetUserFavoritesParameters.cs" />
-    <Compile Include="Parameters\IGetUserFavoritesParameters.cs" />
-    <Compile Include="Parameters\QueryParameters\IGetUserFavoritesParameter.cs" />
+    <Compile Include="Parameters\QueryParameters\IGetUserFavoritesQueryParameter.cs" />
     <Compile Include="Parameters\IMessagesRetrieveRequestParametersBase.cs" />
     <Compile Include="Parameters\QueryParameters\IGetTweetsFromListQueryParameters.cs" />
     <Compile Include="Parameters\QueryParameters\ITwitterListUpdateQueryParameters.cs" />

@@ -1,5 +1,8 @@
 ﻿namespace Tweetinvi.Core.Parameters
 {
+    /// <summary>
+    /// https://dev.twitter.com/rest/reference/get/direct_messages
+    /// </summary>
     public interface IMessagesReceivedParameters : IMessagesRetrieveRequestParametersBase
     {
         /// <summary>
@@ -8,6 +11,9 @@
         bool SkipStatus { get; set; }
     }
 
+    /// <summary>
+    /// https://dev.twitter.com/rest/reference/get/direct_messages
+    /// </summary>
     public class MessagesReceivedParameters : CustomRequestParameters, IMessagesReceivedParameters
     {
         public MessagesReceivedParameters()

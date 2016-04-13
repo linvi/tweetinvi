@@ -1,5 +1,8 @@
 ﻿namespace Tweetinvi.Core.Parameters
 {
+    /// <summary>
+    /// https://dev.twitter.com/rest/reference/get/statuses/home_timeline
+    /// </summary>
     public interface IHomeTimelineParameters : ITimelineRequestParameters
     {
         /// <summary>
@@ -13,6 +16,9 @@
         bool ExcludeReplies { get; set; }
     }
 
+    /// <summary>
+    /// https://dev.twitter.com/rest/reference/get/statuses/home_timeline
+    /// </summary>
     public class HomeTimelineParameters : TimelineRequestParameters, IHomeTimelineParameters
     {
         public HomeTimelineParameters()

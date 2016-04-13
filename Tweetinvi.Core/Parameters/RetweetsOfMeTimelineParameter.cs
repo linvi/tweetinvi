@@ -1,5 +1,8 @@
 ﻿namespace Tweetinvi.Core.Parameters
 {
+    /// <summary>
+    /// https://dev.twitter.com/rest/reference/get/statuses/retweets_of_me
+    /// </summary>
     public interface IRetweetsOfMeTimelineParameters : ITimelineRequestParameters
     {
         /// <summary>
@@ -8,6 +11,9 @@
         bool IncludeUserEntities { get; set; }
     }
 
+    /// <summary>
+    /// https://dev.twitter.com/rest/reference/get/statuses/retweets_of_me
+    /// </summary>
     public class RetweetsOfMeTimelineParameter : TimelineRequestParameters, IRetweetsOfMeTimelineParameters
     {
         public RetweetsOfMeTimelineParameter()

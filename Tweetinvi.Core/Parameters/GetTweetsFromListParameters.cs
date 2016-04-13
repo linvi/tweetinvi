@@ -1,5 +1,8 @@
 ﻿namespace Tweetinvi.Core.Parameters
 {
+    /// <summary>
+    /// https://dev.twitter.com/rest/reference/get/lists/statuses
+    /// </summary>
     public interface IGetTweetsFromListParameters : ICustomRequestParameters
     {
         int MaximumNumberOfTweetsToRetrieve { get; set; }
@@ -27,6 +30,9 @@
         bool IncludeRetweets { get; set; }
     }
 
+    /// <summary>
+    /// https://dev.twitter.com/rest/reference/get/lists/statuses
+    /// </summary>
     public class GetTweetsFromListParameters : CustomRequestParameters, IGetTweetsFromListParameters
     {
         public GetTweetsFromListParameters()

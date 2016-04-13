@@ -2,6 +2,9 @@
 
 namespace Tweetinvi.Core.Parameters.QueryParameters
 {
+    /// <summary>
+    /// https://dev.twitter.com/rest/reference/get/favorites/list
+    /// </summary>
     public interface IGetUserFavoritesQueryParameters
     {
         /// <summary>

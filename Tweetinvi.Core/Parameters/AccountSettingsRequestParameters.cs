@@ -69,6 +69,9 @@ namespace Tweetinvi.Core.Parameters
         void SetTimeZone(TwitterTimeZone twitterTimeZone);
     }
 
+    /// <summary>
+    /// For more description visit : https://dev.twitter.com/rest/reference/post/account/settings
+    /// </summary>
     public class AccountSettingsRequestParameters : CustomRequestParameters, IAccountSettingsRequestParameters
     {
         public AccountSettingsRequestParameters()

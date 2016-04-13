@@ -70,6 +70,9 @@ namespace Tweetinvi.Core.Parameters
         bool? TrimUser { get; set; }
     }
 
+    /// <summary>
+    /// https://dev.twitter.com/rest/reference/post/statuses/update
+    /// </summary>
     public class PublishTweetOptionalParameters : CustomRequestParameters, IPublishTweetOptionalParameters
     {
         private ITweetIdentifier _tweetIdentifier;

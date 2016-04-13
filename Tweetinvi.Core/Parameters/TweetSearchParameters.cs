@@ -4,6 +4,9 @@ using Tweetinvi.Core.Interfaces.Models;
 
 namespace Tweetinvi.Core.Parameters
 {
+    /// <summary>
+    /// https://dev.twitter.com/rest/reference/get/search/tweets
+    /// </summary>
     public interface ITweetSearchParameters : ICustomRequestParameters
     {
         /// <summary>
@@ -78,6 +81,9 @@ namespace Tweetinvi.Core.Parameters
         void SetGeoCode(double longitude, double latitude, double radius, DistanceMeasure measure);
     }
 
+    /// <summary>
+    /// https://dev.twitter.com/rest/reference/get/search/tweets
+    /// </summary>
     public class TweetSearchParameters : CustomRequestParameters, ITweetSearchParameters
     {
         private TweetSearchParameters()

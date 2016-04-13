@@ -5,6 +5,9 @@ using Tweetinvi.Core.Interfaces.Models;
 
 namespace Tweetinvi.Core.Parameters
 {
+    /// <summary>
+    /// https://dev.twitter.com/rest/reference/post/direct_messages/new
+    /// </summary>
     public interface IPublishMessageParameters : ICustomRequestParameters
     {
         string Text { get; }
@@ -15,6 +18,9 @@ namespace Tweetinvi.Core.Parameters
         IMessageDTO Message { get; }
     }
 
+    /// <summary>
+    /// https://dev.twitter.com/rest/reference/post/direct_messages/new
+    /// </summary>
     public class PublishMessageParameters : CustomRequestParameters, IPublishMessageParameters
     {
         public PublishMessageParameters(string text, IUserIdentifier recipient)

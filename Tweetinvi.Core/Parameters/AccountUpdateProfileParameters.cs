@@ -2,6 +2,9 @@
 
 namespace Tweetinvi.Core.Parameters
 {
+    /// <summary>
+    /// https://dev.twitter.com/rest/reference/post/account/update_profile
+    /// </summary>
     public interface IAccountUpdateProfileParameters : ICustomRequestParameters
     {
         /// <summary>
@@ -42,6 +45,9 @@ namespace Tweetinvi.Core.Parameters
         bool SkipStatus { get; set; }
     }
 
+    /// <summary>
+    /// https://dev.twitter.com/rest/reference/post/account/update_profile
+    /// </summary>
     public class AccountUpdateProfileParameters : CustomRequestParameters, IAccountUpdateProfileParameters
     {
         public AccountUpdateProfileParameters()
