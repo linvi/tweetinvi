@@ -45,9 +45,6 @@ namespace Tweetinvi.Logic.DTO
         [JsonProperty("geo_enabled")]
         public bool GeoEnabled { get; set; }
 
-        [JsonProperty("show_all_inline_media")]
-        public bool ShowAllInlineMedia { get; set; }
-
         [JsonProperty("use_cookie_personalization")]
         public bool UseCookiePersonalization { get; set; }
 
@@ -67,8 +64,11 @@ namespace Tweetinvi.Logic.DTO
         [JsonConverter(typeof(JsonPropertyConverterRepository))]
         public ITimeZone TimeZone { get; set; }
 
-        [JsonProperty("trend_location")]
-        public ITrendLocation[] TrendLocations { get; set; }
+        [JsonProperty("display_sensitive_media")]
+        public bool DisplaySensitiveMedia { get; set; }
+
+        [JsonProperty("smart_mute")]
+        public bool SmartMute { get; set; }
 
         [JsonProperty("sleep_time")]
         private SleepTimeDTO _sleepTime { get; set; }

@@ -54,11 +54,6 @@ namespace Tweetinvi.Logic.Model
             get { return _accountSettingsDTO.GeoEnabled; }
         }
 
-        public bool ShowAllInlineMedia
-        {
-            get { return _accountSettingsDTO.ShowAllInlineMedia; }
-        }
-
         public bool UseCookiePersonalization
         {
             get { return _accountSettingsDTO.UseCookiePersonalization; }
@@ -79,14 +74,19 @@ namespace Tweetinvi.Logic.Model
             get { return _accountSettingsDTO.AllowContributorRequest; }
         }
 
+        public bool DisplaySensitiveMedia
+        {
+            get { return _accountSettingsDTO.DisplaySensitiveMedia; }
+        }
+
+        public bool SmartMute
+        {
+            get { return _accountSettingsDTO.SmartMute; }
+        }
+
         public ITimeZone TimeZone
         {
             get { return _accountSettingsDTO.TimeZone; }
-        }
-
-        public ITrendLocation[] TrendLocations
-        {
-            get { return _accountSettingsDTO.TrendLocations; }
         }
 
         public bool SleepTimeEnabled

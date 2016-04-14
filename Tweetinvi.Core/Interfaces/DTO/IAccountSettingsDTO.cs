@@ -12,9 +12,10 @@ namespace Tweetinvi.Core.Interfaces.DTO
         bool AlwaysUseHttps { get; set; }
         bool DiscoverableByEmail { get; set; }
         bool DiscoverableByMobilePhone { get; set; }
+        bool DisplaySensitiveMedia { get; set; }
+        bool SmartMute { get; set; }
 
         bool GeoEnabled { get; set; }
-        bool ShowAllInlineMedia { get; set; }
         bool UseCookiePersonalization { get; set; }
 
         AllowDirectMessagesFrom AllowDirectMessagesFrom { get; set; }
@@ -22,7 +23,6 @@ namespace Tweetinvi.Core.Interfaces.DTO
         AllowContributorRequestMode AllowContributorRequest { get; set; }
 
         ITimeZone TimeZone { get; set; }
-        ITrendLocation[] TrendLocations { get; set; }
 
         bool SleepTimeEnabled { get; set; }
         int SleepTimeStartHour { get; set; }

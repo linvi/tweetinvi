@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using Tweetinvi.Core.Enum;
 using Tweetinvi.Core.Injectinvi;
 using Tweetinvi.Core.Interfaces;
@@ -124,11 +123,6 @@ namespace Tweetinvi
             if (accountSettings.TimeZone != null)
             {
                 accountSettingsParameter.TimeZone = accountSettings.TimeZone.TzinfoName;
-            }
-
-            if (accountSettings.TrendLocations != null && accountSettings.TrendLocations.Count() == 1)
-            {
-                accountSettingsParameter.TrendLocationWoeid = accountSettings.TrendLocations.Single().WoeId;
             }
 
             return accountSettingsParameter;

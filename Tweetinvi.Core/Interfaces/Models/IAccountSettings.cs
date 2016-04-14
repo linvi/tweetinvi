@@ -44,7 +44,8 @@ namespace Tweetinvi.Core.Interfaces.Models
         /// Can the tweets published by the user be geo tagged.
         /// </summary>
         bool GeoEnabled { get; }
-        bool ShowAllInlineMedia { get; }
+
+
         bool UseCookiePersonalization { get; }
 
         /// <summary>
@@ -63,14 +64,19 @@ namespace Tweetinvi.Core.Interfaces.Models
         AllowContributorRequestMode AllowContributorRequest { get; }
 
         /// <summary>
+        /// Prevent tweets medias marked as sensitive to be displayed.
+        /// </summary>
+        bool DisplaySensitiveMedia { get; }
+
+        /// <summary>
+        /// [NOT DOCUMENTED]
+        /// </summary>
+        bool SmartMute { get; }
+
+        /// <summary>
         /// Primary timezone of the account.
         /// </summary>
         ITimeZone TimeZone { get; }
-
-        /// <summary>
-        /// Locations used to display trends.
-        /// </summary>
-        ITrendLocation[] TrendLocations { get; }
 
         /// <summary>
         /// Specify if you want the notifications to be disabled during the sleeping hours.
