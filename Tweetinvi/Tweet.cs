@@ -217,7 +217,7 @@ namespace Tweetinvi
         /// <summary>
         /// Get the retweets of a specific tweet
         /// </summary>
-        public static IEnumerable<ITweet> GetRetweets(ITweet tweet)
+        public static IEnumerable<ITweet> GetRetweets(ITweetIdentifier tweet)
         {
             return TweetController.GetRetweets(tweet);
         }
