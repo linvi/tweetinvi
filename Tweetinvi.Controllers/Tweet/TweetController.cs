@@ -227,47 +227,31 @@ namespace Tweetinvi.Controllers.Tweet
 
         #region GetRetweets
 
-        public IEnumerable<ITweet> GetRetweets(ITweet tweet, int maxRetweetsToRetrieve = 100)
+        public IEnumerable<ITweet> GetRetweets(ITweetIdentifier tweetIdentifier, int maxRetweetsToRetrieve = 100)
         {
-            if (tweet == null)
-            {
-                throw new ArgumentException("Tweet cannot be null!");
-            }
-
-            return GetRetweets(tweet.TweetDTO, maxRetweetsToRetrieve);
-        }
-
-        public IEnumerable<ITweet> GetRetweets(ITweetDTO tweet, int maxRetweetsToRetrieve = 100)
-        {
-            var retweetsDTO = _tweetQueryExecutor.GetRetweets(tweet, maxRetweetsToRetrieve);
+            var retweetsDTO = _tweetQueryExecutor.GetRetweets(tweetIdentifier, maxRetweetsToRetrieve);
             return _tweetFactory.GenerateTweetsFromDTO(retweetsDTO);
         }
 
         public IEnumerable<ITweet> GetRetweets(long tweetId, int maxRetweetsToRetrieve = 100)
         {
-            var retweetsDTO = _tweetQueryExecutor.GetRetweets(tweetId, maxRetweetsToRetrieve);
-            return _tweetFactory.GenerateTweetsFromDTO(retweetsDTO);
+            return GetRetweets(new TweetIdentifier(tweetId), maxRetweetsToRetrieve);
         }
 
         #endregion
 
         #region Get Retweeters Ids
 
-        public IEnumerable<long> GetRetweetersIds(ITweetIdentifier tweetIdentifier, int maxRetweetersToRetrieve = 100)
-        {
-            if (tweetIdentifier == null)
-            {
-                throw new ArgumentException("Tweet Identified cannot be null!");
-            }
-
-            return GetRetweetersIds(tweetIdentifier.Id, maxRetweetersToRetrieve);
-        }
-
         public IEnumerable<long> GetRetweetersIds(long tweetId, int maxRetweetersToRetrieve = 100)
         {
-            return _tweetQueryExecutor.GetRetweetersIds(tweetId, maxRetweetersToRetrieve);
+            return _tweetQueryExecutor.GetRetweetersIds(new TweetIdentifier(tweetId), maxRetweetersToRetrieve);
         }
-        
+
+        public IEnumerable<long> GetRetweetersIds(ITweetIdentifier tweetIdentifier, int maxRetweetersToRetrieve = 100)
+        {
+            return _tweetQueryExecutor.GetRetweetersIds(tweetIdentifier, maxRetweetersToRetrieve);
+        }
+
         #endregion
 
         // Destroy Tweet

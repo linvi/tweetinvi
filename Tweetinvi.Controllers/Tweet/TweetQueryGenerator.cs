@@ -120,34 +120,29 @@ namespace Tweetinvi.Controllers.Tweet
         }
 
         // Get Retweets
-        public string GetRetweetsQuery(ITweetDTO tweetDTO, int maxRetweetsToRetrieve)
-        {
-            if (!_tweetQueryValidator.IsTweetPublished(tweetDTO))
-            {
-                return null;
-            }
 
-            return GetRetweetsQuery(tweetDTO.Id, maxRetweetsToRetrieve);
-        }
-
-        public string GetRetweetsQuery(long tweetId, int maxRetweetsToRetrieve)
+        public string GetRetweetsQuery(ITweetIdentifier tweetIdentifier, int maxRetweetsToRetrieve)
         {
-            return string.Format(Resources.Tweet_Retweet_GetRetweets, tweetId, maxRetweetsToRetrieve);
+            _tweetQueryValidator.ValidateTweetIdentifier(tweetIdentifier);
+
+            var query = new StringBuilder(string.Format(Resources.Tweet_Retweet_GetRetweets, tweetIdentifier.Id));
+            query.AddParameterToQuery("count", maxRetweetsToRetrieve);
+
+            return query.ToString();
         }
 
         #region Get Retweeter Ids
+
         public string GetRetweeterIdsQuery(ITweetIdentifier tweetIdentifier, int maxRetweetersToRetrieve = 100)
         {
-            if (!_tweetQueryValidator.IsValidTweetIdentifier(tweetIdentifier))
-            {
-                return null;
-            }
-            return GetRetweeterIdsQuery(tweetIdentifier.Id, maxRetweetersToRetrieve);
-        }
+           _tweetQueryValidator.ValidateTweetIdentifier(tweetIdentifier);
+            
+            var query = new StringBuilder(string.Format(Resources.Tweet_GetRetweeters, tweetIdentifier.Id));
 
-        public string GetRetweeterIdsQuery(long tweetId, int maxRetweetersToRetrieve)
-        {
-            return string.Format(Resources.Tweet_GetRetweeters, tweetId, maxRetweetersToRetrieve);
+            query.AddParameterToQuery("id", tweetIdentifier.Id);
+            query.AddParameterToQuery("count", maxRetweetersToRetrieve);
+
+            return query.ToString();
         }
 
         #endregion

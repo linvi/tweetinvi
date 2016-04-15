@@ -250,22 +250,6 @@ namespace Testinvi.TweetinviControllers.TweetTests
         #region GetRetweetsQuery
 
         [TestMethod]
-        public void GetRetweetsQuery_WithValidTweetDTO_ReturnsNull()
-        {
-            // Arrange
-            var queryGenerator = CreateTweetQueryGenerator();
-            var tweetToRetweet = A.Fake<ITweetDTO>();
-            var maxRetweetsToRetrieve = TestHelper.GenerateRandomInt();
-            _fakeTweetQueryValidator.CallsTo(x => x.IsTweetPublished(tweetToRetweet)).Returns(false);
-
-            // Act
-            var result = queryGenerator.GetRetweetsQuery(tweetToRetweet, maxRetweetsToRetrieve);
-
-            // Assert
-            Assert.AreEqual(result, null);
-        }
-
-        [TestMethod]
         public void GetRetweetsQuery_WithValidTweetDTO_ReturnsExpectedQuery()
         {
             // Arrange
@@ -281,45 +265,14 @@ namespace Testinvi.TweetinviControllers.TweetTests
             var result = queryGenerator.GetRetweetsQuery(tweetToRetweet, maxRetweetsToRetrieve);
 
             // Assert
-            var expectedResult = string.Format(Resources.Tweet_Retweet_GetRetweets, tweetToRetweetId, maxRetweetsToRetrieve);
-            Assert.AreEqual(result, expectedResult);
-        }
+            var expectedResult = string.Format("https://api.twitter.com/1.1/statuses/retweets/{0}.json?count={1}", tweetToRetweetId, maxRetweetsToRetrieve);
 
-        [TestMethod]
-        public void GetRetweetsQuery_WithTweetId_ReturnsExpectedQuery()
-        {
-            // Arrange
-            var queryGenerator = CreateTweetQueryGenerator();
-            var tweetToRetweetId = TestHelper.GenerateRandomLong();
-            var maxRetweetsToRetrieve = TestHelper.GenerateRandomInt();
-
-            // Act
-            var result = queryGenerator.GetRetweetsQuery(tweetToRetweetId, maxRetweetsToRetrieve);
-
-            // Assert
-            var expectedResult = string.Format(Resources.Tweet_Retweet_GetRetweets, tweetToRetweetId, maxRetweetsToRetrieve);
             Assert.AreEqual(result, expectedResult);
         }
 
         #endregion
 
         #region Get Retweeter Ids Query
-
-        [TestMethod]
-        public void GetRetweeterIdsQuery_WithInValidTweetIdentifier_ReturnsNull()
-        {
-            // Arrange
-            var queryGenerator = CreateTweetQueryGenerator();
-            var tweetIdentifier = A.Fake<ITweetIdentifier>();
-            var maxRetweetersToRetrieve = TestHelper.GenerateRandomInt();
-            _fakeTweetQueryValidator.CallsTo(x => x.IsValidTweetIdentifier(tweetIdentifier)).Returns(false);
-
-            // Act
-            var result = queryGenerator.GetRetweeterIdsQuery(tweetIdentifier, maxRetweetersToRetrieve);
-
-            // Assert
-            Assert.AreEqual(result, null);
-        }
 
         [TestMethod]
         public void GetRetweeterIdsQuery_WithInValidTweetIdentifier_ReturnsExpectedQuery()
@@ -334,26 +287,10 @@ namespace Testinvi.TweetinviControllers.TweetTests
             var result = queryGenerator.GetRetweeterIdsQuery(tweetIdentifier, maxRetweetersToRetrieve);
 
             // Assert
-            var expectedResult = string.Format(Resources.User_GetFollowers, tweetIdentifier.Id, maxRetweetersToRetrieve);
+            var expectedResult = string.Format("https://api.twitter.com/1.1/statuses/retweeters/ids.json?id={0}&count={1}", tweetIdentifier.Id, maxRetweetersToRetrieve);
             Assert.AreEqual(result, expectedResult);
         }
         
-        [TestMethod]
-        public void GetRetweeterIdsQuery_WithInValidTweetId_ReturnsExpectedQuery()
-        {
-            // Arrange
-            var queryGenerator = CreateTweetQueryGenerator();
-            var tweetId = TestHelper.GenerateRandomLong();
-            var maxRetweetersToRetrieve = TestHelper.GenerateRandomInt();
-
-            // Act
-            var result = queryGenerator.GetRetweeterIdsQuery(tweetId, maxRetweetersToRetrieve);
-
-            // Assert
-            var expectedResult = string.Format(Resources.User_GetFollowers, tweetId, maxRetweetersToRetrieve);
-            Assert.AreEqual(result, expectedResult);
-        }
-
         #endregion
 
         #region GetDestroyTweetQuery

@@ -36,8 +36,7 @@ namespace Tweetinvi.Core.Interfaces.Controllers
         ITweet UnRetweet(long tweetId);
 
         // Get Retweets
-        IEnumerable<ITweet> GetRetweets(ITweet tweet, int maxRetweetsToRetrieve = 100);
-        IEnumerable<ITweet> GetRetweets(ITweetDTO tweetDTO, int maxRetweetsToRetrieve = 100);
+        IEnumerable<ITweet> GetRetweets(ITweetIdentifier tweet, int maxRetweetsToRetrieve = 100);
         IEnumerable<ITweet> GetRetweets(long tweetId, int maxRetweetsToRetrieve = 100);
 
         // Get Retweeters

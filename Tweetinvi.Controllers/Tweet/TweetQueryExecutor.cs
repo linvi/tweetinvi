@@ -24,12 +24,10 @@ namespace Tweetinvi.Controllers.Tweet
         ITweetDTO UnRetweet(long tweetId);
 
         // Get Retweets
-        IEnumerable<ITweetDTO> GetRetweets(ITweetDTO tweet, int maxRetweetsToRetrieve);
-        IEnumerable<ITweetDTO> GetRetweets(long tweetId, int maxRetweetsToRetrieve);
+        IEnumerable<ITweetDTO> GetRetweets(ITweetIdentifier tweetIdentifier, int maxRetweetsToRetrieve);
 
         //Get Retweeters Ids
         IEnumerable<long> GetRetweetersIds(ITweetIdentifier tweetIdentifier, int maxRetweetersToRetrieve);
-        IEnumerable<long> GetRetweetersIds(long tweetId, int maxRetweetersToRetrieve);
 
         // Destroy Tweet
         bool DestroyTweet(ITweetDTO tweet);
@@ -96,29 +94,19 @@ namespace Tweetinvi.Controllers.Tweet
 
         #region Get Retweets
 
-        public IEnumerable<ITweetDTO> GetRetweets(ITweetDTO tweet, int maxRetweetsToRetrieve)
+        public IEnumerable<ITweetDTO> GetRetweets(ITweetIdentifier tweetIdentifier, int maxRetweetsToRetrieve)
         {
-            string query = _tweetQueryGenerator.GetRetweetsQuery(tweet, maxRetweetsToRetrieve);
-            return _twitterAccessor.ExecuteCursorGETQuery<ITweetDTO, IRetweetsCursorQueryResultDTO>(query, maxRetweetsToRetrieve);
-        }
-
-        public IEnumerable<ITweetDTO> GetRetweets(long tweetId, int maxRetweetsToRetrieve)
-        {
-            string query = _tweetQueryGenerator.GetRetweetsQuery(tweetId, maxRetweetsToRetrieve);
-            return _twitterAccessor.ExecuteCursorGETQuery<ITweetDTO, IRetweetsCursorQueryResultDTO>(query, maxRetweetsToRetrieve);
+            var query = _tweetQueryGenerator.GetRetweetsQuery(tweetIdentifier, maxRetweetsToRetrieve);
+            return _twitterAccessor.ExecuteGETQuery<IEnumerable<ITweetDTO>>(query);
         }
 
         #endregion
 
         #region Get Retweeters IDs
+
         public IEnumerable<long> GetRetweetersIds(ITweetIdentifier tweetIdentifier, int maxRetweetersToRetrieve)
         {
-            string query = _tweetQueryGenerator.GetRetweeterIdsQuery(tweetIdentifier, maxRetweetersToRetrieve);
-            return _twitterAccessor.ExecuteCursorGETQuery<long, IIdsCursorQueryResultDTO>(query);
-        }
-        public IEnumerable<long> GetRetweetersIds(long tweetId, int maxRetweetersToRetrieve)
-        {
-            string query = _tweetQueryGenerator.GetRetweeterIdsQuery(tweetId, maxRetweetersToRetrieve);
+            var query = _tweetQueryGenerator.GetRetweeterIdsQuery(tweetIdentifier, maxRetweetersToRetrieve);
             return _twitterAccessor.ExecuteCursorGETQuery<long, IIdsCursorQueryResultDTO>(query);
         }
 

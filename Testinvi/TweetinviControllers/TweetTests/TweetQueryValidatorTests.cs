@@ -34,7 +34,7 @@ namespace Testinvi.TweetinviControllers.TweetTests
             {
                 queryValidator.ThrowIfTweetCannotBePublished(null);
             }
-            catch (ArgumentNullException)
+            catch (ArgumentException)
             {
             }
         }

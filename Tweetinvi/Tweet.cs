@@ -235,19 +235,18 @@ namespace Tweetinvi
         /// <summary>
         /// Get the retweeter Ids who tweeted a specific tweet
         /// </summary>
-        public static IEnumerable<long> GetRetweetersIds(ITweetIdentifier tweetIdentifier, int maxRetweetersToRetrieve=100)
+        public static IEnumerable<long> GetRetweetersIds(long tweetId, int maxRetweetersToRetrieve = 100)
         {
-            return TweetController.GetRetweetersIds(tweetIdentifier, maxRetweetersToRetrieve);
+            return TweetController.GetRetweetersIds(tweetId, maxRetweetersToRetrieve);
         }
 
         /// <summary>
         /// Get the retweeter Ids who tweeted a specific tweet
         /// </summary>
-        public static IEnumerable<long> GetRetweetersIds(long tweetId, int maxRetweetersToRetrieve)
+        public static IEnumerable<long> GetRetweetersIds(ITweetIdentifier tweetIdentifier, int maxRetweetersToRetrieve = 100)
         {
-            return TweetController.GetRetweetersIds(tweetId, maxRetweetersToRetrieve);
+            return TweetController.GetRetweetersIds(tweetIdentifier, maxRetweetersToRetrieve);
         }
-
 
         // Destroy Tweet
 
