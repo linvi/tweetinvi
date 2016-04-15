@@ -8,6 +8,7 @@ using Tweetinvi.Controllers.Tweet;
 using Tweetinvi.Core.Interfaces;
 using Tweetinvi.Core.Interfaces.Credentials;
 using Tweetinvi.Core.Interfaces.DTO;
+using Tweetinvi.Core.Interfaces.Models;
 using Tweetinvi.Core.Interfaces.QueryGenerators;
 
 namespace Testinvi.TweetinviControllers.TweetTests
@@ -106,72 +107,42 @@ namespace Testinvi.TweetinviControllers.TweetTests
         #region Get Retweets
 
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
-        public void GetRetweets_FromNullTweet_ThrowArgumentException()
-        {
-            // Arrange
-            var queryExecutor = CreateTweetJsonController();
-
-            // Act
-            queryExecutor.GetRetweets((ITweet)null);
-        }
-
-        [TestMethod]
         public void GetRetweets_FromTweet_ReturnsResponse()
         {
             // Arrange
             var queryExecutor = CreateTweetJsonController();
 
-            var tweetDTO = A.Fake<ITweetDTO>();
-            var tweet = A.Fake<ITweet>();
-            tweet.CallsTo(x => x.TweetDTO).Returns(tweetDTO);
+            var tweetIdentifier = A.Fake<ITweetIdentifier>();
 
             var query = TestHelper.GenerateString();
             var expectedResult = TestHelper.GenerateString();
+            var maxRetweetsToRetrieve = TestHelper.GenerateRandomInt();
 
-            _fakeTweetQueryGenerator.CallsTo(x => x.GetRetweetsQuery(tweetDTO)).Returns(query);
+            _fakeTweetQueryGenerator.CallsTo(x => x.GetRetweetsQuery(tweetIdentifier, maxRetweetsToRetrieve)).Returns(query);
             _fakeTwitterAccessor.ArrangeExecuteJsonGETQuery(query, expectedResult);
 
             // Act
-            var result = queryExecutor.GetRetweets(tweet);
+            var result = queryExecutor.GetRetweets(tweetIdentifier, maxRetweetsToRetrieve);
 
             // Assert
             Assert.AreEqual(result, expectedResult);
         }
 
         [TestMethod]
-        public void GetRetweets_FromTweetDTO_ReturnsResponse()
+        public void GetRetweets_FromTweetIdentifier_ReturnsResponse()
         {
             // Arrange
             var queryExecutor = CreateTweetJsonController();
-            var tweetDTO = A.Fake<ITweetDTO>();
+            var tweetIdentifier = A.Fake<ITweetIdentifier>();
             var query = TestHelper.GenerateString();
             var expectedResult = TestHelper.GenerateString();
+            var maxRetweetsToRetrieve = TestHelper.GenerateRandomInt();
 
-            _fakeTweetQueryGenerator.CallsTo(x => x.GetRetweetsQuery(tweetDTO)).Returns(query);
+            _fakeTweetQueryGenerator.CallsTo(x => x.GetRetweetsQuery(tweetIdentifier, maxRetweetsToRetrieve)).Returns(query);
             _fakeTwitterAccessor.ArrangeExecuteJsonGETQuery(query, expectedResult);
 
             // Act
-            var result = queryExecutor.GetRetweets(tweetDTO);
-
-            // Assert
-            Assert.AreEqual(result, expectedResult);
-        }
-
-        [TestMethod]
-        public void GetRetweets_FromTweetId_ReturnsResponse()
-        {
-            // Arrange
-            var queryExecutor = CreateTweetJsonController();
-            var tweetId = TestHelper.GenerateRandomLong();
-            var query = TestHelper.GenerateString();
-            var expectedResult = TestHelper.GenerateString();
-
-            _fakeTweetQueryGenerator.CallsTo(x => x.GetRetweetsQuery(tweetId)).Returns(query);
-            _fakeTwitterAccessor.ArrangeExecuteJsonGETQuery(query, expectedResult);
-
-            // Act
-            var result = queryExecutor.GetRetweets(tweetId);
+            var result = queryExecutor.GetRetweets(tweetIdentifier, maxRetweetsToRetrieve);
 
             // Assert
             Assert.AreEqual(result, expectedResult);

@@ -155,87 +155,20 @@ namespace Testinvi.TweetinviControllers.TweetTests
         #region Get Retweets
 
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
-        public void GetRetweets_TweetIsNull_ThrowsArgumentException()
-        {
-            // Arrange
-            var controller = CreateTweetController();
-
-            // Act
-            controller.GetRetweets((ITweet)null);
-        }
-
-        [TestMethod]
-        public void GetRetweets_TweetWithNullTweetDTO_ReturnsTransformedDTOFromQueryExecutor()
-        {
-            // Arrange
-            var controller = CreateTweetController();
-            var tweet = GenerateTweet();
-            IEnumerable<ITweetDTO> expectedTweetsDTO = new List<ITweetDTO> { A.Fake<ITweetDTO>() };
-            IEnumerable<ITweet> expectedTweets = new List<ITweet> { A.Fake<ITweet>() };
-
-            _fakeTweetQueryExecutor.CallsTo(x => x.GetRetweets(null)).Returns(expectedTweetsDTO);
-            _fakeTweetFactory.CallsTo(x => x.GenerateTweetsFromDTO(expectedTweetsDTO)).Returns(expectedTweets);
-
-            // Act
-            var result = controller.GetRetweets(tweet);
-
-            // Assert
-            Assert.AreEqual(result, expectedTweets);
-        }
-
-        [TestMethod]
-        public void GetRetweets_TweetWithTweetDTO_ReturnsTransformedDTOFromQueryExecutor()
-        {
-            // Arrange
-            var controller = CreateTweetController();
-            var tweetDTO = A.Fake<ITweetDTO>();
-            var tweet = GenerateTweet(tweetDTO);
-            IEnumerable<ITweetDTO> expectedTweetsDTO = new List<ITweetDTO> { A.Fake<ITweetDTO>() };
-            IEnumerable<ITweet> expectedTweets = new List<ITweet> { A.Fake<ITweet>() };
-
-            _fakeTweetQueryExecutor.CallsTo(x => x.GetRetweets(tweetDTO)).Returns(expectedTweetsDTO);
-            _fakeTweetFactory.CallsTo(x => x.GenerateTweetsFromDTO(expectedTweetsDTO)).Returns(expectedTweets);
-
-            // Act
-            var result = controller.GetRetweets(tweet);
-
-            // Assert
-            Assert.AreEqual(result, expectedTweets);
-        }
-
-        [TestMethod]
-        public void GetRetweets_TweetDTOIsNull_ReturnsTransformedDTOFromQueryExecutor()
-        {
-            // Arrange
-            var controller = CreateTweetController();
-            IEnumerable<ITweetDTO> expectedTweetsDTO = new List<ITweetDTO> { A.Fake<ITweetDTO>() };
-            IEnumerable<ITweet> expectedTweets = new List<ITweet> { A.Fake<ITweet>() };
-
-            _fakeTweetQueryExecutor.CallsTo(x => x.GetRetweets(null)).Returns(expectedTweetsDTO);
-            _fakeTweetFactory.CallsTo(x => x.GenerateTweetsFromDTO(expectedTweetsDTO)).Returns(expectedTweets);
-
-            // Act
-            var result = controller.GetRetweets((ITweetDTO)null);
-
-            // Assert
-            Assert.AreEqual(result, expectedTweets);
-        }
-
-        [TestMethod]
         public void GetRetweets_TweetDTO_ReturnsTransformedDTOFromQueryExecutor()
         {
             // Arrange
             var controller = CreateTweetController();
             var tweetDTO = A.Fake<ITweetDTO>();
             IEnumerable<ITweetDTO> expectedTweetsDTO = new List<ITweetDTO> { A.Fake<ITweetDTO>() };
-            IEnumerable<ITweet> expectedTweets = new List<ITweet> { A.Fake<ITweet>() };
+            var expectedTweets = new ITweet [] { A.Fake<ITweet>() };
+            var maxRetweetsToRetrieve = TestHelper.GenerateRandomInt();
 
-            _fakeTweetQueryExecutor.CallsTo(x => x.GetRetweets(tweetDTO)).Returns(expectedTweetsDTO);
+            _fakeTweetQueryExecutor.CallsTo(x => x.GetRetweets(tweetDTO, maxRetweetsToRetrieve)).Returns(expectedTweetsDTO);
             _fakeTweetFactory.CallsTo(x => x.GenerateTweetsFromDTO(expectedTweetsDTO)).Returns(expectedTweets);
 
             // Act
-            var result = controller.GetRetweets(tweetDTO);
+            var result = controller.GetRetweets(tweetDTO, maxRetweetsToRetrieve);
 
             // Assert
             Assert.AreEqual(result, expectedTweets);
@@ -247,19 +180,60 @@ namespace Testinvi.TweetinviControllers.TweetTests
             // Arrange
             var controller = CreateTweetController();
             var tweetId = TestHelper.GenerateRandomLong();
+            var maxRetweetsToRetrieve = TestHelper.GenerateRandomInt();
             IEnumerable<ITweetDTO> expectedTweetsDTO = new List<ITweetDTO> { A.Fake<ITweetDTO>() };
             IEnumerable<ITweet> expectedTweets = new List<ITweet> { A.Fake<ITweet>() };
 
-            _fakeTweetQueryExecutor.CallsTo(x => x.GetRetweets(tweetId)).Returns(expectedTweetsDTO);
+            _fakeTweetQueryExecutor.CallsTo(x => x.GetRetweets(A<ITweetIdentifier>.That.Matches(y => y.Id == tweetId), maxRetweetsToRetrieve)).Returns(expectedTweetsDTO);
             _fakeTweetFactory.CallsTo(x => x.GenerateTweetsFromDTO(expectedTweetsDTO)).Returns(expectedTweets);
 
             // Act
-            var result = controller.GetRetweets(tweetId);
+            var result = controller.GetRetweets(tweetId, maxRetweetsToRetrieve);
 
             // Assert
             Assert.AreEqual(result, expectedTweets);
         }
 
+        #endregion
+
+        #region Get Retweeters Ids
+
+        [TestMethod]
+        public void GetRetweetersIds_WithTweetIdentifier_ReturnsIdsListFromQueryExecutor()
+        {
+            // Arrange
+            var controller = CreateTweetController();
+            var tweetIdentifier = A.Fake<ITweetIdentifier>();
+            var maxRetweetersToRetrieve = TestHelper.GenerateRandomInt();
+            var retweeterIds = new[] { TestHelper.GenerateRandomLong() };
+
+            _fakeTweetQueryExecutor.CallsTo(x => x.GetRetweetersIds(tweetIdentifier, maxRetweetersToRetrieve)).Returns(retweeterIds);
+
+            // Act
+            var result = controller.GetRetweetersIds(tweetIdentifier, maxRetweetersToRetrieve);
+
+            // Assert
+            Assert.AreEqual(result, retweeterIds);
+        }
+
+        [TestMethod]
+        public void GetRetweetersIds_WithTweetId_ReturnsIdsListFromQueryExecutor()
+        {
+            // Arrange
+            var controller = CreateTweetController();
+            var tweetId = TestHelper.GenerateRandomLong();
+            var maxRetweetersToRetrieve = TestHelper.GenerateRandomInt();
+            var retweeterIds = new[] { TestHelper.GenerateRandomLong() };
+
+            _fakeTweetQueryExecutor.CallsTo(x => x.GetRetweetersIds(A<ITweetIdentifier>.That.Matches(y => y.Id == tweetId), maxRetweetersToRetrieve)).Returns(retweeterIds);
+
+            // Act
+            var result = controller.GetRetweetersIds(tweetId, maxRetweetersToRetrieve);
+
+            // Assert
+            Assert.AreEqual(result, retweeterIds);
+        }
+        
         #endregion
 
         #region Destroy Tweet

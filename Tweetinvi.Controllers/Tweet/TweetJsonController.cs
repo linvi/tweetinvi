@@ -4,6 +4,7 @@ using Tweetinvi.Core.Interfaces;
 using Tweetinvi.Core.Interfaces.Controllers;
 using Tweetinvi.Core.Interfaces.Credentials;
 using Tweetinvi.Core.Interfaces.DTO;
+using Tweetinvi.Core.Interfaces.Models;
 using Tweetinvi.Core.Interfaces.QueryGenerators;
 using Tweetinvi.Core.Parameters;
 
@@ -24,9 +25,8 @@ namespace Tweetinvi.Controllers.Tweet
         string PublishRetweet(long tweetId);
 
         // Get Retweets
-        string GetRetweets(ITweet tweet);
-        string GetRetweets(ITweetDTO tweetDTO);
-        string GetRetweets(long tweetId);
+        string GetRetweets(ITweetIdentifier tweetDTO, int maxRetweetsToRetrieve = 100);
+        string GetRetweets(long tweetId, int maxRetweetsToRetrieve = 100);
 
         // Destroy Tweet
         string DestroyTweet(ITweet tweet);
@@ -117,26 +117,16 @@ namespace Tweetinvi.Controllers.Tweet
         }
 
         // Get Retweets
-        public string GetRetweets(ITweet tweet)
-        {
-            if (tweet == null)
-            {
-                throw new ArgumentException("Tweet cannot be null");
-            }
 
-            return GetRetweets(tweet.TweetDTO);
-        }
-
-        public string GetRetweets(ITweetDTO tweet)
+        public string GetRetweets(ITweetIdentifier tweetIdentifier, int maxRetweetsToRetrieve = 100)
         {
-            string query = _tweetQueryGenerator.GetRetweetsQuery(tweet);
+            string query = _tweetQueryGenerator.GetRetweetsQuery(tweetIdentifier, maxRetweetsToRetrieve);
             return _twitterAccessor.ExecuteJsonGETQuery(query);
         }
 
-        public string GetRetweets(long tweetId)
+        public string GetRetweets(long tweetId, int maxRetweetsToRetrieve = 100)
         {
-            string query = _tweetQueryGenerator.GetRetweetsQuery(tweetId);
-            return _twitterAccessor.ExecuteJsonGETQuery(query);
+            return GetRetweets(new TweetIdentifier(tweetId), maxRetweetsToRetrieve);
         }
 
         public string DestroyTweet(ITweet tweetToDestroy)

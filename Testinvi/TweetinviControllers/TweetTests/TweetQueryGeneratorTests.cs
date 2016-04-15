@@ -250,55 +250,47 @@ namespace Testinvi.TweetinviControllers.TweetTests
         #region GetRetweetsQuery
 
         [TestMethod]
-        public void GetRetweetsQuery_RetweetingTweetUnpublished_ReturnsNull()
-        {
-            // Arrange
-            var queryGenerator = CreateTweetQueryGenerator();
-            var tweetToRetweet = A.Fake<ITweetDTO>();
-
-            _fakeTweetQueryValidator.CallsTo(x => x.IsTweetPublished(tweetToRetweet)).Returns(false);
-
-            // Act
-            var result = queryGenerator.GetRetweetsQuery(tweetToRetweet);
-
-            // Assert
-            Assert.AreEqual(result, null);
-        }
-
-        [TestMethod]
-        public void GetRetweetsQuery_RetweetingTweetPublished_ReturnsExpectedQuery()
+        public void GetRetweetsQuery_WithValidTweetDTO_ReturnsExpectedQuery()
         {
             // Arrange
             var queryGenerator = CreateTweetQueryGenerator();
             var tweetToRetweetId = TestHelper.GenerateRandomLong();
             var tweetToRetweet = A.Fake<ITweetDTO>();
+            var maxRetweetsToRetrieve = TestHelper.GenerateRandomInt();
             tweetToRetweet.CallsTo(x => x.Id).Returns(tweetToRetweetId);
 
             _fakeTweetQueryValidator.CallsTo(x => x.IsTweetPublished(tweetToRetweet)).Returns(true);
 
             // Act
-            var result = queryGenerator.GetRetweetsQuery(tweetToRetweet);
+            var result = queryGenerator.GetRetweetsQuery(tweetToRetweet, maxRetweetsToRetrieve);
 
             // Assert
-            var expectedResult = string.Format(Resources.Tweet_Retweet_GetRetweets, tweetToRetweetId);
+            var expectedResult = string.Format("https://api.twitter.com/1.1/statuses/retweets/{0}.json?count={1}", tweetToRetweetId, maxRetweetsToRetrieve);
+
             Assert.AreEqual(result, expectedResult);
         }
 
+        #endregion
+
+        #region Get Retweeter Ids Query
+
         [TestMethod]
-        public void GetRetweetsQuery_WithTweetId_ReturnsExpectedQuery()
+        public void GetRetweeterIdsQuery_WithInValidTweetIdentifier_ReturnsExpectedQuery()
         {
             // Arrange
             var queryGenerator = CreateTweetQueryGenerator();
-            var tweetToRetweetId = TestHelper.GenerateRandomLong();
+            var tweetIdentifier = A.Fake<ITweetIdentifier>();
+            var maxRetweetersToRetrieve = TestHelper.GenerateRandomInt();
+            _fakeTweetQueryValidator.CallsTo(x => x.IsValidTweetIdentifier(tweetIdentifier)).Returns(true);
 
             // Act
-            var result = queryGenerator.GetRetweetsQuery(tweetToRetweetId);
+            var result = queryGenerator.GetRetweeterIdsQuery(tweetIdentifier, maxRetweetersToRetrieve);
 
             // Assert
-            var expectedResult = string.Format(Resources.Tweet_Retweet_GetRetweets, tweetToRetweetId);
+            var expectedResult = string.Format("https://api.twitter.com/1.1/statuses/retweeters/ids.json?id={0}&count={1}", tweetIdentifier.Id, maxRetweetersToRetrieve);
             Assert.AreEqual(result, expectedResult);
         }
-
+        
         #endregion
 
         #region GetDestroyTweetQuery
