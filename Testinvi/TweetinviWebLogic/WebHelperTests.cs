@@ -18,7 +18,7 @@ namespace Testinvi.TweetinviWebLogic
         {
             _fakeBuilder = new FakeClassBuilder<WebHelper>();
             _fakeTweetinviSettingsAccessor = _fakeBuilder.GetFake<ITweetinviSettingsAccessor>();
-            _fakeTweetinviSettingsAccessor.CallsTo(x => x.WebRequestTimeout).Returns(10000);
+            _fakeTweetinviSettingsAccessor.CallsTo(x => x.HttpRequestTimeout).Returns(10000);
         }
 
         [TestMethod]

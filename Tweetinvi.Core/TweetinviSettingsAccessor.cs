@@ -26,7 +26,7 @@ namespace Tweetinvi.Core
         /// <summary>
         /// Http requests timeout in the current thread.
         /// </summary>
-        int WebRequestTimeout { get; set; }
+        int HttpRequestTimeout { get; set; }
 
         /// <summary>
         /// Upload timeout in the current thread.
@@ -46,7 +46,7 @@ namespace Tweetinvi.Core
         public TweetinviSettingsAccessor()
         {
             var threadSettings = TweetinviCoreModule.TweetinviContainer.Resolve<ITweetinviSettings>();
-            threadSettings.WebRequestTimeout = 10000;
+            threadSettings.HttpRequestTimeout = 10000;
             threadSettings.UploadTimeout = 60000;
 
             CurrentThreadSettings = threadSettings;
@@ -107,10 +107,10 @@ namespace Tweetinvi.Core
             set { CurrentThreadSettings.ProxyURL = value; }
         }
 
-        public int WebRequestTimeout
+        public int HttpRequestTimeout
         {
-            get { return CurrentThreadSettings.WebRequestTimeout; }
-            set { CurrentThreadSettings.WebRequestTimeout = value; }
+            get { return CurrentThreadSettings.HttpRequestTimeout; }
+            set { CurrentThreadSettings.HttpRequestTimeout = value; }
         }
 
         public int UploadTimeout
