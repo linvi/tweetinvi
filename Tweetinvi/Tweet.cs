@@ -217,7 +217,7 @@ namespace Tweetinvi
         /// <summary>
         /// Get the retweets of a specific tweet
         /// </summary>
-        public static IEnumerable<ITweet> GetRetweets(ITweet tweet)
+        public static IEnumerable<ITweet> GetRetweets(ITweetIdentifier tweet)
         {
             return TweetController.GetRetweets(tweet);
         }
@@ -228,6 +228,24 @@ namespace Tweetinvi
         public static IEnumerable<ITweet> GetRetweets(long tweetId)
         {
             return TweetController.GetRetweets(tweetId);
+        }
+
+        // Get Retweeters Ids
+
+        /// <summary>
+        /// Get the retweeter Ids who tweeted a specific tweet
+        /// </summary>
+        public static IEnumerable<long> GetRetweetersIds(long tweetId, int maxRetweetersToRetrieve = 100)
+        {
+            return TweetController.GetRetweetersIds(tweetId, maxRetweetersToRetrieve);
+        }
+
+        /// <summary>
+        /// Get the retweeter Ids who tweeted a specific tweet
+        /// </summary>
+        public static IEnumerable<long> GetRetweetersIds(ITweetIdentifier tweetIdentifier, int maxRetweetersToRetrieve = 100)
+        {
+            return TweetController.GetRetweetersIds(tweetIdentifier, maxRetweetersToRetrieve);
         }
 
         // Destroy Tweet

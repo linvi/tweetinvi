@@ -225,28 +225,34 @@ namespace Tweetinvi.Controllers.Tweet
             return _tweetFactory.GenerateTweetFromDTO(tweetDTO);
         }
 
-        // Publish GetRetweets
-        public IEnumerable<ITweet> GetRetweets(ITweet tweet)
-        {
-            if (tweet == null)
-            {
-                throw new ArgumentException("Tweet cannot be null!");
-            }
+        #region GetRetweets
 
-            return GetRetweets(tweet.TweetDTO);
-        }
-
-        public IEnumerable<ITweet> GetRetweets(ITweetDTO tweet)
+        public IEnumerable<ITweet> GetRetweets(ITweetIdentifier tweetIdentifier, int maxRetweetsToRetrieve = 100)
         {
-            var retweetsDTO = _tweetQueryExecutor.GetRetweets(tweet);
+            var retweetsDTO = _tweetQueryExecutor.GetRetweets(tweetIdentifier, maxRetweetsToRetrieve);
             return _tweetFactory.GenerateTweetsFromDTO(retweetsDTO);
         }
 
-        public IEnumerable<ITweet> GetRetweets(long tweetId)
+        public IEnumerable<ITweet> GetRetweets(long tweetId, int maxRetweetsToRetrieve = 100)
         {
-            var retweetsDTO = _tweetQueryExecutor.GetRetweets(tweetId);
-            return _tweetFactory.GenerateTweetsFromDTO(retweetsDTO);
+            return GetRetweets(new TweetIdentifier(tweetId), maxRetweetsToRetrieve);
         }
+
+        #endregion
+
+        #region Get Retweeters Ids
+
+        public IEnumerable<long> GetRetweetersIds(long tweetId, int maxRetweetersToRetrieve = 100)
+        {
+            return _tweetQueryExecutor.GetRetweetersIds(new TweetIdentifier(tweetId), maxRetweetersToRetrieve);
+        }
+
+        public IEnumerable<long> GetRetweetersIds(ITweetIdentifier tweetIdentifier, int maxRetweetersToRetrieve = 100)
+        {
+            return _tweetQueryExecutor.GetRetweetersIds(tweetIdentifier, maxRetweetersToRetrieve);
+        }
+
+        #endregion
 
         // Destroy Tweet
         public bool DestroyTweet(ITweet tweet)

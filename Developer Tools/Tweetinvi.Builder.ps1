@@ -1,5 +1,5 @@
 Param(
-	$v = '0.9.11.2',			 # Version number
+	$v = '0.9.12.1',			 # Version number
 	$m = 'Release',              # Visual Studio Build Mode
 	[Switch]$dnr,				 # Do Not Rebuild 
 	[Switch]$h,					 # Help
@@ -98,8 +98,11 @@ $additionalAssemblies =
 
 $replaceNugetVersionRegex = '<version>[0-9\.]*</version>';
 $replaceNugetVersionWith = '<version>' + $version + '</version>';
+$replaceNugetReleaseNotesRegex = '<releaseNotes>https://github.com/linvi/tweetinvi/releases/tag/[0-9\.]*</releaseNotes>';
+$replaceNugetReleaseNotesWith = '<releaseNotes>https://github.com/linvi/tweetinvi/releases/tag/' + $version + '</releaseNotes>';
 
 Get-Item 'TweetinviAPI\TweetinviAPI.nuspec' | .\Replace-Regex.ps1 -Pattern $replaceNugetVersionRegex -Replacement $replaceNugetVersionWith -overwrite
+Get-Item 'TweetinviAPI\TweetinviAPI.nuspec' | .\Replace-Regex.ps1 -Pattern $replaceNugetReleaseNotesRegex -Replacement $replaceNugetReleaseNotesWith -overwrite
 
 for ($i=0; $i -lt $projects.length; $i++)
 {

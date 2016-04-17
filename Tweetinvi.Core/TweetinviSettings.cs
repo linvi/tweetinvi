@@ -34,7 +34,7 @@
         /// <summary>
         /// Http Requests Timeout duration in milliseconds.
         /// </summary>
-        int WebRequestTimeout { get; set; }
+        int HttpRequestTimeout { get; set; }
 
         /// <summary>
         /// Upload Timeout duration in milliseconds.
@@ -62,7 +62,7 @@
         public const long DEFAULT_ID = -1;
 
         public string ProxyURL { get; set; }
-        public int WebRequestTimeout { get; set; }
+        public int HttpRequestTimeout { get; set; }
         public RateLimitTrackerMode RateLimitTrackerMode { get; set; }
         public int UploadTimeout { get; set; }
 
@@ -70,7 +70,7 @@
         {
             var clone = new TweetinviSettings();
             clone.ProxyURL = ProxyURL;
-            clone.WebRequestTimeout = WebRequestTimeout;
+            clone.HttpRequestTimeout = HttpRequestTimeout;
             clone.UploadTimeout = UploadTimeout;
             clone.RateLimitTrackerMode = RateLimitTrackerMode;
             return clone;
@@ -79,7 +79,7 @@
         public void InitialiseFrom(ITweetinviSettings other)
         {
             ProxyURL = other.ProxyURL;
-            WebRequestTimeout = other.WebRequestTimeout;
+            HttpRequestTimeout = other.HttpRequestTimeout;
             UploadTimeout = other.UploadTimeout;
             RateLimitTrackerMode = other.RateLimitTrackerMode;
         }

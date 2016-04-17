@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Linq;
 using Tweetinvi.Core.Interfaces.DTO;
+using Tweetinvi.Core.Interfaces.Models;
 using Tweetinvi.Core.Parameters;
-using Tweetinvi.Core.Parameters.QueryParameters;
 
 namespace Tweetinvi.Controllers.Tweet
 {
@@ -11,6 +11,8 @@ namespace Tweetinvi.Controllers.Tweet
         void ThrowIfTweetCannotBePublished(IPublishTweetParameters parameters);
         bool CanTweetDTOBeDestroyed(ITweetDTO tweetDTO);
         bool IsTweetPublished(ITweetDTO tweetDTO);
+        bool IsValidTweetIdentifier(ITweetIdentifier tweetIdentifier);
+        void ValidateTweetIdentifier(ITweetIdentifier tweetIdentifier);
     }
 
     public class TweetQueryValidator : ITweetQueryValidator
@@ -19,7 +21,7 @@ namespace Tweetinvi.Controllers.Tweet
         {
             if (parameters == null)
             {
-                throw new ArgumentNullException("Publish parameters cannot be null.");
+                throw new ArgumentException("Publish parameters cannot be null.");
             }
 
             if (string.IsNullOrEmpty(parameters.Text))
@@ -44,6 +46,24 @@ namespace Tweetinvi.Controllers.Tweet
         public bool IsTweetPublished(ITweetDTO tweet)
         {
             return tweet != null && tweet.IsTweetPublished && !tweet.IsTweetDestroyed;
+        }
+
+        public bool IsValidTweetIdentifier(ITweetIdentifier tweetIdentifier)
+        {
+            return tweetIdentifier != null && tweetIdentifier.Id > 0;
+        }
+
+        public void ValidateTweetIdentifier(ITweetIdentifier tweetIdentifier)
+        {
+            if (tweetIdentifier == null)
+            {
+                throw new ArgumentException("TweetIdentifier");
+            }
+
+            if (!IsValidTweetIdentifier(tweetIdentifier))
+            {
+                throw new ArgumentException("TweetIdentifier is not valid.");
+            }
         }
     }
 }

@@ -3,6 +3,7 @@ using System.Linq;
 using Tweetinvi.Core.Exceptions;
 using Tweetinvi.Core.Interfaces.Credentials;
 using Tweetinvi.Core.Interfaces.DTO;
+using Tweetinvi.Core.Interfaces.DTO.QueryDTO;
 using Tweetinvi.Core.Interfaces.Models;
 using Tweetinvi.Core.Interfaces.QueryGenerators;
 using Tweetinvi.Core.Parameters;
@@ -23,8 +24,10 @@ namespace Tweetinvi.Controllers.Tweet
         ITweetDTO UnRetweet(long tweetId);
 
         // Get Retweets
-        IEnumerable<ITweetDTO> GetRetweets(ITweetDTO tweet);
-        IEnumerable<ITweetDTO> GetRetweets(long tweetId);
+        IEnumerable<ITweetDTO> GetRetweets(ITweetIdentifier tweetIdentifier, int maxRetweetsToRetrieve);
+
+        //Get Retweeters Ids
+        IEnumerable<long> GetRetweetersIds(ITweetIdentifier tweetIdentifier, int maxRetweetersToRetrieve);
 
         // Destroy Tweet
         bool DestroyTweet(ITweetDTO tweet);
@@ -89,18 +92,25 @@ namespace Tweetinvi.Controllers.Tweet
             return _twitterAccessor.ExecutePOSTQuery<ITweetDTO>(query);
         }
 
-        // Get Retweets
-        public IEnumerable<ITweetDTO> GetRetweets(ITweetDTO tweet)
+        #region Get Retweets
+
+        public IEnumerable<ITweetDTO> GetRetweets(ITweetIdentifier tweetIdentifier, int maxRetweetsToRetrieve)
         {
-            string query = _tweetQueryGenerator.GetRetweetsQuery(tweet);
+            var query = _tweetQueryGenerator.GetRetweetsQuery(tweetIdentifier, maxRetweetsToRetrieve);
             return _twitterAccessor.ExecuteGETQuery<IEnumerable<ITweetDTO>>(query);
         }
 
-        public IEnumerable<ITweetDTO> GetRetweets(long tweetId)
+        #endregion
+
+        #region Get Retweeters IDs
+
+        public IEnumerable<long> GetRetweetersIds(ITweetIdentifier tweetIdentifier, int maxRetweetersToRetrieve)
         {
-            string query = _tweetQueryGenerator.GetRetweetsQuery(tweetId);
-            return _twitterAccessor.ExecuteGETQuery<IEnumerable<ITweetDTO>>(query);
+            var query = _tweetQueryGenerator.GetRetweeterIdsQuery(tweetIdentifier, maxRetweetersToRetrieve);
+            return _twitterAccessor.ExecuteCursorGETQuery<long, IIdsCursorQueryResultDTO>(query);
         }
+
+        #endregion
 
         // Destroy Tweet
         public bool DestroyTweet(ITweetDTO tweet)

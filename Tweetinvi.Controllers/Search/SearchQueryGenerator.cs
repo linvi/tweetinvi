@@ -53,7 +53,7 @@ namespace Tweetinvi.Controllers.Search
 
             var query = new StringBuilder(Resources.Search_SearchTweets);
 
-            query.AddParameterToQuery("q", _searchQueryParameterGenerator.GenerateSearchQueryParameter(searchQuery));
+            query.AddParameterToQuery("q", searchQuery);
             query.Append(_searchQueryParameterGenerator.GenerateSearchTypeParameter(tweetSearchParameters.SearchType));
 
             query.Append(_queryParameterGenerator.GenerateSinceIdParameter(tweetSearchParameters.SinceId));
@@ -72,6 +72,8 @@ namespace Tweetinvi.Controllers.Search
 
         private string GetQuery(string query, TweetSearchFilters tweetSearchFilters)
         {
+            query = _searchQueryParameterGenerator.GenerateSearchQueryParameter(query);
+
             if (tweetSearchFilters == TweetSearchFilters.None)
             {
                 return query;
@@ -81,7 +83,7 @@ namespace Tweetinvi.Controllers.Search
             {
                 if (entitiesTypeFilter != TweetSearchFilters.None)
                 {
-                    var filter = entitiesTypeFilter.ToString().ToLowerInvariant();
+                    var filter = entitiesTypeFilter.GetQueryFilterName().ToLowerInvariant();
                     query += string.Format(" filter:{0}", filter);
                 }
             }

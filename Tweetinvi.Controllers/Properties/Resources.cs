@@ -450,6 +450,11 @@ namespace Tweetinvi.Controllers.Properties
         public static string Tweet_Get = "https://api.twitter.com/1.1/statuses/show.json?id={0}&include_my_retweet=true";
 
         /// <summary>
+        ///   Looks up a localized string similar to https://api.twitter.com/1.1/statuses/retweeters/ids.json.
+        /// </summary>
+        public static string Tweet_GetRetweeters = "https://api.twitter.com/1.1/statuses/retweeters/ids.json";
+
+        /// <summary>
         ///   Looks up a localized string similar to https://api.twitter.com/1.1/statuses/lookup.json?id={0}&amp;include_my_retweet=true.
         /// </summary>
         public static string Tweet_Lookup = "https://api.twitter.com/1.1/statuses/lookup.json?id={0}&include_my_retweet=true";
@@ -475,10 +480,10 @@ namespace Tweetinvi.Controllers.Properties
         public static string Tweet_PublishWithMediaInReplyTo = "https://api.twitter.com/1.1/statuses/update_with_media.json?status={0}&in_reply_to_status_id={1}";
 
         /// <summary>
-        ///   Looks up a localized string similar to https://api.twitter.com/1.1/statuses/retweets/{0}.json.
+        ///   Looks up a localized string similar to https://api.twitter.com/1.1/statuses/retweets/{0}.json?count={1}.
         /// </summary>
         public static string Tweet_Retweet_GetRetweets = "https://api.twitter.com/1.1/statuses/retweets/{0}.json";
-        
+
         /// <summary>
         ///   Looks up a localized string similar to https://api.twitter.com/1.1/statuses/unretweet/{0}.json?trim_user=true.
         /// </summary>

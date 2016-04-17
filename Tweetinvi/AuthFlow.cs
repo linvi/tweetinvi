@@ -11,7 +11,7 @@ namespace Tweetinvi
     /// <summary>
     /// Provide tools to request and create new credentials to access the Twitter API.
     /// </summary>
-    public static class AuthFactory
+    public static class AuthFlow
     {
         private static readonly IAuthFactory _authFactory;
         private static readonly IWebTokenFactory _webTokenFactory;
@@ -25,7 +25,7 @@ namespace Tweetinvi
             get { return _credentialsStore.CallbackAuthenticationContextStore; }
         }
 
-        static AuthFactory()
+        static AuthFlow()
         {
             _authFactory = TweetinviContainer.Resolve<IAuthFactory>();
             _webTokenFactory = TweetinviContainer.Resolve<IWebTokenFactory>();
@@ -39,7 +39,7 @@ namespace Tweetinvi
         /// If the callback url is null, the user will be redirected to PIN CODE authentication.
         /// If the callback url is defined, the user will be redirected to CALLBACK authentication.
         /// </summary>
-        public static IAuthenticationContext GetAuthenticationContext(IConsumerCredentials appCredentials, string callbackURL = null)
+        public static IAuthenticationContext InitAuthentication(IConsumerCredentials appCredentials, string callbackURL = null)
         {
             return _webTokenFactory.InitAuthenticationProcess(appCredentials, callbackURL, true);
         }
@@ -52,7 +52,7 @@ namespace Tweetinvi
         /// The 'authorization_id' parameter is added by Tweetinvi to simplify the retrieval of information to 
         /// generate the credentials. Strict mode removes this parameter from your query and let you handle it your own way.
         /// </summary>
-        public static IAuthenticationContext GetAuthenticationContext_StrictMode(IConsumerCredentials appCredentials, string callbackURL = null)
+        public static IAuthenticationContext InitAuthentication_StrictMode(IConsumerCredentials appCredentials, string callbackURL = null)
         {
             return _webTokenFactory.InitAuthenticationProcess(appCredentials, callbackURL, false);
         }

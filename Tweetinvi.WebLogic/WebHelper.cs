@@ -40,9 +40,9 @@ namespace Tweetinvi.WebLogic
         {
             Task<WebResponse> requestTask = Task.Factory.FromAsync<WebResponse>(webRequest.BeginGetResponse, webRequest.EndGetResponse, webRequest);
 
-            if (_tweetinviSettingsAccessor.WebRequestTimeout > 0)
+            if (_tweetinviSettingsAccessor.HttpRequestTimeout > 0)
             {
-                var resultingTask = TaskEx.WhenAny(requestTask, TaskEx.Delay(_tweetinviSettingsAccessor.WebRequestTimeout)).Result;
+                var resultingTask = TaskEx.WhenAny(requestTask, TaskEx.Delay(_tweetinviSettingsAccessor.HttpRequestTimeout)).Result;
                 if (resultingTask == requestTask)
                 {
                     return requestTask.Result;
