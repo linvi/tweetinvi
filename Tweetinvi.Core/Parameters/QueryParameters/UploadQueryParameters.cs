@@ -20,7 +20,7 @@ namespace Tweetinvi.Core.Parameters.QueryParameters
         string MediaType { get; set; }
 
         /// <summary>
-        /// Maximum size of a chunk binary for a single upload.
+        /// Maximum size of a chunk size (in bytes) for a single upload.
         /// </summary>
         int MaxChunkSize { get; set; }
 
