@@ -11,7 +11,7 @@ namespace Tweetinvi
     /// <summary>
     /// Provide tools to request and create new credentials to access the Twitter API.
     /// </summary>
-    public static class AuthFactory
+    public static class AuthFlow
     {
         private static readonly IAuthFactory _authFactory;
         private static readonly IWebTokenFactory _webTokenFactory;
@@ -25,7 +25,7 @@ namespace Tweetinvi
             get { return _credentialsStore.CallbackAuthenticationContextStore; }
         }
 
-        static AuthFactory()
+        static AuthFlow()
         {
             _authFactory = TweetinviContainer.Resolve<IAuthFactory>();
             _webTokenFactory = TweetinviContainer.Resolve<IWebTokenFactory>();

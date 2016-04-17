@@ -15,7 +15,7 @@ namespace Examplinvi.Web.Controllers
         {
             var appCreds = new ConsumerCredentials(MyCredentials.CONSUMER_KEY, MyCredentials.CONSUMER_SECRET);
             var redirectURL = "http://" + Request.Url.Authority + "/Home/ValidateTwitterAuth";
-            var authenticationContext = AuthFactory.GetAuthenticationContext(appCreds, redirectURL);
+            var authenticationContext = AuthFlow.InitAuthentication(appCreds, redirectURL);
 
             return new RedirectResult(authenticationContext.AuthorizationURL);
         }
@@ -27,7 +27,7 @@ namespace Examplinvi.Web.Controllers
 
             if (verifierCode != null)
             {
-                var userCreds = AuthFactory.CreateCredentialsFromVerifierCode(verifierCode, authorizationId);
+                var userCreds = AuthFlow.CreateCredentialsFromVerifierCode(verifierCode, authorizationId);
                 var user = Tweetinvi.User.GetAuthenticatedUser(userCreds);
 
                 ViewBag.User = user;

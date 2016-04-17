@@ -78,12 +78,12 @@ namespace Examplinvi
             }
 
             // With captcha
-            Examples.AuthFactory_WithCaptcha_StepByStep("consumer_key", "consumer_secret");
+            Examples.AuthFlow_WithCaptcha_StepByStep("consumer_key", "consumer_secret");
 
             // With callback URL
-            Examples.AuthFactory_CreateFromRedirectedCallbackURL_StepByStep("consumer_key", "consumer_secret");
+            Examples.AuthFlow_CreateFromRedirectedCallbackURL_StepByStep("consumer_key", "consumer_secret");
 
-            Examples.AuthFactory_CreateFromRedirectedVerifierCode_StepByStep("consumer_key", "consumer_secret");
+            Examples.AuthFlow_CreateFromRedirectedVerifierCode_StepByStep("consumer_key", "consumer_secret");
         }
 
         private static void UserLiveFeedExamples()
@@ -343,17 +343,17 @@ namespace Examplinvi
 
         // Get credentials with captcha system
         // ReSharper disable UnusedMethodReturnValue.Local
-        public static ITwitterCredentials AuthFactory_WithCaptcha_StepByStep(string consumerKey, string consumerSecret)
+        public static ITwitterCredentials AuthFlow_WithCaptcha_StepByStep(string consumerKey, string consumerSecret)
         {
             var applicationCredentials = new ConsumerCredentials(consumerKey, consumerSecret);
-            var authenticationContext = AuthFactory.GetAuthenticationContext(applicationCredentials);
+            var authenticationContext = AuthFlow.InitAuthentication(applicationCredentials);
             Console.WriteLine("Go on : {0}", authenticationContext);
             Console.WriteLine("Enter the captch : ");
             var captcha = Console.ReadLine();
 
             try
             {
-                var newCredentials = AuthFactory.CreateCredentialsFromVerifierCode(captcha, authenticationContext);
+                var newCredentials = AuthFlow.CreateCredentialsFromVerifierCode(captcha, authenticationContext);
                 Console.WriteLine("Access Token = {0}", newCredentials.AccessToken);
                 Console.WriteLine("Access Token Secret = {0}", newCredentials.AccessTokenSecret);
 
@@ -368,10 +368,10 @@ namespace Examplinvi
         }
 
         // Get credentials with callbackURL system
-        public static ITwitterCredentials AuthFactory_CreateFromRedirectedCallbackURL_StepByStep(string consumerKey, string consumerSecret)
+        public static ITwitterCredentials AuthFlow_CreateFromRedirectedCallbackURL_StepByStep(string consumerKey, string consumerSecret)
         {
             var applicationCredentials = new ConsumerCredentials(consumerKey, consumerSecret);
-            var authenticationContext = AuthFactory.GetAuthenticationContext(applicationCredentials, "https://tweetinvi.codeplex.com");
+            var authenticationContext = AuthFlow.InitAuthentication(applicationCredentials, "https://tweetinvi.codeplex.com");
             Console.WriteLine("Go on : {0}", authenticationContext);
             Console.WriteLine("When redirected to your website copy and paste the URL: ");
 
@@ -380,17 +380,17 @@ namespace Examplinvi
             var callbackURL = Console.ReadLine();
 
             // Here we provide the entire URL where the user has been redirected
-            var newCredentials = AuthFactory.CreateCredentialsFromCallbackURL(callbackURL, authenticationContext);
+            var newCredentials = AuthFlow.CreateCredentialsFromCallbackURL(callbackURL, authenticationContext);
             Console.WriteLine("Access Token = {0}", newCredentials.AccessToken);
             Console.WriteLine("Access Token Secret = {0}", newCredentials.AccessTokenSecret);
 
             return newCredentials;
         }
 
-        public static ITwitterCredentials AuthFactory_CreateFromRedirectedVerifierCode_StepByStep(string consumerKey, string consumerSecret)
+        public static ITwitterCredentials AuthFlow_CreateFromRedirectedVerifierCode_StepByStep(string consumerKey, string consumerSecret)
         {
             var applicationCredentials = new ConsumerCredentials(consumerKey, consumerSecret);
-            var authenticationContext = AuthFactory.GetAuthenticationContext(applicationCredentials, "https://tweetinvi.codeplex.com");
+            var authenticationContext = AuthFlow.InitAuthentication(applicationCredentials, "https://tweetinvi.codeplex.com");
             Console.WriteLine("Go on : {0}", authenticationContext);
             Console.WriteLine("When redirected to your website copy and paste the value of the oauth_verifier : ");
 
@@ -400,7 +400,7 @@ namespace Examplinvi
             var verifierCode = Console.ReadLine();
 
             // Here we only provide the verifier code
-            var newCredentials = AuthFactory.CreateCredentialsFromVerifierCode(verifierCode, authenticationContext);
+            var newCredentials = AuthFlow.CreateCredentialsFromVerifierCode(verifierCode, authenticationContext);
             Console.WriteLine("Access Token = {0}", newCredentials.AccessToken);
             Console.WriteLine("Access Token Secret = {0}", newCredentials.AccessTokenSecret);
 
@@ -1633,7 +1633,7 @@ namespace Examplinvi
             // Configure a proxy with Proxy with username and password
             TweetinviConfig.CurrentThreadSettings.ProxyURL = "http://user:pass@228.23.13.21:4287";
 
-            TweetinviConfig.CurrentThreadSettings.WebRequestTimeout = 5000;
+            TweetinviConfig.CurrentThreadSettings.HttpRequestTimeout = 5000;
 
             TweetinviConfig.CurrentThreadSettings.UploadTimeout = 90000;
         }
