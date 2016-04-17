@@ -345,26 +345,24 @@ namespace Examplinvi
         // ReSharper disable UnusedMethodReturnValue.Local
         public static ITwitterCredentials AuthFlow_WithCaptcha_StepByStep(string consumerKey, string consumerSecret)
         {
-            var applicationCredentials = new ConsumerCredentials(consumerKey, consumerSecret);
-            var authenticationContext = AuthFlow.InitAuthentication(applicationCredentials);
-            Console.WriteLine("Go on : {0}", authenticationContext);
-            Console.WriteLine("Enter the captch : ");
-            var captcha = Console.ReadLine();
+var applicationCredentials = new ConsumerCredentials(consumerKey, consumerSecret);
+var authenticationContext = AuthFlow.InitAuthentication(applicationCredentials);
+Console.WriteLine("Go on : {0}", authenticationContext.AuthorizationURL);
+Console.WriteLine("Enter the captch : ");
+var captcha = Console.ReadLine();
 
-            try
-            {
-                var newCredentials = AuthFlow.CreateCredentialsFromVerifierCode(captcha, authenticationContext);
-                Console.WriteLine("Access Token = {0}", newCredentials.AccessToken);
-                Console.WriteLine("Access Token Secret = {0}", newCredentials.AccessTokenSecret);
+try
+{
+    var newCredentials = AuthFlow.CreateCredentialsFromVerifierCode(captcha, authenticationContext);
+    Console.WriteLine("Access Token = {0}", newCredentials.AccessToken);
+    Console.WriteLine("Access Token Secret = {0}", newCredentials.AccessTokenSecret);
 
-                return newCredentials;
-            }
-            catch (Exception)
-            {
-                return null;
-            }
-            
-            
+    return newCredentials;
+}
+catch (Exception)
+{
+    return null;
+}
         }
 
         // Get credentials with callbackURL system
