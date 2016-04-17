@@ -19,7 +19,7 @@
             <dependency id="Microsoft.Bcl.Async" version="1.0.168" />
             <dependency id="Microsoft.Bcl.Build" version="1.0.21" />
             <dependency id="Microsoft.Net.Http" version="2.2.29" />
-            <dependency id="Newtonsoft.Json" version="8.0.2" />
+            <dependency id="Newtonsoft.Json" version="8.0.3" />
         </dependencies>
     </metadata>
 </package>
