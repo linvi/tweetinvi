@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Tweetinvi.Core.Interfaces.Credentials;
@@ -45,6 +46,13 @@ namespace Tweetinvi.Core.Interfaces.Models
         {
             get { return _resources.ApplicationRateLimits["/application/rate_limit_status"]; }
         }
+
+        #endregion
+
+        #region Auth
+
+        public IEndpointRateLimit AuthCrossSiteRequestForgeryLimit { get { return _resources.AuthRateLimits["/auth/csrf_token"]; } }
+
         #endregion
 
         #region Block
@@ -57,13 +65,35 @@ namespace Tweetinvi.Core.Interfaces.Models
         {
             get { return _resources.BlocksRateLimits["/blocks/list"]; }
         }
+
+        #endregion
+
+        #region Business Experience
+
+        public IEndpointRateLimit BusinessExperienceKeywordLimit { get { return _resources.BusinessExperienceRateLimits["/business_experience/keywords"]; } }
+
+        #endregion
+
+        #region Collections
+
+        public IEndpointRateLimit CollectionsListLimit { get { return _resources.CollectionsRateLimits["/collections/list"]; } }
+        public IEndpointRateLimit CollectionsEntriesLimit { get { return _resources.CollectionsRateLimits["/collections/entries"]; } }
+        public IEndpointRateLimit CollectionsShowLimit { get { return _resources.CollectionsRateLimits["/collections/show"]; } }
+
+        #endregion
+
+        #region Contacts
+
+        public IEndpointRateLimit ContactsUpdatedByLimit { get { return _resources.ContactsRateLimits["/contacts/uploaded_by"]; } }
+        public IEndpointRateLimit ContactsUsersLimit { get { return _resources.ContactsRateLimits["/contacts/users"]; } }
+        public IEndpointRateLimit ContactsAddressBookLimit { get { return _resources.ContactsRateLimits["/contacts/addressbook"]; } }
+        public IEndpointRateLimit ContactsUsersAndUploadedByLimit { get { return _resources.ContactsRateLimits["/contacts/users_and_uploaded_by"]; } }
+        public IEndpointRateLimit ContactsDeleteStatusLimit { get { return _resources.ContactsRateLimits["/contacts/delete/status"]; } }
+
         #endregion
 
         #region Device
-        public IEndpointRateLimit DeviceTokenLimit
-        {
-            get { return _resources.DeviceRateLimits["/device/token"]; }
-        }
+        public IEndpointRateLimit DeviceTokenLimit { get { return _resources.DeviceRateLimits["/device/token"]; } }
         #endregion
 
         #region DirectMessages
@@ -93,6 +123,14 @@ namespace Tweetinvi.Core.Interfaces.Models
         {
             get { return _resources.FavoritesRateLimits["/favorites/list"]; }
         }
+
+        #endregion
+
+        #region Feedback
+
+        public IEndpointRateLimit FeedbackShowLimit { get { return _resources.FeedbacksRateLimits["/feedback/show/:id"]; } }
+        public IEndpointRateLimit FeedbackEventsLimit { get { return _resources.FeedbacksRateLimits["/feedback/events"]; } }
+
         #endregion
 
         #region Followers
@@ -155,6 +193,12 @@ namespace Tweetinvi.Core.Interfaces.Models
         {
             get { return _resources.FriendshipsRateLimits["/friendships/show"]; }
         }
+
+        public IEndpointRateLimit FriendshipsListLimit
+        {
+            get { return _resources.FriendshipsRateLimits["/friendships/list"]; }
+        }
+
         #endregion
 
         #region Geo
@@ -256,6 +300,19 @@ namespace Tweetinvi.Core.Interfaces.Models
         {
             get { return _resources.ListsRateLimits["/lists/subscriptions"]; }
         }
+
+        #endregion
+
+        #region Media
+
+        public IEndpointRateLimit MediaUploadLimit { get { return _resources.MediaRateLimits["/media/upload"]; } }
+
+        #endregion
+
+        #region Moments
+
+        public IEndpointRateLimit MomentsPermissions { get { return _resources.MomentsRateLimits["/moments/permissions"]; } }
+
         #endregion
 
         #region Mutes
@@ -272,7 +329,7 @@ namespace Tweetinvi.Core.Interfaces.Models
         #endregion
 
         #region SavedSearches
-        public IEndpointRateLimit SavedSearchDestroyList
+        public IEndpointRateLimit SavedSearchDestroyLimit
         {
             get { return _resources.SavedSearchesRateLimits["/saved_searches/destroy/:id"]; }
         }
@@ -297,10 +354,7 @@ namespace Tweetinvi.Core.Interfaces.Models
 
         #region Statuses
 
-        public IEndpointRateLimit StatusesFriendsLimit
-        {
-            get { return _resources.StatusesRateLimits["/statuses/friends"]; }
-        }
+        public IEndpointRateLimit StatusesFriendsLimit { get { return _resources.StatusesRateLimits["/statuses/friends"]; } }
 
         public IEndpointRateLimit StatusesHomeTimelineLimit
         {
@@ -363,6 +417,14 @@ namespace Tweetinvi.Core.Interfaces.Models
         {
             get { return _resources.TrendsRateLimits["/trends/place"]; }
         }
+
+        #endregion
+
+        #region Twitter Prompts
+
+        public IEndpointRateLimit TweetPromptsReportInteractionLimit { get { return _resources.TweetPromptsRateLimits["/tweet_prompts/report_interaction"]; } }
+        public IEndpointRateLimit TweetPromptsShowLimit { get { return _resources.TweetPromptsRateLimits["/tweet_prompts/show"]; } }
+
         #endregion
 
         #region Users
@@ -414,6 +476,8 @@ namespace Tweetinvi.Core.Interfaces.Models
         #endregion
 
 
+        [SuppressMessage("ReSharper", "CollectionNeverUpdated.Local")]
+        [SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Local")]
         private class RateLimitResources
         {
             [JsonProperty("account")]
@@ -422,8 +486,20 @@ namespace Tweetinvi.Core.Interfaces.Models
             [JsonProperty("application")]
             public Dictionary<string, IEndpointRateLimit> ApplicationRateLimits { get; set; }
 
+            [JsonProperty("auth")]
+            public Dictionary<string, IEndpointRateLimit> AuthRateLimits { get; set; }
+
             [JsonProperty("blocks")]
             public Dictionary<string, IEndpointRateLimit> BlocksRateLimits { get; set; }
+
+            [JsonProperty("business_experience")]
+            public Dictionary<string, IEndpointRateLimit> BusinessExperienceRateLimits { get; set; }
+
+            [JsonProperty("collections")]
+            public Dictionary<string, IEndpointRateLimit> CollectionsRateLimits { get; set; }
+
+            [JsonProperty("contacts")]
+            public Dictionary<string, IEndpointRateLimit> ContactsRateLimits { get; set; }
 
             [JsonProperty("device")]
             public Dictionary<string, IEndpointRateLimit> DeviceRateLimits { get; set; }
@@ -433,6 +509,9 @@ namespace Tweetinvi.Core.Interfaces.Models
 
             [JsonProperty("favorites")]
             public Dictionary<string, IEndpointRateLimit> FavoritesRateLimits { get; set; }
+
+            [JsonProperty("feedback")]
+            public Dictionary<string, IEndpointRateLimit> FeedbacksRateLimits { get; set; }
 
             [JsonProperty("followers")]
             public Dictionary<string, IEndpointRateLimit> FollowersRateLimits { get; set; }
@@ -452,6 +531,12 @@ namespace Tweetinvi.Core.Interfaces.Models
             [JsonProperty("lists")]
             public Dictionary<string, IEndpointRateLimit> ListsRateLimits { get; set; }
 
+            [JsonProperty("media")]
+            public Dictionary<string, IEndpointRateLimit> MediaRateLimits { get; set; }
+
+            [JsonProperty("moments")]
+            public Dictionary<string, IEndpointRateLimit> MomentsRateLimits { get; set; }
+
             [JsonProperty("mutes")]
             public Dictionary<string, IEndpointRateLimit> MutesRateLimits { get; set; }
 
@@ -463,6 +548,9 @@ namespace Tweetinvi.Core.Interfaces.Models
 
             [JsonProperty("statuses")]
             public Dictionary<string, IEndpointRateLimit> StatusesRateLimits { get; set; }
+
+            [JsonProperty("tweet_prompts")]
+            public Dictionary<string, IEndpointRateLimit> TweetPromptsRateLimits { get; set; }
 
             [JsonProperty("trends")]
             public Dictionary<string, IEndpointRateLimit> TrendsRateLimits { get; set; }

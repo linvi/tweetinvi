@@ -24,7 +24,7 @@ namespace Tweetinvi.Core.Interfaces.Credentials
 
         // ACCOUNT
         IEndpointRateLimit AccountLoginVerificationEnrollmentLimit { get; }
-        
+
         [TwitterEndpoint("https://api.twitter.com/1.1/account/settings.json")]
         IEndpointRateLimit AccountSettingsLimit { get; }
 
@@ -38,12 +38,36 @@ namespace Tweetinvi.Core.Interfaces.Credentials
         [TwitterEndpoint("https://api.twitter.com/1.1/application/rate_limit_status.json")]
         IEndpointRateLimit ApplicationRateLimitStatusLimit { get; }
 
+        // AUTH
+        IEndpointRateLimit AuthCrossSiteRequestForgeryLimit { get; }
+
         // BLOCK
         [TwitterEndpoint("https://api.twitter.com/1.1/blocks/ids.json")]
         IEndpointRateLimit BlocksIdsLimit { get; }
 
         [TwitterEndpoint("https://api.twitter.com/1.1/blocks/list.json")]
         IEndpointRateLimit BlocksListLimit { get; }
+
+        // BUSINESS EXPERIENCE
+        IEndpointRateLimit BusinessExperienceKeywordLimit { get; }
+
+        // COLLECTIONS
+
+        [TwitterEndpoint("https://api.twitter.com/1.1/collections/list.json")]
+        IEndpointRateLimit CollectionsListLimit { get; }
+
+        [TwitterEndpoint("https://api.twitter.com/1.1/collections/entries.json")]
+        IEndpointRateLimit CollectionsEntriesLimit { get; }
+
+        [TwitterEndpoint("https://api.twitter.com/1.1/collections/show.json")]
+        IEndpointRateLimit CollectionsShowLimit { get; }
+
+        // CONTACTS
+        IEndpointRateLimit ContactsUpdatedByLimit { get; }
+        IEndpointRateLimit ContactsUsersLimit { get; }
+        IEndpointRateLimit ContactsAddressBookLimit { get; }
+        IEndpointRateLimit ContactsUsersAndUploadedByLimit { get; }
+        IEndpointRateLimit ContactsDeleteStatusLimit { get; }
 
         // OTHER
         IEndpointRateLimit DeviceTokenLimit { get; }
@@ -64,6 +88,10 @@ namespace Tweetinvi.Core.Interfaces.Credentials
         // FAVOURITES
         [TwitterEndpoint("https://api.twitter.com/1.1/favorites/list.json")]
         IEndpointRateLimit FavoritesListLimit { get; }
+
+        // FEEDBACK
+        IEndpointRateLimit FeedbackShowLimit { get; }
+        IEndpointRateLimit FeedbackEventsLimit { get; }
 
         // FOLLOWERS
         [TwitterEndpoint("https://api.twitter.com/1.1/followers/ids.json")]
@@ -96,6 +124,8 @@ namespace Tweetinvi.Core.Interfaces.Credentials
 
         [TwitterEndpoint("https://api.twitter.com/1.1/friendships/show.json")]
         IEndpointRateLimit FriendshipsShowLimit { get; }
+
+        IEndpointRateLimit FriendshipsListLimit { get; }
 
         // GEO
         [TwitterEndpoint("https://api.twitter.com/1.1/geo/id/[a-zA-Z0-9]+\\.json", true)]
@@ -156,6 +186,12 @@ namespace Tweetinvi.Core.Interfaces.Credentials
         [TwitterEndpoint("https://api.twitter.com/1.1/lists/subscriptions.json")]
         IEndpointRateLimit ListsSubscriptionsLimit { get; }
 
+        // MEDIA
+        IEndpointRateLimit MediaUploadLimit { get; }
+
+        // MOMENTS
+        IEndpointRateLimit MomentsPermissions { get; }
+
         // MUTES
         [TwitterEndpoint("https://api.twitter.com/1.1/mutes/users/list.json")]
         IEndpointRateLimit MutesUserList { get; }
@@ -165,7 +201,7 @@ namespace Tweetinvi.Core.Interfaces.Credentials
 
         // SAVED SEARCHES
         [TwitterEndpoint("https://api.twitter.com/1.1/saved_searches/destroy/[a-zA-Z0-9]+\\.json", true)]
-        IEndpointRateLimit SavedSearchDestroyList { get; }
+        IEndpointRateLimit SavedSearchDestroyLimit { get; }
 
         [TwitterEndpoint("https://api.twitter.com/1.1/saved_searches/list.json")]
         IEndpointRateLimit SavedSearchesListLimit { get; }
@@ -217,6 +253,10 @@ namespace Tweetinvi.Core.Interfaces.Credentials
 
         [TwitterEndpoint("https://api.twitter.com/1.1/trends/place.json")]
         IEndpointRateLimit TrendsPlaceLimit { get; }
+
+        // TWEET_PROMPTS
+        IEndpointRateLimit TweetPromptsReportInteractionLimit { get; }
+        IEndpointRateLimit TweetPromptsShowLimit { get; }
 
         // USER
         IEndpointRateLimit UsersDerivedInfoLimit { get; }
