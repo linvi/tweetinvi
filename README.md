@@ -11,3 +11,5 @@ Tweetinvi is an intuitive .NET C# library to access the Twitter REST API. It is 
 Tweetinvi is developed for free. All donations are greatly appreciated.
 
 [![Donate](https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=4W8BCYB4FVSN6)
+
+Watch the project being developed in real time on [LiveCoding.tv](https://www.livecoding.tv/linvi/).
