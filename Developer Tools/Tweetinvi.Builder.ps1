@@ -1,5 +1,5 @@
 Param(
-	$v = '0.9.12.1',			 # Version number
+	$v = '0.9.12.2',			 # Version number
 	$m = 'Release',              # Visual Studio Build Mode
 	[Switch]$dnr,				 # Do Not Rebuild 
 	[Switch]$h,					 # Help
@@ -182,7 +182,7 @@ if (!$uv.IsPresent) {
     mkdir $outputFolder -Force | Out-Null
 
 	$mergedDLLPath = $temporaryFolder + '\output\' + $tweetinviAPIMerged
-	$ILMergeCommand = '.\ILMerge.exe /target:library /out:' + $mergedDLLPath + ' '
+	$ILMergeCommand = '.\ILMerge.exe /target:library /out:' + $mergedDLLPath + ' /keyfile:../tweetinvi.snk '
 
     if ($iel.IsPresent)
     {
