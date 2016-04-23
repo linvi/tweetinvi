@@ -29,9 +29,9 @@ namespace Tweetinvi.Controllers.Trends
             return _trendsQueryExecutor.GetAvailableTrendLocations();
         }
 
-        public IEnumerable<ITrendLocation> GetClosestTrendLocations(double longitude, double latitude)
+        public IEnumerable<ITrendLocation> GetClosestTrendLocations(double latitude, double longitude)
         {
-            return GetClosestTrendLocations(new Coordinates(longitude, latitude));
+            return GetClosestTrendLocations(new Coordinates(latitude, longitude));
         }
 
         public IEnumerable<ITrendLocation> GetClosestTrendLocations(ICoordinates coordinates)

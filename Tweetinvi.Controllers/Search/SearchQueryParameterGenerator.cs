@@ -14,7 +14,7 @@ namespace Tweetinvi.Controllers.Search
         ITweetSearchParameters CreateSearchTweetParameter(string query);
         ITweetSearchParameters CreateSearchTweetParameter(IGeoCode geoCode);
         ITweetSearchParameters CreateSearchTweetParameter(ICoordinates coordinates, int radius, DistanceMeasure measure);
-        ITweetSearchParameters CreateSearchTweetParameter(double longitude, double latitude, int radius, DistanceMeasure measure);
+        ITweetSearchParameters CreateSearchTweetParameter(double latitude, double longitude, int radius, DistanceMeasure measure);
 
         string GenerateSearchQueryParameter(string query);
         string GenerateSearchTypeParameter(SearchResultType searchType);
@@ -55,9 +55,9 @@ namespace Tweetinvi.Controllers.Search
             return new TweetSearchParameters(coordinates, radius, measure);
         }
 
-        public ITweetSearchParameters CreateSearchTweetParameter(double longitude, double latitude, int radius, DistanceMeasure measure)
+        public ITweetSearchParameters CreateSearchTweetParameter(double latitude, double longitude, int radius, DistanceMeasure measure)
         {
-            return new TweetSearchParameters(longitude, latitude, radius, measure);
+            return new TweetSearchParameters(latitude, longitude, radius, measure);
         }
 
         public string GenerateSearchQueryParameter(string searchQuery)
@@ -114,13 +114,14 @@ namespace Tweetinvi.Controllers.Search
         {
             if (!_searchQueryValidator.IsGeoCodeValid(geoCode))
             {
-                return string.Empty;
+                return null;
             }
 
-            string latitude = geoCode.Coordinates.Latitude.ToString(CultureInfo.InvariantCulture);
-            string longitude = geoCode.Coordinates.Longitude.ToString(CultureInfo.InvariantCulture);
-            string radius = geoCode.Radius.ToString(CultureInfo.InvariantCulture);
-            string measure = geoCode.DistanceMeasure == DistanceMeasure.Kilometers ? "km" : "mi";
+            var latitude = geoCode.Coordinates.Latitude.ToString(CultureInfo.InvariantCulture);
+            var longitude = geoCode.Coordinates.Longitude.ToString(CultureInfo.InvariantCulture);
+            var radius = geoCode.Radius.ToString(CultureInfo.InvariantCulture);
+            var measure = geoCode.DistanceMeasure == DistanceMeasure.Kilometers ? "km" : "mi";
+
             return string.Format(Resources.SearchParameter_GeoCode, latitude, longitude, radius, measure, CultureInfo.InvariantCulture);
         }
 

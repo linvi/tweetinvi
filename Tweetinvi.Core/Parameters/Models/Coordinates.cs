@@ -4,7 +4,7 @@ namespace Tweetinvi.Core.Parameters
 {
     public class Coordinates : ICoordinates
     {
-        public Coordinates(double longitude, double latitude)
+        public Coordinates(double latitude, double longitude)
         {
             Longitude = longitude;
             Latitude = latitude;

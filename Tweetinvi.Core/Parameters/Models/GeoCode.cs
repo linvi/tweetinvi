@@ -16,9 +16,9 @@ namespace Tweetinvi.Core.Parameters
             DistanceMeasure = distanceMeasure;
         }
 
-        public GeoCode(double longitude, double latitude, double radius, DistanceMeasure distanceMeasure)
+        public GeoCode(double latitude, double longitude, double radius, DistanceMeasure distanceMeasure)
         {
-            Coordinates = new Coordinates(longitude, latitude);
+            Coordinates = new Coordinates(latitude, longitude);
             Radius = radius;
             DistanceMeasure = distanceMeasure;
         }

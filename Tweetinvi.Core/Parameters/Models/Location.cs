@@ -13,10 +13,10 @@ namespace Tweetinvi.Core.Parameters
             Coordinate2 = coordinates2;
         }
 
-        public Location(double longitude1, double latitude1, double longitude2, double latitude2)
+        public Location(double latitude1, double longitude1, double latitude2, double longitude2)
         {
-            Coordinate1 = new Coordinates(longitude1, latitude1);
-            Coordinate2 = new Coordinates(longitude2, latitude2);
+            Coordinate1 = new Coordinates(latitude1, longitude1);
+            Coordinate2 = new Coordinates(latitude2, longitude2);
         }
 
         public static bool CoordinatesLocatedIn(ICoordinates coordinates, ILocation location)

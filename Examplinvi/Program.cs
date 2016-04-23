@@ -462,11 +462,11 @@ catch (Exception)
 
         public static void Tweet_PublishTweetWithGeo(string text)
         {
-            const double longitude = -122.400612831116;
             const double latitude = 37.7821120598956;
+            const double longitude = -122.400612831116;
 
             var publishParameters = new PublishTweetOptionalParameters();
-            publishParameters.Coordinates = new Coordinates(longitude, latitude);
+            publishParameters.Coordinates = new Coordinates(latitude, longitude);
 
             var tweet = Tweet.PublishTweet(text, publishParameters);
 
@@ -867,7 +867,7 @@ catch (Exception)
         public static void Stream_FilteredStreamExample()
         {
             var stream = Stream.CreateFilteredStream();
-            var location = new Location(-124.75, 36.8, -126.89, 32.75);
+            var location = new Location(36.8, -124.75, 32.75, -126.89);
 
             stream.AddLocation(location);
             stream.AddTrack("tweetinvi");
@@ -1110,7 +1110,7 @@ catch (Exception)
 
             var searchParameter = Search.CreateTweetSearchParameter("obama");
 
-            searchParameter.SetGeoCode(new Coordinates(-122.398720, 37.781157), 1, DistanceMeasure.Miles);
+            searchParameter.SetGeoCode(new Coordinates(37.781157, -122.398720), 1, DistanceMeasure.Miles);
             searchParameter.Lang = Language.English;
             searchParameter.SearchType = SearchResultType.Popular;
             searchParameter.MaximumNumberOfResults = 100;

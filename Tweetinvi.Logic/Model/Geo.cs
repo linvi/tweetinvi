@@ -32,7 +32,7 @@ namespace Tweetinvi.Logic.Model
                 else
                 {
                     var coordinatesInfo = value[0];
-                    Coordinates = coordinatesInfo.Select(x => (ICoordinates)new Coordinates(x[0], x[1])).ToList();
+                    Coordinates = coordinatesInfo.Select(x => (ICoordinates)new Coordinates(x[1], x[0])).ToList();
                 }
             }
         }

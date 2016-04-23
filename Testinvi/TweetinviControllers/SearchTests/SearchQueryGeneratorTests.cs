@@ -123,28 +123,6 @@ namespace Testinvi.TweetinviControllers.SearchTests
         }
 
         [TestMethod]
-        public void GetSearchTweetQuery_WithTweetSearchParameter_QueryIsValid_ReturnsExpectedQuery()
-        {
-            // Arrange
-            var searchQueryGenerator = CreateSearchQueryGenerator();
-
-            // Act
-            var result = searchQueryGenerator.GetSearchTweetsQuery(_tweetSearchParameters);
-
-            // Assert
-            VerifyResultContainsParameters(result, _searchQueryParameter,
-                                                   _searchTypeParameter,
-                                                   _maximumNumberOfResultsParameter,
-                                                   _sinceIdParameter,
-                                                   _maxIdParameter,
-                                                   _sinceParameter,
-                                                   _untilParameter,
-                                                   _localeParameter,
-                                                   _languageParameter,
-                                                   _geoCodeParameter);
-        }
-
-        [TestMethod]
         public void GetSearchTweetQuery_WithFilters_ReturnsExpectedQuery()
         {
             // Arrange
@@ -180,7 +158,7 @@ namespace Testinvi.TweetinviControllers.SearchTests
         {
             // Arrange
             var searchQueryGenerator = CreateSearchQueryGenerator();
-            _fakeSearchQueryValidator.CallsTo(x => x.IsSearchTweetsQueryValid(_searchQuery)).Returns(false);
+            _fakeSearchQueryValidator.CallsTo(x => x.IsSearchTweetsQueryValid(It.IsAny<string>())).Returns(false);
 
             // Act
             var result = searchQueryGenerator.GetSearchTweetsQuery(_tweetSearchParameters);

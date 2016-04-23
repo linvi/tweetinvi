@@ -63,9 +63,9 @@ namespace Tweetinvi
         /// <summary>
         /// Returns the locations that Twitter has trending topic information for, closest to a specified location.
         /// </summary>
-        public static IEnumerable<ITrendLocation> GetClosestTrendLocations(double longitude, double latitude)
+        public static IEnumerable<ITrendLocation> GetClosestTrendLocations(double latitude, double longitude)
         {
-            return TrendsController.GetClosestTrendLocations(longitude, latitude);
+            return TrendsController.GetClosestTrendLocations(latitude, longitude);
         }
 
         /// <summary>

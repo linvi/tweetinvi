@@ -78,7 +78,7 @@ namespace Tweetinvi.Core.Parameters
         /// <summary>
         /// Set the geo location where the search have to be performed.
         /// </summary>
-        void SetGeoCode(double longitude, double latitude, double radius, DistanceMeasure measure);
+        void SetGeoCode(double latitude, double longitude, double radius, DistanceMeasure measure);
     }
 
     /// <summary>
@@ -112,9 +112,9 @@ namespace Tweetinvi.Core.Parameters
             GeoCode = new GeoCode(coordinates, radius, measure);
         }
 
-        public TweetSearchParameters(double longitude, double latitude, int radius, DistanceMeasure measure) : this()
+        public TweetSearchParameters(double latitude, double longitude, int radius, DistanceMeasure measure) : this()
         {
-            GeoCode = new GeoCode(longitude, latitude, radius, measure);
+            GeoCode = new GeoCode(latitude, longitude, radius, measure);
         }
 
         public string SearchQuery { get; set; }
@@ -139,9 +139,9 @@ namespace Tweetinvi.Core.Parameters
             GeoCode = new GeoCode(coordinates, radius, measure);
         }
 
-        public void SetGeoCode(double longitude, double latitude, double radius, DistanceMeasure measure)
+        public void SetGeoCode(double latitude, double longitude, double radius, DistanceMeasure measure)
         {
-            GeoCode = new GeoCode(longitude, latitude, radius, measure);
+            GeoCode = new GeoCode(latitude, longitude, radius, measure);
         }
     }
 }

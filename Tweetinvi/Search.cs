@@ -120,9 +120,9 @@ namespace Tweetinvi
         /// <summary>
         /// Create a parameter to search tweets for some specific coordinates and radius
         /// </summary>
-        public static ITweetSearchParameters CreateTweetSearchParameter(double longitude, double latitude, int radius, DistanceMeasure measure)
+        public static ITweetSearchParameters CreateTweetSearchParameter(double latitude, double longitude, int radius, DistanceMeasure measure)
         {
-            return SearchQueryParameterGenerator.CreateSearchTweetParameter(longitude, latitude, radius, measure);   
+            return SearchQueryParameterGenerator.CreateSearchTweetParameter(latitude, longitude, radius, measure);   
         }
 
         // USER

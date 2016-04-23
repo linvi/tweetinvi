@@ -54,13 +54,14 @@ namespace Tweetinvi.Controllers.Search
             var query = new StringBuilder(Resources.Search_SearchTweets);
 
             query.AddParameterToQuery("q", searchQuery);
+            query.AddParameterToQuery("geocode", _searchQueryParameterGenerator.GenerateGeoCodeParameter(tweetSearchParameters.GeoCode));
+
             query.Append(_searchQueryParameterGenerator.GenerateSearchTypeParameter(tweetSearchParameters.SearchType));
 
             query.Append(_queryParameterGenerator.GenerateSinceIdParameter(tweetSearchParameters.SinceId));
             query.Append(_queryParameterGenerator.GenerateMaxIdParameter(tweetSearchParameters.MaxId));
             query.Append(_queryParameterGenerator.GenerateCountParameter(tweetSearchParameters.MaximumNumberOfResults));
 
-            query.Append(_searchQueryParameterGenerator.GenerateGeoCodeParameter(tweetSearchParameters.GeoCode));
             query.Append(_searchQueryParameterGenerator.GenerateLangParameter(tweetSearchParameters.Lang));
             query.Append(_searchQueryParameterGenerator.GenerateLocaleParameter(tweetSearchParameters.Locale));
             query.Append(_searchQueryParameterGenerator.GenerateSinceParameter(tweetSearchParameters.Since));

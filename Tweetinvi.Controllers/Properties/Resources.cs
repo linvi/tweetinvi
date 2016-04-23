@@ -345,9 +345,9 @@ namespace Tweetinvi.Controllers.Properties
         public static string Search_SearchUsers = "https://api.twitter.com/1.1/users/search.json";
 
         /// <summary>
-        ///   Looks up a localized string similar to &amp;geocode={0}%2C{1}%2C{2}{3}.
+        ///   Looks up a localized string similar to {0}%2C{1}%2C{2}{3}.
         /// </summary>
-        public static string SearchParameter_GeoCode = "&geocode={0}%2C{1}%2C{2}{3}";
+        public static string SearchParameter_GeoCode = "{0}%2C{1}%2C{2}{3}";
 
         /// <summary>
         ///   Looks up a localized string similar to &amp;lang={0}.

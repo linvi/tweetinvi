@@ -19,7 +19,7 @@ namespace Tweetinvi.Factories.Geo
             _locationUnityFactory = locationUnityFactory;
         }
 
-        public ICoordinates GenerateCoordinates(double longitude, double latitude)
+        public ICoordinates GenerateCoordinates(double latitude, double longitude)
         {
             var longitudeParameter = _locationUnityFactory.GenerateParameterOverrideWrapper("longitude", longitude);
             var latitudeParameter = _locationUnityFactory.GenerateParameterOverrideWrapper("latitude", latitude);
@@ -40,10 +40,10 @@ namespace Tweetinvi.Factories.Geo
             return _locationUnityFactory.Create(coordinates1Parameter, coordinates2Parameter);
         }
 
-        public ILocation GenerateLocation(double longitude1, double latitude1, double longitude2, double latitude2)
+        public ILocation GenerateLocation(double latitude1, double longitude1, double latitude2, double longitude2)
         {
-            var coordinates1 = GenerateCoordinates(longitude1, latitude1);
-            var coordinates2 = GenerateCoordinates(longitude2, latitude2);
+            var coordinates1 = GenerateCoordinates(latitude1, longitude1);
+            var coordinates2 = GenerateCoordinates(latitude2, longitude2);
 
             return GenerateLocation(coordinates1, coordinates2);
         }

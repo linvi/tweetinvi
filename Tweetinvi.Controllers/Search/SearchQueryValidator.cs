@@ -26,7 +26,7 @@ namespace Tweetinvi.Controllers.Search
 
         private bool IsAtLeasOneRequiredCriteriaSet(ITweetSearchParameters searchParameters)
         {
-            bool isSearchQuerySet = !String.IsNullOrEmpty(searchParameters.SearchQuery);
+            bool isSearchQuerySet = !string.IsNullOrEmpty(searchParameters.SearchQuery);
             bool isSearchQueryValid = IsSearchTweetsQueryValid(searchParameters.SearchQuery);
             bool isGeoCodeSet = IsGeoCodeValid(searchParameters.GeoCode);
             bool isEntitiesTypeSet = searchParameters.Filters != TweetSearchFilters.None;
