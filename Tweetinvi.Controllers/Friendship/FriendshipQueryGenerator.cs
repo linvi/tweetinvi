@@ -39,14 +39,11 @@ namespace Tweetinvi.Controllers.Friendship
         // Get Existing Relationship
         public string GetRelationshipDetailsQuery(IUserIdentifier sourceUserIdentifier, IUserIdentifier targetUserIdentifier)
         {
-            if (!_userQueryValidator.CanUserBeIdentified(sourceUserIdentifier) ||
-                !_userQueryValidator.CanUserBeIdentified(targetUserIdentifier))
-            {
-                return null;
-            }
+            _userQueryValidator.ThrowIfUserCannotBeIdentified(sourceUserIdentifier, "Source user");
+            _userQueryValidator.ThrowIfUserCannotBeIdentified(targetUserIdentifier, "Target user");
 
-            string sourceParameter = _userQueryParameterGenerator.GenerateIdOrScreenNameParameter(sourceUserIdentifier, "source_id", "source_screen_name");
-            string targetParameter = _userQueryParameterGenerator.GenerateIdOrScreenNameParameter(targetUserIdentifier, "target_id", "target_screen_name");
+            var sourceParameter = _userQueryParameterGenerator.GenerateIdOrScreenNameParameter(sourceUserIdentifier, "source_id", "source_screen_name");
+            var targetParameter = _userQueryParameterGenerator.GenerateIdOrScreenNameParameter(targetUserIdentifier, "target_id", "target_screen_name");
             return string.Format(Resources.Friendship_GetRelationship, sourceParameter, targetParameter);
         }
 

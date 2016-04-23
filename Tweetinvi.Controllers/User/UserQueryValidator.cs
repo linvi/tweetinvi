@@ -12,6 +12,19 @@ namespace Tweetinvi.Controllers.User
             return userIdentifier != null && (IsUserIdValid(userIdentifier.Id) || IsScreenNameValid(userIdentifier.ScreenName));
         }
 
+        public void ThrowIfUserCannotBeIdentified(IUserIdentifier userIdentifier, string parameterName = "user")
+        {
+            if (userIdentifier == null)
+            {
+                throw new ArgumentException($"{parameterName} cannot be null");
+            }
+
+            if (!IsUserIdValid(userIdentifier.Id) && !IsScreenNameValid(userIdentifier.ScreenName))
+            {
+                throw new ArgumentException($"{parameterName} value is not valid.");
+            }
+        }
+
         public bool IsScreenNameValid(string screenName)
         {
             return !String.IsNullOrEmpty(screenName);
