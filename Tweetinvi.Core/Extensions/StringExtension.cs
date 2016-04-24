@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using Tweetinvi.Core.Helpers;
@@ -254,9 +252,6 @@ namespace Tweetinvi.Core.Extensions
             return s[s.Length - 1];
         }
 
-        /// <summary>
-        /// IMPORTANT! Add the parameters as LOWERED
-        /// </summary>
         public static void AddParameterToQuery(this StringBuilder queryBuilder, string parameterName, string parameterValue)
         {
             if (string.IsNullOrEmpty(parameterValue))
@@ -276,7 +271,7 @@ namespace Tweetinvi.Core.Extensions
                 queryBuilder.Append("?");
             }
 
-            queryBuilder.Append(string.Format("{0}={1}", parameterName, parameterValue.ToLowerInvariant()));
+            queryBuilder.Append(string.Format("{0}={1}", parameterName, parameterValue));
         }
 
         public static void AddFormattedParameterToQuery(this StringBuilder queryBuilder, string parameter)
@@ -301,9 +296,6 @@ namespace Tweetinvi.Core.Extensions
             queryBuilder.Append(parameter);
         }
 
-        /// <summary>
-        /// IMPORTANT! Add the parameters as LOWERED
-        /// </summary>
         public static void AddParameterToQuery<T>(this StringBuilder queryBuilder, string parameterName, T parameterValue)
         {
             if (parameterValue == null)
@@ -343,9 +335,6 @@ namespace Tweetinvi.Core.Extensions
             }
         }
 
-        /// <summary>
-        /// IMPORTANT! Add the parameters as is and not LOWERED
-        /// </summary>
         public static string AddParameterToQuery(this string query, string parameterName, string parameterValue)
         {
             if (parameterValue == null)

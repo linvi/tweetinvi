@@ -135,7 +135,8 @@ namespace Tweetinvi.Streams
         {
             if (_filteredLanguages.Any())
             {
-                queryBuilder.AddParameterToQuery("language", string.Join(Uri.EscapeDataString(", "), _filteredLanguages));
+                var languages = string.Join(Uri.EscapeDataString(", "), _filteredLanguages.Select(x => x.ToLowerInvariant()));
+                queryBuilder.AddParameterToQuery("language", languages);
             }
 
             if (StallWarnings)
@@ -145,7 +146,7 @@ namespace Tweetinvi.Streams
 
             if (FilterLevel != StreamFilterLevel.None)
             {
-                queryBuilder.AddParameterToQuery("filter_level", FilterLevel.ToString());
+                queryBuilder.AddParameterToQuery("filter_level", FilterLevel.ToString().ToLowerInvariant());
             }
 
             if (!string.IsNullOrEmpty(_customRequestParameters.FormattedCustomQueryParameters))
