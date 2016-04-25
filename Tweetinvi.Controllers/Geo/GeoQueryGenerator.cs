@@ -73,7 +73,12 @@ namespace Tweetinvi.Controllers.Geo
                 query.AddParameterToQuery("granularity", parameters.Granularity.ToString().ToLowerInvariant());
             }
 
-            query.AddParameterToQuery("accuracy", parameters.Accuracy);
+            if (parameters.Accuracy != null)
+            {
+                var accuracyMeasure = parameters.AccuracyMeasure == AccuracyMeasure.Feets ? "ft" : "m";
+                query.AddParameterToQuery("accuracy", $"{parameters.Accuracy}{accuracyMeasure}");
+            }
+            
             query.AddParameterToQuery("max_results", parameters.MaximumNumberOfResults);
             query.AddParameterToQuery("contained_within", parameters.ContainedWithin);
             query.AddParameterToQuery("callback", parameters.Callback);

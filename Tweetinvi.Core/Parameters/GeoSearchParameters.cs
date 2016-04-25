@@ -14,6 +14,12 @@ namespace Tweetinvi.Core.Parameters
         Country
     }
 
+    public enum AccuracyMeasure
+    {
+        Meters,
+        Feets
+    }
+
     /// <summary>
     /// https://dev.twitter.com/rest/reference/get/geo/search
     /// </summary>
@@ -65,6 +71,11 @@ namespace Tweetinvi.Core.Parameters
         /// If supplied, the response will use the JSONP format with a callback of the given name.
         /// </summary>
         string Callback { get; set; }
+
+        /// <summary>
+        /// Type of measure used in pair with the Accuracy parameters
+        /// </summary>
+        AccuracyMeasure AccuracyMeasure { get; set; }
     }
 
     /// <summary>
@@ -86,5 +97,6 @@ namespace Tweetinvi.Core.Parameters
         public string ContainedWithin { get; set; }
         public Dictionary<string, string> Attributes { get; }
         public string Callback { get; set; }
+        public AccuracyMeasure AccuracyMeasure { get; set; }
     }
 }
