@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Newtonsoft.Json;
 using Tweetinvi.Controllers.Properties;
 using Tweetinvi.Core;
+using Tweetinvi.Core.Enum;
 using Tweetinvi.Core.Extensions;
 using Tweetinvi.Core.Injectinvi;
 using Tweetinvi.Core.Interfaces.Controllers.Transactions;
@@ -10,6 +12,7 @@ using Tweetinvi.Core.Interfaces.Credentials;
 using Tweetinvi.Core.Interfaces.DTO;
 using Tweetinvi.Core.Parameters.QueryParameters;
 using Tweetinvi.Core.Web;
+using Tweetinvi.Logic.QueryParameters;
 
 namespace Tweetinvi.Controllers.Upload
 {
@@ -50,6 +53,11 @@ namespace Tweetinvi.Controllers.Upload
         /// Upload a video in multiple queries if necessary.
         /// </summary>
         IMedia UploadVideo(byte[] binary, string mediaType = "video/mp4");
+
+        /// <summary>
+        /// Add metadata to a media that has been uploaded.
+        /// </summary>
+        bool AddMediaMetadata(IMediaMetadata metadata);
     }
 
     public class UploadQueryExecutor : IUploadQueryExecutor
@@ -223,6 +231,12 @@ namespace Tweetinvi.Controllers.Upload
         public IChunkedUploader CreateChunkedUploader()
         {
             return _chunkedUploadFactory.Create();
+        }
+
+        public bool AddMediaMetadata(IMediaMetadata metadata)
+        {
+            var json = JsonConvert.SerializeObject(metadata);
+            return _twitterAccessor.TryPOSTJsonContent("https://upload.twitter.com/1.1/media/metadata/create.json", json);
         }
     }
 }

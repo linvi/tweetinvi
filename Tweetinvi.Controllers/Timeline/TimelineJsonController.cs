@@ -53,7 +53,7 @@ namespace Tweetinvi.Controllers.Timeline
         public string GetHomeTimeline(IHomeTimelineParameters timelineParameters)
         {
             string query = _timelineQueryGenerator.GetHomeTimelineQuery(timelineParameters);
-            return _twitterAccessor.ExecuteJsonGETQuery(query);
+            return _twitterAccessor.ExecuteGETQueryReturningJson(query);
         }
 
         // User Timeline
@@ -92,7 +92,7 @@ namespace Tweetinvi.Controllers.Timeline
         public string GetUserTimeline(IUserTimelineQueryParameters timelineParameters)
         {
             var query = _timelineQueryGenerator.GetUserTimelineQuery(timelineParameters);
-            return _twitterAccessor.ExecuteJsonGETQuery(query);
+            return _twitterAccessor.ExecuteGETQueryReturningJson(query);
         }
 
         // Mentions Timeline
@@ -107,7 +107,7 @@ namespace Tweetinvi.Controllers.Timeline
         public string GetMentionsTimeline(IMentionsTimelineParameters timelineParameters)
         {
             var query = _timelineQueryGenerator.GetMentionsTimelineQuery(timelineParameters);
-            return _twitterAccessor.ExecuteJsonGETQuery(query);
+            return _twitterAccessor.ExecuteGETQueryReturningJson(query);
         }
     }
 }

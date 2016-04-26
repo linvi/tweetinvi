@@ -39,22 +39,22 @@ namespace Tweetinvi.Credentials
         }
 
         // Execute<Json>
-        public string ExecuteJsonGETQuery(string query)
+        public string ExecuteGETQueryReturningJson(string query)
         {
             return ExecuteQuery(query, HttpMethod.GET);
         }
 
-        public string ExecuteJsonPOSTQuery(string query)
+        public string ExecutePOSTQueryReturningJson(string query)
         {
             return ExecuteQuery(query, HttpMethod.POST);
         }
 
         // Try Execute<Json>
-        public bool TryExecuteJsonGETQuery(string query, out string json)
+        public bool TryExecuteGETQuery(string query, out string json)
         {
             try
             {
-                json = ExecuteJsonGETQuery(query);
+                json = ExecuteGETQueryReturningJson(query);
                 return json != null;
             }
             catch (TwitterException)
@@ -69,11 +69,11 @@ namespace Tweetinvi.Credentials
             }
         }
 
-        public bool TryExecuteJsonPOSTQuery(string query, out string json)
+        public bool TryExecutePOSTQuery(string query, out string json)
         {
             try
             {
-                json = ExecuteJsonPOSTQuery(query);
+                json = ExecutePOSTQueryReturningJson(query);
                 return json != null;
             }
             catch (TwitterException)
@@ -341,7 +341,7 @@ namespace Tweetinvi.Credentials
             var query = string.Format("{0}cursor={1}", baseQuery, cursor);
 
             string json;
-            if (TryExecuteJsonGETQuery(query, out json))
+            if (TryExecuteGETQuery(query, out json))
             {
                 var dtoResult = _jsonObjectConverter.DeserializeObject<T>(json, JsonQueryConverterRepository.Converters);
 
@@ -361,8 +361,22 @@ namespace Tweetinvi.Credentials
             return ExecuteQuery(query, method, null);
         }
 
+        // POST Http Content
+        public bool TryPOSTJsonContent(string url, string json)
+        {
+            try
+            {
+                ExecuteQuery(url, HttpMethod.POST, new StringContent(json), true);
+                return true;
+            }
+            catch (TwitterException)
+            {
+                return false;
+            }
+        }
+
         // Concrete Execute
-        public string ExecuteQuery(string query, HttpMethod method, HttpContent httpContent)
+        public string ExecuteQuery(string query, HttpMethod method, HttpContent httpContent, bool forceThrow = false)
         {
             if (query == null)
             {
@@ -376,6 +390,11 @@ namespace Tweetinvi.Credentials
             }
             catch (TwitterException ex)
             {
+                if (forceThrow)
+                {
+                    throw;
+                }
+
                 HandleQueryException(ex);
                 return null;
             }

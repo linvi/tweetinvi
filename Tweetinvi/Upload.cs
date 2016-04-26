@@ -5,6 +5,7 @@ using Tweetinvi.Controllers.Upload;
 using Tweetinvi.Core.Interfaces.Controllers.Transactions;
 using Tweetinvi.Core.Interfaces.DTO;
 using Tweetinvi.Core.Parameters.QueryParameters;
+using Tweetinvi.Logic.QueryParameters;
 
 namespace Tweetinvi
 {
@@ -105,6 +106,14 @@ namespace Tweetinvi
         public static IChunkedUploader CreateChunkedUploader()
         {
             return UploadQueryExecutor.CreateChunkedUploader();
+        }
+
+        /// <summary>
+        /// Add metadata to a media that has been uploaded.
+        /// </summary>
+        public static bool AddMediaMetadata(IMediaMetadata metadata)
+        {
+            return UploadQueryExecutor.AddMediaMetadata(metadata);
         }
     }
 }

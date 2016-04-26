@@ -38,17 +38,17 @@ namespace Tweetinvi
         /// <summary>
         /// Execute GET query and return json response
         /// </summary>
-        public static string ExecuteJsonGETQuery(string query)
+        public static string ExecuteGETQueryReturningJson(string query)
         {
-            return Accessor.ExecuteJsonGETQuery(query);
+            return Accessor.ExecuteGETQueryReturningJson(query);
         }
 
         /// <summary>
         /// Execute POST query and return json response
         /// </summary>
-        public static string ExecuteJsonPOSTQuery(string query)
+        public static string ExecutePOSTQueryReturningJson(string query)
         {
-            return Accessor.ExecuteJsonPOSTQuery(query);
+            return Accessor.ExecutePOSTQueryReturningJson(query);
         }
 
         /// <summary>
@@ -152,7 +152,7 @@ namespace Tweetinvi
         /// <summary>
         /// Execute a GET cursor query that returns a list of json
         /// </summary>
-        public static IEnumerable<string> ExecuteJsonCursorGETQuery<T>(
+        public static IEnumerable<string> ExecuteCursorGETQueryReturningJson<T>(
             string baseQuery,
             int maxObjectToRetrieve = Int32.MaxValue,
             long cursor = -1)
@@ -183,6 +183,12 @@ namespace Tweetinvi
             where T1 : class, IBaseCursorQueryDTO<T>
         {
             return Accessor.ExecuteCursorGETQuery<T, T1>(baseQuery, maxObjectToRetrieve, cursor);
+        }
+
+        // POST HTTP Content
+        public static bool TryPOSTJsonContent(string url, string json)
+        {
+            return Accessor.TryPOSTJsonContent(url, json);
         }
 
         // Base call

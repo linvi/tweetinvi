@@ -9,14 +9,14 @@ namespace Tweetinvi
     public static class TwitterAccessorAsync
     {
         // Get json response from query
-        public static async Task<string> ExecuteJsonGETQuery(string query)
+        public static async Task<string> ExecuteGETQueryReturningJson(string query)
         {
-            return await Sync.ExecuteTaskAsync(() => TwitterAccessor.ExecuteJsonGETQuery(query));
+            return await Sync.ExecuteTaskAsync(() => TwitterAccessor.ExecuteGETQueryReturningJson(query));
         }
 
-        public static async Task<string> ExecuteJsonPOSTQuery(string query)
+        public static async Task<string> ExecutePOSTQueryReturningJson(string query)
         {
-            return await Sync.ExecuteTaskAsync(() => TwitterAccessor.ExecuteJsonPOSTQuery(query));
+            return await Sync.ExecuteTaskAsync(() => TwitterAccessor.ExecutePOSTQueryReturningJson(query));
         }
 
         // Get object (DTO) form query
@@ -63,7 +63,7 @@ namespace Tweetinvi
             long cursor = -1)
             where T : class, IBaseCursorQueryDTO
         {
-            return await Sync.ExecuteTaskAsync(() => TwitterAccessor.ExecuteJsonCursorGETQuery<T>(baseQuery, maxObjectToRetrieve, cursor));
+            return await Sync.ExecuteTaskAsync(() => TwitterAccessor.ExecuteCursorGETQueryReturningJson<T>(baseQuery, maxObjectToRetrieve, cursor));
         }
 
         public static async Task<IEnumerable<T>> ExecuteCursorGETCursorQueryResult<T>(
@@ -82,6 +82,12 @@ namespace Tweetinvi
             where T1 : class, IBaseCursorQueryDTO<T>
         {
             return await Sync.ExecuteTaskAsync(() => TwitterAccessor.ExecuteCursorGETQuery<T, T1>(query, maxObjectToRetrieve, cursor));
+        }
+
+        // POST HTTP Content
+        public static async Task<bool> TryPOSTJsonContent(string url, string json)
+        {
+            return await Sync.ExecuteTaskAsync(() => TwitterAccessor.TryPOSTJsonContent(url, json));
         }
 
         // Base call

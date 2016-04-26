@@ -23,7 +23,7 @@ namespace Tweetinvi.Controllers.Geo
         public string GetPlaceFromId(string placeId)
         {
             string query = _geoQueryGenerator.GetPlaceFromIdQuery(placeId);
-            return _twitterAccessor.ExecuteJsonGETQuery(query);
+            return _twitterAccessor.ExecuteGETQueryReturningJson(query);
         }
     }
 }

@@ -27,19 +27,19 @@ namespace Tweetinvi.Controllers.SavedSearch
         public string GetSavedSearches()
         {
             string query = _savedSearchQueryGenerator.GetSavedSearchesQuery();
-            return _twitterAccessor.ExecuteJsonGETQuery(query);
+            return _twitterAccessor.ExecuteGETQueryReturningJson(query);
         }
 
         public string DestroySavedSearch(ISavedSearch savedSearch)
         {
             string query = _savedSearchQueryGenerator.GetDestroySavedSearchQuery(savedSearch);
-            return _twitterAccessor.ExecuteJsonPOSTQuery(query);
+            return _twitterAccessor.ExecutePOSTQueryReturningJson(query);
         }
 
         public string DestroySavedSearch(long searchId)
         {
             string query = _savedSearchQueryGenerator.GetDestroySavedSearchQuery(searchId);
-            return _twitterAccessor.ExecuteJsonPOSTQuery(query);
+            return _twitterAccessor.ExecutePOSTQueryReturningJson(query);
         }
     }
 }

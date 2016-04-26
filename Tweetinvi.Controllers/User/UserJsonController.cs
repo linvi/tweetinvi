@@ -111,7 +111,7 @@ namespace Tweetinvi.Controllers.User
         public string GetFavoriteTweets(IGetUserFavoritesQueryParameters parameters)
         {
             var query = _userQueryGenerator.GetFavoriteTweetsQuery(parameters);
-            return _twitterAccessor.ExecuteJsonGETQuery(query);
+            return _twitterAccessor.ExecuteGETQueryReturningJson(query);
         }
 
         public string GetFavoriteTweets(IUserIdentifier userIdentifier, IGetUserFavoritesParameters parameters)
@@ -134,19 +134,19 @@ namespace Tweetinvi.Controllers.User
         public string BlockUser(IUserIdentifier userDTO)
         {
             string query = _userQueryGenerator.GetBlockUserQuery(userDTO);
-            return _twitterAccessor.ExecuteJsonPOSTQuery(query);
+            return _twitterAccessor.ExecutePOSTQueryReturningJson(query);
         }
 
         public string BlockUser(long userId)
         {
             string query = _userQueryGenerator.GetBlockUserQuery(userId);
-            return _twitterAccessor.ExecuteJsonPOSTQuery(query);
+            return _twitterAccessor.ExecutePOSTQueryReturningJson(query);
         }
 
         public string BlockUser(string userScreenName)
         {
             string query = _userQueryGenerator.GetBlockUserQuery(userScreenName);
-            return _twitterAccessor.ExecuteJsonPOSTQuery(query);
+            return _twitterAccessor.ExecutePOSTQueryReturningJson(query);
         }
     }
 }

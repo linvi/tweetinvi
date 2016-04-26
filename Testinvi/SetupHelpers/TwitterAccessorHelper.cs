@@ -92,7 +92,7 @@ namespace Testinvi.SetupHelpers
             string jsonResult)
         {
             fakeTwitterAccessor
-                .CallsTo(x => x.ExecuteJsonGETQuery(query))
+                .CallsTo(x => x.ExecuteGETQueryReturningJson(query))
                 .Returns(jsonResult);
         }
 
@@ -102,7 +102,7 @@ namespace Testinvi.SetupHelpers
             string jsonResult)
         {
             fakeTwitterAccessor
-                .CallsTo(x => x.ExecuteJsonPOSTQuery(query))
+                .CallsTo(x => x.ExecutePOSTQueryReturningJson(query))
                 .Returns(jsonResult);
         }
 
