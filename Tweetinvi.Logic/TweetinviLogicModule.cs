@@ -47,7 +47,6 @@ namespace Tweetinvi.Logic
         {
             _container.RegisterType<IMedia, Media>();
             _container.RegisterType<IEditableMedia, Media>();
-            _container.RegisterType<ITwitterQuery, TwitterQuery>();
             _container.RegisterType<ISearchQueryResult, SearchQueryResult>();
         }
 

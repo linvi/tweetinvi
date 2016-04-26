@@ -91,7 +91,6 @@
     <Compile Include="Model\CategorySuggestion.cs" />
     <Compile Include="DTO\CoordinatesDTO.cs" />
     <Compile Include="Model\Geo.cs" />
-    <Compile Include="MultiPartTwitterQuery.cs" />
     <Compile Include="QueryParameters\GetUserFavoritesQueryParameters.cs" />
     <Compile Include="QueryParameters\TwitterListUpdateQueryParameters.cs" />
     <Compile Include="QueryParameters\GetTweetsFromListQueryParameters.cs" />
@@ -133,7 +132,6 @@
     <Compile Include="TwitterEntities\UserEntities.cs" />
     <Compile Include="TwitterEntities\UserMentionEntity.cs" />
     <Compile Include="TwitterEntities\WebsiteEntity.cs" />
-    <Compile Include="TwitterQuery.cs" />
     <Compile Include="User.cs" />
     <Compile Include="Wrapper\JObjectStaticWrapper.cs" />
     <Compile Include="Wrapper\JsonConvertWrapper.cs" />
@@ -149,18 +147,6 @@
     </Reference>
     <Reference Include="System.IO">
       <HintPath>..\packages\Microsoft.Bcl.1.1.10\lib\portable-net40+sl5+win8+wp8+wpa81\System.IO.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System.Net.Http, Version=1.5.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Net.Http.2.2.29\lib\portable-net40+sl4+win8+wp71+wpa81\System.Net.Http.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System.Net.Http.Extensions, Version=1.5.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Net.Http.2.2.29\lib\portable-net40+sl4+win8+wp71+wpa81\System.Net.Http.Extensions.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System.Net.Http.Primitives, Version=1.5.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Net.Http.2.2.29\lib\portable-net40+sl4+win8+wp71+wpa81\System.Net.Http.Primitives.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System.Runtime">

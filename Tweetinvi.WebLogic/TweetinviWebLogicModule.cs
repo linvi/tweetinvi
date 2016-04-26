@@ -1,6 +1,7 @@
 ﻿using Tweetinvi.Core.Authentication;
 using Tweetinvi.Core.Helpers;
 using Tweetinvi.Core.Injectinvi;
+using Tweetinvi.Core.Interfaces.Models;
 using Tweetinvi.Core.Interfaces.WebLogic;
 using Tweetinvi.Core.Parameters.QueryParameters;
 using Tweetinvi.Core.Web;
@@ -35,6 +36,8 @@ namespace Tweetinvi.WebLogic
             _container.RegisterType<IHttpClientWebHelper, HttpClientWebHelper>();
             _container.RegisterType<IWebRequestResult, WebRequestResult>();
             _container.RegisterType<IWebProxyFactory, WebProxyFactory>(RegistrationLifetime.InstancePerApplication);
+
+            _container.RegisterType<ITwitterQuery, TwitterQuery>();
         }
     }
 }
