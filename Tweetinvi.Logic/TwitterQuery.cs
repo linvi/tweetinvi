@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net.Http;
 using Tweetinvi.Core.Authentication;
-using Tweetinvi.Core.Enum;
 using Tweetinvi.Core.Interfaces.Credentials;
 using Tweetinvi.Core.Interfaces.Models;
 using Tweetinvi.Core.Interfaces.WebLogic;
+using HttpMethod = Tweetinvi.Core.Enum.HttpMethod;
 
 namespace Tweetinvi.Logic
 {
@@ -18,6 +19,7 @@ namespace Tweetinvi.Logic
 
         public string QueryURL { get; set; }
         public HttpMethod HttpMethod { get; set; }
+        public HttpContent HttpContent { get; set; }
 
         public string Proxy { get; set; }
 

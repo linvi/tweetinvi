@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net.Http;
 using Tweetinvi.Core.Authentication;
-using Tweetinvi.Core.Enum;
 using Tweetinvi.Core.Interfaces.Credentials;
 using Tweetinvi.Core.Interfaces.WebLogic;
+using HttpMethod = Tweetinvi.Core.Enum.HttpMethod;
 
 namespace Tweetinvi.Core.Interfaces.Models
 {
@@ -37,6 +38,11 @@ namespace Tweetinvi.Core.Interfaces.Models
         /// HTTP Method used to execute the query.
         /// </summary>
         HttpMethod HttpMethod { get; set; }
+
+        /// <summary>
+        /// Content of the HTTP request.
+        /// </summary>
+        HttpContent HttpContent { get; set; }
         
         /// <summary>
         /// Proxy used to perform the query

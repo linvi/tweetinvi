@@ -65,7 +65,7 @@ namespace Tweetinvi.WebLogic
             }
         }
 
-        protected override sealed Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+        protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
         {
             return SendAsync(_twitterQuery, request, cancellationToken);
         }

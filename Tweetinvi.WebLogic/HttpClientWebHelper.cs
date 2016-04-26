@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
 using Tweetinvi.Core.Helpers;
 using Tweetinvi.Core.Interfaces.Models;
@@ -9,7 +10,7 @@ namespace Tweetinvi.WebLogic
 {
     public class HttpClientWebHelper : IHttpClientWebHelper
     {
-        public async Task<HttpResponseMessage> GetHttpResponse(ITwitterQuery twitterQuery, HttpContent httpContent = null, ITwitterClientHandler handler = null)
+        public async Task<HttpResponseMessage> GetHttpResponse(ITwitterQuery twitterQuery, ITwitterClientHandler handler = null)
         {
             using (var client = GetHttpClient(twitterQuery, handler))
             {
@@ -17,7 +18,7 @@ namespace Tweetinvi.WebLogic
 
                 var httpMethod = new HttpMethod(twitterQuery.HttpMethod.ToString());
 
-                if (httpContent == null)
+                if (twitterQuery.HttpContent == null)
                 {
                     return await client.SendAsync(new HttpRequestMessage(httpMethod, twitterQuery.QueryURL)).ConfigureAwait(false);
                 }
@@ -28,7 +29,7 @@ namespace Tweetinvi.WebLogic
                         throw new ArgumentException("Cannot send HttpContent in a WebRequest that is not POST.");
                     }
 
-                    return await client.PostAsync(twitterQuery.QueryURL, httpContent).ConfigureAwait(false);
+                    return await client.PostAsync(twitterQuery.QueryURL, twitterQuery.HttpContent).ConfigureAwait(false);
                 }
             }
         }

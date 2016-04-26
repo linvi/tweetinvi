@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net.Http;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using Tweetinvi.Core.Enum;
 using Tweetinvi.Core.Exceptions;
 using Tweetinvi.Core.Helpers;
 using Tweetinvi.Core.Interfaces.Credentials;
@@ -12,6 +12,7 @@ using Tweetinvi.Core.Web;
 using Tweetinvi.Core.Wrappers;
 using Tweetinvi.Credentials.QueryJsonConverters;
 using Tweetinvi.WebLogic;
+using HttpMethod = Tweetinvi.Core.Enum.HttpMethod;
 
 namespace Tweetinvi.Credentials
 {
@@ -355,8 +356,13 @@ namespace Tweetinvi.Credentials
             return null;
         }
 
-        // Concrete Execute
         public string ExecuteQuery(string query, HttpMethod method)
+        {
+            return ExecuteQuery(query, method, null);
+        }
+
+        // Concrete Execute
+        public string ExecuteQuery(string query, HttpMethod method, HttpContent httpContent)
         {
             if (query == null)
             {
@@ -366,7 +372,7 @@ namespace Tweetinvi.Credentials
 
             try
             {
-                return _twitterRequestHandler.ExecuteQuery(query, method);
+                return _twitterRequestHandler.ExecuteQuery(query, method, httpContent: httpContent);
             }
             catch (TwitterException ex)
             {

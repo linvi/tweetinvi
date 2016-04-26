@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net.Http;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using Tweetinvi.Core.Enum;
 using Tweetinvi.Core.Interfaces.DTO.QueryDTO;
 using Tweetinvi.Core.Web;
+using HttpMethod = Tweetinvi.Core.Enum.HttpMethod;
 
 namespace Tweetinvi.Core.Interfaces.Credentials
 {
@@ -76,5 +77,6 @@ namespace Tweetinvi.Core.Interfaces.Credentials
 
         // Get Json from Twitter
         string ExecuteQuery(string query, HttpMethod method);
+        string ExecuteQuery(string query, HttpMethod method, HttpContent httpContent);
     }
 }

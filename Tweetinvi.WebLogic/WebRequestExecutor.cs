@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
 using Tweetinvi.Core.Exceptions;
 using Tweetinvi.Core.Helpers;
@@ -44,7 +45,7 @@ namespace Tweetinvi.WebLogic
 
                 try
                 {
-                    httpResponseMessage = _httpClientWebHelper.GetHttpResponse(twitterQuery, null, handler).Result;
+                    httpResponseMessage = _httpClientWebHelper.GetHttpResponse(twitterQuery, handler).Result;
 
                     var result = GetWebResultFromResponse(twitterQuery.QueryURL, httpResponseMessage);
 
@@ -84,8 +85,7 @@ namespace Tweetinvi.WebLogic
 
                 try
                 {
-                    var multiPartContent = GetMultipartFormDataContent(contentId, binaries);
-                    httpResponseMessage = _httpClientWebHelper.GetHttpResponse(twitterQuery, multiPartContent).Result;
+                    httpResponseMessage = _httpClientWebHelper.GetHttpResponse(twitterQuery).Result;
 
                     var result = GetWebResultFromResponse(twitterQuery.QueryURL, httpResponseMessage);
 
@@ -109,21 +109,6 @@ namespace Tweetinvi.WebLogic
                     throw;
                 }
             });
-        }
-
-        private MultipartFormDataContent GetMultipartFormDataContent(string contentId, IEnumerable<byte[]> binaries)
-        {
-            var multiPartContent = new MultipartFormDataContent();
-
-            int i = 0;
-            foreach (var binary in binaries)
-            {
-                var byteArrayContent = new ByteArrayContent(binary);
-                byteArrayContent.Headers.Add("Content-Type", "application/octet-stream");
-                multiPartContent.Add(byteArrayContent, contentId, i.ToString(CultureInfo.InvariantCulture));
-            }
-
-            return multiPartContent;
         }
 
         // Helpers

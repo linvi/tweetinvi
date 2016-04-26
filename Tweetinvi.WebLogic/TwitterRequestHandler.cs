@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Net.Http;
 using Tweetinvi.Core;
 using Tweetinvi.Core.Authentication;
 using Tweetinvi.Core.Events;
@@ -16,7 +16,13 @@ namespace Tweetinvi.WebLogic
 {
     public interface ITwitterRequestHandler
     {
-        string ExecuteQuery(string queryURL, HttpMethod method, TwitterClientHandler handler = null, ITwitterCredentials twitterCredentials = null);
+        string ExecuteQuery(
+            string queryURL, 
+            HttpMethod method, 
+            TwitterClientHandler handler = null, 
+            ITwitterCredentials twitterCredentials = null, 
+            HttpContent httpContent = null);
+
         string ExecuteMultipartQuery(IMultipartHttpRequestParameters parameters);
     }
 
@@ -55,7 +61,8 @@ namespace Tweetinvi.WebLogic
             string queryURL, 
             HttpMethod httpMethod, 
             TwitterClientHandler handler = null,
-            ITwitterCredentials credentials = null)
+            ITwitterCredentials credentials = null,
+            HttpContent httpContent = null)
         {
             queryURL = CleanupQueryURL(queryURL);
             var rateLimitTrackerOption = _tweetinviSettingsAccessor.RateLimitTrackerMode;
@@ -63,7 +70,8 @@ namespace Tweetinvi.WebLogic
             var requestParameters = new HttpRequestParameters
             {
                 Query = queryURL,
-                HttpMethod = httpMethod
+                HttpMethod = httpMethod,
+                HttpContent = httpContent
             };
 
             ITwitterQuery twitterQuery;
@@ -153,6 +161,7 @@ namespace Tweetinvi.WebLogic
             }
 
             twitterQuery = _twitterQueryFactory.Create(requestParameters.Query, requestParameters.HttpMethod, credentials);
+            twitterQuery.HttpContent = requestParameters.HttpContent;
             twitterQuery.Timeout = twitterQuery.Timeout = requestParameters.Timeout ?? twitterQuery.Timeout;
 
             var beforeQueryExecuteEventArgs = new QueryBeforeExecuteEventArgs(twitterQuery);

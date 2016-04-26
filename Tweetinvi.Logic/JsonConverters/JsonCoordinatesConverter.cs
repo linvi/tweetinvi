@@ -26,7 +26,7 @@ namespace Tweetinvi.Logic.JsonConverters
 
             if (objectType == typeof(List<ICoordinates>[]))
             {
-                return new []
+                return new[]
                 {
                     new List<ICoordinates>
                     {
@@ -40,7 +40,7 @@ namespace Tweetinvi.Logic.JsonConverters
 
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
-            throw new NotImplementedException();
+            serializer.Serialize(writer, value);
         }
 
         public override bool CanConvert(Type objectType)
