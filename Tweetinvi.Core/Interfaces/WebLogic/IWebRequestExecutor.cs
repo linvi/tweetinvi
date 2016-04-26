@@ -12,11 +12,11 @@ namespace Tweetinvi.Core.Interfaces.WebLogic
         /// <summary>
         /// Execute a TwitterQuery and return the resulting json data.
         /// </summary>
-        string ExecuteQuery(ITwitterQuery twitterQuery, ITwitterClientHandler handler = null);
+        IWebRequestResult ExecuteQuery(ITwitterQuery twitterQuery, ITwitterClientHandler handler = null);
 
         /// <summary>
         /// Execute a multipart TwitterQuery and return the resulting json data.
         /// </summary>
-        string ExecuteMultipartQuery(ITwitterQuery twitterQuery, string contentId, IEnumerable<byte[]> binaries);
+        IWebRequestResult ExecuteMultipartQuery(ITwitterQuery twitterQuery, string contentId, IEnumerable<byte[]> binaries);
     }
 }
