@@ -9,7 +9,11 @@ namespace Tweetinvi.Logic.JsonConverters
     {
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
-            return LanguageExtension.GetLangFromDescription((string) reader.Value);
+            int parsed = 0;
+            if (int.TryParse(reader.Value.ToString(), out parsed))
+                return LanguageExtension.GetLangFromDescription(parsed);
+            else
+                return LanguageExtension.GetLangFromDescription((string)reader.Value);
         }
 
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
