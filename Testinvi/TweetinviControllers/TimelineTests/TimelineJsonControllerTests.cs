@@ -49,7 +49,7 @@ namespace Testinvi.TweetinviControllers.TimelineTests
         
             InitData();
 
-            _fakeTwitterAccessor.CallsTo(x => x.ExecuteJsonGETQuery(_expectedQuery)).Returns(_expectedResult);
+            _fakeTwitterAccessor.CallsTo(x => x.ExecuteGETQueryReturningJson(_expectedQuery)).Returns(_expectedResult);
             
             _fakeUserFactory.CallsTo(x => x.GenerateUserIdentifierFromScreenName(_userName)).Returns(_fakeUserIdentifier);
             _fakeUserFactory.CallsTo(x => x.GenerateUserIdentifierFromId(_userId)).Returns(_fakeUserIdentifier);

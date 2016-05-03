@@ -36,7 +36,7 @@ namespace Tweetinvi.Controllers.Search
         public string SearchTweets(string searchQuery)
         {
             string query = _searchQueryGenerator.GetSearchTweetsQuery(searchQuery);
-            return _twitterAccessor.ExecuteJsonGETQuery(query);
+            return _twitterAccessor.ExecuteGETQueryReturningJson(query);
         }
 
         public IEnumerable<string> SearchTweets(ITweetSearchParameters tweetSearchParameters)
@@ -52,7 +52,7 @@ namespace Tweetinvi.Controllers.Search
 
         private string GetJsonResultFromQuery(string query)
         {
-            return _twitterAccessor.ExecuteJsonGETQuery(query);
+            return _twitterAccessor.ExecuteGETQueryReturningJson(query);
         }
 
         private IEnumerable<string> SearchTweetsRecursively(ITweetSearchParameters tweetSearchParameters)

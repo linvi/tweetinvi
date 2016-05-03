@@ -25,13 +25,13 @@ namespace Tweetinvi.Controllers.Help
         public string GetCredentialsRateLimits()
         {
             string query = _helpQueryGenerator.GetCredentialsLimitsQuery();
-            return _twitterAccessor.ExecuteJsonGETQuery(query);
+            return _twitterAccessor.ExecuteGETQueryReturningJson(query);
         }
 
         public string GetTwitterPrivacyPolicy()
         {
             string query = _helpQueryGenerator.GetTwitterPrivacyPolicyQuery();
-            return _twitterAccessor.ExecuteJsonGETQuery(query);
+            return _twitterAccessor.ExecuteGETQueryReturningJson(query);
         }
     }
 }

@@ -12,12 +12,12 @@ namespace Tweetinvi.Core.Interfaces.Credentials
     public interface ITwitterAccessor
     {
         // Get Json
-        string ExecuteJsonGETQuery(string query);
-        string ExecuteJsonPOSTQuery(string query);
+        string ExecuteGETQueryReturningJson(string query);
+        string ExecutePOSTQueryReturningJson(string query);
 
         // Try Execute<Json>
-        bool TryExecuteJsonGETQuery(string query, out string json);
-        bool TryExecuteJsonPOSTQuery(string query, out string json);
+        bool TryExecuteGETQuery(string query, out string json);
+        bool TryExecutePOSTQuery(string query, out string json);
 
         // Get unknown type of objects
         JObject ExecuteGETQuery(string query);
@@ -75,8 +75,11 @@ namespace Tweetinvi.Core.Interfaces.Credentials
             long cursor = -1)
             where T1 : class, IBaseCursorQueryDTO<T>;
 
+        // Http Content
+        bool TryPOSTJsonContent(string url, string json);
+
         // Get Json from Twitter
         string ExecuteQuery(string query, HttpMethod method);
-        string ExecuteQuery(string query, HttpMethod method, HttpContent httpContent);
+        string ExecuteQuery(string query, HttpMethod method, HttpContent httpContent, bool forceThrow = false);
     }
 }

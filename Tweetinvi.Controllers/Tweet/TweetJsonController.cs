@@ -74,7 +74,7 @@ namespace Tweetinvi.Controllers.Tweet
         public string GetTweet(long tweetId)
         {
             string query = _tweetQueryGenerator.GetTweetQuery(tweetId);
-            return _twitterAccessor.ExecuteJsonGETQuery(query);
+            return _twitterAccessor.ExecuteGETQueryReturningJson(query);
         }
 
         public string PublishTweet(string text, IPublishTweetOptionalParameters optionalParameters = null)
@@ -90,7 +90,7 @@ namespace Tweetinvi.Controllers.Tweet
             _tweetController.UploadMedias(publishParameter);
 
             var query = _tweetQueryGenerator.GetPublishTweetQuery(publishParameter);
-            return _twitterAccessor.ExecuteJsonPOSTQuery(query);
+            return _twitterAccessor.ExecutePOSTQueryReturningJson(query);
         }
 
         // Publish Retweet
@@ -107,13 +107,13 @@ namespace Tweetinvi.Controllers.Tweet
         public string PublishRetweet(ITweetDTO tweetToRetweet)
         {
             string query = _tweetQueryGenerator.GetPublishRetweetQuery(tweetToRetweet);
-            return _twitterAccessor.ExecuteJsonPOSTQuery(query);
+            return _twitterAccessor.ExecutePOSTQueryReturningJson(query);
         }
 
         public string PublishRetweet(long tweetId)
         {
             string query = _tweetQueryGenerator.GetPublishRetweetQuery(tweetId);
-            return _twitterAccessor.ExecuteJsonPOSTQuery(query);
+            return _twitterAccessor.ExecutePOSTQueryReturningJson(query);
         }
 
         // Get Retweets
@@ -121,7 +121,7 @@ namespace Tweetinvi.Controllers.Tweet
         public string GetRetweets(ITweetIdentifier tweetIdentifier, int maxRetweetsToRetrieve = 100)
         {
             string query = _tweetQueryGenerator.GetRetweetsQuery(tweetIdentifier, maxRetweetsToRetrieve);
-            return _twitterAccessor.ExecuteJsonGETQuery(query);
+            return _twitterAccessor.ExecuteGETQueryReturningJson(query);
         }
 
         public string GetRetweets(long tweetId, int maxRetweetsToRetrieve = 100)
@@ -143,13 +143,13 @@ namespace Tweetinvi.Controllers.Tweet
         public string DestroyTweet(ITweetDTO tweet)
         {
             string query = _tweetQueryGenerator.GetDestroyTweetQuery(tweet);
-            return _twitterAccessor.ExecuteJsonPOSTQuery(query);
+            return _twitterAccessor.ExecutePOSTQueryReturningJson(query);
         }
 
         public string DestroyTweet(long tweetId)
         {
             string query = _tweetQueryGenerator.GetDestroyTweetQuery(tweetId);
-            return _twitterAccessor.ExecuteJsonPOSTQuery(query);
+            return _twitterAccessor.ExecutePOSTQueryReturningJson(query);
         }
 
         // Favourite Tweet
@@ -166,13 +166,13 @@ namespace Tweetinvi.Controllers.Tweet
         public string FavoriteTweet(long tweetId)
         {
             string query = _tweetQueryGenerator.GetFavoriteTweetQuery(tweetId);
-            return _twitterAccessor.ExecuteJsonPOSTQuery(query);
+            return _twitterAccessor.ExecutePOSTQueryReturningJson(query);
         }
 
         public string FavoriteTweet(ITweetDTO tweetDTO)
         {
             string query = _tweetQueryGenerator.GetFavoriteTweetQuery(tweetDTO);
-            return _twitterAccessor.ExecuteJsonPOSTQuery(query);
+            return _twitterAccessor.ExecutePOSTQueryReturningJson(query);
         }
 
         public string UnFavoriteTweet(ITweet tweet)
@@ -188,13 +188,13 @@ namespace Tweetinvi.Controllers.Tweet
         public string UnFavoriteTweet(ITweetDTO tweetDTO)
         {
             string query = _tweetQueryGenerator.GetUnFavoriteTweetQuery(tweetDTO);
-            return _twitterAccessor.ExecuteJsonPOSTQuery(query);
+            return _twitterAccessor.ExecutePOSTQueryReturningJson(query);
         }
 
         public string UnFavoriteTweet(long tweetId)
         {
             string query = _tweetQueryGenerator.GetUnFavoriteTweetQuery(tweetId);
-            return _twitterAccessor.ExecuteJsonPOSTQuery(query);
+            return _twitterAccessor.ExecutePOSTQueryReturningJson(query);
         }
 
         // Generate OEmbed Tweet
@@ -211,13 +211,13 @@ namespace Tweetinvi.Controllers.Tweet
         public string GenerateOEmbedTweet(ITweetDTO tweet)
         {
             string query = _tweetQueryGenerator.GetGenerateOEmbedTweetQuery(tweet);
-            return _twitterAccessor.ExecuteJsonGETQuery(query);
+            return _twitterAccessor.ExecuteGETQueryReturningJson(query);
         }
 
         public string GenerateOEmbedTweet(long tweetId)
         {
             string query = _tweetQueryGenerator.GetGenerateOEmbedTweetQuery(tweetId);
-            return _twitterAccessor.ExecuteJsonGETQuery(query);
+            return _twitterAccessor.ExecuteGETQueryReturningJson(query);
         }
     }
 }

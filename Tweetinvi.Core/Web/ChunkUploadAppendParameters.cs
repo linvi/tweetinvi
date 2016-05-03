@@ -20,6 +20,8 @@ namespace Tweetinvi.Core.Web
             Binary = binary;
             MediaType = mediaType;
             Timeout = timeout;
+
+            CustomRequestParameters = new CustomRequestParameters();
         }
 
         public byte[] Binary { get; private set; }

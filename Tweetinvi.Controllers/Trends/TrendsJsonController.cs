@@ -25,13 +25,13 @@ namespace Tweetinvi.Controllers.Trends
         public string GetPlaceTrendsAt(long woeid)
         {
             string query = _trendsQueryGenerator.GetPlaceTrendsAtQuery(woeid);
-            return _twitterAccessor.ExecuteJsonGETQuery(query);
+            return _twitterAccessor.ExecuteGETQueryReturningJson(query);
         }
 
         public string GetPlaceTrendsAt(IWoeIdLocation woeIdLocation)
         {
             string query = _trendsQueryGenerator.GetPlaceTrendsAtQuery(woeIdLocation);
-            return _twitterAccessor.ExecuteJsonGETQuery(query);
+            return _twitterAccessor.ExecuteGETQueryReturningJson(query);
         }
     }
 }

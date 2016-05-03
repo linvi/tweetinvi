@@ -46,25 +46,25 @@ namespace Tweetinvi.Controllers.Messages
         public string GetLatestMessagesReceived(int maximumMessages = TweetinviConsts.MESSAGE_GET_COUNT)
         {
             string query = _messageQueryGenerator.GetLatestMessagesReceivedQuery(maximumMessages);
-            return _twitterAccessor.ExecuteJsonGETQuery(query);
+            return _twitterAccessor.ExecuteGETQueryReturningJson(query);
         }
 
         public string GetLatestMessagesReceived(IMessagesReceivedParameters queryParameters)
         {
             string query = _messageQueryGenerator.GetLatestMessagesReceivedQuery(queryParameters);
-            return _twitterAccessor.ExecuteJsonGETQuery(query);
+            return _twitterAccessor.ExecuteGETQueryReturningJson(query);
         }
 
         public string GetLatestMessagesSent(int maximumMessages = TweetinviConsts.MESSAGE_GET_COUNT)
         {
             string query = _messageQueryGenerator.GetLatestMessagesSentQuery(maximumMessages);
-            return _twitterAccessor.ExecuteJsonGETQuery(query);
+            return _twitterAccessor.ExecuteGETQueryReturningJson(query);
         }
 
         public string GetLatestMessagesSent(IMessagesSentParameters queryParameters)
         {
             string query = _messageQueryGenerator.GetLatestMessagesSentQuery(queryParameters);
-            return _twitterAccessor.ExecuteJsonGETQuery(query);
+            return _twitterAccessor.ExecuteGETQueryReturningJson(query);
         }
 
         // Publish Message
@@ -96,7 +96,7 @@ namespace Tweetinvi.Controllers.Messages
         public string PublishMessage(IPublishMessageParameters parameters)
         {
             string query = _messageQueryGenerator.GetPublishMessageQuery(parameters);
-            return _twitterAccessor.ExecuteJsonPOSTQuery(query);
+            return _twitterAccessor.ExecutePOSTQueryReturningJson(query);
         }
 
         // Destroy Message
@@ -113,13 +113,13 @@ namespace Tweetinvi.Controllers.Messages
         public string DestroyMessage(IMessageDTO messageDTO)
         {
             string query = _messageQueryGenerator.GetDestroyMessageQuery(messageDTO);
-            return _twitterAccessor.ExecuteJsonPOSTQuery(query);
+            return _twitterAccessor.ExecutePOSTQueryReturningJson(query);
         }
 
         public string DestroyMessage(long messageId)
         {
             string query = _messageQueryGenerator.GetDestroyMessageQuery(messageId);
-            return _twitterAccessor.ExecuteJsonPOSTQuery(query);
+            return _twitterAccessor.ExecutePOSTQueryReturningJson(query);
         }
     }
 }

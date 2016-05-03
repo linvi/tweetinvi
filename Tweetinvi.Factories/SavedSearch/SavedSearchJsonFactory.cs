@@ -24,13 +24,13 @@ namespace Tweetinvi.Factories.SavedSearch
         public string CreateSavedSearch(string searchQuery)
         {
             string query = _savedSearchQueryGenerator.GetCreateSavedSearchQuery(searchQuery);
-            return _twitterAccessor.ExecuteJsonPOSTQuery(query);
+            return _twitterAccessor.ExecutePOSTQueryReturningJson(query);
         }
 
         public string GetSavedSearch(long searchId)
         {
             string query = _savedSearchQueryGenerator.GetSavedSearchQuery(searchId);
-            return _twitterAccessor.ExecuteJsonGETQuery(query);
+            return _twitterAccessor.ExecuteGETQueryReturningJson(query);
         }
     }
 }

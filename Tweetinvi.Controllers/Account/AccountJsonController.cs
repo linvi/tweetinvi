@@ -23,7 +23,7 @@ namespace Tweetinvi.Controllers.Account
         public string GetAuthenticatedUserSettingsJson()
         {
             string query = _accountQueryGenerator.GetAuthenticatedUserAccountSettingsQuery();
-            return _twitterAccessor.ExecuteJsonGETQuery(query);
+            return _twitterAccessor.ExecuteGETQueryReturningJson(query);
         }
     }
 }
