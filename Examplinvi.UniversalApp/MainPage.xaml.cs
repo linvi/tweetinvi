@@ -1,4 +1,5 @@
-﻿using Windows.UI.Core;
+﻿using System;
+using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Tweetinvi;
 
@@ -35,7 +36,7 @@ namespace Examplinvi.UniversalApp
                 var user = User.GetAuthenticatedUser();
                 Message.Text = string.Format("Hi '{0}'. Welcome on board with Windows 10 Universal App!", user.Name);
 
-                PublishTweet();
+                //PublishTweet();
                 RunSampleStream();
             }
         }
@@ -45,19 +46,32 @@ namespace Examplinvi.UniversalApp
             Tweet.PublishTweet("Check out #tweetinvi, the best c# library!");
         }
 
+        private string _buffer;
+
         private void RunSampleStream()
         {
             var uiDispatcher = Dispatcher;
             var s = Stream.CreateSampleStream();
 
-            s.TweetReceived += (o, args) =>
+            var i = 0;
+
+            s.TweetReceived += async (o, args) =>
             {
-#pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
-                uiDispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                _buffer += $"{args.Tweet.Text}\r\n";
+
+                ++i;
+
+                if (i == 10) // Every 10 tweets so that it makes it easier to handle for raspberry pi.
                 {
-                    Message.Text = args.Tweet.ToString();
-                });
-#pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
+                    i = 0;
+
+                    await uiDispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                    {
+                        Message.Text = _buffer;
+                    });
+
+                    _buffer = string.Empty;
+                }
             };
 
             s.StartStreamAsync();
