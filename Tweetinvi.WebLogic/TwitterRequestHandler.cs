@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using Tweetinvi.Core;
 using Tweetinvi.Core.Authentication;
@@ -12,6 +13,8 @@ using Tweetinvi.Core.Interfaces.RateLimit;
 using Tweetinvi.Core.Interfaces.WebLogic;
 using Tweetinvi.Core.Web;
 using HttpMethod = Tweetinvi.Core.Enum.HttpMethod;
+
+
 
 namespace Tweetinvi.WebLogic
 {
@@ -221,7 +224,9 @@ namespace Tweetinvi.WebLogic
         {
             if (rateLimitTrackerMode != RateLimitTrackerMode.None)
             {
-                _rateLimitUpdater.QueryExecuted(twitterQuery.QueryURL, _credentialsAccessor.CurrentThreadCredentials);
+                var rateLimitHeaders = webRequestResult.Headers.Where(kvp => kvp.Key.StartsWith("x-rate-limit-")).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
+
+                _rateLimitUpdater.QueryExecuted(twitterQuery.QueryURL, _credentialsAccessor.CurrentThreadCredentials, rateLimitHeaders: rateLimitHeaders);
             }
 
             _tweetinviEvents.RaiseAfterQueryExecuted(new QueryAfterExecuteEventArgs(twitterQuery, webRequestResult.Response));
