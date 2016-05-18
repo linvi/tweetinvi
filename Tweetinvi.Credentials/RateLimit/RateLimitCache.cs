@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Tweetinvi.Core.Authentication;
+using Tweetinvi.Core.Extensions;
 using Tweetinvi.Core.Helpers;
 using Tweetinvi.Core.Injectinvi;
 using Tweetinvi.Core.Interfaces.Controllers;
@@ -73,10 +74,8 @@ namespace Tweetinvi.Credentials.RateLimit
                 {
                     return credentialsRateLimits;
                 }
-                else
-                {
-                    return null;
-                }
+
+                return null;
             }
         }
 
@@ -84,14 +83,14 @@ namespace Tweetinvi.Credentials.RateLimit
         {
             lock (_lockCredentialsRateLimitsDictionary)
             {
-                if (_credentialsRateLimits.ContainsKey(credentials))
+                ICredentialsRateLimits currentRateLimits;
+                if (_credentialsRateLimits.TryGetValue(credentials, out currentRateLimits))
                 {
-                    _credentialsRateLimits[credentials] = credentialsRateLimits;
+                    var existingCustomEndpoints = currentRateLimits.OtherEndpointRateLimits;
+                    existingCustomEndpoints.ForEach(x => credentialsRateLimits.OtherEndpointRateLimits.AddOrUpdate(x));
                 }
-                else
-                {
-                    _credentialsRateLimits.Add(credentials, credentialsRateLimits);
-                }
+
+                _credentialsRateLimits.AddOrUpdate(credentials, credentialsRateLimits);
             }
         }
     }

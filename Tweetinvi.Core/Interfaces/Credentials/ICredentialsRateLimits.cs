@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Tweetinvi.Core.Attributes;
 
 namespace Tweetinvi.Core.Interfaces.Credentials
@@ -21,6 +22,9 @@ namespace Tweetinvi.Core.Interfaces.Credentials
         DateTime CreatedAt { get; }
         string RateLimitContext { get; }
         bool IsApplicationOnlyCredentials { get; set; }
+
+        // ALL OTHERS that are retrieved from the headers
+        Dictionary<TwitterEndpointAttribute, IEndpointRateLimit> OtherEndpointRateLimits { get; }
 
         // ACCOUNT
         IEndpointRateLimit AccountLoginVerificationEnrollmentLimit { get; }
@@ -284,5 +288,6 @@ namespace Tweetinvi.Core.Interfaces.Credentials
 
         [TwitterEndpoint("https://api.twitter.com/1.1/users/suggestions/[a-zA-Z0-9]+/members.json", true)]
         IEndpointRateLimit UsersSuggestionsSlugMembersLimit { get; }
+
     }
 }

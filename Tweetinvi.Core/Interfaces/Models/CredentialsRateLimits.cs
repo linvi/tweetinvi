@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Tweetinvi.Core.Attributes;
 using Tweetinvi.Core.Interfaces.Credentials;
 
 namespace Tweetinvi.Core.Interfaces.Models
@@ -12,12 +13,15 @@ namespace Tweetinvi.Core.Interfaces.Models
         public CredentialsRateLimits()
         {
             CreatedAt = DateTime.Now;
+            OtherEndpointRateLimits = new Dictionary<TwitterEndpointAttribute, IEndpointRateLimit>();
         }
 
         public DateTime CreatedAt { get; private set; }
 
         public string RateLimitContext { get; set; }
         public bool IsApplicationOnlyCredentials { get; set; }
+
+        public Dictionary<TwitterEndpointAttribute, IEndpointRateLimit> OtherEndpointRateLimits { get; private set; }
 
         #region Account
         public IEndpointRateLimit AccountLoginVerificationEnrollmentLimit

@@ -114,7 +114,14 @@ namespace Tweetinvi.Credentials.RateLimit
 
         private bool DoesQueryNeedsToRefreshTheCacheInformation(IEndpointRateLimit rateLimit)
         {
-            return rateLimit != null && rateLimit.ResetDateTime < DateTime.Now;
+            if (rateLimit == null)
+            {
+                return false;
+            }
+
+            var isNewCustomRatelimit = rateLimit.Remaining < 0;
+            var needsToBeRefreshed = rateLimit.ResetDateTime < DateTime.Now;
+            return isNewCustomRatelimit && needsToBeRefreshed;
         }
     }
 }
