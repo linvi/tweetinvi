@@ -9,10 +9,10 @@ namespace Tweetinvi.Controllers.Tweet
     public interface ITweetQueryValidator
     {
         void ThrowIfTweetCannotBePublished(IPublishTweetParameters parameters);
-        bool CanTweetDTOBeDestroyed(ITweetDTO tweetDTO);
         bool IsTweetPublished(ITweetDTO tweetDTO);
         bool IsValidTweetIdentifier(ITweetIdentifier tweetIdentifier);
         void ValidateTweetIdentifier(ITweetIdentifier tweetIdentifier);
+        void ThrowIfTweetCannotBeDestroyed(ITweetDTO tweet);
     }
 
     public class TweetQueryValidator : ITweetQueryValidator
@@ -38,9 +38,22 @@ namespace Tweetinvi.Controllers.Tweet
             }
         }
 
-        public bool CanTweetDTOBeDestroyed(ITweetDTO tweet)
+        public void ThrowIfTweetCannotBeDestroyed(ITweetDTO tweet)
         {
-            return tweet != null && tweet.IsTweetPublished && !tweet.IsTweetDestroyed;
+            if (tweet == null)
+            {
+                throw new ArgumentNullException("Tweet cannot be null.");
+            }
+
+            if (!tweet.IsTweetPublished)
+            {
+                throw new ArgumentException("Tweet must have been already published to be destroyed.");
+            }
+
+            if (tweet.IsTweetDestroyed)
+            {
+                throw new ArgumentException("Tweet has already been destroyed.");
+            }
         }
 
         public bool IsTweetPublished(ITweetDTO tweet)

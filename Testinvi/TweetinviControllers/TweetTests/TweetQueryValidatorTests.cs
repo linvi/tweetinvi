@@ -94,16 +94,14 @@ namespace Testinvi.TweetinviControllers.TweetTests
         #region CanTweetDTOBeDestroyed
 
         [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
         public void CanTweetDTOBeDestroyed_TweetIsNull_ReturnsFalse()
         {
             // Arrange
             var queryValidator = CreateTweetQueryValidator();
 
             // Act
-            var result = queryValidator.CanTweetDTOBeDestroyed(null);
-
-            // Assert
-            Assert.IsFalse(result);
+            queryValidator.ThrowIfTweetCannotBeDestroyed(null);
         }
 
         [TestMethod]
@@ -115,13 +113,11 @@ namespace Testinvi.TweetinviControllers.TweetTests
             tweet.CallsTo(x => x.IsTweetPublished).Returns(true);
 
             // Act
-            var result = queryValidator.CanTweetDTOBeDestroyed(tweet);
-
-            // Assert
-            Assert.IsTrue(result);
+            queryValidator.ThrowIfTweetCannotBeDestroyed(tweet);
         }
 
         [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
         // This case is in theory impossible
         public void CanTweetDTOBeDestroyed_TweetIsHasNotBeenPublishedButDestroyed_ReturnsFalse()
         {
@@ -132,13 +128,11 @@ namespace Testinvi.TweetinviControllers.TweetTests
             tweet.CallsTo(x => x.IsTweetDestroyed).Returns(true);
 
             // Act
-            var result = queryValidator.CanTweetDTOBeDestroyed(tweet);
-
-            // Assert
-            Assert.IsFalse(result);
+            queryValidator.ThrowIfTweetCannotBeDestroyed(tweet);
         }
 
         [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
         public void CanTweetDTOBeDestroyed_TweetIsAlreadyDestroyed_ReturnsFalse()
         {
             // Arrange
@@ -148,13 +142,11 @@ namespace Testinvi.TweetinviControllers.TweetTests
             tweet.CallsTo(x => x.IsTweetDestroyed).Returns(true);
 
             // Act
-            var result = queryValidator.CanTweetDTOBeDestroyed(tweet);
-
-            // Assert
-            Assert.IsFalse(result);
+            queryValidator.ThrowIfTweetCannotBeDestroyed(tweet);
         }
 
         [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
         public void CanTweetDTOBeDestroyed_TweetIsNew_ReturnsFalse()
         {
             // Arrange
@@ -164,10 +156,7 @@ namespace Testinvi.TweetinviControllers.TweetTests
             tweet.CallsTo(x => x.IsTweetDestroyed).Returns(false);
 
             // Act
-            var result = queryValidator.CanTweetDTOBeDestroyed(tweet);
-
-            // Assert
-            Assert.IsFalse(result);
+            queryValidator.ThrowIfTweetCannotBeDestroyed(tweet);
         }
 
         #endregion

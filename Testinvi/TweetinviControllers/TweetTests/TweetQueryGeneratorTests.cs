@@ -296,19 +296,17 @@ namespace Testinvi.TweetinviControllers.TweetTests
         #region GetDestroyTweetQuery
 
         [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
         public void GetDestroyTweetQuery_TweetCannotBeDestroyed_ReturnsNull()
         {
             // Arrange
             var queryGenerator = CreateTweetQueryGenerator();
             var tweetToDestroy = A.Fake<ITweetDTO>();
 
-            _fakeTweetQueryValidator.CallsTo(x => x.CanTweetDTOBeDestroyed(tweetToDestroy)).Returns(false);
+            _fakeTweetQueryValidator.CallsTo(x => x.ThrowIfTweetCannotBeDestroyed(tweetToDestroy)).Invokes(() => { throw new ArgumentException(); });
 
             // Act
             var result = queryGenerator.GetDestroyTweetQuery(tweetToDestroy);
-
-            // Assert
-            Assert.AreEqual(result, null);
         }
 
         [TestMethod]
@@ -319,8 +317,6 @@ namespace Testinvi.TweetinviControllers.TweetTests
             var tweetToDestroyId = TestHelper.GenerateRandomLong();
             var tweetToDestroy = A.Fake<ITweetDTO>();
             tweetToDestroy.CallsTo(x => x.Id).Returns(tweetToDestroyId);
-
-            _fakeTweetQueryValidator.CallsTo(x => x.CanTweetDTOBeDestroyed(tweetToDestroy)).Returns(true);
 
             // Act
             var result = queryGenerator.GetDestroyTweetQuery(tweetToDestroy);
