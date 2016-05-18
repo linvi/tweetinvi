@@ -9,11 +9,14 @@ namespace Tweetinvi.Logic.JsonConverters
     {
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
-            int parsed = 0;
+            int parsed;
+
             if (int.TryParse(reader.Value.ToString(), out parsed))
+            {
                 return LanguageExtension.GetLangFromDescription(parsed);
-            else
-                return LanguageExtension.GetLangFromDescription((string)reader.Value);
+            }
+
+            return LanguageExtension.GetLangFromDescription((string)reader.Value);
         }
 
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
@@ -23,7 +26,7 @@ namespace Tweetinvi.Logic.JsonConverters
 
         public override bool CanConvert(Type objectType)
         {
-            return objectType == typeof (Language);
+            return objectType == typeof(Language);
         }
     }
 }

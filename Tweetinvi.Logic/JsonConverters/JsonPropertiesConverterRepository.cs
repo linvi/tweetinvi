@@ -80,6 +80,7 @@ namespace Tweetinvi.Logic.JsonConverters
                 new JsonInterfaceToObjectConverter<ISearchResultsDTO, SearchResultsDTO>(),
                 new JsonInterfaceToObjectConverter<ITwitterConfiguration, TwitterConfiguration>(),
                 new JsonInterfaceToObjectConverter<ICategorySuggestion, CategorySuggestion>(),
+                new JsonInterfaceToObjectConverter<IUrlEntity, UrlEntity>(),
 
                 // JsonCoordinatesConverter is used only for Properties (with an s) and not Property
                 // because Twitter does not provide the coordinates the same way if it is a list or
