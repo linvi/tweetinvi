@@ -31,5 +31,9 @@ namespace Tweetinvi.Logic.DTO
         [JsonProperty("video")]
         [JsonConverter(typeof(JsonPropertyConverterRepository))]
         public IUploadedVideoDetails VideoDetails { get; set; }
+
+        [JsonProperty("processing_info")]
+        [JsonConverter(typeof(JsonPropertyConverterRepository))]
+        public IUploadProcessingInfo ProcessingInfo { get; set; }
     }
 }

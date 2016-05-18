@@ -92,6 +92,7 @@ namespace Tweetinvi.Logic.JsonConverters
 
             var uploadedImageDetailsConverter = new JsonInterfaceToObjectConverter<IUploadedImageDetails, UploadedImageDetailsDTO>();
             var uploadedVideoDetailsConverter = new JsonInterfaceToObjectConverter<IUploadedVideoDetails, UploadedVideoDetailsDTO>();
+            var uploadProcessingInfoConverter = new JsonInterfaceToObjectConverter<IUploadProcessingInfo, UploadProcessingInfoDTO>();
 
             var twitterConfigurationConverter = new JsonInterfaceToObjectConverter<ITwitterConfiguration, TwitterConfiguration>();
 
@@ -125,6 +126,7 @@ namespace Tweetinvi.Logic.JsonConverters
 
             JsonConverters.Add(typeof(IUploadedImageDetails), uploadedImageDetailsConverter);
             JsonConverters.Add(typeof(IUploadedVideoDetails), uploadedVideoDetailsConverter);
+            JsonConverters.Add(typeof(IUploadProcessingInfo), uploadProcessingInfoConverter);
 
             JsonConverters.Add(typeof(ITwitterConfiguration), twitterConfigurationConverter);
         }

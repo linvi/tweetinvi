@@ -76,9 +76,9 @@ namespace Tweetinvi
         /// <summary>
         /// Upload a video to twitter
         /// </summary>
-        public static IMedia UploadVideo(byte[] binary, string mediaType = "video/mp4")
+        public static IMedia UploadVideo(byte[] binary, string mediaType = "video/mp4", string mediaCategory = "amplify_video")
         {
-            return UploadQueryExecutor.UploadVideo(binary, mediaType);
+            return UploadQueryExecutor.UploadVideo(binary, mediaType, mediaCategory);
         }
 
         /// <summary>
@@ -114,6 +114,11 @@ namespace Tweetinvi
         public static bool AddMediaMetadata(IMediaMetadata metadata)
         {
             return UploadQueryExecutor.AddMediaMetadata(metadata);
+        }
+
+        public static IUploadedMediaInfo GetMediaStatus(IMedia media, bool autoAwait = true)
+        {
+            return UploadQueryExecutor.GetMediaStatus(media, autoAwait);
         }
     }
 }

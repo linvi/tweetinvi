@@ -12,5 +12,7 @@ namespace Tweetinvi.Core.Interfaces.DTO
 
         IUploadedImageDetails ImageDetails { get; set; }
         IUploadedVideoDetails VideoDetails { get; set; }
+
+        IUploadProcessingInfo ProcessingInfo { get; set; }
     }
 }

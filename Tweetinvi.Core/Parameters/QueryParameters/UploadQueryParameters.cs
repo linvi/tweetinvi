@@ -20,6 +20,11 @@ namespace Tweetinvi.Core.Parameters.QueryParameters
         string MediaType { get; set; }
 
         /// <summary>
+        /// Type of upload. `amplify_video` allows to access the STATUS of the upload processing.
+        /// </summary>
+        string MediaCategory { get; set; }
+
+        /// <summary>
         /// Maximum size of a chunk size (in bytes) for a single upload.
         /// </summary>
         int MaxChunkSize { get; set; }
@@ -63,6 +68,7 @@ namespace Tweetinvi.Core.Parameters.QueryParameters
 
         public List<byte[]> Binaries { get; set; }
         public string MediaType { get; set; }
+        public string MediaCategory { get; set; }
         public int MaxChunkSize { get; set; }
         public TimeSpan? Timeout { get; set; }
         public List<long> AdditionalOwnerIds { get; set; }

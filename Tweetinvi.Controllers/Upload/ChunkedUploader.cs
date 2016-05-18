@@ -7,6 +7,7 @@ using Tweetinvi.Core.Interfaces.Credentials;
 using Tweetinvi.Core.Interfaces.DTO;
 using Tweetinvi.Core.Interfaces.QueryGenerators;
 using Tweetinvi.Core.Web;
+using Tweetinvi.Logic.DTO;
 
 namespace Tweetinvi.Controllers.Upload
 {
@@ -117,7 +118,7 @@ namespace Tweetinvi.Controllers.Upload
             }
 
             var finalizeQuery = _uploadQueryGenerator.GetChunkedUploadFinalizeQuery(MediaId.Value);
-            var uploadedMediaInfos = _twitterAccessor.ExecutePOSTQuery<IUploadedMediaInfo>(finalizeQuery);
+            var uploadedMediaInfos = _twitterAccessor.ExecutePOSTQuery<UploadedMediaInfo>(finalizeQuery);
 
             UpdateMedia(uploadedMediaInfos);
 

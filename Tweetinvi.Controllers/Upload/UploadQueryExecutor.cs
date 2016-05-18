@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Tweetinvi.Controllers.Properties;
 using Tweetinvi.Core;
-using Tweetinvi.Core.Enum;
 using Tweetinvi.Core.Extensions;
+using Tweetinvi.Core.Helpers;
 using Tweetinvi.Core.Injectinvi;
 using Tweetinvi.Core.Interfaces.Controllers.Transactions;
 using Tweetinvi.Core.Interfaces.Credentials;
@@ -42,7 +43,7 @@ namespace Tweetinvi.Controllers.Upload
         /// <summary>
         /// Upload a binary in multiple queries.
         /// </summary>
-        IMedia ChunkUploadBinary(byte[] binary, string mediaType);
+        IMedia ChunkUploadBinary(byte[] binary, string mediaType, string mediaCategory = null);
 
         /// <summary>
         /// Upload a binary in multiple queries.
@@ -52,12 +53,14 @@ namespace Tweetinvi.Controllers.Upload
         /// <summary>
         /// Upload a video in multiple queries if necessary.
         /// </summary>
-        IMedia UploadVideo(byte[] binary, string mediaType = "video/mp4");
+        IMedia UploadVideo(byte[] binary, string mediaType = "video/mp4", string mediaCategory = "amplify_video");
 
         /// <summary>
         /// Add metadata to a media that has been uploaded.
         /// </summary>
         bool AddMediaMetadata(IMediaMetadata metadata);
+
+        IUploadedMediaInfo GetMediaStatus(IMedia media, bool autoAwait = true);
     }
 
     public class UploadQueryExecutor : IUploadQueryExecutor
@@ -65,15 +68,18 @@ namespace Tweetinvi.Controllers.Upload
         private readonly ITwitterAccessor _twitterAccessor;
         private readonly IFactory<IMedia> _mediaFactory;
         private readonly IFactory<IChunkedUploader> _chunkedUploadFactory;
+        private readonly IThreadHelper _threadHelper;
 
         public UploadQueryExecutor(
             ITwitterAccessor twitterAccessor,
             IFactory<IMedia> mediaFactory,
-            IFactory<IChunkedUploader> chunkedUploadFactory)
+            IFactory<IChunkedUploader> chunkedUploadFactory,
+            IThreadHelper threadHelper)
         {
             _twitterAccessor = twitterAccessor;
             _mediaFactory = mediaFactory;
             _chunkedUploadFactory = chunkedUploadFactory;
+            _threadHelper = threadHelper;
         }
 
         public IEnumerable<IMedia> UploadBinaries(IEnumerable<byte[]> binaries)
@@ -146,12 +152,13 @@ namespace Tweetinvi.Controllers.Upload
             }
         }
 
-        public IMedia ChunkUploadBinary(byte[] binary, string mediaType)
+        public IMedia ChunkUploadBinary(byte[] binary, string mediaType, string mediaCategory = null)
         {
             var parameters = new UploadQueryParameters()
             {
                 Binaries = new List<byte[]> { binary },
                 MediaType = mediaType,
+                MediaCategory = mediaCategory
             };
 
             return ChunkUploadBinary(parameters);
@@ -171,6 +178,7 @@ namespace Tweetinvi.Controllers.Upload
             {
                 TotalBinaryLength = binary.Length,
                 MediaType = uploadQueryParameters.MediaType,
+                MediaCategory = uploadQueryParameters.MediaCategory,
                 AdditionalOwnerIds = uploadQueryParameters.AdditionalOwnerIds,
                 CustomRequestParameters = uploadQueryParameters.InitCustomRequestParameters,
             };
@@ -197,8 +205,6 @@ namespace Tweetinvi.Controllers.Upload
                     }
                 }
 
-                var isTrue = totalsize == binary.Length;
-
                 return uploader.Complete();
             }
 
@@ -223,9 +229,9 @@ namespace Tweetinvi.Controllers.Upload
             return result;
         }
 
-        public IMedia UploadVideo(byte[] binary, string mediaType = "video/mp4")
+        public IMedia UploadVideo(byte[] binary, string mediaType = "video/mp4", string mediaCategory = "amplify_video")
         {
-            return ChunkUploadBinary(binary, mediaType);
+            return ChunkUploadBinary(binary, mediaType, mediaCategory);
         }
 
         public IChunkedUploader CreateChunkedUploader()
@@ -237,6 +243,32 @@ namespace Tweetinvi.Controllers.Upload
         {
             var json = JsonConvert.SerializeObject(metadata);
             return _twitterAccessor.TryPOSTJsonContent("https://upload.twitter.com/1.1/media/metadata/create.json", json);
+        }
+
+        public IUploadedMediaInfo GetMediaStatus(IMedia media, bool autoWait = true)
+        {
+            if (!media.HasBeenUploaded)
+            {
+                throw new InvalidOperationException(Resources.Exception_Upload_Status_NotUploaded);
+            }
+
+            if (media.UploadedMediaInfo.ProcessingInfo == null)
+            {
+                throw new InvalidOperationException(Resources.Exception_Upload_Status_No_ProcessingInfo);
+            }
+
+            if (autoWait)
+            {
+                var timeBeforeOperationPermitted = TimeSpan.FromSeconds(media.UploadedMediaInfo.ProcessingInfo.CheckAfterInSeconds);
+
+                var waitTimeRemaining = media.UploadedMediaInfo.CreatedDate.Add(timeBeforeOperationPermitted).Subtract(DateTime.Now);
+                if (waitTimeRemaining.TotalMilliseconds > 0)
+                {
+                    _threadHelper.Sleep((int)waitTimeRemaining.TotalMilliseconds);
+                }
+            }
+
+            return _twitterAccessor.ExecuteGETQuery<IUploadedMediaInfo>($"https://upload.twitter.com/1.1/media/upload.json?command=STATUS&media_id={media.MediaId}");
         }
     }
 }

@@ -544,6 +544,16 @@ namespace Tweetinvi.Controllers.Properties
         /// </summary>
         public static string User_Report_Spam = "https://api.twitter.com/1.1/users/report_spam.json?{0}";
 
+        /// <summary>
+        ///   Looks up a localized string similar to Upload STATUS can only be retrieved for uploaded media. The FINALIZE query must be invoked.
+        /// </summary>
+        public static string Exception_Upload_Status_NotUploaded = "Upload STATUS can only be retrieved for uploaded media. The FINALIZE query must be invoked.";
+
+        /// <summary>
+        ///   Looks up a localized string similar to Upload STATUS can only be invoked on uploads with processing metadata. Set the `media_category` to `amplify_video` to solve this isue.
+        /// </summary>
+        public static string Exception_Upload_Status_No_ProcessingInfo = "Upload STATUS can only be invoked on uploads with processing metadata. Set the `media_category` to `amplify_video` to solve this isue.";
+
         public static string GetResourceByName(string resourceName)
         {
             return ResourcesHelper.GetResourceByType(typeof(Resources), resourceName);
