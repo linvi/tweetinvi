@@ -7,7 +7,6 @@ using Tweetinvi.Core.Interfaces.DTO;
 using Tweetinvi.Core.Interfaces.Models;
 using Tweetinvi.Core.Interfaces.Models.Entities;
 using Tweetinvi.Core.Parameters;
-using Tweetinvi.Core.Parameters.QueryParameters;
 
 namespace Tweetinvi.Core.Interfaces
 {
@@ -213,11 +212,6 @@ namespace Tweetinvi.Core.Interfaces
         /// When true, indicates that the user is a participant in Twitter’s translator community.
         /// </summary>
         bool IsTranslator { get; }
-
-        /// <summary>
-        /// Indicates that the user would like to see media inline.
-        /// </summary>
-        bool ShowAllInlineMedia { get; }
 
         /// <summary>
         /// Indicates that the account has the contributor mode enabled

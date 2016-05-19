@@ -12,7 +12,6 @@ using Tweetinvi.Core.Interfaces.DTO;
 using Tweetinvi.Core.Interfaces.Models;
 using Tweetinvi.Core.Interfaces.Models.Entities;
 using Tweetinvi.Core.Parameters;
-using Tweetinvi.Core.Parameters.QueryParameters;
 
 namespace Tweetinvi.Logic
 {
@@ -257,11 +256,6 @@ namespace Tweetinvi.Logic
         public bool IsTranslator
         {
             get { return _userDTO.IsTranslator; }
-        }
-
-        public bool ShowAllInlineMedia
-        {
-            get { return _userDTO.ShowAllInlineMedia; }
         }
 
         public bool ContributorsEnabled

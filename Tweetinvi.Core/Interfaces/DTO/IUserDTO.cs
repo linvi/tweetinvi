@@ -13,7 +13,7 @@ namespace Tweetinvi.Core.Interfaces.DTO
         ITweetDTO Status { get; set; }
 
         string Description { get; set; }
-
+        
         DateTime CreatedAt { get; set; }
 
         string Location { get; set; }
@@ -77,8 +77,6 @@ namespace Tweetinvi.Core.Interfaces.DTO
         bool ProfileUseBackgroundImage { get; set; }
 
         bool IsTranslator { get; set; }
-
-        bool ShowAllInlineMedia { get; set; }
 
         bool ContributorsEnabled { get; set; }
 

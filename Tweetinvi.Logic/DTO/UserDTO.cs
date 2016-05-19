@@ -124,9 +124,6 @@ namespace Tweetinvi.Logic.DTO
         [JsonProperty("is_translator")]
         public bool IsTranslator { get; set; }
 
-        [JsonProperty("show_all_inline_media")]
-        public bool ShowAllInlineMedia { get; set; }
-
         [JsonProperty("contributors_enabled")]
         public bool ContributorsEnabled { get; set; }
 
