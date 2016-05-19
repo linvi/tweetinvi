@@ -33,6 +33,18 @@ namespace Tweetinvi.Core.Extensions
             
         }
 
+        public static Language GetLangFromDescription(int descriptionIndex)
+        {
+            try
+            {
+                return (Language)descriptionIndex;
+            }
+            catch (Exception)
+            {
+                return Language.Undefined;
+            }
+        }
+
         private static bool IsValidDescriptionField(string descriptionValue, FieldInfo field)
         {
             var descriptionAttribute = Attribute.GetCustomAttribute(field, typeof(LanguageAttribute));
