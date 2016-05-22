@@ -64,15 +64,7 @@ namespace Tweetinvi.Controllers.User
             string idParameterName = "user_id",
             string screenNameParameterName = "screen_name")
         {
-            if (userIdentifier == null)
-            {
-                throw new ArgumentException("Cannot extract id or name parameter from a null userIdentifier.");
-            }
-
-            if (!_userQueryValidator.CanUserBeIdentified(userIdentifier))
-            {
-                throw new ArgumentException("Cannot extract either id or name parameter from the given userIdentifier.");
-            }
+            _userQueryValidator.ThrowIfUserCannotBeIdentified(userIdentifier);
 
             if (_userQueryValidator.IsUserIdValid(userIdentifier.Id))
             {

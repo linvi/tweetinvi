@@ -98,10 +98,7 @@ namespace Tweetinvi.Controllers.Friendship
 
         public string GetCreateFriendshipWithQuery(long userId)
         {
-            if (!_userQueryValidator.IsUserIdValid(userId))
-            {
-                return null;
-            }
+            _userQueryValidator.ThrowIfUserCannotBeIdentified(userId);
 
             string userIdParameter = _userQueryParameterGenerator.GenerateUserIdParameter(userId);
             return GenerateCreateFriendshipQuery(userIdParameter);
@@ -137,10 +134,7 @@ namespace Tweetinvi.Controllers.Friendship
 
         public string GetDestroyFriendshipWithQuery(long userId)
         {
-            if (!_userQueryValidator.IsUserIdValid(userId))
-            {
-                return null;
-            }
+            _userQueryValidator.ThrowIfUserCannotBeIdentified(userId);
 
             string userIdParameter = _userQueryParameterGenerator.GenerateUserIdParameter(userId);
             return GenerateDestroyFriendshipQuery(userIdParameter);
@@ -176,9 +170,11 @@ namespace Tweetinvi.Controllers.Friendship
 
         public string GetUpdateRelationshipAuthorizationsWithQuery(long userId, IFriendshipAuthorizations friendshipAuthorizations)
         {
-            if (friendshipAuthorizations == null || !_userQueryValidator.IsUserIdValid(userId))
+            _userQueryValidator.ThrowIfUserCannotBeIdentified(userId);
+
+            if (friendshipAuthorizations == null)
             {
-                return null;
+                throw new ArgumentNullException("Friendship authorizations cannot be null.");
             }
 
             string userIdParameter = _userQueryParameterGenerator.GenerateUserIdParameter(userId);

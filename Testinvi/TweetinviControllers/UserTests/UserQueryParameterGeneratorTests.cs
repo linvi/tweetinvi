@@ -102,28 +102,6 @@ namespace Testinvi.TweetinviControllers.UserTests
         #region Generate UserIdentifier Parameter
 
         [TestMethod]
-        public void GenerateIdOrScreenNameParameter_UserDTOIsNull_ThrowsArgumentException()
-        {
-            // Arrange
-            var queryGenerator = CreateUserQueryParameterGenerator();
-            var idParameterName = TestHelper.GenerateString();
-            var screenNameParameterName = TestHelper.GenerateString();
-
-            // Act
-            try
-            {
-                queryGenerator.GenerateIdOrScreenNameParameter(null, idParameterName, screenNameParameterName);
-            }
-            catch (ArgumentException)
-            {
-                return;
-            }
-
-            // Assert
-            Assert.Fail();
-        }
-
-        [TestMethod]
         public void GenerateIdOrScreenNameParameter_UserDTOIsNotNullButInvalid_ThrowsArgumentException()
         {
             // Arrange
@@ -132,7 +110,7 @@ namespace Testinvi.TweetinviControllers.UserTests
             var idParameterName = TestHelper.GenerateString();
             var screenNameParameterName = TestHelper.GenerateString();
 
-            _fakeUserQueryValidator.CallsTo(x => x.CanUserBeIdentified(userDTO)).Returns(false);
+            _fakeUserQueryValidator.CallsTo(x => x.ThrowIfUserCannotBeIdentified(userDTO, "User")).Throws(new ArgumentException());
 
             // Act
             try

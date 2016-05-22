@@ -1,4 +1,5 @@
 ﻿using System;
+using System.CodeDom;
 using FakeItEasy;
 using FakeItEasy.ExtensionSyntax.Full;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -31,20 +32,17 @@ namespace Testinvi.TweetinviControllers.MessageTests
         [TestMethod]
         public void CanMessageBePublished_BasedOnMessageHasBeenPublishedOrDestroyed()
         {
-            // Arrange - Act
-            var result1 = CanMessageBePublished_BasedOnPublishedAndDestroyed(true, true);
-            var result2 = CanMessageBePublished_BasedOnPublishedAndDestroyed(true, false);
-            var result3 = CanMessageBePublished_BasedOnPublishedAndDestroyed(false, true);
-            var result4 = CanMessageBePublished_BasedOnPublishedAndDestroyed(false, false);
-
-            // Assert
-            Assert.IsFalse(result1);
-            Assert.IsFalse(result2);
-            Assert.IsFalse(result3);
-            Assert.IsTrue(result4);
+            // Arrange - Act - Assert
+            CanMessageBePublished_BasedOnPublishedAndDestroyed(true, true, typeof(ArgumentException));
+            CanMessageBePublished_BasedOnPublishedAndDestroyed(true, false, typeof(ArgumentException));
+            CanMessageBePublished_BasedOnPublishedAndDestroyed(false, true, typeof(ArgumentException));
+            CanMessageBePublished_BasedOnPublishedAndDestroyed(false, false, null);
         }
 
-        private bool CanMessageBePublished_BasedOnPublishedAndDestroyed(bool messageHasBeenPublished, bool messageHasBeenDestroyed)
+        private void CanMessageBePublished_BasedOnPublishedAndDestroyed(
+            bool messageHasBeenPublished,
+            bool messageHasBeenDestroyed,
+            Type exceptionType)
         {
             // Arrange
             var queryValidator = CreateMessageQueryValidator();
@@ -57,26 +55,38 @@ namespace Testinvi.TweetinviControllers.MessageTests
             ArrangeMessageDTORecipient(parameters, true, true, true);
 
             // Act
-            return queryValidator.CanMessageBePublished(parameters);
+
+            try
+            {
+                queryValidator.ThrowIfMessageCannotBePublished(parameters);
+            }
+            catch (Exception e)
+            {
+                if (e.GetType() == exceptionType)
+                {
+                    return;
+                }
+
+                throw new Exception("Exception was not of the correct type.");
+            }
+
+            if (exceptionType != null)
+            {
+                throw new Exception("Exception was expected.");
+            }
         }
 
         [TestMethod]
         public void CanMessageDTOBePublished_BasedOnText()
         {
-            // Arrange - Act
-            var result1 = CanMessageDTOBePublished_BasedOnText(true, true);
-            var result2 = CanMessageDTOBePublished_BasedOnText(true, false);
-            var result3 = CanMessageDTOBePublished_BasedOnText(false, true);
-            var result4 = CanMessageDTOBePublished_BasedOnText(false, false);
-
-            // Assert
-            Assert.IsTrue(result1);
-            Assert.IsFalse(result2);
-            Assert.IsFalse(result3);
-            Assert.IsFalse(result4);
+            // Arrange - Act - Assert
+            CanMessageDTOBePublished_BasedOnText(true, true, null);
+            CanMessageDTOBePublished_BasedOnText(true, false, typeof(ArgumentException));
+            CanMessageDTOBePublished_BasedOnText(false, true, typeof(ArgumentException));
+            CanMessageDTOBePublished_BasedOnText(false, false, typeof(ArgumentException));
         }
 
-        private bool CanMessageDTOBePublished_BasedOnText(bool doesTextExists, bool textContainsChars)
+        private void CanMessageDTOBePublished_BasedOnText(bool doesTextExists, bool textContainsChars, Type exceptionType)
         {
             // Arrange
             var queryValidator = CreateMessageQueryValidator();
@@ -87,35 +97,47 @@ namespace Testinvi.TweetinviControllers.MessageTests
             ArrangeMessagePublishParameterText(parameters, doesTextExists, textContainsChars);
 
             // Act
-            return queryValidator.CanMessageBePublished(parameters);
+            try
+            {
+                queryValidator.ThrowIfMessageCannotBePublished(parameters);
+
+            }
+            catch (Exception e)
+            {
+                if (e.GetType() == exceptionType)
+                {
+                    return;
+                }
+
+                throw new Exception("Exception was not of the correct type.");
+            }
+
+            if (exceptionType != null)
+            {
+                throw new Exception("Exception was expected.");
+            }
         }
 
         [TestMethod]
         public void CanMessageBePublished_BasedOnRecipient()
         {
             // Arrange - Act
-            var result1 = CanMessageBePublished_BasedOnRecipient(true, true, true);
-            var result2 = CanMessageBePublished_BasedOnRecipient(true, true, false);
-            var result3 = CanMessageBePublished_BasedOnRecipient(true, false, true);
-            var result4 = CanMessageBePublished_BasedOnRecipient(true, false, false);
+            CanMessageBePublished_BasedOnRecipient(true, true, true, null);
+            CanMessageBePublished_BasedOnRecipient(true, true, false, null);
+            CanMessageBePublished_BasedOnRecipient(true, false, true, null);
+            CanMessageBePublished_BasedOnRecipient(true, false, false, null);
 
-            var result5 = CanMessageBePublished_BasedOnRecipient(false, true, true);
-            var result6 = CanMessageBePublished_BasedOnRecipient(false, true, false);
-            var result7 = CanMessageBePublished_BasedOnRecipient(false, false, true);
-            var result8 = CanMessageBePublished_BasedOnRecipient(false, false, false);
-
-            // Assert
-            Assert.IsTrue(result1);
-            Assert.IsTrue(result2);
-            Assert.IsTrue(result3);
-            Assert.IsTrue(result4);
-            Assert.IsTrue(result5);
-            Assert.IsTrue(result6);
-            Assert.IsTrue(result7);
-            Assert.IsFalse(result8);
+            CanMessageBePublished_BasedOnRecipient(false, true, true, null);
+            CanMessageBePublished_BasedOnRecipient(false, true, false, null);
+            CanMessageBePublished_BasedOnRecipient(false, false, true, null);
+            CanMessageBePublished_BasedOnRecipient(false, false, false, typeof(ArgumentException));
         }
 
-        private bool CanMessageBePublished_BasedOnRecipient( bool isRecipientValid, bool isRecipientIdValid, bool isRecipientScreenNameValid)
+        private void CanMessageBePublished_BasedOnRecipient(
+            bool isRecipientValid, 
+            bool isRecipientIdValid, 
+            bool isRecipientScreenNameValid,
+            Type exceptionType)
         {
             // Arrange
             var queryValidator = CreateMessageQueryValidator();
@@ -125,7 +147,24 @@ namespace Testinvi.TweetinviControllers.MessageTests
             ArrangeMessageDTORecipient(parameter, isRecipientValid, isRecipientIdValid, isRecipientScreenNameValid);
 
             // Act
-            return queryValidator.CanMessageBePublished(parameter);
+            try
+            {
+                queryValidator.ThrowIfMessageCannotBePublished(parameter);
+            }
+            catch (Exception e)
+            {
+                if (e.GetType() == exceptionType)
+                {
+                    return;
+                }
+
+                throw new Exception("Exception was not of the correct type.");
+            }
+
+            if (exceptionType != null)
+            {
+                throw new Exception("Exception was expected.");
+            }
         }
 
         private void ArrangeMessagePublishParameterText(IPublishMessageParameters parameters, bool doesTextExists, bool textContainsChars)

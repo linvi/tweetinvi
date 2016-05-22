@@ -130,10 +130,10 @@ namespace Testinvi.TweetinviControllers.FriendshipTests
             var queryGenerator = CreateFrienshipQueryGenerator();
 
             // Act
-            var query = queryGenerator.GetCreateFriendshipWithQuery(TestHelper.DefaultId());
+            queryGenerator.GetCreateFriendshipWithQuery(TestHelper.DefaultId());
 
             // Assert
-            Assert.AreEqual(query, null);
+            _fakeUserQueryValidator.CallsTo(x => x.ThrowIfUserCannotBeIdentified(It.IsAny<long>())).MustHaveHappened(Repeated.Exactly.Once);
         }
 
         [TestMethod]
@@ -226,10 +226,10 @@ namespace Testinvi.TweetinviControllers.FriendshipTests
 
             // Act
             var query = queryGenerator.GetDestroyFriendshipWithQuery(TestHelper.DefaultId());
+            _fakeUserQueryValidator.CallsTo(x => x.ThrowIfUserCannotBeIdentified(It.IsAny<long>())).MustHaveHappened(Repeated.Exactly.Once);
+        }
 
             // Assert
-            Assert.AreEqual(query, null);
-        }
 
         [TestMethod]
         public void GetDestroyFriendshipWithQueryWithUserId_ReturnsIdQuery()
@@ -400,6 +400,7 @@ namespace Testinvi.TweetinviControllers.FriendshipTests
         }
 
         [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
         public void UpdateRelationshipAuthorizations_WithValidUserId_AuthorizationsObjectIsNull_ReturnsNull()
         {
             var userId = TestHelper.GenerateRandomLong();
@@ -408,10 +409,7 @@ namespace Testinvi.TweetinviControllers.FriendshipTests
             var queryGenerator = CreateFrienshipQueryGenerator();
 
             // Act
-            var result = queryGenerator.GetUpdateRelationshipAuthorizationsWithQuery(userId, null);
-
-            // Assert
-            Assert.AreEqual(result, null);
+            queryGenerator.GetUpdateRelationshipAuthorizationsWithQuery(userId, null);
         }
 
         [TestMethod]
@@ -421,16 +419,9 @@ namespace Testinvi.TweetinviControllers.FriendshipTests
             var queryGenerator = CreateFrienshipQueryGenerator();
 
             // Act
-            var result1 = queryGenerator.GetUpdateRelationshipAuthorizationsWithQuery(TestHelper.DefaultId(), GenerateFriendshipAuthorizations(true, true));
-            var result2 = queryGenerator.GetUpdateRelationshipAuthorizationsWithQuery(TestHelper.DefaultId(), GenerateFriendshipAuthorizations(true, false));
-            var result3 = queryGenerator.GetUpdateRelationshipAuthorizationsWithQuery(TestHelper.DefaultId(), GenerateFriendshipAuthorizations(false, true));
-            var result4 = queryGenerator.GetUpdateRelationshipAuthorizationsWithQuery(TestHelper.DefaultId(), GenerateFriendshipAuthorizations(false, false));
+            queryGenerator.GetUpdateRelationshipAuthorizationsWithQuery(TestHelper.DefaultId(), GenerateFriendshipAuthorizations(true, true));
 
-            // Assert
-            Assert.AreEqual(result1, null);
-            Assert.AreEqual(result2, null);
-            Assert.AreEqual(result3, null);
-            Assert.AreEqual(result4, null);
+            _fakeUserQueryValidator.CallsTo(x => x.ThrowIfUserCannotBeIdentified(It.IsAny<long>())).MustHaveHappened(Repeated.Exactly.Once);
         }
 
         [TestMethod]

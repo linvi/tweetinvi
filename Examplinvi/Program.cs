@@ -15,6 +15,7 @@ using Tweetinvi.Core.Interfaces.DTO;
 using Tweetinvi.Core.Interfaces.Models;
 using Tweetinvi.Core.Interfaces.Streaminvi;
 using Tweetinvi.Core.Parameters;
+using Tweetinvi.Core.Web;
 using Tweetinvi.Json;
 using SavedSearch = Tweetinvi.SavedSearch;
 using Stream = Tweetinvi.Stream;
@@ -32,14 +33,44 @@ namespace Examplinvi
     {
         static void Main()
         {
-            Auth.SetUserCredentials("CONSUMER_KEY", "CONSUMER_SECRET", "ACCESS_TOKEN", "ACCESS_TOKEN_SECRET");
+            Auth.SetUserCredentials("jjMV4k3n9EswD9hlhRZqQCZrl", "N4gpJ4HDA2Gtl3WotRP97f2I6ZiKJd4Djl6V9bDJHFmhJs6YB0", "1693649419-BlEivyWIiOVrb22JjdzRipXWp4ltVdo4VLye1VW", "CcPCLv4CgNXEOfLVGhRxzVkIgLqG4WDplMFcUABmFor0E");
 
             TweetinviEvents.QueryBeforeExecute += (sender, args) =>
             {
                 Console.WriteLine(args.QueryURL);
             };
 
+            TweetinviEvents.QueryAfterExecute += (sender, args) =>
+            {
+                Console.WriteLine(args.JsonResult);
+            };
+
+            var search = Search.SearchTweets("@Apple OR @Microsoft");
+
+
+            //var settings = Account.GetCurrentAccountSettings();
+
             var authenticatedUser = User.GetAuthenticatedUser();
+
+            var binary = File.ReadAllBytes(@"C:\Users\linvi\Pictures\mov_bbb.mp4");
+
+            var media = Upload.UploadVideo(binary);
+
+            var tweet = Tweet.PublishTweet("hello", new PublishTweetOptionalParameters
+            {
+                Medias = { media }
+            });
+
+            //var chunkUploader = Upload.CreateChunkedUploader();
+            //chunkUploader.Init(new ChunkUploadInitParameters()
+            //{
+            //    TotalBinaryLength = binary.Length
+            //});
+
+            //var success = chunkUploader.Append(binary.Take(1000).ToArray(), "media");
+
+            //var mediaId = chunkUploader.MediaId;
+            //var json = TwitterAccessor.ExecuteQuery($"https://upload.twitter.com/1.1/media/upload.json?command=STATUS&media_id={mediaId}", HttpMethod.GET);
 
             GenerateCredentialExamples();
             UserLiveFeedExamples();
@@ -345,24 +376,24 @@ namespace Examplinvi
         // ReSharper disable UnusedMethodReturnValue.Local
         public static ITwitterCredentials AuthFlow_WithCaptcha_StepByStep(string consumerKey, string consumerSecret)
         {
-var applicationCredentials = new ConsumerCredentials(consumerKey, consumerSecret);
-var authenticationContext = AuthFlow.InitAuthentication(applicationCredentials);
-Console.WriteLine("Go on : {0}", authenticationContext.AuthorizationURL);
-Console.WriteLine("Enter the captch : ");
-var captcha = Console.ReadLine();
+            var applicationCredentials = new ConsumerCredentials(consumerKey, consumerSecret);
+            var authenticationContext = AuthFlow.InitAuthentication(applicationCredentials);
+            Console.WriteLine("Go on : {0}", authenticationContext.AuthorizationURL);
+            Console.WriteLine("Enter the captch : ");
+            var captcha = Console.ReadLine();
 
-try
-{
-    var newCredentials = AuthFlow.CreateCredentialsFromVerifierCode(captcha, authenticationContext);
-    Console.WriteLine("Access Token = {0}", newCredentials.AccessToken);
-    Console.WriteLine("Access Token Secret = {0}", newCredentials.AccessTokenSecret);
+            try
+            {
+                var newCredentials = AuthFlow.CreateCredentialsFromVerifierCode(captcha, authenticationContext);
+                Console.WriteLine("Access Token = {0}", newCredentials.AccessToken);
+                Console.WriteLine("Access Token Secret = {0}", newCredentials.AccessTokenSecret);
 
-    return newCredentials;
-}
-catch (Exception)
-{
-    return null;
-}
+                return newCredentials;
+            }
+            catch (Exception)
+            {
+                return null;
+            }
         }
 
         // Get credentials with callbackURL system

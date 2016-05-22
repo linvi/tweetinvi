@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Tweetinvi.Core;
 using Tweetinvi.Core.Interfaces.Credentials;
 using Tweetinvi.Core.Interfaces.DTO;
@@ -26,13 +27,16 @@ namespace Tweetinvi.Controllers.Messages
     public class MessageQueryExecutor : IMessageQueryExecutor
     {
         private readonly ITwitterAccessor _twitterAccessor;
+        private readonly IMessageQueryValidator _messageQueryValidator;
         private readonly IMessageQueryGenerator _messageQueryGenerator;
 
         public MessageQueryExecutor(
             ITwitterAccessor twitterAccessor,
+            IMessageQueryValidator messageQueryValidator,
             IMessageQueryGenerator messageQueryGenerator)
         {
             _twitterAccessor = twitterAccessor;
+            _messageQueryValidator = messageQueryValidator;
             _messageQueryGenerator = messageQueryGenerator;
         }
 
@@ -64,6 +68,8 @@ namespace Tweetinvi.Controllers.Messages
         // Publish Message
         public IMessageDTO PublishMessage(IPublishMessageParameters parameters)
         {
+            _messageQueryValidator.ThrowIfMessageCannotBePublished(parameters);
+
             string query = _messageQueryGenerator.GetPublishMessageQuery(parameters);
             return _twitterAccessor.ExecutePOSTQuery<IMessageDTO>(query);
         }

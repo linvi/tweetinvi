@@ -170,10 +170,7 @@ namespace Tweetinvi.Controllers.Account
 
         public string GetMuteQuery(IUserIdentifier userIdentifier)
         {
-            if (!_userQueryValidator.CanUserBeIdentified(userIdentifier))
-            {
-                return null;
-            }
+            _userQueryValidator.ThrowIfUserCannotBeIdentified(userIdentifier);
 
             string userIdParameter = _userQueryParameterGenerator.GenerateIdOrScreenNameParameter(userIdentifier);
             return GenerateCreateMuteQuery(userIdParameter);
@@ -181,10 +178,7 @@ namespace Tweetinvi.Controllers.Account
 
         public string GetMuteQuery(long userId)
         {
-            if (!_userQueryValidator.IsUserIdValid(userId))
-            {
-                return null;
-            }
+            _userQueryValidator.ThrowIfUserCannotBeIdentified(userId);
 
             string userIdParameter = _userQueryParameterGenerator.GenerateUserIdParameter(userId);
             return GenerateCreateMuteQuery(userIdParameter);
@@ -219,10 +213,7 @@ namespace Tweetinvi.Controllers.Account
 
         public string GetUnMuteQuery(long userId)
         {
-            if (!_userQueryValidator.IsUserIdValid(userId))
-            {
-                return null;
-            }
+            _userQueryValidator.ThrowIfUserCannotBeIdentified(userId);
 
             string userIdParameter = _userQueryParameterGenerator.GenerateUserIdParameter(userId);
             return GenerateUnMuteQuery(userIdParameter);

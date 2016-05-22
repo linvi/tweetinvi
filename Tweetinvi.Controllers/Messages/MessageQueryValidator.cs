@@ -11,7 +11,7 @@ namespace Tweetinvi.Controllers.Messages
         bool IsMessageTextValid(string message);
         bool IsMessageIdValid(long messageId);
 
-        bool CanMessageBePublished(IPublishMessageParameters parameters);
+        void ThrowIfMessageCannotBePublished(IPublishMessageParameters parameters);
         bool CanMessageDTOBeDestroyed(IMessageDTO messageDTO);
     }
 
@@ -34,24 +34,42 @@ namespace Tweetinvi.Controllers.Messages
             return messageId != TweetinviSettings.DEFAULT_ID;
         }
 
-        public bool CanMessageBePublished(IPublishMessageParameters parameters)
+        public void ThrowIfMessageCannotBePublished(IPublishMessageParameters parameters)
         {
+            if (parameters == null)
+            {
+                throw new ArgumentNullException("Publish message parameters cannot be null.");
+            }
+
             var message = parameters.Message;
             var text = parameters.Text;
 
-            bool messageTextIsValid = IsMessageTextValid(text);
             bool isRecipientValid = _userQueryValidator.CanUserBeIdentified(parameters.Recipient) ||
                                     _userQueryValidator.IsUserIdValid(parameters.RecipientId) ||
                                     _userQueryValidator.IsScreenNameValid(parameters.RecipientScreenName);
 
-            bool isMessageInValidState = message == null || (!message.IsMessagePublished && !message.IsMessageDestroyed);
-
-            if (!isMessageInValidState)
+            if (!isRecipientValid)
             {
-                return false;
+                throw new ArgumentException("You must set one of the following parameters Recipient, RecipientId and RecipientScreename.");
             }
 
-            return isRecipientValid && messageTextIsValid;
+            if (!IsMessageTextValid(text))
+            {
+                throw new ArgumentException("Message text is not valid.");
+            }
+
+            if (message != null)
+            {
+                if (message.IsMessagePublished)
+                {
+                    throw new ArgumentException("Message has already been published.");
+                }
+
+                if (message.IsMessageDestroyed)
+                {
+                    throw new ArgumentException("Message has already been destroyed.");
+                }
+            }
         }
 
         public bool CanMessageDTOBeDestroyed(IMessageDTO messageDTO)
