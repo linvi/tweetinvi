@@ -48,10 +48,5 @@ namespace Tweetinvi.Controllers.User
         {
             return userId != null && userId != TweetinviSettings.DEFAULT_ID;
         }
-
-        public bool IsUserIdValid(long userId)
-        {
-            return IsUserIdValid((long?)userId);
-        }
     }
 }

@@ -29,7 +29,7 @@ namespace Testinvi.SetupHelpers
         {
             userQueryValidator
                 .CallsTo(x => x.IsUserIdValid(A<long>.Ignored))
-                .ReturnsLazily((long id) =>
+                .ReturnsLazily((long? id) =>
                 {
                     return result == null && id != TweetinviSettings.DEFAULT_ID || result != null && result.Value;
                 });
