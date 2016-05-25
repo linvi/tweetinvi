@@ -58,7 +58,7 @@ namespace Tweetinvi.Core.Interfaces.Models.Entities
         /// Dimensions related with the different possible views of 
         /// a same Media element
         /// </summary>
-        Dictionary<String, IMediaEntitySize> Sizes { get; set; }
+        Dictionary<string, IMediaEntitySize> Sizes { get; set; }
 
         IVideoInformationEntity VideoDetails { get; set; }
     }

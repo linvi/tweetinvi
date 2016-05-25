@@ -45,7 +45,9 @@ namespace Tweetinvi.Core.Interfaces.Models
         /// </summary>
         bool GeoEnabled { get; }
 
-
+        /// <summary>
+        /// The feature to tailor Twitter based on your recent website visits.
+        /// </summary>
         bool UseCookiePersonalization { get; }
 
         /// <summary>
