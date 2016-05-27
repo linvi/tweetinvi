@@ -20,7 +20,8 @@ namespace Examplinvi.UniversalApp
 
         private void OnLoaded(object sender, RoutedEventArgs routedEventArgs)
         {
-            Auth.SetUserCredentials("CONSUMER_KEY", "CONSUMER_SECRET", "ACCESS_TOKEN", "ACCESS_TOKEN_SECRET");
+            Auth.SetUserCredentials("jjMV4k3n9EswD9hlhRZqQCZrl", "N4gpJ4HDA2Gtl3WotRP97f2I6ZiKJd4Djl6V9bDJHFmhJs6YB0", "1693649419-BlEivyWIiOVrb22JjdzRipXWp4ltVdo4VLye1VW", "CcPCLv4CgNXEOfLVGhRxzVkIgLqG4WDplMFcUABmFor0E");
+
 
             if (Auth.Credentials == null ||
                 string.IsNullOrEmpty(Auth.Credentials.ConsumerKey) ||
