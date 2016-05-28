@@ -79,7 +79,7 @@ namespace Tweetinvi.Credentials.RateLimit
             }
         }
 
-        public void RefreshEntry(ITwitterCredentials credentials, ICredentialsRateLimits credentialsRateLimits)
+        public void RefreshEntry(ITwitterCredentials credentials, ICredentialsRateLimits newCredentialsRateLimits)
         {
             lock (_lockCredentialsRateLimitsDictionary)
             {
@@ -87,10 +87,10 @@ namespace Tweetinvi.Credentials.RateLimit
                 if (_credentialsRateLimits.TryGetValue(credentials, out currentRateLimits))
                 {
                     var existingCustomEndpoints = currentRateLimits.OtherEndpointRateLimits;
-                    existingCustomEndpoints.ForEach(x => credentialsRateLimits.OtherEndpointRateLimits.AddOrUpdate(x));
+                    existingCustomEndpoints.ForEach(x => newCredentialsRateLimits.OtherEndpointRateLimits.AddOrUpdate(x));
                 }
 
-                _credentialsRateLimits.AddOrUpdate(credentials, credentialsRateLimits);
+                _credentialsRateLimits.AddOrUpdate(credentials, newCredentialsRateLimits);
             }
         }
     }
