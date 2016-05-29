@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Net;
 using Tweetinvi.Core.Authentication;
 using Tweetinvi.Core.Enum;
 using Tweetinvi.Core.Exceptions;
@@ -15,7 +14,7 @@ namespace Tweetinvi.Credentials.RateLimit
     public class RateLimitCacheManager : IRateLimitCacheManager
     {
         private readonly ICredentialsAccessor _credentialsAccessor;
-        private readonly ITwitterRequester _twitterRequester;
+        private readonly IWebRequestExecutor _webRequestExecutor;
         private readonly IHelpQueryGenerator _helpQueryGenerator;
         private readonly IJsonObjectConverter _jsonObjectConverter;
         private readonly IRateLimitCache _rateLimitCache;
@@ -26,7 +25,7 @@ namespace Tweetinvi.Credentials.RateLimit
 
         public RateLimitCacheManager(
             ICredentialsAccessor credentialsAccessor,
-            ITwitterRequester twitterRequester,
+            IWebRequestExecutor webRequestExecutor,
             IHelpQueryGenerator helpQueryGenerator,
             IJsonObjectConverter jsonObjectConverter,
             IRateLimitCache rateLimitCache,
@@ -34,7 +33,7 @@ namespace Tweetinvi.Credentials.RateLimit
             ITwitterQueryFactory twitterQueryFactory)
         {
             _credentialsAccessor = credentialsAccessor;
-            _twitterRequester = twitterRequester;
+            _webRequestExecutor = webRequestExecutor;
             _helpQueryGenerator = helpQueryGenerator;
             _jsonObjectConverter = jsonObjectConverter;
             _rateLimitCache = rateLimitCache;
@@ -113,7 +112,8 @@ namespace Tweetinvi.Credentials.RateLimit
 
                 try
                 {
-                    string jsonResponse = _twitterRequester.ExecuteQuery(twitterQuery);
+                    var jsonResult = _webRequestExecutor.ExecuteQuery(twitterQuery);
+                    var jsonResponse = jsonResult.Response;
                     return _jsonObjectConverter.DeserializeObject<ICredentialsRateLimits>(jsonResponse);
                 }
                 catch (TwitterException)

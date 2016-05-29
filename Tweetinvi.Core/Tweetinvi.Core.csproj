@@ -290,7 +290,6 @@
     <Compile Include="Authentication\TwitterCredentials.cs" />
     <Compile Include="Interfaces\WebLogic\IOAuthWebRequestGenerator.cs" />
     <Compile Include="Interfaces\WebLogic\IOAuthQueryParameter.cs" />
-    <Compile Include="Interfaces\WebLogic\ITwitterRequester.cs" />
     <Compile Include="Interfaces\WebLogic\ITwitterRequestGenerator.cs" />
     <Compile Include="Interfaces\WebLogic\IWebRequestExecutor.cs" />
     <Compile Include="Interfaces\Models\ITwitterListIdentifier.cs" />

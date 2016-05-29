@@ -19,10 +19,10 @@ namespace Tweetinvi.WebLogic
     public interface ITwitterRequestHandler
     {
         string ExecuteQuery(
-            string queryURL, 
-            HttpMethod method, 
-            TwitterClientHandler handler = null, 
-            ITwitterCredentials twitterCredentials = null, 
+            string queryURL,
+            HttpMethod method,
+            TwitterClientHandler handler = null,
+            ITwitterCredentials twitterCredentials = null,
             HttpContent httpContent = null);
 
         string ExecuteMultipartQuery(IMultipartHttpRequestParameters parameters);
@@ -60,15 +60,15 @@ namespace Tweetinvi.WebLogic
         }
 
         public string ExecuteQuery(
-            string queryURL, 
-            HttpMethod httpMethod, 
+            string queryURL,
+            HttpMethod httpMethod,
             TwitterClientHandler handler = null,
             ITwitterCredentials credentials = null,
             HttpContent httpContent = null)
         {
             queryURL = CleanupQueryURL(queryURL);
             var rateLimitTrackerOption = _tweetinviSettingsAccessor.RateLimitTrackerMode;
-            
+
             var requestParameters = new HttpRequestParameters
             {
                 Query = queryURL,
@@ -93,7 +93,7 @@ namespace Tweetinvi.WebLogic
             catch (TwitterException ex)
             {
                 HandleException(queryURL, rateLimitTrackerOption, ex.StatusCode, twitterQuery);
-                
+
                 throw;
             }
         }
@@ -106,7 +106,7 @@ namespace Tweetinvi.WebLogic
             var rateLimitTrackerOption = _tweetinviSettingsAccessor.RateLimitTrackerMode;
 
             parameters.Timeout = parameters.Timeout ?? TimeSpan.FromMilliseconds(_tweetinviSettingsAccessor.UploadTimeout);
-            
+
             ITwitterQuery twitterQuery;
             if (!TryPrepareRequest(parameters, rateLimitTrackerOption, null, out twitterQuery))
             {
@@ -116,11 +116,13 @@ namespace Tweetinvi.WebLogic
             try
             {
                 IWebRequestResult webRequestResult;
+
                 if (parameters.Binaries.IsNullOrEmpty())
                 {
                     webRequestResult = _webRequestExecutor.ExecuteQuery(twitterQuery);
                 }
-                else {
+                else
+                {
                     webRequestResult = _webRequestExecutor.ExecuteMultipartQuery(twitterQuery, parameters.ContentId, parameters.Binaries);
                 }
 
@@ -186,11 +188,11 @@ namespace Tweetinvi.WebLogic
                 IEndpointRateLimit queryRateLimit = null;
 
                 // If we were not able to retrieve the credentials few ms before there is no reason why it would work now.
-                if (credentialRateLimits != null) 
+                if (credentialRateLimits != null)
                 {
                     queryRateLimit = _rateLimitCacheManager.GetQueryRateLimit(requestParameters.Query, twitterQuery.TwitterCredentials);
                 }
-                
+
                 var timeToWait = _rateLimitAwaiter.GetTimeToWaitFromQueryRateLimit(queryRateLimit);
 
                 twitterQuery.CredentialsRateLimits = credentialRateLimits;
@@ -232,7 +234,7 @@ namespace Tweetinvi.WebLogic
             {
                 var rateLimitHeaders = webRequestResult.Headers.Where(kvp => kvp.Key.StartsWith("x-rate-limit-")).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
 
-                _rateLimitUpdater.QueryExecuted(twitterQuery.QueryURL, _credentialsAccessor.CurrentThreadCredentials, rateLimitHeaders);
+                _rateLimitUpdater.QueryExecuted(twitterQuery.QueryURL, twitterQuery.TwitterCredentials, rateLimitHeaders);
             }
 
             _tweetinviEvents.RaiseAfterQueryExecuted(new QueryAfterExecuteEventArgs(twitterQuery, webRequestResult.Response, webRequestResult.Headers));

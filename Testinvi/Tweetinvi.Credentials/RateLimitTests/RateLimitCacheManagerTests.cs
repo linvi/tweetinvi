@@ -26,7 +26,7 @@ namespace Testinvi.Tweetinvi.Credentials.RateLimitTests
         private FakeClassBuilder<RateLimitCacheManager> _fakeBuilder;
         private Fake<IRateLimitCache> _fakeRateLimitCache;
         private Fake<IRateLimitHelper> _fakeRateLimitHelper;
-        private Fake<ITwitterRequester> _fakeTwitterRequester;
+        private Fake<IWebRequestExecutor> _fakeWebRequestExecutor;
         private Fake<IHelpQueryGenerator> _fakeHelpQueryGenerator;
         private Fake<IJsonObjectConverter> _fakeJsonObjectConverter;
         private Fake<ICredentialsAccessor> _fakeCredentialsAccessor;
@@ -38,7 +38,8 @@ namespace Testinvi.Tweetinvi.Credentials.RateLimitTests
         private ICredentialsRateLimits _refreshedCredentialsRateLimits;
         private IEndpointRateLimit _refreshedEndpointRateLimit;
         private ITwitterCredentials _credentials;
-        private ICredentialsRateLimits _credentialsRateLimits2; 
+        private ICredentialsRateLimits _credentialsRateLimits2;
+        private IWebRequestResult _webRequestResult;
 
         [TestInitialize]
         public void TestInitialize()
@@ -46,7 +47,7 @@ namespace Testinvi.Tweetinvi.Credentials.RateLimitTests
             _fakeBuilder = new FakeClassBuilder<RateLimitCacheManager>();
             _fakeRateLimitCache = _fakeBuilder.GetFake<IRateLimitCache>();
             _fakeRateLimitHelper = _fakeBuilder.GetFake<IRateLimitHelper>();
-            _fakeTwitterRequester = _fakeBuilder.GetFake<ITwitterRequester>();
+            _fakeWebRequestExecutor = _fakeBuilder.GetFake<IWebRequestExecutor>();
             _fakeHelpQueryGenerator = _fakeBuilder.GetFake<IHelpQueryGenerator>();
             _fakeJsonObjectConverter = _fakeBuilder.GetFake<IJsonObjectConverter>();
             _fakeCredentialsAccessor = _fakeBuilder.GetFake<ICredentialsAccessor>();
@@ -67,7 +68,10 @@ namespace Testinvi.Tweetinvi.Credentials.RateLimitTests
 
             _fakeHelpQueryGenerator.CallsTo(x => x.GetCredentialsLimitsQuery()).Returns(TEST_QUERY);
 
-            _fakeTwitterRequester.CallsTo(x => x.ExecuteQuery(_twitterQuery, null)).Returns(TEST_QUERY);
+            _webRequestResult = A.Fake<IWebRequestResult>();
+            _webRequestResult.Response = TEST_QUERY;
+
+            _fakeWebRequestExecutor.CallsTo(x => x.ExecuteQuery(_twitterQuery, null)).Returns(_webRequestResult);
             _fakeJsonObjectConverter.CallsTo(x => x.DeserializeObject<ICredentialsRateLimits>(TEST_QUERY, It.IsAny<JsonConverter[]>())).ReturnsNextFromSequence(_credentialsRateLimits, _credentialsRateLimits2);
 
             _fakeTwitterQueryFactory.CallsTo(x => x.Create(TEST_QUERY, It.IsAny<HttpMethod>(), It.IsAny<ITwitterCredentials>())).Returns(_twitterQuery);

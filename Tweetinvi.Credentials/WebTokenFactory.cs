@@ -56,7 +56,10 @@ namespace Tweetinvi.Credentials
                 var callbackParameter = _oAuthWebRequestGenerator.GenerateParameter("oauth_callback", callbackURL, true, true, false);
 
                 var authHandler = new AuthHttpHandler(callbackParameter, authContext.Token);
-                var requestTokenResponse = _twitterRequestHandler.ExecuteQuery(Resources.OAuthRequestToken, HttpMethod.POST, authHandler,
+                var requestTokenResponse = _twitterRequestHandler.ExecuteQuery(
+                    Resources.OAuthRequestToken, 
+                    HttpMethod.POST, 
+                    authHandler,
                     new TwitterCredentials(appCredentials));
 
                 if (!string.IsNullOrEmpty(requestTokenResponse) && requestTokenResponse != Resources.OAuthRequestToken)

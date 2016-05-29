@@ -67,7 +67,6 @@
     <Compile Include="WebRequestExecutor.cs" />
     <Compile Include="OAuthWebRequestGenerator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TwitterRequester.cs" />
     <Compile Include="Utils\OAuthConnectionType.cs" />
     <Compile Include="WebHelper.cs" />
     <Compile Include="WebRequestResult.cs" />

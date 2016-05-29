@@ -70,7 +70,7 @@ namespace Tweetinvi.Credentials.RateLimit
             lock (_lockCredentialsRateLimitsDictionary)
             {
                 ICredentialsRateLimits credentialsRateLimits;
-                if (_credentialsRateLimits.TryGetValue(credentials, out credentialsRateLimits))
+                if (credentials != null && _credentialsRateLimits.TryGetValue(credentials, out credentialsRateLimits))
                 {
                     return credentialsRateLimits;
                 }
@@ -83,6 +83,16 @@ namespace Tweetinvi.Credentials.RateLimit
         {
             lock (_lockCredentialsRateLimitsDictionary)
             {
+                if (newCredentialsRateLimits == null)
+                {
+                    if (_credentialsRateLimits.ContainsKey(credentials))
+                    {
+                        _credentialsRateLimits.Remove(credentials);
+                    }
+
+                    return;
+                }
+
                 ICredentialsRateLimits currentRateLimits;
                 if (_credentialsRateLimits.TryGetValue(credentials, out currentRateLimits))
                 {
