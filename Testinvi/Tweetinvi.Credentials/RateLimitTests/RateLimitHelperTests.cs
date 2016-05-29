@@ -54,59 +54,7 @@ namespace Testinvi.Tweetinvi.Credentials.RateLimitTests
             var rateLimitHelper = CreateRateLimitHelper();
             GetTokenRateLimitFromQuery_EndpointAssociatedCorrectly(x => x.AccountSettingsLimit, ACCOUNT_SETTINGS_QUERY, rateLimitHelper);
         }
-
-        [TestMethod]
-        public void IsQueryAssociatedWithTokenRateLimit_ReturnsTrue()
-        {
-            // Arrange
-            var rateLimitHelper = CreateRateLimitHelper();
-
-            // Act
-            var isQueryAssociatedToARateLimit = rateLimitHelper.IsQueryAssociatedWithEndpointRateLimit(ACCOUNT_SETTINGS_QUERY, _credentialsRateLimits);
-
-            // Assert
-            Assert.IsTrue(isQueryAssociatedToARateLimit);
-        }
-
-        [TestMethod]
-        public void IsQueryAssociatedWithTokenRateLimit_RateLimitsIsNull_ReturnsFalse()
-        {
-            // Arrange
-            var rateLimitHelper = CreateRateLimitHelper();
-
-            // Act
-            var isQueryAssociatedToARateLimit = rateLimitHelper.IsQueryAssociatedWithEndpointRateLimit(ACCOUNT_SETTINGS_QUERY, null);
-
-            // Assert
-            Assert.IsFalse(isQueryAssociatedToARateLimit);
-        }
-
-        [TestMethod]
-        public void IsQueryAssociatedWithTokenRateLimit_QueryIsAnURLButDoesNotMatch_ReturnsFalse()
-        {
-            // Arrange
-            var rateLimitHelper = CreateRateLimitHelper();
-
-            // Act
-            var isQueryAssociatedToARateLimit = rateLimitHelper.IsQueryAssociatedWithEndpointRateLimit("http://tweetinvi.codeplex.com", _credentialsRateLimits);
-
-            // Assert
-            Assert.IsFalse(isQueryAssociatedToARateLimit);
-        }
-
-        [TestMethod]
-        public void IsQueryAssociatedWithTokenRateLimit_QueryIsNotAnURL_ReturnsFalse()
-        {
-            // Arrange
-            var rateLimitHelper = CreateRateLimitHelper();
-
-            // Act
-            var isQueryAssociatedToARateLimit = rateLimitHelper.IsQueryAssociatedWithEndpointRateLimit("Test me a river!", _credentialsRateLimits);
-
-            // Assert
-            Assert.IsFalse(isQueryAssociatedToARateLimit);
-        }
-
+        
         [CustomTwitterEndpoint("https://api.twitter.com/1.1/account/settings.json")]
         private void MatchingTestMethod() { }
 

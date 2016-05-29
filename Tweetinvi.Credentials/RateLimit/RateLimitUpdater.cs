@@ -40,42 +40,23 @@ namespace Tweetinvi.Credentials.RateLimit
 
         public void QueryExecuted(string query, ITwitterCredentials credentials, Dictionary<string, IEnumerable<string>> rateLimitHeaders)
         {
-            //IEndpointRateLimit rateLimit = null;
-
-            //Dictionary<string, string> RATE_LIMIT_Headers = new Dictionary<string, string>
-            //{
-            //    {"x-rate-limit-limit","Limit" },
-            //    {"x-rate-limit-remaining", "Remaining"},
-            //    {"x-rate-limit-reset", "Reset"},
-            //};
-
-
             var rateLimit = _rateLimitCacheManager.GetQueryRateLimit(query, credentials);
 
-            if (rateLimit != null)
+            if (rateLimitHeaders != null && rateLimitHeaders.Count > 0)
             {
-                if (rateLimitHeaders != null && rateLimitHeaders.Count > 0)
+                if (rateLimitHeaders["x-rate-limit-limit"].Count()>0)
                 {
-                    if (rateLimitHeaders.ContainsKey("x-rate-limit-limit"))
-                    {
-                        rateLimit.Limit = int.Parse(rateLimitHeaders["x-rate-limit-limit"].FirstOrDefault());
-                    }
+                    rateLimit.Limit = int.Parse(rateLimitHeaders["x-rate-limit-limit"].First());
+                }
 
-                    if (rateLimitHeaders.ContainsKey("x-rate-limit-remaining"))
-                    {
-                        rateLimit.Remaining = int.Parse(rateLimitHeaders["x-rate-limit-remaining"].FirstOrDefault());
-                    }
+                if (rateLimitHeaders["x-rate-limit-remaining"].Count()>0)
+                {
+                    rateLimit.Remaining = int.Parse(rateLimitHeaders["x-rate-limit-remaining"].First());
+                }
 
-                    if (rateLimitHeaders.ContainsKey("x-rate-limit-reset"))
-                    {
-                        rateLimit.Reset = long.Parse(rateLimitHeaders["x-rate-limit-reset"].FirstOrDefault());
-                    }
-                    //var iEndpointRateLimittype = rateLimit.GetType();
-                    //foreach (var item in RATE_LIMIT_Headers)
-                    //{
-                    //    
-                    //    iEndpointRateLimittype.GetProperty(item.Value).SetValue(rateLimit,value.FirstOrDefault() , null);
-                    //}
+                if (rateLimitHeaders["x-rate-limit-reset"].Count()>0)
+                {
+                    rateLimit.Reset = long.Parse(rateLimitHeaders["x-rate-limit-reset"].First());
                 }
             }
         }
