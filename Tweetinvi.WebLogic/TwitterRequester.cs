@@ -19,7 +19,7 @@ namespace Tweetinvi.WebLogic
 
         public string ExecuteQuery(ITwitterQuery twitterQuery, ITwitterClientHandler handler = null)
         {
-            return _webRequestExecutor.ExecuteQuery(twitterQuery, handler);
+            return _webRequestExecutor.ExecuteQuery(twitterQuery, handler).Response;
         }
 
         public string ExecuteMultipartQuery(ITwitterQuery twitterQuery, string contentId, IEnumerable<byte[]> binaries)
@@ -29,7 +29,7 @@ namespace Tweetinvi.WebLogic
                 return ExecuteQuery(twitterQuery);
             }
 
-            return _webRequestExecutor.ExecuteMultipartQuery(twitterQuery, contentId, binaries);
+            return _webRequestExecutor.ExecuteMultipartQuery(twitterQuery, contentId, binaries).Response;
         }
     }
 }

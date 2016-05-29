@@ -16,6 +16,11 @@ namespace Tweetinvi.Core.Interfaces.WebLogic
         Stream ResultStream { get; set; }
 
         /// <summary>
+        /// Result of the query executed
+        /// </summary>
+        string Response { get; set; }
+
+        /// <summary>
         /// Status Code of the query execution.
         /// </summary>
         int StatusCode { get; set; }

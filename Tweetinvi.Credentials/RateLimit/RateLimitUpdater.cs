@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Linq;
+using System.Collections.Generic;
 using Tweetinvi.Core.Authentication;
 using Tweetinvi.Core.Interfaces.Credentials;
 using Tweetinvi.Core.Interfaces.RateLimit;
@@ -33,6 +35,48 @@ namespace Tweetinvi.Credentials.RateLimit
             {
                 var newRemainingValue = Math.Max(rateLimit.Remaining - numberOfRequests, 0);
                 rateLimit.Remaining = newRemainingValue;
+            }
+        }
+
+        public void QueryExecuted(string query, ITwitterCredentials credentials, Dictionary<string, IEnumerable<string>> rateLimitHeaders)
+        {
+            if (rateLimitHeaders != null && rateLimitHeaders.Count > 0)
+            {
+                var rateLimit = _rateLimitCacheManager.GetOrCreateQueryRateLimit(query, credentials);
+
+                IEnumerable<string> limitHeaders;
+                if (rateLimitHeaders.TryGetValue("x-rate-limit-limit", out limitHeaders))
+                {
+                    var limit = limitHeaders.FirstOrDefault();
+                    if (limit != null)
+                    {
+                        rateLimit.Limit = int.Parse(limit);
+                    }
+                }
+
+                IEnumerable<string> remainingHeaders;
+                if (rateLimitHeaders.TryGetValue("x-rate-limit-remaining", out remainingHeaders))
+                {
+                    var remaining = remainingHeaders.FirstOrDefault();
+                    if (remaining != null)
+                    {
+                        rateLimit.Remaining = int.Parse(remaining);
+                    }
+                }
+
+                IEnumerable<string> resetHeaders;
+                if (rateLimitHeaders.TryGetValue("x-rate-limit-reset", out resetHeaders))
+                {
+                    var reset = resetHeaders.FirstOrDefault();
+                    if (reset != null)
+                    {
+                        rateLimit.Reset = int.Parse(reset);
+                    }
+                }
+            }
+            else
+            {
+                QueryExecuted(query, credentials);
             }
         }
 

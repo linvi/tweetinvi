@@ -1,20 +1,40 @@
 ﻿using System;
+using System.Collections.Generic;
 using Tweetinvi.Core.Interfaces.Models;
 
 namespace Tweetinvi.Core.Events.EventArguments
 {
     public class QueryAfterExecuteEventArgs : QueryExecutionEventArgs
     {
-        public QueryAfterExecuteEventArgs(ITwitterQuery twitterQuery, string jsonResult)
+        public QueryAfterExecuteEventArgs(
+            ITwitterQuery twitterQuery, 
+            string httpContent,
+            Dictionary<string, IEnumerable<string>> httpHeaders)
             : base(twitterQuery)
         {
-            JsonResult = jsonResult;
+            HttpContent = httpContent;
+            HttpHeaders = httpHeaders;
             CompletedDateTime = DateTime.Now;
         }
 
-        public string JsonResult { get; private set; }
+        /// <summary>
+        /// Result returned by Twitter.
+        /// </summary>
+        public string HttpContent { get; private set; }
+
+        /// <summary>
+        /// Headers returned by Twitter.
+        /// </summary>
+        public Dictionary<string, IEnumerable<string>> HttpHeaders { get; private set; }
+
+        /// <summary>
+        /// Exact DateTime whent the request completed.
+        /// </summary>
         public DateTime CompletedDateTime { get; set; }
 
-        public bool Success { get { return JsonResult != null; } }
+        /// <summary>
+        /// Whether the request has been successfull.
+        /// </summary>
+        public bool Success { get { return HttpContent != null; } }
     }
 }

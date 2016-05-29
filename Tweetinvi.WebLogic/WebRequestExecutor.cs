@@ -35,7 +35,7 @@ namespace Tweetinvi.WebLogic
         }
 
         // Simple Query
-        public string ExecuteQuery(ITwitterQuery twitterQuery, ITwitterClientHandler handler = null)
+        public IWebRequestResult ExecuteQuery(ITwitterQuery twitterQuery, ITwitterClientHandler handler = null)
         {
             return ExecuteTwitterQuerySafely(twitterQuery, () =>
             {
@@ -57,10 +57,10 @@ namespace Tweetinvi.WebLogic
                     if (stream != null)
                     {
                         var responseReader = new StreamReader(stream);
-                        return responseReader.ReadLine();
+                        result.Response = responseReader.ReadLine();
                     }
 
-                    return null;
+                    return result;
                 }
                 catch (Exception)
                 {
@@ -75,7 +75,7 @@ namespace Tweetinvi.WebLogic
         }
 
         // Multipart
-        public string ExecuteMultipartQuery(ITwitterQuery twitterQuery, string contentId, IEnumerable<byte[]> binaries)
+        public IWebRequestResult ExecuteMultipartQuery(ITwitterQuery twitterQuery, string contentId, IEnumerable<byte[]> binaries)
         {
             return ExecuteTwitterQuerySafely(twitterQuery, () =>
             {
@@ -92,10 +92,10 @@ namespace Tweetinvi.WebLogic
                     if (stream != null)
                     {
                         var responseReader = new StreamReader(stream);
-                        return responseReader.ReadLine();
+                        result.Response =  responseReader.ReadLine();
                     }
 
-                    return null;
+                    return result;
                 }
                 catch (Exception)
                 {

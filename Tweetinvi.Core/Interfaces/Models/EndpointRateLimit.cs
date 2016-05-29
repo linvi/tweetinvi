@@ -33,7 +33,7 @@ namespace Tweetinvi.Core.Interfaces.Models
         /// Maximum number of operations that can be performed in 15 minutes.
         /// </summary>
         [JsonProperty("limit")]
-        public int Limit { get; private set; }
+        public int Limit { get; set; }
 
         /// <summary>
         /// Duration in seconds after which the endpoint rate limit will be reset.
@@ -66,6 +66,8 @@ namespace Tweetinvi.Core.Interfaces.Models
         /// </summary>
         [JsonIgnore]
         public DateTime ResetDateTime { get; private set; }
+
+        public bool IsCustomHeaderRateLimit { get; set; }
 
         public override string ToString()
         {

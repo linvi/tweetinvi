@@ -42,15 +42,29 @@ namespace Tweetinvi.Credentials.RateLimit
             _twitterQueryFactory = twitterQueryFactory;
         }
 
-        public IEndpointRateLimit GetQueryRateLimit(string query, ITwitterCredentials credentials)
+        public IEndpointRateLimit GetOrCreateQueryRateLimit(string query, ITwitterCredentials credentials)
         {
             var rateLimits = _rateLimitCache.GetCredentialsRateLimits(credentials);
-            var queryRateLimit = _rateLimitHelper.GetEndpointRateLimitFromQuery(query, rateLimits);
+            var queryRateLimit = _rateLimitHelper.GetEndpointRateLimitFromQuery(query, rateLimits, true);
 
             if (rateLimits == null || DoesQueryNeedsToRefreshTheCacheInformation(queryRateLimit))
             {
                 rateLimits = RefreshCredentialsRateLimits(credentials);
-                queryRateLimit = _rateLimitHelper.GetEndpointRateLimitFromQuery(query, rateLimits);
+                queryRateLimit = _rateLimitHelper.GetEndpointRateLimitFromQuery(query, rateLimits, true);
+            }
+
+            return queryRateLimit;
+        }
+
+        public IEndpointRateLimit GetQueryRateLimit(string query, ITwitterCredentials credentials)
+        {
+            var rateLimits = _rateLimitCache.GetCredentialsRateLimits(credentials);
+            var queryRateLimit = _rateLimitHelper.GetEndpointRateLimitFromQuery(query, rateLimits, false);
+
+            if (rateLimits == null || DoesQueryNeedsToRefreshTheCacheInformation(queryRateLimit))
+            {
+                rateLimits = RefreshCredentialsRateLimits(credentials);
+                queryRateLimit = _rateLimitHelper.GetEndpointRateLimitFromQuery(query, rateLimits, false);
             }
 
             return queryRateLimit;
@@ -114,7 +128,12 @@ namespace Tweetinvi.Credentials.RateLimit
 
         private bool DoesQueryNeedsToRefreshTheCacheInformation(IEndpointRateLimit rateLimit)
         {
-            return rateLimit != null && rateLimit.ResetDateTime < DateTime.Now;
+            if (rateLimit == null || rateLimit.IsCustomHeaderRateLimit)
+            {
+                return false;
+            }
+
+            return rateLimit.ResetDateTime < DateTime.Now;
         }
     }
 }
