@@ -32,7 +32,9 @@ namespace Examplinvi
     {
         static void Main()
         {
-            Auth.SetUserCredentials("CONSUMER_KEY", "CONSUMER_SECRET", "ACCESS_TOKEN", "ACCESS_TOKEN_SECRET");
+            Auth.SetUserCredentials("jjMV4k3n9EswD9hlhRZqQCZrl", "N4gpJ4HDA2Gtl3WotRP97f2I6ZiKJd4Djl6V9bDJHFmhJs6YB0", "1693649419-BlEivyWIiOVrb22JjdzRipXWp4ltVdo4VLye1VW", "CcPCLv4CgNXEOfLVGhRxzVkIgLqG4WDplMFcUABmFor0E");
+
+            RateLimit.RateLimitTrackerMode = RateLimitTrackerMode.TrackOnly;
 
             TweetinviEvents.QueryBeforeExecute += (sender, args) =>
             {
@@ -40,6 +42,13 @@ namespace Examplinvi
             };
 
             var authenticatedUser = User.GetAuthenticatedUser();
+
+
+            //var user = User.GetAuthenticatedUser();
+
+            var tweet = Tweet.PublishTweet("text");
+            var destroySuccess = tweet.Destroy();
+
 
             GenerateCredentialExamples();
             UserLiveFeedExamples();
@@ -345,24 +354,24 @@ namespace Examplinvi
         // ReSharper disable UnusedMethodReturnValue.Local
         public static ITwitterCredentials AuthFlow_WithCaptcha_StepByStep(string consumerKey, string consumerSecret)
         {
-var applicationCredentials = new ConsumerCredentials(consumerKey, consumerSecret);
-var authenticationContext = AuthFlow.InitAuthentication(applicationCredentials);
-Console.WriteLine("Go on : {0}", authenticationContext.AuthorizationURL);
-Console.WriteLine("Enter the captch : ");
-var captcha = Console.ReadLine();
+            var applicationCredentials = new ConsumerCredentials(consumerKey, consumerSecret);
+            var authenticationContext = AuthFlow.InitAuthentication(applicationCredentials);
+            Console.WriteLine("Go on : {0}", authenticationContext.AuthorizationURL);
+            Console.WriteLine("Enter the captch : ");
+            var captcha = Console.ReadLine();
 
-try
-{
-    var newCredentials = AuthFlow.CreateCredentialsFromVerifierCode(captcha, authenticationContext);
-    Console.WriteLine("Access Token = {0}", newCredentials.AccessToken);
-    Console.WriteLine("Access Token Secret = {0}", newCredentials.AccessTokenSecret);
+            try
+            {
+                var newCredentials = AuthFlow.CreateCredentialsFromVerifierCode(captcha, authenticationContext);
+                Console.WriteLine("Access Token = {0}", newCredentials.AccessToken);
+                Console.WriteLine("Access Token Secret = {0}", newCredentials.AccessTokenSecret);
 
-    return newCredentials;
-}
-catch (Exception)
-{
-    return null;
-}
+                return newCredentials;
+            }
+            catch (Exception)
+            {
+                return null;
+            }
         }
 
         // Get credentials with callbackURL system

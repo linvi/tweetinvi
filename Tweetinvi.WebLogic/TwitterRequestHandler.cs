@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using System.Collections.Generic;
 using Tweetinvi.Core;
 using Tweetinvi.Core.Authentication;
 using Tweetinvi.Core.Events;
@@ -13,8 +12,6 @@ using Tweetinvi.Core.Interfaces.RateLimit;
 using Tweetinvi.Core.Interfaces.WebLogic;
 using Tweetinvi.Core.Web;
 using HttpMethod = Tweetinvi.Core.Enum.HttpMethod;
-
-
 
 namespace Tweetinvi.WebLogic
 {
@@ -226,10 +223,10 @@ namespace Tweetinvi.WebLogic
             {
                 var rateLimitHeaders = webRequestResult.Headers.Where(kvp => kvp.Key.StartsWith("x-rate-limit-")).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
 
-                _rateLimitUpdater.QueryExecuted(twitterQuery.QueryURL, _credentialsAccessor.CurrentThreadCredentials, rateLimitHeaders: rateLimitHeaders);
+                _rateLimitUpdater.QueryExecuted(twitterQuery.QueryURL, _credentialsAccessor.CurrentThreadCredentials, rateLimitHeaders);
             }
 
-            _tweetinviEvents.RaiseAfterQueryExecuted(new QueryAfterExecuteEventArgs(twitterQuery, webRequestResult.Response));
+            _tweetinviEvents.RaiseAfterQueryExecuted(new QueryAfterExecuteEventArgs(twitterQuery, webRequestResult.Response, webRequestResult.Headers));
         }
 
         private void HandleException(string queryURL, RateLimitTrackerMode rateLimitTrackerMode, int statusCode, ITwitterQuery queryParameter)
@@ -239,7 +236,7 @@ namespace Tweetinvi.WebLogic
                 _rateLimitUpdater.ClearRateLimitsForQuery(queryURL);
             }
 
-            _tweetinviEvents.RaiseAfterQueryExecuted(new QueryAfterExecuteEventArgs(queryParameter, null));
+            _tweetinviEvents.RaiseAfterQueryExecuted(new QueryAfterExecuteEventArgs(queryParameter, null, null));
         }
         #endregion
     }

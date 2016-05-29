@@ -40,24 +40,43 @@ namespace Tweetinvi.Credentials.RateLimit
 
         public void QueryExecuted(string query, ITwitterCredentials credentials, Dictionary<string, IEnumerable<string>> rateLimitHeaders)
         {
-            var rateLimit = _rateLimitCacheManager.GetQueryRateLimit(query, credentials);
-
             if (rateLimitHeaders != null && rateLimitHeaders.Count > 0)
             {
-                if (rateLimitHeaders["x-rate-limit-limit"].Count()>0)
+                var rateLimit = _rateLimitCacheManager.GetOrCreateQueryRateLimit(query, credentials);
+
+                IEnumerable<string> limitHeaders;
+                if (rateLimitHeaders.TryGetValue("x-rate-limit-limit", out limitHeaders))
                 {
-                    rateLimit.Limit = int.Parse(rateLimitHeaders["x-rate-limit-limit"].First());
+                    var limit = limitHeaders.FirstOrDefault();
+                    if (limit != null)
+                    {
+                        rateLimit.Limit = int.Parse(limit);
+                    }
                 }
 
-                if (rateLimitHeaders["x-rate-limit-remaining"].Count()>0)
+                IEnumerable<string> remainingHeaders;
+                if (rateLimitHeaders.TryGetValue("x-rate-limit-remaining", out remainingHeaders))
                 {
-                    rateLimit.Remaining = int.Parse(rateLimitHeaders["x-rate-limit-remaining"].First());
+                    var remaining = remainingHeaders.FirstOrDefault();
+                    if (remaining != null)
+                    {
+                        rateLimit.Remaining = int.Parse(remaining);
+                    }
                 }
 
-                if (rateLimitHeaders["x-rate-limit-reset"].Count()>0)
+                IEnumerable<string> resetHeaders;
+                if (rateLimitHeaders.TryGetValue("x-rate-limit-reset", out resetHeaders))
                 {
-                    rateLimit.Reset = long.Parse(rateLimitHeaders["x-rate-limit-reset"].First());
+                    var reset = resetHeaders.FirstOrDefault();
+                    if (reset != null)
+                    {
+                        rateLimit.Reset = int.Parse(reset);
+                    }
                 }
+            }
+            else
+            {
+                QueryExecuted(query, credentials);
             }
         }
 

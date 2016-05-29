@@ -67,6 +67,8 @@ namespace Tweetinvi.Core.Interfaces.Models
         [JsonIgnore]
         public DateTime ResetDateTime { get; private set; }
 
+        public bool IsCustomHeaderRateLimit { get; set; }
+
         public override string ToString()
         {
             return string.Format("{0}/{1} (Reset in  {2} seconds)", Remaining, Limit, ResetDateTimeInSeconds);

@@ -46,7 +46,7 @@ namespace Tweetinvi.Credentials.RateLimit
             return null;
         }
 
-        public IEndpointRateLimit GetEndpointRateLimitFromQuery(string query, ICredentialsRateLimits rateLimits)
+        public IEndpointRateLimit GetEndpointRateLimitFromQuery(string query, ICredentialsRateLimits rateLimits, bool createIfNotExist)
         {
             var queryBaseURL = _webHelper.GetBaseURL(query);
             if (rateLimits == null || queryBaseURL == null)
@@ -71,12 +71,17 @@ namespace Tweetinvi.Credentials.RateLimit
                 return matchingKeyPair.Value;
             }
 
+            if (!createIfNotExist)
+            {
+                return null;
+            }
+
             // Other endpoint rate limits do not yet exist.
             // Therfore we create a new one and return it.
             var attribute = new TwitterEndpointAttribute(queryBaseURL);
             var endpointRateLimit = new EndpointRateLimit
             {
-                Remaining = -1
+                IsCustomHeaderRateLimit = true
             };
 
             rateLimits.OtherEndpointRateLimits.Add(attribute, endpointRateLimit);

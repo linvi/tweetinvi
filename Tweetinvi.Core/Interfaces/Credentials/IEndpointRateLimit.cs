@@ -38,5 +38,7 @@ namespace Tweetinvi.Core.Interfaces.Credentials
         /// DateTime when the rate limit lifecycle reset.
         /// </summary>
         DateTime ResetDateTime { get; }
+
+        bool IsCustomHeaderRateLimit { get; set; }
     }
 }

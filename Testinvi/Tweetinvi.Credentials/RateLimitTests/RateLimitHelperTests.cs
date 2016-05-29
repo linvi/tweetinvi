@@ -42,7 +42,7 @@ namespace Testinvi.Tweetinvi.Credentials.RateLimitTests
             var rateLimitHelper = CreateRateLimitHelper();
 
             // Act
-            var result = rateLimitHelper.GetEndpointRateLimitFromQuery("UNEXPECTED QUERY", _credentialsRateLimits);
+            var result = rateLimitHelper.GetEndpointRateLimitFromQuery("UNEXPECTED QUERY", _credentialsRateLimits, true);
 
             // Assert
             Assert.IsNull(result);
@@ -105,7 +105,7 @@ namespace Testinvi.Tweetinvi.Credentials.RateLimitTests
             _credentialsRateLimits.CallsTo(rateLimit).Returns(fakeTokenRateLimit);
 
             // Act
-            var tokenRateLimit = rateLimitHelper.GetEndpointRateLimitFromQuery(associatedURL, _credentialsRateLimits);
+            var tokenRateLimit = rateLimitHelper.GetEndpointRateLimitFromQuery(associatedURL, _credentialsRateLimits, true);
 
             // Assert
             Assert.AreEqual(tokenRateLimit, fakeTokenRateLimit);

@@ -24,6 +24,7 @@ namespace Tweetinvi.Core.Interfaces.Models
         public Dictionary<TwitterEndpointAttribute, IEndpointRateLimit> OtherEndpointRateLimits { get; private set; }
 
         #region Account
+
         public IEndpointRateLimit AccountLoginVerificationEnrollmentLimit
         {
             get { return _resources.AccountRateLimits["/account/login_verification_enrollment"]; }

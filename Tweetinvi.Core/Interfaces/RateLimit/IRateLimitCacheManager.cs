@@ -10,6 +10,13 @@ namespace Tweetinvi.Core.Interfaces.RateLimit
     {
         /// <summary>
         /// Return the rate limits for a specific query. 
+        /// If the query url cannot be mapped, a new one is created in the OtherQueryRateLimits.
+        /// If the credentials rate limits are not located in the cache, they will be retrieved from Twitter.
+        /// </summary>
+        IEndpointRateLimit GetOrCreateQueryRateLimit(string query, ITwitterCredentials credentials);
+
+        /// <summary>
+        /// Return the rate limits for a specific query. 
         /// If the rate limits are not located in the cache, they will be retrieved from Twitter.
         /// </summary>
         IEndpointRateLimit GetQueryRateLimit(string query, ITwitterCredentials credentials);
