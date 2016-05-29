@@ -35,7 +35,7 @@ namespace Tweetinvi.Core.Interfaces.Credentials
         [TwitterEndpoint("https://api.twitter.com/1.1/account/update_profile.json")]
         IEndpointRateLimit AccountUpdateProfileLimit { get; }
 
-        //[TwitterEndpoint("https://api.twitter.com/1.1/account/verify_credentials.json")]
+        [TwitterEndpoint("https://api.twitter.com/1.1/account/verify_credentials.json")]
         IEndpointRateLimit AccountVerifyCredentialsLimit { get; }
 
         // APPLICATION
