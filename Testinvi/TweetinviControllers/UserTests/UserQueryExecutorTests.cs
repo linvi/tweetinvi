@@ -77,46 +77,6 @@ namespace Testinvi.TweetinviControllers.UserTests
             Assert.IsTrue(result.ContainsAll(_cursorQueryIds));
         }
 
-        [TestMethod]
-        public void GetFriendIdsWithUserScreenName_AnyData_ReturnsTwitterAccessorResult()
-        {
-            // Arrange
-            var queryExecutor = CreateUserQueryExecutor();
-            var userScreenName = TestHelper.GenerateString();
-            var maximumNumberOfFriends = TestHelper.GenerateRandomInt();
-            var expectedQuery = TestHelper.GenerateString();
-            var expectedCursorResults = GenerateExpectedCursorResults();
-
-            _fakeUserQueryGenerator.CallsTo(x => x.GetFriendIdsQuery(userScreenName, maximumNumberOfFriends)).Returns(expectedQuery);
-            _fakeTwitterAccessor.ArrangeExecuteCursorGETQuery<long, IIdsCursorQueryResultDTO>(expectedQuery, expectedCursorResults);
-
-            // Act
-            var result = queryExecutor.GetFriendIds(userScreenName, maximumNumberOfFriends);
-
-            // Assert
-            Assert.IsTrue(result.ContainsAll(_cursorQueryIds));
-        }
-
-        [TestMethod]
-        public void GetFriendIdsWithUserId_AnyData_ReturnsTwitterAccessorResult()
-        {
-            // Arrange
-            var queryExecutor = CreateUserQueryExecutor();
-            var userId = TestHelper.GenerateRandomLong();
-            var maximumNumberOfFriends = TestHelper.GenerateRandomInt();
-            var expectedQuery = TestHelper.GenerateString();
-            var expectedCursorResults = GenerateExpectedCursorResults();
-
-            _fakeUserQueryGenerator.CallsTo(x => x.GetFriendIdsQuery(userId, maximumNumberOfFriends)).Returns(expectedQuery);
-            _fakeTwitterAccessor.ArrangeExecuteCursorGETQuery<long, IIdsCursorQueryResultDTO>(expectedQuery, expectedCursorResults);
-
-            // Act
-            var result = queryExecutor.GetFriendIds(userId, maximumNumberOfFriends);
-
-            // Assert
-            Assert.IsTrue(result.ContainsAll(_cursorQueryIds));
-        }
-
         #endregion
 
         #region FollowerIds
@@ -155,46 +115,6 @@ namespace Testinvi.TweetinviControllers.UserTests
 
             // Act
             var result = queryExecutor.GetFollowerIds(userDTO, maximumNumberOfFollowers);
-
-            // Assert
-            Assert.IsTrue(result.ContainsAll(_cursorQueryIds));
-        }
-
-        [TestMethod]
-        public void GetFollowerIdsWithUserScreenName_AnyData_ReturnsTwitterAccessorResult()
-        {
-            // Arrange
-            var queryExecutor = CreateUserQueryExecutor();
-            var userScreenName = TestHelper.GenerateString();
-            var maximumNumberOfFollowers = TestHelper.GenerateRandomInt();
-            var expectedQuery = TestHelper.GenerateString();
-            var expectedCursorResults = GenerateExpectedCursorResults();
-
-            _fakeUserQueryGenerator.CallsTo(x => x.GetFollowerIdsQuery(userScreenName, maximumNumberOfFollowers)).Returns(expectedQuery);
-            _fakeTwitterAccessor.ArrangeExecuteCursorGETQuery<long, IIdsCursorQueryResultDTO>(expectedQuery, expectedCursorResults);
-
-            // Act
-            var result = queryExecutor.GetFollowerIds(userScreenName, maximumNumberOfFollowers);
-
-            // Assert
-            Assert.IsTrue(result.ContainsAll(_cursorQueryIds));
-        }
-
-        [TestMethod]
-        public void GetFollowerIdsWithUserId_AnyData_ReturnsTwitterAccessorResult()
-        {
-            // Arrange
-            var queryExecutor = CreateUserQueryExecutor();
-            var userId = TestHelper.GenerateRandomLong();
-            var maximumNumberOfFollowers = TestHelper.GenerateRandomInt();
-            var expectedQuery = TestHelper.GenerateString();
-            var expectedCursorResults = GenerateExpectedCursorResults();
-
-            _fakeUserQueryGenerator.CallsTo(x => x.GetFollowerIdsQuery(userId, maximumNumberOfFollowers)).Returns(expectedQuery);
-            _fakeTwitterAccessor.ArrangeExecuteCursorGETQuery<long, IIdsCursorQueryResultDTO>(expectedQuery, expectedCursorResults);
-
-            // Act
-            var result = queryExecutor.GetFollowerIds(userId, maximumNumberOfFollowers);
 
             // Assert
             Assert.IsTrue(result.ContainsAll(_cursorQueryIds));
@@ -259,78 +179,6 @@ namespace Testinvi.TweetinviControllers.UserTests
 
             // Act
             var result = queryExecutor.BlockUser(userDTO);
-
-            // Assert
-            Assert.AreEqual(result, false);
-        }
-
-        [TestMethod]
-        public void BlockUser_WithUserScreenName_ReturnsTrue()
-        {
-            // Arrange
-            var queryExecutor = CreateUserQueryExecutor();
-            var userScreenName = TestHelper.GenerateString();
-            var expectedQuery = TestHelper.GenerateString();
-
-            _fakeUserQueryGenerator.CallsTo(x => x.GetBlockUserQuery(userScreenName)).Returns(expectedQuery);
-            _fakeTwitterAccessor.ArrangeTryExecutePOSTQuery(expectedQuery, true);
-
-            // Act
-            var result = queryExecutor.BlockUser(userScreenName);
-
-            // Assert
-            Assert.AreEqual(result, true);
-        }
-
-        [TestMethod]
-        public void BlockUser_WithUserScreenName_ReturnsFalse()
-        {
-            // Arrange
-            var queryExecutor = CreateUserQueryExecutor();
-            var userScreenName = TestHelper.GenerateString();
-            var expectedQuery = TestHelper.GenerateString();
-
-            _fakeUserQueryGenerator.CallsTo(x => x.GetBlockUserQuery(userScreenName)).Returns(expectedQuery);
-            _fakeTwitterAccessor.ArrangeTryExecutePOSTQuery(expectedQuery, false);
-
-            // Act
-            var result = queryExecutor.BlockUser(userScreenName);
-
-            // Assert
-            Assert.AreEqual(result, false);
-        }
-
-        [TestMethod]
-        public void BlockUser_WithUserId_ReturnsTrue()
-        {
-            // Arrange
-            var queryExecutor = CreateUserQueryExecutor();
-            var userId = TestHelper.GenerateRandomLong();
-            var expectedQuery = TestHelper.GenerateString();
-
-            _fakeUserQueryGenerator.CallsTo(x => x.GetBlockUserQuery(userId)).Returns(expectedQuery);
-            _fakeTwitterAccessor.ArrangeTryExecutePOSTQuery(expectedQuery, true);
-
-            // Act
-            var result = queryExecutor.BlockUser(userId);
-
-            // Assert
-            Assert.AreEqual(result, true);
-        }
-
-        [TestMethod]
-        public void BlockUser_WithUserId_ReturnsFalse()
-        {
-            // Arrange
-            var queryExecutor = CreateUserQueryExecutor();
-            var userId = TestHelper.GenerateRandomLong();
-            var expectedQuery = TestHelper.GenerateString();
-
-            _fakeUserQueryGenerator.CallsTo(x => x.GetBlockUserQuery(userId)).Returns(expectedQuery);
-            _fakeTwitterAccessor.ArrangeTryExecutePOSTQuery(expectedQuery, false);
-
-            // Act
-            var result = queryExecutor.BlockUser(userId);
 
             // Assert
             Assert.AreEqual(result, false);
@@ -481,7 +329,7 @@ namespace Testinvi.TweetinviControllers.UserTests
             _cursorQueryIds.Add(queryId1);
             _cursorQueryIds.Add(queryId2);
 
-            return new long[] {queryId1, queryId2};
+            return new[] {queryId1, queryId2};
         }
 
         public UserQueryExecutor CreateUserQueryExecutor()

@@ -26,12 +26,7 @@ namespace Tweetinvi.Controllers.Account
         IEnumerable<long> GetMutedUserIds(int maxUserIds = Int32.MaxValue);
 
         bool MuteUser(IUserIdentifier userIdentifier);
-        bool MuteUser(long userId);
-        bool MuteUser(string screenName);
-
         bool UnMuteUser(IUserIdentifier userIdentifier);
-        bool UnMuteUser(long userId);
-        bool UnMuteUser(string screenName);
 
         // Suggestions
         IEnumerable<IUserDTO> GetSuggestedUsers(string slug, Language? language);
@@ -143,33 +138,9 @@ namespace Tweetinvi.Controllers.Account
             return _twitterAccessor.TryExecutePOSTQuery(query);
         }
 
-        public bool MuteUser(long userId)
-        {
-            var query = _accountQueryGenerator.GetMuteQuery(userId);
-            return _twitterAccessor.TryExecutePOSTQuery(query);
-        }
-
-        public bool MuteUser(string screenName)
-        {
-            var query = _accountQueryGenerator.GetMuteQuery(screenName);
-            return _twitterAccessor.TryExecutePOSTQuery(query);
-        }
-
         public bool UnMuteUser(IUserIdentifier userIdentifier)
         {
             var query = _accountQueryGenerator.GetUnMuteQuery(userIdentifier);
-            return _twitterAccessor.TryExecutePOSTQuery(query);
-        }
-
-        public bool UnMuteUser(long userId)
-        {
-            var query = _accountQueryGenerator.GetUnMuteQuery(userId);
-            return _twitterAccessor.TryExecutePOSTQuery(query);
-        }
-
-        public bool UnMuteUser(string screenName)
-        {
-            var query = _accountQueryGenerator.GetUnMuteQuery(screenName);
             return _twitterAccessor.TryExecutePOSTQuery(query);
         }
 

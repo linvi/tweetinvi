@@ -52,6 +52,13 @@ namespace Testinvi.Helpers
             return user;
         }
 
+        public static IUser GenerateUser(string screenName)
+        {
+            var user = A.Fake<IUser>();
+            user.CallsTo(x => x.ScreenName).Returns(screenName);
+            return user;
+        }
+
         public static ITweet GenerateTweet(ITweetDTO tweetDTO)
         {
             var tweet = A.Fake<ITweet>();

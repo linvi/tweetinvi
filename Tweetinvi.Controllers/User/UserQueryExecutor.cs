@@ -15,27 +15,19 @@ namespace Tweetinvi.Controllers.User
     public interface IUserQueryExecutor
     {
         // Friend Ids
-        IEnumerable<long> GetFriendIds(IUserIdentifier userDTO, int maxFriendsToRetrieve);
-        IEnumerable<long> GetFriendIds(long userId, int maxFriendsToRetrieve);
-        IEnumerable<long> GetFriendIds(string userScreenName, int maxFriendsToRetrieve);
+        IEnumerable<long> GetFriendIds(IUserIdentifier userIdentifier, int maxFriendsToRetrieve);
 
         // Followers Ids
-        IEnumerable<long> GetFollowerIds(IUserIdentifier userDTO, int maxFollowersToRetrieve);
-        IEnumerable<long> GetFollowerIds(long userId, int maxFollowersToRetrieve);
-        IEnumerable<long> GetFollowerIds(string userScreenName, int maxFollowersToRetrieve);
+        IEnumerable<long> GetFollowerIds(IUserIdentifier userIdentifier, int maxFollowersToRetrieve);
 
         // Favourites
         IEnumerable<ITweetDTO> GetFavoriteTweets(IGetUserFavoritesQueryParameters parameters);
 
         // Block User
-        bool BlockUser(IUserIdentifier userDTO);
-        bool BlockUser(long userId);
-        bool BlockUser(string userScreenName);
+        bool BlockUser(IUserIdentifier userIdentifier);
 
         // UnBlock User
-        bool UnBlockUser(IUserIdentifier userDTO);
-        bool UnBlockUser(long userId);
-        bool UnBlockUser(string userScreenName);
+        bool UnBlockUser(IUserIdentifier userIdentifier);
 
         // Get blocked users
         IEnumerable<long> GetBlockedUserIds(int maxUserIds = Int32.MaxValue);
@@ -46,8 +38,6 @@ namespace Tweetinvi.Controllers.User
 
         // Spam
         bool ReportUserForSpam(IUserIdentifier userDTO);
-        bool ReportUserForSpam(long userId);
-        bool ReportUserForSpam(string userScreenName);
     }
 
     public class UserQueryExecutor : IUserQueryExecutor
@@ -67,40 +57,16 @@ namespace Tweetinvi.Controllers.User
         }
 
         // Friend ids
-        public IEnumerable<long> GetFriendIds(IUserIdentifier userDTO, int maxFriendsToRetrieve)
+        public IEnumerable<long> GetFriendIds(IUserIdentifier userIdentifier, int maxFriendsToRetrieve)
         {
-            string query = _userQueryGenerator.GetFriendIdsQuery(userDTO, maxFriendsToRetrieve);
-            return _twitterAccessor.ExecuteCursorGETQuery<long, IIdsCursorQueryResultDTO>(query, maxFriendsToRetrieve);
-        }
-
-        public IEnumerable<long> GetFriendIds(long userId, int maxFriendsToRetrieve)
-        {
-            string query = _userQueryGenerator.GetFriendIdsQuery(userId, maxFriendsToRetrieve);
-            return _twitterAccessor.ExecuteCursorGETQuery<long, IIdsCursorQueryResultDTO>(query, maxFriendsToRetrieve);
-        }
-
-        public IEnumerable<long> GetFriendIds(string userScreenName, int maxFriendsToRetrieve)
-        {
-            string query = _userQueryGenerator.GetFriendIdsQuery(userScreenName, maxFriendsToRetrieve);
+            string query = _userQueryGenerator.GetFriendIdsQuery(userIdentifier, maxFriendsToRetrieve);
             return _twitterAccessor.ExecuteCursorGETQuery<long, IIdsCursorQueryResultDTO>(query, maxFriendsToRetrieve);
         }
 
         // Followers
-        public IEnumerable<long> GetFollowerIds(IUserIdentifier userDTO, int maxFollowersToRetrieve)
+        public IEnumerable<long> GetFollowerIds(IUserIdentifier userIdentifier, int maxFollowersToRetrieve)
         {
-            string query = _userQueryGenerator.GetFollowerIdsQuery(userDTO, maxFollowersToRetrieve);
-            return _twitterAccessor.ExecuteCursorGETQuery<long, IIdsCursorQueryResultDTO>(query, maxFollowersToRetrieve);
-        }
-
-        public IEnumerable<long> GetFollowerIds(long userId, int maxFollowersToRetrieve)
-        {
-            string query = _userQueryGenerator.GetFollowerIdsQuery(userId, maxFollowersToRetrieve);
-            return _twitterAccessor.ExecuteCursorGETQuery<long, IIdsCursorQueryResultDTO>(query, maxFollowersToRetrieve);
-        }
-
-        public IEnumerable<long> GetFollowerIds(string userScreenName, int maxFollowersToRetrieve)
-        {
-            string query = _userQueryGenerator.GetFollowerIdsQuery(userScreenName, maxFollowersToRetrieve);
+            string query = _userQueryGenerator.GetFollowerIdsQuery(userIdentifier, maxFollowersToRetrieve);
             return _twitterAccessor.ExecuteCursorGETQuery<long, IIdsCursorQueryResultDTO>(query, maxFollowersToRetrieve);
         }
 
@@ -112,40 +78,16 @@ namespace Tweetinvi.Controllers.User
         }
 
         // Block
-        public bool BlockUser(IUserIdentifier userDTO)
+        public bool BlockUser(IUserIdentifier userIdentifier)
         {
-            string query = _userQueryGenerator.GetBlockUserQuery(userDTO);
-            return _twitterAccessor.TryExecutePOSTQuery(query);
-        }
-
-        public bool BlockUser(long userId)
-        {
-            string query = _userQueryGenerator.GetBlockUserQuery(userId);
-            return _twitterAccessor.TryExecutePOSTQuery(query);
-        }
-
-        public bool BlockUser(string userScreenName)
-        {
-            string query = _userQueryGenerator.GetBlockUserQuery(userScreenName);
+            string query = _userQueryGenerator.GetBlockUserQuery(userIdentifier);
             return _twitterAccessor.TryExecutePOSTQuery(query);
         }
 
         // UnBlock User
-        public bool UnBlockUser(IUserIdentifier userDTO)
+        public bool UnBlockUser(IUserIdentifier userIdentifier)
         {
-            string query = _userQueryGenerator.GetUnBlockUserQuery(userDTO);
-            return _twitterAccessor.TryExecutePOSTQuery(query);
-        }
-
-        public bool UnBlockUser(long userId)
-        {
-            string query = _userQueryGenerator.GetUnBlockUserQuery(userId);
-            return _twitterAccessor.TryExecutePOSTQuery(query);
-        }
-
-        public bool UnBlockUser(string userScreenName)
-        {
-            string query = _userQueryGenerator.GetUnBlockUserQuery(userScreenName);
+            string query = _userQueryGenerator.GetUnBlockUserQuery(userIdentifier);
             return _twitterAccessor.TryExecutePOSTQuery(query);
         }
 

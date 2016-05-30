@@ -9,6 +9,7 @@ using Tweetinvi.Core.Interfaces;
 using Tweetinvi.Core.Interfaces.Credentials;
 using Tweetinvi.Core.Interfaces.DTO;
 using Tweetinvi.Core.Interfaces.DTO.QueryDTO;
+using Tweetinvi.Core.Interfaces.Models;
 using Tweetinvi.Core.Interfaces.QueryGenerators;
 using Tweetinvi.Core.Parameters;
 using Tweetinvi.Core.Parameters.QueryParameters;
@@ -101,7 +102,7 @@ namespace Testinvi.TweetinviControllers.UserTests
             var expectedQuery = TestHelper.GenerateString();
             var expectedCursorResults = GenerateExpectedCursorResults();
 
-            _fakeUserQueryGenerator.CallsTo(x => x.GetFriendIdsQuery(userScreenName, maximumNumberOfFriends)).Returns(expectedQuery);
+            _fakeUserQueryGenerator.CallsTo(x => x.GetFriendIdsQuery(A<IUserIdentifier>.That.Matches(u => u.ScreenName == userScreenName), maximumNumberOfFriends)).Returns(expectedQuery);
             _fakeTwitterAccessor.ArrangeExecuteJsonCursorGETQuery<IIdsCursorQueryResultDTO>(expectedQuery, expectedCursorResults);
 
             // Act
@@ -121,7 +122,7 @@ namespace Testinvi.TweetinviControllers.UserTests
             var expectedQuery = TestHelper.GenerateString();
             var expectedCursorResults = GenerateExpectedCursorResults();
 
-            _fakeUserQueryGenerator.CallsTo(x => x.GetFriendIdsQuery(userId, maximumNumberOfFriends)).Returns(expectedQuery);
+            _fakeUserQueryGenerator.CallsTo(x => x.GetFriendIdsQuery(A<IUserIdentifier>.That.Matches(u => u.Id == userId), maximumNumberOfFriends)).Returns(expectedQuery);
             _fakeTwitterAccessor.ArrangeExecuteJsonCursorGETQuery<IIdsCursorQueryResultDTO>(expectedQuery, expectedCursorResults);
 
             // Act
@@ -202,7 +203,7 @@ namespace Testinvi.TweetinviControllers.UserTests
             var expectedQuery = TestHelper.GenerateString();
             var expectedCursorResults = GenerateExpectedCursorResults();
 
-            _fakeUserQueryGenerator.CallsTo(x => x.GetFollowerIdsQuery(userScreenName, maximumNumberOfFollowers)).Returns(expectedQuery);
+            _fakeUserQueryGenerator.CallsTo(x => x.GetFollowerIdsQuery(A<IUserIdentifier>.That.Matches(u => u.ScreenName == userScreenName), maximumNumberOfFollowers)).Returns(expectedQuery);
             _fakeTwitterAccessor.ArrangeExecuteJsonCursorGETQuery<IIdsCursorQueryResultDTO>(expectedQuery, expectedCursorResults);
 
             // Act
@@ -222,7 +223,7 @@ namespace Testinvi.TweetinviControllers.UserTests
             var expectedQuery = TestHelper.GenerateString();
             var expectedCursorResults = GenerateExpectedCursorResults();
 
-            _fakeUserQueryGenerator.CallsTo(x => x.GetFollowerIdsQuery(userId, maximumNumberOfFollowers)).Returns(expectedQuery);
+            _fakeUserQueryGenerator.CallsTo(x => x.GetFollowerIdsQuery(A<IUserIdentifier>.That.Matches(u => u.Id == userId), maximumNumberOfFollowers)).Returns(expectedQuery);
             _fakeTwitterAccessor.ArrangeExecuteJsonCursorGETQuery<IIdsCursorQueryResultDTO>(expectedQuery, expectedCursorResults);
 
             // Act
@@ -323,7 +324,7 @@ namespace Testinvi.TweetinviControllers.UserTests
             var expectedQuery = TestHelper.GenerateString();
             var expectedResult = TestHelper.GenerateString();
 
-            _fakeUserQueryGenerator.CallsTo(x => x.GetBlockUserQuery(userScreenName)).Returns(expectedQuery);
+            _fakeUserQueryGenerator.CallsTo(x => x.GetBlockUserQuery(A<IUserIdentifier>.That.Matches(u => u.ScreenName == userScreenName))).Returns(expectedQuery);
             _fakeTwitterAccessor.ArrangeExecuteJsonPOSTQuery(expectedQuery, expectedResult);
 
             // Act
@@ -342,7 +343,7 @@ namespace Testinvi.TweetinviControllers.UserTests
             var expectedQuery = TestHelper.GenerateString();
             var expectedResult = TestHelper.GenerateString();
 
-            _fakeUserQueryGenerator.CallsTo(x => x.GetBlockUserQuery(userId)).Returns(expectedQuery);
+            _fakeUserQueryGenerator.CallsTo(x => x.GetBlockUserQuery(A<IUserIdentifier>.That.Matches(u => u.Id == userId))).Returns(expectedQuery);
             _fakeTwitterAccessor.ArrangeExecuteJsonPOSTQuery(expectedQuery, expectedResult);
 
             // Act

@@ -8,25 +8,19 @@ namespace Tweetinvi.Core.Interfaces.QueryGenerators
     public interface IUserQueryGenerator
     {
         // Friend Ids
-        string GetFriendIdsQuery(IUserIdentifier userDTO, int maxFriendsToRetrieve);
-        string GetFriendIdsQuery(long userId, int maxFriendsToRetrieve);
-        string GetFriendIdsQuery(string screenName, int maxFriendsToRetrieve);
+        string GetFriendIdsQuery(IUserIdentifier userIdentifier, int maxFriendsToRetrieve);
 
         // Followers Ids
-        string GetFollowerIdsQuery(IUserIdentifier userDTO, int maxFollowersToRetrieve);
-        string GetFollowerIdsQuery(long userId, int maxFollowersToRetrieve);
-        string GetFollowerIdsQuery(string screenName, int maxFollowersToRetrieve);
+        string GetFollowerIdsQuery(IUserIdentifier userIdentifier, int maxFollowersToRetrieve);
 
         // Favourites
         string GetFavoriteTweetsQuery(IGetUserFavoritesQueryParameters parameters);
 
         // Block User
-        string GetBlockUserQuery(IUserIdentifier userDTO);
-        string GetBlockUserQuery(long userId);
-        string GetBlockUserQuery(string userScreenName);
+        string GetBlockUserQuery(IUserIdentifier userIdentifier);
 
         // Unblock User
-        string GetUnBlockUserQuery(IUserIdentifier userDTO);
+        string GetUnBlockUserQuery(IUserIdentifier userIdentifier);
         string GetUnBlockUserQuery(long userId);
         string GetUnBlockUserQuery(string userScreenName);
 

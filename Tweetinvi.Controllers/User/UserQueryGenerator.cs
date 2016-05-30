@@ -29,37 +29,12 @@ namespace Tweetinvi.Controllers.User
         }
 
         // Friends
-        public string GetFriendIdsQuery(IUserIdentifier userDTO, int maxFriendsToRetrieve)
+        public string GetFriendIdsQuery(IUserIdentifier userIdentifier, int maxFriendsToRetrieve)
         {
-            if (!_userQueryValidator.CanUserBeIdentified(userDTO))
-            {
-                return null;
-            }
+            _userQueryValidator.ThrowIfUserCannotBeIdentified(userIdentifier);
 
-            string userIdentifierParameter = _userQueryParameterGenerator.GenerateIdOrScreenNameParameter(userDTO);
+            string userIdentifierParameter = _userQueryParameterGenerator.GenerateIdOrScreenNameParameter(userIdentifier);
             return GenerateGetFriendIdsQuery(userIdentifierParameter, maxFriendsToRetrieve);
-        }
-
-        public string GetFriendIdsQuery(long userId, int maxFriendsToRetrieve)
-        {
-            if (!_userQueryValidator.IsUserIdValid(userId))
-            {
-                return null;
-            }
-
-            string userIdParameter = _userQueryParameterGenerator.GenerateUserIdParameter(userId);
-            return GenerateGetFriendIdsQuery(userIdParameter, maxFriendsToRetrieve);
-        }
-
-        public string GetFriendIdsQuery(string screenName, int maxFriendsToRetrieve)
-        {
-            if (!_userQueryValidator.IsScreenNameValid(screenName))
-            {
-                return null;
-            }
-
-            string userScreenNameParameter = _userQueryParameterGenerator.GenerateScreenNameParameter(screenName);
-            return GenerateGetFriendIdsQuery(userScreenNameParameter, maxFriendsToRetrieve);
         }
 
         private string GenerateGetFriendIdsQuery(string userIdentifierParameter, int maxFriendsToRetrieve)
@@ -68,37 +43,12 @@ namespace Tweetinvi.Controllers.User
         }
 
         // Followers
-        public string GetFollowerIdsQuery(IUserIdentifier userDTO, int maxFollowersToRetrieve)
+        public string GetFollowerIdsQuery(IUserIdentifier userIdentifier, int maxFollowersToRetrieve)
         {
-            if (!_userQueryValidator.CanUserBeIdentified(userDTO))
-            {
-                return null;
-            }
+            _userQueryValidator.ThrowIfUserCannotBeIdentified(userIdentifier);
 
-            string userIdentifierParameter = _userQueryParameterGenerator.GenerateIdOrScreenNameParameter(userDTO);
+            string userIdentifierParameter = _userQueryParameterGenerator.GenerateIdOrScreenNameParameter(userIdentifier);
             return GenerateGetFollowerIdsQuery(userIdentifierParameter, maxFollowersToRetrieve);
-        }
-
-        public string GetFollowerIdsQuery(long userId, int maxFollowersToRetrieve)
-        {
-            if (!_userQueryValidator.IsUserIdValid(userId))
-            {
-                return null;
-            }
-
-            string userIdParameter = _userQueryParameterGenerator.GenerateUserIdParameter(userId);
-            return GenerateGetFollowerIdsQuery(userIdParameter, maxFollowersToRetrieve);
-        }
-
-        public string GetFollowerIdsQuery(string screenName, int maxFollowersToRetrieve)
-        {
-            if (!_userQueryValidator.IsScreenNameValid(screenName))
-            {
-                return null;
-            }
-
-            string userScreenNameParameter = _userQueryParameterGenerator.GenerateScreenNameParameter(screenName);
-            return GenerateGetFollowerIdsQuery(userScreenNameParameter, maxFollowersToRetrieve);
         }
 
         private string GenerateGetFollowerIdsQuery(string userIdentifierParameter, int maxFollowersToRetrieve)
@@ -130,48 +80,20 @@ namespace Tweetinvi.Controllers.User
         }
 
         // Block User
-        public string GetBlockUserQuery(IUserIdentifier userDTO)
+        public string GetBlockUserQuery(IUserIdentifier userIdentifier)
         {
-            if (!_userQueryValidator.CanUserBeIdentified(userDTO))
-            {
-                return null;
-            }
+            _userQueryValidator.ThrowIfUserCannotBeIdentified(userIdentifier);
 
-            string userIdentifierParameter = _userQueryParameterGenerator.GenerateIdOrScreenNameParameter(userDTO);
+            string userIdentifierParameter = _userQueryParameterGenerator.GenerateIdOrScreenNameParameter(userIdentifier);
             return string.Format(Resources.User_Block_Create, userIdentifierParameter);
         }
 
-        public string GetBlockUserQuery(long userId)
-        {
-            if (!_userQueryValidator.IsUserIdValid(userId))
-            {
-                return null;
-            }
-
-            string userIdParameter = _userQueryParameterGenerator.GenerateUserIdParameter(userId);
-            return string.Format(Resources.User_Block_Create, userIdParameter);
-        }
-
-        public string GetBlockUserQuery(string userScreenName)
-        {
-            if (!_userQueryValidator.IsScreenNameValid(userScreenName))
-            {
-                return null;
-            }
-
-            string userIdParameter = _userQueryParameterGenerator.GenerateScreenNameParameter(userScreenName);
-            return string.Format(Resources.User_Block_Create, userIdParameter);
-        }
-
         // Unblock
-        public string GetUnBlockUserQuery(IUserIdentifier userDTO)
+        public string GetUnBlockUserQuery(IUserIdentifier userIdentifier)
         {
-            if (!_userQueryValidator.CanUserBeIdentified(userDTO))
-            {
-                return null;
-            }
+            _userQueryValidator.ThrowIfUserCannotBeIdentified(userIdentifier);
 
-            string userIdentifierParameter = _userQueryParameterGenerator.GenerateIdOrScreenNameParameter(userDTO);
+            string userIdentifierParameter = _userQueryParameterGenerator.GenerateIdOrScreenNameParameter(userIdentifier);
             return string.Format(Resources.User_Block_Destroy, userIdentifierParameter);
         }
 
@@ -211,9 +133,9 @@ namespace Tweetinvi.Controllers.User
         // Download Profile Image
         public string DownloadProfileImageURL(IUserDTO userDTO, ImageSize imageSize = ImageSize.normal)
         {
-            var url = String.IsNullOrEmpty(userDTO.ProfileImageUrlHttps) ? userDTO.ProfileImageUrl : userDTO.ProfileImageUrlHttps;
+            var url = string.IsNullOrEmpty(userDTO.ProfileImageUrlHttps) ? userDTO.ProfileImageUrl : userDTO.ProfileImageUrlHttps;
 
-            if (String.IsNullOrEmpty(url))
+            if (string.IsNullOrEmpty(url))
             {
                 return null;
             }

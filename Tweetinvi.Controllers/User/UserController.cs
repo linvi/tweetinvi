@@ -50,12 +50,12 @@ namespace Tweetinvi.Controllers.User
 
         public IEnumerable<long> GetFriendIds(long userId, int maxFriendsToRetrieve = 5000)
         {
-            return _userQueryExecutor.GetFriendIds(userId, maxFriendsToRetrieve);
+            return _userQueryExecutor.GetFriendIds(new UserIdentifier(userId), maxFriendsToRetrieve);
         }
 
         public IEnumerable<long> GetFriendIds(string userScreenName, int maxFriendsToRetrieve = 5000)
         {
-            return _userQueryExecutor.GetFriendIds(userScreenName, maxFriendsToRetrieve);
+            return _userQueryExecutor.GetFriendIds(new UserIdentifier(userScreenName), maxFriendsToRetrieve);
         }
 
         // Friends
@@ -105,12 +105,12 @@ namespace Tweetinvi.Controllers.User
 
         public IEnumerable<long> GetFollowerIds(long userId, int maxFollowersToRetrieve = 5000)
         {
-            return _userQueryExecutor.GetFollowerIds(userId, maxFollowersToRetrieve);
+            return _userQueryExecutor.GetFollowerIds(new UserIdentifier(userId), maxFollowersToRetrieve);
         }
 
         public IEnumerable<long> GetFollowerIds(string userScreenName, int maxFollowersToRetrieve = 5000)
         {
-            return _userQueryExecutor.GetFollowerIds(userScreenName, maxFollowersToRetrieve);
+            return _userQueryExecutor.GetFollowerIds(new UserIdentifier(userScreenName), maxFollowersToRetrieve);
         }
 
         // Followers
@@ -163,12 +163,12 @@ namespace Tweetinvi.Controllers.User
 
         public bool BlockUser(long userId)
         {
-            return _userQueryExecutor.BlockUser(userId);
+            return _userQueryExecutor.BlockUser(new UserIdentifier(userId));
         }
 
         public bool BlockUser(string userScreenName)
         {
-            return _userQueryExecutor.BlockUser(userScreenName);
+            return _userQueryExecutor.BlockUser(new UserIdentifier(userScreenName));
         }
 
         // UnBlock user
@@ -179,12 +179,12 @@ namespace Tweetinvi.Controllers.User
 
         public bool UnBlockUser(long userId)
         {
-            return _userQueryExecutor.UnBlockUser(userId);
+            return _userQueryExecutor.UnBlockUser(new UserIdentifier(userId));
         }
 
         public bool UnBlockUser(string userScreenName)
         {
-            return _userQueryExecutor.UnBlockUser(userScreenName);
+            return _userQueryExecutor.UnBlockUser(new UserIdentifier(userScreenName));
         }
 
         public IEnumerable<long> GetBlockedUserIds(int maxUserIds)
@@ -232,12 +232,12 @@ namespace Tweetinvi.Controllers.User
 
         public bool ReportUserForSpam(long userId)
         {
-            return _userQueryExecutor.ReportUserForSpam(userId);
+            return _userQueryExecutor.ReportUserForSpam(new UserIdentifier(userId));
         }
 
         public bool ReportUserForSpam(string userScreenName)
         {
-            return _userQueryExecutor.ReportUserForSpam(userScreenName);
+            return _userQueryExecutor.ReportUserForSpam(new UserIdentifier(userScreenName));
         }
     }
 }

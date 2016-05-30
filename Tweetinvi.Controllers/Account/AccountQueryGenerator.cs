@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using System.Text;
 using Tweetinvi.Controllers.Properties;
 using Tweetinvi.Controllers.Shared;
@@ -11,7 +10,6 @@ using Tweetinvi.Core.Interfaces.Models;
 using Tweetinvi.Core.Interfaces.QueryGenerators;
 using Tweetinvi.Core.Interfaces.QueryValidators;
 using Tweetinvi.Core.Parameters;
-using Tweetinvi.Core.Web;
 
 namespace Tweetinvi.Controllers.Account
 {
@@ -33,11 +31,9 @@ namespace Tweetinvi.Controllers.Account
 
         string GetMuteQuery(IUserIdentifier userIdentifier);
         string GetMuteQuery(long userId);
-        string GetMuteQuery(string screenName);
 
         string GetUnMuteQuery(IUserIdentifier userIdentifier);
         string GetUnMuteQuery(long userId);
-        string GetUnMuteQuery(string screenName);
 
         // Suggestions
         string GetSuggestedCategories(Language? language);
@@ -182,17 +178,6 @@ namespace Tweetinvi.Controllers.Account
 
             string userIdParameter = _userQueryParameterGenerator.GenerateUserIdParameter(userId);
             return GenerateCreateMuteQuery(userIdParameter);
-        }
-
-        public string GetMuteQuery(string screenName)
-        {
-            if (!_userQueryValidator.IsScreenNameValid(screenName))
-            {
-                return null;
-            }
-
-            string userScreenNameParameter = _userQueryParameterGenerator.GenerateScreenNameParameter(screenName);
-            return GenerateCreateMuteQuery(userScreenNameParameter);
         }
 
         private string GenerateCreateMuteQuery(string userIdentifierParameter)

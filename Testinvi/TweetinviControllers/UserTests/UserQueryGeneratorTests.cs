@@ -51,6 +51,7 @@ namespace Testinvi.TweetinviControllers.UserTests
         }
 
         [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
         public void GetFriendIdsQuery_WithInValidUserDTO_ReturnsNull()
         {
             // Arrange
@@ -59,86 +60,7 @@ namespace Testinvi.TweetinviControllers.UserTests
             var maximumNumberOfFriends = TestHelper.GenerateRandomInt();
 
             // Act
-            var result = queryGenerator.GetFriendIdsQuery(userDTO, maximumNumberOfFriends);
-
-            // Assert
-            Assert.AreEqual(result, null);
-        }
-
-        [TestMethod]
-        public void GetFriendIdsQuery_WithValidUserScreenName_ReturnsExpectedQuery()
-        {
-            // Arrange
-            var queryGenerator = CreateUserQueryGenerator();
-            var userScreenName = TestHelper.GenerateString();
-            var maximumNumberOfFriends = TestHelper.GenerateRandomInt();
-            var userIdParameter = UserQueryGeneratorHelper.GenerateParameterExpectedResult(userScreenName);
-
-            _fakeUserQueryValidator.CallsTo(x => x.IsScreenNameValid(userScreenName)).Returns(true);
-            _fakeUserQueryParameterGenerator.ArrangeGenerateScreenNameParameter();
-
-            // Act
-            var result = queryGenerator.GetFriendIdsQuery(userScreenName, maximumNumberOfFriends);
-
-            // Assert
-            var expectedResult = string.Format(Resources.User_GetFriends, userIdParameter, maximumNumberOfFriends);
-            Assert.AreEqual(result, expectedResult);
-        }
-
-        [TestMethod]
-        public void GetFriendIdsQuery_WithInValidUserScreenName_ReturnsNull()
-        {
-            // Arrange
-            var queryGenerator = CreateUserQueryGenerator();
-            var userScreenName = TestHelper.GenerateString();
-            var maximumNumberOfFriends = TestHelper.GenerateRandomInt();
-
-            _fakeUserQueryValidator.CallsTo(x => x.IsScreenNameValid(userScreenName)).Returns(false);
-            _fakeUserQueryParameterGenerator.ArrangeGenerateScreenNameParameter();
-
-            // Act
-            var result = queryGenerator.GetFriendIdsQuery(userScreenName, maximumNumberOfFriends);
-
-            // Assert
-            Assert.AreEqual(result, null);
-        }
-
-        [TestMethod]
-        public void GetFriendIdsQuery_WithValidUserId_ReturnsExpectedQuery()
-        {
-            // Arrange
-            var queryGenerator = CreateUserQueryGenerator();
-            var userId = TestHelper.GenerateRandomLong();
-            var maximumNumberOfFriends = TestHelper.GenerateRandomInt();
-            var userIdParameter = UserQueryGeneratorHelper.GenerateParameterExpectedResult(userId);
-
-            _fakeUserQueryValidator.CallsTo(x => x.IsUserIdValid(userId)).Returns(true);
-            _fakeUserQueryParameterGenerator.ArrangeGenerateIdParameter();
-
-            // Act
-            var result = queryGenerator.GetFriendIdsQuery(userId, maximumNumberOfFriends);
-
-            // Assert
-            var expectedResult = string.Format(Resources.User_GetFriends, userIdParameter, maximumNumberOfFriends);
-            Assert.AreEqual(result, expectedResult);
-        }
-
-        [TestMethod]
-        public void GetFriendIdsQuery_WithInValidUserId_ReturnsNull()
-        {
-            // Arrange
-            var queryGenerator = CreateUserQueryGenerator();
-            var userId = TestHelper.GenerateRandomLong();
-            var maximumNumberOfFriends = TestHelper.GenerateRandomInt();
-
-            _fakeUserQueryValidator.CallsTo(x => x.IsUserIdValid(userId)).Returns(false);
-            _fakeUserQueryParameterGenerator.ArrangeGenerateIdParameter();
-
-            // Act
-            var result = queryGenerator.GetFriendIdsQuery(userId, maximumNumberOfFriends);
-
-            // Assert
-            Assert.AreEqual(result, null);
+            queryGenerator.GetFriendIdsQuery(userDTO, maximumNumberOfFriends);
         }
 
         #endregion
@@ -163,6 +85,7 @@ namespace Testinvi.TweetinviControllers.UserTests
         }
 
         [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
         public void GetFollowerIdsQuery_WithInValidUserDTO_ReturnsNull()
         {
             // Arrange
@@ -171,86 +94,7 @@ namespace Testinvi.TweetinviControllers.UserTests
             var maximumNumberOfFollowers = TestHelper.GenerateRandomInt();
 
             // Act
-            var result = queryGenerator.GetFollowerIdsQuery(userDTO, maximumNumberOfFollowers);
-
-            // Assert
-            Assert.AreEqual(result, null);
-        }
-
-        [TestMethod]
-        public void GetFollowerIdsQuery_WithValidUserScreenName_ReturnsExpectedQuery()
-        {
-            // Arrange
-            var queryGenerator = CreateUserQueryGenerator();
-            var userScreenName = TestHelper.GenerateString();
-            var maximumNumberOfFollowers = TestHelper.GenerateRandomInt();
-            var userIdParameter = UserQueryGeneratorHelper.GenerateParameterExpectedResult(userScreenName);
-
-            _fakeUserQueryValidator.CallsTo(x => x.IsScreenNameValid(userScreenName)).Returns(true);
-            _fakeUserQueryParameterGenerator.ArrangeGenerateScreenNameParameter();
-
-            // Act
-            var result = queryGenerator.GetFollowerIdsQuery(userScreenName, maximumNumberOfFollowers);
-
-            // Assert
-            var expectedResult = string.Format(Resources.User_GetFollowers, userIdParameter, maximumNumberOfFollowers);
-            Assert.AreEqual(result, expectedResult);
-        }
-
-        [TestMethod]
-        public void GetFollowerIdsQuery_WithInValidUserScreenName_ReturnsNull()
-        {
-            // Arrange
-            var queryGenerator = CreateUserQueryGenerator();
-            var userScreenName = TestHelper.GenerateString();
-            var maximumNumberOfFollowers = TestHelper.GenerateRandomInt();
-
-            _fakeUserQueryValidator.CallsTo(x => x.IsScreenNameValid(userScreenName)).Returns(false);
-            _fakeUserQueryParameterGenerator.ArrangeGenerateScreenNameParameter();
-
-            // Act
-            var result = queryGenerator.GetFollowerIdsQuery(userScreenName, maximumNumberOfFollowers);
-
-            // Assert
-            Assert.AreEqual(result, null);
-        }
-
-        [TestMethod]
-        public void GetFollowerIdsQuery_WithValidUserId_ReturnsExpectedQuery()
-        {
-            // Arrange
-            var queryGenerator = CreateUserQueryGenerator();
-            var userId = TestHelper.GenerateRandomLong();
-            var maximumNumberOfFollowers = TestHelper.GenerateRandomInt();
-            var userIdParameter = UserQueryGeneratorHelper.GenerateParameterExpectedResult(userId);
-
-            _fakeUserQueryValidator.CallsTo(x => x.IsUserIdValid(userId)).Returns(true);
-            _fakeUserQueryParameterGenerator.ArrangeGenerateIdParameter();
-
-            // Act
-            var result = queryGenerator.GetFollowerIdsQuery(userId, maximumNumberOfFollowers);
-
-            // Assert
-            var expectedResult = string.Format(Resources.User_GetFollowers, userIdParameter, maximumNumberOfFollowers);
-            Assert.AreEqual(result, expectedResult);
-        }
-
-        [TestMethod]
-        public void GetFollowerIdsQuery_WithInValidUserId_ReturnsNull()
-        {
-            // Arrange
-            var queryGenerator = CreateUserQueryGenerator();
-            var userId = TestHelper.GenerateRandomLong();
-            var maximumNumberOfFollowers = TestHelper.GenerateRandomInt();
-
-            _fakeUserQueryValidator.CallsTo(x => x.IsUserIdValid(userId)).Returns(false);
-            _fakeUserQueryParameterGenerator.ArrangeGenerateIdParameter();
-
-            // Act
-            var result = queryGenerator.GetFollowerIdsQuery(userId, maximumNumberOfFollowers);
-
-            // Assert
-            Assert.AreEqual(result, null);
+            queryGenerator.GetFollowerIdsQuery(userDTO, maximumNumberOfFollowers);
         }
 
         #endregion
@@ -303,6 +147,7 @@ namespace Testinvi.TweetinviControllers.UserTests
         }
 
         [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
         public void GetBlockUserQuery_WithInValidUserDTO_ReturnsNull()
         {
             // Arrange
@@ -311,78 +156,6 @@ namespace Testinvi.TweetinviControllers.UserTests
 
             // Act
             var result = queryGenerator.GetBlockUserQuery(userDTO);
-
-            // Assert
-            Assert.AreEqual(result, null);
-        }
-
-        [TestMethod]
-        public void GetBlockUserQuery_WithValidUserScreenName_ReturnsExpectedQuery()
-        {
-            // Arrange
-            var queryGenerator = CreateUserQueryGenerator();
-            var userScreenName = TestHelper.GenerateString();
-            var userIdParameter = UserQueryGeneratorHelper.GenerateParameterExpectedResult(userScreenName);
-
-            _fakeUserQueryValidator.CallsTo(x => x.IsScreenNameValid(userScreenName)).Returns(true);
-            _fakeUserQueryParameterGenerator.ArrangeGenerateScreenNameParameter();
-
-            // Act
-            var result = queryGenerator.GetBlockUserQuery(userScreenName);
-
-            // Assert
-            var expectedResult = string.Format(Resources.User_Block_Create, userIdParameter);
-            Assert.AreEqual(result, expectedResult);
-        }
-
-        [TestMethod]
-        public void GetBlockUserQuery_WithInValidUserScreenName_ReturnsNull()
-        {
-            // Arrange
-            var queryGenerator = CreateUserQueryGenerator();
-            var userScreenName = TestHelper.GenerateString();
-
-            _fakeUserQueryValidator.CallsTo(x => x.IsScreenNameValid(userScreenName)).Returns(false);
-            _fakeUserQueryParameterGenerator.ArrangeGenerateScreenNameParameter();
-
-            // Act
-            var result = queryGenerator.GetBlockUserQuery(userScreenName);
-
-            // Assert
-            Assert.AreEqual(result, null);
-        }
-
-        [TestMethod]
-        public void GetBlockUserQuery_WithValidUserId_ReturnsExpectedQuery()
-        {
-            // Arrange
-            var queryGenerator = CreateUserQueryGenerator();
-            var userId = TestHelper.GenerateRandomLong();
-            var userIdParameter = UserQueryGeneratorHelper.GenerateParameterExpectedResult(userId);
-
-            _fakeUserQueryValidator.CallsTo(x => x.IsUserIdValid(userId)).Returns(true);
-            _fakeUserQueryParameterGenerator.ArrangeGenerateIdParameter();
-
-            // Act
-            var result = queryGenerator.GetBlockUserQuery(userId);
-
-            // Assert
-            var expectedResult = string.Format(Resources.User_Block_Create, userIdParameter);
-            Assert.AreEqual(result, expectedResult);
-        }
-
-        [TestMethod]
-        public void GetBlockUserQuery_WithInValidUserId_ReturnsNull()
-        {
-            // Arrange
-            var queryGenerator = CreateUserQueryGenerator();
-            var userId = TestHelper.GenerateRandomLong();
-
-            _fakeUserQueryValidator.CallsTo(x => x.IsUserIdValid(userId)).Returns(false);
-            _fakeUserQueryParameterGenerator.ArrangeGenerateIdParameter();
-
-            // Act
-            var result = queryGenerator.GetBlockUserQuery(userId);
 
             // Assert
             Assert.AreEqual(result, null);
@@ -400,7 +173,7 @@ namespace Testinvi.TweetinviControllers.UserTests
             var userDTO = A.Fake<IUserDTO>();
             var profileImageUrlHttps = TestHelper.GenerateString();
             var profileImageUrlHttp = TestHelper.GenerateString();
-            userDTO.CallsTo(x => x.ProfileImageUrl).Returns(profileImageUrlHttp); 
+            userDTO.CallsTo(x => x.ProfileImageUrl).Returns(profileImageUrlHttp);
             userDTO.CallsTo(x => x.ProfileImageUrlHttps).Returns(profileImageUrlHttps);
 
             // Act
@@ -633,6 +406,12 @@ namespace Testinvi.TweetinviControllers.UserTests
         {
             var userDTO = A.Fake<IUserDTO>();
             _fakeUserQueryValidator.CallsTo(x => x.CanUserBeIdentified(userDTO)).Returns(isValid);
+
+            if (!isValid)
+            {
+                _fakeUserQueryValidator.CallsTo(x => x.ThrowIfUserCannotBeIdentified(userDTO, "User")).Throws(new ArgumentException());
+            }
+
             _fakeUserQueryParameterGenerator.ArrangeGenerateIdOrScreenNameParameter();
             return userDTO;
         }
