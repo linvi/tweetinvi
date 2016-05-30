@@ -55,13 +55,13 @@ namespace Testinvi.Tweetinvi.Credentials.RateLimitTests
 
             InitializeData();
 
-            _fakeRateLimitHelper.CallsTo(x => x.GetEndpointRateLimitFromQuery(TEST_QUERY, _credentialsRateLimits, true)).Returns(_endpointRateLimit);
+            _fakeRateLimitHelper.CallsTo(x => x.GetEndpointRateLimitFromQuery(TEST_QUERY, _credentialsRateLimits, false)).Returns(_endpointRateLimit);
             _fakeRateLimitCache.CallsTo(x => x.GetCredentialsRateLimits(_credentials)).Returns(_credentialsRateLimits);
 
             _fakeRateLimitCache.CallsTo(x => x.RefreshEntry(_credentials, _credentialsRateLimits)).Invokes(() =>
             {
                 _fakeRateLimitCache.CallsTo(x => x.GetCredentialsRateLimits(_credentials)).Returns(_refreshedCredentialsRateLimits);
-                _fakeRateLimitHelper.CallsTo(x => x.GetEndpointRateLimitFromQuery(TEST_QUERY, _refreshedCredentialsRateLimits, true)).Returns(_refreshedEndpointRateLimit);
+                _fakeRateLimitHelper.CallsTo(x => x.GetEndpointRateLimitFromQuery(TEST_QUERY, _refreshedCredentialsRateLimits, false)).Returns(_refreshedEndpointRateLimit);
             });
 
             _fakeCredentialsAccessor.SetupPassThrough<ICredentialsRateLimits>();
@@ -99,7 +99,7 @@ namespace Testinvi.Tweetinvi.Credentials.RateLimitTests
             // Arrange
             var cacheManager = CreateRateLimitCacheManager();
 
-            _fakeRateLimitHelper.CallsTo(x => x.GetEndpointRateLimitFromQuery(TEST_QUERY, _credentialsRateLimits, true)).Returns(null);
+            _fakeRateLimitHelper.CallsTo(x => x.GetEndpointRateLimitFromQuery(TEST_QUERY, _credentialsRateLimits, false)).Returns(null);
 
             // Act
             var result = cacheManager.GetQueryRateLimit(TEST_QUERY, _credentials);
