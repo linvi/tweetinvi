@@ -41,21 +41,11 @@ namespace Tweetinvi.Controllers.User
 
         public string GenerateUserIdParameter(long userId, string parameterName = "user_id")
         {
-            if (!_userQueryValidator.IsUserIdValid(userId))
-            {
-                return null;
-            }
-
             return string.Format("{0}={1}", parameterName, userId);
         }
 
         public string GenerateScreenNameParameter(string screenName, string parameterName = "screen_name")
         {
-            if (!_userQueryValidator.IsScreenNameValid(screenName))
-            {
-                return null;
-            }
-
             return string.Format("{0}={1}", parameterName, screenName);
         }
 
@@ -77,7 +67,7 @@ namespace Tweetinvi.Controllers.User
         public string GenerateListOfUserIdentifiersParameter(IEnumerable<IUserIdentifier> usersIdentifiers)
         {
             var userDTOList = usersIdentifiers.ToList();
-            if (usersIdentifiers.Any(user => user.Id == TweetinviSettings.DEFAULT_ID && String.IsNullOrEmpty(user.ScreenName)))
+            if (userDTOList.Any(user => user.Id == TweetinviSettings.DEFAULT_ID && String.IsNullOrEmpty(user.ScreenName)))
             {
                 throw new ArgumentException("Cannot generate a list with any empty screename and id");
             }
@@ -135,7 +125,7 @@ namespace Tweetinvi.Controllers.User
 
             for (int i = 0; i < idsList.Count - 1; ++i)
             {
-                builder.Append(string.Format("{0}%2C", ids.ElementAt(i)));
+                builder.Append(string.Format("{0}%2C", idsList[i]));
             }
 
             builder.Append(idsList.ElementAt(idsList.Count - 1));

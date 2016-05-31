@@ -48,19 +48,8 @@ namespace Testinvi.TweetinviControllers.UserTests
             // Assert
             var expectedResult = string.Format(Resources.User_GetFriends, userIdParameter, maximumNumberOfFriends);
             Assert.AreEqual(result, expectedResult);
-        }
 
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
-        public void GetFriendIdsQuery_WithInValidUserDTO_ReturnsNull()
-        {
-            // Arrange
-            var queryGenerator = CreateUserQueryGenerator();
-            var userDTO = GenerateUserDTO(false);
-            var maximumNumberOfFriends = TestHelper.GenerateRandomInt();
-
-            // Act
-            queryGenerator.GetFriendIdsQuery(userDTO, maximumNumberOfFriends);
+            _fakeUserQueryValidator.CallsTo(x => x.ThrowIfUserCannotBeIdentified(userDTO)).MustHaveHappened();
         }
 
         #endregion
@@ -82,19 +71,8 @@ namespace Testinvi.TweetinviControllers.UserTests
             // Assert
             var expectedResult = string.Format(Resources.User_GetFollowers, userIdParameter, maximumNumberOfFollowers);
             Assert.AreEqual(result, expectedResult);
-        }
 
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
-        public void GetFollowerIdsQuery_WithInValidUserDTO_ReturnsNull()
-        {
-            // Arrange
-            var queryGenerator = CreateUserQueryGenerator();
-            var userDTO = GenerateUserDTO(false);
-            var maximumNumberOfFollowers = TestHelper.GenerateRandomInt();
-
-            // Act
-            queryGenerator.GetFollowerIdsQuery(userDTO, maximumNumberOfFollowers);
+            _fakeUserQueryValidator.CallsTo(x => x.ThrowIfUserCannotBeIdentified(userDTO)).MustHaveHappened();
         }
 
         #endregion
@@ -112,7 +90,7 @@ namespace Testinvi.TweetinviControllers.UserTests
             var userIdParameter = UserQueryGeneratorHelper.GenerateParameterExpectedResult(userDTO);
 
             var parameters = A.Fake<IGetUserFavoritesQueryParameters>();
-            parameters.UserIdentifier = new UserIdentifier(userIdParameter);
+            parameters.UserIdentifier = userDTO;
             parameters.Parameters.MaximumNumberOfTweetsToRetrieve = maximumNumberOfFavourites;
             parameters.Parameters.IncludeEntities = true;
 
@@ -124,6 +102,8 @@ namespace Testinvi.TweetinviControllers.UserTests
             Assert.IsTrue(result.StartsWith(Resources.User_GetFavourites));
             Assert.IsTrue(result.Contains("count=" + maximumNumberOfFavourites));
             Assert.IsTrue(result.Contains("include_entities=true"));
+
+            _fakeUserQueryValidator.CallsTo(x => x.ThrowIfUserCannotBeIdentified(userDTO)).MustHaveHappened();
         }
 
         #endregion
@@ -144,21 +124,8 @@ namespace Testinvi.TweetinviControllers.UserTests
             // Assert
             var expectedResult = string.Format(Resources.User_Block_Create, userIdParameter);
             Assert.AreEqual(result, expectedResult);
-        }
 
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
-        public void GetBlockUserQuery_WithInValidUserDTO_ReturnsNull()
-        {
-            // Arrange
-            var queryGenerator = CreateUserQueryGenerator();
-            var userDTO = GenerateUserDTO(false);
-
-            // Act
-            var result = queryGenerator.GetBlockUserQuery(userDTO);
-
-            // Assert
-            Assert.AreEqual(result, null);
+            _fakeUserQueryValidator.CallsTo(x => x.ThrowIfUserCannotBeIdentified(userDTO)).MustHaveHappened();
         }
 
         #endregion
@@ -312,92 +279,8 @@ namespace Testinvi.TweetinviControllers.UserTests
             // Assert
             var expectedResult = string.Format(Resources.User_Report_Spam, userIdParameter);
             Assert.AreEqual(result, expectedResult);
-        }
 
-        [TestMethod]
-        public void GetReportUserForSpamQuery_WithInValidUserDTO_ReturnsNull()
-        {
-            // Arrange
-            var queryGenerator = CreateUserQueryGenerator();
-            var userDTO = GenerateUserDTO(false);
-
-            // Act
-            var result = queryGenerator.GetReportUserForSpamQuery(userDTO);
-
-            // Assert
-            Assert.AreEqual(result, null);
-        }
-
-        [TestMethod]
-        public void GetReportUserForSpamQuery_WithValidUserScreenName_ReturnsExpectedQuery()
-        {
-            // Arrange
-            var queryGenerator = CreateUserQueryGenerator();
-            var userScreenName = TestHelper.GenerateString();
-            var userIdParameter = UserQueryGeneratorHelper.GenerateParameterExpectedResult(userScreenName);
-
-            _fakeUserQueryValidator.CallsTo(x => x.IsScreenNameValid(userScreenName)).Returns(true);
-            _fakeUserQueryParameterGenerator.ArrangeGenerateScreenNameParameter();
-
-            // Act
-            var result = queryGenerator.GetReportUserForSpamQuery(A<IUserIdentifier>.That.Matches(u => u.ScreenName == userScreenName));
-
-            // Assert
-            var expectedResult = string.Format(Resources.User_Report_Spam, userIdParameter);
-            Assert.AreEqual(result, expectedResult);
-        }
-
-        [TestMethod]
-        public void GetReportUserForSpamQuery_WithInValidUserScreenName_ReturnsNull()
-        {
-            // Arrange
-            var queryGenerator = CreateUserQueryGenerator();
-            var userScreenName = TestHelper.GenerateString();
-
-            _fakeUserQueryValidator.CallsTo(x => x.IsScreenNameValid(userScreenName)).Returns(false);
-            _fakeUserQueryParameterGenerator.ArrangeGenerateScreenNameParameter();
-
-            // Act
-            var result = queryGenerator.GetReportUserForSpamQuery(A<IUserIdentifier>.That.Matches(u => u.ScreenName == userScreenName));
-
-            // Assert
-            Assert.AreEqual(result, null);
-        }
-
-        [TestMethod]
-        public void GetReportUserForSpamQuery_WithValidUserId_ReturnsExpectedQuery()
-        {
-            // Arrange
-            var queryGenerator = CreateUserQueryGenerator();
-            var userId = TestHelper.GenerateRandomLong();
-            var userIdParameter = UserQueryGeneratorHelper.GenerateParameterExpectedResult(userId);
-
-            _fakeUserQueryValidator.CallsTo(x => x.IsUserIdValid(userId)).Returns(true);
-            _fakeUserQueryParameterGenerator.ArrangeGenerateIdParameter();
-
-            // Act
-            var result = queryGenerator.GetReportUserForSpamQuery(A<IUserIdentifier>.That.Matches(u => u.Id == userId));
-
-            // Assert
-            var expectedResult = string.Format(Resources.User_Report_Spam, userIdParameter);
-            Assert.AreEqual(result, expectedResult);
-        }
-
-        [TestMethod]
-        public void GetReportUserForSpamQuery_WithInValidUserId_ReturnsNull()
-        {
-            // Arrange
-            var queryGenerator = CreateUserQueryGenerator();
-            var userId = TestHelper.GenerateRandomLong();
-
-            _fakeUserQueryValidator.CallsTo(x => x.IsUserIdValid(userId)).Returns(false);
-            _fakeUserQueryParameterGenerator.ArrangeGenerateIdParameter();
-
-            // Act
-            var result = queryGenerator.GetReportUserForSpamQuery(A<IUserIdentifier>.That.Matches(u => u.Id == userId));
-
-            // Assert
-            Assert.AreEqual(result, null);
+            _fakeUserQueryValidator.CallsTo(x => x.ThrowIfUserCannotBeIdentified(userDTO)).MustHaveHappened();
         }
 
         #endregion
@@ -409,7 +292,8 @@ namespace Testinvi.TweetinviControllers.UserTests
 
             if (!isValid)
             {
-                _fakeUserQueryValidator.CallsTo(x => x.ThrowIfUserCannotBeIdentified(userDTO, "User")).Throws(new ArgumentException());
+                _fakeUserQueryValidator.CallsTo(x => x.ThrowIfUserCannotBeIdentified(userDTO)).Throws(new ArgumentException());
+                _fakeUserQueryValidator.CallsTo(x => x.ThrowIfUserCannotBeIdentified(userDTO, It.IsAny<string>())).Throws(new ArgumentException());
             }
 
             _fakeUserQueryParameterGenerator.ArrangeGenerateIdOrScreenNameParameter();

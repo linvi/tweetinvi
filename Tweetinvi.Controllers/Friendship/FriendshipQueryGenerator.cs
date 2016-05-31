@@ -85,111 +85,35 @@ namespace Tweetinvi.Controllers.Friendship
         }
 
         // Create Friendship
-        public string GetCreateFriendshipWithQuery(IUserIdentifier userDTO)
+        public string GetCreateFriendshipWithQuery(IUserIdentifier userIdentifier)
         {
-            if (!_userQueryValidator.CanUserBeIdentified(userDTO))
-            {
-                return null;
-            }
+            _userQueryValidator.ThrowIfUserCannotBeIdentified(userIdentifier);
 
-            var userIdentifierParameter = _userQueryParameterGenerator.GenerateIdOrScreenNameParameter(userDTO);
-            return GenerateCreateFriendshipQuery(userIdentifierParameter);
-        }
-
-        public string GetCreateFriendshipWithQuery(long userId)
-        {
-            _userQueryValidator.ThrowIfUserCannotBeIdentified(userId);
-
-            string userIdParameter = _userQueryParameterGenerator.GenerateUserIdParameter(userId);
-            return GenerateCreateFriendshipQuery(userIdParameter);
-        }
-
-        public string GetCreateFriendshipWithQuery(string screenName)
-        {
-            if (!_userQueryValidator.IsScreenNameValid(screenName))
-            {
-                return null;
-            }
-
-            string userScreenNameParameter = _userQueryParameterGenerator.GenerateScreenNameParameter(screenName);
-            return GenerateCreateFriendshipQuery(userScreenNameParameter);
-        }
-
-        private string GenerateCreateFriendshipQuery(string userIdentifierParameter)
-        {
+            var userIdentifierParameter = _userQueryParameterGenerator.GenerateIdOrScreenNameParameter(userIdentifier);
             return string.Format(Resources.Friendship_Create, userIdentifierParameter);
         }
 
         // Destroy Friendship
-        public string GetDestroyFriendshipWithQuery(IUserIdentifier userDTO)
+        public string GetDestroyFriendshipWithQuery(IUserIdentifier userIdentifier)
         {
-            if (!_userQueryValidator.CanUserBeIdentified(userDTO))
-            {
-                return null;
-            }
+            _userQueryValidator.ThrowIfUserCannotBeIdentified(userIdentifier);
 
-            var userIdentifierParameter = _userQueryParameterGenerator.GenerateIdOrScreenNameParameter(userDTO);
-            return GenerateDestroyFriendshipQuery(userIdentifierParameter);
-        }
-
-        public string GetDestroyFriendshipWithQuery(long userId)
-        {
-            _userQueryValidator.ThrowIfUserCannotBeIdentified(userId);
-
-            string userIdParameter = _userQueryParameterGenerator.GenerateUserIdParameter(userId);
-            return GenerateDestroyFriendshipQuery(userIdParameter);
-        }
-
-        public string GetDestroyFriendshipWithQuery(string screenName)
-        {
-            if (!_userQueryValidator.IsScreenNameValid(screenName))
-            {
-                return null;
-            }
-
-            string userScreenNameParameter = _userQueryParameterGenerator.GenerateScreenNameParameter(screenName);
-            return GenerateDestroyFriendshipQuery(userScreenNameParameter);
-        }
-
-        private string GenerateDestroyFriendshipQuery(string userIdentifierParameter)
-        {
+            var userIdentifierParameter = _userQueryParameterGenerator.GenerateIdOrScreenNameParameter(userIdentifier);
             return string.Format(Resources.Friendship_Destroy, userIdentifierParameter);
         }
 
         // Update Relationship
-        public string GetUpdateRelationshipAuthorizationsWithQuery(IUserIdentifier userDTO, IFriendshipAuthorizations friendshipAuthorizations)
+        public string GetUpdateRelationshipAuthorizationsWithQuery(IUserIdentifier userIdentifier, IFriendshipAuthorizations friendshipAuthorizations)
         {
-            if (friendshipAuthorizations == null || !_userQueryValidator.CanUserBeIdentified(userDTO))
-            {
-                return null;
-            }
-
-            var userIdentifierParameter = _userQueryParameterGenerator.GenerateIdOrScreenNameParameter(userDTO);
-            return GetUpdateRelationshipAuthorizationQuery(userIdentifierParameter, friendshipAuthorizations);
-        }
-
-        public string GetUpdateRelationshipAuthorizationsWithQuery(long userId, IFriendshipAuthorizations friendshipAuthorizations)
-        {
-            _userQueryValidator.ThrowIfUserCannotBeIdentified(userId);
+            _userQueryValidator.ThrowIfUserCannotBeIdentified(userIdentifier);
 
             if (friendshipAuthorizations == null)
             {
                 throw new ArgumentNullException("Friendship authorizations cannot be null.");
             }
 
-            string userIdParameter = _userQueryParameterGenerator.GenerateUserIdParameter(userId);
-            return GetUpdateRelationshipAuthorizationQuery(userIdParameter, friendshipAuthorizations);
-        }
-
-        public string GetUpdateRelationshipAuthorizationsWithQuery(string screenName, IFriendshipAuthorizations friendshipAuthorizations)
-        {
-            if (friendshipAuthorizations == null || !_userQueryValidator.IsScreenNameValid(screenName))
-            {
-                return null;
-            }
-
-            string userScreenNameParameter = _userQueryParameterGenerator.GenerateScreenNameParameter(screenName);
-            return GetUpdateRelationshipAuthorizationQuery(userScreenNameParameter, friendshipAuthorizations);
+            var userIdentifierParameter = _userQueryParameterGenerator.GenerateIdOrScreenNameParameter(userIdentifier);
+            return GetUpdateRelationshipAuthorizationQuery(userIdentifierParameter, friendshipAuthorizations);
         }
 
         private string GetUpdateRelationshipAuthorizationQuery(string userIdentifierParameter, IFriendshipAuthorizations friendshipAuthorizations)

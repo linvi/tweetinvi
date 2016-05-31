@@ -8,7 +8,7 @@ namespace Tweetinvi.Core.Interfaces.QueryValidators
         bool IsScreenNameValid(string screenName);
         bool IsUserIdValid(long? userId);
 
-        void ThrowIfUserCannotBeIdentified(long? userId);
-        void ThrowIfUserCannotBeIdentified(IUserIdentifier userIdentifier, string parameterName = "User");
+        void ThrowIfUserCannotBeIdentified(IUserIdentifier userIdentifier);
+        void ThrowIfUserCannotBeIdentified(IUserIdentifier userIdentifier, string parameterName);
     }
 }

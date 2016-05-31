@@ -60,10 +60,7 @@ namespace Tweetinvi.Controllers.User
 
         public string GetFavoriteTweetsQuery(IGetUserFavoritesQueryParameters favoriteParameters)
         {
-            if (!_userQueryValidator.CanUserBeIdentified(favoriteParameters.UserIdentifier))
-            {
-                return null;
-            }
+            _userQueryValidator.ThrowIfUserCannotBeIdentified(favoriteParameters.UserIdentifier);
 
             var userIdentifierParameter = _userQueryParameterGenerator.GenerateIdOrScreenNameParameter(favoriteParameters.UserIdentifier);
             var query = new StringBuilder(Resources.User_GetFavourites + userIdentifierParameter);

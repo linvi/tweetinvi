@@ -74,82 +74,8 @@ namespace Testinvi.TweetinviControllers.FriendshipTests
             // Assert
             string expectedUserIdParameter = UserQueryGeneratorHelper.GenerateParameterExpectedResult(fakeUserDTO);
             Assert.AreEqual(query, string.Format(Resources.Friendship_Create, expectedUserIdParameter));
-        }
 
-        [TestMethod]
-        public void GetCreateFriendshipWithQueryWithUserDTO_NotHasAValidIdentifier_ReturnsNull()
-        {
-            // Arrange
-            var queryGenerator = CreateFrienshipQueryGenerator();
-            var fakeUserDTO = CreateUserDTO(false);
-
-            // Act
-            var query = queryGenerator.GetCreateFriendshipWithQuery(fakeUserDTO);
-
-            // Assert
-            Assert.AreEqual(query, null);
-        }
-
-        [TestMethod]
-        public void GetCreateFriendshipWithQueryWithUserScreeName_IsValid_ReturnsScreenNameQuery()
-        {
-            string screenName = Guid.NewGuid().ToString();
-
-            // Arrange
-            var queryGenerator = CreateFrienshipQueryGenerator();
-            _fakeUserQueryValidator.CallsTo(x => x.IsScreenNameValid(screenName)).Returns(true);
-
-            // Act
-            var query = queryGenerator.GetCreateFriendshipWithQuery(screenName);
-
-            // Assert
-            string expectedUserScreenNameParameter = UserQueryGeneratorHelper.GenerateParameterExpectedResult(screenName);
-            Assert.AreEqual(query, string.Format(Resources.Friendship_Create, expectedUserScreenNameParameter));
-        }
-
-        [TestMethod]
-        public void GetCreateFriendshipWithQueryWithUserScreeName_IsNotValid_ReturnsNull()
-        {
-            var screenName = Guid.NewGuid().ToString();
-
-            // Arrange
-            var queryGenerator = CreateFrienshipQueryGenerator();
-            _fakeUserQueryValidator.CallsTo(x => x.IsScreenNameValid(screenName)).Returns(false);
-
-            // Act
-            var query = queryGenerator.GetCreateFriendshipWithQuery(screenName);
-
-            // Assert
-            Assert.AreEqual(query, null);
-        }
-
-        [TestMethod]
-        public void GetCreateFriendshipWithQueryWithUserId_UserIdIsDefault_ReturnsNull()
-        {
-            // Arrange
-            var queryGenerator = CreateFrienshipQueryGenerator();
-
-            // Act
-            queryGenerator.GetCreateFriendshipWithQuery(TestHelper.DefaultId());
-
-            // Assert
-            _fakeUserQueryValidator.CallsTo(x => x.ThrowIfUserCannotBeIdentified(It.IsAny<long>())).MustHaveHappened(Repeated.Exactly.Once);
-        }
-
-        [TestMethod]
-        public void GetCreateFriendshipWithQueryWithUserId_ReturnsIdQuery()
-        {
-            long userId = TestHelper.GenerateRandomLong();
-
-            // Arrange
-            var queryGenerator = CreateFrienshipQueryGenerator();
-
-            // Act
-            var query = queryGenerator.GetCreateFriendshipWithQuery(userId);
-
-            // Assert
-            string expectedUserIdParameter = UserQueryGeneratorHelper.GenerateParameterExpectedResult(userId);
-            Assert.AreEqual(query, string.Format(Resources.Friendship_Create, expectedUserIdParameter));
+            _fakeUserQueryValidator.CallsTo(x => x.ThrowIfUserCannotBeIdentified(fakeUserDTO)).MustHaveHappened();
         }
 
         #endregion
@@ -169,82 +95,8 @@ namespace Testinvi.TweetinviControllers.FriendshipTests
             // Assert
             string expectedUserIdParameter = UserQueryGeneratorHelper.GenerateParameterExpectedResult(userDTO);
             Assert.AreEqual(query, string.Format(Resources.Friendship_Destroy, expectedUserIdParameter));
-        }
 
-        [TestMethod]
-        public void GetDestroyFriendshipWithQuery_WithInvalidUserDTO_ReturnsNull()
-        {
-            // Arrange
-            var queryGenerator = CreateFrienshipQueryGenerator();
-            var fakeUserDTO = CreateUserDTO(false);
-
-            // Act
-            var query = queryGenerator.GetDestroyFriendshipWithQuery(fakeUserDTO);
-
-            // Assert
-            Assert.AreEqual(query, null);
-        }
-
-        [TestMethod]
-        public void GetDestroyFriendshipWithQueryWithUserScreeName_IsNotValid_ReturnsNull()
-        {
-            var screenName = Guid.NewGuid().ToString();
-
-            // Arrange
-            var queryGenerator = CreateFrienshipQueryGenerator();
-            _fakeUserQueryValidator.CallsTo(x => x.IsScreenNameValid(screenName)).Returns(false);
-
-            // Act
-            var query = queryGenerator.GetDestroyFriendshipWithQuery(screenName);
-
-            // Assert
-            Assert.AreEqual(query, null);
-        }
-
-        [TestMethod]
-        public void GetDestroyFriendshipWithQueryWithUserScreeName_IsValid_ReturnsScreenNameQuery()
-        {
-            string screenName = Guid.NewGuid().ToString();
-
-            // Arrange
-            var queryGenerator = CreateFrienshipQueryGenerator();
-            _fakeUserQueryValidator.CallsTo(x => x.IsScreenNameValid(screenName)).Returns(true);
-
-            // Act
-            var query = queryGenerator.GetDestroyFriendshipWithQuery(screenName);
-
-            // Assert
-            string expectedUserScreenNameParameter = UserQueryGeneratorHelper.GenerateParameterExpectedResult(screenName);
-            Assert.AreEqual(query, string.Format(Resources.Friendship_Destroy, expectedUserScreenNameParameter));
-        }
-
-        [TestMethod]
-        public void GetDestroyFriendshipWithQueryWithUserId_UserIdIsDefault_ReturnsNull()
-        {
-            // Arrange
-            var queryGenerator = CreateFrienshipQueryGenerator();
-
-            // Act
-            var query = queryGenerator.GetDestroyFriendshipWithQuery(TestHelper.DefaultId());
-            _fakeUserQueryValidator.CallsTo(x => x.ThrowIfUserCannotBeIdentified(It.IsAny<long>())).MustHaveHappened(Repeated.Exactly.Once);
-        }
-
-            // Assert
-
-        [TestMethod]
-        public void GetDestroyFriendshipWithQueryWithUserId_ReturnsIdQuery()
-        {
-            long userId = TestHelper.GenerateRandomLong();
-
-            // Arrange
-            var queryGenerator = CreateFrienshipQueryGenerator();
-
-            // Act
-            var query = queryGenerator.GetDestroyFriendshipWithQuery(userId);
-
-            // Assert
-            string expectedUserIdParameter = UserQueryGeneratorHelper.GenerateParameterExpectedResult(userId);
-            Assert.AreEqual(query, string.Format(Resources.Friendship_Destroy, expectedUserIdParameter));
+            _fakeUserQueryValidator.CallsTo(x => x.ThrowIfUserCannotBeIdentified(userDTO)).MustHaveHappened();
         }
 
         #endregion
@@ -252,6 +104,7 @@ namespace Testinvi.TweetinviControllers.FriendshipTests
         #region Update Friendship Authorizations
 
         [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
         public void UpdateRelationshipAuthorizations_WithUserDTO_AuthorizationsObjectIsNull_ReturnsNull()
         {
             var userDTO = CreateUserDTO(true);
@@ -260,37 +113,12 @@ namespace Testinvi.TweetinviControllers.FriendshipTests
             var queryGenerator = CreateFrienshipQueryGenerator();
 
             // Act
-            var result = queryGenerator.GetUpdateRelationshipAuthorizationsWithQuery(userDTO, null);
-
-            // Assert
-            Assert.AreEqual(result, null);
-        }
-
-        [TestMethod]
-        public void UpdateRelationshipAuthorizations_WithInvalidUserDTO_ReturnsNull()
-        {
-            // Arrange
-            var queryGenerator = CreateFrienshipQueryGenerator();
-            var userDTO = CreateUserDTO(false);
-
-            // Act
-            var result1 = queryGenerator.GetUpdateRelationshipAuthorizationsWithQuery(userDTO, GenerateFriendshipAuthorizations(true, true));
-            var result2 = queryGenerator.GetUpdateRelationshipAuthorizationsWithQuery(userDTO, GenerateFriendshipAuthorizations(true, false));
-            var result3 = queryGenerator.GetUpdateRelationshipAuthorizationsWithQuery(userDTO, GenerateFriendshipAuthorizations(false, true));
-            var result4 = queryGenerator.GetUpdateRelationshipAuthorizationsWithQuery(userDTO, GenerateFriendshipAuthorizations(false, false));
-
-            // Assert
-            Assert.AreEqual(result1, null);
-            Assert.AreEqual(result2, null);
-            Assert.AreEqual(result3, null);
-            Assert.AreEqual(result4, null);
+            queryGenerator.GetUpdateRelationshipAuthorizationsWithQuery(userDTO, null);
         }
 
         [TestMethod]
         public void UpdateRelationshipAuthorizations_WithValidUserDTO_AuthorizationsObjectIsValid_ValidQuery()
         {
-            
-
             // Arrange
             var queryGenerator = CreateFrienshipQueryGenerator();
             var userDTO = A.Fake<IUserDTO>();
@@ -306,145 +134,13 @@ namespace Testinvi.TweetinviControllers.FriendshipTests
 
             // Assert
             string idParameter = UserQueryGeneratorHelper.GenerateParameterExpectedResult(userDTO);
-
+            
             Assert.AreEqual(result1, GenerateUpdateQuery(true, true, idParameter));
             Assert.AreEqual(result2, GenerateUpdateQuery(true, false, idParameter));
             Assert.AreEqual(result3, GenerateUpdateQuery(false, true, idParameter));
             Assert.AreEqual(result4, GenerateUpdateQuery(false, false, idParameter));
-        }
 
-        public void UpdateRelationshipAuthorizations_WithValidUserDTO_ReturnsQueryWithId()
-        {
-            var userId = TestHelper.GenerateRandomLong();
-
-            // Arrange
-            var queryGenerator = CreateFrienshipQueryGenerator();
-            var userDTO = CreateUserDTO(true);
-
-            // Act
-            var result1 = queryGenerator.GetUpdateRelationshipAuthorizationsWithQuery(userDTO, GenerateFriendshipAuthorizations(true, true));
-            var result2 = queryGenerator.GetUpdateRelationshipAuthorizationsWithQuery(userDTO, GenerateFriendshipAuthorizations(true, false));
-            var result3 = queryGenerator.GetUpdateRelationshipAuthorizationsWithQuery(userDTO, GenerateFriendshipAuthorizations(false, true));
-            var result4 = queryGenerator.GetUpdateRelationshipAuthorizationsWithQuery(userDTO, GenerateFriendshipAuthorizations(false, false));
-
-            // Assert
-            string idParameter = UserQueryGeneratorHelper.GenerateParameterExpectedResult(userId);
-
-            Assert.AreEqual(result1, GenerateUpdateQuery(true, true, idParameter));
-            Assert.AreEqual(result2, GenerateUpdateQuery(true, false, idParameter));
-            Assert.AreEqual(result3, GenerateUpdateQuery(false, true, idParameter));
-            Assert.AreEqual(result4, GenerateUpdateQuery(false, false, idParameter));
-        }
-
-        [TestMethod]
-        public void UpdateRelationshipAuthorizations_WithValidUserScreenName_AuthorizationsObjectIsNull_ReturnsNull()
-        {
-            var screenName = Guid.NewGuid().ToString();
-
-            // Arrange
-            var queryGenerator = CreateFrienshipQueryGenerator();
-            _fakeUserQueryValidator.ArrangeIsScreenNameValid(screenName, true);
-
-            // Act
-            var result1 = queryGenerator.GetUpdateRelationshipAuthorizationsWithQuery(screenName, null);
-
-            // Assert
-
-            Assert.AreEqual(result1, null);
-        }
-
-        [TestMethod]
-        public void UpdateRelationshipAuthorizations_WithInvalidUserScreenName_AuthorizationsObjectIsValid_ReturnsNull()
-        {
-            string screenName = TestHelper.GenerateString();
-
-            // Arrange
-            var queryGenerator = CreateFrienshipQueryGenerator();
-            _fakeUserQueryValidator.ArrangeIsScreenNameValid(screenName, false);
-
-            // Act
-            var result1 = queryGenerator.GetUpdateRelationshipAuthorizationsWithQuery(screenName, GenerateFriendshipAuthorizations(true, true));
-            var result2 = queryGenerator.GetUpdateRelationshipAuthorizationsWithQuery(screenName, GenerateFriendshipAuthorizations(true, false));
-            var result3 = queryGenerator.GetUpdateRelationshipAuthorizationsWithQuery(screenName, GenerateFriendshipAuthorizations(false, true));
-            var result4 = queryGenerator.GetUpdateRelationshipAuthorizationsWithQuery(screenName, GenerateFriendshipAuthorizations(false, false));
-
-            // Assert
-            Assert.AreEqual(result1, null);
-            Assert.AreEqual(result2, null);
-            Assert.AreEqual(result3, null);
-            Assert.AreEqual(result4, null);
-        }
-
-        [TestMethod]
-        public void UpdateRelationshipAuthorizations_WithValidUserScreenName_AuthorizationsObjectIsValid_ValidQuery()
-        {
-            var screenName = Guid.NewGuid().ToString();
-
-            // Arrange
-            var queryGenerator = CreateFrienshipQueryGenerator();
-            _fakeUserQueryValidator.ArrangeIsScreenNameValid(screenName, true);
-
-            // Act
-            var result1 = queryGenerator.GetUpdateRelationshipAuthorizationsWithQuery(screenName, GenerateFriendshipAuthorizations(true, true));
-            var result2 = queryGenerator.GetUpdateRelationshipAuthorizationsWithQuery(screenName, GenerateFriendshipAuthorizations(true, false));
-            var result3 = queryGenerator.GetUpdateRelationshipAuthorizationsWithQuery(screenName, GenerateFriendshipAuthorizations(false, true));
-            var result4 = queryGenerator.GetUpdateRelationshipAuthorizationsWithQuery(screenName, GenerateFriendshipAuthorizations(false, false));
-
-            // Assert
-            string idParameter = UserQueryGeneratorHelper.GenerateParameterExpectedResult(screenName);
-
-            Assert.AreEqual(result1, GenerateUpdateQuery(true, true, idParameter));
-            Assert.AreEqual(result2, GenerateUpdateQuery(true, false, idParameter));
-            Assert.AreEqual(result3, GenerateUpdateQuery(false, true, idParameter));
-            Assert.AreEqual(result4, GenerateUpdateQuery(false, false, idParameter));
-        }
-
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException))]
-        public void UpdateRelationshipAuthorizations_WithValidUserId_AuthorizationsObjectIsNull_ReturnsNull()
-        {
-            var userId = TestHelper.GenerateRandomLong();
-
-            // Arrange
-            var queryGenerator = CreateFrienshipQueryGenerator();
-
-            // Act
-            queryGenerator.GetUpdateRelationshipAuthorizationsWithQuery(userId, null);
-        }
-
-        [TestMethod]
-        public void UpdateRelationshipAuthorizations_WithInvalidUserId_AuthorizationsObjectIsValid_ReturnsNull()
-        {
-            // Arrange
-            var queryGenerator = CreateFrienshipQueryGenerator();
-
-            // Act
-            queryGenerator.GetUpdateRelationshipAuthorizationsWithQuery(TestHelper.DefaultId(), GenerateFriendshipAuthorizations(true, true));
-
-            _fakeUserQueryValidator.CallsTo(x => x.ThrowIfUserCannotBeIdentified(It.IsAny<long>())).MustHaveHappened(Repeated.Exactly.Once);
-        }
-
-        [TestMethod]
-        public void UpdateRelationshipAuthorizations_WithUserId_AuthorizationsValid_ValidQuery()
-        {
-            var userId = TestHelper.GenerateRandomLong();
-
-            // Arrange
-            var queryGenerator = CreateFrienshipQueryGenerator();
-
-            // Act
-            var result1 = queryGenerator.GetUpdateRelationshipAuthorizationsWithQuery(userId, GenerateFriendshipAuthorizations(true, true));
-            var result2 = queryGenerator.GetUpdateRelationshipAuthorizationsWithQuery(userId, GenerateFriendshipAuthorizations(true, false));
-            var result3 = queryGenerator.GetUpdateRelationshipAuthorizationsWithQuery(userId, GenerateFriendshipAuthorizations(false, true));
-            var result4 = queryGenerator.GetUpdateRelationshipAuthorizationsWithQuery(userId, GenerateFriendshipAuthorizations(false, false));
-
-            // Assert
-            string idParameter = UserQueryGeneratorHelper.GenerateParameterExpectedResult(userId);
-
-            Assert.AreEqual(result1, GenerateUpdateQuery(true, true, idParameter));
-            Assert.AreEqual(result2, GenerateUpdateQuery(true, false, idParameter));
-            Assert.AreEqual(result3, GenerateUpdateQuery(false, true, idParameter));
-            Assert.AreEqual(result4, GenerateUpdateQuery(false, false, idParameter));
+            _fakeUserQueryValidator.CallsTo(x => x.ThrowIfUserCannotBeIdentified(userDTO)).MustHaveHappened(Repeated.Exactly.Times(4));
         }
 
         private IFriendshipAuthorizations GenerateFriendshipAuthorizations(bool retweetEnabled, bool notificationEnabled)

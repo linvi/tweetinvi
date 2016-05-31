@@ -7,6 +7,7 @@ using Tweetinvi.Core.Interfaces.Controllers;
 using Tweetinvi.Core.Interfaces.DTO;
 using Tweetinvi.Core.Interfaces.Factories;
 using Tweetinvi.Core.Interfaces.Models;
+using Tweetinvi.Core.Parameters;
 
 namespace Tweetinvi.Controllers.Friendship
 {
@@ -89,24 +90,15 @@ namespace Tweetinvi.Controllers.Friendship
 
         public bool CreateFriendshipWith(long userId)
         {
-            return _friendshipQueryExecutor.CreateFriendshipWith(userId);
+            return _friendshipQueryExecutor.CreateFriendshipWith(new UserIdentifier(userId));
         }
 
         public bool CreateFriendshipWith(string userScreeName)
         {
-            return _friendshipQueryExecutor.CreateFriendshipWith(userScreeName);
+            return _friendshipQueryExecutor.CreateFriendshipWith(new UserIdentifier(userScreeName));
         }
 
         // Destroy Friendship with
-        public bool DestroyFriendshipWith(IUser user)
-        {
-            if (user == null)
-            {
-                throw new ArgumentException("User cannot be null");
-            }
-
-            return DestroyFriendshipWith(user.UserDTO);
-        }
 
         public bool DestroyFriendshipWith(IUserIdentifier userIdentifier)
         {
@@ -115,12 +107,12 @@ namespace Tweetinvi.Controllers.Friendship
 
         public bool DestroyFriendshipWith(long userId)
         {
-            return _friendshipQueryExecutor.DestroyFriendshipWith(userId);
+            return _friendshipQueryExecutor.DestroyFriendshipWith(new UserIdentifier(userId));
         }
 
         public bool DestroyFriendshipWith(string userScreeName)
         {
-            return _friendshipQueryExecutor.DestroyFriendshipWith(userScreeName);
+            return _friendshipQueryExecutor.DestroyFriendshipWith(new UserIdentifier(userScreeName));
         }
 
         // Update Friendship Authorizations
@@ -143,13 +135,13 @@ namespace Tweetinvi.Controllers.Friendship
         public bool UpdateRelationshipAuthorizationsWith(long userId, bool retweetsEnabled, bool deviceNotifictionEnabled)
         {
             var friendshipAuthorizations = _friendshipFactory.GenerateFriendshipAuthorizations(retweetsEnabled, deviceNotifictionEnabled);
-            return _friendshipQueryExecutor.UpdateRelationshipAuthorizationsWith(userId, friendshipAuthorizations);
+            return _friendshipQueryExecutor.UpdateRelationshipAuthorizationsWith(new UserIdentifier(userId), friendshipAuthorizations);
         }
 
         public bool UpdateRelationshipAuthorizationsWith(string userScreenName, bool retweetsEnabled, bool deviceNotifictionEnabled)
         {
             var friendshipAuthorizations = _friendshipFactory.GenerateFriendshipAuthorizations(retweetsEnabled, deviceNotifictionEnabled);
-            return _friendshipQueryExecutor.UpdateRelationshipAuthorizationsWith(userScreenName, friendshipAuthorizations);
+            return _friendshipQueryExecutor.UpdateRelationshipAuthorizationsWith(new UserIdentifier(userScreenName), friendshipAuthorizations);
         }
 
         // Get Relationship (get between 2 users as there is no id for a relationship)

@@ -15,8 +15,6 @@ namespace Tweetinvi.Controllers.TwitterLists
     public interface ITwitterListQueryGenerator
     {
         string GetUserSubscribedListsQuery(IUserIdentifier userIdentifier, bool getOwnedListsFirst);
-        string GetUserSubscribedListsQuery(long userId, bool getOwnedListsFirst);
-        string GetUserSubscribedListsQuery(string userScreenName, bool getOwnedListsFirst);
 
         string GetUsersOwnedListQuery(IUserIdentifier userIdentifier, int maximumNumberOfListsToRetrieve);
 
@@ -71,33 +69,6 @@ namespace Tweetinvi.Controllers.TwitterLists
             }
 
             var userIdParameter = _userQueryParameterGenerator.GenerateIdOrScreenNameParameter(userIdentifier);
-            return GenerateUserListsQuery(userIdParameter, getOwnedListsFirst);
-        }
-
-        public string GetUserSubscribedListsQuery(long userId, bool getOwnedListsFirst)
-        {
-            if (!_userQueryValidator.IsUserIdValid(userId))
-            {
-                return null;
-            }
-
-            var userIdentifier = _userQueryParameterGenerator.GenerateUserIdParameter(userId);
-            return GenerateUserListsQuery(userIdentifier, getOwnedListsFirst);
-        }
-
-        public string GetUserSubscribedListsQuery(string userScreenName, bool getOwnedListsFirst)
-        {
-            if (!_userQueryValidator.IsScreenNameValid(userScreenName))
-            {
-                return null;
-            }
-
-            var userIdentifier = _userQueryParameterGenerator.GenerateScreenNameParameter(userScreenName);
-            return GenerateUserListsQuery(userIdentifier, getOwnedListsFirst);
-        }
-
-        private string GenerateUserListsQuery(string userIdentifier, bool getOwnedListsFirst)
-        {
             return string.Format(Resources.List_GetUserLists, userIdentifier, getOwnedListsFirst);
         }
 

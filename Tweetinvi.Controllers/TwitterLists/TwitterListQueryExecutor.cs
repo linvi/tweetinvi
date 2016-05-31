@@ -15,8 +15,6 @@ namespace Tweetinvi.Controllers.TwitterLists
     public interface ITwitterListQueryExecutor
     {
         IEnumerable<ITwitterListDTO> GetUserSubscribedLists(IUserIdentifier userIdentifier, bool getOwnedListsFirst);
-        IEnumerable<ITwitterListDTO> GetUserSubscribedLists(long userId, bool getOwnedListsFirst);
-        IEnumerable<ITwitterListDTO> GetUserSubscribedLists(string userScreenName, bool getOwnedListsFirst);
 
         ITwitterListDTO UpdateList(ITwitterListUpdateQueryParameters parameters);
         bool DestroyList(ITwitterListIdentifier identifier);
@@ -55,18 +53,6 @@ namespace Tweetinvi.Controllers.TwitterLists
         public IEnumerable<ITwitterListDTO> GetUserSubscribedLists(IUserIdentifier userIdentifier, bool getOwnedListsFirst)
         {
             var query = _listsQueryGenerator.GetUserSubscribedListsQuery(userIdentifier, getOwnedListsFirst);
-            return _twitterAccessor.ExecuteGETQuery<IEnumerable<ITwitterListDTO>>(query);
-        }
-
-        public IEnumerable<ITwitterListDTO> GetUserSubscribedLists(long userId, bool getOwnedListsFirst)
-        {
-            var query = _listsQueryGenerator.GetUserSubscribedListsQuery(userId, getOwnedListsFirst);
-            return _twitterAccessor.ExecuteGETQuery<IEnumerable<ITwitterListDTO>>(query);
-        }
-
-        public IEnumerable<ITwitterListDTO> GetUserSubscribedLists(string userScreenName, bool getOwnedListsFirst)
-        {
-            var query = _listsQueryGenerator.GetUserSubscribedListsQuery(userScreenName, getOwnedListsFirst);
             return _twitterAccessor.ExecuteGETQuery<IEnumerable<ITwitterListDTO>>(query);
         }
 

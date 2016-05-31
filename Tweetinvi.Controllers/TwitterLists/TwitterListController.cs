@@ -47,13 +47,13 @@ namespace Tweetinvi.Controllers.TwitterLists
 
         public IEnumerable<ITwitterList> GetUserSubscribedLists(long userId, bool getOwnedListsFirst)
         {
-            var listDTOs = _twitterListQueryExecutor.GetUserSubscribedLists(userId, getOwnedListsFirst);
+            var listDTOs = _twitterListQueryExecutor.GetUserSubscribedLists(new UserIdentifier(userId), getOwnedListsFirst);
             return _twitterListsFactory.CreateListsFromDTOs(listDTOs);
         }
 
         public IEnumerable<ITwitterList> GetUserSubscribedLists(string userScreenName, bool getOwnedListsFirst)
         {
-            var listDTOs = _twitterListQueryExecutor.GetUserSubscribedLists(userScreenName, getOwnedListsFirst);
+            var listDTOs = _twitterListQueryExecutor.GetUserSubscribedLists(new UserIdentifier(userScreenName), getOwnedListsFirst);
             return _twitterListsFactory.CreateListsFromDTOs(listDTOs);
         }
 

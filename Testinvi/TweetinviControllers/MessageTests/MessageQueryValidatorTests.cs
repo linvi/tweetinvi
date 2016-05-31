@@ -1,5 +1,4 @@
 ﻿using System;
-using System.CodeDom;
 using FakeItEasy;
 using FakeItEasy.ExtensionSyntax.Full;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -121,50 +120,15 @@ namespace Testinvi.TweetinviControllers.MessageTests
         [TestMethod]
         public void CanMessageBePublished_BasedOnRecipient()
         {
-            // Arrange - Act
-            CanMessageBePublished_BasedOnRecipient(true, true, true, null);
-            CanMessageBePublished_BasedOnRecipient(true, true, false, null);
-            CanMessageBePublished_BasedOnRecipient(true, false, true, null);
-            CanMessageBePublished_BasedOnRecipient(true, false, false, null);
-
-            CanMessageBePublished_BasedOnRecipient(false, true, true, null);
-            CanMessageBePublished_BasedOnRecipient(false, true, false, null);
-            CanMessageBePublished_BasedOnRecipient(false, false, true, null);
-            CanMessageBePublished_BasedOnRecipient(false, false, false, typeof(ArgumentException));
-        }
-
-        private void CanMessageBePublished_BasedOnRecipient(
-            bool isRecipientValid, 
-            bool isRecipientIdValid, 
-            bool isRecipientScreenNameValid,
-            Type exceptionType)
-        {
             // Arrange
             var queryValidator = CreateMessageQueryValidator();
             var parameter = A.Fake<IPublishMessageParameters>();
             parameter.CallsTo(x => x.Text).Returns(TestHelper.GenerateString());
 
-            ArrangeMessageDTORecipient(parameter, isRecipientValid, isRecipientIdValid, isRecipientScreenNameValid);
-
             // Act
-            try
-            {
-                queryValidator.ThrowIfMessageCannotBePublished(parameter);
-            }
-            catch (Exception e)
-            {
-                if (e.GetType() == exceptionType)
-                {
-                    return;
-                }
+            queryValidator.ThrowIfMessageCannotBePublished(parameter);
 
-                throw new Exception("Exception was not of the correct type.");
-            }
-
-            if (exceptionType != null)
-            {
-                throw new Exception("Exception was expected.");
-            }
+            // No exception thrown
         }
 
         private void ArrangeMessagePublishParameterText(IPublishMessageParameters parameters, bool doesTextExists, bool textContainsChars)

@@ -23,7 +23,7 @@ namespace Tweetinvi.Controllers.Account
         bool UpdateProfileBackgroundImage(IAccountUpdateProfileBackgroundImageParameters parameters);
 
         // Mute
-        IEnumerable<long> GetMutedUserIds(int maxUserIds = Int32.MaxValue);
+        IEnumerable<long> GetMutedUserIds(int maxUserIds = int.MaxValue);
 
         bool MuteUser(IUserIdentifier userIdentifier);
         bool UnMuteUser(IUserIdentifier userIdentifier);

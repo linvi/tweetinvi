@@ -25,23 +25,6 @@ namespace Testinvi.TweetinviControllers.UserTests
         #region Generate UserId Parameter
 
         [TestMethod]
-        public void GenerateUserIdParameter_UserIdIsNotValid_ReturnsExpectedQuery()
-        {
-            // Arrange
-            var queryGenerator = CreateUserQueryParameterGenerator();
-            var userId = TestHelper.GenerateRandomLong();
-            var parameterName = TestHelper.GenerateString();
-
-            _fakeUserQueryValidator.CallsTo(x => x.IsUserIdValid(userId)).Returns(false);
-
-            // Act
-            var result = queryGenerator.GenerateUserIdParameter(userId, parameterName);
-
-            // Assert
-            Assert.AreEqual(result, null);
-        }
-
-        [TestMethod]
         public void GenerateUserIdParameter_UserIdIsValid_ReturnsExpectedQuery()
         {
             // Arrange
@@ -58,26 +41,10 @@ namespace Testinvi.TweetinviControllers.UserTests
             var expectedQuery = string.Format("{0}={1}", parameterName, userId);
             Assert.AreEqual(result, expectedQuery);
         }
+
         #endregion
 
         #region Generate UserScreenName Parameter
-
-        [TestMethod]
-        public void GenerateUserScreenNameParameter_UserScreenNameIsNotValid_ReturnsNull()
-        {
-            // Arrange
-            var queryGenerator = CreateUserQueryParameterGenerator();
-            var userScreenName = TestHelper.GenerateString();
-            var parameterName = TestHelper.GenerateString();
-
-            _fakeUserQueryValidator.CallsTo(x => x.IsScreenNameValid(userScreenName)).Returns(false);
-
-            // Act
-            var result = queryGenerator.GenerateScreenNameParameter(userScreenName, parameterName);
-
-            // Assert
-            Assert.AreEqual(result, null);
-        }
 
         [TestMethod]
         public void GenerateUserScreenNameParameter_UserScreenNameIsValid_ReturnsExpectedQuery()
@@ -110,7 +77,7 @@ namespace Testinvi.TweetinviControllers.UserTests
             var idParameterName = TestHelper.GenerateString();
             var screenNameParameterName = TestHelper.GenerateString();
 
-            _fakeUserQueryValidator.CallsTo(x => x.ThrowIfUserCannotBeIdentified(userDTO, "User")).Throws(new ArgumentException());
+            _fakeUserQueryValidator.CallsTo(x => x.ThrowIfUserCannotBeIdentified(userDTO)).Throws(new ArgumentException());
 
             // Act
             try

@@ -12,25 +12,16 @@ namespace Tweetinvi.Controllers.User
             return userIdentifier != null && (IsUserIdValid(userIdentifier.Id) || IsScreenNameValid(userIdentifier.ScreenName));
         }
 
-        public void ThrowIfUserCannotBeIdentified(long? userId)
+        public void ThrowIfUserCannotBeIdentified(IUserIdentifier userIdentifier)
         {
-            if (userId == null)
-            {
-                throw new ArgumentNullException("User Id cannot be null.");
-            }
-
-            if (userId == TweetinviSettings.DEFAULT_ID)
-            {
-                throw new ArgumentException("User Id must be set.");
-            }
-            
+            ThrowIfUserCannotBeIdentified(userIdentifier, "user");
         }
 
-        public void ThrowIfUserCannotBeIdentified(IUserIdentifier userIdentifier, string parameterName = "user")
+        public void ThrowIfUserCannotBeIdentified(IUserIdentifier userIdentifier, string parameterName)
         {
             if (userIdentifier == null)
             {
-                throw new ArgumentException($"{parameterName} cannot be null");
+                throw new ArgumentNullException($"{parameterName} cannot be null");
             }
 
             if (!IsUserIdValid(userIdentifier.Id) && !IsScreenNameValid(userIdentifier.ScreenName))

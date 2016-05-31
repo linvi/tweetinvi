@@ -44,14 +44,7 @@ namespace Tweetinvi.Controllers.Messages
             var message = parameters.Message;
             var text = parameters.Text;
 
-            bool isRecipientValid = _userQueryValidator.CanUserBeIdentified(parameters.Recipient) ||
-                                    _userQueryValidator.IsUserIdValid(parameters.RecipientId) ||
-                                    _userQueryValidator.IsScreenNameValid(parameters.RecipientScreenName);
-
-            if (!isRecipientValid)
-            {
-                throw new ArgumentException("You must set one of the following parameters Recipient, RecipientId and RecipientScreename.");
-            }
+            _userQueryValidator.ThrowIfUserCannotBeIdentified(parameters.Recipient);
 
             if (!IsMessageTextValid(text))
             {

@@ -18,7 +18,6 @@ namespace Tweetinvi.Core.Interfaces.Controllers
         bool CreateFriendshipWith(string userScreeName);
 
         // Destroy Friendship with
-        bool DestroyFriendshipWith(IUser user);
         bool DestroyFriendshipWith(IUserIdentifier userIdentifier);
         bool DestroyFriendshipWith(long userId);
         bool DestroyFriendshipWith(string userScreeName);

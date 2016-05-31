@@ -6,6 +6,7 @@ using Tweetinvi.Core.Interfaces.DTO.QueryDTO;
 using Tweetinvi.Core.Interfaces.Factories;
 using Tweetinvi.Core.Interfaces.Models;
 using Tweetinvi.Core.Interfaces.QueryGenerators;
+using Tweetinvi.Core.Parameters;
 
 namespace Tweetinvi.Controllers.Friendship
 {
@@ -79,13 +80,13 @@ namespace Tweetinvi.Controllers.Friendship
 
         public string CreateFriendshipWith(long userId)
         {
-            string query = _friendshipQueryGenerator.GetCreateFriendshipWithQuery(userId);
+            string query = _friendshipQueryGenerator.GetCreateFriendshipWithQuery(new UserIdentifier(userId));
             return _twitterAccessor.ExecutePOSTQueryReturningJson(query);
         }
 
         public string CreateFriendshipWith(string userScreeName)
         {
-            string query = _friendshipQueryGenerator.GetCreateFriendshipWithQuery(userScreeName);
+            string query = _friendshipQueryGenerator.GetCreateFriendshipWithQuery(new UserIdentifier(userScreeName));
             return _twitterAccessor.ExecutePOSTQueryReturningJson(query);
         }
 
@@ -107,13 +108,13 @@ namespace Tweetinvi.Controllers.Friendship
 
         public string DestroyFriendshipWith(long userId)
         {
-            string query = _friendshipQueryGenerator.GetDestroyFriendshipWithQuery(userId);
+            string query = _friendshipQueryGenerator.GetDestroyFriendshipWithQuery(new UserIdentifier(userId));
             return _twitterAccessor.ExecutePOSTQueryReturningJson(query);
         }
 
         public string DestroyFriendshipWith(string userScreeName)
         {
-            string query = _friendshipQueryGenerator.GetDestroyFriendshipWithQuery(userScreeName);
+            string query = _friendshipQueryGenerator.GetDestroyFriendshipWithQuery(new UserIdentifier(userScreeName));
             return _twitterAccessor.ExecutePOSTQueryReturningJson(query);
         }
 
@@ -137,14 +138,14 @@ namespace Tweetinvi.Controllers.Friendship
         public string UpdateRelationshipAuthorizationsWith(long userId, bool retweetsEnabled, bool deviceNotifictionEnabled)
         {
             var friendshipAuthorizations = _friendshipFactory.GenerateFriendshipAuthorizations(retweetsEnabled, deviceNotifictionEnabled);
-            string query = _friendshipQueryGenerator.GetUpdateRelationshipAuthorizationsWithQuery(userId, friendshipAuthorizations);
+            string query = _friendshipQueryGenerator.GetUpdateRelationshipAuthorizationsWithQuery(new UserIdentifier(userId), friendshipAuthorizations);
             return _twitterAccessor.ExecutePOSTQueryReturningJson(query);
         }
 
         public string UpdateRelationshipAuthorizationsWith(string userScreenName, bool retweetsEnabled, bool deviceNotifictionEnabled)
         {
             var friendshipAuthorizations = _friendshipFactory.GenerateFriendshipAuthorizations(retweetsEnabled, deviceNotifictionEnabled);
-            string query = _friendshipQueryGenerator.GetUpdateRelationshipAuthorizationsWithQuery(userScreenName, friendshipAuthorizations);
+            string query = _friendshipQueryGenerator.GetUpdateRelationshipAuthorizationsWithQuery(new UserIdentifier(userScreenName), friendshipAuthorizations);
             return _twitterAccessor.ExecutePOSTQueryReturningJson(query);
         }
     }

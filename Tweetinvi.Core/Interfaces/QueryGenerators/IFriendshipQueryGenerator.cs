@@ -18,18 +18,12 @@ namespace Tweetinvi.Core.Interfaces.QueryGenerators
         string GetMultipleRelationshipsQuery(IEnumerable<string> screenNames);
 
         // Create Friendship
-        string GetCreateFriendshipWithQuery(IUserIdentifier userDTO);
-        string GetCreateFriendshipWithQuery(long userId);
-        string GetCreateFriendshipWithQuery(string screenName);
+        string GetCreateFriendshipWithQuery(IUserIdentifier userIdentifier);
 
         // Destroy Friendship
-        string GetDestroyFriendshipWithQuery(IUserIdentifier userDTO);
-        string GetDestroyFriendshipWithQuery(long userId);
-        string GetDestroyFriendshipWithQuery(string screenName);
+        string GetDestroyFriendshipWithQuery(IUserIdentifier userIdentifier);
 
         // Update Friendship Authorization
-        string GetUpdateRelationshipAuthorizationsWithQuery(IUserIdentifier userDTO, IFriendshipAuthorizations friendshipAuthorizations);
-        string GetUpdateRelationshipAuthorizationsWithQuery(long userId, IFriendshipAuthorizations friendshipAuthorizations);
-        string GetUpdateRelationshipAuthorizationsWithQuery(string screenName, IFriendshipAuthorizations friendshipAuthorizations);
+        string GetUpdateRelationshipAuthorizationsWithQuery(IUserIdentifier userIdentifier, IFriendshipAuthorizations friendshipAuthorizations);
     }
 }

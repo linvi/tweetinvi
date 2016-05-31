@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using Tweetinvi.Core.Enum;
 using Tweetinvi.Core.Helpers;
@@ -30,14 +29,14 @@ namespace Tweetinvi.Controllers.User
         bool UnBlockUser(IUserIdentifier userIdentifier);
 
         // Get blocked users
-        IEnumerable<long> GetBlockedUserIds(int maxUserIds = Int32.MaxValue);
-        IEnumerable<IUserDTO> GetBlockedUsers(int maxUsers = Int32.MaxValue);
+        IEnumerable<long> GetBlockedUserIds(int maxUserIds = int.MaxValue);
+        IEnumerable<IUserDTO> GetBlockedUsers(int maxUsers = int.MaxValue);
 
         // Stream Profile Image
         Stream GetProfileImageStream(IUserDTO userDTO, ImageSize imageSize = ImageSize.normal);
 
         // Spam
-        bool ReportUserForSpam(IUserIdentifier userDTO);
+        bool ReportUserForSpam(IUserIdentifier userIdentifier);
     }
 
     public class UserQueryExecutor : IUserQueryExecutor
@@ -92,13 +91,13 @@ namespace Tweetinvi.Controllers.User
         }
 
         // Get Block List
-        public IEnumerable<long> GetBlockedUserIds(int maxUserIds = Int32.MaxValue)
+        public IEnumerable<long> GetBlockedUserIds(int maxUserIds = int.MaxValue)
         {
             string query = _userQueryGenerator.GetBlockedUserIdsQuery();
             return _twitterAccessor.ExecuteCursorGETQuery<long, IIdsCursorQueryResultDTO>(query, maxUserIds);
         }
 
-        public IEnumerable<IUserDTO> GetBlockedUsers(int maxUsers = Int32.MaxValue)
+        public IEnumerable<IUserDTO> GetBlockedUsers(int maxUsers = int.MaxValue)
         {
             string query = _userQueryGenerator.GetBlockedUsersQuery();
             return _twitterAccessor.ExecuteCursorGETQuery<IUserDTO, IUserCursorQueryResultDTO>(query, maxUsers);
@@ -112,9 +111,9 @@ namespace Tweetinvi.Controllers.User
         }
 
         // Report Spam
-        public bool ReportUserForSpam(IUserIdentifier userDTO)
+        public bool ReportUserForSpam(IUserIdentifier userIdentifier)
         {
-            string query = _userQueryGenerator.GetReportUserForSpamQuery(userDTO);
+            string query = _userQueryGenerator.GetReportUserForSpamQuery(userIdentifier);
             return _twitterAccessor.TryExecutePOSTQuery(query);
         }
     }

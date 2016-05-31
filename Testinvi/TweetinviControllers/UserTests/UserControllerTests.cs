@@ -610,19 +610,6 @@ namespace Testinvi.TweetinviControllers.UserTests
         #region Spam
 
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
-        public void ReportUserForSpam_WithNullUser_ThrowsArgumentException()
-        {
-            // Arrange
-            var controller = CreateUserController();
-
-            _fakeUserQueryExecutor.CallsTo(x => x.ReportUserForSpam(A<IUserDTO>.Ignored)).Returns(true);
-
-            // Act
-            controller.ReportUserForSpam((IUser)null);
-        }
-
-        [TestMethod]
         public void ReportUserForSpam_WithUser_ReturnsUserExecutorResult_False()
         {
             // Arrange
@@ -637,23 +624,6 @@ namespace Testinvi.TweetinviControllers.UserTests
 
             // Assert
             Assert.IsFalse(result);
-        }
-
-        [TestMethod]
-        public void ReportUserForSpam_WithUser_ReturnsUserExecutorResult_True()
-        {
-            // Arrange
-            var controller = CreateUserController();
-            var userDTO = A.Fake<IUserDTO>();
-            var user = TestHelper.GenerateUser(userDTO);
-
-            _fakeUserQueryExecutor.CallsTo(x => x.ReportUserForSpam(userDTO)).Returns(true);
-
-            // Act
-            var result = controller.ReportUserForSpam(user);
-
-            // Assert
-            Assert.IsTrue(result);
         }
 
         [TestMethod]

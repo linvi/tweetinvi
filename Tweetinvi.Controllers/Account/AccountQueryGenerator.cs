@@ -30,10 +30,8 @@ namespace Tweetinvi.Controllers.Account
         string GetMutedUserIdsQuery();
 
         string GetMuteQuery(IUserIdentifier userIdentifier);
-        string GetMuteQuery(long userId);
 
         string GetUnMuteQuery(IUserIdentifier userIdentifier);
-        string GetUnMuteQuery(long userId);
 
         // Suggestions
         string GetSuggestedCategories(Language? language);
@@ -172,14 +170,6 @@ namespace Tweetinvi.Controllers.Account
             return GenerateCreateMuteQuery(userIdParameter);
         }
 
-        public string GetMuteQuery(long userId)
-        {
-            _userQueryValidator.ThrowIfUserCannotBeIdentified(userId);
-
-            string userIdParameter = _userQueryParameterGenerator.GenerateUserIdParameter(userId);
-            return GenerateCreateMuteQuery(userIdParameter);
-        }
-
         private string GenerateCreateMuteQuery(string userIdentifierParameter)
         {
             return string.Format(Resources.Account_Mute_Create, userIdentifierParameter);
@@ -194,25 +184,6 @@ namespace Tweetinvi.Controllers.Account
 
             string userIdParameter = _userQueryParameterGenerator.GenerateIdOrScreenNameParameter(userIdentifier);
             return GenerateUnMuteQuery(userIdParameter);
-        }
-
-        public string GetUnMuteQuery(long userId)
-        {
-            _userQueryValidator.ThrowIfUserCannotBeIdentified(userId);
-
-            string userIdParameter = _userQueryParameterGenerator.GenerateUserIdParameter(userId);
-            return GenerateUnMuteQuery(userIdParameter);
-        }
-
-        public string GetUnMuteQuery(string screenName)
-        {
-            if (!_userQueryValidator.IsScreenNameValid(screenName))
-            {
-                return null;
-            }
-
-            string userScreenNameParameter = _userQueryParameterGenerator.GenerateScreenNameParameter(screenName);
-            return GenerateUnMuteQuery(userScreenNameParameter);
         }
 
         private string GenerateUnMuteQuery(string userIdentifierParameter)
