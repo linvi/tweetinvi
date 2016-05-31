@@ -43,9 +43,9 @@ namespace Tweetinvi.Controllers.User
             return GetFriendIds(user.UserDTO, maxFriendsToRetrieve);
         }
 
-        public IEnumerable<long> GetFriendIds(IUserIdentifier userDTO, int maxFriendsToRetrieve = 5000)
+        public IEnumerable<long> GetFriendIds(IUserIdentifier userIdentifier, int maxFriendsToRetrieve = 5000)
         {
-            return _userQueryExecutor.GetFriendIds(userDTO, maxFriendsToRetrieve);
+            return _userQueryExecutor.GetFriendIds(userIdentifier, maxFriendsToRetrieve);
         }
 
         public IEnumerable<long> GetFriendIds(long userId, int maxFriendsToRetrieve = 5000)
@@ -69,9 +69,9 @@ namespace Tweetinvi.Controllers.User
             return GetFriends(user.UserDTO, maxFriendsToRetrieve);
         }
 
-        public IEnumerable<IUser> GetFriends(IUserIdentifier userDTO, int maxFriendsToRetrieve = 250)
+        public IEnumerable<IUser> GetFriends(IUserIdentifier userIdentifier, int maxFriendsToRetrieve = 250)
         {
-            var friendIds = GetFriendIds(userDTO, maxFriendsToRetrieve);
+            var friendIds = GetFriendIds(userIdentifier, maxFriendsToRetrieve);
             return _userFactory.GetUsersFromIds(friendIds);
         }
 
@@ -98,9 +98,9 @@ namespace Tweetinvi.Controllers.User
             return GetFollowerIds(user.UserDTO, maxFollowersToRetrieve);
         }
 
-        public IEnumerable<long> GetFollowerIds(IUserIdentifier userDTO, int maxFollowersToRetrieve = 5000)
+        public IEnumerable<long> GetFollowerIds(IUserIdentifier userIdentifier, int maxFollowersToRetrieve = 5000)
         {
-            return _userQueryExecutor.GetFollowerIds(userDTO, maxFollowersToRetrieve);
+            return _userQueryExecutor.GetFollowerIds(userIdentifier, maxFollowersToRetrieve);
         }
 
         public IEnumerable<long> GetFollowerIds(long userId, int maxFollowersToRetrieve = 5000)
@@ -124,9 +124,9 @@ namespace Tweetinvi.Controllers.User
             return GetFollowers(user.UserDTO, maxFollowersToRetrieve);
         }
 
-        public IEnumerable<IUser> GetFollowers(IUserIdentifier userDTO, int maxFollowersToRetrieve = 250)
+        public IEnumerable<IUser> GetFollowers(IUserIdentifier userIdentifier, int maxFollowersToRetrieve = 250)
         {
-            var followerIds = GetFollowerIds(userDTO, maxFollowersToRetrieve);
+            var followerIds = GetFollowerIds(userIdentifier, maxFollowersToRetrieve);
             return _userFactory.GetUsersFromIds(followerIds);
         }
 
@@ -215,19 +215,9 @@ namespace Tweetinvi.Controllers.User
         }
 
         // Spam
-        public bool ReportUserForSpam(IUser user)
+        public bool ReportUserForSpam(IUserIdentifier userIdentifier)
         {
-            if (user == null)
-            {
-                throw new ArgumentException("User cannot be null");
-            }
-
-            return ReportUserForSpam(user.UserDTO);
-        }
-
-        public bool ReportUserForSpam(IUserIdentifier userDTO)
-        {
-            return _userQueryExecutor.ReportUserForSpam(userDTO);
+            return _userQueryExecutor.ReportUserForSpam(userIdentifier);
         }
 
         public bool ReportUserForSpam(long userId)

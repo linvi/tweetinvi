@@ -21,8 +21,6 @@ namespace Tweetinvi.Core.Interfaces.QueryGenerators
 
         // Unblock User
         string GetUnBlockUserQuery(IUserIdentifier userIdentifier);
-        string GetUnBlockUserQuery(long userId);
-        string GetUnBlockUserQuery(string userScreenName);
 
         // Get Blocked User
         string GetBlockedUserIdsQuery();
@@ -34,7 +32,5 @@ namespace Tweetinvi.Core.Interfaces.QueryGenerators
 
         // Spam
         string GetReportUserForSpamQuery(IUserIdentifier userIdentifier);
-        string GetReportUserForSpamQuery(long userId);
-        string GetReportUserForSpamQuery(string userScreenName);
     }
 }

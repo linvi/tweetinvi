@@ -117,17 +117,5 @@ namespace Tweetinvi.Controllers.User
             string query = _userQueryGenerator.GetReportUserForSpamQuery(userDTO);
             return _twitterAccessor.TryExecutePOSTQuery(query);
         }
-
-        public bool ReportUserForSpam(long userId)
-        {
-            string query = _userQueryGenerator.GetReportUserForSpamQuery(userId);
-            return _twitterAccessor.TryExecutePOSTQuery(query);
-        }
-
-        public bool ReportUserForSpam(string userScreenName)
-        {
-            string query = _userQueryGenerator.GetReportUserForSpamQuery(userScreenName);
-            return _twitterAccessor.TryExecutePOSTQuery(query);
-        }
     }
 }

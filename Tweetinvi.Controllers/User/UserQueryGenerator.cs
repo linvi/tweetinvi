@@ -97,28 +97,6 @@ namespace Tweetinvi.Controllers.User
             return string.Format(Resources.User_Block_Destroy, userIdentifierParameter);
         }
 
-        public string GetUnBlockUserQuery(long userId)
-        {
-            if (!_userQueryValidator.IsUserIdValid(userId))
-            {
-                return null;
-            }
-
-            string userIdParameter = _userQueryParameterGenerator.GenerateUserIdParameter(userId);
-            return string.Format(Resources.User_Block_Destroy, userIdParameter);
-        }
-
-        public string GetUnBlockUserQuery(string userScreenName)
-        {
-            if (!_userQueryValidator.IsScreenNameValid(userScreenName))
-            {
-                return null;
-            }
-
-            string userIdParameter = _userQueryParameterGenerator.GenerateScreenNameParameter(userScreenName);
-            return string.Format(Resources.User_Block_Destroy, userIdParameter);
-        }
-
         // Get Blocked Users
         public string GetBlockedUserIdsQuery()
         {
@@ -158,35 +136,10 @@ namespace Tweetinvi.Controllers.User
         // Report Spam
         public string GetReportUserForSpamQuery(IUserIdentifier userIdentifier)
         {
-            if (!_userQueryValidator.CanUserBeIdentified(userIdentifier))
-            {
-                return null;
-            }
+            _userQueryValidator.ThrowIfUserCannotBeIdentified(userIdentifier);
 
             string userIdentifierParameter = _userQueryParameterGenerator.GenerateIdOrScreenNameParameter(userIdentifier);
             return string.Format(Resources.User_Report_Spam, userIdentifierParameter);
-        }
-
-        public string GetReportUserForSpamQuery(long userId)
-        {
-            if (!_userQueryValidator.IsUserIdValid(userId))
-            {
-                return null;
-            }
-
-            string userIdParameter = _userQueryParameterGenerator.GenerateUserIdParameter(userId);
-            return string.Format(Resources.User_Report_Spam, userIdParameter);
-        }
-
-        public string GetReportUserForSpamQuery(string userScreenName)
-        {
-            if (!_userQueryValidator.IsScreenNameValid(userScreenName))
-            {
-                return null;
-            }
-
-            string userIdParameter = _userQueryParameterGenerator.GenerateScreenNameParameter(userScreenName);
-            return string.Format(Resources.User_Report_Spam, userIdParameter);
         }
     }
 }

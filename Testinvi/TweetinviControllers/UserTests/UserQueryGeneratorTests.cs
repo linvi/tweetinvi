@@ -340,7 +340,7 @@ namespace Testinvi.TweetinviControllers.UserTests
             _fakeUserQueryParameterGenerator.ArrangeGenerateScreenNameParameter();
 
             // Act
-            var result = queryGenerator.GetReportUserForSpamQuery(userScreenName);
+            var result = queryGenerator.GetReportUserForSpamQuery(A<IUserIdentifier>.That.Matches(u => u.ScreenName == userScreenName));
 
             // Assert
             var expectedResult = string.Format(Resources.User_Report_Spam, userIdParameter);
@@ -358,7 +358,7 @@ namespace Testinvi.TweetinviControllers.UserTests
             _fakeUserQueryParameterGenerator.ArrangeGenerateScreenNameParameter();
 
             // Act
-            var result = queryGenerator.GetReportUserForSpamQuery(userScreenName);
+            var result = queryGenerator.GetReportUserForSpamQuery(A<IUserIdentifier>.That.Matches(u => u.ScreenName == userScreenName));
 
             // Assert
             Assert.AreEqual(result, null);
@@ -376,7 +376,7 @@ namespace Testinvi.TweetinviControllers.UserTests
             _fakeUserQueryParameterGenerator.ArrangeGenerateIdParameter();
 
             // Act
-            var result = queryGenerator.GetReportUserForSpamQuery(userId);
+            var result = queryGenerator.GetReportUserForSpamQuery(A<IUserIdentifier>.That.Matches(u => u.Id == userId));
 
             // Assert
             var expectedResult = string.Format(Resources.User_Report_Spam, userIdParameter);
@@ -394,7 +394,7 @@ namespace Testinvi.TweetinviControllers.UserTests
             _fakeUserQueryParameterGenerator.ArrangeGenerateIdParameter();
 
             // Act
-            var result = queryGenerator.GetReportUserForSpamQuery(userId);
+            var result = queryGenerator.GetReportUserForSpamQuery(A<IUserIdentifier>.That.Matches(u => u.Id == userId));
 
             // Assert
             Assert.AreEqual(result, null);
