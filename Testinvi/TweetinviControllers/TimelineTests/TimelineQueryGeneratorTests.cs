@@ -159,28 +159,6 @@ namespace Testinvi.TweetinviControllers.TimelineTests
         }
 
         [TestMethod]
-        public void GetUserTimelineFromInvalidUserIdentifier_ThrowArgumentException()
-        {
-            // Arrange
-            var queryGenerator = CreateTimelineQueryGenerator();
-
-            _fakeUserQueryValidator.ArrangeCanUserBeIdentified(_fakeUserIdentifier, false);
-
-            // Act
-            try
-            {
-                queryGenerator.GetUserTimelineQuery(_fakeUserTimelineQueryParameters);
-            }
-            catch (ArgumentException)
-            {
-                return;
-            }
-
-            // Assert
-            Assert.Fail();
-        }
-
-        [TestMethod]
         public void GetUserTimelineFromExistingUserIdentifier_ReturnsQuery()
         {
             // Arrange
@@ -192,6 +170,8 @@ namespace Testinvi.TweetinviControllers.TimelineTests
 
             // Assert
             Assert.AreEqual(result, _expectedUserTimelineQuery);
+
+            _fakeUserQueryValidator.CallsTo(x => x.ThrowIfUserCannotBeIdentified(_fakeUserIdentifier)).MustHaveHappened();
         }
 
         #endregion

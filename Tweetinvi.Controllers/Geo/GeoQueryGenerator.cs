@@ -11,7 +11,6 @@ namespace Tweetinvi.Controllers.Geo
     public interface IGeoQueryGenerator
     {
         string GetPlaceFromIdQuery(string placeId);
-        string GeneratePlaceIdParameter(string placeId);
         string GenerateGeoParameter(ICoordinates coordinates);
         string GetSearchGeoQuery(IGeoSearchParameters parameters);
         string GetSearchGeoReverseQuery(IGeoSearchReverseParameters parameters);
@@ -19,16 +18,6 @@ namespace Tweetinvi.Controllers.Geo
 
     public class GeoQueryGenerator : IGeoQueryGenerator
     {
-        public string GeneratePlaceIdParameter(string placeId)
-        {
-            if (String.IsNullOrEmpty(placeId))
-            {
-                return null;
-            }
-
-            return string.Format(Resources.Geo_PlaceIdParameter, placeId);
-        }
-
         public string GenerateGeoParameter(ICoordinates coordinates)
         {
             if (coordinates == null)

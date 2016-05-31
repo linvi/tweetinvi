@@ -108,7 +108,7 @@ namespace Tweetinvi.Controllers.Tweet
         {
             if (!_tweetQueryValidator.IsTweetPublished(tweetDTO))
             {
-                return null;
+                throw new ArgumentException("Cannot retweet a non published tweet.");
             }
 
             return GetPublishRetweetQuery(tweetDTO.Id);

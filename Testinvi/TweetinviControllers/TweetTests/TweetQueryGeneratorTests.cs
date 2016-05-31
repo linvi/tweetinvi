@@ -196,7 +196,8 @@ namespace Testinvi.TweetinviControllers.TweetTests
         #region GetPublishRetweetQuery
 
         [TestMethod]
-        public void GetPublishRetweetQuery_RetweetingTweetUnpublished_ReturnsNull()
+        [ExpectedException(typeof(ArgumentException))]
+        public void GetPublishRetweetQuery_RetweetingTweetUnpublished_ThrowsException()
         {
             // Arrange
             var queryGenerator = CreateTweetQueryGenerator();
@@ -206,9 +207,6 @@ namespace Testinvi.TweetinviControllers.TweetTests
 
             // Act
             var result = queryGenerator.GetPublishRetweetQuery(tweetToRetweet);
-
-            // Assert
-            Assert.AreEqual(result, null);
         }
 
         [TestMethod]

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Tweetinvi.Controllers.Properties;
+using Tweetinvi.Core.Extensions;
 using Tweetinvi.Core.Interfaces.Models;
 using Tweetinvi.Core.Interfaces.QueryGenerators;
 using Tweetinvi.Core.Interfaces.QueryValidators;
@@ -76,7 +77,12 @@ namespace Tweetinvi.Controllers.Friendship
         {
             if (targetUsersScreenName == null)
             {
-                return null;
+                throw new ArgumentNullException("Target user screen names parameter cannot be null.");
+            }
+
+            if (targetUsersScreenName.IsEmpty())
+            {
+                throw new ArgumentException("Target user screen names parameter cannot be empty.");
             }
 
             string userScreenNames = _userQueryParameterGenerator.GenerateListOfScreenNameParameter(targetUsersScreenName);

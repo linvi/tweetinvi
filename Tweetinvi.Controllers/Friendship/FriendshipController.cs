@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Tweetinvi.Core.Extensions;
 using Tweetinvi.Core.Injectinvi;
 using Tweetinvi.Core.Interfaces;
 using Tweetinvi.Core.Interfaces.Controllers;
@@ -147,11 +148,6 @@ namespace Tweetinvi.Controllers.Friendship
         // Get Relationship (get between 2 users as there is no id for a relationship)
         public IRelationshipDetails GetRelationshipBetween(IUserIdentifier sourceUserIdentifier, IUserIdentifier targetUserIdentifier)
         {
-            if (sourceUserIdentifier == null || targetUserIdentifier == null)
-            {
-                return null;
-            }
-
             var relationshipDTO = _friendshipQueryExecutor.GetRelationshipBetween(sourceUserIdentifier, targetUserIdentifier);
             return GenerateRelationshipFromRelationshipDTO(relationshipDTO);
         }
@@ -243,7 +239,12 @@ namespace Tweetinvi.Controllers.Friendship
         {
             if (targetUsers == null)
             {
-                return null;
+                throw new ArgumentNullException("Target users cannot be null.");
+            }
+
+            if (targetUsers.IsEmpty())
+            {
+                throw new ArgumentNullException("Target users cannot be empty.");
             }
 
             var relationshipStates = GetMultipleRelationships(targetUsers.Select(x => x.UserDTO).ToList());
@@ -278,44 +279,39 @@ namespace Tweetinvi.Controllers.Friendship
         }
 
         // Generate From DTO
-        public IRelationshipDetails GenerateRelationshipFromRelationshipDTO(IRelationshipDetailsDTO relationshipDetailsDTO)
+        private IRelationshipDetails GenerateRelationshipFromRelationshipDTO(IRelationshipDetailsDTO relationshipDetailsDTO)
         {
             if (relationshipDetailsDTO == null)
             {
-                return null;
+                throw new ArgumentNullException("Relationship details cannot be null.");
             }
 
             var relationshipParameter = _relationshipFactory.GenerateParameterOverrideWrapper("relationshipDetailsDTO", relationshipDetailsDTO);
             return _relationshipFactory.Create(relationshipParameter);
         }
 
-        public IEnumerable<IRelationshipDetails> GenerateRelationshipsFromRelationshipsDTO(IEnumerable<IRelationshipDetailsDTO> relationshipDTOs)
-        {
-            if (relationshipDTOs == null)
-            {
-                return null;
-            }
-
-            return relationshipDTOs.Select(GenerateRelationshipFromRelationshipDTO).ToList();
-        }
-
         // Generate Relationship state from DTO
-        public IRelationshipState GenerateRelationshipStateFromRelationshipStateDTO(IRelationshipStateDTO relationshipStateDTO)
+        private IRelationshipState GenerateRelationshipStateFromRelationshipStateDTO(IRelationshipStateDTO relationshipStateDTO)
         {
             if (relationshipStateDTO == null)
             {
-                return null;
+                throw new ArgumentNullException("Relationship state cannot be null.");
             }
 
             var relationshipStateParameter = _relationshipFactory.GenerateParameterOverrideWrapper("relationshipStateDTO", relationshipStateDTO);
             return _relationshipStateFactory.Create(relationshipStateParameter);
         }
 
-        public List<IRelationshipState> GenerateRelationshipStatesFromRelationshipStatesDTO(IEnumerable<IRelationshipStateDTO> relationshipStateDTOs)
+        private List<IRelationshipState> GenerateRelationshipStatesFromRelationshipStatesDTO(IEnumerable<IRelationshipStateDTO> relationshipStateDTOs)
         {
             if (relationshipStateDTOs == null)
             {
-                return null;
+                throw new ArgumentNullException("Relationship states cannot be null.");
+            }
+
+            if (relationshipStateDTOs.IsEmpty())
+            {
+                throw new ArgumentException("Relationship states cannot be empty.");
             }
 
             return relationshipStateDTOs.Select(GenerateRelationshipStateFromRelationshipStateDTO).ToList();

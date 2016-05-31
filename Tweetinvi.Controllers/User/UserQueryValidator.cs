@@ -26,7 +26,7 @@ namespace Tweetinvi.Controllers.User
 
             if (!IsUserIdValid(userIdentifier.Id) && !IsScreenNameValid(userIdentifier.ScreenName))
             {
-                throw new ArgumentException($"{parameterName} identifier is not valid.");
+                throw new ArgumentException($"{parameterName} is not valid.");
             }
         }
 

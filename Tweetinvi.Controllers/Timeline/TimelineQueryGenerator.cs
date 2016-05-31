@@ -76,10 +76,7 @@ namespace Tweetinvi.Controllers.Timeline
                 throw new ArgumentNullException("Timeline request parameter cannot be null");
             }
 
-            if (!_userQueryValidator.CanUserBeIdentified(userIdentifier))
-            {
-                throw new ArgumentNullException("User identifier cannot be null");
-            }
+            _userQueryValidator.ThrowIfUserCannotBeIdentified(userIdentifier);
 
             var userTimelineRequestParameter = GenerateUserTimelineRequestParameters(userTimelineQueryParameters);
             var includeContributorDetailsQueryParameter = GenerateIncludeContributorsDetailsParameter(queryParameters.IncludeContributorDetails);

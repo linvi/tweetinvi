@@ -177,10 +177,7 @@ namespace Tweetinvi.Controllers.Account
 
         public string GetUnMuteQuery(IUserIdentifier userIdentifier)
         {
-            if (!_userQueryValidator.CanUserBeIdentified(userIdentifier))
-            {
-                return null;
-            }
+           _userQueryValidator.ThrowIfUserCannotBeIdentified(userIdentifier);
 
             string userIdParameter = _userQueryParameterGenerator.GenerateIdOrScreenNameParameter(userIdentifier);
             return GenerateUnMuteQuery(userIdParameter);
@@ -201,9 +198,14 @@ namespace Tweetinvi.Controllers.Account
 
         public string GetUserSuggestionsQuery(string slug, Language? language)
         {
-            if (string.IsNullOrEmpty(slug))
+            if (slug == null)
             {
-                return null;
+                throw new ArgumentNullException("Slug cannot be null.");
+            }
+
+            if (slug == "")
+            {
+                throw new ArgumentException("Slug cannot be empty.");
             }
 
             var languageParameter = _queryParameterGenerator.GenerateLanguageParameter(language);
@@ -213,9 +215,14 @@ namespace Tweetinvi.Controllers.Account
 
         public string GetSuggestedUsersWithTheirLatestTweetQuery(string slug)
         {
-            if (string.IsNullOrEmpty(slug))
+            if (slug == null)
             {
-                return null;
+                throw new ArgumentNullException("Slug cannot be null.");
+            }
+
+            if (slug == "")
+            {
+                throw new ArgumentException("Slug cannot be empty.");
             }
 
             return string.Format(Resources.Account_MembersSuggestions, slug);

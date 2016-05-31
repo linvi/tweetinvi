@@ -20,37 +20,6 @@ namespace Testinvi.TweetinviControllers.GeoTests
             _fakeBuilder = new FakeClassBuilder<GeoQueryGenerator>();
         }
 
-        #region Generate Place Id Parameter
-        
-        [TestMethod]
-        public void GeneratePlaceIdParameter_PlaceIdIsNull_ReturnsNull()
-        {
-            // Arrange
-            var controller = CreateGeoQueryGenerator();
-
-            // Act
-            var result = controller.GeneratePlaceIdParameter(null);
-            // Assert
-            Assert.AreEqual(result, null);
-        }
-
-        [TestMethod]
-        public void GeneratePlaceIdParameter_PlaceId_ReturnsValidQuery()
-        {
-            string placeId = Guid.NewGuid().ToString();
-
-            // Arrange
-            var controller = CreateGeoQueryGenerator();
-
-            // Act
-            var result = controller.GeneratePlaceIdParameter(placeId);
-
-            // Assert
-            Assert.AreEqual(result, string.Format(Resources.Geo_PlaceIdParameter, placeId));
-        } 
-
-        #endregion
-
         #region GetPlaceFromIdQuery
 
         [TestMethod]
