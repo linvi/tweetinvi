@@ -24,7 +24,7 @@ namespace Tweetinvi.Controllers.SavedSearch
         {
             if (savedSearch == null)
             {
-                return null;
+                throw new ArgumentNullException("SavedSearch cannot be null.");
             }
 
             return GetDestroySavedSearchQuery(savedSearch.Id);
@@ -34,7 +34,7 @@ namespace Tweetinvi.Controllers.SavedSearch
         {
             if (searchId == TweetinviSettings.DEFAULT_ID)
             {
-                return null;
+                throw new ArgumentException("Search Id must be set.");
             }
 
             return string.Format(Resources.SavedSearch_Destroy, searchId);

@@ -203,7 +203,6 @@ namespace Tweetinvi.Controllers.Search
             return _twitterAccessor.ExecuteGETQuery<ISearchResultsDTO>(query);
         }
 
-
         public IEnumerable<IUserDTO> SearchUsers(string searchQuery)
         {
             var searchUsersParameters = _searchQueryParameterGenerator.CreateUserSearchParameters(searchQuery);
@@ -214,7 +213,7 @@ namespace Tweetinvi.Controllers.Search
         {
             if (string.IsNullOrEmpty(userSearchParameters.SearchQuery))
             {
-                return null;
+                throw new ArgumentNullException("Query must be set.");
             }
 
             var maximumNumberOfResults = Math.Min(userSearchParameters.MaximumNumberOfResults, 1000);

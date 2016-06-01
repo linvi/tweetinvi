@@ -232,7 +232,7 @@ namespace Tweetinvi.Controllers.Friendship
             }
 
             return GetRelationshipBetween(sourceUserIdentifier, targetUserIdentifier);
-        } 
+        }
 
         // Get multiple relationships
         public Dictionary<IUser, IRelationshipState> GetRelationshipStatesAssociatedWith(IEnumerable<IUser> targetUsers)
@@ -283,7 +283,7 @@ namespace Tweetinvi.Controllers.Friendship
         {
             if (relationshipDetailsDTO == null)
             {
-                throw new ArgumentNullException("Relationship details cannot be null.");
+                return null;
             }
 
             var relationshipParameter = _relationshipFactory.GenerateParameterOverrideWrapper("relationshipDetailsDTO", relationshipDetailsDTO);
@@ -295,7 +295,7 @@ namespace Tweetinvi.Controllers.Friendship
         {
             if (relationshipStateDTO == null)
             {
-                throw new ArgumentNullException("Relationship state cannot be null.");
+                return null;
             }
 
             var relationshipStateParameter = _relationshipFactory.GenerateParameterOverrideWrapper("relationshipStateDTO", relationshipStateDTO);
@@ -306,12 +306,7 @@ namespace Tweetinvi.Controllers.Friendship
         {
             if (relationshipStateDTOs == null)
             {
-                throw new ArgumentNullException("Relationship states cannot be null.");
-            }
-
-            if (relationshipStateDTOs.IsEmpty())
-            {
-                throw new ArgumentException("Relationship states cannot be empty.");
+                return null;
             }
 
             return relationshipStateDTOs.Select(GenerateRelationshipStateFromRelationshipStateDTO).ToList();
