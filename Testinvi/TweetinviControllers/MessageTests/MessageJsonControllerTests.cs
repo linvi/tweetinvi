@@ -8,6 +8,7 @@ using Tweetinvi.Controllers.Messages;
 using Tweetinvi.Core.Interfaces;
 using Tweetinvi.Core.Interfaces.Credentials;
 using Tweetinvi.Core.Interfaces.DTO;
+using Tweetinvi.Core.Parameters;
 
 namespace Testinvi.TweetinviControllers.MessageTests
 {
@@ -49,7 +50,7 @@ namespace Testinvi.TweetinviControllers.MessageTests
         private void ArrangeQueryGeneratorGetLatestMessagesReceived(int maximumMessages, string query)
         {
             _fakeMessageQueryGenerator
-                .CallsTo(x => x.GetLatestMessagesReceivedQuery(maximumMessages))
+                .CallsTo(x => x.GetLatestMessagesReceivedQuery(A<IMessagesReceivedParameters>.That.Matches(p => p.MaximumNumberOfMessagesToRetrieve == maximumMessages)))
                 .Returns(query);
         }
 
@@ -78,7 +79,7 @@ namespace Testinvi.TweetinviControllers.MessageTests
         private void ArrangeQueryGeneratorGetLatestMessagesSent(int maximumMessages, string query)
         {
             _fakeMessageQueryGenerator
-                .CallsTo(x => x.GetLatestMessagesSentQuery(maximumMessages))
+                .CallsTo(x => x.GetLatestMessagesSentQuery(A<IMessagesSentParameters>.That.Matches(p => p.MaximumNumberOfMessagesToRetrieve == maximumMessages)))
                 .Returns(query);
         }
 

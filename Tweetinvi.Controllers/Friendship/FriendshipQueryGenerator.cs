@@ -65,7 +65,12 @@ namespace Tweetinvi.Controllers.Friendship
         {
             if (targetUsersId == null)
             {
-                return null;
+                throw new ArgumentNullException("Target user ids parameter cannot be null.");
+            }
+
+            if (targetUsersId.IsEmpty())
+            {
+                throw new ArgumentException("Target user ids parameter cannot be empty.");
             }
 
             string userIds = _userQueryParameterGenerator.GenerateListOfIdsParameter(targetUsersId);

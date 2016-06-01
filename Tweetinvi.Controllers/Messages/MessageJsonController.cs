@@ -45,7 +45,12 @@ namespace Tweetinvi.Controllers.Messages
         // Get Messages
         public string GetLatestMessagesReceived(int maximumMessages = TweetinviConsts.MESSAGE_GET_COUNT)
         {
-            string query = _messageQueryGenerator.GetLatestMessagesReceivedQuery(maximumMessages);
+            var parameter = new MessagesReceivedParameters
+            {
+                MaximumNumberOfMessagesToRetrieve = maximumMessages
+            };
+
+            string query = _messageQueryGenerator.GetLatestMessagesReceivedQuery(parameter);
             return _twitterAccessor.ExecuteGETQueryReturningJson(query);
         }
 
@@ -57,7 +62,12 @@ namespace Tweetinvi.Controllers.Messages
 
         public string GetLatestMessagesSent(int maximumMessages = TweetinviConsts.MESSAGE_GET_COUNT)
         {
-            string query = _messageQueryGenerator.GetLatestMessagesSentQuery(maximumMessages);
+            var parameter = new MessagesSentParameters()
+            {
+                MaximumNumberOfMessagesToRetrieve = maximumMessages
+            };
+
+            string query = _messageQueryGenerator.GetLatestMessagesSentQuery(parameter);
             return _twitterAccessor.ExecuteGETQueryReturningJson(query);
         }
 

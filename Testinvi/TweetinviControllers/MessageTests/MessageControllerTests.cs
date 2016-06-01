@@ -52,7 +52,7 @@ namespace Testinvi.TweetinviControllers.MessageTests
         private void ArrangeQueryExecutorGetLatestMessagesReceived(int maxMessages, IEnumerable<IMessageDTO> result)
         {
             _fakeMessageQueryExecutor
-                .CallsTo(x => x.GetLatestMessagesReceived(maxMessages))
+                .CallsTo(x => x.GetLatestMessagesReceived(A<IMessagesReceivedParameters>.That.Matches(p => p.MaximumNumberOfMessagesToRetrieve == maxMessages)))
                 .Returns(result);
         }
         #endregion
@@ -81,7 +81,7 @@ namespace Testinvi.TweetinviControllers.MessageTests
         private void ArrangeQueryExecutorGetLatestMessagesSent(int maxMessages, IEnumerable<IMessageDTO> result)
         {
             _fakeMessageQueryExecutor
-                .CallsTo(x => x.GetLatestMessagesSent(maxMessages))
+                .CallsTo(x => x.GetLatestMessagesSent(A<IMessagesSentParameters>.That.Matches(p => p.MaximumNumberOfMessagesToRetrieve == maxMessages)))
                 .Returns(result);
         }
         #endregion

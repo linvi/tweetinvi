@@ -51,6 +51,7 @@ namespace Testinvi.TweetinviControllers.SavedSearchTests
         }
 
         [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
         public void GetDestroySavedSearchQuery_WithNullSavedSearch_ReturnsNull()
         {
             // Arrange
@@ -58,12 +59,10 @@ namespace Testinvi.TweetinviControllers.SavedSearchTests
 
             // Act
             var result = queryGenerator.GetDestroySavedSearchQuery(null);
-
-            // Assert
-            Assert.AreEqual(result, null);
         }
 
         [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
         public void GetDestroySavedSearchQuery_WithSavedSearchAndIdBeingDefault_ReturnsNull()
         {
             // Arrange
@@ -74,9 +73,6 @@ namespace Testinvi.TweetinviControllers.SavedSearchTests
 
             // Act
             var result = queryGenerator.GetDestroySavedSearchQuery(savedSearch);
-
-            // Assert
-            Assert.AreEqual(result, null);
         }
 
         [TestMethod]
@@ -95,6 +91,7 @@ namespace Testinvi.TweetinviControllers.SavedSearchTests
         }
 
         [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
         public void GetDestroySavedSearchQuery_WithSearchIdBeingDefault_ReturnsNull()
         {
             // Arrange
@@ -103,9 +100,6 @@ namespace Testinvi.TweetinviControllers.SavedSearchTests
 
             // Act
             var result = queryGenerator.GetDestroySavedSearchQuery(searchId);
-
-            // Assert
-            Assert.AreEqual(result, null);
         }
 
         public SavedSearchQueryGenerator CreateSavedSearchQueryGenerator()

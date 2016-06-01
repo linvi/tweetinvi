@@ -9,10 +9,10 @@ namespace Tweetinvi.Controllers.Messages
     public interface IMessageQueryValidator
     {
         bool IsMessageTextValid(string message);
-        bool IsMessageIdValid(long messageId);
 
         void ThrowIfMessageCannotBePublished(IPublishMessageParameters parameters);
-        bool CanMessageDTOBeDestroyed(IMessageDTO messageDTO);
+        void ThrowIfMessageCannotBeDestroyed(IMessageDTO message);
+        void ThrowIfMessageCannotBeDestroyed(long messageId);
     }
 
     public class MessageQueryValidator : IMessageQueryValidator
@@ -27,11 +27,6 @@ namespace Tweetinvi.Controllers.Messages
         public bool IsMessageTextValid(string message)
         {
             return !string.IsNullOrEmpty(message);
-        }
-
-        public bool IsMessageIdValid(long messageId)
-        {
-            return messageId != TweetinviSettings.DEFAULT_ID;
         }
 
         public void ThrowIfMessageCannotBePublished(IPublishMessageParameters parameters)
@@ -65,14 +60,30 @@ namespace Tweetinvi.Controllers.Messages
             }
         }
 
-        public bool CanMessageDTOBeDestroyed(IMessageDTO messageDTO)
+        public void ThrowIfMessageCannotBeDestroyed(IMessageDTO message)
         {
-            bool isMessageInValidStateToBeDestroyed = messageDTO != null &&
-                                                      messageDTO.Id != TweetinviSettings.DEFAULT_ID &&
-                                                      messageDTO.IsMessagePublished &&
-                                                      !messageDTO.IsMessageDestroyed;
+            if (message == null)
+            {
+                throw new ArgumentNullException("Message parameters cannot be null.");
+            }
 
-            return isMessageInValidStateToBeDestroyed;
+            if (!message.IsMessagePublished)
+            {
+                throw new ArgumentException("Message has not yet been published.");
+            }
+
+            if (message.IsMessageDestroyed)
+            {
+                throw new ArgumentException("Message already destroyed.");
+            }
+        }
+
+        public void ThrowIfMessageCannotBeDestroyed(long messageId)
+        {
+            if (messageId == TweetinviSettings.DEFAULT_ID)
+            {
+                throw new ArgumentException("Message Id must be set.");
+            }
         }
     }
 }

@@ -165,53 +165,36 @@ namespace Testinvi.TweetinviControllers.MessageTests
         public void CanMessageDTOBeDestroyed_BasedOnMessageHasBeenPublishedOrDestroyed()
         {
             // Arrange - Act
-            var result1 = CanMessageDTOBeDestroyed_BasedOnPublishedAndDestroyed(true, true, true);
-            var result2 = CanMessageDTOBeDestroyed_BasedOnPublishedAndDestroyed(true, true, false);
-            var result3 = CanMessageDTOBeDestroyed_BasedOnPublishedAndDestroyed(true, false, true);
-            var result4 = CanMessageDTOBeDestroyed_BasedOnPublishedAndDestroyed(true, false, false);
-
-            var result5 = CanMessageDTOBeDestroyed_BasedOnPublishedAndDestroyed(false, true, true);
-            var result6 = CanMessageDTOBeDestroyed_BasedOnPublishedAndDestroyed(false, true, false);
-            var result7 = CanMessageDTOBeDestroyed_BasedOnPublishedAndDestroyed(false, false, true);
-            var result8 = CanMessageDTOBeDestroyed_BasedOnPublishedAndDestroyed(false, false, false);
+            var result1 = CanMessageDTOBeDestroyed_BasedOnPublishedAndDestroyed(true, true);
+            var result2 = CanMessageDTOBeDestroyed_BasedOnPublishedAndDestroyed(true, false);
+            var result3 = CanMessageDTOBeDestroyed_BasedOnPublishedAndDestroyed(false, true);
+            var result4 = CanMessageDTOBeDestroyed_BasedOnPublishedAndDestroyed(false, false);
 
             // Assert
             Assert.IsFalse(result1);
-            Assert.IsFalse(result2);
-            Assert.IsTrue(result3);
+            Assert.IsTrue(result2);
+            Assert.IsFalse(result3);
             Assert.IsFalse(result4);
-
-            Assert.IsFalse(result5);
-            Assert.IsFalse(result6);
-            Assert.IsFalse(result7);
-            Assert.IsFalse(result8);
         }
 
         private bool CanMessageDTOBeDestroyed_BasedOnPublishedAndDestroyed(
             bool messageHasBeenPublished,
-            bool messageHasBeenDestroyed,
-            bool isMessageIdSetup)
+            bool messageHasBeenDestroyed)
         {
             // Arrange
             var queryValidator = CreateMessageQueryValidator();
             var messageDTO = CreateMessageDTO(messageHasBeenPublished, messageHasBeenDestroyed);
-            messageDTO.Id = isMessageIdSetup ? new Random().Next() : TweetinviSettings.DEFAULT_ID;
 
             // Act
-            return queryValidator.CanMessageDTOBeDestroyed(messageDTO);
-        }
-
-        [TestMethod]
-        public void CanMessageDTOBeDestroyed_MessageDTOIsNull_ReturnsFalse()
-        {
-            // Arrange
-            var queryValidator = CreateMessageQueryValidator();
-
-            // Act
-            var result = queryValidator.CanMessageDTOBeDestroyed(null);
-
-            // Assert
-            Assert.IsFalse(result);
+            try
+            {
+                queryValidator.ThrowIfMessageCannotBeDestroyed(messageDTO);
+                return true;
+            }
+            catch (ArgumentException)
+            {
+                return false;
+            }
         }
 
         #endregion
@@ -264,16 +247,14 @@ namespace Testinvi.TweetinviControllers.MessageTests
         #region Is User Id Valid
 
         [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
         public void IsMessageIdValid_IsDefault_ReturnsFalse()
         {
             // Arrange
             var queryValidator = CreateMessageQueryValidator();
 
             // Act
-            var result = queryValidator.IsMessageIdValid(TestHelper.DefaultId());
-
-            // Assert
-            Assert.IsFalse(result);
+            queryValidator.ThrowIfMessageCannotBeDestroyed(TestHelper.DefaultId());
         }
 
         [TestMethod]
@@ -285,10 +266,7 @@ namespace Testinvi.TweetinviControllers.MessageTests
             var queryValidator = CreateMessageQueryValidator();
 
             // Act
-            var result = queryValidator.IsMessageIdValid(id);
-
-            // Assert
-            Assert.IsTrue(result);
+            queryValidator.ThrowIfMessageCannotBeDestroyed(id);
         }
 
         #endregion

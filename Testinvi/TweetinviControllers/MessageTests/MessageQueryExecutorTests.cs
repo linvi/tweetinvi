@@ -27,30 +27,11 @@ namespace Testinvi.TweetinviControllers.MessageTests
         }
 
         #region GetLatestMessagesReceived
-        [TestMethod]
-        public void GetLatestMessagesReceived_ReturnsTwitterAccessorResult()
-        {
-            IEnumerable<IMessageDTO> expectedResult = new List<IMessageDTO> { A.Fake<IMessageDTO>() };
-
-            // Arrange
-            var queryExecutor = CreateMessageQueryExecutor();
-            var maximumMessages = new Random().Next();
-            var query = Guid.NewGuid().ToString();
-
-            ArrangeQueryGeneratorGetLatestMessagesReceived(maximumMessages, query);
-            _fakeTwitterAccessor.ArrangeExecuteGETQuery(query, expectedResult);
-
-            // Act
-            var result = queryExecutor.GetLatestMessagesReceived(maximumMessages);
-
-            // Assert
-            Assert.AreEqual(result, expectedResult);
-        }
-
+        
         private void ArrangeQueryGeneratorGetLatestMessagesReceived(int maximumMessages, string query)
         {
             _fakeMessageQueryGenerator
-                .CallsTo(x => x.GetLatestMessagesReceivedQuery(maximumMessages))
+                .CallsTo(x => x.GetLatestMessagesReceivedQuery(A<IMessagesReceivedParameters>.That.Matches(p => p.MaximumNumberOfMessagesToRetrieve == maximumMessages)))
                 .Returns(query);
         }
 
@@ -58,30 +39,10 @@ namespace Testinvi.TweetinviControllers.MessageTests
 
         #region GetLatestMessagesSent
 
-        [TestMethod]
-        public void GetLatestMessagesSent_ReturnsTwitterAccessorResult()
-        {
-            IEnumerable<IMessageDTO> expectedResult = new List<IMessageDTO> { A.Fake<IMessageDTO>() };
-
-            // Arrange
-            var queryExecutor = CreateMessageQueryExecutor();
-            var maximumMessages = new Random().Next();
-            var query = Guid.NewGuid().ToString();
-
-            ArrangeQueryGeneratorGetLatestMessagesSent(maximumMessages, query);
-            _fakeTwitterAccessor.ArrangeExecuteGETQuery(query, expectedResult);
-
-            // Act
-            var result = queryExecutor.GetLatestMessagesSent(maximumMessages);
-
-            // Assert
-            Assert.AreEqual(result, expectedResult);
-        }
-
         private void ArrangeQueryGeneratorGetLatestMessagesSent(int maximumMessages, string query)
         {
             _fakeMessageQueryGenerator
-                .CallsTo(x => x.GetLatestMessagesSentQuery(maximumMessages))
+                .CallsTo(x => x.GetLatestMessagesSentQuery(A<IMessagesSentParameters>.That.Matches(p => p.MaximumNumberOfMessagesToRetrieve == maximumMessages)))
                 .Returns(query);
         }
 

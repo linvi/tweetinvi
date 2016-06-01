@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Tweetinvi.Core;
 using Tweetinvi.Core.Interfaces.Credentials;
 using Tweetinvi.Core.Interfaces.DTO;
@@ -10,10 +9,7 @@ namespace Tweetinvi.Controllers.Messages
     public interface IMessageQueryExecutor
     {
         // Get messages
-        IEnumerable<IMessageDTO> GetLatestMessagesReceived(int maximumMessages = TweetinviConsts.MESSAGE_GET_COUNT);
         IEnumerable<IMessageDTO> GetLatestMessagesReceived(IMessagesReceivedParameters queryParameters);
-
-        IEnumerable<IMessageDTO> GetLatestMessagesSent(int maximumMessages = TweetinviConsts.MESSAGE_GET_COUNT);
         IEnumerable<IMessageDTO> GetLatestMessagesSent(IMessagesSentParameters queryParameters);
 
         // Publish Message
@@ -41,24 +37,13 @@ namespace Tweetinvi.Controllers.Messages
         }
 
         // Get Messages
-        public IEnumerable<IMessageDTO> GetLatestMessagesReceived(int maximumMessages = TweetinviConsts.MESSAGE_GET_COUNT)
-        {
-            string query = _messageQueryGenerator.GetLatestMessagesReceivedQuery(maximumMessages);
-            return _twitterAccessor.ExecuteGETQuery<IEnumerable<IMessageDTO>>(query);
-        }
-
         public IEnumerable<IMessageDTO> GetLatestMessagesReceived(IMessagesReceivedParameters queryParameters)
         {
             string query = _messageQueryGenerator.GetLatestMessagesReceivedQuery(queryParameters);
             return _twitterAccessor.ExecuteGETQuery<IEnumerable<IMessageDTO>>(query);
         }
 
-        public IEnumerable<IMessageDTO> GetLatestMessagesSent(int maximumMessages = TweetinviConsts.MESSAGE_GET_COUNT)
-        {
-            string query = _messageQueryGenerator.GetLatestMessagesSentQuery(maximumMessages);
-            return _twitterAccessor.ExecuteGETQuery<IEnumerable<IMessageDTO>>(query);
-        }
-
+      
         public IEnumerable<IMessageDTO> GetLatestMessagesSent(IMessagesSentParameters queryParameters)
         {
             string query = _messageQueryGenerator.GetLatestMessagesSentQuery(queryParameters);

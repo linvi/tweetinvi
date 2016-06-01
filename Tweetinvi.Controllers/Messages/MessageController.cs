@@ -25,7 +25,12 @@ namespace Tweetinvi.Controllers.Messages
 
         public IEnumerable<IMessage> GetLatestMessagesReceived(int maximumMessages = TweetinviConsts.MESSAGE_GET_COUNT)
         {
-            var messagesDTO = _messageQueryExecutor.GetLatestMessagesReceived(maximumMessages);
+            var parameter = new MessagesReceivedParameters
+            {
+                MaximumNumberOfMessagesToRetrieve = maximumMessages
+            };
+
+            var messagesDTO = _messageQueryExecutor.GetLatestMessagesReceived(parameter);
             return _messageFactory.GenerateMessagesFromMessagesDTO(messagesDTO);
         }
 
@@ -37,7 +42,12 @@ namespace Tweetinvi.Controllers.Messages
 
         public IEnumerable<IMessage> GetLatestMessagesSent(int maximumMessages = TweetinviConsts.MESSAGE_GET_COUNT)
         {
-            var messagesDTO = _messageQueryExecutor.GetLatestMessagesSent(maximumMessages);
+            var parameter = new MessagesSentParameters
+            {
+                MaximumNumberOfMessagesToRetrieve = maximumMessages
+            };
+
+            var messagesDTO = _messageQueryExecutor.GetLatestMessagesSent(parameter);
             return _messageFactory.GenerateMessagesFromMessagesDTO(messagesDTO);
         }
 
