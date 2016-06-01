@@ -73,7 +73,6 @@ namespace Testinvi.TweetinviControllers.SearchTests
             _fakeQueryParameterGenerator.CallsTo(x => x.GenerateSinceIdParameter(_sinceId)).Returns(_sinceIdParameter);
             _fakeQueryParameterGenerator.CallsTo(x => x.GenerateMaxIdParameter(_maxId)).Returns(_maxIdParameter);
 
-            _fakeSearchQueryValidator.CallsTo(x => x.IsSearchParameterValid(It.IsAny<ITweetSearchParameters>())).Returns(true);
             _fakeSearchQueryValidator.CallsTo(x => x.IsSearchTweetsQueryValid(It.IsAny<string>())).Returns(true);
         }
 
@@ -137,20 +136,6 @@ namespace Testinvi.TweetinviControllers.SearchTests
 
             // Assert
             Assert.IsTrue(result.Contains(" filter:videos"));
-        }
-
-        [TestMethod]
-        public void GetSearchTweetQuery_WithTweetSearchParameter_SearchParameterIsInvalid_ReturnsNull()
-        {
-            // Arrange
-            var searchQueryGenerator = CreateSearchQueryGenerator();
-            _fakeSearchQueryValidator.CallsTo(x => x.IsSearchParameterValid(_tweetSearchParameters)).Returns(false);
-
-            // Act
-            var result = searchQueryGenerator.GetSearchTweetsQuery(_tweetSearchParameters);
-
-            // Assert
-            Assert.IsNull(result);
         }
 
         [TestMethod]

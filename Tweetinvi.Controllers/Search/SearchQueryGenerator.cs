@@ -40,16 +40,14 @@ namespace Tweetinvi.Controllers.Search
 
         public string GetSearchTweetsQuery(ITweetSearchParameters tweetSearchParameters)
         {
-            if (!_searchQueryValidator.IsSearchParameterValid(tweetSearchParameters))
+            if (tweetSearchParameters == null)
             {
-                return null;
+                throw new ArgumentNullException("Search parameters cannot be null");
             }
 
             var searchQuery = GetQuery(tweetSearchParameters.SearchQuery, tweetSearchParameters.Filters);
-            if (!_searchQueryValidator.IsSearchTweetsQueryValid(searchQuery))
-            {
-                return null;
-            }
+
+            _searchQueryValidator.ThrowIfSearchParametersIsNotValid(tweetSearchParameters);
 
             var query = new StringBuilder(Resources.Search_SearchTweets);
 

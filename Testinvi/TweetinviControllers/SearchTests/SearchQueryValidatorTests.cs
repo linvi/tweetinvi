@@ -24,20 +24,18 @@ namespace Testinvi.TweetinviControllers.SearchTests
         #region IsSearchParameterValid
         
         [TestMethod]
-        public void IsSearchParameterValid_IsNull_False()
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void IsSearchParameterValid_IsNull_Throws()
         {
             // Arrange
             var queryValidator = CreateSearchQueryValidator();
 
             // Act
-            var result = queryValidator.IsSearchParameterValid(null);
-
-            // Assert
-            Assert.IsFalse(result);
+            queryValidator.ThrowIfSearchParametersIsNotValid(null);
         }
 
         [TestMethod]
-        public void IsSearchParameterValid_SearchQueryIsNull_ReturnsTrue()
+        public void IsSearchParameterValid_SearchQueryIsNull_Succeed()
         {
             // Arrange
             var queryValidator = CreateSearchQueryValidator();
@@ -45,25 +43,22 @@ namespace Testinvi.TweetinviControllers.SearchTests
             searchParameter.CallsTo(x => x.SearchQuery).Returns(null);
 
             // Act
-            var result = queryValidator.IsSearchParameterValid(searchParameter);
-
-            // Assert
-            Assert.IsTrue(result);
+            queryValidator.ThrowIfSearchParametersIsNotValid(searchParameter);
         }
 
         [TestMethod]
-        public void IsSearchParameterValid_SearchQueryIsEmpty_ReturnsTrue()
+        [ExpectedException(typeof(ArgumentException))]
+        public void IsSearchParameterValid_SearchQueryIsEmpty_Throws()
         {
             // Arrange
             var queryValidator = CreateSearchQueryValidator();
             var searchParameter = A.Fake<ITweetSearchParameters>();
-            searchParameter.CallsTo(x => x.SearchQuery).Returns(String.Empty);
+            searchParameter.CallsTo(x => x.SearchQuery).Returns(string.Empty);
+            searchParameter.CallsTo(x => x.GeoCode).Returns(null);
+            searchParameter.CallsTo(x => x.Filters).Returns(TweetSearchFilters.None);
 
             // Act
-            var result = queryValidator.IsSearchParameterValid(searchParameter);
-
-            // Assert
-            Assert.IsTrue(result);
+            queryValidator.ThrowIfSearchParametersIsNotValid(searchParameter);
         }
 
         [TestMethod]
@@ -75,10 +70,7 @@ namespace Testinvi.TweetinviControllers.SearchTests
             searchParameter.CallsTo(x => x.SearchQuery).Returns(TestHelper.GenerateString());
 
             // Act
-            var result = queryValidator.IsSearchParameterValid(searchParameter);
-
-            // Assert
-            Assert.IsTrue(result);
+            queryValidator.ThrowIfSearchParametersIsNotValid(searchParameter);
         } 
 
         #endregion
@@ -95,20 +87,20 @@ namespace Testinvi.TweetinviControllers.SearchTests
             var result = queryValidator.IsSearchTweetsQueryValid(null);
 
             // Assert
-            Assert.IsTrue(result);
+            Assert.IsFalse(result);
         }
 
         [TestMethod]
-        public void IsSearchQueryValid_SearchQueryIsEmpty_ReturnsTrue()
+        public void IsSearchQueryValid_SearchQueryIsEmpty_Throws()
         {
             // Arrange
             var queryValidator = CreateSearchQueryValidator();
 
             // Act
-            var result = queryValidator.IsSearchTweetsQueryValid(String.Empty);
+            var result = queryValidator.IsSearchTweetsQueryValid(string.Empty);
 
             // Assert
-            Assert.IsTrue(result);
+            Assert.IsFalse(result);
         }
 
         [TestMethod]
