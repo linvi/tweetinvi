@@ -103,9 +103,9 @@ namespace Tweetinvi.Controllers.Search
 
         public string GetSearchUsersQuery(IUserSearchParameters userSearchParameters)
         {
-            if (!_searchQueryValidator.IsSearchTweetsQueryValid(userSearchParameters.SearchQuery))
+            if (!_searchQueryValidator.IsSearchQueryValid(userSearchParameters.SearchQuery))
             {
-                return null;
+                throw new ArgumentException("Search query is not valid.");
             }
 
             var queryBuilder = new StringBuilder(Resources.Search_SearchUsers);

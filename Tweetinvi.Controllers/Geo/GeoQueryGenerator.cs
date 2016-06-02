@@ -110,7 +110,12 @@ namespace Tweetinvi.Controllers.Geo
         {
             if (placeId == null)
             {
-                return null;
+                throw new ArgumentNullException("PlaceId cannot be null.");
+            }
+
+            if (placeId == "")
+            {
+                throw new ArgumentNullException("PlaceId cannot be empty.");
             }
 
             return string.Format(Resources.Geo_GetPlaceFromId, placeId);

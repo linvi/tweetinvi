@@ -8,7 +8,7 @@ namespace Tweetinvi.Controllers.Search
     public interface ISearchQueryValidator
     {
         void ThrowIfSearchParametersIsNotValid(ITweetSearchParameters searchParameters);
-        bool IsSearchTweetsQueryValid(string searchQuery);
+        bool IsSearchQueryValid(string searchQuery);
         bool IsGeoCodeValid(IGeoCode geoCode);
         bool IsLocaleParameterValid(string locale);
         bool IsLangDefined(Language lang);
@@ -35,14 +35,14 @@ namespace Tweetinvi.Controllers.Search
         private bool IsAtLeasOneRequiredCriteriaSet(ITweetSearchParameters searchParameters)
         {
             bool isSearchQuerySet = !string.IsNullOrEmpty(searchParameters.SearchQuery);
-            bool isSearchQueryValid = IsSearchTweetsQueryValid(searchParameters.SearchQuery);
+            bool isSearchQueryValid = IsSearchQueryValid(searchParameters.SearchQuery);
             bool isGeoCodeSet = IsGeoCodeValid(searchParameters.GeoCode);
             bool isEntitiesTypeSet = searchParameters.Filters != TweetSearchFilters.None;
 
             return (isSearchQuerySet && isSearchQueryValid) || isGeoCodeSet || isEntitiesTypeSet;
         }
 
-        public bool IsSearchTweetsQueryValid(string searchQuery)
+        public bool IsSearchQueryValid(string searchQuery)
         {
             // We might want to restrict the size to 1000 characters as indicated in the documentation
             return !string.IsNullOrWhiteSpace(searchQuery);

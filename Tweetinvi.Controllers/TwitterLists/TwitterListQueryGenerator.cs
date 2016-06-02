@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using Tweetinvi.Controllers.Properties;
 using Tweetinvi.Controllers.Shared;
@@ -63,10 +64,7 @@ namespace Tweetinvi.Controllers.TwitterLists
         // User Lists
         public string GetUserSubscribedListsQuery(IUserIdentifier userIdentifier, bool getOwnedListsFirst)
         {
-            if (!_userQueryValidator.CanUserBeIdentified(userIdentifier))
-            {
-                return null;
-            }
+            _userQueryValidator.ThrowIfUserCannotBeIdentified(userIdentifier);
 
             var userIdParameter = _userQueryParameterGenerator.GenerateIdOrScreenNameParameter(userIdentifier);
             return string.Format(Resources.List_GetUserLists, userIdentifier, getOwnedListsFirst);
@@ -75,10 +73,7 @@ namespace Tweetinvi.Controllers.TwitterLists
         // Owned Lists
         public string GetUsersOwnedListQuery(IUserIdentifier userIdentifier, int maximumNumberOfListsToRetrieve)
         {
-            if (!_userQueryValidator.CanUserBeIdentified(userIdentifier))
-            {
-                return null;
-            }
+            _userQueryValidator.ThrowIfUserCannotBeIdentified(userIdentifier);
 
             var identifierParameter = _userQueryParameterGenerator.GenerateIdOrScreenNameParameter(userIdentifier);
             return string.Format(Resources.List_Ownership, identifierParameter, maximumNumberOfListsToRetrieve);
@@ -179,8 +174,9 @@ namespace Tweetinvi.Controllers.TwitterLists
 
         public string GetAddMemberToListQuery(ITwitterListIdentifier listIdentifier, IUserIdentifier userIdentifier)
         {
-            if (!_listsQueryValidator.IsListIdentifierValid(listIdentifier) ||
-                !_userQueryValidator.CanUserBeIdentified(userIdentifier))
+            _userQueryValidator.ThrowIfUserCannotBeIdentified(userIdentifier);
+
+            if (!_listsQueryValidator.IsListIdentifierValid(listIdentifier))
             {
                 return null;
             }
@@ -195,7 +191,14 @@ namespace Tweetinvi.Controllers.TwitterLists
         {
             if (userIdentifiers == null)
             {
-                return null;
+                throw new ArgumentNullException("UserIdentifiers cannot be null.");
+            }
+
+            var userIdentifiersArray = userIdentifiers.ToArray();
+
+            if (userIdentifiersArray.Length == 0)
+            {
+                throw new ArgumentException("UserIdentifiers cannot be empty.");
             }
 
             string userIdsAndScreenNameParameter = _userQueryParameterGenerator.GenerateListOfUserIdentifiersParameter(userIdentifiers);

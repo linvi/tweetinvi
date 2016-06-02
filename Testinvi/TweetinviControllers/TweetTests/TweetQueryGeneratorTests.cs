@@ -196,20 +196,6 @@ namespace Testinvi.TweetinviControllers.TweetTests
         #region GetPublishRetweetQuery
 
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
-        public void GetPublishRetweetQuery_RetweetingTweetUnpublished_ThrowsException()
-        {
-            // Arrange
-            var queryGenerator = CreateTweetQueryGenerator();
-            var tweetToRetweet = A.Fake<ITweetDTO>();
-
-            _fakeTweetQueryValidator.CallsTo(x => x.IsTweetPublished(tweetToRetweet)).Returns(false);
-
-            // Act
-            var result = queryGenerator.GetPublishRetweetQuery(tweetToRetweet);
-        }
-
-        [TestMethod]
         public void GetPublishRetweetQuery_RetweetingTweetPublished_ReturnsExpectedQuery()
         {
             // Arrange
@@ -226,6 +212,8 @@ namespace Testinvi.TweetinviControllers.TweetTests
             // Assert
             var expectedResult = string.Format(Resources.Tweet_Retweet_Publish, tweetToRetweetId);
             Assert.AreEqual(result, expectedResult);
+
+            _fakeTweetQueryValidator.CallsTo(x => x.ThrowIfTweetCannotBeUsed(tweetToRetweet)).MustHaveHappened();
         }
 
         [TestMethod]
@@ -241,6 +229,8 @@ namespace Testinvi.TweetinviControllers.TweetTests
             // Assert
             var expectedResult = string.Format(Resources.Tweet_Retweet_Publish, tweetToRetweetId);
             Assert.AreEqual(result, expectedResult);
+
+            _fakeTweetQueryValidator.CallsTo(x => x.ThrowIfTweetCannotBeUsed(tweetToRetweetId)).MustHaveHappened();
         }
 
         #endregion
@@ -279,7 +269,6 @@ namespace Testinvi.TweetinviControllers.TweetTests
             var queryGenerator = CreateTweetQueryGenerator();
             var tweetIdentifier = A.Fake<ITweetIdentifier>();
             var maxRetweetersToRetrieve = TestHelper.GenerateRandomInt();
-            _fakeTweetQueryValidator.CallsTo(x => x.IsValidTweetIdentifier(tweetIdentifier)).Returns(true);
 
             // Act
             var result = queryGenerator.GetRetweeterIdsQuery(tweetIdentifier, maxRetweetersToRetrieve);
@@ -287,6 +276,8 @@ namespace Testinvi.TweetinviControllers.TweetTests
             // Assert
             var expectedResult = string.Format("https://api.twitter.com/1.1/statuses/retweeters/ids.json?id={0}&count={1}", tweetIdentifier.Id, maxRetweetersToRetrieve);
             Assert.AreEqual(result, expectedResult);
+
+            _fakeTweetQueryValidator.CallsTo(x => x.ThrowIfTweetCannotBeUsed(tweetIdentifier)).MustHaveHappened();
         }
         
         #endregion
@@ -344,22 +335,6 @@ namespace Testinvi.TweetinviControllers.TweetTests
         #region GetFavouriteTweetQuery
 
         [TestMethod]
-        public void GetFavouriteTweetQuery_TweetNotPublished_ReturnsNull()
-        {
-            // Arrange
-            var queryGenerator = CreateTweetQueryGenerator();
-            var tweetToRetweet = A.Fake<ITweetDTO>();
-
-            _fakeTweetQueryValidator.CallsTo(x => x.IsTweetPublished(tweetToRetweet)).Returns(false);
-
-            // Act
-            var result = queryGenerator.GetFavoriteTweetQuery(tweetToRetweet);
-
-            // Assert
-            Assert.AreEqual(result, null);
-        }
-
-        [TestMethod]
         public void GetFavouriteTweetQuery_TweetPublished_ReturnsExpectedQuery()
         {
             // Arrange
@@ -376,6 +351,8 @@ namespace Testinvi.TweetinviControllers.TweetTests
             // Assert
             var expectedResult = string.Format(Resources.Tweet_Favorite_Create, tweetToFavouriteId);
             Assert.AreEqual(result, expectedResult);
+
+            _fakeTweetQueryValidator.CallsTo(x => x.ThrowIfTweetCannotBeUsed(tweetToFavourite)).MustHaveHappened();
         }
 
         [TestMethod]
@@ -391,27 +368,13 @@ namespace Testinvi.TweetinviControllers.TweetTests
             // Assert
             var expectedResult = string.Format(Resources.Tweet_Favorite_Create, tweetToFavouriteId);
             Assert.AreEqual(result, expectedResult);
+
+            _fakeTweetQueryValidator.CallsTo(x => x.ThrowIfTweetCannotBeUsed(tweetToFavouriteId)).MustHaveHappened();
         }
 
         #endregion
 
         #region GetUnFavoriteTweetQuery
-
-        [TestMethod]
-        public void GetUnFavouriteTweetQuery_TweetNotPublished_ReturnsNull()
-        {
-            // Arrange
-            var queryGenerator = CreateTweetQueryGenerator();
-            var tweetToRetweet = A.Fake<ITweetDTO>();
-
-            _fakeTweetQueryValidator.CallsTo(x => x.IsTweetPublished(tweetToRetweet)).Returns(false);
-
-            // Act
-            var result = queryGenerator.GetUnFavoriteTweetQuery(tweetToRetweet);
-
-            // Assert
-            Assert.AreEqual(result, null);
-        }
 
         [TestMethod]
         public void GetUnFavouriteTweetQuery_TweetPublished_ReturnsExpectedQuery()
@@ -430,6 +393,8 @@ namespace Testinvi.TweetinviControllers.TweetTests
             // Assert
             var expectedResult = string.Format(Resources.Tweet_Favorite_Destroy, tweetToUnFavouriteId);
             Assert.AreEqual(result, expectedResult);
+
+            _fakeTweetQueryValidator.CallsTo(x => x.ThrowIfTweetCannotBeUsed(tweetToUnFavourite)).MustHaveHappened();
         }
 
         [TestMethod]
@@ -445,27 +410,14 @@ namespace Testinvi.TweetinviControllers.TweetTests
             // Assert
             var expectedResult = string.Format(Resources.Tweet_Favorite_Destroy, tweetToUnFavouriteId);
             Assert.AreEqual(result, expectedResult);
+
+            _fakeTweetQueryValidator.CallsTo(x => x.ThrowIfTweetCannotBeUsed(tweetToUnFavouriteId)).MustHaveHappened();
         }
 
         #endregion
 
         #region GetGenerateOEmbedTweetQuery
 
-        [TestMethod]
-        public void GetGenerateOEmbedTweetQuery_TweetNotPublished_ReturnsNull()
-        {
-            // Arrange
-            var queryGenerator = CreateTweetQueryGenerator();
-            var tweetToRetweet = A.Fake<ITweetDTO>();
-
-            _fakeTweetQueryValidator.CallsTo(x => x.IsTweetPublished(tweetToRetweet)).Returns(false);
-
-            // Act
-            var result = queryGenerator.GetGenerateOEmbedTweetQuery(tweetToRetweet);
-
-            // Assert
-            Assert.AreEqual(result, null);
-        }
 
         [TestMethod]
         public void GetGenerateOEmbedTweetQuery_TweetPublished_ReturnsExpectedQuery()
@@ -484,6 +436,8 @@ namespace Testinvi.TweetinviControllers.TweetTests
             // Assert
             var expectedResult = string.Format(Resources.Tweet_GenerateOEmbed, tweetId);
             Assert.AreEqual(result, expectedResult);
+
+            _fakeTweetQueryValidator.CallsTo(x => x.ThrowIfTweetCannotBeUsed(tweet)).MustHaveHappened();
         }
 
         [TestMethod]
@@ -499,6 +453,8 @@ namespace Testinvi.TweetinviControllers.TweetTests
             // Assert
             var expectedResult = string.Format(Resources.Tweet_GenerateOEmbed, tweetToRetweetId);
             Assert.AreEqual(result, expectedResult);
+
+            _fakeTweetQueryValidator.CallsTo(x => x.ThrowIfTweetCannotBeUsed(tweetToRetweetId)).MustHaveHappened();
         }
 
         #endregion

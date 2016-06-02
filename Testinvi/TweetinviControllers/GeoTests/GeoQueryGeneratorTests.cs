@@ -58,6 +58,7 @@ namespace Testinvi.TweetinviControllers.GeoTests
         #region GetPlaceFromIdQuery
 
         [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
         public void GetPlaceFromIdQuery_PlaceIdIsNull_ReturnsNull()
         {
             // Arrange

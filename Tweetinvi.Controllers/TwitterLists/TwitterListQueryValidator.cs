@@ -23,6 +23,19 @@ namespace Tweetinvi.Controllers.TwitterLists
             return !String.IsNullOrEmpty(name);
         }
 
+        public void ThrowIfListIdentifierIsNotValid(ITwitterListIdentifier twitterListIdentifier)
+        {
+            if (twitterListIdentifier == null)
+            {
+                throw new ArgumentNullException("List identifier cannot be null.");
+            }
+
+            if (twitterListIdentifier.Id != TweetinviSettings.DEFAULT_ID)
+            {
+                throw new ArgumentException("List id must be set.");
+            }
+        }
+
         public bool IsListIdentifierValid(ITwitterListIdentifier twitterListIdentifier)
         {
             if (twitterListIdentifier == null)

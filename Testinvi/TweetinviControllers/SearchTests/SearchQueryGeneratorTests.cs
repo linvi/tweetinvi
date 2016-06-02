@@ -73,7 +73,7 @@ namespace Testinvi.TweetinviControllers.SearchTests
             _fakeQueryParameterGenerator.CallsTo(x => x.GenerateSinceIdParameter(_sinceId)).Returns(_sinceIdParameter);
             _fakeQueryParameterGenerator.CallsTo(x => x.GenerateMaxIdParameter(_maxId)).Returns(_maxIdParameter);
 
-            _fakeSearchQueryValidator.CallsTo(x => x.IsSearchTweetsQueryValid(It.IsAny<string>())).Returns(true);
+            _fakeSearchQueryValidator.CallsTo(x => x.IsSearchQueryValid(It.IsAny<string>())).Returns(true);
         }
 
         private void InitData()
@@ -136,33 +136,40 @@ namespace Testinvi.TweetinviControllers.SearchTests
 
             // Assert
             Assert.IsTrue(result.Contains(" filter:videos"));
+            
+            _fakeSearchQueryValidator.CallsTo(x => x.ThrowIfSearchParametersIsNotValid(tweetSearchParameters)).MustHaveHappened();
         }
 
         [TestMethod]
-        public void GetSearchTweetQuery_WithTweetSearchParameter_SearchQueryIsInvalid_ReturnsNull()
+        public void GetSearchTweetQuery_WithTweetSearchParameter_QueryIsValid_ReturnsExpectedQuery()
         {
             // Arrange
             var searchQueryGenerator = CreateSearchQueryGenerator();
-            _fakeSearchQueryValidator.CallsTo(x => x.IsSearchTweetsQueryValid(It.IsAny<string>())).Returns(false);
 
             // Act
             var result = searchQueryGenerator.GetSearchTweetsQuery(_tweetSearchParameters);
 
             // Assert
-            Assert.IsNull(result);
+            VerifyResultContainsParameters(result, _searchQueryParameter,
+                                                   _searchTypeParameter,
+                                                   _maximumNumberOfResultsParameter,
+                                                   _sinceIdParameter,
+                                                   _maxIdParameter,
+                                                   _sinceParameter,
+                                                   _untilParameter,
+                                                   _localeParameter,
+                                                   _languageParameter,
+                                                   _geoCodeParameter);
         }
 
         private void VerifyResultContainsParameters(string result, params string[] expectedParameters)
         {
-            int totalLength = 0;
-            expectedParameters.ForEach(x => totalLength += x.Length);
-
-            Assert.AreEqual(result.Length, totalLength);
             foreach (var expectedParameter in expectedParameters)
             {
                 Assert.IsTrue(result.Contains(expectedParameter));
             }
         }
+
 
         public SearchQueryGenerator CreateSearchQueryGenerator()
         {

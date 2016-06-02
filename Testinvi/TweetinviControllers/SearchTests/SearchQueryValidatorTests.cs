@@ -75,7 +75,7 @@ namespace Testinvi.TweetinviControllers.SearchTests
 
         #endregion
 
-        #region IsSearchTweetsQueryValid
+        #region IsSearchQueryValid
 
         [TestMethod]
         public void IsSearchQueryValid_SearchQueryIsNull_ReturnsTrue()
@@ -84,7 +84,7 @@ namespace Testinvi.TweetinviControllers.SearchTests
             var queryValidator = CreateSearchQueryValidator();
 
             // Act
-            var result = queryValidator.IsSearchTweetsQueryValid(null);
+            var result = queryValidator.IsSearchQueryValid(null);
 
             // Assert
             Assert.IsFalse(result);
@@ -97,7 +97,7 @@ namespace Testinvi.TweetinviControllers.SearchTests
             var queryValidator = CreateSearchQueryValidator();
 
             // Act
-            var result = queryValidator.IsSearchTweetsQueryValid(string.Empty);
+            var result = queryValidator.IsSearchQueryValid(string.Empty);
 
             // Assert
             Assert.IsFalse(result);
@@ -110,7 +110,7 @@ namespace Testinvi.TweetinviControllers.SearchTests
             var queryValidator = CreateSearchQueryValidator();
 
             // Act
-            var result = queryValidator.IsSearchTweetsQueryValid(TestHelper.GenerateString());
+            var result = queryValidator.IsSearchQueryValid(TestHelper.GenerateString());
 
             // Assert
             Assert.IsTrue(result);

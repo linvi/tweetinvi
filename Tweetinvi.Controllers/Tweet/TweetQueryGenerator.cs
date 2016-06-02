@@ -38,17 +38,25 @@ namespace Tweetinvi.Controllers.Tweet
         // Get Tweet
         public string GetTweetQuery(long tweetId)
         {
+            _tweetQueryValidator.ThrowIfTweetCannotBeUsed(tweetId);
             return string.Format(Resources.Tweet_Get, tweetId);
         }
 
         public string GetTweetsQuery(IEnumerable<long> tweetIds)
         {
-            if (tweetIds.IsNullOrEmpty())
+            if (tweetIds == null)
             {
-                return null;
+                throw new ArgumentNullException("Tweet Ids cannot be null.");
             }
 
-            var idsParameter = string.Join("%2C", tweetIds);
+            var tweetIdsAsList = new List<long>(tweetIds);
+
+            if (!tweetIdsAsList.Any())
+            {
+                throw new ArgumentException("Tweet Ids cannot be empty.");
+            }
+
+            var idsParameter = string.Join("%2C", tweetIdsAsList);
             return string.Format(Resources.Tweet_Lookup, idsParameter);
         }
 
@@ -106,16 +114,13 @@ namespace Tweetinvi.Controllers.Tweet
         // Publish Retweet
         public string GetPublishRetweetQuery(ITweetDTO tweetDTO)
         {
-            if (!_tweetQueryValidator.IsTweetPublished(tweetDTO))
-            {
-                throw new ArgumentException("Cannot retweet a non published tweet.");
-            }
-
+            _tweetQueryValidator.ThrowIfTweetCannotBeUsed(tweetDTO);
             return GetPublishRetweetQuery(tweetDTO.Id);
         }
 
         public string GetPublishRetweetQuery(long tweetId)
         {
+            _tweetQueryValidator.ThrowIfTweetCannotBeUsed(tweetId);
             return string.Format(Resources.Tweet_Retweet_Publish, tweetId);
         }
 
@@ -123,7 +128,7 @@ namespace Tweetinvi.Controllers.Tweet
 
         public string GetRetweetsQuery(ITweetIdentifier tweetIdentifier, int maxRetweetsToRetrieve)
         {
-            _tweetQueryValidator.ValidateTweetIdentifier(tweetIdentifier);
+            _tweetQueryValidator.ThrowIfTweetCannotBeUsed(tweetIdentifier);
 
             var query = new StringBuilder(string.Format(Resources.Tweet_Retweet_GetRetweets, tweetIdentifier.Id));
             query.AddParameterToQuery("count", maxRetweetsToRetrieve);
@@ -135,8 +140,8 @@ namespace Tweetinvi.Controllers.Tweet
 
         public string GetRetweeterIdsQuery(ITweetIdentifier tweetIdentifier, int maxRetweetersToRetrieve = 100)
         {
-           _tweetQueryValidator.ValidateTweetIdentifier(tweetIdentifier);
-            
+            _tweetQueryValidator.ThrowIfTweetCannotBeUsed(tweetIdentifier);
+
             var query = new StringBuilder(string.Format(Resources.Tweet_GetRetweeters, tweetIdentifier.Id));
 
             query.AddParameterToQuery("id", tweetIdentifier.Id);
@@ -150,16 +155,13 @@ namespace Tweetinvi.Controllers.Tweet
         // UnRetweet
         public string GetUnRetweetQuery(ITweetIdentifier tweetIdentifier)
         {
-            if (tweetIdentifier == null)
-            {
-                return null;
-            }
-
+            _tweetQueryValidator.ThrowIfTweetCannotBeUsed(tweetIdentifier);
             return GetUnRetweetQuery(tweetIdentifier.Id);
         }
 
         public string GetUnRetweetQuery(long tweetId)
         {
+            _tweetQueryValidator.ThrowIfTweetCannotBeUsed(tweetId);
             return string.Format(Resources.Tweet_UnRetweet, tweetId);
         }
 
@@ -172,54 +174,46 @@ namespace Tweetinvi.Controllers.Tweet
 
         public string GetDestroyTweetQuery(long tweetId)
         {
+            _tweetQueryValidator.ThrowIfTweetCannotBeUsed(tweetId);
             return string.Format(Resources.Tweet_Destroy, tweetId);
         }
 
         // Favorite Tweet
         public string GetFavoriteTweetQuery(ITweetDTO tweetDTO)
         {
-            if (!_tweetQueryValidator.IsTweetPublished(tweetDTO))
-            {
-                return null;
-            }
-
+            _tweetQueryValidator.ThrowIfTweetCannotBeUsed(tweetDTO);
             return GetFavoriteTweetQuery(tweetDTO.Id);
         }
 
         public string GetFavoriteTweetQuery(long tweetId)
         {
+            _tweetQueryValidator.ThrowIfTweetCannotBeUsed(tweetId);
             return string.Format(Resources.Tweet_Favorite_Create, tweetId);
         }
 
         // Unfavourite Tweet
         public string GetUnFavoriteTweetQuery(ITweetDTO tweetDTO)
         {
-            if (!_tweetQueryValidator.IsTweetPublished(tweetDTO))
-            {
-                return null;
-            }
-
+            _tweetQueryValidator.ThrowIfTweetCannotBeUsed(tweetDTO);
             return GetUnFavoriteTweetQuery(tweetDTO.Id);
         }
 
         public string GetUnFavoriteTweetQuery(long tweetId)
         {
+            _tweetQueryValidator.ThrowIfTweetCannotBeUsed(tweetId);
             return string.Format(Resources.Tweet_Favorite_Destroy, tweetId);
         }
 
         // OEmbed Tweet
         public string GetGenerateOEmbedTweetQuery(ITweetDTO tweetDTO)
         {
-            if (!_tweetQueryValidator.IsTweetPublished(tweetDTO))
-            {
-                return null;
-            }
-
+            _tweetQueryValidator.ThrowIfTweetCannotBeUsed(tweetDTO);
             return GetGenerateOEmbedTweetQuery(tweetDTO.Id);
         }
 
         public string GetGenerateOEmbedTweetQuery(long tweetId)
         {
+            _tweetQueryValidator.ThrowIfTweetCannotBeUsed(tweetId);
             return string.Format(Resources.Tweet_GenerateOEmbed, tweetId);
         }
 

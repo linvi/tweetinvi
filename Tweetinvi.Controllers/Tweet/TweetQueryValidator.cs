@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using Tweetinvi.Core;
 using Tweetinvi.Core.Interfaces.DTO;
 using Tweetinvi.Core.Interfaces.Models;
 using Tweetinvi.Core.Parameters;
@@ -11,8 +12,10 @@ namespace Tweetinvi.Controllers.Tweet
         void ThrowIfTweetCannotBePublished(IPublishTweetParameters parameters);
         bool IsTweetPublished(ITweetDTO tweetDTO);
         bool IsValidTweetIdentifier(ITweetIdentifier tweetIdentifier);
-        void ValidateTweetIdentifier(ITweetIdentifier tweetIdentifier);
         void ThrowIfTweetCannotBeDestroyed(ITweetDTO tweet);
+        void ThrowIfTweetCannotBeUsed(ITweetDTO tweet);
+        void ThrowIfTweetCannotBeUsed(ITweetIdentifier tweet);
+        void ThrowIfTweetCannotBeUsed(long tweetId);
     }
 
     public class TweetQueryValidator : ITweetQueryValidator
@@ -56,6 +59,45 @@ namespace Tweetinvi.Controllers.Tweet
             }
         }
 
+        public void ThrowIfTweetCannotBeUsed(ITweetDTO tweet)
+        {
+            if (tweet == null)
+            {
+                throw new ArgumentNullException("Tweet cannot be null.");
+            }
+
+            if (!tweet.IsTweetPublished)
+            {
+                throw new ArgumentException("Tweet must have been already published to be destroyed.");
+            }
+
+            if (tweet.IsTweetDestroyed)
+            {
+                throw new ArgumentException("Tweet has been destroyed.");
+            }
+        }
+
+        public void ThrowIfTweetCannotBeUsed(long tweetId)
+        {
+            if (tweetId == TweetinviSettings.DEFAULT_ID)
+            {
+                throw new ArgumentException("Tweet Id must be valid.");
+            }
+        }
+
+        public void ThrowIfTweetCannotBeUsed(ITweetIdentifier tweet)
+        {
+            if (tweet == null)
+            {
+                throw new ArgumentNullException("Tweet cannot be null.");
+            }
+
+            if (tweet.Id == TweetinviSettings.DEFAULT_ID)
+            {
+                throw new ArgumentNullException("Tweet id is invalid.");
+            }
+        }
+
         public bool IsTweetPublished(ITweetDTO tweet)
         {
             return tweet != null && tweet.IsTweetPublished && !tweet.IsTweetDestroyed;
@@ -64,19 +106,6 @@ namespace Tweetinvi.Controllers.Tweet
         public bool IsValidTweetIdentifier(ITweetIdentifier tweetIdentifier)
         {
             return tweetIdentifier != null && tweetIdentifier.Id > 0;
-        }
-
-        public void ValidateTweetIdentifier(ITweetIdentifier tweetIdentifier)
-        {
-            if (tweetIdentifier == null)
-            {
-                throw new ArgumentException("TweetIdentifier");
-            }
-
-            if (!IsValidTweetIdentifier(tweetIdentifier))
-            {
-                throw new ArgumentException("TweetIdentifier is not valid.");
-            }
         }
     }
 }
