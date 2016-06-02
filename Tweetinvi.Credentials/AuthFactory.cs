@@ -45,6 +45,11 @@ namespace Tweetinvi.Credentials
         {
             try
             {
+                if (authToken == null)
+                {
+                    throw new ArgumentNullException("Authentication Token cannot be null.");
+                }
+
                 if (verifierCode == null)
                 {
                     throw new ArgumentNullException("VerifierCode", "If you've received a verifier code that is null, " +

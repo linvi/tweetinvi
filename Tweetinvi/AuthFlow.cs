@@ -20,7 +20,7 @@ namespace Tweetinvi
         /// <summary>
         /// Static objet storing the credentials for Callbacks Authentication
         /// </summary>
-        public static Dictionary<Guid, IAuthenticationContext> CallbackAuthenticationContextStore
+        public static Dictionary<string, IAuthenticationContext> CallbackAuthenticationContextStore
         {
             get { return _credentialsStore.CallbackAuthenticationContextStore; }
         }
@@ -34,29 +34,20 @@ namespace Tweetinvi
 
         // ##############   Step 1 - Authorization URL   ###############
 
-        /// <summary>
-        /// Return an authentication context object containing an url that will let the user authenticate on twitter.
-        /// If the callback url is null, the user will be redirected to PIN CODE authentication.
-        /// If the callback url is defined, the user will be redirected to CALLBACK authentication.
-        /// </summary>
         public static IAuthenticationContext InitAuthentication(IConsumerCredentials appCredentials, string callbackURL = null)
         {
-            return _webTokenFactory.InitAuthenticationProcess(appCredentials, callbackURL, true);
+            return _webTokenFactory.InitAuthenticationProcess(appCredentials, callbackURL, Guid.NewGuid().ToString());
         }
 
         /// <summary>
         /// Return an authentication context object containing an url that will let the user authenticate on twitter.
         /// If the callback url is null, the user will be redirected to PIN CODE authentication.
         /// If the callback url is defined, the user will be redirected to CALLBACK authentication.
-        /// 
-        /// The 'authorization_id' parameter is added by Tweetinvi to simplify the retrieval of information to 
-        /// generate the credentials. Strict mode removes this parameter from your query and let you handle it your own way.
         /// </summary>
-        public static IAuthenticationContext InitAuthentication_StrictMode(IConsumerCredentials appCredentials, string callbackURL = null)
+        public static IAuthenticationContext InitAuthentication(IConsumerCredentials appCredentials, string callbackURL, string authenticationIdentifier)
         {
-            return _webTokenFactory.InitAuthenticationProcess(appCredentials, callbackURL, false);
+            return _webTokenFactory.InitAuthenticationProcess(appCredentials, callbackURL, authenticationIdentifier);
         }
-
 
         // ##############   Step 2 - Get the token from URL or pin code   ###############
 
@@ -76,7 +67,7 @@ namespace Tweetinvi
             return CreateCredentialsFromVerifierCode(verifierCode, authContext.Token);
         }
 
-        private static ITwitterCredentials CreateCredentialsFromVerifierCode(string verifierCode, IAuthenticationToken authToken)
+        public static ITwitterCredentials CreateCredentialsFromVerifierCode(string verifierCode, IAuthenticationToken authToken)
         {
             return _authFactory.GetCredentialsFromVerifierCode(verifierCode, authToken);
         }

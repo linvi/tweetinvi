@@ -31,5 +31,11 @@
         /// If this value is changed manually it will overridden by Tweetinvi.
         /// </summary>
         string VerifierCode { get; set; }
+
+        /// <summary>
+        /// Property used by Tweetinvi or yourself to track the IAuthenticationContext
+        /// when the callback url is received.
+        /// </summary>
+        string AuthorizationUniqueIdentifier { get; set; }
     }
 }

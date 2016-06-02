@@ -11,5 +11,6 @@ namespace Tweetinvi.Credentials.Models
         public string AuthorizationSecret { get; set; }
 
         public string VerifierCode { get; set; }
+        public string AuthorizationUniqueIdentifier { get; set; }
     }
 }

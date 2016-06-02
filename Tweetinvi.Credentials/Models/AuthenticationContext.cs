@@ -14,6 +14,7 @@ namespace Tweetinvi.Credentials.Models
         }
 
         public string AuthorizationURL { get; set; }
+
         public IAuthenticationToken Token { get; }
 
         public override string ToString()

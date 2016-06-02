@@ -34,7 +34,8 @@ namespace Tweetinvi.Credentials
         }
 
         // Step 1 - Generate Authorization URL
-        public IAuthenticationContext InitAuthenticationProcess(IConsumerCredentials appCredentials, string callbackURL, bool updateQueryIsAuthorized)
+
+        public IAuthenticationContext InitAuthenticationProcess(IConsumerCredentials appCredentials, string callbackURL, string credsIdentifier)
         {
             try
             {
@@ -45,12 +46,10 @@ namespace Tweetinvi.Credentials
                 {
                     callbackURL = Resources.OAuth_PINCode_CallbackURL;
                 }
-                else if (updateQueryIsAuthorized)
+                else if (credsIdentifier != null)
                 {
-                    var credsIdentifier = Guid.NewGuid();
                     _credentialsStore.CallbackAuthenticationContextStore.Add(credsIdentifier, authContext);
-
-                    callbackURL = callbackURL.AddParameterToQuery(Resources.RedirectRequest_CredsParamId, credsIdentifier.ToString());
+                    callbackURL = callbackURL.AddParameterToQuery(Resources.RedirectRequest_CredsParamId, credsIdentifier);
                 }
 
                 var callbackParameter = _oAuthWebRequestGenerator.GenerateParameter("oauth_callback", callbackURL, true, true, false);
@@ -66,7 +65,7 @@ namespace Tweetinvi.Credentials
                 {
                     Match tokenInformation = Regex.Match(requestTokenResponse, Resources.OAuthTokenRequestRegex);
 
-                    bool callbackConfirmed = Boolean.Parse(tokenInformation.Groups["oauth_callback_confirmed"].Value);
+                    bool callbackConfirmed = bool.Parse(tokenInformation.Groups["oauth_callback_confirmed"].Value);
                     if (!callbackConfirmed)
                     {
                         return null;
@@ -76,6 +75,7 @@ namespace Tweetinvi.Credentials
                     token.AuthorizationSecret = tokenInformation.Groups["oauth_token_secret"].Value;
 
                     authContext.AuthorizationURL = string.Format("{0}?oauth_token={1}", Resources.OAuthRequestAuthorize, token.AuthorizationKey);
+                    authContext.Token.AuthorizationUniqueIdentifier = credsIdentifier;
 
                     return authContext;
                 }

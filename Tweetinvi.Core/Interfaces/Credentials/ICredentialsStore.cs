@@ -6,9 +6,8 @@ namespace Tweetinvi.Core.Interfaces.Credentials
 {
     public interface ICredentialsStore
     {
-        Dictionary<Guid, IAuthenticationContext> CallbackAuthenticationContextStore { get; }
+        Dictionary<string, IAuthenticationContext> CallbackAuthenticationContextStore { get; }
 
-        bool TryGetValue(Guid identifier, out IAuthenticationContext creds);
         bool TryGetValue(string identifier, out IAuthenticationContext creds);
     }
 }
