@@ -34,7 +34,8 @@ namespace Tweetinvi
 
         // ##############   Step 1 - Authorization URL   ###############
 
-        public static IAuthenticationContext InitAuthentication(IConsumerCredentials appCredentials, string callbackURL = null)
+        public static IAuthenticationContext InitAuthentication(IConsumerCredentials appCredentials,
+            string callbackURL = null)
         {
             return _webTokenFactory.InitAuthenticationProcess(appCredentials, callbackURL, Guid.NewGuid().ToString());
         }
@@ -44,13 +45,13 @@ namespace Tweetinvi
         /// If the callback url is null, the user will be redirected to PIN CODE authentication.
         /// If the callback url is defined, the user will be redirected to CALLBACK authentication.
         /// </summary>
-        public static IAuthenticationContext InitAuthentication(IConsumerCredentials appCredentials, string callbackURL, string authenticationIdentifier)
+        public static IAuthenticationContext InitAuthentication(IConsumerCredentials appCredentials, string callbackURL,
+            string authenticationIdentifier)
         {
             return _webTokenFactory.InitAuthenticationProcess(appCredentials, callbackURL, authenticationIdentifier);
         }
 
         // ##############   Step 2 - Get the token from URL or pin code   ###############
-
 
         /// <summary>
         /// Get the credentials from a PIN CODE/OAUTH VERIFIER provided by twitter.com to the user.
@@ -62,12 +63,14 @@ namespace Tweetinvi
         /// - URL REDIRECT : Use the value of the 'oauth_verifier' url parameter.
         /// </param>
         /// <param name="authContext">Use the same credentials as the one given as a parameter to get the Authentication URL.</param>
-        public static ITwitterCredentials CreateCredentialsFromVerifierCode(string verifierCode, IAuthenticationContext authContext)
+        public static ITwitterCredentials CreateCredentialsFromVerifierCode(string verifierCode,
+            IAuthenticationContext authContext)
         {
             return CreateCredentialsFromVerifierCode(verifierCode, authContext.Token);
         }
 
-        public static ITwitterCredentials CreateCredentialsFromVerifierCode(string verifierCode, IAuthenticationToken authToken)
+        public static ITwitterCredentials CreateCredentialsFromVerifierCode(string verifierCode,
+            IAuthenticationToken authToken)
         {
             return _authFactory.GetCredentialsFromVerifierCode(verifierCode, authToken);
         }
@@ -118,9 +121,9 @@ namespace Tweetinvi
         /// <param name="authContext">
         /// If this parameter is set, the authorizationId will be used only if this object misses some required information.
         /// </param>
-        public static ITwitterCredentials CreateCredentialsFromVerifierCode(string verifierCode, string authorizationId, IAuthenticationContext authContext = null)
+        public static ITwitterCredentials CreateCredentialsFromVerifierCode(string verifierCode, string authorizationId)
         {
-            var authToken = CreateCrentialsFromId(authorizationId, authContext?.Token);
+            var authToken = CreateCrentialsFromId(authorizationId, null);
             return _authFactory.GetCredentialsFromVerifierCode(verifierCode, authToken);
         }
 
@@ -133,7 +136,8 @@ namespace Tweetinvi
         /// If this parameter is set, the credentials information will be extracted from it, 
         /// otherwise, Tweetinvi will attempt to access the credentials associated with the 'authorization_id' parameter.
         /// </param>
-        public static ITwitterCredentials CreateCredentialsFromCallbackURL(string callbackURL, IAuthenticationContext authContext = null)
+        public static ITwitterCredentials CreateCredentialsFromCallbackURL(string callbackURL,
+            IAuthenticationContext authContext = null)
         {
             string verifierCode = _webTokenFactory.GetVerifierCodeFromCallbackURL(callbackURL);
             var credentialsId = callbackURL.GetURLParameter("authorization_id");
@@ -152,16 +156,15 @@ namespace Tweetinvi
                 if (_credentialsStore.TryGetValue(identifier, out authContext))
                 {
                     authToken = authContext.Token;
+                    return authToken;
                 }
-                else
-                {
-                    if (authToken == null)
-                    {
-                        throw new ArgumentException("The credentials are required as the URL does not contain the credentials identifier.");
-                    }
 
-                    throw new ArgumentException("The credentials needs the AuthorizationKey and AuthorizationSecret to be set up as the URL does not contain the credentials identifier.");
+                if (identifier != null)
+                {
+                    throw new ArgumentException("Identifier could not be matched to any stored AuthenticationContext.");
                 }
+
+                throw new ArgumentException("The credentials needs the AuthorizationKey and AuthorizationSecret to be set up as the URL does not contain the credentials identifier.");
             }
 
             return authToken;
