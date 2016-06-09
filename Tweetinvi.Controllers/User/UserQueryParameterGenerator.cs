@@ -66,10 +66,15 @@ namespace Tweetinvi.Controllers.User
 
         public string GenerateListOfUserIdentifiersParameter(IEnumerable<IUserIdentifier> usersIdentifiers)
         {
-            var userDTOList = usersIdentifiers.ToList();
-            if (userDTOList.Any(user => user.Id == TweetinviSettings.DEFAULT_ID && String.IsNullOrEmpty(user.ScreenName)))
+            if (usersIdentifiers == null)
             {
-                throw new ArgumentException("Cannot generate a list with any empty screename and id");
+                throw new ArgumentNullException("User identifiers cannot be null.");
+            }
+
+            var userIdentifiersList = usersIdentifiers.ToList();
+            if (userIdentifiersList.Any(user => user.Id == TweetinviSettings.DEFAULT_ID && string.IsNullOrEmpty(user.ScreenName)))
+            {
+                throw new ArgumentException("At least 1 valid user identifier is required.");
             }
 
             const string initialUserId = "user_id=";
@@ -78,9 +83,9 @@ namespace Tweetinvi.Controllers.User
             StringBuilder idsBuilder = new StringBuilder(initialUserId);
             StringBuilder screeNameBuilder = new StringBuilder(initialScreenName);
 
-            for (int i = 0; i < userDTOList.Count - 1; ++i)
+            for (int i = 0; i < userIdentifiersList.Count - 1; ++i)
             {
-                var userDTO = userDTOList[0];
+                var userDTO = userIdentifiersList[0];
 
                 if (userDTO.Id != TweetinviSettings.DEFAULT_ID)
                 {
@@ -93,13 +98,13 @@ namespace Tweetinvi.Controllers.User
             }
 
             // Last element does not have a comma
-            if (userDTOList[userDTOList.Count - 1].Id != -1)
+            if (userIdentifiersList[userIdentifiersList.Count - 1].Id != -1)
             {
-                idsBuilder.Append(userDTOList[userDTOList.Count - 1].Id);
+                idsBuilder.Append(userIdentifiersList[userIdentifiersList.Count - 1].Id);
             }
             else
             {
-                screeNameBuilder.Append(userDTOList[userDTOList.Count - 1].ScreenName);
+                screeNameBuilder.Append(userIdentifiersList[userIdentifiersList.Count - 1].ScreenName);
             }
 
             // Only ids

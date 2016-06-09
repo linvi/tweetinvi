@@ -165,6 +165,11 @@ namespace Tweetinvi.Controllers.Properties
         public static string List_CreateMember = "https://api.twitter.com/1.1/lists/members/create.json?{0}&{1}";
 
         /// <summary>
+        ///   Looks up a localized string similar to https://api.twitter.com/1.1/lists/members/create_all.json.
+        /// </summary>
+        public static string List_CreateMembers = "https://api.twitter.com/1.1/lists/members/create_all.json";
+
+        /// <summary>
         ///   Looks up a localized string similar to &amp;description={0}.
         /// </summary>
         public static string List_DescriptionParameter = "&description={0}";
@@ -178,6 +183,11 @@ namespace Tweetinvi.Controllers.Properties
         ///   Looks up a localized string similar to https://api.twitter.com/1.1/lists/members/destroy.json?{0}&amp;{1}.
         /// </summary>
         public static string List_DestroyMember = "https://api.twitter.com/1.1/lists/members/destroy.json?{0}&{1}";
+
+        /// <summary>
+        ///   Looks up a localized string similar to https://api.twitter.com/1.1/lists/members/destroy_all.json.
+        /// </summary>
+        public static string List_DestroyMembers = "https://api.twitter.com/1.1/lists/members/destroy_all.json";
 
         /// <summary>
         ///   Looks up a localized string similar to https://api.twitter.com/1.1/lists/subscribers.json?{0}&amp;count={1}.
@@ -263,6 +273,11 @@ namespace Tweetinvi.Controllers.Properties
         ///   Looks up a localized string similar to https://api.twitter.com/1.1/users/suggestions/{0}/members.json.
         /// </summary>
         public static string List_UserSuggestionMembers = "https://api.twitter.com/1.1/users/suggestions/{0}/members.json";
+
+        /// <summary>
+        ///   Looks up a localized string similar to https://api.twitter.com/1.1/users/suggestions/{0}/members.json.
+        /// </summary>
+        public static string List_CheckSubscriber = "https://api.twitter.com/1.1/lists/subscribers/show.json";
 
         /// <summary>
         ///   Looks up a localized string similar to https://api.twitter.com/1.1/direct_messages/destroy.json?id={0}.

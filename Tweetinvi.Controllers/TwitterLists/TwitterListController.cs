@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Tweetinvi.Core.Enum;
 using Tweetinvi.Core.Interfaces;
@@ -9,7 +8,6 @@ using Tweetinvi.Core.Interfaces.Models;
 using Tweetinvi.Core.Interfaces.QueryGenerators;
 using Tweetinvi.Core.Parameters;
 using Tweetinvi.Core.Parameters.QueryParameters;
-using Tweetinvi.Logic.QueryParameters;
 
 namespace Tweetinvi.Controllers.TwitterLists
 {
@@ -496,57 +494,68 @@ namespace Tweetinvi.Controllers.TwitterLists
 
         public MultiRequestsResult RemoveMultipleMembersFromList(long listId, IEnumerable<string> userScreenNames)
         {
-            throw new NotImplementedException();
+            var listIdentifier = _twitterListIdentifierFactory.Create(listId);
+            return RemoveMultipleMembersFromList(listIdentifier, userScreenNames);
         }
 
         public MultiRequestsResult RemoveMultipleMembersFromList(long listId, IEnumerable<IUserIdentifier> userIdentifiers)
         {
-            throw new NotImplementedException();
+            var listIdentifier = _twitterListIdentifierFactory.Create(listId);
+            return RemoveMultipleMembersFromList(listIdentifier, userIdentifiers);
         }
 
         public MultiRequestsResult RemoveMultipleMembersFromList(string slug, long ownerId, IEnumerable<long> userIds)
         {
-            throw new NotImplementedException();
+            var listIdentifier = _twitterListIdentifierFactory.Create(slug, ownerId);
+            return RemoveMultipleMembersFromList(listIdentifier, userIds);
         }
 
         public MultiRequestsResult RemoveMultipleMembersFromList(string slug, long ownerId, IEnumerable<string> userScreenNames)
         {
-            throw new NotImplementedException();
+            var listIdentifier = _twitterListIdentifierFactory.Create(slug, ownerId);
+            return RemoveMultipleMembersFromList(listIdentifier, userScreenNames);
         }
 
         public MultiRequestsResult RemoveMultipleMembersFromList(string slug, long ownerId, IEnumerable<IUserIdentifier> userIdentifiers)
         {
-            throw new NotImplementedException();
+            var listIdentifier = _twitterListIdentifierFactory.Create(slug, ownerId);
+            return RemoveMultipleMembersFromList(listIdentifier, userIdentifiers);
         }
 
         public MultiRequestsResult RemoveMultipleMembersFromList(string slug, string ownerScreenName, IEnumerable<long> userIds)
         {
-            throw new NotImplementedException();
+            var listIdentifier = _twitterListIdentifierFactory.Create(slug, ownerScreenName);
+            return RemoveMultipleMembersFromList(listIdentifier, userIds);
         }
 
         public MultiRequestsResult RemoveMultipleMembersFromList(string slug, string ownerScreenName, IEnumerable<string> userScreenNames)
         {
-            throw new NotImplementedException();
+            var listIdentifier = _twitterListIdentifierFactory.Create(slug, ownerScreenName);
+            return RemoveMultipleMembersFromList(listIdentifier, userScreenNames);
         }
 
         public MultiRequestsResult RemoveMultipleMembersFromList(string slug, string ownerScreenName, IEnumerable<IUserIdentifier> userIdentifiers)
         {
-            throw new NotImplementedException();
+            var listIdentifier = _twitterListIdentifierFactory.Create(slug, ownerScreenName);
+            return RemoveMultipleMembersFromList(listIdentifier, userIdentifiers);
         }
 
         public MultiRequestsResult RemoveMultipleMembersFromList(string slug, IUserIdentifier owner, IEnumerable<long> userIds)
         {
-            throw new NotImplementedException();
+            var listIdentifier = _twitterListIdentifierFactory.Create(slug, owner);
+            return RemoveMultipleMembersFromList(listIdentifier, userIds);
         }
 
         public MultiRequestsResult RemoveMultipleMembersFromList(string slug, IUserIdentifier owner, IEnumerable<string> userScreenNames)
         {
-            throw new NotImplementedException();
+            var listIdentifier = _twitterListIdentifierFactory.Create(slug, owner);
+            return RemoveMultipleMembersFromList(listIdentifier, userScreenNames);
         }
 
         public MultiRequestsResult RemoveMultipleMembersFromList(string slug, IUserIdentifier owner, IEnumerable<IUserIdentifier> userIdentifiers)
         {
-            throw new NotImplementedException();
+            var listIdentifier = _twitterListIdentifierFactory.Create(slug, owner);
+            return RemoveMultipleMembersFromList(listIdentifier, userIdentifiers);
         }
 
         public MultiRequestsResult RemoveMultipleMembersFromList(ITwitterListIdentifier list, IEnumerable<long> userIds)
@@ -565,7 +574,6 @@ namespace Tweetinvi.Controllers.TwitterLists
         {
             return _twitterListQueryExecutor.RemoveMultipleMembersFromList(list, userIdentifiers);
         }
-
 
         #endregion
 
