@@ -106,7 +106,7 @@ namespace Tweetinvi.Controllers.TwitterLists
                 var userIdentifiersToAdd = userIdentifiersArray.Skip(i).Take(TweetinviConsts.LIST_ADD_OR_REMOVE_MULTIPLE_MEMBERS_MAX).ToArray();
                 var query = _listsQueryGenerator.GetAddMultipleMembersToListQuery(listIdentifier, userIdentifiersToAdd);
 
-                if (!_twitterAccessor.TryExecuteGETQuery(query))
+                if (!_twitterAccessor.TryExecutePOSTQuery(query))
                 {
                     return i > 0 ? MultiRequestsResult.Partial : MultiRequestsResult.Failure;
                 }
@@ -130,7 +130,7 @@ namespace Tweetinvi.Controllers.TwitterLists
                 var userIdentifiersToAdd = userIdentifiersArray.Skip(i).Take(TweetinviConsts.LIST_ADD_OR_REMOVE_MULTIPLE_MEMBERS_MAX).ToArray();
                 var query = _listsQueryGenerator.GetRemoveMultipleMembersFromListQuery(listIdentifier, userIdentifiersToAdd);
 
-                if (!_twitterAccessor.TryExecuteGETQuery(query))
+                if (!_twitterAccessor.TryExecutePOSTQuery(query))
                 {
                     return i > 0 ? MultiRequestsResult.Partial : MultiRequestsResult.Failure;
                 }

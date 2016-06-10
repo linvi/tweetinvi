@@ -3,26 +3,12 @@ using Tweetinvi.Core;
 using Tweetinvi.Core.Interfaces.Models;
 using Tweetinvi.Core.Interfaces.QueryValidators;
 using Tweetinvi.Core.Parameters;
+using Tweetinvi.Core.Parameters.QueryParameters;
 
 namespace Tweetinvi.Controllers.TwitterLists
 {
     public class TwitterListQueryValidator : ITwitterListQueryValidator
     {
-        public bool IsListUpdateParametersValid(ITwitterListUpdateParameters parameters)
-        {
-            return parameters != null;
-        }
-
-        public bool IsDescriptionParameterValid(string description)
-        {
-            return !String.IsNullOrEmpty(description);
-        }
-
-        public bool IsNameParameterValid(string name)
-        {
-            return !String.IsNullOrEmpty(name);
-        }
-
         public void ThrowIfListIdentifierIsNotValid(ITwitterListIdentifier twitterListIdentifier)
         {
             if (twitterListIdentifier == null)
@@ -30,9 +16,17 @@ namespace Tweetinvi.Controllers.TwitterLists
                 throw new ArgumentNullException("List identifier cannot be null.");
             }
 
-            if (twitterListIdentifier.Id != TweetinviSettings.DEFAULT_ID)
+            if (twitterListIdentifier.Id == TweetinviSettings.DEFAULT_ID)
             {
                 throw new ArgumentException("List id must be set.");
+            }
+        }
+
+        public void ThrowIfListUpdateParametersIsNotValid(ITwitterListUpdateParameters parameters)
+        {
+            if (parameters == null)
+            {
+                throw new ArgumentNullException("List update parameter cannot be null.");
             }
         }
 
@@ -52,9 +46,21 @@ namespace Tweetinvi.Controllers.TwitterLists
             return IsSlugValid(twitterListIdentifier.Slug) && isOwnerIdentifierValid;
         }
 
+        public void ThrowIfGetTweetsFromListQueryParametersIsNotValid(IGetTweetsFromListQueryParameters parameters)
+        {
+            if (parameters == null)
+            {
+                throw new ArgumentNullException("GetTweetsFromListQueryP Parameter cannot be null");
+            }
+
+            var identifier = parameters.TwitterListIdentifier;
+
+            ThrowIfListIdentifierIsNotValid(identifier);
+        }
+
         public bool IsOwnerScreenNameValid(string ownerScreenName)
         {
-            return !String.IsNullOrEmpty(ownerScreenName);
+            return !string.IsNullOrEmpty(ownerScreenName);
         }
 
         public bool IsOwnerIdValid(long? ownderId)
@@ -64,7 +70,7 @@ namespace Tweetinvi.Controllers.TwitterLists
 
         public bool IsSlugValid(string slug)
         {
-            return !String.IsNullOrEmpty(slug);
+            return !string.IsNullOrEmpty(slug);
         }
     }
 }

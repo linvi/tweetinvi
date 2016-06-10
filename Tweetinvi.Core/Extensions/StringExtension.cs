@@ -254,7 +254,7 @@ namespace Tweetinvi.Core.Extensions
 
         public static void AddParameterToQuery(this StringBuilder queryBuilder, string parameterName, string parameterValue)
         {
-            if (string.IsNullOrEmpty(parameterValue))
+            if (string.IsNullOrEmpty(parameterName) || string.IsNullOrEmpty(parameterValue))
             {
                 return;
             }
@@ -283,7 +283,7 @@ namespace Tweetinvi.Core.Extensions
 
             var query = queryBuilder.ToString();
 
-            if (query.Contains("?") && query[query.Length - 1] != '?' && query[query.Length - 1] != '&')
+            if (query.Contains("?") && query[query.Length - 1] != '?' && query[query.Length - 1] != '&' && parameter[0] != '&')
             {
                 queryBuilder.Append("&");
             }
@@ -298,7 +298,7 @@ namespace Tweetinvi.Core.Extensions
 
         public static void AddParameterToQuery<T>(this StringBuilder queryBuilder, string parameterName, T parameterValue)
         {
-            if (parameterValue == null)
+            if (string.IsNullOrEmpty(parameterName) || parameterValue == null)
             {
                 return;
             }
@@ -337,7 +337,7 @@ namespace Tweetinvi.Core.Extensions
 
         public static string AddParameterToQuery(this string query, string parameterName, string parameterValue)
         {
-            if (parameterValue == null)
+            if (string.IsNullOrEmpty(parameterName) || string.IsNullOrEmpty(parameterValue))
             {
                 return query;
             }
@@ -353,6 +353,7 @@ namespace Tweetinvi.Core.Extensions
             }
 
             query += string.Format("{0}={1}", parameterName, parameterValue);
+
             return query;
         }
     }
