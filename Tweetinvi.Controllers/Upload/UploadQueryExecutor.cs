@@ -53,7 +53,7 @@ namespace Tweetinvi.Controllers.Upload
         /// <summary>
         /// Upload a video in multiple queries if necessary.
         /// </summary>
-        IMedia UploadVideo(byte[] binary, string mediaType = "video/mp4", string mediaCategory = "amplify_video");
+        IMedia UploadVideo(byte[] binary, string mediaType, string mediaCategory);
 
         /// <summary>
         /// Add metadata to a media that has been uploaded.
@@ -229,7 +229,7 @@ namespace Tweetinvi.Controllers.Upload
             return result;
         }
 
-        public IMedia UploadVideo(byte[] binary, string mediaType = "video/mp4", string mediaCategory = "amplify_video")
+        public IMedia UploadVideo(byte[] binary, string mediaType, string mediaCategory)
         {
             return ChunkUploadBinary(binary, mediaType, mediaCategory);
         }
