@@ -17,7 +17,7 @@ namespace Tweetinvi.Controllers.Upload
             initQuery = initQuery.AddParameterToQuery("command", "INIT");
             initQuery = initQuery.AddParameterToQuery("media_type", parameters.MediaType);
             initQuery = initQuery.AddParameterToQuery("total_bytes", parameters.TotalBinaryLength.ToString(CultureInfo.InvariantCulture));
-            initQuery = initQuery.AddParameterToQuery("media_category", parameters.MediaCategory);
+            //initQuery = initQuery.AddParameterToQuery("media_category", parameters.MediaCategory);
 
             if (parameters.AdditionalOwnerIds != null && parameters.AdditionalOwnerIds.Any())
             {
