@@ -5,7 +5,6 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Testinvi.Helpers;
 using Testinvi.SetupHelpers;
 using Tweetinvi.Controllers.Messages;
-using Tweetinvi.Core;
 using Tweetinvi.Core.Interfaces.DTO;
 using Tweetinvi.Core.Interfaces.QueryValidators;
 using Tweetinvi.Core.Parameters;
@@ -221,7 +220,7 @@ namespace Testinvi.TweetinviControllers.MessageTests
             var queryValidator = CreateMessageQueryValidator();
 
             // Act
-            var result = queryValidator.IsMessageTextValid(String.Empty);
+            var result = queryValidator.IsMessageTextValid(string.Empty);
 
             // Assert
             Assert.IsFalse(result);

@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Testinvi.Helpers;
 using Tweetinvi.Controllers.Shared;
 using Tweetinvi.Core;
@@ -28,7 +27,7 @@ namespace Testinvi.TweetinviControllers.Shared
             var result = queryParameterGenerator.GenerateSinceIdParameter(TweetinviSettings.DEFAULT_ID);
 
             // Assert
-            Assert.AreEqual(result, String.Empty);
+            Assert.AreEqual(result, string.Empty);
         }
 
         [TestMethod]

@@ -33,7 +33,7 @@ namespace Tweetinvi.WebLogic
 
         private bool ValidateUrl(string url)
         {
-            return !String.IsNullOrEmpty(url);
+            return !string.IsNullOrEmpty(url);
         }
 
         public WebResponse GetWebResponse(WebRequest webRequest)
@@ -120,7 +120,7 @@ namespace Tweetinvi.WebLogic
                 return uri.AbsoluteUri;
             }
 
-            return uri.AbsoluteUri.Replace(uri.Query, String.Empty);
+            return uri.AbsoluteUri.Replace(uri.Query, string.Empty);
         }
     }
 }

@@ -52,12 +52,7 @@ namespace Tweetinvi.Controllers.Friendship
         // Lookup Relationship State
         public string GetMultipleRelationshipsQuery(IEnumerable<IUserIdentifier> userIdentifiers)
         {
-            if (userIdentifiers == null)
-            {
-                return null;
-            }
-
-            string userIdsAndScreenNameParameter = _userQueryParameterGenerator.GenerateListOfUserIdentifiersParameter(userIdentifiers);
+            var userIdsAndScreenNameParameter = _userQueryParameterGenerator.GenerateListOfUserIdentifiersParameter(userIdentifiers);
             return string.Format(Resources.Friendship_GetRelationships, userIdsAndScreenNameParameter);
         }
 

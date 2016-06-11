@@ -171,7 +171,7 @@ namespace Testinvi.TweetinviControllers.SearchTests
             var queryValidator = CreateSearchQueryValidator();
 
             // Act
-            var result = queryValidator.IsLocaleParameterValid(String.Empty);
+            var result = queryValidator.IsLocaleParameterValid(string.Empty);
 
             // Assert
             Assert.IsFalse(result);

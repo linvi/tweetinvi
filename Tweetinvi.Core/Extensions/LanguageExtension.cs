@@ -18,7 +18,7 @@ namespace Tweetinvi.Core.Extensions
         {
             try
             {
-                if (!String.IsNullOrEmpty(descriptionValue))
+                if (!string.IsNullOrEmpty(descriptionValue))
                 {
                     descriptionValue = descriptionValue.Substring(0, 2).ToLower();
                 }

@@ -14,7 +14,7 @@ namespace Tweetinvi.Streams.Helpers
         {
             if (tracks.IsNullOrEmpty())
             {
-                return String.Empty;
+                return string.Empty;
             }
 
             StringBuilder queryBuilder = new StringBuilder();
@@ -33,7 +33,7 @@ namespace Tweetinvi.Streams.Helpers
         {
             if (followUserIds.IsNullOrEmpty())
             {
-                return String.Empty;
+                return string.Empty;
             }
 
             StringBuilder queryBuilder = new StringBuilder();
@@ -67,7 +67,7 @@ namespace Tweetinvi.Streams.Helpers
         {
             if (locations.IsNullOrEmpty())
             {
-                return String.Empty;
+                return string.Empty;
             }
 
             StringBuilder queryBuilder = new StringBuilder();

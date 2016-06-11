@@ -55,7 +55,7 @@ namespace Tweetinvi.Controllers.Search
 
         public bool IsLocaleParameterValid(string locale)
         {
-            return !String.IsNullOrEmpty(locale);
+            return !string.IsNullOrEmpty(locale);
         }
 
         public bool IsLangDefined(Language lang)

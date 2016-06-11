@@ -103,7 +103,7 @@ namespace Tweetinvi.Controllers.Upload
 
             if (medias == null)
             {
-                return null;
+                throw new ArgumentNullException("Binary to upload cannot be null.");
             }
 
             return medias.SingleOrDefault(x => x.UploadedMediaInfo != null);

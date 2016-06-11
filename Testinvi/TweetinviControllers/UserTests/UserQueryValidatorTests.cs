@@ -1,5 +1,4 @@
-﻿using System;
-using FakeItEasy;
+﻿using FakeItEasy;
 using FakeItEasy.ExtensionSyntax.Full;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Testinvi.Helpers;
@@ -90,7 +89,7 @@ namespace Testinvi.TweetinviControllers.UserTests
             var queryValidator = CreateUserQuerValidator();
 
             // Act
-            var result = queryValidator.IsScreenNameValid(String.Empty);
+            var result = queryValidator.IsScreenNameValid(string.Empty);
 
             // Assert
             Assert.IsFalse(result);
@@ -144,7 +143,7 @@ namespace Testinvi.TweetinviControllers.UserTests
         private IUserDTO GenerateUserDTO(bool isUserIdDefault, bool isUserScreenNameNull, bool isUserScreenNameEmpty)
         {
             var userDTO = A.Fake<IUserDTO>();
-            var expectedScreenName = isUserScreenNameNull ? null : isUserScreenNameEmpty ? String.Empty : TestHelper.GenerateString();
+            var expectedScreenName = isUserScreenNameNull ? null : isUserScreenNameEmpty ? string.Empty : TestHelper.GenerateString();
             userDTO.CallsTo(x => x.Id).Returns(isUserIdDefault ? TweetinviSettings.DEFAULT_ID : TestHelper.GenerateRandomLong());
             userDTO.CallsTo(x => x.ScreenName).Returns(expectedScreenName);
             return userDTO;

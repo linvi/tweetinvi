@@ -122,7 +122,7 @@ namespace Tweetinvi.Controllers.User
         {
             var url = userDTO.ProfileImageUrl;
 
-            if (String.IsNullOrEmpty(url))
+            if (string.IsNullOrEmpty(url))
             {
                 return null;
             }

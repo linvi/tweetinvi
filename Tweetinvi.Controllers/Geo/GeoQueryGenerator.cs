@@ -22,7 +22,7 @@ namespace Tweetinvi.Controllers.Geo
         {
             if (coordinates == null)
             {
-                return null;
+                throw new ArgumentNullException("Coordinates cannot be null.");
             }
 
             string latitudeValue = coordinates.Latitude.ToString(CultureInfo.InvariantCulture);

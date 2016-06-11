@@ -1,5 +1,4 @@
-﻿using System;
-using FakeItEasy;
+﻿using FakeItEasy;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Testinvi.Helpers;
 using Tweetinvi.Core;
@@ -41,7 +40,7 @@ namespace Testinvi.TweetinviWebLogic
             var webHelper = CreateWebHelper();
 
             // Act
-            var result = webHelper.GetResponseStream(String.Empty);
+            var result = webHelper.GetResponseStream(string.Empty);
 
             // Assert
             Assert.IsNull(result);
