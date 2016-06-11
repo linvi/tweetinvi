@@ -33,7 +33,7 @@ namespace Tweetinvi.Core.Parameters
         /// <summary>
         /// Choose if the result set will be represented by recent or popular Tweets, or even a mix of both.
         /// </summary>
-        SearchResultType SearchType { get; set; }
+        SearchResultType? SearchType { get; set; }
 
         /// <summary>
         /// Maximum number of tweets the search will return.
@@ -123,7 +123,7 @@ namespace Tweetinvi.Core.Parameters
 
         public Language Lang { get; set; }
         public IGeoCode GeoCode { get; set; }
-        public SearchResultType SearchType { get; set; }
+        public SearchResultType? SearchType { get; set; }
 
         public DateTime Since { get; set; }
         public DateTime Until { get; set; }

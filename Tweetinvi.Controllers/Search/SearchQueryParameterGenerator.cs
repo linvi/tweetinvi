@@ -17,7 +17,7 @@ namespace Tweetinvi.Controllers.Search
         ITweetSearchParameters CreateSearchTweetParameter(double latitude, double longitude, int radius, DistanceMeasure measure);
 
         string GenerateSearchQueryParameter(string query);
-        string GenerateSearchTypeParameter(SearchResultType searchType);
+        string GenerateSearchTypeParameter(SearchResultType? searchType);
         string GenerateSinceParameter(DateTime since);
         string GenerateUntilParameter(DateTime until);
         string GenerateLocaleParameter(string locale);
@@ -65,8 +65,13 @@ namespace Tweetinvi.Controllers.Search
             return _twitterStringFormatter.TwitterEncode(searchQuery);
         }
 
-        public string GenerateSearchTypeParameter(SearchResultType searchType)
+        public string GenerateSearchTypeParameter(SearchResultType? searchType)
         {
+            if (searchType == null)
+            {
+                return string.Empty;
+            }
+
             return string.Format(Resources.SearchParameter_ResultType, searchType.ToString().ToLowerInvariant());
         }
 
