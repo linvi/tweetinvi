@@ -194,7 +194,7 @@ namespace Tweetinvi.Controllers.Upload
                     totalsize += binaryChunk.Length;
                     var appendParameters = new ChunkUploadAppendParameters(
                         binaryChunk, 
-                        "media", // Must be media, if using the real media type as content id, Twitter does not accept when invoking .Finalize().
+                        "media", // Must be `media`, if using the real media type as content id, Twitter does not accept when invoking .Finalize().
                         uploadQueryParameters.Timeout);
 
                     appendParameters.CustomRequestParameters = uploadQueryParameters.AppendCustomRequestParameters;

@@ -211,9 +211,19 @@ namespace Tweetinvi.Controllers.Search
 
         public IEnumerable<IUserDTO> SearchUsers(IUserSearchParameters userSearchParameters)
         {
-            if (string.IsNullOrEmpty(userSearchParameters.SearchQuery))
+            if (userSearchParameters == null)
             {
-                throw new ArgumentNullException("Query must be set.");
+                throw new ArgumentNullException("Search parameters cannot be null.");
+            }
+
+            if (userSearchParameters.SearchQuery == null)
+            {
+                throw new ArgumentNullException("Search query cannot be null.");
+            }
+
+            if (userSearchParameters.SearchQuery == string.Empty)
+            {
+                throw new ArgumentException("Search query cannot be empty.");
             }
 
             var maximumNumberOfResults = Math.Min(userSearchParameters.MaximumNumberOfResults, 1000);
