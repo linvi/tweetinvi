@@ -10,7 +10,7 @@ using System.Runtime.CompilerServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("TweetinviControllers")]
-[assembly: AssemblyCopyright("Copyright. Tweetinvi 2015")]
+[assembly: AssemblyCopyright("Copyright. Tweetinvi 2016")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 [assembly: NeutralResourcesLanguage("en")]
