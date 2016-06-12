@@ -23,15 +23,14 @@ namespace Testinvi.TweetinviControllers.GeoTests
         #region GetPlaceFromIdQuery
 
         [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
         public void GenerateGeoParameter_CoordinatesIsNull_ReturnsNull()
         {
             // Arrange
             var controller = CreateGeoQueryGenerator();
 
             // Act
-            var result = controller.GenerateGeoParameter(null);
-            // Assert
-            Assert.AreEqual(result, null);
+            controller.GenerateGeoParameter(null);
         }
 
         [TestMethod]

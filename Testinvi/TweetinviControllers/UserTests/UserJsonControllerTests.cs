@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using FakeItEasy;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Testinvi.Helpers;
@@ -11,7 +10,6 @@ using Tweetinvi.Core.Interfaces.DTO;
 using Tweetinvi.Core.Interfaces.DTO.QueryDTO;
 using Tweetinvi.Core.Interfaces.Models;
 using Tweetinvi.Core.Interfaces.QueryGenerators;
-using Tweetinvi.Core.Parameters;
 using Tweetinvi.Core.Parameters.QueryParameters;
 
 namespace Testinvi.TweetinviControllers.UserTests
@@ -40,15 +38,16 @@ namespace Testinvi.TweetinviControllers.UserTests
             var queryExecutor = CreateUserJsonController();
             var maximumNumberOfFriends = TestHelper.GenerateRandomInt();
             var expectedQuery = TestHelper.GenerateString();
+            var expectedResult = GenerateExpectedCursorResults();
 
             _fakeUserQueryGenerator.CallsTo(x => x.GetFriendIdsQuery(A<IUserDTO>.Ignored, A<int>.Ignored)).Returns(expectedQuery);
-            _fakeTwitterAccessor.ArrangeExecuteJsonCursorGETQuery<IIdsCursorQueryResultDTO>(expectedQuery, A.Fake<IEnumerable<string>>());
+            _fakeTwitterAccessor.ArrangeExecuteJsonCursorGETQuery<IIdsCursorQueryResultDTO>(expectedQuery, expectedResult);
 
             // Act
             var result = queryExecutor.GetFriendIds((IUser)null, maximumNumberOfFriends);
 
             // Assert
-            Assert.IsNull(result);
+            Assert.AreEqual(result, expectedResult);
         }
 
         [TestMethod]
@@ -56,17 +55,16 @@ namespace Testinvi.TweetinviControllers.UserTests
         {
             // Arrange
             var queryExecutor = CreateUserJsonController();
-            var userDTO = A.Fake<IUserDTO>();
-            var user = TestHelper.GenerateUser(userDTO);
+            var userIdentifier = A.Fake<IUserIdentifier>();
             var maximumNumberOfFriends = TestHelper.GenerateRandomInt();
             var expectedQuery = TestHelper.GenerateString();
             var expectedCursorResults = GenerateExpectedCursorResults();
 
-            _fakeUserQueryGenerator.CallsTo(x => x.GetFriendIdsQuery(userDTO, maximumNumberOfFriends)).Returns(expectedQuery);
+            _fakeUserQueryGenerator.CallsTo(x => x.GetFriendIdsQuery(userIdentifier, maximumNumberOfFriends)).Returns(expectedQuery);
             _fakeTwitterAccessor.ArrangeExecuteJsonCursorGETQuery<IIdsCursorQueryResultDTO>(expectedQuery, expectedCursorResults);
 
             // Act
-            var result = queryExecutor.GetFriendIds(user, maximumNumberOfFriends);
+            var result = queryExecutor.GetFriendIds(userIdentifier, maximumNumberOfFriends);
 
             // Assert
             Assert.AreEqual(result, expectedCursorResults);
@@ -137,19 +135,22 @@ namespace Testinvi.TweetinviControllers.UserTests
         #region FollowerIds
 
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
-        public void GetFollowerIdsWithNullUser_ThrowsArgumentException()
+        public void GetFollowerIdsWithNullUser()
         {
             // Arrange
             var queryExecutor = CreateUserJsonController();
             var maximumNumberOfFollowers = TestHelper.GenerateRandomInt();
             var expectedQuery = TestHelper.GenerateString();
+            var expectedResult = new string[0];
 
-            _fakeUserQueryGenerator.CallsTo(x => x.GetFollowerIdsQuery(A<IUserDTO>.Ignored, A<int>.Ignored)).Returns(expectedQuery);
-            _fakeTwitterAccessor.ArrangeExecuteJsonCursorGETQuery<IIdsCursorQueryResultDTO>(expectedQuery, A.Fake<IEnumerable<string>>());
+            _fakeUserQueryGenerator.CallsTo(x => x.GetFollowerIdsQuery(A<IUserIdentifier>.Ignored, It.IsAny<int>())).Returns(expectedQuery);
+            _fakeTwitterAccessor.ArrangeExecuteJsonCursorGETQuery<IIdsCursorQueryResultDTO>(expectedQuery, expectedResult);
 
             // Act
-            queryExecutor.GetFollowerIds((IUser)null, maximumNumberOfFollowers);
+            var result = queryExecutor.GetFollowerIds((IUserIdentifier)null, maximumNumberOfFollowers);
+
+            // Assert
+            Assert.AreEqual(result, expectedResult);
         }
 
         [TestMethod]
@@ -157,17 +158,16 @@ namespace Testinvi.TweetinviControllers.UserTests
         {
             // Arrange
             var queryExecutor = CreateUserJsonController();
-            var userDTO = A.Fake<IUserDTO>();
-            var user = TestHelper.GenerateUser(userDTO);
+            var userIdentifier = A.Fake<IUserIdentifier>();
             var maximumNumberOfFollowers = TestHelper.GenerateRandomInt();
             var expectedQuery = TestHelper.GenerateString();
             var expectedCursorResults = GenerateExpectedCursorResults();
 
-            _fakeUserQueryGenerator.CallsTo(x => x.GetFollowerIdsQuery(userDTO, maximumNumberOfFollowers)).Returns(expectedQuery);
+            _fakeUserQueryGenerator.CallsTo(x => x.GetFollowerIdsQuery(userIdentifier, maximumNumberOfFollowers)).Returns(expectedQuery);
             _fakeTwitterAccessor.ArrangeExecuteJsonCursorGETQuery<IIdsCursorQueryResultDTO>(expectedQuery, expectedCursorResults);
 
             // Act
-            var result = queryExecutor.GetFollowerIds(user, maximumNumberOfFollowers);
+            var result = queryExecutor.GetFollowerIds(userIdentifier, maximumNumberOfFollowers);
 
             // Assert
             Assert.AreEqual(result, expectedCursorResults);
@@ -260,56 +260,21 @@ namespace Testinvi.TweetinviControllers.UserTests
 
         #region Block User
 
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
-        public void BlockUser_WithNullUser_ThrowsArgumentException()
-        {
-            // Arrange
-            var queryExecutor = CreateUserJsonController();
-            var expectedQuery = TestHelper.GenerateString();
-            var expectedResult = TestHelper.GenerateString();
-
-            _fakeUserQueryGenerator.CallsTo(x => x.GetBlockUserQuery(A<IUserDTO>.Ignored)).Returns(expectedQuery);
-            _fakeTwitterAccessor.ArrangeExecuteJsonPOSTQuery(expectedQuery, expectedResult);
-
-            // Act
-            queryExecutor.BlockUser((IUser)null);
-        }
 
         [TestMethod]
         public void BlockUser_WithUser_ReturnsTwitterAccessorResult()
         {
             // Arrange
             var queryExecutor = CreateUserJsonController();
-            var userDTO = A.Fake<IUserDTO>();
-            var user = TestHelper.GenerateUser(userDTO);
+            var userIdentifier = A.Fake<IUserIdentifier>();
             var expectedQuery = TestHelper.GenerateString();
             var expectedResult = TestHelper.GenerateString();
 
-            _fakeUserQueryGenerator.CallsTo(x => x.GetBlockUserQuery(userDTO)).Returns(expectedQuery);
+            _fakeUserQueryGenerator.CallsTo(x => x.GetBlockUserQuery(userIdentifier)).Returns(expectedQuery);
             _fakeTwitterAccessor.ArrangeExecuteJsonPOSTQuery(expectedQuery, expectedResult);
 
             // Act
-            var result = queryExecutor.BlockUser(user);
-
-            // Assert
-            Assert.AreEqual(result, expectedResult);
-        }
-
-        [TestMethod]
-        public void BlockUser_WithUserDTO_ReturnsTwitterAccessorResult()
-        {
-            // Arrange
-            var queryExecutor = CreateUserJsonController();
-            var userDTO = A.Fake<IUserDTO>();
-            var expectedQuery = TestHelper.GenerateString();
-            var expectedResult = TestHelper.GenerateString();
-
-            _fakeUserQueryGenerator.CallsTo(x => x.GetBlockUserQuery(userDTO)).Returns(expectedQuery);
-            _fakeTwitterAccessor.ArrangeExecuteJsonPOSTQuery(expectedQuery, expectedResult);
-
-            // Act
-            var result = queryExecutor.BlockUser(userDTO);
+            var result = queryExecutor.BlockUser(userIdentifier);
 
             // Assert
             Assert.AreEqual(result, expectedResult);
@@ -355,9 +320,9 @@ namespace Testinvi.TweetinviControllers.UserTests
 
         #endregion
 
-        private IEnumerable<string> GenerateExpectedCursorResults()
+        private string[] GenerateExpectedCursorResults()
         {
-            return new List<string>();
+            return new string[0];
         }
 
         public UserJsonController CreateUserJsonController()
