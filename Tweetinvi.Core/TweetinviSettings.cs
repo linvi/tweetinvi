@@ -1,4 +1,6 @@
-﻿namespace Tweetinvi.Core
+﻿using System;
+
+namespace Tweetinvi.Core
 {
     /// <summary>
     /// Provide a set of preconfigured solutions that you can use to track the Twitter rate limits.
@@ -55,6 +57,12 @@
         /// Clone settings.
         /// </summary>
         ITweetinviSettings Clone();
+
+        /// <summary>
+        /// A method allowing developers to specify how to retrieve the current DateTime.
+        /// The DateTime must be valid for the HttpRequest signature to be accepted by Twitter.
+        /// </summary>
+        Func<DateTime> GetUtcDateTime { get; set; }
     }
 
     public class TweetinviSettings : ITweetinviSettings
@@ -65,6 +73,12 @@
         public int HttpRequestTimeout { get; set; }
         public RateLimitTrackerMode RateLimitTrackerMode { get; set; }
         public int UploadTimeout { get; set; }
+        public Func<DateTime> GetUtcDateTime { get; set; }
+
+        public TweetinviSettings()
+        {
+            GetUtcDateTime = () => DateTime.UtcNow;
+        }
 
         public ITweetinviSettings Clone()
         {
@@ -73,6 +87,7 @@
             clone.HttpRequestTimeout = HttpRequestTimeout;
             clone.UploadTimeout = UploadTimeout;
             clone.RateLimitTrackerMode = RateLimitTrackerMode;
+            clone.GetUtcDateTime = GetUtcDateTime;
             return clone;
         }
 
@@ -82,6 +97,7 @@
             HttpRequestTimeout = other.HttpRequestTimeout;
             UploadTimeout = other.UploadTimeout;
             RateLimitTrackerMode = other.RateLimitTrackerMode;
+            GetUtcDateTime = other.GetUtcDateTime;
         }
     }
 }

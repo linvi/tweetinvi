@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Net;
@@ -36,7 +35,7 @@ namespace Tweetinvi.WebLogic
             IEnumerable<IOAuthQueryParameter> queryParameters,
             Dictionary<string, string> urlParameters)
         {
-            List<KeyValuePair<String, String>> signatureParameters = urlParameters.OrderBy(x => x.Key).ToList();
+            List<KeyValuePair<string, string>> signatureParameters = urlParameters.OrderBy(x => x.Key).ToList();
 
             #region Store the paramaters that will be used
 
@@ -142,7 +141,8 @@ namespace Tweetinvi.WebLogic
         {
             List<IOAuthQueryParameter> result = queryParameters.ToList();
 
-            TimeSpan ts = DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
+            var dateTime = _tweetinviSettingsAccessor.CurrentThreadSettings.GetUtcDateTime();
+            TimeSpan ts = dateTime - new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
             string oauthTimestamp = Convert.ToInt64(ts.TotalSeconds).ToString(CultureInfo.InvariantCulture);
             string oauthNonce = new Random().Next(123400, 9999999).ToString(CultureInfo.InvariantCulture);
 
