@@ -98,6 +98,7 @@ namespace Tweetinvi.Controllers.Tweet
                 query.AddParameterToQuery("place_id", queryParameters.PlaceId);
                 query.AddParameterToQuery("display_coordinates", queryParameters.DisplayExactCoordinates);
                 query.AddParameterToQuery("trim_user", queryParameters.TrimUser);
+                query.AddParameterToQuery("auto_populate_reply_metadata", queryParameters.AutoPopulateReplyMetadata);
 
                 if (queryParameters.MediaIds.Count > 0)
                 {

@@ -68,6 +68,11 @@ namespace Tweetinvi.Core.Parameters
         /// Only the user id property will be available.
         /// </summary>
         bool? TrimUser { get; set; }
+
+        /// <summary>
+        /// Twitter will move the @mentions to the extended tweet prefix.
+        /// </summary>
+        bool? AutoPopulateReplyMetadata { get; set; }
     }
 
     /// <summary>
@@ -126,5 +131,6 @@ namespace Tweetinvi.Core.Parameters
 
         public bool? PossiblySensitive { get; set; }
         public bool? TrimUser { get; set; }
+        public bool? AutoPopulateReplyMetadata { get; set; }
     }
 }

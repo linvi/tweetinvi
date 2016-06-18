@@ -82,6 +82,11 @@ namespace Tweetinvi.Core.Parameters
         /// </summary>
         bool? TrimUser { get; set; }
 
+        /// <summary>
+        /// Twitter will move the @mentions to the extended tweet prefix.
+        /// </summary>
+        bool? AutoPopulateReplyMetadata { get; set; }
+
         #endregion
     }
 
@@ -160,6 +165,12 @@ namespace Tweetinvi.Core.Parameters
         {
             get { return Parameters.TrimUser; }
             set { Parameters.TrimUser = value; }
+        }
+
+        public bool? AutoPopulateReplyMetadata
+        {
+            get { return Parameters.AutoPopulateReplyMetadata; }
+            set { Parameters.AutoPopulateReplyMetadata = value; }
         }
 
         public List<Tuple<string, string>> CustomQueryParameters
