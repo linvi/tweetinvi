@@ -138,5 +138,10 @@ namespace Tweetinvi.Logic.DTO
 
         [JsonProperty("withheld_scope")]
         public string WithheldScope { get; set; }
+
+        public override string ToString()
+        {
+            return ScreenName;
+        }
     }
 }
