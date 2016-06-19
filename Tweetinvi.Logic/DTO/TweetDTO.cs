@@ -46,6 +46,12 @@ namespace Tweetinvi.Logic.DTO
         [JsonProperty("text")]
         public string Text { get; set; }
 
+        [JsonProperty("full_text")]
+        public string FullText { get; set; }
+
+        [JsonProperty("display_text_range")]
+        public int[] DisplayTextRange { get; set; }
+
         [JsonProperty("favorited")]
         public bool Favorited { get; set; }
 

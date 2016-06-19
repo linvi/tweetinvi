@@ -64,7 +64,7 @@ namespace Tweetinvi.Logic
 
         public string Text
         {
-            get { return _tweetDTO.Text; }
+            get { return _tweetDTO.Text ?? _tweetDTO.FullText; }
             set { _tweetDTO.Text = value; }
         }
 

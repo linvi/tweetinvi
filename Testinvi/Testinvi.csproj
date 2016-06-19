@@ -54,7 +54,9 @@
       <HintPath>..\packages\FakeItEasy.1.25.3\lib\net40\FakeItEasy.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <Private>False</Private>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.8.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
@@ -108,6 +110,7 @@
     <Compile Include="Tweetinvi.Credentials\RateLimitTests\RateLimitUpdaterTests.cs" />
     <Compile Include="Tweetinvi.Credentials\TwitterAccessorTests.cs" />
     <Compile Include="Tweetinvi.Logic\TweetTests.cs" />
+    <Compile Include="Tweetinvi.Logic\TweetDTOTests.cs" />
     <Compile Include="Tweetinvi.Streams\StreamTrackManagerTests.cs" />
     <Compile Include="TweetinviControllers\AccountTests\AccountControllerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

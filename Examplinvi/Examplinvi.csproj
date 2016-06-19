@@ -47,6 +47,10 @@
       <HintPath>..\packages\Autofac.3.5.2\lib\net40\Autofac.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="FakeItEasy, Version=2.0.0.0, Culture=neutral, PublicKeyToken=eff28e2146d5fd2c, processorArchitecture=MSIL">
+      <HintPath>..\packages\FakeItEasy.2.0.0\lib\net40\FakeItEasy.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.Threading.Tasks, Version=1.0.12.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Bcl.Async.1.0.168\lib\net40\Microsoft.Threading.Tasks.dll</HintPath>
@@ -71,6 +75,10 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System.Net" />
+    <Reference Include="System.Net.Http, Version=2.2.29.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.Net.Http.2.2.29\lib\net40\System.Net.Http.dll</HintPath>
+    </Reference>
     <Reference Include="System.Net.Http.Extensions, Version=2.2.29.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Net.Http.2.2.29\lib\net40\System.Net.Http.Extensions.dll</HintPath>
       <Private>True</Private>
@@ -100,6 +108,10 @@
     <ProjectReference Include="..\Tweetinvi.Logic\Tweetinvi.Logic.csproj">
       <Project>{1C74B83B-4B84-44E2-AFD7-1468BB90306D}</Project>
       <Name>Tweetinvi.Logic</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Tweetinvi.WebLogic\Tweetinvi.WebLogic.csproj">
+      <Project>{059849D4-DFC0-42BC-8B34-0AD2DF3210C7}</Project>
+      <Name>Tweetinvi.WebLogic</Name>
     </ProjectReference>
     <ProjectReference Include="..\Tweetinvi\Tweetinvi.csproj">
       <Project>{c03b362b-6779-4ef6-8a92-1593079ffe54}</Project>

@@ -14,6 +14,10 @@ namespace Tweetinvi.Core.Interfaces.DTO
 
         string Text { get; set; }
 
+        string FullText { get; set; }
+
+        int[] DisplayTextRange { get; set; }
+
         bool Favorited { get; set; }
 
         int FavoriteCount { get; set; }
