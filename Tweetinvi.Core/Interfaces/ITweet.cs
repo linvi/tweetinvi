@@ -22,9 +22,24 @@ namespace Tweetinvi.Core.Interfaces
         DateTime CreatedAt { get; }
 
         /// <summary>
-        /// Formatted text of the tweet
+        /// Formatted text of the tweet.
         /// </summary>
         string Text { get; set; }
+
+        /// <summary>
+        /// Prefix of an extended tweet.
+        /// </summary>
+        string Prefix { get; }
+
+        /// <summary>
+        /// Suffix of an extended tweet.
+        /// </summary>
+        string Suffix { get; }
+
+        /// <summary>
+        /// Full text of an extended tweet.
+        /// </summary>
+        string FullText { get; set; }
 
         /// <summary>
         /// Coordinates of the location from where the tweet has been sent

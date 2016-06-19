@@ -64,6 +64,67 @@ namespace Tweetinvi.Logic
 
         public string Text
         {
+            get
+            {
+                if (_tweetDTO.Text != null)
+                {
+                    return _tweetDTO.Text;
+                }
+
+                if (_tweetDTO.FullText == null)
+                {
+                    return null;
+                }
+
+                var contentStartIndex = _tweetDTO.DisplayTextRange[0];
+                var contentEndIndex = _tweetDTO.DisplayTextRange[1];
+
+                if (contentEndIndex < _tweetDTO.FullText.Length)
+                {
+                    ++contentEndIndex;
+                }
+
+                return _tweetDTO.FullText.Substring(contentStartIndex, contentEndIndex - contentStartIndex);
+            }
+            set { _tweetDTO.Text = value; }
+        }
+
+        public string Prefix
+        {
+            get
+            {
+                if (_tweetDTO.FullText != null)
+                {
+                    var prefixEndIndex = _tweetDTO.DisplayTextRange[0];
+                    return _tweetDTO.FullText.Substring(0, prefixEndIndex);
+                }
+
+                return null; 
+            }
+        }
+
+        public string Suffix
+        {
+            get
+            {
+                if (_tweetDTO.FullText != null)
+                {
+                    var suffixStartIndex = _tweetDTO.DisplayTextRange[1];
+
+                    if (suffixStartIndex < _tweetDTO.FullText.Length)
+                    {
+                        ++suffixStartIndex;
+                    }
+
+                    return _tweetDTO.FullText.Substring(suffixStartIndex, _tweetDTO.FullText.Length - suffixStartIndex);
+                }
+
+                return null;
+            }
+        }
+
+        public string FullText
+        {
             get { return _tweetDTO.Text ?? _tweetDTO.FullText; }
             set { _tweetDTO.Text = value; }
         }
