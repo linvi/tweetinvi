@@ -70,5 +70,7 @@ namespace Tweetinvi.Core.Parameters
                 return queryParameters.ToString();
             }
         }
+
+        public TweetMode? TweetMode { get; set; }
     }
 }

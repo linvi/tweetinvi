@@ -99,6 +99,7 @@ namespace Tweetinvi.Controllers.Tweet
                 query.AddParameterToQuery("display_coordinates", queryParameters.DisplayExactCoordinates);
                 query.AddParameterToQuery("trim_user", queryParameters.TrimUser);
                 query.AddParameterToQuery("auto_populate_reply_metadata", queryParameters.AutoPopulateReplyMetadata);
+                query.AddParameterToQuery("tweet_mode", queryParameters.TweetMode.ToString().ToLowerInvariant());
 
                 if (queryParameters.MediaIds.Count > 0)
                 {

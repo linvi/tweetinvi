@@ -87,6 +87,11 @@ namespace Tweetinvi.Core.Parameters
         /// </summary>
         bool? AutoPopulateReplyMetadata { get; set; }
 
+        /// <summary>
+        /// Specify whether you want your tweet to use the extended mode.
+        /// </summary>
+        TweetMode? TweetMode { get; set; }
+
         #endregion
     }
 
@@ -171,6 +176,12 @@ namespace Tweetinvi.Core.Parameters
         {
             get { return Parameters.AutoPopulateReplyMetadata; }
             set { Parameters.AutoPopulateReplyMetadata = value; }
+        }
+
+        public TweetMode? TweetMode
+        {
+            get { return Parameters.TweetMode; }
+            set { Parameters.TweetMode = value; }
         }
 
         public List<Tuple<string, string>> CustomQueryParameters
