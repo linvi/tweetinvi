@@ -52,6 +52,10 @@ namespace Tweetinvi.Logic.DTO
         [JsonProperty("display_text_range")]
         public int[] DisplayTextRange { get; set; }
 
+        [JsonProperty("extended_tweet")]
+        [JsonConverter(typeof(JsonPropertyConverterRepository))]
+        public IExtendedTweet ExtendedTweet { get; set; }
+
         [JsonProperty("favorited")]
         public bool Favorited { get; set; }
 

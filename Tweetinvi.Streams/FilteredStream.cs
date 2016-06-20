@@ -182,7 +182,7 @@ namespace Tweetinvi.Streams
             if (MatchOn.HasFlag(MatchOn.Everything) ||
                 MatchOn.HasFlag(MatchOn.TweetText))
             {
-                var tracksMatchingTweetText = _streamTrackManager.GetMatchingTracksAndActions(tweet.Text);
+                var tracksMatchingTweetText = _streamTrackManager.GetMatchingTracksAndActions(tweet.FullText);
 
                 tracksMatchingTweetText.ForEach(x =>
                 {

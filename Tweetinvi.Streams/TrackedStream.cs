@@ -82,7 +82,7 @@ namespace Tweetinvi.Streams
                     return;
                 }
 
-                var detectedTracksAndActions = _streamTrackManager.GetMatchingTracksAndActions(tweet.Text);
+                var detectedTracksAndActions = _streamTrackManager.GetMatchingTracksAndActions(tweet.FullText);
                 var detectedTracks = detectedTracksAndActions.Select(x => x.Item1);
 
                 var eventArgs = new MatchedTweetReceivedEventArgs(tweet)

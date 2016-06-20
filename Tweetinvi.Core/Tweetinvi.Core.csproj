@@ -135,6 +135,7 @@
     <Compile Include="Interfaces\Controllers\IUserController.cs" />
     <Compile Include="Interfaces\Credentials\ICredentialsAccessor.cs" />
     <Compile Include="Interfaces\Credentials\ICredentialsStore.cs" />
+    <Compile Include="Interfaces\DTO\IExtendedTweet.cs" />
     <Compile Include="Interfaces\DTO\IUploadedVideoDetails.cs" />
     <Compile Include="Interfaces\DTO\IUploadProcessingInfo.cs" />
     <Compile Include="Interfaces\Models\ICategorySuggestion.cs" />

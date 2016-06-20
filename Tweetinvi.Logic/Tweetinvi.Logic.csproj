@@ -59,6 +59,7 @@
     <Compile Include="DTO\SearchMetadata.cs" />
     <Compile Include="DTO\SearchResultDTO.cs" />
     <Compile Include="DTO\TweetDTO.cs" />
+    <Compile Include="DTO\ExtendedTweet.cs" />
     <Compile Include="DTO\TweetFromSearchMetadata.cs" />
     <Compile Include="DTO\TweetIdentifierDTO.cs" />
     <Compile Include="DTO\TwitterListDTO.cs" />
