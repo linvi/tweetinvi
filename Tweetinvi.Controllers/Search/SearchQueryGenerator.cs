@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.Text;
 using Tweetinvi.Controllers.Properties;
 using Tweetinvi.Controllers.Shared;
-using Tweetinvi.Core.Extensions;
+﻿using Tweetinvi.Core;
+﻿using Tweetinvi.Core.Extensions;
 using Tweetinvi.Core.Parameters;
 
 namespace Tweetinvi.Controllers.Search
@@ -20,15 +21,18 @@ namespace Tweetinvi.Controllers.Search
     {
         private readonly ISearchQueryValidator _searchQueryValidator;
         private readonly IQueryParameterGenerator _queryParameterGenerator;
+        private readonly ITweetinviSettingsAccessor _tweetinviSettingsAccessor;
         private readonly ISearchQueryParameterGenerator _searchQueryParameterGenerator;
 
         public SearchQueryGenerator(
             ISearchQueryValidator searchQueryValidator,
             IQueryParameterGenerator queryParameterGenerator,
+            ITweetinviSettingsAccessor tweetinviSettingsAccessor,
             ISearchQueryParameterGenerator searchQueryParameterGenerator)
         {
             _searchQueryValidator = searchQueryValidator;
             _queryParameterGenerator = queryParameterGenerator;
+            _tweetinviSettingsAccessor = tweetinviSettingsAccessor;
             _searchQueryParameterGenerator = searchQueryParameterGenerator;
         }
 
@@ -64,6 +68,8 @@ namespace Tweetinvi.Controllers.Search
             query.Append(_searchQueryParameterGenerator.GenerateLocaleParameter(tweetSearchParameters.Locale));
             query.Append(_searchQueryParameterGenerator.GenerateSinceParameter(tweetSearchParameters.Since));
             query.Append(_searchQueryParameterGenerator.GenerateUntilParameter(tweetSearchParameters.Until));
+
+            query.Append(_queryParameterGenerator.GenerateTweetModeParameter(_tweetinviSettingsAccessor.CurrentThreadSettings.TweetMode));
             query.Append(_queryParameterGenerator.GenerateAdditionalRequestParameters(tweetSearchParameters.FormattedCustomQueryParameters));
 
             return query.ToString();

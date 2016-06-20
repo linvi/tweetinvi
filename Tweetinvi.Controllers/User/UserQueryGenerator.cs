@@ -1,7 +1,7 @@
-﻿using System;
-using System.Text;
+﻿using System.Text;
 using Tweetinvi.Controllers.Properties;
 using Tweetinvi.Controllers.Shared;
+using Tweetinvi.Core;
 using Tweetinvi.Core.Enum;
 using Tweetinvi.Core.Extensions;
 using Tweetinvi.Core.Interfaces.DTO;
@@ -16,15 +16,18 @@ namespace Tweetinvi.Controllers.User
     {
         private readonly IUserQueryParameterGenerator _userQueryParameterGenerator;
         private readonly IQueryParameterGenerator _queryParameterGenerator;
+        private readonly ITweetinviSettingsAccessor _tweetinviSettingsAccessor;
         private readonly IUserQueryValidator _userQueryValidator;
 
         public UserQueryGenerator(
             IUserQueryParameterGenerator userQueryParameterGenerator,
             IQueryParameterGenerator queryParameterGenerator,
+            ITweetinviSettingsAccessor tweetinviSettingsAccessor,
             IUserQueryValidator userQueryValidator)
         {
             _userQueryParameterGenerator = userQueryParameterGenerator;
             _queryParameterGenerator = queryParameterGenerator;
+            _tweetinviSettingsAccessor = tweetinviSettingsAccessor;
             _userQueryValidator = userQueryValidator;
         }
 
@@ -57,7 +60,6 @@ namespace Tweetinvi.Controllers.User
         }
 
         // Favourites
-
         public string GetFavoriteTweetsQuery(IGetUserFavoritesQueryParameters favoriteParameters)
         {
             _userQueryValidator.ThrowIfUserCannotBeIdentified(favoriteParameters.UserIdentifier);
@@ -71,6 +73,8 @@ namespace Tweetinvi.Controllers.User
             query.AddParameterToQuery("since_id", parameters.SinceId);
             query.AddParameterToQuery("max_id", parameters.MaxId);
             query.AddParameterToQuery("count", parameters.MaximumNumberOfTweetsToRetrieve);
+
+            query.Append(_queryParameterGenerator.GenerateTweetModeParameter(_tweetinviSettingsAccessor.CurrentThreadSettings.TweetMode));
             query.Append(_queryParameterGenerator.GenerateAdditionalRequestParameters(parameters.FormattedCustomQueryParameters));
 
             return query.ToString();

@@ -2,6 +2,7 @@
 using System.Text;
 using Tweetinvi.Controllers.Properties;
 using Tweetinvi.Controllers.Shared;
+using Tweetinvi.Core;
 using Tweetinvi.Core.Interfaces.QueryGenerators;
 using Tweetinvi.Core.Interfaces.QueryValidators;
 using Tweetinvi.Core.Parameters;
@@ -30,17 +31,20 @@ namespace Tweetinvi.Controllers.Timeline
         private readonly IUserQueryValidator _userQueryValidator;
         private readonly IQueryParameterGenerator _queryParameterGenerator;
         private readonly ITimelineQueryParameterGenerator _timelineQueryParameterGenerator;
+        private readonly ITweetinviSettingsAccessor _tweetinviSettingsAccessor;
 
         public TimelineQueryGenerator(
             IUserQueryParameterGenerator userQueryGenerator,
             IUserQueryValidator userQueryValidator,
             IQueryParameterGenerator queryParameterGenerator,
-            ITimelineQueryParameterGenerator timelineQueryParameterGenerator)
+            ITimelineQueryParameterGenerator timelineQueryParameterGenerator,
+            ITweetinviSettingsAccessor tweetinviSettingsAccessor)
         {
             _userQueryParameterGenerator = userQueryGenerator;
             _userQueryValidator = userQueryValidator;
             _queryParameterGenerator = queryParameterGenerator;
             _timelineQueryParameterGenerator = timelineQueryParameterGenerator;
+            _tweetinviSettingsAccessor = tweetinviSettingsAccessor;
         }
 
         // Helper
@@ -129,6 +133,8 @@ namespace Tweetinvi.Controllers.Timeline
             requestParameter.Append(_queryParameterGenerator.GenerateSinceIdParameter(timelineRequestParameters.SinceId));
             requestParameter.Append(_queryParameterGenerator.GenerateMaxIdParameter(timelineRequestParameters.MaxId));
             requestParameter.Append(_queryParameterGenerator.GenerateIncludeEntitiesParameter(timelineRequestParameters.IncludeEntities));
+
+            requestParameter.Append(_queryParameterGenerator.GenerateTweetModeParameter(_tweetinviSettingsAccessor.CurrentThreadSettings.TweetMode));
             requestParameter.Append(_queryParameterGenerator.GenerateAdditionalRequestParameters(timelineRequestParameters.FormattedCustomQueryParameters));
 
             return requestParameter.ToString();

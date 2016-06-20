@@ -237,7 +237,6 @@
     <Compile Include="Parameters\QueryParameters\UploadQueryParameters.cs" />
     <Compile Include="Parameters\RetweetsOfMeTimelineParameter.cs" />
     <Compile Include="Parameters\TimelineRequestParameters.cs" />
-    <Compile Include="Parameters\TweetMode.cs" />
     <Compile Include="Parameters\TweetSearchParameters.cs" />
     <Compile Include="Parameters\TwitterListUpdateParameters.cs" />
     <Compile Include="Parameters\UserSearchParameters.cs" />
