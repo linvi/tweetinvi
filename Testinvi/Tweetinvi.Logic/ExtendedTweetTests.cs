@@ -13,18 +13,19 @@ namespace Testinvi.Tweetinvi.Core
     {
         public TweetParts(string text)
         {
-            var stringMatches = Regex.Match(text, @"^(?<prefix>(?:(?:@[a-zA-Z!]+)\s)+)(?<content>.+)");
+            var stringMatches = Regex.Match(text, @"^(?<prefix>(?:(?:@[a-z]+)\s)+)?(?<content>.+)()?");
 
             var prefix = stringMatches.Groups["prefix"];
             var content = stringMatches.Groups["content"];
 
             Prefix = prefix.Value;
             Content = content.Value;
+            Suffix = string.Empty;
         }
 
-        public string Content { get; set; }
-        public string Prefix { get; set; }
-        public string Suffix { get; set; }
+        public string Content { get; private set; }
+        public string Prefix { get; private set; }
+        public string Suffix { get; private set; }
     }
 
     [TestClass]
@@ -37,8 +38,8 @@ namespace Testinvi.Tweetinvi.Core
             var parts = new TweetParts(content);
 
             Assert.AreEqual(parts.Content, content);
-            Assert.AreEqual(parts.Prefix, null);
-            Assert.AreEqual(parts.Suffix, null);
+            Assert.AreEqual(parts.Prefix, "");
+            Assert.AreEqual(parts.Suffix, "");
         }
 
         [TestMethod]
@@ -49,7 +50,7 @@ namespace Testinvi.Tweetinvi.Core
 
             Assert.AreEqual(parts.Content, "Tweetinvi I love it!");
             Assert.AreEqual(parts.Prefix, "@tweetinviapi ");
-            Assert.AreEqual(parts.Suffix, null);
+            Assert.AreEqual(parts.Suffix, "");
         }
 
         [TestMethod]
@@ -67,7 +68,7 @@ namespace Testinvi.Tweetinvi.Core
             
             Assert.AreEqual(parts.Content.TweetLength(), 140);
 
-            Assert.AreEqual(parts.Suffix, null);
+            Assert.AreEqual(parts.Suffix, "");
         }
     }
 }

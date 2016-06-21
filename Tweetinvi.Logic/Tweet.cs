@@ -532,7 +532,7 @@ namespace Tweetinvi.Logic
 
         public override string ToString()
         {
-            return Text;
+            return FullText;
         }
 
         public bool Equals(ITweet other)

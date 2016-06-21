@@ -18,19 +18,49 @@ namespace Tweetinvi.Logic.TwitterEntities
 
         private void InitializeEntities()
         {
-            var allURLs = _tweetDTOEntities.Urls.SafeConcat(_tweetDTOLegacyEntities.Urls);
+            var allURLs = _tweetDTOEntities.Urls.SafeConcat
+            (
+                _tweetDTOLegacyEntities.Urls,
+                _tweetDTO?.ExtendedTweet?.LegacyEntities?.Urls,
+                _tweetDTO?.ExtendedTweet?.ExtendedEntities?.Urls
+            );
+
             _urls = new List<IUrlEntity>(allURLs.Distinct((x, y) => x.Equals(y)));
 
-            var allUserMentions = _tweetDTOEntities.UserMentions.SafeConcat(_tweetDTOLegacyEntities.UserMentions);
+            var allUserMentions = _tweetDTOEntities.UserMentions.SafeConcat
+            (
+                _tweetDTOLegacyEntities.UserMentions,
+                _tweetDTO?.ExtendedTweet?.LegacyEntities?.UserMentions,
+                _tweetDTO?.ExtendedTweet?.ExtendedEntities?.UserMentions
+            );
+
             _userMentions = new List<IUserMentionEntity>(allUserMentions.Distinct((x, y) => x.Equals(y)));
 
-            var allHashtags = _tweetDTOEntities.Hashtags.SafeConcat(_tweetDTOLegacyEntities.Hashtags);
+            var allHashtags = _tweetDTOEntities.Hashtags.SafeConcat
+            (
+                _tweetDTOLegacyEntities.Hashtags,
+                _tweetDTO?.ExtendedTweet?.LegacyEntities?.Hashtags,
+                _tweetDTO?.ExtendedTweet?.ExtendedEntities?.Hashtags
+            );
+
             _hashtags = new List<IHashtagEntity>(allHashtags.Distinct((x, y) => x.Equals(y)));
 
-            var allSymbols = _tweetDTOEntities.Symbols.SafeConcat(_tweetDTOLegacyEntities.Symbols);
+            var allSymbols = _tweetDTOEntities.Symbols.SafeConcat
+            (
+                _tweetDTOLegacyEntities.Symbols,
+                _tweetDTO?.ExtendedTweet?.LegacyEntities?.Symbols,
+                _tweetDTO?.ExtendedTweet?.ExtendedEntities?.Symbols
+            );
+
             _symbols = new List<ISymbolEntity>(allSymbols.Distinct((x, y) => x.Equals(y)));
 
-            var allMedias = _tweetDTOEntities.Medias.SafeConcat(_tweetDTOLegacyEntities.Medias);
+            var allMedias = _tweetDTOEntities.Medias.SafeConcat
+            (
+                _tweetDTOLegacyEntities.Medias,
+                _tweetDTO?.ExtendedTweet?.LegacyEntities?.Medias,
+                _tweetDTO?.ExtendedTweet?.ExtendedEntities?.Medias
+            );
+
             _medias = new List<IMediaEntity>(allMedias.Distinct((x, y) => x.Equals(y)));
         }
 

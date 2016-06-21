@@ -54,6 +54,7 @@ namespace Testinvi.Tweetinvi.Logic
 
             Assert.AreNotEqual(tweet.TweetDTO.ExtendedTweet, null);
             Assert.AreEqual(tweet.FullText, "@jeremycloud It`s neat to have owls and raccoons around until you realize that raccoons will eat the eggs from the owl`s nest https://t.co/Q0pkaU4ORH");
+            Assert.AreEqual(tweet.Entities.UserMentions.Count, 1);
         }
 
         private static ITweet InitTweet(string text)

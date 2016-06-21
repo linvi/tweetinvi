@@ -9,6 +9,7 @@ namespace Tweetinvi.Core.Interfaces.DTO
         string FullText { get; set; }
 
         int[] DisplayTextRange { get; set; }
-        ITweetEntities Entities { get; set; }
+        ITweetEntities LegacyEntities { get; set; }
+        ITweetEntities ExtendedEntities { get; set; }
     }
 }

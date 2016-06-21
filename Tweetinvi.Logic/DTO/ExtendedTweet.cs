@@ -18,6 +18,10 @@ namespace Tweetinvi.Logic.DTO
 
         [JsonProperty("entities")]
         [JsonConverter(typeof(JsonPropertyConverterRepository))]
-        public ITweetEntities Entities { get; set; }
+        public ITweetEntities LegacyEntities { get; set; }
+
+        [JsonProperty("extended_entities")]
+        [JsonConverter(typeof(JsonPropertyConverterRepository))]
+        public ITweetEntities ExtendedEntities { get; set; }
     }
 }

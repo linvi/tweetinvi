@@ -62,7 +62,7 @@ namespace Tweetinvi.Core.Interfaces
         string Source { get; set; }
 
         /// <summary>
-        /// Whether a tweet
+        /// Whether the tweet text was truncated because it was longer than 140 characters.
         /// </summary>
         bool Truncated { get; }
 
