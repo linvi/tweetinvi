@@ -6,7 +6,7 @@ using Tweetinvi.Core.Interfaces.Models.Entities;
 
 namespace Tweetinvi.Core.Interfaces.DTO
 {
-    public interface ITweetDTO : ITweetIdentifier
+    public interface  ITweetDTO : ITweetIdentifier
     {
         bool IsTweetPublished { get; set; }
 
@@ -17,6 +17,8 @@ namespace Tweetinvi.Core.Interfaces.DTO
         string FullText { get; set; }
 
         int[] DisplayTextRange { get; set; }
+
+        IExtendedTweet ExtendedTweet { get; set; }
 
         bool Favorited { get; set; }
 

@@ -26,6 +26,15 @@ namespace Tweetinvi.Core
         TrackOnly,
     }
 
+    /// <summary>
+    /// Specify whether you want your tweet to use Twitter extended mode.
+    /// </summary>
+    public enum TweetMode
+    {
+        Extended,
+        Compat
+    }
+
     public interface ITweetinviSettings
     {
         /// <summary>
@@ -49,6 +58,17 @@ namespace Tweetinvi.Core
         RateLimitTrackerMode RateLimitTrackerMode { get; set; }
 
         /// <summary>
+        /// Specify whether you want your tweet to use the extended mode.
+        /// </summary>
+        TweetMode? TweetMode { get; set; }
+
+        /// <summary>
+        /// A method allowing developers to specify how to retrieve the current DateTime.
+        /// The DateTime must be valid for the HttpRequest signature to be accepted by Twitter.
+        /// </summary>
+        Func<DateTime> GetUtcDateTime { get; set; }
+
+        /// <summary>
         /// Initialize a setting from another one.
         /// </summary>
         void InitialiseFrom(ITweetinviSettings other);
@@ -57,12 +77,6 @@ namespace Tweetinvi.Core
         /// Clone settings.
         /// </summary>
         ITweetinviSettings Clone();
-
-        /// <summary>
-        /// A method allowing developers to specify how to retrieve the current DateTime.
-        /// The DateTime must be valid for the HttpRequest signature to be accepted by Twitter.
-        /// </summary>
-        Func<DateTime> GetUtcDateTime { get; set; }
     }
 
     public class TweetinviSettings : ITweetinviSettings
@@ -72,22 +86,27 @@ namespace Tweetinvi.Core
         public string ProxyURL { get; set; }
         public int HttpRequestTimeout { get; set; }
         public RateLimitTrackerMode RateLimitTrackerMode { get; set; }
+        public TweetMode? TweetMode { get; set; }
         public int UploadTimeout { get; set; }
         public Func<DateTime> GetUtcDateTime { get; set; }
 
         public TweetinviSettings()
         {
+            TweetMode = Core.TweetMode.Extended;
             GetUtcDateTime = () => DateTime.UtcNow;
         }
 
         public ITweetinviSettings Clone()
         {
             var clone = new TweetinviSettings();
+
             clone.ProxyURL = ProxyURL;
             clone.HttpRequestTimeout = HttpRequestTimeout;
             clone.UploadTimeout = UploadTimeout;
             clone.RateLimitTrackerMode = RateLimitTrackerMode;
+            clone.TweetMode = TweetMode;
             clone.GetUtcDateTime = GetUtcDateTime;
+
             return clone;
         }
 
@@ -97,6 +116,7 @@ namespace Tweetinvi.Core
             HttpRequestTimeout = other.HttpRequestTimeout;
             UploadTimeout = other.UploadTimeout;
             RateLimitTrackerMode = other.RateLimitTrackerMode;
+            TweetMode = other.TweetMode;
             GetUtcDateTime = other.GetUtcDateTime;
         }
     }

@@ -44,6 +44,7 @@ namespace Tweetinvi.Controllers.TwitterLists
         private readonly IUserQueryParameterGenerator _userQueryParameterGenerator;
         private readonly IUserQueryValidator _userQueryValidator;
         private readonly IQueryParameterGenerator _queryParameterGenerator;
+        private readonly ITweetinviSettingsAccessor _tweetinviSettingsAccessor;
         private readonly ITwitterListQueryParameterGenerator _twitterListQueryParameterGenerator;
 
         public TwitterListQueryGenerator(
@@ -51,12 +52,14 @@ namespace Tweetinvi.Controllers.TwitterLists
             IUserQueryParameterGenerator userQueryParameterGenerator,
             IUserQueryValidator userQueryValidator,
             IQueryParameterGenerator queryParameterGenerator,
+            ITweetinviSettingsAccessor tweetinviSettingsAccessor,
             ITwitterListQueryParameterGenerator twitterListQueryParameterGenerator)
         {
             _listsQueryValidator = listsQueryValidator;
             _userQueryParameterGenerator = userQueryParameterGenerator;
             _userQueryValidator = userQueryValidator;
             _queryParameterGenerator = queryParameterGenerator;
+            _tweetinviSettingsAccessor = tweetinviSettingsAccessor;
             _twitterListQueryParameterGenerator = twitterListQueryParameterGenerator;
         }
 
@@ -134,6 +137,8 @@ namespace Tweetinvi.Controllers.TwitterLists
             {
                 queryParameters.Append(_queryParameterGenerator.GenerateCountParameter(TweetinviConsts.LIST_GET_TWEETS_COUNT));
             }
+
+            queryParameters.Append(_queryParameterGenerator.GenerateTweetModeParameter(_tweetinviSettingsAccessor.CurrentThreadSettings.TweetMode));
 
             return string.Format(Resources.List_GetTweetsFromList, queryParameters);
         }

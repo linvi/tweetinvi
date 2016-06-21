@@ -42,6 +42,11 @@ namespace Tweetinvi.Core.Interfaces
         string FullText { get; set; }
 
         /// <summary>
+        /// Extended Tweet details.
+        /// </summary>
+        IExtendedTweet ExtendedTweet { get; set; }
+
+        /// <summary>
         /// Coordinates of the location from where the tweet has been sent
         /// </summary>
         ICoordinates Coordinates { get; set; }

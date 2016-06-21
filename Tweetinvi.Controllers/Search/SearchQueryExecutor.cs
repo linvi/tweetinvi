@@ -73,7 +73,7 @@ namespace Tweetinvi.Controllers.Search
                 throw new ArgumentException("TweetSearch Parameters cannot be null");
             }
 
-            List<ISearchResultsDTO> result =  new List<ISearchResultsDTO>();;
+            var result =  new List<ISearchResultsDTO>();
             if (tweetSearchParameters.MaximumNumberOfResults > 100)
             {
                 result = SearchTweetsRecursively(tweetSearchParameters);

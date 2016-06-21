@@ -37,17 +37,13 @@ namespace Examplinvi
         static void Main()
         {
             // WORKING AREA : linvi
-            TweetinviContainer.BeforeRegistrationComplete += (sender, args) =>
-            {
-                var requestHandler = A.Fake<ITwitterRequestHandler>();
-                A.CallTo(() => requestHandler.ExecuteQuery(A<string>.Ignored, A<HttpMethod>.Ignored, null, null, null)).Returns(_extendedTweet);
+            //TweetinviContainer.BeforeRegistrationComplete += (sender, args) =>
+            //{
+            //    var requestHandler = A.Fake<ITwitterRequestHandler>();
+            //    A.CallTo(() => requestHandler.ExecuteQuery(A<string>.Ignored, A<HttpMethod>.Ignored, null, null, null)).Returns(_extendedTweet);
 
-                args.TweetinviContainer.RegisterInstance(typeof(ITwitterRequestHandler), requestHandler);
-            };
-
-            var tweet = Tweet.PublishTweet("hello");
-
-            // END WORKING AREA
+            //    args.TweetinviContainer.RegisterInstance(typeof(ITwitterRequestHandler), requestHandler);
+            //};
 
             Auth.SetUserCredentials("CONSUMER_KEY", "CONSUMER_SECRET", "ACCESS_TOKEN", "ACCESS_TOKEN_SECRET");
 
@@ -55,6 +51,13 @@ namespace Examplinvi
             {
                 Console.WriteLine(args.QueryURL);
             };
+
+            TweetinviConfig.ApplicationSettings.TweetMode = null;
+            var tweet = Tweet.PublishTweet("hello");
+
+            // END WORKING AREA
+
+
 
             var authenticatedUser = User.GetAuthenticatedUser();
 

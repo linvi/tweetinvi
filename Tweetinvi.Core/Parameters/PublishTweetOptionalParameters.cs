@@ -73,8 +73,6 @@ namespace Tweetinvi.Core.Parameters
         /// Twitter will move the @mentions to the extended tweet prefix.
         /// </summary>
         bool? AutoPopulateReplyMetadata { get; set; }
-
-        TweetMode? TweetMode { get; set; }
     }
 
     /// <summary>
@@ -89,7 +87,6 @@ namespace Tweetinvi.Core.Parameters
             MediaIds = new List<long>();
             Medias = new List<IMedia>();
             MediaBinaries = new List<byte[]>();
-            TweetMode = Parameters.TweetMode.Extended;
         }
 
         public ITweetIdentifier InReplyToTweet

@@ -16,6 +16,7 @@ namespace Tweetinvi.Controllers.Shared
         string GeneratePageNumberParameter(int? pageNumber);
         string GenerateIncludeRetweetsParameter(bool includeRetweets);
         string GenerateLanguageParameter(Language? language);
+        string GenerateTweetModeParameter(TweetMode? tweetMode);
 
         string GenerateAdditionalRequestParameters(string additionalParameters);
     }
@@ -95,6 +96,18 @@ namespace Tweetinvi.Controllers.Shared
             }
 
             return languageParameter;
+        }
+
+        public string GenerateTweetModeParameter(TweetMode? tweetMode)
+        {
+            var tweetModeParameter = string.Empty;
+
+            if (tweetMode != null)
+            {
+                tweetModeParameter = tweetMode.ToString().ToLowerInvariant();
+            }
+
+            return tweetModeParameter;
         }
 
         public string GenerateAdditionalRequestParameters(string additionalParameters)

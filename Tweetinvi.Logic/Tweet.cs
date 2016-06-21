@@ -125,8 +125,14 @@ namespace Tweetinvi.Logic
 
         public string FullText
         {
-            get { return _tweetDTO.Text ?? _tweetDTO.FullText; }
+            get { return _tweetDTO.ExtendedTweet?.FullText ?? _tweetDTO.FullText ?? _tweetDTO.Text; }
             set { _tweetDTO.Text = value; }
+        }
+
+        public IExtendedTweet ExtendedTweet
+        {
+            get { return _tweetDTO.ExtendedTweet; }
+            set { _tweetDTO.ExtendedTweet = value; }
         }
 
         public bool Favorited

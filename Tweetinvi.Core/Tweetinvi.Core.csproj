@@ -135,6 +135,7 @@
     <Compile Include="Interfaces\Controllers\IUserController.cs" />
     <Compile Include="Interfaces\Credentials\ICredentialsAccessor.cs" />
     <Compile Include="Interfaces\Credentials\ICredentialsStore.cs" />
+    <Compile Include="Interfaces\DTO\IExtendedTweet.cs" />
     <Compile Include="Interfaces\DTO\IUploadedVideoDetails.cs" />
     <Compile Include="Interfaces\DTO\IUploadProcessingInfo.cs" />
     <Compile Include="Interfaces\Models\ICategorySuggestion.cs" />
@@ -237,7 +238,6 @@
     <Compile Include="Parameters\QueryParameters\UploadQueryParameters.cs" />
     <Compile Include="Parameters\RetweetsOfMeTimelineParameter.cs" />
     <Compile Include="Parameters\TimelineRequestParameters.cs" />
-    <Compile Include="Parameters\TweetMode.cs" />
     <Compile Include="Parameters\TweetSearchParameters.cs" />
     <Compile Include="Parameters\TwitterListUpdateParameters.cs" />
     <Compile Include="Parameters\UserSearchParameters.cs" />
