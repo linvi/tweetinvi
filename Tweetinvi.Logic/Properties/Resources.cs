@@ -10,6 +10,11 @@ namespace Tweetinvi.Logic.Properties
         public static string ExceptionDescription_304 = "Not Modified - There was no new data to return.";
 
         /// <summary>
+        ///   The Tweet exceeds the number of allowed attachment types.
+        /// </summary>
+        public static string ExceptionDescription_386 = "The Tweet exceeds the number of allowed attachment types.";
+
+        /// <summary>
         ///   Looks up a localized string similar to Bad Request - The request was invalid or cannot be otherwise served. An accompanying error message will explain further. In API v1.1, requests without authentication are considered invalid and will yield this response..
         /// </summary>
         public static string ExceptionDescription_400 = "Bad Request - The request was invalid or cannot be otherwise served. An accompanying error message will explain further. In API v1.1, requests without authentication are considered invalid and will yield this response.";
