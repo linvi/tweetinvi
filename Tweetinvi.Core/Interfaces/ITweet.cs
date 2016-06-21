@@ -42,6 +42,11 @@ namespace Tweetinvi.Core.Interfaces
         string FullText { get; set; }
 
         /// <summary>
+        /// Content display text range for FullText.
+        /// </summary>
+        int[] DisplayTextRange { get; }
+
+        /// <summary>
         /// Extended Tweet details.
         /// </summary>
         IExtendedTweet ExtendedTweet { get; set; }
@@ -260,6 +265,7 @@ namespace Tweetinvi.Core.Interfaces
         /// URL of the tweet on twitter.com
         /// </summary>
         string Url { get; }
+
 
         #endregion
 

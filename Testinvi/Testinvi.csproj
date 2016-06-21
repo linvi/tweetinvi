@@ -101,7 +101,7 @@
     <Compile Include="SetupHelpers\UserQuerValidatorHelper.cs" />
     <Compile Include="SetupHelpers\UserQueryGeneratorHelper.cs" />
     <Compile Include="Tweetinvi.Core\EnumerableExtensionsTests.cs" />
-    <Compile Include="Tweetinvi.Core\ExtendedTweetTests.cs" />
+    <Compile Include="Tweetinvi.Logic\ExtendedTweetTests.cs" />
     <Compile Include="Tweetinvi.Core\StringExtensionsTests.cs" />
     <Compile Include="Tweetinvi.Core\TokenRateLimitsTests.cs" />
     <Compile Include="Tweetinvi.Credentials\RateLimitTests\RateLimitAwaiterTests.cs" />

@@ -13,7 +13,7 @@ namespace Testinvi.Tweetinvi.Core
     {
         public TweetParts(string text)
         {
-            var stringMatches = Regex.Match(text, @"^(?<prefix>(?:(?:@[a-z]+)\s)+)(?<content>.+)");
+            var stringMatches = Regex.Match(text, @"^(?<prefix>(?:(?:@[a-zA-Z!]+)\s)+)(?<content>.+)");
 
             var prefix = stringMatches.Groups["prefix"];
             var content = stringMatches.Groups["content"];
