@@ -66,9 +66,9 @@ namespace Tweetinvi.Core.Extensions
         /// <summary>
         /// Returns the different parts of an Extended Tweet string.
         /// </summary>
-        public static ITweetTextParts TweetParts(this string tweetText)
+        public static ITweetParts TweetParts(this string tweetText)
         {
-            return new TweetTextParts(tweetText);
+            return new TweetParts(tweetText);
         }
 
         /// <summary>

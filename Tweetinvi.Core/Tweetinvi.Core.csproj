@@ -112,7 +112,7 @@
     <Compile Include="Helpers\SynchronousInvoker.cs" />
     <Compile Include="Helpers\TaskFactory.cs" />
     <Compile Include="Helpers\ThreadHelper.cs" />
-    <Compile Include="Helpers\TweetTextParts.cs" />
+    <Compile Include="Helpers\TweetParts.cs" />
     <Compile Include="Injectinvi\ConstructorNamedParameter.cs" />
     <Compile Include="Injectinvi\IFactory.cs" />
     <Compile Include="Injectinvi\ITweetinviModule.cs" />
@@ -142,7 +142,7 @@
     <Compile Include="Interfaces\Models\ICategorySuggestion.cs" />
     <Compile Include="Interfaces\DTO\QueryDTO\ITwitterListCursorQueryResultDTO.cs" />
     <Compile Include="Interfaces\Factories\ITwitterListIdentifierFactory.cs" />
-    <Compile Include="Interfaces\Models\ITweetTextParts.cs" />
+    <Compile Include="Interfaces\Models\ITweetParts.cs" />
     <Compile Include="Interfaces\Models\StreamMessages\AccessRevokedInfo.cs" />
     <Compile Include="Interfaces\DTO\IMedia.cs" />
     <Compile Include="Interfaces\DTO\ISearchMetadata.cs" />

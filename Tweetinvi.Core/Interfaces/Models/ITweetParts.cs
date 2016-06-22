@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Tweetinvi.Core.Interfaces.Models
 {
-    public interface ITweetTextParts
+    public interface ITweetParts
     {
         string Content { get; }
         string Prefix { get; }

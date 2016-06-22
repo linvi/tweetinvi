@@ -4,9 +4,9 @@ using Tweetinvi.Core.Interfaces.Models;
 
 namespace Tweetinvi.Core.Helpers
 {
-    public class TweetTextParts : ITweetTextParts
+    public class TweetParts : ITweetParts
     {
-        public TweetTextParts(string text)
+        public TweetParts(string text)
         {
             var stringMatches = Regex.Match(text, @"^(?<prefix>(?:(?<mention>@[a-zA-Z0-9]+)\s){0,50})?(?<content>.+)");
 
