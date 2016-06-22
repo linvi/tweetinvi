@@ -63,6 +63,14 @@ namespace Tweetinvi.Core.Extensions
         }
 
         /// <summary>
+        /// Returns the different parts of an Extended Tweet string.
+        /// </summary>
+        public static TweetTextParts TweetParts(this string tweetText)
+        {
+            return new TweetTextParts(tweetText);
+        }
+
+        /// <summary>
         /// Calculate the length of a string using Twitter algorithm
         /// </summary>
         /// <returns>Size of the current Tweet</returns>

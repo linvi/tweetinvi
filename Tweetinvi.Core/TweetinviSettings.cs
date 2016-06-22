@@ -92,7 +92,6 @@ namespace Tweetinvi.Core
 
         public TweetinviSettings()
         {
-            TweetMode = Core.TweetMode.Extended;
             GetUtcDateTime = () => DateTime.UtcNow;
         }
 

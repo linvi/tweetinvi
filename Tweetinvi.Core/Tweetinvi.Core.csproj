@@ -112,6 +112,7 @@
     <Compile Include="Helpers\SynchronousInvoker.cs" />
     <Compile Include="Helpers\TaskFactory.cs" />
     <Compile Include="Helpers\ThreadHelper.cs" />
+    <Compile Include="Helpers\TweetParts.cs" />
     <Compile Include="Injectinvi\ConstructorNamedParameter.cs" />
     <Compile Include="Injectinvi\IFactory.cs" />
     <Compile Include="Injectinvi\ITweetinviModule.cs" />
