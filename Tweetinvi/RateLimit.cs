@@ -152,7 +152,7 @@ namespace Tweetinvi
         /// </summary>
         public static ICredentialsRateLimits GetCurrentCredentialsRateLimits(bool useRateLimitCache = false)
         {
-            ICredentialsRateLimits credentialsRateLimits = null;
+            ICredentialsRateLimits credentialsRateLimits;
             if (!useRateLimitCache)
             {
                 credentialsRateLimits = HelpController.GetCurrentCredentialsRateLimits();
@@ -175,10 +175,8 @@ namespace Tweetinvi
             {
                 return RateLimitCacheManager.GetCredentialsRateLimits(credentials);
             }
-            else
-            {
-                return HelpController.GetCredentialsRateLimits(credentials);
-            }
+
+            return HelpController.GetCredentialsRateLimits(credentials);
         }
     }
 }

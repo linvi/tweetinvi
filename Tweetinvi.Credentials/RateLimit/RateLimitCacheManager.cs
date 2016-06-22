@@ -94,18 +94,12 @@ namespace Tweetinvi.Credentials.RateLimit
 
         private ICredentialsRateLimits GetTokenRateLimitsFromTwitter(ITwitterCredentials credentials)
         {
-            if (_isRetrievingData)
-            {
-                return null;
-            }
-
             var isApplicationOnlyCreds = string.IsNullOrEmpty(credentials.AccessToken) || string.IsNullOrEmpty(credentials.AccessTokenSecret);
             if (isApplicationOnlyCreds && string.IsNullOrEmpty(credentials.ApplicationOnlyBearerToken))
             {
                 return null;
             }
 
-            _isRetrievingData = true;
             var result = _credentialsAccessor.ExecuteOperationWithCredentials(credentials, () =>
             {
                 var twitterQuery = _twitterQueryFactory.Create(_helpQueryGenerator.GetCredentialsLimitsQuery(), HttpMethod.GET, credentials);
@@ -122,7 +116,6 @@ namespace Tweetinvi.Credentials.RateLimit
                 }
             });
 
-            _isRetrievingData = false;
             return result;
         }
 

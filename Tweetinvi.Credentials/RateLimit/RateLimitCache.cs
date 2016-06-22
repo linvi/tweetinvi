@@ -2,12 +2,8 @@
 using System.Collections.Generic;
 using Tweetinvi.Core.Authentication;
 using Tweetinvi.Core.Extensions;
-using Tweetinvi.Core.Helpers;
-using Tweetinvi.Core.Injectinvi;
-using Tweetinvi.Core.Interfaces.Controllers;
 using Tweetinvi.Core.Interfaces.Credentials;
 using Tweetinvi.Core.Interfaces.RateLimit;
-using Tweetinvi.Core.Interfaces.WebLogic;
 
 namespace Tweetinvi.Credentials.RateLimit
 {
@@ -17,22 +13,13 @@ namespace Tweetinvi.Credentials.RateLimit
     /// </summary>
     public class RateLimitCache : IRateLimitCache
     {
-        private readonly IHelpQueryGenerator _helpQueryGenerator;
-        private readonly IJsonObjectConverter _jsonObjectConverter;
-        private readonly ITweetinviContainer _container;
         private readonly Dictionary<ITwitterCredentials, ICredentialsRateLimits> _credentialsRateLimits;
 
         private readonly object _lockRefresh = new Object();
         private readonly object _lockCredentialsRateLimitsDictionary = new object();
 
-        public RateLimitCache(
-            IHelpQueryGenerator helpQueryGenerator,
-            IJsonObjectConverter jsonObjectConverter,
-            ITweetinviContainer container)
+        public RateLimitCache()
         {
-            _helpQueryGenerator = helpQueryGenerator;
-            _jsonObjectConverter = jsonObjectConverter;
-            _container = container;
             _credentialsRateLimits = new Dictionary<ITwitterCredentials, ICredentialsRateLimits>();
         }
 
@@ -85,11 +72,6 @@ namespace Tweetinvi.Credentials.RateLimit
             {
                 if (newCredentialsRateLimits == null)
                 {
-                    if (_credentialsRateLimits.ContainsKey(credentials))
-                    {
-                        _credentialsRateLimits.Remove(credentials);
-                    }
-
                     return;
                 }
 
