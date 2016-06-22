@@ -3,6 +3,7 @@ using System.Globalization;
 using System.Text;
 using System.Text.RegularExpressions;
 using Tweetinvi.Core.Helpers;
+using Tweetinvi.Core.Interfaces.Models;
 
 namespace Tweetinvi.Core.Extensions
 {
@@ -65,7 +66,7 @@ namespace Tweetinvi.Core.Extensions
         /// <summary>
         /// Returns the different parts of an Extended Tweet string.
         /// </summary>
-        public static TweetTextParts TweetParts(this string tweetText)
+        public static ITweetTextParts TweetParts(this string tweetText)
         {
             return new TweetTextParts(tweetText);
         }

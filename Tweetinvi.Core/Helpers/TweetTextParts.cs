@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using Tweetinvi.Core.Interfaces.Models;
 
 namespace Tweetinvi.Core.Helpers
 {
-    public class TweetTextParts
+    public class TweetTextParts : ITweetTextParts
     {
         public TweetTextParts(string text)
         {
