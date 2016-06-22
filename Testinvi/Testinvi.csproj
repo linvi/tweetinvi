@@ -111,7 +111,6 @@
     <Compile Include="Tweetinvi.Credentials\RateLimitTests\RateLimitUpdaterTests.cs" />
     <Compile Include="Tweetinvi.Credentials\TwitterAccessorTests.cs" />
     <Compile Include="Tweetinvi.Logic\TweetTests.cs" />
-    <Compile Include="Tweetinvi.Logic\TweetDTOTests.cs" />
     <Compile Include="Tweetinvi.Streams\StreamTrackManagerTests.cs" />
     <Compile Include="TweetinviControllers\AccountTests\AccountControllerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
