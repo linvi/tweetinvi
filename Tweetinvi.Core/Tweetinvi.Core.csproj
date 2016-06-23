@@ -242,7 +242,7 @@
     <Compile Include="Parameters\TimelineRequestParameters.cs" />
     <Compile Include="Parameters\SearchTweetsParameters.cs" />
     <Compile Include="Parameters\TwitterListUpdateParameters.cs" />
-    <Compile Include="Parameters\UserSearchParameters.cs" />
+    <Compile Include="Parameters\SearchUsersParameters.cs" />
     <Compile Include="Parameters\UserTimelineParameters.cs" />
     <Compile Include="TweetinviConsts.cs" />
     <Compile Include="Interfaces\RateLimit\IRateLimitAwaiter.cs" />

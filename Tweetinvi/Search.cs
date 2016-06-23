@@ -130,7 +130,7 @@ namespace Tweetinvi
         /// <summary>
         /// Create a parameter to search users from a query
         /// </summary>
-        public static IUserSearchParameters CreateUserSearchParameter(string query)
+        public static ISearchUsersParameters CreateUserSearchParameter(string query)
         {
             return SearchQueryParameterGenerator.CreateUserSearchParameters(query);
         }

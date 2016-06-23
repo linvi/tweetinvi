@@ -12,7 +12,7 @@ namespace Tweetinvi.Controllers.Search
         List<ITweetDTO> GetTweetsFromJsonResponse(string json);
         List<ITweetDTO> GetTweetsFromJsonObject(JObject jObject);
 
-        IUserSearchParameters CloneUserSearchParameters(IUserSearchParameters userSearchParameters);
+        ISearchUsersParameters CloneUserSearchParameters(ISearchUsersParameters searchUsersParameters);
     }
 
     public class SearchQueryHelper : ISearchQueryHelper
@@ -60,13 +60,13 @@ namespace Tweetinvi.Controllers.Search
             return _jObjectWrapper.ToObject<List<ITweetDTO>>(jObject["statuses"]);
         }
 
-        public IUserSearchParameters CloneUserSearchParameters(IUserSearchParameters userSearchParameters)
+        public ISearchUsersParameters CloneUserSearchParameters(ISearchUsersParameters searchUsersParameters)
         {
-            var clone = new UserSearchParameters(userSearchParameters.SearchQuery)
+            var clone = new SearchUsersParameters(searchUsersParameters.SearchQuery)
             {
-                IncludeEntities = userSearchParameters.IncludeEntities,
-                Page = userSearchParameters.Page,
-                MaximumNumberOfResults = userSearchParameters.MaximumNumberOfResults
+                IncludeEntities = searchUsersParameters.IncludeEntities,
+                Page = searchUsersParameters.Page,
+                MaximumNumberOfResults = searchUsersParameters.MaximumNumberOfResults
             };
 
             return clone;

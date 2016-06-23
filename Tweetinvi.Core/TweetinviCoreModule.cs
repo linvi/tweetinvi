@@ -62,7 +62,7 @@ namespace Tweetinvi.Core
 
             // Search
             _container.RegisterType<ISearchTweetsParameters, SearchTweetsParameters>();
-            _container.RegisterType<IUserSearchParameters, UserSearchParameters>();
+            _container.RegisterType<ISearchUsersParameters, SearchUsersParameters>();
 
             // Tweet
             _container.RegisterType<IPublishTweetParameters, PublishTweetParameters>();

@@ -19,7 +19,7 @@ namespace Tweetinvi.Controllers.Search
         IEnumerable<ITweet> SearchRepliesTo(ITweet tweet, bool recursiveReplies);
 
         IEnumerable<IUser> SearchUsers(string searchQuery);
-        IEnumerable<IUser> SearchUsers(IUserSearchParameters userSearchParameters);
+        IEnumerable<IUser> SearchUsers(ISearchUsersParameters searchUsersParameters);
     }
 
     public class SearchController : ISearchController
@@ -87,9 +87,9 @@ namespace Tweetinvi.Controllers.Search
             return _userFactory.GenerateUsersFromDTO(userDTOs);
         }
 
-        public IEnumerable<IUser> SearchUsers(IUserSearchParameters userSearchParameters)
+        public IEnumerable<IUser> SearchUsers(ISearchUsersParameters searchUsersParameters)
         {
-            var userDTOs = _searchQueryExecutor.SearchUsers(userSearchParameters);
+            var userDTOs = _searchQueryExecutor.SearchUsers(searchUsersParameters);
             return _userFactory.GenerateUsersFromDTO(userDTOs);
         }
     }

@@ -18,7 +18,7 @@ namespace Tweetinvi.Controllers.Search
         IEnumerable<ISearchResultsDTO> SearchTweetsWithMetadata(ISearchTweetsParameters searchTweetsParameters);
 
         IEnumerable<IUserDTO> SearchUsers(string searchQuery);
-        IEnumerable<IUserDTO> SearchUsers(IUserSearchParameters userSearchParameters);
+        IEnumerable<IUserDTO> SearchUsers(ISearchUsersParameters searchUsersParameters);
     }
 
     public class SearchQueryExecutor : ISearchQueryExecutor
@@ -209,25 +209,25 @@ namespace Tweetinvi.Controllers.Search
             return SearchUsers(searchUsersParameters);
         }
 
-        public IEnumerable<IUserDTO> SearchUsers(IUserSearchParameters userSearchParameters)
+        public IEnumerable<IUserDTO> SearchUsers(ISearchUsersParameters searchUsersParameters)
         {
-            if (userSearchParameters == null)
+            if (searchUsersParameters == null)
             {
                 throw new ArgumentNullException("Search parameters cannot be null.");
             }
 
-            if (userSearchParameters.SearchQuery == null)
+            if (searchUsersParameters.SearchQuery == null)
             {
                 throw new ArgumentNullException("Search query cannot be null.");
             }
 
-            if (userSearchParameters.SearchQuery == string.Empty)
+            if (searchUsersParameters.SearchQuery == string.Empty)
             {
                 throw new ArgumentException("Search query cannot be empty.");
             }
 
-            var maximumNumberOfResults = Math.Min(userSearchParameters.MaximumNumberOfResults, 1000);
-            var searchParameter = _searchQueryHelper.CloneUserSearchParameters(userSearchParameters);
+            var maximumNumberOfResults = Math.Min(searchUsersParameters.MaximumNumberOfResults, 1000);
+            var searchParameter = _searchQueryHelper.CloneUserSearchParameters(searchUsersParameters);
             searchParameter.MaximumNumberOfResults = Math.Min(searchParameter.MaximumNumberOfResults, 20);
 
             string query = _searchQueryGenerator.GetSearchUsersQuery(searchParameter);
@@ -248,7 +248,7 @@ namespace Tweetinvi.Controllers.Search
                     break;
                 }
 
-                searchParameter.MaximumNumberOfResults = Math.Min(userSearchParameters.MaximumNumberOfResults - totalTweets, 20);
+                searchParameter.MaximumNumberOfResults = Math.Min(searchUsersParameters.MaximumNumberOfResults - totalTweets, 20);
                 ++searchParameter.Page;
                 query = _searchQueryGenerator.GetSearchUsersQuery(searchParameter);
                 currentResult = _twitterAccessor.ExecuteGETQuery<List<IUserDTO>>(query);

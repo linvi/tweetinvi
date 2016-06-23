@@ -14,7 +14,7 @@ namespace Tweetinvi.Controllers.Search
         string GetSearchTweetsQuery(string query);
         string GetSearchTweetsQuery(ISearchTweetsParameters searchTweetsParameters);
 
-        string GetSearchUsersQuery(IUserSearchParameters userSearchParameters);
+        string GetSearchUsersQuery(ISearchUsersParameters searchUsersParameters);
     }
 
     public class SearchQueryGenerator : ISearchQueryGenerator
@@ -107,19 +107,19 @@ namespace Tweetinvi.Controllers.Search
             }
         }
 
-        public string GetSearchUsersQuery(IUserSearchParameters userSearchParameters)
+        public string GetSearchUsersQuery(ISearchUsersParameters searchUsersParameters)
         {
-            if (!_searchQueryValidator.IsSearchQueryValid(userSearchParameters.SearchQuery))
+            if (!_searchQueryValidator.IsSearchQueryValid(searchUsersParameters.SearchQuery))
             {
                 throw new ArgumentException("Search query is not valid.");
             }
 
             var queryBuilder = new StringBuilder(Resources.Search_SearchUsers);
 
-            queryBuilder.AddParameterToQuery("q", _searchQueryParameterGenerator.GenerateSearchQueryParameter(userSearchParameters.SearchQuery));
-            queryBuilder.AddParameterToQuery("page", userSearchParameters.Page);
-            queryBuilder.Append(_queryParameterGenerator.GenerateCountParameter(userSearchParameters.MaximumNumberOfResults));
-            queryBuilder.Append(_queryParameterGenerator.GenerateIncludeEntitiesParameter(userSearchParameters.IncludeEntities));
+            queryBuilder.AddParameterToQuery("q", _searchQueryParameterGenerator.GenerateSearchQueryParameter(searchUsersParameters.SearchQuery));
+            queryBuilder.AddParameterToQuery("page", searchUsersParameters.Page);
+            queryBuilder.Append(_queryParameterGenerator.GenerateCountParameter(searchUsersParameters.MaximumNumberOfResults));
+            queryBuilder.Append(_queryParameterGenerator.GenerateIncludeEntitiesParameter(searchUsersParameters.IncludeEntities));
 
             return queryBuilder.ToString();
         }

@@ -24,7 +24,7 @@ namespace Tweetinvi.Controllers.Search
         string GenerateLangParameter(Language lang);
         string GenerateGeoCodeParameter(IGeoCode geoCode);
 
-        IUserSearchParameters CreateUserSearchParameters(string query);
+        ISearchUsersParameters CreateUserSearchParameters(string query);
     }
 
     public class SearchQueryParameterGenerator : ISearchQueryParameterGenerator
@@ -130,9 +130,9 @@ namespace Tweetinvi.Controllers.Search
             return string.Format(Resources.SearchParameter_GeoCode, latitude, longitude, radius, measure, CultureInfo.InvariantCulture);
         }
 
-        public IUserSearchParameters CreateUserSearchParameters(string query)
+        public ISearchUsersParameters CreateUserSearchParameters(string query)
         {
-            return new UserSearchParameters(query);
+            return new SearchUsersParameters(query);
         }
     }
 }
