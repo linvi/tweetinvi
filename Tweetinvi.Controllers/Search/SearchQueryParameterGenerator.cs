@@ -11,10 +11,10 @@ namespace Tweetinvi.Controllers.Search
 {
     public interface ISearchQueryParameterGenerator
     {
-        ITweetSearchParameters CreateSearchTweetParameter(string query);
-        ITweetSearchParameters CreateSearchTweetParameter(IGeoCode geoCode);
-        ITweetSearchParameters CreateSearchTweetParameter(ICoordinates coordinates, int radius, DistanceMeasure measure);
-        ITweetSearchParameters CreateSearchTweetParameter(double latitude, double longitude, int radius, DistanceMeasure measure);
+        ISearchTweetsParameters CreateSearchTweetParameter(string query);
+        ISearchTweetsParameters CreateSearchTweetParameter(IGeoCode geoCode);
+        ISearchTweetsParameters CreateSearchTweetParameter(ICoordinates coordinates, int radius, DistanceMeasure measure);
+        ISearchTweetsParameters CreateSearchTweetParameter(double latitude, double longitude, int radius, DistanceMeasure measure);
 
         string GenerateSearchQueryParameter(string query);
         string GenerateSearchTypeParameter(SearchResultType? searchType);
@@ -40,24 +40,24 @@ namespace Tweetinvi.Controllers.Search
             _twitterStringFormatter = twitterStringFormatter;
         }
 
-        public ITweetSearchParameters CreateSearchTweetParameter(string query)
+        public ISearchTweetsParameters CreateSearchTweetParameter(string query)
         {
-            return new TweetSearchParameters(query);
+            return new SearchTweetsParameters(query);
         }
 
-        public ITweetSearchParameters CreateSearchTweetParameter(IGeoCode geoCode)
+        public ISearchTweetsParameters CreateSearchTweetParameter(IGeoCode geoCode)
         {
-            return new TweetSearchParameters(geoCode);
+            return new SearchTweetsParameters(geoCode);
         }
 
-        public ITweetSearchParameters CreateSearchTweetParameter(ICoordinates coordinates, int radius, DistanceMeasure measure)
+        public ISearchTweetsParameters CreateSearchTweetParameter(ICoordinates coordinates, int radius, DistanceMeasure measure)
         {
-            return new TweetSearchParameters(coordinates, radius, measure);
+            return new SearchTweetsParameters(coordinates, radius, measure);
         }
 
-        public ITweetSearchParameters CreateSearchTweetParameter(double latitude, double longitude, int radius, DistanceMeasure measure)
+        public ISearchTweetsParameters CreateSearchTweetParameter(double latitude, double longitude, int radius, DistanceMeasure measure)
         {
-            return new TweetSearchParameters(latitude, longitude, radius, measure);
+            return new SearchTweetsParameters(latitude, longitude, radius, measure);
         }
 
         public string GenerateSearchQueryParameter(string searchQuery)

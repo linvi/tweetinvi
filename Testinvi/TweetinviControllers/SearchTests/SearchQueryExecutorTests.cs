@@ -29,7 +29,7 @@ namespace Testinvi.TweetinviControllers.SearchTests
         private ITweetWithSearchMetadataDTO _originalTweetDTO;
         private ITweetWithSearchMetadataDTO _retweetDTO;
         private JObject _jObject;
-        private ITweetSearchParameters _tweetSearchParameter;
+        private ISearchTweetsParameters _searchTweetsParameter;
         private ITweetWithSearchMetadataDTO[] _tweetDTOs;
         private ISearchResultsDTO _searchResultDTO;
 
@@ -55,8 +55,8 @@ namespace Testinvi.TweetinviControllers.SearchTests
             _searchResultDTO = A.Fake<ISearchResultsDTO>();
             _searchResultDTO.CallsTo(x => x.TweetDTOs).Returns(_tweetDTOs);
 
-            _tweetSearchParameter = A.Fake<ITweetSearchParameters>();
-            _fakeSearchQueryParameterGenerator.CallsTo(x => x.CreateSearchTweetParameter(_searchQuery)).Returns(_tweetSearchParameter);
+            _searchTweetsParameter = A.Fake<ISearchTweetsParameters>();
+            _fakeSearchQueryParameterGenerator.CallsTo(x => x.CreateSearchTweetParameter(_searchQuery)).Returns(_searchTweetsParameter);
         }
 
         #region Search Tweet
@@ -67,7 +67,7 @@ namespace Testinvi.TweetinviControllers.SearchTests
             // Arrange
             var queryExecutor = CreateSearchQueryExecutor();
 
-            _fakeSearchQueryGenerator.CallsTo(x => x.GetSearchTweetsQuery(_tweetSearchParameter)).Returns(_httpQuery);
+            _fakeSearchQueryGenerator.CallsTo(x => x.GetSearchTweetsQuery(_searchTweetsParameter)).Returns(_httpQuery);
             _fakeTwitterAccessor.ArrangeExecuteGETQuery(_httpQuery, _searchResultDTO);
 
             // Act
@@ -82,7 +82,7 @@ namespace Testinvi.TweetinviControllers.SearchTests
         {
             // Arrange
             var queryExecutor = CreateSearchQueryExecutor();
-            var searchQueryParameter = A.Fake<ITweetSearchParameters>();
+            var searchQueryParameter = A.Fake<ISearchTweetsParameters>();
 
             _fakeSearchQueryGenerator.CallsTo(x => x.GetSearchTweetsQuery(searchQueryParameter)).Returns(_httpQuery);
             _fakeTwitterAccessor.ArrangeExecuteGETQuery(_httpQuery, _searchResultDTO);
@@ -99,7 +99,7 @@ namespace Testinvi.TweetinviControllers.SearchTests
         {
             // Arrange
             var queryExecutor = CreateSearchQueryExecutor();
-            var searchParameter = A.Fake<ITweetSearchParameters>();
+            var searchParameter = A.Fake<ISearchTweetsParameters>();
             searchParameter.CallsTo(x => x.SearchQuery).Returns(_searchQuery);
             searchParameter.CallsTo(x => x.TweetSearchType).Returns(TweetSearchType.OriginalTweetsOnly);
 
@@ -127,7 +127,7 @@ namespace Testinvi.TweetinviControllers.SearchTests
         {
             // Arrange
             var queryExecutor = CreateSearchQueryExecutor();
-            var searchParameter = A.Fake<ITweetSearchParameters>();
+            var searchParameter = A.Fake<ISearchTweetsParameters>();
             searchParameter.CallsTo(x => x.SearchQuery).Returns(_searchQuery);
             searchParameter.CallsTo(x => x.TweetSearchType).Returns(TweetSearchType.RetweetsOnly);
 

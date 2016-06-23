@@ -56,9 +56,9 @@ namespace Tweetinvi
         /// <summary>
         /// Search tweets based on multiple parameters
         /// </summary>
-        public static IEnumerable<ITweet> SearchTweets(ITweetSearchParameters tweetSearchParameters)
+        public static IEnumerable<ITweet> SearchTweets(ISearchTweetsParameters searchTweetsParameters)
         {
-            return SearchController.SearchTweets(tweetSearchParameters);
+            return SearchController.SearchTweets(searchTweetsParameters);
         }
 
         /// <summary>
@@ -72,9 +72,9 @@ namespace Tweetinvi
         /// <summary>
         /// Search tweets with some additional metadata information
         /// </summary>
-        public static ISearchResult SearchTweetsWithMetadata(ITweetSearchParameters tweetSearchParameters)
+        public static ISearchResult SearchTweetsWithMetadata(ISearchTweetsParameters searchTweetsParameters)
         {
-            return SearchController.SearchTweetsWithMetadata(tweetSearchParameters);
+            return SearchController.SearchTweetsWithMetadata(searchTweetsParameters);
         }
 
         /// <summary>
@@ -96,7 +96,7 @@ namespace Tweetinvi
         /// <summary>
         /// Create a parameter to search tweets for a specific query
         /// </summary>
-        public static ITweetSearchParameters CreateTweetSearchParameter(string query)
+        public static ISearchTweetsParameters CreateTweetSearchParameter(string query)
         {
             return SearchQueryParameterGenerator.CreateSearchTweetParameter(query);
         }
@@ -104,7 +104,7 @@ namespace Tweetinvi
         /// <summary>
         /// Create a parameter to search tweets for a specific GeoCode
         /// </summary>
-        public static ITweetSearchParameters CreateTweetSearchParameter(IGeoCode geoCode)
+        public static ISearchTweetsParameters CreateTweetSearchParameter(IGeoCode geoCode)
         {
             return SearchQueryParameterGenerator.CreateSearchTweetParameter(geoCode);
         }
@@ -112,7 +112,7 @@ namespace Tweetinvi
         /// <summary>
         /// Create a parameter to search tweets for some specific coordinates and radius
         /// </summary>
-        public static ITweetSearchParameters CreateTweetSearchParameter(ICoordinates coordinates, int radius, DistanceMeasure measure)
+        public static ISearchTweetsParameters CreateTweetSearchParameter(ICoordinates coordinates, int radius, DistanceMeasure measure)
         {
             return SearchQueryParameterGenerator.CreateSearchTweetParameter(coordinates, radius, measure);
         }
@@ -120,7 +120,7 @@ namespace Tweetinvi
         /// <summary>
         /// Create a parameter to search tweets for some specific coordinates and radius
         /// </summary>
-        public static ITweetSearchParameters CreateTweetSearchParameter(double latitude, double longitude, int radius, DistanceMeasure measure)
+        public static ISearchTweetsParameters CreateTweetSearchParameter(double latitude, double longitude, int radius, DistanceMeasure measure)
         {
             return SearchQueryParameterGenerator.CreateSearchTweetParameter(latitude, longitude, radius, measure);   
         }

@@ -49,7 +49,7 @@ namespace Testinvi.TweetinviControllers.SearchTests
         {
             // Arrange
             var controller = CreateSearchController();
-            var searchParameter = A.Fake<ITweetSearchParameters>();
+            var searchParameter = A.Fake<ISearchTweetsParameters>();
             var searchDTOResult = new List<ITweetDTO>();
             var searchResult = new List<ITweet>();
 

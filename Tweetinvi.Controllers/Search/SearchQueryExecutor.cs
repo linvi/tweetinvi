@@ -12,10 +12,10 @@ namespace Tweetinvi.Controllers.Search
     public interface ISearchQueryExecutor
     {
         IEnumerable<ITweetDTO> SearchTweets(string query);
-        IEnumerable<ITweetDTO> SearchTweets(ITweetSearchParameters tweetSearchParameters);
+        IEnumerable<ITweetDTO> SearchTweets(ISearchTweetsParameters searchTweetsParameters);
         IEnumerable<ITweetDTO> SearchRepliesTo(ITweetDTO tweetDTO, bool getRecursiveReplies);
         ISearchResultsDTO SearchTweetsWithMetadata(string searchQuery);
-        IEnumerable<ISearchResultsDTO> SearchTweetsWithMetadata(ITweetSearchParameters tweetSearchParameters);
+        IEnumerable<ISearchResultsDTO> SearchTweetsWithMetadata(ISearchTweetsParameters searchTweetsParameters);
 
         IEnumerable<IUserDTO> SearchUsers(string searchQuery);
         IEnumerable<IUserDTO> SearchUsers(IUserSearchParameters userSearchParameters);
@@ -49,9 +49,9 @@ namespace Tweetinvi.Controllers.Search
             return SearchTweets(searchTweetsParameters);
         }
 
-        public IEnumerable<ITweetDTO> SearchTweets(ITweetSearchParameters tweetSearchParameters)
+        public IEnumerable<ITweetDTO> SearchTweets(ISearchTweetsParameters searchTweetsParameters)
         {
-            var searchResults = SearchTweetsWithMetadata(tweetSearchParameters);
+            var searchResults = SearchTweetsWithMetadata(searchTweetsParameters);
             if (searchResults == null)
             {
                 return null;
@@ -66,21 +66,21 @@ namespace Tweetinvi.Controllers.Search
             return SearchTweetsWithMetadata(searchTweetsParameters).FirstOrDefault();
         }
 
-        public IEnumerable<ISearchResultsDTO> SearchTweetsWithMetadata(ITweetSearchParameters tweetSearchParameters)
+        public IEnumerable<ISearchResultsDTO> SearchTweetsWithMetadata(ISearchTweetsParameters searchTweetsParameters)
         {
-            if (tweetSearchParameters == null)
+            if (searchTweetsParameters == null)
             {
                 throw new ArgumentException("TweetSearch Parameters cannot be null");
             }
 
             var result =  new List<ISearchResultsDTO>();
-            if (tweetSearchParameters.MaximumNumberOfResults > 100)
+            if (searchTweetsParameters.MaximumNumberOfResults > 100)
             {
-                result = SearchTweetsRecursively(tweetSearchParameters);
+                result = SearchTweetsRecursively(searchTweetsParameters);
             }
             else
             {
-                string httpQuery = _searchQueryGenerator.GetSearchTweetsQuery(tweetSearchParameters);
+                string httpQuery = _searchQueryGenerator.GetSearchTweetsQuery(searchTweetsParameters);
                 
                 var searchTweetResult = GetSearchTweetResultsFromQuery(httpQuery);
                 if (searchTweetResult == null)
@@ -91,14 +91,14 @@ namespace Tweetinvi.Controllers.Search
                 result.Add(searchTweetResult);
             }
 
-            UpdateMatchingTweets(result, tweetSearchParameters);
+            UpdateMatchingTweets(result, searchTweetsParameters);
 
             return result;
         }
 
-        private List<ISearchResultsDTO> SearchTweetsRecursively(ITweetSearchParameters tweetSearchParameters)
+        private List<ISearchResultsDTO> SearchTweetsRecursively(ISearchTweetsParameters searchTweetsParameters)
         {
-            var searchParameter = _searchQueryHelper.CloneTweetSearchParameters(tweetSearchParameters);
+            var searchParameter = _searchQueryHelper.CloneTweetSearchParameters(searchTweetsParameters);
             searchParameter.MaximumNumberOfResults = Math.Min(searchParameter.MaximumNumberOfResults, 100);
 
             string query = _searchQueryGenerator.GetSearchTweetsQuery(searchParameter);
@@ -113,7 +113,7 @@ namespace Tweetinvi.Controllers.Search
             var tweets = currentResult.TweetDTOs;
             var totalTweets = currentResult.TweetDTOs.ToList();
 
-            while (totalTweets.Count < tweetSearchParameters.MaximumNumberOfResults)
+            while (totalTweets.Count < searchTweetsParameters.MaximumNumberOfResults)
             {
                 if (tweets.IsEmpty())
                 {
@@ -123,7 +123,7 @@ namespace Tweetinvi.Controllers.Search
 
                 var oldestTweetId = _tweetHelper.GetOldestTweetId(tweets);
                 searchParameter.MaxId = oldestTweetId - 1;
-                searchParameter.MaximumNumberOfResults = Math.Min(tweetSearchParameters.MaximumNumberOfResults - totalTweets.Count, 100);
+                searchParameter.MaximumNumberOfResults = Math.Min(searchTweetsParameters.MaximumNumberOfResults - totalTweets.Count, 100);
                 query = _searchQueryGenerator.GetSearchTweetsQuery(searchParameter);
                 currentResult = GetSearchTweetResultsFromQuery(query);
 
@@ -140,22 +140,22 @@ namespace Tweetinvi.Controllers.Search
             return result;
         }
 
-        private void UpdateMatchingTweets(IEnumerable<ISearchResultsDTO> searchResultsDTOs, ITweetSearchParameters tweetSearchParameters)
+        private void UpdateMatchingTweets(IEnumerable<ISearchResultsDTO> searchResultsDTOs, ISearchTweetsParameters searchTweetsParameters)
         {
             foreach (var searchResultsDTO in searchResultsDTOs)
             {
                 var tweetDTOs = searchResultsDTO.TweetDTOs;
-                if (tweetSearchParameters.TweetSearchType == TweetSearchType.OriginalTweetsOnly)
+                if (searchTweetsParameters.TweetSearchType == TweetSearchType.OriginalTweetsOnly)
                 {
                     searchResultsDTO.MatchingTweetDTOs = tweetDTOs.Where(x => x.RetweetedTweetDTO == null).ToArray();
                 }
 
-                if (tweetSearchParameters.TweetSearchType == TweetSearchType.RetweetsOnly)
+                if (searchTweetsParameters.TweetSearchType == TweetSearchType.RetweetsOnly)
                 {
                     searchResultsDTO.MatchingTweetDTOs = tweetDTOs.Where(x => x.RetweetedTweetDTO != null).ToArray();
                 }
 
-                if (tweetSearchParameters.TweetSearchType == TweetSearchType.All)
+                if (searchTweetsParameters.TweetSearchType == TweetSearchType.All)
                 {
                     searchResultsDTO.MatchingTweetDTOs = tweetDTOs;
                 }

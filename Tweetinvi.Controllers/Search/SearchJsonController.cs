@@ -11,7 +11,7 @@ namespace Tweetinvi.Controllers.Search
     public interface ISearchJsonController
     {
         string SearchTweets(string searchQuery);
-        IEnumerable<string> SearchTweets(ITweetSearchParameters tweetSearchParameters);
+        IEnumerable<string> SearchTweets(ISearchTweetsParameters searchTweetsParameters);
     }
 
     public class SearchJsonController : ISearchJsonController
@@ -39,14 +39,14 @@ namespace Tweetinvi.Controllers.Search
             return _twitterAccessor.ExecuteGETQueryReturningJson(query);
         }
 
-        public IEnumerable<string> SearchTweets(ITweetSearchParameters tweetSearchParameters)
+        public IEnumerable<string> SearchTweets(ISearchTweetsParameters searchTweetsParameters)
         {
-            if (tweetSearchParameters.MaximumNumberOfResults > 100)
+            if (searchTweetsParameters.MaximumNumberOfResults > 100)
             {
-                return SearchTweetsRecursively(tweetSearchParameters);
+                return SearchTweetsRecursively(searchTweetsParameters);
             }
             
-            string query = _searchQueryGenerator.GetSearchTweetsQuery(tweetSearchParameters);
+            string query = _searchQueryGenerator.GetSearchTweetsQuery(searchTweetsParameters);
             return new[] { GetJsonResultFromQuery(query) };
         }
 
@@ -55,9 +55,9 @@ namespace Tweetinvi.Controllers.Search
             return _twitterAccessor.ExecuteGETQueryReturningJson(query);
         }
 
-        private IEnumerable<string> SearchTweetsRecursively(ITweetSearchParameters tweetSearchParameters)
+        private IEnumerable<string> SearchTweetsRecursively(ISearchTweetsParameters searchTweetsParameters)
         {
-            var searchParameter = _searchQueryHelper.CloneTweetSearchParameters(tweetSearchParameters);
+            var searchParameter = _searchQueryHelper.CloneTweetSearchParameters(searchTweetsParameters);
             searchParameter.MaximumNumberOfResults = Math.Min(searchParameter.MaximumNumberOfResults, 100);
 
             string query = _searchQueryGenerator.GetSearchTweetsQuery(searchParameter);
@@ -71,7 +71,7 @@ namespace Tweetinvi.Controllers.Search
                 return jsonResult;
             }
 
-            while (tweetDTOResult.Count < tweetSearchParameters.MaximumNumberOfResults)
+            while (tweetDTOResult.Count < searchTweetsParameters.MaximumNumberOfResults)
             {
                 if (currentResult.IsNullOrEmpty())
                 {
@@ -82,7 +82,7 @@ namespace Tweetinvi.Controllers.Search
                 var oldestTweetId = _tweetHelper.GetOldestTweetId(currentResult);
                 searchParameter.MaxId = oldestTweetId - 1;
 
-                searchParameter.MaximumNumberOfResults = Math.Min(tweetSearchParameters.MaximumNumberOfResults - tweetDTOResult.Count, 100);
+                searchParameter.MaximumNumberOfResults = Math.Min(searchTweetsParameters.MaximumNumberOfResults - tweetDTOResult.Count, 100);
                 query = _searchQueryGenerator.GetSearchTweetsQuery(searchParameter);
                 
                 json = GetJsonResultFromQuery(query);

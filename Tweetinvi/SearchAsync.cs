@@ -12,9 +12,9 @@ namespace Tweetinvi
             return await Sync.ExecuteTaskAsync(() => Search.SearchTweets(searchQuery));
         }
 
-        public static async Task<IEnumerable<ITweet>> SearchTweets(ITweetSearchParameters tweetSearchParameters)
+        public static async Task<IEnumerable<ITweet>> SearchTweets(ISearchTweetsParameters searchTweetsParameters)
         {
-            return  await Sync.ExecuteTaskAsync(() => Search.SearchTweets(tweetSearchParameters));
+            return  await Sync.ExecuteTaskAsync(() => Search.SearchTweets(searchTweetsParameters));
         }
 
         public static async Task<IEnumerable<ITweet>> SearchDirectRepliesTo(ITweet tweet)

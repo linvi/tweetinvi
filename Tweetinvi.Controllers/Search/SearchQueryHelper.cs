@@ -8,7 +8,7 @@ namespace Tweetinvi.Controllers.Search
 {
     public interface ISearchQueryHelper
     {
-        ITweetSearchParameters CloneTweetSearchParameters(ITweetSearchParameters tweetSearchParameters);
+        ISearchTweetsParameters CloneTweetSearchParameters(ISearchTweetsParameters searchTweetsParameters);
         List<ITweetDTO> GetTweetsFromJsonResponse(string json);
         List<ITweetDTO> GetTweetsFromJsonObject(JObject jObject);
 
@@ -24,21 +24,21 @@ namespace Tweetinvi.Controllers.Search
             _jObjectWrapper = jObjectWrapper;
         }
 
-        public ITweetSearchParameters CloneTweetSearchParameters(ITweetSearchParameters tweetSearchParameters)
+        public ISearchTweetsParameters CloneTweetSearchParameters(ISearchTweetsParameters searchTweetsParameters)
         {
-            var clone = new TweetSearchParameters(tweetSearchParameters.SearchQuery)
+            var clone = new SearchTweetsParameters(searchTweetsParameters.SearchQuery)
             {
-                Filters = tweetSearchParameters.Filters,
-                GeoCode = tweetSearchParameters.GeoCode,
-                Lang = tweetSearchParameters.Lang,
-                Locale = tweetSearchParameters.Locale,
-                MaxId = tweetSearchParameters.MaxId,
-                MaximumNumberOfResults = tweetSearchParameters.MaximumNumberOfResults,
-                SearchType = tweetSearchParameters.SearchType,
-                Since = tweetSearchParameters.Since,
-                SinceId = tweetSearchParameters.SinceId,
-                TweetSearchType = tweetSearchParameters.TweetSearchType,
-                Until = tweetSearchParameters.Until
+                Filters = searchTweetsParameters.Filters,
+                GeoCode = searchTweetsParameters.GeoCode,
+                Lang = searchTweetsParameters.Lang,
+                Locale = searchTweetsParameters.Locale,
+                MaxId = searchTweetsParameters.MaxId,
+                MaximumNumberOfResults = searchTweetsParameters.MaximumNumberOfResults,
+                SearchType = searchTweetsParameters.SearchType,
+                Since = searchTweetsParameters.Since,
+                SinceId = searchTweetsParameters.SinceId,
+                TweetSearchType = searchTweetsParameters.TweetSearchType,
+                Until = searchTweetsParameters.Until
             };
 
             return clone;

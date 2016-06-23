@@ -27,7 +27,7 @@ namespace Testinvi.TweetinviControllers.SearchTests
         private Fake<ISearchQueryParameterGenerator> _fakeSearchQueryParameterGenerator;
         private Fake<IQueryParameterGenerator> _fakeQueryParameterGenerator;
 
-        private ITweetSearchParameters _tweetSearchParameters;
+        private ISearchTweetsParameters _searchTweetsParameters;
 
         private string _searchQuery;
         private SearchResultType _searchResultType;
@@ -108,17 +108,17 @@ namespace Testinvi.TweetinviControllers.SearchTests
             _geoCode = A.Fake<IGeoCode>();
             _geoCodeParameter = TestHelper.GenerateString();
 
-            _tweetSearchParameters = A.Fake<ITweetSearchParameters>();
-            _tweetSearchParameters.SearchQuery = _searchQuery;
-            _tweetSearchParameters.SearchType = _searchResultType;
-            _tweetSearchParameters.MaximumNumberOfResults = _maximumNumberOfResults;
-            _tweetSearchParameters.SinceId = _sinceId;
-            _tweetSearchParameters.MaxId = _maxId;
-            _tweetSearchParameters.Since = _since;
-            _tweetSearchParameters.Until = _until;
-            _tweetSearchParameters.Locale = _locale;
-            _tweetSearchParameters.Lang = _lang;
-            _tweetSearchParameters.GeoCode = _geoCode;
+            _searchTweetsParameters = A.Fake<ISearchTweetsParameters>();
+            _searchTweetsParameters.SearchQuery = _searchQuery;
+            _searchTweetsParameters.SearchType = _searchResultType;
+            _searchTweetsParameters.MaximumNumberOfResults = _maximumNumberOfResults;
+            _searchTweetsParameters.SinceId = _sinceId;
+            _searchTweetsParameters.MaxId = _maxId;
+            _searchTweetsParameters.Since = _since;
+            _searchTweetsParameters.Until = _until;
+            _searchTweetsParameters.Locale = _locale;
+            _searchTweetsParameters.Lang = _lang;
+            _searchTweetsParameters.GeoCode = _geoCode;
         }
 
         [TestMethod]
@@ -128,7 +128,7 @@ namespace Testinvi.TweetinviControllers.SearchTests
             var searchQueryGenerator = CreateSearchQueryGenerator();
             
             _fakeSearchQueryParameterGenerator.CallsTo(x => x.GenerateSearchQueryParameter(It.IsAny<string>())).ReturnsLazily((string a) => a);
-            var tweetSearchParameters = A.Fake<ITweetSearchParameters>();
+            var tweetSearchParameters = A.Fake<ISearchTweetsParameters>();
             tweetSearchParameters.CallsTo(x => x.Filters).Returns(TweetSearchFilters.Videos);
 
             // Act
@@ -147,7 +147,7 @@ namespace Testinvi.TweetinviControllers.SearchTests
             var searchQueryGenerator = CreateSearchQueryGenerator();
 
             // Act
-            var result = searchQueryGenerator.GetSearchTweetsQuery(_tweetSearchParameters);
+            var result = searchQueryGenerator.GetSearchTweetsQuery(_searchTweetsParameters);
 
             // Assert
             VerifyResultContainsParameters(result, _searchQueryParameter,
