@@ -44,9 +44,9 @@ namespace Tweetinvi.Json
         /// Search tweets based on multiple parameters.
         /// </summary>
         /// <returns>This can returns a collection of json responses when the MaximumNumberOfResults parameter is bigger than 100</returns>
-        public static IEnumerable<string> SearchTweets(ITweetSearchParameters tweetSearchParameters)
+        public static IEnumerable<string> SearchTweets(ISearchTweetsParameters searchTweetsParameters)
         {
-            return SearchJsonController.SearchTweets(tweetSearchParameters);
+            return SearchJsonController.SearchTweets(searchTweetsParameters);
         }
     }
 }

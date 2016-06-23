@@ -10,10 +10,10 @@ namespace Tweetinvi.Controllers.Search
     public interface ISearchController
     {
         IEnumerable<ITweet> SearchTweets(string searchQuery);
-        IEnumerable<ITweet> SearchTweets(ITweetSearchParameters tweetSearchParameters);
+        IEnumerable<ITweet> SearchTweets(ISearchTweetsParameters searchTweetsParameters);
 
         ISearchResult SearchTweetsWithMetadata(string searchQuery);
-        ISearchResult SearchTweetsWithMetadata(ITweetSearchParameters tweetSearchParameters);
+        ISearchResult SearchTweetsWithMetadata(ISearchTweetsParameters searchTweetsParameters);
 
         IEnumerable<ITweet> SearchDirectRepliesTo(ITweet tweet);
         IEnumerable<ITweet> SearchRepliesTo(ITweet tweet, bool recursiveReplies);
@@ -47,9 +47,9 @@ namespace Tweetinvi.Controllers.Search
             return _tweetFactory.GenerateTweetsFromDTO(tweetsDTO);
         }
 
-        public IEnumerable<ITweet> SearchTweets(ITweetSearchParameters tweetSearchParameters)
+        public IEnumerable<ITweet> SearchTweets(ISearchTweetsParameters searchTweetsParameters)
         {
-            var tweetsDTO = _searchQueryExecutor.SearchTweets(tweetSearchParameters);
+            var tweetsDTO = _searchQueryExecutor.SearchTweets(searchTweetsParameters);
             return _tweetFactory.GenerateTweetsFromDTO(tweetsDTO);
         }
 
@@ -59,9 +59,9 @@ namespace Tweetinvi.Controllers.Search
             return _searchResultFactory.Create(new [] { searchResultsDTO });
         }
 
-        public ISearchResult SearchTweetsWithMetadata(ITweetSearchParameters tweetSearchParameters)
+        public ISearchResult SearchTweetsWithMetadata(ISearchTweetsParameters searchTweetsParameters)
         {
-            var searchResultsDTO = _searchQueryExecutor.SearchTweetsWithMetadata(tweetSearchParameters).ToArray();
+            var searchResultsDTO = _searchQueryExecutor.SearchTweetsWithMetadata(searchTweetsParameters).ToArray();
             return _searchResultFactory.Create(searchResultsDTO);
         }
 

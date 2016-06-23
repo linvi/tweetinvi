@@ -7,7 +7,7 @@ namespace Tweetinvi.Controllers.Search
 {
     public interface ISearchQueryValidator
     {
-        void ThrowIfSearchParametersIsNotValid(ITweetSearchParameters searchParameters);
+        void ThrowIfSearchParametersIsNotValid(ISearchTweetsParameters searchTweetsParameters);
         bool IsSearchQueryValid(string searchQuery);
         bool IsGeoCodeValid(IGeoCode geoCode);
         bool IsLocaleParameterValid(string locale);
@@ -19,25 +19,25 @@ namespace Tweetinvi.Controllers.Search
 
     public class SearchQueryValidator : ISearchQueryValidator
     {
-        public void ThrowIfSearchParametersIsNotValid(ITweetSearchParameters searchParameters)
+        public void ThrowIfSearchParametersIsNotValid(ISearchTweetsParameters searchTweetsParameters)
         {
-            if (searchParameters == null)
+            if (searchTweetsParameters == null)
             {
                 throw new ArgumentNullException("Search parameters cannot be null");
             }
 
-            if (!IsAtLeasOneRequiredCriteriaSet(searchParameters))
+            if (!IsAtLeasOneRequiredCriteriaSet(searchTweetsParameters))
             {
                 throw new ArgumentException("At least one of the required parameters needs to be valid (query, geocode or filter).");
             }
         }
 
-        private bool IsAtLeasOneRequiredCriteriaSet(ITweetSearchParameters searchParameters)
+        private bool IsAtLeasOneRequiredCriteriaSet(ISearchTweetsParameters searchTweetsParameters)
         {
-            bool isSearchQuerySet = !string.IsNullOrEmpty(searchParameters.SearchQuery);
-            bool isSearchQueryValid = IsSearchQueryValid(searchParameters.SearchQuery);
-            bool isGeoCodeSet = IsGeoCodeValid(searchParameters.GeoCode);
-            bool isEntitiesTypeSet = searchParameters.Filters != TweetSearchFilters.None;
+            bool isSearchQuerySet = !string.IsNullOrEmpty(searchTweetsParameters.SearchQuery);
+            bool isSearchQueryValid = IsSearchQueryValid(searchTweetsParameters.SearchQuery);
+            bool isGeoCodeSet = IsGeoCodeValid(searchTweetsParameters.GeoCode);
+            bool isEntitiesTypeSet = searchTweetsParameters.Filters != TweetSearchFilters.None;
 
             return (isSearchQuerySet && isSearchQueryValid) || isGeoCodeSet || isEntitiesTypeSet;
         }

@@ -39,7 +39,7 @@ namespace Testinvi.TweetinviControllers.SearchTests
         {
             // Arrange
             var queryValidator = CreateSearchQueryValidator();
-            var searchParameter = A.Fake<ITweetSearchParameters>();
+            var searchParameter = A.Fake<ISearchTweetsParameters>();
             searchParameter.CallsTo(x => x.SearchQuery).Returns(null);
 
             // Act
@@ -52,7 +52,7 @@ namespace Testinvi.TweetinviControllers.SearchTests
         {
             // Arrange
             var queryValidator = CreateSearchQueryValidator();
-            var searchParameter = A.Fake<ITweetSearchParameters>();
+            var searchParameter = A.Fake<ISearchTweetsParameters>();
             searchParameter.CallsTo(x => x.SearchQuery).Returns(string.Empty);
             searchParameter.CallsTo(x => x.GeoCode).Returns(null);
             searchParameter.CallsTo(x => x.Filters).Returns(TweetSearchFilters.None);
@@ -66,7 +66,7 @@ namespace Testinvi.TweetinviControllers.SearchTests
         {
             // Arrange
             var queryValidator = CreateSearchQueryValidator();
-            var searchParameter = A.Fake<ITweetSearchParameters>();
+            var searchParameter = A.Fake<ISearchTweetsParameters>();
             searchParameter.CallsTo(x => x.SearchQuery).Returns(TestHelper.GenerateString());
 
             // Act

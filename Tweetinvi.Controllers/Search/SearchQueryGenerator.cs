@@ -12,7 +12,7 @@ namespace Tweetinvi.Controllers.Search
     public interface ISearchQueryGenerator
     {
         string GetSearchTweetsQuery(string query);
-        string GetSearchTweetsQuery(ITweetSearchParameters tweetSearchParameters);
+        string GetSearchTweetsQuery(ISearchTweetsParameters searchTweetsParameters);
 
         string GetSearchUsersQuery(IUserSearchParameters userSearchParameters);
     }
@@ -42,35 +42,35 @@ namespace Tweetinvi.Controllers.Search
             return GetSearchTweetsQuery(searchParameter);
         }
 
-        public string GetSearchTweetsQuery(ITweetSearchParameters tweetSearchParameters)
+        public string GetSearchTweetsQuery(ISearchTweetsParameters searchTweetsParameters)
         {
-            if (tweetSearchParameters == null)
+            if (searchTweetsParameters == null)
             {
                 throw new ArgumentNullException("Search parameters cannot be null");
             }
 
-            var searchQuery = GetQuery(tweetSearchParameters.SearchQuery, tweetSearchParameters.Filters);
+            var searchQuery = GetQuery(searchTweetsParameters.SearchQuery, searchTweetsParameters.Filters);
 
-            _searchQueryValidator.ThrowIfSearchParametersIsNotValid(tweetSearchParameters);
+            _searchQueryValidator.ThrowIfSearchParametersIsNotValid(searchTweetsParameters);
 
             var query = new StringBuilder(Resources.Search_SearchTweets);
 
             query.AddParameterToQuery("q", searchQuery);
-            query.AddParameterToQuery("geocode", _searchQueryParameterGenerator.GenerateGeoCodeParameter(tweetSearchParameters.GeoCode));
+            query.AddParameterToQuery("geocode", _searchQueryParameterGenerator.GenerateGeoCodeParameter(searchTweetsParameters.GeoCode));
 
-            query.Append(_searchQueryParameterGenerator.GenerateSearchTypeParameter(tweetSearchParameters.SearchType));
+            query.Append(_searchQueryParameterGenerator.GenerateSearchTypeParameter(searchTweetsParameters.SearchType));
 
-            query.Append(_queryParameterGenerator.GenerateSinceIdParameter(tweetSearchParameters.SinceId));
-            query.Append(_queryParameterGenerator.GenerateMaxIdParameter(tweetSearchParameters.MaxId));
-            query.Append(_queryParameterGenerator.GenerateCountParameter(tweetSearchParameters.MaximumNumberOfResults));
+            query.Append(_queryParameterGenerator.GenerateSinceIdParameter(searchTweetsParameters.SinceId));
+            query.Append(_queryParameterGenerator.GenerateMaxIdParameter(searchTweetsParameters.MaxId));
+            query.Append(_queryParameterGenerator.GenerateCountParameter(searchTweetsParameters.MaximumNumberOfResults));
 
-            query.Append(_searchQueryParameterGenerator.GenerateLangParameter(tweetSearchParameters.Lang));
-            query.Append(_searchQueryParameterGenerator.GenerateLocaleParameter(tweetSearchParameters.Locale));
-            query.Append(_searchQueryParameterGenerator.GenerateSinceParameter(tweetSearchParameters.Since));
-            query.Append(_searchQueryParameterGenerator.GenerateUntilParameter(tweetSearchParameters.Until));
+            query.Append(_searchQueryParameterGenerator.GenerateLangParameter(searchTweetsParameters.Lang));
+            query.Append(_searchQueryParameterGenerator.GenerateLocaleParameter(searchTweetsParameters.Locale));
+            query.Append(_searchQueryParameterGenerator.GenerateSinceParameter(searchTweetsParameters.Since));
+            query.Append(_searchQueryParameterGenerator.GenerateUntilParameter(searchTweetsParameters.Until));
 
             query.Append(_queryParameterGenerator.GenerateTweetModeParameter(_tweetinviSettingsAccessor.CurrentThreadSettings.TweetMode));
-            query.Append(_queryParameterGenerator.GenerateAdditionalRequestParameters(tweetSearchParameters.FormattedCustomQueryParameters));
+            query.Append(_queryParameterGenerator.GenerateAdditionalRequestParameters(searchTweetsParameters.FormattedCustomQueryParameters));
 
             return query.ToString();
         }

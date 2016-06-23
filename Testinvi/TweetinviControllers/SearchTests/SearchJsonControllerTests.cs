@@ -49,7 +49,7 @@ namespace Testinvi.TweetinviControllers.SearchTests
             // Arrange
             var queryExecutor = CreateSearchJsonController();
             var httpQuery = TestHelper.GenerateString();
-            var searchQueryParameter = A.Fake<ITweetSearchParameters>();
+            var searchQueryParameter = A.Fake<ISearchTweetsParameters>();
             var jsonResult = TestHelper.GenerateString();
 
             _fakeSearchQueryGenerator.CallsTo(x => x.GetSearchTweetsQuery(searchQueryParameter)).Returns(httpQuery);
