@@ -1,5 +1,5 @@
 ﻿using Tweetinvi.Core.Interfaces.Controllers;
-using Tweetinvi.Core.Interfaces.Credentials;
+using Tweetinvi.Core.Web;
 
 namespace Tweetinvi.Controllers.Help
 {

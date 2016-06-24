@@ -1,9 +1,9 @@
 ﻿using System;
 using Tweetinvi.Controllers.Properties;
 using Tweetinvi.Core.Injectinvi;
-using Tweetinvi.Core.Interfaces.Models;
 using Tweetinvi.Core.Parameters;
-using Tweetinvi.Core.Parameters.QueryParameters;
+using Tweetinvi.Models;
+using Tweetinvi.Parameters;
 
 namespace Tweetinvi.Controllers.Timeline
 {

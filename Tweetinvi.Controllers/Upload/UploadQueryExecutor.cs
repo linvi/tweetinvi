@@ -8,11 +8,10 @@ using Tweetinvi.Core.Extensions;
 using Tweetinvi.Core.Helpers;
 using Tweetinvi.Core.Injectinvi;
 using Tweetinvi.Core.Interfaces.Controllers.Transactions;
-using Tweetinvi.Core.Interfaces.Credentials;
-using Tweetinvi.Core.Interfaces.DTO;
-using Tweetinvi.Core.Parameters.QueryParameters;
+using Tweetinvi.Core.Parameters;
 using Tweetinvi.Core.Web;
 using Tweetinvi.Logic.QueryParameters;
+using Tweetinvi.Models.DTO;
 
 namespace Tweetinvi.Controllers.Upload
 {

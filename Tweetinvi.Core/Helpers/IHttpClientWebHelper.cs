@@ -1,7 +1,7 @@
 ﻿using System.Net.Http;
 using System.Threading.Tasks;
-using Tweetinvi.Core.Interfaces.Models;
 using Tweetinvi.Core.Web;
+using Tweetinvi.Models;
 
 namespace Tweetinvi.Core.Helpers
 {

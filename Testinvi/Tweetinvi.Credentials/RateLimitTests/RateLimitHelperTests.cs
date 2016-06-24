@@ -9,9 +9,9 @@ using Tweetinvi.Core;
 using Tweetinvi.Core.Attributes;
 using Tweetinvi.Core.Helpers;
 using Tweetinvi.Core.Injectinvi;
-using Tweetinvi.Core.Interfaces.Credentials;
 using Tweetinvi.Core.Interfaces.RateLimit;
 using Tweetinvi.Credentials.RateLimit;
+using Tweetinvi.Models;
 using Tweetinvi.WebLogic;
 
 namespace Testinvi.Tweetinvi.Credentials.RateLimitTests

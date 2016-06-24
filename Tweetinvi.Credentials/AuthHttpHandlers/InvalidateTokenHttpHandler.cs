@@ -2,7 +2,7 @@
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using Tweetinvi.Core.Interfaces.Models;
+using Tweetinvi.Models;
 using Tweetinvi.WebLogic;
 
 namespace Tweetinvi.Credentials.AuthHttpHandlers

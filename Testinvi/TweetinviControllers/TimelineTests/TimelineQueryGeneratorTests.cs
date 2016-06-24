@@ -8,11 +8,11 @@ using Testinvi.SetupHelpers;
 using Tweetinvi.Controllers.Properties;
 using Tweetinvi.Controllers.Shared;
 using Tweetinvi.Controllers.Timeline;
-using Tweetinvi.Core.Interfaces.Models;
 using Tweetinvi.Core.Interfaces.QueryGenerators;
 using Tweetinvi.Core.Interfaces.QueryValidators;
 using Tweetinvi.Core.Parameters;
-using Tweetinvi.Core.Parameters.QueryParameters;
+using Tweetinvi.Models;
+using Tweetinvi.Parameters;
 
 namespace Testinvi.TweetinviControllers.TimelineTests
 {

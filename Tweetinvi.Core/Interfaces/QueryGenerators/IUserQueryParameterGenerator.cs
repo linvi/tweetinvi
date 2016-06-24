@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
-using Tweetinvi.Core.Interfaces.Models;
-using Tweetinvi.Core.Parameters;
+using Tweetinvi.Models;
+using Tweetinvi.Parameters;
 
 namespace Tweetinvi.Core.Interfaces.QueryGenerators
 {

@@ -2,11 +2,11 @@
 using Tweetinvi.Controllers.Properties;
 using Tweetinvi.Core;
 using Tweetinvi.Core.Injectinvi;
-using Tweetinvi.Core.Interfaces.Models;
 using Tweetinvi.Core.Interfaces.QueryGenerators;
 using Tweetinvi.Core.Interfaces.QueryValidators;
 using Tweetinvi.Core.Parameters;
-using Tweetinvi.Core.Parameters.QueryParameters;
+using Tweetinvi.Models;
+using Tweetinvi.Parameters;
 
 namespace Tweetinvi.Controllers.TwitterLists
 {

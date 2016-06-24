@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using Tweetinvi.Core.Authentication;
 using Tweetinvi.Core.Extensions;
-using Tweetinvi.Core.Interfaces.Credentials;
 using Tweetinvi.Core.Interfaces.RateLimit;
+using Tweetinvi.Models;
 
 namespace Tweetinvi.Credentials.RateLimit
 {

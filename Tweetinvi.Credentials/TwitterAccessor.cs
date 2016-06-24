@@ -5,12 +5,11 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Tweetinvi.Core.Exceptions;
 using Tweetinvi.Core.Helpers;
-using Tweetinvi.Core.Interfaces.Credentials;
-using Tweetinvi.Core.Interfaces.DTO.QueryDTO;
 using Tweetinvi.Core.Interfaces.Exceptions;
 using Tweetinvi.Core.Web;
 using Tweetinvi.Core.Wrappers;
 using Tweetinvi.Credentials.QueryJsonConverters;
+using Tweetinvi.Models.DTO.QueryDTO;
 using Tweetinvi.WebLogic;
 using HttpMethod = Tweetinvi.Core.Enum.HttpMethod;
 

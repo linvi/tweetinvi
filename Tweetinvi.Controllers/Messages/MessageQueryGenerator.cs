@@ -3,9 +3,9 @@ using Tweetinvi.Controllers.Properties;
 using Tweetinvi.Controllers.Shared;
 using Tweetinvi.Core.Extensions;
 using Tweetinvi.Core.Helpers;
-using Tweetinvi.Core.Interfaces.DTO;
 using Tweetinvi.Core.Interfaces.QueryGenerators;
-using Tweetinvi.Core.Parameters;
+using Tweetinvi.Models.DTO;
+using Tweetinvi.Parameters;
 
 namespace Tweetinvi.Controllers.Messages
 {

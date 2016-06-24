@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using Newtonsoft.Json;
 using Tweetinvi.Core;
 using Tweetinvi.Core.Enum;
-using Tweetinvi.Core.Interfaces.DTO;
-using Tweetinvi.Core.Interfaces.Models;
-using Tweetinvi.Core.Interfaces.Models.Entities;
 using Tweetinvi.Logic.JsonConverters;
+using Tweetinvi.Models;
+using Tweetinvi.Models.DTO;
+using Tweetinvi.Models.Entities;
 
 namespace Tweetinvi.Logic.DTO
 {

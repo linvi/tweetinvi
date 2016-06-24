@@ -5,9 +5,10 @@ using Tweetinvi.Core.Events;
 using Tweetinvi.Core.Events.EventArguments;
 using Tweetinvi.Core.Exceptions;
 using Tweetinvi.Core.Injectinvi;
-using Tweetinvi.Core.Interfaces.Models;
-using Tweetinvi.Core.Interfaces.Models.StreamMessages;
-using Tweetinvi.Core.Interfaces.Streaminvi;
+using Tweetinvi.Core.Streaming;
+using Tweetinvi.Models;
+using Tweetinvi.Streaming;
+using Tweetinvi.Streaming.Events;
 using Tweetinvi.Streams.Model;
 using Tweetinvi.Streams.Properties;
 

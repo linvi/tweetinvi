@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Tweetinvi.Core.Interfaces.Controllers;
 using Tweetinvi.Core.Interfaces.Factories;
-using Tweetinvi.Core.Interfaces.Models;
+using Tweetinvi.Models;
 
 namespace Tweetinvi
 {

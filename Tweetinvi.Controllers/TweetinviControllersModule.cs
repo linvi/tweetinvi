@@ -15,9 +15,9 @@ using Tweetinvi.Controllers.User;
 using Tweetinvi.Core.Injectinvi;
 using Tweetinvi.Core.Interfaces.Controllers;
 using Tweetinvi.Core.Interfaces.Controllers.Transactions;
-using Tweetinvi.Core.Interfaces.Models;
 using Tweetinvi.Core.Interfaces.QueryGenerators;
 using Tweetinvi.Core.Interfaces.QueryValidators;
+using Tweetinvi.Models;
 
 namespace Tweetinvi.Controllers
 {

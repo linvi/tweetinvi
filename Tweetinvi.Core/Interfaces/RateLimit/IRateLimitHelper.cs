@@ -1,4 +1,4 @@
-﻿using Tweetinvi.Core.Interfaces.Credentials;
+﻿using Tweetinvi.Models;
 
 namespace Tweetinvi.Core.Interfaces.RateLimit
 {

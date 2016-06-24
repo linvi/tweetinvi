@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Tweetinvi.Controllers.Search;
-using Tweetinvi.Core.Parameters;
+using Tweetinvi.Parameters;
 
 namespace Tweetinvi.Json
 {

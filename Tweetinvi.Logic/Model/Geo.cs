@@ -2,8 +2,7 @@
 using System.Linq;
 using Newtonsoft.Json;
 using Tweetinvi.Core.Extensions;
-using Tweetinvi.Core.Interfaces.Models;
-using Tweetinvi.Core.Parameters;
+using Tweetinvi.Models;
 
 namespace Tweetinvi.Logic.Model
 {

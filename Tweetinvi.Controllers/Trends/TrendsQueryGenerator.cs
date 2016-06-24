@@ -3,7 +3,7 @@ using System.Text;
 using Tweetinvi.Controllers.Properties;
 using Tweetinvi.Controllers.Shared;
 using Tweetinvi.Core.Extensions;
-using Tweetinvi.Core.Interfaces.Models;
+using Tweetinvi.Models;
 
 namespace Tweetinvi.Controllers.Trends
 {

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Tweetinvi.Core.Interfaces.DTO;
+using Tweetinvi.Models.DTO;
 
 namespace Tweetinvi.Controllers.Tweet
 {

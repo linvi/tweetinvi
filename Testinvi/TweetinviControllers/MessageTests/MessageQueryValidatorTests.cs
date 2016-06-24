@@ -5,9 +5,9 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Testinvi.Helpers;
 using Testinvi.SetupHelpers;
 using Tweetinvi.Controllers.Messages;
-using Tweetinvi.Core.Interfaces.DTO;
 using Tweetinvi.Core.Interfaces.QueryValidators;
-using Tweetinvi.Core.Parameters;
+using Tweetinvi.Models.DTO;
+using Tweetinvi.Parameters;
 
 namespace Testinvi.TweetinviControllers.MessageTests
 {

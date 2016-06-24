@@ -1,8 +1,8 @@
 ﻿using System;
-using Tweetinvi.Core.Authentication;
+using Tweetinvi.Core.Credentials;
 using Tweetinvi.Core.Exceptions;
-using Tweetinvi.Core.Interfaces.Credentials;
 using Tweetinvi.Credentials;
+using Tweetinvi.Models;
 
 namespace Tweetinvi
 {

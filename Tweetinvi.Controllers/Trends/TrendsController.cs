@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using Tweetinvi.Core.Interfaces.Controllers;
-using Tweetinvi.Core.Interfaces.Models;
-using Tweetinvi.Core.Parameters;
+using Tweetinvi.Models;
 
 namespace Tweetinvi.Controllers.Trends
 {

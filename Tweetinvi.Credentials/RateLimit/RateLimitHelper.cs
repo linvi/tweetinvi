@@ -7,9 +7,9 @@ using System.Text.RegularExpressions;
 using Tweetinvi.Core.Attributes;
 using Tweetinvi.Core.Extensions;
 using Tweetinvi.Core.Helpers;
-using Tweetinvi.Core.Interfaces.Credentials;
-using Tweetinvi.Core.Interfaces.Models;
 using Tweetinvi.Core.Interfaces.RateLimit;
+using Tweetinvi.Core.Models;
+using Tweetinvi.Models;
 
 namespace Tweetinvi.Credentials.RateLimit
 {

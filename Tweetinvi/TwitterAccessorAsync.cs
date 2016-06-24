@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Tweetinvi.Core.Enum;
-using Tweetinvi.Core.Interfaces.DTO.QueryDTO;
+using Tweetinvi.Models.DTO.QueryDTO;
 
 namespace Tweetinvi
 {

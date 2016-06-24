@@ -1,7 +1,7 @@
 ﻿using System;
 using Tweetinvi.Controllers.SavedSearch;
-using Tweetinvi.Core.Interfaces.Models;
 using Tweetinvi.Factories.SavedSearch;
+using Tweetinvi.Models;
 
 namespace Tweetinvi.Json
 {

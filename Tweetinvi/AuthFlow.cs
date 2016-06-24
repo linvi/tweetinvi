@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using Tweetinvi.Core.Authentication;
+using Tweetinvi.Core.Credentials;
 using Tweetinvi.Core.Extensions;
-using Tweetinvi.Core.Interfaces.Credentials;
 using Tweetinvi.Credentials;
 using Tweetinvi.Credentials.Models;
+using Tweetinvi.Models;
 
 namespace Tweetinvi
 {

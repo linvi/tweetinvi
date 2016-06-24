@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using Tweetinvi.Controllers.Tweet;
 using Tweetinvi.Core.Extensions;
-using Tweetinvi.Core.Interfaces.Credentials;
-using Tweetinvi.Core.Interfaces.DTO;
-using Tweetinvi.Core.Parameters;
+using Tweetinvi.Core.Web;
+using Tweetinvi.Models.DTO;
+using Tweetinvi.Parameters;
 
 namespace Tweetinvi.Controllers.Search
 {

@@ -1,8 +1,8 @@
 ﻿using System;
 using Tweetinvi.Core;
-using Tweetinvi.Core.Interfaces.DTO;
 using Tweetinvi.Core.Interfaces.QueryValidators;
-using Tweetinvi.Core.Parameters;
+using Tweetinvi.Models.DTO;
+using Tweetinvi.Parameters;
 
 namespace Tweetinvi.Controllers.Messages
 {

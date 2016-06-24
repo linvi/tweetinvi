@@ -6,9 +6,9 @@ using Testinvi.Helpers;
 using Testinvi.SetupHelpers;
 using Tweetinvi.Controllers.Messages;
 using Tweetinvi.Core.Interfaces;
-using Tweetinvi.Core.Interfaces.Credentials;
-using Tweetinvi.Core.Interfaces.DTO;
-using Tweetinvi.Core.Parameters;
+using Tweetinvi.Core.Web;
+using Tweetinvi.Models.DTO;
+using Tweetinvi.Parameters;
 
 namespace Testinvi.TweetinviControllers.MessageTests
 {

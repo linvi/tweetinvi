@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using Tweetinvi.Core.Interfaces.DTO;
 using Tweetinvi.Core.Web;
+using Tweetinvi.Models.DTO;
 
 namespace Tweetinvi.Core.Interfaces.Controllers.Transactions
 {

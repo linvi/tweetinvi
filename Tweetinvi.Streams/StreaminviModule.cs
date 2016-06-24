@@ -1,6 +1,7 @@
 ﻿using Tweetinvi.Core.Injectinvi;
-using Tweetinvi.Core.Interfaces.Models.StreamMessages;
-using Tweetinvi.Core.Interfaces.Streaminvi;
+using Tweetinvi.Core.Streaming;
+using Tweetinvi.Streaming;
+using Tweetinvi.Streaming.Events;
 using Tweetinvi.Streams.Helpers;
 using Tweetinvi.Streams.Model;
 

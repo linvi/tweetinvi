@@ -4,7 +4,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Testinvi.Helpers;
 using Testinvi.SetupHelpers;
 using Tweetinvi.Controllers.Account;
-using Tweetinvi.Core.Interfaces.Credentials;
+using Tweetinvi.Core.Web;
 
 namespace Testinvi.TweetinviControllers.AccountTests
 {

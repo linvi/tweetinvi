@@ -1,8 +1,8 @@
 ﻿using System;
 using Tweetinvi.Controllers.Timeline;
 using Tweetinvi.Core.Interfaces;
-using Tweetinvi.Core.Interfaces.Models;
-using Tweetinvi.Core.Parameters;
+using Tweetinvi.Models;
+using Tweetinvi.Parameters;
 
 namespace Tweetinvi.Json
 {

@@ -6,10 +6,9 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Testinvi.Helpers;
 using Tweetinvi.Controllers.Messages;
 using Tweetinvi.Core.Interfaces;
-using Tweetinvi.Core.Interfaces.DTO;
 using Tweetinvi.Core.Interfaces.Factories;
-using Tweetinvi.Core.Interfaces.Models;
-using Tweetinvi.Core.Parameters;
+using Tweetinvi.Models.DTO;
+using Tweetinvi.Parameters;
 
 namespace Testinvi.TweetinviControllers.MessageTests
 {

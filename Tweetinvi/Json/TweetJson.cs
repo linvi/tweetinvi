@@ -1,8 +1,8 @@
 ﻿using System;
 using Tweetinvi.Controllers.Tweet;
 using Tweetinvi.Core.Interfaces;
-using Tweetinvi.Core.Interfaces.DTO;
-using Tweetinvi.Core.Parameters;
+using Tweetinvi.Models.DTO;
+using Tweetinvi.Parameters;
 
 namespace Tweetinvi.Json
 {

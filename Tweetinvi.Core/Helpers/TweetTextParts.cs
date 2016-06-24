@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Text.RegularExpressions;
-using Tweetinvi.Core.Interfaces.Models;
+using Tweetinvi.Models;
 
 namespace Tweetinvi.Core.Helpers
 {

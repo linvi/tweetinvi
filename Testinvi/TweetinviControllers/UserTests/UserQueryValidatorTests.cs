@@ -4,7 +4,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Testinvi.Helpers;
 using Tweetinvi.Controllers.User;
 using Tweetinvi.Core;
-using Tweetinvi.Core.Interfaces.DTO;
+using Tweetinvi.Models.DTO;
 
 namespace Testinvi.TweetinviControllers.UserTests
 {

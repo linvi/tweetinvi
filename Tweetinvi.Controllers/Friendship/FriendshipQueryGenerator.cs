@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using Tweetinvi.Controllers.Properties;
 using Tweetinvi.Core.Extensions;
-using Tweetinvi.Core.Interfaces.Models;
 using Tweetinvi.Core.Interfaces.QueryGenerators;
 using Tweetinvi.Core.Interfaces.QueryValidators;
+using Tweetinvi.Models;
 
 namespace Tweetinvi.Controllers.Friendship
 {

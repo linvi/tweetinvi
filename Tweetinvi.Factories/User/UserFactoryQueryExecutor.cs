@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Tweetinvi.Core.Extensions;
-using Tweetinvi.Core.Interfaces.Credentials;
-using Tweetinvi.Core.Interfaces.DTO;
 using Tweetinvi.Core.Interfaces.QueryGenerators;
-using Tweetinvi.Core.Parameters;
+using Tweetinvi.Core.Web;
 using Tweetinvi.Factories.Properties;
 using Tweetinvi.Logic.DTO;
+using Tweetinvi.Models.DTO;
+using Tweetinvi.Parameters;
 
 namespace Tweetinvi.Factories.User
 {

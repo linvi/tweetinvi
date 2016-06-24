@@ -7,11 +7,11 @@ using Testinvi.SetupHelpers;
 using Tweetinvi.Controllers.User;
 using Tweetinvi.Core.Enum;
 using Tweetinvi.Core.Helpers;
-using Tweetinvi.Core.Interfaces.Credentials;
-using Tweetinvi.Core.Interfaces.DTO;
-using Tweetinvi.Core.Interfaces.DTO.QueryDTO;
 using Tweetinvi.Core.Interfaces.QueryGenerators;
-using Tweetinvi.Core.Parameters.QueryParameters;
+using Tweetinvi.Core.Parameters;
+using Tweetinvi.Core.Web;
+using Tweetinvi.Models.DTO;
+using Tweetinvi.Models.DTO.QueryDTO;
 
 namespace Testinvi.TweetinviControllers.UserTests
 {

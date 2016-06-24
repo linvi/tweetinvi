@@ -4,11 +4,11 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Testinvi.Helpers;
 using Tweetinvi.Core.Extensions;
 using Tweetinvi.Core.Interfaces;
-using Tweetinvi.Core.Interfaces.DTO;
 using Tweetinvi.Core.Interfaces.Factories;
 using Tweetinvi.Logic;
 using Tweetinvi.Logic.JsonConverters;
 using Tweetinvi.Logic.Wrapper;
+using Tweetinvi.Models.DTO;
 
 namespace Testinvi.Tweetinvi.Core
 {

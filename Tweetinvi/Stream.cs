@@ -1,8 +1,9 @@
 ﻿using System;
-using Tweetinvi.Core.Authentication;
+using Tweetinvi.Core.Credentials;
 using Tweetinvi.Core.Injectinvi;
-using Tweetinvi.Core.Interfaces.Credentials;
-using Tweetinvi.Core.Interfaces.Streaminvi;
+using Tweetinvi.Core.Streaming;
+using Tweetinvi.Models;
+using Tweetinvi.Streaming;
 
 namespace Tweetinvi
 {

@@ -1,6 +1,5 @@
-﻿using Tweetinvi.Core.Authentication;
-using Tweetinvi.Core.Interfaces.Credentials;
-using Tweetinvi.Core.Interfaces.DTO;
+﻿using Tweetinvi.Models;
+using Tweetinvi.Models.DTO;
 
 namespace Tweetinvi.Core.Interfaces.Controllers
 {

@@ -3,9 +3,8 @@ using System.Diagnostics.CodeAnalysis;
 using FakeItEasy;
 using Newtonsoft.Json.Linq;
 using Testinvi.Helpers;
-using Tweetinvi.Core.Interfaces.Credentials;
-using Tweetinvi.Core.Interfaces.DTO.QueryDTO;
 using Tweetinvi.Core.Web;
+using Tweetinvi.Models.DTO.QueryDTO;
 
 namespace Testinvi.SetupHelpers
 {

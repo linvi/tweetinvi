@@ -1,8 +1,8 @@
-﻿using Tweetinvi.Core.Interfaces.Credentials;
-using Tweetinvi.Core.Interfaces.Factories;
-using Tweetinvi.Core.Interfaces.Models;
+﻿using Tweetinvi.Core.Interfaces.Factories;
 using Tweetinvi.Core.Parameters;
-using Tweetinvi.Core.Parameters.QueryParameters;
+using Tweetinvi.Core.Web;
+using Tweetinvi.Models;
+using Tweetinvi.Parameters;
 
 namespace Tweetinvi.Controllers.Timeline
 {

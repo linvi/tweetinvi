@@ -4,9 +4,9 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Testinvi.Helpers;
 using Testinvi.SetupHelpers;
 using Tweetinvi.Controllers.SavedSearch;
-using Tweetinvi.Core.Interfaces.Credentials;
-using Tweetinvi.Core.Interfaces.DTO;
-using Tweetinvi.Core.Interfaces.Models;
+using Tweetinvi.Core.Web;
+using Tweetinvi.Models;
+using Tweetinvi.Models.DTO;
 
 namespace Testinvi.TweetinviControllers.SavedSearchTests
 {

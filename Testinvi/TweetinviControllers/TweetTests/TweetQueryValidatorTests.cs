@@ -4,9 +4,8 @@ using FakeItEasy.ExtensionSyntax.Full;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Testinvi.Helpers;
 using Tweetinvi.Controllers.Tweet;
-using Tweetinvi.Core.Interfaces.DTO;
-using Tweetinvi.Core.Parameters;
-using Tweetinvi.Core.Parameters.QueryParameters;
+using Tweetinvi.Models.DTO;
+using Tweetinvi.Parameters;
 
 namespace Testinvi.TweetinviControllers.TweetTests
 {

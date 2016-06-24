@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Tweetinvi.Core.Parameters;
+using Tweetinvi.Parameters;
 
 namespace Tweetinvi.Core.Web
 {

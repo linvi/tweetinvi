@@ -2,9 +2,8 @@
 using Newtonsoft.Json;
 using Tweetinvi.Core;
 using Tweetinvi.Core.Enum;
-using Tweetinvi.Core.Interfaces.DTO;
-using Tweetinvi.Core.Interfaces.Models;
 using Tweetinvi.Logic.JsonConverters;
+using Tweetinvi.Models.DTO;
 
 namespace Tweetinvi.Logic.DTO
 {

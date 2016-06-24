@@ -6,17 +6,15 @@ using System.Linq;
 using System.Reflection;
 using Tweetinvi;
 using Tweetinvi.Core;
-using Tweetinvi.Core.Authentication;
 using Tweetinvi.Core.Enum;
 using Tweetinvi.Core.Extensions;
 using Tweetinvi.Core.Interfaces;
 using Tweetinvi.Core.Interfaces.Controllers;
-using Tweetinvi.Core.Interfaces.DTO;
-using Tweetinvi.Core.Interfaces.Models;
-using Tweetinvi.Core.Interfaces.Streaminvi;
-using Tweetinvi.Core.Parameters;
 using Tweetinvi.Json;
-using SavedSearch = Tweetinvi.SavedSearch;
+using Tweetinvi.Models;
+using Tweetinvi.Models.DTO;
+using Tweetinvi.Parameters;
+using Tweetinvi.Streaming;
 using Stream = Tweetinvi.Stream;
 
 namespace Examplinvi
@@ -38,20 +36,6 @@ namespace Examplinvi
             {
                 Console.WriteLine(args.QueryURL);
             };
-
-            TweetinviConfig.CurrentThreadSettings.TweetMode = TweetMode.Extended;
-
-TweetinviConfig.CurrentThreadSettings.GetUtcDateTime = () =>
-{
-    return DateTime.UtcNow.Subtract(TimeSpan.FromHours(1));
-};
-
-var tweet = Tweet.PublishTweet("@tweetinviapi forever! pic.twitter.com/42");
-var fullText = tweet.FullText; // @tweetinviapi forever!
-var prefix_or_mentions = tweet.Prefix; // @tweetinviapi
-var content = tweet.Text; // forever!
-var suffix = tweet.Suffix; // pic.twitter.com/42
-
 
             var authenticatedUser = User.GetAuthenticatedUser();
 

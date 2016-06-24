@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Linq;
 using System.Collections.Generic;
-using Tweetinvi.Core.Authentication;
-using Tweetinvi.Core.Interfaces.Credentials;
+using Tweetinvi.Core.Credentials;
 using Tweetinvi.Core.Interfaces.RateLimit;
 using Tweetinvi.Core.Interfaces.WebLogic;
+using Tweetinvi.Models;
 
 namespace Tweetinvi.Credentials.RateLimit
 {

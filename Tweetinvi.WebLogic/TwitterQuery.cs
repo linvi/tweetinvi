@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net.Http;
-using Tweetinvi.Core.Authentication;
-using Tweetinvi.Core.Interfaces.Credentials;
-using Tweetinvi.Core.Interfaces.Models;
 using Tweetinvi.Core.Interfaces.WebLogic;
+using Tweetinvi.Models;
 using HttpMethod = Tweetinvi.Core.Enum.HttpMethod;
 
 namespace Tweetinvi.WebLogic

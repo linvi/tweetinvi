@@ -1,7 +1,6 @@
 ﻿using Tweetinvi.Core;
 using Tweetinvi.Core.Interfaces.Factories;
-using Tweetinvi.Core.Interfaces.Models;
-using Tweetinvi.Core.Parameters;
+using Tweetinvi.Models;
 
 namespace Tweetinvi.Factories.Lists
 {

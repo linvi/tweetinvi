@@ -1,6 +1,5 @@
 ﻿using Tweetinvi.Core.Injectinvi;
 using Tweetinvi.Core.Interfaces.Factories;
-using Tweetinvi.Core.Interfaces.Models;
 using Tweetinvi.Factories.Friendship;
 using Tweetinvi.Factories.Geo;
 using Tweetinvi.Factories.Lists;
@@ -8,6 +7,7 @@ using Tweetinvi.Factories.SavedSearch;
 using Tweetinvi.Factories.Search;
 using Tweetinvi.Factories.Tweet;
 using Tweetinvi.Factories.User;
+using Tweetinvi.Models;
 
 namespace Tweetinvi.Factories
 {

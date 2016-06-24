@@ -1,4 +1,4 @@
-﻿using Tweetinvi.Core.Authentication;
+﻿using Tweetinvi.Models;
 
 namespace Examplinvi.Web
 {

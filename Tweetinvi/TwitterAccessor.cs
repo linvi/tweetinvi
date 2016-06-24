@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using Newtonsoft.Json.Linq;
 using Tweetinvi.Core.Enum;
-using Tweetinvi.Core.Interfaces.Credentials;
-using Tweetinvi.Core.Interfaces.DTO.QueryDTO;
 using Tweetinvi.Core.Web;
+using Tweetinvi.Models.DTO.QueryDTO;
 
 namespace Tweetinvi
 {

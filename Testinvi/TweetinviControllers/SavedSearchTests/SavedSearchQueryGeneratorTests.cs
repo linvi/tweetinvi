@@ -5,7 +5,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Testinvi.Helpers;
 using Tweetinvi.Controllers.Properties;
 using Tweetinvi.Controllers.SavedSearch;
-using Tweetinvi.Core.Interfaces.Models;
+using Tweetinvi.Models;
 
 namespace Testinvi.TweetinviControllers.SavedSearchTests
 {

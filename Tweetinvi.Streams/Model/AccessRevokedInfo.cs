@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
-using Tweetinvi.Core.Interfaces.DTO.StreamMessages;
+using Tweetinvi.Streaming;
+using Tweetinvi.Streaming.Events;
 
 namespace Tweetinvi.Streams.Model
 {

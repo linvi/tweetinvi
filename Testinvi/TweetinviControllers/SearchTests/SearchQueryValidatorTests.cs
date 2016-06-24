@@ -5,8 +5,8 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Testinvi.Helpers;
 using Tweetinvi.Controllers.Search;
 using Tweetinvi.Core.Enum;
-using Tweetinvi.Core.Interfaces.Models;
-using Tweetinvi.Core.Parameters;
+using Tweetinvi.Models;
+using Tweetinvi.Parameters;
 
 namespace Testinvi.TweetinviControllers.SearchTests
 {

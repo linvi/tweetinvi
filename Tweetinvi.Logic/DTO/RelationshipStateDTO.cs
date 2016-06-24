@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using Newtonsoft.Json;
-using Tweetinvi.Core.Interfaces.DTO;
+using Tweetinvi.Models.DTO;
 
 namespace Tweetinvi.Logic.DTO
 {

@@ -1,8 +1,8 @@
 ﻿using System.Linq;
 using Newtonsoft.Json;
-using Tweetinvi.Core.Interfaces.DTO.QueryDTO;
 using Tweetinvi.Credentials.QueryDTO;
 using Tweetinvi.Logic.JsonConverters;
+using Tweetinvi.Models.DTO.QueryDTO;
 
 namespace Tweetinvi.Credentials.QueryJsonConverters
 {

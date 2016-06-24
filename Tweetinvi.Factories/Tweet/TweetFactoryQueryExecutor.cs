@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Tweetinvi.Core.Injectinvi;
-using Tweetinvi.Core.Interfaces.Credentials;
-using Tweetinvi.Core.Interfaces.DTO;
 using Tweetinvi.Core.Interfaces.QueryGenerators;
+using Tweetinvi.Core.Web;
 using Tweetinvi.Logic.DTO;
+using Tweetinvi.Models.DTO;
 
 namespace Tweetinvi.Factories.Tweet
 {

@@ -1,6 +1,6 @@
 ﻿using System;
-using Tweetinvi.Core.Interfaces.Async;
-using Tweetinvi.Core.Interfaces.DTO;
+using Tweetinvi.Core.Models.Async;
+using Tweetinvi.Models.DTO;
 
 namespace Tweetinvi.Core.Interfaces
 {

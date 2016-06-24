@@ -1,7 +1,6 @@
 ﻿using System;
-using Tweetinvi.Core.Authentication;
-using Tweetinvi.Core.Interfaces.Credentials;
 using Tweetinvi.Core.Interfaces.WebLogic;
+using Tweetinvi.Models;
 
 namespace Tweetinvi.Core.Events.EventArguments
 {

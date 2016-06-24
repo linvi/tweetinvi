@@ -1,4 +1,4 @@
-﻿using Tweetinvi.Core.Interfaces.Models;
+﻿using Tweetinvi.Models;
 
 namespace Tweetinvi.Core.Interfaces.QueryValidators
 {

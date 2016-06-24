@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Tweetinvi.Core.Credentials;
 using Tweetinvi.Core.Helpers;
-using Tweetinvi.Core.Interfaces.Credentials;
 
 namespace Tweetinvi
 {

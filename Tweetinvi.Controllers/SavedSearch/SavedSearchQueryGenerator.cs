@@ -1,7 +1,7 @@
 ﻿using System;
 using Tweetinvi.Controllers.Properties;
 using Tweetinvi.Core;
-using Tweetinvi.Core.Interfaces.Models;
+using Tweetinvi.Models;
 
 namespace Tweetinvi.Controllers.SavedSearch
 {

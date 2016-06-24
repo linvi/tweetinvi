@@ -4,15 +4,15 @@ using System.Linq;
 using Newtonsoft.Json;
 using Tweetinvi.Core.Enum;
 using Tweetinvi.Core.Helpers;
-using Tweetinvi.Core.Interfaces.Credentials;
-using Tweetinvi.Core.Interfaces.DTO;
-using Tweetinvi.Core.Interfaces.Models;
-using Tweetinvi.Core.Interfaces.Models.Entities;
-using Tweetinvi.Core.Interfaces.Models.Entities.ExtendedEntities;
+using Tweetinvi.Core.Models;
 using Tweetinvi.Logic.DTO;
 using Tweetinvi.Logic.Model;
 using Tweetinvi.Logic.TwitterEntities;
 using Tweetinvi.Logic.TwitterEntities.ExtendedEntities;
+using Tweetinvi.Models;
+using Tweetinvi.Models.DTO;
+using Tweetinvi.Models.Entities;
+using Tweetinvi.Models.Entities.ExtendedEntities;
 
 namespace Tweetinvi.Logic.JsonConverters
 {

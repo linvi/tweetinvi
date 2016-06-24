@@ -4,7 +4,7 @@ using FakeItEasy;
 using FakeItEasy.ExtensionSyntax.Full;
 using Tweetinvi.Core;
 using Tweetinvi.Core.Interfaces;
-using Tweetinvi.Core.Interfaces.DTO;
+using Tweetinvi.Models.DTO;
 
 namespace Testinvi.Helpers
 {

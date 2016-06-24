@@ -2,16 +2,15 @@
 using System.Linq;
 using System.Net.Http;
 using Tweetinvi.Core;
-using Tweetinvi.Core.Authentication;
+using Tweetinvi.Core.Credentials;
 using Tweetinvi.Core.Events;
 using Tweetinvi.Core.Events.EventArguments;
 using Tweetinvi.Core.Exceptions;
 using Tweetinvi.Core.Extensions;
-using Tweetinvi.Core.Interfaces.Credentials;
-using Tweetinvi.Core.Interfaces.Models;
 using Tweetinvi.Core.Interfaces.RateLimit;
 using Tweetinvi.Core.Interfaces.WebLogic;
 using Tweetinvi.Core.Web;
+using Tweetinvi.Models;
 using HttpMethod = Tweetinvi.Core.Enum.HttpMethod;
 
 namespace Tweetinvi.WebLogic

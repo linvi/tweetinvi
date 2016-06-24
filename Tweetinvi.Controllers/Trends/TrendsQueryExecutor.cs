@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
-using Tweetinvi.Core.Interfaces.Credentials;
-using Tweetinvi.Core.Interfaces.Models;
+using Tweetinvi.Core.Web;
+using Tweetinvi.Models;
 
 namespace Tweetinvi.Controllers.Trends
 {

@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Net;
+using Tweetinvi.Core.Credentials;
 using Tweetinvi.Core.Enum;
 using Tweetinvi.Core.Exceptions;
-using Tweetinvi.Core.Interfaces.Credentials;
-using Tweetinvi.Core.Interfaces.Models;
 using Tweetinvi.Core.Interfaces.WebLogic;
+using Tweetinvi.Models;
 
 namespace Tweetinvi.WebLogic
 {

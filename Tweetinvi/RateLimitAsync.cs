@@ -1,6 +1,5 @@
 ﻿using System.Threading.Tasks;
-using Tweetinvi.Core.Authentication;
-using Tweetinvi.Core.Interfaces.Credentials;
+using Tweetinvi.Models;
 
 namespace Tweetinvi
 {

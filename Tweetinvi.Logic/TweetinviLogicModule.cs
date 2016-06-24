@@ -2,12 +2,8 @@
 using Tweetinvi.Core.Helpers;
 using Tweetinvi.Core.Injectinvi;
 using Tweetinvi.Core.Interfaces;
-using Tweetinvi.Core.Interfaces.DTO;
 using Tweetinvi.Core.Interfaces.Exceptions;
-using Tweetinvi.Core.Interfaces.Models;
-using Tweetinvi.Core.Interfaces.Models.Entities;
 using Tweetinvi.Core.Parameters;
-using Tweetinvi.Core.Parameters.QueryParameters;
 using Tweetinvi.Core.Wrappers;
 using Tweetinvi.Logic.DTO;
 using Tweetinvi.Logic.Exceptions;
@@ -17,6 +13,9 @@ using Tweetinvi.Logic.Model;
 using Tweetinvi.Logic.QueryParameters;
 using Tweetinvi.Logic.TwitterEntities;
 using Tweetinvi.Logic.Wrapper;
+using Tweetinvi.Models;
+using Tweetinvi.Models.DTO;
+using Tweetinvi.Models.Entities;
 
 namespace Tweetinvi.Logic
 {

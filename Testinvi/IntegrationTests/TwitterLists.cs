@@ -1,6 +1,6 @@
 ﻿using Tweetinvi;
 using Tweetinvi.Core.Enum;
-using Tweetinvi.Core.Parameters;
+using Tweetinvi.Parameters;
 
 namespace Testinvi.IntegrationTests
 {

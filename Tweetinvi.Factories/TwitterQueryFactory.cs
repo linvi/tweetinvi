@@ -1,10 +1,9 @@
 ﻿using System;
 using Tweetinvi.Core;
-using Tweetinvi.Core.Authentication;
+using Tweetinvi.Core.Credentials;
 using Tweetinvi.Core.Enum;
 using Tweetinvi.Core.Injectinvi;
-using Tweetinvi.Core.Interfaces.Credentials;
-using Tweetinvi.Core.Interfaces.Models;
+using Tweetinvi.Models;
 
 namespace Tweetinvi.Factories
 {

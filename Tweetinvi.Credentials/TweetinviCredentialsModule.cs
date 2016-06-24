@@ -1,9 +1,10 @@
-﻿using Tweetinvi.Core.Injectinvi;
-using Tweetinvi.Core.Interfaces.Credentials;
-using Tweetinvi.Core.Interfaces.DTO.QueryDTO;
+﻿using Tweetinvi.Core.Credentials;
+using Tweetinvi.Core.Injectinvi;
 using Tweetinvi.Core.Interfaces.RateLimit;
+using Tweetinvi.Core.Web;
 using Tweetinvi.Credentials.QueryDTO;
 using Tweetinvi.Credentials.RateLimit;
+using Tweetinvi.Models.DTO.QueryDTO;
 
 namespace Tweetinvi.Credentials
 {

@@ -1,4 +1,4 @@
-﻿using Tweetinvi.Core.Interfaces.Models.Entities.ExtendedEntities;
+﻿using Tweetinvi.Models.Entities.ExtendedEntities;
 
 namespace Tweetinvi.Logic.TwitterEntities.ExtendedEntities
 {

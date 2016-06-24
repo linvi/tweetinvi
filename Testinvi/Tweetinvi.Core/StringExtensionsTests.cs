@@ -6,7 +6,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Tweetinvi;
 using Tweetinvi.Core;
 using Tweetinvi.Core.Extensions;
-using Tweetinvi.Core.Parameters;
+using Tweetinvi.Parameters;
 
 namespace Testinvi.Tweetinvi.Core
 {

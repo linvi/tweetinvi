@@ -1,9 +1,8 @@
 ﻿using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
-using Tweetinvi.Core.Authentication;
-using Tweetinvi.Core.Interfaces.Models;
 using Tweetinvi.Core.Interfaces.WebLogic;
+using Tweetinvi.Models;
 using Tweetinvi.WebLogic;
 using Tweetinvi.WebLogic.Utils;
 

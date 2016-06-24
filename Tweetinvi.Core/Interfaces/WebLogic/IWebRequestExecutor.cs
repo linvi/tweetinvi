@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Net.Http;
-using Tweetinvi.Core.Interfaces.Models;
 using Tweetinvi.Core.Web;
+using Tweetinvi.Models;
 
 namespace Tweetinvi.Core.Interfaces.WebLogic
 {

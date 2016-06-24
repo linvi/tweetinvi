@@ -2,9 +2,9 @@
 using System.Diagnostics.CodeAnalysis;
 using FakeItEasy;
 using Testinvi.Helpers;
-using Tweetinvi.Core.Authentication;
-using Tweetinvi.Core.Interfaces.Credentials;
+using Tweetinvi.Core.Credentials;
 using Tweetinvi.Core.Interfaces.WebLogic;
+using Tweetinvi.Models;
 
 namespace Testinvi.SetupHelpers
 {

@@ -11,10 +11,11 @@ using Tweetinvi.Core.Extensions;
 using Tweetinvi.Core.Helpers;
 using Tweetinvi.Core.Interfaces;
 using Tweetinvi.Core.Interfaces.Factories;
-using Tweetinvi.Core.Interfaces.Models;
-using Tweetinvi.Core.Interfaces.Streaminvi;
-using Tweetinvi.Core.Parameters;
+using Tweetinvi.Core.Streaming;
 using Tweetinvi.Core.Wrappers;
+using Tweetinvi.Models;
+using Tweetinvi.Parameters;
+using Tweetinvi.Streaming;
 using Tweetinvi.Streams.Helpers;
 using Tweetinvi.Streams.Properties;
 

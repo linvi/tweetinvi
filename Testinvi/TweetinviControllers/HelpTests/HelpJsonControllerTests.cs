@@ -5,7 +5,7 @@ using Testinvi.Helpers;
 using Testinvi.SetupHelpers;
 using Tweetinvi.Controllers.Help;
 using Tweetinvi.Core.Interfaces.Controllers;
-using Tweetinvi.Core.Interfaces.Credentials;
+using Tweetinvi.Core.Web;
 
 namespace Testinvi.TweetinviControllers.HelpTests
 {

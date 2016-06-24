@@ -3,7 +3,7 @@ using FakeItEasy;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Testinvi.Helpers;
 using Tweetinvi.Controllers.Help;
-using Tweetinvi.Core.Interfaces.Credentials;
+using Tweetinvi.Models;
 
 namespace Testinvi.TweetinviControllers.HelpTests
 {

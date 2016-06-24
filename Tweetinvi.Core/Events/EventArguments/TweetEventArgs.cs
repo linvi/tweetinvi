@@ -1,8 +1,8 @@
 ﻿using System;
 using Tweetinvi.Core.Interfaces;
-using Tweetinvi.Core.Interfaces.Models;
-using Tweetinvi.Core.Interfaces.Models.StreamMessages;
-using Tweetinvi.Core.Interfaces.Streaminvi;
+using Tweetinvi.Models;
+using Tweetinvi.Streaming;
+using Tweetinvi.Streaming.Events;
 
 namespace Tweetinvi.Core.Events.EventArguments
 {

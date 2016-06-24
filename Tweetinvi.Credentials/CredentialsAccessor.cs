@@ -1,6 +1,6 @@
 ﻿using System;
-using Tweetinvi.Core.Authentication;
-using Tweetinvi.Core.Interfaces.Credentials;
+using Tweetinvi.Core.Credentials;
+using Tweetinvi.Models;
 
 namespace Tweetinvi.Credentials
 {

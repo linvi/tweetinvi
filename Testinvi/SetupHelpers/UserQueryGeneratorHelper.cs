@@ -1,8 +1,8 @@
 ﻿using System;
 using FakeItEasy;
 using Tweetinvi.Core;
-using Tweetinvi.Core.Interfaces.Models;
 using Tweetinvi.Core.Interfaces.QueryGenerators;
+using Tweetinvi.Models;
 
 namespace Testinvi.SetupHelpers
 {

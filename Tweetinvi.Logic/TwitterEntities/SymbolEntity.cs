@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 using Tweetinvi.Core.Extensions;
-using Tweetinvi.Core.Interfaces.Models.Entities;
+using Tweetinvi.Models.Entities;
 
 namespace Tweetinvi.Logic.TwitterEntities
 {

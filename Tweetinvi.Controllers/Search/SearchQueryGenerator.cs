@@ -5,7 +5,7 @@ using Tweetinvi.Controllers.Properties;
 using Tweetinvi.Controllers.Shared;
 ﻿using Tweetinvi.Core;
 ﻿using Tweetinvi.Core.Extensions;
-using Tweetinvi.Core.Parameters;
+﻿using Tweetinvi.Parameters;
 
 namespace Tweetinvi.Controllers.Search
 {

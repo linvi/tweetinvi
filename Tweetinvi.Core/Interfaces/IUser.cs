@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.IO;
 using Tweetinvi.Core.Enum;
-using Tweetinvi.Core.Interfaces.Async;
-using Tweetinvi.Core.Interfaces.DTO;
-using Tweetinvi.Core.Interfaces.Models;
-using Tweetinvi.Core.Interfaces.Models.Entities;
-using Tweetinvi.Core.Parameters;
+using Tweetinvi.Core.Models.Async;
+using Tweetinvi.Models;
+using Tweetinvi.Models.DTO;
+using Tweetinvi.Models.Entities;
+using Tweetinvi.Parameters;
 
 namespace Tweetinvi.Core.Interfaces
 {

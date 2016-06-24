@@ -7,10 +7,10 @@ using Testinvi.SetupHelpers;
 using Tweetinvi.Controllers.Messages;
 using Tweetinvi.Controllers.Properties;
 using Tweetinvi.Core.Helpers;
-using Tweetinvi.Core.Interfaces.DTO;
-using Tweetinvi.Core.Interfaces.Models;
 using Tweetinvi.Core.Interfaces.QueryGenerators;
-using Tweetinvi.Core.Parameters;
+using Tweetinvi.Models;
+using Tweetinvi.Models.DTO;
+using Tweetinvi.Parameters;
 
 namespace Testinvi.TweetinviControllers.MessageTests
 {

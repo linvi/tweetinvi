@@ -9,9 +9,9 @@ using Tweetinvi.Core.Exceptions;
 using Tweetinvi.Core.Helpers;
 using Tweetinvi.Core.Injectinvi;
 using Tweetinvi.Core.Interfaces.Exceptions;
-using Tweetinvi.Core.Interfaces.Models;
 using Tweetinvi.Core.Interfaces.WebLogic;
 using Tweetinvi.Core.Web;
+using Tweetinvi.Models;
 
 namespace Tweetinvi.WebLogic
 {

@@ -1,6 +1,6 @@
 ﻿using System.Web.Mvc;
 using Tweetinvi;
-using Tweetinvi.Core.Authentication;
+using Tweetinvi.Models;
 
 namespace Examplinvi.Web.Controllers
 {

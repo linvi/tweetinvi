@@ -1,15 +1,15 @@
 ﻿using System;
 using System.Text.RegularExpressions;
-using Tweetinvi.Core.Authentication;
+using Tweetinvi.Core.Credentials;
 using Tweetinvi.Core.Enum;
 using Tweetinvi.Core.Exceptions;
 using Tweetinvi.Core.Extensions;
-using Tweetinvi.Core.Interfaces.Credentials;
 using Tweetinvi.Core.Interfaces.Exceptions;
 using Tweetinvi.Core.Interfaces.WebLogic;
 using Tweetinvi.Credentials.AuthHttpHandlers;
 using Tweetinvi.Credentials.Models;
 using Tweetinvi.Credentials.Properties;
+using Tweetinvi.Models;
 using Tweetinvi.WebLogic;
 
 namespace Tweetinvi.Credentials

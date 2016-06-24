@@ -1,7 +1,8 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Testinvi.Helpers;
 using Tweetinvi.Core.Helpers;
-using Tweetinvi.Core.Interfaces.Models;
+using Tweetinvi.Core.Models;
+using Tweetinvi.Models;
 
 namespace Testinvi.Tweetinvi.Core
 {

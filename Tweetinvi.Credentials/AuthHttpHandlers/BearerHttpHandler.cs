@@ -3,9 +3,8 @@ using System.Net.Http;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using Tweetinvi.Core.Authentication;
 using Tweetinvi.Core.Extensions;
-using Tweetinvi.Core.Interfaces.Models;
+using Tweetinvi.Models;
 using Tweetinvi.WebLogic;
 
 namespace Tweetinvi.Credentials.AuthHttpHandlers

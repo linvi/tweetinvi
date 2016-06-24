@@ -6,10 +6,11 @@ using Tweetinvi.Core.Events;
 using Tweetinvi.Core.Events.EventArguments;
 using Tweetinvi.Core.Helpers;
 using Tweetinvi.Core.Interfaces.Factories;
-using Tweetinvi.Core.Interfaces.Models;
-using Tweetinvi.Core.Interfaces.Streaminvi;
-using Tweetinvi.Core.Parameters;
+using Tweetinvi.Core.Streaming;
 using Tweetinvi.Core.Wrappers;
+using Tweetinvi.Models;
+using Tweetinvi.Parameters;
+using Tweetinvi.Streaming;
 
 namespace Tweetinvi.Streams
 {

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Tweetinvi.Core.Interfaces.DTO.QueryDTO;
+using Tweetinvi.Models.DTO.QueryDTO;
 
 namespace Tweetinvi.Credentials.QueryDTO
 {

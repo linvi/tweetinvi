@@ -3,8 +3,8 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using Tweetinvi.Core.Helpers;
-using Tweetinvi.Core.Interfaces.Models;
 using Tweetinvi.Core.Web;
+using Tweetinvi.Models;
 
 namespace Tweetinvi.WebLogic
 {

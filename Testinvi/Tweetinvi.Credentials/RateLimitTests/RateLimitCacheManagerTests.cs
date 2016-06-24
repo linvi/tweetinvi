@@ -6,14 +6,13 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
 using Testinvi.Helpers;
 using Testinvi.SetupHelpers;
-using Tweetinvi.Core.Authentication;
+using Tweetinvi.Core.Credentials;
 using Tweetinvi.Core.Helpers;
 using Tweetinvi.Core.Interfaces.Controllers;
-using Tweetinvi.Core.Interfaces.Credentials;
-using Tweetinvi.Core.Interfaces.Models;
 using Tweetinvi.Core.Interfaces.RateLimit;
 using Tweetinvi.Core.Interfaces.WebLogic;
 using Tweetinvi.Credentials.RateLimit;
+using Tweetinvi.Models;
 using HttpMethod = Tweetinvi.Core.Enum.HttpMethod;
 
 namespace Testinvi.Tweetinvi.Credentials.RateLimitTests

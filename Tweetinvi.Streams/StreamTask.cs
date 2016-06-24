@@ -13,7 +13,7 @@ using Tweetinvi.Core.Extensions;
 using Tweetinvi.Core.Helpers;
 using Tweetinvi.Core.Injectinvi;
 using Tweetinvi.Core.Interfaces.Exceptions;
-using Tweetinvi.Core.Interfaces.Models;
+using Tweetinvi.Models;
 using HttpMethod = System.Net.Http.HttpMethod;
 
 namespace Tweetinvi.Streams

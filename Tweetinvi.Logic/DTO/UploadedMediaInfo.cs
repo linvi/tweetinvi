@@ -1,7 +1,7 @@
 ﻿using System;
 using Newtonsoft.Json;
-using Tweetinvi.Core.Interfaces.DTO;
 using Tweetinvi.Logic.JsonConverters;
+using Tweetinvi.Models.DTO;
 
 namespace Tweetinvi.Logic.DTO
 {

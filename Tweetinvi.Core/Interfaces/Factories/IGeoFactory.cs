@@ -1,5 +1,5 @@
 ﻿using Tweetinvi.Core.Enum;
-using Tweetinvi.Core.Interfaces.Models;
+using Tweetinvi.Models;
 
 namespace Tweetinvi.Core.Interfaces.Factories
 {

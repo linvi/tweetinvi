@@ -1,5 +1,6 @@
 ﻿using System;
-using Tweetinvi.Core.Interfaces.Models.StreamMessages;
+using Tweetinvi.Streaming;
+using Tweetinvi.Streaming.Events;
 
 namespace Tweetinvi.Core.Events.EventArguments
 {

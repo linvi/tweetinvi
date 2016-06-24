@@ -1,6 +1,6 @@
 ﻿using System;
 using Tweetinvi.Controllers.Trends;
-using Tweetinvi.Core.Interfaces.Models;
+using Tweetinvi.Models;
 
 namespace Tweetinvi.Json
 {

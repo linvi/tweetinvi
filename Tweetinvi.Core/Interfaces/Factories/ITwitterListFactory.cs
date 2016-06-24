@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Tweetinvi.Core.Enum;
-using Tweetinvi.Core.Interfaces.DTO;
-using Tweetinvi.Core.Interfaces.Models;
+using Tweetinvi.Models;
+using Tweetinvi.Models.DTO;
 
 namespace Tweetinvi.Core.Interfaces.Factories
 {

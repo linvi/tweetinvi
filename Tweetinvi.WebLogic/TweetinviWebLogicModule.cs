@@ -1,10 +1,9 @@
-﻿using Tweetinvi.Core.Authentication;
-using Tweetinvi.Core.Helpers;
+﻿using Tweetinvi.Core.Helpers;
 using Tweetinvi.Core.Injectinvi;
-using Tweetinvi.Core.Interfaces.Models;
 using Tweetinvi.Core.Interfaces.WebLogic;
-using Tweetinvi.Core.Parameters.QueryParameters;
+using Tweetinvi.Core.Parameters;
 using Tweetinvi.Core.Web;
+using Tweetinvi.Models;
 
 namespace Tweetinvi.WebLogic
 {

@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Tweetinvi.Core.Authentication;
+using Tweetinvi.Models;
 
 namespace Tweetinvi.Core.Interfaces.RateLimit
 {

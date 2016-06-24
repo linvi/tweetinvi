@@ -1,4 +1,4 @@
-﻿using Tweetinvi.Core.Interfaces.Credentials;
+﻿using Tweetinvi.Core.Web;
 
 namespace Tweetinvi.Controllers.Account
 {

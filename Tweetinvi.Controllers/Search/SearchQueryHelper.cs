@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using Newtonsoft.Json.Linq;
-using Tweetinvi.Core.Interfaces.DTO;
-using Tweetinvi.Core.Parameters;
 using Tweetinvi.Core.Wrappers;
+using Tweetinvi.Models.DTO;
+using Tweetinvi.Parameters;
 
 namespace Tweetinvi.Controllers.Search
 {
