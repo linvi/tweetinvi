@@ -4,19 +4,20 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+
+// Required dependencies
 using Tweetinvi;
-using Tweetinvi.Core;
-using Tweetinvi.Core.Enum;
-using Tweetinvi.Core.Extensions;
-using Tweetinvi.Core.Interfaces;
-using Tweetinvi.Core.Interfaces.Controllers;
-using Tweetinvi.Json;
 using Tweetinvi.Models;
-using Tweetinvi.Models.DTO;
 using Tweetinvi.Parameters;
 using Tweetinvi.Streaming;
 using Stream = Tweetinvi.Stream;
 
+// Others
+using Tweetinvi.Core.Extensions; // Extension methods provided by Tweetinvi
+using Tweetinvi.Models.DTO; // Data Transfer Objects for Serialization
+using Tweetinvi.Json; // JSON static classes to get json from Twitter.
+
+// ReSharper disable UnusedVariable
 namespace Examplinvi
 {
     // IMPORTANT 
@@ -336,6 +337,7 @@ namespace Examplinvi
 
     static class Examples
     {
+        // ReSharper disable once UnusedAutoPropertyAccessor.Global
         public static bool ExecuteExamples { get; set; }
         public const string USER_SCREEN_NAME_TO_TEST = "ladygaga";
 
@@ -1335,15 +1337,13 @@ namespace Examplinvi
 
         public static void Geo_GetPlaceFromId(string placeId)
         {
-            var geoController = TweetinviContainer.Resolve<IGeoController>();
-            var place = geoController.GetPlaceFromId(placeId);
+            var place = Geo.GetPlaceFromId(placeId);
             Console.WriteLine(place.Name);
         }
 
         public static void Trends_GetTrendsFromWoeId(long woeid)
         {
-            var trendsController = TweetinviContainer.Resolve<ITrendsController>();
-            var placeTrends = trendsController.GetPlaceTrendsAt(woeid);
+            var placeTrends = Trends.GetTrendsAt(woeid);
             Console.WriteLine(placeTrends.woeIdLocations.First().Name);
         }
 

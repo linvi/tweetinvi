@@ -1,4 +1,4 @@
-﻿using Tweetinvi.Core.Enum;
+﻿using Tweetinvi.Models;
 
 namespace Tweetinvi.Parameters
 {

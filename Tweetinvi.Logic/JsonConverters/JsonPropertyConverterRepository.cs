@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json;
-using Tweetinvi.Core.Enum;
 using Tweetinvi.Core.Helpers;
 using Tweetinvi.Core.Models;
 using Tweetinvi.Logic.DTO;

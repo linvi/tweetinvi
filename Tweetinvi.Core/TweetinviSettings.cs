@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Tweetinvi.Core
+namespace Tweetinvi
 {
     /// <summary>
     /// Provide a set of preconfigured solutions that you can use to track the Twitter rate limits.

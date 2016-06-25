@@ -11,7 +11,7 @@ using Tweetinvi.Core.Wrappers;
 using Tweetinvi.Credentials.QueryJsonConverters;
 using Tweetinvi.Models.DTO.QueryDTO;
 using Tweetinvi.WebLogic;
-using HttpMethod = Tweetinvi.Core.Enum.HttpMethod;
+using HttpMethod = Tweetinvi.Models.HttpMethod;
 
 namespace Tweetinvi.Credentials
 {

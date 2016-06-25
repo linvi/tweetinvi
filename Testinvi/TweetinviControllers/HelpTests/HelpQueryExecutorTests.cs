@@ -5,7 +5,7 @@ using Newtonsoft.Json.Linq;
 using Testinvi.Helpers;
 using Testinvi.SetupHelpers;
 using Tweetinvi.Controllers.Help;
-using Tweetinvi.Core.Interfaces.Controllers;
+using Tweetinvi.Core.QueryGenerators;
 using Tweetinvi.Core.Web;
 using Tweetinvi.Models;
 

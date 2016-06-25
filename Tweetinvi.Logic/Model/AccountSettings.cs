@@ -1,5 +1,4 @@
-﻿using Tweetinvi.Core.Enum;
-using Tweetinvi.Models;
+﻿using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
 
 namespace Tweetinvi.Logic.Model

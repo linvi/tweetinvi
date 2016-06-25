@@ -2,8 +2,8 @@
 using System.Linq;
 using Tweetinvi.Core;
 using Tweetinvi.Core.Extensions;
-using Tweetinvi.Core.Interfaces.QueryGenerators;
 using Tweetinvi.Core.Interfaces.QueryValidators;
+using Tweetinvi.Core.QueryGenerators;
 using Tweetinvi.Core.Web;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;

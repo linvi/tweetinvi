@@ -1,5 +1,4 @@
 ﻿using System;
-using Tweetinvi.Core.Enum;
 using Tweetinvi.Models;
 using Tweetinvi.Parameters;
 

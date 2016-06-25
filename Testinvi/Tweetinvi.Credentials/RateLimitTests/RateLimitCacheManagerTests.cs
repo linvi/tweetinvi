@@ -8,12 +8,12 @@ using Testinvi.Helpers;
 using Testinvi.SetupHelpers;
 using Tweetinvi.Core.Credentials;
 using Tweetinvi.Core.Helpers;
-using Tweetinvi.Core.Interfaces.Controllers;
 using Tweetinvi.Core.Interfaces.RateLimit;
 using Tweetinvi.Core.Interfaces.WebLogic;
+using Tweetinvi.Core.QueryGenerators;
 using Tweetinvi.Credentials.RateLimit;
 using Tweetinvi.Models;
-using HttpMethod = Tweetinvi.Core.Enum.HttpMethod;
+using HttpMethod = Tweetinvi.Models.HttpMethod;
 
 namespace Testinvi.Tweetinvi.Credentials.RateLimitTests
 {

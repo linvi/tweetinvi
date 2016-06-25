@@ -1,4 +1,4 @@
-﻿using Tweetinvi.Core.Interfaces.Controllers;
+﻿using Tweetinvi.Core.QueryGenerators;
 using Tweetinvi.Core.Web;
 
 namespace Tweetinvi.Controllers.Help

@@ -4,7 +4,6 @@ using FakeItEasy;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Testinvi.Helpers;
 using Tweetinvi.Controllers.User;
-using Tweetinvi.Core.Enum;
 using Tweetinvi.Core.Interfaces;
 using Tweetinvi.Core.Interfaces.Factories;
 using Tweetinvi.Core.Parameters;

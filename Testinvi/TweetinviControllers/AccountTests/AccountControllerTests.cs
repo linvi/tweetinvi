@@ -3,8 +3,8 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Testinvi.Helpers;
 using Testinvi.SetupHelpers;
 using Tweetinvi.Controllers.Account;
+using Tweetinvi.Core.Controllers;
 using Tweetinvi.Core.Injectinvi;
-using Tweetinvi.Core.Interfaces.Controllers;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
 

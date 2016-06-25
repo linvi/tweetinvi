@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
-using Tweetinvi.Core.Enum;
 using Tweetinvi.Core.Extensions;
+using Tweetinvi.Models;
 
 namespace Tweetinvi.Parameters
 {

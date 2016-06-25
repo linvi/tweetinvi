@@ -8,7 +8,7 @@ using Testinvi.Helpers;
 using Testinvi.SetupHelpers;
 using Tweetinvi.Controllers.Tweet;
 using Tweetinvi.Core.Exceptions;
-using Tweetinvi.Core.Interfaces.QueryGenerators;
+using Tweetinvi.Core.QueryGenerators;
 using Tweetinvi.Core.Web;
 using Tweetinvi.Logic.Exceptions;
 using Tweetinvi.Models;

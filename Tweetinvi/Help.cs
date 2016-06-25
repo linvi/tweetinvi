@@ -1,5 +1,5 @@
 ﻿using System;
-using Tweetinvi.Core.Interfaces.Controllers;
+using Tweetinvi.Core.Controllers;
 using Tweetinvi.Models.DTO;
 
 namespace Tweetinvi

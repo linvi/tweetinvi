@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using Newtonsoft.Json;
-using Tweetinvi.Core.Enum;
 using Tweetinvi.Logic.JsonConverters;
 using Tweetinvi.Models;
 

@@ -4,7 +4,6 @@ using FakeItEasy.ExtensionSyntax.Full;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Testinvi.Helpers;
 using Tweetinvi.Controllers.Search;
-using Tweetinvi.Core.Enum;
 using Tweetinvi.Models;
 using Tweetinvi.Parameters;
 

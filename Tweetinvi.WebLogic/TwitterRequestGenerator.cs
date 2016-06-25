@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Net;
 using Tweetinvi.Core.Credentials;
-using Tweetinvi.Core.Enum;
 using Tweetinvi.Core.Exceptions;
 using Tweetinvi.Core.Interfaces.WebLogic;
 using Tweetinvi.Models;

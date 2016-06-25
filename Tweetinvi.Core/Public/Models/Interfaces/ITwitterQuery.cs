@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Net.Http;
 using Tweetinvi.Core.Interfaces.WebLogic;
-using HttpMethod = Tweetinvi.Core.Enum.HttpMethod;
+using HttpMethod = Tweetinvi.Models.HttpMethod;
 
 namespace Tweetinvi.Models
 {

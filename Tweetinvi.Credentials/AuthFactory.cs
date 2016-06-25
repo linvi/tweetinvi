@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Text.RegularExpressions;
 using Newtonsoft.Json.Linq;
-using Tweetinvi.Core.Enum;
 using Tweetinvi.Core.Exceptions;
 using Tweetinvi.Core.Interfaces.Exceptions;
 using Tweetinvi.Core.Interfaces.WebLogic;

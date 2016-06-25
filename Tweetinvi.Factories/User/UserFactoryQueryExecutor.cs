@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Tweetinvi.Core.Extensions;
-using Tweetinvi.Core.Interfaces.QueryGenerators;
+using Tweetinvi.Core.QueryGenerators;
 using Tweetinvi.Core.Web;
 using Tweetinvi.Factories.Properties;
 using Tweetinvi.Logic.DTO;

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using Tweetinvi.Controllers.Search;
-using Tweetinvi.Core.Enum;
 using Tweetinvi.Core.Interfaces;
 using Tweetinvi.Models;
 using Tweetinvi.Parameters;

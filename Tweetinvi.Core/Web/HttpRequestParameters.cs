@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Net.Http;
-using HttpMethod = Tweetinvi.Core.Enum.HttpMethod;
+using HttpMethod = Tweetinvi.Models.HttpMethod;
 
 namespace Tweetinvi.Core.Web
 {

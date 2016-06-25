@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using Tweetinvi.Core.Enum;
 using Tweetinvi.Models.Entities;
 
 namespace Tweetinvi.Models.DTO

@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Tweetinvi.Core.Helpers;
 using Tweetinvi.Core.Web;
 using Tweetinvi.Models;
+using HttpMethod = System.Net.Http.HttpMethod;
 
 namespace Tweetinvi.WebLogic
 {

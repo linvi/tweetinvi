@@ -8,6 +8,7 @@ using Tweetinvi.Core.Interfaces.Factories;
 using Tweetinvi.Logic;
 using Tweetinvi.Logic.JsonConverters;
 using Tweetinvi.Logic.Wrapper;
+using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
 
 namespace Testinvi.Tweetinvi.Core

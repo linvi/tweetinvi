@@ -1,5 +1,4 @@
-﻿using Tweetinvi.Core.Enum;
-using Tweetinvi.Core.Injectinvi;
+﻿using Tweetinvi.Core.Injectinvi;
 using Tweetinvi.Core.Interfaces.Factories;
 using Tweetinvi.Models;
 

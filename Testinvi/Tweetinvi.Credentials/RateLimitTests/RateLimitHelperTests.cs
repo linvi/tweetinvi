@@ -5,6 +5,7 @@ using FakeItEasy;
 using FakeItEasy.ExtensionSyntax.Full;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Testinvi.Helpers;
+using Tweetinvi;
 using Tweetinvi.Core;
 using Tweetinvi.Core.Attributes;
 using Tweetinvi.Core.Helpers;

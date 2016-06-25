@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Newtonsoft.Json.Linq;
-using Tweetinvi.Core.Enum;
 using Tweetinvi.Core.Events;
 using Tweetinvi.Core.Events.EventArguments;
 using Tweetinvi.Core.Extensions;
@@ -12,7 +11,6 @@ using Tweetinvi.Core.Streaming;
 using Tweetinvi.Core.Wrappers;
 using Tweetinvi.Models;
 using Tweetinvi.Parameters;
-using Tweetinvi.Streaming;
 using Tweetinvi.Streaming.Parameters;
 using Tweetinvi.Streams.Model;
 

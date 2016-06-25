@@ -2,9 +2,9 @@
 using Tweetinvi.Controllers.Properties;
 using Tweetinvi.Core;
 using Tweetinvi.Core.Injectinvi;
-using Tweetinvi.Core.Interfaces.QueryGenerators;
 using Tweetinvi.Core.Interfaces.QueryValidators;
 using Tweetinvi.Core.Parameters;
+using Tweetinvi.Core.QueryGenerators;
 using Tweetinvi.Models;
 using Tweetinvi.Parameters;
 

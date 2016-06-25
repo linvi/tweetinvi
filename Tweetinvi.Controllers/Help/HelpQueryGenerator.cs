@@ -1,5 +1,5 @@
 ﻿using Tweetinvi.Controllers.Properties;
-using Tweetinvi.Core.Interfaces.Controllers;
+using Tweetinvi.Core.QueryGenerators;
 
 namespace Tweetinvi.Controllers.Help
 {

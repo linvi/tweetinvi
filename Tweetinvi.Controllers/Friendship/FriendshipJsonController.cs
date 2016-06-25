@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Tweetinvi.Core.Interfaces;
 using Tweetinvi.Core.Interfaces.Factories;
-using Tweetinvi.Core.Interfaces.QueryGenerators;
+using Tweetinvi.Core.QueryGenerators;
 using Tweetinvi.Core.Web;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO.QueryDTO;

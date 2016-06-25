@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json;
-using Tweetinvi.Core.Interfaces.Controllers.Transactions;
-using Tweetinvi.Core.Interfaces.QueryGenerators;
+using Tweetinvi.Core.QueryGenerators;
 using Tweetinvi.Core.Web;
 using Tweetinvi.Logic.DTO;
+using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
 
 namespace Tweetinvi.Controllers.Upload

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Globalization;
 using Tweetinvi.Controllers.Properties;
-using Tweetinvi.Core.Enum;
 using Tweetinvi.Core.Extensions;
 using Tweetinvi.Core.Helpers;
 using Tweetinvi.Models;

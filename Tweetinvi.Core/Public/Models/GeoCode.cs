@@ -1,6 +1,4 @@
-﻿using Tweetinvi.Core.Enum;
-
-namespace Tweetinvi.Models
+﻿namespace Tweetinvi.Models
 {
     public class GeoCode : IGeoCode
     {

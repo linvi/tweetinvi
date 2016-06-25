@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
 
 namespace Tweetinvi.Core.Interfaces.Factories

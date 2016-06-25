@@ -1,5 +1,5 @@
 ﻿using Tweetinvi.Core.Credentials;
-using Tweetinvi.Core.Interfaces.Controllers;
+using Tweetinvi.Core.QueryGenerators;
 using Tweetinvi.Core.Web;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;

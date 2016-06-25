@@ -7,6 +7,7 @@ using Testinvi.Helpers;
 using Tweetinvi.Controllers.Messages;
 using Tweetinvi.Core.Interfaces;
 using Tweetinvi.Core.Interfaces.Factories;
+using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
 using Tweetinvi.Parameters;
 

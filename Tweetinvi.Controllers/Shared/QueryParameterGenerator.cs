@@ -1,7 +1,6 @@
 ﻿using Tweetinvi.Controllers.Properties;
-using Tweetinvi.Core;
-using Tweetinvi.Core.Enum;
 using Tweetinvi.Core.Extensions;
+using Tweetinvi.Models;
 
 namespace Tweetinvi.Controllers.Shared
 {

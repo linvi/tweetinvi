@@ -11,7 +11,7 @@ using Tweetinvi.Core.Interfaces.RateLimit;
 using Tweetinvi.Core.Interfaces.WebLogic;
 using Tweetinvi.Core.Web;
 using Tweetinvi.Models;
-using HttpMethod = Tweetinvi.Core.Enum.HttpMethod;
+using HttpMethod = Tweetinvi.Models.HttpMethod;
 
 namespace Tweetinvi.WebLogic
 {

@@ -1,11 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Tweetinvi.Core.Enum;
+using Tweetinvi.Core.Controllers;
 using Tweetinvi.Core.Interfaces;
-using Tweetinvi.Core.Interfaces.Controllers;
 using Tweetinvi.Core.Interfaces.Factories;
-using Tweetinvi.Core.Interfaces.QueryGenerators;
 using Tweetinvi.Core.Parameters;
+using Tweetinvi.Core.QueryGenerators;
 using Tweetinvi.Models;
 using Tweetinvi.Parameters;
 

@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Tweetinvi.Core;
-using Tweetinvi.Core.Enum;
 using Tweetinvi.Core.Events.EventArguments;
 using Tweetinvi.Core.Exceptions;
 using Tweetinvi.Core.Extensions;

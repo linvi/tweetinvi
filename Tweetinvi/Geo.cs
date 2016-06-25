@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Tweetinvi.Core.Interfaces.Controllers;
+using Tweetinvi.Core.Controllers;
 using Tweetinvi.Models;
 using Tweetinvi.Parameters;
 

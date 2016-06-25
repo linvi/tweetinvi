@@ -3,14 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json;
 using Tweetinvi.Controllers.Properties;
-using Tweetinvi.Core;
 using Tweetinvi.Core.Extensions;
 using Tweetinvi.Core.Helpers;
 using Tweetinvi.Core.Injectinvi;
-using Tweetinvi.Core.Interfaces.Controllers.Transactions;
 using Tweetinvi.Core.Parameters;
 using Tweetinvi.Core.Web;
 using Tweetinvi.Logic.QueryParameters;
+using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
 
 namespace Tweetinvi.Controllers.Upload

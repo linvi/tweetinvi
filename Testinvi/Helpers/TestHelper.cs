@@ -2,8 +2,10 @@
 using System.Diagnostics.CodeAnalysis;
 using FakeItEasy;
 using FakeItEasy.ExtensionSyntax.Full;
+using Tweetinvi;
 using Tweetinvi.Core;
 using Tweetinvi.Core.Interfaces;
+using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
 
 namespace Testinvi.Helpers

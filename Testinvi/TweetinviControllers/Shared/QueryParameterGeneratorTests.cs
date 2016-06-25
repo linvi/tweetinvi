@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Testinvi.Helpers;
+using Tweetinvi;
 using Tweetinvi.Controllers.Shared;
 using Tweetinvi.Core;
 

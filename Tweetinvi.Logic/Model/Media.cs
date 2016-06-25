@@ -1,4 +1,5 @@
-﻿using Tweetinvi.Models.DTO;
+﻿using Tweetinvi.Models;
+using Tweetinvi.Models.DTO;
 
 namespace Tweetinvi.Logic.Model
 {

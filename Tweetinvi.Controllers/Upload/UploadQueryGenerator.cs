@@ -3,7 +3,7 @@ using System.Globalization;
 using System.Linq;
 using Tweetinvi.Controllers.Properties;
 using Tweetinvi.Core.Extensions;
-using Tweetinvi.Core.Interfaces.QueryGenerators;
+using Tweetinvi.Core.QueryGenerators;
 using Tweetinvi.Core.Web;
 
 namespace Tweetinvi.Controllers.Upload

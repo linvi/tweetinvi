@@ -1,7 +1,7 @@
 ﻿using System;
 using Newtonsoft.Json;
-using Tweetinvi.Core.Enum;
 using Tweetinvi.Core.Extensions;
+using Tweetinvi.Models;
 
 namespace Tweetinvi.Logic.JsonConverters
 {

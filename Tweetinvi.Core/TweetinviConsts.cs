@@ -1,4 +1,4 @@
-﻿namespace Tweetinvi.Core
+﻿namespace Tweetinvi
 {
     /// <summary>
     /// Application wide constants.

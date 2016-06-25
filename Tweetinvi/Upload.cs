@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using Tweetinvi.Controllers.Upload;
-using Tweetinvi.Core.Interfaces.Controllers.Transactions;
 using Tweetinvi.Core.Parameters;
 using Tweetinvi.Logic.QueryParameters;
+using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
 
 namespace Tweetinvi

@@ -1,5 +1,5 @@
 ﻿using Tweetinvi;
-using Tweetinvi.Core.Enum;
+using Tweetinvi.Models;
 using Tweetinvi.Parameters;
 
 namespace Testinvi.IntegrationTests

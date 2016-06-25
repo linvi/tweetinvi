@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using Tweetinvi.Core.Enum;
 
 namespace Tweetinvi.Models
 {

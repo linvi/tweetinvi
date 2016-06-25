@@ -1,6 +1,4 @@
-﻿using Tweetinvi.Core.Enum;
-
-namespace Tweetinvi.Models.DTO
+﻿namespace Tweetinvi.Models.DTO
 {
     public interface IAccountSettingsDTO
     {

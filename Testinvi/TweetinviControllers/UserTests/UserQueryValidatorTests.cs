@@ -2,6 +2,7 @@
 using FakeItEasy.ExtensionSyntax.Full;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Testinvi.Helpers;
+using Tweetinvi;
 using Tweetinvi.Controllers.User;
 using Tweetinvi.Core;
 using Tweetinvi.Models.DTO;

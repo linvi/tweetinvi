@@ -1,6 +1,4 @@
-﻿using Tweetinvi.Core.Enum;
-
-namespace Tweetinvi.Models
+﻿namespace Tweetinvi.Models
 {
     /// <summary>
     /// GeoCode represent an area around a specific center coordinate.

@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Tweetinvi.Core.Controllers;
 using Tweetinvi.Core.Helpers;
 using Tweetinvi.Core.Interfaces;
-using Tweetinvi.Core.Interfaces.Controllers;
 using Tweetinvi.Core.Interfaces.Factories;
+using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
 
 namespace Tweetinvi.Logic

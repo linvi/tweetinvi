@@ -1,5 +1,5 @@
 ﻿using System;
-using Tweetinvi.Core.Enum;
+using Tweetinvi.Models;
 
 namespace Tweetinvi.WebLogic.Utils
 {

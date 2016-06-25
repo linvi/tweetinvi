@@ -4,7 +4,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Testinvi.Helpers;
 using Testinvi.SetupHelpers;
 using Tweetinvi.Controllers.Help;
-using Tweetinvi.Core.Interfaces.Controllers;
+using Tweetinvi.Core.QueryGenerators;
 using Tweetinvi.Core.Web;
 
 namespace Testinvi.TweetinviControllers.HelpTests

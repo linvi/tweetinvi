@@ -1,6 +1,7 @@
 ﻿using FakeItEasy;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Testinvi.Helpers;
+using Tweetinvi;
 using Tweetinvi.Core;
 using Tweetinvi.WebLogic;
 

@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using Tweetinvi.Core.Interfaces;
-using Tweetinvi.Core.Interfaces.QueryGenerators;
 using Tweetinvi.Core.Parameters;
+using Tweetinvi.Core.QueryGenerators;
 using Tweetinvi.Core.Web;
 using Tweetinvi.Logic.QueryParameters;
 using Tweetinvi.Models;

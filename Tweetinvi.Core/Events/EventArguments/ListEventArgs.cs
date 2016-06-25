@@ -1,5 +1,6 @@
 ﻿using System;
 using Tweetinvi.Core.Interfaces;
+using Tweetinvi.Models;
 
 namespace Tweetinvi.Core.Events.EventArguments
 {

@@ -1,4 +1,4 @@
-﻿using Tweetinvi.Core.Interfaces.Controllers;
+﻿using Tweetinvi.Core.Controllers;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
 

@@ -1,7 +1,6 @@
-﻿using Tweetinvi.Core.Enum;
-using Tweetinvi.Core.Extensions;
-using Tweetinvi.Core.Interfaces.QueryGenerators;
+﻿using Tweetinvi.Core.Extensions;
 using Tweetinvi.Core.Interfaces.QueryValidators;
+using Tweetinvi.Core.QueryGenerators;
 using Tweetinvi.Factories.Properties;
 using Tweetinvi.Models;
 
