@@ -10,7 +10,7 @@ using Tweetinvi.Core;
 using Tweetinvi.Core.Attributes;
 using Tweetinvi.Core.Helpers;
 using Tweetinvi.Core.Injectinvi;
-using Tweetinvi.Core.Interfaces.RateLimit;
+using Tweetinvi.Core.RateLimit;
 using Tweetinvi.Credentials.RateLimit;
 using Tweetinvi.Models;
 using Tweetinvi.WebLogic;
@@ -56,49 +56,6 @@ namespace Testinvi.Tweetinvi.Credentials.RateLimitTests
             GetTokenRateLimitFromQuery_EndpointAssociatedCorrectly(x => x.AccountSettingsLimit, ACCOUNT_SETTINGS_QUERY, rateLimitHelper);
         }
         
-        [CustomTwitterEndpoint("https://api.twitter.com/1.1/account/settings.json")]
-        private void MatchingTestMethod() { }
-
-        [TestMethod]
-        public void GetTokenRateLimitsFromMethod_Matching_ReturnsTokenRateLimits()
-        {
-            // Arrange
-            var rateLimitHelper = CreateRateLimitHelper();
-
-            // Act
-            var tokenRateLimits = rateLimitHelper.GetTokenRateLimitsFromMethod(() => MatchingTestMethod(), _credentialsRateLimits);
-
-            // Assert
-            Assert.IsTrue(tokenRateLimits.First() == _credentialsRateLimits.AccountSettingsLimit);
-        }
-
-        [TestMethod]
-        public void GetTokenRateLimitsFromMethod_ExpressionIsNull_ReturnsNull()
-        {
-            // Arrange
-            var rateLimitHelper = CreateRateLimitHelper();
-
-            // Act
-            var tokenRateLimits = rateLimitHelper.GetTokenRateLimitsFromMethod(null, _credentialsRateLimits);
-
-            // Assert
-            Assert.IsNull(tokenRateLimits);
-        }
-
-        [TestMethod]
-        public void GetTokenRateLimitsFromMethod_ExpressionIsNotMethod_ReturnsNull()
-        {
-            // Arrange
-            var rateLimitHelper = CreateRateLimitHelper();
-
-            // Act
-            Expression<Action> exp = Expression<Action>.Lambda<Action>(Expression.Empty());
-            var tokenRateLimits = rateLimitHelper.GetTokenRateLimitsFromMethod(exp, _credentialsRateLimits);
-
-            // Assert
-            Assert.IsNull(tokenRateLimits);
-        }
-
         private void GetTokenRateLimitFromQuery_EndpointAssociatedCorrectly(Expression<Func<ICredentialsRateLimits, IEndpointRateLimit>> rateLimit, string associatedURL, IRateLimitHelper rateLimitHelper)
         {
             // Arrange

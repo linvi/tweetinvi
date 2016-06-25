@@ -1,5 +1,5 @@
-﻿using Tweetinvi.Core.Injectinvi;
-using Tweetinvi.Core.Interfaces.Factories;
+﻿using Tweetinvi.Core.Factories;
+using Tweetinvi.Core.Injectinvi;
 using Tweetinvi.Models;
 
 namespace Tweetinvi.Factories.Geo

@@ -4,15 +4,16 @@ using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
 using Tweetinvi.Core.Events;
-using Tweetinvi.Core.Events.EventArguments;
 using Tweetinvi.Core.Exceptions;
 using Tweetinvi.Core.Extensions;
+using Tweetinvi.Core.Factories;
 using Tweetinvi.Core.Helpers;
 using Tweetinvi.Core.Interfaces;
-using Tweetinvi.Core.Interfaces.Factories;
 using Tweetinvi.Core.Interfaces.Streaminvi;
 using Tweetinvi.Core.Streaming;
 using Tweetinvi.Core.Wrappers;
+using Tweetinvi.Events;
+using Tweetinvi.Exceptions;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
 using Tweetinvi.Parameters;
@@ -121,7 +122,7 @@ namespace Tweetinvi.Streams
             _authenticatedUser = await _taskFactory.ExecuteTaskAsync(() => _userFactory.GetAuthenticatedUser(Credentials));
             if (_authenticatedUser == null)
             {
-                StopStream(new UserStreamFailedToInitialize("Could not receive information related with currently authenticated user."));
+                StopStream(new UserStreamFailedToInitializeException("Could not receive information related with currently authenticated user."));
                 return;
             }
 

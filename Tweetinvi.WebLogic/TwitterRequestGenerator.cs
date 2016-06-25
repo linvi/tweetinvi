@@ -2,7 +2,8 @@
 using System.Net;
 using Tweetinvi.Core.Credentials;
 using Tweetinvi.Core.Exceptions;
-using Tweetinvi.Core.Interfaces.WebLogic;
+using Tweetinvi.Core.Web;
+using Tweetinvi.Exceptions;
 using Tweetinvi.Models;
 
 namespace Tweetinvi.WebLogic

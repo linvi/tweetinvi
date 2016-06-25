@@ -5,12 +5,11 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Testinvi.Helpers;
 using Tweetinvi.Core.Credentials;
 using Tweetinvi.Core.Events;
-using Tweetinvi.Core.Events.EventArguments;
 using Tweetinvi.Core.Helpers;
 using Tweetinvi.Core.Injectinvi;
-using Tweetinvi.Core.Interfaces.RateLimit;
-using Tweetinvi.Core.Interfaces.WebLogic;
+using Tweetinvi.Core.RateLimit;
 using Tweetinvi.Credentials.RateLimit;
+using Tweetinvi.Events;
 using Tweetinvi.Models;
 
 namespace Testinvi.Tweetinvi.Credentials.RateLimitTests

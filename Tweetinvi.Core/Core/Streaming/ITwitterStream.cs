@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Tweetinvi.Core.Events.EventArguments;
+using Tweetinvi.Events;
 using Tweetinvi.Models;
 using Tweetinvi.Streaming.Parameters;
 

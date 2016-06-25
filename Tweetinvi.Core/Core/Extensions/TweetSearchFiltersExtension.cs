@@ -1,4 +1,5 @@
 ﻿using System;
+using Tweetinvi.Core.Attributes;
 using Tweetinvi.Parameters;
 
 namespace Tweetinvi.Core.Extensions

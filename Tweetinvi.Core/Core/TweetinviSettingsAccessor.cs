@@ -1,4 +1,5 @@
 ﻿using System;
+using Tweetinvi.Core.Injectinvi;
 
 namespace Tweetinvi.Core
 {

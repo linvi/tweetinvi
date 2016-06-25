@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using Tweetinvi.Core.Controllers;
-using Tweetinvi.Core.Interfaces.Factories;
+using Tweetinvi.Core.Factories;
 using Tweetinvi.Models;
 
 namespace Tweetinvi.Controllers.SavedSearch

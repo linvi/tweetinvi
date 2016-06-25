@@ -6,12 +6,12 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Tweetinvi.Core.Events;
-using Tweetinvi.Core.Events.EventArguments;
 using Tweetinvi.Core.Exceptions;
 using Tweetinvi.Core.Extensions;
 using Tweetinvi.Core.Helpers;
 using Tweetinvi.Core.Injectinvi;
-using Tweetinvi.Core.Interfaces.Exceptions;
+using Tweetinvi.Events;
+using Tweetinvi.Exceptions;
 using Tweetinvi.Models;
 using HttpMethod = System.Net.Http.HttpMethod;
 

@@ -1,6 +1,6 @@
 ﻿using System;
 using Tweetinvi.Core;
-using Tweetinvi.Core.Interfaces.QueryValidators;
+using Tweetinvi.Core.QueryValidators;
 using Tweetinvi.Models;
 
 namespace Tweetinvi.Controllers.User

@@ -2,9 +2,10 @@
 using Tweetinvi.Core.Credentials;
 using Tweetinvi.Core.Exceptions;
 using Tweetinvi.Core.Helpers;
-using Tweetinvi.Core.Interfaces.RateLimit;
-using Tweetinvi.Core.Interfaces.WebLogic;
 using Tweetinvi.Core.QueryGenerators;
+using Tweetinvi.Core.RateLimit;
+using Tweetinvi.Core.Web;
+using Tweetinvi.Exceptions;
 using Tweetinvi.Models;
 
 namespace Tweetinvi.Credentials.RateLimit

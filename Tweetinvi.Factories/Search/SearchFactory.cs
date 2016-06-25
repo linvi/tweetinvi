@@ -1,7 +1,7 @@
 ﻿using System.Linq;
+using Tweetinvi.Core.Factories;
 using Tweetinvi.Core.Injectinvi;
 using Tweetinvi.Core.Interfaces;
-using Tweetinvi.Core.Interfaces.Factories;
 using Tweetinvi.Logic.Model;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;

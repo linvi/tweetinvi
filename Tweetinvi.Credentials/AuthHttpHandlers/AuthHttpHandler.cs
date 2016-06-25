@@ -1,7 +1,7 @@
 ﻿using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
-using Tweetinvi.Core.Interfaces.WebLogic;
+using Tweetinvi.Core.Web;
 using Tweetinvi.Models;
 using Tweetinvi.WebLogic;
 using Tweetinvi.WebLogic.Utils;

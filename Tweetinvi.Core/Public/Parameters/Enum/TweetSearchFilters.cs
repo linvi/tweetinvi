@@ -1,17 +1,8 @@
 ﻿using System;
+using Tweetinvi.Core.Attributes;
 
 namespace Tweetinvi.Parameters
 {
-    public class TweetSearchFilterAttribute : Attribute
-    {
-        public TweetSearchFilterAttribute(string filterName)
-        {
-            FilterName = filterName;
-        }
-
-        public string FilterName { get; private set; }
-    }
-
     /// <summary>
     /// List of filters that can be used to retrieve tweets.
     /// </summary>

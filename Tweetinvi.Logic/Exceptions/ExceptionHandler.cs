@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using Tweetinvi.Core.Events;
-using Tweetinvi.Core.Events.EventArguments;
 using Tweetinvi.Core.Exceptions;
-using Tweetinvi.Core.Interfaces.Exceptions;
-using Tweetinvi.Core.Interfaces.WebLogic;
+using Tweetinvi.Core.Web;
+using Tweetinvi.Events;
+using Tweetinvi.Exceptions;
 
 namespace Tweetinvi.Logic.Exceptions
 {

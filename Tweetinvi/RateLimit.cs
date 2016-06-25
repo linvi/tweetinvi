@@ -1,8 +1,8 @@
 ﻿using System;
 using Tweetinvi.Core;
 using Tweetinvi.Core.Controllers;
-using Tweetinvi.Core.Events.EventArguments;
-using Tweetinvi.Core.Interfaces.RateLimit;
+using Tweetinvi.Core.RateLimit;
+using Tweetinvi.Events;
 using Tweetinvi.Models;
 
 namespace Tweetinvi

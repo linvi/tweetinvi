@@ -1,4 +1,4 @@
-﻿using Tweetinvi.Core.Interfaces.Factories;
+﻿using Tweetinvi.Core.Factories;
 using Tweetinvi.Core.Parameters;
 using Tweetinvi.Core.Web;
 using Tweetinvi.Models;

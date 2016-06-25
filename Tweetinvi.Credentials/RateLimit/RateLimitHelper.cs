@@ -1,14 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Reflection;
 using System.Text.RegularExpressions;
 using Tweetinvi.Core.Attributes;
 using Tweetinvi.Core.Extensions;
 using Tweetinvi.Core.Helpers;
-using Tweetinvi.Core.Interfaces.RateLimit;
 using Tweetinvi.Core.Models;
+using Tweetinvi.Core.RateLimit;
 using Tweetinvi.Models;
 
 namespace Tweetinvi.Credentials.RateLimit
@@ -22,28 +20,6 @@ namespace Tweetinvi.Credentials.RateLimit
         {
             _webHelper = webHelper;
             _attributeHelper = attributeHelper;
-        }
-
-        public IEnumerable<IEndpointRateLimit> GetTokenRateLimitsFromMethod(Expression<Action> expression, ICredentialsRateLimits rateLimits)
-        {
-            if (expression == null)
-            {
-                return null;
-            }
-
-            var body = expression.Body;
-             
-            var methodCallExpression = body as MethodCallExpression;
-            if (methodCallExpression != null)
-            {
-                var method = methodCallExpression.Method;
-                var attributes = _attributeHelper.GetAttributes<CustomTwitterEndpointAttribute>(method);
-                var tokenAttributes = _attributeHelper.GetAllPropertiesAttributes<ICredentialsRateLimits, TwitterEndpointAttribute>();
-                var validKeys = tokenAttributes.Keys.Where(x => attributes.Any(a => a.EndpointURL == x.EndpointURL));
-                return validKeys.Select(key => GetRateLimitFromProperty(tokenAttributes[key], rateLimits));
-            }
-            
-            return null;
         }
 
         public IEndpointRateLimit GetEndpointRateLimitFromQuery(string query, ICredentialsRateLimits rateLimits, bool createIfNotExist)

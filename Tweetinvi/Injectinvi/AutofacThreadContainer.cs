@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Linq;
 using Autofac;
-using Tweetinvi.Core.Events.EventArguments;
 using Tweetinvi.Core.Injectinvi;
+using Tweetinvi.Events;
 
 namespace Tweetinvi.Injectinvi
 {

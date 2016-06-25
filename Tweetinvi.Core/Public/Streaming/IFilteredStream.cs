@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Tweetinvi.Core.Events.EventArguments;
 using Tweetinvi.Core.Interfaces;
 using Tweetinvi.Core.Streaming;
+using Tweetinvi.Events;
 using Tweetinvi.Models;
 
 namespace Tweetinvi.Streaming

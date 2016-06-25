@@ -4,12 +4,12 @@ using System.Net.Http;
 using Tweetinvi.Core;
 using Tweetinvi.Core.Credentials;
 using Tweetinvi.Core.Events;
-using Tweetinvi.Core.Events.EventArguments;
 using Tweetinvi.Core.Exceptions;
 using Tweetinvi.Core.Extensions;
-using Tweetinvi.Core.Interfaces.RateLimit;
-using Tweetinvi.Core.Interfaces.WebLogic;
+using Tweetinvi.Core.RateLimit;
 using Tweetinvi.Core.Web;
+using Tweetinvi.Events;
+using Tweetinvi.Exceptions;
 using Tweetinvi.Models;
 using HttpMethod = Tweetinvi.Models.HttpMethod;
 

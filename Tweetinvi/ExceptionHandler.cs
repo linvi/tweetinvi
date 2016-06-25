@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Text;
-using Tweetinvi.Core.Events.EventArguments;
 using Tweetinvi.Core.Exceptions;
-using Tweetinvi.Core.Interfaces.Exceptions;
+using Tweetinvi.Events;
+using Tweetinvi.Exceptions;
 
 namespace Tweetinvi
 {

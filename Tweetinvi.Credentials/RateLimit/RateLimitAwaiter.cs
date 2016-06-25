@@ -1,10 +1,9 @@
 ﻿using System;
 using Tweetinvi.Core.Credentials;
 using Tweetinvi.Core.Events;
-using Tweetinvi.Core.Events.EventArguments;
 using Tweetinvi.Core.Helpers;
-using Tweetinvi.Core.Interfaces.RateLimit;
-using Tweetinvi.Core.Interfaces.WebLogic;
+using Tweetinvi.Core.RateLimit;
+using Tweetinvi.Events;
 using Tweetinvi.Models;
 
 namespace Tweetinvi.Credentials.RateLimit

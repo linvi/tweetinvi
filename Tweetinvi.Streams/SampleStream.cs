@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Tweetinvi.Core.Exceptions;
+using Tweetinvi.Core.Factories;
 using Tweetinvi.Core.Helpers;
-using Tweetinvi.Core.Interfaces.Factories;
 using Tweetinvi.Core.Streaming;
 using Tweetinvi.Core.Wrappers;
 using Tweetinvi.Models;

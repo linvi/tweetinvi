@@ -7,7 +7,7 @@ using System.Text;
 using Tweetinvi.Core;
 using Tweetinvi.Core.Extensions;
 using Tweetinvi.Core.Helpers;
-using Tweetinvi.Core.Interfaces.WebLogic;
+using Tweetinvi.Core.Web;
 using Tweetinvi.Models;
 using Tweetinvi.Security.System.Security.Cryptography;
 

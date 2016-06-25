@@ -5,14 +5,17 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 
-// Required dependencies
+// REST API
 using Tweetinvi;
 using Tweetinvi.Models;
 using Tweetinvi.Parameters;
+
+// STREAM API
 using Tweetinvi.Streaming;
 using Stream = Tweetinvi.Stream;
 
 // Others
+using Tweetinvi.Exceptions; // Handle Exceptions
 using Tweetinvi.Core.Extensions; // Extension methods provided by Tweetinvi
 using Tweetinvi.Models.DTO; // Data Transfer Objects for Serialization
 using Tweetinvi.Json; // JSON static classes to get json from Twitter.
@@ -332,7 +335,6 @@ namespace Examplinvi
 
         #endregion
     }
-
 
 
     static class Examples
@@ -1594,11 +1596,24 @@ namespace Examplinvi
         {
             Auth.Credentials = null;
 
+            // default
             var user = User.GetAuthenticatedUser();
             if (user == null)
             {
                 var lastException = ExceptionHandler.GetLastException();
                 Console.WriteLine(lastException.TwitterDescription);
+            }
+
+            // throw exception
+            ExceptionHandler.SwallowWebExceptions = false;
+            try
+            {
+                // ReSharper disable once RedundantAssignment
+                user = User.GetAuthenticatedUser();
+            }
+            catch (TwitterException ex)
+            {
+                Console.WriteLine(ex.TwitterDescription);
             }
         }
 

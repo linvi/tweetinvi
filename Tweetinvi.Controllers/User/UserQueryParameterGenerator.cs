@@ -6,8 +6,8 @@ using Tweetinvi.Controllers.Properties;
 using Tweetinvi.Controllers.Shared;
 using Tweetinvi.Core;
 using Tweetinvi.Core.Extensions;
-using Tweetinvi.Core.Interfaces.QueryValidators;
 using Tweetinvi.Core.QueryGenerators;
+using Tweetinvi.Core.QueryValidators;
 using Tweetinvi.Models;
 using Tweetinvi.Parameters;
 

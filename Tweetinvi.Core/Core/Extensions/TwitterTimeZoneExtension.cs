@@ -6,22 +6,22 @@ namespace Tweetinvi.Core.Extensions
 {
     public static class TwitterTimeZoneExtension
     {
-        public static string GetDisplayableValue(this TwitterTimeZone twitterTimeZone)
+        public static string GetDisplayableValue(this TimeZoneFromTwitter timeZoneFromTwitter)
         {
-            var twitterTimeZoneAttribute = GetAttribute(twitterTimeZone);
-            return twitterTimeZoneAttribute != null ? twitterTimeZoneAttribute.DisplayValue : twitterTimeZone.ToString();
+            var twitterTimeZoneAttribute = GetAttribute(timeZoneFromTwitter);
+            return twitterTimeZoneAttribute != null ? twitterTimeZoneAttribute.DisplayValue : timeZoneFromTwitter.ToString();
         }
 
-        public static string GetTZinfo(this TwitterTimeZone twitterTimeZone)
+        public static string GetTZinfo(this TimeZoneFromTwitter timeZoneFromTwitter)
         {
-            var twitterTimeZoneAttribute = GetAttribute(twitterTimeZone);
+            var twitterTimeZoneAttribute = GetAttribute(timeZoneFromTwitter);
             return twitterTimeZoneAttribute != null ? twitterTimeZoneAttribute.TZinfo : null;
         }
 
-        private static TwitterTimeZoneAttribute GetAttribute(TwitterTimeZone twitterTimeZone)
+        private static TimeZoneFromTwitterAttribute GetAttribute(TimeZoneFromTwitter timeZoneFromTwitter)
         {
-            var field = twitterTimeZone.GetType().GetField(twitterTimeZone.ToString());
-            return (TwitterTimeZoneAttribute)Attribute.GetCustomAttribute(field, typeof(TwitterTimeZoneAttribute));
+            var field = timeZoneFromTwitter.GetType().GetField(timeZoneFromTwitter.ToString());
+            return (TimeZoneFromTwitterAttribute)Attribute.GetCustomAttribute(field, typeof(TimeZoneFromTwitterAttribute));
         }
     }
 }

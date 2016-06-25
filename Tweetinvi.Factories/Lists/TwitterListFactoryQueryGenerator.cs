@@ -1,6 +1,6 @@
 ﻿using Tweetinvi.Core.Extensions;
-using Tweetinvi.Core.Interfaces.QueryValidators;
 using Tweetinvi.Core.QueryGenerators;
+using Tweetinvi.Core.QueryValidators;
 using Tweetinvi.Factories.Properties;
 using Tweetinvi.Models;
 

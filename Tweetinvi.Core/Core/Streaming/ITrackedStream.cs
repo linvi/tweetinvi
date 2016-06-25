@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Tweetinvi.Core.Events.EventArguments;
 using Tweetinvi.Core.Interfaces;
+using Tweetinvi.Events;
 using Tweetinvi.Models;
 
 namespace Tweetinvi.Core.Streaming

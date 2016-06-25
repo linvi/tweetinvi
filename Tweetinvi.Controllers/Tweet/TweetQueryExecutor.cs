@@ -3,6 +3,7 @@ using System.Linq;
 using Tweetinvi.Core.Exceptions;
 using Tweetinvi.Core.QueryGenerators;
 using Tweetinvi.Core.Web;
+using Tweetinvi.Exceptions;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
 using Tweetinvi.Models.DTO.QueryDTO;

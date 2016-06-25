@@ -3,9 +3,9 @@ using System.Text;
 using Tweetinvi.Controllers.Properties;
 using Tweetinvi.Controllers.Shared;
 using Tweetinvi.Core;
-using Tweetinvi.Core.Interfaces.QueryValidators;
 using Tweetinvi.Core.Parameters;
 using Tweetinvi.Core.QueryGenerators;
+using Tweetinvi.Core.QueryValidators;
 using Tweetinvi.Parameters;
 
 namespace Tweetinvi.Controllers.Timeline

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.IO;
-using Tweetinvi.Core.Interfaces.WebLogic;
+using Tweetinvi.Core.Web;
 
 namespace Tweetinvi.WebLogic
 {

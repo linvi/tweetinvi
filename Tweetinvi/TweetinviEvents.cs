@@ -1,6 +1,6 @@
 ﻿using System;
 using Tweetinvi.Core.Events;
-using Tweetinvi.Core.Events.EventArguments;
+using Tweetinvi.Events;
 
 namespace Tweetinvi
 {

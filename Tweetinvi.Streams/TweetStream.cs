@@ -2,11 +2,11 @@
 using System.Text;
 using System.Threading.Tasks;
 using Tweetinvi.Core.Events;
-using Tweetinvi.Core.Events.EventArguments;
+using Tweetinvi.Core.Factories;
 using Tweetinvi.Core.Helpers;
-using Tweetinvi.Core.Interfaces.Factories;
 using Tweetinvi.Core.Streaming;
 using Tweetinvi.Core.Wrappers;
+using Tweetinvi.Events;
 using Tweetinvi.Models;
 using Tweetinvi.Parameters;
 using Tweetinvi.Streaming;

@@ -66,7 +66,7 @@ namespace Tweetinvi.Parameters
         /// The timezone dates and times should be displayed in for the user. 
         /// The timezone must be one of the Rails TimeZone names.
         /// </summary>
-        void SetTimeZone(TwitterTimeZone twitterTimeZone);
+        void SetTimeZone(TimeZoneFromTwitter timeZoneFromTwitter);
     }
 
     /// <summary>
@@ -112,9 +112,9 @@ namespace Tweetinvi.Parameters
             }
         }
 
-        public void SetTimeZone(TwitterTimeZone twitterTimeZone)
+        public void SetTimeZone(TimeZoneFromTwitter timeZoneFromTwitter)
         {
-            var tzinfo = twitterTimeZone.GetTZinfo();
+            var tzinfo = timeZoneFromTwitter.GetTZinfo();
             if (tzinfo != null)
             {
                 TimeZone = tzinfo;

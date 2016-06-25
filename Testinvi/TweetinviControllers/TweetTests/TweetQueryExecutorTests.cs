@@ -10,6 +10,7 @@ using Tweetinvi.Controllers.Tweet;
 using Tweetinvi.Core.Exceptions;
 using Tweetinvi.Core.QueryGenerators;
 using Tweetinvi.Core.Web;
+using Tweetinvi.Exceptions;
 using Tweetinvi.Logic.Exceptions;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
@@ -127,10 +128,10 @@ namespace Testinvi.TweetinviControllers.TweetTests
             var tweetIdentifier = A.Fake<ITweetIdentifier>();
             var query = TestHelper.GenerateString();
             var maxRetweetsToRetrieve = TestHelper.GenerateRandomInt();
-            IEnumerable<ITweetDTO> expectedResult = GenerateExpectedIRetweetsCursorResults();
+            var expectedResult = GenerateExpectedIRetweetsCursorResults();
 
             _fakeTweetQueryGenerator.CallsTo(x => x.GetRetweetsQuery(tweetIdentifier, maxRetweetsToRetrieve)).Returns(query);
-            _fakeTwitterAccessor.ArrangeExecuteGETQuery(query, expectedResult);
+            _fakeTwitterAccessor.ArrangeExecuteGETQuery<IEnumerable<ITweetDTO>>(query, expectedResult);
 
             // Act
             var result = queryExecutor.GetRetweets(tweetIdentifier, maxRetweetsToRetrieve);
@@ -492,12 +493,12 @@ namespace Testinvi.TweetinviControllers.TweetTests
             _cursorQueryIds.Add(queryId1);
             _cursorQueryIds.Add(queryId2);
 
-            return new long[] { queryId1, queryId2 };
+            return new[] { queryId1, queryId2 };
         }
 
-        private IEnumerable<ITweetDTO> GenerateExpectedIRetweetsCursorResults()
+        private ITweetDTO[] GenerateExpectedIRetweetsCursorResults()
         {
-            return new ITweetDTO[] { A.Fake<ITweetDTO>(), A.Fake<ITweetDTO>() };
+            return new[] { A.Fake<ITweetDTO>(), A.Fake<ITweetDTO>() };
         }
     }
 }

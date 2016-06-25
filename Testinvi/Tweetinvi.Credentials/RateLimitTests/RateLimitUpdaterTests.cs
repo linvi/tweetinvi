@@ -3,8 +3,7 @@ using FakeItEasy.ExtensionSyntax.Full;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Testinvi.Helpers;
 using Tweetinvi.Core.Credentials;
-using Tweetinvi.Core.Interfaces.RateLimit;
-using Tweetinvi.Core.Interfaces.WebLogic;
+using Tweetinvi.Core.RateLimit;
 using Tweetinvi.Credentials.RateLimit;
 using Tweetinvi.Models;
 

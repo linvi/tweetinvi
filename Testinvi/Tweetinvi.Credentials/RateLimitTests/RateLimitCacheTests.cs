@@ -1,7 +1,6 @@
 ﻿using FakeItEasy;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Testinvi.Helpers;
-using Tweetinvi.Core.Interfaces.WebLogic;
 using Tweetinvi.Credentials.RateLimit;
 using Tweetinvi.Models;
 

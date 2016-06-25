@@ -1,6 +1,6 @@
 ﻿using Tweetinvi.Core.Credentials;
 using Tweetinvi.Core.Injectinvi;
-using Tweetinvi.Core.Interfaces.RateLimit;
+using Tweetinvi.Core.RateLimit;
 using Tweetinvi.Core.Web;
 using Tweetinvi.Credentials.QueryDTO;
 using Tweetinvi.Credentials.RateLimit;

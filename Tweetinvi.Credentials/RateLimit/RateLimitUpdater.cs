@@ -2,8 +2,7 @@
 using System.Linq;
 using System.Collections.Generic;
 using Tweetinvi.Core.Credentials;
-using Tweetinvi.Core.Interfaces.RateLimit;
-using Tweetinvi.Core.Interfaces.WebLogic;
+using Tweetinvi.Core.RateLimit;
 using Tweetinvi.Models;
 
 namespace Tweetinvi.Credentials.RateLimit

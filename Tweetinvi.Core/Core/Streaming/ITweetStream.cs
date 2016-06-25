@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Tweetinvi.Core.Events.EventArguments;
+using Tweetinvi.Events;
 
 namespace Tweetinvi.Core.Streaming
 {

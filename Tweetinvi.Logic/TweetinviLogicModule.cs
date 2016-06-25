@@ -2,9 +2,9 @@
 using Tweetinvi.Core.Helpers;
 using Tweetinvi.Core.Injectinvi;
 using Tweetinvi.Core.Interfaces;
-using Tweetinvi.Core.Interfaces.Exceptions;
 using Tweetinvi.Core.Parameters;
 using Tweetinvi.Core.Wrappers;
+using Tweetinvi.Exceptions;
 using Tweetinvi.Logic.DTO;
 using Tweetinvi.Logic.Exceptions;
 using Tweetinvi.Logic.Helpers;

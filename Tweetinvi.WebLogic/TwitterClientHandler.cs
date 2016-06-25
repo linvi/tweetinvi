@@ -4,7 +4,7 @@ using System.Net.Http.Headers;
 using System.Threading;
 using System.Threading.Tasks;
 using Tweetinvi.Core;
-using Tweetinvi.Core.Interfaces.WebLogic;
+using Tweetinvi.Core.Injectinvi;
 using Tweetinvi.Core.Web;
 using Tweetinvi.Models;
 

@@ -3,7 +3,6 @@ using System.Diagnostics.CodeAnalysis;
 using FakeItEasy;
 using Testinvi.Helpers;
 using Tweetinvi.Core.Credentials;
-using Tweetinvi.Core.Interfaces.WebLogic;
 using Tweetinvi.Models;
 
 namespace Testinvi.SetupHelpers
