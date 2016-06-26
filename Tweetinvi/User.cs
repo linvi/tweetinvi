@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using Tweetinvi.Core.Controllers;
 using Tweetinvi.Core.Factories;
-using Tweetinvi.Core.Interfaces;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
 using Tweetinvi.Parameters;
@@ -82,52 +81,60 @@ namespace Tweetinvi
 
         #region User Factory
 
+        /// <summary>
+        /// Get the authenticated user based on the application credentials or given parameter credentials.
+        /// </summary>
         public static IAuthenticatedUser GetAuthenticatedUser(ITwitterCredentials credentials = null, IGetAuthenticatedUserParameters parameters = null)
         {
             return UserFactory.GetAuthenticatedUser(credentials, parameters);
         }
 
+        /// <summary>
+        /// Get a user from its identifier.
+        /// </summary>
         public static IUser GetUserFromId(long userId)
         {
             return UserFactory.GetUserFromId(userId);
         }
 
         /// <summary>
-        /// Get a collection of users from a collection of user ids
+        /// Get a collection of users from a collection of user ids.
         /// </summary>
         public static IEnumerable<IUser> GetUsersFromIds(IEnumerable<long> userIds)
         {
             return UserFactory.GetUsersFromIds(userIds);
         }
 
+        /// <summary>
+        /// Get a user from its username.
+        /// </summary>
         public static IUser GetUserFromScreenName(string userName)
         {
             return UserFactory.GetUserFromScreenName(userName);
         }
 
+        /// <summary>
+        /// Get a collection of users from a collection of screen names.
+        /// </summary>
         public static IEnumerable<IUser> GetUsersFromScreenNames(IEnumerable<string> screenNames)
         {
             return UserFactory.GetUsersFromScreenNames(screenNames);
         }
 
+        /// <summary>
+        /// Generate a user from a Data Transfer Object.
+        /// </summary>
         public static IUser GenerateUserFromDTO(IUserDTO userDTO)
         {
             return UserFactory.GenerateUserFromDTO(userDTO);
         }
 
+        /// <summary>
+        /// Generate a collection of users from a Data Transfer Objects.
+        /// </summary>
         public static IEnumerable<IUser> GenerateUsersFromDTO(IEnumerable<IUserDTO> usersDTO)
         {
             return UserFactory.GenerateUsersFromDTO(usersDTO);
-        }
-
-        public static IUserIdentifier GenerateUserIdentifierFromId(long userId)
-        {
-            return UserFactory.GenerateUserIdentifierFromId(userId);
-        }
-
-        public static IUserIdentifier GenerateUserIdentifierFromScreenName(string userScreenName)
-        {
-            return UserFactory.GenerateUserIdentifierFromScreenName(userScreenName);
         }
 
         #endregion
