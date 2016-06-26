@@ -8,6 +8,7 @@
         <owners>Linvi</owners>
         <licenseUrl>http://tweetinvi.codeplex.com/license</licenseUrl>
         <projectUrl>https://github.com/linvi/tweetinvi</projectUrl>
+	<iconUrl>https://raw.githubusercontent.com/linvi/tweetinvi/master/tweetinvi-logo-purple.png</iconUrl>
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
         <description>Tweetinvi is an intuitive .NET C# library to access the Twitter REST API. It is a Portable Class Library that can be used for development on Windows, Windows RT, Windows Phone, Mono, Xamarin Android and Xamarin iOS. Tweetinvi is also compatible for Universal App development.</description>
 	<releaseNotes>https://github.com/linvi/tweetinvi/releases/tag/0.9.14.0</releaseNotes>
