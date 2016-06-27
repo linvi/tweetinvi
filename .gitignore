@@ -11,6 +11,7 @@
 /packages
 /Developer Tools/temp*
 /Developer Tools/TweetinviAPI/lib
+/Developer Tools/tweetinvi.certificate.p12
 /Examplinvi.Web/App_Data
 *.zip
 /Examplinvi.UniversalApp/Examplinvi.UniversalApp.nuget.targets

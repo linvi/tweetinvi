@@ -7,7 +7,8 @@ Param(
 	[Switch]$iel,				 # Include External Libraries	
 	[Switch]$uv,				 # Update Version Only
 	[Switch]$nugetMultipleDLLs,  # Add non merged DLLs to nuget folders
-	[Switch]$b 					 # Build only
+	[Switch]$b,					 # Build only,
+	[Switch]$sign				 # Sign the output library
 );
 
 $version = $v;
@@ -40,6 +41,7 @@ if ($iel.IsPresent -and !$nugetMultipleDLLs.IsPresent)
 $assemblyinfoLocation = 'Properties\assemblyinfo.cs'
 $rootPath = '..\'
 $temporaryFolder = 'temp_' + $version
+$nugetToolsFolder = '.\TweetinviAPI\tools'
 $net40Folder = '.\TweetinviAPI\lib\net40'
 $net45Folder = '.\TweetinviAPI\lib\net45'
 $net40PortableFolder = '.\TweetinviAPI\lib\portable-net40+sl5+wp80+win8+wpa81'
@@ -175,6 +177,7 @@ if (!$uv.IsPresent) {
 	rm -Force ($net45PortableFolder + '\*');
 
     Copy-Item $rootPath$examplinvi\Program.cs $temporaryFolder\Cheatsheet.cs
+	Copy-Item $rootPath$examplinvi\Program.cs $nugetToolsFolder\Cheatsheet.cs
 
 	# Create Merged assembly
 
@@ -183,23 +186,37 @@ if (!$uv.IsPresent) {
 
 	$mergedDLLPath = $temporaryFolder + '\output\' + $tweetinviAPIMerged
 	$ILMergeCommand = '.\ILMerge.exe /target:library /out:' + $mergedDLLPath + ' /keyfile:../tweetinvi.snk '
+	$dllMergeParam = "";
 
     if ($iel.IsPresent)
     {
-
 	    for ($i=0; $i -lt $additionalAssemblies.length; $i++)
 	    {
-		    $ILMergeCommand = $ILMergeCommand +  $temporaryFolder + '/' + $additionalAssemblies[$i] + ' '
+			$dllMergeParam = $dllMergeParam  + $temporaryFolder + '\' + $additionalAssemblies[$i] + ' ';
+		    $ILMergeCommand = $ILMergeCommand +  $temporaryFolder + '/' + $additionalAssemblies[$i] + ' ';
 	    }
     }
 
 	for ($i=4; $i -lt $projects.length; $i++) # start at 4 as there are 4 projects that are not part of the library core
 	{
+		$dllMergeParam = $dllMergeParam  + $temporaryFolder + '\' + $additionalAssemblies[$i] + ' ';
 		$ILMergeCommand = $ILMergeCommand +  $temporaryFolder + '/' + $projects[$i] + '.dll '
 	}
 
 	Write-Host $ILMergeCommand
-	Invoke-Expression $ILMergeCommand
+	# Start-Process -wait -FilePath ".\ILMerge.exe" -ArgumentList "/target:library", ("/out:" + $mergedDLLPath), "/keyfile:../tweetinvi.snk", $dllMergeParam -NoNewWindow
+	Invoke-Expression $ILMergeCommand | Out-Null
+	
+	if ($sign.IsPresent) 
+	{
+		$signToolExe = "C:\Program Files (x86)\Windows Kits\10\bin\x86\signtool.exe"
+		$certPath = "/f tweetinvi.certificate.p12";
+		$certPassword = '/p "' + [Environment]::GetEnvironmentVariable("tweetinvikey", "User") + '"';
+
+		Write-Host($signToolExe + " sign " + $certPath + " " + $certPassword + " " + $mergedDLLPath)
+		
+		Start-Process -Wait -FilePath $signToolExe -ArgumentList " sign ",$certPath,$certPassword,$mergedDLLPath -PassThru -NoNewWindow;
+	}
 
 	if ($nugetMultipleDLLs.IsPresent)
 	{

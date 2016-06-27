@@ -2,7 +2,6 @@
 ****************** CONFIGURE MACHINE *********************
 **********************************************************
 
-
 Install PowerShell Community Extensions to get the Write-Zip command
 
 Add the PowerShell.Exe.Config to C:\Windows\System32\WindowsPowerShell\v1.0
@@ -10,11 +9,15 @@ Run : Set-ExecutionPolicy RemoteSigned
 
 Restart the machine (pscx cannot be used otherwise)
 
+## To use `-sign` option to sign output binary
+
+* Copy tweetinvi.certificate.p12 in the `Developer Tools` folder.
+* Open Powershell and set the `tweetinvikey` environment variable.
+  [Environment]::SetEnvironmentVariable("tweetinvikey", "The secrete key", "User")
 
 **********************************************************
 ************************ NUGET ***************************
 **********************************************************
-
 
 nuget pack
 nuget push <*.nupkg> -ApiKey 'MY_NUGET.ORG_APIKEY' -Verbosity detailed
@@ -35,9 +38,9 @@ sn -p tweetinvi.pfx tweetinvi.key
 sn -tp tweetinvi.key 
 
 
-**********************************************************
+***********************************************************
 ********************** DLL SIGNING ************************
-**********************************************************
+***********************************************************
 
 // From ILMerge with *.snk
 
