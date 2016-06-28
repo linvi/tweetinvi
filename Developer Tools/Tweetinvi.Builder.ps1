@@ -125,13 +125,13 @@ for ($i=0; $i -lt $projects.length; $i++)
 $filePath = $rootPath + $tweetinviWebLogic + '\TwitterClientHandler.cs';
 Get-Item $filePath | .\Replace-Regex.ps1 -Pattern '"Tweetinvi/(?<versionNumber>\d+(\.\d+)*)(.x)?"' -Replacement ('"Tweetinvi/' + $version + '"') -overwrite
 
-
 if (!$uv.IsPresent) {
 	# Restore Nuget Packages
 	Write-Host 'Restoring nuget packages';
 
 	$p = Start-Process -Filepath '.\nuget.exe' -ArgumentList 'restore ../' -PassThru -NoNewWindow;
 	$null = $p.WaitForExit(-1);
+	git checkout -- ../Examplinvi.UniversalApp/project.lock.json
 
 	# Remove previous binaries
 	$examplinviBin = $rootPath + $examplinvi + '\bin\' + $releaseMode
@@ -212,10 +212,20 @@ if (!$uv.IsPresent) {
 		$signToolExe = "C:\Program Files (x86)\Windows Kits\10\bin\x86\signtool.exe"
 		$certPath = "/f tweetinvi.certificate.p12";
 		$certPassword = '/p "' + [Environment]::GetEnvironmentVariable("tweetinvikey", "User") + '"';
+		$certTimestamp = '/t "http://timestamp.verisign.com/scripts/timstamp.dll"';
 
-		Write-Host($signToolExe + " sign " + $certPath + " " + $certPassword + " " + $mergedDLLPath)
+		Write-Host($signToolExe + " sign " + $certPath + " " + $certPassword + " " + $certTimestamp + " " + $mergedDLLPath)
 		
-		Start-Process -Wait -FilePath $signToolExe -ArgumentList " sign ",$certPath,$certPassword,$mergedDLLPath -PassThru -NoNewWindow;
+		Start-Process -Wait -FilePath $signToolExe -ArgumentList " sign ",$certPath,$certPassword,$certTimestamp,$mergedDLLPath -PassThru -NoNewWindow;
+		
+		$certPaths = "";
+		
+		for ($i=4; $i -lt $projects.length; $i++) # start at 4 as there are 4 projects that are not part of the library core
+		{
+			$certPaths = $certPaths + $temporaryFolder + '\' + $projects[$i] + '.dll ';
+		}
+		
+		Start-Process -Wait -FilePath $signToolExe -ArgumentList " sign ",$certPath,$certPassword,$certTimestamp,$certPaths -PassThru -NoNewWindow;
 	}
 
 	if ($nugetMultipleDLLs.IsPresent)
