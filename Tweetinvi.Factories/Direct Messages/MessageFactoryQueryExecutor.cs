@@ -1,5 +1,4 @@
-﻿using System;
-using Tweetinvi.Core.Injectinvi;
+﻿using Tweetinvi.Core.Injectinvi;
 using Tweetinvi.Core.Web;
 using Tweetinvi.Factories.Properties;
 using Tweetinvi.Models.DTO;

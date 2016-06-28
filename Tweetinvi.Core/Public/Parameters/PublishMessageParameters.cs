@@ -1,5 +1,4 @@
 ﻿using System;
-using Tweetinvi.Core.Interfaces;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
 

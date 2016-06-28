@@ -5,7 +5,6 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Testinvi.Helpers;
 using Testinvi.SetupHelpers;
 using Tweetinvi.Controllers.Tweet;
-using Tweetinvi.Core.Interfaces;
 using Tweetinvi.Core.QueryGenerators;
 using Tweetinvi.Core.Web;
 using Tweetinvi.Models;
@@ -377,7 +376,7 @@ namespace Testinvi.TweetinviControllers.TweetTests
 
         #endregion
 
-        #region GenerateOEmbedTweet
+        #region GetOEmbedTweet
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentException))]

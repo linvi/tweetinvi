@@ -1,5 +1,4 @@
 ﻿using System;
-using Tweetinvi.Core;
 using Tweetinvi.Core.Controllers;
 using Tweetinvi.Core.RateLimit;
 using Tweetinvi.Events;

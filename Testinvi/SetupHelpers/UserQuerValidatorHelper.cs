@@ -1,6 +1,4 @@
-﻿using System;
-using FakeItEasy;
-using Tweetinvi.Core;
+﻿using FakeItEasy;
 using Tweetinvi.Core.QueryValidators;
 using Tweetinvi.Models;
 

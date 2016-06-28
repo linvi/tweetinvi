@@ -7,7 +7,6 @@ using Testinvi.Helpers;
 using Testinvi.SetupHelpers;
 using Tweetinvi.Controllers.Friendship;
 using Tweetinvi.Core.Factories;
-using Tweetinvi.Core.Interfaces;
 using Tweetinvi.Core.QueryGenerators;
 using Tweetinvi.Core.Web;
 using Tweetinvi.Models;

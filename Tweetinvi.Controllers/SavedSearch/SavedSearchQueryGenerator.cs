@@ -1,6 +1,5 @@
 ﻿using System;
 using Tweetinvi.Controllers.Properties;
-using Tweetinvi.Core;
 using Tweetinvi.Models;
 
 namespace Tweetinvi.Controllers.SavedSearch

@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using Tweetinvi.Core.Controllers;
 using Tweetinvi.Core.Factories;
-using Tweetinvi.Core.Injectinvi;
-using Tweetinvi.Core.Interfaces;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
 using Tweetinvi.Parameters;
@@ -306,7 +304,7 @@ namespace Tweetinvi
         /// <summary>
         /// Generate an OEmbed Tweet
         /// </summary>
-        public static IOEmbedTweet GenerateOEmbedTweet(ITweet tweet)
+        public static IOEmbedTweet GetOEmbedTweet(ITweet tweet)
         {
             return TweetController.GenerateOEmbedTweet(tweet);
         }
@@ -314,7 +312,7 @@ namespace Tweetinvi
         /// <summary>
         /// Generate an OEmbed Tweet
         /// </summary>
-        public static IOEmbedTweet GenerateOEmbedTweet(long tweetId)
+        public static IOEmbedTweet GetOEmbedTweet(long tweetId)
         {
             return TweetController.GenerateOEmbedTweet(tweetId);
         }

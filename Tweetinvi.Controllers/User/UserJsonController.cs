@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using Tweetinvi.Core.Interfaces;
+﻿using System.Collections.Generic;
 using Tweetinvi.Core.Parameters;
 using Tweetinvi.Core.QueryGenerators;
 using Tweetinvi.Core.Web;

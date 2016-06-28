@@ -4,7 +4,6 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Testinvi.Helpers;
 using Tweetinvi.Controllers.Timeline;
 using Tweetinvi.Core.Factories;
-using Tweetinvi.Core.Interfaces;
 using Tweetinvi.Core.Parameters;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;

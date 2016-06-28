@@ -1,5 +1,4 @@
-﻿using System;
-using Tweetinvi.Controllers.Properties;
+﻿using Tweetinvi.Controllers.Properties;
 using Tweetinvi.Core.Injectinvi;
 using Tweetinvi.Core.Parameters;
 using Tweetinvi.Models;

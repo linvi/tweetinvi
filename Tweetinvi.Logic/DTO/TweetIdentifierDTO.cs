@@ -1,5 +1,4 @@
 ﻿using Newtonsoft.Json;
-using Tweetinvi.Core;
 using Tweetinvi.Logic.JsonConverters;
 using Tweetinvi.Models;
 

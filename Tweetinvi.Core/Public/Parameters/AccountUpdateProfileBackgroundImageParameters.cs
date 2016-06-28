@@ -1,6 +1,5 @@
 ﻿using System;
 using Tweetinvi.Models;
-using Tweetinvi.Models.DTO;
 
 namespace Tweetinvi.Parameters
 {

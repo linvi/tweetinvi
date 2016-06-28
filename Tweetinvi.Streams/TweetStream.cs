@@ -9,7 +9,6 @@ using Tweetinvi.Core.Wrappers;
 using Tweetinvi.Events;
 using Tweetinvi.Models;
 using Tweetinvi.Parameters;
-using Tweetinvi.Streaming;
 
 namespace Tweetinvi.Streams
 {

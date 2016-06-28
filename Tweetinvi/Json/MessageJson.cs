@@ -1,7 +1,5 @@
 ﻿using System;
 using Tweetinvi.Controllers.Messages;
-using Tweetinvi.Core;
-using Tweetinvi.Core.Interfaces;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
 using Tweetinvi.Parameters;

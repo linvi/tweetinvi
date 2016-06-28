@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Tweetinvi.Core.Interfaces;
 using Tweetinvi.Models;
 
 namespace Tweetinvi.Logic.Model

@@ -1,6 +1,4 @@
-﻿using Tweetinvi.Core;
-
-namespace Tweetinvi.Parameters
+﻿namespace Tweetinvi.Parameters
 {
     /// <summary>
     /// https://dev.twitter.com/rest/reference/get/statuses/retweets_of_me

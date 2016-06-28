@@ -7,7 +7,6 @@ using Tweetinvi.Core.Events;
 using Tweetinvi.Core.Exceptions;
 using Tweetinvi.Core.Factories;
 using Tweetinvi.Core.Helpers;
-using Tweetinvi.Core.Interfaces;
 using Tweetinvi.Core.Streaming;
 using Tweetinvi.Core.Wrappers;
 using Tweetinvi.Events;

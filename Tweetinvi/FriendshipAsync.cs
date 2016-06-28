@@ -1,5 +1,4 @@
 ﻿using System.Threading.Tasks;
-using Tweetinvi.Core.Interfaces;
 using Tweetinvi.Models;
 
 namespace Tweetinvi

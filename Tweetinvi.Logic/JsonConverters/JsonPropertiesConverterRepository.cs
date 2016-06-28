@@ -3,7 +3,6 @@ using System.Linq;
 using Newtonsoft.Json;
 using Tweetinvi.Core.Exceptions;
 using Tweetinvi.Core.Extensions;
-using Tweetinvi.Core.Interfaces;
 using Tweetinvi.Core.Models;
 using Tweetinvi.Logic.DTO;
 using Tweetinvi.Logic.Exceptions;

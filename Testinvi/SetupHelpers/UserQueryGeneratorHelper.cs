@@ -1,7 +1,5 @@
-﻿using System;
-using FakeItEasy;
+﻿using FakeItEasy;
 using Tweetinvi;
-using Tweetinvi.Core;
 using Tweetinvi.Core.QueryGenerators;
 using Tweetinvi.Models;
 

@@ -4,7 +4,6 @@ using Testinvi.Helpers;
 using Testinvi.SetupHelpers;
 using Tweetinvi.Controllers.Timeline;
 using Tweetinvi.Core.Factories;
-using Tweetinvi.Core.Interfaces;
 using Tweetinvi.Core.Parameters;
 using Tweetinvi.Core.Web;
 using Tweetinvi.Models;

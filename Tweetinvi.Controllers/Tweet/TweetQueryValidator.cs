@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using Tweetinvi.Core;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
 using Tweetinvi.Parameters;

@@ -1,6 +1,4 @@
-﻿using Tweetinvi.Core;
-
-namespace Tweetinvi.Models
+﻿namespace Tweetinvi.Models
 {
     public class TwitterListIdentifier : ITwitterListIdentifier
     {

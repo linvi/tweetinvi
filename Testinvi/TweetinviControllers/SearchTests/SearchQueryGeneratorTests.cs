@@ -5,7 +5,6 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Testinvi.Helpers;
 using Tweetinvi.Controllers.Search;
 using Tweetinvi.Controllers.Shared;
-using Tweetinvi.Core.Extensions;
 using Tweetinvi.Models;
 using Tweetinvi.Parameters;
 

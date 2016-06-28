@@ -1,6 +1,5 @@
 ﻿using System;
 using Tweetinvi.Core.Credentials;
-using Tweetinvi.Core.Exceptions;
 using Tweetinvi.Credentials;
 using Tweetinvi.Exceptions;
 using Tweetinvi.Models;

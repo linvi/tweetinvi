@@ -1,6 +1,5 @@
 ﻿using System;
 using Newtonsoft.Json;
-using Tweetinvi.Core;
 using Tweetinvi.Models;
 
 namespace Tweetinvi.Logic.DTO

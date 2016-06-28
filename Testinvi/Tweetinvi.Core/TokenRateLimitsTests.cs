@@ -2,7 +2,6 @@
 using Testinvi.Helpers;
 using Tweetinvi.Core.Helpers;
 using Tweetinvi.Core.Models;
-using Tweetinvi.Models;
 
 namespace Testinvi.Tweetinvi.Core
 {

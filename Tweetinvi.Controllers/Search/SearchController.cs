@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using Tweetinvi.Core.Factories;
-using Tweetinvi.Core.Interfaces;
 using Tweetinvi.Models;
 using Tweetinvi.Parameters;
 

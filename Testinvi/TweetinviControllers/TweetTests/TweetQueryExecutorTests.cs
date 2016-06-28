@@ -438,7 +438,7 @@ namespace Testinvi.TweetinviControllers.TweetTests
 
         #endregion
 
-        #region GenerateOEmbedTweet
+        #region GetOEmbedTweet
 
         [TestMethod]
         public void GenerateOEmbedTweet_WithTweetDTO_ReturnsTwitterAccessorResult()

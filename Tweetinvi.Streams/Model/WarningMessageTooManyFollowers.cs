@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using Newtonsoft.Json;
-using Tweetinvi.Streaming;
 using Tweetinvi.Streaming.Events;
 
 namespace Tweetinvi.Streams.Model

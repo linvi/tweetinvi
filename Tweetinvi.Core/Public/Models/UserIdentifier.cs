@@ -1,5 +1,4 @@
 ﻿using System.Globalization;
-using Tweetinvi.Core;
 
 namespace Tweetinvi.Models
 {

@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Tweetinvi.Core.Interfaces;
 using Tweetinvi.Models;
 using Tweetinvi.Parameters;
 
@@ -88,12 +87,12 @@ namespace Tweetinvi
         // Generate OEmbedTweet
         public static async Task<IOEmbedTweet> GenerateOEmbedTweet(ITweet tweet)
         {
-            return await Sync.ExecuteTaskAsync(() => Tweet.GenerateOEmbedTweet(tweet));
+            return await Sync.ExecuteTaskAsync(() => Tweet.GetOEmbedTweet(tweet));
         }
 
         public static async Task<IOEmbedTweet> GenerateOEmbedTweet(long tweetId)
         {
-            return await Sync.ExecuteTaskAsync(() => Tweet.GenerateOEmbedTweet(tweetId));
+            return await Sync.ExecuteTaskAsync(() => Tweet.GetOEmbedTweet(tweetId));
         }
     }
 }

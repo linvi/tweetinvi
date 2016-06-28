@@ -1,5 +1,4 @@
 ﻿using System;
-using Tweetinvi.Core;
 using Tweetinvi.Core.QueryValidators;
 using Tweetinvi.Models.DTO;
 using Tweetinvi.Parameters;

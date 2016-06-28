@@ -2,7 +2,6 @@
 using Testinvi.Helpers;
 using Tweetinvi;
 using Tweetinvi.Controllers.Shared;
-using Tweetinvi.Core;
 
 namespace Testinvi.TweetinviControllers.Shared
 {

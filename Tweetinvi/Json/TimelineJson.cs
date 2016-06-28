@@ -1,6 +1,5 @@
 ﻿using System;
 using Tweetinvi.Controllers.Timeline;
-using Tweetinvi.Core.Interfaces;
 using Tweetinvi.Models;
 using Tweetinvi.Parameters;
 

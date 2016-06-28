@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Net.Http;
 using Tweetinvi.Core.Web;
-using HttpMethod = Tweetinvi.Models.HttpMethod;
 
 namespace Tweetinvi.Models
 {

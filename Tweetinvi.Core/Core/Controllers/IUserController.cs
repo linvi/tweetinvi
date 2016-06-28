@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using Tweetinvi.Core.Interfaces;
 using Tweetinvi.Core.Parameters;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;

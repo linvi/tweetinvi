@@ -1,6 +1,5 @@
 ﻿using System.Globalization;
 using Tweetinvi.Controllers.Properties;
-using Tweetinvi.Core;
 using Tweetinvi.Core.Injectinvi;
 using Tweetinvi.Core.Parameters;
 using Tweetinvi.Core.QueryGenerators;

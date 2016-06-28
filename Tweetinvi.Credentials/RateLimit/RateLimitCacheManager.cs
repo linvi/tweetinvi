@@ -1,6 +1,5 @@
 ﻿using System;
 using Tweetinvi.Core.Credentials;
-using Tweetinvi.Core.Exceptions;
 using Tweetinvi.Core.Helpers;
 using Tweetinvi.Core.QueryGenerators;
 using Tweetinvi.Core.RateLimit;
@@ -19,8 +18,6 @@ namespace Tweetinvi.Credentials.RateLimit
         private readonly IRateLimitCache _rateLimitCache;
         private readonly IRateLimitHelper _rateLimitHelper;
         private readonly ITwitterQueryFactory _twitterQueryFactory;
-
-        private bool _isRetrievingData;
 
         public RateLimitCacheManager(
             ICredentialsAccessor credentialsAccessor,

@@ -1,6 +1,4 @@
 ﻿using System;
-using Tweetinvi.Core;
-using Tweetinvi.Core.Interfaces;
 using Tweetinvi.Core.Web;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;

@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using Tweetinvi.Core.Interfaces;
 using Tweetinvi.Models;
 
 namespace Tweetinvi.Core.Controllers

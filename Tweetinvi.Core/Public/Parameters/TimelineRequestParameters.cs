@@ -1,6 +1,4 @@
-﻿using Tweetinvi.Core;
-
-namespace Tweetinvi.Parameters
+﻿namespace Tweetinvi.Parameters
 {
     public interface ITimelineRequestParameters : ICustomRequestParameters
     {

@@ -1,5 +1,4 @@
-﻿using System;
-using Tweetinvi.Factories.Properties;
+﻿using Tweetinvi.Factories.Properties;
 
 namespace Tweetinvi.Factories.SavedSearch
 {

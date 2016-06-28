@@ -4,7 +4,6 @@ using System.Net.Http;
 using Tweetinvi.Core;
 using Tweetinvi.Core.Credentials;
 using Tweetinvi.Core.Events;
-using Tweetinvi.Core.Exceptions;
 using Tweetinvi.Core.Extensions;
 using Tweetinvi.Core.RateLimit;
 using Tweetinvi.Core.Web;

@@ -2,7 +2,6 @@
 using System.Diagnostics.CodeAnalysis;
 using FakeItEasy;
 using Newtonsoft.Json.Linq;
-using Testinvi.Helpers;
 using Tweetinvi.Core.Web;
 using Tweetinvi.Models.DTO.QueryDTO;
 

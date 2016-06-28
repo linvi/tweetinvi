@@ -1,6 +1,5 @@
 ﻿using System;
 using Tweetinvi.Core.Controllers;
-using Tweetinvi.Core.Interfaces;
 using Tweetinvi.Models;
 
 namespace Tweetinvi
