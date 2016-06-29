@@ -24,9 +24,9 @@ namespace Tweetinvi
             return await Sync.ExecuteTaskAsync(() => Timeline.GetUserTimeline(user, maximumTweets));
         }
 
-        public static async Task<IEnumerable<ITweet>> GetUserTimeline(IUserIdentifier userDTO, int maximumTweets = 40)
+        public static async Task<IEnumerable<ITweet>> GetUserTimeline(IUserIdentifier userIdentifier, int maximumTweets = 40)
         {
-            return await Sync.ExecuteTaskAsync(() => Timeline.GetUserTimeline(userDTO, maximumTweets));
+            return await Sync.ExecuteTaskAsync(() => Timeline.GetUserTimeline(userIdentifier, maximumTweets));
         }
 
         public static async Task<IEnumerable<ITweet>> GetUserTimeline(long userId, int maximumTweets = 40)

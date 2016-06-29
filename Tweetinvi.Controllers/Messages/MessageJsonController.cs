@@ -15,8 +15,6 @@ namespace Tweetinvi.Controllers.Messages
         string GetLatestMessagesSent(IMessagesSentParameters queryParameters);
 
         // Publish Message
-        string PublishMessage(IMessage message);
-        string PublishMessage(IMessageDTO message);
         string PublishMessage(string text, IUserIdentifier recipient);
         string PublishMessage(string text, string recipientScreenName);
         string PublishMessage(string text, long recipientId);
@@ -76,15 +74,6 @@ namespace Tweetinvi.Controllers.Messages
         }
 
         // Publish Message
-        public string PublishMessage(IMessage message)
-        {
-            return PublishMessage(new PublishMessageParameters(message));
-        }
-
-        public string PublishMessage(IMessageDTO message)
-        {
-            return PublishMessage(new PublishMessageParameters(message));
-        }
 
         public string PublishMessage(string messageText, string recipientScreenName)
         {

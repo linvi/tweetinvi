@@ -7,6 +7,9 @@ using Tweetinvi.Parameters;
 
 namespace Tweetinvi
 {
+    /// <summary>
+    /// Access Twitter the user timelines.
+    /// </summary>
     public static class Timeline
     {
         [ThreadStatic]

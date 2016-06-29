@@ -1,6 +1,5 @@
 ﻿using System;
 using Tweetinvi.Models;
-using Tweetinvi.Models.DTO;
 
 namespace Tweetinvi.Parameters
 {
@@ -13,8 +12,6 @@ namespace Tweetinvi.Parameters
         long RecipientId { get; }
         string RecipientScreenName { get; }
         IUserIdentifier Recipient { get; }
-
-        IMessageDTO Message { get; }
     }
 
     /// <summary>
@@ -35,30 +32,6 @@ namespace Tweetinvi.Parameters
         public PublishMessageParameters(string text, string recipientScreenName) : this(text, new UserIdentifier(recipientScreenName))
         {
             Initialize(text, new UserIdentifier(recipientScreenName));
-        }
-
-        public PublishMessageParameters(IMessageDTO message)
-        {
-            if (message == null)
-            {
-                throw new ArgumentNullException("Message cannot be null.");
-            }
-
-            Initialize(message.Text, message.Recipient);
-
-            Message = message;
-        }
-
-        public PublishMessageParameters(IMessage message)
-        {
-            if (message == null)
-            {
-                throw new ArgumentNullException("Message cannot be null.");
-            }
-
-            Initialize(message.Text, message.Recipient);
-
-            Message = message.MessageDTO;
         }
 
         private void Initialize(string text, IUserIdentifier recipient)
@@ -90,7 +63,5 @@ namespace Tweetinvi.Parameters
         }
 
         public IUserIdentifier Recipient { get; private set; }
-
-        public IMessageDTO Message { get; private set; }
     }
 }

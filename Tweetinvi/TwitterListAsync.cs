@@ -24,9 +24,9 @@ namespace Tweetinvi
             return await Sync.ExecuteTaskAsync(() => TwitterList.GetExistingList(slug, user));
         }
 
-        public static async Task<ITwitterList> GetExistingList(string slug, IUserIdentifier userDTO)
+        public static async Task<ITwitterList> GetExistingList(string slug, IUserIdentifier userIdentifier)
         {
-            return await Sync.ExecuteTaskAsync(() => TwitterList.GetExistingList(slug, userDTO));
+            return await Sync.ExecuteTaskAsync(() => TwitterList.GetExistingList(slug, userIdentifier));
         }
 
         public static async Task<ITwitterList> GetExistingList(string slug, long userId)

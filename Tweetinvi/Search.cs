@@ -6,6 +6,9 @@ using Tweetinvi.Parameters;
 
 namespace Tweetinvi
 {
+    /// <summary>
+    /// Search Tweets and Users.
+    /// </summary>
     public static class Search
     {
         [ThreadStatic]

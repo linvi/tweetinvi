@@ -56,16 +56,6 @@ namespace Tweetinvi.Controllers.Messages
         }
 
         // Publish Message
-        public IMessage PublishMessage(IMessage message)
-        {
-            return PublishMessage(new PublishMessageParameters(message));
-        }
-
-        public IMessage PublishMessage(IMessageDTO messageDTO)
-        {
-            return PublishMessage(new PublishMessageParameters(messageDTO));
-        }
-
        public IMessage PublishMessage(string text, long recipientId)
         {
             return PublishMessage(text, new UserIdentifier(recipientId));

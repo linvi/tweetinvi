@@ -40,9 +40,9 @@ namespace Tweetinvi.Json
             return UserJsonController.GetFriendIds(user, maxFriendsToRetrieve);
         }
 
-        public static IEnumerable<string> GetFriendIds(IUserIdentifier userDTO, int maxFriendsToRetrieve = 5000)
+        public static IEnumerable<string> GetFriendIds(IUserIdentifier userIdentifier, int maxFriendsToRetrieve = 5000)
         {
-            return UserJsonController.GetFriendIds(userDTO, maxFriendsToRetrieve);
+            return UserJsonController.GetFriendIds(userIdentifier, maxFriendsToRetrieve);
         }
 
         public static IEnumerable<string> GetFriendIds(long userId, int maxFriendsToRetrieve = 5000)
@@ -61,9 +61,9 @@ namespace Tweetinvi.Json
             return UserJsonController.GetFollowerIds(user, maxFollowersToRetrieve);
         }
 
-        public static IEnumerable<string> GetFollowerIds(IUserIdentifier userDTO, int maxFollowersToRetrieve = 5000)
+        public static IEnumerable<string> GetFollowerIds(IUserIdentifier userIdentifier, int maxFollowersToRetrieve = 5000)
         {
-            return UserJsonController.GetFollowerIds(userDTO, maxFollowersToRetrieve);
+            return UserJsonController.GetFollowerIds(userIdentifier, maxFollowersToRetrieve);
         }
 
         public static IEnumerable<string> GetFollowerIds(long userId, int maxFollowersToRetrieve = 5000)

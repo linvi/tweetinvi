@@ -51,9 +51,9 @@ namespace Tweetinvi.Factories.Lists
             return GetExistingList(slug, user.UserDTO);
         }
 
-        public ITwitterList GetExistingList(string slug, IUserIdentifier userDTO)
+        public ITwitterList GetExistingList(string slug, IUserIdentifier userIdentifier)
         {
-            var identifier = _twitterListIdentifierFactory.Create(slug, userDTO);
+            var identifier = _twitterListIdentifierFactory.Create(slug, userIdentifier);
             return GetExistingList(identifier);
         }
 

@@ -35,7 +35,6 @@ namespace Tweetinvi.Controllers.Messages
                 throw new ArgumentNullException("Publish message parameters cannot be null.");
             }
 
-            var message = parameters.Message;
             var text = parameters.Text;
 
             _userQueryValidator.ThrowIfUserCannotBeIdentified(parameters.Recipient);
@@ -43,19 +42,6 @@ namespace Tweetinvi.Controllers.Messages
             if (!IsMessageTextValid(text))
             {
                 throw new ArgumentException("Message text is not valid.");
-            }
-
-            if (message != null)
-            {
-                if (message.IsMessagePublished)
-                {
-                    throw new ArgumentException("Message has already been published.");
-                }
-
-                if (message.IsMessageDestroyed)
-                {
-                    throw new ArgumentException("Message has already been destroyed.");
-                }
             }
         }
 

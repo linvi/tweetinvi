@@ -7,6 +7,9 @@ using Tweetinvi.Streaming;
 
 namespace Tweetinvi
 {
+    /// <summary>
+    /// Access Twitter live feeds.
+    /// </summary>
     public static class Stream
     {
         private static readonly IFactory<IUserStream> _userStreamFactory;

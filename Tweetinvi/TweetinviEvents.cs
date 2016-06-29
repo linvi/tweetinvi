@@ -4,6 +4,9 @@ using Tweetinvi.Events;
 
 namespace Tweetinvi
 {
+    /// <summary>
+    /// Take power and control the execution of requests based on the state of your environment!
+    /// </summary>
     public static class TweetinviEvents
     {
         private static readonly ITweetinviEvents _tweetinviEvents;

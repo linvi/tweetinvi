@@ -4,6 +4,9 @@ using Tweetinvi.Models;
 
 namespace Tweetinvi
 {
+    /// <summary>
+    /// Manage friendships between users.
+    /// </summary>
     public static class Friendship
     {
         [ThreadStatic]

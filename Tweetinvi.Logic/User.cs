@@ -13,7 +13,7 @@ using Tweetinvi.Parameters;
 namespace Tweetinvi.Logic
 {
     /// <summary>
-    /// Provide information and functions that a user can do
+    /// Tweetinvi User.
     /// </summary>
     public class User : IUser
     {

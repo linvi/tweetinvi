@@ -14,8 +14,6 @@ namespace Tweetinvi.Core.Controllers
         IEnumerable<IMessage> GetLatestMessagesSent(IMessagesSentParameters messagesSentParameters);
 
         // Publish Message
-        IMessage PublishMessage(IMessage message);
-        IMessage PublishMessage(IMessageDTO messageDTO);
         IMessage PublishMessage(string text, IUserIdentifier recipient);
         IMessage PublishMessage(string text, long recipientId);
         IMessage PublishMessage(string text, string recipientUserName);

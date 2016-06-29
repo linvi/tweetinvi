@@ -50,14 +50,14 @@ namespace Testinvi.SetupHelpers
             return string.Format("{0}={1}", parameterName, screenName);
         }
 
-        public static string GenerateParameterExpectedResult(IUserIdentifier userDTO, string idParameterName = "user_id", string screenNameParameterName = "screen_name")
+        public static string GenerateParameterExpectedResult(IUserIdentifier userIdentifier, string idParameterName = "user_id", string screenNameParameterName = "screen_name")
         {
-            if (userDTO.Id != TweetinviSettings.DEFAULT_ID)
+            if (userIdentifier.Id != TweetinviSettings.DEFAULT_ID)
             {
-                return string.Format("{0}={1}", idParameterName, userDTO.GetHashCode());
+                return string.Format("{0}={1}", idParameterName, userIdentifier.GetHashCode());
             }
 
-            return string.Format("{0}={1}", screenNameParameterName, userDTO.GetHashCode());
+            return string.Format("{0}={1}", screenNameParameterName, userIdentifier.GetHashCode());
         }
     }
 }

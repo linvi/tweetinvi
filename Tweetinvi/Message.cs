@@ -9,6 +9,9 @@ using Tweetinvi.Parameters;
 
 namespace Tweetinvi
 {
+    /// <summary>
+    /// Receive and send private messages between users.
+    /// </summary>
     public static class Message
     {
         private static IMessageFactory _messageFactory;
@@ -173,21 +176,6 @@ namespace Tweetinvi
         public static bool DestroyMessage(long messageId)
         {
             return MessageController.DestroyMessage(messageId);
-        }
-
-        // Parameters
-        public static IMessagesReceivedParameters CreateGetLatestsReceivedRequestParameter(int maximumMessages = TweetinviConsts.MESSAGE_GET_COUNT)
-        {
-            var parameter = _messageGetLatestsReceivedRequestParametersFactory.Create();
-            parameter.MaximumNumberOfMessagesToRetrieve = maximumMessages;
-            return parameter;
-        }
-
-        public static IMessagesSentParameters CreateGetLatestsSentRequestParameter(int maximumMessages = TweetinviConsts.MESSAGE_GET_COUNT)
-        {
-            var parameter = _messageGetLatestsSentRequestParametersFactory.Create();
-            parameter.MaximumNumberOfMessagesToRetrieve = maximumMessages;
-            return parameter;
         }
     }
 }

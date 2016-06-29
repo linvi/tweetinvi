@@ -7,6 +7,9 @@ using Tweetinvi.Models;
 
 namespace Tweetinvi
 {
+    /// <summary>
+    /// Create, delete or use saved searches from Twitter.
+    /// </summary>
     public static class SavedSearch
     {
         [ThreadStatic]

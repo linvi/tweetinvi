@@ -5,6 +5,9 @@ using Tweetinvi.Core.Helpers;
 
 namespace Tweetinvi
 {
+    /// <summary>
+    /// Async made easy.
+    /// </summary>
     public static class Sync
     {
         private static readonly ITaskFactory _taskFactory;

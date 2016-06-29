@@ -6,6 +6,9 @@ using Tweetinvi.Parameters;
 
 namespace Tweetinvi
 {
+    /// <summary>
+    /// Access geographic information provided by Twitter.
+    /// </summary>
     public static class Geo
     {
         [ThreadStatic]

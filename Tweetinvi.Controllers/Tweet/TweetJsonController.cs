@@ -24,7 +24,7 @@ namespace Tweetinvi.Controllers.Tweet
         string PublishRetweet(long tweetId);
 
         // Get Retweets
-        string GetRetweets(ITweetIdentifier tweetDTO, int maxRetweetsToRetrieve = 100);
+        string GetRetweets(ITweetIdentifier tweetIdentifier, int maxRetweetsToRetrieve = 100);
         string GetRetweets(long tweetId, int maxRetweetsToRetrieve = 100);
 
         // Destroy Tweet

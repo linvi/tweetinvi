@@ -6,6 +6,9 @@ using Tweetinvi.Models;
 
 namespace Tweetinvi
 {
+    /// <summary>
+    /// Handle the RateLimits restricting the Twitter API.
+    /// </summary>
     public static class RateLimit
     {
         [ThreadStatic]

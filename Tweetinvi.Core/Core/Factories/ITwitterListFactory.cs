@@ -11,7 +11,7 @@ namespace Tweetinvi.Core.Factories
         ITwitterList GetExistingList(ITwitterListIdentifier listIdentifier);
         ITwitterList GetExistingList(long listId);
         ITwitterList GetExistingList(string slug, IUser user);
-        ITwitterList GetExistingList(string slug, IUserIdentifier userDTO);
+        ITwitterList GetExistingList(string slug, IUserIdentifier userIdentifier);
         ITwitterList GetExistingList(string slug, long userId);
         ITwitterList GetExistingList(string slug, string userScreenName);
 

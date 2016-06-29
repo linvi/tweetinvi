@@ -88,26 +88,6 @@ namespace Testinvi.TweetinviControllers.MessageTests
         #region Publish Message
 
         [TestMethod]
-        public void PublishMessage_MessageIsNull_ThrowArgumentException()
-        {
-            // Arrange
-            var controller = CreateMessageController();
-
-            // Act
-            try
-            {
-                controller.PublishMessage((IMessage)null);
-
-            }
-            catch (ArgumentNullException)
-            {
-                return;
-            }
-
-            Assert.Fail("Argument Null Exception is expected");
-        }
-     
-        [TestMethod]
         public void PublishMessage_TextAndUser_UserIsNull_ThrowArgumentException()
         {
             // Arrange
@@ -145,47 +125,6 @@ namespace Testinvi.TweetinviControllers.MessageTests
             }
 
             Assert.Fail("Argument Null Exception is expected");
-        }
-
-        [TestMethod]
-        public void PublishMessage_WithMessage_ExecuteQuery()
-        {
-            // Arrange
-            var controller = CreateMessageController();
-            var message = A.Fake<IMessage>();
-            message.CallsTo(x => x.Recipient).Returns(A.Fake<IUser>());
-            message.CallsTo(x => x.Text).Returns(TestHelper.GenerateString());
-            message.CallsTo(x => x.MessageDTO).Returns(A.Fake<IMessageDTO>());
-
-            var parameter = new PublishMessageParameters(message);
-
-            // Act
-            controller.PublishMessage(parameter);
-
-            // Assert
-            _fakeMessageQueryExecutor
-                .CallsTo(x => x.PublishMessage(A<IPublishMessageParameters>.That.Matches(p => p.Message == message.MessageDTO)))
-                .MustHaveHappened();
-        }
-
-        [TestMethod]
-        public void PublishMessage_WithMessageDTO_ExecuteQuery()
-        {
-            // Arrange
-            var controller = CreateMessageController();
-            var message = A.Fake<IMessageDTO>();
-            message.CallsTo(x => x.Recipient).Returns(A.Fake<IUserDTO>());
-            message.CallsTo(x => x.Text).Returns(TestHelper.GenerateString());
-
-            var parameter = new PublishMessageParameters(message);
-
-            // Act
-            controller.PublishMessage(parameter);
-
-            // Assert
-            _fakeMessageQueryExecutor
-                .CallsTo(x => x.PublishMessage(A<IPublishMessageParameters>.That.Matches(p => p.Message == message)))
-                .MustHaveHappened();
         }
 
         [TestMethod]

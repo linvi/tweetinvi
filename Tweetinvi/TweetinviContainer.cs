@@ -5,6 +5,9 @@ using Tweetinvi.Injectinvi;
 
 namespace Tweetinvi
 {
+    /// <summary>
+    /// For super users only. Change Tweetinvi internal mechanisms.
+    /// </summary>
     public static class TweetinviContainer
     {
         private static readonly ITweetinviContainer _container;

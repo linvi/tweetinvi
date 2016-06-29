@@ -49,9 +49,9 @@ namespace Tweetinvi.Json
             return TimelineJsonController.GetUserTimeline(user, maximumTweets);
         }
 
-        public static string GetUserTimeline(IUserIdentifier userDTO, int maximumTweets = 40)
+        public static string GetUserTimeline(IUserIdentifier userIdentifier, int maximumTweets = 40)
         {
-            return TimelineJsonController.GetUserTimeline(userDTO, maximumTweets);
+            return TimelineJsonController.GetUserTimeline(userIdentifier, maximumTweets);
         }
 
         public static string GetUserTimeline(long userId, int maximumTweets = 40)

@@ -48,21 +48,6 @@ namespace Tweetinvi.Controllers.Tweet
             return _tweetFactory.GenerateTweetFromDTO(tweetDTO);
         }
 
-        public bool PublishTweet(ITweet tweet, IPublishTweetOptionalParameters optionalParameters = null)
-        {
-            if (tweet == null)
-            {
-                throw new ArgumentException("Tweet cannot be null!");
-            }
-
-            var parameters = new PublishTweetParameters(tweet.Text, optionalParameters);
-            var tweetDTO = InternalPublishTweet(parameters);
-
-            UpdateTweetIfTweetSuccessfullyBeenPublished(tweet, tweetDTO);
-
-            return tweet.IsTweetPublished;
-        }
-
         public ITweet PublishTweetWithMedia(string text, long mediaId)
         {
             var parameters = new PublishTweetOptionalParameters();

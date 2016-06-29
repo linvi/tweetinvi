@@ -55,19 +55,9 @@ namespace Tweetinvi.Json
         }
 
         // Publish Message
-        public static string PublishMessage(IMessage message)
+        public static string PublishMessage(string text, IUserIdentifier targetUserIdentifier)
         {
-            return MessageJsonController.PublishMessage(message);
-        }
-
-        public static string PublishMessage(IMessageDTO messageDTO)
-        {
-            return MessageJsonController.PublishMessage(messageDTO);
-        }
-
-        public static string PublishMessage(string text, IUserIdentifier targetUserDTO)
-        {
-            return MessageJsonController.PublishMessage(text, targetUserDTO);
+            return MessageJsonController.PublishMessage(text, targetUserIdentifier);
         }
 
         public static string PublishMessage(string text, long targetUserId)

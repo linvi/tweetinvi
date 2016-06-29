@@ -7,6 +7,10 @@ using Tweetinvi.Models.DTO.QueryDTO;
 
 namespace Tweetinvi
 {
+    /// <summary>
+    /// Build your own requests and get back results in 1 line.
+    /// (Are you feeling the power already?)
+    /// </summary>
     public static class TwitterAccessor
     {
         [ThreadStatic] 

@@ -39,9 +39,9 @@ namespace Tweetinvi.Json
             return FriendshipJsonController.CreateFriendshipWith(user);
         }
 
-        public static string CreateFriendshipWith(IUserIdentifier userDTO)
+        public static string CreateFriendshipWith(IUserIdentifier userIdentifier)
         {
-            return FriendshipJsonController.CreateFriendshipWith(userDTO);
+            return FriendshipJsonController.CreateFriendshipWith(userIdentifier);
         }
 
         public static string CreateFriendshipWith(long userId)
@@ -59,9 +59,9 @@ namespace Tweetinvi.Json
             return FriendshipJsonController.DestroyFriendshipWith(user);
         }
 
-        public static string DestroyFriendshipWith(IUserIdentifier userDTO)
+        public static string DestroyFriendshipWith(IUserIdentifier userIdentifier)
         {
-            return FriendshipJsonController.DestroyFriendshipWith(userDTO);
+            return FriendshipJsonController.DestroyFriendshipWith(userIdentifier);
         }
 
         public static string DestroyFriendshipWith(long userId)
@@ -79,9 +79,9 @@ namespace Tweetinvi.Json
             return FriendshipJsonController.DestroyFriendshipWith(user);
         }
 
-        public static string UpdateRelationshipAuthorizationsWith(IUserIdentifier userDTO, bool retweetsEnabled, bool deviceNotifictionEnabled)
+        public static string UpdateRelationshipAuthorizationsWith(IUserIdentifier userIdentifier, bool retweetsEnabled, bool deviceNotifictionEnabled)
         {
-            return FriendshipJsonController.UpdateRelationshipAuthorizationsWith(userDTO, retweetsEnabled, deviceNotifictionEnabled);
+            return FriendshipJsonController.UpdateRelationshipAuthorizationsWith(userIdentifier, retweetsEnabled, deviceNotifictionEnabled);
         }
 
         public static string UpdateRelationshipAuthorizationsWith(long userId, bool retweetsEnabled, bool deviceNotifictionEnabled)

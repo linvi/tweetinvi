@@ -11,8 +11,6 @@ namespace Tweetinvi.Core.Controllers
         ITweet PublishTweet(IPublishTweetParameters parameters);
         ITweet PublishTweet(string text, IPublishTweetOptionalParameters optionalParameters = null);
 
-        bool PublishTweet(ITweet tweet, IPublishTweetOptionalParameters optionalParameters = null);
-        
         ITweet PublishTweetWithMedia(string text, byte[] media);
         ITweet PublishTweetWithMedia(string text, long mediaId);
 

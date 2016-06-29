@@ -2,6 +2,9 @@
 
 namespace Tweetinvi
 {
+    /// <summary>
+    /// Configure how Tweetinvi should behave.
+    /// </summary>
     public static class TweetinviConfig
     {
         private static readonly ITweetinviSettingsAccessor _currentSettingsAccessor;

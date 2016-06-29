@@ -5,6 +5,9 @@ using Tweetinvi.Models;
 
 namespace Tweetinvi
 {
+    /// <summary>
+    /// Access the trendiest topics from Twitter.
+    /// </summary>
     public static class Trends
     {
         [ThreadStatic]

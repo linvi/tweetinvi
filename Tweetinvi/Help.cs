@@ -4,6 +4,9 @@ using Tweetinvi.Models.DTO;
 
 namespace Tweetinvi
 {
+    /// <summary>
+    /// Access Twitter about information.
+    /// </summary>
     public class Help
     {
         [ThreadStatic]

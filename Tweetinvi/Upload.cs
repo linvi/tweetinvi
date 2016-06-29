@@ -9,6 +9,9 @@ using Tweetinvi.Models.DTO;
 
 namespace Tweetinvi
 {
+    /// <summary>
+    /// Upload image, gif or videos.
+    /// </summary>
     public static class Upload
     {
         [ThreadStatic]

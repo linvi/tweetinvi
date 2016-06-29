@@ -46,9 +46,9 @@ namespace Tweetinvi
             return await Sync.ExecuteTaskAsync(() => User.GetFriendIds(user, maxFriendsToRetrieve));
         }
 
-        public static async Task<IEnumerable<long>> GetFriendIds(IUserIdentifier userDTO, int maxFriendsToRetrieve = 5000)
+        public static async Task<IEnumerable<long>> GetFriendIds(IUserIdentifier userIdentifier, int maxFriendsToRetrieve = 5000)
         {
-            return await Sync.ExecuteTaskAsync(() => User.GetFriendIds(userDTO, maxFriendsToRetrieve));
+            return await Sync.ExecuteTaskAsync(() => User.GetFriendIds(userIdentifier, maxFriendsToRetrieve));
         }
 
         public static async Task<IEnumerable<long>> GetFriendIds(long userId, int maxFriendsToRetrieve = 5000)
@@ -67,9 +67,9 @@ namespace Tweetinvi
             return await Sync.ExecuteTaskAsync(() => User.GetFriends(user, maxFriendsToRetrieve));
         }
 
-        public static async Task<IEnumerable<IUser>> GetFriends(IUserIdentifier userDTO, int maxFriendsToRetrieve = 250)
+        public static async Task<IEnumerable<IUser>> GetFriends(IUserIdentifier userIdentifier, int maxFriendsToRetrieve = 250)
         {
-            return await Sync.ExecuteTaskAsync(() => User.GetFriends(userDTO, maxFriendsToRetrieve));
+            return await Sync.ExecuteTaskAsync(() => User.GetFriends(userIdentifier, maxFriendsToRetrieve));
         }
 
         public static async Task<IEnumerable<IUser>> GetFriends(long userId, int maxFriendsToRetrieve = 250)
@@ -88,9 +88,9 @@ namespace Tweetinvi
             return await Sync.ExecuteTaskAsync(() => User.GetFollowerIds(user, maxFollowersToRetrieve));
         }
 
-        public static async Task<IEnumerable<long>> GetFollowerIds(IUserIdentifier userDTO, int maxFollowersToRetrieve = 5000)
+        public static async Task<IEnumerable<long>> GetFollowerIds(IUserIdentifier userIdentifier, int maxFollowersToRetrieve = 5000)
         {
-            return await Sync.ExecuteTaskAsync(() => User.GetFollowerIds(userDTO, maxFollowersToRetrieve));
+            return await Sync.ExecuteTaskAsync(() => User.GetFollowerIds(userIdentifier, maxFollowersToRetrieve));
         }
 
         public static async Task<IEnumerable<long>> GetFollowerIds(long userId, int maxFollowersToRetrieve = 5000)
@@ -109,9 +109,9 @@ namespace Tweetinvi
             return await Sync.ExecuteTaskAsync(() => User.GetFollowers(user, maxFollowersToRetrieve));
         }
 
-        public static async Task<IEnumerable<IUser>> GetFollowers(IUserIdentifier userDTO, int maxFollowersToRetrieve = 250)
+        public static async Task<IEnumerable<IUser>> GetFollowers(IUserIdentifier userIdentifier, int maxFollowersToRetrieve = 250)
         {
-            return await Sync.ExecuteTaskAsync(() => User.GetFollowers(userDTO, maxFollowersToRetrieve));
+            return await Sync.ExecuteTaskAsync(() => User.GetFollowers(userIdentifier, maxFollowersToRetrieve));
         }
 
         public static async Task<IEnumerable<IUser>> GetFollowers(long userId, int maxFollowersToRetrieve = 250)
@@ -126,9 +126,9 @@ namespace Tweetinvi
 
         // Favourites
 
-        public static async Task<IEnumerable<ITweet>> GetFavoriteTweets(IUserIdentifier userDTO, IGetUserFavoritesParameters parameters = null)
+        public static async Task<IEnumerable<ITweet>> GetFavoriteTweets(IUserIdentifier userIdentifier, IGetUserFavoritesParameters parameters = null)
         {
-            return await Sync.ExecuteTaskAsync(() => User.GetFavoriteTweets(userDTO, parameters));
+            return await Sync.ExecuteTaskAsync(() => User.GetFavoriteTweets(userIdentifier, parameters));
         }
 
         public static async Task<IEnumerable<ITweet>> GetFavoriteTweets(long userId, IGetUserFavoritesParameters parameters = null)
@@ -147,9 +147,9 @@ namespace Tweetinvi
             return await Sync.ExecuteTaskAsync(() => User.BlockUser(user));
         }
 
-        public static async Task<bool> BlockUser(IUserIdentifier userDTO)
+        public static async Task<bool> BlockUser(IUserIdentifier userIdentifier)
         {
-            return await Sync.ExecuteTaskAsync(() => User.BlockUser(userDTO));
+            return await Sync.ExecuteTaskAsync(() => User.BlockUser(userIdentifier));
         }
 
         public static async Task<bool> BlockUser(long userId)

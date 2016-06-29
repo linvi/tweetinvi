@@ -9,7 +9,8 @@ using Tweetinvi.Models;
 namespace Tweetinvi
 {
     /// <summary>
-    /// Provide tools to request and create new credentials to access the Twitter API.
+    /// Authentication Flow to help authenticate new users.
+    /// If you already have credentials, use Auth class to start using Tweetinvi.
     /// </summary>
     public static class AuthFlow
     {
@@ -55,7 +56,6 @@ namespace Tweetinvi
 
         /// <summary>
         /// Get the credentials from a PIN CODE/OAUTH VERIFIER provided by twitter.com to the user.
-        /// 
         /// This method generates the credentials from the ConsumerCredentials used to get the Authentication URL.
         /// </summary>
         /// <param name="verifierCode">

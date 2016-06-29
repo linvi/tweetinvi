@@ -9,6 +9,9 @@ using Tweetinvi.Parameters;
 
 namespace Tweetinvi
 {
+    /// <summary>
+    /// Access and manage user lists.
+    /// </summary>
     public static class TwitterList
     {
         [ThreadStatic]
@@ -90,9 +93,9 @@ namespace Tweetinvi
         /// <summary>
         /// Get an existing List
         /// </summary>
-        public static ITwitterList GetExistingList(string slug, IUserIdentifier userDTO)
+        public static ITwitterList GetExistingList(string slug, IUserIdentifier userIdentifier)
         {
-            return TwitterListFactory.GetExistingList(slug, userDTO);
+            return TwitterListFactory.GetExistingList(slug, userIdentifier);
         }
 
         /// <summary>

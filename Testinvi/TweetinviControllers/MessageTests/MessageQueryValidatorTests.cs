@@ -44,10 +44,8 @@ namespace Testinvi.TweetinviControllers.MessageTests
         {
             // Arrange
             var queryValidator = CreateMessageQueryValidator();
-            var messageDTO = CreateMessageDTO(messageHasBeenPublished, messageHasBeenDestroyed);
 
             var parameters = A.Fake<IPublishMessageParameters>();
-            parameters.CallsTo(x => x.Message).Returns(messageDTO);
 
             ArrangeMessagePublishParameterText(parameters, true, true);
             ArrangeMessageDTORecipient(parameters, true, true, true);
@@ -90,7 +88,6 @@ namespace Testinvi.TweetinviControllers.MessageTests
             var queryValidator = CreateMessageQueryValidator();
 
             var parameters = A.Fake<IPublishMessageParameters>();
-            parameters.CallsTo(x => x.Message).Returns(null);
 
             ArrangeMessagePublishParameterText(parameters, doesTextExists, textContainsChars);
 

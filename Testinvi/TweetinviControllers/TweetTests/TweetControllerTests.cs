@@ -26,21 +26,6 @@ namespace Testinvi.TweetinviControllers.TweetTests
             _fakeTweetFactory = _fakeBuilder.GetFake<ITweetFactory>();
         }
 
-        #region Publish Tweet
-
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
-        public void PublishTweet_WithNullTweet_ThrowsArgumentException()
-        {
-            // Arrange
-            var controller = CreateTweetController();
-
-            // Act
-            controller.PublishTweet((ITweet)null);
-        }
-
-        #endregion
-
         #region Publish Retweet
 
         [TestMethod]

@@ -8,6 +8,9 @@ using Tweetinvi.Parameters;
 
 namespace Tweetinvi
 {
+    /// <summary>
+    /// Publish, access, delete... Everything you need to do on tweets is here.
+    /// </summary>
     public static class Tweet
     {
         [ThreadStatic]

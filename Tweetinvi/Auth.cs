@@ -6,6 +6,10 @@ using Tweetinvi.Models;
 
 namespace Tweetinvi
 {
+    /// <summary>
+    /// Authenticate user or application with existing credentials.
+    /// If you need to create new credentials, use AuthFlow.
+    /// </summary>
     public class Auth
     {
         [ThreadStatic]
