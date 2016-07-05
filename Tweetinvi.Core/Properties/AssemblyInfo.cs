@@ -5,9 +5,9 @@ using System.Resources;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("TweetinviCore")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("https://github.com/linvi/tweetinvi")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Tweetinvi")]
+[assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("TweetinviCore")]
 [assembly: AssemblyCopyright("Copyright. Tweetinvi 2016")]
 [assembly: AssemblyTrademark("")]
@@ -24,5 +24,5 @@ using System.Resources;
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("0.9.14.0")]
-[assembly: AssemblyFileVersion("0.9.14.0")]
+[assembly: AssemblyVersion("1.0")]
+[assembly: AssemblyFileVersion("1.0")]
