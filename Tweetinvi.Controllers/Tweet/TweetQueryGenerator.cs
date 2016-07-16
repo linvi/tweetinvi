@@ -84,7 +84,7 @@ namespace Tweetinvi.Controllers.Tweet
                 var quotedTweet = queryParameters.QuotedTweet;
                 if (quotedTweet.CreatedBy != null)
                 {
-                    text += string.Format("https://twitter.com/{0}/status/{1}", 
+                    text += string.Format(" https://twitter.com/{0}/status/{1}", 
                         quotedTweet.CreatedBy.ScreenName, 
                         quotedTweet.Id.ToString(CultureInfo.InvariantCulture));
                 }
