@@ -84,14 +84,16 @@ namespace Tweetinvi.Controllers.Tweet
                 var quotedTweet = queryParameters.QuotedTweet;
                 if (quotedTweet.CreatedBy != null)
                 {
-                    text += string.Format(" https://twitter.com/{0}/status/{1}", 
-                        quotedTweet.CreatedBy.ScreenName, 
+                    text = text.TrimEnd();
+
+                    text += string.Format(" https://twitter.com/{0}/status/{1}",
+                        quotedTweet.CreatedBy.ScreenName,
                         quotedTweet.Id.ToString(CultureInfo.InvariantCulture));
                 }
             }
 
             var query = new StringBuilder(string.Format(Resources.Tweet_Publish, CleanupString(text)));
-            
+
             if (queryParameters.Parameters != null)
             {
                 if (queryParameters.InReplyToTweet != null)
@@ -200,7 +202,7 @@ namespace Tweetinvi.Controllers.Tweet
         public string GetDestroyTweetQuery(long tweetId)
         {
             _tweetQueryValidator.ThrowIfTweetCannotBeUsed(tweetId);
-            
+
             var query = new StringBuilder(string.Format(Resources.Tweet_Destroy, tweetId));
 
             query.Append(_queryParameterGenerator.GenerateTweetModeParameter(_tweetinviSettingsAccessor.CurrentThreadSettings.TweetMode));
