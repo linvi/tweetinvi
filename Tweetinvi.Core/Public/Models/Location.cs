@@ -22,22 +22,18 @@
             return CoordinatesLocatedIn(coordinates, location.Coordinate1, location.Coordinate2);
         }
 
-        public static bool CoordinatesLocatedIn(ICoordinates coordinates, ICoordinates boxCoordinates1, ICoordinates boxCoordinates2)
-        {
-            bool xIsBelowCoord1AndAboveCoord2 = boxCoordinates1.Longitude >= coordinates.Longitude &&
-                                                    coordinates.Longitude >= boxCoordinates2.Longitude;
+		public static bool CoordinatesLocatedIn(ICoordinates testPoint, ICoordinates boxNorthwestCoordinates, ICoordinates boxSoutheastCoordinates)
+		{
+			bool longitudeIsBetweenCoordinates = boxNorthwestCoordinates.Longitude <= testPoint.Longitude &&
+			testPoint.Longitude <= boxSoutheastCoordinates.Longitude;
 
-            bool xIsAboveCoord1AndBelowCoord2 = boxCoordinates1.Longitude <= coordinates.Longitude &&
-                                                coordinates.Longitude <= boxCoordinates2.Longitude;
+			bool latitudeIsBetweenCoordinates = boxNorthwestCoordinates.Latitude >= testPoint.Latitude &&
+			testPoint.Latitude >= boxSoutheastCoordinates.Latitude;
 
-            bool yIsRightCoord1AndLeftCoord2 = boxCoordinates1.Latitude >= coordinates.Latitude &&
-                                               coordinates.Latitude >= boxCoordinates2.Latitude;
+			//TODO: Add a case where the box crosses the antimeridian for our friends in Fiji and Togo
 
-            bool yIsLeftCoord1AndRightCoord2 = boxCoordinates1.Latitude <= coordinates.Latitude &&
-                                               coordinates.Latitude <= boxCoordinates2.Latitude;
+			return (longitudeIsBetweenCoordinates && latitudeIsBetweenCoordinates);
+		}
 
-            return (xIsAboveCoord1AndBelowCoord2 || xIsBelowCoord1AndAboveCoord2) &&
-                   (yIsLeftCoord1AndRightCoord2 || yIsRightCoord1AndLeftCoord2);
-        }
-    }
+	}
 }
