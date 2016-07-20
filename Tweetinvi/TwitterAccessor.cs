@@ -13,7 +13,7 @@ namespace Tweetinvi
     /// </summary>
     public static class TwitterAccessor
     {
-        [ThreadStatic] 
+        [ThreadStatic]
         private static ITwitterAccessor _twitterAccessor;
         public static ITwitterAccessor Accessor
         {
@@ -92,6 +92,16 @@ namespace Tweetinvi
         public static T ExecuteGETQuery<T>(string query) where T : class
         {
             return Accessor.ExecuteGETQuery<T>(query);
+        }
+
+        /// <summary>
+        /// Download binary media from twitter urls
+        /// </summary>
+        /// <param name="url">URL to binary</param>
+        /// <returns>byte[] array of binary data</returns>
+        public static byte[] DownloadBinary(string url)
+        {
+            return Accessor.DownloadBinary(url);
         }
 
         /// <summary>
