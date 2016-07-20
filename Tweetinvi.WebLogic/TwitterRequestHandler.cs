@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Net.Http;
+using System.Collections.Generic;
 using Tweetinvi.Core;
 using Tweetinvi.Core.Credentials;
 using Tweetinvi.Core.Events;
@@ -24,6 +25,7 @@ namespace Tweetinvi.WebLogic
             HttpContent httpContent = null);
 
         string ExecuteMultipartQuery(IMultipartHttpRequestParameters parameters);
+        byte[] DownloadBinary(string url, TwitterClientHandler handler = null, ITwitterCredentials credentials = null);
     }
 
     public class TwitterRequestHandler : ITwitterRequestHandler
@@ -131,6 +133,45 @@ namespace Tweetinvi.WebLogic
             catch (TwitterException ex)
             {
                 HandleException(queryURL, rateLimitTrackerOption, ex.StatusCode, twitterQuery);
+
+                throw;
+            }
+        }
+
+        public byte[] DownloadBinary(string url, TwitterClientHandler handler = null, ITwitterCredentials credentials = null)
+        {
+            //CleanupQueryURL(ref url); ???
+            var rateLimitTrackerMode = _tweetinviSettingsAccessor.RateLimitTrackerMode;
+            var requestParameters = new HttpRequestParameters
+            {
+                Query = url,
+                HttpMethod = HttpMethod.GET,
+                HttpContent = null
+            };
+
+            ITwitterQuery twitterQuery;
+            if (!TryPrepareRequest(requestParameters, rateLimitTrackerMode, credentials, out twitterQuery))
+            {
+                return null;
+            }
+
+            try
+            {
+                byte[] data = null;
+                var webRequestResult = _webRequestExecutor.ExecuteQuery(twitterQuery, handler);
+
+                if (webRequestResult.IsSuccessStatusCode)
+                {
+                    data = ReadBinaryDataFromStream(webRequestResult.ResultStream);
+                }
+
+                QueryCompleted(twitterQuery, webRequestResult, rateLimitTrackerMode);
+
+                return data;
+            }
+            catch (TwitterException ex)
+            {
+                HandleException(url, rateLimitTrackerMode, ex.StatusCode, twitterQuery);
 
                 throw;
             }
@@ -246,6 +287,25 @@ namespace Tweetinvi.WebLogic
             }
 
             _tweetinviEvents.RaiseAfterQueryExecuted(new QueryAfterExecuteEventArgs(queryParameter, null, null));
+        }
+
+        private byte[] ReadBinaryDataFromStream(System.IO.Stream dataStream)
+        {
+            const int CHUNK_SIZE = 1024;
+            List<byte> bytes = new List<byte>();
+
+            using (System.IO.BinaryReader br = new System.IO.BinaryReader(dataStream))
+            {
+                byte[] chunk;
+
+                chunk = br.ReadBytes(CHUNK_SIZE);
+                while (chunk.Length > 0)
+                {
+                    bytes.AddRange(chunk);
+                    chunk = br.ReadBytes(CHUNK_SIZE);
+                }
+            }
+            return bytes.ToArray();
         }
         #endregion
     }
