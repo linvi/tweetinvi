@@ -48,22 +48,22 @@ namespace Tweetinvi.Streams.Helpers
             return queryBuilder.ToString();
         }
 
-        private static string GenerateLocationParameters(ILocation location, bool isLastLocation)
-        {
-            var maxLongitude = Math.Max(location.Coordinate1.Longitude, location.Coordinate2.Longitude);
-            var maxLatitude = Math.Max(location.Coordinate1.Latitude, location.Coordinate2.Latitude);
+		private static string GenerateLocationParameters(ILocation location, bool isLastLocation)
+		{
+			double maxLongitude = Math.Max(location.Coordinate1.Longitude, location.Coordinate2.Longitude);
+			double maxLatitude = Math.Max(location.Coordinate1.Latitude, location.Coordinate2.Latitude);
 
-            var minLongitude = Math.Min(location.Coordinate1.Longitude, location.Coordinate2.Longitude);
-            var minLatitude = Math.Min(location.Coordinate1.Latitude, location.Coordinate2.Latitude);
+			double minLongitude = Math.Min(location.Coordinate1.Longitude, location.Coordinate2.Longitude);
+			double minLatitude = Math.Min(location.Coordinate1.Latitude, location.Coordinate2.Latitude);
 
-            return string.Format("{0},{1},{2},{3}{4}", minLongitude.ToString(CultureInfo.InvariantCulture),
-                                                       minLatitude.ToString(CultureInfo.InvariantCulture),
-                                                       maxLongitude.ToString(CultureInfo.InvariantCulture), 
-                                                       maxLatitude.ToString(CultureInfo.InvariantCulture),
-                                                       isLastLocation ? "" : ",");
-        }
+			//Twitter API wants longitude, latitude pairs, whereas we use the latitude, longitude convention in TweetInvi.
+			return string.Format("{0},{1},{2},{3}{4}", minLongitude.ToString(CultureInfo.InvariantCulture),
+				minLatitude.ToString(CultureInfo.InvariantCulture), maxLongitude.ToString(CultureInfo.InvariantCulture), maxLatitude.ToString(CultureInfo.InvariantCulture),
+				isLastLocation ? "" : ",");
+		}
 
-        public static string GenerateFilterLocationRequest(List<ILocation> locations)
+
+		public static string GenerateFilterLocationRequest(List<ILocation> locations)
         {
             if (locations.IsNullOrEmpty())
             {
