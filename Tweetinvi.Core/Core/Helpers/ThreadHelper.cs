@@ -4,7 +4,7 @@ namespace Tweetinvi.Core.Helpers
 {
     public interface IThreadHelper
     {
-        void Sleep(int milliseconds);
+        //void Sleep(int milliseconds);
     }
 
     public class ThreadHelper : IThreadHelper
@@ -13,7 +13,7 @@ namespace Tweetinvi.Core.Helpers
         {
             if (milliseconds > 0)
             {
-                TaskEx.Delay(milliseconds).Wait();
+                Task.Delay(milliseconds).Wait();
             }
         }
     }
