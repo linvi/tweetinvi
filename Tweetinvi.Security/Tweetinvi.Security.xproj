@@ -6,17 +6,25 @@
   </PropertyGroup>
   <Import Project="$(VSToolsPath)\DotNet\Microsoft.DotNet.Props" Condition="'$(VSToolsPath)' != ''" />
   <PropertyGroup Label="Globals">
-    <ProjectGuid>1154d994-5c2d-4ff6-8e4f-f82bd2e68fbb</ProjectGuid>
-    <RootNamespace>Testinvi.NetCore</RootNamespace>
+    <ProjectGuid>{9CA25A79-3ED2-42EB-A497-1BE3F8A2B298}</ProjectGuid>
+    <RootNamespace>Tweetinvi.Security</RootNamespace>
     <BaseIntermediateOutputPath Condition="'$(BaseIntermediateOutputPath)'=='' ">.\obj</BaseIntermediateOutputPath>
     <OutputPath Condition="'$(OutputPath)'=='' ">.\bin\</OutputPath>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup>
     <SchemaVersion>2.0</SchemaVersion>
   </PropertyGroup>
   <ItemGroup>
-    <Service Include="{82a7f48d-3b50-4b1e-b82e-3ada8210c358}" />
+    <Compile Include="BlockProcessor.cs" />
+    <Compile Include="CryptoClasses.cs" />
+    <Compile Include="CryptoConfig.cs" />
+    <Compile Include="HashAlgorithm.cs" />
+    <Compile Include="HMAC.cs" />
+    <Compile Include="HMACSHA1.cs" />
+    <Compile Include="HMACSHA1Generator.cs" />
+    <Compile Include="ICryptoTransform.cs" />
+    <Compile Include="KeyedHashAlgorithm.cs" />
+    <Compile Include="SHA1.cs" />
   </ItemGroup>
   <Import Project="$(VSToolsPath)\DotNet\Microsoft.DotNet.targets" Condition="'$(VSToolsPath)' != ''" />
 </Project>
