@@ -42,6 +42,30 @@ namespace Examplinvi
             };
 
             var authenticatedUser = User.GetAuthenticatedUser();
+            
+            /* Temp samples to verify the library working*/
+            Examples.Tweet_GetExistingTweet(210462857140252672);
+            Examples.Tweet_GetRetweets(210462857140252672);
+            Examples.Geo_GetPlaceFromId("df51dec6f4ee2b2c");
+            Examples.Trends_GetTrendsFromWoeId(1);
+
+
+            Examples.Search_SimpleTweetSearch();
+            Examples.Search_SearchTweet();
+            Examples.Search_SearchWithMetadata();
+            Examples.Search_FilteredSearch();
+            Examples.Search_SearchUsers();
+
+            Examples.Timeline_GetUserTimeline(Examples.USER_SCREEN_NAME_TO_TEST);
+
+            Console.ReadKey();
+            Console.Clear();
+
+            Examples.Stream_SampleStreamExample();
+
+            
+            /* Temp samples to verify the library working*/
+
 
             GenerateCredentialExamples();
             UserLiveFeedExamples();
@@ -688,7 +712,7 @@ namespace Examplinvi
             var fileStream = new FileStream(string.Format("{0}.jpg", user.Id), FileMode.Create);
             stream.CopyTo(fileStream);
 
-            string assemblyPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().CodeBase);
+            string assemblyPath = Path.GetDirectoryName(typeof(Program).GetTypeInfo().Assembly.CodeBase);
             if (assemblyPath != null)
             {
                 Process.Start(assemblyPath);
@@ -1393,7 +1417,7 @@ namespace Examplinvi
 
             Console.WriteLine("Remaning Requests for GetRate : {0}", tokenRateLimits.ApplicationRateLimitStatusLimit.Remaining);
             Console.WriteLine("Total Requests Allowed for GetRate : {0}", tokenRateLimits.ApplicationRateLimitStatusLimit.Limit);
-            Console.WriteLine("GetRate limits will reset at : {0} local time", tokenRateLimits.ApplicationRateLimitStatusLimit.ResetDateTime.ToLongTimeString());
+            Console.WriteLine("GetRate limits will reset at : {0} local time", tokenRateLimits.ApplicationRateLimitStatusLimit.ResetDateTime.ToString("d"));
         }
 
         public static void GetCredentialsRateLimits()
@@ -1403,7 +1427,7 @@ namespace Examplinvi
 
             Console.WriteLine("Remaning Requests for GetRate : {0}", tokenRateLimits.ApplicationRateLimitStatusLimit.Remaining);
             Console.WriteLine("Total Requests Allowed for GetRate : {0}", tokenRateLimits.ApplicationRateLimitStatusLimit.Limit);
-            Console.WriteLine("GetRate limits will reset at : {0} local time", tokenRateLimits.ApplicationRateLimitStatusLimit.ResetDateTime.ToLongTimeString());
+            Console.WriteLine("GetRate limits will reset at : {0} local time", tokenRateLimits.ApplicationRateLimitStatusLimit.ResetDateTime.ToString("d"));
         }
 
         #endregion
