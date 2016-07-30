@@ -243,7 +243,7 @@ namespace Tweetinvi.Streams
         private string GetJsonResponseFromReader(StreamReader reader, ITwitterQuery twitterQuery)
         {
             var requestTask = reader.ReadLineAsync();
-            var resultingTask = TaskEx.WhenAny(requestTask, TaskEx.Delay(STREAM_DISCONNECTED_DELAY)).Result;
+            var resultingTask = Task.WhenAny(requestTask, Task.Delay(STREAM_DISCONNECTED_DELAY)).Result;
 
             if (resultingTask != requestTask)
             {

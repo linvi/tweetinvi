@@ -5,8 +5,8 @@ namespace Tweetinvi.Core.Helpers
 {
     public interface ISynchronousInvoker
     {
-        //T GetResultSyncrhonously<T>(Func<Task<T>> asyncMethod);
-        //void ExecuteSynchronously(Func<Task> asyncMethod);
+        T GetResultSyncrhonously<T>(Func<Task<T>> asyncMethod);
+        void ExecuteSynchronously(Func<Task> asyncMethod);
     }
 
     public class SynchronousInvoker : ISynchronousInvoker
