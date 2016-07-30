@@ -5,8 +5,8 @@ namespace Tweetinvi.Core.Helpers
 {
     public interface ITaskFactory
     {
-        //Task ExecuteTaskAsync(Action action);
-        //Task<T> ExecuteTaskAsync<T>(Func<T> resultFunc);
+        Task ExecuteTaskAsync(Action action);
+        Task<T> ExecuteTaskAsync<T>(Func<T> resultFunc);
     }
 
     public class TaskFactory : ITaskFactory

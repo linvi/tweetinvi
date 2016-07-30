@@ -4,7 +4,7 @@ namespace Tweetinvi.Core.Helpers
 {
     public interface IThreadHelper
     {
-        //void Sleep(int milliseconds);
+        void Sleep(int milliseconds);
     }
 
     public class ThreadHelper : IThreadHelper

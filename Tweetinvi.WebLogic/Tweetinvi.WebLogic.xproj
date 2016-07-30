@@ -7,8 +7,8 @@
 
   <Import Project="$(VSToolsPath)\DotNet\Microsoft.DotNet.Props" Condition="'$(VSToolsPath)' != ''" />
   <PropertyGroup Label="Globals">
-    <ProjectGuid>d9f7916d-6048-4bc4-abab-6ef4842cb29c</ProjectGuid>
-    <RootNamespace>Tweetinvi.Security</RootNamespace>
+    <ProjectGuid>f745f508-e3a3-4d64-a8f5-860edcb227c8</ProjectGuid>
+    <RootNamespace>Tweetinvi.WebLogic</RootNamespace>
     <BaseIntermediateOutputPath Condition="'$(BaseIntermediateOutputPath)'=='' ">.\obj</BaseIntermediateOutputPath>
     <OutputPath Condition="'$(OutputPath)'=='' ">.\bin\</OutputPath>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
