@@ -12,7 +12,7 @@ namespace Tweetinvi.Core.Extensions
         {
             var field = language.GetType().GetField(language.ToString());
             var descriptionAttribute = (LanguageAttribute)Attribute.GetCustomAttribute(field, typeof(LanguageAttribute));
-            return descriptionAttribute != null ? descriptionAttribute.Language : language.ToString();
+            return descriptionAttribute != null ? descriptionAttribute.Code : language.ToString();
         }
 
         public static Language GetLangFromDescription(string descriptionValue)
@@ -58,11 +58,11 @@ namespace Tweetinvi.Core.Extensions
             var attribute = ((LanguageAttribute) descriptionAttribute);
             if (!attribute.HasMultipleCodes)
             {
-                return attribute.Language == descriptionValue;
+                return attribute.Code == descriptionValue;
             }
             else
             {
-                return attribute.Languages.Any(x => x == descriptionValue);
+                return attribute.Codes.Any(x => x == descriptionValue);
             }
         }
     }

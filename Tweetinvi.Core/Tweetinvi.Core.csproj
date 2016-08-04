@@ -47,6 +47,7 @@
     <Compile Include="Core\Attributes\TwitterEndpointAttribute.cs" />
     <Compile Include="Core\Attributes\LanguageAttribute.cs" />
     <Compile Include="Core\Attributes\TimeZoneFromTwitterAttribute.cs" />
+    <Compile Include="Core\Extensions\EnumExtensions.cs" />
     <Compile Include="Public\Models\Authentication\IAuthenticationContext.cs" />
     <Compile Include="Public\Models\Authentication\IAuthenticationToken.cs" />
     <Compile Include="Public\Models\Enum\AllowContributorRequestMode.cs" />
