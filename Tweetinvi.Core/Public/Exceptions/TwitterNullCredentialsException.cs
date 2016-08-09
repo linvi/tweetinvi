@@ -12,7 +12,7 @@
 
         public string Description
         {
-            get { return "Before performing any query please set the credentials : TwitterCredentials.SetCredentials(\"Access_Token\", \"Access_Token_Secret\", \"Consumer_Key\", \"Consumer_Secret\");";  }
+            get { return "Before performing any query please set the credentials : Auth.SetUserCredentials(\"CONSUMER_KEY\", \"CONSUMER_SECRET\", \"ACCESS_TOKEN\", \"ACCESS_TOKEN_SECRET\");";  }
         }
     }
 }
