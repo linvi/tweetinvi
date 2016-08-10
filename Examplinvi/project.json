@@ -9,7 +9,7 @@
       "type": "platform",
       "version": "1.0.0-rc2-3002702"
     },
-    "Tweetinvi": "1.0.0-*",
+    "Tweetinvi": "1.0.0-*"
   },
 
   "frameworks": {
