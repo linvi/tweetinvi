@@ -62,7 +62,6 @@
     <Compile Include="Public\Streaming\StreamState.cs" />
     <Compile Include="Public\Models\Enum\TimeZoneFromTwitter.cs" />
     <Compile Include="Core\Attributes\WindowsTimeZone.cs" />
-    <Compile Include="Core\Events\Delegates.cs" />
     <Compile Include="Public\Events\AccessRevokedEventArgs.cs" />
     <Compile Include="Public\Events\DisconnectedEventArgs.cs" />
     <Compile Include="Public\Events\ExceptionEventArgs.cs" />
