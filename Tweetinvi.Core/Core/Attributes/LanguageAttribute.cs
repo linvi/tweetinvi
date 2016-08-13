@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 
 namespace Tweetinvi.Core.Attributes
 {
@@ -8,9 +9,14 @@ namespace Tweetinvi.Core.Attributes
     public class LanguageAttribute : Attribute
     {
         /// <summary>
-        /// Name of the language in English
+        /// Name of the language in English.
         /// </summary>
         public string Name { get; private set; }
+
+        /// <summary>
+        /// Language names also reference by the code.
+        /// </summary>
+        public string[] Names { get; private set; }
 
         /// <summary>
         /// Primary language code.
@@ -34,16 +40,39 @@ namespace Tweetinvi.Core.Attributes
             {
                 throw new ArgumentNullException(nameof(name));
             }
+
             if (name.Trim() == "")
             {
                 throw new ArgumentException("name must not be whitespace", nameof(name));
             }
+
             if (codes == null || codes.Length == 0)
             {
                 throw new ArgumentException("You must specify a language code to a Language", nameof(codes));
             }
 
             Name = name;
+            Names = new[] { name };
+            Code = codes[0];
+            Codes = codes;
+            HasMultipleCodes = codes.Length > 1;
+        }
+
+        public LanguageAttribute(string[] names, params string[] codes)
+        {
+            // Validation
+            if (names == null || names.Length == 0)
+            {
+                throw new ArgumentException("You must specify a language code to a Language", nameof(names));
+            }
+
+            if (Codes == null || codes.Length == 0)
+            {
+                throw new ArgumentException("You must specify a language code to a Language", nameof(codes));
+            }
+
+            Name = names[0];
+            Names = names;
             Code = codes[0];
             Codes = codes;
             HasMultipleCodes = codes.Length > 1;
