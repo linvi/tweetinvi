@@ -54,9 +54,9 @@ namespace Tweetinvi.Factories.Tweet
         }
 
         // Generate Tweet from Json
-        public ITweet GenerateTweetFromJson(string jsonTweet)
+        public ITweet GenerateTweetFromJson(string json)
         {
-            var tweetDTO = _jsonObjectConverter.DeserializeObject<ITweetDTO>(jsonTweet);
+            var tweetDTO = _jsonObjectConverter.DeserializeObject<ITweetDTO>(json);
             if (tweetDTO == null || tweetDTO.Id == TweetinviSettings.DEFAULT_ID)
             {
                 return null;

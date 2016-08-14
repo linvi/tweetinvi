@@ -69,13 +69,17 @@ namespace Tweetinvi
             var userFactory = TweetinviContainer.Resolve<IUserFactory>();
             var messageFactory = TweetinviContainer.Resolve<IMessageFactory>();
             var twitterListFactory = TweetinviContainer.Resolve<ITwitterListFactory>();
+            var savedSearchFactory = TweetinviContainer.Resolve<ISavedSearchFactory>();
 
             _getSerializableObject = new Dictionary<Type, IJsonMap>();
 
-            _getSerializableObject.Add(typeof(ITweet), new JsonMap<ITweet, ITweetDTO>(u => u.TweetDTO, tweetFactory.GenerateTweetFromJson));
-            _getSerializableObject.Add(typeof(IUser), new JsonMap<IUser, IUserDTO>(u => u.UserDTO, userFactory.GenerateUserFromJson));
-            _getSerializableObject.Add(typeof(IMessage), new JsonMap<IMessage, IMessageDTO>(m => m.MessageDTO, messageFactory.GenerateMessageFromJson));
-            _getSerializableObject.Add(typeof(ITwitterList), new JsonMap<ITwitterList, ITwitterListDTO>(l => l.TwitterListDTO, twitterListFactory.GenerateListFromJson));
+            // ReSharper disable RedundantTypeArgumentsOfMethod
+            Map<ITweet, ITweetDTO>(u => u.TweetDTO, tweetFactory.GenerateTweetFromJson);
+            Map<IUser, IUserDTO>(u => u.UserDTO, userFactory.GenerateUserFromJson);
+            Map<IMessage, IMessageDTO>(m => m.MessageDTO, messageFactory.GenerateMessageFromJson);
+            Map<ITwitterList, ITwitterListDTO>(l => l.TwitterListDTO, twitterListFactory.GenerateListFromJson);
+            Map<ISavedSearch, ISavedSearchDTO>(s => s.SavedSearchDTO, savedSearchFactory.GenerateSavedSearchFromJson);
+            // ReSharper restore RedundantTypeArgumentsOfMethod
         }
 
         public static string ToJson<T>(this T obj) where T : class
@@ -119,39 +123,62 @@ namespace Tweetinvi
         {
             var type = typeof(T);
 
-            if (_getSerializableObject.ContainsKey(type))
-            {
-                return _getSerializableObject[type].GetDeserializedObject(json) as T;
-            }
-
-            if (typeof(IEnumerable).IsAssignableFrom(type) && type.IsGenericType)
-            {
-                var genericType = type.GetGenericArguments()[0];
-                if (_getSerializableObject.ContainsKey(genericType))
-                {
-                    var list = (IList)Activator.CreateInstance(typeof(List<>).MakeGenericType(genericType));
-                    var serializer = _getSerializableObject[genericType];
-
-                    JArray jsonArray = JArray.Parse(json);
-
-                    foreach (var elt in jsonArray)
-                    {
-                        var eltJson = elt.ToJson();
-                        list.Add(serializer.GetDeserializedObject(eltJson));
-                    }
-
-                    return list as T;
-                }
-            }
-
             try
             {
+                if (_getSerializableObject.ContainsKey(type))
+                {
+                    return _getSerializableObject[type].GetDeserializedObject(json) as T;
+                }
+
+                if (typeof(IEnumerable).IsAssignableFrom(type))
+                {
+                    Type genericType = null;
+
+                    if (type.IsGenericType)
+                    {
+                        genericType = type.GetGenericArguments()[0];
+                    }
+                    else if (typeof(Array).IsAssignableFrom(type))
+                    {
+                        genericType = type.GetElementType();
+                    }
+
+                    if (_getSerializableObject.ContainsKey(genericType))
+                    {
+                        var list = (IList)Activator.CreateInstance(typeof(List<>).MakeGenericType(genericType));
+                        var serializer = _getSerializableObject[genericType];
+
+                        JArray jsonArray = JArray.Parse(json);
+
+                        foreach (var elt in jsonArray)
+                        {
+                            var eltJson = elt.ToJson();
+                            list.Add(serializer.GetDeserializedObject(eltJson));
+                        }
+
+                        if (typeof(Array).IsAssignableFrom(type))
+                        {
+                            var array = Array.CreateInstance(genericType, list.Count);
+                            list.CopyTo(array, 0);
+                            return array as T;
+                        }
+
+                        return list as T;
+                    }
+                }
+
+
                 return JsonConvert.DeserializeObject<T>(json, JsonPropertiesConverterRepository.Converters);
             }
             catch (Exception ex)
             {
                 throw new Exception("The type provided is probably not compatible with Tweetinvi Json serializer.", ex);
             }
+        }
+
+        private static void Map<T1, T2>(Func<T1, T2> getSerializableObject, Func<string, T1> deserializer) where T1 : class where T2 : class
+        {
+            _getSerializableObject.Add(typeof(T1), new JsonMap<T1, T2>(getSerializableObject, deserializer));
         }
     }
 }
