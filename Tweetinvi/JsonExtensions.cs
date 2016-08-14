@@ -5,6 +5,7 @@ using System.Linq;
 using System.Reflection;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Tweetinvi.Core.Controllers;
 using Tweetinvi.Core.Factories;
 using Tweetinvi.Logic.JsonConverters;
 using Tweetinvi.Models;
@@ -12,21 +13,21 @@ using Tweetinvi.Models.DTO;
 
 namespace Tweetinvi
 {
-    public interface IJsonMap
+    public interface IJsonSerializer
     {
         object GetSerializableObject(object source);
         object GetDeserializedObject(string json);
     }
 
 
-    public class JsonMap<T1, T2> : IJsonMap
+    public class JsonSerializer<T1, T2> : IJsonSerializer
         where T1 : class
         where T2 : class
     {
         private readonly Func<T1, T2> _getSerializableObject;
         private readonly Func<string, T1> _deserializer;
 
-        public JsonMap(Func<T1, T2> getSerializableObject, Func<string, T1> deserializer)
+        public JsonSerializer(Func<T1, T2> getSerializableObject, Func<string, T1> deserializer)
         {
             _getSerializableObject = getSerializableObject;
             _deserializer = deserializer;
@@ -46,8 +47,8 @@ namespace Tweetinvi
     public static class JsonExtensions
     {
         private static MethodInfo _jsonConvert;
-        private static Dictionary<Type, IJsonMap> _getSerializableObject;
-        private static Dictionary<Type, IJsonMap> _getFromDeserializeObject;
+        private static Dictionary<Type, IJsonSerializer> _getSerializableObject;
+        private static Dictionary<Type, IJsonSerializer> _getFromDeserializeObject;
 
         static JsonExtensions()
         {
@@ -70,8 +71,9 @@ namespace Tweetinvi
             var messageFactory = TweetinviContainer.Resolve<IMessageFactory>();
             var twitterListFactory = TweetinviContainer.Resolve<ITwitterListFactory>();
             var savedSearchFactory = TweetinviContainer.Resolve<ISavedSearchFactory>();
+            var accountSettingsFactory = TweetinviContainer.Resolve<IAccountController>();
 
-            _getSerializableObject = new Dictionary<Type, IJsonMap>();
+            _getSerializableObject = new Dictionary<Type, IJsonSerializer>();
 
             // ReSharper disable RedundantTypeArgumentsOfMethod
             Map<ITweet, ITweetDTO>(u => u.TweetDTO, tweetFactory.GenerateTweetFromJson);
@@ -79,6 +81,7 @@ namespace Tweetinvi
             Map<IMessage, IMessageDTO>(m => m.MessageDTO, messageFactory.GenerateMessageFromJson);
             Map<ITwitterList, ITwitterListDTO>(l => l.TwitterListDTO, twitterListFactory.GenerateListFromJson);
             Map<ISavedSearch, ISavedSearchDTO>(s => s.SavedSearchDTO, savedSearchFactory.GenerateSavedSearchFromJson);
+            Map<IAccountSettings, IAccountSettingsDTO>(s => s.AccountSettingsDTO, accountSettingsFactory.GenerateAccountSettingsFromJson);
             // ReSharper restore RedundantTypeArgumentsOfMethod
         }
 
@@ -125,9 +128,10 @@ namespace Tweetinvi
 
             try
             {
-                if (_getSerializableObject.ContainsKey(type))
+                var serializer = GetSerializer(type);
+                if (serializer != null)
                 {
-                    return _getSerializableObject[type].GetDeserializedObject(json) as T;
+                    return serializer.GetDeserializedObject(json) as T;
                 }
 
                 if (typeof(IEnumerable).IsAssignableFrom(type))
@@ -143,10 +147,10 @@ namespace Tweetinvi
                         genericType = type.GetElementType();
                     }
 
-                    if (_getSerializableObject.ContainsKey(genericType))
+                    serializer = GetSerializer(genericType);
+                    if (genericType != null && serializer != null)
                     {
                         var list = (IList)Activator.CreateInstance(typeof(List<>).MakeGenericType(genericType));
-                        var serializer = _getSerializableObject[genericType];
 
                         JArray jsonArray = JArray.Parse(json);
 
@@ -167,7 +171,6 @@ namespace Tweetinvi
                     }
                 }
 
-
                 return JsonConvert.DeserializeObject<T>(json, JsonPropertiesConverterRepository.Converters);
             }
             catch (Exception ex)
@@ -176,9 +179,24 @@ namespace Tweetinvi
             }
         }
 
+        private static IJsonSerializer GetSerializer(Type type)
+        {
+            if (_getSerializableObject.ContainsKey(type))
+            {
+                return _getSerializableObject[type];
+            }
+
+            if (_getSerializableObject.Keys.Any(x => x.IsAssignableFrom(type)))
+            {
+                return _getSerializableObject.FirstOrDefault(x => x.Key.IsAssignableFrom(type)).Value;
+            }
+
+            return null;
+        }
+
         private static void Map<T1, T2>(Func<T1, T2> getSerializableObject, Func<string, T1> deserializer) where T1 : class where T2 : class
         {
-            _getSerializableObject.Add(typeof(T1), new JsonMap<T1, T2>(getSerializableObject, deserializer));
+            _getSerializableObject.Add(typeof(T1), new JsonSerializer<T1, T2>(getSerializableObject, deserializer));
         }
     }
 }

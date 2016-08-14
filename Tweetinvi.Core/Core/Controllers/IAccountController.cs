@@ -50,5 +50,6 @@ namespace Tweetinvi.Core.Controllers
         IEnumerable<ICategorySuggestion> GetSuggestedCategories(Language? language);
         IEnumerable<IUser> GetSuggestedUsers(string slug, Language? language);
         IEnumerable<IUser> GetSuggestedUsersWithTheirLatestTweet(string slug);
+        IAccountSettings GenerateAccountSettingsFromJson(string json);
     }
 }
