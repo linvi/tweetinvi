@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 
 namespace Tweetinvi.Core.Attributes
 {
@@ -43,12 +42,12 @@ namespace Tweetinvi.Core.Attributes
 
             if (name.Trim() == "")
             {
-                throw new ArgumentException("name must not be whitespace", nameof(name));
+                throw new ArgumentException("Name must not be whitespace.", nameof(name));
             }
 
             if (codes == null || codes.Length == 0)
             {
-                throw new ArgumentException("You must specify a language code to a Language", nameof(codes));
+                throw new ArgumentException("You must specify a language code.", nameof(codes));
             }
 
             Name = name;
@@ -63,12 +62,12 @@ namespace Tweetinvi.Core.Attributes
             // Validation
             if (names == null || names.Length == 0)
             {
-                throw new ArgumentException("You must specify a language code to a Language", nameof(names));
+                throw new ArgumentException("You must specify a language name.", nameof(names));
             }
 
-            if (Codes == null || codes.Length == 0)
+            if (codes == null || codes.Length == 0)
             {
-                throw new ArgumentException("You must specify a language code to a Language", nameof(codes));
+                throw new ArgumentException("You must specify a language code.", nameof(codes));
             }
 
             Name = names[0];

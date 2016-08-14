@@ -60,10 +60,8 @@ namespace Tweetinvi.Core.Extensions
             {
                 return attribute.Code == descriptionValue;
             }
-            else
-            {
-                return attribute.Codes.Any(x => x == descriptionValue);
-            }
+
+            return attribute.Codes.Any(x => x == descriptionValue);
         }
     }
 }
