@@ -90,18 +90,32 @@ namespace Tweetinvi
             var type = typeof(T);
             object toSerialize = obj;
 
-            if (_getSerializableObject.ContainsKey(type))
+            var serializer = GetSerializer(type);
+
+            if (serializer != null)
             {
                 toSerialize = _getSerializableObject[type].GetSerializableObject(obj);
             }
             else if (obj is IEnumerable && type.IsGenericType)
             {
-                var enumerable = (IEnumerable)obj;
-                var genericType = type.GetGenericArguments()[0];
-                if (_getSerializableObject.ContainsKey(genericType))
+
+                Type genericType = null;
+
+                if (type.IsGenericType)
                 {
+                    genericType = type.GetGenericArguments()[0];
+                }
+                else if (typeof(Array).IsAssignableFrom(type))
+                {
+                    genericType = type.GetElementType();
+                }
+
+                serializer = GetSerializer(genericType);
+
+                if (serializer != null)
+                {
+                    var enumerable = (IEnumerable)obj;
                     var list = new List<object>();
-                    var serializer = _getSerializableObject[genericType];
 
                     foreach (var o in enumerable)
                     {
