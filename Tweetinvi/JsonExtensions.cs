@@ -6,6 +6,7 @@ using System.Reflection;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Tweetinvi.Core.Factories;
+using Tweetinvi.Logic.JsonConverters;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
 
@@ -145,7 +146,7 @@ namespace Tweetinvi
 
             try
             {
-                return JsonConvert.DeserializeObject<T>(json);
+                return JsonConvert.DeserializeObject<T>(json, JsonPropertiesConverterRepository.Converters);
             }
             catch (Exception ex)
             {
