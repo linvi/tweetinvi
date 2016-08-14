@@ -102,9 +102,9 @@ namespace Tweetinvi.Factories.Lists
             return listDTOs.Select(CreateListFromDTO).ToArray();
         }
 
-        public ITwitterList CreateListFromJson(string jsonList)
+        public ITwitterList GenerateListFromJson(string json)
         {
-            var listDTO = _jsonObjectConverter.DeserializeObject<ITwitterListDTO>(jsonList);
+            var listDTO = _jsonObjectConverter.DeserializeObject<ITwitterListDTO>(json);
             return CreateListFromDTO(listDTO);
         }
     }

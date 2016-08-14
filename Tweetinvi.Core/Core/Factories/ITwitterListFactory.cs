@@ -18,6 +18,6 @@ namespace Tweetinvi.Core.Factories
         ITwitterList CreateListFromDTO(ITwitterListDTO twitterListDTO);
         IEnumerable<ITwitterList> CreateListsFromDTOs(IEnumerable<ITwitterListDTO> listDTOs);
         
-        ITwitterList CreateListFromJson(string jsonList);
+        ITwitterList GenerateListFromJson(string json);
     }
 }

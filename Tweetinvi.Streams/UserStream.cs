@@ -608,7 +608,7 @@ namespace Tweetinvi.Streams
         private ITwitterList GetList(JObject listEvent)
         {
             var jsonList = listEvent["target_object"].ToString();
-            return _twitterListFactory.CreateListFromJson(jsonList);
+            return _twitterListFactory.GenerateListFromJson(jsonList);
         }
 
         private ITweet GetTweet(JObject tweetEvent)
