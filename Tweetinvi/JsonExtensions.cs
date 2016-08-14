@@ -90,11 +90,11 @@ namespace Tweetinvi
             var type = typeof(T);
             object toSerialize = obj;
 
-            var serializer = GetSerializer(type);
+            var serializer = GetSerializerFromNonCollectionType(type);
 
             if (serializer != null)
             {
-                toSerialize = _getSerializableObject[type].GetSerializableObject(obj);
+                toSerialize = serializer.GetSerializableObject(obj);
             }
             else if (obj is IEnumerable && type.IsGenericType)
             {
@@ -110,7 +110,7 @@ namespace Tweetinvi
                     genericType = type.GetElementType();
                 }
 
-                serializer = GetSerializer(genericType);
+                serializer = GetSerializerFromNonCollectionType(genericType);
 
                 if (serializer != null)
                 {
@@ -142,7 +142,7 @@ namespace Tweetinvi
 
             try
             {
-                var serializer = GetSerializer(type);
+                var serializer = GetSerializerFromNonCollectionType(type);
                 if (serializer != null)
                 {
                     return serializer.GetDeserializedObject(json) as T;
@@ -161,7 +161,7 @@ namespace Tweetinvi
                         genericType = type.GetElementType();
                     }
 
-                    serializer = GetSerializer(genericType);
+                    serializer = GetSerializerFromNonCollectionType(genericType);
                     if (genericType != null && serializer != null)
                     {
                         var list = (IList)Activator.CreateInstance(typeof(List<>).MakeGenericType(genericType));
@@ -195,11 +195,44 @@ namespace Tweetinvi
 
         private static IJsonSerializer GetSerializer(Type type)
         {
+            var serializer = GetSerializerFromNonCollectionType(type);
+
+            if (serializer != null)
+            {
+                return serializer;
+            }
+
+            if (typeof(IEnumerable).IsAssignableFrom(type))
+            {
+                Type genericType = null;
+
+                if (type.IsGenericType)
+                {
+                    genericType = type.GetGenericArguments()[0];
+                }
+                else if (typeof(Array).IsAssignableFrom(type))
+                {
+                    genericType = type.GetElementType();
+                }
+
+                if (genericType != null)
+                {
+                    return GetSerializerFromNonCollectionType(genericType);
+                }
+            }
+
+            return null;
+        }
+
+        private static IJsonSerializer GetSerializerFromNonCollectionType(Type type)
+        {
+            // Test interfaces
             if (_getSerializableObject.ContainsKey(type))
             {
                 return _getSerializableObject[type];
             }
 
+            // Test concrete classes from mapped interfaces
             if (_getSerializableObject.Keys.Any(x => x.IsAssignableFrom(type)))
             {
                 return _getSerializableObject.FirstOrDefault(x => x.Key.IsAssignableFrom(type)).Value;
