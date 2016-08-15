@@ -27,5 +27,6 @@ namespace Tweetinvi.Core.Factories
         // Generate Mention from DTO
         IMention GenerateMentionFromDTO(ITweetDTO tweetDTO);
         IEnumerable<IMention> GenerateMentionsFromDTO(IEnumerable<ITweetDTO> tweetsDTO);
+        IOEmbedTweet GenerateOEmbedTweetFromJson(string json);
     }
 }

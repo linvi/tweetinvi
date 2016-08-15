@@ -150,6 +150,12 @@ namespace Tweetinvi.Factories.Tweet
             return oEmbedTweet;
         }
 
+        public IOEmbedTweet GenerateOEmbedTweetFromJson(string json)
+        {
+            var dto = _jsonObjectConverter.DeserializeObject<IOEmbedTweetDTO>(json);
+            return GenerateOEmbedTweetFromDTO(dto);
+        }
+
         // Generate Mention from DTO
         public IMention GenerateMentionFromDTO(ITweetDTO tweetDTO)
         {
