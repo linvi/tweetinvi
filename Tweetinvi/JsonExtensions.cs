@@ -85,6 +85,7 @@ namespace Tweetinvi
             Map<IAccountSettings, IAccountSettingsDTO>(s => s.AccountSettingsDTO, accountSettingsFactory.GenerateAccountSettingsFromJson);
             Map<IOEmbedTweet, IOEmbedTweetDTO>(t => t.OembedTweetDTO, tweetFactory.GenerateOEmbedTweetFromJson);
             Map<IRelationshipDetails, IRelationshipDetailsDTO>(r => r.RelationshipDetailsDTO, friendshipFactory.GenerateFriendshipDetailsFromJson);
+            Map<IRelationshipState, IRelationshipStateDTO>(r => r.RelationshipStateDTO, friendshipFactory.GenerateFriendshipStateFromJson);
             // ReSharper restore RedundantTypeArgumentsOfMethod
         }
 

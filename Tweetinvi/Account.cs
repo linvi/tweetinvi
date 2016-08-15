@@ -334,7 +334,7 @@ namespace Tweetinvi
         /// <summary>
         /// Get the states of relationships you have with a collection of users.
         /// </summary>
-        public static IEnumerable<IRelationshipState> GetMultipleRelationships(IEnumerable<IUserIdentifier> targetUserIdentifiers)
+        public static IEnumerable<IRelationshipState> GetRelationshipsWith(IEnumerable<IUserIdentifier> targetUserIdentifiers)
         {
             return FriendshipController.GetMultipleRelationships(targetUserIdentifiers);
         }
@@ -342,7 +342,7 @@ namespace Tweetinvi
         /// <summary>
         /// Get the states of relationships you have with a collection of users.
         /// </summary>
-        public static IEnumerable<IRelationshipState> GetMultipleRelationships(IEnumerable<long> targetUserIds)
+        public static IEnumerable<IRelationshipState> GetRelationshipsWith(IEnumerable<long> targetUserIds)
         {
             return FriendshipController.GetMultipleRelationships(targetUserIds);
         }
@@ -350,7 +350,7 @@ namespace Tweetinvi
         /// <summary>
         /// Get the states of relationships you have with a collection of users.
         /// </summary>
-        public static IEnumerable<IRelationshipState> GetMultipleRelationships(IEnumerable<string> targetUserScreenNames)
+        public static IEnumerable<IRelationshipState> GetRelationshipsWith(IEnumerable<string> targetUserScreenNames)
         {
             return FriendshipController.GetMultipleRelationships(targetUserScreenNames);
         }

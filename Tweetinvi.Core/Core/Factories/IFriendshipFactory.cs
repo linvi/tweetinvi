@@ -13,5 +13,6 @@ namespace Tweetinvi.Core.Factories
         // Generate RelationshipAuthorizations
         IFriendshipAuthorizations GenerateFriendshipAuthorizations(bool retweetsEnabled, bool deviceNotificationEnabled);
         IRelationshipDetails GenerateFriendshipDetailsFromJson(string json);
+        IRelationshipState GenerateFriendshipStateFromJson(string json);
     }
 }

@@ -47,6 +47,12 @@ namespace Tweetinvi.Factories.Friendship
             return GenerateRelationshipFromRelationshipDTO(dto);
         }
 
+        public IRelationshipState GenerateFriendshipStateFromJson(string json)
+        {
+            var dto = _jsonObjectConverter.DeserializeObject<IRelationshipStateDTO>(json);
+            return GenerateRelationshipStateFromRelationshipStateDTO(dto);
+        }
+
         public IEnumerable<IRelationshipDetails> GenerateRelationshipsFromRelationshipsDTO(IEnumerable<IRelationshipDetailsDTO> relationshipDTOs)
         {
             if (relationshipDTOs == null)
