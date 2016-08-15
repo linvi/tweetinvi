@@ -72,6 +72,7 @@ namespace Tweetinvi
             var twitterListFactory = TweetinviContainer.Resolve<ITwitterListFactory>();
             var savedSearchFactory = TweetinviContainer.Resolve<ISavedSearchFactory>();
             var accountSettingsFactory = TweetinviContainer.Resolve<IAccountController>();
+            var friendshipFactory = TweetinviContainer.Resolve<IFriendshipFactory>();
 
             _getSerializableObject = new Dictionary<Type, IJsonSerializer>();
 
@@ -83,6 +84,7 @@ namespace Tweetinvi
             Map<ISavedSearch, ISavedSearchDTO>(s => s.SavedSearchDTO, savedSearchFactory.GenerateSavedSearchFromJson);
             Map<IAccountSettings, IAccountSettingsDTO>(s => s.AccountSettingsDTO, accountSettingsFactory.GenerateAccountSettingsFromJson);
             Map<IOEmbedTweet, IOEmbedTweetDTO>(t => t.OembedTweetDTO, tweetFactory.GenerateOEmbedTweetFromJson);
+            Map<IRelationshipDetails, IRelationshipDetailsDTO>(r => r.RelationshipDetailsDTO, friendshipFactory.GenerateFriendshipDetailsFromJson);
             // ReSharper restore RedundantTypeArgumentsOfMethod
         }
 
