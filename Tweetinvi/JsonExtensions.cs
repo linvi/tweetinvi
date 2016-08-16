@@ -89,20 +89,13 @@ namespace Tweetinvi
             // ReSharper restore RedundantTypeArgumentsOfMethod
         }
 
-        public static string ToJson<T>(this T obj) where T : class
+        public static string ToJson<T>(this T obj, IJsonSerializer serializer = null) where T : class
         {
             var type = typeof(T);
             object toSerialize = obj;
 
-            var serializer = GetSerializerFromNonCollectionType(type);
-
-            if (serializer != null)
+            if (obj is IEnumerable && type.IsGenericType)
             {
-                toSerialize = serializer.GetSerializableObject(obj);
-            }
-            else if (obj is IEnumerable && type.IsGenericType)
-            {
-
                 Type genericType = null;
 
                 if (type.IsGenericType)
@@ -127,6 +120,16 @@ namespace Tweetinvi
                     }
 
                     toSerialize = list;
+                }
+            }
+
+            if (serializer == null)
+            {
+                serializer = GetSerializerFromNonCollectionType(type);
+
+                if (serializer != null)
+                {
+                    toSerialize = serializer.GetSerializableObject(obj);
                 }
             }
 
@@ -174,7 +177,7 @@ namespace Tweetinvi
 
                         foreach (var elt in jsonArray)
                         {
-                            var eltJson = elt.ToJson();
+                            var eltJson = elt.ToString();
                             list.Add(serializer.GetDeserializedObject(eltJson));
                         }
 
