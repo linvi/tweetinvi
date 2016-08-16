@@ -13,41 +13,40 @@ using Tweetinvi.Models.DTO;
 
 namespace Tweetinvi
 {
-    public interface IJsonSerializer
-    {
-        object GetSerializableObject(object source);
-        object GetDeserializedObject(string json);
-    }
-
-
-    public class JsonSerializer<T1, T2> : IJsonSerializer
-        where T1 : class
-        where T2 : class
-    {
-        private readonly Func<T1, T2> _getSerializableObject;
-        private readonly Func<string, T1> _deserializer;
-
-        public JsonSerializer(Func<T1, T2> getSerializableObject, Func<string, T1> deserializer)
-        {
-            _getSerializableObject = getSerializableObject;
-            _deserializer = deserializer;
-        }
-
-        public object GetSerializableObject(object source)
-        {
-            return _getSerializableObject(source as T1);
-        }
-
-        public object GetDeserializedObject(string json)
-        {
-            return _deserializer(json);
-        }
-    }
-
     public static class JsonExtensions
     {
+        private interface IJsonSerializer
+        {
+            object GetSerializableObject(object source);
+            object GetDeserializedObject(string json);
+        }
+
+        private class JsonSerializer<T1, T2> : IJsonSerializer
+            where T1 : class
+            where T2 : class
+        {
+            private readonly Func<T1, T2> _getSerializableObject;
+            private readonly Func<string, T1> _deserializer;
+
+            public JsonSerializer(Func<T1, T2> getSerializableObject, Func<string, T1> deserializer)
+            {
+                _getSerializableObject = getSerializableObject;
+                _deserializer = deserializer;
+            }
+
+            public object GetSerializableObject(object source)
+            {
+                return _getSerializableObject(source as T1);
+            }
+
+            public object GetDeserializedObject(string json)
+            {
+                return _deserializer(json);
+            }
+        }
+
         private static MethodInfo _jsonConvert;
-        private static Dictionary<Type, IJsonSerializer> _getSerializableObject;
+        private static readonly Dictionary<Type, IJsonSerializer> _getSerializableObject;
         private static Dictionary<Type, IJsonSerializer> _getFromDeserializeObject;
 
         static JsonExtensions()
@@ -77,7 +76,7 @@ namespace Tweetinvi
             _getSerializableObject = new Dictionary<Type, IJsonSerializer>();
 
             // ReSharper disable RedundantTypeArgumentsOfMethod
-            Map<ITweet, ITweetDTO>(u => u.TweetDTO, tweetFactory.GenerateTweetFromJson);
+            //Map<ITweet, ITweetDTO>(u => u.TweetDTO, tweetFactory.GenerateTweetFromJson);
             Map<IUser, IUserDTO>(u => u.UserDTO, userFactory.GenerateUserFromJson);
             Map<IMessage, IMessageDTO>(m => m.MessageDTO, messageFactory.GenerateMessageFromJson);
             Map<ITwitterList, ITwitterListDTO>(l => l.TwitterListDTO, twitterListFactory.GenerateListFromJson);
@@ -89,7 +88,25 @@ namespace Tweetinvi
             // ReSharper restore RedundantTypeArgumentsOfMethod
         }
 
-        public static string ToJson<T>(this T obj, IJsonSerializer serializer = null) where T : class
+        // TO JSON
+        public static string ToJson<T>(this T obj) where T : class
+        {
+            return ToJson(obj, (IJsonSerializer)null);
+        }
+
+        public static string ToJson<T1, T2>(this T1 obj, Func<T1, T2> getSerializableObject) where T1 : class where T2 : class
+        {
+            var serializer = new JsonSerializer<T1, T2>(getSerializableObject, null);
+            return ToJson(obj, serializer);
+        }
+
+        public static string ToJson<T, T1, T2>(this T obj, Func<T1, T2> getSerializableObject) where T1 : class where T2 : class
+        {
+            var serializer = new JsonSerializer<T1, T2>(getSerializableObject, null);
+            return ToJson(obj, serializer);
+        }
+
+        private static string ToJson<T>(T obj, IJsonSerializer serializer)
         {
             var type = typeof(T);
             object toSerialize = obj;
@@ -107,7 +124,7 @@ namespace Tweetinvi
                     genericType = type.GetElementType();
                 }
 
-                serializer = GetSerializerFromNonCollectionType(genericType);
+                serializer = serializer ?? GetSerializerFromNonCollectionType(genericType);
 
                 if (serializer != null)
                 {
@@ -143,18 +160,25 @@ namespace Tweetinvi
             }
         }
 
+        // FROM JSON
+
         public static T ConvertJsonTo<T>(this string json) where T : class
+        {
+            return ConvertJsonTo<T>(json, (IJsonSerializer)null);
+        }
+
+        public static T1 ConvertJsonTo<T1, T2>(this string json, Func<string, T2> deserialize) where T1 : class where T2 : class
+        {
+            var serializer = new JsonSerializer<T2, object>(null, deserialize);
+            return ConvertJsonTo<T1>(json, serializer);
+        }
+
+        private static T ConvertJsonTo<T>(this string json, IJsonSerializer serializer) where T : class
         {
             var type = typeof(T);
 
             try
             {
-                var serializer = GetSerializerFromNonCollectionType(type);
-                if (serializer != null)
-                {
-                    return serializer.GetDeserializedObject(json) as T;
-                }
-
                 if (typeof(IEnumerable).IsAssignableFrom(type))
                 {
                     Type genericType = null;
@@ -168,7 +192,7 @@ namespace Tweetinvi
                         genericType = type.GetElementType();
                     }
 
-                    serializer = GetSerializerFromNonCollectionType(genericType);
+                    serializer = serializer ?? GetSerializerFromNonCollectionType(genericType);
                     if (genericType != null && serializer != null)
                     {
                         var list = (IList)Activator.CreateInstance(typeof(List<>).MakeGenericType(genericType));
@@ -192,6 +216,13 @@ namespace Tweetinvi
                     }
                 }
 
+                serializer = serializer ?? GetSerializerFromNonCollectionType(type);
+
+                if (serializer != null)
+                {
+                    return serializer.GetDeserializedObject(json) as T;
+                }
+
                 return JsonConvert.DeserializeObject<T>(json, JsonPropertiesConverterRepository.Converters);
             }
             catch (Exception ex)
@@ -199,6 +230,9 @@ namespace Tweetinvi
                 throw new Exception("The type provided is probably not compatible with Tweetinvi Json serializer.", ex);
             }
         }
+
+
+
 
         private static IJsonSerializer GetSerializer(Type type)
         {
@@ -248,9 +282,16 @@ namespace Tweetinvi
             return null;
         }
 
-        private static void Map<T1, T2>(Func<T1, T2> getSerializableObject, Func<string, T1> deserializer) where T1 : class where T2 : class
+        public static void Map<T1, T2>(Func<T1, T2> getSerializableObject, Func<string, T1> deserialize) where T1 : class where T2 : class
         {
-            _getSerializableObject.Add(typeof(T1), new JsonSerializer<T1, T2>(getSerializableObject, deserializer));
+            if (_getSerializableObject.ContainsKey(typeof(T1)))
+            {
+                _getSerializableObject[typeof(T1)] = new JsonSerializer<T1, T2>(getSerializableObject, deserialize);
+            }
+            else
+            {
+                _getSerializableObject.Add(typeof(T1), new JsonSerializer<T1, T2>(getSerializableObject, deserialize));
+            }
         }
     }
 }
