@@ -13,6 +13,8 @@ namespace Tweetinvi.Core.Enum
         [EnumMember]
         POST,
         [EnumMember]
-        DELETE
+        DELETE,
+        [EnumMember]
+        PUT
     }
 }
