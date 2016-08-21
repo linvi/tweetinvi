@@ -13,12 +13,12 @@ namespace Tweetinvi.Core.Helpers
     {
         public async Task ExecuteTaskAsync(Action action)
         {
-            await TaskEx.Run(action);
+            await Task.Run(action);
         }
 
         public async Task<T> ExecuteTaskAsync<T>(Func<T> resultFunc)
         {
-            return await TaskEx.Run(resultFunc);
+            return await Task.Run(resultFunc);
         }
     }
 }

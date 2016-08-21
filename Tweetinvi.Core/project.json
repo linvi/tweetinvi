@@ -12,6 +12,23 @@
   "frameworks": {
     "netstandard1.6": {
       "imports": "dnxcore50"
-    }    
+    }
+  },
+
+
+  "buildOptions": {
+    "compile": {
+      "excludeFiles": [
+        "Core/Events/WeakDelegate.cs",
+        "Core/Extensions/LanguageExtension.cs",
+        "Core/Extensions/TweetSearchFiltersExtension.cs",
+        "Core/Extensions/TwitterTimeZoneExtension.cs",
+
+        "Core/Helpers/SynchronousInvoker.cs",
+        "Core/Helpers/TaskFactory.cs",
+        "Core/Helpers/ThreadHelper.cs",
+        ""
+      ]
+    }
   }
 }
