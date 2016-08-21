@@ -16,7 +16,9 @@
   "buildOptions": {
     "compile": {
       "excludeFiles": [
-        "Helpers/StreamObjectProcessors.cs"
+        "Helpers/StreamObjectProcessors.cs",
+        "Helpers/StreamResultGenerator.cs",
+        "StreamTask.cs"
       ]
     }
   }
