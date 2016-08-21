@@ -11,5 +11,13 @@
     "netstandard1.6": {
       "imports": "dnxcore50"
     }
+  },
+
+  "buildOptions": {
+    "compile": {
+      "excludeFiles": [
+        "WebHelper.cs"
+      ]
+    }
   }
 }
