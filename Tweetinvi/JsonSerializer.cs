@@ -13,7 +13,7 @@ using Tweetinvi.Models.DTO;
 
 namespace Tweetinvi
 {
-    public static class JsonExtensions
+    public static class JsonSerializer
     {
         private interface IJsonSerializer
         {
@@ -21,14 +21,14 @@ namespace Tweetinvi
             object GetDeserializedObject(string json);
         }
 
-        private class JsonSerializer<T1, T2> : IJsonSerializer
+        private class InternalJsonSerializer<T1, T2> : IJsonSerializer
             where T1 : class
             where T2 : class
         {
             private readonly Func<T1, T2> _getSerializableObject;
             private readonly Func<string, T1> _deserializer;
 
-            public JsonSerializer(Func<T1, T2> getSerializableObject, Func<string, T1> deserializer)
+            public InternalJsonSerializer(Func<T1, T2> getSerializableObject, Func<string, T1> deserializer)
             {
                 _getSerializableObject = getSerializableObject;
                 _deserializer = deserializer;
@@ -49,7 +49,7 @@ namespace Tweetinvi
         private static readonly Dictionary<Type, IJsonSerializer> _getSerializableObject;
         private static Dictionary<Type, IJsonSerializer> _getFromDeserializeObject;
 
-        static JsonExtensions()
+        static JsonSerializer()
         {
             _jsonConvert = typeof(JsonConvert)
                          .GetMethods()
@@ -76,7 +76,7 @@ namespace Tweetinvi
             _getSerializableObject = new Dictionary<Type, IJsonSerializer>();
 
             // ReSharper disable RedundantTypeArgumentsOfMethod
-            //Map<ITweet, ITweetDTO>(u => u.TweetDTO, tweetFactory.GenerateTweetFromJson);
+            Map<ITweet, ITweetDTO>(u => u.TweetDTO, tweetFactory.GenerateTweetFromJson);
             Map<IUser, IUserDTO>(u => u.UserDTO, userFactory.GenerateUserFromJson);
             Map<IMessage, IMessageDTO>(m => m.MessageDTO, messageFactory.GenerateMessageFromJson);
             Map<ITwitterList, ITwitterListDTO>(l => l.TwitterListDTO, twitterListFactory.GenerateListFromJson);
@@ -96,13 +96,13 @@ namespace Tweetinvi
 
         public static string ToJson<T1, T2>(this T1 obj, Func<T1, T2> getSerializableObject) where T1 : class where T2 : class
         {
-            var serializer = new JsonSerializer<T1, T2>(getSerializableObject, null);
+            var serializer = new InternalJsonSerializer<T1, T2>(getSerializableObject, null);
             return ToJson(obj, serializer);
         }
 
         public static string ToJson<T, T1, T2>(this T obj, Func<T1, T2> getSerializableObject) where T1 : class where T2 : class
         {
-            var serializer = new JsonSerializer<T1, T2>(getSerializableObject, null);
+            var serializer = new InternalJsonSerializer<T1, T2>(getSerializableObject, null);
             return ToJson(obj, serializer);
         }
 
@@ -156,7 +156,11 @@ namespace Tweetinvi
             }
             catch (Exception ex)
             {
-                throw new Exception("The type provided is probably not compatible with Tweetinvi Json serializer.", ex);
+                throw new Exception(
+                    "The type provided is probably not compatible with Tweetinvi Json serializer." +
+                    "If you think this class should be serializable by default please report on github.com/linvi/tweetinvi.",
+                    ex
+                );
             }
         }
 
@@ -169,7 +173,7 @@ namespace Tweetinvi
 
         public static T1 ConvertJsonTo<T1, T2>(this string json, Func<string, T2> deserialize) where T1 : class where T2 : class
         {
-            var serializer = new JsonSerializer<T2, object>(null, deserialize);
+            var serializer = new InternalJsonSerializer<T2, object>(null, deserialize);
             return ConvertJsonTo<T1>(json, serializer);
         }
 
@@ -227,11 +231,13 @@ namespace Tweetinvi
             }
             catch (Exception ex)
             {
-                throw new Exception("The type provided is probably not compatible with Tweetinvi Json serializer.", ex);
+                throw new Exception(
+                    "The type provided is probably not compatible with Tweetinvi Json serializer." +
+                    "If you think this class should be deserializable by default please report on github.com/linvi/tweetinvi.",
+                    ex
+                );
             }
         }
-
-
 
 
         private static IJsonSerializer GetSerializer(Type type)
@@ -286,11 +292,11 @@ namespace Tweetinvi
         {
             if (_getSerializableObject.ContainsKey(typeof(T1)))
             {
-                _getSerializableObject[typeof(T1)] = new JsonSerializer<T1, T2>(getSerializableObject, deserialize);
+                _getSerializableObject[typeof(T1)] = new InternalJsonSerializer<T1, T2>(getSerializableObject, deserialize);
             }
             else
             {
-                _getSerializableObject.Add(typeof(T1), new JsonSerializer<T1, T2>(getSerializableObject, deserialize));
+                _getSerializableObject.Add(typeof(T1), new InternalJsonSerializer<T1, T2>(getSerializableObject, deserialize));
             }
         }
     }
