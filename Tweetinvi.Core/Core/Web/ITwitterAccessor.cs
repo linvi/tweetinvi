@@ -30,9 +30,6 @@ namespace Tweetinvi.Core.Web
         T ExecuteGETQuery<T>(string query, JsonConverter[] converters = null) where T : class;
         T ExecutePOSTQuery<T>(string query, JsonConverter[] converters = null) where T : class;
 
-        // Get Binary data from twitter URL
-        byte[] DownloadBinary(string url);
-
         // Try Execute
         bool TryExecuteGETQuery(string query, JsonConverter[] converters = null);
         bool TryExecutePOSTQuery(string query, JsonConverter[] converters = null);
@@ -83,5 +80,8 @@ namespace Tweetinvi.Core.Web
         // Get Json from Twitter
         string ExecuteQuery(string query, HttpMethod method);
         string ExecuteQuery(string query, HttpMethod method, HttpContent httpContent, bool forceThrow = false);
+
+        // Get Binary data from twitter URL
+        byte[] DownloadBinary(string url);
     }
 }

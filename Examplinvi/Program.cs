@@ -62,6 +62,7 @@ namespace Examplinvi
             Examples.ConfigureTweetinvi();
             Examples.GlobalEvents();
             UploadExamples();
+            DownloadExamples();
 
             Console.WriteLine(@"END");
             Console.ReadLine();
@@ -331,6 +332,16 @@ namespace Examplinvi
 
             Examples.ChunkedUpload(new byte[10], "video/mp4");
             Examples.Tweet_PublishTweetWithImage("publish with img", "filePath");
+        }
+
+        private static void DownloadExamples()
+        {
+            if (!Examples.ExecuteExamples)
+            {
+                return;
+            }
+
+            var binary = Examples.DownloadBinaryFromTwitter("https://ton.twitter.com/1.1/ton/data/dm/764104492082233347/764104492107370496/X0v8XTZ4.jpg");
         }
 
         #endregion
@@ -1515,6 +1526,15 @@ namespace Examplinvi
             }
 
             return null;
+        }
+
+        #endregion
+
+        #region Download
+
+        public static byte[] DownloadBinaryFromTwitter(string twitterUrl)
+        {
+            return TwitterAccessor.DownloadBinary(twitterUrl);
         }
 
         #endregion

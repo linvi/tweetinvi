@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Net.Http;
 using System.Collections.Generic;
+using System.IO;
 using Tweetinvi.Core;
 using Tweetinvi.Core.Credentials;
 using Tweetinvi.Core.Events;
@@ -25,7 +26,7 @@ namespace Tweetinvi.WebLogic
             HttpContent httpContent = null);
 
         string ExecuteMultipartQuery(IMultipartHttpRequestParameters parameters);
-        byte[] DownloadBinary(string url, TwitterClientHandler handler = null, ITwitterCredentials credentials = null);
+        byte[] DownloadBinary(string url);
     }
 
     public class TwitterRequestHandler : ITwitterRequestHandler
@@ -138,9 +139,8 @@ namespace Tweetinvi.WebLogic
             }
         }
 
-        public byte[] DownloadBinary(string url, TwitterClientHandler handler = null, ITwitterCredentials credentials = null)
+        public byte[] DownloadBinary(string url)
         {
-            //CleanupQueryURL(ref url); ???
             var rateLimitTrackerMode = _tweetinviSettingsAccessor.RateLimitTrackerMode;
             var requestParameters = new HttpRequestParameters
             {
@@ -150,7 +150,7 @@ namespace Tweetinvi.WebLogic
             };
 
             ITwitterQuery twitterQuery;
-            if (!TryPrepareRequest(requestParameters, rateLimitTrackerMode, credentials, out twitterQuery))
+            if (!TryPrepareRequest(requestParameters, rateLimitTrackerMode, null, out twitterQuery))
             {
                 return null;
             }
@@ -158,7 +158,7 @@ namespace Tweetinvi.WebLogic
             try
             {
                 byte[] data = null;
-                var webRequestResult = _webRequestExecutor.ExecuteQuery(twitterQuery, handler);
+                var webRequestResult = _webRequestExecutor.ExecuteQuery(twitterQuery);
 
                 if (webRequestResult.IsSuccessStatusCode)
                 {
@@ -289,24 +289,34 @@ namespace Tweetinvi.WebLogic
             _tweetinviEvents.RaiseAfterQueryExecuted(new QueryAfterExecuteEventArgs(queryParameter, null, null));
         }
 
-        private byte[] ReadBinaryDataFromStream(System.IO.Stream dataStream)
+        public static byte[] ReadBinaryDataFromStream(Stream input)
         {
-            const int CHUNK_SIZE = 1024;
-            List<byte> bytes = new List<byte>();
-
-            using (System.IO.BinaryReader br = new System.IO.BinaryReader(dataStream))
+            using (MemoryStream ms = new MemoryStream())
             {
-                byte[] chunk;
-
-                chunk = br.ReadBytes(CHUNK_SIZE);
-                while (chunk.Length > 0)
-                {
-                    bytes.AddRange(chunk);
-                    chunk = br.ReadBytes(CHUNK_SIZE);
-                }
+                input.CopyTo(ms);
+                return ms.ToArray();
             }
-            return bytes.ToArray();
         }
+
+        //private byte[] ReadBinaryDataFromStream(System.IO.Stream dataStream)
+        //{
+        //    const int CHUNK_SIZE = 1024;
+        //    var bytes = new List<byte>();
+
+        //    using (System.IO.BinaryReader br = new System.IO.BinaryReader(dataStream))
+        //    {
+        //        byte[] chunk = br.ReadBytes(CHUNK_SIZE);
+
+        //        while (chunk.Length > 0)
+        //        {
+        //            bytes.AddRange(chunk);
+        //            chunk = br.ReadBytes(CHUNK_SIZE);
+        //        }
+        //    }
+
+        //    return bytes.ToArray();
+        //}
+
         #endregion
     }
 }

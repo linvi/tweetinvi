@@ -108,24 +108,6 @@ namespace Tweetinvi.Credentials
             return GetResultFromPath<T>(jObject, paths);
         }
 
-        public byte[] DownloadBinary(string url)
-        {
-            if (url == null)
-            {
-                throw new ArgumentException("No URL specified for download");
-            }
-
-            try
-            {
-                return _twitterRequestHandler.DownloadBinary(url);
-            }
-            catch (TwitterException ex)
-            {
-                HandleQueryException(ex);
-                return null;
-            }
-        }
-
         private T GetResultFromPath<T>(JObject jObject, string[] paths) where T : class
         {
             if (paths != null && paths.Length > 0)
@@ -435,6 +417,25 @@ namespace Tweetinvi.Credentials
 
                 result = null;
                 return false;
+            }
+        }
+
+        // Download
+        public byte[] DownloadBinary(string url)
+        {
+            if (url == null)
+            {
+                throw new ArgumentNullException("URL", "Url cannot be null.");
+            }
+
+            try
+            {
+                return _twitterRequestHandler.DownloadBinary(url);
+            }
+            catch (TwitterException ex)
+            {
+                HandleQueryException(ex);
+                return null;
             }
         }
 
