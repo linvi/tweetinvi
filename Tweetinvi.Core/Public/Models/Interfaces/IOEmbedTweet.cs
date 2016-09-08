@@ -1,4 +1,6 @@
-﻿namespace Tweetinvi.Models
+﻿using Tweetinvi.Models.DTO;
+
+namespace Tweetinvi.Models
 {
     public interface IOEmbedTweet
     {
@@ -36,5 +38,6 @@
         string Version { get; }
         string Type { get; }
         string CacheAge { get; }
+        IOEmbedTweetDTO OembedTweetDTO { get; set; }
     }
 }

@@ -5,51 +5,51 @@ namespace Tweetinvi.Logic.TwitterEntities
 {
     public class RelationshipState : IRelationshipState
     {
-        private readonly IRelationshipStateDTO _relationshipStateDTO;
+        public IRelationshipStateDTO RelationshipStateDTO { get; set; }
 
         public RelationshipState(IRelationshipStateDTO relationshipStateDTO)
         {
-            _relationshipStateDTO = relationshipStateDTO;
+            RelationshipStateDTO = relationshipStateDTO;
         }
 
         public long TargetId
         {
-            get { return _relationshipStateDTO.TargetUserId; }
+            get { return RelationshipStateDTO.TargetUserId; }
         }
 
         public string TargetIdStr
         {
-            get { return _relationshipStateDTO.TargetUserIdStr; }
+            get { return RelationshipStateDTO.TargetUserIdStr; }
         }
 
         public string TargetName
         {
-            get { return _relationshipStateDTO.TargetUserName; }
+            get { return RelationshipStateDTO.TargetUserName; }
         }
 
         public string TargetScreenName
         {
-            get { return _relationshipStateDTO.TargetUserScreenName; }
+            get { return RelationshipStateDTO.TargetUserScreenName; }
         }
 
         public bool Following
         {
-            get { return _relationshipStateDTO.Following; }
+            get { return RelationshipStateDTO.Following; }
         }
 
         public bool FollowedBy
         {
-            get { return _relationshipStateDTO.FollowedBy; }
+            get { return RelationshipStateDTO.FollowedBy; }
         }
 
         public bool FollowingRequested
         {
-            get { return _relationshipStateDTO.FollowingRequested; }
+            get { return RelationshipStateDTO.FollowingRequested; }
         }
 
         public bool FollowingRequestReceived
         {
-            get { return _relationshipStateDTO.FollowingRequestReceived; }
+            get { return RelationshipStateDTO.FollowingRequestReceived; }
         }
     }
 }

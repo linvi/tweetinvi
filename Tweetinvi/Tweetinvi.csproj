@@ -55,6 +55,7 @@
     <Compile Include="Injectinvi\AutofacContainer.cs" />
     <Compile Include="Injectinvi\AutofacThreadContainer.cs" />
     <Compile Include="Injectinvi\OverridableContainer.cs" />
+    <Compile Include="JsonSerializer.cs" />
     <Compile Include="Json\AccountJson.cs" />
     <Compile Include="Json\FriendshipJson.cs" />
     <Compile Include="Json\GeoJson.cs" />

@@ -123,17 +123,17 @@ namespace Tweetinvi
         // Lookup Relationships
         public static async Task<IEnumerable<IRelationshipState>> GetMultipleRelationships(IEnumerable<IUserIdentifier> targetUserIdentifiers)
         {
-            return await Sync.ExecuteTaskAsync(() => Account.GetMultipleRelationships(targetUserIdentifiers));
+            return await Sync.ExecuteTaskAsync(() => Account.GetRelationshipsWith(targetUserIdentifiers));
         }
 
         public static async Task<IEnumerable<IRelationshipState>> GetMultipleRelationships(IEnumerable<long> targetUserIds)
         {
-            return await Sync.ExecuteTaskAsync(() => Account.GetMultipleRelationships(targetUserIds));
+            return await Sync.ExecuteTaskAsync(() => Account.GetRelationshipsWith(targetUserIds));
         }
 
         public static async Task<IEnumerable<IRelationshipState>> GetMultipleRelationships(IEnumerable<string> targetUserScreenNames)
         {
-            return await Sync.ExecuteTaskAsync(() => Account.GetMultipleRelationships(targetUserScreenNames));
+            return await Sync.ExecuteTaskAsync(() => Account.GetRelationshipsWith(targetUserScreenNames));
         }
 
 

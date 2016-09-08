@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Tweetinvi.Core.Controllers;
 using Tweetinvi.Core.Factories;
+using Tweetinvi.Core.Helpers;
 using Tweetinvi.Core.Injectinvi;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
@@ -16,17 +17,20 @@ namespace Tweetinvi.Controllers.Account
         private readonly IUserFactory _userFactory;
         private readonly IFactory<IAccountSettings> _accountSettingsUnityFactory;
         private readonly IFactory<IAccountSettingsRequestParameters> _accountSettingsRequestParametersFactory;
+        private readonly IJsonObjectConverter _jsonObjectConverter;
 
         public AccountController(
             IAccountQueryExecutor accountQueryExecutor,
             IUserFactory userFactory,
             IFactory<IAccountSettings> accountSettingsUnityFactory,
-            IFactory<IAccountSettingsRequestParameters> accountSettingsRequestParametersFactory)
+            IFactory<IAccountSettingsRequestParameters> accountSettingsRequestParametersFactory,
+            IJsonObjectConverter jsonObjectConverter)
         {
             _accountQueryExecutor = accountQueryExecutor;
             _userFactory = userFactory;
             _accountSettingsUnityFactory = accountSettingsUnityFactory;
             _accountSettingsRequestParametersFactory = accountSettingsRequestParametersFactory;
+            _jsonObjectConverter = jsonObjectConverter;
         }
 
         public IAccountSettings GetAuthenticatedUserSettings()
@@ -58,6 +62,18 @@ namespace Tweetinvi.Controllers.Account
         public IAccountSettings UpdateAuthenticatedUserSettings(IAccountSettingsRequestParameters accountSettingsRequestParameters)
         {
             var accountSettingsDTO = _accountQueryExecutor.UpdateAuthenticatedUserSettings(accountSettingsRequestParameters);
+            return GenerateAccountSettingsFromDTO(accountSettingsDTO);
+        }
+
+        public IAccountSettings GenerateAccountSettingsFromJson(string json)
+        {
+            var accountSettingsDTO = _jsonObjectConverter.DeserializeObject<IAccountSettingsDTO>(json);
+
+            if (accountSettingsDTO == null)
+            {
+                return null;
+            }
+
             return GenerateAccountSettingsFromDTO(accountSettingsDTO);
         }
 

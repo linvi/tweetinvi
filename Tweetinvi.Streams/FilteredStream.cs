@@ -566,22 +566,22 @@ namespace Tweetinvi.Streams
 
         private IEnumerable<KeyValuePair<ILocation, Action<ITweet>>> GetMatchedLocations(IEnumerable<ICoordinates> coordinates)
         {
-            var top = coordinates.Max(x => x.Longitude);
-            var left = coordinates.Min(x => x.Latitude);
+            var top = coordinates.Max(x => x.Latitude);
+            var left = coordinates.Min(x => x.Longitude);
 
-            var bottom = coordinates.Min(x => x.Longitude);
-            var right = coordinates.Max(x => x.Latitude);
+            var bottom = coordinates.Min(x => x.Latitude);
+            var right = coordinates.Max(x => x.Longitude);
 
             var matchingLocations = new List<KeyValuePair<ILocation, Action<ITweet>>>();
             foreach (var locationAndAction in _locations)
             {
                 var location = locationAndAction.Key;
 
-                var filterTop = Math.Max(location.Coordinate1.Longitude, location.Coordinate2.Longitude);
-                var filterLeft = Math.Min(location.Coordinate1.Latitude, location.Coordinate2.Latitude);
+                var filterTop = Math.Max(location.Coordinate1.Latitude, location.Coordinate2.Latitude);
+                var filterLeft = Math.Min(location.Coordinate1.Longitude, location.Coordinate2.Longitude);
 
-                var filterBottom = Math.Min(location.Coordinate1.Longitude, location.Coordinate2.Longitude);
-                var filterRight = Math.Max(location.Coordinate1.Latitude, location.Coordinate2.Latitude);
+                var filterBottom = Math.Min(location.Coordinate1.Latitude, location.Coordinate2.Latitude);
+                var filterRight = Math.Max(location.Coordinate1.Longitude, location.Coordinate2.Longitude);
 
                 var isTweetOutsideOfLocationCoordinates = left > filterRight || right < filterLeft || top < filterBottom || bottom > filterTop;
 

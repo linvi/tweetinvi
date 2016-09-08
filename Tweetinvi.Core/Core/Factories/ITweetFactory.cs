@@ -12,7 +12,7 @@ namespace Tweetinvi.Core.Factories
         ITweet CreateTweet(string text);
 
         // Generate Tweet From Json
-        ITweet GenerateTweetFromJson(string jsonTweet);
+        ITweet GenerateTweetFromJson(string json);
 
         // Generate Tweet from DTO
         ITweet GenerateTweetFromDTO(ITweetDTO tweetDTO);
@@ -27,5 +27,6 @@ namespace Tweetinvi.Core.Factories
         // Generate Mention from DTO
         IMention GenerateMentionFromDTO(ITweetDTO tweetDTO);
         IEnumerable<IMention> GenerateMentionsFromDTO(IEnumerable<ITweetDTO> tweetsDTO);
+        IOEmbedTweet GenerateOEmbedTweetFromJson(string json);
     }
 }

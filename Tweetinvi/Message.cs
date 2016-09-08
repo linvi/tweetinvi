@@ -14,6 +14,7 @@ namespace Tweetinvi
     /// </summary>
     public static class Message
     {
+        [ThreadStatic]
         private static IMessageFactory _messageFactory;
 
         /// <summary>
@@ -176,6 +177,32 @@ namespace Tweetinvi
         public static bool DestroyMessage(long messageId)
         {
             return MessageController.DestroyMessage(messageId);
+        }
+
+        // Generate message from DTO
+        public static IMessage GenerateMessageFromMessageDTO(IMessageDTO messageDTO)
+        {
+            return MessageFactory.GenerateMessageFromMessageDTO(messageDTO);
+        }
+
+        public static IEnumerable<IMessage> GenerateMessagesFromMessagesDTO(IEnumerable<IMessageDTO> messagesDTO)
+        {
+            return MessageFactory.GenerateMessagesFromMessagesDTO(messagesDTO);
+        }
+
+        public static string ToJson(IMessage message)
+        {
+            return message.ToJson();
+        }
+
+        public static string ToJson(IMessageDTO message)
+        {
+            return message.ToJson();
+        }
+
+        public static IMessage FromJson(string json)
+        {
+            return MessageFactory.GenerateMessageFromJson(json);
         }
     }
 }

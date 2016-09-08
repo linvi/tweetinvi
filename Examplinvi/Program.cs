@@ -1456,7 +1456,7 @@ namespace Examplinvi
                 user2
             };
 
-            var relationships = Account.GetMultipleRelationships(userList);
+            var relationships = Account.GetRelationshipsWith(userList);
             foreach (var relationship in relationships)
             {
                 Console.WriteLine("You are{0} following {1}", relationship.Following ? "" : " not", relationship.TargetScreenName);

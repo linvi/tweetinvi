@@ -1,4 +1,6 @@
-﻿namespace Tweetinvi.Models
+﻿using Tweetinvi.Models.DTO;
+
+namespace Tweetinvi.Models
 {
     public interface IRelationshipDetails
     {
@@ -88,5 +90,7 @@
         /// Informs if the source has marked the user as being a spammer.
         /// </summary>
         bool MarkedSpam { get; }
+
+        IRelationshipDetailsDTO RelationshipDetailsDTO { get; set; }
     }
 }
