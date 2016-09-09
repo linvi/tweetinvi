@@ -35,7 +35,7 @@ namespace Testinvi.TweetinviControllers.SearchTests
         private DateTime _since;
         private DateTime _until;
         private string _locale;
-        private Language _lang;
+        private LanguageFilter _lang;
         private IGeoCode _geoCode;
 
         private string _searchQueryParameter;
@@ -100,7 +100,7 @@ namespace Testinvi.TweetinviControllers.SearchTests
             _locale = TestHelper.GenerateString();
             _localeParameter = TestHelper.GenerateString();
 
-            _lang = Language.Afrikaans;
+            _lang = LanguageFilter.French;
             _languageParameter = TestHelper.GenerateString();
 
             _geoCode = A.Fake<IGeoCode>();

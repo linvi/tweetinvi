@@ -28,51 +28,6 @@ namespace Testinvi.TweetinviControllers.MessageTests
         #region Can Message Be Published
 
         [TestMethod]
-        public void CanMessageBePublished_BasedOnMessageHasBeenPublishedOrDestroyed()
-        {
-            // Arrange - Act - Assert
-            CanMessageBePublished_BasedOnPublishedAndDestroyed(true, true, typeof(ArgumentException));
-            CanMessageBePublished_BasedOnPublishedAndDestroyed(true, false, typeof(ArgumentException));
-            CanMessageBePublished_BasedOnPublishedAndDestroyed(false, true, typeof(ArgumentException));
-            CanMessageBePublished_BasedOnPublishedAndDestroyed(false, false, null);
-        }
-
-        private void CanMessageBePublished_BasedOnPublishedAndDestroyed(
-            bool messageHasBeenPublished,
-            bool messageHasBeenDestroyed,
-            Type exceptionType)
-        {
-            // Arrange
-            var queryValidator = CreateMessageQueryValidator();
-
-            var parameters = A.Fake<IPublishMessageParameters>();
-
-            ArrangeMessagePublishParameterText(parameters, true, true);
-            ArrangeMessageDTORecipient(parameters, true, true, true);
-
-            // Act
-
-            try
-            {
-                queryValidator.ThrowIfMessageCannotBePublished(parameters);
-            }
-            catch (Exception e)
-            {
-                if (e.GetType() == exceptionType)
-                {
-                    return;
-                }
-
-                throw new Exception("Exception was not of the correct type.");
-            }
-
-            if (exceptionType != null)
-            {
-                throw new Exception("Exception was expected.");
-            }
-        }
-
-        [TestMethod]
         public void CanMessageDTOBePublished_BasedOnText()
         {
             // Arrange - Act - Assert

@@ -120,7 +120,7 @@ namespace Tweetinvi.Core.Streaming
         /// <summary>
         /// Add a language that you want the tweets to be filtered by.
         /// </summary>
-        void AddTweetLanguageFilter(Language language);
+        void AddTweetLanguageFilter(LanguageFilter language);
 
         /// <summary>
         /// Tweets with the specified language will no longer be received.

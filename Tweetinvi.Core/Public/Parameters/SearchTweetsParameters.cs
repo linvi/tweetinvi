@@ -22,7 +22,7 @@ namespace Tweetinvi.Parameters
         /// <summary>
         /// Language identified for the tweet.
         /// </summary>
-        Language Lang { get; set; }
+        LanguageFilter Lang { get; set; }
 
         /// <summary>
         /// Restrict your query to a given location.
@@ -120,7 +120,7 @@ namespace Tweetinvi.Parameters
         public string Locale { get; set; }
         public int MaximumNumberOfResults { get; set; }
 
-        public Language Lang { get; set; }
+        public LanguageFilter Lang { get; set; }
         public IGeoCode GeoCode { get; set; }
         public SearchResultType? SearchType { get; set; }
 

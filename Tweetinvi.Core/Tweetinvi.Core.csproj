@@ -56,6 +56,7 @@
     <Compile Include="Public\Models\Enum\HttpMethod.cs" />
     <Compile Include="Public\Models\Enum\ImageSize.cs" />
     <Compile Include="Public\Models\Enum\Language.cs" />
+    <Compile Include="Public\Models\Enum\LanguageFilter.cs" />
     <Compile Include="Public\Models\Enum\PlaceType.cs" />
     <Compile Include="Public\Models\Enum\PrivacyMode.cs" />
     <Compile Include="Public\Models\Enum\MultiRequestsResult.cs" />

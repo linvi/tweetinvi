@@ -34,14 +34,25 @@ namespace Examplinvi
     {
         static void Main()
         {
-            Auth.SetUserCredentials("CONSUMER_KEY", "CONSUMER_SECRET", "ACCESS_TOKEN", "ACCESS_TOKEN_SECRET");
+            Auth.SetUserCredentials("jjMV4k3n9EswD9hlhRZqQCZrl", "N4gpJ4HDA2Gtl3WotRP97f2I6ZiKJd4Djl6V9bDJHFmhJs6YB0", "1693649419-BlEivyWIiOVrb22JjdzRipXWp4ltVdo4VLye1VW", "CcPCLv4CgNXEOfLVGhRxzVkIgLqG4WDplMFcUABmFor0E");
 
             TweetinviEvents.QueryBeforeExecute += (sender, args) =>
             {
                 Console.WriteLine(args.QueryURL);
             };
 
-            var authenticatedUser = User.GetAuthenticatedUser();
+            var stream = Stream.CreateSampleStream();
+
+            stream.AddTweetLanguageFilter(LanguageFilter.French);
+
+            stream.TweetReceived += (sender, args) =>
+            {
+                Console.WriteLine(args.Tweet);
+            };
+
+            stream.StartStream();
+
+            var fs = Stream.CreateUserStream();
 
             GenerateCredentialExamples();
             UserLiveFeedExamples();
@@ -873,8 +884,8 @@ namespace Examplinvi
                 Console.WriteLine(args.Tweet.Text);
             };
 
-            stream.AddTweetLanguageFilter(Language.English);
-            stream.AddTweetLanguageFilter(Language.French);
+            stream.AddTweetLanguageFilter(LanguageFilter.English);
+            stream.AddTweetLanguageFilter(LanguageFilter.French);
 
             stream.StartStream();
         }
@@ -1126,7 +1137,7 @@ namespace Examplinvi
             var searchParameter = Search.CreateTweetSearchParameter("obama");
 
             searchParameter.SetGeoCode(new Coordinates(37.781157, -122.398720), 1, DistanceMeasure.Miles);
-            searchParameter.Lang = Language.English;
+            searchParameter.Lang = LanguageFilter.English;
             searchParameter.SearchType = SearchResultType.Popular;
             searchParameter.MaximumNumberOfResults = 100;
             searchParameter.Since = new DateTime(2013, 12, 1);

@@ -15,6 +15,20 @@ namespace Tweetinvi.Core.Extensions
             return descriptionAttribute != null ? descriptionAttribute.Code : language.ToString();
         }
 
+        public static string GetLanguageCode(this LanguageFilter language)
+        {
+            var field = language.GetType().GetField(language.ToString());
+            var descriptionAttribute = (LanguageAttribute)Attribute.GetCustomAttribute(field, typeof(LanguageAttribute));
+            return descriptionAttribute != null ? descriptionAttribute.Code : language.ToString();
+        }
+
+        public static string GetLanguageCode(this LanguageFilter? language)
+        {
+            var field = language.GetType().GetField(language.ToString());
+            var descriptionAttribute = (LanguageAttribute)Attribute.GetCustomAttribute(field, typeof(LanguageAttribute));
+            return descriptionAttribute != null ? descriptionAttribute.Code : language.ToString();
+        }
+
         public static Language GetLangFromDescription(string descriptionValue)
         {
             try
