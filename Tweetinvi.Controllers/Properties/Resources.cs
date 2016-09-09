@@ -257,7 +257,7 @@ namespace Tweetinvi.Controllers.Properties
         /// <summary>
         ///   Looks up a localized string similar to https://api.twitter.com/1.1/lists/update.json?{0}.
         /// </summary>
-        public static string List_Update = "https://api.twitter.com/1.1/lists/update.json?{0}";
+        public static string List_Update = "https://api.twitter.com/1.1/lists/update.json";
 
         /// <summary>
         ///   Looks up a localized string similar to https://api.twitter.com/1.1/lists/subscriptions.json?{0}&amp;count={1}.

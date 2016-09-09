@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using System.Net.Http;
-using System.Collections.Generic;
 using System.IO;
 using Tweetinvi.Core;
 using Tweetinvi.Core.Credentials;
