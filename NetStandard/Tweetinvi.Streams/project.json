@@ -1,0 +1,26 @@
+﻿{
+  "version": "1.0.0-*",
+
+  "dependencies": {
+    "NETStandard.Library": "1.6.0",
+    "Tweetinvi.Core": "1.0.0-*",
+    "Tweetinvi.Logic": "1.0.0-*",
+    "Newtonsoft.Json": "9.0.1"
+  },
+
+  "frameworks": {
+    "netstandard1.6": {
+      "imports": "dnxcore50",
+      "buildOptions": {
+        "compile": {
+          "include": [ "../../Tweetinvi.Streams/**/*.cs" ],
+          "excludeFiles": [
+            "../../Tweetinvi.Streams/Helpers/StreamObjectProcessors.cs",
+            "../../Tweetinvi.Streams/Helpers/StreamResultGenerator.cs",
+            "../../Tweetinvi.Streams/StreamTask.cs"
+          ]
+        }
+      }
+    }
+  }
+}

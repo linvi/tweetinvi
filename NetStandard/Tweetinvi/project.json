@@ -1,0 +1,28 @@
+﻿{
+  "version": "1.0.0-*",
+
+  "dependencies": {
+    "Autofac": "4.0.0-rc3-316",
+    "NETStandard.Library": "1.6.0",
+    "Tweetinvi.Controllers": "1.0.0-*",
+    "Tweetinvi.Core": "1.0.0-*",
+    "Tweetinvi.Credentials": "1.0.0-*",
+    "Tweetinvi.Factories": "1.0.0-*",
+    "Tweetinvi.Logic": "1.0.0-*",
+    "Tweetinvi.Streams": "1.0.0-*",
+    "Tweetinvi.WebLogic": "1.0.0-*"
+  },
+
+  "frameworks": {
+    "netstandard1.6": {
+      "imports": "dnxcore50",
+      "buildOptions": {
+        "compile": {
+          "include": [ "../../Tweetinvi/**/*.cs" ]
+        }
+      }
+    }
+  }
+}
+
+

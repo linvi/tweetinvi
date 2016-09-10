@@ -34,7 +34,8 @@ namespace Examplinvi
     {
         static void Main()
         {
-            Auth.SetUserCredentials("jjMV4k3n9EswD9hlhRZqQCZrl", "N4gpJ4HDA2Gtl3WotRP97f2I6ZiKJd4Djl6V9bDJHFmhJs6YB0", "1693649419-BlEivyWIiOVrb22JjdzRipXWp4ltVdo4VLye1VW", "CcPCLv4CgNXEOfLVGhRxzVkIgLqG4WDplMFcUABmFor0E");
+            Auth.SetUserCredentials("CONSUMER_KEY", "CONSUMER_SECRET", "ACCESS_TOKEN", "ACCESS_TOKEN_SECRET");
+			
 
             TweetinviEvents.QueryBeforeExecute += (sender, args) =>
             {
@@ -50,7 +51,21 @@ namespace Examplinvi
                 Console.WriteLine(args.Tweet);
             };
 
-            stream.StartStream();
+            Examples.Search_SimpleTweetSearch();
+            Examples.Search_SearchTweet();
+            Examples.Search_SearchWithMetadata();
+            Examples.Search_FilteredSearch();
+            Examples.Search_SearchUsers();
+
+            Examples.Timeline_GetUserTimeline(Examples.USER_SCREEN_NAME_TO_TEST);
+
+            Console.ReadKey();
+            Console.Clear();
+
+            //Examples.Stream_SampleStreamExample();
+
+            
+            /* Temp samples to verify the library working*/
 
             var fs = Stream.CreateUserStream();
 

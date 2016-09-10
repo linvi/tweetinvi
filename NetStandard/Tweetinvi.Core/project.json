@@ -1,0 +1,35 @@
+﻿{
+  "version": "1.0.0-*",
+
+  "dependencies": {
+    "NETStandard.Library": "1.6.0",
+    "Newtonsoft.Json": "9.0.1",
+    "System.Net.Requests": "4.0.11",
+    "System.Reflection.TypeExtensions": "4.1.0",
+    "System.Runtime.Serialization.Primitives": "4.1.1"
+  },
+
+  "frameworks": {
+    "netstandard1.6": {
+      "imports": "dnxcore50",
+      "buildOptions": {
+        "compile": {
+          "include": [ "../../Tweetinvi.Core/**/*.cs" ],
+          "exclude": [
+            "../../Tweetinvi.Core/obj/**/*.cs",
+            "obj/**/*.cs"
+          ],
+          "excludeFiles": [
+            "../../Tweetinvi.Core/Core/Events/WeakDelegate.cs",
+            "../../Tweetinvi.Core/Core/Extensions/LanguageExtension.cs",
+            "../../Tweetinvi.Core/Core/Extensions/TweetSearchFiltersExtension.cs",
+            "../../Tweetinvi.Core/Core/Extensions/TwitterTimeZoneExtension.cs",
+            "../../Tweetinvi.Core/Core/Helpers/SynchronousInvoker.cs",
+            "../../Tweetinvi.Core/Core/Helpers/TaskFactory.cs",
+            "../../Tweetinvi.Core/Core/Helpers/ThreadHelper.cs"
+          ]
+        }
+      }
+    }
+  }
+}
