@@ -73,7 +73,7 @@ namespace Tweetinvi.Controllers.Search
                 throw new ArgumentException("TweetSearch Parameters cannot be null");
             }
 
-            var result =  new List<ISearchResultsDTO>();
+            var result = new List<ISearchResultsDTO>();
             if (searchTweetsParameters.MaximumNumberOfResults > 100)
             {
                 result = SearchTweetsRecursively(searchTweetsParameters);
@@ -81,7 +81,7 @@ namespace Tweetinvi.Controllers.Search
             else
             {
                 string httpQuery = _searchQueryGenerator.GetSearchTweetsQuery(searchTweetsParameters);
-                
+
                 var searchTweetResult = GetSearchTweetResultsFromQuery(httpQuery);
                 if (searchTweetResult == null)
                 {
@@ -102,7 +102,7 @@ namespace Tweetinvi.Controllers.Search
             searchParameter.MaximumNumberOfResults = Math.Min(searchParameter.MaximumNumberOfResults, 100);
 
             string query = _searchQueryGenerator.GetSearchTweetsQuery(searchParameter);
-            
+
             var currentResult = GetSearchTweetResultsFromQuery(query);
             if (currentResult == null)
             {
@@ -145,20 +145,29 @@ namespace Tweetinvi.Controllers.Search
             foreach (var searchResultsDTO in searchResultsDTOs)
             {
                 var tweetDTOs = searchResultsDTO.TweetDTOs;
+                IEnumerable<ITweetWithSearchMetadataDTO> matchingTweetDTOS = null;
+
                 if (searchTweetsParameters.TweetSearchType == TweetSearchType.OriginalTweetsOnly)
                 {
-                    searchResultsDTO.MatchingTweetDTOs = tweetDTOs.Where(x => x.RetweetedTweetDTO == null).ToArray();
+                    matchingTweetDTOS = tweetDTOs.Where(x => x.RetweetedTweetDTO == null).ToArray();
                 }
 
                 if (searchTweetsParameters.TweetSearchType == TweetSearchType.RetweetsOnly)
                 {
-                    searchResultsDTO.MatchingTweetDTOs = tweetDTOs.Where(x => x.RetweetedTweetDTO != null).ToArray();
+                    matchingTweetDTOS = tweetDTOs.Where(x => x.RetweetedTweetDTO != null).ToArray();
                 }
 
                 if (searchTweetsParameters.TweetSearchType == TweetSearchType.All)
                 {
-                    searchResultsDTO.MatchingTweetDTOs = tweetDTOs;
+                    matchingTweetDTOS = tweetDTOs;
                 }
+
+                if (matchingTweetDTOS != null && searchTweetsParameters.FilterTweetsNotContainingGeoInformation)
+                {
+                    matchingTweetDTOS = matchingTweetDTOS.Where(x => x.Coordinates != null || x.Place != null);
+                }
+
+                searchResultsDTO.MatchingTweetDTOs = matchingTweetDTOS?.ToArray();
             }
         }
 
@@ -270,7 +279,7 @@ namespace Tweetinvi.Controllers.Search
                         }
                     }
                 }
-                
+
                 if (searchIsComplete)
                 {
                     break;

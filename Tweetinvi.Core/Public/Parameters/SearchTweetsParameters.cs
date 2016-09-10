@@ -22,7 +22,7 @@ namespace Tweetinvi.Parameters
         /// <summary>
         /// Language identified for the tweet.
         /// </summary>
-        LanguageFilter Lang { get; set; }
+        LanguageFilter? Lang { get; set; }
 
         /// <summary>
         /// Restrict your query to a given location.
@@ -78,6 +78,13 @@ namespace Tweetinvi.Parameters
         /// Set the geo location where the search have to be performed.
         /// </summary>
         void SetGeoCode(double latitude, double longitude, double radius, DistanceMeasure measure);
+
+        /// <summary>
+        /// Ensure that tweets returned by Twitter search returns tweet with geo information.
+        /// This is necessary for people who wants to make sure that the Tweet was posted from the location requested.
+        /// To learn more : https://github.com/linvi/tweetinvi/issues/333
+        /// </summary>
+        bool FilterTweetsNotContainingGeoInformation { get; set; }
     }
 
     /// <summary>
@@ -94,6 +101,7 @@ namespace Tweetinvi.Parameters
 
             TweetSearchType = TweetSearchType.All;
             Filters = TweetSearchFilters.None;
+            FilterTweetsNotContainingGeoInformation = false;
         }
 
         public SearchTweetsParameters(string searchQuery) : this()
@@ -120,7 +128,7 @@ namespace Tweetinvi.Parameters
         public string Locale { get; set; }
         public int MaximumNumberOfResults { get; set; }
 
-        public LanguageFilter Lang { get; set; }
+        public LanguageFilter? Lang { get; set; }
         public IGeoCode GeoCode { get; set; }
         public SearchResultType? SearchType { get; set; }
 
@@ -142,5 +150,7 @@ namespace Tweetinvi.Parameters
         {
             GeoCode = new GeoCode(latitude, longitude, radius, measure);
         }
+
+        public bool FilterTweetsNotContainingGeoInformation { get; set; }
     }
 }
