@@ -47,7 +47,6 @@ namespace Tweetinvi
 
         private static MethodInfo _jsonConvert;
         private static readonly Dictionary<Type, IJsonSerializer> _getSerializableObject;
-        private static Dictionary<Type, IJsonSerializer> _getFromDeserializeObject;
 
         static JsonSerializer()
         {
@@ -111,11 +110,16 @@ namespace Tweetinvi
             var type = typeof(T);
             object toSerialize = obj;
 
-            if (obj is IEnumerable && type.IsGenericType)
+#if NET_CORE
+            var isGenericType = type.GetTypeInfo().IsGenericType;
+#else
+            var isGenericType = type.IsGenericType;
+#endif
+            if (obj is IEnumerable && isGenericType)
             {
                 Type genericType = null;
 
-                if (type.IsGenericType)
+                if (isGenericType)
                 {
                     genericType = type.GetGenericArguments()[0];
                 }
@@ -187,7 +191,11 @@ namespace Tweetinvi
                 {
                     Type genericType = null;
 
+#if NET_CORE
+                    if (type.GetTypeInfo().IsGenericType)
+#else
                     if (type.IsGenericType)
+#endif
                     {
                         genericType = type.GetGenericArguments()[0];
                     }
@@ -252,8 +260,11 @@ namespace Tweetinvi
             if (typeof(IEnumerable).IsAssignableFrom(type))
             {
                 Type genericType = null;
-
+#if NET_CORE
+                if (type.GetTypeInfo(). IsGenericType)
+#else
                 if (type.IsGenericType)
+#endif
                 {
                     genericType = type.GetGenericArguments()[0];
                 }
