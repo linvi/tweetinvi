@@ -15,20 +15,7 @@
       "buildOptions": {
         "define": ["NET_CORE"],
         "compile": {
-          "include": [ "../../Tweetinvi.Core/**/*.cs" ],
-          "exclude": [
-            "../../Tweetinvi.Core/obj/**/*.cs",
-            "obj/**/*.cs"
-          ],
-          "excludeFiles": [
-            "../../Tweetinvi.Core/Core/Events/WeakDelegate.cs",
-            "../../Tweetinvi.Core/Core/Extensions/LanguageExtension.cs",
-            "../../Tweetinvi.Core/Core/Extensions/TweetSearchFiltersExtension.cs",
-            "../../Tweetinvi.Core/Core/Extensions/TwitterTimeZoneExtension.cs",
-            "../../Tweetinvi.Core/Core/Helpers/SynchronousInvoker.cs",
-            "../../Tweetinvi.Core/Core/Helpers/TaskFactory.cs",
-            "../../Tweetinvi.Core/Core/Helpers/ThreadHelper.cs"
-          ]
+          "include": [ "../../Tweetinvi.Core/**/*.cs" ]
         }
       }
     }
