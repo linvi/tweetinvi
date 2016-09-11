@@ -724,8 +724,12 @@ namespace Examplinvi
             var stream = user.GetProfileImageStream(ImageSize.bigger);
             var fileStream = new FileStream(string.Format("{0}.jpg", user.Id), FileMode.Create);
             stream.CopyTo(fileStream);
-
-            string assemblyPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().CodeBase);
+#if NET_CORE
+            string assemblyPath = Path.GetDirectoryName(typeof(User).GetTypeInfo().Assembly.CodeBase);
+#else
+            string assemblyPath = Path.GetDirectoryName( Assembly.GetExecutingAssembly().CodeBase);
+#endif
+            
             if (assemblyPath != null)
             {
                 Process.Start(assemblyPath);
@@ -1430,7 +1434,7 @@ namespace Examplinvi
 
             Console.WriteLine("Remaning Requests for GetRate : {0}", tokenRateLimits.ApplicationRateLimitStatusLimit.Remaining);
             Console.WriteLine("Total Requests Allowed for GetRate : {0}", tokenRateLimits.ApplicationRateLimitStatusLimit.Limit);
-            Console.WriteLine("GetRate limits will reset at : {0} local time", tokenRateLimits.ApplicationRateLimitStatusLimit.ResetDateTime.ToLongTimeString());
+            Console.WriteLine("GetRate limits will reset at : {0} local time", tokenRateLimits.ApplicationRateLimitStatusLimit.ResetDateTime.ToString("T"));
         }
 
         public static void GetCredentialsRateLimits()
@@ -1440,7 +1444,7 @@ namespace Examplinvi
 
             Console.WriteLine("Remaning Requests for GetRate : {0}", tokenRateLimits.ApplicationRateLimitStatusLimit.Remaining);
             Console.WriteLine("Total Requests Allowed for GetRate : {0}", tokenRateLimits.ApplicationRateLimitStatusLimit.Limit);
-            Console.WriteLine("GetRate limits will reset at : {0} local time", tokenRateLimits.ApplicationRateLimitStatusLimit.ResetDateTime.ToLongTimeString());
+            Console.WriteLine("GetRate limits will reset at : {0} local time", tokenRateLimits.ApplicationRateLimitStatusLimit.ResetDateTime.ToString("T"));
         }
 
         #endregion

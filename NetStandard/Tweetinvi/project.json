@@ -16,9 +16,12 @@
   "frameworks": {
     "netstandard1.6": {
       "imports": "dnxcore50",
-      "buildOptions": {
+      "buildOptions": {        
         "compile": {
-          "include": [ "../../Tweetinvi/**/*.cs" ]
+          "include": [ "../../Tweetinvi/**/*.cs" ],
+          "excludeFiles": [
+            "../../Tweetinvi/JsonSerializer.cs"
+          ]
         }
       }
     }
