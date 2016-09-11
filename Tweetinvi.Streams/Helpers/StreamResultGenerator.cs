@@ -85,11 +85,19 @@ namespace Tweetinvi.Streams.Helpers
                 _currentStreamTask.StreamStarted += StreamTaskStarted;
                 _currentStreamTask.StreamStateChanged += StreamTaskStateChanged;
             }
-
+#if NET_CORE
+            await Task.Run(() =>
+            {
+                streamTask.Start();
+            }).ConfigureAwait(false);
+#else
             await TaskEx.Run(() =>
             {
                 streamTask.Start();
             }).ConfigureAwait(false);
+#endif
+
+
         }
 
         private void StreamTaskStarted(object sender, EventArgs eventArgs)

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Reflection;
+using System.Linq;
 
 namespace Tweetinvi.Core.Extensions
 {
@@ -15,7 +16,9 @@ namespace Tweetinvi.Core.Extensions
         {
             Type type = enumVal.GetType();
             MemberInfo[] memInfo = type.GetMember(enumVal.ToString());
-            object[] attributes = memInfo[0].GetCustomAttributes(typeof(T), false);
+            
+            //Added to array to make it compatible for .netcore
+            var attributes = memInfo[0].GetCustomAttributes(typeof(T), false).ToArray();
             return attributes.Length > 0 ? (T)attributes[0] : null;
         }
     }
