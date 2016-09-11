@@ -2,7 +2,7 @@
   "version": "1.0.0-*",
 
   "dependencies": {
-    "Autofac": "4.0.0-rc3-316",
+    "Autofac": "4.1.0",
     "NETStandard.Library": "1.6.0",
     "Tweetinvi.Controllers": "1.0.0-*",
     "Tweetinvi.Core": "1.0.0-*",
