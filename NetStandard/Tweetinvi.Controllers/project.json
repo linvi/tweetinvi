@@ -11,6 +11,7 @@
     "netstandard1.6": {
       "imports": "dnxcore50",
       "buildOptions": {
+        "define": [ "NET_CORE" ],
         "compile": {
           "include": [ "../../Tweetinvi.Controllers/**/*.cs" ]
         }

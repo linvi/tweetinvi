@@ -11,12 +11,10 @@
     "netstandard1.6": {
       "imports": "dnxcore50",
       "buildOptions": {
+        "define": [ "NET_CORE" ],
         "compile": {
-          "include": [ "../../Tweetinvi.WebLogic/**/*.cs" ],
-          "excludeFiles": [
-            "../../Tweetinvi.WebLogic/WebHelper.cs"
-          ]
-        }        
+          "include": [ "../../Tweetinvi.WebLogic/**/*.cs" ]
+        }
       }
     }
   }
