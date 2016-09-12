@@ -174,7 +174,7 @@ namespace Tweetinvi.Streams
             _filteredLanguages.Remove(language);
         }
 
-        public void RemoveTweetLanguageFilter(Language language)
+        public void RemoveTweetLanguageFilter(LanguageFilter language)
         {
             RemoveTweetLanguageFilter(language.GetLanguageCode());
         }

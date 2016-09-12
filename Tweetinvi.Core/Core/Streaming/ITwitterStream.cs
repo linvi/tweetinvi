@@ -130,7 +130,7 @@ namespace Tweetinvi.Core.Streaming
         /// <summary>
         /// Tweets with the specified language will no longer be received.
         /// </summary>
-        void RemoveTweetLanguageFilter(Language language);
+        void RemoveTweetLanguageFilter(LanguageFilter language);
 
         /// <summary>
         /// No filter on the languages will be applied.
