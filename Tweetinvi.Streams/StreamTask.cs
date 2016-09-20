@@ -243,18 +243,25 @@ namespace Tweetinvi.Streams
         private string GetJsonResponseFromReader(StreamReader reader, ITwitterQuery twitterQuery)
         {
             var requestTask = reader.ReadLineAsync();
+
 #if NET_CORE
             var resultingTask = Task.WhenAny(requestTask, Task.Delay(STREAM_DISCONNECTED_DELAY)).Result;
 #else
-                        var resultingTask = TaskEx.WhenAny(requestTask, TaskEx.Delay(STREAM_DISCONNECTED_DELAY)).Result;
+            var resultingTask = TaskEx.WhenAny(requestTask, TaskEx.Delay(STREAM_DISCONNECTED_DELAY)).Result;
 #endif
-
 
             if (resultingTask != requestTask)
             {
-                var twitterQueryParameter = _twitterTimeoutExceptionFactory.GenerateParameterOverrideWrapper("twitterQuery", twitterQuery);
+                requestTask.ContinueWith(json =>
+                {
+                    // We want to ensure that we are properly handling reuqest Tasks exceptions
+                    // so that no scheduler actually receive any potential exception received.
+                }, TaskContinuationOptions.OnlyOnFaulted);
+
+                var twitterQueryParameter =
+                    _twitterTimeoutExceptionFactory.GenerateParameterOverrideWrapper("twitterQuery", twitterQuery);
                 var twitterTimeoutException = _twitterTimeoutExceptionFactory.Create(twitterQueryParameter);
-                throw (Exception)twitterTimeoutException;
+                throw (Exception) twitterTimeoutException;
             }
 
             var jsonResponse = requestTask.Result;
