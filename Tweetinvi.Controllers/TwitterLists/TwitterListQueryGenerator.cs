@@ -131,7 +131,7 @@ namespace Tweetinvi.Controllers.TwitterLists
                 queryParameters.Append(_queryParameterGenerator.GenerateCountParameter(TweetinviConsts.LIST_GET_TWEETS_COUNT));
             }
 
-            queryParameters.Append(_queryParameterGenerator.GenerateTweetModeParameter(_tweetinviSettingsAccessor.CurrentThreadSettings.TweetMode));
+            queryParameters.AddFormattedParameterToQuery(_queryParameterGenerator.GenerateTweetModeParameter(_tweetinviSettingsAccessor.CurrentThreadSettings.TweetMode));
 
             return string.Format(Resources.List_GetTweetsFromList, queryParameters);
         }

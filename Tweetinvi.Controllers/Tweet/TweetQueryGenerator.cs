@@ -45,7 +45,7 @@ namespace Tweetinvi.Controllers.Tweet
             _tweetQueryValidator.ThrowIfTweetCannotBeUsed(tweetId);
 
             var query = new StringBuilder(string.Format(Resources.Tweet_Get, tweetId));
-            query.Append(_queryParameterGenerator.GenerateTweetModeParameter(_tweetinviSettingsAccessor.CurrentThreadSettings.TweetMode));
+            query.AddFormattedParameterToQuery(_queryParameterGenerator.GenerateTweetModeParameter(_tweetinviSettingsAccessor.CurrentThreadSettings.TweetMode));
 
             return query.ToString();
         }
@@ -67,7 +67,7 @@ namespace Tweetinvi.Controllers.Tweet
             var idsParameter = string.Join("%2C", tweetIdsAsList);
 
             var query = new StringBuilder(string.Format(Resources.Tweet_Lookup, idsParameter));
-            query.Append(_queryParameterGenerator.GenerateTweetModeParameter(_tweetinviSettingsAccessor.CurrentThreadSettings.TweetMode));
+            query.AddFormattedParameterToQuery(_queryParameterGenerator.GenerateTweetModeParameter(_tweetinviSettingsAccessor.CurrentThreadSettings.TweetMode));
 
             return query.ToString();
         }
@@ -121,7 +121,6 @@ namespace Tweetinvi.Controllers.Tweet
                     query.AddParameterToQuery("media_ids", mediaIdsParameter);
                 }
 
-                query.Append(_queryParameterGenerator.GenerateTweetModeParameter(_tweetinviSettingsAccessor.CurrentThreadSettings.TweetMode));
                 query.Append(_queryParameterGenerator.GenerateAdditionalRequestParameters(queryParameters.FormattedCustomQueryParameters));
             }
 
@@ -140,7 +139,7 @@ namespace Tweetinvi.Controllers.Tweet
             _tweetQueryValidator.ThrowIfTweetCannotBeUsed(tweetId);
 
             var query = new StringBuilder(string.Format(Resources.Tweet_Retweet_Publish, tweetId));
-            query.Append(_queryParameterGenerator.GenerateTweetModeParameter(_tweetinviSettingsAccessor.CurrentThreadSettings.TweetMode));
+            query.AddFormattedParameterToQuery(_queryParameterGenerator.GenerateTweetModeParameter(_tweetinviSettingsAccessor.CurrentThreadSettings.TweetMode));
 
             return query.ToString();
         }
@@ -154,7 +153,7 @@ namespace Tweetinvi.Controllers.Tweet
             var query = new StringBuilder(string.Format(Resources.Tweet_Retweet_GetRetweets, tweetIdentifier.Id));
 
             query.AddParameterToQuery("count", maxRetweetsToRetrieve);
-            query.Append(_queryParameterGenerator.GenerateTweetModeParameter(_tweetinviSettingsAccessor.CurrentThreadSettings.TweetMode));
+            query.AddFormattedParameterToQuery(_queryParameterGenerator.GenerateTweetModeParameter(_tweetinviSettingsAccessor.CurrentThreadSettings.TweetMode));
 
             return query.ToString();
         }
@@ -187,7 +186,7 @@ namespace Tweetinvi.Controllers.Tweet
             _tweetQueryValidator.ThrowIfTweetCannotBeUsed(tweetId);
 
             var query = new StringBuilder(string.Format(Resources.Tweet_UnRetweet, tweetId));
-            query.Append(_queryParameterGenerator.GenerateTweetModeParameter(_tweetinviSettingsAccessor.CurrentThreadSettings.TweetMode));
+            query.AddFormattedParameterToQuery(_queryParameterGenerator.GenerateTweetModeParameter(_tweetinviSettingsAccessor.CurrentThreadSettings.TweetMode));
 
             return query.ToString();
         }
@@ -205,7 +204,7 @@ namespace Tweetinvi.Controllers.Tweet
 
             var query = new StringBuilder(string.Format(Resources.Tweet_Destroy, tweetId));
 
-            query.Append(_queryParameterGenerator.GenerateTweetModeParameter(_tweetinviSettingsAccessor.CurrentThreadSettings.TweetMode));
+            query.AddFormattedParameterToQuery(_queryParameterGenerator.GenerateTweetModeParameter(_tweetinviSettingsAccessor.CurrentThreadSettings.TweetMode));
 
             return query.ToString();
         }
