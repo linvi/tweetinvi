@@ -104,7 +104,7 @@ namespace Tweetinvi.WebLogic
 
         protected Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken, string authorizationHeader)
         {
-            request.Headers.Add("User-Agent", "Tweetinvi/1.0");
+            request.Headers.Add("User-Agent", "Tweetinvi/1.1");
             request.Headers.ExpectContinue = false;
             request.Headers.CacheControl = new CacheControlHeaderValue { NoCache = true };
             request.Headers.Add("Authorization", authorizationHeader);
