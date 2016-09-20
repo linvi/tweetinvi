@@ -36,38 +36,12 @@ namespace Examplinvi
         {
             Auth.SetUserCredentials("CONSUMER_KEY", "CONSUMER_SECRET", "ACCESS_TOKEN", "ACCESS_TOKEN_SECRET");
 			
-
             TweetinviEvents.QueryBeforeExecute += (sender, args) =>
             {
                 Console.WriteLine(args.QueryURL);
             };
 
-            var stream = Stream.CreateSampleStream();
-
-            stream.AddTweetLanguageFilter(LanguageFilter.French);
-
-            stream.TweetReceived += (sender, args) =>
-            {
-                Console.WriteLine(args.Tweet);
-            };
-
-            Examples.Search_SimpleTweetSearch();
-            Examples.Search_SearchTweet();
-            Examples.Search_SearchWithMetadata();
-            Examples.Search_FilteredSearch();
-            Examples.Search_SearchUsers();
-
-            Examples.Timeline_GetUserTimeline(Examples.USER_SCREEN_NAME_TO_TEST);
-
-            Console.ReadKey();
-            Console.Clear();
-
-            //Examples.Stream_SampleStreamExample();
-
-            
-            /* Temp samples to verify the library working*/
-
-            var fs = Stream.CreateUserStream();
+            var authenticatedUser = User.GetAuthenticatedUser();
 
             GenerateCredentialExamples();
             UserLiveFeedExamples();
