@@ -16,11 +16,17 @@
         <language>en-US</language>
         <tags>twitter c# rest rest api 1.1 .net</tags>
         <dependencies>
-            <dependency id="Autofac" version="3.5.2" />
-            <dependency id="Microsoft.Bcl.Async" version="1.0.168" />
-            <dependency id="Microsoft.Bcl.Build" version="1.0.21" />
-            <dependency id="Microsoft.Net.Http" version="2.2.29" />
-            <dependency id="Newtonsoft.Json" version="9.0.1" />
+            <group>
+                <dependency id="Autofac" version="3.5.2" />
+                <dependency id="Microsoft.Bcl.Async" version="1.0.168" />
+                <dependency id="Microsoft.Bcl.Build" version="1.0.21" />
+                <dependency id="Microsoft.Net.Http" version="2.2.29" />
+                <dependency id="Newtonsoft.Json" version="9.0.1" />
+            </group>
+            <group targetFramework="netcoreapp1.0">
+                <dependency id="Autofac" version="4.1.0" />
+                <dependency id="Newtonsoft.Json" version="9.0.1" />
+            </group>
         </dependencies>
     </metadata>
 </package>

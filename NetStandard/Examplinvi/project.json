@@ -1,5 +1,5 @@
 ﻿{
-  "version": "1.0.0-*",
+  "version": "1.1.0-*",
   "buildOptions": {
     "emitEntryPoint": true
   },
@@ -9,7 +9,7 @@
       "type": "platform",
       "version": "1.0.0"
     },
-    "Tweetinvi": "1.0.0-*"
+    "Tweetinvi": "1.1.0-*"
   },
 
   "frameworks": {
