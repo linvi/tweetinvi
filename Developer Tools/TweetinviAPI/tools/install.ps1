@@ -8,4 +8,5 @@ Write-Host 'Auth.SetUserCredentials("CONSUMER_KEY", "CONSUMER_SECRET", "ACCESS_T
 Write-Host 'var user = User.GetAuthenticatedUser();'
 Write-Host 'Debug.WriteLine(user.ScreenName);'
 Write-Host ''
-Write-Host 'Please enjoy Tweetinvi!'
+Write-Host 'Enjoy Tweetinvi!'
+Write-Host ''
