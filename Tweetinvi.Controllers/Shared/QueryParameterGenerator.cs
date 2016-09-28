@@ -103,7 +103,7 @@ namespace Tweetinvi.Controllers.Shared
 
             if (tweetMode != null)
             {
-                tweetModeParameter = tweetMode.ToString().ToLowerInvariant();
+                tweetModeParameter = string.Format("tweet_mode={0}", tweetMode.ToString().ToLowerInvariant());
             }
 
             return tweetModeParameter;

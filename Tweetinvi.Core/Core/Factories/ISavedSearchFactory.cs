@@ -10,5 +10,6 @@ namespace Tweetinvi.Core.Factories
         ISavedSearch GetSavedSearch(long searchId);
         ISavedSearch GenerateSavedSearchFromDTO(ISavedSearchDTO savedSearchDTO);
         IEnumerable<ISavedSearch> GenerateSavedSearchesFromDTOs(IEnumerable<ISavedSearchDTO> savedSearchDTO);
+        ISavedSearch GenerateSavedSearchFromJson(string json);
     }
 }

@@ -1,5 +1,5 @@
 Param(
-	$v = '1.0',			 # Version number
+	$v = '1.1',			 # Version number
 	$m = 'Release',              # Visual Studio Build Mode
 	[Switch]$dnr,				 # Do Not Rebuild 
 	[Switch]$h,					 # Help
@@ -46,6 +46,7 @@ $net40Folder = '.\TweetinviAPI\lib\net40'
 $net45Folder = '.\TweetinviAPI\lib\net45'
 $net40PortableFolder = '.\TweetinviAPI\lib\portable-net40+sl5+wp80+win8+wpa81'
 $net45PortableFolder = '.\TweetinviAPI\lib\portable-net45+wp80+win8+wpa81+dnxcore50'
+
 $tweetinviAPIMerged = 'Tweetinvi.dll'
 
 $examplinvi = 'Examplinvi'
@@ -62,6 +63,12 @@ $tweetinviFactories = 'Tweetinvi.Factories'
 $tweetinviLogic = 'Tweetinvi.Logic'
 $tweetinviWebLogic = 'Tweetinvi.WebLogic'
 $tweetinviStreams = 'Tweetinvi.Streams'
+
+# .NET Core variables
+$netCoreRootPath = '..\NetStandard\'
+$netCoreExamplinvi = 'NetStandard/Examplinvi'
+$netCoreNugetFolder = '.\TweetinviAPI\lib\netstandard1.6'
+$netCoreTemp = 'temp_net_core_' + $version;
 
 $projects = 
 @(
@@ -135,17 +142,27 @@ if (!$uv.IsPresent) {
 
 	# Remove previous binaries
 	$examplinviBin = $rootPath + $examplinvi + '\bin\' + $releaseMode
+    $netCoreExamplinviBin = $netCoreRootPath + $examplinvi + '\bin\' + $releaseMode + '\netcoreapp1.0'
 	
 	if (Test-Path $examplinviBin) {
 		rmdir -r $examplinviBin
 	}
-	
-	# Build solution
 
+    if (Test-Path $netCoreExamplinviBin) {
+		rmdir -r $netCoreExamplinviBin
+	}
+	
+	# Build Portable solution
     if (!$dnr.IsPresent)
     {
 	    Build $rootPath'Tweetinvi.sln' $releaseMode
+
+        Write-Host ".NET CORE Automatic build is not yet implemented. Please ensure Examplinvi for .NET Core is compiled in " + $releaseMode
+        Read-Host 'Press Enter to continue…' | Out-Null
     }
+
+    # Build .NET CORE solution
+
 
 	# Create temporary folder
 	If (Test-Path $temporaryFolder)
@@ -157,8 +174,23 @@ if (!$uv.IsPresent) {
 		mkdir $temporaryFolder
 	}
 
+    If (Test-Path $netCoreTemp)
+	{
+		Remove-Item -r $netCoreTemp\*
+	}
+	Else
+	{
+		mkdir $netCoreTemp
+	}
+
 	# Move dll into temporary folder
 	Get-ChildItem -LiteralPath $examplinviBin -filter *.dll  | % { Copy-Item $_.fullname $temporaryFolder }
+    Get-ChildItem -LiteralPath $netCoreExamplinviBin -filter *.dll  | % { Copy-Item $_.fullname $netCoreTemp }
+
+    cp $env:USERPROFILE\.nuget\packages\Newtonsoft.Json\9.0.1\lib\netstandard1.0\Newtonsoft.Json.dll $netCoreTemp
+    cp $env:USERPROFILE\.nuget\packages\Autofac\4.1.0\lib\netstandard1.1\Autofac.dll $netCoreTemp
+    cp 'C:\Program Files\dotnet\shared\Microsoft.NETCore.App\1.0.0\System.Reflection.TypeExtensions.dll' $netCoreTemp
+    
 
 	if ($b.IsPresent) {
 		Exit;
@@ -169,24 +201,36 @@ if (!$uv.IsPresent) {
 	mkdir $net45Folder -Force | Out-Null
 	mkdir $net40PortableFolder -Force | Out-Null
 	mkdir $net45PortableFolder -Force | Out-Null
+    mkdir $netCoreNugetFolder -Force | Out-Null
 
 	# Ensure the nuget folders are empty
 	rm -Force ($net40Folder + '\*');
 	rm -Force ($net45Folder + '\*');
 	rm -Force ($net40PortableFolder + '\*');
 	rm -Force ($net45PortableFolder + '\*');
+    rm -Force ($netCoreNugetFolder + '\*');
 
+    # Add Cheatsheet to help developers
     Copy-Item $rootPath$examplinvi\Program.cs $temporaryFolder\Cheatsheet.cs
 	Copy-Item $rootPath$examplinvi\Program.cs $nugetToolsFolder\Cheatsheet.cs
 
-	# Create Merged assembly
-
+    # Prepare folders for Merged Assemblies
     $outputFolder = $temporaryFolder + '\output';
     mkdir $outputFolder -Force | Out-Null
 
+    $netCoreOutputFolder = $netCoreTemp + '\output';
+    mkdir $netCoreOutputFolder -Force | Out-Null
+
 	$mergedDLLPath = $temporaryFolder + '\output\' + $tweetinviAPIMerged
+    $netCoreMergedDLLPath = $netCoreTemp + '\output\' + $tweetinviAPIMerged
+
 	$ILMergeCommand = '.\ILMerge.exe /target:library /out:' + $mergedDLLPath + ' /keyfile:../tweetinvi.snk '
+    $netCoreILMergeCommand = '.\ILMerge.exe /target:library /out:' + $netCoreMergedDLLPath + ' /keyfile:../tweetinvi.snk '
+
 	$dllMergeParam = "";
+    $netCoreDLLMergeParam = "";
+
+	# Create Merged assembly
 
     if ($iel.IsPresent)
     {
@@ -194,18 +238,28 @@ if (!$uv.IsPresent) {
 	    {
 			$dllMergeParam = $dllMergeParam  + $temporaryFolder + '\' + $additionalAssemblies[$i] + ' ';
 		    $ILMergeCommand = $ILMergeCommand +  $temporaryFolder + '/' + $additionalAssemblies[$i] + ' ';
+            
+            $netCoreDLLMergeParam = $netCoreDLLMergeParam  + $netCoreTemp + '\' + $additionalAssemblies[$i] + ' ';
+            $netCoreILMergeCommand = $netCoreILMergeCommand +  $netCoreTemp + '/' + $additionalAssemblies[$i] + ' ';
 	    }
     }
 
 	for ($i=4; $i -lt $projects.length; $i++) # start at 4 as there are 4 projects that are not part of the library core
 	{
 		$dllMergeParam = $dllMergeParam  + $temporaryFolder + '\' + $additionalAssemblies[$i] + ' ';
-		$ILMergeCommand = $ILMergeCommand +  $temporaryFolder + '/' + $projects[$i] + '.dll '
+		$ILMergeCommand = $ILMergeCommand +  $temporaryFolder + '/' + $projects[$i] + '.dll ';
+
+        $netCoreDLLMergeParam = $netCoreDLLMergeParam  + $netCoreTemp + '\' + $additionalAssemblies[$i] + ' ';
+		$netCoreILMergeCommand = $netCoreILMergeCommand +  $netCoreTemp + '\' + $projects[$i] + '.dll ';
 	}
 
-	Write-Host $ILMergeCommand
+	
 	# Start-Process -wait -FilePath ".\ILMerge.exe" -ArgumentList "/target:library", ("/out:" + $mergedDLLPath), "/keyfile:../tweetinvi.snk", $dllMergeParam -NoNewWindow
-	Invoke-Expression $ILMergeCommand | Out-Null
+	Write-Host $ILMergeCommand
+    Invoke-Expression $ILMergeCommand | Out-Null
+
+    Write-Host $netCoreILMergeCommand
+    Invoke-Expression $netCoreILMergeCommand | Out-Null
 	
 	if ($sign.IsPresent) 
 	{

@@ -35,7 +35,7 @@ namespace Examplinvi
         static void Main()
         {
             Auth.SetUserCredentials("CONSUMER_KEY", "CONSUMER_SECRET", "ACCESS_TOKEN", "ACCESS_TOKEN_SECRET");
-
+			
             TweetinviEvents.QueryBeforeExecute += (sender, args) =>
             {
                 Console.WriteLine(args.QueryURL);
@@ -62,6 +62,7 @@ namespace Examplinvi
             Examples.ConfigureTweetinvi();
             Examples.GlobalEvents();
             UploadExamples();
+            DownloadExamples();
 
             Console.WriteLine(@"END");
             Console.ReadLine();
@@ -331,6 +332,16 @@ namespace Examplinvi
 
             Examples.ChunkedUpload(new byte[10], "video/mp4");
             Examples.Tweet_PublishTweetWithImage("publish with img", "filePath");
+        }
+
+        private static void DownloadExamples()
+        {
+            if (!Examples.ExecuteExamples)
+            {
+                return;
+            }
+
+            var binary = Examples.DownloadBinaryFromTwitter("https://ton.twitter.com/1.1/ton/data/dm/764104492082233347/764104492107370496/X0v8XTZ4.jpg");
         }
 
         #endregion
@@ -687,8 +698,12 @@ namespace Examplinvi
             var stream = user.GetProfileImageStream(ImageSize.bigger);
             var fileStream = new FileStream(string.Format("{0}.jpg", user.Id), FileMode.Create);
             stream.CopyTo(fileStream);
-
-            string assemblyPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().CodeBase);
+#if NET_CORE
+            string assemblyPath = Path.GetDirectoryName(typeof(User).GetTypeInfo().Assembly.CodeBase);
+#else
+            string assemblyPath = Path.GetDirectoryName( Assembly.GetExecutingAssembly().CodeBase);
+#endif
+            
             if (assemblyPath != null)
             {
                 Process.Start(assemblyPath);
@@ -862,8 +877,8 @@ namespace Examplinvi
                 Console.WriteLine(args.Tweet.Text);
             };
 
-            stream.AddTweetLanguageFilter(Language.English);
-            stream.AddTweetLanguageFilter(Language.French);
+            stream.AddTweetLanguageFilter(LanguageFilter.English);
+            stream.AddTweetLanguageFilter(LanguageFilter.French);
 
             stream.StartStream();
         }
@@ -1115,7 +1130,7 @@ namespace Examplinvi
             var searchParameter = Search.CreateTweetSearchParameter("obama");
 
             searchParameter.SetGeoCode(new Coordinates(37.781157, -122.398720), 1, DistanceMeasure.Miles);
-            searchParameter.Lang = Language.English;
+            searchParameter.Lang = LanguageFilter.English;
             searchParameter.SearchType = SearchResultType.Popular;
             searchParameter.MaximumNumberOfResults = 100;
             searchParameter.Since = new DateTime(2013, 12, 1);
@@ -1393,7 +1408,7 @@ namespace Examplinvi
 
             Console.WriteLine("Remaning Requests for GetRate : {0}", tokenRateLimits.ApplicationRateLimitStatusLimit.Remaining);
             Console.WriteLine("Total Requests Allowed for GetRate : {0}", tokenRateLimits.ApplicationRateLimitStatusLimit.Limit);
-            Console.WriteLine("GetRate limits will reset at : {0} local time", tokenRateLimits.ApplicationRateLimitStatusLimit.ResetDateTime.ToLongTimeString());
+            Console.WriteLine("GetRate limits will reset at : {0} local time", tokenRateLimits.ApplicationRateLimitStatusLimit.ResetDateTime.ToString("T"));
         }
 
         public static void GetCredentialsRateLimits()
@@ -1403,7 +1418,7 @@ namespace Examplinvi
 
             Console.WriteLine("Remaning Requests for GetRate : {0}", tokenRateLimits.ApplicationRateLimitStatusLimit.Remaining);
             Console.WriteLine("Total Requests Allowed for GetRate : {0}", tokenRateLimits.ApplicationRateLimitStatusLimit.Limit);
-            Console.WriteLine("GetRate limits will reset at : {0} local time", tokenRateLimits.ApplicationRateLimitStatusLimit.ResetDateTime.ToLongTimeString());
+            Console.WriteLine("GetRate limits will reset at : {0} local time", tokenRateLimits.ApplicationRateLimitStatusLimit.ResetDateTime.ToString("T"));
         }
 
         #endregion
@@ -1445,7 +1460,7 @@ namespace Examplinvi
                 user2
             };
 
-            var relationships = Account.GetMultipleRelationships(userList);
+            var relationships = Account.GetRelationshipsWith(userList);
             foreach (var relationship in relationships)
             {
                 Console.WriteLine("You are{0} following {1}", relationship.Following ? "" : " not", relationship.TargetScreenName);
@@ -1515,6 +1530,15 @@ namespace Examplinvi
             }
 
             return null;
+        }
+
+        #endregion
+
+        #region Download
+
+        public static byte[] DownloadBinaryFromTwitter(string twitterUrl)
+        {
+            return TwitterAccessor.DownloadBinary(twitterUrl);
         }
 
         #endregion

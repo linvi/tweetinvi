@@ -80,5 +80,8 @@ namespace Tweetinvi.Core.Web
         // Get Json from Twitter
         string ExecuteQuery(string query, HttpMethod method);
         string ExecuteQuery(string query, HttpMethod method, HttpContent httpContent, bool forceThrow = false);
+
+        // Get Binary data from twitter URL
+        byte[] DownloadBinary(string url);
     }
 }

@@ -73,7 +73,7 @@ namespace Tweetinvi.Controllers.User
             query.AddParameterToQuery("max_id", parameters.MaxId);
             query.AddParameterToQuery("count", parameters.MaximumNumberOfTweetsToRetrieve);
 
-            query.Append(_queryParameterGenerator.GenerateTweetModeParameter(_tweetinviSettingsAccessor.CurrentThreadSettings.TweetMode));
+            query.AddFormattedParameterToQuery(_queryParameterGenerator.GenerateTweetModeParameter(_tweetinviSettingsAccessor.CurrentThreadSettings.TweetMode));
             query.Append(_queryParameterGenerator.GenerateAdditionalRequestParameters(parameters.FormattedCustomQueryParameters));
 
             return query.ToString();

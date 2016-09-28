@@ -103,13 +103,17 @@ namespace Tweetinvi.Controllers.Tweet
         {
             var textLength = text == null ? 0 : text.TweetLength();
 
-            if (publishTweetOptionalParameters == null)
+            if (text == null || publishTweetOptionalParameters == null)
             {
                 return textLength;
             }
 
             if (publishTweetOptionalParameters.QuotedTweet != null)
             {
+                var newText = text.TrimEnd();
+
+                textLength = newText.TweetLength();
+                textLength += 1; // for the space that needs to be added before the link to quoted tweet.
                 textLength += TweetinviConsts.MEDIA_CONTENT_SIZE;
             }
 

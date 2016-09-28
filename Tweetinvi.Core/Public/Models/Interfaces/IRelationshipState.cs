@@ -1,4 +1,6 @@
-﻿namespace Tweetinvi.Models
+﻿using Tweetinvi.Models.DTO;
+
+namespace Tweetinvi.Models
 {
     public interface IRelationshipState
     {
@@ -42,5 +44,10 @@
         /// Has a following request been received by the source.
         /// </summary>
         bool FollowingRequestReceived { get; }
+
+        /// <summary>
+        /// DTO
+        /// </summary>
+        IRelationshipStateDTO RelationshipStateDTO { get; set; }
     }
 }

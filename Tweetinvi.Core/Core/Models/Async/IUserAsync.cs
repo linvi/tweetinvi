@@ -58,6 +58,11 @@ namespace Tweetinvi.Core.Models.Async
         /// </summary>
         Task<IEnumerable<ITweet>> GetFavoritesAsync(int maximumTweets = 40);
 
+        /// <summary>
+        /// Get the tweets favourited by the user.
+        /// </summary>
+        Task<IEnumerable<ITweet>> GetFavoritesAsync(IGetUserFavoritesParameters parameters);
+
         // Block  
 
         /// <summary>

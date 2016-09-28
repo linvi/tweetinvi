@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Tweetinvi.Core.Factories;
+using Tweetinvi.Core.Helpers;
 using Tweetinvi.Core.Injectinvi;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
@@ -12,16 +13,19 @@ namespace Tweetinvi.Factories.Friendship
         private readonly IFactory<IRelationshipDetails> _unityRelationshipFactory;
         private readonly IFactory<IRelationshipState> _unityRelationshipStateFactory;
         private readonly IFactory<IFriendshipAuthorizations> _friendshipAuthorizationUnityFactory;
+        private readonly IJsonObjectConverter _jsonObjectConverter;
 
 
         public FriendshipFactory(
             IFactory<IRelationshipDetails> unityRelationshipFactory,
             IFactory<IRelationshipState> unityRelationshipStateFactory,
-            IFactory<IFriendshipAuthorizations> friendshipAuthorizationUnityFactory)
+            IFactory<IFriendshipAuthorizations> friendshipAuthorizationUnityFactory,
+            IJsonObjectConverter jsonObjectConverter)
         {
             _unityRelationshipFactory = unityRelationshipFactory;
             _unityRelationshipStateFactory = unityRelationshipStateFactory;
             _friendshipAuthorizationUnityFactory = friendshipAuthorizationUnityFactory;
+            _jsonObjectConverter = jsonObjectConverter;
         }
 
         // Generate From DTO
@@ -35,6 +39,18 @@ namespace Tweetinvi.Factories.Friendship
 
             var relationshipParameter = _unityRelationshipFactory.GenerateParameterOverrideWrapper("relationshipDetailsDTO", relationshipDetailsDTO);
             return _unityRelationshipFactory.Create(relationshipParameter);
+        }
+
+        public IRelationshipDetails GenerateFriendshipDetailsFromJson(string json)
+        {
+            var dto = _jsonObjectConverter.DeserializeObject<IRelationshipDetailsDTO>(json);
+            return GenerateRelationshipFromRelationshipDTO(dto);
+        }
+
+        public IRelationshipState GenerateFriendshipStateFromJson(string json)
+        {
+            var dto = _jsonObjectConverter.DeserializeObject<IRelationshipStateDTO>(json);
+            return GenerateRelationshipStateFromRelationshipStateDTO(dto);
         }
 
         public IEnumerable<IRelationshipDetails> GenerateRelationshipsFromRelationshipsDTO(IEnumerable<IRelationshipDetailsDTO> relationshipDTOs)

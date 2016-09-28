@@ -11,8 +11,36 @@ namespace Tweetinvi.Core.Extensions
         public static string GetLanguageCode(this Language language)
         {
             var field = language.GetType().GetField(language.ToString());
+#if NET_CORE
+            var descriptionAttribute = (LanguageAttribute)CustomAttributeExtensions.GetCustomAttribute(field, typeof(LanguageAttribute));
+#else
             var descriptionAttribute = (LanguageAttribute)Attribute.GetCustomAttribute(field, typeof(LanguageAttribute));
-            return descriptionAttribute != null ? descriptionAttribute.Language : language.ToString();
+#endif
+
+            return descriptionAttribute != null ? descriptionAttribute.Code : language.ToString();
+        }
+
+        public static string GetLanguageCode(this LanguageFilter language)
+        {
+            var field = language.GetType().GetField(language.ToString());
+#if NET_CORE
+            var descriptionAttribute = (LanguageAttribute)CustomAttributeExtensions.GetCustomAttribute(field, typeof(LanguageAttribute));
+#else
+            var descriptionAttribute = (LanguageAttribute)Attribute.GetCustomAttribute(field, typeof(LanguageAttribute));
+#endif
+
+            return descriptionAttribute != null ? descriptionAttribute.Code : language.ToString();
+        }
+
+        public static string GetLanguageCode(this LanguageFilter? language)
+        {
+            var field = language.GetType().GetField(language.ToString());
+#if NET_CORE
+            var descriptionAttribute = (LanguageAttribute)CustomAttributeExtensions.GetCustomAttribute(field, typeof(LanguageAttribute));
+#else
+            var descriptionAttribute = (LanguageAttribute)Attribute.GetCustomAttribute(field, typeof(LanguageAttribute));
+#endif
+            return descriptionAttribute != null ? descriptionAttribute.Code : language.ToString();
         }
 
         public static Language GetLangFromDescription(string descriptionValue)
@@ -48,7 +76,11 @@ namespace Tweetinvi.Core.Extensions
 
         private static bool IsValidDescriptionField(string descriptionValue, FieldInfo field)
         {
+#if NET_CORE
+            var descriptionAttribute = CustomAttributeExtensions.GetCustomAttribute(field, typeof(LanguageAttribute));
+#else
             var descriptionAttribute = Attribute.GetCustomAttribute(field, typeof(LanguageAttribute));
+#endif
 
             if (descriptionAttribute == null)
             {
@@ -58,12 +90,10 @@ namespace Tweetinvi.Core.Extensions
             var attribute = ((LanguageAttribute) descriptionAttribute);
             if (!attribute.HasMultipleCodes)
             {
-                return attribute.Language == descriptionValue;
+                return attribute.Code == descriptionValue;
             }
-            else
-            {
-                return attribute.Languages.Any(x => x == descriptionValue);
-            }
+
+            return attribute.Codes.Any(x => x == descriptionValue);
         }
     }
 }

@@ -21,6 +21,7 @@ namespace Tweetinvi.Controllers.Search
         string GenerateUntilParameter(DateTime until);
         string GenerateLocaleParameter(string locale);
         string GenerateLangParameter(Language lang);
+        string GenerateLangParameter(LanguageFilter? lang);
         string GenerateGeoCodeParameter(IGeoCode geoCode);
 
         ISearchUsersParameters CreateUserSearchParameters(string query);
@@ -107,6 +108,16 @@ namespace Tweetinvi.Controllers.Search
         public string GenerateLangParameter(Language lang)
         {
             if (!_searchQueryValidator.IsLangDefined(lang))
+            {
+                return string.Empty;
+            }
+
+            return string.Format(Resources.SearchParameter_Lang, lang.GetLanguageCode());
+        }
+
+        public string GenerateLangParameter(LanguageFilter? lang)
+        {
+            if (lang == null)
             {
                 return string.Empty;
             }

@@ -69,7 +69,7 @@ namespace Tweetinvi.Controllers.Search
             query.Append(_searchQueryParameterGenerator.GenerateSinceParameter(searchTweetsParameters.Since));
             query.Append(_searchQueryParameterGenerator.GenerateUntilParameter(searchTweetsParameters.Until));
 
-            query.Append(_queryParameterGenerator.GenerateTweetModeParameter(_tweetinviSettingsAccessor.CurrentThreadSettings.TweetMode));
+            query.AddFormattedParameterToQuery(_queryParameterGenerator.GenerateTweetModeParameter(_tweetinviSettingsAccessor.CurrentThreadSettings.TweetMode));
             query.Append(_queryParameterGenerator.GenerateAdditionalRequestParameters(searchTweetsParameters.FormattedCustomQueryParameters));
 
             return query.ToString();

@@ -13,6 +13,10 @@ namespace Tweetinvi.WebLogic.Utils
                     return HttpMethod.GET;
                 case "POST":
                     return HttpMethod.POST;
+                case "PUT":
+                    return HttpMethod.PUT;
+                case "DELETE":
+                    return HttpMethod.DELETE;
             }
 
             throw new InvalidCastException("Cannot convert http method");

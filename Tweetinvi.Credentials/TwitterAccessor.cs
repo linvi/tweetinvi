@@ -420,6 +420,25 @@ namespace Tweetinvi.Credentials
             }
         }
 
+        // Download
+        public byte[] DownloadBinary(string url)
+        {
+            if (url == null)
+            {
+                throw new ArgumentNullException("URL", "Url cannot be null.");
+            }
+
+            try
+            {
+                return _twitterRequestHandler.DownloadBinary(url);
+            }
+            catch (TwitterException ex)
+            {
+                HandleQueryException(ex);
+                return null;
+            }
+        }
+
         private void HandleQueryException(TwitterException ex)
         {
             if (_exceptionHandler.SwallowWebExceptions)

@@ -54,9 +54,9 @@ namespace Tweetinvi.Factories.Tweet
         }
 
         // Generate Tweet from Json
-        public ITweet GenerateTweetFromJson(string jsonTweet)
+        public ITweet GenerateTweetFromJson(string json)
         {
-            var tweetDTO = _jsonObjectConverter.DeserializeObject<ITweetDTO>(jsonTweet);
+            var tweetDTO = _jsonObjectConverter.DeserializeObject<ITweetDTO>(json);
             if (tweetDTO == null || tweetDTO.Id == TweetinviSettings.DEFAULT_ID)
             {
                 return null;
@@ -148,6 +148,12 @@ namespace Tweetinvi.Factories.Tweet
             var oEmbedTweet = _oembedTweetUnityFactory.Create(parameterOverride);
 
             return oEmbedTweet;
+        }
+
+        public IOEmbedTweet GenerateOEmbedTweetFromJson(string json)
+        {
+            var dto = _jsonObjectConverter.DeserializeObject<IOEmbedTweetDTO>(json);
+            return GenerateOEmbedTweetFromDTO(dto);
         }
 
         // Generate Mention from DTO

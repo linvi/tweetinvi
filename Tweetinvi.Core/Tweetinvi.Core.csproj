@@ -47,6 +47,7 @@
     <Compile Include="Core\Attributes\TwitterEndpointAttribute.cs" />
     <Compile Include="Core\Attributes\LanguageAttribute.cs" />
     <Compile Include="Core\Attributes\TimeZoneFromTwitterAttribute.cs" />
+    <Compile Include="Core\Extensions\EnumExtensions.cs" />
     <Compile Include="Public\Models\Authentication\IAuthenticationContext.cs" />
     <Compile Include="Public\Models\Authentication\IAuthenticationToken.cs" />
     <Compile Include="Public\Models\Enum\AllowContributorRequestMode.cs" />
@@ -55,6 +56,7 @@
     <Compile Include="Public\Models\Enum\HttpMethod.cs" />
     <Compile Include="Public\Models\Enum\ImageSize.cs" />
     <Compile Include="Public\Models\Enum\Language.cs" />
+    <Compile Include="Public\Models\Enum\LanguageFilter.cs" />
     <Compile Include="Public\Models\Enum\PlaceType.cs" />
     <Compile Include="Public\Models\Enum\PrivacyMode.cs" />
     <Compile Include="Public\Models\Enum\MultiRequestsResult.cs" />
@@ -364,9 +366,7 @@
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Core\Controllers\Transactions\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <Import Project="..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

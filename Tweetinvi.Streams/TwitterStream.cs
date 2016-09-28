@@ -164,12 +164,9 @@ namespace Tweetinvi.Streams
             }
         }
 
-        public void AddTweetLanguageFilter(Language language)
+        public void AddTweetLanguageFilter(LanguageFilter language)
         {
-            if (language != Language.Undefined)
-            {
-                AddTweetLanguageFilter(language.GetLanguageCode());
-            }
+            AddTweetLanguageFilter(language.GetLanguageCode());
         }
 
         public void RemoveTweetLanguageFilter(string language)
@@ -177,7 +174,7 @@ namespace Tweetinvi.Streams
             _filteredLanguages.Remove(language);
         }
 
-        public void RemoveTweetLanguageFilter(Language language)
+        public void RemoveTweetLanguageFilter(LanguageFilter language)
         {
             RemoveTweetLanguageFilter(language.GetLanguageCode());
         }

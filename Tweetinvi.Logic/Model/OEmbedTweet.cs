@@ -5,61 +5,61 @@ namespace Tweetinvi.Logic.Model
 {
     public class OEmbedTweet : IOEmbedTweet
     {
-        private readonly IOEmbedTweetDTO _oembedTweetDTO;
+        public IOEmbedTweetDTO OembedTweetDTO { get; set; }
 
         public OEmbedTweet(IOEmbedTweetDTO oEmbedTweetDTO)
         {
-            _oembedTweetDTO = oEmbedTweetDTO;
+            OembedTweetDTO = oEmbedTweetDTO;
         }
 
         public string AuthorName
         {
-            get { return _oembedTweetDTO.AuthorName; }
+            get { return OembedTweetDTO.AuthorName; }
         }
 
         public string AuthorURL
         {
-            get { return _oembedTweetDTO.AuthorURL; }
+            get { return OembedTweetDTO.AuthorURL; }
         }
 
         public string HTML
         {
-            get { return _oembedTweetDTO.HTML; }
+            get { return OembedTweetDTO.HTML; }
         }
 
         public string URL
         {
-            get { return _oembedTweetDTO.URL; }
+            get { return OembedTweetDTO.URL; }
         }
 
         public string ProviderURL
         {
-            get { return _oembedTweetDTO.ProviderURL; }
+            get { return OembedTweetDTO.ProviderURL; }
         }
 
         public double Width
         {
-            get { return _oembedTweetDTO.Width; }
+            get { return OembedTweetDTO.Width; }
         }
 
         public double Height
         {
-            get { return _oembedTweetDTO.Height; }
+            get { return OembedTweetDTO.Height; }
         }
 
         public string Version
         {
-            get { return _oembedTweetDTO.Version; }
+            get { return OembedTweetDTO.Version; }
         }
 
         public string Type
         {
-            get { return _oembedTweetDTO.Type; }
+            get { return OembedTweetDTO.Type; }
         }
 
         public string CacheAge
         {
-            get { return _oembedTweetDTO.CacheAge; }
+            get { return OembedTweetDTO.CacheAge; }
         }
     }
 }

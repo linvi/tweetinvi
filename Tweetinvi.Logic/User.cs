@@ -466,6 +466,11 @@ namespace Tweetinvi.Logic
             return await _taskFactory.ExecuteTaskAsync(() => GetFavorites(maximumTweets));
         }
 
+        public async Task<IEnumerable<ITweet>> GetFavoritesAsync(IGetUserFavoritesParameters parameters)
+        {
+            return await _taskFactory.ExecuteTaskAsync(() => GetFavorites(parameters));
+        }
+
         public async Task<bool> BlockAsync()
         {
             return await _taskFactory.ExecuteTaskAsync(() => BlockUser());

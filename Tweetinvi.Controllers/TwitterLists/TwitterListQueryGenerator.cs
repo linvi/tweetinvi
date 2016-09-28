@@ -21,7 +21,7 @@ namespace Tweetinvi.Controllers.TwitterLists
         string GetUpdateListQuery(ITwitterListUpdateQueryParameters parameters);
         string GetDestroyListQuery(ITwitterListIdentifier identifier);
         string GetTweetsFromListQuery(IGetTweetsFromListQueryParameters queryParameters);
-        
+
         string GetMembersFromListQuery(ITwitterListIdentifier listIdentifier, int maximumNumberOfMembers);
         string GetAddMemberToListQuery(ITwitterListIdentifier listIdentifier, IUserIdentifier userIdentifier);
         string GetAddMultipleMembersToListQuery(ITwitterListIdentifier listIdentifier, IEnumerable<IUserIdentifier> userIdentifiers);
@@ -87,25 +87,18 @@ namespace Tweetinvi.Controllers.TwitterLists
             _listsQueryValidator.ThrowIfListIdentifierIsNotValid(parameters.TwitterListIdentifier);
             _listsQueryValidator.ThrowIfListUpdateParametersIsNotValid(parameters.Parameters);
 
+            var queryBuilder = new StringBuilder(Resources.List_Update);
+
             var listIdentifierParameter = _twitterListQueryParameterGenerator.GenerateIdentifierParameter(parameters.TwitterListIdentifier);
-            var updateQueryParameters = GenerateUpdateAdditionalParameters(parameters.Parameters);
+            queryBuilder.AddFormattedParameterToQuery(listIdentifierParameter);
 
-            var queryParameters = string.Format("{0}{1}", listIdentifierParameter, updateQueryParameters);
-            return string.Format(Resources.List_Update, queryParameters);
+            queryBuilder.AddParameterToQuery("mode", parameters.Parameters.PrivacyMode.ToString().ToLowerInvariant());
+            queryBuilder.AddParameterToQuery("description", parameters.Parameters.Description);
+            queryBuilder.AddParameterToQuery("name", parameters.Parameters.Name);
+            
+            return queryBuilder.ToString();
         }
-        
-        private string GenerateUpdateAdditionalParameters(ITwitterListUpdateParameters parameters)
-        {
-            var privacyModeParameter = string.Format(Resources.List_PrivacyModeParameter, parameters.PrivacyMode.ToString().ToLower());
 
-            var queryParameterBuilder = new StringBuilder(privacyModeParameter);
-
-            queryParameterBuilder.AddParameterToQuery("description", parameters.Description);
-            queryParameterBuilder.AddParameterToQuery("name", parameters.Name);
-
-            return queryParameterBuilder.ToString();
-        }
-        
         public string GetDestroyListQuery(ITwitterListIdentifier identifier)
         {
             _listsQueryValidator.ThrowIfListIdentifierIsNotValid(identifier);
@@ -138,7 +131,7 @@ namespace Tweetinvi.Controllers.TwitterLists
                 queryParameters.Append(_queryParameterGenerator.GenerateCountParameter(TweetinviConsts.LIST_GET_TWEETS_COUNT));
             }
 
-            queryParameters.Append(_queryParameterGenerator.GenerateTweetModeParameter(_tweetinviSettingsAccessor.CurrentThreadSettings.TweetMode));
+            queryParameters.AddFormattedParameterToQuery(_queryParameterGenerator.GenerateTweetModeParameter(_tweetinviSettingsAccessor.CurrentThreadSettings.TweetMode));
 
             return string.Format(Resources.List_GetTweetsFromList, queryParameters);
         }
@@ -233,7 +226,7 @@ namespace Tweetinvi.Controllers.TwitterLists
         public string GetSubscribeUserToListQuery(ITwitterListIdentifier listIdentifier)
         {
             _listsQueryValidator.ThrowIfListIdentifierIsNotValid(listIdentifier);
-            
+
             var listIdentifierParameter = _twitterListQueryParameterGenerator.GenerateIdentifierParameter(listIdentifier);
             return string.Format(Resources.List_Subscribe, listIdentifierParameter);
         }
