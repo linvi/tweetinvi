@@ -305,6 +305,23 @@ namespace Tweetinvi.Core.Extensions
             queryBuilder.Append(parameter);
         }
 
+        public static void AddFormattedParameterToParametersList(this StringBuilder queryBuilder, string parameter)
+        {
+            if (string.IsNullOrEmpty(parameter))
+            {
+                return;
+            }
+
+            var query = queryBuilder.ToString();
+
+            if ((query.Length == 0 || query[query.Length - 1] != '&') && parameter[0] != '&')
+            {
+                queryBuilder.Append("&");
+            }
+
+            queryBuilder.Append(parameter);
+        }
+
         public static void AddParameterToQuery<T>(this StringBuilder queryBuilder, string parameterName, T parameterValue)
         {
             if (string.IsNullOrEmpty(parameterName) || parameterValue == null)

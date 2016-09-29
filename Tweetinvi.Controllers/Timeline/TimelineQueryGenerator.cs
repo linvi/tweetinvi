@@ -135,8 +135,8 @@ namespace Tweetinvi.Controllers.Timeline
             requestParameter.Append(_queryParameterGenerator.GenerateMaxIdParameter(timelineRequestParameters.MaxId));
             requestParameter.Append(_queryParameterGenerator.GenerateIncludeEntitiesParameter(timelineRequestParameters.IncludeEntities));
 
-            requestParameter.AddFormattedParameterToQuery(_queryParameterGenerator.GenerateTweetModeParameter(_tweetinviSettingsAccessor.CurrentThreadSettings.TweetMode));
             requestParameter.Append(_queryParameterGenerator.GenerateAdditionalRequestParameters(timelineRequestParameters.FormattedCustomQueryParameters));
+            requestParameter.AddFormattedParameterToParametersList(_queryParameterGenerator.GenerateTweetModeParameter(_tweetinviSettingsAccessor.CurrentThreadSettings.TweetMode));
 
             return requestParameter.ToString();
         }
