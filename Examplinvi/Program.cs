@@ -35,13 +35,15 @@ namespace Examplinvi
         static void Main()
         {
             Auth.SetUserCredentials("CONSUMER_KEY", "CONSUMER_SECRET", "ACCESS_TOKEN", "ACCESS_TOKEN_SECRET");
-			
+
             TweetinviEvents.QueryBeforeExecute += (sender, args) =>
             {
                 Console.WriteLine(args.QueryURL);
             };
 
             var authenticatedUser = User.GetAuthenticatedUser();
+
+            Console.WriteLine(authenticatedUser);
 
             GenerateCredentialExamples();
             UserLiveFeedExamples();

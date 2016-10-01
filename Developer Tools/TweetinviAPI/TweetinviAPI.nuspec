@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
   <metadata>
     <id>TweetinviAPI</id>
-    <version>1.1.0.4</version>
+    <version>1.1.1</version>
     <title>Tweetinvi</title>
     <authors>Linvi</authors>
     <owners>Linvi</owners>
@@ -12,7 +12,7 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Tweetinvi is an intuitive .NET C# library to access the Twitter REST API. It is a Portable Class Library that can be used for development on Windows, Windows RT, Windows Phone, Mono, Xamarin Android and Xamarin iOS. Tweetinvi is also compatible for Universal App development and .NETCore.</description>
     <summary>The best Twitter C# Library out there! Works with .NETCore and PCL.</summary>
-    <releaseNotes>https://github.com/linvi/tweetinvi/releases/tag/1.1</releaseNotes>
+    <releaseNotes>https://github.com/linvi/tweetinvi/releases/tag/1.1.1</releaseNotes>
     <copyright>Tweetinvi 2016</copyright>
     <language>en-US</language>
     <tags>twitter c# rest stream api 1.1 .net netcore netstandard core</tags>

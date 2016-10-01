@@ -1,5 +1,5 @@
 Param(
-	$v = '1.1',			 # Version number
+	$v = '1.1.1',			 # Version number
 	$m = 'Release',              # Visual Studio Build Mode
 	[Switch]$dnr,				 # Do Not Rebuild 
 	[Switch]$h,					 # Help
@@ -12,6 +12,7 @@ Param(
 );
 
 $version = $v;
+$netCoreVersion = $v + '-*';
 $releaseMode = $m;
 
 if ($h.IsPresent -or $help.IsPresent) {
@@ -66,6 +67,7 @@ $tweetinviStreams = 'Tweetinvi.Streams'
 
 # .NET Core variables
 $netCoreRootPath = '..\NetStandard\'
+$netCoreAssemblyLocation = 'project.json'
 $netCoreExamplinvi = 'NetStandard/Examplinvi'
 $netCoreNugetFolder = '.\TweetinviAPI\lib\netstandard1.6'
 $netCoreTemp = 'temp_net_core_' + $version;
@@ -127,6 +129,46 @@ for ($i=0; $i -lt $projects.length; $i++)
 	$replaceAssemblyFileVersion = '[assembly: AssemblyFileVersion("' + $version + '")]'
 
 	Get-Item $filePath | .\Replace-Regex.ps1 -Pattern $replaceAssemblyFileVersionRegex -Replacement $replaceAssemblyFileVersion -overwrite
+}
+
+# Update .NETCore versions
+
+if ($true) # Variables scope
+{
+    $netCoreExamplinviPath = $netCoreRootPath + 'Examplinvi\' + $netCoreAssemblyLocation
+    Write-Host Updating $netCoreExamplinviPath
+
+    $replaceAssemblyVersionRegex = '{\s*"version": "\d+(\.\d+)*(-\*)?"'
+    $replaceAssemblyVersionWith =  '{ "version": "' + $netCoreVersion + '"'
+    Get-Item $netCoreExamplinviPath | .\Replace-Regex.ps1 -Pattern $replaceAssemblyVersionRegex -Replacement $replaceAssemblyVersionWith -overwrite
+
+    $replaceAssemblyVersionRegex = '"Tweetinvi": "\d+(\.\d+)*(-\*)?"'
+    $replaceAssemblyVersionWith =  '"Tweetinvi": "' + $netCoreVersion + '"'
+    Get-Item $netCoreExamplinviPath | .\Replace-Regex.ps1 -Pattern $replaceAssemblyVersionRegex -Replacement $replaceAssemblyVersionWith -overwrite
+}
+
+$netCoreReplacements = 
+@(
+    'version'
+)
+
+for ($i=4; $i -lt $projects.length; $i++) {
+    $netCoreReplacements += $projects[$i];
+}
+
+for ($i=4; $i -lt $projects.length; $i++) 
+{
+    $filePath = $netCoreRootPath + $projects[$i] + '\' + $netCoreAssemblyLocation
+    Write-Host Updating $filePath
+
+    for ($j=0; $j -lt $netCoreReplacements.Length; $j++)
+    {
+        $propertyName = $netCoreReplacements[$j];
+        $replaceAssemblyVersionRegex = '"' + $propertyName + '": "\d+(\.\d+)*(-\*)?"'
+	    $replaceAssemblyVersionWith =  '"' + $propertyName + '": "' + $netCoreVersion + '"'
+
+        Get-Item $filePath | .\Replace-Regex.ps1 -Pattern $replaceAssemblyVersionRegex -Replacement $replaceAssemblyVersionWith -overwrite
+    }
 }
 
 $filePath = $rootPath + $tweetinviWebLogic + '\TwitterClientHandler.cs';
