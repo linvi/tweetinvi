@@ -38,7 +38,7 @@
         <dependency id="Microsoft.Net.Http" version="2.2.29" />
         <dependency id="Newtonsoft.Json" version="9.0.1" />
 	  </group>
-	  <group targetFramework="uap10.0">
+	  <group targetFramework="netcore451">
 		<dependency id="Autofac" version="[3.5.2]" />
         <dependency id="Microsoft.Bcl.Async" version="1.0.168" />
         <dependency id="Microsoft.Bcl.Build" version="1.0.21" />
