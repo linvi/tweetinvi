@@ -80,6 +80,7 @@ namespace Tweetinvi.Logic
             _container.RegisterType<IRelationshipDetailsDTO, RelationshipDetailsDTO>();
 
             _container.RegisterType<ITweetEntities, TweetEntitiesDTO>();
+            _container.RegisterType<IObjectEntities, ObjectEntitiesDTO>();
             _container.RegisterType<IUserEntities, UserEntities>();
 
             _container.RegisterType<IUrlEntity, UrlEntity>();

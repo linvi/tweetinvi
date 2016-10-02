@@ -2,7 +2,7 @@
 
 namespace Tweetinvi.Models.Entities
 {
-    public interface IBaseTweetEntities
+    public interface IObjectEntities
     {
         /// <summary>
         /// Collection of urls associated with a Tweet

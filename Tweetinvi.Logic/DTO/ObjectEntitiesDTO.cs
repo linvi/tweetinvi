@@ -4,7 +4,7 @@ using Tweetinvi.Models.Entities;
 
 namespace Tweetinvi.Logic.TwitterEntities
 {
-    public class BaseTweetEntitiesDTO
+    public class ObjectEntitiesDTO : IObjectEntities
     {
         [JsonProperty("urls")]
         public List<IUrlEntity> Urls { get; set; }

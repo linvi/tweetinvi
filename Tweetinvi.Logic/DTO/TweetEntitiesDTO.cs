@@ -8,7 +8,7 @@ namespace Tweetinvi.Logic.TwitterEntities
     /// Class storing multiple types of TweetEntities
     /// https://dev.twitter.com/docs/tweet-entities
     /// </summary>
-    public class TweetEntitiesDTO : BaseTweetEntitiesDTO, ITweetEntities
+    public class TweetEntitiesDTO : ObjectEntitiesDTO, ITweetEntities
     {
         [JsonProperty("media")]
         public List<IMediaEntity> Medias { get; set; }

@@ -118,7 +118,7 @@
     <Compile Include="TweetWithSearchMetadata.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="DTO\BaseTweetEntitiesDTO.cs" />
+    <Compile Include="DTO\ObjectEntitiesDTO.cs" />
     <Compile Include="TwitterEntities\DescriptionEntity.cs" />
     <Compile Include="TwitterEntities\ExtendedEntities\VideoEntityVariants.cs" />
     <Compile Include="TwitterEntities\ExtendedEntities\VideoInformationEntity.cs" />
