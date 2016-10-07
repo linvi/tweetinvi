@@ -79,17 +79,12 @@ namespace Tweetinvi.Controllers.Tweet
 
             var text = queryParameters.Text;
 
-            if (queryParameters.QuotedTweet != null)
-            {
-                var quotedTweet = queryParameters.QuotedTweet;
-                if (quotedTweet.CreatedBy != null)
-                {
-                    text = text.TrimEnd();
+            var useExtendedMode = _tweetinviSettingsAccessor.CurrentThreadSettings.TweetMode == TweetMode.Extended;
+            var quotedTweetUrl = GetQuotedTweetUrl(queryParameters);
 
-                    text += string.Format(" https://twitter.com/{0}/status/{1}",
-                        quotedTweet.CreatedBy.ScreenName,
-                        quotedTweet.Id.ToString(CultureInfo.InvariantCulture));
-                }
+            if (!useExtendedMode && quotedTweetUrl != null)
+            {
+                text = text.TrimEnd() + " " + quotedTweetUrl;
             }
 
             var query = new StringBuilder(string.Format(Resources.Tweet_Publish, CleanupString(text)));
@@ -115,6 +110,11 @@ namespace Tweetinvi.Controllers.Tweet
                 query.AddParameterToQuery("auto_populate_reply_metadata", queryParameters.AutoPopulateReplyMetadata);
                 query.AddParameterToQuery("tweet_mode", _tweetinviSettingsAccessor.CurrentThreadSettings.TweetMode?.ToString().ToLowerInvariant());
 
+                if (useExtendedMode && quotedTweetUrl != null)
+                {
+                    query.AddParameterToQuery("attachment_url", quotedTweetUrl);
+                }
+
                 if (queryParameters.MediaIds.Count > 0)
                 {
                     var mediaIdsParameter = string.Join("%2C", queryParameters.MediaIds.Select(x => x.ToString(CultureInfo.InvariantCulture)));
@@ -125,6 +125,18 @@ namespace Tweetinvi.Controllers.Tweet
             }
 
             return query.ToString();
+        }
+
+        private string GetQuotedTweetUrl(IPublishTweetParameters parameters)
+        {
+            if (parameters.QuotedTweet.CreatedBy?.ScreenName == null)
+            {
+                return null;
+            }
+
+            return string.Format("https://twitter.com/{0}/status/{1}",
+                        parameters.QuotedTweet.CreatedBy.ScreenName,
+                        parameters.QuotedTweet.Id.ToString(CultureInfo.InvariantCulture));
         }
 
         // Publish Retweet
