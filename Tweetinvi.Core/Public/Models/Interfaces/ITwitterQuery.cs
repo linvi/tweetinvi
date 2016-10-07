@@ -84,6 +84,11 @@ namespace Tweetinvi.Models
         int? TimeToWaitBeforeExecutingTheQueryInMilliSeconds { get; }
 
         /// <summary>
+        /// Content Types accepted by the HttpRequest
+        /// </summary>
+        List<string> AcceptHeaders { get; }
+
+            /// <summary>
         /// Clone the query information into a new object.
         /// </summary>
         ITwitterQuery Clone();

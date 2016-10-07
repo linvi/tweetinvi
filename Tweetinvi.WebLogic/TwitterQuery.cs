@@ -13,6 +13,12 @@ namespace Tweetinvi.WebLogic
         {
             QueryURL = queryURL;
             HttpMethod = httpMethod;
+
+            AcceptHeaders = new List<string>
+            {
+                "image/jpeg",
+                "application/json"
+            };
         }
 
         public string QueryURL { get; set; }
@@ -40,7 +46,6 @@ namespace Tweetinvi.WebLogic
         public ITwitterCredentials TwitterCredentials { get; set; }
         public IEnumerable<IOAuthQueryParameter> QueryParameters { get; set; }
 
-
         public IEndpointRateLimit QueryRateLimit { get; set; }
         public ICredentialsRateLimits CredentialsRateLimits { get; set; }
 
@@ -62,6 +67,8 @@ namespace Tweetinvi.WebLogic
                 return (int)Math.Max(0, timeToWait);
             }
         }
+
+        public List<string> AcceptHeaders { get; }
 
         public ITwitterQuery Clone()
         {
