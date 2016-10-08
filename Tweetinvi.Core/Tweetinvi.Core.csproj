@@ -60,6 +60,7 @@
     <Compile Include="Public\Models\Enum\PlaceType.cs" />
     <Compile Include="Public\Models\Enum\PrivacyMode.cs" />
     <Compile Include="Public\Models\Enum\MultiRequestsResult.cs" />
+    <Compile Include="Public\Models\Enum\ProcessingState.cs" />
     <Compile Include="Public\Models\Enum\SearchResultType.cs" />
     <Compile Include="Public\Streaming\StreamState.cs" />
     <Compile Include="Public\Models\Enum\TimeZoneFromTwitter.cs" />
