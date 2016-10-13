@@ -129,7 +129,7 @@ namespace Tweetinvi.Controllers.Tweet
 
         private string GetQuotedTweetUrl(IPublishTweetParameters parameters)
         {
-            if (parameters.QuotedTweet.CreatedBy?.ScreenName == null)
+            if (parameters.QuotedTweet?.CreatedBy?.ScreenName == null)
             {
                 return null;
             }
