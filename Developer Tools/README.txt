@@ -61,3 +61,13 @@ sn -R output\Tweetinvi.dll some.pfx
 ildasm Tweetinvi.dll /out:Tweetinvi.il
 ren Tweetinvi.dll Tweetinvi.dll.orig
 ilasm Tweetinvi.il /dll /key= key_path.snk
+
+***********************************************************
+**************** NUGET FOLDER STRUCTURE *******************
+***********************************************************
+
+lib/net40
+lib/net45
+lib/netstandard1.6
+lib/portable-net40+sl5+wp80+win8+wpa81
+lib/portable-net45+wp80+win8+wpa81+dnxcore50
