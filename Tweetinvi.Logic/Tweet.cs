@@ -122,7 +122,7 @@ namespace Tweetinvi.Logic
                         ++suffixStartIndex;
                     }
 
-                    return text.Substring(suffixStartIndex, _tweetDTO.FullText.Length - suffixStartIndex);
+                    return text.Substring(suffixStartIndex, text.Length - suffixStartIndex);
                 }
 
                 return null;
