@@ -7,24 +7,29 @@ namespace Tweetinvi.Events
 {
     public class TweetEventArgs : EventArgs
     {
-        public TweetEventArgs(ITweet tweet)
+        public TweetEventArgs(ITweet tweet, string json)
         {
             Tweet = tweet;
+            Json = json;
         }
 
         public ITweet Tweet { get; private set; }
+        public string Json { get; private set; }
     }
 
     public class TweetReceivedEventArgs : TweetEventArgs
     {
-        public TweetReceivedEventArgs(ITweet tweet) : base(tweet)
+        public TweetReceivedEventArgs(ITweet tweet, string json) : base(tweet, json)
         {
+            Json = json;
         }
+
+        public string Json { get; set; }
     }
 
     public class TweetFavouritedEventArgs : TweetEventArgs
     {
-        public TweetFavouritedEventArgs(ITweet tweet, IUser favoritingUser) : base(tweet)
+        public TweetFavouritedEventArgs(ITweet tweet, string json, IUser favoritingUser) : base(tweet, json)
         {
             FavouritingUser = favoritingUser;
         }
@@ -34,7 +39,7 @@ namespace Tweetinvi.Events
 
     public class MatchedTweetReceivedEventArgs : TweetEventArgs
     {
-        public MatchedTweetReceivedEventArgs(ITweet tweet) : base(tweet)
+        public MatchedTweetReceivedEventArgs(ITweet tweet, string json) : base(tweet, json)
         {
         }
 
