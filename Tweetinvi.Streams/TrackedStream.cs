@@ -84,7 +84,7 @@ namespace Tweetinvi.Streams
                 var detectedTracksAndActions = _streamTrackManager.GetMatchingTracksAndActions(tweet.FullText);
                 var detectedTracks = detectedTracksAndActions.Select(x => x.Item1);
 
-                var eventArgs = new MatchedTweetReceivedEventArgs(tweet)
+                var eventArgs = new MatchedTweetReceivedEventArgs(tweet, json)
                 {
                     MatchingTracks = detectedTracks.ToArray(),
                 };
@@ -99,7 +99,7 @@ namespace Tweetinvi.Streams
                 else
                 {
                     RaiseTweetReceived(eventArgs);
-                    RaiseNonMatchingTweetReceived(new TweetEventArgs(tweet));
+                    RaiseNonMatchingTweetReceived(new TweetEventArgs(tweet, json));
                 }
             };
 

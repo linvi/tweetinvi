@@ -268,7 +268,7 @@ namespace Tweetinvi.Streams
             try
             {
                 var tweet = _tweetFactory.GenerateTweetFromJson(jsonTweet);
-                if (!TryRaiseTweetEvent(tweet))
+                if (!TryRaiseTweetEvent(tweet, jsonTweet))
                 {
                     return false;
                 }
@@ -281,14 +281,14 @@ namespace Tweetinvi.Streams
             return true;
         }
 
-        private bool TryRaiseTweetEvent(ITweet tweet)
+        private bool TryRaiseTweetEvent(ITweet tweet, string json)
         {
             if (tweet == null)
             {
                 return false;
             }
 
-            var tweetReceivedEventArgs = new TweetReceivedEventArgs(tweet);
+            var tweetReceivedEventArgs = new TweetReceivedEventArgs(tweet, json);
             this.Raise(TweetCreatedByAnyone, tweetReceivedEventArgs);
 
             if (tweet.CreatedBy.Equals(_authenticatedUser))
@@ -396,9 +396,10 @@ namespace Tweetinvi.Streams
         private void TryRaiseFavouriteEvent(JObject favouriteEvent)
         {
             var tweet = GetTweet(favouriteEvent);
+            var tweetJson = favouriteEvent["target_object"].ToString();
             var source = GetSourceUser(favouriteEvent);
 
-            var tweetFavouritedEventArgs = new TweetFavouritedEventArgs(tweet, source);
+            var tweetFavouritedEventArgs = new TweetFavouritedEventArgs(tweet, tweetJson, source);
 
             this.Raise(TweetFavouritedByAnyone, tweetFavouritedEventArgs);
 
@@ -415,9 +416,10 @@ namespace Tweetinvi.Streams
         private void TryRaiseUnFavouriteEvent(JObject unFavouritedEvent)
         {
             var tweet = GetTweet(unFavouritedEvent);
+            var tweetJson = unFavouritedEvent["target_object"].ToString();
             var source = GetSourceUser(unFavouritedEvent);
 
-            var tweetFavouritedEventArgs = new TweetFavouritedEventArgs(tweet, source);
+            var tweetFavouritedEventArgs = new TweetFavouritedEventArgs(tweet, tweetJson, source);
 
             this.Raise(TweetUnFavouritedByAnyone, tweetFavouritedEventArgs);
 
@@ -541,7 +543,7 @@ namespace Tweetinvi.Streams
             var tweetDTO = _jObjectWrapper.ToObject<ITweetDTO>(userQuotedTweet["target_object"]);
             var tweet = _tweetFactory.GenerateTweetFromDTO(tweetDTO);
 
-            TryRaiseTweetEvent(tweet);
+            TryRaiseTweetEvent(tweet, userQuotedTweet["target_object"].ToString());
         }
 
         // User Update

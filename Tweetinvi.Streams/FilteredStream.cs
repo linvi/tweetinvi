@@ -100,7 +100,7 @@ namespace Tweetinvi.Streams
                     return;
                 }
 
-                var matchingTracksEvenArgs = GetMatchingTweetEventArgsAndRaiseMatchingElements(tweet);
+                var matchingTracksEvenArgs = GetMatchingTweetEventArgsAndRaiseMatchingElements(tweet, json);
 
                 var matchingTracks = matchingTracksEvenArgs.MatchingTracks;
                 var matchingLocations = matchingTracksEvenArgs.MatchingLocations;
@@ -114,7 +114,7 @@ namespace Tweetinvi.Streams
                 }
                 else
                 {
-                    RaiseNonMatchingTweetReceived(new TweetEventArgs(tweet));
+                    RaiseNonMatchingTweetReceived(new TweetEventArgs(tweet, json));
                 }
             };
 
@@ -148,7 +148,7 @@ namespace Tweetinvi.Streams
                     return;
                 }
 
-                var matchingTracksEvenArgs = GetMatchingTweetEventArgsAndRaiseMatchingElements(tweet);
+                var matchingTracksEvenArgs = GetMatchingTweetEventArgsAndRaiseMatchingElements(tweet, json);
 
                 var matchingTracks = matchingTracksEvenArgs.MatchingTracks;
                 var matchingLocations = matchingTracksEvenArgs.MatchingLocations;
@@ -162,16 +162,16 @@ namespace Tweetinvi.Streams
                 }
                 else
                 {
-                    RaiseNonMatchingTweetReceived(new TweetEventArgs(tweet));
+                    RaiseNonMatchingTweetReceived(new TweetEventArgs(tweet, json));
                 }
             };
 
             await _streamResultGenerator.StartStreamAsync(tweetReceived, generateTwitterQuery);
         }
 
-        private MatchedTweetReceivedEventArgs GetMatchingTweetEventArgsAndRaiseMatchingElements(ITweet tweet)
+        private MatchedTweetReceivedEventArgs GetMatchingTweetEventArgsAndRaiseMatchingElements(ITweet tweet, string json)
         {
-            var matchingTracksEventArgs = new MatchedTweetReceivedEventArgs(tweet);
+            var matchingTracksEventArgs = new MatchedTweetReceivedEventArgs(tweet, json);
 
             var matchingTrackAndActions = new Dictionary<string, Action<ITweet>>();
             var matchingLocationAndActions = new Dictionary<ILocation, Action<ITweet>>();
