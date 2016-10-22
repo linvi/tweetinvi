@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using Tweetinvi.Controllers.Upload;
 using Tweetinvi.Core.Parameters;
 using Tweetinvi.Logic.QueryParameters;
@@ -33,9 +34,13 @@ namespace Tweetinvi
             }
         }
 
+        private static readonly IUploadHelper _uploadHelper;
+
         static Upload()
         {
             Initialize();
+
+            _uploadHelper = TweetinviContainer.Resolve<IUploadHelper>();
         }
 
         private static void Initialize()
@@ -128,6 +133,14 @@ namespace Tweetinvi
         public static IUploadedMediaInfo GetMediaStatus(IMedia media, bool waitForStatusToBeAvailable = true)
         {
             return UploadQueryExecutor.GetMediaStatus(media, waitForStatusToBeAvailable);
+        }
+
+        /// <summary>
+        /// Wait for Twitter to process the uploaded binary and returns a new media object containing all the available metadata.
+        /// </summary>
+        public static IMedia WaitForMediaProcessingToGetAllMetadata(IMedia media)
+        {
+            return _uploadHelper.WaitForMediaProcessingToGetAllMetadata(media);
         }
     }
 }

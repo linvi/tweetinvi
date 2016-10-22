@@ -1,4 +1,5 @@
-﻿using Tweetinvi.Models;
+﻿using Tweetinvi.Logic.DTO;
+using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
 
 namespace Tweetinvi.Logic.Model
@@ -9,7 +10,7 @@ namespace Tweetinvi.Logic.Model
         // of being uploaded, but has not yet completed. This give developers
         // the ability to use chunked uploads from multiple computers in parrallel
         private long? _existingMediaId;
-        
+
         public string Name { get; set; }
         public byte[] Data { get; set; }
         public string ContentType { get; set; }
@@ -32,9 +33,9 @@ namespace Tweetinvi.Logic.Model
             set { _existingMediaId = value; }
         }
 
-        public bool HasBeenUploaded { get { return UploadedMediaInfo != null; }}
+        public bool HasBeenUploaded { get { return UploadedMediaInfo != null; } }
         public IUploadedMediaInfo UploadedMediaInfo { get; set; }
-        
+
         public IMedia CloneWithoutMediaInfo(IMedia source)
         {
             return new Media
@@ -42,6 +43,20 @@ namespace Tweetinvi.Logic.Model
                 Name = source.Name,
                 Data = source.Data
             };
+        }
+
+        public IMedia CloneWithoutUploadInfo()
+        {
+            var clone = new Media
+            {
+                Name = Name,
+                Data = Data,
+                ContentType = ContentType,
+                MediaId = MediaId,
+                _existingMediaId = _existingMediaId
+            };
+
+            return clone;
         }
     }
 }

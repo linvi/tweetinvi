@@ -18,5 +18,6 @@ namespace Tweetinvi.Models
         IUploadedMediaInfo UploadedMediaInfo { get; set; }
 
         IMedia CloneWithoutMediaInfo(IMedia source);
+        IMedia CloneWithoutUploadInfo();
     }
 }

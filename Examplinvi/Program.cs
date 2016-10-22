@@ -703,9 +703,9 @@ namespace Examplinvi
 #if NET_CORE
             string assemblyPath = Path.GetDirectoryName(typeof(User).GetTypeInfo().Assembly.CodeBase);
 #else
-            string assemblyPath = Path.GetDirectoryName( Assembly.GetExecutingAssembly().CodeBase);
+            string assemblyPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().CodeBase);
 #endif
-            
+
             if (assemblyPath != null)
             {
                 Process.Start(assemblyPath);

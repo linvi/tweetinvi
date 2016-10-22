@@ -67,7 +67,7 @@
     <Compile Include="DTO\UploadedMediaInfo.cs" />
     <Compile Include="DTO\UploadedImageDetailsDTO.cs" />
     <Compile Include="DTO\UploadedVideoDetailsDTO.cs" />
-    <Compile Include="DTO\UploadProcessingInfoDTO.cs" />
+    <Compile Include="DTO\UploadProcessingInfo.cs" />
     <Compile Include="DTO\UserDTO.cs" />
     <Compile Include="DTO\UserIdentifierDTO.cs" />
     <Compile Include="Exceptions\ExceptionHandler.cs" />
