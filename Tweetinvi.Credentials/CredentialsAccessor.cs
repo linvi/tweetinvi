@@ -26,8 +26,8 @@ namespace Tweetinvi.Credentials
                 }
             }
         }
-
-        private ITwitterCredentials _currentThreadCredentials;
+        [ThreadStatic]
+        private static ITwitterCredentials _currentThreadCredentials;
         public ITwitterCredentials CurrentThreadCredentials
         {
             get { return _currentThreadCredentials; }
