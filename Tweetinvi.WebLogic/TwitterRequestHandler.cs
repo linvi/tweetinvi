@@ -204,6 +204,8 @@ namespace Tweetinvi.WebLogic
             out ITwitterQuery twitterQuery)
         {
             credentials = credentials ?? _credentialsAccessor.CurrentThreadCredentials;
+            
+            // Why Auth.CredentialsAccessor.CurrentThreadCredentials != _credentialsAccessor.CurrentThreadCredentials ?
 
             if (credentials == null)
             {
