@@ -28,12 +28,14 @@
         </Border>
         <TextBlock Grid.Row="1"
                    Name="MessageTextBlock"
+                   Text="{x:Bind StreamVM.Message}"
                    TextWrapping="Wrap"
                    Margin="0 20"
                    Foreground="#93278F">
         </TextBlock>
         <TextBlock Grid.Row="2"
-                   Name="StreamTextBlock"
+                   Name="StreamingTextBlock"
+                   Text="{x:Bind StreamVM.StreamingText, Mode=OneWay}"
                    TextWrapping="Wrap">
         </TextBlock>
     </Grid>
