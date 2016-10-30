@@ -8,6 +8,33 @@
     mc:Ignorable="d">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <TextBlock Name="Message" TextWrapping="Wrap" Margin="0 40"></TextBlock>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+
+        <Border Grid.Row="0"
+                Background="#93278F">
+            <TextBlock Text="Tweetinvi"
+                       HorizontalAlignment="Center" 
+                       Foreground="White"
+                       FontSize="28"
+                       Padding="0 5">
+            </TextBlock>
+        </Border>
+        <TextBlock Grid.Row="1"
+                   Name="MessageTextBlock"
+                   TextWrapping="Wrap"
+                   Margin="0 20"
+                   Foreground="#93278F">
+        </TextBlock>
+        <TextBlock Grid.Row="2"
+                   Name="StreamTextBlock"
+                   TextWrapping="Wrap">
+        </TextBlock>
     </Grid>
 </Page>

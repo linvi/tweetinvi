@@ -30,12 +30,12 @@ namespace Examplinvi.UniversalApp
                 string.IsNullOrEmpty(Auth.Credentials.AccessTokenSecret) ||
                 Auth.Credentials.AccessToken == "ACCESS_TOKEN")
             {
-                Message.Text = "Please enter your credentials in the MainPage.xaml.cs file";
+                MessageTextBlock.Text = "Please enter your credentials in the MainPage.xaml.cs file";
             }
             else
             {
                 var user = User.GetAuthenticatedUser();
-                Message.Text = string.Format("Hi '{0}'. Welcome on board with Windows 10 Universal App!", user.Name);
+                MessageTextBlock.Text = string.Format("Hi '{0}'. Welcome on board with Windows 10 Universal App!", user.Name);
 
                 //PublishTweet();
                 RunSampleStream();
@@ -68,7 +68,7 @@ namespace Examplinvi.UniversalApp
 
                     await uiDispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                     {
-                        Message.Text = _buffer;
+                        StreamTextBlock.Text = _buffer;
                     });
 
                     _buffer = string.Empty;
