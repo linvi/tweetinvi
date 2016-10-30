@@ -1,0 +1,13 @@
+{
+  "profiles": {
+    "Examplinvi.NETCore": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "ConsumerKey": "",
+        "AccessTokenSecret": "",
+        "AccessToken": "",
+        "ConsumerSecret": ""
+      }
+    }
+  }
+}
