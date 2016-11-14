@@ -117,7 +117,14 @@ namespace Tweetinvi.WebLogic
 
             webRequestResult.ResultStream = stream;
             webRequestResult.StatusCode = (int)httpResponseMessage.StatusCode;
-            webRequestResult.IsSuccessStatusCode = httpResponseMessage.IsSuccessStatusCode;
+
+            const int TON_API_SUCCESS_STATUS_CODE = 308;
+
+            var isTonApiRequest = url.StartsWith("https://ton.twitter.com");
+            var isTonApiRequestSuccess = (int) httpResponseMessage.StatusCode == TON_API_SUCCESS_STATUS_CODE;
+
+            webRequestResult.IsSuccessStatusCode = httpResponseMessage.IsSuccessStatusCode || (isTonApiRequest && isTonApiRequestSuccess);
+
             webRequestResult.URL = url;
             webRequestResult.Headers = httpResponseMessage.Headers.ToDictionary(x => x.Key, x => x.Value);
 
