@@ -34,7 +34,7 @@ namespace Examplinvi.UniversalApp.ViewModels
 
         private void Authenticate()
         {
-            Auth.SetUserCredentials("CONSUMER_KEY", "CONSUMER_SECRET", "ACCESS_TOKEN", "ACCESS_TOKEN_SECRET");
+            TwitterConfig.InitApp(); // Initializing credentials -> Auth.SetUserCredentials
 
             if (Auth.Credentials == null ||
                 string.IsNullOrEmpty(Auth.Credentials.ConsumerKey) ||
