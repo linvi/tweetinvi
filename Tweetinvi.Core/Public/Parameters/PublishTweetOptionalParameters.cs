@@ -71,6 +71,9 @@ namespace Tweetinvi.Parameters
         /// Twitter will move the @mentions to the extended tweet prefix.
         /// </summary>
         bool? AutoPopulateReplyMetadata { get; set; }
+
+        // Twitter has not documented this parameter yet!
+        bool? ExcludeReplyUserIds { get; set; }
     }
 
     /// <summary>
@@ -130,6 +133,6 @@ namespace Tweetinvi.Parameters
         public bool? PossiblySensitive { get; set; }
         public bool? TrimUser { get; set; }
         public bool? AutoPopulateReplyMetadata { get; set; }
-        public TweetMode? TweetMode { get; set; }
+        public bool? ExcludeReplyUserIds { get; set; }
     }
 }

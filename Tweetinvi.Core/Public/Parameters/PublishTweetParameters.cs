@@ -80,6 +80,8 @@ namespace Tweetinvi.Parameters
         /// </summary>
         bool? TrimUser { get; set; }
 
+        bool? ExcludeReplyUserIds { get; set; }
+
         /// <summary>
         /// Twitter will move the @mentions to the extended tweet prefix.
         /// </summary>
@@ -163,6 +165,12 @@ namespace Tweetinvi.Parameters
         {
             get { return Parameters.TrimUser; }
             set { Parameters.TrimUser = value; }
+        }
+
+        public bool? ExcludeReplyUserIds
+        {
+            get { return Parameters.ExcludeReplyUserIds; }
+            set { Parameters.ExcludeReplyUserIds = value; }
         }
 
         public bool? AutoPopulateReplyMetadata

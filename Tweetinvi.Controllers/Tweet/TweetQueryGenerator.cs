@@ -109,6 +109,7 @@ namespace Tweetinvi.Controllers.Tweet
                 query.AddParameterToQuery("trim_user", queryParameters.TrimUser);
                 query.AddParameterToQuery("auto_populate_reply_metadata", queryParameters.AutoPopulateReplyMetadata);
                 query.AddParameterToQuery("tweet_mode", _tweetinviSettingsAccessor.CurrentThreadSettings.TweetMode?.ToString().ToLowerInvariant());
+                query.AddParameterToQuery("exclude_reply_userids", queryParameters.ExcludeReplyUserIds);
 
                 if (useExtendedMode && quotedTweetUrl != null)
                 {
