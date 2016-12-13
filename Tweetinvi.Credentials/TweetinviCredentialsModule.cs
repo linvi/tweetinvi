@@ -20,7 +20,7 @@ namespace Tweetinvi.Credentials
         public void Initialize()
         {
             _container.RegisterType<ITwitterAccessor, TwitterAccessor>(RegistrationLifetime.InstancePerThread);
-            _container.RegisterType<ICredentialsAccessor, CredentialsAccessor>(RegistrationLifetime.InstancePerThread);
+            _container.RegisterType<ICredentialsAccessor, CredentialsAccessor>(RegistrationLifetime.InstancePerApplication);
             _container.RegisterType<ICredentialsStore, CredentialsStore>(RegistrationLifetime.InstancePerApplication);
 
             _container.RegisterType<IAuthFactory, AuthFactory>();
