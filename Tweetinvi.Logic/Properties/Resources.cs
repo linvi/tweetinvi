@@ -7,7 +7,17 @@ namespace Tweetinvi.Logic.Properties
         /// <summary>
         ///   Looks up a localized string similar to Not Modified - There was no new data to return..
         /// </summary>
+        public static string ExceptionDescription_44 = "The attachment_url parameter is invalid.";
+
+        /// <summary>
+        ///   Looks up a localized string similar to Not Modified - There was no new data to return..
+        /// </summary>
         public static string ExceptionDescription_304 = "Not Modified - There was no new data to return.";
+
+        /// <summary>
+        ///   The Tweet exceeds the number of allowed attachment types.
+        /// </summary>
+        public static string ExceptionDescription_385 = "You attempted to reply to a tweet that is deleted or not visible to you.";
 
         /// <summary>
         ///   The Tweet exceeds the number of allowed attachment types.
