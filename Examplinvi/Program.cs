@@ -45,6 +45,9 @@ namespace Examplinvi
 
             Console.WriteLine(authenticatedUser);
 
+            // Un-comment to run the examples below
+            // Examples.ExecuteExamples = true;
+
             GenerateCredentialExamples();
             UserLiveFeedExamples();
             TweetExamples();
