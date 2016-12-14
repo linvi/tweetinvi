@@ -169,6 +169,11 @@ namespace Tweetinvi.Streams
             await _streamResultGenerator.StartStreamAsync(tweetReceived, generateTwitterQuery);
         }
 
+        public MatchOn CheckIfTweetMatchesStreamFilters(ITweet tweet)
+        {
+            return GetMatchingTweetEventArgsAndRaiseMatchingElements(tweet, null).MatchOn;
+        }
+
         private MatchedTweetReceivedEventArgs GetMatchingTweetEventArgsAndRaiseMatchingElements(ITweet tweet, string json)
         {
             var matchingTracksEventArgs = new MatchedTweetReceivedEventArgs(tweet, json);

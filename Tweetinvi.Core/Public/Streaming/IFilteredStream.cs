@@ -133,5 +133,10 @@ namespace Tweetinvi.Streaming
         void ClearLocations();
 
         #endregion
+
+        /// <summary>
+        /// For any tweet you have this method allow you to know if it would be matched by the Strem
+        /// </summary>
+        MatchOn CheckIfTweetMatchesStreamFilters(ITweet tweet);
     }
 }
