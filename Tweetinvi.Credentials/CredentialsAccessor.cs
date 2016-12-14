@@ -27,10 +27,23 @@ namespace Tweetinvi.Credentials
             }
         }
 
-        private ITwitterCredentials _currentThreadCredentials;
+        [ThreadStatic] // Ensures that the thread initialization is performed only once!
+        private static bool? _currentThreadCredentialsInitialized;
+
+        [ThreadStatic]
+        private static ITwitterCredentials _currentThreadCredentials;
         public ITwitterCredentials CurrentThreadCredentials
         {
-            get { return _currentThreadCredentials; }
+            get
+            {
+                if (_currentThreadCredentialsInitialized == null)
+                {
+                    _currentThreadCredentials = ApplicationCredentials;
+                    _currentThreadCredentialsInitialized = true;
+                }
+
+                return _currentThreadCredentials;
+            }
             set
             {
                 _currentThreadCredentials = value;

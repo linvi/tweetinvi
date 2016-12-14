@@ -288,7 +288,7 @@ namespace Tweetinvi.WebLogic
             _tweetinviEvents.RaiseAfterQueryExecuted(new QueryAfterExecuteEventArgs(queryParameter, null, null));
         }
 
-        public static byte[] ReadBinaryDataFromStream(Stream input)
+        private static byte[] ReadBinaryDataFromStream(Stream input)
         {
             using (MemoryStream ms = new MemoryStream())
             {
@@ -296,25 +296,6 @@ namespace Tweetinvi.WebLogic
                 return ms.ToArray();
             }
         }
-
-        //private byte[] ReadBinaryDataFromStream(System.IO.Stream dataStream)
-        //{
-        //    const int CHUNK_SIZE = 1024;
-        //    var bytes = new List<byte>();
-
-        //    using (System.IO.BinaryReader br = new System.IO.BinaryReader(dataStream))
-        //    {
-        //        byte[] chunk = br.ReadBytes(CHUNK_SIZE);
-
-        //        while (chunk.Length > 0)
-        //        {
-        //            bytes.AddRange(chunk);
-        //            chunk = br.ReadBytes(CHUNK_SIZE);
-        //        }
-        //    }
-
-        //    return bytes.ToArray();
-        //}
 
         #endregion
     }

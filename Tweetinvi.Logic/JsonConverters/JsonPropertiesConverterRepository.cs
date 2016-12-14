@@ -59,6 +59,7 @@ namespace Tweetinvi.Logic.JsonConverters
                 new JsonInterfaceToObjectConverter<IUserEntities, UserEntities>(),
 
                 new JsonInterfaceToObjectConverter<ITweetEntities, TweetEntitiesDTO>(),
+                new JsonInterfaceToObjectConverter<IObjectEntities, ObjectEntitiesDTO>(),
                 new JsonInterfaceToObjectConverter<IVideoEntityVariant, VideoEntityVariant>(),
 
                 new JsonInterfaceToObjectConverter<IRelationshipDetails, RelationshipDetails>(),

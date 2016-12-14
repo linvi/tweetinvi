@@ -1,6 +1,7 @@
 ﻿using System;
 using Tweetinvi.Core.Models.Async;
 using Tweetinvi.Models.DTO;
+using Tweetinvi.Models.Entities;
 
 namespace Tweetinvi.Models
 {
@@ -69,6 +70,11 @@ namespace Tweetinvi.Models
         /// User who received the message.
         /// </summary>
         IUser Recipient { get; }
+
+        /// <summary>
+        /// Entities of the message.
+        /// </summary>
+        IObjectEntities Entities { get; }
 
         /// <summary>
         /// Destroy the message.

@@ -64,7 +64,7 @@ namespace Testinvi.Tweetinvi.Core
             Assert.AreEqual(tweet.Text, "Check out this photo of @YellowstoneNPS! It makes me want to go camping there this summer. Have you visited before?? nps.gov/yell/index.htm ");
             Assert.AreEqual(tweet.Text.Length, 140);
             Assert.AreEqual(tweet.Suffix, "pic.twitter.com/e8bDiL6LI4");
-            Assert.AreEqual(tweet.Suffix.Length, 24);
+            Assert.AreEqual(tweet.Suffix.Length, 26);
         }
 
         [TestMethod]

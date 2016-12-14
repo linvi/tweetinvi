@@ -5,6 +5,7 @@ using Tweetinvi.Core.Factories;
 using Tweetinvi.Core.Helpers;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
+using Tweetinvi.Models.Entities;
 
 namespace Tweetinvi.Logic
 {
@@ -94,6 +95,11 @@ namespace Tweetinvi.Logic
 
                 return _receiver;
             }
+        }
+
+        public IObjectEntities Entities
+        {
+            get { return _messageDTO.Entities; }
         }
 
         public string Text

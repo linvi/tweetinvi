@@ -60,6 +60,7 @@
     <Compile Include="Public\Models\Enum\PlaceType.cs" />
     <Compile Include="Public\Models\Enum\PrivacyMode.cs" />
     <Compile Include="Public\Models\Enum\MultiRequestsResult.cs" />
+    <Compile Include="Public\Models\Enum\ProcessingState.cs" />
     <Compile Include="Public\Models\Enum\SearchResultType.cs" />
     <Compile Include="Public\Streaming\StreamState.cs" />
     <Compile Include="Public\Models\Enum\TimeZoneFromTwitter.cs" />
@@ -195,7 +196,7 @@
     <Compile Include="Public\Models\Interfaces\ISearchQueryResult.cs" />
     <Compile Include="Public\Models\Interfaces\ISearchResult.cs" />
     <Compile Include="Public\Models\Interfaces\ITweet.cs" />
-    <Compile Include="Public\Models\Entities\IBaseTweetEntities.cs" />
+    <Compile Include="Public\Models\Entities\IObjectEntities.cs" />
     <Compile Include="Public\Models\Entities\ExtendedEntities\IVideoEntityVariant.cs" />
     <Compile Include="Public\Models\Entities\ISymbolEntity.cs" />
     <Compile Include="Public\Models\Entities\ExtendedEntities\IVideoInformationEntity.cs" />

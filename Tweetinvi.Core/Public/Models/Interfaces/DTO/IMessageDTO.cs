@@ -13,7 +13,7 @@ namespace Tweetinvi.Models.DTO
 
         string Text { get; set; }
         DateTime CreatedAt { get; set; }
-        ITweetEntities Entities { get; set; }
+        IObjectEntities Entities { get; set; }
 
         long SenderId { get; set; }
         string SenderScreenName { get; set; }

@@ -113,6 +113,7 @@
     <Compile Include="Tweet\TweetQueryGenerator.cs" />
     <Compile Include="Tweet\TweetQueryValidator.cs" />
     <Compile Include="Upload\ChunkedUploader.cs" />
+    <Compile Include="Upload\UploadHelper.cs" />
     <Compile Include="Upload\UploadQueryExecutor.cs" />
     <Compile Include="Upload\UploadQueryGenerator.cs" />
     <Compile Include="User\UserController.cs" />

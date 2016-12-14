@@ -132,6 +132,7 @@ namespace Tweetinvi.Controllers
         {
             _container.RegisterType<ITweetHelper, TweetHelper>();
             _container.RegisterType<ISearchQueryHelper, SearchQueryHelper>();
+            _container.RegisterType<IUploadHelper, UploadHelper>(RegistrationLifetime.InstancePerApplication);
         }
 
         private void InitializeParameters()

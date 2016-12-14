@@ -17,20 +17,17 @@ namespace Tweetinvi.Controllers.Tweet
         private readonly ITweetQueryValidator _tweetQueryValidator;
         private readonly IUploadQueryExecutor _uploadQueryExecutor;
         private readonly ITweetFactory _tweetFactory;
-        private readonly IGeoFactory _geoFactory;
 
         public TweetController(
             ITweetQueryExecutor tweetQueryExecutor,
             ITweetQueryValidator tweetQueryValidator,
             IUploadQueryExecutor uploadQueryExecutor,
-            ITweetFactory tweetFactory,
-            IGeoFactory geoFactory)
+            ITweetFactory tweetFactory)
         {
             _tweetQueryExecutor = tweetQueryExecutor;
             _tweetQueryValidator = tweetQueryValidator;
             _uploadQueryExecutor = uploadQueryExecutor;
             _tweetFactory = tweetFactory;
-            _geoFactory = geoFactory;
         }
 
         // Publish Tweet

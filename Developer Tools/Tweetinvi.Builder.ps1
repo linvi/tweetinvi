@@ -1,5 +1,5 @@
 Param(
-	$v = '1.1.1',			 # Version number
+	$v = '1.2.0',			 # Version number
 	$m = 'Release',              # Visual Studio Build Mode
 	[Switch]$dnr,				 # Do Not Rebuild 
 	[Switch]$h,					 # Help
@@ -193,18 +193,6 @@ if (!$uv.IsPresent) {
     if (Test-Path $netCoreExamplinviBin) {
 		rmdir -r $netCoreExamplinviBin
 	}
-	
-	# Build Portable solution
-    if (!$dnr.IsPresent)
-    {
-	    Build $rootPath'Tweetinvi.sln' $releaseMode
-
-        Write-Host ".NET CORE Automatic build is not yet implemented. Please ensure Examplinvi for .NET Core is compiled in " + $releaseMode
-        Read-Host 'Press Enter to continue…' | Out-Null
-    }
-
-    # Build .NET CORE solution
-
 
 	# Create temporary folder
 	If (Test-Path $temporaryFolder)
@@ -224,6 +212,18 @@ if (!$uv.IsPresent) {
 	{
 		mkdir $netCoreTemp
 	}
+
+	# Build Portable solution
+    if (!$dnr.IsPresent)
+    {
+	    Build $rootPath'Tweetinvi.sln' $releaseMode
+
+        Write-Host ".NET CORE Automatic build is not yet implemented. Please ensure Examplinvi for .NET Core is compiled in " + $releaseMode
+        Read-Host 'Press Enter to continue…' | Out-Null
+    }
+
+    # Build .NET CORE solution
+
 
 	# Move dll into temporary folder
 	Get-ChildItem -LiteralPath $examplinviBin -filter *.dll  | % { Copy-Item $_.fullname $temporaryFolder }
@@ -347,6 +347,7 @@ if (!$uv.IsPresent) {
 		Copy-Item $mergedDLLPath ($net40PortableFolder + '\Tweetinvi.dll');
 
 		Get-ChildItem -LiteralPath $temporaryFolder -filter Tweetinvi*.dll  | % { Copy-Item $_.fullname $net45PortableFolder }
+        Get-ChildItem -LiteralPath $netCoreTemp -filter Tweetinvi*.dll | % { Copy-Item $_.fullname $netCoreNugetFolder }
 	}
 
 	# Create Zip files
@@ -358,7 +359,12 @@ if (!$uv.IsPresent) {
 
 	#Cleanup
 	rm DTAR_*
-	rm -r obj
+
+    if (Test-Path 'obj')
+    {
+	    rm -r obj
+    }
+    
 	$answer = Read-Host "Do you want to cleanup the temporary files? (y/n)"
 
 	while("y", "yes", "n", "no" -notcontains $answer)

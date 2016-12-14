@@ -92,7 +92,7 @@ namespace Tweetinvi.Logic.JsonConverters
 
             var uploadedImageDetailsConverter = new JsonInterfaceToObjectConverter<IUploadedImageDetails, UploadedImageDetailsDTO>();
             var uploadedVideoDetailsConverter = new JsonInterfaceToObjectConverter<IUploadedVideoDetails, UploadedVideoDetailsDTO>();
-            var uploadProcessingInfoConverter = new JsonInterfaceToObjectConverter<IUploadProcessingInfo, UploadProcessingInfoDTO>();
+            var uploadProcessingInfoConverter = new JsonInterfaceToObjectConverter<IUploadProcessingInfo, UploadProcessingInfo>();
 
             var twitterConfigurationConverter = new JsonInterfaceToObjectConverter<ITwitterConfiguration, TwitterConfiguration>();
 
@@ -143,6 +143,7 @@ namespace Tweetinvi.Logic.JsonConverters
 
             var userEntitiesConverter = new JsonInterfaceToObjectConverter<IUserEntities, UserEntities>();
             var tweetEntitiesConverter = new JsonInterfaceToObjectConverter<ITweetEntities, TweetEntitiesDTO>();
+            var objectEntitiesConverter = new JsonInterfaceToObjectConverter<IObjectEntities, ObjectEntitiesDTO>();
 
             JsonConverters.Add(typeof(IHashtagEntity), hashtagEntityConverter);
             JsonConverters.Add(typeof(IUrlEntity), urlEntityConverter);
@@ -153,6 +154,7 @@ namespace Tweetinvi.Logic.JsonConverters
 
             JsonConverters.Add(typeof(IUserEntities), userEntitiesConverter);
             JsonConverters.Add(typeof(ITweetEntities), tweetEntitiesConverter);
+            JsonConverters.Add(typeof(IObjectEntities), objectEntitiesConverter);
 
             // Extended Entities
             var videoEntityVariantConverter = new JsonInterfaceToObjectConverter<IVideoEntityVariant, VideoEntityVariant>();

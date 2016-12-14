@@ -3,6 +3,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading;
 using System.Threading.Tasks;
+using Tweetinvi.Core.Extensions;
 using Tweetinvi.Core.Injectinvi;
 using Tweetinvi.Core.Web;
 using Tweetinvi.Models;
@@ -104,12 +105,16 @@ namespace Tweetinvi.WebLogic
 
         protected Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken, string authorizationHeader)
         {
-            request.Headers.Add("User-Agent", "Tweetinvi/1.1.1");
+            request.Headers.Add("User-Agent", "Tweetinvi/1.2.0");
             request.Headers.ExpectContinue = false;
             request.Headers.CacheControl = new CacheControlHeaderValue { NoCache = true };
             request.Headers.Add("Authorization", authorizationHeader);
             request.Version = new Version("1.1");
-            request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("image/jpeg"));
+
+            _twitterQuery?.AcceptHeaders.ForEach(contentType =>
+            {
+                request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(contentType));
+            });
 
             return base.SendAsync(request, cancellationToken);
         }
