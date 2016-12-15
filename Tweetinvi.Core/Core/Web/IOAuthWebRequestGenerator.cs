@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Net;
 using Tweetinvi.Models;
 
 namespace Tweetinvi.Core.Web
@@ -14,11 +13,6 @@ namespace Tweetinvi.Core.Web
         /// Generate an OAuth query parameter
         /// </summary>
         IOAuthQueryParameter GenerateParameter(string key, string value, bool requiredForSignature, bool requiredForHeader, bool isPartOfOAuthSecretKey);
-        
-        /// <summary>
-        /// Generate all the query parameters for a user connection.
-        /// </summary>
-        IEnumerable<IOAuthQueryParameter> GenerateConsumerParameters(IConsumerCredentials consumerCredentials);
 
         /// <summary>
         /// Generate all the query parameters for an application connection.
@@ -34,15 +28,6 @@ namespace Tweetinvi.Core.Web
         IEnumerable<IOAuthQueryParameter> GenerateParameters(ITwitterCredentials credentials, IEnumerable<IOAuthQueryParameter> additionalParameters = null);
 
         /// <summary>
-        /// Generates an HttpWebRequest by giving minimal information
-        /// </summary>
-        /// <param name="url">URL we expect to send/retrieve information to/from</param>
-        /// <param name="httpMethod">HTTP Method for the request</param>
-        /// <param name="parameters">Parameters used to generate the query</param>
-        /// <returns>The appropriate WebRequest</returns>
-        HttpWebRequest GenerateWebRequest(string url, HttpMethod httpMethod, IEnumerable<IOAuthQueryParameter> parameters);
-
-        /// <summary>
         /// Generate authorization headers for a query with the specified OAuth fields.
         /// </summary>
         string GenerateAuthorizationHeader(Uri uri, HttpMethod httpMethod, IEnumerable<IOAuthQueryParameter> parameters);
@@ -50,6 +35,6 @@ namespace Tweetinvi.Core.Web
         /// <summary>
         /// Generate authorization headers for a query with the specified OAuth fields.
         /// </summary>
-        string GenerateAuthorizationHeader(string url, HttpMethod httpMethod, IEnumerable<IOAuthQueryParameter> parameters);
+        string SetTwitterQueryAuthorizationHeader(ITwitterQuery twitterQuery);
     }
 }

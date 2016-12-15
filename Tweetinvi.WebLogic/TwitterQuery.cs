@@ -7,7 +7,7 @@ using HttpMethod = Tweetinvi.Models.HttpMethod;
 
 namespace Tweetinvi.WebLogic
 {
-    public class TwitterQuery : ITwitterQuery
+    public class TwitterQuery : TwitterRequestParameters, ITwitterQuery
     {
         public TwitterQuery(string queryURL, HttpMethod httpMethod)
         {
@@ -20,10 +20,6 @@ namespace Tweetinvi.WebLogic
                 "application/json"
             };
         }
-
-        public string QueryURL { get; set; }
-        public HttpMethod HttpMethod { get; set; }
-        public HttpContent HttpContent { get; set; }
 
         public string Proxy { get; set; }
 
@@ -67,8 +63,6 @@ namespace Tweetinvi.WebLogic
                 return (int)Math.Max(0, timeToWait);
             }
         }
-
-        public List<string> AcceptHeaders { get; }
 
         public ITwitterQuery Clone()
         {

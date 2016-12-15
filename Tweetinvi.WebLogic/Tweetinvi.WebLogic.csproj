@@ -57,10 +57,10 @@
     <Compile Include="HttpClientWebHelper.cs" />
     <Compile Include="TwitterClientHandler.cs" />
     <Compile Include="TwitterQuery.cs" />
-    <Compile Include="TwitterRequestGenerator.cs" />
     <Compile Include="TweetinviWebLogicModule.cs" />
     <Compile Include="OAuthQueryParameter.cs" />
     <Compile Include="TwitterRequestHandler.cs" />
+    <Compile Include="TwitterRequestParameters.cs" />
     <Compile Include="Utils\HttpMethodExtensions.cs" />
     <Compile Include="Utils\WebProxy.cs" />
     <Compile Include="WebProxyFactory.cs" />

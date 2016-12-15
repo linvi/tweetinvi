@@ -19,7 +19,6 @@ namespace Tweetinvi.WebLogic
         {
             _container.RegisterType<IWebRequestExecutor, WebRequestExecutor>(RegistrationLifetime.InstancePerThread);
             _container.RegisterType<ITwitterRequestHandler, TwitterRequestHandler>();
-            _container.RegisterType<ITwitterRequestGenerator, TwitterRequestGenerator>();
 
             _container.RegisterType<IConsumerCredentials, ConsumerCredentials>();
             _container.RegisterType<ITwitterCredentials, TwitterCredentials>();

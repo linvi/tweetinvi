@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using System.Net;
 using System.Text;
 using Tweetinvi.Core;
 using Tweetinvi.Core.Extensions;
@@ -156,7 +155,7 @@ namespace Tweetinvi.WebLogic
 
         #endregion
 
-        public IEnumerable<IOAuthQueryParameter> GenerateConsumerParameters(IConsumerCredentials consumerCredentials)
+        private IEnumerable<IOAuthQueryParameter> GenerateConsumerParameters(IConsumerCredentials consumerCredentials)
         {
             var consumerHeaders = new List<IOAuthQueryParameter>();
 
@@ -230,18 +229,6 @@ namespace Tweetinvi.WebLogic
             return new OAuthQueryParameter(key, StringFormater.UrlEncode(value), requiredForSignature, requiredForHeader, isPartOfOAuthSecretKey);
         }
 
-        public HttpWebRequest GenerateWebRequest(string url, HttpMethod httpMethod, IEnumerable<IOAuthQueryParameter> parameters)
-        {
-            Uri uri = new Uri(url);
-            var header = GenerateAuthorizationHeader(uri, httpMethod, parameters);
-
-            var webRequest = WebRequest.CreateHttp(uri.AbsoluteUri);
-            webRequest.Method = httpMethod.ToString();
-            webRequest.Headers["Authorization"] = header;
-
-            return webRequest;
-        }
-
         public string GenerateAuthorizationHeader(Uri uri, HttpMethod httpMethod, IEnumerable<IOAuthQueryParameter> parameters)
         {
             var queryParameters = GenerateAdditionalHeaderParameters(parameters);
@@ -249,9 +236,22 @@ namespace Tweetinvi.WebLogic
             return GenerateHeader(uri, httpMethod, queryParameters, urlParameters);
         }
 
-        public string GenerateAuthorizationHeader(string url, HttpMethod httpMethod, IEnumerable<IOAuthQueryParameter> parameters)
+        public string SetTwitterQueryAuthorizationHeader(ITwitterQuery twitterQuery)
         {
-            return GenerateAuthorizationHeader(new Uri(url), httpMethod, parameters);
+            var credentials = twitterQuery.TwitterCredentials;
+
+            if (!string.IsNullOrEmpty(credentials.AccessToken) && !string.IsNullOrEmpty(credentials.AccessTokenSecret))
+            {
+                var uri = new Uri(twitterQuery.QueryURL);
+                var credentialsParameters = GenerateParameters(twitterQuery.TwitterCredentials);
+                twitterQuery.AuthorizationHeader = GenerateAuthorizationHeader(uri, twitterQuery.HttpMethod, credentialsParameters);
+            }
+            else
+            {
+                twitterQuery.AuthorizationHeader = string.Format("Bearer {0}", credentials.ApplicationOnlyBearerToken);
+            }
+
+            return twitterQuery.AuthorizationHeader;
         }
     }
 }

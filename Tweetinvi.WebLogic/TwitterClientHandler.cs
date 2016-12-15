@@ -23,7 +23,7 @@ namespace Tweetinvi.WebLogic
         {
             UseCookies = false;
             UseDefaultCredentials = false;
-            
+
 
             _webRequestGenerator = TweetinviCoreModule.TweetinviContainer.Resolve<IOAuthWebRequestGenerator>();
             _webProxyFactory = TweetinviCoreModule.TweetinviContainer.Resolve<IWebProxyFactory>();
@@ -77,30 +77,19 @@ namespace Tweetinvi.WebLogic
                 _action(twitterQuery, request);
             }
 
-            string authorizationHeader;
-
-            if (_func != null)
+            if (twitterQuery.AuthorizationHeader == null)
             {
-                authorizationHeader = _func(twitterQuery, request);
-            }
-            else
-            {
-                var credentials = twitterQuery.TwitterCredentials;
-
-                if (!string.IsNullOrEmpty(credentials.AccessToken) &&
-                    !string.IsNullOrEmpty(credentials.AccessTokenSecret))
+                if (_func != null)
                 {
-                    var uri = new Uri(twitterQuery.QueryURL);
-                    var credentialsParameters = _webRequestGenerator.GenerateParameters(twitterQuery.TwitterCredentials);
-                    authorizationHeader = _webRequestGenerator.GenerateAuthorizationHeader(uri, twitterQuery.HttpMethod, credentialsParameters);
+                    twitterQuery.AuthorizationHeader = _func(twitterQuery, request);
                 }
                 else
                 {
-                    authorizationHeader = string.Format("Bearer {0}", credentials.ApplicationOnlyBearerToken);
+                    _webRequestGenerator.SetTwitterQueryAuthorizationHeader(twitterQuery);
                 }
             }
 
-            return SendAsync(request, cancellationToken, authorizationHeader);
+            return SendAsync(request, cancellationToken, twitterQuery.AuthorizationHeader);
         }
 
         protected Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken, string authorizationHeader)

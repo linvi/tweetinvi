@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net.Http;
 using Newtonsoft.Json.Linq;
 using Tweetinvi.Core.Web;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO.QueryDTO;
+using HttpMethod = Tweetinvi.Models.HttpMethod;
 
 namespace Tweetinvi
 {
@@ -205,13 +207,22 @@ namespace Tweetinvi
         }
 
         // Base call
-
         /// <summary>
         /// Execute a query that returns json
         /// </summary>
         public static string ExecuteQuery(string query, HttpMethod method)
         {
             return Accessor.ExecuteQuery(query, method);
+        }
+
+        // Sign
+        public static ITwitterRequestParameters GenerateTwitterRequestParameters(
+            string query,
+            HttpMethod method,
+            ITwitterCredentials credentials = null,
+            HttpContent content = null)
+        {
+            return Accessor.GenerateTwitterRequestParameters(query, method, credentials, content);
         }
     }
 }

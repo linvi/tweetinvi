@@ -62,6 +62,7 @@
     <Compile Include="Public\Models\Enum\MultiRequestsResult.cs" />
     <Compile Include="Public\Models\Enum\ProcessingState.cs" />
     <Compile Include="Public\Models\Enum\SearchResultType.cs" />
+    <Compile Include="Public\Models\Interfaces\ITwitterRequestParameters.cs" />
     <Compile Include="Public\Streaming\StreamState.cs" />
     <Compile Include="Public\Models\Enum\TimeZoneFromTwitter.cs" />
     <Compile Include="Core\Attributes\WindowsTimeZone.cs" />
@@ -296,7 +297,6 @@
     <Compile Include="Public\Models\Authentication\TwitterCredentials.cs" />
     <Compile Include="Core\Web\IOAuthWebRequestGenerator.cs" />
     <Compile Include="Core\Web\IOAuthQueryParameter.cs" />
-    <Compile Include="Core\Web\ITwitterRequestGenerator.cs" />
     <Compile Include="Core\Web\IWebRequestExecutor.cs" />
     <Compile Include="Public\Models\Interfaces\ITwitterListIdentifier.cs" />
     <Compile Include="Core\QueryGenerators\IFriendshipQueryGenerator.cs" />

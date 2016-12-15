@@ -16,9 +16,14 @@ using Stream = Tweetinvi.Stream;
 
 // Others
 using Tweetinvi.Exceptions; // Handle Exceptions
-using Tweetinvi.Core.Extensions; // Extension methods provided by Tweetinvi
+using Tweetinvi.Core.Extensions;
+using Tweetinvi.Core.Web;
+// Extension methods provided by Tweetinvi
 using Tweetinvi.Models.DTO; // Data Transfer Objects for Serialization
-using Tweetinvi.Json; // JSON static classes to get json from Twitter.
+using Tweetinvi.Json;
+using Tweetinvi.WebLogic;
+
+// JSON static classes to get json from Twitter.
 
 // ReSharper disable UnusedVariable
 namespace Examplinvi
@@ -34,16 +39,39 @@ namespace Examplinvi
     {
         static void Main()
         {
-            Auth.SetUserCredentials("CONSUMER_KEY", "CONSUMER_SECRET", "ACCESS_TOKEN", "ACCESS_TOKEN_SECRET");
+            var tweetinvitest = Auth.SetUserCredentials("mj8tSmfpsQ1nXz1hKFCPc0mue", "3trmDs85i8y1xxRw5jRRWqeYiHVW1MsbGKWdxhLL9Q0iEaf7CT", "1693649419-Ubxt4bKWWGQiRY9Ko4BcvX03EJUm2BPcRbW6pPM", "wLa7UFyp4FEDR2MHPtr6SEy4E3iCBqqlNAXuampl2SXZ7");
+
+            TweetinviConfig.CurrentThreadSettings.HttpRequestTimeout = 20000;
 
             TweetinviEvents.QueryBeforeExecute += (sender, args) =>
             {
                 Console.WriteLine(args.QueryURL);
             };
 
-            var authenticatedUser = User.GetAuthenticatedUser();
+            // "https://api.twitter.com/1.1/account/verify_credentials.json?skip_status=true&include_entities=true&include_email=true"
+            var twitterRequestParameters = TwitterAccessor.GenerateTwitterRequestParameters("https://api.twitter.com/1.1/account/verify_credentials.json?skip_status=true&include_entities=true&include_email=true", HttpMethod.GET);
+            var executor = TweetinviContainer.Resolve<IWebRequestExecutor>();
 
-            Console.WriteLine(authenticatedUser);
+            var response = executor.ExecuteQuery(twitterRequestParameters as ITwitterQuery, new TwitterClientHandler()).Response;
+
+            var user = User.GetAuthenticatedUser();
+
+            var authenticationContext = AuthFlow.InitAuthentication(tweetinvitest);
+            Console.WriteLine("Go on : {0}", authenticationContext.AuthorizationURL);
+            Console.WriteLine("Enter the captch : ");
+            var captcha = Console.ReadLine();
+
+            try
+            {
+                var newCredentials = AuthFlow.CreateCredentialsFromVerifierCode(captcha, authenticationContext);
+                Console.WriteLine("Access Token = {0}", newCredentials.AccessToken);
+                Console.WriteLine("Access Token Secret = {0}", newCredentials.AccessTokenSecret);
+            }
+            catch (Exception)
+            {
+            }
+
+            var authenticatedUser = User.GetAuthenticatedUser();
 
             // Un-comment to run the examples below
             // Examples.ExecuteExamples = true;

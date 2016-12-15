@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Net.Http;
 using Tweetinvi.Core.Web;
 
 namespace Tweetinvi.Models
@@ -24,23 +23,8 @@ namespace Tweetinvi.Models
     /// <summary>
     /// All the information necessary for an http request to be executed.
     /// </summary>
-    public interface ITwitterQuery
+    public interface ITwitterQuery : ITwitterRequestParameters
     {
-        /// <summary>
-        /// Query that will be executed.
-        /// </summary>
-        string QueryURL { get; set; }
-
-        /// <summary>
-        /// HTTP Method used to execute the query.
-        /// </summary>
-        HttpMethod HttpMethod { get; set; }
-
-        /// <summary>
-        /// Content of the HTTP request.
-        /// </summary>
-        HttpContent HttpContent { get; set; }
-        
         /// <summary>
         /// Proxy used to perform the query
         /// </summary>
@@ -84,11 +68,6 @@ namespace Tweetinvi.Models
         int? TimeToWaitBeforeExecutingTheQueryInMilliSeconds { get; }
 
         /// <summary>
-        /// Content Types accepted by the HttpRequest
-        /// </summary>
-        List<string> AcceptHeaders { get; }
-
-            /// <summary>
         /// Clone the query information into a new object.
         /// </summary>
         ITwitterQuery Clone();

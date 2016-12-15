@@ -26,6 +26,11 @@ namespace Tweetinvi.WebLogic
 
         string ExecuteMultipartQuery(IMultipartHttpRequestParameters parameters);
         byte[] DownloadBinary(string url);
+
+        ITwitterQuery GetTwitterQuery(
+            IHttpRequestParameters requestParameters,
+            RateLimitTrackerMode rateLimitTrackerMode,
+            ITwitterCredentials credentials = null);
     }
 
     public class TwitterRequestHandler : ITwitterRequestHandler
@@ -38,6 +43,7 @@ namespace Tweetinvi.WebLogic
         private readonly ICredentialsAccessor _credentialsAccessor;
         private readonly ITweetinviSettingsAccessor _tweetinviSettingsAccessor;
         private readonly ITwitterQueryFactory _twitterQueryFactory;
+        private readonly IOAuthWebRequestGenerator _oAuthWebRequestGenerator;
 
         public TwitterRequestHandler(
             ITweetinviEvents tweetinviEvents,
@@ -47,7 +53,8 @@ namespace Tweetinvi.WebLogic
             IWebRequestExecutor webRequestExecutor,
             ICredentialsAccessor credentialsAccessor,
             ITweetinviSettingsAccessor tweetinviSettingsAccessor,
-            ITwitterQueryFactory twitterQueryFactory)
+            ITwitterQueryFactory twitterQueryFactory,
+            IOAuthWebRequestGenerator oAuthWebRequestGenerator)
         {
             _tweetinviEvents = tweetinviEvents;
             _rateLimitAwaiter = rateLimitAwaiter;
@@ -57,6 +64,7 @@ namespace Tweetinvi.WebLogic
             _credentialsAccessor = credentialsAccessor;
             _tweetinviSettingsAccessor = tweetinviSettingsAccessor;
             _twitterQueryFactory = twitterQueryFactory;
+            _oAuthWebRequestGenerator = oAuthWebRequestGenerator;
         }
 
         public string ExecuteQuery(
@@ -77,7 +85,7 @@ namespace Tweetinvi.WebLogic
             };
 
             ITwitterQuery twitterQuery;
-            if (!TryPrepareRequest(requestParameters, rateLimitTrackerOption, credentials, out twitterQuery))
+            if (!TryPrepareRequest(requestParameters, rateLimitTrackerOption, credentials, true, out twitterQuery))
             {
                 return null;
             }
@@ -108,7 +116,7 @@ namespace Tweetinvi.WebLogic
             parameters.Timeout = parameters.Timeout ?? TimeSpan.FromMilliseconds(_tweetinviSettingsAccessor.UploadTimeout);
 
             ITwitterQuery twitterQuery;
-            if (!TryPrepareRequest(parameters, rateLimitTrackerOption, null, out twitterQuery))
+            if (!TryPrepareRequest(parameters, rateLimitTrackerOption, null, true, out twitterQuery))
             {
                 return null;
             }
@@ -149,7 +157,7 @@ namespace Tweetinvi.WebLogic
             };
 
             ITwitterQuery twitterQuery;
-            if (!TryPrepareRequest(requestParameters, rateLimitTrackerMode, null, out twitterQuery))
+            if (!TryPrepareRequest(requestParameters, rateLimitTrackerMode, null, true, out twitterQuery))
             {
                 return null;
             }
@@ -176,6 +184,21 @@ namespace Tweetinvi.WebLogic
             }
         }
 
+        public ITwitterQuery GetTwitterQuery(
+            IHttpRequestParameters requestParameters,
+            RateLimitTrackerMode rateLimitTrackerMode,
+            ITwitterCredentials credentials = null)
+        {
+            ITwitterQuery twitterQuery;
+            if (TryPrepareRequest(requestParameters, rateLimitTrackerMode, credentials, false, out twitterQuery))
+            {
+                _oAuthWebRequestGenerator.SetTwitterQueryAuthorizationHeader(twitterQuery);
+                return twitterQuery;
+            }
+
+            return null;
+        }
+
         #region Helper Methods
         private string CleanupQueryURL(string query)
         {
@@ -197,10 +220,13 @@ namespace Tweetinvi.WebLogic
             return query;
         }
 
+
+
         private bool TryPrepareRequest(
             IHttpRequestParameters requestParameters,
             RateLimitTrackerMode rateLimitTrackerMode,
             ITwitterCredentials credentials,
+            bool raiseEvents,
             out ITwitterQuery twitterQuery)
         {
             credentials = credentials ?? _credentialsAccessor.CurrentThreadCredentials;
@@ -237,7 +263,11 @@ namespace Tweetinvi.WebLogic
                 twitterQuery.QueryRateLimit = queryRateLimit;
                 twitterQuery.DateWhenCredentialsWillHaveTheRequiredRateLimits = DateTime.Now.AddMilliseconds(timeToWait);
 
-                _tweetinviEvents.RaiseBeforeQueryExecute(beforeQueryExecuteEventArgs);
+                if (raiseEvents)
+                {
+                    _tweetinviEvents.RaiseBeforeQueryExecute(beforeQueryExecuteEventArgs);
+                }
+
 
                 if (beforeQueryExecuteEventArgs.Cancel)
                 {
@@ -252,7 +282,10 @@ namespace Tweetinvi.WebLogic
             }
             else
             {
-                _tweetinviEvents.RaiseBeforeQueryExecute(beforeQueryExecuteEventArgs);
+                if (raiseEvents)
+                {
+                    _tweetinviEvents.RaiseBeforeQueryExecute(beforeQueryExecuteEventArgs);
+                }
 
                 if (beforeQueryExecuteEventArgs.Cancel)
                 {
@@ -261,7 +294,10 @@ namespace Tweetinvi.WebLogic
                 }
             }
 
-            _tweetinviEvents.RaiseBeforeExecuteAfterRateLimitAwait(beforeQueryExecuteEventArgs);
+            if (raiseEvents)
+            {
+                _tweetinviEvents.RaiseBeforeExecuteAfterRateLimitAwait(beforeQueryExecuteEventArgs);
+            }
 
             return true;
         }

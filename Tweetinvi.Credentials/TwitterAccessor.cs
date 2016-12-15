@@ -9,6 +9,7 @@ using Tweetinvi.Core.Web;
 using Tweetinvi.Core.Wrappers;
 using Tweetinvi.Credentials.QueryJsonConverters;
 using Tweetinvi.Exceptions;
+using Tweetinvi.Models;
 using Tweetinvi.Models.DTO.QueryDTO;
 using Tweetinvi.WebLogic;
 using HttpMethod = Tweetinvi.Models.HttpMethod;
@@ -447,6 +448,28 @@ namespace Tweetinvi.Credentials
             }
 
             throw ex;
+        }
+
+        // Sign
+        public ITwitterRequestParameters GenerateTwitterRequestParameters(string url, HttpMethod method, ITwitterCredentials credentials, HttpContent httpContent)
+        {
+            var requestParameters = new HttpRequestParameters
+            {
+                Query = url,
+                HttpMethod = method,
+                HttpContent = httpContent
+            };
+
+            var twitterQuery = _twitterRequestHandler.GetTwitterQuery(requestParameters, RateLimitTrackerMode.None, credentials);
+
+            return new TwitterRequestParameters()
+            {
+                QueryURL = twitterQuery.QueryURL,
+                HttpMethod = twitterQuery.HttpMethod,
+                HttpContent = twitterQuery.HttpContent,
+                AuthorizationHeader = twitterQuery.AuthorizationHeader,
+                AcceptHeaders = twitterQuery.AcceptHeaders
+            };
         }
     }
 }
