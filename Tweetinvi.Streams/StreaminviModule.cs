@@ -24,6 +24,9 @@ namespace Tweetinvi.Streams
             _container.RegisterType<ITrackedStream, TrackedStream>();
             _container.RegisterType<IFilteredStream, FilteredStream>();
 
+            _container.RegisterType<IFilterStreamTweetMatcher, FilterStreamTweetMatcher>();
+            _container.RegisterType<IFilterStreamTweetMatcherFactory, FilterStreamTweetMatcherFactory>(RegistrationLifetime.InstancePerApplication);
+
             _container.RegisterType<IWarningMessage, WarningMessage>();
             _container.RegisterType<IWarningMessageTooManyFollowers, WarningMessageTooManyFollowers>();
             _container.RegisterType<IWarningMessageFallingBehind, WarningMessageFallingBehind>();

@@ -47,6 +47,12 @@ namespace Tweetinvi.Events
         public ILocation[] MatchingLocations { get; set; }
         public long[] MatchingFollowers { get; set; }
         public MatchOn MatchOn { get; set; }
+
+
+        public string[] QuotedTweetMatchingTracks { get; set; }
+        public ILocation[] QuotedTweetMatchingLocations { get; set; }
+        public long[] QuotedTweetMatchingFollowers { get; set; }
+        public MatchOn QuotedTweetMatchOn { get; set; }
     }
 
     public class TweetDeletedEventArgs : EventArgs

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace Tweetinvi.Core.Extensions
 {
@@ -31,6 +32,14 @@ namespace Tweetinvi.Core.Extensions
             {
                 dictionary.Add(key, value);
             }
+        }
+
+        public static IDictionary<T1, T2> MergeWith<T1, T2>(this Dictionary<T1, T2> source, Dictionary<T1, T2> other)
+        {
+            var dictionaries = new[] { source, other };
+            return dictionaries.SelectMany(dict => dict)
+                   .ToLookup(pair => pair.Key, pair => pair.Value)
+                   .ToDictionary(group => group.Key, group => group.First());
         }
     }
 }

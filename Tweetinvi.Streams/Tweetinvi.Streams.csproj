@@ -55,6 +55,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="FilteredStream.cs" />
+    <Compile Include="FilterStreamTweetMatcher.cs" />
+    <Compile Include="FilterStreamTweetMatcherFactory.cs" />
     <Compile Include="Helpers\QueryGeneratorHelper.cs" />
     <Compile Include="Helpers\StreamResultGenerator.cs" />
     <Compile Include="Helpers\StreamTrackManager.cs" />
