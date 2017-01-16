@@ -265,16 +265,6 @@ namespace Tweetinvi.Controllers.Properties
         public static string List_UserSubscriptions = "https://api.twitter.com/1.1/lists/subscriptions.json?{0}&count={1}";
 
         /// <summary>
-        ///   Looks up a localized string similar to https://api.twitter.com/1.1/users/suggestions.json?{0}.
-        /// </summary>
-        public static string List_UserSuggestion = "https://api.twitter.com/1.1/users/suggestions.json?{0}";
-
-        /// <summary>
-        ///   Looks up a localized string similar to https://api.twitter.com/1.1/users/suggestions/{0}/members.json.
-        /// </summary>
-        public static string List_UserSuggestionMembers = "https://api.twitter.com/1.1/users/suggestions/{0}/members.json";
-
-        /// <summary>
         ///   Looks up a localized string similar to https://api.twitter.com/1.1/users/suggestions/{0}/members.json.
         /// </summary>
         public static string List_CheckSubscriber = "https://api.twitter.com/1.1/lists/subscribers/show.json";
