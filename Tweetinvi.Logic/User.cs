@@ -344,14 +344,9 @@ namespace Tweetinvi.Logic
         }
 
         // Relationship
-        public virtual IRelationshipDetails GetRelationshipWith(IUser targetUser)
+        public virtual IRelationshipDetails GetRelationshipWith(IUserIdentifier targetUser)
         {
-            if (targetUser == null)
-            {
-                return null;
-            }
-
-            return _friendshipController.GetRelationshipBetween(_userDTO, targetUser.UserDTO);
+            return _friendshipController.GetRelationshipBetween(_userDTO, targetUser);
         }
 
         // Timeline
@@ -446,7 +441,7 @@ namespace Tweetinvi.Logic
             return await _taskFactory.ExecuteTaskAsync(() => GetFollowers(maxFriendsToRetrieve));
         }
 
-        public async Task<IRelationshipDetails> GetRelationshipWithAsync(IUser user)
+        public async Task<IRelationshipDetails> GetRelationshipWithAsync(IUserIdentifier user)
         {
             return await _taskFactory.ExecuteTaskAsync(() => GetRelationshipWith(user));
         }

@@ -74,14 +74,14 @@ namespace Tweetinvi.Controllers.Timeline
             }
 
             var queryParameters = userTimelineQueryParameters.Parameters;
-            var userIdentifier = userTimelineQueryParameters.UserIdentifier;
+            var user = userTimelineQueryParameters.UserIdentifier;
 
             if (queryParameters == null)
             {
                 throw new ArgumentNullException("Timeline request parameter cannot be null");
             }
 
-            _userQueryValidator.ThrowIfUserCannotBeIdentified(userIdentifier);
+            _userQueryValidator.ThrowIfUserCannotBeIdentified(user);
 
             var userTimelineRequestParameter = GenerateUserTimelineRequestParameters(userTimelineQueryParameters);
             var includeContributorDetailsQueryParameter = GenerateIncludeContributorsDetailsParameter(queryParameters.IncludeContributorDetails);

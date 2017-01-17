@@ -56,19 +56,19 @@ namespace Tweetinvi.Controllers.TwitterLists
         // Owned Lists
         public IEnumerable<ITwitterList> GetUserOwnedLists(long userId, int maximumNumberOfListsToRetrieve)
         {
-            var userIdentifier = new UserIdentifier(userId);
-            return GetUserOwnedLists(userIdentifier, maximumNumberOfListsToRetrieve);
+            var user = new UserIdentifier(userId);
+            return GetUserOwnedLists(user, maximumNumberOfListsToRetrieve);
         }
 
         public IEnumerable<ITwitterList> GetUserOwnedLists(string userScreenName, int maximumNumberOfListsToRetrieve)
         {
-            var userIdentifier = new UserIdentifier(userScreenName);
-            return GetUserOwnedLists(userIdentifier, maximumNumberOfListsToRetrieve);
+            var user = new UserIdentifier(userScreenName);
+            return GetUserOwnedLists(user, maximumNumberOfListsToRetrieve);
         }
 
-        public IEnumerable<ITwitterList> GetUserOwnedLists(IUserIdentifier userIdentifier, int maximumNumberOfListsToRetrieve)
+        public IEnumerable<ITwitterList> GetUserOwnedLists(IUserIdentifier user, int maximumNumberOfListsToRetrieve)
         {
-            var listDTOs = _twitterListQueryExecutor.GetUserOwnedLists(userIdentifier, maximumNumberOfListsToRetrieve);
+            var listDTOs = _twitterListQueryExecutor.GetUserOwnedLists(user, maximumNumberOfListsToRetrieve);
             return _twitterListsFactory.CreateListsFromDTOs(listDTOs);
         }
 
@@ -284,14 +284,14 @@ namespace Tweetinvi.Controllers.TwitterLists
 
         public bool AddMemberToList(ITwitterListIdentifier list, long newUserId)
         {
-            var userIdentifier = _userFactory.GenerateUserIdentifierFromId(newUserId);
-            return AddMemberToList(list, userIdentifier);
+            var user = _userFactory.GenerateUserIdentifierFromId(newUserId);
+            return AddMemberToList(list, user);
         }
 
         public bool AddMemberToList(ITwitterListIdentifier list, string newUserName)
         {
-            var userIdentifier = _userFactory.GenerateUserIdentifierFromScreenName(newUserName);
-            return AddMemberToList(list, userIdentifier);
+            var user = _userFactory.GenerateUserIdentifierFromScreenName(newUserName);
+            return AddMemberToList(list, user);
         }
 
         public bool AddMemberToList(ITwitterListIdentifier list, IUserIdentifier newUser)
@@ -312,10 +312,10 @@ namespace Tweetinvi.Controllers.TwitterLists
             return AddMultipleMembersToList(listIdentifier, userScreenNames);
         }
 
-        public MultiRequestsResult AddMultipleMembersToList(long listId, IEnumerable<IUserIdentifier> userIdentifiers)
+        public MultiRequestsResult AddMultipleMembersToList(long listId, IEnumerable<IUserIdentifier> users)
         {
             var listIdentifier = _twitterListIdentifierFactory.Create(listId);
-            return AddMultipleMembersToList(listIdentifier, userIdentifiers);
+            return AddMultipleMembersToList(listIdentifier, users);
         }
 
         public MultiRequestsResult AddMultipleMembersToList(string slug, long ownerId, IEnumerable<long> userIds)
@@ -330,10 +330,10 @@ namespace Tweetinvi.Controllers.TwitterLists
             return AddMultipleMembersToList(listIdentifier, userScreenNames);
         }
 
-        public MultiRequestsResult AddMultipleMembersToList(string slug, long ownerId, IEnumerable<IUserIdentifier> userIdentifiers)
+        public MultiRequestsResult AddMultipleMembersToList(string slug, long ownerId, IEnumerable<IUserIdentifier> users)
         {
             var listIdentifier = _twitterListIdentifierFactory.Create(slug, ownerId);
-            return AddMultipleMembersToList(listIdentifier, userIdentifiers);
+            return AddMultipleMembersToList(listIdentifier, users);
         }
 
         public MultiRequestsResult AddMultipleMembersToList(string slug, string ownerScreenName, IEnumerable<long> userIds)
@@ -348,10 +348,10 @@ namespace Tweetinvi.Controllers.TwitterLists
             return AddMultipleMembersToList(listIdentifier, userScreenNames);
         }
 
-        public MultiRequestsResult AddMultipleMembersToList(string slug, string ownerScreenName, IEnumerable<IUserIdentifier> userIdentifiers)
+        public MultiRequestsResult AddMultipleMembersToList(string slug, string ownerScreenName, IEnumerable<IUserIdentifier> users)
         {
             var listIdentifier = _twitterListIdentifierFactory.Create(slug, ownerScreenName);
-            return AddMultipleMembersToList(listIdentifier, userIdentifiers);
+            return AddMultipleMembersToList(listIdentifier, users);
         }
 
         public MultiRequestsResult AddMultipleMembersToList(string slug, IUserIdentifier owner, IEnumerable<long> userIds)
@@ -366,22 +366,22 @@ namespace Tweetinvi.Controllers.TwitterLists
             return AddMultipleMembersToList(listIdentifier, userScreenNames);
         }
 
-        public MultiRequestsResult AddMultipleMembersToList(string slug, IUserIdentifier owner, IEnumerable<IUserIdentifier> userIdentifiers)
+        public MultiRequestsResult AddMultipleMembersToList(string slug, IUserIdentifier owner, IEnumerable<IUserIdentifier> users)
         {
             var listIdentifier = _twitterListIdentifierFactory.Create(slug, owner);
-            return AddMultipleMembersToList(listIdentifier, userIdentifiers);
+            return AddMultipleMembersToList(listIdentifier, users);
         }
 
         public MultiRequestsResult AddMultipleMembersToList(ITwitterListIdentifier list, IEnumerable<long> newUserIds)
         {
-            var userIdentifiers = newUserIds.Select(userId => _userFactory.GenerateUserIdentifierFromId(userId));
-            return AddMultipleMembersToList(list, userIdentifiers);
+            var users = newUserIds.Select(userId => _userFactory.GenerateUserIdentifierFromId(userId));
+            return AddMultipleMembersToList(list, users);
         }
 
         public MultiRequestsResult AddMultipleMembersToList(ITwitterListIdentifier list, IEnumerable<string> newUserScreenNames)
         {
-            var userIdentifiers = newUserScreenNames.Select(screenName => _userFactory.GenerateUserIdentifierFromScreenName(screenName));
-            return AddMultipleMembersToList(list, userIdentifiers);
+            var users = newUserScreenNames.Select(screenName => _userFactory.GenerateUserIdentifierFromScreenName(screenName));
+            return AddMultipleMembersToList(list, users);
         }
 
         public MultiRequestsResult AddMultipleMembersToList(ITwitterListIdentifier list, IEnumerable<IUserIdentifier> newUserIdentifiers)
@@ -467,14 +467,14 @@ namespace Tweetinvi.Controllers.TwitterLists
 
         public bool RemoveMemberFromList(ITwitterListIdentifier list, long newUserId)
         {
-            var userIdentifier = _userFactory.GenerateUserIdentifierFromId(newUserId);
-            return RemoveMemberFromList(list, userIdentifier);
+            var user = _userFactory.GenerateUserIdentifierFromId(newUserId);
+            return RemoveMemberFromList(list, user);
         }
 
         public bool RemoveMemberFromList(ITwitterListIdentifier list, string newUserName)
         {
-            var userIdentifier = _userFactory.GenerateUserIdentifierFromScreenName(newUserName);
-            return RemoveMemberFromList(list, userIdentifier);
+            var user = _userFactory.GenerateUserIdentifierFromScreenName(newUserName);
+            return RemoveMemberFromList(list, user);
         }
         
         public bool RemoveMemberFromList(ITwitterListIdentifier list, IUserIdentifier newUser)
@@ -496,10 +496,10 @@ namespace Tweetinvi.Controllers.TwitterLists
             return RemoveMultipleMembersFromList(listIdentifier, userScreenNames);
         }
 
-        public MultiRequestsResult RemoveMultipleMembersFromList(long listId, IEnumerable<IUserIdentifier> userIdentifiers)
+        public MultiRequestsResult RemoveMultipleMembersFromList(long listId, IEnumerable<IUserIdentifier> users)
         {
             var listIdentifier = _twitterListIdentifierFactory.Create(listId);
-            return RemoveMultipleMembersFromList(listIdentifier, userIdentifiers);
+            return RemoveMultipleMembersFromList(listIdentifier, users);
         }
 
         public MultiRequestsResult RemoveMultipleMembersFromList(string slug, long ownerId, IEnumerable<long> userIds)
@@ -514,10 +514,10 @@ namespace Tweetinvi.Controllers.TwitterLists
             return RemoveMultipleMembersFromList(listIdentifier, userScreenNames);
         }
 
-        public MultiRequestsResult RemoveMultipleMembersFromList(string slug, long ownerId, IEnumerable<IUserIdentifier> userIdentifiers)
+        public MultiRequestsResult RemoveMultipleMembersFromList(string slug, long ownerId, IEnumerable<IUserIdentifier> users)
         {
             var listIdentifier = _twitterListIdentifierFactory.Create(slug, ownerId);
-            return RemoveMultipleMembersFromList(listIdentifier, userIdentifiers);
+            return RemoveMultipleMembersFromList(listIdentifier, users);
         }
 
         public MultiRequestsResult RemoveMultipleMembersFromList(string slug, string ownerScreenName, IEnumerable<long> userIds)
@@ -532,10 +532,10 @@ namespace Tweetinvi.Controllers.TwitterLists
             return RemoveMultipleMembersFromList(listIdentifier, userScreenNames);
         }
 
-        public MultiRequestsResult RemoveMultipleMembersFromList(string slug, string ownerScreenName, IEnumerable<IUserIdentifier> userIdentifiers)
+        public MultiRequestsResult RemoveMultipleMembersFromList(string slug, string ownerScreenName, IEnumerable<IUserIdentifier> users)
         {
             var listIdentifier = _twitterListIdentifierFactory.Create(slug, ownerScreenName);
-            return RemoveMultipleMembersFromList(listIdentifier, userIdentifiers);
+            return RemoveMultipleMembersFromList(listIdentifier, users);
         }
 
         public MultiRequestsResult RemoveMultipleMembersFromList(string slug, IUserIdentifier owner, IEnumerable<long> userIds)
@@ -550,27 +550,27 @@ namespace Tweetinvi.Controllers.TwitterLists
             return RemoveMultipleMembersFromList(listIdentifier, userScreenNames);
         }
 
-        public MultiRequestsResult RemoveMultipleMembersFromList(string slug, IUserIdentifier owner, IEnumerable<IUserIdentifier> userIdentifiers)
+        public MultiRequestsResult RemoveMultipleMembersFromList(string slug, IUserIdentifier owner, IEnumerable<IUserIdentifier> users)
         {
             var listIdentifier = _twitterListIdentifierFactory.Create(slug, owner);
-            return RemoveMultipleMembersFromList(listIdentifier, userIdentifiers);
+            return RemoveMultipleMembersFromList(listIdentifier, users);
         }
 
         public MultiRequestsResult RemoveMultipleMembersFromList(ITwitterListIdentifier list, IEnumerable<long> userIds)
         {
-            var userIdentifiers = userIds.Select(userId => _userFactory.GenerateUserIdentifierFromId(userId));
-            return RemoveMultipleMembersFromList(list, userIdentifiers);
+            var users = userIds.Select(userId => _userFactory.GenerateUserIdentifierFromId(userId));
+            return RemoveMultipleMembersFromList(list, users);
         }
 
         public MultiRequestsResult RemoveMultipleMembersFromList(ITwitterListIdentifier list, IEnumerable<string> userScreenNames)
         {
-            var userIdentifiers = userScreenNames.Select(screenName => _userFactory.GenerateUserIdentifierFromScreenName(screenName));
-            return RemoveMultipleMembersFromList(list, userIdentifiers);
+            var users = userScreenNames.Select(screenName => _userFactory.GenerateUserIdentifierFromScreenName(screenName));
+            return RemoveMultipleMembersFromList(list, users);
         }
 
-        public MultiRequestsResult RemoveMultipleMembersFromList(ITwitterListIdentifier list, IEnumerable<IUserIdentifier> userIdentifiers)
+        public MultiRequestsResult RemoveMultipleMembersFromList(ITwitterListIdentifier list, IEnumerable<IUserIdentifier> users)
         {
-            return _twitterListQueryExecutor.RemoveMultipleMembersFromList(list, userIdentifiers);
+            return _twitterListQueryExecutor.RemoveMultipleMembersFromList(list, users);
         }
 
         #endregion
@@ -578,14 +578,14 @@ namespace Tweetinvi.Controllers.TwitterLists
         // User List Subscriptions
         public IEnumerable<ITwitterList> GetUserSubscribedLists(long userId, int maxNumberOfListsToRetrieve)
         {
-            var userIdentifier = _userFactory.GenerateUserIdentifierFromId(userId);
-            return GetUserSubscribedLists(userIdentifier, maxNumberOfListsToRetrieve);
+            var user = _userFactory.GenerateUserIdentifierFromId(userId);
+            return GetUserSubscribedLists(user, maxNumberOfListsToRetrieve);
         }
 
         public IEnumerable<ITwitterList> GetUserSubscribedLists(string userName, int maxNumberOfListsToRetrieve)
         {
-            var userIdentifier = _userFactory.GenerateUserIdentifierFromScreenName(userName);
-            return GetUserSubscribedLists(userIdentifier, maxNumberOfListsToRetrieve);
+            var user = _userFactory.GenerateUserIdentifierFromScreenName(userName);
+            return GetUserSubscribedLists(user, maxNumberOfListsToRetrieve);
         }
 
         public IEnumerable<ITwitterList> GetUserSubscribedLists(IUserIdentifier user, int maxNumberOfListsToRetrieve)
@@ -607,10 +607,10 @@ namespace Tweetinvi.Controllers.TwitterLists
             return CheckIfUserIsAListMember(listIdentifier, userScreenName);
         }
 
-        public bool CheckIfUserIsAListMember(long listId, IUserIdentifier userIdentifier)
+        public bool CheckIfUserIsAListMember(long listId, IUserIdentifier user)
         {
             var listIdentifier = _twitterListIdentifierFactory.Create(listId);
-            return CheckIfUserIsAListMember(listIdentifier, userIdentifier);
+            return CheckIfUserIsAListMember(listIdentifier, user);
         }
 
         public bool CheckIfUserIsAListMember(string slug, long ownerId, long userId)
@@ -625,10 +625,10 @@ namespace Tweetinvi.Controllers.TwitterLists
             return CheckIfUserIsAListMember(listIdentifier, userScreenName);
         }
 
-        public bool CheckIfUserIsAListMember(string slug, long ownerId, IUserIdentifier userIdentifier)
+        public bool CheckIfUserIsAListMember(string slug, long ownerId, IUserIdentifier user)
         {
             var listIdentifier = _twitterListIdentifierFactory.Create(slug, ownerId);
-            return CheckIfUserIsAListMember(listIdentifier, userIdentifier);
+            return CheckIfUserIsAListMember(listIdentifier, user);
         }
 
         public bool CheckIfUserIsAListMember(string slug, string ownerScreenName, long userId)
@@ -643,10 +643,10 @@ namespace Tweetinvi.Controllers.TwitterLists
             return CheckIfUserIsAListMember(listIdentifier, userScreenName);
         }
 
-        public bool CheckIfUserIsAListMember(string slug, string ownerScreenName, IUserIdentifier userIdentifier)
+        public bool CheckIfUserIsAListMember(string slug, string ownerScreenName, IUserIdentifier user)
         {
             var listIdentifier = _twitterListIdentifierFactory.Create(slug, ownerScreenName);
-            return CheckIfUserIsAListMember(listIdentifier, userIdentifier);
+            return CheckIfUserIsAListMember(listIdentifier, user);
         }
 
         public bool CheckIfUserIsAListMember(string slug, IUserIdentifier owner, long userId)
@@ -661,27 +661,27 @@ namespace Tweetinvi.Controllers.TwitterLists
             return CheckIfUserIsAListMember(listIdentifier, userScreenName);
         }
 
-        public bool CheckIfUserIsAListMember(string slug, IUserIdentifier owner, IUserIdentifier userIdentifier)
+        public bool CheckIfUserIsAListMember(string slug, IUserIdentifier owner, IUserIdentifier user)
         {
             var listIdentifier = _twitterListIdentifierFactory.Create(slug, owner);
-            return CheckIfUserIsAListMember(listIdentifier, userIdentifier);
+            return CheckIfUserIsAListMember(listIdentifier, user);
         }
 
         public bool CheckIfUserIsAListMember(ITwitterListIdentifier listIdentifier, long userId)
         {
-            var userIdentifier = _userFactory.GenerateUserIdentifierFromId(userId);
-            return CheckIfUserIsAListMember(listIdentifier, userIdentifier);
+            var user = _userFactory.GenerateUserIdentifierFromId(userId);
+            return CheckIfUserIsAListMember(listIdentifier, user);
         }
 
         public bool CheckIfUserIsAListMember(ITwitterListIdentifier listIdentifier, string userScreenName)
         {
-            var userIdentifier = _userFactory.GenerateUserIdentifierFromScreenName(userScreenName);
-            return CheckIfUserIsAListMember(listIdentifier, userIdentifier);
+            var user = _userFactory.GenerateUserIdentifierFromScreenName(userScreenName);
+            return CheckIfUserIsAListMember(listIdentifier, user);
         }
 
-        public bool CheckIfUserIsAListMember(ITwitterListIdentifier listIdentifier, IUserIdentifier userIdentifier)
+        public bool CheckIfUserIsAListMember(ITwitterListIdentifier listIdentifier, IUserIdentifier user)
         {
-            return _twitterListQueryExecutor.CheckIfUserIsAListMember(listIdentifier, userIdentifier);
+            return _twitterListQueryExecutor.CheckIfUserIsAListMember(listIdentifier, user);
         }
 
         // Get list subscribers
@@ -788,10 +788,10 @@ namespace Tweetinvi.Controllers.TwitterLists
             return CheckIfUserIsAListSubscriber(listIdentifier, userScreenName);
         }
 
-        public bool CheckIfUserIsAListSubscriber(long listId, IUserIdentifier userIdentifier)
+        public bool CheckIfUserIsAListSubscriber(long listId, IUserIdentifier user)
         {
             var listIdentifier = _twitterListIdentifierFactory.Create(listId);
-            return CheckIfUserIsAListSubscriber(listIdentifier, userIdentifier);
+            return CheckIfUserIsAListSubscriber(listIdentifier, user);
         }
 
         public bool CheckIfUserIsAListSubscriber(string slug, long ownerId, long userId)
@@ -806,10 +806,10 @@ namespace Tweetinvi.Controllers.TwitterLists
             return CheckIfUserIsAListSubscriber(listIdentifier, userScreenName);
         }
 
-        public bool CheckIfUserIsAListSubscriber(string slug, long ownerId, IUserIdentifier userIdentifier)
+        public bool CheckIfUserIsAListSubscriber(string slug, long ownerId, IUserIdentifier user)
         {
             var listIdentifier = _twitterListIdentifierFactory.Create(slug, ownerId);
-            return CheckIfUserIsAListSubscriber(listIdentifier, userIdentifier);
+            return CheckIfUserIsAListSubscriber(listIdentifier, user);
         }
 
         public bool CheckIfUserIsAListSubscriber(string slug, string ownerScreenName, long userId)
@@ -824,10 +824,10 @@ namespace Tweetinvi.Controllers.TwitterLists
             return CheckIfUserIsAListSubscriber(listIdentifier, userScreenName);
         }
 
-        public bool CheckIfUserIsAListSubscriber(string slug, string ownerScreenName, IUserIdentifier userIdentifier)
+        public bool CheckIfUserIsAListSubscriber(string slug, string ownerScreenName, IUserIdentifier user)
         {
             var listIdentifier = _twitterListIdentifierFactory.Create(slug, ownerScreenName);
-            return CheckIfUserIsAListSubscriber(listIdentifier, userIdentifier);
+            return CheckIfUserIsAListSubscriber(listIdentifier, user);
         }
 
         public bool CheckIfUserIsAListSubscriber(string slug, IUserIdentifier owner, long userId)
@@ -842,27 +842,27 @@ namespace Tweetinvi.Controllers.TwitterLists
             return CheckIfUserIsAListSubscriber(listIdentifier, userScreenName);
         }
 
-        public bool CheckIfUserIsAListSubscriber(string slug, IUserIdentifier owner, IUserIdentifier userIdentifier)
+        public bool CheckIfUserIsAListSubscriber(string slug, IUserIdentifier owner, IUserIdentifier user)
         {
             var listIdentifier = _twitterListIdentifierFactory.Create(slug, owner);
-            return CheckIfUserIsAListSubscriber(listIdentifier, userIdentifier);
+            return CheckIfUserIsAListSubscriber(listIdentifier, user);
         }
 
         public bool CheckIfUserIsAListSubscriber(ITwitterListIdentifier listIdentifier, long userId)
         {
-            var userIdentifier = _userFactory.GenerateUserIdentifierFromId(userId);
-            return CheckIfUserIsAListSubscriber(listIdentifier, userIdentifier);
+            var user = _userFactory.GenerateUserIdentifierFromId(userId);
+            return CheckIfUserIsAListSubscriber(listIdentifier, user);
         }
 
         public bool CheckIfUserIsAListSubscriber(ITwitterListIdentifier listIdentifier, string userScreenName)
         {
-            var userIdentifier = _userFactory.GenerateUserIdentifierFromScreenName(userScreenName);
-            return CheckIfUserIsAListSubscriber(listIdentifier, userIdentifier);
+            var user = _userFactory.GenerateUserIdentifierFromScreenName(userScreenName);
+            return CheckIfUserIsAListSubscriber(listIdentifier, user);
         }
 
-        public bool CheckIfUserIsAListSubscriber(ITwitterListIdentifier listIdentifier, IUserIdentifier userIdentifier)
+        public bool CheckIfUserIsAListSubscriber(ITwitterListIdentifier listIdentifier, IUserIdentifier user)
         {
-            return _twitterListQueryExecutor.CheckIfUserIsAListSubscriber(listIdentifier, userIdentifier);
+            return _twitterListQueryExecutor.CheckIfUserIsAListSubscriber(listIdentifier, user);
         }
     }
 }

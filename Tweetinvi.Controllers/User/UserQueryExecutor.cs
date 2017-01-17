@@ -13,19 +13,19 @@ namespace Tweetinvi.Controllers.User
     public interface IUserQueryExecutor
     {
         // Friend Ids
-        IEnumerable<long> GetFriendIds(IUserIdentifier userIdentifier, int maxFriendsToRetrieve);
+        IEnumerable<long> GetFriendIds(IUserIdentifier user, int maxFriendsToRetrieve);
 
         // Followers Ids
-        IEnumerable<long> GetFollowerIds(IUserIdentifier userIdentifier, int maxFollowersToRetrieve);
+        IEnumerable<long> GetFollowerIds(IUserIdentifier user, int maxFollowersToRetrieve);
 
         // Favourites
         IEnumerable<ITweetDTO> GetFavoriteTweets(IGetUserFavoritesQueryParameters parameters);
 
         // Block User
-        bool BlockUser(IUserIdentifier userIdentifier);
+        bool BlockUser(IUserIdentifier user);
 
         // UnBlock User
-        bool UnBlockUser(IUserIdentifier userIdentifier);
+        bool UnBlockUser(IUserIdentifier user);
 
         // Get blocked users
         IEnumerable<long> GetBlockedUserIds(int maxUserIds = int.MaxValue);
@@ -35,7 +35,7 @@ namespace Tweetinvi.Controllers.User
         Stream GetProfileImageStream(IUserDTO userDTO, ImageSize imageSize = ImageSize.normal);
 
         // Spam
-        bool ReportUserForSpam(IUserIdentifier userIdentifier);
+        bool ReportUserForSpam(IUserIdentifier user);
     }
 
     public class UserQueryExecutor : IUserQueryExecutor
@@ -55,16 +55,16 @@ namespace Tweetinvi.Controllers.User
         }
 
         // Friend ids
-        public IEnumerable<long> GetFriendIds(IUserIdentifier userIdentifier, int maxFriendsToRetrieve)
+        public IEnumerable<long> GetFriendIds(IUserIdentifier user, int maxFriendsToRetrieve)
         {
-            string query = _userQueryGenerator.GetFriendIdsQuery(userIdentifier, maxFriendsToRetrieve);
+            string query = _userQueryGenerator.GetFriendIdsQuery(user, maxFriendsToRetrieve);
             return _twitterAccessor.ExecuteCursorGETQuery<long, IIdsCursorQueryResultDTO>(query, maxFriendsToRetrieve);
         }
 
         // Followers
-        public IEnumerable<long> GetFollowerIds(IUserIdentifier userIdentifier, int maxFollowersToRetrieve)
+        public IEnumerable<long> GetFollowerIds(IUserIdentifier user, int maxFollowersToRetrieve)
         {
-            string query = _userQueryGenerator.GetFollowerIdsQuery(userIdentifier, maxFollowersToRetrieve);
+            string query = _userQueryGenerator.GetFollowerIdsQuery(user, maxFollowersToRetrieve);
             return _twitterAccessor.ExecuteCursorGETQuery<long, IIdsCursorQueryResultDTO>(query, maxFollowersToRetrieve);
         }
 
@@ -76,16 +76,16 @@ namespace Tweetinvi.Controllers.User
         }
 
         // Block
-        public bool BlockUser(IUserIdentifier userIdentifier)
+        public bool BlockUser(IUserIdentifier user)
         {
-            string query = _userQueryGenerator.GetBlockUserQuery(userIdentifier);
+            string query = _userQueryGenerator.GetBlockUserQuery(user);
             return _twitterAccessor.TryExecutePOSTQuery(query);
         }
 
         // UnBlock User
-        public bool UnBlockUser(IUserIdentifier userIdentifier)
+        public bool UnBlockUser(IUserIdentifier user)
         {
-            string query = _userQueryGenerator.GetUnBlockUserQuery(userIdentifier);
+            string query = _userQueryGenerator.GetUnBlockUserQuery(user);
             return _twitterAccessor.TryExecutePOSTQuery(query);
         }
 
@@ -110,9 +110,9 @@ namespace Tweetinvi.Controllers.User
         }
 
         // Report Spam
-        public bool ReportUserForSpam(IUserIdentifier userIdentifier)
+        public bool ReportUserForSpam(IUserIdentifier user)
         {
-            string query = _userQueryGenerator.GetReportUserForSpamQuery(userIdentifier);
+            string query = _userQueryGenerator.GetReportUserForSpamQuery(user);
             return _twitterAccessor.TryExecutePOSTQuery(query);
         }
     }

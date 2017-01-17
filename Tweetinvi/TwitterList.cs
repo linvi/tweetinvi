@@ -4,7 +4,6 @@ using Tweetinvi.Core.Controllers;
 using Tweetinvi.Core.Factories;
 using Tweetinvi.Core.QueryGenerators;
 using Tweetinvi.Models;
-using Tweetinvi.Models.DTO;
 using Tweetinvi.Parameters;
 
 namespace Tweetinvi
@@ -85,17 +84,9 @@ namespace Tweetinvi
         /// <summary>
         /// Get an existing List
         /// </summary>
-        public static ITwitterList GetExistingList(string slug, IUser user)
+        public static ITwitterList GetExistingList(string slug, IUserIdentifier user)
         {
             return TwitterListFactory.GetExistingList(slug, user);
-        }
-
-        /// <summary>
-        /// Get an existing List
-        /// </summary>
-        public static ITwitterList GetExistingList(string slug, IUserIdentifier userIdentifier)
-        {
-            return TwitterListFactory.GetExistingList(slug, userIdentifier);
         }
 
         /// <summary>
@@ -135,9 +126,9 @@ namespace Tweetinvi
         /// <summary>
         /// Get the authenticated user's lists
         /// </summary>
-        public static IEnumerable<ITwitterList> GetUserOwnedLists(IUserIdentifier userIdentifier, int maximumNumberOfListsToRetrieve = TweetinviConsts.LIST_OWNED_COUNT)
+        public static IEnumerable<ITwitterList> GetUserOwnedLists(IUserIdentifier user, int maximumNumberOfListsToRetrieve = TweetinviConsts.LIST_OWNED_COUNT)
         {
-            return TwitterListController.GetUserOwnedLists(userIdentifier, maximumNumberOfListsToRetrieve);
+            return TwitterListController.GetUserOwnedLists(user, maximumNumberOfListsToRetrieve);
         }
 
         // Create List
@@ -171,17 +162,9 @@ namespace Tweetinvi
         /// <summary>
         /// Update a list
         /// </summary>
-        public static ITwitterList UpdateList(string slug, IUser owner, ITwitterListUpdateParameters parameters)
+        public static ITwitterList UpdateList(string slug, IUserIdentifier ownerIdentifier, ITwitterListUpdateParameters parameters)
         {
-            return TwitterListController.UpdateList(slug, owner, parameters);
-        }
-
-        /// <summary>
-        /// Update a list
-        /// </summary>
-        public static ITwitterList UpdateList(string slug, IUserIdentifier ownerDTO, ITwitterListUpdateParameters parameters)
-        {
-            return TwitterListController.UpdateList(slug, ownerDTO, parameters);
+            return TwitterListController.UpdateList(slug, ownerIdentifier, parameters);
         }
 
         /// <summary>
@@ -221,17 +204,9 @@ namespace Tweetinvi
         /// <summary>
         /// Destroy a list
         /// </summary>
-        public static bool DestroyList(string slug, IUser owner)
+        public static bool DestroyList(string slug, IUserIdentifier owner)
         {
             return TwitterListController.DestroyList(slug, owner);
-        }
-
-        /// <summary>
-        /// Destroy a list
-        /// </summary>
-        public static bool DestroyList(string slug, IUserDTO ownerDTO)
-        {
-            return TwitterListController.DestroyList(slug, ownerDTO);
         }
 
         /// <summary>
@@ -263,17 +238,9 @@ namespace Tweetinvi
         /// <summary>
         /// Get tweets displayed in a specific list
         /// </summary>
-        public static IEnumerable<ITweet> GetTweetsFromList(string slug, IUser owner)
+        public static IEnumerable<ITweet> GetTweetsFromList(string slug, IUserIdentifier owner)
         {
             return TwitterListController.GetTweetsFromList(slug, owner);
-        }
-
-        /// <summary>
-        /// Get tweets displayed in a specific list
-        /// </summary>
-        public static IEnumerable<ITweet> GetTweetsFromList(string slug, IUserIdentifier ownerDTO)
-        {
-            return TwitterListController.GetTweetsFromList(slug, ownerDTO);
         }
 
         /// <summary>
@@ -321,17 +288,9 @@ namespace Tweetinvi
         /// <summary>
         /// Get the members of a list
         /// </summary>
-        public static IEnumerable<IUser> GetMembersOfList(string slug, IUser owner, int maxNumberOfUsersToRetrieve = 100)
+        public static IEnumerable<IUser> GetMembersOfList(string slug, IUserIdentifier owner, int maxNumberOfUsersToRetrieve = 100)
         {
             return TwitterListController.GetListMembers(slug, owner, maxNumberOfUsersToRetrieve);
-        }
-
-        /// <summary>
-        /// Get the members of a list
-        /// </summary>
-        public static IEnumerable<IUser> GetMembersOfList(string slug, IUserIdentifier ownerDTO, int maxNumberOfUsersToRetrieve = 100)
-        {
-            return TwitterListController.GetListMembers(slug, ownerDTO, maxNumberOfUsersToRetrieve);
         }
 
         /// <summary>
@@ -589,9 +548,9 @@ namespace Tweetinvi
         /// <summary>
         /// Add multiple users to become members of the list
         /// </summary>
-        public static MultiRequestsResult AddMultipleMembersToList(ITwitterListIdentifier list, IEnumerable<IUserIdentifier> userIdentifiers)
+        public static MultiRequestsResult AddMultipleMembersToList(ITwitterListIdentifier list, IEnumerable<IUserIdentifier> users)
         {
-            return TwitterListController.AddMultipleMembersToList(list, userIdentifiers);
+            return TwitterListController.AddMultipleMembersToList(list, users);
         }
 
 
@@ -738,9 +697,9 @@ namespace Tweetinvi
         /// <summary>
         /// Remove multiple members from a list
         /// </summary>
-        public static MultiRequestsResult RemoveMultipleMembersFromList(long listId, IEnumerable<IUserIdentifier> userIdentifiersToRemove)
+        public static MultiRequestsResult RemoveMultipleMembersFromList(long listId, IEnumerable<IUserIdentifier> usersToRemove)
         {
-            return TwitterListController.RemoveMultipleMembersFromList(listId, userIdentifiersToRemove);
+            return TwitterListController.RemoveMultipleMembersFromList(listId, usersToRemove);
         }
 
         /// <summary>
@@ -762,9 +721,9 @@ namespace Tweetinvi
         /// <summary>
         /// Remove multiple members from a list
         /// </summary>
-        public static MultiRequestsResult RemoveMultipleMembersFromList(string slug, long ownerId, IEnumerable<IUserIdentifier> userIdentifiersToRemove)
+        public static MultiRequestsResult RemoveMultipleMembersFromList(string slug, long ownerId, IEnumerable<IUserIdentifier> usersToRemove)
         {
-            return TwitterListController.RemoveMultipleMembersFromList(slug, ownerId, userIdentifiersToRemove);
+            return TwitterListController.RemoveMultipleMembersFromList(slug, ownerId, usersToRemove);
         }
 
         /// <summary>
@@ -786,9 +745,9 @@ namespace Tweetinvi
         /// <summary>
         /// Remove multiple members from a list
         /// </summary>
-        public static MultiRequestsResult RemoveMultipleMembersFromList(string slug, string ownerScreenName, IEnumerable<IUserIdentifier> userIdentifiersToRemove)
+        public static MultiRequestsResult RemoveMultipleMembersFromList(string slug, string ownerScreenName, IEnumerable<IUserIdentifier> usersToRemove)
         {
-            return TwitterListController.RemoveMultipleMembersFromList(slug, ownerScreenName, userIdentifiersToRemove);
+            return TwitterListController.RemoveMultipleMembersFromList(slug, ownerScreenName, usersToRemove);
         }
 
         /// <summary>
@@ -810,9 +769,9 @@ namespace Tweetinvi
         /// <summary>
         /// Remove multiple members from a list
         /// </summary>
-        public static MultiRequestsResult RemoveMultipleMembersFromList(string slug, IUserIdentifier owner, IEnumerable<IUserIdentifier> userIdentifiersToRemove)
+        public static MultiRequestsResult RemoveMultipleMembersFromList(string slug, IUserIdentifier owner, IEnumerable<IUserIdentifier> usersToRemove)
         {
-            return TwitterListController.RemoveMultipleMembersFromList(slug, owner, userIdentifiersToRemove);
+            return TwitterListController.RemoveMultipleMembersFromList(slug, owner, usersToRemove);
         }
 
         /// <summary>
@@ -834,9 +793,9 @@ namespace Tweetinvi
         /// <summary>
         /// Remove multiple members from a list
         /// </summary>
-        public static MultiRequestsResult RemoveMultipleMembersFromList(ITwitterListIdentifier list, IEnumerable<IUserIdentifier> userIdentifiersToRemove)
+        public static MultiRequestsResult RemoveMultipleMembersFromList(ITwitterListIdentifier list, IEnumerable<IUserIdentifier> usersToRemove)
         {
-            return TwitterListController.RemoveMultipleMembersFromList(list, userIdentifiersToRemove);
+            return TwitterListController.RemoveMultipleMembersFromList(list, usersToRemove);
         }
 
         // Check Membership
@@ -956,9 +915,9 @@ namespace Tweetinvi
         /// <summary>
         /// Check if a user is a member of a specific list
         /// </summary>
-        public static bool CheckIfUserIsAListMember(ITwitterListIdentifier listIdentifier, IUserIdentifier userIdentifier)
+        public static bool CheckIfUserIsAListMember(ITwitterListIdentifier listIdentifier, IUserIdentifier user)
         {
-            return TwitterListController.CheckIfUserIsAListMember(listIdentifier, userIdentifier);
+            return TwitterListController.CheckIfUserIsAListMember(listIdentifier, user);
         }
 
         // GET User Subscription List
@@ -982,9 +941,9 @@ namespace Tweetinvi
         /// <summary>
         /// Get the lists the authenticated user has subsribed to
         /// </summary>
-        public static IEnumerable<ITwitterList> GetUserSubscribedLists(IUserIdentifier userIdentifier, int maxNumberOfListsToRetrieve = TweetinviConsts.LIST_GET_USER_SUBSCRIPTIONS_COUNT)
+        public static IEnumerable<ITwitterList> GetUserSubscribedLists(IUserIdentifier user, int maxNumberOfListsToRetrieve = TweetinviConsts.LIST_GET_USER_SUBSCRIPTIONS_COUNT)
         {
-            return TwitterListController.GetUserSubscribedLists(userIdentifier, maxNumberOfListsToRetrieve);
+            return TwitterListController.GetUserSubscribedLists(user, maxNumberOfListsToRetrieve);
         }
 
         // Get List Subscribers
@@ -1280,9 +1239,9 @@ namespace Tweetinvi
         /// <summary>
         /// Check if a user is a subscriber of a specific list
         /// </summary>
-        public static bool CheckIfUserIsAListSubscriber(ITwitterListIdentifier listIdentifier, IUserIdentifier userIdentifier)
+        public static bool CheckIfUserIsAListSubscriber(ITwitterListIdentifier listIdentifier, IUserIdentifier user)
         {
-            return TwitterListController.CheckIfUserIsAListSubscriber(listIdentifier, userIdentifier);
+            return TwitterListController.CheckIfUserIsAListSubscriber(listIdentifier, user);
         }
 
         // Parameters - Tweets From List

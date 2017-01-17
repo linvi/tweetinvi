@@ -35,14 +35,9 @@ namespace Tweetinvi.Json
         }
 
         // Friends
-        public static IEnumerable<string> GetFriendIds(IUser user, int maxFriendsToRetrieve = 5000)
+        public static IEnumerable<string> GetFriendIds(IUserIdentifier user, int maxFriendsToRetrieve = 5000)
         {
             return UserJsonController.GetFriendIds(user, maxFriendsToRetrieve);
-        }
-
-        public static IEnumerable<string> GetFriendIds(IUserIdentifier userIdentifier, int maxFriendsToRetrieve = 5000)
-        {
-            return UserJsonController.GetFriendIds(userIdentifier, maxFriendsToRetrieve);
         }
 
         public static IEnumerable<string> GetFriendIds(long userId, int maxFriendsToRetrieve = 5000)
@@ -56,14 +51,9 @@ namespace Tweetinvi.Json
         }
 
         // Followers
-        public static IEnumerable<string> GetFollowerIds(IUser user, int maxFollowersToRetrieve = 5000)
+        public static IEnumerable<string> GetFollowerIds(IUserIdentifier user, int maxFollowersToRetrieve = 5000)
         {
             return UserJsonController.GetFollowerIds(user, maxFollowersToRetrieve);
-        }
-
-        public static IEnumerable<string> GetFollowerIds(IUserIdentifier userIdentifier, int maxFollowersToRetrieve = 5000)
-        {
-            return UserJsonController.GetFollowerIds(userIdentifier, maxFollowersToRetrieve);
         }
 
         public static IEnumerable<string> GetFollowerIds(long userId, int maxFollowersToRetrieve = 5000)
@@ -78,9 +68,9 @@ namespace Tweetinvi.Json
 
         // Favorites
         
-        public static string GetFavoriteTweets(IUserIdentifier userIdentifier, IGetUserFavoritesParameters parameters = null)
+        public static string GetFavoriteTweets(IUserIdentifier user, IGetUserFavoritesParameters parameters = null)
         {
-            return UserJsonController.GetFavoriteTweets(userIdentifier, parameters);
+            return UserJsonController.GetFavoriteTweets(user, parameters);
         }
 
         public static string GetFavoriteTweets(long userId, IGetUserFavoritesParameters parameters = null)

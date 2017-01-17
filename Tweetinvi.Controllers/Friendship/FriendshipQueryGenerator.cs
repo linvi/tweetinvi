@@ -50,9 +50,9 @@ namespace Tweetinvi.Controllers.Friendship
 
         
         // Lookup Relationship State
-        public string GetMultipleRelationshipsQuery(IEnumerable<IUserIdentifier> userIdentifiers)
+        public string GetMultipleRelationshipsQuery(IEnumerable<IUserIdentifier> users)
         {
-            var userIdsAndScreenNameParameter = _userQueryParameterGenerator.GenerateListOfUserIdentifiersParameter(userIdentifiers);
+            var userIdsAndScreenNameParameter = _userQueryParameterGenerator.GenerateListOfUserIdentifiersParameter(users);
             return string.Format(Resources.Friendship_GetRelationships, userIdsAndScreenNameParameter);
         }
 
@@ -91,43 +91,43 @@ namespace Tweetinvi.Controllers.Friendship
         }
 
         // Create Friendship
-        public string GetCreateFriendshipWithQuery(IUserIdentifier userIdentifier)
+        public string GetCreateFriendshipWithQuery(IUserIdentifier user)
         {
-            _userQueryValidator.ThrowIfUserCannotBeIdentified(userIdentifier);
+            _userQueryValidator.ThrowIfUserCannotBeIdentified(user);
 
-            var userIdentifierParameter = _userQueryParameterGenerator.GenerateIdOrScreenNameParameter(userIdentifier);
-            return string.Format(Resources.Friendship_Create, userIdentifierParameter);
+            var userParameter = _userQueryParameterGenerator.GenerateIdOrScreenNameParameter(user);
+            return string.Format(Resources.Friendship_Create, userParameter);
         }
 
         // Destroy Friendship
-        public string GetDestroyFriendshipWithQuery(IUserIdentifier userIdentifier)
+        public string GetDestroyFriendshipWithQuery(IUserIdentifier user)
         {
-            _userQueryValidator.ThrowIfUserCannotBeIdentified(userIdentifier);
+            _userQueryValidator.ThrowIfUserCannotBeIdentified(user);
 
-            var userIdentifierParameter = _userQueryParameterGenerator.GenerateIdOrScreenNameParameter(userIdentifier);
-            return string.Format(Resources.Friendship_Destroy, userIdentifierParameter);
+            var userParameter = _userQueryParameterGenerator.GenerateIdOrScreenNameParameter(user);
+            return string.Format(Resources.Friendship_Destroy, userParameter);
         }
 
         // Update Relationship
-        public string GetUpdateRelationshipAuthorizationsWithQuery(IUserIdentifier userIdentifier, IFriendshipAuthorizations friendshipAuthorizations)
+        public string GetUpdateRelationshipAuthorizationsWithQuery(IUserIdentifier user, IFriendshipAuthorizations friendshipAuthorizations)
         {
-            _userQueryValidator.ThrowIfUserCannotBeIdentified(userIdentifier);
+            _userQueryValidator.ThrowIfUserCannotBeIdentified(user);
 
             if (friendshipAuthorizations == null)
             {
                 throw new ArgumentNullException("Friendship authorizations cannot be null.");
             }
 
-            var userIdentifierParameter = _userQueryParameterGenerator.GenerateIdOrScreenNameParameter(userIdentifier);
-            return GetUpdateRelationshipAuthorizationQuery(userIdentifierParameter, friendshipAuthorizations);
+            var userParameter = _userQueryParameterGenerator.GenerateIdOrScreenNameParameter(user);
+            return GetUpdateRelationshipAuthorizationQuery(userParameter, friendshipAuthorizations);
         }
 
-        private string GetUpdateRelationshipAuthorizationQuery(string userIdentifierParameter, IFriendshipAuthorizations friendshipAuthorizations)
+        private string GetUpdateRelationshipAuthorizationQuery(string userParameter, IFriendshipAuthorizations friendshipAuthorizations)
         {
             return string.Format(Resources.Friendship_Update, 
                                  friendshipAuthorizations.RetweetsEnabled.ToString().ToLowerInvariant(),
                                  friendshipAuthorizations.DeviceNotificationEnabled.ToString().ToLowerInvariant(),
-                                 userIdentifierParameter);
+                                 userParameter);
         }
     }
 }

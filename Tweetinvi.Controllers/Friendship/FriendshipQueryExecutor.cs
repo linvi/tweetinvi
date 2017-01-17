@@ -17,13 +17,13 @@ namespace Tweetinvi.Controllers.Friendship
         IEnumerable<long> GetUserIdsWhoseRetweetsAreMuted(); 
 
         // Create Friendship
-        bool CreateFriendshipWith(IUserIdentifier userIdentifier);
+        bool CreateFriendshipWith(IUserIdentifier user);
 
         // Destroy Friendship
-        bool DestroyFriendshipWith(IUserIdentifier userIdentifier);
+        bool DestroyFriendshipWith(IUserIdentifier user);
 
         // Update Friendship Authorization
-        bool UpdateRelationshipAuthorizationsWith(IUserIdentifier userIdentifier, IFriendshipAuthorizations friendshipAuthorizations);
+        bool UpdateRelationshipAuthorizationsWith(IUserIdentifier user, IFriendshipAuthorizations friendshipAuthorizations);
 
         // Get Existing Relationship
         IRelationshipDetailsDTO GetRelationshipBetween(IUserIdentifier sourceUserIdentifier, IUserIdentifier targetUserIdentifier);
@@ -70,33 +70,33 @@ namespace Tweetinvi.Controllers.Friendship
         }
 
         // Create Friendship
-        public bool CreateFriendshipWith(IUserIdentifier userIdentifier)
+        public bool CreateFriendshipWith(IUserIdentifier user)
         {
-            string query = _friendshipQueryGenerator.GetCreateFriendshipWithQuery(userIdentifier);
+            string query = _friendshipQueryGenerator.GetCreateFriendshipWithQuery(user);
             return _twitterAccessor.TryExecutePOSTQuery(query);
         }
 
         // Destroy Friendship
-        public bool DestroyFriendshipWith(IUserIdentifier userIdentifier)
+        public bool DestroyFriendshipWith(IUserIdentifier user)
         {
-            if (!_userQueryValidator.CanUserBeIdentified(userIdentifier))
+            if (!_userQueryValidator.CanUserBeIdentified(user))
             {
                 return false;
             }
 
-            string query = _friendshipQueryGenerator.GetDestroyFriendshipWithQuery(userIdentifier);
+            string query = _friendshipQueryGenerator.GetDestroyFriendshipWithQuery(user);
             return _twitterAccessor.TryExecutePOSTQuery(query);
         }
 
         // Update Friendship Authorizations
-        public bool UpdateRelationshipAuthorizationsWith(IUserIdentifier userIdentifier, IFriendshipAuthorizations friendshipAuthorizations)
+        public bool UpdateRelationshipAuthorizationsWith(IUserIdentifier user, IFriendshipAuthorizations friendshipAuthorizations)
         {
-            if (!_userQueryValidator.CanUserBeIdentified(userIdentifier))
+            if (!_userQueryValidator.CanUserBeIdentified(user))
             {
                 return false;
             }
 
-            string query = _friendshipQueryGenerator.GetUpdateRelationshipAuthorizationsWithQuery(userIdentifier, friendshipAuthorizations);
+            string query = _friendshipQueryGenerator.GetUpdateRelationshipAuthorizationsWithQuery(user, friendshipAuthorizations);
             return _twitterAccessor.TryExecutePOSTQuery(query);
         }
 
@@ -116,8 +116,8 @@ namespace Tweetinvi.Controllers.Friendship
 
             for (int i = 0; i < targetUserIdentifiersArray.Length; i += TweetinviConsts.FRIENDSHIP_MAX_NUMBER_OF_FRIENDSHIP_TO_GET_IN_A_SINGLE_QUERY)
             {
-                var userIdentifiersToAnalyze = targetUserIdentifiersArray.Skip(i).Take(TweetinviConsts.FRIENDSHIP_MAX_NUMBER_OF_FRIENDSHIP_TO_GET_IN_A_SINGLE_QUERY).ToArray();
-                var query = _friendshipQueryGenerator.GetMultipleRelationshipsQuery(userIdentifiersToAnalyze);
+                var usersToAnalyze = targetUserIdentifiersArray.Skip(i).Take(TweetinviConsts.FRIENDSHIP_MAX_NUMBER_OF_FRIENDSHIP_TO_GET_IN_A_SINGLE_QUERY).ToArray();
+                var query = _friendshipQueryGenerator.GetMultipleRelationshipsQuery(usersToAnalyze);
                 var relationshipStateDtos = _twitterAccessor.ExecuteGETQuery<IEnumerable<IRelationshipStateDTO>>(query);
 
                 // As soon as we cannot retrieve additional objects, we stop the query

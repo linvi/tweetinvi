@@ -72,19 +72,9 @@ namespace Tweetinvi.Controllers.Friendship
         }
 
         // Create Friendship with
-        public bool CreateFriendshipWith(IUser user)
+        public bool CreateFriendshipWith(IUserIdentifier user)
         {
-            if (user == null)
-            {
-                throw new ArgumentException("User cannot be null");
-            }
-
-            return CreateFriendshipWith(user.UserDTO);
-        }
-
-        public bool CreateFriendshipWith(IUserIdentifier userIdentifier)
-        {
-            return _friendshipQueryExecutor.CreateFriendshipWith(userIdentifier);
+            return _friendshipQueryExecutor.CreateFriendshipWith(user);
         }
 
         public bool CreateFriendshipWith(long userId)
@@ -99,9 +89,9 @@ namespace Tweetinvi.Controllers.Friendship
 
         // Destroy Friendship with
 
-        public bool DestroyFriendshipWith(IUserIdentifier userIdentifier)
+        public bool DestroyFriendshipWith(IUserIdentifier user)
         {
-            return _friendshipQueryExecutor.DestroyFriendshipWith(userIdentifier);
+            return _friendshipQueryExecutor.DestroyFriendshipWith(user);
         }
 
         public bool DestroyFriendshipWith(long userId)
@@ -115,20 +105,10 @@ namespace Tweetinvi.Controllers.Friendship
         }
 
         // Update Friendship Authorizations
-        public bool UpdateRelationshipAuthorizationsWith(IUser user, bool retweetsEnabled, bool deviceNotifictionEnabled)
-        {
-            if (user == null)
-            {
-                throw new ArgumentException("User cannot be null");
-            }
-
-            return UpdateRelationshipAuthorizationsWith(user.UserDTO, retweetsEnabled, deviceNotifictionEnabled);
-        }
-
-        public bool UpdateRelationshipAuthorizationsWith(IUserIdentifier userIdentifier, bool retweetsEnabled, bool deviceNotifictionEnabled)
+       public bool UpdateRelationshipAuthorizationsWith(IUserIdentifier user, bool retweetsEnabled, bool deviceNotifictionEnabled)
         {
             var friendshipAuthorizations = _friendshipFactory.GenerateFriendshipAuthorizations(retweetsEnabled, deviceNotifictionEnabled);
-            return _friendshipQueryExecutor.UpdateRelationshipAuthorizationsWith(userIdentifier, friendshipAuthorizations);
+            return _friendshipQueryExecutor.UpdateRelationshipAuthorizationsWith(user, friendshipAuthorizations);
         }
 
         public bool UpdateRelationshipAuthorizationsWith(long userId, bool retweetsEnabled, bool deviceNotifictionEnabled)

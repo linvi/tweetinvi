@@ -112,9 +112,9 @@ namespace Tweetinvi.Logic
         }
 
         // Frienships
-        public IRelationshipDetails GetRelationshipWith(IUserIdentifier userIdentifier)
+        public IRelationshipDetails GetRelationshipWith(IUserIdentifier user)
         {
-            return ExecuteAuthenticatedUserOperation(() => _friendshipController.GetRelationshipBetween(this, userIdentifier));
+            return ExecuteAuthenticatedUserOperation(() => _friendshipController.GetRelationshipBetween(this, user));
         }
 
         public IRelationshipDetails GetRelationshipWith(long userId)
@@ -127,9 +127,9 @@ namespace Tweetinvi.Logic
             return ExecuteAuthenticatedUserOperation(() => _friendshipController.GetRelationshipBetween(ScreenName, screenName));
         }
 
-        public bool UpdateRelationshipAuthorizationsWith(IUserIdentifier userIdentifier, bool retweetsEnabled, bool deviceNotificationsEnabled)
+        public bool UpdateRelationshipAuthorizationsWith(IUserIdentifier user, bool retweetsEnabled, bool deviceNotificationsEnabled)
         {
-            return ExecuteAuthenticatedUserOperation(() => _friendshipController.UpdateRelationshipAuthorizationsWith(userIdentifier, retweetsEnabled, deviceNotificationsEnabled));
+            return ExecuteAuthenticatedUserOperation(() => _friendshipController.UpdateRelationshipAuthorizationsWith(user, retweetsEnabled, deviceNotificationsEnabled));
         }
 
         public bool UpdateRelationshipAuthorizationsWith(long userId, bool retweetsEnabled, bool deviceNotificationsEnabled)
@@ -154,7 +154,7 @@ namespace Tweetinvi.Logic
         }
 
         // Follow
-        public bool FollowUser(IUser user)
+        public bool FollowUser(IUserIdentifier user)
         {
             return ExecuteAuthenticatedUserOperation(() => _friendshipController.CreateFriendshipWith(user));
         }
@@ -169,7 +169,7 @@ namespace Tweetinvi.Logic
             return ExecuteAuthenticatedUserOperation(() => _friendshipController.CreateFriendshipWith(screenName));
         }
 
-        public bool UnFollowUser(IUser user)
+        public bool UnFollowUser(IUserIdentifier user)
         {
             return ExecuteAuthenticatedUserOperation(() => _friendshipController.DestroyFriendshipWith(user));
         }
@@ -195,9 +195,9 @@ namespace Tweetinvi.Logic
             throw new InvalidOperationException("You cannot block yourself...");
         }
 
-        public bool BlockUser(IUserIdentifier userIdentifier)
+        public bool BlockUser(IUserIdentifier user)
         {
-            return ExecuteAuthenticatedUserOperation(() => _userController.BlockUser(userIdentifier));
+            return ExecuteAuthenticatedUserOperation(() => _userController.BlockUser(user));
         }
 
         public bool BlockUser(long userId)
@@ -216,9 +216,9 @@ namespace Tweetinvi.Logic
             throw new InvalidOperationException("You cannot unblock yourself...");
         }
 
-        public bool UnBlockUser(IUserIdentifier userIdentifier)
+        public bool UnBlockUser(IUserIdentifier user)
         {
-            return ExecuteAuthenticatedUserOperation(() => _userController.UnBlockUser(userIdentifier));
+            return ExecuteAuthenticatedUserOperation(() => _userController.UnBlockUser(user));
         }
 
         public bool UnBlockUser(long userId)
@@ -248,14 +248,9 @@ namespace Tweetinvi.Logic
             throw new InvalidOperationException("You cannot report yourself for spam...");
         }
 
-        public bool ReportUserForSpam(IUser user)
+        public bool ReportUserForSpam(IUserIdentifier user)
         {
             return ExecuteAuthenticatedUserOperation(() => _userController.BlockUser(user));
-        }
-
-        public bool ReportUserForSpam(IUserIdentifier userIdentifier)
-        {
-            return ExecuteAuthenticatedUserOperation(() => _userController.BlockUser(userIdentifier));
         }
 
         public bool ReportUserForSpam(string userName)
@@ -385,9 +380,9 @@ namespace Tweetinvi.Logic
             return ExecuteAuthenticatedUserOperation(() => _accountController.GetMutedUsers(maxUsersToRetrieve));
         }
 
-        public bool MuteUser(IUserIdentifier userIdentifier)
+        public bool MuteUser(IUserIdentifier user)
         {
-            return ExecuteAuthenticatedUserOperation(() => _accountController.MuteUser(userIdentifier));
+            return ExecuteAuthenticatedUserOperation(() => _accountController.MuteUser(user));
         }
 
         public bool MuteUser(long userId)
@@ -400,9 +395,9 @@ namespace Tweetinvi.Logic
             return ExecuteAuthenticatedUserOperation(() => _accountController.MuteUser(screenName));
         }
 
-        public bool UnMuteUser(IUserIdentifier userIdentifier)
+        public bool UnMuteUser(IUserIdentifier user)
         {
-            return ExecuteAuthenticatedUserOperation(() => _accountController.UnMuteUser(userIdentifier));
+            return ExecuteAuthenticatedUserOperation(() => _accountController.UnMuteUser(user));
         }
 
         public bool UnMuteUser(long userId)
@@ -451,9 +446,9 @@ namespace Tweetinvi.Logic
         }
 
         // Relationships
-        public async Task<IRelationshipDetails> GetRelationshipWithAsync(IUserIdentifier userIdentifier)
+        public async Task<IRelationshipDetails> GetRelationshipWithAsync(IUserIdentifier user)
         {
-            return await ExecuteAuthenticatedUserOperation(() => _taskFactory.ExecuteTaskAsync(() => GetRelationshipWith(userIdentifier)));
+            return await ExecuteAuthenticatedUserOperation(() => _taskFactory.ExecuteTaskAsync(() => GetRelationshipWith(user)));
         }
 
         public async Task<IRelationshipDetails> GetRelationshipWithAsync(long userId)
@@ -491,11 +486,9 @@ namespace Tweetinvi.Logic
         public async Task<IEnumerable<IUser>> GetUsersYouRequestedToFollowAsync(int maximumUsersToRetrieve = 75000)
         {
             return await ExecuteAuthenticatedUserOperation(() => _taskFactory.ExecuteTaskAsync(() => GetUsersYouRequestedToFollow(maximumUsersToRetrieve)));
-
         }
 
-      
-        public async Task<bool> FollowUserAsync(IUser user)
+        public async Task<bool> FollowUserAsync(IUserIdentifier user)
         {
             return await ExecuteAuthenticatedUserOperation(() => _taskFactory.ExecuteTaskAsync(() => FollowUser(user)));
         }
@@ -510,7 +503,7 @@ namespace Tweetinvi.Logic
             return await ExecuteAuthenticatedUserOperation(() => _taskFactory.ExecuteTaskAsync(() => FollowUser(screenName)));
         }
 
-        public async Task<bool> UnFollowUserAsync(IUser user)
+        public async Task<bool> UnFollowUserAsync(IUserIdentifier user)
         {
             return await ExecuteAuthenticatedUserOperation(() => _taskFactory.ExecuteTaskAsync(() => UnFollowUser(user)));
         }
@@ -633,9 +626,9 @@ namespace Tweetinvi.Logic
             return await ExecuteAuthenticatedUserOperation(() => _taskFactory.ExecuteTaskAsync(() => GetMutedUsers(maxUserIds)));
         }
 
-        public async Task<bool> MuteUserAsync(IUserIdentifier userIdentifier)
+        public async Task<bool> MuteUserAsync(IUserIdentifier user)
         {
-            return await ExecuteAuthenticatedUserOperation(() => _taskFactory.ExecuteTaskAsync(() => MuteUser(userIdentifier)));
+            return await ExecuteAuthenticatedUserOperation(() => _taskFactory.ExecuteTaskAsync(() => MuteUser(user)));
         }
 
         public async Task<bool> MuteUserAsync(long userId)
@@ -648,9 +641,9 @@ namespace Tweetinvi.Logic
             return await ExecuteAuthenticatedUserOperation(() => _taskFactory.ExecuteTaskAsync(() => MuteUser(screenName)));
         }
 
-        public async Task<bool> UnMuteUserAsync(IUserIdentifier userIdentifier)
+        public async Task<bool> UnMuteUserAsync(IUserIdentifier user)
         {
-            return await ExecuteAuthenticatedUserOperation(() => _taskFactory.ExecuteTaskAsync(() => UnMuteUser(userIdentifier)));
+            return await ExecuteAuthenticatedUserOperation(() => _taskFactory.ExecuteTaskAsync(() => UnMuteUser(user)));
         }
 
         public async Task<bool> UnMuteUserAsync(long userId)

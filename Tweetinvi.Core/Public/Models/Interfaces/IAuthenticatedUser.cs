@@ -113,7 +113,7 @@ namespace Tweetinvi.Models
         /// <summary>
         /// Get the relationship between the authenticated user (source) and another user (target).
         /// </summary>
-        IRelationshipDetails GetRelationshipWith(IUserIdentifier userIdentifier);
+        IRelationshipDetails GetRelationshipWith(IUserIdentifier user);
 
         /// <summary>
         /// Get the relationship between the authenticated user (source) and another user (target).
@@ -128,7 +128,7 @@ namespace Tweetinvi.Models
         /// <summary>
         /// Modify the relationship between the authenticated user (source) and another user (target).
         /// </summary>
-        bool UpdateRelationshipAuthorizationsWith(IUserIdentifier userIdentifier, bool retweetsEnabled, bool deviceNotificationsEnabled);
+        bool UpdateRelationshipAuthorizationsWith(IUserIdentifier user, bool retweetsEnabled, bool deviceNotificationsEnabled);
 
         /// <summary>
         /// Modify the relationship between the authenticated user (source) and another user (target).
@@ -155,7 +155,7 @@ namespace Tweetinvi.Models
         /// <summary>
         /// Folow a specific user.
         /// </summary>
-        bool FollowUser(IUser user);
+        bool FollowUser(IUserIdentifier user);
 
         /// <summary>
         /// Folow a specific user.
@@ -170,7 +170,7 @@ namespace Tweetinvi.Models
         /// <summary>
         /// Unfollow a specific user.
         /// </summary>
-        bool UnFollowUser(IUser user);
+        bool UnFollowUser(IUserIdentifier user);
 
         /// <summary>
         /// Unfollow a specific user.
@@ -194,7 +194,7 @@ namespace Tweetinvi.Models
         /// <summary>
         /// Block a specific user.
         /// </summary>
-        bool BlockUser(IUserIdentifier userIdentifier);
+        bool BlockUser(IUserIdentifier user);
 
         /// <summary>
         /// Block a specific user.
@@ -211,7 +211,7 @@ namespace Tweetinvi.Models
         /// <summary>
         /// Unblock a specific user.
         /// </summary>
-        bool UnBlockUser(IUserIdentifier userIdentifier);
+        bool UnBlockUser(IUserIdentifier user);
 
         /// <summary>
         /// Unblock a specific user.
@@ -238,12 +238,7 @@ namespace Tweetinvi.Models
         /// <summary>
         /// Report a specific user for being a spammer.
         /// </summary>
-        bool ReportUserForSpam(IUser user);
-
-        /// <summary>
-        /// Report a specific user for being a spammer.
-        /// </summary>
-        bool ReportUserForSpam(IUserIdentifier userIdentifier);
+        bool ReportUserForSpam(IUserIdentifier user);
 
         /// <summary>
         /// Report a specific user for being a spammer.
@@ -270,7 +265,7 @@ namespace Tweetinvi.Models
         /// <summary>
         /// Mute a specific user.
         /// </summary>
-        bool MuteUser(IUserIdentifier userIdentifier);
+        bool MuteUser(IUserIdentifier user);
 
         /// <summary>
         /// Mute a specific user.
@@ -285,7 +280,7 @@ namespace Tweetinvi.Models
         /// <summary>
         /// Unmute a specific user.
         /// </summary>
-        bool UnMuteUser(IUserIdentifier userIdentifier);
+        bool UnMuteUser(IUserIdentifier user);
 
         /// <summary>
         /// Unmute a specific user.

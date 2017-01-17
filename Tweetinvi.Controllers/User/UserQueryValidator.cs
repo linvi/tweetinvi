@@ -6,24 +6,24 @@ namespace Tweetinvi.Controllers.User
 {
     public class UserQueryValidator : IUserQueryValidator
     {
-        public bool CanUserBeIdentified(IUserIdentifier userIdentifier)
+        public bool CanUserBeIdentified(IUserIdentifier user)
         {
-            return userIdentifier != null && (IsUserIdValid(userIdentifier.Id) || IsScreenNameValid(userIdentifier.ScreenName));
+            return user != null && (IsUserIdValid(user.Id) || IsScreenNameValid(user.ScreenName));
         }
 
-        public void ThrowIfUserCannotBeIdentified(IUserIdentifier userIdentifier)
+        public void ThrowIfUserCannotBeIdentified(IUserIdentifier user)
         {
-            ThrowIfUserCannotBeIdentified(userIdentifier, "user");
+            ThrowIfUserCannotBeIdentified(user, "user");
         }
 
-        public void ThrowIfUserCannotBeIdentified(IUserIdentifier userIdentifier, string parameterName)
+        public void ThrowIfUserCannotBeIdentified(IUserIdentifier user, string parameterName)
         {
-            if (userIdentifier == null)
+            if (user == null)
             {
                 throw new ArgumentNullException($"{parameterName} cannot be null");
             }
 
-            if (!IsUserIdValid(userIdentifier.Id) && !IsScreenNameValid(userIdentifier.ScreenName))
+            if (!IsUserIdValid(user.Id) && !IsScreenNameValid(user.ScreenName))
             {
                 throw new ArgumentException($"{parameterName} is not valid.");
             }

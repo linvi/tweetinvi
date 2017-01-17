@@ -65,7 +65,7 @@ namespace Tweetinvi.Logic.JsonConverters
 
         private static void InitializeTweetinviInterfacesConverters()
         {
-            var userConverter = new JsonInterfaceToObjectConverter<IUserDTO, UserDTO>();
+            var userDTOConverter = new JsonInterfaceToObjectConverter<IUserDTO, UserDTO>();
             var userIdentifierConverter = new JsonInterfaceToObjectConverter<IUserIdentifier, UserIdentifierDTO>();
             var tweetConverter = new JsonInterfaceToObjectConverter<ITweetDTO, TweetDTO>();
             var extendedTweetDTOConverter = new JsonInterfaceToObjectConverter<IExtendedTweet, ExtendedTweet>();
@@ -96,7 +96,7 @@ namespace Tweetinvi.Logic.JsonConverters
 
             var twitterConfigurationConverter = new JsonInterfaceToObjectConverter<ITwitterConfiguration, TwitterConfiguration>();
 
-            JsonConverters.Add(typeof(IUserDTO), userConverter);
+            JsonConverters.Add(typeof(IUserDTO), userDTOConverter);
             JsonConverters.Add(typeof(IUserIdentifier), userIdentifierConverter);
             JsonConverters.Add(typeof(ITweetDTO), tweetConverter);
             JsonConverters.Add(typeof(IExtendedTweet), extendedTweetDTOConverter);

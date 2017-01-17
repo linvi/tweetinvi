@@ -12,7 +12,7 @@ namespace Tweetinvi.Controllers.TwitterLists
 {
     public interface ITwitterListQueryExecutor
     {
-        IEnumerable<ITwitterListDTO> GetUserSubscribedLists(IUserIdentifier userIdentifier, bool getOwnedListsFirst);
+        IEnumerable<ITwitterListDTO> GetUserSubscribedLists(IUserIdentifier user, bool getOwnedListsFirst);
 
         ITwitterListDTO UpdateList(ITwitterListUpdateQueryParameters parameters);
         bool DestroyList(ITwitterListIdentifier identifier);
@@ -20,20 +20,20 @@ namespace Tweetinvi.Controllers.TwitterLists
         
         // Members
         IEnumerable<IUserDTO> GetMembersOfList(ITwitterListIdentifier identifier, int maxNumberOfUsersToRetrieve);
-        bool AddMemberToList(ITwitterListIdentifier listIdentifier, IUserIdentifier userIdentifier);
-        MultiRequestsResult AddMultipleMembersToList(ITwitterListIdentifier listIdentifier, IEnumerable<IUserIdentifier> userIdentifiers);
-        bool RemoveMemberFromList(ITwitterListIdentifier listIdentifier, IUserIdentifier userIdentifier);
-        MultiRequestsResult RemoveMultipleMembersFromList(ITwitterListIdentifier listIdentifier, IEnumerable<IUserIdentifier> userIdentifiers);
-        bool CheckIfUserIsAListMember(ITwitterListIdentifier listIdentifier, IUserIdentifier userIdentifier);
+        bool AddMemberToList(ITwitterListIdentifier listIdentifier, IUserIdentifier user);
+        MultiRequestsResult AddMultipleMembersToList(ITwitterListIdentifier listIdentifier, IEnumerable<IUserIdentifier> users);
+        bool RemoveMemberFromList(ITwitterListIdentifier listIdentifier, IUserIdentifier user);
+        MultiRequestsResult RemoveMultipleMembersFromList(ITwitterListIdentifier listIdentifier, IEnumerable<IUserIdentifier> users);
+        bool CheckIfUserIsAListMember(ITwitterListIdentifier listIdentifier, IUserIdentifier user);
         
         // Subscribers
-        IEnumerable<ITwitterListDTO> GetUserSubscribedLists(IUserIdentifier userIdentifier, int maximumNumberOfListsToRetrieve);
+        IEnumerable<ITwitterListDTO> GetUserSubscribedLists(IUserIdentifier user, int maximumNumberOfListsToRetrieve);
 
         IEnumerable<IUserDTO> GetListSubscribers(ITwitterListIdentifier listIdentifier, int maximumNumberOfSubscribersToRetrieve);
         bool SubscribeAuthenticatedUserToList(ITwitterListIdentifier listIdentifier);
         bool UnSubscribeAuthenticatedUserFromList(ITwitterListIdentifier listIdentifier);
-        bool CheckIfUserIsAListSubscriber(ITwitterListIdentifier listIdentifier, IUserIdentifier userIdentifier);
-        IEnumerable<ITwitterListDTO> GetUserOwnedLists(IUserIdentifier userIdentifier, int maximumNumberOfListsToRetrieve);
+        bool CheckIfUserIsAListSubscriber(ITwitterListIdentifier listIdentifier, IUserIdentifier user);
+        IEnumerable<ITwitterListDTO> GetUserOwnedLists(IUserIdentifier user, int maximumNumberOfListsToRetrieve);
     }
 
     public class TwitterListQueryExecutor : ITwitterListQueryExecutor
@@ -48,16 +48,16 @@ namespace Tweetinvi.Controllers.TwitterLists
         }
 
         // User
-        public IEnumerable<ITwitterListDTO> GetUserSubscribedLists(IUserIdentifier userIdentifier, bool getOwnedListsFirst)
+        public IEnumerable<ITwitterListDTO> GetUserSubscribedLists(IUserIdentifier user, bool getOwnedListsFirst)
         {
-            var query = _listsQueryGenerator.GetUserSubscribedListsQuery(userIdentifier, getOwnedListsFirst);
+            var query = _listsQueryGenerator.GetUserSubscribedListsQuery(user, getOwnedListsFirst);
             return _twitterAccessor.ExecuteGETQuery<IEnumerable<ITwitterListDTO>>(query);
         }
 
         // Owned Lists
-        public IEnumerable<ITwitterListDTO> GetUserOwnedLists(IUserIdentifier userIdentifier, int maximumNumberOfListsToRetrieve)
+        public IEnumerable<ITwitterListDTO> GetUserOwnedLists(IUserIdentifier user, int maximumNumberOfListsToRetrieve)
         {
-            var baseQuery = _listsQueryGenerator.GetUsersOwnedListQuery(userIdentifier, maximumNumberOfListsToRetrieve);
+            var baseQuery = _listsQueryGenerator.GetUsersOwnedListQuery(user, maximumNumberOfListsToRetrieve);
             return _twitterAccessor.ExecuteCursorGETQuery<ITwitterListDTO, ITwitterListCursorQueryResultDTO>(baseQuery, maximumNumberOfListsToRetrieve);
         }
 
@@ -89,20 +89,20 @@ namespace Tweetinvi.Controllers.TwitterLists
             return _twitterAccessor.ExecuteCursorGETQuery<IUserDTO, IUserCursorQueryResultDTO>(baseQuery, maxNumberOfUsersToRetrieve);
         }
 
-        public bool AddMemberToList(ITwitterListIdentifier listIdentifier, IUserIdentifier userIdentifier)
+        public bool AddMemberToList(ITwitterListIdentifier listIdentifier, IUserIdentifier user)
         {
-            var query = _listsQueryGenerator.GetAddMemberToListQuery(listIdentifier, userIdentifier);
+            var query = _listsQueryGenerator.GetAddMemberToListQuery(listIdentifier, user);
             return _twitterAccessor.TryExecutePOSTQuery(query);
         }
 
-        public MultiRequestsResult AddMultipleMembersToList(ITwitterListIdentifier listIdentifier, IEnumerable<IUserIdentifier> userIdentifiers)
+        public MultiRequestsResult AddMultipleMembersToList(ITwitterListIdentifier listIdentifier, IEnumerable<IUserIdentifier> users)
         {
-            var userIdentifiersArray = IEnumerableExtension.GetDistinctUserIdentifiers(userIdentifiers);
+            var usersArray = IEnumerableExtension.GetDistinctUserIdentifiers(users);
 
-            for (int i = 0; i < userIdentifiersArray.Length; i += TweetinviConsts.LIST_ADD_OR_REMOVE_MULTIPLE_MEMBERS_MAX)
+            for (int i = 0; i < usersArray.Length; i += TweetinviConsts.LIST_ADD_OR_REMOVE_MULTIPLE_MEMBERS_MAX)
             {
-                var userIdentifiersToAdd = userIdentifiersArray.Skip(i).Take(TweetinviConsts.LIST_ADD_OR_REMOVE_MULTIPLE_MEMBERS_MAX).ToArray();
-                var query = _listsQueryGenerator.GetAddMultipleMembersToListQuery(listIdentifier, userIdentifiersToAdd);
+                var usersToAdd = usersArray.Skip(i).Take(TweetinviConsts.LIST_ADD_OR_REMOVE_MULTIPLE_MEMBERS_MAX).ToArray();
+                var query = _listsQueryGenerator.GetAddMultipleMembersToListQuery(listIdentifier, usersToAdd);
 
                 if (!_twitterAccessor.TryExecutePOSTQuery(query))
                 {
@@ -113,20 +113,20 @@ namespace Tweetinvi.Controllers.TwitterLists
             return MultiRequestsResult.Success;
         }
 
-        public bool RemoveMemberFromList(ITwitterListIdentifier listIdentifier, IUserIdentifier userIdentifier)
+        public bool RemoveMemberFromList(ITwitterListIdentifier listIdentifier, IUserIdentifier user)
         {
-            var query = _listsQueryGenerator.GetRemoveMemberFromListQuery(listIdentifier, userIdentifier);
+            var query = _listsQueryGenerator.GetRemoveMemberFromListQuery(listIdentifier, user);
             return _twitterAccessor.TryExecutePOSTQuery(query);
         }
 
-        public MultiRequestsResult RemoveMultipleMembersFromList(ITwitterListIdentifier listIdentifier, IEnumerable<IUserIdentifier> userIdentifiers)
+        public MultiRequestsResult RemoveMultipleMembersFromList(ITwitterListIdentifier listIdentifier, IEnumerable<IUserIdentifier> users)
         {
-            var userIdentifiersArray = IEnumerableExtension.GetDistinctUserIdentifiers(userIdentifiers);
+            var usersArray = IEnumerableExtension.GetDistinctUserIdentifiers(users);
 
-            for (int i = 0; i < userIdentifiersArray.Length; i += TweetinviConsts.LIST_ADD_OR_REMOVE_MULTIPLE_MEMBERS_MAX)
+            for (int i = 0; i < usersArray.Length; i += TweetinviConsts.LIST_ADD_OR_REMOVE_MULTIPLE_MEMBERS_MAX)
             {
-                var userIdentifiersToAdd = userIdentifiersArray.Skip(i).Take(TweetinviConsts.LIST_ADD_OR_REMOVE_MULTIPLE_MEMBERS_MAX).ToArray();
-                var query = _listsQueryGenerator.GetRemoveMultipleMembersFromListQuery(listIdentifier, userIdentifiersToAdd);
+                var usersToAdd = usersArray.Skip(i).Take(TweetinviConsts.LIST_ADD_OR_REMOVE_MULTIPLE_MEMBERS_MAX).ToArray();
+                var query = _listsQueryGenerator.GetRemoveMultipleMembersFromListQuery(listIdentifier, usersToAdd);
 
                 if (!_twitterAccessor.TryExecutePOSTQuery(query))
                 {
@@ -137,16 +137,16 @@ namespace Tweetinvi.Controllers.TwitterLists
             return MultiRequestsResult.Success;
         }
 
-        public bool CheckIfUserIsAListMember(ITwitterListIdentifier listIdentifier, IUserIdentifier userIdentifier)
+        public bool CheckIfUserIsAListMember(ITwitterListIdentifier listIdentifier, IUserIdentifier user)
         {
-            var query = _listsQueryGenerator.GetCheckIfUserIsAListMemberQuery(listIdentifier, userIdentifier);
+            var query = _listsQueryGenerator.GetCheckIfUserIsAListMemberQuery(listIdentifier, user);
             return _twitterAccessor.TryExecuteGETQuery(query);
         }
 
         // Subscribers
-        public IEnumerable<ITwitterListDTO> GetUserSubscribedLists(IUserIdentifier userIdentifier, int maximumNumberOfListsToRetrieve)
+        public IEnumerable<ITwitterListDTO> GetUserSubscribedLists(IUserIdentifier user, int maximumNumberOfListsToRetrieve)
         {
-            var baseQuery = _listsQueryGenerator.GetUserSubscribedListsQuery(userIdentifier, maximumNumberOfListsToRetrieve);
+            var baseQuery = _listsQueryGenerator.GetUserSubscribedListsQuery(user, maximumNumberOfListsToRetrieve);
             return _twitterAccessor.ExecuteCursorGETQuery<ITwitterListDTO, ITwitterListCursorQueryResultDTO>(baseQuery, maximumNumberOfListsToRetrieve);
         }
 
@@ -168,9 +168,9 @@ namespace Tweetinvi.Controllers.TwitterLists
             return _twitterAccessor.TryExecutePOSTQuery(query);
         }
 
-        public bool CheckIfUserIsAListSubscriber(ITwitterListIdentifier listIdentifier, IUserIdentifier userIdentifier)
+        public bool CheckIfUserIsAListSubscriber(ITwitterListIdentifier listIdentifier, IUserIdentifier user)
         {
-            var query = _listsQueryGenerator.GetCheckIfUserIsAListSubscriberQuery(listIdentifier, userIdentifier);
+            var query = _listsQueryGenerator.GetCheckIfUserIsAListSubscriberQuery(listIdentifier, user);
             return _twitterAccessor.TryExecuteGETQuery(query);
         }
     }

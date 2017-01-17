@@ -23,8 +23,8 @@ namespace Tweetinvi.Controllers.Account
         // Mute
         IEnumerable<long> GetMutedUserIds(int maxUserIds = int.MaxValue);
 
-        bool MuteUser(IUserIdentifier userIdentifier);
-        bool UnMuteUser(IUserIdentifier userIdentifier);
+        bool MuteUser(IUserIdentifier user);
+        bool UnMuteUser(IUserIdentifier user);
 
         // Suggestions
         IEnumerable<IUserDTO> GetSuggestedUsers(string slug, Language? language);
@@ -130,15 +130,15 @@ namespace Tweetinvi.Controllers.Account
             return _twitterAccessor.ExecuteCursorGETQuery<long, IIdsCursorQueryResultDTO>(query, maxUserIds);
         }
 
-        public bool MuteUser(IUserIdentifier userIdentifier)
+        public bool MuteUser(IUserIdentifier user)
         {
-            var query = _accountQueryGenerator.GetMuteQuery(userIdentifier);
+            var query = _accountQueryGenerator.GetMuteQuery(user);
             return _twitterAccessor.TryExecutePOSTQuery(query);
         }
 
-        public bool UnMuteUser(IUserIdentifier userIdentifier)
+        public bool UnMuteUser(IUserIdentifier user)
         {
-            var query = _accountQueryGenerator.GetUnMuteQuery(userIdentifier);
+            var query = _accountQueryGenerator.GetUnMuteQuery(user);
             return _twitterAccessor.TryExecutePOSTQuery(query);
         }
 

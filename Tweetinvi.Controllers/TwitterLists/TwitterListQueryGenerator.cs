@@ -14,27 +14,27 @@ namespace Tweetinvi.Controllers.TwitterLists
 {
     public interface ITwitterListQueryGenerator
     {
-        string GetUserSubscribedListsQuery(IUserIdentifier userIdentifier, bool getOwnedListsFirst);
+        string GetUserSubscribedListsQuery(IUserIdentifier user, bool getOwnedListsFirst);
 
-        string GetUsersOwnedListQuery(IUserIdentifier userIdentifier, int maximumNumberOfListsToRetrieve);
+        string GetUsersOwnedListQuery(IUserIdentifier user, int maximumNumberOfListsToRetrieve);
 
         string GetUpdateListQuery(ITwitterListUpdateQueryParameters parameters);
         string GetDestroyListQuery(ITwitterListIdentifier identifier);
         string GetTweetsFromListQuery(IGetTweetsFromListQueryParameters queryParameters);
 
         string GetMembersFromListQuery(ITwitterListIdentifier listIdentifier, int maximumNumberOfMembers);
-        string GetAddMemberToListQuery(ITwitterListIdentifier listIdentifier, IUserIdentifier userIdentifier);
-        string GetAddMultipleMembersToListQuery(ITwitterListIdentifier listIdentifier, IEnumerable<IUserIdentifier> userIdentifiers);
-        string GetRemoveMemberFromListQuery(ITwitterListIdentifier listIdentifier, IUserIdentifier userIdentifier);
-        string GetRemoveMultipleMembersFromListQuery(ITwitterListIdentifier listIdentifier, IEnumerable<IUserIdentifier> userIdentifiers);
-        string GetCheckIfUserIsAListMemberQuery(ITwitterListIdentifier listIdentifier, IUserIdentifier userIdentifier);
+        string GetAddMemberToListQuery(ITwitterListIdentifier listIdentifier, IUserIdentifier user);
+        string GetAddMultipleMembersToListQuery(ITwitterListIdentifier listIdentifier, IEnumerable<IUserIdentifier> users);
+        string GetRemoveMemberFromListQuery(ITwitterListIdentifier listIdentifier, IUserIdentifier user);
+        string GetRemoveMultipleMembersFromListQuery(ITwitterListIdentifier listIdentifier, IEnumerable<IUserIdentifier> users);
+        string GetCheckIfUserIsAListMemberQuery(ITwitterListIdentifier listIdentifier, IUserIdentifier user);
 
-        string GetUserSubscribedListsQuery(IUserIdentifier userIdentifier, int maximumNumberOfListsToRetrieve);
+        string GetUserSubscribedListsQuery(IUserIdentifier user, int maximumNumberOfListsToRetrieve);
 
         string GetListSubscribersQuery(ITwitterListIdentifier listIdentifier, int maximumNumberOfSubscribersToRetrieve);
         string GetSubscribeUserToListQuery(ITwitterListIdentifier listIdentifier);
         string GetUnSubscribeUserFromListQuery(ITwitterListIdentifier listIdentifier);
-        string GetCheckIfUserIsAListSubscriberQuery(ITwitterListIdentifier listIdentifier, IUserIdentifier userIdentifier);
+        string GetCheckIfUserIsAListSubscriberQuery(ITwitterListIdentifier listIdentifier, IUserIdentifier user);
 
     }
 
@@ -64,20 +64,20 @@ namespace Tweetinvi.Controllers.TwitterLists
         }
 
         // User Lists
-        public string GetUserSubscribedListsQuery(IUserIdentifier userIdentifier, bool getOwnedListsFirst)
+        public string GetUserSubscribedListsQuery(IUserIdentifier user, bool getOwnedListsFirst)
         {
-            _userQueryValidator.ThrowIfUserCannotBeIdentified(userIdentifier);
+            _userQueryValidator.ThrowIfUserCannotBeIdentified(user);
 
-            var identifierParameter = _userQueryParameterGenerator.GenerateIdOrScreenNameParameter(userIdentifier);
+            var identifierParameter = _userQueryParameterGenerator.GenerateIdOrScreenNameParameter(user);
             return string.Format(Resources.List_GetUserLists, identifierParameter, getOwnedListsFirst);
         }
 
         // Owned Lists
-        public string GetUsersOwnedListQuery(IUserIdentifier userIdentifier, int maximumNumberOfListsToRetrieve)
+        public string GetUsersOwnedListQuery(IUserIdentifier user, int maximumNumberOfListsToRetrieve)
         {
-            _userQueryValidator.ThrowIfUserCannotBeIdentified(userIdentifier);
+            _userQueryValidator.ThrowIfUserCannotBeIdentified(user);
 
-            var identifierParameter = _userQueryParameterGenerator.GenerateIdOrScreenNameParameter(userIdentifier);
+            var identifierParameter = _userQueryParameterGenerator.GenerateIdOrScreenNameParameter(user);
             return string.Format(Resources.List_Ownership, identifierParameter, maximumNumberOfListsToRetrieve);
         }
 
@@ -145,22 +145,22 @@ namespace Tweetinvi.Controllers.TwitterLists
             return string.Format(Resources.List_Members, identifierParameter, maximumNumberOfMembers);
         }
 
-        public string GetAddMemberToListQuery(ITwitterListIdentifier listIdentifier, IUserIdentifier userIdentifier)
+        public string GetAddMemberToListQuery(ITwitterListIdentifier listIdentifier, IUserIdentifier user)
         {
-            _userQueryValidator.ThrowIfUserCannotBeIdentified(userIdentifier);
+            _userQueryValidator.ThrowIfUserCannotBeIdentified(user);
             _listsQueryValidator.ThrowIfListIdentifierIsNotValid(listIdentifier);
 
             var listIdentifierParameter = _twitterListQueryParameterGenerator.GenerateIdentifierParameter(listIdentifier);
-            var userIdentifierParameter = _userQueryParameterGenerator.GenerateIdOrScreenNameParameter(userIdentifier);
+            var userParameter = _userQueryParameterGenerator.GenerateIdOrScreenNameParameter(user);
 
-            return string.Format(Resources.List_CreateMember, listIdentifierParameter, userIdentifierParameter);
+            return string.Format(Resources.List_CreateMember, listIdentifierParameter, userParameter);
         }
 
-        public string GetAddMultipleMembersToListQuery(ITwitterListIdentifier listIdentifier, IEnumerable<IUserIdentifier> userIdentifiers)
+        public string GetAddMultipleMembersToListQuery(ITwitterListIdentifier listIdentifier, IEnumerable<IUserIdentifier> users)
         {
             _listsQueryValidator.ThrowIfListIdentifierIsNotValid(listIdentifier);
 
-            var userIdsAndScreenNameParameter = _userQueryParameterGenerator.GenerateListOfUserIdentifiersParameter(userIdentifiers);
+            var userIdsAndScreenNameParameter = _userQueryParameterGenerator.GenerateListOfUserIdentifiersParameter(users);
             var query = new StringBuilder(Resources.List_CreateMembers);
 
             query.AddFormattedParameterToQuery(_twitterListQueryParameterGenerator.GenerateIdentifierParameter(listIdentifier));
@@ -169,23 +169,23 @@ namespace Tweetinvi.Controllers.TwitterLists
             return query.ToString();
         }
 
-        public string GetRemoveMemberFromListQuery(ITwitterListIdentifier listIdentifier, IUserIdentifier userIdentifier)
+        public string GetRemoveMemberFromListQuery(ITwitterListIdentifier listIdentifier, IUserIdentifier user)
         {
             _listsQueryValidator.ThrowIfListIdentifierIsNotValid(listIdentifier);
-            _userQueryValidator.ThrowIfUserCannotBeIdentified(userIdentifier);
+            _userQueryValidator.ThrowIfUserCannotBeIdentified(user);
 
             var listIdentifierParameter = _twitterListQueryParameterGenerator.GenerateIdentifierParameter(listIdentifier);
-            var userIdentifierParameter = _userQueryParameterGenerator.GenerateIdOrScreenNameParameter(userIdentifier);
+            var userParameter = _userQueryParameterGenerator.GenerateIdOrScreenNameParameter(user);
 
-            return string.Format(Resources.List_DestroyMember, listIdentifierParameter, userIdentifierParameter);
+            return string.Format(Resources.List_DestroyMember, listIdentifierParameter, userParameter);
         }
 
-        public string GetRemoveMultipleMembersFromListQuery(ITwitterListIdentifier listIdentifier, IEnumerable<IUserIdentifier> userIdentifiers)
+        public string GetRemoveMultipleMembersFromListQuery(ITwitterListIdentifier listIdentifier, IEnumerable<IUserIdentifier> users)
         {
             _listsQueryValidator.ThrowIfListIdentifierIsNotValid(listIdentifier);
 
             var listIdentifierParameter = _twitterListQueryParameterGenerator.GenerateIdentifierParameter(listIdentifier);
-            var userIdsAndScreenNameParameter = _userQueryParameterGenerator.GenerateListOfUserIdentifiersParameter(userIdentifiers);
+            var userIdsAndScreenNameParameter = _userQueryParameterGenerator.GenerateListOfUserIdentifiersParameter(users);
 
             var query = new StringBuilder(Resources.List_DestroyMembers);
 
@@ -195,23 +195,23 @@ namespace Tweetinvi.Controllers.TwitterLists
             return query.ToString();
         }
 
-        public string GetCheckIfUserIsAListMemberQuery(ITwitterListIdentifier listIdentifier, IUserIdentifier userIdentifier)
+        public string GetCheckIfUserIsAListMemberQuery(ITwitterListIdentifier listIdentifier, IUserIdentifier user)
         {
             _listsQueryValidator.ThrowIfListIdentifierIsNotValid(listIdentifier);
-            _userQueryValidator.ThrowIfUserCannotBeIdentified(userIdentifier);
+            _userQueryValidator.ThrowIfUserCannotBeIdentified(user);
 
             var listIdentifierParameter = _twitterListQueryParameterGenerator.GenerateIdentifierParameter(listIdentifier);
-            var userIdentifierParameter = _userQueryParameterGenerator.GenerateIdOrScreenNameParameter(userIdentifier);
+            var userParameter = _userQueryParameterGenerator.GenerateIdOrScreenNameParameter(user);
 
-            return string.Format(Resources.List_CheckMembership, listIdentifierParameter, userIdentifierParameter);
+            return string.Format(Resources.List_CheckMembership, listIdentifierParameter, userParameter);
         }
 
         // Subscriptions
-        public string GetUserSubscribedListsQuery(IUserIdentifier userIdentifier, int maximumNumberOfListsToRetrieve)
+        public string GetUserSubscribedListsQuery(IUserIdentifier user, int maximumNumberOfListsToRetrieve)
         {
-            _userQueryValidator.ThrowIfUserCannotBeIdentified(userIdentifier);
+            _userQueryValidator.ThrowIfUserCannotBeIdentified(user);
 
-            var userIdParameter = _userQueryParameterGenerator.GenerateIdOrScreenNameParameter(userIdentifier);
+            var userIdParameter = _userQueryParameterGenerator.GenerateIdOrScreenNameParameter(user);
             return string.Format(Resources.List_UserSubscriptions, userIdParameter, maximumNumberOfListsToRetrieve);
         }
 
@@ -239,18 +239,18 @@ namespace Tweetinvi.Controllers.TwitterLists
             return string.Format(Resources.List_UnSubscribe, listIdentifierParameter);
         }
 
-        public string GetCheckIfUserIsAListSubscriberQuery(ITwitterListIdentifier listIdentifier, IUserIdentifier userIdentifier)
+        public string GetCheckIfUserIsAListSubscriberQuery(ITwitterListIdentifier listIdentifier, IUserIdentifier user)
         {
             _listsQueryValidator.ThrowIfListIdentifierIsNotValid(listIdentifier);
-            _userQueryValidator.ThrowIfUserCannotBeIdentified(userIdentifier);
+            _userQueryValidator.ThrowIfUserCannotBeIdentified(user);
 
             var listIdentifierParameter = _twitterListQueryParameterGenerator.GenerateIdentifierParameter(listIdentifier);
-            var userIdentifierParameter = _userQueryParameterGenerator.GenerateIdOrScreenNameParameter(userIdentifier);
+            var userParameter = _userQueryParameterGenerator.GenerateIdOrScreenNameParameter(user);
 
             var query = new StringBuilder(Resources.List_CheckSubscriber);
 
             query.AddFormattedParameterToQuery(listIdentifierParameter);
-            query.AddFormattedParameterToQuery(userIdentifierParameter);
+            query.AddFormattedParameterToQuery(userParameter);
             query.AddParameterToQuery("skip_status", "true");
 
             return query.ToString();

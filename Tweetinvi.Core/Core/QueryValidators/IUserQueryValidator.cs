@@ -4,11 +4,11 @@ namespace Tweetinvi.Core.QueryValidators
 {
     public interface IUserQueryValidator
     {
-        bool CanUserBeIdentified(IUserIdentifier userIdentifier);
+        bool CanUserBeIdentified(IUserIdentifier user);
         bool IsScreenNameValid(string screenName);
         bool IsUserIdValid(long? userId);
 
-        void ThrowIfUserCannotBeIdentified(IUserIdentifier userIdentifier);
-        void ThrowIfUserCannotBeIdentified(IUserIdentifier userIdentifier, string parameterName);
+        void ThrowIfUserCannotBeIdentified(IUserIdentifier user);
+        void ThrowIfUserCannotBeIdentified(IUserIdentifier user, string parameterName);
     }
 }

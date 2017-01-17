@@ -7,19 +7,19 @@ namespace Tweetinvi.Core.QueryGenerators
     public interface IUserQueryGenerator
     {
         // Friend Ids
-        string GetFriendIdsQuery(IUserIdentifier userIdentifier, int maxFriendsToRetrieve);
+        string GetFriendIdsQuery(IUserIdentifier user, int maxFriendsToRetrieve);
 
         // Followers Ids
-        string GetFollowerIdsQuery(IUserIdentifier userIdentifier, int maxFollowersToRetrieve);
+        string GetFollowerIdsQuery(IUserIdentifier user, int maxFollowersToRetrieve);
 
         // Favourites
         string GetFavoriteTweetsQuery(IGetUserFavoritesQueryParameters parameters);
 
         // Block User
-        string GetBlockUserQuery(IUserIdentifier userIdentifier);
+        string GetBlockUserQuery(IUserIdentifier user);
 
         // Unblock User
-        string GetUnBlockUserQuery(IUserIdentifier userIdentifier);
+        string GetUnBlockUserQuery(IUserIdentifier user);
 
         // Get Blocked User
         string GetBlockedUserIdsQuery();
@@ -30,6 +30,6 @@ namespace Tweetinvi.Core.QueryGenerators
         string DownloadProfileImageInHttpURL(IUserDTO userDTO, ImageSize size = ImageSize.normal);
 
         // Spam
-        string GetReportUserForSpamQuery(IUserIdentifier userIdentifier);
+        string GetReportUserForSpamQuery(IUserIdentifier user);
     }
 }

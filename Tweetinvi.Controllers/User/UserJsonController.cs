@@ -12,21 +12,21 @@ namespace Tweetinvi.Controllers.User
     public interface IUserJsonController
     {
         // Friends
-        IEnumerable<string> GetFriendIds(IUserIdentifier userIdentifier, int maxFriendsToRetrieve = 5000);
+        IEnumerable<string> GetFriendIds(IUserIdentifier user, int maxFriendsToRetrieve = 5000);
         IEnumerable<string> GetFriendIds(long userId, int maxFriendsToRetrieve = 5000);
         IEnumerable<string> GetFriendIds(string userScreenName, int maxFriendsToRetrieve = 5000);
 
         // Followers
-        IEnumerable<string> GetFollowerIds(IUserIdentifier userIdentifier, int maxFollowersToRetrieve = 5000);
+        IEnumerable<string> GetFollowerIds(IUserIdentifier user, int maxFollowersToRetrieve = 5000);
         IEnumerable<string> GetFollowerIds(long userId, int maxFollowersToRetrieve = 5000);
         IEnumerable<string> GetFollowerIds(string userScreenName, int maxFollowersToRetrieve = 5000);
 
         // Favorites
         string GetFavoriteTweets(IGetUserFavoritesQueryParameters parameters);
-        string GetFavoriteTweets(IUserIdentifier userIdentifier, IGetUserFavoritesParameters parameters);
+        string GetFavoriteTweets(IUserIdentifier user, IGetUserFavoritesParameters parameters);
 
         // Block User
-        string BlockUser(IUserIdentifier userIdentifier);
+        string BlockUser(IUserIdentifier user);
         string BlockUser(long userId);
         string BlockUser(string userScreenName);
     }
@@ -45,9 +45,9 @@ namespace Tweetinvi.Controllers.User
         }
 
         // Friend ids
-        public IEnumerable<string> GetFriendIds(IUserIdentifier userIdentifier, int maxFriendsToRetrieve = 5000)
+        public IEnumerable<string> GetFriendIds(IUserIdentifier user, int maxFriendsToRetrieve = 5000)
         {
-            string query = _userQueryGenerator.GetFriendIdsQuery(userIdentifier, maxFriendsToRetrieve);
+            string query = _userQueryGenerator.GetFriendIdsQuery(user, maxFriendsToRetrieve);
             return _twitterAccessor.ExecuteJsonCursorGETQuery<IIdsCursorQueryResultDTO>(query);
         }
 
@@ -64,9 +64,9 @@ namespace Tweetinvi.Controllers.User
         }
 
         // Followers
-        public IEnumerable<string> GetFollowerIds(IUserIdentifier userIdentifier, int maxFollowersToRetrieve = 5000)
+        public IEnumerable<string> GetFollowerIds(IUserIdentifier user, int maxFollowersToRetrieve = 5000)
         {
-            string query = _userQueryGenerator.GetFollowerIdsQuery(userIdentifier, maxFollowersToRetrieve);
+            string query = _userQueryGenerator.GetFollowerIdsQuery(user, maxFollowersToRetrieve);
             return _twitterAccessor.ExecuteJsonCursorGETQuery<IIdsCursorQueryResultDTO>(query);
         }
 
@@ -89,16 +89,16 @@ namespace Tweetinvi.Controllers.User
             return _twitterAccessor.ExecuteGETQueryReturningJson(query);
         }
 
-        public string GetFavoriteTweets(IUserIdentifier userIdentifier, IGetUserFavoritesParameters parameters)
+        public string GetFavoriteTweets(IUserIdentifier user, IGetUserFavoritesParameters parameters)
         {
-            var favoritesParameters = new GetUserFavoritesQueryParameters(userIdentifier, parameters);
+            var favoritesParameters = new GetUserFavoritesQueryParameters(user, parameters);
             return GetFavoriteTweets(favoritesParameters);
         }
 
         // Block User
-        public string BlockUser(IUserIdentifier userIdentifier)
+        public string BlockUser(IUserIdentifier user)
         {
-            string query = _userQueryGenerator.GetBlockUserQuery(userIdentifier);
+            string query = _userQueryGenerator.GetBlockUserQuery(user);
             return _twitterAccessor.ExecutePOSTQueryReturningJson(query);
         }
 

@@ -118,14 +118,6 @@ namespace Tweetinvi
         /// <summary>
         /// Publish a message
         /// </summary>
-        public static IMessage PublishMessage(string text, IUser recipient)
-        {
-            return MessageController.PublishMessage(text, recipient);
-        }
-
-        /// <summary>
-        /// Publish a message
-        /// </summary>
         public static IMessage PublishMessage(string text, IUserIdentifier recipient)
         {
             return MessageController.PublishMessage(text, recipient);

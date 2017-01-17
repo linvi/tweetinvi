@@ -12,19 +12,17 @@ namespace Tweetinvi.Core.Controllers
         IEnumerable<IUser> GetUsersYouRequestedToFollow(int maximumUsersToRetrieve = 75000);
 
         // Create Friendship with
-        bool CreateFriendshipWith(IUser user);
-        bool CreateFriendshipWith(IUserIdentifier userIdentifier);
+        bool CreateFriendshipWith(IUserIdentifier user);
         bool CreateFriendshipWith(long userId);
         bool CreateFriendshipWith(string userScreeName);
 
         // Destroy Friendship with
-        bool DestroyFriendshipWith(IUserIdentifier userIdentifier);
+        bool DestroyFriendshipWith(IUserIdentifier user);
         bool DestroyFriendshipWith(long userId);
         bool DestroyFriendshipWith(string userScreeName);
 
         // Update Friendship Authorizations
-        bool UpdateRelationshipAuthorizationsWith(IUser user, bool retweetsEnabled, bool deviceNotifictionEnabled);
-        bool UpdateRelationshipAuthorizationsWith(IUserIdentifier userIdentifier, bool retweetsEnabled, bool deviceNotifictionEnabled);
+        bool UpdateRelationshipAuthorizationsWith(IUserIdentifier user, bool retweetsEnabled, bool deviceNotifictionEnabled);
         bool UpdateRelationshipAuthorizationsWith(long userId, bool retweetsEnabled, bool deviceNotifictionEnabled);
         bool UpdateRelationshipAuthorizationsWith(string userScreenName, bool retweetsEnabled, bool deviceNotifictionEnabled);
 

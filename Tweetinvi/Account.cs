@@ -223,9 +223,9 @@ namespace Tweetinvi
         /// <summary>
         /// Mute a specific user.
         /// </summary>
-        public static bool MuteUser(IUserIdentifier userIdentifier)
+        public static bool MuteUser(IUserIdentifier user)
         {
-            return AccountController.MuteUser(userIdentifier);
+            return AccountController.MuteUser(user);
         }
 
         /// <summary>
@@ -247,9 +247,9 @@ namespace Tweetinvi
         /// <summary>
         /// Unmute a specific user.
         /// </summary>
-        public static bool UnMuteUser(IUserIdentifier userIdentifier)
+        public static bool UnMuteUser(IUserIdentifier user)
         {
-            return AccountController.UnMuteUser(userIdentifier);
+            return AccountController.UnMuteUser(user);
         }
 
         /// <summary>
@@ -307,9 +307,9 @@ namespace Tweetinvi
         /// <summary>
         /// Changes the authorizations you give to a specific user.
         /// </summary>
-        public static bool UpdateRelationshipAuthorizationsWith(IUserIdentifier userIdentifier, bool retweetsEnabled, bool deviceNotifictionEnabled)
+        public static bool UpdateRelationshipAuthorizationsWith(IUserIdentifier user, bool retweetsEnabled, bool deviceNotifictionEnabled)
         {
-            return FriendshipController.UpdateRelationshipAuthorizationsWith(userIdentifier, retweetsEnabled, deviceNotifictionEnabled);
+            return FriendshipController.UpdateRelationshipAuthorizationsWith(user, retweetsEnabled, deviceNotifictionEnabled);
         }
 
         /// <summary>

@@ -50,9 +50,9 @@ namespace Tweetinvi
             return await Sync.ExecuteTaskAsync(() => Account.GetMutedUsers(maxNumberOfUsersToRetrieve));
         }
 
-        public static async Task<bool> MuteUser(IUserIdentifier userIdentifier)
+        public static async Task<bool> MuteUser(IUserIdentifier user)
         {
-            return await Sync.ExecuteTaskAsync(() => Account.MuteUser(userIdentifier));
+            return await Sync.ExecuteTaskAsync(() => Account.MuteUser(user));
         }
 
         public static async Task<bool> MuteUser(long userId)
@@ -65,9 +65,9 @@ namespace Tweetinvi
             return await Sync.ExecuteTaskAsync(() => Account.MuteUser(screenName));
         }
 
-        public static async Task<bool> UnMuteUser(IUserIdentifier userIdentifier)
+        public static async Task<bool> UnMuteUser(IUserIdentifier user)
         {
-            return await Sync.ExecuteTaskAsync(() => Account.UnMuteUser(userIdentifier));
+            return await Sync.ExecuteTaskAsync(() => Account.UnMuteUser(user));
         }
 
         public static async Task<bool> UnMuteUser(long userId)
@@ -104,9 +104,9 @@ namespace Tweetinvi
         }
 
         // Update Relationship Authorization With
-        public static async Task<bool> UpdateRelationshipAuthorizationsWith(IUserIdentifier userIdentifier, bool retweetsEnabled, bool deviceNotifictionEnabled)
+        public static async Task<bool> UpdateRelationshipAuthorizationsWith(IUserIdentifier user, bool retweetsEnabled, bool deviceNotifictionEnabled)
         {
-            return await Sync.ExecuteTaskAsync(() => Account.UpdateRelationshipAuthorizationsWith(userIdentifier, retweetsEnabled, deviceNotifictionEnabled));
+            return await Sync.ExecuteTaskAsync(() => Account.UpdateRelationshipAuthorizationsWith(user, retweetsEnabled, deviceNotifictionEnabled));
         }
 
         public static async Task<bool> UpdateRelationshipAuthorizationsWith(long userId, bool retweetsEnabled, bool deviceNotifictionEnabled)

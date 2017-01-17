@@ -49,22 +49,22 @@ namespace Tweetinvi.Controllers.Timeline
         // User Timeline
         public IEnumerable<ITweet> GetUserTimeline(long userId, int maximumNumberOfTweets = 40)
         {
-            var userIdentifier = _userFactory.GenerateUserIdentifierFromId(userId);
-            return GetUserTimeline(userIdentifier, maximumNumberOfTweets);
+            var user = _userFactory.GenerateUserIdentifierFromId(userId);
+            return GetUserTimeline(user, maximumNumberOfTweets);
         }
 
         public IEnumerable<ITweet> GetUserTimeline(string userScreenName, int maximumNumberOfTweets = 40)
         {
-            var userIdentifier = _userFactory.GenerateUserIdentifierFromScreenName(userScreenName);
-            return GetUserTimeline(userIdentifier, maximumNumberOfTweets);
+            var user = _userFactory.GenerateUserIdentifierFromScreenName(userScreenName);
+            return GetUserTimeline(user, maximumNumberOfTweets);
         }
 
-        public IEnumerable<ITweet> GetUserTimeline(IUserIdentifier userIdentifier, int maximumNumberOfTweets = 40)
+        public IEnumerable<ITweet> GetUserTimeline(IUserIdentifier user, int maximumNumberOfTweets = 40)
         {
             var requestParameters = _timelineQueryParameterGenerator.CreateUserTimelineParameters();
             requestParameters.MaximumNumberOfTweetsToRetrieve = maximumNumberOfTweets;
 
-            return GetUserTimeline(userIdentifier, requestParameters);
+            return GetUserTimeline(user, requestParameters);
         }
 
         public IEnumerable<ITweet> GetUserTimeline(long userId, IUserTimelineParameters parameters)
@@ -77,14 +77,14 @@ namespace Tweetinvi.Controllers.Timeline
             return GetUserTimeline(new UserIdentifier(userScreenName), parameters);
         }
 
-        public IEnumerable<ITweet> GetUserTimeline(IUserIdentifier userIdentifier, IUserTimelineParameters parameters)
+        public IEnumerable<ITweet> GetUserTimeline(IUserIdentifier user, IUserTimelineParameters parameters)
         {
             if (parameters == null)
             {
                 parameters = _timelineQueryParameterGenerator.CreateUserTimelineParameters();
             }
 
-            var queryParameters = _timelineQueryParameterGenerator.CreateUserTimelineQueryParameters(userIdentifier, parameters);
+            var queryParameters = _timelineQueryParameterGenerator.CreateUserTimelineQueryParameters(user, parameters);
             return GetUserTimeline(queryParameters);
         }
 

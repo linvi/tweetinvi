@@ -11,7 +11,7 @@ namespace Tweetinvi.Core.Controllers
         IEnumerable<ITweet> GetHomeTimeline(IHomeTimelineParameters timelineParameters);
 
         // User Timeline
-        IEnumerable<ITweet> GetUserTimeline(IUserIdentifier userIdentifier, int maximumNumberOfTweets = 40);
+        IEnumerable<ITweet> GetUserTimeline(IUserIdentifier user, int maximumNumberOfTweets = 40);
         IEnumerable<ITweet> GetUserTimeline(long userId, int maximumNumberOfTweets = 40);
         IEnumerable<ITweet> GetUserTimeline(string userScreenName, int maximumNumberOfTweets = 40);
 

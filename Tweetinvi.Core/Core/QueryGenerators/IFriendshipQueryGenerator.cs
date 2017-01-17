@@ -13,17 +13,17 @@ namespace Tweetinvi.Core.QueryGenerators
         string GetRelationshipDetailsQuery(IUserIdentifier sourceUserIdentifier, IUserIdentifier targetUserIdentifier);
 
         // Lookup Relationship State
-        string GetMultipleRelationshipsQuery(IEnumerable<IUserIdentifier> userIdentifiers);
+        string GetMultipleRelationshipsQuery(IEnumerable<IUserIdentifier> users);
         string GetMultipleRelationshipsQuery(IEnumerable<long> userIds);
         string GetMultipleRelationshipsQuery(IEnumerable<string> screenNames);
 
         // Create Friendship
-        string GetCreateFriendshipWithQuery(IUserIdentifier userIdentifier);
+        string GetCreateFriendshipWithQuery(IUserIdentifier user);
 
         // Destroy Friendship
-        string GetDestroyFriendshipWithQuery(IUserIdentifier userIdentifier);
+        string GetDestroyFriendshipWithQuery(IUserIdentifier user);
 
         // Update Friendship Authorization
-        string GetUpdateRelationshipAuthorizationsWithQuery(IUserIdentifier userIdentifier, IFriendshipAuthorizations friendshipAuthorizations);
+        string GetUpdateRelationshipAuthorizationsWithQuery(IUserIdentifier user, IFriendshipAuthorizations friendshipAuthorizations);
     }
 }

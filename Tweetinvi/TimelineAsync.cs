@@ -19,14 +19,9 @@ namespace Tweetinvi
         }
 
         // User Timeline
-        public static async Task<IEnumerable<ITweet>> GetUserTimeline(IUser user, int maximumTweets = 40)
+        public static async Task<IEnumerable<ITweet>> GetUserTimeline(IUserIdentifier user, int maximumTweets = 40)
         {
             return await Sync.ExecuteTaskAsync(() => Timeline.GetUserTimeline(user, maximumTweets));
-        }
-
-        public static async Task<IEnumerable<ITweet>> GetUserTimeline(IUserIdentifier userIdentifier, int maximumTweets = 40)
-        {
-            return await Sync.ExecuteTaskAsync(() => Timeline.GetUserTimeline(userIdentifier, maximumTweets));
         }
 
         public static async Task<IEnumerable<ITweet>> GetUserTimeline(long userId, int maximumTweets = 40)
@@ -39,9 +34,9 @@ namespace Tweetinvi
             return await Sync.ExecuteTaskAsync(() => Timeline.GetUserTimeline(userScreenName, maximumTweets));
         }
 
-        public static async Task<IEnumerable<ITweet>> GetUserTimeline(IUserIdentifier userIdentifier, IUserTimelineParameters timelineParameters)
+        public static async Task<IEnumerable<ITweet>> GetUserTimeline(IUserIdentifier user, IUserTimelineParameters timelineParameters)
         {
-            return await Sync.ExecuteTaskAsync(() => Timeline.GetUserTimeline(userIdentifier, timelineParameters));
+            return await Sync.ExecuteTaskAsync(() => Timeline.GetUserTimeline(user, timelineParameters));
         }
 
         // Mention Timeline

@@ -34,7 +34,7 @@ namespace Testinvi.TweetinviControllers.TimelineTests
         private int _maximumNumberOfTweetsParameterValue;
 
         private IUserIdentifier _fakeUserIdentifier;
-        private string _userIdentifierParameter;
+        private string _userParameter;
         private string _includeRTSParameter;
         private string _excludeRepliesParameter;
         private string _includeContributorDetailsParameter;
@@ -63,7 +63,7 @@ namespace Testinvi.TweetinviControllers.TimelineTests
             _fakeTimelineQueryParameterGenerator.CallsTo(x => x.GenerateExcludeRepliesParameter(It.IsAny<bool>())).Returns(_excludeRepliesParameter);
             _fakeTimelineQueryParameterGenerator.CallsTo(x => x.GenerateIncludeContributorDetailsParameter(It.IsAny<bool>())).Returns(_includeContributorDetailsParameter);
 
-            _fakeUserQueryParameterGenerator.CallsTo(x => x.GenerateIdOrScreenNameParameter(_fakeUserIdentifier, "user_id", "screen_name")).Returns(_userIdentifierParameter);
+            _fakeUserQueryParameterGenerator.CallsTo(x => x.GenerateIdOrScreenNameParameter(_fakeUserIdentifier, "user_id", "screen_name")).Returns(_userParameter);
             _fakeTimelineQueryParameterGenerator.CallsTo(x => x.GenerateIncludeRTSParameter(It.IsAny<bool>())).Returns(_includeRTSParameter);
             
             _fakeQueryParameterGenerator.CallsTo(x => x.GenerateCountParameter(_maximumNumberOfTweetsParameterValue)).Returns(_maximumNumberOfTweetsParameter);
@@ -92,7 +92,7 @@ namespace Testinvi.TweetinviControllers.TimelineTests
             _fakeMentionsTimelineParameters = A.Fake<IMentionsTimelineParameters>();
             _fakeMentionsTimelineParameters.CallsTo(x => x.MaximumNumberOfTweetsToRetrieve).Returns(_maximumNumberOfTweetsParameterValue);
 
-            _userIdentifierParameter = TestHelper.GenerateString();
+            _userParameter = TestHelper.GenerateString();
             _includeRTSParameter = TestHelper.GenerateString();
             _excludeRepliesParameter = TestHelper.GenerateString();
             _includeContributorDetailsParameter = TestHelper.GenerateString();
@@ -112,7 +112,7 @@ namespace Testinvi.TweetinviControllers.TimelineTests
             queryParameterBuilder.Append(_includeDetailsParameter);
 
             var homeQueryParameter = _excludeRepliesParameter + queryParameterBuilder;
-            var userQueryParameter = _userIdentifierParameter + _includeRTSParameter + _excludeRepliesParameter + queryParameterBuilder;
+            var userQueryParameter = _userParameter + _includeRTSParameter + _excludeRepliesParameter + queryParameterBuilder;
 
             _expectedTimelineQuery = string.Format(Resources.Timeline_GetHomeTimeline, homeQueryParameter);
             _expectedUserTimelineQuery = string.Format(Resources.Timeline_GetUserTimeline, userQueryParameter);

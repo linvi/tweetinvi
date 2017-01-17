@@ -147,9 +147,9 @@ namespace Tweetinvi.Controllers.Account
             return _userFactory.GetUsersFromIds(usersIds);
         }
 
-        public bool MuteUser(IUserIdentifier userIdentifier)
+        public bool MuteUser(IUserIdentifier user)
         {
-            return _accountQueryExecutor.MuteUser(userIdentifier);
+            return _accountQueryExecutor.MuteUser(user);
         }
 
         public bool MuteUser(long userId)
@@ -162,9 +162,9 @@ namespace Tweetinvi.Controllers.Account
             return _accountQueryExecutor.MuteUser(new UserIdentifier(screenName));
         }
 
-        public bool UnMuteUser(IUserIdentifier userIdentifier)
+        public bool UnMuteUser(IUserIdentifier user)
         {
-            return _accountQueryExecutor.UnMuteUser(userIdentifier);
+            return _accountQueryExecutor.UnMuteUser(user);
         }
 
         public bool UnMuteUser(long userId)

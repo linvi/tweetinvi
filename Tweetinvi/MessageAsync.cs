@@ -41,14 +41,9 @@ namespace Tweetinvi
             return await Sync.ExecuteTaskAsync(() => Message.PublishMessage(parameters));
         }
 
-        public static async Task<IMessage> PublishMessage(string text, IUser targetUser)
+        public static async Task<IMessage> PublishMessage(string text, IUserIdentifier recipient)
         {
-            return await Sync.ExecuteTaskAsync(() => Message.PublishMessage(text, targetUser));
-        }
-
-        public static async Task<IMessage> PublishMessage(string text, IUserIdentifier targetUserDTO)
-        {
-            return await Sync.ExecuteTaskAsync(() => Message.PublishMessage(text, targetUserDTO));
+            return await Sync.ExecuteTaskAsync(() => Message.PublishMessage(text, recipient));
         }
 
         public static async Task<IMessage> PublishMessage(string text, long targetUserId)

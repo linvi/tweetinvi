@@ -62,7 +62,7 @@ namespace Tweetinvi.Streaming
         /// <summary>
         /// Follow a specific user
         /// </summary>
-        void AddFollow(IUser user, Action<ITweet> userPublishedTweet = null);
+        void AddFollow(IUserIdentifier user, Action<ITweet> userPublishedTweet = null);
 
         /// <summary>
         /// Unfollow a specific userId
@@ -72,7 +72,7 @@ namespace Tweetinvi.Streaming
         /// <summary>
         /// Unfollow a specific user
         /// </summary>
-        void RemoveFollow(IUser user);
+        void RemoveFollow(IUserIdentifier user);
 
         /// <summary>
         /// Tells you whether you are following a userId
@@ -82,7 +82,7 @@ namespace Tweetinvi.Streaming
         /// <summary>
         /// Tells you whether you are following a user
         /// </summary>
-        bool ContainsFollow(IUser user);
+        bool ContainsFollow(IUserIdentifier user);
 
         /// <summary>
         /// Unfollow all the currently followed users

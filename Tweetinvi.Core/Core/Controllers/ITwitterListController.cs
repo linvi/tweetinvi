@@ -12,7 +12,7 @@ namespace Tweetinvi.Core.Controllers
 
         IEnumerable<ITwitterList> GetUserOwnedLists(long userId, int maximumNumberOfListsToRetrieve);
         IEnumerable<ITwitterList> GetUserOwnedLists(string userScreenName, int maximumNumberOfListsToRetrieve);
-        IEnumerable<ITwitterList> GetUserOwnedLists(IUserIdentifier userIdentifier, int maximumNumberOfListsToRetrieve);
+        IEnumerable<ITwitterList> GetUserOwnedLists(IUserIdentifier user, int maximumNumberOfListsToRetrieve);
 
         ITwitterList UpdateList(long listId, ITwitterListUpdateParameters parameters);
         ITwitterList UpdateList(string slug, IUserIdentifier owner, ITwitterListUpdateParameters parameters);
@@ -62,23 +62,23 @@ namespace Tweetinvi.Core.Controllers
 
         MultiRequestsResult AddMultipleMembersToList(long listId, IEnumerable<long> userIds);
         MultiRequestsResult AddMultipleMembersToList(long listId, IEnumerable<string> userScreenNames);
-        MultiRequestsResult AddMultipleMembersToList(long listId, IEnumerable<IUserIdentifier> userIdentifiers);
+        MultiRequestsResult AddMultipleMembersToList(long listId, IEnumerable<IUserIdentifier> users);
 
         MultiRequestsResult AddMultipleMembersToList(string slug, long ownerId, IEnumerable<long> userIds);
         MultiRequestsResult AddMultipleMembersToList(string slug, long ownerId, IEnumerable<string> userScreenNames);
-        MultiRequestsResult AddMultipleMembersToList(string slug, long ownerId, IEnumerable<IUserIdentifier> userIdentifiers);
+        MultiRequestsResult AddMultipleMembersToList(string slug, long ownerId, IEnumerable<IUserIdentifier> users);
 
         MultiRequestsResult AddMultipleMembersToList(string slug, string ownerScreenName, IEnumerable<long> userIds);
         MultiRequestsResult AddMultipleMembersToList(string slug, string ownerScreenName, IEnumerable<string> userScreenNames);
-        MultiRequestsResult AddMultipleMembersToList(string slug, string ownerScreenName, IEnumerable<IUserIdentifier> userIdentifiers);
+        MultiRequestsResult AddMultipleMembersToList(string slug, string ownerScreenName, IEnumerable<IUserIdentifier> users);
 
         MultiRequestsResult AddMultipleMembersToList(string slug, IUserIdentifier owner, IEnumerable<long> userIds);
         MultiRequestsResult AddMultipleMembersToList(string slug, IUserIdentifier owner, IEnumerable<string> userScreenNames);
-        MultiRequestsResult AddMultipleMembersToList(string slug, IUserIdentifier owner, IEnumerable<IUserIdentifier> userIdentifiers);
+        MultiRequestsResult AddMultipleMembersToList(string slug, IUserIdentifier owner, IEnumerable<IUserIdentifier> users);
 
         MultiRequestsResult AddMultipleMembersToList(ITwitterListIdentifier list, IEnumerable<long> userIds);
         MultiRequestsResult AddMultipleMembersToList(ITwitterListIdentifier list, IEnumerable<string> userScreenNames);
-        MultiRequestsResult AddMultipleMembersToList(ITwitterListIdentifier list, IEnumerable<IUserIdentifier> userIdentifiers);
+        MultiRequestsResult AddMultipleMembersToList(ITwitterListIdentifier list, IEnumerable<IUserIdentifier> users);
 
         // Remove Member from List
         bool RemoveMemberFromList(long listId, long newUserId);
@@ -104,44 +104,44 @@ namespace Tweetinvi.Core.Controllers
         // Remove Multiple Members
         MultiRequestsResult RemoveMultipleMembersFromList(long listId, IEnumerable<long> userIds);
         MultiRequestsResult RemoveMultipleMembersFromList(long listId, IEnumerable<string> userScreenNames);
-        MultiRequestsResult RemoveMultipleMembersFromList(long listId, IEnumerable<IUserIdentifier> userIdentifiers);
+        MultiRequestsResult RemoveMultipleMembersFromList(long listId, IEnumerable<IUserIdentifier> users);
 
         MultiRequestsResult RemoveMultipleMembersFromList(string slug, long ownerId, IEnumerable<long> userIds);
         MultiRequestsResult RemoveMultipleMembersFromList(string slug, long ownerId, IEnumerable<string> userScreenNames);
-        MultiRequestsResult RemoveMultipleMembersFromList(string slug, long ownerId, IEnumerable<IUserIdentifier> userIdentifiers);
+        MultiRequestsResult RemoveMultipleMembersFromList(string slug, long ownerId, IEnumerable<IUserIdentifier> users);
 
         MultiRequestsResult RemoveMultipleMembersFromList(string slug, string ownerScreenName, IEnumerable<long> userIds);
         MultiRequestsResult RemoveMultipleMembersFromList(string slug, string ownerScreenName, IEnumerable<string> userScreenNames);
-        MultiRequestsResult RemoveMultipleMembersFromList(string slug, string ownerScreenName, IEnumerable<IUserIdentifier> userIdentifiers);
+        MultiRequestsResult RemoveMultipleMembersFromList(string slug, string ownerScreenName, IEnumerable<IUserIdentifier> users);
 
         MultiRequestsResult RemoveMultipleMembersFromList(string slug, IUserIdentifier owner, IEnumerable<long> userIds);
         MultiRequestsResult RemoveMultipleMembersFromList(string slug, IUserIdentifier owner, IEnumerable<string> userScreenNames);
-        MultiRequestsResult RemoveMultipleMembersFromList(string slug, IUserIdentifier owner, IEnumerable<IUserIdentifier> userIdentifiers);
+        MultiRequestsResult RemoveMultipleMembersFromList(string slug, IUserIdentifier owner, IEnumerable<IUserIdentifier> users);
 
         MultiRequestsResult RemoveMultipleMembersFromList(ITwitterListIdentifier list, IEnumerable<long> userIds);
         MultiRequestsResult RemoveMultipleMembersFromList(ITwitterListIdentifier list, IEnumerable<string> userScreenNames);
-        MultiRequestsResult RemoveMultipleMembersFromList(ITwitterListIdentifier list, IEnumerable<IUserIdentifier> userIdentifiers);
+        MultiRequestsResult RemoveMultipleMembersFromList(ITwitterListIdentifier list, IEnumerable<IUserIdentifier> users);
 
         // Check Membership
         bool CheckIfUserIsAListMember(long listId, long userId);
         bool CheckIfUserIsAListMember(long listId, string userScreenName);
-        bool CheckIfUserIsAListMember(long listId, IUserIdentifier userIdentifier);
+        bool CheckIfUserIsAListMember(long listId, IUserIdentifier user);
         
         bool CheckIfUserIsAListMember(string slug, long ownerId, long userId);
         bool CheckIfUserIsAListMember(string slug, long ownerId, string userScreenName);
-        bool CheckIfUserIsAListMember(string slug, long ownerId, IUserIdentifier userIdentifier);
+        bool CheckIfUserIsAListMember(string slug, long ownerId, IUserIdentifier user);
         
         bool CheckIfUserIsAListMember(string slug, string ownerScreenName, long userId);
         bool CheckIfUserIsAListMember(string slug, string ownerScreenName, string userScreenName);
-        bool CheckIfUserIsAListMember(string slug, string ownerScreenName, IUserIdentifier userIdentifier);
+        bool CheckIfUserIsAListMember(string slug, string ownerScreenName, IUserIdentifier user);
 
         bool CheckIfUserIsAListMember(string slug, IUserIdentifier owner, long userId);
         bool CheckIfUserIsAListMember(string slug, IUserIdentifier owner, string userScreenName);
-        bool CheckIfUserIsAListMember(string slug, IUserIdentifier owner, IUserIdentifier userIdentifier);
+        bool CheckIfUserIsAListMember(string slug, IUserIdentifier owner, IUserIdentifier user);
 
         bool CheckIfUserIsAListMember(ITwitterListIdentifier listIdentifier, long userId);
         bool CheckIfUserIsAListMember(ITwitterListIdentifier listIdentifier, string userScreenName);
-        bool CheckIfUserIsAListMember(ITwitterListIdentifier listIdentifier, IUserIdentifier userIdentifier);
+        bool CheckIfUserIsAListMember(ITwitterListIdentifier listIdentifier, IUserIdentifier user);
 
         // Subscriptions
         IEnumerable<ITwitterList> GetUserSubscribedLists(long userId, int maxNumberOfListsToRetrieve);
@@ -172,22 +172,22 @@ namespace Tweetinvi.Core.Controllers
         // Check Subscription
         bool CheckIfUserIsAListSubscriber(long listId, long userId);
         bool CheckIfUserIsAListSubscriber(long listId, string userScreenName);
-        bool CheckIfUserIsAListSubscriber(long listId, IUserIdentifier userIdentifier);
+        bool CheckIfUserIsAListSubscriber(long listId, IUserIdentifier user);
 
         bool CheckIfUserIsAListSubscriber(string slug, long ownerId, long userId);
         bool CheckIfUserIsAListSubscriber(string slug, long ownerId, string userScreenName);
-        bool CheckIfUserIsAListSubscriber(string slug, long ownerId, IUserIdentifier userIdentifier);
+        bool CheckIfUserIsAListSubscriber(string slug, long ownerId, IUserIdentifier user);
 
         bool CheckIfUserIsAListSubscriber(string slug, string ownerScreenName, long userId);
         bool CheckIfUserIsAListSubscriber(string slug, string ownerScreenName, string userScreenName);
-        bool CheckIfUserIsAListSubscriber(string slug, string ownerScreenName, IUserIdentifier userIdentifier);
+        bool CheckIfUserIsAListSubscriber(string slug, string ownerScreenName, IUserIdentifier user);
 
         bool CheckIfUserIsAListSubscriber(string slug, IUserIdentifier owner, long userId);
         bool CheckIfUserIsAListSubscriber(string slug, IUserIdentifier owner, string userScreenName);
-        bool CheckIfUserIsAListSubscriber(string slug, IUserIdentifier owner, IUserIdentifier userIdentifier);
+        bool CheckIfUserIsAListSubscriber(string slug, IUserIdentifier owner, IUserIdentifier user);
 
         bool CheckIfUserIsAListSubscriber(ITwitterListIdentifier listIdentifier, long userId);
         bool CheckIfUserIsAListSubscriber(ITwitterListIdentifier listIdentifier, string userScreenName);
-        bool CheckIfUserIsAListSubscriber(ITwitterListIdentifier listIdentifier, IUserIdentifier userIdentifier);
+        bool CheckIfUserIsAListSubscriber(ITwitterListIdentifier listIdentifier, IUserIdentifier user);
     }
 }

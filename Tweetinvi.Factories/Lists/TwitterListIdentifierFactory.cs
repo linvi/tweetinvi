@@ -10,21 +10,21 @@ namespace Tweetinvi.Factories.Lists
             return new TwitterListIdentifier(listId);
         }
 
-        public ITwitterListIdentifier Create(string slug, IUserIdentifier userIdentifier)
+        public ITwitterListIdentifier Create(string slug, IUserIdentifier user)
         {
-            if (userIdentifier == null)
+            if (user == null)
             {
                 return null;
             }
 
-            if (userIdentifier.Id != TweetinviSettings.DEFAULT_ID)
+            if (user.Id != TweetinviSettings.DEFAULT_ID)
             {
-                return Create(slug, userIdentifier.Id);
+                return Create(slug, user.Id);
             }
 
-            if (!string.IsNullOrEmpty(userIdentifier.ScreenName))
+            if (!string.IsNullOrEmpty(user.ScreenName))
             {
-                return Create(slug, userIdentifier.ScreenName);
+                return Create(slug, user.ScreenName);
             }
 
             return null;

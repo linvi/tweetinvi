@@ -31,18 +31,6 @@ namespace Testinvi.TweetinviControllers.UserTests
         #region Get FriendIds
 
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
-        public void GetFriendIds_WithNullUser_ThrowsArgumentException()
-        {
-            // Arrange
-            var controller = CreateUserController();
-            var maximumNumberOfUsers = TestHelper.GenerateRandomInt();
-
-            // Act
-            controller.GetFriendIds((IUser)null, maximumNumberOfUsers);
-        }
-
-        [TestMethod]
         public void GetFriendIds_WithUser_ReturnsUserExecutorResult()
         {
             // Arrange
@@ -52,7 +40,7 @@ namespace Testinvi.TweetinviControllers.UserTests
             var maximumNumberOfUsers = TestHelper.GenerateRandomInt();
             var friendIds = new[] { TestHelper.GenerateRandomLong() };
 
-            _fakeUserQueryExecutor.CallsTo(x => x.GetFriendIds(userDTO, maximumNumberOfUsers)).Returns(friendIds);
+            _fakeUserQueryExecutor.CallsTo(x => x.GetFriendIds(user, maximumNumberOfUsers)).Returns(friendIds);
 
             // Act
             var result = controller.GetFriendIds(user, maximumNumberOfUsers);
@@ -120,18 +108,6 @@ namespace Testinvi.TweetinviControllers.UserTests
         #region Get Friends
 
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
-        public void GetFriends_WithNullUser_ThrowsArgumentException()
-        {
-            // Arrange
-            var controller = CreateUserController();
-            var maximumNumberOfUsers = TestHelper.GenerateRandomInt();
-
-            // Act
-            controller.GetFriends((IUser)null, maximumNumberOfUsers);
-        }
-
-        [TestMethod]
         public void GetFriends_WithUser_ReturnsUserExecutorResult()
         {
             // Arrange
@@ -142,7 +118,7 @@ namespace Testinvi.TweetinviControllers.UserTests
             var friendIds = new[] { TestHelper.GenerateRandomLong() };
             var friends = new[] { A.Fake<IUser>() };
 
-            _fakeUserQueryExecutor.CallsTo(x => x.GetFriendIds(userDTO, maximumNumberOfUsers)).Returns(friendIds);
+            _fakeUserQueryExecutor.CallsTo(x => x.GetFriendIds(user, maximumNumberOfUsers)).Returns(friendIds);
             _fakeUserFactory.CallsTo(x => x.GetUsersFromIds(friendIds)).Returns(friends);
 
             // Act
@@ -217,18 +193,6 @@ namespace Testinvi.TweetinviControllers.UserTests
         #region Get FollowerIds
 
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
-        public void GetFollowerIds_WithNullUser_ThrowsArgumentException()
-        {
-            // Arrange
-            var controller = CreateUserController();
-            var maximumNumberOfUsers = TestHelper.GenerateRandomInt();
-
-            // Act
-            controller.GetFollowerIds((IUser)null, maximumNumberOfUsers);
-        }
-
-        [TestMethod]
         public void GetFollowerIds_WithUser_ReturnsUserExecutorResult()
         {
             // Arrange
@@ -238,7 +202,7 @@ namespace Testinvi.TweetinviControllers.UserTests
             var maximumNumberOfUsers = TestHelper.GenerateRandomInt();
             var followersIds = new[] { TestHelper.GenerateRandomLong() };
 
-            _fakeUserQueryExecutor.CallsTo(x => x.GetFollowerIds(userDTO, maximumNumberOfUsers)).Returns(followersIds);
+            _fakeUserQueryExecutor.CallsTo(x => x.GetFollowerIds(user, maximumNumberOfUsers)).Returns(followersIds);
 
             // Act
             var result = controller.GetFollowerIds(user, maximumNumberOfUsers);
@@ -306,18 +270,6 @@ namespace Testinvi.TweetinviControllers.UserTests
         #region Get Followers
 
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
-        public void GetFollowers_WithNullUser_ThrowsArgumentException()
-        {
-            // Arrange
-            var controller = CreateUserController();
-            var maximumNumberOfUsers = TestHelper.GenerateRandomInt();
-
-            // Act
-            controller.GetFollowers((IUser)null, maximumNumberOfUsers);
-        }
-
-        [TestMethod]
         public void GetFollowers_WithUser_ReturnsUserExecutorResult()
         {
             // Arrange
@@ -328,7 +280,7 @@ namespace Testinvi.TweetinviControllers.UserTests
             var followerIds = new[] { TestHelper.GenerateRandomLong() };
             var followers = new[] { A.Fake<IUser>() };
 
-            _fakeUserQueryExecutor.CallsTo(x => x.GetFollowerIds(userDTO, maximumNumberOfUsers)).Returns(followerIds);
+            _fakeUserQueryExecutor.CallsTo(x => x.GetFollowerIds(user, maximumNumberOfUsers)).Returns(followerIds);
             _fakeUserFactory.CallsTo(x => x.GetUsersFromIds(followerIds)).Returns(followers);
 
             // Act

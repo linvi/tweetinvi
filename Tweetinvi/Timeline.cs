@@ -107,9 +107,9 @@ namespace Tweetinvi
         /// <summary>
         /// Get the tweets visible on the specified user Timeline
         /// </summary>
-        public static IEnumerable<ITweet> GetUserTimeline(IUserIdentifier userIdentifier, int maximumTweets = 40)
+        public static IEnumerable<ITweet> GetUserTimeline(IUserIdentifier user, int maximumTweets = 40)
         {
-            return TimelineController.GetUserTimeline(userIdentifier, maximumTweets);
+            return TimelineController.GetUserTimeline(user, maximumTweets);
         }
 
         /// <summary>
@@ -147,9 +147,9 @@ namespace Tweetinvi
         /// <summary>
         /// Get the tweets visible on the specified user Timeline
         /// </summary>
-        public static IEnumerable<ITweet> GetUserTimeline(IUserIdentifier userIdentifier, IUserTimelineParameters userTimelineParameters)
+        public static IEnumerable<ITweet> GetUserTimeline(IUserIdentifier user, IUserTimelineParameters userTimelineParameters)
         {
-            return TimelineController.GetUserTimeline(userIdentifier, userTimelineParameters);
+            return TimelineController.GetUserTimeline(user, userTimelineParameters);
         }
 
         // Mention Timeline

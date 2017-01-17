@@ -49,18 +49,18 @@ namespace Tweetinvi.Controllers.User
         }
 
         public string GenerateIdOrScreenNameParameter(
-            IUserIdentifier userIdentifier,
+            IUserIdentifier user,
             string idParameterName = "user_id",
             string screenNameParameterName = "screen_name")
         {
-            _userQueryValidator.ThrowIfUserCannotBeIdentified(userIdentifier);
+            _userQueryValidator.ThrowIfUserCannotBeIdentified(user);
 
-            if (_userQueryValidator.IsUserIdValid(userIdentifier.Id))
+            if (_userQueryValidator.IsUserIdValid(user.Id))
             {
-                return GenerateUserIdParameter(userIdentifier.Id, idParameterName);
+                return GenerateUserIdParameter(user.Id, idParameterName);
             }
 
-            return GenerateScreenNameParameter(userIdentifier.ScreenName, screenNameParameterName);
+            return GenerateScreenNameParameter(user.ScreenName, screenNameParameterName);
         }
 
         public string GenerateListOfUserIdentifiersParameter(IEnumerable<IUserIdentifier> usersIdentifiers)
@@ -70,8 +70,8 @@ namespace Tweetinvi.Controllers.User
                 throw new ArgumentNullException("User identifiers cannot be null.");
             }
 
-            var userIdentifiersList = usersIdentifiers.ToList();
-            if (userIdentifiersList.Any(user => user.Id == TweetinviSettings.DEFAULT_ID && string.IsNullOrEmpty(user.ScreenName)))
+            var usersList = usersIdentifiers.ToList();
+            if (usersList.Any(user => user.Id == TweetinviSettings.DEFAULT_ID && string.IsNullOrEmpty(user.ScreenName)))
             {
                 throw new ArgumentException("At least 1 valid user identifier is required.");
             }
@@ -82,9 +82,9 @@ namespace Tweetinvi.Controllers.User
             StringBuilder idsBuilder = new StringBuilder(initialUserId);
             StringBuilder screeNameBuilder = new StringBuilder(initialScreenName);
 
-            for (int i = 0; i < userIdentifiersList.Count - 1; ++i)
+            for (int i = 0; i < usersList.Count - 1; ++i)
             {
-                var userDTO = userIdentifiersList[0];
+                var userDTO = usersList[0];
 
                 if (userDTO.Id != TweetinviSettings.DEFAULT_ID)
                 {
@@ -97,13 +97,13 @@ namespace Tweetinvi.Controllers.User
             }
 
             // Last element does not have a comma
-            if (userIdentifiersList[userIdentifiersList.Count - 1].Id != -1)
+            if (usersList[usersList.Count - 1].Id != -1)
             {
-                idsBuilder.Append(userIdentifiersList[userIdentifiersList.Count - 1].Id);
+                idsBuilder.Append(usersList[usersList.Count - 1].Id);
             }
             else
             {
-                screeNameBuilder.Append(userIdentifiersList[userIdentifiersList.Count - 1].ScreenName);
+                screeNameBuilder.Append(usersList[usersList.Count - 1].ScreenName);
             }
 
             // Only ids

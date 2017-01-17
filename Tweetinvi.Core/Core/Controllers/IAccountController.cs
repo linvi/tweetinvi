@@ -38,11 +38,11 @@ namespace Tweetinvi.Core.Controllers
         IEnumerable<long> GetMutedUserIds(int maxUserIds = Int32.MaxValue);
         IEnumerable<IUser> GetMutedUsers(int maxUsersToRetrieve = 250);
 
-        bool MuteUser(IUserIdentifier userIdentifier);
+        bool MuteUser(IUserIdentifier user);
         bool MuteUser(long userId);
         bool MuteUser(string screenName);
 
-        bool UnMuteUser(IUserIdentifier userIdentifier);
+        bool UnMuteUser(IUserIdentifier user);
         bool UnMuteUser(long userId);
         bool UnMuteUser(string screenName);
 

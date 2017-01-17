@@ -325,7 +325,7 @@ namespace Tweetinvi.Models
         /// <summary>
         /// Get the relationship details between the user and another one.
         /// </summary>
-        IRelationshipDetails GetRelationshipWith(IUser user);
+        IRelationshipDetails GetRelationshipWith(IUserIdentifier user);
 
         // Timeline
 

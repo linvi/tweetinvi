@@ -53,16 +53,16 @@ namespace Testinvi.TweetinviControllers.UserTests
         {
             // Arrange
             var queryExecutor = CreateUserJsonController();
-            var userIdentifier = A.Fake<IUserIdentifier>();
+            var user = A.Fake<IUserIdentifier>();
             var maximumNumberOfFriends = TestHelper.GenerateRandomInt();
             var expectedQuery = TestHelper.GenerateString();
             var expectedCursorResults = GenerateExpectedCursorResults();
 
-            _fakeUserQueryGenerator.CallsTo(x => x.GetFriendIdsQuery(userIdentifier, maximumNumberOfFriends)).Returns(expectedQuery);
+            _fakeUserQueryGenerator.CallsTo(x => x.GetFriendIdsQuery(user, maximumNumberOfFriends)).Returns(expectedQuery);
             _fakeTwitterAccessor.ArrangeExecuteJsonCursorGETQuery<IIdsCursorQueryResultDTO>(expectedQuery, expectedCursorResults);
 
             // Act
-            var result = queryExecutor.GetFriendIds(userIdentifier, maximumNumberOfFriends);
+            var result = queryExecutor.GetFriendIds(user, maximumNumberOfFriends);
 
             // Assert
             Assert.AreEqual(result, expectedCursorResults);
@@ -156,16 +156,16 @@ namespace Testinvi.TweetinviControllers.UserTests
         {
             // Arrange
             var queryExecutor = CreateUserJsonController();
-            var userIdentifier = A.Fake<IUserIdentifier>();
+            var user = A.Fake<IUserIdentifier>();
             var maximumNumberOfFollowers = TestHelper.GenerateRandomInt();
             var expectedQuery = TestHelper.GenerateString();
             var expectedCursorResults = GenerateExpectedCursorResults();
 
-            _fakeUserQueryGenerator.CallsTo(x => x.GetFollowerIdsQuery(userIdentifier, maximumNumberOfFollowers)).Returns(expectedQuery);
+            _fakeUserQueryGenerator.CallsTo(x => x.GetFollowerIdsQuery(user, maximumNumberOfFollowers)).Returns(expectedQuery);
             _fakeTwitterAccessor.ArrangeExecuteJsonCursorGETQuery<IIdsCursorQueryResultDTO>(expectedQuery, expectedCursorResults);
 
             // Act
-            var result = queryExecutor.GetFollowerIds(userIdentifier, maximumNumberOfFollowers);
+            var result = queryExecutor.GetFollowerIds(user, maximumNumberOfFollowers);
 
             // Assert
             Assert.AreEqual(result, expectedCursorResults);
@@ -264,15 +264,15 @@ namespace Testinvi.TweetinviControllers.UserTests
         {
             // Arrange
             var queryExecutor = CreateUserJsonController();
-            var userIdentifier = A.Fake<IUserIdentifier>();
+            var user = A.Fake<IUserIdentifier>();
             var expectedQuery = TestHelper.GenerateString();
             var expectedResult = TestHelper.GenerateString();
 
-            _fakeUserQueryGenerator.CallsTo(x => x.GetBlockUserQuery(userIdentifier)).Returns(expectedQuery);
+            _fakeUserQueryGenerator.CallsTo(x => x.GetBlockUserQuery(user)).Returns(expectedQuery);
             _fakeTwitterAccessor.ArrangeExecuteJsonPOSTQuery(expectedQuery, expectedResult);
 
             // Act
-            var result = queryExecutor.BlockUser(userIdentifier);
+            var result = queryExecutor.BlockUser(user);
 
             // Assert
             Assert.AreEqual(result, expectedResult);

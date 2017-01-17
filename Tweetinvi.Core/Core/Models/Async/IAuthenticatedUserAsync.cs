@@ -43,7 +43,7 @@ namespace Tweetinvi.Core.Models.Async
         /// <summary>
         /// Get the relationship between the authenticated user (source) and another user (target).
         /// </summary>
-        Task<IRelationshipDetails> GetRelationshipWithAsync(IUserIdentifier userIdentifier);
+        Task<IRelationshipDetails> GetRelationshipWithAsync(IUserIdentifier user);
 
         /// <summary>
         /// Get the relationship between the authenticated user (source) and another user (target).
@@ -83,7 +83,7 @@ namespace Tweetinvi.Core.Models.Async
         /// <summary>
         /// Folow a specific user.
         /// </summary>
-        Task<bool> FollowUserAsync(IUser user);
+        Task<bool> FollowUserAsync(IUserIdentifier user);
 
         /// <summary>
         /// Folow a specific user.
@@ -98,7 +98,7 @@ namespace Tweetinvi.Core.Models.Async
         /// <summary>
         /// Unfollow a specific user.
         /// </summary>
-        Task<bool> UnFollowUserAsync(IUser user);
+        Task<bool> UnFollowUserAsync(IUserIdentifier user);
 
         /// <summary>
         /// Unfollow a specific user.
@@ -161,7 +161,7 @@ namespace Tweetinvi.Core.Models.Async
         /// <summary>
         /// Mute a specific user.
         /// </summary>
-        Task<bool> MuteUserAsync(IUserIdentifier userIdentifier);
+        Task<bool> MuteUserAsync(IUserIdentifier user);
 
         /// <summary>
         /// Mute a specific user.
@@ -176,7 +176,7 @@ namespace Tweetinvi.Core.Models.Async
         /// <summary>
         /// Unmute a specific user.
         /// </summary>
-        Task<bool> UnMuteUserAsync(IUserIdentifier userIdentifier);
+        Task<bool> UnMuteUserAsync(IUserIdentifier user);
 
         /// <summary>
         /// Unmute a specific user.

@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Tweetinvi.Models;
-using Tweetinvi.Models.DTO;
 using Tweetinvi.Parameters;
 
 namespace Tweetinvi
@@ -19,14 +18,9 @@ namespace Tweetinvi
             return await Sync.ExecuteTaskAsync(() => TwitterList.GetExistingList(listId));
         }
 
-        public static async Task<ITwitterList> GetExistingList(string slug, IUser user)
+        public static async Task<ITwitterList> GetExistingList(string slug, IUserIdentifier user)
         {
             return await Sync.ExecuteTaskAsync(() => TwitterList.GetExistingList(slug, user));
-        }
-
-        public static async Task<ITwitterList> GetExistingList(string slug, IUserIdentifier userIdentifier)
-        {
-            return await Sync.ExecuteTaskAsync(() => TwitterList.GetExistingList(slug, userIdentifier));
         }
 
         public static async Task<ITwitterList> GetExistingList(string slug, long userId)
@@ -50,9 +44,9 @@ namespace Tweetinvi
             return await Sync.ExecuteTaskAsync(() => TwitterList.GetUserOwnedLists(userScreenName, maximumNumberOfListsToRetrieve));
         }
 
-        public static async Task<IEnumerable<ITwitterList>> GetUserOwnedLists(IUserIdentifier userIdentifier, int maximumNumberOfListsToRetrieve = TweetinviConsts.LIST_OWNED_COUNT)
+        public static async Task<IEnumerable<ITwitterList>> GetUserOwnedLists(IUserIdentifier user, int maximumNumberOfListsToRetrieve = TweetinviConsts.LIST_OWNED_COUNT)
         {
-            return await Sync.ExecuteTaskAsync(() => TwitterList.GetUserOwnedLists(userIdentifier, maximumNumberOfListsToRetrieve));
+            return await Sync.ExecuteTaskAsync(() => TwitterList.GetUserOwnedLists(user, maximumNumberOfListsToRetrieve));
         }
 
         // Create List
@@ -72,14 +66,9 @@ namespace Tweetinvi
             return await Sync.ExecuteTaskAsync(() => TwitterList.UpdateList(listId, parameters));
         }
 
-        public static async Task<ITwitterList> UpdateList(string slug, IUser owner, ITwitterListUpdateParameters parameters)
+        public static async Task<ITwitterList> UpdateList(string slug, IUserIdentifier owner, ITwitterListUpdateParameters parameters)
         {
             return await Sync.ExecuteTaskAsync(() => TwitterList.UpdateList(slug, owner, parameters));
-        }
-
-        public static async Task<ITwitterList> UpdateList(string slug, IUserIdentifier ownerDTO, ITwitterListUpdateParameters parameters)
-        {
-            return await Sync.ExecuteTaskAsync(() => TwitterList.UpdateList(slug, ownerDTO, parameters));
         }
 
         public static async Task<ITwitterList> UpdateList(string slug, long ownerId, ITwitterListUpdateParameters parameters)
@@ -103,14 +92,9 @@ namespace Tweetinvi
             return await Sync.ExecuteTaskAsync(() => TwitterList.DestroyList(listId));
         }
 
-        public static async Task<bool> DestroyList(string slug, IUser owner)
+        public static async Task<bool> DestroyList(string slug, IUserIdentifier owner)
         {
             return await Sync.ExecuteTaskAsync(() => TwitterList.DestroyList(slug, owner));
-        }
-
-        public static async Task<bool> DestroyList(string slug, IUserDTO ownerDTO)
-        {
-            return await Sync.ExecuteTaskAsync(() => TwitterList.DestroyList(slug, ownerDTO));
         }
 
         public static async Task<bool> DestroyList(string slug, long ownerId)
@@ -129,14 +113,9 @@ namespace Tweetinvi
             return await Sync.ExecuteTaskAsync(() => TwitterList.GetTweetsFromList(listId));
         }
 
-        public static async Task<IEnumerable<ITweet>> GetTweetsFromList(string slug, IUser owner)
+        public static async Task<IEnumerable<ITweet>> GetTweetsFromList(string slug, IUserIdentifier owner)
         {
             return await Sync.ExecuteTaskAsync(() => TwitterList.GetTweetsFromList(slug, owner));
-        }
-
-        public static async Task<IEnumerable<ITweet>> GetTweetsFromList(string slug, IUserIdentifier ownerDTO)
-        {
-            return await Sync.ExecuteTaskAsync(() => TwitterList.GetTweetsFromList(slug, ownerDTO));
         }
 
         public static async Task<IEnumerable<ITweet>> GetTweetsFromList(string slug, string ownerScreenName)
@@ -165,14 +144,9 @@ namespace Tweetinvi
             return await Sync.ExecuteTaskAsync(() => TwitterList.GetMembersOfList(listId, maxNumberOfUsersToRetrieve));
         }
 
-        public static async Task<IEnumerable<IUser>> GetMembersOfList(string slug, IUser owner, int maxNumberOfUsersToRetrieve = 100)
+        public static async Task<IEnumerable<IUser>> GetMembersOfList(string slug, IUserIdentifier owner, int maxNumberOfUsersToRetrieve = 100)
         {
             return await Sync.ExecuteTaskAsync(() => TwitterList.GetMembersOfList(slug, owner, maxNumberOfUsersToRetrieve));
-        }
-
-        public static async Task<IEnumerable<IUser>> GetMembersOfList(string slug, IUserIdentifier ownerDTO, int maxNumberOfUsersToRetrieve = 100)
-        {
-            return await Sync.ExecuteTaskAsync(() => TwitterList.GetMembersOfList(slug, ownerDTO, maxNumberOfUsersToRetrieve));
         }
 
         public static async Task<IEnumerable<IUser>> GetMembersOfList(string slug, string ownerScreenName, int maxNumberOfUsersToRetrieve = 100)
@@ -191,9 +165,9 @@ namespace Tweetinvi
             return await Sync.ExecuteTaskAsync(() => TwitterList.AddMemberToList(list, newUser));
         }
 
-        public static async Task<MultiRequestsResult> AddMultipleMembersToList(ITwitterListIdentifier list, IEnumerable<IUserIdentifier> userIdentifiers)
+        public static async Task<MultiRequestsResult> AddMultipleMembersToList(ITwitterListIdentifier list, IEnumerable<IUserIdentifier> users)
         {
-            return await Sync.ExecuteTaskAsync(() => TwitterList.AddMultipleMembersToList(list, userIdentifiers));
+            return await Sync.ExecuteTaskAsync(() => TwitterList.AddMultipleMembersToList(list, users));
         }
 
         // Remove Members From List
@@ -202,21 +176,21 @@ namespace Tweetinvi
             return await Sync.ExecuteTaskAsync(() => TwitterList.RemoveMemberFromList(list, user));
         }
 
-        public static async Task<MultiRequestsResult> RemoveMultipleMembersFromList(ITwitterListIdentifier list, IEnumerable<IUserIdentifier> userIdentifiersToRemove)
+        public static async Task<MultiRequestsResult> RemoveMultipleMembersFromList(ITwitterListIdentifier list, IEnumerable<IUserIdentifier> usersToRemove)
         {
-            return await Sync.ExecuteTaskAsync(() => TwitterList.RemoveMultipleMembersFromList(list, userIdentifiersToRemove));
+            return await Sync.ExecuteTaskAsync(() => TwitterList.RemoveMultipleMembersFromList(list, usersToRemove));
         }
 
         // Check Membership
-        public static async Task<bool> CheckIfUserIsAListMember(ITwitterListIdentifier listIdentifier, IUserIdentifier userIdentifier)
+        public static async Task<bool> CheckIfUserIsAListMember(ITwitterListIdentifier listIdentifier, IUserIdentifier user)
         {
-            return await Sync.ExecuteTaskAsync(() => TwitterList.CheckIfUserIsAListMember(listIdentifier, userIdentifier));
+            return await Sync.ExecuteTaskAsync(() => TwitterList.CheckIfUserIsAListMember(listIdentifier, user));
         }
 
         // Get Subscriptions
-        public static async Task<IEnumerable<ITwitterList>> GetUserSubscribedLists(IUserIdentifier userIdentifier, int maxNumberOfListsToRetrieve = TweetinviConsts.LIST_GET_USER_SUBSCRIPTIONS_COUNT)
+        public static async Task<IEnumerable<ITwitterList>> GetUserSubscribedLists(IUserIdentifier user, int maxNumberOfListsToRetrieve = TweetinviConsts.LIST_GET_USER_SUBSCRIPTIONS_COUNT)
         {
-            return await Sync.ExecuteTaskAsync(() => TwitterList.GetUserSubscribedLists(userIdentifier, maxNumberOfListsToRetrieve));
+            return await Sync.ExecuteTaskAsync(() => TwitterList.GetUserSubscribedLists(user, maxNumberOfListsToRetrieve));
         }
 
         public static async Task<IEnumerable<IUser>> GetListSubscribers(ITwitterListIdentifier list, int maximumNumberOfUsersToRetrieve = 100)
@@ -237,9 +211,9 @@ namespace Tweetinvi
         }
 
         // Check Subscription
-        public static async Task<bool> CheckIfUserIsAListSubscriber(ITwitterListIdentifier listIdentifier, IUserIdentifier userIdentifier)
+        public static async Task<bool> CheckIfUserIsAListSubscriber(ITwitterListIdentifier listIdentifier, IUserIdentifier user)
         {
-            return await Sync.ExecuteTaskAsync(() => TwitterList.CheckIfUserIsAListSubscriber(listIdentifier, userIdentifier));
+            return await Sync.ExecuteTaskAsync(() => TwitterList.CheckIfUserIsAListSubscriber(listIdentifier, user));
         }
     }
 }

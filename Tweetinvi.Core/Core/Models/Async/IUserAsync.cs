@@ -37,7 +37,7 @@ namespace Tweetinvi.Core.Models.Async
         /// <summary>
         /// Get the relationship details between the user and another one.
         /// </summary>
-        Task<IRelationshipDetails> GetRelationshipWithAsync(IUser user);
+        Task<IRelationshipDetails> GetRelationshipWithAsync(IUserIdentifier user);
 
         // Timeline
 

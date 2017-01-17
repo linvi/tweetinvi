@@ -130,17 +130,6 @@ namespace Testinvi.TweetinviControllers.FriendshipTests
         #region Create Friendship With
 
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
-        public void CreateFriendship_UserIsNull_ThrowsArgumentException()
-        {
-            // Arrange 
-            var controller = CreateFriendshipController();
-
-            // Act
-            controller.CreateFriendshipWith((IUser)null);
-        }
-
-        [TestMethod]
         public void CreateFriendship_User_ReturnsQueryExecutorResult()
         {
             // Arrange - Act
@@ -159,7 +148,7 @@ namespace Testinvi.TweetinviControllers.FriendshipTests
 
             // Arrange
             var controller = CreateFriendshipController();
-            ArrangeCreateFriendshipWithDTO(fakeUser.UserDTO, returnValue);
+            ArrangeCreateFriendshipWithDTO(fakeUser, returnValue);
 
             // Act
             return controller.CreateFriendshipWith(fakeUser);
@@ -191,20 +180,20 @@ namespace Testinvi.TweetinviControllers.FriendshipTests
 
         private bool CreateFriendship_UserDTO_QueryExecutorReturns(bool returnValue, bool isNull = false)
         {
-            var userDTO = isNull ? null : A.Fake<IUserDTO>();
+            var user = isNull ? null : A.Fake<IUser>();
 
             // Arrange
             var controller = CreateFriendshipController();
-            ArrangeCreateFriendshipWithDTO(userDTO, returnValue);
+            ArrangeCreateFriendshipWithDTO(user, returnValue);
 
             // Act
-            return controller.CreateFriendshipWith(userDTO);
+            return controller.CreateFriendshipWith(user);
         }
 
-        private void ArrangeCreateFriendshipWithDTO(IUserDTO userDTO, bool returnValue)
+        private void ArrangeCreateFriendshipWithDTO(IUser user, bool returnValue)
         {
             _fakeFriendshipQueryExecutor
-                .CallsTo(x => x.CreateFriendshipWith(userDTO))
+                .CallsTo(x => x.CreateFriendshipWith(user))
                 .Returns(returnValue);
         }
 
@@ -261,17 +250,6 @@ namespace Testinvi.TweetinviControllers.FriendshipTests
 
         // User
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
-        public void UpdateFriendshipAuthorizations_UserIsNull_ThrowArgumentException()
-        {
-            // Arrange 
-            var controller = CreateFriendshipController();
-
-            // Act
-            controller.UpdateRelationshipAuthorizationsWith((IUser)null, true, false);
-        }
-
-        [TestMethod]
         public void UpdateRelationshipAuthorizations_User_ReturnsQueryExecutorResult()
         {
             // Arrange - Act
@@ -304,11 +282,11 @@ namespace Testinvi.TweetinviControllers.FriendshipTests
 
             // Arrange
             var controller = CreateFriendshipController();
-            ArrangeUpdateRelationshipAuthorizationsWithDTO(fakeUser.UserDTO, retweetsEnabled, notification, returnValue);
+            ArrangeUpdateRelationshipAuthorizationsWith(fakeUser, retweetsEnabled, notification, returnValue);
 
             // Act
             var result = controller.UpdateRelationshipAuthorizationsWith(fakeUser, retweetsEnabled, notification);
-            VerifyUpdateRelationshipAuthorizationsWithDTO(fakeUser.UserDTO, retweetsEnabled, notification);
+            VerifyUpdateRelationshipAuthorizationsWith(fakeUser, retweetsEnabled, notification);
 
             return result;
         }
@@ -380,36 +358,36 @@ namespace Testinvi.TweetinviControllers.FriendshipTests
 
         private bool UpdateRelationshipAuthorizations_UserDTO_QueryExecutorReturns(bool retweetsEnabled, bool notification, bool returnValue, bool isNull = false)
         {
-            var userDTO = isNull ? null : A.Fake<IUserDTO>();
+            var user = isNull ? null : A.Fake<IUser>();
 
             // Arrange
             var controller = CreateFriendshipController();
-            ArrangeUpdateRelationshipAuthorizationsWithDTO(userDTO, retweetsEnabled, notification, returnValue);
+            ArrangeUpdateRelationshipAuthorizationsWith(user, retweetsEnabled, notification, returnValue);
 
             // Act
-            var result = controller.UpdateRelationshipAuthorizationsWith(userDTO, retweetsEnabled, notification);
+            var result = controller.UpdateRelationshipAuthorizationsWith(user, retweetsEnabled, notification);
             
             if (!isNull)
             {
-                VerifyUpdateRelationshipAuthorizationsWithDTO(userDTO, retweetsEnabled, notification);
+                VerifyUpdateRelationshipAuthorizationsWith(user, retweetsEnabled, notification);
             }
 
             return result;
         }
 
-        private void ArrangeUpdateRelationshipAuthorizationsWithDTO(IUserDTO userDTO, bool retweetsEnabled, bool notification, bool returnValue)
+        private void ArrangeUpdateRelationshipAuthorizationsWith(IUser user, bool retweetsEnabled, bool notification, bool returnValue)
         {
             _fakeFriendshipQueryExecutor
-                .CallsTo(x => x.UpdateRelationshipAuthorizationsWith(userDTO,
+                .CallsTo(x => x.UpdateRelationshipAuthorizationsWith(user,
                     A<IFriendshipAuthorizations>.That.Matches(a => a.RetweetsEnabled == retweetsEnabled &&
                                                                    a.DeviceNotificationEnabled == notification)))
                 .Returns(returnValue);
         }
 
-        private void VerifyUpdateRelationshipAuthorizationsWithDTO(IUserDTO userDTO, bool retweetsEnabled, bool notification)
+        private void VerifyUpdateRelationshipAuthorizationsWith(IUser user, bool retweetsEnabled, bool notification)
         {
             _fakeFriendshipQueryExecutor
-                .CallsTo(x => x.UpdateRelationshipAuthorizationsWith(userDTO,
+                .CallsTo(x => x.UpdateRelationshipAuthorizationsWith(user,
                     A<IFriendshipAuthorizations>.That.Matches(a => a.RetweetsEnabled == retweetsEnabled &&
                                                                    a.DeviceNotificationEnabled == notification)))
                 .MustHaveHappened(Repeated.Exactly.Once);

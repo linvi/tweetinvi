@@ -13,10 +13,10 @@ namespace Tweetinvi.Controllers.Timeline
         string GetHomeTimeline(IHomeTimelineParameters timelineParameters);
 
         // User Timeline
-        string GetUserTimeline(IUserIdentifier userIdentifier, int maximumNumberOfTweets = 40);
+        string GetUserTimeline(IUserIdentifier user, int maximumNumberOfTweets = 40);
         string GetUserTimeline(long userId, int maximumNumberOfTweets = 40);
         string GetUserTimeline(string userScreenName, int maximumNumberOfTweets = 40);
-        string GetUserTimeline(IUserIdentifier userIdentifier, IUserTimelineParameters timelineParameters);
+        string GetUserTimeline(IUserIdentifier user, IUserTimelineParameters timelineParameters);
 
         // Mention Timeline
         string GetMentionsTimeline(int maximumNumberOfTweets = 40);
@@ -57,34 +57,34 @@ namespace Tweetinvi.Controllers.Timeline
         }
 
         // User Timeline
-        public string GetUserTimeline(IUserIdentifier userIdentifier, int maximumNumberOfTweets = 40)
+        public string GetUserTimeline(IUserIdentifier user, int maximumNumberOfTweets = 40)
         {
             var requestParameters = _timelineQueryParameterGenerator.CreateUserTimelineParameters();
             requestParameters.MaximumNumberOfTweetsToRetrieve = maximumNumberOfTweets;
 
-            return GetUserTimeline(userIdentifier, requestParameters);
+            return GetUserTimeline(user, requestParameters);
         }
 
         public string GetUserTimeline(long userId, int maximumNumberOfTweets = 40)
         {
-            var userIdentifier = _userFactory.GenerateUserIdentifierFromId(userId);
-            return GetUserTimeline(userIdentifier, maximumNumberOfTweets);
+            var user = _userFactory.GenerateUserIdentifierFromId(userId);
+            return GetUserTimeline(user, maximumNumberOfTweets);
         }
 
         public string GetUserTimeline(string userScreenName, int maximumNumberOfTweets = 40)
         {
-            var userIdentifier = _userFactory.GenerateUserIdentifierFromScreenName(userScreenName);
-            return GetUserTimeline(userIdentifier, maximumNumberOfTweets);
+            var user = _userFactory.GenerateUserIdentifierFromScreenName(userScreenName);
+            return GetUserTimeline(user, maximumNumberOfTweets);
         }
 
-        public string GetUserTimeline(IUserIdentifier userIdentifier, IUserTimelineParameters parameters)
+        public string GetUserTimeline(IUserIdentifier user, IUserTimelineParameters parameters)
         {
             if (parameters == null)
             {
                 parameters = _timelineQueryParameterGenerator.CreateUserTimelineParameters();
             }
 
-            var queryParameters = _timelineQueryParameterGenerator.CreateUserTimelineQueryParameters(userIdentifier, parameters);
+            var queryParameters = _timelineQueryParameterGenerator.CreateUserTimelineQueryParameters(user, parameters);
 
             return GetUserTimeline(queryParameters);
         }

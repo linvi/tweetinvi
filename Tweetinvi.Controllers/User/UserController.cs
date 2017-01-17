@@ -31,19 +31,9 @@ namespace Tweetinvi.Controllers.User
         }
 
         // Friend Ids
-        public IEnumerable<long> GetFriendIds(IUser user, int maxFriendsToRetrieve = 5000)
+        public IEnumerable<long> GetFriendIds(IUserIdentifier user, int maxFriendsToRetrieve = 5000)
         {
-            if (user == null)
-            {
-                throw new ArgumentException("User cannot be null");
-            }
-
-            return GetFriendIds(user.UserDTO, maxFriendsToRetrieve);
-        }
-
-        public IEnumerable<long> GetFriendIds(IUserIdentifier userIdentifier, int maxFriendsToRetrieve = 5000)
-        {
-            return _userQueryExecutor.GetFriendIds(userIdentifier, maxFriendsToRetrieve);
+            return _userQueryExecutor.GetFriendIds(user, maxFriendsToRetrieve);
         }
 
         public IEnumerable<long> GetFriendIds(long userId, int maxFriendsToRetrieve = 5000)
@@ -57,19 +47,9 @@ namespace Tweetinvi.Controllers.User
         }
 
         // Friends
-        public IEnumerable<IUser> GetFriends(IUser user, int maxFriendsToRetrieve = 250)
+        public IEnumerable<IUser> GetFriends(IUserIdentifier user, int maxFriendsToRetrieve = 250)
         {
-            if (user == null)
-            {
-                throw new ArgumentException("User cannot be null");
-            }
-
-            return GetFriends(user.UserDTO, maxFriendsToRetrieve);
-        }
-
-        public IEnumerable<IUser> GetFriends(IUserIdentifier userIdentifier, int maxFriendsToRetrieve = 250)
-        {
-            var friendIds = GetFriendIds(userIdentifier, maxFriendsToRetrieve);
+            var friendIds = GetFriendIds(user, maxFriendsToRetrieve);
             return _userFactory.GetUsersFromIds(friendIds);
         }
 
@@ -86,19 +66,9 @@ namespace Tweetinvi.Controllers.User
         }
 
         // Follower Ids
-        public IEnumerable<long> GetFollowerIds(IUser user, int maxFollowersToRetrieve = 5000)
+        public IEnumerable<long> GetFollowerIds(IUserIdentifier user, int maxFollowersToRetrieve = 5000)
         {
-            if (user == null)
-            {
-                throw new ArgumentException("User cannot be null");
-            }
-
-            return GetFollowerIds(user.UserDTO, maxFollowersToRetrieve);
-        }
-
-        public IEnumerable<long> GetFollowerIds(IUserIdentifier userIdentifier, int maxFollowersToRetrieve = 5000)
-        {
-            return _userQueryExecutor.GetFollowerIds(userIdentifier, maxFollowersToRetrieve);
+            return _userQueryExecutor.GetFollowerIds(user, maxFollowersToRetrieve);
         }
 
         public IEnumerable<long> GetFollowerIds(long userId, int maxFollowersToRetrieve = 5000)
@@ -112,19 +82,9 @@ namespace Tweetinvi.Controllers.User
         }
 
         // Followers
-        public IEnumerable<IUser> GetFollowers(IUser user, int maxFollowersToRetrieve = 250)
+        public IEnumerable<IUser> GetFollowers(IUserIdentifier user, int maxFollowersToRetrieve = 250)
         {
-            if (user == null)
-            {
-                throw new ArgumentException("User cannot be null");
-            }
-
-            return GetFollowers(user.UserDTO, maxFollowersToRetrieve);
-        }
-
-        public IEnumerable<IUser> GetFollowers(IUserIdentifier userIdentifier, int maxFollowersToRetrieve = 250)
-        {
-            var followerIds = GetFollowerIds(userIdentifier, maxFollowersToRetrieve);
+            var followerIds = GetFollowerIds(user, maxFollowersToRetrieve);
             return _userFactory.GetUsersFromIds(followerIds);
         }
 
@@ -141,9 +101,9 @@ namespace Tweetinvi.Controllers.User
         }
 
         // Favourites
-        public IEnumerable<ITweet> GetFavoriteTweets(IUserIdentifier userIdentifier, IGetUserFavoritesParameters parameters)
+        public IEnumerable<ITweet> GetFavoriteTweets(IUserIdentifier user, IGetUserFavoritesParameters parameters)
         {
-            var favoriteParameters = new GetUserFavoritesQueryParameters(userIdentifier, parameters);
+            var favoriteParameters = new GetUserFavoritesQueryParameters(user, parameters);
             return GetFavoriteTweets(favoriteParameters);
         }
 
@@ -154,9 +114,9 @@ namespace Tweetinvi.Controllers.User
         }
 
         // Block User
-        public bool BlockUser(IUserIdentifier userIdentifier)
+        public bool BlockUser(IUserIdentifier user)
         {
-            return _userQueryExecutor.BlockUser(userIdentifier);
+            return _userQueryExecutor.BlockUser(user);
         }
 
         public bool BlockUser(long userId)
@@ -170,9 +130,9 @@ namespace Tweetinvi.Controllers.User
         }
 
         // UnBlock user
-        public bool UnBlockUser(IUserIdentifier userIdentifier)
+        public bool UnBlockUser(IUserIdentifier user)
         {
-            return _userQueryExecutor.UnBlockUser(userIdentifier);
+            return _userQueryExecutor.UnBlockUser(user);
         }
 
         public bool UnBlockUser(long userId)
@@ -213,9 +173,9 @@ namespace Tweetinvi.Controllers.User
         }
 
         // Spam
-        public bool ReportUserForSpam(IUserIdentifier userIdentifier)
+        public bool ReportUserForSpam(IUserIdentifier user)
         {
-            return _userQueryExecutor.ReportUserForSpam(userIdentifier);
+            return _userQueryExecutor.ReportUserForSpam(user);
         }
 
         public bool ReportUserForSpam(long userId)

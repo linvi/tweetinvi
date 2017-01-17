@@ -19,7 +19,7 @@ namespace Tweetinvi.Controllers.Timeline
         IRetweetsOfMeTimelineParameters CreateRetweetsOfMeTimelineParameters();
 
         IUserTimelineQueryParameters CreateUserTimelineQueryParameters(
-            IUserIdentifier userIdentifier,
+            IUserIdentifier user,
             IUserTimelineParameters userTimelineParameters);
     }
 
@@ -87,12 +87,12 @@ namespace Tweetinvi.Controllers.Timeline
         }
 
         // Query Parameters
-        public IUserTimelineQueryParameters CreateUserTimelineQueryParameters(IUserIdentifier userIdentifier, IUserTimelineParameters userTimelineParameters)
+        public IUserTimelineQueryParameters CreateUserTimelineQueryParameters(IUserIdentifier user, IUserTimelineParameters userTimelineParameters)
         {
-            var userIdentifierParameter = TweetinviFactory.CreateConstructorParameter("userIdentifier", userIdentifier);
+            var userParameter = TweetinviFactory.CreateConstructorParameter("user", user);
             var queryParameters = TweetinviFactory.CreateConstructorParameter("parameters", userTimelineParameters);
 
-            return _userTimelineRequestQueryParameterFactory.Create(userIdentifierParameter, queryParameters);
+            return _userTimelineRequestQueryParameterFactory.Create(userParameter, queryParameters);
         }
     }
 }

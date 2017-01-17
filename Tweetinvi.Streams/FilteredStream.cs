@@ -290,7 +290,7 @@ namespace Tweetinvi.Streams
             }
         }
 
-        public void AddFollow(IUser user, Action<ITweet> userPublishedTweet = null)
+        public void AddFollow(IUserIdentifier user, Action<ITweet> userPublishedTweet = null)
         {
             if (user != null && user.Id != TweetinviSettings.DEFAULT_ID)
             {
@@ -306,7 +306,7 @@ namespace Tweetinvi.Streams
             }
         }
 
-        public void RemoveFollow(IUser user)
+        public void RemoveFollow(IUserIdentifier user)
         {
             if (user != null)
             {
@@ -324,7 +324,7 @@ namespace Tweetinvi.Streams
             return false;
         }
 
-        public bool ContainsFollow(IUser user)
+        public bool ContainsFollow(IUserIdentifier user)
         {
             if (user != null)
             {

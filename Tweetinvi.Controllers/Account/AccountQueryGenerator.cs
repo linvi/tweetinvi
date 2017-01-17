@@ -28,9 +28,9 @@ namespace Tweetinvi.Controllers.Account
         // Mute
         string GetMutedUserIdsQuery();
 
-        string GetMuteQuery(IUserIdentifier userIdentifier);
+        string GetMuteQuery(IUserIdentifier user);
 
-        string GetUnMuteQuery(IUserIdentifier userIdentifier);
+        string GetUnMuteQuery(IUserIdentifier user);
 
         // Suggestions
         string GetSuggestedCategories(Language? language);
@@ -161,30 +161,30 @@ namespace Tweetinvi.Controllers.Account
             return Resources.Account_Mute_GetIds;
         }
 
-        public string GetMuteQuery(IUserIdentifier userIdentifier)
+        public string GetMuteQuery(IUserIdentifier user)
         {
-            _userQueryValidator.ThrowIfUserCannotBeIdentified(userIdentifier);
+            _userQueryValidator.ThrowIfUserCannotBeIdentified(user);
 
-            string userIdParameter = _userQueryParameterGenerator.GenerateIdOrScreenNameParameter(userIdentifier);
+            string userIdParameter = _userQueryParameterGenerator.GenerateIdOrScreenNameParameter(user);
             return GenerateCreateMuteQuery(userIdParameter);
         }
 
-        private string GenerateCreateMuteQuery(string userIdentifierParameter)
+        private string GenerateCreateMuteQuery(string userParameter)
         {
-            return string.Format(Resources.Account_Mute_Create, userIdentifierParameter);
+            return string.Format(Resources.Account_Mute_Create, userParameter);
         }
 
-        public string GetUnMuteQuery(IUserIdentifier userIdentifier)
+        public string GetUnMuteQuery(IUserIdentifier user)
         {
-           _userQueryValidator.ThrowIfUserCannotBeIdentified(userIdentifier);
+           _userQueryValidator.ThrowIfUserCannotBeIdentified(user);
 
-            string userIdParameter = _userQueryParameterGenerator.GenerateIdOrScreenNameParameter(userIdentifier);
+            string userIdParameter = _userQueryParameterGenerator.GenerateIdOrScreenNameParameter(user);
             return GenerateUnMuteQuery(userIdParameter);
         }
 
-        private string GenerateUnMuteQuery(string userIdentifierParameter)
+        private string GenerateUnMuteQuery(string userParameter)
         {
-            return string.Format(Resources.Account_Mute_Destroy, userIdentifierParameter);
+            return string.Format(Resources.Account_Mute_Destroy, userParameter);
         }
 
         // Suggestions

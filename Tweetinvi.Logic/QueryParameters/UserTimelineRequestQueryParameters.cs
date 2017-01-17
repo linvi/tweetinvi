@@ -7,10 +7,10 @@ namespace Tweetinvi.Logic.QueryParameters
     public class UserTimelineQueryParameters : IUserTimelineQueryParameters
     {
         public UserTimelineQueryParameters(
-            IUserIdentifier userIdentifier,
+            IUserIdentifier user,
             IUserTimelineParameters parameters)
         {
-            UserIdentifier = userIdentifier;
+            UserIdentifier = user;
             Parameters = parameters;
         }
 

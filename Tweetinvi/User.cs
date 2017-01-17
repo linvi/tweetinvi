@@ -149,17 +149,9 @@ namespace Tweetinvi
         /// <summary>
         /// Get friend ids of a specific user.
         /// </summary>
-        public static IEnumerable<long> GetFriendIds(IUser user, int maxFriendsToRetrieve = 5000)
+        public static IEnumerable<long> GetFriendIds(IUserIdentifier user, int maxFriendsToRetrieve = 5000)
         {
             return UserController.GetFriendIds(user, maxFriendsToRetrieve);
-        }
-
-        /// <summary>
-        /// Get friend ids of a specific user.
-        /// </summary>
-        public static IEnumerable<long> GetFriendIds(IUserIdentifier userIdentifier, int maxFriendsToRetrieve = 5000)
-        {
-            return UserController.GetFriendIds(userIdentifier, maxFriendsToRetrieve);
         }
 
         /// <summary>
@@ -183,17 +175,9 @@ namespace Tweetinvi
         /// <summary>
         /// Get friend of a specific user.
         /// </summary>
-        public static IEnumerable<IUser> GetFriends(IUser user, int maxFriendsToRetrieve = 250)
+        public static IEnumerable<IUser> GetFriends(IUserIdentifier user, int maxFriendsToRetrieve = 250)
         {
             return UserController.GetFriends(user, maxFriendsToRetrieve);
-        }
-
-        /// <summary>
-        /// Get friend of a specific user.
-        /// </summary>
-        public static IEnumerable<IUser> GetFriends(IUserIdentifier userIdentifier, int maxFriendsToRetrieve = 250)
-        {
-            return UserController.GetFriends(userIdentifier, maxFriendsToRetrieve);
         }
 
         /// <summary>
@@ -217,17 +201,9 @@ namespace Tweetinvi
         /// <summary>
         /// Get follower ids of a specific user.
         /// </summary>
-        public static IEnumerable<long> GetFollowerIds(IUser user, int maxFollowersToRetrieve = 5000)
+        public static IEnumerable<long> GetFollowerIds(IUserIdentifier user, int maxFollowersToRetrieve = 5000)
         {
             return UserController.GetFollowerIds(user, maxFollowersToRetrieve);
-        }
-
-        /// <summary>
-        /// Get follower ids of a specific user.
-        /// </summary>
-        public static IEnumerable<long> GetFollowerIds(IUserIdentifier userIdentifier, int maxFollowersToRetrieve = 5000)
-        {
-            return UserController.GetFollowerIds(userIdentifier, maxFollowersToRetrieve);
         }
 
         /// <summary>
@@ -251,17 +227,9 @@ namespace Tweetinvi
         /// <summary>
         /// Get follower of a specific user.
         /// </summary>
-        public static IEnumerable<IUser> GetFollowers(IUser user, int maxFollowersToRetrieve = 250)
+        public static IEnumerable<IUser> GetFollowers(IUserIdentifier user, int maxFollowersToRetrieve = 250)
         {
             return UserController.GetFollowers(user, maxFollowersToRetrieve);
-        }
-
-        /// <summary>
-        /// Get follower of a specific user.
-        /// </summary>
-        public static IEnumerable<IUser> GetFollowers(IUserIdentifier userIdentifier, int maxFollowersToRetrieve = 250)
-        {
-            return UserController.GetFollowers(userIdentifier, maxFollowersToRetrieve);
         }
 
         /// <summary>
@@ -285,9 +253,9 @@ namespace Tweetinvi
         /// <summary>
         /// Get tweets favorited by a specific user.
         /// </summary>
-        public static IEnumerable<ITweet> GetFavoriteTweets(IUserIdentifier userIdentifier, IGetUserFavoritesParameters parameters = null)
+        public static IEnumerable<ITweet> GetFavoriteTweets(IUserIdentifier user, IGetUserFavoritesParameters parameters = null)
         {
-            return UserController.GetFavoriteTweets(userIdentifier, parameters);
+            return UserController.GetFavoriteTweets(user, parameters);
         }
 
         /// <summary>
@@ -311,9 +279,9 @@ namespace Tweetinvi
         /// <summary>
         /// Block a user on the authenticated account.
         /// </summary>
-        public static bool BlockUser(IUserIdentifier userIdentifier)
+        public static bool BlockUser(IUserIdentifier user)
         {
-            return UserController.BlockUser(userIdentifier);
+            return UserController.BlockUser(user);
         }
 
         /// <summary>
@@ -337,9 +305,9 @@ namespace Tweetinvi
         /// <summary>
         /// Unblock a user on the authenticated account.
         /// </summary>
-        public static bool UnBlockUser(IUserIdentifier userIdentifier)
+        public static bool UnBlockUser(IUserIdentifier user)
         {
-            return UserController.UnBlockUser(userIdentifier);
+            return UserController.UnBlockUser(user);
         }
 
         /// <summary>
@@ -381,17 +349,9 @@ namespace Tweetinvi
         /// <summary>
         /// Report a user for spam.
         /// </summary>
-        public static bool ReportUserForSpam(IUser user)
+        public static bool ReportUserForSpam(IUserIdentifier user)
         {
             return UserController.ReportUserForSpam(user);
-        }
-
-        /// <summary>
-        /// Report a user for spam.
-        /// </summary>
-        public static bool ReportUserForSpam(IUserIdentifier userIdentifier)
-        {
-            return UserController.ReportUserForSpam(userIdentifier);
         }
 
         public static bool ReportUserForSpam(long userId)

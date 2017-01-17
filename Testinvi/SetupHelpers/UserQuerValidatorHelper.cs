@@ -21,7 +21,7 @@ namespace Testinvi.SetupHelpers
         
         }
 
-        public static void ArrangeCanUserBeIdentified(this Fake<IUserQueryValidator> userQueryValidator, IUserIdentifier userIdentifier, bool result)
+        public static void ArrangeCanUserBeIdentified(this Fake<IUserQueryValidator> userQueryValidator, IUserIdentifier user, bool result)
         {
           
         }

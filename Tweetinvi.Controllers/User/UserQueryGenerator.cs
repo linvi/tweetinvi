@@ -31,31 +31,31 @@ namespace Tweetinvi.Controllers.User
         }
 
         // Friends
-        public string GetFriendIdsQuery(IUserIdentifier userIdentifier, int maxFriendsToRetrieve)
+        public string GetFriendIdsQuery(IUserIdentifier user, int maxFriendsToRetrieve)
         {
-            _userQueryValidator.ThrowIfUserCannotBeIdentified(userIdentifier);
+            _userQueryValidator.ThrowIfUserCannotBeIdentified(user);
 
-            string userIdentifierParameter = _userQueryParameterGenerator.GenerateIdOrScreenNameParameter(userIdentifier);
-            return GenerateGetFriendIdsQuery(userIdentifierParameter, maxFriendsToRetrieve);
+            string userParameter = _userQueryParameterGenerator.GenerateIdOrScreenNameParameter(user);
+            return GenerateGetFriendIdsQuery(userParameter, maxFriendsToRetrieve);
         }
 
-        private string GenerateGetFriendIdsQuery(string userIdentifierParameter, int maxFriendsToRetrieve)
+        private string GenerateGetFriendIdsQuery(string userParameter, int maxFriendsToRetrieve)
         {
-            return string.Format(Resources.User_GetFriends, userIdentifierParameter, maxFriendsToRetrieve);
+            return string.Format(Resources.User_GetFriends, userParameter, maxFriendsToRetrieve);
         }
 
         // Followers
-        public string GetFollowerIdsQuery(IUserIdentifier userIdentifier, int maxFollowersToRetrieve)
+        public string GetFollowerIdsQuery(IUserIdentifier user, int maxFollowersToRetrieve)
         {
-            _userQueryValidator.ThrowIfUserCannotBeIdentified(userIdentifier);
+            _userQueryValidator.ThrowIfUserCannotBeIdentified(user);
 
-            string userIdentifierParameter = _userQueryParameterGenerator.GenerateIdOrScreenNameParameter(userIdentifier);
-            return GenerateGetFollowerIdsQuery(userIdentifierParameter, maxFollowersToRetrieve);
+            string userParameter = _userQueryParameterGenerator.GenerateIdOrScreenNameParameter(user);
+            return GenerateGetFollowerIdsQuery(userParameter, maxFollowersToRetrieve);
         }
 
-        private string GenerateGetFollowerIdsQuery(string userIdentifierParameter, int maxFollowersToRetrieve)
+        private string GenerateGetFollowerIdsQuery(string userParameter, int maxFollowersToRetrieve)
         {
-            return string.Format(Resources.User_GetFollowers, userIdentifierParameter, maxFollowersToRetrieve);
+            return string.Format(Resources.User_GetFollowers, userParameter, maxFollowersToRetrieve);
         }
 
         // Favourites
@@ -63,8 +63,8 @@ namespace Tweetinvi.Controllers.User
         {
             _userQueryValidator.ThrowIfUserCannotBeIdentified(favoriteParameters.UserIdentifier);
 
-            var userIdentifierParameter = _userQueryParameterGenerator.GenerateIdOrScreenNameParameter(favoriteParameters.UserIdentifier);
-            var query = new StringBuilder(Resources.User_GetFavourites + userIdentifierParameter);
+            var userParameter = _userQueryParameterGenerator.GenerateIdOrScreenNameParameter(favoriteParameters.UserIdentifier);
+            var query = new StringBuilder(Resources.User_GetFavourites + userParameter);
 
             var parameters = favoriteParameters.Parameters;
 
@@ -80,21 +80,21 @@ namespace Tweetinvi.Controllers.User
         }
 
         // Block User
-        public string GetBlockUserQuery(IUserIdentifier userIdentifier)
+        public string GetBlockUserQuery(IUserIdentifier user)
         {
-            _userQueryValidator.ThrowIfUserCannotBeIdentified(userIdentifier);
+            _userQueryValidator.ThrowIfUserCannotBeIdentified(user);
 
-            string userIdentifierParameter = _userQueryParameterGenerator.GenerateIdOrScreenNameParameter(userIdentifier);
-            return string.Format(Resources.User_Block_Create, userIdentifierParameter);
+            string userParameter = _userQueryParameterGenerator.GenerateIdOrScreenNameParameter(user);
+            return string.Format(Resources.User_Block_Create, userParameter);
         }
 
         // Unblock
-        public string GetUnBlockUserQuery(IUserIdentifier userIdentifier)
+        public string GetUnBlockUserQuery(IUserIdentifier user)
         {
-            _userQueryValidator.ThrowIfUserCannotBeIdentified(userIdentifier);
+            _userQueryValidator.ThrowIfUserCannotBeIdentified(user);
 
-            string userIdentifierParameter = _userQueryParameterGenerator.GenerateIdOrScreenNameParameter(userIdentifier);
-            return string.Format(Resources.User_Block_Destroy, userIdentifierParameter);
+            string userParameter = _userQueryParameterGenerator.GenerateIdOrScreenNameParameter(user);
+            return string.Format(Resources.User_Block_Destroy, userParameter);
         }
 
         // Get Blocked Users
@@ -134,12 +134,12 @@ namespace Tweetinvi.Controllers.User
         }
 
         // Report Spam
-        public string GetReportUserForSpamQuery(IUserIdentifier userIdentifier)
+        public string GetReportUserForSpamQuery(IUserIdentifier user)
         {
-            _userQueryValidator.ThrowIfUserCannotBeIdentified(userIdentifier);
+            _userQueryValidator.ThrowIfUserCannotBeIdentified(user);
 
-            string userIdentifierParameter = _userQueryParameterGenerator.GenerateIdOrScreenNameParameter(userIdentifier);
-            return string.Format(Resources.User_Report_Spam, userIdentifierParameter);
+            string userParameter = _userQueryParameterGenerator.GenerateIdOrScreenNameParameter(user);
+            return string.Format(Resources.User_Report_Spam, userParameter);
         }
     }
 }
