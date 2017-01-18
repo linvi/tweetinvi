@@ -20,7 +20,7 @@ namespace Tweetinvi.Models.DTO
 
         bool Favorited { get; set; }
 
-        int FavoriteCount { get; set; }
+        int? FavoriteCount { get; set; }
 
         IUserDTO CreatedBy { get; set; }
 
