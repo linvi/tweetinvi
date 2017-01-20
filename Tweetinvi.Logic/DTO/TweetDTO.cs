@@ -58,7 +58,7 @@ namespace Tweetinvi.Logic.DTO
         public bool Favorited { get; set; }
 
         [JsonProperty("favorite_count")]
-        public int FavoriteCount { get; set; }
+        public int? FavoriteCount { get; set; }
 
         [JsonProperty("user")]
         [JsonConverter(typeof(JsonPropertyConverterRepository))]

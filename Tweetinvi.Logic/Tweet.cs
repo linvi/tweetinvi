@@ -153,7 +153,7 @@ namespace Tweetinvi.Logic
 
         public int FavoriteCount
         {
-            get { return _tweetDTO.FavoriteCount; }
+            get { return _tweetDTO.FavoriteCount ?? 0; }
         }
 
         public ICoordinates Coordinates
