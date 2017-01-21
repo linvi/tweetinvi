@@ -14,8 +14,8 @@ namespace Tweetinvi.Credentials
 {
     public interface IAuthFactory
     {
-        void InitializeApplicationBearer(ITwitterCredentials credentials);
-        
+        bool InitializeApplicationBearer(ITwitterCredentials credentials);
+
         ITwitterCredentials GetCredentialsFromVerifierCode(string verifierCode, IAuthenticationToken authToken);
         bool InvalidateCredentials(ITwitterCredentials credentials);
     }
@@ -51,14 +51,17 @@ namespace Tweetinvi.Credentials
 
                 if (verifierCode == null)
                 {
-                    throw new ArgumentNullException("VerifierCode", "If you've received a verifier code that is null, " +
-                                                                    "it means that authentication has failed!");
+                    throw new ArgumentNullException("VerifierCode",
+                        "If you've received a verifier code that is null, " +
+                        "it means that authentication has failed!");
                 }
 
-                var callbackParameter = _oAuthWebRequestGenerator.GenerateParameter("oauth_verifier", verifierCode, true, true, false);
+                var callbackParameter = _oAuthWebRequestGenerator.GenerateParameter("oauth_verifier", verifierCode, true,
+                    true, false);
 
                 var authHandler = new AuthHttpHandler(callbackParameter, authToken);
-                var response = _twitterRequestHandler.ExecuteQuery(Resources.OAuthRequestAccessToken, HttpMethod.POST, authHandler, 
+                var response = _twitterRequestHandler.ExecuteQuery(Resources.OAuthRequestAccessToken, HttpMethod.POST,
+                    authHandler,
                     new TwitterCredentials(authToken.ConsumerCredentials));
 
                 if (response == null)
@@ -67,7 +70,8 @@ namespace Tweetinvi.Credentials
                 }
 
                 var responseInformation = Regex.Match(response, Resources.OAuthTokenAccessRegex);
-                if (responseInformation.Groups["oauth_token"] == null || responseInformation.Groups["oauth_token_secret"] == null)
+                if (responseInformation.Groups["oauth_token"] == null ||
+                    responseInformation.Groups["oauth_token_secret"] == null)
                 {
                     return null;
                 }
@@ -96,7 +100,7 @@ namespace Tweetinvi.Credentials
             return null;
         }
 
-        public void InitializeApplicationBearer(ITwitterCredentials credentials)
+        public bool InitializeApplicationBearer(ITwitterCredentials credentials)
         {
             if (credentials == null)
             {
@@ -106,10 +110,28 @@ namespace Tweetinvi.Credentials
             if (string.IsNullOrEmpty(credentials.AccessToken) ||
                 string.IsNullOrEmpty(credentials.AccessTokenSecret))
             {
-                var json = _twitterRequestHandler.ExecuteQuery("https://api.twitter.com/oauth2/token", HttpMethod.POST, new BearerHttpHandler(), credentials);
-                var accessToken = Regex.Match(json, "access_token\":\"(?<value>.*)\"").Groups["value"].Value;
-                credentials.ApplicationOnlyBearerToken = accessToken;
+                try
+                {
+                    var json = _twitterRequestHandler.ExecuteQuery("https://api.twitter.com/oauth2/token", HttpMethod.POST, new BearerHttpHandler(), credentials);
+                    var accessToken = Regex.Match(json, "access_token\":\"(?<value>.*)\"").Groups["value"].Value;
+                    credentials.ApplicationOnlyBearerToken = accessToken;
+                    return true;
+                }
+                catch (TwitterException ex)
+                {
+                    if (_exceptionHandler.LogExceptions)
+                    {
+                        _exceptionHandler.AddTwitterException(ex);
+                    }
+
+                    if (!_exceptionHandler.SwallowWebExceptions)
+                    {
+                        throw;
+                    }
+                }
             }
+
+            return false;
         }
 
         public bool InvalidateCredentials(ITwitterCredentials credentials)

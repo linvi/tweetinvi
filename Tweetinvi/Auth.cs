@@ -137,7 +137,7 @@ namespace Tweetinvi
         /// </summary>
         /// <param name="credentials">Credentials to update</param>
         /// <param name="force">Set the bearer token even if it is not required for executing queries</param>
-        public static void InitializeApplicationOnlyCredentials(ITwitterCredentials credentials = null, bool force = false)
+        public static bool InitializeApplicationOnlyCredentials(ITwitterCredentials credentials = null, bool force = false)
         {
             credentials = credentials ?? CredentialsAccessor.CurrentThreadCredentials;
 
@@ -152,8 +152,10 @@ namespace Tweetinvi
 
             if (force || (isBearerRequired && !isBearerAlreadySet))
             {
-                AuthFactory.InitializeApplicationBearer(credentials);
+                return AuthFactory.InitializeApplicationBearer(credentials);
             }
+
+            return true;
         }
 
         /// <summary>
