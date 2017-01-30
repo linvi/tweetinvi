@@ -2,13 +2,15 @@
 using FakeItEasy.ExtensionSyntax.Full;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Testinvi.Helpers;
+using Tweetinvi;
+using Tweetinvi.Core;
 using Tweetinvi.Core.Extensions;
 using Tweetinvi.Core.Factories;
-using Tweetinvi.Logic;
 using Tweetinvi.Logic.JsonConverters;
 using Tweetinvi.Logic.Wrapper;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
+using Tweet = Tweetinvi.Logic.Tweet;
 
 namespace Testinvi.Tweetinvi.Core
 {
@@ -106,7 +108,9 @@ namespace Testinvi.Tweetinvi.Core
             var jsonConverter = new JsonObjectConverter(jsonConverterLib);
 
             var tweetDTO = jsonConverter.DeserializeObject<ITweetDTO>(text);
-            return new Tweet(tweetDTO, null, null, userFactory, null);
+            ITweetinviSettingsAccessor tweetinviSettingsAccessor =
+                TweetinviContainer.Resolve<ITweetinviSettingsAccessor>();
+            return new Tweet(tweetDTO, null, null, userFactory, null, tweetinviSettingsAccessor);
         }
 
         #region tweet examples
