@@ -216,7 +216,7 @@ namespace Tweetinvi.Logic
         {
             if (authenticatedUser != null)
             {
-                return authenticatedUser.SubsribeToList(this);
+                return authenticatedUser.SubscribeToList(this);
             }
 
             return _twitterListController.SubscribeAuthenticatedUserToList(this);
