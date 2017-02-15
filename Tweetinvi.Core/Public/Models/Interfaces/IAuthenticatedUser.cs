@@ -302,27 +302,27 @@ namespace Tweetinvi.Models
         /// <summary>
         /// Subscribe the authenticated user to a list.
         /// </summary>
-        bool SubsribeToList(ITwitterListIdentifier list);
+        bool SubscribeToList(ITwitterListIdentifier list);
 
         /// <summary>
         /// Subscribe the authenticated user to a list.
         /// </summary>
-        bool SubsribeToList(long listId);
+        bool SubscribeToList(long listId);
 
         /// <summary>
         /// Subscribe the authenticated user to a list.
         /// </summary>
-        bool SubsribeToList(string slug, long ownerId);
+        bool SubscribeToList(string slug, long ownerId);
 
         /// <summary>
         /// Subscribe the authenticated user to a list.
         /// </summary>
-        bool SubsribeToList(string slug, string ownerScreenName);
+        bool SubscribeToList(string slug, string ownerScreenName);
 
         /// <summary>
         /// Subscribe the authenticated user to a list.
         /// </summary>
-        bool SubsribeToList(string slug, IUserIdentifier owner);
+        bool SubscribeToList(string slug, IUserIdentifier owner);
 
         /// <summary>
         /// Unsubscribe the authenticated user to a list.
