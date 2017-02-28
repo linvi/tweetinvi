@@ -19,9 +19,9 @@ namespace Tweetinvi.Core.Extensions
             @"(?<=^|\s+)" +                                            // URL can be prefixed by space or start of line
             @"\b(?<start>http(?<isSecured>s?)://(?:www\.)?|www\.|)" +  // Start of an url
             @"(?!www\.)" +                                             // The first keyword cannot be www.
-            @"(?<firstPathElement>\w+\.)" +                            // first keyword required
-            @"(?<secondPathElement>\w{2,})\w*?" +                      // second keyword required
-            @"(?<multiplePathElements>(?:\.\w{2,})*)" +                // potential sub-sites
+            @"(?<firstPathElement>\w+([\w-]*\w+)?\.)" +                // first keyword required
+            @"(?<secondPathElement>\w{1,}[\w-]*\w{1,})\w*?" +                      // second keyword required
+            @"(?<multiplePathElements>(?:\.\w{1,}[\w-]*\w{1,})*)" +    // potential sub-sites
             @"?\.{0}" +                                                // . is forbidden at this stage
             @"(?<specialChar>[/?])?" +                                 // is there a character specifying the url will be extended
             @"(?(specialChar)" +                                       // has a specialChar been detected
@@ -36,9 +36,9 @@ namespace Tweetinvi.Core.Extensions
         // (?<=^|\s+)
         // \b(?<start>http(?<isSecured>s?)://(?:www\.)?|www\.|)
         // (?!www\.)
-        // (?<firstPathElement>\w+\.)
-        // (?<secondPathElement>\w{2,})\w*?
-        // (?<multiplePathElements>(?:\.\w{2,})*)
+        // (?<firstPathElement>\w+([\w-]*\w+)?\.)
+        // (?<secondPathElement>\w{1,}[\w-]*\w{1,})\w*?
+        // (?<multiplePathElements>(?:\.\w{1,}[\w-]*\w{1,})*)
         // ?\.{0}
         // (?<specialChar>[/?])?
         // (?(specialChar)
