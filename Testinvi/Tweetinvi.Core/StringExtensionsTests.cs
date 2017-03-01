@@ -113,6 +113,11 @@ namespace Testinvi.Tweetinvi.Core
                 TestURLWithMultiplePrefix("tweetinvi.codeplex.com/salut/linvi.a", 48);
                 TestURLWithMultiplePrefix("tweetinvi.codeplex.com/salut/linvi.plop", 48);
 
+                //Url contains '-'
+                TestURLWithMultiplePrefix("tweetinvi.codeplex.com/salut/lin-vi.plop", 48);
+                TestURLWithMultiplePrefix("tweet-invi.codeplex.com/salut/linvi.plop", 48);
+                TestURLWithMultiplePrefix("tweetinvi.code-plex.com/salut/linvi.plop", 48);
+
                 // Url finishing with '.'
                 TestURLWithMultiplePrefix("tweetinvi.codeplex.com/.", 49);
                 TestURLWithMultiplePrefix("tweetinvi.codeplex.com.", 49);
