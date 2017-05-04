@@ -28,34 +28,30 @@ namespace Tweetinvi.Logic.TwitterEntities
             // Populate the entities with extended ones if this thread is running in Extended Tweet Mode
             bool populateExtendedTweetEntities = _tweetinviSettingsAccessor.CurrentThreadSettings.TweetMode ==
                                                  TweetMode.Extended;
-            // Whether this Tweet has extended entities from the Streaming API
-            bool hasStreamingExtendedEntities = _tweetDTO?.ExtendedTweet?.ExtendedEntities != null;
 
-            // Use extended entities if we want to populate with extended ones, and this is an extended tweet.
-            if (populateExtendedTweetEntities && hasStreamingExtendedEntities)
-            {
-                // Populate for each type of entity.
-                //  Note that some extended entities will be null when they are on an extended tweet, but aren't 
-                //  extended entities. In these cases, fall back to the legacy entities
-                _urls = _tweetDTO.ExtendedTweet.ExtendedEntities.Urls ?? _tweetDTOLegacyEntities.Urls;
-                _userMentions = _tweetDTO.ExtendedTweet.ExtendedEntities.UserMentions ?? _tweetDTOLegacyEntities.UserMentions;
-                _hashtags = _tweetDTO.ExtendedTweet.ExtendedEntities.Hashtags ?? _tweetDTOLegacyEntities.Hashtags;
-                _symbols = _tweetDTO.ExtendedTweet.ExtendedEntities.Symbols ?? _tweetDTOLegacyEntities.Symbols;
-                _medias = _tweetDTO.ExtendedTweet.ExtendedEntities.Medias ?? _tweetDTOLegacyEntities.Medias;
-            }
-            //  Otherwise, this is from the REST API or doesn't have extended entities
-            else
-            {
-                // Populate for each type of entity.
-                _urls = _tweetDTOLegacyEntities.Urls;
-                _userMentions = _tweetDTOLegacyEntities.UserMentions;
-                _hashtags = _tweetDTOLegacyEntities.Hashtags;
-                _symbols = _tweetDTOLegacyEntities.Symbols;
+            // Was this Tweet received over the streaming API & is an extended Tweet
+            bool hasStreamingApiExtendedTweet = _tweetDTO?.ExtendedTweet != null;
 
-                // Media can also be in the extended_entities field.
-                //  If that's populated, we must use it instead or risk missing media
-                _medias = _tweetDTO?.Entities?.Medias ?? _tweetDTOLegacyEntities.Medias;
-            }
+            // Should we use the (streaming API) extended tweet data?
+            bool useStreamingApiExtendedTweetForEntities = populateExtendedTweetEntities && hasStreamingApiExtendedTweet;
+
+            // Get the entities and extended_entities for whichever Tweet DTO we're using
+            ITweetEntities entities = useStreamingApiExtendedTweetForEntities
+                ? _tweetDTO.ExtendedTweet.LegacyEntities
+                : _tweetDTO?.LegacyEntities;
+            ITweetEntities extendedEntities = useStreamingApiExtendedTweetForEntities
+                ? _tweetDTO.ExtendedTweet.ExtendedEntities
+                : _tweetDTO?.Entities;
+
+            // Populate for each type of entity.
+            _urls = entities?.Urls;
+            _userMentions = entities?.UserMentions;
+            _hashtags = entities?.Hashtags;
+            _symbols = entities?.Symbols;
+
+            // Media can also be in the extended_entities field. https://dev.twitter.com/overview/api/entities-in-twitter-objects#extended_entities
+            //  If that's populated, we must use it instead or risk missing media
+            _medias = extendedEntities?.Medias ?? entities?.Medias;
 
             // If this is a retweet, it's also now possible for an entity to get cut off of the end of the tweet entirely.
             //  If the same Tweet is fetched over the REST API, these entities get excluded, so lets do the same.

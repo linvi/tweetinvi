@@ -188,6 +188,40 @@ namespace Testinvi.Tweetinvi.Core
             Assert.AreEqual(tweet.IdStr, tweet.Urls[0].ExpandedURL.Split('/').Last());
         }
 
+        [TestMethod]
+        public void ExtendedTweetReceivedOverStreamingApiProcessExtendedMode()
+        {
+            TweetinviConfig.CurrentThreadSettings.TweetMode = TweetMode.Extended;
+
+            ITweet tweet = InitTweet(EXTENDED_TWEET_RECEIVED_OVER_STREAMING_API);
+
+            Assert.IsNotNull(tweet.TweetDTO.ExtendedTweet);
+            Assert.AreEqual("Hezb-i-Islami leader returns to Kabul after 20 years in hiding and calls for peace with Taliban fighters https://t.co/ygeJ5uy9o4 https://t.co/XJ8j1MGu6L", tweet.FullText);
+
+            Assert.IsNotNull(tweet.Media);
+            Assert.AreEqual(1, tweet.Media.Count);
+            Assert.AreEqual(1, tweet.Urls.Count);
+
+            // Check the extracted URL is correct & not the URL for this tweet on Twitter (which it would be in Compat mode)
+            Assert.AreEqual("aje.io/qs3b", tweet.Urls.First().DisplayedURL);
+        }
+
+        [TestMethod]
+        public void ExtendedTweetReceivedOverStreamingApiProcessCompatMode()
+        {
+            TweetinviConfig.CurrentThreadSettings.TweetMode = TweetMode.Compat;
+
+            ITweet tweet = InitTweet(EXTENDED_TWEET_RECEIVED_OVER_STREAMING_API);
+
+            Assert.IsNotNull(tweet.TweetDTO.ExtendedTweet);
+            Assert.AreEqual("Hezb-i-Islami leader returns to Kabul after 20 years in hiding and calls for peace with Taliban fighters https://t.co/ygeJ5uy9o4 https://t.co/XJ8j1MGu6L", tweet.FullText);
+
+            // Tweet has media, but since it's pushed off of the end of the compatible text, we actually just get a URL to the full status
+            Assert.IsNull(tweet.Media);
+            Assert.AreEqual(1, tweet.Urls.Count);
+            Assert.AreEqual(tweet.IdStr, tweet.Urls[0].ExpandedURL.Split('/').Last());
+        }
+
         private static ITweet InitTweet(string text)
         {
             var userFactory = A.Fake<IUserFactory>();
@@ -985,6 +1019,9 @@ namespace Testinvi.Tweetinvi.Core
 
         private const string EXTENDED_TWEET_THREE_PHOTOS_FETCHED_IN_COMPAT_MODE =
                 "{\"created_at\":\"Thu May 04 15:50:59 +0000 2017\",\"id\":860159833139531777,\"id_str\":\"860159833139531777\",\"text\":\"some long message with images at the end some long message with images at the end some long message with images at\\u2026 https:\\/\\/t.co\\/ImGDtYUGc1\",\"truncated\":true,\"entities\":{\"hashtags\":[],\"symbols\":[],\"user_mentions\":[],\"urls\":[{\"url\":\"https:\\/\\/t.co\\/ImGDtYUGc1\",\"expanded_url\":\"https:\\/\\/twitter.com\\/i\\/web\\/status\\/860159833139531777\",\"display_url\":\"twitter.com\\/i\\/web\\/status\\/8\\u2026\",\"indices\":[116,139]}]},\"source\":\"\\u003ca href=\\\"http:\\/\\/test.commsmanager.visav.co.uk\\\" rel=\\\"nofollow\\\"\\u003eTestCommsManager\\u003c\\/a\\u003e\",\"in_reply_to_status_id\":null,\"in_reply_to_status_id_str\":null,\"in_reply_to_user_id\":null,\"in_reply_to_user_id_str\":null,\"in_reply_to_screen_name\":null,\"user\":{\"id\":1728100111,\"id_str\":\"1728100111\",\"name\":\"VISAV\",\"screen_name\":\"VISAV2\",\"location\":\"Nottingham\",\"description\":\"\",\"url\":\"http:\\/\\/t.co\\/VYML2EZ5Gw\",\"entities\":{\"url\":{\"urls\":[{\"url\":\"http:\\/\\/t.co\\/VYML2EZ5Gw\",\"expanded_url\":\"http:\\/\\/www.visav.co.uk\",\"display_url\":\"visav.co.uk\",\"indices\":[0,22]}]},\"description\":{\"urls\":[]}},\"protected\":false,\"followers_count\":90,\"friends_count\":437,\"listed_count\":8,\"created_at\":\"Wed Sep 04 08:38:39 +0000 2013\",\"favourites_count\":14,\"utc_offset\":3600,\"time_zone\":\"London\",\"geo_enabled\":true,\"verified\":false,\"statuses_count\":572,\"lang\":\"en-gb\",\"contributors_enabled\":false,\"is_translator\":false,\"is_translation_enabled\":false,\"profile_background_color\":\"C0DEED\",\"profile_background_image_url\":\"http:\\/\\/abs.twimg.com\\/images\\/themes\\/theme1\\/bg.png\",\"profile_background_image_url_https\":\"https:\\/\\/abs.twimg.com\\/images\\/themes\\/theme1\\/bg.png\",\"profile_background_tile\":false,\"profile_image_url\":\"http:\\/\\/pbs.twimg.com\\/profile_images\\/378800000408927126\\/a64b39899f9a3a27664029cab14ea7fe_normal.jpeg\",\"profile_image_url_https\":\"https:\\/\\/pbs.twimg.com\\/profile_images\\/378800000408927126\\/a64b39899f9a3a27664029cab14ea7fe_normal.jpeg\",\"profile_link_color\":\"1DA1F2\",\"profile_sidebar_border_color\":\"C0DEED\",\"profile_sidebar_fill_color\":\"DDEEF6\",\"profile_text_color\":\"333333\",\"profile_use_background_image\":true,\"has_extended_profile\":false,\"default_profile\":true,\"default_profile_image\":false,\"following\":false,\"follow_request_sent\":false,\"notifications\":false,\"translator_type\":\"none\"},\"geo\":null,\"coordinates\":null,\"place\":null,\"contributors\":null,\"is_quote_status\":false,\"retweet_count\":0,\"favorite_count\":0,\"favorited\":false,\"retweeted\":false,\"possibly_sensitive\":false,\"possibly_sensitive_appealable\":false,\"lang\":\"en\"}";
+
+        private const string EXTENDED_TWEET_RECEIVED_OVER_STREAMING_API =
+                "{\"created_at\":\"Thu May 04 17:07:17 +0000 2017\",\"id\":860179032578588688,\"id_str\":\"860179032578588688\",\"text\":\"Hezb-i-Islami leader returns to Kabul after 20 years in hiding and calls for peace with Taliban fighters\\u2026 https:\\/\\/t.co\\/6jw7EmowxI\",\"display_text_range\":[0,140],\"source\":\"\\u003ca href=\\\"http:\\/\\/www.socialflow.com\\\" rel=\\\"nofollow\\\"\\u003eSocialFlow\\u003c\\/a\\u003e\",\"truncated\":true,\"in_reply_to_status_id\":null,\"in_reply_to_status_id_str\":null,\"in_reply_to_user_id\":null,\"in_reply_to_user_id_str\":null,\"in_reply_to_screen_name\":null,\"user\":{\"id\":4970411,\"id_str\":\"4970411\",\"name\":\"Al Jazeera English\",\"screen_name\":\"AJEnglish\",\"location\":\"Doha, Qatar\",\"url\":\"http:\\/\\/aljazeera.com\",\"description\":\"Everyone has a story worth hearing. Follow @AJENews for breaking news.\",\"protected\":false,\"verified\":true,\"followers_count\":3869461,\"friends_count\":223,\"listed_count\":50998,\"favourites_count\":592,\"statuses_count\":176029,\"created_at\":\"Tue Apr 17 08:23:08 +0000 2007\",\"utc_offset\":3600,\"time_zone\":\"London\",\"geo_enabled\":true,\"lang\":\"en\",\"contributors_enabled\":false,\"is_translator\":false,\"profile_background_color\":\"FFFFFF\",\"profile_background_image_url\":\"http:\\/\\/pbs.twimg.com\\/profile_background_images\\/435161658852257792\\/GQQnmlD_.jpeg\",\"profile_background_image_url_https\":\"https:\\/\\/pbs.twimg.com\\/profile_background_images\\/435161658852257792\\/GQQnmlD_.jpeg\",\"profile_background_tile\":true,\"profile_link_color\":\"234D8C\",\"profile_sidebar_border_color\":\"FFFFFF\",\"profile_sidebar_fill_color\":\"DDDDDD\",\"profile_text_color\":\"000000\",\"profile_use_background_image\":false,\"profile_image_url\":\"http:\\/\\/pbs.twimg.com\\/profile_images\\/798436475419426816\\/1ioXpITq_normal.jpg\",\"profile_image_url_https\":\"https:\\/\\/pbs.twimg.com\\/profile_images\\/798436475419426816\\/1ioXpITq_normal.jpg\",\"profile_banner_url\":\"https:\\/\\/pbs.twimg.com\\/profile_banners\\/4970411\\/1493030721\",\"default_profile\":false,\"default_profile_image\":false,\"following\":null,\"follow_request_sent\":null,\"notifications\":null},\"geo\":null,\"coordinates\":null,\"place\":null,\"contributors\":null,\"is_quote_status\":false,\"extended_tweet\":{\"full_text\":\"Hezb-i-Islami leader returns to Kabul after 20 years in hiding and calls for peace with Taliban fighters https:\\/\\/t.co\\/ygeJ5uy9o4 https:\\/\\/t.co\\/XJ8j1MGu6L\",\"display_text_range\":[0,128],\"entities\":{\"hashtags\":[],\"urls\":[{\"url\":\"https:\\/\\/t.co\\/ygeJ5uy9o4\",\"expanded_url\":\"http:\\/\\/aje.io\\/qs3b\",\"display_url\":\"aje.io\\/qs3b\",\"indices\":[105,128]}],\"user_mentions\":[],\"symbols\":[],\"media\":[{\"id\":860179029265174528,\"id_str\":\"860179029265174528\",\"indices\":[129,152],\"media_url\":\"http:\\/\\/pbs.twimg.com\\/media\\/C-_4RQqXUAAQTyU.jpg\",\"media_url_https\":\"https:\\/\\/pbs.twimg.com\\/media\\/C-_4RQqXUAAQTyU.jpg\",\"url\":\"https:\\/\\/t.co\\/XJ8j1MGu6L\",\"display_url\":\"pic.twitter.com\\/XJ8j1MGu6L\",\"expanded_url\":\"https:\\/\\/twitter.com\\/AJEnglish\\/status\\/860179032578588688\\/photo\\/1\",\"type\":\"photo\",\"sizes\":{\"medium\":{\"w\":999,\"h\":562,\"resize\":\"fit\"},\"small\":{\"w\":680,\"h\":383,\"resize\":\"fit\"},\"thumb\":{\"w\":150,\"h\":150,\"resize\":\"crop\"},\"large\":{\"w\":999,\"h\":562,\"resize\":\"fit\"}}}]},\"extended_entities\":{\"media\":[{\"id\":860179029265174528,\"id_str\":\"860179029265174528\",\"indices\":[129,152],\"media_url\":\"http:\\/\\/pbs.twimg.com\\/media\\/C-_4RQqXUAAQTyU.jpg\",\"media_url_https\":\"https:\\/\\/pbs.twimg.com\\/media\\/C-_4RQqXUAAQTyU.jpg\",\"url\":\"https:\\/\\/t.co\\/XJ8j1MGu6L\",\"display_url\":\"pic.twitter.com\\/XJ8j1MGu6L\",\"expanded_url\":\"https:\\/\\/twitter.com\\/AJEnglish\\/status\\/860179032578588688\\/photo\\/1\",\"type\":\"photo\",\"sizes\":{\"medium\":{\"w\":999,\"h\":562,\"resize\":\"fit\"},\"small\":{\"w\":680,\"h\":383,\"resize\":\"fit\"},\"thumb\":{\"w\":150,\"h\":150,\"resize\":\"crop\"},\"large\":{\"w\":999,\"h\":562,\"resize\":\"fit\"}}}]}},\"retweet_count\":0,\"favorite_count\":0,\"entities\":{\"hashtags\":[],\"urls\":[{\"url\":\"https:\\/\\/t.co\\/6jw7EmowxI\",\"expanded_url\":\"https:\\/\\/twitter.com\\/i\\/web\\/status\\/860179032578588688\",\"display_url\":\"twitter.com\\/i\\/web\\/status\\/8\\u2026\",\"indices\":[106,129]}],\"user_mentions\":[],\"symbols\":[]},\"favorited\":false,\"retweeted\":false,\"possibly_sensitive\":false,\"filter_level\":\"low\",\"lang\":\"en\",\"timestamp_ms\":\"1493917637377\"}";
 
         #endregion
     }
