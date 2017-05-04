@@ -10,7 +10,7 @@ namespace Tweetinvi.Parameters
     public interface IPublishTweetParameters : ICustomRequestParameters
     {
         /// <summary>
-        /// Message to publish as a twwweet
+        /// Message to publish as a tweet
         /// </summary>
         string Text { get; }
 
@@ -80,12 +80,22 @@ namespace Tweetinvi.Parameters
         /// </summary>
         bool? TrimUser { get; set; }
 
-        bool? ExcludeReplyUserIds { get; set; }
-
         /// <summary>
-        /// Twitter will move the @mentions to the extended tweet prefix.
+        /// Twitter will auto-populate the @mentions in the extended tweet prefix from the Tweet
+        /// being replied to, plus a mention of the screen name that posted the Tweet being replied to.
+        /// i.e. This auto-populates a "reply all".
+        /// Must be used with InReplyToTweetId or InReplyToTweet.
+        /// Use ExcludeReplyUserIds to specify accounts to not mention in the prefix.
+        /// Also note that there can be a maximum of 50 mentions in the prefix, any more will error.
         /// </summary>
         bool? AutoPopulateReplyMetadata { get; set; }
+
+        /// <summary>
+        /// Twitter User IDs to not include in the auto-populated extended Tweet prefix.
+        /// Cannot exclude the User who is directly being replied to, only the additional mentions.
+        /// Must be used with AutoPopulateReplyMetadata.
+        /// </summary>
+        IEnumerable<long> ExcludeReplyUserIds { get; set; }
 
         #endregion
     }
@@ -167,7 +177,7 @@ namespace Tweetinvi.Parameters
             set { Parameters.TrimUser = value; }
         }
 
-        public bool? ExcludeReplyUserIds
+        public IEnumerable<long> ExcludeReplyUserIds
         {
             get { return Parameters.ExcludeReplyUserIds; }
             set { Parameters.ExcludeReplyUserIds = value; }
