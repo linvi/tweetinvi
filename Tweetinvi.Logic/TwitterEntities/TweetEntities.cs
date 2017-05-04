@@ -28,11 +28,11 @@ namespace Tweetinvi.Logic.TwitterEntities
             // Populate the entities with extended ones if this thread is running in Extended Tweet Mode
             bool populateExtendedTweetEntities = _tweetinviSettingsAccessor.CurrentThreadSettings.TweetMode ==
                                                  TweetMode.Extended;
-            // Whether this Tweet has extended entities
-            bool hasExtendedTweetEntities = _tweetDTO?.ExtendedTweet?.ExtendedEntities != null;
+            // Whether this Tweet has extended entities from the Streaming API
+            bool hasStreamingExtendedEntities = _tweetDTO?.ExtendedTweet?.ExtendedEntities != null;
 
             // Use extended entities if we want to populate with extended ones, and this is an extended tweet.
-            if (populateExtendedTweetEntities && hasExtendedTweetEntities)
+            if (populateExtendedTweetEntities && hasStreamingExtendedEntities)
             {
                 // Populate for each type of entity.
                 //  Note that some extended entities will be null when they are on an extended tweet, but aren't 
@@ -43,7 +43,7 @@ namespace Tweetinvi.Logic.TwitterEntities
                 _symbols = _tweetDTO.ExtendedTweet.ExtendedEntities.Symbols ?? _tweetDTOLegacyEntities.Symbols;
                 _medias = _tweetDTO.ExtendedTweet.ExtendedEntities.Medias ?? _tweetDTOLegacyEntities.Medias;
             }
-            //  Otherwise, use the legacy ones
+            //  Otherwise, this is from the REST API or doesn't have extended entities
             else
             {
                 // Populate for each type of entity.
@@ -51,7 +51,10 @@ namespace Tweetinvi.Logic.TwitterEntities
                 _userMentions = _tweetDTOLegacyEntities.UserMentions;
                 _hashtags = _tweetDTOLegacyEntities.Hashtags;
                 _symbols = _tweetDTOLegacyEntities.Symbols;
-                _medias = _tweetDTOLegacyEntities.Medias;
+
+                // Media can also be in the extended_entities field.
+                //  If that's populated, we must use it instead or risk missing media
+                _medias = _tweetDTO?.Entities?.Medias ?? _tweetDTOLegacyEntities.Medias;
             }
 
             // If this is a retweet, it's also now possible for an entity to get cut off of the end of the tweet entirely.
