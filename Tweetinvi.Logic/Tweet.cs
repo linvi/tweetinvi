@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Tweetinvi.Core;
 using Tweetinvi.Core.Controllers;
 using Tweetinvi.Core.Extensions;
 using Tweetinvi.Core.Factories;
@@ -25,6 +26,7 @@ namespace Tweetinvi.Logic
         private readonly ITweetFactory _tweetFactory;
         private readonly IUserFactory _userFactory;
         private readonly ITaskFactory _taskFactory;
+        private readonly ITweetinviSettingsAccessor _tweetinviSettingsAccessor;
 
         #region Public Attributes
 
@@ -34,7 +36,7 @@ namespace Tweetinvi.Logic
         private void DTOUpdated()
         {
             _createdBy = _tweetDTO == null ? null : _userFactory.GenerateUserFromDTO(_tweetDTO.CreatedBy);
-            _entities = _tweetDTO == null ? null : new TweetEntities(_tweetDTO);
+            _entities = _tweetDTO == null ? null : new TweetEntities(_tweetinviSettingsAccessor, _tweetDTO);
         }
 
         public ITweetDTO TweetDTO
@@ -139,6 +141,8 @@ namespace Tweetinvi.Logic
         {
             get { return _tweetDTO.ExtendedTweet?.DisplayTextRange ?? _tweetDTO.DisplayTextRange; }
         }
+
+        public int[] SafeDisplayTextRange => DisplayTextRange ?? new int[] { 0, FullText.Length };
 
         public IExtendedTweet ExtendedTweet
         {
@@ -449,12 +453,14 @@ namespace Tweetinvi.Logic
             ITweetController tweetController,
             ITweetFactory tweetFactory,
             IUserFactory userFactory,
-            ITaskFactory taskFactory)
+            ITaskFactory taskFactory,
+            ITweetinviSettingsAccessor tweetinviSettingsAccessor)
         {
             _tweetController = tweetController;
             _tweetFactory = tweetFactory;
             _userFactory = userFactory;
             _taskFactory = taskFactory;
+            _tweetinviSettingsAccessor = tweetinviSettingsAccessor;
 
             TweetDTO = tweetDTO;
         }

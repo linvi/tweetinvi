@@ -45,6 +45,13 @@ namespace Tweetinvi.Models
         int[] DisplayTextRange { get; }
 
         /// <summary>
+        /// The range of text to be displayed for any Tweet.
+        /// If this is an Extended Tweet, this will be the range supplied by Twitter.
+        /// If this is an old-style 140 character Tweet, the range will be 0 - Length.
+        /// </summary>
+        int[] SafeDisplayTextRange { get; }
+
+        /// <summary>
         /// Extended Tweet details.
         /// </summary>
         IExtendedTweet ExtendedTweet { get; set; }
