@@ -94,6 +94,14 @@ namespace Tweetinvi.Controllers.Tweet
                 if (queryParameters.InReplyToTweet != null)
                 {
                     query.AddParameterToQuery("in_reply_to_status_id", queryParameters.InReplyToTweet.Id);
+
+                    // Extended Tweet prefix auto-population
+                    query.AddParameterToQuery("auto_populate_reply_metadata", queryParameters.AutoPopulateReplyMetadata);
+                    if (queryParameters.ExcludeReplyUserIds != null)
+                    {
+                        // Use URL encoded comma %2C so we don't need to URL encode the string afterwards
+                        query.AddParameterToQuery("exclude_reply_user_ids", String.Join("%2C", queryParameters.ExcludeReplyUserIds));
+                    }
                 }
 
                 query.AddParameterToQuery("possibly_sensitive", queryParameters.PossiblySensitive);
@@ -107,9 +115,7 @@ namespace Tweetinvi.Controllers.Tweet
                 query.AddParameterToQuery("place_id", queryParameters.PlaceId);
                 query.AddParameterToQuery("display_coordinates", queryParameters.DisplayExactCoordinates);
                 query.AddParameterToQuery("trim_user", queryParameters.TrimUser);
-                query.AddParameterToQuery("auto_populate_reply_metadata", queryParameters.AutoPopulateReplyMetadata);
                 query.AddParameterToQuery("tweet_mode", _tweetinviSettingsAccessor.CurrentThreadSettings.TweetMode?.ToString().ToLowerInvariant());
-                query.AddParameterToQuery("exclude_reply_userids", queryParameters.ExcludeReplyUserIds);
 
                 if (useExtendedMode && quotedTweetUrl != null)
                 {
