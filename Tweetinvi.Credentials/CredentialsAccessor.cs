@@ -47,6 +47,8 @@ namespace Tweetinvi.Credentials
             set
             {
                 _currentThreadCredentials = value;
+                // Mark as initialised, don't want to override these credentials the user has set with application ones when we first use them
+                _currentThreadCredentialsInitialized = true;
 
                 if (!HasTheApplicationCredentialsBeenInitialized() && _currentThreadCredentials != null)
                 {
