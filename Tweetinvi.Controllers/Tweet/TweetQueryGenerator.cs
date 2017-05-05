@@ -99,7 +99,8 @@ namespace Tweetinvi.Controllers.Tweet
                     query.AddParameterToQuery("auto_populate_reply_metadata", queryParameters.AutoPopulateReplyMetadata);
                     if (queryParameters.ExcludeReplyUserIds != null)
                     {
-                        query.AddParameterToQuery("exclude_reply_user_ids", String.Join(",", queryParameters.ExcludeReplyUserIds));
+                        // Use URL encoded comma %2C so we don't need to URL encode the string afterwards
+                        query.AddParameterToQuery("exclude_reply_user_ids", String.Join("%2C", queryParameters.ExcludeReplyUserIds));
                     }
                 }
 
