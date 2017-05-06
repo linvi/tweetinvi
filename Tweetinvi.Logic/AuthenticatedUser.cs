@@ -319,27 +319,27 @@ namespace Tweetinvi.Logic
         }
 
         // Twitter Lists
-        public bool SubsribeToList(ITwitterListIdentifier list)
+        public bool SubscribeToList(ITwitterListIdentifier list)
         {
             return ExecuteAuthenticatedUserOperation(() => _twitterListController.SubscribeAuthenticatedUserToList(list));
         }
 
-        public bool SubsribeToList(long listId)
+        public bool SubscribeToList(long listId)
         {
             return ExecuteAuthenticatedUserOperation(() => _twitterListController.SubscribeAuthenticatedUserToList(listId));
         }
 
-        public bool SubsribeToList(string slug, long ownerId)
+        public bool SubscribeToList(string slug, long ownerId)
         {
             return ExecuteAuthenticatedUserOperation(() => _twitterListController.SubscribeAuthenticatedUserToList(slug, ownerId));
         }
 
-        public bool SubsribeToList(string slug, string ownerScreenName)
+        public bool SubscribeToList(string slug, string ownerScreenName)
         {
             return ExecuteAuthenticatedUserOperation(() => _twitterListController.SubscribeAuthenticatedUserToList(slug, ownerScreenName));
         }
 
-        public bool SubsribeToList(string slug, IUserIdentifier owner)
+        public bool SubscribeToList(string slug, IUserIdentifier owner)
         {
             return ExecuteAuthenticatedUserOperation(() => _twitterListController.SubscribeAuthenticatedUserToList(slug, owner));
         }
