@@ -35,7 +35,6 @@ namespace Examplinvi
         static void Main()
         {
             Auth.SetUserCredentials("CONSUMER_KEY", "CONSUMER_SECRET", "ACCESS_TOKEN", "ACCESS_TOKEN_SECRET");
-            var tweetinvitest = Auth.SetUserCredentials("mj8tSmfpsQ1nXz1hKFCPc0mue", "3trmDs85i8y1xxRw5jRRWqeYiHVW1MsbGKWdxhLL9Q0iEaf7CT", "1693649419-Ubxt4bKWWGQiRY9Ko4BcvX03EJUm2BPcRbW6pPM", "wLa7UFyp4FEDR2MHPtr6SEy4E3iCBqqlNAXuampl2SXZ7");
 
             TweetinviEvents.QueryBeforeExecute += (sender, args) =>
             {
@@ -473,6 +472,13 @@ namespace Examplinvi
 
         public static void Tweet_PublishTweetInReplyToAnotherTweet(string text, long tweetIdtoReplyTo)
         {
+            // With the new version of Twitter you no longer have to specify the mentions. Twitter can do that for you automatically.
+            var reply = Tweet.PublishTweet(text, new PublishTweetOptionalParameters
+            {
+                InReplyToTweetId = tweetIdtoReplyTo,
+                AutoPopulateReplyMetadata = true // Auto populate the @mentions
+            });
+
             var tweetToReplyTo = Tweet.GetTweet(tweetIdtoReplyTo);
 
             // We must add @screenName of the author of the tweet we want to reply to
