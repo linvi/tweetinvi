@@ -47,6 +47,7 @@ namespace Tweetinvi.Credentials
             set
             {
                 _currentThreadCredentials = value;
+                _currentThreadCredentialsInitialized = true;
 
                 if (!HasTheApplicationCredentialsBeenInitialized() && _currentThreadCredentials != null)
                 {
