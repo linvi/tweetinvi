@@ -4,6 +4,8 @@ namespace Tweetinvi.Streaming.Events
 {
     public interface IWarningMessageTooManyFollowers : IWarningMessage
     {
-        IEnumerable<long> UserIds { get; }
+        long UserId { get; }
+
+        string TimestampInMs { get; set; }
     }
 }
