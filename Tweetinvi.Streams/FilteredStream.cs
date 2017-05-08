@@ -23,6 +23,7 @@ namespace Tweetinvi.Streams
         private readonly IFilterStreamTweetMatcherFactory _filterStreamTweetMatcherFactory;
         private readonly ITwitterQueryFactory _twitterQueryFactory;
         private readonly ISingleAggregateExceptionThrower _singleAggregateExceptionThrower;
+
         // Const
         private const int MAXIMUM_TRACKED_LOCATIONS_AUTHORIZED = 25;
         private const int MAXIMUM_TRACKED_USER_ID_AUTHORIZED = 5000;
@@ -72,6 +73,7 @@ namespace Tweetinvi.Streams
             _filterStreamTweetMatcherFactory = filterStreamTweetMatcherFactory;
             _twitterQueryFactory = twitterQueryFactory;
             _singleAggregateExceptionThrower = singleAggregateExceptionThrower;
+
             _followingUserIds = new Dictionary<long?, Action<ITweet>>();
             _locations = new Dictionary<ILocation, Action<ITweet>>();
 
@@ -100,7 +102,7 @@ namespace Tweetinvi.Streams
             {
                 RaiseJsonObjectReceived(json);
 
-                var tweet = _tweetFactory.GenerateTweetFromJson(json);
+                var tweet = _tweetFactory.GenerateTweetFromJson(json, TweetMode);
                 if (tweet == null)
                 {
                     TryInvokeGlobalStreamMessages(json);
@@ -158,7 +160,7 @@ namespace Tweetinvi.Streams
             {
                 RaiseJsonObjectReceived(json);
 
-                var tweet = _tweetFactory.GenerateTweetFromJson(json);
+                var tweet = _tweetFactory.GenerateTweetFromJson(json, TweetMode);
                 if (tweet == null)
                 {
                     TryInvokeGlobalStreamMessages(json);
@@ -195,7 +197,6 @@ namespace Tweetinvi.Streams
         {
             return _filterStreamTweetMatcher.GetMatchingTweetEventArgsAndRaiseMatchingElements(tweet, null, MatchOn).MatchOn;
         }
-
 
         private bool DoestTheTweetMatchAllConditions(ITweet tweet, string[] matchingTracks, ILocation[] matchingLocations, long[] matchingFollowers)
         {

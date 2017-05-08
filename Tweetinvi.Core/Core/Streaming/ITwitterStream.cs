@@ -88,6 +88,11 @@ namespace Tweetinvi.Core.Streaming
         ITwitterCredentials Credentials { get; set; }
 
         /// <summary>
+        /// Decide whether to use Extended or Compat mode
+        /// </summary>
+        TweetMode TweetMode { get; set; }
+
+        /// <summary>
         /// Get the current state of the stream
         /// </summary>
         StreamState StreamState { get; }

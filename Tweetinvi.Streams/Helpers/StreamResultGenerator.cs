@@ -96,8 +96,6 @@ namespace Tweetinvi.Streams.Helpers
                 streamTask.Start();
             }).ConfigureAwait(false);
 #endif
-
-
         }
 
         private void StreamTaskStarted(object sender, EventArgs eventArgs)

@@ -14,16 +14,16 @@ namespace Tweetinvi.Logic.TwitterEntities
         public long? Id { get; set; }
 
         [JsonProperty("id_str")]
-        public string IdStr{ get; set; }
+        public string IdStr { get; set; }
 
         [JsonProperty("screen_name")]
-        public string ScreenName{ get; set; }
+        public string ScreenName { get; set; }
 
         [JsonProperty("name")]
-        public string Name{ get; set; }
+        public string Name { get; set; }
 
         [JsonProperty("indices")]
-        public IList<int> Indices{ get; set; }
+        public IList<int> Indices { get; set; }
 
         public bool Equals(IUserMentionEntity other)
         {
@@ -43,6 +43,11 @@ namespace Tweetinvi.Logic.TwitterEntities
             }
 
             return Indices.ContainsSameObjectsAs(other.Indices, true);
+        }
+
+        public override string ToString()
+        {
+            return $"@{ScreenName}";
         }
     }
 }

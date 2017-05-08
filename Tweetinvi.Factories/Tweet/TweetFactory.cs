@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Tweetinvi.Core;
 using Tweetinvi.Core.Factories;
 using Tweetinvi.Core.Helpers;
 using Tweetinvi.Core.Injectinvi;
@@ -16,6 +17,7 @@ namespace Tweetinvi.Factories.Tweet
         private readonly IFactory<IMention> _mentionUnityFactory;
         private readonly IFactory<IOEmbedTweet> _oembedTweetUnityFactory;
         private readonly IJsonObjectConverter _jsonObjectConverter;
+        private readonly ITweetinviSettingsAccessor _tweetinviSettingsAccessor;
 
         public TweetFactory(
             ITweetFactoryQueryExecutor tweetDTOFactory,
@@ -23,7 +25,8 @@ namespace Tweetinvi.Factories.Tweet
             IFactory<ITweetWithSearchMetadata> tweetWithSearchMetadataFactory,
             IFactory<IMention> mentionFactory,
             IFactory<IOEmbedTweet> oembedTweetUnityFactory,
-            IJsonObjectConverter jsonObjectConverter)
+            IJsonObjectConverter jsonObjectConverter,
+            ITweetinviSettingsAccessor tweetinviSettingsAccessor)
         {
             _tweetDTOFactory = tweetDTOFactory;
             _tweetUnityFactory = tweetUnityFactory;
@@ -31,30 +34,40 @@ namespace Tweetinvi.Factories.Tweet
             _mentionUnityFactory = mentionFactory;
             _oembedTweetUnityFactory = oembedTweetUnityFactory;
             _jsonObjectConverter = jsonObjectConverter;
+            _tweetinviSettingsAccessor = tweetinviSettingsAccessor;
         }
 
         // Get Tweet
-        public ITweet GetTweet(long tweetId)
+        public ITweet GetTweet(long tweetId, TweetMode? tweetMode = null)
         {
             var tweetDTO = _tweetDTOFactory.GetTweetDTO(tweetId);
-            return GenerateTweetFromDTO(tweetDTO);
+            return GenerateTweetFromDTO(tweetDTO, tweetMode);
         }
 
-        public IEnumerable<ITweet> GetTweets(IEnumerable<long> tweetIds)
+        public IEnumerable<ITweet> GetTweets(IEnumerable<long> tweetIds, TweetMode? tweetMode = null)
         {
             var tweetDTOs = _tweetDTOFactory.GetTweetDTOs(tweetIds);
             return GenerateTweetsFromDTO(tweetDTOs);
         }
 
         // Create Tweet
-        public ITweet CreateTweet(string text)
+
+        public ITweet GenerateTweetFromJson(string json)
+        {
+            return CreateTweet(json, null);
+        }
+
+        public ITweet CreateTweet(string text, TweetMode? tweetMode)
         {
             var tweetDTO = _tweetDTOFactory.CreateTweetDTO(text);
-            return GenerateTweetFromDTO(tweetDTO);
+
+            tweetMode = tweetMode ?? _tweetinviSettingsAccessor.CurrentThreadSettings.TweetMode ?? TweetMode.Compat;
+
+            return GenerateTweetFromDTO(tweetDTO, (TweetMode)tweetMode);
         }
 
         // Generate Tweet from Json
-        public ITweet GenerateTweetFromJson(string json)
+        public ITweet GenerateTweetFromJson(string json, TweetMode? tweetMode = null)
         {
             var tweetDTO = _jsonObjectConverter.DeserializeObject<ITweetDTO>(json);
             if (tweetDTO == null || tweetDTO.Id == TweetinviSettings.DEFAULT_ID)
@@ -62,19 +75,21 @@ namespace Tweetinvi.Factories.Tweet
                 return null;
             }
 
-            return GenerateTweetFromDTO(tweetDTO);
+            return GenerateTweetFromDTO(tweetDTO, tweetMode);
         }
 
         // Generate Tweet From DTO
-        public ITweet GenerateTweetFromDTO(ITweetDTO tweetDTO)
+        public ITweet GenerateTweetFromDTO(ITweetDTO tweetDTO, TweetMode? tweetMode = null)
         {
             if (tweetDTO == null)
             {
                 return null;
             }
 
-            var parameterOverride = _tweetUnityFactory.GenerateParameterOverrideWrapper("tweetDTO", tweetDTO);
-            var tweet = _tweetUnityFactory.Create(parameterOverride);
+            var tweetDTOParameter = _tweetUnityFactory.GenerateParameterOverrideWrapper("tweetDTO", tweetDTO);
+            var tweetModeParameter = _tweetUnityFactory.GenerateParameterOverrideWrapper("tweetMode", tweetMode ?? _tweetinviSettingsAccessor.CurrentThreadSettings.TweetMode);
+
+            var tweet = _tweetUnityFactory.Create(tweetDTOParameter, tweetModeParameter);
 
             return tweet;
         }
@@ -92,7 +107,7 @@ namespace Tweetinvi.Factories.Tweet
             return tweet;
         }
 
-        public IEnumerable<ITweet> GenerateTweetsFromDTO(IEnumerable<ITweetDTO> tweetsDTO)
+        public IEnumerable<ITweet> GenerateTweetsFromDTO(IEnumerable<ITweetDTO> tweetsDTO, TweetMode? tweetMode = null)
         {
             if (tweetsDTO == null)
             {
@@ -104,7 +119,7 @@ namespace Tweetinvi.Factories.Tweet
 
             for (int i = 0; i < tweetsDTOArray.Length; ++i)
             {
-                var tweet = GenerateTweetFromDTO(tweetsDTOArray[i]);
+                var tweet = GenerateTweetFromDTO(tweetsDTOArray[i], tweetMode);
                 if (tweet != null)
                 {
                     tweets.Add(tweet);

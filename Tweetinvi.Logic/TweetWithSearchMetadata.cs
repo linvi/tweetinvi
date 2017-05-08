@@ -1,4 +1,5 @@
-﻿using Tweetinvi.Core.Controllers;
+﻿using Tweetinvi.Core;
+using Tweetinvi.Core.Controllers;
 using Tweetinvi.Core.Factories;
 using Tweetinvi.Core.Helpers;
 using Tweetinvi.Models;
@@ -15,8 +16,9 @@ namespace Tweetinvi.Logic
             ITweetController tweetController, 
             ITweetFactory tweetFactory, 
             IUserFactory userFactory, 
-            ITaskFactory taskFactory) 
-            : base(tweetDTO, tweetController, tweetFactory, userFactory, taskFactory)
+            ITaskFactory taskFactory,
+            ITweetinviSettingsAccessor tweetinviSettingsAccessor) 
+            : base(tweetDTO, null, tweetController, tweetFactory, userFactory, taskFactory, tweetinviSettingsAccessor)
         {
             _tweetWithSearchMetadataDTO = tweetDTO;
         }

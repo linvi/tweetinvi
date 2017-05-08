@@ -1,6 +1,8 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Testinvi.Helpers;
-using Tweetinvi.Logic;
+using Tweetinvi;
+using Tweetinvi.Core.Injectinvi;
+using Tweet = Tweetinvi.Logic.Tweet;
 
 namespace Testinvi.Tweetinvi.Logic
 {
@@ -13,7 +15,7 @@ namespace Testinvi.Tweetinvi.Logic
         [TestInitialize]
         public void TestInitialize()
         {
-            _fakeBuilder = new FakeClassBuilder<Tweet>();
+            _fakeBuilder = new FakeClassBuilder<Tweet>("tweetMode");
         }
 
 
@@ -47,7 +49,7 @@ namespace Testinvi.Tweetinvi.Logic
 
         public Tweet CreateTweet()
         {
-            return _fakeBuilder.GenerateClass();
+            return _fakeBuilder.GenerateClass(new ConstructorNamedParameter("tweetMode", TweetMode.Extended));
         }
     }
 }

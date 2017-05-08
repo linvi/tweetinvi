@@ -74,7 +74,7 @@ namespace Tweetinvi.Streams
             {
                 RaiseJsonObjectReceived(json);
 
-                var tweet = _tweetFactory.GenerateTweetFromJson(json);
+                var tweet = _tweetFactory.GenerateTweetFromJson(json, TweetMode);
                 if (tweet == null)
                 {
                     TryInvokeGlobalStreamMessages(json);

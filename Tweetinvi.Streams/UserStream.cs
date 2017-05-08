@@ -267,7 +267,7 @@ namespace Tweetinvi.Streams
         {
             try
             {
-                var tweet = _tweetFactory.GenerateTweetFromJson(jsonTweet);
+                var tweet = _tweetFactory.GenerateTweetFromJson(jsonTweet, TweetMode);
                 if (!TryRaiseTweetEvent(tweet, jsonTweet))
                 {
                     return false;
@@ -616,7 +616,7 @@ namespace Tweetinvi.Streams
         private ITweet GetTweet(JObject tweetEvent)
         {
             var jsonTweet = tweetEvent["target_object"].ToString();
-            return _tweetFactory.GenerateTweetFromJson(jsonTweet);
+            return _tweetFactory.GenerateTweetFromJson(jsonTweet, TweetMode);
         }
 
         #endregion

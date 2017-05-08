@@ -37,5 +37,10 @@ namespace Tweetinvi.Logic.TwitterEntities
 
             return Indices.ContainsSameObjectsAs(other.Indices, true);
         }
+
+        public override string ToString()
+        {
+            return URL;
+        }
     }
 }

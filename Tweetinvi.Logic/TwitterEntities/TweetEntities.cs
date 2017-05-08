@@ -1,7 +1,5 @@
 ﻿using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
-using Tweetinvi.Core.Extensions;
 using Tweetinvi.Models.DTO;
 using Tweetinvi.Models.Entities;
 
@@ -11,81 +9,48 @@ namespace Tweetinvi.Logic.TwitterEntities
     {
         private readonly ITweetDTO _tweetDTO;
 
-        public TweetEntities(ITweetDTO tweetDTO)
+        public TweetEntities(ITweetDTO tweetDTO, TweetMode tweetMode)
         {
             _tweetDTO = tweetDTO;
 
-            InitializeEntities();
+            InitializeEntities(tweetMode);
         }
 
-        private void InitializeEntities()
+        private void InitializeEntities(TweetMode tweetMode)
         {
-            bool useExtendedTweetEntities = _tweetDTO?.ExtendedTweet != null;
+            // NOTE: The STREAMING API and REST API does not provide the same JSON structure based on the TweetMode used.
+            // 
+            // * STREAMING API : Adds a new ExtendedTweet regardless of the TweetMode. To have some consistency with the REST API,
+            //   we decided that in COMPAT mode, the Entities will be restricted to what is available in the REST API.
+            // * REST API : Adds FullText and additional properties if the TweetMode is extended.
 
-            if (useExtendedTweetEntities)
+            bool isTweetComingFromStreamingAPI = _tweetDTO?.ExtendedTweet != null;
+            bool useStreamingApiExtendedTweetForEntities = tweetMode == TweetMode.Extended && isTweetComingFromStreamingAPI;
+
+            // Get the entities and extended_entities for whichever Tweet DTO we're using
+            var entities = useStreamingApiExtendedTweetForEntities ? _tweetDTO.ExtendedTweet.LegacyEntities : _tweetDTO?.LegacyEntities;
+            var extendedEntities = useStreamingApiExtendedTweetForEntities ? _tweetDTO.ExtendedTweet.ExtendedEntities : _tweetDTO?.Entities;
+
+            // Populate for each type of entity.
+
+            _urls = entities?.Urls;
+            _userMentions = entities?.UserMentions;
+            _hashtags = entities?.Hashtags;
+            _symbols = entities?.Symbols;
+
+            // Media can also be in the extended_entities field. https://dev.twitter.com/overview/api/entities-in-twitter-objects#extended_entities
+            // If that's populated, we must use it instead or risk missing media
+            _medias = extendedEntities?.Medias ?? entities?.Medias ?? new List<IMediaEntity>();
+
+            // If this is a retweet, it's also now possible for an entity to get cut off of the end of the tweet entirely.
+            // If the same Tweet is fetched over the REST API, these entities get excluded, so lets do the same.
+            if (_tweetDTO?.RetweetedTweetDTO != null)
             {
-                // URLS
-                var allUrls = new List<IUrlEntity>().SafeConcat
-                (
-                    _tweetDTO?.ExtendedTweet?.LegacyEntities?.Urls,
-                    _tweetDTO?.ExtendedTweet?.ExtendedEntities?.Urls
-                );
-
-                _urls = new List<IUrlEntity>(allUrls.Distinct((x, y) => x.Equals(y)));
-
-                // USER MENTIONS
-                var allUserMentions = new List<IUserMentionEntity>().SafeConcat
-                (
-                    _tweetDTO?.ExtendedTweet?.LegacyEntities?.UserMentions,
-                    _tweetDTO?.ExtendedTweet?.ExtendedEntities?.UserMentions
-                );
-
-                _userMentions = new List<IUserMentionEntity>(allUserMentions.Distinct((x, y) => x.Equals(y)));
-
-                // HASHTAGS
-                var allHashtags = new List<IHashtagEntity>().SafeConcat
-                (
-                    _tweetDTO?.ExtendedTweet?.LegacyEntities?.Hashtags,
-                    _tweetDTO?.ExtendedTweet?.ExtendedEntities?.Hashtags
-                );
-
-                _hashtags = new List<IHashtagEntity>(allHashtags.Distinct((x, y) => x.Equals(y)));
-                
-                // SYMBOLS
-                var allSymbols = _tweetDTOEntities.Symbols.SafeConcat
-                (
-                    _tweetDTOLegacyEntities.Symbols,
-                    _tweetDTO?.ExtendedTweet?.LegacyEntities?.Symbols,
-                    _tweetDTO?.ExtendedTweet?.ExtendedEntities?.Symbols
-                );
-
-                _symbols = new List<ISymbolEntity>(allSymbols.Distinct((x, y) => x.Equals(y)));
-
-                // MEDIAS
-                var allMedias = new List<IMediaEntity>().SafeConcat
-                (
-                    _tweetDTO?.ExtendedTweet?.LegacyEntities?.Medias,
-                    _tweetDTO?.ExtendedTweet?.ExtendedEntities?.Medias
-                );
-
-                _medias = new List<IMediaEntity>(allMedias.Distinct((x, y) => x.Equals(y)));
-            }
-            else
-            {
-                var allURLs = _tweetDTOEntities.Urls.SafeConcat(_tweetDTOLegacyEntities.Urls);
-                _urls = new List<IUrlEntity>(allURLs.Distinct((x, y) => x.Equals(y)));
-
-                var allUserMentions = _tweetDTOEntities.UserMentions.SafeConcat(_tweetDTOLegacyEntities.UserMentions);
-                _userMentions = new List<IUserMentionEntity>(allUserMentions.Distinct((x, y) => x.Equals(y)));
-
-                var allHashtags = _tweetDTOEntities.Hashtags.SafeConcat(_tweetDTOLegacyEntities.Hashtags);
-                _hashtags = new List<IHashtagEntity>(allHashtags.Distinct((x, y) => x.Equals(y)));
-
-                var allSymbols = _tweetDTOEntities.Symbols.SafeConcat(_tweetDTOLegacyEntities.Symbols);
-                _symbols = new List<ISymbolEntity>(allSymbols.Distinct((x, y) => x.Equals(y)));
-
-                var allMedias = _tweetDTOEntities.Medias.SafeConcat(_tweetDTOLegacyEntities.Medias);
-                _medias = new List<IMediaEntity>(allMedias.Distinct((x, y) => x.Equals(y)));
+                _urls = _urls?.Where(e => e.Indices[0] != e.Indices[1]).ToList();
+                _userMentions = _userMentions?.Where(e => e.Indices[0] != e.Indices[1]).ToList();
+                _hashtags = _hashtags?.Where(e => e.Indices[0] != e.Indices[1]).ToList();
+                _symbols = _symbols?.Where(e => e.Indices[0] != e.Indices[1]).ToList();
+                _medias = _medias?.Where(e => e.Indices[0] != e.Indices[1]).ToList();
             }
         }
 

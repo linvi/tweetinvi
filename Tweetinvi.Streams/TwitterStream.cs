@@ -60,6 +60,21 @@ namespace Tweetinvi.Streams
             }
         }
 
+        private TweetMode _tweetMode;
+        public TweetMode TweetMode
+        {
+            get { return _tweetMode; }
+            set
+            {
+                if (StreamState != StreamState.Stop)
+                {
+                    throw new InvalidOperationException("TweetMode cannot be changed while the stream is running.");
+                }
+
+                _tweetMode = value;
+            }
+        }
+
         private void InitializeStreamEventsActions()
         {
             _streamEventsActions.Add("delete", TryRaiseTweetDeleted);

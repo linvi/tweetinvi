@@ -1,4 +1,5 @@
-﻿using Tweetinvi.Core.Controllers;
+﻿using Tweetinvi.Core;
+using Tweetinvi.Core.Controllers;
 using Tweetinvi.Core.Factories;
 using Tweetinvi.Core.Helpers;
 using Tweetinvi.Models;
@@ -13,13 +14,16 @@ namespace Tweetinvi.Logic
             ITweetController tweetController,
             ITweetFactory tweetFactory,
             IUserFactory userFactory,
-            ITaskFactory taskFactory) 
-                
+            ITaskFactory taskFactory,
+            ITweetinviSettingsAccessor tweetinviSettingsAccessor)
+
                 : base(tweetDTO,
+                       null,
                        tweetController,
                        tweetFactory,
                        userFactory,
-                       taskFactory)
+                       taskFactory,
+                       tweetinviSettingsAccessor)
         {
             // Default constructor inheriting from the default Tweet constructor
         }

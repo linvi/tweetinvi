@@ -84,7 +84,7 @@ namespace Testinvi.TweetinviControllers.TimelineTests
             var controller = CreateTimelineController();
 
             _fakeTimelineQueryExecutor.CallsTo(x => x.GetHomeTimeline(_fakeHomeTimelineParameters)).Returns(_resultDTO);
-            _fakeTweetFactory.CallsTo(x => x.GenerateTweetsFromDTO(_resultDTO)).Returns(_result);
+            _fakeTweetFactory.CallsTo(x => x.GenerateTweetsFromDTO(_resultDTO, null)).Returns(_result);
 
             // Act
             var result = controller.GetHomeTimeline(_fakeHomeTimelineParameters);
@@ -104,7 +104,7 @@ namespace Testinvi.TweetinviControllers.TimelineTests
             var controller = CreateTimelineController();
 
             _fakeTimelineQueryExecutor.CallsTo(x => x.GetUserTimeline(_fakeUserTimelineQueryParameters)).Returns(_resultDTO);
-            _fakeTweetFactory.CallsTo(x => x.GenerateTweetsFromDTO(_resultDTO)).Returns(_result);
+            _fakeTweetFactory.CallsTo(x => x.GenerateTweetsFromDTO(_resultDTO, null)).Returns(_result);
 
             // Act
             var result = controller.GetUserTimeline(_fakeUser, _maximuNumberOfTweets);
@@ -120,7 +120,7 @@ namespace Testinvi.TweetinviControllers.TimelineTests
             var controller = CreateTimelineController();
 
             _fakeTimelineQueryExecutor.CallsTo(x => x.GetUserTimeline(_fakeUserTimelineQueryParameters)).Returns(_resultDTO);
-            _fakeTweetFactory.CallsTo(x => x.GenerateTweetsFromDTO(_resultDTO)).Returns(_result);
+            _fakeTweetFactory.CallsTo(x => x.GenerateTweetsFromDTO(_resultDTO, null)).Returns(_result);
 
             // Act
             var result = controller.GetUserTimeline(_fakeUserDTO, _maximuNumberOfTweets);
@@ -136,7 +136,7 @@ namespace Testinvi.TweetinviControllers.TimelineTests
             var controller = CreateTimelineController();
 
             _fakeTimelineQueryExecutor.CallsTo(x => x.GetUserTimeline(_fakeUserTimelineQueryParameters)).Returns(_resultDTO);
-            _fakeTweetFactory.CallsTo(x => x.GenerateTweetsFromDTO(_resultDTO)).Returns(_result);
+            _fakeTweetFactory.CallsTo(x => x.GenerateTweetsFromDTO(_resultDTO, null)).Returns(_result);
 
             // Act
             var result = controller.GetUserTimeline(_userName, _maximuNumberOfTweets);
@@ -152,7 +152,7 @@ namespace Testinvi.TweetinviControllers.TimelineTests
             var controller = CreateTimelineController();
 
             _fakeTimelineQueryExecutor.CallsTo(x => x.GetUserTimeline(_fakeUserTimelineQueryParameters)).Returns(_resultDTO);
-            _fakeTweetFactory.CallsTo(x => x.GenerateTweetsFromDTO(_resultDTO)).Returns(_result);
+            _fakeTweetFactory.CallsTo(x => x.GenerateTweetsFromDTO(_resultDTO, null)).Returns(_result);
 
             // Act
             var result = controller.GetUserTimeline(_userId, _maximuNumberOfTweets);

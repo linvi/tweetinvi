@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Net.Http;
 using Tweetinvi.Core.Web;
 using Tweetinvi.Models;
 using HttpMethod = Tweetinvi.Models.HttpMethod;
