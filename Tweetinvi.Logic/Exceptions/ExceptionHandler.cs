@@ -7,6 +7,7 @@ using Tweetinvi.Core.Exceptions;
 using Tweetinvi.Core.Web;
 using Tweetinvi.Events;
 using Tweetinvi.Exceptions;
+using Tweetinvi.Models;
 
 namespace Tweetinvi.Logic.Exceptions
 {
@@ -52,9 +53,9 @@ namespace Tweetinvi.Logic.Exceptions
             }
         }
 
-        public TwitterException AddWebException(WebException webException, string url)
+        public TwitterException AddWebException(WebException webException, string url, ITwitterCredentials credentials)
         {
-            var twitterException = GenerateTwitterException(webException, url);
+            var twitterException = GenerateTwitterException(webException, url, credentials);
 
             AddTwitterException(twitterException);
 
@@ -62,9 +63,10 @@ namespace Tweetinvi.Logic.Exceptions
             return twitterException;
         }
 
-        public TwitterException TryLogWebException(WebException webException, string url)
+        public TwitterException TryLogWebException(WebException webException, string url,
+            ITwitterCredentials credentials)
         {
-            var twitterException = GenerateTwitterException(webException, url);
+            var twitterException = GenerateTwitterException(webException, url, credentials);
 
             if (LogExceptions)
             {
@@ -74,9 +76,10 @@ namespace Tweetinvi.Logic.Exceptions
             return twitterException;
         }
 
-        public TwitterException TryLogExceptionInfos(ITwitterExceptionInfo[] exceptionInfos, string url)
+        public TwitterException TryLogExceptionInfos(ITwitterExceptionInfo[] exceptionInfos, string url,
+            ITwitterCredentials credentials)
         {
-            var twitterException = _twitterExceptionFactory.Create(exceptionInfos, url);
+            var twitterException = _twitterExceptionFactory.Create(exceptionInfos, url, credentials);
 
             if (LogExceptions)
             {
@@ -86,18 +89,20 @@ namespace Tweetinvi.Logic.Exceptions
             return twitterException;
         }
 
-        public TwitterException AddFailedWebRequestResult(IWebRequestResult webRequestResult)
+        public TwitterException AddFailedWebRequestResult(IWebRequestResult webRequestResult,
+            ITwitterCredentials credentials)
         {
-            var twitterException = GenerateTwitterException(webRequestResult);
+            var twitterException = GenerateTwitterException(webRequestResult, credentials);
 
             AddTwitterException(twitterException);
             
             return twitterException;
         }
 
-        public TwitterException TryLogFailedWebRequestResult(IWebRequestResult webRequestResult)
+        public TwitterException TryLogFailedWebRequestResult(IWebRequestResult webRequestResult,
+            ITwitterCredentials credentials)
         {
-            var twitterException = GenerateTwitterException(webRequestResult);
+            var twitterException = GenerateTwitterException(webRequestResult, credentials);
 
             if (LogExceptions)
             {
@@ -107,19 +112,22 @@ namespace Tweetinvi.Logic.Exceptions
             return twitterException;
         }
 
-        public TwitterException GenerateTwitterException(ITwitterExceptionInfo[] exceptionInfos, string url)
+        public TwitterException GenerateTwitterException(ITwitterExceptionInfo[] exceptionInfos, string url,
+            ITwitterCredentials credentials)
         {
-            return _twitterExceptionFactory.Create(exceptionInfos, url);
+            return _twitterExceptionFactory.Create(exceptionInfos, url, credentials);
         }
 
-        public TwitterException GenerateTwitterException(WebException webException, string url)
+        public TwitterException GenerateTwitterException(WebException webException, string url,
+            ITwitterCredentials credentials)
         {
-            return _twitterExceptionFactory.Create(webException, url);
+            return _twitterExceptionFactory.Create(webException, url, credentials);
         }
 
-        public TwitterException GenerateTwitterException(IWebRequestResult webRequestResult)
+        public TwitterException GenerateTwitterException(IWebRequestResult webRequestResult,
+            ITwitterCredentials credentials)
         {
-            return _twitterExceptionFactory.Create(webRequestResult);
+            return _twitterExceptionFactory.Create(webRequestResult, credentials);
         }
 
         public void AddTwitterException(ITwitterException twitterException)

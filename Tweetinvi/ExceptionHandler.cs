@@ -6,6 +6,7 @@ using System.Text;
 using Tweetinvi.Core.Exceptions;
 using Tweetinvi.Events;
 using Tweetinvi.Exceptions;
+using Tweetinvi.Models;
 
 namespace Tweetinvi
 {
@@ -89,9 +90,10 @@ namespace Tweetinvi
         /// <summary>
         /// Ask for the ExceptionHandler to handle an Exception.
         /// </summary>
-        public static TwitterException AddWebException(WebException webException, string url)
+        public static TwitterException AddWebException(WebException webException, string url,
+            ITwitterCredentials credentials)
         {
-            return CurrentThreadExceptionHandler.AddWebException(webException, url);
+            return CurrentThreadExceptionHandler.AddWebException(webException, url, credentials);
         }
 
         /// <summary>
@@ -113,9 +115,10 @@ namespace Tweetinvi
         /// <summary>
         /// Returns a TwitterException from a WebException.
         /// </summary>
-        public static ITwitterException GenerateTwitterException(WebException webException, string url)
+        public static ITwitterException GenerateTwitterException(WebException webException, string url,
+            ITwitterCredentials credentials)
         {
-            return CurrentThreadExceptionHandler.GenerateTwitterException(webException, url);
+            return CurrentThreadExceptionHandler.GenerateTwitterException(webException, url, credentials);
         }
 
         /// <summary>

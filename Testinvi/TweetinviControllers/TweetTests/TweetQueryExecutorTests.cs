@@ -40,13 +40,16 @@ namespace Testinvi.TweetinviControllers.TweetTests
 
             var fakeWebExceptionInfoExtractor = A.Fake<IWebExceptionInfoExtractor>();
 
+            var credentials = new TwitterCredentials(TestHelper.GenerateString(), TestHelper.GenerateString(),
+                TestHelper.GenerateString(), TestHelper.GenerateString());
+
             var twitter139ExceptionInfos = new TwitterExceptionInfo { Code = 139 };
             fakeWebExceptionInfoExtractor.CallsTo(x => x.GetTwitterExceptionInfo(It.IsAny<WebException>())).Returns(new[] { twitter139ExceptionInfos });
-            _fake139TwitterException = new TwitterException(fakeWebExceptionInfoExtractor, new WebException(), TestHelper.GenerateString());
+            _fake139TwitterException = new TwitterException(fakeWebExceptionInfoExtractor, new WebException(), TestHelper.GenerateString(), credentials);
 
             var twitterOtherExceptionInfos = new TwitterExceptionInfo { Code = 1 };
             fakeWebExceptionInfoExtractor.CallsTo(x => x.GetTwitterExceptionInfo(It.IsAny<WebException>())).Returns(new[] { twitterOtherExceptionInfos });
-            _fakeOtherTwitterException = new TwitterException(fakeWebExceptionInfoExtractor, new WebException(), TestHelper.GenerateString());
+            _fakeOtherTwitterException = new TwitterException(fakeWebExceptionInfoExtractor, new WebException(), TestHelper.GenerateString(), credentials);
 
             _cursorQueryIds = new List<long>();
         }

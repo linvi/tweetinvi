@@ -130,7 +130,7 @@ namespace Tweetinvi.Credentials
                 var errorsObject = jobject["errors"];
                 var errors = _jObjectStaticWrapper.ToObject<ITwitterExceptionInfo[]>(errorsObject);
 
-                _exceptionHandler.TryLogExceptionInfos(errors, url);
+                _exceptionHandler.TryLogExceptionInfos(errors, url, credentials);
             }
             catch (Exception)
             {
