@@ -28,9 +28,15 @@ namespace Tweetinvi.WebLogic
             get { return _timeout; }
             set
             {
-                if (value.TotalMilliseconds <= 0)
+                if ((int)value.TotalMilliseconds == 0) // Default
                 {
                     _timeout = TimeSpan.FromSeconds(10);
+                    return;
+                }
+
+                if (value.TotalMilliseconds < 0) // Infinite
+                {
+                    _timeout = TimeSpan.FromMilliseconds(System.Threading.Timeout.Infinite);
                     return;
                 }
 
