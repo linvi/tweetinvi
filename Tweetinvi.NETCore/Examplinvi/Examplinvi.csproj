@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <VersionPrefix>1.3.0.0</VersionPrefix>
+    <TargetFramework>netcoreapp1.0</TargetFramework>
+    <AssemblyName>Examplinvi</AssemblyName>
+    <OutputType>Exe</OutputType>
+    <PackageId>Examplinvi</PackageId>
+    <RuntimeFrameworkVersion>1.0.4</RuntimeFrameworkVersion>
+    <PackageTargetFallback>$(PackageTargetFallback);dnxcore50</PackageTargetFallback>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Tweetinvi\Tweetinvi.csproj" />
+  </ItemGroup>
+
+  <PropertyGroup Condition=" '$(TargetFramework)' == 'netcoreapp1.0' ">
+    <DefineConstants>$(DefineConstants);NET_CORE</DefineConstants>
+  </PropertyGroup>
+
+  <ItemGroup Condition=" '$(TargetFramework)' == 'netcoreapp1.0' ">
+    <Compile Include="..\..\Examplinvi\Program.cs" />
+  </ItemGroup>
+
+</Project>
