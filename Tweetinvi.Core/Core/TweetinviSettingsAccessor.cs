@@ -21,7 +21,7 @@ namespace Tweetinvi.Core
         /// <summary>
         /// Proxy URL used by the current thread.
         /// </summary>
-        string ProxyURL { get; set; }
+        IProxyConfig ProxyConfig { get; set; }
 
         /// <summary>
         /// Http requests timeout in the current thread.
@@ -101,10 +101,10 @@ namespace Tweetinvi.Core
             return StaticTweetinviSettings != null;
         }
 
-        public string ProxyURL
+        public IProxyConfig ProxyConfig
         {
-            get { return CurrentThreadSettings.ProxyURL; }
-            set { CurrentThreadSettings.ProxyURL = value; }
+            get { return CurrentThreadSettings.ProxyConfig; }
+            set { CurrentThreadSettings.ProxyConfig = value; }
         }
 
         public int HttpRequestTimeout

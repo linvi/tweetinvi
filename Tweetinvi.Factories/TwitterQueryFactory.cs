@@ -30,7 +30,7 @@ namespace Tweetinvi.Factories
 
             var twitterQuery = _twitterQueryFactory.Create(queryURLParameter, httpMethodParameter);
 
-            twitterQuery.Proxy = _tweetinviSettingsAccessor.ProxyURL;
+            twitterQuery.ProxyConfig = _tweetinviSettingsAccessor.ProxyConfig;
             twitterQuery.Timeout = TimeSpan.FromMilliseconds(_tweetinviSettingsAccessor.HttpRequestTimeout);
 
             if (withThreadCredentials)

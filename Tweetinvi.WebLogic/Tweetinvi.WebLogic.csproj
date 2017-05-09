@@ -62,8 +62,6 @@
     <Compile Include="TwitterRequestHandler.cs" />
     <Compile Include="TwitterRequestParameters.cs" />
     <Compile Include="Utils\HttpMethodExtensions.cs" />
-    <Compile Include="Utils\WebProxy.cs" />
-    <Compile Include="WebProxyFactory.cs" />
     <Compile Include="WebRequestExecutor.cs" />
     <Compile Include="OAuthWebRequestGenerator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

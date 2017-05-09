@@ -63,6 +63,7 @@
     <Compile Include="Public\Models\Enum\ProcessingState.cs" />
     <Compile Include="Public\Models\Enum\SearchResultType.cs" />
     <Compile Include="Public\Models\Interfaces\ITwitterRequestParameters.cs" />
+    <Compile Include="Public\Settings\ProxyConfig.cs" />
     <Compile Include="Public\Streaming\StreamState.cs" />
     <Compile Include="Public\Models\Enum\TimeZoneFromTwitter.cs" />
     <Compile Include="Core\Attributes\WindowsTimeZone.cs" />
@@ -254,7 +255,7 @@
     <Compile Include="Core\RateLimit\IRateLimitCacheManager.cs" />
     <Compile Include="Core\RateLimit\IRateLimitHelper.cs" />
     <Compile Include="Core\RateLimit\IRateLimitUpdater.cs" />
-    <Compile Include="Public\TweetinviSettings.cs" />
+    <Compile Include="Public\Settings\TweetinviSettings.cs" />
     <Compile Include="Public\Models\Interfaces\ITwitterList.cs" />
     <Compile Include="Public\Models\Interfaces\ITweetWithSearchMetadata.cs" />
     <Compile Include="Public\Models\Entities\IDescriptionEntity.cs" />
@@ -324,7 +325,6 @@
     <Compile Include="Core\Web\ChunkUploadInitParameters.cs" />
     <Compile Include="Core\Web\HttpRequestParameters.cs" />
     <Compile Include="Core\Web\ITwitterClientHandler.cs" />
-    <Compile Include="Core\Web\IWebProxyFactory.cs" />
     <Compile Include="Core\Web\MultipartHttpRequestParameters.cs" />
     <Compile Include="Core\Wrappers\IJConvertWrapper.cs" />
     <Compile Include="Core\Wrappers\IJObjectStaticWrapper.cs" />

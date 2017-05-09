@@ -20,7 +20,7 @@ namespace Tweetinvi.WebLogic
             };
         }
 
-        public string Proxy { get; set; }
+        public IProxyConfig ProxyConfig { get; set; }
 
         private TimeSpan _timeout;
         public TimeSpan Timeout

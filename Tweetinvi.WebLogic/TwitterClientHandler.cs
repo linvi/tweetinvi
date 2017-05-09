@@ -14,7 +14,6 @@ namespace Tweetinvi.WebLogic
     {
         private readonly Action<ITwitterQuery, HttpRequestMessage> _action;
         private readonly Func<ITwitterQuery, HttpRequestMessage, string> _func;
-        private readonly IWebProxyFactory _webProxyFactory;
         protected readonly IOAuthWebRequestGenerator _webRequestGenerator;
 
         private ITwitterQuery _twitterQuery;
@@ -24,9 +23,7 @@ namespace Tweetinvi.WebLogic
             UseCookies = false;
             UseDefaultCredentials = false;
 
-
             _webRequestGenerator = TweetinviCoreModule.TweetinviContainer.Resolve<IOAuthWebRequestGenerator>();
-            _webProxyFactory = TweetinviCoreModule.TweetinviContainer.Resolve<IWebProxyFactory>();
         }
 
         public TwitterClientHandler(Action<ITwitterQuery, HttpRequestMessage> action)
@@ -50,7 +47,7 @@ namespace Tweetinvi.WebLogic
 
                 if (value != null)
                 {
-                    Proxy = _webProxyFactory.GetProxy(value.Proxy);
+                    Proxy = value.ProxyConfig;
 
                     if (Proxy != null)
                     {

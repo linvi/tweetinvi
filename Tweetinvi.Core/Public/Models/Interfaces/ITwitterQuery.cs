@@ -28,7 +28,7 @@ namespace Tweetinvi.Models
         /// <summary>
         /// Proxy used to perform the query
         /// </summary>
-        string Proxy { get; set; }
+        IProxyConfig ProxyConfig { get; set; }
 
         /// <summary>
         /// Duration after which the query is considered as having failed.

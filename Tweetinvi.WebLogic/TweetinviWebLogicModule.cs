@@ -31,7 +31,6 @@ namespace Tweetinvi.WebLogic
             _container.RegisterType<IWebHelper, WebHelper>(RegistrationLifetime.InstancePerApplication);
             _container.RegisterType<IHttpClientWebHelper, HttpClientWebHelper>();
             _container.RegisterType<IWebRequestResult, WebRequestResult>();
-            _container.RegisterType<IWebProxyFactory, WebProxyFactory>(RegistrationLifetime.InstancePerApplication);
 
             _container.RegisterType<ITwitterQuery, TwitterQuery>();
         }

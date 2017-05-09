@@ -38,9 +38,9 @@ namespace Tweetinvi
     public interface ITweetinviSettings
     {
         /// <summary>
-        /// Proxy URL used to execute Http Requests.
+        /// Proxy used to execute Http Requests.
         /// </summary>
-        string ProxyURL { get; set; }
+        IProxyConfig ProxyConfig { get; set; }
 
         /// <summary>
         /// Http Requests Timeout duration in milliseconds.
@@ -83,7 +83,7 @@ namespace Tweetinvi
     {
         public const long DEFAULT_ID = -1;
 
-        public string ProxyURL { get; set; }
+        public IProxyConfig ProxyConfig { get; set; }
         public int HttpRequestTimeout { get; set; }
         public RateLimitTrackerMode RateLimitTrackerMode { get; set; }
         public TweetMode? TweetMode { get; set; }
@@ -99,7 +99,7 @@ namespace Tweetinvi
         {
             var clone = new TweetinviSettings();
 
-            clone.ProxyURL = ProxyURL;
+            clone.ProxyConfig = ProxyConfig == null || ProxyConfig.Address == null ? null : new ProxyConfig(ProxyConfig);
             clone.HttpRequestTimeout = HttpRequestTimeout;
             clone.UploadTimeout = UploadTimeout;
             clone.RateLimitTrackerMode = RateLimitTrackerMode;
@@ -111,7 +111,7 @@ namespace Tweetinvi
 
         public void InitialiseFrom(ITweetinviSettings other)
         {
-            ProxyURL = other.ProxyURL;
+            ProxyConfig = other.ProxyConfig;
             HttpRequestTimeout = other.HttpRequestTimeout;
             UploadTimeout = other.UploadTimeout;
             RateLimitTrackerMode = other.RateLimitTrackerMode;
