@@ -23,7 +23,7 @@ namespace Tweetinvi.Logic.Exceptions
             _twitterExceptionInfoUnityFactory = twitterExceptionInfoUnityFactory;
         }
 
-        public int GetWebExceptionStatusNumber(WebException wex)
+        public int GetWebExceptionStatusNumber(WebException wex, int defaultCode)
         {
             var wexResponse = wex.Response as HttpWebResponse;
             if (wexResponse != null)
@@ -31,7 +31,7 @@ namespace Tweetinvi.Logic.Exceptions
                 return (int)wexResponse.StatusCode;
             }
 
-            return -1;
+            return defaultCode;
         }
 
         public string GetStatusCodeDescription(int statusCode)
