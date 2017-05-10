@@ -91,6 +91,11 @@ namespace Tweetinvi.Streams
             add { _streamResultGenerator.StreamStopped += value; }
             remove { _streamResultGenerator.StreamStopped -= value; }
         }
+        public event EventHandler KeepAliveReceived
+        {
+            add { _streamResultGenerator.KeepAliveReceived += value; }
+            remove { _streamResultGenerator.KeepAliveReceived -= value; }
+        }
 
         public event EventHandler<TweetDeletedEventArgs> TweetDeleted;
         public event EventHandler<TweetLocationDeletedEventArgs> TweetLocationInfoRemoved;

@@ -33,6 +33,12 @@ namespace Tweetinvi.Core.Streaming
         event EventHandler<StreamExceptionEventArgs> StreamStopped;
 
         /// <summary>
+        /// A keep-alive message has been received.
+        /// Twitter sends these every 30s so we know the stream's still working.
+        /// </summary>
+        event EventHandler KeepAliveReceived;
+
+        /// <summary>
         /// Get the current state of the stream analysis
         /// </summary>
         StreamState StreamState { get; }
