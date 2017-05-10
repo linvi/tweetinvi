@@ -21,6 +21,7 @@ namespace Tweetinvi.Streams.Helpers
         public event EventHandler StreamResumed;
         public event EventHandler StreamPaused;
         public event EventHandler<StreamExceptionEventArgs> StreamStopped;
+        public event EventHandler KeepAliveReceived;
 
         private IStreamTask _currentStreamTask;
         private readonly IFactory<IStreamTask> _streamTaskFactory;
@@ -84,6 +85,7 @@ namespace Tweetinvi.Streams.Helpers
                 _currentStreamTask = streamTask;
                 _currentStreamTask.StreamStarted += StreamTaskStarted;
                 _currentStreamTask.StreamStateChanged += StreamTaskStateChanged;
+                _currentStreamTask.KeepAliveReceived += KeepAliveReceived;
             }
 #if NET_CORE
             await Task.Run(() =>
@@ -190,6 +192,7 @@ namespace Tweetinvi.Streams.Helpers
             {
                 streamTask.StreamStarted -= StreamTaskStarted;
                 streamTask.StreamStateChanged -= StreamTaskStateChanged;
+                streamTask.KeepAliveReceived -= KeepAliveReceived;
                 streamTask.Stop();
 
                 if (_currentStreamTask == streamTask)
