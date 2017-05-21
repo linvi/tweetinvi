@@ -21,6 +21,7 @@ namespace Tweetinvi.Streams
     {
         event EventHandler StreamStarted;
         event EventHandler<GenericEventArgs<StreamState>> StreamStateChanged;
+        event EventHandler KeepAliveReceived;
 
         StreamState StreamState { get; }
         Exception LastException { get; }
@@ -35,6 +36,7 @@ namespace Tweetinvi.Streams
     {
         public event EventHandler StreamStarted;
         public event EventHandler<GenericEventArgs<StreamState>> StreamStateChanged;
+        public event EventHandler KeepAliveReceived;
 
         // https://dev.twitter.com/streaming/overview/connecting#stalls
         private const int STREAM_DISCONNECTED_DELAY = 90000;
@@ -122,6 +124,7 @@ namespace Tweetinvi.Streams
                     {
                         if (json == string.Empty)
                         {
+                            this.Raise(KeepAliveReceived);
                             continue;
                         }
 
