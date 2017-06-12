@@ -1,12 +1,13 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard1.4</TargetFramework>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp1.1</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Tweetinvi.Core\Tweetinvi.Core.csproj" />
-    <ProjectReference Include="..\Tweetinvi.Security\Tweetinvi.Security.csproj" />
+    <ProjectReference Include="..\Tweetinvi\Tweetinvi.csproj" />
   </ItemGroup>
 
 </Project>

@@ -13,11 +13,7 @@ namespace Tweetinvi.Core.Helpers
         {
             if (milliseconds > 0)
             {
-#if NET_CORE
                 Task.Delay(milliseconds).Wait();
-#else
-                TaskEx.Delay(milliseconds).Wait();
-#endif
             }
         }
     }
