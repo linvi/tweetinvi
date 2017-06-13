@@ -1,7 +1,11 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard1.4</TargetFramework>
+    <VersionPrefix>2.0.0.0</VersionPrefix>
+    <Copyright>Tweetinvi 2017</Copyright>
+    <SignAssembly>True</SignAssembly>
+    <AssemblyOriginatorKeyFile>..\tweetinvi.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
 
 </Project>
