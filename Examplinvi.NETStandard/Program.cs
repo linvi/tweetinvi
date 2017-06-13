@@ -1,7 +1,7 @@
 ﻿using System;
 using Tweetinvi;
 
-namespace Examplinvi.Standard
+namespace Examplinvi.NETStandard
 {
     class Program
     {
