@@ -2,7 +2,7 @@
 
 namespace Tweetinvi.Controllers.Properties
 {
-    internal static class Resources
+    public static class Resources
     {
         /// <summary>
         ///   Looks up a localized string similar to https://api.twitter.com/1.1/users/suggestions.json?{0}.
