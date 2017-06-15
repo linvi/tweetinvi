@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard1.4</TargetFramework>
+    <TargetFramework>netstandard1.3</TargetFramework>
     <VersionPrefix>2.0.0.0</VersionPrefix>
     <Copyright>Tweetinvi 2017</Copyright>
   </PropertyGroup>
