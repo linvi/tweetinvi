@@ -69,6 +69,8 @@ namespace Tweetinvi
             {
                 await _taskFactory.ExecuteTaskAsync(operationRunWithSpecificCredentials);
             });
+
+            await Task.CompletedTask;
         }
 
         // ALERT : THIS CODE IS AWESOME :D

@@ -441,7 +441,7 @@ namespace Tweetinvi.Logic
             return await _taskFactory.ExecuteTaskAsync(() => GetFollowers(maxFriendsToRetrieve));
         }
 
-        public async Task<IRelationshipDetails> GetRelationshipWithAsync(IUserIdentifier user)
+        public virtual async Task<IRelationshipDetails> GetRelationshipWithAsync(IUserIdentifier user)
         {
             return await _taskFactory.ExecuteTaskAsync(() => GetRelationshipWith(user));
         }
