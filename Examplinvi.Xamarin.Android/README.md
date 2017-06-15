@@ -1,4 +1,13 @@
-﻿# Debug issue
+﻿# Tweetinvi - Xamarin for Android
+
+This is a very simple Android application that uses Tweetinvi to access the `AuthenticatedUser` and his `Timeline`.
+
+To start working on this project please open the file `MainActivity.cs` and simply enter your credentials at the line:
+
+`Auth.SetUserCredentials("CONSUMER_KEY", "CONSUMER_SECRET", "ACCESS_TOKEN", "ACCESS_TOKEN_SECRET");`
+
+
+## Debug issue
 
 If you have problem debugging the application on a virtual device please do the following:
 
@@ -10,7 +19,7 @@ If you have problem debugging the application on a virtual device please do the 
 
 In my case the application was deploying and starting properly but was closing immediatly.
 
-# Internet issue
+## Internet issue
 
 If you encounter some problem with the internet connection please do the following:
 
