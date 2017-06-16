@@ -1,0 +1,24 @@
+{
+  "name": "tweetinvi-build",
+  "version": "2.0.0",
+  "description": "Scripts required to build Tweetinvi for release.",
+  "main": "build.js",
+  "scripts": {
+    "start": "node build.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/linvi/tweetinvi.git"
+  },
+  "author": "linvi",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/linvi/tweetinvi/issues"
+  },
+  "homepage": "https://github.com/linvi/tweetinvi#readme",
+  "dependencies": {
+    "fs-sync": "^1.0.4",
+    "glob": "^7.1.2"
+  }
+}
