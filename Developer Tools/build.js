@@ -22,29 +22,37 @@ function updateProjectVersion() {
     const nuget = path.resolve('./TweetinviAPI/TweetinviAPI.nuspec');
     const clientHandler = path.resolve('../Tweetinvi.WebLogic/TwitterClientHandler.cs');
 
-    projectFilePaths.forEach(filepath => {
-        fileHelper.replace(filepath, /<VersionPrefix>([0-9\.]+[0-9])<\/VersionPrefix>/g, `<VersionPrefix>${buildInfos.version}</VersionPrefix>`).then(() => {
+    var allUpdates = [];
+
+    allUpdates = projectFilePaths.map(filepath => {
+        return fileHelper.replace(filepath, /<VersionPrefix>([0-9\.]+[0-9])<\/VersionPrefix>/g, `<VersionPrefix>${buildInfos.version}</VersionPrefix>`).then(() => {
             console.log(filepath + ' version has been updated!');
         });
-    });
+    }).concat(allUpdates);
 
-    assemblyInfosFilePaths.forEach(filepath => {
-        fileHelper.replace(filepath, /\[assembly: (AssemblyVersion|AssemblyFileVersion)\("([0-9\.]+[0-9])"\)\]/g, `[assembly: $1("${buildInfos.version}")]`).then(() => {
+    allUpdates = assemblyInfosFilePaths.map(filepath => {
+        return fileHelper.replace(filepath, /\[assembly: (AssemblyVersion|AssemblyFileVersion)\("([0-9\.]+[0-9])"\)\]/g, `[assembly: $1("${buildInfos.version}")]`).then(() => {
             console.log(filepath + ' version has been updated!');
         });
-    });
+    }).concat(allUpdates);
 
-    fileHelper.replace(nuget, /<version>[0-9\.]+[0-9]<\/version>/g, `<version>${buildInfos.version}</version>`).then(() => {
+    allUpdates.push(fileHelper.replace(nuget, /<version>[0-9\.]+[0-9]<\/version>/g, `<version>${buildInfos.version}</version>`).then(() => {
         return fileHelper.replace(
             nuget,
             /<releaseNotes>https:\/\/github.com\/linvi\/tweetinvi\/releases\/tag\/[0-9\.]*<\/releaseNotes>/g,
             `<releaseNotes>https://github.com/linvi/tweetinvi/releases/tag/${buildInfos.version}</releaseNotes>`)
     }).then(() => {
         console.log('Nuget spec has been updated.')
-    });
+    }));
 
-    fileHelper.replace(clientHandler, /"Tweetinvi\/(\d+(\.\d+)*)(.x)?"/, `"Tweetinvi/${buildInfos.version}"`).then(() => {
+    allUpdates.push(fileHelper.replace(clientHandler, /"Tweetinvi\/(\d+(\.\d+)*)(.x)?"/, `"Tweetinvi/${buildInfos.version}"`).then(() => {
         console.log('User agent updated!');
+    }));
+
+    return Promise.all(allUpdates).then(() => {
+        console.log('');
+        console.log('******************************************');
+        console.log('');
     });
 };
 
@@ -54,8 +62,3 @@ function buildDotNet() {
         return shell.spawn('dotnet build');
     });
 }
-
-// const filepaths = glob.sync("../**/*.csproj");
-// filepaths.forEach(filepath => {
-//     console.log(filepath);
-// });
