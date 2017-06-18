@@ -3,9 +3,10 @@ const nodeSpawn = require('child_process').spawn;
 
 module.exports = {
     exec: (cmd) => {
-        console.log(cmd);
 
         return new Promise((resolve, reject) => {
+            console.log(`> ${cmd}`);
+
             const execution = nodeExec(cmd, {}, (error, stdout, stderr) => {
                 if (error) { console.error(`exec error: ${error}`); reject(error); return; }
                 // if (stdout) { console.log(stdout); }
@@ -20,6 +21,8 @@ module.exports = {
     },
     spawn: (cmd) => {
         return new Promise((resolve, reject) => {
+            console.log(`> ${cmd}`);
+
             const execution = nodeSpawn('cmd.exe', ['/s', '/c', cmd], {
                 stdio: 'inherit'
             });
@@ -27,10 +30,15 @@ module.exports = {
             execution.on('exit', code => { resolve(code); });
         });
     },
-    cd: (path) => {
+    cd: (path, silent) => {
         return new Promise((resolve, reject) => {
             try {
                 process.chdir(path);
+
+                if (!silent) {
+                    console.log(`cd ${process.cwd()}`);
+                }
+
                 resolve();
             }
             catch (error) {
