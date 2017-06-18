@@ -61,7 +61,11 @@ module.exports = {
     },
 
     createNugetPackage: () => {
-        return shell.cd('./TweetinviAPI').then(() => {
+        return shell.spawn('mkdir TweetinviAPI\\lib\\netstandard1.3').then(() => {
+            return shell.spawn('cp ../Tweetinvi/bin/Debug/netstandard1.3/Tweetinvi.*.dll ./TweetinviAPI/lib/netstandard1.3');
+        }).then(() => {
+            return shell.cd('./TweetinviAPI');
+        }).then(() => {
             return shell.spawn('rimraf *.nupkg');
         }).then(() => {
             return shell.spawn('ls');
