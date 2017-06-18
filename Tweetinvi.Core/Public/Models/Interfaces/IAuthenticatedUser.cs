@@ -113,11 +113,6 @@ namespace Tweetinvi.Models
         /// <summary>
         /// Get the relationship between the authenticated user (source) and another user (target).
         /// </summary>
-        IRelationshipDetails GetRelationshipWith(IUserIdentifier user);
-
-        /// <summary>
-        /// Get the relationship between the authenticated user (source) and another user (target).
-        /// </summary>
         IRelationshipDetails GetRelationshipWith(long userId);
 
         /// <summary>

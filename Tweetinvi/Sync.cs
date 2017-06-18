@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Nito.AsyncEx;
+using System;
 using System.Threading.Tasks;
 using Tweetinvi.Core.Credentials;
 using Tweetinvi.Core.Helpers;
@@ -64,7 +65,12 @@ namespace Tweetinvi
                 credentialsAccessor.ExecuteOperationWithCredentials(credentialsAtInvokeTime, action);
             });
 
-            await _taskFactory.ExecuteTaskAsync(operationRunWithSpecificCredentials);
+            AsyncContext.Run(async () =>
+            {
+                await _taskFactory.ExecuteTaskAsync(operationRunWithSpecificCredentials);
+            });
+
+            await Task.CompletedTask;
         }
 
         // ALERT : THIS CODE IS AWESOME :D
@@ -85,10 +91,16 @@ namespace Tweetinvi
                 var credentialsAccessor = TweetinviContainer.Resolve<ICredentialsAccessor>();
 
                 // We now use credentials of the lambda expression local variables to perform our operation
+                //return AsyncContext.Run(() => credentialsAccessor.ExecuteOperationWithCredentials(credentialsAtInvokeTime, resultFunc));
                 return credentialsAccessor.ExecuteOperationWithCredentials(credentialsAtInvokeTime, resultFunc);
             });
 
-            return await _taskFactory.ExecuteTaskAsync(operationRunWithSpecificCredentials);
+            var result = AsyncContext.Run(async () =>
+            {
+                return await _taskFactory.ExecuteTaskAsync(operationRunWithSpecificCredentials);
+            });
+
+            return await Task.FromResult(result);
         }
     }
 }

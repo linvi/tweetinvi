@@ -247,11 +247,7 @@ namespace Tweetinvi.Streams
         {
             var requestTask = reader.ReadLineAsync();
 
-#if NET_CORE
             var resultingTask = Task.WhenAny(requestTask, Task.Delay(STREAM_DISCONNECTED_DELAY)).Result;
-#else
-            var resultingTask = TaskEx.WhenAny(requestTask, TaskEx.Delay(STREAM_DISCONNECTED_DELAY)).Result;
-#endif
 
             if (resultingTask != requestTask)
             {

@@ -21,10 +21,7 @@ namespace Tweetinvi.Events
     {
         public TweetReceivedEventArgs(ITweet tweet, string json) : base(tweet, json)
         {
-            Json = json;
         }
-
-        public string Json { get; set; }
     }
 
     public class TweetFavouritedEventArgs : TweetEventArgs

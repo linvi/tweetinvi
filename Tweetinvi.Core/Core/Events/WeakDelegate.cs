@@ -15,12 +15,7 @@ namespace Tweetinvi.Core.Events
                 _targetReference = new WeakReference(realDelegate.Target);
             else
                 _targetReference = null;
-#if NET_CORE
             _method = realDelegate.GetMethodInfo();
-#else
-            _method = realDelegate.Method;
-#endif
-
         }
 
         public TDelegate GetDelegate()
@@ -30,7 +25,6 @@ namespace Tweetinvi.Core.Events
 
         private Delegate GetDelegateInternal()
         {
-#if NET_CORE
             if (_targetReference != null)
             {
                 return _method.CreateDelegate(typeof(TDelegate), _targetReference.Target);
@@ -39,16 +33,6 @@ namespace Tweetinvi.Core.Events
             {
                 return _method.CreateDelegate(typeof(TDelegate));
             }
-#else
-            if (_targetReference != null)
-            {
-                return Delegate.CreateDelegate(typeof(TDelegate), _targetReference.Target, _method);
-            }
-            else
-            {
-                return Delegate.CreateDelegate(typeof(TDelegate), _method);
-            }
-#endif
         }
 
         public bool IsAlive
@@ -63,11 +47,7 @@ namespace Tweetinvi.Core.Events
             Delegate d = (Delegate)(object)other;
             return d != null
                 && d.Target == _targetReference.Target
-#if NET_CORE
                 && d.GetMethodInfo().Equals(_method);
-#else
-                && d.Method.Equals(_method);
-#endif
         }
 
         #endregion

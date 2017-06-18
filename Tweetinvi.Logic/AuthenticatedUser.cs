@@ -112,7 +112,7 @@ namespace Tweetinvi.Logic
         }
 
         // Frienships
-        public IRelationshipDetails GetRelationshipWith(IUserIdentifier user)
+        public override IRelationshipDetails GetRelationshipWith(IUserIdentifier user)
         {
             return ExecuteAuthenticatedUserOperation(() => _friendshipController.GetRelationshipBetween(this, user));
         }
@@ -446,7 +446,7 @@ namespace Tweetinvi.Logic
         }
 
         // Relationships
-        public async Task<IRelationshipDetails> GetRelationshipWithAsync(IUserIdentifier user)
+        public override async Task<IRelationshipDetails> GetRelationshipWithAsync(IUserIdentifier user)
         {
             return await ExecuteAuthenticatedUserOperation(() => _taskFactory.ExecuteTaskAsync(() => GetRelationshipWith(user)));
         }

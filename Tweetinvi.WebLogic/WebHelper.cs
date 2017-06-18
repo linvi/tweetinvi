@@ -42,11 +42,7 @@ namespace Tweetinvi.WebLogic
 
             if (_tweetinviSettingsAccessor.HttpRequestTimeout > 0)
             {
-#if NET_CORE
                 var resultingTask = Task.WhenAny(requestTask, Task.Delay(_tweetinviSettingsAccessor.HttpRequestTimeout)).Result;
-#else
-                var resultingTask = TaskEx.WhenAny(requestTask, TaskEx.Delay(_tweetinviSettingsAccessor.HttpRequestTimeout)).Result;
-#endif
 
                 if (resultingTask == requestTask)
                 {
