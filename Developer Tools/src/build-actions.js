@@ -62,7 +62,9 @@ module.exports = {
 
     createNugetPackage: () => {
         return shell.spawn('mkdir TweetinviAPI\\lib\\netstandard1.3').then(() => {
-            return shell.spawn('cp ../Tweetinvi/bin/Debug/netstandard1.3/Tweetinvi.*.dll ./TweetinviAPI/lib/netstandard1.3');
+            return shell.spawn('cp ../Tweetinvi/bin/Debug/netstandard1.3/Tweetinvi*.dll ./TweetinviAPI/lib/netstandard1.3');
+        }).then(() => {
+            return shell.spawn('cp ../Tweetinvi/bin/Debug/netstandard1.3/Tweetinvi.*.dll ./TweetinviAPI/lib/net46');
         }).then(() => {
             return shell.cd('./TweetinviAPI');
         }).then(() => {
