@@ -15,9 +15,12 @@ namespace Tweetinvi.Controllers.TwitterLists
                 throw new ArgumentNullException("List identifier cannot be null.");
             }
 
-            if (twitterListIdentifier.Id == TweetinviSettings.DEFAULT_ID)
+            var isIdValid = twitterListIdentifier.Id != TweetinviSettings.DEFAULT_ID;
+            var isSlugWithUsernameValid = twitterListIdentifier.Slug != null && (twitterListIdentifier.OwnerScreenName != null || twitterListIdentifier.OwnerId != TweetinviSettings.DEFAULT_ID);
+
+            if (!isIdValid && !isSlugWithUsernameValid)
             {
-                throw new ArgumentException("List id must be set.");
+                throw new ArgumentException("List identifier(id or slug + userIdentifier) must be specified.");
             }
         }
 
