@@ -84,7 +84,7 @@ namespace Tweetinvi.Controllers.User
 
             for (int i = 0; i < usersList.Count - 1; ++i)
             {
-                var userDTO = usersList[0];
+                var userDTO = usersList[i];
 
                 if (userDTO.Id != TweetinviSettings.DEFAULT_ID)
                 {
