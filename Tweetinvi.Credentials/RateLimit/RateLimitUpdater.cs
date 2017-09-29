@@ -43,6 +43,12 @@ namespace Tweetinvi.Credentials.RateLimit
             {
                 var rateLimit = _rateLimitCacheManager.GetOrCreateQueryRateLimit(query, credentials);
 
+                // If the user runs out of RateLimit requests
+                if (rateLimit == null)
+                {
+                    return;
+                }
+
                 IEnumerable<string> limitHeaders;
                 if (rateLimitHeaders.TryGetValue("x-rate-limit-limit", out limitHeaders))
                 {
