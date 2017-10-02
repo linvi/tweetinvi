@@ -83,7 +83,7 @@ namespace Tweetinvi.Core.Extensions
                 return 0;
             }
 
-            int length = tweet.UTF32Length();
+            int length = UnicodeHelper.UTF32Length(tweet);
 
             foreach (Match link in LinkParser.Matches(tweet))
             {

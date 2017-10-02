@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Tweetinvi;
-using Tweetinvi.Core.Core.Helpers;
 using Tweetinvi.Core.Extensions;
 using Tweetinvi.Parameters;
 
@@ -226,9 +225,10 @@ namespace Testinvi.Tweetinvi.Core
             }
 
             [TestMethod]
-            public void UTF32Length()
+            public void TweetLengthWithSpecialUTFCharacters()
             {
-                Assert.AreEqual(6, "sa🚒osa".UTF32Length());
+                var l = Tweet.Length("sa 🎅⛄️🎅 done");
+                Assert.AreEqual(l, 12);
             }
 
             [TestMethod]
@@ -241,13 +241,6 @@ namespace Testinvi.Tweetinvi.Core
 
                 Assert.IsFalse(((string)null).IsMatchingJsonFormat());
                 Assert.IsFalse("hello".IsMatchingJsonFormat());
-            }
-
-            [TestMethod]
-            public void UTFNew()
-            {
-                var l = Tweet.Length("sa 🎅⛄️🎅 done");
-                Assert.AreEqual(l, 12);
             }
 
             [TestMethod]

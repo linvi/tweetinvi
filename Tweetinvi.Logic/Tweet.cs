@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Tweetinvi.Core;
 using Tweetinvi.Core.Controllers;
+using Tweetinvi.Core.Core.Helpers;
 using Tweetinvi.Core.Extensions;
 using Tweetinvi.Core.Factories;
 using Tweetinvi.Core.Helpers;
@@ -123,7 +124,7 @@ namespace Tweetinvi.Logic
                         ++suffixStartIndex;
                     }
 
-                    return text.Substring(suffixStartIndex, text.Length - suffixStartIndex);
+                    return UnicodeHelper.UnicodeSubstring(text, suffixStartIndex);
                 }
 
                 return null;

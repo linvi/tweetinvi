@@ -117,6 +117,7 @@
     <Compile Include="SetupHelpers\UserQueryGeneratorHelper.cs" />
     <Compile Include="Tweetinvi.Core\EnumerableExtensionsTests.cs" />
     <Compile Include="Tweetinvi.Core\LanguageTests.cs" />
+    <Compile Include="Tweetinvi.Core\UnicodeHelperTests.cs" />
     <Compile Include="Tweetinvi.Logic\ExtendedTweetTests.cs" />
     <Compile Include="Tweetinvi.Core\StringExtensionsTests.cs" />
     <Compile Include="Tweetinvi.Core\TokenRateLimitsTests.cs" />
