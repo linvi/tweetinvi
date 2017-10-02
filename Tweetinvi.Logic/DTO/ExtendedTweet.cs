@@ -8,9 +8,11 @@ namespace Tweetinvi.Logic.DTO
     public class ExtendedTweet : IExtendedTweet
     {
         [JsonProperty("text")]
+        [JsonConverter(typeof(StringToCleanupUnicodeConverter))]
         public string Text { get; set; }
 
         [JsonProperty("full_text")]
+        [JsonConverter(typeof(StringToCleanupUnicodeConverter))]
         public string FullText { get; set; }
 
         [JsonProperty("display_text_range")]
