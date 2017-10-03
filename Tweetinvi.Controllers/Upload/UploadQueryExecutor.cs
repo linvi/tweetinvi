@@ -166,9 +166,6 @@ namespace Tweetinvi.Controllers.Upload
 
             switch (mediaCategory)
             {
-                case UploadMediaCategory.AmplifyVideo:
-                    category = "amplify_video";
-                    break;
                 case UploadMediaCategory.TweetVideo:
                     category = "tweet_video";
                     break;
@@ -271,9 +268,6 @@ namespace Tweetinvi.Controllers.Upload
 
             switch (mediaCategory)
             {
-                case UploadMediaCategory.AmplifyVideo:
-                    category = "amplify_video";
-                    break;
                 case UploadMediaCategory.TweetVideo:
                     category = "tweet_video";
                     break;

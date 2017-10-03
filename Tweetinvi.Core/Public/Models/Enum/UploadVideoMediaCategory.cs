@@ -9,7 +9,6 @@
         None,
         TweetImage,
         TweetGif,
-        TweetVideo,
-        AmplifyVideo,
+        TweetVideo
     }
 }
