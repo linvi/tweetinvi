@@ -7,6 +7,7 @@ using Tweetinvi.Core.Extensions;
 using Tweetinvi.Core.Helpers;
 using Tweetinvi.Core.Injectinvi;
 using Tweetinvi.Core.Parameters;
+using Tweetinvi.Core.Public.Models.Enum;
 using Tweetinvi.Core.Web;
 using Tweetinvi.Logic.QueryParameters;
 using Tweetinvi.Models;
@@ -40,6 +41,11 @@ namespace Tweetinvi.Controllers.Upload
         /// <summary>
         /// Upload a binary in multiple queries.
         /// </summary>
+        IMedia ChunkUploadBinary(byte[] binary, string mediaType, UploadMediaCategory mediaCategory);
+
+        /// <summary>
+        /// Upload a binary in multiple queries.
+        /// </summary>
         IMedia ChunkUploadBinary(byte[] binary, string mediaType, string mediaCategory = null);
 
         /// <summary>
@@ -51,6 +57,11 @@ namespace Tweetinvi.Controllers.Upload
         /// Upload a video in multiple queries if necessary.
         /// </summary>
         IMedia UploadVideo(byte[] binary, string mediaType, string mediaCategory);
+
+        /// <summary>
+        /// Upload a video in multiple queries if necessary.
+        /// </summary>
+        IMedia UploadVideo(byte[] binary, UploadMediaCategory mediaCategory);
 
         /// <summary>
         /// Add metadata to a media that has been uploaded.
@@ -149,6 +160,29 @@ namespace Tweetinvi.Controllers.Upload
             }
         }
 
+        public IMedia ChunkUploadBinary(byte[] binary, string mediaType, UploadMediaCategory mediaCategory)
+        {
+            string category = null;
+
+            switch (mediaCategory)
+            {
+                case UploadMediaCategory.AmplifyVideo:
+                    category = "amplify_video";
+                    break;
+                case UploadMediaCategory.TweetVideo:
+                    category = "tweet_video";
+                    break;
+                case UploadMediaCategory.TweetGif:
+                    category = "tweet_gif";
+                    break;
+                case UploadMediaCategory.TweetImage:
+                    category = "tweet_image";
+                    break;
+            }
+
+            return ChunkUploadBinary(binary, mediaType, category);
+        }
+
         public IMedia ChunkUploadBinary(byte[] binary, string mediaType, string mediaCategory = null)
         {
             var parameters = new UploadQueryParameters()
@@ -229,6 +263,26 @@ namespace Tweetinvi.Controllers.Upload
         public IMedia UploadVideo(byte[] binary, string mediaType, string mediaCategory)
         {
             return ChunkUploadBinary(binary, mediaType, mediaCategory);
+        }
+
+        public IMedia UploadVideo(byte[] binary, UploadMediaCategory mediaCategory)
+        {
+            string category = null;
+
+            switch (mediaCategory)
+            {
+                case UploadMediaCategory.AmplifyVideo:
+                    category = "amplify_video";
+                    break;
+                case UploadMediaCategory.TweetVideo:
+                    category = "tweet_video";
+                    break;
+                case UploadMediaCategory.TweetGif:
+                case UploadMediaCategory.TweetImage:
+                    throw new ArgumentException("Video cannot upload content with TweetGif or TweetImage media category");
+            }
+
+            return UploadVideo(binary, "video/mp4", category);
         }
 
         public IChunkedUploader CreateChunkedUploader()

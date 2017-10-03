@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading;
 using Tweetinvi.Controllers.Upload;
 using Tweetinvi.Core.Parameters;
+using Tweetinvi.Core.Public.Models.Enum;
 using Tweetinvi.Logic.QueryParameters;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
@@ -82,12 +83,29 @@ namespace Tweetinvi
         }
 
         /// <summary>
-        /// Upload a video to twitter. The mediaCategory needs to be `amplify_video` 
+        /// Upload a video to twitter. The mediaCategory needs to be `amplify_video` or `tweet_video` 
         /// if you want to use GetMediaStatus.
         /// </summary>
         public static IMedia UploadVideo(byte[] binary, string mediaType = "video/mp4", string mediaCategory = null)
         {
             return UploadQueryExecutor.UploadVideo(binary, mediaType, mediaCategory);
+        }
+
+        /// <summary>
+        /// Upload a video to twitter. The mediaCategory needs to be `amplify_video` or `tweet_video` 
+        /// if you want to use GetMediaStatus.
+        /// </summary>
+        public static IMedia UploadVideo(byte[] binary, UploadMediaCategory mediaCategory)
+        {
+            return UploadQueryExecutor.UploadVideo(binary, mediaCategory);
+        }
+
+        /// <summary>
+        /// Upload a binary using the chunked upload mechanism.
+        /// </summary>
+        public static IMedia ChunkUploadBinary(byte[] binary, string mediaType, UploadMediaCategory mediaCategory)
+        {
+            return UploadQueryExecutor.ChunkUploadBinary(binary, mediaType, mediaCategory);
         }
 
         /// <summary>
