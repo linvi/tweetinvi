@@ -49,6 +49,19 @@ namespace Tweetinvi.Core.Core.Helpers
             return sbuilder.ToString();
         }
 
+        public static bool AnyUnicode(string str)
+        {
+            for (int i = 0; i < str.Length; ++i)
+            {
+                if (char.IsSurrogatePair(str, i))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
         /// <summary>
         /// Get the UTF32 length of a string
         /// </summary>

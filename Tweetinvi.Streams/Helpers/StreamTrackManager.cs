@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using Tweetinvi.Core.Core.Helpers;
+using Tweetinvi.Core.Extensions;
 using Tweetinvi.Core.Streaming;
 
 namespace Tweetinvi.Streams.Helpers
@@ -142,6 +144,16 @@ namespace Tweetinvi.Streams.Helpers
             }
 
             regexBuilder.Append(@"]\w+|\w+");
+
+            _uniqueKeywordsHashSet.ForEach(x =>
+            {
+                bool isUnicode = UnicodeHelper.AnyUnicode(x);
+
+                if (isUnicode)
+                {
+                    regexBuilder.Append($"|{Regex.Escape(x)}");
+                }
+            });
 
             _matchingRegex = new Regex(regexBuilder.ToString(), RegexOptions.IgnoreCase);
         }
