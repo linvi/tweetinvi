@@ -131,8 +131,20 @@ namespace Tweetinvi.Streams.Helpers
             var tracksContainsAtSymbol = _uniqueKeywordsHashSet.Any(x => x.StartsWith("@"));
             var tracksContainsDollarTag = _uniqueKeywordsHashSet.Any(x => x.StartsWith("$"));
 
-            var regexBuilder = new StringBuilder(@"[\#");
-            
+            var regexBuilder = new StringBuilder();
+
+            _uniqueKeywordsHashSet.ForEach(x =>
+            {
+                bool isUnicode = UnicodeHelper.AnyUnicode(x);
+
+                if (isUnicode)
+                {
+                    regexBuilder.Append($"{Regex.Escape(x)}|");
+                }
+            });
+
+            regexBuilder.Append(@"[\#");
+
             if (tracksContainsAtSymbol)
             {
                 regexBuilder.Append("@");
@@ -144,16 +156,6 @@ namespace Tweetinvi.Streams.Helpers
             }
 
             regexBuilder.Append(@"]\w+|\w+");
-
-            _uniqueKeywordsHashSet.ForEach(x =>
-            {
-                bool isUnicode = UnicodeHelper.AnyUnicode(x);
-
-                if (isUnicode)
-                {
-                    regexBuilder.Append($"|{Regex.Escape(x)}");
-                }
-            });
 
             _matchingRegex = new Regex(regexBuilder.ToString(), RegexOptions.IgnoreCase);
         }
