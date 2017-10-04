@@ -119,7 +119,7 @@ namespace Tweetinvi.Logic
                 {
                     var suffixStartIndex = DisplayTextRange[1];
 
-                    if (suffixStartIndex < text.Length)
+                    if (suffixStartIndex < text.Length && suffixStartIndex > 0)
                     {
                         ++suffixStartIndex;
                     }
