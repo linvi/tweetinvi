@@ -1,4 +1,6 @@
-﻿using System.Globalization;
+﻿using System;
+using System.Diagnostics;
+using System.Globalization;
 using System.Text;
 
 namespace Tweetinvi.Core.Core.Helpers
@@ -14,12 +16,38 @@ namespace Tweetinvi.Core.Core.Helpers
 
             var sbuilder = new StringBuilder();
 
+            Func<string, int, bool> shouldCountTwice = (string str2, int i2) =>
+            {
+                if (char.IsSurrogatePair(str2, i2))
+                {
+                    var grapheme = $"{str2[i2]}{str2[i2 + 1]}";
+
+                    Console.WriteLine($"{grapheme} = {(int)str[i2]}/{(int)str[i2 + 1]}");
+
+                    UnicodeCategory characterChategory = CharUnicodeInfo.GetUnicodeCategory(grapheme, 0);
+
+                    return characterChategory == UnicodeCategory.ModifierSymbol;
+                }
+
+                return false;
+            };
+
             var i = 0;
             for (; i < startIndex; ++i)
             {
                 if (char.IsSurrogatePair(str, i))
                 {
                     ++i;
+                    ++startIndex;
+
+                    var grapheme = $"{str[i]}{str[i + 1]}";
+
+                    UnicodeCategory characterChategory = CharUnicodeInfo.GetUnicodeCategory(grapheme, 0);
+
+                    if (characterChategory == UnicodeCategory.ModifierSymbol)
+                    {
+                        ++startIndex;
+                    }
                 }
             }
 

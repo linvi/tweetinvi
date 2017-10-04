@@ -25,7 +25,7 @@ namespace Testinvi.Tweetinvi.Core
             var substr = UnicodeHelper.UnicodeSubstring(str, 141);
 
             // Assert
-            Assert.AreEqual(substr, " https://t.co/oUeMIkyb5G");
+            Assert.AreEqual(substr, "https://t.co/oUeMIkyb5G");
         }
     }
 }

@@ -203,7 +203,7 @@ namespace Testinvi.Tweetinvi.Core
         {
             ITweet tweet = InitTweet(EXTENDED_TWEET_WITH_UNICODE, TweetMode.Extended);
 
-            Assert.AreEqual(tweet.Suffix, " https://t.co/oUeMIkyb5G");
+            Assert.AreEqual(tweet.Suffix, "https://t.co/oUeMIkyb5G");
         }
 
 
