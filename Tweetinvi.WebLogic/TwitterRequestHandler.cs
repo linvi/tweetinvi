@@ -100,7 +100,7 @@ namespace Tweetinvi.WebLogic
             }
             catch (TwitterException ex)
             {
-                HandleException(queryURL, rateLimitTrackerOption, ex.StatusCode, twitterQuery);
+                HandleException(queryURL, rateLimitTrackerOption, ex, twitterQuery);
 
                 throw;
             }
@@ -140,7 +140,7 @@ namespace Tweetinvi.WebLogic
             }
             catch (TwitterException ex)
             {
-                HandleException(queryURL, rateLimitTrackerOption, ex.StatusCode, twitterQuery);
+                HandleException(queryURL, rateLimitTrackerOption, ex, twitterQuery);
 
                 throw;
             }
@@ -178,7 +178,7 @@ namespace Tweetinvi.WebLogic
             }
             catch (TwitterException ex)
             {
-                HandleException(url, rateLimitTrackerMode, ex.StatusCode, twitterQuery);
+                HandleException(url, rateLimitTrackerMode, ex, twitterQuery);
 
                 throw;
             }
@@ -314,14 +314,19 @@ namespace Tweetinvi.WebLogic
             _tweetinviEvents.RaiseAfterQueryExecuted(new QueryAfterExecuteEventArgs(twitterQuery, webRequestResult.Response, webRequestResult.Headers));
         }
 
-        private void HandleException(string queryURL, RateLimitTrackerMode rateLimitTrackerMode, int statusCode, ITwitterQuery queryParameter)
+        private void HandleException(
+            string queryURL, 
+            RateLimitTrackerMode rateLimitTrackerMode, 
+            TwitterException exception, 
+            ITwitterQuery queryParameter)
         {
+            var statusCode = exception.StatusCode;
             if (rateLimitTrackerMode != RateLimitTrackerMode.None && statusCode == TweetinviConsts.STATUS_CODE_TOO_MANY_REQUEST)
             {
                 _rateLimitUpdater.ClearRateLimitsForQuery(queryURL);
             }
 
-            _tweetinviEvents.RaiseAfterQueryExecuted(new QueryAfterExecuteEventArgs(queryParameter, null, null));
+            _tweetinviEvents.RaiseAfterQueryExecuted(new QueryAfterExecuteExceptionEventArgs(queryParameter, exception));
         }
 
         private static byte[] ReadBinaryDataFromStream(Stream input)
