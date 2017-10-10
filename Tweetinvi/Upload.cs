@@ -85,7 +85,7 @@ namespace Tweetinvi
         /// Upload a video to twitter. The mediaCategory needs to be `tweet_video` 
         /// if you want to use GetMediaStatus.
         /// </summary>
-        public static IMedia UploadVideo(byte[] binary, string mediaType = "video/mp4", string mediaCategory = null)
+        public static IMedia UploadVideo(byte[] binary, string mediaType, string mediaCategory)
         {
             return UploadQueryExecutor.UploadVideo(binary, mediaType, mediaCategory);
         }
@@ -94,7 +94,7 @@ namespace Tweetinvi
         /// Upload a video to twitter. The mediaCategory needs to be `tweet_video` 
         /// if you want to use GetMediaStatus.
         /// </summary>
-        public static IMedia UploadVideo(byte[] binary, UploadMediaCategory mediaCategory)
+        public static IMedia UploadVideo(byte[] binary, UploadMediaCategory mediaCategory = UploadMediaCategory.TweetVideo)
         {
             return UploadQueryExecutor.UploadVideo(binary, mediaCategory);
         }
