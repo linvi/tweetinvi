@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Globalization;
 using System.Text;
 
@@ -21,8 +20,6 @@ namespace Tweetinvi.Core.Core.Helpers
                 if (char.IsSurrogatePair(str2, i2))
                 {
                     var grapheme = $"{str2[i2]}{str2[i2 + 1]}";
-
-                    Console.WriteLine($"{grapheme} = {(int)str[i2]}/{(int)str[i2 + 1]}");
 
                     UnicodeCategory characterChategory = CharUnicodeInfo.GetUnicodeCategory(grapheme, 0);
 

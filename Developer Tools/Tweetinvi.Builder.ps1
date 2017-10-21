@@ -1,5 +1,5 @@
 Param(
-	$v = '1.3.0.0',			     # Version number
+	$v = '2.1.0.0',			     # Version number
 	$m = 'Release',              # Visual Studio Build Mode
 	[Switch]$dnr,				 # Do Not Rebuild 
 	[Switch]$h,					 # Help
@@ -50,11 +50,8 @@ $net45PortableFolder = '.\TweetinviAPI\lib\portable-net45+wp80+win8+wpa81+dnxcor
 
 $tweetinviAPIMerged = 'Tweetinvi.dll'
 
-$examplinvi = 'Examplinvi'
-$examplinviUniversalApp = 'Examplinvi.UniversalApp'
-$examplinviWeb = 'Examplinvi.Web'
+$examplinvi = 'Examplinvi.NETFramework'
 
-$testinvi = 'Testinvi'
 $tweetinvi = 'Tweetinvi'
 $tweetinviSecurity = 'Tweetinvi.Security'
 $tweetinviControllers = 'Tweetinvi.Controllers'
@@ -66,19 +63,14 @@ $tweetinviWebLogic = 'Tweetinvi.WebLogic'
 $tweetinviStreams = 'Tweetinvi.Streams'
 
 # .NET Core variables
-$netCoreRootPath = '..\Tweetinvi.NETCore\'
-$netCoreExamplinvi = 'Tweetinvi.NETCore/Examplinvi'
+$netCoreRootPath = '..\'
+$netCoreExamplinvi = 'Examplinvi.NETStandard'
+$netCoreExamplinviPath = $netCoreRootPath + $netCoreExamplinvi
 $netCoreNugetFolder = '.\TweetinviAPI\lib\netstandard1.6'
 $netCoreTemp = 'temp_net_core_' + $version;
 
 $projects = 
 @(
-	# Other projects
-	$examplinvi,
-	$examplinviUniversalApp,
-	$examplinviWeb,
-	$testinvi,
-	
 	# Tweetinvi API
 	$tweetinvi,
 	$tweetinviSecurity, 
@@ -114,39 +106,30 @@ $replaceNugetReleaseNotesWith = '<releaseNotes>https://github.com/linvi/tweetinv
 Get-Item 'TweetinviAPI\TweetinviAPI.nuspec' | .\Replace-Regex.ps1 -Pattern $replaceNugetVersionRegex -Replacement $replaceNugetVersionWith -overwrite
 Get-Item 'TweetinviAPI\TweetinviAPI.nuspec' | .\Replace-Regex.ps1 -Pattern $replaceNugetReleaseNotesRegex -Replacement $replaceNugetReleaseNotesWith -overwrite
 
-for ($i=0; $i -lt $projects.length; $i++)
-{
-	$filePath = $rootPath + $projects[$i] + '\' + $assemblyinfoLocation
-	Write-Host Updating $filePath
-
-	$replaceAssemblyVersionRegex = '\[assembly: AssemblyVersion\("(?<versionNumber>\d+(\.\d+)*)"\)\]'
-	$replaceAssemblyVersionWith = '[assembly: AssemblyVersion("' + $version + '")]'
-
-	Get-Item $filePath | .\Replace-Regex.ps1 -Pattern $replaceAssemblyVersionRegex -Replacement $replaceAssemblyVersionWith -overwrite
-
-	$replaceAssemblyFileVersionRegex = '\[assembly: AssemblyFileVersion\("(?<versionNumber>\d+(\.\d+)*)"\)\]'
-	$replaceAssemblyFileVersion = '[assembly: AssemblyFileVersion("' + $version + '")]'
-
-	Get-Item $filePath | .\Replace-Regex.ps1 -Pattern $replaceAssemblyFileVersionRegex -Replacement $replaceAssemblyFileVersion -overwrite
-}
-
 # Update .NETCore versions
 
-if ($true) # Variables scope
-{
-    $netCoreExamplinviPath = $netCoreRootPath + 'Examplinvi\Examplinvi.csproj'
-    Write-Host Updating $netCoreExamplinviPath
 
-    $replaceAssemblyVersionRegex = '<VersionPrefix>[0-9\.]*</VersionPrefix>'
+
+
+for ($i=0; $i -lt $projects.length; $i++)
+{
+	$filePath = $rootPath + $projects[$i] + '\' + $projects[$i] + '.csproj'
+	Write-Host Updating $filePath
+
+	$replaceAssemblyVersionRegex = '<VersionPrefix>[0-9\.]*</VersionPrefix>'
     $replaceAssemblyVersionWith =  '<VersionPrefix>' + $version + '</VersionPrefix>'
-    Get-Item $netCoreExamplinviPath | .\Replace-Regex.ps1 -Pattern $replaceAssemblyVersionRegex -Replacement $replaceAssemblyVersionWith -overwrite
+    Get-Item $filePath | .\Replace-Regex.ps1 -Pattern $replaceAssemblyVersionRegex -Replacement $replaceAssemblyVersionWith -overwrite
 }
 
-
+# Update .NETCore HTTP Request Handler
 $filePath = $rootPath + $tweetinviWebLogic + '\TwitterClientHandler.cs';
 Get-Item $filePath | .\Replace-Regex.ps1 -Pattern '"Tweetinvi/(?<versionNumber>\d+(\.\d+)*)(.x)?"' -Replacement ('"Tweetinvi/' + $version + '"') -overwrite
 
+$examplinviBin = $rootPath + $examplinvi + '\bin\' + $releaseMode
+$netCoreExamplinviBin = $netCoreExamplinviPath + '\bin\' + $releaseMode + '\netcoreapp1.1'
+
 if (!$uv.IsPresent) {
+
 	# Restore Nuget Packages
 	Write-Host 'Restoring nuget packages';
 
@@ -155,9 +138,7 @@ if (!$uv.IsPresent) {
 	git checkout -- ../Examplinvi.UniversalApp/project.lock.json
 
 	# Remove previous binaries
-	$examplinviBin = $rootPath + $examplinvi + '\bin\' + $releaseMode
-    $netCoreExamplinviBin = $netCoreRootPath + $examplinvi + '\bin\' + $releaseMode + '\netcoreapp1.0'
-	
+
 	if (Test-Path $examplinviBin) {
 		rmdir -r $examplinviBin
 	}
@@ -189,27 +170,22 @@ if (!$uv.IsPresent) {
     if (!$dnr.IsPresent)
     {
 	    Build $rootPath'Tweetinvi.sln' $releaseMode
-
-        Write-Host ".NET CORE Automatic build is not yet implemented. Please ensure Examplinvi for .NET Core is compiled in " + $releaseMode
-        Read-Host 'Press Enter to continue…' | Out-Null
+		BuildNetCore $netCoreExamplinviPath $releaseMode
     }
-
-    # Build .NET CORE solution
-
 
 	# Move dll into temporary folder
 	Get-ChildItem -LiteralPath $examplinviBin -filter *.dll  | % { Copy-Item $_.fullname $temporaryFolder }
     Get-ChildItem -LiteralPath $netCoreExamplinviBin -filter *.dll  | % { Copy-Item $_.fullname $netCoreTemp }
 
-    cp $env:USERPROFILE\.nuget\packages\Newtonsoft.Json\9.0.1\lib\netstandard1.0\Newtonsoft.Json.dll $netCoreTemp
-    cp $env:USERPROFILE\.nuget\packages\Autofac\4.1.0\lib\netstandard1.1\Autofac.dll $netCoreTemp
-    cp 'C:\Program Files\dotnet\shared\Microsoft.NETCore.App\1.0.4\System.Reflection.TypeExtensions.dll' $netCoreTemp
-    
+    cp $env:USERPROFILE\.nuget\packages\Newtonsoft.Json\10.0.2\lib\netstandard1.0\Newtonsoft.Json.dll $netCoreTemp
+    cp $env:USERPROFILE\.nuget\packages\Autofac\4.6.0\lib\netstandard1.1\Autofac.dll $netCoreTemp
+    cp $env:USERPROFILE\.nuget\packages\nito.asyncex.context\1.1.0\lib\netstandard1.3\Nito.AsyncEx.Context.dll $netCoreTemp
+    cp 'C:\Program Files\dotnet\shared\Microsoft.NETCore.App\1.0.5\System.Reflection.TypeExtensions.dll' $netCoreTemp 
 
 	if ($b.IsPresent) {
 		Exit;
 	}
-	
+
 	# Ensure the nuget folders have been created
 	mkdir $net40Folder -Force | Out-Null
 	mkdir $net45Folder -Force | Out-Null
@@ -258,7 +234,7 @@ if (!$uv.IsPresent) {
 	    }
     }
 
-	for ($i=4; $i -lt $projects.length; $i++) # start at 4 as there are 4 projects that are not part of the library core
+	for ($i=0; $i -lt $projects.length; $i++) # start at 4 as there are 4 projects that are not part of the library core
 	{
 		$dllMergeParam = $dllMergeParam  + $temporaryFolder + '\' + $additionalAssemblies[$i] + ' ';
 		$ILMergeCommand = $ILMergeCommand +  $temporaryFolder + '/' + $projects[$i] + '.dll ';
@@ -267,7 +243,8 @@ if (!$uv.IsPresent) {
 		$netCoreILMergeCommand = $netCoreILMergeCommand +  $netCoreTemp + '\' + $projects[$i] + '.dll ';
 	}
 
-	
+	# ILMerge and Strong Name
+
 	# Start-Process -wait -FilePath ".\ILMerge.exe" -ArgumentList "/target:library", ("/out:" + $mergedDLLPath), "/keyfile:../tweetinvi.snk", $dllMergeParam -NoNewWindow
 	Write-Host $ILMergeCommand
     Invoke-Expression $ILMergeCommand | Out-Null
@@ -275,10 +252,11 @@ if (!$uv.IsPresent) {
     Write-Host $netCoreILMergeCommand
     Invoke-Expression $netCoreILMergeCommand | Out-Null
 	
+	# Signing
 	if ($sign.IsPresent) 
 	{
 		$signToolExe = "C:\Program Files (x86)\Windows Kits\10\bin\x86\signtool.exe"
-		$certPath = "/f tweetinvi.certificate.p12";
+		$certPath = "/f tweetinvi.certificate.private.p12";
 		$certPassword = '/p "' + [Environment]::GetEnvironmentVariable("tweetinvikey", "User") + '"';
 		$certTimestamp = '/t "http://timestamp.verisign.com/scripts/timstamp.dll"';
 
@@ -288,11 +266,13 @@ if (!$uv.IsPresent) {
 		
 		$certPaths = "";
 		
-		for ($i=4; $i -lt $projects.length; $i++) # start at 4 as there are 4 projects that are not part of the library core
+		for ($i=0; $i -lt $projects.length; $i++)
 		{
 			$certPaths = $certPaths + $temporaryFolder + '\' + $projects[$i] + '.dll ';
 		}
 		
+
+		# PS .\signtool.exe sign /debug /f .\tweetinvi.certificate.private.p12 /p "THE_PASSWORD" /t "http://timestamp.verisign.com/scripts/timstamp.dll" .\temp_2.1.0.0\output\Tweetinvi.dll
 		Start-Process -Wait -FilePath $signToolExe -ArgumentList " sign ",$certPath,$certPassword,$certTimestamp,$certPaths -PassThru -NoNewWindow;
 	}
 
