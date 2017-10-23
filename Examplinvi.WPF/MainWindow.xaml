@@ -1,0 +1,41 @@
+﻿<Window x:Class="Examplinvi.WPF.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Examplinvi.WPF"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="700" Width="525">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+
+        <Border Grid.Row="0"
+                Background="#93278F">
+            <TextBlock Text="Tweetinvi"
+                       HorizontalAlignment="Center" 
+                       Foreground="White"
+                       FontSize="28"
+                       Padding="0 5">
+            </TextBlock>
+        </Border>
+        <TextBlock Grid.Row="1"
+                   Name="MessageTextBlock"
+                   Text="{Binding StreamVM.Message}"
+                   TextWrapping="Wrap"
+                   Margin="0 20"
+                   Foreground="#93278F">
+        </TextBlock>
+        <TextBlock Grid.Row="2"
+                   Name="StreamingTextBlock"
+                   Text="{Binding StreamVM.StreamingText}"
+                   TextWrapping="Wrap">
+        </TextBlock>
+    </Grid>
+</Window>
