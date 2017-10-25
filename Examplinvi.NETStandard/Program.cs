@@ -14,7 +14,6 @@ namespace Examplinvi.NETStandard
 
             Console.WriteLine(authenticatedUser);
             Console.ReadLine();
-
         }
     }
 }
