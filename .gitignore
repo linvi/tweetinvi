@@ -277,3 +277,4 @@ __pycache__/
 /Developer Tools/OpenSSL
 /Developer Tools/TweetinviAPI
 /Examplinvi.WindowsPhone
+*.bak
