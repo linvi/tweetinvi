@@ -468,7 +468,8 @@ namespace Tweetinvi.Credentials
                 HttpMethod = twitterQuery.HttpMethod,
                 HttpContent = twitterQuery.HttpContent,
                 AuthorizationHeader = twitterQuery.AuthorizationHeader,
-                AcceptHeaders = twitterQuery.AcceptHeaders
+                AcceptHeaders = twitterQuery.AcceptHeaders,
+                CustomHeaders = twitterQuery.CustomHeaders
             };
         }
     }

@@ -102,6 +102,11 @@ namespace Tweetinvi.WebLogic
                 request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(contentType));
             });
 
+            _twitterQuery?.CustomHeaders.ForEach(header =>
+            {
+                request.Headers.Add(header.Key, header.Value);
+            });
+
             return base.SendAsync(request, cancellationToken);
         }
     }

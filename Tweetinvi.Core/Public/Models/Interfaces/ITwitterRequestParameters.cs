@@ -32,5 +32,10 @@ namespace Tweetinvi.Models
         /// Authorization header that Twitter uses to validate a twitter HttpRequest
         /// </summary>
         string AuthorizationHeader { get; set; }
+
+        /// <summary>
+        /// Additional headers to add to the HttpRequest
+        /// </summary>
+        Dictionary<string, string> CustomHeaders { get; set; }
     }
 }
