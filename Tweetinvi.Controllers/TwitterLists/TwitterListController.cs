@@ -1,9 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Tweetinvi.Core.Controllers;
+using Tweetinvi.Core.Core.Parameters;
 using Tweetinvi.Core.Factories;
 using Tweetinvi.Core.Parameters;
+using Tweetinvi.Core.Public.Parameters;
 using Tweetinvi.Core.QueryGenerators;
+using Tweetinvi.Logic.QueryParameters;
 using Tweetinvi.Models;
 using Tweetinvi.Parameters;
 
@@ -34,7 +37,8 @@ namespace Tweetinvi.Controllers.TwitterLists
             _twitterListIdentifierFactory = twitterListIdentifierFactory;
         }
 
-        // Get User Lists
+        #region Get User Lists
+
         public IEnumerable<ITwitterList> GetUserSubscribedLists(IUserIdentifier user, bool getOwnedListsFirst)
         {
             var listDTOs = _twitterListQueryExecutor.GetUserSubscribedLists(user, getOwnedListsFirst);
@@ -53,7 +57,9 @@ namespace Tweetinvi.Controllers.TwitterLists
             return _twitterListsFactory.CreateListsFromDTOs(listDTOs);
         }
 
-        // Owned Lists
+        #endregion
+
+        #region Owned Lists
         public IEnumerable<ITwitterList> GetUserOwnedLists(long userId, int maximumNumberOfListsToRetrieve)
         {
             var user = new UserIdentifier(userId);
@@ -70,9 +76,10 @@ namespace Tweetinvi.Controllers.TwitterLists
         {
             var listDTOs = _twitterListQueryExecutor.GetUserOwnedLists(user, maximumNumberOfListsToRetrieve);
             return _twitterListsFactory.CreateListsFromDTOs(listDTOs);
-        }
+        } 
+        #endregion
 
-        // Update List
+        #region Update List
         public ITwitterList UpdateList(long listId, ITwitterListUpdateParameters parameters)
         {
             var identifier = _twitterListIdentifierFactory.Create(listId);
@@ -107,9 +114,10 @@ namespace Tweetinvi.Controllers.TwitterLists
         {
             var listDTO = _twitterListQueryExecutor.UpdateList(parameters);
             return _twitterListsFactory.CreateListFromDTO(listDTO);
-        }
+        } 
+        #endregion
 
-        // Destroy List
+        #region Destroy List
         public bool DestroyList(long listId)
         {
             var listIdentifier = _twitterListIdentifierFactory.Create(listId);
@@ -137,9 +145,10 @@ namespace Tweetinvi.Controllers.TwitterLists
         public bool DestroyList(ITwitterListIdentifier list)
         {
             return _twitterListQueryExecutor.DestroyList(list);
-        }
+        } 
+        #endregion
 
-        // Get Tweets from List
+        #region Get Tweets from List
         public IEnumerable<ITweet> GetTweetsFromList(long listId)
         {
             var identifier = _twitterListIdentifierFactory.Create(listId);
@@ -174,7 +183,8 @@ namespace Tweetinvi.Controllers.TwitterLists
         {
             var tweetsDTO = _twitterListQueryExecutor.GetTweetsFromList(queryParameters);
             return _tweetFactory.GenerateTweetsFromDTO(tweetsDTO);
-        }
+        } 
+        #endregion
 
         #region Get List Members
         public IEnumerable<IUser> GetListMembers(long listId, int maximumNumberOfUsersToRetrieve = 100)
@@ -299,7 +309,10 @@ namespace Tweetinvi.Controllers.TwitterLists
             return _twitterListQueryExecutor.AddMemberToList(list, newUser);
         }
 
-        // Add Multiple Members to List
+        #endregion
+
+        #region Add Multiple Members to List
+
         public MultiRequestsResult AddMultipleMembersToList(long listId, IEnumerable<long> userIds)
         {
             var listIdentifier = _twitterListIdentifierFactory.Create(listId);
@@ -387,8 +400,7 @@ namespace Tweetinvi.Controllers.TwitterLists
         public MultiRequestsResult AddMultipleMembersToList(ITwitterListIdentifier list, IEnumerable<IUserIdentifier> newUserIdentifiers)
         {
             return _twitterListQueryExecutor.AddMultipleMembersToList(list, newUserIdentifiers);
-        }
-
+        } 
         #endregion
 
         #region Remove Member From List
@@ -575,7 +587,7 @@ namespace Tweetinvi.Controllers.TwitterLists
 
         #endregion
 
-        // User List Subscriptions
+        #region GetUserSubscribedLists
         public IEnumerable<ITwitterList> GetUserSubscribedLists(long userId, int maxNumberOfListsToRetrieve)
         {
             var user = _userFactory.GenerateUserIdentifierFromId(userId);
@@ -592,9 +604,10 @@ namespace Tweetinvi.Controllers.TwitterLists
         {
             var listDTOs = _twitterListQueryExecutor.GetUserSubscribedLists(user, maxNumberOfListsToRetrieve);
             return _twitterListsFactory.CreateListsFromDTOs(listDTOs);
-        }
-        
-        // Check Membership
+        } 
+        #endregion
+
+        #region Check Membership
         public bool CheckIfUserIsAListMember(long listId, long userId)
         {
             var listIdentifier = _twitterListIdentifierFactory.Create(listId);
@@ -683,8 +696,9 @@ namespace Tweetinvi.Controllers.TwitterLists
         {
             return _twitterListQueryExecutor.CheckIfUserIsAListMember(listIdentifier, user);
         }
+        #endregion
 
-        // Get list subscribers
+        #region Get list subscribers
         public IEnumerable<IUser> GetListSubscribers(long listId, int maximumNumberOfUsersToRetrieve = 100)
         {
             var identifier = _twitterListIdentifierFactory.Create(listId);
@@ -713,9 +727,11 @@ namespace Tweetinvi.Controllers.TwitterLists
         {
             var usersDTO = _twitterListQueryExecutor.GetListSubscribers(list, maximumNumberOfUsersToRetrieve);
             return _userFactory.GenerateUsersFromDTO(usersDTO);
-        } 
+        }
+        #endregion
 
-        // Add subscriber to List
+        #region Add subscriber to List
+
         public bool SubscribeAuthenticatedUserToList(long listId)
         {
             var identifier = _twitterListIdentifierFactory.Create(listId);
@@ -745,7 +761,9 @@ namespace Tweetinvi.Controllers.TwitterLists
             return _twitterListQueryExecutor.SubscribeAuthenticatedUserToList(list);
         }
 
-        // Remove subscriber from list
+        #endregion
+
+        #region UnSubscribeAuthenticatedUserFromList
         public bool UnSubscribeAuthenticatedUserFromList(long listId)
         {
             var identifier = _twitterListIdentifierFactory.Create(listId);
@@ -773,9 +791,10 @@ namespace Tweetinvi.Controllers.TwitterLists
         public bool UnSubscribeAuthenticatedUserFromList(ITwitterListIdentifier list)
         {
             return _twitterListQueryExecutor.UnSubscribeAuthenticatedUserFromList(list);
-        }
+        } 
+        #endregion
 
-        // Check Subscriptions
+        #region CheckIfUserIsAListSubscriber
         public bool CheckIfUserIsAListSubscriber(long listId, long userId)
         {
             var listIdentifier = _twitterListIdentifierFactory.Create(listId);
@@ -863,6 +882,25 @@ namespace Tweetinvi.Controllers.TwitterLists
         public bool CheckIfUserIsAListSubscriber(ITwitterListIdentifier listIdentifier, IUserIdentifier user)
         {
             return _twitterListQueryExecutor.CheckIfUserIsAListSubscriber(listIdentifier, user);
+        }
+        #endregion
+
+        public IEnumerable<ITwitterList> GetUserListsMemberships(IUserIdentifier userIdentifier, IGetUserListMembershipsParameters parameters)
+        {
+            var queryParameters = new GetUserListMembershipsQueryParameters(userIdentifier);
+
+            if (parameters != null)
+            {
+                queryParameters.Parameters = parameters;
+            }
+
+            return GetUserListsMemberships(queryParameters);
+        }
+
+        public IEnumerable<ITwitterList> GetUserListsMemberships(IGetUserListMembershipsQueryParameters parameters)
+        {
+            var twitterListDtos = _twitterListQueryExecutor.GetUserListMemberships(parameters);
+            return _twitterListsFactory.CreateListsFromDTOs(twitterListDtos);
         }
     }
 }

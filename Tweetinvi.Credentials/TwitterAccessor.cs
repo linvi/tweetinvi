@@ -5,6 +5,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Tweetinvi.Core.Exceptions;
 using Tweetinvi.Core.Helpers;
+using Tweetinvi.Core.Public.Parameters;
 using Tweetinvi.Core.Web;
 using Tweetinvi.Core.Wrappers;
 using Tweetinvi.Credentials.QueryJsonConverters;
@@ -314,6 +315,15 @@ namespace Tweetinvi.Credentials
             }
 
             return true;
+        }
+
+        public IEnumerable<T> ExecuteCursorGETQuery<T, T1>(
+            string baseQuery,
+            ICursorQueryParameters cursorQueryParameters)
+            where T1 : class, IBaseCursorQueryDTO<T>
+        {
+            return ExecuteCursorGETQuery<T, T1>(baseQuery, cursorQueryParameters.MaximumNumberOfResults,
+                cursorQueryParameters.Cursor);
         }
 
         public IEnumerable<T> ExecuteCursorGETQuery<T, T1>(

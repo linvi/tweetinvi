@@ -230,6 +230,11 @@ namespace Tweetinvi.Controllers.Properties
         public static string List_OwnerScreenNameParameter = "&owner_screen_name={0}";
 
         /// <summary>
+        /// Looks up a localized string similar to https://api.twitter.com/1.1/lists/memberships.json?{0}.
+        /// </summary>
+        public static string List_GetUserMemberships = "https://api.twitter.com/1.1/lists/memberships.json?{0}";
+
+        /// <summary>
         ///   Looks up a localized string similar to https://api.twitter.com/1.1/lists/ownerships.json?{0}&amp;count={1}.
         /// </summary>
         public static string List_Ownership = "https://api.twitter.com/1.1/lists/ownerships.json?{0}&count={1}";

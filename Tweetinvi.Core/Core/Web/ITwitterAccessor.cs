@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Net.Http;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Tweetinvi.Core.Public.Parameters;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO.QueryDTO;
 using HttpMethod = Tweetinvi.Models.HttpMethod;
@@ -85,5 +86,10 @@ namespace Tweetinvi.Core.Web
         // Get Binary data from twitter URL
         byte[] DownloadBinary(string url);
         ITwitterRequestParameters GenerateTwitterRequestParameters(string url, HttpMethod method, ITwitterCredentials credentials, HttpContent httpContent);
+
+        IEnumerable<T> ExecuteCursorGETQuery<T, T1>(
+            string baseQuery,
+            ICursorQueryParameters cursorQueryParameters)
+            where T1 : class, IBaseCursorQueryDTO<T>;
     }
 }

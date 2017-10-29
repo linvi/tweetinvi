@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using Tweetinvi.Core.Core.Parameters;
+using Tweetinvi.Core.Public.Parameters;
 using Tweetinvi.Models;
 using Tweetinvi.Parameters;
 
@@ -39,7 +41,7 @@ namespace Tweetinvi.Core.Controllers
         IEnumerable<IUser> GetListMembers(string slug, long ownerId, int maximumNumberOfUsersToRetrieve = 100);
         IEnumerable<IUser> GetListMembers(ITwitterListIdentifier list, int maximumNumberOfUsersToRetrieve = 100);
 
-        // Create List Member
+        // Add member to list
         bool AddMemberToList(long listId, long newUserId);
         bool AddMemberToList(long listId, string newUserName);
         bool AddMemberToList(long listId, IUserIdentifier newUser);
@@ -60,6 +62,7 @@ namespace Tweetinvi.Core.Controllers
         bool AddMemberToList(ITwitterListIdentifier list, string newUserName);
         bool AddMemberToList(ITwitterListIdentifier list, IUserIdentifier newUser);
 
+        // Add Multiple Members to List
         MultiRequestsResult AddMultipleMembersToList(long listId, IEnumerable<long> userIds);
         MultiRequestsResult AddMultipleMembersToList(long listId, IEnumerable<string> userScreenNames);
         MultiRequestsResult AddMultipleMembersToList(long listId, IEnumerable<IUserIdentifier> users);
@@ -79,6 +82,10 @@ namespace Tweetinvi.Core.Controllers
         MultiRequestsResult AddMultipleMembersToList(ITwitterListIdentifier list, IEnumerable<long> userIds);
         MultiRequestsResult AddMultipleMembersToList(ITwitterListIdentifier list, IEnumerable<string> userScreenNames);
         MultiRequestsResult AddMultipleMembersToList(ITwitterListIdentifier list, IEnumerable<IUserIdentifier> users);
+
+        // Get List Memberships
+        IEnumerable<ITwitterList> GetUserListsMemberships(IUserIdentifier userIdentifier, IGetUserListMembershipsParameters parameters);
+        IEnumerable<ITwitterList> GetUserListsMemberships(IGetUserListMembershipsQueryParameters parameters);
 
         // Remove Member from List
         bool RemoveMemberFromList(long listId, long newUserId);
