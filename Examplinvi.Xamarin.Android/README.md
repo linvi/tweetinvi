@@ -1,10 +1,12 @@
-﻿# Tweetinvi - Xamarin for Android
+# Tweetinvi - Xamarin for Android
 
 This is a very simple Android application that uses Tweetinvi to access the `AuthenticatedUser` and his `Timeline`.
 
 To start working on this project please open the file `MainActivity.cs` and simply enter your credentials at the line:
 
 `Auth.SetUserCredentials("CONSUMER_KEY", "CONSUMER_SECRET", "ACCESS_TOKEN", "ACCESS_TOKEN_SECRET");`
+
+Remember that if you create a project from scracth with Android you need to Authorize your app to access internet.
 
 ## Increase performances of the Android VM
 
