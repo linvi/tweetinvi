@@ -268,7 +268,7 @@ if (!$uv.IsPresent) {
 		
 		for ($i=0; $i -lt $projects.length; $i++)
 		{
-			$certPaths = $certPaths + $temporaryFolder + '\' + $projects[$i] + '.dll ';
+			$certPaths = $certPaths + $nugetToolsFolder + '\' + $projects[$i] + '.dll ';
 		}
 		
 
@@ -276,31 +276,12 @@ if (!$uv.IsPresent) {
 		Start-Process -Wait -FilePath $signToolExe -ArgumentList " sign ",$certPath,$certPassword,$certTimestamp,$certPaths -PassThru -NoNewWindow;
 	}
 
-	if ($nugetMultipleDLLs.IsPresent)
-	{
-        # Copy *.dll into nuget folders
-		Get-ChildItem -LiteralPath $examplinviBin -filter Tweetinvi*.dll  | % { Copy-Item $_.fullname $net40Folder }
-		Get-ChildItem -LiteralPath $examplinviBin -filter Tweetinvi*.dll  | % { Copy-Item $_.fullname $net45Folder }
-		Get-ChildItem -LiteralPath $examplinviBin -filter Tweetinvi*.dll  | % { Copy-Item $_.fullname $net40PortableFolder }
-		Get-ChildItem -LiteralPath $examplinviBin -filter Tweetinvi*.dll  | % { Copy-Item $_.fullname $net45PortableFolder }
-	}
-
-	
-	if (!$nugetMultipleDLLs.IsPresent) {
-        # Copy Merged DLL into Nuget folder
-
-		Write-Host 'Copying merged DLL into nuget...' 
-		Write-Host $mergedDLLPath;
-
-		$mergedDLLPath = '.\' + $mergedDLLPath;
-
-		Copy-Item $mergedDLLPath ($net40Folder + '\Tweetinvi.dll');
-		Copy-Item $mergedDLLPath ($net45Folder + '\Tweetinvi.dll');
-		Copy-Item $mergedDLLPath ($net40PortableFolder + '\Tweetinvi.dll');
-
-		Get-ChildItem -LiteralPath $temporaryFolder -filter Tweetinvi*.dll  | % { Copy-Item $_.fullname $net45PortableFolder }
-        Get-ChildItem -LiteralPath $netCoreTemp -filter Tweetinvi*.dll | % { Copy-Item $_.fullname $netCoreNugetFolder }
-	}
+	# Copy *.dll into nuget folders
+	Get-ChildItem -LiteralPath $netCoreTemp -filter Tweetinvi*.dll | % { Copy-Item $_.fullname $netCoreNugetFolder }
+	Get-ChildItem -LiteralPath $netCoreTemp -filter Tweetinvi*.dll | % { Copy-Item $_.fullname $net40Folder }
+	Get-ChildItem -LiteralPath $netCoreTemp -filter Tweetinvi*.dll | % { Copy-Item $_.fullname $net45Folder }
+	Get-ChildItem -LiteralPath $netCoreTemp -filter Tweetinvi*.dll | % { Copy-Item $_.fullname $net40PortableFolder }
+	Get-ChildItem -LiteralPath $netCoreTemp -filter Tweetinvi*.dll | % { Copy-Item $_.fullname $net45PortableFolder }
 
 	# Create Zip files
 	$tweetinviBinariesPackage = 'Tweetinvi ' + $version + ' - Binaries.zip'
