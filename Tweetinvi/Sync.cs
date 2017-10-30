@@ -54,10 +54,15 @@ namespace Tweetinvi
             // We store the credentials at the time of the call within the local memory
             var credentialsAtInvokeTime = CredentialsAccessor.CurrentThreadCredentials;
 
+            // We are cloning to avoid changes to the settings before the async operation starts
+            var sourceThreadSettingsClone = TweetinviConfig.CurrentThreadSettings.Clone();
+
             // The lambda expression will store 'credentialsAtInvokeTime' within a generated class
             // In order to keep the reference to the credentials at the time of invocation
             var operationRunWithSpecificCredentials = new Action(() =>
             {
+                TweetinviConfig.CurrentThreadSettings.InitialiseFrom(sourceThreadSettingsClone);
+
                 // We get the newly created credentialsAccessor for the async thread (CredentialsAccessor are Thread specific)
                 var credentialsAccessor = TweetinviContainer.Resolve<ICredentialsAccessor>();
 
@@ -83,10 +88,15 @@ namespace Tweetinvi
             // We store the credentials at the time of the call within the local memory
             var credentialsAtInvokeTime = CredentialsAccessor.CurrentThreadCredentials;
 
+            // We are cloning to avoid changes to the settings before the async operation starts
+            var sourceThreadSettingsClone = TweetinviConfig.CurrentThreadSettings.Clone();
+
             // The lambda expression will store 'credentialsAtInvokeTime' within a generated class
             // In order to keep the reference to the credentials at the time of invocation
             var operationRunWithSpecificCredentials = new Func<T>(() =>
             {
+                TweetinviConfig.CurrentThreadSettings.InitialiseFrom(sourceThreadSettingsClone);
+
                 // We get the newly created credentialsAccessor for the async thread (CredentialsAccessor are Thread specific)
                 var credentialsAccessor = TweetinviContainer.Resolve<ICredentialsAccessor>();
 

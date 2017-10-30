@@ -2,6 +2,7 @@
 using System.Globalization;
 using System.Text;
 using System.Text.RegularExpressions;
+using Tweetinvi.Core.Core.Helpers;
 using Tweetinvi.Core.Helpers;
 using Tweetinvi.Models;
 
@@ -82,7 +83,7 @@ namespace Tweetinvi.Core.Extensions
                 return 0;
             }
 
-            int length = tweet.UTF32Length();
+            int length = UnicodeHelper.UTF32Length(tweet);
 
             foreach (Match link in LinkParser.Matches(tweet))
             {
@@ -106,32 +107,6 @@ namespace Tweetinvi.Core.Extensions
             if (willBePublishedWithMedia)
             {
                 length += TweetinviConsts.MEDIA_CONTENT_SIZE;
-            }
-
-            return length;
-        }
-
-        private const char HIGH_SURROGATE_START = '\uD800';
-        private const char HIGH_SURROGATE_END = '\uDBFF';
-        private const char LOW_SURROGATE_START = '\uDC00';
-        private const char LOW_SURROGATE_END = '\uDFFF';
-
-        /// <summary>
-        /// Get the UTF32 length of a string
-        /// </summary>
-        public static int UTF32Length(this string s)
-        {
-            var length = 0;
-
-            for (int i = 0; i < s.Length; ++i)
-            {
-                if (s[i] >= HIGH_SURROGATE_START && s[i] <= HIGH_SURROGATE_END &&
-                    s[i + 1] >= LOW_SURROGATE_START && s[i + 1] <= LOW_SURROGATE_END)
-                {
-                    i++;
-                }
-
-                ++length;
             }
 
             return length;

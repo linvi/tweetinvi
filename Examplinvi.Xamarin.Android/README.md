@@ -6,6 +6,12 @@ To start working on this project please open the file `MainActivity.cs` and simp
 
 `Auth.SetUserCredentials("CONSUMER_KEY", "CONSUMER_SECRET", "ACCESS_TOKEN", "ACCESS_TOKEN_SECRET");`
 
+## Increase performances of the Android VM
+
+1. Remove Hyper-V from available features
+2. Install HAXM
+
+Could can learn more here : https://developer.xamarin.com/guides/android/deployment,_testing,_and_metrics/debug-on-emulator/android-sdk-emulator/1-hardware-acceleration/#haxm-overview
 
 ## Debug issue
 

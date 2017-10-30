@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Tweetinvi.Core.Core.Parameters;
 using Tweetinvi.Core.Extensions;
 using Tweetinvi.Core.Parameters;
 using Tweetinvi.Core.Web;
@@ -34,6 +35,9 @@ namespace Tweetinvi.Controllers.TwitterLists
         bool UnSubscribeAuthenticatedUserFromList(ITwitterListIdentifier listIdentifier);
         bool CheckIfUserIsAListSubscriber(ITwitterListIdentifier listIdentifier, IUserIdentifier user);
         IEnumerable<ITwitterListDTO> GetUserOwnedLists(IUserIdentifier user, int maximumNumberOfListsToRetrieve);
+
+        // User memberships
+        IEnumerable<ITwitterListDTO> GetUserListMemberships(IGetUserListMembershipsQueryParameters queryParameters);
     }
 
     public class TwitterListQueryExecutor : ITwitterListQueryExecutor
@@ -59,6 +63,14 @@ namespace Tweetinvi.Controllers.TwitterLists
         {
             var baseQuery = _listsQueryGenerator.GetUsersOwnedListQuery(user, maximumNumberOfListsToRetrieve);
             return _twitterAccessor.ExecuteCursorGETQuery<ITwitterListDTO, ITwitterListCursorQueryResultDTO>(baseQuery, maximumNumberOfListsToRetrieve);
+        }
+
+        // Memberships
+        public IEnumerable<ITwitterListDTO> GetUserListMemberships(IGetUserListMembershipsQueryParameters queryParameters)
+        {
+            var parameters = queryParameters.Parameters;
+            var query = _listsQueryGenerator.GetUserListMembershipsQuery(queryParameters);
+            return _twitterAccessor.ExecuteCursorGETQuery<ITwitterListDTO, ITwitterListCursorQueryResultDTO>(query, parameters);
         }
 
        // Update List
@@ -89,6 +101,7 @@ namespace Tweetinvi.Controllers.TwitterLists
             return _twitterAccessor.ExecuteCursorGETQuery<IUserDTO, IUserCursorQueryResultDTO>(baseQuery, maxNumberOfUsersToRetrieve);
         }
 
+        // Add Member
         public bool AddMemberToList(ITwitterListIdentifier listIdentifier, IUserIdentifier user)
         {
             var query = _listsQueryGenerator.GetAddMemberToListQuery(listIdentifier, user);
@@ -113,6 +126,7 @@ namespace Tweetinvi.Controllers.TwitterLists
             return MultiRequestsResult.Success;
         }
 
+        // Remove Members
         public bool RemoveMemberFromList(ITwitterListIdentifier listIdentifier, IUserIdentifier user)
         {
             var query = _listsQueryGenerator.GetRemoveMemberFromListQuery(listIdentifier, user);

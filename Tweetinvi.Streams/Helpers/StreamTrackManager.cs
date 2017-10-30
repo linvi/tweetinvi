@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using Tweetinvi.Core.Core.Helpers;
+using Tweetinvi.Core.Extensions;
 using Tweetinvi.Core.Streaming;
 
 namespace Tweetinvi.Streams.Helpers
@@ -129,8 +131,20 @@ namespace Tweetinvi.Streams.Helpers
             var tracksContainsAtSymbol = _uniqueKeywordsHashSet.Any(x => x.StartsWith("@"));
             var tracksContainsDollarTag = _uniqueKeywordsHashSet.Any(x => x.StartsWith("$"));
 
-            var regexBuilder = new StringBuilder(@"[\#");
-            
+            var regexBuilder = new StringBuilder();
+
+            _uniqueKeywordsHashSet.ForEach(x =>
+            {
+                bool isUnicode = UnicodeHelper.AnyUnicode(x);
+
+                if (isUnicode)
+                {
+                    regexBuilder.Append($"{Regex.Escape(x)}|");
+                }
+            });
+
+            regexBuilder.Append(@"[\#");
+
             if (tracksContainsAtSymbol)
             {
                 regexBuilder.Append("@");

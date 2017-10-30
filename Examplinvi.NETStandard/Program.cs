@@ -1,5 +1,6 @@
 ﻿using System;
 using Tweetinvi;
+using Tweetinvi.Models;
 
 namespace Examplinvi.NETStandard
 {

@@ -3,12 +3,12 @@ using System.Text;
 using Tweetinvi.Controllers.Properties;
 using Tweetinvi.Controllers.Shared;
 using Tweetinvi.Core;
+using Tweetinvi.Core.Core.Parameters;
 using Tweetinvi.Core.Extensions;
 using Tweetinvi.Core.Parameters;
 using Tweetinvi.Core.QueryGenerators;
 using Tweetinvi.Core.QueryValidators;
 using Tweetinvi.Models;
-using Tweetinvi.Parameters;
 
 namespace Tweetinvi.Controllers.TwitterLists
 {
@@ -35,7 +35,7 @@ namespace Tweetinvi.Controllers.TwitterLists
         string GetSubscribeUserToListQuery(ITwitterListIdentifier listIdentifier);
         string GetUnSubscribeUserFromListQuery(ITwitterListIdentifier listIdentifier);
         string GetCheckIfUserIsAListSubscriberQuery(ITwitterListIdentifier listIdentifier, IUserIdentifier user);
-
+        string GetUserListMembershipsQuery(IGetUserListMembershipsQueryParameters parameters);
     }
 
     public class TwitterListQueryGenerator : ITwitterListQueryGenerator
@@ -70,6 +70,22 @@ namespace Tweetinvi.Controllers.TwitterLists
 
             var identifierParameter = _userQueryParameterGenerator.GenerateIdOrScreenNameParameter(user);
             return string.Format(Resources.List_GetUserLists, identifierParameter, getOwnedListsFirst);
+        }
+
+        public string GetUserListMembershipsQuery(IGetUserListMembershipsQueryParameters parameters)
+        {
+            _userQueryValidator.ThrowIfUserCannotBeIdentified(parameters.UserIdentifier);
+
+            var userIdentifierParameter = _userQueryParameterGenerator.GenerateIdOrScreenNameParameter(parameters.UserIdentifier);
+            var additionalParameters = parameters.Parameters;
+
+            var baseQuery = string.Format(Resources.List_GetUserMemberships, userIdentifierParameter);
+            var queryBuilder = new StringBuilder(baseQuery);
+
+            queryBuilder.AddParameterToQuery("count", additionalParameters.MaximumNumberOfResults);
+            queryBuilder.AddParameterToQuery("filter_to_owned_lists", additionalParameters.FilterToOwnLists);
+
+            return queryBuilder.ToString();
         }
 
         // Owned Lists

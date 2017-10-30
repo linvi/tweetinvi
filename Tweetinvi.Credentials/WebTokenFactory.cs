@@ -63,8 +63,8 @@ namespace Tweetinvi.Credentials
                 {
                     Match tokenInformation = Regex.Match(requestTokenResponse, Resources.OAuthTokenRequestRegex);
 
-                    bool callbackConfirmed = bool.Parse(tokenInformation.Groups["oauth_callback_confirmed"].Value);
-                    if (!callbackConfirmed)
+                    bool callbackConfirmed;
+                    if (!bool.TryParse(tokenInformation.Groups["oauth_callback_confirmed"].Value, out callbackConfirmed) || !callbackConfirmed)
                     {
                         return null;
                     }

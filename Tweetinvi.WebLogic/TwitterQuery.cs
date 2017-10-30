@@ -18,6 +18,8 @@ namespace Tweetinvi.WebLogic
                 "image/jpeg",
                 "application/json"
             };
+
+            CustomHeaders = new Dictionary<string, string>();
         }
 
         public IProxyConfig ProxyConfig { get; set; }

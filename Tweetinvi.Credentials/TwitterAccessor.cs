@@ -5,6 +5,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Tweetinvi.Core.Exceptions;
 using Tweetinvi.Core.Helpers;
+using Tweetinvi.Core.Public.Parameters;
 using Tweetinvi.Core.Web;
 using Tweetinvi.Core.Wrappers;
 using Tweetinvi.Credentials.QueryJsonConverters;
@@ -317,6 +318,15 @@ namespace Tweetinvi.Credentials
         }
 
         public IEnumerable<T> ExecuteCursorGETQuery<T, T1>(
+            string baseQuery,
+            ICursorQueryParameters cursorQueryParameters)
+            where T1 : class, IBaseCursorQueryDTO<T>
+        {
+            return ExecuteCursorGETQuery<T, T1>(baseQuery, cursorQueryParameters.MaximumNumberOfResults,
+                cursorQueryParameters.Cursor);
+        }
+
+        public IEnumerable<T> ExecuteCursorGETQuery<T, T1>(
                 string baseQuery,
                 int maxObjectToRetrieve = Int32.MaxValue,
                 long cursor = -1)
@@ -468,7 +478,8 @@ namespace Tweetinvi.Credentials
                 HttpMethod = twitterQuery.HttpMethod,
                 HttpContent = twitterQuery.HttpContent,
                 AuthorizationHeader = twitterQuery.AuthorizationHeader,
-                AcceptHeaders = twitterQuery.AcceptHeaders
+                AcceptHeaders = twitterQuery.AcceptHeaders,
+                CustomHeaders = twitterQuery.CustomHeaders
             };
         }
     }

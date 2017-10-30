@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Tweetinvi.Exceptions;
 using Tweetinvi.Models;
 
 namespace Tweetinvi.Events
@@ -36,5 +37,10 @@ namespace Tweetinvi.Events
         /// Whether the request has been successfull.
         /// </summary>
         public bool Success { get { return HttpContent != null; } }
+
+        /// <summary>
+        /// Exception Raised by Twitter
+        /// </summary>
+        public TwitterException Exception { get; protected set; }
     }
 }

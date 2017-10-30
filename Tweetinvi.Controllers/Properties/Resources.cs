@@ -230,6 +230,11 @@ namespace Tweetinvi.Controllers.Properties
         public static string List_OwnerScreenNameParameter = "&owner_screen_name={0}";
 
         /// <summary>
+        /// Looks up a localized string similar to https://api.twitter.com/1.1/lists/memberships.json?{0}.
+        /// </summary>
+        public static string List_GetUserMemberships = "https://api.twitter.com/1.1/lists/memberships.json?{0}";
+
+        /// <summary>
         ///   Looks up a localized string similar to https://api.twitter.com/1.1/lists/ownerships.json?{0}&amp;count={1}.
         /// </summary>
         public static string List_Ownership = "https://api.twitter.com/1.1/lists/ownerships.json?{0}&count={1}";
@@ -555,9 +560,9 @@ namespace Tweetinvi.Controllers.Properties
         public static string Exception_Upload_Status_NotUploaded = "Upload STATUS can only be retrieved for uploaded media. The FINALIZE query must be invoked.";
 
         /// <summary>
-        ///   Looks up a localized string similar to Upload STATUS can only be invoked on uploads with processing metadata. Set the `media_category` to `amplify_video` to solve this isue.
+        ///   Looks up a localized string similar to Upload STATUS can only be invoked on uploads with processing metadata. Set the `media_category` to `tweet_video` to solve this isue.
         /// </summary>
-        public static string Exception_Upload_Status_No_ProcessingInfo = "Upload STATUS can only be invoked on uploads with processing metadata. Set the `media_category` to `amplify_video` to solve this isue.";
+        public static string Exception_Upload_Status_No_ProcessingInfo = "Upload STATUS can only be invoked on uploads with processing metadata. Set the `media_category` to `tweet_video` to solve this isue.";
 
         public static string GetResourceByName(string resourceName)
         {

@@ -21,7 +21,7 @@ namespace Tweetinvi.Core.Parameters
         string MediaType { get; set; }
 
         /// <summary>
-        /// Type of upload. `amplify_video` allows to access the STATUS of the upload processing.
+        /// Type of upload. `tweet_video` allows to access the STATUS of the upload processing.
         /// </summary>
         string MediaCategory { get; set; }
 

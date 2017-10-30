@@ -1,9 +1,10 @@
-﻿PLEASE READ THE 2 FIRST LINES!
+﻿# Tweetinvi - ASP.NETCore Example
 
-The only thing you need to change to try out this example is the MyCredentials.cs file.
-In this file you will have to enter the credentials that you want to use to test Examplinvi.Web.
+To start working on this project please open the file `MyCredentials.cs` and simply enter your credentials at the line:
 
-If you have any feedback, comment, +1, -1... Please post a comment on github (https://github.com/linvi/tweetinvi) or StackOverflow.
-
-Cheers,
-Linvi
+``` c#
+public static string CONSUMER_KEY = "CONSUMER_KEY";
+public static string CONSUMER_SECRET = "CONSUMER_SECRET";
+public static string ACCESS_TOKEN = "ACCESS_TOKEN";
+public static string ACCESS_TOKEN_SECRET = "ACCESS_TOKEN_SECRET";
+```

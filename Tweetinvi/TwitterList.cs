@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using Tweetinvi.Core.Controllers;
+using Tweetinvi.Core.Core.Parameters;
 using Tweetinvi.Core.Factories;
+using Tweetinvi.Core.Public.Parameters;
 using Tweetinvi.Core.QueryGenerators;
 using Tweetinvi.Models;
 using Tweetinvi.Parameters;
@@ -796,6 +798,28 @@ namespace Tweetinvi
         public static MultiRequestsResult RemoveMultipleMembersFromList(ITwitterListIdentifier list, IEnumerable<IUserIdentifier> usersToRemove)
         {
             return TwitterListController.RemoveMultipleMembersFromList(list, usersToRemove);
+        }
+
+        // Get Memberships
+
+        public static IEnumerable<ITwitterList> GetUserListMemberships(string username, IGetUserListMembershipsParameters parameters = null)
+        {
+            return TwitterListController.GetUserListsMemberships(new UserIdentifier(username), parameters);
+        }
+
+        public static IEnumerable<ITwitterList> GetUserListMemberships(long userId, IGetUserListMembershipsParameters parameters = null)
+        {
+            return TwitterListController.GetUserListsMemberships(new UserIdentifier(userId), parameters);
+        }
+
+        public static IEnumerable<ITwitterList> GetUserListMemberships(IUserIdentifier userIdentifier, IGetUserListMembershipsParameters parameters = null)
+        {
+            return TwitterListController.GetUserListsMemberships(userIdentifier, parameters);
+        }
+
+        public static IEnumerable<ITwitterList> GetUserListMemberships(IGetUserListMembershipsQueryParameters parameters)
+        {
+            return TwitterListController.GetUserListsMemberships(parameters);
         }
 
         // Check Membership
