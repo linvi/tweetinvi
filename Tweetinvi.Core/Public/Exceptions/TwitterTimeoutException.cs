@@ -13,8 +13,9 @@ namespace Tweetinvi.Exceptions
 
     public class TwitterTimeoutException : TwitterException, ITwitterTimeoutException
     {
-        public TwitterTimeoutException(ITwitterQuery twitterQuery) 
-            : base(twitterQuery.QueryURL, string.Format("{0} web request timed out.", twitterQuery.QueryURL))
+        public TwitterTimeoutException(ITwitterQuery twitterQuery)
+            : base(twitterQuery.QueryURL, twitterQuery.TwitterCredentials,
+                string.Format("{0} web request timed out.", twitterQuery.QueryURL))
         {
             Timeout = twitterQuery.Timeout;
             TwitterDescription = string.Format("Twitter was not able to perform your query within the Timeout limit of {0} ms.", twitterQuery.Timeout.TotalMilliseconds);
