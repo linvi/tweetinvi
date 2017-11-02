@@ -112,9 +112,10 @@ namespace Tweetinvi.Logic.Exceptions
             return _twitterExceptionFactory.Create(exceptionInfos, url);
         }
 
-        public TwitterException GenerateTwitterException(WebException webException, string url)
+        public TwitterException GenerateTwitterException(WebException webException, string url,
+            int defaultStatusCode = TwitterException.DEFAULT_STATUS_CODE)
         {
-            return _twitterExceptionFactory.Create(webException, url);
+            return _twitterExceptionFactory.Create(webException, url, defaultStatusCode);
         }
 
         public TwitterException GenerateTwitterException(IWebRequestResult webRequestResult)
