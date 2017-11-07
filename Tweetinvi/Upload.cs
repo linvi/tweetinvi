@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Tweetinvi.Controllers.Upload;
 using Tweetinvi.Core.Parameters;
+using Tweetinvi.Core.Public.Events;
 using Tweetinvi.Core.Public.Models.Enum;
 using Tweetinvi.Logic.QueryParameters;
 using Tweetinvi.Models;
@@ -60,9 +61,9 @@ namespace Tweetinvi
         /// <summary>
         /// Create and Upload a media on upload.twitter.com
         /// </summary>
-        public static IMedia UploadBinary(byte[] binary)
+        public static IMedia UploadBinary(byte[] binary, Action<IUploadProgressChanged> uploadProgressChanged = null)
         {
-            return UploadBinaries(new[] { binary }).FirstOrDefault();
+            return UploadQueryExecutor.UploadBinary(binary, uploadProgressChanged);
         }
 
         /// <summary>
@@ -74,45 +75,37 @@ namespace Tweetinvi
         }
 
         /// <summary>
-        /// Upload a video to twitter.
+        /// Upload a video to twitter. The mediaCategory needs to be `tweet_video` 
+        /// if you want to use GetMediaStatus.
         /// </summary>
-        public static IMedia UploadImage(byte[] binary)
+        public static IMedia UploadVideo(byte[] binary, string mediaType, string mediaCategory, Action<IUploadProgressChanged> uploadProgressChanged = null)
         {
-            return UploadQueryExecutor.UploadBinary(binary);
+            return UploadQueryExecutor.UploadVideo(binary, mediaType, mediaCategory, uploadProgressChanged);
         }
 
         /// <summary>
         /// Upload a video to twitter. The mediaCategory needs to be `tweet_video` 
         /// if you want to use GetMediaStatus.
         /// </summary>
-        public static IMedia UploadVideo(byte[] binary, string mediaType, string mediaCategory)
+        public static IMedia UploadVideo(byte[] binary, UploadMediaCategory mediaCategory = UploadMediaCategory.TweetVideo, Action<IUploadProgressChanged> uploadProgressChanged = null)
         {
-            return UploadQueryExecutor.UploadVideo(binary, mediaType, mediaCategory);
-        }
-
-        /// <summary>
-        /// Upload a video to twitter. The mediaCategory needs to be `tweet_video` 
-        /// if you want to use GetMediaStatus.
-        /// </summary>
-        public static IMedia UploadVideo(byte[] binary, UploadMediaCategory mediaCategory = UploadMediaCategory.TweetVideo)
-        {
-            return UploadQueryExecutor.UploadVideo(binary, mediaCategory);
+            return UploadQueryExecutor.UploadVideo(binary, mediaCategory, uploadProgressChanged);
         }
 
         /// <summary>
         /// Upload a binary using the chunked upload mechanism.
         /// </summary>
-        public static IMedia ChunkUploadBinary(byte[] binary, string mediaType, UploadMediaCategory mediaCategory)
+        public static IMedia ChunkUploadBinary(byte[] binary, string mediaType, UploadMediaCategory mediaCategory, Action<IUploadProgressChanged> uploadProgressChanged = null)
         {
-            return UploadQueryExecutor.ChunkUploadBinary(binary, mediaType, mediaCategory);
+            return UploadQueryExecutor.ChunkUploadBinary(binary, mediaType, mediaCategory, uploadProgressChanged);
         }
 
         /// <summary>
         /// Upload a binary using the chunked upload mechanism.
         /// </summary>
-        public static IMedia ChunkUploadBinary(byte[] binary, string mediaType)
+        public static IMedia ChunkUploadBinary(byte[] binary, string mediaType, Action<IUploadProgressChanged> uploadProgressChanged = null)
         {
-            return UploadQueryExecutor.ChunkUploadBinary(binary, mediaType);
+            return UploadQueryExecutor.ChunkUploadBinary(binary, mediaType, null, uploadProgressChanged);
         }
 
         /// <summary>
