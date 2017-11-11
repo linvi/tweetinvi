@@ -10,6 +10,7 @@ namespace Tweetinvi.Core.Web
         TimeSpan? Timeout { get; }
         int? SegmentIndex { get; set; }
         long? MediaId { get; set; }
+        Action<long, long> UploadProgressChanged { get; set; }
         ICustomRequestParameters CustomRequestParameters { get; set; }
     }
 
@@ -29,6 +30,7 @@ namespace Tweetinvi.Core.Web
         public TimeSpan? Timeout { get; private set; }
         public int? SegmentIndex { get; set; }
         public long? MediaId { get; set; }
+        public Action<long, long> UploadProgressChanged { get; set; }
         public ICustomRequestParameters CustomRequestParameters { get; set; }
     }
 }

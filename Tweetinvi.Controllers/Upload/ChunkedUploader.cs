@@ -95,7 +95,8 @@ namespace Tweetinvi.Controllers.Upload
                 Query = appendQuery,
                 Binaries = new List<byte[]> { parameters.Binary },
                 Timeout = parameters.Timeout,
-                ContentId = parameters.MediaType
+                ContentId = parameters.MediaType,
+                UploadProgressChanged = parameters.UploadProgressChanged
             };
 
             var success = _twitterAccessor.TryExecuteMultipartQuery(multiPartRequestParameters);

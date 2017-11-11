@@ -5,16 +5,30 @@ namespace Tweetinvi.Core.Public.Events
 {
     public interface IUploadProgressChanged
     {
+        /// <summary>
+        /// Type of operation executed for the upload
+        /// </summary>
         UploadProgressState State { get; }
-        int NumberOfBytesUploaded { get; }
-        int TotalOfBytesToUpload { get; }
+
+        /// <summary>
+        /// Numbers of bytes that have been successfully sent at the current time
+        /// </summary>
+        long NumberOfBytesUploaded { get; }
+
+        /// <summary>
+        /// Total number of bytes of the upload
+        /// </summary>
+        long TotalOfBytesToUpload { get; }
+
+        /// <summary>
+        /// Percentage of completion of the upload
+        /// </summary>
         int Percentage { get; }
     }
 
     public class UploadStateChangedEventArgs : EventArgs, IUploadProgressChanged
     {
-
-        public UploadStateChangedEventArgs(UploadProgressState state, int numberOfBytesUploaded, int totalOfBytesToUpload)
+        public UploadStateChangedEventArgs(UploadProgressState state, long numberOfBytesUploaded, long totalOfBytesToUpload)
         {
             State = state;
             NumberOfBytesUploaded = numberOfBytesUploaded;
@@ -23,9 +37,9 @@ namespace Tweetinvi.Core.Public.Events
 
         public UploadProgressState State { get; }
 
-        public int NumberOfBytesUploaded { get; }
+        public long NumberOfBytesUploaded { get; }
 
-        public int TotalOfBytesToUpload { get; }
+        public long TotalOfBytesToUpload { get; }
 
         public int Percentage
         {

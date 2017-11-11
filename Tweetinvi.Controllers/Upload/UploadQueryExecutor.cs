@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json;
 using Tweetinvi.Controllers.Properties;
+using Tweetinvi.Core.Events;
 using Tweetinvi.Core.Extensions;
 using Tweetinvi.Core.Helpers;
 using Tweetinvi.Core.Injectinvi;
@@ -53,7 +54,7 @@ namespace Tweetinvi.Controllers.Upload
         /// <summary>
         /// Upload a binary in multiple queries.
         /// </summary>
-        IMedia ChunkUploadBinary(IUploadQueryParameters uploadQueryParameters, Action<IUploadProgressChanged> uploadProgressChanged = null);
+        IMedia ChunkUploadBinary(IUploadQueryParameters uploadQueryParameters);
 
         /// <summary>
         /// Upload a video in multiple queries if necessary.
@@ -92,7 +93,7 @@ namespace Tweetinvi.Controllers.Upload
             _threadHelper = threadHelper;
         }
 
-        
+
 
         public void UploadMedias(IEnumerable<IMedia> medias, bool forceReUpload)
         {
@@ -124,7 +125,11 @@ namespace Tweetinvi.Controllers.Upload
                     var multipartHttpRequestParameters = new MultipartHttpRequestParameters
                     {
                         Query = Resources.Upload_URL,
-                        Binaries = new List<byte[]> { mediaToPublish.Data }
+                        Binaries = new List<byte[]> { mediaToPublish.Data },
+                        UploadProgressChanged = (current, total) =>
+                        {
+                            uploadProgressChanged?.Invoke(new UploadStateChangedEventArgs(UploadProgressState.PROGRESS_CHANGED, current, total));
+                        }
                     };
 
                     uploadProgressChanged?.Invoke(new UploadStateChangedEventArgs(UploadProgressState.INITIALIZED, 0, mediaToPublish.Data.Length));
@@ -140,13 +145,13 @@ namespace Tweetinvi.Controllers.Upload
                         Binaries = new List<byte[]> { mediaToPublish.Data }
                     };
 
-                    var media = ChunkUploadBinary(uploadQueryParameters, uploadProgressChanged);
+                    var media = ChunkUploadBinary(uploadQueryParameters);
                     mediaToPublish.UploadedMediaInfo = media.UploadedMediaInfo;
                 }
             }
         }
 
-        
+
         public IMedia UploadBinary(byte[] binary, Action<IUploadProgressChanged> uploadProgressChanged = null)
         {
             var medias = UploadBinaries(new[] { binary }, uploadProgressChanged);
@@ -206,21 +211,14 @@ namespace Tweetinvi.Controllers.Upload
             {
                 Binaries = new List<byte[]> { binary },
                 MediaType = mediaType,
-                MediaCategory = mediaCategory
+                MediaCategory = mediaCategory,
+                UploadStateChanged = uploadProgressChanged
             };
-
-            if (uploadProgressChanged != null)
-            {
-                parameters.UploadStateChanged += (sender, args) =>
-                {
-                    uploadProgressChanged(args);
-                };
-            }
 
             return ChunkUploadBinary(parameters);
         }
 
-        public IMedia ChunkUploadBinary(IUploadQueryParameters uploadQueryParameters, Action<IUploadProgressChanged> uploadProgressChanged = null)
+        public IMedia ChunkUploadBinary(IUploadQueryParameters uploadQueryParameters)
         {
             if (uploadQueryParameters.Binaries.Count != 1)
             {
@@ -246,7 +244,7 @@ namespace Tweetinvi.Controllers.Upload
                 var totalSize = binary.Length;
                 var uploadedSize = 0;
 
-                uploadQueryParameters.RaiseUploadStateChanged(new UploadStateChangedEventArgs(UploadProgressState.INITIALIZED, 0, totalSize));
+                uploadQueryParameters.UploadStateChanged?.Invoke(new UploadStateChangedEventArgs(UploadProgressState.INITIALIZED, 0, totalSize));
 
                 for (int i = 0; i < binaryChunks.Count; ++i)
                 {
@@ -255,24 +253,29 @@ namespace Tweetinvi.Controllers.Upload
                     var appendParameters = new ChunkUploadAppendParameters(
                         binaryChunk,
                         "media", // Must be `media`, if using the real media type as content id, Twitter does not accept when invoking .Finalize().
-                        uploadQueryParameters.Timeout);
+                        uploadQueryParameters.Timeout)
+                    {
+                        UploadProgressChanged = (current, total) =>
+                        {
+                            uploadQueryParameters.UploadStateChanged?.Invoke(new UploadStateChangedEventArgs(UploadProgressState.PROGRESS_CHANGED, uploadedSize + current, totalSize));
+                        }
+                    };
 
                     appendParameters.CustomRequestParameters = uploadQueryParameters.AppendCustomRequestParameters;
 
                     if (!uploader.Append(appendParameters))
                     {
-                        uploadQueryParameters.RaiseUploadStateChanged(new UploadStateChangedEventArgs(UploadProgressState.FAILED, uploadedSize, totalSize));
+                        uploadQueryParameters.UploadStateChanged?.Invoke(new UploadStateChangedEventArgs(UploadProgressState.FAILED, uploadedSize, totalSize));
 
                         return null;
                     }
 
                     uploadedSize += binaryChunk.Length;
-                    uploadQueryParameters.RaiseUploadStateChanged(new UploadStateChangedEventArgs(UploadProgressState.PROGRESS_CHANGED, uploadedSize, totalSize));
                 }
 
                 var media = uploader.Complete();
 
-                uploadQueryParameters.RaiseUploadStateChanged(new UploadStateChangedEventArgs(UploadProgressState.COMPLETED, uploadedSize, totalSize));
+                uploadQueryParameters.UploadStateChanged?.Invoke(new UploadStateChangedEventArgs(UploadProgressState.COMPLETED, uploadedSize, totalSize));
 
                 return media;
             }

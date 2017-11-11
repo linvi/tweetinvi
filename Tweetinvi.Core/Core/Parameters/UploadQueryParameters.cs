@@ -53,14 +53,9 @@ namespace Tweetinvi.Core.Parameters
         ICustomRequestParameters AppendCustomRequestParameters { get; set; }
 
         /// <summary>
-        /// Function to invoke to notify that the upload state changed
-        /// </summary>
-        void RaiseUploadStateChanged(UploadStateChangedEventArgs args);
-
-        /// <summary>
         /// Event to notify that the upload state has changed
         /// </summary>
-        event EventHandler<UploadStateChangedEventArgs> UploadStateChanged;
+        Action<UploadStateChangedEventArgs> UploadStateChanged { get; set; }
     }
 
     /// <summary>
@@ -68,6 +63,7 @@ namespace Tweetinvi.Core.Parameters
     /// </summary>
     public class UploadQueryParameters : IUploadQueryParameters
     {
+
         public UploadQueryParameters()
         {
             Binaries = new List<byte[]>();
@@ -88,12 +84,6 @@ namespace Tweetinvi.Core.Parameters
 
         public ICustomRequestParameters InitCustomRequestParameters { get; set; }
         public ICustomRequestParameters AppendCustomRequestParameters { get; set; }
-
-        public void RaiseUploadStateChanged(UploadStateChangedEventArgs args)
-        {
-            this.Raise(UploadStateChanged, args);
-        }
-
-        public event EventHandler<UploadStateChangedEventArgs> UploadStateChanged;
+        public Action<UploadStateChangedEventArgs> UploadStateChanged { get; set; }
     }
 }
