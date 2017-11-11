@@ -67,5 +67,8 @@ namespace Tweetinvi.Logic.DTO
 
         [JsonProperty("progress_percent")]
         public int ProgressPercentage { get; set; }
+
+        [JsonProperty("error")]
+        public IUploadProcessingError Error { get; set; }
     }
 }

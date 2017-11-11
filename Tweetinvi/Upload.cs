@@ -148,9 +148,9 @@ namespace Tweetinvi
         /// <summary>
         /// Wait for Twitter to process the uploaded binary and returns a new media object containing all the available metadata.
         /// </summary>
-        public static IMedia WaitForMediaProcessingToGetAllMetadata(IMedia media)
+        public static void WaitForMediaProcessingToGetAllMetadata(IMedia media)
         {
-            return _uploadHelper.WaitForMediaProcessingToGetAllMetadata(media);
+            _uploadHelper.WaitForMediaProcessingToGetAllMetadata(media);
         }
     }
 }
