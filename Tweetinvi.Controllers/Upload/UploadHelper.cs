@@ -9,7 +9,7 @@ namespace Tweetinvi.Controllers.Upload
 {
     public interface IUploadHelper
     {
-        IMedia WaitForMediaProcessingToGetAllMetadata(IMedia media);
+        void WaitForMediaProcessingToGetAllMetadata(IMedia media);
     }
 
     public class UploadHelper : IUploadHelper
@@ -25,18 +25,18 @@ namespace Tweetinvi.Controllers.Upload
             _uploadQueryExecutor = uploadQueryExecutor;
         }
 
-        public IMedia WaitForMediaProcessingToGetAllMetadata(IMedia media)
+        public void WaitForMediaProcessingToGetAllMetadata(IMedia media)
         {
             var isProcessed = IsMediaProcessed(media.UploadedMediaInfo);
             if (isProcessed)
             {
-                return media;
+                return;
             }
 
             var processingInfoDelay = media.UploadedMediaInfo.ProcessingInfo.CheckAfterInMilliseconds;
             var dateWhenProcessingCanBeChecked = media.UploadedMediaInfo.CreatedDate.Add(TimeSpan.FromMilliseconds(processingInfoDelay));
 
-            var timeToWait = (int)DateTime.Now.Subtract(dateWhenProcessingCanBeChecked).TotalMilliseconds;
+            var timeToWait = (int)dateWhenProcessingCanBeChecked.Subtract(DateTime.Now).TotalMilliseconds;
 
             IUploadedMediaInfo mediaStatus = null;
             while (!isProcessed)
@@ -49,10 +49,7 @@ namespace Tweetinvi.Controllers.Upload
                 timeToWait = mediaStatus.ProcessingInfo.CheckAfterInMilliseconds;
             }
 
-            media = media.CloneWithoutUploadInfo();
             media.UploadedMediaInfo = mediaStatus;
-
-            return media;
         }
 
         private bool IsMediaProcessed(IUploadedMediaInfo mediaInfo)
