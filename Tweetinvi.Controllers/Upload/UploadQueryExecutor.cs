@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json;
 using Tweetinvi.Controllers.Properties;
-using Tweetinvi.Core.Events;
 using Tweetinvi.Core.Extensions;
 using Tweetinvi.Core.Helpers;
 using Tweetinvi.Core.Injectinvi;
@@ -80,17 +79,20 @@ namespace Tweetinvi.Controllers.Upload
         private readonly IFactory<IMedia> _mediaFactory;
         private readonly IFactory<IChunkedUploader> _chunkedUploadFactory;
         private readonly IThreadHelper _threadHelper;
+        private readonly IUploadHelper _uploadHelper;
 
         public UploadQueryExecutor(
             ITwitterAccessor twitterAccessor,
             IFactory<IMedia> mediaFactory,
             IFactory<IChunkedUploader> chunkedUploadFactory,
-            IThreadHelper threadHelper)
+            IThreadHelper threadHelper,
+            IUploadHelper uploadHelper)
         {
             _twitterAccessor = twitterAccessor;
             _mediaFactory = mediaFactory;
             _chunkedUploadFactory = chunkedUploadFactory;
             _threadHelper = threadHelper;
+            _uploadHelper = uploadHelper;
         }
 
 
@@ -276,6 +278,11 @@ namespace Tweetinvi.Controllers.Upload
                 var media = uploader.Complete();
 
                 uploadQueryParameters.UploadStateChanged?.Invoke(new UploadStateChangedEventArgs(UploadProgressState.COMPLETED, uploadedSize, totalSize));
+
+                if (uploadQueryParameters.WaitForTwitterProcessing)
+                {
+                    _uploadHelper.WaitForMediaProcessingToGetAllMetadata(media);
+                }
 
                 return media;
             }

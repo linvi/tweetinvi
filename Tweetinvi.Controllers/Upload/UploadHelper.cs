@@ -27,6 +27,11 @@ namespace Tweetinvi.Controllers.Upload
 
         public void WaitForMediaProcessingToGetAllMetadata(IMedia media)
         {
+            if (media == null)
+            {
+                return;
+            }
+
             var isProcessed = IsMediaProcessed(media.UploadedMediaInfo);
             if (isProcessed)
             {
