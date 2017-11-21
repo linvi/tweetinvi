@@ -67,7 +67,8 @@ namespace Tweetinvi.Controllers.Account
                 HttpMethod = HttpMethod.POST,
                 Binaries = new [] { parameters.Binary },
                 ContentId = "image",
-                Timeout = parameters.Timeout
+                Timeout = parameters.Timeout,
+                UploadProgressChanged = parameters.UploadProgressChanged
             });
         }
 
@@ -92,7 +93,8 @@ namespace Tweetinvi.Controllers.Account
                 HttpMethod = HttpMethod.POST,
                 Binaries = new [] { parameters.Binary }, 
                 ContentId = "banner",
-                Timeout = parameters.Timeout
+                Timeout = parameters.Timeout,
+                UploadProgressChanged = parameters.UploadProgressChanged
             };
 
             return _twitterAccessor.TryExecuteMultipartQuery(multipartParameters);
@@ -116,7 +118,8 @@ namespace Tweetinvi.Controllers.Account
                     HttpMethod = HttpMethod.POST,
                     Binaries = new [] { parameters.Binary },
                     ContentId = "image",
-                    Timeout = parameters.Timeout
+                    Timeout = parameters.Timeout,
+                    UploadProgressChanged = parameters.UploadProgressChanged
                 });
             }
 

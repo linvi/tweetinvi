@@ -43,6 +43,14 @@ namespace Tweetinvi.Core.Parameters
         List<long> AdditionalOwnerIds { get; set; }
 
         /// <summary>
+        /// When an upload completes Twitter takes few seconds to process the media
+        /// and confirm that it is a media that can be used on the platform. 
+        /// With WaitForTwitterProcessing enabled, Tweetinvi will wait for Twitter
+        /// to confirm that the media has been successfully processed.
+        /// </summary>
+        bool WaitForTwitterProcessing { get; set; }
+
+        /// <summary>
         /// Additional parameters to use during the upload INIT HttpRequest.
         /// </summary>
         ICustomRequestParameters InitCustomRequestParameters { get; set; }
@@ -70,6 +78,7 @@ namespace Tweetinvi.Core.Parameters
             MediaType = "media";
             MaxChunkSize = TweetinviConsts.UPLOAD_MAX_CHUNK_SIZE;
             AdditionalOwnerIds = new List<long>();
+            WaitForTwitterProcessing = true;
 
             InitCustomRequestParameters = new CustomRequestParameters();
             AppendCustomRequestParameters = new CustomRequestParameters();
@@ -81,6 +90,7 @@ namespace Tweetinvi.Core.Parameters
         public int MaxChunkSize { get; set; }
         public TimeSpan? Timeout { get; set; }
         public List<long> AdditionalOwnerIds { get; set; }
+        public bool WaitForTwitterProcessing { get; set; }
 
         public ICustomRequestParameters InitCustomRequestParameters { get; set; }
         public ICustomRequestParameters AppendCustomRequestParameters { get; set; }
