@@ -15,11 +15,11 @@ namespace Tweetinvi.Controllers.Upload
     public class UploadHelper : IUploadHelper
     {
         private readonly IThreadHelper _threadHelper;
-        private readonly IUploadQueryExecutor _uploadQueryExecutor;
+        private readonly IUploadMediaStatusQueryExecutor _uploadQueryExecutor;
 
         public UploadHelper(
             IThreadHelper threadHelper,
-            IUploadQueryExecutor uploadQueryExecutor)
+            IUploadMediaStatusQueryExecutor uploadQueryExecutor)
         {
             _threadHelper = threadHelper;
             _uploadQueryExecutor = uploadQueryExecutor;

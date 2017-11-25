@@ -93,6 +93,7 @@ namespace Tweetinvi.Controllers
 
             _container.RegisterType<ISearchQueryExecutor, SearchQueryExecutor>();
             _container.RegisterType<IUploadQueryExecutor, UploadQueryExecutor>();
+            _container.RegisterType<IUploadMediaStatusQueryExecutor, UploadMediaStatusQueryExecutor>();
         }
 
         private void InitializeQueryGenerators()

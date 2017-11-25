@@ -4,7 +4,6 @@ using System.Linq;
 using Newtonsoft.Json;
 using Tweetinvi.Controllers.Properties;
 using Tweetinvi.Core.Extensions;
-using Tweetinvi.Core.Helpers;
 using Tweetinvi.Core.Injectinvi;
 using Tweetinvi.Core.Parameters;
 using Tweetinvi.Core.Public.Events;
@@ -70,7 +69,7 @@ namespace Tweetinvi.Controllers.Upload
         /// </summary>
         bool AddMediaMetadata(IMediaMetadata metadata);
 
-        IUploadedMediaInfo GetMediaStatus(IMedia media, bool autoAwait = true);
+        
     }
 
     public class UploadQueryExecutor : IUploadQueryExecutor
@@ -78,24 +77,19 @@ namespace Tweetinvi.Controllers.Upload
         private readonly ITwitterAccessor _twitterAccessor;
         private readonly IFactory<IMedia> _mediaFactory;
         private readonly IFactory<IChunkedUploader> _chunkedUploadFactory;
-        private readonly IThreadHelper _threadHelper;
         private readonly IUploadHelper _uploadHelper;
 
         public UploadQueryExecutor(
             ITwitterAccessor twitterAccessor,
             IFactory<IMedia> mediaFactory,
             IFactory<IChunkedUploader> chunkedUploadFactory,
-            IThreadHelper threadHelper,
             IUploadHelper uploadHelper)
         {
             _twitterAccessor = twitterAccessor;
             _mediaFactory = mediaFactory;
             _chunkedUploadFactory = chunkedUploadFactory;
-            _threadHelper = threadHelper;
             _uploadHelper = uploadHelper;
         }
-
-
 
         public void UploadMedias(IEnumerable<IMedia> medias, bool forceReUpload)
         {
@@ -341,30 +335,6 @@ namespace Tweetinvi.Controllers.Upload
             return _twitterAccessor.TryPOSTJsonContent("https://upload.twitter.com/1.1/media/metadata/create.json", json);
         }
 
-        public IUploadedMediaInfo GetMediaStatus(IMedia media, bool autoWait = true)
-        {
-            if (!media.HasBeenUploaded)
-            {
-                throw new InvalidOperationException(Resources.Exception_Upload_Status_NotUploaded);
-            }
-
-            if (media.UploadedMediaInfo.ProcessingInfo == null)
-            {
-                throw new InvalidOperationException(Resources.Exception_Upload_Status_No_ProcessingInfo);
-            }
-
-            if (autoWait)
-            {
-                var timeBeforeOperationPermitted = TimeSpan.FromSeconds(media.UploadedMediaInfo.ProcessingInfo.CheckAfterInSeconds);
-
-                var waitTimeRemaining = media.UploadedMediaInfo.CreatedDate.Add(timeBeforeOperationPermitted).Subtract(DateTime.Now);
-                if (waitTimeRemaining.TotalMilliseconds > 0)
-                {
-                    _threadHelper.Sleep((int)waitTimeRemaining.TotalMilliseconds);
-                }
-            }
-
-            return _twitterAccessor.ExecuteGETQuery<IUploadedMediaInfo>($"https://upload.twitter.com/1.1/media/upload.json?command=STATUS&media_id={media.MediaId}");
-        }
+        
     }
 }

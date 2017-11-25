@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using Tweetinvi.Controllers.Upload;
 using Tweetinvi.Core.Parameters;
 using Tweetinvi.Core.Public.Events;
@@ -35,6 +34,25 @@ namespace Tweetinvi
             }
         }
 
+        [ThreadStatic]
+        private static IUploadMediaStatusQueryExecutor _uploadMediaStatusQueryExecutor;
+
+        /// <summary>
+        /// Controller handling any Upload request
+        /// </summary>
+        public static IUploadMediaStatusQueryExecutor UploadMediaStatusQueryExecutor
+        {
+            get
+            {
+                if (_uploadMediaStatusQueryExecutor == null)
+                {
+                    Initialize();
+                }
+
+                return _uploadMediaStatusQueryExecutor;
+            }
+        }
+
         private static readonly IUploadHelper _uploadHelper;
 
         static Upload()
@@ -47,6 +65,7 @@ namespace Tweetinvi
         private static void Initialize()
         {
             _uploadQueryExecutor = TweetinviContainer.Resolve<IUploadQueryExecutor>();
+            _uploadMediaStatusQueryExecutor = TweetinviContainer.Resolve<IUploadMediaStatusQueryExecutor>();
         }
 
         /// <summary>
@@ -142,7 +161,7 @@ namespace Tweetinvi
         /// </summary>
         public static IUploadedMediaInfo GetMediaStatus(IMedia media, bool waitForStatusToBeAvailable = true)
         {
-            return UploadQueryExecutor.GetMediaStatus(media, waitForStatusToBeAvailable);
+            return UploadMediaStatusQueryExecutor.GetMediaStatus(media, waitForStatusToBeAvailable);
         }
 
         /// <summary>
