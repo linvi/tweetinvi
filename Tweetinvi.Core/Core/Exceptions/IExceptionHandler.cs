@@ -27,7 +27,8 @@ namespace Tweetinvi.Core.Exceptions
 
         TwitterException TryLogExceptionInfos(ITwitterExceptionInfo[] exceptionInfos, string url);
 
-        TwitterException GenerateTwitterException(WebException webException, string url);
+        TwitterException GenerateTwitterException(WebException webException, string url,
+            int defaultStatusCode = TwitterException.DEFAULT_STATUS_CODE);
         TwitterException GenerateTwitterException(IWebRequestResult webRequestResult);
         void AddTwitterException(ITwitterException twitterException);
     }
