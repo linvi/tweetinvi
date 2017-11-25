@@ -337,7 +337,7 @@ namespace Tweetinvi.Streams
 
         private void HandleWebException(WebException wex)
         {
-            _lastException = _exceptionHandler.GenerateTwitterException(wex, _twitterQuery.QueryURL);
+            _lastException = _exceptionHandler.GenerateTwitterException(wex, _twitterQuery);
 
             if (!_exceptionHandler.SwallowWebExceptions)
             {

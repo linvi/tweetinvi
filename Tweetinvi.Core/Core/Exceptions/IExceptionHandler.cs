@@ -4,6 +4,7 @@ using System.Net;
 using Tweetinvi.Core.Web;
 using Tweetinvi.Events;
 using Tweetinvi.Exceptions;
+using Tweetinvi.Models;
 
 namespace Tweetinvi.Core.Exceptions
 {
@@ -19,16 +20,16 @@ namespace Tweetinvi.Core.Exceptions
 
         void ClearLoggedExceptions();
 
-        TwitterException AddWebException(WebException webException, string url);
-        TwitterException TryLogWebException(WebException webException, string url);
+        TwitterException AddWebException(WebException webException, ITwitterQuery twitterQuery);
+        TwitterException TryLogWebException(WebException webException, ITwitterQuery twitterQuery);
 
-        TwitterException AddFailedWebRequestResult(IWebRequestResult webRequestResult);
-        TwitterException TryLogFailedWebRequestResult(IWebRequestResult webRequestResult);
+        TwitterException AddFailedWebRequestResult(IWebRequestResult webRequestResult, ITwitterQuery twitterQuery);
+        TwitterException TryLogFailedWebRequestResult(IWebRequestResult webRequestResult, ITwitterQuery twitterQuery);
 
         TwitterException TryLogExceptionInfos(ITwitterExceptionInfo[] exceptionInfos, string url);
 
-        TwitterException GenerateTwitterException(WebException webException, string url);
-        TwitterException GenerateTwitterException(IWebRequestResult webRequestResult);
+        TwitterException GenerateTwitterException(WebException webException, ITwitterQuery twitterQuery);
+        TwitterException GenerateTwitterException(IWebRequestResult webRequestResult, ITwitterQuery twitterQuery);
         void AddTwitterException(ITwitterException twitterException);
     }
 }

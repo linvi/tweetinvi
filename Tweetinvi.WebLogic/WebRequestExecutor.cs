@@ -48,7 +48,7 @@ namespace Tweetinvi.WebLogic
 
                     if (!result.IsSuccessStatusCode)
                     {
-                        throw _exceptionHandler.TryLogFailedWebRequestResult(result);
+                        throw _exceptionHandler.TryLogFailedWebRequestResult(result, twitterQuery);
                     }
 
                     var stream = result.ResultStream;
@@ -150,7 +150,7 @@ namespace Tweetinvi.WebLogic
 
                 if (webException != null)
                 {
-                    throw _exceptionHandler.TryLogWebException(webException, twitterQuery.QueryURL);
+                    throw _exceptionHandler.TryLogWebException(webException, twitterQuery);
                 }
 
                 if (taskCanceledException != null)
