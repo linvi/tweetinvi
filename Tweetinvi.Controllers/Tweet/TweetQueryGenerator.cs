@@ -80,6 +80,7 @@ namespace Tweetinvi.Controllers.Tweet
             var text = queryParameters.Text;
 
             var useExtendedMode = _tweetinviSettingsAccessor.CurrentThreadSettings.TweetMode == TweetMode.Extended;
+
             var quotedTweetUrl = GetQuotedTweetUrl(queryParameters);
 
             if (!useExtendedMode && quotedTweetUrl != null)
@@ -115,7 +116,7 @@ namespace Tweetinvi.Controllers.Tweet
                 query.AddParameterToQuery("place_id", queryParameters.PlaceId);
                 query.AddParameterToQuery("display_coordinates", queryParameters.DisplayExactCoordinates);
                 query.AddParameterToQuery("trim_user", queryParameters.TrimUser);
-                query.AddParameterToQuery("tweet_mode", _tweetinviSettingsAccessor.CurrentThreadSettings.TweetMode?.ToString().ToLowerInvariant());
+                query.AddParameterToQuery("tweet_mode", _tweetinviSettingsAccessor.CurrentThreadSettings.TweetMode.ToString().ToLowerInvariant());
 
                 if (useExtendedMode && quotedTweetUrl != null)
                 {

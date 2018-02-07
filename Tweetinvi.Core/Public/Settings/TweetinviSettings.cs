@@ -31,8 +31,8 @@ namespace Tweetinvi
     /// </summary>
     public enum TweetMode
     {
-        Extended,
-        Compat
+        Extended = 0,
+        Compat = 1
     }
 
     public interface ITweetinviSettings
@@ -60,7 +60,7 @@ namespace Tweetinvi
         /// <summary>
         /// Specify whether you want your tweet to use the extended mode.
         /// </summary>
-        TweetMode? TweetMode { get; set; }
+        TweetMode TweetMode { get; set; }
 
         /// <summary>
         /// A method allowing developers to specify how to retrieve the current DateTime.
@@ -86,7 +86,7 @@ namespace Tweetinvi
         public IProxyConfig ProxyConfig { get; set; }
         public int HttpRequestTimeout { get; set; }
         public RateLimitTrackerMode RateLimitTrackerMode { get; set; }
-        public TweetMode? TweetMode { get; set; }
+        public TweetMode TweetMode { get; set; }
         public int UploadTimeout { get; set; }
         public Func<DateTime> GetUtcDateTime { get; set; }
 

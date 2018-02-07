@@ -465,7 +465,7 @@ namespace Tweetinvi.Logic
             _taskFactory = taskFactory;
 
             // IMPORTANT: POSITION MATTERS! Look line below!
-            TweetMode = tweetMode ?? tweetinviSettingsAccessor?.CurrentThreadSettings?.TweetMode ?? TweetMode.Compat;
+            TweetMode = tweetMode ?? tweetinviSettingsAccessor?.CurrentThreadSettings?.TweetMode ?? TweetMode.Extended;
 
             // IMPORTANT: Make sure that the TweetDTO is set up after the TweetMode because it uses the TweetMode to initialize the Entities
             TweetDTO = tweetDTO;
