@@ -11,9 +11,9 @@ namespace Tweetinvi.Logic.QueryParameters
 
     public class MediaMetadata : IMediaMetadata
     {
-        public MediaMetadata(long id, string altText)
+        public MediaMetadata(long mediaId, string altText)
         {
-            MediaId = id;
+            MediaId = mediaId;
             AltText = altText;
         }
 

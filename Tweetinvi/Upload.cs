@@ -69,15 +69,6 @@ namespace Tweetinvi
         }
 
         /// <summary>
-        /// Upload a collection of media. The media uploaded info is updated.
-        /// If the uploaded info is null the media failed to be uploaded.
-        /// </summary>
-        public static void UploadMedias(IEnumerable<IMedia> medias, bool forceReUpload)
-        {
-            UploadQueryExecutor.UploadMedias(medias, forceReUpload);
-        }
-
-        /// <summary>
         /// Create and Upload a media on upload.twitter.com
         /// </summary>
         public static IMedia UploadBinary(byte[] binary, Action<IUploadProgressChanged> uploadProgressChanged = null)
@@ -112,41 +103,6 @@ namespace Tweetinvi
         }
 
         /// <summary>
-        /// Upload a binary using the chunked upload mechanism.
-        /// </summary>
-        public static IMedia ChunkUploadBinary(byte[] binary, string mediaType, UploadMediaCategory mediaCategory, Action<IUploadProgressChanged> uploadProgressChanged = null)
-        {
-            return UploadQueryExecutor.ChunkUploadBinary(binary, mediaType, mediaCategory, uploadProgressChanged);
-        }
-
-        /// <summary>
-        /// Upload a binary using the chunked upload mechanism.
-        /// </summary>
-        public static IMedia ChunkUploadBinary(byte[] binary, string mediaType, Action<IUploadProgressChanged> uploadProgressChanged = null)
-        {
-            return UploadQueryExecutor.ChunkUploadBinary(binary, mediaType, null, uploadProgressChanged);
-        }
-
-        /// <summary>
-        /// Upload a binary using the chunked upload mechanism.
-        /// </summary>
-        public static IMedia ChunkUploadBinary(IUploadQueryParameters parameters)
-        {
-            return UploadQueryExecutor.ChunkUploadBinary(parameters);
-        }
-
-        /// <summary>
-        /// A chunked uploader is an object that allows developers to 
-        /// upload binaries using the chunked upload endpoint.
-        /// It is interesting to notice that chunked upload allows to
-        /// publish a binary in multiple uploads.
-        /// </summary>
-        public static IChunkedUploader CreateChunkedUploader()
-        {
-            return UploadQueryExecutor.CreateChunkedUploader();
-        }
-
-        /// <summary>
         /// Add metadata to a media that has been uploaded.
         /// </summary>
         public static bool AddMediaMetadata(IMediaMetadata metadata)
@@ -167,7 +123,7 @@ namespace Tweetinvi
         /// <summary>
         /// Wait for Twitter to process the uploaded binary and returns a new media object containing all the available metadata.
         /// </summary>
-        public static void WaitForMediaProcessingToGetAllMetadata(IMedia media)
+        public static void WaitForMediaToBecomeAvailable(IMedia media)
         {
             _uploadHelper.WaitForMediaProcessingToGetAllMetadata(media);
         }
