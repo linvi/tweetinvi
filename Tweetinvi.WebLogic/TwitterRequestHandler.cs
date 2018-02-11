@@ -96,7 +96,7 @@ namespace Tweetinvi.WebLogic
 
                 QueryCompleted(twitterQuery, webRequestResult, rateLimitTrackerOption);
 
-                return webRequestResult.Response;
+                return webRequestResult.Text;
             }
             catch (TwitterException ex)
             {
@@ -136,7 +136,7 @@ namespace Tweetinvi.WebLogic
 
                 QueryCompleted(twitterQuery, webRequestResult, rateLimitTrackerOption);
 
-                return webRequestResult.Response;
+                return webRequestResult.Text;
             }
             catch (TwitterException ex)
             {
@@ -164,17 +164,18 @@ namespace Tweetinvi.WebLogic
 
             try
             {
-                byte[] data = null;
+                byte[] binary = null;
+
                 var webRequestResult = _webRequestExecutor.ExecuteQuery(twitterQuery);
 
                 if (webRequestResult.IsSuccessStatusCode)
                 {
-                    data = ReadBinaryDataFromStream(webRequestResult.ResultStream);
+                    binary = webRequestResult.Binary;
                 }
 
                 QueryCompleted(twitterQuery, webRequestResult, rateLimitTrackerMode);
 
-                return data;
+                return binary;
             }
             catch (TwitterException ex)
             {
@@ -311,7 +312,7 @@ namespace Tweetinvi.WebLogic
                 _rateLimitUpdater.QueryExecuted(twitterQuery.QueryURL, twitterQuery.TwitterCredentials, rateLimitHeaders);
             }
 
-            _tweetinviEvents.RaiseAfterQueryExecuted(new QueryAfterExecuteEventArgs(twitterQuery, webRequestResult.Response, webRequestResult.Headers));
+            _tweetinviEvents.RaiseAfterQueryExecuted(new QueryAfterExecuteEventArgs(twitterQuery, webRequestResult.Text, webRequestResult.Headers));
         }
 
         private void HandleException(
@@ -327,15 +328,6 @@ namespace Tweetinvi.WebLogic
             }
 
             _tweetinviEvents.RaiseAfterQueryExecuted(new QueryAfterExecuteExceptionEventArgs(queryParameter, exception));
-        }
-
-        private static byte[] ReadBinaryDataFromStream(Stream input)
-        {
-            using (MemoryStream ms = new MemoryStream())
-            {
-                input.CopyTo(ms);
-                return ms.ToArray();
-            }
         }
 
         #endregion

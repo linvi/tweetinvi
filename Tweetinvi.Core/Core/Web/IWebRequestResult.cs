@@ -3,6 +3,54 @@ using System.IO;
 
 namespace Tweetinvi.Core.Web
 {
+    public static class WebRequestResultExtension
+    {
+        public static string ToJson(this IWebRequestResult webRequestResult)
+        {
+            var resultStream = webRequestResult.ResultStream;
+            if (resultStream != null)
+            {
+                var responseReader = new StreamReader(resultStream);
+                var json = responseReader.ReadLine();
+
+                return json;
+            }
+
+            return null;
+        }
+
+        public static byte[] ToBinary(this IWebRequestResult webRequestResult)
+        {
+            var stream = webRequestResult.ResultStream;
+
+            if (stream == null)
+            {
+                return null;
+            }
+
+            byte[] binary;
+
+            using (var tempMemStream = new MemoryStream())
+            {
+                byte[] buffer = new byte[128];
+
+                while (true)
+                {
+                    int read = stream.Read(buffer, 0, buffer.Length);
+
+                    if (read <= 0)
+                    {
+                        binary = tempMemStream.ToArray(); break;
+                    }
+
+                    tempMemStream.Write(buffer, 0, read);
+                }
+            }
+
+            return binary;
+        }
+    }
+
     public interface IWebRequestResult
     {
         /// <summary>
@@ -14,11 +62,6 @@ namespace Tweetinvi.Core.Web
         /// Resulting stream to retrieve the data.
         /// </summary>
         Stream ResultStream { get; set; }
-
-        /// <summary>
-        /// Result of the query executed
-        /// </summary>
-        string Response { get; set; }
 
         /// <summary>
         /// Status Code of the query execution.
@@ -34,5 +77,8 @@ namespace Tweetinvi.Core.Web
         /// Headers of the response.
         /// </summary>
         Dictionary<string, IEnumerable<string>> Headers { get; set; }
+
+        byte[] Binary { get; set; }
+        string Text { get; set; }
     }
 }
