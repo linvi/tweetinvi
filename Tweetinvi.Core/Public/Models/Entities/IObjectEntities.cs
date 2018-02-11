@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace Tweetinvi.Models.Entities
 {
@@ -23,5 +24,10 @@ namespace Tweetinvi.Models.Entities
         /// Collection of symbols associated with a Tweet
         /// </summary>
         List<ISymbolEntity> Symbols { get; }
+
+        /// <summary>
+        /// Collection of medias associated with a Tweet
+        /// </summary>
+        List<IMediaEntity> Medias { get; }
     }
 }
