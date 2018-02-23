@@ -93,10 +93,10 @@ namespace Tweetinvi.Controllers.Account
         {
             var query = new StringBuilder(Resources.Account_UpdateProfile);
 
-            query.AddParameterToQuery("name", parameters.Name);
-            query.AddParameterToQuery("url", parameters.Url);
-            query.AddParameterToQuery("location", parameters.Location);
-            query.AddParameterToQuery("description", parameters.Description);
+            query.AddParameterToQuery("name", Uri.EscapeDataString(parameters.Name));
+            query.AddParameterToQuery("url", Uri.EscapeDataString(parameters.Url));
+            query.AddParameterToQuery("location", Uri.EscapeDataString(parameters.Location));
+            query.AddParameterToQuery("description", Uri.EscapeDataString(parameters.Description));
             query.AddParameterToQuery("profile_link_color", parameters.ProfileLinkColor);
             query.AddParameterToQuery("include_entities", parameters.IncludeEntities);
             query.AddParameterToQuery("skip_status", parameters.SkipStatus);
