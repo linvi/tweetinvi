@@ -79,7 +79,7 @@ namespace Tweetinvi.Parameters
             {
                 if (value != null && value.Length > 100)
                 {
-                    throw new ArgumentException("URL cannot contain more thatn 100 characters.");
+                    throw new ArgumentException("URL cannot contain more than 100 characters.");
                 }
 
                 _url = value;
@@ -94,7 +94,7 @@ namespace Tweetinvi.Parameters
             {
                 if (value != null && value.Length > 30)
                 {
-                    throw new ArgumentException("Location cannot contain more thatn 100 characters.");
+                    throw new ArgumentException("Location cannot contain more than 30 characters.");
                 }
 
                 _location = value;
@@ -110,7 +110,7 @@ namespace Tweetinvi.Parameters
             {
                 if (value != null && value.Length > 160)
                 {
-                    throw new ArgumentException("Description cannot contain more thatn 100 characters.");
+                    throw new ArgumentException("Description cannot contain more than 160 characters.");
                 }
 
                 _description = value;
