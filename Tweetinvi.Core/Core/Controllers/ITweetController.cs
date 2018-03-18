@@ -17,10 +17,6 @@ namespace Tweetinvi.Core.Controllers
         ITweet PublishTweetInReplyTo(string text, long tweetId);
         ITweet PublishTweetInReplyTo(string text, ITweetIdentifier tweet);
 
-        // Length
-        int Length(IPublishTweetParameters publishTweetParameters);
-        int Length(string text, IPublishTweetOptionalParameters publishTweetOptionalParameters = null);
-
         bool CanBePublished(IPublishTweetParameters publishTweetParameters);
         bool CanBePublished(string text, IPublishTweetOptionalParameters publishTweetOptionalParameters = null);
 

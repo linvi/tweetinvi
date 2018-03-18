@@ -90,24 +90,6 @@ namespace Tweetinvi
 
         #region Tweet Controller
 
-        // Length
-
-        /// <summary>
-        /// Get the length of a tweet as calculated by Twitter
-        /// </summary>
-        public static int Length(IPublishTweetParameters publishTweetParameters)
-        {
-            return TweetController.Length(publishTweetParameters);
-        }
-
-        /// <summary>
-        /// Get the length of a tweet as calculated by Twitter
-        /// </summary>
-        public static int Length(string text, IPublishTweetOptionalParameters publishTweetOptionalParameters = null)
-        {
-            return TweetController.Length(text, publishTweetOptionalParameters);
-        }
-
         // Can be published
 
         /// <summary>

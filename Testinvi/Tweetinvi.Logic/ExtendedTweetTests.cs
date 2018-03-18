@@ -53,7 +53,6 @@ namespace Testinvi.Tweetinvi.Core
             Assert.AreEqual(parts.Prefix, "@sam @aileen ");
             Assert.AreEqual(parts.Prefix.Length, 13);
 
-            Assert.AreEqual(parts.Content.TweetLength(), 140);
             Assert.AreEqual(parts.Mentions.Length, 2);
         }
 

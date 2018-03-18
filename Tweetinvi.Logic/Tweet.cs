@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using Tweetinvi.Core;
 using Tweetinvi.Core.Controllers;
 using Tweetinvi.Core.Core.Helpers;
-using Tweetinvi.Core.Extensions;
 using Tweetinvi.Core.Factories;
 using Tweetinvi.Core.Helpers;
 using Tweetinvi.Logic.TwitterEntities;
@@ -390,37 +389,6 @@ namespace Tweetinvi.Logic
 
         #region Tweetinvi API Attributes
 
-        public int PublishedTweetLength
-        {
-            get
-            {
-                if (!_tweetDTO.IsTweetPublished)
-                {
-                    throw new InvalidOperationException("Cannot calculate the length before the tweet has been published. Use the CalculateLength method instead.");
-                }
-
-                return GetLength(false);
-            }
-        }
-
-        public int CalculateLength(bool willBePublishedWithMedia)
-        {
-            return GetLength(willBePublishedWithMedia);
-        }
-
-        private int GetLength(bool willBePublishedWithMedia)
-        {
-            var textLength = _tweetDTO.Text == null ? 0 : _tweetDTO.Text.TweetLength(willBePublishedWithMedia);
-
-            var mediaTweetLength = 0;
-            if (_tweetDTO.IsTweetPublished && _tweetDTO.LegacyEntities != null && _tweetDTO.LegacyEntities.Medias != null && _tweetDTO.LegacyEntities.Medias.Any())
-            {
-                mediaTweetLength = TweetinviConsts.MEDIA_CONTENT_SIZE;
-            }
-
-            return textLength + mediaTweetLength;
-        }
-
         public bool IsTweetPublished
         {
             get { return _tweetDTO.IsTweetPublished; }
@@ -471,11 +439,6 @@ namespace Tweetinvi.Logic
             TweetDTO = tweetDTO;
         }
 
-        public int TweetRemainingCharacters(bool hasMedia)
-        {
-            return TweetinviConsts.MAX_TWEET_SIZE - CalculateLength(hasMedia);
-        }
-        
         private bool CanTweetBeRetweeted()
         {
             return _tweetDTO != null && _tweetDTO.Id != TweetinviSettings.DEFAULT_ID && IsTweetPublished && !IsTweetDestroyed;

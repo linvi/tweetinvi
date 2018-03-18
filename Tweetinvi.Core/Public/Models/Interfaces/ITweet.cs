@@ -191,16 +191,6 @@ namespace Tweetinvi.Models
         ITweetDTO TweetDTO { get; set; }
 
         /// <summary>
-        /// Determine the length of an already published tweet
-        /// </summary>
-        int PublishedTweetLength { get; }
-
-        /// <summary>
-        /// Calculate the length of a tweet based on the text and whether it will be published with media
-        /// </summary>
-        int CalculateLength(bool willBePublishedWithMedia);
-
-        /// <summary>
         /// Date when the Tweet has been created in the program
         /// </summary>
         DateTime TweetLocalCreationDate { get; }
