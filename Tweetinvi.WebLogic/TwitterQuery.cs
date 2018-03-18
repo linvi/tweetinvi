@@ -81,5 +81,10 @@ namespace Tweetinvi.WebLogic
 
             return clone;
         }
+
+        public override string ToString()
+        {
+            return QueryURL;
+        }
     }
 }
