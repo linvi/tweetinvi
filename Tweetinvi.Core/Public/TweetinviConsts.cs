@@ -11,7 +11,7 @@
         public static int HTTP_LINK_SIZE = 23;
         public static int HTTPS_LINK_SIZE = 23;
 
-        public static int STATUS_CODE_TOO_MANY_REQUEST = 429;
+        public const int STATUS_CODE_TOO_MANY_REQUEST = 429;
 
         // https://dev.twitter.com/rest/reference/get/direct_messages
         public const int MESSAGE_GET_COUNT = 200;

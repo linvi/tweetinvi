@@ -19,6 +19,7 @@ namespace Tweetinvi.Streams.Helpers
 
             StringBuilder queryBuilder = new StringBuilder();
             queryBuilder.Append("track=");
+
             for (int i = 0; i < tracks.Count - 1; ++i)
             {
                 queryBuilder.Append(Uri.EscapeDataString(string.Format("{0},", tracks.ElementAt(i))));
