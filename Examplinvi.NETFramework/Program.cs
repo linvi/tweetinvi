@@ -1525,7 +1525,7 @@ namespace Examplinvi
 
         public static IMedia ChunkedUpload(byte[] binary, string mediaType)
         {
-            var uploader = Upload.CreateChunkedUploader();
+            var uploader = Upload.UploadQueryExecutor.CreateChunkedUploader();
             var half = (binary.Length / 2);
             var first = binary.Take(half).ToArray();
             var second = binary.Skip(half).ToArray();

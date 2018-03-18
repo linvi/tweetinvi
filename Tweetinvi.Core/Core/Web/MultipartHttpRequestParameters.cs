@@ -27,7 +27,6 @@ namespace Tweetinvi.Core.Web
     public class MultipartHttpRequestParameters : HttpRequestParameters, IMultipartHttpRequestParameters
     {
         private IEnumerable<byte[]> _binaries;
-        private HttpContent _httpContent;
 
         public MultipartHttpRequestParameters()
         {
@@ -41,15 +40,6 @@ namespace Tweetinvi.Core.Web
             set
             {
                 _binaries = value;
-
-                var multipartFormDataContent = GetMultipartFormDataContent(ContentId, _binaries);
-
-                var progressableContent = new ProgressableStreamContent(multipartFormDataContent, (current, total) =>
-                {
-                    UploadProgressChanged?.Invoke(current, total);
-                });
-
-                _httpContent = progressableContent;
             }
         }
         public string ContentId { get; set; }
@@ -58,11 +48,11 @@ namespace Tweetinvi.Core.Web
 
         public override HttpContent HttpContent
         {
-            get { return _httpContent; }
+            get { return GetMultipartFormDataContent(ContentId, _binaries); }
             set { throw new InvalidOperationException("Multipart HttpContent is created based on the binaries of the MultipartRequest.");}
         }
 
-        private MultipartFormDataContent GetMultipartFormDataContent(string contentId, IEnumerable<byte[]> binaries)
+        private ProgressableStreamContent GetMultipartFormDataContent(string contentId, IEnumerable<byte[]> binaries)
         {
             var multiPartContent = new MultipartFormDataContent();
 
@@ -74,7 +64,12 @@ namespace Tweetinvi.Core.Web
                 multiPartContent.Add(byteArrayContent, contentId, i.ToString(CultureInfo.InvariantCulture));
             }
 
-            return multiPartContent;
+            var progressableContent = new ProgressableStreamContent(multiPartContent, (current, total) =>
+            {
+                UploadProgressChanged?.Invoke(current, total);
+            });
+
+            return progressableContent;
         }
     }
 }

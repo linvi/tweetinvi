@@ -89,6 +89,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Tweetinvi.Controllers\Tweetinvi.Controllers.csproj">
+      <Project>{DB56C7C1-12FC-48C8-A79E-13B08E5E5B84}</Project>
+      <Name>Tweetinvi.Controllers</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Tweetinvi.Core\Tweetinvi.Core.csproj">
       <Project>{9101f0e8-cfa4-49b5-8568-c3136a765aaf}</Project>
       <Name>Tweetinvi.Core</Name>

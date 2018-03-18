@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using Newtonsoft.Json;
-using Tweetinvi.Models.Entities;
+﻿using Tweetinvi.Models.Entities;
 
 namespace Tweetinvi.Logic.TwitterEntities
 {
@@ -10,7 +8,6 @@ namespace Tweetinvi.Logic.TwitterEntities
     /// </summary>
     public class TweetEntitiesDTO : ObjectEntitiesDTO, ITweetEntities
     {
-        [JsonProperty("media")]
-        public List<IMediaEntity> Medias { get; set; }
+        
     }
 }
