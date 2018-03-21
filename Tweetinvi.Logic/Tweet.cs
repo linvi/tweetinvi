@@ -82,12 +82,7 @@ namespace Tweetinvi.Logic
                 var contentStartIndex = DisplayTextRange[0];
                 var contentEndIndex = DisplayTextRange[1];
 
-                if (contentEndIndex < _tweetDTO.FullText.Length)
-                {
-                    ++contentEndIndex;
-                }
-
-                return _tweetDTO.FullText.Substring(contentStartIndex, contentEndIndex - contentStartIndex);
+                return UnicodeHelper.SubstringByTextElements(_tweetDTO.FullText, contentStartIndex, contentEndIndex - contentStartIndex);
             }
             set { _tweetDTO.Text = value; }
         }
@@ -117,13 +112,7 @@ namespace Tweetinvi.Logic
                 if (text != null && DisplayTextRange != null)
                 {
                     var suffixStartIndex = DisplayTextRange[1];
-
-                    if (suffixStartIndex < text.Length && suffixStartIndex > 0)
-                    {
-                        ++suffixStartIndex;
-                    }
-
-                    return UnicodeHelper.UnicodeSubstring(text, suffixStartIndex);
+                    return UnicodeHelper.SubstringByTextElements(text, suffixStartIndex);
                 }
 
                 return null;

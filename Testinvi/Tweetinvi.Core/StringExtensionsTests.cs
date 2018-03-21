@@ -242,7 +242,7 @@ namespace Testinvi.Tweetinvi.Core
             public void TweetLengthWithSpecialUTFCharacters()
             {
                 //var l = Tweet.Length("sa 🎅⛄️🎅 done");
-                //Assert.AreEqual(l, 12);
+                //Assert.AreEqual(l, 11);
             }
 
             [TestMethod]
