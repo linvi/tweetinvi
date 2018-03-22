@@ -2,7 +2,8 @@
 
 Tweetinvi is an intuitive .NET C# library to access the Twitter REST API. It is a .NETCore and Portable Class Library that can be used for development on Windows, Windows RT, Windows Phone, Mono, Xamarin Android and Xamarin iOS. Tweetinvi is also compatible for Universal App development.
 
-* [Please click here to read the Wiki](https://github.com/linvi/tweetinvi/wiki)
+* [Wiki and Documentation](https://github.com/linvi/tweetinvi/wiki)
+* [Release notes](https://github.com/linvi/tweetinvi/releases)
 * [Nuget Package](https://www.nuget.org/packages/TweetinviAPI/) : `Install-Package TweetinviAPI`
 
 
@@ -20,5 +21,3 @@ Tweetinvi is an intuitive .NET C# library to access the Twitter REST API. It is 
 Tweetinvi is developed for free. All donations are greatly appreciated.
 
 [![Donate](https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=4W8BCYB4FVSN6)
-
-Watch the project being developed in real time on [LiveCoding.tv](https://www.livecoding.tv/linvi/).
