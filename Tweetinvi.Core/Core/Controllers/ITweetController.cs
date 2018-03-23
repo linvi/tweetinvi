@@ -11,9 +11,6 @@ namespace Tweetinvi.Core.Controllers
         ITweet PublishTweet(IPublishTweetParameters parameters);
         ITweet PublishTweet(string text, IPublishTweetOptionalParameters optionalParameters = null);
 
-        ITweet PublishTweetWithMedia(string text, byte[] media);
-        ITweet PublishTweetWithMedia(string text, long mediaId);
-
         ITweet PublishTweetInReplyTo(string text, long tweetId);
         ITweet PublishTweetInReplyTo(string text, ITweetIdentifier tweet);
 
@@ -58,7 +55,6 @@ namespace Tweetinvi.Core.Controllers
 
         // Update Published Tweet
         void UpdateTweetIfTweetSuccessfullyBeenPublished(ITweet sourceTweet, ITweetDTO publishedTweetDTO);
-        ITweet PublishTweetWithVideo(string text, byte[] video);
         void UploadMedias(IPublishTweetParameters parameters);
     }
 }

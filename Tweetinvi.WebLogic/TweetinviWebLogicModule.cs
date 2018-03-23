@@ -1,8 +1,9 @@
 ﻿using Tweetinvi.Core.Helpers;
 using Tweetinvi.Core.Injectinvi;
-using Tweetinvi.Core.Parameters;
+using Tweetinvi.Core.Public.Parameters;
 using Tweetinvi.Core.Web;
 using Tweetinvi.Models;
+using Tweetinvi.Parameters;
 
 namespace Tweetinvi.WebLogic
 {
@@ -23,7 +24,10 @@ namespace Tweetinvi.WebLogic
             _container.RegisterType<IConsumerCredentials, ConsumerCredentials>();
             _container.RegisterType<ITwitterCredentials, TwitterCredentials>();
 
-            _container.RegisterType<IUploadQueryParameters, UploadQueryParameters>();
+            _container.RegisterType<IUploadParameters, UploadParameters>();
+            _container.RegisterType<IUploadOptionalParameters, UploadOptionalParameters>();
+            _container.RegisterType<IUploadVideoParameters, UploadVideoParameters>();
+            _container.RegisterType<IUploadVideoOptionalParameters, UploadVideoOptionalParameters>();
 
             _container.RegisterType<IOAuthQueryParameter, OAuthQueryParameter>();
             _container.RegisterType<IOAuthWebRequestGenerator, OAuthWebRequestGenerator>();

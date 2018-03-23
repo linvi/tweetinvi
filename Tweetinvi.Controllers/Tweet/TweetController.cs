@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Tweetinvi.Controllers.Upload;
 using Tweetinvi.Core.Controllers;
-using Tweetinvi.Core.Extensions;
 using Tweetinvi.Core.Factories;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
@@ -43,36 +42,6 @@ namespace Tweetinvi.Controllers.Tweet
             var tweetDTO = InternalPublishTweet(parameters);
 
             return _tweetFactory.GenerateTweetFromDTO(tweetDTO);
-        }
-
-        public ITweet PublishTweetWithMedia(string text, long mediaId)
-        {
-            var parameters = new PublishTweetOptionalParameters();
-            parameters.MediaIds.Add(mediaId);
-
-            return PublishTweet(text, parameters);
-        }
-
-        public ITweet PublishTweetWithMedia(string text, byte[] media)
-        {
-            var parameters = new PublishTweetOptionalParameters();
-            parameters.MediaBinaries.Add(media);
-
-            return PublishTweet(text, parameters);
-        }
-
-        public ITweet PublishTweetWithVideo(string text, byte[] video)
-        {
-            var media = _uploadQueryExecutor.UploadVideo(video, "video/mp4", null);
-            if (media == null || media.MediaId == null || !media.HasBeenUploaded)
-            {
-                throw new OperationCanceledException("The tweet cannot be published as some of the medias could not be published!");
-            }
-
-            var parameters = new PublishTweetOptionalParameters();
-            parameters.MediaIds.Add((long)media.MediaId);
-
-            return PublishTweet(text, parameters);
         }
 
         public ITweet PublishTweetInReplyTo(string text, long tweetId)
@@ -119,26 +88,22 @@ namespace Tweetinvi.Controllers.Tweet
 
         public void UploadMedias(IPublishTweetParameters parameters)
         {
-            _uploadQueryExecutor.UploadMedias(parameters.Medias, false);
-
             if (parameters.Medias.Any(x => !x.HasBeenUploaded))
             {
                 throw new OperationCanceledException("The tweet cannot be published as some of the medias could not be published!");
             }
-            else
-            {
-                parameters.MediaIds.AddRange(parameters.Medias.Select(x => x.UploadedMediaInfo.MediaId));
-            }
 
-            var binariesMedia = _uploadQueryExecutor.UploadBinaries(parameters.MediaBinaries);
-            if (binariesMedia.Any(x => !x.HasBeenUploaded))
+            parameters.MediaIds.AddRange(parameters.Medias.Select(x => x.UploadedMediaInfo.MediaId));
+
+            var uploadedMedias = parameters.MediaBinaries
+                .Select(binary => { return _uploadQueryExecutor.UploadBinary(binary); }).ToArray();
+
+            if (uploadedMedias.Any(x => x == null || !x.HasBeenUploaded))
             {
                 throw new OperationCanceledException("The tweet cannot be published as some of the binaries could not be published!");
             }
-            else
-            {
-                parameters.MediaIds.AddRange(binariesMedia.Select(x => x.UploadedMediaInfo.MediaId));
-            }
+
+            parameters.MediaIds.AddRange(uploadedMedias.Select(x => x.UploadedMediaInfo.MediaId));
         }
 
         // Publish Retweet

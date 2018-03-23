@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Reflection;
@@ -16,7 +17,9 @@ using Stream = Tweetinvi.Stream;
 
 // Others
 using Tweetinvi.Exceptions; // Handle Exceptions
-using Tweetinvi.Core.Extensions; // Extension methods provided by Tweetinvi
+using Tweetinvi.Core.Extensions;
+using Tweetinvi.Core.Public.Parameters;
+// Extension methods provided by Tweetinvi
 using Tweetinvi.Models.DTO; // Data Transfer Objects for Serialization
 using Tweetinvi.Json; // JSON static classes to get json from Twitter.
 
@@ -335,7 +338,9 @@ namespace Examplinvi
                 return;
             }
 
-            Examples.ChunkedUpload(new byte[10], "video/mp4");
+            Examples.UploadImage("./path_to_image_file");
+            Examples.UploadImage("./path_to_gif_file");
+            Examples.UploadVideo("./path_to_video_file");
             Examples.Tweet_PublishTweetWithImage("publish with img", "filePath");
         }
 
@@ -444,30 +449,14 @@ namespace Examplinvi
             Console.WriteLine(tweet.IsTweetPublished);
         }
 
-        public static ITweet Tweet_PublishTweetWithImage(string text, string filePath, string filepath2 = null)
+        public static ITweet Tweet_PublishTweetWithImage(string text, string filePath)
         {
-            byte[] file1 = System.IO.File.ReadAllBytes(filePath);
+            var media = UploadImage(filePath);
 
-            var publishMultipleImages = filepath2 != null;
-
-            // Create a tweet with a single image
-            if (publishMultipleImages)
+            return Tweet.PublishTweet(text, new PublishTweetOptionalParameters()
             {
-                var publishParameters = new PublishTweetOptionalParameters
-                {
-                    MediaBinaries = new[]
-                    {
-                        file1,
-                        System.IO.File.ReadAllBytes(filepath2)
-                    }.ToList()
-                };
-
-                return Tweet.PublishTweet(text, publishParameters);
-            }
-            else
-            {
-                return Tweet.PublishTweetWithImage(text, file1);
-            }
+                Medias = new List<IMedia>() { media }
+            });
         }
 
         public static void Tweet_PublishTweetInReplyToAnotherTweet(string text, long tweetIdtoReplyTo)
@@ -1523,25 +1512,35 @@ namespace Examplinvi
 
         #region Upload
 
-        public static IMedia ChunkedUpload(byte[] binary, string mediaType)
+        public static IMedia UploadImage(string filepath)
         {
-            var uploader = Upload.UploadQueryExecutor.CreateChunkedUploader();
-            var half = (binary.Length / 2);
-            var first = binary.Take(half).ToArray();
-            var second = binary.Skip(half).ToArray();
+            var imageBinary = File.ReadAllBytes(filepath);
+            var media = Upload.UploadBinary(imageBinary);
 
-            if (uploader.Init(mediaType, binary.Length))
+            return media;
+        }
+
+        public static IMedia UploadGif(string filepath)
+        {
+            var gifBinary = File.ReadAllBytes(filepath);
+            var media = Upload.UploadBinary(gifBinary);
+
+            return media;
+        }
+
+        public static IMedia UploadVideo(string filepath)
+        {
+            var videoBinary = File.ReadAllBytes(filepath);
+
+            var media = Upload.UploadVideo(videoBinary, new UploadVideoOptionalParameters()
             {
-                if (uploader.Append(first, "media"))
+                UploadStateChanged = uploadChangeEventArgs =>
                 {
-                    if (uploader.Append(second, "media"))
-                    {
-                        return uploader.Complete();
-                    }
+                    Console.WriteLine(uploadChangeEventArgs.Percentage);
                 }
-            }
+            });
 
-            return null;
+            return media;
         }
 
         #endregion

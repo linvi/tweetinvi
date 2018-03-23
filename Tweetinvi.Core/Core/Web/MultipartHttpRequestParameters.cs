@@ -9,7 +9,7 @@ namespace Tweetinvi.Core.Web
     public interface IMultipartHttpRequestParameters : IHttpRequestParameters
     {
         /// <summary>
-        /// Binaries to be send via HttpRequest
+        /// Binary to be send via HttpRequest
         /// </summary>
         IEnumerable<byte[]> Binaries { get; set; }
 

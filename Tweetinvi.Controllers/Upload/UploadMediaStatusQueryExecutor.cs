@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using Tweetinvi.Controllers.Properties;
 using Tweetinvi.Core.Helpers;
 using Tweetinvi.Core.Web;
