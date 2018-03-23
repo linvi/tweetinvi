@@ -127,22 +127,6 @@ namespace Tweetinvi
         }
 
         /// <summary>
-        /// Publish a tweet with an image
-        /// </summary>
-        public static ITweet PublishTweetWithImage(string text, byte[] image)
-        {
-            return TweetController.PublishTweetWithMedia(text, image);
-        }
-
-        /// <summary>
-        /// Publish a tweet with a video
-        /// </summary>
-        public static ITweet PublishTweetWithVideo(string text, byte[] video)
-        {
-            return TweetController.PublishTweetWithVideo(text, video);
-        }
-
-        /// <summary>
         /// Publish a tweet in reply to another one
         /// </summary>
         public static ITweet PublishTweetInReplyTo(string text, long tweetToReplyToId)
