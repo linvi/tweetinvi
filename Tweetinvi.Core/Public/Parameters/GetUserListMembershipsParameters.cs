@@ -24,8 +24,6 @@
             MaximumNumberOfResults = 20;
         }
 
-        public int MaximumNumberOfResults { get; set; }
-
         public bool? FilterToOwnLists { get; set; }
     }
 }
