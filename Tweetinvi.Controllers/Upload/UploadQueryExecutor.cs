@@ -2,18 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json;
-using Tweetinvi.Controllers.Properties;
-using Tweetinvi.Core.Extensions;
 using Tweetinvi.Core.Injectinvi;
 using Tweetinvi.Core.Public.Events;
 using Tweetinvi.Core.Public.Models.Enum;
 using Tweetinvi.Core.Public.Parameters;
 using Tweetinvi.Core.Public.Parameters.Enum;
 using Tweetinvi.Core.Web;
-using Tweetinvi.Logic.Model;
 using Tweetinvi.Logic.QueryParameters;
 using Tweetinvi.Models;
-using Tweetinvi.Models.DTO;
 using Tweetinvi.Parameters;
 
 namespace Tweetinvi.Controllers.Upload
