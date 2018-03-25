@@ -4,6 +4,8 @@
     <TargetFramework>netstandard1.3</TargetFramework>
     <VersionPrefix>2.1.0.0</VersionPrefix>
     <Copyright>Tweetinvi 2017</Copyright>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>../tweetinvi.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
 
   <ItemGroup>
