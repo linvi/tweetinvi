@@ -9,6 +9,10 @@ Install PowerShell Community Extensions to get the Write-Zip command
 Add the PowerShell.Exe.Config to C:\Windows\System32\WindowsPowerShell\v1.0
 > Set-ExecutionPolicy RemoteSigned
 
+If this command does not work run 
+
+> Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
+
 Restart the machine (pscx cannot be used otherwise)
 
 ## To use `-sign` option to sign output binary
