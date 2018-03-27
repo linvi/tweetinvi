@@ -42,10 +42,7 @@ if ($iel.IsPresent -and !$nugetMultipleDLLs.IsPresent)
 $assemblyinfoLocation = 'Properties\assemblyinfo.cs'
 $rootPath = '..\'
 $nugetToolsFolder = '.\TweetinviAPI\tools'
-$net40Folder = '.\TweetinviAPI\lib\net40'
-$net45Folder = '.\TweetinviAPI\lib\net45'
-$net40PortableFolder = '.\TweetinviAPI\lib\portable-net40+sl5+wp80+win8+wpa81'
-$net45PortableFolder = '.\TweetinviAPI\lib\portable-net45+wp80+win8+wpa81+dnxcore50'
+$netFrameworkFolder = '.\TweetinviAPI\lib\net461'
 
 $tweetinviAPIMerged = 'Tweetinvi.dll'
 
@@ -65,7 +62,7 @@ $tweetinviStreams = 'Tweetinvi.Streams'
 $netCoreRootPath = '..\'
 $netCoreExamplinvi = 'Examplinvi.NETStandard'
 $netCoreExamplinviPath = $netCoreRootPath + $netCoreExamplinvi
-$netCoreNugetFolder = '.\TweetinviAPI\lib\netstandard1.6'
+$netCoreNugetFolder = '.\TweetinviAPI\lib\netstandard1.4'
 $netCoreTemp = 'temp_net_core_' + $version;
 
 $projects = 
@@ -167,17 +164,11 @@ if (!$uv.IsPresent) {
 	}
 
 	# Ensure the nuget folders have been created
-	mkdir $net40Folder -Force | Out-Null
-	mkdir $net45Folder -Force | Out-Null
-	mkdir $net40PortableFolder -Force | Out-Null
-	mkdir $net45PortableFolder -Force | Out-Null
+	mkdir $netFrameworkFolder -Force | Out-Null
     mkdir $netCoreNugetFolder -Force | Out-Null
 
 	# Ensure the nuget folders are empty
-	rm -Force ($net40Folder + '\*');
-	rm -Force ($net45Folder + '\*');
-	rm -Force ($net40PortableFolder + '\*');
-	rm -Force ($net45PortableFolder + '\*');
+	rm -Force ($netFrameworkFolder + '\*');
     rm -Force ($netCoreNugetFolder + '\*');
 
     # Add Cheatsheet to help developers
@@ -238,10 +229,7 @@ if (!$uv.IsPresent) {
 
 	# Copy *.dll into nuget folders
 	Get-ChildItem -LiteralPath $netCoreTemp -filter Tweetinvi*.dll | % { Copy-Item $_.fullname $netCoreNugetFolder }
-	Get-ChildItem -LiteralPath $netCoreTemp -filter Tweetinvi*.dll | % { Copy-Item $_.fullname $net40Folder }
-	Get-ChildItem -LiteralPath $netCoreTemp -filter Tweetinvi*.dll | % { Copy-Item $_.fullname $net45Folder }
-	Get-ChildItem -LiteralPath $netCoreTemp -filter Tweetinvi*.dll | % { Copy-Item $_.fullname $net40PortableFolder }
-	Get-ChildItem -LiteralPath $netCoreTemp -filter Tweetinvi*.dll | % { Copy-Item $_.fullname $net45PortableFolder }
+	Get-ChildItem -LiteralPath $netCoreTemp -filter Tweetinvi*.dll | % { Copy-Item $_.fullname $netFrameworkFolder }
 
 	# Create Zip files
 	$tweetinviBinariesPackage = 'Tweetinvi ' + $version + ' - Binaries.zip'
