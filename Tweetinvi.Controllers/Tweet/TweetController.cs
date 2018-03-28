@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Tweetinvi.Controllers.Upload;
 using Tweetinvi.Core.Controllers;
+using Tweetinvi.Core.Extensions;
 using Tweetinvi.Core.Factories;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
@@ -63,14 +64,48 @@ namespace Tweetinvi.Controllers.Tweet
         public bool CanBePublished(IPublishTweetParameters publishTweetParameters)
         {
             return true;
-            //return TweetinviConsts.MAX_TWEET_SIZE >= Length(publishTweetParameters);
+            //return TweetinviConsts.MAX_TWEET_SIZE >= EstimateTweetLength(publishTweetParameters);
         }
 
         public bool CanBePublished(string text, IPublishTweetOptionalParameters publishTweetOptionalParameters = null)
         {
             return true;
-            //return TweetinviConsts.MAX_TWEET_SIZE >= Length(text, publishTweetOptionalParameters);
+            //return TweetinviConsts.MAX_TWEET_SIZE >= EstimateTweetLength(text, publishTweetOptionalParameters);
         }
+
+        public static int EstimateTweetLength(IPublishTweetParameters publishTweetParameters)
+        {
+            return EstimateTweetLength(publishTweetParameters.Text, publishTweetParameters.Parameters);
+        }
+
+        public static int EstimateTweetLength(string text, IPublishTweetOptionalParameters publishTweetOptionalParameters = null)
+        {
+            var textLength = text == null ? 0 : StringExtension.EstimateTweetLength(text);
+
+            if (text == null || publishTweetOptionalParameters == null)
+            {
+                return textLength;
+            }
+
+            if (publishTweetOptionalParameters.QuotedTweet != null)
+            {
+                var newText = text.TrimEnd();
+
+                textLength = StringExtension.EstimateTweetLength(newText);
+                textLength += 1; // for the space that needs to be added before the link to quoted tweet.
+                textLength += TweetinviConsts.MEDIA_CONTENT_SIZE;
+            }
+
+            if (!publishTweetOptionalParameters.Medias.IsNullOrEmpty() ||
+                !publishTweetOptionalParameters.MediaIds.IsNullOrEmpty() ||
+                !publishTweetOptionalParameters.MediaBinaries.IsNullOrEmpty())
+            {
+                textLength += TweetinviConsts.MEDIA_CONTENT_SIZE;
+            }
+
+            return textLength;
+        }
+
 
         private ITweetDTO InternalPublishTweet(IPublishTweetParameters parameters)
         {

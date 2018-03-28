@@ -18,7 +18,7 @@ namespace Testinvi.Tweetinvi.Core
             {
                 string test = "Hello http://tweetinvi.codeplex.com/salutLescopains 3615 Gerard www.linviIsMe.com piloupe";
 
-                //int twitterLength = StringExtension.TweetLength(test);
+                //int twitterLength = StringExtension.EstimateTweetLength(test);
 
                 //Assert.AreEqual(twitterLength, 73);
             }
@@ -29,7 +29,7 @@ namespace Testinvi.Tweetinvi.Core
             {
                 string test = "Hello https://tweetinvi.codeplex.com/salutLescopains 3615 Gerard www.linviIsMe.com piloupe";
 
-                //int twitterLength = StringExtension.TweetLength(test);
+                //int twitterLength = StringExtension.EstimateTweetLength(test);
 
                 //Assert.AreEqual(twitterLength, 73);
             }
@@ -41,7 +41,7 @@ namespace Testinvi.Tweetinvi.Core
             {
                 string test = "Hello https://tweetinvi.codeplex.com.a 3615 Gerard www.linviIsMe.com piloupe";
 
-                //int twitterLength = StringExtension.TweetLength(test);
+                //int twitterLength = StringExtension.EstimateTweetLength(test);
 
                 //Assert.AreEqual(twitterLength, 75);
             }
@@ -52,7 +52,7 @@ namespace Testinvi.Tweetinvi.Core
             {
                 string test = "Hello https://tweetinvi.codeplex.com.au 3615 Gerard www.linviIsMe.com piloupe";
 
-                //int twitterLength = StringExtension.TweetLength(test);
+                //int twitterLength = StringExtension.EstimateTweetLength(test);
 
                 //Assert.AreEqual(twitterLength, 73);
             }
@@ -63,7 +63,7 @@ namespace Testinvi.Tweetinvi.Core
             {
                 string test = "Hello https://tweetinvi.codeplex.com/salutLescopains.a 3615 Gerard www.linviIsMe.com piloupe";
 
-                //int twitterLength = StringExtension.TweetLength(test);
+                //int twitterLength = StringExtension.EstimateTweetLength(test);
 
                 //Assert.AreEqual(twitterLength, 73);
             }
@@ -74,7 +74,7 @@ namespace Testinvi.Tweetinvi.Core
             {
                 string test = "www.co.co";
 
-                //int twitterLength = StringExtension.TweetLength(test);
+                //int twitterLength = StringExtension.EstimateTweetLength(test);
 
                 //Assert.AreEqual(twitterLength, 23);
             }
@@ -82,22 +82,22 @@ namespace Testinvi.Tweetinvi.Core
             private void TestURLWithMultiplePrefix(string url, int expectedLength)
             {
                 //var basicTweetURL = string.Format("Hello there http:// {0} bye!", url);
-                //Assert.AreEqual(basicTweetURL.TweetLength(), expectedLength);
+                //Assert.AreEqual(basicTweetURL.EstimateTweetLength(), expectedLength);
 
                 //var wwwTweetURL = string.Format("Hello there http:// www.{0} bye!", url);
-                //Assert.AreEqual(wwwTweetURL.TweetLength(), expectedLength);
+                //Assert.AreEqual(wwwTweetURL.EstimateTweetLength(), expectedLength);
 
                 //var httpTweetURL = string.Format("Hello there http:// http://{0} bye!", url);
-                //Assert.AreEqual(httpTweetURL.TweetLength(), expectedLength);
+                //Assert.AreEqual(httpTweetURL.EstimateTweetLength(), expectedLength);
 
                 //var httpsTweetURL = string.Format("Hello there http:// https://{0} bye!", url);
-                //Assert.AreEqual(httpsTweetURL.TweetLength(), expectedLength);
+                //Assert.AreEqual(httpsTweetURL.EstimateTweetLength(), expectedLength);
 
                 //var httpwwwTweetURL = string.Format("Hello there http:// http://{0} bye!", url);
-                //Assert.AreEqual(httpwwwTweetURL.TweetLength(), expectedLength);
+                //Assert.AreEqual(httpwwwTweetURL.EstimateTweetLength(), expectedLength);
 
                 //var httpswwwTweetURL = string.Format("Hello there http:// https://{0} bye!", url);
-                //Assert.AreEqual(httpswwwTweetURL.TweetLength(), expectedLength);
+                //Assert.AreEqual(httpswwwTweetURL.EstimateTweetLength(), expectedLength);
             }
 
             [TestMethod]
@@ -151,22 +151,22 @@ namespace Testinvi.Tweetinvi.Core
 
                 //int expectedLength = 48;
                 //var basicTweetURL = string.Format("Hello there http:// {0} bye!", url);
-                //Assert.AreEqual(basicTweetURL.TweetLength(), expectedLength);
+                //Assert.AreEqual(basicTweetURL.EstimateTweetLength(), expectedLength);
 
                 //var wwwTweetURL = string.Format("Hello there http:// www.{0} bye!", url);
-                //Assert.AreEqual(wwwTweetURL.TweetLength(), expectedLength);
+                //Assert.AreEqual(wwwTweetURL.EstimateTweetLength(), expectedLength);
 
                 //var httpTweetURL = string.Format("Hello there http:// http://{0} bye!", url);
-                //Assert.AreEqual(httpTweetURL.TweetLength(), expectedLength);
+                //Assert.AreEqual(httpTweetURL.EstimateTweetLength(), expectedLength);
 
                 //var httpsTweetURL = string.Format("Hello there http:// https://{0} bye!", url);
-                //Assert.AreEqual(httpsTweetURL.TweetLength(), expectedLength);
+                //Assert.AreEqual(httpsTweetURL.EstimateTweetLength(), expectedLength);
 
                 //var httpwwwTweetURL = string.Format("Hello there http:// http://{0} bye!", url);
-                //Assert.AreEqual(httpwwwTweetURL.TweetLength(), expectedLength);
+                //Assert.AreEqual(httpwwwTweetURL.EstimateTweetLength(), expectedLength);
 
                 //var httpswwwTweetURL = string.Format("Hello there http:// https://{0} bye!", url);
-                //Assert.AreEqual(httpswwwTweetURL.TweetLength(), expectedLength);
+                //Assert.AreEqual(httpswwwTweetURL.EstimateTweetLength(), expectedLength);
             }
 
             [TestMethod]
@@ -174,10 +174,10 @@ namespace Testinvi.Tweetinvi.Core
             public void URLWithOnly2CharsAtTheEnd_ButWithASlashCharacter()
             {
                 //var url = "NOW-FREE/4 Parties! Live Shows/Music/Art Walk Weekend. https://pbsc.co/eg/4b MAP, & interactive for every Smart/iphone: goo.gl/.";
-                //Assert.AreEqual(url.TweetLength(), 146);
+                //Assert.AreEqual(url.EstimateTweetLength(), 146);
 
                 //var url2 = "NOW-FREE/4 Parties! Live Shows/Music/Art Walk Weekend. https://pbsc.co/eg/4b MAP, & interactive for every Smart/iphone: goo.gl/dqkd.";
-                //Assert.AreEqual(url2.TweetLength(), 146);
+                //Assert.AreEqual(url2.EstimateTweetLength(), 146);
             }
 
             [TestMethod]
@@ -185,7 +185,7 @@ namespace Testinvi.Tweetinvi.Core
             public void URLWithEqualsCharacters()
             {
                 //var message = "The quick brown fox jumps over the lazy dog. My dog is freaking amazing. https://www.google.nl/search?q=dog&source=lnms&tbm=isch&sa=X&ei=IZ7fU-CwJIO50QWtmICoCA&ved=0CAgQ_AUoAQ&biw=1528&bih=876";
-                //Assert.AreEqual(message.TweetLength(), 96);
+                //Assert.AreEqual(message.EstimateTweetLength(), 96);
             }
 
             [TestMethod]
@@ -194,8 +194,8 @@ namespace Testinvi.Tweetinvi.Core
             {
                 var text = "abcdefghijklmnopqrstuvwxy abcdefghijklmnopqrstuvwxy abcdefghijklmnopqrstuvwxy abcdefghijklmophttp://bit.ly/tinyurlwiki";
 
-                //Assert.AreEqual(Tweet.Length(text), 118);
-                //Assert.AreEqual(Tweet.Length(text, new PublishTweetOptionalParameters()
+                //Assert.AreEqual(Tweet.EstimateTweetLength(text), 118);
+                //Assert.AreEqual(Tweet.EstimateTweetLength(text, new PublishTweetOptionalParameters()
                 //{
                 //    MediaBinaries = new List<byte[]> { new byte[10] }
                 //}), 142);
@@ -208,8 +208,8 @@ namespace Testinvi.Tweetinvi.Core
             {
                 var text = "abcdefghijklmnopqrstuvwxy abcdefghijklmnopqrstuvwxy abcdefghijklmnopqrstuvwxy abcdefghijklmop http://bit.ly/tinyurlwiki";
 
-                //Assert.AreEqual(Tweet.Length(text), 117);
-                //Assert.AreEqual(Tweet.Length(text, new PublishTweetOptionalParameters()
+                //Assert.AreEqual(Tweet.EstimateTweetLength(text), 117);
+                //Assert.AreEqual(Tweet.EstimateTweetLength(text, new PublishTweetOptionalParameters()
                 //{
                 //    MediaBinaries = new List<byte[]> { new byte[10] }
                 //}), 141);
@@ -222,9 +222,9 @@ namespace Testinvi.Tweetinvi.Core
                 var textOnly = "How Real Estate Agents Get More Closings By Using SMS Text Messaging - DialMyCalls.com";
                 var text = "How Real Estate Agents Get More Closings By Using SMS Text Messaging - DialMyCalls.com http://bit.ly/1kmezw9";
 
-                //Assert.AreEqual(Tweet.Length(textOnly), 94);
-                //Assert.AreEqual(Tweet.Length(text), 118);
-                //Assert.AreEqual(Tweet.Length(text, new PublishTweetOptionalParameters()
+                //Assert.AreEqual(Tweet.EstimateTweetLength(textOnly), 94);
+                //Assert.AreEqual(Tweet.EstimateTweetLength(text), 118);
+                //Assert.AreEqual(Tweet.EstimateTweetLength(text, new PublishTweetOptionalParameters()
                 //{
                 //    MediaBinaries = new List<byte[]> { new byte[10] }
                 //}), 142);
@@ -234,14 +234,14 @@ namespace Testinvi.Tweetinvi.Core
             [Ignore]
             public void TweetWithUTF32Character()
             {
-                //Assert.AreEqual(6, Tweet.Length("sa🚒osa"));
+                //Assert.AreEqual(6, Tweet.EstimateTweetLength("sa🚒osa"));
             }
 
             [TestMethod]
             [Ignore]
             public void TweetLengthWithSpecialUTFCharacters()
             {
-                //var l = Tweet.Length("sa 🎅⛄️🎅 done");
+                //var l = Tweet.EstimateTweetLength("sa 🎅⛄️🎅 done");
                 //Assert.AreEqual(l, 11);
             }
 
