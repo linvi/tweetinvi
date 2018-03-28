@@ -110,13 +110,13 @@
       <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\netstandard1.3\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="Nito.AsyncEx.Context, Version=1.1.0.0, Culture=neutral, PublicKeyToken=7247f14397bf67b9, processorArchitecture=MSIL">
-      <HintPath>..\packages\Nito.AsyncEx.Context.StrongName.1.1.0\lib\netstandard1.4\Nito.AsyncEx.Context.StrongName.dll</HintPath>
+      <HintPath>..\packages\NitoAsyncEx.Context.StrongName.1.1.0\lib\netstandard1.4\Nito.AsyncEx.Context.dll</HintPath>
     </Reference>
     <Reference Include="Nito.AsyncEx.Tasks, Version=1.1.0.0, Culture=neutral, PublicKeyToken=7247f14397bf67b9, processorArchitecture=MSIL">
-      <HintPath>..\packages\Nito.AsyncEx.Context.StrongName.1.1.0\lib\netstandard1.6\Nito.AsyncEx.Tasks.dll</HintPath>
+      <HintPath>..\packages\NitoAsyncEx.Context.StrongName.1.1.0\lib\netstandard1.4\Nito.AsyncEx.Tasks.dll</HintPath>
     </Reference>
     <Reference Include="Nito.Disposables, Version=1.0.0.0, Culture=neutral, PublicKeyToken=7247f14397bf67b9, processorArchitecture=MSIL">
-      <HintPath>..\packages\Nito.AsyncEx.Context.StrongName.1.1.0\lib\netstandard1.6\Nito.Disposables.dll</HintPath>
+      <HintPath>..\packages\NitoAsyncEx.Context.StrongName.1.1.0\lib\netstandard1.4\Nito.Disposables.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.IO.Compression" />

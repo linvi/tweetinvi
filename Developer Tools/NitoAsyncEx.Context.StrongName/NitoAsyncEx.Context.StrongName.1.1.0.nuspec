@@ -9,9 +9,7 @@
     <licenseUrl>https://github.com/StephenCleary/AsyncEx</licenseUrl>
     <projectUrl>https://github.com/StephenCleary/AsyncEx</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>This is a strong name version of the Nito.AsyncEx library. This is NOT the official nuget package.
-	You can ask any question on https://github.com/linvi/Tweetinvi
-	</description>
+    <description>This is a strong name version of the Nito.AsyncEx library. This is NOT the official nuget package.</description>
     <summary>This is a strong name version of the Nito.AsyncEx library. This is NOT the official nuget package.</summary>
     <releaseNotes></releaseNotes>
     <copyright></copyright>
