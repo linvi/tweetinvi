@@ -1,5 +1,4 @@
-﻿using Tweetinvi.Logic.DTO;
-using Tweetinvi.Models;
+﻿using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
 
 namespace Tweetinvi.Logic.Model
@@ -34,6 +33,16 @@ namespace Tweetinvi.Logic.Model
         }
 
         public bool HasBeenUploaded { get { return UploadedMediaInfo != null; } }
+
+        public bool IsReadyToBeUsed
+        {
+            get
+            {
+                var processingInfo = UploadedMediaInfo?.ProcessingInfo;
+                return HasBeenUploaded && processingInfo?.Error == null;
+            }
+        }
+
         public IUploadedMediaInfo UploadedMediaInfo { get; set; }
 
         public IMedia CloneWithoutMediaInfo(IMedia source)

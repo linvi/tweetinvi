@@ -76,7 +76,9 @@ namespace Tweetinvi.Core.Extensions
         /// Calculate the length of a string using Twitter algorithm
         /// </summary>
         /// <returns>Size of the current Tweet</returns>
-        public static int TweetLength(this string tweet, bool willBePublishedWithMedia = false)
+        [Obsolete("The value returned are no longer correct as Twitter changed their counting algorithm. " +
+                  "Please use twitter-text official implementations in the meantime (https://github.com/twitter/twitter-text).")]
+        public static int EstimateTweetLength( string tweet, bool willBePublishedWithMedia = false)
         {
             if (tweet == null)
             {
@@ -255,7 +257,7 @@ namespace Tweetinvi.Core.Extensions
                 queryBuilder.Append("?");
             }
 
-            queryBuilder.Append(string.Format("{0}={1}", parameterName, parameterValue));
+            queryBuilder.Append(string.Format("{0}={1}", parameterName, Uri.EscapeDataString(parameterValue)));
         }
 
         public static void AddFormattedParameterToQuery(this StringBuilder queryBuilder, string parameter)

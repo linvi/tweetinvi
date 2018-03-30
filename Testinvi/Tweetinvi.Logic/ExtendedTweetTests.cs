@@ -53,7 +53,6 @@ namespace Testinvi.Tweetinvi.Core
             Assert.AreEqual(parts.Prefix, "@sam @aileen ");
             Assert.AreEqual(parts.Prefix.Length, 13);
 
-            Assert.AreEqual(parts.Content.TweetLength(), 140);
             Assert.AreEqual(parts.Mentions.Length, 2);
         }
 
@@ -64,10 +63,10 @@ namespace Testinvi.Tweetinvi.Core
 
             Assert.AreEqual(tweet.Prefix, "@sam @aileen ");
             Assert.AreEqual(tweet.Prefix.Length, 13);
-            Assert.AreEqual(tweet.Text, "Check out this photo of @YellowstoneNPS! It makes me want to go camping there this summer. Have you visited before?? nps.gov/yell/index.htm ");
-            Assert.AreEqual(tweet.Text.Length, 140);
-            Assert.AreEqual(tweet.Suffix, "pic.twitter.com/e8bDiL6LI4");
-            Assert.AreEqual(tweet.Suffix.Length, 26);
+            Assert.AreEqual(tweet.Text, "Check out this photo of @YellowstoneNPS! It makes me want to go camping there this summer. Have you visited before?? nps.gov/yell/index.htm");
+            Assert.AreEqual(tweet.Text.Length, 139);
+            Assert.AreEqual(tweet.Suffix, " pic.twitter.com/e8bDiL6LI4");
+            Assert.AreEqual(tweet.Suffix.Length, 27);
         }
 
         [TestMethod]
@@ -86,8 +85,8 @@ namespace Testinvi.Tweetinvi.Core
             var tweet = InitTweet(_fullTextTweetWith1Mention, TweetMode.Extended);
 
             Assert.AreEqual(tweet.Prefix, "@jeremycloud ");
-            Assert.AreEqual(tweet.Text, "Who would win in a battle between a Barred Owl and a Cooper`s Hawk? ");
-            Assert.AreEqual(tweet.Suffix, "https://t.co/FamikDro2h");
+            Assert.AreEqual(tweet.Text, "Who would win in a battle between a Barred Owl and a Cooper`s Hawk?");
+            Assert.AreEqual(tweet.Suffix, " https://t.co/FamikDro2h");
         }
 
         [TestMethod]
@@ -199,13 +198,15 @@ namespace Testinvi.Tweetinvi.Core
         }
 
         [TestMethod]
-        public void UnicodeExtendedTweetSuffix()
+        public void ExtendedTweetContainingUnicode()
         {
             ITweet tweet = InitTweet(EXTENDED_TWEET_WITH_UNICODE, TweetMode.Extended);
 
+            Assert.AreEqual(tweet.FullText, "What better way to celebrate Christmas than supporting your team in the Greg Shupe Christmas tourney @ Kent! (We play where it says 1)🎅🏼⛄️🎅🏼 https://t.co/oUeMIkyb5G");
+            Assert.AreEqual(tweet.Prefix, "");
+            Assert.AreEqual(tweet.Text, "What better way to celebrate Christmas than supporting your team in the Greg Shupe Christmas tourney @ Kent! (We play where it says 1)🎅🏼⛄️🎅🏼 ");
             Assert.AreEqual(tweet.Suffix, "https://t.co/oUeMIkyb5G");
         }
-
 
         private static ITweet InitTweet(string text, TweetMode? tweetMode)
         {

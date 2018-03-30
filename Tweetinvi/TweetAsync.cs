@@ -19,16 +19,6 @@ namespace Tweetinvi
             return await Sync.ExecuteTaskAsync(() => Tweet.PublishTweet(text, parameters));
         }
 
-        public static async Task<ITweet> PublishTweetWithImage(string text, byte[] media)
-        {
-            return await Sync.ExecuteTaskAsync(() => Tweet.PublishTweetWithImage(text, media));
-        }
-
-        public static async Task<ITweet> PublishTweetWithVideo(string text, byte[] media)
-        {
-            return await Sync.ExecuteTaskAsync(() => Tweet.PublishTweetWithVideo(text, media));
-        }
-
         // Publish TweetInReplyTo From Text
         public static async Task<ITweet> PublishTweetInReplyTo(string text, ITweetIdentifier tweetToReplyTo)
         {

@@ -7,6 +7,7 @@ using Tweetinvi.Core.Exceptions;
 using Tweetinvi.Core.Web;
 using Tweetinvi.Events;
 using Tweetinvi.Exceptions;
+using Tweetinvi.Models;
 
 namespace Tweetinvi.Logic.Exceptions
 {
@@ -52,9 +53,9 @@ namespace Tweetinvi.Logic.Exceptions
             }
         }
 
-        public TwitterException AddWebException(WebException webException, string url)
+        public TwitterException AddWebException(WebException webException, ITwitterQuery twitterQuery)
         {
-            var twitterException = GenerateTwitterException(webException, url);
+            var twitterException = GenerateTwitterException(webException, twitterQuery);
 
             AddTwitterException(twitterException);
 
@@ -62,9 +63,9 @@ namespace Tweetinvi.Logic.Exceptions
             return twitterException;
         }
 
-        public TwitterException TryLogWebException(WebException webException, string url)
+        public TwitterException TryLogWebException(WebException webException, ITwitterQuery twitterQuery)
         {
-            var twitterException = GenerateTwitterException(webException, url);
+            var twitterException = GenerateTwitterException(webException, twitterQuery);
 
             if (LogExceptions)
             {
@@ -86,18 +87,23 @@ namespace Tweetinvi.Logic.Exceptions
             return twitterException;
         }
 
-        public TwitterException AddFailedWebRequestResult(IWebRequestResult webRequestResult)
+        public TwitterException GenerateTwitterException(WebException webException, ITwitterQuery twitterQuery)
         {
-            var twitterException = GenerateTwitterException(webRequestResult);
+            return GenerateTwitterException(webException, twitterQuery, -1);
+        }
+
+        public TwitterException AddFailedWebRequestResult(IWebRequestResult webRequestResult, ITwitterQuery twitterQuery)
+        {
+            var twitterException = GenerateTwitterException(webRequestResult, twitterQuery);
 
             AddTwitterException(twitterException);
             
             return twitterException;
         }
 
-        public TwitterException TryLogFailedWebRequestResult(IWebRequestResult webRequestResult)
+        public TwitterException TryLogFailedWebRequestResult(IWebRequestResult webRequestResult, ITwitterQuery twitterQuery)
         {
-            var twitterException = GenerateTwitterException(webRequestResult);
+            var twitterException = GenerateTwitterException(webRequestResult, twitterQuery);
 
             if (LogExceptions)
             {
@@ -107,19 +113,22 @@ namespace Tweetinvi.Logic.Exceptions
             return twitterException;
         }
 
-        public TwitterException GenerateTwitterException(ITwitterExceptionInfo[] exceptionInfos, string url)
+        public TwitterException GenerateTwitterException(ITwitterExceptionInfo[] exceptionInfos, ITwitterQuery twitterQuery)
         {
-            return _twitterExceptionFactory.Create(exceptionInfos, url);
+            return _twitterExceptionFactory.Create(exceptionInfos, twitterQuery);
         }
 
-        public TwitterException GenerateTwitterException(WebException webException, string url)
+        public TwitterException GenerateTwitterException(
+			WebException webException, 
+			ITwitterQuery twitterQuery,
+            int statusCode)
         {
-            return _twitterExceptionFactory.Create(webException, url);
+            return _twitterExceptionFactory.Create(webException, twitterQuery, statusCode);
         }
 
-        public TwitterException GenerateTwitterException(IWebRequestResult webRequestResult)
+        public TwitterException GenerateTwitterException(IWebRequestResult webRequestResult, ITwitterQuery twitterQuery)
         {
-            return _twitterExceptionFactory.Create(webRequestResult);
+            return _twitterExceptionFactory.Create(webRequestResult, twitterQuery);
         }
 
         public void AddTwitterException(ITwitterException twitterException)

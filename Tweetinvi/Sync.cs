@@ -11,6 +11,15 @@ namespace Tweetinvi
     /// </summary>
     public static class Sync
     {
+        public static async Task<T> RunAsync<T>(Func<T> func)
+        {
+            using (var thread = new AsyncContextThread())
+            {
+                var result = await thread.Factory.Run(() => { return func(); });
+                return result;
+            }
+        }
+
         private static readonly ITaskFactory _taskFactory;
 
         [ThreadStatic]
@@ -44,8 +53,6 @@ namespace Tweetinvi
             _credentialsAccessor = TweetinviContainer.Resolve<ICredentialsAccessor>();
         }
 
-        // ALERT : THIS CODE IS AWESOME :D
-
         /// <summary>
         /// Execute a task asynchronously with Tweetinvi
         /// </summary>
@@ -70,15 +77,14 @@ namespace Tweetinvi
                 credentialsAccessor.ExecuteOperationWithCredentials(credentialsAtInvokeTime, action);
             });
 
-            AsyncContext.Run(async () =>
+            using (var thread = new AsyncContextThread())
             {
-                await _taskFactory.ExecuteTaskAsync(operationRunWithSpecificCredentials);
-            });
-
-            await Task.CompletedTask;
+                await thread.Factory.Run(async () =>
+                {
+                    await _taskFactory.ExecuteTaskAsync(operationRunWithSpecificCredentials);
+                });
+            }
         }
-
-        // ALERT : THIS CODE IS AWESOME :D
 
         /// <summary>
         /// Execute a task asynchronously with Tweetinvi
@@ -105,12 +111,11 @@ namespace Tweetinvi
                 return credentialsAccessor.ExecuteOperationWithCredentials(credentialsAtInvokeTime, resultFunc);
             });
 
-            var result = AsyncContext.Run(async () =>
+            using (var thread = new AsyncContextThread())
             {
-                return await _taskFactory.ExecuteTaskAsync(operationRunWithSpecificCredentials);
-            });
-
-            return await Task.FromResult(result);
+                var result = await thread.Factory.Run(() => { return operationRunWithSpecificCredentials(); });
+                return result;
+            }
         }
     }
 }

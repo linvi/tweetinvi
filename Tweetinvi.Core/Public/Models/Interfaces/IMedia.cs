@@ -15,6 +15,8 @@ namespace Tweetinvi.Models
         string ContentType { get; set; }
 
         bool HasBeenUploaded { get; }
+        bool IsReadyToBeUsed { get; }
+
         IUploadedMediaInfo UploadedMediaInfo { get; set; }
 
         IMedia CloneWithoutMediaInfo(IMedia source);

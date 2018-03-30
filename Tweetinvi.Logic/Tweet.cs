@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using Tweetinvi.Core;
 using Tweetinvi.Core.Controllers;
 using Tweetinvi.Core.Core.Helpers;
-using Tweetinvi.Core.Extensions;
 using Tweetinvi.Core.Factories;
 using Tweetinvi.Core.Helpers;
 using Tweetinvi.Logic.TwitterEntities;
@@ -83,12 +82,7 @@ namespace Tweetinvi.Logic
                 var contentStartIndex = DisplayTextRange[0];
                 var contentEndIndex = DisplayTextRange[1];
 
-                if (contentEndIndex < _tweetDTO.FullText.Length)
-                {
-                    ++contentEndIndex;
-                }
-
-                return _tweetDTO.FullText.Substring(contentStartIndex, contentEndIndex - contentStartIndex);
+                return UnicodeHelper.SubstringByTextElements(_tweetDTO.FullText, contentStartIndex, contentEndIndex - contentStartIndex);
             }
             set { _tweetDTO.Text = value; }
         }
@@ -118,13 +112,7 @@ namespace Tweetinvi.Logic
                 if (text != null && DisplayTextRange != null)
                 {
                     var suffixStartIndex = DisplayTextRange[1];
-
-                    if (suffixStartIndex < text.Length && suffixStartIndex > 0)
-                    {
-                        ++suffixStartIndex;
-                    }
-
-                    return UnicodeHelper.UnicodeSubstring(text, suffixStartIndex);
+                    return UnicodeHelper.SubstringByTextElements(text, suffixStartIndex);
                 }
 
                 return null;
@@ -390,37 +378,6 @@ namespace Tweetinvi.Logic
 
         #region Tweetinvi API Attributes
 
-        public int PublishedTweetLength
-        {
-            get
-            {
-                if (!_tweetDTO.IsTweetPublished)
-                {
-                    throw new InvalidOperationException("Cannot calculate the length before the tweet has been published. Use the CalculateLength method instead.");
-                }
-
-                return GetLength(false);
-            }
-        }
-
-        public int CalculateLength(bool willBePublishedWithMedia)
-        {
-            return GetLength(willBePublishedWithMedia);
-        }
-
-        private int GetLength(bool willBePublishedWithMedia)
-        {
-            var textLength = _tweetDTO.Text == null ? 0 : _tweetDTO.Text.TweetLength(willBePublishedWithMedia);
-
-            var mediaTweetLength = 0;
-            if (_tweetDTO.IsTweetPublished && _tweetDTO.LegacyEntities != null && _tweetDTO.LegacyEntities.Medias != null && _tweetDTO.LegacyEntities.Medias.Any())
-            {
-                mediaTweetLength = TweetinviConsts.MEDIA_CONTENT_SIZE;
-            }
-
-            return textLength + mediaTweetLength;
-        }
-
         public bool IsTweetPublished
         {
             get { return _tweetDTO.IsTweetPublished; }
@@ -465,17 +422,12 @@ namespace Tweetinvi.Logic
             _taskFactory = taskFactory;
 
             // IMPORTANT: POSITION MATTERS! Look line below!
-            TweetMode = tweetMode ?? tweetinviSettingsAccessor?.CurrentThreadSettings?.TweetMode ?? TweetMode.Compat;
+            TweetMode = tweetMode ?? tweetinviSettingsAccessor?.CurrentThreadSettings?.TweetMode ?? TweetMode.Extended;
 
             // IMPORTANT: Make sure that the TweetDTO is set up after the TweetMode because it uses the TweetMode to initialize the Entities
             TweetDTO = tweetDTO;
         }
 
-        public int TweetRemainingCharacters(bool hasMedia)
-        {
-            return TweetinviConsts.MAX_TWEET_SIZE - CalculateLength(hasMedia);
-        }
-        
         private bool CanTweetBeRetweeted()
         {
             return _tweetDTO != null && _tweetDTO.Id != TweetinviSettings.DEFAULT_ID && IsTweetPublished && !IsTweetDestroyed;

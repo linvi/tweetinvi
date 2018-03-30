@@ -61,7 +61,7 @@ namespace Tweetinvi.Factories.Tweet
         {
             var tweetDTO = _tweetDTOFactory.CreateTweetDTO(text);
 
-            tweetMode = tweetMode ?? _tweetinviSettingsAccessor.CurrentThreadSettings.TweetMode ?? TweetMode.Compat;
+            tweetMode = tweetMode ?? _tweetinviSettingsAccessor.CurrentThreadSettings.TweetMode;
 
             return GenerateTweetFromDTO(tweetDTO, (TweetMode)tweetMode);
         }

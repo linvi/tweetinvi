@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+  <metadata>
+    <id>Nito.AsyncEx.Context.StrongName</id>
+    <version>1.1.0</version>
+    <title>Nito.AsyncEx.Context.StrongName</title>
+    <authors>Linvi</authors>
+    <owners></owners>
+    <licenseUrl>https://github.com/StephenCleary/AsyncEx</licenseUrl>
+    <projectUrl>https://github.com/StephenCleary/AsyncEx</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>This is a strong name version of the Nito.AsyncEx library. This is NOT the official nuget package.</description>
+    <summary>This is a strong name version of the Nito.AsyncEx library. This is NOT the official nuget package.</summary>
+    <releaseNotes></releaseNotes>
+    <copyright></copyright>
+    <language>en-US</language>
+    <tags></tags>
+    <dependencies>
+     
+    </dependencies>
+  </metadata>
+</package>

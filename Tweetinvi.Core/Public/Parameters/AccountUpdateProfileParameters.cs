@@ -62,10 +62,7 @@ namespace Tweetinvi.Parameters
             get { return _name; }
             set
             {
-                if (value != null && value.Length > 20)
-                {
-                    throw new ArgumentException("Name cannot contain more than 20 characters.");
-                }
+                ThrowIfParameterSizeIsInvalid(value, "Name", TweetinviConsts.UPDATE_ACCOUNT_MAX_NAME_SIZE);
 
                 _name = value;
             }
@@ -77,10 +74,7 @@ namespace Tweetinvi.Parameters
             get { return _url; }
             set
             {
-                if (value != null && value.Length > 100)
-                {
-                    throw new ArgumentException("URL cannot contain more thatn 100 characters.");
-                }
+                ThrowIfParameterSizeIsInvalid(value, "URL", TweetinviConsts.UPDATE_ACCOUNT_MAX_URL_SIZE);
 
                 _url = value;
             }
@@ -92,10 +86,7 @@ namespace Tweetinvi.Parameters
             get { return _location; }
             set
             {
-                if (value != null && value.Length > 30)
-                {
-                    throw new ArgumentException("Location cannot contain more thatn 100 characters.");
-                }
+                ThrowIfParameterSizeIsInvalid(value, "Location", TweetinviConsts.UPDATE_ACCOUNT_MAX_LOCATION_SIZE);
 
                 _location = value;
             }
@@ -108,10 +99,7 @@ namespace Tweetinvi.Parameters
             get { return _description; }
             set
             {
-                if (value != null && value.Length > 160)
-                {
-                    throw new ArgumentException("Description cannot contain more thatn 100 characters.");
-                }
+                ThrowIfParameterSizeIsInvalid(value, "Description", TweetinviConsts.UPDATE_ACCOUNT_MAX_DESCRIPTION_SIZE);
 
                 _description = value;
             }
@@ -120,5 +108,13 @@ namespace Tweetinvi.Parameters
         public string ProfileLinkColor { get; set; }
         public bool IncludeEntities { get; set; }
         public bool SkipStatus { get; set; }
+
+        private static void ThrowIfParameterSizeIsInvalid(string value, string parameterName, int maxSize)
+        {
+            if (value != null && value.Length > maxSize)
+            {
+                throw new ArgumentException($"{parameterName} cannot contain more than {maxSize} characters.");
+            }
+        }
     }
 }

@@ -68,7 +68,7 @@ namespace Testinvi.Tweetinvi.Credentials.RateLimitTests
             _fakeHelpQueryGenerator.CallsTo(x => x.GetCredentialsLimitsQuery()).Returns(TEST_QUERY);
 
             _webRequestResult = A.Fake<IWebRequestResult>();
-            _webRequestResult.Response = TEST_QUERY;
+            _webRequestResult.Text = TEST_QUERY;
 
             _fakeWebRequestExecutor.CallsTo(x => x.ExecuteQuery(_twitterQuery, null)).Returns(_webRequestResult);
             _fakeJsonObjectConverter.CallsTo(x => x.DeserializeObject<ICredentialsRateLimits>(TEST_QUERY, It.IsAny<JsonConverter[]>())).ReturnsNextFromSequence(_credentialsRateLimits, _credentialsRateLimits2);

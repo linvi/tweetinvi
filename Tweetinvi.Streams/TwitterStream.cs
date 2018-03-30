@@ -172,6 +172,11 @@ namespace Tweetinvi.Streams
             {
                 queryBuilder.Append(string.Format("&{0}", _customRequestParameters.FormattedCustomQueryParameters));
             }
+
+            if (TweetMode == TweetMode.Extended)
+            {
+                queryBuilder.AddParameterToQuery("tweet_mode", "extended");
+            }
         }
 
         public string[] FilteredLanguages { get { return _filteredLanguages.ToArray(); } }

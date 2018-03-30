@@ -45,36 +45,6 @@ namespace Tweetinvi.Controllers.Tweet
             return _tweetFactory.GenerateTweetFromDTO(tweetDTO);
         }
 
-        public ITweet PublishTweetWithMedia(string text, long mediaId)
-        {
-            var parameters = new PublishTweetOptionalParameters();
-            parameters.MediaIds.Add(mediaId);
-
-            return PublishTweet(text, parameters);
-        }
-
-        public ITweet PublishTweetWithMedia(string text, byte[] media)
-        {
-            var parameters = new PublishTweetOptionalParameters();
-            parameters.MediaBinaries.Add(media);
-
-            return PublishTweet(text, parameters);
-        }
-
-        public ITweet PublishTweetWithVideo(string text, byte[] video)
-        {
-            var media = _uploadQueryExecutor.UploadVideo(video, "video/mp4", null);
-            if (media == null || media.MediaId == null || !media.HasBeenUploaded)
-            {
-                throw new OperationCanceledException("The tweet cannot be published as some of the medias could not be published!");
-            }
-
-            var parameters = new PublishTweetOptionalParameters();
-            parameters.MediaIds.Add((long)media.MediaId);
-
-            return PublishTweet(text, parameters);
-        }
-
         public ITweet PublishTweetInReplyTo(string text, long tweetId)
         {
             var parameters = new PublishTweetOptionalParameters();
@@ -91,14 +61,26 @@ namespace Tweetinvi.Controllers.Tweet
             return PublishTweet(text, parameters);
         }
 
-        public int Length(IPublishTweetParameters publishTweetParameters)
+        public bool CanBePublished(IPublishTweetParameters publishTweetParameters)
         {
-            return Length(publishTweetParameters.Text, publishTweetParameters.Parameters);
+            return true;
+            //return TweetinviConsts.MAX_TWEET_SIZE >= EstimateTweetLength(publishTweetParameters);
         }
 
-        public int Length(string text, IPublishTweetOptionalParameters publishTweetOptionalParameters = null)
+        public bool CanBePublished(string text, IPublishTweetOptionalParameters publishTweetOptionalParameters = null)
         {
-            var textLength = text == null ? 0 : text.TweetLength();
+            return true;
+            //return TweetinviConsts.MAX_TWEET_SIZE >= EstimateTweetLength(text, publishTweetOptionalParameters);
+        }
+
+        public static int EstimateTweetLength(IPublishTweetParameters publishTweetParameters)
+        {
+            return EstimateTweetLength(publishTweetParameters.Text, publishTweetParameters.Parameters);
+        }
+
+        public static int EstimateTweetLength(string text, IPublishTweetOptionalParameters publishTweetOptionalParameters = null)
+        {
+            var textLength = text == null ? 0 : StringExtension.EstimateTweetLength(text);
 
             if (text == null || publishTweetOptionalParameters == null)
             {
@@ -109,7 +91,7 @@ namespace Tweetinvi.Controllers.Tweet
             {
                 var newText = text.TrimEnd();
 
-                textLength = newText.TweetLength();
+                textLength = StringExtension.EstimateTweetLength(newText);
                 textLength += 1; // for the space that needs to be added before the link to quoted tweet.
                 textLength += TweetinviConsts.MEDIA_CONTENT_SIZE;
             }
@@ -124,15 +106,6 @@ namespace Tweetinvi.Controllers.Tweet
             return textLength;
         }
 
-        public bool CanBePublished(IPublishTweetParameters publishTweetParameters)
-        {
-            return TweetinviConsts.MAX_TWEET_SIZE >= Length(publishTweetParameters);
-        }
-
-        public bool CanBePublished(string text, IPublishTweetOptionalParameters publishTweetOptionalParameters = null)
-        {
-            return TweetinviConsts.MAX_TWEET_SIZE >= Length(text, publishTweetOptionalParameters);
-        }
 
         private ITweetDTO InternalPublishTweet(IPublishTweetParameters parameters)
         {
@@ -150,26 +123,22 @@ namespace Tweetinvi.Controllers.Tweet
 
         public void UploadMedias(IPublishTweetParameters parameters)
         {
-            _uploadQueryExecutor.UploadMedias(parameters.Medias, false);
-
             if (parameters.Medias.Any(x => !x.HasBeenUploaded))
             {
                 throw new OperationCanceledException("The tweet cannot be published as some of the medias could not be published!");
             }
-            else
-            {
-                parameters.MediaIds.AddRange(parameters.Medias.Select(x => x.UploadedMediaInfo.MediaId));
-            }
 
-            var binariesMedia = _uploadQueryExecutor.UploadBinaries(parameters.MediaBinaries);
-            if (binariesMedia.Any(x => !x.HasBeenUploaded))
+            parameters.MediaIds.AddRange(parameters.Medias.Select(x => x.UploadedMediaInfo.MediaId));
+
+            var uploadedMedias = parameters.MediaBinaries
+                .Select(binary => { return _uploadQueryExecutor.UploadBinary(binary); }).ToArray();
+
+            if (uploadedMedias.Any(x => x == null || !x.HasBeenUploaded))
             {
                 throw new OperationCanceledException("The tweet cannot be published as some of the binaries could not be published!");
             }
-            else
-            {
-                parameters.MediaIds.AddRange(binariesMedia.Select(x => x.UploadedMediaInfo.MediaId));
-            }
+
+            parameters.MediaIds.AddRange(uploadedMedias.Select(x => x.UploadedMediaInfo.MediaId));
         }
 
         // Publish Retweet

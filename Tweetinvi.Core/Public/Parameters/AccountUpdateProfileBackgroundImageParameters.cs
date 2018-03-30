@@ -36,6 +36,11 @@ namespace Tweetinvi.Parameters
         /// If set, the http request will use this duration before throwing an exception.
         /// </summary>
         TimeSpan? Timeout { get; set; }
+
+        /// <summary>
+        /// Action invoked to show the progress of the upload. {current / total}
+        /// </summary>
+        Action<long, long> UploadProgressChanged { get; set; }
     }
 
     public class AccountUpdateProfileBackgroundImageParameters : CustomRequestParameters, IAccountUpdateProfileBackgroundImageParameters
@@ -64,5 +69,6 @@ namespace Tweetinvi.Parameters
         public bool IncludeEntities { get; set; }
         public bool SkipStatus { get; set; }
         public TimeSpan? Timeout { get; set; }
+        public Action<long, long> UploadProgressChanged { get; set; }
     }
 }

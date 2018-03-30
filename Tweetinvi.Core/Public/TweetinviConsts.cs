@@ -6,10 +6,10 @@
     public static class TweetinviConsts
     {
         // https://dev.twitter.com/rest/reference/get/help/configuration
-        public const int MAX_TWEET_SIZE = 140;
-        public const int MEDIA_CONTENT_SIZE = 24;
-        public const int HTTP_LINK_SIZE = 23;
-        public const int HTTPS_LINK_SIZE = 23;
+        public static int MAX_TWEET_SIZE = 280;
+        public static int MEDIA_CONTENT_SIZE = 24;
+        public static int HTTP_LINK_SIZE = 23;
+        public static int HTTPS_LINK_SIZE = 23;
 
         public const int STATUS_CODE_TOO_MANY_REQUEST = 429;
 
@@ -52,8 +52,14 @@
 
         // https://dev.twitter.com/rest/reference/post/media/upload
         // https://dev.twitter.com/rest/public/uploading-media
-        public const int UPLOAD_MAX_IMAGE_SIZE = 5 * 1024 * 1024;
-        public const int UPLOAD_MAX_VIDEO_SIZE = 15 * 1024 * 1024;
-        public const int UPLOAD_MAX_CHUNK_SIZE = 4 * 1024 * 1024;
+        public static int UPLOAD_MAX_IMAGE_SIZE = 5 * 1024 * 1024;
+        public static int UPLOAD_MAX_VIDEO_SIZE = 15 * 1024 * 1024;
+        public static int UPLOAD_MAX_CHUNK_SIZE = 4 * 1024 * 1024;
+
+        // Update Account
+        public static int UPDATE_ACCOUNT_MAX_NAME_SIZE = 20;
+        public static int UPDATE_ACCOUNT_MAX_URL_SIZE = 100;
+        public static int UPDATE_ACCOUNT_MAX_LOCATION_SIZE = 30;
+        public static int UPDATE_ACCOUNT_MAX_DESCRIPTION_SIZE = 160;
     }
 }

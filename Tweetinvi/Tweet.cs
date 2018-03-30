@@ -90,24 +90,6 @@ namespace Tweetinvi
 
         #region Tweet Controller
 
-        // Length
-
-        /// <summary>
-        /// Get the length of a tweet as calculated by Twitter
-        /// </summary>
-        public static int Length(IPublishTweetParameters publishTweetParameters)
-        {
-            return TweetController.Length(publishTweetParameters);
-        }
-
-        /// <summary>
-        /// Get the length of a tweet as calculated by Twitter
-        /// </summary>
-        public static int Length(string text, IPublishTweetOptionalParameters publishTweetOptionalParameters = null)
-        {
-            return TweetController.Length(text, publishTweetOptionalParameters);
-        }
-
         // Can be published
 
         /// <summary>
@@ -142,22 +124,6 @@ namespace Tweetinvi
         public static ITweet PublishTweet(string text, IPublishTweetOptionalParameters publishTweetOptionalParameters = null)
         {
             return TweetController.PublishTweet(text, publishTweetOptionalParameters);
-        }
-
-        /// <summary>
-        /// Publish a tweet with an image
-        /// </summary>
-        public static ITweet PublishTweetWithImage(string text, byte[] image)
-        {
-            return TweetController.PublishTweetWithMedia(text, image);
-        }
-
-        /// <summary>
-        /// Publish a tweet with a video
-        /// </summary>
-        public static ITweet PublishTweetWithVideo(string text, byte[] video)
-        {
-            return TweetController.PublishTweetWithVideo(text, video);
         }
 
         /// <summary>

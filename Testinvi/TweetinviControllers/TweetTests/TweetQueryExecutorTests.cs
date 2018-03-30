@@ -42,11 +42,11 @@ namespace Testinvi.TweetinviControllers.TweetTests
 
             var twitter139ExceptionInfos = new TwitterExceptionInfo { Code = 139 };
             fakeWebExceptionInfoExtractor.CallsTo(x => x.GetTwitterExceptionInfo(It.IsAny<WebException>())).Returns(new[] { twitter139ExceptionInfos });
-            _fake139TwitterException = new TwitterException(fakeWebExceptionInfoExtractor, new WebException(), TestHelper.GenerateString());
+            _fake139TwitterException = new TwitterException(fakeWebExceptionInfoExtractor, new WebException(), A.Fake<ITwitterQuery>());
 
             var twitterOtherExceptionInfos = new TwitterExceptionInfo { Code = 1 };
             fakeWebExceptionInfoExtractor.CallsTo(x => x.GetTwitterExceptionInfo(It.IsAny<WebException>())).Returns(new[] { twitterOtherExceptionInfos });
-            _fakeOtherTwitterException = new TwitterException(fakeWebExceptionInfoExtractor, new WebException(), TestHelper.GenerateString());
+            _fakeOtherTwitterException = new TwitterException(fakeWebExceptionInfoExtractor, new WebException(), A.Fake<ITwitterQuery>());
 
             _cursorQueryIds = new List<long>();
         }

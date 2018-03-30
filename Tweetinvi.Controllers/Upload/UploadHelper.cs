@@ -9,34 +9,39 @@ namespace Tweetinvi.Controllers.Upload
 {
     public interface IUploadHelper
     {
-        IMedia WaitForMediaProcessingToGetAllMetadata(IMedia media);
+        void WaitForMediaProcessingToGetAllMetadata(IMedia media);
     }
 
     public class UploadHelper : IUploadHelper
     {
         private readonly IThreadHelper _threadHelper;
-        private readonly IUploadQueryExecutor _uploadQueryExecutor;
+        private readonly IUploadMediaStatusQueryExecutor _uploadQueryExecutor;
 
         public UploadHelper(
             IThreadHelper threadHelper,
-            IUploadQueryExecutor uploadQueryExecutor)
+            IUploadMediaStatusQueryExecutor uploadQueryExecutor)
         {
             _threadHelper = threadHelper;
             _uploadQueryExecutor = uploadQueryExecutor;
         }
 
-        public IMedia WaitForMediaProcessingToGetAllMetadata(IMedia media)
+        public void WaitForMediaProcessingToGetAllMetadata(IMedia media)
         {
+            if (media == null)
+            {
+                return;
+            }
+
             var isProcessed = IsMediaProcessed(media.UploadedMediaInfo);
             if (isProcessed)
             {
-                return media;
+                return;
             }
 
             var processingInfoDelay = media.UploadedMediaInfo.ProcessingInfo.CheckAfterInMilliseconds;
             var dateWhenProcessingCanBeChecked = media.UploadedMediaInfo.CreatedDate.Add(TimeSpan.FromMilliseconds(processingInfoDelay));
 
-            var timeToWait = (int)DateTime.Now.Subtract(dateWhenProcessingCanBeChecked).TotalMilliseconds;
+            var timeToWait = (int)dateWhenProcessingCanBeChecked.Subtract(DateTime.Now).TotalMilliseconds;
 
             IUploadedMediaInfo mediaStatus = null;
             while (!isProcessed)
@@ -49,10 +54,7 @@ namespace Tweetinvi.Controllers.Upload
                 timeToWait = mediaStatus.ProcessingInfo.CheckAfterInMilliseconds;
             }
 
-            media = media.CloneWithoutUploadInfo();
             media.UploadedMediaInfo = mediaStatus;
-
-            return media;
         }
 
         private bool IsMediaProcessed(IUploadedMediaInfo mediaInfo)

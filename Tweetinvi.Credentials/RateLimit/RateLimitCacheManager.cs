@@ -102,9 +102,10 @@ namespace Tweetinvi.Credentials.RateLimit
 
                 try
                 {
-                    var jsonResult = _webRequestExecutor.ExecuteQuery(twitterQuery);
-                    var jsonResponse = jsonResult.Response;
-                    return _jsonObjectConverter.DeserializeObject<ICredentialsRateLimits>(jsonResponse);
+                    var webRequestResult = _webRequestExecutor.ExecuteQuery(twitterQuery);
+                    var json = webRequestResult.Text;
+
+                    return _jsonObjectConverter.DeserializeObject<ICredentialsRateLimits>(json);
                 }
                 catch (TwitterException)
                 {

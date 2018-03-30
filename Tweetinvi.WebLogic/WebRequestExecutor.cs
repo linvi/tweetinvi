@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
 using Tweetinvi.Core.Exceptions;
 using Tweetinvi.Core.Helpers;
@@ -48,15 +49,15 @@ namespace Tweetinvi.WebLogic
 
                     if (!result.IsSuccessStatusCode)
                     {
-                        throw _exceptionHandler.TryLogFailedWebRequestResult(result);
+                        throw _exceptionHandler.TryLogFailedWebRequestResult(result, twitterQuery);
                     }
 
                     var stream = result.ResultStream;
 
                     if (stream != null)
                     {
-                        var responseReader = new StreamReader(stream);
-                        result.Response = responseReader.ReadLine();
+                        result.Binary = StreamToBinary(stream);
+                        result.Text = Encoding.UTF8.GetString(result.Binary);
                     }
 
                     return result;
@@ -74,6 +75,37 @@ namespace Tweetinvi.WebLogic
         }
 
         // Multipart
+
+        public static byte[] StreamToBinary(Stream stream)
+        {
+            if (stream == null)
+            {
+                return null;
+            }
+
+            byte[] binary;
+
+            using (var tempMemStream = new MemoryStream())
+            {
+                byte[] buffer = new byte[128];
+
+                while (true)
+                {
+                    int read = stream.Read(buffer, 0, buffer.Length);
+
+                    if (read <= 0)
+                    {
+                        binary = tempMemStream.ToArray();
+                        break;
+                    }
+
+                    tempMemStream.Write(buffer, 0, read);
+                }
+            }
+
+            return binary;
+        }
+
         public IWebRequestResult ExecuteMultipartQuery(ITwitterQuery twitterQuery, string contentId, IEnumerable<byte[]> binaries)
         {
             return ExecuteTwitterQuerySafely(twitterQuery, () =>
@@ -90,8 +122,8 @@ namespace Tweetinvi.WebLogic
 
                     if (stream != null)
                     {
-                        var responseReader = new StreamReader(stream);
-                        result.Response =  responseReader.ReadLine();
+                        result.Binary = StreamToBinary(stream);
+                        result.Text = Encoding.UTF8.GetString(result.Binary);
                     }
 
                     return result;
@@ -150,7 +182,7 @@ namespace Tweetinvi.WebLogic
 
                 if (webException != null)
                 {
-                    throw _exceptionHandler.TryLogWebException(webException, twitterQuery.QueryURL);
+                    throw _exceptionHandler.TryLogWebException(webException, twitterQuery);
                 }
 
                 if (taskCanceledException != null)

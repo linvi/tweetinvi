@@ -39,6 +39,7 @@ namespace Tweetinvi.Logic.JsonConverters
                 new JsonInterfaceToObjectConverter<IUserDTO, UserDTO>(),
                 new JsonInterfaceToObjectConverter<IMessageDTO, MessageDTO>(),
                 new JsonInterfaceToObjectConverter<IUploadedMediaInfo, UploadedMediaInfo>(),
+                new JsonInterfaceToObjectConverter<IUploadProcessingError, UploadProcessingError>(),
 
                 new JsonInterfaceToObjectConverter<IRelationshipDetailsDTO, RelationshipDetailsDTO>(),
                 new JsonInterfaceToObjectConverter<IRelationshipStateDTO, RelationshipStateDTO>(),

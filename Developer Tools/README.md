@@ -4,8 +4,14 @@
 
 Install PowerShell Community Extensions to get the Write-Zip command
 
+> Install-Module Pscx -Scope CurrentUser
+
 Add the PowerShell.Exe.Config to C:\Windows\System32\WindowsPowerShell\v1.0
-Run : Set-ExecutionPolicy RemoteSigned
+> Set-ExecutionPolicy RemoteSigned
+
+If this command does not work run 
+
+> Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
 
 Restart the machine (pscx cannot be used otherwise)
 
@@ -13,14 +19,16 @@ Restart the machine (pscx cannot be used otherwise)
 
 * Copy tweetinvi.certificate.p12 in the `Developer Tools` folder.
 * Open Powershell and set the `tweetinvikey` environment variable.
-  [Environment]::SetEnvironmentVariable("tweetinvikey", "The secrete key", "User")
+
+> [Environment]::SetEnvironmentVariable("tweetinvikey", "The secrete key", "User")
 
 **********************************************************
 ************************ NUGET ***************************
 **********************************************************
 
-nuget pack
-nuget push <*.nupkg> -ApiKey 'MY_NUGET.ORG_APIKEY' -Verbosity detailed
+> nuget pack
+
+> nuget push <*.nupkg> -ApiKey 'MY_NUGET.ORG_APIKEY' -Verbosity detailed
 
 
 **********************************************************
@@ -30,12 +38,12 @@ nuget push <*.nupkg> -ApiKey 'MY_NUGET.ORG_APIKEY' -Verbosity detailed
 
 Open Visual Studio Command Prompt
 
-// Generate the public Key file
-sn -p tweetinvi.pfx tweetinvi.key
+* Generate the public Key file
+> sn -p tweetinvi.pfx tweetinvi.key
 
-// Get the Hexa version of the public key
-// When performing this action the password should be requested
-sn -tp tweetinvi.key 
+* Get the Hexa version of the public key. When performing this action the password should be requested
+> sn -tp tweetinvi.key 
+
 
 
 ***********************************************************

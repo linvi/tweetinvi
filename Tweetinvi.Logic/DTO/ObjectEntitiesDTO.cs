@@ -17,5 +17,8 @@ namespace Tweetinvi.Logic.TwitterEntities
 
         [JsonProperty("symbols")]
         public List<ISymbolEntity> Symbols { get; set; }
+
+        [JsonProperty("media")]
+        public List<IMediaEntity> Medias { get; set; }
     }
 }

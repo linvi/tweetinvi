@@ -8,28 +8,51 @@ namespace Tweetinvi.Core.Web
 {
     public interface IMultipartHttpRequestParameters : IHttpRequestParameters
     {
+        /// <summary>
+        /// Binary to be send via HttpRequest
+        /// </summary>
         IEnumerable<byte[]> Binaries { get; set; }
+
+        /// <summary>
+        /// Content Id
+        /// </summary>
         string ContentId { get; set; }
+
+        /// <summary>
+        /// Action invoked to show the progress of the upload. {current / total}
+        /// </summary>
+        Action<long, long> UploadProgressChanged { get; set; }
     }
 
     public class MultipartHttpRequestParameters : HttpRequestParameters, IMultipartHttpRequestParameters
     {
+        private IEnumerable<byte[]> _binaries;
+
         public MultipartHttpRequestParameters()
         {
             ContentId = "media";
             HttpMethod = HttpMethod.POST;
         }
 
-        public IEnumerable<byte[]> Binaries { get; set; }
+        public IEnumerable<byte[]> Binaries
+        {
+            get { return _binaries; }
+            set
+            {
+                _binaries = value;
+            }
+        }
         public string ContentId { get; set; }
+
+        public Action<long, long> UploadProgressChanged { get; set; }
 
         public override HttpContent HttpContent
         {
-            get { return GetMultipartFormDataContent(ContentId, Binaries); }
+            get { return GetMultipartFormDataContent(ContentId, _binaries); }
             set { throw new InvalidOperationException("Multipart HttpContent is created based on the binaries of the MultipartRequest.");}
         }
 
-        private MultipartFormDataContent GetMultipartFormDataContent(string contentId, IEnumerable<byte[]> binaries)
+        private ProgressableStreamContent GetMultipartFormDataContent(string contentId, IEnumerable<byte[]> binaries)
         {
             var multiPartContent = new MultipartFormDataContent();
 
@@ -41,7 +64,12 @@ namespace Tweetinvi.Core.Web
                 multiPartContent.Add(byteArrayContent, contentId, i.ToString(CultureInfo.InvariantCulture));
             }
 
-            return multiPartContent;
+            var progressableContent = new ProgressableStreamContent(multiPartContent, (current, total) =>
+            {
+                UploadProgressChanged?.Invoke(current, total);
+            });
+
+            return progressableContent;
         }
     }
 }

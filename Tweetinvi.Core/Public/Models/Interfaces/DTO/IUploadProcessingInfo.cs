@@ -9,5 +9,6 @@ namespace Tweetinvi.Models.DTO
         int CheckAfterInSeconds { get; set; }
         int CheckAfterInMilliseconds { get; }
         int ProgressPercentage { get; set; }
+        IUploadProcessingError Error { get; set; }
     }
 }
