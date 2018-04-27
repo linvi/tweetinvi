@@ -28,13 +28,13 @@ namespace Tweetinvi.Controllers.Trends
         public IPlaceTrends GetPlaceTrendsAt(long woeid)
         {
             string query = _trendsQueryGenerator.GetPlaceTrendsAtQuery(woeid);
-            return _twitterAccessor.ExecuteGETQuery<IPlaceTrends[]>(query)[0];
+            return _twitterAccessor.ExecuteGETQuery<IPlaceTrends[]>(query)?[0];
         }
 
         public IPlaceTrends GetPlaceTrendsAt(IWoeIdLocation woeIdLocation)
         {
             string query = _trendsQueryGenerator.GetPlaceTrendsAtQuery(woeIdLocation);
-            return _twitterAccessor.ExecuteGETQuery<IPlaceTrends[]>(query)[0];
+            return _twitterAccessor.ExecuteGETQuery<IPlaceTrends[]>(query)?[0];
         }
 
         public IEnumerable<ITrendLocation> GetAvailableTrendLocations()
