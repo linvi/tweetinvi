@@ -1,7 +1,9 @@
-﻿using Tweetinvi.Core.Events;
+﻿using System;
+using Tweetinvi.Core.Events;
 using Tweetinvi.Core.Exceptions;
 using Tweetinvi.Core.Helpers;
 using Tweetinvi.Core.Web;
+using Tweetinvi.Core.Webhooks;
 using Tweetinvi.Exceptions;
 using Tweetinvi.Models;
 using Tweetinvi.Parameters;
@@ -22,70 +24,76 @@ namespace Tweetinvi.Core.Injectinvi
             get { return _container; }
         }
 
-        public void Initialize()
+        public void Initialize(ITweetinviContainer container)
         {
-            _container.RegisterGeneric(typeof(IFactory<>), typeof(Factory<>));
-            _container.RegisterType<ITaskFactory, TaskFactory>();
-            _container.RegisterType<ISynchronousInvoker, SynchronousInvoker>();
-            _container.RegisterType<ITweetinviSettings, TweetinviSettings>(RegistrationLifetime.InstancePerThread);
-            _container.RegisterType<ITweetinviSettingsAccessor, TweetinviSettingsAccessor>(RegistrationLifetime.InstancePerApplication);
-            _container.RegisterType<IThreadHelper, ThreadHelper>(RegistrationLifetime.InstancePerThread);
-            _container.RegisterType<IAttributeHelper, AttributeHelper>(RegistrationLifetime.InstancePerApplication);
-            _container.RegisterType<IHttpUtility, HttpUtility>(RegistrationLifetime.InstancePerApplication);
-            _container.RegisterGeneric(typeof(IWeakEvent<>), typeof(WeakEvent<>));
-            _container.RegisterType<ITweetinviEvents, InternalTweetinviEvents>(RegistrationLifetime.InstancePerApplication);
-            _container.RegisterType<ISingleAggregateExceptionThrower, SingleAggregateExceptionThrower>(RegistrationLifetime.InstancePerApplication);
-            _container.RegisterType<ITwitterExceptionFactory, TwitterExceptionFactory>();
-            _container.RegisterType<ITwitterException, TwitterException>();
+            if (container != _container)
+            {
+                throw new InvalidOperationException("This container can only be initialized with the main container");
+            }
 
-            InitializeParameters();
+            container.RegisterGeneric(typeof(IFactory<>), typeof(Factory<>));
+            container.RegisterType<ITaskFactory, TaskFactory>();
+            container.RegisterType<ISynchronousInvoker, SynchronousInvoker>();
+            container.RegisterType<ITweetinviSettings, TweetinviSettings>(RegistrationLifetime.InstancePerThread);
+            container.RegisterType<ITweetinviSettingsAccessor, TweetinviSettingsAccessor>(RegistrationLifetime.InstancePerApplication);
+            container.RegisterType<IThreadHelper, ThreadHelper>(RegistrationLifetime.InstancePerThread);
+            container.RegisterType<IAttributeHelper, AttributeHelper>(RegistrationLifetime.InstancePerApplication);
+            container.RegisterType<IHttpUtility, HttpUtility>(RegistrationLifetime.InstancePerApplication);
+            container.RegisterGeneric(typeof(IWeakEvent<>), typeof(WeakEvent<>));
+            container.RegisterType<ITweetinviEvents, InternalTweetinviEvents>(RegistrationLifetime.InstancePerApplication);
+            container.RegisterType<ISingleAggregateExceptionThrower, SingleAggregateExceptionThrower>(RegistrationLifetime.InstancePerApplication);
+            container.RegisterType<ITwitterExceptionFactory, TwitterExceptionFactory>();
+            container.RegisterType<ITwitterException, TwitterException>();
+            container.RegisterType<IWebhookProtocolProcessClient, WebhookProtocolDefaultProcessClient>();
+
+            InitializeParameters(container);
         }
 
-        private void InitializeParameters()
+        private void InitializeParameters(ITweetinviContainer container)
         {
             // Base
-            _container.RegisterType<ICustomRequestParameters, CustomRequestParameters>();
+            container.RegisterType<ICustomRequestParameters, CustomRequestParameters>();
             
             // Identifiers
-            _container.RegisterType<ITweetIdentifier, TweetIdentifier>();
-            _container.RegisterType<IUserIdentifier, UserIdentifier>();
-            _container.RegisterType<ITwitterListIdentifier, TwitterListIdentifier>();
+            container.RegisterType<ITweetIdentifier, TweetIdentifier>();
+            container.RegisterType<IUserIdentifier, UserIdentifier>();
+            container.RegisterType<ITwitterListIdentifier, TwitterListIdentifier>();
 
-            _container.RegisterType<IGeoCode, GeoCode>();
+            container.RegisterType<IGeoCode, GeoCode>();
 
             // Parameters
-            _container.RegisterType<ITwitterListUpdateParameters, TwitterListUpdateParameters>();
-            _container.RegisterType<IGetTweetsFromListParameters, GetTweetsFromListParameters>();
+            container.RegisterType<ITwitterListUpdateParameters, TwitterListUpdateParameters>();
+            container.RegisterType<IGetTweetsFromListParameters, GetTweetsFromListParameters>();
 
             // Account
-            _container.RegisterType<IAccountUpdateProfileBannerParameters, AccountUpdateProfileBannerParameters>();
+            container.RegisterType<IAccountUpdateProfileBannerParameters, AccountUpdateProfileBannerParameters>();
 
             // Search
-            _container.RegisterType<ISearchTweetsParameters, SearchTweetsParameters>();
-            _container.RegisterType<ISearchUsersParameters, SearchUsersParameters>();
+            container.RegisterType<ISearchTweetsParameters, SearchTweetsParameters>();
+            container.RegisterType<ISearchUsersParameters, SearchUsersParameters>();
 
             // Tweet
-            _container.RegisterType<IPublishTweetParameters, PublishTweetParameters>();
-            _container.RegisterType<IPublishTweetOptionalParameters, PublishTweetOptionalParameters>();
-            _container.RegisterType<IGetUserFavoritesParameters, GetUserFavoritesParameters>();
+            container.RegisterType<IPublishTweetParameters, PublishTweetParameters>();
+            container.RegisterType<IPublishTweetOptionalParameters, PublishTweetOptionalParameters>();
+            container.RegisterType<IGetUserFavoritesParameters, GetUserFavoritesParameters>();
 
             // Account
-            _container.RegisterType<IAccountSettingsRequestParameters, AccountSettingsRequestParameters>();
+            container.RegisterType<IAccountSettingsRequestParameters, AccountSettingsRequestParameters>();
 
             // Timeline
-            _container.RegisterType<IHomeTimelineParameters, HomeTimelineParameters>();
-            _container.RegisterType<IUserTimelineParameters, UserTimelineParameters>();
-            _container.RegisterType<IMentionsTimelineParameters, MentionsTimelineParameters>();
-            _container.RegisterType<IRetweetsOfMeTimelineParameters, RetweetsOfMeTimelineParameter>();
+            container.RegisterType<IHomeTimelineParameters, HomeTimelineParameters>();
+            container.RegisterType<IUserTimelineParameters, UserTimelineParameters>();
+            container.RegisterType<IMentionsTimelineParameters, MentionsTimelineParameters>();
+            container.RegisterType<IRetweetsOfMeTimelineParameters, RetweetsOfMeTimelineParameter>();
 
             // Message
-            _container.RegisterType<IMessagesReceivedParameters, MessagesReceivedParameters>();
-            _container.RegisterType<IMessagesSentParameters, MessagesSentParameters>();
-            _container.RegisterType<IPublishMessageParameters, PublishMessageParameters>();
+            container.RegisterType<IMessagesReceivedParameters, MessagesReceivedParameters>();
+            container.RegisterType<IMessagesSentParameters, MessagesSentParameters>();
+            container.RegisterType<IPublishMessageParameters, PublishMessageParameters>();
 
             // Upload
-            _container.RegisterType<IChunkUploadInitParameters, ChunkUploadInitParameters>();
-            _container.RegisterType<IChunkUploadAppendParameters, ChunkUploadAppendParameters>();
+            container.RegisterType<IChunkUploadInitParameters, ChunkUploadInitParameters>();
+            container.RegisterType<IChunkUploadAppendParameters, ChunkUploadAppendParameters>();
         }
     }
 }

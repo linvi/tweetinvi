@@ -10,33 +10,26 @@ namespace Tweetinvi.Credentials
 {
     public class TweetinviCredentialsModule : ITweetinviModule
     {
-        private readonly ITweetinviContainer _container;
-
-        public TweetinviCredentialsModule(ITweetinviContainer container)
+        public void Initialize(ITweetinviContainer container)
         {
-            _container = container;
+            container.RegisterType<ITwitterAccessor, TwitterAccessor>(RegistrationLifetime.InstancePerThread);
+            container.RegisterType<ICredentialsAccessor, CredentialsAccessor>(RegistrationLifetime.InstancePerApplication);
+            container.RegisterType<ICredentialsStore, CredentialsStore>(RegistrationLifetime.InstancePerApplication);
+
+            container.RegisterType<IAuthFactory, AuthFactory>();
+            container.RegisterType<IWebTokenFactory, WebTokenFactory>();
+            container.RegisterType<ICursorQueryHelper, CursorQueryHelper>();
+             
+            RegisterRateLimitHandler(container);
         }
 
-        public void Initialize()
+        private void RegisterRateLimitHandler(ITweetinviContainer container)
         {
-            _container.RegisterType<ITwitterAccessor, TwitterAccessor>(RegistrationLifetime.InstancePerThread);
-            _container.RegisterType<ICredentialsAccessor, CredentialsAccessor>(RegistrationLifetime.InstancePerApplication);
-            _container.RegisterType<ICredentialsStore, CredentialsStore>(RegistrationLifetime.InstancePerApplication);
-
-            _container.RegisterType<IAuthFactory, AuthFactory>();
-            _container.RegisterType<IWebTokenFactory, WebTokenFactory>();
-            _container.RegisterType<ICursorQueryHelper, CursorQueryHelper>();
-
-            RegisterRateLimitHandler();
-        }
-
-        private void RegisterRateLimitHandler()
-        {
-            _container.RegisterType<IRateLimitAwaiter, RateLimitAwaiter>(RegistrationLifetime.InstancePerThread);
-            _container.RegisterType<IRateLimitCache, RateLimitCache>(RegistrationLifetime.InstancePerApplication);
-            _container.RegisterType<IRateLimitCacheManager, RateLimitCacheManager>(RegistrationLifetime.InstancePerThread);
-            _container.RegisterType<IRateLimitHelper, RateLimitHelper>(RegistrationLifetime.InstancePerApplication);
-            _container.RegisterType<IRateLimitUpdater, RateLimitUpdater>(RegistrationLifetime.InstancePerThread);
+            container.RegisterType<IRateLimitAwaiter, RateLimitAwaiter>(RegistrationLifetime.InstancePerThread);
+            container.RegisterType<IRateLimitCache, RateLimitCache>(RegistrationLifetime.InstancePerApplication);
+            container.RegisterType<IRateLimitCacheManager, RateLimitCacheManager>(RegistrationLifetime.InstancePerThread);
+            container.RegisterType<IRateLimitHelper, RateLimitHelper>(RegistrationLifetime.InstancePerApplication);
+            container.RegisterType<IRateLimitUpdater, RateLimitUpdater>(RegistrationLifetime.InstancePerThread);
         }
     }
 }

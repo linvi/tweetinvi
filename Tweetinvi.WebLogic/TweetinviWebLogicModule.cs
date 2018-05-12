@@ -9,34 +9,27 @@ namespace Tweetinvi.WebLogic
 {
     public class TweetinviWebLogicModule : ITweetinviModule
     {
-        private readonly ITweetinviContainer _container;
-
-        public TweetinviWebLogicModule(ITweetinviContainer container)
+        public void Initialize(ITweetinviContainer container)
         {
-            _container = container;
-        }
+            container.RegisterType<IWebRequestExecutor, WebRequestExecutor>(RegistrationLifetime.InstancePerThread);
+            container.RegisterType<ITwitterRequestHandler, TwitterRequestHandler>();
 
-        public void Initialize()
-        {
-            _container.RegisterType<IWebRequestExecutor, WebRequestExecutor>(RegistrationLifetime.InstancePerThread);
-            _container.RegisterType<ITwitterRequestHandler, TwitterRequestHandler>();
+            container.RegisterType<IConsumerCredentials, ConsumerCredentials>();
+            container.RegisterType<ITwitterCredentials, TwitterCredentials>();
 
-            _container.RegisterType<IConsumerCredentials, ConsumerCredentials>();
-            _container.RegisterType<ITwitterCredentials, TwitterCredentials>();
+            container.RegisterType<IUploadParameters, UploadParameters>();
+            container.RegisterType<IUploadOptionalParameters, UploadOptionalParameters>();
+            container.RegisterType<IUploadVideoParameters, UploadVideoParameters>();
+            container.RegisterType<IUploadVideoOptionalParameters, UploadVideoOptionalParameters>();
 
-            _container.RegisterType<IUploadParameters, UploadParameters>();
-            _container.RegisterType<IUploadOptionalParameters, UploadOptionalParameters>();
-            _container.RegisterType<IUploadVideoParameters, UploadVideoParameters>();
-            _container.RegisterType<IUploadVideoOptionalParameters, UploadVideoOptionalParameters>();
+            container.RegisterType<IOAuthQueryParameter, OAuthQueryParameter>();
+            container.RegisterType<IOAuthWebRequestGenerator, OAuthWebRequestGenerator>();
 
-            _container.RegisterType<IOAuthQueryParameter, OAuthQueryParameter>();
-            _container.RegisterType<IOAuthWebRequestGenerator, OAuthWebRequestGenerator>();
+            container.RegisterType<IWebHelper, WebHelper>(RegistrationLifetime.InstancePerApplication);
+            container.RegisterType<IHttpClientWebHelper, HttpClientWebHelper>();
+            container.RegisterType<IWebRequestResult, WebRequestResult>();
 
-            _container.RegisterType<IWebHelper, WebHelper>(RegistrationLifetime.InstancePerApplication);
-            _container.RegisterType<IHttpClientWebHelper, HttpClientWebHelper>();
-            _container.RegisterType<IWebRequestResult, WebRequestResult>();
-
-            _container.RegisterType<ITwitterQuery, TwitterQuery>();
+            container.RegisterType<ITwitterQuery, TwitterQuery>();
         }
     }
 }

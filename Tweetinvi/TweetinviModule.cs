@@ -4,17 +4,10 @@ namespace Tweetinvi
 {
     public class TweetinviModule : ITweetinviModule
     {
-        private readonly ITweetinviContainer _container;
-
-        public TweetinviModule(ITweetinviContainer container)
-        {
-            _container = container;
-        }
-
-        public void Initialize()
+        public void Initialize(ITweetinviContainer container)
         {
             // Register a singleton of the container, do not use InstancePerApplication
-            _container.RegisterInstance(typeof(ITweetinviContainer), _container);
+            container.RegisterInstance(typeof(ITweetinviContainer), container);
         }
     }
 }

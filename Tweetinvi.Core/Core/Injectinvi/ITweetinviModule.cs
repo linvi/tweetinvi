@@ -8,6 +8,6 @@
         /// <summary>
         /// Initialize the module registration.
         /// </summary>
-        void Initialize();
+        void Initialize(ITweetinviContainer container);
     }
 }

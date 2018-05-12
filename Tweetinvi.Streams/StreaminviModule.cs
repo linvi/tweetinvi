@@ -9,32 +9,25 @@ namespace Tweetinvi.Streams
 {
     public class StreaminviModule : ITweetinviModule
     {
-        private readonly ITweetinviContainer _container;
-
-        public StreaminviModule(ITweetinviContainer container)
+        public void Initialize(ITweetinviContainer container)
         {
-            _container = container;
-        }
+            container.RegisterType<IUserStream, UserStream>();
+            container.RegisterType<ITweetStream, TweetStream>();
+            container.RegisterType<ISampleStream, SampleStream>();
+            container.RegisterType<ITrackedStream, TrackedStream>();
+            container.RegisterType<IFilteredStream, FilteredStream>();
 
-        public void Initialize()
-        {
-            _container.RegisterType<IUserStream, UserStream>();
-            _container.RegisterType<ITweetStream, TweetStream>();
-            _container.RegisterType<ISampleStream, SampleStream>();
-            _container.RegisterType<ITrackedStream, TrackedStream>();
-            _container.RegisterType<IFilteredStream, FilteredStream>();
+            container.RegisterType<IFilterStreamTweetMatcher, FilterStreamTweetMatcher>();
+            container.RegisterType<IFilterStreamTweetMatcherFactory, FilterStreamTweetMatcherFactory>(RegistrationLifetime.InstancePerApplication);
 
-            _container.RegisterType<IFilterStreamTweetMatcher, FilterStreamTweetMatcher>();
-            _container.RegisterType<IFilterStreamTweetMatcherFactory, FilterStreamTweetMatcherFactory>(RegistrationLifetime.InstancePerApplication);
+            container.RegisterType<IWarningMessage, WarningMessage>();
+            container.RegisterType<IWarningMessageTooManyFollowers, WarningMessageTooManyFollowers>();
+            container.RegisterType<IWarningMessageFallingBehind, WarningMessageFallingBehind>();
 
-            _container.RegisterType<IWarningMessage, WarningMessage>();
-            _container.RegisterType<IWarningMessageTooManyFollowers, WarningMessageTooManyFollowers>();
-            _container.RegisterType<IWarningMessageFallingBehind, WarningMessageFallingBehind>();
+            container.RegisterType<IStreamTask, StreamTask>();
+            container.RegisterType<IStreamResultGenerator, StreamResultGenerator>();
 
-            _container.RegisterType<IStreamTask, StreamTask>();
-            _container.RegisterType<IStreamResultGenerator, StreamResultGenerator>();
-
-            _container.RegisterGeneric(typeof(IStreamTrackManager<>), typeof(StreamTrackManager<>));
+            container.RegisterGeneric(typeof(IStreamTrackManager<>), typeof(StreamTrackManager<>));
         }
     }
 }

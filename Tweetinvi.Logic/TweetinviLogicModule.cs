@@ -20,106 +20,99 @@ namespace Tweetinvi.Logic
 {
     public class TweetinviLogicModule : ITweetinviModule
     {
-        private readonly ITweetinviContainer _container;
-
-        public TweetinviLogicModule(ITweetinviContainer container)
+        public void Initialize(ITweetinviContainer container)
         {
-            _container = container;
-        }
+            InitializeTwitterModels(container);
+            InitializeTweetinviModels(container);
 
-        public void Initialize()
-        {
-            InitializeTwitterModels();
-            InitializeTweetinviModels();
-
-            InitializeDTOs();
-            InitializeHelpers();
-            InitializeWrappers();
-            InitializeQueryParameters();
-            InitializeExceptionHandler();
-            InitializeSerialization();
+            InitializeDTOs(container);
+            InitializeHelpers(container);
+            InitializeWrappers(container);
+            InitializeQueryParameters(container);
+            InitializeExceptionHandler(container);
+            InitializeSerialization(container);
         }
 
         // Initialize Models that are not objects coming from Twitter
-        private void InitializeTweetinviModels()
+        private void InitializeTweetinviModels(ITweetinviContainer container)
         {
-            _container.RegisterType<IMedia, Media>();
-            _container.RegisterType<IEditableMedia, Media>();
-            _container.RegisterType<ISearchQueryResult, SearchQueryResult>();
+            container.RegisterType<IMedia, Media>();
+            container.RegisterType<IEditableMedia, Media>();
+            container.RegisterType<ISearchQueryResult, SearchQueryResult>();
         }
 
         // Initialize Models that are Twitter objects
-        private void InitializeTwitterModels()
+        private void InitializeTwitterModels(ITweetinviContainer container)
         {
-            _container.RegisterType<ITweet, Tweet>();
-            _container.RegisterType<ITweetWithSearchMetadata, TweetWithSearchMetadata>();
-            _container.RegisterType<IOEmbedTweet, OEmbedTweet>();
+            container.RegisterType<ITweet, Tweet>();
+            container.RegisterType<ITweetWithSearchMetadata, TweetWithSearchMetadata>();
+            container.RegisterType<IOEmbedTweet, OEmbedTweet>();
 
-            _container.RegisterType<IUser, User>();
-            _container.RegisterType<IAuthenticatedUser, AuthenticatedUser>();
+            container.RegisterType<IUser, User>();
+            container.RegisterType<IAuthenticatedUser, AuthenticatedUser>();
 
-            _container.RegisterType<ITwitterList, TwitterList>();
+            container.RegisterType<ITwitterList, TwitterList>();
 
-            _container.RegisterType<ICoordinates, CoordinatesDTO>();
-            _container.RegisterType<ILocation, Location>();
+            container.RegisterType<ICoordinates, CoordinatesDTO>();
+            container.RegisterType<ILocation, Location>();
 
-            _container.RegisterType<IAccountSettings, AccountSettings>();
-            _container.RegisterType<IMessage, Message>();
-            _container.RegisterType<IMention, Mention>();
-            _container.RegisterType<IRelationshipDetails, RelationshipDetails>();
-            _container.RegisterType<IRelationshipState, RelationshipState>();
-            _container.RegisterType<ISavedSearch, SavedSearch>();
+            container.RegisterType<IAccountSettings, AccountSettings>();
+            container.RegisterType<IMessage, Message>();
+            container.RegisterType<IMention, Mention>();
+            container.RegisterType<IRelationshipDetails, RelationshipDetails>();
+            container.RegisterType<IRelationshipState, RelationshipState>();
+            container.RegisterType<ISavedSearch, SavedSearch>();
         }
 
-        private void InitializeDTOs()
+        private void InitializeDTOs(ITweetinviContainer container)
         {
-            _container.RegisterType<ITweetDTO, TweetDTO>();
-            _container.RegisterType<ITwitterListDTO, TwitterListDTO>();
-            _container.RegisterType<IUserDTO, UserDTO>();
-            _container.RegisterType<IMessageDTO, MessageDTO>();
-            _container.RegisterType<IRelationshipDetailsDTO, RelationshipDetailsDTO>();
+            container.RegisterType<ITweetDTO, TweetDTO>();
+            container.RegisterType<ITwitterListDTO, TwitterListDTO>();
+            container.RegisterType<IUserDTO, UserDTO>();
+            container.RegisterType<IMessageDTO, MessageDTO>();
+            container.RegisterType<IRelationshipDetailsDTO, RelationshipDetailsDTO>();
 
-            _container.RegisterType<ITweetEntities, TweetEntitiesDTO>();
-            _container.RegisterType<IObjectEntities, ObjectEntitiesDTO>();
-            _container.RegisterType<IUserEntities, UserEntities>();
+            container.RegisterType<ITweetEntities, TweetEntitiesDTO>();
+            container.RegisterType<IObjectEntities, ObjectEntitiesDTO>();
+            container.RegisterType<IUserEntities, UserEntities>();
 
-            _container.RegisterType<IUrlEntity, UrlEntity>();
-            _container.RegisterType<IHashtagEntity, HashtagEntity>();
-            _container.RegisterType<IDescriptionEntity, DescriptionEntity>();
-            _container.RegisterType<ISymbolEntity, SymbolEntity>();
+            container.RegisterType<IUrlEntity, UrlEntity>();
+            container.RegisterType<IHashtagEntity, HashtagEntity>();
+            container.RegisterType<IDescriptionEntity, DescriptionEntity>();
+            container.RegisterType<ISymbolEntity, SymbolEntity>();
         }
 
-        private void InitializeHelpers()
+        private void InitializeHelpers(ITweetinviContainer container)
         {
-            _container.RegisterType<ITwitterStringFormatter, TwitterStringFormatter>();
+            container.RegisterType<ITwitterStringFormatter, TwitterStringFormatter>();
         }
 
-        private void InitializeQueryParameters()
+        private void InitializeQueryParameters(ITweetinviContainer container)
         {
-            _container.RegisterType<ITwitterListUpdateQueryParameters, TwitterListUpdateQueryParameters>();
-            _container.RegisterType<IGetTweetsFromListQueryParameters, GetTweetsFromListQueryParameters>();
-            _container.RegisterType<IUserTimelineQueryParameters, UserTimelineQueryParameters>();
-            _container.RegisterType<IGetUserFavoritesQueryParameters, GetUserFavoritesQueryParameters>();
+            container.RegisterType<ITwitterListUpdateQueryParameters, TwitterListUpdateQueryParameters>();
+            container.RegisterType<IGetTweetsFromListQueryParameters, GetTweetsFromListQueryParameters>();
+            container.RegisterType<IUserTimelineQueryParameters, UserTimelineQueryParameters>();
+            container.RegisterType<IGetUserFavoritesQueryParameters, GetUserFavoritesQueryParameters>();
         }
 
-        private void InitializeWrappers()
+        private void InitializeWrappers(ITweetinviContainer container)
         {
-            _container.RegisterType<IJObjectStaticWrapper, JObjectStaticWrapper>(RegistrationLifetime.InstancePerApplication);
-            _container.RegisterType<IJsonConvertWrapper, JsonConvertWrapper>(RegistrationLifetime.InstancePerApplication);
+            container.RegisterType<IJObjectStaticWrapper, JObjectStaticWrapper>(RegistrationLifetime.InstancePerApplication);
+            container.RegisterType<IJsonConvertWrapper, JsonConvertWrapper>(RegistrationLifetime.InstancePerApplication);
         }
 
-        private void InitializeExceptionHandler()
+        private void InitializeExceptionHandler(ITweetinviContainer container)
         {
-            _container.RegisterType<IExceptionHandler, ExceptionHandler>(RegistrationLifetime.InstancePerThread);
-            _container.RegisterType<IWebExceptionInfoExtractor, WebExceptionInfoExtractor>(RegistrationLifetime.InstancePerApplication);          
-            _container.RegisterType<ITwitterTimeoutException, TwitterTimeoutException>();
-            _container.RegisterType<ITwitterExceptionInfo, TwitterExceptionInfo>();
+            container.RegisterType<IExceptionHandler, ExceptionHandler>(RegistrationLifetime.InstancePerThread);
+            container.RegisterType<IWebExceptionInfoExtractor, WebExceptionInfoExtractor>(RegistrationLifetime.InstancePerApplication);          
+            container.RegisterType<ITwitterTimeoutException, TwitterTimeoutException>();
+            container.RegisterType<ITwitterExceptionInfo, TwitterExceptionInfo>();
         }
 
-        private void InitializeSerialization()
+        private void InitializeSerialization(ITweetinviContainer container)
         {
-            _container.RegisterType<IJsonPropertyConverterRepository, JsonPropertyConverterRepository>();
-            _container.RegisterType<IJsonObjectConverter, JsonObjectConverter>(RegistrationLifetime.InstancePerApplication);
+            container.RegisterType<IJsonPropertyConverterRepository, JsonPropertyConverterRepository>();
+            container.RegisterType<IJsonObjectConverter, JsonObjectConverter>(RegistrationLifetime.InstancePerApplication);
         }
     }
 }

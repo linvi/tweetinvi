@@ -17,8 +17,6 @@ namespace Tweetinvi.Injectinvi
     {
     }
 
-   
-
     public class AutofacContainer : IAutofacContainer
     {
         private static IContainer _container;
@@ -64,22 +62,22 @@ namespace Tweetinvi.Injectinvi
 
         private void RegisterModules()
         {
-            _moduleCatalog.Add(new TweetinviModule(this));
-            _moduleCatalog.Add(new TweetinviControllersModule(this));
+            _moduleCatalog.Add(new TweetinviModule());
+            _moduleCatalog.Add(new TweetinviControllersModule());
             _moduleCatalog.Add(new TweetinviCoreModule(this));
-            _moduleCatalog.Add(new TweetinviCredentialsModule(this));
-            _moduleCatalog.Add(new TweetinviFactoriesModule(this));
-            _moduleCatalog.Add(new TweetinviLogicModule(this));
-            _moduleCatalog.Add(new TweetinviWebLogicModule(this));
+            _moduleCatalog.Add(new TweetinviCredentialsModule());
+            _moduleCatalog.Add(new TweetinviFactoriesModule());
+            _moduleCatalog.Add(new TweetinviLogicModule());
+            _moduleCatalog.Add(new TweetinviWebLogicModule());
             
-            _moduleCatalog.Add(new StreaminviModule(this));
+            _moduleCatalog.Add(new StreaminviModule());
         }
 
         private void InitializeModules()
         {
             foreach (var module in _moduleCatalog)
             {
-                module.Initialize();
+                module.Initialize(this);
             }
         }
 
