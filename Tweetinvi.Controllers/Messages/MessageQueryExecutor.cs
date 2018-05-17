@@ -63,13 +63,13 @@ namespace Tweetinvi.Controllers.Messages
         public bool DestroyMessage(IMessageDTO messageDTO)
         {
             string query = _messageQueryGenerator.GetDestroyMessageQuery(messageDTO);
-            return _twitterAccessor.TryExecutePOSTQuery(query);
+            return _twitterAccessor.TryExecuteDELETEQuery(query);
         }
 
         public bool DestroyMessage(long messageId)
         {
             string query = _messageQueryGenerator.GetDestroyMessageQuery(messageId);
-            return _twitterAccessor.TryExecutePOSTQuery(query);
+            return _twitterAccessor.TryExecuteDELETEQuery(query);
         }
     }
 }

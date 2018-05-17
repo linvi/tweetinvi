@@ -275,9 +275,9 @@ namespace Tweetinvi.Controllers.Properties
         public static string List_CheckSubscriber = "https://api.twitter.com/1.1/lists/subscribers/show.json";
 
         /// <summary>
-        ///   Looks up a localized string similar to https://api.twitter.com/1.1/direct_messages/destroy.json?id={0}.
+        ///   Looks up a localized string similar to https://api.twitter.com/1.1/direct_messages/events/destroy.json?id={0}.
         /// </summary>
-        public static string Message_DestroyMessage = "https://api.twitter.com/1.1/direct_messages/destroy.json?id={0}";
+        public static string Message_DestroyMessage = "https://api.twitter.com/1.1/direct_messages/events/destroy.json?id={0}";
 
         /// <summary>
         ///   Looks up a localized string similar to https://api.twitter.com/1.1/direct_messages.json?count={0}.

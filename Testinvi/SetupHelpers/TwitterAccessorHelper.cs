@@ -73,6 +73,19 @@ namespace Testinvi.SetupHelpers
                 });
         }
 
+        public static void ArrangeTryExecuteDELETEQuery(
+            this Fake<ITwitterAccessor> fakeTwitterAccessor,
+            string query,
+            bool result)
+        {
+            fakeTwitterAccessor
+                .CallsTo(x => x.TryExecuteDELETEQuery(query, null))
+                .ReturnsLazily(() =>
+                {
+                    return result;
+                });
+        }
+
         public static void ArrangeExecuteCursorGETQuery<T, T1>(
             this Fake<ITwitterAccessor> fakeTwitterAccessor,
             string query,

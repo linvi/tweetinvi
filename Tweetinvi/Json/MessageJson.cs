@@ -71,17 +71,17 @@ namespace Tweetinvi.Json
         }
 
         // Destroy Message
-        public static string DestroyMessage(IMessage message)
+        public static bool DestroyMessage(IMessage message)
         {
             return MessageJsonController.DestroyMessage(message);
         }
 
-        public static string DestroyMessage(IMessageDTO messageDTO)
+        public static bool DestroyMessage(IMessageDTO messageDTO)
         {
             return MessageJsonController.DestroyMessage(messageDTO);
         }
 
-        public static string DestroyMessage(long messageId)
+        public static bool DestroyMessage(long messageId)
         {
             return MessageJsonController.DestroyMessage(messageId);
         }

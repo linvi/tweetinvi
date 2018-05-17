@@ -20,9 +20,9 @@ namespace Tweetinvi.Controllers.Messages
         string PublishMessage(string text, long recipientId);
 
         // Destroy Message
-        string DestroyMessage(IMessage message);
-        string DestroyMessage(IMessageDTO messageDTO);
-        string DestroyMessage(long messageId);
+        bool DestroyMessage(IMessage message);
+        bool DestroyMessage(IMessageDTO messageDTO);
+        bool DestroyMessage(long messageId);
     }
 
     public class MessageJsonController : IMessageJsonController
@@ -97,7 +97,7 @@ namespace Tweetinvi.Controllers.Messages
         }
 
         // Destroy Message
-        public string DestroyMessage(IMessage message)
+        public bool DestroyMessage(IMessage message)
         {
             if (message == null)
             {
@@ -107,16 +107,16 @@ namespace Tweetinvi.Controllers.Messages
             return DestroyMessage(message.MessageDTO);
         }
 
-        public string DestroyMessage(IMessageDTO messageDTO)
+        public bool DestroyMessage(IMessageDTO messageDTO)
         {
             string query = _messageQueryGenerator.GetDestroyMessageQuery(messageDTO);
-            return _twitterAccessor.ExecutePOSTQueryReturningJson(query);
+            return _twitterAccessor.TryExecuteDELETEQuery(query);
         }
 
-        public string DestroyMessage(long messageId)
+        public bool DestroyMessage(long messageId)
         {
             string query = _messageQueryGenerator.GetDestroyMessageQuery(messageId);
-            return _twitterAccessor.ExecutePOSTQueryReturningJson(query);
+            return _twitterAccessor.TryExecuteDELETEQuery(query);
         }
     }
 }

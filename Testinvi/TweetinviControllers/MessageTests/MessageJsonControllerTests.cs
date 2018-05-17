@@ -114,16 +114,15 @@ namespace Testinvi.TweetinviControllers.MessageTests
                 message.CallsTo(x => x.MessageDTO).Returns(messageDTO);
 
             var query = TestHelper.GenerateString();
-            var expectedResult = TestHelper.GenerateString();
 
             _fakeMessageQueryGenerator.CallsTo(x => x.GetDestroyMessageQuery(messageDTO)).Returns(query);
-            _fakeTwitterAccessor.ArrangeExecuteJsonPOSTQuery(query, expectedResult);
+            _fakeTwitterAccessor.ArrangeTryExecuteDELETEQuery(query, true);
 
             // Act
             var result = jsonController.DestroyMessage(message);
 
             // Assert
-            Assert.AreEqual(result, expectedResult);
+            Assert.IsTrue(result);
         }
 
         [TestMethod]
@@ -133,16 +132,15 @@ namespace Testinvi.TweetinviControllers.MessageTests
             var jsonController = CreateMessageJsonController();
             var messageDTO = A.Fake<IMessageDTO>();
             var query = TestHelper.GenerateString();
-            var expectedResult = TestHelper.GenerateString();
 
             _fakeMessageQueryGenerator.CallsTo(x => x.GetDestroyMessageQuery(messageDTO)).Returns(query);
-            _fakeTwitterAccessor.ArrangeExecuteJsonPOSTQuery(query, expectedResult);
+            _fakeTwitterAccessor.ArrangeTryExecuteDELETEQuery(query, true);
 
             // Act
             var result = jsonController.DestroyMessage(messageDTO);
 
             // Assert
-            Assert.AreEqual(result, expectedResult);
+            Assert.IsTrue(result);
         }
 
         [TestMethod]
@@ -152,16 +150,15 @@ namespace Testinvi.TweetinviControllers.MessageTests
             var jsonController = CreateMessageJsonController();
             var messageId = TestHelper.GenerateRandomLong();
             var query = TestHelper.GenerateString();
-            var expectedResult = TestHelper.GenerateString();
 
             _fakeMessageQueryGenerator.CallsTo(x => x.GetDestroyMessageQuery(messageId)).Returns(query);
-            _fakeTwitterAccessor.ArrangeExecuteJsonPOSTQuery(query, expectedResult);
+            _fakeTwitterAccessor.ArrangeTryExecuteDELETEQuery(query, true);
 
             // Act
             var result = jsonController.DestroyMessage(messageId);
 
             // Assert
-            Assert.AreEqual(result, expectedResult);
+            Assert.IsTrue(result);
         }
 
         #endregion
