@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net.Http;
+using System.Text;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Tweetinvi.Core.Exceptions;
@@ -464,6 +465,21 @@ namespace Tweetinvi.Credentials
             {
                 return false;
             }
+        }
+
+        // POST JSON body & get JSON response
+        public T ExecutePOSTQueryJsonBody<T>(string query, object reqBody, JsonConverter[] converters = null) where T : class
+        {
+            string jsonResponse = ExecutePOSTQueryJsonBody(query, reqBody, converters);
+            return _jsonObjectConverter.DeserializeObject<T>(jsonResponse, converters);
+        }
+
+        public string ExecutePOSTQueryJsonBody(string query, object reqBody, JsonConverter[] converters = null)
+        {
+            string jsonBody = _jsonObjectConverter.SerializeObject(reqBody, converters);
+
+            return ExecuteQuery(query, HttpMethod.POST,
+                new StringContent(jsonBody, Encoding.UTF8, "application/json"));
         }
 
         // Concrete Execute

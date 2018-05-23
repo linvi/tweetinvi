@@ -127,6 +127,11 @@ namespace Testinvi.SetupHelpers
                 .Returns(jsonResult);
         }
 
-        
+        // POST JSON body & get JSON response
+        public static void ArrangeExecutePostQueryJsonBody<T>(this Fake<ITwitterAccessor> fakeTwitterAccessor,
+            string query, object reqBody, T result) where T : class
+        {
+            fakeTwitterAccessor.CallsTo(x => x.ExecutePOSTQueryJsonBody<T>(query, reqBody, null)).Returns(result);
+        }
     }
 }

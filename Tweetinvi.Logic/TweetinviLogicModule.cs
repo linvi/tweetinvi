@@ -46,6 +46,7 @@ namespace Tweetinvi.Logic
             _container.RegisterType<IMedia, Media>();
             _container.RegisterType<IEditableMedia, Media>();
             _container.RegisterType<ISearchQueryResult, SearchQueryResult>();
+            _container.RegisterGeneric(typeof(IResultsWithCursor<>), typeof(ResultsWithCursor<>));
         }
 
         // Initialize Models that are Twitter objects
@@ -76,7 +77,6 @@ namespace Tweetinvi.Logic
             _container.RegisterType<ITweetDTO, TweetDTO>();
             _container.RegisterType<ITwitterListDTO, TwitterListDTO>();
             _container.RegisterType<IUserDTO, UserDTO>();
-            _container.RegisterType<IMessageDTO, MessageDTO>();
             _container.RegisterType<IRelationshipDetailsDTO, RelationshipDetailsDTO>();
 
             _container.RegisterType<ITweetEntities, TweetEntitiesDTO>();
@@ -87,6 +87,23 @@ namespace Tweetinvi.Logic
             _container.RegisterType<IHashtagEntity, HashtagEntity>();
             _container.RegisterType<IDescriptionEntity, DescriptionEntity>();
             _container.RegisterType<ISymbolEntity, SymbolEntity>();
+
+            _container.RegisterType<IQuickReplyOption, QuickReplyOption>();
+            _container.RegisterType<IQuickReplyDTO, QuickReplyDTO>();
+            _container.RegisterType<IApp, App>();
+            _container.RegisterType<IEventInitiatedViaDTO, EventInitiatedViaDTO>();
+            _container.RegisterType<IMessageDataDTO, MessageDataDTO>();
+            _container.RegisterType<IQuickReplyResponse, QuickReplyResponse>();
+            _container.RegisterType<IMessageCreateTargetDTO, MessageCreateTargetDTO>();
+            _container.RegisterType<IEventDTO, EventDTO>();
+            _container.RegisterType<IMessageCreateDTO, MessageCreateDTO>();
+            _container.RegisterType<IGetMessageDTO, GetMessageDTO>();
+            _container.RegisterType<IGetMessagesDTO, GetMessagesDTO>();
+            _container.RegisterType<ICreateMessageDTO, CreateMessageDTO>();
+            _container.RegisterType<IAttachmentDTO, AttachmentDTO>();
+            _container.RegisterType<IMessageEntities, MessageEntitiesDTO>();
+
+
         }
 
         private void InitializeHelpers()

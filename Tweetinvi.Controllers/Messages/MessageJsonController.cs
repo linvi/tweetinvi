@@ -8,20 +8,22 @@ namespace Tweetinvi.Controllers.Messages
 {
     public interface IMessageJsonController
     {
-        string GetLatestMessagesReceived(int maximumMessages = TweetinviConsts.MESSAGE_GET_COUNT);
-        string GetLatestMessagesReceived(IMessagesReceivedParameters queryParameters);
+        string GetLatestMessages(int count = TweetinviConsts.MESSAGE_GET_COUNT);
 
-        string GetLatestMessagesSent(int maximumMessages = TweetinviConsts.MESSAGE_GET_COUNT);
-        string GetLatestMessagesSent(IMessagesSentParameters queryParameters);
+        /// <summary>
+        /// Warning: Behaviour differs from MessageController.GetLatestMessages.
+        /// This method will not make multiple requests to the Twitter API and combine their results,
+        /// as that would require parsing the JSON, instead that is left up to the caller.
+        /// </summary>
+        string GetLatestMessages(IGetMessagesParameters queryParameters);
 
         // Publish Message
-        string PublishMessage(string text, IUserIdentifier recipient);
-        string PublishMessage(string text, string recipientScreenName);
         string PublishMessage(string text, long recipientId);
+        string PublishMessage(IPublishMessageParameters parameters);
 
         // Destroy Message
         bool DestroyMessage(IMessage message);
-        bool DestroyMessage(IMessageDTO messageDTO);
+        bool DestroyMessage(IEventDTO messageDTO);
         bool DestroyMessage(long messageId);
     }
 
@@ -39,61 +41,39 @@ namespace Tweetinvi.Controllers.Messages
         }
 
         // Get Messages
-        public string GetLatestMessagesReceived(int maximumMessages = TweetinviConsts.MESSAGE_GET_COUNT)
+        public string GetLatestMessages(int count)
         {
-            var parameter = new MessagesReceivedParameters
+            var parameters = new GetMessagesParameters()
             {
-                MaximumNumberOfMessagesToRetrieve = maximumMessages
+                Count = count
             };
 
-            string query = _messageQueryGenerator.GetLatestMessagesReceivedQuery(parameter);
-            return _twitterAccessor.ExecuteGETQueryReturningJson(query);
+            return GetLatestMessages(parameters);
         }
 
-        public string GetLatestMessagesReceived(IMessagesReceivedParameters queryParameters)
+        /// <summary>
+        /// Warning: Behaviour differs from MessageController.GetLatestMessages.
+        /// This method will not make multiple requests to the Twitter API and combine their results,
+        /// as that would require parsing the JSON, instead that is left up to the caller.
+        /// </summary>
+        public string GetLatestMessages(IGetMessagesParameters queryParameters)
         {
-            string query = _messageQueryGenerator.GetLatestMessagesReceivedQuery(queryParameters);
-            return _twitterAccessor.ExecuteGETQueryReturningJson(query);
-        }
-
-        public string GetLatestMessagesSent(int maximumMessages = TweetinviConsts.MESSAGE_GET_COUNT)
-        {
-            var parameter = new MessagesSentParameters()
-            {
-                MaximumNumberOfMessagesToRetrieve = maximumMessages
-            };
-
-            string query = _messageQueryGenerator.GetLatestMessagesSentQuery(parameter);
-            return _twitterAccessor.ExecuteGETQueryReturningJson(query);
-        }
-
-        public string GetLatestMessagesSent(IMessagesSentParameters queryParameters)
-        {
-            string query = _messageQueryGenerator.GetLatestMessagesSentQuery(queryParameters);
+            string query = _messageQueryGenerator.GetLatestMessagesQuery(queryParameters);
             return _twitterAccessor.ExecuteGETQueryReturningJson(query);
         }
 
         // Publish Message
-
-        public string PublishMessage(string messageText, string recipientScreenName)
-        {
-            return PublishMessage(new PublishMessageParameters(messageText, recipientScreenName));
-        }
-
         public string PublishMessage(string messageText, long recipientId)
         {
             return PublishMessage(new PublishMessageParameters(messageText, recipientId));
         }
 
-        public string PublishMessage(string messageText, IUserIdentifier recipient)
-        {
-            return PublishMessage(new PublishMessageParameters(messageText, recipient));
-        }
-
         public string PublishMessage(IPublishMessageParameters parameters)
         {
             string query = _messageQueryGenerator.GetPublishMessageQuery(parameters);
-            return _twitterAccessor.ExecutePOSTQueryReturningJson(query);
+            var reqDTO = _messageQueryGenerator.GetPublishMessageBody(parameters);
+
+            return _twitterAccessor.ExecutePOSTQueryJsonBody(query, reqDTO);
         }
 
         // Destroy Message
@@ -104,12 +84,12 @@ namespace Tweetinvi.Controllers.Messages
                 throw new ArgumentException("Message cannot be null");
             }
 
-            return DestroyMessage(message.MessageDTO);
+            return DestroyMessage(message.EventDTO);
         }
 
-        public bool DestroyMessage(IMessageDTO messageDTO)
+        public bool DestroyMessage(IEventDTO eventDTO)
         {
-            string query = _messageQueryGenerator.GetDestroyMessageQuery(messageDTO);
+            string query = _messageQueryGenerator.GetDestroyMessageQuery(eventDTO);
             return _twitterAccessor.TryExecuteDELETEQuery(query);
         }
 

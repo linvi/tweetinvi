@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Tweetinvi.Core.Controllers;
 using Tweetinvi.Core.Factories;
+using Tweetinvi.Core.Injectinvi;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
 using Tweetinvi.Parameters;
@@ -12,74 +14,98 @@ namespace Tweetinvi.Controllers.Messages
     {
         private readonly IMessageQueryExecutor _messageQueryExecutor;
         private readonly IMessageFactory _messageFactory;
+        private readonly IFactory<IGetMessagesParameters> _getMessagesParametersFactory;
 
         public MessageController(
             IMessageQueryExecutor messageQueryExecutor,
-            IMessageFactory messageFactory)
+            IMessageFactory messageFactory,
+            IFactory<IGetMessagesParameters> getMessagesParametersFactory)
         {
             _messageQueryExecutor = messageQueryExecutor;
             _messageFactory = messageFactory;
+            _getMessagesParametersFactory = getMessagesParametersFactory;
         }
 
-        public IEnumerable<IMessage> GetLatestMessagesReceived(int maximumMessages = TweetinviConsts.MESSAGE_GET_COUNT)
+        public IEnumerable<IMessage> GetLatestMessages(int count = TweetinviConsts.MESSAGE_GET_COUNT)
         {
-            var parameter = new MessagesReceivedParameters
+            return GetLatestMessages(count, out _);
+        }
+
+        public IEnumerable<IMessage> GetLatestMessages(int count, out string cursor)
+        {
+            var parameters = new GetMessagesParameters()
             {
-                MaximumNumberOfMessagesToRetrieve = maximumMessages
+                Count = count
             };
 
-            var messagesDTO = _messageQueryExecutor.GetLatestMessagesReceived(parameter);
-            return _messageFactory.GenerateMessagesFromMessagesDTO(messagesDTO);
+            return GetLatestMessages(parameters, out cursor);
         }
 
-        public IEnumerable<IMessage> GetLatestMessagesReceived(IMessagesReceivedParameters messagesReceivedParameters)
+        public IEnumerable<IMessage> GetLatestMessages(IGetMessagesParameters parameters)
         {
-            var messagesDTO = _messageQueryExecutor.GetLatestMessagesReceived(messagesReceivedParameters);
-            return _messageFactory.GenerateMessagesFromMessagesDTO(messagesDTO);
+            return GetLatestMessages(parameters, out _);
         }
 
-        public IEnumerable<IMessage> GetLatestMessagesSent(int maximumMessages = TweetinviConsts.MESSAGE_GET_COUNT)
+        public IEnumerable<IMessage> GetLatestMessages(IGetMessagesParameters parameters, out string cursor)
         {
-            var parameter = new MessagesSentParameters
+            if (parameters == null)
             {
-                MaximumNumberOfMessagesToRetrieve = maximumMessages
-            };
+                throw new ArgumentNullException(nameof(parameters));
+            }
 
-            var messagesDTO = _messageQueryExecutor.GetLatestMessagesSent(parameter);
-            return _messageFactory.GenerateMessagesFromMessagesDTO(messagesDTO);
-        }
+            // If we've been asked to fetch more than the maximum number of results that Twitter will return from
+            //  a single API request, we need to break this up into multiple requests
+            if (parameters.Count > TweetinviConsts.MESSAGE_GET_COUNT)
+            {
+                // Firstly, run a request for the maximum number of messages from the supplied cursor
+                //  Note: copy the request rather than just updating the count in case the caller intends to
+                //  reuse the parameters object for future requests
+                var thisReqParams = _getMessagesParametersFactory.Create();
+                thisReqParams.Count = TweetinviConsts.MESSAGE_GET_COUNT;
+                thisReqParams.Cursor = parameters.Cursor;
 
-        public IEnumerable<IMessage> GetLatestMessagesSent(IMessagesSentParameters messagesSentParameters)
-        {
-            var messagesDTO = _messageQueryExecutor.GetLatestMessagesSent(messagesSentParameters);
-            return _messageFactory.GenerateMessagesFromMessagesDTO(messagesDTO);
+                IEnumerable<IMessage> thisReqResults = GetLatestMessages(thisReqParams, out cursor);
+
+                // If there are more messages still available to be fetched from Twitter
+                if (cursor != null)
+                {
+                    // Build & run the next request
+                    var nextReqParams = _getMessagesParametersFactory.Create();
+                    nextReqParams.Count = parameters.Count - thisReqParams.Count;
+                    nextReqParams.Cursor = cursor;
+
+                    IEnumerable<IMessage> nextReqResults = GetLatestMessages(nextReqParams, out cursor);
+
+                    // Combine the results, latest first & return them
+                    return thisReqResults.Concat(nextReqResults);
+                }
+                // Otherwise, just return these results
+                return thisReqResults;
+            }
+            else // Otherwise just run the request as-is against the Twitter API
+            {
+                var getMessagesDTO = _messageQueryExecutor.GetLatestMessages(parameters);
+                cursor = getMessagesDTO.NextCursor;
+                return _messageFactory.GenerateMessageFromGetMessagesDTO(getMessagesDTO);
+            }
         }
 
         // Publish Message
-       public IMessage PublishMessage(string text, long recipientId)
+        public IMessage PublishMessage(string text, long recipientId)
         {
-            return PublishMessage(text, new UserIdentifier(recipientId));
+            var queryParameters = new PublishMessageParameters(text, recipientId);
+            return PublishMessage(queryParameters);
         }
 
-        public IMessage PublishMessage(string text, string recipientUserName)
+        public IMessage PublishMessage(IPublishMessageParameters parameters)
         {
-            return PublishMessage(text, new UserIdentifier(recipientUserName));
-        }
-
-        public IMessage PublishMessage(string text, IUserIdentifier recipient)
-        {
-            return PublishMessage(new PublishMessageParameters(text, recipient));
-        }
-
-        public IMessage PublishMessage(IPublishMessageParameters parameter)
-        {
-            if (parameter == null)
+            if (parameters == null)
             {
-                throw new ArgumentNullException("Parameter cannot be null.");
+                throw new ArgumentNullException(nameof(parameters), "Parameters cannot be null.");
             }
 
-            var publishedMessageDTO = _messageQueryExecutor.PublishMessage(parameter);
-            return _messageFactory.GenerateMessageFromMessageDTO(publishedMessageDTO);
+            var publishedMessageDTO = _messageQueryExecutor.PublishMessage(parameters);
+            return _messageFactory.GenerateMessageFromCreateMessageDTO(publishedMessageDTO);
         }
 
         // Destroy Message
@@ -87,21 +113,21 @@ namespace Tweetinvi.Controllers.Messages
         {
             if (message == null)
             {
-                throw new ArgumentException("Message cannot be null");
+                throw new ArgumentNullException(nameof(message), "Message cannot be null");
             }
 
-            return DestroyMessage(message.MessageDTO);
+            return DestroyMessage(message.EventDTO);
         }
 
-        public bool DestroyMessage(IMessageDTO messageDTO)
+        public bool DestroyMessage(IEventDTO eventDTO)
         {
-            if (messageDTO == null)
+            if (eventDTO == null)
             {
-                throw new ArgumentException("Message cannot be null");
+                throw new ArgumentNullException(nameof(eventDTO));
             }
 
-            messageDTO.IsMessageDestroyed = _messageQueryExecutor.DestroyMessage(messageDTO);
-            return messageDTO.IsMessageDestroyed;
+            eventDTO.MessageCreate.IsDestroyed = _messageQueryExecutor.DestroyMessage(eventDTO);
+            return eventDTO.MessageCreate.IsDestroyed;
         }
 
         public bool DestroyMessage(long messageId)

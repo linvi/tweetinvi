@@ -37,7 +37,6 @@ namespace Tweetinvi.Logic.JsonConverters
                 new JsonInterfaceToObjectConverter<ITwitterListDTO, TwitterListDTO>(),
                 new JsonInterfaceToObjectConverter<IOEmbedTweetDTO, OEmbedTweetDTO>(),
                 new JsonInterfaceToObjectConverter<IUserDTO, UserDTO>(),
-                new JsonInterfaceToObjectConverter<IMessageDTO, MessageDTO>(),
                 new JsonInterfaceToObjectConverter<IUploadedMediaInfo, UploadedMediaInfo>(),
                 new JsonInterfaceToObjectConverter<IUploadProcessingError, UploadProcessingError>(),
 
@@ -86,6 +85,26 @@ namespace Tweetinvi.Logic.JsonConverters
                 // because Twitter does not provide the coordinates the same way if it is a list or
                 // if it is a single argument.
                 new JsonCoordinatesConverter(),
+
+                new JsonInterfaceToObjectConverter<IQuickReplyOption, QuickReplyOption>(),
+                new JsonInterfaceToObjectConverter<IQuickReplyDTO, QuickReplyDTO>(),
+                new JsonInterfaceToObjectConverter<IApp, App>(),
+                new JsonInterfaceToObjectConverter<IEventInitiatedViaDTO, EventInitiatedViaDTO>(),
+                new JsonInterfaceToObjectConverter<IMessageDataDTO, MessageDataDTO>(),
+                new JsonInterfaceToObjectConverter<IQuickReplyResponse, QuickReplyResponse>(),
+                new JsonInterfaceToObjectConverter<IMessageCreateTargetDTO, MessageCreateTargetDTO>(),
+                new JsonInterfaceToObjectConverter<IEventDTO, EventDTO>(),
+                new JsonInterfaceToObjectConverter<IMessageCreateDTO, MessageCreateDTO>(),
+                new JsonInterfaceToObjectConverter<IGetMessageDTO, GetMessageDTO>(),
+                new JsonInterfaceToObjectConverter<IGetMessagesDTO, GetMessagesDTO>(),
+                new JsonInterfaceToObjectConverter<ICreateMessageDTO, CreateMessageDTO>(),
+                new JsonInterfaceToObjectConverter<IAttachmentDTO, AttachmentDTO>(),
+                new JsonInterfaceToObjectConverter<IMessageEntities, MessageEntitiesDTO>(),
+
+                // Enums (that have JSON serialization implemented)
+                new JsonEnumStringConverter<EventType>(),
+                new JsonEnumStringConverter<QuickReplyType>(),
+                new JsonEnumStringConverter<AttachmentType>(),
             };
 
             Converters = converters.ToArray();

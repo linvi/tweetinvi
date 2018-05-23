@@ -86,6 +86,10 @@ namespace Tweetinvi.Core.Web
         // Http Content
         bool TryPOSTJsonContent(string url, string json);
 
+        // POST JSON body & get JSON response
+        T ExecutePOSTQueryJsonBody<T>(string query, object reqBody, JsonConverter[] converters = null) where T : class;
+        string ExecutePOSTQueryJsonBody(string query, object reqBody, JsonConverter[] converters = null);
+
         // Get Json from Twitter
         string ExecuteQuery(string query, HttpMethod method);
         string ExecuteQuery(string query, HttpMethod method, HttpContent httpContent, bool forceThrow = false);

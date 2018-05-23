@@ -13,8 +13,8 @@
 
         public const int STATUS_CODE_TOO_MANY_REQUEST = 429;
 
-        // https://dev.twitter.com/rest/reference/get/direct_messages
-        public const int MESSAGE_GET_COUNT = 200;
+        // https://developer.twitter.com/en/docs/direct-messages/sending-and-receiving/api-reference/list-events
+        public const int MESSAGE_GET_COUNT = 50;
 
         // https://dev.twitter.com/rest/reference/get/statuses/retweets_of_me
         public const int TIMELINE_RETWEETS_OF_ME_COUNT = 100;

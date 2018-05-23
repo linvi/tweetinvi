@@ -27,49 +27,74 @@ namespace Tweetinvi.Factories
         // Get existing message
         public IMessage GetExistingMessage(long messageId)
         {
-            var messageDTO = _messageFactoryQueryExecutor.GetExistingMessage(messageId);
-            return GenerateMessageFromMessageDTO(messageDTO);
-        }
-
-        // Create Message
-        public IMessage CreateMessage(string text, IUser recipient = null)
-        {
-            var messageDTO = _messageFactoryQueryExecutor.CreateMessage(text, recipient != null ? recipient.UserDTO : null);
-            return GenerateMessageFromMessageDTO(messageDTO);
+            var getMessageDTO = _messageFactoryQueryExecutor.GetExistingMessage(messageId);
+            return GenerateMessageFromGetMessageDTO(getMessageDTO);
         }
 
         // Generate Message from DTO
-        public IMessage GenerateMessageFromMessageDTO(IMessageDTO messageDTO)
+        public IMessage GenerateMessageFromEventWithAppDTO(IEventWithAppDTO eventWithAppDTO)
         {
-            if (messageDTO == null)
+            if (eventWithAppDTO?.Event == null || eventWithAppDTO.Event.Type == EventType.MessageCreate)
             {
                 return null;
             }
 
-            var messageParameter = _messageUnityFactory.GenerateParameterOverrideWrapper("messageDTO", messageDTO);
-            return _messageUnityFactory.Create(messageParameter);
+            return buildMessage(eventWithAppDTO.Event, eventWithAppDTO.App);
         }
 
-        public IEnumerable<IMessage> GenerateMessagesFromMessagesDTO(IEnumerable<IMessageDTO> messagesDTO)
+        public IEnumerable<IMessage> GenerateMessagesFromEventWithAppDTOs(IEnumerable<IEventWithAppDTO> eventWithAppDTOs)
         {
-            if (messagesDTO == null)
+            return eventWithAppDTOs?.Select(GenerateMessageFromEventWithAppDTO);
+        }
+
+        public IMessage GenerateMessageFromGetMessageDTO(IGetMessageDTO getMessageDTO)
+        {
+            if (getMessageDTO?.Event == null || getMessageDTO.Event.Type != EventType.MessageCreate)
             {
                 return null;
             }
 
-            return messagesDTO.Select(GenerateMessageFromMessageDTO);
+            var app = getMessageDTO.Apps[getMessageDTO.Event.MessageCreate.SourceAppId];
+
+            return buildMessage(getMessageDTO.Event, app);
+        }
+
+        public IEnumerable<IMessage> GenerateMessageFromGetMessagesDTO(IGetMessagesDTO getMessagesDTO)
+        {
+            return getMessagesDTO?.Events?.Select(eventDTO =>
+                eventDTO.Type == EventType.MessageCreate
+                    ? buildMessage(eventDTO, getMessagesDTO.Apps[eventDTO.MessageCreate.SourceAppId])
+                    : null);
+        }
+
+        public IMessage GenerateMessageFromCreateMessageDTO(ICreateMessageDTO createMessageDTO)
+        {
+            if (createMessageDTO?.Event == null || createMessageDTO.Event.Type != EventType.MessageCreate)
+            {
+                return null;
+            }
+
+            return buildMessage(createMessageDTO.Event, null);
         }
 
         // Generate Message from Json
         public IMessage GenerateMessageFromJson(string jsonMessage)
         {
-            var messageDTO = _jsonObjectConverter.DeserializeObject<IMessageDTO>(jsonMessage);
-            if (messageDTO.Id == TweetinviSettings.DEFAULT_ID)
+            var eventWithAppDTO = _jsonObjectConverter.DeserializeObject<IEventWithAppDTO>(jsonMessage);
+            if (eventWithAppDTO.Event == null || eventWithAppDTO.Event.Type != EventType.MessageCreate ||
+                eventWithAppDTO.Event.Id == TweetinviSettings.DEFAULT_ID)
             {
                 return null;
             }
 
-            return GenerateMessageFromMessageDTO(messageDTO);
+            return GenerateMessageFromEventWithAppDTO(eventWithAppDTO);
+        }
+
+        private IMessage buildMessage(IEventDTO eventDTO, IApp app)
+        {
+            var eventParameter = _messageUnityFactory.GenerateParameterOverrideWrapper("eventDTO", eventDTO);
+            var appParameter = _messageUnityFactory.GenerateParameterOverrideWrapper("app", app);
+            return _messageUnityFactory.Create(eventParameter, appParameter);
         }
     }
 }
