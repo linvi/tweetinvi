@@ -64,6 +64,7 @@ namespace Tweetinvi.Controllers.Tweet
                 throw new ArgumentException("Tweet Ids cannot be empty.");
             }
 
+            // Uses URL encoded comma (%2C) so that the parameter doesn't need to be URL encoded
             var idsParameter = string.Join("%2C", tweetIdsAsList);
 
             var query = new StringBuilder(string.Format(Resources.Tweet_Lookup, idsParameter));
@@ -100,8 +101,7 @@ namespace Tweetinvi.Controllers.Tweet
                     query.AddParameterToQuery("auto_populate_reply_metadata", queryParameters.AutoPopulateReplyMetadata);
                     if (queryParameters.ExcludeReplyUserIds != null)
                     {
-                        // Use URL encoded comma %2C so we don't need to URL encode the string afterwards
-                        query.AddParameterToQuery("exclude_reply_user_ids", String.Join("%2C", queryParameters.ExcludeReplyUserIds));
+                        query.AddParameterToQuery("exclude_reply_user_ids", String.Join(",", queryParameters.ExcludeReplyUserIds));
                     }
                 }
 
@@ -125,7 +125,7 @@ namespace Tweetinvi.Controllers.Tweet
 
                 if (queryParameters.MediaIds.Count > 0)
                 {
-                    var mediaIdsParameter = string.Join("%2C", queryParameters.MediaIds.Select(x => x.ToString(CultureInfo.InvariantCulture)));
+                    var mediaIdsParameter = string.Join(",", queryParameters.MediaIds.Select(x => x.ToString(CultureInfo.InvariantCulture)));
                     query.AddParameterToQuery("media_ids", mediaIdsParameter);
                 }
 

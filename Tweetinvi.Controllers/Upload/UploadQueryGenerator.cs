@@ -21,7 +21,7 @@ namespace Tweetinvi.Controllers.Upload
 
             if (parameters.AdditionalOwnerIds != null && parameters.AdditionalOwnerIds.Any())
             {
-                var ids = string.Join("%2C", parameters.AdditionalOwnerIds.Select(x => x.ToString()));
+                var ids = string.Join(",", parameters.AdditionalOwnerIds.Select(x => x.ToString()));
                 initQuery.AddParameterToQuery("additional_owners", ids);
             }
 
