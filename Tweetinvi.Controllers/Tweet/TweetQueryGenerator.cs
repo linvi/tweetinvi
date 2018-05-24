@@ -125,7 +125,7 @@ namespace Tweetinvi.Controllers.Tweet
 
                 if (queryParameters.MediaIds.Count > 0)
                 {
-                    var mediaIdsParameter = string.Join("%2C", queryParameters.MediaIds.Select(x => x.ToString(CultureInfo.InvariantCulture)));
+                    var mediaIdsParameter = string.Join(",", queryParameters.MediaIds.Select(x => x.ToString(CultureInfo.InvariantCulture)));
                     query.AddParameterToQuery("media_ids", mediaIdsParameter);
                 }
 
