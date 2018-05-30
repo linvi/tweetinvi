@@ -7,7 +7,7 @@ namespace Tweetinvi.Models.DTO
 {
     public interface IAttachmentDTO
     {
-        AttachmentType Type { get; }
-        IMediaEntity Media { get; }
+        AttachmentType Type { get; set; }
+        IMediaEntity Media { get; set; }
     }
 }

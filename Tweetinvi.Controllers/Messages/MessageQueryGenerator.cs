@@ -6,6 +6,7 @@ using Tweetinvi.Core.Injectinvi;
 using Tweetinvi.Core.QueryGenerators;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
+using Tweetinvi.Models.Entities;
 using Tweetinvi.Parameters;
 
 namespace Tweetinvi.Controllers.Messages
@@ -33,6 +34,8 @@ namespace Tweetinvi.Controllers.Messages
         private readonly IFactory<IMessageCreateDTO> _messageCreateDTOFactory;
         private readonly IFactory<IMessageCreateTargetDTO> _messageCreateTargetDTOFactory;
         private readonly IFactory<IMessageDataDTO> _messageDataDTOFactory;
+        private readonly IFactory<IAttachmentDTO> _attachmentDTOFactory;
+        private readonly IFactory<IMediaEntity> _mediaEntityFactory;
 
         public MessageQueryGenerator(
             IMessageQueryValidator messageQueryValidator,
@@ -41,7 +44,9 @@ namespace Tweetinvi.Controllers.Messages
             IFactory<IEventDTO> eventDTOFactory,
             IFactory<IMessageCreateDTO> messageCreateDTOFactory,
             IFactory<IMessageCreateTargetDTO> messageCreateTargetDTOFactory,
-            IFactory<IMessageDataDTO> messageDataDTOFactory)
+            IFactory<IMessageDataDTO> messageDataDTOFactory,
+            IFactory<IAttachmentDTO> attachmentDTOFactory,
+            IFactory<IMediaEntity> mediaEntityFactory)
         {
             _messageQueryValidator = messageQueryValidator;
             _queryParameterGenerator = queryParameterGenerator;
@@ -50,6 +55,8 @@ namespace Tweetinvi.Controllers.Messages
             _messageCreateDTOFactory = messageCreateDTOFactory;
             _messageCreateTargetDTOFactory = messageCreateTargetDTOFactory;
             _messageDataDTOFactory = messageDataDTOFactory;
+            _attachmentDTOFactory = attachmentDTOFactory;
+            _mediaEntityFactory = mediaEntityFactory;
         }
 
         // Get collection of messages
@@ -83,6 +90,15 @@ namespace Tweetinvi.Controllers.Messages
             createMessageDTO.Event.MessageCreate.Target.RecipientId = parameters.RecipientId;
             createMessageDTO.Event.MessageCreate.MessageData = _messageDataDTOFactory.Create();
             createMessageDTO.Event.MessageCreate.MessageData.Text = parameters.Text;
+
+            // If there is media attached, include it
+            if (parameters.AttachmentMediaId != null)
+            {
+                createMessageDTO.Event.MessageCreate.MessageData.Attachment = _attachmentDTOFactory.Create();
+                createMessageDTO.Event.MessageCreate.MessageData.Attachment.Type = AttachmentType.Media;
+                createMessageDTO.Event.MessageCreate.MessageData.Attachment.Media = _mediaEntityFactory.Create();
+                createMessageDTO.Event.MessageCreate.MessageData.Attachment.Media.Id = parameters.AttachmentMediaId;
+            }
 
             return createMessageDTO;
         }

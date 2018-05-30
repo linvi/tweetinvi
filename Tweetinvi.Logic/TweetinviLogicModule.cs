@@ -102,8 +102,7 @@ namespace Tweetinvi.Logic
             _container.RegisterType<ICreateMessageDTO, CreateMessageDTO>();
             _container.RegisterType<IAttachmentDTO, AttachmentDTO>();
             _container.RegisterType<IMessageEntities, MessageEntitiesDTO>();
-
-
+            _container.RegisterType<IMediaEntity, MediaEntity>();
         }
 
         private void InitializeHelpers()

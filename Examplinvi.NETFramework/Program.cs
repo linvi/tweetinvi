@@ -204,6 +204,8 @@ namespace Examplinvi
             Examples.Message_GetLatests();
             Examples.Message_GetMessageFromId(381069551028293633);
             Examples.Message_PublishMessage("I love tweetinvi", Examples.USER_SCREEN_NAME_TO_TEST);
+            Examples.Message_PublishMessageWithImage("I love attachments", Examples.USER_SCREEN_NAME_TO_TEST,
+                "./path_to_image_file");
         }
 
         private static void StreamExamples()
@@ -1243,6 +1245,37 @@ namespace Examplinvi
         {
             var recipient = User.GetUserFromScreenName(username);
             var message = Message.PublishMessage(text, recipient.Id);
+
+            if (message != null)
+            {
+                Console.WriteLine("Message published with ID {0}", message.Id);
+            }
+        }
+
+        public static void Message_PublishMessageWithImage(string text, string username, string imgPath)
+        {
+            // Get the user to DM
+            var recipient = User.GetUserFromScreenName(username);
+
+            // Get the image to attach from the local filesystem
+            var imageBinary = File.ReadAllBytes(imgPath);
+
+            // Upload the image to Twitter
+            var uploadMediaParams = new UploadParameters()
+            {
+                Binary = imageBinary,
+                // Note that the media category must be set to the Dm prefixed variant of whatever
+                //  category of media you are uploading
+                MediaCategory = Tweetinvi.Core.Public.Models.Enum.MediaCategory.DmImage
+            };
+            var media = Upload.UploadBinary(uploadMediaParams);
+
+            // Publish the DM
+            var publishMsgParams = new PublishMessageParameters(text, recipient.Id)
+            {
+                AttachmentMediaId = media.MediaId
+            };
+            var message = Message.PublishMessage(publishMsgParams);
 
             if (message != null)
             {

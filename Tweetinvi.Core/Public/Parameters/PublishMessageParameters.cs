@@ -10,6 +10,7 @@ namespace Tweetinvi.Parameters
     {
         string Text { get; }
         long RecipientId { get; }
+        long? AttachmentMediaId { get; set; }
     }
 
     /// <summary>
@@ -31,5 +32,7 @@ namespace Tweetinvi.Parameters
         public string Text { get; }
 
         public long RecipientId { get; }
+
+        public long? AttachmentMediaId { get; set; }
     }
 }
