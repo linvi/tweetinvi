@@ -99,6 +99,10 @@
       <Project>{9101f0e8-cfa4-49b5-8568-c3136a765aaf}</Project>
       <Name>Tweetinvi.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Tweetinvi.Logic\Tweetinvi.Logic.csproj">
+      <Project>{B4C1DEDA-5769-4AEB-831C-7E1B4371BB13}</Project>
+      <Name>Tweetinvi.Logic</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Tweetinvi\Tweetinvi.csproj">
       <Project>{5c207eef-bd2e-47a0-8e35-591207240476}</Project>
       <Name>Tweetinvi</Name>

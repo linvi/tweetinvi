@@ -11,6 +11,7 @@ namespace Tweetinvi.Parameters
         string Text { get; }
         long RecipientId { get; }
         long? AttachmentMediaId { get; set; }
+        IQuickReplyOption[] QuickReplyOptions { get; set; }
     }
 
     /// <summary>
@@ -34,5 +35,7 @@ namespace Tweetinvi.Parameters
         public long RecipientId { get; }
 
         public long? AttachmentMediaId { get; set; }
+
+        public IQuickReplyOption[] QuickReplyOptions { get; set; }
     }
 }

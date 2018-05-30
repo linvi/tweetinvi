@@ -36,6 +36,7 @@ namespace Tweetinvi.Controllers.Messages
         private readonly IFactory<IMessageDataDTO> _messageDataDTOFactory;
         private readonly IFactory<IAttachmentDTO> _attachmentDTOFactory;
         private readonly IFactory<IMediaEntity> _mediaEntityFactory;
+        private readonly IFactory<IQuickReplyDTO> _quickReplyDTOFactory;
 
         public MessageQueryGenerator(
             IMessageQueryValidator messageQueryValidator,
@@ -46,7 +47,8 @@ namespace Tweetinvi.Controllers.Messages
             IFactory<IMessageCreateTargetDTO> messageCreateTargetDTOFactory,
             IFactory<IMessageDataDTO> messageDataDTOFactory,
             IFactory<IAttachmentDTO> attachmentDTOFactory,
-            IFactory<IMediaEntity> mediaEntityFactory)
+            IFactory<IMediaEntity> mediaEntityFactory,
+            IFactory<IQuickReplyDTO> quickReplyDTOFactory)
         {
             _messageQueryValidator = messageQueryValidator;
             _queryParameterGenerator = queryParameterGenerator;
@@ -57,6 +59,7 @@ namespace Tweetinvi.Controllers.Messages
             _messageDataDTOFactory = messageDataDTOFactory;
             _attachmentDTOFactory = attachmentDTOFactory;
             _mediaEntityFactory = mediaEntityFactory;
+            _quickReplyDTOFactory = quickReplyDTOFactory;
         }
 
         // Get collection of messages
@@ -98,6 +101,14 @@ namespace Tweetinvi.Controllers.Messages
                 createMessageDTO.Event.MessageCreate.MessageData.Attachment.Type = AttachmentType.Media;
                 createMessageDTO.Event.MessageCreate.MessageData.Attachment.Media = _mediaEntityFactory.Create();
                 createMessageDTO.Event.MessageCreate.MessageData.Attachment.Media.Id = parameters.AttachmentMediaId;
+            }
+
+            // If there are quick reply options, include them
+            if (parameters.QuickReplyOptions != null && parameters.QuickReplyOptions.Length > 0)
+            {
+                createMessageDTO.Event.MessageCreate.MessageData.QuickReply = _quickReplyDTOFactory.Create();
+                createMessageDTO.Event.MessageCreate.MessageData.QuickReply.Type = QuickReplyType.Options;
+                createMessageDTO.Event.MessageCreate.MessageData.QuickReply.Options = parameters.QuickReplyOptions;
             }
 
             return createMessageDTO;

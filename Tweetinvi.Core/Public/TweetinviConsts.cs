@@ -61,5 +61,11 @@
         public static int UPDATE_ACCOUNT_MAX_URL_SIZE = 100;
         public static int UPDATE_ACCOUNT_MAX_LOCATION_SIZE = 30;
         public static int UPDATE_ACCOUNT_MAX_DESCRIPTION_SIZE = 160;
+
+        // https://developer.twitter.com/en/docs/direct-messages/quick-replies/api-reference/options
+        public const int MESSAGE_QUICK_REPLY_MAX_OPTIONS = 20;
+        public const int MESSAGE_QUICK_REPLY_LABEL_MAX_LENGTH = 36;
+        public const int MESSAGE_QUICK_REPLY_DESCRIPTION_MAX_LENGTH = 72;
+        public const int MESSAGE_QUICK_REPLY_METADATA_MAX_LENGTH = 1000;
     }
 }

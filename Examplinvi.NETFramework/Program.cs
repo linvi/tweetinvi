@@ -21,7 +21,12 @@ using Tweetinvi.Core.Extensions;
 using Tweetinvi.Core.Public.Parameters;
 // Extension methods provided by Tweetinvi
 using Tweetinvi.Models.DTO; // Data Transfer Objects for Serialization
-using Tweetinvi.Json; // JSON static classes to get json from Twitter.
+using Tweetinvi.Json;
+using Tweetinvi.Logic.Model;
+using Geo = Tweetinvi.Geo;
+using SavedSearch = Tweetinvi.SavedSearch;
+
+// JSON static classes to get json from Twitter.
 
 // ReSharper disable UnusedVariable
 namespace Examplinvi
@@ -206,6 +211,7 @@ namespace Examplinvi
             Examples.Message_PublishMessage("I love tweetinvi", Examples.USER_SCREEN_NAME_TO_TEST);
             Examples.Message_PublishMessageWithImage("I love attachments", Examples.USER_SCREEN_NAME_TO_TEST,
                 "./path_to_image_file");
+            Examples.Message_PublishMessageWithQuickReplyOptions();
         }
 
         private static void StreamExamples()
@@ -1274,6 +1280,38 @@ namespace Examplinvi
             var publishMsgParams = new PublishMessageParameters(text, recipient.Id)
             {
                 AttachmentMediaId = media.MediaId
+            };
+            var message = Message.PublishMessage(publishMsgParams);
+
+            if (message != null)
+            {
+                Console.WriteLine("Message published with ID {0}", message.Id);
+            }
+        }
+
+        public static void Message_PublishMessageWithQuickReplyOptions()
+        {
+            // Get the user to DM
+            var recipient = User.GetUserFromScreenName(USER_SCREEN_NAME_TO_TEST);
+
+            // Publish the DM
+            var publishMsgParams = new PublishMessageParameters("Do you like cheese?", recipient.Id)
+            {
+                QuickReplyOptions = new IQuickReplyOption[]
+                {
+                    new QuickReplyOption()
+                    {
+                        Label = "Yes",
+                        Description = "Yes, I love cheese!",
+                        Metadata = "1"
+                    },
+                    new QuickReplyOption()
+                    {
+                        Label = "No",
+                        Description = "No, I do not love cheese...",
+                        Metadata = "0"
+                    }
+                }
             };
             var message = Message.PublishMessage(publishMsgParams);
 
