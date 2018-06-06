@@ -62,9 +62,18 @@ namespace Tweetinvi.Factories
         public IEnumerable<IMessage> GenerateMessageFromGetMessagesDTO(IGetMessagesDTO getMessagesDTO)
         {
             return getMessagesDTO?.Events?.Select(eventDTO =>
-                eventDTO.Type == EventType.MessageCreate
-                    ? buildMessage(eventDTO, getMessagesDTO.Apps[eventDTO.MessageCreate.SourceAppId])
-                    : null);
+            {
+                if (eventDTO.Type != EventType.MessageCreate)
+                {
+                    return null;
+                }
+
+                // Get the app that was used to send this message.
+                //  Note that some apps could be missing from the dictionary.
+                getMessagesDTO.Apps.TryGetValue(eventDTO.MessageCreate.SourceAppId, out var app);
+
+                return buildMessage(eventDTO, app);
+            });
         }
 
         public IMessage GenerateMessageFromCreateMessageDTO(ICreateMessageDTO createMessageDTO)
