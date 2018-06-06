@@ -85,6 +85,13 @@ namespace Tweetinvi.Controllers.Messages
             else // Otherwise just run the request as-is against the Twitter API
             {
                 var getMessagesDTO = _messageQueryExecutor.GetLatestMessages(parameters);
+
+                if (getMessagesDTO == null)
+                {
+                    cursor = null;
+                    return null;
+                }
+
                 cursor = getMessagesDTO.NextCursor;
                 return _messageFactory.GenerateMessageFromGetMessagesDTO(getMessagesDTO);
             }
