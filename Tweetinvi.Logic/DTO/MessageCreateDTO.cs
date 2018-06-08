@@ -21,7 +21,7 @@ namespace Tweetinvi.Logic.DTO
         public long SenderId { get; set; }
 
         [JsonProperty("source_app_id")]
-        public long SourceAppId { get; set; }
+        public long? SourceAppId { get; set; }
 
         [JsonProperty("message_data")]
         [JsonConverter(typeof(JsonPropertyConverterRepository))]

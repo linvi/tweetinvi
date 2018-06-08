@@ -54,26 +54,12 @@ namespace Tweetinvi.Factories
                 return null;
             }
 
-            var app = getMessageDTO.Apps[getMessageDTO.Event.MessageCreate.SourceAppId];
-
-            return buildMessage(getMessageDTO.Event, app);
+            return buildMessage(getMessageDTO.Event, getMessageDTO.Apps);
         }
 
         public IEnumerable<IMessage> GenerateMessageFromGetMessagesDTO(IGetMessagesDTO getMessagesDTO)
         {
-            return getMessagesDTO?.Events?.Select(eventDTO =>
-            {
-                if (eventDTO.Type != EventType.MessageCreate)
-                {
-                    return null;
-                }
-
-                // Get the app that was used to send this message.
-                //  Note that some apps could be missing from the dictionary.
-                getMessagesDTO.Apps.TryGetValue(eventDTO.MessageCreate.SourceAppId, out var app);
-
-                return buildMessage(eventDTO, app);
-            });
+            return getMessagesDTO?.Events?.Select(eventDTO => buildMessage(eventDTO, getMessagesDTO.Apps));
         }
 
         public IMessage GenerateMessageFromCreateMessageDTO(ICreateMessageDTO createMessageDTO)
@@ -83,7 +69,7 @@ namespace Tweetinvi.Factories
                 return null;
             }
 
-            return buildMessage(createMessageDTO.Event, null);
+            return buildMessage(createMessageDTO.Event, (IApp) null);
         }
 
         // Generate Message from Json
@@ -97,6 +83,25 @@ namespace Tweetinvi.Factories
             }
 
             return GenerateMessageFromEventWithAppDTO(eventWithAppDTO);
+        }
+
+        private IMessage buildMessage(IEventDTO eventDTO, IDictionary<long, IApp> apps)
+        {
+            if (eventDTO.Type != EventType.MessageCreate)
+            {
+                return null;
+            }
+
+            // Get the app that was used to send this message.
+            //  Note that we don't always get the App ID.
+            //  Also assume that some apps could be missing from the dictionary.
+            IApp app = null;
+            if (eventDTO.MessageCreate.SourceAppId != null)
+            {
+                apps.TryGetValue(eventDTO.MessageCreate.SourceAppId.Value, out app);
+            }
+
+            return buildMessage(eventDTO, app);
         }
 
         private IMessage buildMessage(IEventDTO eventDTO, IApp app)
