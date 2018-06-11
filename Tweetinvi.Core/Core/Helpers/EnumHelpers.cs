@@ -17,7 +17,8 @@ namespace Tweetinvi.Core.Core.Helpers
         /// <returns>The first value found that has an attribute matching the supplied predicate</returns>
         public static TEnum GetValueWhereAttribute<TEnum, TAttr>(Func<TAttr, bool> attributePredicate,
             string exceptionMessage = null)
-            where TEnum : Enum
+            // where TEnum : Enum -- TODO restore when supported by all IDEs
+            where TEnum : struct
             where TAttr : Attribute
         {
             if (TryGetValueWhereAttribute<TEnum, TAttr>(attributePredicate, out TEnum val))
@@ -40,7 +41,7 @@ namespace Tweetinvi.Core.Core.Helpers
         /// <returns>Whether a value was found</returns>
         public static bool TryGetValueWhereAttribute<TEnum, TAttr>(Func<TAttr, bool> attributePredicate,
             out TEnum val)
-            where TEnum : Enum
+            // where TEnum : Enum -- TODO restore when supported by all IDEs
             where TAttr : Attribute
         {
             if (attributePredicate == null)

@@ -13,7 +13,7 @@ namespace Tweetinvi.Logic.JsonConverters
     /// <summary>
     /// A JSON converter that (de)serializes an enum to a string using a JsonEnumStringAttribute above each value.
     /// </summary>
-    public class JsonEnumStringConverter<T> : JsonConverter where T : Enum
+    public class JsonEnumStringConverter<T> : JsonConverter where T : struct // TODO - Replace struct with Enum when supported by all IDEs
     {
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
@@ -30,7 +30,7 @@ namespace Tweetinvi.Logic.JsonConverters
 
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
-            var strVal = (string) reader.Value;
+            var strVal = (string)reader.Value;
 
             // Try and get the corresponding enum value, will return default(T) if none found
             EnumHelpers.TryGetValueWhereAttribute<T, JsonEnumStringAttribute>(a => a.JsonString == strVal, out T val);
