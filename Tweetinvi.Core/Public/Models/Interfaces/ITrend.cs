@@ -23,6 +23,6 @@
         /// <summary>
         /// Number of tweet matching the trend that have been posted for the last 24 hours.
         /// </summary>
-        int? TweetVolume { get; set; }
+        long? TweetVolume { get; set; }
     }
 }
