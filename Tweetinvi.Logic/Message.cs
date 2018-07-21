@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Tweetinvi.Core.Controllers;
 using Tweetinvi.Core.Factories;
@@ -17,116 +18,95 @@ namespace Tweetinvi.Logic
         private readonly IUserFactory _userFactory;
         private readonly IMessageController _messageController;
 
-        private IMessageDTO _messageDTO;
+        private IApp _app;
+
         private readonly ITaskFactory _taskFactory;
-        private IUser _sender;
-        private IUser _receiver;
+
+        private bool _mergedMediaIntoEntities = false;
 
         public Message(
             IUserFactory userFactory,
             IMessageController messageController,
-            IMessageDTO messageDTO,
+            IEventDTO eventDTO,
+            IApp app,
             ITaskFactory taskFactory)
         {
             _userFactory = userFactory;
             _messageController = messageController;
-            _messageDTO = messageDTO;
+            EventDTO = eventDTO;
+            _app = app;
             _taskFactory = taskFactory;
         }
 
         // Properties
-        public IMessageDTO MessageDTO
-        {
-            get { return _messageDTO; }
-            set { _messageDTO = value; }
-        }
+        public IEventDTO EventDTO { get; }
 
-        public long Id
+        public IApp App
         {
-            get { return _messageDTO.Id; }
-        }
-
-        public DateTime CreatedAt
-        {
-            get { return _messageDTO.CreatedAt; }
-        }
-
-        public long SenderId
-        {
-            get { return _messageDTO.SenderId; }
-        }
-
-        public string SenderScreenName
-        {
-            get { return _messageDTO.SenderScreenName; }
-        }
-
-        public IUser Sender
-        {
-            get
+            get => _app;
+            set
             {
-                if (_sender == null)
+                // If the app is already set, it cannot be changed.
+                //  The set option here is only to allow users to set the app for messages received
+                //  in response to a create request, where Twitter doesn't return the app.
+                if (_app != null)
                 {
-                    _sender = _userFactory.GenerateUserFromDTO(_messageDTO.Sender);
+                    throw new InvalidOperationException("Cannot set the app on a message if it is already set");
                 }
 
-                return _sender;
+                _app = value;
             }
         }
 
-        public long RecipientId
-        {
-            get { return _messageDTO.RecipientId; }
-        }
+        public long Id => EventDTO.Id;
 
-        public string RecipientScreenName
-        {
-            get { return _messageDTO.RecipientScreenName; }
-        }
+        public DateTime CreatedAt => EventDTO.CreatedAt;
 
-        public IUser Recipient
+        public long SenderId => EventDTO.MessageCreate.SenderId;
+
+        public long RecipientId => EventDTO.MessageCreate.Target.RecipientId;
+
+        public IMessageEntities Entities
         {
             get
             {
-                if (_receiver == null)
+                // Note: the following updates the underlying DTO and makes it slightly different
+                //  to what was actually returned from Twitter. This is so that DM entities mimic
+                //  Tweet entities, with media included.
+                //  This shouldn't cause any issue, but if the DTO ever needed to be maintained exactly as received
+                //  then entities needs to be copied before the media is added to it.
+                var entities = EventDTO.MessageCreate.MessageData.Entities;
+                if (!_mergedMediaIntoEntities)
                 {
-                    _receiver = _userFactory.GenerateUserFromDTO(_messageDTO.Recipient);
+                    entities.Medias = new List<IMediaEntity>();
+                    if (AttachedMedia != null)
+                    {
+                        entities.Medias.Add(AttachedMedia);
+                    }
+
+                    _mergedMediaIntoEntities = true;
                 }
 
-                return _receiver;
+                return entities;
             }
         }
 
-        public IObjectEntities Entities
-        {
-            get { return _messageDTO.Entities; }
-        }
+        public string Text => EventDTO.MessageCreate.MessageData.Text;
 
-        public string Text
-        {
-            get { return _messageDTO.Text; }
-        }
+        public bool IsDestroyed => EventDTO.MessageCreate.IsDestroyed;
 
-        public bool IsMessagePublished
-        {
-            get { return _messageDTO.IsMessagePublished; }
-        }
+        public long? InitiatedViaTweetId => EventDTO.InitiatedVia?.TweetId;
 
-        public bool IsMessageDestroyed
-        {
-            get { return _messageDTO.IsMessageDestroyed; }
-        }
+        public long? InitiatedViaWelcomeMessageId => EventDTO.InitiatedVia?.WelcomeMessageId;
+
+        public IQuickReplyResponse QuickReplyResponse => EventDTO.MessageCreate.MessageData.QuickReplyResponse;
+
+        public IMediaEntity AttachedMedia => EventDTO.MessageCreate.MessageData.Attachment?.Media;
 
         // Destroy
         public bool Destroy()
         {
-            return _messageController.DestroyMessage(_messageDTO);
-        }
-
-        // Set Recipient
-        public void SetRecipient(IUser recipient)
-        {
-            _messageDTO.Recipient = recipient != null ? recipient.UserDTO : null;
+            return _messageController.DestroyMessage(EventDTO);
         }
 
         public bool Equals(IMessage other)
@@ -134,8 +114,8 @@ namespace Tweetinvi.Logic
             bool result = 
                 Id == other.Id && 
                 Text == other.Text &&
-                Sender.Equals(other.Sender) &&
-                Recipient.Equals(other.Recipient);
+                SenderId == other.SenderId &&
+                RecipientId == other.RecipientId;
 
             return result;
         }
@@ -144,7 +124,7 @@ namespace Tweetinvi.Logic
 
         public async Task<bool> DestroyAsync()
         {
-            return await _taskFactory.ExecuteTaskAsync(() => Destroy());
+            return await _taskFactory.ExecuteTaskAsync(Destroy);
         } 
 
         #endregion

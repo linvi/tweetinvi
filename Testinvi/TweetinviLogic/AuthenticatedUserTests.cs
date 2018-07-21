@@ -235,46 +235,22 @@ namespace Testinvi.TweetinviLogic
 
         #endregion
 
-        #region GetLatestMessagesReceived
+        #region GetLatestMessages
 
         [TestMethod]
-        public void GetLatestMessagesReceived_CurrentCredentialsAreNotAuthenticatedUserCredentials_OperationPerformedWithAppropriateCredentials()
+        public void GetLatestMessages_CurrentCredentialsAreNotAuthenticatedUserCredentials_OperationPerformedWithAppropriateCredentials()
         {
             // Arrange
             var nbMessages = TestHelper.GenerateRandomInt();
 
             ITwitterCredentials startOperationWithCredentials = null;
-            _fakeMessageController.CallsTo(x => x.GetLatestMessagesReceived(nbMessages)).Invokes(() =>
+            _fakeMessageController.CallsTo(x => x.GetLatestMessages(nbMessages)).Invokes(() =>
             {
                 startOperationWithCredentials = _fakeCredentialsAccessor.FakedObject.CurrentThreadCredentials;
             });
 
             // Act
-            _authenticatedUser.GetLatestMessagesReceived(nbMessages);
-
-            // Assert
-            Assert.AreEqual(startOperationWithCredentials, _authenticatedUserCredentials);
-            Assert.AreEqual(_fakeCredentialsAccessor.FakedObject.CurrentThreadCredentials, _currentCredentials);
-        }
-
-        #endregion
-
-        #region GetLatestMessagesSent
-
-        [TestMethod]
-        public void GetLatestMessagesSent_CurrentCredentialsAreNotAuthenticatedUserCredentials_OperationPerformedWithAppropriateCredentials()
-        {
-            // Arrange
-            var nbMessages = TestHelper.GenerateRandomInt();
-
-            ITwitterCredentials startOperationWithCredentials = null;
-            _fakeMessageController.CallsTo(x => x.GetLatestMessagesSent(nbMessages)).Invokes(() =>
-            {
-                startOperationWithCredentials = _fakeCredentialsAccessor.FakedObject.CurrentThreadCredentials;
-            });
-
-            // Act
-            _authenticatedUser.GetLatestMessagesSent(nbMessages);
+            _authenticatedUser.GetLatestMessages(nbMessages);
 
             // Assert
             Assert.AreEqual(startOperationWithCredentials, _authenticatedUserCredentials);
@@ -338,9 +314,9 @@ namespace Testinvi.TweetinviLogic
         public void GetAccountSettings_CurrentCredentialsAreNotAuthenticatedUserCredentials_OperationPerformedWithAppropriateCredentials()
         {
             // Arrange
-            var messageDTO = A.Fake<IMessageDTO>();
+            var eventDTO = A.Fake<IEventDTO>();
             var message = A.Fake<IMessage>();
-            message.CallsTo(x => x.MessageDTO).Returns(messageDTO);
+            message.CallsTo(x => x.EventDTO).Returns(eventDTO);
 
             ITwitterCredentials startOperationWithCredentials = null;
             _fakeAccountController.CallsTo(x => x.GetAuthenticatedUserSettings()).Invokes(() =>

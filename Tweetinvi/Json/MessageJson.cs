@@ -34,54 +34,44 @@ namespace Tweetinvi.Json
         }
 
         // Get Messages
-        public static string GetLatestMessagesReceived(int maximumMessages = TweetinviConsts.MESSAGE_GET_COUNT)
+        public static string GetLatestMessages(int count)
         {
-            return MessageJsonController.GetLatestMessagesReceived(maximumMessages);
+            return MessageJsonController.GetLatestMessages(count);
         }
 
-        public static string GetLatestMessagesReceived(IMessagesReceivedParameters queryParameters)
+        /// <summary>
+        /// Warning: Behaviour differs from MessageController.GetLatestMessages.
+        /// This method will not make multiple requests to the Twitter API and combine their results,
+        /// as that would require parsing the JSON, instead that is left up to the caller.
+        /// </summary>
+        public static string GetLatestMessages(IGetMessagesParameters parameters)
         {
-            return MessageJsonController.GetLatestMessagesReceived(queryParameters);
-        }
-
-        public static string GetLatestMessagesSent(int maximumMessages = TweetinviConsts.MESSAGE_GET_COUNT)
-        {
-            return MessageJsonController.GetLatestMessagesSent(maximumMessages);
-        }
-
-        public static string GetLatestMessagesSent(IMessagesSentParameters queryParameters)
-        {
-            return MessageJsonController.GetLatestMessagesSent(queryParameters);
+            return MessageJsonController.GetLatestMessages(parameters);
         }
 
         // Publish Message
-        public static string PublishMessage(string text, IUserIdentifier targetUserIdentifier)
-        {
-            return MessageJsonController.PublishMessage(text, targetUserIdentifier);
-        }
-
         public static string PublishMessage(string text, long targetUserId)
         {
             return MessageJsonController.PublishMessage(text, targetUserId);
         }
 
-        public static string PublishMessage(string text, string targetUserScreenName)
+        public static string PublishMessage(IPublishMessageParameters parameters)
         {
-            return MessageJsonController.PublishMessage(text, targetUserScreenName);
+            return MessageJsonController.PublishMessage(parameters);
         }
 
         // Destroy Message
-        public static string DestroyMessage(IMessage message)
+        public static bool DestroyMessage(IMessage message)
         {
             return MessageJsonController.DestroyMessage(message);
         }
 
-        public static string DestroyMessage(IMessageDTO messageDTO)
+        public static bool DestroyMessage(IEventDTO eventDTO)
         {
-            return MessageJsonController.DestroyMessage(messageDTO);
+            return MessageJsonController.DestroyMessage(eventDTO);
         }
 
-        public static string DestroyMessage(long messageId)
+        public static bool DestroyMessage(long messageId)
         {
             return MessageJsonController.DestroyMessage(messageId);
         }

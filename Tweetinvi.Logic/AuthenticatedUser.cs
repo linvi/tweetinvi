@@ -61,8 +61,7 @@ namespace Tweetinvi.Logic
         }
 
         public ITwitterCredentials Credentials { get; private set; }
-        public IEnumerable<IMessage> LatestDirectMessagesReceived { get; set; }
-        public IEnumerable<IMessage> LatestDirectMessagesSent { get; set; }
+        public IEnumerable<IMessage> LatestDirectMessages { get; set; }
         public IEnumerable<IMention> LatestMentionsTimeline { get; set; }
         public IEnumerable<ITweet> LatestHomeTimeline { get; set; }
 
@@ -264,14 +263,9 @@ namespace Tweetinvi.Logic
         }
 
         // Direct Messages
-        public IEnumerable<IMessage> GetLatestMessagesReceived(int maximumNumberOfMessagesToRetrieve = 40)
+        public IEnumerable<IMessage> GetLatestMessages(int count)
         {
-            return ExecuteAuthenticatedUserOperation(() => _messageController.GetLatestMessagesReceived(maximumNumberOfMessagesToRetrieve));
-        }
-
-        public IEnumerable<IMessage> GetLatestMessagesSent(int maximumMessages = 40)
-        {
-            return ExecuteAuthenticatedUserOperation(() => _messageController.GetLatestMessagesSent(maximumMessages));
+            return ExecuteAuthenticatedUserOperation(() => _messageController.GetLatestMessages(count));
         }
 
         public IMessage PublishMessage(IPublishMessageParameters publishMessageParameters)
@@ -412,17 +406,14 @@ namespace Tweetinvi.Logic
 
         #region Async
 
-        public async Task<IEnumerable<IMessage>> GetLatestMessagesReceivedAsync(int count = 40)
+        // Get Messages
+        public async Task<IEnumerable<IMessage>> GetLatestMessagesAsync(int count = TweetinviConsts.MESSAGE_GET_COUNT)
         {
-            return await ExecuteAuthenticatedUserOperation(() => _taskFactory.ExecuteTaskAsync(() => GetLatestMessagesReceived(count)));
+            return await ExecuteAuthenticatedUserOperation(() =>
+                _taskFactory.ExecuteTaskAsync(() => GetLatestMessages(count)));
         }
-
-        public async Task<IEnumerable<IMessage>> GetLatestMessagesSentAsync(int maximumMessages = 40)
-        {
-            return await ExecuteAuthenticatedUserOperation(() => _taskFactory.ExecuteTaskAsync(() => GetLatestMessagesSent(maximumMessages)));
-        }
-
         
+        // Publish
         public async Task<IMessage> PublishMessageAsync(IPublishMessageParameters publishMessageParameters)
         {
             return await ExecuteAuthenticatedUserOperation(() => _taskFactory.ExecuteTaskAsync(() => PublishMessage(publishMessageParameters)));

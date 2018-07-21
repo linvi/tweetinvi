@@ -21,7 +21,12 @@ using Tweetinvi.Core.Extensions;
 using Tweetinvi.Core.Public.Parameters;
 // Extension methods provided by Tweetinvi
 using Tweetinvi.Models.DTO; // Data Transfer Objects for Serialization
-using Tweetinvi.Json; // JSON static classes to get json from Twitter.
+using Tweetinvi.Json;
+using Tweetinvi.Logic.Model;
+using Geo = Tweetinvi.Geo;
+using SavedSearch = Tweetinvi.SavedSearch;
+
+// JSON static classes to get json from Twitter.
 
 // ReSharper disable UnusedVariable
 namespace Examplinvi
@@ -176,8 +181,7 @@ namespace Examplinvi
             Examples.AuthenticatedUser_FollowUser(Examples.USER_SCREEN_NAME_TO_TEST);
             Examples.AuthenticatedUser_UnFollowUser(Examples.USER_SCREEN_NAME_TO_TEST);
             Examples.AuthenticatedUser_UpdateFollowAuthorizationsForUser(Examples.USER_SCREEN_NAME_TO_TEST);
-            Examples.AuthenticatedUser_GetLatestReceivedMessages();
-            Examples.AuthenticatedUser_GetLatestSentMessages();
+            Examples.AuthenticatedUser_GetLatestMessages();
             Examples.AuthenticatedUser_GetAccountSettings();
         }
 
@@ -200,12 +204,14 @@ namespace Examplinvi
                 return;
             }
 
-            Examples.AuthenticatedUser_GetLatestReceivedMessages();
-            Examples.AuthenticatedUser_GetLatestSentMessages();
+            Examples.AuthenticatedUser_GetLatestMessages();
 
             Examples.Message_GetLatests();
             Examples.Message_GetMessageFromId(381069551028293633);
             Examples.Message_PublishMessage("I love tweetinvi", Examples.USER_SCREEN_NAME_TO_TEST);
+            Examples.Message_PublishMessageWithImage("I love attachments", Examples.USER_SCREEN_NAME_TO_TEST,
+                "./path_to_image_file");
+            Examples.Message_PublishMessageWithQuickReplyOptions();
         }
 
         private static void StreamExamples()
@@ -776,24 +782,12 @@ namespace Examplinvi
             }
         }
 
-        public static void AuthenticatedUser_GetLatestReceivedMessages()
+        public static void AuthenticatedUser_GetLatestMessages()
         {
             var authenticatedUser = User.GetAuthenticatedUser();
-            var messages = authenticatedUser.GetLatestMessagesReceived(20);
+            var messages = authenticatedUser.GetLatestMessages(20);
 
-            Console.WriteLine("Messages Received : ");
-            foreach (var message in messages)
-            {
-                Console.WriteLine("- '{0}'", message.Text);
-            }
-        }
-
-        public static void AuthenticatedUser_GetLatestSentMessages()
-        {
-            var authenticatedUser = User.GetAuthenticatedUser();
-            var messages = authenticatedUser.GetLatestMessagesSent(20);
-
-            Console.WriteLine("Messages Received : ");
+            Console.WriteLine("Messages : ");
             foreach (var message in messages)
             {
                 Console.WriteLine("- '{0}'", message.Text);
@@ -1218,23 +1212,30 @@ namespace Examplinvi
 
         public static void Message_GetLatests()
         {
-            // Messages Received
-            var latestMessagesReceived = Message.GetLatestMessagesReceived();
-            var latestMessagesReceivedParameter = new MessagesReceivedParameters();
-            latestMessagesReceivedParameter.SinceId = 10029230923;
-            var latestMessagesReceivedFromParameter = Message.GetLatestMessagesReceived(latestMessagesReceivedParameter);
+            // Messages Sent or received
+            var latestMessages = Message.GetLatestMessages(TweetinviConsts.MESSAGE_GET_COUNT, out string cursor);
 
-            // Messages Sent
-            var latestMessagesSent = Message.GetLatestMessagesSent();
-            var latestMessagesSentParameter = new MessagesSentParameters();
-            latestMessagesSentParameter.PageNumber = 239823;
-            var latestMessagesSentFromParameter = Message.GetLatestMessagesSent(latestMessagesSentParameter);
+            // Check for a cursor having been returned, if not, there's no more results
+            if (cursor == null)
+            {
+                return;
+            }
+
+            // Fetch more results using the cursor (note: Tweetinvi will automatically do this internally if you just specify
+            //  a count larger than TweetinviConsts.MESSAGE_GET_COUNT in your initial request, but you may want to do it
+            //  manually for large requests to work within rate limits)
+            var latestMessagesParameters = new GetMessagesParameters()
+            {
+                Count = 20,
+                Cursor = cursor
+            };
+            var latestMessagesFromParameters = Message.GetLatestMessages(latestMessagesParameters, out cursor);
         }
 
         public static void Message_GetMessageFromId(long messageId)
         {
             var message = Message.GetExistingMessage(messageId);
-            Console.WriteLine("Message from {0} to {1} : {2}", message.Sender, message.Recipient, message.Text);
+            Console.WriteLine("Message from {0} to {1} : {2}", message.SenderId, message.RecipientId, message.Text);
         }
 
         public static void Message_DestroyMessageFromId(long messageId)
@@ -1249,11 +1250,74 @@ namespace Examplinvi
         public static void Message_PublishMessage(string text, string username)
         {
             var recipient = User.GetUserFromScreenName(username);
-            var message = Message.PublishMessage(text, recipient);
+            var message = Message.PublishMessage(text, recipient.Id);
 
             if (message != null)
             {
-                Console.WriteLine("Message published : {0}", message.IsMessagePublished);
+                Console.WriteLine("Message published with ID {0}", message.Id);
+            }
+        }
+
+        public static void Message_PublishMessageWithImage(string text, string username, string imgPath)
+        {
+            // Get the user to DM
+            var recipient = User.GetUserFromScreenName(username);
+
+            // Get the image to attach from the local filesystem
+            var imageBinary = File.ReadAllBytes(imgPath);
+
+            // Upload the image to Twitter
+            var uploadMediaParams = new UploadParameters()
+            {
+                Binary = imageBinary,
+                // Note that the media category must be set to the Dm prefixed variant of whatever
+                //  category of media you are uploading
+                MediaCategory = Tweetinvi.Core.Public.Models.Enum.MediaCategory.DmImage
+            };
+            var media = Upload.UploadBinary(uploadMediaParams);
+
+            // Publish the DM
+            var publishMsgParams = new PublishMessageParameters(text, recipient.Id)
+            {
+                AttachmentMediaId = media.MediaId
+            };
+            var message = Message.PublishMessage(publishMsgParams);
+
+            if (message != null)
+            {
+                Console.WriteLine("Message published with ID {0}", message.Id);
+            }
+        }
+
+        public static void Message_PublishMessageWithQuickReplyOptions()
+        {
+            // Get the user to DM
+            var recipient = User.GetUserFromScreenName(USER_SCREEN_NAME_TO_TEST);
+
+            // Publish the DM
+            var publishMsgParams = new PublishMessageParameters("Do you like cheese?", recipient.Id)
+            {
+                QuickReplyOptions = new IQuickReplyOption[]
+                {
+                    new QuickReplyOption()
+                    {
+                        Label = "Yes",
+                        Description = "Yes, I love cheese!",
+                        Metadata = "1"
+                    },
+                    new QuickReplyOption()
+                    {
+                        Label = "No",
+                        Description = "No, I do not love cheese...",
+                        Metadata = "0"
+                    }
+                }
+            };
+            var message = Message.PublishMessage(publishMsgParams);
+
+            if (message != null)
+            {
+                Console.WriteLine("Message published with ID {0}", message.Id);
             }
         }
 
@@ -1565,7 +1629,7 @@ namespace Examplinvi
         public static void Json_GetJsonForMessageRequestExample()
         {
             IUser user = User.GetUserFromScreenName("tweetinviapi");
-            string jsonResponse = MessageJson.PublishMessage("salut", user.UserDTO);
+            string jsonResponse = MessageJson.PublishMessage("salut", user.Id);
 
             Console.WriteLine(jsonResponse);
         }

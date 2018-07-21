@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using Tweetinvi.Core.Web;
+﻿using Tweetinvi.Core.Web;
 using Tweetinvi.Models.DTO;
 using Tweetinvi.Parameters;
 
@@ -8,68 +7,56 @@ namespace Tweetinvi.Controllers.Messages
     public interface IMessageQueryExecutor
     {
         // Get messages
-        IEnumerable<IMessageDTO> GetLatestMessagesReceived(IMessagesReceivedParameters queryParameters);
-        IEnumerable<IMessageDTO> GetLatestMessagesSent(IMessagesSentParameters queryParameters);
+        IGetMessagesDTO GetLatestMessages(IGetMessagesParameters queryParameters);
 
         // Publish Message
-        IMessageDTO PublishMessage(IPublishMessageParameters parameters);
+        ICreateMessageDTO PublishMessage(IPublishMessageParameters parameters);
 
         // Detroy Message
-        bool DestroyMessage(IMessageDTO messageDTO);
+        bool DestroyMessage(IEventDTO messageDTO);
         bool DestroyMessage(long messageId);
     }
 
     public class MessageQueryExecutor : IMessageQueryExecutor
     {
         private readonly ITwitterAccessor _twitterAccessor;
-        private readonly IMessageQueryValidator _messageQueryValidator;
         private readonly IMessageQueryGenerator _messageQueryGenerator;
 
         public MessageQueryExecutor(
             ITwitterAccessor twitterAccessor,
-            IMessageQueryValidator messageQueryValidator,
             IMessageQueryGenerator messageQueryGenerator)
         {
             _twitterAccessor = twitterAccessor;
-            _messageQueryValidator = messageQueryValidator;
             _messageQueryGenerator = messageQueryGenerator;
         }
 
         // Get Messages
-        public IEnumerable<IMessageDTO> GetLatestMessagesReceived(IMessagesReceivedParameters queryParameters)
+        public IGetMessagesDTO GetLatestMessages(IGetMessagesParameters queryParameters)
         {
-            string query = _messageQueryGenerator.GetLatestMessagesReceivedQuery(queryParameters);
-            return _twitterAccessor.ExecuteGETQuery<IEnumerable<IMessageDTO>>(query);
-        }
-
-      
-        public IEnumerable<IMessageDTO> GetLatestMessagesSent(IMessagesSentParameters queryParameters)
-        {
-            string query = _messageQueryGenerator.GetLatestMessagesSentQuery(queryParameters);
-            return _twitterAccessor.ExecuteGETQuery<IEnumerable<IMessageDTO>>(query);
+            string query = _messageQueryGenerator.GetLatestMessagesQuery(queryParameters);
+            return _twitterAccessor.ExecuteGETQuery<IGetMessagesDTO>(query);
         }
 
         // Publish Message
-        public IMessageDTO PublishMessage(IPublishMessageParameters parameters)
+        public ICreateMessageDTO PublishMessage(IPublishMessageParameters parameters)
         {
-            _messageQueryValidator.ThrowIfMessageCannotBePublished(parameters);
-
             string query = _messageQueryGenerator.GetPublishMessageQuery(parameters);
-            return _twitterAccessor.ExecutePOSTQuery<IMessageDTO>(query);
+            var reqDTO = _messageQueryGenerator.GetPublishMessageBody(parameters);
+
+            return _twitterAccessor.ExecutePOSTQueryJsonBody<ICreateMessageDTO>(query, reqDTO);
         }
 
-
         // Destroy Message
-        public bool DestroyMessage(IMessageDTO messageDTO)
+        public bool DestroyMessage(IEventDTO eventDTO)
         {
-            string query = _messageQueryGenerator.GetDestroyMessageQuery(messageDTO);
-            return _twitterAccessor.TryExecutePOSTQuery(query);
+            string query = _messageQueryGenerator.GetDestroyMessageQuery(eventDTO);
+            return _twitterAccessor.TryExecuteDELETEQuery(query);
         }
 
         public bool DestroyMessage(long messageId)
         {
             string query = _messageQueryGenerator.GetDestroyMessageQuery(messageId);
-            return _twitterAccessor.TryExecutePOSTQuery(query);
+            return _twitterAccessor.TryExecuteDELETEQuery(query);
         }
     }
 }

@@ -7,21 +7,18 @@ namespace Tweetinvi.Core.Controllers
 {
     public interface IMessageController
     {
-        IEnumerable<IMessage> GetLatestMessagesReceived(int maximumMessages = TweetinviConsts.MESSAGE_GET_COUNT);
-        IEnumerable<IMessage> GetLatestMessagesReceived(IMessagesReceivedParameters messagesReceivedParameters);
-
-        IEnumerable<IMessage> GetLatestMessagesSent(int maximumMessages = TweetinviConsts.MESSAGE_GET_COUNT);
-        IEnumerable<IMessage> GetLatestMessagesSent(IMessagesSentParameters messagesSentParameters);
+        IEnumerable<IMessage> GetLatestMessages(int count = TweetinviConsts.MESSAGE_GET_COUNT);
+        IEnumerable<IMessage> GetLatestMessages(int count, out string cursor);
+        IEnumerable<IMessage> GetLatestMessages(IGetMessagesParameters getMessagesParameters);
+        IEnumerable<IMessage> GetLatestMessages(IGetMessagesParameters getMessagesParameters, out string cursor);
 
         // Publish Message
-        IMessage PublishMessage(string text, IUserIdentifier recipient);
         IMessage PublishMessage(string text, long recipientId);
-        IMessage PublishMessage(string text, string recipientUserName);
-        IMessage PublishMessage(IPublishMessageParameters parameter);
+        IMessage PublishMessage(IPublishMessageParameters parameters);
 
         // Destroy Message
         bool DestroyMessage(IMessage message);
-        bool DestroyMessage(IMessageDTO messageDTO);
+        bool DestroyMessage(IEventDTO eventDTO);
         bool DestroyMessage(long messageId);
     }
 }

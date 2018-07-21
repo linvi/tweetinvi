@@ -27,59 +27,30 @@ namespace Testinvi.TweetinviControllers.MessageTests
             _fakeTwitterAccessor = _fakeBuilder.GetFake<ITwitterAccessor>();
         }
 
-        #region GetLatestMessagesReceived
+        #region GetLatestMessages
 
         [TestMethod]
-        public void GetLatestMessagesReceived_ReturnsTwitterAccessorResult()
+        public void GetLatestMessages_ReturnsTwitterAccessorResult()
         {
             // Arrange
             var jsonController = CreateMessageJsonController();
-            var maximumMessage = new Random().Next();
+            var count = new Random().Next();
             var query = TestHelper.GenerateString();
             var expectedResult = TestHelper.GenerateString();
-            ArrangeQueryGeneratorGetLatestMessagesReceived(maximumMessage, query);
+            ArrangeQueryGeneratorGetLatestMessages(count, query);
             _fakeTwitterAccessor.ArrangeExecuteJsonGETQuery(query, expectedResult);
 
             // Act
-            var result = jsonController.GetLatestMessagesReceived(maximumMessage);
+            var result = jsonController.GetLatestMessages(count);
 
             // Assert
             Assert.AreEqual(result, expectedResult);
         }
 
-        private void ArrangeQueryGeneratorGetLatestMessagesReceived(int maximumMessages, string query)
+        private void ArrangeQueryGeneratorGetLatestMessages(int count, string query)
         {
             _fakeMessageQueryGenerator
-                .CallsTo(x => x.GetLatestMessagesReceivedQuery(A<IMessagesReceivedParameters>.That.Matches(p => p.MaximumNumberOfMessagesToRetrieve == maximumMessages)))
-                .Returns(query);
-        }
-
-        #endregion
-
-        #region GetLatestMessagesSent
-
-        [TestMethod]
-        public void GetLatestMessagesSent_ReturnsTwitterAccessorResult()
-        {
-            // Arrange
-            var jsonController = CreateMessageJsonController();
-            var maximumMessage = new Random().Next();
-            var query = TestHelper.GenerateString();
-            var expectedResult = TestHelper.GenerateString();
-            ArrangeQueryGeneratorGetLatestMessagesSent(maximumMessage, query);
-            _fakeTwitterAccessor.ArrangeExecuteJsonGETQuery(query, expectedResult);
-
-            // Act
-            var result = jsonController.GetLatestMessagesSent(maximumMessage);
-
-            // Assert
-            Assert.AreEqual(result, expectedResult);
-        }
-
-        private void ArrangeQueryGeneratorGetLatestMessagesSent(int maximumMessages, string query)
-        {
-            _fakeMessageQueryGenerator
-                .CallsTo(x => x.GetLatestMessagesSentQuery(A<IMessagesSentParameters>.That.Matches(p => p.MaximumNumberOfMessagesToRetrieve == maximumMessages)))
+                .CallsTo(x => x.GetLatestMessagesQuery(A<IGetMessagesParameters>.That.Matches(p => p.Count == count)))
                 .Returns(query);
         }
 
@@ -97,7 +68,7 @@ namespace Testinvi.TweetinviControllers.MessageTests
             var query = TestHelper.GenerateString();
             var expectedResult = TestHelper.GenerateString();
 
-            _fakeMessageQueryGenerator.CallsTo(x => x.GetDestroyMessageQuery(A.Fake<IMessageDTO>())).Returns(query);
+            _fakeMessageQueryGenerator.CallsTo(x => x.GetDestroyMessageQuery(A.Fake<IEventDTO>())).Returns(query);
             _fakeTwitterAccessor.ArrangeExecuteJsonPOSTQuery(query, expectedResult);
 
             // Act
@@ -110,20 +81,19 @@ namespace Testinvi.TweetinviControllers.MessageTests
             // Arrange
             var jsonController = CreateMessageJsonController();
             var message = A.Fake<IMessage>();
-            var messageDTO = A.Fake<IMessageDTO>();
-                message.CallsTo(x => x.MessageDTO).Returns(messageDTO);
+            var eventDTO = A.Fake<IEventDTO>();
+                message.CallsTo(x => x.EventDTO).Returns(eventDTO);
 
             var query = TestHelper.GenerateString();
-            var expectedResult = TestHelper.GenerateString();
 
-            _fakeMessageQueryGenerator.CallsTo(x => x.GetDestroyMessageQuery(messageDTO)).Returns(query);
-            _fakeTwitterAccessor.ArrangeExecuteJsonPOSTQuery(query, expectedResult);
+            _fakeMessageQueryGenerator.CallsTo(x => x.GetDestroyMessageQuery(eventDTO)).Returns(query);
+            _fakeTwitterAccessor.ArrangeTryExecuteDELETEQuery(query, true);
 
             // Act
             var result = jsonController.DestroyMessage(message);
 
             // Assert
-            Assert.AreEqual(result, expectedResult);
+            Assert.IsTrue(result);
         }
 
         [TestMethod]
@@ -131,18 +101,17 @@ namespace Testinvi.TweetinviControllers.MessageTests
         {
             // Arrange
             var jsonController = CreateMessageJsonController();
-            var messageDTO = A.Fake<IMessageDTO>();
+            var eventDTO = A.Fake<IEventDTO>();
             var query = TestHelper.GenerateString();
-            var expectedResult = TestHelper.GenerateString();
 
-            _fakeMessageQueryGenerator.CallsTo(x => x.GetDestroyMessageQuery(messageDTO)).Returns(query);
-            _fakeTwitterAccessor.ArrangeExecuteJsonPOSTQuery(query, expectedResult);
+            _fakeMessageQueryGenerator.CallsTo(x => x.GetDestroyMessageQuery(eventDTO)).Returns(query);
+            _fakeTwitterAccessor.ArrangeTryExecuteDELETEQuery(query, true);
 
             // Act
-            var result = jsonController.DestroyMessage(messageDTO);
+            var result = jsonController.DestroyMessage(eventDTO);
 
             // Assert
-            Assert.AreEqual(result, expectedResult);
+            Assert.IsTrue(result);
         }
 
         [TestMethod]
@@ -152,16 +121,15 @@ namespace Testinvi.TweetinviControllers.MessageTests
             var jsonController = CreateMessageJsonController();
             var messageId = TestHelper.GenerateRandomLong();
             var query = TestHelper.GenerateString();
-            var expectedResult = TestHelper.GenerateString();
 
             _fakeMessageQueryGenerator.CallsTo(x => x.GetDestroyMessageQuery(messageId)).Returns(query);
-            _fakeTwitterAccessor.ArrangeExecuteJsonPOSTQuery(query, expectedResult);
+            _fakeTwitterAccessor.ArrangeTryExecuteDELETEQuery(query, true);
 
             // Act
             var result = jsonController.DestroyMessage(messageId);
 
             // Assert
-            Assert.AreEqual(result, expectedResult);
+            Assert.IsTrue(result);
         }
 
         #endregion

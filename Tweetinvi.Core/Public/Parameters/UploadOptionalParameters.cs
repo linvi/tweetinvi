@@ -125,6 +125,12 @@ namespace Tweetinvi.Core.Public.Parameters
                         return Models.Enum.MediaCategory.Gif;
                     case "tweet_image":
                         return Models.Enum.MediaCategory.Image;
+                    case "dm_image":
+                        return Models.Enum.MediaCategory.DmImage;
+                    case "dm_gif":
+                        return Models.Enum.MediaCategory.DmGif;
+                    case "dm_video":
+                        return Models.Enum.MediaCategory.DmVideo;
                     default:
                         return null;
                 }
@@ -141,6 +147,15 @@ namespace Tweetinvi.Core.Public.Parameters
                         break;
                     case Models.Enum.MediaCategory.Image:
                         QueryMediaCategory = "tweet_image";
+                        break;
+                    case Models.Enum.MediaCategory.DmImage:
+                        QueryMediaCategory = "dm_image";
+                        break;
+                    case Models.Enum.MediaCategory.DmGif:
+                        QueryMediaCategory = "dm_gif";
+                        break;
+                    case Models.Enum.MediaCategory.DmVideo:
+                        QueryMediaCategory = "dm_video";
                         break;
                     default:
                         QueryMediaCategory = null;

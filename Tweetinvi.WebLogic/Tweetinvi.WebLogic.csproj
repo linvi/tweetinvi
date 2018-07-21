@@ -8,6 +8,14 @@
     <AssemblyOriginatorKeyFile>../tweetinvi.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <LangVersion>latest</LangVersion>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <LangVersion>latest</LangVersion>
+  </PropertyGroup>
+
   <ItemGroup>
     <ProjectReference Include="..\Tweetinvi.Core\Tweetinvi.Core.csproj" />
     <ProjectReference Include="..\Tweetinvi.Security\Tweetinvi.Security.csproj" />

@@ -7,24 +7,25 @@ namespace Tweetinvi.Models
 {
     /// <summary>
     /// Message that can be sent privately between Twitter users privately.
-    /// https://dev.twitter.com/rest/reference/post/direct_messages/new
+    /// https://developer.twitter.com/en/docs/direct-messages/sending-and-receiving/api-reference/new-event
     /// </summary>
     public interface IMessage : IMessageAsync, IEquatable<IMessage>
     {
         /// <summary>
-        /// Property storing the message data.
+        /// Underlying DTO representing this message (as an event).
         /// </summary>
-        IMessageDTO MessageDTO { get; set; }
+        IEventDTO EventDTO { get; }
 
         /// <summary>
-        /// Informs if the message has already been published.
+        /// The App that was used to send this message.
+        /// If this message is a response to creating it, the app will be null and you can set it here yourself if required.
         /// </summary>
-        bool IsMessagePublished { get; }
+        IApp App { get; set; }
 
         /// <summary>
         /// Informs if the message has been destroyed.
         /// </summary>
-        bool IsMessageDestroyed { get; }
+        bool IsDestroyed { get; }
 
         /// <summary>
         /// Id of the Message.
@@ -47,43 +48,38 @@ namespace Tweetinvi.Models
         long SenderId { get; }
 
         /// <summary>
-        /// Screen name of the user who sent the message.
-        /// </summary>
-        string SenderScreenName { get; }
-
-        /// <summary>
-        /// User who sent the message.
-        /// </summary>
-        IUser Sender { get; }
-
-        /// <summary>
-        /// Id of the user who received the message.
+        /// ID of the user who received the message.
         /// </summary>
         long RecipientId { get; }
 
         /// <summary>
-        /// Screen name of the user who received the message.
-        /// </summary>
-        string RecipientScreenName { get; }
-
-        /// <summary>
-        /// User who received the message.
-        /// </summary>
-        IUser Recipient { get; }
-
-        /// <summary>
         /// Entities of the message.
         /// </summary>
-        IObjectEntities Entities { get; }
+        IMessageEntities Entities { get; }
+
+        /// <summary>
+        /// The ID of the Tweet with Direct Message Prompt the conversation was initiated from if one was used.
+        /// </summary>
+        long? InitiatedViaTweetId { get; }
+
+        /// <summary>
+        /// The ID of the Welcome Message immediatley preceding the conversation if one was used.
+        /// </summary>
+        long? InitiatedViaWelcomeMessageId { get; }
+
+        /// <summary>
+        /// The Quick reply response that the user selected (if any), triggering this message.
+        /// </summary>
+        IQuickReplyResponse QuickReplyResponse { get; }
+
+        /// <summary>
+        /// Media that was attached to the message.
+        /// </summary>
+        IMediaEntity AttachedMedia { get; }
 
         /// <summary>
         /// Destroy the message.
         /// </summary>
         bool Destroy();
-
-        /// <summary>
-        /// Set the recipient to a message that has not yet been published.
-        /// </summary>
-        void SetRecipient(IUser recipient);
     }
 }

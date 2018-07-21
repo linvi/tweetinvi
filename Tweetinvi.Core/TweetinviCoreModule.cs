@@ -87,9 +87,8 @@ namespace Tweetinvi.Core.Injectinvi
             container.RegisterType<IRetweetsOfMeTimelineParameters, RetweetsOfMeTimelineParameter>();
 
             // Message
-            container.RegisterType<IMessagesReceivedParameters, MessagesReceivedParameters>();
-            container.RegisterType<IMessagesSentParameters, MessagesSentParameters>();
-            container.RegisterType<IPublishMessageParameters, PublishMessageParameters>();
+            _container.RegisterType<IGetMessagesParameters, GetMessagesParameters>();
+            _container.RegisterType<IPublishMessageParameters, PublishMessageParameters>();
 
             // Upload
             container.RegisterType<IChunkUploadInitParameters, ChunkUploadInitParameters>();

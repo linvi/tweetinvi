@@ -27,60 +27,31 @@ namespace Testinvi.TweetinviControllers.MessageTests
             _fakeMessageFactory = _fakeBuilder.GetFake<IMessageFactory>();
         }
 
-        #region Get Messages Received
+        #region Get Messages
         [TestMethod]
-        public void GetLatestMessagesReceived_ReturnsQueryExecutorDTOTransformedIntoModel()
+        public void GetLatestMessages_ReturnsQueryExecutorDTOTransformedIntoModel()
         {
             var expectedResult = new List<IMessage> { A.Fake<IMessage>() };
 
             // Arrange
             var controller = CreateMessageController();
-            var maximumMessages = new Random().Next();
-            var expectedDTOResult = new List<IMessageDTO> { A.Fake<IMessageDTO>() };
+            var count = new Random().Next();
+            var expectedDTOResult = A.Fake<IGetMessagesDTO>();
 
-            ArrangeQueryExecutorGetLatestMessagesReceived(maximumMessages, expectedDTOResult);
+            ArrangeQueryExecutorGetLatestMessages(count, expectedDTOResult);
             ArrangeMessageFactoryGenerateMessages(expectedDTOResult, expectedResult);
 
             // Act
-            var result = controller.GetLatestMessagesReceived(maximumMessages);
+            var result = controller.GetLatestMessages(count);
 
             // Assert
             Assert.AreEqual(result, expectedResult);
         }
 
-        private void ArrangeQueryExecutorGetLatestMessagesReceived(int maxMessages, IEnumerable<IMessageDTO> result)
+        private void ArrangeQueryExecutorGetLatestMessages(int count, IGetMessagesDTO result)
         {
             _fakeMessageQueryExecutor
-                .CallsTo(x => x.GetLatestMessagesReceived(A<IMessagesReceivedParameters>.That.Matches(p => p.MaximumNumberOfMessagesToRetrieve == maxMessages)))
-                .Returns(result);
-        }
-        #endregion
-
-        #region Get Messages Sent
-        [TestMethod]
-        public void GetLatestMessagesSent_ReturnsQueryExecutorDTOTransformedIntoModel()
-        {
-            var expectedResult = new List<IMessage> { A.Fake<IMessage>() };
-
-            // Arrange
-            var controller = CreateMessageController();
-            var maximumMessages = new Random().Next();
-            var expectedDTOResult = new List<IMessageDTO> { A.Fake<IMessageDTO>() };
-
-            ArrangeQueryExecutorGetLatestMessagesSent(maximumMessages, expectedDTOResult);
-            ArrangeMessageFactoryGenerateMessages(expectedDTOResult, expectedResult);
-
-            // Act
-            var result = controller.GetLatestMessagesSent(maximumMessages);
-
-            // Assert
-            Assert.AreEqual(result, expectedResult);
-        }
-
-        private void ArrangeQueryExecutorGetLatestMessagesSent(int maxMessages, IEnumerable<IMessageDTO> result)
-        {
-            _fakeMessageQueryExecutor
-                .CallsTo(x => x.GetLatestMessagesSent(A<IMessagesSentParameters>.That.Matches(p => p.MaximumNumberOfMessagesToRetrieve == maxMessages)))
+                .CallsTo(x => x.GetLatestMessages(A<IGetMessagesParameters>.That.Matches(p => p.Count == count)))
                 .Returns(result);
         }
         #endregion
@@ -88,36 +59,15 @@ namespace Testinvi.TweetinviControllers.MessageTests
         #region Publish Message
 
         [TestMethod]
-        public void PublishMessage_TextAndUser_UserIsNull_ThrowArgumentException()
-        {
-            // Arrange
-            var controller = CreateMessageController();
-            var text = TestHelper.GenerateString();
-
-            // Act - Assert
-            try
-            {
-                controller.PublishMessage(text, (IUser)null);
-            }
-            catch (ArgumentNullException)
-            {
-                return;
-            }
-
-            Assert.Fail("Argument Null Exception is expected");
-        }
-
-        [TestMethod]
         public void PublishMessage_Parameter_IsNull_ThrowArgumentException()
         {
             // Arrange
             var controller = CreateMessageController();
-            var text = TestHelper.GenerateString();
 
             // Act - Assert
             try
             {
-                controller.PublishMessage(text, (IUser)null);
+                controller.PublishMessage(null);
             }
             catch (ArgumentNullException)
             {
@@ -147,11 +97,11 @@ namespace Testinvi.TweetinviControllers.MessageTests
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentException))]
-        public void DestroyMessage_WithNullTweet_ThrowArgumentException()
+        public void DestroyMessage_NullMessage_ThrowArgumentException()
         {
             // Arrange
             var controller = CreateMessageController();
-            _fakeMessageQueryExecutor.CallsTo(x => x.DestroyMessage(A<IMessageDTO>.Ignored)).Returns(true);
+            _fakeMessageQueryExecutor.CallsTo(x => x.DestroyMessage(A<IEventDTO>.Ignored)).Returns(true);
 
             // Act
             controller.DestroyMessage((IMessage)null);
@@ -159,14 +109,14 @@ namespace Testinvi.TweetinviControllers.MessageTests
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentException))]
-        public void DestroyMessage_WithNullTweetDTO_ThrowArgumentException()
+        public void DestroyMessage_WithNullEventDTO_ThrowArgumentException()
         {
             // Arrange
             var controller = CreateMessageController();
             var message = A.Fake<IMessage>();
-            message.CallsTo(x => x.MessageDTO).Returns(null);
+            message.CallsTo(x => x.EventDTO).Returns(null);
 
-            _fakeMessageQueryExecutor.CallsTo(x => x.DestroyMessage(A<IMessageDTO>.Ignored)).Returns(true);
+            _fakeMessageQueryExecutor.CallsTo(x => x.DestroyMessage(A<IEventDTO>.Ignored)).Returns(true);
 
             // Act
             controller.DestroyMessage(message);
@@ -188,27 +138,27 @@ namespace Testinvi.TweetinviControllers.MessageTests
         {
             // Arrange
             var controller = CreateMessageController();
-            var messageDTO = A.Fake<IMessageDTO>();
+            var eventDTO = A.Fake<IEventDTO>();
 
             var message = A.Fake<IMessage>();
-            message.CallsTo(x => x.MessageDTO).Returns(messageDTO);
+            message.CallsTo(x => x.EventDTO).Returns(eventDTO);
 
-            _fakeMessageQueryExecutor.CallsTo(x => x.DestroyMessage(messageDTO)).Returns(result);
+            _fakeMessageQueryExecutor.CallsTo(x => x.DestroyMessage(eventDTO)).Returns(result);
 
             // Act
             return controller.DestroyMessage(message);
         }
 
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
-        public bool DestroyMessageDTO_WithNullMessageDTO_ThrowArgumentExcepton()
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void DestroyMessageDTO_WithNullEventDTO_ThrowArgumentExcepton()
         {
             // Arrange
             var controller = CreateMessageController();
-            _fakeMessageQueryExecutor.CallsTo(x => x.DestroyMessage(It.IsAny<IMessageDTO>())).Returns(true);
+            _fakeMessageQueryExecutor.CallsTo(x => x.DestroyMessage(It.IsAny<IEventDTO>())).Returns(true);
 
             // Act
-            return controller.DestroyMessage((IMessageDTO)null);
+            controller.DestroyMessage((IEventDTO) null);
         }
 
         [TestMethod]
@@ -227,12 +177,12 @@ namespace Testinvi.TweetinviControllers.MessageTests
         {
             // Arrange
             var controller = CreateMessageController();
-            var messageDTO = A.Fake<IMessageDTO>();
+            var eventDTO = A.Fake<IEventDTO>();
 
-            _fakeMessageQueryExecutor.CallsTo(x => x.DestroyMessage(messageDTO)).Returns(result);
+            _fakeMessageQueryExecutor.CallsTo(x => x.DestroyMessage(eventDTO)).Returns(result);
 
             // Act
-            return controller.DestroyMessage(messageDTO);
+            return controller.DestroyMessage(eventDTO);
         }
 
         [TestMethod]
@@ -263,17 +213,17 @@ namespace Testinvi.TweetinviControllers.MessageTests
 
         #endregion
 
-        private void ArrangeMessageFactoryGenerateMessage(IMessageDTO messageDTO, IMessage result)
+        private void ArrangeMessageFactoryGenerateMessage(IGetMessageDTO getMessageDTO, IMessage result)
         {
             _fakeMessageFactory
-                .CallsTo(x => x.GenerateMessageFromMessageDTO(messageDTO))
+                .CallsTo(x => x.GenerateMessageFromGetMessageDTO(getMessageDTO))
                 .Returns(result);
         }
 
-        private void ArrangeMessageFactoryGenerateMessages(IEnumerable<IMessageDTO> messageDTOs, IEnumerable<IMessage> result)
+        private void ArrangeMessageFactoryGenerateMessages(IGetMessagesDTO getMessagesDTO, IEnumerable<IMessage> result)
         {
             _fakeMessageFactory
-                .CallsTo(x => x.GenerateMessagesFromMessagesDTO(messageDTOs))
+                .CallsTo(x => x.GenerateMessageFromGetMessagesDTO(getMessagesDTO))
                 .Returns(result);
         }
 

@@ -16,8 +16,9 @@ namespace Tweetinvi.Controllers.Shared
         string GenerateIncludeRetweetsParameter(bool includeRetweets);
         string GenerateLanguageParameter(Language? language);
         string GenerateTweetModeParameter(TweetMode? tweetMode);
+        string GenerateCursorParameter(string cursor);
 
-        string GenerateAdditionalRequestParameters(string additionalParameters);
+        string GenerateAdditionalRequestParameters(string additionalParameters, bool existingParameters = true);
     }
 
     public class QueryParameterGenerator : IQueryParameterGenerator
@@ -109,14 +110,19 @@ namespace Tweetinvi.Controllers.Shared
             return tweetModeParameter;
         }
 
-        public string GenerateAdditionalRequestParameters(string additionalParameters)
+        public string GenerateCursorParameter(string cursor)
+        {
+            return string.IsNullOrEmpty(cursor) ? "" : string.Format(Resources.QueryParameter_Cursor, cursor);
+        }
+
+        public string GenerateAdditionalRequestParameters(string additionalParameters, bool existingParameters = true)
         {
             if (string.IsNullOrEmpty(additionalParameters))
             {
                 return string.Empty;
             }
 
-            return string.Format("&{0}", additionalParameters);
+            return string.Format("{0}{1}", existingParameters ? "&" : "?", additionalParameters);
         }
     }
 }

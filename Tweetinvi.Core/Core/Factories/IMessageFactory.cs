@@ -9,14 +9,16 @@ namespace Tweetinvi.Core.Factories
         // Get existing message
         IMessage GetExistingMessage(long messageId);
 
-        // Create message
-        IMessage CreateMessage(string text, IUser recipient = null);
+        // Generate message(s) from DTO from Twitter API
+        IMessage GenerateMessageFromGetMessageDTO(IGetMessageDTO getMessageDTO);
+        IEnumerable<IMessage> GenerateMessageFromGetMessagesDTO(IGetMessagesDTO getMessagesDTO);
+        IMessage GenerateMessageFromCreateMessageDTO(ICreateMessageDTO createMessageDTO);
 
-        // Generate message from DTO
-        IMessage GenerateMessageFromMessageDTO(IMessageDTO messageDTO);
-        IEnumerable<IMessage> GenerateMessagesFromMessagesDTO(IEnumerable<IMessageDTO> messagesDTO);
+        // Generate message from DTO (Tweetinvi IEventWithAppDTO)
+        IMessage GenerateMessageFromEventWithAppDTO(IEventWithAppDTO eventWithAppDTO);
+        IEnumerable<IMessage> GenerateMessagesFromEventWithAppDTOs(IEnumerable<IEventWithAppDTO> eventWithAppDTOs);
 
-        // Generate Message from Json
+        // Generate Message from Json (serialised Tweetinvi IEventWithAppDTO)
         IMessage GenerateMessageFromJson(string jsonMessage);
     }
 }

@@ -1,10 +1,12 @@
 ﻿using System.Text;
 using Tweetinvi.Controllers.Properties;
 using Tweetinvi.Controllers.Shared;
-using Tweetinvi.Core.Extensions;
 using Tweetinvi.Core.Helpers;
+using Tweetinvi.Core.Injectinvi;
 using Tweetinvi.Core.QueryGenerators;
+using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
+using Tweetinvi.Models.Entities;
 using Tweetinvi.Parameters;
 
 namespace Tweetinvi.Controllers.Messages
@@ -12,62 +14,60 @@ namespace Tweetinvi.Controllers.Messages
     public interface IMessageQueryGenerator
     {
         // Get messages
-        string GetLatestMessagesReceivedQuery(IMessagesReceivedParameters queryParameters);
-        string GetLatestMessagesSentQuery(IMessagesSentParameters queryParameters);
+        string GetLatestMessagesQuery(IGetMessagesParameters queryParameters);
 
         // Publish Message
         string GetPublishMessageQuery(IPublishMessageParameters parameters);
+        ICreateMessageDTO GetPublishMessageBody(IPublishMessageParameters parameters);
 
         // Detroy Message
-        string GetDestroyMessageQuery(IMessageDTO messageDTO);
+        string GetDestroyMessageQuery(IEventDTO messageDTO);
         string GetDestroyMessageQuery(long messageId);
     }
 
     public class MessageQueryGenerator : IMessageQueryGenerator
     {
         private readonly IMessageQueryValidator _messageQueryValidator;
-        private readonly IUserQueryParameterGenerator _userQueryParameterGenerator;
         private readonly IQueryParameterGenerator _queryParameterGenerator;
-        private readonly ITwitterStringFormatter _twitterStringFormatter;
+        private readonly IFactory<ICreateMessageDTO> _createMessageDTOFactory;
+        private readonly IFactory<IEventDTO> _eventDTOFactory;
+        private readonly IFactory<IMessageCreateDTO> _messageCreateDTOFactory;
+        private readonly IFactory<IMessageCreateTargetDTO> _messageCreateTargetDTOFactory;
+        private readonly IFactory<IMessageDataDTO> _messageDataDTOFactory;
+        private readonly IFactory<IAttachmentDTO> _attachmentDTOFactory;
+        private readonly IFactory<IMediaEntity> _mediaEntityFactory;
+        private readonly IFactory<IQuickReplyDTO> _quickReplyDTOFactory;
 
         public MessageQueryGenerator(
             IMessageQueryValidator messageQueryValidator,
-            IUserQueryParameterGenerator userQueryParameterGenerator,
             IQueryParameterGenerator queryParameterGenerator,
-            ITwitterStringFormatter twitterStringFormatter)
+            IFactory<ICreateMessageDTO> createMessageDTOFactory,
+            IFactory<IEventDTO> eventDTOFactory,
+            IFactory<IMessageCreateDTO> messageCreateDTOFactory,
+            IFactory<IMessageCreateTargetDTO> messageCreateTargetDTOFactory,
+            IFactory<IMessageDataDTO> messageDataDTOFactory,
+            IFactory<IAttachmentDTO> attachmentDTOFactory,
+            IFactory<IMediaEntity> mediaEntityFactory,
+            IFactory<IQuickReplyDTO> quickReplyDTOFactory)
         {
             _messageQueryValidator = messageQueryValidator;
-            _userQueryParameterGenerator = userQueryParameterGenerator;
             _queryParameterGenerator = queryParameterGenerator;
-            _twitterStringFormatter = twitterStringFormatter;
+            _createMessageDTOFactory = createMessageDTOFactory;
+            _eventDTOFactory = eventDTOFactory;
+            _messageCreateDTOFactory = messageCreateDTOFactory;
+            _messageCreateTargetDTOFactory = messageCreateTargetDTOFactory;
+            _messageDataDTOFactory = messageDataDTOFactory;
+            _attachmentDTOFactory = attachmentDTOFactory;
+            _mediaEntityFactory = mediaEntityFactory;
+            _quickReplyDTOFactory = quickReplyDTOFactory;
         }
 
         // Get collection of messages
-
-        public string GetLatestMessagesReceivedQuery(IMessagesReceivedParameters queryParameters)
+        public string GetLatestMessagesQuery(IGetMessagesParameters queryParameters)
         {
-            var query = new StringBuilder(string.Format(Resources.Message_GetMessagesReceived, queryParameters.MaximumNumberOfMessagesToRetrieve));
+            var query = new StringBuilder(string.Format(Resources.Message_GetMessages, queryParameters.Count));
 
-            query.Append(_queryParameterGenerator.GenerateMaxIdParameter(queryParameters.MaxId));
-            query.Append(_queryParameterGenerator.GenerateSinceIdParameter(queryParameters.SinceId));
-            query.Append(_queryParameterGenerator.GenerateIncludeEntitiesParameter(queryParameters.IncludeEntities));
-            query.Append(_queryParameterGenerator.GenerateSkipStatusParameter(queryParameters.SkipStatus));
-            query.Append(_queryParameterGenerator.GenerateAdditionalRequestParameters(queryParameters.FormattedCustomQueryParameters));
-            query.AddParameterToQuery("full_text", queryParameters.FullText);
-
-            return query.ToString();
-        }
-
-        public string GetLatestMessagesSentQuery(IMessagesSentParameters queryParameters)
-        {
-            var query = new StringBuilder(string.Format(Resources.Message_GetMessagesSent, queryParameters.MaximumNumberOfMessagesToRetrieve));
-
-            query.Append(_queryParameterGenerator.GenerateMaxIdParameter(queryParameters.MaxId));
-            query.Append(_queryParameterGenerator.GenerateSinceIdParameter(queryParameters.SinceId));
-            query.Append(_queryParameterGenerator.GenerateIncludeEntitiesParameter(queryParameters.IncludeEntities));
-            query.Append(_queryParameterGenerator.GeneratePageNumberParameter(queryParameters.PageNumber));
-            query.Append(_queryParameterGenerator.GenerateAdditionalRequestParameters(queryParameters.FormattedCustomQueryParameters));
-            query.AddParameterToQuery("full_text", queryParameters.FullText);
+            query.Append(_queryParameterGenerator.GenerateCursorParameter(queryParameters.Cursor));
 
             return query.ToString();
         }
@@ -77,19 +77,45 @@ namespace Tweetinvi.Controllers.Messages
         {
             _messageQueryValidator.ThrowIfMessageCannotBePublished(parameters);
 
-            var messageText = parameters.Text;
-            var recipient = parameters.Recipient;
-
-            var identifierParameter = _userQueryParameterGenerator.GenerateIdOrScreenNameParameter(recipient);
-
-            var query = string.Format(Resources.Message_NewMessage, _twitterStringFormatter.TwitterEncode(messageText), identifierParameter);
-            query += _queryParameterGenerator.GenerateAdditionalRequestParameters(parameters.FormattedCustomQueryParameters);
+            var query = Resources.Message_NewMessage;
+            query += _queryParameterGenerator.GenerateAdditionalRequestParameters(parameters.FormattedCustomQueryParameters, false);
 
             return query;
         }
 
+        public ICreateMessageDTO GetPublishMessageBody(IPublishMessageParameters parameters)
+        {
+            ICreateMessageDTO createMessageDTO = _createMessageDTOFactory.Create();
+            createMessageDTO.Event = _eventDTOFactory.Create();
+            createMessageDTO.Event.Type = EventType.MessageCreate;
+            createMessageDTO.Event.MessageCreate = _messageCreateDTOFactory.Create();
+            createMessageDTO.Event.MessageCreate.Target = _messageCreateTargetDTOFactory.Create();
+            createMessageDTO.Event.MessageCreate.Target.RecipientId = parameters.RecipientId;
+            createMessageDTO.Event.MessageCreate.MessageData = _messageDataDTOFactory.Create();
+            createMessageDTO.Event.MessageCreate.MessageData.Text = parameters.Text;
+
+            // If there is media attached, include it
+            if (parameters.AttachmentMediaId != null)
+            {
+                createMessageDTO.Event.MessageCreate.MessageData.Attachment = _attachmentDTOFactory.Create();
+                createMessageDTO.Event.MessageCreate.MessageData.Attachment.Type = AttachmentType.Media;
+                createMessageDTO.Event.MessageCreate.MessageData.Attachment.Media = _mediaEntityFactory.Create();
+                createMessageDTO.Event.MessageCreate.MessageData.Attachment.Media.Id = parameters.AttachmentMediaId;
+            }
+
+            // If there are quick reply options, include them
+            if (parameters.QuickReplyOptions != null && parameters.QuickReplyOptions.Length > 0)
+            {
+                createMessageDTO.Event.MessageCreate.MessageData.QuickReply = _quickReplyDTOFactory.Create();
+                createMessageDTO.Event.MessageCreate.MessageData.QuickReply.Type = QuickReplyType.Options;
+                createMessageDTO.Event.MessageCreate.MessageData.QuickReply.Options = parameters.QuickReplyOptions;
+            }
+
+            return createMessageDTO;
+        }
+
         // Destroy Message
-        public string GetDestroyMessageQuery(IMessageDTO messageDTO)
+        public string GetDestroyMessageQuery(IEventDTO messageDTO)
         {
             _messageQueryValidator.ThrowIfMessageCannotBeDestroyed(messageDTO);
             return GetDestroyMessageQuery(messageDTO.Id);

@@ -6,7 +6,7 @@ using Tweetinvi.Parameters;
 
 namespace Tweetinvi
 {
-    public class MessageAsync
+    public static class MessageAsync
     {
         // Factory
         public static async Task<IMessage> GetExistingMessage(long messageId)
@@ -15,24 +15,43 @@ namespace Tweetinvi
         }
 
         // Controller
-        public static async Task<IEnumerable<IMessage>> GetLatestMessagesReceived(int maximumMessages = TweetinviConsts.MESSAGE_GET_COUNT)
+        /// <summary>
+        /// Get the latest messages sent or received
+        /// </summary>
+        public static async Task<IResultsWithCursor<IMessage>> GetLatestMessages(
+            int count = TweetinviConsts.MESSAGE_GET_COUNT)
         {
-            return await Sync.ExecuteTaskAsync(() => Message.GetLatestMessagesReceived(maximumMessages));
+            string cursor = null;
+            IEnumerable<IMessage> messages =
+                await Sync.ExecuteTaskAsync(() => Message.GetLatestMessages(count, out cursor));
+
+            return generateResultsWithCursor(messages, cursor);
         }
 
-        public static async Task<IEnumerable<IMessage>> GetLatestMessagesReceived(IMessagesReceivedParameters messagesReceivedParameters)
+        /// <summary>
+        /// Get the latest messages sent or received
+        /// </summary>
+        public static async Task<IResultsWithCursor<IMessage>> GetLatestMessages(IGetMessagesParameters queryParameters)
         {
-            return await Sync.ExecuteTaskAsync(() => Message.GetLatestMessagesReceived(messagesReceivedParameters));
+            string cursor = null;
+            IEnumerable<IMessage> messages =
+                await Sync.ExecuteTaskAsync(() => Message.GetLatestMessages(queryParameters, out cursor));
+
+            return generateResultsWithCursor(messages, cursor);
         }
 
-        public static async Task<IEnumerable<IMessage>> GetLatestMessagesSent(int maximumMessages = TweetinviConsts.MESSAGE_GET_COUNT)
+        private static IResultsWithCursor<IMessage> generateResultsWithCursor(IEnumerable<IMessage> messages,
+            string cursor)
         {
-            return await Sync.ExecuteTaskAsync(() => Message.GetLatestMessagesSent(maximumMessages));
-        }
+            if (messages == null)
+            {
+                return null;
+            }
 
-        public static async Task<IEnumerable<IMessage>> GetLatestMessagesSent(IMessagesSentParameters messagesSentParameters)
-        {
-            return await Sync.ExecuteTaskAsync(() => Message.GetLatestMessagesSent(messagesSentParameters));
+            IResultsWithCursor<IMessage> resultsWithCursor = TweetinviContainer.Resolve<IResultsWithCursor<IMessage>>();
+            resultsWithCursor.Results = messages;
+            resultsWithCursor.Cursor = cursor;
+            return resultsWithCursor;
         }
 
         // Publish Message
@@ -41,19 +60,9 @@ namespace Tweetinvi
             return await Sync.ExecuteTaskAsync(() => Message.PublishMessage(parameters));
         }
 
-        public static async Task<IMessage> PublishMessage(string text, IUserIdentifier recipient)
-        {
-            return await Sync.ExecuteTaskAsync(() => Message.PublishMessage(text, recipient));
-        }
-
         public static async Task<IMessage> PublishMessage(string text, long targetUserId)
         {
             return await Sync.ExecuteTaskAsync(() => Message.PublishMessage(text, targetUserId));
-        }
-
-        public static async Task<IMessage> PublishMessage(string text, string targetUserScreenName)
-        {
-            return await Sync.ExecuteTaskAsync(() => Message.PublishMessage(text, targetUserScreenName));
         }
 
         // Destroy Message
@@ -62,9 +71,9 @@ namespace Tweetinvi
             return await Sync.ExecuteTaskAsync(() => Message.DestroyMessage(message));
         }
 
-        public static async Task<bool> DestroyMessage(IMessageDTO messageDTO)
+        public static async Task<bool> DestroyMessage(IEventDTO eventDTO)
         {
-            return  await Sync.ExecuteTaskAsync(() => Message.DestroyMessage(messageDTO));
+            return  await Sync.ExecuteTaskAsync(() => Message.DestroyMessage(eventDTO));
         }
 
         public static async Task<bool> DestroyMessage(long messageId)

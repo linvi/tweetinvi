@@ -6,8 +6,14 @@
     /// </summary>
     public enum MediaCategory
     {
+        // Tweet media categories
         Image,
         Gif,
-        Video
+        Video,
+
+        // DM media categories
+        DmImage,
+        DmGif,
+        DmVideo,
     }
 }
