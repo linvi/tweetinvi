@@ -54,13 +54,19 @@ namespace Tweetinvi.Logic.JsonConverters
             var coordinatesConverter = new JsonInterfaceToObjectConverter<ICoordinates, CoordinatesDTO>();
             var languageConverter = new JsonLanguageConverter();
             var allowContributorRequestConverter = new JsonAllowContributorRequestConverter();
-            var allowDirectMessage = new JsonAllowDirectMessagesConverter();
+            var allowDirectMessagesConverter = new JsonAllowDirectMessagesConverter();
+            var quickReplyTypeConverter = new JsonEnumStringConverter<QuickReplyType>();
+            var eventTypeConverter = new JsonEnumStringConverter<EventType>();
+            var attachmentTypeConverter = new JsonEnumStringConverter<AttachmentType>();
 
             JsonConverters.Add(typeof(PrivacyMode), privacyModeConverter);
             JsonConverters.Add(typeof(ICoordinates), coordinatesConverter);
             JsonConverters.Add(typeof(Language), languageConverter);
             JsonConverters.Add(typeof(AllowContributorRequestMode), allowContributorRequestConverter);
-            JsonConverters.Add(typeof(AllowDirectMessagesFrom), allowDirectMessage);
+            JsonConverters.Add(typeof(AllowDirectMessagesFrom), allowDirectMessagesConverter);
+            JsonConverters.Add(typeof(QuickReplyType), quickReplyTypeConverter);
+            JsonConverters.Add(typeof(EventType), eventTypeConverter);
+            JsonConverters.Add(typeof(AttachmentType), attachmentTypeConverter);
         }
 
         private static void InitializeTweetinviInterfacesConverters()
@@ -71,7 +77,6 @@ namespace Tweetinvi.Logic.JsonConverters
             var extendedTweetDTOConverter = new JsonInterfaceToObjectConverter<IExtendedTweet, ExtendedTweet>();
             var tweetIdentifierConverter = new JsonInterfaceToObjectConverter<ITweetIdentifier, TweetIdentifierDTO>();
             var twitterListConverter = new JsonInterfaceToObjectConverter<ITwitterListDTO, TwitterListDTO>();
-            var messageConverter = new JsonInterfaceToObjectConverter<IMessageDTO, MessageDTO>();
             var oembedTweetConverter = new JsonInterfaceToObjectConverter<IOEmbedTweetDTO, OEmbedTweetDTO>();
             var relationshipConverter = new JsonInterfaceToObjectConverter<IRelationshipDetailsDTO, RelationshipDetailsDTO>();
             var relationshipStateConverter = new JsonInterfaceToObjectConverter<IRelationshipStateDTO, RelationshipStateDTO>();
@@ -97,13 +102,27 @@ namespace Tweetinvi.Logic.JsonConverters
 
             var twitterConfigurationConverter = new JsonInterfaceToObjectConverter<ITwitterConfiguration, TwitterConfiguration>();
 
+            var quickReplyOptionConverter = new JsonInterfaceToObjectConverter<IQuickReplyOption, QuickReplyOption>();
+            var quickReplyConverter = new JsonInterfaceToObjectConverter<IQuickReplyDTO, QuickReplyDTO>();
+            var appConverter = new JsonInterfaceToObjectConverter<IApp, App>();
+            var eventInitiatedViaConverter = new JsonInterfaceToObjectConverter<IEventInitiatedViaDTO, EventInitiatedViaDTO>();
+            var messageDataConverter = new JsonInterfaceToObjectConverter<IMessageDataDTO, MessageDataDTO>();
+            var quickReplyResponseConverter = new JsonInterfaceToObjectConverter<IQuickReplyResponse, QuickReplyResponse>();
+            var messageCreateTargetConverter = new JsonInterfaceToObjectConverter<IMessageCreateTargetDTO, MessageCreateTargetDTO>();
+            var eventConverter = new JsonInterfaceToObjectConverter<IEventDTO, EventDTO>();
+            var messageCreateConverter = new JsonInterfaceToObjectConverter<IMessageCreateDTO, MessageCreateDTO>();
+            var getMessageConverter = new JsonInterfaceToObjectConverter<IGetMessageDTO, GetMessageDTO>();
+            var getMessagesConverter = new JsonInterfaceToObjectConverter<IGetMessagesDTO, GetMessagesDTO>();
+            var createMessageConverter = new JsonInterfaceToObjectConverter<ICreateMessageDTO, CreateMessageDTO>();
+            var attachmentConverter = new JsonInterfaceToObjectConverter<IAttachmentDTO, AttachmentDTO>();
+            var messageEntitiesConverter = new JsonInterfaceToObjectConverter<IMessageEntities, MessageEntitiesDTO>();
+
             JsonConverters.Add(typeof(IUserDTO), userDTOConverter);
             JsonConverters.Add(typeof(IUserIdentifier), userIdentifierConverter);
             JsonConverters.Add(typeof(ITweetDTO), tweetConverter);
             JsonConverters.Add(typeof(IExtendedTweet), extendedTweetDTOConverter);
             JsonConverters.Add(typeof(ITweetIdentifier), tweetIdentifierConverter);
             JsonConverters.Add(typeof(ITwitterListDTO), twitterListConverter);
-            JsonConverters.Add(typeof(IMessageDTO), messageConverter);
             JsonConverters.Add(typeof(IOEmbedTweetDTO), oembedTweetConverter);
             JsonConverters.Add(typeof(IRelationshipDetailsDTO), relationshipConverter);
             JsonConverters.Add(typeof(IRelationshipStateDTO), relationshipStateConverter);
@@ -132,13 +151,28 @@ namespace Tweetinvi.Logic.JsonConverters
             JsonConverters.Add(typeof(IUploadProcessingError), uploadProcessingErrorConverter);
 
             JsonConverters.Add(typeof(ITwitterConfiguration), twitterConfigurationConverter);
+
+            JsonConverters.Add(typeof(IQuickReplyOption), quickReplyOptionConverter);
+            JsonConverters.Add(typeof(IQuickReplyDTO), quickReplyConverter);
+            JsonConverters.Add(typeof(IApp), appConverter);
+            JsonConverters.Add(typeof(IEventInitiatedViaDTO), eventInitiatedViaConverter);
+            JsonConverters.Add(typeof(IMessageDataDTO), messageDataConverter);
+            JsonConverters.Add(typeof(IQuickReplyResponse), quickReplyResponseConverter);
+            JsonConverters.Add(typeof(IMessageCreateTargetDTO), messageCreateTargetConverter);
+            JsonConverters.Add(typeof(IEventDTO), eventConverter);
+            JsonConverters.Add(typeof(IMessageCreateDTO), messageCreateConverter);
+            JsonConverters.Add(typeof(IGetMessageDTO), getMessageConverter);
+            JsonConverters.Add(typeof(IGetMessagesDTO), getMessagesConverter);
+            JsonConverters.Add(typeof(ICreateMessageDTO), createMessageConverter);
+            JsonConverters.Add(typeof(IAttachmentDTO), attachmentConverter);
+            JsonConverters.Add(typeof(IMessageEntities), messageEntitiesConverter);
         }
 
         private static void InitializeEntitiesConverters()
         {
             var hashtagEntityConverter = new JsonInterfaceToObjectConverter<IHashtagEntity, HashtagEntity>();
-            var urlEntityConverter = new JsonInterfaceToObjectConverter<IHashtagEntity, HashtagEntity>();
-            var mediaEntityConverter = new JsonInterfaceToObjectConverter<IHashtagEntity, HashtagEntity>();
+            var urlEntityConverter = new JsonInterfaceToObjectConverter<IUrlEntity, UrlEntity>();
+            var mediaEntityConverter = new JsonInterfaceToObjectConverter<IMediaEntity, MediaEntity>();
             var mediaEntitySizeConverter = new JsonInterfaceToObjectConverter<IMediaEntitySize, MediaEntitySize>();
             var descriptionEntityConverter = new JsonInterfaceToObjectConverter<IDescriptionEntity, DescriptionEntity>();
             var websiteEntityConverter = new JsonInterfaceToObjectConverter<IWebsiteEntity, WebsiteEntity>();

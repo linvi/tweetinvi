@@ -102,24 +102,14 @@ namespace Tweetinvi.Core.Models
         #endregion
 
         #region DirectMessages
-        public IEndpointRateLimit DirectMessagesLimit
-        {
-            get { return _resources.DirectMessagesRateLimits["/direct_messages"]; }
-        }
-
-        public IEndpointRateLimit DirectMessagesSentLimit
-        {
-            get { return _resources.DirectMessagesRateLimits["/direct_messages/sent"]; }
-        }
-
-        public IEndpointRateLimit DirectMessagesSentAndReceivedLimit
-        {
-            get { return _resources.DirectMessagesRateLimits["/direct_messages/sent_and_received"]; }
-        }
-
         public IEndpointRateLimit DirectMessagesShowLimit
         {
-            get { return _resources.DirectMessagesRateLimits["/direct_messages/show"]; }
+            get { return _resources.DirectMessagesRateLimits["/direct_messages/events/show"]; }
+        }
+
+        public IEndpointRateLimit DirectMessagesListLimit
+        {
+            get { return _resources.DirectMessagesRateLimits["/direct_messages/events/list"]; }
         }
         #endregion
 

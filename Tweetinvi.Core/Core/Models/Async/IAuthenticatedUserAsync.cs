@@ -9,16 +9,11 @@ namespace Tweetinvi.Core.Models.Async
     public interface IAuthenticatedUserAsync
     {
         /// <summary>
-        /// Get the list of direct messages received by the user.
+        /// Get the list of direct messages sent or received by the user
         /// </summary>
-        /// <returns>Collection of direct messages received by the user</returns>
-        Task<IEnumerable<IMessage>> GetLatestMessagesReceivedAsync(int count = 40);
-
-        /// <summary>
-        /// Get the list of direct messages sent by the user.
-        /// </summary>
-        /// <returns>Collection of direct messages received by the user</returns>
-        Task<IEnumerable<IMessage>> GetLatestMessagesSentAsync(int maximumMessages = 40);
+        /// <param name="count">Number of messages to request from the Twitter API. Actual amount returned may be less</param>
+        /// <returns>Collection of direct messages</returns>
+        Task<IEnumerable<IMessage>> GetLatestMessagesAsync(int count = TweetinviConsts.MESSAGE_GET_COUNT);
 
         /// <summary>
         /// Publish a message.

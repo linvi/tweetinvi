@@ -77,17 +77,11 @@ namespace Tweetinvi.Models
         IEndpointRateLimit DeviceTokenLimit { get; }
 
         // DIRECT MESSAGES
-        [TwitterEndpoint("https://api.twitter.com/1.1/direct_messages.json")]
-        IEndpointRateLimit DirectMessagesLimit { get; }
-
-        [TwitterEndpoint("https://api.twitter.com/1.1/direct_messages/sent.json")]
-        IEndpointRateLimit DirectMessagesSentLimit { get; }
-
-        // TODO (LINVI) : FIND OUT THE QUERY IT IS RELATED WITH
-        IEndpointRateLimit DirectMessagesSentAndReceivedLimit { get; }
-
-        [TwitterEndpoint("https://api.twitter.com/1.1/direct_messages/show.json")]
+        [TwitterEndpoint("https://api.twitter.com/1.1/direct_messages/events/show.json")]
         IEndpointRateLimit DirectMessagesShowLimit { get; }
+
+        [TwitterEndpoint("https://api.twitter.com/1.1/direct_messages/events/list.json")]
+        IEndpointRateLimit DirectMessagesListLimit { get; }
 
         // FAVOURITES
         [TwitterEndpoint("https://api.twitter.com/1.1/favorites/list.json")]

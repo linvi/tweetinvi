@@ -14,16 +14,26 @@ namespace Tweetinvi.Logic.JsonConverters
             _jsonConvertWrapper = jsonConvertWrapper;
         }
 
+        public string SerializeObject(object o, JsonConverter[] converters = null)
+        {
+            if (converters == null)
+            {
+                converters = JsonPropertiesConverterRepository.Converters;
+            }
+
+            return _jsonConvertWrapper.SerializeObject(o, converters);
+        }
+
         public T DeserializeObject<T>(string json, JsonConverter[] converters = null) where T : class
         {
-            if (!StringExtension.IsMatchingJsonFormat(json))
+            if (!json.IsMatchingJsonFormat())
             {
                 return default(T);
             }
 
             if (converters == null)
             {
-                return _jsonConvertWrapper.DeserializeObject<T>(json, JsonPropertiesConverterRepository.Converters);
+                converters = JsonPropertiesConverterRepository.Converters;
             }
 
             return _jsonConvertWrapper.DeserializeObject<T>(json, converters);

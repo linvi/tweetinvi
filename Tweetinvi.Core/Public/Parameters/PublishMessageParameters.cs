@@ -4,64 +4,38 @@ using Tweetinvi.Models;
 namespace Tweetinvi.Parameters
 {
     /// <summary>
-    /// https://dev.twitter.com/rest/reference/post/direct_messages/new
+    /// https://developer.twitter.com/en/docs/direct-messages/sending-and-receiving/api-reference/new-event
     /// </summary>
     public interface IPublishMessageParameters : ICustomRequestParameters
     {
         string Text { get; }
         long RecipientId { get; }
-        string RecipientScreenName { get; }
-        IUserIdentifier Recipient { get; }
+        long? AttachmentMediaId { get; set; }
+        IQuickReplyOption[] QuickReplyOptions { get; set; }
     }
 
     /// <summary>
-    /// https://dev.twitter.com/rest/reference/post/direct_messages/new
+    /// https://developer.twitter.com/en/docs/direct-messages/sending-and-receiving/api-reference/new-event
     /// </summary>
     public class PublishMessageParameters : CustomRequestParameters, IPublishMessageParameters
     {
-        public PublishMessageParameters(string text, IUserIdentifier recipient)
-        {
-            Initialize(text, recipient);
-        }
-
         public PublishMessageParameters(string text, long recipientId)
-        {
-            Initialize(text, new UserIdentifier(recipientId));
-        }
-
-        public PublishMessageParameters(string text, string recipientScreenName) : this(text, new UserIdentifier(recipientScreenName))
-        {
-            Initialize(text, new UserIdentifier(recipientScreenName));
-        }
-
-        private void Initialize(string text, IUserIdentifier recipient)
         {
             if (string.IsNullOrEmpty(text))
             {
-                throw new ArgumentNullException("Message Text cannot be null or empty.");
-            }
-
-            if (recipient == null)
-            {
-                throw new ArgumentNullException("Message recipient cannot be null.");
+                throw new ArgumentNullException(nameof(text), "Message Text cannot be null or empty.");
             }
 
             Text = text;
-            Recipient = recipient;
+            RecipientId = recipientId;
         }
 
-        public string Text { get; private set; }
+        public string Text { get; }
 
-        public long RecipientId
-        {
-            get { return Recipient.Id; }
-        }
+        public long RecipientId { get; }
 
-        public string RecipientScreenName
-        {
-            get { return Recipient.ScreenName; }
-        }
+        public long? AttachmentMediaId { get; set; }
 
-        public IUserIdentifier Recipient { get; private set; }
+        public IQuickReplyOption[] QuickReplyOptions { get; set; }
     }
 }

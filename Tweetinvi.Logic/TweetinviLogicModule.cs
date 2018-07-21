@@ -39,6 +39,7 @@ namespace Tweetinvi.Logic
             container.RegisterType<IMedia, Media>();
             container.RegisterType<IEditableMedia, Media>();
             container.RegisterType<ISearchQueryResult, SearchQueryResult>();
+            container.RegisterGeneric(typeof(IResultsWithCursor<>), typeof(ResultsWithCursor<>));
         }
 
         // Initialize Models that are Twitter objects
@@ -69,7 +70,6 @@ namespace Tweetinvi.Logic
             container.RegisterType<ITweetDTO, TweetDTO>();
             container.RegisterType<ITwitterListDTO, TwitterListDTO>();
             container.RegisterType<IUserDTO, UserDTO>();
-            container.RegisterType<IMessageDTO, MessageDTO>();
             container.RegisterType<IRelationshipDetailsDTO, RelationshipDetailsDTO>();
 
             container.RegisterType<ITweetEntities, TweetEntitiesDTO>();
@@ -80,6 +80,22 @@ namespace Tweetinvi.Logic
             container.RegisterType<IHashtagEntity, HashtagEntity>();
             container.RegisterType<IDescriptionEntity, DescriptionEntity>();
             container.RegisterType<ISymbolEntity, SymbolEntity>();
+
+            container.RegisterType<IQuickReplyOption, QuickReplyOption>();
+            container.RegisterType<IQuickReplyDTO, QuickReplyDTO>();
+            container.RegisterType<IApp, App>();
+            container.RegisterType<IEventInitiatedViaDTO, EventInitiatedViaDTO>();
+            container.RegisterType<IMessageDataDTO, MessageDataDTO>();
+            container.RegisterType<IQuickReplyResponse, QuickReplyResponse>();
+            container.RegisterType<IMessageCreateTargetDTO, MessageCreateTargetDTO>();
+            container.RegisterType<IEventDTO, EventDTO>();
+            container.RegisterType<IMessageCreateDTO, MessageCreateDTO>();
+            container.RegisterType<IGetMessageDTO, GetMessageDTO>();
+            container.RegisterType<IGetMessagesDTO, GetMessagesDTO>();
+            container.RegisterType<ICreateMessageDTO, CreateMessageDTO>();
+            container.RegisterType<IAttachmentDTO, AttachmentDTO>();
+            container.RegisterType<IMessageEntities, MessageEntitiesDTO>();
+            container.RegisterType<IMediaEntity, MediaEntity>();
         }
 
         private void InitializeHelpers(ITweetinviContainer container)

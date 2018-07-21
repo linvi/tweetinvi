@@ -5,7 +5,10 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Testinvi.Helpers;
 using Testinvi.SetupHelpers;
 using Tweetinvi.Controllers.Messages;
+using Tweetinvi.Controllers.User;
+using Tweetinvi.Core.Injectinvi;
 using Tweetinvi.Core.QueryValidators;
+using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
 using Tweetinvi.Parameters;
 
@@ -28,21 +31,22 @@ namespace Testinvi.TweetinviControllers.MessageTests
         #region Can Message Be Published
 
         [TestMethod]
-        public void CanMessageDTOBePublished_BasedOnText()
+        public void CanMessageBePublished_BasedOnText()
         {
             // Arrange - Act - Assert
-            CanMessageDTOBePublished_BasedOnText(true, true, null);
-            CanMessageDTOBePublished_BasedOnText(true, false, typeof(ArgumentException));
-            CanMessageDTOBePublished_BasedOnText(false, true, typeof(ArgumentException));
-            CanMessageDTOBePublished_BasedOnText(false, false, typeof(ArgumentException));
+            CanMessageBePublished_BasedOnText(true, true, null);
+            CanMessageBePublished_BasedOnText(true, false, typeof(ArgumentException));
+            CanMessageBePublished_BasedOnText(false, true, typeof(ArgumentException));
+            CanMessageBePublished_BasedOnText(false, false, typeof(ArgumentException));
         }
 
-        private void CanMessageDTOBePublished_BasedOnText(bool doesTextExists, bool textContainsChars, Type exceptionType)
+        private void CanMessageBePublished_BasedOnText(bool doesTextExists, bool textContainsChars, Type exceptionType)
         {
             // Arrange
             var queryValidator = CreateMessageQueryValidator();
 
             var parameters = A.Fake<IPublishMessageParameters>();
+            parameters.CallsTo(x => x.RecipientId).Returns(TestHelper.GenerateRandomLong());
 
             ArrangeMessagePublishParameterText(parameters, doesTextExists, textContainsChars);
 
@@ -69,12 +73,26 @@ namespace Testinvi.TweetinviControllers.MessageTests
         }
 
         [TestMethod]
-        public void CanMessageBePublished_BasedOnRecipient()
+        [ExpectedException(typeof(ArgumentException))]
+        public void CanMessageBePublished_BasedOnRecipientNotSpecified()
         {
             // Arrange
             var queryValidator = CreateMessageQueryValidator();
             var parameter = A.Fake<IPublishMessageParameters>();
             parameter.CallsTo(x => x.Text).Returns(TestHelper.GenerateString());
+
+            // Act
+            queryValidator.ThrowIfMessageCannotBePublished(parameter);
+        }
+
+        [TestMethod]
+        public void CanMessageBePublished_BasedOnRecipientSpecified()
+        {
+            // Arrange
+            var queryValidator = CreateMessageQueryValidator();
+            var parameter = A.Fake<IPublishMessageParameters>();
+            parameter.CallsTo(x => x.Text).Returns(TestHelper.GenerateString());
+            parameter.CallsTo(x => x.RecipientId).Returns(TestHelper.GenerateRandomLong());
 
             // Act
             queryValidator.ThrowIfMessageCannotBePublished(parameter);
@@ -89,57 +107,32 @@ namespace Testinvi.TweetinviControllers.MessageTests
             parameters.CallsTo(x => x.Text).Returns(text);
         }
 
-        private void ArrangeMessageDTORecipient(
-            IPublishMessageParameters parameters,
-            bool isRecipientValid,
-            bool isRecipientIdValid,
-            bool isRecipientScreenNameValid)
-        {
-            var recipient = A.Fake<IUserDTO>();
-            var recipientId = TestHelper.GenerateRandomLong();
-            var recipientScreenName = TestHelper.GenerateString();
-
-            parameters.CallsTo(x => x.Recipient).Returns(recipient);
-            parameters.CallsTo(x => x.RecipientId).Returns(recipientId);
-            parameters.CallsTo(x => x.RecipientScreenName).Returns(recipientScreenName);
-
-            _fakeUserQueryValidator.CallsTo(x => x.CanUserBeIdentified(recipient)).Returns(isRecipientValid);
-            _fakeUserQueryValidator.CallsTo(x => x.IsUserIdValid(recipientId)).Returns(isRecipientIdValid);
-            _fakeUserQueryValidator.CallsTo(x => x.IsScreenNameValid(recipientScreenName)).Returns(isRecipientScreenNameValid);
-        }
-
         #endregion
 
         #region Can Message Be Destroyed
 
         [TestMethod]
-        public void CanMessageDTOBeDestroyed_BasedOnMessageHasBeenPublishedOrDestroyed()
+        public void CanMessageDTOBeDestroyed_BasedOnMessageHasBeenDestroyed()
         {
             // Arrange - Act
-            var result1 = CanMessageDTOBeDestroyed_BasedOnPublishedAndDestroyed(true, true);
-            var result2 = CanMessageDTOBeDestroyed_BasedOnPublishedAndDestroyed(true, false);
-            var result3 = CanMessageDTOBeDestroyed_BasedOnPublishedAndDestroyed(false, true);
-            var result4 = CanMessageDTOBeDestroyed_BasedOnPublishedAndDestroyed(false, false);
+            var result1 = CanMessageDTOBeDestroyed_BasedOnDestroyed(true);
+            var result2 = CanMessageDTOBeDestroyed_BasedOnDestroyed(false);
 
             // Assert
             Assert.IsFalse(result1);
             Assert.IsTrue(result2);
-            Assert.IsFalse(result3);
-            Assert.IsFalse(result4);
         }
 
-        private bool CanMessageDTOBeDestroyed_BasedOnPublishedAndDestroyed(
-            bool messageHasBeenPublished,
-            bool messageHasBeenDestroyed)
+        private bool CanMessageDTOBeDestroyed_BasedOnDestroyed(bool messageHasBeenDestroyed)
         {
             // Arrange
             var queryValidator = CreateMessageQueryValidator();
-            var messageDTO = CreateMessageDTO(messageHasBeenPublished, messageHasBeenDestroyed);
+            var eventDTO = CreateEventDTOForMessageCreate(messageHasBeenDestroyed);
 
             // Act
             try
             {
-                queryValidator.ThrowIfMessageCannotBeDestroyed(messageDTO);
+                queryValidator.ThrowIfMessageCannotBeDestroyed(eventDTO);
                 return true;
             }
             catch (ArgumentException)
@@ -222,21 +215,21 @@ namespace Testinvi.TweetinviControllers.MessageTests
 
         #endregion
 
-        private IMessageDTO CreateMessageDTO(
-           bool hasBeenPublished,
-           bool hasBeenDestroyed)
+        private IEventDTO CreateEventDTOForMessageCreate(bool isDestroyed)
         {
-            var messageDTO = A.Fake<IMessageDTO>();
+            var messageDTO = A.Fake<IEventDTO>();
+            messageDTO.Type = EventType.MessageCreate;
+            messageDTO.MessageCreate = A.Fake<IMessageCreateDTO>();
 
-            messageDTO.CallsTo(x => x.IsMessagePublished).Returns(hasBeenPublished);
-            messageDTO.CallsTo(x => x.IsMessageDestroyed).Returns(hasBeenDestroyed);
+            messageDTO.MessageCreate.CallsTo(x => x.IsDestroyed).Returns(isDestroyed);
 
             return messageDTO;
         }
 
         public MessageQueryValidator CreateMessageQueryValidator()
         {
-            return _fakeBuilder.GenerateClass();
+            var userQueryValidator = new UserQueryValidator();
+            return _fakeBuilder.GenerateClass(new ConstructorNamedParameter("userQueryValidator", userQueryValidator));
         }
     }
 }

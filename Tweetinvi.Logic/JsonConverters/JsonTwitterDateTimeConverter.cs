@@ -20,7 +20,18 @@ namespace Tweetinvi.Logic.JsonConverters
             }
 
             var datetimeStr = reader.Value as string;
-            var datetime = DateTime.ParseExact(datetimeStr, "ddd MMM dd HH:mm:ss zzzz yyyy", CultureInfo.InvariantCulture);
+            DateTime datetime;
+
+            // Some endpoints now return a UNIX epoch (in milliseconds) as the timestamp, so check for that
+            if (long.TryParse(datetimeStr, out long epoch))
+            {
+                var dtOffset = DateTimeOffset.FromUnixTimeMilliseconds(epoch);
+                datetime = dtOffset.LocalDateTime;
+            }
+            else // Otherwise it's a formatted string
+            {
+                datetime = DateTime.ParseExact(datetimeStr, "ddd MMM dd HH:mm:ss zzzz yyyy", CultureInfo.InvariantCulture);
+            }
 
             return datetime;
         }

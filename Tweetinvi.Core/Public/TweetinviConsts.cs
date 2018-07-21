@@ -13,8 +13,8 @@
 
         public const int STATUS_CODE_TOO_MANY_REQUEST = 429;
 
-        // https://dev.twitter.com/rest/reference/get/direct_messages
-        public const int MESSAGE_GET_COUNT = 200;
+        // https://developer.twitter.com/en/docs/direct-messages/sending-and-receiving/api-reference/list-events
+        public const int MESSAGE_GET_COUNT = 50;
 
         // https://dev.twitter.com/rest/reference/get/statuses/retweets_of_me
         public const int TIMELINE_RETWEETS_OF_ME_COUNT = 100;
@@ -61,5 +61,11 @@
         public static int UPDATE_ACCOUNT_MAX_URL_SIZE = 100;
         public static int UPDATE_ACCOUNT_MAX_LOCATION_SIZE = 30;
         public static int UPDATE_ACCOUNT_MAX_DESCRIPTION_SIZE = 160;
+
+        // https://developer.twitter.com/en/docs/direct-messages/quick-replies/api-reference/options
+        public const int MESSAGE_QUICK_REPLY_MAX_OPTIONS = 20;
+        public const int MESSAGE_QUICK_REPLY_LABEL_MAX_LENGTH = 36;
+        public const int MESSAGE_QUICK_REPLY_DESCRIPTION_MAX_LENGTH = 72;
+        public const int MESSAGE_QUICK_REPLY_METADATA_MAX_LENGTH = 1000;
     }
 }

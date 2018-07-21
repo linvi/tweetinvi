@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net.Http;
+using System.Text;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Tweetinvi.Core.Exceptions;
@@ -50,6 +51,11 @@ namespace Tweetinvi.Credentials
             return ExecuteQuery(query, HttpMethod.POST);
         }
 
+        public string ExecuteDELETEQueryReturningJson(string query)
+        {
+            return ExecuteQuery(query, HttpMethod.DELETE);
+        }
+
         // Try Execute<Json>
         public bool TryExecuteGETQuery(string query, out string json)
         {
@@ -84,6 +90,20 @@ namespace Tweetinvi.Credentials
             }
         }
 
+        public bool TryExecuteDELETEQuery(string query, out string json)
+        {
+            try
+            {
+                json = ExecuteDELETEQueryReturningJson(query);
+                return json != null;
+            }
+            catch (TwitterException)
+            {
+                json = null;
+                return false;
+            }
+        }
+
         // Execute<JObject>
         public JObject ExecuteGETQuery(string query)
         {
@@ -97,6 +117,12 @@ namespace Tweetinvi.Credentials
             return _jObjectStaticWrapper.GetJobjectFromJson(jsonResponse);
         }
 
+        public JObject ExecuteDELETEQuery(string query)
+        {
+            string jsonResponse = ExecuteQuery(query, HttpMethod.DELETE);
+            return _jObjectStaticWrapper.GetJobjectFromJson(jsonResponse);
+        }
+
         // Get specific type of object from path
         public T ExecuteGETQueryWithPath<T>(string query, string[] paths) where T : class
         {
@@ -107,6 +133,12 @@ namespace Tweetinvi.Credentials
         public T ExecutePOSTQueryWithPath<T>(string query, string[] paths) where T : class
         {
             var jObject = ExecutePOSTQuery(query);
+            return GetResultFromPath<T>(jObject, paths);
+        }
+
+        public T ExecuteDELETEQueryWithPath<T>(string query, string[] paths) where T : class
+        {
+            var jObject = ExecuteDELETEQuery(query);
             return GetResultFromPath<T>(jObject, paths);
         }
 
@@ -135,13 +167,21 @@ namespace Tweetinvi.Credentials
             return _jsonObjectConverter.DeserializeObject<T>(jsonResponse, converters);
         }
 
+        public T ExecuteDELETEQuery<T>(string query, JsonConverter[] converters = null) where T : class
+        {
+            string jsonResponse = ExecuteQuery(query, HttpMethod.DELETE);
+            return _jsonObjectConverter.DeserializeObject<T>(jsonResponse, converters);
+        }
+
         // Try Execute
         public bool TryExecuteGETQuery(string query, JsonConverter[] converters = null)
         {
             try
             {
-                var jObject = ExecuteGETQuery(query);
-                return jObject != null;
+                // Call ExecuteQuery so that we get the string response rather than a JObject, allowing us to differentiate
+                //  between the empty string (successful request with no response) and null (error)
+                var strResponse = ExecuteQuery(query, HttpMethod.GET);
+                return strResponse != null;
             }
             catch (TwitterException)
             {
@@ -158,8 +198,30 @@ namespace Tweetinvi.Credentials
         {
             try
             {
-                var jObject = ExecutePOSTQuery(query);
-                return jObject != null;
+                // Call ExecuteQuery so that we get the string response rather than a JObject, allowing us to differentiate
+                //  between the empty string (successful request with no response) and null (error)
+                var strResponse = ExecuteQuery(query, HttpMethod.POST);
+                return strResponse != null;
+            }
+            catch (TwitterException)
+            {
+                if (!_exceptionHandler.SwallowWebExceptions)
+                {
+                    throw;
+                }
+
+                return false;
+            }
+        }
+
+        public bool TryExecuteDELETEQuery(string query, JsonConverter[] converters = null)
+        {
+            try
+            {
+                // Call ExecuteQuery so that we get the string response rather than a JObject, allowing us to differentiate
+                //  between the empty string (successful request with no response) and null (error)
+                var strResponse = ExecuteQuery(query, HttpMethod.DELETE);
+                return strResponse != null;
             }
             catch (TwitterException)
             {
@@ -199,6 +261,26 @@ namespace Tweetinvi.Credentials
             try
             {
                 resultObject = ExecutePOSTQuery<T>(query, converters);
+                return resultObject != null;
+            }
+            catch (TwitterException)
+            {
+                if (!_exceptionHandler.SwallowWebExceptions)
+                {
+                    throw;
+                }
+
+                resultObject = null;
+                return false;
+            }
+        }
+
+        public bool TryExecuteDELETEQuery<T>(string query, out T resultObject, JsonConverter[] converters = null)
+            where T : class
+        {
+            try
+            {
+                resultObject = ExecuteDELETEQuery<T>(query, converters);
                 return resultObject != null;
             }
             catch (TwitterException)
@@ -383,6 +465,21 @@ namespace Tweetinvi.Credentials
             {
                 return false;
             }
+        }
+
+        // POST JSON body & get JSON response
+        public T ExecutePOSTQueryJsonBody<T>(string query, object reqBody, JsonConverter[] converters = null) where T : class
+        {
+            string jsonResponse = ExecutePOSTQueryJsonBody(query, reqBody, converters);
+            return _jsonObjectConverter.DeserializeObject<T>(jsonResponse, converters);
+        }
+
+        public string ExecutePOSTQueryJsonBody(string query, object reqBody, JsonConverter[] converters = null)
+        {
+            string jsonBody = _jsonObjectConverter.SerializeObject(reqBody, converters);
+
+            return ExecuteQuery(query, HttpMethod.POST,
+                new StringContent(jsonBody, Encoding.UTF8, "application/json"));
         }
 
         // Concrete Execute

@@ -8,37 +8,23 @@ namespace Tweetinvi.Factories
     public interface IMessageFactoryQueryExecutor
     {
         // Get Existing Message
-        IMessageDTO GetExistingMessage(long messageId);
-
-        // Create Message
-        IMessageDTO CreateMessage(string text, IUserDTO recipientDTO);
+        IGetMessageDTO GetExistingMessage(long messageId);
     }
 
     public class MessageFactoryQueryExecutor : IMessageFactoryQueryExecutor
     {
         private readonly ITwitterAccessor _twitterAccessor;
-        private readonly IFactory<IMessageDTO> _messageDTOUnityFactory;
 
-        public MessageFactoryQueryExecutor(ITwitterAccessor twitterAccessor, IFactory<IMessageDTO> messageDTOUnityFactory)
+        public MessageFactoryQueryExecutor(ITwitterAccessor twitterAccessor)
         {
             _twitterAccessor = twitterAccessor;
-            _messageDTOUnityFactory = messageDTOUnityFactory;
         }
 
         // Get existing message
-        public IMessageDTO GetExistingMessage(long messageId)
+        public IGetMessageDTO GetExistingMessage(long messageId)
         {
             string query = string.Format(Resources.Message_GetMessageFromId, messageId);
-            return _twitterAccessor.ExecuteGETQuery<IMessageDTO>(query);
-        }
-
-        // Create Message
-        public IMessageDTO CreateMessage(string text, IUserDTO recipientDTO)
-        {
-            var messageDTO = _messageDTOUnityFactory.Create();
-            messageDTO.Text = text;
-            messageDTO.Recipient = recipientDTO;
-            return messageDTO;
+            return _twitterAccessor.ExecuteGETQuery<IGetMessageDTO>(query);
         }
     }
 }

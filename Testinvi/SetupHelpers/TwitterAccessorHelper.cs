@@ -73,6 +73,19 @@ namespace Testinvi.SetupHelpers
                 });
         }
 
+        public static void ArrangeTryExecuteDELETEQuery(
+            this Fake<ITwitterAccessor> fakeTwitterAccessor,
+            string query,
+            bool result)
+        {
+            fakeTwitterAccessor
+                .CallsTo(x => x.TryExecuteDELETEQuery(query, null))
+                .ReturnsLazily(() =>
+                {
+                    return result;
+                });
+        }
+
         public static void ArrangeExecuteCursorGETQuery<T, T1>(
             this Fake<ITwitterAccessor> fakeTwitterAccessor,
             string query,
@@ -114,6 +127,11 @@ namespace Testinvi.SetupHelpers
                 .Returns(jsonResult);
         }
 
-        
+        // POST JSON body & get JSON response
+        public static void ArrangeExecutePostQueryJsonBody<T>(this Fake<ITwitterAccessor> fakeTwitterAccessor,
+            string query, object reqBody, T result) where T : class
+        {
+            fakeTwitterAccessor.CallsTo(x => x.ExecutePOSTQueryJsonBody<T>(query, reqBody, null)).Returns(result);
+        }
     }
 }

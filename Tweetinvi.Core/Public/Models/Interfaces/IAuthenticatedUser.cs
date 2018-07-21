@@ -49,28 +49,16 @@ namespace Tweetinvi.Models
         // Direct Messages
 
         /// <summary>
-        /// List of Messages received
+        /// List of Messages sent of received
         /// </summary>
-        IEnumerable<IMessage> LatestDirectMessagesReceived { get; set; }
+        IEnumerable<IMessage> LatestDirectMessages { get; }
 
         /// <summary>
-        /// List of messages sent
+        /// Get the list of direct messages sent or received by the user
         /// </summary>
-        IEnumerable<IMessage> LatestDirectMessagesSent { get; set; }
-
-        /// <summary>
-        /// Get the list of direct messages received by the user.
-        /// </summary>
-        /// <param name="maximumNumberOfMessagesToRetrieve">Maximum number of messages retrieved</param>
-        /// <returns>Collection of direct messages received by the user</returns>
-        IEnumerable<IMessage> GetLatestMessagesReceived(int maximumNumberOfMessagesToRetrieve = 40);
-
-        /// <summary>
-        /// Get the list of direct messages sent by the user.
-        /// </summary>
-        /// <param name="maximumNumberOfMessagesToRetrieve">Maximum number of messages retrieved</param>
-        /// <returns>Collection of direct messages received by the user</returns>
-        IEnumerable<IMessage> GetLatestMessagesSent(int maximumNumberOfMessagesToRetrieve = 40);
+        /// <param name="count">Number of messages to request from the Twitter API. Actual amount returned may be less</param>
+        /// <returns>Collection of direct messages</returns>
+        IEnumerable<IMessage> GetLatestMessages(int count = TweetinviConsts.MESSAGE_GET_COUNT);
 
         /// <summary>
         /// Publish a message.
