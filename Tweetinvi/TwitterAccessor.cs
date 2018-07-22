@@ -212,7 +212,20 @@ namespace Tweetinvi
         /// </summary>
         public static string ExecuteQuery(string query, HttpMethod method)
         {
+            return Accessor.ExecuteQuery(query, method)?.Text;
+        }
+
+        /// <summary>
+        /// Execute a query that returns WebRequestResult
+        /// </summary>
+        public static IWebRequestResult ExecuteQueryWithDetails(string query, HttpMethod method)
+        {
             return Accessor.ExecuteQuery(query, method);
+        }
+
+        public static IWebRequestResult ExecuteConsumerQuery(string query, HttpMethod method, IConsumerCredentials credentials)
+        {
+            return Accessor.ExecuteConsumerQuery(query, method, null, credentials);
         }
 
         // Sign
