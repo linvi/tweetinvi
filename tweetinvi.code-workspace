@@ -1,0 +1,35 @@
+{
+	"folders": [
+		{
+			"path": "Examplinvi.NETStandard-2.0"
+		},
+		{
+			"path": "Tweetinvi.Controllers"
+		},
+		{
+			"path": "Tweetinvi.Core"
+		},
+		{
+			"path": "Tweetinvi.Credentials"
+		},
+		{
+			"path": "Tweetinvi.Factories"
+		},
+		{
+			"path": "Tweetinvi.Logic"
+		},
+		{
+			"path": "Tweetinvi.Security"
+		},
+		{
+			"path": "Tweetinvi.Streams"
+		},
+		{
+			"path": "Tweetinvi.Webhooks"
+		},
+		{
+			"path": "Tweetinvi.WebLogic"
+		}
+	],
+	"settings": {}
+}
