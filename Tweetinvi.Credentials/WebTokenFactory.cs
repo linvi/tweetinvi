@@ -59,9 +59,9 @@ namespace Tweetinvi.Credentials
                     authHandler,
                     new TwitterCredentials(appCredentials));
 
-                if (!string.IsNullOrEmpty(requestTokenResponse) && requestTokenResponse != Resources.OAuthRequestToken)
+                if (!string.IsNullOrEmpty(requestTokenResponse.Text) && requestTokenResponse.Text != Resources.OAuthRequestToken)
                 {
-                    Match tokenInformation = Regex.Match(requestTokenResponse, Resources.OAuthTokenRequestRegex);
+                    Match tokenInformation = Regex.Match(requestTokenResponse.Text, Resources.OAuthTokenRequestRegex);
 
                     bool callbackConfirmed;
                     if (!bool.TryParse(tokenInformation.Groups["oauth_callback_confirmed"].Value, out callbackConfirmed) || !callbackConfirmed)
@@ -135,7 +135,7 @@ namespace Tweetinvi.Credentials
                     return null;
                 }
 
-                Match responseInformation = Regex.Match(response, "oauth_token=(?<oauth_token>(?:\\w|\\-)*)&oauth_token_secret=(?<oauth_token_secret>(?:\\w)*)&user_id=(?<user_id>(?:\\d)*)&screen_name=(?<screen_name>(?:\\w)*)");
+                Match responseInformation = Regex.Match(response.Text, "oauth_token=(?<oauth_token>(?:\\w|\\-)*)&oauth_token_secret=(?<oauth_token_secret>(?:\\w)*)&user_id=(?<user_id>(?:\\d)*)&screen_name=(?<screen_name>(?:\\w)*)");
 
                 var credentials = new TwitterCredentials();
                 credentials.AccessToken = responseInformation.Groups["oauth_token"].Value;

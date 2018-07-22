@@ -203,6 +203,7 @@
     <Compile Include="TweetinviLogic\AuthenticatedUserTests.cs" />
     <Compile Include="TweetinviWebLogic\WebHelperTests.cs" />
     <Compile Include="Tweetinvi\AuthTests.cs" />
+    <Compile Include="json.net\WebhookModelsDeserializerTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config">
