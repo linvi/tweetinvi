@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net;
 using FakeItEasy;
 using FakeItEasy.ExtensionSyntax.Full;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -133,7 +134,7 @@ namespace Testinvi.TweetinviControllers.SearchTests
             var result = searchQueryGenerator.GetSearchTweetsQuery(tweetSearchParameters);
 
             // Assert
-            Assert.IsTrue(result.Contains(" filter:videos"));
+            Assert.IsTrue(WebUtility.UrlDecode(result).Contains(" filter:videos"));
             
             _fakeSearchQueryValidator.CallsTo(x => x.ThrowIfSearchParametersIsNotValid(tweetSearchParameters)).MustHaveHappened();
         }
