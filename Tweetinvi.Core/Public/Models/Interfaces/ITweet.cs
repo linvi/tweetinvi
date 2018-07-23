@@ -72,6 +72,12 @@ namespace Tweetinvi.Models
         bool Truncated { get; }
 
         /// <summary>
+        /// Number of times this Tweet has been replied to
+        /// This property is only available with the Premium and Enterprise tier products.
+        /// </summary>
+        int? ReplyCount { get; set; }
+
+        /// <summary>
         /// In_reply_to_status_id
         /// </summary>
         long? InReplyToStatusId { get; set; }
@@ -232,6 +238,12 @@ namespace Tweetinvi.Models
         ITweet RetweetedTweet { get; }
 
         /// <summary>
+        /// Indicates approximately how many times this Tweet has been quoted by Twitter users.
+        /// This property is only available with the Premium and Enterprise tier products.
+        /// </summary>
+        int? QuoteCount { get; set; }
+
+        /// <summary>
         /// Tweet Id that was retweeted with a quote
         /// </summary>
         long? QuotedStatusId { get; }
@@ -261,6 +273,7 @@ namespace Tweetinvi.Models
         /// </summary>
         string Url { get; }
 
+        
 
         #endregion
 

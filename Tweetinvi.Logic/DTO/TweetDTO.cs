@@ -87,6 +87,9 @@ namespace Tweetinvi.Logic.DTO
         [JsonProperty("truncated")]
         public bool Truncated { get; set; }
 
+        [JsonProperty("reply_count")]
+        public int? ReplyCount { get; set; }
+
         [JsonProperty("in_reply_to_status_id")]
         public long? InReplyToStatusId { get; set; }
 
@@ -101,6 +104,9 @@ namespace Tweetinvi.Logic.DTO
 
         [JsonProperty("in_reply_to_screen_name")]
         public string InReplyToScreenName { get; set; }
+
+        [JsonProperty("quote_count")]
+        public int? QuoteCount { get; set; }
 
         [JsonProperty("quoted_status_id")]
         public long? QuotedStatusId { get; set; }

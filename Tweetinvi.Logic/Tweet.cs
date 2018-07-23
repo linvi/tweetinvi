@@ -185,6 +185,12 @@ namespace Tweetinvi.Logic
             get { return _tweetDTO.Truncated; }
         }
 
+        public int? ReplyCount
+        {
+            get { return _tweetDTO.ReplyCount; }
+            set { _tweetDTO.QuoteCount = value; }
+        }
+
         public long? InReplyToStatusId
         {
             get { return _tweetDTO.InReplyToStatusId; }
@@ -252,6 +258,12 @@ namespace Tweetinvi.Logic
 
                 return _retweetedTweet;
             }
+        }
+
+        public int? QuoteCount
+        {
+            get { return _tweetDTO.QuoteCount; }
+            set { _tweetDTO.QuoteCount = value; }
         }
 
         public long? QuotedStatusId

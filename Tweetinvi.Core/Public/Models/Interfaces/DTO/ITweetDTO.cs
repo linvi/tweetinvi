@@ -36,6 +36,11 @@ namespace Tweetinvi.Models.DTO
 
         bool Truncated { get; set; }
 
+        /// <summary>
+        /// This property is only available with the Premium and Enterprise tier products.
+        /// </summary>
+        int? ReplyCount { get; set; }
+
         long? InReplyToStatusId { get; set; }
 
         string InReplyToStatusIdStr { get; set; }
@@ -51,6 +56,11 @@ namespace Tweetinvi.Models.DTO
         bool Retweeted { get; set; }
 
         ITweetDTO RetweetedTweetDTO { get; set; }
+
+        /// <summary>
+        /// This property is only available with the Premium and Enterprise tier products.
+        /// </summary>
+        int? QuoteCount { get; set; }
 
         long? QuotedStatusId { get; set; }
 
@@ -79,5 +89,6 @@ namespace Tweetinvi.Models.DTO
         string WithheldScope { get; set; }
 
         IPlace Place { get; set; }
+
     }
 }
