@@ -43,17 +43,17 @@ namespace Tweetinvi.Credentials
         // Execute<Json>
         public string ExecuteGETQueryReturningJson(string query)
         {
-            return ExecuteQuery(query, HttpMethod.GET)?.Text;
+            return ExecuteQueryReturningContent(query, HttpMethod.GET);
         }
 
         public string ExecutePOSTQueryReturningJson(string query)
         {
-            return ExecuteQuery(query, HttpMethod.POST)?.Text;
+            return ExecuteQueryReturningContent(query, HttpMethod.POST);
         }
 
         public string ExecuteDELETEQueryReturningJson(string query)
         {
-            return ExecuteQuery(query, HttpMethod.DELETE)?.Text;
+            return ExecuteQueryReturningContent(query, HttpMethod.DELETE);
         }
 
         // Try Execute<Json>
@@ -107,19 +107,19 @@ namespace Tweetinvi.Credentials
         // Execute<JObject>
         public JObject ExecuteGETQuery(string query)
         {
-            string jsonResponse = ExecuteQuery(query, HttpMethod.GET)?.Text;
+            string jsonResponse = ExecuteQueryReturningContent(query, HttpMethod.GET);
             return _jObjectStaticWrapper.GetJobjectFromJson(jsonResponse);
         }
 
         public JObject ExecutePOSTQuery(string query)
         {
-            string jsonResponse = ExecuteQuery(query, HttpMethod.POST)?.Text;
+            string jsonResponse = ExecuteQueryReturningContent(query, HttpMethod.POST);
             return _jObjectStaticWrapper.GetJobjectFromJson(jsonResponse);
         }
 
         public JObject ExecuteDELETEQuery(string query)
         {
-            string jsonResponse = ExecuteQuery(query, HttpMethod.DELETE)?.Text;
+            string jsonResponse = ExecuteQueryReturningContent(query, HttpMethod.DELETE);
             return _jObjectStaticWrapper.GetJobjectFromJson(jsonResponse);
         }
 
@@ -157,19 +157,19 @@ namespace Tweetinvi.Credentials
         // Execute<T>
         public T ExecuteGETQuery<T>(string query, JsonConverter[] converters = null) where T : class
         {
-            string jsonResponse = ExecuteQuery(query, HttpMethod.GET)?.Text;
+            string jsonResponse = ExecuteQueryReturningContent(query, HttpMethod.GET);
             return _jsonObjectConverter.DeserializeObject<T>(jsonResponse, converters);
         }
 
         public T ExecutePOSTQuery<T>(string query, JsonConverter[] converters = null) where T : class
         {
-            string jsonResponse = ExecuteQuery(query, HttpMethod.POST)?.Text;
+            string jsonResponse = ExecuteQueryReturningContent(query, HttpMethod.POST);
             return _jsonObjectConverter.DeserializeObject<T>(jsonResponse, converters);
         }
 
         public T ExecuteDELETEQuery<T>(string query, JsonConverter[] converters = null) where T : class
         {
-            string jsonResponse = ExecuteQuery(query, HttpMethod.DELETE)?.Text;
+            string jsonResponse = ExecuteQueryReturningContent(query, HttpMethod.DELETE);
             return _jsonObjectConverter.DeserializeObject<T>(jsonResponse, converters);
         }
 
@@ -180,7 +180,7 @@ namespace Tweetinvi.Credentials
             {
                 // Call ExecuteQuery so that we get the string response rather than a JObject, allowing us to differentiate
                 //  between the empty string (successful request with no response) and null (error)
-                string strResponse = ExecuteQuery(query, HttpMethod.GET)?.Text;
+                string strResponse = ExecuteQueryReturningContent(query, HttpMethod.GET);
                 return strResponse != null;
             }
             catch (TwitterException)
@@ -200,7 +200,7 @@ namespace Tweetinvi.Credentials
             {
                 // Call ExecuteQuery so that we get the string response rather than a JObject, allowing us to differentiate
                 //  between the empty string (successful request with no response) and null (error)
-                string strResponse = ExecuteQuery(query, HttpMethod.POST)?.Text;
+                string strResponse = ExecuteQueryReturningContent(query, HttpMethod.POST);
                 return strResponse != null;
             }
             catch (TwitterException)
@@ -220,7 +220,7 @@ namespace Tweetinvi.Credentials
             {
                 // Call ExecuteQuery so that we get the string response rather than a JObject, allowing us to differentiate
                 //  between the empty string (successful request with no response) and null (error)
-                string strResponse = ExecuteQuery(query, HttpMethod.DELETE)?.Text;
+                string strResponse = ExecuteQueryReturningContent(query, HttpMethod.DELETE);
                 return strResponse != null;
             }
             catch (TwitterException)
@@ -448,17 +448,12 @@ namespace Tweetinvi.Credentials
             return null;
         }
 
-        public IWebRequestResult ExecuteQuery(string query, HttpMethod method)
-        {
-            return ExecuteQuery(query, method, null);
-        }
-
         // POST Http Content
         public bool TryPOSTJsonContent(string url, string json)
         {
             try
             {
-                ExecuteQuery(url, HttpMethod.POST, new StringContent(json), null, true);
+                ExecuteQuery(url, HttpMethod.POST, new StringContent(json));
                 return true;
             }
             catch (TwitterException)
@@ -467,33 +462,11 @@ namespace Tweetinvi.Credentials
             }
         }
 
-        // POST JSON body & get JSON response
-        public T ExecutePOSTQueryJsonBody<T>(string query, object reqBody, JsonConverter[] converters = null) where T : class
+        public string ExecuteQueryReturningContent(string query, HttpMethod method, HttpContent httpContent = null, bool forceThrow = false)
         {
-            string jsonResponse = ExecutePOSTQueryJsonBody(query, reqBody, converters);
-            return _jsonObjectConverter.DeserializeObject<T>(jsonResponse, converters);
-        }
-
-        public string ExecutePOSTQueryJsonBody(string query, object reqBody, JsonConverter[] converters = null)
-        {
-            string jsonBody = _jsonObjectConverter.SerializeObject(reqBody, converters);
-
-            return ExecuteQuery(query, HttpMethod.POST,
-                new StringContent(jsonBody, Encoding.UTF8, "application/json"))?.Text;
-        }
-
-        // Concrete Execute
-        public IWebRequestResult ExecuteQuery(string query, HttpMethod method, HttpContent httpContent, ITwitterCredentials credentials = null, bool forceThrow = false)
-        {
-            if (query == null)
-            {
-                // When a query is null and has been generated by Tweetinvi it implies that one of the query parameter was invalid
-                throw new ArgumentException("At least one of the arguments provided to the query was invalid.");
-            }
-
             try
             {
-                return _twitterRequestHandler.ExecuteQuery(query, method, httpContent: httpContent, credentials: credentials);
+                return ExecuteQuery(query, method, httpContent).Text;
             }
             catch (TwitterException ex)
             {
@@ -507,9 +480,26 @@ namespace Tweetinvi.Credentials
             }
         }
 
-        public IWebRequestResult ExecuteConsumerQuery(string query, HttpMethod method, HttpContent httpContent, IConsumerCredentials credentials, bool forceThrow = false)
+        public IWebRequestResult ExecuteQuery(string query, HttpMethod method)
         {
-            return ExecuteQuery(query, method, httpContent, new TwitterCredentials(credentials), forceThrow);
+            return ExecuteQuery(query, method, null);
+        }
+
+        // Concrete Execute
+        public IWebRequestResult ExecuteQuery(string query, HttpMethod method, HttpContent httpContent, ITwitterCredentials credentials = null)
+        {
+            if (query == null)
+            {
+                // When a query is null and has been generated by Tweetinvi it implies that one of the query parameter was invalid
+                throw new ArgumentException("At least one of the arguments provided to the query was invalid.");
+            }
+
+            return _twitterRequestHandler.ExecuteQuery(query, method, httpContent: httpContent, credentials: credentials);
+        }
+
+        public IWebRequestResult ExecuteConsumerQuery(string query, HttpMethod method, HttpContent httpContent, IConsumerCredentials credentials)
+        {
+            return ExecuteQuery(query, method, httpContent, new TwitterCredentials(credentials));
         }
 
         private bool TryExecuteMultipartQuery(IMultipartHttpRequestParameters parameters, out string result)
@@ -531,6 +521,21 @@ namespace Tweetinvi.Credentials
                 result = null;
                 return false;
             }
+        }
+
+        // POST JSON body & get JSON response
+        public T ExecutePOSTQueryJsonBody<T>(string query, object reqBody, JsonConverter[] converters = null) where T : class
+        {
+            string jsonResponse = ExecutePOSTQueryJsonBody(query, reqBody, converters);
+            return _jsonObjectConverter.DeserializeObject<T>(jsonResponse, converters);
+        }
+
+        public string ExecutePOSTQueryJsonBody(string query, object reqBody, JsonConverter[] converters = null)
+        {
+            string jsonBody = _jsonObjectConverter.SerializeObject(reqBody, converters);
+
+            return ExecuteQueryReturningContent(query, HttpMethod.POST,
+                new StringContent(jsonBody, Encoding.UTF8, "application/json"));
         }
 
         // Download

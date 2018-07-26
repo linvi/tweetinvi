@@ -7,7 +7,7 @@ namespace Tweetinvi.Logic.DTO
     public class WebhookEnvironmentDTO : IWebhookEnvironmentDTO
     {
         [JsonProperty("environment_name")]
-        public string EnvironmentName { get; set; }
+        public string Name { get; set; }
 
         public IWebhookDTO[] Webhooks { get; set; }
     }

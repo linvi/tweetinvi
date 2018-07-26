@@ -3,7 +3,7 @@
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
     "iisExpress": {
-      "applicationUrl": "http://192.168.0.13:8043/",
+      "applicationUrl": "http://localhost:80/",
       "sslPort": 0
     }
   },
@@ -18,12 +18,11 @@
     },
     "Tweetinvi.Webhooks": {
       "commandName": "Project",
-      "launchBrowser": true,
       "launchUrl": "tweetinvi-webhooks",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
-      "applicationUrl": "http://192.168.0.13:8042/"
+      "applicationUrl": "http://localhost:80/"
     }
   }
 }
