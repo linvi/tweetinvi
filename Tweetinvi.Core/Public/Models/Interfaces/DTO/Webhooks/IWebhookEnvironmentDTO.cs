@@ -5,7 +5,7 @@ namespace Tweetinvi.Core.Public.Models.Interfaces.DTO.Webhooks
     public interface IWebhookEnvironmentDTO
     {
 
-        string EnvironmentName { get; set; }
+        string Name { get; set; }
         IWebhookDTO[] Webhooks { get; set; }
     }
 }
