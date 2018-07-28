@@ -3,7 +3,6 @@ using Tweetinvi.Core.Events;
 using Tweetinvi.Core.Exceptions;
 using Tweetinvi.Core.Helpers;
 using Tweetinvi.Core.Web;
-using Tweetinvi.Core.Webhooks;
 using Tweetinvi.Exceptions;
 using Tweetinvi.Models;
 using Tweetinvi.Parameters;
@@ -44,7 +43,6 @@ namespace Tweetinvi.Core.Injectinvi
             container.RegisterType<ISingleAggregateExceptionThrower, SingleAggregateExceptionThrower>(RegistrationLifetime.InstancePerApplication);
             container.RegisterType<ITwitterExceptionFactory, TwitterExceptionFactory>();
             container.RegisterType<ITwitterException, TwitterException>();
-            container.RegisterType<IWebhookProtocolProcessClient, WebhookProtocolDefaultProcessClient>();
 
             InitializeParameters(container);
         }

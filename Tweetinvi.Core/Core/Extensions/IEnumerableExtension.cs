@@ -19,14 +19,6 @@ namespace Tweetinvi.Core.Extensions
             }
         }
 
-        public static void ForEach<T>(this T[] collection, Action<T> action)
-        {
-            foreach (var item in collection)
-            {
-                action(item);
-            }
-        }
-
         public static bool ContainsSameObjectsAs<T>(this IEnumerable<T> collection, IEnumerable<T> collection2)
         {
             return collection.Count() == collection2.Count() && collection.Except(collection2).IsEmpty();

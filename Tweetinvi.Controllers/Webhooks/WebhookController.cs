@@ -1,28 +1,32 @@
-﻿using Tweetinvi.Core.Helpers;
+﻿using Tweetinvi.Core.Core.Controllers;
+using Tweetinvi.Core.Credentials;
+using Tweetinvi.Core.Helpers;
 using Tweetinvi.Core.Public.Models.Interfaces.DTO.Webhooks;
+using Tweetinvi.Core.Web;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
 
 namespace Tweetinvi.Webhooks
 {
-    public interface ITweetinviWebhookController
+    public class WebhookController : IWebhookController
     {
-        IWebhookDTO RegisterWebhook(string webhookEnvironmentName, string url);
-        IGetAllWebhooksResultDTO GetAllWebhooks();
-        bool ChallengeWebhook(string webhookEnvironmentName, string webhookId);
-        bool SubscribeToAllAuthenticatedUserEvents(string webhookEnvironmentName);
-        IGetWebhookSubscriptionsCountResultDTO CountNumberOfSubscriptions();
-        bool DoesAuthenticatedHaveASubscription(string webhookEnvironmentName);
-        IWebhookSubcriptionListDTO GetListOfSubscriptions(string webhookEnvironmentName);
-        bool RemoveWebhook(string webhookEnvironmentName, string webhookId);
-        bool RemoveAllAuthenticatedUserSubscriptions(string webhookEnvironmentName);
-    }
+        private readonly ITwitterAccessor _twitterAccessor;
+        private readonly ICredentialsAccessor _credentialsAccessor;
+        private readonly IJsonObjectConverter _jsonObjectConverter;
 
-    public class TweetinviWebhookController : ITweetinviWebhookController
-    {
+        public WebhookController(
+            ITwitterAccessor twitterAccessor,
+            ICredentialsAccessor credentialsAccessor,
+            IJsonObjectConverter jsonObjectConverter)
+        {
+            _twitterAccessor = twitterAccessor;
+            _credentialsAccessor = credentialsAccessor;
+            _jsonObjectConverter = jsonObjectConverter;
+        }
+
         public IWebhookDTO RegisterWebhook(string webhookEnvironmentName, string url)
         {
-            var result = TwitterAccessor.ExecutePOSTQuery<IWebhookDTO>(
+            var result = _twitterAccessor.ExecutePOSTQuery<IWebhookDTO>(
                 $"https://api.twitter.com/1.1/account_activity/all/{webhookEnvironmentName}/webhooks.json?url={url}");
 
 
@@ -31,7 +35,7 @@ namespace Tweetinvi.Webhooks
 
         public IGetAllWebhooksResultDTO GetAllWebhooks()
         {
-            var result = TwitterAccessor.ExecuteGETQuery<IGetAllWebhooksResultDTO>(
+            var result = _twitterAccessor.ExecuteGETQuery<IGetAllWebhooksResultDTO>(
                 $"https://api.twitter.com/1.1/account_activity/all/webhooks.json");
 
             return result;
@@ -40,7 +44,7 @@ namespace Tweetinvi.Webhooks
         public bool ChallengeWebhook(string webhookEnvironmentName, string webhookId)
         {
             var query = $"https://api.twitter.com/1.1/account_activity/all/{webhookEnvironmentName}/webhooks/{webhookId}.json";
-            var result = TwitterAccessor.ExecuteQueryWithDetails(query, HttpMethod.PUT);
+            var result = _twitterAccessor.ExecuteQuery(query, HttpMethod.PUT);
 
             return result.StatusCode != 214;
         }
@@ -49,7 +53,7 @@ namespace Tweetinvi.Webhooks
         {
             var query = $"https://api.twitter.com/1.1/account_activity/all/{webhookEnvironmentName}/subscriptions.json";
 
-            var result = TwitterAccessor.ExecuteQueryWithDetails(query, HttpMethod.POST);
+            var result = _twitterAccessor.ExecuteQuery(query, HttpMethod.POST);
 
             return result.StatusCode != 348;
         }
@@ -58,22 +62,21 @@ namespace Tweetinvi.Webhooks
         {
             var query = "https://api.twitter.com/1.1/account_activity/subscriptions/count.json";
 
-            var result = TwitterAccessor.ExecuteQueryWithDetails(query, HttpMethod.GET);
+            var result = _twitterAccessor.ExecuteQuery(query, HttpMethod.GET);
 
             if (result.StatusCode == 32)
             {
                 return null;
             }
 
-            return TweetinviContainer.Resolve<IJsonObjectConverter>()
-                .DeserializeObject<IGetWebhookSubscriptionsCountResultDTO>(result.Text);
+            return _jsonObjectConverter.DeserializeObject<IGetWebhookSubscriptionsCountResultDTO>(result.Text);
         }
 
         public bool DoesAuthenticatedHaveASubscription(string webhookEnvironmentName)
         {
             var query = $"https://api.twitter.com/1.1/account_activity/all/{webhookEnvironmentName}/subscriptions.json";
 
-            var result = TwitterAccessor.ExecuteQueryWithDetails(query, HttpMethod.POST);
+            var result = _twitterAccessor.ExecuteQuery(query, HttpMethod.POST);
 
             return result.StatusCode == 204;
         }
@@ -82,17 +85,16 @@ namespace Tweetinvi.Webhooks
         {
             var query = $"https://api.twitter.com/1.1/account_activity/all/{webhookEnvironmentName}/subscriptions/list.json";
 
-            var result = TwitterAccessor.ExecuteConsumerQuery(query, HttpMethod.POST, Auth.Credentials);
+            var result = _twitterAccessor.ExecuteConsumerQuery(query, HttpMethod.POST, null, _credentialsAccessor.CurrentThreadCredentials);
 
-            return TweetinviContainer.Resolve<IJsonObjectConverter>()
-                .DeserializeObject<IWebhookSubcriptionListDTO>(result.Text);
+            return _jsonObjectConverter.DeserializeObject<IWebhookSubcriptionListDTO>(result.Text);
         }
 
         public bool RemoveWebhook(string webhookEnvironmentName, string webhookId)
         {
             var query = $"https://api.twitter.com/1.1/account_activity/all/{webhookEnvironmentName}/webhooks/{webhookId}.json";
 
-            var result = TwitterAccessor.ExecuteQueryWithDetails(query, HttpMethod.DELETE);
+            var result = _twitterAccessor.ExecuteQuery(query, HttpMethod.DELETE);
 
             return result.StatusCode == 204;
         }
@@ -101,7 +103,7 @@ namespace Tweetinvi.Webhooks
         {
             var query = $"https://api.twitter.com/1.1/account_activity/all/{webhookEnvironmentName}/subscriptions.json";
 
-            var result = TwitterAccessor.ExecuteQueryWithDetails(query, HttpMethod.DELETE);
+            var result = _twitterAccessor.ExecuteQuery(query, HttpMethod.DELETE);
 
             return result.StatusCode == 204;
         }

@@ -5,7 +5,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Internal;
+using Tweetinvi.Core.Public.Streaming.Webhooks;
 using Tweetinvi.Models.DTO;
+using Tweetinvi.Models.Webhooks;
 using Tweetinvi.WebLogic.Webhooks;
 
 namespace Tweetinvi.Webhooks.Plugin
@@ -77,10 +79,7 @@ namespace Tweetinvi.Webhooks.Plugin
             context.Request.EnableRewind();
             var jsonBody = new StreamReader(context.Request.Body).ReadToEnd();
 
-            _webhookDispatcher.WebhookMessageReceived(new WebhookMessage()
-            {
-                Json = jsonBody
-            });
+            _webhookDispatcher.WebhookMessageReceived(new WebhookMessage(jsonBody));
 
             return await Task.FromResult(true);
         }

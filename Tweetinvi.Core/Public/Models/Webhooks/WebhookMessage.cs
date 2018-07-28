@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Tweetinvi.Webhooks.Plugin
+﻿namespace Tweetinvi.Models.Webhooks
 {
     public interface IWebhookMessage
     {
@@ -11,6 +7,11 @@ namespace Tweetinvi.Webhooks.Plugin
 
     public class WebhookMessage : IWebhookMessage
     {
+        public WebhookMessage(string json)
+        {
+            Json = json;
+        }
+
         public string Json { get; set; }
     }
 }
