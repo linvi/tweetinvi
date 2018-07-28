@@ -1,9 +1,12 @@
 ﻿using Tweetinvi.Core.Injectinvi;
+using Tweetinvi.Core.Public.Streaming;
+using Tweetinvi.Core.Public.Streaming.Webhooks;
 using Tweetinvi.Core.Streaming;
 using Tweetinvi.Streaming;
 using Tweetinvi.Streaming.Events;
 using Tweetinvi.Streams.Helpers;
 using Tweetinvi.Streams.Model;
+using Tweetinvi.Streams.Webhooks;
 
 namespace Tweetinvi.Streams
 {
@@ -16,6 +19,8 @@ namespace Tweetinvi.Streams
             container.RegisterType<ISampleStream, SampleStream>();
             container.RegisterType<ITrackedStream, TrackedStream>();
             container.RegisterType<IFilteredStream, FilteredStream>();
+            container.RegisterType<IAccountActivityStream, AccountActivityStream>();
+
 
             container.RegisterType<IFilterStreamTweetMatcher, FilterStreamTweetMatcher>();
             container.RegisterType<IFilterStreamTweetMatcherFactory, FilterStreamTweetMatcherFactory>(RegistrationLifetime.InstancePerApplication);
@@ -28,6 +33,8 @@ namespace Tweetinvi.Streams
             container.RegisterType<IStreamResultGenerator, StreamResultGenerator>();
 
             container.RegisterGeneric(typeof(IStreamTrackManager<>), typeof(StreamTrackManager<>));
+
+            container.RegisterType<IWebhookDispatcher, WebhookDispatcher>(RegistrationLifetime.InstancePerApplication);
         }
     }
 }

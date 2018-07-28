@@ -13,10 +13,12 @@ using Tweetinvi.Controllers.TwitterLists;
 using Tweetinvi.Controllers.Upload;
 using Tweetinvi.Controllers.User;
 using Tweetinvi.Core.Controllers;
+using Tweetinvi.Core.Core.Controllers;
 using Tweetinvi.Core.Injectinvi;
 using Tweetinvi.Core.QueryGenerators;
 using Tweetinvi.Core.QueryValidators;
 using Tweetinvi.Models;
+using Tweetinvi.Webhooks;
 
 namespace Tweetinvi.Controllers
 {
@@ -48,7 +50,7 @@ namespace Tweetinvi.Controllers
             container.RegisterType<ITwitterListController, TwitterListController>(RegistrationLifetime.InstancePerThread);
 
             container.RegisterType<ISearchController, SearchController>(RegistrationLifetime.InstancePerThread);
-
+            container.RegisterType<IWebhookController, WebhookController>(RegistrationLifetime.InstancePerThread);
 
             container.RegisterType<IChunkedUploader, ChunkedUploader>();
         }

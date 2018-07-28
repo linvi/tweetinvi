@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using Tweetinvi.Core.Public.Streaming;
 using Tweetinvi.Models;
-using Tweetinvi.Webhooks.Plugin;
 using Tweetinvi.Webhooks.Plugin.Models;
 
 namespace Tweetinvi.WebLogic.Webhooks

@@ -1,16 +1,10 @@
 ﻿using System.Collections.Generic;
+using Tweetinvi.Core.Public.Streaming;
+using Tweetinvi.Core.Public.Streaming.Webhooks;
+using Tweetinvi.Models.Webhooks;
 
-namespace Tweetinvi.Webhooks.Plugin
+namespace Tweetinvi.Streams.Webhooks
 {
-    public interface IWebhookDispatcher
-    {
-        IAccountActivityStream[] SubscribedAccountActivityStreams { get; set; }
-
-        void WebhookMessageReceived(IWebhookMessage message);
-        void SubscribeAccountActivityStream(IAccountActivityStream accountActivityStream);
-        void UnsubscribeAccountActivityStream(IAccountActivityStream accountActivityStream);
-    }
-
     public class WebhookDispatcher : IWebhookDispatcher
     {
         private List<IAccountActivityStream> _userAccountActivityStream;
