@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Testinvi.Helpers;
 using Testinvi.json.net;
@@ -13,10 +9,8 @@ using Tweetinvi.Core.Injectinvi;
 using Tweetinvi.Core.Public.Streaming;
 using Tweetinvi.Core.Wrappers;
 using Tweetinvi.Events;
-using Tweetinvi.Factories.Tweet;
 using Tweetinvi.Models.Webhooks;
 using Tweetinvi.Streams;
-using Tweetinvi.Streams.Helpers;
 
 namespace Testinvi.Tweetinvi.Streams
 {
@@ -24,6 +18,7 @@ namespace Testinvi.Tweetinvi.Streams
     public class AccountActivityStreamTests
     {
         private FakeClassBuilder<AccountActivityStream> _fakeBuilder;
+        private const int ACCOUNT_ACTIVITY_USER_ID = 42;
 
         [TestInitialize]
         public void TestInitialize()
@@ -36,18 +31,21 @@ namespace Testinvi.Tweetinvi.Streams
             var activityStream = _fakeBuilder.GenerateClass(
                 new ConstructorNamedParameter("jsonObjectConverter", TweetinviContainer.Resolve<IJsonObjectConverter>()),
                 new ConstructorNamedParameter("jObjectWrapper", TweetinviContainer.Resolve<IJObjectStaticWrapper>()),
-                new ConstructorNamedParameter("tweetFactory", TweetinviContainer.Resolve<ITweetFactory>()));
+                new ConstructorNamedParameter("tweetFactory", TweetinviContainer.Resolve<ITweetFactory>()),
+                new ConstructorNamedParameter("userFactory", TweetinviContainer.Resolve<IUserFactory>()));
+
+            activityStream.UserId = ACCOUNT_ACTIVITY_USER_ID;
 
             return activityStream;
         }
 
         [TestMethod]
-        public void TweetEventProperlyRaised()
+        public void TweetEventRaised()
         {
             var activityStream = CreateAccountActivityStream();
             
             var tweetCreatedJson = @"{
-	            ""for_user_id"": ""2244994945"",
+	            ""for_user_id"": ""100"",
 	            ""tweet_create_events"": [
 	              " + JsonTests.TWEET_TEST_JSON + @"
 	            ]
@@ -64,7 +62,89 @@ namespace Testinvi.Tweetinvi.Streams
 
             // Assert
             Assert.AreEqual(eventsReceived.Count, 1);
-            Assert.AreEqual(eventsReceived[0].Tweet.CreatedBy.Id, 2244994945);
+            Assert.AreEqual(eventsReceived[0].Tweet.CreatedBy.Id, 42);
+        }
+
+        [TestMethod]
+        public void FavouriteTweetRaised()
+        {
+            var activityStream = CreateAccountActivityStream();
+
+            var tweetFavouritedJson = @"{
+	            ""for_user_id"": ""100"",
+	            ""favorite_events"": [{
+                  ""favorited_status"" : " + JsonTests.TWEET_TEST_JSON + @",
+                  ""user"": " + JsonTests.USER_TEST_JSON(4242) + @"
+	            }]
+            }";
+
+            var eventsReceived = new List<TweetFavouritedEventArgs>();
+            activityStream.TweetFavourited += (sender, args) =>
+            {
+                eventsReceived.Add(args);
+            };
+
+            // Act
+            activityStream.WebhookMessageReceived(new WebhookMessage(tweetFavouritedJson));
+
+            // Assert
+            Assert.AreEqual(eventsReceived.Count, 1);
+            Assert.AreEqual(eventsReceived[0].Tweet.CreatedBy.Id, 42);
+            Assert.AreEqual(eventsReceived[0].FavouritingUser.Id, 4242);
+        }
+
+        [TestMethod]
+        public void UserFollowedRaised_WithTargetUser()
+        {
+            var activityStream = CreateAccountActivityStream();
+
+            var tweetCreatedJson = @"{
+	            ""for_user_id"": ""100"",
+	            ""follow_events"": [{
+                  ""target"" : " + JsonTests.USER_TEST_JSON(41) + @",
+                  ""source"": " + JsonTests.USER_TEST_JSON(ACCOUNT_ACTIVITY_USER_ID) + @"
+	            }]
+            }";
+
+            var eventsReceived = new List<UserFollowedEventArgs>();
+            activityStream.UserFollowed += (sender, args) =>
+            {
+                eventsReceived.Add(args);
+            };
+
+            // Act
+            activityStream.WebhookMessageReceived(new WebhookMessage(tweetCreatedJson));
+
+            // Assert
+            Assert.AreEqual(eventsReceived.Count, 1);
+            Assert.AreEqual(eventsReceived[0].User.Id, 41);
+        }
+
+        [TestMethod]
+        public void UserFollowedRaised_WithSourceUser()
+        {
+            var activityStream = CreateAccountActivityStream();
+
+            var tweetCreatedJson = @"{
+	            ""for_user_id"": ""100"",
+	            ""follow_events"": [{
+                  ""target"" : " + JsonTests.USER_TEST_JSON(ACCOUNT_ACTIVITY_USER_ID) + @",
+                  ""source"": " + JsonTests.USER_TEST_JSON(40) + @"
+	            }]
+            }";
+
+            var eventsReceived = new List<UserFollowedEventArgs>();
+            activityStream.UserFollowed += (sender, args) =>
+            {
+                eventsReceived.Add(args);
+            };
+
+            // Act
+            activityStream.WebhookMessageReceived(new WebhookMessage(tweetCreatedJson));
+
+            // Assert
+            Assert.AreEqual(eventsReceived.Count, 1);
+            Assert.AreEqual(eventsReceived[0].User.Id, 40);
         }
     }
 }

@@ -8,7 +8,7 @@
           ""id_str"": ""850006245121695744"",
           ""text"": ""1\/ Today we\u2019re sharing our vision for the future of the Twitter API platform!\nhttps:\/\/t.co\/XweGngmxlP"",
           ""user"": {
-            ""id"": 2244994945,
+            ""id"": 42,
             ""name"": ""Twitter Dev"",
             ""screen_name"": ""TwitterDev"",
             ""location"": ""Internet"",
@@ -33,5 +33,18 @@
             ]
           }
         }";
+
+        public static string USER_TEST_JSON(long id)
+        {
+            return @"
+            {
+                ""id"": " + id + @",
+                ""name"": ""Uesr Test"",
+                ""screen_name"": ""UserTest"",
+                ""location"": ""Internet"",
+                ""url"": ""https:\/\/dev.twitter.com\/"",
+                ""description"": ""UserTestDescription""
+            }";
+        }
     }
 }
