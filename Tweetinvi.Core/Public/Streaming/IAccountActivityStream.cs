@@ -7,7 +7,10 @@ namespace Tweetinvi.Core.Public.Streaming
     public interface IAccountActivityStream
     {
         long UserId { get; }
+
         EventHandler<TweetReceivedEventArgs> TweetCreated { get; set; }
+        EventHandler<TweetFavouritedEventArgs> TweetFavourited { get; set; }
+        EventHandler<UserFollowedEventArgs> UserFollowed { get; set; }
 
         void WebhookMessageReceived(IWebhookMessage message);
     }
