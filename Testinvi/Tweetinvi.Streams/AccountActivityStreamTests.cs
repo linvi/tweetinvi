@@ -117,7 +117,7 @@ namespace Testinvi.Tweetinvi.Streams
 
             // Assert
             Assert.AreEqual(eventsReceived.Count, 1);
-            Assert.AreEqual(eventsReceived[0].User.Id, 41);
+            Assert.AreEqual(eventsReceived[0].Target.Id, 41);
         }
 
         [TestMethod]
@@ -144,7 +144,7 @@ namespace Testinvi.Tweetinvi.Streams
 
             // Assert
             Assert.AreEqual(eventsReceived.Count, 1);
-            Assert.AreEqual(eventsReceived[0].User.Id, 40);
+            Assert.AreEqual(eventsReceived[0].Target.Id, 40);
         }
 
         [TestMethod]
@@ -171,7 +171,7 @@ namespace Testinvi.Tweetinvi.Streams
 
             // Assert
             Assert.AreEqual(eventsReceived.Count, 1);
-            Assert.AreEqual(eventsReceived[0].User.Id, 41);
+            Assert.AreEqual(eventsReceived[0].Target.Id, 41);
         }
 
         [TestMethod]
@@ -198,7 +198,35 @@ namespace Testinvi.Tweetinvi.Streams
 
             // Assert
             Assert.AreEqual(eventsReceived.Count, 1);
-            Assert.AreEqual(eventsReceived[0].User.Id, 40);
+            Assert.AreEqual(eventsReceived[0].Target.Id, 40);
+        }
+
+        [TestMethod]
+        public void UserMutedRaised_WithTargetUser()
+        {
+            var activityStream = CreateAccountActivityStream();
+
+            var tweetCreatedJson = @"{
+	            ""for_user_id"": ""100"",
+	            ""mute_events"": [{
+                  ""type"": ""mute"",
+                  ""target"" : " + JsonTests.USER_TEST_JSON(41) + @",
+                  ""source"": " + JsonTests.USER_TEST_JSON(ACCOUNT_ACTIVITY_USER_ID) + @"
+	            }]
+            }";
+
+            var eventsReceived = new List<UserMutedEventArgs>();
+            activityStream.UserMuted += (sender, args) =>
+            {
+                eventsReceived.Add(args);
+            };
+
+            // Act
+            activityStream.WebhookMessageReceived(new WebhookMessage(tweetCreatedJson));
+
+            // Assert
+            Assert.AreEqual(eventsReceived.Count, 1);
+            Assert.AreEqual(eventsReceived[0].Target.Id, 41);
         }
     }
 }

@@ -14,21 +14,11 @@ namespace Tweetinvi.Streams.Model
         public ITweetDTO FavouritedTweet { get; set; }
     }
 
-    public class AccountActivityUserFollowedEventDTO
+    public class UserToUserEventDTO
     {
         public string Type { get; set; }
-        public string CreatedTimestamp { get; set; }
 
-        [JsonProperty("source")]
-        public IUserDTO Source { get; set; }
-
-        [JsonProperty("target")]
-        public IUserDTO Target { get; set; }
-    }
-
-    public class AccountActivityUserBlockedEventDTO
-    {
-        public string Type { get; set; }
+        [JsonProperty("created_timestamp")]
         public string CreatedTimestamp { get; set; }
 
         [JsonProperty("source")]
