@@ -45,6 +45,7 @@ namespace Tweetinvi.Streams
             _events.Add("tweet_create_events", TryRaiseTweetCreatedEvents);
             _events.Add("favorite_events", TryRaiseTweetFavouritedEvents);
             _events.Add("follow_events", TryRaiseFollowedEvents);
+            _events.Add("block_events", TryRaiseUserBlockedEvents);
         }
 
         public long UserId { get; set; }
@@ -52,6 +53,7 @@ namespace Tweetinvi.Streams
         public EventHandler<TweetReceivedEventArgs> TweetCreated { get; set; }
         public EventHandler<TweetFavouritedEventArgs> TweetFavourited { get; set; }
         public EventHandler<UserFollowedEventArgs> UserFollowed { get; set; }
+        public EventHandler<UserBlockedEventArgs> UserBlocked { get; set; }
 
 
         public void WebhookMessageReceived(IWebhookMessage message)
@@ -111,6 +113,21 @@ namespace Tweetinvi.Streams
                 var followedUserDTO = source.Id == UserId ? target : source;
                 var followedUser = _userFactory.GenerateUserFromDTO(followedUserDTO);
                 this.Raise(UserFollowed, new UserFollowedEventArgs(followedUser));
+            });
+        }
+
+        private void TryRaiseUserBlockedEvents(JToken userBlockedEvent)
+        {
+            var jsonTweets = userBlockedEvent.ToString();
+            var followedEventDTOs = _jsonObjectConverter.DeserializeObject<AccountActivityUserBlockedEventDTO[]>(jsonTweets);
+
+            followedEventDTOs.ForEach(followedEventDTO =>
+            {
+                var source = followedEventDTO.Source;
+                var target = followedEventDTO.Target;
+                var blockedUserDTO = source.Id == UserId ? target : source;
+                var blockedUser = _userFactory.GenerateUserFromDTO(blockedUserDTO);
+                this.Raise(UserBlocked, new UserBlockedEventArgs(blockedUser));
             });
         }
     }
