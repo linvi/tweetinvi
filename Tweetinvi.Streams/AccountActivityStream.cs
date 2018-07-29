@@ -46,6 +46,7 @@ namespace Tweetinvi.Streams
             _events.Add("favorite_events", TryRaiseTweetFavouritedEvents);
             _events.Add("follow_events", TryRaiseFollowedEvents);
             _events.Add("block_events", TryRaiseUserBlockedEvents);
+            _events.Add("mute_events", TryRaiseUserMutedEvents);
         }
 
         public long UserId { get; set; }
@@ -54,6 +55,7 @@ namespace Tweetinvi.Streams
         public EventHandler<TweetFavouritedEventArgs> TweetFavourited { get; set; }
         public EventHandler<UserFollowedEventArgs> UserFollowed { get; set; }
         public EventHandler<UserBlockedEventArgs> UserBlocked { get; set; }
+        public EventHandler<UserMutedEventArgs> UserMuted { get; set; }
 
 
         public void WebhookMessageReceived(IWebhookMessage message)
@@ -78,8 +80,8 @@ namespace Tweetinvi.Streams
 
         private void TryRaiseTweetCreatedEvents(JToken tweetCreatedEvent)
         {
-            var jsonTweets = tweetCreatedEvent.ToString();
-            var tweetDTOs = _jsonObjectConverter.DeserializeObject<ITweetDTO[]>(jsonTweets);
+            var tweetCreatedEventJson = tweetCreatedEvent.ToString();
+            var tweetDTOs = _jsonObjectConverter.DeserializeObject<ITweetDTO[]>(tweetCreatedEventJson);
 
             tweetDTOs.ForEach(tweetDTO =>
             {
@@ -90,8 +92,8 @@ namespace Tweetinvi.Streams
 
         private void TryRaiseTweetFavouritedEvents(JToken favouriteTweetEvent)
         {
-            var jsonTweets = favouriteTweetEvent.ToString();
-            var favouriteEventDTOs = _jsonObjectConverter.DeserializeObject<AccountActivityFavouriteEventDTO[]>(jsonTweets);
+            var favouritedTweetEventJson = favouriteTweetEvent.ToString();
+            var favouriteEventDTOs = _jsonObjectConverter.DeserializeObject<AccountActivityFavouriteEventDTO[]>(favouritedTweetEventJson);
 
             favouriteEventDTOs.ForEach(favouriteEventDTO =>
             {
@@ -103,32 +105,53 @@ namespace Tweetinvi.Streams
 
         private void TryRaiseFollowedEvents(JToken followEvent)
         {
-            var jsonTweets = followEvent.ToString();
-            var followedEventDTOs = _jsonObjectConverter.DeserializeObject<AccountActivityUserFollowedEventDTO[]>(jsonTweets);
+            var followedUsers = GetEventTargetUsers(followEvent);
 
-            followedEventDTOs.ForEach(followedEventDTO =>
+            followedUsers.ForEach(followedUser =>
             {
-                var source = followedEventDTO.Source;
-                var target = followedEventDTO.Target;
-                var followedUserDTO = source.Id == UserId ? target : source;
-                var followedUser = _userFactory.GenerateUserFromDTO(followedUserDTO);
-                this.Raise(UserFollowed, new UserFollowedEventArgs(followedUser));
+                this.Raise(UserFollowed, new UserFollowedEventArgs(followedUser, UserId));
             });
         }
 
         private void TryRaiseUserBlockedEvents(JToken userBlockedEvent)
         {
-            var jsonTweets = userBlockedEvent.ToString();
-            var followedEventDTOs = _jsonObjectConverter.DeserializeObject<AccountActivityUserBlockedEventDTO[]>(jsonTweets);
+            var blockedUsers = GetEventTargetUsers(userBlockedEvent);
 
-            followedEventDTOs.ForEach(followedEventDTO =>
+            blockedUsers.ForEach(blockedUser =>
             {
-                var source = followedEventDTO.Source;
-                var target = followedEventDTO.Target;
-                var blockedUserDTO = source.Id == UserId ? target : source;
-                var blockedUser = _userFactory.GenerateUserFromDTO(blockedUserDTO);
-                this.Raise(UserBlocked, new UserBlockedEventArgs(blockedUser));
+                this.Raise(UserBlocked, new UserBlockedEventArgs(blockedUser, UserId));
             });
+        }
+
+        private void TryRaiseUserMutedEvents(JToken userMutedEvent)
+        {
+            var mutedUsers = GetEventTargetUsers(userMutedEvent);
+
+            mutedUsers.ForEach(mutedUser =>
+            {
+                this.Raise(UserMuted, new UserMutedEventArgs(mutedUser, UserId));
+            });
+        }
+
+        private IUser[] GetEventTargetUsers(JToken userToUserEvent)
+        {
+            var userToUserEventJson = userToUserEvent.ToString();
+            var userToUserEventDTO = _jsonObjectConverter.DeserializeObject<UserToUserEventDTO[]>(userToUserEventJson);
+            var mutedUsers = GetTargetUsersFromUserToUserEvent(userToUserEventDTO);
+            return mutedUsers;
+        }
+
+        private IUser[] GetTargetUsersFromUserToUserEvent(UserToUserEventDTO[] userToUserEvents)
+        {
+            return userToUserEvents.Select(x =>
+            {
+                var source = x.Source;
+                var target = x.Target;
+
+                var targetUserDTO = source.Id == UserId ? target : source;
+                var targetUser = _userFactory.GenerateUserFromDTO(targetUserDTO);
+                return targetUser;
+            }).ToArray();
         }
     }
 }
