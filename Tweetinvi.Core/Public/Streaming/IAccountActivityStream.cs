@@ -11,6 +11,7 @@ namespace Tweetinvi.Core.Public.Streaming
         EventHandler<TweetReceivedEventArgs> TweetCreated { get; set; }
         EventHandler<TweetFavouritedEventArgs> TweetFavourited { get; set; }
         EventHandler<UserFollowedEventArgs> UserFollowed { get; set; }
+        EventHandler<UserBlockedEventArgs> UserBlocked { get; set; }
 
         void WebhookMessageReceived(IWebhookMessage message);
     }
