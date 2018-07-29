@@ -4,7 +4,7 @@ using Tweetinvi.Core.Public.Models.Interfaces.DTO.Webhooks;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
 
-namespace Tweetinvi.Webhooks.Plugin.Models
+namespace Tweetinvi.ASPNETPlugins.Models
 {
     public interface IRegistrableWebhookEnvironment
     {

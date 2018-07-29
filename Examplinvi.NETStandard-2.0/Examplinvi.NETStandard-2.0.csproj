@@ -7,7 +7,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Tweetinvi.Core\Tweetinvi.Core.csproj" />
-    <ProjectReference Include="..\Tweetinvi.Webhooks.Plugin\Tweetinvi.Webhooks.Plugin.csproj" />
     <ProjectReference Include="..\Tweetinvi\Tweetinvi.csproj" />
   </ItemGroup>
 

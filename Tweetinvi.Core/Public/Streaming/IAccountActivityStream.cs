@@ -6,7 +6,7 @@ namespace Tweetinvi.Core.Public.Streaming
 {
     public interface IAccountActivityStream
     {
-        long UserId { get; }
+        long UserId { get; set; }
 
         EventHandler<TweetReceivedEventArgs> TweetCreated { get; set; }
         EventHandler<TweetFavouritedEventArgs> TweetFavourited { get; set; }
