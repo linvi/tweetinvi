@@ -1,7 +1,7 @@
 ﻿using Tweetinvi.Core.Public.Models.Interfaces.DTO.Webhooks;
 using Tweetinvi.Models.DTO;
 
-namespace Tweetinvi.Core.Core.Controllers
+namespace Tweetinvi.Core.Controllers
 {
     public interface IWebhookController
     {

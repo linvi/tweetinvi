@@ -1,15 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using Tweetinvi.ASPNETPlugins.Models;
 using Tweetinvi.Core.Public.Streaming;
+using Tweetinvi.Core.Public.Streaming.Webhooks;
 using Tweetinvi.Models;
-using Tweetinvi.Webhooks.Plugin.Models;
 
-namespace Tweetinvi.WebLogic.Webhooks
+namespace Tweetinvi.ASPNETPlugins
 {
     public interface ITweetinviWebhookConfiguration
     {
         IRegistrableWebhookEnvironment[] RegisteredWebhookEnvironments { get; }
         IAccountActivityStream[] RegisteredActivityStreams { get; }
+        IWebhookDispatcher WebhookDispatcher { get; }
 
         void AddWebhookEnvironment(IRegistrableWebhookEnvironment environment);
         void RemoveWebhookEnvironment(IRegistrableWebhookEnvironment environment);
@@ -27,12 +29,16 @@ namespace Tweetinvi.WebLogic.Webhooks
         {
             _userAccountActivityStreams = new List<IAccountActivityStream>();
             _webhookEnvironments = new List<IRegistrableWebhookEnvironment>();
+
+            WebhookDispatcher = TweetinviContainer.Resolve<IWebhookDispatcher>();
         }
 
         public TweetinviWebhookConfiguration(IConsumerCredentials consumerCredentials) : this()
         {
             _consumerCredentials = consumerCredentials;
         }
+
+        public IWebhookDispatcher WebhookDispatcher { get; }
 
         public IRegistrableWebhookEnvironment[] RegisteredWebhookEnvironments
         {
@@ -71,27 +77,12 @@ namespace Tweetinvi.WebLogic.Webhooks
 
         public void AddActivityStream(IAccountActivityStream accountActivityStream)
         {
-            if (accountActivityStream == null)
-            {
-                throw new ArgumentNullException(nameof(accountActivityStream));
-            }
-
-            if (_userAccountActivityStreams.Contains(accountActivityStream))
-            {
-                return;
-            }
-
-            _userAccountActivityStreams.Add(accountActivityStream);
+            WebhookDispatcher.SubscribeAccountActivityStream(accountActivityStream);
         }
 
         public void RemoveActivityStream(IAccountActivityStream accountActivityStream)
         {
-            if (accountActivityStream == null)
-            {
-                throw new ArgumentNullException(nameof(accountActivityStream));
-            }
-
-            _userAccountActivityStreams.Remove(accountActivityStream);
+            WebhookDispatcher.UnsubscribeAccountActivityStream(accountActivityStream);
         }
     }
 }

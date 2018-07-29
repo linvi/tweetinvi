@@ -2,6 +2,7 @@
 using Tweetinvi.Core;
 using Tweetinvi.Core.Credentials;
 using Tweetinvi.Core.Injectinvi;
+using Tweetinvi.Core.Public.Streaming;
 using Tweetinvi.Core.Streaming;
 using Tweetinvi.Models;
 using Tweetinvi.Streaming;
@@ -18,6 +19,7 @@ namespace Tweetinvi
         private static readonly IFactory<ISampleStream> _sampleStreamUnityFactory;
         private static readonly IFactory<ITrackedStream> _trackedStreamUnityFactory;
         private static readonly IFactory<IFilteredStream> _filteredStreamUnityFactory;
+        private static readonly IFactory<IAccountActivityStream> _accountActivityStreamFactory;
 
         [ThreadStatic]
         private static ICredentialsAccessor _credentialsAccessor;
@@ -56,6 +58,7 @@ namespace Tweetinvi
             _sampleStreamUnityFactory = TweetinviContainer.Resolve<IFactory<ISampleStream>>();
             _trackedStreamUnityFactory = TweetinviContainer.Resolve<IFactory<ITrackedStream>>();
             _filteredStreamUnityFactory = TweetinviContainer.Resolve<IFactory<IFilteredStream>>();
+            _accountActivityStreamFactory = TweetinviContainer.Resolve<IFactory<IAccountActivityStream>>();
         }
 
         /// <summary>
@@ -107,6 +110,25 @@ namespace Tweetinvi
             stream.TweetMode = tweetMode ?? ThreadSettingsAccessor.CurrentThreadSettings.TweetMode;
 
             return stream;
+        }
+
+        /// <summary>
+        /// Create a stream notifying the client about everything that can happen to a user.
+        /// </summary>
+        public static IAccountActivityStream CreateAccountActivityStream(long userId)
+        {
+            var stream = _accountActivityStreamFactory.Create();
+
+            stream.UserId = userId;
+
+            return stream;
+        }
+
+        public static IAccountActivityStream CreateAccountActivityStream(string userId)
+        {
+            var longUserId = long.Parse(userId);
+
+            return CreateAccountActivityStream(longUserId);
         }
     }
 }

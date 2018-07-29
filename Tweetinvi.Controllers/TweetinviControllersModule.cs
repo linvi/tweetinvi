@@ -13,7 +13,6 @@ using Tweetinvi.Controllers.TwitterLists;
 using Tweetinvi.Controllers.Upload;
 using Tweetinvi.Controllers.User;
 using Tweetinvi.Core.Controllers;
-using Tweetinvi.Core.Core.Controllers;
 using Tweetinvi.Core.Injectinvi;
 using Tweetinvi.Core.QueryGenerators;
 using Tweetinvi.Core.QueryValidators;

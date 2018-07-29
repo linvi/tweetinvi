@@ -3,8 +3,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
 using Tweetinvi;
-using Tweetinvi.Webhooks.Plugin;
-using Tweetinvi.WebLogic.Webhooks;
+using Tweetinvi.ASPNETPlugins;
 
 namespace Examplinvi.ASP.NET.Core
 {

@@ -1,16 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Security.Cryptography;
-using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using Tweetinvi.Core.Extensions;
 using Tweetinvi.Models;
-using Tweetinvi.Models.DTO;
-using Tweetinvi.Webhooks.Plugin.Models;
 
-namespace Tweetinvi.Webhooks.Plugin
+namespace Tweetinvi.ASPNETPlugins
 {
     public interface ITweetinviWebhooksRoutes
     {

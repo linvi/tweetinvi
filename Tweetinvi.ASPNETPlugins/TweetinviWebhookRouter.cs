@@ -8,9 +8,8 @@ using Microsoft.AspNetCore.Http.Internal;
 using Tweetinvi.Core.Public.Streaming.Webhooks;
 using Tweetinvi.Models.DTO;
 using Tweetinvi.Models.Webhooks;
-using Tweetinvi.WebLogic.Webhooks;
 
-namespace Tweetinvi.Webhooks.Plugin
+namespace Tweetinvi.ASPNETPlugins
 {
     public interface ITweetinviWebhookRouter
     {

@@ -1,6 +1,6 @@
 ﻿using Tweetinvi.Core.Injectinvi;
 
-namespace Tweetinvi.Webhooks.Plugin
+namespace Tweetinvi.ASPNETPlugins
 {
     public class WebhooksModule : ITweetinviModule
     {

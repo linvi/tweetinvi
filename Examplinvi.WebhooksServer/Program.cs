@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 
-namespace Tweetinvi.Webhooks
+namespace Examplinvi.WebhooksServer
 {
     public class Program
     {
