@@ -1,6 +1,8 @@
 ﻿using Tweetinvi.Core.Controllers;
 using Tweetinvi.Core.Credentials;
+using Tweetinvi.Core.Extensions;
 using Tweetinvi.Core.Helpers;
+using Tweetinvi.Core.Public.Models.Authentication;
 using Tweetinvi.Core.Public.Models.Interfaces.DTO.Webhooks;
 using Tweetinvi.Core.Web;
 using Tweetinvi.Models;
@@ -33,12 +35,17 @@ namespace Tweetinvi.Webhooks
             return result;
         }
 
-        public IGetAllWebhooksResultDTO GetAllWebhooks()
+        public IWebhookEnvironmentDTO[] GetAllWebhooks(IConsumerCredentials consumerCredentials)
         {
             var result = _twitterAccessor.ExecuteGETQuery<IGetAllWebhooksResultDTO>(
                 $"https://api.twitter.com/1.1/account_activity/all/webhooks.json");
 
-            return result;
+            result?.Environments?.ForEach(environment =>
+            {
+                environment.ConsumerCredentials = consumerCredentials;
+            });
+
+            return result?.Environments;
         }
 
         public bool ChallengeWebhook(string webhookEnvironmentName, string webhookId)
@@ -81,11 +88,11 @@ namespace Tweetinvi.Webhooks
             return result.StatusCode == 204;
         }
 
-        public IWebhookSubcriptionListDTO GetListOfSubscriptions(string webhookEnvironmentName)
+        public IWebhookSubcriptionListDTO GetListOfSubscriptions(string webhookEnvironmentName, IConsumerOnlyCredentials credentials)
         {
             var query = $"https://api.twitter.com/1.1/account_activity/all/{webhookEnvironmentName}/subscriptions/list.json";
 
-            var result = _twitterAccessor.ExecuteConsumerQuery(query, HttpMethod.POST, null, _credentialsAccessor.CurrentThreadCredentials);
+            var result = _twitterAccessor.ExecuteConsumerQuery(query, HttpMethod.GET, null, credentials);
 
             return _jsonObjectConverter.DeserializeObject<IWebhookSubcriptionListDTO>(result.Text);
         }

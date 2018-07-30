@@ -1,6 +1,8 @@
 ﻿using System;
 using Tweetinvi.Core.Controllers;
+using Tweetinvi.Core.Public.Models.Authentication;
 using Tweetinvi.Core.Public.Models.Interfaces.DTO.Webhooks;
+using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
 
 namespace Tweetinvi
@@ -41,9 +43,9 @@ namespace Tweetinvi
             return WebhookController.RegisterWebhook(webhookEnvironmentName, url);
         }
 
-        public static IGetAllWebhooksResultDTO GetAllWebhookEnvironments()
+        public static IWebhookEnvironmentDTO[] GetAllWebhookEnvironments(IConsumerCredentials consumerCredentials)
         {
-            return WebhookController.GetAllWebhooks();
+            return WebhookController.GetAllWebhooks(consumerCredentials);
         }
 
         public static bool ChallengeWebhook(string webhookEnvironmentName, string webhookId)
@@ -66,9 +68,9 @@ namespace Tweetinvi
             return WebhookController.DoesAuthenticatedHaveASubscription(webhookEnvironmentName);
         }
 
-        public static IWebhookSubcriptionListDTO GetListOfSubscriptions(string webhookEnvironmentName)
+        public static IWebhookSubcriptionListDTO GetListOfSubscriptions(string webhookEnvironmentName, IConsumerOnlyCredentials credentials)
         {
-            return WebhookController.GetListOfSubscriptions(webhookEnvironmentName);
+            return WebhookController.GetListOfSubscriptions(webhookEnvironmentName, credentials);
         }
 
         public static bool RemoveWebhook(string webhookEnvironmentName, string webhookId)

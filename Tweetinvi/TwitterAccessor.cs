@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Net.Http;
 using Newtonsoft.Json.Linq;
+using Tweetinvi.Core.Public.Models.Authentication;
 using Tweetinvi.Core.Web;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO.QueryDTO;
@@ -223,7 +224,7 @@ namespace Tweetinvi
             return Accessor.ExecuteQuery(query, method);
         }
 
-        public static IWebRequestResult ExecuteConsumerQuery(string query, HttpMethod method, IConsumerCredentials credentials)
+        public static IWebRequestResult ExecuteConsumerQuery(string query, HttpMethod method, IConsumerOnlyCredentials credentials)
         {
             return Accessor.ExecuteConsumerQuery(query, method, null, credentials);
         }
