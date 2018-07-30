@@ -6,6 +6,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Tweetinvi.Core.Exceptions;
 using Tweetinvi.Core.Helpers;
+using Tweetinvi.Core.Public.Models.Authentication;
 using Tweetinvi.Core.Public.Parameters;
 using Tweetinvi.Core.Web;
 using Tweetinvi.Core.Wrappers;
@@ -385,7 +386,6 @@ namespace Tweetinvi.Credentials
 
         private bool CanCursorQueryContinue<T>(T cursorResult) where T : class, IBaseCursorQueryDTO
         {
-
             if (cursorResult == null)
             {
                 return false;
@@ -497,10 +497,19 @@ namespace Tweetinvi.Credentials
             return _twitterRequestHandler.ExecuteQuery(query, method, httpContent: httpContent, credentials: credentials);
         }
 
-        public IWebRequestResult ExecuteConsumerQuery(string query, HttpMethod method, HttpContent httpContent, IConsumerCredentials credentials)
+        // Consumer Credentials
+        public IWebRequestResult ExecuteConsumerQuery(string query, HttpMethod method, HttpContent httpContent, IConsumerOnlyCredentials credentials)
         {
             return ExecuteQuery(query, method, httpContent, new TwitterCredentials(credentials));
         }
+
+        public T ExecuteConsumerQuery<T>(string query, HttpMethod method, HttpContent httpContent, IConsumerOnlyCredentials credentials) where T : class
+        {
+            var webRequestResult = ExecuteConsumerQuery(query, method, httpContent, credentials);
+            var jsonResponse = webRequestResult.Text;
+            return _jsonObjectConverter.DeserializeObject<T>(jsonResponse);
+        }
+
 
         private bool TryExecuteMultipartQuery(IMultipartHttpRequestParameters parameters, out string result)
         {

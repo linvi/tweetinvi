@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using Tweetinvi.Core.Public.Models.Interfaces.DTO.Webhooks;
+using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
 
 namespace Tweetinvi.Logic.DTO
@@ -10,5 +11,8 @@ namespace Tweetinvi.Logic.DTO
         public string Name { get; set; }
 
         public IWebhookDTO[] Webhooks { get; set; }
+
+        [JsonIgnore]
+        public IConsumerCredentials ConsumerCredentials { get; set; }
     }
 }

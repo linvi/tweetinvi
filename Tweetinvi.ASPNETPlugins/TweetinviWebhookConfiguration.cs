@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Tweetinvi.ASPNETPlugins.Models;
+using Tweetinvi.Core.Public.Models.Authentication;
 using Tweetinvi.Core.Public.Streaming;
 using Tweetinvi.Core.Public.Streaming.Webhooks;
 using Tweetinvi.Models;
@@ -21,19 +22,17 @@ namespace Tweetinvi.ASPNETPlugins
 
     public class TweetinviWebhookConfiguration : ITweetinviWebhookConfiguration
     {
-        private readonly IConsumerCredentials _consumerCredentials;
-        private List<IAccountActivityStream> _userAccountActivityStreams;
+        private readonly IConsumerOnlyCredentials _consumerCredentials;
         private List<IRegistrableWebhookEnvironment> _webhookEnvironments;
 
         public TweetinviWebhookConfiguration()
         {
-            _userAccountActivityStreams = new List<IAccountActivityStream>();
             _webhookEnvironments = new List<IRegistrableWebhookEnvironment>();
 
             WebhookDispatcher = TweetinviContainer.Resolve<IWebhookDispatcher>();
         }
 
-        public TweetinviWebhookConfiguration(IConsumerCredentials consumerCredentials) : this()
+        public TweetinviWebhookConfiguration(IConsumerOnlyCredentials consumerCredentials) : this()
         {
             _consumerCredentials = consumerCredentials;
         }
@@ -47,7 +46,7 @@ namespace Tweetinvi.ASPNETPlugins
 
         public IAccountActivityStream[] RegisteredActivityStreams
         {
-            get { return _userAccountActivityStreams.ToArray(); }
+            get { return WebhookDispatcher.SubscribedAccountActivityStreams; }
         }
 
         public void AddWebhookEnvironment(IRegistrableWebhookEnvironment environment)

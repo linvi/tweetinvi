@@ -1,4 +1,5 @@
-﻿using Tweetinvi.Models.DTO;
+﻿using Tweetinvi.Models;
+using Tweetinvi.Models.DTO;
 
 namespace Tweetinvi.Core.Public.Models.Interfaces.DTO.Webhooks
 {
@@ -7,5 +8,6 @@ namespace Tweetinvi.Core.Public.Models.Interfaces.DTO.Webhooks
 
         string Name { get; set; }
         IWebhookDTO[] Webhooks { get; set; }
+        IConsumerCredentials ConsumerCredentials { get; set; }
     }
 }

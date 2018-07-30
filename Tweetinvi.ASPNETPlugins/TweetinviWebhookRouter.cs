@@ -34,8 +34,7 @@ namespace Tweetinvi.ASPNETPlugins
         {
             return configuration.RegisteredWebhookEnvironments.SelectMany(x => x.Webhooks).Where(webhook =>
                 {
-                    var path = new Uri(webhook.Url);
-                    return request.Path.ToString().StartsWith(webhook.Url);
+                    return webhook.Url.EndsWith(request.Path.ToString());
                 });
         }
 
