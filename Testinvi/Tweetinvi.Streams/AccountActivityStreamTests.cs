@@ -44,7 +44,7 @@ namespace Testinvi.Tweetinvi.Streams
         {
             var activityStream = CreateAccountActivityStream();
             
-            var tweetCreatedJson = @"{
+            var json = @"{
 	            ""for_user_id"": ""100"",
 	            ""tweet_create_events"": [
 	              " + JsonTests.TWEET_TEST_JSON + @"
@@ -58,7 +58,7 @@ namespace Testinvi.Tweetinvi.Streams
             };
 
             // Act
-            activityStream.WebhookMessageReceived(new WebhookMessage(tweetCreatedJson));
+            activityStream.WebhookMessageReceived(new WebhookMessage(json));
 
             // Assert
             Assert.AreEqual(eventsReceived.Count, 1);
@@ -98,7 +98,7 @@ namespace Testinvi.Tweetinvi.Streams
         {
             var activityStream = CreateAccountActivityStream();
 
-            var tweetCreatedJson = @"{
+            var json = @"{
 	            ""for_user_id"": ""100"",
 	            ""follow_events"": [{
                   ""target"" : " + JsonTests.USER_TEST_JSON(41) + @",
@@ -113,7 +113,7 @@ namespace Testinvi.Tweetinvi.Streams
             };
 
             // Act
-            activityStream.WebhookMessageReceived(new WebhookMessage(tweetCreatedJson));
+            activityStream.WebhookMessageReceived(new WebhookMessage(json));
 
             // Assert
             Assert.AreEqual(eventsReceived.Count, 1);
@@ -125,7 +125,7 @@ namespace Testinvi.Tweetinvi.Streams
         {
             var activityStream = CreateAccountActivityStream();
 
-            var tweetCreatedJson = @"{
+            var json = @"{
 	            ""for_user_id"": ""100"",
 	            ""follow_events"": [{
                   ""target"" : " + JsonTests.USER_TEST_JSON(ACCOUNT_ACTIVITY_USER_ID) + @",
@@ -140,7 +140,7 @@ namespace Testinvi.Tweetinvi.Streams
             };
 
             // Act
-            activityStream.WebhookMessageReceived(new WebhookMessage(tweetCreatedJson));
+            activityStream.WebhookMessageReceived(new WebhookMessage(json));
 
             // Assert
             Assert.AreEqual(eventsReceived.Count, 1);
@@ -152,7 +152,7 @@ namespace Testinvi.Tweetinvi.Streams
         {
             var activityStream = CreateAccountActivityStream();
 
-            var tweetCreatedJson = @"{
+            var json = @"{
 	            ""for_user_id"": ""100"",
 	            ""block_events"": [{
                   ""target"" : " + JsonTests.USER_TEST_JSON(41) + @",
@@ -167,7 +167,7 @@ namespace Testinvi.Tweetinvi.Streams
             };
 
             // Act
-            activityStream.WebhookMessageReceived(new WebhookMessage(tweetCreatedJson));
+            activityStream.WebhookMessageReceived(new WebhookMessage(json));
 
             // Assert
             Assert.AreEqual(eventsReceived.Count, 1);
@@ -179,7 +179,7 @@ namespace Testinvi.Tweetinvi.Streams
         {
             var activityStream = CreateAccountActivityStream();
 
-            var tweetCreatedJson = @"{
+            var json = @"{
 	            ""for_user_id"": ""100"",
 	            ""block_events"": [{
                   ""target"" : " + JsonTests.USER_TEST_JSON(ACCOUNT_ACTIVITY_USER_ID) + @",
@@ -194,7 +194,7 @@ namespace Testinvi.Tweetinvi.Streams
             };
 
             // Act
-            activityStream.WebhookMessageReceived(new WebhookMessage(tweetCreatedJson));
+            activityStream.WebhookMessageReceived(new WebhookMessage(json));
 
             // Assert
             Assert.AreEqual(eventsReceived.Count, 1);
@@ -206,7 +206,7 @@ namespace Testinvi.Tweetinvi.Streams
         {
             var activityStream = CreateAccountActivityStream();
 
-            var tweetCreatedJson = @"{
+            var json = @"{
 	            ""for_user_id"": ""100"",
 	            ""mute_events"": [{
                   ""type"": ""mute"",
@@ -222,11 +222,73 @@ namespace Testinvi.Tweetinvi.Streams
             };
 
             // Act
-            activityStream.WebhookMessageReceived(new WebhookMessage(tweetCreatedJson));
+            activityStream.WebhookMessageReceived(new WebhookMessage(json));
 
             // Assert
             Assert.AreEqual(eventsReceived.Count, 1);
             Assert.AreEqual(eventsReceived[0].Target.Id, 41);
+        }
+
+        [TestMethod]
+        public void UserMutedRaised_WithSourceUser()
+        {
+            var activityStream = CreateAccountActivityStream();
+
+            var json = @"{
+	            ""for_user_id"": ""100"",
+	            ""mute_events"": [{
+                  ""type"": ""mute"",
+                  ""target"" : " + JsonTests.USER_TEST_JSON(ACCOUNT_ACTIVITY_USER_ID) + @",
+                  ""source"": " + JsonTests.USER_TEST_JSON(41) + @"
+	            }]
+            }";
+
+            var eventsReceived = new List<UserMutedEventArgs>();
+            activityStream.UserMuted += (sender, args) =>
+            {
+                eventsReceived.Add(args);
+            };
+
+            // Act
+            activityStream.WebhookMessageReceived(new WebhookMessage(json));
+
+            // Assert
+            Assert.AreEqual(eventsReceived.Count, 1);
+            Assert.AreEqual(eventsReceived[0].Target.Id, 41);
+        }
+
+        [TestMethod]
+        public void UserRevokedAppPermissions_WithTargetUser()
+        {
+            var activityStream = CreateAccountActivityStream();
+
+            var json = @"{
+	            ""user_event"": {
+		            ""revoke"": {
+			            ""date_time"": ""2018-05-24T09:48:12+00:00"",
+			            ""target"": {
+				            ""app_id"": ""13090192""
+			            },
+			            ""source"": {
+				            ""user_id"": ""63046977""
+			            }
+		            }
+	            }
+            }";
+
+            var eventsReceived = new List<UserRevokedAppPermissionsEventArgs>();
+            activityStream.UserRevokedAppPermissions += (sender, args) =>
+            {
+                eventsReceived.Add(args);
+            };
+
+            // Act
+            activityStream.WebhookMessageReceived(new WebhookMessage(json));
+
+            // Assert
+            Assert.AreEqual(eventsReceived.Count, 1);
+            Assert.AreEqual(eventsReceived[0].UserRevokedAppPermissions.Target.AppId, "13090192");
+            Assert.AreEqual(eventsReceived[0].UserRevokedAppPermissions.Source.UserId, "63046977");
         }
     }
 }

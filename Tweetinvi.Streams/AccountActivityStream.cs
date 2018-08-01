@@ -3,15 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json.Linq;
 using Tweetinvi.Core.Events;
+using Tweetinvi.Core.Exceptions;
 using Tweetinvi.Core.Extensions;
 using Tweetinvi.Core.Factories;
 using Tweetinvi.Core.Helpers;
 using Tweetinvi.Core.Public.Streaming;
+using Tweetinvi.Core.Public.Streaming.Events;
 using Tweetinvi.Core.Wrappers;
 using Tweetinvi.Events;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
 using Tweetinvi.Models.Webhooks;
+using Tweetinvi.Streaming.Events;
 using Tweetinvi.Streams.Model;
 
 namespace Tweetinvi.Streams
@@ -21,6 +24,7 @@ namespace Tweetinvi.Streams
         private readonly IJObjectStaticWrapper _jObjectWrapper;
         private readonly IJsonObjectConverter _jsonObjectConverter;
         private readonly ITweetFactory _tweetFactory;
+        private readonly IExceptionHandler _exceptionHandler;
         private readonly IUserFactory _userFactory;
         private readonly ITwitterCredentials _credentials;
         private readonly Dictionary<string, Action<JToken>> _events;
@@ -29,11 +33,13 @@ namespace Tweetinvi.Streams
             IJObjectStaticWrapper jObjectWrapper,
             IJsonObjectConverter jsonObjectConverter,
             ITweetFactory tweetFactory,
+            IExceptionHandler exceptionHandler,
             IUserFactory userFactory)
         {
             _jObjectWrapper = jObjectWrapper;
             _jsonObjectConverter = jsonObjectConverter;
             _tweetFactory = tweetFactory;
+            _exceptionHandler = exceptionHandler;
             _userFactory = userFactory;
             _events = new Dictionary<string, Action<JToken>>();
 
@@ -47,7 +53,10 @@ namespace Tweetinvi.Streams
             _events.Add("follow_events", TryRaiseFollowedEvents);
             _events.Add("block_events", TryRaiseUserBlockedEvents);
             _events.Add("mute_events", TryRaiseUserMutedEvents);
+            _events.Add("user_event", TryRaiseUserEvent);
         }
+
+        
 
         public long UserId { get; set; }
 
@@ -56,6 +65,7 @@ namespace Tweetinvi.Streams
         public EventHandler<UserFollowedEventArgs> UserFollowed { get; set; }
         public EventHandler<UserBlockedEventArgs> UserBlocked { get; set; }
         public EventHandler<UserMutedEventArgs> UserMuted { get; set; }
+        public EventHandler<UserRevokedAppPermissionsEventArgs> UserRevokedAppPermissions { get; set; }
 
 
         public void WebhookMessageReceived(IWebhookMessage message)
@@ -133,11 +143,33 @@ namespace Tweetinvi.Streams
             });
         }
 
+        private void TryRaiseUserEvent(JToken userEvent)
+        {
+            var eventType = userEvent.Children().First().Path;
+
+            if (eventType == "user_event.revoke")
+            {
+                var json = userEvent["revoke"].ToString();
+                var userRevokedAppEventDTO = _jsonObjectConverter.DeserializeObject<IUserRevokedAppPermissionsDTO>(json);
+                var userRevokedAppEventArgs = new UserRevokedAppPermissionsEventArgs(userRevokedAppEventDTO);
+
+                this.Raise(UserRevokedAppPermissions, userRevokedAppEventArgs);
+            }
+            else
+            {
+                if (!_exceptionHandler.SwallowWebExceptions)
+                {
+                    throw new ArgumentException($"user_event received of type {eventType} is not supported.");
+                }
+            }
+        }
+
         private IUser[] GetEventTargetUsers(JToken userToUserEvent)
         {
             var userToUserEventJson = userToUserEvent.ToString();
             var userToUserEventDTO = _jsonObjectConverter.DeserializeObject<UserToUserEventDTO[]>(userToUserEventJson);
             var mutedUsers = GetTargetUsersFromUserToUserEvent(userToUserEventDTO);
+
             return mutedUsers;
         }
 
