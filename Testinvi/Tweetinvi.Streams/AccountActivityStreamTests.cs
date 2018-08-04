@@ -67,6 +67,40 @@ namespace Testinvi.Tweetinvi.Streams
         }
 
         [TestMethod]
+        public void TweetDeletedRaised()
+        {
+            var activityStream = CreateAccountActivityStream();
+
+            var json = @"{
+                ""for_user_id"": ""3198576760"",
+                ""tweet_delete_events"": [
+            {
+                    ""status"": {
+                        ""id"": ""601430178305220608"",
+                        ""user_id"": ""3198576760""
+                    },
+                    ""timestamp_ms"": ""1432228155593""
+                }
+               ]
+            }";
+
+            var eventsReceived = new List<TweetDeletedEventArgs>();
+            activityStream.TweetDeleted += (sender, args) =>
+            {
+                eventsReceived.Add(args);
+            };
+
+            // Act
+            activityStream.WebhookMessageReceived(new WebhookMessage(json));
+
+            // Assert
+            Assert.AreEqual(eventsReceived.Count, 1);
+            Assert.AreEqual(eventsReceived[0].UserId, 3198576760);
+            Assert.AreEqual(eventsReceived[0].TweetId, 601430178305220608);
+            Assert.AreEqual(eventsReceived[0].Timestamp, 1432228155593);
+        }
+
+        [TestMethod]
         public void FavouriteTweetRaised()
         {
             var activityStream = CreateAccountActivityStream();
