@@ -11,6 +11,8 @@ using Tweetinvi.Core.Public.Streaming;
 using Tweetinvi.Core.Public.Streaming.Events;
 using Tweetinvi.Core.Wrappers;
 using Tweetinvi.Events;
+using Tweetinvi.Logic.DTO;
+using Tweetinvi.Logic.DTO.ActivityStream;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
 using Tweetinvi.Models.Webhooks;
@@ -27,7 +29,7 @@ namespace Tweetinvi.Streams
         private readonly IUserFactory _userFactory;
         private readonly IMessageFactory _messageFactory;
         private readonly ITwitterCredentials _credentials;
-        private readonly Dictionary<string, Action<JToken>> _events;
+        private readonly Dictionary<string, Action<string, JObject>> _events;
 
         public AccountActivityStream(
             IExceptionHandler exceptionHandler,
@@ -43,7 +45,7 @@ namespace Tweetinvi.Streams
             _exceptionHandler = exceptionHandler;
             _userFactory = userFactory;
             _messageFactory = messageFactory;
-            _events = new Dictionary<string, Action<JToken>>();
+            _events = new Dictionary<string, Action<string, JObject>>();
 
             InitializeEvents();
         }
@@ -57,6 +59,7 @@ namespace Tweetinvi.Streams
             _events.Add("mute_events", TryRaiseUserMutedEvents);
             _events.Add("user_event", TryRaiseUserEvent);
             _events.Add("direct_message_events", TryRaiseMessageEvent);
+            _events.Add("direct_message_indicate_typing_events", TryRaiseIndicateUserIsTypingMessage);
         }
 
         public long UserId { get; set; }
@@ -69,6 +72,7 @@ namespace Tweetinvi.Streams
         public EventHandler<UserRevokedAppPermissionsEventArgs> UserRevokedAppPermissions { get; set; }
         public EventHandler<MessageEventArgs> MessageReceived { get; set; }
         public EventHandler<MessageEventArgs> MessageSent { get; set; }
+        public EventHandler<UserIsTypingMessageEventArgs> UserIsTypingMessage { get; set; }
 
         public EventHandler<UnmanagedMessageReceivedEventArgs> UnmanagedEventReceived { get; set; }
         public EventHandler<JsonObjectEventArgs> JsonObjectReceived { get; set; }
@@ -93,7 +97,7 @@ namespace Tweetinvi.Streams
             var eventName = key.Path;
             if (_events.ContainsKey(eventName))
             {
-                _events[eventName].Invoke(jsonObjectEvent[eventName]);
+                _events[eventName].Invoke(eventName, jsonObjectEvent);
             }
             else
             {
@@ -101,8 +105,9 @@ namespace Tweetinvi.Streams
             }
         }
 
-        private void TryRaiseTweetCreatedEvents(JToken tweetCreatedEvent)
+        private void TryRaiseTweetCreatedEvents(string eventName, JObject jsonObjectEvent)
         {
+            var tweetCreatedEvent = jsonObjectEvent[eventName];
             var tweetCreatedEventJson = tweetCreatedEvent.ToString();
             var tweetDTOs = _jsonObjectConverter.DeserializeObject<ITweetDTO[]>(tweetCreatedEventJson);
 
@@ -113,8 +118,9 @@ namespace Tweetinvi.Streams
             });
         }
 
-        private void TryRaiseTweetFavouritedEvents(JToken favouriteTweetEvent)
+        private void TryRaiseTweetFavouritedEvents(string eventName, JObject jsonObjectEvent)
         {
+            var favouriteTweetEvent = jsonObjectEvent[eventName];
             var favouritedTweetEventJson = favouriteTweetEvent.ToString();
             var favouriteEventDTOs = _jsonObjectConverter.DeserializeObject<AccountActivityFavouriteEventDTO[]>(favouritedTweetEventJson);
 
@@ -126,8 +132,9 @@ namespace Tweetinvi.Streams
             });
         }
 
-        private void TryRaiseFollowedEvents(JToken followEvent)
+        private void TryRaiseFollowedEvents(string eventName, JObject jsonObjectEvent)
         {
+            var followEvent = jsonObjectEvent[eventName];
             var followedUsers = GetEventTargetUsers(followEvent);
 
             followedUsers.ForEach(followedUser =>
@@ -136,8 +143,9 @@ namespace Tweetinvi.Streams
             });
         }
 
-        private void TryRaiseUserBlockedEvents(JToken userBlockedEvent)
+        private void TryRaiseUserBlockedEvents(string eventName, JObject jsonObjectEvent)
         {
+            var userBlockedEvent = jsonObjectEvent[eventName];
             var blockedUsers = GetEventTargetUsers(userBlockedEvent);
 
             blockedUsers.ForEach(blockedUser =>
@@ -146,8 +154,9 @@ namespace Tweetinvi.Streams
             });
         }
 
-        private void TryRaiseUserMutedEvents(JToken userMutedEvent)
+        private void TryRaiseUserMutedEvents(string eventName, JObject jsonObjectEvent)
         {
+            var userMutedEvent = jsonObjectEvent[eventName];
             var mutedUsers = GetEventTargetUsers(userMutedEvent);
 
             mutedUsers.ForEach(mutedUser =>
@@ -156,8 +165,9 @@ namespace Tweetinvi.Streams
             });
         }
 
-        private void TryRaiseUserEvent(JToken userEvent)
+        private void TryRaiseUserEvent(string eventName, JObject jsonObjectEvent)
         {
+            var userEvent = jsonObjectEvent[eventName];
             var eventType = userEvent.Children().First().Path;
 
             if (eventType == "user_event.revoke")
@@ -177,8 +187,9 @@ namespace Tweetinvi.Streams
             }
         }
 
-        private void TryRaiseMessageEvent(JToken messageEvent)
+        private void TryRaiseMessageEvent(string eventName, JObject jsonObjectEvent)
         {
+            var messageEvent = jsonObjectEvent[eventName];
             var json = messageEvent.ToString();
             var messageEventDTOs = _jsonObjectConverter.DeserializeObject<IEventDTO[]>(json);
             messageEventDTOs.ForEach(messageEventDTO =>
@@ -194,7 +205,36 @@ namespace Tweetinvi.Streams
                     this.Raise(MessageReceived, new MessageEventArgs(message));
                 }
             });
+        }
 
+        private void TryRaiseIndicateUserIsTypingMessage(string eventName, JObject jsonObjectEvent)
+        {
+            var messageIndicateUserTypingMessageEvent = jsonObjectEvent[eventName];
+            var users = jsonObjectEvent["users"].ToObject<Dictionary<long, UserDTO>>();
+
+            var json = messageIndicateUserTypingMessageEvent.ToString();
+            var messageIndicateUserTypingMessageEventDTOs = _jsonObjectConverter.DeserializeObject<ActivityStreamDirectMessageIndicateTypingEventDTO[]>(json);
+
+            messageIndicateUserTypingMessageEventDTOs.ForEach(messageIndicateUserTypingMessageEventDTO =>
+            {
+                var userIsTypingMessageEventArgs = new UserIsTypingMessageEventArgs
+                {
+                    SenderId = messageIndicateUserTypingMessageEventDTO.SenderId,
+                    RecipientId = messageIndicateUserTypingMessageEventDTO.Target.RecipientId
+                };
+
+                if (users.TryGetValue(messageIndicateUserTypingMessageEventDTO.SenderId, out var senderDTO))
+                {
+                    userIsTypingMessageEventArgs.Sender = _userFactory.GenerateUserFromDTO(senderDTO);
+                }
+
+                if (users.TryGetValue(messageIndicateUserTypingMessageEventDTO.Target.RecipientId, out var recipientDTO))
+                {
+                    userIsTypingMessageEventArgs.Recipient = _userFactory.GenerateUserFromDTO(recipientDTO);
+                }
+
+                this.Raise(UserIsTypingMessage, userIsTypingMessageEventArgs);
+            });
         }
 
 

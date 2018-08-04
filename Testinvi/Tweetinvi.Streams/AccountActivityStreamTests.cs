@@ -288,8 +288,8 @@ namespace Testinvi.Tweetinvi.Streams
 
             // Assert
             Assert.AreEqual(eventsReceived.Count, 1);
-            Assert.AreEqual(eventsReceived[0].UserRevokedAppPermissions.Target.AppId, "13090192");
-            Assert.AreEqual(eventsReceived[0].UserRevokedAppPermissions.Source.UserId, "63046977");
+            Assert.AreEqual(eventsReceived[0].UserRevokedAppPermissions.Target.AppId, 13090192);
+            Assert.AreEqual(eventsReceived[0].UserRevokedAppPermissions.Source.UserId, 63046977);
         }
 
         [TestMethod]
@@ -456,6 +456,70 @@ namespace Testinvi.Tweetinvi.Streams
             Assert.AreEqual(eventsReceived.Count, 1);
             Assert.AreEqual(eventsReceived[0].Message.Text, "Hello World!");
             Assert.AreEqual(eventsReceived[0].Message.SenderId, ACCOUNT_ACTIVITY_USER_ID);
+        }
+
+        [TestMethod]
+        public void UserIsTypingDirectMessage()
+        {
+            var activityStream = CreateAccountActivityStream();
+
+            var json = @"{
+	            ""for_user_id"": ""4337869213"",
+	            ""direct_message_indicate_typing_events"": [{
+		            ""created_timestamp"": ""1518127183443"",
+		            ""sender_id"": ""3284025577"",
+		            ""target"": {
+			            ""recipient_id"": ""3001969357""
+		            }
+	            }],
+	            ""users"": {
+		            ""3001969357"": {
+			            ""id"": ""3001969357"",
+			            ""created_timestamp"": ""1422556069340"",
+			            ""name"": ""Jordan Brinks"",
+			            ""screen_name"": ""furiouscamper"",
+			            ""location"": ""Boulder, CO"",
+			            ""description"": ""Alter Ego - Twitter PE opinions-are-my-own"",
+			            ""url"": ""https://t.co/SnxaA15ZuY"",
+			            ""protected"": false,
+			            ""verified"": false,
+			            ""followers_count"": 23,
+			            ""friends_count"": 47,
+			            ""statuses_count"": 509,
+			            ""profile_image_url"": ""http://pbs.twimg.com/profile_images/851526626785480705/cW4WTi7C_normal.jpg"",
+			            ""profile_image_url_https"": ""https://pbs.twimg.com/profile_images/851526626785480705/cW4WTi7C_normal.jpg""
+		            },
+		            ""3284025577"": {
+			            ""id"": ""3284025577"",
+			            ""created_timestamp"": ""1437281176085"",
+			            ""name"": ""Bogus Bogart"",
+			            ""screen_name"": ""emilyannsheehan"",
+			            ""protected"": true,
+			            ""verified"": false,
+			            ""followers_count"": 1,
+			            ""friends_count"": 4,
+			            ""statuses_count"": 35,
+			            ""profile_image_url"": ""http://pbs.twimg.com/profile_images/763383202857779200/ndvZ96mE_normal.jpg"",
+			            ""profile_image_url_https"": ""https://pbs.twimg.com/profile_images/763383202857779200/ndvZ96mE_normal.jpg""
+		            }
+	            }
+            }";
+
+            var eventsReceived = new List<UserIsTypingMessageEventArgs>();
+            activityStream.UserIsTypingMessage += (sender, args) =>
+            {
+                eventsReceived.Add(args);
+            };
+
+            // Act
+            activityStream.WebhookMessageReceived(new WebhookMessage(json));
+
+            // Assert
+            Assert.AreEqual(eventsReceived.Count, 1);
+            Assert.AreEqual(eventsReceived[0].SenderId, 3284025577);
+            Assert.AreEqual(eventsReceived[0].RecipientId, 3001969357);
+            Assert.AreEqual(eventsReceived[0].Sender.Id, 3284025577);
+            Assert.AreEqual(eventsReceived[0].Recipient.Id, 3001969357);
         }
     }
 }

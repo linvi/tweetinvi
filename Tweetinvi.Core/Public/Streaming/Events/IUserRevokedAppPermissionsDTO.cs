@@ -2,12 +2,12 @@
 {
     public interface IActivityStreamAppIdentifierDTO
     {
-        string AppId { get; set; }
+        long AppId { get; set; }
     }
 
     public interface IActivityStreamUserIdentifierDTO
     {
-        string UserId { get; set; }
+        long UserId { get; set; }
     }
 
     public interface IUserRevokedAppPermissionsDTO

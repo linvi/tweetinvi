@@ -6,6 +6,6 @@ namespace Tweetinvi.Logic.DTO.ActivityStream
     public class ActivityStreamAppIdentifierDTO : IActivityStreamAppIdentifierDTO
     {
         [JsonProperty("app_id")]
-        public string AppId { get; set; }
+        public long AppId { get; set; }
     }
 }
