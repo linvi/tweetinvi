@@ -53,6 +53,8 @@ namespace Tweetinvi.Streams
         private void InitializeEvents()
         {
             _events.Add("tweet_create_events", TryRaiseTweetCreatedEvents);
+            _events.Add("tweet_delete_events", TryRaiseTweetDeletedEvents);
+
             _events.Add("favorite_events", TryRaiseTweetFavouritedEvents);
             _events.Add("follow_events", TryRaiseFollowedEvents);
             _events.Add("block_events", TryRaiseUserBlockedEvents);
@@ -63,16 +65,22 @@ namespace Tweetinvi.Streams
             _events.Add("direct_message_mark_read_events", TryRaiseMessageReadEvent);
         }
 
-        
+
 
         public long UserId { get; set; }
 
+        // Tweets
         public EventHandler<TweetReceivedEventArgs> TweetCreated { get; set; }
         public EventHandler<TweetFavouritedEventArgs> TweetFavourited { get; set; }
+        public EventHandler<TweetDeletedEventArgs> TweetDeleted { get; set; }
+
+        // User Events
         public EventHandler<UserFollowedEventArgs> UserFollowed { get; set; }
         public EventHandler<UserBlockedEventArgs> UserBlocked { get; set; }
         public EventHandler<UserMutedEventArgs> UserMuted { get; set; }
         public EventHandler<UserRevokedAppPermissionsEventArgs> UserRevokedAppPermissions { get; set; }
+
+        // Messages
         public EventHandler<MessageEventArgs> MessageReceived { get; set; }
         public EventHandler<MessageEventArgs> MessageSent { get; set; }
         public EventHandler<UserIsTypingMessageEventArgs> UserIsTypingMessage { get; set; }
@@ -119,6 +127,24 @@ namespace Tweetinvi.Streams
             {
                 var tweet = _tweetFactory.GenerateTweetFromDTO(tweetDTO);
                 this.Raise(TweetCreated, new TweetReceivedEventArgs(tweet, "TODO"));
+            });
+        }
+
+        private void TryRaiseTweetDeletedEvents(string eventName, JObject jsonObjectEvent)
+        {
+            var tweetDeletedEventJToken = jsonObjectEvent[eventName];
+            var tweetDeletedEventDTOs = tweetDeletedEventJToken.ToObject<AccountActivityTweetDeletedEventDTO[]>();
+
+            tweetDeletedEventDTOs.ForEach(tweetDeletedEventDTO =>
+            {
+                var tweetDeletedEventArgs = new TweetDeletedEventArgs
+                {
+                    TweetId = tweetDeletedEventDTO.Status.TweetId,
+                    UserId = tweetDeletedEventDTO.Status.UserId,
+                    Timestamp = tweetDeletedEventDTO.Timestamp
+                };
+
+                this.Raise(TweetDeleted, tweetDeletedEventArgs);
             });
         }
 
@@ -220,8 +246,6 @@ namespace Tweetinvi.Streams
                 this.Raise(UserIsTypingMessage, x);
             });
         }
-
-        
 
         private void TryRaiseMessageReadEvent(string eventName, JObject jsonObjectEvent)
         {

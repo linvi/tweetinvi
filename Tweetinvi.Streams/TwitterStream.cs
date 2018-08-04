@@ -263,7 +263,12 @@ namespace Tweetinvi.Streams
             }
 
             var deletedTweetInfo = _jsonObjectConverter.DeserializeObject<TweetDeletedInfo>(jToken.ToString());
-            var deletedTweetEventArgs = new TweetDeletedEventArgs(deletedTweetInfo);
+            var deletedTweetEventArgs = new TweetDeletedEventArgs()
+            {
+                TweetId = deletedTweetInfo.Id,
+                UserId = deletedTweetInfo.UserId
+            };
+
             this.Raise(TweetDeleted, deletedTweetEventArgs);
         }
 
