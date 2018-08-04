@@ -17,6 +17,8 @@ namespace Tweetinvi.Core.Public.Streaming
         EventHandler<MessageEventArgs> MessageReceived { get; set; }
         EventHandler<MessageEventArgs> MessageSent { get; set; }
         EventHandler<UserIsTypingMessageEventArgs> UserIsTypingMessage { get; set; }
+        EventHandler<UserReadMessageConversationEventArgs> UserReadMessage { get; set; }
+
         EventHandler<UnmanagedMessageReceivedEventArgs> UnmanagedEventReceived { get; set; }
         EventHandler<JsonObjectEventArgs> JsonObjectReceived { get; set; }
 

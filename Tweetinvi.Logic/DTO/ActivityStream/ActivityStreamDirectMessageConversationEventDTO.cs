@@ -10,7 +10,7 @@ namespace Tweetinvi.Logic.DTO.ActivityStream
         public long RecipientId { get; set; }
     }
 
-    public class ActivityStreamDirectMessageIndicateTypingEventDTO
+    public class ActivityStreamDirectMessageConversationEventDTO
     {
         [JsonProperty("created_timestamp")]
         [JsonConverter(typeof(JsonPropertyConverterRepository))]
@@ -21,5 +21,8 @@ namespace Tweetinvi.Logic.DTO.ActivityStream
 
         [JsonProperty("target")]
         public ActivityStreamTargetRecipientDTO Target { get; set; }
+
+        [JsonProperty("last_read_event_id")]
+        public string LastReadEventId { get; set; }
     }
 }

@@ -60,7 +60,10 @@ namespace Tweetinvi.Streams
             _events.Add("user_event", TryRaiseUserEvent);
             _events.Add("direct_message_events", TryRaiseMessageEvent);
             _events.Add("direct_message_indicate_typing_events", TryRaiseIndicateUserIsTypingMessage);
+            _events.Add("direct_message_mark_read_events", TryRaiseMessageReadEvent);
         }
+
+        
 
         public long UserId { get; set; }
 
@@ -73,6 +76,7 @@ namespace Tweetinvi.Streams
         public EventHandler<MessageEventArgs> MessageReceived { get; set; }
         public EventHandler<MessageEventArgs> MessageSent { get; set; }
         public EventHandler<UserIsTypingMessageEventArgs> UserIsTypingMessage { get; set; }
+        public EventHandler<UserReadMessageConversationEventArgs> UserReadMessage { get; set; }
 
         public EventHandler<UnmanagedMessageReceivedEventArgs> UnmanagedEventReceived { get; set; }
         public EventHandler<JsonObjectEventArgs> JsonObjectReceived { get; set; }
@@ -209,34 +213,62 @@ namespace Tweetinvi.Streams
 
         private void TryRaiseIndicateUserIsTypingMessage(string eventName, JObject jsonObjectEvent)
         {
+            var userIsTypingMessageEventsArgs = GetMessageConversationsEvents(eventName, jsonObjectEvent, x => new UserIsTypingMessageEventArgs());
+
+            userIsTypingMessageEventsArgs.ForEach(x =>
+            {
+                this.Raise(UserIsTypingMessage, x);
+            });
+        }
+
+        
+
+        private void TryRaiseMessageReadEvent(string eventName, JObject jsonObjectEvent)
+        {
+            var messageReadEventArgs = GetMessageConversationsEvents(eventName, jsonObjectEvent, dto =>
+            {
+                return new UserReadMessageConversationEventArgs
+                {
+                    LastReadEventId = dto.LastReadEventId
+                };
+            });
+
+            messageReadEventArgs.ForEach(x =>
+            {
+                this.Raise(UserReadMessage, x);
+            });
+        }
+
+        private T[] GetMessageConversationsEvents<T>(string eventName, JObject jsonObjectEvent, Func<ActivityStreamDirectMessageConversationEventDTO, T> ctor) where T : MessageConversationEventArgs
+        {
             var messageIndicateUserTypingMessageEvent = jsonObjectEvent[eventName];
             var users = jsonObjectEvent["users"].ToObject<Dictionary<long, UserDTO>>();
 
             var json = messageIndicateUserTypingMessageEvent.ToString();
-            var messageIndicateUserTypingMessageEventDTOs = _jsonObjectConverter.DeserializeObject<ActivityStreamDirectMessageIndicateTypingEventDTO[]>(json);
+            var messageIndicateUserTypingMessageEventDTOs =
+                _jsonObjectConverter.DeserializeObject<ActivityStreamDirectMessageConversationEventDTO[]>(json);
 
-            messageIndicateUserTypingMessageEventDTOs.ForEach(messageIndicateUserTypingMessageEventDTO =>
-            {
-                var userIsTypingMessageEventArgs = new UserIsTypingMessageEventArgs
+            return messageIndicateUserTypingMessageEventDTOs.Select(
+                messageIndicateUserTypingMessageEventDTO =>
                 {
-                    SenderId = messageIndicateUserTypingMessageEventDTO.SenderId,
-                    RecipientId = messageIndicateUserTypingMessageEventDTO.Target.RecipientId
-                };
+                    var userIsTypingMessageEventArgs = ctor(messageIndicateUserTypingMessageEventDTO);
 
-                if (users.TryGetValue(messageIndicateUserTypingMessageEventDTO.SenderId, out var senderDTO))
-                {
-                    userIsTypingMessageEventArgs.Sender = _userFactory.GenerateUserFromDTO(senderDTO);
-                }
+                    userIsTypingMessageEventArgs.SenderId = messageIndicateUserTypingMessageEventDTO.SenderId;
+                    userIsTypingMessageEventArgs.RecipientId = messageIndicateUserTypingMessageEventDTO.Target.RecipientId;
 
-                if (users.TryGetValue(messageIndicateUserTypingMessageEventDTO.Target.RecipientId, out var recipientDTO))
-                {
-                    userIsTypingMessageEventArgs.Recipient = _userFactory.GenerateUserFromDTO(recipientDTO);
-                }
+                    if (users.TryGetValue(messageIndicateUserTypingMessageEventDTO.SenderId, out var senderDTO))
+                    {
+                        userIsTypingMessageEventArgs.Sender = _userFactory.GenerateUserFromDTO(senderDTO);
+                    }
 
-                this.Raise(UserIsTypingMessage, userIsTypingMessageEventArgs);
-            });
+                    if (users.TryGetValue(messageIndicateUserTypingMessageEventDTO.Target.RecipientId, out var recipientDTO))
+                    {
+                        userIsTypingMessageEventArgs.Recipient = _userFactory.GenerateUserFromDTO(recipientDTO);
+                    }
+
+                    return userIsTypingMessageEventArgs;
+                }).ToArray();
         }
-
 
         private IUser[] GetEventTargetUsers(JToken userToUserEvent)
         {

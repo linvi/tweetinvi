@@ -1,14 +1,7 @@
-﻿using System;
-using Tweetinvi.Models;
-
-namespace Tweetinvi.Events
+﻿namespace Tweetinvi.Events
 {
-    public class UserIsTypingMessageEventArgs : EventArgs
+    public class UserIsTypingMessageEventArgs : MessageConversationEventArgs
     {
-        public long SenderId { get; set; }
-        public long RecipientId { get; set; }
-
-        public IUser Sender { get; set; }
-        public IUser Recipient { get; set; }
+        
     }
 }

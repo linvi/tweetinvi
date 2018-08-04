@@ -521,5 +521,73 @@ namespace Testinvi.Tweetinvi.Streams
             Assert.AreEqual(eventsReceived[0].Sender.Id, 3284025577);
             Assert.AreEqual(eventsReceived[0].Recipient.Id, 3001969357);
         }
+
+        [TestMethod]
+        public void UserReadMessage()
+        {
+            var activityStream = CreateAccountActivityStream();
+
+            var json = @"{
+	            ""for_user_id"": ""4337869213"",
+	            ""direct_message_mark_read_events"": [{
+		            ""created_timestamp"": ""1518452444662"",
+		            ""sender_id"": ""199566737"",
+		            ""target"": {
+			            ""recipient_id"": ""3001969357""
+		            },
+		            ""last_read_event_id"": ""963085315333238788""
+	            }],
+	            ""users"": {
+		            ""199566737"": {
+			            ""id"": ""199566737"",
+			            ""created_timestamp"": ""1286429788000"",
+			            ""name"": ""Dan Brunsdon"",
+			            ""screen_name"": ""LeBraat"",
+			            ""location"": ""Denver, CO"",
+			            ""description"": ""data by day @twitter, design by dusk"",
+			            ""protected"": false,
+			            ""verified"": false,
+			            ""followers_count"": 299,
+			            ""friends_count"": 336,
+			            ""statuses_count"": 752,
+			            ""profile_image_url"": ""http://pbs.twimg.com/profile_images/936652894371119105/YHEozVAg_normal.jpg"",
+			            ""profile_image_url_https"": ""https://pbs.twimg.com/profile_images/936652894371119105/YHEozVAg_normal.jpg""
+		            },
+		            ""3001969357"": {
+			            ""id"": ""3001969357"",
+			            ""created_timestamp"": ""1422556069340"",
+			            ""name"": ""Jordan Brinks"",
+			            ""screen_name"": ""furiouscamper"",
+			            ""location"": ""Boulder, CO"",
+			            ""description"": ""Alter Ego - Twitter PE opinions-are-my-own"",
+			            ""url"": ""https://t.co/SnxaA15ZuY"",
+			            ""protected"": false,
+			            ""verified"": false,
+			            ""followers_count"": 23,
+			            ""friends_count"": 48,
+			            ""statuses_count"": 510,
+			            ""profile_image_url"": ""http://pbs.twimg.com/profile_images/851526626785480705/cW4WTi7C_normal.jpg"",
+			            ""profile_image_url_https"": ""https://pbs.twimg.com/profile_images/851526626785480705/cW4WTi7C_normal.jpg""
+		            }
+	            }
+            }";
+
+            var eventsReceived = new List<UserReadMessageConversationEventArgs>();
+            activityStream.UserReadMessage += (sender, args) =>
+            {
+                eventsReceived.Add(args);
+            };
+
+            // Act
+            activityStream.WebhookMessageReceived(new WebhookMessage(json));
+
+            // Assert
+            Assert.AreEqual(eventsReceived.Count, 1);
+            Assert.AreEqual(eventsReceived[0].SenderId, 199566737);
+            Assert.AreEqual(eventsReceived[0].RecipientId, 3001969357);
+            Assert.AreEqual(eventsReceived[0].Sender.Id, 199566737);
+            Assert.AreEqual(eventsReceived[0].Recipient.Id, 3001969357);
+            Assert.AreEqual(eventsReceived[0].LastReadEventId, "963085315333238788");
+        }
     }
 }
