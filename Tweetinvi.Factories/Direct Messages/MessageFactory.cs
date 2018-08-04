@@ -69,7 +69,12 @@ namespace Tweetinvi.Factories
                 return null;
             }
 
-            return buildMessage(createMessageDTO.Event, (IApp) null);
+            return GenerateMessageFromEventDTO(createMessageDTO.Event);
+        }
+
+        public IMessage GenerateMessageFromEventDTO(IEventDTO createMessageDTO)
+        {
+            return buildMessage(createMessageDTO, (IApp)null);
         }
 
         // Generate Message from Json

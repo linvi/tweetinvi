@@ -14,6 +14,10 @@ namespace Tweetinvi.Core.Public.Streaming
         EventHandler<UserBlockedEventArgs> UserBlocked { get; set; }
         EventHandler<UserMutedEventArgs> UserMuted { get; set; }
         EventHandler<UserRevokedAppPermissionsEventArgs> UserRevokedAppPermissions { get; set; }
+        EventHandler<MessageEventArgs> MessageReceived { get; set; }
+        EventHandler<MessageEventArgs> MessageSent { get; set; }
+        EventHandler<UnmanagedMessageReceivedEventArgs> UnmanagedEventReceived { get; set; }
+        EventHandler<JsonObjectEventArgs> JsonObjectReceived { get; set; }
 
         void WebhookMessageReceived(IWebhookMessage message);
     }

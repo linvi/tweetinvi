@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Tweetinvi.Core.Public.Streaming.Events
+﻿namespace Tweetinvi.Core.Public.Streaming.Events
 {
     public interface IActivityStreamAppIdentifierDTO
     {
@@ -18,6 +14,5 @@ namespace Tweetinvi.Core.Public.Streaming.Events
     {
         IActivityStreamAppIdentifierDTO Target { get; set; }
         IActivityStreamUserIdentifierDTO Source { get; set; }
-
     }
 }

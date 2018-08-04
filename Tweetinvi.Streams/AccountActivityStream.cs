@@ -14,7 +14,6 @@ using Tweetinvi.Events;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
 using Tweetinvi.Models.Webhooks;
-using Tweetinvi.Streaming.Events;
 using Tweetinvi.Streams.Model;
 
 namespace Tweetinvi.Streams
@@ -26,21 +25,24 @@ namespace Tweetinvi.Streams
         private readonly ITweetFactory _tweetFactory;
         private readonly IExceptionHandler _exceptionHandler;
         private readonly IUserFactory _userFactory;
+        private readonly IMessageFactory _messageFactory;
         private readonly ITwitterCredentials _credentials;
         private readonly Dictionary<string, Action<JToken>> _events;
 
         public AccountActivityStream(
+            IExceptionHandler exceptionHandler,
             IJObjectStaticWrapper jObjectWrapper,
             IJsonObjectConverter jsonObjectConverter,
             ITweetFactory tweetFactory,
-            IExceptionHandler exceptionHandler,
-            IUserFactory userFactory)
+            IUserFactory userFactory,
+            IMessageFactory messageFactory)
         {
             _jObjectWrapper = jObjectWrapper;
             _jsonObjectConverter = jsonObjectConverter;
             _tweetFactory = tweetFactory;
             _exceptionHandler = exceptionHandler;
             _userFactory = userFactory;
+            _messageFactory = messageFactory;
             _events = new Dictionary<string, Action<JToken>>();
 
             InitializeEvents();
@@ -54,9 +56,8 @@ namespace Tweetinvi.Streams
             _events.Add("block_events", TryRaiseUserBlockedEvents);
             _events.Add("mute_events", TryRaiseUserMutedEvents);
             _events.Add("user_event", TryRaiseUserEvent);
+            _events.Add("direct_message_events", TryRaiseMessageEvent);
         }
-
-        
 
         public long UserId { get; set; }
 
@@ -66,6 +67,11 @@ namespace Tweetinvi.Streams
         public EventHandler<UserBlockedEventArgs> UserBlocked { get; set; }
         public EventHandler<UserMutedEventArgs> UserMuted { get; set; }
         public EventHandler<UserRevokedAppPermissionsEventArgs> UserRevokedAppPermissions { get; set; }
+        public EventHandler<MessageEventArgs> MessageReceived { get; set; }
+        public EventHandler<MessageEventArgs> MessageSent { get; set; }
+
+        public EventHandler<UnmanagedMessageReceivedEventArgs> UnmanagedEventReceived { get; set; }
+        public EventHandler<JsonObjectEventArgs> JsonObjectReceived { get; set; }
 
 
         public void WebhookMessageReceived(IWebhookMessage message)
@@ -73,7 +79,8 @@ namespace Tweetinvi.Streams
             var json = message.Json;
             var jsonObjectEvent = _jObjectWrapper.GetJobjectFromJson(json);
 
-            var keys = jsonObjectEvent.Children().Where(x => x.Path != "for_user_id");
+            var jsonEventChildren = jsonObjectEvent.Children().ToArray();
+            var keys = jsonEventChildren.Where(x => x.Path.EndsWith("event") || x.Path.EndsWith("events"));
             var key = keys.SingleOrDefault();
 
             if (key == null)
@@ -81,10 +88,16 @@ namespace Tweetinvi.Streams
                 return;
             }
 
+            this.Raise(JsonObjectReceived, new JsonObjectEventArgs(json));
+
             var eventName = key.Path;
             if (_events.ContainsKey(eventName))
             {
                 _events[eventName].Invoke(jsonObjectEvent[eventName]);
+            }
+            else
+            {
+                this.Raise(UnmanagedEventReceived, new UnmanagedMessageReceivedEventArgs(json));
             }
         }
 
@@ -163,6 +176,27 @@ namespace Tweetinvi.Streams
                 }
             }
         }
+
+        private void TryRaiseMessageEvent(JToken messageEvent)
+        {
+            var json = messageEvent.ToString();
+            var messageEventDTOs = _jsonObjectConverter.DeserializeObject<IEventDTO[]>(json);
+            messageEventDTOs.ForEach(messageEventDTO =>
+            {
+                var message = _messageFactory.GenerateMessageFromEventDTO(messageEventDTO);
+
+                if (message.SenderId == UserId)
+                {
+                    this.Raise(MessageSent, new MessageEventArgs(message));
+                }
+                else
+                {
+                    this.Raise(MessageReceived, new MessageEventArgs(message));
+                }
+            });
+
+        }
+
 
         private IUser[] GetEventTargetUsers(JToken userToUserEvent)
         {
