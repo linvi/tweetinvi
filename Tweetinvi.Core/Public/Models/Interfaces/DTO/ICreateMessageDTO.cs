@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Tweetinvi.Models.DTO;
-
-namespace Tweetinvi.Models.DTO
+﻿namespace Tweetinvi.Models.DTO
 {
     /// <summary>
     /// DTO for both the request and response when creating a message

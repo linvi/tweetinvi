@@ -32,7 +32,8 @@ namespace Testinvi.Tweetinvi.Streams
                 new ConstructorNamedParameter("jsonObjectConverter", TweetinviContainer.Resolve<IJsonObjectConverter>()),
                 new ConstructorNamedParameter("jObjectWrapper", TweetinviContainer.Resolve<IJObjectStaticWrapper>()),
                 new ConstructorNamedParameter("tweetFactory", TweetinviContainer.Resolve<ITweetFactory>()),
-                new ConstructorNamedParameter("userFactory", TweetinviContainer.Resolve<IUserFactory>()));
+                new ConstructorNamedParameter("userFactory", TweetinviContainer.Resolve<IUserFactory>()),
+                new ConstructorNamedParameter("messageFactory", TweetinviContainer.Resolve<IMessageFactory>()));
 
             activityStream.UserId = ACCOUNT_ACTIVITY_USER_ID;
 
@@ -289,6 +290,172 @@ namespace Testinvi.Tweetinvi.Streams
             Assert.AreEqual(eventsReceived.Count, 1);
             Assert.AreEqual(eventsReceived[0].UserRevokedAppPermissions.Target.AppId, "13090192");
             Assert.AreEqual(eventsReceived[0].UserRevokedAppPermissions.Source.UserId, "63046977");
+        }
+
+        [TestMethod]
+        public void DirectMessageReceived()
+        {
+            var activityStream = CreateAccountActivityStream();
+
+            var json = @"{
+  	            ""for_user_id"": ""4337869213"",
+	            ""direct_message_events"": [{
+		            ""type"": ""message_create"",
+		            ""id"": ""954491830116155396"",
+		            ""created_timestamp"": ""1516403560557"",
+		            ""message_create"": {
+			            ""target"": {
+				            ""recipient_id"": ""4337869213""
+			            },
+			            ""sender_id"": ""3001969357"",
+			            ""source_app_id"": ""13090192"",
+			            ""message_data"": {
+				            ""text"": ""Hello World!"",
+				            ""entities"": {
+					            ""hashtags"": [],
+					            ""symbols"": [],
+					            ""user_mentions"": [],
+					            ""urls"": []
+				            }
+			            }
+		            }
+	            }],
+	            ""apps"": {
+		            ""13090192"": {
+			            ""id"": ""13090192"",
+			            ""name"": ""FuriousCamperTestApp1"",
+			            ""url"": ""https://twitter.com/furiouscamper""
+		            },
+		            ""users"": {},
+		            ""3001969357"": {
+			            ""id"": ""3001969357"",
+			            ""created_timestamp"": ""1422556069340"",
+			            ""name"": ""Jordan Brinks"",
+			            ""screen_name"": ""furiouscamper"",
+			            ""location"": ""Boulder, CO"",
+			            ""description"": ""Alter Ego - Twitter PE opinions-are-my-own"",
+			            ""url"": ""https://t.co/SnxaA15ZuY"",
+			            ""protected"": false,
+			            ""verified"": false,
+			            ""followers_count"": 22,
+			            ""friends_count"": 45,
+			            ""statuses_count"": 494,
+			            ""profile_image_url"": ""http://pbs.twimg.com/profile_images/851526626785480705/cW4WTi7C_normal.jpg"",
+			            ""profile_image_url_https"": ""https://pbs.twimg.com/profile_images/851526626785480705/cW4WTi7C_normal.jpg""
+		            },
+		            ""4337869213"": {
+			            ""id"": ""4337869213"",
+			            ""created_timestamp"": ""1448312972328"",
+			            ""name"": ""Harrison Test"",
+			            ""screen_name"": ""Harris_0ff"",
+			            ""location"": ""Burlington, MA"",
+			            ""protected"": false,
+			            ""verified"": false,
+			            ""followers_count"": 8,
+			            ""friends_count"": 8,
+			            ""profile_image_url"": ""http://abs.twimg.com/sticky/default_profile_images/default_profile_normal.png"",
+			            ""statuses_count"": 240,
+			            ""profile_image_url_https"": ""https://abs.twimg.com/sticky/default_profile_images/default_profile_normal.png""
+		            }
+	            }
+            }";
+
+            var eventsReceived = new List<MessageEventArgs>();
+            activityStream.MessageReceived += (sender, args) =>
+            {
+                eventsReceived.Add(args);
+            };
+
+            // Act
+            activityStream.WebhookMessageReceived(new WebhookMessage(json));
+
+            // Assert
+            Assert.AreEqual(eventsReceived.Count, 1);
+            Assert.AreEqual(eventsReceived[0].Message.Text, "Hello World!");
+            Assert.AreEqual(eventsReceived[0].Message.SenderId, 3001969357);
+        }
+
+        [TestMethod]
+        public void DirectMessageSent()
+        {
+            var activityStream = CreateAccountActivityStream();
+
+            var json = @"{
+  	            ""for_user_id"": """ + ACCOUNT_ACTIVITY_USER_ID + @""",
+	            ""direct_message_events"": [{
+		            ""type"": ""message_create"",
+		            ""id"": ""954491830116155396"",
+		            ""created_timestamp"": ""1516403560557"",
+		            ""message_create"": {
+			            ""target"": {
+				            ""recipient_id"": ""4337869213""
+			            },
+			            ""sender_id"": """ + ACCOUNT_ACTIVITY_USER_ID + @""",
+			            ""source_app_id"": ""13090192"",
+			            ""message_data"": {
+				            ""text"": ""Hello World!"",
+				            ""entities"": {
+					            ""hashtags"": [],
+					            ""symbols"": [],
+					            ""user_mentions"": [],
+					            ""urls"": []
+				            }
+			            }
+		            }
+	            }],
+	            ""apps"": {
+		            ""13090192"": {
+			            ""id"": ""13090192"",
+			            ""name"": ""FuriousCamperTestApp1"",
+			            ""url"": ""https://twitter.com/furiouscamper""
+		            },
+		            ""users"": {},
+		            ""3001969357"": {
+			            ""id"": ""3001969357"",
+			            ""created_timestamp"": ""1422556069340"",
+			            ""name"": ""Jordan Brinks"",
+			            ""screen_name"": ""furiouscamper"",
+			            ""location"": ""Boulder, CO"",
+			            ""description"": ""Alter Ego - Twitter PE opinions-are-my-own"",
+			            ""url"": ""https://t.co/SnxaA15ZuY"",
+			            ""protected"": false,
+			            ""verified"": false,
+			            ""followers_count"": 22,
+			            ""friends_count"": 45,
+			            ""statuses_count"": 494,
+			            ""profile_image_url"": ""http://pbs.twimg.com/profile_images/851526626785480705/cW4WTi7C_normal.jpg"",
+			            ""profile_image_url_https"": ""https://pbs.twimg.com/profile_images/851526626785480705/cW4WTi7C_normal.jpg""
+		            },
+		            ""4337869213"": {
+			            ""id"": ""4337869213"",
+			            ""created_timestamp"": ""1448312972328"",
+			            ""name"": ""Harrison Test"",
+			            ""screen_name"": ""Harris_0ff"",
+			            ""location"": ""Burlington, MA"",
+			            ""protected"": false,
+			            ""verified"": false,
+			            ""followers_count"": 8,
+			            ""friends_count"": 8,
+			            ""profile_image_url"": ""http://abs.twimg.com/sticky/default_profile_images/default_profile_normal.png"",
+			            ""statuses_count"": 240,
+			            ""profile_image_url_https"": ""https://abs.twimg.com/sticky/default_profile_images/default_profile_normal.png""
+		            }
+	            }
+            }";
+
+            var eventsReceived = new List<MessageEventArgs>();
+            activityStream.MessageSent += (sender, args) =>
+            {
+                eventsReceived.Add(args);
+            };
+
+            // Act
+            activityStream.WebhookMessageReceived(new WebhookMessage(json));
+
+            // Assert
+            Assert.AreEqual(eventsReceived.Count, 1);
+            Assert.AreEqual(eventsReceived[0].Message.Text, "Hello World!");
+            Assert.AreEqual(eventsReceived[0].Message.SenderId, ACCOUNT_ACTIVITY_USER_ID);
         }
     }
 }
