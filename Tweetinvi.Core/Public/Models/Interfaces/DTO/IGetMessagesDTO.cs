@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Tweetinvi.Models;
-using Tweetinvi.Models.DTO;
+﻿using System.Collections.Generic;
 
 namespace Tweetinvi.Models.DTO
 {

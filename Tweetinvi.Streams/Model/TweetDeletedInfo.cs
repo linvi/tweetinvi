@@ -1,9 +1,8 @@
 ﻿using Newtonsoft.Json;
-using Tweetinvi.Streaming.Events;
 
 namespace Tweetinvi.Streams.Model
 {
-    public class TweetDeletedInfo : ITweetDeletedInfo
+    public class TweetDeletedInfo
     {
         [JsonProperty("id")]
         public long Id { get; set; }
