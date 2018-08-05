@@ -5,7 +5,6 @@ using Tweetinvi.Core.Exceptions;
 using Tweetinvi.Core.Extensions;
 using Tweetinvi.Core.Models;
 using Tweetinvi.Core.Public.Models.Interfaces.DTO.Webhooks;
-using Tweetinvi.Core.Public.Streaming.Events;
 using Tweetinvi.Logic.DTO;
 using Tweetinvi.Logic.DTO.ActivityStream;
 using Tweetinvi.Logic.Exceptions;
@@ -111,11 +110,6 @@ namespace Tweetinvi.Logic.JsonConverters
                 new JsonInterfaceToObjectConverter<IGetWebhookSubscriptionsCountResultDTO, GetWebhookSubscriptionsCountResultDTO>(),
                 new JsonInterfaceToObjectConverter<IWebhookSubscriptionDTO, WebhookSubscriptionDTO>(),
                 new JsonInterfaceToObjectConverter<IWebhookSubcriptionListDTO, WebhookSubcriptionListDTO>(),
-
-                // Activity Streams events
-                new JsonInterfaceToObjectConverter<IUserRevokedAppPermissionsDTO, UserRevokedAppPermissionsDTO>(),
-                new JsonInterfaceToObjectConverter<IActivityStreamAppIdentifierDTO, ActivityStreamAppIdentifierDTO>(),
-                new JsonInterfaceToObjectConverter<IActivityStreamUserIdentifierDTO, ActivityStreamUserIdentifierDTO>(),
 
 
                 // Enums (that have JSON serialization implemented)

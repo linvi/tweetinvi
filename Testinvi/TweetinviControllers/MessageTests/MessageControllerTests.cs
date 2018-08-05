@@ -96,7 +96,7 @@ namespace Testinvi.TweetinviControllers.MessageTests
         #region Destroy Message
 
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(ArgumentNullException))]
         public void DestroyMessage_NullMessage_ThrowArgumentException()
         {
             // Arrange
@@ -108,7 +108,7 @@ namespace Testinvi.TweetinviControllers.MessageTests
         }
 
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(ArgumentNullException))]
         public void DestroyMessage_WithNullEventDTO_ThrowArgumentException()
         {
             // Arrange

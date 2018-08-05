@@ -1,5 +1,4 @@
 ﻿using System;
-using Tweetinvi.Core.Public.Streaming.Events;
 using Tweetinvi.Models;
 using Tweetinvi.Streaming.Events;
 
@@ -61,11 +60,7 @@ namespace Tweetinvi.Events
 
     public class UserRevokedAppPermissionsEventArgs : EventArgs
     {
-        public IUserRevokedAppPermissionsDTO UserRevokedAppPermissions { get; }
-
-        public UserRevokedAppPermissionsEventArgs(IUserRevokedAppPermissionsDTO userRevokedAppPermissionsDTO)
-        {
-            UserRevokedAppPermissions = userRevokedAppPermissionsDTO;
-        }
+        public long UserId { get; set; }
+        public long AppId { get; set; }
     }
 }

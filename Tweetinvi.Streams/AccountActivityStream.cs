@@ -8,7 +8,6 @@ using Tweetinvi.Core.Extensions;
 using Tweetinvi.Core.Factories;
 using Tweetinvi.Core.Helpers;
 using Tweetinvi.Core.Public.Streaming;
-using Tweetinvi.Core.Public.Streaming.Events;
 using Tweetinvi.Core.Wrappers;
 using Tweetinvi.Events;
 using Tweetinvi.Logic.DTO;
@@ -16,7 +15,7 @@ using Tweetinvi.Logic.DTO.ActivityStream;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
 using Tweetinvi.Models.Webhooks;
-using Tweetinvi.Streams.Model;
+using Tweetinvi.Streams.Model.AccountActivity;
 
 namespace Tweetinvi.Streams
 {
@@ -28,7 +27,6 @@ namespace Tweetinvi.Streams
         private readonly IExceptionHandler _exceptionHandler;
         private readonly IUserFactory _userFactory;
         private readonly IMessageFactory _messageFactory;
-        private readonly ITwitterCredentials _credentials;
         private readonly Dictionary<string, Action<string, JObject>> _events;
 
         public AccountActivityStream(
@@ -52,14 +50,20 @@ namespace Tweetinvi.Streams
 
         private void InitializeEvents()
         {
+            // Tweets
             _events.Add("tweet_create_events", TryRaiseTweetCreatedEvents);
             _events.Add("tweet_delete_events", TryRaiseTweetDeletedEvents);
-
             _events.Add("favorite_events", TryRaiseTweetFavouritedEvents);
+
+            // User
             _events.Add("follow_events", TryRaiseFollowedEvents);
             _events.Add("block_events", TryRaiseUserBlockedEvents);
             _events.Add("mute_events", TryRaiseUserMutedEvents);
+
+            // App 
             _events.Add("user_event", TryRaiseUserEvent);
+
+            // Messages
             _events.Add("direct_message_events", TryRaiseMessageEvent);
             _events.Add("direct_message_indicate_typing_events", TryRaiseIndicateUserIsTypingMessage);
             _events.Add("direct_message_mark_read_events", TryRaiseMessageReadEvent);
@@ -126,7 +130,7 @@ namespace Tweetinvi.Streams
             tweetDTOs.ForEach(tweetDTO =>
             {
                 var tweet = _tweetFactory.GenerateTweetFromDTO(tweetDTO);
-                this.Raise(TweetCreated, new TweetReceivedEventArgs(tweet, "TODO"));
+                this.Raise(TweetCreated, new TweetReceivedEventArgs(tweet, ""));
             });
         }
 
@@ -202,9 +206,12 @@ namespace Tweetinvi.Streams
 
             if (eventType == "user_event.revoke")
             {
-                var json = userEvent["revoke"].ToString();
-                var userRevokedAppEventDTO = _jsonObjectConverter.DeserializeObject<IUserRevokedAppPermissionsDTO>(json);
-                var userRevokedAppEventArgs = new UserRevokedAppPermissionsEventArgs(userRevokedAppEventDTO);
+                var userRevokedAppEventDTO = userEvent["revoke"].ToObject<ActivityStreamUserRevokedAppPermissionsDTO>();
+                var userRevokedAppEventArgs = new UserRevokedAppPermissionsEventArgs
+                {
+                    UserId = userRevokedAppEventDTO.Source.UserId,
+                    AppId = userRevokedAppEventDTO.Target.AppId
+                };
 
                 this.Raise(UserRevokedAppPermissions, userRevokedAppEventArgs);
             }
@@ -297,15 +304,15 @@ namespace Tweetinvi.Streams
         private IUser[] GetEventTargetUsers(JToken userToUserEvent)
         {
             var userToUserEventJson = userToUserEvent.ToString();
-            var userToUserEventDTO = _jsonObjectConverter.DeserializeObject<UserToUserEventDTO[]>(userToUserEventJson);
+            var userToUserEventDTO = _jsonObjectConverter.DeserializeObject<AccountActivityUserToUserEventDTO[]>(userToUserEventJson);
             var mutedUsers = GetTargetUsersFromUserToUserEvent(userToUserEventDTO);
 
             return mutedUsers;
         }
 
-        private IUser[] GetTargetUsersFromUserToUserEvent(UserToUserEventDTO[] userToUserEvents)
+        private IUser[] GetTargetUsersFromUserToUserEvent(AccountActivityUserToUserEventDTO[] accountActivityUserToUserEvents)
         {
-            return userToUserEvents.Select(x =>
+            return accountActivityUserToUserEvents.Select(x =>
             {
                 var source = x.Source;
                 var target = x.Target;

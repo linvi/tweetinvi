@@ -322,8 +322,8 @@ namespace Testinvi.Tweetinvi.Streams
 
             // Assert
             Assert.AreEqual(eventsReceived.Count, 1);
-            Assert.AreEqual(eventsReceived[0].UserRevokedAppPermissions.Target.AppId, 13090192);
-            Assert.AreEqual(eventsReceived[0].UserRevokedAppPermissions.Source.UserId, 63046977);
+            Assert.AreEqual(eventsReceived[0].AppId, 13090192);
+            Assert.AreEqual(eventsReceived[0].UserId, 63046977);
         }
 
         [TestMethod]
