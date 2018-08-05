@@ -64,10 +64,13 @@ namespace Tweetinvi.Controllers.Messages
                 thisReqParams.Count = TweetinviConsts.MESSAGE_GET_COUNT;
                 thisReqParams.Cursor = parameters.Cursor;
 
-                IEnumerable<IMessage> thisReqResults = GetLatestMessages(thisReqParams, out cursor);
+                var result = _messageQueryExecutor.GetLatestMessages(thisReqParams);
+                cursor = result.NextCursor;
+
+                var messages = _messageFactory.GenerateMessageFromGetMessagesDTO(result);
 
                 // If there are more messages still available to be fetched from Twitter
-                if (cursor != null)
+                if (!string.IsNullOrEmpty(cursor))
                 {
                     // Build & run the next request
                     var nextReqParams = _getMessagesParametersFactory.Create();
@@ -77,10 +80,11 @@ namespace Tweetinvi.Controllers.Messages
                     IEnumerable<IMessage> nextReqResults = GetLatestMessages(nextReqParams, out cursor);
 
                     // Combine the results, latest first & return them
-                    return thisReqResults.Concat(nextReqResults);
+                    return messages.Concat(nextReqResults);
                 }
+
                 // Otherwise, just return these results
-                return thisReqResults;
+                return messages;
             }
             else // Otherwise just run the request as-is against the Twitter API
             {

@@ -37,8 +37,9 @@ namespace Testinvi.TweetinviControllers.MessageTests
             var controller = CreateMessageController();
             var count = new Random().Next();
             var expectedDTOResult = A.Fake<IGetMessagesDTO>();
+            expectedDTOResult.CallsTo(x => x.NextCursor).Returns(null);
 
-            ArrangeQueryExecutorGetLatestMessages(count, expectedDTOResult);
+            ArrangeQueryExecutorGetLatestMessages(expectedDTOResult);
             ArrangeMessageFactoryGenerateMessages(expectedDTOResult, expectedResult);
 
             // Act
@@ -48,10 +49,10 @@ namespace Testinvi.TweetinviControllers.MessageTests
             Assert.AreEqual(result, expectedResult);
         }
 
-        private void ArrangeQueryExecutorGetLatestMessages(int count, IGetMessagesDTO result)
+        private void ArrangeQueryExecutorGetLatestMessages(IGetMessagesDTO result)
         {
             _fakeMessageQueryExecutor
-                .CallsTo(x => x.GetLatestMessages(A<IGetMessagesParameters>.That.Matches(p => p.Count == count)))
+                .CallsTo(x => x.GetLatestMessages(A<IGetMessagesParameters>.Ignored))
                 .Returns(result);
         }
         #endregion
