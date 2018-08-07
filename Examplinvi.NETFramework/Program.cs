@@ -1094,12 +1094,12 @@ namespace Examplinvi
         {
             userStream.BlockedUser += (sender, args) =>
             {
-                Console.WriteLine("I blocked a '{0}'", args.User.ScreenName);
+                Console.WriteLine("I blocked a '{0}'", args.Target.ScreenName);
             };
 
             userStream.UnBlockedUser += (sender, args) =>
             {
-                Console.WriteLine("I un blocked a '{0}'", args.User.ScreenName);
+                Console.WriteLine("I un blocked a '{0}'", args.Target.ScreenName);
             };
         }
 
