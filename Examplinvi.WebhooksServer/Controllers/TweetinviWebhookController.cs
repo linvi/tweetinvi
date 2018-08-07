@@ -29,17 +29,17 @@ namespace WebApplication1.Controllers
 
         // POST api/values
         [HttpPost]
-        public async Task<bool> ChallengeWebhook(string environment, string webhookId)
+        public async Task<bool> ChallengeWebhook(string environment, string webhookId, string userId)
         {
-            Auth.SetApplicationOnlyCredentials(Startup.TweetinviWebhookConfiguration.ConsumerOnlyCredentials);
-            return await Webhooks.ChallengeWebhookAsync(environment, webhookId);
+            var userCredentials = await GetUserCredentials(userId);
+            return await Webhooks.ChallengeWebhookAsync(environment, webhookId, userCredentials);
         }
 
         [HttpPost]
         public async Task<bool> RegisterWebhook(string environment, string url, string userId)
         {
-            var credentials = await GetUserCredentials(userId);
-            var result = await Webhooks.RegisterWebhookAsync(environment, url, credentials);
+            var userCredentials = await GetUserCredentials(userId);
+            var result = await Webhooks.RegisterWebhookAsync(environment, url, userCredentials);
 
             return result != null;
         }
