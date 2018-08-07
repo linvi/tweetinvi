@@ -12,6 +12,7 @@ using Tweetinvi.Core.Wrappers;
 using Tweetinvi.Events;
 using Tweetinvi.Logic.DTO;
 using Tweetinvi.Logic.DTO.ActivityStream;
+using Tweetinvi.Logic.Model;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
 using Tweetinvi.Models.Webhooks;
@@ -226,12 +227,19 @@ namespace Tweetinvi.Streams
 
         private void TryRaiseMessageEvent(string eventName, JObject jsonObjectEvent)
         {
-            var messageEvent = jsonObjectEvent[eventName];
-            var json = messageEvent.ToString();
-            var messageEventDTOs = _jsonObjectConverter.DeserializeObject<IEventDTO[]>(json);
+            var messageEventDTOs = jsonObjectEvent[eventName].ToObject<EventDTO[]>();
+            var apps = jsonObjectEvent["apps"].ToObject<Dictionary<string, App>>();
+
             messageEventDTOs.ForEach(messageEventDTO =>
             {
-                var message = _messageFactory.GenerateMessageFromEventDTO(messageEventDTO);
+                App app = null;
+
+                if (messageEventDTO.MessageCreate.SourceAppId != null)
+                {
+                    apps.TryGetValue(messageEventDTO.MessageCreate.SourceAppId.ToString(), out app);
+                }
+
+                var message = _messageFactory.GenerateMessageFromEventDTO(messageEventDTO, app);
 
                 if (message.SenderId == UserId)
                 {

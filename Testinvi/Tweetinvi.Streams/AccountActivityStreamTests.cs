@@ -490,6 +490,7 @@ namespace Testinvi.Tweetinvi.Streams
             Assert.AreEqual(eventsReceived.Count, 1);
             Assert.AreEqual(eventsReceived[0].Message.Text, "Hello World!");
             Assert.AreEqual(eventsReceived[0].Message.SenderId, ACCOUNT_ACTIVITY_USER_ID);
+            Assert.AreEqual(eventsReceived[0].Message.App.Name, "FuriousCamperTestApp1");
         }
 
         [TestMethod]

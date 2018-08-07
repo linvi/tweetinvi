@@ -20,6 +20,6 @@ namespace Tweetinvi.Core.Factories
 
         // Generate Message from Json (serialised Tweetinvi IEventWithAppDTO)
         IMessage GenerateMessageFromJson(string jsonMessage);
-        IMessage GenerateMessageFromEventDTO(IEventDTO createMessageDTO);
+        IMessage GenerateMessageFromEventDTO(IEventDTO createMessageDTO, IApp app = null);
     }
 }
