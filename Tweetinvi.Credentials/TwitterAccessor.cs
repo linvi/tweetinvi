@@ -453,7 +453,7 @@ namespace Tweetinvi.Credentials
         {
             try
             {
-                ExecuteQuery(url, HttpMethod.POST, new StringContent(json));
+                ExecuteQuery(url, HttpMethod.POST, null, new StringContent(json));
                 return true;
             }
             catch (TwitterException)
@@ -466,7 +466,7 @@ namespace Tweetinvi.Credentials
         {
             try
             {
-                return ExecuteQuery(query, method, httpContent).Text;
+                return ExecuteQuery(query, method, null, httpContent).Text;
             }
             catch (TwitterException ex)
             {
@@ -485,8 +485,23 @@ namespace Tweetinvi.Credentials
             return ExecuteQuery(query, method, null);
         }
 
+        public T ExecuteQuery<T>(
+            string query, 
+            HttpMethod method, 
+            ITwitterCredentials credentials,
+            HttpContent httpContent) where T : class
+        {
+            var webRequestResult = ExecuteQuery(query, method, credentials, httpContent);
+            var jsonResponse = webRequestResult.Text;
+            return _jsonObjectConverter.DeserializeObject<T>(jsonResponse);
+        }
+
         // Concrete Execute
-        public IWebRequestResult ExecuteQuery(string query, HttpMethod method, HttpContent httpContent, ITwitterCredentials credentials = null)
+        public IWebRequestResult ExecuteQuery(
+            string query, 
+            HttpMethod method, 
+            ITwitterCredentials credentials,
+            HttpContent httpContent = null)
         {
             if (query == null)
             {
@@ -500,14 +515,12 @@ namespace Tweetinvi.Credentials
         // Consumer Credentials
         public IWebRequestResult ExecuteConsumerQuery(string query, HttpMethod method, HttpContent httpContent, IConsumerOnlyCredentials credentials)
         {
-            return ExecuteQuery(query, method, httpContent, new TwitterCredentials(credentials));
+            return ExecuteQuery(query, method, new TwitterCredentials(credentials), httpContent);
         }
 
         public T ExecuteConsumerQuery<T>(string query, HttpMethod method, HttpContent httpContent, IConsumerOnlyCredentials credentials) where T : class
         {
-            var webRequestResult = ExecuteConsumerQuery(query, method, httpContent, credentials);
-            var jsonResponse = webRequestResult.Text;
-            return _jsonObjectConverter.DeserializeObject<T>(jsonResponse);
+            return ExecuteQuery<T>(query, method, new TwitterCredentials(credentials), httpContent);
         }
 
 

@@ -1,15 +1,14 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Examplinvi.ASP.NET.Core;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Tweetinvi;
 using Tweetinvi.ASPNETPlugins;
 using Tweetinvi.ASPNETPlugins.Models;
 using Tweetinvi.Core.Extensions;
 using Tweetinvi.Core.Public.Models.Authentication;
-using Tweetinvi.Models;
 
 namespace Examplinvi.WebhooksServer
 {
@@ -21,25 +20,46 @@ namespace Examplinvi.WebhooksServer
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddMvc();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            Plugins.Add<WebhooksModule>();
-
             var consumerOnlyCredentials = new ConsumerOnlyCredentials("CONSUMER_TOKEN", "CONSUMER_SECRET")
             {
                 ApplicationOnlyBearerToken = "BEARER_TOKEN"
             };
 
-            Auth.SetApplicationOnlyCredentials(consumerOnlyCredentials.ConsumerKey, consumerOnlyCredentials.ConsumerSecret, consumerOnlyCredentials.ApplicationOnlyBearerToken);
+            WebhookServerInitialization(app, consumerOnlyCredentials);
+            RegisterAccountActivities(consumerOnlyCredentials).Wait();
+
+            if (env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+            }
+
+            app.UseMvc();
+        }
+
+        private static void WebhookServerInitialization(IApplicationBuilder app, IConsumerOnlyCredentials consumerOnlyCredentials)
+        {
+            Plugins.Add<WebhooksModule>();
+
+            Auth.SetApplicationOnlyCredentials(
+                consumerOnlyCredentials.ConsumerKey, 
+                consumerOnlyCredentials.ConsumerSecret,
+                consumerOnlyCredentials.ApplicationOnlyBearerToken);
 
             TweetinviWebhookConfiguration = new TweetinviWebhookConfiguration(consumerOnlyCredentials);
 
             app.UseTweetinviWebhooks(TweetinviWebhookConfiguration);
+        }
 
-            var webhookEnvironments = Webhooks.GetAllWebhookEnvironments(consumerOnlyCredentials);
+        private static async Task RegisterAccountActivities(ConsumerOnlyCredentials consumerOnlyCredentials)
+        {
+            var webhookEnvironments = await Webhooks.GetAllWebhookEnvironmentsAsync(consumerOnlyCredentials);
+
             webhookEnvironments.ForEach(environment =>
             {
                 var webhookEnvironment = new RegistrableWebhookEnvironment(environment)
@@ -54,24 +74,13 @@ namespace Examplinvi.WebhooksServer
                 {
                     var activityStream = Stream.CreateAccountActivityStream(subscription.UserId);
 
-                    activityStream.TweetFavourited += (sender, args) =>
+                    activityStream.TweetDeleted += (sender, args) =>
                     {
-                        Console.WriteLine($"Tweet {args.Tweet.Id} Favourited");
+                        Console.WriteLine($"Tweet {args.Timestamp} Favourited");
                     };
 
                     TweetinviWebhookConfiguration.AddActivityStream(activityStream);
                 });
-
-            });
-
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
-
-            app.Run(async (context) =>
-            {
-                await context.Response.WriteAsync("Hello World!");
             });
         }
     }

@@ -1,5 +1,5 @@
-﻿using Tweetinvi.Core.Controllers;
-using Tweetinvi.Core.Credentials;
+﻿using System.Threading.Tasks;
+using Tweetinvi.Core.Controllers;
 using Tweetinvi.Core.Extensions;
 using Tweetinvi.Core.Helpers;
 using Tweetinvi.Core.Public.Models.Authentication;
@@ -13,47 +13,43 @@ namespace Tweetinvi.Webhooks
     public class WebhookController : IWebhookController
     {
         private readonly ITwitterAccessor _twitterAccessor;
-        private readonly ICredentialsAccessor _credentialsAccessor;
         private readonly IJsonObjectConverter _jsonObjectConverter;
 
         public WebhookController(
             ITwitterAccessor twitterAccessor,
-            ICredentialsAccessor credentialsAccessor,
             IJsonObjectConverter jsonObjectConverter)
         {
             _twitterAccessor = twitterAccessor;
-            _credentialsAccessor = credentialsAccessor;
             _jsonObjectConverter = jsonObjectConverter;
         }
 
-        public IWebhookDTO RegisterWebhook(string webhookEnvironmentName, string url)
+        public async Task<IWebhookDTO> RegisterWebhookAsync(string webhookEnvironmentName, string url, ITwitterCredentials credentials)
         {
-            var result = _twitterAccessor.ExecutePOSTQuery<IWebhookDTO>(
-                $"https://api.twitter.com/1.1/account_activity/all/{webhookEnvironmentName}/webhooks.json?url={url}");
+            var query = $"https://api.twitter.com/1.1/account_activity/all/{webhookEnvironmentName}/webhooks.json?url={url}";
+            var result = _twitterAccessor.ExecuteQuery<IWebhookDTO>(query, HttpMethod.POST, credentials, null);
 
-
-            return result;
+            return await Task.FromResult(result);
         }
 
-        public IWebhookEnvironmentDTO[] GetAllWebhooks(IConsumerCredentials consumerCredentials)
+        public async Task<IWebhookEnvironmentDTO[]> GetAllWebhooksAsync(IConsumerOnlyCredentials consumerCredentials)
         {
-            var result = _twitterAccessor.ExecuteGETQuery<IGetAllWebhooksResultDTO>(
-                $"https://api.twitter.com/1.1/account_activity/all/webhooks.json");
+            var query = "https://api.twitter.com/1.1/account_activity/all/webhooks.json";
+            var result = _twitterAccessor.ExecuteConsumerQuery<IGetAllWebhooksResultDTO>(query, HttpMethod.GET, null, consumerCredentials);
 
             result?.Environments?.ForEach(environment =>
             {
                 environment.ConsumerCredentials = consumerCredentials;
             });
 
-            return result?.Environments;
+            return await Task.FromResult(result?.Environments);
         }
 
-        public bool ChallengeWebhook(string webhookEnvironmentName, string webhookId)
+        public async Task<bool> ChallengeWebhookAsync(string webhookEnvironmentName, string webhookId, ITwitterCredentials credentials)
         {
             var query = $"https://api.twitter.com/1.1/account_activity/all/{webhookEnvironmentName}/webhooks/{webhookId}.json";
-            var result = _twitterAccessor.ExecuteQuery(query, HttpMethod.PUT);
+            var result = _twitterAccessor.ExecuteQuery(query, HttpMethod.PUT, credentials);
 
-            return result.StatusCode != 214;
+            return await Task.FromResult(result.StatusCode != 214);
         }
 
         public bool SubscribeToAllAuthenticatedUserEvents(string webhookEnvironmentName)

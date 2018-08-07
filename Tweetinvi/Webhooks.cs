@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Tweetinvi.Core.Controllers;
 using Tweetinvi.Core.Public.Models.Authentication;
 using Tweetinvi.Core.Public.Models.Interfaces.DTO.Webhooks;
@@ -38,19 +39,19 @@ namespace Tweetinvi
             _webhookController = TweetinviContainer.Resolve<IWebhookController>();
         }
 
-        public static IWebhookDTO RegisterWebhook(string webhookEnvironmentName, string url)
+        public static async Task<IWebhookDTO> RegisterWebhookAsync(string webhookEnvironmentName, string url, ITwitterCredentials credentials)
         {
-            return WebhookController.RegisterWebhook(webhookEnvironmentName, url);
+            return await WebhookController.RegisterWebhookAsync(webhookEnvironmentName, url, credentials);
         }
 
-        public static IWebhookEnvironmentDTO[] GetAllWebhookEnvironments(IConsumerCredentials consumerCredentials)
+        public static async Task<IWebhookEnvironmentDTO[]> GetAllWebhookEnvironmentsAsync(IConsumerOnlyCredentials consumerCredentials)
         {
-            return WebhookController.GetAllWebhooks(consumerCredentials);
+            return await WebhookController.GetAllWebhooksAsync(consumerCredentials);
         }
 
-        public static bool ChallengeWebhook(string webhookEnvironmentName, string webhookId)
+        public static async Task<bool> ChallengeWebhookAsync(string webhookEnvironmentName, string webhookId, ITwitterCredentials credentials)
         {
-            return WebhookController.ChallengeWebhook(webhookEnvironmentName, webhookId);
+            return await WebhookController.ChallengeWebhookAsync(webhookEnvironmentName, webhookId, credentials);
         }
 
         public static bool SubscribeToAllAuthenticatedUserEvents(string webhookEnvironmentName)

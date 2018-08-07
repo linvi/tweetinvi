@@ -31,9 +31,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Examplinvi.ASP.NET.Core", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Examplinvi.NETStandard-2.0", "Examplinvi.NETStandard-2.0\Examplinvi.NETStandard-2.0.csproj", "{D3239412-8AA7-45E2-9BDE-BE82A3E50A67}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Examplinvi.WebhooksServer", "Examplinvi.WebhooksServer\Examplinvi.WebhooksServer.csproj", "{803CC0E9-3DA8-411C-BDA2-ADA3919E7948}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Examplinvi.WebhooksServer", "Examplinvi.WebhooksServer\Examplinvi.WebhooksServer.csproj", "{803CC0E9-3DA8-411C-BDA2-ADA3919E7948}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tweetinvi.ASPNETPlugins", "Tweetinvi.ASPNETPlugins\Tweetinvi.ASPNETPlugins.csproj", "{E77AE04C-4ABA-49EC-9474-38FD844335C9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tweetinvi.ASPNETPlugins", "Tweetinvi.ASPNETPlugins\Tweetinvi.ASPNETPlugins.csproj", "{E77AE04C-4ABA-49EC-9474-38FD844335C9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

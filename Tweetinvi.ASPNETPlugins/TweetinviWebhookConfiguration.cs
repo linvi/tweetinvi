@@ -10,6 +10,8 @@ namespace Tweetinvi.ASPNETPlugins
 {
     public interface ITweetinviWebhookConfiguration
     {
+        IConsumerOnlyCredentials ConsumerOnlyCredentials { get; }
+
         IRegistrableWebhookEnvironment[] RegisteredWebhookEnvironments { get; }
         IAccountActivityStream[] RegisteredActivityStreams { get; }
         IWebhookDispatcher WebhookDispatcher { get; }
@@ -22,22 +24,22 @@ namespace Tweetinvi.ASPNETPlugins
 
     public class TweetinviWebhookConfiguration : ITweetinviWebhookConfiguration
     {
-        private readonly IConsumerOnlyCredentials _consumerCredentials;
         private List<IRegistrableWebhookEnvironment> _webhookEnvironments;
 
         public TweetinviWebhookConfiguration()
         {
             _webhookEnvironments = new List<IRegistrableWebhookEnvironment>();
-
             WebhookDispatcher = TweetinviContainer.Resolve<IWebhookDispatcher>();
         }
 
-        public TweetinviWebhookConfiguration(IConsumerOnlyCredentials consumerCredentials) : this()
+        public TweetinviWebhookConfiguration(IConsumerOnlyCredentials consumerOnlyCredentials) : this()
         {
-            _consumerCredentials = consumerCredentials;
+            ConsumerOnlyCredentials = consumerOnlyCredentials;
         }
 
         public IWebhookDispatcher WebhookDispatcher { get; }
+
+        public IConsumerOnlyCredentials ConsumerOnlyCredentials { get; }
 
         public IRegistrableWebhookEnvironment[] RegisteredWebhookEnvironments
         {

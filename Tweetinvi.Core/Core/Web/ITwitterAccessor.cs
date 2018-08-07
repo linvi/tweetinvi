@@ -94,7 +94,9 @@ namespace Tweetinvi.Core.Web
         // Get Json from Twitter
 
         IWebRequestResult ExecuteQuery(string query, HttpMethod method);
-        IWebRequestResult ExecuteQuery(string query, HttpMethod method, HttpContent httpContent, ITwitterCredentials credentials);
+        IWebRequestResult ExecuteQuery(string query, HttpMethod method, ITwitterCredentials credentials, HttpContent httpContent = null);
+        T ExecuteQuery<T>(string query, HttpMethod method, ITwitterCredentials credentials, HttpContent httpContent) where T : class;
+
 
         // Get Binary data from twitter URL
         byte[] DownloadBinary(string url);
