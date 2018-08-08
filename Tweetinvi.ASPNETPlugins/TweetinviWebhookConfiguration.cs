@@ -4,7 +4,6 @@ using Tweetinvi.ASPNETPlugins.Models;
 using Tweetinvi.Core.Public.Models.Authentication;
 using Tweetinvi.Core.Public.Streaming;
 using Tweetinvi.Core.Public.Streaming.Webhooks;
-using Tweetinvi.Models;
 
 namespace Tweetinvi.ASPNETPlugins
 {

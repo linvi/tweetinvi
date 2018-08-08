@@ -4,7 +4,7 @@ namespace Tweetinvi.Core.Public.Streaming.Webhooks
 {
     public interface IWebhookDispatcher
     {
-        IAccountActivityStream[] SubscribedAccountActivityStreams { get; set; }
+        IAccountActivityStream[] SubscribedAccountActivityStreams { get; }
 
         void WebhookMessageReceived(IWebhookMessage message);
         void SubscribeAccountActivityStream(IAccountActivityStream accountActivityStream);

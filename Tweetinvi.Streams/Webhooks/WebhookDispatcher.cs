@@ -18,7 +18,10 @@ namespace Tweetinvi.Streams.Webhooks
             _userAccountActivityStream = new List<IAccountActivityStream>();
         }
 
-        public IAccountActivityStream[] SubscribedAccountActivityStreams { get; set; }
+        public IAccountActivityStream[] SubscribedAccountActivityStreams
+        {
+            get { return _userAccountActivityStream.ToArray(); }
+        }
 
         public void WebhookMessageReceived(IWebhookMessage message)
         {

@@ -226,7 +226,7 @@ namespace Tweetinvi
 
         public static IWebRequestResult ExecuteConsumerQuery(string query, HttpMethod method, IConsumerOnlyCredentials credentials)
         {
-            return Accessor.ExecuteConsumerQuery(query, method, null, credentials);
+            return Accessor.ExecuteQuery(query, method, credentials, null);
         }
 
         // Sign

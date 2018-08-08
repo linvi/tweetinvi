@@ -453,7 +453,7 @@ namespace Tweetinvi.Credentials
         {
             try
             {
-                ExecuteQuery(url, HttpMethod.POST, null, new StringContent(json));
+                ExecuteQuery(url, (HttpMethod) HttpMethod.POST, (ITwitterCredentials) null, new StringContent(json));
                 return true;
             }
             catch (TwitterException)
@@ -466,7 +466,7 @@ namespace Tweetinvi.Credentials
         {
             try
             {
-                return ExecuteQuery(query, method, null, httpContent).Text;
+                return ExecuteQuery(query, method, (ITwitterCredentials) null, httpContent).Text;
             }
             catch (TwitterException ex)
             {
@@ -513,12 +513,14 @@ namespace Tweetinvi.Credentials
         }
 
         // Consumer Credentials
-        public IWebRequestResult ExecuteConsumerQuery(string query, HttpMethod method, HttpContent httpContent, IConsumerOnlyCredentials credentials)
+        public IWebRequestResult ExecuteQuery(string query, HttpMethod method,
+            IConsumerOnlyCredentials credentials, HttpContent httpContent)
         {
             return ExecuteQuery(query, method, new TwitterCredentials(credentials), httpContent);
         }
 
-        public T ExecuteConsumerQuery<T>(string query, HttpMethod method, HttpContent httpContent, IConsumerOnlyCredentials credentials) where T : class
+        public T ExecuteQuery<T>(string query, HttpMethod method, IConsumerOnlyCredentials credentials,
+            HttpContent httpContent) where T : class
         {
             return ExecuteQuery<T>(query, method, new TwitterCredentials(credentials), httpContent);
         }

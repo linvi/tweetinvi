@@ -108,7 +108,7 @@ namespace Tweetinvi.Core.Web
             where T1 : class, IBaseCursorQueryDTO<T>;
 
         // Consumer Credentials Query
-        IWebRequestResult ExecuteConsumerQuery(string query, HttpMethod method, HttpContent httpContent, IConsumerOnlyCredentials credentials);
-        T ExecuteConsumerQuery<T>(string query, HttpMethod method, HttpContent httpContent, IConsumerOnlyCredentials credentials) where T : class;
+        IWebRequestResult ExecuteQuery(string query, HttpMethod method, IConsumerOnlyCredentials credentials, HttpContent httpContent = null);
+        T ExecuteQuery<T>(string query, HttpMethod method, IConsumerOnlyCredentials credentials, HttpContent httpContent = null) where T : class;
     }
 }

@@ -54,19 +54,19 @@ namespace Tweetinvi
             return await WebhookController.ChallengeWebhookAsync(webhookEnvironmentName, webhookId, credentials);
         }
 
-        public static async Task<bool> SubscribeToAllAuthenticatedUserEventsAsync(string webhookEnvironmentName)
+        public static async Task<bool> SubscribeToAccountActivityEventsAsync(string webhookEnvironmentName, ITwitterCredentials credentials)
         {
-            return await WebhookController.SubscribeToAllAuthenticatedUserEventsAsync(webhookEnvironmentName);
+            return await WebhookController.SubscribeToAllAuthenticatedUserEventsAsync(webhookEnvironmentName, credentials);
         }
 
-        public static async Task<IGetWebhookSubscriptionsCountResultDTO> CountNumberOfSubscriptionsAsync()
+        public static async Task<IGetWebhookSubscriptionsCountResultDTO> CountNumberOfSubscriptionsAsync(IConsumerOnlyCredentials consumerCredentials)
         {
-            return await WebhookController.CountNumberOfSubscriptionsAsync();
+            return await WebhookController.CountNumberOfSubscriptionsAsync(consumerCredentials);
         }
 
-        public static async Task<bool> DoesAuthenticatedHaveASubscription(string webhookEnvironmentName)
+        public static async Task<bool> DoesAccountHaveASubscriptionAsync(string webhookEnvironmentName, ITwitterCredentials credentials)
         {
-            return await WebhookController.DoesAuthenticatedHaveASubscriptionAsync(webhookEnvironmentName);
+            return await WebhookController.DoesAccountHaveASubscriptionAsync(webhookEnvironmentName, credentials);
         }
 
         public static async Task<IWebhookSubcriptionListDTO> GetListOfSubscriptionsAsync(string webhookEnvironmentName, IConsumerOnlyCredentials credentials)
@@ -74,14 +74,14 @@ namespace Tweetinvi
             return await WebhookController.GetListOfSubscriptionsAsync(webhookEnvironmentName, credentials);
         }
 
-        public static async Task<bool> RemoveWebhook(string webhookEnvironmentName, string webhookId)
+        public static async Task<bool> RemoveWebhookAsync(string webhookEnvironmentName, string webhookId, ITwitterCredentials credentials)
         {
-            return await WebhookController.RemoveWebhookAsync(webhookEnvironmentName, webhookId);
+            return await WebhookController.RemoveWebhookAsync(webhookEnvironmentName, webhookId, credentials);
         }
 
-        public static async Task<bool> RemoveAllAuthenticatedUserSubscriptions(string webhookEnvironmentName)
+        public static async Task<bool> RemoveAllAccountSubscriptionsAsync(string webhookEnvironmentName, ITwitterCredentials credentials)
         {
-            return await WebhookController.RemoveAllAuthenticatedUserSubscriptionsAsync(webhookEnvironmentName);
+            return await WebhookController.RemoveAllAccountSubscriptionsAsync(webhookEnvironmentName, credentials);
         }
     }
 }

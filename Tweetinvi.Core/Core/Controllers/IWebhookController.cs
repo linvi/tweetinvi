@@ -11,11 +11,11 @@ namespace Tweetinvi.Core.Controllers
         Task<IWebhookDTO> RegisterWebhookAsync(string webhookEnvironmentName, string url, ITwitterCredentials credentials);
         Task<IWebhookEnvironmentDTO[]> GetAllWebhooksAsync(IConsumerOnlyCredentials consumerCredentials);
         Task<bool> ChallengeWebhookAsync(string webhookEnvironmentName, string webhookId, ITwitterCredentials credentials);
-        Task<bool> SubscribeToAllAuthenticatedUserEventsAsync(string webhookEnvironmentName);
-        Task<IGetWebhookSubscriptionsCountResultDTO> CountNumberOfSubscriptionsAsync();
-        Task<bool> DoesAuthenticatedHaveASubscriptionAsync(string webhookEnvironmentName);
+        Task<bool> SubscribeToAllAuthenticatedUserEventsAsync(string webhookEnvironmentName, ITwitterCredentials credentials);
+        Task<IGetWebhookSubscriptionsCountResultDTO> CountNumberOfSubscriptionsAsync(IConsumerOnlyCredentials credentials);
+        Task<bool> DoesAccountHaveASubscriptionAsync(string webhookEnvironmentName, ITwitterCredentials credentials);
         Task<IWebhookSubcriptionListDTO> GetListOfSubscriptionsAsync(string webhookEnvironmentName, IConsumerOnlyCredentials credentials);
-        Task<bool> RemoveWebhookAsync(string webhookEnvironmentName, string webhookId);
-        Task<bool> RemoveAllAuthenticatedUserSubscriptionsAsync(string webhookEnvironmentName);
+        Task<bool> RemoveWebhookAsync(string webhookEnvironmentName, string webhookId, ITwitterCredentials credentials);
+        Task<bool> RemoveAllAccountSubscriptionsAsync(string webhookEnvironmentName, ITwitterCredentials credentials);
     }
 }

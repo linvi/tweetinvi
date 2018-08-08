@@ -9,6 +9,7 @@ using Tweetinvi.ASPNETPlugins;
 using Tweetinvi.ASPNETPlugins.Models;
 using Tweetinvi.Core.Extensions;
 using Tweetinvi.Core.Public.Models.Authentication;
+using Tweetinvi.Core.Public.Models.Interfaces.DTO.Webhooks;
 
 namespace Examplinvi.WebhooksServer
 {
@@ -56,7 +57,7 @@ namespace Examplinvi.WebhooksServer
             app.UseTweetinviWebhooks(TweetinviWebhookConfiguration);
         }
 
-        private static async Task RegisterAccountActivities(ConsumerOnlyCredentials consumerOnlyCredentials)
+        private static async Task RegisterAccountActivities(IConsumerOnlyCredentials consumerOnlyCredentials)
         {
             var webhookEnvironments = await Webhooks.GetAllWebhookEnvironmentsAsync(consumerOnlyCredentials);
 
@@ -69,18 +70,24 @@ namespace Examplinvi.WebhooksServer
 
                 TweetinviWebhookConfiguration.AddWebhookEnvironment(webhookEnvironment);
 
-                var subscriptions = await Webhooks.GetListOfSubscriptionsAsync(environment.Name, consumerOnlyCredentials);
-                subscriptions.Subscriptions.ForEach(subscription =>
-                {
-                    var activityStream = Stream.CreateAccountActivityStream(subscription.UserId);
+                await SubscribeToAllAccountActivities(consumerOnlyCredentials, environment);
+            });
+        }
 
-                    activityStream.TweetDeleted += (sender, args) =>
-                    {
-                        Console.WriteLine($"Tweet {args.Timestamp} Favourited");
-                    };
+        private static async Task SubscribeToAllAccountActivities(
+            IConsumerOnlyCredentials consumerOnlyCredentials,
+            IWebhookEnvironmentDTO environment)
+        {
+            // If you wish to subscribe to the different account activity events you can do the following
+            var subscriptions = await Webhooks.GetListOfSubscriptionsAsync(environment.Name, consumerOnlyCredentials);
 
-                    TweetinviWebhookConfiguration.AddActivityStream(activityStream);
-                });
+            subscriptions.Subscriptions.ForEach(subscription =>
+            {
+                var activityStream = Stream.CreateAccountActivityStream(subscription.UserId);
+
+                activityStream.JsonObjectReceived += (sender, args) => { Console.WriteLine("json received : " + args.Json); };
+
+                TweetinviWebhookConfiguration.AddActivityStream(activityStream);
             });
         }
     }
