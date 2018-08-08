@@ -27,6 +27,7 @@ namespace WebApplication1.Controllers
         [HttpPost("RegisterWebhook")]
         public async Task<bool> RegisterWebhook(string environment, string url, string userId)
         {
+            url = "https://36716537.ngrok.io/account_activity";
             var userCredentials = await CredentialsRetriever.GetUserCredentials(userId);
             var result = await Webhooks.RegisterWebhookAsync(environment, url, userCredentials);
 
@@ -42,6 +43,15 @@ namespace WebApplication1.Controllers
             webhookEnvironment?.AddWebhook(result);
 
             return true;
+        }
+
+        [HttpPost("DeleteWebhook")]
+        public async Task<bool> DeleteWebhook(string environment, string webhookId, string userId)
+        {
+            var userCredentials = await CredentialsRetriever.GetUserCredentials(userId);
+            var result = await Webhooks.RemoveWebhookAsync(environment, webhookId, userCredentials);
+
+            return result;
         }
 
         [HttpGet("GetWebhookEnvironments")]
