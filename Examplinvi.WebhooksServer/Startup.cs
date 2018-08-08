@@ -60,7 +60,7 @@ namespace Examplinvi.WebhooksServer
         {
             var webhookEnvironments = await Webhooks.GetAllWebhookEnvironmentsAsync(consumerOnlyCredentials);
 
-            webhookEnvironments.ForEach(environment =>
+            webhookEnvironments.ForEach(async environment =>
             {
                 var webhookEnvironment = new RegistrableWebhookEnvironment(environment)
                 {
@@ -69,7 +69,7 @@ namespace Examplinvi.WebhooksServer
 
                 TweetinviWebhookConfiguration.AddWebhookEnvironment(webhookEnvironment);
 
-                var subscriptions = Webhooks.GetListOfSubscriptions(environment.Name, consumerOnlyCredentials);
+                var subscriptions = await Webhooks.GetListOfSubscriptionsAsync(environment.Name, consumerOnlyCredentials);
                 subscriptions.Subscriptions.ForEach(subscription =>
                 {
                     var activityStream = Stream.CreateAccountActivityStream(subscription.UserId);

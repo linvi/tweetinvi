@@ -54,34 +54,34 @@ namespace Tweetinvi
             return await WebhookController.ChallengeWebhookAsync(webhookEnvironmentName, webhookId, credentials);
         }
 
-        public static bool SubscribeToAllAuthenticatedUserEvents(string webhookEnvironmentName)
+        public static async Task<bool> SubscribeToAllAuthenticatedUserEventsAsync(string webhookEnvironmentName)
         {
-            return WebhookController.SubscribeToAllAuthenticatedUserEvents(webhookEnvironmentName);
+            return await WebhookController.SubscribeToAllAuthenticatedUserEventsAsync(webhookEnvironmentName);
         }
 
-        public static IGetWebhookSubscriptionsCountResultDTO CountNumberOfSubscriptions()
+        public static async Task<IGetWebhookSubscriptionsCountResultDTO> CountNumberOfSubscriptionsAsync()
         {
-            return WebhookController.CountNumberOfSubscriptions();
+            return await WebhookController.CountNumberOfSubscriptionsAsync();
         }
 
-        public static bool DoesAuthenticatedHaveASubscription(string webhookEnvironmentName)
+        public static async Task<bool> DoesAuthenticatedHaveASubscription(string webhookEnvironmentName)
         {
-            return WebhookController.DoesAuthenticatedHaveASubscription(webhookEnvironmentName);
+            return await WebhookController.DoesAuthenticatedHaveASubscriptionAsync(webhookEnvironmentName);
         }
 
-        public static IWebhookSubcriptionListDTO GetListOfSubscriptions(string webhookEnvironmentName, IConsumerOnlyCredentials credentials)
+        public static async Task<IWebhookSubcriptionListDTO> GetListOfSubscriptionsAsync(string webhookEnvironmentName, IConsumerOnlyCredentials credentials)
         {
-            return WebhookController.GetListOfSubscriptions(webhookEnvironmentName, credentials);
+            return await WebhookController.GetListOfSubscriptionsAsync(webhookEnvironmentName, credentials);
         }
 
-        public static bool RemoveWebhook(string webhookEnvironmentName, string webhookId)
+        public static async Task<bool> RemoveWebhook(string webhookEnvironmentName, string webhookId)
         {
-            return WebhookController.RemoveWebhook(webhookEnvironmentName, webhookId);
+            return await WebhookController.RemoveWebhookAsync(webhookEnvironmentName, webhookId);
         }
 
-        public static bool RemoveAllAuthenticatedUserSubscriptions(string webhookEnvironmentName)
+        public static async Task<bool> RemoveAllAuthenticatedUserSubscriptions(string webhookEnvironmentName)
         {
-            return WebhookController.RemoveAllAuthenticatedUserSubscriptions(webhookEnvironmentName);
+            return await WebhookController.RemoveAllAuthenticatedUserSubscriptionsAsync(webhookEnvironmentName);
         }
     }
 }

@@ -52,16 +52,16 @@ namespace Tweetinvi.Webhooks
             return await Task.FromResult(result.StatusCode != 214);
         }
 
-        public bool SubscribeToAllAuthenticatedUserEvents(string webhookEnvironmentName)
+        public async Task<bool> SubscribeToAllAuthenticatedUserEventsAsync(string webhookEnvironmentName)
         {
             var query = $"https://api.twitter.com/1.1/account_activity/all/{webhookEnvironmentName}/subscriptions.json";
 
             var result = _twitterAccessor.ExecuteQuery(query, HttpMethod.POST);
 
-            return result.StatusCode != 348;
+            return await Task.FromResult(result.StatusCode != 348);
         }
 
-        public IGetWebhookSubscriptionsCountResultDTO CountNumberOfSubscriptions()
+        public async Task<IGetWebhookSubscriptionsCountResultDTO> CountNumberOfSubscriptionsAsync()
         {
             var query = "https://api.twitter.com/1.1/account_activity/subscriptions/count.json";
 
@@ -72,43 +72,49 @@ namespace Tweetinvi.Webhooks
                 return null;
             }
 
-            return _jsonObjectConverter.DeserializeObject<IGetWebhookSubscriptionsCountResultDTO>(result.Text);
+            var subscriptionsCount = _jsonObjectConverter.DeserializeObject<IGetWebhookSubscriptionsCountResultDTO>(result.Text);
+
+            return await Task.FromResult(subscriptionsCount);
         }
 
-        public bool DoesAuthenticatedHaveASubscription(string webhookEnvironmentName)
+        public async Task<bool> DoesAuthenticatedHaveASubscriptionAsync(string webhookEnvironmentName)
         {
             var query = $"https://api.twitter.com/1.1/account_activity/all/{webhookEnvironmentName}/subscriptions.json";
 
             var result = _twitterAccessor.ExecuteQuery(query, HttpMethod.POST);
 
-            return result.StatusCode == 204;
+            return await Task.FromResult(result.StatusCode == 204);
         }
 
-        public IWebhookSubcriptionListDTO GetListOfSubscriptions(string webhookEnvironmentName, IConsumerOnlyCredentials credentials)
+        public async Task<IWebhookSubcriptionListDTO> GetListOfSubscriptionsAsync(
+            string webhookEnvironmentName,
+            IConsumerOnlyCredentials credentials)
         {
             var query = $"https://api.twitter.com/1.1/account_activity/all/{webhookEnvironmentName}/subscriptions/list.json";
 
             var result = _twitterAccessor.ExecuteConsumerQuery(query, HttpMethod.GET, null, credentials);
 
-            return _jsonObjectConverter.DeserializeObject<IWebhookSubcriptionListDTO>(result.Text);
+            var subscriptions = _jsonObjectConverter.DeserializeObject<IWebhookSubcriptionListDTO>(result.Text);
+
+            return await Task.FromResult(subscriptions);
         }
 
-        public bool RemoveWebhook(string webhookEnvironmentName, string webhookId)
+        public async Task<bool> RemoveWebhookAsync(string webhookEnvironmentName, string webhookId)
         {
             var query = $"https://api.twitter.com/1.1/account_activity/all/{webhookEnvironmentName}/webhooks/{webhookId}.json";
 
             var result = _twitterAccessor.ExecuteQuery(query, HttpMethod.DELETE);
 
-            return result.StatusCode == 204;
+            return await Task.FromResult(result.StatusCode == 204);
         }
 
-        public bool RemoveAllAuthenticatedUserSubscriptions(string webhookEnvironmentName)
+        public async Task<bool> RemoveAllAuthenticatedUserSubscriptionsAsync(string webhookEnvironmentName)
         {
             var query = $"https://api.twitter.com/1.1/account_activity/all/{webhookEnvironmentName}/subscriptions.json";
 
             var result = _twitterAccessor.ExecuteQuery(query, HttpMethod.DELETE);
 
-            return result.StatusCode == 204;
+            return await Task.FromResult(result.StatusCode == 204);
         }
     }
 }
