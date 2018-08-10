@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Examplinvi.ASP.NET.Core;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Tweetinvi;
-using Tweetinvi.ASPNETPlugins;
-using Tweetinvi.ASPNETPlugins.Models;
+using Tweetinvi.AspNet;
 using Tweetinvi.Core.Extensions;
 using Tweetinvi.Core.Public.Models.Authentication;
 using Tweetinvi.Core.Public.Models.Interfaces.DTO.Webhooks;
@@ -15,7 +13,7 @@ namespace Examplinvi.WebhooksServer
 {
     public class Startup
     {
-        public static TweetinviWebhookConfiguration TweetinviWebhookConfiguration { get; set; }
+        public static WebhookConfiguration WebhookConfiguration { get; set; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
@@ -45,16 +43,11 @@ namespace Examplinvi.WebhooksServer
 
         private static void WebhookServerInitialization(IApplicationBuilder app, IConsumerOnlyCredentials consumerOnlyCredentials)
         {
-            Plugins.Add<WebhooksModule>();
+            Plugins.Add<WebhooksPlugin>();
 
-            Auth.SetApplicationOnlyCredentials(
-                consumerOnlyCredentials.ConsumerKey, 
-                consumerOnlyCredentials.ConsumerSecret,
-                consumerOnlyCredentials.ApplicationOnlyBearerToken);
+            WebhookConfiguration = new WebhookConfiguration(consumerOnlyCredentials);
 
-            TweetinviWebhookConfiguration = new TweetinviWebhookConfiguration(consumerOnlyCredentials);
-
-            app.UseTweetinviWebhooks(TweetinviWebhookConfiguration);
+            app.UseTweetinviWebhooks(WebhookConfiguration);
         }
 
         private static async Task RegisterAccountActivities(IConsumerOnlyCredentials consumerOnlyCredentials)
@@ -68,7 +61,7 @@ namespace Examplinvi.WebhooksServer
                     Credentials = consumerOnlyCredentials
                 };
 
-                TweetinviWebhookConfiguration.AddWebhookEnvironment(webhookEnvironment);
+                WebhookConfiguration.AddWebhookEnvironment(webhookEnvironment);
 
                 await SubscribeToAllAccountActivities(consumerOnlyCredentials, environment);
             });
@@ -87,7 +80,7 @@ namespace Examplinvi.WebhooksServer
 
                 activityStream.JsonObjectReceived += (sender, args) => { Console.WriteLine("json received : " + args.Json); };
 
-                TweetinviWebhookConfiguration.AddActivityStream(activityStream);
+                WebhookConfiguration.AddActivityStream(activityStream);
             });
         }
     }

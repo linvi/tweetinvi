@@ -1,7 +1,8 @@
-﻿using System.Threading.Tasks;
+﻿using System;
 using Tweetinvi;
-using Tweetinvi.Core.Webhooks;
-using Tweetinvi.Webhooks;
+using Tweetinvi.Core.Extensions;
+using Tweetinvi.Core.Public.Models.Authentication;
+using Tweetinvi.Core.Public.Models.Interfaces.DTO.Webhooks;
 
 namespace Examplinvi.NETStandard_2._0
 {
@@ -9,15 +10,34 @@ namespace Examplinvi.NETStandard_2._0
     {
         static void Main(string[] args)
         {
-            Plugins.Add<TweetinviWebhooksPlugin>();
+            Sync.ExecuteTaskAsync(() =>
+            {
+                var consumerOnlyCredentials = new ConsumerOnlyCredentials("CONSUMER_TOKEN", "CONSUMER_SECRET")
+                {
+                    ApplicationOnlyBearerToken = "BEARER_TOKEN"
+                };
 
-            var server = Task.Run(() => Tweetinvi.Webhooks.Program.Main(args));
+                IWebhookEnvironmentDTO[] webhookEnvironments = Webhooks.GetAllWebhookEnvironmentsAsync(consumerOnlyCredentials).Result;
+                
+                webhookEnvironments.ForEach(env =>
+                {
+                    Console.WriteLine(env.Name);
+                });
+            }).Wait();
 
-            var client = TweetinviContainer.Resolve<IWebhookProtocolProcessClient>();
+        }
 
-            client.Start();
+        static void StartServer()
+        {
+            Plugins.Add<WebhooksPlugin>();
 
-            server.Wait();
+            //var server = Task.Run(() => Examplinvi.WebhooksServer.Program.Main(new string[] { }));
+
+            //var client = TweetinviContainer.Resolve<IWebhookProtocolProcessClient>();
+
+            //client.Start();
+
+            //server.Wait();
         }
     }
 }

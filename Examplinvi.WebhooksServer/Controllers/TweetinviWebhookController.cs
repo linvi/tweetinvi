@@ -37,7 +37,7 @@ namespace WebApplication1.Controllers
             }
 
             // Register webhook in server
-            var webhookEnvironment = Startup.TweetinviWebhookConfiguration.RegisteredWebhookEnvironments.FirstOrDefault(x =>
+            var webhookEnvironment = Startup.WebhookConfiguration.RegisteredWebhookEnvironments.FirstOrDefault(x =>
                 x.Name == environment);
 
             webhookEnvironment?.AddWebhook(result);
@@ -57,7 +57,7 @@ namespace WebApplication1.Controllers
         [HttpGet("GetWebhookEnvironments")]
         public async Task<IWebhookEnvironmentDTO[]> GetWebhookEnvironments()
         {
-            var webhookEnvironments = await Webhooks.GetAllWebhookEnvironmentsAsync(Startup.TweetinviWebhookConfiguration.ConsumerOnlyCredentials);
+            var webhookEnvironments = await Webhooks.GetAllWebhookEnvironmentsAsync(Startup.WebhookConfiguration.ConsumerOnlyCredentials);
             return webhookEnvironments;
         }
 
@@ -66,7 +66,7 @@ namespace WebApplication1.Controllers
         [HttpGet("GetWebhookSubscriptions")]
         public async Task<IWebhookSubscriptionDTO[]> GetWebhookSubscriptions(string environment)
         {
-            var webhookEnvironments = await Webhooks.GetListOfSubscriptionsAsync(environment, Startup.TweetinviWebhookConfiguration.ConsumerOnlyCredentials);  
+            var webhookEnvironments = await Webhooks.GetListOfSubscriptionsAsync(environment, Startup.WebhookConfiguration.ConsumerOnlyCredentials);  
             return webhookEnvironments.Subscriptions;
         }
 
@@ -91,7 +91,7 @@ namespace WebApplication1.Controllers
         [HttpGet("CountSubscriptions")]
         public async Task<string> CountSubscriptions(string userId)
         {
-            var credentials = Startup.TweetinviWebhookConfiguration.ConsumerOnlyCredentials;
+            var credentials = Startup.WebhookConfiguration.ConsumerOnlyCredentials;
             var result = await Webhooks.CountNumberOfSubscriptionsAsync(credentials);
             return result?.SubscriptionsCountAll;
         }
@@ -103,7 +103,7 @@ namespace WebApplication1.Controllers
         {
             var userCredentials = await CredentialsRetriever.GetUserCredentials(userId);
             
-            var webhook = Startup.TweetinviWebhookConfiguration.RegisteredWebhookEnvironments.FirstOrDefault(x => x.Name == environment);
+            var webhook = Startup.WebhookConfiguration.RegisteredWebhookEnvironments.FirstOrDefault(x => x.Name == environment);
 
             if (webhook == null)
             {
@@ -111,7 +111,7 @@ namespace WebApplication1.Controllers
             }
 
             var activityStream = Stream.CreateAccountActivityStream(userId);
-            Startup.TweetinviWebhookConfiguration.AddActivityStream(activityStream);
+            Startup.WebhookConfiguration.AddActivityStream(activityStream);
 
             activityStream.TweetFavourited += (sender, args) =>
             {
@@ -124,18 +124,18 @@ namespace WebApplication1.Controllers
         [HttpPost("UnsubscribeFromAccountActivities")]
         public string UnsubscribeFromAccountActivities(string environment, string userId)
         {
-            var webhook = Startup.TweetinviWebhookConfiguration.RegisteredWebhookEnvironments.FirstOrDefault(x => x.Name == environment);
+            var webhook = Startup.WebhookConfiguration.RegisteredWebhookEnvironments.FirstOrDefault(x => x.Name == environment);
 
             if (webhook == null)
             {
                 return "ENVIRONMENT_NOT_MATCHED";
             }
 
-            var streams = Startup.TweetinviWebhookConfiguration.RegisteredActivityStreams.Where(x => x.UserId.ToString() == userId);
+            var streams = Startup.WebhookConfiguration.RegisteredActivityStreams.Where(x => x.UserId.ToString() == userId);
 
             streams.ForEach(stream =>
             {
-                Startup.TweetinviWebhookConfiguration.RemoveActivityStream(stream);
+                Startup.WebhookConfiguration.RemoveActivityStream(stream);
             });
 
             return "UNSUBSCRIBED";

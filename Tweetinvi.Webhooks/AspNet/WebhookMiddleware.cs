@@ -2,31 +2,29 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
-using Tweetinvi;
-using Tweetinvi.ASPNETPlugins;
 
-namespace Examplinvi.ASP.NET.Core
+namespace Tweetinvi.AspNet
 {
-    public static class TweetinviWebhookMiddlewareExtensions
+    public static class WebhookMiddlewareExtensions
     {
-        public static IApplicationBuilder UseTweetinviWebhooks(this IApplicationBuilder app, TweetinviWebhookConfiguration configuration)
+        public static IApplicationBuilder UseTweetinviWebhooks(this IApplicationBuilder app, WebhookConfiguration configuration)
         {
-            return app.UseMiddleware<TweetinviWebhookMiddleware>(Options.Create(configuration));
+            return app.UseMiddleware<WebhookMiddleware>(Options.Create(configuration));
         }
     }
 
-    public class TweetinviWebhookMiddleware
+    public class WebhookMiddleware
     {
         private readonly RequestDelegate _next;
-        private TweetinviWebhookConfiguration _configuration;
-        private ITweetinviWebhookRouter _router;
+        private WebhookConfiguration _configuration;
+        private IWebhookRouter _router;
 
-        public TweetinviWebhookMiddleware(RequestDelegate next, IOptions<TweetinviWebhookConfiguration> options)
+        public WebhookMiddleware(RequestDelegate next, IOptions<WebhookConfiguration> options)
         {
             _next = next;
             _configuration = options.Value;
 
-            _router = TweetinviContainer.Resolve<ITweetinviWebhookRouter>();
+            _router = TweetinviContainer.Resolve<IWebhookRouter>();
         }
 
         public async Task Invoke(HttpContext context)

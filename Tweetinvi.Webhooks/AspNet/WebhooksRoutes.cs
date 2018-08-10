@@ -6,14 +6,14 @@ using Newtonsoft.Json;
 using Tweetinvi.Core.Extensions;
 using Tweetinvi.Models;
 
-namespace Tweetinvi.ASPNETPlugins
+namespace Tweetinvi.AspNet
 {
-    public interface ITweetinviWebhooksRoutes
+    public interface IWebhooksRoutes
     {
         Task<bool> CRCChallenge(HttpContext context, IConsumerCredentials credentials);
     }
 
-    public class TweetinviWebhooksRoutes : ITweetinviWebhooksRoutes
+    public class WebhooksRoutes : IWebhooksRoutes
     {
         public async Task<bool> CRCChallenge(HttpContext context, IConsumerCredentials credentials)
         {

@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using Tweetinvi.ASPNETPlugins.Models;
 using Tweetinvi.Core.Public.Models.Authentication;
 using Tweetinvi.Core.Public.Streaming;
 using Tweetinvi.Core.Public.Streaming.Webhooks;
 
-namespace Tweetinvi.ASPNETPlugins
+namespace Tweetinvi.AspNet
 {
-    public interface ITweetinviWebhookConfiguration
+    public interface IWebhookConfiguration
     {
         IConsumerOnlyCredentials ConsumerOnlyCredentials { get; }
 
@@ -21,17 +20,17 @@ namespace Tweetinvi.ASPNETPlugins
         void RemoveActivityStream(IAccountActivityStream accountActivityStream);
     }
 
-    public class TweetinviWebhookConfiguration : ITweetinviWebhookConfiguration
+    public class WebhookConfiguration : IWebhookConfiguration
     {
         private List<IRegistrableWebhookEnvironment> _webhookEnvironments;
 
-        public TweetinviWebhookConfiguration()
+        public WebhookConfiguration()
         {
             _webhookEnvironments = new List<IRegistrableWebhookEnvironment>();
             WebhookDispatcher = TweetinviContainer.Resolve<IWebhookDispatcher>();
         }
 
-        public TweetinviWebhookConfiguration(IConsumerOnlyCredentials consumerOnlyCredentials) : this()
+        public WebhookConfiguration(IConsumerOnlyCredentials consumerOnlyCredentials) : this()
         {
             ConsumerOnlyCredentials = consumerOnlyCredentials;
         }

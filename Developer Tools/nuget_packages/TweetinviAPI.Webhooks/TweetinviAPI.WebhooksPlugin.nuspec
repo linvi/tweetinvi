@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+  <metadata>
+    <id>TweetinviAPI.WebhooksPlugin</id>
+    <version>4.0.0</version>
+    <title>TweetinviAPI.WebhooksPlugin</title>
+    <authors>Linvi</authors>
+    <owners>Linvi</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <licenseUrl>https://github.com/linvi/tweetinvi/blob/master/LICENSE.md</licenseUrl>
+    <projectUrl>https://github.com/linvi/tweetinvi</projectUrl>
+    <iconUrl>https://raw.githubusercontent.com/linvi/tweetinvi/master/tweetinvi-logo-purple.png</iconUrl>
+    <description>A plugin to simplify the development of Account Activity on AspNet servers.</description>
+    <summary>A plugin to simplify the development of Account Activity on AspNet servers.</summary>
+    <releaseNotes>https://github.com/linvi/tweetinvi/releases/tag/4.0.0</releaseNotes>
+    <copyright>Tweetinvi 2018</copyright>
+    <language>en-US</language>
+    <tags>twitter c# rest stream api 1.1 .net netcore netstandard core</tags>
+    <dependencies>
+      <group targetFramework=".NETStandard2.0">
+		<dependency id="TweetinviAPI" version="4.0.0" />
+      </group>
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="lib\net461\Tweetinvi.Webhooks.dll" target="lib\net461\Tweetinvi.Webhooks.dll" />
+    <file src="lib\netstandard2.0\Tweetinvi.Webhooks.dll" target="lib\netstandard2.0\Tweetinvi.Webhooks.dll" />
+  </files>
+</package>

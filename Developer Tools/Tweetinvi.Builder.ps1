@@ -56,10 +56,11 @@ $tweetinviFactories = 'Tweetinvi.Factories'
 $tweetinviLogic = 'Tweetinvi.Logic'
 $tweetinviWebLogic = 'Tweetinvi.WebLogic'
 $tweetinviStreams = 'Tweetinvi.Streams'
+$tweetinviWebhooks = 'Tweetinvi.Webhooks'
 
 # .NET Core variables
 $netCoreRootPath = '..\'
-$netCoreExamplinvi = 'Examplinvi.NETStandard'
+$netCoreExamplinvi = 'Examplinvi.NETStandard-2.0'
 $netCoreExamplinviPath = $netCoreRootPath + $netCoreExamplinvi
 $netCoreNugetFolder = '.\TweetinviAPI\lib\netstandard1.4'
 $netCoreTemp = 'temp_net_core_' + $version;
@@ -75,7 +76,8 @@ $projects =
     $tweetinviFactories,
     $tweetinviLogic,
     $tweetinviWebLogic,
-    $tweetinviStreams
+    $tweetinviStreams,
+    $tweetinviWebhooks
 )
 
 $additionalAssemblies = 
@@ -116,7 +118,7 @@ for ($i = 0; $i -lt $projects.length; $i++) {
 $filePath = $rootPath + $tweetinviWebLogic + '\TwitterClientHandler.cs';
 Get-Item $filePath | .\Replace-Regex.ps1 -Pattern '"Tweetinvi/(?<versionNumber>\d+(\.\d+)*)(.x)?"' -Replacement ('"Tweetinvi/' + $version + '"') -overwrite
 
-$netCoreExamplinviBin = $netCoreExamplinviPath + '\bin\' + $releaseMode + '\netcoreapp1.1'
+$netCoreExamplinviBin = $netCoreExamplinviPath + '\bin\' + $releaseMode + '\netcoreapp2.0'
 
 if (!$uv.IsPresent) {
 

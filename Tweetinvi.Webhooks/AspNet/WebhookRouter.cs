@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -9,28 +8,28 @@ using Tweetinvi.Core.Public.Streaming.Webhooks;
 using Tweetinvi.Models.DTO;
 using Tweetinvi.Models.Webhooks;
 
-namespace Tweetinvi.ASPNETPlugins
+namespace Tweetinvi.AspNet
 {
-    public interface ITweetinviWebhookRouter
+    public interface IWebhookRouter
     {
-        bool IsRequestManagedByTweetinvi(HttpRequest request, ITweetinviWebhookConfiguration configuration);
-        Task<bool> Route(HttpContext context, ITweetinviWebhookConfiguration configuration);
+        bool IsRequestManagedByTweetinvi(HttpRequest request, IWebhookConfiguration configuration);
+        Task<bool> Route(HttpContext context, IWebhookConfiguration configuration);
     }
 
-    public class TweetinviWebhookRouter : ITweetinviWebhookRouter
+    public class WebhookRouter : IWebhookRouter
     {
         private readonly IWebhookDispatcher _webhookDispatcher;
-        private ITweetinviWebhooksRoutes _webhooksRoutes;
+        private IWebhooksRoutes _webhooksRoutes;
 
-        public TweetinviWebhookRouter(
+        public WebhookRouter(
             IWebhookDispatcher webhookDispatcher,
-            ITweetinviWebhooksRoutes webhooksWebhooksRoutes)
+            IWebhooksRoutes webhooksWebhooksRoutes)
         {
             _webhookDispatcher = webhookDispatcher;
             _webhooksRoutes = webhooksWebhooksRoutes;
         }
 
-        private IEnumerable<IWebhookDTO> GetWebhooksMatching(HttpRequest request, ITweetinviWebhookConfiguration configuration)
+        private IEnumerable<IWebhookDTO> GetWebhooksMatching(HttpRequest request, IWebhookConfiguration configuration)
         {
             return configuration.RegisteredWebhookEnvironments.SelectMany(x => x.Webhooks).Where(webhook =>
                 {
@@ -38,7 +37,7 @@ namespace Tweetinvi.ASPNETPlugins
                 });
         }
 
-        public bool IsRequestManagedByTweetinvi(HttpRequest request, ITweetinviWebhookConfiguration configuration)
+        public bool IsRequestManagedByTweetinvi(HttpRequest request, IWebhookConfiguration configuration)
         {
             var isRequestComingFromTwitter = IsRequestComingFromTwitter(request, configuration);
 
@@ -55,7 +54,7 @@ namespace Tweetinvi.ASPNETPlugins
             return anyWebhookMatchingRequest || isCrc;
         }
 
-        public async Task<bool> Route(HttpContext context, ITweetinviWebhookConfiguration configuration)
+        public async Task<bool> Route(HttpContext context, IWebhookConfiguration configuration)
         {
             var matchingWebhooks = GetWebhooksMatching(context.Request, configuration).ToArray();
             var isCrcChallenge = context.Request.Query["crc_token"].Any();
@@ -87,7 +86,7 @@ namespace Tweetinvi.ASPNETPlugins
             return request.Query["crc_token"].Count > 0;
         }
 
-        public bool IsRequestComingFromTwitter(HttpRequest request, ITweetinviWebhookConfiguration configuration)
+        public bool IsRequestComingFromTwitter(HttpRequest request, IWebhookConfiguration configuration)
         {
             if (!request.Headers.ContainsKey("x-twitter-webhooks-signature"))
             {
