@@ -25,10 +25,10 @@
 			"path": "Tweetinvi.Streams"
 		},
 		{
-			"path": "Tweetinvi.Webhooks"
+			"path": "Tweetinvi.WebLogic"
 		},
 		{
-			"path": "Tweetinvi.WebLogic"
+			"path": "Tweetinvi.ASPNETPlugins"
 		}
 	],
 	"settings": {}

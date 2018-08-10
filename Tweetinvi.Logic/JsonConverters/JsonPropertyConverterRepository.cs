@@ -4,6 +4,7 @@ using System.Linq;
 using Newtonsoft.Json;
 using Tweetinvi.Core.Helpers;
 using Tweetinvi.Core.Models;
+using Tweetinvi.Core.Public.Models.Interfaces.DTO.Webhooks;
 using Tweetinvi.Logic.DTO;
 using Tweetinvi.Logic.Model;
 using Tweetinvi.Logic.TwitterEntities;
@@ -31,6 +32,7 @@ namespace Tweetinvi.Logic.JsonConverters
             InitializeTweetinviObjectConverters();
             InitializeTweetinviInterfacesConverters();
             InitializeEntitiesConverters();
+            InitializeWebhookConverters();
         }
 
         private static void IntializeClassicalTypesConvertes()
@@ -198,6 +200,19 @@ namespace Tweetinvi.Logic.JsonConverters
 
             JsonConverters.Add(typeof(IVideoEntityVariant), videoEntityVariantConverter);
             JsonConverters.Add(typeof(IVideoInformationEntity), videoInformationEntityConverter);
+        }
+
+        private static void InitializeWebhookConverters()
+        {
+            var webhookDTOConverter = new JsonInterfaceToObjectConverter<IWebhookDTO, WebhookDTO>();
+            var webhookEnvironmentDTOConverter = new JsonInterfaceToObjectConverter<IWebhookEnvironmentDTO, WebhookEnvironmentDTO>();
+            var getAllWebhooksResultDTOConverter = new JsonInterfaceToObjectConverter<IGetAllWebhooksResultDTO, GetAllWebhooksResultDTO>();
+            var getWebhookSubscriptionsCountResultDTOConverter = new JsonInterfaceToObjectConverter<IGetWebhookSubscriptionsCountResultDTO, GetWebhookSubscriptionsCountResultDTO>();
+
+            JsonConverters.Add(typeof(IWebhookDTO), webhookDTOConverter);
+            JsonConverters.Add(typeof(IWebhookEnvironmentDTO), webhookEnvironmentDTOConverter);
+            JsonConverters.Add(typeof(IGetAllWebhooksResultDTO), getAllWebhooksResultDTOConverter);
+            JsonConverters.Add(typeof(IGetWebhookSubscriptionsCountResultDTO), getWebhookSubscriptionsCountResultDTOConverter);
         }
 
         public static void TryOverride<T, U>() where U : T

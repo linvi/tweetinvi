@@ -54,12 +54,9 @@ namespace Tweetinvi.Events
 
     public class TweetDeletedEventArgs : EventArgs
     {
-        public TweetDeletedEventArgs(ITweetDeletedInfo tweetDeletedInfo)
-        {
-            TweetDeletedInfo = tweetDeletedInfo;
-        }
-
-        public ITweetDeletedInfo TweetDeletedInfo { get; private set; }
+        public long TweetId { get; set; }
+        public long UserId { get; set; }
+        public long? Timestamp { get; set; }
     }
 
     public class TweetLocationDeletedEventArgs : EventArgs

@@ -1,5 +1,6 @@
 ﻿using System;
 using Tweetinvi.Core.Credentials;
+using Tweetinvi.Core.Public.Models.Authentication;
 using Tweetinvi.Credentials;
 using Tweetinvi.Exceptions;
 using Tweetinvi.Models;
@@ -97,6 +98,24 @@ namespace Tweetinvi
         public static ITwitterCredentials SetUserCredentials(string consumerKey, string consumerSecret, string userAccessToken, string userAccessSecret)
         {
             Credentials = new TwitterCredentials(consumerKey, consumerSecret, userAccessToken, userAccessSecret);
+
+            return Credentials;
+        }
+
+        /// <summary>
+        /// Set the current thread credentials based on application only credentials.
+        /// To execute http requests, application only credentials needs a bearer token.
+        /// Setting  the initializeBearerToken to true will initialize your credentials so that they are ready to be used.
+        /// </summary>
+        public static ITwitterCredentials SetApplicationOnlyCredentials(IConsumerOnlyCredentials consumerOnlyCredentials, bool initializeBearerToken = false)
+        {
+            Credentials = new TwitterCredentials(consumerOnlyCredentials.ConsumerKey, consumerOnlyCredentials.ConsumerSecret);
+            Credentials.ApplicationOnlyBearerToken = consumerOnlyCredentials.ApplicationOnlyBearerToken;
+
+            if (initializeBearerToken)
+            {
+                InitializeApplicationOnlyCredentials(Credentials);
+            }
 
             return Credentials;
         }

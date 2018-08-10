@@ -17,11 +17,11 @@ namespace Tweetinvi.WebLogic
 {
     public interface ITwitterRequestHandler
     {
-        string ExecuteQuery(
+        IWebRequestResult ExecuteQuery(
             string queryURL,
             HttpMethod method,
             TwitterClientHandler handler = null,
-            ITwitterCredentials twitterCredentials = null,
+            ITwitterCredentials credentials = null,
             HttpContent httpContent = null);
 
         string ExecuteMultipartQuery(IMultipartHttpRequestParameters parameters);
@@ -67,7 +67,7 @@ namespace Tweetinvi.WebLogic
             _oAuthWebRequestGenerator = oAuthWebRequestGenerator;
         }
 
-        public string ExecuteQuery(
+        public IWebRequestResult ExecuteQuery(
             string queryURL,
             HttpMethod httpMethod,
             TwitterClientHandler handler = null,
@@ -96,7 +96,7 @@ namespace Tweetinvi.WebLogic
 
                 QueryCompleted(twitterQuery, webRequestResult, rateLimitTrackerOption);
 
-                return webRequestResult.Text;
+                return webRequestResult;
             }
             catch (TwitterException ex)
             {

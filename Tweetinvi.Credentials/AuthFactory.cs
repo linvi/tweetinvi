@@ -69,7 +69,7 @@ namespace Tweetinvi.Credentials
                     return null;
                 }
 
-                var responseInformation = Regex.Match(response, Resources.OAuthTokenAccessRegex);
+                var responseInformation = Regex.Match(response.Text, Resources.OAuthTokenAccessRegex);
                 if (responseInformation.Groups["oauth_token"] == null ||
                     responseInformation.Groups["oauth_token_secret"] == null)
                 {
@@ -112,8 +112,8 @@ namespace Tweetinvi.Credentials
             {
                 try
                 {
-                    var json = _twitterRequestHandler.ExecuteQuery("https://api.twitter.com/oauth2/token", HttpMethod.POST, new BearerHttpHandler(), credentials);
-                    var accessToken = Regex.Match(json, "access_token\":\"(?<value>.*)\"").Groups["value"].Value;
+                    var response = _twitterRequestHandler.ExecuteQuery("https://api.twitter.com/oauth2/token", HttpMethod.POST, new BearerHttpHandler(), credentials);
+                    var accessToken = Regex.Match(response.Text, "access_token\":\"(?<value>.*)\"").Groups["value"].Value;
                     credentials.ApplicationOnlyBearerToken = accessToken;
                     return true;
                 }
@@ -138,8 +138,8 @@ namespace Tweetinvi.Credentials
         {
             var url = "https://api.twitter.com/oauth2/invalidate_token";
 
-            var json = _twitterRequestHandler.ExecuteQuery(url, HttpMethod.POST, new InvalidateTokenHttpHandler(), credentials);
-            var jobject = _jObjectStaticWrapper.GetJobjectFromJson(json);
+            var response = _twitterRequestHandler.ExecuteQuery(url, HttpMethod.POST, new InvalidateTokenHttpHandler(), credentials);
+            var jobject = _jObjectStaticWrapper.GetJobjectFromJson(response.Text);
 
             JToken unused;
             if (jobject.TryGetValue("access_token", out unused))

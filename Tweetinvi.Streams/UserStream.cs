@@ -352,11 +352,11 @@ namespace Tweetinvi.Streams
                     _friendIds.Add(target.Id);
                 }
 
-                this.Raise(FollowedUser, new UserFollowedEventArgs(target));
+                this.Raise(FollowedUser, new UserFollowedEventArgs(target, _authenticatedUser.Id));
             }
             else
             {
-                this.Raise(FollowedByUser, new UserFollowedEventArgs(source));
+                this.Raise(FollowedByUser, new UserFollowedEventArgs(target, _authenticatedUser.Id));
             }
         }
 
@@ -369,7 +369,7 @@ namespace Tweetinvi.Streams
                 _friendIds.Remove(target.Id);
             }
 
-            this.Raise(UnFollowedUser, new UserFollowedEventArgs(target));
+            this.Raise(UnFollowedUser, new UserFollowedEventArgs(target, _authenticatedUser.Id));
         }
 
         // Friends
@@ -528,13 +528,13 @@ namespace Tweetinvi.Streams
         private void TryRaiseUserBlockedEvent(JObject userBlockedEvent)
         {
             var target = GetTargetUser(userBlockedEvent);
-            this.Raise(BlockedUser, new UserBlockedEventArgs(target));
+            this.Raise(BlockedUser, new UserBlockedEventArgs(target, _authenticatedUser.Id));
         }
 
         private void TryRaiseUserUnBlockedEvent(JObject userUnBlockedEvent)
         {
             var target = GetTargetUser(userUnBlockedEvent);
-            this.Raise(UnBlockedUser, new UserBlockedEventArgs(target));
+            this.Raise(UnBlockedUser, new UserBlockedEventArgs(target, _authenticatedUser.Id));
         }
 
         // Tweet

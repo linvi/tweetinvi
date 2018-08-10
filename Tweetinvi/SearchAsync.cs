@@ -24,7 +24,12 @@ namespace Tweetinvi
 
         public static async Task<IEnumerable<ITweet>> SearchRepliesTo(ITweet tweet, bool recursiveReplies)
         {
-            return await Sync.ExecuteTaskAsync(() =>Search.SearchRepliesTo(tweet, recursiveReplies));
+            return await Sync.ExecuteTaskAsync(() => Search.SearchRepliesTo(tweet, recursiveReplies));
+        }
+
+        public static async Task<IEnumerable<IUser>> SearchUsers(string query, int maximumNumberOfResults = 20, int page = 0)
+        {
+            return await Sync.ExecuteTaskAsync(() => Search.SearchUsers(query, maximumNumberOfResults, page));
         }
     }
 }

@@ -130,6 +130,7 @@
     <Compile Include="Helpers\ThreadTestHelper.cs" />
     <Compile Include="IntegrationTests\TwitterLists.cs" />
     <Compile Include="json.net\JsonConvertTests.cs" />
+    <Compile Include="json.net\JsonTests.cs" />
     <Compile Include="SetupHelpers\CredentialsAccessorHelper.cs" />
     <Compile Include="SetupHelpers\TwitterAccessorHelper.cs" />
     <Compile Include="SetupHelpers\UserQuerValidatorHelper.cs" />
@@ -147,6 +148,7 @@
     <Compile Include="Tweetinvi.Credentials\RateLimitTests\RateLimitUpdaterTests.cs" />
     <Compile Include="Tweetinvi.Credentials\TwitterAccessorTests.cs" />
     <Compile Include="Tweetinvi.Logic\TweetTests.cs" />
+    <Compile Include="Tweetinvi.Streams\AccountActivityStreamTests.cs" />
     <Compile Include="Tweetinvi.Streams\StreamTrackManagerTests.cs" />
     <Compile Include="TweetinviControllers\AccountTests\AccountControllerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -203,6 +205,7 @@
     <Compile Include="TweetinviLogic\AuthenticatedUserTests.cs" />
     <Compile Include="TweetinviWebLogic\WebHelperTests.cs" />
     <Compile Include="Tweetinvi\AuthTests.cs" />
+    <Compile Include="json.net\WebhookModelsDeserializerTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config">

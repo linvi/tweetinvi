@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+    <metadata>
+        <id>TweetinviAPI</id>
+        <version>4.0.0</version>
+        <title>Tweetinvi</title>
+        <authors>Linvi</authors>
+        <owners>Linvi</owners>
+        <licenseUrl>http://tweetinvi.codeplex.com/license</licenseUrl>
+        <projectUrl>https://github.com/linvi/tweetinvi</projectUrl>
+        <iconUrl>https://raw.githubusercontent.com/linvi/tweetinvi/master/tweetinvi-logo-purple.png</iconUrl>
+        <requireLicenseAcceptance>false</requireLicenseAcceptance>
+        <description>Tweetinvi is an intuitive .NET C# library to access the Twitter REST API. It is a .NET Core library that can be used for development on Windows, Windows RT, Windows Phone, Xamarin Android and Xamarin iOS. Tweetinvi is also compatible with Windows 10 Universal Apps.</description>
+        <summary>The best Twitter C# Library out there! Works with .NET Framework and .NETCore.</summary>
+        <releaseNotes>https://github.com/linvi/tweetinvi/releases/tag/4.0.0</releaseNotes>
+        <copyright>Tweetinvi 2018</copyright>
+        <language>en-US</language>
+        <tags>twitter c# rest stream api 1.1 .net netcore netstandard core</tags>
+        <dependencies>
+            <group>
+                <dependency id="Autofac" version="4.6.2" />
+                <dependency id="Newtonsoft.Json" version="10.0.3" />
+                <dependency id="NitoAsyncEx.Context.StrongName" version="1.1.0" />
+                <dependency id="System.Net.Http" version="4.3.2" />
+                <dependency id="System.Reflection.TypeExtensions" version="4.3.0" />
+            </group>
+            <group targetFramework=".NETStandard1.4">
+                <dependency id="Autofac" version="4.6.2" />
+                <dependency id="Newtonsoft.Json" version="10.0.3" />
+                <dependency id="NitoAsyncEx.Context.StrongName" version="1.1.0" />
+                <dependency id="System.Net.Http" version="4.3.2" />
+                <dependency id="System.Reflection.TypeExtensions" version="4.3.0" />
+            </group>
+        </dependencies>
+    </metadata>
+</package>

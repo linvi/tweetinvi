@@ -4,7 +4,9 @@ using Newtonsoft.Json;
 using Tweetinvi.Core.Exceptions;
 using Tweetinvi.Core.Extensions;
 using Tweetinvi.Core.Models;
+using Tweetinvi.Core.Public.Models.Interfaces.DTO.Webhooks;
 using Tweetinvi.Logic.DTO;
+using Tweetinvi.Logic.DTO.ActivityStream;
 using Tweetinvi.Logic.Exceptions;
 using Tweetinvi.Logic.Model;
 using Tweetinvi.Logic.TwitterEntities;
@@ -100,6 +102,15 @@ namespace Tweetinvi.Logic.JsonConverters
                 new JsonInterfaceToObjectConverter<ICreateMessageDTO, CreateMessageDTO>(),
                 new JsonInterfaceToObjectConverter<IAttachmentDTO, AttachmentDTO>(),
                 new JsonInterfaceToObjectConverter<IMessageEntities, MessageEntitiesDTO>(),
+
+                // Webhooks
+                new JsonInterfaceToObjectConverter<IWebhookDTO, WebhookDTO>(),
+                new JsonInterfaceToObjectConverter<IWebhookEnvironmentDTO, WebhookEnvironmentDTO>(),
+                new JsonInterfaceToObjectConverter<IGetAllWebhooksResultDTO, GetAllWebhooksResultDTO>(),
+                new JsonInterfaceToObjectConverter<IGetWebhookSubscriptionsCountResultDTO, GetWebhookSubscriptionsCountResultDTO>(),
+                new JsonInterfaceToObjectConverter<IWebhookSubscriptionDTO, WebhookSubscriptionDTO>(),
+                new JsonInterfaceToObjectConverter<IWebhookSubcriptionListDTO, WebhookSubcriptionListDTO>(),
+
 
                 // Enums (that have JSON serialization implemented)
                 new JsonEnumStringConverter<EventType>(),

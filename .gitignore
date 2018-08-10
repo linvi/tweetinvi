@@ -276,5 +276,6 @@ __pycache__/
 /Examplinvi.UniversalApp/Examplinvi.UniversalApp.nuget.targets
 /Developer Tools/OpenSSL
 /Developer Tools/TweetinviAPI
+/Developer Tools/nuget_packages/**/lib
 /Examplinvi.WindowsPhone
 *.bak
