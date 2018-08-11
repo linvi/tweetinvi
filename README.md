@@ -4,9 +4,8 @@ Tweetinvi is an intuitive .NET C# library to access the Twitter REST API. It is 
 
 * [Wiki and Documentation](https://github.com/linvi/tweetinvi/wiki)
 * [Release notes](https://github.com/linvi/tweetinvi/releases)
-* [Nuget Package](https://www.nuget.org/packages/TweetinviAPI/) : `Install-Package TweetinviAPI`
-
-
+* [Tweetinvi Nuget Package](https://www.nuget.org/packages/TweetinviAPI/) : `Install-Package TweetinviAPI`
+* [Tweetinvi Webhooks Nuget Package](https://www.nuget.org/packages/TweetinviAPI.WebhooksPlugin/) : `Install-Package TweetinviAPI.WebhooksPlugin`
 
 * [Follow us on Twitter](https://twitter.com/TweetinviApi)
 
