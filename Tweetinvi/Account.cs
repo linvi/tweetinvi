@@ -273,7 +273,8 @@ namespace Tweetinvi
         /// <summary>
         /// Get the ids of the users who want to follow you.
         /// </summary>
-        public static IEnumerable<long> GetUserIdsRequestingFriendship(int maximumUserIdsToRetrieve = 75000)
+        public static IEnumerable<long> GetUserIdsRequestingFriendship(
+            int maximumUserIdsToRetrieve = TweetinviConsts.FRIENDSHIPS_INCOMING_IDS_MAX_PER_REQ)
         {
             return FriendshipController.GetUserIdsRequestingFriendship(maximumUserIdsToRetrieve);
         }
@@ -281,7 +282,8 @@ namespace Tweetinvi
         /// <summary>
         /// Get the users who want to follow you.
         /// </summary>
-        public static IEnumerable<IUser> GetUsersRequestingFriendship(int maximumUserIdsToRetrieve = 75000)
+        public static IEnumerable<IUser> GetUsersRequestingFriendship(
+            int maximumUserIdsToRetrieve = TweetinviConsts.FRIENDSHIPS_INCOMING_USERS_MAX_PER_REQ)
         {
             return FriendshipController.GetUsersRequestingFriendship(maximumUserIdsToRetrieve);
         }
@@ -289,7 +291,7 @@ namespace Tweetinvi
         /// <summary>
         /// Get the user ids of the people you requested to follow.
         /// </summary>
-        public static IEnumerable<long> GetUserIdsYouRequestedToFollow(int maximumUserIdsToRetrieve = 75000)
+        public static IEnumerable<long> GetUserIdsYouRequestedToFollow(int maximumUserIdsToRetrieve = TweetinviConsts.FRIENDSHIPS_OUTGOING_IDS_MAX_PER_REQ)
         {
             return FriendshipController.GetUserIdsYouRequestedToFollow(maximumUserIdsToRetrieve);
         }
@@ -297,7 +299,8 @@ namespace Tweetinvi
         /// <summary>
         /// Get the user ids of the people you requested to follow.
         /// </summary>
-        public static IEnumerable<IUser> GetUsersYouRequestedToFollow(int maximumUserIdsToRetrieve = 75000)
+        public static IEnumerable<IUser> GetUsersYouRequestedToFollow(
+            int maximumUserIdsToRetrieve = TweetinviConsts.FRIENDSHIPS_OUTGOING_USERS_MAX_PER_REQ)
         {
             return FriendshipController.GetUsersYouRequestedToFollow(maximumUserIdsToRetrieve);
         }

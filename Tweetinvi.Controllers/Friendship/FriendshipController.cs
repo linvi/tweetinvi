@@ -36,24 +36,24 @@ namespace Tweetinvi.Controllers.Friendship
         }
 
         // Get Users Requesting Friendship
-        public IEnumerable<long> GetUserIdsRequestingFriendship(int maximumUserIdsToRetrieve = 75000)
+        public IEnumerable<long> GetUserIdsRequestingFriendship(int maximumUserIdsToRetrieve = TweetinviConsts.FRIENDSHIPS_INCOMING_IDS_MAX_PER_REQ)
         {
             return _friendshipQueryExecutor.GetUserIdsRequestingFriendship(maximumUserIdsToRetrieve);
         }
 
-        public IEnumerable<IUser> GetUsersRequestingFriendship(int maximumUsersToRetrieve = 75000)
+        public IEnumerable<IUser> GetUsersRequestingFriendship(int maximumUsersToRetrieve = TweetinviConsts.FRIENDSHIPS_INCOMING_USERS_MAX_PER_REQ)
         {
             var userIds = GetUserIdsRequestingFriendship(maximumUsersToRetrieve);
             return _userFactory.GetUsersFromIds(userIds);
         }
 
         // Get Users You requested to follow
-        public IEnumerable<long> GetUserIdsYouRequestedToFollow(int maximumUsersToRetrieve = 75000)
+        public IEnumerable<long> GetUserIdsYouRequestedToFollow(int maximumUsersToRetrieve = TweetinviConsts.FRIENDSHIPS_OUTGOING_IDS_MAX_PER_REQ)
         {
             return _friendshipQueryExecutor.GetUserIdsYouRequestedToFollow(maximumUsersToRetrieve);
         }
 
-        public IEnumerable<IUser> GetUsersYouRequestedToFollow(int maximumUsersToRetrieve = 75000)
+        public IEnumerable<IUser> GetUsersYouRequestedToFollow(int maximumUsersToRetrieve = TweetinviConsts.FRIENDSHIPS_OUTGOING_USERS_MAX_PER_REQ)
         {
             var userIds = GetUserIdsYouRequestedToFollow(maximumUsersToRetrieve);
             return _userFactory.GetUsersFromIds(userIds);

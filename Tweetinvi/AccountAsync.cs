@@ -83,22 +83,26 @@ namespace Tweetinvi
 
         #region Friendship
 
-        public static async Task<IEnumerable<long>> GetUserIdsRequestingFriendship(int maximumUserIdsToRetrieve = 75000)
+        public static async Task<IEnumerable<long>> GetUserIdsRequestingFriendship(
+            int maximumUserIdsToRetrieve = TweetinviConsts.FRIENDSHIPS_INCOMING_IDS_MAX_PER_REQ)
         {
             return await Sync.ExecuteTaskAsync(() => Account.GetUserIdsRequestingFriendship(maximumUserIdsToRetrieve));
         }
 
-        public static async Task<IEnumerable<IUser>> GetUsersRequestingFriendship(int maximumUserIdsToRetrieve = 75000)
+        public static async Task<IEnumerable<IUser>> GetUsersRequestingFriendship(
+            int maximumUserIdsToRetrieve = TweetinviConsts.FRIENDSHIPS_INCOMING_USERS_MAX_PER_REQ)
         {
             return await Sync.ExecuteTaskAsync(() => Account.GetUsersRequestingFriendship(maximumUserIdsToRetrieve));
         }
 
-        public static async Task<IEnumerable<long>> GetUserIdsYouRequestedToFollow(int maximumUserIdsToRetrieve = 75000)
+        public static async Task<IEnumerable<long>> GetUserIdsYouRequestedToFollow(
+            int maximumUserIdsToRetrieve = TweetinviConsts.FRIENDSHIPS_OUTGOING_IDS_MAX_PER_REQ)
         {
             return await Sync.ExecuteTaskAsync(() => Account.GetUserIdsYouRequestedToFollow(maximumUserIdsToRetrieve));
         }
 
-        public static async Task<IEnumerable<IUser>> GetUsersYouRequestedToFollow(int maximumUserIdsToRetrieve = 75000)
+        public static async Task<IEnumerable<IUser>> GetUsersYouRequestedToFollow(
+            int maximumUserIdsToRetrieve = TweetinviConsts.FRIENDSHIPS_OUTGOING_USERS_MAX_PER_REQ)
         {
             return await Sync.ExecuteTaskAsync(() => Account.GetUsersYouRequestedToFollow(maximumUserIdsToRetrieve));
         }
