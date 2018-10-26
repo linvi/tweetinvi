@@ -140,5 +140,25 @@ namespace Tweetinvi.Logic.Exceptions
 
             this.Raise(WebExceptionReceived, twitterException);
         }
+
+        public void AddTwitterExceptions(IEnumerable<ITwitterException> enumerableTwitterExceptions)
+        {
+            // Optimisation: prevent multiple enumerations
+            ITwitterException[] twitterExceptions = enumerableTwitterExceptions as ITwitterException[] ??
+                                                    enumerableTwitterExceptions.ToArray();
+            
+            lock(_lockExceptionInfos)
+            {
+                foreach (ITwitterException e in twitterExceptions)
+                {
+                    _exceptionInfos.Add(e);
+                }
+            }
+
+            foreach (var e in twitterExceptions)
+            {
+                this.Raise(WebExceptionReceived, e);
+            }
+        }
     }
 }

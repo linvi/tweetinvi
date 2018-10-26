@@ -33,5 +33,6 @@ namespace Tweetinvi.Core.Exceptions
 			
         TwitterException GenerateTwitterException(IWebRequestResult webRequestResult, ITwitterQuery twitterQuery);
         void AddTwitterException(ITwitterException twitterException);
+        void AddTwitterExceptions(IEnumerable<ITwitterException> twitterExceptions);
     }
 }

@@ -1,7 +1,9 @@
 ﻿using Nito.AsyncEx;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Tweetinvi.Core.Credentials;
+using Tweetinvi.Core.Exceptions;
 using Tweetinvi.Core.Helpers;
 
 namespace Tweetinvi
@@ -113,8 +115,38 @@ namespace Tweetinvi
 
             using (var thread = new AsyncContextThread())
             {
-                var result = await thread.Factory.Run(() => { return operationRunWithSpecificCredentials(); });
-                return result;
+                
+                var threadExecResult = await thread.Factory.Run(() =>
+                {
+                    // Run the operation.
+                    //    If we aren't swallowing exceptions, they'll still get thrown & propagated.
+                    T res = operationRunWithSpecificCredentials();
+                    
+                    // If we get here, there wasn't an exception, or they're being swallowed.
+                    //     Get any swallowed exceptions so that they can get put onto the calling thread.
+                    IEnumerable<ITwitterException> exceptions = ExceptionHandler.GetExceptions();
+                    return ThreadExecResult<T>.New(res, exceptions);
+                });
+                
+                // Add any swallowed exceptions into the current thread's handler
+                ExceptionHandler.CurrentThreadExceptionHandler.AddTwitterExceptions(threadExecResult.Exceptions);
+
+                return threadExecResult.Result;
+            }
+        }
+        
+        private struct ThreadExecResult<T>
+        {
+            public T Result;
+            public IEnumerable<ITwitterException> Exceptions;
+
+            public static ThreadExecResult<T> New(T result, IEnumerable<ITwitterException> exceptions)
+            {
+                return new ThreadExecResult<T>()
+                {
+                    Result = result,
+                    Exceptions = exceptions
+                };
             }
         }
     }
