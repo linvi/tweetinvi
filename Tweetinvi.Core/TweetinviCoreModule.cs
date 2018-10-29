@@ -41,7 +41,7 @@ namespace Tweetinvi.Core.Injectinvi
             container.RegisterGeneric(typeof(IWeakEvent<>), typeof(WeakEvent<>));
             container.RegisterType<ITweetinviEvents, InternalTweetinviEvents>(RegistrationLifetime.InstancePerApplication);
             container.RegisterType<ISingleAggregateExceptionThrower, SingleAggregateExceptionThrower>(RegistrationLifetime.InstancePerApplication);
-            container.RegisterType<ITwitterExceptionFactory, TwitterExceptionFactory>();
+            container.RegisterType<ITwitterExceptionFactory, TwitterExceptionFactory>(RegistrationLifetime.InstancePerApplication);
             container.RegisterType<ITwitterException, TwitterException>();
 
             InitializeParameters(container);

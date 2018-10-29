@@ -18,6 +18,7 @@ namespace Tweetinvi.Logic.Exceptions
         private readonly object _lockExceptionInfos = new object();
         private readonly List<ITwitterException> _exceptionInfos;
         public event EventHandler<GenericEventArgs<ITwitterException>> WebExceptionReceived;
+        public EventHandler<GenericEventArgs<ITwitterException>> WebExceptionReceivedEventHandler => WebExceptionReceived;
         public bool SwallowWebExceptions { get; set; }
         public bool LogExceptions { get; set; }
 
@@ -159,6 +160,30 @@ namespace Tweetinvi.Logic.Exceptions
             {
                 this.Raise(WebExceptionReceived, e);
             }
+        }
+
+        public IExceptionHandler CloneSettings()
+        {
+            // Note: If ever ITwitterException factory is changed to not be a singleton, it will need to be resolved
+            //     here rather than passing through the instance from this object to the ctor.
+            return new ExceptionHandler(_twitterExceptionFactory)
+            {
+                SwallowWebExceptions = SwallowWebExceptions,
+                LogExceptions = LogExceptions,
+                WebExceptionReceived = WebExceptionReceived
+            };
+        }
+
+        public void InitialiseSettingsFrom(IExceptionHandler other)
+        {
+            if (other == null)
+            {
+                throw new ArgumentNullException(nameof(other));
+            }
+
+            SwallowWebExceptions = other.SwallowWebExceptions;
+            LogExceptions = other.LogExceptions;
+            WebExceptionReceived += other.WebExceptionReceivedEventHandler;
         }
     }
 }
