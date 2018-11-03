@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using FakeItEasy;
-using FakeItEasy.ExtensionSyntax.Full;
 using Testinvi.Helpers;
 using Tweetinvi.Models.DTO.QueryDTO;
 
@@ -8,7 +7,7 @@ namespace Testinvi.Tweetinvi.Credentials
 {
     public class TwitterAccessorTests
     {
-        private List<long> _cursorQueryIds = new List<long>();
+        private readonly List<long> _cursorQueryIds = new List<long>();
 
         private IIdsCursorQueryResultDTO GenerateIdsCursorQueryResultWithLong()
         {
@@ -16,10 +15,10 @@ namespace Testinvi.Tweetinvi.Credentials
             long[] ids = { id };
             _cursorQueryIds.Add(id);
 
-            var idsCursorResult = A.Fake<IIdsCursorQueryResultDTO>();
-            idsCursorResult.CallsTo(x => x.Ids).Returns(ids);
+            var fakeIdsCursorResult = A.Fake<IIdsCursorQueryResultDTO>();
+            A.CallTo(() => fakeIdsCursorResult.Ids).Returns(ids);
 
-            return idsCursorResult;
+            return fakeIdsCursorResult;
         }
     }
 }

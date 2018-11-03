@@ -19,17 +19,18 @@ namespace Testinvi.TweetinviControllers.FriendshipTests
     public class FriendshipQueryExecutorTests
     {
         private FakeClassBuilder<FriendshipQueryExecutor> _fakeBuilder;
-        private Fake<IFriendshipQueryGenerator> _fakeFriendshipQueryGenerator;
-        private Fake<IUserQueryValidator> _fakeUserQueryValidator;
-        private Fake<ITwitterAccessor> _fakeTwitterAccessor;
+        
+        private IFriendshipQueryGenerator _friendshipQueryGenerator;
+        private IUserQueryValidator _userQueryValidator;
+        private ITwitterAccessor _twitterAccessor;
 
         [TestInitialize]
         public void TestInitialize()
         {
             _fakeBuilder = new FakeClassBuilder<FriendshipQueryExecutor>();
-            _fakeFriendshipQueryGenerator = _fakeBuilder.GetFake<IFriendshipQueryGenerator>();
-            _fakeUserQueryValidator = _fakeBuilder.GetFake<IUserQueryValidator>();
-            _fakeTwitterAccessor = _fakeBuilder.GetFake<ITwitterAccessor>();
+            _friendshipQueryGenerator = _fakeBuilder.GetFake<IFriendshipQueryGenerator>().FakedObject;
+            _userQueryValidator = _fakeBuilder.GetFake<IUserQueryValidator>().FakedObject;
+            _twitterAccessor = _fakeBuilder.GetFake<ITwitterAccessor>().FakedObject;
         }
 
         #region Get UserIds Requesting Friendship
@@ -49,7 +50,7 @@ namespace Testinvi.TweetinviControllers.FriendshipTests
                 GenerateIdsCursorQueryResult(ids)
             };
 
-            _fakeTwitterAccessor.ArrangeExecuteCursorGETQuery<long, IIdsCursorQueryResultDTO>(query, ids);
+            _twitterAccessor.ArrangeExecuteCursorGETQuery<long, IIdsCursorQueryResultDTO>(query, ids);
 
             // Act
             var result = queryExecutor.GetUserIdsRequestingFriendship(TestHelper.GenerateRandomInt());
@@ -76,7 +77,7 @@ namespace Testinvi.TweetinviControllers.FriendshipTests
                 GenerateIdsCursorQueryResult(ids2)
             };
 
-            _fakeTwitterAccessor.ArrangeExecuteCursorGETQuery<long, IIdsCursorQueryResultDTO>(query, ids);
+            _twitterAccessor.ArrangeExecuteCursorGETQuery<long, IIdsCursorQueryResultDTO>(query, ids);
 
             // Act
             var result = queryExecutor.GetUserIdsRequestingFriendship(TestHelper.GenerateRandomInt());
@@ -95,7 +96,7 @@ namespace Testinvi.TweetinviControllers.FriendshipTests
             var queryExecutor = CreateFrienshipQueryExecutor();
             ArrangeGetUserIdsRequestingFriendshipQuery(query);
 
-            _fakeTwitterAccessor.ArrangeExecuteCursorGETQuery<long, IIdsCursorQueryResultDTO>(query, null);
+            _twitterAccessor.ArrangeExecuteCursorGETQuery<long, IIdsCursorQueryResultDTO>(query, null);
 
             // Act
             var result = queryExecutor.GetUserIdsRequestingFriendship(TestHelper.GenerateRandomInt());
@@ -106,9 +107,7 @@ namespace Testinvi.TweetinviControllers.FriendshipTests
 
         private void ArrangeGetUserIdsRequestingFriendshipQuery(string query)
         {
-            _fakeFriendshipQueryGenerator
-                .CallsTo(x => x.GetUserIdsRequestingFriendshipQuery())
-                .Returns(query);
+            A.CallTo(() => _friendshipQueryGenerator.GetUserIdsRequestingFriendshipQuery()).Returns(query);
         }
 
         #endregion
@@ -130,7 +129,7 @@ namespace Testinvi.TweetinviControllers.FriendshipTests
                 GenerateIdsCursorQueryResult(ids)
             };
 
-            _fakeTwitterAccessor.ArrangeExecuteCursorGETQuery<long, IIdsCursorQueryResultDTO>(query, ids);
+            _twitterAccessor.ArrangeExecuteCursorGETQuery<long, IIdsCursorQueryResultDTO>(query, ids);
 
             // Act
             var result = queryExecutor.GetUserIdsYouRequestedToFollow(TestHelper.GenerateRandomInt());
@@ -157,7 +156,7 @@ namespace Testinvi.TweetinviControllers.FriendshipTests
                 GenerateIdsCursorQueryResult(ids2)
             };
 
-            _fakeTwitterAccessor.ArrangeExecuteCursorGETQuery<long, IIdsCursorQueryResultDTO>(query, ids);
+            _twitterAccessor.ArrangeExecuteCursorGETQuery<long, IIdsCursorQueryResultDTO>(query, ids);
 
             // Act
             var result = queryExecutor.GetUserIdsYouRequestedToFollow(TestHelper.GenerateRandomInt());
@@ -177,7 +176,7 @@ namespace Testinvi.TweetinviControllers.FriendshipTests
             var queryExecutor = CreateFrienshipQueryExecutor();
             ArrangeGetUserIdsYouRequestedToFollowQuery(query);
 
-            _fakeTwitterAccessor.ArrangeExecuteCursorGETQuery<long, IIdsCursorQueryResultDTO>(query, null);
+            _twitterAccessor.ArrangeExecuteCursorGETQuery<long, IIdsCursorQueryResultDTO>(query, null);
 
             // Act
             var result = queryExecutor.GetUserIdsYouRequestedToFollow(TestHelper.GenerateRandomInt());
@@ -188,9 +187,7 @@ namespace Testinvi.TweetinviControllers.FriendshipTests
 
         private void ArrangeGetUserIdsYouRequestedToFollowQuery(string query)
         {
-            _fakeFriendshipQueryGenerator
-                .CallsTo(x => x.GetUserIdsYouRequestedToFollowQuery())
-                .Returns(query);
+            A.CallTo(() => _friendshipQueryGenerator.GetUserIdsYouRequestedToFollowQuery()).Returns(query);
         }
 
         #endregion
@@ -217,7 +214,7 @@ namespace Testinvi.TweetinviControllers.FriendshipTests
             // Arrange
             var queryExecutor = CreateFrienshipQueryExecutor();
             ArrangeCreateFriendshipWithUserDTO(userDTO, query);
-            _fakeTwitterAccessor.ArrangeTryExecutePOSTQuery(query, result);
+            _twitterAccessor.ArrangeTryExecutePOSTQuery(query, result);
 
             // Act
             return queryExecutor.CreateFriendshipWith(userDTO);
@@ -225,9 +222,7 @@ namespace Testinvi.TweetinviControllers.FriendshipTests
 
         private void ArrangeCreateFriendshipWithUserDTO(IUserDTO userDTO, string query)
         {
-            _fakeFriendshipQueryGenerator
-                .CallsTo(x => x.GetCreateFriendshipWithQuery(userDTO))
-                .Returns(query);
+            A.CallTo(() => _friendshipQueryGenerator.GetCreateFriendshipWithQuery(userDTO)).Returns(query);
         }
 
         #endregion
@@ -282,7 +277,7 @@ namespace Testinvi.TweetinviControllers.FriendshipTests
 
             if (userDTOIsNotNull)
             {
-                _fakeUserQueryValidator.CallsTo(x => x.CanUserBeIdentified(userDTO)).Returns(isValid);
+                A.CallTo(() => _userQueryValidator.CanUserBeIdentified(userDTO)).Returns(isValid);
             }
 
             var authorizationParameter = authParamsAreNotNull ? A.Fake<IFriendshipAuthorizations>() : null;
@@ -292,7 +287,7 @@ namespace Testinvi.TweetinviControllers.FriendshipTests
             // Arrange
             var queryExecutor = CreateFrienshipQueryExecutor();
             ArrangeUpdateRelationshipAuthorizationsWithUserDTO(userDTO, authorizationParameter, query);
-            _fakeTwitterAccessor.ArrangeTryExecutePOSTQuery(query, result);
+            _twitterAccessor.ArrangeTryExecutePOSTQuery(query, result);
 
             // Act
             return queryExecutor.UpdateRelationshipAuthorizationsWith(userDTO, authorizationParameter);
@@ -300,8 +295,7 @@ namespace Testinvi.TweetinviControllers.FriendshipTests
 
         private void ArrangeUpdateRelationshipAuthorizationsWithUserDTO(IUserDTO userDTO, IFriendshipAuthorizations auth, string query)
         {
-            _fakeFriendshipQueryGenerator
-                .CallsTo(x => x.GetUpdateRelationshipAuthorizationsWithQuery(userDTO, auth))
+            A.CallTo(() => _friendshipQueryGenerator.GetUpdateRelationshipAuthorizationsWithQuery(userDTO, auth))
                 .Returns(query);
         }
 
@@ -328,14 +322,14 @@ namespace Testinvi.TweetinviControllers.FriendshipTests
         private bool DestroyFriendshipWith_UserDTO_Returns(bool isValid, bool result)
         {
             var userDTO = A.Fake<IUserDTO>();
-            _fakeUserQueryValidator.CallsTo(x => x.CanUserBeIdentified(userDTO)).Returns(isValid);
+            A.CallTo(() => _userQueryValidator.CanUserBeIdentified(userDTO)).Returns(isValid);
 
             string query = Guid.NewGuid().ToString();
 
             // Arrange
             var queryExecutor = CreateFrienshipQueryExecutor();
             ArrangeDestroyFriendshipWithUserDTO(userDTO, query);
-            _fakeTwitterAccessor.ArrangeTryExecutePOSTQuery(query, result);
+            _twitterAccessor.ArrangeTryExecutePOSTQuery(query, result);
 
             // Act
             return queryExecutor.DestroyFriendshipWith(userDTO);
@@ -343,9 +337,7 @@ namespace Testinvi.TweetinviControllers.FriendshipTests
 
         private void ArrangeDestroyFriendshipWithUserDTO(IUserDTO userDTO, string query)
         {
-            _fakeFriendshipQueryGenerator
-                .CallsTo(x => x.GetDestroyFriendshipWithQuery(userDTO))
-                .Returns(query);
+            A.CallTo(() => _friendshipQueryGenerator.GetDestroyFriendshipWithQuery(userDTO)).Returns(query);
         }
 
        

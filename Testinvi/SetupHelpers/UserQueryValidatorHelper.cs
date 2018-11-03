@@ -4,7 +4,7 @@ using Tweetinvi.Models;
 
 namespace Testinvi.SetupHelpers
 {
-    public static class UserQuerValidatorHelper
+    public static class UserQueryValidatorHelper
     {
         public static void ArrangeIsScreenNameValid(this Fake<IUserQueryValidator> userQueryValidator, bool? result = null)
         {
@@ -16,12 +16,12 @@ namespace Testinvi.SetupHelpers
            
         }
 
-        public static void ArrangeIsUserIdValid(this Fake<IUserQueryValidator> userQueryValidator, bool? result = null)
+        public static void ArrangeIsUserIdValid(this IUserQueryValidator userQueryValidator, bool? result = null)
         {
         
         }
 
-        public static void ArrangeCanUserBeIdentified(this Fake<IUserQueryValidator> userQueryValidator, IUserIdentifier user, bool result)
+        public static void ArrangeCanUserBeIdentified(this IUserQueryValidator userQueryValidator, IUserIdentifier user, bool result)
         {
           
         }

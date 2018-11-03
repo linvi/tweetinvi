@@ -14,23 +14,25 @@ namespace Testinvi.TweetinviControllers.MessageTests
     public class MessageQueryExecutorTests
     {
         private FakeClassBuilder<MessageQueryExecutor> _fakeBuilder;
-        private Fake<IMessageQueryGenerator> _fakeMessageQueryGenerator;
-        private Fake<ITwitterAccessor> _fakeTwitterAccessor;
+
+        private IMessageQueryGenerator _messageQueryGenerator;
+        private ITwitterAccessor _twitterAccessor;
 
         [TestInitialize]
         public void TestInitialize()
         {
             _fakeBuilder = new FakeClassBuilder<MessageQueryExecutor>();
-            _fakeMessageQueryGenerator = _fakeBuilder.GetFake<IMessageQueryGenerator>();
-            _fakeTwitterAccessor = _fakeBuilder.GetFake<ITwitterAccessor>();
+            _messageQueryGenerator = _fakeBuilder.GetFake<IMessageQueryGenerator>().FakedObject;
+            _twitterAccessor = _fakeBuilder.GetFake<ITwitterAccessor>().FakedObject;
         }
 
         #region GetLatestMessages
         
         private void ArrangeQueryGeneratorGetLatestMessagesReceived(int count, string query)
         {
-            _fakeMessageQueryGenerator
-                .CallsTo(x => x.GetLatestMessagesQuery(A<IGetMessagesParameters>.That.Matches(p => p.Count == count)))
+            A.CallTo(() =>
+                    _messageQueryGenerator.GetLatestMessagesQuery(
+                        A<IGetMessagesParameters>.That.Matches(p => p.Count == count)))
                 .Returns(query);
         }
 
@@ -49,7 +51,7 @@ namespace Testinvi.TweetinviControllers.MessageTests
             var query = TestHelper.GenerateString();
 
             ArrangeQueryGeneratorPublishMessage(parameters, query, reqDTO);
-            _fakeTwitterAccessor.ArrangeExecutePostQueryJsonBody(query, reqDTO, resDTO);
+            _twitterAccessor.ArrangeExecutePostQueryJsonBody(query, reqDTO, resDTO);
 
             // Act
             var result = queryExecutor.PublishMessage(parameters);
@@ -61,13 +63,8 @@ namespace Testinvi.TweetinviControllers.MessageTests
         private void ArrangeQueryGeneratorPublishMessage(IPublishMessageParameters parameters, string query,
             ICreateMessageDTO createMessageDTO)
         {
-            _fakeMessageQueryGenerator
-                .CallsTo(x => x.GetPublishMessageQuery(parameters))
-                .Returns(query);
-
-            _fakeMessageQueryGenerator
-                .CallsTo(x => x.GetPublishMessageBody(parameters))
-                .Returns(createMessageDTO);
+            A.CallTo(() => _messageQueryGenerator.GetPublishMessageQuery(parameters)).Returns(query);
+            A.CallTo(() => _messageQueryGenerator.GetPublishMessageBody(parameters)).Returns(createMessageDTO);
         }
 
         #endregion
@@ -94,7 +91,7 @@ namespace Testinvi.TweetinviControllers.MessageTests
             var query = Guid.NewGuid().ToString();
 
             ArrangeQueryGeneratorDestroyMessage(eventDTO, query);
-            _fakeTwitterAccessor.ArrangeTryExecuteDELETEQuery(query, expectedResult);
+            _twitterAccessor.ArrangeTryExecuteDELETEQuery(query, expectedResult);
 
             // Act
             return queryExecutor.DestroyMessage(eventDTO);
@@ -102,9 +99,7 @@ namespace Testinvi.TweetinviControllers.MessageTests
 
         private void ArrangeQueryGeneratorDestroyMessage(IEventDTO eventDTO, string query)
         {
-            _fakeMessageQueryGenerator
-                .CallsTo(x => x.GetDestroyMessageQuery(eventDTO))
-                .Returns(query);
+            A.CallTo(() => _messageQueryGenerator.GetDestroyMessageQuery(eventDTO)).Returns(query);
         }
 
         [TestMethod]
@@ -127,7 +122,7 @@ namespace Testinvi.TweetinviControllers.MessageTests
             var query = Guid.NewGuid().ToString();
 
             ArrangeQueryGeneratorDestroyMessage(messageId, query);
-            _fakeTwitterAccessor.ArrangeTryExecuteDELETEQuery(query, expectedResult);
+            _twitterAccessor.ArrangeTryExecuteDELETEQuery(query, expectedResult);
 
             // Act
             return queryExecutor.DestroyMessage(messageId);
@@ -135,9 +130,7 @@ namespace Testinvi.TweetinviControllers.MessageTests
 
         private void ArrangeQueryGeneratorDestroyMessage(long userId, string query)
         {
-            _fakeMessageQueryGenerator
-                .CallsTo(x => x.GetDestroyMessageQuery(userId))
-                .Returns(query);
+            A.CallTo(() => _messageQueryGenerator.GetDestroyMessageQuery(userId)).Returns(query);
         }
 
         #endregion

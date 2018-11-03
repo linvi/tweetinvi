@@ -15,17 +15,18 @@ namespace Testinvi.TweetinviControllers.UserTests
     public class UserControllerTests
     {
         private FakeClassBuilder<UserController> _fakeBuilder;
-        private Fake<IUserQueryExecutor> _fakeUserQueryExecutor;
-        private Fake<ITweetFactory> _fakeTweetFactory;
-        private Fake<IUserFactory> _fakeUserFactory;
+
+        private IUserQueryExecutor _userQueryExecutor;
+        private ITweetFactory _tweetFactory;
+        private IUserFactory _userFactory;
 
         [TestInitialize]
         public void TestInitialize()
         {
             _fakeBuilder = new FakeClassBuilder<UserController>();
-            _fakeUserQueryExecutor = _fakeBuilder.GetFake<IUserQueryExecutor>();
-            _fakeTweetFactory = _fakeBuilder.GetFake<ITweetFactory>();
-            _fakeUserFactory = _fakeBuilder.GetFake<IUserFactory>();
+            _userQueryExecutor = _fakeBuilder.GetFake<IUserQueryExecutor>().FakedObject;
+            _tweetFactory = _fakeBuilder.GetFake<ITweetFactory>().FakedObject;
+            _userFactory = _fakeBuilder.GetFake<IUserFactory>().FakedObject;
         }
 
         #region Get FriendIds
@@ -40,7 +41,7 @@ namespace Testinvi.TweetinviControllers.UserTests
             var maximumNumberOfUsers = TestHelper.GenerateRandomInt();
             var friendIds = new[] { TestHelper.GenerateRandomLong() };
 
-            _fakeUserQueryExecutor.CallsTo(x => x.GetFriendIds(user, maximumNumberOfUsers)).Returns(friendIds);
+            A.CallTo(() => _userQueryExecutor.GetFriendIds(user, maximumNumberOfUsers)).Returns(friendIds);
 
             // Act
             var result = controller.GetFriendIds(user, maximumNumberOfUsers);
@@ -58,7 +59,7 @@ namespace Testinvi.TweetinviControllers.UserTests
             var maximumNumberOfUsers = TestHelper.GenerateRandomInt();
             var friendIds = new[] { TestHelper.GenerateRandomLong() };
 
-            _fakeUserQueryExecutor.CallsTo(x => x.GetFriendIds(userDTO, maximumNumberOfUsers)).Returns(friendIds);
+            A.CallTo(() => _userQueryExecutor.GetFriendIds(userDTO, maximumNumberOfUsers)).Returns(friendIds);
 
             // Act
             var result = controller.GetFriendIds(userDTO, maximumNumberOfUsers);
@@ -76,7 +77,9 @@ namespace Testinvi.TweetinviControllers.UserTests
             var maximumNumberOfUsers = TestHelper.GenerateRandomInt();
             var friendIds = new[] { TestHelper.GenerateRandomLong() };
 
-            _fakeUserQueryExecutor.CallsTo(x => x.GetFriendIds(A<IUserIdentifier>.That.Matches(u => u.ScreenName == userScreenName), maximumNumberOfUsers)).Returns(friendIds);
+            A.CallTo(() =>
+                _userQueryExecutor.GetFriendIds(A<IUserIdentifier>.That.Matches(u => u.ScreenName == userScreenName),
+                    maximumNumberOfUsers)).Returns(friendIds);
 
             // Act
             var result = controller.GetFriendIds(userScreenName, maximumNumberOfUsers);
@@ -94,7 +97,9 @@ namespace Testinvi.TweetinviControllers.UserTests
             var maximumNumberOfUsers = TestHelper.GenerateRandomInt();
             var friendIds = new[] { TestHelper.GenerateRandomLong() };
 
-            _fakeUserQueryExecutor.CallsTo(x => x.GetFriendIds(A<IUserIdentifier>.That.Matches(u => u.Id == userId), maximumNumberOfUsers)).Returns(friendIds);
+            A.CallTo(() =>
+                _userQueryExecutor.GetFriendIds(A<IUserIdentifier>.That.Matches(u => u.Id == userId),
+                    maximumNumberOfUsers)).Returns(friendIds);
 
             // Act
             var result = controller.GetFriendIds(userId, maximumNumberOfUsers);
@@ -118,8 +123,8 @@ namespace Testinvi.TweetinviControllers.UserTests
             var friendIds = new[] { TestHelper.GenerateRandomLong() };
             var friends = new[] { A.Fake<IUser>() };
 
-            _fakeUserQueryExecutor.CallsTo(x => x.GetFriendIds(user, maximumNumberOfUsers)).Returns(friendIds);
-            _fakeUserFactory.CallsTo(x => x.GetUsersFromIds(friendIds)).Returns(friends);
+            A.CallTo(() => _userQueryExecutor.GetFriendIds(user, maximumNumberOfUsers)).Returns(friendIds);
+            A.CallTo(() => _userFactory.GetUsersFromIds(friendIds)).Returns(friends);
 
             // Act
             var result = controller.GetFriends(user, maximumNumberOfUsers);
@@ -138,8 +143,8 @@ namespace Testinvi.TweetinviControllers.UserTests
             var friendIds = new[] { TestHelper.GenerateRandomLong() };
             var friends = new[] { A.Fake<IUser>() };
 
-            _fakeUserQueryExecutor.CallsTo(x => x.GetFriendIds(userDTO, maximumNumberOfUsers)).Returns(friendIds);
-            _fakeUserFactory.CallsTo(x => x.GetUsersFromIds(friendIds)).Returns(friends);
+            A.CallTo(() => _userQueryExecutor.GetFriendIds(userDTO, maximumNumberOfUsers)).Returns(friendIds);
+            A.CallTo(() => _userFactory.GetUsersFromIds(friendIds)).Returns(friends);
 
             // Act
             var result = controller.GetFriends(userDTO, maximumNumberOfUsers);
@@ -158,8 +163,10 @@ namespace Testinvi.TweetinviControllers.UserTests
             var friendIds = new[] { TestHelper.GenerateRandomLong() };
             var friends = new[] { A.Fake<IUser>() };
 
-            _fakeUserQueryExecutor.CallsTo(x => x.GetFriendIds(A<IUserIdentifier>.That.Matches(u => u.ScreenName == userScreenName), maximumNumberOfUsers)).Returns(friendIds);
-            _fakeUserFactory.CallsTo(x => x.GetUsersFromIds(friendIds)).Returns(friends);
+            A.CallTo(() =>
+                _userQueryExecutor.GetFriendIds(A<IUserIdentifier>.That.Matches(u => u.ScreenName == userScreenName),
+                    maximumNumberOfUsers)).Returns(friendIds);
+            A.CallTo(() => _userFactory.GetUsersFromIds(friendIds)).Returns(friends);
 
             // Act
             var result = controller.GetFriends(userScreenName, maximumNumberOfUsers);
@@ -178,8 +185,10 @@ namespace Testinvi.TweetinviControllers.UserTests
             var friendIds = new[] { TestHelper.GenerateRandomLong() };
             var friends = new[] { A.Fake<IUser>() };
 
-            _fakeUserQueryExecutor.CallsTo(x => x.GetFriendIds(A<IUserIdentifier>.That.Matches(u => u.Id == userId), maximumNumberOfUsers)).Returns(friendIds);
-            _fakeUserFactory.CallsTo(x => x.GetUsersFromIds(friendIds)).Returns(friends);
+            A.CallTo(() =>
+                _userQueryExecutor.GetFriendIds(A<IUserIdentifier>.That.Matches(u => u.Id == userId),
+                    maximumNumberOfUsers)).Returns(friendIds);
+            A.CallTo(() => _userFactory.GetUsersFromIds(friendIds)).Returns(friends);
 
             // Act
             var result = controller.GetFriends(userId, maximumNumberOfUsers);
@@ -202,7 +211,7 @@ namespace Testinvi.TweetinviControllers.UserTests
             var maximumNumberOfUsers = TestHelper.GenerateRandomInt();
             var followersIds = new[] { TestHelper.GenerateRandomLong() };
 
-            _fakeUserQueryExecutor.CallsTo(x => x.GetFollowerIds(user, maximumNumberOfUsers)).Returns(followersIds);
+            A.CallTo(() => _userQueryExecutor.GetFollowerIds(user, maximumNumberOfUsers)).Returns(followersIds);
 
             // Act
             var result = controller.GetFollowerIds(user, maximumNumberOfUsers);
@@ -220,7 +229,7 @@ namespace Testinvi.TweetinviControllers.UserTests
             var maximumNumberOfUsers = TestHelper.GenerateRandomInt();
             var followersIds = new[] { TestHelper.GenerateRandomLong() };
 
-            _fakeUserQueryExecutor.CallsTo(x => x.GetFollowerIds(userDTO, maximumNumberOfUsers)).Returns(followersIds);
+            A.CallTo(() => _userQueryExecutor.GetFollowerIds(userDTO, maximumNumberOfUsers)).Returns(followersIds);
 
             // Act
             var result = controller.GetFollowerIds(userDTO, maximumNumberOfUsers);
@@ -238,7 +247,9 @@ namespace Testinvi.TweetinviControllers.UserTests
             var maximumNumberOfUsers = TestHelper.GenerateRandomInt();
             var followersIds = new[] { TestHelper.GenerateRandomLong() };
 
-            _fakeUserQueryExecutor.CallsTo(x => x.GetFollowerIds(A<IUserIdentifier>.That.Matches(u => u.ScreenName == userScreenName), maximumNumberOfUsers)).Returns(followersIds);
+            A.CallTo(() =>
+                _userQueryExecutor.GetFollowerIds(A<IUserIdentifier>.That.Matches(u => u.ScreenName == userScreenName),
+                    maximumNumberOfUsers)).Returns(followersIds);
 
             // Act
             var result = controller.GetFollowerIds(userScreenName, maximumNumberOfUsers);
@@ -256,7 +267,9 @@ namespace Testinvi.TweetinviControllers.UserTests
             var maximumNumberOfUsers = TestHelper.GenerateRandomInt();
             var followersIds = new[] { TestHelper.GenerateRandomLong() };
 
-            _fakeUserQueryExecutor.CallsTo(x => x.GetFollowerIds(A<IUserIdentifier>.That.Matches(u => u.Id == userId), maximumNumberOfUsers)).Returns(followersIds);
+            A.CallTo(() =>
+                _userQueryExecutor.GetFollowerIds(A<IUserIdentifier>.That.Matches(u => u.Id == userId),
+                    maximumNumberOfUsers)).Returns(followersIds);
 
             // Act
             var result = controller.GetFollowerIds(userId, maximumNumberOfUsers);
@@ -280,8 +293,8 @@ namespace Testinvi.TweetinviControllers.UserTests
             var followerIds = new[] { TestHelper.GenerateRandomLong() };
             var followers = new[] { A.Fake<IUser>() };
 
-            _fakeUserQueryExecutor.CallsTo(x => x.GetFollowerIds(user, maximumNumberOfUsers)).Returns(followerIds);
-            _fakeUserFactory.CallsTo(x => x.GetUsersFromIds(followerIds)).Returns(followers);
+            A.CallTo(() => _userQueryExecutor.GetFollowerIds(user, maximumNumberOfUsers)).Returns(followerIds);
+            A.CallTo(() => _userFactory.GetUsersFromIds(followerIds)).Returns(followers);
 
             // Act
             var result = controller.GetFollowers(user, maximumNumberOfUsers);
@@ -300,8 +313,8 @@ namespace Testinvi.TweetinviControllers.UserTests
             var followerIds = new[] { TestHelper.GenerateRandomLong() };
             var followers = new[] { A.Fake<IUser>() };
 
-            _fakeUserQueryExecutor.CallsTo(x => x.GetFollowerIds(userDTO, maximumNumberOfUsers)).Returns(followerIds);
-            _fakeUserFactory.CallsTo(x => x.GetUsersFromIds(followerIds)).Returns(followers);
+            A.CallTo(() => _userQueryExecutor.GetFollowerIds(userDTO, maximumNumberOfUsers)).Returns(followerIds);
+            A.CallTo(() => _userFactory.GetUsersFromIds(followerIds)).Returns(followers);
 
             // Act
             var result = controller.GetFollowers(userDTO, maximumNumberOfUsers);
@@ -320,8 +333,10 @@ namespace Testinvi.TweetinviControllers.UserTests
             var followerIds = new[] { TestHelper.GenerateRandomLong() };
             var followers = new[] { A.Fake<IUser>() };
 
-            _fakeUserQueryExecutor.CallsTo(x => x.GetFollowerIds(A<IUserIdentifier>.That.Matches(u => u.ScreenName == userScreenName), maximumNumberOfUsers)).Returns(followerIds);
-            _fakeUserFactory.CallsTo(x => x.GetUsersFromIds(followerIds)).Returns(followers);
+            A.CallTo(() =>
+                _userQueryExecutor.GetFollowerIds(A<IUserIdentifier>.That.Matches(u => u.ScreenName == userScreenName),
+                    maximumNumberOfUsers)).Returns(followerIds);
+            A.CallTo(() => _userFactory.GetUsersFromIds(followerIds)).Returns(followers);
 
             // Act
             var result = controller.GetFollowers(userScreenName, maximumNumberOfUsers);
@@ -340,8 +355,10 @@ namespace Testinvi.TweetinviControllers.UserTests
             var followerIds = new[] { TestHelper.GenerateRandomLong() };
             var followers = new[] { A.Fake<IUser>() };
 
-            _fakeUserQueryExecutor.CallsTo(x => x.GetFollowerIds(A<IUserIdentifier>.That.Matches(u => u.Id == userId), maximumNumberOfUsers)).Returns(followerIds);
-            _fakeUserFactory.CallsTo(x => x.GetUsersFromIds(followerIds)).Returns(followers);
+            A.CallTo(() =>
+                _userQueryExecutor.GetFollowerIds(A<IUserIdentifier>.That.Matches(u => u.Id == userId),
+                    maximumNumberOfUsers)).Returns(followerIds);
+            A.CallTo(() => _userFactory.GetUsersFromIds(followerIds)).Returns(followers);
 
             // Act
             var result = controller.GetFollowers(userId, maximumNumberOfUsers);
@@ -361,10 +378,10 @@ namespace Testinvi.TweetinviControllers.UserTests
             var controller = CreateUserController();
             var tweetsDTO = new[] { A.Fake<ITweetDTO>() };
             var tweets = new[] { A.Fake<ITweet>() };
-            var parameters = It.IsAny<IGetUserFavoritesQueryParameters>();
+            var parameters = A.Fake<IGetUserFavoritesQueryParameters>();
 
-            _fakeUserQueryExecutor.CallsTo(x => x.GetFavoriteTweets(parameters)).Returns(tweetsDTO);
-            _fakeTweetFactory.CallsTo(x => x.GenerateTweetsFromDTO(tweetsDTO, null)).Returns(tweets);
+            A.CallTo(() => _userQueryExecutor.GetFavoriteTweets(parameters)).Returns(tweetsDTO);
+            A.CallTo(() => _tweetFactory.GenerateTweetsFromDTO(tweetsDTO, null)).Returns(tweets);
 
             // Act
             var result = controller.GetFavoriteTweets(parameters);
@@ -385,7 +402,7 @@ namespace Testinvi.TweetinviControllers.UserTests
             var userDTO = A.Fake<IUserDTO>();
             var user = TestHelper.GenerateUser(userDTO);
 
-            _fakeUserQueryExecutor.CallsTo(x => x.BlockUser(userDTO)).Returns(false);
+            A.CallTo(() => _userQueryExecutor.BlockUser(userDTO)).Returns(false);
 
             // Act
             var result = controller.BlockUser(user);
@@ -401,7 +418,7 @@ namespace Testinvi.TweetinviControllers.UserTests
             var controller = CreateUserController();
             var user = TestHelper.GenerateUser(A.Fake<IUserDTO>());
 
-            _fakeUserQueryExecutor.CallsTo(x => x.BlockUser(user)).Returns(true);
+            A.CallTo(() => _userQueryExecutor.BlockUser(user)).Returns(true);
 
             // Act
             var result = controller.BlockUser(user);
@@ -417,7 +434,7 @@ namespace Testinvi.TweetinviControllers.UserTests
             var controller = CreateUserController();
             var userDTO = A.Fake<IUserDTO>();
 
-            _fakeUserQueryExecutor.CallsTo(x => x.BlockUser(userDTO)).Returns(false);
+            A.CallTo(() => _userQueryExecutor.BlockUser(userDTO)).Returns(false);
 
             // Act
             var result = controller.BlockUser(userDTO);
@@ -433,7 +450,7 @@ namespace Testinvi.TweetinviControllers.UserTests
             var controller = CreateUserController();
             var userDTO = A.Fake<IUserDTO>();
 
-            _fakeUserQueryExecutor.CallsTo(x => x.BlockUser(userDTO)).Returns(true);
+            A.CallTo(() => _userQueryExecutor.BlockUser(userDTO)).Returns(true);
 
             // Act
             var result = controller.BlockUser(userDTO);
@@ -449,7 +466,9 @@ namespace Testinvi.TweetinviControllers.UserTests
             var controller = CreateUserController();
             var userScreenName = TestHelper.GenerateString();
 
-            _fakeUserQueryExecutor.CallsTo(x => x.BlockUser(A<IUserIdentifier>.That.Matches(u => u.ScreenName == userScreenName))).Returns(false);
+            A.CallTo(() =>
+                    _userQueryExecutor.BlockUser(A<IUserIdentifier>.That.Matches(u => u.ScreenName == userScreenName)))
+                .Returns(false);
 
             // Act
             var result = controller.BlockUser(userScreenName);
@@ -465,7 +484,9 @@ namespace Testinvi.TweetinviControllers.UserTests
             var controller = CreateUserController();
             var userScreenName = TestHelper.GenerateString();
 
-            _fakeUserQueryExecutor.CallsTo(x => x.BlockUser(A<IUserIdentifier>.That.Matches(u => u.ScreenName == userScreenName))).Returns(true);
+            A.CallTo(() =>
+                    _userQueryExecutor.BlockUser(A<IUserIdentifier>.That.Matches(u => u.ScreenName == userScreenName)))
+                .Returns(true);
 
             // Act
             var result = controller.BlockUser(userScreenName);
@@ -481,7 +502,8 @@ namespace Testinvi.TweetinviControllers.UserTests
             var controller = CreateUserController();
             var userId = TestHelper.GenerateRandomLong();
 
-            _fakeUserQueryExecutor.CallsTo(x => x.BlockUser(A<IUserIdentifier>.That.Matches(u => u.Id == userId))).Returns(false);
+            A.CallTo(() => _userQueryExecutor.BlockUser(A<IUserIdentifier>.That.Matches(u => u.Id == userId)))
+                .Returns(false);
 
             // Act
             var result = controller.BlockUser(userId);
@@ -497,7 +519,8 @@ namespace Testinvi.TweetinviControllers.UserTests
             var controller = CreateUserController();
             var userId = TestHelper.GenerateRandomLong();
 
-            _fakeUserQueryExecutor.CallsTo(x => x.BlockUser(A<IUserIdentifier>.That.Matches(u => u.Id == userId))).Returns(true);
+            A.CallTo(() => _userQueryExecutor.BlockUser(A<IUserIdentifier>.That.Matches(u => u.Id == userId)))
+                .Returns(true);
 
             // Act
             var result = controller.BlockUser(userId);
@@ -530,7 +553,7 @@ namespace Testinvi.TweetinviControllers.UserTests
             var user = TestHelper.GenerateUser(userDTO);
             var stream = A.Fake<Stream>();
 
-            _fakeUserQueryExecutor.CallsTo(x => x.GetProfileImageStream(userDTO, ImageSize.bigger)).Returns(stream);
+            A.CallTo(() => _userQueryExecutor.GetProfileImageStream(userDTO, ImageSize.bigger)).Returns(stream);
 
             // Act
             var result = controller.GetProfileImageStream(user, ImageSize.bigger);
@@ -547,7 +570,7 @@ namespace Testinvi.TweetinviControllers.UserTests
             var userDTO = A.Fake<IUserDTO>();
             var stream = A.Fake<Stream>();
 
-            _fakeUserQueryExecutor.CallsTo(x => x.GetProfileImageStream(userDTO, ImageSize.bigger)).Returns(stream);
+            A.CallTo(() => _userQueryExecutor.GetProfileImageStream(userDTO, ImageSize.bigger)).Returns(stream);
 
             // Act
             var result = controller.GetProfileImageStream(userDTO, ImageSize.bigger);
@@ -567,7 +590,7 @@ namespace Testinvi.TweetinviControllers.UserTests
             var userDTO = A.Fake<IUserDTO>();
             var user = TestHelper.GenerateUser(userDTO);
 
-            _fakeUserQueryExecutor.CallsTo(x => x.ReportUserForSpam(userDTO)).Returns(false);
+            A.CallTo(() => _userQueryExecutor.ReportUserForSpam(userDTO)).Returns(false);
 
             // Act
             var result = controller.ReportUserForSpam(user);
@@ -583,7 +606,7 @@ namespace Testinvi.TweetinviControllers.UserTests
             var controller = CreateUserController();
             var userDTO = A.Fake<IUserDTO>();
 
-            _fakeUserQueryExecutor.CallsTo(x => x.ReportUserForSpam(userDTO)).Returns(false);
+            A.CallTo(() => _userQueryExecutor.ReportUserForSpam(userDTO)).Returns(false);
 
             // Act
             var result = controller.ReportUserForSpam(userDTO);
@@ -599,7 +622,7 @@ namespace Testinvi.TweetinviControllers.UserTests
             var controller = CreateUserController();
             var userDTO = A.Fake<IUserDTO>();
 
-            _fakeUserQueryExecutor.CallsTo(x => x.ReportUserForSpam(userDTO)).Returns(true);
+            A.CallTo(() => _userQueryExecutor.ReportUserForSpam(userDTO)).Returns(true);
 
             // Act
             var result = controller.ReportUserForSpam(userDTO);
@@ -615,7 +638,9 @@ namespace Testinvi.TweetinviControllers.UserTests
             var controller = CreateUserController();
             var userScreenName = TestHelper.GenerateString();
 
-            _fakeUserQueryExecutor.CallsTo(x => x.ReportUserForSpam(A<IUserIdentifier>.That.Matches(u => u.ScreenName == userScreenName))).Returns(false);
+            A.CallTo(() =>
+                _userQueryExecutor.ReportUserForSpam(
+                    A<IUserIdentifier>.That.Matches(u => u.ScreenName == userScreenName))).Returns(false);
 
             // Act
             var result = controller.ReportUserForSpam(userScreenName);
@@ -631,7 +656,9 @@ namespace Testinvi.TweetinviControllers.UserTests
             var controller = CreateUserController();
             var userScreenName = TestHelper.GenerateString();
 
-            _fakeUserQueryExecutor.CallsTo(x => x.ReportUserForSpam(A<IUserIdentifier>.That.Matches(u => u.ScreenName == userScreenName))).Returns(true);
+            A.CallTo(() =>
+                _userQueryExecutor.ReportUserForSpam(
+                    A<IUserIdentifier>.That.Matches(u => u.ScreenName == userScreenName))).Returns(true);
 
             // Act
             var result = controller.ReportUserForSpam(userScreenName);
@@ -647,7 +674,8 @@ namespace Testinvi.TweetinviControllers.UserTests
             var controller = CreateUserController();
             var userId = TestHelper.GenerateRandomLong();
 
-            _fakeUserQueryExecutor.CallsTo(x => x.ReportUserForSpam(A<IUserIdentifier>.That.Matches(u => u.Id == userId))).Returns(false);
+            A.CallTo(() => _userQueryExecutor.ReportUserForSpam(A<IUserIdentifier>.That.Matches(u => u.Id == userId)))
+                .Returns(false);
 
             // Act
             var result = controller.ReportUserForSpam(userId);
@@ -663,7 +691,8 @@ namespace Testinvi.TweetinviControllers.UserTests
             var controller = CreateUserController();
             var userId = TestHelper.GenerateRandomLong();
 
-            _fakeUserQueryExecutor.CallsTo(x => x.ReportUserForSpam(A<IUserIdentifier>.That.Matches(u => u.Id == userId))).Returns(true);
+            A.CallTo(() => _userQueryExecutor.ReportUserForSpam(A<IUserIdentifier>.That.Matches(u => u.Id == userId)))
+                .Returns(true);
 
             // Act
             var result = controller.ReportUserForSpam(userId);

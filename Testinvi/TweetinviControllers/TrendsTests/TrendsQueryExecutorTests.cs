@@ -12,15 +12,16 @@ namespace Testinvi.TweetinviControllers.TrendsTests
     public class TrendsQueryExecutorTests
     {
         private FakeClassBuilder<TrendsQueryExecutor> _fakeBuilder;
-        private Fake<ITrendsQueryGenerator> _fakeTrendsQueryGenerator;
-        private Fake<ITwitterAccessor> _fakeTwitterAccessor;
+
+        private ITrendsQueryGenerator _trendsQueryGenerator;
+        private ITwitterAccessor _twitterAccessor;
 
         [TestInitialize]
         public void TestInitialize()
         {
             _fakeBuilder = new FakeClassBuilder<TrendsQueryExecutor>();
-            _fakeTrendsQueryGenerator = _fakeBuilder.GetFake<ITrendsQueryGenerator>();
-            _fakeTwitterAccessor = _fakeBuilder.GetFake<ITwitterAccessor>();
+            _trendsQueryGenerator = _fakeBuilder.GetFake<ITrendsQueryGenerator>().FakedObject;
+            _twitterAccessor = _fakeBuilder.GetFake<ITwitterAccessor>().FakedObject;
         }
 
         [TestMethod]
@@ -33,8 +34,8 @@ namespace Testinvi.TweetinviControllers.TrendsTests
             var expectedResult = A.Fake<IPlaceTrends>();
             var expectedTwitterAccessorResults = new[] { expectedResult };
 
-            _fakeTrendsQueryGenerator.CallsTo(x => x.GetPlaceTrendsAtQuery(locationId)).Returns(query);
-            _fakeTwitterAccessor.ArrangeExecuteGETQuery(query, expectedTwitterAccessorResults);
+            A.CallTo(() => _trendsQueryGenerator.GetPlaceTrendsAtQuery(locationId)).Returns(query);
+            _twitterAccessor.ArrangeExecuteGETQuery(query, expectedTwitterAccessorResults);
 
             // Act
             var result = queryExecutor.GetPlaceTrendsAt(locationId);
@@ -53,8 +54,8 @@ namespace Testinvi.TweetinviControllers.TrendsTests
             var expectedResult = A.Fake<IPlaceTrends>();
             var expectedTwitterAccessorResults = new[] { expectedResult };
 
-            _fakeTrendsQueryGenerator.CallsTo(x => x.GetPlaceTrendsAtQuery(woeIdLocation)).Returns(query);
-            _fakeTwitterAccessor.ArrangeExecuteGETQuery(query, expectedTwitterAccessorResults);
+            A.CallTo(() => _trendsQueryGenerator.GetPlaceTrendsAtQuery(woeIdLocation)).Returns(query);
+            _twitterAccessor.ArrangeExecuteGETQuery(query, expectedTwitterAccessorResults);
 
             // Act
             var result = queryExecutor.GetPlaceTrendsAt(woeIdLocation);

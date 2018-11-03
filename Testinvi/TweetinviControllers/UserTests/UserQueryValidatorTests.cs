@@ -1,5 +1,4 @@
 ﻿using FakeItEasy;
-using FakeItEasy.ExtensionSyntax.Full;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Testinvi.Helpers;
 using Tweetinvi;
@@ -25,7 +24,7 @@ namespace Testinvi.TweetinviControllers.UserTests
         public void CanUserBeIdentified_UserIsNull_ReturnsFalse()
         {
             // Arrange
-            var queryValidator = CreateUserQuerValidator();
+            var queryValidator = CreateUserQueryValidator();
 
             // Act
             var result = queryValidator.CanUserBeIdentified(null);
@@ -55,7 +54,7 @@ namespace Testinvi.TweetinviControllers.UserTests
             bool expectedResult)
         {
             // Arrange
-            var queryValidator = CreateUserQuerValidator();
+            var queryValidator = CreateUserQueryValidator();
             var user = GenerateUserDTO(isUserIdDefault, isUserScreenNameNull, isUserScreenNameEmpty);
 
             // Act
@@ -73,7 +72,7 @@ namespace Testinvi.TweetinviControllers.UserTests
         public void IsScreenNameValid_Null_ReturnsFalse()
         {
             // Arrange
-            var queryValidator = CreateUserQuerValidator();
+            var queryValidator = CreateUserQueryValidator();
 
             // Act
             var result = queryValidator.IsScreenNameValid(null);
@@ -86,7 +85,7 @@ namespace Testinvi.TweetinviControllers.UserTests
         public void IsScreenNameValid_Empty_ReturnsFalse()
         {
             // Arrange
-            var queryValidator = CreateUserQuerValidator();
+            var queryValidator = CreateUserQueryValidator();
 
             // Act
             var result = queryValidator.IsScreenNameValid(string.Empty);
@@ -99,7 +98,7 @@ namespace Testinvi.TweetinviControllers.UserTests
         public void IsScreenNameValid_Any_ReturnsTrue()
         {
             // Arrange
-            var queryValidator = CreateUserQuerValidator();
+            var queryValidator = CreateUserQueryValidator();
 
             // Act
             var result = queryValidator.IsScreenNameValid(TestHelper.GenerateString());
@@ -116,7 +115,7 @@ namespace Testinvi.TweetinviControllers.UserTests
         public void IsUserIdValid_IsDefault_ReturnsFalse()
         {
             // Arrange
-            var queryValidator = CreateUserQuerValidator();
+            var queryValidator = CreateUserQueryValidator();
 
             // Act
             var result = queryValidator.IsUserIdValid(TweetinviSettings.DEFAULT_ID);
@@ -129,7 +128,7 @@ namespace Testinvi.TweetinviControllers.UserTests
         public void IsUserIdValid_Any_ReturnsTrue()
         {
             // Arrange
-            var queryValidator = CreateUserQuerValidator();
+            var queryValidator = CreateUserQueryValidator();
 
             // Act
             var result = queryValidator.IsUserIdValid(TestHelper.GenerateRandomLong());
@@ -144,12 +143,13 @@ namespace Testinvi.TweetinviControllers.UserTests
         {
             var userDTO = A.Fake<IUserDTO>();
             var expectedScreenName = isUserScreenNameNull ? null : isUserScreenNameEmpty ? string.Empty : TestHelper.GenerateString();
-            userDTO.CallsTo(x => x.Id).Returns(isUserIdDefault ? TweetinviSettings.DEFAULT_ID : TestHelper.GenerateRandomLong());
-            userDTO.CallsTo(x => x.ScreenName).Returns(expectedScreenName);
+            A.CallTo(() => userDTO.Id)
+                .Returns(isUserIdDefault ? TweetinviSettings.DEFAULT_ID : TestHelper.GenerateRandomLong());
+            A.CallTo(() => userDTO.ScreenName).Returns(expectedScreenName);
             return userDTO;
         }
 
-        public UserQueryValidator CreateUserQuerValidator()
+        public UserQueryValidator CreateUserQueryValidator()
         {
             return _fakeBuilder.GenerateClass();
         }

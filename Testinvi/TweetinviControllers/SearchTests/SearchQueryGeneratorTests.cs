@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Net;
 using FakeItEasy;
-using FakeItEasy.ExtensionSyntax.Full;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Testinvi.Helpers;
 using Tweetinvi.Controllers.Search;
@@ -22,10 +21,10 @@ namespace Testinvi.TweetinviControllers.SearchTests
         // U stands for Until
         
         private FakeClassBuilder<SearchQueryGenerator> _fakeBuilder;
-        private Fake<ISearchQueryValidator> _fakeSearchQueryValidator;
-        private Fake<ISearchQueryParameterGenerator> _fakeSearchQueryParameterGenerator;
-        private Fake<IQueryParameterGenerator> _fakeQueryParameterGenerator;
 
+        private ISearchQueryValidator _searchQueryValidator;
+        private ISearchQueryParameterGenerator _searchQueryParameterGenerator;
+        private IQueryParameterGenerator _queryParameterGenerator;
         private ISearchTweetsParameters _searchTweetsParameters;
 
         private string _searchQuery;
@@ -54,25 +53,29 @@ namespace Testinvi.TweetinviControllers.SearchTests
         public void TestInitialize()
         {
             _fakeBuilder = new FakeClassBuilder<SearchQueryGenerator>();
-            _fakeSearchQueryValidator = _fakeBuilder.GetFake<ISearchQueryValidator>();
-            _fakeSearchQueryParameterGenerator = _fakeBuilder.GetFake<ISearchQueryParameterGenerator>();
-            _fakeQueryParameterGenerator = _fakeBuilder.GetFake<IQueryParameterGenerator>();
+            _searchQueryValidator = _fakeBuilder.GetFake<ISearchQueryValidator>().FakedObject;
+            _searchQueryParameterGenerator = _fakeBuilder.GetFake<ISearchQueryParameterGenerator>().FakedObject;
+            _queryParameterGenerator = _fakeBuilder.GetFake<IQueryParameterGenerator>().FakedObject;
 
             InitData();
 
-            _fakeSearchQueryParameterGenerator.CallsTo(x => x.GenerateSearchQueryParameter(_searchQuery)).Returns(_searchQueryParameter);
-            _fakeSearchQueryParameterGenerator.CallsTo(x => x.GenerateSearchTypeParameter(_searchResultType)).Returns(_searchTypeParameter);
-            _fakeSearchQueryParameterGenerator.CallsTo(x => x.GenerateSinceParameter(_since)).Returns(_sinceParameter);
-            _fakeSearchQueryParameterGenerator.CallsTo(x => x.GenerateUntilParameter(_until)).Returns(_untilParameter);
-            _fakeSearchQueryParameterGenerator.CallsTo(x => x.GenerateLocaleParameter(_locale)).Returns(_localeParameter);
-            _fakeSearchQueryParameterGenerator.CallsTo(x => x.GenerateLangParameter(_lang)).Returns(_languageParameter);
-            _fakeSearchQueryParameterGenerator.CallsTo(x => x.GenerateGeoCodeParameter(_geoCode)).Returns(_geoCodeParameter);
+            A.CallTo(() => _searchQueryParameterGenerator.GenerateSearchQueryParameter(_searchQuery))
+                .Returns(_searchQueryParameter);
+            A.CallTo(() => _searchQueryParameterGenerator.GenerateSearchTypeParameter(_searchResultType))
+                .Returns(_searchTypeParameter);
+            A.CallTo(() => _searchQueryParameterGenerator.GenerateSinceParameter(_since)).Returns(_sinceParameter);
+            A.CallTo(() => _searchQueryParameterGenerator.GenerateUntilParameter(_until)).Returns(_untilParameter);
+            A.CallTo(() => _searchQueryParameterGenerator.GenerateLocaleParameter(_locale)).Returns(_localeParameter);
+            A.CallTo(() => _searchQueryParameterGenerator.GenerateLangParameter(_lang)).Returns(_languageParameter);
+            A.CallTo(() => _searchQueryParameterGenerator.GenerateGeoCodeParameter(_geoCode))
+                .Returns(_geoCodeParameter);
 
-            _fakeQueryParameterGenerator.CallsTo(x => x.GenerateCountParameter(_maximumNumberOfResults)).Returns(_maximumNumberOfResultsParameter);
-            _fakeQueryParameterGenerator.CallsTo(x => x.GenerateSinceIdParameter(_sinceId)).Returns(_sinceIdParameter);
-            _fakeQueryParameterGenerator.CallsTo(x => x.GenerateMaxIdParameter(_maxId)).Returns(_maxIdParameter);
+            A.CallTo(() => _queryParameterGenerator.GenerateCountParameter(_maximumNumberOfResults))
+                .Returns(_maximumNumberOfResultsParameter);
+            A.CallTo(() => _queryParameterGenerator.GenerateSinceIdParameter(_sinceId)).Returns(_sinceIdParameter);
+            A.CallTo(() => _queryParameterGenerator.GenerateMaxIdParameter(_maxId)).Returns(_maxIdParameter);
 
-            _fakeSearchQueryValidator.CallsTo(x => x.IsSearchQueryValid(It.IsAny<string>())).Returns(true);
+            A.CallTo(() => _searchQueryValidator.IsSearchQueryValid(It.IsAny<string>())).Returns(true);
         }
 
         private void InitData()
@@ -126,9 +129,10 @@ namespace Testinvi.TweetinviControllers.SearchTests
             // Arrange
             var searchQueryGenerator = CreateSearchQueryGenerator();
             
-            _fakeSearchQueryParameterGenerator.CallsTo(x => x.GenerateSearchQueryParameter(It.IsAny<string>())).ReturnsLazily((string a) => a);
+            A.CallTo(() => _searchQueryParameterGenerator.GenerateSearchQueryParameter(It.IsAny<string>()))
+                .ReturnsLazily((string a) => a);
             var tweetSearchParameters = A.Fake<ISearchTweetsParameters>();
-            tweetSearchParameters.CallsTo(x => x.Filters).Returns(TweetSearchFilters.Videos);
+            A.CallTo(() => tweetSearchParameters.Filters).Returns(TweetSearchFilters.Videos);
 
             // Act
             var result = searchQueryGenerator.GetSearchTweetsQuery(tweetSearchParameters);
@@ -136,7 +140,8 @@ namespace Testinvi.TweetinviControllers.SearchTests
             // Assert
             Assert.IsTrue(WebUtility.UrlDecode(result).Contains(" filter:videos"));
             
-            _fakeSearchQueryValidator.CallsTo(x => x.ThrowIfSearchParametersIsNotValid(tweetSearchParameters)).MustHaveHappened();
+            A.CallTo(() => _searchQueryValidator.ThrowIfSearchParametersIsNotValid(tweetSearchParameters))
+                .MustHaveHappened();
         }
 
         [TestMethod]

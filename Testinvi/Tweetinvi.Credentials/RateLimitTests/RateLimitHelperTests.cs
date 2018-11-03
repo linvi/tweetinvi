@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq.Expressions;
 using FakeItEasy;
-using FakeItEasy.ExtensionSyntax.Full;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Testinvi.Helpers;
 using Tweetinvi.Core;
@@ -18,8 +17,8 @@ namespace Testinvi.Tweetinvi.Credentials.RateLimitTests
     public class RateLimitHelperTests
     {
         private FakeClassBuilder<RateLimitHelper> _fakeBuilder;
-
         private ICredentialsRateLimits _credentialsRateLimits;
+
         private IWebHelper _webHelper;
         private IAttributeHelper _attributeHelper;
 
@@ -47,23 +46,18 @@ namespace Testinvi.Tweetinvi.Credentials.RateLimitTests
         }
 
         [TestMethod]
-        public void GetTokenRateLimitFromQuery_AllEnpointsAssociatedCorrectly()
-        {
-            var rateLimitHelper = CreateRateLimitHelper();
-            GetTokenRateLimitFromQuery_EndpointAssociatedCorrectly(x => x.AccountSettingsLimit, ACCOUNT_SETTINGS_QUERY, rateLimitHelper);
-        }
-        
-        private void GetTokenRateLimitFromQuery_EndpointAssociatedCorrectly(Expression<Func<ICredentialsRateLimits, IEndpointRateLimit>> rateLimit, string associatedURL, IRateLimitHelper rateLimitHelper)
+        public void GetTokenRateLimitFromQuery_AllEndpointsAssociatedCorrectly()
         {
             // Arrange
-            var fakeTokenRateLimit = A.Fake<IEndpointRateLimit>();
-            _credentialsRateLimits.CallsTo(rateLimit).Returns(fakeTokenRateLimit);
+            var rateLimitHelper = CreateRateLimitHelper();
+            var expectedTokenRateLimit = A.Fake<IEndpointRateLimit>();
+            A.CallTo(() => _credentialsRateLimits.AccountSettingsLimit).Returns(expectedTokenRateLimit);
 
             // Act
-            var tokenRateLimit = rateLimitHelper.GetEndpointRateLimitFromQuery(associatedURL, _credentialsRateLimits, true);
+            var actualTokenRateLimit = rateLimitHelper.GetEndpointRateLimitFromQuery(ACCOUNT_SETTINGS_QUERY, _credentialsRateLimits, true);
 
             // Assert
-            Assert.AreEqual(tokenRateLimit, fakeTokenRateLimit);
+            Assert.AreEqual(expectedTokenRateLimit, actualTokenRateLimit);
         }
 
         public RateLimitHelper CreateRateLimitHelper()

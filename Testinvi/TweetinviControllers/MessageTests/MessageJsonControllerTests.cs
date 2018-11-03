@@ -1,6 +1,5 @@
 ﻿using System;
 using FakeItEasy;
-using FakeItEasy.ExtensionSyntax.Full;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Testinvi.Helpers;
 using Testinvi.SetupHelpers;
@@ -16,15 +15,15 @@ namespace Testinvi.TweetinviControllers.MessageTests
     public class MessageJsonControllerTests
     {
         private FakeClassBuilder<MessageJsonController> _fakeBuilder;
-        private Fake<IMessageQueryGenerator> _fakeMessageQueryGenerator;
-        private Fake<ITwitterAccessor> _fakeTwitterAccessor;
+        private IMessageQueryGenerator _messageQueryGenerator;
+        private ITwitterAccessor _twitterAccessor;
 
         [TestInitialize]
         public void TestInitialize()
         {
             _fakeBuilder = new FakeClassBuilder<MessageJsonController>();
-            _fakeMessageQueryGenerator = _fakeBuilder.GetFake<IMessageQueryGenerator>();
-            _fakeTwitterAccessor = _fakeBuilder.GetFake<ITwitterAccessor>();
+            _messageQueryGenerator = _fakeBuilder.GetFake<IMessageQueryGenerator>().FakedObject;
+            _twitterAccessor = _fakeBuilder.GetFake<ITwitterAccessor>().FakedObject;
         }
 
         #region GetLatestMessages
@@ -38,7 +37,7 @@ namespace Testinvi.TweetinviControllers.MessageTests
             var query = TestHelper.GenerateString();
             var expectedResult = TestHelper.GenerateString();
             ArrangeQueryGeneratorGetLatestMessages(count, query);
-            _fakeTwitterAccessor.ArrangeExecuteJsonGETQuery(query, expectedResult);
+            _twitterAccessor.ArrangeExecuteJsonGETQuery(query, expectedResult);
 
             // Act
             var result = jsonController.GetLatestMessages(count);
@@ -49,8 +48,9 @@ namespace Testinvi.TweetinviControllers.MessageTests
 
         private void ArrangeQueryGeneratorGetLatestMessages(int count, string query)
         {
-            _fakeMessageQueryGenerator
-                .CallsTo(x => x.GetLatestMessagesQuery(A<IGetMessagesParameters>.That.Matches(p => p.Count == count)))
+            A.CallTo(() =>
+                    _messageQueryGenerator.GetLatestMessagesQuery(
+                        A<IGetMessagesParameters>.That.Matches(p => p.Count == count)))
                 .Returns(query);
         }
 
@@ -68,8 +68,8 @@ namespace Testinvi.TweetinviControllers.MessageTests
             var query = TestHelper.GenerateString();
             var expectedResult = TestHelper.GenerateString();
 
-            _fakeMessageQueryGenerator.CallsTo(x => x.GetDestroyMessageQuery(A.Fake<IEventDTO>())).Returns(query);
-            _fakeTwitterAccessor.ArrangeExecuteJsonPOSTQuery(query, expectedResult);
+            A.CallTo(() => _messageQueryGenerator.GetDestroyMessageQuery(A.Fake<IEventDTO>())).Returns(query);
+            _twitterAccessor.ArrangeExecuteJsonPOSTQuery(query, expectedResult);
 
             // Act
             jsonController.DestroyMessage((IMessage)null);
@@ -82,12 +82,12 @@ namespace Testinvi.TweetinviControllers.MessageTests
             var jsonController = CreateMessageJsonController();
             var message = A.Fake<IMessage>();
             var eventDTO = A.Fake<IEventDTO>();
-                message.CallsTo(x => x.EventDTO).Returns(eventDTO);
+            A.CallTo(() => message.EventDTO).Returns(eventDTO);
 
             var query = TestHelper.GenerateString();
 
-            _fakeMessageQueryGenerator.CallsTo(x => x.GetDestroyMessageQuery(eventDTO)).Returns(query);
-            _fakeTwitterAccessor.ArrangeTryExecuteDELETEQuery(query, true);
+            A.CallTo(() => _messageQueryGenerator.GetDestroyMessageQuery(eventDTO)).Returns(query);
+            _twitterAccessor.ArrangeTryExecuteDELETEQuery(query, true);
 
             // Act
             var result = jsonController.DestroyMessage(message);
@@ -104,8 +104,8 @@ namespace Testinvi.TweetinviControllers.MessageTests
             var eventDTO = A.Fake<IEventDTO>();
             var query = TestHelper.GenerateString();
 
-            _fakeMessageQueryGenerator.CallsTo(x => x.GetDestroyMessageQuery(eventDTO)).Returns(query);
-            _fakeTwitterAccessor.ArrangeTryExecuteDELETEQuery(query, true);
+            A.CallTo(() => _messageQueryGenerator.GetDestroyMessageQuery(eventDTO)).Returns(query);
+            _twitterAccessor.ArrangeTryExecuteDELETEQuery(query, true);
 
             // Act
             var result = jsonController.DestroyMessage(eventDTO);
@@ -122,8 +122,8 @@ namespace Testinvi.TweetinviControllers.MessageTests
             var messageId = TestHelper.GenerateRandomLong();
             var query = TestHelper.GenerateString();
 
-            _fakeMessageQueryGenerator.CallsTo(x => x.GetDestroyMessageQuery(messageId)).Returns(query);
-            _fakeTwitterAccessor.ArrangeTryExecuteDELETEQuery(query, true);
+            A.CallTo(() => _messageQueryGenerator.GetDestroyMessageQuery(messageId)).Returns(query);
+            _twitterAccessor.ArrangeTryExecuteDELETEQuery(query, true);
 
             // Act
             var result = jsonController.DestroyMessage(messageId);

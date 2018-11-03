@@ -15,15 +15,15 @@ namespace Testinvi.TweetinviControllers.HelpTests
     public class HelpQueryExecutorTests
     {
         private FakeClassBuilder<HelpQueryExecutor> _fakeBuilder;
-        private Fake<IHelpQueryGenerator> _fakeHelpQueryGenerator;
-        private Fake<ITwitterAccessor> _fakeTwitterAccessor;
+        private IHelpQueryGenerator _fakeHelpQueryGenerator;
+        private ITwitterAccessor _fakeTwitterAccessor;
 
         [TestInitialize]
         public void TestInitialize()
         {
             _fakeBuilder = new FakeClassBuilder<HelpQueryExecutor>();
-            _fakeHelpQueryGenerator = _fakeBuilder.GetFake<IHelpQueryGenerator>();
-            _fakeTwitterAccessor = _fakeBuilder.GetFake<ITwitterAccessor>();
+            _fakeHelpQueryGenerator = _fakeBuilder.GetFake<IHelpQueryGenerator>().FakedObject;
+            _fakeTwitterAccessor = _fakeBuilder.GetFake<ITwitterAccessor>().FakedObject;
         }
 
         [TestMethod]
@@ -47,9 +47,7 @@ namespace Testinvi.TweetinviControllers.HelpTests
 
         private void ArrangeQueryGeneratorGetTokenRateLimits(string query)
         {
-            _fakeHelpQueryGenerator
-                .CallsTo(x => x.GetCredentialsLimitsQuery())
-                .Returns(query);
+            A.CallTo(() => _fakeHelpQueryGenerator.GetCredentialsLimitsQuery()).Returns(query);
         }
 
         [TestMethod]
@@ -76,9 +74,7 @@ namespace Testinvi.TweetinviControllers.HelpTests
 
         private void ArrangeQueryGeneratorGetTwitterPrivacyPolicy(string query)
         {
-            _fakeHelpQueryGenerator
-                .CallsTo(x => x.GetTwitterPrivacyPolicyQuery())
-                .Returns(query);
+            A.CallTo(() => _fakeHelpQueryGenerator.GetTwitterPrivacyPolicyQuery()).Returns(query);
         }
 
         public HelpQueryExecutor CreateHelpQueryExecutor()

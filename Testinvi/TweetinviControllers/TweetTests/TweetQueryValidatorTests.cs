@@ -1,6 +1,5 @@
 ﻿using System;
 using FakeItEasy;
-using FakeItEasy.ExtensionSyntax.Full;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Testinvi.Helpers;
 using Tweetinvi.Controllers.Tweet;
@@ -45,7 +44,7 @@ namespace Testinvi.TweetinviControllers.TweetTests
             var queryValidator = CreateTweetQueryValidator();
 
             var parameters = A.Fake<IPublishTweetParameters>();
-            parameters.CallsTo(x => x.Text).Returns(null);
+            A.CallTo(() => parameters.Text).Returns(null);
 
             // Act
             try
@@ -64,7 +63,7 @@ namespace Testinvi.TweetinviControllers.TweetTests
             var queryValidator = CreateTweetQueryValidator();
 
             var parameters = A.Fake<IPublishTweetParameters>();
-            parameters.CallsTo(x => x.Text).Returns(string.Empty);
+            A.CallTo(() => parameters.Text).Returns(string.Empty);
 
             // Act
             try
@@ -82,7 +81,7 @@ namespace Testinvi.TweetinviControllers.TweetTests
             // Arrange
             var queryValidator = CreateTweetQueryValidator();
             var parameters = A.Fake<IPublishTweetParameters>();
-            parameters.CallsTo(x => x.Text).Returns("hello");
+            A.CallTo(() => parameters.Text).Returns("hello");
 
             // Act - Assert
             queryValidator.ThrowIfTweetCannotBePublished(parameters);
@@ -109,7 +108,7 @@ namespace Testinvi.TweetinviControllers.TweetTests
             // Arrange
             var queryValidator = CreateTweetQueryValidator();
             var tweet = A.Fake<ITweetDTO>();
-            tweet.CallsTo(x => x.IsTweetPublished).Returns(true);
+            A.CallTo(() => tweet.IsTweetPublished).Returns(true);
 
             // Act
             queryValidator.ThrowIfTweetCannotBeDestroyed(tweet);
@@ -123,8 +122,8 @@ namespace Testinvi.TweetinviControllers.TweetTests
             // Arrange
             var queryValidator = CreateTweetQueryValidator();
             var tweet = A.Fake<ITweetDTO>();
-            tweet.CallsTo(x => x.IsTweetPublished).Returns(false);
-            tweet.CallsTo(x => x.IsTweetDestroyed).Returns(true);
+            A.CallTo(() => tweet.IsTweetPublished).Returns(false);
+            A.CallTo(() => tweet.IsTweetDestroyed).Returns(true);
 
             // Act
             queryValidator.ThrowIfTweetCannotBeDestroyed(tweet);
@@ -137,8 +136,8 @@ namespace Testinvi.TweetinviControllers.TweetTests
             // Arrange
             var queryValidator = CreateTweetQueryValidator();
             var tweet = A.Fake<ITweetDTO>();
-            tweet.CallsTo(x => x.IsTweetPublished).Returns(true);
-            tweet.CallsTo(x => x.IsTweetDestroyed).Returns(true);
+            A.CallTo(() => tweet.IsTweetPublished).Returns(true);
+            A.CallTo(() => tweet.IsTweetDestroyed).Returns(true);
 
             // Act
             queryValidator.ThrowIfTweetCannotBeDestroyed(tweet);
@@ -151,8 +150,8 @@ namespace Testinvi.TweetinviControllers.TweetTests
             // Arrange
             var queryValidator = CreateTweetQueryValidator();
             var tweet = A.Fake<ITweetDTO>();
-            tweet.CallsTo(x => x.IsTweetPublished).Returns(false);
-            tweet.CallsTo(x => x.IsTweetDestroyed).Returns(false);
+            A.CallTo(() => tweet.IsTweetPublished).Returns(false);
+            A.CallTo(() => tweet.IsTweetDestroyed).Returns(false);
 
             // Act
             queryValidator.ThrowIfTweetCannotBeDestroyed(tweet);
@@ -181,7 +180,7 @@ namespace Testinvi.TweetinviControllers.TweetTests
             // Arrange
             var queryValidator = CreateTweetQueryValidator();
             var tweet = A.Fake<ITweetDTO>();
-            tweet.CallsTo(x => x.IsTweetPublished).Returns(true);
+            A.CallTo(() => tweet.IsTweetPublished).Returns(true);
 
             // Act
             var result = queryValidator.IsTweetPublished(tweet);
@@ -197,8 +196,8 @@ namespace Testinvi.TweetinviControllers.TweetTests
             // Arrange
             var queryValidator = CreateTweetQueryValidator();
             var tweet = A.Fake<ITweetDTO>();
-            tweet.CallsTo(x => x.IsTweetPublished).Returns(false);
-            tweet.CallsTo(x => x.IsTweetDestroyed).Returns(true);
+            A.CallTo(() => tweet.IsTweetPublished).Returns(false);
+            A.CallTo(() => tweet.IsTweetDestroyed).Returns(true);
 
             // Act
             var result = queryValidator.IsTweetPublished(tweet);
@@ -213,8 +212,8 @@ namespace Testinvi.TweetinviControllers.TweetTests
             // Arrange
             var queryValidator = CreateTweetQueryValidator();
             var tweet = A.Fake<ITweetDTO>();
-            tweet.CallsTo(x => x.IsTweetPublished).Returns(true);
-            tweet.CallsTo(x => x.IsTweetDestroyed).Returns(true);
+            A.CallTo(() => tweet.IsTweetPublished).Returns(true);
+            A.CallTo(() => tweet.IsTweetDestroyed).Returns(true);
 
             // Act
             var result = queryValidator.IsTweetPublished(tweet);
@@ -229,8 +228,8 @@ namespace Testinvi.TweetinviControllers.TweetTests
             // Arrange
             var queryValidator = CreateTweetQueryValidator();
             var tweet = A.Fake<ITweetDTO>();
-            tweet.CallsTo(x => x.IsTweetPublished).Returns(false);
-            tweet.CallsTo(x => x.IsTweetDestroyed).Returns(false);
+            A.CallTo(() => tweet.IsTweetPublished).Returns(false);
+            A.CallTo(() => tweet.IsTweetDestroyed).Returns(false);
 
             // Act
             var result = queryValidator.IsTweetPublished(tweet);

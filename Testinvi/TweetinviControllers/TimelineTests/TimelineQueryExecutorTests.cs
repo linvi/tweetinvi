@@ -15,12 +15,12 @@ namespace Testinvi.TweetinviControllers.TimelineTests
     public class TimelineQueryExecutorTests
     {
         private FakeClassBuilder<TimelineQueryExecutor> _fakeBuilder;
-        private Fake<ITimelineQueryGenerator> _fakeTimelineQueryGenerator;
-        private Fake<ITwitterAccessor> _fakeTwitterAccessor;
 
-        private IHomeTimelineParameters _fakeHomeTimelineParameters;
-        private IUserTimelineQueryParameters _fakeUserTimelineQueryParameters;
-        private IMentionsTimelineParameters _fakeMentionsTimelineParameters;
+        private ITimelineQueryGenerator _timelineQueryGenerator;
+        private ITwitterAccessor _twitterAccessor;
+        private IHomeTimelineParameters _homeTimelineParameters;
+        private IUserTimelineQueryParameters _userTimelineQueryParameters;
+        private IMentionsTimelineParameters _mentionsTimelineParameters;
 
         private string _expectedQuery;
         private IEnumerable<ITweetDTO> _expectedResult;
@@ -29,13 +29,13 @@ namespace Testinvi.TweetinviControllers.TimelineTests
         public void TestInitialize()
         {
             _fakeBuilder = new FakeClassBuilder<TimelineQueryExecutor>();
-            _fakeTimelineQueryGenerator = _fakeBuilder.GetFake<ITimelineQueryGenerator>();
-            _fakeTwitterAccessor = _fakeBuilder.GetFake<ITwitterAccessor>();
+            _timelineQueryGenerator = _fakeBuilder.GetFake<ITimelineQueryGenerator>().FakedObject;
+            _twitterAccessor = _fakeBuilder.GetFake<ITwitterAccessor>().FakedObject;
 
             InitData();
 
             // Do not initialize the query result for the different timeline from the ctor as it could false the result
-            // Do not do : _fakeTimelineQueryGenerator.CallsTo(x => x.GetUserTimelineQuery(_fakeUserTimelineRequestParameters)).Returns(_expectedQuery);
+            // Do not do : _timelineQueryGenerator.CallsTo(x => x.GetUserTimelineQuery(_fakeUserTimelineRequestParameters)).Returns(_expectedQuery);
         }
 
         private void InitData()
@@ -43,9 +43,9 @@ namespace Testinvi.TweetinviControllers.TimelineTests
             _expectedQuery = TestHelper.GenerateString();
             _expectedResult = GetQueryResult<IEnumerable<ITweetDTO>>(_expectedQuery);
 
-            _fakeHomeTimelineParameters = A.Fake<IHomeTimelineParameters>();
-            _fakeUserTimelineQueryParameters = A.Fake<IUserTimelineQueryParameters>();
-            _fakeMentionsTimelineParameters = A.Fake<IMentionsTimelineParameters>();
+            _homeTimelineParameters = A.Fake<IHomeTimelineParameters>();
+            _userTimelineQueryParameters = A.Fake<IUserTimelineQueryParameters>();
+            _mentionsTimelineParameters = A.Fake<IMentionsTimelineParameters>();
         }
 
         #region GetHomeTimeline
@@ -56,10 +56,11 @@ namespace Testinvi.TweetinviControllers.TimelineTests
             // Arrange
             var queryExecutor = CreateTimelineQueryExecutor();
 
-            _fakeTimelineQueryGenerator.CallsTo(x => x.GetHomeTimelineQuery(_fakeHomeTimelineParameters)).Returns(_expectedQuery);
+            A.CallTo(() => _timelineQueryGenerator.GetHomeTimelineQuery(_homeTimelineParameters))
+                .Returns(_expectedQuery);
 
             // Act
-            var result = queryExecutor.GetHomeTimeline(_fakeHomeTimelineParameters);
+            var result = queryExecutor.GetHomeTimeline(_homeTimelineParameters);
 
             // Assert
             Assert.AreEqual(result, _expectedResult);
@@ -75,10 +76,11 @@ namespace Testinvi.TweetinviControllers.TimelineTests
             // Arrange
             var queryExecutor = CreateTimelineQueryExecutor();
 
-            _fakeTimelineQueryGenerator.CallsTo(x => x.GetMentionsTimelineQuery(_fakeMentionsTimelineParameters)).Returns(_expectedQuery);
+            A.CallTo(() => _timelineQueryGenerator.GetMentionsTimelineQuery(_mentionsTimelineParameters))
+                .Returns(_expectedQuery);
 
             // Act
-            var result = queryExecutor.GetMentionsTimeline(_fakeMentionsTimelineParameters);
+            var result = queryExecutor.GetMentionsTimeline(_mentionsTimelineParameters);
 
             // Assert
             Assert.AreEqual(result, _expectedResult);
@@ -94,10 +96,11 @@ namespace Testinvi.TweetinviControllers.TimelineTests
             // Arrange
             var queryExecutor = CreateTimelineQueryExecutor();
 
-            _fakeTimelineQueryGenerator.CallsTo(x => x.GetUserTimelineQuery(_fakeUserTimelineQueryParameters)).Returns(_expectedQuery);
+            A.CallTo(() => _timelineQueryGenerator.GetUserTimelineQuery(_userTimelineQueryParameters))
+                .Returns(_expectedQuery);
 
             // Act
-            var result = queryExecutor.GetUserTimeline(_fakeUserTimelineQueryParameters);
+            var result = queryExecutor.GetUserTimeline(_userTimelineQueryParameters);
 
             // Assert
             Assert.AreEqual(result, _expectedResult);
@@ -108,7 +111,7 @@ namespace Testinvi.TweetinviControllers.TimelineTests
         private T GetQueryResult<T>(string query) where T : class
         {
             var result = A.Fake<T>();
-            _fakeTwitterAccessor.ArrangeExecuteGETQuery(query, result);
+            _twitterAccessor.ArrangeExecuteGETQuery(query, result);
             return result;
         }
 

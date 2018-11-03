@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using FakeItEasy;
-using FakeItEasy.ExtensionSyntax.Full;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Testinvi.Helpers;
 using Tweetinvi.Controllers.Friendship;
@@ -15,17 +14,19 @@ namespace Testinvi.TweetinviControllers.FriendshipTests
     public class FriendshipControllerTests
     {
         private FakeClassBuilder<FriendshipController> _fakeBuilder;
-        private Fake<IFriendshipQueryExecutor> _fakeFriendshipQueryExecutor;
         private Fake<IFriendshipFactory> _fakeFriendshipFactory;
         private Fake<IUserFactory> _fakeUserFactory;
+
+        private IFriendshipQueryExecutor _friendshipQueryExecutor;
 
         [TestInitialize]
         public void TestInitialize()
         {
             _fakeBuilder = new FakeClassBuilder<FriendshipController>();
-            _fakeFriendshipQueryExecutor = _fakeBuilder.GetFake<IFriendshipQueryExecutor>();
             _fakeUserFactory = _fakeBuilder.GetFake<IUserFactory>();
             _fakeFriendshipFactory = _fakeBuilder.GetFake<IFriendshipFactory>();
+
+            _friendshipQueryExecutor = _fakeBuilder.GetFake<IFriendshipQueryExecutor>().FakedObject;
 
             _fakeFriendshipFactory
                 .CallsTo(x => x.GenerateFriendshipAuthorizations(A<bool>.Ignored, A<bool>.Ignored))
@@ -76,8 +77,7 @@ namespace Testinvi.TweetinviControllers.FriendshipTests
 
         private void ArrangeGetUserIdsRequestingFriendship(IEnumerable<long> userIds)
         {
-            _fakeFriendshipQueryExecutor
-                .CallsTo(x => x.GetUserIdsRequestingFriendship(It.IsAny<int>()))
+            A.CallTo(() => _friendshipQueryExecutor.GetUserIdsRequestingFriendship(It.IsAny<int>()))
                 .Returns(userIds);
         }
         #endregion
@@ -120,8 +120,7 @@ namespace Testinvi.TweetinviControllers.FriendshipTests
 
         private void ArrangeGetUserIdsYouRequestedToFollow(IEnumerable<long> userIds)
         {
-            _fakeFriendshipQueryExecutor
-                .CallsTo(x => x.GetUserIdsYouRequestedToFollow(It.IsAny<int>()))
+            A.CallTo(() => _friendshipQueryExecutor.GetUserIdsYouRequestedToFollow(It.IsAny<int>()))
                 .Returns(userIds);
         }
 
@@ -143,15 +142,15 @@ namespace Testinvi.TweetinviControllers.FriendshipTests
 
         private bool CreateFriendship_User_QueryExecutorReturns(bool returnValue)
         {
-            var fakeUser = A.Fake<IUser>();
-            fakeUser.CallsTo(x => x.UserDTO).Returns(A.Fake<IUserDTO>());
+            var user = A.Fake<IUser>();
+            A.CallTo(() => user.UserDTO).Returns(A.Fake<IUserDTO>());
 
             // Arrange
             var controller = CreateFriendshipController();
-            ArrangeCreateFriendshipWithDTO(fakeUser, returnValue);
+            ArrangeCreateFriendshipWithDTO(user, returnValue);
 
             // Act
-            return controller.CreateFriendshipWith(fakeUser);
+            return controller.CreateFriendshipWith(user);
         }
 
         [TestMethod]
@@ -192,8 +191,7 @@ namespace Testinvi.TweetinviControllers.FriendshipTests
 
         private void ArrangeCreateFriendshipWithDTO(IUser user, bool returnValue)
         {
-            _fakeFriendshipQueryExecutor
-                .CallsTo(x => x.CreateFriendshipWith(user))
+            A.CallTo(() => _friendshipQueryExecutor.CreateFriendshipWith(user))
                 .Returns(returnValue);
         }
 
@@ -239,8 +237,7 @@ namespace Testinvi.TweetinviControllers.FriendshipTests
 
         private void ArrangeDestroyFriendshipWithDTO(IUserDTO userDTO, bool returnValue)
         {
-            _fakeFriendshipQueryExecutor
-                .CallsTo(x => x.DestroyFriendshipWith(userDTO))
+            A.CallTo(() => _friendshipQueryExecutor.DestroyFriendshipWith(userDTO))
                 .Returns(returnValue);
         }
 
@@ -277,16 +274,16 @@ namespace Testinvi.TweetinviControllers.FriendshipTests
 
         private bool UpdateRelationshipAuthorizations_User_QueryExecutorReturns(bool retweetsEnabled, bool notification, bool returnValue)
         {
-            var fakeUser = A.Fake<IUser>();
-            fakeUser.CallsTo(x => x.UserDTO).Returns(A.Fake<IUserDTO>());
+            var user = A.Fake<IUser>();
+            A.CallTo(() => user.UserDTO).Returns(A.Fake<IUserDTO>());
 
             // Arrange
             var controller = CreateFriendshipController();
-            ArrangeUpdateRelationshipAuthorizationsWith(fakeUser, retweetsEnabled, notification, returnValue);
+            ArrangeUpdateRelationshipAuthorizationsWith(user, retweetsEnabled, notification, returnValue);
 
             // Act
-            var result = controller.UpdateRelationshipAuthorizationsWith(fakeUser, retweetsEnabled, notification);
-            VerifyUpdateRelationshipAuthorizationsWith(fakeUser, retweetsEnabled, notification);
+            var result = controller.UpdateRelationshipAuthorizationsWith(user, retweetsEnabled, notification);
+            VerifyUpdateRelationshipAuthorizationsWith(user, retweetsEnabled, notification);
 
             return result;
         }
@@ -377,17 +374,15 @@ namespace Testinvi.TweetinviControllers.FriendshipTests
 
         private void ArrangeUpdateRelationshipAuthorizationsWith(IUser user, bool retweetsEnabled, bool notification, bool returnValue)
         {
-            _fakeFriendshipQueryExecutor
-                .CallsTo(x => x.UpdateRelationshipAuthorizationsWith(user,
-                    A<IFriendshipAuthorizations>.That.Matches(a => a.RetweetsEnabled == retweetsEnabled &&
-                                                                   a.DeviceNotificationEnabled == notification)))
+            A.CallTo(() => _friendshipQueryExecutor.UpdateRelationshipAuthorizationsWith(user,
+                A<IFriendshipAuthorizations>.That.Matches(a => a.RetweetsEnabled == retweetsEnabled &&
+                                                               a.DeviceNotificationEnabled == notification)))
                 .Returns(returnValue);
         }
 
         private void VerifyUpdateRelationshipAuthorizationsWith(IUser user, bool retweetsEnabled, bool notification)
         {
-            _fakeFriendshipQueryExecutor
-                .CallsTo(x => x.UpdateRelationshipAuthorizationsWith(user,
+            A.CallTo(() => _friendshipQueryExecutor.UpdateRelationshipAuthorizationsWith(user,
                     A<IFriendshipAuthorizations>.That.Matches(a => a.RetweetsEnabled == retweetsEnabled &&
                                                                    a.DeviceNotificationEnabled == notification)))
                 .MustHaveHappened(Repeated.Exactly.Once);

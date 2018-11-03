@@ -12,15 +12,16 @@ namespace Testinvi.TweetinviControllers.SavedSearchTests
     public class SavedSearchJsonControllerTests
     {
         private FakeClassBuilder<SavedSearchJsonController> _fakeBuilder;
-        private Fake<ISavedSearchQueryGenerator> _fakeSavedSearchQueryGenerator;
-        private Fake<ITwitterAccessor> _fakeTwitterAccessor;
+
+        private ISavedSearchQueryGenerator _savedSearchQueryGenerator;
+        private ITwitterAccessor _twitterAccessor;
 
         [TestInitialize]
         public void TestInitialize()
         {
             _fakeBuilder = new FakeClassBuilder<SavedSearchJsonController>();
-            _fakeSavedSearchQueryGenerator = _fakeBuilder.GetFake<ISavedSearchQueryGenerator>();
-            _fakeTwitterAccessor = _fakeBuilder.GetFake<ITwitterAccessor>();
+            _savedSearchQueryGenerator = _fakeBuilder.GetFake<ISavedSearchQueryGenerator>().FakedObject;
+            _twitterAccessor = _fakeBuilder.GetFake<ITwitterAccessor>().FakedObject;
         }
 
         [TestMethod]
@@ -31,8 +32,8 @@ namespace Testinvi.TweetinviControllers.SavedSearchTests
             string query = TestHelper.GenerateString();
             var expectedResult = TestHelper.GenerateString();
 
-            _fakeSavedSearchQueryGenerator.CallsTo(x => x.GetSavedSearchesQuery()).Returns(query);
-            _fakeTwitterAccessor.ArrangeExecuteJsonGETQuery(query, expectedResult);
+            A.CallTo(() => _savedSearchQueryGenerator.GetSavedSearchesQuery()).Returns(query);
+            _twitterAccessor.ArrangeExecuteJsonGETQuery(query, expectedResult);
 
             // Act
             var result = controller.GetSavedSearches();
@@ -50,8 +51,8 @@ namespace Testinvi.TweetinviControllers.SavedSearchTests
             string expectedResult = TestHelper.GenerateString();
             var savedSearch = A.Fake<ISavedSearch>();
 
-            _fakeSavedSearchQueryGenerator.CallsTo(x => x.GetDestroySavedSearchQuery(savedSearch)).Returns(query);
-            _fakeTwitterAccessor.ArrangeExecuteJsonPOSTQuery(query, expectedResult);
+            A.CallTo(() => _savedSearchQueryGenerator.GetDestroySavedSearchQuery(savedSearch)).Returns(query);
+            _twitterAccessor.ArrangeExecuteJsonPOSTQuery(query, expectedResult);
 
             // Act
             var result = controller.DestroySavedSearch(savedSearch);
@@ -69,8 +70,8 @@ namespace Testinvi.TweetinviControllers.SavedSearchTests
             string expectedResult = TestHelper.GenerateString();
             var searchId = TestHelper.GenerateRandomLong();
 
-            _fakeSavedSearchQueryGenerator.CallsTo(x => x.GetDestroySavedSearchQuery(searchId)).Returns(query);
-            _fakeTwitterAccessor.ArrangeExecuteJsonPOSTQuery(query, expectedResult);
+            A.CallTo(() => _savedSearchQueryGenerator.GetDestroySavedSearchQuery(searchId)).Returns(query);
+            _twitterAccessor.ArrangeExecuteJsonPOSTQuery(query, expectedResult);
 
             // Act
             var result = controller.DestroySavedSearch(searchId);

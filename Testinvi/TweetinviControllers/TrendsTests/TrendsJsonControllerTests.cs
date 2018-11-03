@@ -13,15 +13,15 @@ namespace Testinvi.TweetinviControllers.TrendsTests
     {
         private FakeClassBuilder<TrendsJsonController> _fakeBuilder;
 
-        private Fake<ITrendsQueryGenerator> _fakeTrendsQueryGenerator;
-        private Fake<ITwitterAccessor> _fakeTwitterAccessor;
+        private ITrendsQueryGenerator _trendsQueryGenerator;
+        private ITwitterAccessor _twitterAccessor;
 
         [TestInitialize]
         public void TestInitialize()
         {
             _fakeBuilder = new FakeClassBuilder<TrendsJsonController>();
-            _fakeTrendsQueryGenerator = _fakeBuilder.GetFake<ITrendsQueryGenerator>();
-            _fakeTwitterAccessor = _fakeBuilder.GetFake<ITwitterAccessor>();
+            _trendsQueryGenerator = _fakeBuilder.GetFake<ITrendsQueryGenerator>().FakedObject;
+            _twitterAccessor = _fakeBuilder.GetFake<ITwitterAccessor>().FakedObject;
         }
 
         [TestMethod]
@@ -33,8 +33,8 @@ namespace Testinvi.TweetinviControllers.TrendsTests
             var locationId = TestHelper.GenerateRandomLong();
             var expectedResult = TestHelper.GenerateString();
 
-            _fakeTrendsQueryGenerator.CallsTo(x => x.GetPlaceTrendsAtQuery(locationId)).Returns(query);
-            _fakeTwitterAccessor.ArrangeExecuteJsonGETQuery(query, expectedResult);
+            A.CallTo(() => _trendsQueryGenerator.GetPlaceTrendsAtQuery(locationId)).Returns(query);
+            _twitterAccessor.ArrangeExecuteJsonGETQuery(query, expectedResult);
 
             // Act
             var result = queryExecutor.GetPlaceTrendsAt(locationId);
@@ -52,8 +52,8 @@ namespace Testinvi.TweetinviControllers.TrendsTests
             var woeIdLocation = A.Fake<IWoeIdLocation>();
             var expectedResult = TestHelper.GenerateString();
 
-            _fakeTrendsQueryGenerator.CallsTo(x => x.GetPlaceTrendsAtQuery(woeIdLocation)).Returns(query);
-            _fakeTwitterAccessor.ArrangeExecuteJsonGETQuery(query, expectedResult);
+            A.CallTo(() => _trendsQueryGenerator.GetPlaceTrendsAtQuery(woeIdLocation)).Returns(query);
+            _twitterAccessor.ArrangeExecuteJsonGETQuery(query, expectedResult);
 
             // Act
             var result = queryExecutor.GetPlaceTrendsAt(woeIdLocation);

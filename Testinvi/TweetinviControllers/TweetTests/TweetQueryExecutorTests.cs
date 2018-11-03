@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Net;
 using FakeItEasy;
-using FakeItEasy.ExtensionSyntax.Full;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Testinvi.Helpers;
 using Testinvi.SetupHelpers;
@@ -23,11 +22,11 @@ namespace Testinvi.TweetinviControllers.TweetTests
     public class TweetQueryExecutorTests
     {
         private FakeClassBuilder<TweetQueryExecutor> _fakeBuilder;
-        private Fake<ITweetQueryGenerator> _fakeTweetQueryGenerator;
-        private Fake<ITwitterAccessor> _fakeTwitterAccessor;
 
-        private TwitterException _fake139TwitterException;
-        private TwitterException _fakeOtherTwitterException;
+        private ITweetQueryGenerator _tweetQueryGenerator;
+        private ITwitterAccessor _twitterAccessor;
+        private TwitterException _twitterException;
+        private TwitterException _otherTwitterException;
 
         private List<long> _cursorQueryIds;
 
@@ -35,18 +34,20 @@ namespace Testinvi.TweetinviControllers.TweetTests
         public void TestInitialize()
         {
             _fakeBuilder = new FakeClassBuilder<TweetQueryExecutor>();
-            _fakeTweetQueryGenerator = _fakeBuilder.GetFake<ITweetQueryGenerator>();
-            _fakeTwitterAccessor = _fakeBuilder.GetFake<ITwitterAccessor>();
+            _tweetQueryGenerator = _fakeBuilder.GetFake<ITweetQueryGenerator>().FakedObject;
+            _twitterAccessor = _fakeBuilder.GetFake<ITwitterAccessor>().FakedObject;
 
-            var fakeWebExceptionInfoExtractor = A.Fake<IWebExceptionInfoExtractor>();
+            var webExceptionInfoExtractor = A.Fake<IWebExceptionInfoExtractor>();
 
             var twitter139ExceptionInfos = new TwitterExceptionInfo { Code = 139 };
-            fakeWebExceptionInfoExtractor.CallsTo(x => x.GetTwitterExceptionInfo(It.IsAny<WebException>())).Returns(new[] { twitter139ExceptionInfos });
-            _fake139TwitterException = new TwitterException(fakeWebExceptionInfoExtractor, new WebException(), A.Fake<ITwitterQuery>());
+            A.CallTo(() => webExceptionInfoExtractor.GetTwitterExceptionInfo(It.IsAny<WebException>()))
+                .Returns(new[] {twitter139ExceptionInfos});
+            _twitterException = new TwitterException(webExceptionInfoExtractor, new WebException(), A.Fake<ITwitterQuery>());
 
             var twitterOtherExceptionInfos = new TwitterExceptionInfo { Code = 1 };
-            fakeWebExceptionInfoExtractor.CallsTo(x => x.GetTwitterExceptionInfo(It.IsAny<WebException>())).Returns(new[] { twitterOtherExceptionInfos });
-            _fakeOtherTwitterException = new TwitterException(fakeWebExceptionInfoExtractor, new WebException(), A.Fake<ITwitterQuery>());
+            A.CallTo(() => webExceptionInfoExtractor.GetTwitterExceptionInfo(It.IsAny<WebException>()))
+                .Returns(new[] {twitterOtherExceptionInfos});
+            _otherTwitterException = new TwitterException(webExceptionInfoExtractor, new WebException(), A.Fake<ITwitterQuery>());
 
             _cursorQueryIds = new List<long>();
         }
@@ -64,8 +65,8 @@ namespace Testinvi.TweetinviControllers.TweetTests
             var query = TestHelper.GenerateString();
             var expectedResult = A.Fake<ITweetDTO>();
 
-            _fakeTweetQueryGenerator.CallsTo(x => x.GetPublishTweetQuery(parameters)).Returns(query);
-            _fakeTwitterAccessor.ArrangeExecutePOSTQuery(query, expectedResult);
+            A.CallTo(() => _tweetQueryGenerator.GetPublishTweetQuery(parameters)).Returns(query);
+            _twitterAccessor.ArrangeExecutePOSTQuery(query, expectedResult);
 
             // Act
             var result = queryExecutor.PublishTweet(parameters);
@@ -87,8 +88,8 @@ namespace Testinvi.TweetinviControllers.TweetTests
             var query = TestHelper.GenerateString();
             var expectedResult = A.Fake<ITweetDTO>();
 
-            _fakeTweetQueryGenerator.CallsTo(x => x.GetPublishRetweetQuery(tweetDTO)).Returns(query);
-            _fakeTwitterAccessor.ArrangeExecutePOSTQuery(query, expectedResult);
+            A.CallTo(() => _tweetQueryGenerator.GetPublishRetweetQuery(tweetDTO)).Returns(query);
+            _twitterAccessor.ArrangeExecutePOSTQuery(query, expectedResult);
 
             // Act
             var result = queryExecutor.PublishRetweet(tweetDTO);
@@ -106,8 +107,8 @@ namespace Testinvi.TweetinviControllers.TweetTests
             var query = TestHelper.GenerateString();
             var expectedResult = A.Fake<ITweetDTO>();
 
-            _fakeTweetQueryGenerator.CallsTo(x => x.GetPublishRetweetQuery(tweetId)).Returns(query);
-            _fakeTwitterAccessor.ArrangeExecutePOSTQuery(query, expectedResult);
+            A.CallTo(() => _tweetQueryGenerator.GetPublishRetweetQuery(tweetId)).Returns(query);
+            _twitterAccessor.ArrangeExecutePOSTQuery(query, expectedResult);
 
             // Act
             var result = queryExecutor.PublishRetweet(tweetId);
@@ -130,8 +131,9 @@ namespace Testinvi.TweetinviControllers.TweetTests
             var maxRetweetsToRetrieve = TestHelper.GenerateRandomInt();
             var expectedResult = GenerateExpectedIRetweetsCursorResults();
 
-            _fakeTweetQueryGenerator.CallsTo(x => x.GetRetweetsQuery(tweetIdentifier, maxRetweetsToRetrieve)).Returns(query);
-            _fakeTwitterAccessor.ArrangeExecuteGETQuery<IEnumerable<ITweetDTO>>(query, expectedResult);
+            A.CallTo(() => _tweetQueryGenerator.GetRetweetsQuery(tweetIdentifier, maxRetweetsToRetrieve))
+                .Returns(query);
+            _twitterAccessor.ArrangeExecuteGETQuery<IEnumerable<ITweetDTO>>(query, expectedResult);
 
             // Act
             var result = queryExecutor.GetRetweets(tweetIdentifier, maxRetweetsToRetrieve);
@@ -154,8 +156,9 @@ namespace Testinvi.TweetinviControllers.TweetTests
             var query = TestHelper.GenerateString();
             var expectedCursorResults = GenerateExpectedCursorResults();
 
-            _fakeTweetQueryGenerator.CallsTo(x => x.GetRetweeterIdsQuery(tweetIdentifier, maxRetweetersToRetrieve)).Returns(query);
-            _fakeTwitterAccessor.ArrangeExecuteCursorGETQuery<long, IIdsCursorQueryResultDTO>(query, expectedCursorResults);
+            A.CallTo(() => _tweetQueryGenerator.GetRetweeterIdsQuery(tweetIdentifier, maxRetweetersToRetrieve))
+                .Returns(query);
+            _twitterAccessor.ArrangeExecuteCursorGETQuery<long, IIdsCursorQueryResultDTO>(query, expectedCursorResults);
 
             // Act
             var result = queryExecutor.GetRetweetersIds(tweetIdentifier, maxRetweetersToRetrieve);
@@ -176,8 +179,8 @@ namespace Testinvi.TweetinviControllers.TweetTests
             var tweetDTO = A.Fake<ITweetDTO>();
             var query = TestHelper.GenerateString();
 
-            _fakeTweetQueryGenerator.CallsTo(x => x.GetDestroyTweetQuery(tweetDTO)).Returns(query);
-            _fakeTwitterAccessor.ArrangeTryExecutePOSTQuery(query, true);
+            A.CallTo(() => _tweetQueryGenerator.GetDestroyTweetQuery(tweetDTO)).Returns(query);
+            _twitterAccessor.ArrangeTryExecutePOSTQuery(query, true);
 
             // Act
             var result = queryExecutor.DestroyTweet(tweetDTO);
@@ -194,8 +197,8 @@ namespace Testinvi.TweetinviControllers.TweetTests
             var tweetDTO = A.Fake<ITweetDTO>();
             var query = TestHelper.GenerateString();
 
-            _fakeTweetQueryGenerator.CallsTo(x => x.GetDestroyTweetQuery(tweetDTO)).Returns(query);
-            _fakeTwitterAccessor.ArrangeTryExecutePOSTQuery(query, false);
+            A.CallTo(() => _tweetQueryGenerator.GetDestroyTweetQuery(tweetDTO)).Returns(query);
+            _twitterAccessor.ArrangeTryExecutePOSTQuery(query, false);
 
             // Act
             var result = queryExecutor.DestroyTweet(tweetDTO);
@@ -212,8 +215,8 @@ namespace Testinvi.TweetinviControllers.TweetTests
             var tweetId = TestHelper.GenerateRandomLong();
             var query = TestHelper.GenerateString();
 
-            _fakeTweetQueryGenerator.CallsTo(x => x.GetDestroyTweetQuery(tweetId)).Returns(query);
-            _fakeTwitterAccessor.ArrangeTryExecutePOSTQuery(query, true);
+            A.CallTo(() => _tweetQueryGenerator.GetDestroyTweetQuery(tweetId)).Returns(query);
+            _twitterAccessor.ArrangeTryExecutePOSTQuery(query, true);
 
             // Act
             var result = queryExecutor.DestroyTweet(tweetId);
@@ -230,8 +233,8 @@ namespace Testinvi.TweetinviControllers.TweetTests
             var tweetId = TestHelper.GenerateRandomLong();
             var query = TestHelper.GenerateString();
 
-            _fakeTweetQueryGenerator.CallsTo(x => x.GetDestroyTweetQuery(tweetId)).Returns(query);
-            _fakeTwitterAccessor.ArrangeTryExecutePOSTQuery(query, false);
+            A.CallTo(() => _tweetQueryGenerator.GetDestroyTweetQuery(tweetId)).Returns(query);
+            _twitterAccessor.ArrangeTryExecutePOSTQuery(query, false);
 
             // Act
             var result = queryExecutor.DestroyTweet(tweetId);
@@ -252,8 +255,8 @@ namespace Testinvi.TweetinviControllers.TweetTests
             var tweetDTO = A.Fake<ITweetDTO>();
             var query = TestHelper.GenerateString();
 
-            _fakeTweetQueryGenerator.CallsTo(x => x.GetFavoriteTweetQuery(tweetDTO)).Returns(query);
-            _fakeTwitterAccessor.ArrangeTryExecutePOSTQuery(query, true);
+            A.CallTo(() => _tweetQueryGenerator.GetFavoriteTweetQuery(tweetDTO)).Returns(query);
+            _twitterAccessor.ArrangeTryExecutePOSTQuery(query, true);
 
             // Act
             var result = queryExecutor.FavoriteTweet(tweetDTO);
@@ -270,8 +273,8 @@ namespace Testinvi.TweetinviControllers.TweetTests
             var tweetDTO = A.Fake<ITweetDTO>();
             var query = TestHelper.GenerateString();
 
-            _fakeTweetQueryGenerator.CallsTo(x => x.GetFavoriteTweetQuery(tweetDTO)).Returns(query);
-            _fakeTwitterAccessor.ArrangeExecutePOSTQuery(query, null);
+            A.CallTo(() => _tweetQueryGenerator.GetFavoriteTweetQuery(tweetDTO)).Returns(query);
+            _twitterAccessor.ArrangeExecutePOSTQuery(query, null);
 
             // Act
             var result = queryExecutor.FavoriteTweet(tweetDTO);
@@ -288,8 +291,8 @@ namespace Testinvi.TweetinviControllers.TweetTests
             var tweetDTO = A.Fake<ITweetDTO>();
             var query = TestHelper.GenerateString();
 
-            _fakeTweetQueryGenerator.CallsTo(x => x.GetFavoriteTweetQuery(tweetDTO)).Returns(query);
-            _fakeTwitterAccessor.CallsTo(x => x.ExecutePOSTQuery(query)).Throws(_fake139TwitterException);
+            A.CallTo(() => _tweetQueryGenerator.GetFavoriteTweetQuery(tweetDTO)).Returns(query);
+            A.CallTo(() => _twitterAccessor.ExecutePOSTQuery(query)).Throws(_twitterException);
 
             // Act
             var result = queryExecutor.FavoriteTweet(tweetDTO);
@@ -306,8 +309,8 @@ namespace Testinvi.TweetinviControllers.TweetTests
             var tweetDTO = A.Fake<ITweetDTO>();
             var query = TestHelper.GenerateString();
 
-            _fakeTweetQueryGenerator.CallsTo(x => x.GetFavoriteTweetQuery(tweetDTO)).Returns(query);
-            _fakeTwitterAccessor.CallsTo(x => x.ExecutePOSTQuery(query)).Throws(_fakeOtherTwitterException);
+            A.CallTo(() => _tweetQueryGenerator.GetFavoriteTweetQuery(tweetDTO)).Returns(query);
+            A.CallTo(() => _twitterAccessor.ExecutePOSTQuery(query)).Throws(_otherTwitterException);
 
             // Act
             try
@@ -316,7 +319,7 @@ namespace Testinvi.TweetinviControllers.TweetTests
             }
             catch (Exception ex)
             {
-                Assert.AreEqual(ex, _fakeOtherTwitterException);
+                Assert.AreEqual(ex, _otherTwitterException);
                 return;
             }
 
@@ -332,8 +335,8 @@ namespace Testinvi.TweetinviControllers.TweetTests
             var tweetId = TestHelper.GenerateRandomLong();
             var query = TestHelper.GenerateString();
 
-            _fakeTweetQueryGenerator.CallsTo(x => x.GetFavoriteTweetQuery(tweetId)).Returns(query);
-            _fakeTwitterAccessor.ArrangeTryExecutePOSTQuery(query, true);
+            A.CallTo(() => _tweetQueryGenerator.GetFavoriteTweetQuery(tweetId)).Returns(query);
+            _twitterAccessor.ArrangeTryExecutePOSTQuery(query, true);
 
             // Act
             var result = queryExecutor.FavoriteTweet(tweetId);
@@ -350,8 +353,8 @@ namespace Testinvi.TweetinviControllers.TweetTests
             var tweetId = TestHelper.GenerateRandomLong();
             var query = TestHelper.GenerateString();
 
-            _fakeTweetQueryGenerator.CallsTo(x => x.GetFavoriteTweetQuery(tweetId)).Returns(query);
-            _fakeTwitterAccessor.ArrangeExecutePOSTQuery(query, null);
+            A.CallTo(() => _tweetQueryGenerator.GetFavoriteTweetQuery(tweetId)).Returns(query);
+            _twitterAccessor.ArrangeExecutePOSTQuery(query, null);
 
             // Act
             var result = queryExecutor.FavoriteTweet(tweetId);
@@ -372,8 +375,8 @@ namespace Testinvi.TweetinviControllers.TweetTests
             var tweetDTO = A.Fake<ITweetDTO>();
             var query = TestHelper.GenerateString();
 
-            _fakeTweetQueryGenerator.CallsTo(x => x.GetUnFavoriteTweetQuery(tweetDTO)).Returns(query);
-            _fakeTwitterAccessor.ArrangeTryExecutePOSTQuery(query, true);
+            A.CallTo(() => _tweetQueryGenerator.GetUnFavoriteTweetQuery(tweetDTO)).Returns(query);
+            _twitterAccessor.ArrangeTryExecutePOSTQuery(query, true);
 
             // Act
             var result = queryExecutor.UnFavoriteTweet(tweetDTO);
@@ -390,8 +393,8 @@ namespace Testinvi.TweetinviControllers.TweetTests
             var tweetDTO = A.Fake<ITweetDTO>();
             var query = TestHelper.GenerateString();
 
-            _fakeTweetQueryGenerator.CallsTo(x => x.GetUnFavoriteTweetQuery(tweetDTO)).Returns(query);
-            _fakeTwitterAccessor.ArrangeTryExecutePOSTQuery(query, false);
+            A.CallTo(() => _tweetQueryGenerator.GetUnFavoriteTweetQuery(tweetDTO)).Returns(query);
+            _twitterAccessor.ArrangeTryExecutePOSTQuery(query, false);
 
             // Act
             var result = queryExecutor.UnFavoriteTweet(tweetDTO);
@@ -408,8 +411,8 @@ namespace Testinvi.TweetinviControllers.TweetTests
             var tweetId = TestHelper.GenerateRandomLong();
             var query = TestHelper.GenerateString();
 
-            _fakeTweetQueryGenerator.CallsTo(x => x.GetUnFavoriteTweetQuery(tweetId)).Returns(query);
-            _fakeTwitterAccessor.ArrangeTryExecutePOSTQuery(query, true);
+            A.CallTo(() => _tweetQueryGenerator.GetUnFavoriteTweetQuery(tweetId)).Returns(query);
+            _twitterAccessor.ArrangeTryExecutePOSTQuery(query, true);
 
             // Act
             var result = queryExecutor.UnFavoriteTweet(tweetId);
@@ -426,8 +429,8 @@ namespace Testinvi.TweetinviControllers.TweetTests
             var tweetId = TestHelper.GenerateRandomLong();
             var query = TestHelper.GenerateString();
 
-            _fakeTweetQueryGenerator.CallsTo(x => x.GetUnFavoriteTweetQuery(tweetId)).Returns(query);
-            _fakeTwitterAccessor.ArrangeTryExecutePOSTQuery(query, false);
+            A.CallTo(() => _tweetQueryGenerator.GetUnFavoriteTweetQuery(tweetId)).Returns(query);
+            _twitterAccessor.ArrangeTryExecutePOSTQuery(query, false);
 
             // Act
             var result = queryExecutor.UnFavoriteTweet(tweetId);
@@ -449,8 +452,8 @@ namespace Testinvi.TweetinviControllers.TweetTests
             var query = TestHelper.GenerateString();
             var expectedResult = A.Fake<IOEmbedTweetDTO>();
 
-            _fakeTweetQueryGenerator.CallsTo(x => x.GetGenerateOEmbedTweetQuery(tweetDTO)).Returns(query);
-            _fakeTwitterAccessor.ArrangeExecuteGETQuery(query, expectedResult);
+            A.CallTo(() => _tweetQueryGenerator.GetGenerateOEmbedTweetQuery(tweetDTO)).Returns(query);
+            _twitterAccessor.ArrangeExecuteGETQuery(query, expectedResult);
 
             // Act
             var result = queryExecutor.GenerateOEmbedTweet(tweetDTO);
@@ -468,8 +471,8 @@ namespace Testinvi.TweetinviControllers.TweetTests
             var query = TestHelper.GenerateString();
             var expectedResult = A.Fake<IOEmbedTweetDTO>();
 
-            _fakeTweetQueryGenerator.CallsTo(x => x.GetGenerateOEmbedTweetQuery(tweetId)).Returns(query);
-            _fakeTwitterAccessor.ArrangeExecuteGETQuery(query, expectedResult);
+            A.CallTo(() => _tweetQueryGenerator.GetGenerateOEmbedTweetQuery(tweetId)).Returns(query);
+            _twitterAccessor.ArrangeExecuteGETQuery(query, expectedResult);
 
             // Act
             var result = queryExecutor.GenerateOEmbedTweet(tweetId);

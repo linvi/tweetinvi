@@ -13,15 +13,15 @@ namespace Testinvi.TweetinviControllers.AccountTests
     public class AccountQueryExecutorTests
     {
         private FakeClassBuilder<AccountQueryExecutor> _fakeBuilder;
-        private Fake<ITwitterAccessor> _fakeTwitterAccessor;
-        private Fake<IAccountQueryGenerator> _fakeAccountQueryGenerator;
+        private ITwitterAccessor _twitterAccessor;
+        private IAccountQueryGenerator _accountQueryGenerator;
 
         [TestInitialize]
         public void TestInitialize()
         {
             _fakeBuilder = new FakeClassBuilder<AccountQueryExecutor>();
-            _fakeTwitterAccessor = _fakeBuilder.GetFake<ITwitterAccessor>();
-            _fakeAccountQueryGenerator = _fakeBuilder.GetFake<IAccountQueryGenerator>();
+            _twitterAccessor = _fakeBuilder.GetFake<ITwitterAccessor>().FakedObject;
+            _accountQueryGenerator = _fakeBuilder.GetFake<IAccountQueryGenerator>().FakedObject;
         }
 
         [TestMethod]
@@ -34,7 +34,7 @@ namespace Testinvi.TweetinviControllers.AccountTests
             var controller = CreateAccountQueryExecutor();
 
             ArrangeGetAuthenticatedUserAccountSettingsQuery(query);
-            _fakeTwitterAccessor.ArrangeExecuteGETQuery(query, queryResult);
+            _twitterAccessor.ArrangeExecuteGETQuery(query, queryResult);
 
             // Act
             var result = controller.GetAuthenticatedUserAccountSettings();
@@ -45,9 +45,7 @@ namespace Testinvi.TweetinviControllers.AccountTests
 
         private void ArrangeGetAuthenticatedUserAccountSettingsQuery(string query)
         {
-            _fakeAccountQueryGenerator
-                .CallsTo(x => x.GetAuthenticatedUserAccountSettingsQuery())
-                .Returns(query);
+            A.CallTo(() => _accountQueryGenerator.GetAuthenticatedUserAccountSettingsQuery()).Returns(query);
         }
 
         public AccountQueryExecutor CreateAccountQueryExecutor()

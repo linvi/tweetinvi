@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
 using FakeItEasy;
-using FakeItEasy.ExtensionSyntax.Full;
 using Tweetinvi;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
@@ -48,21 +47,21 @@ namespace Testinvi.Helpers
         public static IUser GenerateUser(IUserDTO userDTO)
         {
             var user = A.Fake<IUser>();
-            user.CallsTo(x => x.UserDTO).Returns(userDTO);
+            A.CallTo(() => user.UserDTO).Returns(userDTO);
             return user;
         }
 
         public static IUser GenerateUser(string screenName)
         {
             var user = A.Fake<IUser>();
-            user.CallsTo(x => x.ScreenName).Returns(screenName);
+            A.CallTo(() => user.ScreenName).Returns(screenName);
             return user;
         }
 
         public static ITweet GenerateTweet(ITweetDTO tweetDTO)
         {
             var tweet = A.Fake<ITweet>();
-            tweet.CallsTo(x => x.TweetDTO).Returns(tweetDTO);
+            A.CallTo(() => tweet.TweetDTO).Returns(tweetDTO);
             return tweet;
         }
     }

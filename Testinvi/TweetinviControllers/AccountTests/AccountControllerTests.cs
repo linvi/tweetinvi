@@ -14,15 +14,16 @@ namespace Testinvi.TweetinviControllers.AccountTests
     public class AccountControllerTests
     {
         private FakeClassBuilder<AccountController> _fakeBuilder;
-        private Fake<IAccountQueryExecutor> _fakeAccountQueryExecutor;
-        private Fake<IFactory<IAccountSettings>> _fakeAccountSettingsFactory;
+
+        private IFactory<IAccountSettings> _accountSettingsFactory;
+        private IAccountQueryExecutor _accountQueryExecutor;
 
         [TestInitialize]
         public void TestInitialize()
         {
             _fakeBuilder = new FakeClassBuilder<AccountController>();
-            _fakeAccountQueryExecutor = _fakeBuilder.GetFake<IAccountQueryExecutor>();
-            _fakeAccountSettingsFactory = _fakeBuilder.GetFake<IFactory<IAccountSettings>>();
+            _accountSettingsFactory = _fakeBuilder.GetFake<IFactory<IAccountSettings>>().FakedObject;
+            _accountQueryExecutor = _fakeBuilder.GetFake<IAccountQueryExecutor>().FakedObject;
         }
 
         [TestMethod]
@@ -36,13 +37,10 @@ namespace Testinvi.TweetinviControllers.AccountTests
 
             ArrangeGetAuthenticatedUserAccountSettings(fakeAccountSettingsDTO);
 
-            _fakeAccountSettingsFactory.ArrangeGenerateParameterOverride<IAccountSettingsDTO, IAccountSettings>();
-            _fakeAccountSettingsFactory
-                .CallsTo(x => x.Create(
-                    A<IConstructorNamedParameter>
-                        .That.Matches(p => p.Name == "accountSettingsDTO" &&
-                                           p.Value == fakeAccountSettingsDTO)))
-                .Returns(fakeAccountSettings);
+            _accountSettingsFactory.ArrangeGenerateParameterOverride<IAccountSettingsDTO, IAccountSettings>();
+            A.CallTo(() => _accountSettingsFactory.Create(A<IConstructorNamedParameter>
+                .That.Matches(p => p.Name == "accountSettingsDTO" &&
+                                   p.Value == fakeAccountSettingsDTO))).Returns(fakeAccountSettings);
 
             // Act
             var result = controller.GetAuthenticatedUserSettings();
@@ -53,9 +51,7 @@ namespace Testinvi.TweetinviControllers.AccountTests
 
         private void ArrangeGetAuthenticatedUserAccountSettings(IAccountSettingsDTO result)
         {
-            _fakeAccountQueryExecutor
-                .CallsTo(x => x.GetAuthenticatedUserAccountSettings())
-                .Returns(result);
+            A.CallTo(() => _accountQueryExecutor.GetAuthenticatedUserAccountSettings()).Returns(result);
         }
 
         private IAccountController CreateAccountController()

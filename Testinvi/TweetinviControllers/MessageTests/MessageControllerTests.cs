@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using FakeItEasy;
-using FakeItEasy.ExtensionSyntax.Full;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Testinvi.Helpers;
 using Tweetinvi.Controllers.Messages;
@@ -37,7 +36,7 @@ namespace Testinvi.TweetinviControllers.MessageTests
             var controller = CreateMessageController();
             var count = new Random().Next();
             var expectedDTOResult = A.Fake<IGetMessagesDTO>();
-            expectedDTOResult.CallsTo(x => x.NextCursor).Returns(null);
+            A.CallTo(() => expectedDTOResult.NextCursor).Returns(null);
 
             ArrangeQueryExecutorGetLatestMessages(expectedDTOResult);
             ArrangeMessageFactoryGenerateMessages(expectedDTOResult, expectedResult);
@@ -115,7 +114,7 @@ namespace Testinvi.TweetinviControllers.MessageTests
             // Arrange
             var controller = CreateMessageController();
             var message = A.Fake<IMessage>();
-            message.CallsTo(x => x.EventDTO).Returns(null);
+            A.CallTo(() => message.EventDTO).Returns(null);
 
             _fakeMessageQueryExecutor.CallsTo(x => x.DestroyMessage(A<IEventDTO>.Ignored)).Returns(true);
 
@@ -142,7 +141,7 @@ namespace Testinvi.TweetinviControllers.MessageTests
             var eventDTO = A.Fake<IEventDTO>();
 
             var message = A.Fake<IMessage>();
-            message.CallsTo(x => x.EventDTO).Returns(eventDTO);
+            A.CallTo(() => message.EventDTO).Returns(eventDTO);
 
             _fakeMessageQueryExecutor.CallsTo(x => x.DestroyMessage(eventDTO)).Returns(result);
 

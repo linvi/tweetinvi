@@ -19,9 +19,10 @@ namespace Testinvi.TweetinviControllers.UserTests
     public class UserQueryExecutorTests
     {
         private FakeClassBuilder<UserQueryExecutor> _fakeBuilder;
-        private Fake<IUserQueryGenerator> _fakeUserQueryGenerator;
-        private Fake<ITwitterAccessor> _fakeTwitterAccessor;
-        private Fake<IWebHelper> _fakeWebHelper;
+
+        private IUserQueryGenerator _userQueryGenerator;
+        private ITwitterAccessor _twitterAccessor;
+        private IWebHelper _webHelper;
 
         private List<long> _cursorQueryIds;
 
@@ -29,9 +30,9 @@ namespace Testinvi.TweetinviControllers.UserTests
         public void TestInitialize()
         {
             _fakeBuilder = new FakeClassBuilder<UserQueryExecutor>();
-            _fakeUserQueryGenerator = _fakeBuilder.GetFake<IUserQueryGenerator>();
-            _fakeTwitterAccessor = _fakeBuilder.GetFake<ITwitterAccessor>();
-            _fakeWebHelper = _fakeBuilder.GetFake<IWebHelper>();
+            _userQueryGenerator = _fakeBuilder.GetFake<IUserQueryGenerator>().FakedObject;
+            _twitterAccessor = _fakeBuilder.GetFake<ITwitterAccessor>().FakedObject;
+            _webHelper = _fakeBuilder.GetFake<IWebHelper>().FakedObject;
 
             _cursorQueryIds = new List<long>();
         }
@@ -48,8 +49,8 @@ namespace Testinvi.TweetinviControllers.UserTests
             var maximumNumberOfFriends = TestHelper.GenerateRandomInt();
             var expectedQuery = TestHelper.GenerateString();
 
-            _fakeUserQueryGenerator.CallsTo(x => x.GetFriendIdsQuery(userDTO, maximumNumberOfFriends)).Returns(expectedQuery);
-            _fakeTwitterAccessor.ArrangeExecuteCursorGETQuery<long, IIdsCursorQueryResultDTO>(expectedQuery, null);
+            A.CallTo(() => _userQueryGenerator.GetFriendIdsQuery(userDTO, maximumNumberOfFriends)).Returns(expectedQuery);
+            _twitterAccessor.ArrangeExecuteCursorGETQuery<long, IIdsCursorQueryResultDTO>(expectedQuery, null);
 
             // Act
             var result = queryExecutor.GetFriendIds(userDTO, maximumNumberOfFriends);
@@ -67,8 +68,9 @@ namespace Testinvi.TweetinviControllers.UserTests
             var expectedQuery = TestHelper.GenerateString();
             var expectedCursorResults = GenerateExpectedCursorResults();
 
-            _fakeUserQueryGenerator.CallsTo(x => x.GetFriendIdsQuery(userDTO, maximumNumberOfFriends)).Returns(expectedQuery);
-            _fakeTwitterAccessor.ArrangeExecuteCursorGETQuery<long, IIdsCursorQueryResultDTO>(expectedQuery, expectedCursorResults);
+            A.CallTo(() => _userQueryGenerator.GetFriendIdsQuery(userDTO, maximumNumberOfFriends))
+                .Returns(expectedQuery);
+            _twitterAccessor.ArrangeExecuteCursorGETQuery<long, IIdsCursorQueryResultDTO>(expectedQuery, expectedCursorResults);
 
             // Act
             var result = queryExecutor.GetFriendIds(userDTO, maximumNumberOfFriends);
@@ -91,8 +93,9 @@ namespace Testinvi.TweetinviControllers.UserTests
             var maximumNumberOfFollowers = TestHelper.GenerateRandomInt();
             var expectedQuery = TestHelper.GenerateString();
 
-            _fakeUserQueryGenerator.CallsTo(x => x.GetFollowerIdsQuery(userDTO, maximumNumberOfFollowers)).Returns(expectedQuery);
-            _fakeTwitterAccessor.ArrangeExecuteCursorGETQuery<long, IIdsCursorQueryResultDTO>(expectedQuery, null);
+            A.CallTo(() => _userQueryGenerator.GetFollowerIdsQuery(userDTO, maximumNumberOfFollowers))
+                .Returns(expectedQuery);
+            _twitterAccessor.ArrangeExecuteCursorGETQuery<long, IIdsCursorQueryResultDTO>(expectedQuery, null);
 
             // Act
             var result = queryExecutor.GetFollowerIds(userDTO, maximumNumberOfFollowers);
@@ -110,8 +113,9 @@ namespace Testinvi.TweetinviControllers.UserTests
             var expectedQuery = TestHelper.GenerateString();
             var expectedCursorResults = GenerateExpectedCursorResults();
 
-            _fakeUserQueryGenerator.CallsTo(x => x.GetFollowerIdsQuery(userDTO, maximumNumberOfFollowers)).Returns(expectedQuery);
-            _fakeTwitterAccessor.ArrangeExecuteCursorGETQuery<long, IIdsCursorQueryResultDTO>(expectedQuery, expectedCursorResults);
+            A.CallTo(() => _userQueryGenerator.GetFollowerIdsQuery(userDTO, maximumNumberOfFollowers))
+                .Returns(expectedQuery);
+            _twitterAccessor.ArrangeExecuteCursorGETQuery<long, IIdsCursorQueryResultDTO>(expectedQuery, expectedCursorResults);
 
             // Act
             var result = queryExecutor.GetFollowerIds(userDTO, maximumNumberOfFollowers);
@@ -132,10 +136,10 @@ namespace Testinvi.TweetinviControllers.UserTests
             TestHelper.GenerateRandomInt();
             var expectedQuery = TestHelper.GenerateString();
             IEnumerable<ITweetDTO> expectedResult = new[] { A.Fake<ITweetDTO>() };
-            var parameters = It.IsAny<IGetUserFavoritesQueryParameters>();
+            var parameters = A.Fake<IGetUserFavoritesQueryParameters>();
 
-            _fakeUserQueryGenerator.CallsTo(x => x.GetFavoriteTweetsQuery(parameters)).Returns(expectedQuery);
-            _fakeTwitterAccessor.ArrangeExecuteGETQuery(expectedQuery, expectedResult);
+            A.CallTo(() => _userQueryGenerator.GetFavoriteTweetsQuery(parameters)).Returns(expectedQuery);
+            _twitterAccessor.ArrangeExecuteGETQuery(expectedQuery, expectedResult);
 
             // Act
             var result = queryExecutor.GetFavoriteTweets(parameters);
@@ -156,8 +160,8 @@ namespace Testinvi.TweetinviControllers.UserTests
             var userDTO = A.Fake<IUserDTO>();
             var expectedQuery = TestHelper.GenerateString();
 
-            _fakeUserQueryGenerator.CallsTo(x => x.GetBlockUserQuery(userDTO)).Returns(expectedQuery);
-            _fakeTwitterAccessor.ArrangeTryExecutePOSTQuery(expectedQuery, true);
+            A.CallTo(() => _userQueryGenerator.GetBlockUserQuery(userDTO)).Returns(expectedQuery);
+            _twitterAccessor.ArrangeTryExecutePOSTQuery(expectedQuery, true);
 
             // Act
             var result = queryExecutor.BlockUser(userDTO);
@@ -174,8 +178,8 @@ namespace Testinvi.TweetinviControllers.UserTests
             var userDTO = A.Fake<IUserDTO>();
             var expectedQuery = TestHelper.GenerateString();
 
-            _fakeUserQueryGenerator.CallsTo(x => x.GetBlockUserQuery(userDTO)).Returns(expectedQuery);
-            _fakeTwitterAccessor.ArrangeTryExecutePOSTQuery(expectedQuery, false);
+            A.CallTo(() => _userQueryGenerator.GetBlockUserQuery(userDTO)).Returns(expectedQuery);
+            _twitterAccessor.ArrangeTryExecutePOSTQuery(expectedQuery, false);
 
             // Act
             var result = queryExecutor.BlockUser(userDTO);
@@ -197,8 +201,8 @@ namespace Testinvi.TweetinviControllers.UserTests
             var userDTO = A.Fake<IUserDTO>();
             var url = TestHelper.GenerateString();
 
-            _fakeUserQueryGenerator.CallsTo(x => x.DownloadProfileImageURL(userDTO, ImageSize.bigger)).Returns(url);
-            _fakeWebHelper.CallsTo(x => x.GetResponseStream(url)).Returns(stream);
+            A.CallTo(() => _userQueryGenerator.DownloadProfileImageURL(userDTO, ImageSize.bigger)).Returns(url);
+            A.CallTo(() => _webHelper.GetResponseStream(url)).Returns(stream);
 
             // Act
             var result = queryExecutor.GetProfileImageStream(userDTO, ImageSize.bigger);
@@ -219,8 +223,8 @@ namespace Testinvi.TweetinviControllers.UserTests
             var userDTO = A.Fake<IUserDTO>();
             var expectedQuery = TestHelper.GenerateString();
 
-            _fakeUserQueryGenerator.CallsTo(x => x.GetReportUserForSpamQuery(userDTO)).Returns(expectedQuery);
-            _fakeTwitterAccessor.ArrangeTryExecutePOSTQuery(expectedQuery, true);
+            A.CallTo(() => _userQueryGenerator.GetReportUserForSpamQuery(userDTO)).Returns(expectedQuery);
+            _twitterAccessor.ArrangeTryExecutePOSTQuery(expectedQuery, true);
 
             // Act
             var result = queryExecutor.ReportUserForSpam(userDTO);
@@ -237,8 +241,8 @@ namespace Testinvi.TweetinviControllers.UserTests
             var userDTO = A.Fake<IUserDTO>();
             var expectedQuery = TestHelper.GenerateString();
 
-            _fakeUserQueryGenerator.CallsTo(x => x.GetReportUserForSpamQuery(userDTO)).Returns(expectedQuery);
-            _fakeTwitterAccessor.ArrangeTryExecutePOSTQuery(expectedQuery, false);
+            A.CallTo(() => _userQueryGenerator.GetReportUserForSpamQuery(userDTO)).Returns(expectedQuery);
+            _twitterAccessor.ArrangeTryExecutePOSTQuery(expectedQuery, false);
 
             // Act
             var result = queryExecutor.ReportUserForSpam(userDTO);

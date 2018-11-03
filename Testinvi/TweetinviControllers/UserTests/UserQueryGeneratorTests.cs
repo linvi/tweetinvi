@@ -1,6 +1,5 @@
 ﻿using System;
 using FakeItEasy;
-using FakeItEasy.ExtensionSyntax.Full;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Testinvi.Helpers;
 using Testinvi.SetupHelpers;
@@ -18,15 +17,16 @@ namespace Testinvi.TweetinviControllers.UserTests
     public class UserQueryGeneratorTests
     {
         private FakeClassBuilder<UserQueryGenerator> _fakeBuilder;
-        private Fake<IUserQueryParameterGenerator> _fakeUserQueryParameterGenerator;
-        private Fake<IUserQueryValidator> _fakeUserQueryValidator;
+
+        private IUserQueryParameterGenerator _userQueryParameterGenerator;
+        private IUserQueryValidator _userQueryValidator;
 
         [TestInitialize]
         public void TestInitialize()
         {
             _fakeBuilder = new FakeClassBuilder<UserQueryGenerator>();
-            _fakeUserQueryParameterGenerator = _fakeBuilder.GetFake<IUserQueryParameterGenerator>();
-            _fakeUserQueryValidator = _fakeBuilder.GetFake<IUserQueryValidator>();
+            _userQueryParameterGenerator = _fakeBuilder.GetFake<IUserQueryParameterGenerator>().FakedObject;
+            _userQueryValidator = _fakeBuilder.GetFake<IUserQueryValidator>().FakedObject;
         }
 
         #region Friends
@@ -47,7 +47,7 @@ namespace Testinvi.TweetinviControllers.UserTests
             var expectedResult = string.Format(Resources.User_GetFriends, userIdParameter, maximumNumberOfFriends);
             Assert.AreEqual(result, expectedResult);
 
-            _fakeUserQueryValidator.CallsTo(x => x.ThrowIfUserCannotBeIdentified(userDTO)).MustHaveHappened();
+            A.CallTo(() => _userQueryValidator.ThrowIfUserCannotBeIdentified(userDTO)).MustHaveHappened();
         }
 
         #endregion
@@ -70,7 +70,7 @@ namespace Testinvi.TweetinviControllers.UserTests
             var expectedResult = string.Format(Resources.User_GetFollowers, userIdParameter, maximumNumberOfFollowers);
             Assert.AreEqual(result, expectedResult);
 
-            _fakeUserQueryValidator.CallsTo(x => x.ThrowIfUserCannotBeIdentified(userDTO)).MustHaveHappened();
+            A.CallTo(() => _userQueryValidator.ThrowIfUserCannotBeIdentified(userDTO)).MustHaveHappened();
         }
 
         #endregion
@@ -82,7 +82,7 @@ namespace Testinvi.TweetinviControllers.UserTests
         {
             // Arrange
             var queryGenerator = CreateUserQueryGenerator();
-            _fakeUserQueryValidator.CallsTo(x => x.CanUserBeIdentified(It.IsAny<IUserIdentifier>())).Returns(true);
+            A.CallTo(() => _userQueryValidator.CanUserBeIdentified(It.IsAny<IUserIdentifier>())).Returns(true);
             var userDTO = GenerateUserDTO(true);
             var maximumNumberOfFavourites = TestHelper.GenerateRandomInt();
             var userIdParameter = UserQueryGeneratorHelper.GenerateParameterExpectedResult(userDTO);
@@ -101,7 +101,7 @@ namespace Testinvi.TweetinviControllers.UserTests
             Assert.IsTrue(result.Contains("count=" + maximumNumberOfFavourites));
             Assert.IsTrue(result.Contains("include_entities=true"));
 
-            _fakeUserQueryValidator.CallsTo(x => x.ThrowIfUserCannotBeIdentified(userDTO)).MustHaveHappened();
+            A.CallTo(() => _userQueryValidator.ThrowIfUserCannotBeIdentified(userDTO)).MustHaveHappened();
         }
 
         #endregion
@@ -123,7 +123,7 @@ namespace Testinvi.TweetinviControllers.UserTests
             var expectedResult = string.Format(Resources.User_Block_Create, userIdParameter);
             Assert.AreEqual(result, expectedResult);
 
-            _fakeUserQueryValidator.CallsTo(x => x.ThrowIfUserCannotBeIdentified(userDTO)).MustHaveHappened();
+            A.CallTo(() => _userQueryValidator.ThrowIfUserCannotBeIdentified(userDTO)).MustHaveHappened();
         }
 
         #endregion
@@ -138,8 +138,8 @@ namespace Testinvi.TweetinviControllers.UserTests
             var userDTO = A.Fake<IUserDTO>();
             var profileImageUrlHttps = TestHelper.GenerateString();
             var profileImageUrlHttp = TestHelper.GenerateString();
-            userDTO.CallsTo(x => x.ProfileImageUrl).Returns(profileImageUrlHttp);
-            userDTO.CallsTo(x => x.ProfileImageUrlHttps).Returns(profileImageUrlHttps);
+            A.CallTo(() => userDTO.ProfileImageUrl).Returns(profileImageUrlHttp);
+            A.CallTo(() => userDTO.ProfileImageUrlHttps).Returns(profileImageUrlHttps);
 
             // Act
             var result = queryGenerator.DownloadProfileImageURL(userDTO, ImageSize.bigger);
@@ -155,7 +155,7 @@ namespace Testinvi.TweetinviControllers.UserTests
             var queryGenerator = CreateUserQueryGenerator();
             var userDTO = A.Fake<IUserDTO>();
             var profileImageUrlHttps = TestHelper.GenerateString();
-            userDTO.CallsTo(x => x.ProfileImageUrlHttps).Returns(profileImageUrlHttps);
+            A.CallTo(() => userDTO.ProfileImageUrlHttps).Returns(profileImageUrlHttps);
 
             // Act
             var result = queryGenerator.DownloadProfileImageURL(userDTO, ImageSize.bigger);
@@ -171,7 +171,7 @@ namespace Testinvi.TweetinviControllers.UserTests
             var queryGenerator = CreateUserQueryGenerator();
             var userDTO = A.Fake<IUserDTO>();
             var profileImageUrl = TestHelper.GenerateString();
-            userDTO.CallsTo(x => x.ProfileImageUrl).Returns(profileImageUrl);
+            A.CallTo(() => userDTO.ProfileImageUrl).Returns(profileImageUrl);
 
             // Act
             var result = queryGenerator.DownloadProfileImageURL(userDTO, ImageSize.bigger);
@@ -203,8 +203,8 @@ namespace Testinvi.TweetinviControllers.UserTests
             var userDTO = A.Fake<IUserDTO>();
             var profileImageUrlHttps = TestHelper.GenerateString();
             var profileImageUrlHttp = TestHelper.GenerateString();
-            userDTO.CallsTo(x => x.ProfileImageUrl).Returns(profileImageUrlHttp);
-            userDTO.CallsTo(x => x.ProfileImageUrlHttps).Returns(profileImageUrlHttps);
+            A.CallTo(() => userDTO.ProfileImageUrl).Returns(profileImageUrlHttp);
+            A.CallTo(() => userDTO.ProfileImageUrlHttps).Returns(profileImageUrlHttps);
 
             // Act
             var result = queryGenerator.DownloadProfileImageInHttpURL(userDTO, ImageSize.bigger);
@@ -220,7 +220,7 @@ namespace Testinvi.TweetinviControllers.UserTests
             var queryGenerator = CreateUserQueryGenerator();
             var userDTO = A.Fake<IUserDTO>();
             var profileImageUrlHttps = TestHelper.GenerateString();
-            userDTO.CallsTo(x => x.ProfileImageUrlHttps).Returns(profileImageUrlHttps);
+            A.CallTo(() => userDTO.ProfileImageUrlHttps).Returns(profileImageUrlHttps);
 
             // Act
             var result = queryGenerator.DownloadProfileImageInHttpURL(userDTO, ImageSize.bigger);
@@ -236,7 +236,7 @@ namespace Testinvi.TweetinviControllers.UserTests
             var queryGenerator = CreateUserQueryGenerator();
             var userDTO = A.Fake<IUserDTO>();
             var profileImageUrl = TestHelper.GenerateString();
-            userDTO.CallsTo(x => x.ProfileImageUrl).Returns(profileImageUrl);
+            A.CallTo(() => userDTO.ProfileImageUrl).Returns(profileImageUrl);
 
             // Act
             var result = queryGenerator.DownloadProfileImageInHttpURL(userDTO, ImageSize.bigger);
@@ -278,7 +278,7 @@ namespace Testinvi.TweetinviControllers.UserTests
             var expectedResult = string.Format(Resources.User_Report_Spam, userIdParameter);
             Assert.AreEqual(result, expectedResult);
 
-            _fakeUserQueryValidator.CallsTo(x => x.ThrowIfUserCannotBeIdentified(userDTO)).MustHaveHappened();
+            A.CallTo(() => _userQueryValidator.ThrowIfUserCannotBeIdentified(userDTO)).MustHaveHappened();
         }
 
         #endregion
@@ -286,15 +286,17 @@ namespace Testinvi.TweetinviControllers.UserTests
         private IUserDTO GenerateUserDTO(bool isValid)
         {
             var userDTO = A.Fake<IUserDTO>();
-            _fakeUserQueryValidator.CallsTo(x => x.CanUserBeIdentified(userDTO)).Returns(isValid);
+            A.CallTo(() => _userQueryValidator.CanUserBeIdentified(userDTO)).Returns(isValid);
 
             if (!isValid)
             {
-                _fakeUserQueryValidator.CallsTo(x => x.ThrowIfUserCannotBeIdentified(userDTO)).Throws(new ArgumentException());
-                _fakeUserQueryValidator.CallsTo(x => x.ThrowIfUserCannotBeIdentified(userDTO, It.IsAny<string>())).Throws(new ArgumentException());
+                A.CallTo(() => _userQueryValidator.ThrowIfUserCannotBeIdentified(userDTO))
+                    .Throws(new ArgumentException());
+                A.CallTo(() => _userQueryValidator.ThrowIfUserCannotBeIdentified(userDTO, It.IsAny<string>()))
+                    .Throws(new ArgumentException());
             }
 
-            _fakeUserQueryParameterGenerator.ArrangeGenerateIdOrScreenNameParameter();
+            _userQueryParameterGenerator.ArrangeGenerateIdOrScreenNameParameter();
             return userDTO;
         }
 

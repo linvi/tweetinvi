@@ -1,6 +1,5 @@
 ﻿using System;
 using FakeItEasy;
-using FakeItEasy.ExtensionSyntax.Full;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Testinvi.Helpers;
 using Tweetinvi.Controllers.Properties;
@@ -16,19 +15,20 @@ namespace Testinvi.TweetinviControllers.TweetTests
     public class TweetQueryGeneratorTests
     {
         private FakeClassBuilder<TweetQueryGenerator> _fakeBuilder;
-        private Fake<ITweetQueryValidator> _fakeTweetQueryValidator;
-        private Fake<ITwitterStringFormatter> _fakeTwitterStringFormatter;
+
+        private ITweetQueryValidator _tweetQueryValidator;
+        private ITwitterStringFormatter _twitterStringFormatter;
+        private ICoordinates _expectedCoordinatesParameter;
 
         private string _expectedTweetParameter;
         private string _expectedPlaceIdParameter;
-        private ICoordinates _expectedCoordinatesParameter;
 
         [TestInitialize]
         public void TestInitialize()
         {
             _fakeBuilder = new FakeClassBuilder<TweetQueryGenerator>();
-            _fakeTweetQueryValidator = _fakeBuilder.GetFake<ITweetQueryValidator>();
-            _fakeTwitterStringFormatter = _fakeBuilder.GetFake<ITwitterStringFormatter>();
+            _tweetQueryValidator = _fakeBuilder.GetFake<ITweetQueryValidator>().FakedObject;
+            _twitterStringFormatter = _fakeBuilder.GetFake<ITwitterStringFormatter>().FakedObject;
         }
 
         #region Publish Tweet
@@ -67,19 +67,19 @@ namespace Testinvi.TweetinviControllers.TweetTests
             // Arrange
             // Arrange
             var queryGenerator = CreateTweetQueryGenerator();
-            var parameter = GeneratePublishTweetParameter(canNewTweetBePublished, tweetContainsPlaceId, tweetContainsCoordinates);
+            var parameters = GeneratePublishTweetParameters(canNewTweetBePublished, tweetContainsPlaceId, tweetContainsCoordinates);
             var tweetId = TestHelper.GenerateRandomLong();
 
             if (replyToTweetId)
             {
                 var tweetIdentifier = A.Fake<ITweetIdentifier>();
-                tweetIdentifier.CallsTo(x => x.Id).Returns(tweetId);
+                A.CallTo(() => tweetIdentifier.Id).Returns(tweetId);
 
-                parameter.CallsTo(x => x.InReplyToTweet).Returns(tweetIdentifier);
+                A.CallTo(() => parameters.InReplyToTweet).Returns(tweetIdentifier);
             }
             else
             {
-                parameter.CallsTo(x => x.InReplyToTweet).Returns(null);
+                A.CallTo(() => parameters.InReplyToTweet).Returns(null);
             }
 
             // Act
@@ -87,15 +87,22 @@ namespace Testinvi.TweetinviControllers.TweetTests
             {
                 try
                 {
-                    queryGenerator.GetPublishTweetQuery(parameter);
+                    queryGenerator.GetPublishTweetQuery(parameters);
                 }
-                catch (ArgumentException)
+                catch (UserCallbackException e)
                 {
-                    return;
+                    if (e.InnerException is ArgumentException)
+                    {
+                        return;
+                    }
+                    else
+                    {
+                        throw;
+                    }
                 }
             }
 
-            var result = queryGenerator.GetPublishTweetQuery(parameter);
+            var result = queryGenerator.GetPublishTweetQuery(parameters);
 
             // Assert
             if (isValid)
@@ -146,22 +153,29 @@ namespace Testinvi.TweetinviControllers.TweetTests
         {
             // Arrange
             var queryGenerator = CreateTweetQueryGenerator();
-            var parameter = GeneratePublishTweetParameter(canNewTweetBePublished, tweetContainsPlaceId, tweetContainsCoordinates);
+            var parameters = GeneratePublishTweetParameters(canNewTweetBePublished, tweetContainsPlaceId, tweetContainsCoordinates);
 
             // Act
             if (!canNewTweetBePublished)
             {
                 try
                 {
-                    queryGenerator.GetPublishTweetQuery(parameter);
+                    queryGenerator.GetPublishTweetQuery(parameters);
                 }
-                catch (ArgumentException)
+                catch (UserCallbackException e)
                 {
-                    return;
+                    if (e.InnerException is ArgumentException)
+                    {
+                        return;
+                    }
+                    else
+                    {
+                        throw;
+                    }
                 }
             }
 
-            var result = queryGenerator.GetPublishTweetQuery(parameter);
+            var result = queryGenerator.GetPublishTweetQuery(parameters);
 
             // Assert
             if (isValid)
@@ -201,9 +215,9 @@ namespace Testinvi.TweetinviControllers.TweetTests
             var queryGenerator = CreateTweetQueryGenerator();
             var tweetToRetweetId = TestHelper.GenerateRandomLong();
             var tweetToRetweet = A.Fake<ITweetDTO>();
-            tweetToRetweet.CallsTo(x => x.Id).Returns(tweetToRetweetId);
+            A.CallTo(() => tweetToRetweet.Id).Returns(tweetToRetweetId);
 
-            _fakeTweetQueryValidator.CallsTo(x => x.IsTweetPublished(tweetToRetweet)).Returns(true);
+            A.CallTo(() => _tweetQueryValidator.IsTweetPublished(tweetToRetweet)).Returns(true);
 
             // Act
             var result = queryGenerator.GetPublishRetweetQuery(tweetToRetweet);
@@ -212,7 +226,7 @@ namespace Testinvi.TweetinviControllers.TweetTests
             var expectedResult = string.Format(Resources.Tweet_Retweet_Publish, tweetToRetweetId);
             Assert.AreEqual(result, expectedResult);
 
-            _fakeTweetQueryValidator.CallsTo(x => x.ThrowIfTweetCannotBeUsed(tweetToRetweet)).MustHaveHappened();
+            A.CallTo(() => _tweetQueryValidator.ThrowIfTweetCannotBeUsed(tweetToRetweet)).MustHaveHappened();
         }
 
         [TestMethod]
@@ -229,7 +243,7 @@ namespace Testinvi.TweetinviControllers.TweetTests
             var expectedResult = string.Format(Resources.Tweet_Retweet_Publish, tweetToRetweetId);
             Assert.AreEqual(result, expectedResult);
 
-            _fakeTweetQueryValidator.CallsTo(x => x.ThrowIfTweetCannotBeUsed(tweetToRetweetId)).MustHaveHappened();
+            A.CallTo(() => _tweetQueryValidator.ThrowIfTweetCannotBeUsed(tweetToRetweetId)).MustHaveHappened();
         }
 
         #endregion
@@ -244,9 +258,9 @@ namespace Testinvi.TweetinviControllers.TweetTests
             var tweetToRetweetId = TestHelper.GenerateRandomLong();
             var tweetToRetweet = A.Fake<ITweetDTO>();
             var maxRetweetsToRetrieve = TestHelper.GenerateRandomInt();
-            tweetToRetweet.CallsTo(x => x.Id).Returns(tweetToRetweetId);
+            A.CallTo(() => tweetToRetweet.Id).Returns(tweetToRetweetId);
 
-            _fakeTweetQueryValidator.CallsTo(x => x.IsTweetPublished(tweetToRetweet)).Returns(true);
+            A.CallTo(() => _tweetQueryValidator.IsTweetPublished(tweetToRetweet)).Returns(true);
 
             // Act
             var result = queryGenerator.GetRetweetsQuery(tweetToRetweet, maxRetweetsToRetrieve);
@@ -276,7 +290,7 @@ namespace Testinvi.TweetinviControllers.TweetTests
             var expectedResult = string.Format("https://api.twitter.com/1.1/statuses/retweeters/ids.json?id={0}&count={1}", tweetIdentifier.Id, maxRetweetersToRetrieve);
             Assert.AreEqual(result, expectedResult);
 
-            _fakeTweetQueryValidator.CallsTo(x => x.ThrowIfTweetCannotBeUsed(tweetIdentifier)).MustHaveHappened();
+            A.CallTo(() => _tweetQueryValidator.ThrowIfTweetCannotBeUsed(tweetIdentifier)).MustHaveHappened();
         }
         
         #endregion
@@ -291,10 +305,11 @@ namespace Testinvi.TweetinviControllers.TweetTests
             var queryGenerator = CreateTweetQueryGenerator();
             var tweetToDestroy = A.Fake<ITweetDTO>();
 
-            _fakeTweetQueryValidator.CallsTo(x => x.ThrowIfTweetCannotBeDestroyed(tweetToDestroy)).Invokes(() => { throw new ArgumentException(); });
+            A.CallTo(() => _tweetQueryValidator.ThrowIfTweetCannotBeDestroyed(tweetToDestroy))
+                .Throws(new ArgumentException());
 
             // Act
-            var result = queryGenerator.GetDestroyTweetQuery(tweetToDestroy);
+            queryGenerator.GetDestroyTweetQuery(tweetToDestroy);
         }
 
         [TestMethod]
@@ -304,7 +319,7 @@ namespace Testinvi.TweetinviControllers.TweetTests
             var queryGenerator = CreateTweetQueryGenerator();
             var tweetToDestroyId = TestHelper.GenerateRandomLong();
             var tweetToDestroy = A.Fake<ITweetDTO>();
-            tweetToDestroy.CallsTo(x => x.Id).Returns(tweetToDestroyId);
+            A.CallTo(() => tweetToDestroy.Id).Returns(tweetToDestroyId);
 
             // Act
             var result = queryGenerator.GetDestroyTweetQuery(tweetToDestroy);
@@ -340,9 +355,9 @@ namespace Testinvi.TweetinviControllers.TweetTests
             var queryGenerator = CreateTweetQueryGenerator();
             var tweetToFavouriteId = TestHelper.GenerateRandomLong();
             var tweetToFavourite = A.Fake<ITweetDTO>();
-            tweetToFavourite.CallsTo(x => x.Id).Returns(tweetToFavouriteId);
+            A.CallTo(() => tweetToFavourite.Id).Returns(tweetToFavouriteId);
 
-            _fakeTweetQueryValidator.CallsTo(x => x.IsTweetPublished(tweetToFavourite)).Returns(true);
+            A.CallTo(() => _tweetQueryValidator.IsTweetPublished(tweetToFavourite)).Returns(true);
 
             // Act
             var result = queryGenerator.GetFavoriteTweetQuery(tweetToFavourite);
@@ -351,7 +366,7 @@ namespace Testinvi.TweetinviControllers.TweetTests
             var expectedResult = string.Format(Resources.Tweet_Favorite_Create, tweetToFavouriteId);
             Assert.AreEqual(result, expectedResult);
 
-            _fakeTweetQueryValidator.CallsTo(x => x.ThrowIfTweetCannotBeUsed(tweetToFavourite)).MustHaveHappened();
+            A.CallTo(() => _tweetQueryValidator.ThrowIfTweetCannotBeUsed(tweetToFavourite)).MustHaveHappened();
         }
 
         [TestMethod]
@@ -368,7 +383,7 @@ namespace Testinvi.TweetinviControllers.TweetTests
             var expectedResult = string.Format(Resources.Tweet_Favorite_Create, tweetToFavouriteId);
             Assert.AreEqual(result, expectedResult);
 
-            _fakeTweetQueryValidator.CallsTo(x => x.ThrowIfTweetCannotBeUsed(tweetToFavouriteId)).MustHaveHappened();
+            A.CallTo(() => _tweetQueryValidator.ThrowIfTweetCannotBeUsed(tweetToFavouriteId)).MustHaveHappened();
         }
 
         #endregion
@@ -382,9 +397,9 @@ namespace Testinvi.TweetinviControllers.TweetTests
             var queryGenerator = CreateTweetQueryGenerator();
             var tweetToUnFavouriteId = TestHelper.GenerateRandomLong();
             var tweetToUnFavourite = A.Fake<ITweetDTO>();
-            tweetToUnFavourite.CallsTo(x => x.Id).Returns(tweetToUnFavouriteId);
+            A.CallTo(() => tweetToUnFavourite.Id).Returns(tweetToUnFavouriteId);
 
-            _fakeTweetQueryValidator.CallsTo(x => x.IsTweetPublished(tweetToUnFavourite)).Returns(true);
+            A.CallTo(() => _tweetQueryValidator.IsTweetPublished(tweetToUnFavourite)).Returns(true);
 
             // Act
             var result = queryGenerator.GetUnFavoriteTweetQuery(tweetToUnFavourite);
@@ -393,7 +408,7 @@ namespace Testinvi.TweetinviControllers.TweetTests
             var expectedResult = string.Format(Resources.Tweet_Favorite_Destroy, tweetToUnFavouriteId);
             Assert.AreEqual(result, expectedResult);
 
-            _fakeTweetQueryValidator.CallsTo(x => x.ThrowIfTweetCannotBeUsed(tweetToUnFavourite)).MustHaveHappened();
+            A.CallTo(() => _tweetQueryValidator.ThrowIfTweetCannotBeUsed(tweetToUnFavouriteId)).MustHaveHappened();
         }
 
         [TestMethod]
@@ -410,7 +425,7 @@ namespace Testinvi.TweetinviControllers.TweetTests
             var expectedResult = string.Format(Resources.Tweet_Favorite_Destroy, tweetToUnFavouriteId);
             Assert.AreEqual(result, expectedResult);
 
-            _fakeTweetQueryValidator.CallsTo(x => x.ThrowIfTweetCannotBeUsed(tweetToUnFavouriteId)).MustHaveHappened();
+            A.CallTo(() => _tweetQueryValidator.ThrowIfTweetCannotBeUsed(tweetToUnFavouriteId)).MustHaveHappened();
         }
 
         #endregion
@@ -425,9 +440,9 @@ namespace Testinvi.TweetinviControllers.TweetTests
             var queryGenerator = CreateTweetQueryGenerator();
             var tweetId = TestHelper.GenerateRandomLong();
             var tweet = A.Fake<ITweetDTO>();
-            tweet.CallsTo(x => x.Id).Returns(tweetId);
+            A.CallTo(() => tweet.Id).Returns(tweetId);
 
-            _fakeTweetQueryValidator.CallsTo(x => x.IsTweetPublished(tweet)).Returns(true);
+            A.CallTo(() => _tweetQueryValidator.IsTweetPublished(tweet)).Returns(true);
 
             // Act
             var result = queryGenerator.GetGenerateOEmbedTweetQuery(tweet);
@@ -436,7 +451,7 @@ namespace Testinvi.TweetinviControllers.TweetTests
             var expectedResult = string.Format(Resources.Tweet_GenerateOEmbed, tweetId);
             Assert.AreEqual(result, expectedResult);
 
-            _fakeTweetQueryValidator.CallsTo(x => x.ThrowIfTweetCannotBeUsed(tweet)).MustHaveHappened();
+            A.CallTo(() => _tweetQueryValidator.ThrowIfTweetCannotBeUsed(tweet)).MustHaveHappened();
         }
 
         [TestMethod]
@@ -453,12 +468,12 @@ namespace Testinvi.TweetinviControllers.TweetTests
             var expectedResult = string.Format(Resources.Tweet_GenerateOEmbed, tweetToRetweetId);
             Assert.AreEqual(result, expectedResult);
 
-            _fakeTweetQueryValidator.CallsTo(x => x.ThrowIfTweetCannotBeUsed(tweetToRetweetId)).MustHaveHappened();
+            A.CallTo(() => _tweetQueryValidator.ThrowIfTweetCannotBeUsed(tweetToRetweetId)).MustHaveHappened();
         }
 
         #endregion
 
-        private IPublishTweetParameters GeneratePublishTweetParameter(
+        private IPublishTweetParameters GeneratePublishTweetParameters(
             bool canTweetBePublished,
             bool hasPlaceIdParameter,
             bool hasCoordinatesParameter)
@@ -468,36 +483,37 @@ namespace Testinvi.TweetinviControllers.TweetTests
             _expectedPlaceIdParameter = TestHelper.GenerateString();
             _expectedCoordinatesParameter = A.Fake<ICoordinates>();
 
-            publishTweetParameters.CallsTo(x => x.Text).Returns(text);
-            publishTweetParameters.CallsTo(x => x.QuotedTweet).Returns(null);
+            A.CallTo(() => publishTweetParameters.Text).Returns(text);
+            A.CallTo(() => publishTweetParameters.QuotedTweet).Returns(null);
 
             if (hasPlaceIdParameter)
             {
-                publishTweetParameters.CallsTo(x => x.PlaceId).Returns(_expectedPlaceIdParameter);
+                A.CallTo(() => publishTweetParameters.PlaceId).Returns(_expectedPlaceIdParameter);
             }
 
             if (hasCoordinatesParameter)
             {
-                _expectedCoordinatesParameter.CallsTo(x => x.Latitude).Returns(TestHelper.GenerateRandomInt());
-                _expectedCoordinatesParameter.CallsTo(x => x.Longitude).Returns(TestHelper.GenerateRandomInt());
+                A.CallTo(() => _expectedCoordinatesParameter.Latitude).Returns(TestHelper.GenerateRandomInt());
+                A.CallTo(() => _expectedCoordinatesParameter.Longitude).Returns(TestHelper.GenerateRandomInt());
 
-                publishTweetParameters.CallsTo(x => x.Coordinates).Returns(_expectedCoordinatesParameter);
+                A.CallTo(() => publishTweetParameters.Coordinates).Returns(_expectedCoordinatesParameter);
             }
             else
             {
-                publishTweetParameters.CallsTo(x => x.Coordinates).Returns(null);
+                A.CallTo(() => publishTweetParameters.Coordinates).Returns(null);
             }
 
             _expectedTweetParameter = TestHelper.GenerateString();
-            _fakeTwitterStringFormatter.CallsTo(x => x.TwitterEncode(text)).Returns(_expectedTweetParameter);
+            A.CallTo(() => _twitterStringFormatter.TwitterEncode(text)).Returns(_expectedTweetParameter);
 
-            _fakeTweetQueryValidator.CallsTo(x => x.ThrowIfTweetCannotBePublished(publishTweetParameters)).Invokes(x =>
-            {
-                if (!canTweetBePublished)
+            A.CallTo(() => _tweetQueryValidator.ThrowIfTweetCannotBePublished(publishTweetParameters))
+                .Invokes(x =>
                 {
-                    throw new ArgumentException();
-                }
-            });
+                    if (!canTweetBePublished)
+                    {
+                        throw new ArgumentException();
+                    }
+                });
 
             return publishTweetParameters;
         }
@@ -507,9 +523,9 @@ namespace Testinvi.TweetinviControllers.TweetTests
             var tweet = A.Fake<ITweetDTO>();
             var tweetId = TestHelper.GenerateRandomLong();
 
-            tweet.CallsTo(x => x.Id).Returns(tweetId);
+            A.CallTo(() => tweet.Id).Returns(tweetId);
 
-            _fakeTweetQueryValidator.CallsTo(x => x.IsTweetPublished(tweet)).Returns(hasTweetBeenPublished);
+            A.CallTo(() => _tweetQueryValidator.IsTweetPublished(tweet)).Returns(hasTweetBeenPublished);
 
             return tweet;
         }

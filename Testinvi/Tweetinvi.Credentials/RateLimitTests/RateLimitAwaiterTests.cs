@@ -1,6 +1,5 @@
 ﻿using System;
 using FakeItEasy;
-using FakeItEasy.ExtensionSyntax.Full;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Testinvi.Helpers;
 using Tweetinvi.Core.Credentials;
@@ -21,11 +20,12 @@ namespace Testinvi.Tweetinvi.Credentials.RateLimitTests
         private readonly int TIME_TO_WAIT = new Random(Int32.MaxValue).Next();
 
         private FakeClassBuilder<RateLimitAwaiter> _fakeBuilder;
-        private Fake<IRateLimitCacheManager> _fakeRateLimitCacheManager;
-        private Fake<ICredentialsAccessor> _fakeCredentialsAccessor;
-        private Fake<IThreadHelper> _fakeThreadHelper;
+        
         private WeakEvent<EventHandler<QueryAwaitingEventArgs>> _weakEvent;
 
+        private IRateLimitCacheManager _rateLimitCacheManager;
+        private ICredentialsAccessor _credentialsAccessor;
+        private IThreadHelper _threadHelper;
         private ITwitterCredentials _credentials;
         private IEndpointRateLimit _endpointRateLimit;
 
@@ -33,17 +33,18 @@ namespace Testinvi.Tweetinvi.Credentials.RateLimitTests
         public void TestInitialize()
         {
             _fakeBuilder = new FakeClassBuilder<RateLimitAwaiter>();
-            _fakeRateLimitCacheManager = _fakeBuilder.GetFake<IRateLimitCacheManager>();
-            _fakeCredentialsAccessor = _fakeBuilder.GetFake<ICredentialsAccessor>();
-            _fakeThreadHelper = _fakeBuilder.GetFake<IThreadHelper>();
+            _rateLimitCacheManager = _fakeBuilder.GetFake<IRateLimitCacheManager>().FakedObject;
+            _credentialsAccessor = _fakeBuilder.GetFake<ICredentialsAccessor>().FakedObject;
+            _threadHelper = _fakeBuilder.GetFake<IThreadHelper>().FakedObject;
 
             _credentials = A.Fake<ITwitterCredentials>();
             _endpointRateLimit = A.Fake<IEndpointRateLimit>();
-            _endpointRateLimit.CallsTo(x => x.Remaining).Returns(0);
-            _endpointRateLimit.CallsTo(x => x.ResetDateTimeInMilliseconds).Returns(TIME_TO_WAIT);
+            A.CallTo(() => _endpointRateLimit.Remaining).Returns(0);
+            A.CallTo(() => _endpointRateLimit.ResetDateTimeInMilliseconds).Returns(TIME_TO_WAIT);
 
-            _fakeRateLimitCacheManager.CallsTo(x => x.GetQueryRateLimit(TEST_QUERY, _credentials)).Returns(_endpointRateLimit);
-            _fakeCredentialsAccessor.CallsTo(x => x.CurrentThreadCredentials).Returns(_credentials);
+            A.CallTo(() => _rateLimitCacheManager.GetQueryRateLimit(TEST_QUERY, _credentials))
+                .Returns(_endpointRateLimit);
+            A.CallTo(() => _credentialsAccessor.CurrentThreadCredentials).Returns(_credentials);
         }
 
         [TestMethod]
@@ -56,7 +57,7 @@ namespace Testinvi.Tweetinvi.Credentials.RateLimitTests
             rateLimitAwaiter.WaitForCurrentCredentialsRateLimit(TEST_QUERY);
 
             // Assert
-            _fakeThreadHelper.CallsTo(x => x.Sleep(TIME_TO_WAIT)).MustHaveHappened(Repeated.Exactly.Once);
+            A.CallTo(() => _threadHelper.Sleep(TIME_TO_WAIT)).MustHaveHappened(Repeated.Exactly.Once);
         }
 
         [TestMethod]
@@ -69,7 +70,7 @@ namespace Testinvi.Tweetinvi.Credentials.RateLimitTests
             rateLimitAwaiter.WaitForCredentialsRateLimit(TEST_QUERY, _credentials);
 
             // Assert
-            _fakeThreadHelper.CallsTo(x => x.Sleep(TIME_TO_WAIT)).MustHaveHappened(Repeated.Exactly.Once);
+            A.CallTo(() => _threadHelper.Sleep(TIME_TO_WAIT)).MustHaveHappened(Repeated.Exactly.Once);
         }
 
         [TestMethod]
@@ -111,13 +112,13 @@ namespace Testinvi.Tweetinvi.Credentials.RateLimitTests
         {
             // Arrange
             var rateLimitAwaiter = CreateRateLimitAwaiter();
-            _endpointRateLimit.CallsTo(x => x.Remaining).Returns(15);
+            A.CallTo(() => _endpointRateLimit.Remaining).Returns(15);
 
             // Act
             rateLimitAwaiter.WaitForCredentialsRateLimit(TEST_QUERY, _credentials);
 
             // Assert
-            _fakeThreadHelper.CallsTo(x => x.Sleep(It.IsAny<int>())).MustNotHaveHappened();
+            A.CallTo(() => _threadHelper.Sleep(It.IsAny<int>())).MustNotHaveHappened();
         }
 
         [TestMethod]
@@ -125,13 +126,13 @@ namespace Testinvi.Tweetinvi.Credentials.RateLimitTests
         {
             // Arrange
             var rateLimitAwaiter = CreateRateLimitAwaiter();
-            _fakeRateLimitCacheManager.CallsTo(x => x.GetQueryRateLimit(TEST_QUERY, _credentials)).Returns(null);
+            A.CallTo(() => _rateLimitCacheManager.GetQueryRateLimit(TEST_QUERY, _credentials)).Returns(null);
 
             // Act
             rateLimitAwaiter.WaitForCredentialsRateLimit(TEST_QUERY, _credentials);
 
             // Assert
-            _fakeThreadHelper.CallsTo(x => x.Sleep(It.IsAny<int>())).MustNotHaveHappened();
+            A.CallTo(() => _threadHelper.Sleep(It.IsAny<int>())).MustNotHaveHappened();
         }
 
         [TestMethod]
@@ -139,7 +140,7 @@ namespace Testinvi.Tweetinvi.Credentials.RateLimitTests
         {
             // Arrange
             var rateLimitAwaiter = CreateRateLimitAwaiter();
-            _endpointRateLimit.CallsTo(x => x.Remaining).Returns(9);
+            A.CallTo(() => _endpointRateLimit.Remaining).Returns(9);
 
             // Act
             var result = rateLimitAwaiter.TimeToWaitBeforeTwitterRequest(TEST_QUERY, _credentials);

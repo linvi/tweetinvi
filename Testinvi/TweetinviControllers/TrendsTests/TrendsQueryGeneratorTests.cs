@@ -1,6 +1,5 @@
 ﻿using System;
 using FakeItEasy;
-using FakeItEasy.ExtensionSyntax.Full;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Testinvi.Helpers;
 using Tweetinvi.Controllers.Properties;
@@ -54,7 +53,7 @@ namespace Testinvi.TweetinviControllers.TrendsTests
             var locationId = TestHelper.GenerateRandomLong();
 
             var woeIdLocation = A.Fake<IWoeIdLocation>();
-            woeIdLocation.CallsTo(x => x.WoeId).Returns(locationId);
+            A.CallTo(() => woeIdLocation.WoeId).Returns(locationId);
 
             // Act
             var result = queryGenerator.GetPlaceTrendsAtQuery(woeIdLocation);

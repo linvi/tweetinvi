@@ -1,6 +1,5 @@
 ﻿using System;
 using FakeItEasy;
-using FakeItEasy.ExtensionSyntax.Full;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Testinvi.Helpers;
 using Tweetinvi.Controllers.Search;
@@ -39,7 +38,7 @@ namespace Testinvi.TweetinviControllers.SearchTests
             // Arrange
             var queryValidator = CreateSearchQueryValidator();
             var searchParameter = A.Fake<ISearchTweetsParameters>();
-            searchParameter.CallsTo(x => x.SearchQuery).Returns(null);
+            A.CallTo(() => searchParameter.SearchQuery).Returns(null);
 
             // Act
             queryValidator.ThrowIfSearchParametersIsNotValid(searchParameter);
@@ -52,9 +51,9 @@ namespace Testinvi.TweetinviControllers.SearchTests
             // Arrange
             var queryValidator = CreateSearchQueryValidator();
             var searchParameter = A.Fake<ISearchTweetsParameters>();
-            searchParameter.CallsTo(x => x.SearchQuery).Returns(string.Empty);
-            searchParameter.CallsTo(x => x.GeoCode).Returns(null);
-            searchParameter.CallsTo(x => x.Filters).Returns(TweetSearchFilters.None);
+            A.CallTo(() => searchParameter.SearchQuery).Returns(string.Empty);
+            A.CallTo(() => searchParameter.GeoCode).Returns(null);
+            A.CallTo(() => searchParameter.Filters).Returns(TweetSearchFilters.None);
 
             // Act
             queryValidator.ThrowIfSearchParametersIsNotValid(searchParameter);
@@ -66,7 +65,7 @@ namespace Testinvi.TweetinviControllers.SearchTests
             // Arrange
             var queryValidator = CreateSearchQueryValidator();
             var searchParameter = A.Fake<ISearchTweetsParameters>();
-            searchParameter.CallsTo(x => x.SearchQuery).Returns(TestHelper.GenerateString());
+            A.CallTo(() => searchParameter.SearchQuery).Returns(TestHelper.GenerateString());
 
             // Act
             queryValidator.ThrowIfSearchParametersIsNotValid(searchParameter);

@@ -16,16 +16,16 @@ namespace Testinvi.TweetinviControllers.TimelineTests
     public class TimelineJsonControllerTests
     {
         private FakeClassBuilder<TimelineJsonController> _fakeBuilder;
-        private Fake<ITimelineQueryGenerator> _fakeTimelineQueryGenerator;
-        private Fake<ITwitterAccessor> _fakeTwitterAccessor;
-        private Fake<IUserFactory> _fakeUserFactory;
-        private Fake<ITimelineQueryParameterGenerator> _fakeTimelineQueryParameterGenerator;
+        private ITimelineQueryGenerator _timelineQueryGenerator;
+        private ITwitterAccessor _twitterAccessor;
+        private IUserFactory _userFactory;
+        private ITimelineQueryParameterGenerator _timelineQueryParameterGenerator;
 
-        private IHomeTimelineParameters _fakeHomeTimelineParameters;
-        private IUserTimelineParameters _fakeUserTimelineParameters;
-        private IMentionsTimelineParameters _fakeMentionsTimelineParameters;
+        private IHomeTimelineParameters _homeTimelineParameters;
+        private IUserTimelineParameters _userTimelineParameters;
+        private IMentionsTimelineParameters _mentionsTimelineParameters;
 
-        private IUserTimelineQueryParameters _fakeUserTimelineQueryParameters;
+        private IUserTimelineQueryParameters _userTimelineQueryParameters;
 
         private int _maximuNumberOfTweets;
         private string _expectedQuery;
@@ -33,41 +33,46 @@ namespace Testinvi.TweetinviControllers.TimelineTests
         private string _userName;
         private long _userId;
 
-        private IUser _fakeUser;
-        private IUserDTO _fakeUserDTO;
-        private IUserIdentifier _fakeUserIdentifier;
+        private IUser _user;
+        private IUserDTO _userDTO;
+        private IUserIdentifier _userIdentifier;
 
         [TestInitialize]
         public void TestInitialize()
         {
             _fakeBuilder = new FakeClassBuilder<TimelineJsonController>();
-            _fakeTimelineQueryGenerator = _fakeBuilder.GetFake<ITimelineQueryGenerator>();
-            _fakeTwitterAccessor = _fakeBuilder.GetFake<ITwitterAccessor>();
-            _fakeUserFactory = _fakeBuilder.GetFake<IUserFactory>();
-            _fakeTimelineQueryParameterGenerator = _fakeBuilder.GetFake<ITimelineQueryParameterGenerator>();
+            _timelineQueryGenerator = _fakeBuilder.GetFake<ITimelineQueryGenerator>().FakedObject;
+            _twitterAccessor = _fakeBuilder.GetFake<ITwitterAccessor>().FakedObject;
+            _userFactory = _fakeBuilder.GetFake<IUserFactory>().FakedObject;
+            _timelineQueryParameterGenerator = _fakeBuilder.GetFake<ITimelineQueryParameterGenerator>().FakedObject;
         
             InitData();
 
-            _fakeTwitterAccessor.CallsTo(x => x.ExecuteGETQueryReturningJson(_expectedQuery)).Returns(_expectedResult);
+            A.CallTo(() => _twitterAccessor.ExecuteGETQueryReturningJson(_expectedQuery)).Returns(_expectedResult);
             
-            _fakeUserFactory.CallsTo(x => x.GenerateUserIdentifierFromScreenName(_userName)).Returns(_fakeUserIdentifier);
-            _fakeUserFactory.CallsTo(x => x.GenerateUserIdentifierFromId(_userId)).Returns(_fakeUserIdentifier);
+            A.CallTo(() => _userFactory.GenerateUserIdentifierFromScreenName(_userName)).Returns(_userIdentifier);
+            A.CallTo(() => _userFactory.GenerateUserIdentifierFromId(_userId)).Returns(_userIdentifier);
 
-            _fakeTimelineQueryParameterGenerator.CallsTo(x => x.CreateUserTimelineQueryParameters(It.IsAny<IUserIdentifier>(), It.IsAny<IUserTimelineParameters>()))
-                                                .Returns(_fakeUserTimelineQueryParameters);
+            A.CallTo(() =>
+                    _timelineQueryParameterGenerator.CreateUserTimelineQueryParameters(It.IsAny<IUserIdentifier>(),
+                        It.IsAny<IUserTimelineParameters>()))
+                .Returns(_userTimelineQueryParameters);
 
-            _fakeTimelineQueryParameterGenerator.CallsTo(x => x.CreateHomeTimelineParameters()).Returns(_fakeHomeTimelineParameters);
-            _fakeTimelineQueryParameterGenerator.CallsTo(x => x.CreateUserTimelineParameters()).Returns(_fakeUserTimelineParameters);
-            _fakeTimelineQueryParameterGenerator.CallsTo(x => x.CreateMentionsTimelineParameters()).Returns(_fakeMentionsTimelineParameters);
+            A.CallTo(() => _timelineQueryParameterGenerator.CreateHomeTimelineParameters())
+                .Returns(_homeTimelineParameters);
+            A.CallTo(() => _timelineQueryParameterGenerator.CreateUserTimelineParameters())
+                .Returns(_userTimelineParameters);
+            A.CallTo(() => _timelineQueryParameterGenerator.CreateMentionsTimelineParameters())
+                .Returns(_mentionsTimelineParameters);
         }
 
         private void InitData()
         {
-            _fakeHomeTimelineParameters = A.Fake<IHomeTimelineParameters>();
-            _fakeUserTimelineParameters = A.Fake<IUserTimelineParameters>();
-            _fakeMentionsTimelineParameters = A.Fake<IMentionsTimelineParameters>();
+            _homeTimelineParameters = A.Fake<IHomeTimelineParameters>();
+            _userTimelineParameters = A.Fake<IUserTimelineParameters>();
+            _mentionsTimelineParameters = A.Fake<IMentionsTimelineParameters>();
 
-            _fakeUserTimelineQueryParameters = A.Fake<IUserTimelineQueryParameters>();
+            _userTimelineQueryParameters = A.Fake<IUserTimelineQueryParameters>();
 
             _maximuNumberOfTweets = TestHelper.GenerateRandomInt();
             _expectedQuery = TestHelper.GenerateString();
@@ -75,9 +80,9 @@ namespace Testinvi.TweetinviControllers.TimelineTests
             _userName = TestHelper.GenerateString();
             _userId = TestHelper.GenerateRandomLong();
 
-            _fakeUser = A.Fake<IUser>();
-            _fakeUserDTO = A.Fake<IUserDTO>();
-            _fakeUserIdentifier = _fakeUserDTO;
+            _user = A.Fake<IUser>();
+            _userDTO = A.Fake<IUserDTO>();
+            _userIdentifier = _userDTO;
         }
 
         #region GetHomeTimeline
@@ -88,14 +93,15 @@ namespace Testinvi.TweetinviControllers.TimelineTests
             // Arrange
             var controller = CreateTimelineJsonController();
 
-            _fakeTimelineQueryGenerator.CallsTo(x => x.GetHomeTimelineQuery(_fakeHomeTimelineParameters)).Returns(_expectedQuery);
+            A.CallTo(() => _timelineQueryGenerator.GetHomeTimelineQuery(_homeTimelineParameters))
+                .Returns(_expectedQuery);
 
             // Act
             var result = controller.GetHomeTimeline(_maximuNumberOfTweets);
 
             // Assert
             Assert.AreEqual(result, _expectedResult);
-            Assert.AreEqual(_fakeHomeTimelineParameters.MaximumNumberOfTweetsToRetrieve, _maximuNumberOfTweets);
+            Assert.AreEqual(_homeTimelineParameters.MaximumNumberOfTweetsToRetrieve, _maximuNumberOfTweets);
         }
 
         [TestMethod]
@@ -104,10 +110,11 @@ namespace Testinvi.TweetinviControllers.TimelineTests
             // Arrange
             var controller = CreateTimelineJsonController();
 
-            _fakeTimelineQueryGenerator.CallsTo(x => x.GetHomeTimelineQuery(_fakeHomeTimelineParameters)).Returns(_expectedQuery);
+            A.CallTo(() => _timelineQueryGenerator.GetHomeTimelineQuery(_homeTimelineParameters))
+                .Returns(_expectedQuery);
 
             // Act
-            var result = controller.GetHomeTimeline(_fakeHomeTimelineParameters);
+            var result = controller.GetHomeTimeline(_homeTimelineParameters);
 
             // Assert
             Assert.AreEqual(result, _expectedResult);
@@ -126,7 +133,8 @@ namespace Testinvi.TweetinviControllers.TimelineTests
             var expectedQuery = TestHelper.GenerateString();
             var expectedResult = GetQueryResult(expectedQuery);
 
-            _fakeTimelineQueryGenerator.CallsTo(x => x.GetMentionsTimelineQuery(_fakeMentionsTimelineParameters)).Returns(expectedQuery);
+            A.CallTo(() => _timelineQueryGenerator.GetMentionsTimelineQuery(_mentionsTimelineParameters))
+                .Returns(expectedQuery);
 
             // Act
             var result = controller.GetMentionsTimeline(maximumTweets);
@@ -144,7 +152,8 @@ namespace Testinvi.TweetinviControllers.TimelineTests
             var expectedQuery = TestHelper.GenerateString();
             var expectedResult = GetQueryResult(expectedQuery);
 
-            _fakeTimelineQueryGenerator.CallsTo(x => x.GetMentionsTimelineQuery(_fakeMentionsTimelineParameters)).Returns(expectedQuery);
+            A.CallTo(() => _timelineQueryGenerator.GetMentionsTimelineQuery(_mentionsTimelineParameters))
+                .Returns(expectedQuery);
 
             // Act
             var result = controller.GetMentionsTimeline(maximumTweets);
@@ -163,10 +172,11 @@ namespace Testinvi.TweetinviControllers.TimelineTests
             // Arrange
             var controller = CreateTimelineJsonController();
 
-            _fakeTimelineQueryGenerator.CallsTo(x => x.GetUserTimelineQuery(_fakeUserTimelineQueryParameters)).Returns(_expectedQuery);
+            A.CallTo(() => _timelineQueryGenerator.GetUserTimelineQuery(_userTimelineQueryParameters))
+                .Returns(_expectedQuery);
 
             // Act
-            var result = controller.GetUserTimeline(_fakeUser, _maximuNumberOfTweets);
+            var result = controller.GetUserTimeline(_user, _maximuNumberOfTweets);
 
             // Assert
             Assert.AreEqual(result, _expectedResult);
@@ -178,10 +188,11 @@ namespace Testinvi.TweetinviControllers.TimelineTests
             // Arrange
             var controller = CreateTimelineJsonController();
 
-            _fakeTimelineQueryGenerator.CallsTo(x => x.GetUserTimelineQuery(_fakeUserTimelineQueryParameters)).Returns(_expectedQuery);
+            A.CallTo(() => _timelineQueryGenerator.GetUserTimelineQuery(_userTimelineQueryParameters))
+                .Returns(_expectedQuery);
 
             // Act
-            var result = controller.GetUserTimeline(_fakeUserDTO, _maximuNumberOfTweets);
+            var result = controller.GetUserTimeline(_userDTO, _maximuNumberOfTweets);
 
             // Assert
             Assert.AreEqual(result, _expectedResult);
@@ -193,7 +204,8 @@ namespace Testinvi.TweetinviControllers.TimelineTests
             // Arrange
             var controller = CreateTimelineJsonController();
 
-            _fakeTimelineQueryGenerator.CallsTo(x => x.GetUserTimelineQuery(_fakeUserTimelineQueryParameters)).Returns(_expectedQuery);
+            A.CallTo(() => _timelineQueryGenerator.GetUserTimelineQuery(_userTimelineQueryParameters))
+                .Returns(_expectedQuery);
 
             // Act
             var result = controller.GetUserTimeline(_userName, _maximuNumberOfTweets);
@@ -208,7 +220,8 @@ namespace Testinvi.TweetinviControllers.TimelineTests
             // Arrange
             var controller = CreateTimelineJsonController();
 
-            _fakeTimelineQueryGenerator.CallsTo(x => x.GetUserTimelineQuery(_fakeUserTimelineQueryParameters)).Returns(_expectedQuery);
+            A.CallTo(() => _timelineQueryGenerator.GetUserTimelineQuery(_userTimelineQueryParameters))
+                .Returns(_expectedQuery);
 
             // Act
             var result = controller.GetUserTimeline(_userId, _maximuNumberOfTweets);
@@ -223,10 +236,11 @@ namespace Testinvi.TweetinviControllers.TimelineTests
             // Arrange
             var controller = CreateTimelineJsonController();
 
-            _fakeTimelineQueryGenerator.CallsTo(x => x.GetUserTimelineQuery(_fakeUserTimelineQueryParameters)).Returns(_expectedQuery);
+            A.CallTo(() => _timelineQueryGenerator.GetUserTimelineQuery(_userTimelineQueryParameters))
+                .Returns(_expectedQuery);
 
             // Act
-            var result = controller.GetUserTimeline(_fakeUserTimelineQueryParameters);
+            var result = controller.GetUserTimeline(_userTimelineQueryParameters);
 
             // Assert
             Assert.AreEqual(result, _expectedResult);
@@ -237,7 +251,7 @@ namespace Testinvi.TweetinviControllers.TimelineTests
         private string GetQueryResult(string query)
         {
             var result = TestHelper.GenerateString();
-            _fakeTwitterAccessor.ArrangeExecuteJsonGETQuery(query, result);
+            _twitterAccessor.ArrangeExecuteJsonGETQuery(query, result);
             return result;
         }
 

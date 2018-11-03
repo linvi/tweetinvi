@@ -13,15 +13,15 @@ namespace Testinvi.TweetinviControllers.SearchTests
     public class SearchJsonControllerTests
     {
         private FakeClassBuilder<SearchJsonController> _fakeBuilder;
-        private Fake<ITwitterAccessor> _fakeTwitterAccessor;
-        private Fake<ISearchQueryGenerator> _fakeSearchQueryGenerator;
+        private ITwitterAccessor _twitterAccessor;
+        private ISearchQueryGenerator _searchQueryGenerator;
 
         [TestInitialize]
         public void TestInitialize()
         {
             _fakeBuilder = new FakeClassBuilder<SearchJsonController>();
-            _fakeTwitterAccessor = _fakeBuilder.GetFake<ITwitterAccessor>();
-            _fakeSearchQueryGenerator = _fakeBuilder.GetFake<ISearchQueryGenerator>();
+            _twitterAccessor = _fakeBuilder.GetFake<ITwitterAccessor>().FakedObject;
+            _searchQueryGenerator = _fakeBuilder.GetFake<ISearchQueryGenerator>().FakedObject;
         }
 
         [TestMethod]
@@ -33,8 +33,8 @@ namespace Testinvi.TweetinviControllers.SearchTests
             var searchQuery = TestHelper.GenerateString();
             var jsonResult = TestHelper.GenerateString();
 
-            _fakeSearchQueryGenerator.CallsTo(x => x.GetSearchTweetsQuery(searchQuery)).Returns(httpQuery);
-            _fakeTwitterAccessor.ArrangeExecuteJsonGETQuery(httpQuery, jsonResult);
+            A.CallTo(() => _searchQueryGenerator.GetSearchTweetsQuery(searchQuery)).Returns(httpQuery);
+            _twitterAccessor.ArrangeExecuteJsonGETQuery(httpQuery, jsonResult);
 
             // Act
             var result = queryExecutor.SearchTweets(searchQuery);
@@ -52,8 +52,8 @@ namespace Testinvi.TweetinviControllers.SearchTests
             var searchQueryParameter = A.Fake<ISearchTweetsParameters>();
             var jsonResult = TestHelper.GenerateString();
 
-            _fakeSearchQueryGenerator.CallsTo(x => x.GetSearchTweetsQuery(searchQueryParameter)).Returns(httpQuery);
-            _fakeTwitterAccessor.ArrangeExecuteJsonGETQuery(httpQuery, jsonResult);
+            A.CallTo(() => _searchQueryGenerator.GetSearchTweetsQuery(searchQueryParameter)).Returns(httpQuery);
+            _twitterAccessor.ArrangeExecuteJsonGETQuery(httpQuery, jsonResult);
 
             // Act
             var result = queryExecutor.SearchTweets(searchQueryParameter);

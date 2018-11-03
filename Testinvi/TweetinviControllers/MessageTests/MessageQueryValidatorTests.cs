@@ -1,6 +1,5 @@
 ﻿using System;
 using FakeItEasy;
-using FakeItEasy.ExtensionSyntax.Full;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Testinvi.Helpers;
 using Testinvi.SetupHelpers;
@@ -18,14 +17,14 @@ namespace Testinvi.TweetinviControllers.MessageTests
     public class MessageQueryValidatorTests
     {
         private FakeClassBuilder<MessageQueryValidator> _fakeBuilder;
-        private Fake<IUserQueryValidator> _fakeUserQueryValidator;
+        private IUserQueryValidator _userQueryValidator;
 
         [TestInitialize]
         public void TestInitialize()
         {
             _fakeBuilder = new FakeClassBuilder<MessageQueryValidator>();
-            _fakeUserQueryValidator = _fakeBuilder.GetFake<IUserQueryValidator>();
-            _fakeUserQueryValidator.ArrangeIsUserIdValid();
+            _userQueryValidator = _fakeBuilder.GetFake<IUserQueryValidator>().FakedObject;
+            _userQueryValidator.ArrangeIsUserIdValid();
         }
 
         #region Can Message Be Published
@@ -46,7 +45,7 @@ namespace Testinvi.TweetinviControllers.MessageTests
             var queryValidator = CreateMessageQueryValidator();
 
             var parameters = A.Fake<IPublishMessageParameters>();
-            parameters.CallsTo(x => x.RecipientId).Returns(TestHelper.GenerateRandomLong());
+            A.CallTo(() => parameters.RecipientId).Returns(TestHelper.GenerateRandomLong());
 
             ArrangeMessagePublishParameterText(parameters, doesTextExists, textContainsChars);
 
@@ -78,11 +77,11 @@ namespace Testinvi.TweetinviControllers.MessageTests
         {
             // Arrange
             var queryValidator = CreateMessageQueryValidator();
-            var parameter = A.Fake<IPublishMessageParameters>();
-            parameter.CallsTo(x => x.Text).Returns(TestHelper.GenerateString());
+            var parameters = A.Fake<IPublishMessageParameters>();
+            A.CallTo(() => parameters.Text).Returns(TestHelper.GenerateString());
 
             // Act
-            queryValidator.ThrowIfMessageCannotBePublished(parameter);
+            queryValidator.ThrowIfMessageCannotBePublished(parameters);
         }
 
         [TestMethod]
@@ -90,12 +89,12 @@ namespace Testinvi.TweetinviControllers.MessageTests
         {
             // Arrange
             var queryValidator = CreateMessageQueryValidator();
-            var parameter = A.Fake<IPublishMessageParameters>();
-            parameter.CallsTo(x => x.Text).Returns(TestHelper.GenerateString());
-            parameter.CallsTo(x => x.RecipientId).Returns(TestHelper.GenerateRandomLong());
+            var parameters = A.Fake<IPublishMessageParameters>();
+            A.CallTo(() => parameters.Text).Returns(TestHelper.GenerateString());
+            A.CallTo(() => parameters.RecipientId).Returns(TestHelper.GenerateRandomLong());
 
             // Act
-            queryValidator.ThrowIfMessageCannotBePublished(parameter);
+            queryValidator.ThrowIfMessageCannotBePublished(parameters);
 
             // No exception thrown
         }
@@ -104,7 +103,7 @@ namespace Testinvi.TweetinviControllers.MessageTests
         {
             string text = doesTextExists ? textContainsChars ? TestHelper.GenerateString() : string.Empty : null;
 
-            parameters.CallsTo(x => x.Text).Returns(text);
+            A.CallTo(() => parameters.Text).Returns(text);
         }
 
         #endregion
@@ -219,10 +218,11 @@ namespace Testinvi.TweetinviControllers.MessageTests
         {
             var messageDTO = A.Fake<IEventDTO>();
             messageDTO.Type = EventType.MessageCreate;
-            messageDTO.MessageCreate = A.Fake<IMessageCreateDTO>();
 
-            messageDTO.MessageCreate.CallsTo(x => x.IsDestroyed).Returns(isDestroyed);
+            var messageCreateDTO = A.Fake<IMessageCreateDTO>();
+            A.CallTo(() => messageCreateDTO.IsDestroyed).Returns(isDestroyed);
 
+            messageDTO.MessageCreate = messageCreateDTO;
             return messageDTO;
         }
 

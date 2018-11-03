@@ -10,34 +10,27 @@ namespace Testinvi.SetupHelpers
         public const string USER_ID_PARAMETER = "user_id={0}";
         public const string SCREEN_NAME_PARAMETER = "screen_name={0}";
 
-        public static void ArrangeGenerateIdParameter(this Fake<IUserQueryParameterGenerator> userQueryGenerator, string result = null)
+        public static void ArrangeGenerateIdParameter(this IUserQueryParameterGenerator userQueryGenerator, string result = null)
         {
-            userQueryGenerator
-                .CallsTo(x => x.GenerateUserIdParameter(A<long>.Ignored, A<string>.Ignored))
+            A.CallTo(() => userQueryGenerator.GenerateUserIdParameter(A<long>.Ignored, A<string>.Ignored))
                 .ReturnsLazily((long userId, string parameterName) =>
-                {
-                    return result ?? GenerateParameterExpectedResult(userId, parameterName);
-                });
+                    result ?? GenerateParameterExpectedResult(userId, parameterName));
         }
 
-        public static void ArrangeGenerateScreenNameParameter(this Fake<IUserQueryParameterGenerator> userQueryGenerator, string result = null)
+        public static void ArrangeGenerateScreenNameParameter(this IUserQueryParameterGenerator userQueryGenerator, string result = null)
         {
-            userQueryGenerator
-                .CallsTo(x => x.GenerateScreenNameParameter(A<string>.Ignored, A<string>.Ignored))
+            A.CallTo(() => userQueryGenerator.GenerateScreenNameParameter(A<string>.Ignored, A<string>.Ignored))
                 .ReturnsLazily((string screenName, string parameterName) =>
-                {
-                    return result ?? GenerateParameterExpectedResult(screenName, parameterName);
-                });
+                    result ?? GenerateParameterExpectedResult(screenName, parameterName));
         }
 
-        public static void ArrangeGenerateIdOrScreenNameParameter(this Fake<IUserQueryParameterGenerator> userQueryGenerator, string result = null)
+        public static void ArrangeGenerateIdOrScreenNameParameter(this IUserQueryParameterGenerator userQueryGenerator, string result = null)
         {
-            userQueryGenerator
-                .CallsTo(x => x.GenerateIdOrScreenNameParameter(A<IUserIdentifier>.Ignored, A<string>.Ignored, A<string>.Ignored))
+            A.CallTo(() =>
+                    userQueryGenerator.GenerateIdOrScreenNameParameter(A<IUserIdentifier>.Ignored, A<string>.Ignored,
+                        A<string>.Ignored))
                 .ReturnsLazily((IUserIdentifier screenName, string idParameterName, string screenNameParameterName) =>
-                {
-                    return result ?? GenerateParameterExpectedResult(screenName, idParameterName, screenNameParameterName);
-                });
+                    result ?? GenerateParameterExpectedResult(screenName, idParameterName, screenNameParameterName));
         }
         
         public static string GenerateParameterExpectedResult(long userId, string parameterName = "user_id")

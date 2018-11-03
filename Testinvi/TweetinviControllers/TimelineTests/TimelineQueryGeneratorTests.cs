@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Text;
 using FakeItEasy;
-using FakeItEasy.ExtensionSyntax.Full;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Testinvi.Helpers;
 using Testinvi.SetupHelpers;
@@ -20,20 +19,19 @@ namespace Testinvi.TweetinviControllers.TimelineTests
     public class TimelineQueryGeneratorTests
     {
         private FakeClassBuilder<TimelineQueryGenerator> _fakeBuilder;
-        private Fake<IUserQueryValidator> _fakeUserQueryValidator;
-        private Fake<IUserQueryParameterGenerator> _fakeUserQueryParameterGenerator;
-        private Fake<IQueryParameterGenerator> _fakeQueryParameterGenerator;
-        private Fake<ITimelineQueryParameterGenerator> _fakeTimelineQueryParameterGenerator;
 
-        private IHomeTimelineParameters _fakeHomeTimelineParameters;
-        private IUserTimelineQueryParameters _fakeUserTimelineQueryParameters;
-        private IMentionsTimelineParameters _fakeMentionsTimelineParameters;
-
-        private IUserTimelineParameters _fakeUserTimelineParameters;
+        private IUserQueryValidator _userQueryValidator;
+        private IUserQueryParameterGenerator _userQueryParameterGenerator;
+        private IQueryParameterGenerator _queryParameterGenerator;
+        private ITimelineQueryParameterGenerator _timelineQueryParameterGenerator;
+        private IHomeTimelineParameters _homeTimelineParameters;
+        private IUserTimelineParameters _userTimelineParameters;
+        private IUserTimelineQueryParameters _userTimelineQueryParameters;
+        private IMentionsTimelineParameters _mentionsTimelineParameters;
 
         private int _maximumNumberOfTweetsParameterValue;
 
-        private IUserIdentifier _fakeUserIdentifier;
+        private IUserIdentifier _userIdentifier;
         private string _userParameter;
         private string _includeRTSParameter;
         private string _excludeRepliesParameter;
@@ -52,45 +50,58 @@ namespace Testinvi.TweetinviControllers.TimelineTests
         public void TestInitialize()
         {
             _fakeBuilder = new FakeClassBuilder<TimelineQueryGenerator>();
-            _fakeUserQueryParameterGenerator = _fakeBuilder.GetFake<IUserQueryParameterGenerator>();
-            _fakeQueryParameterGenerator = _fakeBuilder.GetFake<IQueryParameterGenerator>();
-            _fakeUserQueryValidator = _fakeBuilder.GetFake<IUserQueryValidator>();
+            _userQueryParameterGenerator = _fakeBuilder.GetFake<IUserQueryParameterGenerator>().FakedObject;
+            _queryParameterGenerator = _fakeBuilder.GetFake<IQueryParameterGenerator>().FakedObject;
+            _userQueryValidator = _fakeBuilder.GetFake<IUserQueryValidator>().FakedObject;
             
-            _fakeTimelineQueryParameterGenerator = _fakeBuilder.GetFake<ITimelineQueryParameterGenerator>();
+            _timelineQueryParameterGenerator = _fakeBuilder.GetFake<ITimelineQueryParameterGenerator>().FakedObject;
 
             Init();
 
-            _fakeTimelineQueryParameterGenerator.CallsTo(x => x.GenerateExcludeRepliesParameter(It.IsAny<bool>())).Returns(_excludeRepliesParameter);
-            _fakeTimelineQueryParameterGenerator.CallsTo(x => x.GenerateIncludeContributorDetailsParameter(It.IsAny<bool>())).Returns(_includeContributorDetailsParameter);
+            A.CallTo(() => _timelineQueryParameterGenerator.GenerateExcludeRepliesParameter(It.IsAny<bool>()))
+                .Returns(_excludeRepliesParameter);
+            A.CallTo(
+                    () => _timelineQueryParameterGenerator.GenerateIncludeContributorDetailsParameter(It.IsAny<bool>()))
+                .Returns(_includeContributorDetailsParameter);
 
-            _fakeUserQueryParameterGenerator.CallsTo(x => x.GenerateIdOrScreenNameParameter(_fakeUserIdentifier, "user_id", "screen_name")).Returns(_userParameter);
-            _fakeTimelineQueryParameterGenerator.CallsTo(x => x.GenerateIncludeRTSParameter(It.IsAny<bool>())).Returns(_includeRTSParameter);
-            
-            _fakeQueryParameterGenerator.CallsTo(x => x.GenerateCountParameter(_maximumNumberOfTweetsParameterValue)).Returns(_maximumNumberOfTweetsParameter);
-            _fakeQueryParameterGenerator.CallsTo(x => x.GenerateTrimUserParameter(It.IsAny<bool>())).Returns(_trimUserParameter);
-            _fakeQueryParameterGenerator.CallsTo(x => x.GenerateSinceIdParameter(It.IsAny<long>())).Returns(_sinceIdParameter);
-            _fakeQueryParameterGenerator.CallsTo(x => x.GenerateMaxIdParameter(It.IsAny<long>())).Returns(_maxIdParameter);
-            _fakeQueryParameterGenerator.CallsTo(x => x.GenerateIncludeEntitiesParameter(It.IsAny<bool>())).Returns(_includeDetailsParameter);
+            A.CallTo(() =>
+                    _userQueryParameterGenerator.GenerateIdOrScreenNameParameter(_userIdentifier, "user_id",
+                        "screen_name"))
+                .Returns(_userParameter);
+            A.CallTo(() => _timelineQueryParameterGenerator.GenerateIncludeRTSParameter(It.IsAny<bool>()))
+                .Returns(_includeRTSParameter);
+
+            A.CallTo(() => _queryParameterGenerator.GenerateCountParameter(_maximumNumberOfTweetsParameterValue))
+                .Returns(_maximumNumberOfTweetsParameter);
+            A.CallTo(() => _queryParameterGenerator.GenerateTrimUserParameter(It.IsAny<bool>()))
+                .Returns(_trimUserParameter);
+            A.CallTo(() => _queryParameterGenerator.GenerateSinceIdParameter(It.IsAny<long>()))
+                .Returns(_sinceIdParameter);
+            A.CallTo(() => _queryParameterGenerator.GenerateMaxIdParameter(It.IsAny<long>())).Returns(_maxIdParameter);
+            A.CallTo(() => _queryParameterGenerator.GenerateIncludeEntitiesParameter(It.IsAny<bool>()))
+                .Returns(_includeDetailsParameter);
         }
 
         private void Init()
         {
             _maximumNumberOfTweetsParameterValue = TestHelper.GenerateRandomInt();
-            _fakeUserIdentifier = A.Fake<IUserIdentifier>();
+            _userIdentifier = A.Fake<IUserIdentifier>();
 
-            _fakeHomeTimelineParameters = A.Fake<IHomeTimelineParameters>();
-            _fakeHomeTimelineParameters.CallsTo(x => x.MaximumNumberOfTweetsToRetrieve).Returns(_maximumNumberOfTweetsParameterValue);
+            _homeTimelineParameters = A.Fake<IHomeTimelineParameters>();
+            A.CallTo(() => _homeTimelineParameters.MaximumNumberOfTweetsToRetrieve).Returns(_maximumNumberOfTweetsParameterValue);
 
 
-            _fakeUserTimelineParameters = A.Fake<IUserTimelineParameters>();
-            _fakeUserTimelineParameters.CallsTo(x => x.MaximumNumberOfTweetsToRetrieve).Returns(_maximumNumberOfTweetsParameterValue);
+            _userTimelineParameters = A.Fake<IUserTimelineParameters>();
+            A.CallTo(() => _userTimelineParameters.MaximumNumberOfTweetsToRetrieve)
+                .Returns(_maximumNumberOfTweetsParameterValue);
             
-            _fakeUserTimelineQueryParameters = A.Fake<IUserTimelineQueryParameters>();
-            _fakeUserTimelineQueryParameters.CallsTo(x => x.Parameters).Returns(_fakeUserTimelineParameters);
-            _fakeUserTimelineQueryParameters.CallsTo(x => x.UserIdentifier).Returns(_fakeUserIdentifier);
+            _userTimelineQueryParameters = A.Fake<IUserTimelineQueryParameters>();
+            A.CallTo(() => _userTimelineQueryParameters.Parameters).Returns(_userTimelineParameters);
+            A.CallTo(() => _userTimelineQueryParameters.UserIdentifier).Returns(_userIdentifier);
 
-            _fakeMentionsTimelineParameters = A.Fake<IMentionsTimelineParameters>();
-            _fakeMentionsTimelineParameters.CallsTo(x => x.MaximumNumberOfTweetsToRetrieve).Returns(_maximumNumberOfTweetsParameterValue);
+            _mentionsTimelineParameters = A.Fake<IMentionsTimelineParameters>();
+            A.CallTo(() => _mentionsTimelineParameters.MaximumNumberOfTweetsToRetrieve)
+                .Returns(_maximumNumberOfTweetsParameterValue);
 
             _userParameter = TestHelper.GenerateString();
             _includeRTSParameter = TestHelper.GenerateString();
@@ -128,7 +139,7 @@ namespace Testinvi.TweetinviControllers.TimelineTests
             var queryGenerator = CreateTimelineQueryGenerator();
 
             // Act
-            var result = queryGenerator.GetHomeTimelineQuery(_fakeHomeTimelineParameters);
+            var result = queryGenerator.GetHomeTimelineQuery(_homeTimelineParameters);
 
             // Assert
             Assert.AreEqual(result, _expectedTimelineQuery);
@@ -163,15 +174,15 @@ namespace Testinvi.TweetinviControllers.TimelineTests
         {
             // Arrange
             var queryGenerator = CreateTimelineQueryGenerator();
-            _fakeUserQueryValidator.ArrangeCanUserBeIdentified(_fakeUserIdentifier, true);
+            _userQueryValidator.ArrangeCanUserBeIdentified(_userIdentifier, true);
 
             // Act
-            var result = queryGenerator.GetUserTimelineQuery(_fakeUserTimelineQueryParameters);
+            var result = queryGenerator.GetUserTimelineQuery(_userTimelineQueryParameters);
 
             // Assert
             Assert.AreEqual(result, _expectedUserTimelineQuery);
 
-            _fakeUserQueryValidator.CallsTo(x => x.ThrowIfUserCannotBeIdentified(_fakeUserIdentifier)).MustHaveHappened();
+            A.CallTo(() => _userQueryValidator.ThrowIfUserCannotBeIdentified(_userIdentifier)).MustHaveHappened();
         }
 
         #endregion
@@ -185,7 +196,7 @@ namespace Testinvi.TweetinviControllers.TimelineTests
             var queryGenerator = CreateTimelineQueryGenerator();
 
             // Act
-            var result = queryGenerator.GetMentionsTimelineQuery(_fakeMentionsTimelineParameters);
+            var result = queryGenerator.GetMentionsTimelineQuery(_mentionsTimelineParameters);
 
             // Assert
             Assert.AreEqual(result, _expectedMentionsTimelineQuery);

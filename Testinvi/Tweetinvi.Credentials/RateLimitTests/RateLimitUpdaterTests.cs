@@ -1,5 +1,4 @@
 ﻿using FakeItEasy;
-using FakeItEasy.ExtensionSyntax.Full;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Testinvi.Helpers;
 using Tweetinvi.Core.Credentials;
@@ -15,8 +14,8 @@ namespace Testinvi.Tweetinvi.Credentials.RateLimitTests
         private const string TEST_QUERY = "This is a test!";
 
         private FakeClassBuilder<RateLimitUpdater> _fakeBuilder;
-        private Fake<IRateLimitCacheManager> _fakeRateLimitCacheManager;
-        private Fake<ICredentialsAccessor> _fakeCredentialsAccessor;
+        private IRateLimitCacheManager _rateLimitCacheManager;
+        private ICredentialsAccessor _credentialsAccessor;
 
         private IEndpointRateLimit _endpointRateLimit;
         private ITwitterCredentials _credentials;
@@ -25,13 +24,14 @@ namespace Testinvi.Tweetinvi.Credentials.RateLimitTests
         public void TestInitialize()
         {
             _fakeBuilder = new FakeClassBuilder<RateLimitUpdater>();
-            _fakeRateLimitCacheManager = _fakeBuilder.GetFake<IRateLimitCacheManager>();
-            _fakeCredentialsAccessor = _fakeBuilder.GetFake<ICredentialsAccessor>();
+            _rateLimitCacheManager = _fakeBuilder.GetFake<IRateLimitCacheManager>().FakedObject;
+            _credentialsAccessor = _fakeBuilder.GetFake<ICredentialsAccessor>().FakedObject;
 
             InitializeData();
 
-            _fakeRateLimitCacheManager.CallsTo(x => x.GetQueryRateLimit(TEST_QUERY, _credentials)).Returns(_endpointRateLimit);
-            _fakeCredentialsAccessor.CallsTo(x => x.CurrentThreadCredentials).Returns(_credentials);
+            A.CallTo(() => _rateLimitCacheManager.GetQueryRateLimit(TEST_QUERY, _credentials))
+                .Returns(_endpointRateLimit);
+            A.CallTo(() => _credentialsAccessor.CurrentThreadCredentials).Returns(_credentials);
         }
 
         [TestMethod]
@@ -39,7 +39,7 @@ namespace Testinvi.Tweetinvi.Credentials.RateLimitTests
         {
             // Arrange
             var cacheUpdater = CreateRateLimitUpdater();
-            _fakeRateLimitCacheManager.CallsTo(x => x.GetQueryRateLimit(TEST_QUERY, _credentials)).Returns(null);
+            A.CallTo(() => _rateLimitCacheManager.GetQueryRateLimit(TEST_QUERY, _credentials)).Returns(null);
 
             // Act
             cacheUpdater.QueryExecuted(TEST_QUERY);
@@ -53,7 +53,7 @@ namespace Testinvi.Tweetinvi.Credentials.RateLimitTests
         {
             // Arrange
             var cacheUpdater = CreateRateLimitUpdater();
-            _fakeRateLimitCacheManager.CallsTo(x => x.GetQueryRateLimit(TEST_QUERY, _credentials)).Returns(null);
+            A.CallTo(() => _rateLimitCacheManager.GetQueryRateLimit(TEST_QUERY, _credentials)).Returns(null);
 
             // Act
             cacheUpdater.QueryExecuted(TEST_QUERY, _credentials);
@@ -93,7 +93,7 @@ namespace Testinvi.Tweetinvi.Credentials.RateLimitTests
         {
             // Arrange
             var cacheUpdater = CreateRateLimitUpdater();
-            _endpointRateLimit.CallsTo(x => x.Remaining).Returns(2);
+            _endpointRateLimit.Remaining = 2;
 
             // Act
             cacheUpdater.QueryExecuted(TEST_QUERY, _credentials, 3);
@@ -107,7 +107,7 @@ namespace Testinvi.Tweetinvi.Credentials.RateLimitTests
         {
             // Arrange
             var cacheUpdater = CreateRateLimitUpdater();
-            _endpointRateLimit.CallsTo(x => x.Remaining).Returns(0);
+            A.CallTo(() => _endpointRateLimit.Remaining).Returns(0);
 
             // Act
             cacheUpdater.QueryExecuted(TEST_QUERY, _credentials);
@@ -133,7 +133,7 @@ namespace Testinvi.Tweetinvi.Credentials.RateLimitTests
         {
             _credentials = A.Fake<ITwitterCredentials>();
             _endpointRateLimit = A.Fake<IEndpointRateLimit>();
-            _endpointRateLimit.CallsTo(x => x.Remaining).Returns(5);
+            _endpointRateLimit.Remaining = 5;
         }
 
         public RateLimitUpdater CreateRateLimitUpdater()

@@ -10,20 +10,20 @@ namespace Testinvi.SetupHelpers
     [ExcludeFromCodeCoverage]
     public static class CredentialsAccessorHelper
     {
-        public static void SetupPassThrough(this Fake<ICredentialsAccessor> fakeCredentialsAccessor)
+        public static void SetupPassThrough(this ICredentialsAccessor credentialsAccessor)
         {
-            fakeCredentialsAccessor
-                .CallsTo(x => x.ExecuteOperationWithCredentials(It.IsAny<ITwitterCredentials>(), It.IsAny<Action>()))
+            A.CallTo(() => credentialsAccessor.ExecuteOperationWithCredentials(It.IsAny<ITwitterCredentials>(), It.IsAny<Action>()))
                 .Invokes(x =>
                 {
                     x.Arguments.Get<Action>(1).Invoke();
                 });
         }
 
-        public static void SetupPassThrough<T>(this Fake<ICredentialsAccessor> fakeCredentialsAccessor) where T : class 
+        public static void SetupPassThrough<T>(this ICredentialsAccessor credentialsAccessor) where T : class 
         {
-            fakeCredentialsAccessor
-                .CallsTo(x => x.ExecuteOperationWithCredentials(It.IsAny<ITwitterCredentials>(), It.IsAny<Func<T>>()))
+            A.CallTo(() =>
+                    credentialsAccessor.ExecuteOperationWithCredentials(It.IsAny<ITwitterCredentials>(),
+                        It.IsAny<Func<T>>()))
                 .ReturnsLazily((ITwitterCredentials cred, Func<T> f) => f());
         }
     }

@@ -13,15 +13,15 @@ namespace Testinvi.TweetinviControllers.HelpTests
     public class HelpJsonControllerTests
     {
         private FakeClassBuilder<HelpJsonController> _fakeBuilder;
-        private Fake<IHelpQueryGenerator> _fakeHelpQueryGenerator;
-        private Fake<ITwitterAccessor> _fakeTwitterAccessor;
+        private IHelpQueryGenerator _helpQueryGenerator;
+        private ITwitterAccessor _twitterAccessor;
 
         [TestInitialize]
         public void TestInitialize()
         {
             _fakeBuilder = new FakeClassBuilder<HelpJsonController>();
-            _fakeHelpQueryGenerator = _fakeBuilder.GetFake<IHelpQueryGenerator>();
-            _fakeTwitterAccessor = _fakeBuilder.GetFake<ITwitterAccessor>();
+            _helpQueryGenerator = _fakeBuilder.GetFake<IHelpQueryGenerator>().FakedObject;
+            _twitterAccessor = _fakeBuilder.GetFake<ITwitterAccessor>().FakedObject;
         }
 
         [TestMethod]
@@ -34,7 +34,7 @@ namespace Testinvi.TweetinviControllers.HelpTests
             string query = Guid.NewGuid().ToString();
 
             ArrangeQueryGeneratorGetTokenRateLimits(query);
-            _fakeTwitterAccessor.ArrangeExecuteJsonGETQuery(query, expectedResult);
+            _twitterAccessor.ArrangeExecuteJsonGETQuery(query, expectedResult);
 
             // Act
             var result = jsonController.GetCredentialsRateLimits();
@@ -45,9 +45,7 @@ namespace Testinvi.TweetinviControllers.HelpTests
 
         private void ArrangeQueryGeneratorGetTokenRateLimits(string query)
         {
-            _fakeHelpQueryGenerator
-                .CallsTo(x => x.GetCredentialsLimitsQuery())
-                .Returns(query);
+            A.CallTo(() => _helpQueryGenerator.GetCredentialsLimitsQuery()).Returns(query);
         }
 
         [TestMethod]
@@ -60,7 +58,7 @@ namespace Testinvi.TweetinviControllers.HelpTests
             string query = Guid.NewGuid().ToString();
 
             ArrangeQueryGeneratorGetTwitterPrivacyPolicy(query);
-            _fakeTwitterAccessor.ArrangeExecuteJsonGETQuery(query, expectedResult);
+            _twitterAccessor.ArrangeExecuteJsonGETQuery(query, expectedResult);
 
             // Act
             var result = jsonController.GetTwitterPrivacyPolicy();
@@ -71,9 +69,7 @@ namespace Testinvi.TweetinviControllers.HelpTests
 
         private void ArrangeQueryGeneratorGetTwitterPrivacyPolicy(string query)
         {
-            _fakeHelpQueryGenerator
-                .CallsTo(x => x.GetTwitterPrivacyPolicyQuery())
-                .Returns(query);
+            A.CallTo(() => _helpQueryGenerator.GetTwitterPrivacyPolicyQuery()).Returns(query);
         }
 
         public HelpJsonController CreateHelpJsonController()

@@ -13,15 +13,15 @@ namespace Testinvi.TweetinviControllers.GeoTests
     public class GeoQueryExecutorTests
     {
         private FakeClassBuilder<GeoQueryExecutor> _fakeBuilder;
-        private Fake<IGeoQueryGenerator> _fakeGeoQueryGenerator;
-        private Fake<ITwitterAccessor> _fakeTwitterAccessor;
+        private IGeoQueryGenerator _geoQueryGenerator;
+        private ITwitterAccessor _twitterAccessor;
 
         [TestInitialize]
         public void TestInitialize()
         {
             _fakeBuilder = new FakeClassBuilder<GeoQueryExecutor>();
-            _fakeGeoQueryGenerator = _fakeBuilder.GetFake<IGeoQueryGenerator>();
-            _fakeTwitterAccessor = _fakeBuilder.GetFake<ITwitterAccessor>();
+            _geoQueryGenerator = _fakeBuilder.GetFake<IGeoQueryGenerator>().FakedObject;
+            _twitterAccessor = _fakeBuilder.GetFake<ITwitterAccessor>().FakedObject;
         }
 
         [TestMethod]
@@ -36,7 +36,7 @@ namespace Testinvi.TweetinviControllers.GeoTests
             string query = Guid.NewGuid().ToString();
 
             ArrangeGetPlaceFromIdQueryGenerator(placeId, query);
-            _fakeTwitterAccessor.ArrangeExecuteGETQuery(query, expectedResult);
+            _twitterAccessor.ArrangeExecuteGETQuery(query, expectedResult);
 
             // Act
             var result = controller.GetPlaceFromId(placeId);
@@ -47,9 +47,7 @@ namespace Testinvi.TweetinviControllers.GeoTests
 
         private void ArrangeGetPlaceFromIdQueryGenerator(string placeId, string result)
         {
-            _fakeGeoQueryGenerator
-                .CallsTo(x => x.GetPlaceFromIdQuery(placeId))
-                .Returns(result);
+            A.CallTo(() => _geoQueryGenerator.GetPlaceFromIdQuery(placeId)).Returns(result);
         }
 
         public GeoQueryExecutor CreateGeoQueryExecutor()

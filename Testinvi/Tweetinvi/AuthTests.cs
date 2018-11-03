@@ -13,27 +13,19 @@ namespace Testinvi.Tweetinvi
         public void ThreadCredentialsSetCorrectly()
         {
             // Arrange
-            var credentials1 = Auth.CreateCredentials(
-                ConfigurationManager.AppSettings["token_AccessToken"],
-                ConfigurationManager.AppSettings["token_AccessTokenSecret"],
-                ConfigurationManager.AppSettings["token_ConsumerKey"],
-                ConfigurationManager.AppSettings["token_ConsumerSecret"]);
-
-            var credentials2 = Auth.CreateCredentials(
-                ConfigurationManager.AppSettings["token2_AccessToken"],
-                ConfigurationManager.AppSettings["token2_AccessTokenSecret"],
-                ConfigurationManager.AppSettings["token2_ConsumerKey"],
-                ConfigurationManager.AppSettings["token2_ConsumerSecret"]);
+            var credentials1 = Auth.CreateCredentials("a", "a", "a", "a");
+            var credentials2 = Auth.CreateCredentials("b", "b", "b", "b");
 
             bool credentials2Set = false;
             bool thread1Initialized = false;
 
             // Act
-            Auth.Credentials = credentials1;
+            Auth.Credentials = credentials1; // Very first set thread credentials will also set application-wide, which is the default for any new thread
             AssertAreCredentialsEquals(Auth.Credentials, credentials1);
 
             var thread = new Thread(() =>
             {
+                // New thread should get the application-wide credentials
                 AssertAreCredentialsEquals(Auth.Credentials, credentials1);
                 thread1Initialized = true;
 
@@ -60,9 +52,11 @@ namespace Testinvi.Tweetinvi
 
             Thread t2 = new Thread(() =>
             {
-                AssertAreCredentialsEquals(Auth.Credentials, credentials2);
-                Auth.Credentials = credentials1;
+                // New thread should get the application-wide credentials
                 AssertAreCredentialsEquals(Auth.Credentials, credentials1);
+
+                Auth.Credentials = credentials2;
+                AssertAreCredentialsEquals(Auth.Credentials, credentials2);
             });
 
             t2.Start();
@@ -72,7 +66,7 @@ namespace Testinvi.Tweetinvi
 
             thread.Join();
 
-            AssertAreCredentialsEquals(Auth.Credentials, credentials1);
+            AssertAreCredentialsEquals(Auth.Credentials, credentials2);
         }
 
         [TestMethod]

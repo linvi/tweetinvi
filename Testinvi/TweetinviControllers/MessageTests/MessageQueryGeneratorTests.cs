@@ -1,6 +1,5 @@
 ﻿using System;
 using FakeItEasy;
-using FakeItEasy.ExtensionSyntax.Full;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Testinvi.Helpers;
 using Testinvi.SetupHelpers;
@@ -35,21 +34,21 @@ namespace Testinvi.TweetinviControllers.MessageTests
             var text = TestHelper.GenerateString();
             var userId = TestHelper.GenerateRandomLong();
 
-            var parameter = A.Fake<IPublishMessageParameters>();
+            var parameters = A.Fake<IPublishMessageParameters>();
 
-            parameter.CallsTo(x => x.Text).Returns(text);
-            parameter.CallsTo(x => x.RecipientId).Returns(userId);
+            A.CallTo(() => parameters.Text).Returns(text);
+            A.CallTo(() => parameters.RecipientId).Returns(userId);
 
             // Arrange
             var queryGenerator = CreateMessageQueryGenerator();
 
             // Act
-            var result = queryGenerator.GetPublishMessageQuery(parameter);
+            var result = queryGenerator.GetPublishMessageQuery(parameters);
 
             // Assert - query string should be just the URL. Parameters are sent in the body of the request
             Assert.AreEqual(result, Resources.Message_NewMessage);
 
-            _fakeMessageQueryValidator.CallsTo(x => x.ThrowIfMessageCannotBePublished(parameter)).MustHaveHappened();
+            _fakeMessageQueryValidator.CallsTo(x => x.ThrowIfMessageCannotBePublished(parameters)).MustHaveHappened();
         }
 
         #endregion
@@ -63,7 +62,7 @@ namespace Testinvi.TweetinviControllers.MessageTests
             var messageId = TestHelper.GenerateRandomLong();
             var queryGenerator = CreateMessageQueryGenerator();
             var eventDTO = A.Fake<IEventDTO>();
-            eventDTO.CallsTo(x => x.Id).Returns(messageId);
+            A.CallTo(() => eventDTO.Id).Returns(messageId);
 
             // Act
             var result = queryGenerator.GetDestroyMessageQuery(eventDTO);

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using FakeItEasy;
-using FakeItEasy.ExtensionSyntax.Full;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Testinvi.Helpers;
 using Tweetinvi.Controllers.Tweet;
@@ -15,15 +14,16 @@ namespace Testinvi.TweetinviControllers.TweetTests
     public class TweetControllerTests
     {
         private FakeClassBuilder<TweetController> _fakeBuilder;
-        private Fake<ITweetQueryExecutor> _fakeTweetQueryExecutor;
-        private Fake<ITweetFactory> _fakeTweetFactory;
+
+        private ITweetQueryExecutor _tweetQueryExecutor;
+        private ITweetFactory _tweetFactory;
 
         [TestInitialize]
         public void TestInitialize()
         {
             _fakeBuilder = new FakeClassBuilder<TweetController>();
-            _fakeTweetQueryExecutor = _fakeBuilder.GetFake<ITweetQueryExecutor>();
-            _fakeTweetFactory = _fakeBuilder.GetFake<ITweetFactory>();
+            _tweetQueryExecutor = _fakeBuilder.GetFake<ITweetQueryExecutor>().FakedObject;
+            _tweetFactory = _fakeBuilder.GetFake<ITweetFactory>().FakedObject;
         }
 
         #region Publish Retweet
@@ -48,8 +48,8 @@ namespace Testinvi.TweetinviControllers.TweetTests
             var expectedTweetDTO = A.Fake<ITweetDTO>();
             var expectedTweet = A.Fake<ITweet>();
 
-            _fakeTweetQueryExecutor.CallsTo(x => x.PublishRetweet(null)).Returns(expectedTweetDTO);
-            _fakeTweetFactory.CallsTo(x => x.GenerateTweetFromDTO(expectedTweetDTO, null)).Returns(expectedTweet);
+            A.CallTo(() => _tweetQueryExecutor.PublishRetweet(null)).Returns(expectedTweetDTO);
+            A.CallTo(() => _tweetFactory.GenerateTweetFromDTO(expectedTweetDTO, null)).Returns(expectedTweet);
 
             // Act
             var result = controller.PublishRetweet(tweet);
@@ -68,8 +68,8 @@ namespace Testinvi.TweetinviControllers.TweetTests
             var expectedTweetDTO = A.Fake<ITweetDTO>();
             var expectedTweet = A.Fake<ITweet>();
 
-            _fakeTweetQueryExecutor.CallsTo(x => x.PublishRetweet(tweetDTO)).Returns(expectedTweetDTO);
-            _fakeTweetFactory.CallsTo(x => x.GenerateTweetFromDTO(expectedTweetDTO, null)).Returns(expectedTweet);
+            A.CallTo(() => _tweetQueryExecutor.PublishRetweet(tweetDTO)).Returns(expectedTweetDTO);
+            A.CallTo(() => _tweetFactory.GenerateTweetFromDTO(expectedTweetDTO, null)).Returns(expectedTweet);
 
             // Act
             var result = controller.PublishRetweet(tweet);
@@ -86,8 +86,8 @@ namespace Testinvi.TweetinviControllers.TweetTests
             var expectedTweetDTO = A.Fake<ITweetDTO>();
             var expectedTweet = A.Fake<ITweet>();
 
-            _fakeTweetQueryExecutor.CallsTo(x => x.PublishRetweet(null)).Returns(expectedTweetDTO);
-            _fakeTweetFactory.CallsTo(x => x.GenerateTweetFromDTO(expectedTweetDTO, null)).Returns(expectedTweet);
+            A.CallTo(() => _tweetQueryExecutor.PublishRetweet(null)).Returns(expectedTweetDTO);
+            A.CallTo(() => _tweetFactory.GenerateTweetFromDTO(expectedTweetDTO, null)).Returns(expectedTweet);
 
             // Act
             var result = controller.PublishRetweet((ITweetDTO)null);
@@ -105,8 +105,8 @@ namespace Testinvi.TweetinviControllers.TweetTests
             var expectedTweetDTO = A.Fake<ITweetDTO>();
             var expectedTweet = A.Fake<ITweet>();
 
-            _fakeTweetQueryExecutor.CallsTo(x => x.PublishRetweet(tweetDTO)).Returns(expectedTweetDTO);
-            _fakeTweetFactory.CallsTo(x => x.GenerateTweetFromDTO(expectedTweetDTO, null)).Returns(expectedTweet);
+            A.CallTo(() => _tweetQueryExecutor.PublishRetweet(tweetDTO)).Returns(expectedTweetDTO);
+            A.CallTo(() => _tweetFactory.GenerateTweetFromDTO(expectedTweetDTO, null)).Returns(expectedTweet);
 
             // Act
             var result = controller.PublishRetweet(tweetDTO);
@@ -124,8 +124,8 @@ namespace Testinvi.TweetinviControllers.TweetTests
             var expectedTweetDTO = A.Fake<ITweetDTO>();
             var expectedTweet = A.Fake<ITweet>();
 
-            _fakeTweetQueryExecutor.CallsTo(x => x.PublishRetweet(tweetId)).Returns(expectedTweetDTO);
-            _fakeTweetFactory.CallsTo(x => x.GenerateTweetFromDTO(expectedTweetDTO, null)).Returns(expectedTweet);
+            A.CallTo(() => _tweetQueryExecutor.PublishRetweet(tweetId)).Returns(expectedTweetDTO);
+            A.CallTo(() => _tweetFactory.GenerateTweetFromDTO(expectedTweetDTO, null)).Returns(expectedTweet);
 
             // Act
             var result = controller.PublishRetweet(tweetId);
@@ -148,8 +148,8 @@ namespace Testinvi.TweetinviControllers.TweetTests
             var expectedTweets = new ITweet [] { A.Fake<ITweet>() };
             var maxRetweetsToRetrieve = TestHelper.GenerateRandomInt();
 
-            _fakeTweetQueryExecutor.CallsTo(x => x.GetRetweets(tweetDTO, maxRetweetsToRetrieve)).Returns(expectedTweetsDTO);
-            _fakeTweetFactory.CallsTo(x => x.GenerateTweetsFromDTO(expectedTweetsDTO, null)).Returns(expectedTweets);
+            A.CallTo(() => _tweetQueryExecutor.GetRetweets(tweetDTO, maxRetweetsToRetrieve)).Returns(expectedTweetsDTO);
+            A.CallTo(() => _tweetFactory.GenerateTweetsFromDTO(expectedTweetsDTO, null)).Returns(expectedTweets);
 
             // Act
             var result = controller.GetRetweets(tweetDTO, maxRetweetsToRetrieve);
@@ -168,8 +168,10 @@ namespace Testinvi.TweetinviControllers.TweetTests
             IEnumerable<ITweetDTO> expectedTweetsDTO = new List<ITweetDTO> { A.Fake<ITweetDTO>() };
             IEnumerable<ITweet> expectedTweets = new List<ITweet> { A.Fake<ITweet>() };
 
-            _fakeTweetQueryExecutor.CallsTo(x => x.GetRetweets(A<ITweetIdentifier>.That.Matches(y => y.Id == tweetId), maxRetweetsToRetrieve)).Returns(expectedTweetsDTO);
-            _fakeTweetFactory.CallsTo(x => x.GenerateTweetsFromDTO(expectedTweetsDTO, null)).Returns(expectedTweets);
+            A.CallTo(() =>
+                _tweetQueryExecutor.GetRetweets(A<ITweetIdentifier>.That.Matches(y => y.Id == tweetId),
+                    maxRetweetsToRetrieve)).Returns(expectedTweetsDTO);
+            A.CallTo(() => _tweetFactory.GenerateTweetsFromDTO(expectedTweetsDTO, null)).Returns(expectedTweets);
 
             // Act
             var result = controller.GetRetweets(tweetId, maxRetweetsToRetrieve);
@@ -191,7 +193,8 @@ namespace Testinvi.TweetinviControllers.TweetTests
             var maxRetweetersToRetrieve = TestHelper.GenerateRandomInt();
             var retweeterIds = new[] { TestHelper.GenerateRandomLong() };
 
-            _fakeTweetQueryExecutor.CallsTo(x => x.GetRetweetersIds(tweetIdentifier, maxRetweetersToRetrieve)).Returns(retweeterIds);
+            A.CallTo(() => _tweetQueryExecutor.GetRetweetersIds(tweetIdentifier, maxRetweetersToRetrieve))
+                .Returns(retweeterIds);
 
             // Act
             var result = controller.GetRetweetersIds(tweetIdentifier, maxRetweetersToRetrieve);
@@ -209,7 +212,8 @@ namespace Testinvi.TweetinviControllers.TweetTests
             var maxRetweetersToRetrieve = TestHelper.GenerateRandomInt();
             var retweeterIds = new[] { TestHelper.GenerateRandomLong() };
 
-            _fakeTweetQueryExecutor.CallsTo(x => x.GetRetweetersIds(A<ITweetIdentifier>.That.Matches(y => y.Id == tweetId), maxRetweetersToRetrieve)).Returns(retweeterIds);
+            A.CallTo(() => _tweetQueryExecutor.GetRetweetersIds(A<ITweetIdentifier>.That.Matches(y => y.Id == tweetId),
+                maxRetweetersToRetrieve)).Returns(retweeterIds);
 
             // Act
             var result = controller.GetRetweetersIds(tweetId, maxRetweetersToRetrieve);
@@ -241,7 +245,7 @@ namespace Testinvi.TweetinviControllers.TweetTests
             var controller = CreateTweetController();
             var tweet = GenerateTweet();
 
-            _fakeTweetQueryExecutor.CallsTo(x => x.DestroyTweet(null)).Returns(true);
+            A.CallTo(() => _tweetQueryExecutor.DestroyTweet(null)).Returns(true);
 
             // Act
             var result = controller.DestroyTweet(tweet);
@@ -257,7 +261,7 @@ namespace Testinvi.TweetinviControllers.TweetTests
             var controller = CreateTweetController();
             var tweet = GenerateTweet();
 
-            _fakeTweetQueryExecutor.CallsTo(x => x.DestroyTweet(null)).Returns(false);
+            A.CallTo(() => _tweetQueryExecutor.DestroyTweet(null)).Returns(false);
 
             // Act
             var result = controller.DestroyTweet(tweet);
@@ -274,7 +278,7 @@ namespace Testinvi.TweetinviControllers.TweetTests
             var tweetDTO = A.Fake<ITweetDTO>();
             var tweet = GenerateTweet(tweetDTO);
 
-            _fakeTweetQueryExecutor.CallsTo(x => x.DestroyTweet(tweetDTO)).Returns(true);
+            A.CallTo(() => _tweetQueryExecutor.DestroyTweet(tweetDTO)).Returns(true);
 
             // Act
             var result = controller.DestroyTweet(tweet);
@@ -291,7 +295,7 @@ namespace Testinvi.TweetinviControllers.TweetTests
             var tweetDTO = A.Fake<ITweetDTO>();
             var tweet = GenerateTweet(tweetDTO);
 
-            _fakeTweetQueryExecutor.CallsTo(x => x.DestroyTweet(tweetDTO)).Returns(false);
+            A.CallTo(() => _tweetQueryExecutor.DestroyTweet(tweetDTO)).Returns(false);
 
             // Act
             var result = controller.DestroyTweet(tweet);
@@ -307,7 +311,7 @@ namespace Testinvi.TweetinviControllers.TweetTests
             // Arrange
             var controller = CreateTweetController();
 
-            _fakeTweetQueryExecutor.CallsTo(x => x.DestroyTweet(null)).Returns(true);
+            A.CallTo(() => _tweetQueryExecutor.DestroyTweet(null)).Returns(true);
 
             // Act
             var result = controller.DestroyTweet((ITweetDTO)null);
@@ -322,7 +326,7 @@ namespace Testinvi.TweetinviControllers.TweetTests
             // Arrange
             var controller = CreateTweetController();
 
-            _fakeTweetQueryExecutor.CallsTo(x => x.DestroyTweet(null)).Returns(false);
+            A.CallTo(() => _tweetQueryExecutor.DestroyTweet(null)).Returns(false);
 
             // Act
             var result = controller.DestroyTweet((ITweetDTO)null);
@@ -338,7 +342,7 @@ namespace Testinvi.TweetinviControllers.TweetTests
             var controller = CreateTweetController();
             var tweetDTO = A.Fake<ITweetDTO>();
 
-            _fakeTweetQueryExecutor.CallsTo(x => x.DestroyTweet(tweetDTO)).Returns(true);
+            A.CallTo(() => _tweetQueryExecutor.DestroyTweet(tweetDTO)).Returns(true);
 
             // Act
             var result = controller.DestroyTweet(tweetDTO);
@@ -354,7 +358,7 @@ namespace Testinvi.TweetinviControllers.TweetTests
             var controller = CreateTweetController();
             var tweetDTO = A.Fake<ITweetDTO>();
 
-            _fakeTweetQueryExecutor.CallsTo(x => x.DestroyTweet(tweetDTO)).Returns(false);
+            A.CallTo(() => _tweetQueryExecutor.DestroyTweet(tweetDTO)).Returns(false);
 
             // Act
             var result = controller.DestroyTweet(tweetDTO);
@@ -371,7 +375,7 @@ namespace Testinvi.TweetinviControllers.TweetTests
             var controller = CreateTweetController();
             var tweetId = TestHelper.GenerateRandomLong();
 
-            _fakeTweetQueryExecutor.CallsTo(x => x.DestroyTweet(tweetId)).Returns(true);
+            A.CallTo(() => _tweetQueryExecutor.DestroyTweet(tweetId)).Returns(true);
 
             // Act
             var result = controller.DestroyTweet(tweetId);
@@ -387,7 +391,7 @@ namespace Testinvi.TweetinviControllers.TweetTests
             var controller = CreateTweetController();
             var tweetId = TestHelper.GenerateRandomLong();
 
-            _fakeTweetQueryExecutor.CallsTo(x => x.DestroyTweet(tweetId)).Returns(false);
+            A.CallTo(() => _tweetQueryExecutor.DestroyTweet(tweetId)).Returns(false);
 
             // Act
             var result = controller.DestroyTweet(tweetId);
@@ -418,7 +422,7 @@ namespace Testinvi.TweetinviControllers.TweetTests
             var tweetDTO = doesTweetDTOExists ? A.Fake<ITweetDTO>() : null;
             var tweet = GenerateTweet(tweetDTO);
 
-            _fakeTweetQueryExecutor.CallsTo(x => x.FavoriteTweet(tweetDTO)).Returns(expectedResult);
+            A.CallTo(() => _tweetQueryExecutor.FavoriteTweet(tweetDTO)).Returns(expectedResult);
 
             // Act
             var result = controller.FavoriteTweet(tweet);
@@ -442,7 +446,7 @@ namespace Testinvi.TweetinviControllers.TweetTests
             var controller = CreateTweetController();
             var tweetDTO = tweetExists ? A.Fake<ITweetDTO>() : null;
 
-            _fakeTweetQueryExecutor.CallsTo(x => x.FavoriteTweet(tweetDTO)).Returns(expectedResult);
+            A.CallTo(() => _tweetQueryExecutor.FavoriteTweet(tweetDTO)).Returns(expectedResult);
 
             // Act
             var result = controller.FavoriteTweet(tweetDTO);
@@ -464,7 +468,7 @@ namespace Testinvi.TweetinviControllers.TweetTests
             var controller = CreateTweetController();
             var tweetId = TestHelper.GenerateRandomLong();
 
-            _fakeTweetQueryExecutor.CallsTo(x => x.FavoriteTweet(tweetId)).Returns(expectedResult);
+            A.CallTo(() => _tweetQueryExecutor.FavoriteTweet(tweetId)).Returns(expectedResult);
 
             // Act
             var result = controller.FavoriteTweet(tweetId);
@@ -504,7 +508,7 @@ namespace Testinvi.TweetinviControllers.TweetTests
             var tweetDTO = doesTweetDTOExists ? A.Fake<ITweetDTO>() : null;
             var tweet = GenerateTweet(tweetDTO);
 
-            _fakeTweetQueryExecutor.CallsTo(x => x.UnFavoriteTweet(tweetDTO)).Returns(expectedResult);
+            A.CallTo(() => _tweetQueryExecutor.UnFavoriteTweet(tweetDTO)).Returns(expectedResult);
 
             // Act
             var result = controller.UnFavoriteTweet(tweet);
@@ -528,7 +532,7 @@ namespace Testinvi.TweetinviControllers.TweetTests
             var controller = CreateTweetController();
             var tweetDTO = tweetExists ? A.Fake<ITweetDTO>() : null;
 
-            _fakeTweetQueryExecutor.CallsTo(x => x.UnFavoriteTweet(tweetDTO)).Returns(expectedResult);
+            A.CallTo(() => _tweetQueryExecutor.UnFavoriteTweet(tweetDTO)).Returns(expectedResult);
 
             // Act
             var result = controller.UnFavoriteTweet(tweetDTO);
@@ -550,7 +554,7 @@ namespace Testinvi.TweetinviControllers.TweetTests
             var controller = CreateTweetController();
             var tweetId = TestHelper.GenerateRandomLong();
 
-            _fakeTweetQueryExecutor.CallsTo(x => x.UnFavoriteTweet(tweetId)).Returns(expectedResult);
+            A.CallTo(() => _tweetQueryExecutor.UnFavoriteTweet(tweetId)).Returns(expectedResult);
 
             // Act
             var result = controller.UnFavoriteTweet(tweetId);
@@ -584,8 +588,8 @@ namespace Testinvi.TweetinviControllers.TweetTests
             var oembedTweetDTO = A.Fake<IOEmbedTweetDTO>();
             var oembedTweet = A.Fake<IOEmbedTweet>();
 
-            _fakeTweetQueryExecutor.CallsTo(x => x.GenerateOEmbedTweet(null)).Returns(oembedTweetDTO);
-            _fakeTweetFactory.CallsTo(x => x.GenerateOEmbedTweetFromDTO(oembedTweetDTO)).Returns(oembedTweet);
+            A.CallTo(() => _tweetQueryExecutor.GenerateOEmbedTweet(null)).Returns(oembedTweetDTO);
+            A.CallTo(() => _tweetFactory.GenerateOEmbedTweetFromDTO(oembedTweetDTO)).Returns(oembedTweet);
 
             // Act
             var result = controller.GenerateOEmbedTweet(tweet);
@@ -604,8 +608,8 @@ namespace Testinvi.TweetinviControllers.TweetTests
             var oembedTweetDTO = A.Fake<IOEmbedTweetDTO>();
             var oembedTweet = A.Fake<IOEmbedTweet>();
 
-            _fakeTweetQueryExecutor.CallsTo(x => x.GenerateOEmbedTweet(tweetDTO)).Returns(oembedTweetDTO);
-            _fakeTweetFactory.CallsTo(x => x.GenerateOEmbedTweetFromDTO(oembedTweetDTO)).Returns(oembedTweet);
+            A.CallTo(() => _tweetQueryExecutor.GenerateOEmbedTweet(tweetDTO)).Returns(oembedTweetDTO);
+            A.CallTo(() => _tweetFactory.GenerateOEmbedTweetFromDTO(oembedTweetDTO)).Returns(oembedTweet);
 
             // Act
             var result = controller.GenerateOEmbedTweet(tweet);
@@ -623,8 +627,8 @@ namespace Testinvi.TweetinviControllers.TweetTests
             var oembedTweetDTO = A.Fake<IOEmbedTweetDTO>();
             var oembedTweet = A.Fake<IOEmbedTweet>();
 
-            _fakeTweetQueryExecutor.CallsTo(x => x.GenerateOEmbedTweet(null)).Returns(oembedTweetDTO);
-            _fakeTweetFactory.CallsTo(x => x.GenerateOEmbedTweetFromDTO(oembedTweetDTO)).Returns(oembedTweet);
+            A.CallTo(() => _tweetQueryExecutor.GenerateOEmbedTweet(null)).Returns(oembedTweetDTO);
+            A.CallTo(() => _tweetFactory.GenerateOEmbedTweetFromDTO(oembedTweetDTO)).Returns(oembedTweet);
 
             // Act
             var result = controller.GenerateOEmbedTweet((ITweetDTO)null);
@@ -642,8 +646,8 @@ namespace Testinvi.TweetinviControllers.TweetTests
             var oembedTweetDTO = A.Fake<IOEmbedTweetDTO>();
             var oembedTweet = A.Fake<IOEmbedTweet>();
 
-            _fakeTweetQueryExecutor.CallsTo(x => x.GenerateOEmbedTweet(tweetDTO)).Returns(oembedTweetDTO);
-            _fakeTweetFactory.CallsTo(x => x.GenerateOEmbedTweetFromDTO(oembedTweetDTO)).Returns(oembedTweet);
+            A.CallTo(() => _tweetQueryExecutor.GenerateOEmbedTweet(tweetDTO)).Returns(oembedTweetDTO);
+            A.CallTo(() => _tweetFactory.GenerateOEmbedTweetFromDTO(oembedTweetDTO)).Returns(oembedTweet);
 
             // Act
             var result = controller.GenerateOEmbedTweet(tweetDTO);
@@ -662,8 +666,8 @@ namespace Testinvi.TweetinviControllers.TweetTests
             var oembedTweetDTO = A.Fake<IOEmbedTweetDTO>();
             var oembedTweet = A.Fake<IOEmbedTweet>();
 
-            _fakeTweetQueryExecutor.CallsTo(x => x.GenerateOEmbedTweet(tweetId)).Returns(oembedTweetDTO);
-            _fakeTweetFactory.CallsTo(x => x.GenerateOEmbedTweetFromDTO(oembedTweetDTO)).Returns(oembedTweet);
+            A.CallTo(() => _tweetQueryExecutor.GenerateOEmbedTweet(tweetId)).Returns(oembedTweetDTO);
+            A.CallTo(() => _tweetFactory.GenerateOEmbedTweetFromDTO(oembedTweetDTO)).Returns(oembedTweet);
 
             // Act
             var result = controller.GenerateOEmbedTweet(tweetId);
@@ -678,8 +682,9 @@ namespace Testinvi.TweetinviControllers.TweetTests
         {
             var tweet = A.Fake<ITweet>();
             tweet.TweetDTO = tweetDTO;
-            tweet.CallsTo(x => x.IsTweetPublished).ReturnsLazily(() => tweet.TweetDTO != null && tweet.TweetDTO.IsTweetPublished);
-            _fakeTweetFactory.CallsTo(x => x.GenerateTweetFromDTO(tweetDTO, null)).Returns(tweet);
+            A.CallTo(() => tweet.IsTweetPublished)
+                .ReturnsLazily(() => tweet.TweetDTO != null && tweet.TweetDTO.IsTweetPublished);
+            A.CallTo(() => _tweetFactory.GenerateTweetFromDTO(tweetDTO, null)).Returns(tweet);
 
             return tweet;
         }

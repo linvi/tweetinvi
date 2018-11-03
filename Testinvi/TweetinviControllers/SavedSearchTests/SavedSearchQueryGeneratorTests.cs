@@ -1,6 +1,5 @@
 ﻿using System;
 using FakeItEasy;
-using FakeItEasy.ExtensionSyntax.Full;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Testinvi.Helpers;
 using Tweetinvi.Controllers.Properties;
@@ -40,7 +39,7 @@ namespace Testinvi.TweetinviControllers.SavedSearchTests
             var queryGenerator = CreateSavedSearchQueryGenerator();
             var searchId = TestHelper.GenerateRandomLong();
             var savedSearch = A.Fake<ISavedSearch>();
-            savedSearch.CallsTo(x => x.Id).Returns(searchId);
+            A.CallTo(() => savedSearch.Id).Returns(searchId);
 
             // Act
             var result = queryGenerator.GetDestroySavedSearchQuery(savedSearch);
@@ -69,7 +68,7 @@ namespace Testinvi.TweetinviControllers.SavedSearchTests
             var queryGenerator = CreateSavedSearchQueryGenerator();
             var searchId = TestHelper.DefaultId();
             var savedSearch = A.Fake<ISavedSearch>();
-            savedSearch.CallsTo(x => x.Id).Returns(searchId);
+            A.CallTo(() => savedSearch.Id).Returns(searchId);
 
             // Act
             var result = queryGenerator.GetDestroySavedSearchQuery(savedSearch);

@@ -12,15 +12,16 @@ namespace Testinvi.TweetinviControllers.AccountTests
     public class AccountJsonControllerTests
     {
         private FakeClassBuilder<AccountJsonController> _fakeBuilder;
-        private Fake<ITwitterAccessor> _fakeTwitterAccessor;
-        private Fake<IAccountQueryGenerator> _fakeAccountQueryGenerator;
+
+        private ITwitterAccessor _twitterAccessor;
+        private IAccountQueryGenerator _accountQueryGenerator;
 
         [TestInitialize]
         public void TestInitialize()
         {
             _fakeBuilder = new FakeClassBuilder<AccountJsonController>();
-            _fakeTwitterAccessor = _fakeBuilder.GetFake<ITwitterAccessor>();
-            _fakeAccountQueryGenerator = _fakeBuilder.GetFake<IAccountQueryGenerator>();
+            _twitterAccessor = _fakeBuilder.GetFake<ITwitterAccessor>().FakedObject;
+            _accountQueryGenerator = _fakeBuilder.GetFake<IAccountQueryGenerator>().FakedObject;
         }
 
         [TestMethod]
@@ -33,7 +34,7 @@ namespace Testinvi.TweetinviControllers.AccountTests
             var controller = CreateAccountJsonController();
 
             ArrangeGetAuthenticatedUserAccountSettingsQuery(query);
-            _fakeTwitterAccessor.ArrangeExecuteJsonGETQuery(query, jsonResult);
+            _twitterAccessor.ArrangeExecuteJsonGETQuery(query, jsonResult);
 
             // Act
             var result = controller.GetAuthenticatedUserSettingsJson();
@@ -44,9 +45,7 @@ namespace Testinvi.TweetinviControllers.AccountTests
 
         private void ArrangeGetAuthenticatedUserAccountSettingsQuery(string query)
         {
-            _fakeAccountQueryGenerator
-                .CallsTo(x => x.GetAuthenticatedUserAccountSettingsQuery())
-                .Returns(query);
+            A.CallTo(() => _accountQueryGenerator.GetAuthenticatedUserAccountSettingsQuery()).Returns(query);
         }
 
         public AccountJsonController CreateAccountJsonController()
