@@ -40,9 +40,14 @@ namespace Tweetinvi.Models
         #region Tweets
 
         /// <summary>
-        /// Send a very simple Tweet with a simple message
+        /// Send a Tweet
         /// </summary>
-        ITweet PublishTweet(string text, IPublishTweetOptionalParameters parameters = null);
+        ITweet PublishTweet(string text);
+
+        /// <summary>
+        /// Send a Tweet
+        /// </summary>
+        ITweet PublishTweet(IPublishTweetParameters parameters);
 
         #endregion
 

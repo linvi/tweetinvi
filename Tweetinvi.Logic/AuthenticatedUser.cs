@@ -274,9 +274,14 @@ namespace Tweetinvi.Logic
         }
 
         // Tweet
-        public ITweet PublishTweet(string text, IPublishTweetOptionalParameters parameters)
+        public ITweet PublishTweet(IPublishTweetParameters parameters)
         {
-            return ExecuteAuthenticatedUserOperation(() =>  _tweetController.PublishTweet(text, parameters));
+            return ExecuteAuthenticatedUserOperation(() => _tweetController.PublishTweet(parameters));
+        }
+
+        public ITweet PublishTweet(string text)
+        {
+            return ExecuteAuthenticatedUserOperation(() =>  _tweetController.PublishTweet(text));
         }
 
         // Settings

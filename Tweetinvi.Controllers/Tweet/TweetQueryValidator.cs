@@ -27,9 +27,7 @@ namespace Tweetinvi.Controllers.Tweet
             }
 
             if (string.IsNullOrEmpty(parameters.Text) && 
-                parameters.Medias.Count == 0 &&
-                parameters.MediaIds.Count == 0 && 
-                parameters.MediaBinaries.Count == 0)
+                !parameters.HasMedia)
             {
                 throw new ArgumentException(
                     "The text message of a tweet cannot be null or empty, unless media is attached.");

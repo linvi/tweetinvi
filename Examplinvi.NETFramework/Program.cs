@@ -459,26 +459,26 @@ namespace Examplinvi
         {
             var media = UploadImage(filePath);
 
-            return Tweet.PublishTweet(text, new PublishTweetOptionalParameters()
-            {
-                Medias = new List<IMedia>() { media }
-            });
+            PublishTweetParameters parameters = new PublishTweetParameters(text);
+            parameters.Medias.Add(media);
+
+            return Tweet.PublishTweet(parameters);
         }
 
-        public static void Tweet_PublishTweetInReplyToAnotherTweet(string text, long tweetIdtoReplyTo)
+        public static void Tweet_PublishTweetInReplyToAnotherTweet(string text, long tweetIdToReplyTo)
         {
             // With the new version of Twitter you no longer have to specify the mentions. Twitter can do that for you automatically.
-            var reply = Tweet.PublishTweet(text, new PublishTweetOptionalParameters
+            var reply = Tweet.PublishTweet(new PublishTweetParameters(text)
             {
-                InReplyToTweetId = tweetIdtoReplyTo,
+                InReplyToTweetId = tweetIdToReplyTo,
                 AutoPopulateReplyMetadata = true // Auto populate the @mentions
             });
 
-            var tweetToReplyTo = Tweet.GetTweet(tweetIdtoReplyTo);
+            var tweetToReplyTo = Tweet.GetTweet(tweetIdToReplyTo);
 
             // We must add @screenName of the author of the tweet we want to reply to
             var textToPublish = string.Format("@{0} {1}", tweetToReplyTo.CreatedBy.ScreenName, text);
-            var tweet = Tweet.PublishTweetInReplyTo(textToPublish, tweetIdtoReplyTo);
+            var tweet = Tweet.PublishTweetInReplyTo(textToPublish, tweetIdToReplyTo);
             Console.WriteLine("Publish success? {0}", tweet != null);
         }
 
@@ -487,10 +487,10 @@ namespace Examplinvi
             const double latitude = 37.7821120598956;
             const double longitude = -122.400612831116;
 
-            var publishParameters = new PublishTweetOptionalParameters();
+            var publishParameters = new PublishTweetParameters(text);
             publishParameters.Coordinates = new Coordinates(latitude, longitude);
 
-            var tweet = Tweet.PublishTweet(text, publishParameters);
+            var tweet = Tweet.PublishTweet(publishParameters);
 
             Console.WriteLine(tweet.IsTweetPublished);
         }

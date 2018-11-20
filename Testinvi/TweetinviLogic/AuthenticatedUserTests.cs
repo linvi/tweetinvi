@@ -289,17 +289,16 @@ namespace Testinvi.TweetinviLogic
         public void PublishTweetText_CurrentCredentialsAreNotAuthenticatedUserCredentials_OperationPerformedWithAppropriateCredentials()
         {
             // Arrange
-            var tweetText = TestHelper.GenerateString();
-            var parameters = A.Fake<IPublishTweetOptionalParameters>();
+            var parameters = A.Fake<IPublishTweetParameters>();
 
             ITwitterCredentials startOperationWithCredentials = null;
-            _fakeTweetController.CallsTo(x => x.PublishTweet(tweetText, parameters)).Invokes(() =>
+            _fakeTweetController.CallsTo(x => x.PublishTweet(parameters)).Invokes(() =>
             {
                 startOperationWithCredentials = _fakeCredentialsAccessor.FakedObject.CurrentThreadCredentials;
             });
 
             // Act
-            _authenticatedUser.PublishTweet(tweetText, parameters);
+            _authenticatedUser.PublishTweet(parameters);
 
             // Assert
             Assert.AreEqual(startOperationWithCredentials, _authenticatedUserCredentials);

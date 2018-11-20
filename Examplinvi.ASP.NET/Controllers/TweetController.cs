@@ -31,13 +31,13 @@ namespace Examplinvi.ASP.NET.Controllers
 
             var publishedTweet = Auth.ExecuteOperationWithCredentials(_credentials, () =>
             {
-                var publishOptions = new PublishTweetOptionalParameters();
+                var publishOptions = new PublishTweetParameters(tweet);
                 if (fileBytes != null)
                 {
                     publishOptions.MediaBinaries.Add(fileBytes);
                 }
 
-                return Tweet.PublishTweet(tweet, publishOptions);
+                return Tweet.PublishTweet(publishOptions);
             });
 
             var routeValueParameters = new RouteValueDictionary();

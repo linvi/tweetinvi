@@ -76,16 +76,6 @@ namespace Tweetinvi
             return TweetFactory.GenerateTweetsFromDTO(tweetsDTO);
         }
 
-        public static IPublishTweetParameters CreatePublishTweetParameters(string text, IPublishTweetOptionalParameters optionalParameters = null)
-        {
-            return new PublishTweetParameters(text, optionalParameters);
-        }
-
-        public static IPublishTweetOptionalParameters CreatePublishTweetOptionalParameters()
-        {
-            return new PublishTweetOptionalParameters();
-        }
-
         #endregion
 
         #region Tweet Controller
@@ -103,9 +93,10 @@ namespace Tweetinvi
         /// <summary>
         /// Verify that a tweet can be published
         /// </summary>
-        public static bool CanBePublished(string text, IPublishTweetOptionalParameters publishTweetOptionalParameters = null)
+        public static bool CanBePublished(string text)
         {
-            return TweetController.CanBePublished(text, publishTweetOptionalParameters);
+            IPublishTweetParameters parameters = new PublishTweetParameters(text);
+            return TweetController.CanBePublished(parameters);
         }
 
         // Publish Tweet
@@ -121,9 +112,10 @@ namespace Tweetinvi
         /// <summary>
         /// Publish a tweet
         /// </summary>
-        public static ITweet PublishTweet(string text, IPublishTweetOptionalParameters publishTweetOptionalParameters = null)
+        public static ITweet PublishTweet(string text)
         {
-            return TweetController.PublishTweet(text, publishTweetOptionalParameters);
+            IPublishTweetParameters parameters = new PublishTweetParameters(text);
+            return TweetController.PublishTweet(parameters);
         }
 
         /// <summary>

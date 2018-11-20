@@ -8,14 +8,14 @@ namespace Tweetinvi.Core.Controllers
     public interface ITweetController
     {
         // Publish Tweet
+        ITweet PublishTweet(string text);
         ITweet PublishTweet(IPublishTweetParameters parameters);
-        ITweet PublishTweet(string text, IPublishTweetOptionalParameters optionalParameters = null);
 
         ITweet PublishTweetInReplyTo(string text, long tweetId);
         ITweet PublishTweetInReplyTo(string text, ITweetIdentifier tweet);
 
+        bool CanBePublished(string text);
         bool CanBePublished(IPublishTweetParameters publishTweetParameters);
-        bool CanBePublished(string text, IPublishTweetOptionalParameters publishTweetOptionalParameters = null);
 
         // Publish Retweet
         ITweet PublishRetweet(ITweet tweetToPublish);
