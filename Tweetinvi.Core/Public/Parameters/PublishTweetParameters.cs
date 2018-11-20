@@ -105,7 +105,7 @@ namespace Tweetinvi.Parameters
     /// </summary>
     public class PublishTweetParameters : IPublishTweetParameters
     {
-        public PublishTweetParameters(string text, IPublishTweetOptionalParameters optionalParameters = null)
+        public PublishTweetParameters(string text = null, IPublishTweetOptionalParameters optionalParameters = null)
         {
             Text = text;
             Parameters = optionalParameters ?? new PublishTweetOptionalParameters();
