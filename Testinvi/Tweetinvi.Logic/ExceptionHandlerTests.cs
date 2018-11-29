@@ -55,7 +55,7 @@ namespace Testinvi.Tweetinvi.Logic
             // Act
             exceptionHandler.ClearLoggedExceptions();
 
-            // New exception handler 
+            // Assert
             Assert.IsFalse(exceptionHandler.ExceptionInfos.Any());
         }
     }
