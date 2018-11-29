@@ -60,32 +60,12 @@ namespace Tweetinvi
         /// </summary>
         public static async Task ExecuteTaskAsync(Action action)
         {
-            // We store the credentials at the time of the call within the local memory
-            var credentialsAtInvokeTime = CredentialsAccessor.CurrentThreadCredentials;
-
-            // We are cloning to avoid changes to the settings before the async operation starts
-            var sourceThreadSettingsClone = TweetinviConfig.CurrentThreadSettings.Clone();
-
-            // The lambda expression will store 'credentialsAtInvokeTime' within a generated class
-            // In order to keep the reference to the credentials at the time of invocation
-            var operationRunWithSpecificCredentials = new Action(() =>
+            // Use the implementation for Func<T> so that it only needs to be maintained in one place
+            await ExecuteTaskAsync(() =>
             {
-                TweetinviConfig.CurrentThreadSettings.InitialiseFrom(sourceThreadSettingsClone);
-
-                // We get the newly created credentialsAccessor for the async thread (CredentialsAccessor are Thread specific)
-                var credentialsAccessor = TweetinviContainer.Resolve<ICredentialsAccessor>();
-
-                // We now use credentials of the lambda expression local variables to perform our operation
-                credentialsAccessor.ExecuteOperationWithCredentials(credentialsAtInvokeTime, action);
+                action();
+                return 0;
             });
-
-            using (var thread = new AsyncContextThread())
-            {
-                await thread.Factory.Run(async () =>
-                {
-                    await _taskFactory.ExecuteTaskAsync(operationRunWithSpecificCredentials);
-                });
-            }
         }
 
         /// <summary>
@@ -98,15 +78,11 @@ namespace Tweetinvi
 
             // We are cloning to avoid changes to the settings before the async operation starts
             var sourceThreadSettingsClone = TweetinviConfig.CurrentThreadSettings.Clone();
-            var sourceThreadExceptionHandlerClone = ExceptionHandler.CurrentThreadExceptionHandler;
 
             // The lambda expression will store 'credentialsAtInvokeTime' within a generated class
             // In order to keep the reference to the credentials at the time of invocation
             var operationRunWithSpecificCredentials = new Func<T>(() =>
             {
-                TweetinviConfig.CurrentThreadSettings.InitialiseFrom(sourceThreadSettingsClone);
-                ExceptionHandler.CurrentThreadExceptionHandler.InitialiseSettingsFrom(sourceThreadExceptionHandlerClone);
-
                 // We get the newly created credentialsAccessor for the async thread (CredentialsAccessor are Thread specific)
                 var credentialsAccessor = TweetinviContainer.Resolve<ICredentialsAccessor>();
 
@@ -117,38 +93,17 @@ namespace Tweetinvi
 
             using (var thread = new AsyncContextThread())
             {
-                
-                var threadExecResult = await thread.Factory.Run(() =>
+                return await thread.Factory.Run(() =>
                 {
+                    TweetinviConfig.CurrentThreadSettings.InitialiseFrom(sourceThreadSettingsClone);
+
                     // Run the operation.
-                    //    If we aren't swallowing exceptions, they'll still get thrown & propagated.
-                    T res = operationRunWithSpecificCredentials();
-                    
-                    // If we get here, there wasn't an exception, or they're being swallowed.
-                    //     Get any swallowed exceptions so that they can get put onto the calling thread.
-                    IEnumerable<ITwitterException> exceptions = ExceptionHandler.GetExceptions();
-                    return ThreadExecResult<T>.New(res, exceptions);
+                    //  If we are swallowing exceptions, this will carry over seamlessly due to the
+                    //      ExceptionHandler instance being AsyncLocal.
+                    //  If we aren't swallowing exceptions, they'll still get thrown & propagated
+                    //      (which we know to do again due to the ExceptionHandler being AsyncLocal).
+                    return operationRunWithSpecificCredentials();
                 });
-                
-                // Add any swallowed exceptions into the current thread's handler
-                ExceptionHandler.CurrentThreadExceptionHandler.AddTwitterExceptions(threadExecResult.Exceptions);
-
-                return threadExecResult.Result;
-            }
-        }
-        
-        private struct ThreadExecResult<T>
-        {
-            public T Result;
-            public IEnumerable<ITwitterException> Exceptions;
-
-            public static ThreadExecResult<T> New(T result, IEnumerable<ITwitterException> exceptions)
-            {
-                return new ThreadExecResult<T>()
-                {
-                    Result = result,
-                    Exceptions = exceptions
-                };
             }
         }
     }

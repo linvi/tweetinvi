@@ -135,9 +135,11 @@
     <Compile Include="SetupHelpers\TwitterAccessorHelper.cs" />
     <Compile Include="SetupHelpers\UserQuerValidatorHelper.cs" />
     <Compile Include="SetupHelpers\UserQueryGeneratorHelper.cs" />
+    <Compile Include="TestObjects\TestException.cs" />
     <Compile Include="Tweetinvi.Core\EnumerableExtensionsTests.cs" />
     <Compile Include="Tweetinvi.Core\LanguageTests.cs" />
     <Compile Include="Tweetinvi.Core\UnicodeHelperTests.cs" />
+    <Compile Include="Tweetinvi.Logic\ExceptionHandlerTests.cs" />
     <Compile Include="Tweetinvi.Logic\ExtendedTweetTests.cs" />
     <Compile Include="Tweetinvi.Core\StringExtensionsTests.cs" />
     <Compile Include="Tweetinvi.Core\TokenRateLimitsTests.cs" />
@@ -206,6 +208,8 @@
     <Compile Include="TweetinviWebLogic\WebHelperTests.cs" />
     <Compile Include="Tweetinvi\AuthTests.cs" />
     <Compile Include="json.net\WebhookModelsDeserializerTests.cs" />
+    <Compile Include="Tweetinvi\ExceptionHandlerTests.cs" />
+    <Compile Include="Tweetinvi\SyncTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config">

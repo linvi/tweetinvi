@@ -161,29 +161,5 @@ namespace Tweetinvi.Logic.Exceptions
                 this.Raise(WebExceptionReceived, e);
             }
         }
-
-        public IExceptionHandler CloneSettings()
-        {
-            // Note: If ever ITwitterException factory is changed to not be a singleton, it will need to be resolved
-            //     here rather than passing through the instance from this object to the ctor.
-            return new ExceptionHandler(_twitterExceptionFactory)
-            {
-                SwallowWebExceptions = SwallowWebExceptions,
-                LogExceptions = LogExceptions,
-                WebExceptionReceived = WebExceptionReceived
-            };
-        }
-
-        public void InitialiseSettingsFrom(IExceptionHandler other)
-        {
-            if (other == null)
-            {
-                throw new ArgumentNullException(nameof(other));
-            }
-
-            SwallowWebExceptions = other.SwallowWebExceptions;
-            LogExceptions = other.LogExceptions;
-            WebExceptionReceived += other.WebExceptionReceivedEventHandler;
-        }
     }
 }

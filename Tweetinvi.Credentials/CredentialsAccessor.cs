@@ -67,8 +67,8 @@ namespace Tweetinvi.Credentials
             CurrentThreadCredentials = credentials;
             var result = operation();
 
-            bool hasUserChangedCredentialsDuringOpertion = CurrentThreadCredentials != credentials;
-            if (!hasUserChangedCredentialsDuringOpertion)
+            bool hasUserChangedCredentialsDuringOperation = CurrentThreadCredentials != credentials;
+            if (!hasUserChangedCredentialsDuringOperation)
             {
                 CurrentThreadCredentials = initialCredentials;
             }

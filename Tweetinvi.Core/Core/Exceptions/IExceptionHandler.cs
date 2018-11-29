@@ -35,13 +35,5 @@ namespace Tweetinvi.Core.Exceptions
         TwitterException GenerateTwitterException(IWebRequestResult webRequestResult, ITwitterQuery twitterQuery);
         void AddTwitterException(ITwitterException twitterException);
         void AddTwitterExceptions(IEnumerable<ITwitterException> twitterExceptions);
-        
-        /// <summary>
-        /// Clones the IExceptionHandler, copying the settings properties.
-        /// Will not copy any data (exceptions).
-        /// </summary>
-        /// <returns></returns>
-        IExceptionHandler CloneSettings();
-        void InitialiseSettingsFrom(IExceptionHandler other);
     }
 }

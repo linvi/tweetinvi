@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Text;
+using System.Threading;
 using Tweetinvi.Core.Exceptions;
 using Tweetinvi.Events;
 using Tweetinvi.Exceptions;
@@ -15,8 +16,7 @@ namespace Tweetinvi
     /// </summary>
     public static class ExceptionHandler
     {
-        [ThreadStatic]
-        private static IExceptionHandler _exceptionHandler;
+        private static AsyncLocal<IExceptionHandler> _exceptionHandler = new AsyncLocal<IExceptionHandler>();
 
         /// <summary>
         /// Current Thread ExceptionHandler
@@ -25,12 +25,12 @@ namespace Tweetinvi
         {
             get
             {
-                if (_exceptionHandler == null)
+                if (_exceptionHandler.Value == null)
                 {
-                    Initialise();
+                    _exceptionHandler.Value = TweetinviContainer.Resolve<IExceptionHandler>();
                 }
 
-                return _exceptionHandler;
+                return _exceptionHandler.Value;
             }
         }
 
@@ -41,16 +41,6 @@ namespace Tweetinvi
         {
             add { CurrentThreadExceptionHandler.WebExceptionReceived += value; }
             remove { CurrentThreadExceptionHandler.WebExceptionReceived -= value; }
-        }
-
-        static ExceptionHandler()
-        {
-            Initialise();
-        }
-
-        private static void Initialise()
-        {
-            _exceptionHandler = TweetinviContainer.Resolve<IExceptionHandler>();
         }
 
         /// <summary>
