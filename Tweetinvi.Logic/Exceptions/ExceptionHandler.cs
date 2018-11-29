@@ -18,7 +18,6 @@ namespace Tweetinvi.Logic.Exceptions
         private readonly object _lockExceptionInfos = new object();
         private readonly List<ITwitterException> _exceptionInfos;
         public event EventHandler<GenericEventArgs<ITwitterException>> WebExceptionReceived;
-        public EventHandler<GenericEventArgs<ITwitterException>> WebExceptionReceivedEventHandler => WebExceptionReceived;
         public bool SwallowWebExceptions { get; set; }
         public bool LogExceptions { get; set; }
 
@@ -140,26 +139,6 @@ namespace Tweetinvi.Logic.Exceptions
             }
 
             this.Raise(WebExceptionReceived, twitterException);
-        }
-
-        public void AddTwitterExceptions(IEnumerable<ITwitterException> enumerableTwitterExceptions)
-        {
-            // Optimisation: prevent multiple enumerations
-            ITwitterException[] twitterExceptions = enumerableTwitterExceptions as ITwitterException[] ??
-                                                    enumerableTwitterExceptions.ToArray();
-            
-            lock(_lockExceptionInfos)
-            {
-                foreach (ITwitterException e in twitterExceptions)
-                {
-                    _exceptionInfos.Add(e);
-                }
-            }
-
-            foreach (var e in twitterExceptions)
-            {
-                this.Raise(WebExceptionReceived, e);
-            }
         }
     }
 }

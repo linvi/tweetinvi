@@ -11,7 +11,6 @@ namespace Tweetinvi.Core.Exceptions
     public interface IExceptionHandler
     {
         event EventHandler<GenericEventArgs<ITwitterException>> WebExceptionReceived;
-        EventHandler<GenericEventArgs<ITwitterException>> WebExceptionReceivedEventHandler { get; }
 
         bool SwallowWebExceptions { get; set; }
         bool LogExceptions { get; set; }
@@ -34,6 +33,5 @@ namespace Tweetinvi.Core.Exceptions
 			
         TwitterException GenerateTwitterException(IWebRequestResult webRequestResult, ITwitterQuery twitterQuery);
         void AddTwitterException(ITwitterException twitterException);
-        void AddTwitterExceptions(IEnumerable<ITwitterException> twitterExceptions);
     }
 }
