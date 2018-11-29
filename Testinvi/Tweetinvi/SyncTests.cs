@@ -103,6 +103,19 @@ namespace Testinvi.Tweetinvi
                 Assert.AreNotEqual("a", strThreadStatic_ExecuteTaskAsyncActionCallsActionInAnotherThread));
         }
 
+        [TestMethod]
+        public async Task ExecuteTaskAsyncActionCarriesExceptionSwallowingSettingIntoNewThread()
+        {
+            // Arrange
+            const bool expected = true;
+            ExceptionHandler.SwallowWebExceptions = expected;
+
+            // Act
+            await Sync.ExecuteTaskAsync(() => 
+                // Assert
+                Assert.AreEqual(expected, ExceptionHandler.SwallowWebExceptions));
+        }
+
         #endregion
 
         #region ExecuteTaskAsync<T>(Func<T> resultFunc)
@@ -222,6 +235,23 @@ namespace Testinvi.Tweetinvi
                 Assert.AreNotEqual("a", strThreadStatic_ExecuteTaskAsyncFuncCallsFuncInAnotherThread);
                 return 0;
             });
+        }
+
+        [TestMethod]
+        public async Task ExecuteTaskAsyncFuncCarriesExceptionSwallowingSettingIntoNewThread()
+        {
+            // Arrange
+            const bool expected = true;
+            ExceptionHandler.SwallowWebExceptions = expected;
+
+            // Act
+            await Sync.ExecuteTaskAsync(() =>
+            {
+                // Assert
+                Assert.AreEqual(expected, ExceptionHandler.SwallowWebExceptions);
+                return 0;
+            });
+
         }
 
         #endregion
