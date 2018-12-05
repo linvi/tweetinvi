@@ -103,6 +103,8 @@ namespace Tweetinvi.Logic
 
         public IMediaEntity AttachedMedia => EventDTO.MessageCreate.MessageData.Attachment?.Media;
 
+        public IMessageUser[] DirectMessageUsers { get; set; }
+
         // Destroy
         public bool Destroy()
         {

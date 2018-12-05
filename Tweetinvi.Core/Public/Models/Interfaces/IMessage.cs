@@ -23,6 +23,11 @@ namespace Tweetinvi.Models
         IApp App { get; set; }
 
         /// <summary>
+        /// This is where the information about the sender/receiver will be present
+        /// </summary>
+        IMessageUser[] DirectMessageUsers { get; set; }
+
+        /// <summary>
         /// Informs if the message has been destroyed.
         /// </summary>
         bool IsDestroyed { get; }

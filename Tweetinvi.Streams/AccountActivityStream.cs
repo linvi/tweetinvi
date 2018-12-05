@@ -229,6 +229,7 @@ namespace Tweetinvi.Streams
         {
             var messageEventDTOs = jsonObjectEvent[eventName].ToObject<EventDTO[]>();
             var apps = jsonObjectEvent.GetValue("apps")?.ToObject<Dictionary<string, App>>();
+            var users = jsonObjectEvent.GetValue("users")?.ToObject<Dictionary<string, MessageUser>>().Select((x) => x.Value).ToList();
 
             messageEventDTOs.ForEach(messageEventDTO =>
             {
@@ -240,6 +241,7 @@ namespace Tweetinvi.Streams
                 }
 
                 var message = _messageFactory.GenerateMessageFromEventDTO(messageEventDTO, app);
+                message.DirectMessageUsers = users?.ToArray();
 
                 if (message.SenderId == UserId)
                 {

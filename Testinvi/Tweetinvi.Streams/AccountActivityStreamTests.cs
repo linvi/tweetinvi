@@ -494,6 +494,88 @@ namespace Testinvi.Tweetinvi.Streams
         }
 
         [TestMethod]
+        public void DirectMessageWithoutAppSent()
+        {
+            var activityStream = CreateAccountActivityStream();
+            var json = @"{
+               ""for_user_id"": """ + ACCOUNT_ACTIVITY_USER_ID + @""",
+               ""direct_message_events"": [
+                {
+                  ""type"": ""message_create"",
+                  ""id"": ""1069901367517634564"",
+                  ""created_timestamp"": ""1543919338479"",
+                  ""message_create"": {
+                    ""target"": {
+                      ""recipient_id"": ""4829531813""
+                    },
+                    ""sender_id"": """ + ACCOUNT_ACTIVITY_USER_ID + @""",
+                    ""message_data"": {
+                      ""text"": ""Hello World!"",
+                      ""entities"": {
+                        ""hashtags"": [],
+                        ""symbols"": [],
+                        ""user_mentions"": [],
+                        ""urls"": []
+                      }
+                    }
+                  }
+                }
+              ],
+              ""users"": {
+                """ + ACCOUNT_ACTIVITY_USER_ID + @""": {
+                  ""id"": """ + ACCOUNT_ACTIVITY_USER_ID + @""",
+                  ""created_timestamp"": ""1323421985000"",
+                  ""name"": ""Captain Crook"",
+                  ""screen_name"": ""CaptainCrook"",
+                  ""protected"": false,
+                  ""verified"": false,
+                  ""followers_count"": 25,
+                  ""friends_count"": 47,
+                  ""statuses_count"": 127,
+                  ""profile_image_url"": ""http://pbs.twimg.com/profile_images/1682673821/image_normal.jpg"",
+                  ""profile_image_url_https"": ""https://pbs.twimg.com/profile_images/1682673821/image_normal.jpg""
+                },
+                ""4829531513"": {
+                  ""id"": ""4829531513"",
+                  ""created_timestamp"": ""1453294247556"",
+                  ""name"": ""The Professor"",
+                  ""screen_name"": ""TheProfessor"",
+                  ""protected"": false,
+                  ""verified"": false,
+                  ""followers_count"": 6,
+                  ""friends_count"": 4,
+                  ""statuses_count"": 43,
+                  ""profile_image_url"": ""http://pbs.twimg.com/profile_images/691632891877593043/oJR47dap_normal.jpg"",
+                  ""profile_image_url_https"": ""https://pbs.twimg.com/profile_images/691632891877593043/oJR47dap_normal.jpg""
+                }
+              }
+            }";
+
+            var eventsReceived = new List<MessageEventArgs>();
+            activityStream.MessageSent += (sender, args) =>
+            {
+                eventsReceived.Add(args);
+            };
+
+            // Act
+            activityStream.WebhookMessageReceived(new WebhookMessage(json));
+
+            // Assert
+            Assert.AreEqual(eventsReceived.Count, 1);
+            Assert.AreEqual(eventsReceived[0].Message.Text, "Hello World!");
+            Assert.AreEqual(eventsReceived[0].Message.SenderId, ACCOUNT_ACTIVITY_USER_ID);
+
+            Assert.AreEqual(eventsReceived[0].Message.DirectMessageUsers[0].Id, ACCOUNT_ACTIVITY_USER_ID);
+            Assert.AreEqual(eventsReceived[0].Message.DirectMessageUsers[0].Name, "Captain Crook");
+            Assert.AreEqual(eventsReceived[0].Message.DirectMessageUsers[0].ScreenName, "CaptainCrook");
+
+            Assert.AreEqual(eventsReceived[0].Message.DirectMessageUsers[1].Id, 4829531513);
+            Assert.AreEqual(eventsReceived[0].Message.DirectMessageUsers[1].Name, "The Professor");
+            Assert.AreEqual(eventsReceived[0].Message.DirectMessageUsers[1].ScreenName, "TheProfessor");
+        }
+
+
+        [TestMethod]
         public void UserIsTypingDirectMessage()
         {
             var activityStream = CreateAccountActivityStream();
