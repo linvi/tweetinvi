@@ -14,10 +14,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="NitoAsyncEx.Context.StrongName" Version="1.1.0" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\Tweetinvi.Core\Tweetinvi.Core.csproj" />
     <ProjectReference Include="..\Tweetinvi\Tweetinvi.csproj" />
   </ItemGroup>

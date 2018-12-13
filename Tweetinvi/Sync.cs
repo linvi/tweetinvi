@@ -1,10 +1,5 @@
-﻿using Nito.AsyncEx;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Threading.Tasks;
-using Tweetinvi.Core.Credentials;
-using Tweetinvi.Core.Exceptions;
-using Tweetinvi.Core.Helpers;
 
 namespace Tweetinvi
 {
