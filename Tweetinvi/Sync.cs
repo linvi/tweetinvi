@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
+using Tweetinvi.Core.Exceptions;
 
 namespace Tweetinvi
 {
@@ -11,24 +14,34 @@ namespace Tweetinvi
         /// <summary>
         /// Execute a task asynchronously with Tweetinvi
         /// </summary>
-        public static async Task ExecuteTaskAsync(Action action)
+        public static ConfiguredTaskAwaitable ExecuteTaskAsync(Action action)
         {
-            // Use the implementation for Func<T> so that it only needs to be maintained in one place
-            await ExecuteTaskAsync(() =>
-            {
-                action();
-                return 0;
-            });
+            prepareExecutionContext();
+
+            return Task.Run(action).ConfigureAwait(false);
         }
 
         /// <summary>
         /// Execute a task asynchronously with Tweetinvi
         /// </summary>
-        public static async Task<T> ExecuteTaskAsync<T>(Func<T> resultFunc)
+        public static ConfiguredTaskAwaitable<T> ExecuteTaskAsync<T>(Func<T> resultFunc)
         {
-            // TODO: Ensure any objects on the execution context that we want to update for the calling thread
+            prepareExecutionContext();
+
+            return Task.Run(resultFunc).ConfigureAwait(false);
+        }
+
+        /// <summary>
+        /// Prepare the execution context for copying.
+        /// Any objects in the EC whose (modified) values we want to be available to the calling thread
+        /// need to be instantiated before copying the EC.
+        /// </summary>
+        private static void prepareExecutionContext()
+        {
+            // Ensure any objects on the execution context that we want to update for the calling thread
             //  are instantiated before we copy the EC.
-            return await Task.Run(resultFunc).ConfigureAwait(false);
+            IEnumerable<ITwitterException> _ = ExceptionHandler.CurrentThreadExceptionHandler.ExceptionInfos;
+            // TODO: Add to me
         }
     }
 }

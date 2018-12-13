@@ -116,6 +116,21 @@ namespace Testinvi.Tweetinvi
                 Assert.AreEqual(expected, ExceptionHandler.SwallowWebExceptions));
         }
 
+        [TestMethod]
+        public async Task ExecuteTaskAsyncActionWithNoExceptionHandlerOnCallingThreadStillGetsExceptionHandlerUpdatesFromInnerThread()
+        {
+            // Arrange
+            ITwitterException exception = A.Fake<ITwitterException>();
+
+            // Act
+            await Sync.ExecuteTaskAsync(() => ExceptionHandler.AddTwitterException(exception));
+
+            // Assert
+            bool hasException = ExceptionHandler.TryPopException(out ITwitterException actual);
+            Assert.IsTrue(hasException);
+            Assert.AreEqual(exception, actual);
+        }
+
         #endregion
 
         #region ExecuteTaskAsync<T>(Func<T> resultFunc)
@@ -252,6 +267,26 @@ namespace Testinvi.Tweetinvi
                 return 0;
             });
 
+        }
+
+        [TestMethod]
+        public async Task ExecuteTaskAsyncFuncWithNoExceptionHandlerOnCallingThreadStillGetsExceptionHandlerUpdatesFromInnerThread()
+        {
+            // Arrange
+            ITwitterException exception = A.Fake<ITwitterException>();
+
+            // Act
+            await Sync.ExecuteTaskAsync(() =>
+            {
+                ExceptionHandler.AddTwitterException(exception);
+
+                return 0;
+            });
+
+            // Assert
+            bool hasException = ExceptionHandler.TryPopException(out ITwitterException actual);
+            Assert.IsTrue(hasException);
+            Assert.AreEqual(exception, actual);
         }
 
         #endregion
