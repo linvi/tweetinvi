@@ -1,6 +1,7 @@
 ﻿using System;
 using Tweetinvi.Core.Events;
 using Tweetinvi.Core.Exceptions;
+using Tweetinvi.Core.ExecutionContext;
 using Tweetinvi.Core.Helpers;
 using Tweetinvi.Core.Web;
 using Tweetinvi.Exceptions;
@@ -43,6 +44,8 @@ namespace Tweetinvi.Core.Injectinvi
             container.RegisterType<ISingleAggregateExceptionThrower, SingleAggregateExceptionThrower>(RegistrationLifetime.InstancePerApplication);
             container.RegisterType<ITwitterExceptionFactory, TwitterExceptionFactory>(RegistrationLifetime.InstancePerApplication);
             container.RegisterType<ITwitterException, TwitterException>();
+            container.RegisterType<ICrossExecutionContextPreparer, CrossExecutionContextPreparer>(RegistrationLifetime
+                .InstancePerApplication);
 
             InitializeParameters(container);
         }
