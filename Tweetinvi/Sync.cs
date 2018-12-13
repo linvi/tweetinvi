@@ -16,7 +16,7 @@ namespace Tweetinvi
         /// </summary>
         public static ConfiguredTaskAwaitable ExecuteTaskAsync(Action action)
         {
-            prepareExecutionContext();
+            TweetinviContainer.Resolve<ICrossExecutionContextPreparer>().Prepare();
 
             return Task.Run(action).ConfigureAwait(false);
         }
@@ -26,22 +26,9 @@ namespace Tweetinvi
         /// </summary>
         public static ConfiguredTaskAwaitable<T> ExecuteTaskAsync<T>(Func<T> resultFunc)
         {
-            prepareExecutionContext();
+            TweetinviContainer.Resolve<ICrossExecutionContextPreparer>().Prepare();
 
             return Task.Run(resultFunc).ConfigureAwait(false);
-        }
-
-        /// <summary>
-        /// Prepare the execution context for copying.
-        /// Any objects in the EC whose (modified) values we want to be available to the calling thread
-        /// need to be instantiated before copying the EC.
-        /// </summary>
-        private static void prepareExecutionContext()
-        {
-            // Ensure any objects on the execution context that we want to update for the calling thread
-            //  are instantiated before we copy the execution context.
-            ICrossExecutionContextPreparer ecPreparer = TweetinviContainer.Resolve<ICrossExecutionContextPreparer>();
-            ecPreparer.Prepare();
         }
     }
 }
