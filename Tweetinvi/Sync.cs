@@ -40,12 +40,8 @@ namespace Tweetinvi
         {
             // Ensure any objects on the execution context that we want to update for the calling thread
             //  are instantiated before we copy the execution context.
-            IEnumerable<ICrossExecutionContextPreparable> preparableObjects =
-                TweetinviContainer.Resolve<IEnumerable<ICrossExecutionContextPreparable>>();
-            foreach (ICrossExecutionContextPreparable preparableObject in preparableObjects)
-            {
-                preparableObject.PrepareExecutionContext();
-            }
+            ICrossExecutionContextPreparer ecPreparer = TweetinviContainer.Resolve<ICrossExecutionContextPreparer>();
+            ecPreparer.Prepare();
         }
     }
 }
