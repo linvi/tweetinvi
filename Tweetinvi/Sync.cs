@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
-using Tweetinvi.Core.Exceptions;
+using Tweetinvi.Core.ExecutionContext;
 
 namespace Tweetinvi
 {
@@ -39,9 +39,13 @@ namespace Tweetinvi
         private static void prepareExecutionContext()
         {
             // Ensure any objects on the execution context that we want to update for the calling thread
-            //  are instantiated before we copy the EC.
-            IEnumerable<ITwitterException> _ = ExceptionHandler.CurrentThreadExceptionHandler.ExceptionInfos;
-            // TODO: Add to me
+            //  are instantiated before we copy the execution context.
+            IEnumerable<ICrossExecutionContextPreparable> preparableObjects =
+                TweetinviContainer.Resolve<IEnumerable<ICrossExecutionContextPreparable>>();
+            foreach (ICrossExecutionContextPreparable preparableObject in preparableObjects)
+            {
+                preparableObject.PrepareExecutionContext();
+            }
         }
     }
 }

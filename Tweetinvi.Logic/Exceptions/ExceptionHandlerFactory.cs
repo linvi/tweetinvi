@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading;
 using Tweetinvi.Core.Exceptions;
+using Tweetinvi.Core.ExecutionContext;
 using Tweetinvi.Exceptions;
 
 namespace Tweetinvi.Logic.Exceptions
 {
-    public class ExceptionHandlerFactory : IExceptionHandlerFactory
+    public class ExceptionHandlerFactory : IExceptionHandlerFactory, ICrossExecutionContextPreparable
     {
         private static readonly AsyncLocal<IExceptionHandler> _exceptionHandler = new AsyncLocal<IExceptionHandler>();
 
@@ -29,6 +30,11 @@ namespace Tweetinvi.Logic.Exceptions
             }
 
             return _exceptionHandler.Value;
+        }
+
+        public void PrepareExecutionContext()
+        {
+            Create();
         }
     }
 }
