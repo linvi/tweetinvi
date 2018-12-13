@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Tweetinvi;
 using Tweetinvi.Core.Extensions;
 using Tweetinvi.Core.Public.Models.Authentication;
@@ -8,23 +9,19 @@ namespace Examplinvi.NETStandard_2._0
 {
     class Program
     {
-        static void Main(string[] args)
+        static async Task Main(string[] args)
         {
-            Sync.ExecuteTaskAsync(() =>
+            var consumerOnlyCredentials = new ConsumerOnlyCredentials("CONSUMER_TOKEN", "CONSUMER_SECRET")
             {
-                var consumerOnlyCredentials = new ConsumerOnlyCredentials("CONSUMER_TOKEN", "CONSUMER_SECRET")
-                {
-                    ApplicationOnlyBearerToken = "BEARER_TOKEN"
-                };
+                ApplicationOnlyBearerToken = "BEARER_TOKEN"
+            };
 
-                IWebhookEnvironmentDTO[] webhookEnvironments = Webhooks.GetAllWebhookEnvironmentsAsync(consumerOnlyCredentials).Result;
-                
-                webhookEnvironments.ForEach(env =>
-                {
-                    Console.WriteLine(env.Name);
-                });
-            }).Wait();
-
+            IWebhookEnvironmentDTO[] webhookEnvironments = await Webhooks.GetAllWebhookEnvironmentsAsync(consumerOnlyCredentials);
+            
+            webhookEnvironments.ForEach(env =>
+            {
+                Console.WriteLine(env.Name);
+            });
         }
 
         static void StartServer()
