@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading;
 using Tweetinvi.Core.Credentials;
+using Tweetinvi.Core.ExecutionContext;
 using Tweetinvi.Models;
 
 namespace Tweetinvi.Credentials
@@ -12,8 +13,12 @@ namespace Tweetinvi.Credentials
         private static readonly AsyncLocal<ITwitterCredentials>
             _currentThreadCredentials = new AsyncLocal<ITwitterCredentials>();
 
-        public CredentialsAccessor()
+        private ICrossExecutionContextPreparer _crossExecutionContextPreparer;
+
+        public CredentialsAccessor(ICrossExecutionContextPreparer crossExecutionContextPreparer)
         {
+            _crossExecutionContextPreparer = crossExecutionContextPreparer;
+
             CurrentThreadCredentials = _applicationCredentials;
         }
 
@@ -47,8 +52,8 @@ namespace Tweetinvi.Credentials
 
         public T ExecuteOperationWithCredentials<T>(ITwitterCredentials credentials, Func<T> operation)
         {
-            // TODO: Ensure any objects on the execution context that we want to update for the calling thread
-            //  are instantiated before we copy the EC.
+            _crossExecutionContextPreparer.Prepare();
+
             ExecutionContext ec = ExecutionContext.Capture();
             T result = default(T);
             ExecutionContext.Run(ec, _ =>

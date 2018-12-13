@@ -51,9 +51,15 @@
     <Reference Include="Autofac, Version=4.6.2.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
       <HintPath>..\packages\Autofac.4.6.2\lib\net45\Autofac.dll</HintPath>
     </Reference>
+    <Reference Include="AutoFixture, Version=4.6.0.0, Culture=neutral, PublicKeyToken=b24654c590009d4f, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoFixture.4.6.0\lib\net452\AutoFixture.dll</HintPath>
+    </Reference>
     <Reference Include="FakeItEasy, Version=1.25.3.0, Culture=neutral, PublicKeyToken=eff28e2146d5fd2c, processorArchitecture=MSIL">
       <HintPath>..\packages\FakeItEasy.1.25.3\lib\net40\FakeItEasy.dll</HintPath>
       <Private>True</Private>
+    </Reference>
+    <Reference Include="Fare, Version=2.1.0.0, Culture=neutral, PublicKeyToken=ea68d375bf33a7c8, processorArchitecture=MSIL">
+      <HintPath>..\packages\Fare.2.1.1\lib\net35\Fare.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
@@ -64,6 +70,7 @@
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -130,6 +137,7 @@
     <Compile Include="Tweetinvi.Core\EnumerableExtensionsTests.cs" />
     <Compile Include="Tweetinvi.Core\LanguageTests.cs" />
     <Compile Include="Tweetinvi.Core\UnicodeHelperTests.cs" />
+    <Compile Include="Tweetinvi.Credentials\CredentialsAccessorTests.cs" />
     <Compile Include="Tweetinvi.Logic\ExceptionHandlerTests.cs" />
     <Compile Include="Tweetinvi.Logic\ExtendedTweetTests.cs" />
     <Compile Include="Tweetinvi.Core\StringExtensionsTests.cs" />
