@@ -73,10 +73,27 @@ namespace Tweetinvi
         /// <summary>
         /// Returns the last Logged Exception.
         /// </summary>
+        [Obsolete("Maintained for backwards compatibility. Use TryPeekException")]
         public static ITwitterException GetLastException()
         {
             return CurrentThreadExceptionHandler.ExceptionInfos.LastOrDefault();
         }
+
+        /// <summary>
+        /// Try and remove the last exception logged
+        /// </summary>
+        /// <param name="e">out - Exception</param>
+        /// <returns>Whether there is an exception</returns>
+        public static bool TryPopException(out ITwitterException e) =>
+            CurrentThreadExceptionHandler.TryPopException(out e);
+
+        /// <summary>
+        /// Try and get the last exception logged
+        /// </summary>
+        /// <param name="e">out - Exception</param>
+        /// <returns>Whether there is an exception</returns>
+        public static bool TryPeekException(out ITwitterException e) =>
+            CurrentThreadExceptionHandler.TryPeekException(out e);
 
         /// <summary>
         /// Ask for the ExceptionHandler to handle an Exception.

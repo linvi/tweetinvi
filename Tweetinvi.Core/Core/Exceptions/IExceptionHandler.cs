@@ -16,7 +16,12 @@ namespace Tweetinvi.Core.Exceptions
         bool LogExceptions { get; set; }
 
         IEnumerable<ITwitterException> ExceptionInfos { get; }
+
+        [Obsolete("Maintained for backwards compatibility. Use TryPeekException")]
         ITwitterException LastExceptionInfos { get; }
+
+        bool TryPopException(out ITwitterException e);
+        bool TryPeekException(out ITwitterException e);
 
         void ClearLoggedExceptions();
 
