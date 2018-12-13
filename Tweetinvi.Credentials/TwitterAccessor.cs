@@ -23,20 +23,20 @@ namespace Tweetinvi.Credentials
     {
         private readonly IJObjectStaticWrapper _jObjectStaticWrapper;
         private readonly IJsonObjectConverter _jsonObjectConverter;
-        private readonly IExceptionHandler _exceptionHandler;
+        private readonly IExceptionHandlerFactory _exceptionHandlerFactory;
         private readonly ICursorQueryHelper _cursorQueryHelper;
         private readonly ITwitterRequestHandler _twitterRequestHandler;
 
         public TwitterAccessor(
             IJObjectStaticWrapper jObjectStaticWrapper,
             IJsonObjectConverter jsonObjectConverter,
-            IExceptionHandler exceptionHandler,
+            IExceptionHandlerFactory exceptionHandlerFactory,
             ICursorQueryHelper cursorQueryHelper,
             ITwitterRequestHandler twitterRequestHandler)
         {
             _jObjectStaticWrapper = jObjectStaticWrapper;
             _jsonObjectConverter = jsonObjectConverter;
-            _exceptionHandler = exceptionHandler;
+            _exceptionHandlerFactory = exceptionHandlerFactory;
             _cursorQueryHelper = cursorQueryHelper;
             _twitterRequestHandler = twitterRequestHandler;
         }
@@ -67,7 +67,8 @@ namespace Tweetinvi.Credentials
             }
             catch (TwitterException)
             {
-                if (!_exceptionHandler.SwallowWebExceptions)
+                IExceptionHandler exceptionHandler = _exceptionHandlerFactory.Create();
+                if (!exceptionHandler.SwallowWebExceptions)
                 {
                     throw;
                 }
@@ -186,7 +187,8 @@ namespace Tweetinvi.Credentials
             }
             catch (TwitterException)
             {
-                if (!_exceptionHandler.SwallowWebExceptions)
+                IExceptionHandler exceptionHandler = _exceptionHandlerFactory.Create();
+                if (!exceptionHandler.SwallowWebExceptions)
                 {
                     throw;
                 }
@@ -206,7 +208,8 @@ namespace Tweetinvi.Credentials
             }
             catch (TwitterException)
             {
-                if (!_exceptionHandler.SwallowWebExceptions)
+                IExceptionHandler exceptionHandler = _exceptionHandlerFactory.Create();
+                if (!exceptionHandler.SwallowWebExceptions)
                 {
                     throw;
                 }
@@ -226,7 +229,8 @@ namespace Tweetinvi.Credentials
             }
             catch (TwitterException)
             {
-                if (!_exceptionHandler.SwallowWebExceptions)
+                IExceptionHandler exceptionHandler = _exceptionHandlerFactory.Create();
+                if (!exceptionHandler.SwallowWebExceptions)
                 {
                     throw;
                 }
@@ -246,7 +250,8 @@ namespace Tweetinvi.Credentials
             }
             catch (TwitterException)
             {
-                if (!_exceptionHandler.SwallowWebExceptions)
+                IExceptionHandler exceptionHandler = _exceptionHandlerFactory.Create();
+                if (!exceptionHandler.SwallowWebExceptions)
                 {
                     throw;
                 }
@@ -266,7 +271,8 @@ namespace Tweetinvi.Credentials
             }
             catch (TwitterException)
             {
-                if (!_exceptionHandler.SwallowWebExceptions)
+                IExceptionHandler exceptionHandler = _exceptionHandlerFactory.Create();
+                if (!exceptionHandler.SwallowWebExceptions)
                 {
                     throw;
                 }
@@ -286,7 +292,8 @@ namespace Tweetinvi.Credentials
             }
             catch (TwitterException)
             {
-                if (!_exceptionHandler.SwallowWebExceptions)
+                IExceptionHandler exceptionHandler = _exceptionHandlerFactory.Create();
+                if (!exceptionHandler.SwallowWebExceptions)
                 {
                     throw;
                 }
@@ -583,7 +590,8 @@ namespace Tweetinvi.Credentials
 
         private void HandleQueryException(TwitterException ex)
         {
-            if (_exceptionHandler.SwallowWebExceptions)
+            IExceptionHandler exceptionHandler = _exceptionHandlerFactory.Create();
+            if (exceptionHandler.SwallowWebExceptions)
             {
                 return;
             }

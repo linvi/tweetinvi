@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using Tweetinvi.Core.Injectinvi;
 
 namespace Tweetinvi.Core
@@ -43,6 +44,9 @@ namespace Tweetinvi.Core
     {
         private static ITweetinviSettings StaticTweetinviSettings { get; set; }
 
+        private static readonly AsyncLocal<ITweetinviSettings> _currentThreadSettings =
+            new AsyncLocal<ITweetinviSettings>();
+
         public TweetinviSettingsAccessor()
         {
             var threadSettings = TweetinviCoreModule.TweetinviContainer.Resolve<ITweetinviSettings>();
@@ -52,46 +56,39 @@ namespace Tweetinvi.Core
             CurrentThreadSettings = threadSettings;
         }
 
-        [ThreadStatic]
-        private static ITweetinviSettings _currentThreadSettings;
         public ITweetinviSettings CurrentThreadSettings
         {
             get
             {
-                if (_currentThreadSettings == null)
+                if (_currentThreadSettings.Value == null)
                 {
-                    InitialiseSettings();
+                    _currentThreadSettings.Value = TweetinviCoreModule.TweetinviContainer.Resolve<ITweetinviSettings>();
+                    _currentThreadSettings.Value.InitialiseFrom(StaticTweetinviSettings);
                 }
 
-                return _currentThreadSettings;
+                return _currentThreadSettings.Value;
             }
             set
             {
-                _currentThreadSettings = value;
+                _currentThreadSettings.Value = value;
 
-                if (!HasTheApplicationSettingsBeenInitialized() && _currentThreadSettings != null)
+                if (!HasTheApplicationSettingsBeenInitialized() && value != null)
                 {
                     StaticTweetinviSettings = value.Clone();
                 }
             }
         }
 
-        private void InitialiseSettings()
-        {
-            _currentThreadSettings = TweetinviCoreModule.TweetinviContainer.Resolve<ITweetinviSettings>();
-            _currentThreadSettings.InitialiseFrom(StaticTweetinviSettings);
-        }
-
         public ITweetinviSettings ApplicationSettings
         {
-            get { return StaticTweetinviSettings; }
+            get => StaticTweetinviSettings;
             set
             {
                 StaticTweetinviSettings = value;
 
-                if (_currentThreadSettings != null)
+                if (_currentThreadSettings.Value != null)
                 {
-                    _currentThreadSettings = value;
+                    _currentThreadSettings.Value = value;
                 }
             }
         }
@@ -103,26 +100,26 @@ namespace Tweetinvi.Core
 
         public IProxyConfig ProxyConfig
         {
-            get { return CurrentThreadSettings.ProxyConfig; }
-            set { CurrentThreadSettings.ProxyConfig = value; }
+            get => CurrentThreadSettings.ProxyConfig;
+            set => CurrentThreadSettings.ProxyConfig = value;
         }
 
         public int HttpRequestTimeout
         {
-            get { return CurrentThreadSettings.HttpRequestTimeout; }
-            set { CurrentThreadSettings.HttpRequestTimeout = value; }
+            get => CurrentThreadSettings.HttpRequestTimeout;
+            set => CurrentThreadSettings.HttpRequestTimeout = value;
         }
 
         public int UploadTimeout
         {
-            get { return CurrentThreadSettings.UploadTimeout; }
-            set { CurrentThreadSettings.UploadTimeout = value; }
+            get => CurrentThreadSettings.UploadTimeout;
+            set => CurrentThreadSettings.UploadTimeout = value;
         }
 
         public RateLimitTrackerMode RateLimitTrackerMode
         {
-            get { return CurrentThreadSettings.RateLimitTrackerMode; }
-            set { CurrentThreadSettings.RateLimitTrackerMode = value; }
+            get => CurrentThreadSettings.RateLimitTrackerMode;
+            set => CurrentThreadSettings.RateLimitTrackerMode = value;
         }
     }
 }

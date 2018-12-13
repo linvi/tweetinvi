@@ -20,16 +20,16 @@ namespace Tweetinvi.WebLogic
     /// </summary>
     public class WebRequestExecutor : IWebRequestExecutor
     {
-        private readonly IExceptionHandler _exceptionHandler;
+        private readonly IExceptionHandlerFactory _exceptionHandlerFactory;
         private readonly IHttpClientWebHelper _httpClientWebHelper;
         private readonly IFactory<IWebRequestResult> _webRequestResultFactory;
 
         public WebRequestExecutor(
-            IExceptionHandler exceptionHandler,
+            IExceptionHandlerFactory exceptionHandlerFactory,
             IHttpClientWebHelper httpClientWebHelper,
             IFactory<IWebRequestResult> webRequestResultFactory)
         {
-            _exceptionHandler = exceptionHandler;
+            _exceptionHandlerFactory = exceptionHandlerFactory;
             _httpClientWebHelper = httpClientWebHelper;
             _webRequestResultFactory = webRequestResultFactory;
         }
@@ -49,7 +49,8 @@ namespace Tweetinvi.WebLogic
 
                     if (!result.IsSuccessStatusCode)
                     {
-                        throw _exceptionHandler.TryLogFailedWebRequestResult(result, twitterQuery);
+                        IExceptionHandler exceptionHandler = _exceptionHandlerFactory.Create();
+                        throw exceptionHandler.TryLogFailedWebRequestResult(result, twitterQuery);
                     }
 
                     var stream = result.ResultStream;
@@ -175,6 +176,8 @@ namespace Tweetinvi.WebLogic
                 var httpRequestMessageException = aex.InnerException as HttpRequestException;
                 var taskCanceledException = aex.InnerException as TaskCanceledException;
 
+                IExceptionHandler exceptionHandler = _exceptionHandlerFactory.Create();
+
                 if (httpRequestMessageException != null)
                 {
                     webException = httpRequestMessageException.InnerException as WebException;
@@ -182,15 +185,15 @@ namespace Tweetinvi.WebLogic
 
                 if (webException != null)
                 {
-                    throw _exceptionHandler.TryLogWebException(webException, twitterQuery);
+                    throw exceptionHandler.TryLogWebException(webException, twitterQuery);
                 }
 
                 if (taskCanceledException != null)
                 {
                     var twitterTimeoutException = new TwitterTimeoutException(twitterQuery);
-                    if (_exceptionHandler.LogExceptions)
+                    if (exceptionHandler.LogExceptions)
                     {
-                        _exceptionHandler.AddTwitterException(twitterTimeoutException);
+                        exceptionHandler.AddTwitterException(twitterTimeoutException);
                     }
 
                     throw twitterTimeoutException;

@@ -39,14 +39,16 @@ namespace Testinvi.Tweetinvi
             ExceptionHandler.ClearLoggedExceptions();
             ExceptionHandler.AddTwitterException(A.Fake<ITwitterException>());
 
-            // Prevent execution context from being passed over (next time only, so behaviour
-            //  will be  normal again for the next test executed)
-            ExecutionContext.SuppressFlow();
-            
-            // Act
-            await Task.Run(() => 
-                // Assert
-                Assert.IsFalse(ExceptionHandler.GetExceptions().Any()));
+            // Prevent execution context from being passed over to the new thread
+            Task t;
+            using (ExecutionContext.SuppressFlow())
+            {
+                // Act
+                t = Task.Run(() =>
+                    // Assert
+                    Assert.IsFalse(ExceptionHandler.GetExceptions().Any()));
+            }
+            await t;
         }
     }
 }

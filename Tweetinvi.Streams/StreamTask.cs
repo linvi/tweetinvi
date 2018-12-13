@@ -44,7 +44,7 @@ namespace Tweetinvi.Streams
 
         private readonly Func<string, bool> _processObject;
         private readonly Func<ITwitterQuery> _generateTwitterQuery;
-        private readonly IExceptionHandler _exceptionHandler;
+        private readonly IExceptionHandlerFactory _exceptionHandlerFactory;
         private readonly ITweetinviEvents _tweetinviEvents;
         private readonly IFactory<ITwitterTimeoutException> _twitterTimeoutExceptionFactory;
         private readonly IHttpClientWebHelper _httpClientWebHelper;
@@ -60,14 +60,14 @@ namespace Tweetinvi.Streams
         public StreamTask(
             Func<string, bool> processObject,
             Func<ITwitterQuery> generateTwitterQuery,
-            IExceptionHandler exceptionHandler,
+            IExceptionHandlerFactory exceptionHandlerFactory,
             ITweetinviEvents tweetinviEvents,
             IFactory<ITwitterTimeoutException> twitterTimeoutExceptionFactory,
             IHttpClientWebHelper httpClientWebHelper)
         {
             _processObject = processObject;
             _generateTwitterQuery = generateTwitterQuery;
-            _exceptionHandler = exceptionHandler;
+            _exceptionHandlerFactory = exceptionHandlerFactory;
             _tweetinviEvents = tweetinviEvents;
             _twitterTimeoutExceptionFactory = twitterTimeoutExceptionFactory;
             _httpClientWebHelper = httpClientWebHelper;
@@ -339,9 +339,10 @@ namespace Tweetinvi.Streams
 
         private void HandleWebException(WebException wex)
         {
-            _lastException = _exceptionHandler.GenerateTwitterException(wex, _twitterQuery, _currentResponseHttpStatusCode);
+            IExceptionHandler exceptionHandler = _exceptionHandlerFactory.Create();
+            _lastException = exceptionHandler.GenerateTwitterException(wex, _twitterQuery, _currentResponseHttpStatusCode);
 
-            if (!_exceptionHandler.SwallowWebExceptions)
+            if (!exceptionHandler.SwallowWebExceptions)
             {
                 SetStreamState(StreamState.Stop);
                 throw _lastException;

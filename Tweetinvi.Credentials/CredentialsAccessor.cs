@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using Tweetinvi.Core.Credentials;
 using Tweetinvi.Models;
 
@@ -6,95 +7,76 @@ namespace Tweetinvi.Credentials
 {
     public class CredentialsAccessor : ICredentialsAccessor
     {
-        private static ITwitterCredentials StaticApplicationCredentials { get; set; }
+        private static ITwitterCredentials _applicationCredentials;
+
+        private static readonly AsyncLocal<ITwitterCredentials>
+            _currentThreadCredentials = new AsyncLocal<ITwitterCredentials>();
 
         public CredentialsAccessor()
         {
-            CurrentThreadCredentials = StaticApplicationCredentials;
+            CurrentThreadCredentials = _applicationCredentials;
         }
 
         public ITwitterCredentials ApplicationCredentials
         {
-            get { return StaticApplicationCredentials; }
-            set
-            {
-                StaticApplicationCredentials = value;
-
-                if (_currentThreadCredentials == null)
-                {
-                    _currentThreadCredentials = value;
-                }
-            }
+            get => _applicationCredentials;
+            set => _applicationCredentials = value;
         }
 
-        [ThreadStatic] // Ensures that the thread initialization is performed only once!
-        private static bool? _currentThreadCredentialsInitialized;
-
-        [ThreadStatic]
-        private static ITwitterCredentials _currentThreadCredentials;
         public ITwitterCredentials CurrentThreadCredentials
         {
             get
             {
-                if (_currentThreadCredentialsInitialized == null)
+                if (_currentThreadCredentials.Value == null)
                 {
-                    _currentThreadCredentials = ApplicationCredentials;
-                    _currentThreadCredentialsInitialized = true;
+                    _currentThreadCredentials.Value = ApplicationCredentials;
                 }
 
-                return _currentThreadCredentials;
+                return _currentThreadCredentials.Value;
             }
             set
             {
-                _currentThreadCredentials = value;
+                _currentThreadCredentials.Value = value;
 
-                // Mark as initialised, don't want to override these credentials the user has set with application ones when we first use them
-                _currentThreadCredentialsInitialized = true;
-
-                if (!HasTheApplicationCredentialsBeenInitialized() && _currentThreadCredentials != null)
+                if (!HasTheApplicationCredentialsBeenInitialized() && _currentThreadCredentials.Value != null)
                 {
-                    StaticApplicationCredentials = value;
+                    _applicationCredentials = value;
                 }
             }
         }
 
         public T ExecuteOperationWithCredentials<T>(ITwitterCredentials credentials, Func<T> operation)
         {
-            // This operation does not need any lock because the Credentials are unique per thread
-            // We can therefore change the value safely without affecting any other thread
-
-            var initialCredentials = CurrentThreadCredentials;
-            CurrentThreadCredentials = credentials;
-            var result = operation();
-
-            bool hasUserChangedCredentialsDuringOperation = CurrentThreadCredentials != credentials;
-            if (!hasUserChangedCredentialsDuringOperation)
+            // TODO: Ensure any objects on the execution context that we want to update for the calling thread
+            //  are instantiated before we copy the EC.
+            ExecutionContext ec = ExecutionContext.Capture();
+            T result = default(T);
+            ExecutionContext.Run(ec, _ =>
             {
-                CurrentThreadCredentials = initialCredentials;
-            }
+                // Setting a reference at an execution context level will not be carried back to the original EC.
+                //  However, updates to objects on the heap (e.g. adding an item to a list) will do, as the EC is not
+                //  deep copied.
+                // So here, the CurrentThreadCredentials will only be updated within this ExecutionContext.
+                CurrentThreadCredentials = credentials;
+                result = operation();
+            }, null);
 
             return result;
         }
 
         public void ExecuteOperationWithCredentials(ITwitterCredentials credentials, Action operation)
         {
-            // This operation does not need any lock because the Credentials are unique per thread
-            // We can therefore change the value safely without affecting any other thread
-
-            var initialCredentials = CurrentThreadCredentials;
-            CurrentThreadCredentials = credentials;
-            operation();
-
-            bool hasUserChangedCredentialsDuringOpertion = CurrentThreadCredentials != credentials;
-            if (!hasUserChangedCredentialsDuringOpertion)
+            // Reuse Func<T> implementation
+            ExecuteOperationWithCredentials(credentials, () =>
             {
-                CurrentThreadCredentials = initialCredentials;
-            }
+                operation();
+                return 0;
+            });
         }
 
         private bool HasTheApplicationCredentialsBeenInitialized()
         {
-            return StaticApplicationCredentials != null;
+            return _applicationCredentials != null;
         }
     }
 }

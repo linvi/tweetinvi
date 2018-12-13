@@ -1,5 +1,6 @@
 ﻿using System.Configuration;
 using System.Threading;
+using FakeItEasy;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Tweetinvi;
 using Tweetinvi.Models;
@@ -79,18 +80,13 @@ namespace Testinvi.Tweetinvi
         public void ApplicationCredentialsDefinedOnFirstSet()
         {
             // Arrange
-            var credentials = GenerateTokenCredentials();
+            var credentials = A.Fake<ITwitterCredentials>();
 
             // Act
             Auth.Credentials = credentials;
 
             // Assert
             Assert.AreEqual(credentials, Auth.Credentials);
-        }
-
-        private ITwitterCredentials GenerateTokenCredentials()
-        {
-            return null;
         }
 
         private void AssertAreCredentialsEquals(ITwitterCredentials credentials1, ITwitterCredentials credentials2)
