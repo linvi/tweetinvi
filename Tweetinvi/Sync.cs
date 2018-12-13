@@ -13,48 +13,6 @@ namespace Tweetinvi
     /// </summary>
     public static class Sync
     {
-        public static async Task<T> RunAsync<T>(Func<T> func)
-        {
-            using (var thread = new AsyncContextThread())
-            {
-                var result = await thread.Factory.Run(() => { return func(); });
-                return result;
-            }
-        }
-
-        private static readonly ITaskFactory _taskFactory;
-
-        [ThreadStatic]
-        private static ICredentialsAccessor _credentialsAccessor;
-
-        /// <summary>
-        /// Object storing the current thread credentials
-        /// </summary>
-        public static ICredentialsAccessor CredentialsAccessor
-        {
-            get
-            {
-                if (_credentialsAccessor == null)
-                {
-                    InitializeStaticThread();
-                }
-
-                return _credentialsAccessor;
-            }
-        }
-
-        static Sync()
-        {
-            InitializeStaticThread();
-
-            _taskFactory = TweetinviContainer.Resolve<ITaskFactory>();
-        }
-
-        private static void InitializeStaticThread()
-        {
-            _credentialsAccessor = TweetinviContainer.Resolve<ICredentialsAccessor>();
-        }
-
         /// <summary>
         /// Execute a task asynchronously with Tweetinvi
         /// </summary>
