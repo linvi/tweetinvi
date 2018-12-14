@@ -97,19 +97,19 @@ namespace Testinvi.Tweetinvi
             CollectionAssert.AreEqual(expectedExceptions, exceptions);
         }
 
-        [ThreadStatic]
-        private static string strThreadStatic_ExecuteTaskAsyncActionCallsActionInAnotherThread;
-
         [TestMethod]
         public async Task ExecuteTaskAsyncActionCallsActionInAnotherThread()
         {
             // Arrange
-            strThreadStatic_ExecuteTaskAsyncActionCallsActionInAnotherThread = "a";
+            ThreadLocal<string> threadLocal = new ThreadLocal<string>()
+            {
+                Value = new Fixture().Create<string>()
+            };
 
             // Act
             await Sync.ExecuteTaskAsync(() =>
                 // Assert (can be done within async due to regular exceptions still being thrown)
-                Assert.AreNotEqual("a", strThreadStatic_ExecuteTaskAsyncActionCallsActionInAnotherThread));
+                Assert.IsNull(threadLocal.Value));
         }
 
         [TestMethod]
@@ -249,21 +249,20 @@ namespace Testinvi.Tweetinvi
             CollectionAssert.AreEqual(expectedExceptions, exceptions);
         }
 
-        [ThreadStatic]
-        private static string strThreadStatic_ExecuteTaskAsyncFuncCallsFuncInAnotherThread;
-
         [TestMethod]
         public async Task ExecuteTaskAsyncFuncCallsFuncInAnotherThread()
         {
             // Arrange
-            strThreadStatic_ExecuteTaskAsyncFuncCallsFuncInAnotherThread = "a";
-            ExceptionHandler.SwallowWebExceptions = false;
+            ThreadLocal<string> threadLocal = new ThreadLocal<string>()
+            {
+                Value = new Fixture().Create<string>()
+            };
 
             // Act
             await Sync.ExecuteTaskAsync(() =>
             {
                 // Assert (can be done within async due to regular exceptions still being thrown)
-                Assert.AreNotEqual("a", strThreadStatic_ExecuteTaskAsyncFuncCallsFuncInAnotherThread);
+                Assert.IsNull(threadLocal.Value);
                 return 0;
             });
         }
