@@ -13,6 +13,7 @@ using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
 using Tweetinvi.Models.Entities;
 using Tweetinvi.Models.Entities.ExtendedEntities;
+using TimeZone = Tweetinvi.Logic.Model.TimeZone;
 
 namespace Tweetinvi.Logic.JsonConverters
 {

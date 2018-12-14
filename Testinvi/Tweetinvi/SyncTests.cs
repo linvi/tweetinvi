@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
+using AutoFixture;
 using FakeItEasy;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Testinvi.TestObjects;
@@ -14,7 +16,14 @@ namespace Testinvi.Tweetinvi
     [TestClass]
     public class SyncTests
     {
-        #region Task ExecuteTaskAsync(Action action)
+        #region Task ExecuteTaskAsync(Action)
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public async Task ExecuteTaskAsyncActionNullThrows()
+        {
+            await Sync.ExecuteTaskAsync(null);
+        }
 
         [TestMethod]
         public async Task ExecuteTaskAsyncActionCallsAction()
@@ -133,7 +142,14 @@ namespace Testinvi.Tweetinvi
 
         #endregion
 
-        #region ExecuteTaskAsync<T>(Func<T> resultFunc)
+        #region ExecuteTaskAsync<T>(Func<T>)
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public async Task ExecuteTaskAsyncFuncNullThrows()
+        {
+            await Sync.ExecuteTaskAsync<int>(null);
+        }
 
         [TestMethod]
         public async Task ExecuteTaskAsyncFuncCallsFunc()
@@ -287,6 +303,185 @@ namespace Testinvi.Tweetinvi
             bool hasException = ExceptionHandler.TryPopException(out ITwitterException actual);
             Assert.IsTrue(hasException);
             Assert.AreEqual(exception, actual);
+        }
+
+        #endregion
+
+        #region ExecuteIsolatedTaskAsync(Action)
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public async Task ExecuteIsolatedTaskAsyncActionNullThrows()
+        {
+            await Sync.ExecuteIsolatedTaskAsync(null);
+        }
+
+        [TestMethod]
+        public async Task ExecuteIsolatedTaskAsyncActionCallsAction()
+        {
+            // Arrange
+            bool called = false;
+
+            // Act
+            await Sync.ExecuteIsolatedTaskAsync(() => { called = true; });
+
+            // Assert
+            Assert.IsTrue(called);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(TestException))]
+        public async Task ExecuteIsolatedTaskAsyncActionThrowsNonTwitterException()
+        {
+            await Sync.ExecuteIsolatedTaskAsync(() => throw new TestException());
+        }
+
+        [TestMethod]
+        public async Task ExecuteIsolatedTaskAsyncActionGetsOwnExecutionContext()
+        {
+            // Arrange
+            AsyncLocal<string> asyncLocal = new AsyncLocal<string>()
+            {
+                Value = new Fixture().Create<string>()
+            };
+
+            // Act
+            await Sync.ExecuteIsolatedTaskAsync(() =>
+            {
+                // Assert
+                Assert.IsNull(asyncLocal.Value);
+            });
+        }
+
+        [TestMethod]
+        public async Task ExecuteIsolatedTaskAsyncActionCallsActionInAnotherThread()
+        {
+            // Arrange
+            ThreadLocal<string> threadLocal = new ThreadLocal<string>()
+            {
+                Value = new Fixture().Create<string>()
+            };
+
+            // Act
+            await Sync.ExecuteIsolatedTaskAsync(() =>
+            {
+                // Assert
+                Assert.IsNull(threadLocal.Value);
+            });
+        }
+
+        [TestMethod]
+        public async Task ExecuteIsolatedTaskAsyncActionGetsOwnExceptionHandler()
+        {
+            // Arrange: Ensure we have an Exception Handler on the calling context
+            Sync.PrepareForAsync();
+
+            // Act: Use the Exception Handler within ExecuteIsolatedTaskAsync
+            await Sync.ExecuteIsolatedTaskAsync(() =>
+            {
+                ITwitterException exception = A.Fake<ITwitterException>();
+                ExceptionHandler.AddTwitterException(exception);
+            });
+
+            // Assert
+            bool hasException = ExceptionHandler.TryPopException(out _);
+            Assert.IsFalse(hasException);
+        }
+
+        #endregion
+
+        #region ExecuteIsolatedTaskAsync<T>(Func<T)
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public async Task ExecuteIsolatedTaskAsyncFuncNullThrows()
+        {
+            await Sync.ExecuteIsolatedTaskAsync<int>(null);
+        }
+
+        [TestMethod]
+        public async Task ExecuteIsolatedTaskAsyncFuncCallsAction()
+        {
+            // Arrange
+            bool called = false;
+
+            // Act
+            await Sync.ExecuteIsolatedTaskAsync(() =>
+            {
+                called = true;
+                return 0;
+            });
+
+            // Assert
+            Assert.IsTrue(called);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(TestException))]
+        public async Task ExecuteIsolatedTaskAsyncFuncThrowsNonTwitterException()
+        {
+            await Sync.ExecuteIsolatedTaskAsync(() =>
+            {
+                throw new TestException();
+#pragma warning disable 162
+                return 0;
+#pragma warning restore 162
+            });
+        }
+
+        [TestMethod]
+        public async Task ExecuteIsolatedTaskAsyncFuncGetsOwnExecutionContext()
+        {
+            // Arrange
+            AsyncLocal<string> asyncLocal = new AsyncLocal<string>()
+            {
+                Value = new Fixture().Create<string>()
+            };
+
+            // Act
+            await Sync.ExecuteIsolatedTaskAsync(() =>
+            {
+                // Assert
+                Assert.IsNull(asyncLocal.Value);
+                return 0;
+            });
+        }
+
+        [TestMethod]
+        public async Task ExecuteIsolatedTaskAsyncFuncCallsActionInAnotherThread()
+        {
+            // Arrange
+            ThreadLocal<string> threadLocal = new ThreadLocal<string>()
+            {
+                Value = new Fixture().Create<string>()
+            };
+
+            // Act
+            await Sync.ExecuteIsolatedTaskAsync(() =>
+            {
+                // Assert
+                Assert.IsNull(threadLocal.Value);
+                return 0;
+            });
+        }
+
+        [TestMethod]
+        public async Task ExecuteIsolatedTaskAsyncFuncGetsOwnExceptionHandler()
+        {
+            // Arrange: Ensure we have an Exception Handler on the calling context
+            Sync.PrepareForAsync();
+
+            // Act: Use the Exception Handler within ExecuteIsolatedTaskAsync
+            await Sync.ExecuteIsolatedTaskAsync(() =>
+            {
+                ITwitterException exception = A.Fake<ITwitterException>();
+                ExceptionHandler.AddTwitterException(exception);
+                return 0;
+            });
+
+            // Assert
+            bool hasException = ExceptionHandler.TryPopException(out _);
+            Assert.IsFalse(hasException);
         }
 
         #endregion
