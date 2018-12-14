@@ -17,6 +17,7 @@ using Stream = Tweetinvi.Stream;
 
 // Others
 using Tweetinvi.Exceptions; // Handle Exceptions
+using Tweetinvi.Core.Exceptions;
 using Tweetinvi.Core.Extensions;
 using Tweetinvi.Core.Public.Parameters;
 // Extension methods provided by Tweetinvi
@@ -1697,9 +1698,8 @@ namespace Examplinvi
 
             // default
             var user = User.GetAuthenticatedUser();
-            if (user == null)
+            if (user == null && ExceptionHandler.TryPopException(out ITwitterException lastException))
             {
-                var lastException = ExceptionHandler.GetLastException();
                 Console.WriteLine(lastException.TwitterDescription);
             }
 
