@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using System.Threading.Tasks;
+using System.Runtime.CompilerServices;
 using Tweetinvi.Models;
 using Tweetinvi.Parameters;
 
@@ -8,81 +8,81 @@ namespace Tweetinvi
     public class TweetAsync
     {
         // Tweet Factory
-        public static async Task<ITweet> GetTweet(long tweetId)
+        public static ConfiguredTaskAwaitable<ITweet> GetTweet(long tweetId)
         {
-            return await Sync.ExecuteTaskAsync(() => Tweet.GetTweet(tweetId));
+            return Sync.ExecuteTaskAsync(() => Tweet.GetTweet(tweetId));
         }
 
         // Tweet Controller
-        public static async Task<ITweet> PublishTweet(string text, IPublishTweetOptionalParameters parameters = null)
+        public static ConfiguredTaskAwaitable<ITweet> PublishTweet(string text, IPublishTweetOptionalParameters parameters = null)
         {
-            return await Sync.ExecuteTaskAsync(() => Tweet.PublishTweet(text, parameters));
+            return Sync.ExecuteTaskAsync(() => Tweet.PublishTweet(text, parameters));
         }
 
         // Publish TweetInReplyTo From Text
-        public static async Task<ITweet> PublishTweetInReplyTo(string text, ITweetIdentifier tweetToReplyTo)
+        public static ConfiguredTaskAwaitable<ITweet> PublishTweetInReplyTo(string text, ITweetIdentifier tweetToReplyTo)
         {
-            return await Sync.ExecuteTaskAsync(() => Tweet.PublishTweetInReplyTo(text, tweetToReplyTo));
+            return Sync.ExecuteTaskAsync(() => Tweet.PublishTweetInReplyTo(text, tweetToReplyTo));
         }
 
-        public static async Task<ITweet> PublishTweetInReplyTo(string text, long tweetToReplyToId)
+        public static ConfiguredTaskAwaitable<ITweet> PublishTweetInReplyTo(string text, long tweetToReplyToId)
         {
-            return await Sync.ExecuteTaskAsync(() => Tweet.PublishTweetInReplyTo(text, tweetToReplyToId));
+            return Sync.ExecuteTaskAsync(() => Tweet.PublishTweetInReplyTo(text, tweetToReplyToId));
         }
 
         // Publish Retweet
-        public static async Task<ITweet> PublishRetweet(ITweet tweet)
+        public static ConfiguredTaskAwaitable<ITweet> PublishRetweet(ITweet tweet)
         {
-            return await Sync.ExecuteTaskAsync(() => Tweet.PublishRetweet(tweet));
+            return Sync.ExecuteTaskAsync(() => Tweet.PublishRetweet(tweet));
         }
 
-        public static async Task<ITweet> PublishRetweet(long tweetId)
+        public static ConfiguredTaskAwaitable<ITweet> PublishRetweet(long tweetId)
         {
-            return await Sync.ExecuteTaskAsync(() => Tweet.PublishRetweet(tweetId));
+            return Sync.ExecuteTaskAsync(() => Tweet.PublishRetweet(tweetId));
         }
 
         // Get Retweet
-        public static async Task<IEnumerable<ITweet>> GetRetweets(ITweet tweet)
+        public static ConfiguredTaskAwaitable<IEnumerable<ITweet>> GetRetweets(ITweet tweet)
         {
-            return await Sync.ExecuteTaskAsync(() => Tweet.GetRetweets(tweet));
+            return Sync.ExecuteTaskAsync(() => Tweet.GetRetweets(tweet));
         }
 
-        public static async Task<IEnumerable<ITweet>> GetRetweets(long tweetId)
+        public static ConfiguredTaskAwaitable<IEnumerable<ITweet>> GetRetweets(long tweetId)
         {
-            return await Sync.ExecuteTaskAsync(() => Tweet.GetRetweets(tweetId));
+            return Sync.ExecuteTaskAsync(() => Tweet.GetRetweets(tweetId));
         }
 
         // Destroy Tweet
-        public static async Task<bool> DestroyTweet(ITweet tweet)
+        public static ConfiguredTaskAwaitable<bool> DestroyTweet(ITweet tweet)
         {
-            return await Sync.ExecuteTaskAsync(() => Tweet.DestroyTweet(tweet));
+            return Sync.ExecuteTaskAsync(() => Tweet.DestroyTweet(tweet));
         }
 
-        public static async Task<bool> DestroyTweet(long tweetId)
+        public static ConfiguredTaskAwaitable<bool> DestroyTweet(long tweetId)
         {
-            return await Sync.ExecuteTaskAsync(() => Tweet.DestroyTweet(tweetId));
+            return Sync.ExecuteTaskAsync(() => Tweet.DestroyTweet(tweetId));
         }
 
         // Favorite Tweet
-        public static async Task<bool> FavoriteTweet(ITweet tweet)
+        public static ConfiguredTaskAwaitable<bool> FavoriteTweet(ITweet tweet)
         {
-            return await Sync.ExecuteTaskAsync(() => Tweet.FavoriteTweet(tweet));
+            return Sync.ExecuteTaskAsync(() => Tweet.FavoriteTweet(tweet));
         }
 
-        public static async Task<bool> FavoriteTweet(long tweetId)
+        public static ConfiguredTaskAwaitable<bool> FavoriteTweet(long tweetId)
         {
-            return await Sync.ExecuteTaskAsync(() => Tweet.FavoriteTweet(tweetId));
+            return Sync.ExecuteTaskAsync(() => Tweet.FavoriteTweet(tweetId));
         }
 
         // Generate OEmbedTweet
-        public static async Task<IOEmbedTweet> GenerateOEmbedTweet(ITweet tweet)
+        public static ConfiguredTaskAwaitable<IOEmbedTweet> GenerateOEmbedTweet(ITweet tweet)
         {
-            return await Sync.ExecuteTaskAsync(() => Tweet.GetOEmbedTweet(tweet));
+            return Sync.ExecuteTaskAsync(() => Tweet.GetOEmbedTweet(tweet));
         }
 
-        public static async Task<IOEmbedTweet> GenerateOEmbedTweet(long tweetId)
+        public static ConfiguredTaskAwaitable<IOEmbedTweet> GenerateOEmbedTweet(long tweetId)
         {
-            return await Sync.ExecuteTaskAsync(() => Tweet.GetOEmbedTweet(tweetId));
+            return Sync.ExecuteTaskAsync(() => Tweet.GetOEmbedTweet(tweetId));
         }
     }
 }

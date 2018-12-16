@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using System.Threading.Tasks;
+using System.Runtime.CompilerServices;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
 using Tweetinvi.Parameters;
@@ -9,143 +9,143 @@ namespace Tweetinvi
     public static class UserAsync
     {
         // User Factory
-        public static async Task<IAuthenticatedUser> GetAuthenticatedUser()
+        public static ConfiguredTaskAwaitable<IAuthenticatedUser> GetAuthenticatedUser()
         {
-            return await Sync.ExecuteTaskAsync(() => User.GetAuthenticatedUser());
+            return Sync.ExecuteTaskAsync(() => User.GetAuthenticatedUser());
         }
 
-        public static async Task<IAuthenticatedUser> GetAuthenticatedUser(ITwitterCredentials credentials)
+        public static ConfiguredTaskAwaitable<IAuthenticatedUser> GetAuthenticatedUser(ITwitterCredentials credentials)
         {
-            return await Sync.ExecuteTaskAsync(() => User.GetAuthenticatedUser(credentials));
+            return Sync.ExecuteTaskAsync(() => User.GetAuthenticatedUser(credentials));
         }
 
-        public static async Task<IUser> GetUserFromId(long userId)
+        public static ConfiguredTaskAwaitable<IUser> GetUserFromId(long userId)
         {
-            return await Sync.ExecuteTaskAsync(() => User.GetUserFromId(userId));
+            return Sync.ExecuteTaskAsync(() => User.GetUserFromId(userId));
         }
 
-        public static async Task<IUser> GetUserFromScreenName(string userName)
+        public static ConfiguredTaskAwaitable<IUser> GetUserFromScreenName(string userName)
         {
-            return await Sync.ExecuteTaskAsync(() => User.GetUserFromScreenName(userName));
+            return Sync.ExecuteTaskAsync(() => User.GetUserFromScreenName(userName));
         }
 
-        public static async Task<IUser> GenerateUserFromDTO(IUserDTO userDTO)
+        public static ConfiguredTaskAwaitable<IUser> GenerateUserFromDTO(IUserDTO userDTO)
         {
-            return await Sync.ExecuteTaskAsync(() => User.GenerateUserFromDTO(userDTO));
+            return Sync.ExecuteTaskAsync(() => User.GenerateUserFromDTO(userDTO));
         }
 
-        public static async Task<IEnumerable<IUser>> GenerateUsersFromDTO(IEnumerable<IUserDTO> usersDTO)
+        public static ConfiguredTaskAwaitable<IEnumerable<IUser>> GenerateUsersFromDTO(IEnumerable<IUserDTO> usersDTO)
         {
-            return await Sync.ExecuteTaskAsync(() => User.GenerateUsersFromDTO(usersDTO));
+            return Sync.ExecuteTaskAsync(() => User.GenerateUsersFromDTO(usersDTO));
         }
 
         // User Controller
         // Friend Ids
-        public static async Task<IEnumerable<long>> GetFriendIds(IUserIdentifier user, int maxFriendsToRetrieve = 5000)
+        public static ConfiguredTaskAwaitable<IEnumerable<long>> GetFriendIds(IUserIdentifier user, int maxFriendsToRetrieve = 5000)
         {
-            return await Sync.ExecuteTaskAsync(() => User.GetFriendIds(user, maxFriendsToRetrieve));
+            return Sync.ExecuteTaskAsync(() => User.GetFriendIds(user, maxFriendsToRetrieve));
         }
 
-        public static async Task<IEnumerable<long>> GetFriendIds(long userId, int maxFriendsToRetrieve = 5000)
+        public static ConfiguredTaskAwaitable<IEnumerable<long>> GetFriendIds(long userId, int maxFriendsToRetrieve = 5000)
         {
-            return await Sync.ExecuteTaskAsync(() => User.GetFriendIds(userId, maxFriendsToRetrieve));
+            return Sync.ExecuteTaskAsync(() => User.GetFriendIds(userId, maxFriendsToRetrieve));
         }
 
-        public static async Task<IEnumerable<long>> GetFriendIds(string userScreenName, int maxFriendsToRetrieve = 5000)
+        public static ConfiguredTaskAwaitable<IEnumerable<long>> GetFriendIds(string userScreenName, int maxFriendsToRetrieve = 5000)
         {
-            return await Sync.ExecuteTaskAsync(() => User.GetFriendIds(userScreenName, maxFriendsToRetrieve));
+            return Sync.ExecuteTaskAsync(() => User.GetFriendIds(userScreenName, maxFriendsToRetrieve));
         }
 
         // Friends
-        public static async Task<IEnumerable<IUser>> GetFriends(IUserIdentifier user, int maxFriendsToRetrieve = 250)
+        public static ConfiguredTaskAwaitable<IEnumerable<IUser>> GetFriends(IUserIdentifier user, int maxFriendsToRetrieve = 250)
         {
-            return await Sync.ExecuteTaskAsync(() => User.GetFriends(user, maxFriendsToRetrieve));
+            return Sync.ExecuteTaskAsync(() => User.GetFriends(user, maxFriendsToRetrieve));
         }
 
-        public static async Task<IEnumerable<IUser>> GetFriends(long userId, int maxFriendsToRetrieve = 250)
+        public static ConfiguredTaskAwaitable<IEnumerable<IUser>> GetFriends(long userId, int maxFriendsToRetrieve = 250)
         {
-            return await Sync.ExecuteTaskAsync(() => User.GetFriends(userId, maxFriendsToRetrieve));
+            return Sync.ExecuteTaskAsync(() => User.GetFriends(userId, maxFriendsToRetrieve));
         }
 
-        public static async Task<IEnumerable<IUser>> GetFriends(string userScreenName, int maxFriendsToRetrieve = 250)
+        public static ConfiguredTaskAwaitable<IEnumerable<IUser>> GetFriends(string userScreenName, int maxFriendsToRetrieve = 250)
         {
-            return await Sync.ExecuteTaskAsync(() => User.GetFriends(userScreenName, maxFriendsToRetrieve));
+            return Sync.ExecuteTaskAsync(() => User.GetFriends(userScreenName, maxFriendsToRetrieve));
         }
 
         // Follower Ids
-        public static async Task<IEnumerable<long>> GetFollowerIds(IUserIdentifier user, int maxFollowersToRetrieve = 5000)
+        public static ConfiguredTaskAwaitable<IEnumerable<long>> GetFollowerIds(IUserIdentifier user, int maxFollowersToRetrieve = 5000)
         {
-            return await Sync.ExecuteTaskAsync(() => User.GetFollowerIds(user, maxFollowersToRetrieve));
+            return Sync.ExecuteTaskAsync(() => User.GetFollowerIds(user, maxFollowersToRetrieve));
         }
 
-        public static async Task<IEnumerable<long>> GetFollowerIds(long userId, int maxFollowersToRetrieve = 5000)
+        public static ConfiguredTaskAwaitable<IEnumerable<long>> GetFollowerIds(long userId, int maxFollowersToRetrieve = 5000)
         {
-            return await Sync.ExecuteTaskAsync(() => User.GetFollowerIds(userId, maxFollowersToRetrieve));
+            return Sync.ExecuteTaskAsync(() => User.GetFollowerIds(userId, maxFollowersToRetrieve));
         }
 
-        public static async Task<IEnumerable<long>> GetFollowerIds(string userScreenName, int maxFollowersToRetrieve = 5000)
+        public static ConfiguredTaskAwaitable<IEnumerable<long>> GetFollowerIds(string userScreenName, int maxFollowersToRetrieve = 5000)
         {
-            return await Sync.ExecuteTaskAsync(() => User.GetFollowerIds(userScreenName, maxFollowersToRetrieve));
+            return Sync.ExecuteTaskAsync(() => User.GetFollowerIds(userScreenName, maxFollowersToRetrieve));
         }
 
         // Followers
-        public static async Task<IEnumerable<IUser>> GetFollowers(IUserIdentifier user, int maxFollowersToRetrieve = 250)
+        public static ConfiguredTaskAwaitable<IEnumerable<IUser>> GetFollowers(IUserIdentifier user, int maxFollowersToRetrieve = 250)
         {
-            return await Sync.ExecuteTaskAsync(() => User.GetFollowers(user, maxFollowersToRetrieve));
+            return Sync.ExecuteTaskAsync(() => User.GetFollowers(user, maxFollowersToRetrieve));
         }
 
-        public static async Task<IEnumerable<IUser>> GetFollowers(long userId, int maxFollowersToRetrieve = 250)
+        public static ConfiguredTaskAwaitable<IEnumerable<IUser>> GetFollowers(long userId, int maxFollowersToRetrieve = 250)
         {
-            return await Sync.ExecuteTaskAsync(() => User.GetFollowers(userId, maxFollowersToRetrieve));
+            return Sync.ExecuteTaskAsync(() => User.GetFollowers(userId, maxFollowersToRetrieve));
         }
 
-        public static async Task<IEnumerable<IUser>> GetFollowers(string userScreenName, int maxFollowersToRetrieve = 250)
+        public static ConfiguredTaskAwaitable<IEnumerable<IUser>> GetFollowers(string userScreenName, int maxFollowersToRetrieve = 250)
         {
-            return await Sync.ExecuteTaskAsync(() => User.GetFollowers(userScreenName, maxFollowersToRetrieve));
+            return Sync.ExecuteTaskAsync(() => User.GetFollowers(userScreenName, maxFollowersToRetrieve));
         }
 
         // Favourites
 
-        public static async Task<IEnumerable<ITweet>> GetFavoriteTweets(IUserIdentifier user, IGetUserFavoritesParameters parameters = null)
+        public static ConfiguredTaskAwaitable<IEnumerable<ITweet>> GetFavoriteTweets(IUserIdentifier user, IGetUserFavoritesParameters parameters = null)
         {
-            return await Sync.ExecuteTaskAsync(() => User.GetFavoriteTweets(user, parameters));
+            return Sync.ExecuteTaskAsync(() => User.GetFavoriteTweets(user, parameters));
         }
 
-        public static async Task<IEnumerable<ITweet>> GetFavoriteTweets(long userId, IGetUserFavoritesParameters parameters = null)
+        public static ConfiguredTaskAwaitable<IEnumerable<ITweet>> GetFavoriteTweets(long userId, IGetUserFavoritesParameters parameters = null)
         {
-            return await Sync.ExecuteTaskAsync(() => User.GetFavoriteTweets(userId, parameters));
+            return Sync.ExecuteTaskAsync(() => User.GetFavoriteTweets(userId, parameters));
         }
 
-        public static async Task<IEnumerable<ITweet>> GetFavoriteTweets(string userScreenName, IGetUserFavoritesParameters parameters = null)
+        public static ConfiguredTaskAwaitable<IEnumerable<ITweet>> GetFavoriteTweets(string userScreenName, IGetUserFavoritesParameters parameters = null)
         {
-            return await Sync.ExecuteTaskAsync(() => User.GetFavoriteTweets(userScreenName, parameters));
+            return Sync.ExecuteTaskAsync(() => User.GetFavoriteTweets(userScreenName, parameters));
         }
 
         // Block User
-        public static async Task<bool> BlockUser(IUserIdentifier user)
+        public static ConfiguredTaskAwaitable<bool> BlockUser(IUserIdentifier user)
         {
-            return await Sync.ExecuteTaskAsync(() => User.BlockUser(user));
+            return Sync.ExecuteTaskAsync(() => User.BlockUser(user));
         }
 
-        public static async Task<bool> BlockUser(long userId)
+        public static ConfiguredTaskAwaitable<bool> BlockUser(long userId)
         {
-            return await Sync.ExecuteTaskAsync(() => User.BlockUser(userId));
+            return Sync.ExecuteTaskAsync(() => User.BlockUser(userId));
         }
 
-        public static async Task<bool> BlockUser(string userScreenName)
+        public static ConfiguredTaskAwaitable<bool> BlockUser(string userScreenName)
         {
-            return await Sync.ExecuteTaskAsync(() => User.BlockUser(userScreenName));
+            return Sync.ExecuteTaskAsync(() => User.BlockUser(userScreenName));
         }
 
         // Stream Profile Image 
-        public static async Task<System.IO.Stream> GetProfileImageStream(IUser user, ImageSize imageSize = ImageSize.normal)
+        public static ConfiguredTaskAwaitable<System.IO.Stream> GetProfileImageStream(IUser user, ImageSize imageSize = ImageSize.normal)
         {
-            return await Sync.ExecuteTaskAsync(() => User.GetProfileImageStream(user, imageSize));
+            return Sync.ExecuteTaskAsync(() => User.GetProfileImageStream(user, imageSize));
         }
 
-        public static async Task<System.IO.Stream> GetProfileImageStream(IUserDTO userDTO, ImageSize imageSize = ImageSize.normal)
+        public static ConfiguredTaskAwaitable<System.IO.Stream> GetProfileImageStream(IUserDTO userDTO, ImageSize imageSize = ImageSize.normal)
         {
-            return await Sync.ExecuteTaskAsync(() => User.GetProfileImageStream(userDTO, imageSize));
+            return Sync.ExecuteTaskAsync(() => User.GetProfileImageStream(userDTO, imageSize));
         }
     }
 }

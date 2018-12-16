@@ -1,34 +1,34 @@
 ﻿using System.Collections.Generic;
-using System.Threading.Tasks;
+using System.Runtime.CompilerServices;
 using Tweetinvi.Models;
 
 namespace Tweetinvi
 {
     public static class SavedSearchAsync
     {
-        public static async Task<ISavedSearch> CreateSavedSearch(string query)
+        public static ConfiguredTaskAwaitable<ISavedSearch> CreateSavedSearch(string query)
         {
-            return await Sync.ExecuteTaskAsync(() => SavedSearch.CreateSavedSearch(query));
+            return Sync.ExecuteTaskAsync(() => SavedSearch.CreateSavedSearch(query));
         }
 
-        public static async Task<ISavedSearch> GetSavedSearch(long searchId)
+        public static ConfiguredTaskAwaitable<ISavedSearch> GetSavedSearch(long searchId)
         {
-            return await Sync.ExecuteTaskAsync(() => SavedSearch.GetSavedSearch(searchId));
+            return Sync.ExecuteTaskAsync(() => SavedSearch.GetSavedSearch(searchId));
         }
 
-        public static async Task<List<ISavedSearch>> GetSavedSearches()
+        public static ConfiguredTaskAwaitable<List<ISavedSearch>> GetSavedSearches()
         {
-            return await Sync.ExecuteTaskAsync(() => SavedSearch.GetSavedSearches());
+            return Sync.ExecuteTaskAsync(() => SavedSearch.GetSavedSearches());
         }
 
-        public static async Task<bool> DestroySavedSearch(ISavedSearch savedSearch)
+        public static ConfiguredTaskAwaitable<bool> DestroySavedSearch(ISavedSearch savedSearch)
         {
-            return await Sync.ExecuteTaskAsync(() => SavedSearch.DestroySavedSearch(savedSearch));
+            return Sync.ExecuteTaskAsync(() => SavedSearch.DestroySavedSearch(savedSearch));
         }
 
-        public static async Task<bool> DestroySavedSearch(long searchId)
+        public static ConfiguredTaskAwaitable<bool> DestroySavedSearch(long searchId)
         {
-            return await Sync.ExecuteTaskAsync(() => SavedSearch.DestroySavedSearch(searchId));
+            return Sync.ExecuteTaskAsync(() => SavedSearch.DestroySavedSearch(searchId));
         }
     }
 }

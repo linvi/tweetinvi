@@ -1,18 +1,18 @@
-﻿using System.Threading.Tasks;
+﻿using System.Runtime.CompilerServices;
 using Tweetinvi.Models;
 
 namespace Tweetinvi
 {
     public static class TrendsAsync
     {
-        public static async Task<IPlaceTrends> GetTrendsAt(long woeid)
+        public static ConfiguredTaskAwaitable<IPlaceTrends> GetTrendsAt(long woeid)
         {
-            return await Sync.ExecuteTaskAsync(() => Trends.GetTrendsAt(woeid));
+            return Sync.ExecuteTaskAsync(() => Trends.GetTrendsAt(woeid));
         }
 
-        public static async Task<IPlaceTrends> GetTrendsAt(IWoeIdLocation woeIdLocation)
+        public static ConfiguredTaskAwaitable<IPlaceTrends> GetTrendsAt(IWoeIdLocation woeIdLocation)
         {
-            return await Sync.ExecuteTaskAsync(() => Trends.GetTrendsAt(woeIdLocation));
+            return Sync.ExecuteTaskAsync(() => Trends.GetTrendsAt(woeIdLocation));
         }
     }
 }

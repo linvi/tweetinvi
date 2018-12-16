@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Reflection;
 using Tweetinvi.Core.Injectinvi;
 
 namespace Tweetinvi

@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using System.Threading.Tasks;
+using System.Runtime.CompilerServices;
 using Tweetinvi.Models;
 using Tweetinvi.Parameters;
 
@@ -8,212 +8,212 @@ namespace Tweetinvi
     public static class TwitterListAsync
     {
         // Get Existing List
-        public static async Task<ITwitterList> GetExistingList(ITwitterListIdentifier twitterListIdentifier)
+        public static ConfiguredTaskAwaitable<ITwitterList> GetExistingList(ITwitterListIdentifier twitterListIdentifier)
         {
-            return await Sync.ExecuteTaskAsync(() => TwitterList.GetExistingList(twitterListIdentifier));
+            return Sync.ExecuteTaskAsync(() => TwitterList.GetExistingList(twitterListIdentifier));
         }
 
-        public static async Task<ITwitterList> GetExistingList(long listId)
+        public static ConfiguredTaskAwaitable<ITwitterList> GetExistingList(long listId)
         {
-            return await Sync.ExecuteTaskAsync(() => TwitterList.GetExistingList(listId));
+            return Sync.ExecuteTaskAsync(() => TwitterList.GetExistingList(listId));
         }
 
-        public static async Task<ITwitterList> GetExistingList(string slug, IUserIdentifier user)
+        public static ConfiguredTaskAwaitable<ITwitterList> GetExistingList(string slug, IUserIdentifier user)
         {
-            return await Sync.ExecuteTaskAsync(() => TwitterList.GetExistingList(slug, user));
+            return Sync.ExecuteTaskAsync(() => TwitterList.GetExistingList(slug, user));
         }
 
-        public static async Task<ITwitterList> GetExistingList(string slug, long userId)
+        public static ConfiguredTaskAwaitable<ITwitterList> GetExistingList(string slug, long userId)
         {
-            return await Sync.ExecuteTaskAsync(() => TwitterList.GetExistingList(slug, userId));
+            return Sync.ExecuteTaskAsync(() => TwitterList.GetExistingList(slug, userId));
         }
 
-        public static async Task<ITwitterList> GetExistingList(string slug, string userScreenName)
+        public static ConfiguredTaskAwaitable<ITwitterList> GetExistingList(string slug, string userScreenName)
         {
-            return await Sync.ExecuteTaskAsync(() => TwitterList.GetExistingList(slug, userScreenName));
+            return Sync.ExecuteTaskAsync(() => TwitterList.GetExistingList(slug, userScreenName));
         }
 
         // Owned Lists
-        public static async Task<IEnumerable<ITwitterList>> GetUserOwnedLists(long userId, int maximumNumberOfListsToRetrieve = TweetinviConsts.LIST_OWNED_COUNT)
+        public static ConfiguredTaskAwaitable<IEnumerable<ITwitterList>> GetUserOwnedLists(long userId, int maximumNumberOfListsToRetrieve = TweetinviConsts.LIST_OWNED_COUNT)
         {
-            return await Sync.ExecuteTaskAsync(() => TwitterList.GetUserOwnedLists(userId, maximumNumberOfListsToRetrieve));
+            return Sync.ExecuteTaskAsync(() => TwitterList.GetUserOwnedLists(userId, maximumNumberOfListsToRetrieve));
         }
 
-        public static async Task<IEnumerable<ITwitterList>> GetUserOwnedLists(string userScreenName, int maximumNumberOfListsToRetrieve = TweetinviConsts.LIST_OWNED_COUNT)
+        public static ConfiguredTaskAwaitable<IEnumerable<ITwitterList>> GetUserOwnedLists(string userScreenName, int maximumNumberOfListsToRetrieve = TweetinviConsts.LIST_OWNED_COUNT)
         {
-            return await Sync.ExecuteTaskAsync(() => TwitterList.GetUserOwnedLists(userScreenName, maximumNumberOfListsToRetrieve));
+            return Sync.ExecuteTaskAsync(() => TwitterList.GetUserOwnedLists(userScreenName, maximumNumberOfListsToRetrieve));
         }
 
-        public static async Task<IEnumerable<ITwitterList>> GetUserOwnedLists(IUserIdentifier user, int maximumNumberOfListsToRetrieve = TweetinviConsts.LIST_OWNED_COUNT)
+        public static ConfiguredTaskAwaitable<IEnumerable<ITwitterList>> GetUserOwnedLists(IUserIdentifier user, int maximumNumberOfListsToRetrieve = TweetinviConsts.LIST_OWNED_COUNT)
         {
-            return await Sync.ExecuteTaskAsync(() => TwitterList.GetUserOwnedLists(user, maximumNumberOfListsToRetrieve));
+            return Sync.ExecuteTaskAsync(() => TwitterList.GetUserOwnedLists(user, maximumNumberOfListsToRetrieve));
         }
 
         // Create List
-        public static async Task<ITwitterList> CreateList(string name, PrivacyMode privacyMode, string description = null)
+        public static ConfiguredTaskAwaitable<ITwitterList> CreateList(string name, PrivacyMode privacyMode, string description = null)
         {
-            return await Sync.ExecuteTaskAsync(() => TwitterList.CreateList(name, privacyMode, description));
+            return Sync.ExecuteTaskAsync(() => TwitterList.CreateList(name, privacyMode, description));
         }
 
         // Update List
-        public static async Task<ITwitterList> UpdateList(ITwitterListIdentifier twitterList, ITwitterListUpdateParameters parameters)
+        public static ConfiguredTaskAwaitable<ITwitterList> UpdateList(ITwitterListIdentifier twitterList, ITwitterListUpdateParameters parameters)
         {
-            return await Sync.ExecuteTaskAsync(() => TwitterList.UpdateList(twitterList, parameters));
+            return Sync.ExecuteTaskAsync(() => TwitterList.UpdateList(twitterList, parameters));
         }
 
-        public static async Task<ITwitterList> UpdateList(long listId, ITwitterListUpdateParameters parameters)
+        public static ConfiguredTaskAwaitable<ITwitterList> UpdateList(long listId, ITwitterListUpdateParameters parameters)
         {
-            return await Sync.ExecuteTaskAsync(() => TwitterList.UpdateList(listId, parameters));
+            return Sync.ExecuteTaskAsync(() => TwitterList.UpdateList(listId, parameters));
         }
 
-        public static async Task<ITwitterList> UpdateList(string slug, IUserIdentifier owner, ITwitterListUpdateParameters parameters)
+        public static ConfiguredTaskAwaitable<ITwitterList> UpdateList(string slug, IUserIdentifier owner, ITwitterListUpdateParameters parameters)
         {
-            return await Sync.ExecuteTaskAsync(() => TwitterList.UpdateList(slug, owner, parameters));
+            return Sync.ExecuteTaskAsync(() => TwitterList.UpdateList(slug, owner, parameters));
         }
 
-        public static async Task<ITwitterList> UpdateList(string slug, long ownerId, ITwitterListUpdateParameters parameters)
+        public static ConfiguredTaskAwaitable<ITwitterList> UpdateList(string slug, long ownerId, ITwitterListUpdateParameters parameters)
         {
-            return await Sync.ExecuteTaskAsync(() => TwitterList.UpdateList(slug, ownerId, parameters));
+            return Sync.ExecuteTaskAsync(() => TwitterList.UpdateList(slug, ownerId, parameters));
         }
 
-        public static async Task<ITwitterList> UpdateList(string slug, string ownerScreenName, ITwitterListUpdateParameters parameters)
+        public static ConfiguredTaskAwaitable<ITwitterList> UpdateList(string slug, string ownerScreenName, ITwitterListUpdateParameters parameters)
         {
-            return await Sync.ExecuteTaskAsync(() => TwitterList.UpdateList(slug, ownerScreenName, parameters));
+            return Sync.ExecuteTaskAsync(() => TwitterList.UpdateList(slug, ownerScreenName, parameters));
         }
 
         // Destroy List
-        public static async Task<bool> DestroyList(ITwitterListIdentifier twitterListIdentifier)
+        public static ConfiguredTaskAwaitable<bool> DestroyList(ITwitterListIdentifier twitterListIdentifier)
         {
-            return await Sync.ExecuteTaskAsync(() => TwitterList.DestroyList(twitterListIdentifier));
+            return Sync.ExecuteTaskAsync(() => TwitterList.DestroyList(twitterListIdentifier));
         }
 
-        public static async Task<bool> DestroyList(long listId)
+        public static ConfiguredTaskAwaitable<bool> DestroyList(long listId)
         {
-            return await Sync.ExecuteTaskAsync(() => TwitterList.DestroyList(listId));
+            return Sync.ExecuteTaskAsync(() => TwitterList.DestroyList(listId));
         }
 
-        public static async Task<bool> DestroyList(string slug, IUserIdentifier owner)
+        public static ConfiguredTaskAwaitable<bool> DestroyList(string slug, IUserIdentifier owner)
         {
-            return await Sync.ExecuteTaskAsync(() => TwitterList.DestroyList(slug, owner));
+            return Sync.ExecuteTaskAsync(() => TwitterList.DestroyList(slug, owner));
         }
 
-        public static async Task<bool> DestroyList(string slug, long ownerId)
+        public static ConfiguredTaskAwaitable<bool> DestroyList(string slug, long ownerId)
         {
-            return await Sync.ExecuteTaskAsync(() => TwitterList.DestroyList(slug, ownerId));
+            return Sync.ExecuteTaskAsync(() => TwitterList.DestroyList(slug, ownerId));
         }
 
-        public static async Task<bool> DestroyList(string slug, string ownerScreenName)
+        public static ConfiguredTaskAwaitable<bool> DestroyList(string slug, string ownerScreenName)
         {
-            return await Sync.ExecuteTaskAsync(() => TwitterList.DestroyList(slug, ownerScreenName));
+            return Sync.ExecuteTaskAsync(() => TwitterList.DestroyList(slug, ownerScreenName));
         }
 
         // Get Tweets from List
-        public static async Task<IEnumerable<ITweet>> GetTweetsFromList(long listId)
+        public static ConfiguredTaskAwaitable<IEnumerable<ITweet>> GetTweetsFromList(long listId)
         {
-            return await Sync.ExecuteTaskAsync(() => TwitterList.GetTweetsFromList(listId));
+            return Sync.ExecuteTaskAsync(() => TwitterList.GetTweetsFromList(listId));
         }
 
-        public static async Task<IEnumerable<ITweet>> GetTweetsFromList(string slug, IUserIdentifier owner)
+        public static ConfiguredTaskAwaitable<IEnumerable<ITweet>> GetTweetsFromList(string slug, IUserIdentifier owner)
         {
-            return await Sync.ExecuteTaskAsync(() => TwitterList.GetTweetsFromList(slug, owner));
+            return Sync.ExecuteTaskAsync(() => TwitterList.GetTweetsFromList(slug, owner));
         }
 
-        public static async Task<IEnumerable<ITweet>> GetTweetsFromList(string slug, string ownerScreenName)
+        public static ConfiguredTaskAwaitable<IEnumerable<ITweet>> GetTweetsFromList(string slug, string ownerScreenName)
         {
-            return await Sync.ExecuteTaskAsync(() => TwitterList.GetTweetsFromList(slug, ownerScreenName));
+            return Sync.ExecuteTaskAsync(() => TwitterList.GetTweetsFromList(slug, ownerScreenName));
         }
 
-        public static async Task<IEnumerable<ITweet>> GetTweetsFromList(string slug, long ownerId)
+        public static ConfiguredTaskAwaitable<IEnumerable<ITweet>> GetTweetsFromList(string slug, long ownerId)
         {
-            return await Sync.ExecuteTaskAsync(() => TwitterList.GetTweetsFromList(slug, ownerId));
+            return Sync.ExecuteTaskAsync(() => TwitterList.GetTweetsFromList(slug, ownerId));
         }
 
-        public static async Task<IEnumerable<ITweet>> GetTweetsFromList(ITwitterListIdentifier twitterListIdentifier, IGetTweetsFromListParameters parameters = null)
+        public static ConfiguredTaskAwaitable<IEnumerable<ITweet>> GetTweetsFromList(ITwitterListIdentifier twitterListIdentifier, IGetTweetsFromListParameters parameters = null)
         {
-            return await Sync.ExecuteTaskAsync(() => TwitterList.GetTweetsFromList(twitterListIdentifier, parameters));
+            return Sync.ExecuteTaskAsync(() => TwitterList.GetTweetsFromList(twitterListIdentifier, parameters));
         }
 
         // Get Members of List
-        public static async Task<IEnumerable<IUser>> GetMembersOfList(ITwitterListIdentifier twitterListIdentifier, int maxNumberOfUsersToRetrieve = 100)
+        public static ConfiguredTaskAwaitable<IEnumerable<IUser>> GetMembersOfList(ITwitterListIdentifier twitterListIdentifier, int maxNumberOfUsersToRetrieve = 100)
         {
-            return await Sync.ExecuteTaskAsync(() => TwitterList.GetMembersOfList(twitterListIdentifier, maxNumberOfUsersToRetrieve));
+            return Sync.ExecuteTaskAsync(() => TwitterList.GetMembersOfList(twitterListIdentifier, maxNumberOfUsersToRetrieve));
         }
 
-        public static async Task<IEnumerable<IUser>> GetMembersOfList(long listId, int maxNumberOfUsersToRetrieve = 100)
+        public static ConfiguredTaskAwaitable<IEnumerable<IUser>> GetMembersOfList(long listId, int maxNumberOfUsersToRetrieve = 100)
         {
-            return await Sync.ExecuteTaskAsync(() => TwitterList.GetMembersOfList(listId, maxNumberOfUsersToRetrieve));
+            return Sync.ExecuteTaskAsync(() => TwitterList.GetMembersOfList(listId, maxNumberOfUsersToRetrieve));
         }
 
-        public static async Task<IEnumerable<IUser>> GetMembersOfList(string slug, IUserIdentifier owner, int maxNumberOfUsersToRetrieve = 100)
+        public static ConfiguredTaskAwaitable<IEnumerable<IUser>> GetMembersOfList(string slug, IUserIdentifier owner, int maxNumberOfUsersToRetrieve = 100)
         {
-            return await Sync.ExecuteTaskAsync(() => TwitterList.GetMembersOfList(slug, owner, maxNumberOfUsersToRetrieve));
+            return Sync.ExecuteTaskAsync(() => TwitterList.GetMembersOfList(slug, owner, maxNumberOfUsersToRetrieve));
         }
 
-        public static async Task<IEnumerable<IUser>> GetMembersOfList(string slug, string ownerScreenName, int maxNumberOfUsersToRetrieve = 100)
+        public static ConfiguredTaskAwaitable<IEnumerable<IUser>> GetMembersOfList(string slug, string ownerScreenName, int maxNumberOfUsersToRetrieve = 100)
         {
-            return await Sync.ExecuteTaskAsync(() => TwitterList.GetMembersOfList(slug, ownerScreenName, maxNumberOfUsersToRetrieve));
+            return Sync.ExecuteTaskAsync(() => TwitterList.GetMembersOfList(slug, ownerScreenName, maxNumberOfUsersToRetrieve));
         }
 
-        public static async Task<IEnumerable<IUser>> GetMembersOfList(string slug, long ownerId, int maxNumberOfUsersToRetrieve = 100)
+        public static ConfiguredTaskAwaitable<IEnumerable<IUser>> GetMembersOfList(string slug, long ownerId, int maxNumberOfUsersToRetrieve = 100)
         {
-            return await Sync.ExecuteTaskAsync(() => TwitterList.GetMembersOfList(slug, ownerId, maxNumberOfUsersToRetrieve));
+            return Sync.ExecuteTaskAsync(() => TwitterList.GetMembersOfList(slug, ownerId, maxNumberOfUsersToRetrieve));
         }
 
         // Add Members To List
-        public static async Task<bool> AddMemberToList(ITwitterListIdentifier list, IUserIdentifier newUser)
+        public static ConfiguredTaskAwaitable<bool> AddMemberToList(ITwitterListIdentifier list, IUserIdentifier newUser)
         {
-            return await Sync.ExecuteTaskAsync(() => TwitterList.AddMemberToList(list, newUser));
+            return Sync.ExecuteTaskAsync(() => TwitterList.AddMemberToList(list, newUser));
         }
 
-        public static async Task<MultiRequestsResult> AddMultipleMembersToList(ITwitterListIdentifier list, IEnumerable<IUserIdentifier> users)
+        public static ConfiguredTaskAwaitable<MultiRequestsResult> AddMultipleMembersToList(ITwitterListIdentifier list, IEnumerable<IUserIdentifier> users)
         {
-            return await Sync.ExecuteTaskAsync(() => TwitterList.AddMultipleMembersToList(list, users));
+            return Sync.ExecuteTaskAsync(() => TwitterList.AddMultipleMembersToList(list, users));
         }
 
         // Remove Members From List
-        public static async Task<bool> RemoveMemberFromList(ITwitterListIdentifier list, IUserIdentifier user)
+        public static ConfiguredTaskAwaitable<bool> RemoveMemberFromList(ITwitterListIdentifier list, IUserIdentifier user)
         {
-            return await Sync.ExecuteTaskAsync(() => TwitterList.RemoveMemberFromList(list, user));
+            return Sync.ExecuteTaskAsync(() => TwitterList.RemoveMemberFromList(list, user));
         }
 
-        public static async Task<MultiRequestsResult> RemoveMultipleMembersFromList(ITwitterListIdentifier list, IEnumerable<IUserIdentifier> usersToRemove)
+        public static ConfiguredTaskAwaitable<MultiRequestsResult> RemoveMultipleMembersFromList(ITwitterListIdentifier list, IEnumerable<IUserIdentifier> usersToRemove)
         {
-            return await Sync.ExecuteTaskAsync(() => TwitterList.RemoveMultipleMembersFromList(list, usersToRemove));
+            return Sync.ExecuteTaskAsync(() => TwitterList.RemoveMultipleMembersFromList(list, usersToRemove));
         }
 
         // Check Membership
-        public static async Task<bool> CheckIfUserIsAListMember(ITwitterListIdentifier listIdentifier, IUserIdentifier user)
+        public static ConfiguredTaskAwaitable<bool> CheckIfUserIsAListMember(ITwitterListIdentifier listIdentifier, IUserIdentifier user)
         {
-            return await Sync.ExecuteTaskAsync(() => TwitterList.CheckIfUserIsAListMember(listIdentifier, user));
+            return Sync.ExecuteTaskAsync(() => TwitterList.CheckIfUserIsAListMember(listIdentifier, user));
         }
 
         // Get Subscriptions
-        public static async Task<IEnumerable<ITwitterList>> GetUserSubscribedLists(IUserIdentifier user, int maxNumberOfListsToRetrieve = TweetinviConsts.LIST_GET_USER_SUBSCRIPTIONS_COUNT)
+        public static ConfiguredTaskAwaitable<IEnumerable<ITwitterList>> GetUserSubscribedLists(IUserIdentifier user, int maxNumberOfListsToRetrieve = TweetinviConsts.LIST_GET_USER_SUBSCRIPTIONS_COUNT)
         {
-            return await Sync.ExecuteTaskAsync(() => TwitterList.GetUserSubscribedLists(user, maxNumberOfListsToRetrieve));
+            return Sync.ExecuteTaskAsync(() => TwitterList.GetUserSubscribedLists(user, maxNumberOfListsToRetrieve));
         }
 
-        public static async Task<IEnumerable<IUser>> GetListSubscribers(ITwitterListIdentifier list, int maximumNumberOfUsersToRetrieve = 100)
+        public static ConfiguredTaskAwaitable<IEnumerable<IUser>> GetListSubscribers(ITwitterListIdentifier list, int maximumNumberOfUsersToRetrieve = 100)
         {
-            return await Sync.ExecuteTaskAsync(() => TwitterList.GetListSubscribers(list, maximumNumberOfUsersToRetrieve));
+            return Sync.ExecuteTaskAsync(() => TwitterList.GetListSubscribers(list, maximumNumberOfUsersToRetrieve));
         } 
 
         // Subscribe
-        public static async Task<bool> SubscribeAuthenticatedUserToList(ITwitterListIdentifier listIdentifier, IAuthenticatedUser authenticatedUser = null)
+        public static ConfiguredTaskAwaitable<bool> SubscribeAuthenticatedUserToList(ITwitterListIdentifier listIdentifier, IAuthenticatedUser authenticatedUser = null)
         {
-            return await Sync.ExecuteTaskAsync(() => TwitterList.SubscribeAuthenticatedUserToList(listIdentifier, authenticatedUser));
+            return Sync.ExecuteTaskAsync(() => TwitterList.SubscribeAuthenticatedUserToList(listIdentifier, authenticatedUser));
         }
 
         // Unsubscribe
-        public static async Task<bool> UnSubscribeAuthenticatedUserFromList(ITwitterListIdentifier listIdentifier, IAuthenticatedUser authenticatedUser = null)
+        public static ConfiguredTaskAwaitable<bool> UnSubscribeAuthenticatedUserFromList(ITwitterListIdentifier listIdentifier, IAuthenticatedUser authenticatedUser = null)
         {
-            return await Sync.ExecuteTaskAsync(() => TwitterList.UnSubscribeAuthenticatedUserFromList(listIdentifier, authenticatedUser));
+            return Sync.ExecuteTaskAsync(() => TwitterList.UnSubscribeAuthenticatedUserFromList(listIdentifier, authenticatedUser));
         }
 
         // Check Subscription
-        public static async Task<bool> CheckIfUserIsAListSubscriber(ITwitterListIdentifier listIdentifier, IUserIdentifier user)
+        public static ConfiguredTaskAwaitable<bool> CheckIfUserIsAListSubscriber(ITwitterListIdentifier listIdentifier, IUserIdentifier user)
         {
-            return await Sync.ExecuteTaskAsync(() => TwitterList.CheckIfUserIsAListSubscriber(listIdentifier, user));
+            return Sync.ExecuteTaskAsync(() => TwitterList.CheckIfUserIsAListSubscriber(listIdentifier, user));
         }
     }
 }

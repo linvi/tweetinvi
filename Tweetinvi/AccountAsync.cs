@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
+using System.Runtime.CompilerServices;
 using Tweetinvi.Models;
 using Tweetinvi.Parameters;
 
@@ -8,12 +8,12 @@ namespace Tweetinvi
 {
     public static class AccountAsync
     {
-        public static async Task<IAccountSettings> GetCurrentAccountSettings()
+        public static ConfiguredTaskAwaitable<IAccountSettings> GetCurrentAccountSettings()
         {
-            return await Sync.ExecuteTaskAsync(() => Account.GetCurrentAccountSettings());
+            return Sync.ExecuteTaskAsync(Account.GetCurrentAccountSettings);
         }
 
-        public static async Task<IAccountSettings> UpdateAccountSettings(
+        public static ConfiguredTaskAwaitable<IAccountSettings> UpdateAccountSettings(
             IEnumerable<Language> languages = null,
             string timeZone = null,
             long? trendLocationWoeid = null,
@@ -21,12 +21,12 @@ namespace Tweetinvi
             int? startSleepTime = null,
             int? endSleepTime = null)
         {
-            return await Sync.ExecuteTaskAsync(() => Account.UpdateAccountSettings(languages, timeZone, trendLocationWoeid, sleepTimeEnabled, startSleepTime, endSleepTime));
+            return Sync.ExecuteTaskAsync(() => Account.UpdateAccountSettings(languages, timeZone, trendLocationWoeid, sleepTimeEnabled, startSleepTime, endSleepTime));
         }
 
-        public static async Task<IAccountSettings> UpdateAccountSettings(IAccountSettingsRequestParameters settings)
+        public static ConfiguredTaskAwaitable<IAccountSettings> UpdateAccountSettings(IAccountSettingsRequestParameters settings)
         {
-            return await Sync.ExecuteTaskAsync(() => Account.UpdateAccountSettings(settings));
+            return Sync.ExecuteTaskAsync(() => Account.UpdateAccountSettings(settings));
         }
 
         public static IAccountSettingsRequestParameters CreateUpdateAccountSettingsRequestParameters()
@@ -40,112 +40,112 @@ namespace Tweetinvi
         }
 
         // Mute
-        public static async Task<IEnumerable<long>> GetMutedUserIds(int maxNumberOfUserIdsToRetrieve = Int32.MaxValue)
+        public static ConfiguredTaskAwaitable<IEnumerable<long>> GetMutedUserIds(int maxNumberOfUserIdsToRetrieve = Int32.MaxValue)
         {
-            return await Sync.ExecuteTaskAsync(() => Account.GetMutedUserIds(maxNumberOfUserIdsToRetrieve));
+            return Sync.ExecuteTaskAsync(() => Account.GetMutedUserIds(maxNumberOfUserIdsToRetrieve));
         }
 
-        public static async Task<IEnumerable<IUser>> GetMutedUsers(int maxNumberOfUsersToRetrieve = 250)
+        public static ConfiguredTaskAwaitable<IEnumerable<IUser>> GetMutedUsers(int maxNumberOfUsersToRetrieve = 250)
         {
-            return await Sync.ExecuteTaskAsync(() => Account.GetMutedUsers(maxNumberOfUsersToRetrieve));
+            return Sync.ExecuteTaskAsync(() => Account.GetMutedUsers(maxNumberOfUsersToRetrieve));
         }
 
-        public static async Task<bool> MuteUser(IUserIdentifier user)
+        public static ConfiguredTaskAwaitable<bool> MuteUser(IUserIdentifier user)
         {
-            return await Sync.ExecuteTaskAsync(() => Account.MuteUser(user));
+            return Sync.ExecuteTaskAsync(() => Account.MuteUser(user));
         }
 
-        public static async Task<bool> MuteUser(long userId)
+        public static ConfiguredTaskAwaitable<bool> MuteUser(long userId)
         {
-            return await Sync.ExecuteTaskAsync(() => Account.MuteUser(userId));
+            return Sync.ExecuteTaskAsync(() => Account.MuteUser(userId));
         }
 
-        public static async Task<bool> MuteUser(string screenName)
+        public static ConfiguredTaskAwaitable<bool> MuteUser(string screenName)
         {
-            return await Sync.ExecuteTaskAsync(() => Account.MuteUser(screenName));
+            return Sync.ExecuteTaskAsync(() => Account.MuteUser(screenName));
         }
 
-        public static async Task<bool> UnMuteUser(IUserIdentifier user)
+        public static ConfiguredTaskAwaitable<bool> UnMuteUser(IUserIdentifier user)
         {
-            return await Sync.ExecuteTaskAsync(() => Account.UnMuteUser(user));
+            return Sync.ExecuteTaskAsync(() => Account.UnMuteUser(user));
         }
 
-        public static async Task<bool> UnMuteUser(long userId)
+        public static ConfiguredTaskAwaitable<bool> UnMuteUser(long userId)
         {
-            return await Sync.ExecuteTaskAsync(() => Account.UnMuteUser(userId));
+            return Sync.ExecuteTaskAsync(() => Account.UnMuteUser(userId));
         }
 
-        public static async Task<bool> UnMuteUser(string screenName)
+        public static ConfiguredTaskAwaitable<bool> UnMuteUser(string screenName)
         {
-            return await Sync.ExecuteTaskAsync(() => Account.UnMuteUser(screenName));
+            return Sync.ExecuteTaskAsync(() => Account.UnMuteUser(screenName));
         }
 
 
         #region Friendship
 
-        public static async Task<IEnumerable<long>> GetUserIdsRequestingFriendship(int maximumUserIdsToRetrieve = 75000)
+        public static ConfiguredTaskAwaitable<IEnumerable<long>> GetUserIdsRequestingFriendship(int maximumUserIdsToRetrieve = 75000)
         {
-            return await Sync.ExecuteTaskAsync(() => Account.GetUserIdsRequestingFriendship(maximumUserIdsToRetrieve));
+            return Sync.ExecuteTaskAsync(() => Account.GetUserIdsRequestingFriendship(maximumUserIdsToRetrieve));
         }
 
-        public static async Task<IEnumerable<IUser>> GetUsersRequestingFriendship(int maximumUserIdsToRetrieve = 75000)
+        public static ConfiguredTaskAwaitable<IEnumerable<IUser>> GetUsersRequestingFriendship(int maximumUserIdsToRetrieve = 75000)
         {
-            return await Sync.ExecuteTaskAsync(() => Account.GetUsersRequestingFriendship(maximumUserIdsToRetrieve));
+            return Sync.ExecuteTaskAsync(() => Account.GetUsersRequestingFriendship(maximumUserIdsToRetrieve));
         }
 
-        public static async Task<IEnumerable<long>> GetUserIdsYouRequestedToFollow(int maximumUserIdsToRetrieve = 75000)
+        public static ConfiguredTaskAwaitable<IEnumerable<long>> GetUserIdsYouRequestedToFollow(int maximumUserIdsToRetrieve = 75000)
         {
-            return await Sync.ExecuteTaskAsync(() => Account.GetUserIdsYouRequestedToFollow(maximumUserIdsToRetrieve));
+            return Sync.ExecuteTaskAsync(() => Account.GetUserIdsYouRequestedToFollow(maximumUserIdsToRetrieve));
         }
 
-        public static async Task<IEnumerable<IUser>> GetUsersYouRequestedToFollow(int maximumUserIdsToRetrieve = 75000)
+        public static ConfiguredTaskAwaitable<IEnumerable<IUser>> GetUsersYouRequestedToFollow(int maximumUserIdsToRetrieve = 75000)
         {
-            return await Sync.ExecuteTaskAsync(() => Account.GetUsersYouRequestedToFollow(maximumUserIdsToRetrieve));
+            return Sync.ExecuteTaskAsync(() => Account.GetUsersYouRequestedToFollow(maximumUserIdsToRetrieve));
         }
 
         // Update Relationship Authorization With
-        public static async Task<bool> UpdateRelationshipAuthorizationsWith(IUserIdentifier user, bool retweetsEnabled, bool deviceNotifictionEnabled)
+        public static ConfiguredTaskAwaitable<bool> UpdateRelationshipAuthorizationsWith(IUserIdentifier user, bool retweetsEnabled, bool deviceNotifictionEnabled)
         {
-            return await Sync.ExecuteTaskAsync(() => Account.UpdateRelationshipAuthorizationsWith(user, retweetsEnabled, deviceNotifictionEnabled));
+            return Sync.ExecuteTaskAsync(() => Account.UpdateRelationshipAuthorizationsWith(user, retweetsEnabled, deviceNotifictionEnabled));
         }
 
-        public static async Task<bool> UpdateRelationshipAuthorizationsWith(long userId, bool retweetsEnabled, bool deviceNotifictionEnabled)
+        public static ConfiguredTaskAwaitable<bool> UpdateRelationshipAuthorizationsWith(long userId, bool retweetsEnabled, bool deviceNotifictionEnabled)
         {
-            return await Sync.ExecuteTaskAsync(() => Account.UpdateRelationshipAuthorizationsWith(userId, retweetsEnabled, deviceNotifictionEnabled));
+            return Sync.ExecuteTaskAsync(() => Account.UpdateRelationshipAuthorizationsWith(userId, retweetsEnabled, deviceNotifictionEnabled));
         }
 
-        public static async Task<bool> UpdateRelationshipAuthorizationsWith(string userScreenName, bool retweetsEnabled, bool deviceNotifictionEnabled)
+        public static ConfiguredTaskAwaitable<bool> UpdateRelationshipAuthorizationsWith(string userScreenName, bool retweetsEnabled, bool deviceNotifictionEnabled)
         {
-            return await Sync.ExecuteTaskAsync(() => Account.UpdateRelationshipAuthorizationsWith(userScreenName, retweetsEnabled, deviceNotifictionEnabled));
+            return Sync.ExecuteTaskAsync(() => Account.UpdateRelationshipAuthorizationsWith(userScreenName, retweetsEnabled, deviceNotifictionEnabled));
         }
 
 
         // Lookup Relationships
-        public static async Task<IEnumerable<IRelationshipState>> GetMultipleRelationships(IEnumerable<IUserIdentifier> targetUserIdentifiers)
+        public static ConfiguredTaskAwaitable<IEnumerable<IRelationshipState>> GetMultipleRelationships(IEnumerable<IUserIdentifier> targetUserIdentifiers)
         {
-            return await Sync.ExecuteTaskAsync(() => Account.GetRelationshipsWith(targetUserIdentifiers));
+            return Sync.ExecuteTaskAsync(() => Account.GetRelationshipsWith(targetUserIdentifiers));
         }
 
-        public static async Task<IEnumerable<IRelationshipState>> GetMultipleRelationships(IEnumerable<long> targetUserIds)
+        public static ConfiguredTaskAwaitable<IEnumerable<IRelationshipState>> GetMultipleRelationships(IEnumerable<long> targetUserIds)
         {
-            return await Sync.ExecuteTaskAsync(() => Account.GetRelationshipsWith(targetUserIds));
+            return Sync.ExecuteTaskAsync(() => Account.GetRelationshipsWith(targetUserIds));
         }
 
-        public static async Task<IEnumerable<IRelationshipState>> GetMultipleRelationships(IEnumerable<string> targetUserScreenNames)
+        public static ConfiguredTaskAwaitable<IEnumerable<IRelationshipState>> GetMultipleRelationships(IEnumerable<string> targetUserScreenNames)
         {
-            return await Sync.ExecuteTaskAsync(() => Account.GetRelationshipsWith(targetUserScreenNames));
+            return Sync.ExecuteTaskAsync(() => Account.GetRelationshipsWith(targetUserScreenNames));
         }
 
 
         // Get User Ids Whose Retweets Are Muted
-        public static async Task<IEnumerable<long>> GetUserIdsWhoseRetweetsAreMuted()
+        public static ConfiguredTaskAwaitable<IEnumerable<long>> GetUserIdsWhoseRetweetsAreMuted()
         {
-            return await Sync.ExecuteTaskAsync(() => Account.GetUserIdsWhoseRetweetsAreMuted());
+            return Sync.ExecuteTaskAsync(() => Account.GetUserIdsWhoseRetweetsAreMuted());
         }
 
-        public static async Task<IEnumerable<IUser>> GetUsersWhoseRetweetsAreMuted()
+        public static ConfiguredTaskAwaitable<IEnumerable<IUser>> GetUsersWhoseRetweetsAreMuted()
         {
-            return await Sync.ExecuteTaskAsync(() => Account.GetUsersWhoseRetweetsAreMuted());
+            return Sync.ExecuteTaskAsync(() => Account.GetUsersWhoseRetweetsAreMuted());
         }
 
         #endregion
