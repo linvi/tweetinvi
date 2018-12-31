@@ -277,71 +277,71 @@ namespace Tweetinvi.Logic
 
         #region Async
 
-        public async Task<bool> UpdateAsync(ITwitterListUpdateParameters parameters)
+        public Task<bool> UpdateAsync(ITwitterListUpdateParameters parameters)
         {
-            return await _taskFactory.ExecuteTaskAsync(() => Update(parameters));
+            return _taskFactory.ExecuteTaskAsync(() => Update(parameters));
         }
 
-        public async Task<bool> DestroyAsync()
+        public Task<bool> DestroyAsync()
         {
-            return await _taskFactory.ExecuteTaskAsync(() => Destroy());
+            return _taskFactory.ExecuteTaskAsync(() => Destroy());
         } 
 
-        public async Task<IEnumerable<ITweet>> GetTweetsAsync(IGetTweetsFromListParameters getTweetsFromListParameters = null)
+        public Task<IEnumerable<ITweet>> GetTweetsAsync(IGetTweetsFromListParameters getTweetsFromListParameters = null)
         {
-            return await _taskFactory.ExecuteTaskAsync(() => GetTweets(getTweetsFromListParameters));
+            return _taskFactory.ExecuteTaskAsync(() => GetTweets(getTweetsFromListParameters));
         }
 
         // Membership Async
-        public async Task<IEnumerable<IUser>> GetMembersAsync(int maxNumberOfUsersToRetrieve = 100)
+        public Task<IEnumerable<IUser>> GetMembersAsync(int maxNumberOfUsersToRetrieve = 100)
         {
-            return await _taskFactory.ExecuteTaskAsync(() => GetMembers(maxNumberOfUsersToRetrieve));
+            return _taskFactory.ExecuteTaskAsync(() => GetMembers(maxNumberOfUsersToRetrieve));
         }
 
-        public async Task<bool> AddMemberAsync(IUserIdentifier user)
+        public Task<bool> AddMemberAsync(IUserIdentifier user)
         {
-            return await _taskFactory.ExecuteTaskAsync(() => AddMember(user));
+            return _taskFactory.ExecuteTaskAsync(() => AddMember(user));
         }
 
-        public async Task<MultiRequestsResult> AddMultipleMembersAsync(IEnumerable<IUserIdentifier> users)
+        public Task<MultiRequestsResult> AddMultipleMembersAsync(IEnumerable<IUserIdentifier> users)
         {
-            return await _taskFactory.ExecuteTaskAsync(() => AddMultipleMembers(users));
+            return _taskFactory.ExecuteTaskAsync(() => AddMultipleMembers(users));
         }
 
-        public async Task<bool> RemoveMemberAsync(IUserIdentifier user)
+        public Task<bool> RemoveMemberAsync(IUserIdentifier user)
         {
-            return await _taskFactory.ExecuteTaskAsync(() => RemoveMember(user));
+            return _taskFactory.ExecuteTaskAsync(() => RemoveMember(user));
         }
 
-        public async Task<MultiRequestsResult> RemoveMultipleMembersAsync(IEnumerable<IUserIdentifier> users)
+        public Task<MultiRequestsResult> RemoveMultipleMembersAsync(IEnumerable<IUserIdentifier> users)
         {
-            return await _taskFactory.ExecuteTaskAsync(() => RemoveMultipleMembers(users));
+            return _taskFactory.ExecuteTaskAsync(() => RemoveMultipleMembers(users));
         }
 
-        public async Task<bool> CheckUserMembershipAsync(IUserIdentifier user)
+        public Task<bool> CheckUserMembershipAsync(IUserIdentifier user)
         {
-            return await _taskFactory.ExecuteTaskAsync(() => CheckUserMembership(user));
+            return _taskFactory.ExecuteTaskAsync(() => CheckUserMembership(user));
         }
 
         // Subscriptions Async
-        public async Task<IEnumerable<IUser>> GetSubscribersAsync(int maximumNumberOfUsersToRetrieve = 100)
+        public Task<IEnumerable<IUser>> GetSubscribersAsync(int maximumNumberOfUsersToRetrieve = 100)
         {
-            return await _taskFactory.ExecuteTaskAsync(() => GetSubscribers(maximumNumberOfUsersToRetrieve));
+            return _taskFactory.ExecuteTaskAsync(() => GetSubscribers(maximumNumberOfUsersToRetrieve));
         }
 
-        public async Task<bool> SubscribeAuthenticatedUserToListAsync(IAuthenticatedUser authenticatedUser = null)
+        public Task<bool> SubscribeAuthenticatedUserToListAsync(IAuthenticatedUser authenticatedUser = null)
         {
-            return await _taskFactory.ExecuteTaskAsync(() => SubscribeAuthenticatedUserToList(authenticatedUser));
+            return _taskFactory.ExecuteTaskAsync(() => SubscribeAuthenticatedUserToList(authenticatedUser));
         }
 
-        public async Task<bool> UnSubscribeAuthenticatedUserFromListAsync(IAuthenticatedUser authenticatedUser = null)
+        public Task<bool> UnSubscribeAuthenticatedUserFromListAsync(IAuthenticatedUser authenticatedUser = null)
         {
-            return await _taskFactory.ExecuteTaskAsync(() => UnSubscribeAuthenticatedUserFromList(authenticatedUser));
+            return _taskFactory.ExecuteTaskAsync(() => UnSubscribeAuthenticatedUserFromList(authenticatedUser));
         }
 
-        public async Task<bool> CheckUserSubscriptionAsync(IUserIdentifier user)
+        public Task<bool> CheckUserSubscriptionAsync(IUserIdentifier user)
         {
-            return await _taskFactory.ExecuteTaskAsync(() => CheckUserSubscription(user));
+            return _taskFactory.ExecuteTaskAsync(() => CheckUserSubscription(user));
         }
         
         #endregion

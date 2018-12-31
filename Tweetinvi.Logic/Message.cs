@@ -122,9 +122,9 @@ namespace Tweetinvi.Logic
 
         #region Async
 
-        public async Task<bool> DestroyAsync()
+        public Task<bool> DestroyAsync()
         {
-            return await _taskFactory.ExecuteTaskAsync(Destroy);
+            return _taskFactory.ExecuteTaskAsync(Destroy);
         } 
 
         #endregion

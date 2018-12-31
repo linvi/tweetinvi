@@ -5,23 +5,29 @@ namespace Tweetinvi.Core.Helpers
 {
     public interface ISynchronousInvoker
     {
-        T GetResultSyncrhonously<T>(Func<Task<T>> asyncMethod);
+        T GetResultSynchronously<T>(Func<Task<T>> asyncMethod);
         void ExecuteSynchronously(Func<Task> asyncMethod);
     }
 
     public class SynchronousInvoker : ISynchronousInvoker
     {
-        public T GetResultSyncrhonously<T>(Func<Task<T>> asyncMethod)
-        {
-            Task<T> task = Task.Run(() => asyncMethod());
+        private readonly ITaskFactory _taskFactory;
 
-            task.Wait();
-            return task.Result;
+        public SynchronousInvoker(ITaskFactory taskFactory)
+        {
+            _taskFactory = taskFactory;
+        }
+
+        public T GetResultSynchronously<T>(Func<Task<T>> asyncMethod)
+        {
+            Task<Task<T>> task = _taskFactory.ExecuteTaskAsync(asyncMethod);
+
+            return task.Result.Result;
         }
 
         public void ExecuteSynchronously(Func<Task> asyncMethod)
         {
-            Task task = Task.Run(() => asyncMethod());
+            Task task = _taskFactory.ExecuteTaskAsync(asyncMethod);
             task.Wait();
         }
     }

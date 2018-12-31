@@ -1,8 +1,8 @@
 ﻿using System;
-using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
 using Tweetinvi.Core.ExecutionContext;
+using Tweetinvi.Core.Helpers;
 
 namespace Tweetinvi
 {
@@ -14,32 +14,14 @@ namespace Tweetinvi
         /// <summary>
         /// Execute a task asynchronously with Tweetinvi
         /// </summary>
-        public static Task ExecuteTaskAsync(Action action)
-        {
-            if (action == null)
-            {
-                throw new ArgumentNullException(nameof(action));
-            }
-
-            PrepareForAsync();
-
-            return Task.Run(action);
-        }
+        public static Task ExecuteTaskAsync(Action action) =>
+            TweetinviContainer.Resolve<ITaskFactory>().ExecuteTaskAsync(action);
 
         /// <summary>
         /// Execute a task asynchronously with Tweetinvi
         /// </summary>
-        public static Task<T> ExecuteTaskAsync<T>(Func<T> func)
-        {
-            if (func == null)
-            {
-                throw new ArgumentNullException(nameof(func));
-            }
-
-            PrepareForAsync();
-
-            return Task.Run(func);
-        }
+        public static Task<T> ExecuteTaskAsync<T>(Func<T> func) =>
+            TweetinviContainer.Resolve<ITaskFactory>().ExecuteTaskAsync(func);
 
         /// <summary>
         /// Prepare the current Task for Tweetinvi to be used asynchronously within it

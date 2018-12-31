@@ -421,74 +421,74 @@ namespace Tweetinvi.Logic
 
         #region Async
 
-        public async Task<IEnumerable<long>> GetFriendIdsAsync(int maxFriendsToRetrieve = 5000)
+        public Task<IEnumerable<long>> GetFriendIdsAsync(int maxFriendsToRetrieve = 5000)
         {
-            return await _taskFactory.ExecuteTaskAsync(() => GetFriendIds(maxFriendsToRetrieve));
+            return _taskFactory.ExecuteTaskAsync(() => GetFriendIds(maxFriendsToRetrieve));
         }
 
-        public async Task<IEnumerable<IUser>> GetFriendsAsync(int maxFriendsToRetrieve = 250)
+        public Task<IEnumerable<IUser>> GetFriendsAsync(int maxFriendsToRetrieve = 250)
         {
-            return await _taskFactory.ExecuteTaskAsync(() => GetFriends(maxFriendsToRetrieve));
+            return _taskFactory.ExecuteTaskAsync(() => GetFriends(maxFriendsToRetrieve));
         }
 
-        public async Task<IEnumerable<long>> GetFollowerIdsAsync(int maxFriendsToRetrieve = 5000)
+        public Task<IEnumerable<long>> GetFollowerIdsAsync(int maxFriendsToRetrieve = 5000)
         {
-            return await _taskFactory.ExecuteTaskAsync(() => GetFollowerIds(maxFriendsToRetrieve));
+            return _taskFactory.ExecuteTaskAsync(() => GetFollowerIds(maxFriendsToRetrieve));
         }
 
-        public async Task<IEnumerable<IUser>> GetFollowersAsync(int maxFriendsToRetrieve = 250)
+        public Task<IEnumerable<IUser>> GetFollowersAsync(int maxFriendsToRetrieve = 250)
         {
-            return await _taskFactory.ExecuteTaskAsync(() => GetFollowers(maxFriendsToRetrieve));
+            return _taskFactory.ExecuteTaskAsync(() => GetFollowers(maxFriendsToRetrieve));
         }
 
-        public virtual async Task<IRelationshipDetails> GetRelationshipWithAsync(IUserIdentifier user)
+        public virtual Task<IRelationshipDetails> GetRelationshipWithAsync(IUserIdentifier user)
         {
-            return await _taskFactory.ExecuteTaskAsync(() => GetRelationshipWith(user));
+            return _taskFactory.ExecuteTaskAsync(() => GetRelationshipWith(user));
         }
 
-        public async Task<IEnumerable<ITweet>> GetUserTimelineAsync(int maximumTweet = 40)
+        public Task<IEnumerable<ITweet>> GetUserTimelineAsync(int maximumTweet = 40)
         {
-            return await _taskFactory.ExecuteTaskAsync(() => GetUserTimeline(maximumTweet));
+            return _taskFactory.ExecuteTaskAsync(() => GetUserTimeline(maximumTweet));
         }
 
-        public async Task<IEnumerable<ITweet>> GetUserTimelineAsync(IUserTimelineParameters timelineParameters)
+        public Task<IEnumerable<ITweet>> GetUserTimelineAsync(IUserTimelineParameters timelineParameters)
         {
-            return await _taskFactory.ExecuteTaskAsync(() => GetUserTimeline(timelineParameters));
+            return _taskFactory.ExecuteTaskAsync(() => GetUserTimeline(timelineParameters));
         }
 
-        public async Task<IEnumerable<ITweet>> GetFavoritesAsync(int maximumTweets = 40)
+        public Task<IEnumerable<ITweet>> GetFavoritesAsync(int maximumTweets = 40)
         {
-            return await _taskFactory.ExecuteTaskAsync(() => GetFavorites(maximumTweets));
+            return _taskFactory.ExecuteTaskAsync(() => GetFavorites(maximumTweets));
         }
 
-        public async Task<IEnumerable<ITweet>> GetFavoritesAsync(IGetUserFavoritesParameters parameters)
+        public Task<IEnumerable<ITweet>> GetFavoritesAsync(IGetUserFavoritesParameters parameters)
         {
-            return await _taskFactory.ExecuteTaskAsync(() => GetFavorites(parameters));
+            return _taskFactory.ExecuteTaskAsync(() => GetFavorites(parameters));
         }
 
-        public async Task<bool> BlockAsync()
+        public Task<bool> BlockAsync()
         {
-            return await _taskFactory.ExecuteTaskAsync(() => BlockUser());
+            return _taskFactory.ExecuteTaskAsync(() => BlockUser());
         }
 
-        public async Task<bool> UnBlockAsync()
+        public Task<bool> UnBlockAsync()
         {
-            return await _taskFactory.ExecuteTaskAsync(() => UnBlockUser());
+            return _taskFactory.ExecuteTaskAsync(() => UnBlockUser());
         }
 
-        public async Task<Stream> GetProfileImageStreamAsync(ImageSize imageSize = ImageSize.normal)
+        public Task<Stream> GetProfileImageStreamAsync(ImageSize imageSize = ImageSize.normal)
         {
-            return await _taskFactory.ExecuteTaskAsync(() => GetProfileImageStream(imageSize));
+            return _taskFactory.ExecuteTaskAsync(() => GetProfileImageStream(imageSize));
         }
 
-        public async Task<IEnumerable<IUser>> GetContributorsAsync(bool createContributorList = false)
+        public Task<IEnumerable<IUser>> GetContributorsAsync(bool createContributorList = false)
         {
-            return await _taskFactory.ExecuteTaskAsync(() => GetContributors(createContributorList));
+            return _taskFactory.ExecuteTaskAsync(() => GetContributors(createContributorList));
         }
 
-        public async Task<IEnumerable<IUser>> GetContributeesAsync(bool createContributeeList = false)
+        public Task<IEnumerable<IUser>> GetContributeesAsync(bool createContributeeList = false)
         {
-            return await _taskFactory.ExecuteTaskAsync(() => GetContributees(createContributeeList));
+            return _taskFactory.ExecuteTaskAsync(() => GetContributees(createContributeeList));
         }
 
         #endregion

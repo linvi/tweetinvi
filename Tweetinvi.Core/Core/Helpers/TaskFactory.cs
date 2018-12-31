@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Tweetinvi.Core.ExecutionContext;
 
 namespace Tweetinvi.Core.Helpers
 {
@@ -11,14 +12,35 @@ namespace Tweetinvi.Core.Helpers
 
     public class TaskFactory : ITaskFactory
     {
-        public async Task ExecuteTaskAsync(Action action)
+        private readonly ICrossExecutionContextPreparer _crossExecutionContextPreparer;
+
+        public TaskFactory(ICrossExecutionContextPreparer crossExecutionContextPreparer)
         {
-            await Task.Run(action);
+            _crossExecutionContextPreparer = crossExecutionContextPreparer;
         }
 
-        public async Task<T> ExecuteTaskAsync<T>(Func<T> resultFunc)
+        public Task ExecuteTaskAsync(Action action)
         {
-            return await Task.Run(resultFunc);
+            if (action == null)
+            {
+                throw new ArgumentNullException(nameof(action));
+            }
+
+            _crossExecutionContextPreparer.Prepare();
+
+            return Task.Run(action);
+        }
+
+        public Task<T> ExecuteTaskAsync<T>(Func<T> func)
+        {
+            if (func == null)
+            {
+                throw new ArgumentNullException(nameof(func));
+            }
+
+            _crossExecutionContextPreparer.Prepare();
+
+            return Task.Run(func);
         }
     }
 }

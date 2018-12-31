@@ -536,34 +536,34 @@ namespace Tweetinvi.Logic
         #region Async
         
 
-        public async Task<ITweet> PublishRetweetAsync()
+        public Task<ITweet> PublishRetweetAsync()
         {
-            return await _taskFactory.ExecuteTaskAsync(() => PublishRetweet());
+            return _taskFactory.ExecuteTaskAsync(() => PublishRetweet());
         }
 
-        public async Task<List<ITweet>> GetRetweetsAsync()
+        public Task<List<ITweet>> GetRetweetsAsync()
         {
-            return await _taskFactory.ExecuteTaskAsync(() => GetRetweets());
+            return _taskFactory.ExecuteTaskAsync(() => GetRetweets());
         }
 
-        public async Task FavoriteAsync()
+        public Task FavoriteAsync()
         {
-            await _taskFactory.ExecuteTaskAsync(Favorite);
+            return _taskFactory.ExecuteTaskAsync(Favorite);
         }
 
-        public async Task UnFavoriteAsync()
+        public Task UnFavoriteAsync()
         {
-            await _taskFactory.ExecuteTaskAsync(UnFavorite);
+            return _taskFactory.ExecuteTaskAsync(UnFavorite);
         }
 
-        public async Task<IOEmbedTweet> GenerateOEmbedTweetAsync()
+        public Task<IOEmbedTweet> GenerateOEmbedTweetAsync()
         {
-            return await _taskFactory.ExecuteTaskAsync(() => GenerateOEmbedTweet());
+            return _taskFactory.ExecuteTaskAsync(() => GenerateOEmbedTweet());
         }
 
-        public async Task<bool> DestroyAsync()
+        public Task<bool> DestroyAsync()
         {
-            return await _taskFactory.ExecuteTaskAsync(() => Destroy());
+            return _taskFactory.ExecuteTaskAsync(() => Destroy());
         }
         #endregion
     }

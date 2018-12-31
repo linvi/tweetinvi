@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
 using Tweetinvi.Core.Events;
 using Tweetinvi.Core.Exceptions;
+using Tweetinvi.Core.ExecutionContext;
 using Tweetinvi.Core.Extensions;
 using Tweetinvi.Core.Factories;
 using Tweetinvi.Core.Helpers;
@@ -32,6 +33,7 @@ namespace Tweetinvi.Streams
         private readonly ITwitterListFactory _twitterListFactory;
         private readonly IJObjectStaticWrapper _jObjectWrapper;
         private readonly ITaskFactory _taskFactory;
+        private readonly ICrossExecutionContextPreparer _crossExecutionContextPreparer;
         private readonly ITwitterQueryFactory _twitterQueryFactory;
         private readonly ISingleAggregateExceptionThrower _singleAggregateExceptionThrower;
 
@@ -56,6 +58,7 @@ namespace Tweetinvi.Streams
             IStreamTrackManager<ITweet> streamTrackManager,
             ISynchronousInvoker synchronousInvoker,
             ITaskFactory taskFactory,
+            ICrossExecutionContextPreparer crossExecutionContextPreparer,
             ICustomRequestParameters customRequestParameters,
             ITwitterQueryFactory twitterQueryFactory,
             ISingleAggregateExceptionThrower singleAggregateExceptionThrower)
@@ -76,6 +79,7 @@ namespace Tweetinvi.Streams
             _twitterListFactory = twitterListFactory;
             _jObjectWrapper = jObjectWrapper;
             _taskFactory = taskFactory;
+            _crossExecutionContextPreparer = crossExecutionContextPreparer;
             _twitterQueryFactory = twitterQueryFactory;
             _singleAggregateExceptionThrower = singleAggregateExceptionThrower;
 
@@ -116,7 +120,14 @@ namespace Tweetinvi.Streams
             _singleAggregateExceptionThrower.ExecuteActionAndThrowJustOneExceptionIfExist(startStreamAction);
         }
 
-        public async Task StartStreamAsync()
+        public Task StartStreamAsync()
+        {
+            _crossExecutionContextPreparer.Prepare();
+
+            return _taskFactory.ExecuteTaskAsync(startStreamAsync);
+        }
+
+        private async Task startStreamAsync()
         {
             _authenticatedUser = await _taskFactory.ExecuteTaskAsync(() => _userFactory.GetAuthenticatedUser(Credentials));
             if (_authenticatedUser == null)
