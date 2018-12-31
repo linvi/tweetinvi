@@ -14,7 +14,7 @@ namespace Tweetinvi
         /// <summary>
         /// Execute a task asynchronously with Tweetinvi
         /// </summary>
-        public static ConfiguredTaskAwaitable ExecuteTaskAsync(Action action)
+        public static Task ExecuteTaskAsync(Action action)
         {
             if (action == null)
             {
@@ -23,13 +23,13 @@ namespace Tweetinvi
 
             PrepareForAsync();
 
-            return Task.Run(action).ConfigureAwait(false);
+            return Task.Run(action);
         }
 
         /// <summary>
         /// Execute a task asynchronously with Tweetinvi
         /// </summary>
-        public static ConfiguredTaskAwaitable<T> ExecuteTaskAsync<T>(Func<T> func)
+        public static Task<T> ExecuteTaskAsync<T>(Func<T> func)
         {
             if (func == null)
             {
@@ -38,7 +38,7 @@ namespace Tweetinvi
 
             PrepareForAsync();
 
-            return Task.Run(func).ConfigureAwait(false);
+            return Task.Run(func);
         }
 
         /// <summary>
@@ -49,7 +49,7 @@ namespace Tweetinvi
         /// <summary>
         /// Execute a task asynchronously with Tweetinvi independently of the calling context
         /// </summary>
-        public static ConfiguredTaskAwaitable ExecuteIsolatedTaskAsync(Action action)
+        public static Task ExecuteIsolatedTaskAsync(Action action)
         {
             if (action == null)
             {
@@ -62,13 +62,13 @@ namespace Tweetinvi
             {
                 t = Task.Run(action);
             }
-            return t.ConfigureAwait(false);
+            return t;
         }
 
         /// <summary>
         /// Execute a task asynchronously with Tweetinvi independently of the calling context
         /// </summary>
-        public static ConfiguredTaskAwaitable<T> ExecuteIsolatedTaskAsync<T>(Func<T> func)
+        public static Task<T> ExecuteIsolatedTaskAsync<T>(Func<T> func)
         {
             if (func == null)
             {
@@ -81,7 +81,7 @@ namespace Tweetinvi
             {
                 t = Task.Run(func);
             }
-            return t.ConfigureAwait(false);
+            return t;
         }
     }
 }

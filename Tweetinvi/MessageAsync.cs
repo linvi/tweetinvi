@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
 using Tweetinvi.Parameters;
@@ -9,7 +9,7 @@ namespace Tweetinvi
     public static class MessageAsync
     {
         // Factory
-        public static ConfiguredTaskAwaitable<IMessage> GetExistingMessage(long messageId)
+        public static Task<IMessage> GetExistingMessage(long messageId)
         {
             return Sync.ExecuteTaskAsync(() => Message.GetExistingMessage(messageId));
         }
@@ -18,7 +18,7 @@ namespace Tweetinvi
         /// <summary>
         /// Get the latest messages sent or received
         /// </summary>
-        public static ConfiguredTaskAwaitable<IResultsWithCursor<IMessage>> GetLatestMessages(
+        public static Task<IResultsWithCursor<IMessage>> GetLatestMessages(
             int count = TweetinviConsts.MESSAGE_GET_COUNT)
         {
             return Sync.ExecuteTaskAsync(() =>
@@ -31,7 +31,7 @@ namespace Tweetinvi
         /// <summary>
         /// Get the latest messages sent or received
         /// </summary>
-        public static ConfiguredTaskAwaitable<IResultsWithCursor<IMessage>> GetLatestMessages(IGetMessagesParameters queryParameters)
+        public static Task<IResultsWithCursor<IMessage>> GetLatestMessages(IGetMessagesParameters queryParameters)
         {
             return Sync.ExecuteTaskAsync(() =>
             {
@@ -55,28 +55,28 @@ namespace Tweetinvi
         }
 
         // Publish Message
-        public static ConfiguredTaskAwaitable<IMessage> PublishMessage(IPublishMessageParameters parameters)
+        public static Task<IMessage> PublishMessage(IPublishMessageParameters parameters)
         {
             return Sync.ExecuteTaskAsync(() => Message.PublishMessage(parameters));
         }
 
-        public static ConfiguredTaskAwaitable<IMessage> PublishMessage(string text, long targetUserId)
+        public static Task<IMessage> PublishMessage(string text, long targetUserId)
         {
             return Sync.ExecuteTaskAsync(() => Message.PublishMessage(text, targetUserId));
         }
 
         // Destroy Message
-        public static ConfiguredTaskAwaitable<bool> DestroyMessage(IMessage message)
+        public static Task<bool> DestroyMessage(IMessage message)
         {
             return Sync.ExecuteTaskAsync(() => Message.DestroyMessage(message));
         }
 
-        public static ConfiguredTaskAwaitable<bool> DestroyMessage(IEventDTO eventDTO)
+        public static Task<bool> DestroyMessage(IEventDTO eventDTO)
         {
             return  Sync.ExecuteTaskAsync(() => Message.DestroyMessage(eventDTO));
         }
 
-        public static ConfiguredTaskAwaitable<bool> DestroyMessage(long messageId)
+        public static Task<bool> DestroyMessage(long messageId)
         {
             return  Sync.ExecuteTaskAsync(() => Message.DestroyMessage(messageId));
         }

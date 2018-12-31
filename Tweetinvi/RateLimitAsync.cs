@@ -1,17 +1,17 @@
-﻿using System.Runtime.CompilerServices;
+﻿using System.Threading.Tasks;
 using Tweetinvi.Models;
 
 namespace Tweetinvi
 {
     public static class RateLimitAsync
     {
-        public static ConfiguredTaskAwaitable<ICredentialsRateLimits> GetCurrentCredentialsRateLimits(
+        public static Task<ICredentialsRateLimits> GetCurrentCredentialsRateLimits(
             bool useRateLimitCache = false)
         {
             return Sync.ExecuteTaskAsync(() => RateLimit.GetCurrentCredentialsRateLimits(useRateLimitCache));
         }
 
-        public static ConfiguredTaskAwaitable<ICredentialsRateLimits> GetCredentialsRateLimits(
+        public static Task<ICredentialsRateLimits> GetCredentialsRateLimits(
             ITwitterCredentials credentials, bool useRateLimitCache = false)
         {
             return Sync.ExecuteTaskAsync(() => RateLimit.GetCredentialsRateLimits(credentials, useRateLimitCache));

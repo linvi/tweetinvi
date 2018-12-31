@@ -1,4 +1,4 @@
-﻿using System.Runtime.CompilerServices;
+﻿using System.Threading.Tasks;
 
 namespace Tweetinvi
 {
@@ -7,7 +7,7 @@ namespace Tweetinvi
         /// <summary>
         /// Returns the privacy statement of Twitter.
         /// </summary>
-        public static ConfiguredTaskAwaitable<string> GetTwitterPrivacyPolicy()
+        public static Task<string> GetTwitterPrivacyPolicy()
         {
             return Sync.ExecuteTaskAsync(Help.GetTwitterPrivacyPolicy);
         }
