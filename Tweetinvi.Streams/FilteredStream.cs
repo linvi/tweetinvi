@@ -135,7 +135,7 @@ namespace Tweetinvi.Streams
                 }
             };
 
-            await _streamResultGenerator.StartStreamAsync(tweetReceived, generateWebRequest);
+            await _streamResultGenerator.StartStreamAsync(tweetReceived, generateWebRequest).ConfigureAwait(false);
         }
 
         public void StartStreamMatchingAllConditions()
@@ -190,7 +190,7 @@ namespace Tweetinvi.Streams
                 }
             };
 
-            await _streamResultGenerator.StartStreamAsync(tweetReceived, generateTwitterQuery);
+            await _streamResultGenerator.StartStreamAsync(tweetReceived, generateTwitterQuery).ConfigureAwait(false);
         }
 
         public MatchOn CheckIfTweetMatchesStreamFilters(ITweet tweet)

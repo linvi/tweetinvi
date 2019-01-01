@@ -28,7 +28,7 @@ namespace Tweetinvi.Webhooks
             var query = $"https://api.twitter.com/1.1/account_activity/all/{webhookEnvironmentName}/webhooks.json?url={url}";
             var result = _twitterAccessor.ExecuteQuery<IWebhookDTO>(query, HttpMethod.POST, credentials, null);
 
-            return await Task.FromResult(result);
+            return result;
         }
 
         public async Task<IWebhookEnvironmentDTO[]> GetAllWebhooksAsync(IConsumerOnlyCredentials consumerCredentials)
@@ -41,7 +41,7 @@ namespace Tweetinvi.Webhooks
                 environment.ConsumerCredentials = consumerCredentials;
             });
 
-            return await Task.FromResult(result?.Environments);
+            return result?.Environments;
         }
 
         public async Task<bool> ChallengeWebhookAsync(string webhookEnvironmentName, string webhookId, ITwitterCredentials credentials)
@@ -49,7 +49,7 @@ namespace Tweetinvi.Webhooks
             var query = $"https://api.twitter.com/1.1/account_activity/all/{webhookEnvironmentName}/webhooks/{webhookId}.json";
             var result = _twitterAccessor.ExecuteQuery(query, HttpMethod.PUT, credentials);
 
-            return await Task.FromResult(result.StatusCode != 214);
+            return result.StatusCode != 214;
         }
 
         public async Task<bool> SubscribeToAllAuthenticatedUserEventsAsync(
@@ -60,7 +60,7 @@ namespace Tweetinvi.Webhooks
 
             var result = _twitterAccessor.ExecuteQuery(query, HttpMethod.POST, credentials);
 
-            return await Task.FromResult(result.StatusCode != 348);
+            return result.StatusCode != 348;
         }
 
         public async Task<IGetWebhookSubscriptionsCountResultDTO> CountNumberOfSubscriptionsAsync(
@@ -77,7 +77,7 @@ namespace Tweetinvi.Webhooks
 
             var subscriptionsCount = _jsonObjectConverter.DeserializeObject<IGetWebhookSubscriptionsCountResultDTO>(result.Text);
 
-            return await Task.FromResult(subscriptionsCount);
+            return subscriptionsCount;
         }
 
         public async Task<bool> DoesAccountHaveASubscriptionAsync(
@@ -88,7 +88,7 @@ namespace Tweetinvi.Webhooks
 
             var result = _twitterAccessor.ExecuteQuery(query, HttpMethod.POST, credentials);
 
-            return await Task.FromResult(result.StatusCode == 204);
+            return result.StatusCode == 204;
         }
 
         public async Task<IWebhookSubcriptionListDTO> GetListOfSubscriptionsAsync(
@@ -101,7 +101,7 @@ namespace Tweetinvi.Webhooks
 
             var subscriptions = _jsonObjectConverter.DeserializeObject<IWebhookSubcriptionListDTO>(result.Text);
 
-            return await Task.FromResult(subscriptions);
+            return subscriptions;
         }
 
         public async Task<bool> RemoveWebhookAsync(string webhookEnvironmentName, string webhookId, ITwitterCredentials credentials)
@@ -110,7 +110,7 @@ namespace Tweetinvi.Webhooks
 
             var result = _twitterAccessor.ExecuteQuery(query, HttpMethod.DELETE, credentials);
 
-            return await Task.FromResult(result.StatusCode == 204);
+            return result.StatusCode == 204;
         }
 
         public async Task<bool> RemoveAllAccountSubscriptionsAsync(
@@ -121,7 +121,7 @@ namespace Tweetinvi.Webhooks
 
             var result = _twitterAccessor.ExecuteQuery(query, HttpMethod.DELETE, credentials);
 
-            return await Task.FromResult(result.StatusCode == 204);
+            return result.StatusCode == 204;
         }
     }
 }

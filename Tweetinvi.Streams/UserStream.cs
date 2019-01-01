@@ -129,7 +129,7 @@ namespace Tweetinvi.Streams
 
         private async Task startStreamAsync()
         {
-            _authenticatedUser = await _taskFactory.ExecuteTaskAsync(() => _userFactory.GetAuthenticatedUser(Credentials));
+            _authenticatedUser = await _taskFactory.ExecuteTaskAsync(() => _userFactory.GetAuthenticatedUser(Credentials)).ConfigureAwait(false);
             if (_authenticatedUser == null)
             {
                 StopStream(new UserStreamFailedToInitializeException("Could not receive information related with currently authenticated user."));

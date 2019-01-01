@@ -103,7 +103,7 @@ namespace Tweetinvi.Streams
                 }
             };
 
-            await _streamResultGenerator.StartStreamAsync(generateTweetDelegate, generateTwitterQuery);
+            await _streamResultGenerator.StartStreamAsync(generateTweetDelegate, generateTwitterQuery).ConfigureAwait(false);
         }
 
         protected void RaiseJsonObjectReceived(string json)

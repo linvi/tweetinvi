@@ -58,7 +58,7 @@ namespace Tweetinvi.Streams.Helpers
                 return true;
             };
 
-            await StartStreamAsync(processValidObject, generateTwitterQuery);
+            await StartStreamAsync(processValidObject, generateTwitterQuery).ConfigureAwait(false);
         }
 
         public async Task StartStreamAsync(Func<string, bool> processObject, Func<ITwitterQuery> generateTwitterQuery)

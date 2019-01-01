@@ -63,18 +63,18 @@ namespace Tweetinvi.WebLogic
 
         public async Task<WebResponse> GetWebResponseAsync(WebRequest webRequest)
         {
-            return await webRequest.GetResponseAsync();
+            return await webRequest.GetResponseAsync().ConfigureAwait(false);
         }
 
         public async Task<Stream> GetResponseStreamAsync(string url)
         {
             WebRequest webRequest = WebRequest.Create(url);
-            return await GetResponseStreamAsync(webRequest);
+            return await GetResponseStreamAsync(webRequest).ConfigureAwait(false);
         }
 
         public async Task<Stream> GetResponseStreamAsync(WebRequest webRequest)
         {
-            var webResponse = await GetWebResponseAsync(webRequest);
+            var webResponse = await GetWebResponseAsync(webRequest).ConfigureAwait(false);
             return webResponse.GetResponseStream();
         }
 

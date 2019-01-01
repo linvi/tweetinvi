@@ -49,7 +49,7 @@ namespace Tweetinvi.Core.Web
 
                 TryComputeLength(out var size);
 
-                using (var contentStream = await _content.ReadAsStreamAsync())
+                using (var contentStream = await _content.ReadAsStreamAsync().ConfigureAwait(false))
                 {
                     while (true)
                     {
