@@ -10,13 +10,12 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Testinvi.TestObjects;
 using Tweetinvi;
 using Tweetinvi.Core.Exceptions;
-using Tweetinvi.Credentials;
 using Tweetinvi.Models;
 
 namespace Testinvi.Tweetinvi.Credentials
 {
     [TestClass]
-    public class CredentialsAccessorTests
+    public class CredentialsRunnerTests
     {
         #region ExecuteOperationWithCredentials<T>(ITwitterCredentials, Func<T>)
 
@@ -28,7 +27,7 @@ namespace Testinvi.Tweetinvi.Credentials
             ITwitterCredentials credentials = A.Fake<ITwitterCredentials>();
 
             // Act
-            Auth.CredentialsAccessor.ExecuteOperationWithCredentials(credentials, () =>
+            Auth.CredentialsRunner.ExecuteOperationWithCredentials(credentials, () =>
             {
                 called = true;
                 return 0;
@@ -46,7 +45,7 @@ namespace Testinvi.Tweetinvi.Credentials
             ITwitterCredentials credentials = A.Fake<ITwitterCredentials>();
 
             // Act
-            Auth.CredentialsAccessor.ExecuteOperationWithCredentials(credentials, () =>
+            Auth.CredentialsRunner.ExecuteOperationWithCredentials(credentials, () =>
             {
                 throw new TestException();
 #pragma warning disable 162
@@ -62,7 +61,7 @@ namespace Testinvi.Tweetinvi.Credentials
             ITwitterCredentials credentials = new Fixture().Create<TwitterCredentials>();
 
             // Act
-            Auth.CredentialsAccessor.ExecuteOperationWithCredentials(credentials, () =>
+            Auth.CredentialsRunner.ExecuteOperationWithCredentials(credentials, () =>
             {
                 // Assert
                 ITwitterCredentials actual = Auth.Credentials;
@@ -83,7 +82,7 @@ namespace Testinvi.Tweetinvi.Credentials
             ITwitterCredentials execAsCredentials = fixture.Create<TwitterCredentials>();
 
             // Act
-            Auth.CredentialsAccessor.ExecuteOperationWithCredentials(execAsCredentials, () => 0);
+            Auth.CredentialsRunner.ExecuteOperationWithCredentials(execAsCredentials, () => 0);
 
             // Assert
             ITwitterCredentials actual = Auth.Credentials;
@@ -99,7 +98,7 @@ namespace Testinvi.Tweetinvi.Credentials
             ITwitterCredentials credentials = A.Fake<ITwitterCredentials>();
 
             // Act
-            Auth.CredentialsAccessor.ExecuteOperationWithCredentials(credentials, () =>
+            Auth.CredentialsRunner.ExecuteOperationWithCredentials(credentials, () =>
             {
                 // Assert
                 string actual = al.Value;
@@ -116,7 +115,7 @@ namespace Testinvi.Tweetinvi.Credentials
             ITwitterException exception = A.Fake<ITwitterException>();
 
             // Act
-            Auth.CredentialsAccessor.ExecuteOperationWithCredentials(credentials,
+            Auth.CredentialsRunner.ExecuteOperationWithCredentials(credentials,
                 () =>
                 {
                     ExceptionHandler.AddTwitterException(exception);
@@ -141,7 +140,7 @@ namespace Testinvi.Tweetinvi.Credentials
             ITwitterCredentials credentials = A.Fake<ITwitterCredentials>();
 
             // Act
-            Auth.CredentialsAccessor.ExecuteOperationWithCredentials(credentials, () => { called = true; });
+            Auth.CredentialsRunner.ExecuteOperationWithCredentials(credentials, () => { called = true; });
 
             // Assert
             Assert.IsTrue(called);
@@ -155,7 +154,7 @@ namespace Testinvi.Tweetinvi.Credentials
             ITwitterCredentials credentials = A.Fake<ITwitterCredentials>();
 
             // Act
-            Auth.CredentialsAccessor.ExecuteOperationWithCredentials(credentials, () => throw new TestException());
+            Auth.CredentialsRunner.ExecuteOperationWithCredentials(credentials, () => throw new TestException());
         }
 
         [TestMethod]
@@ -165,7 +164,7 @@ namespace Testinvi.Tweetinvi.Credentials
             ITwitterCredentials credentials = new Fixture().Create<TwitterCredentials>();
 
             // Act
-            Auth.CredentialsAccessor.ExecuteOperationWithCredentials(credentials, () =>
+            Auth.CredentialsRunner.ExecuteOperationWithCredentials(credentials, () =>
             {
                 // Assert
                 ITwitterCredentials actual = Auth.Credentials;
@@ -185,7 +184,7 @@ namespace Testinvi.Tweetinvi.Credentials
             ITwitterCredentials execAsCredentials = fixture.Create<TwitterCredentials>();
 
             // Act
-            Auth.CredentialsAccessor.ExecuteOperationWithCredentials(execAsCredentials, () => {  });
+            Auth.CredentialsRunner.ExecuteOperationWithCredentials(execAsCredentials, () => {  });
 
             // Assert
             ITwitterCredentials actual = Auth.Credentials;
@@ -201,7 +200,7 @@ namespace Testinvi.Tweetinvi.Credentials
             ITwitterCredentials credentials = A.Fake<ITwitterCredentials>();
 
             // Act
-            Auth.CredentialsAccessor.ExecuteOperationWithCredentials(credentials, () =>
+            Auth.CredentialsRunner.ExecuteOperationWithCredentials(credentials, () =>
             {
                 // Assert
                 string actual = al.Value;
@@ -217,7 +216,7 @@ namespace Testinvi.Tweetinvi.Credentials
             ITwitterException exception = A.Fake<ITwitterException>();
 
             // Act
-            Auth.CredentialsAccessor.ExecuteOperationWithCredentials(credentials,
+            Auth.CredentialsRunner.ExecuteOperationWithCredentials(credentials,
                 () => ExceptionHandler.AddTwitterException(exception));
 
             // Assert

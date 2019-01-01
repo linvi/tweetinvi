@@ -13,7 +13,6 @@ namespace Tweetinvi
     /// </summary>
     public class Auth
     {
-        [ThreadStatic]
         private static ICredentialsAccessor _credentialsAccessor;
 
         /// <summary>
@@ -29,6 +28,24 @@ namespace Tweetinvi
                 }
 
                 return _credentialsAccessor;
+            }
+        }
+
+        private static ICredentialsRunner _credentialsRunner;
+
+        /// <summary>
+        /// Run operations with specified credentials
+        /// </summary>
+        public static ICredentialsRunner CredentialsRunner
+        {
+            get
+            {
+                if (_credentialsRunner == null)
+                {
+                    Initialize();
+                }
+
+                return _credentialsRunner;
             }
         }
 
@@ -54,7 +71,8 @@ namespace Tweetinvi
 
         private static void Initialize()
         {
-            _credentialsAccessor = TweetinviContainer.Resolve<ICredentialsAccessor>();
+            _credentialsAccessor = _credentialsAccessor ?? TweetinviContainer.Resolve<ICredentialsAccessor>();
+            _credentialsRunner = _credentialsRunner ?? TweetinviContainer.Resolve<ICredentialsRunner>();
             _authFactoryForCurrentThread = TweetinviContainer.Resolve<IAuthFactory>();
         }
 
@@ -190,7 +208,7 @@ namespace Tweetinvi
         /// </summary>
         public static T ExecuteOperationWithCredentials<T>(ITwitterCredentials credentials, Func<T> operation)
         {
-            return CredentialsAccessor.ExecuteOperationWithCredentials(credentials, operation);
+            return CredentialsRunner.ExecuteOperationWithCredentials(credentials, operation);
         }
 
         /// <summary>
@@ -198,7 +216,7 @@ namespace Tweetinvi
         /// </summary>
         public static void ExecuteOperationWithCredentials(ITwitterCredentials credentials, Action operation)
         {
-            CredentialsAccessor.ExecuteOperationWithCredentials(credentials, operation);
+            CredentialsRunner.ExecuteOperationWithCredentials(credentials, operation);
         }
     }
 }

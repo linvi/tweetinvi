@@ -28,7 +28,7 @@ namespace Testinvi.Tweetinvi.Credentials.RateLimitTests
         private Fake<IWebRequestExecutor> _fakeWebRequestExecutor;
         private Fake<IHelpQueryGenerator> _fakeHelpQueryGenerator;
         private Fake<IJsonObjectConverter> _fakeJsonObjectConverter;
-        private Fake<ICredentialsAccessor> _fakeCredentialsAccessor;
+        private Fake<ICredentialsRunner> _fakeCredentialsRunner;
         private Fake<ITwitterQueryFactory> _fakeTwitterQueryFactory;
 
         private ITwitterQuery _twitterQuery;
@@ -49,7 +49,7 @@ namespace Testinvi.Tweetinvi.Credentials.RateLimitTests
             _fakeWebRequestExecutor = _fakeBuilder.GetFake<IWebRequestExecutor>();
             _fakeHelpQueryGenerator = _fakeBuilder.GetFake<IHelpQueryGenerator>();
             _fakeJsonObjectConverter = _fakeBuilder.GetFake<IJsonObjectConverter>();
-            _fakeCredentialsAccessor = _fakeBuilder.GetFake<ICredentialsAccessor>();
+            _fakeCredentialsRunner = _fakeBuilder.GetFake<ICredentialsRunner>();
             _fakeTwitterQueryFactory = _fakeBuilder.GetFake<ITwitterQueryFactory>();
 
             InitializeData();
@@ -63,7 +63,7 @@ namespace Testinvi.Tweetinvi.Credentials.RateLimitTests
                 _fakeRateLimitHelper.CallsTo(x => x.GetEndpointRateLimitFromQuery(TEST_QUERY, _refreshedCredentialsRateLimits, false)).Returns(_refreshedEndpointRateLimit);
             });
 
-            _fakeCredentialsAccessor.SetupPassThrough<ICredentialsRateLimits>();
+            _fakeCredentialsRunner.SetupPassThrough<ICredentialsRateLimits>();
 
             _fakeHelpQueryGenerator.CallsTo(x => x.GetCredentialsLimitsQuery()).Returns(TEST_QUERY);
 

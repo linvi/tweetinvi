@@ -17,19 +17,22 @@ namespace Tweetinvi.Factories.User
         private readonly IFactory<IUser> _userUnityFactory;
         private readonly IJsonObjectConverter _jsonObjectConverter;
         private readonly ICredentialsAccessor _credentialsAccessor;
+        private readonly ICredentialsRunner _credentialsRunner;
 
         public UserFactory(
             IUserFactoryQueryExecutor userFactoryQueryExecutor,
             IFactory<IAuthenticatedUser> authenticatedUserUnityFactory,
             IFactory<IUser> userUnityFactory,
             IJsonObjectConverter jsonObjectConverter,
-            ICredentialsAccessor credentialsAccessor)
+            ICredentialsAccessor credentialsAccessor,
+            ICredentialsRunner credentialsRunner)
         {
             _userFactoryQueryExecutor = userFactoryQueryExecutor;
             _authenticatedUserUnityFactory = authenticatedUserUnityFactory;
             _userUnityFactory = userUnityFactory;
             _jsonObjectConverter = jsonObjectConverter;
             _credentialsAccessor = credentialsAccessor;
+            _credentialsRunner = credentialsRunner;
         }
 
         // Get User
@@ -44,7 +47,7 @@ namespace Tweetinvi.Factories.User
             }
             else
             {
-                userDTO = _credentialsAccessor.ExecuteOperationWithCredentials(credentials, () =>
+                userDTO = _credentialsRunner.ExecuteOperationWithCredentials(credentials, () =>
                 {
                     return _userFactoryQueryExecutor.GetAuthenticatedUser(parameters);
                 });

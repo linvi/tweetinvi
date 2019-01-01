@@ -14,6 +14,7 @@ namespace Tweetinvi.Credentials
         {
             container.RegisterType<ITwitterAccessor, TwitterAccessor>(RegistrationLifetime.InstancePerThread);
             container.RegisterType<ICredentialsAccessor, CredentialsAccessor>(RegistrationLifetime.InstancePerApplication);
+            container.RegisterType<ICredentialsRunner, CredentialsRunner>(RegistrationLifetime.InstancePerApplication);
             container.RegisterType<ICredentialsStore, CredentialsStore>(RegistrationLifetime.InstancePerApplication);
 
             container.RegisterType<IAuthFactory, AuthFactory>();

@@ -11,7 +11,7 @@ namespace Tweetinvi.Credentials.RateLimit
 {
     public class RateLimitCacheManager : IRateLimitCacheManager
     {
-        private readonly ICredentialsAccessor _credentialsAccessor;
+        private readonly ICredentialsRunner _credentialsRunner;
         private readonly IWebRequestExecutor _webRequestExecutor;
         private readonly IHelpQueryGenerator _helpQueryGenerator;
         private readonly IJsonObjectConverter _jsonObjectConverter;
@@ -20,7 +20,7 @@ namespace Tweetinvi.Credentials.RateLimit
         private readonly ITwitterQueryFactory _twitterQueryFactory;
 
         public RateLimitCacheManager(
-            ICredentialsAccessor credentialsAccessor,
+            ICredentialsRunner credentialsRunner,
             IWebRequestExecutor webRequestExecutor,
             IHelpQueryGenerator helpQueryGenerator,
             IJsonObjectConverter jsonObjectConverter,
@@ -28,7 +28,7 @@ namespace Tweetinvi.Credentials.RateLimit
             IRateLimitHelper rateLimitHelper,
             ITwitterQueryFactory twitterQueryFactory)
         {
-            _credentialsAccessor = credentialsAccessor;
+            _credentialsRunner = credentialsRunner;
             _webRequestExecutor = webRequestExecutor;
             _helpQueryGenerator = helpQueryGenerator;
             _jsonObjectConverter = jsonObjectConverter;
@@ -96,7 +96,7 @@ namespace Tweetinvi.Credentials.RateLimit
                 return null;
             }
 
-            var result = _credentialsAccessor.ExecuteOperationWithCredentials(credentials, () =>
+            var result = _credentialsRunner.ExecuteOperationWithCredentials(credentials, () =>
             {
                 var twitterQuery = _twitterQueryFactory.Create(_helpQueryGenerator.GetCredentialsLimitsQuery(), HttpMethod.GET, credentials);
 

@@ -131,7 +131,7 @@
     <Compile Include="IntegrationTests\TwitterLists.cs" />
     <Compile Include="json.net\JsonConvertTests.cs" />
     <Compile Include="json.net\JsonTests.cs" />
-    <Compile Include="SetupHelpers\CredentialsAccessorHelper.cs" />
+    <Compile Include="SetupHelpers\CredentialsRunnerHelper.cs" />
     <Compile Include="SetupHelpers\TwitterAccessorHelper.cs" />
     <Compile Include="SetupHelpers\UserQuerValidatorHelper.cs" />
     <Compile Include="SetupHelpers\UserQueryGeneratorHelper.cs" />
@@ -139,7 +139,7 @@
     <Compile Include="Tweetinvi.Core\EnumerableExtensionsTests.cs" />
     <Compile Include="Tweetinvi.Core\LanguageTests.cs" />
     <Compile Include="Tweetinvi.Core\UnicodeHelperTests.cs" />
-    <Compile Include="Tweetinvi.Credentials\CredentialsAccessorTests.cs" />
+    <Compile Include="Tweetinvi.Credentials\CredentialsRunnerTests.cs" />
     <Compile Include="Tweetinvi.Logic\ExceptionHandlerTests.cs" />
     <Compile Include="Tweetinvi.Logic\ExtendedTweetTests.cs" />
     <Compile Include="Tweetinvi.Core\StringExtensionsTests.cs" />

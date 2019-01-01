@@ -6,19 +6,15 @@ using Tweetinvi.Models;
 
 namespace Tweetinvi.Credentials
 {
-    public class CredentialsAccessor : ICredentialsAccessor
+    public class CredentialsAccessor : ICredentialsAccessor, ICrossExecutionContextPreparable
     {
         private static ITwitterCredentials _applicationCredentials;
 
         private static readonly AsyncLocal<ITwitterCredentials>
             _currentThreadCredentials = new AsyncLocal<ITwitterCredentials>();
 
-        private ICrossExecutionContextPreparer _crossExecutionContextPreparer;
-
-        public CredentialsAccessor(ICrossExecutionContextPreparer crossExecutionContextPreparer)
+        public CredentialsAccessor()
         {
-            _crossExecutionContextPreparer = crossExecutionContextPreparer;
-
             CurrentThreadCredentials = _applicationCredentials;
         }
 
@@ -32,56 +28,28 @@ namespace Tweetinvi.Credentials
         {
             get
             {
-                if (_currentThreadCredentials.Value == null)
-                {
-                    _currentThreadCredentials.Value = ApplicationCredentials;
-                }
-
+                initialiseCurrentThreadCredentials();
                 return _currentThreadCredentials.Value;
             }
             set
             {
                 _currentThreadCredentials.Value = value;
 
-                if (!HasTheApplicationCredentialsBeenInitialized() && _currentThreadCredentials.Value != null)
+                if (_applicationCredentials == null && _currentThreadCredentials.Value != null)
                 {
                     _applicationCredentials = value;
                 }
             }
         }
 
-        public T ExecuteOperationWithCredentials<T>(ITwitterCredentials credentials, Func<T> operation)
-        {
-            _crossExecutionContextPreparer.Prepare();
+        public void PrepareExecutionContext() => initialiseCurrentThreadCredentials();
 
-            ExecutionContext ec = ExecutionContext.Capture();
-            T result = default(T);
-            ExecutionContext.Run(ec, _ =>
+        private void initialiseCurrentThreadCredentials()
+        {
+            if (_currentThreadCredentials.Value == null)
             {
-                // Setting a reference at an execution context level will not be carried back to the original EC.
-                //  However, updates to objects on the heap (e.g. adding an item to a list) will do, as the EC is not
-                //  deep copied.
-                // So here, the CurrentThreadCredentials will only be updated within this ExecutionContext.
-                CurrentThreadCredentials = credentials;
-                result = operation();
-            }, null);
-
-            return result;
-        }
-
-        public void ExecuteOperationWithCredentials(ITwitterCredentials credentials, Action operation)
-        {
-            // Reuse Func<T> implementation
-            ExecuteOperationWithCredentials(credentials, () =>
-            {
-                operation();
-                return 0;
-            });
-        }
-
-        private bool HasTheApplicationCredentialsBeenInitialized()
-        {
-            return _applicationCredentials != null;
+                _currentThreadCredentials.Value = ApplicationCredentials;
+            }
         }
     }
 }

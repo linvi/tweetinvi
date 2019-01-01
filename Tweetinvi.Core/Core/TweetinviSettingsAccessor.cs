@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading;
+using Tweetinvi.Core.ExecutionContext;
 using Tweetinvi.Core.Injectinvi;
 
 namespace Tweetinvi.Core
@@ -40,7 +41,7 @@ namespace Tweetinvi.Core
         RateLimitTrackerMode RateLimitTrackerMode { get; set; }
     }
 
-    public class TweetinviSettingsAccessor : ITweetinviSettingsAccessor
+    public class TweetinviSettingsAccessor : ITweetinviSettingsAccessor, ICrossExecutionContextPreparable
     {
         private static ITweetinviSettings StaticTweetinviSettings { get; set; }
 
@@ -60,19 +61,14 @@ namespace Tweetinvi.Core
         {
             get
             {
-                if (_currentThreadSettings.Value == null)
-                {
-                    _currentThreadSettings.Value = TweetinviCoreModule.TweetinviContainer.Resolve<ITweetinviSettings>();
-                    _currentThreadSettings.Value.InitialiseFrom(StaticTweetinviSettings);
-                }
-
+                initialiseCurrentThreadSettings();
                 return _currentThreadSettings.Value;
             }
             set
             {
                 _currentThreadSettings.Value = value;
 
-                if (!HasTheApplicationSettingsBeenInitialized() && value != null)
+                if (StaticTweetinviSettings == null && value != null)
                 {
                     StaticTweetinviSettings = value.Clone();
                 }
@@ -91,11 +87,6 @@ namespace Tweetinvi.Core
                     _currentThreadSettings.Value = value;
                 }
             }
-        }
-
-        private bool HasTheApplicationSettingsBeenInitialized()
-        {
-            return StaticTweetinviSettings != null;
         }
 
         public IProxyConfig ProxyConfig
@@ -120,6 +111,19 @@ namespace Tweetinvi.Core
         {
             get => CurrentThreadSettings.RateLimitTrackerMode;
             set => CurrentThreadSettings.RateLimitTrackerMode = value;
+        }
+
+        public void PrepareExecutionContext() => initialiseCurrentThreadSettings();
+
+        private static void initialiseCurrentThreadSettings()
+        {
+            if (_currentThreadSettings.Value != null)
+            {
+                return;
+            }
+
+            _currentThreadSettings.Value = TweetinviCoreModule.TweetinviContainer.Resolve<ITweetinviSettings>();
+            _currentThreadSettings.Value.InitialiseFrom(StaticTweetinviSettings);
         }
     }
 }
