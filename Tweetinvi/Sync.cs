@@ -11,22 +11,46 @@ namespace Tweetinvi
     /// </summary>
     public static class Sync
     {
-        /// <summary>
-        /// Execute a task asynchronously with Tweetinvi
-        /// </summary>
-        public static Task ExecuteTaskAsync(Action action) =>
-            TweetinviContainer.Resolve<ITaskFactory>().ExecuteTaskAsync(action);
+        private static ICrossExecutionContextPreparer _crossExecutionContextPreparer;
+        private static ITaskFactory _taskFactory;
+
+        private static void init()
+        {
+            // No need for locking, they're singletons anyway so worst case scenario the same object
+            //  gets resolved multiple times
+            if (_crossExecutionContextPreparer == null || _taskFactory == null)
+            {
+                _crossExecutionContextPreparer = TweetinviContainer.Resolve<ICrossExecutionContextPreparer>();
+                _taskFactory = TweetinviContainer.Resolve<ITaskFactory>();
+            }
+        }
 
         /// <summary>
         /// Execute a task asynchronously with Tweetinvi
         /// </summary>
-        public static Task<T> ExecuteTaskAsync<T>(Func<T> func) =>
-            TweetinviContainer.Resolve<ITaskFactory>().ExecuteTaskAsync(func);
+        public static Task ExecuteTaskAsync(Action action)
+        {
+            init();
+            return _taskFactory.ExecuteTaskAsync(action);
+        }
+
+        /// <summary>
+        /// Execute a task asynchronously with Tweetinvi
+        /// </summary>
+        public static Task<T> ExecuteTaskAsync<T>(Func<T> func)
+        {
+            init();
+            return _taskFactory.ExecuteTaskAsync(func);
+        }
 
         /// <summary>
         /// Prepare the current Task for Tweetinvi to be used asynchronously within it
         /// </summary>
-        public static void PrepareForAsync() => TweetinviContainer.Resolve<ICrossExecutionContextPreparer>().Prepare();
+        public static void PrepareForAsync()
+        {
+            init();
+            _crossExecutionContextPreparer.Prepare();
+        }
 
         /// <summary>
         /// Execute a task asynchronously with Tweetinvi independently of the calling context
