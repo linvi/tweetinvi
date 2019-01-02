@@ -39,49 +39,58 @@ namespace Tweetinvi
             _webhookController = TweetinviContainer.Resolve<IWebhookController>();
         }
 
-        public static async Task<IWebhookDTO> RegisterWebhookAsync(string webhookEnvironmentName, string url, ITwitterCredentials credentials)
+        public static Task<IWebhookDTO> RegisterWebhookAsync(string webhookEnvironmentName, string url, ITwitterCredentials credentials)
         {
-            return await WebhookController.RegisterWebhookAsync(webhookEnvironmentName, url, credentials).ConfigureAwait(false);
+            Sync.PrepareForAsync();
+            return WebhookController.RegisterWebhookAsync(webhookEnvironmentName, url, credentials);
         }
 
-        public static async Task<IWebhookEnvironmentDTO[]> GetAllWebhookEnvironmentsAsync(IConsumerOnlyCredentials consumerCredentials)
+        public static Task<IWebhookEnvironmentDTO[]> GetAllWebhookEnvironmentsAsync(IConsumerOnlyCredentials consumerCredentials)
         {
-            return await WebhookController.GetAllWebhooksAsync(consumerCredentials).ConfigureAwait(false);
+            Sync.PrepareForAsync();
+            return WebhookController.GetAllWebhooksAsync(consumerCredentials);
         }
 
-        public static async Task<bool> ChallengeWebhookAsync(string webhookEnvironmentName, string webhookId, ITwitterCredentials credentials)
+        public static Task<bool> ChallengeWebhookAsync(string webhookEnvironmentName, string webhookId, ITwitterCredentials credentials)
         {
-            return await WebhookController.ChallengeWebhookAsync(webhookEnvironmentName, webhookId, credentials).ConfigureAwait(false);
+            Sync.PrepareForAsync();
+            return WebhookController.ChallengeWebhookAsync(webhookEnvironmentName, webhookId, credentials);
         }
 
-        public static async Task<bool> SubscribeToAccountActivityEventsAsync(string webhookEnvironmentName, ITwitterCredentials credentials)
+        public static Task<bool> SubscribeToAccountActivityEventsAsync(string webhookEnvironmentName, ITwitterCredentials credentials)
         {
-            return await WebhookController.SubscribeToAllAuthenticatedUserEventsAsync(webhookEnvironmentName, credentials).ConfigureAwait(false);
+            Sync.PrepareForAsync();
+            return WebhookController.SubscribeToAllAuthenticatedUserEventsAsync(webhookEnvironmentName, credentials);
         }
 
-        public static async Task<IGetWebhookSubscriptionsCountResultDTO> CountNumberOfSubscriptionsAsync(IConsumerOnlyCredentials consumerCredentials)
+        public static Task<IGetWebhookSubscriptionsCountResultDTO> CountNumberOfSubscriptionsAsync(IConsumerOnlyCredentials consumerCredentials)
         {
-            return await WebhookController.CountNumberOfSubscriptionsAsync(consumerCredentials).ConfigureAwait(false);
+            Sync.PrepareForAsync();
+            return WebhookController.CountNumberOfSubscriptionsAsync(consumerCredentials);
         }
 
-        public static async Task<bool> DoesAccountHaveASubscriptionAsync(string webhookEnvironmentName, ITwitterCredentials credentials)
+        public static Task<bool> DoesAccountHaveASubscriptionAsync(string webhookEnvironmentName, ITwitterCredentials credentials)
         {
-            return await WebhookController.DoesAccountHaveASubscriptionAsync(webhookEnvironmentName, credentials).ConfigureAwait(false);
+            Sync.PrepareForAsync();
+            return WebhookController.DoesAccountHaveASubscriptionAsync(webhookEnvironmentName, credentials);
         }
 
-        public static async Task<IWebhookSubcriptionListDTO> GetListOfSubscriptionsAsync(string webhookEnvironmentName, IConsumerOnlyCredentials credentials)
+        public static Task<IWebhookSubcriptionListDTO> GetListOfSubscriptionsAsync(string webhookEnvironmentName, IConsumerOnlyCredentials credentials)
         {
-            return await WebhookController.GetListOfSubscriptionsAsync(webhookEnvironmentName, credentials).ConfigureAwait(false);
+            Sync.PrepareForAsync();
+            return WebhookController.GetListOfSubscriptionsAsync(webhookEnvironmentName, credentials);
         }
 
-        public static async Task<bool> RemoveWebhookAsync(string webhookEnvironmentName, string webhookId, ITwitterCredentials credentials)
+        public static Task<bool> RemoveWebhookAsync(string webhookEnvironmentName, string webhookId, ITwitterCredentials credentials)
         {
-            return await WebhookController.RemoveWebhookAsync(webhookEnvironmentName, webhookId, credentials).ConfigureAwait(false);
+            Sync.PrepareForAsync();
+            return WebhookController.RemoveWebhookAsync(webhookEnvironmentName, webhookId, credentials);
         }
 
-        public static async Task<bool> RemoveAllAccountSubscriptionsAsync(string webhookEnvironmentName, ITwitterCredentials credentials)
+        public static Task<bool> RemoveAllAccountSubscriptionsAsync(string webhookEnvironmentName, ITwitterCredentials credentials)
         {
-            return await WebhookController.RemoveAllAccountSubscriptionsAsync(webhookEnvironmentName, credentials).ConfigureAwait(false);
+            Sync.PrepareForAsync();
+            return WebhookController.RemoveAllAccountSubscriptionsAsync(webhookEnvironmentName, credentials);
         }
     }
 }
