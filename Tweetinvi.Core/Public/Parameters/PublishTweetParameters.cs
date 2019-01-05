@@ -12,7 +12,7 @@ namespace Tweetinvi.Parameters
         /// <summary>
         /// Message to publish as a tweet
         /// </summary>
-        string Text { get; }
+        string Text { get; set; }
 
         /// <summary>
         /// The ID of an existing status that the update is in reply to.
@@ -47,17 +47,17 @@ namespace Tweetinvi.Parameters
         /// <summary>
         /// A list of media_ids to associate with the Tweet. You may include up to 4 photos or 1 animated GIF or 1 video in a Tweet.
         /// </summary>
-        List<long> MediaIds { get; }
+        List<long> MediaIds { get; set; }
 
         /// <summary>
         /// A list of media (uploaded or not) that need to be displayed within the tweet.
         /// </summary>
-        List<IMedia> Medias { get; }
+        List<IMedia> Medias { get; set; }
 
         /// <summary>
         /// A list of media binaries that need to be uploaded and then displayed within the tweet.
         /// </summary>
-        List<byte[]> MediaBinaries { get; }
+        List<byte[]> MediaBinaries { get; set; }
 
         /// <summary>
         /// Whether this Tweet will be published with any media attached
@@ -105,7 +105,7 @@ namespace Tweetinvi.Parameters
             Text = text;
         }
 
-        public string Text { get; private set; }
+        public string Text { get; set; }
 
         public ITweetIdentifier InReplyToTweet
         {
@@ -129,11 +129,11 @@ namespace Tweetinvi.Parameters
             set => InReplyToTweet = value != null ? new TweetIdentifier((long)value) : null;
         }
 
-        public List<long> MediaIds { get; } = new List<long>();
-        public List<IMedia> Medias { get; } = new List<IMedia>();
-        public List<byte[]> MediaBinaries { get; } = new List<byte[]>();
+        public List<long> MediaIds { get; set; } = new List<long>();
+        public List<IMedia> Medias { get; set; } = new List<IMedia>();
+        public List<byte[]> MediaBinaries { get; set; } = new List<byte[]>();
 
-        public bool HasMedia => MediaIds.Count > 0 || Medias.Count > 0 || MediaBinaries.Count > 0;
+        public bool HasMedia => MediaIds?.Count > 0 || Medias?.Count > 0 || MediaBinaries?.Count > 0;
 
         public string PlaceId { get; set; }
         public ICoordinates Coordinates { get; set; }

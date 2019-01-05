@@ -459,10 +459,10 @@ namespace Examplinvi
         {
             var media = UploadImage(filePath);
 
-            PublishTweetParameters parameters = new PublishTweetParameters(text);
-            parameters.Medias.Add(media);
-
-            return Tweet.PublishTweet(parameters);
+            return Tweet.PublishTweet(new PublishTweetParameters(text)
+            {
+                Medias = new List<IMedia>() { media }
+            });
         }
 
         public static void Tweet_PublishTweetInReplyToAnotherTweet(string text, long tweetIdToReplyTo)

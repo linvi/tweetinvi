@@ -42,7 +42,7 @@ namespace Tweetinvi.Json
         // Publish Tweet
         public static string PublishTweet(string text)
         {
-            IPublishTweetParameters parameters = new PublishTweetParameters(text);
+            var parameters = new PublishTweetParameters(text);
             return PublishTweet(parameters);
         }
 

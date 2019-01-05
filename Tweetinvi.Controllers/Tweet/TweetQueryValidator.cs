@@ -26,11 +26,9 @@ namespace Tweetinvi.Controllers.Tweet
                 throw new ArgumentException("Publish parameters cannot be null.");
             }
 
-            if (string.IsNullOrEmpty(parameters.Text) && 
-                !parameters.HasMedia)
+            if (string.IsNullOrEmpty(parameters.Text) && !parameters.HasMedia)
             {
-                throw new ArgumentException(
-                    "The text message of a tweet cannot be null or empty, unless media is attached.");
+                throw new ArgumentException("The text message of a tweet cannot be null or empty, unless media is attached.");
             }
 
             var mediaObjectIds = parameters.Medias.Where(x => x.MediaId != null).Select(x => x.MediaId.Value);

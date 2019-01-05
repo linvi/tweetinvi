@@ -79,13 +79,13 @@ namespace Tweetinvi.Controllers.Tweet
 
         public static int EstimateTweetLength(string text)
         {
-            PublishTweetParameters parameters = new PublishTweetParameters(text);
+            var parameters = new PublishTweetParameters(text);
             return EstimateTweetLength(parameters);
         }
 
         public static int EstimateTweetLength(IPublishTweetParameters publishTweetParameters)
         {
-            string text = publishTweetParameters.Text ?? "";
+            var text = publishTweetParameters.Text ?? "";
             var textLength = StringExtension.EstimateTweetLength(text);
 
             if (publishTweetParameters.QuotedTweet != null)
