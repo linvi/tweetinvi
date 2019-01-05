@@ -40,9 +40,15 @@ namespace Tweetinvi.Json
         }
 
         // Publish Tweet
-        public static string PublishTweet(string text, IPublishTweetOptionalParameters parameters = null)
+        public static string PublishTweet(string text)
         {
-            return TweetJsonController.PublishTweet(text, parameters);
+            var parameters = new PublishTweetParameters(text);
+            return PublishTweet(parameters);
+        }
+
+        public static string PublishTweet(IPublishTweetParameters parameters)
+        {
+            return TweetJsonController.PublishTweet(parameters);
         }
 
         // Publish Retweet

@@ -16,7 +16,7 @@ namespace Tweetinvi.Controllers.Tweet
 
 
         // Publish Tweet
-        string PublishTweet(string text, IPublishTweetOptionalParameters optionalParameters = null);
+        string PublishTweet(IPublishTweetParameters parameters);
 
         // Publish Retweet
         string PublishRetweet(ITweet tweet);
@@ -76,19 +76,16 @@ namespace Tweetinvi.Controllers.Tweet
             return _twitterAccessor.ExecuteGETQueryReturningJson(query);
         }
 
-        public string PublishTweet(string text, IPublishTweetOptionalParameters optionalParameters = null)
+        public string PublishTweet(IPublishTweetParameters parameters)
         {
             // The exceptions have to be raised before the QueryGenerator as 
             // We do not want to wait for the media to be uploaded to throw the
             // Exception. And The logic of uploading the media should live in
             // the TweetController
+            _tweetQueryValidator.ThrowIfTweetCannotBePublished(parameters);
+            _tweetController.UploadMedias(parameters);
 
-            var publishParameter = new PublishTweetParameters(text, optionalParameters);
-
-            _tweetQueryValidator.ThrowIfTweetCannotBePublished(publishParameter);
-            _tweetController.UploadMedias(publishParameter);
-
-            var query = _tweetQueryGenerator.GetPublishTweetQuery(publishParameter);
+            var query = _tweetQueryGenerator.GetPublishTweetQuery(parameters);
             return _twitterAccessor.ExecutePOSTQueryReturningJson(query);
         }
 
