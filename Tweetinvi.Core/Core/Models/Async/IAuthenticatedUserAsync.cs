@@ -68,12 +68,14 @@ namespace Tweetinvi.Core.Models.Async
         /// <summary>
         /// Get the users who requested to follow you.
         /// </summary>
-        Task<IEnumerable<IUser>> GetUsersRequestingFriendshipAsync(int maximumUserIdsToRetrieve = 75000);
+        Task<IEnumerable<IUser>> GetUsersRequestingFriendshipAsync(
+            int maximumUserIdsToRetrieve = TweetinviConsts.FRIENDSHIPS_INCOMING_USERS_MAX_PER_REQ);
 
         /// <summary>
         /// Get the users you've requested to follow.
         /// </summary>
-        Task<IEnumerable<IUser>> GetUsersYouRequestedToFollowAsync(int maximumUsersToRetrieve = 75000);
+        Task<IEnumerable<IUser>> GetUsersYouRequestedToFollowAsync(
+            int maximumUsersToRetrieve = TweetinviConsts.FRIENDSHIPS_OUTGOING_USERS_MAX_PER_REQ);
 
         /// <summary>
         /// Folow a specific user.

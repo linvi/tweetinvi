@@ -67,5 +67,21 @@
         public const int MESSAGE_QUICK_REPLY_LABEL_MAX_LENGTH = 36;
         public const int MESSAGE_QUICK_REPLY_DESCRIPTION_MAX_LENGTH = 72;
         public const int MESSAGE_QUICK_REPLY_METADATA_MAX_LENGTH = 1000;
+
+        // https://developer.twitter.com/en/docs/accounts-and-users/follow-search-get-users/api-reference/get-users-lookup
+        public const int USERS_LOOKUP_MAX_PER_REQ = 100;
+
+        // https://developer.twitter.com/en/docs/accounts-and-users/follow-search-get-users/api-reference/get-friends-ids.html
+        public const int FRIENDSHIPS_INCOMING_IDS_MAX_PER_REQ = 5000;
+
+        // https://developer.twitter.com/en/docs/accounts-and-users/follow-search-get-users/api-reference/get-friendships-outgoing
+        public const int FRIENDSHIPS_OUTGOING_IDS_MAX_PER_REQ = 5000;
+
+        // Request to get User objects for incoming/outgoing friendship requests requires a request to get the IDs,
+        //  and then a request to get the User objects for those IDs.
+        // Min: USERS_LOOKUP_MAX_PER_REQ, FRIENDSHIPS_INCOMING_IDS_MAX_PER_REQ
+        public const int FRIENDSHIPS_INCOMING_USERS_MAX_PER_REQ = USERS_LOOKUP_MAX_PER_REQ;
+        // Min: USERS_LOOKUP_MAX_PER_REQ, FRIENDSHIPS_OUTGOING_IDS_MAX_PER_REQ
+        public const int FRIENDSHIPS_OUTGOING_USERS_MAX_PER_REQ = USERS_LOOKUP_MAX_PER_REQ;
     }
 }

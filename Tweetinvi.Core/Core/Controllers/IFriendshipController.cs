@@ -5,11 +5,15 @@ namespace Tweetinvi.Core.Controllers
 {
     public interface IFriendshipController
     {
-        IEnumerable<long> GetUserIdsRequestingFriendship(int maximumUserIdsToRetrieve = 75000);
-        IEnumerable<IUser> GetUsersRequestingFriendship(int maximumUsersToRetrieve = 75000);
+        IEnumerable<long> GetUserIdsRequestingFriendship(
+            int maximumUserIdsToRetrieve = TweetinviConsts.FRIENDSHIPS_INCOMING_IDS_MAX_PER_REQ);
+        IEnumerable<IUser> GetUsersRequestingFriendship(
+            int maximumUsersToRetrieve = TweetinviConsts.FRIENDSHIPS_INCOMING_USERS_MAX_PER_REQ);
 
-        IEnumerable<long> GetUserIdsYouRequestedToFollow(int maximumUsersToRetrieve = 75000);
-        IEnumerable<IUser> GetUsersYouRequestedToFollow(int maximumUsersToRetrieve = 75000);
+        IEnumerable<long> GetUserIdsYouRequestedToFollow(
+            int maximumUsersToRetrieve = TweetinviConsts.FRIENDSHIPS_OUTGOING_IDS_MAX_PER_REQ);
+        IEnumerable<IUser> GetUsersYouRequestedToFollow(
+            int maximumUsersToRetrieve = TweetinviConsts.FRIENDSHIPS_OUTGOING_USERS_MAX_PER_REQ);
 
         // Create Friendship with
         bool CreateFriendshipWith(IUserIdentifier user);
@@ -22,9 +26,9 @@ namespace Tweetinvi.Core.Controllers
         bool DestroyFriendshipWith(string userScreeName);
 
         // Update Friendship Authorizations
-        bool UpdateRelationshipAuthorizationsWith(IUserIdentifier user, bool retweetsEnabled, bool deviceNotifictionEnabled);
-        bool UpdateRelationshipAuthorizationsWith(long userId, bool retweetsEnabled, bool deviceNotifictionEnabled);
-        bool UpdateRelationshipAuthorizationsWith(string userScreenName, bool retweetsEnabled, bool deviceNotifictionEnabled);
+        bool UpdateRelationshipAuthorizationsWith(IUserIdentifier user, bool retweetsEnabled, bool deviceNotificationEnabled);
+        bool UpdateRelationshipAuthorizationsWith(long userId, bool retweetsEnabled, bool deviceNotificationEnabled);
+        bool UpdateRelationshipAuthorizationsWith(string userScreenName, bool retweetsEnabled, bool deviceNotificationEnabled);
 
         // Relationship
         IRelationshipDetails GetRelationshipBetween(IUserIdentifier sourceUserIdentifier, IUserIdentifier targetUserIdentifier);

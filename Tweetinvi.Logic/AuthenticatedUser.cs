@@ -142,12 +142,14 @@ namespace Tweetinvi.Logic
         }
 
         // Friends - Followers
-        public IEnumerable<IUser> GetUsersRequestingFriendship(int maximumUserIdsToRetrieve = 75000)
+        public IEnumerable<IUser> GetUsersRequestingFriendship(
+            int maximumUserIdsToRetrieve = TweetinviConsts.FRIENDSHIPS_INCOMING_USERS_MAX_PER_REQ)
         {
             return ExecuteAuthenticatedUserOperation(() => _friendshipController.GetUsersRequestingFriendship(maximumUserIdsToRetrieve));
         }
 
-        public IEnumerable<IUser> GetUsersYouRequestedToFollow(int maximumUserIdsToRetrieve = 75000)
+        public IEnumerable<IUser> GetUsersYouRequestedToFollow(
+            int maximumUserIdsToRetrieve = TweetinviConsts.FRIENDSHIPS_OUTGOING_USERS_MAX_PER_REQ)
         {
             return ExecuteAuthenticatedUserOperation(() => _friendshipController.GetUsersYouRequestedToFollow(maximumUserIdsToRetrieve));
         }
@@ -468,15 +470,19 @@ namespace Tweetinvi.Logic
             return await ExecuteAuthenticatedUserOperation(() => _taskFactory.ExecuteTaskAsync(() => UpdateRelationshipAuthorizationsWith(screenName, retweetsEnabled, deviceNotificationsEnabled)));
         }
 
-        
-        public async Task<IEnumerable<IUser>> GetUsersRequestingFriendshipAsync(int maximumUserIdsToRetrieve = 75000)
+
+        public async Task<IEnumerable<IUser>> GetUsersRequestingFriendshipAsync(
+            int maximumUserIdsToRetrieve = TweetinviConsts.FRIENDSHIPS_INCOMING_USERS_MAX_PER_REQ)
         {
-            return await ExecuteAuthenticatedUserOperation(() => _taskFactory.ExecuteTaskAsync(() => GetUsersRequestingFriendship(maximumUserIdsToRetrieve)));
+            return await ExecuteAuthenticatedUserOperation(() =>
+                _taskFactory.ExecuteTaskAsync(() => GetUsersRequestingFriendship(maximumUserIdsToRetrieve)));
         }
 
-        public async Task<IEnumerable<IUser>> GetUsersYouRequestedToFollowAsync(int maximumUsersToRetrieve = 75000)
+        public async Task<IEnumerable<IUser>> GetUsersYouRequestedToFollowAsync(
+            int maximumUsersToRetrieve = TweetinviConsts.FRIENDSHIPS_OUTGOING_USERS_MAX_PER_REQ)
         {
-            return await ExecuteAuthenticatedUserOperation(() => _taskFactory.ExecuteTaskAsync(() => GetUsersYouRequestedToFollow(maximumUsersToRetrieve)));
+            return await ExecuteAuthenticatedUserOperation(() =>
+                _taskFactory.ExecuteTaskAsync(() => GetUsersYouRequestedToFollow(maximumUsersToRetrieve)));
         }
 
         public async Task<bool> FollowUserAsync(IUserIdentifier user)

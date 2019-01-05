@@ -1,4 +1,5 @@
 ﻿using System;
+using Tweetinvi.Core;
 using Tweetinvi.Core.Credentials;
 using Tweetinvi.Core.Events;
 using Tweetinvi.Core.Helpers;
@@ -14,17 +15,20 @@ namespace Tweetinvi.Credentials.RateLimit
         private readonly IRateLimitCacheManager _rateLimitCacheManager;
         private readonly IThreadHelper _threadHelper;
         private readonly IWeakEvent<EventHandler<QueryAwaitingEventArgs>> _queryAwaitingForRateLimitWeakEvent;
+        private readonly ITweetinviSettingsAccessor _settingsAccessor;
 
         public RateLimitAwaiter(
             ICredentialsAccessor credentialsAccessor,
             IRateLimitCacheManager rateLimitCacheManager,
             IThreadHelper threadHelper,
-            IWeakEvent<EventHandler<QueryAwaitingEventArgs>> queryAwaitingForRateLimitWeakEvent)
+            IWeakEvent<EventHandler<QueryAwaitingEventArgs>> queryAwaitingForRateLimitWeakEvent,
+            ITweetinviSettingsAccessor settingsAccessor)
         {
             _credentialsAccessor = credentialsAccessor;
             _rateLimitCacheManager = rateLimitCacheManager;
             _threadHelper = threadHelper;
             _queryAwaitingForRateLimitWeakEvent = queryAwaitingForRateLimitWeakEvent;
+            _settingsAccessor = settingsAccessor;
         }
 
         public event EventHandler<QueryAwaitingEventArgs> QueryAwaitingForRateLimit
@@ -80,7 +84,10 @@ namespace Tweetinvi.Credentials.RateLimit
                 return 0;
             }
 
-            return queryRateLimit.Remaining == 0 ? ((int) queryRateLimit.ResetDateTimeInMilliseconds) : 0;
+            return queryRateLimit.Remaining == 0
+                ? ((int) Math.Ceiling(queryRateLimit.ResetDateTimeInMilliseconds)) +
+                  _settingsAccessor.RateLimitWaitFudgeMs
+                : 0;
         }
     }
 }

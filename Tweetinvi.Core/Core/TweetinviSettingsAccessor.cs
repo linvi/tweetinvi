@@ -37,6 +37,13 @@ namespace Tweetinvi.Core
         /// Solution used to track the rate limits in the current thread.
         /// </summary>
         RateLimitTrackerMode RateLimitTrackerMode { get; set; }
+
+        /// <summary>
+        /// How much additional time to wait than should be strictly necessary for a new batch of Twitter rate limits
+        /// to be available. Required to account for timing discrepancies both within Twitter's servers and between
+        /// Twitter and us. 
+        /// </summary>
+        int RateLimitWaitFudgeMs { get; set; }
     }
 
     public class TweetinviSettingsAccessor : ITweetinviSettingsAccessor
@@ -48,6 +55,7 @@ namespace Tweetinvi.Core
             var threadSettings = TweetinviCoreModule.TweetinviContainer.Resolve<ITweetinviSettings>();
             threadSettings.HttpRequestTimeout = 10000;
             threadSettings.UploadTimeout = 60000;
+            threadSettings.RateLimitWaitFudgeMs = 5000;
 
             CurrentThreadSettings = threadSettings;
         }
@@ -123,6 +131,12 @@ namespace Tweetinvi.Core
         {
             get { return CurrentThreadSettings.RateLimitTrackerMode; }
             set { CurrentThreadSettings.RateLimitTrackerMode = value; }
+        }
+
+        public int RateLimitWaitFudgeMs
+        {
+            get => CurrentThreadSettings.RateLimitWaitFudgeMs;
+            set => CurrentThreadSettings.RateLimitWaitFudgeMs = value;
         }
     }
 }
