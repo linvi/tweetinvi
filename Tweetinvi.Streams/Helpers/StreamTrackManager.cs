@@ -54,6 +54,8 @@ namespace Tweetinvi.Streams.Helpers
         // Twitter API Tracking
         public void AddTrack(string track, Action<T> trackReceived = null)
         {
+            if(track.IsEmpty()) return;
+            
             if (_tracks.Count < MaxTracks)
             {
                 string lowerTrack = track.ToLower();
@@ -254,7 +256,7 @@ namespace Tweetinvi.Streams.Helpers
                 var isMatching = true;
                 for (int j = 0; j < _tracksKeywordsArray[i].Length && isMatching; ++j)
                 {
-                    if (_tracksKeywordsArray[i][j][0] != '#' && _tracksKeywordsArray[i][j][0] != '$')
+                    if (_tracksKeywordsArray[i][j].Length >0 &&_tracksKeywordsArray[i][j][0] != '#' && _tracksKeywordsArray[i][j][0] != '$')
                     {
                         isMatching = matchingKeywords.Contains(_tracksKeywordsArray[i][j]) ||
                                      matchingKeywords.Contains(string.Format("#{0}", _tracksKeywordsArray[i][j])) ||
