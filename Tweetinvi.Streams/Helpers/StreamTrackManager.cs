@@ -54,6 +54,11 @@ namespace Tweetinvi.Streams.Helpers
         // Twitter API Tracking
         public void AddTrack(string track, Action<T> trackReceived = null)
         {
+            if (string.IsNullOrEmpty(track))
+            {
+                return;
+            }
+
             if (_tracks.Count < MaxTracks)
             {
                 string lowerTrack = track.ToLower();
