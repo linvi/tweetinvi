@@ -7,6 +7,8 @@ namespace Tweetinvi.Logic.DTO
     public class UserIdentifierDTO : IUserIdentifier
     {
         private long? _id;
+
+        [JsonProperty("id")]
         public long Id
         {
             get
