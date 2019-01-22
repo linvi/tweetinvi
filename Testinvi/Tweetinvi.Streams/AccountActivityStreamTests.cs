@@ -354,13 +354,7 @@ namespace Testinvi.Tweetinvi.Streams
 			            }
 		            }
 	            }],
-	            ""apps"": {
-		            ""13090192"": {
-			            ""id"": ""13090192"",
-			            ""name"": ""FuriousCamperTestApp1"",
-			            ""url"": ""https://twitter.com/furiouscamper""
-		            },
-		            ""users"": {},
+                ""users"": {
 		            ""3001969357"": {
 			            ""id"": ""3001969357"",
 			            ""created_timestamp"": ""1422556069340"",
@@ -407,6 +401,7 @@ namespace Testinvi.Tweetinvi.Streams
             Assert.AreEqual(eventsReceived.Count, 1);
             Assert.AreEqual(eventsReceived[0].Message.Text, "Hello World!");
             Assert.AreEqual(eventsReceived[0].Message.SenderId, 3001969357);
+            Assert.IsNull(eventsReceived[0].Message.App);
         }
 
         [TestMethod]
@@ -442,8 +437,9 @@ namespace Testinvi.Tweetinvi.Streams
 			            ""id"": ""13090192"",
 			            ""name"": ""FuriousCamperTestApp1"",
 			            ""url"": ""https://twitter.com/furiouscamper""
-		            },
-		            ""users"": {},
+		            }
+                },
+		        ""users"": {
 		            ""3001969357"": {
 			            ""id"": ""3001969357"",
 			            ""created_timestamp"": ""1422556069340"",
