@@ -181,6 +181,7 @@
     <Compile Include="TweetinviControllers\SearchTests\SearchJsonControllerTests.cs" />
     <Compile Include="TweetinviControllers\SearchTests\SearchQueryExecutorTests.cs" />
     <Compile Include="TweetinviControllers\SearchTests\SearchQueryGeneratorTests.cs" />
+    <Compile Include="TweetinviControllers\SearchTests\SearchQueryParameterTests.cs" />
     <Compile Include="TweetinviControllers\SearchTests\SearchQueryValidatorTests.cs" />
     <Compile Include="TweetinviControllers\Shared\QueryParameterGeneratorTests.cs" />
     <Compile Include="TweetinviControllers\TimelineTests\TimelineControllerTests.cs" />
