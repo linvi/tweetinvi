@@ -13,7 +13,7 @@ namespace Examplinvi.WebhooksServer
         public static IWebHost BuildWebHost(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
                 .UseStartup<Startup>()
-                .UseUrls("http://localhost:80/")
+                .UseUrls("http://localhost:8080/")
                 .Build();
     }
 }

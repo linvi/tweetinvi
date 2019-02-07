@@ -25,10 +25,17 @@ namespace Examplinvi.WebhooksServer
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            Plugins.Add<WebhooksPlugin>();
+
             var consumerOnlyCredentials = new ConsumerOnlyCredentials("CONSUMER_TOKEN", "CONSUMER_SECRET")
             {
                 ApplicationOnlyBearerToken = "BEARER_TOKEN"
             };
+
+            if (consumerOnlyCredentials.ApplicationOnlyBearerToken == null)
+            {
+                Auth.InitializeApplicationOnlyCredentials(consumerOnlyCredentials);
+            }
 
             WebhookServerInitialization(app, consumerOnlyCredentials);
             RegisterAccountActivities(consumerOnlyCredentials).Wait();
@@ -43,8 +50,6 @@ namespace Examplinvi.WebhooksServer
 
         private static void WebhookServerInitialization(IApplicationBuilder app, IConsumerOnlyCredentials consumerOnlyCredentials)
         {
-            Plugins.Add<WebhooksPlugin>();
-
             WebhookConfiguration = new WebhookConfiguration(consumerOnlyCredentials);
 
             app.UseTweetinviWebhooks(WebhookConfiguration);
