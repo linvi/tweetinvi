@@ -12,12 +12,12 @@ using Tweetinvi.Controllers.Tweet;
 using Tweetinvi.Controllers.TwitterLists;
 using Tweetinvi.Controllers.Upload;
 using Tweetinvi.Controllers.User;
+using Tweetinvi.Controllers.Webhooks;
 using Tweetinvi.Core.Controllers;
 using Tweetinvi.Core.Injectinvi;
 using Tweetinvi.Core.QueryGenerators;
 using Tweetinvi.Core.QueryValidators;
 using Tweetinvi.Models;
-using Tweetinvi.Webhooks;
 
 namespace Tweetinvi.Controllers
 {
