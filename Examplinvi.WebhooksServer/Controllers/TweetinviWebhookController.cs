@@ -85,17 +85,17 @@ namespace WebApplication1.Controllers
 
             webhooksSubscriptions.ForEach(subscription =>
             {
-                var userStreamCurrentlyRunning = Startup.WebhookConfiguration.RegisteredActivityStreams.SingleOrDefault(x => x.UserId.ToString() == subscription.UserId);
+                var accountActivityStream = Startup.WebhookConfiguration.RegisteredActivityStreams.SingleOrDefault(x => x.UserId.ToString() == subscription.UserId);
 
-                if (userStreamCurrentlyRunning == null)
+                if (accountActivityStream == null)
                 {
-                    userStreamCurrentlyRunning = Stream.CreateAccountActivityStream(subscription.UserId);
-                    Startup.WebhookConfiguration.AddActivityStream(userStreamCurrentlyRunning);
+                    accountActivityStream = Stream.CreateAccountActivityStream(subscription.UserId);
+                    Startup.WebhookConfiguration.AddActivityStream(accountActivityStream);
                 }
 
-                userStreamCurrentlyRunning.JsonObjectReceived += JsonObjectReceived;
-                userStreamCurrentlyRunning.MessageReceived += MessageReceived;
-                userStreamCurrentlyRunning.MessageSent += MessageSent;
+                accountActivityStream.JsonObjectReceived += JsonObjectReceived;
+                accountActivityStream.MessageReceived += MessageReceived;
+                accountActivityStream.MessageSent += MessageSent;
             });
         }
 

@@ -10,17 +10,17 @@ namespace Tweetinvi.Streams.Webhooks
     public class WebhookDispatcher : IWebhookDispatcher
     {
         private readonly IJObjectStaticWrapper _jObjectStaticWrapper;
-        private List<IAccountActivityStream> _userAccountActivityStream;
+        private List<IAccountActivityStream> _accountActivityStream;
 
         public WebhookDispatcher(IJObjectStaticWrapper jObjectStaticWrapper)
         {
             _jObjectStaticWrapper = jObjectStaticWrapper;
-            _userAccountActivityStream = new List<IAccountActivityStream>();
+            _accountActivityStream = new List<IAccountActivityStream>();
         }
 
         public IAccountActivityStream[] SubscribedAccountActivityStreams
         {
-            get { return _userAccountActivityStream.ToArray(); }
+            get { return _accountActivityStream.ToArray(); }
         }
 
         public void WebhookMessageReceived(IWebhookMessage message)
@@ -30,7 +30,7 @@ namespace Tweetinvi.Streams.Webhooks
             var keys = jsonObjectEvent.Children().SingleOrDefault(x => x.Path == "for_user_id");
             var userId = jsonObjectEvent["for_user_id"].ToString();
 
-            _userAccountActivityStream.ForEach(activityStream =>
+            _accountActivityStream.ForEach(activityStream =>
             {
                 var isTargetingActivityStream = activityStream.UserId.ToString() == userId;
                 if (isTargetingActivityStream)
@@ -42,17 +42,17 @@ namespace Tweetinvi.Streams.Webhooks
 
         public void SubscribeAccountActivityStream(IAccountActivityStream accountActivityStream)
         {
-            if (_userAccountActivityStream.Contains(accountActivityStream))
+            if (_accountActivityStream.Contains(accountActivityStream))
             {
                 return;
             }
 
-            _userAccountActivityStream.Add(accountActivityStream);
+            _accountActivityStream.Add(accountActivityStream);
         }
 
         public void UnsubscribeAccountActivityStream(IAccountActivityStream accountActivityStream)
         {
-            _userAccountActivityStream.Remove(accountActivityStream);
+            _accountActivityStream.Remove(accountActivityStream);
         }
     }
 }
