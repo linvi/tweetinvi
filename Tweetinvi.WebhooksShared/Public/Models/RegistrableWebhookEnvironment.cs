@@ -1,10 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Tweetinvi.Core.Public.Models.Interfaces.DTO.Webhooks;
-using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
 
-namespace Tweetinvi.AspNet
+namespace Tweetinvi.Models
 {
     public interface IRegistrableWebhookEnvironment
     {

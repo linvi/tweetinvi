@@ -8,6 +8,7 @@ using Tweetinvi.AspNet;
 using Tweetinvi.Core.Extensions;
 using Tweetinvi.Core.Public.Models.Authentication;
 using Tweetinvi.Core.Public.Models.Interfaces.DTO.Webhooks;
+using Tweetinvi.Models;
 
 namespace Examplinvi.WebhooksServer
 {
@@ -27,9 +28,9 @@ namespace Examplinvi.WebhooksServer
         {
             Plugins.Add<WebhooksPlugin>();
 
-            var consumerOnlyCredentials = new ConsumerOnlyCredentials("CONSUMER_TOKEN", "CONSUMER_SECRET")
+            var consumerOnlyCredentials = new ConsumerOnlyCredentials("xxx", "xxx")
             {
-                ApplicationOnlyBearerToken = "BEARER_TOKEN"
+                ApplicationOnlyBearerToken = "xxx"
             };
 
             if (consumerOnlyCredentials.ApplicationOnlyBearerToken == null)

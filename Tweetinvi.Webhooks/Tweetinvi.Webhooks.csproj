@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
@@ -14,7 +14,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Tweetinvi.Core\Tweetinvi.Core.csproj" />
-    <ProjectReference Include="..\Tweetinvi\Tweetinvi.csproj" />
+    <ProjectReference Include="..\Tweetinvi.WebhooksShared\Tweetinvi.WebhooksShared.csproj" />
   </ItemGroup>
 
 </Project>
