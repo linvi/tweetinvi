@@ -1,0 +1,53 @@
+﻿using System.Web.Http;
+using Tweetinvi;
+using Tweetinvi.AspNet;
+using Tweetinvi.Core.Public.Models.Authentication;
+using Tweetinvi.Models;
+
+namespace Examplinvi.WebhooksApi
+{
+    public static class WebApiConfig
+    {
+        
+
+        public static void Register(HttpConfiguration config)
+        {
+            Plugins.Add<WebhooksPlugin>();
+            // Web API configuration and services
+
+            // Web API routes
+            config.MapHttpAttributeRoutes();
+
+
+            var consumerOnlyCredentials = new ConsumerOnlyCredentials("xxx", "xxx")
+            {
+                ApplicationOnlyBearerToken = "xxx"
+            };
+
+            if (consumerOnlyCredentials.ApplicationOnlyBearerToken == null)
+            {
+                Auth.InitializeApplicationOnlyCredentials(consumerOnlyCredentials);
+            }
+
+            TweetinviWebhooksHost.Configuration = new WebhookConfiguration(consumerOnlyCredentials);
+
+            var messageHandler = new WebhookMiddlewareMessageHandler(TweetinviWebhooksHost.Configuration);
+
+            //config.MessageHandlers.Add(messageHandler);
+
+            config.Routes.MapHttpRoute(
+                name: "DefaultApi",
+                routeTemplate: "api/{controller}/{id}",
+                defaults: new { id = RouteParameter.Optional }
+            );
+
+            config.Routes.MapHttpRoute(
+                name: "TweetinviWebhooks",
+                routeTemplate: "account_activity",
+                defaults: new { id = RouteParameter.Optional },
+                constraints: null,
+                handler: messageHandler
+            );
+        }
+    }
+}
