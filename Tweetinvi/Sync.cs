@@ -14,10 +14,10 @@ namespace Tweetinvi
         private static ICrossExecutionContextPreparer _crossExecutionContextPreparer;
         private static ITaskFactory _taskFactory;
 
-        private static void init()
+        private static void _init()
         {
             // No need for locking, they're singletons anyway so worst case scenario the same object
-            //  gets resolved multiple times
+            // gets resolved multiple times
             if (_crossExecutionContextPreparer == null || _taskFactory == null)
             {
                 _crossExecutionContextPreparer = TweetinviContainer.Resolve<ICrossExecutionContextPreparer>();
@@ -30,7 +30,7 @@ namespace Tweetinvi
         /// </summary>
         public static Task ExecuteTaskAsync(Action action)
         {
-            init();
+            _init();
             return _taskFactory.ExecuteTaskAsync(action);
         }
 
@@ -39,7 +39,7 @@ namespace Tweetinvi
         /// </summary>
         public static Task<T> ExecuteTaskAsync<T>(Func<T> func)
         {
-            init();
+            _init();
             return _taskFactory.ExecuteTaskAsync(func);
         }
 
@@ -48,7 +48,7 @@ namespace Tweetinvi
         /// </summary>
         public static void PrepareForAsync()
         {
-            init();
+            _init();
             _crossExecutionContextPreparer.Prepare();
         }
 

@@ -1,25 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading;
+﻿using System.Threading;
 using Tweetinvi.Core.Exceptions;
 using Tweetinvi.Core.ExecutionContext;
 using Tweetinvi.Exceptions;
 
 namespace Tweetinvi.Logic.Exceptions
 {
-    public class ExceptionHandlerFactory : IExceptionHandlerFactory, ICrossExecutionContextPreparable
+    public class ExceptionHandlerSingleton : IExceptionHandlerSingleton, ICrossExecutionContextPreparable
     {
         private static readonly AsyncLocal<IExceptionHandler> _exceptionHandler = new AsyncLocal<IExceptionHandler>();
 
         private readonly ITwitterExceptionFactory _twitterExceptionFactory;
 
-        public ExceptionHandlerFactory(ITwitterExceptionFactory twitterExceptionFactory)
+        public ExceptionHandlerSingleton(ITwitterExceptionFactory twitterExceptionFactory)
         {
             _twitterExceptionFactory = twitterExceptionFactory;
         }
 
-        public IExceptionHandler Create()
+        public IExceptionHandler GetExecutionContextInstance()
+        {
+            InitializeExecutionContext();
+
+            return _exceptionHandler.Value;
+        }
+
+        public void InitializeExecutionContext()
         {
             if (_exceptionHandler.Value == null)
             {
@@ -30,7 +34,7 @@ namespace Tweetinvi.Logic.Exceptions
                 // Example:
                 //  Method A starts method B asynchronously without an ExceptionHandler in the execution context.
                 //  Method A doesn't await method B, so they both run concurrently.
-                //  Both call IExceptionHandlerFactory.Create()
+                //  Both call IExceptionHandlerSingleton.Create()
                 //  Method B has a shallow copy of the execution context of method A, and method A didn't have
                 //      an ExceptionHandler, so neither method has an ExceptionHandler.
                 //  An ExceptionHandler is made for method A and stored in its Execution Context
@@ -42,13 +46,6 @@ namespace Tweetinvi.Logic.Exceptions
                 //  which would ensure an ExceptionHandler exists in A before spawning B, thus sharing them.
                 _exceptionHandler.Value = new ExceptionHandler(_twitterExceptionFactory);
             }
-
-            return _exceptionHandler.Value;
-        }
-
-        public void PrepareExecutionContext()
-        {
-            Create();
         }
     }
 }

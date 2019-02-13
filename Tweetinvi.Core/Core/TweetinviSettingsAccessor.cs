@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading;
+﻿using System.Threading;
 using Tweetinvi.Core.ExecutionContext;
 using Tweetinvi.Core.Injectinvi;
 
@@ -45,15 +44,17 @@ namespace Tweetinvi.Core
     {
         private static ITweetinviSettings StaticTweetinviSettings { get; set; }
 
-        private static readonly AsyncLocal<ITweetinviSettings> _currentThreadSettings =
-            new AsyncLocal<ITweetinviSettings>();
+        private static readonly AsyncLocal<ITweetinviSettings> _executionContextTweetinviSettings;
+
+        static TweetinviSettingsAccessor()
+        {
+            _executionContextTweetinviSettings = new AsyncLocal<ITweetinviSettings>();
+        }
 
         public TweetinviSettingsAccessor()
         {
             var threadSettings = TweetinviCoreModule.TweetinviContainer.Resolve<ITweetinviSettings>();
-            threadSettings.HttpRequestTimeout = 10000;
-            threadSettings.UploadTimeout = 60000;
-
+            
             CurrentThreadSettings = threadSettings;
         }
 
@@ -61,12 +62,13 @@ namespace Tweetinvi.Core
         {
             get
             {
-                initialiseCurrentThreadSettings();
-                return _currentThreadSettings.Value;
+                InitializeExecutionContext();
+
+                return _executionContextTweetinviSettings.Value;
             }
             set
             {
-                _currentThreadSettings.Value = value;
+                _executionContextTweetinviSettings.Value = value;
 
                 if (StaticTweetinviSettings == null && value != null)
                 {
@@ -82,9 +84,9 @@ namespace Tweetinvi.Core
             {
                 StaticTweetinviSettings = value;
 
-                if (_currentThreadSettings.Value != null)
+                if (_executionContextTweetinviSettings.Value != null)
                 {
-                    _currentThreadSettings.Value = value;
+                    _executionContextTweetinviSettings.Value = value;
                 }
             }
         }
@@ -113,17 +115,15 @@ namespace Tweetinvi.Core
             set => CurrentThreadSettings.RateLimitTrackerMode = value;
         }
 
-        public void PrepareExecutionContext() => initialiseCurrentThreadSettings();
-
-        private static void initialiseCurrentThreadSettings()
+        public void InitializeExecutionContext()
         {
-            if (_currentThreadSettings.Value != null)
+            if (_executionContextTweetinviSettings.Value != null)
             {
                 return;
             }
 
-            _currentThreadSettings.Value = TweetinviCoreModule.TweetinviContainer.Resolve<ITweetinviSettings>();
-            _currentThreadSettings.Value.InitialiseFrom(StaticTweetinviSettings);
+            _executionContextTweetinviSettings.Value = TweetinviCoreModule.TweetinviContainer.Resolve<ITweetinviSettings>();
+            _executionContextTweetinviSettings.Value.InitialiseFrom(StaticTweetinviSettings);
         }
     }
 }

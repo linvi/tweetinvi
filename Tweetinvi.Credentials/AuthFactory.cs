@@ -22,18 +22,18 @@ namespace Tweetinvi.Credentials
 
     public class AuthFactory : IAuthFactory
     {
-        private readonly IExceptionHandlerFactory _exceptionHandlerFactory;
+        private readonly IExceptionHandlerSingleton _exceptionHandlerSingleton;
         private readonly ITwitterRequestHandler _twitterRequestHandler;
         private readonly IOAuthWebRequestGenerator _oAuthWebRequestGenerator;
         private readonly IJObjectStaticWrapper _jObjectStaticWrapper;
 
         public AuthFactory(
-            IExceptionHandlerFactory exceptionHandlerFactory,
+            IExceptionHandlerSingleton exceptionHandlerSingleton,
             ITwitterRequestHandler twitterRequestHandler,
             IOAuthWebRequestGenerator oAuthWebRequestGenerator,
             IJObjectStaticWrapper jObjectStaticWrapper)
         {
-            _exceptionHandlerFactory = exceptionHandlerFactory;
+            _exceptionHandlerSingleton = exceptionHandlerSingleton;
             _twitterRequestHandler = twitterRequestHandler;
             _oAuthWebRequestGenerator = oAuthWebRequestGenerator;
             _jObjectStaticWrapper = jObjectStaticWrapper;
@@ -86,7 +86,7 @@ namespace Tweetinvi.Credentials
             }
             catch (TwitterException ex)
             {
-                IExceptionHandler exceptionHandler = _exceptionHandlerFactory.Create();
+                IExceptionHandler exceptionHandler = _exceptionHandlerSingleton.GetExecutionContextInstance();
                 if (exceptionHandler.LogExceptions)
                 {
                     exceptionHandler.AddTwitterException(ex);
@@ -120,7 +120,7 @@ namespace Tweetinvi.Credentials
                 }
                 catch (TwitterException ex)
                 {
-                    IExceptionHandler exceptionHandler = _exceptionHandlerFactory.Create();
+                    IExceptionHandler exceptionHandler = _exceptionHandlerSingleton.GetExecutionContextInstance();
                     if (exceptionHandler.LogExceptions)
                     {
                         exceptionHandler.AddTwitterException(ex);
@@ -154,7 +154,7 @@ namespace Tweetinvi.Credentials
                 var errorsObject = jobject["errors"];
                 var errors = _jObjectStaticWrapper.ToObject<ITwitterExceptionInfo[]>(errorsObject);
 
-                IExceptionHandler exceptionHandler = _exceptionHandlerFactory.Create();
+                IExceptionHandler exceptionHandler = _exceptionHandlerSingleton.GetExecutionContextInstance();
                 exceptionHandler.TryLogExceptionInfos(errors, url);
             }
             catch (Exception)

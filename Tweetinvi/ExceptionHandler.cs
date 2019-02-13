@@ -15,7 +15,7 @@ namespace Tweetinvi
     /// </summary>
     public static class ExceptionHandler
     {
-        private static IExceptionHandlerFactory _exceptionHandlerFactory;
+        private static IExceptionHandlerSingleton _exceptionHandlerSingleton;
 
         /// <summary>
         /// Current Thread ExceptionHandler
@@ -25,12 +25,12 @@ namespace Tweetinvi
             get
             {
                 // Don't bother locking, worst case scenario we resolve it twice
-                if (_exceptionHandlerFactory == null)
+                if (_exceptionHandlerSingleton == null)
                 {
-                    _exceptionHandlerFactory = TweetinviContainer.Resolve<IExceptionHandlerFactory>();
+                    _exceptionHandlerSingleton = TweetinviContainer.Resolve<IExceptionHandlerSingleton>();
                 }
 
-                return _exceptionHandlerFactory.Create();
+                return _exceptionHandlerSingleton.GetExecutionContextInstance();
             }
         }
 

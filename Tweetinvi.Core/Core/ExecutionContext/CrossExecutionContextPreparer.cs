@@ -1,23 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace Tweetinvi.Core.ExecutionContext
 {
     public class CrossExecutionContextPreparer : ICrossExecutionContextPreparer
     {
-        private readonly IEnumerable<ICrossExecutionContextPreparable> _preparableObjects;
+        private readonly IEnumerable<ICrossExecutionContextPreparable> _executionContextInstances;
 
-        public CrossExecutionContextPreparer(IEnumerable<ICrossExecutionContextPreparable> preparableObjects)
+        public CrossExecutionContextPreparer(IEnumerable<ICrossExecutionContextPreparable> executionContextInstances)
         {
-            _preparableObjects = preparableObjects;
+            _executionContextInstances = executionContextInstances;
         }
 
         public void Prepare()
         {
-            foreach (ICrossExecutionContextPreparable preparableObject in _preparableObjects)
+            foreach (ICrossExecutionContextPreparable executionContextInstance in _executionContextInstances)
             {
-                preparableObject.PrepareExecutionContext();
+                executionContextInstance.InitializeExecutionContext();
             }
         }
     }

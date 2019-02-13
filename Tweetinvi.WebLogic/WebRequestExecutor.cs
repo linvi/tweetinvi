@@ -20,16 +20,16 @@ namespace Tweetinvi.WebLogic
     /// </summary>
     public class WebRequestExecutor : IWebRequestExecutor
     {
-        private readonly IExceptionHandlerFactory _exceptionHandlerFactory;
+        private readonly IExceptionHandlerSingleton _exceptionHandlerSingleton;
         private readonly IHttpClientWebHelper _httpClientWebHelper;
         private readonly IFactory<IWebRequestResult> _webRequestResultFactory;
 
         public WebRequestExecutor(
-            IExceptionHandlerFactory exceptionHandlerFactory,
+            IExceptionHandlerSingleton exceptionHandlerSingleton,
             IHttpClientWebHelper httpClientWebHelper,
             IFactory<IWebRequestResult> webRequestResultFactory)
         {
-            _exceptionHandlerFactory = exceptionHandlerFactory;
+            _exceptionHandlerSingleton = exceptionHandlerSingleton;
             _httpClientWebHelper = httpClientWebHelper;
             _webRequestResultFactory = webRequestResultFactory;
         }
@@ -49,7 +49,7 @@ namespace Tweetinvi.WebLogic
 
                     if (!result.IsSuccessStatusCode)
                     {
-                        IExceptionHandler exceptionHandler = _exceptionHandlerFactory.Create();
+                        IExceptionHandler exceptionHandler = _exceptionHandlerSingleton.GetExecutionContextInstance();
                         throw exceptionHandler.TryLogFailedWebRequestResult(result, twitterQuery);
                     }
 
@@ -176,7 +176,7 @@ namespace Tweetinvi.WebLogic
                 var httpRequestMessageException = aex.InnerException as HttpRequestException;
                 var taskCanceledException = aex.InnerException as TaskCanceledException;
 
-                IExceptionHandler exceptionHandler = _exceptionHandlerFactory.Create();
+                IExceptionHandler exceptionHandler = _exceptionHandlerSingleton.GetExecutionContextInstance();
 
                 if (httpRequestMessageException != null)
                 {

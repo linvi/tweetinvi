@@ -86,14 +86,16 @@ namespace Tweetinvi.Injectinvi
             }
         }
 
-        private void RegisterCrossExecutionContextPreparable()
-        {
-            Assembly[] assemblies = _moduleCatalog.Select(m => m.GetType().GetTypeInfo().Assembly).ToArray();
+private void RegisterCrossExecutionContextPreparable()
+{
+    // This initializes the preparableObjects that is being injected in CrossExecutionContextPreparer
+    var assemblies = _moduleCatalog.Select(m => m.GetType().GetTypeInfo().Assembly).ToArray();
 
-            _containerBuilder.RegisterAssemblyTypes(assemblies)
-                .Where(t => t.IsAssignableTo<ICrossExecutionContextPreparable>())
-                .As<ICrossExecutionContextPreparable>();
-        }
+    _containerBuilder.RegisterAssemblyTypes(assemblies)
+        .Where(t => t.IsAssignableTo<ICrossExecutionContextPreparable>())
+        .As<ICrossExecutionContextPreparable>()
+        .SingleInstance();
+}
 
         private static ITweetinviContainer GetThreadContainer()
         {

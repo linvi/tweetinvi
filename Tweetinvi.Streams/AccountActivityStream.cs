@@ -25,13 +25,13 @@ namespace Tweetinvi.Streams
         private readonly IJObjectStaticWrapper _jObjectWrapper;
         private readonly IJsonObjectConverter _jsonObjectConverter;
         private readonly ITweetFactory _tweetFactory;
-        private readonly IExceptionHandlerFactory _exceptionHandlerFactory;
+        private readonly IExceptionHandlerSingleton _exceptionHandlerSingleton;
         private readonly IUserFactory _userFactory;
         private readonly IMessageFactory _messageFactory;
         private readonly Dictionary<string, Action<string, JObject>> _events;
 
         public AccountActivityStream(
-            IExceptionHandlerFactory exceptionHandlerFactory,
+            IExceptionHandlerSingleton exceptionHandlerSingleton,
             IJObjectStaticWrapper jObjectWrapper,
             IJsonObjectConverter jsonObjectConverter,
             ITweetFactory tweetFactory,
@@ -41,7 +41,7 @@ namespace Tweetinvi.Streams
             _jObjectWrapper = jObjectWrapper;
             _jsonObjectConverter = jsonObjectConverter;
             _tweetFactory = tweetFactory;
-            _exceptionHandlerFactory = exceptionHandlerFactory;
+            _exceptionHandlerSingleton = exceptionHandlerSingleton;
             _userFactory = userFactory;
             _messageFactory = messageFactory;
             _events = new Dictionary<string, Action<string, JObject>>();
@@ -218,7 +218,7 @@ namespace Tweetinvi.Streams
             }
             else
             {
-                IExceptionHandler exceptionHandler = _exceptionHandlerFactory.Create();
+                IExceptionHandler exceptionHandler = _exceptionHandlerSingleton.GetExecutionContextInstance();
                 if (!exceptionHandler.SwallowWebExceptions)
                 {
                     throw new ArgumentException($"user_event received of type {eventType} is not supported.");

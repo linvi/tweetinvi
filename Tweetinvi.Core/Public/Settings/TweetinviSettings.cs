@@ -1,5 +1,6 @@
 ﻿using System;
 
+// ReSharper disable once CheckNamespace
 namespace Tweetinvi
 {
     /// <summary>
@@ -14,7 +15,7 @@ namespace Tweetinvi
 
         /// <summary>
         /// This option will track the actions performed and update the internal RateLimits.
-        /// If not enought RateLimits are available to perform the query, the current thread will
+        /// If not enough RateLimits are available to perform the query, the current thread will
         /// await for the RateLimits to be available before continuing its process.
         /// </summary>
         TrackAndAwait,
@@ -93,6 +94,8 @@ namespace Tweetinvi
         public TweetinviSettings()
         {
             GetUtcDateTime = () => DateTime.UtcNow;
+            HttpRequestTimeout = TweetinviConsts.DEFAULT_HTTP_REQUEST_TIMEOUT;
+            UploadTimeout = TweetinviConsts.DEFAULT_UPLOAD_TIMEOUT;
         }
 
         public ITweetinviSettings Clone()

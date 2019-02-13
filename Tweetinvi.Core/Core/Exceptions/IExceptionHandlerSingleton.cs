@@ -4,8 +4,8 @@ using System.Text;
 
 namespace Tweetinvi.Core.Exceptions
 {
-    public interface IExceptionHandlerFactory
+    public interface IExceptionHandlerSingleton
     {
-        IExceptionHandler Create();
+        IExceptionHandler GetExecutionContextInstance();
     }
 }

@@ -44,7 +44,7 @@ namespace Tweetinvi.Streams
 
         private readonly Func<string, bool> _processObject;
         private readonly Func<ITwitterQuery> _generateTwitterQuery;
-        private readonly IExceptionHandlerFactory _exceptionHandlerFactory;
+        private readonly IExceptionHandlerSingleton _exceptionHandlerSingleton;
         private readonly ITweetinviEvents _tweetinviEvents;
         private readonly IFactory<ITwitterTimeoutException> _twitterTimeoutExceptionFactory;
         private readonly IHttpClientWebHelper _httpClientWebHelper;
@@ -60,14 +60,14 @@ namespace Tweetinvi.Streams
         public StreamTask(
             Func<string, bool> processObject,
             Func<ITwitterQuery> generateTwitterQuery,
-            IExceptionHandlerFactory exceptionHandlerFactory,
+            IExceptionHandlerSingleton exceptionHandlerSingleton,
             ITweetinviEvents tweetinviEvents,
             IFactory<ITwitterTimeoutException> twitterTimeoutExceptionFactory,
             IHttpClientWebHelper httpClientWebHelper)
         {
             _processObject = processObject;
             _generateTwitterQuery = generateTwitterQuery;
-            _exceptionHandlerFactory = exceptionHandlerFactory;
+            _exceptionHandlerSingleton = exceptionHandlerSingleton;
             _tweetinviEvents = tweetinviEvents;
             _twitterTimeoutExceptionFactory = twitterTimeoutExceptionFactory;
             _httpClientWebHelper = httpClientWebHelper;
@@ -339,7 +339,7 @@ namespace Tweetinvi.Streams
 
         private void HandleWebException(WebException wex)
         {
-            IExceptionHandler exceptionHandler = _exceptionHandlerFactory.Create();
+            IExceptionHandler exceptionHandler = _exceptionHandlerSingleton.GetExecutionContextInstance();
             _lastException = exceptionHandler.GenerateTwitterException(wex, _twitterQuery, _currentResponseHttpStatusCode);
 
             if (!exceptionHandler.SwallowWebExceptions)

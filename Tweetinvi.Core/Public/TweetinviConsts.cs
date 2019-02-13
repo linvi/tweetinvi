@@ -11,6 +11,9 @@
         public static int HTTP_LINK_SIZE = 23;
         public static int HTTPS_LINK_SIZE = 23;
 
+        public static int DEFAULT_HTTP_REQUEST_TIMEOUT = 10000;
+        public static int DEFAULT_UPLOAD_TIMEOUT = 60000;
+
         public const int STATUS_CODE_TOO_MANY_REQUEST = 429;
 
         // https://developer.twitter.com/en/docs/direct-messages/sending-and-receiving/api-reference/list-events

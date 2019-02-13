@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading;
+﻿using System.Threading;
 using Tweetinvi.Core.Credentials;
 using Tweetinvi.Core.ExecutionContext;
 using Tweetinvi.Models;
@@ -10,8 +9,7 @@ namespace Tweetinvi.Credentials
     {
         private static ITwitterCredentials _applicationCredentials;
 
-        private static readonly AsyncLocal<ITwitterCredentials>
-            _currentThreadCredentials = new AsyncLocal<ITwitterCredentials>();
+        private static readonly AsyncLocal<ITwitterCredentials> _currentThreadCredentials = new AsyncLocal<ITwitterCredentials>();
 
         public CredentialsAccessor()
         {
@@ -28,7 +26,8 @@ namespace Tweetinvi.Credentials
         {
             get
             {
-                initialiseCurrentThreadCredentials();
+                InitializeExecutionContext();
+
                 return _currentThreadCredentials.Value;
             }
             set
@@ -42,9 +41,7 @@ namespace Tweetinvi.Credentials
             }
         }
 
-        public void PrepareExecutionContext() => initialiseCurrentThreadCredentials();
-
-        private void initialiseCurrentThreadCredentials()
+        public void InitializeExecutionContext()
         {
             if (_currentThreadCredentials.Value == null)
             {
