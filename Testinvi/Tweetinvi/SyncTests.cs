@@ -304,6 +304,38 @@ namespace Testinvi.Tweetinvi
             Assert.AreEqual(exception, actual);
         }
 
+        [TestMethod]
+        public async Task ExecuteTaskAsyncFuncWithNoExceptionHandlerOnCallingThreadStillGetsExpectedExceptionsInTheRightOrderAfterAwait()
+        {
+            // Arrange
+            ITwitterException exception1 = A.Fake<ITwitterException>();
+            ITwitterException exception2 = A.Fake<ITwitterException>();
+
+            // Act
+            await Sync.ExecuteTaskAsync(() =>
+            {
+                ExceptionHandler.AddTwitterException(exception1);
+
+                return 0;
+            });
+
+            await Sync.ExecuteTaskAsync(() =>
+            {
+                ExceptionHandler.AddTwitterException(exception2);
+
+                return 0;
+            });
+
+            // Assert
+            bool hasException2 = ExceptionHandler.TryPopException(out ITwitterException actual2);
+            Assert.IsTrue(hasException2);
+            Assert.AreEqual(exception2, actual2);
+
+            bool hasException1 = ExceptionHandler.TryPopException(out ITwitterException actual1);
+            Assert.IsTrue(hasException1);
+            Assert.AreEqual(exception1, actual1);
+        }
+
         #endregion
 
         #region ExecuteIsolatedTaskAsync(Action)
