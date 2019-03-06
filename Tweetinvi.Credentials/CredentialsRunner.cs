@@ -10,19 +10,19 @@ namespace Tweetinvi.Credentials
 {
     public class CredentialsRunner : ICredentialsRunner
     {
-        private readonly ICrossExecutionContextPreparer _crossExecutionContextPreparer;
+        private readonly IAsyncContextPreparer _asyncContextPreparer;
         private readonly ICredentialsAccessor _credentialsAccessor;
 
-        public CredentialsRunner(ICrossExecutionContextPreparer crossExecutionContextPreparer,
+        public CredentialsRunner(IAsyncContextPreparer asyncContextPreparer,
             ICredentialsAccessor credentialsAccessor)
         {
-            _crossExecutionContextPreparer = crossExecutionContextPreparer;
+            _asyncContextPreparer = asyncContextPreparer;
             _credentialsAccessor = credentialsAccessor;
         }
 
         public T ExecuteOperationWithCredentials<T>(ITwitterCredentials credentials, Func<T> operation)
         {
-            _crossExecutionContextPreparer.Prepare();
+            _asyncContextPreparer.PrepareAsyncContext();
 
             ExecutionContext ec = ExecutionContext.Capture();
             T result = default(T);

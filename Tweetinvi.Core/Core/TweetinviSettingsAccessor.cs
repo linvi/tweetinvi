@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using Tweetinvi.Core.ExecutionContext;
 using Tweetinvi.Core.Injectinvi;
 
@@ -38,23 +39,30 @@ namespace Tweetinvi.Core
         /// Solution used to track the rate limits in the current thread.
         /// </summary>
         RateLimitTrackerMode RateLimitTrackerMode { get; set; }
+
+        /// <summary>
+        /// Specify whether you want exceptions coming from Twitter are returning null instead of throwing
+        /// </summary>
+        bool OnTwitterExceptionReturnNull { get; set; }
     }
 
-    public class TweetinviSettingsAccessor : ITweetinviSettingsAccessor, ICrossExecutionContextPreparable
+    public class TweetinviSettingsAccessor : ITweetinviSettingsAccessor, IAsyncContextPreparable
     {
         private static ITweetinviSettings StaticTweetinviSettings { get; set; }
 
         private static readonly AsyncLocal<ITweetinviSettings> _executionContextTweetinviSettings;
+        private static readonly ThreadLocal<bool> _initialized;
 
         static TweetinviSettingsAccessor()
         {
             _executionContextTweetinviSettings = new AsyncLocal<ITweetinviSettings>();
+            _initialized = new ThreadLocal<bool>(() => false);
         }
 
         public TweetinviSettingsAccessor()
         {
             var threadSettings = TweetinviCoreModule.TweetinviContainer.Resolve<ITweetinviSettings>();
-            
+
             CurrentThreadSettings = threadSettings;
         }
 
@@ -62,7 +70,7 @@ namespace Tweetinvi.Core
         {
             get
             {
-                InitializeExecutionContext();
+                InitializeAsyncContext();
 
                 return _executionContextTweetinviSettings.Value;
             }
@@ -115,15 +123,28 @@ namespace Tweetinvi.Core
             set => CurrentThreadSettings.RateLimitTrackerMode = value;
         }
 
-        public void InitializeExecutionContext()
+        public bool OnTwitterExceptionReturnNull
         {
-            if (_executionContextTweetinviSettings.Value != null)
+            get => CurrentThreadSettings.OnTwitterExceptionReturnNull;
+            set => CurrentThreadSettings.OnTwitterExceptionReturnNull = value;
+        }
+
+        public void InitializeAsyncContext()
+        {
+            if (_initialized.Value)
             {
                 return;
             }
 
-            _executionContextTweetinviSettings.Value = TweetinviCoreModule.TweetinviContainer.Resolve<ITweetinviSettings>();
-            _executionContextTweetinviSettings.Value.InitialiseFrom(StaticTweetinviSettings);
+            if (_executionContextTweetinviSettings.Value != null)
+            {
+                _executionContextTweetinviSettings.Value = _executionContextTweetinviSettings.Value.Clone();
+            }
+            else
+            {
+                _executionContextTweetinviSettings.Value = TweetinviCoreModule.TweetinviContainer.Resolve<ITweetinviSettings>();
+                _executionContextTweetinviSettings.Value.InitialiseFrom(StaticTweetinviSettings);
+            }
         }
     }
 }

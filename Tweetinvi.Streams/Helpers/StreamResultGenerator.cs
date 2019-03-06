@@ -50,7 +50,7 @@ namespace Tweetinvi.Streams.Helpers
             }
         }
 
-        public async Task StartStreamAsync(Action<string> processObject, Func<ITwitterQuery> generateTwitterQuery)
+        public async Task StartStreamAsync(Action<string> processObject, Func<ITwitterQuery> generateTwitterQuery, IStreamTaskPolicy streamTaskPolicy)
         {
             Func<string, bool> processValidObject = json =>
             {
@@ -58,10 +58,10 @@ namespace Tweetinvi.Streams.Helpers
                 return true;
             };
 
-            await StartStreamAsync(processValidObject, generateTwitterQuery).ConfigureAwait(false);
+            await StartStreamAsync(processValidObject, generateTwitterQuery, streamTaskPolicy).ConfigureAwait(false);
         }
 
-        public async Task StartStreamAsync(Func<string, bool> processObject, Func<ITwitterQuery> generateTwitterQuery)
+        public async Task StartStreamAsync(Func<string, bool> processObject, Func<ITwitterQuery> generateTwitterQuery, IStreamTaskPolicy streamTaskPolicy)
         {
             IStreamTask streamTask;
 
@@ -77,10 +77,13 @@ namespace Tweetinvi.Streams.Helpers
                     throw new NullReferenceException(Resources.Stream_ObjectDelegateIsNull);
                 }
 
+                streamTaskPolicy = streamTaskPolicy ?? new StreamTaskPolicy();
+
                 var processObjectParameter = _streamTaskFactory.GenerateParameterOverrideWrapper("processObject", processObject);
                 var generateWebRequestParameter = _streamTaskFactory.GenerateParameterOverrideWrapper("generateTwitterQuery", generateTwitterQuery);
+                var streamTaskConfigParameter = _streamTaskFactory.GenerateParameterOverrideWrapper("streamTaskPolicy", streamTaskPolicy);
                 
-                streamTask = _streamTaskFactory.Create(processObjectParameter, generateWebRequestParameter);
+                streamTask = _streamTaskFactory.Create(processObjectParameter, generateWebRequestParameter, streamTaskConfigParameter);
 
                 _currentStreamTask = streamTask;
                 _currentStreamTask.StreamStarted += StreamTaskStarted;

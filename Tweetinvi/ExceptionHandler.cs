@@ -15,41 +15,29 @@ namespace Tweetinvi
     /// </summary>
     public static class ExceptionHandler
     {
-        private static IExceptionHandlerSingleton _exceptionHandlerSingleton;
+        public static IExceptionHandler ExceptionHandlerInstance { get; }
 
-        /// <summary>
-        /// Current Thread ExceptionHandler
-        /// </summary>
-        public static IExceptionHandler CurrentThreadExceptionHandler
+        static ExceptionHandler()
         {
-            get
-            {
-                // Don't bother locking, worst case scenario we resolve it twice
-                if (_exceptionHandlerSingleton == null)
-                {
-                    _exceptionHandlerSingleton = TweetinviContainer.Resolve<IExceptionHandlerSingleton>();
-                }
-
-                return _exceptionHandlerSingleton.GetExecutionContextInstance();
-            }
+            ExceptionHandlerInstance = TweetinviContainer.Resolve<IExceptionHandler>();
         }
 
         /// <summary>
         /// Notify that a WebException has been received and that the ExceptionHandler is going to process it.
         /// </summary>
-        public static event EventHandler<GenericEventArgs<ITwitterException>> WebExceptionReceived
+        public static event EventHandler<GenericEventArgs<ITwitterException>> TwitterExceptionRaised
         {
-            add { CurrentThreadExceptionHandler.WebExceptionReceived += value; }
-            remove { CurrentThreadExceptionHandler.WebExceptionReceived -= value; }
+            add { ExceptionHandlerInstance.TwitterExceptionRaised += value; }
+            remove { ExceptionHandlerInstance.TwitterExceptionRaised -= value; }
         }
 
         /// <summary>
         /// DEFAULT VALUE : TRUE. If set to true, WebException will no longer throw. Instead you will receive a result of null/false/0.
         /// </summary>
-        public static bool SwallowWebExceptions
+        public static bool OnTwitterExceptionReturnNull
         {
-            get { return CurrentThreadExceptionHandler.SwallowWebExceptions; }
-            set { CurrentThreadExceptionHandler.SwallowWebExceptions = value; }
+            get { return TweetinviConfig.ApplicationSettings.OnTwitterExceptionReturnNull; }
+            set { TweetinviConfig.ApplicationSettings.OnTwitterExceptionReturnNull = value; }
         }
 
         /// <summary>
@@ -57,49 +45,39 @@ namespace Tweetinvi
         /// </summary>
         public static bool LogExceptions
         {
-            get { return CurrentThreadExceptionHandler.LogExceptions; }
-            set { CurrentThreadExceptionHandler.LogExceptions = value; }
+            get { return ExceptionHandlerInstance.LogExceptions; }
+            set { ExceptionHandlerInstance.LogExceptions = value; }
         }
 
         /// <summary>
         /// Returns all the Logged Exceptions.
         /// </summary>
-        public static IEnumerable<ITwitterException> GetExceptions()
+        public static ITwitterException[] GetExceptions()
         {
-            return CurrentThreadExceptionHandler.ExceptionInfos;
+            return ExceptionHandlerInstance.ExceptionInfos.ToArray();
         }
 
         /// <summary>
         /// Returns the last Logged Exception.
         /// </summary>
-        [Obsolete("Maintained for backwards compatibility. Use TryPeekException")]
         public static ITwitterException GetLastException()
         {
-            return CurrentThreadExceptionHandler.ExceptionInfos.LastOrDefault();
+            return ExceptionHandlerInstance.ExceptionInfos.LastOrDefault();
         }
-
-        /// <summary>
+		
+		/// <summary>
         /// Try and remove the last exception logged
         /// </summary>
         /// <param name="e">out - Exception</param>
         /// <returns>Whether there is an exception</returns>
-        public static bool TryPopException(out ITwitterException e) =>
-            CurrentThreadExceptionHandler.TryPopException(out e);
-
-        /// <summary>
-        /// Try and get the last exception logged
-        /// </summary>
-        /// <param name="e">out - Exception</param>
-        /// <returns>Whether there is an exception</returns>
-        public static bool TryPeekException(out ITwitterException e) =>
-            CurrentThreadExceptionHandler.TryPeekException(out e);
+        public static bool TryPopException(out ITwitterException e) => ExceptionHandlerInstance.TryPopException(out e);
 
         /// <summary>
         /// Ask for the ExceptionHandler to handle an Exception.
         /// </summary>
         public static TwitterException AddWebException(WebException webException, ITwitterQuery twitterQuery)
         {
-            return CurrentThreadExceptionHandler.AddWebException(webException, twitterQuery);
+            return ExceptionHandlerInstance.AddWebException(webException, twitterQuery);
         }
 
         /// <summary>
@@ -107,7 +85,7 @@ namespace Tweetinvi
         /// </summary>
         public static void AddTwitterException(ITwitterException twitterException)
         {
-            CurrentThreadExceptionHandler.AddTwitterException(twitterException);
+            ExceptionHandlerInstance.AddTwitterException(twitterException);
         }
 
         /// <summary>
@@ -115,7 +93,7 @@ namespace Tweetinvi
         /// </summary>
         public static void ClearLoggedExceptions()
         {
-            CurrentThreadExceptionHandler.ClearLoggedExceptions();
+            ExceptionHandlerInstance.ClearLoggedExceptions();
         }
 
         /// <summary>
@@ -123,7 +101,7 @@ namespace Tweetinvi
         /// </summary>
         public static ITwitterException GenerateTwitterException(WebException webException, ITwitterQuery twitterQuery)
         {
-            return CurrentThreadExceptionHandler.GenerateTwitterException(webException, twitterQuery);
+            return ExceptionHandlerInstance.GenerateTwitterException(webException, twitterQuery);
         }
 
         /// <summary>
@@ -131,12 +109,14 @@ namespace Tweetinvi
         /// </summary>
         public static string GetLifetimeExceptionDetails()
         {
-            StringBuilder strBuilder = new StringBuilder();
-            foreach (var twitterException in CurrentThreadExceptionHandler.ExceptionInfos)
+            var strBuilder = new StringBuilder();
+
+            foreach (var twitterException in ExceptionHandlerInstance.ExceptionInfos)
             {
                 strBuilder.Append(twitterException);
                 strBuilder.Append("---");
             }
+
             return strBuilder.ToString();
         }
     }

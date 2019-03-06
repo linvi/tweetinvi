@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoFixture;
@@ -10,12 +8,19 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Testinvi.TestObjects;
 using Tweetinvi;
 using Tweetinvi.Core.Exceptions;
+using Tweetinvi.Core.Extensions;
+using Tweetinvi.Models;
 
 namespace Testinvi.Tweetinvi
 {
     [TestClass]
     public class SyncTests
     {
+        public SyncTests()
+        {
+            ExceptionHandler.ClearLoggedExceptions();
+        }
+
         #region Task ExecuteTaskAsync(Action)
 
         [TestMethod]
@@ -43,58 +48,10 @@ namespace Testinvi.Tweetinvi
         public async Task ExecuteTaskAsyncActionThrowsNonTwitterExceptionIfSwallowingDisabled()
         {
             // Arrange
-            ExceptionHandler.SwallowWebExceptions = false;
+            ExceptionHandler.OnTwitterExceptionReturnNull = false;
 
             // Act
             await Sync.ExecuteTaskAsync(() => throw new TestException());
-        }
-
-        [TestMethod]
-        [ExpectedException(typeof(TestException))]
-        public async Task ExecuteTaskAsyncActionThrowsNonTwitterExceptionIfSwallowingEnabled()
-        {
-            // Arrange
-            ExceptionHandler.SwallowWebExceptions = true;
-
-            // Act
-            await Sync.ExecuteTaskAsync(() => throw new TestException());
-        }
-
-        [TestMethod]
-        public async Task ExecuteTaskAsyncActionExceptionsWithinActionAvailableOnMainThreadContextIfSwallowingEnabled()
-        {
-            // Arrange
-            ExceptionHandler.SwallowWebExceptions = true;
-            ExceptionHandler.ClearLoggedExceptions();
-            ITwitterException expectedException = A.Fake<ITwitterException>();
-            ITwitterException[] expectedExceptions = new ITwitterException[] { expectedException };
-
-            // Act
-            await Sync.ExecuteTaskAsync(() => ExceptionHandler.AddTwitterException(expectedException));
-
-            // Assert
-            ITwitterException[] exceptions = ExceptionHandler.GetExceptions().ToArray();
-            CollectionAssert.AreEqual(expectedExceptions, exceptions);
-        }
-
-        [TestMethod]
-        public async Task ExecuteTaskAsyncActionExceptionsWithinActionsAreIndependent()
-        {
-            // Arrange
-            ExceptionHandler.SwallowWebExceptions = true;
-            ExceptionHandler.ClearLoggedExceptions();
-            ITwitterException expectedException = A.Fake<ITwitterException>();
-            ITwitterException[] expectedExceptions = new ITwitterException[] { expectedException };
-
-            // Make one async call to add an exception
-            await Sync.ExecuteTaskAsync(() => ExceptionHandler.AddTwitterException(expectedException));
-
-            // Act: Make another call that doesn't add any exception
-            await Sync.ExecuteTaskAsync(() => {  });
-
-            // Assert
-            ITwitterException[] exceptions = ExceptionHandler.GetExceptions().ToArray();
-            CollectionAssert.AreEqual(expectedExceptions, exceptions);
         }
 
         [TestMethod]
@@ -108,36 +65,24 @@ namespace Testinvi.Tweetinvi
 
             // Act
             await Sync.ExecuteTaskAsync(() =>
-                // Assert (can be done within async due to regular exceptions still being thrown)
+                // Assert
                 Assert.IsNull(threadLocal.Value));
         }
 
-        [TestMethod]
-        public async Task ExecuteTaskAsyncActionCarriesExceptionSwallowingSettingIntoNewThread()
-        {
-            // Arrange
-            const bool expected = true;
-            ExceptionHandler.SwallowWebExceptions = expected;
-
-            // Act
-            await Sync.ExecuteTaskAsync(() => 
-                // Assert
-                Assert.AreEqual(expected, ExceptionHandler.SwallowWebExceptions));
-        }
+        private AsyncLocal<int> _creds;
 
         [TestMethod]
         public async Task ExecuteTaskAsyncActionWithNoExceptionHandlerOnCallingThreadStillGetsExceptionHandlerUpdatesFromInnerThread()
         {
             // Arrange
-            ITwitterException exception = A.Fake<ITwitterException>();
+            ITwitterException expectedException = A.Fake<ITwitterException>();
 
             // Act
-            await Sync.ExecuteTaskAsync(() => ExceptionHandler.AddTwitterException(exception));
+            await Sync.ExecuteTaskAsync(() => ExceptionHandler.AddTwitterException(expectedException));
 
             // Assert
-            bool hasException = ExceptionHandler.TryPopException(out ITwitterException actual);
-            Assert.IsTrue(hasException);
-            Assert.AreEqual(exception, actual);
+            var exception = ExceptionHandler.GetLastException();
+            Assert.AreEqual(expectedException, exception);
         }
 
         #endregion
@@ -174,7 +119,7 @@ namespace Testinvi.Tweetinvi
         public async Task ExecuteTaskAsyncFuncExceptionsWithinActionsAreIndependent()
         {
             // Arrange
-            ExceptionHandler.SwallowWebExceptions = true;
+            ExceptionHandler.OnTwitterExceptionReturnNull = true;
             ExceptionHandler.ClearLoggedExceptions();
             ITwitterException expectedException = A.Fake<ITwitterException>();
             ITwitterException[] expectedExceptions = new ITwitterException[] { expectedException };
@@ -199,7 +144,7 @@ namespace Testinvi.Tweetinvi
         public async Task ExecuteTaskAsyncFuncThrowsNonTwitterExceptionIfSwallowingDisabled()
         {
             // Arrange
-            ExceptionHandler.SwallowWebExceptions = false;
+            ExceptionHandler.OnTwitterExceptionReturnNull = false;
 
             // Act
             await Sync.ExecuteTaskAsync(() =>
@@ -216,7 +161,7 @@ namespace Testinvi.Tweetinvi
         public async Task ExecuteTaskAsyncFuncThrowsNonTwitterExceptionIfSwallowingEnabled()
         {
             // Arrange
-            ExceptionHandler.SwallowWebExceptions = true;
+            ExceptionHandler.OnTwitterExceptionReturnNull = true;
 
             // Act
             await Sync.ExecuteTaskAsync(() =>
@@ -232,7 +177,7 @@ namespace Testinvi.Tweetinvi
         public async Task ExecuteTaskAsyncFuncExceptionsWithinFuncAvailableOnMainThreadContextIfSwallowingEnabled()
         {
             // Arrange
-            ExceptionHandler.SwallowWebExceptions = true;
+            ExceptionHandler.OnTwitterExceptionReturnNull = true;
             ExceptionHandler.ClearLoggedExceptions();
             ITwitterException expectedException = A.Fake<ITwitterException>();
             ITwitterException[] expectedExceptions = new ITwitterException[] { expectedException };
@@ -272,13 +217,13 @@ namespace Testinvi.Tweetinvi
         {
             // Arrange
             const bool expected = true;
-            ExceptionHandler.SwallowWebExceptions = expected;
+            ExceptionHandler.OnTwitterExceptionReturnNull = expected;
 
             // Act
             await Sync.ExecuteTaskAsync(() =>
             {
                 // Assert
-                Assert.AreEqual(expected, ExceptionHandler.SwallowWebExceptions);
+                Assert.AreEqual(expected, ExceptionHandler.OnTwitterExceptionReturnNull);
                 return 0;
             });
 
@@ -288,20 +233,19 @@ namespace Testinvi.Tweetinvi
         public async Task ExecuteTaskAsyncFuncWithNoExceptionHandlerOnCallingThreadStillGetsExceptionHandlerUpdatesFromInnerThread()
         {
             // Arrange
-            ITwitterException exception = A.Fake<ITwitterException>();
+            ITwitterException expectedException = A.Fake<ITwitterException>();
 
             // Act
             await Sync.ExecuteTaskAsync(() =>
             {
-                ExceptionHandler.AddTwitterException(exception);
+                ExceptionHandler.AddTwitterException(expectedException);
 
                 return 0;
             });
 
             // Assert
-            bool hasException = ExceptionHandler.TryPopException(out ITwitterException actual);
-            Assert.IsTrue(hasException);
-            Assert.AreEqual(exception, actual);
+            var exception = ExceptionHandler.GetLastException();
+            Assert.AreEqual(expectedException, exception);
         }
 
         [TestMethod]
@@ -327,13 +271,14 @@ namespace Testinvi.Tweetinvi
             });
 
             // Assert
-            bool hasException2 = ExceptionHandler.TryPopException(out ITwitterException actual2);
-            Assert.IsTrue(hasException2);
-            Assert.AreEqual(exception2, actual2);
+            var exceptions = ExceptionHandler.GetExceptions();
 
-            bool hasException1 = ExceptionHandler.TryPopException(out ITwitterException actual1);
-            Assert.IsTrue(hasException1);
-            Assert.AreEqual(exception1, actual1);
+
+            Assert.AreEqual(exception1, exceptions[0]);
+            Assert.AreEqual(exception2, exceptions[1]);
+
+            var lastException = ExceptionHandler.GetLastException();
+            Assert.AreEqual(lastException, exceptions[1]);
         }
 
         #endregion
@@ -401,22 +346,41 @@ namespace Testinvi.Tweetinvi
             });
         }
 
+
         [TestMethod]
-        public async Task ExecuteIsolatedTaskAsyncActionGetsOwnExceptionHandler()
+        public async Task ExecuteIsolatedTaskAsyncActionGetsOwnAsyncLocalEvenWhenParentIsNull()
         {
-            // Arrange: Ensure we have an Exception Handler on the calling context
-            Sync.PrepareForAsync();
+            // Arrange
+            AsyncLocal<string> asyncLocal = new AsyncLocal<string>();
 
             // Act: Use the Exception Handler within ExecuteIsolatedTaskAsync
             await Sync.ExecuteIsolatedTaskAsync(() =>
             {
-                ITwitterException exception = A.Fake<ITwitterException>();
-                ExceptionHandler.AddTwitterException(exception);
+                asyncLocal.Value = new Fixture().Create<string>();
             });
 
             // Assert
-            bool hasException = ExceptionHandler.TryPopException(out _);
-            Assert.IsFalse(hasException);
+            Assert.AreEqual(asyncLocal.Value, null);
+        }
+
+        [TestMethod]
+        public async Task ExecuteIsolatedActionAsyncFuncGetsOwnAsyncLocal()
+        {
+            // Arrange
+            var parentValue = new Fixture().Create<string>();
+            AsyncLocal<string> asyncLocal = new AsyncLocal<string>()
+            {
+                Value = parentValue
+            };
+
+            // Act: Use the Exception Handler within ExecuteIsolatedTaskAsync
+            await Sync.ExecuteIsolatedTaskAsync(() =>
+            {
+                asyncLocal.Value = new Fixture().Create<string>();
+            });
+
+            // Assert
+            Assert.AreEqual(asyncLocal.Value, parentValue);
         }
 
         #endregion
@@ -454,7 +418,9 @@ namespace Testinvi.Tweetinvi
             await Sync.ExecuteIsolatedTaskAsync(() =>
             {
                 throw new TestException();
+
 #pragma warning disable 162
+                // We want to use the Func version of the method
                 return 0;
 #pragma warning restore 162
             });
@@ -497,22 +463,41 @@ namespace Testinvi.Tweetinvi
         }
 
         [TestMethod]
-        public async Task ExecuteIsolatedTaskAsyncFuncGetsOwnExceptionHandler()
+        public async Task ExecuteIsolatedTaskAsyncFuncGetsOwnAsyncLocalEvenWhenParentIsNull()
         {
-            // Arrange: Ensure we have an Exception Handler on the calling context
-            Sync.PrepareForAsync();
+            // Arrange
+            AsyncLocal<string> asyncLocal = new AsyncLocal<string>();
 
             // Act: Use the Exception Handler within ExecuteIsolatedTaskAsync
             await Sync.ExecuteIsolatedTaskAsync(() =>
             {
-                ITwitterException exception = A.Fake<ITwitterException>();
-                ExceptionHandler.AddTwitterException(exception);
+                asyncLocal.Value = new Fixture().Create<string>();
                 return 0;
             });
 
             // Assert
-            bool hasException = ExceptionHandler.TryPopException(out _);
-            Assert.IsFalse(hasException);
+            Assert.AreEqual(asyncLocal.Value, null);
+        }
+
+        [TestMethod]
+        public async Task ExecuteIsolatedTaskAsyncFuncGetsOwnAsyncLocal()
+        {
+            // Arrange
+            var parentValue = new Fixture().Create<string>();
+            AsyncLocal<string> asyncLocal = new AsyncLocal<string>()
+            {
+                Value = parentValue
+            };
+
+            // Act: Use the Exception Handler within ExecuteIsolatedTaskAsync
+            await Sync.ExecuteIsolatedTaskAsync(() =>
+            {
+                asyncLocal.Value = new Fixture().Create<string>();
+                return 0;
+            });
+
+            // Assert
+            Assert.AreEqual(asyncLocal.Value, parentValue);
         }
 
         #endregion

@@ -10,6 +10,7 @@ using Tweetinvi.Core.Exceptions;
 using Tweetinvi.Core.Extensions;
 using Tweetinvi.Core.Helpers;
 using Tweetinvi.Core.Injectinvi;
+using Tweetinvi.Core.Streaming;
 using Tweetinvi.Events;
 using Tweetinvi.Exceptions;
 using Tweetinvi.Models;
@@ -44,7 +45,8 @@ namespace Tweetinvi.Streams
 
         private readonly Func<string, bool> _processObject;
         private readonly Func<ITwitterQuery> _generateTwitterQuery;
-        private readonly IExceptionHandlerSingleton _exceptionHandlerSingleton;
+        private readonly IStreamTaskPolicy _streamTaskPolicy;
+        private readonly IExceptionHandler _exceptionHandler;
         private readonly ITweetinviEvents _tweetinviEvents;
         private readonly IFactory<ITwitterTimeoutException> _twitterTimeoutExceptionFactory;
         private readonly IHttpClientWebHelper _httpClientWebHelper;
@@ -60,14 +62,16 @@ namespace Tweetinvi.Streams
         public StreamTask(
             Func<string, bool> processObject,
             Func<ITwitterQuery> generateTwitterQuery,
-            IExceptionHandlerSingleton exceptionHandlerSingleton,
+            IStreamTaskPolicy streamTaskPolicy,
+            IExceptionHandler exceptionHandler,
             ITweetinviEvents tweetinviEvents,
             IFactory<ITwitterTimeoutException> twitterTimeoutExceptionFactory,
             IHttpClientWebHelper httpClientWebHelper)
         {
             _processObject = processObject;
             _generateTwitterQuery = generateTwitterQuery;
-            _exceptionHandlerSingleton = exceptionHandlerSingleton;
+            _streamTaskPolicy = streamTaskPolicy;
+            _exceptionHandler = exceptionHandler;
             _tweetinviEvents = tweetinviEvents;
             _twitterTimeoutExceptionFactory = twitterTimeoutExceptionFactory;
             _httpClientWebHelper = httpClientWebHelper;
@@ -339,10 +343,15 @@ namespace Tweetinvi.Streams
 
         private void HandleWebException(WebException wex)
         {
-            IExceptionHandler exceptionHandler = _exceptionHandlerSingleton.GetExecutionContextInstance();
-            _lastException = exceptionHandler.GenerateTwitterException(wex, _twitterQuery, _currentResponseHttpStatusCode);
+            var twitterException = _exceptionHandler.GenerateTwitterException(wex, _twitterQuery, _currentResponseHttpStatusCode);
+            _lastException = twitterException;
 
-            if (!exceptionHandler.SwallowWebExceptions)
+            if (_exceptionHandler.LogExceptions)
+            {
+                _exceptionHandler.AddTwitterException(twitterException);
+            }
+
+            if (_streamTaskPolicy.HandleStreamWebExceptionsBy == HandleStreamWebExceptionsBy.StoppingStreamAndThrowing)
             {
                 SetStreamState(StreamState.Stop);
                 throw _lastException;

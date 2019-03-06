@@ -11,18 +11,13 @@ namespace Tweetinvi
     /// </summary>
     public static class Sync
     {
-        private static ICrossExecutionContextPreparer _crossExecutionContextPreparer;
+        private static IAsyncContextPreparer _asyncContextPreparer;
         private static ITaskFactory _taskFactory;
 
-        private static void _init()
+        static Sync()
         {
-            // No need for locking, they're singletons anyway so worst case scenario the same object
-            // gets resolved multiple times
-            if (_crossExecutionContextPreparer == null || _taskFactory == null)
-            {
-                _crossExecutionContextPreparer = TweetinviContainer.Resolve<ICrossExecutionContextPreparer>();
-                _taskFactory = TweetinviContainer.Resolve<ITaskFactory>();
-            }
+            _asyncContextPreparer = TweetinviContainer.Resolve<IAsyncContextPreparer>();
+            _taskFactory = TweetinviContainer.Resolve<ITaskFactory>();
         }
 
         /// <summary>
@@ -30,7 +25,6 @@ namespace Tweetinvi
         /// </summary>
         public static Task ExecuteTaskAsync(Action action)
         {
-            _init();
             return _taskFactory.ExecuteTaskAsync(action);
         }
 
@@ -39,17 +33,15 @@ namespace Tweetinvi
         /// </summary>
         public static Task<T> ExecuteTaskAsync<T>(Func<T> func)
         {
-            _init();
             return _taskFactory.ExecuteTaskAsync(func);
         }
 
         /// <summary>
-        /// Prepare the current Task for Tweetinvi to be used asynchronously within it
+        /// PrepareAsyncContext the current Task for Tweetinvi to be used asynchronously within it
         /// </summary>
         public static void PrepareForAsync()
         {
-            _init();
-            _crossExecutionContextPreparer.Prepare();
+            _asyncContextPreparer.PrepareAsyncContext();
         }
 
         /// <summary>
@@ -68,6 +60,7 @@ namespace Tweetinvi
             {
                 t = Task.Run(action);
             }
+
             return t;
         }
 

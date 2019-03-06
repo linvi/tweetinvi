@@ -12,11 +12,11 @@ namespace Tweetinvi.Core.Helpers
 
     public class TaskFactory : ITaskFactory
     {
-        private readonly ICrossExecutionContextPreparer _crossExecutionContextPreparer;
+        private readonly IAsyncContextPreparer _asyncContextPreparer;
 
-        public TaskFactory(ICrossExecutionContextPreparer crossExecutionContextPreparer)
+        public TaskFactory(IAsyncContextPreparer asyncContextPreparer)
         {
-            _crossExecutionContextPreparer = crossExecutionContextPreparer;
+            _asyncContextPreparer = asyncContextPreparer;
         }
 
         public Task ExecuteTaskAsync(Action action)
@@ -26,7 +26,7 @@ namespace Tweetinvi.Core.Helpers
                 throw new ArgumentNullException(nameof(action));
             }
 
-            _crossExecutionContextPreparer.Prepare();
+            _asyncContextPreparer.PrepareAsyncContext();
 
             return Task.Run(action);
         }
@@ -38,7 +38,7 @@ namespace Tweetinvi.Core.Helpers
                 throw new ArgumentNullException(nameof(func));
             }
 
-            _crossExecutionContextPreparer.Prepare();
+            _asyncContextPreparer.PrepareAsyncContext();
 
             return Task.Run(func);
         }

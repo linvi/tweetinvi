@@ -5,7 +5,7 @@ using Tweetinvi.Models;
 
 namespace Tweetinvi.Credentials
 {
-    public class CredentialsAccessor : ICredentialsAccessor, ICrossExecutionContextPreparable
+    public class CredentialsAccessor : ICredentialsAccessor, IAsyncContextPreparable
     {
         private static ITwitterCredentials _applicationCredentials;
 
@@ -26,7 +26,7 @@ namespace Tweetinvi.Credentials
         {
             get
             {
-                InitializeExecutionContext();
+                InitializeAsyncContext();
 
                 return _currentThreadCredentials.Value;
             }
@@ -41,7 +41,7 @@ namespace Tweetinvi.Credentials
             }
         }
 
-        public void InitializeExecutionContext()
+        public void InitializeAsyncContext()
         {
             if (_currentThreadCredentials.Value == null)
             {

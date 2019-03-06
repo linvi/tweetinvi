@@ -58,7 +58,6 @@ namespace Examplinvi
             // Examples.ExecuteExamples = true;
 
             GenerateCredentialExamples();
-            UserLiveFeedExamples();
             TweetExamples();
             UserExamples();
             AuthenticatedUserExamples();
@@ -101,16 +100,6 @@ namespace Examplinvi
             Examples.AuthFlow_CreateFromRedirectedCallbackURL_StepByStep("consumer_key", "consumer_secret");
 
             Examples.AuthFlow_CreateFromRedirectedVerifierCode_StepByStep("consumer_key", "consumer_secret");
-        }
-
-        private static void UserLiveFeedExamples()
-        {
-            if (!Examples.ExecuteExamples)
-            {
-                return;
-            }
-
-            Examples.Stream_UserStreamExample();
         }
 
         private static void TweetExamples()
@@ -224,7 +213,6 @@ namespace Examplinvi
 
             Examples.Stream_SampleStreamExample();
             Examples.Stream_FilteredStreamExample();
-            Examples.Stream_UserStreamExample();
             Examples.SimpleStream_Events();
         }
 
@@ -334,7 +322,6 @@ namespace Examplinvi
                 return;
             }
 
-            Examples.Exceptions_GetExceptionsInfo();
             Examples.ManualQuery_Example();
         }
 
@@ -902,206 +889,6 @@ namespace Examplinvi
             };
 
             stream.StartStreamMatchingAllConditions();
-        }
-
-        public static void Stream_UserStreamExample()
-        {
-            var userStream = Stream.CreateUserStream();
-
-            // Tweet Published
-            EventsRelatedWithTweetCreation(userStream);
-
-            // Messages
-            EventsRelatedWithMessages(userStream);
-
-            // Favourited - Unfavourited
-            EventsRelatedWithTweetAndFavourite(userStream);
-
-            // Lists
-            EventsRelatedWithLists(userStream);
-
-            // Block - Unblock
-            EventsRelatedWithBlock(userStream);
-
-            // User Update
-            userStream.AuthenticatedUserProfileUpdated += (sender, args) =>
-            {
-                var newAuthenticatedUser = args.AuthenticatedUser;
-                Console.WriteLine("Authenticated user '{0}' has been updated!", newAuthenticatedUser.Name);
-            };
-
-            // Friends the stream will analyze - A UserStream cannot analyze more than 10.000 people at the same time
-            userStream.FriendIdsReceived += (sender, args) =>
-            {
-                var friendIds = args.Value;
-                Console.WriteLine(friendIds.Count());
-            };
-
-            // Access Revoked
-            userStream.AccessRevoked += (sender, args) =>
-            {
-                Console.WriteLine("Application {0} had its access revoked!", args.Info.ApplicationName);
-            };
-
-            userStream.StartStream();
-        }
-
-        public static void EventsRelatedWithTweetCreation(IUserStream userStream)
-        {
-            userStream.TweetCreatedByAnyone += (sender, args) =>
-            {
-                Console.WriteLine("Tweet created by anyone");
-            };
-
-            userStream.TweetCreatedByMe += (sender, args) =>
-            {
-                Console.WriteLine("Tweet created by me");
-            };
-
-            userStream.TweetCreatedByAnyoneButMe += (sender, args) =>
-            {
-                Console.WriteLine("Tweet created by {0}", args.Tweet.CreatedBy.Name);
-            };
-        }
-
-        public static void EventsRelatedWithMessages(IUserStream userStream)
-        {
-            userStream.MessageSent += (sender, args) => { Console.WriteLine("message '{0}' sent", args.Message.Text); };
-            userStream.MessageReceived += (sender, args) => { Console.WriteLine("message '{0}' received", args.Message.Text); };
-        }
-
-        public static void EventsRelatedWithTweetAndFavourite(IUserStream userStream)
-        {
-            // Favourite
-            userStream.TweetFavouritedByAnyone += (sender, args) =>
-            {
-                var tweet = args.Tweet;
-                var userWhoFavouritedTheTweet = args.FavouritingUser;
-                Console.WriteLine("User '{0}' favourited tweet '{1}'", userWhoFavouritedTheTweet.Name, tweet.Id);
-            };
-
-            userStream.TweetFavouritedByMe += (sender, args) =>
-            {
-                var tweet = args.Tweet;
-                var authenticatedUser = args.FavouritingUser;
-                Console.WriteLine("Authenticated User '{0}' favourited tweet '{1}'", authenticatedUser.Name, tweet.Id);
-            };
-
-            userStream.TweetFavouritedByAnyoneButMe += (sender, args) =>
-            {
-                var tweet = args.Tweet;
-                var userWhoFavouritedTheTweet = args.FavouritingUser;
-                Console.WriteLine("User '{0}' favourited tweet '{1}'", userWhoFavouritedTheTweet.Name, tweet.Id);
-            };
-
-            // Unfavourite
-            userStream.TweetUnFavouritedByAnyone += (sender, args) =>
-            {
-                var tweet = args.Tweet;
-                var userWhoFavouritedTheTweet = args.FavouritingUser;
-                Console.WriteLine("User '{0}' unfavourited tweet '{1}'", userWhoFavouritedTheTweet.Name, tweet.Id);
-            };
-
-            userStream.TweetUnFavouritedByMe += (sender, args) =>
-            {
-                Console.WriteLine("Tweet unfavourited by me!");
-            };
-
-            userStream.TweetUnFavouritedByAnyoneButMe += (sender, args) =>
-            {
-                var tweet = args.Tweet;
-                var userWhoFavouritedTheTweet = args.FavouritingUser;
-                Console.WriteLine("User '{0}' favourited tweet '{1}'", userWhoFavouritedTheTweet.Name, tweet.Id);
-            };
-        }
-
-        public static void EventsRelatedWithLists(IUserStream userStream)
-        {
-            userStream.ListCreated += (sender, args) =>
-            {
-                Console.WriteLine("List '{0}' created!", args.List.Name);
-            };
-
-            userStream.ListUpdated += (sender, args) =>
-            {
-                Console.WriteLine("List '{0}' updated!", args.List.Name);
-            };
-
-            userStream.ListDestroyed += (sender, args) =>
-            {
-                Console.WriteLine("List '{0}' destroyed!", args.List.Name);
-            };
-
-            // User Added
-            userStream.AuthenticatedUserAddedMemberToList += (sender, args) =>
-            {
-                var newUser = args.User;
-                var list = args.List;
-                Console.WriteLine("You added '{0}' to the list : '{1}'", newUser.Name, list.Name);
-            };
-
-            userStream.AuthenticatedUserAddedToListBy += (sender, args) =>
-            {
-                var newUser = args.User;
-                var list = args.List;
-                Console.WriteLine("You haved been added to the list '{0}' by '{1}'", list.Name, newUser.Name);
-            };
-
-            // User Removed
-            userStream.AuthenticatedUserRemovedMemberFromList += (sender, args) =>
-            {
-                var newUser = args.User;
-                var list = args.List;
-                Console.WriteLine("You removed '{0}' from the list : '{1}'", newUser.Name, list.Name);
-            };
-
-            userStream.AuthenticatedUserRemovedFromListBy += (sender, args) =>
-            {
-                var newUser = args.User;
-                var list = args.List;
-                Console.WriteLine("You haved been removed from the list '{0}' by '{1}'", list.Name, newUser.Name);
-            };
-
-            // User Subscribed
-            userStream.AuthenticatedUserSubscribedToListCreatedBy += (sender, args) =>
-            {
-                var list = args.List;
-                Console.WriteLine("You have subscribed to the list '{0}", list.Name);
-            };
-
-            userStream.UserSubscribedToListCreatedByMe += (sender, args) =>
-            {
-                var list = args.List;
-                var user = args.User;
-                Console.WriteLine("'{0}' have subscribed to your list '{1}'", user.Name, list.Name);
-            };
-
-            // User Unsubscribed
-            userStream.AuthenticatedUserUnsubscribedToListCreatedBy += (sender, args) =>
-            {
-                var list = args.List;
-                Console.WriteLine("You have unsubscribed from the list '{0}'", list.Name);
-            };
-
-            userStream.UserUnsubscribedToListCreatedByMe += (sender, args) =>
-            {
-                var list = args.List;
-                var user = args.User;
-                Console.WriteLine("'{0}' have unsubscribed from your list '{1}'", user.Name, list.Name);
-            };
-        }
-
-        public static void EventsRelatedWithBlock(IUserStream userStream)
-        {
-            userStream.BlockedUser += (sender, args) =>
-            {
-                Console.WriteLine("I blocked a '{0}'", args.Target.ScreenName);
-            };
-
-            userStream.UnBlockedUser += (sender, args) =>
-            {
-                Console.WriteLine("I un blocked a '{0}'", args.Target.ScreenName);
-            };
         }
 
         #endregion
@@ -1685,34 +1472,6 @@ namespace Examplinvi
             foreach (var jsonResponse in jsonResponses)
             {
                 Console.WriteLine(jsonResponse);
-            }
-        }
-
-        #endregion
-
-        #region Exception
-
-        public static void Exceptions_GetExceptionsInfo()
-        {
-            Auth.Credentials = null;
-
-            // default
-            var user = User.GetAuthenticatedUser();
-            if (user == null && ExceptionHandler.TryPopException(out ITwitterException lastException))
-            {
-                Console.WriteLine(lastException.TwitterDescription);
-            }
-
-            // throw exception
-            ExceptionHandler.SwallowWebExceptions = false;
-            try
-            {
-                // ReSharper disable once RedundantAssignment
-                user = User.GetAuthenticatedUser();
-            }
-            catch (TwitterException ex)
-            {
-                Console.WriteLine(ex.TwitterDescription);
             }
         }
 

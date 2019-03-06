@@ -17,25 +17,21 @@ namespace Tweetinvi.Logic.Exceptions
         private readonly ITwitterExceptionFactory _twitterExceptionFactory;
         private readonly ConcurrentStack<ITwitterException> _exceptions;
 
-        public event EventHandler<GenericEventArgs<ITwitterException>> WebExceptionReceived;
-        public bool SwallowWebExceptions { get; set; }
+        public event EventHandler<GenericEventArgs<ITwitterException>> TwitterExceptionRaised;
+
         public bool LogExceptions { get; set; }
 
         public ExceptionHandler(ITwitterExceptionFactory twitterExceptionFactory)
         {
             _twitterExceptionFactory = twitterExceptionFactory;
             _exceptions = new ConcurrentStack<ITwitterException>();
-            SwallowWebExceptions = true;
             LogExceptions = true;
         }
 
-        public IEnumerable<ITwitterException> ExceptionInfos => _exceptions;
-
-        [Obsolete("Maintained for backwards compatibility. Use TryPeekException")]
-        public ITwitterException LastExceptionInfos => TryPeekException(out ITwitterException e) ? e : null;
+        public IEnumerable<ITwitterException> ExceptionInfos => _exceptions.Reverse();
 
         public bool TryPopException(out ITwitterException e) => _exceptions.TryPop(out e);
-        public bool TryPeekException(out ITwitterException e) => _exceptions.TryPeek(out e);
+        public ITwitterException LastExceptionInfos => ExceptionInfos.LastOrDefault();
 
         public void ClearLoggedExceptions() => _exceptions.Clear();
 
@@ -120,7 +116,7 @@ namespace Tweetinvi.Logic.Exceptions
         {
             _exceptions.Push(twitterException);
 
-            this.Raise(WebExceptionReceived, twitterException);
+            this.Raise(TwitterExceptionRaised, twitterException);
         }
     }
 }

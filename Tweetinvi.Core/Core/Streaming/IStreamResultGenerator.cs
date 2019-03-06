@@ -46,14 +46,14 @@ namespace Tweetinvi.Core.Streaming
         /// <summary>
         /// Start extracting objects from the stream
         /// </summary>
-        Task StartStreamAsync(Action<string> processObject, Func<ITwitterQuery> generateTwitterQuery);
+        Task StartStreamAsync(Action<string> processObject, Func<ITwitterQuery> generateTwitterQuery, IStreamTaskPolicy streamTaskPolicy);
 
         /// <summary>
         /// Start extracting objects from the stream
         /// </summary>
         /// <param name="processTweet">Method to call foreach object</param>
         /// <param name="generateTwitterQuery">Func to generate the appropriate TwitterQuery</param>
-        Task StartStreamAsync(Func<string, bool> processTweet, Func<ITwitterQuery> generateTwitterQuery);
+        Task StartStreamAsync(Func<string, bool> processTweet, Func<ITwitterQuery> generateTwitterQuery, IStreamTaskPolicy streamTaskPolicy);
 
         /// <summary>
         /// Run the stream

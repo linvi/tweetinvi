@@ -41,9 +41,12 @@ namespace Tweetinvi.Streams
             _filteredLanguages = new List<string>();
 
             StallWarnings = true;
+            StreamTaskPolicy = new StreamTaskPolicy();
 
             InitializeStreamEventsActions();
         }
+
+        public IStreamTaskPolicy StreamTaskPolicy { get; }
 
         private ITwitterCredentials _credentials;
         public ITwitterCredentials Credentials

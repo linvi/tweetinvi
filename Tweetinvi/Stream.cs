@@ -14,7 +14,6 @@ namespace Tweetinvi
     /// </summary>
     public static class Stream
     {
-        private static readonly IFactory<IUserStream> _userStreamFactory;
         private static readonly IFactory<ITweetStream> _tweetStreamUnityFactory;
         private static readonly IFactory<ISampleStream> _sampleStreamUnityFactory;
         private static readonly IFactory<ITrackedStream> _trackedStreamUnityFactory;
@@ -53,7 +52,6 @@ namespace Tweetinvi
 
         static Stream()
         {
-            _userStreamFactory = TweetinviContainer.Resolve<IFactory<IUserStream>>();
             _tweetStreamUnityFactory = TweetinviContainer.Resolve<IFactory<ITweetStream>>();
             _sampleStreamUnityFactory = TweetinviContainer.Resolve<IFactory<ISampleStream>>();
             _trackedStreamUnityFactory = TweetinviContainer.Resolve<IFactory<ITrackedStream>>();
@@ -93,15 +91,6 @@ namespace Tweetinvi
         public static IFilteredStream CreateFilteredStream(ITwitterCredentials credentials = null, TweetMode? tweetMode = null)
         {
             return GetConfiguredStream(_filteredStreamUnityFactory.Create(), credentials, tweetMode);
-        }
-
-        /// <summary>
-        /// Create a stream notifying the client about everything that can happen to a user.
-        /// https://dev.twitter.com/streaming/reference/get/user
-        /// </summary>
-        public static IUserStream CreateUserStream(ITwitterCredentials credentials = null, TweetMode? tweetMode = null)
-        {
-            return GetConfiguredStream(_userStreamFactory.Create(), credentials, tweetMode);
         }
 
         private static T GetConfiguredStream<T>(T stream, ITwitterCredentials credentials, TweetMode? tweetMode) where T : ITwitterStream

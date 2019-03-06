@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Linq;
 using FakeItEasy;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Tweetinvi;
 using Tweetinvi.Core.Exceptions;
 using Tweetinvi.Exceptions;
-using Tweetinvi.Logic.Exceptions;
 using ExceptionHandler = Tweetinvi.Logic.Exceptions.ExceptionHandler;
 
 namespace Testinvi.Tweetinvi.Logic
@@ -57,6 +51,32 @@ namespace Testinvi.Tweetinvi.Logic
 
             // Assert
             Assert.IsFalse(exceptionHandler.ExceptionInfos.Any());
+        }
+
+        [TestMethod]
+        public void GetExceptionsReturnsInTheExpectedOrder()
+        {
+            // Arrange
+            ITwitterExceptionFactory exceptionFactory = A.Fake<ITwitterExceptionFactory>();
+            ExceptionHandler exceptionHandler = new ExceptionHandler(exceptionFactory);
+
+            var exception1 = A.Fake<ITwitterException>();
+            var exception2 = A.Fake<ITwitterException>();
+            var exception3 = A.Fake<ITwitterException>();
+
+            exceptionHandler.AddTwitterException(exception1);
+            exceptionHandler.AddTwitterException(exception2);
+            exceptionHandler.AddTwitterException(exception3);
+
+            // Act
+            var lastException = exceptionHandler.LastExceptionInfos;
+            var exceptions = exceptionHandler.ExceptionInfos.ToArray();
+
+            // Assert
+            Assert.AreEqual(lastException, exception3);
+            Assert.AreEqual(exceptions[0],  exception1);
+            Assert.AreEqual(exceptions[1], exception2);
+            Assert.AreEqual(exceptions[2], exception3);
         }
     }
 }

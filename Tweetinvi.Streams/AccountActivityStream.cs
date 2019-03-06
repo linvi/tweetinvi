@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json.Linq;
+using Tweetinvi.Core;
 using Tweetinvi.Core.Events;
-using Tweetinvi.Core.Exceptions;
 using Tweetinvi.Core.Extensions;
 using Tweetinvi.Core.Factories;
 using Tweetinvi.Core.Helpers;
@@ -25,13 +25,11 @@ namespace Tweetinvi.Streams
         private readonly IJObjectStaticWrapper _jObjectWrapper;
         private readonly IJsonObjectConverter _jsonObjectConverter;
         private readonly ITweetFactory _tweetFactory;
-        private readonly IExceptionHandlerSingleton _exceptionHandlerSingleton;
         private readonly IUserFactory _userFactory;
         private readonly IMessageFactory _messageFactory;
         private readonly Dictionary<string, Action<string, JObject>> _events;
 
         public AccountActivityStream(
-            IExceptionHandlerSingleton exceptionHandlerSingleton,
             IJObjectStaticWrapper jObjectWrapper,
             IJsonObjectConverter jsonObjectConverter,
             ITweetFactory tweetFactory,
@@ -41,7 +39,6 @@ namespace Tweetinvi.Streams
             _jObjectWrapper = jObjectWrapper;
             _jsonObjectConverter = jsonObjectConverter;
             _tweetFactory = tweetFactory;
-            _exceptionHandlerSingleton = exceptionHandlerSingleton;
             _userFactory = userFactory;
             _messageFactory = messageFactory;
             _events = new Dictionary<string, Action<string, JObject>>();
@@ -69,8 +66,6 @@ namespace Tweetinvi.Streams
             _events.Add("direct_message_indicate_typing_events", TryRaiseIndicateUserIsTypingMessage);
             _events.Add("direct_message_mark_read_events", TryRaiseMessageReadEvent);
         }
-
-
 
         public long UserId { get; set; }
 
@@ -218,11 +213,7 @@ namespace Tweetinvi.Streams
             }
             else
             {
-                IExceptionHandler exceptionHandler = _exceptionHandlerSingleton.GetExecutionContextInstance();
-                if (!exceptionHandler.SwallowWebExceptions)
-                {
-                    throw new ArgumentException($"user_event received of type {eventType} is not supported.");
-                }
+                this.Raise(UnmanagedEventReceived, new UnmanagedMessageReceivedEventArgs(jsonObjectEvent.ToString()));
             }
         }
 

@@ -44,7 +44,7 @@ namespace Tweetinvi.Core.Injectinvi
             container.RegisterType<ISingleAggregateExceptionThrower, SingleAggregateExceptionThrower>(RegistrationLifetime.InstancePerApplication);
             container.RegisterType<ITwitterExceptionFactory, TwitterExceptionFactory>(RegistrationLifetime.InstancePerApplication);
             container.RegisterType<ITwitterException, TwitterException>();
-            container.RegisterType<ICrossExecutionContextPreparer, CrossExecutionContextPreparer>(RegistrationLifetime.InstancePerApplication);
+            container.RegisterType<IAsyncContextPreparer, AsyncContextPreparer>(RegistrationLifetime.InstancePerApplication);
 
             InitializeParameters(container);
         }

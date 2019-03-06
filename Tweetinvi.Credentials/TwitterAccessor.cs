@@ -4,7 +4,7 @@ using System.Net.Http;
 using System.Text;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using Tweetinvi.Core.Exceptions;
+using Tweetinvi.Core;
 using Tweetinvi.Core.Helpers;
 using Tweetinvi.Core.Public.Models.Authentication;
 using Tweetinvi.Core.Public.Parameters;
@@ -23,21 +23,21 @@ namespace Tweetinvi.Credentials
     {
         private readonly IJObjectStaticWrapper _jObjectStaticWrapper;
         private readonly IJsonObjectConverter _jsonObjectConverter;
-        private readonly IExceptionHandlerSingleton _exceptionHandlerSingleton;
         private readonly ICursorQueryHelper _cursorQueryHelper;
+        private readonly ITweetinviSettingsAccessor _tweetinviSettingsAccessor;
         private readonly ITwitterRequestHandler _twitterRequestHandler;
 
         public TwitterAccessor(
             IJObjectStaticWrapper jObjectStaticWrapper,
             IJsonObjectConverter jsonObjectConverter,
-            IExceptionHandlerSingleton exceptionHandlerSingleton,
             ICursorQueryHelper cursorQueryHelper,
+            ITweetinviSettingsAccessor tweetinviSettingsAccessor,
             ITwitterRequestHandler twitterRequestHandler)
         {
             _jObjectStaticWrapper = jObjectStaticWrapper;
             _jsonObjectConverter = jsonObjectConverter;
-            _exceptionHandlerSingleton = exceptionHandlerSingleton;
             _cursorQueryHelper = cursorQueryHelper;
+            _tweetinviSettingsAccessor = tweetinviSettingsAccessor;
             _twitterRequestHandler = twitterRequestHandler;
         }
 
@@ -67,8 +67,7 @@ namespace Tweetinvi.Credentials
             }
             catch (TwitterException)
             {
-                IExceptionHandler exceptionHandler = _exceptionHandlerSingleton.GetExecutionContextInstance();
-                if (!exceptionHandler.SwallowWebExceptions)
+                if (!_tweetinviSettingsAccessor.OnTwitterExceptionReturnNull)
                 {
                     throw;
                 }
@@ -187,8 +186,7 @@ namespace Tweetinvi.Credentials
             }
             catch (TwitterException)
             {
-                IExceptionHandler exceptionHandler = _exceptionHandlerSingleton.GetExecutionContextInstance();
-                if (!exceptionHandler.SwallowWebExceptions)
+                if (!_tweetinviSettingsAccessor.OnTwitterExceptionReturnNull)
                 {
                     throw;
                 }
@@ -208,8 +206,7 @@ namespace Tweetinvi.Credentials
             }
             catch (TwitterException)
             {
-                IExceptionHandler exceptionHandler = _exceptionHandlerSingleton.GetExecutionContextInstance();
-                if (!exceptionHandler.SwallowWebExceptions)
+                if (!_tweetinviSettingsAccessor.OnTwitterExceptionReturnNull)
                 {
                     throw;
                 }
@@ -229,8 +226,7 @@ namespace Tweetinvi.Credentials
             }
             catch (TwitterException)
             {
-                IExceptionHandler exceptionHandler = _exceptionHandlerSingleton.GetExecutionContextInstance();
-                if (!exceptionHandler.SwallowWebExceptions)
+                if (!_tweetinviSettingsAccessor.OnTwitterExceptionReturnNull)
                 {
                     throw;
                 }
@@ -250,8 +246,7 @@ namespace Tweetinvi.Credentials
             }
             catch (TwitterException)
             {
-                IExceptionHandler exceptionHandler = _exceptionHandlerSingleton.GetExecutionContextInstance();
-                if (!exceptionHandler.SwallowWebExceptions)
+                if (!_tweetinviSettingsAccessor.OnTwitterExceptionReturnNull)
                 {
                     throw;
                 }
@@ -271,8 +266,7 @@ namespace Tweetinvi.Credentials
             }
             catch (TwitterException)
             {
-                IExceptionHandler exceptionHandler = _exceptionHandlerSingleton.GetExecutionContextInstance();
-                if (!exceptionHandler.SwallowWebExceptions)
+                if (!_tweetinviSettingsAccessor.OnTwitterExceptionReturnNull)
                 {
                     throw;
                 }
@@ -292,8 +286,7 @@ namespace Tweetinvi.Credentials
             }
             catch (TwitterException)
             {
-                IExceptionHandler exceptionHandler = _exceptionHandlerSingleton.GetExecutionContextInstance();
-                if (!exceptionHandler.SwallowWebExceptions)
+                if (!_tweetinviSettingsAccessor.OnTwitterExceptionReturnNull)
                 {
                     throw;
                 }
@@ -590,8 +583,7 @@ namespace Tweetinvi.Credentials
 
         private void HandleQueryException(TwitterException ex)
         {
-            IExceptionHandler exceptionHandler = _exceptionHandlerSingleton.GetExecutionContextInstance();
-            if (exceptionHandler.SwallowWebExceptions)
+            if (_tweetinviSettingsAccessor.OnTwitterExceptionReturnNull)
             {
                 return;
             }

@@ -14,7 +14,6 @@ namespace Tweetinvi.Streams
     {
         public void Initialize(ITweetinviContainer container)
         {
-            container.RegisterType<IUserStream, UserStream>();
             container.RegisterType<ITweetStream, TweetStream>();
             container.RegisterType<ISampleStream, SampleStream>();
             container.RegisterType<ITrackedStream, TrackedStream>();

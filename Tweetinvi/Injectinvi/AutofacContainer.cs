@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
 using Autofac;
 using Tweetinvi.Controllers;
 using Tweetinvi.Core.Events;
-using Tweetinvi.Core.ExecutionContext;
 using Tweetinvi.Core.Injectinvi;
 using Tweetinvi.Credentials;
 using Tweetinvi.Events;
@@ -57,8 +54,6 @@ namespace Tweetinvi.Injectinvi
             RegisterModules();
             InitializeModules();
 
-            RegisterCrossExecutionContextPreparable();
-
             var overridableContainer = new OverridableContainer(this);
             this.Raise(BeforeRegistrationCompletes, new TweetinviContainerEventArgs(overridableContainer));
 
@@ -74,7 +69,7 @@ namespace Tweetinvi.Injectinvi
             _moduleCatalog.Add(new TweetinviFactoriesModule());
             _moduleCatalog.Add(new TweetinviLogicModule());
             _moduleCatalog.Add(new TweetinviWebLogicModule());
-            
+
             _moduleCatalog.Add(new StreaminviModule());
         }
 
@@ -85,17 +80,6 @@ namespace Tweetinvi.Injectinvi
                 module.Initialize(this);
             }
         }
-
-private void RegisterCrossExecutionContextPreparable()
-{
-    // This initializes the preparableObjects that is being injected in CrossExecutionContextPreparer
-    var assemblies = _moduleCatalog.Select(m => m.GetType().GetTypeInfo().Assembly).ToArray();
-
-    _containerBuilder.RegisterAssemblyTypes(assemblies)
-        .Where(t => t.IsAssignableTo<ICrossExecutionContextPreparable>())
-        .As<ICrossExecutionContextPreparable>()
-        .SingleInstance();
-}
 
         private static ITweetinviContainer GetThreadContainer()
         {

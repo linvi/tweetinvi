@@ -107,27 +107,6 @@ namespace Testinvi.Tweetinvi.Credentials
             });
         }
 
-        [TestMethod]
-        public void ExecuteOperationWithCredentialsFuncExceptionSwallowedAvailableInCallingContext()
-        {
-            // Arrange
-            ITwitterCredentials credentials = A.Fake<ITwitterCredentials>();
-            ITwitterException exception = A.Fake<ITwitterException>();
-
-            // Act
-            Auth.CredentialsRunner.ExecuteOperationWithCredentials(credentials,
-                () =>
-                {
-                    ExceptionHandler.AddTwitterException(exception);
-                    return 0;
-                });
-
-            // Assert
-            bool hasException = ExceptionHandler.TryPopException(out ITwitterException actual);
-            Assert.IsTrue(hasException);
-            Assert.AreEqual(exception, actual);
-        }
-
         #endregion
 
         #region ExecuteOperationWithCredentials<T>(ITwitterCredentials, Action)
@@ -184,7 +163,7 @@ namespace Testinvi.Tweetinvi.Credentials
             ITwitterCredentials execAsCredentials = fixture.Create<TwitterCredentials>();
 
             // Act
-            Auth.CredentialsRunner.ExecuteOperationWithCredentials(execAsCredentials, () => {  });
+            Auth.CredentialsRunner.ExecuteOperationWithCredentials(execAsCredentials, () => { });
 
             // Assert
             ITwitterCredentials actual = Auth.Credentials;
@@ -208,22 +187,6 @@ namespace Testinvi.Tweetinvi.Credentials
             });
         }
 
-        [TestMethod]
-        public void ExecuteOperationWithCredentialsActionExceptionSwallowedAvailableInCallingContext()
-        {
-            // Arrange
-            ITwitterCredentials credentials = A.Fake<ITwitterCredentials>();
-            ITwitterException exception = A.Fake<ITwitterException>();
-
-            // Act
-            Auth.CredentialsRunner.ExecuteOperationWithCredentials(credentials,
-                () => ExceptionHandler.AddTwitterException(exception));
-
-            // Assert
-            bool hasException = ExceptionHandler.TryPopException(out ITwitterException actual);
-            Assert.IsTrue(hasException);
-            Assert.AreEqual(exception, actual);
-        }
 
         #endregion
     }

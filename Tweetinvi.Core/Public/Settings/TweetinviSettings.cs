@@ -70,6 +70,11 @@ namespace Tweetinvi
         Func<DateTime> GetUtcDateTime { get; set; }
 
         /// <summary>
+        /// Define whether you want Tweetinvi to return null or to throw an exception when Twitter returns an error
+        /// </summary>
+        bool OnTwitterExceptionReturnNull { get; set; }
+
+        /// <summary>
         /// Initialize a setting from another one.
         /// </summary>
         void InitialiseFrom(ITweetinviSettings other);
@@ -90,12 +95,14 @@ namespace Tweetinvi
         public TweetMode TweetMode { get; set; }
         public int UploadTimeout { get; set; }
         public Func<DateTime> GetUtcDateTime { get; set; }
+        public bool OnTwitterExceptionReturnNull { get; set; }
 
         public TweetinviSettings()
         {
             GetUtcDateTime = () => DateTime.UtcNow;
             HttpRequestTimeout = TweetinviConsts.DEFAULT_HTTP_REQUEST_TIMEOUT;
             UploadTimeout = TweetinviConsts.DEFAULT_UPLOAD_TIMEOUT;
+            OnTwitterExceptionReturnNull = false;
         }
 
         public ITweetinviSettings Clone()
@@ -108,6 +115,7 @@ namespace Tweetinvi
             clone.RateLimitTrackerMode = RateLimitTrackerMode;
             clone.TweetMode = TweetMode;
             clone.GetUtcDateTime = GetUtcDateTime;
+            clone.OnTwitterExceptionReturnNull = OnTwitterExceptionReturnNull;
 
             return clone;
         }
@@ -120,6 +128,7 @@ namespace Tweetinvi
             RateLimitTrackerMode = other.RateLimitTrackerMode;
             TweetMode = other.TweetMode;
             GetUtcDateTime = other.GetUtcDateTime;
+            OnTwitterExceptionReturnNull = other.OnTwitterExceptionReturnNull;
         }
     }
 }

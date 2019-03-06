@@ -168,7 +168,12 @@ namespace Tweetinvi.Core.Streaming
         /// A formatted version of the custom query parameters.
         /// </summary>
         string FormattedCustomQueryParameters { get; }
-        
+
+        /// <summary>
+        /// Policy defining how a stream should execute
+        /// </summary>
+        IStreamTaskPolicy StreamTaskPolicy { get; }
+
         /// <summary>
         /// Append a custom query parameter to the query url.
         /// </summary>

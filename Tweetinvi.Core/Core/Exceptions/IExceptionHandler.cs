@@ -10,18 +10,14 @@ namespace Tweetinvi.Core.Exceptions
 {
     public interface IExceptionHandler
     {
-        event EventHandler<GenericEventArgs<ITwitterException>> WebExceptionReceived;
+        event EventHandler<GenericEventArgs<ITwitterException>> TwitterExceptionRaised;
 
-        bool SwallowWebExceptions { get; set; }
         bool LogExceptions { get; set; }
 
         IEnumerable<ITwitterException> ExceptionInfos { get; }
 
-        [Obsolete("Maintained for backwards compatibility. Use TryPeekException")]
         ITwitterException LastExceptionInfos { get; }
-
         bool TryPopException(out ITwitterException e);
-        bool TryPeekException(out ITwitterException e);
 
         void ClearLoggedExceptions();
 

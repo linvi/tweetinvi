@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Text.RegularExpressions;
 using Newtonsoft.Json.Linq;
+using Tweetinvi.Core;
 using Tweetinvi.Core.Exceptions;
 using Tweetinvi.Core.Web;
 using Tweetinvi.Core.Wrappers;
@@ -22,19 +23,22 @@ namespace Tweetinvi.Credentials
 
     public class AuthFactory : IAuthFactory
     {
-        private readonly IExceptionHandlerSingleton _exceptionHandlerSingleton;
+        private readonly IExceptionHandler _exceptionHandler;
         private readonly ITwitterRequestHandler _twitterRequestHandler;
+        private readonly ITweetinviSettingsAccessor _tweetinviSettingsAccessor;
         private readonly IOAuthWebRequestGenerator _oAuthWebRequestGenerator;
         private readonly IJObjectStaticWrapper _jObjectStaticWrapper;
 
         public AuthFactory(
-            IExceptionHandlerSingleton exceptionHandlerSingleton,
+            IExceptionHandler exceptionHandler,
             ITwitterRequestHandler twitterRequestHandler,
+            ITweetinviSettingsAccessor tweetinviSettingsAccessor,
             IOAuthWebRequestGenerator oAuthWebRequestGenerator,
             IJObjectStaticWrapper jObjectStaticWrapper)
         {
-            _exceptionHandlerSingleton = exceptionHandlerSingleton;
+            _exceptionHandler = exceptionHandler;
             _twitterRequestHandler = twitterRequestHandler;
+            _tweetinviSettingsAccessor = tweetinviSettingsAccessor;
             _oAuthWebRequestGenerator = oAuthWebRequestGenerator;
             _jObjectStaticWrapper = jObjectStaticWrapper;
         }
@@ -86,13 +90,12 @@ namespace Tweetinvi.Credentials
             }
             catch (TwitterException ex)
             {
-                IExceptionHandler exceptionHandler = _exceptionHandlerSingleton.GetExecutionContextInstance();
-                if (exceptionHandler.LogExceptions)
+                if (_exceptionHandler.LogExceptions)
                 {
-                    exceptionHandler.AddTwitterException(ex);
+                    _exceptionHandler.AddTwitterException(ex);
                 }
 
-                if (!exceptionHandler.SwallowWebExceptions)
+                if (!_tweetinviSettingsAccessor.OnTwitterExceptionReturnNull)
                 {
                     throw;
                 }
@@ -120,13 +123,12 @@ namespace Tweetinvi.Credentials
                 }
                 catch (TwitterException ex)
                 {
-                    IExceptionHandler exceptionHandler = _exceptionHandlerSingleton.GetExecutionContextInstance();
-                    if (exceptionHandler.LogExceptions)
+                    if (_exceptionHandler.LogExceptions)
                     {
-                        exceptionHandler.AddTwitterException(ex);
+                        _exceptionHandler.AddTwitterException(ex);
                     }
 
-                    if (!exceptionHandler.SwallowWebExceptions)
+                    if (!_tweetinviSettingsAccessor.OnTwitterExceptionReturnNull)
                     {
                         throw;
                     }
@@ -154,8 +156,7 @@ namespace Tweetinvi.Credentials
                 var errorsObject = jobject["errors"];
                 var errors = _jObjectStaticWrapper.ToObject<ITwitterExceptionInfo[]>(errorsObject);
 
-                IExceptionHandler exceptionHandler = _exceptionHandlerSingleton.GetExecutionContextInstance();
-                exceptionHandler.TryLogExceptionInfos(errors, url);
+                _exceptionHandler.TryLogExceptionInfos(errors, url);
             }
             catch (Exception)
             {

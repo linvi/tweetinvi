@@ -24,7 +24,6 @@ namespace Tweetinvi.Streams
         public event EventHandler<TweetEventArgs> NonMatchingTweetReceived;
 
         protected readonly IStreamTrackManager<ITweet> _streamTrackManager;
-        protected readonly IJsonObjectConverter _jsonObjectConverter;
         protected readonly ITweetFactory _tweetFactory;
         protected readonly ISynchronousInvoker _synchronousInvoker;
 
@@ -47,7 +46,6 @@ namespace Tweetinvi.Streams
             : base(streamResultGenerator, jsonObjectConverter, jObjectStaticWrapper, customRequestParameters)
         {
             _streamTrackManager = streamTrackManager;
-            _jsonObjectConverter = jsonObjectConverter;
             _tweetFactory = tweetFactory;
             _synchronousInvoker = synchronousInvoker;
             _singleAggregateExceptionThrower = singleAggregateExceptionThrower;
@@ -103,7 +101,7 @@ namespace Tweetinvi.Streams
                 }
             };
 
-            await _streamResultGenerator.StartStreamAsync(generateTweetDelegate, generateTwitterQuery).ConfigureAwait(false);
+            await _streamResultGenerator.StartStreamAsync(generateTweetDelegate, generateTwitterQuery, StreamTaskPolicy).ConfigureAwait(false);
         }
 
         protected void RaiseJsonObjectReceived(string json)

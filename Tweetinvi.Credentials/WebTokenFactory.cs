@@ -1,4 +1,5 @@
 ﻿using System.Text.RegularExpressions;
+using Tweetinvi.Core;
 using Tweetinvi.Core.Credentials;
 using Tweetinvi.Core.Exceptions;
 using Tweetinvi.Core.Extensions;
@@ -15,17 +16,20 @@ namespace Tweetinvi.Credentials
     public class WebTokenFactory : IWebTokenFactory
     {
         private readonly IExceptionHandler _exceptionHandler;
+        private readonly ITweetinviSettingsAccessor _tweetinviSettingsAccessor;
         private readonly IOAuthWebRequestGenerator _oAuthWebRequestGenerator;
         private readonly ICredentialsStore _credentialsStore;
         private readonly ITwitterRequestHandler _twitterRequestHandler;
 
         public WebTokenFactory(
             IExceptionHandler exceptionHandler,
+            ITweetinviSettingsAccessor tweetinviSettingsAccessor,
             IOAuthWebRequestGenerator oAuthWebRequestGenerator,
             ICredentialsStore credentialsStore,
             ITwitterRequestHandler twitterRequestHandler)
         {
             _exceptionHandler = exceptionHandler;
+            _tweetinviSettingsAccessor = tweetinviSettingsAccessor;
             _oAuthWebRequestGenerator = oAuthWebRequestGenerator;
             _credentialsStore = credentialsStore;
             _twitterRequestHandler = twitterRequestHandler;
@@ -160,7 +164,7 @@ namespace Tweetinvi.Credentials
                 _exceptionHandler.AddTwitterException(ex);
             }
 
-            if (!_exceptionHandler.SwallowWebExceptions)
+            if (!_tweetinviSettingsAccessor.OnTwitterExceptionReturnNull)
             {
                 throw ex;
             }

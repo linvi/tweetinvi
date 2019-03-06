@@ -207,9 +207,11 @@
     <Compile Include="TweetinviControllers\UserTests\UserQueryValidatorTests.cs" />
     <Compile Include="TweetinviLogic\AuthenticatedUserTests.cs" />
     <Compile Include="TweetinviWebLogic\WebHelperTests.cs" />
+    <Compile Include="Tweetinvi\AsyncAndMultiThreading\AsyncCredentialsTests.cs" />
+    <Compile Include="Tweetinvi\AsyncAndMultiThreading\AsyncTweetinviSettingsTests.cs" />
     <Compile Include="Tweetinvi\AuthTests.cs" />
     <Compile Include="json.net\WebhookModelsDeserializerTests.cs" />
-    <Compile Include="Tweetinvi\ExceptionHandlerTests.cs" />
+    <Compile Include="Tweetinvi\AsyncAndMultiThreading\AsyncExceptionHandlerTests.cs" />
     <Compile Include="Tweetinvi\SyncTests.cs" />
   </ItemGroup>
   <ItemGroup>

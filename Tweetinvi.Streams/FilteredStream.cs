@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Tweetinvi.Core;
 using Tweetinvi.Core.Exceptions;
 using Tweetinvi.Core.Extensions;
 using Tweetinvi.Core.Factories;
@@ -135,7 +136,7 @@ namespace Tweetinvi.Streams
                 }
             };
 
-            await _streamResultGenerator.StartStreamAsync(tweetReceived, generateWebRequest).ConfigureAwait(false);
+            await _streamResultGenerator.StartStreamAsync(tweetReceived, generateWebRequest, StreamTaskPolicy).ConfigureAwait(false);
         }
 
         public void StartStreamMatchingAllConditions()
@@ -190,7 +191,7 @@ namespace Tweetinvi.Streams
                 }
             };
 
-            await _streamResultGenerator.StartStreamAsync(tweetReceived, generateTwitterQuery).ConfigureAwait(false);
+            await _streamResultGenerator.StartStreamAsync(tweetReceived, generateTwitterQuery, StreamTaskPolicy).ConfigureAwait(false);
         }
 
         public MatchOn CheckIfTweetMatchesStreamFilters(ITweet tweet)
