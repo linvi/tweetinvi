@@ -85,6 +85,7 @@ namespace Tweetinvi
         /// <summary>
         /// Verify that a tweet can be published
         /// </summary>
+        [Obsolete("This method currently only returns true as a refactoring of length calculation is required to get the correct results out of this.")]
         public static bool CanBePublished(IPublishTweetParameters publishTweetParameters)
         {
             return TweetController.CanBePublished(publishTweetParameters);
@@ -93,6 +94,7 @@ namespace Tweetinvi
         /// <summary>
         /// Verify that a tweet can be published
         /// </summary>
+        [Obsolete("This method currently only returns true as a refactoring of length calculation is required to get the correct results out of this.")]
         public static bool CanBePublished(string text)
         {
             IPublishTweetParameters parameters = new PublishTweetParameters(text);
