@@ -493,7 +493,8 @@ namespace Tweetinvi.Credentials
         {
             var webRequestResult = ExecuteQuery(query, method, credentials, httpContent);
             var jsonResponse = webRequestResult.Text;
-            return _jsonObjectConverter.DeserializeObject<T>(jsonResponse);
+            var deserializedObject = _jsonObjectConverter.DeserializeObject<T>(jsonResponse);
+            return deserializedObject;
         }
 
         // Concrete Execute

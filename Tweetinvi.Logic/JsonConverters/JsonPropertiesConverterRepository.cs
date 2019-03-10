@@ -6,7 +6,6 @@ using Tweetinvi.Core.Extensions;
 using Tweetinvi.Core.Models;
 using Tweetinvi.Core.Public.Models.Interfaces.DTO.Webhooks;
 using Tweetinvi.Logic.DTO;
-using Tweetinvi.Logic.DTO.ActivityStream;
 using Tweetinvi.Logic.Exceptions;
 using Tweetinvi.Logic.Model;
 using Tweetinvi.Logic.TwitterEntities;

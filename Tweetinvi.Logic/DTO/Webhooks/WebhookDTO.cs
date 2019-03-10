@@ -11,8 +11,8 @@ namespace Tweetinvi.Logic.DTO
         public string Url { get; set; }
         public bool Valid { get; set; }
 
-        [JsonProperty("created_at")]
-        [JsonConverter(typeof(JsonTwitterDateTimeConverter))]
+        [JsonProperty("created_timestamp")]
+        [JsonConverter(typeof(JsonTwitterDateTimeConverter), "yyyy-MM-dd HH:mm:ss zzzz")]
         public DateTime CreatedAt { get; set; }
     }
 }

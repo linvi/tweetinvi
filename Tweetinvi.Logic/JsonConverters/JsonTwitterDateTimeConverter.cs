@@ -7,6 +7,18 @@ namespace Tweetinvi.Logic.JsonConverters
 {
     public class JsonTwitterDateTimeConverter : DateTimeConverterBase
     {
+        private readonly string _format;
+
+        public JsonTwitterDateTimeConverter() : this("ddd MMM dd HH:mm:ss zzzz yyyy")
+        {
+        }
+
+        // ReSharper disable once MemberCanBePrivate.Global -- This is used by JsonConverters
+        public JsonTwitterDateTimeConverter(string format)
+        {
+            _format = format;
+        }
+
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
             serializer.Serialize(writer, value);
@@ -30,7 +42,7 @@ namespace Tweetinvi.Logic.JsonConverters
             }
             else // Otherwise it's a formatted string
             {
-                datetime = DateTime.ParseExact(datetimeStr, "ddd MMM dd HH:mm:ss zzzz yyyy", CultureInfo.InvariantCulture);
+                datetime = DateTime.ParseExact(datetimeStr, _format, CultureInfo.InvariantCulture);
             }
 
             return datetime;

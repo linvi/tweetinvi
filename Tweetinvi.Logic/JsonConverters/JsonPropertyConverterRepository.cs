@@ -28,14 +28,14 @@ namespace Tweetinvi.Logic.JsonConverters
         {
             JsonConverters = new Dictionary<Type, JsonConverter>();
 
-            IntializeClassicalTypesConvertes();
+            IntializeClassicalTypesConverters();
             InitializeTweetinviObjectConverters();
             InitializeTweetinviInterfacesConverters();
             InitializeEntitiesConverters();
             InitializeWebhookConverters();
         }
 
-        private static void IntializeClassicalTypesConvertes()
+        private static void IntializeClassicalTypesConverters()
         {
             var nullableBoolConverter = new JsonTwitterNullableConverter<bool>();
             var nullableLongConverter = new JsonTwitterNullableConverter<long>();
