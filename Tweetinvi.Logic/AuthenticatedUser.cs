@@ -142,12 +142,14 @@ namespace Tweetinvi.Logic
         }
 
         // Friends - Followers
-        public IEnumerable<IUser> GetUsersRequestingFriendship(int maximumUserIdsToRetrieve = 75000)
+        public IEnumerable<IUser> GetUsersRequestingFriendship(
+            int maximumUserIdsToRetrieve = TweetinviConsts.FRIENDSHIPS_INCOMING_USERS_MAX_PER_REQ)
         {
             return ExecuteAuthenticatedUserOperation(() => _friendshipController.GetUsersRequestingFriendship(maximumUserIdsToRetrieve));
         }
 
-        public IEnumerable<IUser> GetUsersYouRequestedToFollow(int maximumUserIdsToRetrieve = 75000)
+        public IEnumerable<IUser> GetUsersYouRequestedToFollow(
+            int maximumUserIdsToRetrieve = TweetinviConsts.FRIENDSHIPS_OUTGOING_USERS_MAX_PER_REQ)
         {
             return ExecuteAuthenticatedUserOperation(() => _friendshipController.GetUsersYouRequestedToFollow(maximumUserIdsToRetrieve));
         }
@@ -274,9 +276,14 @@ namespace Tweetinvi.Logic
         }
 
         // Tweet
-        public ITweet PublishTweet(string text, IPublishTweetOptionalParameters parameters)
+        public ITweet PublishTweet(IPublishTweetParameters parameters)
         {
-            return ExecuteAuthenticatedUserOperation(() =>  _tweetController.PublishTweet(text, parameters));
+            return ExecuteAuthenticatedUserOperation(() => _tweetController.PublishTweet(parameters));
+        }
+
+        public ITweet PublishTweet(string text)
+        {
+            return ExecuteAuthenticatedUserOperation(() =>  _tweetController.PublishTweet(text));
         }
 
         // Settings
@@ -468,13 +475,12 @@ namespace Tweetinvi.Logic
             return ExecuteAuthenticatedUserOperation(() => _taskFactory.InitializeAsyncContextAndExecute(() => UpdateRelationshipAuthorizationsWith(screenName, retweetsEnabled, deviceNotificationsEnabled)));
         }
 
-        
-        public Task<IEnumerable<IUser>> GetUsersRequestingFriendshipAsync(int maximumUserIdsToRetrieve = 75000)
+        public Task<IEnumerable<IUser>> GetUsersRequestingFriendshipAsync(int maximumUserIdsToRetrieve = TweetinviConsts.FRIENDSHIPS_INCOMING_USERS_MAX_PER_REQ)
         {
             return ExecuteAuthenticatedUserOperation(() => _taskFactory.InitializeAsyncContextAndExecute(() => GetUsersRequestingFriendship(maximumUserIdsToRetrieve)));
         }
 
-        public Task<IEnumerable<IUser>> GetUsersYouRequestedToFollowAsync(int maximumUsersToRetrieve = 75000)
+        public Task<IEnumerable<IUser>> GetUsersYouRequestedToFollowAsync(int maximumUsersToRetrieve = TweetinviConsts.FRIENDSHIPS_OUTGOING_USERS_MAX_PER_REQ)
         {
             return ExecuteAuthenticatedUserOperation(() => _taskFactory.InitializeAsyncContextAndExecute(() => GetUsersYouRequestedToFollow(maximumUsersToRetrieve)));
         }

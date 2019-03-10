@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Tweetinvi.Core.Controllers;
-using Tweetinvi.Core.Factories;
 using Tweetinvi.Core.Helpers;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
@@ -15,7 +14,6 @@ namespace Tweetinvi.Logic
     /// </summary>
     public class Message : IMessage
     {
-        private readonly IUserFactory _userFactory;
         private readonly IMessageController _messageController;
 
         private IApp _app;
@@ -25,13 +23,11 @@ namespace Tweetinvi.Logic
         private bool _mergedMediaIntoEntities = false;
 
         public Message(
-            IUserFactory userFactory,
             IMessageController messageController,
             IEventDTO eventDTO,
             IApp app,
             ITaskFactory taskFactory)
         {
-            _userFactory = userFactory;
             _messageController = messageController;
             EventDTO = eventDTO;
             _app = app;

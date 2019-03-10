@@ -9,7 +9,7 @@ namespace Examplinvi.NETStandard_2._0
 {
     class Program
     {
-        static async Task Main(string[] args)
+        public static void Main(string[] args)
         {
             var fs = Stream.CreateFilteredStream();
 

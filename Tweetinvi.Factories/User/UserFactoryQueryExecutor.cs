@@ -26,8 +26,6 @@ namespace Tweetinvi.Factories.User
 
     public class UserFactoryQueryExecutor : IUserFactoryQueryExecutor
     {
-        private const int MAX_LOOKUP_USERS = 100;
-
         private readonly ITwitterAccessor _twitterAccessor;
         private readonly IUserQueryParameterGenerator _userQueryParameterGenerator;
 
@@ -57,13 +55,16 @@ namespace Tweetinvi.Factories.User
         }
 
         // Get Multiple users
-        public List<IUserDTO> GetUsersDTOFromIds(IEnumerable<long> userIds)
+        public List<IUserDTO> GetUsersDTOFromIds(IEnumerable<long> enumerableUserIds)
         {
+            // Optimisation: prevent multiple enumerations
+            long[] userIds = enumerableUserIds as long[] ?? enumerableUserIds.ToArray();
+
             var usersDTO = new List<IUserDTO>();
 
-            for (int i = 0; i < userIds.Count(); i += MAX_LOOKUP_USERS)
+            for (int i = 0; i < userIds.Length; i += TweetinviConsts.USERS_LOOKUP_MAX_PER_REQ)
             {
-                var userIdsToLookup = userIds.Skip(i).Take(MAX_LOOKUP_USERS).ToList();
+                var userIdsToLookup = userIds.Skip(i).Take(TweetinviConsts.USERS_LOOKUP_MAX_PER_REQ).ToList();
                 var retrievedUsers = LookupUserIds(userIdsToLookup);
                 usersDTO.AddRangeSafely(retrievedUsers);
 
@@ -76,13 +77,16 @@ namespace Tweetinvi.Factories.User
             return usersDTO;
         }
 
-        public List<IUserDTO> GetUsersDTOFromScreenNames(IEnumerable<string> userScreenNames)
+        public List<IUserDTO> GetUsersDTOFromScreenNames(IEnumerable<string> enumerableUserScreenNames)
         {
+            // Optimisation: prevent multiple enumerations
+            string[] userScreenNames = enumerableUserScreenNames as string[] ?? enumerableUserScreenNames.ToArray();
+
             var usersDTO = new List<IUserDTO>();
 
-            for (int i = 0; i < userScreenNames.Count(); i += MAX_LOOKUP_USERS)
+            for (int i = 0; i < userScreenNames.Length; i += TweetinviConsts.USERS_LOOKUP_MAX_PER_REQ)
             {
-                var userScreenNamesToLookup = userScreenNames.Skip(i).Take(MAX_LOOKUP_USERS).ToList();
+                var userScreenNamesToLookup = userScreenNames.Skip(i).Take(TweetinviConsts.USERS_LOOKUP_MAX_PER_REQ).ToList();
                 var retrievedUsers = LookupUserScreenNames(userScreenNamesToLookup);
                 usersDTO.AddRangeSafely(retrievedUsers);
 
@@ -98,7 +102,7 @@ namespace Tweetinvi.Factories.User
         // Lookup
         public List<IUserDTO> LookupUserIds(List<long> userIds)
         {
-            if (userIds.Count > MAX_LOOKUP_USERS)
+            if (userIds.Count > TweetinviConsts.USERS_LOOKUP_MAX_PER_REQ)
             {
                 throw new InvalidOperationException("Cannot retrieve that quantity of users at once");
             }
@@ -111,7 +115,7 @@ namespace Tweetinvi.Factories.User
 
         public List<IUserDTO> LookupUserScreenNames(List<string> userName)
         {
-            if (userName.Count > MAX_LOOKUP_USERS)
+            if (userName.Count > TweetinviConsts.USERS_LOOKUP_MAX_PER_REQ)
             {
                 throw new InvalidOperationException("Cannot retrieve that quantity of users at once");
             }

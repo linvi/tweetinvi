@@ -196,6 +196,34 @@ namespace Tweetinvi
         }
 
         /// <summary>
+        /// Set the bearer token onto a set of credentials
+        /// </summary>
+        /// <param name="credentials">Credentials to update</param>
+        /// <param name="force">Set the bearer token even if it is not required for executing queries</param>
+        public static bool InitializeApplicationOnlyCredentials(IConsumerOnlyCredentials credentials = null, bool force = false)
+        {
+            if (credentials == null)
+            {
+                throw new TwitterNullCredentialsException("Initialize Application Bearer needs to either have a " +
+                                                          "credentials parameter or have the thread credentials set up.");
+            }
+
+            var isBearerAlreadySet = !string.IsNullOrEmpty(credentials.ApplicationOnlyBearerToken);
+
+            if (force || !isBearerAlreadySet)
+            {
+                var twitterCredentials = new TwitterCredentials(credentials);
+                var success = AuthFactory.InitializeApplicationBearer(twitterCredentials);
+
+                credentials.ApplicationOnlyBearerToken = twitterCredentials.ApplicationOnlyBearerToken;
+
+                return success;
+            }
+
+            return true;
+        }
+
+        /// <summary>
         /// Invalidate application only credentials so that they can no longer be used to access Twitter.
         /// </summary>
         public static bool InvalidateCredentials(ITwitterCredentials credentials = null)

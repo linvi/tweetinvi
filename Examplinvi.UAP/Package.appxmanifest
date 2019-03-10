@@ -7,11 +7,11 @@
   IgnorableNamespaces="uap mp">
 
   <Identity
-    Name="2d75babd-44e6-4708-936c-efc8cc56972b"
+    Name="a1c5479a-1728-4401-91f3-9c54e235eec8"
     Publisher="CN=linvi"
     Version="1.0.0.0" />
 
-  <mp:PhoneIdentity PhoneProductId="2d75babd-44e6-4708-936c-efc8cc56972b" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
+  <mp:PhoneIdentity PhoneProductId="a1c5479a-1728-4401-91f3-9c54e235eec8" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
   <Properties>
     <DisplayName>Examplinvi.UAP</DisplayName>

@@ -11,16 +11,16 @@ namespace Tweetinvi.Factories
     public class MessageFactory : IMessageFactory
     {
         private readonly IMessageFactoryQueryExecutor _messageFactoryQueryExecutor;
-        private readonly IFactory<IMessage> _messageUnityFactory;
+        private readonly IFactory<IMessage> _messageFactory;
         private readonly IJsonObjectConverter _jsonObjectConverter;
 
         public MessageFactory(
             IMessageFactoryQueryExecutor messageFactoryQueryExecutor,
-            IFactory<IMessage> messageUnityFactory,
+            IFactory<IMessage> messageFactory,
             IJsonObjectConverter jsonObjectConverter)
         {
             _messageFactoryQueryExecutor = messageFactoryQueryExecutor;
-            _messageUnityFactory = messageUnityFactory;
+            _messageFactory = messageFactory;
             _jsonObjectConverter = jsonObjectConverter;
         }
 
@@ -39,7 +39,7 @@ namespace Tweetinvi.Factories
                 return null;
             }
 
-            return buildMessage(eventWithAppDTO.Event, eventWithAppDTO.App);
+            return _buildMessage(eventWithAppDTO.Event, eventWithAppDTO.App);
         }
 
         public IEnumerable<IMessage> GenerateMessagesFromEventWithAppDTOs(IEnumerable<IEventWithAppDTO> eventWithAppDTOs)
@@ -54,12 +54,12 @@ namespace Tweetinvi.Factories
                 return null;
             }
 
-            return buildMessage(getMessageDTO.Event, getMessageDTO.Apps);
+            return _buildMessage(getMessageDTO.Event, getMessageDTO.Apps);
         }
 
         public IEnumerable<IMessage> GenerateMessageFromGetMessagesDTO(IGetMessagesDTO getMessagesDTO)
         {
-            return getMessagesDTO?.Events?.Select(eventDTO => buildMessage(eventDTO, getMessagesDTO.Apps));
+            return getMessagesDTO?.Events?.Select(eventDTO => _buildMessage(eventDTO, getMessagesDTO.Apps));
         }
 
         public IMessage GenerateMessageFromCreateMessageDTO(ICreateMessageDTO createMessageDTO)
@@ -74,7 +74,7 @@ namespace Tweetinvi.Factories
 
         public IMessage GenerateMessageFromEventDTO(IEventDTO createMessageDTO, IApp app = null)
         {
-            return buildMessage(createMessageDTO, app);
+            return _buildMessage(createMessageDTO, app);
         }
 
         // Generate Message from Json
@@ -90,7 +90,7 @@ namespace Tweetinvi.Factories
             return GenerateMessageFromEventWithAppDTO(eventWithAppDTO);
         }
 
-        private IMessage buildMessage(IEventDTO eventDTO, IDictionary<long, IApp> apps)
+        private IMessage _buildMessage(IEventDTO eventDTO, IDictionary<long, IApp> apps)
         {
             if (eventDTO.Type != EventType.MessageCreate)
             {
@@ -106,14 +106,15 @@ namespace Tweetinvi.Factories
                 apps.TryGetValue(eventDTO.MessageCreate.SourceAppId.Value, out app);
             }
 
-            return buildMessage(eventDTO, app);
+            return _buildMessage(eventDTO, app);
         }
 
-        private IMessage buildMessage(IEventDTO eventDTO, IApp app)
+        private IMessage _buildMessage(IEventDTO eventDTO, IApp app)
         {
-            var eventParameter = _messageUnityFactory.GenerateParameterOverrideWrapper("eventDTO", eventDTO);
-            var appParameter = _messageUnityFactory.GenerateParameterOverrideWrapper("app", app);
-            return _messageUnityFactory.Create(eventParameter, appParameter);
+            var eventParameter = _messageFactory.GenerateParameterOverrideWrapper("eventDTO", eventDTO);
+            var appParameter = _messageFactory.GenerateParameterOverrideWrapper("app", app);
+
+            return _messageFactory.Create(eventParameter, appParameter);
         }
     }
 }

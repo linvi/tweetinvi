@@ -59,6 +59,13 @@ namespace Tweetinvi
         RateLimitTrackerMode RateLimitTrackerMode { get; set; }
 
         /// <summary>
+        /// How much additional time to wait than should be strictly necessary for a new batch of Twitter rate limits
+        /// to be available. Required to account for timing discrepancies both within Twitter's servers and between
+        /// Twitter and us. 
+        /// </summary>
+        int RateLimitWaitFudgeMs { get; set; }
+
+        /// <summary>
         /// Specify whether you want your tweet to use the extended mode.
         /// </summary>
         TweetMode TweetMode { get; set; }
@@ -92,6 +99,7 @@ namespace Tweetinvi
         public IProxyConfig ProxyConfig { get; set; }
         public int HttpRequestTimeout { get; set; }
         public RateLimitTrackerMode RateLimitTrackerMode { get; set; }
+        public int RateLimitWaitFudgeMs { get; set; }
         public TweetMode TweetMode { get; set; }
         public int UploadTimeout { get; set; }
         public Func<DateTime> GetUtcDateTime { get; set; }
@@ -113,6 +121,7 @@ namespace Tweetinvi
             clone.HttpRequestTimeout = HttpRequestTimeout;
             clone.UploadTimeout = UploadTimeout;
             clone.RateLimitTrackerMode = RateLimitTrackerMode;
+            clone.RateLimitWaitFudgeMs = RateLimitWaitFudgeMs;
             clone.TweetMode = TweetMode;
             clone.GetUtcDateTime = GetUtcDateTime;
             clone.OnTwitterExceptionReturnNull = OnTwitterExceptionReturnNull;
@@ -126,6 +135,7 @@ namespace Tweetinvi
             HttpRequestTimeout = other.HttpRequestTimeout;
             UploadTimeout = other.UploadTimeout;
             RateLimitTrackerMode = other.RateLimitTrackerMode;
+            RateLimitWaitFudgeMs = other.RateLimitWaitFudgeMs;
             TweetMode = other.TweetMode;
             GetUtcDateTime = other.GetUtcDateTime;
             OnTwitterExceptionReturnNull = other.OnTwitterExceptionReturnNull;

@@ -12,17 +12,7 @@ namespace Tweetinvi.Parameters
         /// <summary>
         /// Message to publish as a tweet
         /// </summary>
-        string Text { get; }
-
-        /// <summary>
-        /// Optional parameters to publish the tweet
-        /// </summary>
-        IPublishTweetOptionalParameters Parameters { get; }
-
-        #region Copy of IPublishTweetOptionalParameters
-
-        // This is a copy so that developers cannot create a IPublishTweet parameter as 
-        // a IPublishTweetOptionalParameters in Tweet.PublishTweet for example
+        string Text { get; set; }
 
         /// <summary>
         /// The ID of an existing status that the update is in reply to.
@@ -57,17 +47,22 @@ namespace Tweetinvi.Parameters
         /// <summary>
         /// A list of media_ids to associate with the Tweet. You may include up to 4 photos or 1 animated GIF or 1 video in a Tweet.
         /// </summary>
-        List<long> MediaIds { get; }
+        List<long> MediaIds { get; set; }
 
         /// <summary>
         /// A list of media (uploaded or not) that need to be displayed within the tweet.
         /// </summary>
-        List<IMedia> Medias { get; }
+        List<IMedia> Medias { get; set; }
 
         /// <summary>
         /// A list of media binaries that need to be uploaded and then displayed within the tweet.
         /// </summary>
-        List<byte[]> MediaBinaries { get; }
+        List<byte[]> MediaBinaries { get; set; }
+
+        /// <summary>
+        /// Whether this Tweet will be published with any media attached
+        /// </summary>
+        bool HasMedia { get; }
 
         /// <summary>
         /// If you upload Tweet media that might be considered sensitive content such as 
@@ -96,117 +91,57 @@ namespace Tweetinvi.Parameters
         /// Must be used with AutoPopulateReplyMetadata.
         /// </summary>
         IEnumerable<long> ExcludeReplyUserIds { get; set; }
-
-        #endregion
     }
 
     /// <summary>
     /// https://dev.twitter.com/rest/reference/post/statuses/update
     /// </summary>
-    public class PublishTweetParameters : IPublishTweetParameters
+    public class PublishTweetParameters : CustomRequestParameters, IPublishTweetParameters
     {
-        public PublishTweetParameters(string text, IPublishTweetOptionalParameters optionalParameters = null)
+        private ITweetIdentifier _tweetIdentifier;
+
+        public PublishTweetParameters(string text = null)
         {
             Text = text;
-            Parameters = optionalParameters ?? new PublishTweetOptionalParameters();
         }
 
-        public string Text { get; private set; }
-        public IPublishTweetOptionalParameters Parameters { get; private set; }
-
-        public long? InReplyToTweetId
-        {
-            get { return Parameters.InReplyToTweetId; }
-            set { Parameters.InReplyToTweetId = value; }
-        }
+        public string Text { get; set; }
 
         public ITweetIdentifier InReplyToTweet
         {
-            get { return Parameters.InReplyToTweet; }
-            set { Parameters.InReplyToTweet = value; }
+            get => _tweetIdentifier;
+            set
+            {
+                if (value != null && value.Id == TweetinviSettings.DEFAULT_ID)
+                {
+                    throw new InvalidOperationException("You cannot reply to a tweet that has not yet been published!");
+                }
+
+                _tweetIdentifier = value;
+            }
         }
 
-        public string PlaceId
+        public ITweet QuotedTweet { get; set; }
+
+        public long? InReplyToTweetId
         {
-            get { return Parameters.PlaceId; }
-            set { Parameters.PlaceId = value; }
+            get => InReplyToTweet?.Id;
+            set => InReplyToTweet = value != null ? new TweetIdentifier((long)value) : null;
         }
 
-        public ICoordinates Coordinates
-        {
-            get { return Parameters.Coordinates; }
-            set { Parameters.Coordinates = value; }
-        }
+        public List<long> MediaIds { get; set; } = new List<long>();
+        public List<IMedia> Medias { get; set; } = new List<IMedia>();
+        public List<byte[]> MediaBinaries { get; set; } = new List<byte[]>();
 
-        public ITweet QuotedTweet
-        {
-            get { return Parameters.QuotedTweet; }
-            set { Parameters.QuotedTweet = value; }
-        }
+        public bool HasMedia => MediaIds?.Count > 0 || Medias?.Count > 0 || MediaBinaries?.Count > 0;
 
-        public bool? DisplayExactCoordinates
-        {
-            get { return Parameters.DisplayExactCoordinates; }
-            set { Parameters.DisplayExactCoordinates = value; }
-        }
+        public string PlaceId { get; set; }
+        public ICoordinates Coordinates { get; set; }
+        public bool? DisplayExactCoordinates { get; set; }
 
-        public List<long> MediaIds
-        {
-            get { return Parameters.MediaIds; }
-        }
-
-        public List<IMedia> Medias
-        {
-            get { return Parameters.Medias; }
-        }
-
-        public List<byte[]> MediaBinaries
-        {
-            get { return Parameters.MediaBinaries; }
-        }
-
-        public bool? PossiblySensitive
-        {
-            get { return Parameters.PossiblySensitive; }
-            set { Parameters.PossiblySensitive = value; }
-        }
-
-        public bool? TrimUser
-        {
-            get { return Parameters.TrimUser; }
-            set { Parameters.TrimUser = value; }
-        }
-
-        public IEnumerable<long> ExcludeReplyUserIds
-        {
-            get { return Parameters.ExcludeReplyUserIds; }
-            set { Parameters.ExcludeReplyUserIds = value; }
-        }
-
-        public bool? AutoPopulateReplyMetadata
-        {
-            get { return Parameters.AutoPopulateReplyMetadata; }
-            set { Parameters.AutoPopulateReplyMetadata = value; }
-        }
-
-        public List<Tuple<string, string>> CustomQueryParameters
-        {
-            get { return Parameters.CustomQueryParameters; }
-        }
-
-        public string FormattedCustomQueryParameters
-        {
-            get { return Parameters.FormattedCustomQueryParameters; }
-        }
-
-        public void AddCustomQueryParameter(string name, string value)
-        {
-            Parameters.AddCustomQueryParameter(name, value);
-        }
-
-        public void ClearCustomQueryParameters()
-        {
-            Parameters.ClearCustomQueryParameters();
-        }
+        public bool? PossiblySensitive { get; set; }
+        public bool? TrimUser { get; set; }
+        public bool? AutoPopulateReplyMetadata { get; set; }
+        public IEnumerable<long> ExcludeReplyUserIds { get; set; }
     }
 }

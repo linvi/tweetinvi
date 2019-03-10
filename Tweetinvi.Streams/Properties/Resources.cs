@@ -25,11 +25,6 @@ namespace Tweetinvi.Streams.Properties
         public static string Stream_Sample = "https://stream.twitter.com/1.1/statuses/sample.json?";
 
         /// <summary>
-        ///   Looks up a localized string similar to https://userstream.twitter.com/1.1/user.json?.
-        /// </summary>
-        public static string Stream_UserStream = "https://userstream.twitter.com/1.1/user.json?";
-
-        /// <summary>
         ///   Looks up a localized string similar to You cannot change the tracks while having the stream running or on pause. The stream must be stopped before updating the tracks..
         /// </summary>
         public static string TrackedStream_ModifyTracks_NotStoppedException_Description = "You cannot change the tracks while having the stream running or on pause. The stream must be stopped before updating the tracks.";

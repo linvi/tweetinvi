@@ -14,9 +14,14 @@ namespace Tweetinvi
         }
 
         // Tweet Controller
-        public static Task<ITweet> PublishTweet(string text, IPublishTweetOptionalParameters parameters = null)
+        public static Task<ITweet> PublishTweet(IPublishTweetParameters parameters)
         {
-            return Sync.ExecuteTaskAsync(() => Tweet.PublishTweet(text, parameters));
+            return Sync.ExecuteTaskAsync(() => Tweet.PublishTweet(parameters));
+        }
+
+        public static Task<ITweet> PublishTweet(string text)
+        {
+            return Sync.ExecuteTaskAsync(() => Tweet.PublishTweet(text));
         }
 
         // Publish TweetInReplyTo From Text

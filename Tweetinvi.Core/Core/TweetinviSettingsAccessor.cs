@@ -42,6 +42,8 @@ namespace Tweetinvi.Core
         /// Specify whether you want exceptions coming from Twitter are returning null instead of throwing
         /// </summary>
         bool OnTwitterExceptionReturnNull { get; set; }
+
+        int RateLimitWaitFudgeMs { get; set; }
     }
 
     public class TweetinviSettingsAccessor : ITweetinviSettingsAccessor, IAsyncContextPreparable
@@ -117,6 +119,12 @@ namespace Tweetinvi.Core
         {
             get => CurrentThreadSettings.OnTwitterExceptionReturnNull;
             set => CurrentThreadSettings.OnTwitterExceptionReturnNull = value;
+        }
+
+        public int RateLimitWaitFudgeMs
+        {
+            get => CurrentThreadSettings.RateLimitWaitFudgeMs;
+            set => CurrentThreadSettings.RateLimitWaitFudgeMs = value;
         }
 
         public void InitializeThreadExecutionContext()

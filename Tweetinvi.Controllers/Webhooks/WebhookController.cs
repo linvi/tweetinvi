@@ -8,7 +8,7 @@ using Tweetinvi.Core.Web;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
 
-namespace Tweetinvi.Webhooks
+namespace Tweetinvi.Controllers.Webhooks
 {
     public class WebhookController : IWebhookController
     {

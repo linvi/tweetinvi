@@ -78,7 +78,7 @@ namespace Tweetinvi.Core.Extensions
         /// <returns>Size of the current Tweet</returns>
         [Obsolete("The value returned are no longer correct as Twitter changed their counting algorithm. " +
                   "Please use twitter-text official implementations in the meantime (https://github.com/twitter/twitter-text).")]
-        public static int EstimateTweetLength( string tweet, bool willBePublishedWithMedia = false)
+        public static int EstimateTweetLength(string tweet, bool willBePublishedWithMedia = false)
         {
             if (tweet == null)
             {

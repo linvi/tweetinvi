@@ -91,46 +91,43 @@ namespace Tweetinvi.Controllers.Tweet
 
             var query = new StringBuilder(string.Format(Resources.Tweet_Publish, CleanupString(text)));
 
-            if (queryParameters.Parameters != null)
+            if (queryParameters.InReplyToTweet != null)
             {
-                if (queryParameters.InReplyToTweet != null)
+                query.AddParameterToQuery("in_reply_to_status_id", queryParameters.InReplyToTweet.Id);
+
+                // Extended Tweet prefix auto-population
+                query.AddParameterToQuery("auto_populate_reply_metadata", queryParameters.AutoPopulateReplyMetadata);
+                if (queryParameters.ExcludeReplyUserIds != null)
                 {
-                    query.AddParameterToQuery("in_reply_to_status_id", queryParameters.InReplyToTweet.Id);
-
-                    // Extended Tweet prefix auto-population
-                    query.AddParameterToQuery("auto_populate_reply_metadata", queryParameters.AutoPopulateReplyMetadata);
-                    if (queryParameters.ExcludeReplyUserIds != null)
-                    {
-                        query.AddParameterToQuery("exclude_reply_user_ids", String.Join(",", queryParameters.ExcludeReplyUserIds));
-                    }
+                    query.AddParameterToQuery("exclude_reply_user_ids", String.Join(",", queryParameters.ExcludeReplyUserIds));
                 }
-
-                query.AddParameterToQuery("possibly_sensitive", queryParameters.PossiblySensitive);
-
-                if (queryParameters.Coordinates != null)
-                {
-                    query.AddParameterToQuery("lat", queryParameters.Coordinates.Latitude.ToString(CultureInfo.InvariantCulture));
-                    query.AddParameterToQuery("long", queryParameters.Coordinates.Longitude.ToString(CultureInfo.InvariantCulture));
-                }
-
-                query.AddParameterToQuery("place_id", queryParameters.PlaceId);
-                query.AddParameterToQuery("display_coordinates", queryParameters.DisplayExactCoordinates);
-                query.AddParameterToQuery("trim_user", queryParameters.TrimUser);
-                query.AddParameterToQuery("tweet_mode", _tweetinviSettingsAccessor.CurrentThreadSettings.TweetMode.ToString().ToLowerInvariant());
-
-                if (useExtendedMode && quotedTweetUrl != null)
-                {
-                    query.AddParameterToQuery("attachment_url", quotedTweetUrl);
-                }
-
-                if (queryParameters.MediaIds.Count > 0)
-                {
-                    var mediaIdsParameter = string.Join(",", queryParameters.MediaIds.Select(x => x.ToString(CultureInfo.InvariantCulture)));
-                    query.AddParameterToQuery("media_ids", mediaIdsParameter);
-                }
-
-                query.Append(_queryParameterGenerator.GenerateAdditionalRequestParameters(queryParameters.FormattedCustomQueryParameters));
             }
+
+            query.AddParameterToQuery("possibly_sensitive", queryParameters.PossiblySensitive);
+
+            if (queryParameters.Coordinates != null)
+            {
+                query.AddParameterToQuery("lat", queryParameters.Coordinates.Latitude.ToString(CultureInfo.InvariantCulture));
+                query.AddParameterToQuery("long", queryParameters.Coordinates.Longitude.ToString(CultureInfo.InvariantCulture));
+            }
+
+            query.AddParameterToQuery("place_id", queryParameters.PlaceId);
+            query.AddParameterToQuery("display_coordinates", queryParameters.DisplayExactCoordinates);
+            query.AddParameterToQuery("trim_user", queryParameters.TrimUser);
+            query.AddParameterToQuery("tweet_mode", _tweetinviSettingsAccessor.CurrentThreadSettings.TweetMode.ToString().ToLowerInvariant());
+
+            if (useExtendedMode && quotedTweetUrl != null)
+            {
+                query.AddParameterToQuery("attachment_url", quotedTweetUrl);
+            }
+
+            if (queryParameters.MediaIds.Count > 0)
+            {
+                var mediaIdsParameter = string.Join(",", queryParameters.MediaIds.Select(x => x.ToString(CultureInfo.InvariantCulture)));
+                query.AddParameterToQuery("media_ids", mediaIdsParameter);
+            }
+
+            query.Append(_queryParameterGenerator.GenerateAdditionalRequestParameters(queryParameters.FormattedCustomQueryParameters));
 
             return query.ToString();
         }
