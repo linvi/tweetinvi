@@ -16,11 +16,19 @@ namespace Tweetinvi.Core.ExecutionContext
             };
         }
 
-        public void PrepareAsyncContext()
+        public void PrepareFromParentAsyncContext()
         {
             foreach (var asyncContextPreparable in _asyncContextPreparables)
             {
-                asyncContextPreparable.InitializeAsyncContext();
+                asyncContextPreparable.InitializeFromParentAsyncContext();
+            }
+        }
+
+        public void PrepareFromChildAsyncContext()
+        {
+            foreach (var asyncContextPreparable in _asyncContextPreparables)
+            {
+                asyncContextPreparable.InitializeFromChildAsyncContext();
             }
         }
     }

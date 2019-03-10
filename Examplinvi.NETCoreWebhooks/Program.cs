@@ -11,17 +11,19 @@ namespace Examplinvi.NETStandard_2._0
     {
         static async Task Main(string[] args)
         {
-            var consumerOnlyCredentials = new ConsumerOnlyCredentials("CONSUMER_TOKEN", "CONSUMER_SECRET")
-            {
-                ApplicationOnlyBearerToken = "BEARER_TOKEN"
-            };
+            var fs = Stream.CreateFilteredStream();
 
-            IWebhookEnvironmentDTO[] webhookEnvironments = await Webhooks.GetAllWebhookEnvironmentsAsync(consumerOnlyCredentials);
-            
-            webhookEnvironments.ForEach(env =>
-            {
-                Console.WriteLine(env.Name);
-            });
+            //var consumerOnlyCredentials = new ConsumerOnlyCredentials("CONSUMER_TOKEN", "CONSUMER_SECRET")
+            //{
+            //    ApplicationOnlyBearerToken = "BEARER_TOKEN"
+            //};
+
+            //IWebhookEnvironmentDTO[] webhookEnvironments = await Webhooks.GetAllWebhookEnvironmentsAsync(consumerOnlyCredentials);
+
+            //webhookEnvironments.ForEach(env =>
+            //{
+            //    Console.WriteLine(env.Name);
+            //});
         }
 
         static void StartServer()

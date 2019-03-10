@@ -25,7 +25,7 @@ namespace Tweetinvi
         /// </summary>
         public static Task ExecuteTaskAsync(Action action)
         {
-            return _taskFactory.ExecuteTaskAsync(action);
+            return _taskFactory.InitializeAsyncContextAndExecute(action);
         }
 
         /// <summary>
@@ -33,15 +33,15 @@ namespace Tweetinvi
         /// </summary>
         public static Task<T> ExecuteTaskAsync<T>(Func<T> func)
         {
-            return _taskFactory.ExecuteTaskAsync(func);
+            return _taskFactory.InitializeAsyncContextAndExecute(func);
         }
 
         /// <summary>
-        /// PrepareAsyncContext the current Task for Tweetinvi to be used asynchronously within it
+        /// Prepare the current async task execution context to not affect parent execution context
         /// </summary>
         public static void PrepareForAsync()
         {
-            _asyncContextPreparer.PrepareAsyncContext();
+            _asyncContextPreparer.PrepareFromChildAsyncContext();
         }
 
         /// <summary>
@@ -58,7 +58,11 @@ namespace Tweetinvi
             Task t;
             using (ExecutionContext.SuppressFlow())
             {
-                t = Task.Run(action);
+                t = Task.Run(() =>
+                {
+                    _asyncContextPreparer.PrepareFromChildAsyncContext();
+                    action();
+                });
             }
 
             return t;
@@ -78,8 +82,13 @@ namespace Tweetinvi
             Task<T> t;
             using (ExecutionContext.SuppressFlow())
             {
-                t = Task.Run(func);
+                t = Task.Run(() =>
+                {
+                    _asyncContextPreparer.PrepareFromChildAsyncContext();
+                    return func();
+                });
             }
+
             return t;
         }
     }

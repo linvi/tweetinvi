@@ -1,7 +1,5 @@
-﻿using System;
-using System.Threading;
+﻿using System.Threading;
 using Tweetinvi.Core.ExecutionContext;
-using Tweetinvi.Core.Injectinvi;
 
 namespace Tweetinvi.Core
 {
@@ -18,7 +16,7 @@ namespace Tweetinvi.Core
         /// <summary>
         /// Application thread settings.
         /// </summary>
-        ITweetinviSettings ApplicationSettings { get; set; }
+        ITweetinviSettings ApplicationSettings { get; }
 
         /// <summary>
         /// Proxy URL used by the current thread.
@@ -48,39 +46,40 @@ namespace Tweetinvi.Core
 
     public class TweetinviSettingsAccessor : ITweetinviSettingsAccessor, IAsyncContextPreparable
     {
-        private static ITweetinviSettings StaticTweetinviSettings { get; set; }
+        private static ITweetinviSettings StaticTweetinviSettings { get; }
 
         private static readonly AsyncLocal<ITweetinviSettings> _executionContextTweetinviSettings;
-        private static readonly ThreadLocal<bool> _initialized;
+        private static readonly ThreadLocal<ITweetinviSettings> _threadSettings = new ThreadLocal<ITweetinviSettings>(() => null);
+        private static readonly ThreadLocal<bool> _fromAwait = new ThreadLocal<bool>(() => false);
 
         static TweetinviSettingsAccessor()
         {
+            StaticTweetinviSettings = new TweetinviSettings();
             _executionContextTweetinviSettings = new AsyncLocal<ITweetinviSettings>();
-            _initialized = new ThreadLocal<bool>(() => false);
         }
 
         public TweetinviSettingsAccessor()
         {
-            var threadSettings = TweetinviCoreModule.TweetinviContainer.Resolve<ITweetinviSettings>();
-
-            CurrentThreadSettings = threadSettings;
+            _fromAwait.Value = true;
+            CurrentThreadSettings = new TweetinviSettings();
         }
 
         public ITweetinviSettings CurrentThreadSettings
         {
             get
             {
-                InitializeAsyncContext();
-
-                return _executionContextTweetinviSettings.Value;
+                InitializeThreadExecutionContext();
+                return _threadSettings.Value ?? _executionContextTweetinviSettings.Value;
             }
             set
             {
-                _executionContextTweetinviSettings.Value = value;
-
-                if (StaticTweetinviSettings == null && value != null)
+                if (_fromAwait.Value)
                 {
-                    StaticTweetinviSettings = value.Clone();
+                    _executionContextTweetinviSettings.Value = value;
+                }
+                else
+                {
+                    _threadSettings.Value = value;
                 }
             }
         }
@@ -88,15 +87,6 @@ namespace Tweetinvi.Core
         public ITweetinviSettings ApplicationSettings
         {
             get => StaticTweetinviSettings;
-            set
-            {
-                StaticTweetinviSettings = value;
-
-                if (_executionContextTweetinviSettings.Value != null)
-                {
-                    _executionContextTweetinviSettings.Value = value;
-                }
-            }
         }
 
         public IProxyConfig ProxyConfig
@@ -129,21 +119,46 @@ namespace Tweetinvi.Core
             set => CurrentThreadSettings.OnTwitterExceptionReturnNull = value;
         }
 
-        public void InitializeAsyncContext()
+        public void InitializeThreadExecutionContext()
         {
-            if (_initialized.Value)
+            var isToLevelExecutionContext = _executionContextTweetinviSettings.Value == null;
+            if (isToLevelExecutionContext)
             {
+                _fromAwait.Value = true;
+                _executionContextTweetinviSettings.Value = StaticTweetinviSettings.Clone();
                 return;
             }
 
+            if (!_fromAwait.Value && _threadSettings.Value == null)
+            {
+                //Debug.WriteLine("Duplicating Application value");
+                _threadSettings.Value = _executionContextTweetinviSettings.Value.Clone();
+            }
+        }
+
+        public void InitializeFromParentAsyncContext()
+        {
+            //Debug.WriteLine("-> InitializeFromParentAsyncContext");
+
+            //if (_executionContextTweetinviSettings.Value == null && StaticTweetinviSettings != null)
+            //{
+            //    Debug.WriteLine("Duplicating Application value");
+            //    _executionContextTweetinviSettings.Value = StaticTweetinviSettings.Clone();
+            //}
+        }
+
+        public void InitializeFromChildAsyncContext()
+        {
+            _fromAwait.Value = true;
+            //Debug.WriteLine("Initializing AsyncLocal<TweetinviSettings>");
+
+            //Debug.WriteLine("Credentials InitializeFromParentAsyncContext");
+
             if (_executionContextTweetinviSettings.Value != null)
             {
+                //Debug.WriteLine("Cloning current AsyncLocal<TweetinviSettings>");
                 _executionContextTweetinviSettings.Value = _executionContextTweetinviSettings.Value.Clone();
-            }
-            else
-            {
-                _executionContextTweetinviSettings.Value = TweetinviCoreModule.TweetinviContainer.Resolve<ITweetinviSettings>();
-                _executionContextTweetinviSettings.Value.InitialiseFrom(StaticTweetinviSettings);
+                //as clone outside the await the change the parent asyncContext with the clone
             }
         }
     }

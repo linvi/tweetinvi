@@ -6,8 +6,8 @@ namespace Tweetinvi.Core.Helpers
 {
     public interface ITaskFactory
     {
-        Task ExecuteTaskAsync(Action action);
-        Task<T> ExecuteTaskAsync<T>(Func<T> resultFunc);
+        Task InitializeAsyncContextAndExecute(Action action);
+        Task<T> InitializeAsyncContextAndExecute<T>(Func<T> resultFunc);
     }
 
     public class TaskFactory : ITaskFactory
@@ -19,28 +19,38 @@ namespace Tweetinvi.Core.Helpers
             _asyncContextPreparer = asyncContextPreparer;
         }
 
-        public Task ExecuteTaskAsync(Action action)
+        public Task InitializeAsyncContextAndExecute(Action action)
         {
             if (action == null)
             {
                 throw new ArgumentNullException(nameof(action));
             }
 
-            _asyncContextPreparer.PrepareAsyncContext();
+            _asyncContextPreparer.PrepareFromParentAsyncContext();
 
-            return Task.Run(action);
+            return Task.Run(() =>
+            {
+                _asyncContextPreparer.PrepareFromChildAsyncContext();
+                action();
+            });
         }
 
-        public Task<T> ExecuteTaskAsync<T>(Func<T> func)
+        public Task<T> InitializeAsyncContextAndExecute<T>(Func<T> func)
         {
             if (func == null)
             {
                 throw new ArgumentNullException(nameof(func));
             }
 
-            _asyncContextPreparer.PrepareAsyncContext();
+            _asyncContextPreparer.PrepareFromParentAsyncContext();
 
-            return Task.Run(func);
+            return Task.Run(() =>
+            {
+                _asyncContextPreparer.PrepareFromChildAsyncContext();
+
+                var operationResult = func();
+                return operationResult;
+            });
         }
     }
 }

@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Diagnostics;
 using System.Threading;
-using System.Threading.Tasks;
 using AutoFixture;
 using FakeItEasy;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Testinvi.TestObjects;
 using Tweetinvi;
-using Tweetinvi.Core.Exceptions;
 using Tweetinvi.Models;
 
 namespace Testinvi.Tweetinvi.Credentials
@@ -82,7 +77,10 @@ namespace Testinvi.Tweetinvi.Credentials
             ITwitterCredentials execAsCredentials = fixture.Create<TwitterCredentials>();
 
             // Act
-            Auth.CredentialsRunner.ExecuteOperationWithCredentials(execAsCredentials, () => 0);
+            Auth.CredentialsRunner.ExecuteOperationWithCredentials(execAsCredentials, () =>
+            {
+                Assert.AreEqual(Auth.Credentials, execAsCredentials);
+            });
 
             // Assert
             ITwitterCredentials actual = Auth.Credentials;
@@ -158,16 +156,20 @@ namespace Testinvi.Tweetinvi.Credentials
             Fixture fixture = new Fixture();
 
             ITwitterCredentials callingCredentials = fixture.Create<TwitterCredentials>();
+            Debug.WriteLine("SetCredentials");
             Auth.SetCredentials(callingCredentials);
 
             ITwitterCredentials execAsCredentials = fixture.Create<TwitterCredentials>();
 
             // Act
+            Debug.WriteLine("Before ExecuteOperationWithCredentials");
             Auth.CredentialsRunner.ExecuteOperationWithCredentials(execAsCredentials, () => { });
 
             // Assert
-            ITwitterCredentials actual = Auth.Credentials;
-            Assert.AreEqual(callingCredentials, actual);
+
+            Debug.WriteLine("After ExecuteOperationWithCredentials");
+            var currentCredentials = Auth.Credentials;
+            Assert.AreEqual(callingCredentials, currentCredentials);
         }
 
         [TestMethod]
@@ -189,5 +191,13 @@ namespace Testinvi.Tweetinvi.Credentials
 
 
         #endregion
+
+        private void AssertAreCredentialsEquals(ITwitterCredentials credentials1, ITwitterCredentials credentials2)
+        {
+            Assert.AreEqual(credentials1.AccessToken, credentials2.AccessToken);
+            Assert.AreEqual(credentials1.AccessTokenSecret, credentials2.AccessTokenSecret);
+            Assert.AreEqual(credentials1.ConsumerKey, credentials2.ConsumerKey);
+            Assert.AreEqual(credentials1.ConsumerSecret, credentials2.ConsumerSecret);
+        }
     }
 }

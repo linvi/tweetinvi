@@ -423,72 +423,72 @@ namespace Tweetinvi.Logic
 
         public Task<IEnumerable<long>> GetFriendIdsAsync(int maxFriendsToRetrieve = 5000)
         {
-            return _taskFactory.ExecuteTaskAsync(() => GetFriendIds(maxFriendsToRetrieve));
+            return _taskFactory.InitializeAsyncContextAndExecute(() => GetFriendIds(maxFriendsToRetrieve));
         }
 
         public Task<IEnumerable<IUser>> GetFriendsAsync(int maxFriendsToRetrieve = 250)
         {
-            return _taskFactory.ExecuteTaskAsync(() => GetFriends(maxFriendsToRetrieve));
+            return _taskFactory.InitializeAsyncContextAndExecute(() => GetFriends(maxFriendsToRetrieve));
         }
 
         public Task<IEnumerable<long>> GetFollowerIdsAsync(int maxFriendsToRetrieve = 5000)
         {
-            return _taskFactory.ExecuteTaskAsync(() => GetFollowerIds(maxFriendsToRetrieve));
+            return _taskFactory.InitializeAsyncContextAndExecute(() => GetFollowerIds(maxFriendsToRetrieve));
         }
 
         public Task<IEnumerable<IUser>> GetFollowersAsync(int maxFriendsToRetrieve = 250)
         {
-            return _taskFactory.ExecuteTaskAsync(() => GetFollowers(maxFriendsToRetrieve));
+            return _taskFactory.InitializeAsyncContextAndExecute(() => GetFollowers(maxFriendsToRetrieve));
         }
 
         public virtual Task<IRelationshipDetails> GetRelationshipWithAsync(IUserIdentifier user)
         {
-            return _taskFactory.ExecuteTaskAsync(() => GetRelationshipWith(user));
+            return _taskFactory.InitializeAsyncContextAndExecute(() => GetRelationshipWith(user));
         }
 
         public Task<IEnumerable<ITweet>> GetUserTimelineAsync(int maximumTweet = 40)
         {
-            return _taskFactory.ExecuteTaskAsync(() => GetUserTimeline(maximumTweet));
+            return _taskFactory.InitializeAsyncContextAndExecute(() => GetUserTimeline(maximumTweet));
         }
 
         public Task<IEnumerable<ITweet>> GetUserTimelineAsync(IUserTimelineParameters timelineParameters)
         {
-            return _taskFactory.ExecuteTaskAsync(() => GetUserTimeline(timelineParameters));
+            return _taskFactory.InitializeAsyncContextAndExecute(() => GetUserTimeline(timelineParameters));
         }
 
         public Task<IEnumerable<ITweet>> GetFavoritesAsync(int maximumTweets = 40)
         {
-            return _taskFactory.ExecuteTaskAsync(() => GetFavorites(maximumTweets));
+            return _taskFactory.InitializeAsyncContextAndExecute(() => GetFavorites(maximumTweets));
         }
 
         public Task<IEnumerable<ITweet>> GetFavoritesAsync(IGetUserFavoritesParameters parameters)
         {
-            return _taskFactory.ExecuteTaskAsync(() => GetFavorites(parameters));
+            return _taskFactory.InitializeAsyncContextAndExecute(() => GetFavorites(parameters));
         }
 
         public Task<bool> BlockAsync()
         {
-            return _taskFactory.ExecuteTaskAsync(() => BlockUser());
+            return _taskFactory.InitializeAsyncContextAndExecute(() => BlockUser());
         }
 
         public Task<bool> UnBlockAsync()
         {
-            return _taskFactory.ExecuteTaskAsync(() => UnBlockUser());
+            return _taskFactory.InitializeAsyncContextAndExecute(() => UnBlockUser());
         }
 
         public Task<Stream> GetProfileImageStreamAsync(ImageSize imageSize = ImageSize.normal)
         {
-            return _taskFactory.ExecuteTaskAsync(() => GetProfileImageStream(imageSize));
+            return _taskFactory.InitializeAsyncContextAndExecute(() => GetProfileImageStream(imageSize));
         }
 
         public Task<IEnumerable<IUser>> GetContributorsAsync(bool createContributorList = false)
         {
-            return _taskFactory.ExecuteTaskAsync(() => GetContributors(createContributorList));
+            return _taskFactory.InitializeAsyncContextAndExecute(() => GetContributors(createContributorList));
         }
 
         public Task<IEnumerable<IUser>> GetContributeesAsync(bool createContributeeList = false)
         {
-            return _taskFactory.ExecuteTaskAsync(() => GetContributees(createContributeeList));
+            return _taskFactory.InitializeAsyncContextAndExecute(() => GetContributees(createContributeeList));
         }
 
         #endregion

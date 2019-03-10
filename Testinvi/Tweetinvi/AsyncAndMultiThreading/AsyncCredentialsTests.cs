@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Configuration;
+using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -17,45 +18,72 @@ namespace Testinvi.Tweetinvi.AsyncAndMultiThreading
         public async Task AsyncLocalCredsAreCarriedOutToChild()
         {
             // Arrange
-            var creds = new TwitterCredentials();
+            var creds = new TwitterCredentials("a", "a", "a", "a");
             Auth.SetCredentials(creds);
 
             // Act
             await Sync.ExecuteTaskAsync(() =>
             {
                 // Assert
-                Assert.AreEqual(Auth.Credentials, creds);
+                Assert.AreNotEqual(Auth.Credentials, creds);
+                AssertAreCredentialsEquals(Auth.Credentials, creds);
             });
         }
 
         [TestMethod]
         public async Task AsyncLocalCredsAreNotCarriedOutToParent()
         {
-            // Arrange
-            var parentCreds = new TwitterCredentials();
-            var childCreds = new TwitterCredentials();
-
-            Auth.SetCredentials(parentCreds);
-
-            // Act
-            await Sync.ExecuteTaskAsync(() =>
-            {
-                Auth.SetCredentials(childCreds);
-
-                // Assert
-                Assert.AreEqual(Auth.Credentials, childCreds);
-            });
-
-            Assert.AreNotEqual(Auth.Credentials, childCreds);
+            await AsyncLocalCredsAreNotCarriedOutToParentRecursively(0);
         }
 
         [TestMethod]
-        public async Task ExecuteIsolatedTaskAsyncActionGetsOwnExceptionHandler()
+        public async Task AsyncLocalCredsAreNotCarriedOutToParentMultipleLevels()
         {
-            var credentials = new TwitterCredentials();
+            await AsyncLocalCredsAreNotCarriedOutToParentRecursively(5);
+        }
 
-            // Act: Ensure we have an Exception Handler on the calling context
-            Sync.PrepareForAsync();
+
+        public async Task AsyncLocalCredsAreNotCarriedOutToParentRecursively(int i)
+        {
+            // Arrange
+            var parentCreds = new TwitterCredentials($"parent{i}", $"parent{i}", $"parent{i}", $"parent{i}");
+            var childCreds = new TwitterCredentials($"child{i}", $"child{i}", $"child{i}", $"child{i}");
+            
+            Debug.WriteLine($"[{i}] SetCredentials");
+            Auth.SetCredentials(parentCreds);
+
+            // Act
+            Debug.WriteLine($"[{i}] Task Async");
+            await Sync.ExecuteTaskAsync(() =>
+            {
+                Assert.AreNotEqual(Auth.Credentials, parentCreds);
+                AssertAreCredentialsEquals(Auth.Credentials, parentCreds);
+
+                Debug.WriteLine($"[{i}] SetCredentials child");
+                Auth.SetCredentials(childCreds);
+
+                // Assert
+                Debug.WriteLine($"[{i}] Before accessing child creds");
+                Assert.AreEqual(Auth.Credentials, childCreds);
+                Debug.WriteLine($"[{i}] After accessing child creds");
+                AssertAreCredentialsEquals(Auth.Credentials, childCreds);
+
+                Assert.AreEqual(Auth.Credentials, childCreds);
+            });
+
+            Assert.AreEqual(Auth.Credentials, parentCreds);
+
+            if (i > 0)
+            {
+                await AsyncLocalCredsAreNotCarriedOutToParentRecursively(i - 1);
+            }
+        }
+
+
+        [TestMethod]
+        public async Task ExecuteIsolatedTaskAsyncActionGetsOwnCredentials()
+        {
+            var credentials = new TwitterCredentials("a", "a", "a", "a");
 
             await Sync.ExecuteIsolatedTaskAsync(() =>
             {
@@ -70,16 +98,13 @@ namespace Testinvi.Tweetinvi.AsyncAndMultiThreading
         [TestMethod]
         public async Task ExecuteIsolatedTaskAsyncFuncGetsOwnCredentials()
         {
-            var credentials = new TwitterCredentials();
+            var credentials = new TwitterCredentials("a", "a", "a", "a");
 
-            // Arrange: Ensure we have an Exception Handler on the calling context
-            Sync.PrepareForAsync();
-
-            // Act: Use the Exception Handler within ExecuteIsolatedTaskAsync
+            // Act
             await Sync.ExecuteIsolatedTaskAsync(() =>
             {
                 Auth.SetCredentials(credentials);
-                return 0;
+				return 0;
             });
 
             // Assert
@@ -94,7 +119,7 @@ namespace Testinvi.Tweetinvi.AsyncAndMultiThreading
         public void ThreadCredsAreCarriedOutToChild()
         {
             // Arrange
-            var creds = new TwitterCredentials();
+            var creds = new TwitterCredentials("a", "a", "a", "a");
             Auth.SetCredentials(creds);
 
             // Act
@@ -105,6 +130,7 @@ namespace Testinvi.Tweetinvi.AsyncAndMultiThreading
                 {
                     // Assert
                     Assert.AreEqual(Auth.Credentials, creds);
+                    AssertAreCredentialsEquals(Auth.Credentials, creds);
                 }
                 catch (Exception e)
                 {
@@ -125,8 +151,8 @@ namespace Testinvi.Tweetinvi.AsyncAndMultiThreading
         public void ThreadCredsAreNotCarriedOutToParent()
         {
             // Arrange
-            var parentCreds = new TwitterCredentials();
-            var childCreds = new TwitterCredentials();
+            var parentCreds = new TwitterCredentials("a", "a", "a", "a");
+            var childCreds = new TwitterCredentials("b", "b", "a", "b");
 
             Auth.SetCredentials(parentCreds);
 
@@ -136,11 +162,14 @@ namespace Testinvi.Tweetinvi.AsyncAndMultiThreading
             {
                 try
                 {
+                    Assert.AreEqual(Auth.Credentials, parentCreds);
+
                     Auth.SetCredentials(childCreds);
 
 
                     // Assert
                     Assert.AreEqual(Auth.Credentials, childCreds);
+                    AssertAreCredentialsEquals(Auth.Credentials, childCreds);
                 }
                 catch (Exception e)
                 {
@@ -225,14 +254,14 @@ namespace Testinvi.Tweetinvi.AsyncAndMultiThreading
             AssertAreCredentialsEquals(Auth.Credentials, credentials1);
         }
 
-        private void AssertAreCredentialsEquals(ITwitterCredentials credentials1, ITwitterCredentials credentials2)
+        #endregion
+
+         private void AssertAreCredentialsEquals(ITwitterCredentials credentials1, ITwitterCredentials credentials2)
         {
             Assert.AreEqual(credentials1.AccessToken, credentials2.AccessToken);
             Assert.AreEqual(credentials1.AccessTokenSecret, credentials2.AccessTokenSecret);
             Assert.AreEqual(credentials1.ConsumerKey, credentials2.ConsumerKey);
             Assert.AreEqual(credentials1.ConsumerSecret, credentials2.ConsumerSecret);
         }
-
-        #endregion
     }
 }

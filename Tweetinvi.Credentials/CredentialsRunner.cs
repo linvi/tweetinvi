@@ -22,13 +22,15 @@ namespace Tweetinvi.Credentials
 
         public T ExecuteOperationWithCredentials<T>(ITwitterCredentials credentials, Func<T> operation)
         {
-            _asyncContextPreparer.PrepareAsyncContext();
+            _asyncContextPreparer.PrepareFromParentAsyncContext();
 
             ExecutionContext ec = ExecutionContext.Capture();
             T result = default(T);
             // ReSharper disable once AssignNullToNotNullAttribute
             ExecutionContext.Run(ec, _ =>
             {
+                _asyncContextPreparer.PrepareFromChildAsyncContext();
+
                 // Setting a reference at an execution context level will not be carried back to the original EC.
                 //  However, updates to objects on the heap (e.g. adding an item to a list) will do, as the EC is not
                 //  deep copied.

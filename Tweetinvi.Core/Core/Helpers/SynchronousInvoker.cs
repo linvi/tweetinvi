@@ -20,14 +20,14 @@ namespace Tweetinvi.Core.Helpers
 
         public T GetResultSynchronously<T>(Func<Task<T>> asyncMethod)
         {
-            Task<Task<T>> task = _taskFactory.ExecuteTaskAsync(asyncMethod);
+            Task<Task<T>> task = _taskFactory.InitializeAsyncContextAndExecute(asyncMethod);
 
             return task.Result.Result;
         }
 
         public void ExecuteSynchronously(Func<Task> asyncMethod)
         {
-            Task task = _taskFactory.ExecuteTaskAsync(asyncMethod);
+            Task task = _taskFactory.InitializeAsyncContextAndExecute(asyncMethod);
             task.Wait();
         }
     }

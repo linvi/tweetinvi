@@ -8,8 +8,6 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Testinvi.TestObjects;
 using Tweetinvi;
 using Tweetinvi.Core.Exceptions;
-using Tweetinvi.Core.Extensions;
-using Tweetinvi.Models;
 
 namespace Testinvi.Tweetinvi
 {
@@ -21,13 +19,13 @@ namespace Testinvi.Tweetinvi
             ExceptionHandler.ClearLoggedExceptions();
         }
 
-        #region Task ExecuteTaskAsync(Action)
+        #region Task InitializeAsyncContextAndExecute(Action)
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
         public async Task ExecuteTaskAsyncActionNullThrows()
         {
-            await Sync.ExecuteTaskAsync(null);
+            await Sync.ExecuteTaskAsync((Action)null);
         }
 
         [TestMethod]
@@ -87,13 +85,13 @@ namespace Testinvi.Tweetinvi
 
         #endregion
 
-        #region ExecuteTaskAsync<T>(Func<T>)
+        #region InitializeAsyncContextAndExecute<T>(Func<T>)
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
         public async Task ExecuteTaskAsyncFuncNullThrows()
         {
-            await Sync.ExecuteTaskAsync<int>(null);
+            await Sync.ExecuteTaskAsync((Func<int>)null);
         }
 
         [TestMethod]
@@ -351,16 +349,21 @@ namespace Testinvi.Tweetinvi
         public async Task ExecuteIsolatedTaskAsyncActionGetsOwnAsyncLocalEvenWhenParentIsNull()
         {
             // Arrange
-            AsyncLocal<string> asyncLocal = new AsyncLocal<string>();
+            Console.WriteLine(Thread.CurrentThread.ManagedThreadId);
 
-            // Act: Use the Exception Handler within ExecuteIsolatedTaskAsync
+            AsyncLocal<string> asyncLocal = null;
+
+            // Act
             await Sync.ExecuteIsolatedTaskAsync(() =>
             {
+               asyncLocal = new AsyncLocal<string>();
+                Console.WriteLine(Thread.CurrentThread.ManagedThreadId);
                 asyncLocal.Value = new Fixture().Create<string>();
             });
 
+            Console.WriteLine(Thread.CurrentThread.ManagedThreadId);
             // Assert
-            Assert.AreEqual(asyncLocal.Value, null);
+            Assert.IsNull(asyncLocal.Value);
         }
 
         [TestMethod]
@@ -373,7 +376,7 @@ namespace Testinvi.Tweetinvi
                 Value = parentValue
             };
 
-            // Act: Use the Exception Handler within ExecuteIsolatedTaskAsync
+            // Act
             await Sync.ExecuteIsolatedTaskAsync(() =>
             {
                 asyncLocal.Value = new Fixture().Create<string>();
@@ -468,7 +471,7 @@ namespace Testinvi.Tweetinvi
             // Arrange
             AsyncLocal<string> asyncLocal = new AsyncLocal<string>();
 
-            // Act: Use the Exception Handler within ExecuteIsolatedTaskAsync
+            // Act
             await Sync.ExecuteIsolatedTaskAsync(() =>
             {
                 asyncLocal.Value = new Fixture().Create<string>();
@@ -489,7 +492,7 @@ namespace Testinvi.Tweetinvi
                 Value = parentValue
             };
 
-            // Act: Use the Exception Handler within ExecuteIsolatedTaskAsync
+            // Act
             await Sync.ExecuteIsolatedTaskAsync(() =>
             {
                 asyncLocal.Value = new Fixture().Create<string>();

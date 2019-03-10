@@ -538,32 +538,32 @@ namespace Tweetinvi.Logic
 
         public Task<ITweet> PublishRetweetAsync()
         {
-            return _taskFactory.ExecuteTaskAsync(() => PublishRetweet());
+            return _taskFactory.InitializeAsyncContextAndExecute(() => PublishRetweet());
         }
 
         public Task<List<ITweet>> GetRetweetsAsync()
         {
-            return _taskFactory.ExecuteTaskAsync(() => GetRetweets());
+            return _taskFactory.InitializeAsyncContextAndExecute(() => GetRetweets());
         }
 
         public Task FavoriteAsync()
         {
-            return _taskFactory.ExecuteTaskAsync(Favorite);
+            return _taskFactory.InitializeAsyncContextAndExecute(Favorite);
         }
 
         public Task UnFavoriteAsync()
         {
-            return _taskFactory.ExecuteTaskAsync(UnFavorite);
+            return _taskFactory.InitializeAsyncContextAndExecute(UnFavorite);
         }
 
         public Task<IOEmbedTweet> GenerateOEmbedTweetAsync()
         {
-            return _taskFactory.ExecuteTaskAsync(() => GenerateOEmbedTweet());
+            return _taskFactory.InitializeAsyncContextAndExecute(() => GenerateOEmbedTweet());
         }
 
         public Task<bool> DestroyAsync()
         {
-            return _taskFactory.ExecuteTaskAsync(() => Destroy());
+            return _taskFactory.InitializeAsyncContextAndExecute(() => Destroy());
         }
         #endregion
     }

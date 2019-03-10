@@ -279,69 +279,69 @@ namespace Tweetinvi.Logic
 
         public Task<bool> UpdateAsync(ITwitterListUpdateParameters parameters)
         {
-            return _taskFactory.ExecuteTaskAsync(() => Update(parameters));
+            return _taskFactory.InitializeAsyncContextAndExecute(() => Update(parameters));
         }
 
         public Task<bool> DestroyAsync()
         {
-            return _taskFactory.ExecuteTaskAsync(() => Destroy());
+            return _taskFactory.InitializeAsyncContextAndExecute(() => Destroy());
         } 
 
         public Task<IEnumerable<ITweet>> GetTweetsAsync(IGetTweetsFromListParameters getTweetsFromListParameters = null)
         {
-            return _taskFactory.ExecuteTaskAsync(() => GetTweets(getTweetsFromListParameters));
+            return _taskFactory.InitializeAsyncContextAndExecute(() => GetTweets(getTweetsFromListParameters));
         }
 
         // Membership Async
         public Task<IEnumerable<IUser>> GetMembersAsync(int maxNumberOfUsersToRetrieve = 100)
         {
-            return _taskFactory.ExecuteTaskAsync(() => GetMembers(maxNumberOfUsersToRetrieve));
+            return _taskFactory.InitializeAsyncContextAndExecute(() => GetMembers(maxNumberOfUsersToRetrieve));
         }
 
         public Task<bool> AddMemberAsync(IUserIdentifier user)
         {
-            return _taskFactory.ExecuteTaskAsync(() => AddMember(user));
+            return _taskFactory.InitializeAsyncContextAndExecute(() => AddMember(user));
         }
 
         public Task<MultiRequestsResult> AddMultipleMembersAsync(IEnumerable<IUserIdentifier> users)
         {
-            return _taskFactory.ExecuteTaskAsync(() => AddMultipleMembers(users));
+            return _taskFactory.InitializeAsyncContextAndExecute(() => AddMultipleMembers(users));
         }
 
         public Task<bool> RemoveMemberAsync(IUserIdentifier user)
         {
-            return _taskFactory.ExecuteTaskAsync(() => RemoveMember(user));
+            return _taskFactory.InitializeAsyncContextAndExecute(() => RemoveMember(user));
         }
 
         public Task<MultiRequestsResult> RemoveMultipleMembersAsync(IEnumerable<IUserIdentifier> users)
         {
-            return _taskFactory.ExecuteTaskAsync(() => RemoveMultipleMembers(users));
+            return _taskFactory.InitializeAsyncContextAndExecute(() => RemoveMultipleMembers(users));
         }
 
         public Task<bool> CheckUserMembershipAsync(IUserIdentifier user)
         {
-            return _taskFactory.ExecuteTaskAsync(() => CheckUserMembership(user));
+            return _taskFactory.InitializeAsyncContextAndExecute(() => CheckUserMembership(user));
         }
 
         // Subscriptions Async
         public Task<IEnumerable<IUser>> GetSubscribersAsync(int maximumNumberOfUsersToRetrieve = 100)
         {
-            return _taskFactory.ExecuteTaskAsync(() => GetSubscribers(maximumNumberOfUsersToRetrieve));
+            return _taskFactory.InitializeAsyncContextAndExecute(() => GetSubscribers(maximumNumberOfUsersToRetrieve));
         }
 
         public Task<bool> SubscribeAuthenticatedUserToListAsync(IAuthenticatedUser authenticatedUser = null)
         {
-            return _taskFactory.ExecuteTaskAsync(() => SubscribeAuthenticatedUserToList(authenticatedUser));
+            return _taskFactory.InitializeAsyncContextAndExecute(() => SubscribeAuthenticatedUserToList(authenticatedUser));
         }
 
         public Task<bool> UnSubscribeAuthenticatedUserFromListAsync(IAuthenticatedUser authenticatedUser = null)
         {
-            return _taskFactory.ExecuteTaskAsync(() => UnSubscribeAuthenticatedUserFromList(authenticatedUser));
+            return _taskFactory.InitializeAsyncContextAndExecute(() => UnSubscribeAuthenticatedUserFromList(authenticatedUser));
         }
 
         public Task<bool> CheckUserSubscriptionAsync(IUserIdentifier user)
         {
-            return _taskFactory.ExecuteTaskAsync(() => CheckUserSubscription(user));
+            return _taskFactory.InitializeAsyncContextAndExecute(() => CheckUserSubscription(user));
         }
         
         #endregion
