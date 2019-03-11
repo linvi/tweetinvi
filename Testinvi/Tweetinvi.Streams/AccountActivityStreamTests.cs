@@ -129,20 +129,21 @@ namespace Testinvi.Tweetinvi.Streams
         }
 
         [TestMethod]
-        public void UserFollowedRaised_WithTargetUser()
+        public void FollowedUserRaised()
         {
             var activityStream = CreateAccountActivityStream();
 
             var json = @"{
 	            ""for_user_id"": ""100"",
 	            ""follow_events"": [{
-                  ""target"" : " + JsonTests.USER_TEST_JSON(41) + @",
-                  ""source"": " + JsonTests.USER_TEST_JSON(ACCOUNT_ACTIVITY_USER_ID) + @"
+                  ""type"" : ""follow"",
+                  ""source"": " + JsonTests.USER_TEST_JSON(ACCOUNT_ACTIVITY_USER_ID) + @",
+                  ""target"" : " + JsonTests.USER_TEST_JSON(41) + @"
 	            }]
             }";
 
             var eventsReceived = new List<UserFollowedEventArgs>();
-            activityStream.UserFollowed += (sender, args) =>
+            activityStream.FollowedUser += (sender, args) =>
             {
                 eventsReceived.Add(args);
             };
@@ -152,24 +153,70 @@ namespace Testinvi.Tweetinvi.Streams
 
             // Assert
             Assert.AreEqual(eventsReceived.Count, 1);
+            Assert.AreEqual(eventsReceived[0].Source.Id, ACCOUNT_ACTIVITY_USER_ID);
             Assert.AreEqual(eventsReceived[0].Target.Id, 41);
         }
 
         [TestMethod]
-        public void UserFollowedRaised_WithSourceUser()
+        public void FollowedEventWithUnexpectedType()
         {
             var activityStream = CreateAccountActivityStream();
 
             var json = @"{
 	            ""for_user_id"": ""100"",
 	            ""follow_events"": [{
-                  ""target"" : " + JsonTests.USER_TEST_JSON(ACCOUNT_ACTIVITY_USER_ID) + @",
-                  ""source"": " + JsonTests.USER_TEST_JSON(40) + @"
+                  ""type"" : ""UNEXPECTED_TYPE"",
+                  ""source"": " + JsonTests.USER_TEST_JSON(ACCOUNT_ACTIVITY_USER_ID) + @",
+                  ""target"" : " + JsonTests.USER_TEST_JSON(41) + @"
+	            }]
+            }";
+
+            var followedUserEvents = new List<UserEventArgs>();
+            activityStream.FollowedUser += (sender, args) =>
+            {
+                followedUserEvents.Add(args);
+            };
+
+            activityStream.UnfollowedUser += (sender, args) =>
+            {
+                followedUserEvents.Add(args);
+            };
+
+            activityStream.FollowedByUser += (sender, args) =>
+            {
+                followedUserEvents.Add(args);
+            };
+
+            var unmanagedEvents = new List<UnmanagedMessageReceivedEventArgs>();
+            activityStream.UnmanagedEventReceived += (sender, args) =>
+            {
+                unmanagedEvents.Add(args);
+            };
+
+            // Act
+            activityStream.WebhookMessageReceived(new WebhookMessage(json));
+
+            // Assert
+            Assert.AreEqual(followedUserEvents.Count, 0);
+            Assert.AreEqual(unmanagedEvents.Count, 1);
+        }
+
+        [TestMethod]
+        public void FollowedByUserRaised()
+        {
+            var activityStream = CreateAccountActivityStream();
+
+            var json = @"{
+	            ""for_user_id"": ""100"",
+	            ""follow_events"": [{
+                  ""type"" : ""follow"",
+                  ""source"": " + JsonTests.USER_TEST_JSON(40) + @",
+                  ""target"" : " + JsonTests.USER_TEST_JSON(ACCOUNT_ACTIVITY_USER_ID) + @"
 	            }]
             }";
 
             var eventsReceived = new List<UserFollowedEventArgs>();
-            activityStream.UserFollowed += (sender, args) =>
+            activityStream.FollowedByUser += (sender, args) =>
             {
                 eventsReceived.Add(args);
             };
@@ -179,6 +226,36 @@ namespace Testinvi.Tweetinvi.Streams
 
             // Assert
             Assert.AreEqual(eventsReceived.Count, 1);
+            Assert.AreEqual(eventsReceived[0].Source.Id, 40);
+            Assert.AreEqual(eventsReceived[0].Target.Id, ACCOUNT_ACTIVITY_USER_ID);
+        }
+
+        [TestMethod]
+        public void UnFollowedUserRaised()
+        {
+            var activityStream = CreateAccountActivityStream();
+
+            var json = @"{
+	            ""for_user_id"": ""100"",
+	            ""follow_events"": [{
+                  ""type"" : ""unfollow"",
+                  ""source"": " + JsonTests.USER_TEST_JSON(ACCOUNT_ACTIVITY_USER_ID) + @",
+                  ""target"" : " + JsonTests.USER_TEST_JSON(40) + @"
+	            }]
+            }";
+
+            var eventsReceived = new List<UserUnFollowedEventArgs>();
+            activityStream.UnfollowedUser += (sender, args) =>
+            {
+                eventsReceived.Add(args);
+            };
+
+            // Act
+            activityStream.WebhookMessageReceived(new WebhookMessage(json));
+
+            // Assert
+            Assert.AreEqual(eventsReceived.Count, 1);
+            Assert.AreEqual(eventsReceived[0].Source.Id, ACCOUNT_ACTIVITY_USER_ID);
             Assert.AreEqual(eventsReceived[0].Target.Id, 40);
         }
 

@@ -96,7 +96,28 @@ namespace WebApplication1.Controllers
                 accountActivityStream.JsonObjectReceived += JsonObjectReceived;
                 accountActivityStream.MessageReceived += MessageReceived;
                 accountActivityStream.MessageSent += MessageSent;
+                accountActivityStream.FollowedUser += FollowedUser;
+                accountActivityStream.UnfollowedUser += UnfollowedUser;
+                accountActivityStream.FollowedByUser += FollowedByUser;
             });
+        }
+
+        private void FollowedUser(object sender, UserFollowedEventArgs e)
+        {
+            // Account user followed another user
+            Console.WriteLine($"You ({e.Source.ScreenName}) are now following {e.Target.ScreenName}");
+        }
+
+        private void FollowedByUser(object sender, UserFollowedEventArgs e)
+        {
+            // Account user has been followed by another user
+            Console.WriteLine($"User {e.Source.ScreenName} is now following you ({e.Target.ScreenName})");
+        }
+
+        private void UnfollowedUser(object sender, UserUnFollowedEventArgs e)
+        {
+            // Account user unfollowed another user
+            Console.WriteLine($"You ({e.Source.ScreenName}) are no longer following {e.Target.ScreenName}");
         }
 
         private void MessageSent(object sender, MessageEventArgs args)

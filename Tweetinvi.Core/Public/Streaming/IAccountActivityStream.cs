@@ -9,12 +9,30 @@ namespace Tweetinvi.Core.Public.Streaming
         long UserId { get; set; }
 
         // Tweets
+
         EventHandler<TweetReceivedEventArgs> TweetCreated { get; set; }
+
         EventHandler<TweetDeletedEventArgs> TweetDeleted { get; set; }
+
         EventHandler<TweetFavouritedEventArgs> TweetFavourited { get; set; }
 
         // User Events
-        EventHandler<UserFollowedEventArgs> UserFollowed { get; set; }
+
+        /// <summary>
+        /// Current user is now following another user
+        /// </summary>
+        EventHandler<UserFollowedEventArgs> FollowedUser { get; set; }
+
+        /// <summary>
+        /// Current user has stopped following another user
+        /// </summary>
+        EventHandler<UserUnFollowedEventArgs> UnfollowedUser { get; set; }
+
+        /// <summary>
+        /// Current user has been followed by another user.
+        /// </summary>
+        EventHandler<UserFollowedEventArgs> FollowedByUser { get; set; }
+
         EventHandler<UserBlockedEventArgs> UserBlocked { get; set; }
         EventHandler<UserMutedEventArgs> UserMuted { get; set; }
         EventHandler<UserRevokedAppPermissionsEventArgs> UserRevokedAppPermissions { get; set; }
@@ -28,6 +46,7 @@ namespace Tweetinvi.Core.Public.Streaming
         // Others
         EventHandler<UnmanagedMessageReceivedEventArgs> UnmanagedEventReceived { get; set; }
         EventHandler<JsonObjectEventArgs> JsonObjectReceived { get; set; }
+
 
         void WebhookMessageReceived(IWebhookMessage message);
     }

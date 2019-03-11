@@ -80,7 +80,11 @@ namespace Tweetinvi.Streams
         public EventHandler<TweetDeletedEventArgs> TweetDeleted { get; set; }
 
         // User Events
-        public EventHandler<UserFollowedEventArgs> UserFollowed { get; set; }
+        public EventHandler<UserFollowedEventArgs> FollowedUser { get; set; }
+        public EventHandler<UserUnFollowedEventArgs> UnfollowedUser { get; set; }
+        public EventHandler<UserFollowedEventArgs> FollowedByUser { get; set; }
+
+
         public EventHandler<UserBlockedEventArgs> UserBlocked { get; set; }
         public EventHandler<UserMutedEventArgs> UserMuted { get; set; }
         public EventHandler<UserRevokedAppPermissionsEventArgs> UserRevokedAppPermissions { get; set; }
@@ -170,11 +174,37 @@ namespace Tweetinvi.Streams
         private void TryRaiseFollowedEvents(string eventName, JObject jsonObjectEvent)
         {
             var followEvent = jsonObjectEvent[eventName];
-            var followedUsers = GetEventTargetUsers(followEvent);
+            var followedUsersEvents = ExtractUserToUserEventDTOs(followEvent);
 
-            followedUsers.ForEach(followedUser =>
+            followedUsersEvents.ForEach(followedUsersEvent =>
             {
-                this.Raise(UserFollowed, new UserFollowedEventArgs(followedUser, UserId));
+                var sourceUser = _userFactory.GenerateUserFromDTO(followedUsersEvent.Source);
+                var targetUser = _userFactory.GenerateUserFromDTO(followedUsersEvent.Target);
+
+                if (followedUsersEvent.Type == "follow")
+                {
+                    var eventArgs = new UserFollowedEventArgs(sourceUser, targetUser, sourceUser.Id);
+
+                    if (sourceUser.Id == UserId)
+                    {
+                        this.Raise(FollowedUser, eventArgs);
+                    }
+                    else
+                    {
+                        this.Raise(FollowedByUser, eventArgs);
+                    }
+                }
+                else if (followedUsersEvent.Type == "unfollow")
+                {
+                    var eventArgs = new UserUnFollowedEventArgs(sourceUser, targetUser, sourceUser.Id);
+
+                    // We are not checking the order of source/target as Twitter does not emit an event when you lose a follower
+                    this.Raise(UnfollowedUser, eventArgs);
+                }
+                else
+                {
+                    this.Raise(UnmanagedEventReceived, new UnmanagedMessageReceivedEventArgs(jsonObjectEvent.ToString()));
+                }
             });
         }
 
@@ -311,11 +341,27 @@ namespace Tweetinvi.Streams
 
         private IUser[] GetEventTargetUsers(JToken userToUserEvent)
         {
-            var userToUserEventJson = userToUserEvent.ToString();
-            var userToUserEventDTO = _jsonObjectConverter.DeserializeObject<AccountActivityUserToUserEventDTO[]>(userToUserEventJson);
-            var mutedUsers = GetTargetUsersFromUserToUserEvent(userToUserEventDTO);
+            var userToUserEventDTO = ExtractUserToUserEventDTOs(userToUserEvent);
+            return GetEventTargetUsers(userToUserEventDTO);
+        }
 
-            return mutedUsers;
+        private AccountActivityUserToUserEventDTO[] ExtractUserToUserEventDTOs(JToken userToUserEvent)
+        {
+            var userToUserEventJson = userToUserEvent.ToString();
+            return ExtractUserToUserEventDTOs(userToUserEventJson);
+        }
+
+        private AccountActivityUserToUserEventDTO[] ExtractUserToUserEventDTOs(string userToUserEventJson)
+        {
+            var userToUserEventDTO = _jsonObjectConverter.DeserializeObject<AccountActivityUserToUserEventDTO[]>(userToUserEventJson);
+            return userToUserEventDTO;
+        }
+
+        private IUser[] GetEventTargetUsers(AccountActivityUserToUserEventDTO[] userToUserEventDTO)
+        {
+            var userEvent = GetTargetUsersFromUserToUserEvent(userToUserEventDTO);
+
+            return userEvent;
         }
 
         private IUser[] GetTargetUsersFromUserToUserEvent(AccountActivityUserToUserEventDTO[] accountActivityUserToUserEvents)
