@@ -75,7 +75,7 @@ namespace Tweetinvi.Streams
         public long UserId { get; set; }
 
         // Tweets
-        public EventHandler<TweetReceivedEventArgs> TweetCreated { get; set; }
+        public EventHandler<TweetCreatedEventArgs> TweetCreated { get; set; }
         public EventHandler<TweetFavouritedEventArgs> TweetFavourited { get; set; }
         public EventHandler<TweetDeletedEventArgs> TweetDeleted { get; set; }
 
@@ -135,8 +135,30 @@ namespace Tweetinvi.Streams
             tweetDTOs.ForEach(tweetDTO =>
             {
                 var tweet = _tweetFactory.GenerateTweetFromDTO(tweetDTO);
-                this.Raise(TweetCreated, new TweetReceivedEventArgs(tweet, ""));
+                var createdBy = GetTweetCreatedBy(tweet);
+
+                this.Raise(TweetCreated, new TweetCreatedEventArgs(tweet, "", createdBy));
             });
+        }
+
+        private TweetCreatedBy GetTweetCreatedBy(ITweet tweet)
+        {
+            if (tweet.CreatedBy.Id == UserId)
+            {
+                return TweetCreatedBy.AccountUser;
+            }
+
+            if (tweet.InReplyToStatusId != null && tweet.InReplyToUserId == UserId)
+            {
+                return TweetCreatedBy.AnotherUserReplyingToAccountUser;
+            }
+
+            if (tweet.InReplyToUserId == UserId)
+            {
+                return TweetCreatedBy.AnotherUserMentioningTheAccountUser;
+            }
+
+            return TweetCreatedBy.Unknown;
         }
 
         private void TryRaiseTweetDeletedEvents(string eventName, JObject jsonObjectEvent)

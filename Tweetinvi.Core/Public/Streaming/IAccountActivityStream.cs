@@ -10,7 +10,10 @@ namespace Tweetinvi.Core.Public.Streaming
 
         // Tweets
 
-        EventHandler<TweetReceivedEventArgs> TweetCreated { get; set; }
+        /// <summary>
+        /// A Tweet in relation with this account has been created.
+        /// </summary>
+        EventHandler<TweetCreatedEventArgs> TweetCreated { get; set; }
 
         EventHandler<TweetDeletedEventArgs> TweetDeleted { get; set; }
 

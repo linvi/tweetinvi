@@ -17,11 +17,45 @@ namespace Tweetinvi.Events
         public string Json { get; private set; }
     }
 
+    public enum TweetCreatedBy
+    {
+        /// <summary>
+        /// The tweet was created by the account user.
+        /// </summary>
+        AccountUser,
+
+        /// <summary>
+        /// The tweet has been created by another user in reply to a tweet posted by the account user.
+        /// </summary>
+        AnotherUserReplyingToAccountUser,
+
+        /// <summary>
+        /// The tweet has been created by another user and is mentioning the account user.
+        /// </summary>
+        AnotherUserMentioningTheAccountUser,
+
+        /// <summary>
+        /// This case should not happen and is here in case Twitter changes when they trigger the TweetCreated event.
+        /// If you happen to receive this mode, please report to Tweetinvi your case ideally with the associated json.
+        /// </summary>
+        Unknown,
+    }
+
     public class TweetReceivedEventArgs : TweetEventArgs
     {
         public TweetReceivedEventArgs(ITweet tweet, string json) : base(tweet, json)
         {
         }
+    }
+
+    public class TweetCreatedEventArgs : TweetReceivedEventArgs
+    {
+        public TweetCreatedEventArgs(ITweet tweet, string json, TweetCreatedBy createdBy) : base(tweet, json)
+        {
+            CreatedBy = createdBy;
+        }
+
+        public TweetCreatedBy CreatedBy { get; }
     }
 
     public class TweetFavouritedEventArgs : TweetEventArgs

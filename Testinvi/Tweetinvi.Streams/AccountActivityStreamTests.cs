@@ -52,7 +52,7 @@ namespace Testinvi.Tweetinvi.Streams
 	            ]
             }";
 
-            var eventsReceived = new List<TweetReceivedEventArgs>();
+            var eventsReceived = new List<TweetCreatedEventArgs>();
             activityStream.TweetCreated += (sender, args) =>
             {
                 eventsReceived.Add(args);
@@ -63,7 +63,126 @@ namespace Testinvi.Tweetinvi.Streams
 
             // Assert
             Assert.AreEqual(eventsReceived.Count, 1);
-            Assert.AreEqual(eventsReceived[0].Tweet.CreatedBy.Id, 42);
+            Assert.AreEqual(eventsReceived[0].Tweet.CreatedBy.Id, ACCOUNT_ACTIVITY_USER_ID);
+            Assert.AreEqual(eventsReceived[0].CreatedBy, TweetCreatedBy.AccountUser);
+        }
+
+        [TestMethod]
+        public void TweetEventRaisedInReplyToATweetOfCurrentAccountUser()
+        {
+            var activityStream = CreateAccountActivityStream();
+
+            var json = @"{
+	            ""for_user_id"": ""100"",
+	            ""tweet_create_events"": [
+	              " + @"
+                    {
+                      ""created_at"": ""Thu Apr 06 15:24:15 +0000 2017"",
+                      ""id_str"": ""850006245121695744"",
+                      ""text"": ""1\/ Today we\u2019re sharing our vision for the future of the Twitter API platform!\nhttps:\/\/t.co\/XweGngmxlP"",
+                      ""in_reply_to_status_id"": 382973,
+                      ""in_reply_to_user_id"": 42,
+                      ""user"": {
+                        ""id"": 100,
+                        ""name"": ""Twitter Dev"",
+                        ""screen_name"": ""TwitterDev"",
+                        ""location"": ""Internet"",
+                        ""url"": ""https:\/\/dev.twitter.com\/"",
+                        ""description"": ""Your official source for Twitter Platform news, updates & events. Need technical help? Visit https:\/\/twittercommunity.com\/ \u2328\ufe0f #TapIntoTwitter""
+                      },
+                      ""place"": {   
+                      },
+                      ""entities"": {
+                        ""hashtags"": [      
+                        ],
+                        ""urls"": [
+                          {
+                            ""url"": ""https:\/\/t.co\/XweGngmxlP"",
+                            ""unwound"": {
+                              ""url"": ""https:\/\/cards.twitter.com\/cards\/18ce53wgo4h\/3xo1c"",
+                              ""title"": ""Building the Future of the Twitter API Platform""
+                            }
+                          }
+                        ],
+                        ""user_mentions"": [     
+                        ]
+                      }
+                    }" + @"
+	            ]
+            }";
+
+            var eventsReceived = new List<TweetCreatedEventArgs>();
+            activityStream.TweetCreated += (sender, args) =>
+            {
+                eventsReceived.Add(args);
+            };
+
+            // Act
+            activityStream.WebhookMessageReceived(new WebhookMessage(json));
+
+            // Assert
+            Assert.AreEqual(eventsReceived.Count, 1);
+            Assert.AreEqual(eventsReceived[0].Tweet.CreatedBy.Id, 100);
+            Assert.AreEqual(eventsReceived[0].CreatedBy, TweetCreatedBy.AnotherUserReplyingToAccountUser);
+        }
+
+        [TestMethod]
+        public void TweetEventRaisedWhenCurrentUserIsMentioned()
+        {
+            var activityStream = CreateAccountActivityStream();
+
+            var json = @"{
+	            ""for_user_id"": ""100"",
+	            ""tweet_create_events"": [
+	              " + @"
+                    {
+                      ""created_at"": ""Thu Apr 06 15:24:15 +0000 2017"",
+                      ""id_str"": ""850006245121695744"",
+                      ""text"": ""1\/ Today we\u2019re sharing our vision for the future of the Twitter API platform!\nhttps:\/\/t.co\/XweGngmxlP"",
+                      ""in_reply_to_status_id"": null,
+                      ""in_reply_to_user_id"": 42,
+                      ""user"": {
+                        ""id"": 100,
+                        ""name"": ""Twitter Dev"",
+                        ""screen_name"": ""TwitterDev"",
+                        ""location"": ""Internet"",
+                        ""url"": ""https:\/\/dev.twitter.com\/"",
+                        ""description"": ""Your official source for Twitter Platform news, updates & events. Need technical help? Visit https:\/\/twittercommunity.com\/ \u2328\ufe0f #TapIntoTwitter""
+                      },
+                      ""place"": {   
+                      },
+                      ""entities"": {
+                        ""hashtags"": [      
+                        ],
+                        ""urls"": [
+                          {
+                            ""url"": ""https:\/\/t.co\/XweGngmxlP"",
+                            ""unwound"": {
+                              ""url"": ""https:\/\/cards.twitter.com\/cards\/18ce53wgo4h\/3xo1c"",
+                              ""title"": ""Building the Future of the Twitter API Platform""
+                            }
+                          }
+                        ],
+                        ""user_mentions"": [     
+                        ]
+                      }
+                    }" + @"
+	            ]
+            }";
+
+            var eventsReceived = new List<TweetCreatedEventArgs>();
+            activityStream.TweetCreated += (sender, args) =>
+            {
+                eventsReceived.Add(args);
+            };
+
+            // Act
+            activityStream.WebhookMessageReceived(new WebhookMessage(json));
+
+            // Assert
+            Assert.AreEqual(eventsReceived.Count, 1);
+            Assert.AreEqual(eventsReceived[0].Tweet.CreatedBy.Id, 100);
+            Assert.AreEqual(eventsReceived[0].CreatedBy, TweetCreatedBy.AnotherUserMentioningTheAccountUser);
         }
 
         [TestMethod]
