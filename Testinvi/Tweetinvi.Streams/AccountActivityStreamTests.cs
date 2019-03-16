@@ -260,13 +260,14 @@ namespace Testinvi.Tweetinvi.Streams
 	            ""for_user_id"": ""100"",
 	            ""follow_events"": [{
                   ""type"" : ""follow"",
+                  ""created_timestamp"": ""1552763621007"",
                   ""source"": " + JsonTests.USER_TEST_JSON(ACCOUNT_ACTIVITY_USER_ID) + @",
                   ""target"" : " + JsonTests.USER_TEST_JSON(41) + @"
 	            }]
             }";
 
-            var eventsReceived = new List<UserFollowedEventArgs>();
-            activityStream.FollowedUser += (sender, args) =>
+            var eventsReceived = new List<AccountActivityUserFollowedEventArgs>();
+            activityStream.UserFollowed += (sender, args) =>
             {
                 eventsReceived.Add(args);
             };
@@ -276,8 +277,10 @@ namespace Testinvi.Tweetinvi.Streams
 
             // Assert
             Assert.AreEqual(eventsReceived.Count, 1);
-            Assert.AreEqual(eventsReceived[0].Source.Id, ACCOUNT_ACTIVITY_USER_ID);
-            Assert.AreEqual(eventsReceived[0].Target.Id, 41);
+            Assert.AreEqual(eventsReceived[0].FollowedBy.Id, ACCOUNT_ACTIVITY_USER_ID);
+            Assert.AreEqual(eventsReceived[0].UserFollowed.Id, 41);
+            Assert.AreEqual(eventsReceived[0].InResultOf, UserFollowedRaisedInResultOf.AccountUserFollowingAnotherUser);
+            Assert.AreEqual(eventsReceived[0].EventDate, DateTimeOffset.FromUnixTimeMilliseconds(1552763621007).DateTime);
         }
 
         [TestMethod]
@@ -289,23 +292,19 @@ namespace Testinvi.Tweetinvi.Streams
 	            ""for_user_id"": ""100"",
 	            ""follow_events"": [{
                   ""type"" : ""UNEXPECTED_TYPE"",
+                  ""created_timestamp"": ""1552763621007"",
                   ""source"": " + JsonTests.USER_TEST_JSON(ACCOUNT_ACTIVITY_USER_ID) + @",
                   ""target"" : " + JsonTests.USER_TEST_JSON(41) + @"
 	            }]
             }";
 
-            var followedUserEvents = new List<UserEventArgs>();
-            activityStream.FollowedUser += (sender, args) =>
+            var followedUserEvents = new List<EventArgs>();
+            activityStream.UserFollowed += (sender, args) =>
             {
                 followedUserEvents.Add(args);
             };
 
-            activityStream.UnfollowedUser += (sender, args) =>
-            {
-                followedUserEvents.Add(args);
-            };
-
-            activityStream.FollowedByUser += (sender, args) =>
+            activityStream.UserUnfollowed += (sender, args) =>
             {
                 followedUserEvents.Add(args);
             };
@@ -333,13 +332,14 @@ namespace Testinvi.Tweetinvi.Streams
 	            ""for_user_id"": ""100"",
 	            ""follow_events"": [{
                   ""type"" : ""follow"",
+                  ""created_timestamp"": ""1552763621007"",
                   ""source"": " + JsonTests.USER_TEST_JSON(40) + @",
                   ""target"" : " + JsonTests.USER_TEST_JSON(ACCOUNT_ACTIVITY_USER_ID) + @"
 	            }]
             }";
 
-            var eventsReceived = new List<UserFollowedEventArgs>();
-            activityStream.FollowedByUser += (sender, args) =>
+            var eventsReceived = new List<AccountActivityUserFollowedEventArgs>();
+            activityStream.UserFollowed += (sender, args) =>
             {
                 eventsReceived.Add(args);
             };
@@ -349,8 +349,10 @@ namespace Testinvi.Tweetinvi.Streams
 
             // Assert
             Assert.AreEqual(eventsReceived.Count, 1);
-            Assert.AreEqual(eventsReceived[0].Source.Id, 40);
-            Assert.AreEqual(eventsReceived[0].Target.Id, ACCOUNT_ACTIVITY_USER_ID);
+            Assert.AreEqual(eventsReceived[0].FollowedBy.Id, 40);
+            Assert.AreEqual(eventsReceived[0].UserFollowed.Id, ACCOUNT_ACTIVITY_USER_ID);
+            Assert.AreEqual(eventsReceived[0].InResultOf, UserFollowedRaisedInResultOf.AnotherUserFollowingAccountUser);
+            Assert.AreEqual(eventsReceived[0].EventDate, DateTimeOffset.FromUnixTimeMilliseconds(1552763621007).DateTime);
         }
 
         [TestMethod]
@@ -362,13 +364,14 @@ namespace Testinvi.Tweetinvi.Streams
 	            ""for_user_id"": ""100"",
 	            ""follow_events"": [{
                   ""type"" : ""unfollow"",
+                  ""created_timestamp"": ""1552763621007"",
                   ""source"": " + JsonTests.USER_TEST_JSON(ACCOUNT_ACTIVITY_USER_ID) + @",
                   ""target"" : " + JsonTests.USER_TEST_JSON(40) + @"
 	            }]
             }";
 
             var eventsReceived = new List<UserUnFollowedEventArgs>();
-            activityStream.UnfollowedUser += (sender, args) =>
+            activityStream.UserUnfollowed += (sender, args) =>
             {
                 eventsReceived.Add(args);
             };

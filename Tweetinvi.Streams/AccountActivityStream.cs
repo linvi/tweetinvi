@@ -7,7 +7,6 @@ using Tweetinvi.Core.Exceptions;
 using Tweetinvi.Core.Extensions;
 using Tweetinvi.Core.Factories;
 using Tweetinvi.Core.Helpers;
-using Tweetinvi.Core.Public.Streaming;
 using Tweetinvi.Core.Wrappers;
 using Tweetinvi.Events;
 using Tweetinvi.Logic.DTO;
@@ -84,8 +83,8 @@ namespace Tweetinvi.Streams
         public EventHandler<AccountActivityTweetDeletedEventArgs> TweetDeleted { get; set; }
 
         // User Events
-        public EventHandler<UserFollowedEventArgs> FollowedUser { get; set; }
-        public EventHandler<UserUnFollowedEventArgs> UnfollowedUser { get; set; }
+        public EventHandler<AccountActivityUserFollowedEventArgs> UserFollowed { get; set; }
+        public EventHandler<UserUnFollowedEventArgs> UserUnfollowed { get; set; }
         public EventHandler<UserFollowedEventArgs> FollowedByUser { get; set; }
 
 
@@ -204,23 +203,26 @@ namespace Tweetinvi.Streams
 
                 if (followedUsersEvent.Type == "follow")
                 {
-                    var eventArgs = new UserFollowedEventArgs(sourceUser, targetUser, sourceUser.Id);
+                    var timestamp = long.Parse(followedUsersEvent.CreatedTimestamp);
+                    var dateOffset = DateTimeOffset.FromUnixTimeMilliseconds(timestamp);
 
-                    if (sourceUser.Id == UserId)
+                    var accountActivityEvent = new AccountActivityEvent<Tuple<IUser, IUser>>(new Tuple<IUser, IUser>(sourceUser, targetUser))
                     {
-                        this.Raise(FollowedUser, eventArgs);
-                    }
-                    else
-                    {
-                        this.Raise(FollowedByUser, eventArgs);
-                    }
+                        AccountUserId = UserId,
+                        EventDate = dateOffset.UtcDateTime,
+                        Json = jsonObjectEvent.ToString(),
+                    };
+
+                    var eventArgs = new AccountActivityUserFollowedEventArgs(accountActivityEvent);
+
+                    this.Raise(UserFollowed, eventArgs);
                 }
                 else if (followedUsersEvent.Type == "unfollow")
                 {
                     var eventArgs = new UserUnFollowedEventArgs(sourceUser, targetUser, sourceUser.Id);
 
                     // We are not checking the order of source/target as Twitter does not emit an event when you lose a follower
-                    this.Raise(UnfollowedUser, eventArgs);
+                    this.Raise(UserUnfollowed, eventArgs);
                 }
                 else
                 {
@@ -306,8 +308,8 @@ namespace Tweetinvi.Streams
         private void TryRaiseIndicateUserIsTypingMessage(string eventName, JObject jsonObjectEvent)
         {
             var userIsTypingMessageEventsArgs = _accountActivityConversationEventExtractor.GetMessageConversationsEvents(
-                eventName, 
-                jsonObjectEvent, 
+                eventName,
+                jsonObjectEvent,
                 x => new UserIsTypingMessageEventArgs());
 
             userIsTypingMessageEventsArgs.ForEach(x =>

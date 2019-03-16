@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using Tweetinvi.Core.Public.Streaming;
 using Tweetinvi.Events;
 using Tweetinvi.Streaming;
 
@@ -26,9 +25,8 @@ namespace Examplinvi.WebhooksServer.Controllers
             accountActivityStream.JsonObjectReceived += JsonObjectReceived;
             accountActivityStream.MessageReceived += MessageReceived;
             accountActivityStream.MessageSent += MessageSent;
-            accountActivityStream.FollowedUser += FollowedUser;
-            accountActivityStream.UnfollowedUser += UnfollowedUser;
-            accountActivityStream.FollowedByUser += FollowedByUser;
+            accountActivityStream.UserFollowed += FollowedUser;
+            accountActivityStream.UserUnfollowed += UnfollowedUser;
             accountActivityStream.TweetFavourited += TweetFavourited;
             accountActivityStream.TweetDeleted += TweetDeleted;
             accountActivityStream.UnmanagedEventReceived += (sender, args) =>
@@ -46,9 +44,8 @@ namespace Examplinvi.WebhooksServer.Controllers
             accountActivityStream.JsonObjectReceived -= JsonObjectReceived;
             accountActivityStream.MessageReceived -= MessageReceived;
             accountActivityStream.MessageSent -= MessageSent;
-            accountActivityStream.FollowedUser -= FollowedUser;
-            accountActivityStream.UnfollowedUser -= UnfollowedUser;
-            accountActivityStream.FollowedByUser -= FollowedByUser;
+            accountActivityStream.UserFollowed -= FollowedUser;
+            accountActivityStream.UserUnfollowed -= UnfollowedUser;
             accountActivityStream.TweetFavourited -= TweetFavourited;
             accountActivityStream.TweetDeleted -= TweetDeleted;
         }
@@ -68,16 +65,17 @@ namespace Examplinvi.WebhooksServer.Controllers
             Console.WriteLine("Tweet was favourited", e);
         }
 
-        private void FollowedUser(object sender, UserFollowedEventArgs e)
+        private void FollowedUser(object sender, AccountActivityUserFollowedEventArgs e)
         {
             // Account user followed another user
-            Console.WriteLine($"You ({e.Source.ScreenName}) are now following {e.Target.ScreenName}");
-        }
-
-        private void FollowedByUser(object sender, UserFollowedEventArgs e)
-        {
-            // Account user has been followed by another user
-            Console.WriteLine($"User {e.Source.ScreenName} is now following you ({e.Target.ScreenName})");
+            if (e.InResultOf == UserFollowedRaisedInResultOf.AccountUserFollowingAnotherUser)
+            {
+                Console.WriteLine($"Account user ({e.FollowedBy.ScreenName}) is now following {e.UserFollowed.ScreenName}");
+            }
+            else
+            {
+                Console.WriteLine($"Account user ({e.UserFollowed.ScreenName}) is now being followed by {e.FollowedBy.ScreenName}");
+            }
         }
 
         private void UnfollowedUser(object sender, UserUnFollowedEventArgs e)
