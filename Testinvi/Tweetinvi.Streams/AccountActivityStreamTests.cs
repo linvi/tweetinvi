@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Testinvi.Helpers;
 using Testinvi.json.net;
@@ -10,7 +11,9 @@ using Tweetinvi.Core.Public.Streaming;
 using Tweetinvi.Core.Wrappers;
 using Tweetinvi.Events;
 using Tweetinvi.Models.Webhooks;
+using Tweetinvi.Streaming;
 using Tweetinvi.Streams;
+using Tweetinvi.Streams.Helpers;
 
 namespace Testinvi.Tweetinvi.Streams
 {
@@ -33,7 +36,8 @@ namespace Testinvi.Tweetinvi.Streams
                 new ConstructorNamedParameter("jObjectWrapper", TweetinviContainer.Resolve<IJObjectStaticWrapper>()),
                 new ConstructorNamedParameter("tweetFactory", TweetinviContainer.Resolve<ITweetFactory>()),
                 new ConstructorNamedParameter("userFactory", TweetinviContainer.Resolve<IUserFactory>()),
-                new ConstructorNamedParameter("messageFactory", TweetinviContainer.Resolve<IMessageFactory>()));
+                new ConstructorNamedParameter("messageFactory", TweetinviContainer.Resolve<IMessageFactory>()),
+                new ConstructorNamedParameter("accountActivityConversationEventExtractor", TweetinviContainer.Resolve<IAccountActivityConversationEventExtractor>()));
 
             activityStream.UserId = ACCOUNT_ACTIVITY_USER_ID;
 
@@ -52,7 +56,7 @@ namespace Testinvi.Tweetinvi.Streams
 	            ]
             }";
 
-            var eventsReceived = new List<TweetCreatedEventArgs>();
+            var eventsReceived = new List<AccountActivityTweetCreatedEventArgs>();
             activityStream.TweetCreated += (sender, args) =>
             {
                 eventsReceived.Add(args);
@@ -64,7 +68,7 @@ namespace Testinvi.Tweetinvi.Streams
             // Assert
             Assert.AreEqual(eventsReceived.Count, 1);
             Assert.AreEqual(eventsReceived[0].Tweet.CreatedBy.Id, ACCOUNT_ACTIVITY_USER_ID);
-            Assert.AreEqual(eventsReceived[0].CreatedBy, TweetCreatedBy.AccountUser);
+            Assert.AreEqual(eventsReceived[0].InResultOf, TweetCreatedRaisedInResultOf.AccountUserCreatingATweet);
         }
 
         [TestMethod]
@@ -111,7 +115,7 @@ namespace Testinvi.Tweetinvi.Streams
 	            ]
             }";
 
-            var eventsReceived = new List<TweetCreatedEventArgs>();
+            var eventsReceived = new List<AccountActivityTweetCreatedEventArgs>();
             activityStream.TweetCreated += (sender, args) =>
             {
                 eventsReceived.Add(args);
@@ -123,7 +127,7 @@ namespace Testinvi.Tweetinvi.Streams
             // Assert
             Assert.AreEqual(eventsReceived.Count, 1);
             Assert.AreEqual(eventsReceived[0].Tweet.CreatedBy.Id, 100);
-            Assert.AreEqual(eventsReceived[0].CreatedBy, TweetCreatedBy.AnotherUserReplyingToAccountUser);
+            Assert.AreEqual(eventsReceived[0].InResultOf, TweetCreatedRaisedInResultOf.AnotherUserReplyingToAccountUser);
         }
 
         [TestMethod]
@@ -170,7 +174,7 @@ namespace Testinvi.Tweetinvi.Streams
 	            ]
             }";
 
-            var eventsReceived = new List<TweetCreatedEventArgs>();
+            var eventsReceived = new List<AccountActivityTweetCreatedEventArgs>();
             activityStream.TweetCreated += (sender, args) =>
             {
                 eventsReceived.Add(args);
@@ -182,7 +186,7 @@ namespace Testinvi.Tweetinvi.Streams
             // Assert
             Assert.AreEqual(eventsReceived.Count, 1);
             Assert.AreEqual(eventsReceived[0].Tweet.CreatedBy.Id, 100);
-            Assert.AreEqual(eventsReceived[0].CreatedBy, TweetCreatedBy.AnotherUserMentioningTheAccountUser);
+            Assert.AreEqual(eventsReceived[0].InResultOf, TweetCreatedRaisedInResultOf.AnotherUserMentioningTheAccountUser);
         }
 
         [TestMethod]
@@ -203,7 +207,7 @@ namespace Testinvi.Tweetinvi.Streams
                ]
             }";
 
-            var eventsReceived = new List<TweetDeletedEventArgs>();
+            var eventsReceived = new List<AccountActivityTweetDeletedEventArgs>();
             activityStream.TweetDeleted += (sender, args) =>
             {
                 eventsReceived.Add(args);
@@ -214,9 +218,9 @@ namespace Testinvi.Tweetinvi.Streams
 
             // Assert
             Assert.AreEqual(eventsReceived.Count, 1);
-            Assert.AreEqual(eventsReceived[0].UserId, 3198576760);
+            Assert.AreEqual(eventsReceived[0].AccountUserId, ACCOUNT_ACTIVITY_USER_ID);
             Assert.AreEqual(eventsReceived[0].TweetId, 601430178305220608);
-            Assert.AreEqual(eventsReceived[0].Timestamp, 1432228155593);
+            Assert.AreEqual(eventsReceived[0].EventDate, DateTimeOffset.FromUnixTimeMilliseconds(1432228155593).DateTime);
         }
 
         [TestMethod]
@@ -232,7 +236,7 @@ namespace Testinvi.Tweetinvi.Streams
 	            }]
             }";
 
-            var eventsReceived = new List<TweetFavouritedEventArgs>();
+            var eventsReceived = new List<AccountActivityTweetFavouritedEventArgs>();
             activityStream.TweetFavourited += (sender, args) =>
             {
                 eventsReceived.Add(args);
@@ -244,7 +248,7 @@ namespace Testinvi.Tweetinvi.Streams
             // Assert
             Assert.AreEqual(eventsReceived.Count, 1);
             Assert.AreEqual(eventsReceived[0].Tweet.CreatedBy.Id, 42);
-            Assert.AreEqual(eventsReceived[0].FavouritingUser.Id, 4242);
+            Assert.AreEqual(eventsReceived[0].FavouritedBy.Id, 4242);
         }
 
         [TestMethod]
@@ -507,7 +511,7 @@ namespace Testinvi.Tweetinvi.Streams
 	            }
             }";
 
-            var eventsReceived = new List<UserRevokedAppPermissionsEventArgs>();
+            var eventsReceived = new List<AccountActivityUserRevokedAppPermissionsEventArgs>();
             activityStream.UserRevokedAppPermissions += (sender, args) =>
             {
                 eventsReceived.Add(args);

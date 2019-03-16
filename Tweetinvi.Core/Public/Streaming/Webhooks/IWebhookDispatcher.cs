@@ -1,4 +1,5 @@
 ﻿using Tweetinvi.Models.Webhooks;
+using Tweetinvi.Streaming;
 
 namespace Tweetinvi.Core.Public.Streaming.Webhooks
 {

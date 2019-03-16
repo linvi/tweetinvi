@@ -16,6 +16,8 @@ using Tweetinvi.Logic.Model;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
 using Tweetinvi.Models.Webhooks;
+using Tweetinvi.Streaming;
+using Tweetinvi.Streams.Helpers;
 using Tweetinvi.Streams.Model.AccountActivity;
 
 namespace Tweetinvi.Streams
@@ -28,6 +30,8 @@ namespace Tweetinvi.Streams
         private readonly IExceptionHandler _exceptionHandler;
         private readonly IUserFactory _userFactory;
         private readonly IMessageFactory _messageFactory;
+        private readonly IAccountActivityConversationEventExtractor _accountActivityConversationEventExtractor;
+
         private readonly Dictionary<string, Action<string, JObject>> _events;
 
         public AccountActivityStream(
@@ -36,7 +40,8 @@ namespace Tweetinvi.Streams
             IJsonObjectConverter jsonObjectConverter,
             ITweetFactory tweetFactory,
             IUserFactory userFactory,
-            IMessageFactory messageFactory)
+            IMessageFactory messageFactory,
+            IAccountActivityConversationEventExtractor accountActivityConversationEventExtractor)
         {
             _jObjectWrapper = jObjectWrapper;
             _jsonObjectConverter = jsonObjectConverter;
@@ -44,6 +49,7 @@ namespace Tweetinvi.Streams
             _exceptionHandler = exceptionHandler;
             _userFactory = userFactory;
             _messageFactory = messageFactory;
+            _accountActivityConversationEventExtractor = accountActivityConversationEventExtractor;
             _events = new Dictionary<string, Action<string, JObject>>();
 
             InitializeEvents();
@@ -70,14 +76,12 @@ namespace Tweetinvi.Streams
             _events.Add("direct_message_mark_read_events", TryRaiseMessageReadEvent);
         }
 
-
-
         public long UserId { get; set; }
 
         // Tweets
-        public EventHandler<TweetCreatedEventArgs> TweetCreated { get; set; }
-        public EventHandler<TweetFavouritedEventArgs> TweetFavourited { get; set; }
-        public EventHandler<TweetDeletedEventArgs> TweetDeleted { get; set; }
+        public EventHandler<AccountActivityTweetCreatedEventArgs> TweetCreated { get; set; }
+        public EventHandler<AccountActivityTweetFavouritedEventArgs> TweetFavourited { get; set; }
+        public EventHandler<AccountActivityTweetDeletedEventArgs> TweetDeleted { get; set; }
 
         // User Events
         public EventHandler<UserFollowedEventArgs> FollowedUser { get; set; }
@@ -87,7 +91,7 @@ namespace Tweetinvi.Streams
 
         public EventHandler<UserBlockedEventArgs> UserBlocked { get; set; }
         public EventHandler<UserMutedEventArgs> UserMuted { get; set; }
-        public EventHandler<UserRevokedAppPermissionsEventArgs> UserRevokedAppPermissions { get; set; }
+        public EventHandler<AccountActivityUserRevokedAppPermissionsEventArgs> UserRevokedAppPermissions { get; set; }
 
         // Messages
         public EventHandler<MessageEventArgs> MessageReceived { get; set; }
@@ -97,7 +101,6 @@ namespace Tweetinvi.Streams
 
         public EventHandler<UnmanagedMessageReceivedEventArgs> UnmanagedEventReceived { get; set; }
         public EventHandler<JsonObjectEventArgs> JsonObjectReceived { get; set; }
-
 
         public void WebhookMessageReceived(IWebhookMessage message)
         {
@@ -135,30 +138,16 @@ namespace Tweetinvi.Streams
             tweetDTOs.ForEach(tweetDTO =>
             {
                 var tweet = _tweetFactory.GenerateTweetFromDTO(tweetDTO);
-                var createdBy = GetTweetCreatedBy(tweet);
 
-                this.Raise(TweetCreated, new TweetCreatedEventArgs(tweet, "", createdBy));
+                var accountActivityEvent = new AccountActivityEvent<ITweet>(tweet)
+                {
+                    AccountUserId = UserId,
+                    EventDate = tweet.CreatedAt,
+                    Json = jsonObjectEvent.ToString()
+                };
+
+                this.Raise(TweetCreated, new AccountActivityTweetCreatedEventArgs(accountActivityEvent));
             });
-        }
-
-        private TweetCreatedBy GetTweetCreatedBy(ITweet tweet)
-        {
-            if (tweet.CreatedBy.Id == UserId)
-            {
-                return TweetCreatedBy.AccountUser;
-            }
-
-            if (tweet.InReplyToStatusId != null && tweet.InReplyToUserId == UserId)
-            {
-                return TweetCreatedBy.AnotherUserReplyingToAccountUser;
-            }
-
-            if (tweet.InReplyToUserId == UserId)
-            {
-                return TweetCreatedBy.AnotherUserMentioningTheAccountUser;
-            }
-
-            return TweetCreatedBy.Unknown;
         }
 
         private void TryRaiseTweetDeletedEvents(string eventName, JObject jsonObjectEvent)
@@ -168,14 +157,16 @@ namespace Tweetinvi.Streams
 
             tweetDeletedEventDTOs.ForEach(tweetDeletedEventDTO =>
             {
-                var tweetDeletedEventArgs = new TweetDeletedEventArgs
+                var dateOffset = DateTimeOffset.FromUnixTimeMilliseconds(tweetDeletedEventDTO.Timestamp);
+
+                var accountActivityEvent = new AccountActivityEvent<long>(tweetDeletedEventDTO.Status.TweetId)
                 {
-                    TweetId = tweetDeletedEventDTO.Status.TweetId,
-                    UserId = tweetDeletedEventDTO.Status.UserId,
-                    Timestamp = tweetDeletedEventDTO.Timestamp
+                    AccountUserId = UserId,
+                    EventDate = dateOffset.UtcDateTime,
+                    Json = jsonObjectEvent.ToString()
                 };
 
-                this.Raise(TweetDeleted, tweetDeletedEventArgs);
+                this.Raise(TweetDeleted, new AccountActivityTweetDeletedEventArgs(accountActivityEvent));
             });
         }
 
@@ -189,7 +180,15 @@ namespace Tweetinvi.Streams
             {
                 var tweet = _tweetFactory.GenerateTweetFromDTO(favouriteEventDTO.FavouritedTweet);
                 var user = _userFactory.GenerateUserFromDTO(favouriteEventDTO.User);
-                this.Raise(TweetFavourited, new TweetFavouritedEventArgs(tweet, "TODO", user));
+
+                var accountActivityEvent = new AccountActivityEvent<Tuple<ITweet, IUser>>(new Tuple<ITweet, IUser>(tweet, user))
+                {
+                    AccountUserId = UserId,
+                    EventDate = tweet.CreatedAt,
+                    Json = jsonObjectEvent.ToString(),
+                };
+
+                this.Raise(TweetFavourited, new AccountActivityTweetFavouritedEventArgs(accountActivityEvent));
             });
         }
 
@@ -260,7 +259,7 @@ namespace Tweetinvi.Streams
             if (eventType == "user_event.revoke")
             {
                 var userRevokedAppEventDTO = userEvent["revoke"].ToObject<ActivityStreamUserRevokedAppPermissionsDTO>();
-                var userRevokedAppEventArgs = new UserRevokedAppPermissionsEventArgs
+                var userRevokedAppEventArgs = new AccountActivityUserRevokedAppPermissionsEventArgs
                 {
                     UserId = userRevokedAppEventDTO.Source.UserId,
                     AppId = userRevokedAppEventDTO.Target.AppId
@@ -306,7 +305,10 @@ namespace Tweetinvi.Streams
 
         private void TryRaiseIndicateUserIsTypingMessage(string eventName, JObject jsonObjectEvent)
         {
-            var userIsTypingMessageEventsArgs = GetMessageConversationsEvents(eventName, jsonObjectEvent, x => new UserIsTypingMessageEventArgs());
+            var userIsTypingMessageEventsArgs = _accountActivityConversationEventExtractor.GetMessageConversationsEvents(
+                eventName, 
+                jsonObjectEvent, 
+                x => new UserIsTypingMessageEventArgs());
 
             userIsTypingMessageEventsArgs.ForEach(x =>
             {
@@ -316,7 +318,7 @@ namespace Tweetinvi.Streams
 
         private void TryRaiseMessageReadEvent(string eventName, JObject jsonObjectEvent)
         {
-            var messageReadEventArgs = GetMessageConversationsEvents(eventName, jsonObjectEvent, dto =>
+            var messageReadEventArgs = _accountActivityConversationEventExtractor.GetMessageConversationsEvents(eventName, jsonObjectEvent, dto =>
             {
                 return new UserReadMessageConversationEventArgs
                 {
@@ -328,37 +330,6 @@ namespace Tweetinvi.Streams
             {
                 this.Raise(UserReadMessage, x);
             });
-        }
-
-        private T[] GetMessageConversationsEvents<T>(string eventName, JObject jsonObjectEvent, Func<ActivityStreamDirectMessageConversationEventDTO, T> ctor) where T : MessageConversationEventArgs
-        {
-            var messageIndicateUserTypingMessageEvent = jsonObjectEvent[eventName];
-            var users = jsonObjectEvent["users"].ToObject<Dictionary<long, UserDTO>>();
-
-            var json = messageIndicateUserTypingMessageEvent.ToString();
-            var messageIndicateUserTypingMessageEventDTOs =
-                _jsonObjectConverter.DeserializeObject<ActivityStreamDirectMessageConversationEventDTO[]>(json);
-
-            return messageIndicateUserTypingMessageEventDTOs.Select(
-                messageIndicateUserTypingMessageEventDTO =>
-                {
-                    var userIsTypingMessageEventArgs = ctor(messageIndicateUserTypingMessageEventDTO);
-
-                    userIsTypingMessageEventArgs.SenderId = messageIndicateUserTypingMessageEventDTO.SenderId;
-                    userIsTypingMessageEventArgs.RecipientId = messageIndicateUserTypingMessageEventDTO.Target.RecipientId;
-
-                    if (users.TryGetValue(messageIndicateUserTypingMessageEventDTO.SenderId, out var senderDTO))
-                    {
-                        userIsTypingMessageEventArgs.Sender = _userFactory.GenerateUserFromDTO(senderDTO);
-                    }
-
-                    if (users.TryGetValue(messageIndicateUserTypingMessageEventDTO.Target.RecipientId, out var recipientDTO))
-                    {
-                        userIsTypingMessageEventArgs.Recipient = _userFactory.GenerateUserFromDTO(recipientDTO);
-                    }
-
-                    return userIsTypingMessageEventArgs;
-                }).ToArray();
         }
 
         private IUser[] GetEventTargetUsers(JToken userToUserEvent)

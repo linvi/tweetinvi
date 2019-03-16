@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Examplinvi.WebhooksServer;
+using Examplinvi.WebhooksServer.Controllers;
 using Microsoft.AspNetCore.Mvc;
 using Tweetinvi;
 using Tweetinvi.Core.Extensions;
@@ -14,6 +15,13 @@ namespace WebApplication1.Controllers
     [Route("tweetinvi/")]
     public class TweetinviWebhookController : Controller
     {
+        private AccountActivityEventsManager _accountActivityEventsManager;
+
+        public TweetinviWebhookController()
+        {
+            _accountActivityEventsManager = new AccountActivityEventsManager();
+        }
+
         // WEBHOOK
         [HttpPost("SetUserCredentials")]
         public async Task SetUserCredentials(long userId, [FromBody]TwitterCredentials credentials)
@@ -76,6 +84,7 @@ namespace WebApplication1.Controllers
         [HttpPost("StartAllAccountActivityStreams")]
         public async Task StartAllAccountActivityStreams(string environment)
         {
+            // ReSharper disable once SimplifyLinqExpression
             if (!Startup.WebhookConfiguration.RegisteredWebhookEnvironments.Any(x => x.Name == environment))
             {
                 throw new InvalidOperationException("You attempted to listen to streams for an environment that was not registered");
@@ -93,48 +102,9 @@ namespace WebApplication1.Controllers
                     Startup.WebhookConfiguration.AddActivityStream(accountActivityStream);
                 }
 
-                accountActivityStream.JsonObjectReceived += JsonObjectReceived;
-                accountActivityStream.MessageReceived += MessageReceived;
-                accountActivityStream.MessageSent += MessageSent;
-                accountActivityStream.FollowedUser += FollowedUser;
-                accountActivityStream.UnfollowedUser += UnfollowedUser;
-                accountActivityStream.FollowedByUser += FollowedByUser;
+                _accountActivityEventsManager.RegisterAccountActivityStream(accountActivityStream);
             });
         }
-
-        private void FollowedUser(object sender, UserFollowedEventArgs e)
-        {
-            // Account user followed another user
-            Console.WriteLine($"You ({e.Source.ScreenName}) are now following {e.Target.ScreenName}");
-        }
-
-        private void FollowedByUser(object sender, UserFollowedEventArgs e)
-        {
-            // Account user has been followed by another user
-            Console.WriteLine($"User {e.Source.ScreenName} is now following you ({e.Target.ScreenName})");
-        }
-
-        private void UnfollowedUser(object sender, UserUnFollowedEventArgs e)
-        {
-            // Account user unfollowed another user
-            Console.WriteLine($"You ({e.Source.ScreenName}) are no longer following {e.Target.ScreenName}");
-        }
-
-        private void MessageSent(object sender, MessageEventArgs args)
-        {
-            Console.WriteLine(args.Message.App);
-        }
-
-        private void MessageReceived(object sender, MessageEventArgs args)
-        {
-            Console.WriteLine(args.Message.App);
-        }
-
-        private void JsonObjectReceived(object sender, JsonObjectEventArgs args)
-        {
-            Console.WriteLine(args.Json);
-        }
-
 
         // SUBSCRIPTIONS
 
@@ -176,8 +146,6 @@ namespace WebApplication1.Controllers
         [HttpPost("SubscribeToAccountActivities")]
         public async Task<string> SubscribeToAccountActivities(string environment, long userId)
         {
-            var userCredentials = await CredentialsRetriever.GetUserCredentials(userId);
-
             var webhook = Startup.WebhookConfiguration.RegisteredWebhookEnvironments.FirstOrDefault(x => x.Name == environment);
 
             if (webhook == null)
@@ -188,10 +156,7 @@ namespace WebApplication1.Controllers
             var activityStream = Stream.CreateAccountActivityStream(userId);
             Startup.WebhookConfiguration.AddActivityStream(activityStream);
 
-            activityStream.TweetFavourited += (sender, args) =>
-            {
-                Console.WriteLine($"{userId} favourited tweet!");
-            };
+            _accountActivityEventsManager.RegisterAccountActivityStream(activityStream);
 
             return "SUBSCRIBED_ON_SERVER";
         }
@@ -211,6 +176,8 @@ namespace WebApplication1.Controllers
             streams.ForEach(stream =>
             {
                 Startup.WebhookConfiguration.RemoveActivityStream(stream);
+
+                _accountActivityEventsManager.UnregisterAccountActivityStream(stream);
             });
 
             return "UNSUBSCRIBED";

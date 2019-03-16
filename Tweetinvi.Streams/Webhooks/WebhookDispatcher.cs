@@ -4,6 +4,7 @@ using Tweetinvi.Core.Public.Streaming;
 using Tweetinvi.Core.Public.Streaming.Webhooks;
 using Tweetinvi.Core.Wrappers;
 using Tweetinvi.Models.Webhooks;
+using Tweetinvi.Streaming;
 
 namespace Tweetinvi.Streams.Webhooks
 {

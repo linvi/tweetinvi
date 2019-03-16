@@ -2,7 +2,7 @@
 using Tweetinvi.Events;
 using Tweetinvi.Models.Webhooks;
 
-namespace Tweetinvi.Core.Public.Streaming
+namespace Tweetinvi.Streaming
 {
     public interface IAccountActivityStream
     {
@@ -11,13 +11,19 @@ namespace Tweetinvi.Core.Public.Streaming
         // Tweets
 
         /// <summary>
-        /// A Tweet in relation with this account has been created.
+        /// A Tweet has been been created.
         /// </summary>
-        EventHandler<TweetCreatedEventArgs> TweetCreated { get; set; }
+        EventHandler<AccountActivityTweetCreatedEventArgs> TweetCreated { get; set; }
 
-        EventHandler<TweetDeletedEventArgs> TweetDeleted { get; set; }
+        /// <summary>
+        /// A Tweet has been deleted
+        /// </summary>
+        EventHandler<AccountActivityTweetDeletedEventArgs> TweetDeleted { get; set; }
 
-        EventHandler<TweetFavouritedEventArgs> TweetFavourited { get; set; }
+        /// <summary>
+        /// A Tweet has been favourited
+        /// </summary>
+        EventHandler<AccountActivityTweetFavouritedEventArgs> TweetFavourited { get; set; }
 
         // User Events
 
@@ -32,13 +38,13 @@ namespace Tweetinvi.Core.Public.Streaming
         EventHandler<UserUnFollowedEventArgs> UnfollowedUser { get; set; }
 
         /// <summary>
-        /// Current user has been followed by another user.
+        /// Current user has been followed by another user
         /// </summary>
         EventHandler<UserFollowedEventArgs> FollowedByUser { get; set; }
 
         EventHandler<UserBlockedEventArgs> UserBlocked { get; set; }
         EventHandler<UserMutedEventArgs> UserMuted { get; set; }
-        EventHandler<UserRevokedAppPermissionsEventArgs> UserRevokedAppPermissions { get; set; }
+        EventHandler<AccountActivityUserRevokedAppPermissionsEventArgs> UserRevokedAppPermissions { get; set; }
 
         // Messages
         EventHandler<MessageEventArgs> MessageReceived { get; set; }

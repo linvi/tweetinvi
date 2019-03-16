@@ -16,16 +16,6 @@ namespace Tweetinvi.Events
         public IUser Target { get; }
     }
 
-    public class AuthenticatedUserUpdatedEventArgs : EventArgs
-    {
-        public AuthenticatedUserUpdatedEventArgs(IAuthenticatedUser authenticatedUser)
-        {
-            AuthenticatedUser = authenticatedUser;
-        }
-
-        public IAuthenticatedUser AuthenticatedUser { get; private set; }
-    }
-
     public class UserFollowedEventArgs : UserEventArgs
     {
         public UserFollowedEventArgs(IUser source, IUser target, long sourceId) : base(target, sourceId)
@@ -69,11 +59,5 @@ namespace Tweetinvi.Events
         }
 
         public IUserWitheldInfo UserWitheldInfo { get; private set; }
-    }
-
-    public class UserRevokedAppPermissionsEventArgs : EventArgs
-    {
-        public long UserId { get; set; }
-        public long AppId { get; set; }
     }
 }

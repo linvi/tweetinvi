@@ -6,6 +6,7 @@
     <Copyright>Tweetinvi 2018</Copyright>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>../tweetinvi.snk</AssemblyOriginatorKeyFile>
+    <RootNamespace>Tweetinvi</RootNamespace>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
