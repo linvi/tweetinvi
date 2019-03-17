@@ -1,21 +1,18 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
-using Examplinvi.WebhooksServer;
-using Examplinvi.WebhooksServer.Controllers;
 using Microsoft.AspNetCore.Mvc;
 using Tweetinvi;
 using Tweetinvi.Core.Extensions;
 using Tweetinvi.Core.Public.Models.Interfaces.DTO.Webhooks;
-using Tweetinvi.Events;
 using Tweetinvi.Models;
 
-namespace WebApplication1.Controllers
+namespace Examplinvi.WebhooksServer.Controllers
 {
     [Route("tweetinvi/")]
     public class TweetinviWebhookController : Controller
     {
-        private AccountActivityEventsManager _accountActivityEventsManager;
+        private readonly AccountActivityEventsManager _accountActivityEventsManager;
 
         public TweetinviWebhookController()
         {

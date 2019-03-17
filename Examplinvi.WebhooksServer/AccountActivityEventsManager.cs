@@ -4,7 +4,7 @@ using System.Diagnostics.CodeAnalysis;
 using Tweetinvi.Events;
 using Tweetinvi.Streaming;
 
-namespace Examplinvi.WebhooksServer.Controllers
+namespace Examplinvi.WebhooksServer
 {
     public class AccountActivityEventsManager
     {
