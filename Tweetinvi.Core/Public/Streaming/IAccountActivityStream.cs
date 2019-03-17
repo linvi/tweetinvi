@@ -28,16 +28,25 @@ namespace Tweetinvi.Streaming
         // User Events
 
         /// <summary>
-        /// Current user is now following another user
+        /// Account user is now following another user
         /// </summary>
         EventHandler<AccountActivityUserFollowedEventArgs> UserFollowed { get; set; }
 
         /// <summary>
-        /// Current user has stopped following another user
+        /// Account user has stopped following another user
         /// </summary>
         EventHandler<AccountActivityUserUnfollowedEventArgs> UserUnfollowed { get; set; }
 
-        EventHandler<UserBlockedEventArgs> UserBlocked { get; set; }
+        /// <summary>
+        /// Account user has blocked another user
+        /// </summary>
+        EventHandler<AccountActivityUserBlockedEventArgs> UserBlocked { get; set; }
+
+        /// <summary>
+        /// Account user has unblocked another user
+        /// </summary>
+        EventHandler<AccountActivityUserUnblockedEventArgs> UserUnblocked { get; set; }
+
         EventHandler<UserMutedEventArgs> UserMuted { get; set; }
         EventHandler<AccountActivityUserRevokedAppPermissionsEventArgs> UserRevokedAppPermissions { get; set; }
 

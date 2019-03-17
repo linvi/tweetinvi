@@ -21,18 +21,25 @@ namespace Examplinvi.WebhooksServer.Controllers
 
             Console.WriteLine($"Activities for user {accountActivityStream.UserId} are now being tracked.");
 
+            // Tweet events
             accountActivityStream.TweetCreated += TweetCreated;
-            accountActivityStream.JsonObjectReceived += JsonObjectReceived;
-            accountActivityStream.MessageReceived += MessageReceived;
-            accountActivityStream.MessageSent += MessageSent;
-            accountActivityStream.UserFollowed += FollowedUser;
-            accountActivityStream.UserUnfollowed += UnfollowedUser;
             accountActivityStream.TweetFavourited += TweetFavourited;
             accountActivityStream.TweetDeleted += TweetDeleted;
-            accountActivityStream.UnmanagedEventReceived += (sender, args) =>
-            {
-                Console.WriteLine(args);
-            };
+
+             // Message events
+            accountActivityStream.MessageReceived += MessageReceived;
+            accountActivityStream.MessageSent += MessageSent;
+
+            // User events
+            accountActivityStream.UserFollowed += FollowedUser;
+            accountActivityStream.UserUnfollowed += UnfollowedUser;
+
+            accountActivityStream.UserBlocked += UserBlocked;
+            accountActivityStream.UserUnblocked += UserUnblocked;
+
+            // Other events
+            accountActivityStream.JsonObjectReceived += JsonObjectReceived;
+            accountActivityStream.UnmanagedEventReceived += UnmanagedEventReceived;
         }
 
         [SuppressMessage("ReSharper", "DelegateSubtraction")]
@@ -41,15 +48,23 @@ namespace Examplinvi.WebhooksServer.Controllers
             _trackedStreams.Remove(accountActivityStream);
 
             accountActivityStream.TweetCreated -= TweetCreated;
-            accountActivityStream.JsonObjectReceived -= JsonObjectReceived;
-            accountActivityStream.MessageReceived -= MessageReceived;
-            accountActivityStream.MessageSent -= MessageSent;
-            accountActivityStream.UserFollowed -= FollowedUser;
-            accountActivityStream.UserUnfollowed -= UnfollowedUser;
             accountActivityStream.TweetFavourited -= TweetFavourited;
             accountActivityStream.TweetDeleted -= TweetDeleted;
+
+            accountActivityStream.MessageReceived -= MessageReceived;
+            accountActivityStream.MessageSent -= MessageSent;
+
+            accountActivityStream.UserFollowed -= FollowedUser;
+            accountActivityStream.UserUnfollowed -= UnfollowedUser;
+
+            accountActivityStream.UserBlocked -= UserBlocked;
+            accountActivityStream.UserUnblocked -= UserUnblocked;
+
+            accountActivityStream.JsonObjectReceived -= JsonObjectReceived;
+            accountActivityStream.UnmanagedEventReceived -= UnmanagedEventReceived;
         }
 
+        // Tweet events
         private void TweetCreated(object sender, AccountActivityTweetCreatedEventArgs e)
         {
             Console.WriteLine("Tweet created", e);
@@ -65,6 +80,19 @@ namespace Examplinvi.WebhooksServer.Controllers
             Console.WriteLine("Tweet was favourited", e);
         }
 
+      
+        // Message events
+        private void MessageSent(object sender, MessageEventArgs args)
+        {
+            Console.WriteLine(args.Message.App);
+        }
+
+        private void MessageReceived(object sender, MessageEventArgs args)
+        {
+            Console.WriteLine(args.Message.App);
+        }
+
+        // User events
         private void FollowedUser(object sender, AccountActivityUserFollowedEventArgs e)
         {
             if (e.InResultOf == UserFollowedRaisedInResultOf.AccountUserFollowingAnotherUser)
@@ -79,23 +107,27 @@ namespace Examplinvi.WebhooksServer.Controllers
 
         private void UnfollowedUser(object sender, AccountActivityUserUnfollowedEventArgs e)
         {
-            // Account user unfollowed another user
             Console.WriteLine($"Account user ({e.UnfollowedBy.ScreenName}) is no longer following {e.UserUnfollowed.ScreenName}");
         }
 
-        private void MessageSent(object sender, MessageEventArgs args)
+        private void UserBlocked(object sender, AccountActivityUserBlockedEventArgs e)
         {
-            Console.WriteLine(args.Message.App);
+            Console.WriteLine($"Account user ({e.BlockedBy}) has blocked {e.UserBlocked}");
+        }
+        private void UserUnblocked(object sender, AccountActivityUserUnblockedEventArgs e)
+        {
+            Console.WriteLine($"Account user ({e.UnblockedBy}) has unblocked {e.UserUnblocked}");
         }
 
-        private void MessageReceived(object sender, MessageEventArgs args)
-        {
-            Console.WriteLine(args.Message.App);
-        }
-
+        // Other events
         private void JsonObjectReceived(object sender, JsonObjectEventArgs args)
         {
             Console.WriteLine(args.Json);
+        }
+
+        private void UnmanagedEventReceived(object sender, UnmanagedMessageReceivedEventArgs e)
+        {
+            Console.WriteLine("An event that Tweetinvi is not yet capable of analyzing has been received. Please open a github issue with this message: " + e.JsonMessageReceived);
         }
     }
 }

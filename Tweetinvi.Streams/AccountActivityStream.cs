@@ -86,7 +86,8 @@ namespace Tweetinvi.Streams
         public EventHandler<AccountActivityUserFollowedEventArgs> UserFollowed { get; set; }
         public EventHandler<AccountActivityUserUnfollowedEventArgs> UserUnfollowed { get; set; }
 
-        public EventHandler<UserBlockedEventArgs> UserBlocked { get; set; }
+        public EventHandler<AccountActivityUserBlockedEventArgs> UserBlocked { get; set; }
+        public EventHandler<AccountActivityUserUnblockedEventArgs> UserUnblocked { get; set; }
         public EventHandler<UserMutedEventArgs> UserMuted { get; set; }
         public EventHandler<AccountActivityUserRevokedAppPermissionsEventArgs> UserRevokedAppPermissions { get; set; }
 
@@ -231,11 +232,36 @@ namespace Tweetinvi.Streams
         private void TryRaiseUserBlockedEvents(string eventName, JObject jsonObjectEvent)
         {
             var userBlockedEvent = jsonObjectEvent[eventName];
-            var blockedUsers = GetEventTargetUsers(userBlockedEvent);
 
-            blockedUsers.ForEach(blockedUser =>
+            var blockedEventInfos = ExtractUserToUserEventDTOs(userBlockedEvent);
+
+            blockedEventInfos.ForEach(blockedEventInfo =>
             {
-                this.Raise(UserBlocked, new UserBlockedEventArgs(blockedUser, UserId));
+                var sourceUser = _userFactory.GenerateUserFromDTO(blockedEventInfo.Source);
+                var targetUser = _userFactory.GenerateUserFromDTO(blockedEventInfo.Target);
+
+                var timestamp = long.Parse(blockedEventInfo.CreatedTimestamp);
+                var dateOffset = DateTimeOffset.FromUnixTimeMilliseconds(timestamp);
+
+                var accountActivityEvent = new AccountActivityEvent<Tuple<IUser, IUser>>(new Tuple<IUser, IUser>(sourceUser, targetUser))
+                {
+                    AccountUserId = UserId,
+                    EventDate = dateOffset.UtcDateTime,
+                    Json = jsonObjectEvent.ToString(),
+                };
+
+                if (blockedEventInfo.Type == "block")
+                {
+                    this.Raise(UserBlocked, new AccountActivityUserBlockedEventArgs(accountActivityEvent));
+                }
+                else if (blockedEventInfo.Type == "unblock")
+                {
+                    this.Raise(UserUnblocked, new AccountActivityUserUnblockedEventArgs(accountActivityEvent));
+                }
+                else
+                {
+                    this.Raise(UnmanagedEventReceived, new UnmanagedMessageReceivedEventArgs(jsonObjectEvent.ToString()));
+                }
             });
         }
 

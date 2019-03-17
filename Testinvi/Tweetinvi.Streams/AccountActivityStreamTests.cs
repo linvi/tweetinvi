@@ -7,7 +7,6 @@ using Tweetinvi;
 using Tweetinvi.Core.Factories;
 using Tweetinvi.Core.Helpers;
 using Tweetinvi.Core.Injectinvi;
-using Tweetinvi.Core.Public.Streaming;
 using Tweetinvi.Core.Wrappers;
 using Tweetinvi.Events;
 using Tweetinvi.Models.Webhooks;
@@ -394,12 +393,14 @@ namespace Testinvi.Tweetinvi.Streams
             var json = @"{
 	            ""for_user_id"": ""100"",
 	            ""block_events"": [{
+                  ""type"": ""block"",
+                  ""created_timestamp"": ""1552763621007"",
                   ""target"" : " + JsonTests.USER_TEST_JSON(41) + @",
                   ""source"": " + JsonTests.USER_TEST_JSON(ACCOUNT_ACTIVITY_USER_ID) + @"
 	            }]
             }";
 
-            var eventsReceived = new List<UserBlockedEventArgs>();
+            var eventsReceived = new List<AccountActivityUserBlockedEventArgs>();
             activityStream.UserBlocked += (sender, args) =>
             {
                 eventsReceived.Add(args);
@@ -410,24 +411,29 @@ namespace Testinvi.Tweetinvi.Streams
 
             // Assert
             Assert.AreEqual(eventsReceived.Count, 1);
-            Assert.AreEqual(eventsReceived[0].Target.Id, 41);
+            Assert.AreEqual(eventsReceived[0].BlockedBy.Id, ACCOUNT_ACTIVITY_USER_ID);
+            Assert.AreEqual(eventsReceived[0].UserBlocked.Id, 41);
+            Assert.AreEqual(eventsReceived[0].EventDate, DateTimeOffset.FromUnixTimeMilliseconds(1552763621007).DateTime);
         }
 
+
         [TestMethod]
-        public void UserBlockedRaised_WithSourceUser()
+        public void UserUnblockedRaised_WithTargetUser()
         {
             var activityStream = CreateAccountActivityStream();
 
             var json = @"{
 	            ""for_user_id"": ""100"",
 	            ""block_events"": [{
-                  ""target"" : " + JsonTests.USER_TEST_JSON(ACCOUNT_ACTIVITY_USER_ID) + @",
-                  ""source"": " + JsonTests.USER_TEST_JSON(40) + @"
+                  ""type"": ""unblock"",
+                  ""created_timestamp"": ""1552763621007"",
+                  ""target"" : " + JsonTests.USER_TEST_JSON(41) + @",
+                  ""source"": " + JsonTests.USER_TEST_JSON(ACCOUNT_ACTIVITY_USER_ID) + @"
 	            }]
             }";
 
-            var eventsReceived = new List<UserBlockedEventArgs>();
-            activityStream.UserBlocked += (sender, args) =>
+            var eventsReceived = new List<AccountActivityUserUnblockedEventArgs>();
+            activityStream.UserUnblocked += (sender, args) =>
             {
                 eventsReceived.Add(args);
             };
@@ -437,8 +443,12 @@ namespace Testinvi.Tweetinvi.Streams
 
             // Assert
             Assert.AreEqual(eventsReceived.Count, 1);
-            Assert.AreEqual(eventsReceived[0].Target.Id, 40);
+            Assert.AreEqual(eventsReceived[0].UnblockedBy.Id, ACCOUNT_ACTIVITY_USER_ID);
+            Assert.AreEqual(eventsReceived[0].UserUnblocked.Id, 41);
+            Assert.AreEqual(eventsReceived[0].EventDate, DateTimeOffset.FromUnixTimeMilliseconds(1552763621007).DateTime);
         }
+
+
 
         [TestMethod]
         public void UserMutedRaised_WithTargetUser()
