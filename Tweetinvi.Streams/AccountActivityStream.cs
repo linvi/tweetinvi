@@ -75,7 +75,7 @@ namespace Tweetinvi.Streams
             _events.Add("direct_message_mark_read_events", TryRaiseMessageReadEvent);
         }
 
-        public long UserId { get; set; }
+        public long AccountUserId { get; set; }
 
         // Tweets
         public EventHandler<AccountActivityTweetCreatedEventArgs> TweetCreated { get; set; }
@@ -93,8 +93,8 @@ namespace Tweetinvi.Streams
         public EventHandler<AccountActivityUserRevokedAppPermissionsEventArgs> UserRevokedAppPermissions { get; set; }
 
         // Messages
-        public EventHandler<MessageEventArgs> MessageReceived { get; set; }
-        public EventHandler<MessageEventArgs> MessageSent { get; set; }
+        public EventHandler<AccountActivityMessageReceivedEventArgs> MessageReceived { get; set; }
+        public EventHandler<AccountActivityMessageSentEventArgs> MessageSent { get; set; }
         public EventHandler<UserIsTypingMessageEventArgs> UserIsTypingMessage { get; set; }
         public EventHandler<UserReadMessageConversationEventArgs> UserReadMessage { get; set; }
 
@@ -140,7 +140,7 @@ namespace Tweetinvi.Streams
 
                 var accountActivityEvent = new AccountActivityEvent<ITweet>(tweet)
                 {
-                    AccountUserId = UserId,
+                    AccountUserId = AccountUserId,
                     EventDate = tweet.CreatedAt,
                     Json = jsonObjectEvent.ToString()
                 };
@@ -160,7 +160,7 @@ namespace Tweetinvi.Streams
 
                 var accountActivityEvent = new AccountActivityEvent<long>(tweetDeletedEventDTO.Status.TweetId)
                 {
-                    AccountUserId = UserId,
+                    AccountUserId = AccountUserId,
                     EventDate = dateOffset.UtcDateTime,
                     Json = jsonObjectEvent.ToString()
                 };
@@ -182,7 +182,7 @@ namespace Tweetinvi.Streams
 
                 var accountActivityEvent = new AccountActivityEvent<Tuple<ITweet, IUser>>(new Tuple<ITweet, IUser>(tweet, user))
                 {
-                    AccountUserId = UserId,
+                    AccountUserId = AccountUserId,
                     EventDate = tweet.CreatedAt,
                     Json = jsonObjectEvent.ToString(),
                 };
@@ -206,7 +206,7 @@ namespace Tweetinvi.Streams
 
                 var accountActivityEvent = new AccountActivityEvent<Tuple<IUser, IUser>>(new Tuple<IUser, IUser>(sourceUser, targetUser))
                 {
-                    AccountUserId = UserId,
+                    AccountUserId = AccountUserId,
                     EventDate = dateOffset.UtcDateTime,
                     Json = jsonObjectEvent.ToString(),
                 };
@@ -246,7 +246,7 @@ namespace Tweetinvi.Streams
 
                 var accountActivityEvent = new AccountActivityEvent<Tuple<IUser, IUser>>(new Tuple<IUser, IUser>(sourceUser, targetUser))
                 {
-                    AccountUserId = UserId,
+                    AccountUserId = AccountUserId,
                     EventDate = dateOffset.UtcDateTime,
                     Json = jsonObjectEvent.ToString(),
                 };
@@ -282,7 +282,7 @@ namespace Tweetinvi.Streams
 
                 var accountActivityEvent = new AccountActivityEvent<Tuple<IUser, IUser>>(new Tuple<IUser, IUser>(sourceUser, targetUser))
                 {
-                    AccountUserId = UserId,
+                    AccountUserId = AccountUserId,
                     EventDate = dateOffset.UtcDateTime,
                     Json = jsonObjectEvent.ToString(),
                 };
@@ -329,27 +329,45 @@ namespace Tweetinvi.Streams
 
         private void TryRaiseMessageEvent(string eventName, JObject jsonObjectEvent)
         {
-            var messageEventDTOs = jsonObjectEvent[eventName].ToObject<EventDTO[]>();
-            var apps = jsonObjectEvent["apps"]?.ToObject<Dictionary<string, App>>() ?? new Dictionary<string, App>();
+            var eventInfo = jsonObjectEvent.ToObject<AccountActivityMessageCreatedEventDTO>();
 
-            messageEventDTOs.ForEach(messageEventDTO =>
+            eventInfo.MessageEvents.ForEach(messageEventDTO =>
             {
                 App app = null;
 
                 if (messageEventDTO.MessageCreate.SourceAppId != null)
                 {
-                    apps.TryGetValue(messageEventDTO.MessageCreate.SourceAppId.ToString(), out app);
+                    eventInfo.Apps.TryGetValue(messageEventDTO.MessageCreate.SourceAppId.ToString(), out app);
                 }
+
+                eventInfo.UsersById.TryGetValue(messageEventDTO.MessageCreate.SenderId.ToString(), out var senderDTO);
+                eventInfo.UsersById.TryGetValue(messageEventDTO.MessageCreate.Target.RecipientId.ToString(), out var recipientDTO);
+
+                var sender = _userFactory.GenerateUserFromDTO(senderDTO);
+                var recipient = _userFactory.GenerateUserFromDTO(recipientDTO);
 
                 var message = _messageFactory.GenerateMessageFromEventDTO(messageEventDTO, app);
 
-                if (message.SenderId == UserId)
+                var accountActivityEvent = new AccountActivityEvent<IMessage>(message)
                 {
-                    this.Raise(MessageSent, new MessageEventArgs(message));
+                    AccountUserId = AccountUserId,
+                    EventDate = message.CreatedAt,
+                    Json = jsonObjectEvent.ToString(),
+                };
+
+                if (message.SenderId == AccountUserId)
+                {
+                    var eventArgs = new AccountActivityMessageSentEventArgs(accountActivityEvent, message, sender, recipient, app);
+                    this.Raise(MessageSent, eventArgs);
+                }
+                else if (message.RecipientId == AccountUserId)
+                {
+                    var eventArgs = new AccountActivityMessageReceivedEventArgs(accountActivityEvent, message, sender, recipient, app);
+                    this.Raise(MessageReceived, eventArgs);
                 }
                 else
                 {
-                    this.Raise(MessageReceived, new MessageEventArgs(message));
+                    this.Raise(UnmanagedEventReceived, new UnmanagedMessageReceivedEventArgs(jsonObjectEvent.ToString()));
                 }
             });
         }
@@ -415,7 +433,7 @@ namespace Tweetinvi.Streams
                 var source = x.Source;
                 var target = x.Target;
 
-                var targetUserDTO = source.Id == UserId ? target : source;
+                var targetUserDTO = source.Id == AccountUserId ? target : source;
                 var targetUser = _userFactory.GenerateUserFromDTO(targetUserDTO);
                 return targetUser;
             }).ToArray();

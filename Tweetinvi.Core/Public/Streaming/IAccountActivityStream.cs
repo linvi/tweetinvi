@@ -6,7 +6,10 @@ namespace Tweetinvi.Streaming
 {
     public interface IAccountActivityStream
     {
-        long UserId { get; set; }
+        /// <summary>
+        /// The account user id.
+        /// </summary>
+        long AccountUserId { get; set; }
 
         // Tweets
 
@@ -59,8 +62,8 @@ namespace Tweetinvi.Streaming
 
 
         // Messages
-        EventHandler<MessageEventArgs> MessageReceived { get; set; }
-        EventHandler<MessageEventArgs> MessageSent { get; set; }
+        EventHandler<AccountActivityMessageReceivedEventArgs> MessageReceived { get; set; }
+        EventHandler<AccountActivityMessageSentEventArgs> MessageSent { get; set; }
         EventHandler<UserIsTypingMessageEventArgs> UserIsTypingMessage { get; set; }
         EventHandler<UserReadMessageConversationEventArgs> UserReadMessage { get; set; }
 

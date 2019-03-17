@@ -91,7 +91,7 @@ namespace Examplinvi.WebhooksServer.Controllers
 
             webhooksSubscriptions.ForEach(subscription =>
             {
-                var accountActivityStream = Startup.WebhookConfiguration.RegisteredActivityStreams.SingleOrDefault(x => x.UserId.ToString() == subscription.UserId);
+                var accountActivityStream = Startup.WebhookConfiguration.RegisteredActivityStreams.SingleOrDefault(x => x.AccountUserId.ToString() == subscription.UserId);
 
                 if (accountActivityStream == null)
                 {
@@ -168,7 +168,7 @@ namespace Examplinvi.WebhooksServer.Controllers
                 return "ENVIRONMENT_NOT_MATCHED";
             }
 
-            var streams = Startup.WebhookConfiguration.RegisteredActivityStreams.Where(x => x.UserId.ToString() == userId);
+            var streams = Startup.WebhookConfiguration.RegisteredActivityStreams.Where(x => x.AccountUserId.ToString() == userId);
 
             streams.ForEach(stream =>
             {

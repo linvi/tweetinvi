@@ -19,7 +19,7 @@ namespace Examplinvi.WebhooksServer
 
             _trackedStreams.Add(accountActivityStream);
 
-            Console.WriteLine($"Activities for user {accountActivityStream.UserId} are now being tracked.");
+            Console.WriteLine($"Activities for user {accountActivityStream.AccountUserId} are now being tracked.");
 
             // Tweet events
             accountActivityStream.TweetCreated += TweetCreated;
@@ -79,29 +79,29 @@ namespace Examplinvi.WebhooksServer
         // Tweet events
         private void TweetCreated(object sender, AccountActivityTweetCreatedEventArgs e)
         {
-            Console.WriteLine("Tweet created", e);
+            Console.WriteLine($"Tweet has been created:\n${e.Tweet}");
         }
 
         private void TweetDeleted(object sender, AccountActivityTweetDeletedEventArgs e)
         {
-            Console.WriteLine("Tweet deleted", e);
+            Console.WriteLine($"Tweet ${e.TweetId} has been deleted at ${e.EventDate}");
         }
 
         private void TweetFavourited(object sender, AccountActivityTweetFavouritedEventArgs e)
         {
-            Console.WriteLine("Tweet was favourited", e);
+            Console.WriteLine($"Tweet has been favourited by ${e.FavouritedBy}:\n${e.Tweet}");
         }
 
       
         // Message events
-        private void MessageSent(object sender, MessageEventArgs args)
+        private void MessageSent(object sender, AccountActivityMessageSentEventArgs args)
         {
-            Console.WriteLine(args.Message.App);
+            Console.WriteLine($"Account user ({args.Message.SenderId}) has sent a message to {args.Message.RecipientId}");
         }
 
-        private void MessageReceived(object sender, MessageEventArgs args)
+        private void MessageReceived(object sender, AccountActivityMessageReceivedEventArgs args)
         {
-            Console.WriteLine(args.Message.App);
+            Console.WriteLine($"Account user ({args.Message.SenderId}) has received a message from {args.Message.RecipientId}");
         }
 
         // User events

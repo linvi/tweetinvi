@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Testinvi.Helpers;
 using Testinvi.json.net;
@@ -17,6 +18,7 @@ using Tweetinvi.Streams.Helpers;
 namespace Testinvi.Tweetinvi.Streams
 {
     [TestClass]
+    [SuppressMessage("ReSharper", "StringLiteralTypo")]
     public class AccountActivityStreamTests
     {
         private FakeClassBuilder<AccountActivityStream> _fakeBuilder;
@@ -38,7 +40,7 @@ namespace Testinvi.Tweetinvi.Streams
                 new ConstructorNamedParameter("messageFactory", TweetinviContainer.Resolve<IMessageFactory>()),
                 new ConstructorNamedParameter("accountActivityConversationEventExtractor", TweetinviContainer.Resolve<IAccountActivityConversationEventExtractor>()));
 
-            activityStream.UserId = ACCOUNT_ACTIVITY_USER_ID;
+            activityStream.AccountUserId = ACCOUNT_ACTIVITY_USER_ID;
 
             return activityStream;
         }
@@ -47,7 +49,7 @@ namespace Testinvi.Tweetinvi.Streams
         public void TweetEventRaised()
         {
             var activityStream = CreateAccountActivityStream();
-            
+
             var json = @"{
 	            ""for_user_id"": ""100"",
 	            ""tweet_create_events"": [
@@ -557,9 +559,9 @@ namespace Testinvi.Tweetinvi.Streams
 		            ""created_timestamp"": ""1516403560557"",
 		            ""message_create"": {
 			            ""target"": {
-				            ""recipient_id"": ""4337869213""
+				            ""recipient_id"": """ + ACCOUNT_ACTIVITY_USER_ID + @"""
 			            },
-			            ""sender_id"": ""3001969357"",
+			            ""sender_id"": ""4337869213"",
 			            ""source_app_id"": ""13090192"",
 			            ""message_data"": {
 				            ""text"": ""Hello World!"",
@@ -572,9 +574,16 @@ namespace Testinvi.Tweetinvi.Streams
 			            }
 		            }
 	            }],
+                ""apps"": {
+                    ""13090192"": {
+                        ""id"": ""13090192"",
+                        ""name"": ""Twitter Web Client"",
+                        ""url"": ""http://twitter.com""
+                    }
+                },
                 ""users"": {
-		            ""3001969357"": {
-			            ""id"": ""3001969357"",
+		            """ + ACCOUNT_ACTIVITY_USER_ID + @""": {
+			            ""id"": """ + ACCOUNT_ACTIVITY_USER_ID + @""",
 			            ""created_timestamp"": ""1422556069340"",
 			            ""name"": ""Jordan Brinks"",
 			            ""screen_name"": ""furiouscamper"",
@@ -606,7 +615,7 @@ namespace Testinvi.Tweetinvi.Streams
 	            }
             }";
 
-            var eventsReceived = new List<MessageEventArgs>();
+            var eventsReceived = new List<AccountActivityMessageReceivedEventArgs>();
             activityStream.MessageReceived += (sender, args) =>
             {
                 eventsReceived.Add(args);
@@ -618,8 +627,11 @@ namespace Testinvi.Tweetinvi.Streams
             // Assert
             Assert.AreEqual(eventsReceived.Count, 1);
             Assert.AreEqual(eventsReceived[0].Message.Text, "Hello World!");
-            Assert.AreEqual(eventsReceived[0].Message.SenderId, 3001969357);
-            Assert.IsNull(eventsReceived[0].Message.App);
+            Assert.AreEqual(eventsReceived[0].Sender.ScreenName, "Harris_0ff");
+            Assert.AreEqual(eventsReceived[0].Recipient.ScreenName, "furiouscamper");
+            Assert.AreEqual(eventsReceived[0].EventDate, DateTimeOffset.FromUnixTimeMilliseconds(1516403560557).DateTime);
+            Assert.AreEqual(eventsReceived[0].InResultOf, MessageReceivedInResultOf.AccountUserReceivingAMessage);
+            Assert.AreEqual(eventsReceived[0].Message.App.Id, 13090192);
         }
 
         [TestMethod]
@@ -658,7 +670,7 @@ namespace Testinvi.Tweetinvi.Streams
 		            }
                 },
 		        ""users"": {
-		            ""3001969357"": {
+		            """ + ACCOUNT_ACTIVITY_USER_ID + @""": {
 			            ""id"": ""3001969357"",
 			            ""created_timestamp"": ""1422556069340"",
 			            ""name"": ""Jordan Brinks"",
@@ -691,7 +703,7 @@ namespace Testinvi.Tweetinvi.Streams
 	            }
             }";
 
-            var eventsReceived = new List<MessageEventArgs>();
+            var eventsReceived = new List<AccountActivityMessageSentEventArgs>();
             activityStream.MessageSent += (sender, args) =>
             {
                 eventsReceived.Add(args);
@@ -703,8 +715,11 @@ namespace Testinvi.Tweetinvi.Streams
             // Assert
             Assert.AreEqual(eventsReceived.Count, 1);
             Assert.AreEqual(eventsReceived[0].Message.Text, "Hello World!");
-            Assert.AreEqual(eventsReceived[0].Message.SenderId, ACCOUNT_ACTIVITY_USER_ID);
-            Assert.AreEqual(eventsReceived[0].Message.App.Name, "FuriousCamperTestApp1");
+            Assert.AreEqual(eventsReceived[0].Sender.ScreenName, "furiouscamper");
+            Assert.AreEqual(eventsReceived[0].Recipient.ScreenName, "Harris_0ff");
+            Assert.AreEqual(eventsReceived[0].EventDate, DateTimeOffset.FromUnixTimeMilliseconds(1516403560557).DateTime);
+            Assert.AreEqual(eventsReceived[0].InResultOf, MessageSentInResultOf.AccountUserSendingAMessage);
+            Assert.AreEqual(eventsReceived[0].Message.App.Id, 13090192);
         }
 
         [TestMethod]

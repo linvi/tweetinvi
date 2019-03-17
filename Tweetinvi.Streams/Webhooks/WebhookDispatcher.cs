@@ -33,7 +33,7 @@ namespace Tweetinvi.Streams.Webhooks
 
             _accountActivityStream.ForEach(activityStream =>
             {
-                var isTargetingActivityStream = activityStream.UserId.ToString() == userId;
+                var isTargetingActivityStream = activityStream.AccountUserId.ToString() == userId;
                 if (isTargetingActivityStream)
                 {
                     activityStream.WebhookMessageReceived(message);

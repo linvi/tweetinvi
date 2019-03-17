@@ -2,7 +2,6 @@
 
 namespace Tweetinvi.Streams.Model.AccountActivity
 {
-
     public class AccountActivityTweetDeletedEventDTO
     {
         [JsonProperty("status")]

@@ -104,11 +104,11 @@ namespace Tweetinvi
         /// <summary>
         /// Create a stream notifying the client about everything that can happen to a user.
         /// </summary>
-        public static IAccountActivityStream CreateAccountActivityStream(long userId)
+        public static IAccountActivityStream CreateAccountActivityStream(long accountUserId)
         {
             var stream = _accountActivityStreamFactory.Create();
 
-            stream.UserId = userId;
+            stream.AccountUserId = accountUserId;
 
             return stream;
         }
