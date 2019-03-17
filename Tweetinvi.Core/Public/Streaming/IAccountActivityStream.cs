@@ -47,8 +47,16 @@ namespace Tweetinvi.Streaming
         /// </summary>
         EventHandler<AccountActivityUserUnblockedEventArgs> UserUnblocked { get; set; }
 
-        EventHandler<UserMutedEventArgs> UserMuted { get; set; }
-        EventHandler<AccountActivityUserRevokedAppPermissionsEventArgs> UserRevokedAppPermissions { get; set; }
+        /// <summary>
+        /// Account user has muted another user
+        /// </summary>
+        EventHandler<AccountActivityUserMutedEventArgs> UserMuted { get; set; }
+
+        /// <summary>
+        /// Account user has unmuted another user
+        /// </summary>
+        EventHandler<AccountActivityUserUnmutedEventArgs> UserUnmuted { get; set; }
+
 
         // Messages
         EventHandler<MessageEventArgs> MessageReceived { get; set; }
@@ -56,10 +64,12 @@ namespace Tweetinvi.Streaming
         EventHandler<UserIsTypingMessageEventArgs> UserIsTypingMessage { get; set; }
         EventHandler<UserReadMessageConversationEventArgs> UserReadMessage { get; set; }
 
-        // Others
-        EventHandler<UnmanagedMessageReceivedEventArgs> UnmanagedEventReceived { get; set; }
-        EventHandler<JsonObjectEventArgs> JsonObjectReceived { get; set; }
+        // Permissions
+        EventHandler<AccountActivityUserRevokedAppPermissionsEventArgs> UserRevokedAppPermissions { get; set; }
 
+        // Others
+        EventHandler<JsonObjectEventArgs> JsonObjectReceived { get; set; }
+        EventHandler<UnmanagedMessageReceivedEventArgs> UnmanagedEventReceived { get; set; }
 
         void WebhookMessageReceived(IWebhookMessage message);
     }

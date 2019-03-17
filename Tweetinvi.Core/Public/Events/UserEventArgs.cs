@@ -16,21 +16,6 @@ namespace Tweetinvi.Events
         public IUser Target { get; }
     }
 
-    public class UserBlockedEventArgs : UserEventArgs
-    {
-        public UserBlockedEventArgs(IUser target, long sourceId) : base(target, sourceId)
-        {
-        }
-    }
-
-    public class UserMutedEventArgs : UserEventArgs
-    {
-        public UserMutedEventArgs(IUser target, long sourceId) : base(target, sourceId)
-        {
-
-        }
-    }
-
     public class UserWitheldEventArgs : EventArgs
     {
         public UserWitheldEventArgs(IUserWitheldInfo userWitheldInfo)

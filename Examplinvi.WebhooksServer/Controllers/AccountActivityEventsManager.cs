@@ -37,29 +37,41 @@ namespace Examplinvi.WebhooksServer.Controllers
             accountActivityStream.UserBlocked += UserBlocked;
             accountActivityStream.UserUnblocked += UserUnblocked;
 
+            accountActivityStream.UserMuted += UserMuted;
+            accountActivityStream.UserUnmuted += UserUnmuted;
+
             // Other events
             accountActivityStream.JsonObjectReceived += JsonObjectReceived;
             accountActivityStream.UnmanagedEventReceived += UnmanagedEventReceived;
         }
+
+      
 
         [SuppressMessage("ReSharper", "DelegateSubtraction")]
         public void UnregisterAccountActivityStream(IAccountActivityStream accountActivityStream)
         {
             _trackedStreams.Remove(accountActivityStream);
 
+            // Tweet events
             accountActivityStream.TweetCreated -= TweetCreated;
             accountActivityStream.TweetFavourited -= TweetFavourited;
             accountActivityStream.TweetDeleted -= TweetDeleted;
 
+            // Message events
             accountActivityStream.MessageReceived -= MessageReceived;
             accountActivityStream.MessageSent -= MessageSent;
 
+            // User events
             accountActivityStream.UserFollowed -= FollowedUser;
             accountActivityStream.UserUnfollowed -= UnfollowedUser;
 
             accountActivityStream.UserBlocked -= UserBlocked;
             accountActivityStream.UserUnblocked -= UserUnblocked;
 
+            accountActivityStream.UserMuted += UserMuted;
+            accountActivityStream.UserUnmuted += UserUnmuted;
+
+            // Other events
             accountActivityStream.JsonObjectReceived -= JsonObjectReceived;
             accountActivityStream.UnmanagedEventReceived -= UnmanagedEventReceived;
         }
@@ -118,6 +130,17 @@ namespace Examplinvi.WebhooksServer.Controllers
         {
             Console.WriteLine($"Account user ({e.UnblockedBy}) has unblocked {e.UserUnblocked}");
         }
+        
+        private void UserMuted(object sender, AccountActivityUserMutedEventArgs e)
+        {
+            Console.WriteLine($"Account user ({e.MutedBy}) has unmuted {e.UserMuted}");
+        }
+
+        private void UserUnmuted(object sender, AccountActivityUserUnmutedEventArgs e)
+        {
+            Console.WriteLine($"Account user ({e.UnmutedBy}) has unmuted {e.UserUnmuted}");
+        }
+
 
         // Other events
         private void JsonObjectReceived(object sender, JsonObjectEventArgs args)

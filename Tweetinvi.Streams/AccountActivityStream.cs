@@ -88,7 +88,8 @@ namespace Tweetinvi.Streams
 
         public EventHandler<AccountActivityUserBlockedEventArgs> UserBlocked { get; set; }
         public EventHandler<AccountActivityUserUnblockedEventArgs> UserUnblocked { get; set; }
-        public EventHandler<UserMutedEventArgs> UserMuted { get; set; }
+        public EventHandler<AccountActivityUserMutedEventArgs> UserMuted { get; set; }
+        public EventHandler<AccountActivityUserUnmutedEventArgs> UserUnmuted { get; set; }
         public EventHandler<AccountActivityUserRevokedAppPermissionsEventArgs> UserRevokedAppPermissions { get; set; }
 
         // Messages
@@ -268,11 +269,36 @@ namespace Tweetinvi.Streams
         private void TryRaiseUserMutedEvents(string eventName, JObject jsonObjectEvent)
         {
             var userMutedEvent = jsonObjectEvent[eventName];
-            var mutedUsers = GetEventTargetUsers(userMutedEvent);
 
-            mutedUsers.ForEach(mutedUser =>
+            var mutedEventInfos = ExtractUserToUserEventDTOs(userMutedEvent);
+
+            mutedEventInfos.ForEach(mutedEventInfo =>
             {
-                this.Raise(UserMuted, new UserMutedEventArgs(mutedUser, UserId));
+                var sourceUser = _userFactory.GenerateUserFromDTO(mutedEventInfo.Source);
+                var targetUser = _userFactory.GenerateUserFromDTO(mutedEventInfo.Target);
+
+                var timestamp = long.Parse(mutedEventInfo.CreatedTimestamp);
+                var dateOffset = DateTimeOffset.FromUnixTimeMilliseconds(timestamp);
+
+                var accountActivityEvent = new AccountActivityEvent<Tuple<IUser, IUser>>(new Tuple<IUser, IUser>(sourceUser, targetUser))
+                {
+                    AccountUserId = UserId,
+                    EventDate = dateOffset.UtcDateTime,
+                    Json = jsonObjectEvent.ToString(),
+                };
+
+                if (mutedEventInfo.Type == "mute")
+                {
+                    this.Raise(UserMuted, new AccountActivityUserMutedEventArgs(accountActivityEvent));
+                }
+                else if (mutedEventInfo.Type == "unmute")
+                {
+                    this.Raise(UserUnmuted, new AccountActivityUserUnmutedEventArgs(accountActivityEvent));
+                }
+                else
+                {
+                    this.Raise(UnmanagedEventReceived, new UnmanagedMessageReceivedEventArgs(jsonObjectEvent.ToString()));
+                }
             });
         }
 

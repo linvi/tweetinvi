@@ -448,8 +448,6 @@ namespace Testinvi.Tweetinvi.Streams
             Assert.AreEqual(eventsReceived[0].EventDate, DateTimeOffset.FromUnixTimeMilliseconds(1552763621007).DateTime);
         }
 
-
-
         [TestMethod]
         public void UserMutedRaised_WithTargetUser()
         {
@@ -459,12 +457,13 @@ namespace Testinvi.Tweetinvi.Streams
 	            ""for_user_id"": ""100"",
 	            ""mute_events"": [{
                   ""type"": ""mute"",
+                  ""created_timestamp"": ""1552763621007"",
                   ""target"" : " + JsonTests.USER_TEST_JSON(41) + @",
                   ""source"": " + JsonTests.USER_TEST_JSON(ACCOUNT_ACTIVITY_USER_ID) + @"
 	            }]
             }";
 
-            var eventsReceived = new List<UserMutedEventArgs>();
+            var eventsReceived = new List<AccountActivityUserMutedEventArgs>();
             activityStream.UserMuted += (sender, args) =>
             {
                 eventsReceived.Add(args);
@@ -475,25 +474,28 @@ namespace Testinvi.Tweetinvi.Streams
 
             // Assert
             Assert.AreEqual(eventsReceived.Count, 1);
-            Assert.AreEqual(eventsReceived[0].Target.Id, 41);
+            Assert.AreEqual(eventsReceived[0].MutedBy.Id, ACCOUNT_ACTIVITY_USER_ID);
+            Assert.AreEqual(eventsReceived[0].UserMuted.Id, 41);
+            Assert.AreEqual(eventsReceived[0].EventDate, DateTimeOffset.FromUnixTimeMilliseconds(1552763621007).DateTime);
         }
 
         [TestMethod]
-        public void UserMutedRaised_WithSourceUser()
+        public void UserUnmutedRaised_WithTargetUser()
         {
             var activityStream = CreateAccountActivityStream();
 
             var json = @"{
 	            ""for_user_id"": ""100"",
 	            ""mute_events"": [{
-                  ""type"": ""mute"",
-                  ""target"" : " + JsonTests.USER_TEST_JSON(ACCOUNT_ACTIVITY_USER_ID) + @",
-                  ""source"": " + JsonTests.USER_TEST_JSON(41) + @"
+                  ""type"": ""unmute"",
+                  ""created_timestamp"": ""1552763621007"",
+                  ""target"" : " + JsonTests.USER_TEST_JSON(41) + @",
+                  ""source"": " + JsonTests.USER_TEST_JSON(ACCOUNT_ACTIVITY_USER_ID) + @"
 	            }]
             }";
 
-            var eventsReceived = new List<UserMutedEventArgs>();
-            activityStream.UserMuted += (sender, args) =>
+            var eventsReceived = new List<AccountActivityUserUnmutedEventArgs>();
+            activityStream.UserUnmuted += (sender, args) =>
             {
                 eventsReceived.Add(args);
             };
@@ -503,7 +505,9 @@ namespace Testinvi.Tweetinvi.Streams
 
             // Assert
             Assert.AreEqual(eventsReceived.Count, 1);
-            Assert.AreEqual(eventsReceived[0].Target.Id, 41);
+            Assert.AreEqual(eventsReceived[0].UnmutedBy.Id, ACCOUNT_ACTIVITY_USER_ID);
+            Assert.AreEqual(eventsReceived[0].UserUnmuted.Id, 41);
+            Assert.AreEqual(eventsReceived[0].EventDate, DateTimeOffset.FromUnixTimeMilliseconds(1552763621007).DateTime);
         }
 
         [TestMethod]
