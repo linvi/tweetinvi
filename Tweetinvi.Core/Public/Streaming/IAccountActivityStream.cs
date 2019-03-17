@@ -62,7 +62,15 @@ namespace Tweetinvi.Streaming
 
 
         // Messages
+
+        /// <summary>
+        /// Account user has received a message
+        /// </summary>
         EventHandler<AccountActivityMessageReceivedEventArgs> MessageReceived { get; set; }
+
+        /// <summary>
+        /// Account user has sent a message
+        /// </summary>
         EventHandler<AccountActivityMessageSentEventArgs> MessageSent { get; set; }
         EventHandler<UserIsTypingMessageEventArgs> UserIsTypingMessage { get; set; }
         EventHandler<UserReadMessageConversationEventArgs> UserReadMessage { get; set; }
