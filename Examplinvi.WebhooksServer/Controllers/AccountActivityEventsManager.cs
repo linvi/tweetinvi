@@ -67,7 +67,6 @@ namespace Examplinvi.WebhooksServer.Controllers
 
         private void FollowedUser(object sender, AccountActivityUserFollowedEventArgs e)
         {
-            // Account user followed another user
             if (e.InResultOf == UserFollowedRaisedInResultOf.AccountUserFollowingAnotherUser)
             {
                 Console.WriteLine($"Account user ({e.FollowedBy.ScreenName}) is now following {e.UserFollowed.ScreenName}");
@@ -78,10 +77,10 @@ namespace Examplinvi.WebhooksServer.Controllers
             }
         }
 
-        private void UnfollowedUser(object sender, UserUnFollowedEventArgs e)
+        private void UnfollowedUser(object sender, AccountActivityUserUnfollowedEventArgs e)
         {
             // Account user unfollowed another user
-            Console.WriteLine($"You ({e.Source.ScreenName}) are no longer following {e.Target.ScreenName}");
+            Console.WriteLine($"Account user ({e.UnfollowedBy.ScreenName}) is no longer following {e.UserUnfollowed.ScreenName}");
         }
 
         private void MessageSent(object sender, MessageEventArgs args)

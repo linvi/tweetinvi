@@ -35,7 +35,7 @@ namespace Tweetinvi.Streaming
         /// <summary>
         /// Current user has stopped following another user
         /// </summary>
-        EventHandler<UserUnFollowedEventArgs> UserUnfollowed { get; set; }
+        EventHandler<AccountActivityUserUnfollowedEventArgs> UserUnfollowed { get; set; }
 
         EventHandler<UserBlockedEventArgs> UserBlocked { get; set; }
         EventHandler<UserMutedEventArgs> UserMuted { get; set; }

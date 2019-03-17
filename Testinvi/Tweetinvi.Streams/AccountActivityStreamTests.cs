@@ -370,7 +370,7 @@ namespace Testinvi.Tweetinvi.Streams
 	            }]
             }";
 
-            var eventsReceived = new List<UserUnFollowedEventArgs>();
+            var eventsReceived = new List<AccountActivityUserUnfollowedEventArgs>();
             activityStream.UserUnfollowed += (sender, args) =>
             {
                 eventsReceived.Add(args);
@@ -381,8 +381,9 @@ namespace Testinvi.Tweetinvi.Streams
 
             // Assert
             Assert.AreEqual(eventsReceived.Count, 1);
-            Assert.AreEqual(eventsReceived[0].Source.Id, ACCOUNT_ACTIVITY_USER_ID);
-            Assert.AreEqual(eventsReceived[0].Target.Id, 40);
+            Assert.AreEqual(eventsReceived[0].UnfollowedBy.Id, ACCOUNT_ACTIVITY_USER_ID);
+            Assert.AreEqual(eventsReceived[0].UserUnfollowed.Id, 40);
+            Assert.AreEqual(eventsReceived[0].EventDate, DateTimeOffset.FromUnixTimeMilliseconds(1552763621007).DateTime);
         }
 
         [TestMethod]

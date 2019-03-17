@@ -16,26 +16,6 @@ namespace Tweetinvi.Events
         public IUser Target { get; }
     }
 
-    public class UserFollowedEventArgs : UserEventArgs
-    {
-        public UserFollowedEventArgs(IUser source, IUser target, long sourceId) : base(target, sourceId)
-        {
-            Source = source;
-        }
-
-        public IUser Source { get; }
-    }
-
-    public class UserUnFollowedEventArgs : UserEventArgs
-    {
-        public UserUnFollowedEventArgs(IUser source, IUser target, long sourceId) : base(target, sourceId)
-        {
-            Source = source;
-        }
-
-        public IUser Source { get; }
-    }
-
     public class UserBlockedEventArgs : UserEventArgs
     {
         public UserBlockedEventArgs(IUser target, long sourceId) : base(target, sourceId)
