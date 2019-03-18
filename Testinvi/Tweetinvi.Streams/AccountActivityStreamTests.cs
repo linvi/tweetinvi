@@ -800,7 +800,7 @@ namespace Testinvi.Tweetinvi.Streams
 		            ""created_timestamp"": ""1518452444662"",
 		            ""sender_id"": ""199566737"",
 		            ""target"": {
-			            ""recipient_id"": ""3001969357""
+			            ""recipient_id"": """ + ACCOUNT_ACTIVITY_USER_ID + @"""
 		            },
 		            ""last_read_event_id"": ""963085315333238788""
 	            }],
@@ -820,8 +820,8 @@ namespace Testinvi.Tweetinvi.Streams
 			            ""profile_image_url"": ""http://pbs.twimg.com/profile_images/936652894371119105/YHEozVAg_normal.jpg"",
 			            ""profile_image_url_https"": ""https://pbs.twimg.com/profile_images/936652894371119105/YHEozVAg_normal.jpg""
 		            },
-		            ""3001969357"": {
-			            ""id"": ""3001969357"",
+		            """ + ACCOUNT_ACTIVITY_USER_ID + @""": {
+			            ""id"": """ + ACCOUNT_ACTIVITY_USER_ID + @""",
 			            ""created_timestamp"": ""1422556069340"",
 			            ""name"": ""Jordan Brinks"",
 			            ""screen_name"": ""furiouscamper"",
@@ -839,7 +839,7 @@ namespace Testinvi.Tweetinvi.Streams
 	            }
             }";
 
-            var eventsReceived = new List<UserReadMessageConversationEventArgs>();
+            var eventsReceived = new List<AccountActivityUserReadMessageConversationEventArgs>();
             activityStream.UserReadMessage += (sender, args) =>
             {
                 eventsReceived.Add(args);
@@ -850,11 +850,12 @@ namespace Testinvi.Tweetinvi.Streams
 
             // Assert
             Assert.AreEqual(eventsReceived.Count, 1);
-            Assert.AreEqual(eventsReceived[0].SenderId, 199566737);
-            Assert.AreEqual(eventsReceived[0].RecipientId, 3001969357);
             Assert.AreEqual(eventsReceived[0].Sender.Id, 199566737);
-            Assert.AreEqual(eventsReceived[0].Recipient.Id, 3001969357);
+            Assert.AreEqual(eventsReceived[0].Recipient.Id, ACCOUNT_ACTIVITY_USER_ID);
             Assert.AreEqual(eventsReceived[0].LastReadEventId, "963085315333238788");
+            Assert.AreEqual(eventsReceived[0].AccountUserId, ACCOUNT_ACTIVITY_USER_ID);
+            Assert.AreEqual(eventsReceived[0].EventDate, DateTimeOffset.FromUnixTimeMilliseconds(1518452444662).DateTime);
+            Assert.AreEqual(eventsReceived[0].InResultOf, UserReadMessageConversationInResultOf.AnotherUserReadingMessageConversationWithAccountUser);
         }
     }
 }

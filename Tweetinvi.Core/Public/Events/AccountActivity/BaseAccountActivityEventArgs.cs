@@ -11,9 +11,24 @@ namespace Tweetinvi.Events
             Json = activityEvent.Json;
         }
 
+
+        /// <summary>
+        /// The account user id for who the event has been raised
+        /// </summary>
         public long AccountUserId { get; }
+
+        /// <summary>
+        /// The date when the event has occurred
+        /// </summary>
         public DateTime EventDate { get; }
-        public string Json { get; set; }
+
+        /// <summary>
+        /// The full json message from which this event has been extracted out.
+        /// Note that a message can contain multiple events. This message will
+        /// contain them all as the information associated with the event can be
+        /// stored at different level of the json.
+        /// </summary>
+        public string Json { get; }
     }
 
     public abstract class BaseAccountActivityEventArgs<T> : BaseAccountActivityEventArgs

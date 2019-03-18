@@ -31,6 +31,7 @@ namespace Examplinvi.WebhooksServer
             accountActivityStream.MessageSent += MessageSent;
 
             accountActivityStream.UserIsTypingMessage += UserIsTypingMessage;
+            accountActivityStream.UserReadMessage += UserReadMessage;
 
             // User events
             accountActivityStream.UserFollowed += FollowedUser;
@@ -47,7 +48,6 @@ namespace Examplinvi.WebhooksServer
             accountActivityStream.UnmanagedEventReceived += UnmanagedEventReceived;
         }
 
-
         [SuppressMessage("ReSharper", "DelegateSubtraction")]
         public void UnregisterAccountActivityStream(IAccountActivityStream accountActivityStream)
         {
@@ -63,6 +63,7 @@ namespace Examplinvi.WebhooksServer
             accountActivityStream.MessageSent -= MessageSent;
 
             accountActivityStream.UserIsTypingMessage -= UserIsTypingMessage;
+            accountActivityStream.UserReadMessage -= UserReadMessage;
 
             // User events
             accountActivityStream.UserFollowed -= FollowedUser;
@@ -110,6 +111,11 @@ namespace Examplinvi.WebhooksServer
         private void UserIsTypingMessage(object sender, AccountActivityUserIsTypingMessageEventArgs e)
         {
             Console.WriteLine($"User {e.Sender} is typing a message to {e.Recipient}...");
+        }
+
+        private void UserReadMessage(object sender, AccountActivityUserReadMessageConversationEventArgs e)
+        {
+            Console.WriteLine($"User {e.Sender} read the message of {e.Recipient} at {e.EventDate}");
         }
 
         // User events

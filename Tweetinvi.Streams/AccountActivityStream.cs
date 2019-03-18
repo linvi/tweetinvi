@@ -91,7 +91,7 @@ namespace Tweetinvi.Streams
         public EventHandler<AccountActivityMessageReceivedEventArgs> MessageReceived { get; set; }
         public EventHandler<AccountActivityMessageSentEventArgs> MessageSent { get; set; }
         public EventHandler<AccountActivityUserIsTypingMessageEventArgs> UserIsTypingMessage { get; set; }
-        public EventHandler<UserReadMessageConversationEventArgs> UserReadMessage { get; set; }
+        public EventHandler<AccountActivityUserReadMessageConversationEventArgs> UserReadMessage { get; set; }
 
         public EventHandler<UnmanagedMessageReceivedEventArgs> UnmanagedEventReceived { get; set; }
         public EventHandler<JsonObjectEventArgs> JsonObjectReceived { get; set; }
@@ -397,17 +397,25 @@ namespace Tweetinvi.Streams
 
         private void TryRaiseMessageReadEvent(string eventName, JObject jsonObjectEvent)
         {
-            var messageReadEventArgs = _accountActivityConversationEventExtractor.GetMessageConversationsEvents(eventName, jsonObjectEvent, dto =>
-            {
-                return new UserReadMessageConversationEventArgs
-                {
-                    LastReadEventId = dto.LastReadEventId
-                };
-            });
+            var json = jsonObjectEvent.ToString();
+            var events = _jsonObjectConverter.DeserializeObject<AccountActivityUserReadMessageConversationDTO>(json);
 
-            messageReadEventArgs.ForEach(x =>
+            events.MessageConversationReadEvents.ForEach(messageConversationReadEvent =>
             {
-                this.Raise(UserReadMessage, x);
+                var activityEvent = new AccountActivityEvent
+                {
+                    AccountUserId = AccountUserId,
+                    EventDate = messageConversationReadEvent.CreatedAt,
+                    Json = json
+                };
+
+                events.UsersById.TryGetValue(messageConversationReadEvent.SenderId.ToString(), out var senderDTO);
+                events.UsersById.TryGetValue(messageConversationReadEvent.Target.RecipientId.ToString(), out var recipientDTO);
+
+                var sender = _userFactory.GenerateUserFromDTO(senderDTO);
+                var recipient = _userFactory.GenerateUserFromDTO(recipientDTO);
+
+                this.Raise(UserReadMessage, new AccountActivityUserReadMessageConversationEventArgs(activityEvent, sender, recipient, messageConversationReadEvent.LastReadEventId));
             });
         }
 

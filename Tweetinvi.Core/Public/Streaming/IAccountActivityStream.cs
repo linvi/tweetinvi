@@ -76,8 +76,16 @@ namespace Tweetinvi.Streaming
         /// Account user has sent a message
         /// </summary>
         EventHandler<AccountActivityMessageSentEventArgs> MessageSent { get; set; }
+
+        /// <summary>
+        /// A user is typing in a conversation with the account user
+        /// </summary>
         EventHandler<AccountActivityUserIsTypingMessageEventArgs> UserIsTypingMessage { get; set; }
-        EventHandler<UserReadMessageConversationEventArgs> UserReadMessage { get; set; }
+
+        /// <summary>
+        /// A user has read a message from the account user
+        /// </summary>
+        EventHandler<AccountActivityUserReadMessageConversationEventArgs> UserReadMessage { get; set; }
 
         // Permissions
 
@@ -87,6 +95,10 @@ namespace Tweetinvi.Streaming
         EventHandler<AccountActivityUserRevokedAppPermissionsEventArgs> UserRevokedAppPermissions { get; set; }
 
         // Others
+
+        /// <summary>
+        /// An event has been received 
+        /// </summary>
         EventHandler<JsonObjectEventArgs> JsonObjectReceived { get; set; }
         EventHandler<UnmanagedMessageReceivedEventArgs> UnmanagedEventReceived { get; set; }
 
