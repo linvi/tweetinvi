@@ -4,6 +4,10 @@ using Tweetinvi.Models.Webhooks;
 
 namespace Tweetinvi.Streaming
 {
+    /// <summary>
+    /// An AccountActivity stream from Twitter (https://developer.twitter.com/en/docs/accounts-and-users/subscribe-account-activity/overview)
+    /// The stream is linked with a specific user account and raise account related events.
+    /// </summary>
     public interface IAccountActivityStream
     {
         /// <summary>

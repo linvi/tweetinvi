@@ -3,13 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json.Linq;
 using Tweetinvi.Core.Events;
-using Tweetinvi.Core.Exceptions;
 using Tweetinvi.Core.Extensions;
 using Tweetinvi.Core.Factories;
 using Tweetinvi.Core.Helpers;
 using Tweetinvi.Core.Wrappers;
 using Tweetinvi.Events;
-using Tweetinvi.Logic.DTO;
 using Tweetinvi.Logic.DTO.ActivityStream;
 using Tweetinvi.Logic.Model;
 using Tweetinvi.Models;
@@ -21,12 +19,12 @@ using Tweetinvi.Streams.Model.AccountActivity;
 
 namespace Tweetinvi.Streams
 {
+    // ReSharper disable once ClassNeverInstantiated.Global
     public class AccountActivityStream : IAccountActivityStream
     {
         private readonly IJObjectStaticWrapper _jObjectWrapper;
         private readonly IJsonObjectConverter _jsonObjectConverter;
         private readonly ITweetFactory _tweetFactory;
-        private readonly IExceptionHandler _exceptionHandler;
         private readonly IUserFactory _userFactory;
         private readonly IMessageFactory _messageFactory;
         private readonly IAccountActivityConversationEventExtractor _accountActivityConversationEventExtractor;
@@ -34,7 +32,6 @@ namespace Tweetinvi.Streams
         private readonly Dictionary<string, Action<string, JObject>> _events;
 
         public AccountActivityStream(
-            IExceptionHandler exceptionHandler,
             IJObjectStaticWrapper jObjectWrapper,
             IJsonObjectConverter jsonObjectConverter,
             ITweetFactory tweetFactory,
@@ -45,7 +42,6 @@ namespace Tweetinvi.Streams
             _jObjectWrapper = jObjectWrapper;
             _jsonObjectConverter = jsonObjectConverter;
             _tweetFactory = tweetFactory;
-            _exceptionHandler = exceptionHandler;
             _userFactory = userFactory;
             _messageFactory = messageFactory;
             _accountActivityConversationEventExtractor = accountActivityConversationEventExtractor;
@@ -310,20 +306,24 @@ namespace Tweetinvi.Streams
             if (eventType == "user_event.revoke")
             {
                 var userRevokedAppEventDTO = userEvent["revoke"].ToObject<ActivityStreamUserRevokedAppPermissionsDTO>();
-                var userRevokedAppEventArgs = new AccountActivityUserRevokedAppPermissionsEventArgs
+
+                var accountActivityEvent = new AccountActivityEvent()
                 {
-                    UserId = userRevokedAppEventDTO.Source.UserId,
-                    AppId = userRevokedAppEventDTO.Target.AppId
+                    AccountUserId = AccountUserId,
+                    EventDate = userRevokedAppEventDTO.DateTime.ToUniversalTime(),
+                    Json = jsonObjectEvent.ToString(),
                 };
+
+                var userId = userRevokedAppEventDTO.Source.UserId;
+                var appId = userRevokedAppEventDTO.Target.AppId;
+
+                var userRevokedAppEventArgs = new AccountActivityUserRevokedAppPermissionsEventArgs(accountActivityEvent, userId, appId);
 
                 this.Raise(UserRevokedAppPermissions, userRevokedAppEventArgs);
             }
             else
             {
-                if (!_exceptionHandler.SwallowWebExceptions)
-                {
-                    throw new ArgumentException($"user_event received of type {eventType} is not supported.");
-                }
+                this.Raise(UnmanagedEventReceived, new UnmanagedMessageReceivedEventArgs(jsonObjectEvent.ToString()));
             }
         }
 
@@ -401,12 +401,6 @@ namespace Tweetinvi.Streams
             });
         }
 
-        private IUser[] GetEventTargetUsers(JToken userToUserEvent)
-        {
-            var userToUserEventDTO = ExtractUserToUserEventDTOs(userToUserEvent);
-            return GetEventTargetUsers(userToUserEventDTO);
-        }
-
         private AccountActivityUserToUserEventDTO[] ExtractUserToUserEventDTOs(JToken userToUserEvent)
         {
             var userToUserEventJson = userToUserEvent.ToString();
@@ -417,26 +411,6 @@ namespace Tweetinvi.Streams
         {
             var userToUserEventDTO = _jsonObjectConverter.DeserializeObject<AccountActivityUserToUserEventDTO[]>(userToUserEventJson);
             return userToUserEventDTO;
-        }
-
-        private IUser[] GetEventTargetUsers(AccountActivityUserToUserEventDTO[] userToUserEventDTO)
-        {
-            var userEvent = GetTargetUsersFromUserToUserEvent(userToUserEventDTO);
-
-            return userEvent;
-        }
-
-        private IUser[] GetTargetUsersFromUserToUserEvent(AccountActivityUserToUserEventDTO[] accountActivityUserToUserEvents)
-        {
-            return accountActivityUserToUserEvents.Select(x =>
-            {
-                var source = x.Source;
-                var target = x.Target;
-
-                var targetUserDTO = source.Id == AccountUserId ? target : source;
-                var targetUser = _userFactory.GenerateUserFromDTO(targetUserDTO);
-                return targetUser;
-            }).ToArray();
         }
     }
 }

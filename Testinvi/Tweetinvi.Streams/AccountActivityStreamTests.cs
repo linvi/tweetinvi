@@ -544,6 +544,8 @@ namespace Testinvi.Tweetinvi.Streams
             Assert.AreEqual(eventsReceived.Count, 1);
             Assert.AreEqual(eventsReceived[0].AppId, 13090192);
             Assert.AreEqual(eventsReceived[0].UserId, 63046977);
+            Assert.AreEqual(eventsReceived[0].AccountUserId, ACCOUNT_ACTIVITY_USER_ID);
+            Assert.AreEqual(eventsReceived[0].EventDate, new DateTime(2018, 05, 24, 09, 48, 12));
         }
 
         [TestMethod]
