@@ -9,7 +9,7 @@ namespace Tweetinvi.Logic.DTO
         public string UserId { get; set; }
     }
 
-    public class WebhookSubcriptionListDTO : IWebhookSubcriptionListDTO
+    public class WebhookSubscriptionListDTO : IWebhookSubscriptionListDTO
     {
         public string Environment { get; set; }
 

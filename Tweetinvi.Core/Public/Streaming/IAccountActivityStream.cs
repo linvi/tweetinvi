@@ -76,10 +76,14 @@ namespace Tweetinvi.Streaming
         /// Account user has sent a message
         /// </summary>
         EventHandler<AccountActivityMessageSentEventArgs> MessageSent { get; set; }
-        EventHandler<UserIsTypingMessageEventArgs> UserIsTypingMessage { get; set; }
+        EventHandler<AccountActivityUserIsTypingMessageEventArgs> UserIsTypingMessage { get; set; }
         EventHandler<UserReadMessageConversationEventArgs> UserReadMessage { get; set; }
 
         // Permissions
+
+        /// <summary>
+        /// Revoke events sent when the account user removes application authorization and subscription is automatically deleted.
+        /// </summary>
         EventHandler<AccountActivityUserRevokedAppPermissionsEventArgs> UserRevokedAppPermissions { get; set; }
 
         // Others

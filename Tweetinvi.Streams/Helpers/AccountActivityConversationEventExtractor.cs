@@ -6,7 +6,7 @@ using Tweetinvi.Core.Factories;
 using Tweetinvi.Core.Helpers;
 using Tweetinvi.Events;
 using Tweetinvi.Logic.DTO;
-using Tweetinvi.Logic.DTO.ActivityStream;
+using Tweetinvi.Streams.Model.AccountActivity;
 
 namespace Tweetinvi.Streams.Helpers
 {
@@ -28,10 +28,15 @@ namespace Tweetinvi.Streams.Helpers
             _userFactory = userFactory;
         }
 
+        public Dictionary<long, UserDTO> ExtractUserById(JObject jsonObjectEvent)
+        {
+            return jsonObjectEvent["users"].ToObject<Dictionary<long, UserDTO>>();
+        }
+
         public T[] GetMessageConversationsEvents<T>(string eventName, JObject jsonObjectEvent, Func<ActivityStreamDirectMessageConversationEventDTO, T> ctor) where T : MessageConversationEventArgs
         {
             var messageIndicateUserTypingMessageEvent = jsonObjectEvent[eventName];
-            var users = jsonObjectEvent["users"].ToObject<Dictionary<long, UserDTO>>();
+            var userByIds = ExtractUserById(jsonObjectEvent);
 
             var json = messageIndicateUserTypingMessageEvent.ToString();
             var messageIndicateUserTypingMessageEventDTOs =
@@ -45,12 +50,12 @@ namespace Tweetinvi.Streams.Helpers
                     userIsTypingMessageEventArgs.SenderId = messageIndicateUserTypingMessageEventDTO.SenderId;
                     userIsTypingMessageEventArgs.RecipientId = messageIndicateUserTypingMessageEventDTO.Target.RecipientId;
 
-                    if (users.TryGetValue(messageIndicateUserTypingMessageEventDTO.SenderId, out var senderDTO))
+                    if (userByIds.TryGetValue(messageIndicateUserTypingMessageEventDTO.SenderId, out var senderDTO))
                     {
                         userIsTypingMessageEventArgs.Sender = _userFactory.GenerateUserFromDTO(senderDTO);
                     }
 
-                    if (users.TryGetValue(messageIndicateUserTypingMessageEventDTO.Target.RecipientId, out var recipientDTO))
+                    if (userByIds.TryGetValue(messageIndicateUserTypingMessageEventDTO.Target.RecipientId, out var recipientDTO))
                     {
                         userIsTypingMessageEventArgs.Recipient = _userFactory.GenerateUserFromDTO(recipientDTO);
                     }

@@ -91,7 +91,7 @@ namespace Tweetinvi.Controllers.Webhooks
             return await Task.FromResult(result.StatusCode == 204);
         }
 
-        public async Task<IWebhookSubcriptionListDTO> GetListOfSubscriptionsAsync(
+        public async Task<IWebhookSubscriptionListDTO> GetListOfSubscriptionsAsync(
             string webhookEnvironmentName,
             IConsumerOnlyCredentials credentials)
         {
@@ -99,7 +99,7 @@ namespace Tweetinvi.Controllers.Webhooks
 
             var result = _twitterAccessor.ExecuteQuery(query, HttpMethod.GET, credentials);
 
-            var subscriptions = _jsonObjectConverter.DeserializeObject<IWebhookSubcriptionListDTO>(result.Text);
+            var subscriptions = _jsonObjectConverter.DeserializeObject<IWebhookSubscriptionListDTO>(result.Text);
 
             return await Task.FromResult(subscriptions);
         }

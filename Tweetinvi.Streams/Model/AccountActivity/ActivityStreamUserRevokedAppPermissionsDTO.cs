@@ -1,7 +1,7 @@
 ﻿using System;
 using Newtonsoft.Json;
 
-namespace Tweetinvi.Logic.DTO.ActivityStream
+namespace Tweetinvi.Streams.Model.AccountActivity
 {
     public class ActivityStreamUserRevokedAppPermissionsDTO
     {

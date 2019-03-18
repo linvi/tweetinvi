@@ -725,7 +725,7 @@ namespace Testinvi.Tweetinvi.Streams
         }
 
         [TestMethod]
-        public void UserIsTypingDirectMessage()
+        public void UserIsTypingMessage()
         {
             var activityStream = CreateAccountActivityStream();
 
@@ -735,12 +735,12 @@ namespace Testinvi.Tweetinvi.Streams
 		            ""created_timestamp"": ""1518127183443"",
 		            ""sender_id"": ""3284025577"",
 		            ""target"": {
-			            ""recipient_id"": ""3001969357""
+			            ""recipient_id"": """ + ACCOUNT_ACTIVITY_USER_ID + @"""
 		            }
 	            }],
 	            ""users"": {
-		            ""3001969357"": {
-			            ""id"": ""3001969357"",
+		            """ + ACCOUNT_ACTIVITY_USER_ID + @""": {
+			            ""id"": """ + ACCOUNT_ACTIVITY_USER_ID + @""",
 			            ""created_timestamp"": ""1422556069340"",
 			            ""name"": ""Jordan Brinks"",
 			            ""screen_name"": ""furiouscamper"",
@@ -771,7 +771,7 @@ namespace Testinvi.Tweetinvi.Streams
 	            }
             }";
 
-            var eventsReceived = new List<UserIsTypingMessageEventArgs>();
+            var eventsReceived = new List<AccountActivityUserIsTypingMessageEventArgs>();
             activityStream.UserIsTypingMessage += (sender, args) =>
             {
                 eventsReceived.Add(args);
@@ -782,10 +782,11 @@ namespace Testinvi.Tweetinvi.Streams
 
             // Assert
             Assert.AreEqual(eventsReceived.Count, 1);
-            Assert.AreEqual(eventsReceived[0].SenderId, 3284025577);
-            Assert.AreEqual(eventsReceived[0].RecipientId, 3001969357);
             Assert.AreEqual(eventsReceived[0].Sender.Id, 3284025577);
-            Assert.AreEqual(eventsReceived[0].Recipient.Id, 3001969357);
+            Assert.AreEqual(eventsReceived[0].Recipient.Id, ACCOUNT_ACTIVITY_USER_ID);
+            Assert.AreEqual(eventsReceived[0].AccountUserId, ACCOUNT_ACTIVITY_USER_ID);
+            Assert.AreEqual(eventsReceived[0].EventDate, DateTimeOffset.FromUnixTimeMilliseconds(1518127183443).DateTime);
+            Assert.AreEqual(eventsReceived[0].InResultOf, UserIsTypingMessageInResultOf.AnotherUserTypingAMessageToAccountUser);
         }
 
         [TestMethod]

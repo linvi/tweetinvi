@@ -8,7 +8,6 @@ using Tweetinvi.Core.Factories;
 using Tweetinvi.Core.Helpers;
 using Tweetinvi.Core.Wrappers;
 using Tweetinvi.Events;
-using Tweetinvi.Logic.DTO.ActivityStream;
 using Tweetinvi.Logic.Model;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
@@ -91,7 +90,7 @@ namespace Tweetinvi.Streams
         // Messages
         public EventHandler<AccountActivityMessageReceivedEventArgs> MessageReceived { get; set; }
         public EventHandler<AccountActivityMessageSentEventArgs> MessageSent { get; set; }
-        public EventHandler<UserIsTypingMessageEventArgs> UserIsTypingMessage { get; set; }
+        public EventHandler<AccountActivityUserIsTypingMessageEventArgs> UserIsTypingMessage { get; set; }
         public EventHandler<UserReadMessageConversationEventArgs> UserReadMessage { get; set; }
 
         public EventHandler<UnmanagedMessageReceivedEventArgs> UnmanagedEventReceived { get; set; }
@@ -374,14 +373,25 @@ namespace Tweetinvi.Streams
 
         private void TryRaiseIndicateUserIsTypingMessage(string eventName, JObject jsonObjectEvent)
         {
-            var userIsTypingMessageEventsArgs = _accountActivityConversationEventExtractor.GetMessageConversationsEvents(
-                eventName,
-                jsonObjectEvent,
-                x => new UserIsTypingMessageEventArgs());
+            var json = jsonObjectEvent.ToString();
+            var events = _jsonObjectConverter.DeserializeObject<AccountActivityUserIsTypingMessageDTO>(json);
 
-            userIsTypingMessageEventsArgs.ForEach(x =>
+            events.TypingEvents.ForEach(typingEvent =>
             {
-                this.Raise(UserIsTypingMessage, x);
+                var activityEvent = new AccountActivityEvent()
+                {
+                    AccountUserId = AccountUserId,
+                    EventDate = typingEvent.CreatedAt,
+                    Json = json
+                };
+
+                events.UsersById.TryGetValue(typingEvent.SenderId.ToString(), out var senderDTO);
+                events.UsersById.TryGetValue(typingEvent.Target.RecipientId.ToString(), out var recipientDTO);
+
+                var sender = _userFactory.GenerateUserFromDTO(senderDTO);
+                var recipient = _userFactory.GenerateUserFromDTO(recipientDTO);
+
+                this.Raise(UserIsTypingMessage, new AccountActivityUserIsTypingMessageEventArgs(activityEvent, sender, recipient));
             });
         }
 

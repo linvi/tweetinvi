@@ -2,7 +2,7 @@
 using Newtonsoft.Json;
 using Tweetinvi.Logic.JsonConverters;
 
-namespace Tweetinvi.Logic.DTO.ActivityStream
+namespace Tweetinvi.Streams.Model.AccountActivity
 {
     public class ActivityStreamTargetRecipientDTO
     {

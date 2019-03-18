@@ -85,7 +85,7 @@ namespace Testinvi.json.net
                 ]
             }";
 
-            var dto = converter.DeserializeObject<IWebhookSubcriptionListDTO>(json);
+            var dto = converter.DeserializeObject<IWebhookSubscriptionListDTO>(json);
 
             Console.WriteLine(dto);
         }

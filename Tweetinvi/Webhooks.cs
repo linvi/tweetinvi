@@ -69,7 +69,7 @@ namespace Tweetinvi
             return await WebhookController.DoesAccountHaveASubscriptionAsync(webhookEnvironmentName, credentials);
         }
 
-        public static async Task<IWebhookSubcriptionListDTO> GetListOfSubscriptionsAsync(string webhookEnvironmentName, IConsumerOnlyCredentials credentials)
+        public static async Task<IWebhookSubscriptionListDTO> GetListOfSubscriptionsAsync(string webhookEnvironmentName, IConsumerOnlyCredentials credentials)
         {
             return await WebhookController.GetListOfSubscriptionsAsync(webhookEnvironmentName, credentials);
         }

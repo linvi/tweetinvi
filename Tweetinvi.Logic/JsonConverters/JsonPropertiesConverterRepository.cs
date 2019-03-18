@@ -108,7 +108,7 @@ namespace Tweetinvi.Logic.JsonConverters
                 new JsonInterfaceToObjectConverter<IGetAllWebhooksResultDTO, GetAllWebhooksResultDTO>(),
                 new JsonInterfaceToObjectConverter<IGetWebhookSubscriptionsCountResultDTO, GetWebhookSubscriptionsCountResultDTO>(),
                 new JsonInterfaceToObjectConverter<IWebhookSubscriptionDTO, WebhookSubscriptionDTO>(),
-                new JsonInterfaceToObjectConverter<IWebhookSubcriptionListDTO, WebhookSubcriptionListDTO>(),
+                new JsonInterfaceToObjectConverter<IWebhookSubscriptionListDTO, WebhookSubscriptionListDTO>(),
 
 
                 // Enums (that have JSON serialization implemented)
