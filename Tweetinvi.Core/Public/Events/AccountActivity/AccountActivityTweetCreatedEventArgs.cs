@@ -26,7 +26,7 @@ namespace Tweetinvi.Events
         Unknown,
     }
 
-    public class AccountActivityTweetCreatedEventArgs : BaseAccountActivityEventArgs<ITweet>
+    public class AccountActivityTweetCreatedEventArgs : BaseAccountActivityEventArgs<TweetCreatedRaisedInResultOf>
     {
         public AccountActivityTweetCreatedEventArgs(AccountActivityEvent<ITweet> eventInfo) : base(eventInfo)
         {
@@ -35,9 +35,10 @@ namespace Tweetinvi.Events
             InResultOf = GetInResultOf();
         }
 
+        /// <summary>
+        /// The tweet that was published
+        /// </summary>
         public ITweet Tweet { get; }
-
-        public TweetCreatedRaisedInResultOf InResultOf { get; }
 
         private TweetCreatedRaisedInResultOf GetInResultOf()
         {

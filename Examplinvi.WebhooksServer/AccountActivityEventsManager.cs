@@ -110,12 +110,12 @@ namespace Examplinvi.WebhooksServer
 
         private void UserIsTypingMessage(object sender, AccountActivityUserIsTypingMessageEventArgs e)
         {
-            Console.WriteLine($"User {e.Sender} is typing a message to {e.Recipient}...");
+            Console.WriteLine($"User {e.TypingUser} is typing a message to {e.TypingTo}...");
         }
 
         private void UserReadMessage(object sender, AccountActivityUserReadMessageConversationEventArgs e)
         {
-            Console.WriteLine($"User {e.Sender} read the message of {e.Recipient} at {e.EventDate}");
+            Console.WriteLine($"User {e.UserWhoReadTheMessageConversation} read the message of {e.UserWhoWroteTheMessage} at {e.EventDate}");
         }
 
         // User events
@@ -123,36 +123,36 @@ namespace Examplinvi.WebhooksServer
         {
             if (e.InResultOf == UserFollowedRaisedInResultOf.AccountUserFollowingAnotherUser)
             {
-                Console.WriteLine($"Account user ({e.FollowedBy.ScreenName}) is now following {e.UserFollowed.ScreenName}");
+                Console.WriteLine($"Account user ({e.FollowedBy.ScreenName}) is now following {e.FollowedUser.ScreenName}");
             }
             else
             {
-                Console.WriteLine($"Account user ({e.UserFollowed.ScreenName}) is now being followed by {e.FollowedBy.ScreenName}");
+                Console.WriteLine($"Account user ({e.FollowedUser.ScreenName}) is now being followed by {e.FollowedBy.ScreenName}");
             }
         }
 
         private void UnfollowedUser(object sender, AccountActivityUserUnfollowedEventArgs e)
         {
-            Console.WriteLine($"Account user ({e.UnfollowedBy.ScreenName}) is no longer following {e.UserUnfollowed.ScreenName}");
+            Console.WriteLine($"Account user ({e.UnfollowedBy.ScreenName}) is no longer following {e.UnfollowedUser.ScreenName}");
         }
 
         private void UserBlocked(object sender, AccountActivityUserBlockedEventArgs e)
         {
-            Console.WriteLine($"Account user ({e.BlockedBy}) has blocked {e.UserBlocked}");
+            Console.WriteLine($"Account user ({e.BlockedBy}) has blocked {e.BlockedUser}");
         }
         private void UserUnblocked(object sender, AccountActivityUserUnblockedEventArgs e)
         {
-            Console.WriteLine($"Account user ({e.UnblockedBy}) has unblocked {e.UserUnblocked}");
+            Console.WriteLine($"Account user ({e.UnblockedBy}) has unblocked {e.UnblockedUser}");
         }
         
         private void UserMuted(object sender, AccountActivityUserMutedEventArgs e)
         {
-            Console.WriteLine($"Account user ({e.MutedBy}) has unmuted {e.UserMuted}");
+            Console.WriteLine($"Account user ({e.MutedBy}) has unmuted {e.MutedUser}");
         }
 
         private void UserUnmuted(object sender, AccountActivityUserUnmutedEventArgs e)
         {
-            Console.WriteLine($"Account user ({e.UnmutedBy}) has unmuted {e.UserUnmuted}");
+            Console.WriteLine($"Account user ({e.UnmutedBy}) has unmuted {e.UnmutedUser}");
         }
 
 

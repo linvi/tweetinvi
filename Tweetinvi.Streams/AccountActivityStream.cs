@@ -160,7 +160,7 @@ namespace Tweetinvi.Streams
                     Json = jsonObjectEvent.ToString()
                 };
 
-                this.Raise(TweetDeleted, new AccountActivityTweetDeletedEventArgs(accountActivityEvent));
+                this.Raise(TweetDeleted, new AccountActivityTweetDeletedEventArgs(accountActivityEvent, tweetDeletedEventDTO.Status.UserId));
             });
         }
 

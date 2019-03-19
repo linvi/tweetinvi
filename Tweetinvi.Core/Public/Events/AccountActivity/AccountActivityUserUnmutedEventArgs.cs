@@ -17,20 +17,25 @@ namespace Tweetinvi.Events
         Unknown
     }
 
-    public class AccountActivityUserUnmutedEventArgs : BaseAccountActivityEventArgs
+    public class AccountActivityUserUnmutedEventArgs : BaseAccountActivityEventArgs<UserUnmutedRaisedInResultOf>
     {
         public AccountActivityUserUnmutedEventArgs(AccountActivityEvent<Tuple<IUser, IUser>> eventInfo) : base(eventInfo)
         {
             UnmutedBy = eventInfo.Args.Item1;
-            UserUnmuted = eventInfo.Args.Item2;
+            UnmutedUser = eventInfo.Args.Item2;
 
             InResultOf = GetInResultOf();
         }
 
-        public IUser UserUnmuted { get; }
-        public IUser UnmutedBy { get; }
+        /// <summary>
+        /// User who stopped being muted
+        /// </summary>
+        public IUser UnmutedUser { get; }
 
-        public UserUnmutedRaisedInResultOf InResultOf { get; }
+        /// <summary>
+        /// User who performed the action of muting another user
+        /// </summary>
+        public IUser UnmutedBy { get; }
 
         private UserUnmutedRaisedInResultOf GetInResultOf()
         {

@@ -16,27 +16,33 @@ namespace Tweetinvi.Events
         Unknown
     }
 
-    public class AccountActivityUserIsTypingMessageEventArgs : BaseAccountActivityEventArgs
+    public class AccountActivityUserIsTypingMessageEventArgs : BaseAccountActivityEventArgs<UserIsTypingMessageInResultOf>
     {
         public AccountActivityUserIsTypingMessageEventArgs(
             AccountActivityEvent activityEvent,
-            IUser sender,
-            IUser recipient) 
+            IUser typingUser,
+            IUser typingTo) 
             : base(activityEvent)
         {
-            Sender = sender;
-            Recipient = recipient;
+            TypingUser = typingUser;
+            TypingTo = typingTo;
 
             InResultOf = GetInResultOf();
         }
 
-        public IUser Sender { get; }
-        public IUser Recipient { get; }
-        public UserIsTypingMessageInResultOf InResultOf { get; }
+        /// <summary>
+        /// The user who is typing
+        /// </summary>
+        public IUser TypingUser { get; }
+
+        /// <summary>
+        /// The user who is going to receive a message
+        /// </summary>
+        public IUser TypingTo { get; }
 
         private UserIsTypingMessageInResultOf GetInResultOf()
         {
-            if (Sender.Id != AccountUserId && Recipient.Id == AccountUserId)
+            if (TypingUser.Id != AccountUserId && TypingTo.Id == AccountUserId)
             {
                 return UserIsTypingMessageInResultOf.AnotherUserTypingAMessageToAccountUser;
             }

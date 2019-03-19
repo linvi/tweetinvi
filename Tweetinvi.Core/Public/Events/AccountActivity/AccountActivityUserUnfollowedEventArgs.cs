@@ -17,20 +17,25 @@ namespace Tweetinvi.Events
         Unknown
     }
 
-    public class AccountActivityUserUnfollowedEventArgs : BaseAccountActivityEventArgs
+    public class AccountActivityUserUnfollowedEventArgs : BaseAccountActivityEventArgs<UserUnfollowedRaisedInResultOf>
     {
         public AccountActivityUserUnfollowedEventArgs(AccountActivityEvent<Tuple<IUser, IUser>> eventInfo) : base(eventInfo)
         {
             UnfollowedBy = eventInfo.Args.Item1;
-            UserUnfollowed = eventInfo.Args.Item2;
+            UnfollowedUser = eventInfo.Args.Item2;
 
             InResultOf = GetInResultOf();
         }
 
-        public IUser UserUnfollowed { get; }
-        public IUser UnfollowedBy { get; }
+        /// <summary>
+        /// User who just got unfollowed
+        /// </summary>
+        public IUser UnfollowedUser { get; }
 
-        public UserUnfollowedRaisedInResultOf InResultOf { get; }
+        /// <summary>
+        /// User who performed the action of unfollowing another user
+        /// </summary>
+        public IUser UnfollowedBy { get; }
 
         private UserUnfollowedRaisedInResultOf GetInResultOf()
         {

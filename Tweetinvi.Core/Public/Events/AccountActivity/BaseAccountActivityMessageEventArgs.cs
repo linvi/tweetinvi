@@ -2,7 +2,7 @@
 
 namespace Tweetinvi.Events
 {
-    public class BaseAccountActivityMessageEventArgs : BaseAccountActivityEventArgs
+    public class BaseAccountActivityMessageEventArgs<T> : BaseAccountActivityEventArgs<T>
     {
         protected BaseAccountActivityMessageEventArgs(
             AccountActivityEvent activityEvent,
@@ -17,9 +17,24 @@ namespace Tweetinvi.Events
             App = app;
         }
 
+        /// <summary>
+        /// Message for which the event has occurred
+        /// </summary>
         public IMessage Message { get; }
+
+        /// <summary>
+        /// Send of the message
+        /// </summary>
         public IUser Sender { get; }
+
+        /// <summary>
+        /// Recipient of the message
+        /// </summary>
         public IUser Recipient { get; }
+
+        /// <summary>
+        /// Application used to send the message
+        /// </summary>
         public IApp App { get; }
     }
 }

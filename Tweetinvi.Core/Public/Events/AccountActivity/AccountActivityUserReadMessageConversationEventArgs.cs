@@ -16,31 +16,40 @@ namespace Tweetinvi.Events
         Unknown
     }
 
-    public class AccountActivityUserReadMessageConversationEventArgs : BaseAccountActivityEventArgs
+    public class AccountActivityUserReadMessageConversationEventArgs : BaseAccountActivityEventArgs<UserReadMessageConversationInResultOf>
     {
         public AccountActivityUserReadMessageConversationEventArgs(
             AccountActivityEvent activityEvent,
-            IUser sender,
-            IUser recipient,
+            IUser userWhoReadTheMessageConversation,
+            IUser userWhoWroteTheMessage,
             string lastReadEventId) 
             : base(activityEvent)
         {
-            Sender = sender;
-            Recipient = recipient;
+            UserWhoReadTheMessageConversation = userWhoReadTheMessageConversation;
+            UserWhoWroteTheMessage = userWhoWroteTheMessage;
             LastReadEventId = lastReadEventId;
 
             InResultOf = GetInResultOf();
         }
 
-        public IUser Sender { get; }
-        public IUser Recipient { get; }
+        /// <summary>
+        /// The user who read the message
+        /// </summary>
+        public IUser UserWhoReadTheMessageConversation { get; }
+
+        /// <summary>
+        /// The user who sent the message that just got read
+        /// </summary>
+        public IUser UserWhoWroteTheMessage { get; }
+
+        /// <summary>
+        /// An identifier of the read action
+        /// </summary>
         public string LastReadEventId { get; }
 
-        public UserReadMessageConversationInResultOf InResultOf { get; }
-        
         private UserReadMessageConversationInResultOf GetInResultOf()
         {
-            if (Sender.Id != AccountUserId && Recipient.Id == AccountUserId)
+            if (UserWhoReadTheMessageConversation.Id != AccountUserId && UserWhoWroteTheMessage.Id == AccountUserId)
             {
                 return UserReadMessageConversationInResultOf.AnotherUserReadingMessageConversationWithAccountUser;
             }

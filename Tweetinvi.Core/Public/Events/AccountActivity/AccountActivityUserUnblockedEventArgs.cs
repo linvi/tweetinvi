@@ -17,20 +17,25 @@ namespace Tweetinvi.Events
         Unknown
     }
 
-    public class AccountActivityUserUnblockedEventArgs : BaseAccountActivityEventArgs
+    public class AccountActivityUserUnblockedEventArgs : BaseAccountActivityEventArgs<UserUnblockedRaisedInResultOf>
     {
         public AccountActivityUserUnblockedEventArgs(AccountActivityEvent<Tuple<IUser, IUser>> eventInfo) : base(eventInfo)
         {
             UnblockedBy = eventInfo.Args.Item1;
-            UserUnblocked = eventInfo.Args.Item2;
+            UnblockedUser = eventInfo.Args.Item2;
 
             InResultOf = GetInResultOf();
         }
 
-        public IUser UserUnblocked { get; }
-        public IUser UnblockedBy { get; }
+        /// <summary>
+        /// THe user who got unblocked
+        /// </summary>
+        public IUser UnblockedUser { get; }
 
-        public UserUnblockedRaisedInResultOf InResultOf { get; }
+        /// <summary>
+        /// The user who performed the action of unblocking another user
+        /// </summary>
+        public IUser UnblockedBy { get; }
 
         private UserUnblockedRaisedInResultOf GetInResultOf()
         {

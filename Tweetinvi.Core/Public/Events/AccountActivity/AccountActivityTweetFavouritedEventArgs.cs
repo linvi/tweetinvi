@@ -27,7 +27,7 @@ namespace Tweetinvi.Events
         Unknown,
     }
 
-    public class AccountActivityTweetFavouritedEventArgs : BaseAccountActivityEventArgs
+    public class AccountActivityTweetFavouritedEventArgs : BaseAccountActivityEventArgs<TweetFavouritedRaisedInResultOf>
     {
         public AccountActivityTweetFavouritedEventArgs(AccountActivityEvent<Tuple<ITweet, IUser>> eventInfo) : base(eventInfo)
         {
@@ -36,9 +36,15 @@ namespace Tweetinvi.Events
             InResultOf = GetInResultOf();
         }
 
+        /// <summary>
+        /// The tweet that got favourited
+        /// </summary>
         public ITweet Tweet { get; }
+
+        /// <summary>
+        /// The user who favourited the tweet
+        /// </summary>
         public IUser FavouritedBy { get; }
-        public TweetFavouritedRaisedInResultOf InResultOf { get; }
 
         private TweetFavouritedRaisedInResultOf GetInResultOf()
         {

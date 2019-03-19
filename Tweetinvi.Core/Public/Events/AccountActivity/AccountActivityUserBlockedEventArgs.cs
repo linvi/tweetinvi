@@ -17,20 +17,25 @@ namespace Tweetinvi.Events
         Unknown
     }
 
-    public class AccountActivityUserBlockedEventArgs : BaseAccountActivityEventArgs
+    public class AccountActivityUserBlockedEventArgs : BaseAccountActivityEventArgs<UserBlockedRaisedInResultOf>
     {
         public AccountActivityUserBlockedEventArgs(AccountActivityEvent<Tuple<IUser, IUser>> eventInfo) : base(eventInfo)
         {
             BlockedBy = eventInfo.Args.Item1;
-            UserBlocked = eventInfo.Args.Item2;
+            BlockedUser = eventInfo.Args.Item2;
 
             InResultOf = GetInResultOf();
         }
 
-        public IUser UserBlocked { get; }
-        public IUser BlockedBy { get; }
+        /// <summary>
+        /// The user who got blocked
+        /// </summary>
+        public IUser BlockedUser { get; }
 
-        public UserBlockedRaisedInResultOf InResultOf { get; }
+        /// <summary>
+        /// The user who blocked
+        /// </summary>
+        public IUser BlockedBy { get; }
 
         private UserBlockedRaisedInResultOf GetInResultOf()
         {

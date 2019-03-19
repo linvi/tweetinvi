@@ -14,17 +14,34 @@
         Unknown,
     }
 
-    public class AccountActivityTweetDeletedEventArgs : BaseAccountActivityEventArgs<long>
+    public class AccountActivityTweetDeletedEventArgs : BaseAccountActivityEventArgs<TweetDeletedRaisedInResultOf>
     {
-        public AccountActivityTweetDeletedEventArgs(AccountActivityEvent<long> activityEvent) : base(activityEvent)
+        public AccountActivityTweetDeletedEventArgs(AccountActivityEvent<long> activityEvent, long userId) : base(activityEvent)
         {
             TweetId = activityEvent.Args;
+            UserId = userId;
 
-            InResultOf = TweetDeletedRaisedInResultOf.AccountUserDeletingOneOfHisTweets;
+            InResultOf = GetInResultOf();
         }
 
+        /// <summary>
+        /// Id of the tweet that was deleted
+        /// </summary>
         public long TweetId { get; }
 
-        public TweetDeletedRaisedInResultOf InResultOf { get; }
+        /// <summary>
+        /// Id of the user who created the tweet
+        /// </summary>
+        public long UserId { get; }
+
+        private TweetDeletedRaisedInResultOf GetInResultOf()
+        {
+            if (UserId == AccountUserId)
+            {
+                return TweetDeletedRaisedInResultOf.AccountUserDeletingOneOfHisTweets;
+            }
+
+            return TweetDeletedRaisedInResultOf.Unknown;
+        }
     }
 }

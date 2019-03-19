@@ -22,29 +22,35 @@ namespace Tweetinvi.Events
         Unknown
     }
 
-    public class AccountActivityUserFollowedEventArgs : BaseAccountActivityEventArgs
+    public class AccountActivityUserFollowedEventArgs : BaseAccountActivityEventArgs<UserFollowedRaisedInResultOf>
     {
         public AccountActivityUserFollowedEventArgs(AccountActivityEvent<Tuple<IUser, IUser>> eventInfo) : base(eventInfo)
         {
             FollowedBy = eventInfo.Args.Item1;
-            UserFollowed = eventInfo.Args.Item2;
+            FollowedUser = eventInfo.Args.Item2;
 
             InResultOf = GetInResultOf();
         }
 
-        public IUser UserFollowed { get; }
+        /// <summary>
+        /// The user who got followed
+        /// </summary>
+        public IUser FollowedUser { get; }
+
+        /// <summary>
+        /// The user who performed the action of following another user
+        /// </summary>
         public IUser FollowedBy { get; }
 
-        public UserFollowedRaisedInResultOf InResultOf { get; }
 
         private UserFollowedRaisedInResultOf GetInResultOf()
         {
-            if (UserFollowed.Id == AccountUserId)
+            if (FollowedUser.Id == AccountUserId)
             {
                 return UserFollowedRaisedInResultOf.AnotherUserFollowingAccountUser;
             }
 
-            if (UserFollowed.Id != AccountUserId && FollowedBy.Id == AccountUserId)
+            if (FollowedUser.Id != AccountUserId && FollowedBy.Id == AccountUserId)
             {
                 return UserFollowedRaisedInResultOf.AccountUserFollowingAnotherUser;
             }

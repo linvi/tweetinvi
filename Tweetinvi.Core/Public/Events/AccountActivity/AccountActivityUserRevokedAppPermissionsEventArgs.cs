@@ -14,7 +14,7 @@
         Unknown,
     }
 
-    public class AccountActivityUserRevokedAppPermissionsEventArgs : BaseAccountActivityEventArgs
+    public class AccountActivityUserRevokedAppPermissionsEventArgs : BaseAccountActivityEventArgs<UserRevokedAppPermissionsInResultOf>
     {
         public AccountActivityUserRevokedAppPermissionsEventArgs(
             AccountActivityEvent activityEvent,
@@ -27,9 +27,15 @@
             InResultOf = GetInResultOf();
         }
 
+        /// <summary>
+        /// Id of the user who revoked the application permissions
+        /// </summary>
         public long UserId { get; }
+
+        /// <summary>
+        /// Application that go its permissions revoked
+        /// </summary>
         public long AppId { get; }
-        public UserRevokedAppPermissionsInResultOf InResultOf { get; }
 
         private UserRevokedAppPermissionsInResultOf GetInResultOf()
         {

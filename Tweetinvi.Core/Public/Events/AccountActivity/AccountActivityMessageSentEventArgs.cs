@@ -16,7 +16,7 @@ namespace Tweetinvi.Events
         Unknown,
     }
 
-    public class AccountActivityMessageSentEventArgs : BaseAccountActivityMessageEventArgs
+    public class AccountActivityMessageSentEventArgs : BaseAccountActivityMessageEventArgs<MessageSentInResultOf>
     {
         public AccountActivityMessageSentEventArgs(
             AccountActivityEvent activityEvent,
@@ -27,8 +27,6 @@ namespace Tweetinvi.Events
         {
             InResultOf = GetInResultOf();
         }
-
-        public MessageSentInResultOf InResultOf { get; }
 
         private MessageSentInResultOf GetInResultOf()
         {

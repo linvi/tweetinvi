@@ -221,6 +221,7 @@ namespace Testinvi.Tweetinvi.Streams
             Assert.AreEqual(eventsReceived.Count, 1);
             Assert.AreEqual(eventsReceived[0].AccountUserId, ACCOUNT_ACTIVITY_USER_ID);
             Assert.AreEqual(eventsReceived[0].TweetId, 601430178305220608);
+            Assert.AreEqual(eventsReceived[0].UserId, 3198576760);
             Assert.AreEqual(eventsReceived[0].EventDate, DateTimeOffset.FromUnixTimeMilliseconds(1432228155593).DateTime);
         }
 
@@ -279,7 +280,7 @@ namespace Testinvi.Tweetinvi.Streams
             // Assert
             Assert.AreEqual(eventsReceived.Count, 1);
             Assert.AreEqual(eventsReceived[0].FollowedBy.Id, ACCOUNT_ACTIVITY_USER_ID);
-            Assert.AreEqual(eventsReceived[0].UserFollowed.Id, 41);
+            Assert.AreEqual(eventsReceived[0].FollowedUser.Id, 41);
             Assert.AreEqual(eventsReceived[0].InResultOf, UserFollowedRaisedInResultOf.AccountUserFollowingAnotherUser);
             Assert.AreEqual(eventsReceived[0].EventDate, DateTimeOffset.FromUnixTimeMilliseconds(1552763621007).DateTime);
         }
@@ -351,7 +352,7 @@ namespace Testinvi.Tweetinvi.Streams
             // Assert
             Assert.AreEqual(eventsReceived.Count, 1);
             Assert.AreEqual(eventsReceived[0].FollowedBy.Id, 40);
-            Assert.AreEqual(eventsReceived[0].UserFollowed.Id, ACCOUNT_ACTIVITY_USER_ID);
+            Assert.AreEqual(eventsReceived[0].FollowedUser.Id, ACCOUNT_ACTIVITY_USER_ID);
             Assert.AreEqual(eventsReceived[0].InResultOf, UserFollowedRaisedInResultOf.AnotherUserFollowingAccountUser);
             Assert.AreEqual(eventsReceived[0].EventDate, DateTimeOffset.FromUnixTimeMilliseconds(1552763621007).DateTime);
         }
@@ -383,7 +384,7 @@ namespace Testinvi.Tweetinvi.Streams
             // Assert
             Assert.AreEqual(eventsReceived.Count, 1);
             Assert.AreEqual(eventsReceived[0].UnfollowedBy.Id, ACCOUNT_ACTIVITY_USER_ID);
-            Assert.AreEqual(eventsReceived[0].UserUnfollowed.Id, 40);
+            Assert.AreEqual(eventsReceived[0].UnfollowedUser.Id, 40);
             Assert.AreEqual(eventsReceived[0].EventDate, DateTimeOffset.FromUnixTimeMilliseconds(1552763621007).DateTime);
         }
 
@@ -414,7 +415,7 @@ namespace Testinvi.Tweetinvi.Streams
             // Assert
             Assert.AreEqual(eventsReceived.Count, 1);
             Assert.AreEqual(eventsReceived[0].BlockedBy.Id, ACCOUNT_ACTIVITY_USER_ID);
-            Assert.AreEqual(eventsReceived[0].UserBlocked.Id, 41);
+            Assert.AreEqual(eventsReceived[0].BlockedUser.Id, 41);
             Assert.AreEqual(eventsReceived[0].EventDate, DateTimeOffset.FromUnixTimeMilliseconds(1552763621007).DateTime);
         }
 
@@ -446,7 +447,7 @@ namespace Testinvi.Tweetinvi.Streams
             // Assert
             Assert.AreEqual(eventsReceived.Count, 1);
             Assert.AreEqual(eventsReceived[0].UnblockedBy.Id, ACCOUNT_ACTIVITY_USER_ID);
-            Assert.AreEqual(eventsReceived[0].UserUnblocked.Id, 41);
+            Assert.AreEqual(eventsReceived[0].UnblockedUser.Id, 41);
             Assert.AreEqual(eventsReceived[0].EventDate, DateTimeOffset.FromUnixTimeMilliseconds(1552763621007).DateTime);
         }
 
@@ -477,7 +478,7 @@ namespace Testinvi.Tweetinvi.Streams
             // Assert
             Assert.AreEqual(eventsReceived.Count, 1);
             Assert.AreEqual(eventsReceived[0].MutedBy.Id, ACCOUNT_ACTIVITY_USER_ID);
-            Assert.AreEqual(eventsReceived[0].UserMuted.Id, 41);
+            Assert.AreEqual(eventsReceived[0].MutedUser.Id, 41);
             Assert.AreEqual(eventsReceived[0].EventDate, DateTimeOffset.FromUnixTimeMilliseconds(1552763621007).DateTime);
         }
 
@@ -508,7 +509,7 @@ namespace Testinvi.Tweetinvi.Streams
             // Assert
             Assert.AreEqual(eventsReceived.Count, 1);
             Assert.AreEqual(eventsReceived[0].UnmutedBy.Id, ACCOUNT_ACTIVITY_USER_ID);
-            Assert.AreEqual(eventsReceived[0].UserUnmuted.Id, 41);
+            Assert.AreEqual(eventsReceived[0].UnmutedUser.Id, 41);
             Assert.AreEqual(eventsReceived[0].EventDate, DateTimeOffset.FromUnixTimeMilliseconds(1552763621007).DateTime);
         }
 
@@ -782,8 +783,8 @@ namespace Testinvi.Tweetinvi.Streams
 
             // Assert
             Assert.AreEqual(eventsReceived.Count, 1);
-            Assert.AreEqual(eventsReceived[0].Sender.Id, 3284025577);
-            Assert.AreEqual(eventsReceived[0].Recipient.Id, ACCOUNT_ACTIVITY_USER_ID);
+            Assert.AreEqual(eventsReceived[0].TypingUser.Id, 3284025577);
+            Assert.AreEqual(eventsReceived[0].TypingTo.Id, ACCOUNT_ACTIVITY_USER_ID);
             Assert.AreEqual(eventsReceived[0].AccountUserId, ACCOUNT_ACTIVITY_USER_ID);
             Assert.AreEqual(eventsReceived[0].EventDate, DateTimeOffset.FromUnixTimeMilliseconds(1518127183443).DateTime);
             Assert.AreEqual(eventsReceived[0].InResultOf, UserIsTypingMessageInResultOf.AnotherUserTypingAMessageToAccountUser);
@@ -850,8 +851,8 @@ namespace Testinvi.Tweetinvi.Streams
 
             // Assert
             Assert.AreEqual(eventsReceived.Count, 1);
-            Assert.AreEqual(eventsReceived[0].Sender.Id, 199566737);
-            Assert.AreEqual(eventsReceived[0].Recipient.Id, ACCOUNT_ACTIVITY_USER_ID);
+            Assert.AreEqual(eventsReceived[0].UserWhoReadTheMessageConversation.Id, 199566737);
+            Assert.AreEqual(eventsReceived[0].UserWhoWroteTheMessage.Id, ACCOUNT_ACTIVITY_USER_ID);
             Assert.AreEqual(eventsReceived[0].LastReadEventId, "963085315333238788");
             Assert.AreEqual(eventsReceived[0].AccountUserId, ACCOUNT_ACTIVITY_USER_ID);
             Assert.AreEqual(eventsReceived[0].EventDate, DateTimeOffset.FromUnixTimeMilliseconds(1518452444662).DateTime);

@@ -4,7 +4,7 @@ namespace Tweetinvi.Events
 {
     public abstract class BaseAccountActivityEventArgs : EventArgs
     {
-        public BaseAccountActivityEventArgs(AccountActivityEvent activityEvent)
+        protected BaseAccountActivityEventArgs(AccountActivityEvent activityEvent)
         {
             AccountUserId = activityEvent.AccountUserId;
             EventDate = activityEvent.EventDate;
@@ -36,5 +36,10 @@ namespace Tweetinvi.Events
         protected BaseAccountActivityEventArgs(AccountActivityEvent activityEvent) : base(activityEvent)
         {
         }
+
+        /// <summary>
+        /// The action that resulted in this event to be raised
+        /// </summary>
+        public T InResultOf { get; protected set; }
     }
 }
