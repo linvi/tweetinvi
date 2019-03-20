@@ -1,6 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
-using Tweetinvi.Core.Public.Streaming;
 using Tweetinvi.Core.Public.Streaming.Webhooks;
 using Tweetinvi.Core.Wrappers;
 using Tweetinvi.Models.Webhooks;
@@ -11,7 +9,7 @@ namespace Tweetinvi.Streams.Webhooks
     public class WebhookDispatcher : IWebhookDispatcher
     {
         private readonly IJObjectStaticWrapper _jObjectStaticWrapper;
-        private List<IAccountActivityStream> _accountActivityStream;
+        private readonly List<IAccountActivityStream> _accountActivityStream;
 
         public WebhookDispatcher(IJObjectStaticWrapper jObjectStaticWrapper)
         {
@@ -28,7 +26,6 @@ namespace Tweetinvi.Streams.Webhooks
         {
             var jsonObjectEvent = _jObjectStaticWrapper.GetJobjectFromJson(message.Json);
 
-            var keys = jsonObjectEvent.Children().SingleOrDefault(x => x.Path == "for_user_id");
             var userId = jsonObjectEvent["for_user_id"].ToString();
 
             _accountActivityStream.ForEach(activityStream =>

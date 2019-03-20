@@ -120,7 +120,7 @@ namespace Tweetinvi.Streams
 
         public event EventHandler<LimitReachedEventArgs> LimitReached;
         public event EventHandler<WarningFallingBehindEventArgs> WarningFallingBehindDetected;
-        public event EventHandler<UnmanagedMessageReceivedEventArgs> UnmanagedEventReceived;
+        public event EventHandler<UnsupportedEventReceivedEventArgs> UnmanagedEventReceived;
         public abstract event EventHandler<JsonObjectEventArgs> JsonObjectReceived;
 
         // Stream State
@@ -249,7 +249,7 @@ namespace Tweetinvi.Streams
             }
             else
             {
-                var unmanagedMessageEventArgs = new UnmanagedMessageReceivedEventArgs(json);
+                var unmanagedMessageEventArgs = new UnsupportedEventReceivedEventArgs(json);
                 this.Raise(UnmanagedEventReceived, unmanagedMessageEventArgs);
             }
         }

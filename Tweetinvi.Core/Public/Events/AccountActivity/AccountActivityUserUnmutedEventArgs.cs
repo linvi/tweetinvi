@@ -6,15 +6,15 @@ namespace Tweetinvi.Events
     public enum UserUnmutedRaisedInResultOf
     {
         /// <summary>
-        /// The account user has Unmuted another user 
-        /// </summary>
-        AccountUserMutingAnotherUser,
-
-        /// <summary>
         /// This case should not happen and is here in case Twitter changes when they trigger the Unmuted event.
         /// If you happen to receive this mode, please report to Tweetinvi your case ideally with the associated json.
         /// </summary>
-        Unknown
+        Unknown = 0,
+
+        /// <summary>
+        /// The account user has Unmuted another user 
+        /// </summary>
+        AccountUserMutingAnotherUser,
     }
 
     public class AccountActivityUserUnmutedEventArgs : BaseAccountActivityEventArgs<UserUnmutedRaisedInResultOf>

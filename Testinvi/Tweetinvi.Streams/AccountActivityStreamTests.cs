@@ -13,7 +13,6 @@ using Tweetinvi.Events;
 using Tweetinvi.Models.Webhooks;
 using Tweetinvi.Streaming;
 using Tweetinvi.Streams;
-using Tweetinvi.Streams.Helpers;
 
 namespace Testinvi.Tweetinvi.Streams
 {
@@ -37,8 +36,7 @@ namespace Testinvi.Tweetinvi.Streams
                 new ConstructorNamedParameter("jObjectWrapper", TweetinviContainer.Resolve<IJObjectStaticWrapper>()),
                 new ConstructorNamedParameter("tweetFactory", TweetinviContainer.Resolve<ITweetFactory>()),
                 new ConstructorNamedParameter("userFactory", TweetinviContainer.Resolve<IUserFactory>()),
-                new ConstructorNamedParameter("messageFactory", TweetinviContainer.Resolve<IMessageFactory>()),
-                new ConstructorNamedParameter("accountActivityConversationEventExtractor", TweetinviContainer.Resolve<IAccountActivityConversationEventExtractor>()));
+                new ConstructorNamedParameter("messageFactory", TweetinviContainer.Resolve<IMessageFactory>()));
 
             activityStream.AccountUserId = ACCOUNT_ACTIVITY_USER_ID;
 
@@ -311,8 +309,8 @@ namespace Testinvi.Tweetinvi.Streams
                 followedUserEvents.Add(args);
             };
 
-            var unmanagedEvents = new List<UnmanagedMessageReceivedEventArgs>();
-            activityStream.UnmanagedEventReceived += (sender, args) =>
+            var unmanagedEvents = new List<UnsupportedEventReceivedEventArgs>();
+            activityStream.UnsupportedEventReceived += (sender, args) =>
             {
                 unmanagedEvents.Add(args);
             };

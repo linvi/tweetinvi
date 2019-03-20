@@ -11,7 +11,7 @@ namespace Tweetinvi.Streaming
     public interface IAccountActivityStream
     {
         /// <summary>
-        /// The account user id.
+        /// The account user id. This property should not be modified by users.
         /// </summary>
         long AccountUserId { get; set; }
 
@@ -97,11 +97,29 @@ namespace Tweetinvi.Streaming
         // Others
 
         /// <summary>
-        /// An event has been received 
+        /// Reports that an event has been received
         /// </summary>
         EventHandler<JsonObjectEventArgs> JsonObjectReceived { get; set; }
-        EventHandler<UnmanagedMessageReceivedEventArgs> UnmanagedEventReceived { get; set; }
 
+        /// <summary>
+        /// Reports that an event that Tweetinvi does not understand has been received.
+        /// Please report such event to us.
+        /// </summary>
+        EventHandler<UnsupportedEventReceivedEventArgs> UnsupportedEventReceived { get; set; }
+
+
+        /// <summary>
+        /// The type of event is known by Tweetinvi but we could not identify why the event was created.
+        /// Please report such event to us.
+        /// </summary>
+        EventHandler<EventKnownButNotSupportedReceivedEventArgs> EventKnownButNotFullySupportedReceived { get; set; }
+
+        EventHandler<UnexpectedExceptionThrownEventArgs> UnexpectedExceptionThrown { get; set; }
+
+        /// <summary>
+        /// For internal use : this is how we inform an account activity stream
+        /// that an even has occurred.
+        /// </summary>
         void WebhookMessageReceived(IWebhookMessage message);
     }
 }

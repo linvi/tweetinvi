@@ -45,7 +45,7 @@ namespace Examplinvi.WebhooksServer
 
             // Other events
             accountActivityStream.JsonObjectReceived += JsonObjectReceived;
-            accountActivityStream.UnmanagedEventReceived += UnmanagedEventReceived;
+            accountActivityStream.UnsupportedEventReceived += UnmanagedEventReceived;
         }
 
         [SuppressMessage("ReSharper", "DelegateSubtraction")]
@@ -77,7 +77,7 @@ namespace Examplinvi.WebhooksServer
 
             // Other events
             accountActivityStream.JsonObjectReceived -= JsonObjectReceived;
-            accountActivityStream.UnmanagedEventReceived -= UnmanagedEventReceived;
+            accountActivityStream.UnsupportedEventReceived -= UnmanagedEventReceived;
         }
 
         // Tweet events
@@ -162,7 +162,7 @@ namespace Examplinvi.WebhooksServer
             Console.WriteLine(args.Json);
         }
 
-        private void UnmanagedEventReceived(object sender, UnmanagedMessageReceivedEventArgs e)
+        private void UnmanagedEventReceived(object sender, UnsupportedEventReceivedEventArgs e)
         {
             Console.WriteLine("An event that Tweetinvi is not yet capable of analyzing has been received. Please open a github issue with this message: " + e.JsonMessageReceived);
         }

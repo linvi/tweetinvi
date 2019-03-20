@@ -6,15 +6,15 @@ namespace Tweetinvi.Events
     public enum UserUnblockedRaisedInResultOf
     {
         /// <summary>
-        /// The account user has unblocked another user 
-        /// </summary>
-        AccountUserUnblockingAnotherUser,
-
-        /// <summary>
         /// This case should not happen and is here in case Twitter changes when they trigger the UnBlocked event.
         /// If you happen to receive this mode, please report to Tweetinvi your case ideally with the associated json.
         /// </summary>
-        Unknown
+        Unknown = 0,
+
+        /// <summary>
+        /// The account user has unblocked another user 
+        /// </summary>
+        AccountUserUnblockingAnotherUser,
     }
 
     public class AccountActivityUserUnblockedEventArgs : BaseAccountActivityEventArgs<UserUnblockedRaisedInResultOf>

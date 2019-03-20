@@ -6,6 +6,12 @@ namespace Tweetinvi.Events
     public enum UserFollowedRaisedInResultOf
     {
         /// <summary>
+        /// This case should not happen and is here in case Twitter changes when they trigger the Followed event.
+        /// If you happen to receive this mode, please report to Tweetinvi your case ideally with the associated json.
+        /// </summary>
+        Unknown = 0,
+
+        /// <summary>
         /// The account user is now following another user 
         /// </summary>
         AccountUserFollowingAnotherUser,
@@ -14,12 +20,6 @@ namespace Tweetinvi.Events
         /// The account user is being followed by another user
         /// </summary>
         AnotherUserFollowingAccountUser,
-
-        /// <summary>
-        /// This case should not happen and is here in case Twitter changes when they trigger the Followed event.
-        /// If you happen to receive this mode, please report to Tweetinvi your case ideally with the associated json.
-        /// </summary>
-        Unknown
     }
 
     public class AccountActivityUserFollowedEventArgs : BaseAccountActivityEventArgs<UserFollowedRaisedInResultOf>

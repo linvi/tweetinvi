@@ -5,15 +5,15 @@ namespace Tweetinvi.Events
     public enum UserIsTypingMessageInResultOf
     {
         /// <summary>
-        /// Another user is typing a message in destination to the account user
-        /// </summary>
-        AnotherUserTypingAMessageToAccountUser,
-
-        /// <summary>
         /// This case should not happen and is here in case Twitter changes when they trigger the MessageTyping event.
         /// If you happen to receive this mode, please report to Tweetinvi your case ideally with the associated json.
         /// </summary>
-        Unknown
+        Unknown = 0,
+
+        /// <summary>
+        /// Another user is typing a message in destination to the account user
+        /// </summary>
+        AnotherUserTypingAMessageToAccountUser,
     }
 
     public class AccountActivityUserIsTypingMessageEventArgs : BaseAccountActivityEventArgs<UserIsTypingMessageInResultOf>
@@ -21,7 +21,7 @@ namespace Tweetinvi.Events
         public AccountActivityUserIsTypingMessageEventArgs(
             AccountActivityEvent activityEvent,
             IUser typingUser,
-            IUser typingTo) 
+            IUser typingTo)
             : base(activityEvent)
         {
             TypingUser = typingUser;

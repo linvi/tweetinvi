@@ -5,6 +5,12 @@ namespace Tweetinvi.Events
     public enum TweetCreatedRaisedInResultOf
     {
         /// <summary>
+        /// This case should not happen and is here in case Twitter changes when they trigger the TweetCreated event.
+        /// If you happen to receive this mode, please report to Tweetinvi your case ideally with the associated json.
+        /// </summary>
+        Unknown = 0,
+
+        /// <summary>
         /// The tweet was created by the account user.
         /// </summary>
         AccountUserCreatingATweet,
@@ -18,12 +24,6 @@ namespace Tweetinvi.Events
         /// The tweet has been created by another user and is mentioning the account user.
         /// </summary>
         AnotherUserMentioningTheAccountUser,
-
-        /// <summary>
-        /// This case should not happen and is here in case Twitter changes when they trigger the TweetCreated event.
-        /// If you happen to receive this mode, please report to Tweetinvi your case ideally with the associated json.
-        /// </summary>
-        Unknown,
     }
 
     public class AccountActivityTweetCreatedEventArgs : BaseAccountActivityEventArgs<TweetCreatedRaisedInResultOf>

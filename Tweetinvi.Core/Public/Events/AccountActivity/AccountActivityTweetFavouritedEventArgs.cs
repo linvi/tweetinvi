@@ -6,25 +6,25 @@ namespace Tweetinvi.Events
     public enum TweetFavouritedRaisedInResultOf
     {
         /// <summary>
+        /// This case should not happen and is here in case Twitter changes when they trigger the TweetFavourited event.
+        /// If you happen to receive this mode, please report to Tweetinvi your case ideally with the associated json.
+        /// </summary>
+        Unknown = 0,
+
+        /// <summary>
         /// The account user favourited one of his own tweet
         /// </summary>
         AccountUserFavouritingHisOwnTweet,
 
         /// <summary>
-        /// 
+        /// The account user facourited a tweet of another user
         /// </summary>
         AccountUserFavouritingATweetOfAnotherUser,
 
         /// <summary>
-        /// 
+        /// Another user favourited the tweet of the account user
         /// </summary>
         AnotherUserFavouritingATweetOfTheAccountUser,
-
-        /// <summary>
-        /// This case should not happen and is here in case Twitter changes when they trigger the TweetFavourited event.
-        /// If you happen to receive this mode, please report to Tweetinvi your case ideally with the associated json.
-        /// </summary>
-        Unknown,
     }
 
     public class AccountActivityTweetFavouritedEventArgs : BaseAccountActivityEventArgs<TweetFavouritedRaisedInResultOf>

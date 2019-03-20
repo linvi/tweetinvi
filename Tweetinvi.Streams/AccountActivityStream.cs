@@ -13,7 +13,6 @@ using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
 using Tweetinvi.Models.Webhooks;
 using Tweetinvi.Streaming;
-using Tweetinvi.Streams.Helpers;
 using Tweetinvi.Streams.Model.AccountActivity;
 
 namespace Tweetinvi.Streams
@@ -26,7 +25,6 @@ namespace Tweetinvi.Streams
         private readonly ITweetFactory _tweetFactory;
         private readonly IUserFactory _userFactory;
         private readonly IMessageFactory _messageFactory;
-        private readonly IAccountActivityConversationEventExtractor _accountActivityConversationEventExtractor;
 
         private readonly Dictionary<string, Action<string, JObject>> _events;
 
@@ -35,15 +33,13 @@ namespace Tweetinvi.Streams
             IJsonObjectConverter jsonObjectConverter,
             ITweetFactory tweetFactory,
             IUserFactory userFactory,
-            IMessageFactory messageFactory,
-            IAccountActivityConversationEventExtractor accountActivityConversationEventExtractor)
+            IMessageFactory messageFactory)
         {
             _jObjectWrapper = jObjectWrapper;
             _jsonObjectConverter = jsonObjectConverter;
             _tweetFactory = tweetFactory;
             _userFactory = userFactory;
             _messageFactory = messageFactory;
-            _accountActivityConversationEventExtractor = accountActivityConversationEventExtractor;
             _events = new Dictionary<string, Action<string, JObject>>();
 
             InitializeEvents();
@@ -93,38 +89,54 @@ namespace Tweetinvi.Streams
         public EventHandler<AccountActivityUserIsTypingMessageEventArgs> UserIsTypingMessage { get; set; }
         public EventHandler<AccountActivityUserReadMessageConversationEventArgs> UserReadMessage { get; set; }
 
-        public EventHandler<UnmanagedMessageReceivedEventArgs> UnmanagedEventReceived { get; set; }
+        // Others
+        public EventHandler<UnsupportedEventReceivedEventArgs> UnsupportedEventReceived { get; set; }
+        public EventHandler<EventKnownButNotSupportedReceivedEventArgs> EventKnownButNotFullySupportedReceived { get; set; }
         public EventHandler<JsonObjectEventArgs> JsonObjectReceived { get; set; }
+        public EventHandler<UnexpectedExceptionThrownEventArgs> UnexpectedExceptionThrown { get;set;}
 
         public void WebhookMessageReceived(IWebhookMessage message)
         {
-            var json = message.Json;
-            var jsonObjectEvent = _jObjectWrapper.GetJobjectFromJson(json);
-
-            var jsonEventChildren = jsonObjectEvent.Children().ToArray();
-            var keys = jsonEventChildren.Where(x => x.Path.EndsWith("event") || x.Path.EndsWith("events"));
-            var key = keys.SingleOrDefault();
-
-            if (key == null)
+            if (message == null)
             {
                 return;
             }
 
-            this.Raise(JsonObjectReceived, new JsonObjectEventArgs(json));
+            try
+            {
+                var json = message.Json;
+                var jsonObjectEvent = _jObjectWrapper.GetJobjectFromJson(json);
 
-            var eventName = key.Path;
-            if (_events.ContainsKey(eventName))
-            {
-                _events[eventName].Invoke(eventName, jsonObjectEvent);
+                var jsonEventChildren = jsonObjectEvent.Children().ToArray();
+                var keys = jsonEventChildren.Where(x => x.Path.EndsWith("event") || x.Path.EndsWith("events"));
+                var key = keys.SingleOrDefault();
+
+                if (key == null)
+                {
+                    return;
+                }
+
+                this.Raise(JsonObjectReceived, new JsonObjectEventArgs(json));
+
+                var eventName = key.Path;
+                if (_events.ContainsKey(eventName))
+                {
+                    _events[eventName].Invoke(eventName, jsonObjectEvent);
+                }
+                else
+                {
+                    this.Raise(UnsupportedEventReceived, new UnsupportedEventReceivedEventArgs(json));
+                }
             }
-            else
+            catch (Exception e)
             {
-                this.Raise(UnmanagedEventReceived, new UnmanagedMessageReceivedEventArgs(json));
+                this.Raise(UnexpectedExceptionThrown, new UnexpectedExceptionThrownEventArgs(e));
             }
         }
 
         private void TryRaiseTweetCreatedEvents(string eventName, JObject jsonObjectEvent)
         {
+            var json = jsonObjectEvent.ToString();
             var tweetCreatedEvent = jsonObjectEvent[eventName];
             var tweetCreatedEventJson = tweetCreatedEvent.ToString();
             var tweetDTOs = _jsonObjectConverter.DeserializeObject<ITweetDTO[]>(tweetCreatedEventJson);
@@ -137,15 +149,22 @@ namespace Tweetinvi.Streams
                 {
                     AccountUserId = AccountUserId,
                     EventDate = tweet.CreatedAt,
-                    Json = jsonObjectEvent.ToString()
+                    Json = json
                 };
 
-                this.Raise(TweetCreated, new AccountActivityTweetCreatedEventArgs(accountActivityEvent));
+                var eventArgs = new AccountActivityTweetCreatedEventArgs(accountActivityEvent);
+                this.Raise(TweetCreated, eventArgs);
+
+                if (eventArgs.InResultOf == TweetCreatedRaisedInResultOf.Unknown)
+                {
+                    this.Raise(EventKnownButNotFullySupportedReceived, new EventKnownButNotSupportedReceivedEventArgs(json, eventArgs));
+                }
             });
         }
 
         private void TryRaiseTweetDeletedEvents(string eventName, JObject jsonObjectEvent)
         {
+            var json = jsonObjectEvent.ToString();
             var tweetDeletedEventJToken = jsonObjectEvent[eventName];
             var tweetDeletedEventDTOs = tweetDeletedEventJToken.ToObject<AccountActivityTweetDeletedEventDTO[]>();
 
@@ -157,15 +176,23 @@ namespace Tweetinvi.Streams
                 {
                     AccountUserId = AccountUserId,
                     EventDate = dateOffset.UtcDateTime,
-                    Json = jsonObjectEvent.ToString()
+                    Json = json
                 };
 
-                this.Raise(TweetDeleted, new AccountActivityTweetDeletedEventArgs(accountActivityEvent, tweetDeletedEventDTO.Status.UserId));
+                var eventArgs = new AccountActivityTweetDeletedEventArgs(accountActivityEvent, tweetDeletedEventDTO.Status.UserId);
+
+                this.Raise(TweetDeleted, eventArgs);
+
+                if (eventArgs.InResultOf == TweetDeletedRaisedInResultOf.Unknown)
+                {
+                    this.Raise(EventKnownButNotFullySupportedReceived, new EventKnownButNotSupportedReceivedEventArgs(json, eventArgs));
+                }
             });
         }
 
         private void TryRaiseTweetFavouritedEvents(string eventName, JObject jsonObjectEvent)
         {
+            var json = jsonObjectEvent.ToString();
             var favouriteTweetEvent = jsonObjectEvent[eventName];
             var favouritedTweetEventJson = favouriteTweetEvent.ToString();
             var favouriteEventDTOs = _jsonObjectConverter.DeserializeObject<AccountActivityFavouriteEventDTO[]>(favouritedTweetEventJson);
@@ -179,15 +206,23 @@ namespace Tweetinvi.Streams
                 {
                     AccountUserId = AccountUserId,
                     EventDate = tweet.CreatedAt,
-                    Json = jsonObjectEvent.ToString(),
+                    Json = json
                 };
 
-                this.Raise(TweetFavourited, new AccountActivityTweetFavouritedEventArgs(accountActivityEvent));
+                var eventArgs = new AccountActivityTweetFavouritedEventArgs(accountActivityEvent);
+
+                this.Raise(TweetFavourited, eventArgs);
+
+                if (eventArgs.InResultOf == TweetFavouritedRaisedInResultOf.Unknown)
+                {
+                    this.Raise(EventKnownButNotFullySupportedReceived, new EventKnownButNotSupportedReceivedEventArgs(json, eventArgs));
+                }
             });
         }
 
         private void TryRaiseFollowedEvents(string eventName, JObject jsonObjectEvent)
         {
+            var json = jsonObjectEvent.ToString();
             var followEvent = jsonObjectEvent[eventName];
             var followedUsersEvents = ExtractUserToUserEventDTOs(followEvent);
 
@@ -203,7 +238,7 @@ namespace Tweetinvi.Streams
                 {
                     AccountUserId = AccountUserId,
                     EventDate = dateOffset.UtcDateTime,
-                    Json = jsonObjectEvent.ToString(),
+                    Json = json
                 };
 
                 if (followedUsersEvent.Type == "follow")
@@ -211,24 +246,34 @@ namespace Tweetinvi.Streams
                     var eventArgs = new AccountActivityUserFollowedEventArgs(accountActivityEvent);
 
                     this.Raise(UserFollowed, eventArgs);
+
+                    if (eventArgs.InResultOf == UserFollowedRaisedInResultOf.Unknown)
+                    {
+                        this.Raise(EventKnownButNotFullySupportedReceived, new EventKnownButNotSupportedReceivedEventArgs(json, eventArgs));
+                    }
                 }
                 else if (followedUsersEvent.Type == "unfollow")
                 {
                     var eventArgs = new AccountActivityUserUnfollowedEventArgs(accountActivityEvent);
 
                     this.Raise(UserUnfollowed, eventArgs);
+
+                    if (eventArgs.InResultOf == UserUnfollowedRaisedInResultOf.Unknown)
+                    {
+                        this.Raise(EventKnownButNotFullySupportedReceived, new EventKnownButNotSupportedReceivedEventArgs(json, eventArgs));
+                    }
                 }
                 else
                 {
-                    this.Raise(UnmanagedEventReceived, new UnmanagedMessageReceivedEventArgs(jsonObjectEvent.ToString()));
+                    this.Raise(UnsupportedEventReceived, new UnsupportedEventReceivedEventArgs(jsonObjectEvent.ToString()));
                 }
             });
         }
 
         private void TryRaiseUserBlockedEvents(string eventName, JObject jsonObjectEvent)
         {
+            var json = jsonObjectEvent.ToString();
             var userBlockedEvent = jsonObjectEvent[eventName];
-
             var blockedEventInfos = ExtractUserToUserEventDTOs(userBlockedEvent);
 
             blockedEventInfos.ForEach(blockedEventInfo =>
@@ -243,28 +288,42 @@ namespace Tweetinvi.Streams
                 {
                     AccountUserId = AccountUserId,
                     EventDate = dateOffset.UtcDateTime,
-                    Json = jsonObjectEvent.ToString(),
+                    Json = json
                 };
 
                 if (blockedEventInfo.Type == "block")
                 {
-                    this.Raise(UserBlocked, new AccountActivityUserBlockedEventArgs(accountActivityEvent));
+                    var eventArgs = new AccountActivityUserBlockedEventArgs(accountActivityEvent);
+
+                    this.Raise(UserBlocked, eventArgs);
+
+                    if (eventArgs.InResultOf == UserBlockedRaisedInResultOf.Unknown)
+                    {
+                        this.Raise(EventKnownButNotFullySupportedReceived, new EventKnownButNotSupportedReceivedEventArgs(json, eventArgs));
+                    }
                 }
                 else if (blockedEventInfo.Type == "unblock")
                 {
-                    this.Raise(UserUnblocked, new AccountActivityUserUnblockedEventArgs(accountActivityEvent));
+                    var eventArgs = new AccountActivityUserUnblockedEventArgs(accountActivityEvent);
+
+                    this.Raise(UserUnblocked, eventArgs);
+
+                    if (eventArgs.InResultOf == UserUnblockedRaisedInResultOf.Unknown)
+                    {
+                        this.Raise(EventKnownButNotFullySupportedReceived, new EventKnownButNotSupportedReceivedEventArgs(json, eventArgs));
+                    }
                 }
                 else
                 {
-                    this.Raise(UnmanagedEventReceived, new UnmanagedMessageReceivedEventArgs(jsonObjectEvent.ToString()));
+                    this.Raise(UnsupportedEventReceived, new UnsupportedEventReceivedEventArgs(json));
                 }
             });
         }
 
         private void TryRaiseUserMutedEvents(string eventName, JObject jsonObjectEvent)
         {
+            var json = jsonObjectEvent.ToString();
             var userMutedEvent = jsonObjectEvent[eventName];
-
             var mutedEventInfos = ExtractUserToUserEventDTOs(userMutedEvent);
 
             mutedEventInfos.ForEach(mutedEventInfo =>
@@ -279,26 +338,39 @@ namespace Tweetinvi.Streams
                 {
                     AccountUserId = AccountUserId,
                     EventDate = dateOffset.UtcDateTime,
-                    Json = jsonObjectEvent.ToString(),
+                    Json = json
                 };
 
                 if (mutedEventInfo.Type == "mute")
                 {
-                    this.Raise(UserMuted, new AccountActivityUserMutedEventArgs(accountActivityEvent));
+                    var eventArgs = new AccountActivityUserMutedEventArgs(accountActivityEvent);
+                    this.Raise(UserMuted, eventArgs);
+
+                    if (eventArgs.InResultOf == UserMutedRaisedInResultOf.Unknown)
+                    {
+                        this.Raise(EventKnownButNotFullySupportedReceived, new EventKnownButNotSupportedReceivedEventArgs(json, eventArgs));
+                    }
                 }
                 else if (mutedEventInfo.Type == "unmute")
                 {
-                    this.Raise(UserUnmuted, new AccountActivityUserUnmutedEventArgs(accountActivityEvent));
+                    var eventArgs = new AccountActivityUserUnmutedEventArgs(accountActivityEvent);
+                    this.Raise(UserUnmuted, eventArgs);
+
+                    if (eventArgs.InResultOf == UserUnmutedRaisedInResultOf.Unknown)
+                    {
+                        this.Raise(EventKnownButNotFullySupportedReceived, new EventKnownButNotSupportedReceivedEventArgs(json, eventArgs));
+                    }
                 }
                 else
                 {
-                    this.Raise(UnmanagedEventReceived, new UnmanagedMessageReceivedEventArgs(jsonObjectEvent.ToString()));
+                    this.Raise(UnsupportedEventReceived, new UnsupportedEventReceivedEventArgs(jsonObjectEvent.ToString()));
                 }
             });
         }
 
         private void TryRaiseUserEvent(string eventName, JObject jsonObjectEvent)
         {
+            var json = jsonObjectEvent.ToString();
             var userEvent = jsonObjectEvent[eventName];
             var eventType = userEvent.Children().First().Path;
 
@@ -310,7 +382,7 @@ namespace Tweetinvi.Streams
                 {
                     AccountUserId = AccountUserId,
                     EventDate = userRevokedAppEventDTO.DateTime.ToUniversalTime(),
-                    Json = jsonObjectEvent.ToString(),
+                    Json = json
                 };
 
                 var userId = userRevokedAppEventDTO.Source.UserId;
@@ -319,15 +391,21 @@ namespace Tweetinvi.Streams
                 var userRevokedAppEventArgs = new AccountActivityUserRevokedAppPermissionsEventArgs(accountActivityEvent, userId, appId);
 
                 this.Raise(UserRevokedAppPermissions, userRevokedAppEventArgs);
+
+                if (userRevokedAppEventArgs.InResultOf == UserRevokedAppPermissionsInResultOf.Unknown)
+                {
+                    this.Raise(EventKnownButNotFullySupportedReceived, new EventKnownButNotSupportedReceivedEventArgs(json, userRevokedAppEventArgs));
+                }
             }
             else
             {
-                this.Raise(UnmanagedEventReceived, new UnmanagedMessageReceivedEventArgs(jsonObjectEvent.ToString()));
+                this.Raise(UnsupportedEventReceived, new UnsupportedEventReceivedEventArgs(jsonObjectEvent.ToString()));
             }
         }
 
         private void TryRaiseMessageEvent(string eventName, JObject jsonObjectEvent)
         {
+            var json = jsonObjectEvent.ToString();
             var eventInfo = jsonObjectEvent.ToObject<AccountActivityMessageCreatedEventDTO>();
 
             eventInfo.MessageEvents.ForEach(messageEventDTO =>
@@ -351,22 +429,32 @@ namespace Tweetinvi.Streams
                 {
                     AccountUserId = AccountUserId,
                     EventDate = message.CreatedAt,
-                    Json = jsonObjectEvent.ToString(),
+                    Json = json
                 };
 
                 if (message.SenderId == AccountUserId)
                 {
                     var eventArgs = new AccountActivityMessageSentEventArgs(accountActivityEvent, message, sender, recipient, app);
                     this.Raise(MessageSent, eventArgs);
+
+                    if (eventArgs.InResultOf == MessageSentInResultOf.Unknown)
+                    {
+                        this.Raise(EventKnownButNotFullySupportedReceived, new EventKnownButNotSupportedReceivedEventArgs(json, eventArgs));
+                    }
                 }
                 else if (message.RecipientId == AccountUserId)
                 {
                     var eventArgs = new AccountActivityMessageReceivedEventArgs(accountActivityEvent, message, sender, recipient, app);
                     this.Raise(MessageReceived, eventArgs);
+
+                    if (eventArgs.InResultOf == MessageReceivedInResultOf.Unknown)
+                    {
+                        this.Raise(EventKnownButNotFullySupportedReceived, new EventKnownButNotSupportedReceivedEventArgs(json, eventArgs));
+                    }
                 }
                 else
                 {
-                    this.Raise(UnmanagedEventReceived, new UnmanagedMessageReceivedEventArgs(jsonObjectEvent.ToString()));
+                    this.Raise(UnsupportedEventReceived, new UnsupportedEventReceivedEventArgs(jsonObjectEvent.ToString()));
                 }
             });
         }
@@ -378,7 +466,7 @@ namespace Tweetinvi.Streams
 
             events.TypingEvents.ForEach(typingEvent =>
             {
-                var activityEvent = new AccountActivityEvent()
+                var activityEvent = new AccountActivityEvent
                 {
                     AccountUserId = AccountUserId,
                     EventDate = typingEvent.CreatedAt,
@@ -391,7 +479,14 @@ namespace Tweetinvi.Streams
                 var sender = _userFactory.GenerateUserFromDTO(senderDTO);
                 var recipient = _userFactory.GenerateUserFromDTO(recipientDTO);
 
-                this.Raise(UserIsTypingMessage, new AccountActivityUserIsTypingMessageEventArgs(activityEvent, sender, recipient));
+                var eventArgs = new AccountActivityUserIsTypingMessageEventArgs(activityEvent, sender, recipient);
+
+                this.Raise(UserIsTypingMessage, eventArgs);
+
+                if (eventArgs.InResultOf == UserIsTypingMessageInResultOf.Unknown)
+                {
+                    this.Raise(EventKnownButNotFullySupportedReceived, new EventKnownButNotSupportedReceivedEventArgs(json, eventArgs));
+                }
             });
         }
 
@@ -415,7 +510,14 @@ namespace Tweetinvi.Streams
                 var sender = _userFactory.GenerateUserFromDTO(senderDTO);
                 var recipient = _userFactory.GenerateUserFromDTO(recipientDTO);
 
-                this.Raise(UserReadMessage, new AccountActivityUserReadMessageConversationEventArgs(activityEvent, sender, recipient, messageConversationReadEvent.LastReadEventId));
+                var eventArgs = new AccountActivityUserReadMessageConversationEventArgs(activityEvent, sender, recipient, messageConversationReadEvent.LastReadEventId);
+
+                this.Raise(UserReadMessage, eventArgs);
+
+                if (eventArgs.InResultOf == UserReadMessageConversationInResultOf.Unknown)
+                {
+                    this.Raise(EventKnownButNotFullySupportedReceived, new EventKnownButNotSupportedReceivedEventArgs(json, eventArgs));
+                }
             });
         }
 

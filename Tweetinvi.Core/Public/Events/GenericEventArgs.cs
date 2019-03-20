@@ -7,7 +7,7 @@ namespace Tweetinvi.Events
     /// </summary>
     public class GenericEventArgs<T>  : EventArgs
     {
-        public T Value { get; private set; }
+        public T Value { get; }
 
         public GenericEventArgs(T value)
         {
@@ -20,8 +20,8 @@ namespace Tweetinvi.Events
     /// </summary>
     public class GenericEventArgs<T, U> : EventArgs
     {
-        public T Value { get; private set; }
-        public U Value2 { get; private set; }
+        public T Value { get; }
+        public U Value2 { get; }
 
         public GenericEventArgs(T value, U value2)
         {
@@ -35,9 +35,9 @@ namespace Tweetinvi.Events
     /// </summary>
     public class GenericEventArgs<T, U, V> : EventArgs
     {
-        public T Value { get; private set; }
-        public U Value2 { get; private set; }
-        public V Value3 { get; private set; }
+        public T Value { get; }
+        public U Value2 { get; }
+        public V Value3 { get; }
 
         public GenericEventArgs(T value, U value2, V value3)
         {
@@ -52,10 +52,10 @@ namespace Tweetinvi.Events
     /// </summary>
     public class GenericEventArgs<T, U, V, W> : EventArgs
     {
-        public T Value { get; private set; }
-        public U Value2 { get; private set; }
-        public V Value3 { get; private set; }
-        public W Value4 { get; private set; }
+        public T Value { get; }
+        public U Value2 { get; }
+        public V Value3 { get; }
+        public W Value4 { get; }
 
         public GenericEventArgs(T value, U value2, V value3, W value4)
         {

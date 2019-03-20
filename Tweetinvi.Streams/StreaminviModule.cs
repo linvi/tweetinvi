@@ -30,7 +30,6 @@ namespace Tweetinvi.Streams
 
             container.RegisterType<IStreamTask, StreamTask>();
             container.RegisterType<IStreamResultGenerator, StreamResultGenerator>();
-            container.RegisterType<IAccountActivityConversationEventExtractor, AccountActivityConversationEventExtractor>(RegistrationLifetime.InstancePerApplication);
 
             container.RegisterGeneric(typeof(IStreamTrackManager<>), typeof(StreamTrackManager<>));
 

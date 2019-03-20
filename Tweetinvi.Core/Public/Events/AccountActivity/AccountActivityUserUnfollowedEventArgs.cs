@@ -6,15 +6,15 @@ namespace Tweetinvi.Events
     public enum UserUnfollowedRaisedInResultOf
     {
         /// <summary>
-        /// The account user is no longer following another user 
-        /// </summary>
-        AccountUserUnfollowingAnotherUser,
-
-        /// <summary>
         /// This case should not happen and is here in case Twitter changes when they trigger the Unfollowed event.
         /// If you happen to receive this mode, please report to Tweetinvi your case ideally with the associated json.
         /// </summary>
-        Unknown
+        Unknown = 0,
+
+        /// <summary>
+        /// The account user is no longer following another user 
+        /// </summary>
+        AccountUserUnfollowingAnotherUser,
     }
 
     public class AccountActivityUserUnfollowedEventArgs : BaseAccountActivityEventArgs<UserUnfollowedRaisedInResultOf>

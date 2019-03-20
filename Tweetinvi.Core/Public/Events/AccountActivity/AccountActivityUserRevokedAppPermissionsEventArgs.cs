@@ -3,15 +3,15 @@
     public enum UserRevokedAppPermissionsInResultOf
     {
         /// <summary>
-        /// The account user removed permission for a specific app
-        /// </summary>
-        AccountUserRemovingAppPermissions,
-
-        /// <summary>
         /// This case should not happen and is here in case Twitter changes when they trigger the PermissionsRevoked event.
         /// If you happen to receive this mode, please report to Tweetinvi your case ideally with the associated json.
         /// </summary>
-        Unknown,
+        Unknown = 0,
+
+        /// <summary>
+        /// The account user removed permission for a specific app
+        /// </summary>
+        AccountUserRemovingAppPermissions,
     }
 
     public class AccountActivityUserRevokedAppPermissionsEventArgs : BaseAccountActivityEventArgs<UserRevokedAppPermissionsInResultOf>

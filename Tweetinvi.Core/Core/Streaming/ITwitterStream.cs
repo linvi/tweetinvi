@@ -81,7 +81,7 @@ namespace Tweetinvi.Core.Streaming
         /// <summary>
         /// An event that is not handled by Tweetinvi have just been received!
         /// </summary>
-        event EventHandler<UnmanagedMessageReceivedEventArgs> UnmanagedEventReceived;
+        event EventHandler<UnsupportedEventReceivedEventArgs> UnmanagedEventReceived;
 
         /// <summary>
         /// Informs that we have received some json from the Twitter stream.

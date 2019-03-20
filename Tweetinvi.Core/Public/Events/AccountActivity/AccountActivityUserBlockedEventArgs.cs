@@ -6,15 +6,15 @@ namespace Tweetinvi.Events
     public enum UserBlockedRaisedInResultOf
     {
         /// <summary>
-        /// The account user has blocked another user 
-        /// </summary>
-        AccountUserBlockingAnotherUser,
-
-        /// <summary>
         /// This case should not happen and is here in case Twitter changes when they trigger the Blocked event.
         /// If you happen to receive this mode, please report to Tweetinvi your case ideally with the associated json.
         /// </summary>
-        Unknown
+        Unknown = 0,
+
+        /// <summary>
+        /// The account user has blocked another user 
+        /// </summary>
+        AccountUserBlockingAnotherUser,
     }
 
     public class AccountActivityUserBlockedEventArgs : BaseAccountActivityEventArgs<UserBlockedRaisedInResultOf>

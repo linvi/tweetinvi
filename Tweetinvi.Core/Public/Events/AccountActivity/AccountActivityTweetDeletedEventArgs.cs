@@ -3,15 +3,15 @@
     public enum TweetDeletedRaisedInResultOf
     {
         /// <summary>
-        /// The tweet was deleted by the account user.
-        /// </summary>
-        AccountUserDeletingOneOfHisTweets,
-
-        /// <summary>
         /// This case should not happen and is here in case Twitter changes when they trigger the TweetDeleted event.
         /// If you happen to receive this mode, please report to Tweetinvi your case ideally with the associated json.
         /// </summary>
-        Unknown,
+        Unknown = 0,
+
+        /// <summary>
+        /// The tweet was deleted by the account user.
+        /// </summary>
+        AccountUserDeletingOneOfHisTweets,
     }
 
     public class AccountActivityTweetDeletedEventArgs : BaseAccountActivityEventArgs<TweetDeletedRaisedInResultOf>
