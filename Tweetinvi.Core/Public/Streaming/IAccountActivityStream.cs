@@ -114,6 +114,9 @@ namespace Tweetinvi.Streaming
         /// </summary>
         EventHandler<EventKnownButNotSupportedReceivedEventArgs> EventKnownButNotFullySupportedReceived { get; set; }
 
+        /// <summary>
+        /// An unexpected error was thrown.
+        /// </summary>
         EventHandler<UnexpectedExceptionThrownEventArgs> UnexpectedExceptionThrown { get; set; }
 
         /// <summary>

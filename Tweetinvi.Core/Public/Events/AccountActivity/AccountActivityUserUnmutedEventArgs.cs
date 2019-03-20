@@ -17,6 +17,9 @@ namespace Tweetinvi.Events
         AccountUserMutingAnotherUser,
     }
 
+    /// <summary>
+    /// Event information when a user is unmuted.
+    /// </summary>
     public class AccountActivityUserUnmutedEventArgs : BaseAccountActivityEventArgs<UserUnmutedRaisedInResultOf>
     {
         public AccountActivityUserUnmutedEventArgs(AccountActivityEvent<Tuple<IUser, IUser>> eventInfo) : base(eventInfo)

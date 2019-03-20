@@ -22,6 +22,9 @@ namespace Tweetinvi.Events
         AnotherUserFollowingAccountUser,
     }
 
+    /// <summary>
+    /// Event information when a user is being followed.
+    /// </summary>
     public class AccountActivityUserFollowedEventArgs : BaseAccountActivityEventArgs<UserFollowedRaisedInResultOf>
     {
         public AccountActivityUserFollowedEventArgs(AccountActivityEvent<Tuple<IUser, IUser>> eventInfo) : base(eventInfo)

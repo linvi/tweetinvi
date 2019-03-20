@@ -27,6 +27,9 @@ namespace Tweetinvi.Events
         AnotherUserFavouritingATweetOfTheAccountUser,
     }
 
+    /// <summary>
+    /// Event information when a tweet is favourited.
+    /// </summary>
     public class AccountActivityTweetFavouritedEventArgs : BaseAccountActivityEventArgs<TweetFavouritedRaisedInResultOf>
     {
         public AccountActivityTweetFavouritedEventArgs(AccountActivityEvent<Tuple<ITweet, IUser>> eventInfo) : base(eventInfo)

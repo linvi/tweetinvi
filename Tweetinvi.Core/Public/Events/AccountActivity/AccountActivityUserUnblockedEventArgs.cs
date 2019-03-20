@@ -17,6 +17,9 @@ namespace Tweetinvi.Events
         AccountUserUnblockingAnotherUser,
     }
 
+    /// <summary>
+    /// Event information when a user is unblocked.
+    /// </summary>
     public class AccountActivityUserUnblockedEventArgs : BaseAccountActivityEventArgs<UserUnblockedRaisedInResultOf>
     {
         public AccountActivityUserUnblockedEventArgs(AccountActivityEvent<Tuple<IUser, IUser>> eventInfo) : base(eventInfo)

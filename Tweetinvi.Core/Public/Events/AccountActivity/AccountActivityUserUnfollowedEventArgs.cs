@@ -17,6 +17,9 @@ namespace Tweetinvi.Events
         AccountUserUnfollowingAnotherUser,
     }
 
+    /// <summary>
+    /// Event information when a user is unfollowed.
+    /// </summary>
     public class AccountActivityUserUnfollowedEventArgs : BaseAccountActivityEventArgs<UserUnfollowedRaisedInResultOf>
     {
         public AccountActivityUserUnfollowedEventArgs(AccountActivityEvent<Tuple<IUser, IUser>> eventInfo) : base(eventInfo)

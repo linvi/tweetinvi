@@ -16,6 +16,9 @@ namespace Tweetinvi.Events
         AccountUserReceivingAMessage,
     }
 
+    /// <summary>
+    /// Event information when a message is published.
+    /// </summary>
     public class AccountActivityMessageReceivedEventArgs : BaseAccountActivityMessageEventArgs<MessageReceivedInResultOf>
     {
         public AccountActivityMessageReceivedEventArgs(

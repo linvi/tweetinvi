@@ -2,6 +2,9 @@
 
 namespace Tweetinvi.Events
 {
+    /// <summary>
+    /// Event information when a message is published.
+    /// </summary>
     public class BaseAccountActivityMessageEventArgs<T> : BaseAccountActivityEventArgs<T>
     {
         protected BaseAccountActivityMessageEventArgs(

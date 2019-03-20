@@ -17,6 +17,9 @@ namespace Tweetinvi.Events
         AccountUserBlockingAnotherUser,
     }
 
+    /// <summary>
+    /// Event information when a user is blocked.
+    /// </summary>
     public class AccountActivityUserBlockedEventArgs : BaseAccountActivityEventArgs<UserBlockedRaisedInResultOf>
     {
         public AccountActivityUserBlockedEventArgs(AccountActivityEvent<Tuple<IUser, IUser>> eventInfo) : base(eventInfo)

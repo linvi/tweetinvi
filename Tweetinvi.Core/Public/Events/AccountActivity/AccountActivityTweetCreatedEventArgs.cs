@@ -26,6 +26,9 @@ namespace Tweetinvi.Events
         AnotherUserMentioningTheAccountUser,
     }
 
+    /// <summary>
+    /// Event information when a tweet is published.
+    /// </summary>
     public class AccountActivityTweetCreatedEventArgs : BaseAccountActivityEventArgs<TweetCreatedRaisedInResultOf>
     {
         public AccountActivityTweetCreatedEventArgs(AccountActivityEvent<ITweet> eventInfo) : base(eventInfo)

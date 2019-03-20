@@ -14,6 +14,9 @@
         AccountUserDeletingOneOfHisTweets,
     }
 
+    /// <summary>
+    /// Event information when a tweet is deleted.
+    /// </summary>
     public class AccountActivityTweetDeletedEventArgs : BaseAccountActivityEventArgs<TweetDeletedRaisedInResultOf>
     {
         public AccountActivityTweetDeletedEventArgs(AccountActivityEvent<long> activityEvent, long userId) : base(activityEvent)

@@ -16,6 +16,9 @@ namespace Tweetinvi.Events
         AnotherUserReadingMessageConversationWithAccountUser,
     }
 
+    /// <summary>
+    /// Event information when a user reads a private message conversation.
+    /// </summary>
     public class AccountActivityUserReadMessageConversationEventArgs : BaseAccountActivityEventArgs<UserReadMessageConversationInResultOf>
     {
         public AccountActivityUserReadMessageConversationEventArgs(

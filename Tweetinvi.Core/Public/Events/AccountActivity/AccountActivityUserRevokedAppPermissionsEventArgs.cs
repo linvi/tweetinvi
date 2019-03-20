@@ -14,6 +14,9 @@
         AccountUserRemovingAppPermissions,
     }
 
+    /// <summary>
+    /// Event information when a user revokes application permissions.
+    /// </summary>
     public class AccountActivityUserRevokedAppPermissionsEventArgs : BaseAccountActivityEventArgs<UserRevokedAppPermissionsInResultOf>
     {
         public AccountActivityUserRevokedAppPermissionsEventArgs(
