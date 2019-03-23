@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Tweetinvi.Models.DTO
+﻿namespace Tweetinvi.Models.DTO
 {
     /// <summary>
     /// DTO for encapsulating an Event and an App together for storage.

@@ -12,7 +12,6 @@ using Tweetinvi.Models;
 using Tweetinvi.Parameters;
 
 // STREAM API
-using Tweetinvi.Streaming;
 using Stream = Tweetinvi.Stream;
 
 // Others

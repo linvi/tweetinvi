@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Tweetinvi.Models;
-
-namespace Tweetinvi.Models
+﻿namespace Tweetinvi.Models
 {
     public interface IQuickReplyResponse
     {

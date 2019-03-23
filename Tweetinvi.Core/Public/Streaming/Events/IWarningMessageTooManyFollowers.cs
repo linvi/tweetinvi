@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace Tweetinvi.Streaming.Events
+﻿namespace Tweetinvi.Streaming.Events
 {
     public interface IWarningMessageTooManyFollowers : IWarningMessage
     {

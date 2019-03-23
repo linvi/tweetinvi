@@ -1,5 +1,4 @@
-﻿using Tweetinvi.Core.Public.Models.Enum;
-using Tweetinvi.Parameters;
+﻿using Tweetinvi.Parameters;
 
 namespace Tweetinvi.Core.Public.Parameters
 {

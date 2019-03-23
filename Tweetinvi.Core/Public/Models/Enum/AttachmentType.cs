@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Tweetinvi.Core.Attributes;
+﻿using Tweetinvi.Core.Attributes;
 
 namespace Tweetinvi.Models
 {

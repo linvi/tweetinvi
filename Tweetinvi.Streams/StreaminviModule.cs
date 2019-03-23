@@ -1,5 +1,4 @@
 ﻿using Tweetinvi.Core.Injectinvi;
-using Tweetinvi.Core.Public.Streaming;
 using Tweetinvi.Core.Public.Streaming.Webhooks;
 using Tweetinvi.Core.Streaming;
 using Tweetinvi.Streaming;

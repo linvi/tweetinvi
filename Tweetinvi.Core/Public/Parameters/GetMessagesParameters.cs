@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Tweetinvi.Parameters
+﻿namespace Tweetinvi.Parameters
 {
     /// <summary>
     /// https://developer.twitter.com/en/docs/direct-messages/sending-and-receiving/api-reference/list-events

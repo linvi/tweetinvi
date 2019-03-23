@@ -1,6 +1,4 @@
-﻿using System.Runtime.Serialization;
-
-namespace Tweetinvi.Models
+﻿namespace Tweetinvi.Models
 {
     /// <summary>
     /// Enumeration of possible HTTP request method

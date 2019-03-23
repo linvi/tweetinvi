@@ -1,6 +1,4 @@
-﻿using Tweetinvi.Core.Public.Models.Enum;
-
-namespace Tweetinvi.Core.Public.Parameters
+﻿namespace Tweetinvi.Core.Public.Parameters
 {
     public interface IUploadVideoOptionalParameters : IUploadOptionalParameters
     {

@@ -1,14 +1,9 @@
-﻿using System;
-using FakeItEasy;
+﻿using FakeItEasy;
 using FakeItEasy.ExtensionSyntax.Full;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Testinvi.Helpers;
-using Testinvi.SetupHelpers;
 using Tweetinvi.Controllers.Messages;
 using Tweetinvi.Controllers.Properties;
-using Tweetinvi.Core.Helpers;
-using Tweetinvi.Core.QueryGenerators;
-using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
 using Tweetinvi.Parameters;
 

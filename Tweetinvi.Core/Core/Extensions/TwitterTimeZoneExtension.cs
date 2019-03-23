@@ -1,5 +1,4 @@
-﻿using System;
-using Tweetinvi.Core.Attributes;
+﻿using Tweetinvi.Core.Attributes;
 using Tweetinvi.Models;
 using System.Reflection;
 

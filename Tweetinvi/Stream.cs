@@ -2,7 +2,6 @@
 using Tweetinvi.Core;
 using Tweetinvi.Core.Credentials;
 using Tweetinvi.Core.Injectinvi;
-using Tweetinvi.Core.Public.Streaming;
 using Tweetinvi.Core.Streaming;
 using Tweetinvi.Models;
 using Tweetinvi.Streaming;

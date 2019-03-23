@@ -2,7 +2,6 @@
 using System.Globalization;
 using Tweetinvi.Controllers.Properties;
 using Tweetinvi.Core.Extensions;
-using Tweetinvi.Core.Helpers;
 using Tweetinvi.Models;
 using Tweetinvi.Parameters;
 
