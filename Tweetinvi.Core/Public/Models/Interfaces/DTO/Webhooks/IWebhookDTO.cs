@@ -8,5 +8,6 @@ namespace Tweetinvi.Models.DTO
         string Url { get; set; }
         bool Valid { get; set; }
         DateTime CreatedAt { get; set; }
+        Uri Uri { get; }
     }
 }

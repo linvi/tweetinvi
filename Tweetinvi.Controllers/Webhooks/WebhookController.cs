@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Tweetinvi.Core.Controllers;
 using Tweetinvi.Core.Extensions;
 using Tweetinvi.Core.Helpers;
@@ -25,7 +26,9 @@ namespace Tweetinvi.Controllers.Webhooks
 
         public async Task<IWebhookDTO> RegisterWebhookAsync(string webhookEnvironmentName, string url, ITwitterCredentials credentials)
         {
-            var query = $"https://api.twitter.com/1.1/account_activity/all/{webhookEnvironmentName}/webhooks.json?url={url}";
+            var encodedUrl = Uri.EscapeDataString(url);
+
+            var query = $"https://api.twitter.com/1.1/account_activity/all/{webhookEnvironmentName}/webhooks.json?url={encodedUrl}";
             var result = _twitterAccessor.ExecuteQuery<IWebhookDTO>(query, HttpMethod.POST, credentials, null);
 
             return await Task.FromResult(result);

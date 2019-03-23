@@ -32,9 +32,9 @@ namespace Tweetinvi.AspNet
         private IEnumerable<IWebhookDTO> GetWebhooksMatching(HttpRequest request, IWebhookConfiguration configuration)
         {
             return configuration.RegisteredWebhookEnvironments.SelectMany(x => x.Webhooks).Where(webhook =>
-                {
-                    return webhook.Url.EndsWith(request.Path.ToString());
-                });
+            {
+                return webhook.Uri.AbsolutePath == request.Path.ToString();
+            });
         }
 
         public bool IsRequestManagedByTweetinvi(HttpRequest request, IWebhookConfiguration configuration)
@@ -58,7 +58,6 @@ namespace Tweetinvi.AspNet
         {
             var matchingWebhooks = GetWebhooksMatching(context.Request, configuration).ToArray();
             var isCrcChallenge = context.Request.Query["crc_token"].Any();
-
 
             if (isCrcChallenge)
             {

@@ -2,7 +2,7 @@
 {
     public interface IWebhookMessage
     {
-        string Json { get; set; }
+        string Json { get; }
     }
 
     public class WebhookMessage : IWebhookMessage
