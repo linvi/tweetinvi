@@ -57,7 +57,7 @@ namespace Testinvi.TweetinviControllers.MessageTests
             // Arrange
             var messageId = TestHelper.GenerateRandomLong();
             var queryGenerator = CreateMessageQueryGenerator();
-            var eventDTO = A.Fake<IEventDTO>();
+            var eventDTO = A.Fake<IMessageEventDTO>();
             eventDTO.CallsTo(x => x.Id).Returns(messageId);
 
             // Act

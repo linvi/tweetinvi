@@ -88,7 +88,7 @@ namespace Tweetinvi.Logic
             container.RegisterType<IMessageDataDTO, MessageDataDTO>();
             container.RegisterType<IQuickReplyResponse, QuickReplyResponse>();
             container.RegisterType<IMessageCreateTargetDTO, MessageCreateTargetDTO>();
-            container.RegisterType<IEventDTO, EventDTO>();
+            container.RegisterType<IMessageEventDTO, MessageEventDTO>();
             container.RegisterType<IMessageCreateDTO, MessageCreateDTO>();
             container.RegisterType<IGetMessageDTO, GetMessageDTO>();
             container.RegisterType<IGetMessagesDTO, GetMessagesDTO>();

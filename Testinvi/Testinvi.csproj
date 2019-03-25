@@ -129,6 +129,7 @@
     <Compile Include="Helpers\TestHelper.cs" />
     <Compile Include="Helpers\ThreadTestHelper.cs" />
     <Compile Include="IntegrationTests\TwitterLists.cs" />
+    <Compile Include="json.net\JsonConvertMessageTests.cs" />
     <Compile Include="json.net\JsonConvertTests.cs" />
     <Compile Include="json.net\JsonTests.cs" />
     <Compile Include="SetupHelpers\CredentialsAccessorHelper.cs" />

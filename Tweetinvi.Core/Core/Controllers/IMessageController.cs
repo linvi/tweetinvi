@@ -18,7 +18,7 @@ namespace Tweetinvi.Core.Controllers
 
         // Destroy Message
         bool DestroyMessage(IMessage message);
-        bool DestroyMessage(IEventDTO eventDTO);
+        bool DestroyMessage(IMessageEventDTO messageEventDTO);
         bool DestroyMessage(long messageId);
     }
 }

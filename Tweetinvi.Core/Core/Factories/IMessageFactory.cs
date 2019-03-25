@@ -14,12 +14,12 @@ namespace Tweetinvi.Core.Factories
         IEnumerable<IMessage> GenerateMessageFromGetMessagesDTO(IGetMessagesDTO getMessagesDTO);
         IMessage GenerateMessageFromCreateMessageDTO(ICreateMessageDTO createMessageDTO);
 
-        // Generate message from DTO (Tweetinvi IEventWithAppDTO)
-        IMessage GenerateMessageFromEventWithAppDTO(IEventWithAppDTO eventWithAppDTO);
-        IEnumerable<IMessage> GenerateMessagesFromEventWithAppDTOs(IEnumerable<IEventWithAppDTO> eventWithAppDTOs);
+        // Generate message from DTO (Tweetinvi IMessageEventWithAppDTO)
+        IMessage GenerateMessageFromEventWithAppDTO(IMessageEventWithAppDTO messageEventWithAppDTO);
+        IEnumerable<IMessage> GenerateMessagesFromEventWithAppDTOs(IEnumerable<IMessageEventWithAppDTO> eventWithAppDTOs);
 
-        // Generate Message from Json (serialised Tweetinvi IEventWithAppDTO)
+        // Generate Message from Json (serialised Tweetinvi IMessageEventWithAppDTO)
         IMessage GenerateMessageFromJson(string jsonMessage);
-        IMessage GenerateMessageFromEventDTO(IEventDTO createMessageDTO, IApp app = null);
+        IMessage GenerateMessageFromEventDTO(IMessageEventDTO createMessageDTO, IApp app = null);
     }
 }

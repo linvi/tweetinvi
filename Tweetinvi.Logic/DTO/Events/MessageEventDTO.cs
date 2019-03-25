@@ -6,7 +6,7 @@ using Tweetinvi.Models.DTO;
 
 namespace Tweetinvi.Logic.DTO
 {
-    public class EventDTO : IEventDTO
+    public class MessageEventDTO : IMessageEventDTO
     {
         [JsonProperty("type")]
         [JsonConverter(typeof(JsonPropertyConverterRepository))]

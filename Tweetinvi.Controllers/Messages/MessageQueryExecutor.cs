@@ -13,7 +13,7 @@ namespace Tweetinvi.Controllers.Messages
         ICreateMessageDTO PublishMessage(IPublishMessageParameters parameters);
 
         // Detroy Message
-        bool DestroyMessage(IEventDTO messageDTO);
+        bool DestroyMessage(IMessageEventDTO messageDTO);
         bool DestroyMessage(long messageId);
     }
 
@@ -47,9 +47,9 @@ namespace Tweetinvi.Controllers.Messages
         }
 
         // Destroy Message
-        public bool DestroyMessage(IEventDTO eventDTO)
+        public bool DestroyMessage(IMessageEventDTO messageEventDTO)
         {
-            string query = _messageQueryGenerator.GetDestroyMessageQuery(eventDTO);
+            string query = _messageQueryGenerator.GetDestroyMessageQuery(messageEventDTO);
             return _twitterAccessor.TryExecuteDELETEQuery(query);
         }
 

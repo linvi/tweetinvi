@@ -10,7 +10,7 @@ namespace Tweetinvi.Logic.DTO
     {
         [JsonProperty("event")]
         [JsonConverter(typeof(JsonPropertyConverterRepository))]
-        public IEventDTO Event { get; set; }
+        public IMessageEventDTO MessageEvent { get; set; }
 
         [JsonProperty("apps")]
         public Dictionary<long, IApp> Apps { get; set; }

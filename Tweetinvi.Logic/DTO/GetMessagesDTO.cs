@@ -11,7 +11,7 @@ namespace Tweetinvi.Logic.DTO
         public string NextCursor { get; set; }
 
         [JsonProperty("events")]
-        public IEventDTO[] Events { get; set; }
+        public IMessageEventDTO[] MessageEvents { get; set; }
 
         [JsonProperty("apps")]
         public Dictionary<long, IApp> Apps { get; set; }

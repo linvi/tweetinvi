@@ -90,7 +90,7 @@ namespace Testinvi.TweetinviControllers.MessageTests
         {
             // Arrange
             var queryExecutor = CreateMessageQueryExecutor();
-            var eventDTO = A.Fake<IEventDTO>();
+            var eventDTO = A.Fake<IMessageEventDTO>();
             var query = Guid.NewGuid().ToString();
 
             ArrangeQueryGeneratorDestroyMessage(eventDTO, query);
@@ -100,10 +100,10 @@ namespace Testinvi.TweetinviControllers.MessageTests
             return queryExecutor.DestroyMessage(eventDTO);
         }
 
-        private void ArrangeQueryGeneratorDestroyMessage(IEventDTO eventDTO, string query)
+        private void ArrangeQueryGeneratorDestroyMessage(IMessageEventDTO messageEventDTO, string query)
         {
             _fakeMessageQueryGenerator
-                .CallsTo(x => x.GetDestroyMessageQuery(eventDTO))
+                .CallsTo(x => x.GetDestroyMessageQuery(messageEventDTO))
                 .Returns(query);
         }
 

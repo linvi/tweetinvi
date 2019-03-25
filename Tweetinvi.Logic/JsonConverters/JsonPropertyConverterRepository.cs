@@ -111,7 +111,7 @@ namespace Tweetinvi.Logic.JsonConverters
             var messageDataConverter = new JsonInterfaceToObjectConverter<IMessageDataDTO, MessageDataDTO>();
             var quickReplyResponseConverter = new JsonInterfaceToObjectConverter<IQuickReplyResponse, QuickReplyResponse>();
             var messageCreateTargetConverter = new JsonInterfaceToObjectConverter<IMessageCreateTargetDTO, MessageCreateTargetDTO>();
-            var eventConverter = new JsonInterfaceToObjectConverter<IEventDTO, EventDTO>();
+            var eventConverter = new JsonInterfaceToObjectConverter<IMessageEventDTO, MessageEventDTO>();
             var messageCreateConverter = new JsonInterfaceToObjectConverter<IMessageCreateDTO, MessageCreateDTO>();
             var getMessageConverter = new JsonInterfaceToObjectConverter<IGetMessageDTO, GetMessageDTO>();
             var getMessagesConverter = new JsonInterfaceToObjectConverter<IGetMessagesDTO, GetMessagesDTO>();
@@ -161,7 +161,7 @@ namespace Tweetinvi.Logic.JsonConverters
             JsonConverters.Add(typeof(IMessageDataDTO), messageDataConverter);
             JsonConverters.Add(typeof(IQuickReplyResponse), quickReplyResponseConverter);
             JsonConverters.Add(typeof(IMessageCreateTargetDTO), messageCreateTargetConverter);
-            JsonConverters.Add(typeof(IEventDTO), eventConverter);
+            JsonConverters.Add(typeof(IMessageEventDTO), eventConverter);
             JsonConverters.Add(typeof(IMessageCreateDTO), messageCreateConverter);
             JsonConverters.Add(typeof(IGetMessageDTO), getMessageConverter);
             JsonConverters.Add(typeof(IGetMessagesDTO), getMessagesConverter);

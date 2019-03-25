@@ -6,6 +6,6 @@ namespace Tweetinvi.Streams.Model.AccountActivity
     public class AccountActivityMessageCreatedEventDTO : BaseAccountActivityMessageEventDTO
     {
         [JsonProperty("direct_message_events")]
-        public EventDTO[] MessageEvents { get; set; }
+        public MessageEventDTO[] MessageEvents { get; set; }
     }
 }

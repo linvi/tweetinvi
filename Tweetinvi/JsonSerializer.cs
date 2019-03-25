@@ -77,10 +77,10 @@ namespace Tweetinvi
             // ReSharper disable RedundantTypeArgumentsOfMethod
             Map<ITweet, ITweetDTO>(u => u.TweetDTO, tweetFactory.GenerateTweetFromJson);
             Map<IUser, IUserDTO>(u => u.UserDTO, userFactory.GenerateUserFromJson);
-            Map<IMessage, IEventWithAppDTO>(m =>
+            Map<IMessage, IMessageEventWithAppDTO>(m =>
             {
-                var eventWithApp = TweetinviContainer.Resolve<IEventWithAppDTO>();
-                eventWithApp.Event = m.EventDTO;
+                var eventWithApp = TweetinviContainer.Resolve<IMessageEventWithAppDTO>();
+                eventWithApp.MessageEvent = m.MessageEventDTO;
                 eventWithApp.App = m.App;
                 return eventWithApp;
             }, messageFactory.GenerateMessageFromJson);

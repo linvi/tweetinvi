@@ -71,9 +71,9 @@ namespace Tweetinvi
             return await Sync.ExecuteTaskAsync(() => Message.DestroyMessage(message));
         }
 
-        public static async Task<bool> DestroyMessage(IEventDTO eventDTO)
+        public static async Task<bool> DestroyMessage(IMessageEventDTO messageEventDTO)
         {
-            return  await Sync.ExecuteTaskAsync(() => Message.DestroyMessage(eventDTO));
+            return  await Sync.ExecuteTaskAsync(() => Message.DestroyMessage(messageEventDTO));
         }
 
         public static async Task<bool> DestroyMessage(long messageId)

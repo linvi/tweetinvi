@@ -102,7 +102,7 @@ namespace Testinvi.TweetinviControllers.MessageTests
         {
             // Arrange
             var controller = CreateMessageController();
-            _fakeMessageQueryExecutor.CallsTo(x => x.DestroyMessage(A<IEventDTO>.Ignored)).Returns(true);
+            _fakeMessageQueryExecutor.CallsTo(x => x.DestroyMessage(A<IMessageEventDTO>.Ignored)).Returns(true);
 
             // Act
             controller.DestroyMessage((IMessage)null);
@@ -115,9 +115,9 @@ namespace Testinvi.TweetinviControllers.MessageTests
             // Arrange
             var controller = CreateMessageController();
             var message = A.Fake<IMessage>();
-            message.CallsTo(x => x.EventDTO).Returns(null);
+            message.CallsTo(x => x.MessageEventDTO).Returns(null);
 
-            _fakeMessageQueryExecutor.CallsTo(x => x.DestroyMessage(A<IEventDTO>.Ignored)).Returns(true);
+            _fakeMessageQueryExecutor.CallsTo(x => x.DestroyMessage(A<IMessageEventDTO>.Ignored)).Returns(true);
 
             // Act
             controller.DestroyMessage(message);
@@ -139,10 +139,10 @@ namespace Testinvi.TweetinviControllers.MessageTests
         {
             // Arrange
             var controller = CreateMessageController();
-            var eventDTO = A.Fake<IEventDTO>();
+            var eventDTO = A.Fake<IMessageEventDTO>();
 
             var message = A.Fake<IMessage>();
-            message.CallsTo(x => x.EventDTO).Returns(eventDTO);
+            message.CallsTo(x => x.MessageEventDTO).Returns(eventDTO);
 
             _fakeMessageQueryExecutor.CallsTo(x => x.DestroyMessage(eventDTO)).Returns(result);
 
@@ -156,10 +156,10 @@ namespace Testinvi.TweetinviControllers.MessageTests
         {
             // Arrange
             var controller = CreateMessageController();
-            _fakeMessageQueryExecutor.CallsTo(x => x.DestroyMessage(It.IsAny<IEventDTO>())).Returns(true);
+            _fakeMessageQueryExecutor.CallsTo(x => x.DestroyMessage(It.IsAny<IMessageEventDTO>())).Returns(true);
 
             // Act
-            controller.DestroyMessage((IEventDTO) null);
+            controller.DestroyMessage((IMessageEventDTO) null);
         }
 
         [TestMethod]
@@ -178,7 +178,7 @@ namespace Testinvi.TweetinviControllers.MessageTests
         {
             // Arrange
             var controller = CreateMessageController();
-            var eventDTO = A.Fake<IEventDTO>();
+            var eventDTO = A.Fake<IMessageEventDTO>();
 
             _fakeMessageQueryExecutor.CallsTo(x => x.DestroyMessage(eventDTO)).Returns(result);
 

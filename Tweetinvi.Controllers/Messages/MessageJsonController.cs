@@ -23,7 +23,7 @@ namespace Tweetinvi.Controllers.Messages
 
         // Destroy Message
         bool DestroyMessage(IMessage message);
-        bool DestroyMessage(IEventDTO messageDTO);
+        bool DestroyMessage(IMessageEventDTO messageDTO);
         bool DestroyMessage(long messageId);
     }
 
@@ -84,12 +84,12 @@ namespace Tweetinvi.Controllers.Messages
                 throw new ArgumentException("Message cannot be null");
             }
 
-            return DestroyMessage(message.EventDTO);
+            return DestroyMessage(message.MessageEventDTO);
         }
 
-        public bool DestroyMessage(IEventDTO eventDTO)
+        public bool DestroyMessage(IMessageEventDTO messageEventDTO)
         {
-            string query = _messageQueryGenerator.GetDestroyMessageQuery(eventDTO);
+            string query = _messageQueryGenerator.GetDestroyMessageQuery(messageEventDTO);
             return _twitterAccessor.TryExecuteDELETEQuery(query);
         }
 

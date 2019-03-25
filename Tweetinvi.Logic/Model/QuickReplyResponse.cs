@@ -8,9 +8,9 @@ namespace Tweetinvi.Logic.Model
     {
         [JsonProperty("type")]
         [JsonConverter(typeof(JsonPropertyConverterRepository))]
-        public QuickReplyType Type { get; }
+        public QuickReplyType Type { get; set; }
 
         [JsonProperty("metadata")]
-        public string Metadata { get; }
+        public string Metadata { get; set; }
     }
 }

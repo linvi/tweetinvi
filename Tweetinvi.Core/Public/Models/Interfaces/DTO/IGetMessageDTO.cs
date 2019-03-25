@@ -4,7 +4,7 @@ namespace Tweetinvi.Models.DTO
 {
     public interface IGetMessageDTO
     {
-        IEventDTO Event { get; set; }
+        IMessageEventDTO MessageEvent { get; set; }
         Dictionary<long, IApp> Apps { get; set; }
     }
 }

@@ -19,7 +19,7 @@ namespace Tweetinvi.Controllers.Messages
         ICreateMessageDTO GetPublishMessageBody(IPublishMessageParameters parameters);
 
         // Detroy Message
-        string GetDestroyMessageQuery(IEventDTO messageDTO);
+        string GetDestroyMessageQuery(IMessageEventDTO messageDTO);
         string GetDestroyMessageQuery(long messageId);
     }
 
@@ -28,7 +28,7 @@ namespace Tweetinvi.Controllers.Messages
         private readonly IMessageQueryValidator _messageQueryValidator;
         private readonly IQueryParameterGenerator _queryParameterGenerator;
         private readonly IFactory<ICreateMessageDTO> _createMessageDTOFactory;
-        private readonly IFactory<IEventDTO> _eventDTOFactory;
+        private readonly IFactory<IMessageEventDTO> _eventDTOFactory;
         private readonly IFactory<IMessageCreateDTO> _messageCreateDTOFactory;
         private readonly IFactory<IMessageCreateTargetDTO> _messageCreateTargetDTOFactory;
         private readonly IFactory<IMessageDataDTO> _messageDataDTOFactory;
@@ -40,7 +40,7 @@ namespace Tweetinvi.Controllers.Messages
             IMessageQueryValidator messageQueryValidator,
             IQueryParameterGenerator queryParameterGenerator,
             IFactory<ICreateMessageDTO> createMessageDTOFactory,
-            IFactory<IEventDTO> eventDTOFactory,
+            IFactory<IMessageEventDTO> eventDTOFactory,
             IFactory<IMessageCreateDTO> messageCreateDTOFactory,
             IFactory<IMessageCreateTargetDTO> messageCreateTargetDTOFactory,
             IFactory<IMessageDataDTO> messageDataDTOFactory,
@@ -84,36 +84,36 @@ namespace Tweetinvi.Controllers.Messages
         public ICreateMessageDTO GetPublishMessageBody(IPublishMessageParameters parameters)
         {
             ICreateMessageDTO createMessageDTO = _createMessageDTOFactory.Create();
-            createMessageDTO.Event = _eventDTOFactory.Create();
-            createMessageDTO.Event.Type = EventType.MessageCreate;
-            createMessageDTO.Event.MessageCreate = _messageCreateDTOFactory.Create();
-            createMessageDTO.Event.MessageCreate.Target = _messageCreateTargetDTOFactory.Create();
-            createMessageDTO.Event.MessageCreate.Target.RecipientId = parameters.RecipientId;
-            createMessageDTO.Event.MessageCreate.MessageData = _messageDataDTOFactory.Create();
-            createMessageDTO.Event.MessageCreate.MessageData.Text = parameters.Text;
+            createMessageDTO.MessageEvent = _eventDTOFactory.Create();
+            createMessageDTO.MessageEvent.Type = EventType.MessageCreate;
+            createMessageDTO.MessageEvent.MessageCreate = _messageCreateDTOFactory.Create();
+            createMessageDTO.MessageEvent.MessageCreate.Target = _messageCreateTargetDTOFactory.Create();
+            createMessageDTO.MessageEvent.MessageCreate.Target.RecipientId = parameters.RecipientId;
+            createMessageDTO.MessageEvent.MessageCreate.MessageData = _messageDataDTOFactory.Create();
+            createMessageDTO.MessageEvent.MessageCreate.MessageData.Text = parameters.Text;
 
             // If there is media attached, include it
             if (parameters.AttachmentMediaId != null)
             {
-                createMessageDTO.Event.MessageCreate.MessageData.Attachment = _attachmentDTOFactory.Create();
-                createMessageDTO.Event.MessageCreate.MessageData.Attachment.Type = AttachmentType.Media;
-                createMessageDTO.Event.MessageCreate.MessageData.Attachment.Media = _mediaEntityFactory.Create();
-                createMessageDTO.Event.MessageCreate.MessageData.Attachment.Media.Id = parameters.AttachmentMediaId;
+                createMessageDTO.MessageEvent.MessageCreate.MessageData.Attachment = _attachmentDTOFactory.Create();
+                createMessageDTO.MessageEvent.MessageCreate.MessageData.Attachment.Type = AttachmentType.Media;
+                createMessageDTO.MessageEvent.MessageCreate.MessageData.Attachment.Media = _mediaEntityFactory.Create();
+                createMessageDTO.MessageEvent.MessageCreate.MessageData.Attachment.Media.Id = parameters.AttachmentMediaId;
             }
 
             // If there are quick reply options, include them
             if (parameters.QuickReplyOptions != null && parameters.QuickReplyOptions.Length > 0)
             {
-                createMessageDTO.Event.MessageCreate.MessageData.QuickReply = _quickReplyDTOFactory.Create();
-                createMessageDTO.Event.MessageCreate.MessageData.QuickReply.Type = QuickReplyType.Options;
-                createMessageDTO.Event.MessageCreate.MessageData.QuickReply.Options = parameters.QuickReplyOptions;
+                createMessageDTO.MessageEvent.MessageCreate.MessageData.QuickReply = _quickReplyDTOFactory.Create();
+                createMessageDTO.MessageEvent.MessageCreate.MessageData.QuickReply.Type = QuickReplyType.Options;
+                createMessageDTO.MessageEvent.MessageCreate.MessageData.QuickReply.Options = parameters.QuickReplyOptions;
             }
 
             return createMessageDTO;
         }
 
         // Destroy Message
-        public string GetDestroyMessageQuery(IEventDTO messageDTO)
+        public string GetDestroyMessageQuery(IMessageEventDTO messageDTO)
         {
             _messageQueryValidator.ThrowIfMessageCannotBeDestroyed(messageDTO);
             return GetDestroyMessageQuery(messageDTO.Id);

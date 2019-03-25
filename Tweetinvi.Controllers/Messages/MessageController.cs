@@ -127,18 +127,18 @@ namespace Tweetinvi.Controllers.Messages
                 throw new ArgumentNullException(nameof(message), "Message cannot be null");
             }
 
-            return DestroyMessage(message.EventDTO);
+            return DestroyMessage(message.MessageEventDTO);
         }
 
-        public bool DestroyMessage(IEventDTO eventDTO)
+        public bool DestroyMessage(IMessageEventDTO messageEventDTO)
         {
-            if (eventDTO == null)
+            if (messageEventDTO == null)
             {
-                throw new ArgumentNullException(nameof(eventDTO));
+                throw new ArgumentNullException(nameof(messageEventDTO));
             }
 
-            eventDTO.MessageCreate.IsDestroyed = _messageQueryExecutor.DestroyMessage(eventDTO);
-            return eventDTO.MessageCreate.IsDestroyed;
+            messageEventDTO.MessageCreate.IsDestroyed = _messageQueryExecutor.DestroyMessage(messageEventDTO);
+            return messageEventDTO.MessageCreate.IsDestroyed;
         }
 
         public bool DestroyMessage(long messageId)

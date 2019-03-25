@@ -313,9 +313,9 @@ namespace Testinvi.TweetinviLogic
         public void GetAccountSettings_CurrentCredentialsAreNotAuthenticatedUserCredentials_OperationPerformedWithAppropriateCredentials()
         {
             // Arrange
-            var eventDTO = A.Fake<IEventDTO>();
+            var eventDTO = A.Fake<IMessageEventDTO>();
             var message = A.Fake<IMessage>();
-            message.CallsTo(x => x.EventDTO).Returns(eventDTO);
+            message.CallsTo(x => x.MessageEventDTO).Returns(eventDTO);
 
             ITwitterCredentials startOperationWithCredentials = null;
             _fakeAccountController.CallsTo(x => x.GetAuthenticatedUserSettings()).Invokes(() =>

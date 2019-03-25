@@ -12,7 +12,7 @@ namespace Tweetinvi.Controllers.Messages
         bool IsMessageTextValid(string message);
 
         void ThrowIfMessageCannotBePublished(IPublishMessageParameters parameters);
-        void ThrowIfMessageCannotBeDestroyed(IEventDTO messageEvent);
+        void ThrowIfMessageCannotBeDestroyed(IMessageEventDTO messageEvent);
         void ThrowIfMessageCannotBeDestroyed(long messageId);
     }
 
@@ -91,15 +91,16 @@ namespace Tweetinvi.Controllers.Messages
             }
         }
 
-        public void ThrowIfMessageCannotBeDestroyed(IEventDTO messageEvent)
+        public void ThrowIfMessageCannotBeDestroyed(IMessageEventDTO messageEvent)
         {
             if (messageEvent == null)
             {
                 throw new ArgumentNullException("Message parameters cannot be null.");
             }
-            if(messageEvent.Type != EventType.MessageCreate)
+
+            if (messageEvent.Type != EventType.MessageCreate)
             {
-                throw new ArgumentException("Event must represent a message", nameof(messageEvent));
+                throw new ArgumentException("MessageEvent must represent a message", nameof(messageEvent));
             }
 
             if (messageEvent.MessageCreate.IsDestroyed)

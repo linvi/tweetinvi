@@ -215,9 +215,9 @@ namespace Testinvi.TweetinviControllers.MessageTests
 
         #endregion
 
-        private IEventDTO CreateEventDTOForMessageCreate(bool isDestroyed)
+        private IMessageEventDTO CreateEventDTOForMessageCreate(bool isDestroyed)
         {
-            var messageDTO = A.Fake<IEventDTO>();
+            var messageDTO = A.Fake<IMessageEventDTO>();
             messageDTO.Type = EventType.MessageCreate;
             messageDTO.MessageCreate = A.Fake<IMessageCreateDTO>();
 

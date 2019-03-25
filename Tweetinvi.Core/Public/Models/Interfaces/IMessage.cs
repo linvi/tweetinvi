@@ -14,7 +14,7 @@ namespace Tweetinvi.Models
         /// <summary>
         /// Underlying DTO representing this message (as an event).
         /// </summary>
-        IEventDTO EventDTO { get; }
+        IMessageEventDTO MessageEventDTO { get; }
 
         /// <summary>
         /// The App that was used to send this message.

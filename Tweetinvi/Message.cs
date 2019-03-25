@@ -140,9 +140,9 @@ namespace Tweetinvi
         /// <summary>
         /// Destroy a message
         /// </summary>
-        public static bool DestroyMessage(IEventDTO eventDTO)
+        public static bool DestroyMessage(IMessageEventDTO messageEventDTO)
         {
-            return MessageController.DestroyMessage(eventDTO);
+            return MessageController.DestroyMessage(messageEventDTO);
         }
 
         /// <summary>
@@ -154,13 +154,13 @@ namespace Tweetinvi
         }
 
         // Generate message from DTO
-        public static IMessage GenerateMessageFromEventWithAppDTO(IEventWithAppDTO eventWithAppDTO)
+        public static IMessage GenerateMessageFromEventWithAppDTO(IMessageEventWithAppDTO messageEventWithAppDTO)
         {
-            return MessageFactory.GenerateMessageFromEventWithAppDTO(eventWithAppDTO);
+            return MessageFactory.GenerateMessageFromEventWithAppDTO(messageEventWithAppDTO);
         }
 
         public static IEnumerable<IMessage> GenerateMessagesFromEventWithAppDTOs(
-            IEnumerable<IEventWithAppDTO> eventWithAppDTOs)
+            IEnumerable<IMessageEventWithAppDTO> eventWithAppDTOs)
         {
             return MessageFactory.GenerateMessagesFromEventWithAppDTOs(eventWithAppDTOs);
         }
@@ -170,9 +170,9 @@ namespace Tweetinvi
             return message.ToJson();
         }
 
-        public static string ToJson(IEventWithAppDTO eventWithAppDTO)
+        public static string ToJson(IMessageEventWithAppDTO messageEventWithAppDTO)
         {
-            return eventWithAppDTO.ToJson();
+            return messageEventWithAppDTO.ToJson();
         }
 
         public static IMessage FromJson(string json)

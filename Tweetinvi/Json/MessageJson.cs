@@ -66,9 +66,9 @@ namespace Tweetinvi.Json
             return MessageJsonController.DestroyMessage(message);
         }
 
-        public static bool DestroyMessage(IEventDTO eventDTO)
+        public static bool DestroyMessage(IMessageEventDTO messageEventDTO)
         {
-            return MessageJsonController.DestroyMessage(eventDTO);
+            return MessageJsonController.DestroyMessage(messageEventDTO);
         }
 
         public static bool DestroyMessage(long messageId)

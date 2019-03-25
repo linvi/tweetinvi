@@ -2,7 +2,7 @@
 
 namespace Tweetinvi.Models.DTO
 {
-    public interface IEventDTO
+    public interface IMessageEventDTO
     {
         EventType Type { get; set; }
         long Id { get; set; }

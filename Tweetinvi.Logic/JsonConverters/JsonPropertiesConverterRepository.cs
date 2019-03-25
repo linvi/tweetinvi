@@ -94,7 +94,7 @@ namespace Tweetinvi.Logic.JsonConverters
                 new JsonInterfaceToObjectConverter<IMessageDataDTO, MessageDataDTO>(),
                 new JsonInterfaceToObjectConverter<IQuickReplyResponse, QuickReplyResponse>(),
                 new JsonInterfaceToObjectConverter<IMessageCreateTargetDTO, MessageCreateTargetDTO>(),
-                new JsonInterfaceToObjectConverter<IEventDTO, EventDTO>(),
+                new JsonInterfaceToObjectConverter<IMessageEventDTO, MessageEventDTO>(),
                 new JsonInterfaceToObjectConverter<IMessageCreateDTO, MessageCreateDTO>(),
                 new JsonInterfaceToObjectConverter<IGetMessageDTO, GetMessageDTO>(),
                 new JsonInterfaceToObjectConverter<IGetMessagesDTO, GetMessagesDTO>(),

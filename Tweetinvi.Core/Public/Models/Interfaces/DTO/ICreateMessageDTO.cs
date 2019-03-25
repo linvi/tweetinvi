@@ -6,7 +6,7 @@
     /// </summary>
     public interface ICreateMessageDTO
     {
-        IEventDTO Event { get; set; }
+        IMessageEventDTO MessageEvent { get; set; }
 
         // Note the lack of the App field.
         // The client would need to fill this themselves on the Message if required

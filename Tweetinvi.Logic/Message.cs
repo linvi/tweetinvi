@@ -24,18 +24,18 @@ namespace Tweetinvi.Logic
 
         public Message(
             IMessageController messageController,
-            IEventDTO eventDTO,
+            IMessageEventDTO messageEventDTO,
             IApp app,
             ITaskFactory taskFactory)
         {
             _messageController = messageController;
-            EventDTO = eventDTO;
+            MessageEventDTO = messageEventDTO;
             _app = app;
             _taskFactory = taskFactory;
         }
 
         // Properties
-        public IEventDTO EventDTO { get; }
+        public IMessageEventDTO MessageEventDTO { get; }
 
         public IApp App
         {
@@ -54,13 +54,13 @@ namespace Tweetinvi.Logic
             }
         }
 
-        public long Id => EventDTO.Id;
+        public long Id => MessageEventDTO.Id;
 
-        public DateTime CreatedAt => EventDTO.CreatedAt;
+        public DateTime CreatedAt => MessageEventDTO.CreatedAt;
 
-        public long SenderId => EventDTO.MessageCreate.SenderId;
+        public long SenderId => MessageEventDTO.MessageCreate.SenderId;
 
-        public long RecipientId => EventDTO.MessageCreate.Target.RecipientId;
+        public long RecipientId => MessageEventDTO.MessageCreate.Target.RecipientId;
 
         public IMessageEntities Entities
         {
@@ -71,7 +71,7 @@ namespace Tweetinvi.Logic
                 //  Tweet entities, with media included.
                 //  This shouldn't cause any issue, but if the DTO ever needed to be maintained exactly as received
                 //  then entities needs to be copied before the media is added to it.
-                var entities = EventDTO.MessageCreate.MessageData.Entities;
+                var entities = MessageEventDTO.MessageCreate.MessageData.Entities;
                 if (!_mergedMediaIntoEntities)
                 {
                     entities.Medias = new List<IMediaEntity>();
@@ -87,22 +87,22 @@ namespace Tweetinvi.Logic
             }
         }
 
-        public string Text => EventDTO.MessageCreate.MessageData.Text;
+        public string Text => MessageEventDTO.MessageCreate.MessageData.Text;
 
-        public bool IsDestroyed => EventDTO.MessageCreate.IsDestroyed;
+        public bool IsDestroyed => MessageEventDTO.MessageCreate.IsDestroyed;
 
-        public long? InitiatedViaTweetId => EventDTO.InitiatedVia?.TweetId;
+        public long? InitiatedViaTweetId => MessageEventDTO.InitiatedVia?.TweetId;
 
-        public long? InitiatedViaWelcomeMessageId => EventDTO.InitiatedVia?.WelcomeMessageId;
+        public long? InitiatedViaWelcomeMessageId => MessageEventDTO.InitiatedVia?.WelcomeMessageId;
 
-        public IQuickReplyResponse QuickReplyResponse => EventDTO.MessageCreate.MessageData.QuickReplyResponse;
+        public IQuickReplyResponse QuickReplyResponse => MessageEventDTO.MessageCreate.MessageData.QuickReplyResponse;
 
-        public IMediaEntity AttachedMedia => EventDTO.MessageCreate.MessageData.Attachment?.Media;
+        public IMediaEntity AttachedMedia => MessageEventDTO.MessageCreate.MessageData.Attachment?.Media;
 
         // Destroy
         public bool Destroy()
         {
-            return _messageController.DestroyMessage(EventDTO);
+            return _messageController.DestroyMessage(MessageEventDTO);
         }
 
         public bool Equals(IMessage other)
