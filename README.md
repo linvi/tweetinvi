@@ -9,6 +9,7 @@ Tweetinvi is an intuitive .NET C# library to access the Twitter REST API. It is 
 
 * [Follow us on Twitter](https://twitter.com/TweetinviApi)
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/cebba475488d4662b1e4727478fcc26e)](https://app.codacy.com/app/linvi/tweetinvi?utm_source=github.com&utm_medium=referral&utm_content=linvi/tweetinvi&utm_campaign=Badge_Grade_Dashboard)
  [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/linvi/tweetinvi?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=body_badge)
 
 [![Youtube](https://www.youtube.com/yt/img/logo_1x.png)](https://www.youtube.com/watch?v=1maeTudF8cQ)
