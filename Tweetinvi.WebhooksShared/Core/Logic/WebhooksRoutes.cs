@@ -38,8 +38,7 @@ namespace Tweetinvi.AspNet
         {
             var crcResponseInfo = _webhooksHelper.CreateCRCResponseToken(crcToken, credentials.ConsumerSecret);
 
-            requestHandler.SetResponseContentType(crcResponseInfo.ContenType);
-            await requestHandler.WriteInResponseAsync(crcResponseInfo.Json);
+            await requestHandler.WriteInResponseAsync(crcResponseInfo.Json, crcResponseInfo.ContenType);
         } 
     }
 }

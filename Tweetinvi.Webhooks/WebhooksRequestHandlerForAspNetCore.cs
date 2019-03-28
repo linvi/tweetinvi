@@ -47,13 +47,9 @@ namespace Tweetinvi.AspNet
             _context.Response.StatusCode = statusCode;
         }
 
-        public void SetResponseContentType(string contentType)
+        public Task WriteInResponseAsync(string content, string contentType)
         {
             _context.Response.ContentType = contentType;
-        }
-
-        public Task WriteInResponseAsync(string content)
-        {
             return _context.Response.WriteAsync(content);
         }
     }

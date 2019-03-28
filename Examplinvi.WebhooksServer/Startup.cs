@@ -8,6 +8,7 @@ using Tweetinvi.AspNet;
 using Tweetinvi.Core.Extensions;
 using Tweetinvi.Core.Public.Models.Authentication;
 using Tweetinvi.Core.Public.Models.Interfaces.DTO.Webhooks;
+using Tweetinvi.Models;
 
 namespace Examplinvi.WebhooksServer
 {
@@ -68,7 +69,10 @@ namespace Examplinvi.WebhooksServer
 
                 WebhookConfiguration.AddWebhookEnvironment(webhookEnvironment);
 
-                await SubscribeToAllAccountActivities(consumerOnlyCredentials, environment);
+                // If you want your server to be listening to all the already subscribed users
+                // Uncomment the line below.
+                
+                // await SubscribeToAllAccountActivities(consumerOnlyCredentials, environment);
             });
         }
 

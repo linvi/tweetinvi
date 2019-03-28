@@ -1,9 +1,22 @@
-﻿### VisualStudioCode ###
+﻿# My own ignores
+/Developer Tools/temp*
+/Developer Tools/TweetinviAPI/lib
+/Developer Tools/tweetinvi.certificate.p12
+/Examplinvi.Web/App_Data
+*.zip
+/Examplinvi.UniversalApp/Examplinvi.UniversalApp.nuget.targets
+/Developer Tools/OpenSSL
+/Developer Tools/TweetinviAPI
+/Developer Tools/nuget_packages/**/lib
+/Examplinvi.WindowsPhone
+*.bak
+*.DotSettings.user
+
+### VisualStudioCode ###
 .vscode/*
 !.vscode/settings.json
 !.vscode/tasks.json
 !.vscode/launch.json
-
 
 ### VisualStudio ###
 ## Ignore Visual Studio temporary files, build results, and
@@ -267,15 +280,3 @@ paket-files/
 __pycache__/
 *.pyc
 
-# My own ignores
-/Developer Tools/temp*
-/Developer Tools/TweetinviAPI/lib
-/Developer Tools/tweetinvi.certificate.p12
-/Examplinvi.Web/App_Data
-*.zip
-/Examplinvi.UniversalApp/Examplinvi.UniversalApp.nuget.targets
-/Developer Tools/OpenSSL
-/Developer Tools/TweetinviAPI
-/Developer Tools/nuget_packages/**/lib
-/Examplinvi.WindowsPhone
-*.bak

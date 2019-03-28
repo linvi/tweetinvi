@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using Tweetinvi.Core.Public.Models.Authentication;
-using Tweetinvi.Core.Public.Streaming;
 using Tweetinvi.Core.Public.Streaming.Webhooks;
+using Tweetinvi.Streaming;
 
 namespace Tweetinvi.Models
 {
@@ -54,6 +54,11 @@ namespace Tweetinvi.Models
             if (environment == null)
             {
                 throw new ArgumentNullException(nameof(environment));
+            }
+
+            if (environment.Credentials != ConsumerOnlyCredentials)
+            {
+                throw new InvalidOperationException("Tweetinvi only supports 1 set of consumer application be webhooks server instance.");
             }
 
             if (_webhookEnvironments.Contains(environment))

@@ -93,7 +93,7 @@ namespace WebApplication1.Controllers
 
             webhooksSubscriptions.ForEach(subscription =>
             {
-                var accountActivityStream = TweetinviWebhooksHost.Configuration.RegisteredActivityStreams.SingleOrDefault(x => x.UserId.ToString() == subscription.UserId);
+                var accountActivityStream = TweetinviWebhooksHost.Configuration.RegisteredActivityStreams.SingleOrDefault(x => x.AccountUserId.ToString() == subscription.UserId);
 
                 if (accountActivityStream == null)
                 {
@@ -107,12 +107,12 @@ namespace WebApplication1.Controllers
             });
         }
 
-        private void MessageSent(object sender, MessageEventArgs args)
+        private void MessageSent(object sender, AccountActivityMessageSentEventArgs args)
         {
             Console.WriteLine(args.Message.App);
         }
 
-        private void MessageReceived(object sender, MessageEventArgs args)
+        private void MessageReceived(object sender, AccountActivityMessageReceivedEventArgs args)
         {
             Console.WriteLine(args.Message.App);
         }
@@ -126,6 +126,7 @@ namespace WebApplication1.Controllers
         // SUBSCRIPTIONS
 
         [HttpGet]
+        [Route("GetWebhookSubscriptions")]
         public async Task<IWebhookSubscriptionDTO[]> GetWebhookSubscriptions(string environment)
         {
             var webhookEnvironments = await Webhooks.GetListOfSubscriptionsAsync(environment, TweetinviWebhooksHost.Configuration.ConsumerOnlyCredentials);
@@ -133,6 +134,7 @@ namespace WebApplication1.Controllers
         }
 
         [HttpPost]
+        [Route("SubscribeAccountToWebhook")]
         public async Task<bool> SubscribeAccountToWebhook(string environment, long userId)
         {
             var userCredentials = await CredentialsRetriever.GetUserCredentials(userId);
@@ -193,7 +195,7 @@ namespace WebApplication1.Controllers
                 return "ENVIRONMENT_NOT_MATCHED";
             }
 
-            var streams = TweetinviWebhooksHost.Configuration.RegisteredActivityStreams.Where(x => x.UserId.ToString() == userId);
+            var streams = TweetinviWebhooksHost.Configuration.RegisteredActivityStreams.Where(x => x.AccountUserId.ToString() == userId);
 
             streams.ForEach(stream =>
             {

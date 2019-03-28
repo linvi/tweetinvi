@@ -14,7 +14,6 @@ namespace Tweetinvi.WebhooksShared.Core.Logic
     {
         Task<string> GetJsonFromBody();
         void SetResponseStatusCode(int statusCode);
-        void SetResponseContentType(string contentType);
-        Task WriteInResponseAsync(string content);
+        Task WriteInResponseAsync(string content, string contentType);
     }
 }

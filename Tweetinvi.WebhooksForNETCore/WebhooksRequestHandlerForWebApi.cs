@@ -52,16 +52,12 @@ namespace Tweetinvi.AspNet
             _response.StatusCode = (HttpStatusCode)statusCode;
         }
 
-        public void SetResponseContentType(string contentType)
-        {
-            _response.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
-        }
-
 #pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
-        public async Task WriteInResponseAsync(string content)
+        public async Task WriteInResponseAsync(string content, string contentType)
 #pragma warning restore CS1998 // Async method lacks 'await' operators and will run synchronously
         {
             _response.Content = new StringContent(content);
+            _response.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
         }
 
         public HttpResponseMessage GetHttpResponseMessage()

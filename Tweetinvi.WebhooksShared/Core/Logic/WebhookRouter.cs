@@ -37,21 +37,11 @@ namespace Tweetinvi.AspNet
 
         public async Task<bool> TryRouteRequest(IWebhooksRequestHandler requestHandler, IWebhookConfiguration configuration)
         {
-            var matchingWebhooks = _webhooksHelper.GetWebhooksMatching(requestHandler, configuration).ToArray();
             var isCrcChallenge = _webhooksHelper.IsCrcChallenge(requestHandler);
 
             if (isCrcChallenge)
             {
-                if (matchingWebhooks.Length > 1)
-                {
-                    requestHandler.SetResponseStatusCode(500);
-                    return await Task.FromResult(true);
-                }
-
-                var matchingWebhook = matchingWebhooks[0];
-                var matchingEnvironment = configuration.RegisteredWebhookEnvironments.Single(x => x.Webhooks.Contains(matchingWebhook));
-
-                return await _webhooksRoutes.TryToReplyToCRCChallenge(requestHandler, matchingEnvironment.Credentials);
+                return await _webhooksRoutes.TryToReplyToCRCChallenge(requestHandler, configuration.ConsumerOnlyCredentials);
             }
 
             var jsonBody = await requestHandler.GetJsonFromBody();
