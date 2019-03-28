@@ -1,4 +1,4 @@
-﻿using System.Threading.Tasks;
+using System.Threading.Tasks;
 using System.Web.Http;
 using Tweetinvi;
 using Tweetinvi.AspNet;
@@ -23,7 +23,6 @@ namespace Examplinvi.WebhooksApi
             {
                 ApplicationOnlyBearerToken = "xxx"
             };
-
 
             if (consumerOnlyCredentials.ApplicationOnlyBearerToken == null)
             {
