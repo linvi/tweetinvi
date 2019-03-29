@@ -9,9 +9,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Tweetinvi.Core\Tweetinvi.Core.csproj" />
-    <ProjectReference Include="..\Tweetinvi.Webhooks\Tweetinvi.Webhooks.csproj" />
-    <ProjectReference Include="..\Tweetinvi\Tweetinvi.csproj" />
+    <ProjectReference Include="..\..\Tweetinvi.Core\Tweetinvi.Core.csproj" />
+    <ProjectReference Include="..\..\Tweetinvi.Webhooks\Tweetinvi.Webhooks.csproj" />
+    <ProjectReference Include="..\..\Tweetinvi\Tweetinvi.csproj" />
   </ItemGroup>
 
 </Project>

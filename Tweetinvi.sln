@@ -43,20 +43,23 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Examplinvi.WPF", "Examplinv
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Examplinvi.Winforms", "Examplinvi.Winforms\Examplinvi.Winforms.csproj", "{1559E81A-0408-4D97-A74E-46D331A2A595}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tweetinvi.Webhooks", "Tweetinvi.Webhooks\Tweetinvi.Webhooks.csproj", "{FB82351E-5720-462D-8562-EDFEFA3EFA03}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Examplinvi.NETStandard-2.0", "Examplinvi.NETStandard-2.0\Examplinvi.NETStandard-2.0.csproj", "{D3239412-8AA7-45E2-9BDE-BE82A3E50A67}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Examplinvi.WebhooksServer", "Examplinvi.WebhooksServer\Examplinvi.WebhooksServer.csproj", "{EA1EBD2B-570B-4424-9A51-25EC31C67D5A}"
+
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Examplinvi.WebhooksApi", "Examples\Examplinvi.WebhooksApi\Examplinvi.WebhooksApi.csproj", "{A58FA692-D244-4E52-9C29-11FA52402F1F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Examplinvi.WebhooksApi", "Examplinvi.WebhooksApi\Examplinvi.WebhooksApi.csproj", "{A58FA692-D244-4E52-9C29-11FA52402F1F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Examplinvi.WebhooksServer", "Examples\Examplinvi.WebhooksServer\Examplinvi.WebhooksServer.csproj", "{EA1EBD2B-570B-4424-9A51-25EC31C67D5A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Examplinvi.WebhooksEvents", "Examples\Examplinvi.WebhooksEvents\Examplinvi.WebhooksEvents.csproj", "{41D3A2F4-B308-45B3-8790-E8F0CF2A8165}"
+EndProject
+
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tweetinvi.Webhooks", "Tweetinvi.Webhooks\Tweetinvi.Webhooks.csproj", "{FB82351E-5720-462D-8562-EDFEFA3EFA03}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tweetinvi.WebhooksShared", "Tweetinvi.WebhooksShared\Tweetinvi.WebhooksShared.csproj", "{CDC51D9C-6560-44A9-9365-C51480876F8A}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tweetinvi.WebhooksForNETCore", "Tweetinvi.WebhooksForNETCore\Tweetinvi.WebhooksForNETCore.csproj", "{39A9C44A-3782-421E-B0A7-1B18ECCF2663}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Examplinvi.WebhooksEvents", "Examples\Examplinvi.WebhooksEvents\Examplinvi.WebhooksEvents.csproj", "{41D3A2F4-B308-45B3-8790-E8F0CF2A8165}"
-EndProject
+
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Ad-Hoc|Any CPU = Ad-Hoc|Any CPU

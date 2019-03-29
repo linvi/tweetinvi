@@ -25,18 +25,21 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Examples", "Examples", "{BF
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Testinvi", "Testinvi\Testinvi.csproj", "{BBD2D87F-E83B-4FE7-B4C7-3DAF61472D30}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tweetinvi.WebhooksShared", "Tweetinvi.WebhooksShared\Tweetinvi.WebhooksShared.csproj", "{32BD8E8F-1A99-48C2-82B4-90D78F1993BC}"
+
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Examplinvi.WebhooksApi", "Examples\Examplinvi.WebhooksApi\Examplinvi.WebhooksApi.csproj", "{A58FA692-D244-4E52-9C29-11FA52402F1F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Examplinvi.WebhooksServer", "Examples\Examplinvi.WebhooksServer\Examplinvi.WebhooksServer.csproj", "{E752DC9C-EE13-494E-91B3-FD23EAF731A4}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Examplinvi.WebhooksEvents", "Examples\Examplinvi.WebhooksEvents\Examplinvi.WebhooksEvents.csproj", "{681A2D4A-CEED-418F-A2CA-F9E423670C64}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Examplinvi.WebhooksApi", "Examplinvi.WebhooksApi\Examplinvi.WebhooksApi.csproj", "{A58FA692-D244-4E52-9C29-11FA52402F1F}"
-EndProject
+
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tweetinvi.Webhooks", "Tweetinvi.Webhooks\Tweetinvi.Webhooks.csproj", "{DFDBDD5F-BD66-46F8-8C5E-A7E93CF35EDD}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tweetinvi.WebhooksShared", "Tweetinvi.WebhooksShared\Tweetinvi.WebhooksShared.csproj", "{32BD8E8F-1A99-48C2-82B4-90D78F1993BC}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tweetinvi.WebhooksForNETCore", "Tweetinvi.WebhooksForNETCore\Tweetinvi.WebhooksForNETCore.csproj", "{296B2B8C-FEC5-4C01-8818-FA02C69E2B8A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Examplinvi.WebhooksServer", "Examplinvi.WebhooksServer\Examplinvi.WebhooksServer.csproj", "{E752DC9C-EE13-494E-91B3-FD23EAF731A4}"
-EndProject
+
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Ad-Hoc|Any CPU = Ad-Hoc|Any CPU
