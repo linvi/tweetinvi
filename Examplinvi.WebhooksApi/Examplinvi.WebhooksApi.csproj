@@ -263,9 +263,9 @@
       <Project>{9101f0e8-cfa4-49b5-8568-c3136a765aaf}</Project>
       <Name>Tweetinvi.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Tweetinvi.WebhooksForNETCore\Tweetinvi.WebhooksForNETFramework.csproj">
-      <Project>{80338264-7963-462c-8f42-10385e1fb8fe}</Project>
-      <Name>Tweetinvi.WebhooksForNETFramework</Name>
+    <ProjectReference Include="..\Tweetinvi.WebhooksForNETCore\Tweetinvi.WebhooksForNETCore.csproj">
+      <Project>{296B2B8C-FEC5-4C01-8818-FA02C69E2B8A}</Project>
+      <Name>Tweetinvi.WebhooksForNETCore</Name>
     </ProjectReference>
     <ProjectReference Include="..\Tweetinvi.WebhooksShared\Tweetinvi.WebhooksShared.csproj">
       <Project>{44723029-A236-4C2F-A452-BFA1BF62B1E9}</Project>
