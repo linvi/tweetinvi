@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Tweetinvi.Core.Public.Streaming.Webhooks;
 using Tweetinvi.Models;
 using Tweetinvi.Models.Webhooks;
