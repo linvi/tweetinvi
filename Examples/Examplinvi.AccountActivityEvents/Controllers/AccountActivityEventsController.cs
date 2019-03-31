@@ -36,7 +36,7 @@ namespace Examplinvi.AccountActivityEvents.Controllers
                 var accountActivityStream = _webhookConfiguration.RegisteredActivityStreams.SingleOrDefault(x => x.AccountUserId.ToString() == subscription.UserId);
                 var isSubscriptionAlreadyWatched = accountActivityStream != null;
 
-                if (isSubscriptionAlreadyWatched)
+                if (!isSubscriptionAlreadyWatched)
                 {
                     accountActivityStream = Stream.CreateAccountActivityStream(subscription.UserId);
                     _webhookConfiguration.AddActivityStream(accountActivityStream);
@@ -69,7 +69,7 @@ namespace Examplinvi.AccountActivityEvents.Controllers
             return $"SERVER HAS STOPPED WATCHING EVENTS FOR ALL SUBSCRIPTIONS ON ENVIRONMENT : {environment}";
         }
 
-        public async Task<string> SubscribeToAccountActivities(string environment, long userId)
+        public async Task<string> SubscribeToAccountActivitiesEvents(string environment, long userId)
         {
             var webhookEnvironment = _webhookConfiguration.RegisteredWebhookEnvironments.FirstOrDefault(x => x.Name == environment);
             var doesWebhookEnvironmentExist = webhookEnvironment != null;
@@ -87,7 +87,7 @@ namespace Examplinvi.AccountActivityEvents.Controllers
             return "SUBSCRIBED_ON_SERVER";
         }
 
-        public async Task<string> UnsubscribeFromAccountActivities(string environment, string userId)
+        public async Task<string> UnsubscribeFromAccountActivitiesEvents(string environment, string userId)
         {
             var webhookEnvironment = _webhookConfiguration.RegisteredWebhookEnvironments.FirstOrDefault(x => x.Name == environment);
             var doesWebhookEnvironmentExist = webhookEnvironment != null;

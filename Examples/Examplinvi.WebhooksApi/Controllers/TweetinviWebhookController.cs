@@ -1,25 +1,32 @@
-﻿using System;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using System.Web.Http;
-using Examplinvi.WebhooksApi;
-using Tweetinvi;
-using Tweetinvi.Core.Extensions;
+using Examplinvi.AccountActivityEvents;
+using Examplinvi.AccountActivityEvents.Controllers;
 using Tweetinvi.Core.Public.Models.Interfaces.DTO.Webhooks;
-using Tweetinvi.Events;
 using Tweetinvi.Models;
 
-namespace WebApplication1.Controllers
+namespace Examplinvi.WebhooksApi.Controllers
 {
     [RoutePrefix("tweetinvi")]
     public class TweetinviWebhookController : ApiController
     {
+        private readonly AccountActivityWebhooksController _accountActivityWebhooksController;
+        private readonly AccountActivitySubscriptionsController _accountActivitySubscriptionsController;
+        private readonly AccountActivityEventsController _accountActivityEventsController;
+
+        public TweetinviWebhookController()
+        {
+            _accountActivityWebhooksController = new AccountActivityWebhooksController(TweetinviWebhooksHost.Configuration);
+            _accountActivitySubscriptionsController = new AccountActivitySubscriptionsController(TweetinviWebhooksHost.Configuration);
+            _accountActivityEventsController = new AccountActivityEventsController(TweetinviWebhooksHost.Configuration);
+        }
+
         // WEBHOOK
         [HttpPost]
         [Route("SetUserCredentials")]
         public async Task SetUserCredentials(long userId, [System.Web.Http.FromBody]TwitterCredentials credentials)
         {
-            await CredentialsRetriever.SetUserCredentials(userId, credentials);
+            await AccountActivityCredentialsRetriever.SetUserCredentials(userId, credentials);
         }
 
 
@@ -27,181 +34,89 @@ namespace WebApplication1.Controllers
         [Route("ChallengeWebhook")]
         public async Task<bool> ChallengeWebhook(string environment, string webhookId, long userId)
         {
-            var userCredentials = await CredentialsRetriever.GetUserCredentials(userId);
-            return await Webhooks.ChallengeWebhookAsync(environment, webhookId, userCredentials);
+            return await _accountActivityWebhooksController.ChallengeWebhook(environment, webhookId, userId);
         }
 
         [HttpPost]
         [Route("RegisterWebhook")]
         public async Task<bool> RegisterWebhook(string environment, string url, long userId)
         {
-            var userCredentials = await CredentialsRetriever.GetUserCredentials(userId);
-            var result = await Webhooks.RegisterWebhookAsync(environment, url, userCredentials);
-
-            if (result == null)
-            {
-                return false;
-            }
-
-            // Register webhook in server
-            var webhookEnvironment = TweetinviWebhooksHost.Configuration.RegisteredWebhookEnvironments.FirstOrDefault(x => x.Name == environment);
-
-            webhookEnvironment?.AddWebhook(result);
-
-            return true;
+            return await _accountActivityWebhooksController.RegisterWebhook(environment, url, userId);
         }
 
         [HttpDelete]
         [Route("DeleteWebhook")]
         public async Task<bool> DeleteWebhook(string environment, string webhookId, long userId)
         {
-            var userCredentials = await CredentialsRetriever.GetUserCredentials(userId);
-            var result = await Webhooks.RemoveWebhookAsync(environment, webhookId, userCredentials);
-
-            return result;
+            return await _accountActivityWebhooksController.DeleteWebhook(environment, webhookId, userId);
         }
 
         [HttpGet]
         [Route("GetWebhookEnvironments")]
         public async Task<IWebhookEnvironmentDTO[]> GetWebhookEnvironments()
         {
-            var webhookEnvironments = await Webhooks.GetAllWebhookEnvironmentsAsync(TweetinviWebhooksHost.Configuration.ConsumerOnlyCredentials);
-            return webhookEnvironments;
+            return await _accountActivityWebhooksController.GetWebhookEnvironments();
         }
 
-        [HttpPost]
-        [Route("StopAllAccountActivityStreams")]
-        public void StopAllAccountActivityStreams()
-        {
-            TweetinviWebhooksHost.Configuration.RegisteredActivityStreams.ToArray().ForEach(accountActivityStream =>
-            {
-                TweetinviWebhooksHost.Configuration.RemoveActivityStream(accountActivityStream);
-            });
-        }
-
-        [HttpPost]
-        [Route("StartAllAccountActivityStreams")]
-        public async Task StartAllAccountActivityStreams(string environment)
-        {
-            if (!TweetinviWebhooksHost.Configuration.RegisteredWebhookEnvironments.Any(x => x.Name == environment))
-            {
-                throw new InvalidOperationException("You attempted to listen to streams for an environment that was not registered");
-            }
-
-            var webhooksSubscriptions = await GetWebhookSubscriptions(environment);
-
-            webhooksSubscriptions.ForEach(subscription =>
-            {
-                var accountActivityStream = TweetinviWebhooksHost.Configuration.RegisteredActivityStreams.SingleOrDefault(x => x.AccountUserId.ToString() == subscription.UserId);
-
-                if (accountActivityStream == null)
-                {
-                    accountActivityStream = Stream.CreateAccountActivityStream(subscription.UserId);
-                    TweetinviWebhooksHost.Configuration.AddActivityStream(accountActivityStream);
-                }
-
-                accountActivityStream.JsonObjectReceived += JsonObjectReceived;
-                accountActivityStream.MessageReceived += MessageReceived;
-                accountActivityStream.MessageSent += MessageSent;
-            });
-        }
-
-        private void MessageSent(object sender, AccountActivityMessageSentEventArgs args)
-        {
-            Console.WriteLine(args.Message.App);
-        }
-
-        private void MessageReceived(object sender, AccountActivityMessageReceivedEventArgs args)
-        {
-            Console.WriteLine(args.Message.App);
-        }
-
-        private void JsonObjectReceived(object sender, JsonObjectEventArgs args)
-        {
-            Console.WriteLine(args.Json);
-        }
-
-
-        // SUBSCRIPTIONS
+        // SUBSCRIPTIONS - Subscribe / Unsubscribe user from webhook
 
         [HttpGet]
         [Route("GetWebhookSubscriptions")]
         public async Task<IWebhookSubscriptionDTO[]> GetWebhookSubscriptions(string environment)
         {
-            var webhookEnvironments = await Webhooks.GetListOfSubscriptionsAsync(environment, TweetinviWebhooksHost.Configuration.ConsumerOnlyCredentials);
-            return webhookEnvironments.Subscriptions;
+            return await _accountActivitySubscriptionsController.GetWebhookSubscriptions(environment);
         }
 
         [HttpPost]
         [Route("SubscribeAccountToWebhook")]
         public async Task<bool> SubscribeAccountToWebhook(string environment, long userId)
         {
-            var userCredentials = await CredentialsRetriever.GetUserCredentials(userId);
-            var success = await Webhooks.SubscribeToAccountActivityEventsAsync(environment, userCredentials);
-
-            return success;
+            return await _accountActivitySubscriptionsController.SubscribeAccountToWebhook(environment, userId);
         }
 
         [HttpPost]
-        public async Task<bool> UnsubscribeAccountFromWebhooks(string environment, long userId)
+        [Route("UnsubscribeAccountFromWebhooksEnvironment")]
+        public async Task<bool> UnsubscribeAccountFromWebhooksEnvironment(string environment, long userId)
         {
-            var userCredentials = await CredentialsRetriever.GetUserCredentials(userId);
-            var result = await Webhooks.RemoveAllAccountSubscriptionsAsync(environment, userCredentials);
-
-            return result;
+            return await _accountActivitySubscriptionsController.UnsubscribeAccountFromWebhooksEnvironment(environment, userId);
         }
 
         [HttpGet]
-        public async Task<string> CountSubscriptions(string userId)
+        [Route("CountNumberOfWebhookSubscriptions")]
+        public async Task<string> CountNumberOfWebhookSubscriptions(string userId)
         {
-            var credentials = TweetinviWebhooksHost.Configuration.ConsumerOnlyCredentials;
-            var result = await Webhooks.CountNumberOfSubscriptionsAsync(credentials);
-            return result?.SubscriptionsCountAll;
+            var consumerCredentials = TweetinviWebhooksHost.Configuration.ConsumerOnlyCredentials;
+            return await _accountActivitySubscriptionsController.CountNumberOfWebhookSubscriptions(consumerCredentials);
         }
 
-        // Account Activity
+        // ACCOUNT ACTIVITY EVENTS
 
         [HttpPost]
-        public async Task<string> SubscribeToAccountActivities(string environment, long userId)
+        [Route("StartListeningToEventsForAllSubscribedAccounts")]
+        public async Task<string> StartListeningToEventsForAllSubscribedAccounts(string environment)
         {
-            var userCredentials = await CredentialsRetriever.GetUserCredentials(userId);
-
-            var webhook = TweetinviWebhooksHost.Configuration.RegisteredWebhookEnvironments.FirstOrDefault(x => x.Name == environment);
-
-            if (webhook == null)
-            {
-                return "ENVIRONMENT_NOT_REGISTERED";
-            }
-
-            var activityStream = Stream.CreateAccountActivityStream(userId);
-            TweetinviWebhooksHost.Configuration.AddActivityStream(activityStream);
-
-            activityStream.TweetFavourited += (sender, args) =>
-            {
-                Console.WriteLine($"{userId} favourited tweet!");
-            };
-
-            return "SUBSCRIBED_ON_SERVER";
+            return await _accountActivityEventsController.StartListeningToEventsForAllSubscribedAccounts(environment);
         }
 
         [HttpPost]
-        public string UnsubscribeFromAccountActivities(string environment, string userId)
+        [Route("StopListeningToEventsForAllSubscribedAccounts")]
+        public async Task<string> StopListeningToEventsForAllSubscribedAccounts(string environment)
         {
-            var webhook = TweetinviWebhooksHost.Configuration.RegisteredWebhookEnvironments.FirstOrDefault(x => x.Name == environment);
+            return await _accountActivityEventsController.StopAllAccountActivityStreams(environment);
+        }
 
-            if (webhook == null)
-            {
-                return "ENVIRONMENT_NOT_MATCHED";
-            }
+        [HttpPost]
+        [Route("SubscribeToAccountActivitiesEvents")]
+        public async Task<string> SubscribeToAccountActivitiesEvents(string environment, long userId)
+        {
+            return await _accountActivityEventsController.SubscribeToAccountActivitiesEvents(environment, userId);
+        }
 
-            var streams = TweetinviWebhooksHost.Configuration.RegisteredActivityStreams.Where(x => x.AccountUserId.ToString() == userId);
-
-            streams.ForEach(stream =>
-            {
-                TweetinviWebhooksHost.Configuration.RemoveActivityStream(stream);
-            });
-
-            return "UNSUBSCRIBED";
+        [HttpPost]
+        [Route("UnsubscribeFromAccountActivitiesEvents")]
+        public async Task<string> UnsubscribeFromAccountActivitiesEvents(string environment, string userId)
+        {
+            return await _accountActivityEventsController.UnsubscribeFromAccountActivitiesEvents(environment, userId);
         }
     }
 }

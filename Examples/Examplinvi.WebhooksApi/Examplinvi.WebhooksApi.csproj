@@ -166,7 +166,6 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\TweetinviWebhookController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
-    <Compile Include="CredentialsRetriever.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -274,6 +273,10 @@
     <ProjectReference Include="..\..\Tweetinvi\Tweetinvi.csproj">
       <Project>{5c207eef-bd2e-47a0-8e35-591207240476}</Project>
       <Name>Tweetinvi</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Examplinvi.AccountActivityEvents\Examplinvi.AccountActivityEvents.csproj">
+      <Project>{9cb7e2fd-c63d-4328-9ad8-77cbb82d7361}</Project>
+      <Name>Examplinvi.AccountActivityEvents</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

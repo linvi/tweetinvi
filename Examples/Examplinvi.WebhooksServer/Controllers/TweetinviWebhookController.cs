@@ -81,7 +81,7 @@ namespace Examplinvi.WebhooksServer.Controllers
             return await _accountActivitySubscriptionsController.CountNumberOfWebhookSubscriptions(consumerCredentials);
         }
 
-        // Account Activity Events
+        // ACCOUNT ACTIVITY EVENTS
 
         [HttpPost("StartListeningToEventsForAllSubscribedAccounts")]
         public async Task<string> StartListeningToEventsForAllSubscribedAccounts(string environment)
@@ -95,16 +95,16 @@ namespace Examplinvi.WebhooksServer.Controllers
             return await _accountActivityEventsController.StopAllAccountActivityStreams(environment);
         }
 
-        [HttpPost("SubscribeToAccountActivities")]
-        public async Task<string> SubscribeToAccountActivities(string environment, long userId)
+        [HttpPost("SubscribeToAccountActivitiesEvents")]
+        public async Task<string> SubscribeToAccountActivitiesEvents(string environment, long userId)
         {
-            return await _accountActivityEventsController.SubscribeToAccountActivities(environment, userId);
+            return await _accountActivityEventsController.SubscribeToAccountActivitiesEvents(environment, userId);
         }
 
-        [HttpPost("UnsubscribeFromAccountActivities")]
-        public async Task<string> UnsubscribeFromAccountActivities(string environment, string userId)
+        [HttpPost("UnsubscribeFromAccountActivitiesEvents")]
+        public async Task<string> UnsubscribeFromAccountActivitiesEvents(string environment, string userId)
         {
-            return await _accountActivityEventsController.UnsubscribeFromAccountActivities(environment, userId);
+            return await _accountActivityEventsController.UnsubscribeFromAccountActivitiesEvents(environment, userId);
         }
     }
 }
