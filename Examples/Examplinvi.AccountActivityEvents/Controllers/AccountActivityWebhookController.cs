@@ -4,17 +4,15 @@ using Tweetinvi;
 using Tweetinvi.Core.Public.Models.Interfaces.DTO.Webhooks;
 using Tweetinvi.Models;
 
-namespace Examplinvi.WebhooksEvents
+namespace Examplinvi.AccountActivityEvents
 {
     public class AccountActivityWebhooksController
     {
         private readonly IWebhookConfiguration _webhookConfiguration;
-        private readonly AccountActivityEventsManager _accountActivityEventsManager;
 
         public AccountActivityWebhooksController(IWebhookConfiguration webhookConfiguration)
         {
             _webhookConfiguration = webhookConfiguration;
-            _accountActivityEventsManager = new AccountActivityEventsManager();
         }
 
         public async Task<bool> ChallengeWebhook(string environment, string webhookId, long userId)

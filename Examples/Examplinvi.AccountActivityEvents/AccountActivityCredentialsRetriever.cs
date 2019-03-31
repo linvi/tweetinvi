@@ -3,9 +3,9 @@ using System.Threading.Tasks;
 using Tweetinvi.Core.Extensions;
 using Tweetinvi.Models;
 
-namespace Examplinvi.WebhooksServer
+namespace Examplinvi.AccountActivityEvents
 {
-    public static class CredentialsRetriever
+    public static class AccountActivityCredentialsRetriever
     {
         public static readonly Dictionary<long, ITwitterCredentials> CredentialsByUserId = new Dictionary<long, ITwitterCredentials>();
 

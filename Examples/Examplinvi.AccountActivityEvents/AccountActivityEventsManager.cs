@@ -4,7 +4,7 @@ using System.Diagnostics.CodeAnalysis;
 using Tweetinvi.Events;
 using Tweetinvi.Streaming;
 
-namespace Examplinvi.WebhooksEvents
+namespace Examplinvi.AccountActivityEvents
 {
     public class AccountActivityEventsManager
     {
@@ -14,6 +14,7 @@ namespace Examplinvi.WebhooksEvents
         {
             if (_trackedStreams.Contains(accountActivityStream.AccountUserId))
             {
+                Console.WriteLine("You are already tracking this user, no need to do that again.");
                 return;
             }
 
