@@ -167,8 +167,10 @@ namespace Tweetinvi.Core.Extensions
                 {
                     result.Append(replaceWith);
                 }
-
-                result.Append(s[i]);
+                else
+                {
+                    result.Append(s[i]);
+                }
             }
 
             return result.ToString();
