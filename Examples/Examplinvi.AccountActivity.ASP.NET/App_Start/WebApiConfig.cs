@@ -18,7 +18,6 @@ namespace Examplinvi.WebhooksApi
             // Web API routes
             config.MapHttpAttributeRoutes();
 
-
             var consumerOnlyCredentials = new ConsumerOnlyCredentials("xxx", "xxx")
             {
                 ApplicationOnlyBearerToken = "xxx"

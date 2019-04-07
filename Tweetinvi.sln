@@ -46,7 +46,7 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Examplinvi.NETStandard-2.0", "Examplinvi.NETStandard-2.0\Examplinvi.NETStandard-2.0.csproj", "{D3239412-8AA7-45E2-9BDE-BE82A3E50A67}"
 EndProject
 
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Examplinvi.WebhooksApi", "Examples\Examplinvi.WebhooksApi\Examplinvi.WebhooksApi.csproj", "{A58FA692-D244-4E52-9C29-11FA52402F1F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Examplinvi.AccountActivity.ASP.NET", "Examples\Examplinvi.AccountActivity.ASP.NET\Examplinvi.AccountActivity.ASP.NET.csproj", "{A58FA692-D244-4E52-9C29-11FA52402F1F}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Examplinvi.WebhooksServer", "Examples\Examplinvi.WebhooksServer\Examplinvi.WebhooksServer.csproj", "{EA1EBD2B-570B-4424-9A51-25EC31C67D5A}"
 EndProject
