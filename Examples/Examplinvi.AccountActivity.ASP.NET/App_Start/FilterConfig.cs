@@ -1,6 +1,6 @@
 ﻿using System.Web.Mvc;
 
-namespace Examplinvi.WebhooksApi
+namespace Examplinvi.AccountActivity.ASP.NET
 {
     public class FilterConfig
     {

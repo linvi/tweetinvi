@@ -1,6 +1,6 @@
 ﻿using Tweetinvi.Models;
 
-namespace Examplinvi.WebhooksApi
+namespace Examplinvi.AccountActivity.ASP.NET
 {
     public static class TweetinviWebhooksHost
     {

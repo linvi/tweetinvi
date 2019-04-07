@@ -1,7 +1,7 @@
 ﻿using System.Web.Mvc;
 using System.Web.Routing;
 
-namespace Examplinvi.WebhooksApi
+namespace Examplinvi.AccountActivity.ASP.NET
 {
     public class RouteConfig
     {

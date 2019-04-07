@@ -6,7 +6,7 @@ using Tweetinvi.Core.Extensions;
 using Tweetinvi.Core.Public.Models.Authentication;
 using Tweetinvi.Models;
 
-namespace Examplinvi.WebhooksApi
+namespace Examplinvi.AccountActivity.ASP.NET
 {
     public static class WebApiConfig
     {
@@ -18,11 +18,10 @@ namespace Examplinvi.WebhooksApi
             // Web API routes
             config.MapHttpAttributeRoutes();
 
-            var consumerOnlyCredentials = new ConsumerOnlyCredentials("5EpUsp9mbMMRMJ0zqsug", "cau8CExOCUordXMJeoGfW0QoPTp6bUAOrqUELKk1CSM")
+            var consumerOnlyCredentials = new ConsumerOnlyCredentials("CONSUMER_TOKEN", "CONSUMER_SECRET")
             {
-                ApplicationOnlyBearerToken = "AAAAAAAAAAAAAAAAAAAAAFqqSQAAAAAABRtNASGJXtIVX1somRAmqhSj68o%3Dm3n0HLyG1OmZaFDsrLITnStpXHPU82RYr4HJAN1TdG9QpmEPky"
+                ApplicationOnlyBearerToken = "BEARER_TOKEN"
             };
-
 
             if (consumerOnlyCredentials.ApplicationOnlyBearerToken == null)
             {

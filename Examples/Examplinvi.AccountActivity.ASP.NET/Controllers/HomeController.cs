@@ -1,6 +1,6 @@
 ﻿using System.Web.Mvc;
 
-namespace Examplinvi.WebhooksApi.Controllers
+namespace Examplinvi.AccountActivity.ASP.NET.Controllers
 {
     public class HomeController : Controller
     {

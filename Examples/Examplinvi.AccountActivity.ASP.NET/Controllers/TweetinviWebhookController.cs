@@ -5,7 +5,7 @@ using Examplinvi.AccountActivityEvents.Controllers;
 using Tweetinvi.Core.Public.Models.Interfaces.DTO.Webhooks;
 using Tweetinvi.Models;
 
-namespace Examplinvi.WebhooksApi.Controllers
+namespace Examplinvi.AccountActivity.ASP.NET.Controllers
 {
     [RoutePrefix("tweetinvi")]
     public class TweetinviWebhookController : ApiController

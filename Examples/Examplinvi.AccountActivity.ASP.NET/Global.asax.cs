@@ -3,7 +3,7 @@ using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
 
-namespace Examplinvi.WebhooksApi
+namespace Examplinvi.AccountActivity.ASP.NET
 {
     public class WebApiApplication : System.Web.HttpApplication
     {

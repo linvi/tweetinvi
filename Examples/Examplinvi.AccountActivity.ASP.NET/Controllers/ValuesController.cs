@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Web.Http;
 
-namespace Examplinvi.WebhooksApi.Controllers
+namespace Examplinvi.AccountActivity.ASP.NET.Controllers
 {
     [Route("salut")]
     public class ValuesController : ApiController

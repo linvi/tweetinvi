@@ -1,6 +1,6 @@
 ﻿using System.Web.Optimization;
 
-namespace Examplinvi.WebhooksApi
+namespace Examplinvi.AccountActivity.ASP.NET
 {
     public class BundleConfig
     {
