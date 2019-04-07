@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Tweetinvi.Core.Public.Models.Interfaces.DTO.Webhooks;
 using Tweetinvi.Models;
 
-namespace Examplinvi.WebhooksServer.Controllers
+namespace Examplinvi.AccountActivity.ASP.NETCore.Controllers
 {
     [Route("tweetinvi/")]
     public class TweetinviWebhookController : Controller

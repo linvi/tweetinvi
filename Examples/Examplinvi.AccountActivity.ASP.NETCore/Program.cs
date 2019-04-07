@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 
-namespace Examplinvi.WebhooksServer
+namespace Examplinvi.AccountActivity.ASP.NETCore
 {
     public class Program
     {

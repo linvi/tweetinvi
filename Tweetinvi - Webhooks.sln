@@ -27,7 +27,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Testinvi", "Testinvi\Testin
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Examplinvi.AccountActivity.ASP.NET", "Examples\Examplinvi.AccountActivity.ASP.NET\Examplinvi.AccountActivity.ASP.NET.csproj", "{A58FA692-D244-4E52-9C29-11FA52402F1F}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Examplinvi.WebhooksServer", "Examples\Examplinvi.WebhooksServer\Examplinvi.WebhooksServer.csproj", "{E752DC9C-EE13-494E-91B3-FD23EAF731A4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Examplinvi.AccountActivity.ASP.NETCore", "Examples\Examplinvi.AccountActivity.ASP.NETCore\Examplinvi.AccountActivity.ASP.NETCore.csproj", "{E752DC9C-EE13-494E-91B3-FD23EAF731A4}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tweetinvi.Webhooks", "Tweetinvi.Webhooks\Tweetinvi.Webhooks.csproj", "{DFDBDD5F-BD66-46F8-8C5E-A7E93CF35EDD}"
 EndProject

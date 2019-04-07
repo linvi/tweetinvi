@@ -10,7 +10,7 @@ using Tweetinvi.Core.Public.Models.Authentication;
 using Tweetinvi.Core.Public.Models.Interfaces.DTO.Webhooks;
 using Tweetinvi.Models;
 
-namespace Examplinvi.WebhooksServer
+namespace Examplinvi.AccountActivity.ASP.NETCore
 {
     public class Startup
     {
