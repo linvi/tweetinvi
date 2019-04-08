@@ -1,10 +1,11 @@
-﻿using Tweetinvi.Core.Web;
+﻿using System.Threading.Tasks;
+using Tweetinvi.Core.Web;
 
 namespace Tweetinvi.Controllers.Account
 {
     public interface IAccountJsonController
     {
-        string  GetAuthenticatedUserSettingsJson();
+        Task<string> GetAuthenticatedUserSettingsJson();
     }
 
     public class AccountJsonController : IAccountJsonController
@@ -20,7 +21,7 @@ namespace Tweetinvi.Controllers.Account
             _accountQueryGenerator = accountQueryGenerator;
         }
 
-        public string GetAuthenticatedUserSettingsJson()
+        public Task<string> GetAuthenticatedUserSettingsJson()
         {
             string query = _accountQueryGenerator.GetAuthenticatedUserAccountSettingsQuery();
             return _twitterAccessor.ExecuteGETQueryReturningJson(query);

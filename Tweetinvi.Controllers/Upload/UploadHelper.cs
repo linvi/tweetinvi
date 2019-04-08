@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Tweetinvi.Controllers.Properties;
 using Tweetinvi.Core.Helpers;
 using Tweetinvi.Models;
@@ -9,7 +10,7 @@ namespace Tweetinvi.Controllers.Upload
 {
     public interface IUploadHelper
     {
-        void WaitForMediaProcessingToGetAllMetadata(IMedia media);
+        Task WaitForMediaProcessingToGetAllMetadata(IMedia media);
     }
 
     public class UploadHelper : IUploadHelper
@@ -25,7 +26,7 @@ namespace Tweetinvi.Controllers.Upload
             _uploadQueryExecutor = uploadQueryExecutor;
         }
 
-        public void WaitForMediaProcessingToGetAllMetadata(IMedia media)
+        public async Task WaitForMediaProcessingToGetAllMetadata(IMedia media)
         {
             if (media == null)
             {
@@ -49,7 +50,7 @@ namespace Tweetinvi.Controllers.Upload
                 _threadHelper.Sleep(timeToWait);
 
                 // The second parameter (false) informs Tweetinvi that you are manually awaiting the media to be ready
-                mediaStatus = _uploadQueryExecutor.GetMediaStatus(media, false);
+                mediaStatus = await _uploadQueryExecutor.GetMediaStatus(media, false);
                 isProcessed = IsMediaProcessed(mediaStatus.ProcessingInfo);
                 timeToWait = mediaStatus.ProcessingInfo.CheckAfterInMilliseconds;
             }

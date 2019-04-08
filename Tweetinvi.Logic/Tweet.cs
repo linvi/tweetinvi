@@ -452,12 +452,12 @@ namespace Tweetinvi.Logic
                 return null;
             }
 
-            return _tweetController.PublishRetweet(this);
+            return _tweetController.PublishRetweet(this).Result;
         }
 
         public List<ITweet> GetRetweets()
         {
-            var retweets = _tweetController.GetRetweets(_tweetDTO);
+            var retweets = _tweetController.GetRetweets(_tweetDTO).Result;
             if (retweets == null)
             {
                 return null;
@@ -479,17 +479,17 @@ namespace Tweetinvi.Logic
 
         public IOEmbedTweet GenerateOEmbedTweet()
         {
-            return _tweetController.GenerateOEmbedTweet(_tweetDTO);
+            return _tweetController.GenerateOEmbedTweet(_tweetDTO).Result;
         }
 
         public bool Destroy()
         {
-            return _tweetController.DestroyTweet(_tweetDTO);
+            return _tweetController.DestroyTweet(_tweetDTO).Result;
         }
 
         public void Favorite()
         {
-            if (_tweetController.FavoriteTweet(_tweetDTO))
+            if (_tweetController.FavoriteTweet(_tweetDTO).Result)
             {
                 _tweetDTO.Favorited = true;
             }
@@ -497,7 +497,7 @@ namespace Tweetinvi.Logic
 
         public void UnFavorite()
         {
-            if (_tweetController.UnFavoriteTweet(_tweetDTO))
+            if (_tweetController.UnFavoriteTweet(_tweetDTO).Result)
             {
                 _tweetDTO.Favorited = false;
             }

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Tweetinvi.Core;
 using Tweetinvi.Core.Factories;
 using Tweetinvi.Core.Helpers;
@@ -38,15 +39,15 @@ namespace Tweetinvi.Factories.Tweet
         }
 
         // Get Tweet
-        public ITweet GetTweet(long tweetId, TweetMode? tweetMode = null)
+        public async Task<ITweet> GetTweet(long tweetId, TweetMode? tweetMode = null)
         {
-            var tweetDTO = _tweetDTOFactory.GetTweetDTO(tweetId);
+            var tweetDTO = await _tweetDTOFactory.GetTweetDTO(tweetId);
             return GenerateTweetFromDTO(tweetDTO, tweetMode);
         }
 
-        public IEnumerable<ITweet> GetTweets(IEnumerable<long> tweetIds, TweetMode? tweetMode = null)
+        public async Task<IEnumerable<ITweet>> GetTweets(IEnumerable<long> tweetIds, TweetMode? tweetMode = null)
         {
-            var tweetDTOs = _tweetDTOFactory.GetTweetDTOs(tweetIds);
+            var tweetDTOs = await _tweetDTOFactory.GetTweetDTOs(tweetIds);
             return GenerateTweetsFromDTO(tweetDTOs);
         }
 

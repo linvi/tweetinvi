@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using Tweetinvi.Core.Models;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
 using Tweetinvi.Parameters;
@@ -7,18 +9,16 @@ namespace Tweetinvi.Core.Controllers
 {
     public interface IMessageController
     {
-        IEnumerable<IMessage> GetLatestMessages(int count = TweetinviConsts.MESSAGE_GET_COUNT);
-        IEnumerable<IMessage> GetLatestMessages(int count, out string cursor);
-        IEnumerable<IMessage> GetLatestMessages(IGetMessagesParameters getMessagesParameters);
-        IEnumerable<IMessage> GetLatestMessages(IGetMessagesParameters getMessagesParameters, out string cursor);
+        Task<AsyncCursorResult<IEnumerable<IMessage>>> GetLatestMessages(int count = TweetinviConsts.MESSAGE_GET_COUNT);
+        Task<AsyncCursorResult<IEnumerable<IMessage>>> GetLatestMessages(IGetMessagesParameters getMessagesParameters);
 
         // Publish Message
-        IMessage PublishMessage(string text, long recipientId);
-        IMessage PublishMessage(IPublishMessageParameters parameters);
+        Task<IMessage> PublishMessage(string text, long recipientId);
+        Task<IMessage> PublishMessage(IPublishMessageParameters parameters);
 
         // Destroy Message
-        bool DestroyMessage(IMessage message);
-        bool DestroyMessage(IMessageEventDTO messageEventDTO);
-        bool DestroyMessage(long messageId);
+        Task<bool> DestroyMessage(IMessage message);
+        Task<bool> DestroyMessage(IMessageEventDTO messageEventDTO);
+        Task<bool> DestroyMessage(long messageId);
     }
 }

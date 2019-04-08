@@ -89,7 +89,7 @@ namespace Tweetinvi
         /// </summary>
         public static IAuthenticatedUser GetAuthenticatedUser(ITwitterCredentials credentials = null, IGetAuthenticatedUserParameters parameters = null)
         {
-            return UserFactory.GetAuthenticatedUser(credentials, parameters);
+            return UserFactory.GetAuthenticatedUser(credentials, parameters).Result;
         }
 
         /// <summary>
@@ -97,7 +97,7 @@ namespace Tweetinvi
         /// </summary>
         public static IUser GetUserFromId(long userId)
         {
-            return UserFactory.GetUserFromId(userId);
+            return UserFactory.GetUserFromId(userId).Result;
         }
 
         /// <summary>
@@ -105,7 +105,7 @@ namespace Tweetinvi
         /// </summary>
         public static IEnumerable<IUser> GetUsersFromIds(IEnumerable<long> userIds)
         {
-            return UserFactory.GetUsersFromIds(userIds);
+            return UserFactory.GetUsersFromIds(userIds).Result;
         }
 
         /// <summary>
@@ -113,7 +113,7 @@ namespace Tweetinvi
         /// </summary>
         public static IUser GetUserFromScreenName(string userName)
         {
-            return UserFactory.GetUserFromScreenName(userName);
+            return UserFactory.GetUserFromScreenName(userName).Result;
         }
 
         /// <summary>
@@ -121,7 +121,7 @@ namespace Tweetinvi
         /// </summary>
         public static IEnumerable<IUser> GetUsersFromScreenNames(IEnumerable<string> screenNames)
         {
-            return UserFactory.GetUsersFromScreenNames(screenNames);
+            return UserFactory.GetUsersFromScreenNames(screenNames).Result;
         }
 
         /// <summary>

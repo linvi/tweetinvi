@@ -1,4 +1,5 @@
 ﻿using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using Tweetinvi.Core.Credentials;
 using Tweetinvi.Core.Exceptions;
 using Tweetinvi.Core.Extensions;
@@ -33,7 +34,7 @@ namespace Tweetinvi.Credentials
 
         // Step 1 - Generate Authorization URL
 
-        public IAuthenticationContext InitAuthenticationProcess(IConsumerCredentials appCredentials, string callbackURL, string credsIdentifier)
+        public async Task<IAuthenticationContext> InitAuthenticationProcess(IConsumerCredentials appCredentials, string callbackURL, string credsIdentifier)
         {
             try
             {
@@ -53,7 +54,7 @@ namespace Tweetinvi.Credentials
                 var callbackParameter = _oAuthWebRequestGenerator.GenerateParameter("oauth_callback", callbackURL, true, true, false);
 
                 var authHandler = new AuthHttpHandler(callbackParameter, authContext.Token);
-                var requestTokenResponse = _twitterRequestHandler.ExecuteQuery(
+                var requestTokenResponse = await _twitterRequestHandler.ExecuteQuery(
                     Resources.OAuthRequestToken, 
                     HttpMethod.POST, 
                     authHandler,
@@ -98,7 +99,7 @@ namespace Tweetinvi.Credentials
             return urlInformation.Groups["oauth_verifier"].Value;
         }
 
-        public ITwitterCredentials GetCredentialsFromCallbackURL(string callbackURL, IAuthenticationToken authToken)
+        public async Task<ITwitterCredentials> GetCredentialsFromCallbackURL(string callbackURL, IAuthenticationToken authToken)
         {
             Match urlInformation = Regex.Match(callbackURL, Resources.OAuthToken_GetVerifierCode_Regex);
 
@@ -108,26 +109,26 @@ namespace Tweetinvi.Credentials
             // Check that the callback URL response passed in is for our current credentials....
             if (string.Equals(responseOAuthToken, authToken.AuthorizationKey))
             {
-                GetCredentialsFromVerifierCode(verifierCode, authToken);
+                await GetCredentialsFromVerifierCode(verifierCode, authToken);
             }
 
             return null;
         }
 
-        public ITwitterCredentials GetCredentialsFromVerifierCode(string verifierCode, IAuthenticationToken authToken)
+        public Task<ITwitterCredentials> GetCredentialsFromVerifierCode(string verifierCode, IAuthenticationToken authToken)
         {
             authToken.VerifierCode = verifierCode;
             return GenerateToken(authToken);
         }
 
-        public ITwitterCredentials GenerateToken(IAuthenticationToken authToken)
+        public async Task<ITwitterCredentials> GenerateToken(IAuthenticationToken authToken)
         {
             var callbackParameter = _oAuthWebRequestGenerator.GenerateParameter("oauth_verifier", authToken.VerifierCode, true, true, false);
 
             try
             {
                 var authHandler = new AuthHttpHandler(callbackParameter, authToken);
-                var response = _twitterRequestHandler.ExecuteQuery(Resources.OAuthRequestAccessToken, HttpMethod.POST, authHandler, 
+                var response = await _twitterRequestHandler.ExecuteQuery(Resources.OAuthRequestAccessToken, HttpMethod.POST, authHandler, 
                     new TwitterCredentials(authToken.ConsumerCredentials));
 
                 if (response == null)

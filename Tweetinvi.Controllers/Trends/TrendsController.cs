@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using Tweetinvi.Core.Controllers;
 using Tweetinvi.Models;
 
@@ -13,27 +14,27 @@ namespace Tweetinvi.Controllers.Trends
             _trendsQueryExecutor = trendsQueryExecutor;
         }
 
-        public IPlaceTrends GetPlaceTrendsAt(long woeid)
+        public Task<IPlaceTrends> GetPlaceTrendsAt(long woeid)
         {
             return _trendsQueryExecutor.GetPlaceTrendsAt(woeid);
         }
 
-        public IPlaceTrends GetPlaceTrendsAt(IWoeIdLocation woeIdLocation)
+        public Task<IPlaceTrends> GetPlaceTrendsAt(IWoeIdLocation woeIdLocation)
         {
             return _trendsQueryExecutor.GetPlaceTrendsAt(woeIdLocation);
         }
 
-        public IEnumerable<ITrendLocation> GetAvailableTrendLocations()
+        public Task<ITrendLocation[]> GetAvailableTrendLocations()
         {
             return _trendsQueryExecutor.GetAvailableTrendLocations();
         }
 
-        public IEnumerable<ITrendLocation> GetClosestTrendLocations(double latitude, double longitude)
+        public Task<ITrendLocation[]> GetClosestTrendLocations(double latitude, double longitude)
         {
             return GetClosestTrendLocations(new Coordinates(latitude, longitude));
         }
 
-        public IEnumerable<ITrendLocation> GetClosestTrendLocations(ICoordinates coordinates)
+        public Task<ITrendLocation[]> GetClosestTrendLocations(ICoordinates coordinates)
         {
             return _trendsQueryExecutor.GetClosestTrendLocations(coordinates);
         }

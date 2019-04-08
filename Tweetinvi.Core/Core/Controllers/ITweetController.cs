@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
 using Tweetinvi.Parameters;
@@ -8,53 +9,53 @@ namespace Tweetinvi.Core.Controllers
     public interface ITweetController
     {
         // Publish Tweet
-        ITweet PublishTweet(string text);
-        ITweet PublishTweet(IPublishTweetParameters parameters);
+        Task<ITweet> PublishTweet(string text);
+        Task<ITweet> PublishTweet(IPublishTweetParameters parameters);
 
-        ITweet PublishTweetInReplyTo(string text, long tweetId);
-        ITweet PublishTweetInReplyTo(string text, ITweetIdentifier tweet);
+        Task<ITweet> PublishTweetInReplyTo(string text, long tweetId);
+        Task<ITweet> PublishTweetInReplyTo(string text, ITweetIdentifier tweet);
 
         bool CanBePublished(string text);
         bool CanBePublished(IPublishTweetParameters publishTweetParameters);
 
         // Publish Retweet
-        ITweet PublishRetweet(ITweet tweetToPublish);
-        ITweet PublishRetweet(ITweetDTO tweetToPublish);
-        ITweet PublishRetweet(long tweetId);
+        Task<ITweet> PublishRetweet(ITweet tweetToPublish);
+        Task<ITweet> PublishRetweet(ITweetDTO tweetToPublish);
+        Task<ITweet> PublishRetweet(long tweetId);
         
         // Publish UnRetweet
-        ITweet UnRetweet(ITweetIdentifier tweetToPublish);
-        ITweet UnRetweet(long tweetId);
+        Task<ITweet> UnRetweet(ITweetIdentifier tweetToPublish);
+        Task<ITweet> UnRetweet(long tweetId);
 
         // Get Retweets
-        IEnumerable<ITweet> GetRetweets(ITweetIdentifier tweet, int maxRetweetsToRetrieve = 100);
-        IEnumerable<ITweet> GetRetweets(long tweetId, int maxRetweetsToRetrieve = 100);
+        Task<IEnumerable<ITweet>> GetRetweets(ITweetIdentifier tweet, int maxRetweetsToRetrieve = 100);
+        Task<IEnumerable<ITweet>> GetRetweets(long tweetId, int maxRetweetsToRetrieve = 100);
 
         // Get Retweeters
-        IEnumerable<long> GetRetweetersIds(ITweetIdentifier tweet, int maxRetweetersToRetrieve = 100);
-        IEnumerable<long> GetRetweetersIds(long tweetId, int maxRetweetersToRetrieve = 100);
+        Task<IEnumerable<long>> GetRetweetersIds(ITweetIdentifier tweet, int maxRetweetersToRetrieve = 100);
+        Task<IEnumerable<long>> GetRetweetersIds(long tweetId, int maxRetweetersToRetrieve = 100);
 
         // Destroy Tweet
-        bool DestroyTweet(ITweet tweet);
-        bool DestroyTweet(ITweetDTO tweetDTO);
-        bool DestroyTweet(long tweetId);
+        Task<bool> DestroyTweet(ITweet tweet);
+        Task<bool> DestroyTweet(ITweetDTO tweetDTO);
+        Task<bool> DestroyTweet(long tweetId);
 
         // Generate OembedTweet
-        IOEmbedTweet GenerateOEmbedTweet(ITweet tweet);
-        IOEmbedTweet GenerateOEmbedTweet(ITweetDTO tweetDTO);
-        IOEmbedTweet GenerateOEmbedTweet(long tweetId);
+        Task<IOEmbedTweet> GenerateOEmbedTweet(ITweet tweet);
+        Task<IOEmbedTweet> GenerateOEmbedTweet(ITweetDTO tweetDTO);
+        Task<IOEmbedTweet> GenerateOEmbedTweet(long tweetId);
 
         // Favorite Tweet
-        bool FavoriteTweet(ITweet tweet);
-        bool FavoriteTweet(ITweetDTO tweetDTO);
-        bool FavoriteTweet(long tweetId);
+        Task<bool> FavoriteTweet(ITweet tweet);
+        Task<bool> FavoriteTweet(ITweetDTO tweetDTO);
+        Task<bool> FavoriteTweet(long tweetId);
 
-        bool UnFavoriteTweet(ITweet tweet);
-        bool UnFavoriteTweet(ITweetDTO tweetDTO);
-        bool UnFavoriteTweet(long tweetId);
+        Task<bool> UnFavoriteTweet(ITweet tweet);
+        Task<bool> UnFavoriteTweet(ITweetDTO tweetDTO);
+        Task<bool> UnFavoriteTweet(long tweetId);
 
         // Update Published Tweet
         void UpdateTweetIfTweetSuccessfullyBeenPublished(ITweet sourceTweet, ITweetDTO publishedTweetDTO);
-        void UploadMedias(IPublishTweetParameters parameters);
+        Task UploadMedias(IPublishTweetParameters parameters);
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Tweetinvi.Core.Models.Async;
 using Tweetinvi.Parameters;
 
@@ -9,7 +10,7 @@ namespace Tweetinvi.Models
     /// User associated with a Token, this "privileged" user
     /// has access private information like messages, timeline...
     /// </summary>
-    public interface IAuthenticatedUser : IAuthenticatedUserAsync, IUser
+    public interface IAuthenticatedUser : IUser
     {
         /// <summary>
         /// Authenticated user email. This value will be null if the application has not been verified and authorized by Twitter.
@@ -80,12 +81,12 @@ namespace Tweetinvi.Models
         /// <summary>
         /// Get the latest tweets of the authenticated user Home timeline.
         /// </summary>
-        IEnumerable<ITweet> GetHomeTimeline(int maximumNumberOfTweets = 40);
+        Task<IEnumerable<ITweet>> GetHomeTimeline(int maximumNumberOfTweets = 40);
 
         /// <summary>
         /// Get the latest tweets of the authenticated user Home timeline.
         /// </summary>
-        IEnumerable<ITweet> GetHomeTimeline(IHomeTimelineParameters timelineRequestParameters);
+        Task<IEnumerable<ITweet>> GetHomeTimeline(IHomeTimelineParameters timelineRequestParameters);
 
         /// <summary>
         /// List of tweets as displayed on the Mentions timeline.
@@ -97,7 +98,7 @@ namespace Tweetinvi.Models
         /// </summary>
         /// <param name="maximumNumberOfMentions">Number of tweets expected</param>
         /// <returns>Tweets of the Mentions timeline of the connected user</returns>
-        IEnumerable<IMention> GetMentionsTimeline(int maximumNumberOfMentions = 40);
+        Task<IEnumerable<IMention>> GetMentionsTimeline(int maximumNumberOfMentions = 40);
 
         #endregion
 
@@ -106,93 +107,93 @@ namespace Tweetinvi.Models
         /// <summary>
         /// Get the relationship between the authenticated user (source) and another user (target).
         /// </summary>
-        IRelationshipDetails GetRelationshipWith(long userId);
+        Task<IRelationshipDetails> GetRelationshipWith(long userId);
 
         /// <summary>
         /// Get the relationship between the authenticated user (source) and another user (target).
         /// </summary>
-        IRelationshipDetails GetRelationshipWith(string screenName);
+        Task<IRelationshipDetails> GetRelationshipWith(string screenName);
 
         /// <summary>
         /// Modify the relationship between the authenticated user (source) and another user (target).
         /// </summary>
-        bool UpdateRelationshipAuthorizationsWith(IUserIdentifier user, bool retweetsEnabled, bool deviceNotificationsEnabled);
+        Task<bool> UpdateRelationshipAuthorizationsWith(IUserIdentifier user, bool retweetsEnabled, bool deviceNotificationsEnabled);
 
         /// <summary>
         /// Modify the relationship between the authenticated user (source) and another user (target).
         /// </summary>
-        bool UpdateRelationshipAuthorizationsWith(long userId, bool retweetsEnabled, bool deviceNotificationsEnabled);
+        Task<bool> UpdateRelationshipAuthorizationsWith(long userId, bool retweetsEnabled, bool deviceNotificationsEnabled);
 
         /// <summary>
         /// Modify the relationship between the authenticated user (source) and another user (target).
         /// </summary>
-        bool UpdateRelationshipAuthorizationsWith(string screenName, bool retweetsEnabled, bool deviceNotificationsEnabled);
+        Task<bool> UpdateRelationshipAuthorizationsWith(string screenName, bool retweetsEnabled, bool deviceNotificationsEnabled);
 
         // Friends - Followers
 
         /// <summary>
         /// Get the users who requested to follow you.
         /// </summary>
-        IEnumerable<IUser> GetUsersRequestingFriendship(int maximumUserIdsToRetrieve = 5000);
+        Task<IEnumerable<IUser>> GetUsersRequestingFriendship(int maximumUserIdsToRetrieve = 5000);
 
         /// <summary>
         /// Get the users you've requested to follow.
         /// </summary>
-        IEnumerable<IUser> GetUsersYouRequestedToFollow(int maximumUserIdsToRetrieve = 5000);
+        Task<IEnumerable<IUser>> GetUsersYouRequestedToFollow(int maximumUserIdsToRetrieve = 5000);
 
         /// <summary>
         /// Folow a specific user.
         /// </summary>
-        bool FollowUser(IUserIdentifier user);
+        Task<bool> FollowUser(IUserIdentifier user);
 
         /// <summary>
         /// Folow a specific user.
         /// </summary>
-        bool FollowUser(long userId);
+        Task<bool> FollowUser(long userId);
 
         /// <summary>
         /// Folow a specific user.
         /// </summary>
-        bool FollowUser(string screenName);
+        Task<bool> FollowUser(string screenName);
 
         /// <summary>
         /// Unfollow a specific user.
         /// </summary>
-        bool UnFollowUser(IUserIdentifier user);
+        Task<bool> UnFollowUser(IUserIdentifier user);
 
         /// <summary>
         /// Unfollow a specific user.
         /// </summary>
-        bool UnFollowUser(long userId);
+        Task<bool> UnFollowUser(long userId);
 
         /// <summary>
         /// Unfollow a specific user.
         /// </summary>
-        bool UnFollowUser(string screenName);
+        Task<bool> UnFollowUser(string screenName);
 
         // Saved Searches
 
         /// <summary>
         /// Get the authenticated user saved searches.
         /// </summary>
-        IEnumerable<ISavedSearch> GetSavedSearches();
+        Task<IEnumerable<ISavedSearch>> GetSavedSearches();
 
         // Block
 
         /// <summary>
         /// Block a specific user.
         /// </summary>
-        bool BlockUser(IUserIdentifier user);
+        Task<bool> BlockUser(IUserIdentifier user);
 
         /// <summary>
         /// Block a specific user.
         /// </summary>
-        bool BlockUser(long userId);
+        Task<bool> BlockUser(long userId);
 
         /// <summary>
         /// Block a specific user.
         /// </summary>
-        bool BlockUser(string userName);
+        Task<bool> BlockUser(string userName);
 
         // Unblock
 
@@ -243,12 +244,12 @@ namespace Tweetinvi.Models
         /// <summary>
         /// Get a list of the users you've muted.
         /// </summary>
-        IEnumerable<long> GetMutedUserIds(int maxUserIdsToRetrieve = Int32.MaxValue);
+        Task<IEnumerable<long>> GetMutedUserIds(int maxUserIdsToRetrieve = Int32.MaxValue);
 
         /// <summary>
         /// Get a list of the users you've muted.
         /// </summary>
-        IEnumerable<IUser> GetMutedUsers(int maxUsersToRetrieve = 250);
+        Task<IEnumerable<IUser>> GetMutedUsers(int maxUsersToRetrieve = 250);
 
         /// <summary>
         /// Mute a specific user.
@@ -285,52 +286,52 @@ namespace Tweetinvi.Models
         /// <summary>
         /// Subscribe the authenticated user to a list.
         /// </summary>
-        bool SubscribeToList(ITwitterListIdentifier list);
+        Task<bool> SubscribeToList(ITwitterListIdentifier list);
 
         /// <summary>
         /// Subscribe the authenticated user to a list.
         /// </summary>
-        bool SubscribeToList(long listId);
+        Task<bool> SubscribeToList(long listId);
 
         /// <summary>
         /// Subscribe the authenticated user to a list.
         /// </summary>
-        bool SubscribeToList(string slug, long ownerId);
+        Task<bool> SubscribeToList(string slug, long ownerId);
 
         /// <summary>
         /// Subscribe the authenticated user to a list.
         /// </summary>
-        bool SubscribeToList(string slug, string ownerScreenName);
+        Task<bool> SubscribeToList(string slug, string ownerScreenName);
 
         /// <summary>
         /// Subscribe the authenticated user to a list.
         /// </summary>
-        bool SubscribeToList(string slug, IUserIdentifier owner);
+        Task<bool> SubscribeToList(string slug, IUserIdentifier owner);
 
         /// <summary>
         /// Unsubscribe the authenticated user to a list.
         /// </summary>
-        bool UnSubscribeFromList(ITwitterListIdentifier list);
+        Task<bool> UnSubscribeFromList(ITwitterListIdentifier list);
 
         /// <summary>
         /// Unsubscribe the authenticated user to a list.
         /// </summary>
-        bool UnSubscribeFromList(long listId);
+        Task<bool> UnSubscribeFromList(long listId);
 
         /// <summary>
         /// Unsubscribe the authenticated user to a list.
         /// </summary>
-        bool UnSubscribeFromList(string slug, long ownerId);
+        Task<bool> UnSubscribeFromList(string slug, long ownerId);
 
         /// <summary>
         /// Unsubscribe the authenticated user to a list.
         /// </summary>
-        bool UnSubscribeFromList(string slug, string ownerScreenName);
+        Task<bool> UnSubscribeFromList(string slug, string ownerScreenName);
 
         /// <summary>
         /// Unsubscribe the authenticated user to a list.
         /// </summary>
-        bool UnSubscribeFromList(string slug, IUserIdentifier owner);
+        Task<bool> UnSubscribeFromList(string slug, IUserIdentifier owner);
 
         #endregion
 

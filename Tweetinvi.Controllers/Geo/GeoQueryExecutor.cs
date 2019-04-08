@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using Tweetinvi.Core.Web;
 using Tweetinvi.Models;
 using Tweetinvi.Parameters;
@@ -7,9 +8,9 @@ namespace Tweetinvi.Controllers.Geo
 {
     public interface IGeoQueryExecutor
     {
-        IPlace GetPlaceFromId(string placeId);
-        IEnumerable<IPlace> SearchGeo(IGeoSearchParameters parameters);
-        IEnumerable<IPlace> SearchGeoReverse(IGeoSearchReverseParameters parameters);
+        Task<IPlace> GetPlaceFromId(string placeId);
+        Task<IEnumerable<IPlace>> SearchGeo(IGeoSearchParameters parameters);
+        Task<IEnumerable<IPlace>> SearchGeoReverse(IGeoSearchReverseParameters parameters);
     }
 
     public class GeoQueryExecutor : IGeoQueryExecutor
@@ -25,19 +26,19 @@ namespace Tweetinvi.Controllers.Geo
             _geoQueryGenerator = geoQueryGenerator;
         }
 
-        public IPlace GetPlaceFromId(string placeId)
+        public Task<IPlace> GetPlaceFromId(string placeId)
         {
             string query = _geoQueryGenerator.GetPlaceFromIdQuery(placeId);
             return _twitterAccessor.ExecuteGETQuery<IPlace>(query);
         }
 
-        public IEnumerable<IPlace> SearchGeo(IGeoSearchParameters parameters)
+        public Task<IEnumerable<IPlace>> SearchGeo(IGeoSearchParameters parameters)
         {
             var query = _geoQueryGenerator.GetSearchGeoQuery(parameters);
             return _twitterAccessor.ExecuteGETQueryWithPath<IEnumerable<IPlace>>(query, "result", "places");
         }
 
-        public IEnumerable<IPlace> SearchGeoReverse(IGeoSearchReverseParameters parameters)
+        public Task<IEnumerable<IPlace>> SearchGeoReverse(IGeoSearchReverseParameters parameters)
         {
             var query = _geoQueryGenerator.GetSearchGeoReverseQuery(parameters);
             return _twitterAccessor.ExecuteGETQueryWithPath<IEnumerable<IPlace>>(query, "result", "places");

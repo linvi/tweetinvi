@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Tweetinvi.Controllers.Upload;
 using Tweetinvi.Core.Controllers;
 using Tweetinvi.Core.Extensions;
@@ -32,20 +33,21 @@ namespace Tweetinvi.Controllers.Tweet
 
         // Publish Tweet
 
-        public ITweet PublishTweet(IPublishTweetParameters parameters)
+        public async Task<ITweet> PublishTweet(IPublishTweetParameters parameters)
         {
-            return _tweetFactory.GenerateTweetFromDTO(InternalPublishTweet(parameters));
+            var tweetDTO = await InternalPublishTweet(parameters);
+            return _tweetFactory.GenerateTweetFromDTO(tweetDTO);
         }
 
-        public ITweet PublishTweet(string text)
+        public async Task<ITweet> PublishTweet(string text)
         {
             var parameters = new PublishTweetParameters(text);
-            var tweetDTO = InternalPublishTweet(parameters);
+            var tweetDTO = await InternalPublishTweet(parameters);
 
             return _tweetFactory.GenerateTweetFromDTO(tweetDTO);
         }
 
-        public ITweet PublishTweetInReplyTo(string text, long tweetId)
+        public Task<ITweet> PublishTweetInReplyTo(string text, long tweetId)
         {
             var parameters = new PublishTweetParameters(text)
             {
@@ -55,7 +57,7 @@ namespace Tweetinvi.Controllers.Tweet
             return PublishTweet(parameters);
         }
 
-        public ITweet PublishTweetInReplyTo(string text, ITweetIdentifier tweet)
+        public Task<ITweet> PublishTweetInReplyTo(string text, ITweetIdentifier tweet)
         {
             var parameters = new PublishTweetParameters(text)
             {
@@ -103,7 +105,7 @@ namespace Tweetinvi.Controllers.Tweet
             return textLength;
         }
 
-        private ITweetDTO InternalPublishTweet(IPublishTweetParameters parameters)
+        private async Task<ITweetDTO> InternalPublishTweet(IPublishTweetParameters parameters)
         {
             // The exceptions have to be raised before the QueryGenerator as 
             // We do not want to wait for the media to be uploaded to throw the
@@ -112,12 +114,12 @@ namespace Tweetinvi.Controllers.Tweet
 
             _tweetQueryValidator.ThrowIfTweetCannotBePublished(parameters);
 
-            UploadMedias(parameters);
+            await UploadMedias(parameters);
 
-            return _tweetQueryExecutor.PublishTweet(parameters);
+            return await _tweetQueryExecutor.PublishTweet(parameters);
         }
 
-        public void UploadMedias(IPublishTweetParameters parameters)
+        public async Task UploadMedias(IPublishTweetParameters parameters)
         {
             if (parameters.Medias.Any(x => !x.HasBeenUploaded))
             {
@@ -126,8 +128,13 @@ namespace Tweetinvi.Controllers.Tweet
 
             parameters.MediaIds.AddRange(parameters.Medias.Select(x => x.UploadedMediaInfo.MediaId));
 
-            var uploadedMedias = parameters.MediaBinaries
-                .Select(binary => { return _uploadQueryExecutor.UploadBinary(binary); }).ToArray();
+            var uploadedMedias = new List<IMedia>();
+
+            foreach (var binary in parameters.MediaBinaries)
+            {
+                var uploadedMedia = await _uploadQueryExecutor.UploadBinary(binary);
+                uploadedMedias.Add(uploadedMedia);
+            }
 
             if (uploadedMedias.Any(x => x == null || !x.HasBeenUploaded))
             {
@@ -138,7 +145,7 @@ namespace Tweetinvi.Controllers.Tweet
         }
 
         // Publish Retweet
-        public ITweet PublishRetweet(ITweet tweet)
+        public Task<ITweet> PublishRetweet(ITweet tweet)
         {
             if (tweet == null)
             {
@@ -148,41 +155,41 @@ namespace Tweetinvi.Controllers.Tweet
             return PublishRetweet(tweet.TweetDTO);
         }
 
-        public ITweet PublishRetweet(ITweetDTO tweet)
+        public async Task<ITweet> PublishRetweet(ITweetDTO tweet)
         {
-            var tweetDTO = _tweetQueryExecutor.PublishRetweet(tweet);
+            var tweetDTO = await _tweetQueryExecutor.PublishRetweet(tweet);
             return _tweetFactory.GenerateTweetFromDTO(tweetDTO);
         }
 
-        public ITweet PublishRetweet(long tweetId)
+        public async Task<ITweet> PublishRetweet(long tweetId)
         {
-            var tweetDTO = _tweetQueryExecutor.PublishRetweet(tweetId);
+            var tweetDTO = await _tweetQueryExecutor.PublishRetweet(tweetId);
             return _tweetFactory.GenerateTweetFromDTO(tweetDTO);
         }
         
         // Publish UnRetweet
 
-        public ITweet UnRetweet(ITweetIdentifier tweet)
+        public async Task<ITweet> UnRetweet(ITweetIdentifier tweet)
         {
-            var tweetDTO = _tweetQueryExecutor.UnRetweet(tweet);
+            var tweetDTO = await _tweetQueryExecutor.UnRetweet(tweet);
             return _tweetFactory.GenerateTweetFromDTO(tweetDTO);
         }
 
-        public ITweet UnRetweet(long tweetId)
+        public async Task<ITweet> UnRetweet(long tweetId)
         {
-            var tweetDTO = _tweetQueryExecutor.UnRetweet(tweetId);
+            var tweetDTO = await _tweetQueryExecutor.UnRetweet(tweetId);
             return _tweetFactory.GenerateTweetFromDTO(tweetDTO);
         }
 
         #region GetRetweets
 
-        public IEnumerable<ITweet> GetRetweets(ITweetIdentifier tweetIdentifier, int maxRetweetsToRetrieve = 100)
+        public async Task<IEnumerable<ITweet>> GetRetweets(ITweetIdentifier tweetIdentifier, int maxRetweetsToRetrieve = 100)
         {
-            var retweetsDTO = _tweetQueryExecutor.GetRetweets(tweetIdentifier, maxRetweetsToRetrieve);
+            var retweetsDTO = await _tweetQueryExecutor.GetRetweets(tweetIdentifier, maxRetweetsToRetrieve);
             return _tweetFactory.GenerateTweetsFromDTO(retweetsDTO);
         }
 
-        public IEnumerable<ITweet> GetRetweets(long tweetId, int maxRetweetsToRetrieve = 100)
+        public Task<IEnumerable<ITweet>> GetRetweets(long tweetId, int maxRetweetsToRetrieve = 100)
         {
             return GetRetweets(new TweetIdentifier(tweetId), maxRetweetsToRetrieve);
         }
@@ -191,12 +198,12 @@ namespace Tweetinvi.Controllers.Tweet
 
         #region Get Retweeters Ids
 
-        public IEnumerable<long> GetRetweetersIds(long tweetId, int maxRetweetersToRetrieve = 100)
+        public Task<IEnumerable<long>> GetRetweetersIds(long tweetId, int maxRetweetersToRetrieve = 100)
         {
             return _tweetQueryExecutor.GetRetweetersIds(new TweetIdentifier(tweetId), maxRetweetersToRetrieve);
         }
 
-        public IEnumerable<long> GetRetweetersIds(ITweetIdentifier tweetIdentifier, int maxRetweetersToRetrieve = 100)
+        public Task<IEnumerable<long>> GetRetweetersIds(ITweetIdentifier tweetIdentifier, int maxRetweetersToRetrieve = 100)
         {
             return _tweetQueryExecutor.GetRetweetersIds(tweetIdentifier, maxRetweetersToRetrieve);
         }
@@ -204,7 +211,7 @@ namespace Tweetinvi.Controllers.Tweet
         #endregion
 
         // Destroy Tweet
-        public bool DestroyTweet(ITweet tweet)
+        public Task<bool> DestroyTweet(ITweet tweet)
         {
             if (tweet == null)
             {
@@ -214,24 +221,24 @@ namespace Tweetinvi.Controllers.Tweet
             return DestroyTweet(tweet.TweetDTO);
         }
 
-        public bool DestroyTweet(ITweetDTO tweetDTO)
+        public async Task<bool> DestroyTweet(ITweetDTO tweetDTO)
         {
             if (tweetDTO == null)
             {
                 return false;
             }
 
-            tweetDTO.IsTweetDestroyed = _tweetQueryExecutor.DestroyTweet(tweetDTO);
+            tweetDTO.IsTweetDestroyed = await _tweetQueryExecutor.DestroyTweet(tweetDTO);
             return tweetDTO.IsTweetDestroyed;
         }
 
-        public bool DestroyTweet(long tweetId)
+        public Task<bool> DestroyTweet(long tweetId)
         {
             return _tweetQueryExecutor.DestroyTweet(tweetId);
         }
 
         // Favorite Tweet
-        public bool FavoriteTweet(ITweet tweet)
+        public Task<bool> FavoriteTweet(ITweet tweet)
         {
             if (tweet == null)
             {
@@ -241,7 +248,7 @@ namespace Tweetinvi.Controllers.Tweet
             return FavoriteTweet(tweet.TweetDTO);
         }
 
-        public bool FavoriteTweet(ITweetDTO tweetDTO)
+        public async Task<bool> FavoriteTweet(ITweetDTO tweetDTO)
         {
             if (tweetDTO == null)
             {
@@ -249,17 +256,17 @@ namespace Tweetinvi.Controllers.Tweet
             }
 
             // if the favourite operation failed the tweet should still be favourited if it previously was
-            tweetDTO.Favorited |= _tweetQueryExecutor.FavoriteTweet(tweetDTO);
+            tweetDTO.Favorited |= await _tweetQueryExecutor.FavoriteTweet(tweetDTO);
             return tweetDTO.Favorited;
         }
 
-        public bool FavoriteTweet(long tweetId)
+        public Task<bool> FavoriteTweet(long tweetId)
         {
             return _tweetQueryExecutor.FavoriteTweet(tweetId);
         }
 
         // UnFavorite
-        public bool UnFavoriteTweet(ITweet tweet)
+        public Task<bool> UnFavoriteTweet(ITweet tweet)
         {
             if (tweet == null)
             {
@@ -269,18 +276,18 @@ namespace Tweetinvi.Controllers.Tweet
             return UnFavoriteTweet(tweet.TweetDTO);
         }
 
-        public bool UnFavoriteTweet(ITweetDTO tweetDTO)
+        public Task<bool> UnFavoriteTweet(ITweetDTO tweetDTO)
         {
             return _tweetQueryExecutor.UnFavoriteTweet(tweetDTO);
         }
 
-        public bool UnFavoriteTweet(long tweetId)
+        public Task<bool> UnFavoriteTweet(long tweetId)
         {
             return _tweetQueryExecutor.UnFavoriteTweet(tweetId);
         }
 
         // Generate OembedTweet
-        public IOEmbedTweet GenerateOEmbedTweet(ITweet tweet)
+        public Task<IOEmbedTweet> GenerateOEmbedTweet(ITweet tweet)
         {
             if (tweet == null)
             {
@@ -290,15 +297,15 @@ namespace Tweetinvi.Controllers.Tweet
             return GenerateOEmbedTweet(tweet.TweetDTO);
         }
 
-        public IOEmbedTweet GenerateOEmbedTweet(ITweetDTO tweetDTO)
+        public async Task<IOEmbedTweet> GenerateOEmbedTweet(ITweetDTO tweetDTO)
         {
-            var oembedTweetDTO = _tweetQueryExecutor.GenerateOEmbedTweet(tweetDTO);
+            var oembedTweetDTO = await _tweetQueryExecutor.GenerateOEmbedTweet(tweetDTO);
             return _tweetFactory.GenerateOEmbedTweetFromDTO(oembedTweetDTO);
         }
 
-        public IOEmbedTweet GenerateOEmbedTweet(long tweetId)
+        public async Task<IOEmbedTweet> GenerateOEmbedTweet(long tweetId)
         {
-            var oembedTweetDTO = _tweetQueryExecutor.GenerateOEmbedTweet(tweetId);
+            var oembedTweetDTO = await _tweetQueryExecutor.GenerateOEmbedTweet(tweetId);
             return _tweetFactory.GenerateOEmbedTweetFromDTO(oembedTweetDTO);
         }
 

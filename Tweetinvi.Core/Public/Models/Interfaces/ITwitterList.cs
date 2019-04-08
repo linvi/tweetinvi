@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Tweetinvi.Core.Models.Async;
 using Tweetinvi.Models.DTO;
 using Tweetinvi.Parameters;
@@ -65,97 +66,97 @@ namespace Tweetinvi.Models
         /// <summary>
         /// Get the tweets from this list.
         /// </summary>
-        IEnumerable<ITweet> GetTweets(IGetTweetsFromListParameters getTweetsFromListParameters = null);
+        Task<IEnumerable<ITweet>> GetTweets(IGetTweetsFromListParameters getTweetsFromListParameters = null);
 
         /// <summary>
         /// Get the members of this list.
         /// </summary>
-        IEnumerable<IUser> GetMembers(int maximumNumberOfUsersToRetrieve = 100);
+        Task<IEnumerable<IUser>> GetMembers(int maximumNumberOfUsersToRetrieve = 100);
 
         /// <summary>
         /// Add a member to this list. You must be the owner of the list to do so.
         /// </summary>
-        bool AddMember(long userId);
+        Task<bool> AddMember(long userId);
 
         /// <summary>
         /// Add a member to this list. You must be the owner of the list to do so.
         /// </summary>
-        bool AddMember(string userScreenName);
+        Task<bool> AddMember(string userScreenName);
 
         /// <summary>
         /// Add a member to this list. You must be the owner of the list to do so.
         /// </summary>
-        bool AddMember(IUserIdentifier user);
+        Task<bool> AddMember(IUserIdentifier user);
 
         /// <summary>
         /// Add a list of members to this list. You must be the owner of the list to do so.
         /// </summary>
-        MultiRequestsResult AddMultipleMembers(IEnumerable<long> userIds);
+        Task<MultiRequestsResult> AddMultipleMembers(IEnumerable<long> userIds);
 
         /// <summary>
         /// Add a list of members to this list. You must be the owner of the list to do so.
         /// </summary>
-        MultiRequestsResult AddMultipleMembers(IEnumerable<string> userScreenNames);
+        Task<MultiRequestsResult> AddMultipleMembers(IEnumerable<string> userScreenNames);
 
         /// <summary>
         /// Add a list of members to this list. You must be the owner of the list to do so.
         /// </summary>
-        MultiRequestsResult AddMultipleMembers(IEnumerable<IUserIdentifier> users);
+        Task<MultiRequestsResult> AddMultipleMembers(IEnumerable<IUserIdentifier> users);
 
         /// <summary>
         /// Remove a member from this list. You must be the owner of the list to do so.
         /// </summary>
-        bool RemoveMember(long userId);
+        Task<bool> RemoveMember(long userId);
 
         /// <summary>
         /// Remove a member from this list. You must be the owner of the list to do so.
         /// </summary>
-        bool RemoveMember(string userScreenName);
+        Task<bool> RemoveMember(string userScreenName);
 
         /// <summary>
         /// Remove a member from this list. You must be the owner of the list to do so.
         /// </summary>
-        bool RemoveMember(IUserIdentifier user);
+        Task<bool> RemoveMember(IUserIdentifier user);
 
         /// <summary>
         /// Remove a list of members from this list. You must be the owner of the list to do so.
         /// </summary>
-        MultiRequestsResult RemoveMultipleMembers(IEnumerable<long> userIds);
+        Task<MultiRequestsResult> RemoveMultipleMembers(IEnumerable<long> userIds);
 
         /// <summary>
         /// Remove a list of members from this list. You must be the owner of the list to do so.
         /// </summary>
-        MultiRequestsResult RemoveMultipleMembers(IEnumerable<string> userScreenNames);
+        Task<MultiRequestsResult> RemoveMultipleMembers(IEnumerable<string> userScreenNames);
 
         /// <summary>
         /// Remove a list of members from this list. You must be the owner of the list to do so.
         /// </summary>
-        MultiRequestsResult RemoveMultipleMembers(IEnumerable<IUserIdentifier> users);
+        Task<MultiRequestsResult> RemoveMultipleMembers(IEnumerable<IUserIdentifier> users);
 
         /// <summary>
         /// Test if a user is a member of the list.
         /// </summary>
-        bool CheckUserMembership(long userId);
+        Task<bool> CheckUserMembership(long userId);
 
         /// <summary>
         /// Test if a user is a member of the list.
         /// </summary>
-        bool CheckUserMembership(string userScreenName);
+        Task<bool> CheckUserMembership(string userScreenName);
         
         /// <summary>
         /// Test if a user is a member of the list.
         /// </summary>
-        bool CheckUserMembership(IUserIdentifier user);
+        Task<bool> CheckUserMembership(IUserIdentifier user);
 
         /// <summary>
         /// Get the subscribers of the list.
         /// </summary>
-        IEnumerable<IUser> GetSubscribers(int maximumNumberOfUsersToRetrieve = 100);
+        Task<IEnumerable<IUser>> GetSubscribers(int maximumNumberOfUsersToRetrieve = 100);
 
         /// <summary>
         /// Subscribe the authenticated user to the list.
         /// </summary>
-        bool SubscribeAuthenticatedUserToList(IAuthenticatedUser authenticatedUser = null);
+        Task<bool> SubscribeAuthenticatedUserToList(IAuthenticatedUser authenticatedUser = null);
 
         /// <summary>
         /// Unsubscribe the authenticated user from the list.

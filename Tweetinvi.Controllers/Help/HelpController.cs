@@ -1,4 +1,5 @@
-﻿using Tweetinvi.Core.Controllers;
+﻿using System.Threading.Tasks;
+using Tweetinvi.Core.Controllers;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
 
@@ -13,27 +14,27 @@ namespace Tweetinvi.Controllers.Help
             _helpQueryExecutor = helpQueryExecutor;
         }
 
-        public ICredentialsRateLimits GetCurrentCredentialsRateLimits()
+        public Task<ICredentialsRateLimits> GetCurrentCredentialsRateLimits()
         {
             return _helpQueryExecutor.GetCurrentCredentialsRateLimits();
         }
 
-        public ICredentialsRateLimits GetCredentialsRateLimits(ITwitterCredentials credentials)
+        public Task<ICredentialsRateLimits> GetCredentialsRateLimits(ITwitterCredentials credentials)
         {
             return _helpQueryExecutor.GetCredentialsRateLimits(credentials);
         }
 
-        public string GetTwitterPrivacyPolicy()
+        public Task<string> GetTwitterPrivacyPolicy()
         {
             return _helpQueryExecutor.GetTwitterPrivacyPolicy();
         }
 
-        public ITwitterConfiguration GetTwitterConfiguration()
+        public Task<ITwitterConfiguration> GetTwitterConfiguration()
         {
             return _helpQueryExecutor.GetTwitterConfiguration();
         }
 
-        public string GetTermsOfService()
+        public Task<string> GetTermsOfService()
         {
             return _helpQueryExecutor.GetTermsOfService();
         }

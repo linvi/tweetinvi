@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Tweetinvi.Core.Controllers;
 using Tweetinvi.Models;
 
@@ -43,7 +44,7 @@ namespace Tweetinvi
         /// <summary>
         /// Get relationship information between 2 different users.
         /// </summary>
-        public static IRelationshipDetails GetRelationshipDetailsBetween(IUserIdentifier sourceUserIdentifier, IUserIdentifier targetUserIdentifier)
+        public static Task<IRelationshipDetails> GetRelationshipDetailsBetween(IUserIdentifier sourceUserIdentifier, IUserIdentifier targetUserIdentifier)
         {
             return FriendshipController.GetRelationshipBetween(sourceUserIdentifier, targetUserIdentifier);
         }
@@ -51,7 +52,7 @@ namespace Tweetinvi
         /// <summary>
         /// Get relationship information between 2 different users.
         /// </summary>
-        public static IRelationshipDetails GetRelationshipDetailsBetween(IUserIdentifier sourceUserIdentifier, long targetUserId)
+        public static Task<IRelationshipDetails> GetRelationshipDetailsBetween(IUserIdentifier sourceUserIdentifier, long targetUserId)
         {
             return FriendshipController.GetRelationshipBetween(sourceUserIdentifier, targetUserId);
         }
@@ -59,7 +60,7 @@ namespace Tweetinvi
         /// <summary>
         /// Get relationship information between 2 different users.
         /// </summary>
-        public static IRelationshipDetails GetRelationshipDetailsBetween(IUserIdentifier sourceUserIdentifier, string targetUserScreenName)
+        public static Task<IRelationshipDetails> GetRelationshipDetailsBetween(IUserIdentifier sourceUserIdentifier, string targetUserScreenName)
         {
             return FriendshipController.GetRelationshipBetween(sourceUserIdentifier, targetUserScreenName);
         }
@@ -67,7 +68,7 @@ namespace Tweetinvi
         /// <summary>
         /// Get relationship information between 2 different users.
         /// </summary>
-        public static IRelationshipDetails GetRelationshipDetailsBetween(long sourceUserId, IUserIdentifier targetUserIdentifier)
+        public static Task<IRelationshipDetails> GetRelationshipDetailsBetween(long sourceUserId, IUserIdentifier targetUserIdentifier)
         {
             return FriendshipController.GetRelationshipBetween(sourceUserId, targetUserIdentifier);
         }
@@ -75,7 +76,7 @@ namespace Tweetinvi
         /// <summary>
         /// Get relationship information between 2 different users.
         /// </summary>
-        public static IRelationshipDetails GetRelationshipDetailsBetween(string sourceUserScreenName, IUserIdentifier targetUserIdentifier)
+        public static Task<IRelationshipDetails> GetRelationshipDetailsBetween(string sourceUserScreenName, IUserIdentifier targetUserIdentifier)
         {
             return FriendshipController.GetRelationshipBetween(sourceUserScreenName, targetUserIdentifier);
         }
@@ -83,7 +84,7 @@ namespace Tweetinvi
         /// <summary>
         /// Get relationship information between 2 different users.
         /// </summary>
-        public static IRelationshipDetails GetRelationshipDetailsBetween(long sourceUserId, long targetUserId)
+        public static Task<IRelationshipDetails> GetRelationshipDetailsBetween(long sourceUserId, long targetUserId)
         {
             return FriendshipController.GetRelationshipBetween(sourceUserId, targetUserId);
         }
@@ -91,7 +92,7 @@ namespace Tweetinvi
         /// <summary>
         /// Get relationship information between 2 different users.
         /// </summary>
-        public static IRelationshipDetails GetRelationshipDetailsBetween(long sourceUserId, string targetUserScreenName)
+        public static Task<IRelationshipDetails> GetRelationshipDetailsBetween(long sourceUserId, string targetUserScreenName)
         {
             return FriendshipController.GetRelationshipBetween(sourceUserId, targetUserScreenName);
         }
@@ -99,7 +100,7 @@ namespace Tweetinvi
         /// <summary>
         /// Get relationship information between 2 different users.
         /// </summary>
-        public static IRelationshipDetails GetRelationshipDetailsBetween(string sourceUserScreenName, long targetUserId)
+        public static Task<IRelationshipDetails> GetRelationshipDetailsBetween(string sourceUserScreenName, long targetUserId)
         {
             return FriendshipController.GetRelationshipBetween(sourceUserScreenName, targetUserId);
         }
@@ -107,7 +108,7 @@ namespace Tweetinvi
         /// <summary>
         /// Get relationship information between 2 different users.
         /// </summary>
-        public static IRelationshipDetails GetRelationshipDetailsBetween(string sourceUserScreenName, string targetUserScreenName)
+        public static Task<IRelationshipDetails> GetRelationshipDetailsBetween(string sourceUserScreenName, string targetUserScreenName)
         {
             return FriendshipController.GetRelationshipBetween(sourceUserScreenName, targetUserScreenName);
         }

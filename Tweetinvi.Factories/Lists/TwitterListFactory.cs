@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Tweetinvi.Core.Factories;
 using Tweetinvi.Core.Helpers;
 using Tweetinvi.Core.Injectinvi;
@@ -28,45 +29,45 @@ namespace Tweetinvi.Factories.Lists
         }
 
         // Create List
-        public ITwitterList CreateList(string name, PrivacyMode privacyMode, string description)
+        public async Task<ITwitterList> CreateList(string name, PrivacyMode privacyMode, string description)
         {
-            var listDTO = _twitterListFactoryQueryExecutor.CreateList(name, privacyMode, description);
+            var listDTO = await _twitterListFactoryQueryExecutor.CreateList(name, privacyMode, description);
             return CreateListFromDTO(listDTO);
         }
 
         // Get Existing
-        public ITwitterList GetExistingList(long listId)
+        public Task<ITwitterList> GetExistingList(long listId)
         {
             var identifier = _twitterListIdentifierFactory.Create(listId);
             return GetExistingList(identifier);
         }
 
-        public ITwitterList GetExistingList(string slug, IUserIdentifier user)
+        public Task<ITwitterList> GetExistingList(string slug, IUserIdentifier user)
         {
             var identifier = _twitterListIdentifierFactory.Create(slug, user);
             return GetExistingList(identifier);
         }
 
-        public ITwitterList GetExistingList(string slug, long userId)
+        public Task<ITwitterList> GetExistingList(string slug, long userId)
         {
             var identifier = _twitterListIdentifierFactory.Create(slug, userId);
             return GetExistingList(identifier);
         }
 
-        public ITwitterList GetExistingList(string slug, string userScreenName)
+        public Task<ITwitterList> GetExistingList(string slug, string userScreenName)
         {
             var identifier = _twitterListIdentifierFactory.Create(slug, userScreenName);
             return GetExistingList(identifier);
         }
 
-        public ITwitterList GetExistingList(ITwitterListIdentifier identifier)
+        public async Task<ITwitterList> GetExistingList(ITwitterListIdentifier identifier)
         {
             if (identifier == null)
             {
                 return null;
             }
 
-            var listDTO = _twitterListFactoryQueryExecutor.GetExistingList(identifier);
+            var listDTO = await _twitterListFactoryQueryExecutor.GetExistingList(identifier);
             return CreateListFromDTO(listDTO);
         }
 

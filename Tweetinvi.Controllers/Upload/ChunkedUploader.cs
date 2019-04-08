@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Tweetinvi.Core.QueryGenerators;
 using Tweetinvi.Core.Web;
@@ -39,7 +40,7 @@ namespace Tweetinvi.Controllers.Upload
         public Dictionary<long, byte[]> UploadedSegments { get; private set; }
         public int NextSegmentIndex { get; set; }
 
-        public bool Init(string mediaType, int totalBinaryLength)
+        public Task<bool> Init(string mediaType, int totalBinaryLength)
         {
             var parameters = new ChunkUploadInitParameters
             {
@@ -50,11 +51,11 @@ namespace Tweetinvi.Controllers.Upload
             return Init(parameters);
         }
 
-        public bool Init(IChunkUploadInitParameters initParameters)
+        public async Task<bool> Init(IChunkUploadInitParameters initParameters)
         {
             var initQuery = _uploadQueryGenerator.GetChunkedUploadInitQuery(initParameters);
 
-            var initModel = _twitterAccessor.ExecutePOSTQuery<UploadInitModel>(initQuery);
+            var initModel = await _twitterAccessor.ExecutePOSTQuery<UploadInitModel>(initQuery);
             if (initModel != null)
             {
                 _expectedBinaryLength = initParameters.TotalBinaryLength;
@@ -64,14 +65,14 @@ namespace Tweetinvi.Controllers.Upload
             return initModel != null;
         }
 
-        public bool Append(byte[] binary, string mediaType, TimeSpan? timeout = null, int? segmentIndex = null)
+        public Task<bool> Append(byte[] binary, string mediaType, TimeSpan? timeout = null, int? segmentIndex = null)
         {
             var parameters = new ChunkUploadAppendParameters(binary, mediaType, timeout);
             parameters.SegmentIndex = segmentIndex;
             return Append(parameters);
         }
 
-        public bool Append(IChunkUploadAppendParameters parameters)
+        public async Task<bool> Append(IChunkUploadAppendParameters parameters)
         {
             if (MediaId == null)
             {
@@ -99,18 +100,18 @@ namespace Tweetinvi.Controllers.Upload
                 UploadProgressChanged = parameters.UploadProgressChanged
             };
 
-            var success = _twitterAccessor.TryExecuteMultipartQuery(multiPartRequestParameters);
+            var asyncOperation = await _twitterAccessor.TryExecuteMultipartQuery(multiPartRequestParameters);
 
-            if (success)
+            if (asyncOperation.Success)
             {
                 UploadedSegments.Add(parameters.SegmentIndex.Value, parameters.Binary);
                 ++NextSegmentIndex;
             }
 
-            return success;
+            return asyncOperation.Success;
         }
 
-        public IMedia Complete()
+        public async Task<IMedia> Complete()
         {
             if (MediaId == null)
             {
@@ -118,7 +119,7 @@ namespace Tweetinvi.Controllers.Upload
             }
 
             var finalizeQuery = _uploadQueryGenerator.GetChunkedUploadFinalizeQuery(MediaId.Value);
-            var uploadedMediaInfos = _twitterAccessor.ExecutePOSTQuery<UploadedMediaInfo>(finalizeQuery);
+            var uploadedMediaInfos = await _twitterAccessor.ExecutePOSTQuery<UploadedMediaInfo>(finalizeQuery);
 
             UpdateMedia(uploadedMediaInfos);
 

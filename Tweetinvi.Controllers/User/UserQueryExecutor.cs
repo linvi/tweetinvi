@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.IO;
+using System.Threading.Tasks;
 using Tweetinvi.Core.Helpers;
 using Tweetinvi.Core.Parameters;
 using Tweetinvi.Core.QueryGenerators;
@@ -13,29 +14,29 @@ namespace Tweetinvi.Controllers.User
     public interface IUserQueryExecutor
     {
         // Friend Ids
-        IEnumerable<long> GetFriendIds(IUserIdentifier user, int maxFriendsToRetrieve);
+        Task<IEnumerable<long>> GetFriendIds(IUserIdentifier user, int maxFriendsToRetrieve);
 
         // Followers Ids
-        IEnumerable<long> GetFollowerIds(IUserIdentifier user, int maxFollowersToRetrieve);
+        Task<IEnumerable<long>> GetFollowerIds(IUserIdentifier user, int maxFollowersToRetrieve);
 
         // Favourites
-        IEnumerable<ITweetDTO> GetFavoriteTweets(IGetUserFavoritesQueryParameters parameters);
+        Task<IEnumerable<ITweetDTO>> GetFavoriteTweets(IGetUserFavoritesQueryParameters parameters);
 
         // Block User
-        bool BlockUser(IUserIdentifier user);
+        Task<bool> BlockUser(IUserIdentifier user);
 
         // UnBlock User
-        bool UnBlockUser(IUserIdentifier user);
+        Task<bool> UnBlockUser(IUserIdentifier user);
 
         // Get blocked users
-        IEnumerable<long> GetBlockedUserIds(int maxUserIds = int.MaxValue);
-        IEnumerable<IUserDTO> GetBlockedUsers(int maxUsers = int.MaxValue);
+        Task<IEnumerable<long>> GetBlockedUserIds(int maxUserIds = int.MaxValue);
+        Task<IEnumerable<IUserDTO>> GetBlockedUsers(int maxUsers = int.MaxValue);
 
         // Stream Profile Image
         Stream GetProfileImageStream(IUserDTO userDTO, ImageSize imageSize = ImageSize.normal);
 
         // Spam
-        bool ReportUserForSpam(IUserIdentifier user);
+        Task<bool> ReportUserForSpam(IUserIdentifier user);
     }
 
     public class UserQueryExecutor : IUserQueryExecutor
@@ -55,48 +56,52 @@ namespace Tweetinvi.Controllers.User
         }
 
         // Friend ids
-        public IEnumerable<long> GetFriendIds(IUserIdentifier user, int maxFriendsToRetrieve)
+        public Task<IEnumerable<long>> GetFriendIds(IUserIdentifier user, int maxFriendsToRetrieve)
         {
             string query = _userQueryGenerator.GetFriendIdsQuery(user, maxFriendsToRetrieve);
             return _twitterAccessor.ExecuteCursorGETQuery<long, IIdsCursorQueryResultDTO>(query, maxFriendsToRetrieve);
         }
 
         // Followers
-        public IEnumerable<long> GetFollowerIds(IUserIdentifier user, int maxFollowersToRetrieve)
+        public Task<IEnumerable<long>> GetFollowerIds(IUserIdentifier user, int maxFollowersToRetrieve)
         {
             string query = _userQueryGenerator.GetFollowerIdsQuery(user, maxFollowersToRetrieve);
             return _twitterAccessor.ExecuteCursorGETQuery<long, IIdsCursorQueryResultDTO>(query, maxFollowersToRetrieve);
         }
 
         // Favourites
-        public IEnumerable<ITweetDTO> GetFavoriteTweets(IGetUserFavoritesQueryParameters parameters)
+        public Task<IEnumerable<ITweetDTO>> GetFavoriteTweets(IGetUserFavoritesQueryParameters parameters)
         {
             var query = _userQueryGenerator.GetFavoriteTweetsQuery(parameters);
             return _twitterAccessor.ExecuteGETQuery<IEnumerable<ITweetDTO>>(query);
         }
 
         // Block
-        public bool BlockUser(IUserIdentifier user)
+        public async Task<bool> BlockUser(IUserIdentifier user)
         {
             string query = _userQueryGenerator.GetBlockUserQuery(user);
-            return _twitterAccessor.TryExecutePOSTQuery(query);
+            var asyncOperation = await _twitterAccessor.TryExecutePOSTQuery(query);
+
+            return asyncOperation.Success;
         }
 
         // UnBlock User
-        public bool UnBlockUser(IUserIdentifier user)
+        public async Task<bool> UnBlockUser(IUserIdentifier user)
         {
             string query = _userQueryGenerator.GetUnBlockUserQuery(user);
-            return _twitterAccessor.TryExecutePOSTQuery(query);
+            var asyncOperation = await _twitterAccessor.TryExecutePOSTQuery(query);
+
+            return asyncOperation.Success;
         }
 
         // Get Block List
-        public IEnumerable<long> GetBlockedUserIds(int maxUserIds = int.MaxValue)
+        public Task<IEnumerable<long>> GetBlockedUserIds(int maxUserIds = int.MaxValue)
         {
             string query = _userQueryGenerator.GetBlockedUserIdsQuery();
             return _twitterAccessor.ExecuteCursorGETQuery<long, IIdsCursorQueryResultDTO>(query, maxUserIds);
         }
 
-        public IEnumerable<IUserDTO> GetBlockedUsers(int maxUsers = int.MaxValue)
+        public Task<IEnumerable<IUserDTO>> GetBlockedUsers(int maxUsers = int.MaxValue)
         {
             string query = _userQueryGenerator.GetBlockedUsersQuery();
             return _twitterAccessor.ExecuteCursorGETQuery<IUserDTO, IUserCursorQueryResultDTO>(query, maxUsers);
@@ -110,10 +115,12 @@ namespace Tweetinvi.Controllers.User
         }
 
         // Report Spam
-        public bool ReportUserForSpam(IUserIdentifier user)
+        public async Task<bool> ReportUserForSpam(IUserIdentifier user)
         {
             string query = _userQueryGenerator.GetReportUserForSpamQuery(user);
-            return _twitterAccessor.TryExecutePOSTQuery(query);
+            var asyncOperation = await _twitterAccessor.TryExecutePOSTQuery(query);
+
+            return asyncOperation.Success;
         }
     }
 }

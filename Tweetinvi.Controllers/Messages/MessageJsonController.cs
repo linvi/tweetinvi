@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Tweetinvi.Core.Web;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
@@ -8,23 +9,23 @@ namespace Tweetinvi.Controllers.Messages
 {
     public interface IMessageJsonController
     {
-        string GetLatestMessages(int count = TweetinviConsts.MESSAGE_GET_COUNT);
+        Task<string> GetLatestMessages(int count = TweetinviConsts.MESSAGE_GET_COUNT);
 
         /// <summary>
         /// Warning: Behaviour differs from MessageController.GetLatestMessages.
         /// This method will not make multiple requests to the Twitter API and combine their results,
         /// as that would require parsing the JSON, instead that is left up to the caller.
         /// </summary>
-        string GetLatestMessages(IGetMessagesParameters queryParameters);
+        Task<string> GetLatestMessages(IGetMessagesParameters queryParameters);
 
         // Publish Message
-        string PublishMessage(string text, long recipientId);
-        string PublishMessage(IPublishMessageParameters parameters);
+        Task<string> PublishMessage(string text, long recipientId);
+        Task<string> PublishMessage(IPublishMessageParameters parameters);
 
         // Destroy Message
-        bool DestroyMessage(IMessage message);
-        bool DestroyMessage(IMessageEventDTO messageDTO);
-        bool DestroyMessage(long messageId);
+        Task<bool> DestroyMessage(IMessage message);
+        Task<bool> DestroyMessage(IMessageEventDTO messageDTO);
+        Task<bool> DestroyMessage(long messageId);
     }
 
     public class MessageJsonController : IMessageJsonController
@@ -41,7 +42,7 @@ namespace Tweetinvi.Controllers.Messages
         }
 
         // Get Messages
-        public string GetLatestMessages(int count)
+        public Task<string> GetLatestMessages(int count)
         {
             var parameters = new GetMessagesParameters()
             {
@@ -56,19 +57,19 @@ namespace Tweetinvi.Controllers.Messages
         /// This method will not make multiple requests to the Twitter API and combine their results,
         /// as that would require parsing the JSON, instead that is left up to the caller.
         /// </summary>
-        public string GetLatestMessages(IGetMessagesParameters queryParameters)
+        public Task<string> GetLatestMessages(IGetMessagesParameters queryParameters)
         {
             string query = _messageQueryGenerator.GetLatestMessagesQuery(queryParameters);
             return _twitterAccessor.ExecuteGETQueryReturningJson(query);
         }
 
         // Publish Message
-        public string PublishMessage(string messageText, long recipientId)
+        public Task<string> PublishMessage(string messageText, long recipientId)
         {
             return PublishMessage(new PublishMessageParameters(messageText, recipientId));
         }
 
-        public string PublishMessage(IPublishMessageParameters parameters)
+        public Task<string> PublishMessage(IPublishMessageParameters parameters)
         {
             string query = _messageQueryGenerator.GetPublishMessageQuery(parameters);
             var reqDTO = _messageQueryGenerator.GetPublishMessageBody(parameters);
@@ -77,7 +78,7 @@ namespace Tweetinvi.Controllers.Messages
         }
 
         // Destroy Message
-        public bool DestroyMessage(IMessage message)
+        public Task<bool> DestroyMessage(IMessage message)
         {
             if (message == null)
             {
@@ -87,16 +88,20 @@ namespace Tweetinvi.Controllers.Messages
             return DestroyMessage(message.MessageEventDTO);
         }
 
-        public bool DestroyMessage(IMessageEventDTO messageEventDTO)
+        public async Task<bool> DestroyMessage(IMessageEventDTO messageEventDTO)
         {
             string query = _messageQueryGenerator.GetDestroyMessageQuery(messageEventDTO);
-            return _twitterAccessor.TryExecuteDELETEQuery(query);
+            var operationResult = await _twitterAccessor.TryExecuteDELETEQuery(query);
+
+            return operationResult.Success;
         }
 
-        public bool DestroyMessage(long messageId)
+        public async Task<bool> DestroyMessage(long messageId)
         {
             string query = _messageQueryGenerator.GetDestroyMessageQuery(messageId);
-            return _twitterAccessor.TryExecuteDELETEQuery(query);
+            var operationResult = await _twitterAccessor.TryExecuteDELETEQuery(query);
+
+            return operationResult.Success;
         }
     }
 }

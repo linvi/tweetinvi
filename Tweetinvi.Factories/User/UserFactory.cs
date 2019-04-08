@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Tweetinvi.Core.Credentials;
 using Tweetinvi.Core.Factories;
 using Tweetinvi.Core.Helpers;
@@ -33,18 +34,18 @@ namespace Tweetinvi.Factories.User
         }
 
         // Get User
-        public IAuthenticatedUser GetAuthenticatedUser(ITwitterCredentials credentials = null, IGetAuthenticatedUserParameters parameters = null)
+        public async Task<IAuthenticatedUser> GetAuthenticatedUser(ITwitterCredentials credentials = null, IGetAuthenticatedUserParameters parameters = null)
         {
             IUserDTO userDTO;
 
             if (credentials == null)
             {
                 credentials = _credentialsAccessor.CurrentThreadCredentials;
-                userDTO = _userFactoryQueryExecutor.GetAuthenticatedUser(parameters);
+                userDTO = await _userFactoryQueryExecutor.GetAuthenticatedUser(parameters);
             }
             else
             {
-                userDTO = _credentialsAccessor.ExecuteOperationWithCredentials(credentials, () =>
+                userDTO = await _credentialsAccessor.ExecuteOperationWithCredentials(credentials, () =>
                 {
                     return _userFactoryQueryExecutor.GetAuthenticatedUser(parameters);
                 });
@@ -60,15 +61,15 @@ namespace Tweetinvi.Factories.User
             return authenticatedUser;
         }
 
-        public IUser GetUserFromId(long userId)
+        public async Task<IUser> GetUserFromId(long userId)
         {
-            var userDTO = _userFactoryQueryExecutor.GetUserDTOFromId(userId);
+            var userDTO = await _userFactoryQueryExecutor.GetUserDTOFromId(userId);
             return GenerateUserFromDTO(userDTO);
         }
 
-        public IUser GetUserFromScreenName(string userName)
+        public async Task<IUser> GetUserFromScreenName(string userName)
         {
-            var userDTO = _userFactoryQueryExecutor.GetUserDTOFromScreenName(userName);
+            var userDTO = await _userFactoryQueryExecutor.GetUserDTOFromScreenName(userName);
             return GenerateUserFromDTO(userDTO);
         }
 
@@ -79,15 +80,15 @@ namespace Tweetinvi.Factories.User
             return GenerateUserFromDTO(userDTO);
         }
 
-        public IEnumerable<IUser> GetUsersFromIds(IEnumerable<long> userIds)
+        public async Task<IEnumerable<IUser>> GetUsersFromIds(IEnumerable<long> userIds)
         {
-            var usersDTO = _userFactoryQueryExecutor.GetUsersDTOFromIds(userIds);
+            var usersDTO = await _userFactoryQueryExecutor.GetUsersDTOFromIds(userIds);
             return GenerateUsersFromDTO(usersDTO);
         }
 
-        public IEnumerable<IUser> GetUsersFromScreenNames(IEnumerable<string> userNames)
+        public async Task<IEnumerable<IUser>> GetUsersFromScreenNames(IEnumerable<string> userNames)
         {
-            var usersDTO = _userFactoryQueryExecutor.GetUsersDTOFromScreenNames(userNames);
+            var usersDTO = await _userFactoryQueryExecutor.GetUsersDTOFromScreenNames(userNames);
             return GenerateUsersFromDTO(usersDTO);
         }
 

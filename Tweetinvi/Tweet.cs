@@ -58,12 +58,12 @@ namespace Tweetinvi
 
         public static ITweet GetTweet(long tweetId)
         {
-            return TweetFactory.GetTweet(tweetId);
+            return TweetFactory.GetTweet(tweetId).Result;
         }
 
         public static IEnumerable<ITweet> GetTweets(params long[] tweetIds)
         {
-            return TweetFactory.GetTweets(tweetIds);
+            return TweetFactory.GetTweets(tweetIds).Result;
         }
 
         public static ITweet GenerateTweetFromDTO(ITweetDTO tweetDTO)

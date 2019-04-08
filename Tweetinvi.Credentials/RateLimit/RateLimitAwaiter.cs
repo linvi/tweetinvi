@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Tweetinvi.Core;
 using Tweetinvi.Core.Credentials;
 using Tweetinvi.Core.Events;
@@ -33,19 +34,19 @@ namespace Tweetinvi.Credentials.RateLimit
 
         public event EventHandler<QueryAwaitingEventArgs> QueryAwaitingForRateLimit
         {
-            add { _queryAwaitingForRateLimitWeakEvent.AddHandler(value);}
-            remove { _queryAwaitingForRateLimitWeakEvent.RemoveHandler(value);}
+            add { _queryAwaitingForRateLimitWeakEvent.AddHandler(value); }
+            remove { _queryAwaitingForRateLimitWeakEvent.RemoveHandler(value); }
         }
 
-        public void WaitForCurrentCredentialsRateLimit(string query)
+        public Task WaitForCurrentCredentialsRateLimit(string query)
         {
             var credentials = _credentialsAccessor.CurrentThreadCredentials;
-            WaitForCredentialsRateLimit(query, credentials);
+            return WaitForCredentialsRateLimit(query, credentials);
         }
 
-        public void WaitForCredentialsRateLimit(string query, ITwitterCredentials credentials)
+        public async Task WaitForCredentialsRateLimit(string query, ITwitterCredentials credentials)
         {
-            var queryRateLimit = _rateLimitCacheManager.GetQueryRateLimit(query, credentials);
+            var queryRateLimit = await _rateLimitCacheManager.GetQueryRateLimit(query, credentials);
             var timeToWait = GetTimeToWaitFromQueryRateLimit(queryRateLimit);
 
             if (timeToWait > 0)
@@ -70,24 +71,21 @@ namespace Tweetinvi.Credentials.RateLimit
             }
         }
 
-        public int TimeToWaitBeforeTwitterRequest(string query, ITwitterCredentials credentials)
+        public async Task<int> TimeToWaitBeforeTwitterRequest(string query, ITwitterCredentials credentials)
         {
-            var queryRateLimits = _rateLimitCacheManager.GetQueryRateLimit(query, credentials);
+            var queryRateLimits = await _rateLimitCacheManager.GetQueryRateLimit(query, credentials);
 
             return GetTimeToWaitFromQueryRateLimit(queryRateLimits);
         }
 
         public int GetTimeToWaitFromQueryRateLimit(IEndpointRateLimit queryRateLimit)
         {
-            if (queryRateLimit == null)
+            if (queryRateLimit == null || queryRateLimit.Remaining > 0)
             {
                 return 0;
             }
 
-            return queryRateLimit.Remaining == 0
-                ? ((int) Math.Ceiling(queryRateLimit.ResetDateTimeInMilliseconds)) +
-                  _settingsAccessor.RateLimitWaitFudgeMs
-                : 0;
+            return (int)Math.Ceiling(queryRateLimit.ResetDateTimeInMilliseconds) + _settingsAccessor.RateLimitWaitFudgeMs;
         }
     }
 }

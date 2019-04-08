@@ -76,7 +76,7 @@ namespace Tweetinvi
         /// </summary>
         public static IMessage GetExistingMessage(long messageId)
         {
-            return MessageFactory.GetExistingMessage(messageId);
+            return MessageFactory.GetExistingMessage(messageId).Result;
         }
 
         // Controller

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Tweetinvi.Core.Extensions;
 using Tweetinvi.Core.QueryGenerators;
 using Tweetinvi.Core.QueryValidators;
@@ -12,26 +13,26 @@ namespace Tweetinvi.Controllers.Friendship
 {
     public interface IFriendshipQueryExecutor
     {
-        IEnumerable<long> GetUserIdsRequestingFriendship(int maximumUserIdsToRetrieve);
-        IEnumerable<long> GetUserIdsYouRequestedToFollow(int maximumUserIdsToRetrieve);
-        IEnumerable<long> GetUserIdsWhoseRetweetsAreMuted(); 
+        Task<IEnumerable<long>> GetUserIdsRequestingFriendship(int maximumUserIdsToRetrieve);
+        Task<IEnumerable<long>> GetUserIdsYouRequestedToFollow(int maximumUserIdsToRetrieve);
+        Task<long[]> GetUserIdsWhoseRetweetsAreMuted();
 
         // Create Friendship
-        bool CreateFriendshipWith(IUserIdentifier user);
+        Task<bool> CreateFriendshipWith(IUserIdentifier user);
 
         // Destroy Friendship
-        bool DestroyFriendshipWith(IUserIdentifier user);
+        Task<bool> DestroyFriendshipWith(IUserIdentifier user);
 
         // Update Friendship Authorization
-        bool UpdateRelationshipAuthorizationsWith(IUserIdentifier user, IFriendshipAuthorizations friendshipAuthorizations);
+        Task<bool> UpdateRelationshipAuthorizationsWith(IUserIdentifier user, IFriendshipAuthorizations friendshipAuthorizations);
 
         // Get Existing Relationship
-        IRelationshipDetailsDTO GetRelationshipBetween(IUserIdentifier sourceUserIdentifier, IUserIdentifier targetUserIdentifier);
+        Task<IRelationshipDetailsDTO> GetRelationshipBetween(IUserIdentifier sourceUserIdentifier, IUserIdentifier targetUserIdentifier);
 
         // Get Multiple Relationships
-        IEnumerable<IRelationshipStateDTO> GetMultipleRelationshipsQuery(IEnumerable<IUserIdentifier> targetUserIdentifiers);
-        IEnumerable<IRelationshipStateDTO> GetMultipleRelationshipsQuery(IEnumerable<long> targetUserIds);
-        IEnumerable<IRelationshipStateDTO> GetMultipleRelationshipsQuery(IEnumerable<string> targetUsersScreenName);
+        Task<IEnumerable<IRelationshipStateDTO>> GetMultipleRelationshipsQuery(IEnumerable<IUserIdentifier> targetUserIdentifiers);
+        Task<IEnumerable<IRelationshipStateDTO>> GetMultipleRelationshipsQuery(IEnumerable<long> targetUserIds);
+        Task<IEnumerable<IRelationshipStateDTO>> GetMultipleRelationshipsQuery(IEnumerable<string> targetUsersScreenName);
     }
 
     public class FriendshipQueryExecutor : IFriendshipQueryExecutor
@@ -51,33 +52,35 @@ namespace Tweetinvi.Controllers.Friendship
             _userQueryValidator = userQueryValidator;
         }
 
-        public IEnumerable<long> GetUserIdsRequestingFriendship(int maximumUserIdsToRetrieve)
+        public Task<IEnumerable<long>> GetUserIdsRequestingFriendship(int maximumUserIdsToRetrieve)
         {
             string query = _friendshipQueryGenerator.GetUserIdsRequestingFriendshipQuery();
             return _twitterAccessor.ExecuteCursorGETQuery<long, IIdsCursorQueryResultDTO>(query, maximumUserIdsToRetrieve);
         }
 
-        public IEnumerable<long> GetUserIdsYouRequestedToFollow(int maximumUserIdsToRetrieve)
+        public Task<IEnumerable<long>> GetUserIdsYouRequestedToFollow(int maximumUserIdsToRetrieve)
         {
             string query = _friendshipQueryGenerator.GetUserIdsYouRequestedToFollowQuery();
             return _twitterAccessor.ExecuteCursorGETQuery<long, IIdsCursorQueryResultDTO>(query, maximumUserIdsToRetrieve);
         }
 
-        public IEnumerable<long> GetUserIdsWhoseRetweetsAreMuted()
+        public Task<long[]> GetUserIdsWhoseRetweetsAreMuted()
         {
             string query = _friendshipQueryGenerator.GetUserIdsWhoseRetweetsAreMutedQuery();
             return _twitterAccessor.ExecuteGETQuery<long[]>(query);
         }
 
         // Create Friendship
-        public bool CreateFriendshipWith(IUserIdentifier user)
+        public async Task<bool> CreateFriendshipWith(IUserIdentifier user)
         {
             string query = _friendshipQueryGenerator.GetCreateFriendshipWithQuery(user);
-            return _twitterAccessor.TryExecutePOSTQuery(query);
+            var asyncOperation = await _twitterAccessor.TryExecutePOSTQuery(query);
+
+            return asyncOperation.Success;
         }
 
         // Destroy Friendship
-        public bool DestroyFriendshipWith(IUserIdentifier user)
+        public async Task<bool> DestroyFriendshipWith(IUserIdentifier user)
         {
             if (!_userQueryValidator.CanUserBeIdentified(user))
             {
@@ -85,11 +88,13 @@ namespace Tweetinvi.Controllers.Friendship
             }
 
             string query = _friendshipQueryGenerator.GetDestroyFriendshipWithQuery(user);
-            return _twitterAccessor.TryExecutePOSTQuery(query);
+            var asyncOperation = await _twitterAccessor.TryExecutePOSTQuery(query);
+
+            return asyncOperation.Success;
         }
 
         // Update Friendship Authorizations
-        public bool UpdateRelationshipAuthorizationsWith(IUserIdentifier user, IFriendshipAuthorizations friendshipAuthorizations)
+        public async Task<bool> UpdateRelationshipAuthorizationsWith(IUserIdentifier user, IFriendshipAuthorizations friendshipAuthorizations)
         {
             if (!_userQueryValidator.CanUserBeIdentified(user))
             {
@@ -97,18 +102,20 @@ namespace Tweetinvi.Controllers.Friendship
             }
 
             string query = _friendshipQueryGenerator.GetUpdateRelationshipAuthorizationsWithQuery(user, friendshipAuthorizations);
-            return _twitterAccessor.TryExecutePOSTQuery(query);
+            var asyncOeration = await _twitterAccessor.TryExecutePOSTQuery(query);
+
+            return asyncOeration.Success;
         }
 
         // Relationship Between
-        public IRelationshipDetailsDTO GetRelationshipBetween(IUserIdentifier sourceUserIdentifier, IUserIdentifier targetUserIdentifier)
+        public Task<IRelationshipDetailsDTO> GetRelationshipBetween(IUserIdentifier sourceUserIdentifier, IUserIdentifier targetUserIdentifier)
         {
             var query = _friendshipQueryGenerator.GetRelationshipDetailsQuery(sourceUserIdentifier, targetUserIdentifier);
             return _twitterAccessor.ExecuteGETQuery<IRelationshipDetailsDTO>(query);
         }
 
         // Get Relationship with
-        public IEnumerable<IRelationshipStateDTO> GetMultipleRelationshipsQuery(IEnumerable<IUserIdentifier> targetUserIdentifiers)
+        public async Task<IEnumerable<IRelationshipStateDTO>> GetMultipleRelationshipsQuery(IEnumerable<IUserIdentifier> targetUserIdentifiers)
         {
             var targetUserIdentifiersArray = IEnumerableExtension.GetDistinctUserIdentifiers(targetUserIdentifiers);
 
@@ -118,7 +125,7 @@ namespace Tweetinvi.Controllers.Friendship
             {
                 var usersToAnalyze = targetUserIdentifiersArray.Skip(i).Take(TweetinviConsts.FRIENDSHIP_MAX_NUMBER_OF_FRIENDSHIP_TO_GET_IN_A_SINGLE_QUERY).ToArray();
                 var query = _friendshipQueryGenerator.GetMultipleRelationshipsQuery(usersToAnalyze);
-                var relationshipStateDtos = _twitterAccessor.ExecuteGETQuery<IEnumerable<IRelationshipStateDTO>>(query);
+                var relationshipStateDtos = await _twitterAccessor.ExecuteGETQuery<IEnumerable<IRelationshipStateDTO>>(query);
 
                 // As soon as we cannot retrieve additional objects, we stop the query
                 if (relationshipStateDtos == null)
@@ -132,7 +139,7 @@ namespace Tweetinvi.Controllers.Friendship
             return distinctRelationships;
         }
 
-        public IEnumerable<IRelationshipStateDTO> GetMultipleRelationshipsQuery(IEnumerable<long> targetUserIds)
+        public async Task<IEnumerable<IRelationshipStateDTO>> GetMultipleRelationshipsQuery(IEnumerable<long> targetUserIds)
         {
             var targetUserIdsArray = targetUserIds.Distinct().ToArray();
             var distinctRelationships = new List<IRelationshipStateDTO>();
@@ -141,7 +148,7 @@ namespace Tweetinvi.Controllers.Friendship
             {
                 var userIdsToAnalyze = targetUserIdsArray.Skip(i).Take(TweetinviConsts.FRIENDSHIP_MAX_NUMBER_OF_FRIENDSHIP_TO_GET_IN_A_SINGLE_QUERY).ToArray();
                 var query = _friendshipQueryGenerator.GetMultipleRelationshipsQuery(userIdsToAnalyze);
-                var relationshipStateDtos = _twitterAccessor.ExecuteGETQuery<IEnumerable<IRelationshipStateDTO>>(query);
+                var relationshipStateDtos = await _twitterAccessor.ExecuteGETQuery<IEnumerable<IRelationshipStateDTO>>(query);
 
                 // As soon as we cannot retrieve additional objects, we stop the query
                 if (relationshipStateDtos == null)
@@ -155,7 +162,7 @@ namespace Tweetinvi.Controllers.Friendship
             return distinctRelationships;
         }
 
-        public IEnumerable<IRelationshipStateDTO> GetMultipleRelationshipsQuery(IEnumerable<string> targetUsersScreenName)
+        public async Task<IEnumerable<IRelationshipStateDTO>> GetMultipleRelationshipsQuery(IEnumerable<string> targetUsersScreenName)
         {
             var targetUserScreenNamesArray = targetUsersScreenName.Distinct().ToArray();
             var distinctRelationships = new List<IRelationshipStateDTO>();
@@ -164,7 +171,7 @@ namespace Tweetinvi.Controllers.Friendship
             {
                 var userScreenNamesToAnalyze = targetUserScreenNamesArray.Skip(i).Take(TweetinviConsts.FRIENDSHIP_MAX_NUMBER_OF_FRIENDSHIP_TO_GET_IN_A_SINGLE_QUERY).ToArray();
                 var query = _friendshipQueryGenerator.GetMultipleRelationshipsQuery(userScreenNamesToAnalyze);
-                var relationshipStateDtos = _twitterAccessor.ExecuteGETQuery<IEnumerable<IRelationshipStateDTO>>(query);
+                var relationshipStateDtos = await _twitterAccessor.ExecuteGETQuery<IEnumerable<IRelationshipStateDTO>>(query);
 
                 // As soon as we cannot retrieve additional objects, we stop the query
                 if (relationshipStateDtos == null)

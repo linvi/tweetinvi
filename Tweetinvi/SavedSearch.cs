@@ -68,7 +68,7 @@ namespace Tweetinvi
         /// </summary>
         public static ISavedSearch CreateSavedSearch(string query)
         {
-            return SavedSearchFactory.CreateSavedSearch(query);
+            return SavedSearchFactory.CreateSavedSearch(query).Result;
         }
 
         /// <summary>
@@ -76,7 +76,7 @@ namespace Tweetinvi
         /// </summary>
         public static ISavedSearch GetSavedSearch(long searchId)
         {
-            return SavedSearchFactory.GetSavedSearch(searchId);
+            return SavedSearchFactory.GetSavedSearch(searchId).Result;
         }
 
         // Controller

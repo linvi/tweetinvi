@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Tweetinvi.Controllers.Properties;
 using Tweetinvi.Core.Helpers;
 using Tweetinvi.Core.Web;
@@ -9,7 +10,7 @@ namespace Tweetinvi.Controllers.Upload
 {
     public interface IUploadMediaStatusQueryExecutor
     {
-        IUploadedMediaInfo GetMediaStatus(IMedia media, bool autoAwait = true);
+        Task<IUploadedMediaInfo> GetMediaStatus(IMedia media, bool autoAwait = true);
     }
 
     public class UploadMediaStatusQueryExecutor : IUploadMediaStatusQueryExecutor
@@ -23,7 +24,7 @@ namespace Tweetinvi.Controllers.Upload
             _twitterAccessor = twitterAccessor;
         }
 
-        public IUploadedMediaInfo GetMediaStatus(IMedia media, bool autoWait = true)
+        public Task<IUploadedMediaInfo> GetMediaStatus(IMedia media, bool autoWait = true)
         {
             if (!media.HasBeenUploaded)
             {

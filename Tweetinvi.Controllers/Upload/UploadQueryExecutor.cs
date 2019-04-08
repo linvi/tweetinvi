@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Tweetinvi.Core.Injectinvi;
 using Tweetinvi.Core.Public.Events;
@@ -19,12 +20,12 @@ namespace Tweetinvi.Controllers.Upload
         /// <summary>
         /// Upload a binary
         /// </summary>
-        IMedia UploadBinary(byte[] binary, IUploadOptionalParameters parameters = null);
+        Task<IMedia> UploadBinary(byte[] binary, IUploadOptionalParameters parameters = null);
 
         /// <summary>
         /// Upload a binary
         /// </summary>
-        IMedia UploadBinary(IUploadParameters uploadQueryParameters);
+        Task<IMedia> UploadBinary(IUploadParameters uploadQueryParameters);
 
         /// <summary>
         /// Add metadata to a media that has been uploaded.
@@ -53,14 +54,14 @@ namespace Tweetinvi.Controllers.Upload
         }
 
 
-        public IMedia UploadBinary(byte[] binary, IUploadOptionalParameters parameters)
+        public Task<IMedia> UploadBinary(byte[] binary, IUploadOptionalParameters parameters)
         {
             var uploadParameters = CreateUploadParametersFromOptionalParameters(binary, parameters);
 
             return UploadBinary(uploadParameters);
         }
 
-        public IMedia UploadBinary(IUploadParameters uploadQueryParameters)
+        public async Task<IMedia> UploadBinary(IUploadParameters uploadQueryParameters)
         {
             var binary = uploadQueryParameters.Binary;
             var uploader = CreateChunkedUploader();
@@ -74,7 +75,9 @@ namespace Tweetinvi.Controllers.Upload
                 CustomRequestParameters = uploadQueryParameters.InitCustomRequestParameters,
             };
 
-            if (uploader.Init(initParameters))
+            var initOperationSucceeded = await uploader.Init(initParameters);
+
+            if (initOperationSucceeded)
             {
                 var binaryChunks = GetBinaryChunks(binary, uploadQueryParameters.MaxChunkSize);
 
@@ -100,7 +103,9 @@ namespace Tweetinvi.Controllers.Upload
 
                     appendParameters.CustomRequestParameters = uploadQueryParameters.AppendCustomRequestParameters;
 
-                    if (!uploader.Append(appendParameters))
+                    var appendOperationSucceeded = await uploader.Append(appendParameters);
+
+                    if (!appendOperationSucceeded)
                     {
                         uploadQueryParameters.UploadStateChanged?.Invoke(new UploadStateChangedEventArgs(UploadProgressState.FAILED, uploadedSize, totalSize));
 
@@ -110,7 +115,7 @@ namespace Tweetinvi.Controllers.Upload
                     uploadedSize += binaryChunk.Length;
                 }
 
-                var media = uploader.Complete();
+                var media = await uploader.Complete();
 
                 uploadQueryParameters.UploadStateChanged?.Invoke(new UploadStateChangedEventArgs(UploadProgressState.COMPLETED, uploadedSize, totalSize));
 

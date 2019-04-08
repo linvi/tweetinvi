@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
+using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Tweetinvi.Core.Exceptions;
 using Tweetinvi.Core.Helpers;
+using Tweetinvi.Core.Models;
 using Tweetinvi.Core.Public.Models.Authentication;
 using Tweetinvi.Core.Public.Parameters;
 using Tweetinvi.Core.Web;
@@ -42,28 +44,33 @@ namespace Tweetinvi.Credentials
         }
 
         // Execute<Json>
-        public string ExecuteGETQueryReturningJson(string query)
+        public Task<string> ExecuteGETQueryReturningJson(string query)
         {
             return ExecuteQueryReturningContent(query, HttpMethod.GET);
         }
 
-        public string ExecutePOSTQueryReturningJson(string query)
+        public Task<string> ExecutePOSTQueryReturningJson(string query)
         {
             return ExecuteQueryReturningContent(query, HttpMethod.POST);
         }
 
-        public string ExecuteDELETEQueryReturningJson(string query)
+        public Task<string> ExecuteDELETEQueryReturningJson(string query)
         {
             return ExecuteQueryReturningContent(query, HttpMethod.DELETE);
         }
 
         // Try Execute<Json>
-        public bool TryExecuteGETQuery(string query, out string json)
+        public async Task<AsyncOperation<string>> TryExecuteGETQuery(string query)
         {
             try
             {
-                json = ExecuteGETQueryReturningJson(query);
-                return json != null;
+                var json = await ExecuteGETQueryReturningJson(query);
+
+                return new AsyncOperation<string>
+                {
+                    Success = json != null,
+                    Result = json
+                };
             }
             catch (TwitterException)
             {
@@ -72,74 +79,81 @@ namespace Tweetinvi.Credentials
                     throw;
                 }
 
-                json = null;
-                return false;
+                return new FailedAsyncOperation<string>();
             }
         }
 
-        public bool TryExecutePOSTQuery(string query, out string json)
+        public async Task<AsyncOperation<string>> TryExecutePOSTQuery(string query)
         {
             try
             {
-                json = ExecutePOSTQueryReturningJson(query);
-                return json != null;
+                var json = await ExecutePOSTQueryReturningJson(query);
+
+                return new AsyncOperation<string>
+                {
+                    Success = json != null,
+                    Result = json
+                };
             }
             catch (TwitterException)
             {
-                json = null;
-                return false;
+                return new FailedAsyncOperation<string>();
             }
         }
 
-        public bool TryExecuteDELETEQuery(string query, out string json)
+        public async Task<AsyncOperation<string>> TryExecuteDELETEQuery(string query)
         {
             try
             {
-                json = ExecuteDELETEQueryReturningJson(query);
-                return json != null;
+                var json = await ExecuteDELETEQueryReturningJson(query);
+
+                return new AsyncOperation<string>
+                {
+                    Success = json != null,
+                    Result = json
+                };
             }
             catch (TwitterException)
             {
-                json = null;
-                return false;
+                return new FailedAsyncOperation<string>();
             }
         }
 
         // Execute<JObject>
-        public JObject ExecuteGETQuery(string query)
+        public async Task<JObject> ExecuteGETQuery(string query)
         {
-            string jsonResponse = ExecuteQueryReturningContent(query, HttpMethod.GET);
+            string jsonResponse = await ExecuteQueryReturningContent(query, HttpMethod.GET);
             return _jObjectStaticWrapper.GetJobjectFromJson(jsonResponse);
         }
 
-        public JObject ExecutePOSTQuery(string query)
+        public async Task<JObject> ExecutePOSTQuery(string query)
         {
-            string jsonResponse = ExecuteQueryReturningContent(query, HttpMethod.POST);
+            string jsonResponse = await ExecuteQueryReturningContent(query, HttpMethod.POST);
             return _jObjectStaticWrapper.GetJobjectFromJson(jsonResponse);
         }
 
-        public JObject ExecuteDELETEQuery(string query)
+        public async Task<JObject> ExecuteDELETEQuery(string query)
         {
-            string jsonResponse = ExecuteQueryReturningContent(query, HttpMethod.DELETE);
+            string jsonResponse = await ExecuteQueryReturningContent(query, HttpMethod.DELETE);
             return _jObjectStaticWrapper.GetJobjectFromJson(jsonResponse);
         }
 
         // Get specific type of object from path
-        public T ExecuteGETQueryWithPath<T>(string query, string[] paths) where T : class
+        public async Task<T> ExecuteGETQueryWithPath<T>(string query, params string[] paths) where T : class
         {
-            var jObject = ExecuteGETQuery(query);
+            var jObject = await ExecuteGETQuery(query);
             return GetResultFromPath<T>(jObject, paths);
         }
 
-        public T ExecutePOSTQueryWithPath<T>(string query, string[] paths) where T : class
+        public async Task<T> ExecutePOSTQueryWithPath<T>(string query, params string[] paths) where T : class
         {
-            var jObject = ExecutePOSTQuery(query);
+            var jObject = await ExecutePOSTQuery(query);
             return GetResultFromPath<T>(jObject, paths);
         }
 
-        public T ExecuteDELETEQueryWithPath<T>(string query, string[] paths) where T : class
+        public async Task<T> ExecuteDELETEQueryWithPath<T>(string query, params string[] paths) where T : class
         {
-            var jObject = ExecuteDELETEQuery(query);
+            var jObject = await ExecuteDELETEQuery(query);
             return GetResultFromPath<T>(jObject, paths);
         }
 
@@ -156,32 +170,32 @@ namespace Tweetinvi.Credentials
         }
 
         // Execute<T>
-        public T ExecuteGETQuery<T>(string query, JsonConverter[] converters = null) where T : class
+        public async Task<T> ExecuteGETQuery<T>(string query, JsonConverter[] converters = null) where T : class
         {
-            string jsonResponse = ExecuteQueryReturningContent(query, HttpMethod.GET);
+            string jsonResponse = await ExecuteQueryReturningContent(query, HttpMethod.GET);
             return _jsonObjectConverter.DeserializeObject<T>(jsonResponse, converters);
         }
 
-        public T ExecutePOSTQuery<T>(string query, JsonConverter[] converters = null) where T : class
+        public async Task<T> ExecutePOSTQuery<T>(string query, JsonConverter[] converters = null) where T : class
         {
-            string jsonResponse = ExecuteQueryReturningContent(query, HttpMethod.POST);
+            string jsonResponse = await ExecuteQueryReturningContent(query, HttpMethod.POST);
             return _jsonObjectConverter.DeserializeObject<T>(jsonResponse, converters);
         }
 
-        public T ExecuteDELETEQuery<T>(string query, JsonConverter[] converters = null) where T : class
+        public async Task<T> ExecuteDELETEQuery<T>(string query, JsonConverter[] converters = null) where T : class
         {
-            string jsonResponse = ExecuteQueryReturningContent(query, HttpMethod.DELETE);
+            string jsonResponse = await ExecuteQueryReturningContent(query, HttpMethod.DELETE);
             return _jsonObjectConverter.DeserializeObject<T>(jsonResponse, converters);
         }
 
         // Try Execute
-        public bool TryExecuteGETQuery(string query, JsonConverter[] converters = null)
+        public async Task<bool> TryExecuteGETQuery(string query, JsonConverter[] converters = null)
         {
             try
             {
                 // Call ExecuteQuery so that we get the string response rather than a JObject, allowing us to differentiate
                 //  between the empty string (successful request with no response) and null (error)
-                string strResponse = ExecuteQueryReturningContent(query, HttpMethod.GET);
+                string strResponse = await ExecuteQueryReturningContent(query, HttpMethod.GET);
                 return strResponse != null;
             }
             catch (TwitterException)
@@ -195,13 +209,13 @@ namespace Tweetinvi.Credentials
             }
         }
 
-        public bool TryExecutePOSTQuery(string query, JsonConverter[] converters = null)
+        public async Task<bool> TryExecutePOSTQuery(string query, JsonConverter[] converters = null)
         {
             try
             {
                 // Call ExecuteQuery so that we get the string response rather than a JObject, allowing us to differentiate
                 //  between the empty string (successful request with no response) and null (error)
-                string strResponse = ExecuteQueryReturningContent(query, HttpMethod.POST);
+                string strResponse = await ExecuteQueryReturningContent(query, HttpMethod.POST);
                 return strResponse != null;
             }
             catch (TwitterException)
@@ -215,13 +229,13 @@ namespace Tweetinvi.Credentials
             }
         }
 
-        public bool TryExecuteDELETEQuery(string query, JsonConverter[] converters = null)
+        public async Task<bool> TryExecuteDELETEQuery(string query, JsonConverter[] converters = null)
         {
             try
             {
                 // Call ExecuteQuery so that we get the string response rather than a JObject, allowing us to differentiate
                 //  between the empty string (successful request with no response) and null (error)
-                string strResponse = ExecuteQueryReturningContent(query, HttpMethod.DELETE);
+                string strResponse = await ExecuteQueryReturningContent(query, HttpMethod.DELETE);
                 return strResponse != null;
             }
             catch (TwitterException)
@@ -236,13 +250,18 @@ namespace Tweetinvi.Credentials
         }
 
         // Try Execute<T>
-        public bool TryExecuteGETQuery<T>(string query, out T resultObject, JsonConverter[] converters = null)
+        public async Task<AsyncOperation<T>> TryExecuteGETQuery<T>(string query, JsonConverter[] converters = null)
             where T : class
         {
             try
             {
-                resultObject = ExecuteGETQuery<T>(query, converters);
-                return resultObject != null;
+                var resultObject = await ExecuteGETQuery<T>(query, converters);
+
+                return new AsyncOperation<T>
+                {
+                    Success = resultObject != null,
+                    Result = resultObject
+                };
             }
             catch (TwitterException)
             {
@@ -251,18 +270,22 @@ namespace Tweetinvi.Credentials
                     throw;
                 }
 
-                resultObject = null;
-                return false;
+                return new FailedAsyncOperation<T>();
             }
         }
 
-        public bool TryExecutePOSTQuery<T>(string query, out T resultObject, JsonConverter[] converters = null)
+        public async Task<AsyncOperation<T>> TryExecutePOSTQuery<T>(string query, JsonConverter[] converters = null)
             where T : class
         {
             try
             {
-                resultObject = ExecutePOSTQuery<T>(query, converters);
-                return resultObject != null;
+                var resultObject = await ExecutePOSTQuery<T>(query, converters);
+
+                return new AsyncOperation<T>
+                {
+                    Success = resultObject != null,
+                    Result = resultObject
+                };
             }
             catch (TwitterException)
             {
@@ -271,18 +294,22 @@ namespace Tweetinvi.Credentials
                     throw;
                 }
 
-                resultObject = null;
-                return false;
+                return new FailedAsyncOperation<T>();
             }
         }
 
-        public bool TryExecuteDELETEQuery<T>(string query, out T resultObject, JsonConverter[] converters = null)
+        public async Task<AsyncOperation<T>> TryExecuteDELETEQuery<T>(string query, JsonConverter[] converters = null)
             where T : class
         {
             try
             {
-                resultObject = ExecuteDELETEQuery<T>(query, converters);
-                return resultObject != null;
+                var resultObject = await ExecuteDELETEQuery<T>(query, converters);
+
+                return new AsyncOperation<T>
+                {
+                    Success = resultObject != null,
+                    Result = resultObject
+                };
             }
             catch (TwitterException)
             {
@@ -291,34 +318,26 @@ namespace Tweetinvi.Credentials
                     throw;
                 }
 
-                resultObject = null;
-                return false;
+                return new FailedAsyncOperation<T>();
             }
         }
 
         // Multipart Query
-        public T ExecuteMultipartQuery<T>(IMultipartHttpRequestParameters parameters, JsonConverter[] converters = null) where T : class
+        public async Task<T> ExecuteMultipartQuery<T>(IMultipartHttpRequestParameters parameters, JsonConverter[] converters = null) where T : class
         {
-            string jsonResponse = ExecuteMultipartQuery(parameters);
+            string jsonResponse = await ExecuteMultipartQuery(parameters);
             return _jsonObjectConverter.DeserializeObject<T>(jsonResponse, converters);
         }
 
-        public bool TryExecuteMultipartQuery(IMultipartHttpRequestParameters parameters)
+        public async Task<string> ExecuteMultipartQuery(IMultipartHttpRequestParameters parameters)
         {
-            string unused;
-            return TryExecuteMultipartQuery(parameters, out unused);
-        }
+            var result = await TryExecuteMultipartQuery(parameters);
 
-        public string ExecuteMultipartQuery(IMultipartHttpRequestParameters parameters)
-        {
-            string result;
-            TryExecuteMultipartQuery(parameters, out result);
-
-            return result;
+            return result.Result;
         }
 
         // Cursor Query
-        public IEnumerable<string> ExecuteJsonCursorGETQuery<T>(
+        public async Task<IEnumerable<string>> ExecuteJsonCursorGETQuery<T>(
                 string baseQuery,
                 int maxObjectToRetrieve = Int32.MaxValue,
                 long cursor = -1)
@@ -334,7 +353,7 @@ namespace Tweetinvi.Credentials
             var result = new List<string>();
             while (previousCursor != nextCursor && nbOfObjectsProcessed < maxObjectToRetrieve)
             {
-                T cursorResult = ExecuteCursorQuery<T>(baseQuery, cursor, true);
+                T cursorResult = await ExecuteCursorQuery<T>(baseQuery, cursor, true);
 
                 if (!CanCursorQueryContinue(cursorResult))
                 {
@@ -351,7 +370,7 @@ namespace Tweetinvi.Credentials
             return result;
         }
 
-        public IEnumerable<T> ExecuteCursorGETCursorQueryResult<T>(
+        public async Task<IEnumerable<T>> ExecuteCursorGETCursorQueryResult<T>(
                 string baseQuery,
                 int maxObjectToRetrieve = Int32.MaxValue,
                 long cursor = -1)
@@ -367,7 +386,7 @@ namespace Tweetinvi.Credentials
             var result = new List<T>();
             while (previousCursor != nextCursor && nbOfObjectsProcessed < maxObjectToRetrieve)
             {
-                T cursorResult = ExecuteCursorQuery<T>(baseQuery, nextCursor, false);
+                T cursorResult = await ExecuteCursorQuery<T>(baseQuery, nextCursor, false);
 
                 if (!CanCursorQueryContinue(cursorResult))
                 {
@@ -399,22 +418,21 @@ namespace Tweetinvi.Credentials
             return true;
         }
 
-        public IEnumerable<T> ExecuteCursorGETQuery<T, T1>(
+        public Task<IEnumerable<T>> ExecuteCursorGETQuery<T, T1>(
             string baseQuery,
             ICursorQueryParameters cursorQueryParameters)
             where T1 : class, IBaseCursorQueryDTO<T>
         {
-            return ExecuteCursorGETQuery<T, T1>(baseQuery, cursorQueryParameters.MaximumNumberOfResults,
-                cursorQueryParameters.Cursor);
+            return ExecuteCursorGETQuery<T, T1>(baseQuery, cursorQueryParameters.MaximumNumberOfResults, cursorQueryParameters.Cursor);
         }
 
-        public IEnumerable<T> ExecuteCursorGETQuery<T, T1>(
+        public async Task<IEnumerable<T>> ExecuteCursorGETQuery<T, T1>(
                 string baseQuery,
                 int maxObjectToRetrieve = Int32.MaxValue,
                 long cursor = -1)
             where T1 : class, IBaseCursorQueryDTO<T>
         {
-            var cursorQueryResult = ExecuteCursorGETCursorQueryResult<T1>(baseQuery, maxObjectToRetrieve, cursor);
+            var cursorQueryResult = await ExecuteCursorGETCursorQueryResult<T1>(baseQuery, maxObjectToRetrieve, cursor);
             return _cursorQueryHelper.GetResultsFromCursorQuery(cursorQueryResult, maxObjectToRetrieve);
         }
 
@@ -428,13 +446,15 @@ namespace Tweetinvi.Credentials
             return baseQuery;
         }
 
-        private T ExecuteCursorQuery<T>(string baseQuery, long cursor, bool storeJson) where T : class, IBaseCursorQueryDTO
+        private async Task<T> ExecuteCursorQuery<T>(string baseQuery, long cursor, bool storeJson) where T : class, IBaseCursorQueryDTO
         {
             var query = string.Format("{0}cursor={1}", baseQuery, cursor);
 
-            string json;
-            if (TryExecuteGETQuery(query, out json))
+            var request = await TryExecuteGETQuery(query);
+
+            if (request.Success)
             {
+                var json = request.Result;
                 var dtoResult = _jsonObjectConverter.DeserializeObject<T>(json, JsonQueryConverterRepository.Converters);
 
                 if (storeJson)
@@ -453,7 +473,7 @@ namespace Tweetinvi.Credentials
         {
             try
             {
-                ExecuteQuery(url, (HttpMethod) HttpMethod.POST, (ITwitterCredentials) null, new StringContent(json));
+                ExecuteQuery(url, (HttpMethod)HttpMethod.POST, (ITwitterCredentials)null, new StringContent(json));
                 return true;
             }
             catch (TwitterException)
@@ -462,11 +482,12 @@ namespace Tweetinvi.Credentials
             }
         }
 
-        public string ExecuteQueryReturningContent(string query, HttpMethod method, HttpContent httpContent = null, bool forceThrow = false)
+        private async Task<string> ExecuteQueryReturningContent(string query, HttpMethod method, HttpContent httpContent = null, bool forceThrow = false)
         {
             try
             {
-                return ExecuteQuery(query, method, (ITwitterCredentials) null, httpContent).Text;
+                var webRequestResult = await ExecuteQuery(query, method, (ITwitterCredentials)null, httpContent);
+                return webRequestResult.Text;
             }
             catch (TwitterException ex)
             {
@@ -480,27 +501,27 @@ namespace Tweetinvi.Credentials
             }
         }
 
-        public IWebRequestResult ExecuteQuery(string query, HttpMethod method)
+        public Task<IWebRequestResult> ExecuteQuery(string query, HttpMethod method)
         {
             return ExecuteQuery(query, method, null);
         }
 
-        public T ExecuteQuery<T>(
-            string query, 
-            HttpMethod method, 
+        public async Task<T> ExecuteQuery<T>(
+            string query,
+            HttpMethod method,
             ITwitterCredentials credentials,
             HttpContent httpContent) where T : class
         {
-            var webRequestResult = ExecuteQuery(query, method, credentials, httpContent);
+            var webRequestResult = await ExecuteQuery(query, method, credentials, httpContent);
             var jsonResponse = webRequestResult.Text;
             var deserializedObject = _jsonObjectConverter.DeserializeObject<T>(jsonResponse);
             return deserializedObject;
         }
 
         // Concrete Execute
-        public IWebRequestResult ExecuteQuery(
-            string query, 
-            HttpMethod method, 
+        public Task<IWebRequestResult> ExecuteQuery(
+            string query,
+            HttpMethod method,
             ITwitterCredentials credentials,
             HttpContent httpContent = null)
         {
@@ -514,20 +535,26 @@ namespace Tweetinvi.Credentials
         }
 
         // Consumer Credentials
-        public IWebRequestResult ExecuteQuery(string query, HttpMethod method,
-            IConsumerOnlyCredentials credentials, HttpContent httpContent)
+        public async Task<IWebRequestResult> ExecuteQuery(
+            string query,
+            HttpMethod method,
+            IConsumerOnlyCredentials credentials,
+            HttpContent httpContent)
         {
-            return ExecuteQuery(query, method, new TwitterCredentials(credentials), httpContent);
+            return await ExecuteQuery(query, method, new TwitterCredentials(credentials), httpContent);
         }
 
-        public T ExecuteQuery<T>(string query, HttpMethod method, IConsumerOnlyCredentials credentials,
+        public async Task<T> ExecuteQuery<T>(
+            string query,
+            HttpMethod method,
+            IConsumerOnlyCredentials credentials,
             HttpContent httpContent) where T : class
         {
-            return ExecuteQuery<T>(query, method, new TwitterCredentials(credentials), httpContent);
+            return await ExecuteQuery<T>(query, method, new TwitterCredentials(credentials), httpContent);
         }
 
 
-        private bool TryExecuteMultipartQuery(IMultipartHttpRequestParameters parameters, out string result)
+        public async Task<AsyncOperation<string>> TryExecuteMultipartQuery(IMultipartHttpRequestParameters parameters)
         {
             if (parameters.Query == null)
             {
@@ -536,35 +563,39 @@ namespace Tweetinvi.Credentials
 
             try
             {
-                result = _twitterRequestHandler.ExecuteMultipartQuery(parameters);
-                return true;
+                return new AsyncOperation<string>
+                {
+                    Success = true,
+                    Result = await _twitterRequestHandler.ExecuteMultipartQuery(parameters)
+                };
             }
             catch (TwitterException ex)
             {
                 HandleQueryException(ex);
 
-                result = null;
-                return false;
+                return new FailedAsyncOperation<string>();
             }
         }
 
         // POST JSON body & get JSON response
-        public T ExecutePOSTQueryJsonBody<T>(string query, object reqBody, JsonConverter[] converters = null) where T : class
+        public async Task<T> ExecutePOSTQueryJsonBody<T>(string query, object reqBody, JsonConverter[] converters = null) where T : class
         {
-            string jsonResponse = ExecutePOSTQueryJsonBody(query, reqBody, converters);
+            string jsonResponse = await ExecutePOSTQueryJsonBody(query, reqBody, converters);
             return _jsonObjectConverter.DeserializeObject<T>(jsonResponse, converters);
         }
 
-        public string ExecutePOSTQueryJsonBody(string query, object reqBody, JsonConverter[] converters = null)
+        public Task<string> ExecutePOSTQueryJsonBody(string query, object reqBody, JsonConverter[] converters = null)
         {
             string jsonBody = _jsonObjectConverter.SerializeObject(reqBody, converters);
 
-            return ExecuteQueryReturningContent(query, HttpMethod.POST,
+            return ExecuteQueryReturningContent(
+                query,
+                HttpMethod.POST,
                 new StringContent(jsonBody, Encoding.UTF8, "application/json"));
         }
 
         // Download
-        public byte[] DownloadBinary(string url)
+        public Task<byte[]> DownloadBinary(string url)
         {
             if (url == null)
             {
@@ -593,7 +624,7 @@ namespace Tweetinvi.Credentials
         }
 
         // Sign
-        public ITwitterRequestParameters GenerateTwitterRequestParameters(string url, HttpMethod method, ITwitterCredentials credentials, HttpContent httpContent)
+        public async Task<ITwitterRequestParameters> GenerateTwitterRequestParameters(string url, HttpMethod method, ITwitterCredentials credentials, HttpContent httpContent)
         {
             var requestParameters = new HttpRequestParameters
             {
@@ -602,7 +633,7 @@ namespace Tweetinvi.Credentials
                 HttpContent = httpContent
             };
 
-            var twitterQuery = _twitterRequestHandler.GetTwitterQuery(requestParameters, RateLimitTrackerMode.None, credentials);
+            var twitterQuery = await _twitterRequestHandler.GetTwitterQuery(requestParameters, RateLimitTrackerMode.None, credentials);
 
             return new TwitterRequestParameters()
             {

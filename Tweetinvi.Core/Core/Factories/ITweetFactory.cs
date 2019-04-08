@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
 
@@ -6,8 +7,8 @@ namespace Tweetinvi.Core.Factories
 {
     public interface ITweetFactory
     {
-        ITweet GetTweet(long tweetId, TweetMode? tweetMode = null);
-        IEnumerable<ITweet> GetTweets(IEnumerable<long> tweetIds, TweetMode? tweetMode = null);
+        Task<ITweet> GetTweet(long tweetId, TweetMode? tweetMode = null);
+        Task<IEnumerable<ITweet>> GetTweets(IEnumerable<long> tweetIds, TweetMode? tweetMode = null);
 
         ITweet CreateTweet(string text, TweetMode? tweetMode = null);
 

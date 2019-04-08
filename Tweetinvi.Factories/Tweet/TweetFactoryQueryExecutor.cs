@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Tweetinvi.Core.Injectinvi;
 using Tweetinvi.Core.QueryGenerators;
 using Tweetinvi.Core.Web;
@@ -10,8 +11,8 @@ namespace Tweetinvi.Factories.Tweet
 {
     public interface ITweetFactoryQueryExecutor
     {
-        ITweetDTO GetTweetDTO(long tweetId);
-        IEnumerable<ITweetDTO> GetTweetDTOs(IEnumerable<long> tweetIds);
+        Task<ITweetDTO> GetTweetDTO(long tweetId);
+        Task<IEnumerable<ITweetDTO>> GetTweetDTOs(IEnumerable<long> tweetIds);
         ITweetDTO CreateTweetDTO(string text);
     }
 
@@ -33,13 +34,13 @@ namespace Tweetinvi.Factories.Tweet
             _tweetDTOUnityFactory = tweetDTOUnityFactory;
         }
 
-        public ITweetDTO GetTweetDTO(long tweetId)
+        public async Task<ITweetDTO> GetTweetDTO(long tweetId)
         {
             string query = _tweetQueryGenerator.GetTweetQuery(tweetId);
-            return _twitterAccessor.ExecuteGETQuery<TweetDTO>(query);
+            return await _twitterAccessor.ExecuteGETQuery<TweetDTO>(query);
         }
 
-        public IEnumerable<ITweetDTO> GetTweetDTOs(IEnumerable<long> tweetIds)
+        public async Task<IEnumerable<ITweetDTO>> GetTweetDTOs(IEnumerable<long> tweetIds)
         {
             var tweetIdsArray = tweetIds.Distinct().ToArray();
             var distinctTweetDTOs = new List<ITweetDTO>();
@@ -48,7 +49,7 @@ namespace Tweetinvi.Factories.Tweet
             {
                 var tweetIdsToAnalyze = tweetIdsArray.Skip(i).Take(MAX_NUMBER_OF_TWEET_TO_GET_IN_A_SINGLE_QUERY).ToArray();
                 string query = _tweetQueryGenerator.GetTweetsQuery(tweetIdsToAnalyze);
-                var tweetDTOs = _twitterAccessor.ExecuteGETQuery<IEnumerable<TweetDTO>>(query);
+                var tweetDTOs = await _twitterAccessor.ExecuteGETQuery<IEnumerable<TweetDTO>>(query);
 
                 if (tweetDTOs == null)
                 {

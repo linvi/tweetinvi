@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Tweetinvi.Core.Factories;
 using Tweetinvi.Models;
 using Tweetinvi.Parameters;
@@ -9,17 +10,17 @@ namespace Tweetinvi.Controllers.Search
 {
     public interface ISearchController
     {
-        IEnumerable<ITweet> SearchTweets(string searchQuery);
-        IEnumerable<ITweet> SearchTweets(ISearchTweetsParameters searchTweetsParameters);
+        Task<IEnumerable<ITweet>> SearchTweets(string searchQuery);
+        Task<IEnumerable<ITweet>> SearchTweets(ISearchTweetsParameters searchTweetsParameters);
 
-        ISearchResult SearchTweetsWithMetadata(string searchQuery);
-        ISearchResult SearchTweetsWithMetadata(ISearchTweetsParameters searchTweetsParameters);
+        Task<ISearchResult> SearchTweetsWithMetadata(string searchQuery);
+        Task<ISearchResult> SearchTweetsWithMetadata(ISearchTweetsParameters searchTweetsParameters);
 
-        IEnumerable<ITweet> SearchDirectRepliesTo(ITweet tweet);
-        IEnumerable<ITweet> SearchRepliesTo(ITweet tweet, bool recursiveReplies);
+        Task<IEnumerable<ITweet>> SearchDirectRepliesTo(ITweet tweet);
+        Task<IEnumerable<ITweet>> SearchRepliesTo(ITweet tweet, bool recursiveReplies);
 
-        IEnumerable<IUser> SearchUsers(string searchQuery);
-        IEnumerable<IUser> SearchUsers(ISearchUsersParameters searchUsersParameters);
+        Task<IEnumerable<IUser>> SearchUsers(string searchQuery);
+        Task<IEnumerable<IUser>> SearchUsers(ISearchUsersParameters searchUsersParameters);
     }
 
     public class SearchController : ISearchController
@@ -41,55 +42,55 @@ namespace Tweetinvi.Controllers.Search
             _userFactory = userFactory;
         }
 
-        public IEnumerable<ITweet> SearchTweets(string searchQuery)
+        public async Task<IEnumerable<ITweet>> SearchTweets(string searchQuery)
         {
-            var tweetsDTO = _searchQueryExecutor.SearchTweets(searchQuery);
+            var tweetsDTO = await _searchQueryExecutor.SearchTweets(searchQuery);
             return _tweetFactory.GenerateTweetsFromDTO(tweetsDTO);
         }
 
-        public IEnumerable<ITweet> SearchTweets(ISearchTweetsParameters searchTweetsParameters)
+        public async Task<IEnumerable<ITweet>> SearchTweets(ISearchTweetsParameters searchTweetsParameters)
         {
-            var tweetsDTO = _searchQueryExecutor.SearchTweets(searchTweetsParameters);
+            var tweetsDTO = await _searchQueryExecutor.SearchTweets(searchTweetsParameters);
             return _tweetFactory.GenerateTweetsFromDTO(tweetsDTO);
         }
 
-        public ISearchResult SearchTweetsWithMetadata(string searchQuery)
+        public async Task<ISearchResult> SearchTweetsWithMetadata(string searchQuery)
         {
-            var searchResultsDTO = _searchQueryExecutor.SearchTweetsWithMetadata(searchQuery);
+            var searchResultsDTO = await _searchQueryExecutor.SearchTweetsWithMetadata(searchQuery);
             return _searchResultFactory.Create(new [] { searchResultsDTO });
         }
 
-        public ISearchResult SearchTweetsWithMetadata(ISearchTweetsParameters searchTweetsParameters)
+        public async Task<ISearchResult> SearchTweetsWithMetadata(ISearchTweetsParameters searchTweetsParameters)
         {
-            var searchResultsDTO = _searchQueryExecutor.SearchTweetsWithMetadata(searchTweetsParameters).ToArray();
+            var searchResultsDTO = (await _searchQueryExecutor.SearchTweetsWithMetadata(searchTweetsParameters)).ToArray();
             return _searchResultFactory.Create(searchResultsDTO);
         }
 
-        public IEnumerable<ITweet> SearchDirectRepliesTo(ITweet tweet)
+        public Task<IEnumerable<ITweet>> SearchDirectRepliesTo(ITweet tweet)
         {
             return SearchRepliesTo(tweet, false);
         }
 
-        public IEnumerable<ITweet> SearchRepliesTo(ITweet tweet, bool recursiveReplies)
+        public async Task<IEnumerable<ITweet>> SearchRepliesTo(ITweet tweet, bool recursiveReplies)
         {
             if (tweet == null)
             {
                 throw new ArgumentException("Tweet cannot be null");
             }
 
-            var repliesDTO = _searchQueryExecutor.SearchRepliesTo(tweet.TweetDTO, recursiveReplies);
+            var repliesDTO = await _searchQueryExecutor.SearchRepliesTo(tweet.TweetDTO, recursiveReplies);
             return _tweetFactory.GenerateTweetsFromDTO(repliesDTO);
         }
 
-        public IEnumerable<IUser> SearchUsers(string searchQuery)
+        public async Task<IEnumerable<IUser>> SearchUsers(string searchQuery)
         {
-            var userDTOs = _searchQueryExecutor.SearchUsers(searchQuery);
+            var userDTOs = await _searchQueryExecutor.SearchUsers(searchQuery);
             return _userFactory.GenerateUsersFromDTO(userDTOs);
         }
 
-        public IEnumerable<IUser> SearchUsers(ISearchUsersParameters searchUsersParameters)
+        public async Task<IEnumerable<IUser>> SearchUsers(ISearchUsersParameters searchUsersParameters)
         {
-            var userDTOs = _searchQueryExecutor.SearchUsers(searchUsersParameters);
+            var userDTOs = await _searchQueryExecutor.SearchUsers(searchUsersParameters);
             return _userFactory.GenerateUsersFromDTO(userDTOs);
         }
     }

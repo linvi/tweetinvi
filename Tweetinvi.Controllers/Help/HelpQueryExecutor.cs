@@ -1,4 +1,5 @@
-﻿using Tweetinvi.Core.Credentials;
+﻿using System.Threading.Tasks;
+using Tweetinvi.Core.Credentials;
 using Tweetinvi.Core.QueryGenerators;
 using Tweetinvi.Core.Web;
 using Tweetinvi.Models;
@@ -8,11 +9,11 @@ namespace Tweetinvi.Controllers.Help
 {
     public interface IHelpQueryExecutor
     {
-        ICredentialsRateLimits GetCurrentCredentialsRateLimits();
-        ICredentialsRateLimits GetCredentialsRateLimits(ITwitterCredentials credentials);
-        string GetTwitterPrivacyPolicy();
-        ITwitterConfiguration GetTwitterConfiguration();
-        string GetTermsOfService();
+        Task<ICredentialsRateLimits> GetCurrentCredentialsRateLimits();
+        Task<ICredentialsRateLimits> GetCredentialsRateLimits(ITwitterCredentials credentials);
+        Task<string> GetTwitterPrivacyPolicy();
+        Task<ITwitterConfiguration> GetTwitterConfiguration();
+        Task<string> GetTermsOfService();
     }
 
     public class HelpQueryExecutor : IHelpQueryExecutor
@@ -31,13 +32,13 @@ namespace Tweetinvi.Controllers.Help
             _credentialsAccessor = credentialsAccessor;
         }
 
-        public ICredentialsRateLimits GetCurrentCredentialsRateLimits()
+        public Task<ICredentialsRateLimits> GetCurrentCredentialsRateLimits()
         {
             string query = _helpQueryGenerator.GetCredentialsLimitsQuery();
             return _twitterAccessor.ExecuteGETQuery<ICredentialsRateLimits>(query);
         }
 
-        public ICredentialsRateLimits GetCredentialsRateLimits(ITwitterCredentials credentials)
+        public Task<ICredentialsRateLimits> GetCredentialsRateLimits(ITwitterCredentials credentials)
         {
             var savedCredentials = _credentialsAccessor.CurrentThreadCredentials;
             _credentialsAccessor.CurrentThreadCredentials = credentials;
@@ -46,10 +47,10 @@ namespace Tweetinvi.Controllers.Help
             return rateLimits;
         }
 
-        public string GetTwitterPrivacyPolicy()
+        public async Task<string> GetTwitterPrivacyPolicy()
         {
             string query = _helpQueryGenerator.GetTwitterPrivacyPolicyQuery();
-            var privacyJson = _twitterAccessor.ExecuteGETQuery(query);
+            var privacyJson = await _twitterAccessor.ExecuteGETQuery(query);
 
             if (privacyJson == null)
             {
@@ -59,13 +60,13 @@ namespace Tweetinvi.Controllers.Help
             return privacyJson["privacy"].ToObject<string>();
         }
 
-        public ITwitterConfiguration GetTwitterConfiguration()
+        public Task<ITwitterConfiguration> GetTwitterConfiguration()
         {
             string query = _helpQueryGenerator.GetTwitterConfigurationQuery();
             return _twitterAccessor.ExecuteGETQuery<ITwitterConfiguration>(query);
         }
 
-        public string GetTermsOfService()
+        public Task<string> GetTermsOfService()
         {
             var query = _helpQueryGenerator.GetTermsOfServiceQuery();
             return _twitterAccessor.ExecuteGETQueryWithPath<string>(query, "tos");

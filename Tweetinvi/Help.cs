@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Tweetinvi.Core.Controllers;
 using Tweetinvi.Models.DTO;
 
@@ -41,7 +42,7 @@ namespace Tweetinvi
         /// <summary>
         /// Get the Twitter privacy policy
         /// </summary>
-        public static string GetTwitterPrivacyPolicy()
+        public static Task<string> GetTwitterPrivacyPolicy()
         {
             return HelpController.GetTwitterPrivacyPolicy();
         }
@@ -49,7 +50,7 @@ namespace Tweetinvi
         /// <summary>
         /// Get the Twitter API configuration
         /// </summary>
-        public static ITwitterConfiguration GetTwitterConfiguration()
+        public static Task<ITwitterConfiguration> GetTwitterConfiguration()
         {
             return HelpController.GetTwitterConfiguration();
         }
@@ -57,7 +58,7 @@ namespace Tweetinvi
         /// <summary>
         /// Get Twitter Terms of Service
         /// </summary>
-        public static string GetTermsOfService()
+        public static Task<string> GetTermsOfService()
         {
             return HelpController.GetTermsOfService();
         }

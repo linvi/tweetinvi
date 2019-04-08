@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
 
@@ -7,7 +8,7 @@ namespace Tweetinvi.Core.Factories
     public interface IMessageFactory
     {
         // Get existing message
-        IMessage GetExistingMessage(long messageId);
+        Task<IMessage> GetExistingMessage(long messageId);
 
         // Generate message(s) from DTO from Twitter API
         IMessage GenerateMessageFromGetMessageDTO(IGetMessageDTO getMessageDTO);

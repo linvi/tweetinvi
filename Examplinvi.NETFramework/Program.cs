@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Reflection;
+using System.Threading.Tasks;
 
 // REST API
 using Tweetinvi;
@@ -567,10 +568,10 @@ namespace Examplinvi
             Console.WriteLine(user.Id);
         }
 
-        public static void User_GetFriendIds(string userName)
+        public static async Task User_GetFriendIds(string userName)
         {
             var user = User.GetUserFromScreenName(userName);
-            var friendIds = user.GetFriendIds();
+            var friendIds = await user.GetFriendIds();
 
             Console.WriteLine("{0} has {1} friends, here are some of them :", user.Name, user.FriendsCount);
             foreach (var friendId in friendIds)
@@ -579,10 +580,10 @@ namespace Examplinvi
             }
         }
 
-        public static void User_GetFriendIdsUpTo(string userName, int limit)
+        public static async Task User_GetFriendIdsUpTo(string userName, int limit)
         {
             var user = User.GetUserFromScreenName(userName);
-            var friendIds = user.GetFriendIds(limit);
+            var friendIds = await user.GetFriendIds(limit);
 
             Console.WriteLine("{0} has {1} friends, here are some of them :", user.Name, user.FriendsCount);
             foreach (var friendId in friendIds)
@@ -591,10 +592,10 @@ namespace Examplinvi
             }
         }
 
-        public static void User_GetFriends(string userName)
+        public static async Task User_GetFriends(string userName)
         {
             var user = User.GetUserFromScreenName(userName);
-            var friends = user.GetFriends();
+            var friends = await user.GetFriends();
 
             Console.WriteLine("{0} has {1} friends, here are some of them :", user.Name, user.FriendsCount);
             foreach (var friend in friends)
@@ -603,10 +604,10 @@ namespace Examplinvi
             }
         }
 
-        public static void User_GetFollowerIds(string userName)
+        public static async Task User_GetFollowerIds(string userName)
         {
             var user = User.GetUserFromScreenName(userName);
-            var followerIds = user.GetFollowerIds();
+            var followerIds = await user.GetFollowerIds();
 
             Console.WriteLine("{0} has {1} followers, here are some of them :", user.Name, user.FollowersCount);
             foreach (var followerId in followerIds)
@@ -615,10 +616,10 @@ namespace Examplinvi
             }
         }
 
-        public static void User_GetFollowerIdsUpTo(string userName, int limit)
+        public static async Task User_GetFollowerIdsUpTo(string userName, int limit)
         {
             var user = User.GetUserFromScreenName(userName);
-            var followerIds = user.GetFollowerIds(limit);
+            var followerIds = await user.GetFollowerIds(limit);
 
             Console.WriteLine("{0} has {1} followers, here are some of them :", user.Name, user.FollowersCount);
             foreach (var followerId in followerIds)
@@ -627,10 +628,10 @@ namespace Examplinvi
             }
         }
 
-        public static void User_GetFollowers(string userName)
+        public static async Task User_GetFollowers(string userName)
         {
             var user = User.GetUserFromScreenName(userName);
-            var followers = user.GetFollowers();
+            var followers = await user.GetFollowers();
 
             Console.WriteLine("{0} has {1} followers, here are some of them :", user.Name, user.FollowersCount);
             foreach (var follower in followers)
@@ -639,12 +640,12 @@ namespace Examplinvi
             }
         }
 
-        public static void User_GetRelationshipBetween(string sourceUserName, string targetUsername)
+        public static async Task User_GetRelationshipBetween(string sourceUserName, string targetUsername)
         {
             var sourceUser = User.GetUserFromScreenName(sourceUserName);
             var targetUser = User.GetUserFromScreenName(targetUsername);
 
-            var relationship = sourceUser.GetRelationshipWith(targetUser);
+            var relationship = await sourceUser.GetRelationshipWith(targetUser);
             Console.WriteLine("You are{0} following {1}", relationship.Following ? "" : " not", targetUsername);
             Console.WriteLine("You are{0} being followed by {1}", relationship.FollowedBy ? "" : " not", targetUsername);
         }
@@ -809,22 +810,22 @@ namespace Examplinvi
             }
         }
 
-        public static void Timeline_GetHomeTimeline()
+        public static async Task Timeline_GetHomeTimeline()
         {
             var authenticatedUser = User.GetAuthenticatedUser();
 
-            var homeTimelineTweets = authenticatedUser.GetHomeTimeline();
+            var homeTimelineTweets = await authenticatedUser.GetHomeTimeline();
             foreach (var tweet in homeTimelineTweets)
             {
                 Console.WriteLine(tweet.Text);
             }
         }
 
-        public static void Timeline_GetMentionsTimeline()
+        public static async Task Timeline_GetMentionsTimeline()
         {
             var authenticatedUser = User.GetAuthenticatedUser();
 
-            var mentionsTimelineTweets = authenticatedUser.GetMentionsTimeline();
+            var mentionsTimelineTweets = await authenticatedUser.GetMentionsTimeline();
             foreach (var mention in mentionsTimelineTweets)
             {
                 Console.WriteLine(mention.Text);
@@ -1161,18 +1162,18 @@ namespace Examplinvi
             Console.WriteLine("Tweet {0} been destroyed.", hasBeenDestroyed ? "has" : "has not");
         }
 
-        public static void TwitterList_GetTweetsFromList(long listId)
+        public static async Task TwitterList_GetTweetsFromList(long listId)
         {
             var list = TwitterList.GetExistingList(listId);
-            var tweets = list.GetTweets();
+            var tweets = await list.GetTweets();
 
             tweets.ForEach(t => Console.WriteLine(t.Text));
         }
 
-        public static void TwitterList_GetMembersOfList(long listId)
+        public static async Task TwitterList_GetMembersOfList(long listId)
         {
             var list = TwitterList.GetExistingList(listId);
-            var members = list.GetMembers();
+            var members = await list.GetMembers();
 
             members.ForEach(x => Console.WriteLine(x.Name));
         }

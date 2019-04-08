@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Tweetinvi.Core.Extensions;
 using Tweetinvi.Core.QueryGenerators;
 using Tweetinvi.Core.Web;
@@ -12,16 +13,16 @@ namespace Tweetinvi.Factories.User
 {
     public interface IUserFactoryQueryExecutor
     {
-        IUserDTO GetAuthenticatedUser(IGetAuthenticatedUserParameters parameters);
+        Task<IUserDTO> GetAuthenticatedUser(IGetAuthenticatedUserParameters parameters);
 
-        IUserDTO GetUserDTOFromId(long userId);
-        IUserDTO GetUserDTOFromScreenName(string userName);
+        Task<IUserDTO> GetUserDTOFromId(long userId);
+        Task<IUserDTO> GetUserDTOFromScreenName(string userName);
 
-        List<IUserDTO> GetUsersDTOFromIds(IEnumerable<long> userIds);
-        List<IUserDTO> GetUsersDTOFromScreenNames(IEnumerable<string> userScreenNames);
+        Task<List<IUserDTO>> GetUsersDTOFromIds(IEnumerable<long> userIds);
+        Task<List<IUserDTO>> GetUsersDTOFromScreenNames(IEnumerable<string> userScreenNames);
 
-        List<IUserDTO> LookupUserIds(List<long> userIds);
-        List<IUserDTO> LookupUserScreenNames(List<string> userName);
+        Task<List<IUserDTO>> LookupUserIds(List<long> userIds);
+        Task<List<IUserDTO>> LookupUserScreenNames(List<string> userName);
     }
 
     public class UserFactoryQueryExecutor : IUserFactoryQueryExecutor
@@ -36,26 +37,26 @@ namespace Tweetinvi.Factories.User
         }
 
         // Get single user
-        public IUserDTO GetAuthenticatedUser(IGetAuthenticatedUserParameters parameters)
+        public Task<IUserDTO> GetAuthenticatedUser(IGetAuthenticatedUserParameters parameters)
         {
             var query = _userQueryParameterGenerator.GetAuthenticatedUserQuery(parameters);
             return _twitterAccessor.ExecuteGETQuery<IUserDTO>(query);
         }
 
-        public IUserDTO GetUserDTOFromId(long userId)
+        public Task<IUserDTO> GetUserDTOFromId(long userId)
         {
             var query = string.Format(Resources.User_GetUserFromId, userId);
             return _twitterAccessor.ExecuteGETQuery<IUserDTO>(query);
         }
 
-        public IUserDTO GetUserDTOFromScreenName(string userName)
+        public Task<IUserDTO> GetUserDTOFromScreenName(string userName)
         {
             var query = string.Format(Resources.User_GetUserFromName, userName);
             return _twitterAccessor.ExecuteGETQuery<IUserDTO>(query);
         }
 
         // Get Multiple users
-        public List<IUserDTO> GetUsersDTOFromIds(IEnumerable<long> enumerableUserIds)
+        public async Task<List<IUserDTO>> GetUsersDTOFromIds(IEnumerable<long> enumerableUserIds)
         {
             // Optimisation: prevent multiple enumerations
             long[] userIds = enumerableUserIds as long[] ?? enumerableUserIds.ToArray();
@@ -65,7 +66,7 @@ namespace Tweetinvi.Factories.User
             for (int i = 0; i < userIds.Length; i += TweetinviConsts.USERS_LOOKUP_MAX_PER_REQ)
             {
                 var userIdsToLookup = userIds.Skip(i).Take(TweetinviConsts.USERS_LOOKUP_MAX_PER_REQ).ToList();
-                var retrievedUsers = LookupUserIds(userIdsToLookup);
+                var retrievedUsers = await LookupUserIds(userIdsToLookup);
                 usersDTO.AddRangeSafely(retrievedUsers);
 
                 if (retrievedUsers == null)
@@ -77,7 +78,7 @@ namespace Tweetinvi.Factories.User
             return usersDTO;
         }
 
-        public List<IUserDTO> GetUsersDTOFromScreenNames(IEnumerable<string> enumerableUserScreenNames)
+        public async Task<List<IUserDTO>> GetUsersDTOFromScreenNames(IEnumerable<string> enumerableUserScreenNames)
         {
             // Optimisation: prevent multiple enumerations
             string[] userScreenNames = enumerableUserScreenNames as string[] ?? enumerableUserScreenNames.ToArray();
@@ -87,7 +88,7 @@ namespace Tweetinvi.Factories.User
             for (int i = 0; i < userScreenNames.Length; i += TweetinviConsts.USERS_LOOKUP_MAX_PER_REQ)
             {
                 var userScreenNamesToLookup = userScreenNames.Skip(i).Take(TweetinviConsts.USERS_LOOKUP_MAX_PER_REQ).ToList();
-                var retrievedUsers = LookupUserScreenNames(userScreenNamesToLookup);
+                var retrievedUsers = await LookupUserScreenNames(userScreenNamesToLookup);
                 usersDTO.AddRangeSafely(retrievedUsers);
 
                 if (retrievedUsers == null)
@@ -100,7 +101,7 @@ namespace Tweetinvi.Factories.User
         }
 
         // Lookup
-        public List<IUserDTO> LookupUserIds(List<long> userIds)
+        public Task<List<IUserDTO>> LookupUserIds(List<long> userIds)
         {
             if (userIds.Count > TweetinviConsts.USERS_LOOKUP_MAX_PER_REQ)
             {
@@ -113,7 +114,7 @@ namespace Tweetinvi.Factories.User
             return _twitterAccessor.ExecutePOSTQuery<List<IUserDTO>>(query);
         }
 
-        public List<IUserDTO> LookupUserScreenNames(List<string> userName)
+        public Task<List<IUserDTO>> LookupUserScreenNames(List<string> userName)
         {
             if (userName.Count > TweetinviConsts.USERS_LOOKUP_MAX_PER_REQ)
             {

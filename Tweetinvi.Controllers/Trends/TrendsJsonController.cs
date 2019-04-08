@@ -1,12 +1,13 @@
-﻿using Tweetinvi.Core.Web;
+﻿using System.Threading.Tasks;
+using Tweetinvi.Core.Web;
 using Tweetinvi.Models;
 
 namespace Tweetinvi.Controllers.Trends
 {
     public interface ITrendsJsonController
     {
-        string GetPlaceTrendsAt(long woeid);
-        string GetPlaceTrendsAt(IWoeIdLocation woeIdLocation);
+        Task<string> GetPlaceTrendsAt(long woeid);
+        Task<string> GetPlaceTrendsAt(IWoeIdLocation woeIdLocation);
     }
 
     public class TrendsJsonController : ITrendsJsonController
@@ -22,13 +23,13 @@ namespace Tweetinvi.Controllers.Trends
             _twitterAccessor = twitterAccessor;
         }
 
-        public string GetPlaceTrendsAt(long woeid)
+        public Task<string> GetPlaceTrendsAt(long woeid)
         {
             string query = _trendsQueryGenerator.GetPlaceTrendsAtQuery(woeid);
             return _twitterAccessor.ExecuteGETQueryReturningJson(query);
         }
 
-        public string GetPlaceTrendsAt(IWoeIdLocation woeIdLocation)
+        public Task<string> GetPlaceTrendsAt(IWoeIdLocation woeIdLocation)
         {
             string query = _trendsQueryGenerator.GetPlaceTrendsAtQuery(woeIdLocation);
             return _twitterAccessor.ExecuteGETQueryReturningJson(query);

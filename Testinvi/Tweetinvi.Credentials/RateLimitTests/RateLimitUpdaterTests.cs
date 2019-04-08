@@ -39,7 +39,7 @@ namespace Testinvi.Tweetinvi.Credentials.RateLimitTests
         {
             // Arrange
             var cacheUpdater = CreateRateLimitUpdater();
-            _fakeRateLimitCacheManager.CallsTo(x => x.GetQueryRateLimit(TEST_QUERY, _credentials)).Returns(null);
+            _fakeRateLimitCacheManager.CallsTo(x => x.GetQueryRateLimit(TEST_QUERY, _credentials)).ReturnsLazily(null);
 
             // Act
             cacheUpdater.QueryExecuted(TEST_QUERY);
@@ -53,7 +53,7 @@ namespace Testinvi.Tweetinvi.Credentials.RateLimitTests
         {
             // Arrange
             var cacheUpdater = CreateRateLimitUpdater();
-            _fakeRateLimitCacheManager.CallsTo(x => x.GetQueryRateLimit(TEST_QUERY, _credentials)).Returns(null);
+            _fakeRateLimitCacheManager.CallsTo(x => x.GetQueryRateLimit(TEST_QUERY, _credentials)).ReturnsLazily(null);
 
             // Act
             cacheUpdater.QueryExecuted(TEST_QUERY, _credentials);

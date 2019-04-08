@@ -38,7 +38,7 @@ namespace Tweetinvi
         public static IAuthenticationContext InitAuthentication(IConsumerCredentials appCredentials,
             string callbackURL = null)
         {
-            return _webTokenFactory.InitAuthenticationProcess(appCredentials, callbackURL, Guid.NewGuid().ToString());
+            return _webTokenFactory.InitAuthenticationProcess(appCredentials, callbackURL, Guid.NewGuid().ToString()).Result;
         }
 
         /// <summary>
@@ -49,7 +49,7 @@ namespace Tweetinvi
         public static IAuthenticationContext InitAuthentication(IConsumerCredentials appCredentials, string callbackURL,
             string authenticationIdentifier)
         {
-            return _webTokenFactory.InitAuthenticationProcess(appCredentials, callbackURL, authenticationIdentifier);
+            return _webTokenFactory.InitAuthenticationProcess(appCredentials, callbackURL, authenticationIdentifier).Result;
         }
 
         // ##############   Step 2 - Get the token from URL or pin code   ###############
@@ -72,7 +72,7 @@ namespace Tweetinvi
         public static ITwitterCredentials CreateCredentialsFromVerifierCode(string verifierCode,
             IAuthenticationToken authToken)
         {
-            return _authFactory.GetCredentialsFromVerifierCode(verifierCode, authToken);
+            return _authFactory.GetCredentialsFromVerifierCode(verifierCode, authToken).Result;
         }
 
         /// <summary>
@@ -102,7 +102,7 @@ namespace Tweetinvi
                 AuthorizationSecret = authorizationSecret
             };
 
-            return _authFactory.GetCredentialsFromVerifierCode(verifierCode, authToken);
+            return _authFactory.GetCredentialsFromVerifierCode(verifierCode, authToken).Result;
         }
 
         /// <summary>
@@ -124,7 +124,7 @@ namespace Tweetinvi
         public static ITwitterCredentials CreateCredentialsFromVerifierCode(string verifierCode, string authorizationId)
         {
             var authToken = CreateCrentialsFromId(authorizationId, null);
-            return _authFactory.GetCredentialsFromVerifierCode(verifierCode, authToken);
+            return _authFactory.GetCredentialsFromVerifierCode(verifierCode, authToken).Result;
         }
 
         /// <summary>

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Tweetinvi.Controllers.Upload;
 using Tweetinvi.Core.Controllers;
 using Tweetinvi.Core.QueryGenerators;
@@ -12,39 +13,39 @@ namespace Tweetinvi.Controllers.Tweet
     public interface ITweetJsonController
     {
         // Get Tweet
-        string GetTweet(long tweetId);
+        Task<string> GetTweet(long tweetId);
 
 
         // Publish Tweet
-        string PublishTweet(IPublishTweetParameters parameters);
+        Task<string> PublishTweet(IPublishTweetParameters parameters);
 
         // Publish Retweet
-        string PublishRetweet(ITweet tweet);
-        string PublishRetweet(ITweetDTO tweetDTO);
-        string PublishRetweet(long tweetId);
+        Task<string> PublishRetweet(ITweet tweet);
+        Task<string> PublishRetweet(ITweetDTO tweetDTO);
+        Task<string> PublishRetweet(long tweetId);
 
         // Get Retweets
-        string GetRetweets(ITweetIdentifier tweetIdentifier, int maxRetweetsToRetrieve = 100);
-        string GetRetweets(long tweetId, int maxRetweetsToRetrieve = 100);
+        Task<string> GetRetweets(ITweetIdentifier tweetIdentifier, int maxRetweetsToRetrieve = 100);
+        Task<string> GetRetweets(long tweetId, int maxRetweetsToRetrieve = 100);
 
         // Destroy Tweet
-        string DestroyTweet(ITweet tweet);
-        string DestroyTweet(ITweetDTO tweetDTO);
-        string DestroyTweet(long tweetId);
+        Task<string> DestroyTweet(ITweet tweet);
+        Task<string> DestroyTweet(ITweetDTO tweetDTO);
+        Task<string> DestroyTweet(long tweetId);
 
         // Favourite Tweet
-        string FavoriteTweet(ITweet tweet);
-        string FavoriteTweet(ITweetDTO tweetDTO);
-        string FavoriteTweet(long tweetId);
+        Task<string> FavoriteTweet(ITweet tweet);
+        Task<string> FavoriteTweet(ITweetDTO tweetDTO);
+        Task<string> FavoriteTweet(long tweetId);
 
-        string UnFavoriteTweet(ITweet tweet);
-        string UnFavoriteTweet(ITweetDTO tweetDTO);
-        string UnFavoriteTweet(long tweetId);
+        Task<string> UnFavoriteTweet(ITweet tweet);
+        Task<string> UnFavoriteTweet(ITweetDTO tweetDTO);
+        Task<string> UnFavoriteTweet(long tweetId);
 
         // Generate OembedTweet
-        string GenerateOEmbedTweet(ITweet tweet);
-        string GenerateOEmbedTweet(ITweetDTO tweetDTO);
-        string GenerateOEmbedTweet(long tweetId);
+        Task<string> GenerateOEmbedTweet(ITweet tweet);
+        Task<string> GenerateOEmbedTweet(ITweetDTO tweetDTO);
+        Task<string> GenerateOEmbedTweet(long tweetId);
     }
 
     public class TweetJsonController : ITweetJsonController
@@ -70,13 +71,13 @@ namespace Tweetinvi.Controllers.Tweet
         }
 
         // Get Tweet
-        public string GetTweet(long tweetId)
+        public Task<string> GetTweet(long tweetId)
         {
             string query = _tweetQueryGenerator.GetTweetQuery(tweetId);
             return _twitterAccessor.ExecuteGETQueryReturningJson(query);
         }
 
-        public string PublishTweet(IPublishTweetParameters parameters)
+        public Task<string> PublishTweet(IPublishTweetParameters parameters)
         {
             // The exceptions have to be raised before the QueryGenerator as 
             // We do not want to wait for the media to be uploaded to throw the
@@ -90,7 +91,7 @@ namespace Tweetinvi.Controllers.Tweet
         }
 
         // Publish Retweet
-        public string PublishRetweet(ITweet tweetToRetweet)
+        public Task<string> PublishRetweet(ITweet tweetToRetweet)
         {
             if (tweetToRetweet == null)
             {
@@ -100,13 +101,13 @@ namespace Tweetinvi.Controllers.Tweet
             return PublishRetweet(tweetToRetweet.TweetDTO);
         }
 
-        public string PublishRetweet(ITweetDTO tweetToRetweet)
+        public Task<string> PublishRetweet(ITweetDTO tweetToRetweet)
         {
             string query = _tweetQueryGenerator.GetPublishRetweetQuery(tweetToRetweet);
             return _twitterAccessor.ExecutePOSTQueryReturningJson(query);
         }
 
-        public string PublishRetweet(long tweetId)
+        public Task<string> PublishRetweet(long tweetId)
         {
             string query = _tweetQueryGenerator.GetPublishRetweetQuery(tweetId);
             return _twitterAccessor.ExecutePOSTQueryReturningJson(query);
@@ -114,18 +115,18 @@ namespace Tweetinvi.Controllers.Tweet
 
         // Get Retweets
 
-        public string GetRetweets(ITweetIdentifier tweetIdentifier, int maxRetweetsToRetrieve = 100)
+        public Task<string> GetRetweets(ITweetIdentifier tweetIdentifier, int maxRetweetsToRetrieve = 100)
         {
             string query = _tweetQueryGenerator.GetRetweetsQuery(tweetIdentifier, maxRetweetsToRetrieve);
             return _twitterAccessor.ExecuteGETQueryReturningJson(query);
         }
 
-        public string GetRetweets(long tweetId, int maxRetweetsToRetrieve = 100)
+        public Task<string> GetRetweets(long tweetId, int maxRetweetsToRetrieve = 100)
         {
             return GetRetweets(new TweetIdentifier(tweetId), maxRetweetsToRetrieve);
         }
 
-        public string DestroyTweet(ITweet tweetToDestroy)
+        public Task<string> DestroyTweet(ITweet tweetToDestroy)
         {
             if (tweetToDestroy == null)
             {
@@ -136,20 +137,20 @@ namespace Tweetinvi.Controllers.Tweet
         }
 
         // Destroy Tweet
-        public string DestroyTweet(ITweetDTO tweet)
+        public Task<string> DestroyTweet(ITweetDTO tweet)
         {
             string query = _tweetQueryGenerator.GetDestroyTweetQuery(tweet);
             return _twitterAccessor.ExecutePOSTQueryReturningJson(query);
         }
 
-        public string DestroyTweet(long tweetId)
+        public Task<string> DestroyTweet(long tweetId)
         {
             string query = _tweetQueryGenerator.GetDestroyTweetQuery(tweetId);
             return _twitterAccessor.ExecutePOSTQueryReturningJson(query);
         }
 
         // Favourite Tweet
-        public string FavoriteTweet(ITweet tweet)
+        public Task<string> FavoriteTweet(ITweet tweet)
         {
             if (tweet == null)
             {
@@ -159,19 +160,19 @@ namespace Tweetinvi.Controllers.Tweet
             return FavoriteTweet(tweet.TweetDTO);
         }
 
-        public string FavoriteTweet(long tweetId)
+        public Task<string> FavoriteTweet(long tweetId)
         {
             string query = _tweetQueryGenerator.GetFavoriteTweetQuery(tweetId);
             return _twitterAccessor.ExecutePOSTQueryReturningJson(query);
         }
 
-        public string FavoriteTweet(ITweetDTO tweetDTO)
+        public Task<string> FavoriteTweet(ITweetDTO tweetDTO)
         {
             string query = _tweetQueryGenerator.GetFavoriteTweetQuery(tweetDTO);
             return _twitterAccessor.ExecutePOSTQueryReturningJson(query);
         }
 
-        public string UnFavoriteTweet(ITweet tweet)
+        public Task<string> UnFavoriteTweet(ITweet tweet)
         {
             if (tweet == null)
             {
@@ -181,20 +182,20 @@ namespace Tweetinvi.Controllers.Tweet
             return UnFavoriteTweet(tweet.TweetDTO);
         }
 
-        public string UnFavoriteTweet(ITweetDTO tweetDTO)
+        public Task<string> UnFavoriteTweet(ITweetDTO tweetDTO)
         {
             string query = _tweetQueryGenerator.GetUnFavoriteTweetQuery(tweetDTO);
             return _twitterAccessor.ExecutePOSTQueryReturningJson(query);
         }
 
-        public string UnFavoriteTweet(long tweetId)
+        public Task<string> UnFavoriteTweet(long tweetId)
         {
             string query = _tweetQueryGenerator.GetUnFavoriteTweetQuery(tweetId);
             return _twitterAccessor.ExecutePOSTQueryReturningJson(query);
         }
 
         // Generate OEmbed Tweet
-        public string GenerateOEmbedTweet(ITweet tweet)
+        public Task<string> GenerateOEmbedTweet(ITweet tweet)
         {
             if (tweet == null)
             {
@@ -204,13 +205,13 @@ namespace Tweetinvi.Controllers.Tweet
             return GenerateOEmbedTweet(tweet.TweetDTO);
         }
 
-        public string GenerateOEmbedTweet(ITweetDTO tweet)
+        public Task<string> GenerateOEmbedTweet(ITweetDTO tweet)
         {
             string query = _tweetQueryGenerator.GetGenerateOEmbedTweetQuery(tweet);
             return _twitterAccessor.ExecuteGETQueryReturningJson(query);
         }
 
-        public string GenerateOEmbedTweet(long tweetId)
+        public Task<string> GenerateOEmbedTweet(long tweetId)
         {
             string query = _tweetQueryGenerator.GetGenerateOEmbedTweetQuery(tweetId);
             return _twitterAccessor.ExecuteGETQueryReturningJson(query);

@@ -1,4 +1,5 @@
-﻿using Tweetinvi.Core.Web;
+﻿using System.Threading.Tasks;
+using Tweetinvi.Core.Web;
 using Tweetinvi.Models.DTO;
 using Tweetinvi.Parameters;
 
@@ -7,14 +8,14 @@ namespace Tweetinvi.Controllers.Messages
     public interface IMessageQueryExecutor
     {
         // Get messages
-        IGetMessagesDTO GetLatestMessages(IGetMessagesParameters queryParameters);
+        Task<IGetMessagesDTO> GetLatestMessages(IGetMessagesParameters queryParameters);
 
         // Publish Message
-        ICreateMessageDTO PublishMessage(IPublishMessageParameters parameters);
+        Task<ICreateMessageDTO> PublishMessage(IPublishMessageParameters parameters);
 
         // Detroy Message
-        bool DestroyMessage(IMessageEventDTO messageDTO);
-        bool DestroyMessage(long messageId);
+        Task<bool> DestroyMessage(IMessageEventDTO messageDTO);
+        Task<bool> DestroyMessage(long messageId);
     }
 
     public class MessageQueryExecutor : IMessageQueryExecutor
@@ -31,14 +32,14 @@ namespace Tweetinvi.Controllers.Messages
         }
 
         // Get Messages
-        public IGetMessagesDTO GetLatestMessages(IGetMessagesParameters queryParameters)
+        public Task<IGetMessagesDTO> GetLatestMessages(IGetMessagesParameters queryParameters)
         {
             string query = _messageQueryGenerator.GetLatestMessagesQuery(queryParameters);
             return _twitterAccessor.ExecuteGETQuery<IGetMessagesDTO>(query);
         }
 
         // Publish Message
-        public ICreateMessageDTO PublishMessage(IPublishMessageParameters parameters)
+        public Task<ICreateMessageDTO> PublishMessage(IPublishMessageParameters parameters)
         {
             string query = _messageQueryGenerator.GetPublishMessageQuery(parameters);
             var reqDTO = _messageQueryGenerator.GetPublishMessageBody(parameters);
@@ -47,16 +48,20 @@ namespace Tweetinvi.Controllers.Messages
         }
 
         // Destroy Message
-        public bool DestroyMessage(IMessageEventDTO messageEventDTO)
+        public async Task<bool> DestroyMessage(IMessageEventDTO messageEventDTO)
         {
             string query = _messageQueryGenerator.GetDestroyMessageQuery(messageEventDTO);
-            return _twitterAccessor.TryExecuteDELETEQuery(query);
+            var operationResult = await _twitterAccessor.TryExecuteDELETEQuery(query);
+
+            return operationResult.Success;
         }
 
-        public bool DestroyMessage(long messageId)
+        public async Task<bool> DestroyMessage(long messageId)
         {
             string query = _messageQueryGenerator.GetDestroyMessageQuery(messageId);
-            return _twitterAccessor.TryExecuteDELETEQuery(query);
+            var operationResult = await _twitterAccessor.TryExecuteDELETEQuery(query);
+
+            return operationResult.Success;
         }
     }
 }

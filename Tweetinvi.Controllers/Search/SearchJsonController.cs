@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Tweetinvi.Controllers.Tweet;
 using Tweetinvi.Core.Extensions;
 using Tweetinvi.Core.Web;
@@ -9,8 +10,8 @@ namespace Tweetinvi.Controllers.Search
 {
     public interface ISearchJsonController
     {
-        string SearchTweets(string searchQuery);
-        IEnumerable<string> SearchTweets(ISearchTweetsParameters searchTweetsParameters);
+        Task<string> SearchTweets(string searchQuery);
+        Task<string[]> SearchTweets(ISearchTweetsParameters searchTweetsParameters);
     }
 
     public class SearchJsonController : ISearchJsonController
@@ -32,42 +33,42 @@ namespace Tweetinvi.Controllers.Search
             _tweetHelper = tweetHelper;
         }
 
-        public string SearchTweets(string searchQuery)
+        public Task<string> SearchTweets(string searchQuery)
         {
             string query = _searchQueryGenerator.GetSearchTweetsQuery(searchQuery);
             return _twitterAccessor.ExecuteGETQueryReturningJson(query);
         }
 
-        public IEnumerable<string> SearchTweets(ISearchTweetsParameters searchTweetsParameters)
+        public async Task<string[]> SearchTweets(ISearchTweetsParameters searchTweetsParameters)
         {
             if (searchTweetsParameters.MaximumNumberOfResults > 100)
             {
-                return SearchTweetsRecursively(searchTweetsParameters);
+                return await SearchTweetsRecursively(searchTweetsParameters);
             }
             
             string query = _searchQueryGenerator.GetSearchTweetsQuery(searchTweetsParameters);
-            return new[] { GetJsonResultFromQuery(query) };
+            return new[] { await GetJsonResultFromQuery(query) };
         }
 
-        private string GetJsonResultFromQuery(string query)
+        private Task<string> GetJsonResultFromQuery(string query)
         {
             return _twitterAccessor.ExecuteGETQueryReturningJson(query);
         }
 
-        private IEnumerable<string> SearchTweetsRecursively(ISearchTweetsParameters searchTweetsParameters)
+        private async Task<string[]> SearchTweetsRecursively(ISearchTweetsParameters searchTweetsParameters)
         {
             var searchParameter = _searchQueryHelper.CloneTweetSearchParameters(searchTweetsParameters);
             searchParameter.MaximumNumberOfResults = Math.Min(searchParameter.MaximumNumberOfResults, 100);
 
             string query = _searchQueryGenerator.GetSearchTweetsQuery(searchParameter);
-            var json = GetJsonResultFromQuery(query);
+            var json = await GetJsonResultFromQuery(query);
             var jsonResult = new List<string> { json };
             var currentResult = _searchQueryHelper.GetTweetsFromJsonResponse(json);
             var tweetDTOResult = currentResult;
 
             if (tweetDTOResult == null)
             {
-                return jsonResult;
+                return jsonResult.ToArray();
             }
 
             while (tweetDTOResult.Count < searchTweetsParameters.MaximumNumberOfResults)
@@ -84,7 +85,7 @@ namespace Tweetinvi.Controllers.Search
                 searchParameter.MaximumNumberOfResults = Math.Min(searchTweetsParameters.MaximumNumberOfResults - tweetDTOResult.Count, 100);
                 query = _searchQueryGenerator.GetSearchTweetsQuery(searchParameter);
                 
-                json = GetJsonResultFromQuery(query);
+                json = await GetJsonResultFromQuery(query);
 
                 if (json != null)
                 {
@@ -95,7 +96,7 @@ namespace Tweetinvi.Controllers.Search
                 tweetDTOResult.AddRangeSafely(currentResult);
             }
 
-            return jsonResult;
+            return jsonResult.ToArray();
         }
     }
 }

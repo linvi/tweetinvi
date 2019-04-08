@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
 using Tweetinvi.Core.Exceptions;
 using Tweetinvi.Core.Web;
@@ -14,10 +15,10 @@ namespace Tweetinvi.Credentials
 {
     public interface IAuthFactory
     {
-        bool InitializeApplicationBearer(ITwitterCredentials credentials);
+        Task<bool> InitializeApplicationBearer(ITwitterCredentials credentials);
 
-        ITwitterCredentials GetCredentialsFromVerifierCode(string verifierCode, IAuthenticationToken authToken);
-        bool InvalidateCredentials(ITwitterCredentials credentials);
+        Task<ITwitterCredentials> GetCredentialsFromVerifierCode(string verifierCode, IAuthenticationToken authToken);
+        Task<bool> InvalidateCredentials(ITwitterCredentials credentials);
     }
 
     public class AuthFactory : IAuthFactory
@@ -40,7 +41,7 @@ namespace Tweetinvi.Credentials
         }
 
         // Step 2 - Generate User Credentials
-        public ITwitterCredentials GetCredentialsFromVerifierCode(string verifierCode, IAuthenticationToken authToken)
+        public async Task<ITwitterCredentials> GetCredentialsFromVerifierCode(string verifierCode, IAuthenticationToken authToken)
         {
             try
             {
@@ -60,7 +61,7 @@ namespace Tweetinvi.Credentials
                     true, false);
 
                 var authHandler = new AuthHttpHandler(callbackParameter, authToken);
-                var response = _twitterRequestHandler.ExecuteQuery(Resources.OAuthRequestAccessToken, HttpMethod.POST,
+                var response = await _twitterRequestHandler.ExecuteQuery(Resources.OAuthRequestAccessToken, HttpMethod.POST,
                     authHandler,
                     new TwitterCredentials(authToken.ConsumerCredentials));
 
@@ -100,7 +101,7 @@ namespace Tweetinvi.Credentials
             return null;
         }
 
-        public bool InitializeApplicationBearer(ITwitterCredentials credentials)
+        public async Task<bool> InitializeApplicationBearer(ITwitterCredentials credentials)
         {
             if (credentials == null)
             {
@@ -112,7 +113,7 @@ namespace Tweetinvi.Credentials
             {
                 try
                 {
-                    var response = _twitterRequestHandler.ExecuteQuery("https://api.twitter.com/oauth2/token", HttpMethod.POST, new BearerHttpHandler(), credentials);
+                    var response = await _twitterRequestHandler.ExecuteQuery("https://api.twitter.com/oauth2/token", HttpMethod.POST, new BearerHttpHandler(), credentials);
                     var accessToken = Regex.Match(response.Text, "access_token\":\"(?<value>.*)\"").Groups["value"].Value;
                     credentials.ApplicationOnlyBearerToken = accessToken;
                     return true;
@@ -134,11 +135,11 @@ namespace Tweetinvi.Credentials
             return false;
         }
 
-        public bool InvalidateCredentials(ITwitterCredentials credentials)
+        public async Task<bool> InvalidateCredentials(ITwitterCredentials credentials)
         {
             var url = "https://api.twitter.com/oauth2/invalidate_token";
 
-            var response = _twitterRequestHandler.ExecuteQuery(url, HttpMethod.POST, new InvalidateTokenHttpHandler(), credentials);
+            var response = await _twitterRequestHandler.ExecuteQuery(url, HttpMethod.POST, new InvalidateTokenHttpHandler(), credentials);
             var jobject = _jObjectStaticWrapper.GetJobjectFromJson(response.Text);
 
             JToken unused;

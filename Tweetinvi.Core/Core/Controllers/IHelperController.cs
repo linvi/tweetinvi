@@ -1,15 +1,16 @@
-﻿using Tweetinvi.Models;
+﻿using System.Threading.Tasks;
+using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
 
 namespace Tweetinvi.Core.Controllers
 {
     public interface IHelpController
     {
-        ICredentialsRateLimits GetCurrentCredentialsRateLimits();
-        ICredentialsRateLimits GetCredentialsRateLimits(ITwitterCredentials credentials);
-        string GetTwitterPrivacyPolicy();
+        Task<ICredentialsRateLimits> GetCurrentCredentialsRateLimits();
+        Task<ICredentialsRateLimits> GetCredentialsRateLimits(ITwitterCredentials credentials);
+        Task<string> GetTwitterPrivacyPolicy();
 
-        ITwitterConfiguration GetTwitterConfiguration();
-        string GetTermsOfService();
+        Task<ITwitterConfiguration> GetTwitterConfiguration();
+        Task<string> GetTermsOfService();
     }
 }

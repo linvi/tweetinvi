@@ -1,12 +1,13 @@
-﻿using Tweetinvi.Core.QueryGenerators;
+﻿using System.Threading.Tasks;
+using Tweetinvi.Core.QueryGenerators;
 using Tweetinvi.Core.Web;
 
 namespace Tweetinvi.Controllers.Help
 {
     public interface IHelpJsonController
     {
-        string GetCredentialsRateLimits();
-        string GetTwitterPrivacyPolicy();
+        Task<string> GetCredentialsRateLimits();
+        Task<string> GetTwitterPrivacyPolicy();
     }
 
     public class HelpJsonController : IHelpJsonController
@@ -22,13 +23,13 @@ namespace Tweetinvi.Controllers.Help
             _twitterAccessor = twitterAccessor;
         }
 
-        public string GetCredentialsRateLimits()
+        public Task<string> GetCredentialsRateLimits()
         {
             string query = _helpQueryGenerator.GetCredentialsLimitsQuery();
             return _twitterAccessor.ExecuteGETQueryReturningJson(query);
         }
 
-        public string GetTwitterPrivacyPolicy()
+        public Task<string> GetTwitterPrivacyPolicy()
         {
             string query = _helpQueryGenerator.GetTwitterPrivacyPolicyQuery();
             return _twitterAccessor.ExecuteGETQueryReturningJson(query);

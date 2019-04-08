@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using FakeItEasy;
 using FakeItEasy.ExtensionSyntax.Full;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -130,18 +131,18 @@ namespace Testinvi.TweetinviControllers.FriendshipTests
         #region Create Friendship With
 
         [TestMethod]
-        public void CreateFriendship_User_ReturnsQueryExecutorResult()
+        public async Task CreateFriendship_User_ReturnsQueryExecutorResult()
         {
             // Arrange - Act
-            var shouldSuccess = CreateFriendship_User_QueryExecutorReturns(true);
-            var shouldFail = CreateFriendship_User_QueryExecutorReturns(false);
+            var shouldSuccess = await CreateFriendship_User_QueryExecutorReturns(true);
+            var shouldFail = await CreateFriendship_User_QueryExecutorReturns(false);
 
             // Assert
             Assert.IsTrue(shouldSuccess);
             Assert.IsFalse(shouldFail);
         }
 
-        private bool CreateFriendship_User_QueryExecutorReturns(bool returnValue)
+        private Task<bool> CreateFriendship_User_QueryExecutorReturns(bool returnValue)
         {
             var fakeUser = A.Fake<IUser>();
             fakeUser.CallsTo(x => x.UserDTO).Returns(A.Fake<IUserDTO>());
@@ -155,11 +156,11 @@ namespace Testinvi.TweetinviControllers.FriendshipTests
         }
 
         [TestMethod]
-        public void CreateFriendship_UserDTOIsNull_ReturnsQueryExecutorResult()
+        public async Task CreateFriendship_UserDTOIsNull_ReturnsQueryExecutorResult()
         {
             // Arrange 
-            var shouldSuccess = CreateFriendship_UserDTO_QueryExecutorReturns(true, true);
-            var shouldFail = CreateFriendship_UserDTO_QueryExecutorReturns(false, true);
+            var shouldSuccess = await CreateFriendship_UserDTO_QueryExecutorReturns(true, true);
+            var shouldFail = await CreateFriendship_UserDTO_QueryExecutorReturns(false, true);
 
             // Assert
             Assert.IsTrue(shouldSuccess);
@@ -167,18 +168,18 @@ namespace Testinvi.TweetinviControllers.FriendshipTests
         }
 
         [TestMethod]
-        public void CreateFriendship_UserDTO_ReturnsQueryExecutorResult()
+        public async Task CreateFriendship_UserDTO_ReturnsQueryExecutorResult()
         {
             // Arrange - Act
-            var shouldSuccess = CreateFriendship_UserDTO_QueryExecutorReturns(true);
-            var shouldFail = CreateFriendship_UserDTO_QueryExecutorReturns(false);
+            var shouldSuccess = await CreateFriendship_UserDTO_QueryExecutorReturns(true);
+            var shouldFail = await CreateFriendship_UserDTO_QueryExecutorReturns(false);
 
             // Assert
             Assert.IsTrue(shouldSuccess);
             Assert.IsFalse(shouldFail);
         }
 
-        private bool CreateFriendship_UserDTO_QueryExecutorReturns(bool returnValue, bool isNull = false)
+        private Task<bool> CreateFriendship_UserDTO_QueryExecutorReturns(bool returnValue, bool isNull = false)
         {
             var user = isNull ? null : A.Fake<IUser>();
 
@@ -202,11 +203,11 @@ namespace Testinvi.TweetinviControllers.FriendshipTests
         #region Destroy Friendship
 
         [TestMethod]
-        public void DestroyFriendship_UserDTOIsNull_ReturnsQueryExecutorResult()
+        public async Task DestroyFriendship_UserDTOIsNull_ReturnsQueryExecutorResult()
         {
             // Arrange 
-            var shouldSuccess = DestroyFriendship_UserDTO_QueryExecutorReturns(true, true);
-            var shouldFail = DestroyFriendship_UserDTO_QueryExecutorReturns(false, true);
+            var shouldSuccess = await DestroyFriendship_UserDTO_QueryExecutorReturns(true, true);
+            var shouldFail = await DestroyFriendship_UserDTO_QueryExecutorReturns(false, true);
 
             // Assert
             Assert.IsTrue(shouldSuccess);
@@ -214,18 +215,18 @@ namespace Testinvi.TweetinviControllers.FriendshipTests
         }
 
         [TestMethod]
-        public void DestroyFriendship_UserDTO_ReturnsQueryExecutorResult()
+        public async Task DestroyFriendship_UserDTO_ReturnsQueryExecutorResult()
         {
             // Arrange - Act
-            var shouldSuccess = DestroyFriendship_UserDTO_QueryExecutorReturns(true);
-            var shouldFail = DestroyFriendship_UserDTO_QueryExecutorReturns(false);
+            var shouldSuccess = await DestroyFriendship_UserDTO_QueryExecutorReturns(true);
+            var shouldFail = await DestroyFriendship_UserDTO_QueryExecutorReturns(false);
 
             // Assert
             Assert.IsTrue(shouldSuccess);
             Assert.IsFalse(shouldFail);
         }
 
-        private bool DestroyFriendship_UserDTO_QueryExecutorReturns(bool returnValue, bool isNull = false)
+        private Task<bool> DestroyFriendship_UserDTO_QueryExecutorReturns(bool returnValue, bool isNull = false)
         {
             var userDTO = isNull ? null : A.Fake<IUserDTO>();
 
@@ -250,18 +251,18 @@ namespace Testinvi.TweetinviControllers.FriendshipTests
 
         // User
         [TestMethod]
-        public void UpdateRelationshipAuthorizations_User_ReturnsQueryExecutorResult()
+        public async Task UpdateRelationshipAuthorizations_User_ReturnsQueryExecutorResult()
         {
             // Arrange - Act
-            var shouldSuccess1 = UpdateRelationshipAuthorizations_User_QueryExecutorReturns(true, true, true);
-            var shouldSuccess2 = UpdateRelationshipAuthorizations_User_QueryExecutorReturns(true, false, true);
-            var shouldSuccess3 = UpdateRelationshipAuthorizations_User_QueryExecutorReturns(false, true, true);
-            var shouldSuccess4 = UpdateRelationshipAuthorizations_User_QueryExecutorReturns(false, false, true);
+            var shouldSuccess1 = await UpdateRelationshipAuthorizations_User_QueryExecutorReturns(true, true, true);
+            var shouldSuccess2 = await UpdateRelationshipAuthorizations_User_QueryExecutorReturns(true, false, true);
+            var shouldSuccess3 = await UpdateRelationshipAuthorizations_User_QueryExecutorReturns(false, true, true);
+            var shouldSuccess4 = await UpdateRelationshipAuthorizations_User_QueryExecutorReturns(false, false, true);
 
-            var shouldFail1 = UpdateRelationshipAuthorizations_User_QueryExecutorReturns(true, true, false);
-            var shouldFail2 = UpdateRelationshipAuthorizations_User_QueryExecutorReturns(true, false, false);
-            var shouldFail3 = UpdateRelationshipAuthorizations_User_QueryExecutorReturns(false, true, false);
-            var shouldFail4 = UpdateRelationshipAuthorizations_User_QueryExecutorReturns(false, false, false);
+            var shouldFail1 = await UpdateRelationshipAuthorizations_User_QueryExecutorReturns(true, true, false);
+            var shouldFail2 = await UpdateRelationshipAuthorizations_User_QueryExecutorReturns(true, false, false);
+            var shouldFail3 = await UpdateRelationshipAuthorizations_User_QueryExecutorReturns(false, true, false);
+            var shouldFail4 = await UpdateRelationshipAuthorizations_User_QueryExecutorReturns(false, false, false);
 
             // Assert
             Assert.IsTrue(shouldSuccess1);
@@ -275,7 +276,7 @@ namespace Testinvi.TweetinviControllers.FriendshipTests
             Assert.IsFalse(shouldFail4);
         }
 
-        private bool UpdateRelationshipAuthorizations_User_QueryExecutorReturns(bool retweetsEnabled, bool notification, bool returnValue)
+        private Task<bool> UpdateRelationshipAuthorizations_User_QueryExecutorReturns(bool retweetsEnabled, bool notification, bool returnValue)
         {
             var fakeUser = A.Fake<IUser>();
             fakeUser.CallsTo(x => x.UserDTO).Returns(A.Fake<IUserDTO>());
@@ -293,13 +294,13 @@ namespace Testinvi.TweetinviControllers.FriendshipTests
         
         // UserDTO
         [TestMethod]
-        public void UpdateRelationshipAuthorizations_UserDTOIsNull_ReturnsTrue()
+        public async Task UpdateRelationshipAuthorizations_UserDTOIsNull_ReturnsTrue()
         {
             // Arrange 
-            var shouldSuccess1 = UpdateRelationshipAuthorizations_UserDTO_QueryExecutorReturns(true, true, true, true);
-            var shouldSuccess2 = UpdateRelationshipAuthorizations_UserDTO_QueryExecutorReturns(true, false, true, true);
-            var shouldSuccess3 = UpdateRelationshipAuthorizations_UserDTO_QueryExecutorReturns(false, true, true, true);
-            var shouldSuccess4 = UpdateRelationshipAuthorizations_UserDTO_QueryExecutorReturns(false, false, true, true);
+            var shouldSuccess1 = await UpdateRelationshipAuthorizations_UserDTO_QueryExecutorReturns(true, true, true, true);
+            var shouldSuccess2 = await UpdateRelationshipAuthorizations_UserDTO_QueryExecutorReturns(true, false, true, true);
+            var shouldSuccess3 = await UpdateRelationshipAuthorizations_UserDTO_QueryExecutorReturns(false, true, true, true);
+            var shouldSuccess4 = await UpdateRelationshipAuthorizations_UserDTO_QueryExecutorReturns(false, false, true, true);
 
             // Assert
             Assert.IsTrue(shouldSuccess1);
@@ -309,13 +310,13 @@ namespace Testinvi.TweetinviControllers.FriendshipTests
         }
 
         [TestMethod]
-        public void UpdateRelationshipAuthorizations_UserDTOIsNull_ReturnsFalse()
+        public async Task UpdateRelationshipAuthorizations_UserDTOIsNull_ReturnsFalse()
         {
             // Arrange 
-            var shouldFail1 = UpdateRelationshipAuthorizations_UserDTO_QueryExecutorReturns(true, true, false, true);
-            var shouldFail2 = UpdateRelationshipAuthorizations_UserDTO_QueryExecutorReturns(true, false, false, true);
-            var shouldFail3 = UpdateRelationshipAuthorizations_UserDTO_QueryExecutorReturns(false, true, false, true);
-            var shouldFail4 = UpdateRelationshipAuthorizations_UserDTO_QueryExecutorReturns(false, false, false, true);
+            var shouldFail1 = await UpdateRelationshipAuthorizations_UserDTO_QueryExecutorReturns(true, true, false, true);
+            var shouldFail2 = await UpdateRelationshipAuthorizations_UserDTO_QueryExecutorReturns(true, false, false, true);
+            var shouldFail3 = await UpdateRelationshipAuthorizations_UserDTO_QueryExecutorReturns(false, true, false, true);
+            var shouldFail4 = await UpdateRelationshipAuthorizations_UserDTO_QueryExecutorReturns(false, false, false, true);
 
             // Assert
             Assert.IsFalse(shouldFail1);
@@ -325,13 +326,13 @@ namespace Testinvi.TweetinviControllers.FriendshipTests
         }
 
         [TestMethod]
-        public void UpdateRelationshipAuthorizations_UserDTO_ReturnsTrue()
+        public async Task UpdateRelationshipAuthorizations_UserDTO_ReturnsTrue()
         {
             // Arrange - Act
-            var shouldSuccess1 = UpdateRelationshipAuthorizations_UserDTO_QueryExecutorReturns(true, true, true);
-            var shouldSuccess2 = UpdateRelationshipAuthorizations_UserDTO_QueryExecutorReturns(true, false, true);
-            var shouldSuccess3 = UpdateRelationshipAuthorizations_UserDTO_QueryExecutorReturns(false, true, true);
-            var shouldSuccess4 = UpdateRelationshipAuthorizations_UserDTO_QueryExecutorReturns(false, false, true);
+            var shouldSuccess1 = await UpdateRelationshipAuthorizations_UserDTO_QueryExecutorReturns(true, true, true);
+            var shouldSuccess2 = await UpdateRelationshipAuthorizations_UserDTO_QueryExecutorReturns(true, false, true);
+            var shouldSuccess3 = await UpdateRelationshipAuthorizations_UserDTO_QueryExecutorReturns(false, true, true);
+            var shouldSuccess4 = await UpdateRelationshipAuthorizations_UserDTO_QueryExecutorReturns(false, false, true);
 
             // Assert
             Assert.IsTrue(shouldSuccess1);
@@ -341,13 +342,13 @@ namespace Testinvi.TweetinviControllers.FriendshipTests
         }
 
         [TestMethod]
-        public void UpdateRelationshipAuthorizations_UserDTO_ReturnsFalse()
+        public async Task UpdateRelationshipAuthorizations_UserDTO_ReturnsFalse()
         {
             // Arrange - Act
-            var shouldFail1 = UpdateRelationshipAuthorizations_UserDTO_QueryExecutorReturns(true, true, false);
-            var shouldFail2 = UpdateRelationshipAuthorizations_UserDTO_QueryExecutorReturns(true, false, false);
-            var shouldFail3 = UpdateRelationshipAuthorizations_UserDTO_QueryExecutorReturns(false, true, false);
-            var shouldFail4 = UpdateRelationshipAuthorizations_UserDTO_QueryExecutorReturns(false, false, false);
+            var shouldFail1 = await UpdateRelationshipAuthorizations_UserDTO_QueryExecutorReturns(true, true, false);
+            var shouldFail2 = await UpdateRelationshipAuthorizations_UserDTO_QueryExecutorReturns(true, false, false);
+            var shouldFail3 = await UpdateRelationshipAuthorizations_UserDTO_QueryExecutorReturns(false, true, false);
+            var shouldFail4 = await UpdateRelationshipAuthorizations_UserDTO_QueryExecutorReturns(false, false, false);
 
             // Assert
             Assert.IsFalse(shouldFail1);
@@ -356,7 +357,7 @@ namespace Testinvi.TweetinviControllers.FriendshipTests
             Assert.IsFalse(shouldFail4);
         }
 
-        private bool UpdateRelationshipAuthorizations_UserDTO_QueryExecutorReturns(bool retweetsEnabled, bool notification, bool returnValue, bool isNull = false)
+        private Task<bool> UpdateRelationshipAuthorizations_UserDTO_QueryExecutorReturns(bool retweetsEnabled, bool notification, bool returnValue, bool isNull = false)
         {
             var user = isNull ? null : A.Fake<IUser>();
 

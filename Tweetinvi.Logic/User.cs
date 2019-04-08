@@ -4,7 +4,6 @@ using System.IO;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Tweetinvi.Core.Controllers;
-using Tweetinvi.Core.Helpers;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
 using Tweetinvi.Models.Entities;
@@ -24,7 +23,6 @@ namespace Tweetinvi.Logic
         protected readonly IUserController _userController;
         private readonly IFriendshipController _friendshipController;
         private readonly ITwitterListController _twitterListController;
-        protected readonly ITaskFactory _taskFactory;
 
         public IUserDTO UserDTO
         {
@@ -310,91 +308,89 @@ namespace Tweetinvi.Logic
             IUserController userController,
             ITimelineController timelineController,
             IFriendshipController friendshipController,
-            ITwitterListController twitterListController,
-            ITaskFactory taskFactory)
+            ITwitterListController twitterListController)
         {
             _userDTO = userDTO;
             _timelineController = timelineController;
             _userController = userController;
             _friendshipController = friendshipController;
             _twitterListController = twitterListController;
-            _taskFactory = taskFactory;
         }
 
         // Friends
-        public virtual IEnumerable<long> GetFriendIds(int maxFriendsToRetrieve = 5000)
+        public virtual Task<IEnumerable<long>> GetFriendIds(int maxFriendsToRetrieve = 5000)
         {
             return _userController.GetFriendIds(_userDTO, maxFriendsToRetrieve);
         }
 
-        public virtual IEnumerable<IUser> GetFriends(int maxFriendsToRetrieve = 250)
+        public virtual Task<IEnumerable<IUser>> GetFriends(int maxFriendsToRetrieve = 250)
         {
             return _userController.GetFriends(_userDTO, maxFriendsToRetrieve);
         }
 
         // Followers
-        public virtual IEnumerable<long> GetFollowerIds(int maxFriendsToRetrieve = 5000)
+        public virtual Task<IEnumerable<long>> GetFollowerIds(int maxFriendsToRetrieve = 5000)
         {
             return _userController.GetFollowerIds(_userDTO, maxFriendsToRetrieve);
         }
 
-        public virtual IEnumerable<IUser> GetFollowers(int maxFriendsToRetrieve = 250)
+        public virtual Task<IEnumerable<IUser>> GetFollowers(int maxFriendsToRetrieve = 250)
         {
             return _userController.GetFollowers(_userDTO, maxFriendsToRetrieve);
         }
 
         // Relationship
-        public virtual IRelationshipDetails GetRelationshipWith(IUserIdentifier targetUser)
+        public virtual Task<IRelationshipDetails> GetRelationshipWith(IUserIdentifier targetUser)
         {
             return _friendshipController.GetRelationshipBetween(_userDTO, targetUser);
         }
 
         // Timeline
-        public IEnumerable<ITweet> GetUserTimeline(int maximumNumberOfTweets = 40)
+        public Task<IEnumerable<ITweet>> GetUserTimeline(int maximumNumberOfTweets = 40)
         {
             return _timelineController.GetUserTimeline(this, maximumNumberOfTweets);
         }
 
-        public IEnumerable<ITweet> GetUserTimeline(IUserTimelineParameters timelineParameters)
+        public Task<IEnumerable<ITweet>> GetUserTimeline(IUserTimelineParameters timelineParameters)
         {
             return _timelineController.GetUserTimeline(this, timelineParameters);
         }
         
         // Favorites
-        public virtual IEnumerable<ITweet> GetFavorites(int maximumNumberOfTweets = 40)
+        public virtual Task<IEnumerable<ITweet>> GetFavorites(int maximumNumberOfTweets = 40)
         {
             return _userController.GetFavoriteTweets(this, new GetUserFavoritesParameters { MaximumNumberOfTweetsToRetrieve =  maximumNumberOfTweets});
         }
 
-        public IEnumerable<ITweet> GetFavorites(IGetUserFavoritesParameters parameters)
+        public Task<IEnumerable<ITweet>> GetFavorites(IGetUserFavoritesParameters parameters)
         {
             return _userController.GetFavoriteTweets(this, parameters);
         }
 
         // Lists
-        public IEnumerable<ITwitterList> GetSubscribedLists(int maximumNumberOfListsToRetrieve = TweetinviConsts.LIST_GET_USER_SUBSCRIPTIONS_COUNT)
+        public Task<IEnumerable<ITwitterList>> GetSubscribedLists(int maximumNumberOfListsToRetrieve = TweetinviConsts.LIST_GET_USER_SUBSCRIPTIONS_COUNT)
         {
             return _twitterListController.GetUserSubscribedLists(this, maximumNumberOfListsToRetrieve);
         }
 
-        public IEnumerable<ITwitterList> GetOwnedLists(int maximumNumberOfListsToRetrieve = TweetinviConsts.LIST_OWNED_COUNT)
+        public Task<IEnumerable<ITwitterList>> GetOwnedLists(int maximumNumberOfListsToRetrieve = TweetinviConsts.LIST_OWNED_COUNT)
         {
             return _twitterListController.GetUserOwnedLists(this, maximumNumberOfListsToRetrieve);
         }
 
         // Block User
-        public virtual bool BlockUser()
+        public virtual Task<bool> BlockUser()
         {
             return _userController.BlockUser(_userDTO);
         }
 
-        public virtual bool UnBlockUser()
+        public virtual Task<bool> UnBlockUser()
         {
             return _userController.UnBlockUser(_userDTO);
         }
 
         // Spam
-        public virtual bool ReportUserForSpam()
+        public virtual Task<bool> ReportUserForSpam()
         {
             return _userController.ReportUserForSpam(_userDTO);
         }
@@ -418,80 +414,6 @@ namespace Tweetinvi.Logic
             // string query = Resources.User_GetContributees;
             throw new NotImplementedException();
         }
-
-        #region Async
-
-        public async Task<IEnumerable<long>> GetFriendIdsAsync(int maxFriendsToRetrieve = 5000)
-        {
-            return await _taskFactory.ExecuteTaskAsync(() => GetFriendIds(maxFriendsToRetrieve));
-        }
-
-        public async Task<IEnumerable<IUser>> GetFriendsAsync(int maxFriendsToRetrieve = 250)
-        {
-            return await _taskFactory.ExecuteTaskAsync(() => GetFriends(maxFriendsToRetrieve));
-        }
-
-        public async Task<IEnumerable<long>> GetFollowerIdsAsync(int maxFriendsToRetrieve = 5000)
-        {
-            return await _taskFactory.ExecuteTaskAsync(() => GetFollowerIds(maxFriendsToRetrieve));
-        }
-
-        public async Task<IEnumerable<IUser>> GetFollowersAsync(int maxFriendsToRetrieve = 250)
-        {
-            return await _taskFactory.ExecuteTaskAsync(() => GetFollowers(maxFriendsToRetrieve));
-        }
-
-        public virtual async Task<IRelationshipDetails> GetRelationshipWithAsync(IUserIdentifier user)
-        {
-            return await _taskFactory.ExecuteTaskAsync(() => GetRelationshipWith(user));
-        }
-
-        public async Task<IEnumerable<ITweet>> GetUserTimelineAsync(int maximumTweet = 40)
-        {
-            return await _taskFactory.ExecuteTaskAsync(() => GetUserTimeline(maximumTweet));
-        }
-
-        public async Task<IEnumerable<ITweet>> GetUserTimelineAsync(IUserTimelineParameters timelineParameters)
-        {
-            return await _taskFactory.ExecuteTaskAsync(() => GetUserTimeline(timelineParameters));
-        }
-
-        public async Task<IEnumerable<ITweet>> GetFavoritesAsync(int maximumTweets = 40)
-        {
-            return await _taskFactory.ExecuteTaskAsync(() => GetFavorites(maximumTweets));
-        }
-
-        public async Task<IEnumerable<ITweet>> GetFavoritesAsync(IGetUserFavoritesParameters parameters)
-        {
-            return await _taskFactory.ExecuteTaskAsync(() => GetFavorites(parameters));
-        }
-
-        public async Task<bool> BlockAsync()
-        {
-            return await _taskFactory.ExecuteTaskAsync(() => BlockUser());
-        }
-
-        public async Task<bool> UnBlockAsync()
-        {
-            return await _taskFactory.ExecuteTaskAsync(() => UnBlockUser());
-        }
-
-        public async Task<Stream> GetProfileImageStreamAsync(ImageSize imageSize = ImageSize.normal)
-        {
-            return await _taskFactory.ExecuteTaskAsync(() => GetProfileImageStream(imageSize));
-        }
-
-        public async Task<IEnumerable<IUser>> GetContributorsAsync(bool createContributorList = false)
-        {
-            return await _taskFactory.ExecuteTaskAsync(() => GetContributors(createContributorList));
-        }
-
-        public async Task<IEnumerable<IUser>> GetContributeesAsync(bool createContributeeList = false)
-        {
-            return await _taskFactory.ExecuteTaskAsync(() => GetContributees(createContributeeList));
-        }
-
-        #endregion
 
         public bool Equals(IUser other)
         {

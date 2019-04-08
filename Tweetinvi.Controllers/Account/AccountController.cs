@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Tweetinvi.Core.Controllers;
 using Tweetinvi.Core.Factories;
 using Tweetinvi.Core.Helpers;
@@ -33,13 +34,13 @@ namespace Tweetinvi.Controllers.Account
             _jsonObjectConverter = jsonObjectConverter;
         }
 
-        public IAccountSettings GetAuthenticatedUserSettings()
+        public async Task<IAccountSettings> GetAuthenticatedUserSettings()
         {
-            var accountSettingsDTO = _accountQueryExecutor.GetAuthenticatedUserAccountSettings();
+            var accountSettingsDTO = await _accountQueryExecutor.GetAuthenticatedUserAccountSettings();
             return GenerateAccountSettingsFromDTO(accountSettingsDTO);
         }
 
-        public IAccountSettings UpdateAuthenticatedUserSettings(
+        public Task<IAccountSettings> UpdateAuthenticatedUserSettings(
             IEnumerable<Language> languages = null,
             string timeZone = null, 
             long? trendLocationWoeid = null, 
@@ -59,9 +60,9 @@ namespace Tweetinvi.Controllers.Account
             return UpdateAuthenticatedUserSettings(settings);
         }
 
-        public IAccountSettings UpdateAuthenticatedUserSettings(IAccountSettingsRequestParameters accountSettingsRequestParameters)
+        public async Task<IAccountSettings> UpdateAuthenticatedUserSettings(IAccountSettingsRequestParameters accountSettingsRequestParameters)
         {
-            var accountSettingsDTO = _accountQueryExecutor.UpdateAuthenticatedUserSettings(accountSettingsRequestParameters);
+            var accountSettingsDTO = await _accountQueryExecutor.UpdateAuthenticatedUserSettings(accountSettingsRequestParameters);
             return GenerateAccountSettingsFromDTO(accountSettingsDTO);
         }
 
@@ -89,33 +90,33 @@ namespace Tweetinvi.Controllers.Account
         }
 
         // Profile
-        public IAuthenticatedUser UpdateAccountProfile(IAccountUpdateProfileParameters parameters)
+        public async Task<IAuthenticatedUser> UpdateAccountProfile(IAccountUpdateProfileParameters parameters)
         {
-            var userDTO = _accountQueryExecutor.UpdateProfileParameters(parameters);
+            var userDTO = await _accountQueryExecutor.UpdateProfileParameters(parameters);
             return _userFactory.GenerateAuthenticatedUserFromDTO(userDTO);
         }
 
-        public bool UpdateProfileImage(byte[] imageBinary)
+        public Task<bool> UpdateProfileImage(byte[] imageBinary)
         {
             return UpdateProfileImage(new AccountUpdateProfileImageParameters(imageBinary));
         }
 
-        public bool UpdateProfileImage(IAccountUpdateProfileImageParameters parameters)
+        public Task<bool> UpdateProfileImage(IAccountUpdateProfileImageParameters parameters)
         {
             return _accountQueryExecutor.UpdateProfileImage(parameters);
         }
 
-        public bool UpdateProfileBanner(byte[] imageBinary)
+        public Task<bool> UpdateProfileBanner(byte[] imageBinary)
         {
             return UpdateProfileBanner(new AccountUpdateProfileBannerParameters(imageBinary));
         }
 
-        public bool UpdateProfileBanner(IAccountUpdateProfileBannerParameters parameters)
+        public Task<bool> UpdateProfileBanner(IAccountUpdateProfileBannerParameters parameters)
         {
             return _accountQueryExecutor.UpdateProfileBanner(parameters);
         }
 
-        public bool RemoveUserProfileBanner()
+        public Task<bool> RemoveUserProfileBanner()
         {
             return _accountQueryExecutor.RemoveUserProfileBanner();
         }
@@ -136,28 +137,28 @@ namespace Tweetinvi.Controllers.Account
         }
 
         // Mute
-        public IEnumerable<long> GetMutedUserIds(int maxUserIds = Int32.MaxValue)
+        public Task<IEnumerable<long>> GetMutedUserIds(int maxUserIds = Int32.MaxValue)
         {
             return _accountQueryExecutor.GetMutedUserIds(maxUserIds);
         }
 
-        public IEnumerable<IUser> GetMutedUsers(int maxUsersToRetrieve = 250)
+        public async Task<IEnumerable<IUser>> GetMutedUsers(int maxUsersToRetrieve = 250)
         {
-            var usersIds = GetMutedUserIds(maxUsersToRetrieve);
-            return _userFactory.GetUsersFromIds(usersIds);
+            var usersIds = await GetMutedUserIds(maxUsersToRetrieve);
+            return await _userFactory.GetUsersFromIds(usersIds);
         }
 
-        public bool MuteUser(IUserIdentifier user)
+        public Task<bool> MuteUser(IUserIdentifier user)
         {
             return _accountQueryExecutor.MuteUser(user);
         }
 
-        public bool MuteUser(long userId)
+        public Task<bool> MuteUser(long userId)
         {
             return _accountQueryExecutor.MuteUser(new UserIdentifier(userId));
         }
 
-        public bool MuteUser(string screenName)
+        public Task<bool> MuteUser(string screenName)
         {
             return _accountQueryExecutor.MuteUser(new UserIdentifier(screenName));
         }
@@ -178,20 +179,20 @@ namespace Tweetinvi.Controllers.Account
         }
 
         // Suggestions
-        public IEnumerable<ICategorySuggestion> GetSuggestedCategories(Language? language)
+        public Task<IEnumerable<ICategorySuggestion>> GetSuggestedCategories(Language? language)
         {
             return _accountQueryExecutor.GetSuggestedCategories(language);
         }
 
-        public IEnumerable<IUser> GetSuggestedUsers(string slug, Language? language)
+        public async Task<IEnumerable<IUser>> GetSuggestedUsers(string slug, Language? language)
         {
-            var userDTOs = _accountQueryExecutor.GetSuggestedUsers(slug, language);
+            var userDTOs = await _accountQueryExecutor.GetSuggestedUsers(slug, language);
             return _userFactory.GenerateUsersFromDTO(userDTOs);
         }
 
-        public IEnumerable<IUser> GetSuggestedUsersWithTheirLatestTweet(string slug)
+        public async Task<IEnumerable<IUser>> GetSuggestedUsersWithTheirLatestTweet(string slug)
         {
-            var userDTOs = _accountQueryExecutor.GetSuggestedUsersWithTheirLatestTweet(slug);
+            var userDTOs = await _accountQueryExecutor.GetSuggestedUsersWithTheirLatestTweet(slug);
             return _userFactory.GenerateUsersFromDTO(userDTOs);
         }
     }

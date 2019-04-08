@@ -1,10 +1,11 @@
-﻿using Tweetinvi.Core.Web;
+﻿using System.Threading.Tasks;
+using Tweetinvi.Core.Web;
 
 namespace Tweetinvi.Controllers.Geo
 {
     public interface IGeoJsonController
     {
-        string GetPlaceFromId(string placeId);
+        Task<string> GetPlaceFromId(string placeId);
     }
 
     public class GeoJsonController : IGeoJsonController
@@ -20,7 +21,7 @@ namespace Tweetinvi.Controllers.Geo
             _twitterAccessor = twitterAccessor;
         }
 
-        public string GetPlaceFromId(string placeId)
+        public Task<string> GetPlaceFromId(string placeId)
         {
             string query = _geoQueryGenerator.GetPlaceFromIdQuery(placeId);
             return _twitterAccessor.ExecuteGETQueryReturningJson(query);

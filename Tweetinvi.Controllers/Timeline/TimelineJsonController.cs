@@ -1,4 +1,5 @@
-﻿using Tweetinvi.Core.Factories;
+﻿using System.Threading.Tasks;
+using Tweetinvi.Core.Factories;
 using Tweetinvi.Core.Parameters;
 using Tweetinvi.Core.Web;
 using Tweetinvi.Models;
@@ -9,18 +10,18 @@ namespace Tweetinvi.Controllers.Timeline
     public interface ITimelineJsonController
     {
         // Home Timeline
-        string GetHomeTimeline(int maximumNumberOfTweetsToRetrieve);
-        string GetHomeTimeline(IHomeTimelineParameters timelineParameters);
+        Task<string> GetHomeTimeline(int maximumNumberOfTweetsToRetrieve);
+        Task<string> GetHomeTimeline(IHomeTimelineParameters timelineParameters);
 
         // User Timeline
-        string GetUserTimeline(IUserIdentifier user, int maximumNumberOfTweets = 40);
-        string GetUserTimeline(long userId, int maximumNumberOfTweets = 40);
-        string GetUserTimeline(string userScreenName, int maximumNumberOfTweets = 40);
-        string GetUserTimeline(IUserIdentifier user, IUserTimelineParameters timelineParameters);
+        Task<string> GetUserTimeline(IUserIdentifier user, int maximumNumberOfTweets = 40);
+        Task<string> GetUserTimeline(long userId, int maximumNumberOfTweets = 40);
+        Task<string> GetUserTimeline(string userScreenName, int maximumNumberOfTweets = 40);
+        Task<string> GetUserTimeline(IUserIdentifier user, IUserTimelineParameters timelineParameters);
 
         // Mention Timeline
-        string GetMentionsTimeline(int maximumNumberOfTweets = 40);
-        string GetMentionsTimeline(IMentionsTimelineParameters timelineParameters);
+        Task<string> GetMentionsTimeline(int maximumNumberOfTweets = 40);
+        Task<string> GetMentionsTimeline(IMentionsTimelineParameters timelineParameters);
     }
 
     public class TimelineJsonController : ITimelineJsonController
@@ -43,21 +44,21 @@ namespace Tweetinvi.Controllers.Timeline
         }
 
         // Home Timeline
-        public string GetHomeTimeline(int maximumNumberOfTweetsToRetrieve)
+        public Task<string> GetHomeTimeline(int maximumNumberOfTweetsToRetrieve)
         {
             var timelineRequestParameter = _timelineQueryParameterGenerator.CreateHomeTimelineParameters();
             timelineRequestParameter.MaximumNumberOfTweetsToRetrieve = maximumNumberOfTweetsToRetrieve;
             return GetHomeTimeline(timelineRequestParameter);
         }
 
-        public string GetHomeTimeline(IHomeTimelineParameters timelineParameters)
+        public Task<string> GetHomeTimeline(IHomeTimelineParameters timelineParameters)
         {
             string query = _timelineQueryGenerator.GetHomeTimelineQuery(timelineParameters);
             return _twitterAccessor.ExecuteGETQueryReturningJson(query);
         }
 
         // User Timeline
-        public string GetUserTimeline(IUserIdentifier user, int maximumNumberOfTweets = 40)
+        public Task<string> GetUserTimeline(IUserIdentifier user, int maximumNumberOfTweets = 40)
         {
             var requestParameters = _timelineQueryParameterGenerator.CreateUserTimelineParameters();
             requestParameters.MaximumNumberOfTweetsToRetrieve = maximumNumberOfTweets;
@@ -65,19 +66,19 @@ namespace Tweetinvi.Controllers.Timeline
             return GetUserTimeline(user, requestParameters);
         }
 
-        public string GetUserTimeline(long userId, int maximumNumberOfTweets = 40)
+        public Task<string> GetUserTimeline(long userId, int maximumNumberOfTweets = 40)
         {
             var user = _userFactory.GenerateUserIdentifierFromId(userId);
             return GetUserTimeline(user, maximumNumberOfTweets);
         }
 
-        public string GetUserTimeline(string userScreenName, int maximumNumberOfTweets = 40)
+        public Task<string> GetUserTimeline(string userScreenName, int maximumNumberOfTweets = 40)
         {
             var user = _userFactory.GenerateUserIdentifierFromScreenName(userScreenName);
             return GetUserTimeline(user, maximumNumberOfTweets);
         }
 
-        public string GetUserTimeline(IUserIdentifier user, IUserTimelineParameters parameters)
+        public Task<string> GetUserTimeline(IUserIdentifier user, IUserTimelineParameters parameters)
         {
             if (parameters == null)
             {
@@ -89,14 +90,14 @@ namespace Tweetinvi.Controllers.Timeline
             return GetUserTimeline(queryParameters);
         }
 
-        public string GetUserTimeline(IUserTimelineQueryParameters timelineParameters)
+        public Task<string> GetUserTimeline(IUserTimelineQueryParameters timelineParameters)
         {
             var query = _timelineQueryGenerator.GetUserTimelineQuery(timelineParameters);
             return _twitterAccessor.ExecuteGETQueryReturningJson(query);
         }
 
         // Mentions Timeline
-        public string GetMentionsTimeline(int maximumNumberOfTweets = 40)
+        public Task<string> GetMentionsTimeline(int maximumNumberOfTweets = 40)
         {
             var requestParameters = _timelineQueryParameterGenerator.CreateMentionsTimelineParameters();
             requestParameters.MaximumNumberOfTweetsToRetrieve = maximumNumberOfTweets;
@@ -104,7 +105,7 @@ namespace Tweetinvi.Controllers.Timeline
             return GetMentionsTimeline(requestParameters);
         }
 
-        public string GetMentionsTimeline(IMentionsTimelineParameters timelineParameters)
+        public Task<string> GetMentionsTimeline(IMentionsTimelineParameters timelineParameters)
         {
             var query = _timelineQueryGenerator.GetMentionsTimelineQuery(timelineParameters);
             return _twitterAccessor.ExecuteGETQueryReturningJson(query);

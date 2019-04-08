@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Tweetinvi.Core.Controllers;
 using Tweetinvi.Core.Extensions;
 using Tweetinvi.Core.Factories;
@@ -36,141 +37,141 @@ namespace Tweetinvi.Controllers.Friendship
         }
 
         // Get Users Requesting Friendship
-        public IEnumerable<long> GetUserIdsRequestingFriendship(int maximumUserIdsToRetrieve = TweetinviConsts.FRIENDSHIPS_INCOMING_IDS_MAX_PER_REQ)
+        public Task<IEnumerable<long>> GetUserIdsRequestingFriendship(int maximumUserIdsToRetrieve = TweetinviConsts.FRIENDSHIPS_INCOMING_IDS_MAX_PER_REQ)
         {
             return _friendshipQueryExecutor.GetUserIdsRequestingFriendship(maximumUserIdsToRetrieve);
         }
 
-        public IEnumerable<IUser> GetUsersRequestingFriendship(int maximumUsersToRetrieve = TweetinviConsts.FRIENDSHIPS_INCOMING_USERS_MAX_PER_REQ)
+        public async Task<IEnumerable<IUser>> GetUsersRequestingFriendship(int maximumUsersToRetrieve = TweetinviConsts.FRIENDSHIPS_INCOMING_USERS_MAX_PER_REQ)
         {
-            var userIds = GetUserIdsRequestingFriendship(maximumUsersToRetrieve);
-            return _userFactory.GetUsersFromIds(userIds);
+            var userIds = await GetUserIdsRequestingFriendship(maximumUsersToRetrieve);
+            return await _userFactory.GetUsersFromIds(userIds);
         }
 
         // Get Users You requested to follow
-        public IEnumerable<long> GetUserIdsYouRequestedToFollow(int maximumUsersToRetrieve = TweetinviConsts.FRIENDSHIPS_OUTGOING_IDS_MAX_PER_REQ)
+        public Task<IEnumerable<long>> GetUserIdsYouRequestedToFollow(int maximumUsersToRetrieve = TweetinviConsts.FRIENDSHIPS_OUTGOING_IDS_MAX_PER_REQ)
         {
             return _friendshipQueryExecutor.GetUserIdsYouRequestedToFollow(maximumUsersToRetrieve);
         }
 
-        public IEnumerable<IUser> GetUsersYouRequestedToFollow(int maximumUsersToRetrieve = TweetinviConsts.FRIENDSHIPS_OUTGOING_USERS_MAX_PER_REQ)
+        public async Task<IEnumerable<IUser>> GetUsersYouRequestedToFollow(int maximumUsersToRetrieve = TweetinviConsts.FRIENDSHIPS_OUTGOING_USERS_MAX_PER_REQ)
         {
-            var userIds = GetUserIdsYouRequestedToFollow(maximumUsersToRetrieve);
-            return _userFactory.GetUsersFromIds(userIds);
+            var userIds = await GetUserIdsYouRequestedToFollow(maximumUsersToRetrieve);
+            return await _userFactory.GetUsersFromIds(userIds);
         }
 
         // Get Users not authorized to retweet
-        public IEnumerable<long> GetUserIdsWhoseRetweetsAreMuted()
+        public Task<long[]> GetUserIdsWhoseRetweetsAreMuted()
         {
             return _friendshipQueryExecutor.GetUserIdsWhoseRetweetsAreMuted();
         }
 
-        public IEnumerable<IUser> GetUsersWhoseRetweetsAreMuted()
+        public async Task<IEnumerable<IUser>> GetUsersWhoseRetweetsAreMuted()
         {
-            var userIds = GetUserIdsWhoseRetweetsAreMuted();
-            return _userFactory.GetUsersFromIds(userIds);
+            var userIds = await GetUserIdsWhoseRetweetsAreMuted();
+            return await _userFactory.GetUsersFromIds(userIds);
         }
 
         // Create Friendship with
-        public bool CreateFriendshipWith(IUserIdentifier user)
+        public Task<bool> CreateFriendshipWith(IUserIdentifier user)
         {
             return _friendshipQueryExecutor.CreateFriendshipWith(user);
         }
 
-        public bool CreateFriendshipWith(long userId)
+        public Task<bool> CreateFriendshipWith(long userId)
         {
             return _friendshipQueryExecutor.CreateFriendshipWith(new UserIdentifier(userId));
         }
 
-        public bool CreateFriendshipWith(string userScreeName)
+        public Task<bool> CreateFriendshipWith(string userScreeName)
         {
             return _friendshipQueryExecutor.CreateFriendshipWith(new UserIdentifier(userScreeName));
         }
 
         // Destroy Friendship with
 
-        public bool DestroyFriendshipWith(IUserIdentifier user)
+        public Task<bool> DestroyFriendshipWith(IUserIdentifier user)
         {
             return _friendshipQueryExecutor.DestroyFriendshipWith(user);
         }
 
-        public bool DestroyFriendshipWith(long userId)
+        public Task<bool> DestroyFriendshipWith(long userId)
         {
             return _friendshipQueryExecutor.DestroyFriendshipWith(new UserIdentifier(userId));
         }
 
-        public bool DestroyFriendshipWith(string userScreeName)
+        public Task<bool> DestroyFriendshipWith(string userScreeName)
         {
             return _friendshipQueryExecutor.DestroyFriendshipWith(new UserIdentifier(userScreeName));
         }
 
         // Update Friendship Authorizations
-       public bool UpdateRelationshipAuthorizationsWith(IUserIdentifier user, bool retweetsEnabled, bool deviceNotificationEnabled)
+       public Task<bool> UpdateRelationshipAuthorizationsWith(IUserIdentifier user, bool retweetsEnabled, bool deviceNotificationEnabled)
         {
             var friendshipAuthorizations = _friendshipFactory.GenerateFriendshipAuthorizations(retweetsEnabled, deviceNotificationEnabled);
             return _friendshipQueryExecutor.UpdateRelationshipAuthorizationsWith(user, friendshipAuthorizations);
         }
 
-        public bool UpdateRelationshipAuthorizationsWith(long userId, bool retweetsEnabled, bool deviceNotificationEnabled)
+        public Task<bool> UpdateRelationshipAuthorizationsWith(long userId, bool retweetsEnabled, bool deviceNotificationEnabled)
         {
             var friendshipAuthorizations = _friendshipFactory.GenerateFriendshipAuthorizations(retweetsEnabled, deviceNotificationEnabled);
             return _friendshipQueryExecutor.UpdateRelationshipAuthorizationsWith(new UserIdentifier(userId), friendshipAuthorizations);
         }
 
-        public bool UpdateRelationshipAuthorizationsWith(string userScreenName, bool retweetsEnabled, bool deviceNotificationEnabled)
+        public Task<bool> UpdateRelationshipAuthorizationsWith(string userScreenName, bool retweetsEnabled, bool deviceNotificationEnabled)
         {
             var friendshipAuthorizations = _friendshipFactory.GenerateFriendshipAuthorizations(retweetsEnabled, deviceNotificationEnabled);
             return _friendshipQueryExecutor.UpdateRelationshipAuthorizationsWith(new UserIdentifier(userScreenName), friendshipAuthorizations);
         }
 
         // Get Relationship (get between 2 users as there is no id for a relationship)
-        public IRelationshipDetails GetRelationshipBetween(IUserIdentifier sourceUserIdentifier, IUserIdentifier targetUserIdentifier)
+        public async Task<IRelationshipDetails> GetRelationshipBetween(IUserIdentifier sourceUserIdentifier, IUserIdentifier targetUserIdentifier)
         {
-            var relationshipDTO = _friendshipQueryExecutor.GetRelationshipBetween(sourceUserIdentifier, targetUserIdentifier);
+            var relationshipDTO = await _friendshipQueryExecutor.GetRelationshipBetween(sourceUserIdentifier, targetUserIdentifier);
             return GenerateRelationshipFromRelationshipDTO(relationshipDTO);
         }
 
-        public IRelationshipDetails GetRelationshipBetween(IUserIdentifier sourceUserIdentifier, long targetUserId)
+        public Task<IRelationshipDetails> GetRelationshipBetween(IUserIdentifier sourceUserIdentifier, long targetUserId)
         {
             return InternalGetRelationshipBetween(sourceUserIdentifier, targetUserId);
         }
 
-        public IRelationshipDetails GetRelationshipBetween(IUserIdentifier sourceUserIdentifier, string targetUserScreenName)
+        public Task<IRelationshipDetails> GetRelationshipBetween(IUserIdentifier sourceUserIdentifier, string targetUserScreenName)
         {
             return InternalGetRelationshipBetween(sourceUserIdentifier, targetUserScreenName);
         }
 
-        public IRelationshipDetails GetRelationshipBetween(long sourceUserId, IUserIdentifier targetUserIdentifier)
+        public Task<IRelationshipDetails> GetRelationshipBetween(long sourceUserId, IUserIdentifier targetUserIdentifier)
         {
             return InternalGetRelationshipBetween(sourceUserId, targetUserIdentifier);
         }
 
-        public IRelationshipDetails GetRelationshipBetween(string sourceUserScreenName, IUserIdentifier targetUserIdentifier)
+        public Task<IRelationshipDetails> GetRelationshipBetween(string sourceUserScreenName, IUserIdentifier targetUserIdentifier)
         {
             return InternalGetRelationshipBetween(sourceUserScreenName, targetUserIdentifier);
         }
 
-        public IRelationshipDetails GetRelationshipBetween(long sourceUserId, long targetUserId)
+        public Task<IRelationshipDetails> GetRelationshipBetween(long sourceUserId, long targetUserId)
         {
             return InternalGetRelationshipBetween(sourceUserId, targetUserId);
         }
 
-        public IRelationshipDetails GetRelationshipBetween(long sourceUserId, string targetUserScreenName)
+        public Task<IRelationshipDetails> GetRelationshipBetween(long sourceUserId, string targetUserScreenName)
         {
             return InternalGetRelationshipBetween(sourceUserId, targetUserScreenName);
         }
 
-        public IRelationshipDetails GetRelationshipBetween(string sourceUserScreenName, long targetUserId)
+        public Task<IRelationshipDetails> GetRelationshipBetween(string sourceUserScreenName, long targetUserId)
         {
             return InternalGetRelationshipBetween(sourceUserScreenName, targetUserId);
         }
 
-        public IRelationshipDetails GetRelationshipBetween(string sourceUserScreenName, string targetUserScreenName)
+        public Task<IRelationshipDetails> GetRelationshipBetween(string sourceUserScreenName, string targetUserScreenName)
         {
             return InternalGetRelationshipBetween(sourceUserScreenName, targetUserScreenName);
         }
 
-        private IRelationshipDetails InternalGetRelationshipBetween(object sourceIdentifier, object targetIdentifier)
+        private Task<IRelationshipDetails> InternalGetRelationshipBetween(object sourceIdentifier, object targetIdentifier)
         {
             IUserIdentifier sourceUserIdentifier = null;
             IUserIdentifier targetUserIdentifier = null;
@@ -213,7 +214,7 @@ namespace Tweetinvi.Controllers.Friendship
         }
 
         // Get multiple relationships
-        public Dictionary<IUser, IRelationshipState> GetRelationshipStatesAssociatedWith(IEnumerable<IUser> targetUsers)
+        public async Task<Dictionary<IUser, IRelationshipState>> GetRelationshipStatesAssociatedWith(IEnumerable<IUser> targetUsers)
         {
             if (targetUsers == null)
             {
@@ -225,7 +226,7 @@ namespace Tweetinvi.Controllers.Friendship
                 throw new ArgumentNullException("Target users cannot be empty.");
             }
 
-            var relationshipStates = GetMultipleRelationships(targetUsers.Select(x => x.UserDTO).ToList());
+            var relationshipStates = await GetMultipleRelationships(targetUsers.Select(x => x.UserDTO).ToList());
             var userRelationshipState = new Dictionary<IUser, IRelationshipState>();
 
             foreach (var targetUser in targetUsers)
@@ -238,21 +239,21 @@ namespace Tweetinvi.Controllers.Friendship
             return userRelationshipState;
         }
 
-        public IEnumerable<IRelationshipState> GetMultipleRelationships(IEnumerable<IUserIdentifier> targetUserIdentifiers)
+        public async Task<IEnumerable<IRelationshipState>> GetMultipleRelationships(IEnumerable<IUserIdentifier> targetUserIdentifiers)
         {
-            var relationshipDTO = _friendshipQueryExecutor.GetMultipleRelationshipsQuery(targetUserIdentifiers);
+            var relationshipDTO = await _friendshipQueryExecutor.GetMultipleRelationshipsQuery(targetUserIdentifiers);
             return GenerateRelationshipStatesFromRelationshipStatesDTO(relationshipDTO);
         }
 
-        public IEnumerable<IRelationshipState> GetMultipleRelationships(IEnumerable<long> targetUsersId)
+        public async Task<IEnumerable<IRelationshipState>> GetMultipleRelationships(IEnumerable<long> targetUsersId)
         {
-            var relationshipDTO = _friendshipQueryExecutor.GetMultipleRelationshipsQuery(targetUsersId);
+            var relationshipDTO = await _friendshipQueryExecutor.GetMultipleRelationshipsQuery(targetUsersId);
             return GenerateRelationshipStatesFromRelationshipStatesDTO(relationshipDTO);
         }
 
-        public IEnumerable<IRelationshipState> GetMultipleRelationships(IEnumerable<string> targetUsersScreenName)
+        public async Task<IEnumerable<IRelationshipState>> GetMultipleRelationships(IEnumerable<string> targetUsersScreenName)
         {
-            var relationshipDTO = _friendshipQueryExecutor.GetMultipleRelationshipsQuery(targetUsersScreenName);
+            var relationshipDTO = await _friendshipQueryExecutor.GetMultipleRelationshipsQuery(targetUsersScreenName);
             return GenerateRelationshipStatesFromRelationshipStatesDTO(relationshipDTO);
         }
 

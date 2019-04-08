@@ -116,103 +116,103 @@ namespace Tweetinvi.Logic
             get { return _twitterListDTO.SubscriberCount; }
         }
 
-        public IEnumerable<ITweet> GetTweets(IGetTweetsFromListParameters getTweetsFromListParameters = null)
+        public Task<IEnumerable<ITweet>> GetTweets(IGetTweetsFromListParameters getTweetsFromListParameters = null)
         {
             return _twitterListController.GetTweetsFromList(this, getTweetsFromListParameters);
         }
 
         // Members
-        public IEnumerable<IUser> GetMembers(int maximumNumberOfUsersToRetrieve = 100)
+        public Task<IEnumerable<IUser>> GetMembers(int maximumNumberOfUsersToRetrieve = 100)
         {
             return _twitterListController.GetListMembers(_twitterListDTO, maximumNumberOfUsersToRetrieve);
         }
 
 
-        public bool AddMember(long userId)
+        public Task<bool> AddMember(long userId)
         {
             return _twitterListController.AddMemberToList(this, userId);
         }
 
-        public bool AddMember(string userScreenName)
+        public Task<bool> AddMember(string userScreenName)
         {
             return _twitterListController.AddMemberToList(this, userScreenName);
         }
 
-        public bool AddMember(IUserIdentifier user)
+        public Task<bool> AddMember(IUserIdentifier user)
         {
             return _twitterListController.AddMemberToList(this, user);
         }
 
-        public MultiRequestsResult AddMultipleMembers(IEnumerable<long> userIds)
+        public Task<MultiRequestsResult> AddMultipleMembers(IEnumerable<long> userIds)
         {
             return _twitterListController.AddMultipleMembersToList(this, userIds);
         }
 
-        public MultiRequestsResult AddMultipleMembers(IEnumerable<string> userScreenNames)
+        public Task<MultiRequestsResult> AddMultipleMembers(IEnumerable<string> userScreenNames)
         {
             return _twitterListController.AddMultipleMembersToList(this, userScreenNames);
         }
 
-        public MultiRequestsResult AddMultipleMembers(IEnumerable<IUserIdentifier> users)
+        public Task<MultiRequestsResult> AddMultipleMembers(IEnumerable<IUserIdentifier> users)
         {
             return _twitterListController.AddMultipleMembersToList(this, users);
         }
 
 
-        public bool RemoveMember(long userId)
+        public Task<bool> RemoveMember(long userId)
         {
             return _twitterListController.RemoveMemberFromList(this, userId);
         }
 
-        public bool RemoveMember(string userScreenName)
+        public Task<bool> RemoveMember(string userScreenName)
         {
             return _twitterListController.RemoveMemberFromList(this, userScreenName);
         }
 
-        public bool RemoveMember(IUserIdentifier user)
+        public Task<bool> RemoveMember(IUserIdentifier user)
         {
             return _twitterListController.RemoveMemberFromList(this, user);
         }
 
 
-        public MultiRequestsResult RemoveMultipleMembers(IEnumerable<long> userIds)
+        public Task<MultiRequestsResult> RemoveMultipleMembers(IEnumerable<long> userIds)
         {
             return _twitterListController.RemoveMultipleMembersFromList(this, userIds);
         }
 
-        public MultiRequestsResult RemoveMultipleMembers(IEnumerable<string> userScreenNames)
+        public Task<MultiRequestsResult> RemoveMultipleMembers(IEnumerable<string> userScreenNames)
         {
             return _twitterListController.RemoveMultipleMembersFromList(this, userScreenNames);
         }
 
-        public MultiRequestsResult RemoveMultipleMembers(IEnumerable<IUserIdentifier> users)
+        public Task<MultiRequestsResult> RemoveMultipleMembers(IEnumerable<IUserIdentifier> users)
         {
             return _twitterListController.RemoveMultipleMembersFromList(this, users);
         }
 
 
-        public bool CheckUserMembership(long userId)
+        public Task<bool> CheckUserMembership(long userId)
         {
             return _twitterListController.CheckIfUserIsAListMember(this, userId);
         }
 
-        public bool CheckUserMembership(string userScreenName)
+        public Task<bool> CheckUserMembership(string userScreenName)
         {
             return _twitterListController.CheckIfUserIsAListMember(this, userScreenName);
         }
 
-        public bool CheckUserMembership(IUserIdentifier user)
+        public Task<bool> CheckUserMembership(IUserIdentifier user)
         {
             return _twitterListController.CheckIfUserIsAListMember(this, user);
         }
 
         // Subscribers
-        public IEnumerable<IUser> GetSubscribers(int maximumNumberOfUsersToRetrieve = 100)
+        public Task<IEnumerable<IUser>> GetSubscribers(int maximumNumberOfUsersToRetrieve = 100)
         {
             return _twitterListController.GetListSubscribers(this, maximumNumberOfUsersToRetrieve);
         }
 
-        public bool SubscribeAuthenticatedUserToList(IAuthenticatedUser authenticatedUser = null)
+        public Task<bool> SubscribeAuthenticatedUserToList(IAuthenticatedUser authenticatedUser = null)
         {
             if (authenticatedUser != null)
             {

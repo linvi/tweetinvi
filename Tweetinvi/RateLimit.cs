@@ -137,7 +137,7 @@ namespace Tweetinvi
         /// </summary>
         public static IEndpointRateLimit GetQueryRateLimit(string query)
         {
-            return RateLimitCacheManager.GetQueryRateLimit(query, Auth.Credentials);
+            return RateLimitCacheManager.GetQueryRateLimit(query, Auth.Credentials).Result;
         }
 
         /// <summary>
@@ -145,7 +145,7 @@ namespace Tweetinvi
         /// </summary>
         public static IEndpointRateLimit GetQueryRateLimit(string query, ITwitterCredentials credentials)
         {
-            return RateLimitCacheManager.GetQueryRateLimit(query, credentials);
+            return RateLimitCacheManager.GetQueryRateLimit(query, credentials).Result;
         }
 
         /// <summary>
@@ -161,7 +161,7 @@ namespace Tweetinvi
             }
             else
             {
-                credentialsRateLimits = RateLimitCacheManager.GetCredentialsRateLimits(Auth.Credentials);
+                credentialsRateLimits = RateLimitCacheManager.GetCredentialsRateLimits(Auth.Credentials).Result;
             }
 
             return credentialsRateLimits;
@@ -174,7 +174,7 @@ namespace Tweetinvi
         {
             if (useRateLimitCache)
             {
-                return RateLimitCacheManager.GetCredentialsRateLimits(credentials);
+                return RateLimitCacheManager.GetCredentialsRateLimits(credentials).Result;
             }
 
             return HelpController.GetCredentialsRateLimits(credentials);

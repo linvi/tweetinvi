@@ -1,4 +1,5 @@
-﻿using Tweetinvi.Core.Web;
+﻿using System.Threading.Tasks;
+using Tweetinvi.Core.Web;
 using Tweetinvi.Factories.Properties;
 using Tweetinvi.Models.DTO;
 
@@ -7,7 +8,7 @@ namespace Tweetinvi.Factories
     public interface IMessageFactoryQueryExecutor
     {
         // Get Existing Message
-        IGetMessageDTO GetExistingMessage(long messageId);
+        Task<IGetMessageDTO> GetExistingMessage(long messageId);
     }
 
     public class MessageFactoryQueryExecutor : IMessageFactoryQueryExecutor
@@ -20,7 +21,7 @@ namespace Tweetinvi.Factories
         }
 
         // Get existing message
-        public IGetMessageDTO GetExistingMessage(long messageId)
+        public Task<IGetMessageDTO> GetExistingMessage(long messageId)
         {
             string query = string.Format(Resources.Message_GetMessageFromId, messageId);
             return _twitterAccessor.ExecuteGETQuery<IGetMessageDTO>(query);

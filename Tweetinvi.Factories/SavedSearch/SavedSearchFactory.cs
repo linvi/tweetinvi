@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Tweetinvi.Core.Factories;
 using Tweetinvi.Core.Helpers;
 using Tweetinvi.Core.Injectinvi;
@@ -24,12 +25,12 @@ namespace Tweetinvi.Factories.SavedSearch
             _savedSearchUnityFactory = savedSearchUnityFactory;
         }
 
-        public ISavedSearch CreateSavedSearch(string searchQuery)
+        public Task<ISavedSearch> CreateSavedSearch(string searchQuery)
         {
             return _savedSearchQueryExecutor.CreateSavedSearch(searchQuery);
         }
 
-        public ISavedSearch GetSavedSearch(long searchId)
+        public Task<ISavedSearch> GetSavedSearch(long searchId)
         {
             return _savedSearchQueryExecutor.GetSavedSearch(searchId);
         }

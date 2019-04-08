@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Tweetinvi.Core.Credentials;
 using Tweetinvi.Core.RateLimit;
 using Tweetinvi.Models;
@@ -20,15 +21,15 @@ namespace Tweetinvi.Credentials.RateLimit
             _credentialsAccessor = credentialsAccessor;
         }
 
-        public void QueryExecuted(string query, int numberOfRequests = 1)
+        public async Task QueryExecuted(string query, int numberOfRequests = 1)
         {
             var currentCredentials = _credentialsAccessor.CurrentThreadCredentials;
-            QueryExecuted(query, currentCredentials, numberOfRequests);
+            await QueryExecuted(query, currentCredentials, numberOfRequests);
         }
 
-        public void QueryExecuted(string query, ITwitterCredentials credentials, int numberOfRequests = 1)
+        public async Task QueryExecuted(string query, ITwitterCredentials credentials, int numberOfRequests = 1)
         {
-            var rateLimit = _rateLimitCacheManager.GetQueryRateLimit(query, credentials);
+            var rateLimit = await _rateLimitCacheManager.GetQueryRateLimit(query, credentials);
 
             if (rateLimit != null)
             {
@@ -37,11 +38,11 @@ namespace Tweetinvi.Credentials.RateLimit
             }
         }
 
-        public void QueryExecuted(string query, ITwitterCredentials credentials, Dictionary<string, IEnumerable<string>> rateLimitHeaders)
+        public async Task QueryExecuted(string query, ITwitterCredentials credentials, Dictionary<string, IEnumerable<string>> rateLimitHeaders)
         {
             if (rateLimitHeaders != null && rateLimitHeaders.Count > 0)
             {
-                var rateLimit = _rateLimitCacheManager.GetOrCreateQueryRateLimit(query, credentials);
+                var rateLimit = await _rateLimitCacheManager.GetOrCreateQueryRateLimit(query, credentials);
 
                 // If the user runs out of RateLimit requests
                 if (rateLimit == null)
@@ -81,15 +82,15 @@ namespace Tweetinvi.Credentials.RateLimit
             }
             else
             {
-                QueryExecuted(query, credentials);
+                await QueryExecuted(query, credentials);
             }
         }
 
-        public void ClearRateLimitsForQuery(string query)
+        public async Task ClearRateLimitsForQuery(string query)
         {
             var currentCredentials = _credentialsAccessor.CurrentThreadCredentials;
 
-            var rateLimit = _rateLimitCacheManager.GetQueryRateLimit(query, currentCredentials);
+            var rateLimit = await _rateLimitCacheManager.GetQueryRateLimit(query, currentCredentials);
             if (rateLimit != null)
             {
                 rateLimit.Remaining = 0;

@@ -35,15 +35,15 @@ namespace Tweetinvi.WebLogic
         }
 
         // Simple Query
-        public IWebRequestResult ExecuteQuery(ITwitterQuery twitterQuery, ITwitterClientHandler handler = null)
+        public Task<IWebRequestResult> ExecuteQuery(ITwitterQuery twitterQuery, ITwitterClientHandler handler = null)
         {
-            return ExecuteTwitterQuerySafely(twitterQuery, () =>
+            return ExecuteTwitterQuerySafely(twitterQuery, async () =>
             {
                 HttpResponseMessage httpResponseMessage = null;
 
                 try
                 {
-                    httpResponseMessage = _httpClientWebHelper.GetHttpResponse(twitterQuery, handler).Result;
+                    httpResponseMessage = await _httpClientWebHelper.GetHttpResponse(twitterQuery, handler);
 
                     var result = GetWebResultFromResponse(twitterQuery.QueryURL, httpResponseMessage);
 
@@ -106,15 +106,15 @@ namespace Tweetinvi.WebLogic
             return binary;
         }
 
-        public IWebRequestResult ExecuteMultipartQuery(ITwitterQuery twitterQuery, string contentId, IEnumerable<byte[]> binaries)
+        public Task<IWebRequestResult> ExecuteMultipartQuery(ITwitterQuery twitterQuery, string contentId, IEnumerable<byte[]> binaries)
         {
-            return ExecuteTwitterQuerySafely(twitterQuery, () =>
+            return ExecuteTwitterQuerySafely(twitterQuery, async () =>
             {
                 HttpResponseMessage httpResponseMessage = null;
 
                 try
                 {
-                    httpResponseMessage = _httpClientWebHelper.GetHttpResponse(twitterQuery).Result;
+                    httpResponseMessage = await _httpClientWebHelper.GetHttpResponse(twitterQuery);
 
                     var result = GetWebResultFromResponse(twitterQuery.QueryURL, httpResponseMessage);
 
@@ -163,11 +163,11 @@ namespace Tweetinvi.WebLogic
             return webRequestResult;
         }
 
-        private T ExecuteTwitterQuerySafely<T>(ITwitterQuery twitterQuery, Func<T> action)
+        private async Task<T> ExecuteTwitterQuerySafely<T>(ITwitterQuery twitterQuery, Func<Task<T>> action)
         {
             try
             {
-                return action();
+                return await action();
             }
             catch (AggregateException aex)
             {
@@ -188,6 +188,7 @@ namespace Tweetinvi.WebLogic
                 if (taskCanceledException != null)
                 {
                     var twitterTimeoutException = new TwitterTimeoutException(twitterQuery);
+
                     if (_exceptionHandler.LogExceptions)
                     {
                         _exceptionHandler.AddTwitterException(twitterTimeoutException);

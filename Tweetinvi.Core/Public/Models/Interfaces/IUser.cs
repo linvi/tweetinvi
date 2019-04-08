@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using Tweetinvi.Core.Models.Async;
+using System.Threading.Tasks;
 using Tweetinvi.Models.DTO;
 using Tweetinvi.Models.Entities;
 using Tweetinvi.Parameters;
@@ -12,7 +12,7 @@ namespace Tweetinvi.Models
     /// Contract defining what a user on twitter can do.
     /// For more information visit : https://dev.twitter.com/overview/api/users
     /// </summary>
-    public interface IUser : IUserIdentifier, IUserAsync, IEquatable<IUser>
+    public interface IUser : IUserIdentifier, IEquatable<IUser>
     {
         /// <summary>
         /// Property used to store the twitter properties
@@ -301,86 +301,86 @@ namespace Tweetinvi.Models
         /// <summary>
         /// Get a list of the user's friend ids.
         /// </summary>
-        IEnumerable<long> GetFriendIds(int maxFriendsToRetrieve = 5000);
+        Task<IEnumerable<long>> GetFriendIds(int maxFriendsToRetrieve = 5000);
 
         /// <summary>
         /// Get a list of the user's friends.
         /// </summary>
-        IEnumerable<IUser> GetFriends(int maxFriendsToRetrieve = 250);
+        Task<IEnumerable<IUser>> GetFriends(int maxFriendsToRetrieve = 250);
 
         // Followers
 
         /// <summary>
         /// Get a list of the user's follower ids.
         /// </summary>
-        IEnumerable<long> GetFollowerIds(int maxFriendsToRetrieve = 5000);
+        Task<IEnumerable<long>> GetFollowerIds(int maxFriendsToRetrieve = 5000);
 
         /// <summary>
         /// Get a list of the user's followers.
         /// </summary>
-        IEnumerable<IUser> GetFollowers(int maxFriendsToRetrieve = 250);
+        Task<IEnumerable<IUser>> GetFollowers(int maxFriendsToRetrieve = 250);
 
         // Friendship
 
         /// <summary>
         /// Get the relationship details between the user and another one.
         /// </summary>
-        IRelationshipDetails GetRelationshipWith(IUserIdentifier user);
+        Task<IRelationshipDetails> GetRelationshipWith(IUserIdentifier user);
 
         // Timeline
 
         /// <summary>
         /// Get the tweets published by the user.
         /// </summary>
-        IEnumerable<ITweet> GetUserTimeline(int maximumNumberOfTweets = 40);
+        Task<IEnumerable<ITweet>> GetUserTimeline(int maximumNumberOfTweets = 40);
 
         /// <summary>
         /// Get the tweets published by the user.
         /// </summary>
-        IEnumerable<ITweet> GetUserTimeline(IUserTimelineParameters timelineParameters);
+        Task<IEnumerable<ITweet>> GetUserTimeline(IUserTimelineParameters timelineParameters);
 
         // Get Favorites
 
         /// <summary>
         /// Get the tweets favourited by the user.
         /// </summary>
-        IEnumerable<ITweet> GetFavorites(int maximumNumberOfTweets = 40);
+        Task<IEnumerable<ITweet>> GetFavorites(int maximumNumberOfTweets = 40);
 
         /// <summary>
         /// Get the tweets favourited by the user.
         /// </summary>
-        IEnumerable<ITweet> GetFavorites(IGetUserFavoritesParameters parameters);
+        Task<IEnumerable<ITweet>> GetFavorites(IGetUserFavoritesParameters parameters);
 
         // Lists
 
         /// <summary>
         /// Get the lists owned by the user.
         /// </summary>
-        IEnumerable<ITwitterList> GetOwnedLists(int maximumNumberOfListsToRetrieve);
+        Task<IEnumerable<ITwitterList>> GetOwnedLists(int maximumNumberOfListsToRetrieve);
 
         /// <summary>
         /// Get the lists the user has subscribed to.
         /// </summary>
-        IEnumerable<ITwitterList> GetSubscribedLists(int maximumNumberOfListsToRetrieve = TweetinviConsts.LIST_GET_USER_SUBSCRIPTIONS_COUNT);
+        Task<IEnumerable<ITwitterList>> GetSubscribedLists(int maximumNumberOfListsToRetrieve = TweetinviConsts.LIST_GET_USER_SUBSCRIPTIONS_COUNT);
 
         // Block
 
         /// <summary>
         /// Make the authenticated user block the user.
         /// </summary>
-        bool BlockUser();
+        Task<bool> BlockUser();
 
         /// <summary>
         /// Make the authenticated user unblock the user.
         /// </summary>
-        bool UnBlockUser();
+        Task<bool> UnBlockUser();
 
         // Spam
 
         /// <summary>
         /// Report the user for spam.
         /// </summary>
-        bool ReportUserForSpam();
+        Task<bool> ReportUserForSpam();
 
         // Stream Profile Image
 

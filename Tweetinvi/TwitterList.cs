@@ -72,7 +72,7 @@ namespace Tweetinvi
         /// </summary>
         public static ITwitterList GetExistingList(ITwitterListIdentifier twitterListIdentifier)
         {
-            return TwitterListFactory.GetExistingList(twitterListIdentifier);
+            return TwitterListFactory.GetExistingList(twitterListIdentifier).Result;
         }
 
         /// <summary>
@@ -80,7 +80,7 @@ namespace Tweetinvi
         /// </summary>
         public static ITwitterList GetExistingList(long listId)
         {
-            return TwitterListFactory.GetExistingList(listId);
+            return TwitterListFactory.GetExistingList(listId).Result;
         }
 
         /// <summary>
@@ -88,7 +88,7 @@ namespace Tweetinvi
         /// </summary>
         public static ITwitterList GetExistingList(string slug, IUserIdentifier user)
         {
-            return TwitterListFactory.GetExistingList(slug, user);
+            return TwitterListFactory.GetExistingList(slug, user).Result;
         }
 
         /// <summary>
@@ -96,7 +96,7 @@ namespace Tweetinvi
         /// </summary>
         public static ITwitterList GetExistingList(string slug, long userId)
         {
-            return TwitterListFactory.GetExistingList(slug, userId);
+            return TwitterListFactory.GetExistingList(slug, userId).Result;
         }
 
         /// <summary>
@@ -104,7 +104,7 @@ namespace Tweetinvi
         /// </summary>
         public static ITwitterList GetExistingList(string slug, string userScreenName)
         {
-            return TwitterListFactory.GetExistingList(slug, userScreenName);
+            return TwitterListFactory.GetExistingList(slug, userScreenName).Result;
         }
 
         // Owner Lists
@@ -140,7 +140,7 @@ namespace Tweetinvi
         /// </summary>
         public static ITwitterList CreateList(string name, PrivacyMode privacyMode, string description = null)
         {
-            return TwitterListFactory.CreateList(name, privacyMode, description);
+            return TwitterListFactory.CreateList(name, privacyMode, description).Result;
         }
 
         // Update List

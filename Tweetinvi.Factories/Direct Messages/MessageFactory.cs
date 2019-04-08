@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Tweetinvi.Core.Factories;
 using Tweetinvi.Core.Helpers;
 using Tweetinvi.Core.Injectinvi;
@@ -25,9 +26,9 @@ namespace Tweetinvi.Factories
         }
 
         // Get existing message
-        public IMessage GetExistingMessage(long messageId)
+        public async Task<IMessage> GetExistingMessage(long messageId)
         {
-            var getMessageDTO = _messageFactoryQueryExecutor.GetExistingMessage(messageId);
+            var getMessageDTO = await _messageFactoryQueryExecutor.GetExistingMessage(messageId);
             return GenerateMessageFromGetMessageDTO(getMessageDTO);
         }
 

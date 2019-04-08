@@ -125,7 +125,7 @@ namespace Testinvi.Tweetinvi.Credentials.RateLimitTests
         {
             // Arrange
             var rateLimitAwaiter = CreateRateLimitAwaiter();
-            _fakeRateLimitCacheManager.CallsTo(x => x.GetQueryRateLimit(TEST_QUERY, _credentials)).Returns(null);
+            _fakeRateLimitCacheManager.CallsTo(x => x.GetQueryRateLimit(TEST_QUERY, _credentials)).ReturnsLazily(null);
 
             // Act
             rateLimitAwaiter.WaitForCredentialsRateLimit(TEST_QUERY, _credentials);

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using Tweetinvi.Core.Parameters;
 using Tweetinvi.Core.Web;
 using Tweetinvi.Models.DTO;
@@ -9,16 +10,16 @@ namespace Tweetinvi.Controllers.Timeline
     public interface ITimelineQueryExecutor
     {
         // Home Timeline
-        IEnumerable<ITweetDTO> GetHomeTimeline(IHomeTimelineParameters timelineParameters);
+        Task<IEnumerable<ITweetDTO>> GetHomeTimeline(IHomeTimelineParameters timelineParameters);
 
         // User Timeline
-        IEnumerable<ITweetDTO> GetUserTimeline(IUserTimelineQueryParameters timelineParameters);
+        Task<IEnumerable<ITweetDTO>> GetUserTimeline(IUserTimelineQueryParameters timelineParameters);
 
         // Mention Timeline
-        IEnumerable<ITweetDTO> GetMentionsTimeline(IMentionsTimelineParameters timelineParameters);
+        Task<IEnumerable<ITweetDTO>> GetMentionsTimeline(IMentionsTimelineParameters timelineParameters);
 
         // Retweets Of Me Timeline
-        IEnumerable<ITweetDTO> GetRetweetsOfMeTimeline(IRetweetsOfMeTimelineParameters timelineParameters);
+        Task<IEnumerable<ITweetDTO>> GetRetweetsOfMeTimeline(IRetweetsOfMeTimelineParameters timelineParameters);
     }
 
     public class TimelineQueryExecutor : ITimelineQueryExecutor
@@ -35,28 +36,28 @@ namespace Tweetinvi.Controllers.Timeline
         }
 
         // Home Timeline
-        public IEnumerable<ITweetDTO> GetHomeTimeline(IHomeTimelineParameters timelineParameters)
+        public Task<IEnumerable<ITweetDTO>> GetHomeTimeline(IHomeTimelineParameters timelineParameters)
         {
             string query = _timelineQueryGenerator.GetHomeTimelineQuery(timelineParameters);
             return _twitterAccessor.ExecuteGETQuery<IEnumerable<ITweetDTO>>(query);
         }
 
         // User Timeline
-        public IEnumerable<ITweetDTO> GetUserTimeline(IUserTimelineQueryParameters timelineParameters)
+        public Task<IEnumerable<ITweetDTO>> GetUserTimeline(IUserTimelineQueryParameters timelineParameters)
         {
             string query = _timelineQueryGenerator.GetUserTimelineQuery(timelineParameters);
             return _twitterAccessor.ExecuteGETQuery<IEnumerable<ITweetDTO>>(query);
         }
 
         // Mention Timeline
-        public IEnumerable<ITweetDTO> GetMentionsTimeline(IMentionsTimelineParameters timelineParameters)
+        public Task<IEnumerable<ITweetDTO>> GetMentionsTimeline(IMentionsTimelineParameters timelineParameters)
         {
             string query = _timelineQueryGenerator.GetMentionsTimelineQuery(timelineParameters);
             return _twitterAccessor.ExecuteGETQuery<IEnumerable<ITweetDTO>>(query);
         }
 
         // Retweets of Me Timeline
-        public IEnumerable<ITweetDTO> GetRetweetsOfMeTimeline(IRetweetsOfMeTimelineParameters timelineParameters)
+        public Task<IEnumerable<ITweetDTO>> GetRetweetsOfMeTimeline(IRetweetsOfMeTimelineParameters timelineParameters)
         {
             string query = _timelineQueryGenerator.GetRetweetsOfMeTimelineQuery(timelineParameters);
             return _twitterAccessor.ExecuteGETQuery<IEnumerable<ITweetDTO>>(query);

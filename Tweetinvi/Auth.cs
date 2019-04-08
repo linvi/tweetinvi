@@ -171,7 +171,7 @@ namespace Tweetinvi
 
             if (force || (isBearerRequired && !isBearerAlreadySet))
             {
-                return AuthFactory.InitializeApplicationBearer(credentials);
+                return AuthFactory.InitializeApplicationBearer(credentials).Result;
             }
 
             return true;
@@ -199,7 +199,7 @@ namespace Tweetinvi
 
                 credentials.ApplicationOnlyBearerToken = twitterCredentials.ApplicationOnlyBearerToken;
 
-                return success;
+                return success.Result;
             }
 
             return true;
@@ -210,7 +210,7 @@ namespace Tweetinvi
         /// </summary>
         public static bool InvalidateCredentials(ITwitterCredentials credentials = null)
         {
-            return AuthFactory.InvalidateCredentials(credentials ?? CredentialsAccessor.CurrentThreadCredentials);
+            return AuthFactory.InvalidateCredentials(credentials ?? CredentialsAccessor.CurrentThreadCredentials).Result;
         }
 
         /// <summary>

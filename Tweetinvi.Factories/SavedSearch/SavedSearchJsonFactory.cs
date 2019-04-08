@@ -1,11 +1,12 @@
-﻿using Tweetinvi.Core.Web;
+﻿using System.Threading.Tasks;
+using Tweetinvi.Core.Web;
 
 namespace Tweetinvi.Factories.SavedSearch
 {
     public interface ISavedSearchJsonFactory
     {
-        string CreateSavedSearch(string searchQuery);
-        string GetSavedSearch(long searchId);
+        Task<string> CreateSavedSearch(string searchQuery);
+        Task<string> GetSavedSearch(long searchId);
     }
 
     public class SavedSearchJsonFactory : ISavedSearchJsonFactory
@@ -21,13 +22,13 @@ namespace Tweetinvi.Factories.SavedSearch
             _twitterAccessor = twitterAccessor;
         }
 
-        public string CreateSavedSearch(string searchQuery)
+        public Task<string> CreateSavedSearch(string searchQuery)
         {
             string query = _savedSearchQueryGenerator.GetCreateSavedSearchQuery(searchQuery);
             return _twitterAccessor.ExecutePOSTQueryReturningJson(query);
         }
 
-        public string GetSavedSearch(long searchId)
+        public Task<string> GetSavedSearch(long searchId)
         {
             string query = _savedSearchQueryGenerator.GetSavedSearchQuery(searchId);
             return _twitterAccessor.ExecuteGETQueryReturningJson(query);

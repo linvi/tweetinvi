@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Tweetinvi.Core.Controllers;
 using Tweetinvi.Core.Injectinvi;
 using Tweetinvi.Models;
@@ -63,7 +64,7 @@ namespace Tweetinvi
         /// <summary>
         /// Get the current account settings
         /// </summary>
-        public static IAccountSettings GetCurrentAccountSettings()
+        public static Task<IAccountSettings> GetCurrentAccountSettings()
         {
             return AccountController.GetAuthenticatedUserSettings();
         }
@@ -71,7 +72,7 @@ namespace Tweetinvi
         /// <summary>
         /// Update the current account settings
         /// </summary>
-        public static IAccountSettings UpdateAccountSettings(
+        public static Task<IAccountSettings> UpdateAccountSettings(
             IEnumerable<Language> languages = null,
             string timeZone = null,
             long? trendLocationWoeid = null,
@@ -91,7 +92,7 @@ namespace Tweetinvi
         /// <summary>
         /// Update the current account settings
         /// </summary>
-        public static IAccountSettings UpdateAccountSettings(IAccountSettingsRequestParameters settings)
+        public static Task<IAccountSettings> UpdateAccountSettings(IAccountSettingsRequestParameters settings)
         {
             return AccountController.UpdateAuthenticatedUserSettings(settings);
         }
@@ -131,7 +132,7 @@ namespace Tweetinvi
         /// <summary>
         /// Update the information of the authenticated user profile.
         /// </summary>
-        public static IAuthenticatedUser UpdateAccountProfile(IAccountUpdateProfileParameters parameters)
+        public static Task<IAuthenticatedUser> UpdateAccountProfile(IAccountUpdateProfileParameters parameters)
         {
             return AccountController.UpdateAccountProfile(parameters);
         }
@@ -140,7 +141,7 @@ namespace Tweetinvi
         /// Updates the authenticated user’s profile image. 
         /// </summary>
         /// <param name="imageBinary">Must be a valid GIF, JPG, or PNG image of less than 800 kilobytes in size. Images with width larger than 2048 pixels will be forcibly scaled down.</param>
-        public static bool UpdateProfileImage(byte[] imageBinary)
+        public static Task<bool> UpdateProfileImage(byte[] imageBinary)
         {
             return AccountController.UpdateProfileImage(imageBinary);
         }
@@ -149,7 +150,7 @@ namespace Tweetinvi
         /// Updates the authenticated user’s profile image. 
         /// </summary>
         /// <param name="parameters">The parameters must contain a valid GIF, JPG, or PNG image of less than 800 kilobytes in size. Images with width larger than 2048 pixels will be forcibly scaled down.</param>
-        public static bool UpdateProfileImage(IAccountUpdateProfileImageParameters parameters)
+        public static Task<bool> UpdateProfileImage(IAccountUpdateProfileImageParameters parameters)
         {
             return AccountController.UpdateProfileImage(parameters);
         }
@@ -157,7 +158,7 @@ namespace Tweetinvi
         /// <summary>
         /// Uploads a profile banner on behalf of the authenticated user.
         /// </summary>
-        public static bool UpdateProfileBanner(byte[] imageBinary)
+        public static Task<bool> UpdateProfileBanner(byte[] imageBinary)
         {
             return AccountController.UpdateProfileBanner(imageBinary);
         }
@@ -165,7 +166,7 @@ namespace Tweetinvi
         /// <summary>
         /// Uploads a profile banner on behalf of the authenticated user.
         /// </summary>
-        public static bool UpdateProfileBanner(IAccountUpdateProfileBannerParameters parameters)
+        public static Task<bool> UpdateProfileBanner(IAccountUpdateProfileBannerParameters parameters)
         {
             return AccountController.UpdateProfileBanner(parameters);
         }
@@ -173,7 +174,7 @@ namespace Tweetinvi
         /// <summary>
         /// Removes the uploaded profile banner for the authenticated user.
         /// </summary>
-        public static bool RemoveUserProfileBanner()
+        public static Task<bool> RemoveUserProfileBanner()
         {
             return AccountController.RemoveUserProfileBanner();
         }
@@ -207,7 +208,7 @@ namespace Tweetinvi
         /// <summary>
         /// Get the muted user's ids of the current account.
         /// </summary>
-        public static IEnumerable<long> GetMutedUserIds(int maxNumberOfUserIdsToRetrieve = Int32.MaxValue)
+        public static Task<IEnumerable<long>> GetMutedUserIds(int maxNumberOfUserIdsToRetrieve = Int32.MaxValue)
         {
             return AccountController.GetMutedUserIds(maxNumberOfUserIdsToRetrieve);
         }
@@ -215,7 +216,7 @@ namespace Tweetinvi
         /// <summary>
         /// Get the muted users of the current account.
         /// </summary>
-        public static IEnumerable<IUser> GetMutedUsers(int maxNumberOfUsersToRetrieve = 250)
+        public static Task<IEnumerable<IUser>> GetMutedUsers(int maxNumberOfUsersToRetrieve = 250)
         {
             return AccountController.GetMutedUsers(maxNumberOfUsersToRetrieve);
         }
@@ -223,7 +224,7 @@ namespace Tweetinvi
         /// <summary>
         /// Mute a specific user.
         /// </summary>
-        public static bool MuteUser(IUserIdentifier user)
+        public static Task<bool> MuteUser(IUserIdentifier user)
         {
             return AccountController.MuteUser(user);
         }
@@ -231,7 +232,7 @@ namespace Tweetinvi
         /// <summary>
         /// Mute a specific user.
         /// </summary>
-        public static bool MuteUser(long userId)
+        public static Task<bool> MuteUser(long userId)
         {
             return AccountController.MuteUser(userId);
         }
@@ -239,7 +240,7 @@ namespace Tweetinvi
         /// <summary>
         /// Mute a specific user.
         /// </summary>
-        public static bool MuteUser(string screenName)
+        public static Task<bool> MuteUser(string screenName)
         {
             return AccountController.MuteUser(screenName);
         }
@@ -273,8 +274,7 @@ namespace Tweetinvi
         /// <summary>
         /// Get the ids of the users who want to follow you.
         /// </summary>
-        public static IEnumerable<long> GetUserIdsRequestingFriendship(
-            int maximumUserIdsToRetrieve = TweetinviConsts.FRIENDSHIPS_INCOMING_IDS_MAX_PER_REQ)
+        public static Task<IEnumerable<long>> GetUserIdsRequestingFriendship(int maximumUserIdsToRetrieve = TweetinviConsts.FRIENDSHIPS_INCOMING_IDS_MAX_PER_REQ)
         {
             return FriendshipController.GetUserIdsRequestingFriendship(maximumUserIdsToRetrieve);
         }
@@ -282,8 +282,7 @@ namespace Tweetinvi
         /// <summary>
         /// Get the users who want to follow you.
         /// </summary>
-        public static IEnumerable<IUser> GetUsersRequestingFriendship(
-            int maximumUserIdsToRetrieve = TweetinviConsts.FRIENDSHIPS_INCOMING_USERS_MAX_PER_REQ)
+        public static Task<IEnumerable<IUser>> GetUsersRequestingFriendship(int maximumUserIdsToRetrieve = TweetinviConsts.FRIENDSHIPS_INCOMING_USERS_MAX_PER_REQ)
         {
             return FriendshipController.GetUsersRequestingFriendship(maximumUserIdsToRetrieve);
         }
@@ -291,7 +290,7 @@ namespace Tweetinvi
         /// <summary>
         /// Get the user ids of the people you requested to follow.
         /// </summary>
-        public static IEnumerable<long> GetUserIdsYouRequestedToFollow(int maximumUserIdsToRetrieve = TweetinviConsts.FRIENDSHIPS_OUTGOING_IDS_MAX_PER_REQ)
+        public static Task<IEnumerable<long>> GetUserIdsYouRequestedToFollow(int maximumUserIdsToRetrieve = TweetinviConsts.FRIENDSHIPS_OUTGOING_IDS_MAX_PER_REQ)
         {
             return FriendshipController.GetUserIdsYouRequestedToFollow(maximumUserIdsToRetrieve);
         }
@@ -299,8 +298,7 @@ namespace Tweetinvi
         /// <summary>
         /// Get the user ids of the people you requested to follow.
         /// </summary>
-        public static IEnumerable<IUser> GetUsersYouRequestedToFollow(
-            int maximumUserIdsToRetrieve = TweetinviConsts.FRIENDSHIPS_OUTGOING_USERS_MAX_PER_REQ)
+        public static Task<IEnumerable<IUser>> GetUsersYouRequestedToFollow(int maximumUserIdsToRetrieve = TweetinviConsts.FRIENDSHIPS_OUTGOING_USERS_MAX_PER_REQ)
         {
             return FriendshipController.GetUsersYouRequestedToFollow(maximumUserIdsToRetrieve);
         }
@@ -310,7 +308,7 @@ namespace Tweetinvi
         /// <summary>
         /// Changes the authorizations you give to a specific user.
         /// </summary>
-        public static bool UpdateRelationshipAuthorizationsWith(IUserIdentifier user, bool retweetsEnabled, bool deviceNotifictionEnabled)
+        public static Task<bool> UpdateRelationshipAuthorizationsWith(IUserIdentifier user, bool retweetsEnabled, bool deviceNotifictionEnabled)
         {
             return FriendshipController.UpdateRelationshipAuthorizationsWith(user, retweetsEnabled, deviceNotifictionEnabled);
         }
@@ -318,7 +316,7 @@ namespace Tweetinvi
         /// <summary>
         /// Changes the authorizations you give to a specific user.
         /// </summary>
-        public static bool UpdateRelationshipAuthorizationsWith(long userId, bool retweetsEnabled, bool deviceNotifictionEnabled)
+        public static Task<bool> UpdateRelationshipAuthorizationsWith(long userId, bool retweetsEnabled, bool deviceNotifictionEnabled)
         {
             return FriendshipController.UpdateRelationshipAuthorizationsWith(userId, retweetsEnabled, deviceNotifictionEnabled);
         }
@@ -326,7 +324,7 @@ namespace Tweetinvi
         /// <summary>
         /// Changes the authorizations you give to a specific user.
         /// </summary>
-        public static bool UpdateRelationshipAuthorizationsWith(string userScreenName, bool retweetsEnabled, bool deviceNotifictionEnabled)
+        public static Task<bool> UpdateRelationshipAuthorizationsWith(string userScreenName, bool retweetsEnabled, bool deviceNotifictionEnabled)
         {
             return FriendshipController.UpdateRelationshipAuthorizationsWith(userScreenName, retweetsEnabled, deviceNotifictionEnabled);
         }
@@ -337,7 +335,7 @@ namespace Tweetinvi
         /// <summary>
         /// Get the states of relationships you have with a collection of users.
         /// </summary>
-        public static IEnumerable<IRelationshipState> GetRelationshipsWith(IEnumerable<IUserIdentifier> targetUserIdentifiers)
+        public static Task<IEnumerable<IRelationshipState>> GetRelationshipsWith(IEnumerable<IUserIdentifier> targetUserIdentifiers)
         {
             return FriendshipController.GetMultipleRelationships(targetUserIdentifiers);
         }
@@ -345,7 +343,7 @@ namespace Tweetinvi
         /// <summary>
         /// Get the states of relationships you have with a collection of users.
         /// </summary>
-        public static IEnumerable<IRelationshipState> GetRelationshipsWith(IEnumerable<long> targetUserIds)
+        public static Task<IEnumerable<IRelationshipState>> GetRelationshipsWith(IEnumerable<long> targetUserIds)
         {
             return FriendshipController.GetMultipleRelationships(targetUserIds);
         }
@@ -353,7 +351,7 @@ namespace Tweetinvi
         /// <summary>
         /// Get the states of relationships you have with a collection of users.
         /// </summary>
-        public static IEnumerable<IRelationshipState> GetRelationshipsWith(IEnumerable<string> targetUserScreenNames)
+        public static Task<IEnumerable<IRelationshipState>> GetRelationshipsWith(IEnumerable<string> targetUserScreenNames)
         {
             return FriendshipController.GetMultipleRelationships(targetUserScreenNames);
         }
@@ -364,7 +362,7 @@ namespace Tweetinvi
         /// <summary>
         /// Get ids of users from whom you won't receive retweets.
         /// </summary>
-        public static IEnumerable<long> GetUserIdsWhoseRetweetsAreMuted()
+        public static Task<long[]> GetUserIdsWhoseRetweetsAreMuted()
         {
             return FriendshipController.GetUserIdsWhoseRetweetsAreMuted();
         }
@@ -372,7 +370,7 @@ namespace Tweetinvi
         /// <summary>
         /// Get ids of users from whom you won't receive retweets.
         /// </summary>
-        public static IEnumerable<IUser> GetUsersWhoseRetweetsAreMuted()
+        public static Task<IEnumerable<IUser>> GetUsersWhoseRetweetsAreMuted()
         {
             return FriendshipController.GetUsersWhoseRetweetsAreMuted();
         }
@@ -382,7 +380,7 @@ namespace Tweetinvi
         /// <summary>
         /// Get a list of categories that can interest the user of the current account.
         /// </summary>
-        public static IEnumerable<ICategorySuggestion> GetSuggestedCategories(Language? language = null)
+        public static Task<IEnumerable<ICategorySuggestion>> GetSuggestedCategories(Language? language = null)
         {
             return AccountController.GetSuggestedCategories(language);
         }
@@ -390,7 +388,7 @@ namespace Tweetinvi
         /// <summary>
         /// Get a list of categories that can interest the user of the current account.
         /// </summary>
-        public static IEnumerable<IUser> GetSuggestedUsers(string filter, Language? language = null)
+        public static Task<IEnumerable<IUser>> GetSuggestedUsers(string filter, Language? language = null)
         {
             return AccountController.GetSuggestedUsers(filter, language);
         }
@@ -398,7 +396,7 @@ namespace Tweetinvi
         /// <summary>
         /// Get a list of categories that can interest the user of the current account.
         /// </summary>
-        public static IEnumerable<IUser> GetSuggestedUsersWithTheirLatestTweet(string filter)
+        public static Task<IEnumerable<IUser>> GetSuggestedUsersWithTheirLatestTweet(string filter)
         {
             return AccountController.GetSuggestedUsersWithTheirLatestTweet(filter);
         }

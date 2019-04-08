@@ -1,12 +1,13 @@
-﻿using Tweetinvi.Core.Web;
+﻿using System.Threading.Tasks;
+using Tweetinvi.Core.Web;
 using Tweetinvi.Models;
 
 namespace Tweetinvi.Factories.SavedSearch
 {
     public interface ISavedSearchQueryExecutor
     {
-        ISavedSearch CreateSavedSearch(string searchQuery);
-        ISavedSearch GetSavedSearch(long searchId);
+        Task<ISavedSearch> CreateSavedSearch(string searchQuery);
+        Task<ISavedSearch> GetSavedSearch(long searchId);
     }
 
     public class SavedSearchFactoryQueryExecutor : ISavedSearchQueryExecutor
@@ -22,7 +23,7 @@ namespace Tweetinvi.Factories.SavedSearch
             _twitterAccessor = twitterAccessor;
         }
 
-        public ISavedSearch CreateSavedSearch(string searchQuery)
+        public Task<ISavedSearch> CreateSavedSearch(string searchQuery)
         {
             if (searchQuery.Length > 100)
             {
@@ -33,7 +34,7 @@ namespace Tweetinvi.Factories.SavedSearch
             return _twitterAccessor.ExecutePOSTQuery<ISavedSearch>(query);
         }
 
-        public ISavedSearch GetSavedSearch(long searchId)
+        public Task<ISavedSearch> GetSavedSearch(long searchId)
         {
             var query = _savedSearchQueryGenerator.GetSavedSearchQuery(searchId);
             return _twitterAccessor.ExecuteGETQuery<ISavedSearch>(query);

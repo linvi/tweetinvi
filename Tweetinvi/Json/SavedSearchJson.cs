@@ -55,7 +55,7 @@ namespace Tweetinvi.Json
         /// </summary>
         public static string CreateSavedSearch(string query)
         {
-            return SavedSearchJsonFactory.CreateSavedSearch(query);
+            return SavedSearchJsonFactory.CreateSavedSearch(query).Result;
         }
 
         /// <summary>
@@ -63,7 +63,7 @@ namespace Tweetinvi.Json
         /// </summary>
         public static string GetSavedSearch(long searchId)
         {
-            return SavedSearchJsonFactory.GetSavedSearch(searchId);
+            return SavedSearchJsonFactory.GetSavedSearch(searchId).Result;
         }
 
         // Controller

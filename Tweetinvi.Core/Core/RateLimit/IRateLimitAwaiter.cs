@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Tweetinvi.Events;
 using Tweetinvi.Models;
 
@@ -18,12 +19,12 @@ namespace Tweetinvi.Core.RateLimit
         /// <summary>
         /// Wait for the rate limits to be available for the specified query.
         /// </summary>
-        void WaitForCurrentCredentialsRateLimit(string query);
+        Task WaitForCurrentCredentialsRateLimit(string query);
 
         /// <summary>
         /// Wait for the credentials' rate limits to be available for the specified query.
         /// </summary>
-        void WaitForCredentialsRateLimit(string query, ITwitterCredentials credentials);
+        Task WaitForCredentialsRateLimit(string query, ITwitterCredentials credentials);
 
         /// <summary>
         /// Wait before executing a query using the specified rate limits.
@@ -38,7 +39,7 @@ namespace Tweetinvi.Core.RateLimit
         /// <summary>
         /// Get the duration (milliseconds) to wait before executing the specified query.
         /// </summary>
-        int TimeToWaitBeforeTwitterRequest(string query, ITwitterCredentials credentials);
+        Task<int> TimeToWaitBeforeTwitterRequest(string query, ITwitterCredentials credentials);
 
         /// <summary>
         /// Get the duration (milliseconds) to wait before executing a query using the specified rate limits.

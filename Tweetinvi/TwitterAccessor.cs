@@ -46,7 +46,7 @@ namespace Tweetinvi
         /// </summary>
         public static string ExecuteGETQueryReturningJson(string query)
         {
-            return Accessor.ExecuteGETQueryReturningJson(query);
+            return Accessor.ExecuteGETQueryReturningJson(query).Result;
         }
 
         /// <summary>
@@ -54,7 +54,7 @@ namespace Tweetinvi
         /// </summary>
         public static string ExecutePOSTQueryReturningJson(string query)
         {
-            return Accessor.ExecutePOSTQueryReturningJson(query);
+            return Accessor.ExecutePOSTQueryReturningJson(query).Result;
         }
 
         /// <summary>
@@ -62,7 +62,7 @@ namespace Tweetinvi
         /// </summary>
         public static JObject GetQueryableJsonObjectFromGETQuery(string query)
         {
-            return Accessor.ExecuteGETQuery(query);
+            return Accessor.ExecuteGETQuery(query).Result;
         }
 
         /// <summary>
@@ -70,7 +70,7 @@ namespace Tweetinvi
         /// </summary>
         public static JObject GetQueryableJsonObjectFromPOSTQuery(string query)
         {
-            return Accessor.ExecutePOSTQuery(query);
+            return Accessor.ExecutePOSTQuery(query).Result;
         }
 
         /// <summary>
@@ -78,7 +78,7 @@ namespace Tweetinvi
         /// </summary>
         public static T ExecuteGETQueryFromPath<T>(string query, params string[] paths) where T : class
         {
-            return Accessor.ExecuteGETQueryWithPath<T>(query, paths);
+            return Accessor.ExecuteGETQueryWithPath<T>(query, paths).Result;
         }
 
         /// <summary>
@@ -86,7 +86,7 @@ namespace Tweetinvi
         /// </summary>
         public static T ExecutePOSTQueryFromPath<T>(string query, params string[] paths) where T : class
         {
-            return Accessor.ExecutePOSTQueryWithPath<T>(query, paths);
+            return Accessor.ExecutePOSTQueryWithPath<T>(query, paths).Result;
         }
 
         /// <summary>
@@ -94,7 +94,7 @@ namespace Tweetinvi
         /// </summary>
         public static T ExecuteGETQuery<T>(string query) where T : class
         {
-            return Accessor.ExecuteGETQuery<T>(query);
+            return Accessor.ExecuteGETQuery<T>(query).Result;
         }
 
         /// <summary>
@@ -104,7 +104,7 @@ namespace Tweetinvi
         /// <returns>byte[] array of binary data</returns>
         public static byte[] DownloadBinary(string url)
         {
-            return Accessor.DownloadBinary(url);
+            return Accessor.DownloadBinary(url).Result;
         }
 
         /// <summary>
@@ -112,7 +112,7 @@ namespace Tweetinvi
         /// </summary>
         public static T ExecutePOSTQuery<T>(string query) where T : class
         {
-            return Accessor.ExecutePOSTQuery<T>(query);
+            return Accessor.ExecutePOSTQuery<T>(query).Result;
         }
 
         /// <summary>
@@ -120,7 +120,11 @@ namespace Tweetinvi
         /// </summary>
         public static bool TryExecuteGETQuery<T>(string query, out T resultObject) where T : class
         {
-            return Accessor.TryExecuteGETQuery(query, out resultObject);
+            var asyncOperation = Accessor.TryExecuteGETQuery<T>(query).Result;
+
+            resultObject = asyncOperation.Result;
+
+            return asyncOperation.Success;
         }
 
         /// <summary>
@@ -128,7 +132,11 @@ namespace Tweetinvi
         /// </summary>
         public static bool TryExecutePOSTQuery<T>(string query, out T resultObject) where T : class
         {
-            return Accessor.TryExecutePOSTQuery(query, out resultObject);
+            var asyncOperation = Accessor.TryExecutePOSTQuery<T>(query).Result;
+
+            resultObject = asyncOperation.Result;
+
+            return asyncOperation.Success;
         }
 
         /// <summary>
@@ -136,7 +144,7 @@ namespace Tweetinvi
         /// </summary>
         public static bool TryExecuteGETQuery(string query)
         {
-            return Accessor.TryExecuteGETQuery(query);
+            return Accessor.TryExecuteGETQuery(query).Result.Success;
         }
 
         /// <summary>
@@ -144,7 +152,7 @@ namespace Tweetinvi
         /// </summary>
         public static bool TryExecutePOSTQuery(string query)
         {
-            return Accessor.TryExecutePOSTQuery(query);
+            return Accessor.TryExecutePOSTQuery(query).Result.Success;
         }
 
         // MultiPart Query
@@ -154,7 +162,7 @@ namespace Tweetinvi
         /// </summary>
         public static T ExecutePOSTMultipartQuery<T>(IMultipartHttpRequestParameters parameters) where T : class
         {
-            return Accessor.ExecuteMultipartQuery<T>(parameters);
+            return Accessor.ExecuteMultipartQuery<T>(parameters).Result;
         }
 
         /// <summary>
@@ -162,7 +170,7 @@ namespace Tweetinvi
         /// </summary>
         public static string ExecuteJsonPOSTMultipartQuery(IMultipartHttpRequestParameters parameters)
         {
-            return Accessor.ExecuteMultipartQuery(parameters);
+            return Accessor.ExecuteMultipartQuery(parameters).Result;
         }
 
         /// <summary>
@@ -174,7 +182,7 @@ namespace Tweetinvi
             long cursor = -1)
             where T : class, IBaseCursorQueryDTO
         {
-            return Accessor.ExecuteJsonCursorGETQuery<T>(baseQuery, maxObjectToRetrieve, cursor);
+            return Accessor.ExecuteJsonCursorGETQuery<T>(baseQuery, maxObjectToRetrieve, cursor).Result;
         }
 
         /// <summary>
@@ -186,7 +194,7 @@ namespace Tweetinvi
             long cursor = -1)
             where T : class, IBaseCursorQueryDTO
         {
-            return Accessor.ExecuteCursorGETCursorQueryResult<T>(query, maxObjectToRetrieve, cursor);
+            return Accessor.ExecuteCursorGETCursorQueryResult<T>(query, maxObjectToRetrieve, cursor).Result;
         }
 
         /// <summary>
@@ -198,7 +206,7 @@ namespace Tweetinvi
             long cursor = -1)
             where T1 : class, IBaseCursorQueryDTO<T>
         {
-            return Accessor.ExecuteCursorGETQuery<T, T1>(baseQuery, maxObjectToRetrieve, cursor);
+            return Accessor.ExecuteCursorGETQuery<T, T1>(baseQuery, maxObjectToRetrieve, cursor).Result;
         }
 
         // POST HTTP Content
@@ -213,7 +221,7 @@ namespace Tweetinvi
         /// </summary>
         public static string ExecuteQuery(string query, HttpMethod method)
         {
-            return Accessor.ExecuteQuery(query, method)?.Text;
+            return Accessor.ExecuteQuery(query, method).Result?.Text;
         }
 
         /// <summary>
@@ -221,12 +229,12 @@ namespace Tweetinvi
         /// </summary>
         public static IWebRequestResult ExecuteQueryWithDetails(string query, HttpMethod method)
         {
-            return Accessor.ExecuteQuery(query, method);
+            return Accessor.ExecuteQuery(query, method).Result;
         }
 
         public static IWebRequestResult ExecuteConsumerQuery(string query, HttpMethod method, IConsumerOnlyCredentials credentials)
         {
-            return Accessor.ExecuteQuery(query, method, credentials, null);
+            return Accessor.ExecuteQuery(query, method, credentials, null).Result;
         }
 
         // Sign

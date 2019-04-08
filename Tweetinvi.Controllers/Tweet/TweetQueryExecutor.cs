@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Tweetinvi.Core.QueryGenerators;
 using Tweetinvi.Core.Web;
 using Tweetinvi.Exceptions;
@@ -13,36 +14,36 @@ namespace Tweetinvi.Controllers.Tweet
     public interface ITweetQueryExecutor
     {
         // Publish Tweet
-        ITweetDTO PublishTweet(IPublishTweetParameters publishParameters);
+        Task<ITweetDTO> PublishTweet(IPublishTweetParameters publishParameters);
 
         // Publish Retweet
-        ITweetDTO PublishRetweet(ITweetDTO tweetToRetweet);
-        ITweetDTO PublishRetweet(long tweetId);
+        Task<ITweetDTO> PublishRetweet(ITweetDTO tweetToRetweet);
+        Task<ITweetDTO> PublishRetweet(long tweetId);
 
         // UnRetweet
-        ITweetDTO UnRetweet(ITweetIdentifier tweetToRetweet);
-        ITweetDTO UnRetweet(long tweetId);
+        Task<ITweetDTO> UnRetweet(ITweetIdentifier tweetToRetweet);
+        Task<ITweetDTO> UnRetweet(long tweetId);
 
         // Get Retweets
-        IEnumerable<ITweetDTO> GetRetweets(ITweetIdentifier tweetIdentifier, int maxRetweetsToRetrieve);
+        Task<IEnumerable<ITweetDTO>> GetRetweets(ITweetIdentifier tweetIdentifier, int maxRetweetsToRetrieve);
 
         //Get Retweeters Ids
-        IEnumerable<long> GetRetweetersIds(ITweetIdentifier tweetIdentifier, int maxRetweetersToRetrieve);
+        Task<IEnumerable<long>> GetRetweetersIds(ITweetIdentifier tweetIdentifier, int maxRetweetersToRetrieve);
 
         // Destroy Tweet
-        bool DestroyTweet(ITweetDTO tweet);
-        bool DestroyTweet(long tweetId);
+        Task<bool> DestroyTweet(ITweetDTO tweet);
+        Task<bool> DestroyTweet(long tweetId);
 
         // Favorite Tweet
-        bool FavoriteTweet(ITweetDTO tweet);
-        bool FavoriteTweet(long tweetId);
+        Task<bool> FavoriteTweet(ITweetDTO tweet);
+        Task<bool> FavoriteTweet(long tweetId);
 
-        bool UnFavoriteTweet(ITweetDTO tweet);
-        bool UnFavoriteTweet(long tweetId);
+        Task<bool> UnFavoriteTweet(ITweetDTO tweet);
+        Task<bool> UnFavoriteTweet(long tweetId);
 
         // Generate OEmbedTweet
-        IOEmbedTweetDTO GenerateOEmbedTweet(ITweetDTO tweetDTO);
-        IOEmbedTweetDTO GenerateOEmbedTweet(long tweetId);
+        Task<IOEmbedTweetDTO> GenerateOEmbedTweet(ITweetDTO tweetDTO);
+        Task<IOEmbedTweetDTO> GenerateOEmbedTweet(long tweetId);
     }
 
     public class TweetQueryExecutor : ITweetQueryExecutor
@@ -60,33 +61,33 @@ namespace Tweetinvi.Controllers.Tweet
 
         // Publish Tweet
 
-        public ITweetDTO PublishTweet(IPublishTweetParameters publishParameters)
+        public Task<ITweetDTO> PublishTweet(IPublishTweetParameters publishParameters)
         {
             string query = _tweetQueryGenerator.GetPublishTweetQuery(publishParameters);
             return _twitterAccessor.ExecutePOSTQuery<ITweetDTO>(query);
         }
 
         // Publish Retweet
-        public ITweetDTO PublishRetweet(ITweetDTO tweetToRetweet)
+        public Task<ITweetDTO> PublishRetweet(ITweetDTO tweetToRetweet)
         {
             string query = _tweetQueryGenerator.GetPublishRetweetQuery(tweetToRetweet);
             return _twitterAccessor.ExecutePOSTQuery<ITweetDTO>(query);
         }
 
-        public ITweetDTO PublishRetweet(long tweetId)
+        public Task<ITweetDTO> PublishRetweet(long tweetId)
         {
             string query = _tweetQueryGenerator.GetPublishRetweetQuery(tweetId);
             return _twitterAccessor.ExecutePOSTQuery<ITweetDTO>(query);
         }
         
         // Publish UnRetweet
-        public ITweetDTO UnRetweet(ITweetIdentifier tweetToRetweet)
+        public Task<ITweetDTO> UnRetweet(ITweetIdentifier tweetToRetweet)
         {
             string query = _tweetQueryGenerator.GetUnRetweetQuery(tweetToRetweet);
             return _twitterAccessor.ExecutePOSTQuery<ITweetDTO>(query);
         }
 
-        public ITweetDTO UnRetweet(long tweetId)
+        public Task<ITweetDTO> UnRetweet(long tweetId)
         {
             string query = _tweetQueryGenerator.GetUnRetweetQuery(tweetId);
             return _twitterAccessor.ExecutePOSTQuery<ITweetDTO>(query);
@@ -94,7 +95,7 @@ namespace Tweetinvi.Controllers.Tweet
 
         #region Get Retweets
 
-        public IEnumerable<ITweetDTO> GetRetweets(ITweetIdentifier tweetIdentifier, int maxRetweetsToRetrieve)
+        public Task<IEnumerable<ITweetDTO>> GetRetweets(ITweetIdentifier tweetIdentifier, int maxRetweetsToRetrieve)
         {
             var query = _tweetQueryGenerator.GetRetweetsQuery(tweetIdentifier, maxRetweetsToRetrieve);
             return _twitterAccessor.ExecuteGETQuery<IEnumerable<ITweetDTO>>(query);
@@ -104,7 +105,7 @@ namespace Tweetinvi.Controllers.Tweet
 
         #region Get Retweeters IDs
 
-        public IEnumerable<long> GetRetweetersIds(ITweetIdentifier tweetIdentifier, int maxRetweetersToRetrieve)
+        public Task<IEnumerable<long>> GetRetweetersIds(ITweetIdentifier tweetIdentifier, int maxRetweetersToRetrieve)
         {
             var query = _tweetQueryGenerator.GetRetweeterIdsQuery(tweetIdentifier, maxRetweetersToRetrieve);
             return _twitterAccessor.ExecuteCursorGETQuery<long, IIdsCursorQueryResultDTO>(query);
@@ -113,37 +114,42 @@ namespace Tweetinvi.Controllers.Tweet
         #endregion
 
         // Destroy Tweet
-        public bool DestroyTweet(ITweetDTO tweet)
+        public async Task<bool> DestroyTweet(ITweetDTO tweet)
         {
             string query = _tweetQueryGenerator.GetDestroyTweetQuery(tweet);
-            return _twitterAccessor.TryExecutePOSTQuery(query);
+            var asyncOperation = await _twitterAccessor.TryExecutePOSTQuery(query);
+
+            return asyncOperation.Success;
         }
 
-        public bool DestroyTweet(long tweetId)
+        public async Task<bool> DestroyTweet(long tweetId)
         {
             string query = _tweetQueryGenerator.GetDestroyTweetQuery(tweetId);
-            return _twitterAccessor.TryExecutePOSTQuery(query);
+            var asyncOperation = await _twitterAccessor.TryExecutePOSTQuery(query);
+
+            return asyncOperation.Success;
         }
 
         // Favourite Tweet
-        public bool FavoriteTweet(ITweetDTO tweet)
+        public Task<bool> FavoriteTweet(ITweetDTO tweet)
         {
             string query = _tweetQueryGenerator.GetFavoriteTweetQuery(tweet);
             return ExecuteFavoriteQuery(query);
         }
 
-        public bool FavoriteTweet(long tweetId)
+        public Task<bool> FavoriteTweet(long tweetId)
         {
             string query = _tweetQueryGenerator.GetFavoriteTweetQuery(tweetId);
             return ExecuteFavoriteQuery(query);
         }
 
-        private bool ExecuteFavoriteQuery(string query)
+        private async Task<bool> ExecuteFavoriteQuery(string query)
         {
             // We need the try catch here as we need to know whether if the operation has failed and why it did!
             try
             {
-                return _twitterAccessor.ExecutePOSTQuery(query) != null;
+                var jsonObject = await _twitterAccessor.ExecutePOSTQuery(query);
+                return jsonObject != null;
             }
             catch (TwitterException ex)
             {
@@ -161,26 +167,30 @@ namespace Tweetinvi.Controllers.Tweet
             }
         }
 
-        public bool UnFavoriteTweet(ITweetDTO tweet)
+        public async Task<bool> UnFavoriteTweet(ITweetDTO tweet)
         {
             string query = _tweetQueryGenerator.GetUnFavoriteTweetQuery(tweet);
-            return _twitterAccessor.TryExecutePOSTQuery(query);
+            var asyncOperation = await _twitterAccessor.TryExecutePOSTQuery(query);
+
+            return asyncOperation.Success;
         }
 
-        public bool UnFavoriteTweet(long tweetId)
+        public async Task<bool> UnFavoriteTweet(long tweetId)
         {
             string query = _tweetQueryGenerator.GetUnFavoriteTweetQuery(tweetId);
-            return _twitterAccessor.TryExecutePOSTQuery(query);
+            var asyncOperation = await _twitterAccessor.TryExecutePOSTQuery(query);
+
+            return asyncOperation.Success;
         }
 
         // Generate OEmbed Tweet
-        public IOEmbedTweetDTO GenerateOEmbedTweet(ITweetDTO tweet)
+        public Task<IOEmbedTweetDTO> GenerateOEmbedTweet(ITweetDTO tweet)
         {
             string query = _tweetQueryGenerator.GetGenerateOEmbedTweetQuery(tweet);
             return _twitterAccessor.ExecuteGETQuery<IOEmbedTweetDTO>(query);
         }
 
-        public IOEmbedTweetDTO GenerateOEmbedTweet(long tweetId)
+        public Task<IOEmbedTweetDTO> GenerateOEmbedTweet(long tweetId)
         {
             string query = _tweetQueryGenerator.GetGenerateOEmbedTweetQuery(tweetId);
             return _twitterAccessor.ExecuteGETQuery<IOEmbedTweetDTO>(query);
