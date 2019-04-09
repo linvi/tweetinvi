@@ -31,7 +31,7 @@ namespace Examplinvi.Xamarin.Android
             Button button = FindViewById<Button>(Resource.Id.TimelineButton);
             button.Click += delegate
             {
-                var tweets = Timeline.GetHomeTimeline(20);
+                var tweets = Timeline.GetHomeTimeline(20).Result;
 
                 timelineListAdapter.Clear();
 

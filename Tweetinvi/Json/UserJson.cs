@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Tweetinvi.Controllers.User;
 using Tweetinvi.Models;
 using Tweetinvi.Parameters;
@@ -35,50 +36,50 @@ namespace Tweetinvi.Json
         }
 
         // Friends
-        public static IEnumerable<string> GetFriendIds(IUserIdentifier user, int maxFriendsToRetrieve = 5000)
+        public static Task<IEnumerable<string>> GetFriendIds(IUserIdentifier user, int maxFriendsToRetrieve = 5000)
         {
             return UserJsonController.GetFriendIds(user, maxFriendsToRetrieve);
         }
 
-        public static IEnumerable<string> GetFriendIds(long userId, int maxFriendsToRetrieve = 5000)
+        public static Task<IEnumerable<string>> GetFriendIds(long userId, int maxFriendsToRetrieve = 5000)
         {
             return UserJsonController.GetFriendIds(userId, maxFriendsToRetrieve);
         }
 
-        public static IEnumerable<string> GetFriendIds(string userScreenName, int maxFriendsToRetrieve = 5000)
+        public static Task<IEnumerable<string>> GetFriendIds(string userScreenName, int maxFriendsToRetrieve = 5000)
         {
             return UserJsonController.GetFriendIds(userScreenName, maxFriendsToRetrieve);
         }
 
         // Followers
-        public static IEnumerable<string> GetFollowerIds(IUserIdentifier user, int maxFollowersToRetrieve = 5000)
+        public static Task<IEnumerable<string>> GetFollowerIds(IUserIdentifier user, int maxFollowersToRetrieve = 5000)
         {
             return UserJsonController.GetFollowerIds(user, maxFollowersToRetrieve);
         }
 
-        public static IEnumerable<string> GetFollowerIds(long userId, int maxFollowersToRetrieve = 5000)
+        public static Task<IEnumerable<string>> GetFollowerIds(long userId, int maxFollowersToRetrieve = 5000)
         {
             return UserJsonController.GetFollowerIds(userId, maxFollowersToRetrieve);
         }
 
-        public static IEnumerable<string> GetFollowerIds(string userScreenName, int maxFollowersToRetrieve = 5000)
+        public static Task<IEnumerable<string>> GetFollowerIds(string userScreenName, int maxFollowersToRetrieve = 5000)
         {
             return UserJsonController.GetFollowerIds(userScreenName, maxFollowersToRetrieve);
         }
 
         // Favorites
         
-        public static string GetFavoriteTweets(IUserIdentifier user, IGetUserFavoritesParameters parameters = null)
+        public static Task<string> GetFavoriteTweets(IUserIdentifier user, IGetUserFavoritesParameters parameters = null)
         {
             return UserJsonController.GetFavoriteTweets(user, parameters);
         }
 
-        public static string GetFavoriteTweets(long userId, IGetUserFavoritesParameters parameters = null)
+        public static Task<string> GetFavoriteTweets(long userId, IGetUserFavoritesParameters parameters = null)
         {
             return UserJsonController.GetFavoriteTweets(new UserIdentifier(userId), parameters);
         }
 
-        public static string GetFavoriteTweets(string userScreenName, IGetUserFavoritesParameters parameters = null)
+        public static Task<string> GetFavoriteTweets(string userScreenName, IGetUserFavoritesParameters parameters = null)
         {
             return UserJsonController.GetFavoriteTweets(new UserIdentifier(userScreenName), parameters);
         }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Tweetinvi.Controllers.Geo;
 
 namespace Tweetinvi.Json
@@ -30,7 +31,7 @@ namespace Tweetinvi.Json
             _geoJsonController = TweetinviContainer.Resolve<IGeoJsonController>();
         }
 
-        public static string GetPlaceFromId(string placeId)
+        public static Task<string> GetPlaceFromId(string placeId)
         {
             return GeoJsonController.GetPlaceFromId(placeId);
         }

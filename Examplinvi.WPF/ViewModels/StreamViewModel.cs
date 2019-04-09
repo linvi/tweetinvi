@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Threading;
+using System.Threading.Tasks;
 using Tweetinvi;
 
 namespace Examplinvi.WPF.ViewModels
@@ -31,7 +32,7 @@ namespace Examplinvi.WPF.ViewModels
         {
         }
 
-        public void Authenticate()
+        public async Task Authenticate()
         {
             TwitterConfig.InitApp(); // Initializing credentials -> Auth.SetUserCredentials
 
@@ -47,7 +48,7 @@ namespace Examplinvi.WPF.ViewModels
 
             else
             {
-                var user = User.GetAuthenticatedUser();
+                var user = await User.GetAuthenticatedUser();
                 Message = string.Format("Hi '{0}'. Welcome on board with WPF App!", user.Name);
             }
         }

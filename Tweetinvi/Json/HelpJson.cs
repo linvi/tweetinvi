@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Tweetinvi.Controllers.Help;
 
 namespace Tweetinvi.Json
@@ -30,12 +31,12 @@ namespace Tweetinvi.Json
             _helpJsonController = TweetinviContainer.Resolve<IHelpJsonController>();
         }
 
-        public static string GetCredentialsRateLimits()
+        public static Task<string> GetCredentialsRateLimits()
         {
             return HelpJsonController.GetCredentialsRateLimits();
         }
 
-        public static string GetTwitterPrivacyPolicy()
+        public static Task<string> GetTwitterPrivacyPolicy()
         {
             return HelpJsonController.GetTwitterPrivacyPolicy();
         }

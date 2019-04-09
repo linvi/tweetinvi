@@ -31,9 +31,9 @@ namespace Tweetinvi.Core.Controllers
         Task<bool> UpdateProfileBanner(IAccountUpdateProfileBannerParameters parameters);
         Task<bool> RemoveUserProfileBanner();
 
-        bool UpdateProfileBackgroundImage(byte[] imageBinary);
-        bool UpdateProfileBackgroundImage(long mediaId);
-        bool UpdateProfileBackgroundImage(IAccountUpdateProfileBackgroundImageParameters parameters);
+        Task<bool> UpdateProfileBackgroundImage(byte[] imageBinary);
+        Task<bool> UpdateProfileBackgroundImage(long mediaId);
+        Task<bool> UpdateProfileBackgroundImage(IAccountUpdateProfileBackgroundImageParameters parameters);
 
         // Mute
         Task<IEnumerable<long>> GetMutedUserIds(int maxUserIds = Int32.MaxValue);
@@ -43,9 +43,9 @@ namespace Tweetinvi.Core.Controllers
         Task<bool> MuteUser(long userId);
         Task<bool> MuteUser(string screenName);
 
-        bool UnMuteUser(IUserIdentifier user);
-        bool UnMuteUser(long userId);
-        bool UnMuteUser(string screenName);
+        Task<bool> UnMuteUser(IUserIdentifier user);
+        Task<bool> UnMuteUser(long userId);
+        Task<bool> UnMuteUser(string screenName);
 
         // Suggestions
         Task<IEnumerable<ICategorySuggestion>> GetSuggestedCategories(Language? language);

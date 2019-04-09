@@ -23,11 +23,6 @@ namespace Tweetinvi.Core.Streaming
         event EventHandler<TweetEventArgs> NonMatchingTweetReceived;
 
         /// <summary>
-        /// Start a stream SYNCHRONOUSLY. The thread will continue after the stream has stopped.
-        /// </summary>
-        void StartStream(string url);
-
-        /// <summary>
         /// Start a stream ASYNCHRONOUSLY. The task will complete when the stream stops.
         /// </summary>
         Task StartStreamAsync(string url);

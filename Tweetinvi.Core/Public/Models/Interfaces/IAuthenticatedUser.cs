@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Tweetinvi.Core.Models.Async;
+using Tweetinvi.Core.Models;
 using Tweetinvi.Parameters;
 
 namespace Tweetinvi.Models
@@ -43,12 +43,12 @@ namespace Tweetinvi.Models
         /// <summary>
         /// Send a Tweet
         /// </summary>
-        ITweet PublishTweet(string text);
+        Task<ITweet> PublishTweet(string text);
 
         /// <summary>
         /// Send a Tweet
         /// </summary>
-        ITweet PublishTweet(IPublishTweetParameters parameters);
+        Task<ITweet> PublishTweet(IPublishTweetParameters parameters);
 
         #endregion
 
@@ -64,12 +64,19 @@ namespace Tweetinvi.Models
         /// </summary>
         /// <param name="count">Number of messages to request from the Twitter API. Actual amount returned may be less</param>
         /// <returns>Collection of direct messages</returns>
-        IEnumerable<IMessage> GetLatestMessages(int count = TweetinviConsts.MESSAGE_GET_COUNT);
+        Task<IEnumerable<IMessage>> GetLatestMessages(int count = TweetinviConsts.MESSAGE_GET_COUNT);
+
+        /// <summary>
+        /// Get the list of direct messages sent or received by the user
+        /// </summary>
+        /// <param name="count">Number of messages to request from the Twitter API. Actual amount returned may be less</param>
+        /// <returns>Collection of direct messages</returns>
+        Task<AsyncCursorResult<IEnumerable<IMessage>>> GetLatestMessagesWithCursor(int count = TweetinviConsts.MESSAGE_GET_COUNT);
 
         /// <summary>
         /// Publish a message.
         /// </summary>
-        IMessage PublishMessage(IPublishMessageParameters publishMessageParameters);
+        Task<IMessage> PublishMessage(IPublishMessageParameters publishMessageParameters);
 
         #region Timeline
 
@@ -200,44 +207,44 @@ namespace Tweetinvi.Models
         /// <summary>
         /// Unblock a specific user.
         /// </summary>
-        bool UnBlockUser(IUserIdentifier user);
+        Task<bool> UnBlockUser(IUserIdentifier user);
 
         /// <summary>
         /// Unblock a specific user.
         /// </summary>
-        bool UnBlockUser(long userId);
+        Task<bool> UnBlockUser(long userId);
 
         /// <summary>
         /// Unblock a specific user.
         /// </summary>
-        bool UnBlockUser(string userName);
+        Task<bool> UnBlockUser(string userName);
 
         /// <summary>
         /// Get the ids of the user you blocked.
         /// </summary>
-        IEnumerable<long> GetBlockedUserIds();
+        Task<IEnumerable<long>> GetBlockedUserIds();
 
         /// <summary>
         /// Retrieve the users blocked by the current user.
         /// </summary>
-        IEnumerable<IUser> GetBlockedUsers();
+        Task<IEnumerable<IUser>> GetBlockedUsers();
 
         // Spam
 
         /// <summary>
         /// Report a specific user for being a spammer.
         /// </summary>
-        bool ReportUserForSpam(IUserIdentifier user);
+        Task<bool> ReportUserForSpam(IUserIdentifier user);
 
         /// <summary>
         /// Report a specific user for being a spammer.
         /// </summary>
-        bool ReportUserForSpam(long userId);
+        Task<bool> ReportUserForSpam(long userId);
 
         /// <summary>
         /// Report a specific user for being a spammer.
         /// </summary>
-        bool ReportUserForSpam(string userName);
+        Task<bool> ReportUserForSpam(string userName);
 
         // Mute
 
@@ -254,32 +261,32 @@ namespace Tweetinvi.Models
         /// <summary>
         /// Mute a specific user.
         /// </summary>
-        bool MuteUser(IUserIdentifier user);
+        Task<bool> MuteUser(IUserIdentifier user);
 
         /// <summary>
         /// Mute a specific user.
         /// </summary>
-        bool MuteUser(long userId);
+        Task<bool> MuteUser(long userId);
 
         /// <summary>
         /// Mute a specific user.
         /// </summary>
-        bool MuteUser(string screenName);
+        Task<bool> MuteUser(string screenName);
 
         /// <summary>
         /// Unmute a specific user.
         /// </summary>
-        bool UnMuteUser(IUserIdentifier user);
+        Task<bool> UnMuteUser(IUserIdentifier user);
 
         /// <summary>
         /// Unmute a specific user.
         /// </summary>
-        bool UnMuteUser(long userId);
+        Task<bool> UnMuteUser(long userId);
 
         /// <summary>
         /// Unmute a specific user.
         /// </summary>
-        bool UnMuteUser(string screenName);
+        Task<bool> UnMuteUser(string screenName);
 
         #region List
 
@@ -336,19 +343,14 @@ namespace Tweetinvi.Models
         #endregion
 
         /// <summary>
-        /// Property available to store the account settings.
-        /// </summary>
-        IAccountSettings AccountSettings { get; set; }
-
-        /// <summary>
         /// Get the authenticated account settings.
         /// </summary>
-        IAccountSettings GetAccountSettings();
+        Task<IAccountSettings> GetAccountSettings();
 
         /// <summary>
         /// Modify the authenticated account settings.
         /// </summary>
-        IAccountSettings UpdateAccountSettings(
+        Task<IAccountSettings> UpdateAccountSettings(
             IEnumerable<Language> languages = null,
             string timeZone = null,
             long? trendLocationWoeid = null,
@@ -359,6 +361,6 @@ namespace Tweetinvi.Models
         /// <summary>
         /// Modify the authenticated account settings.
         /// </summary>
-        IAccountSettings UpdateAccountSettings(IAccountSettingsRequestParameters accountSettingsRequestParameters);
+        Task<IAccountSettings> UpdateAccountSettings(IAccountSettingsRequestParameters accountSettingsRequestParameters);
     }
 }

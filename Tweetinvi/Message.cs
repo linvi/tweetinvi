@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Tweetinvi.Core.Controllers;
 using Tweetinvi.Core.Factories;
-using Tweetinvi.Core.Injectinvi;
+using Tweetinvi.Core.Models;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
 using Tweetinvi.Parameters;
@@ -52,15 +53,9 @@ namespace Tweetinvi
             }
         }
 
-        private static IFactory<IGetMessagesParameters> _getMessagesParametersFactory;
-        private static IFactory<IPublishMessageParameters> _messagePublishParametersFactory;
-
         static Message()
         {
             Initialize();
-
-            _getMessagesParametersFactory = TweetinviContainer.Resolve<IFactory<IGetMessagesParameters>>();
-            _messagePublishParametersFactory = TweetinviContainer.Resolve<IFactory<IPublishMessageParameters>>();
         }
 
         private static void Initialize()
@@ -74,9 +69,9 @@ namespace Tweetinvi
         /// <summary>
         /// Get an existing message from its id
         /// </summary>
-        public static IMessage GetExistingMessage(long messageId)
+        public static Task<IMessage> GetExistingMessage(long messageId)
         {
-            return MessageFactory.GetExistingMessage(messageId).Result;
+            return MessageFactory.GetExistingMessage(messageId);
         }
 
         // Controller
@@ -84,7 +79,18 @@ namespace Tweetinvi
         /// <summary>
         /// Get the latest messages sent or received
         /// </summary>
-        public static IEnumerable<IMessage> GetLatestMessages(int count = TweetinviConsts.MESSAGE_GET_COUNT)
+        public static async Task<IEnumerable<IMessage>> GetLatestMessages(int count = TweetinviConsts.MESSAGE_GET_COUNT)
+        {
+            var asyncOperation = await MessageController.GetLatestMessages(count);
+
+            return asyncOperation.Result;
+        }
+
+
+        /// <summary>
+        /// Get the latest messages sent or received
+        /// </summary>
+        public static Task<AsyncCursorResult<IEnumerable<IMessage>>> GetLatestMessagesWithCursor(int count = TweetinviConsts.MESSAGE_GET_COUNT)
         {
             return MessageController.GetLatestMessages(count);
         }
@@ -92,31 +98,25 @@ namespace Tweetinvi
         /// <summary>
         /// Get the latest messages sent or received
         /// </summary>
-        public static IEnumerable<IMessage> GetLatestMessages(int count, out string cursor)
+        public static async Task<IEnumerable<IMessage>> GetLatestMessages(IGetMessagesParameters queryParameters)
         {
-            return MessageController.GetLatestMessages(count, out cursor);
+            var latestMessages = await MessageController.GetLatestMessages(queryParameters);
+
+            return latestMessages.Result;
         }
 
         /// <summary>
         /// Get the latest messages sent or received
         /// </summary>
-        public static IEnumerable<IMessage> GetLatestMessages(IGetMessagesParameters queryParameters)
+        public static Task<AsyncCursorResult<IEnumerable<IMessage>>> GetLatestMessagesWithCursor(IGetMessagesParameters queryParameters)
         {
             return MessageController.GetLatestMessages(queryParameters);
         }
 
         /// <summary>
-        /// Get the latest messages sent or received
-        /// </summary>
-        public static IEnumerable<IMessage> GetLatestMessages(IGetMessagesParameters queryParameters, out string cursor)
-        {
-            return MessageController.GetLatestMessages(queryParameters, out cursor);
-        }
-
-        /// <summary>
         /// Publish a message
         /// </summary>
-        public static IMessage PublishMessage(string text, long recipientId)
+        public static Task<IMessage> PublishMessage(string text, long recipientId)
         {
             return MessageController.PublishMessage(text, recipientId);
         }
@@ -124,7 +124,7 @@ namespace Tweetinvi
         /// <summary>
         /// Publish a message
         /// </summary>
-        public static IMessage PublishMessage(IPublishMessageParameters parameters)
+        public static Task<IMessage> PublishMessage(IPublishMessageParameters parameters)
         {
             return MessageController.PublishMessage(parameters);
         }
@@ -132,7 +132,7 @@ namespace Tweetinvi
         /// <summary>
         /// Destroy a message
         /// </summary>
-        public static bool DestroyMessage(IMessage message)
+        public static Task<bool> DestroyMessage(IMessage message)
         {
             return MessageController.DestroyMessage(message);
         }
@@ -140,7 +140,7 @@ namespace Tweetinvi
         /// <summary>
         /// Destroy a message
         /// </summary>
-        public static bool DestroyMessage(IMessageEventDTO messageEventDTO)
+        public static Task<bool> DestroyMessage(IMessageEventDTO messageEventDTO)
         {
             return MessageController.DestroyMessage(messageEventDTO);
         }
@@ -148,7 +148,7 @@ namespace Tweetinvi
         /// <summary>
         /// Destroy a message
         /// </summary>
-        public static bool DestroyMessage(long messageId)
+        public static Task<bool> DestroyMessage(long messageId)
         {
             return MessageController.DestroyMessage(messageId);
         }

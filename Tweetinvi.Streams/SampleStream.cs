@@ -1,6 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
-using Tweetinvi.Core.Exceptions;
+﻿using System.Threading.Tasks;
 using Tweetinvi.Core.Factories;
 using Tweetinvi.Core.Helpers;
 using Tweetinvi.Core.Streaming;
@@ -14,17 +12,12 @@ namespace Tweetinvi.Streams
 {
     public class SampleStream : TweetStream, ISampleStream
     {
-        private readonly ISynchronousInvoker _synchronousInvoker;
-        private readonly ISingleAggregateExceptionThrower _singleAggregateExceptionThrower;
-
         public SampleStream(
             IStreamResultGenerator streamResultGenerator,
             IJsonObjectConverter jsonObjectConverter,
             IJObjectStaticWrapper jObjectStaticWrapper,
             ITweetFactory tweetFactory,
-            ISynchronousInvoker synchronousInvoker,
             ICustomRequestParameters customRequestParameters,
-            ISingleAggregateExceptionThrower singleAggregateExceptionThrower,
             ITwitterQueryFactory twitterQueryFactory)
             : base(
             streamResultGenerator,
@@ -34,17 +27,9 @@ namespace Tweetinvi.Streams
             customRequestParameters,
             twitterQueryFactory)
         {
-            _synchronousInvoker = synchronousInvoker;
-            _singleAggregateExceptionThrower = singleAggregateExceptionThrower;
         }
 
-        public void StartStream()
-        {
-            Action startStreamAction = () => _synchronousInvoker.ExecuteSynchronously(() => StartStream(Resources.Stream_Sample));
-            _singleAggregateExceptionThrower.ExecuteActionAndThrowJustOneExceptionIfExist(startStreamAction);
-        }
-
-        public async Task StartStreamAsync()
+        public async Task StartStream()
         {
             await StartStream(Resources.Stream_Sample);
         }

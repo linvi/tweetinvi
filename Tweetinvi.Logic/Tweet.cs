@@ -445,19 +445,19 @@ namespace Tweetinvi.Logic
             return _tweetDTO != null && _tweetDTO.Id != TweetinviSettings.DEFAULT_ID && IsTweetPublished && !IsTweetDestroyed;
         }
 
-        public ITweet PublishRetweet()
+        public Task<ITweet> PublishRetweet()
         {
             if (!CanTweetBeRetweeted())
             {
                 return null;
             }
 
-            return _tweetController.PublishRetweet(this).Result;
+            return _tweetController.PublishRetweet(this);
         }
 
-        public List<ITweet> GetRetweets()
+        public async Task<List<ITweet>> GetRetweets()
         {
-            var retweets = _tweetController.GetRetweets(_tweetDTO).Result;
+            var retweets = await _tweetController.GetRetweets(_tweetDTO);
             if (retweets == null)
             {
                 return null;
@@ -466,38 +466,38 @@ namespace Tweetinvi.Logic
             return retweets.ToList();
         }
 
-        public bool UnRetweet()
+        public async Task<bool> UnRetweet()
         {
-            var updatedTweet = _tweetController.UnRetweet(this);
+            var updatedTweet = await _tweetController.UnRetweet(this);
             if (updatedTweet != null)
             {
                 _tweetDTO.Retweeted = false;
             }
 
-            return _tweetController.UnRetweet(this) != null;
+            return (await _tweetController.UnRetweet(this)) != null;
         }
 
-        public IOEmbedTweet GenerateOEmbedTweet()
+        public Task<IOEmbedTweet> GenerateOEmbedTweet()
         {
-            return _tweetController.GenerateOEmbedTweet(_tweetDTO).Result;
+            return _tweetController.GenerateOEmbedTweet(_tweetDTO);
         }
 
-        public bool Destroy()
+        public Task<bool> Destroy()
         {
-            return _tweetController.DestroyTweet(_tweetDTO).Result;
+            return _tweetController.DestroyTweet(_tweetDTO);
         }
 
-        public void Favorite()
+        public async Task Favorite()
         {
-            if (_tweetController.FavoriteTweet(_tweetDTO).Result)
+            if (await _tweetController.FavoriteTweet(_tweetDTO))
             {
                 _tweetDTO.Favorited = true;
             }
         }
 
-        public void UnFavorite()
+        public async Task UnFavorite()
         {
-            if (_tweetController.UnFavoriteTweet(_tweetDTO).Result)
+            if (await _tweetController.UnFavoriteTweet(_tweetDTO))
             {
                 _tweetDTO.Favorited = false;
             }
@@ -531,40 +531,6 @@ namespace Tweetinvi.Logic
             return _tweetFactory.GenerateTweetFromDTO(_tweetDTO);
         }
 
-        #endregion
-
-        #region Async
-        
-
-        public async Task<ITweet> PublishRetweetAsync()
-        {
-            return await _taskFactory.ExecuteTaskAsync(() => PublishRetweet());
-        }
-
-        public async Task<List<ITweet>> GetRetweetsAsync()
-        {
-            return await _taskFactory.ExecuteTaskAsync(() => GetRetweets());
-        }
-
-        public async Task FavoriteAsync()
-        {
-            await _taskFactory.ExecuteTaskAsync(Favorite);
-        }
-
-        public async Task UnFavoriteAsync()
-        {
-            await _taskFactory.ExecuteTaskAsync(UnFavorite);
-        }
-
-        public async Task<IOEmbedTweet> GenerateOEmbedTweetAsync()
-        {
-            return await _taskFactory.ExecuteTaskAsync(() => GenerateOEmbedTweet());
-        }
-
-        public async Task<bool> DestroyAsync()
-        {
-            return await _taskFactory.ExecuteTaskAsync(() => Destroy());
-        }
         #endregion
     }
 }

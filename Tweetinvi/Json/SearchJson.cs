@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Tweetinvi.Controllers.Search;
 using Tweetinvi.Parameters;
 
@@ -35,7 +36,7 @@ namespace Tweetinvi.Json
         /// <summary>
         /// Search tweets based on the provided search query
         /// </summary>
-        public static string SearchTweets(string searchQuery)
+        public static Task<string> SearchTweets(string searchQuery)
         {
             return SearchJsonController.SearchTweets(searchQuery);
         }
@@ -44,7 +45,7 @@ namespace Tweetinvi.Json
         /// Search tweets based on multiple parameters.
         /// </summary>
         /// <returns>This can returns a collection of json responses when the MaximumNumberOfResults parameter is bigger than 100</returns>
-        public static IEnumerable<string> SearchTweets(ISearchTweetsParameters searchTweetsParameters)
+        public static Task<string[]> SearchTweets(ISearchTweetsParameters searchTweetsParameters)
         {
             return SearchJsonController.SearchTweets(searchTweetsParameters);
         }

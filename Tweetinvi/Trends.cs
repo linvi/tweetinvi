@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Tweetinvi.Core.Controllers;
 using Tweetinvi.Models;
 
@@ -42,7 +43,7 @@ namespace Tweetinvi
         /// <summary>
         /// Get the trends at a specific location
         /// </summary>
-        public static IPlaceTrends GetTrendsAt(long woeid)
+        public static Task<IPlaceTrends> GetTrendsAt(long woeid)
         {
             return TrendsController.GetPlaceTrendsAt(woeid);
         }
@@ -50,7 +51,7 @@ namespace Tweetinvi
         /// <summary>
         /// Get the trends at a specific location
         /// </summary>
-        public static IPlaceTrends GetTrendsAt(IWoeIdLocation woeIdLocation)
+        public static Task<IPlaceTrends> GetTrendsAt(IWoeIdLocation woeIdLocation)
         {
             return TrendsController.GetPlaceTrendsAt(woeIdLocation);
         }
@@ -58,7 +59,7 @@ namespace Tweetinvi
         /// <summary>
         /// Returns the locations that Twitter has trending topic information for.
         /// </summary>
-        public static IEnumerable<ITrendLocation> GetAvailableTrendLocations()
+        public static Task<ITrendLocation[]> GetAvailableTrendLocations()
         {
             return TrendsController.GetAvailableTrendLocations();
         }
@@ -66,7 +67,7 @@ namespace Tweetinvi
         /// <summary>
         /// Returns the locations that Twitter has trending topic information for, closest to a specified location.
         /// </summary>
-        public static IEnumerable<ITrendLocation> GetClosestTrendLocations(double latitude, double longitude)
+        public static Task<ITrendLocation[]> GetClosestTrendLocations(double latitude, double longitude)
         {
             return TrendsController.GetClosestTrendLocations(latitude, longitude);
         }
@@ -74,7 +75,7 @@ namespace Tweetinvi
         /// <summary>
         /// Returns the locations that Twitter has trending topic information for, closest to a specified location.
         /// </summary>
-        public static IEnumerable<ITrendLocation> GetClosestTrendLocations(ICoordinates coordinates)
+        public static Task<ITrendLocation[]> GetClosestTrendLocations(ICoordinates coordinates)
         {
             return TrendsController.GetClosestTrendLocations(coordinates);
         }

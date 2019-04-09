@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Tweetinvi.Core.Models.Async;
+using System.Threading.Tasks;
 using Tweetinvi.Models.DTO;
 using Tweetinvi.Models.Entities;
 
@@ -10,7 +10,7 @@ namespace Tweetinvi.Models
     /// ... Well a Tweet :)
     /// https://dev.twitter.com/docs/platform-objects/tweets
     /// </summary>
-    public interface ITweet : ITweetIdentifier, ITweetAsync, IEquatable<ITweet>
+    public interface ITweet : ITweetIdentifier, IEquatable<ITweet>
     {
         #region Twitter API Properties
 
@@ -282,38 +282,38 @@ namespace Tweetinvi.Models
         /// <summary>
         /// Favorites the tweet
         /// </summary>
-        void Favorite();
+        Task Favorite();
 
         /// <summary>
         /// Remove the tweet from favourites
         /// </summary>
-        void UnFavorite();
+        Task UnFavorite();
 
         #endregion
 
         /// <summary>
         /// Retweet the current tweet from the authenticated user.
         /// </summary>
-        ITweet PublishRetweet();
+        Task<ITweet> PublishRetweet();
 
         /// <summary>
         /// Get the retweets of the current tweet
         /// </summary>
-        List<ITweet> GetRetweets();
+        Task<List<ITweet>> GetRetweets();
 
         /// <summary>
         /// Remove your retweet.
         /// </summary>
-        bool UnRetweet();
+        Task<bool> UnRetweet();
 
         /// <summary>
         /// Delete a tweet from Twitter
         /// </summary>
-        bool Destroy();
+        Task<bool> Destroy();
 
         /// <summary>
         /// Generate an OEmbedTweet.
         /// </summary>
-        IOEmbedTweet GenerateOEmbedTweet();
+        Task<IOEmbedTweet> GenerateOEmbedTweet();
     }
 }

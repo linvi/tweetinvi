@@ -182,7 +182,7 @@ namespace Tweetinvi
         /// <summary>
         /// Updates the authenticated user’s profile background image. 
         /// </summary>
-        public static bool UpdateProfileBackgroundImage(byte[] imageBinary)
+        public static Task<bool> UpdateProfileBackgroundImage(byte[] imageBinary)
         {
             return AccountController.UpdateProfileBackgroundImage(imageBinary);
         }
@@ -190,7 +190,7 @@ namespace Tweetinvi
         /// <summary>
         /// Updates the authenticated user’s profile background image. 
         /// </summary>
-        public static bool UpdateProfileBackgroundImage(long mediaId)
+        public static Task<bool> UpdateProfileBackgroundImage(long mediaId)
         {
             return AccountController.UpdateProfileBackgroundImage(mediaId);
         }
@@ -198,7 +198,7 @@ namespace Tweetinvi
         /// <summary>
         /// Updates the authenticated user’s profile background image. 
         /// </summary>
-        public static bool UpdateProfileBackgroundImage(IAccountUpdateProfileBackgroundImageParameters parameters)
+        public static Task<bool> UpdateProfileBackgroundImage(IAccountUpdateProfileBackgroundImageParameters parameters)
         {
             return AccountController.UpdateProfileBackgroundImage(parameters);
         }
@@ -248,7 +248,7 @@ namespace Tweetinvi
         /// <summary>
         /// Unmute a specific user.
         /// </summary>
-        public static bool UnMuteUser(IUserIdentifier user)
+        public static Task<bool> UnMuteUser(IUserIdentifier user)
         {
             return AccountController.UnMuteUser(user);
         }
@@ -256,7 +256,7 @@ namespace Tweetinvi
         /// <summary>
         /// Unmute a specific user.
         /// </summary>
-        public static bool UnMuteUser(long userId)
+        public static Task<bool> UnMuteUser(long userId)
         {
             return AccountController.UnMuteUser(userId);
         }
@@ -264,7 +264,7 @@ namespace Tweetinvi
         /// <summary>
         /// Unmute a specific user.
         /// </summary>
-        public static bool UnMuteUser(string screenName)
+        public static Task<bool> UnMuteUser(string screenName)
         {
             return AccountController.UnMuteUser(screenName);
         }

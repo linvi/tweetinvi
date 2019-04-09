@@ -28,25 +28,13 @@ namespace Tweetinvi.Streaming
         /// A tweet will match if ANY of the global parameters are successfully been matched.
         /// { 'Track' OR 'Location' OR 'Follower' }.
         /// </summary>
-        void StartStreamMatchingAnyCondition();
+        Task StartStreamMatchingAnyCondition();
 
         /// <summary>
         /// A tweet will match if ALL of the global parameters are successfully been matched.
         /// { 'Track' AND 'Location' AND 'Follower' }.
         /// </summary>
-        void StartStreamMatchingAllConditions();
-
-        /// <summary>
-        /// A tweet will match if ANY of the global parameters are successfully been matched.
-        /// { 'Track' OR 'Location' OR 'Follower' }.
-        /// </summary>
-        Task StartStreamMatchingAnyConditionAsync();
-
-        /// <summary>
-        /// A tweet will match if ALL of the global parameters are successfully been matched.
-        /// { 'Track' AND 'Location' AND 'Follower' }.
-        /// </summary>
-        Task StartStreamMatchingAllConditionsAsync();
+        Task StartStreamMatchingAllConditions();
 
         #region Follow
         /// <summary>

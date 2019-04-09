@@ -55,7 +55,7 @@ namespace Examplinvi.AccountActivity.ASP.NET
         {
             var webhookEnvironments = await Webhooks.GetAllWebhookEnvironmentsAsync(consumerOnlyCredentials);
 
-            webhookEnvironments.ForEach(async environment =>
+            webhookEnvironments.ForEach(environment =>
             {
                 var webhookEnvironment = new RegistrableWebhookEnvironment(environment)
                 {

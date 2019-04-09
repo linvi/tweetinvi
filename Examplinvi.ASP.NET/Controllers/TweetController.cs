@@ -71,10 +71,10 @@ namespace Examplinvi.ASP.NET.Controllers
         {
             var success = Auth.ExecuteOperationWithCredentials(_credentials, () =>
             {
-                var tweet = Tweet.GetTweet(id);
+                var tweet = Tweet.GetTweet(id).Result;
                 if (tweet != null)
                 {
-                    return tweet.Destroy();
+                    return tweet.Destroy().Result;
                 }
 
                 return false;

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Tweetinvi.Controllers.Search;
 using Tweetinvi.Models;
 using Tweetinvi.Parameters;
@@ -49,7 +50,7 @@ namespace Tweetinvi
         /// <summary>
         /// Search tweets based on the provided search query
         /// </summary>
-        public static IEnumerable<ITweet> SearchTweets(string searchQuery)
+        public static Task<IEnumerable<ITweet>> SearchTweets(string searchQuery)
         {
             return SearchController.SearchTweets(searchQuery);
         }
@@ -57,7 +58,7 @@ namespace Tweetinvi
         /// <summary>
         /// Search tweets based on multiple parameters
         /// </summary>
-        public static IEnumerable<ITweet> SearchTweets(ISearchTweetsParameters searchTweetsParameters)
+        public static Task<IEnumerable<ITweet>> SearchTweets(ISearchTweetsParameters searchTweetsParameters)
         {
             return SearchController.SearchTweets(searchTweetsParameters);
         }
@@ -65,7 +66,7 @@ namespace Tweetinvi
         /// <summary>
         /// Search tweets with some additional metadata information
         /// </summary>
-        public static ISearchResult SearchTweetsWithMetadata(string searchQuery)
+        public static Task<ISearchResult> SearchTweetsWithMetadata(string searchQuery)
         {
             return SearchController.SearchTweetsWithMetadata(searchQuery);
         }
@@ -73,7 +74,7 @@ namespace Tweetinvi
         /// <summary>
         /// Search tweets with some additional metadata information
         /// </summary>
-        public static ISearchResult SearchTweetsWithMetadata(ISearchTweetsParameters searchTweetsParameters)
+        public static Task<ISearchResult> SearchTweetsWithMetadata(ISearchTweetsParameters searchTweetsParameters)
         {
             return SearchController.SearchTweetsWithMetadata(searchTweetsParameters);
         }
@@ -81,7 +82,7 @@ namespace Tweetinvi
         /// <summary>
         /// Search direct replies to a specific tweet
         /// </summary>
-        public static IEnumerable<ITweet> SearchDirectRepliesTo(ITweet tweet)
+        public static Task<IEnumerable<ITweet>> SearchDirectRepliesTo(ITweet tweet)
         {
             return SearchController.SearchDirectRepliesTo(tweet);
         }
@@ -89,7 +90,7 @@ namespace Tweetinvi
         /// <summary>
         /// Search replies to a tweet and recursively to the replies' replies
         /// </summary>
-        public static IEnumerable<ITweet> SearchRepliesTo(ITweet tweet, bool recursiveReplies)
+        public static Task<IEnumerable<ITweet>> SearchRepliesTo(ITweet tweet, bool recursiveReplies)
         {
             return SearchController.SearchRepliesTo(tweet, recursiveReplies);
         }
@@ -139,7 +140,7 @@ namespace Tweetinvi
         /// <summary>
         /// Create a parameter to search users from a query at a specific page of the result indexation
         /// </summary>
-        public static IEnumerable<IUser> SearchUsers(string query, int maximumNumberOfResults = 20, int page = 0)
+        public static Task<IEnumerable<IUser>> SearchUsers(string query, int maximumNumberOfResults = 20, int page = 0)
         {
             var searchParameters = CreateUserSearchParameter(query);
             searchParameters.Page = page;

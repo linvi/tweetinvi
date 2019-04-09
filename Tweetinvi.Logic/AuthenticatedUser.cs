@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Tweetinvi.Core.Controllers;
 using Tweetinvi.Core.Credentials;
-using Tweetinvi.Core.Helpers;
+using Tweetinvi.Core.Models;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
 using Tweetinvi.Parameters;
@@ -37,10 +37,9 @@ namespace Tweetinvi.Logic
             IFriendshipController friendshipController,
             IAccountController accountController,
             ITwitterListController twitterListController,
-            ISavedSearchController savedSearchController,
-            ITaskFactory taskFactory)
+            ISavedSearchController savedSearchController)
 
-            : base(userDTO, userController, timelineController, friendshipController, twitterListController, taskFactory)
+            : base(userDTO, userController, timelineController, friendshipController, twitterListController)
         {
             _credentialsAccessor = credentialsAccessor;
             _tweetController = tweetController;
@@ -210,92 +209,97 @@ namespace Tweetinvi.Logic
         }
 
         // Unblock
-        public override bool UnBlockUser()
+        public override Task<bool> UnBlockUser()
         {
             throw new InvalidOperationException("You cannot unblock yourself...");
         }
 
-        public bool UnBlockUser(IUserIdentifier user)
+        public Task<bool> UnBlockUser(IUserIdentifier user)
         {
             return ExecuteAuthenticatedUserOperation(() => _userController.UnBlockUser(user));
         }
 
-        public bool UnBlockUser(long userId)
+        public Task<bool> UnBlockUser(long userId)
         {
             return ExecuteAuthenticatedUserOperation(() => _userController.UnBlockUser(userId));
         }
 
-        public bool UnBlockUser(string userName)
+        public Task<bool> UnBlockUser(string userName)
         {
             return ExecuteAuthenticatedUserOperation(() => _userController.UnBlockUser(userName));
         }
 
         // Get Blocked Users
-        public IEnumerable<long> GetBlockedUserIds()
+        public Task<IEnumerable<long>> GetBlockedUserIds()
         {
             return ExecuteAuthenticatedUserOperation(() => _userController.GetBlockedUserIds());
         }
 
-        public IEnumerable<IUser> GetBlockedUsers()
+        public Task<IEnumerable<IUser>> GetBlockedUsers()
         {
             return ExecuteAuthenticatedUserOperation(() => _userController.GetBlockedUsers());
         }
 
         // Spam
-        public override bool ReportUserForSpam()
+        public override Task<bool> ReportUserForSpam()
         {
             throw new InvalidOperationException("You cannot report yourself for spam...");
         }
 
-        public bool ReportUserForSpam(IUserIdentifier user)
+        public Task<bool> ReportUserForSpam(IUserIdentifier user)
         {
             return ExecuteAuthenticatedUserOperation(() => _userController.BlockUser(user));
         }
 
-        public bool ReportUserForSpam(string userName)
+        public Task<bool> ReportUserForSpam(string userName)
         {
             return ExecuteAuthenticatedUserOperation(() => _userController.BlockUser(userName));
         }
 
-        public bool ReportUserForSpam(long userId)
+        public Task<bool> ReportUserForSpam(long userId)
         {
             return ExecuteAuthenticatedUserOperation(() => _userController.BlockUser(userId));
         }
 
         // Direct Messages
-        public IEnumerable<IMessage> GetLatestMessages(int count)
+        public async Task<IEnumerable<IMessage>> GetLatestMessages(int count)
+        {
+            var asyncOperation = await GetLatestMessagesWithCursor(count);
+            return asyncOperation.Result;
+        }
+
+        public Task<AsyncCursorResult<IEnumerable<IMessage>>> GetLatestMessagesWithCursor(int count)
         {
             return ExecuteAuthenticatedUserOperation(() => _messageController.GetLatestMessages(count));
         }
 
-        public IMessage PublishMessage(IPublishMessageParameters publishMessageParameters)
+        public Task<IMessage> PublishMessage(IPublishMessageParameters publishMessageParameters)
         {
             return ExecuteAuthenticatedUserOperation(() => _messageController.PublishMessage(publishMessageParameters));
         }
 
         // Tweet
-        public ITweet PublishTweet(IPublishTweetParameters parameters)
+        public Task<ITweet> PublishTweet(IPublishTweetParameters parameters)
         {
             return ExecuteAuthenticatedUserOperation(() => _tweetController.PublishTweet(parameters));
         }
 
-        public ITweet PublishTweet(string text)
+        public Task<ITweet> PublishTweet(string text)
         {
             return ExecuteAuthenticatedUserOperation(() =>  _tweetController.PublishTweet(text));
         }
 
         // Settings
-        public IAccountSettings AccountSettings { get; set; }
-
+        
         /// <summary>
         /// Retrieve the settings of the Token's owner
         /// </summary>
-        public IAccountSettings GetAccountSettings()
+        public Task<IAccountSettings> GetAccountSettings()
         {
             return ExecuteAuthenticatedUserOperation(() => _accountController.GetAuthenticatedUserSettings());
         }
 
-        public IAccountSettings UpdateAccountSettings(
+        public Task<IAccountSettings> UpdateAccountSettings(
             IEnumerable<Language> languages = null,
             string timeZone = null,
             long? trendLocationWoeid = null,
@@ -312,7 +316,7 @@ namespace Tweetinvi.Logic
                 endSleepTime));
         }
 
-        public IAccountSettings UpdateAccountSettings(IAccountSettingsRequestParameters accountSettingsRequestParameters)
+        public Task<IAccountSettings> UpdateAccountSettings(IAccountSettingsRequestParameters accountSettingsRequestParameters)
         {
             return ExecuteAuthenticatedUserOperation(() => _accountController.UpdateAuthenticatedUserSettings(accountSettingsRequestParameters));
         }
@@ -379,32 +383,32 @@ namespace Tweetinvi.Logic
             return ExecuteAuthenticatedUserOperation(() => _accountController.GetMutedUsers(maxUsersToRetrieve));
         }
 
-        public bool MuteUser(IUserIdentifier user)
+        public Task<bool> MuteUser(IUserIdentifier user)
         {
             return ExecuteAuthenticatedUserOperation(() => _accountController.MuteUser(user));
         }
 
-        public bool MuteUser(long userId)
+        public Task<bool> MuteUser(long userId)
         {
             return ExecuteAuthenticatedUserOperation(() => _accountController.MuteUser(userId));
         }
 
-        public bool MuteUser(string screenName)
+        public Task<bool> MuteUser(string screenName)
         {
             return ExecuteAuthenticatedUserOperation(() => _accountController.MuteUser(screenName));
         }
 
-        public bool UnMuteUser(IUserIdentifier user)
+        public Task<bool> UnMuteUser(IUserIdentifier user)
         {
             return ExecuteAuthenticatedUserOperation(() => _accountController.UnMuteUser(user));
         }
 
-        public bool UnMuteUser(long userId)
+        public Task<bool> UnMuteUser(long userId)
         {
             return ExecuteAuthenticatedUserOperation(() => _accountController.UnMuteUser(userId));
         }
 
-        public bool UnMuteUser(string screenName)
+        public Task<bool> UnMuteUser(string screenName)
         {
             return ExecuteAuthenticatedUserOperation(() => _accountController.UnMuteUser(screenName));
         }

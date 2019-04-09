@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Tweetinvi.Core.Controllers;
-using Tweetinvi.Core.Helpers;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
 using Tweetinvi.Models.Entities;
@@ -17,21 +16,16 @@ namespace Tweetinvi.Logic
         private readonly IMessageController _messageController;
 
         private IApp _app;
-
-        private readonly ITaskFactory _taskFactory;
-
-        private bool _mergedMediaIntoEntities = false;
+        private bool _mergedMediaIntoEntities;
 
         public Message(
             IMessageController messageController,
             IMessageEventDTO messageEventDTO,
-            IApp app,
-            ITaskFactory taskFactory)
+            IApp app)
         {
             _messageController = messageController;
             MessageEventDTO = messageEventDTO;
             _app = app;
-            _taskFactory = taskFactory;
         }
 
         // Properties
@@ -100,7 +94,7 @@ namespace Tweetinvi.Logic
         public IMediaEntity AttachedMedia => MessageEventDTO.MessageCreate.MessageData.Attachment?.Media;
 
         // Destroy
-        public bool Destroy()
+        public Task<bool> Destroy()
         {
             return _messageController.DestroyMessage(MessageEventDTO);
         }
@@ -115,15 +109,6 @@ namespace Tweetinvi.Logic
 
             return result;
         }
-
-        #region Async
-
-        public async Task<bool> DestroyAsync()
-        {
-            return await _taskFactory.ExecuteTaskAsync(Destroy);
-        } 
-
-        #endregion
 
         public override string ToString()
         {

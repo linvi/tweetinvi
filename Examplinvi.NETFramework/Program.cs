@@ -6,30 +6,31 @@ using System.Linq;
 using System.Net;
 using System.Reflection;
 using System.Threading.Tasks;
-
-// REST API
 using Tweetinvi;
+using Tweetinvi.Core.Extensions;
+using Tweetinvi.Core.Public.Parameters;
+using Tweetinvi.Exceptions;
+using Tweetinvi.Json;
+using Tweetinvi.Logic.Model;
 using Tweetinvi.Models;
+using Tweetinvi.Models.DTO;
 using Tweetinvi.Parameters;
+// REST API
 
 // STREAM API
 using Stream = Tweetinvi.Stream;
 
 // Others
-using Tweetinvi.Exceptions; // Handle Exceptions
-using Tweetinvi.Core.Extensions;
-using Tweetinvi.Core.Public.Parameters;
+// Handle Exceptions
 // Extension methods provided by Tweetinvi
-using Tweetinvi.Models.DTO; // Data Transfer Objects for Serialization
-using Tweetinvi.Json;
-using Tweetinvi.Logic.Model;
+// Data Transfer Objects for Serialization
 using Geo = Tweetinvi.Geo;
 using SavedSearch = Tweetinvi.SavedSearch;
 
 // JSON static classes to get json from Twitter.
 
 // ReSharper disable UnusedVariable
-namespace Examplinvi
+namespace Examplinvi.NETFramework
 {
     // IMPORTANT 
     // This cheat sheet provide examples for all the features provided by Tweetinvi.
@@ -54,14 +55,14 @@ namespace Examplinvi
             Console.WriteLine(authenticatedUser);
 
             // Un-comment to run the examples below
-            // Examples.ExecuteExamples = true;
+            // await Examples.ExecuteExamples = true;
 
-            GenerateCredentialExamples();
-            TweetExamples();
-            UserExamples();
-            AuthenticatedUserExamples();
-            TimelineExamples();
-            MessageExamples();
+            GenerateCredentialExamples().Wait();
+            TweetExamples().Wait();
+            UserExamples().Wait();
+            AuthenticatedUserExamples().Wait();
+            TimelineExamples().Wait();
+            MessageExamples().Wait();
             TwitterListExamples();
             GeoExamples();
             SearchExamples();
@@ -85,7 +86,7 @@ namespace Examplinvi
         // ReSharper disable LocalizableElement
         // ReSharper disable UnusedMember.Local
 
-        private static void GenerateCredentialExamples()
+        private static async Task GenerateCredentialExamples()
         {
             if (!Examples.ExecuteExamples)
             {
@@ -101,118 +102,118 @@ namespace Examplinvi
             Examples.AuthFlow_CreateFromRedirectedVerifierCode_StepByStep("consumer_key", "consumer_secret");
         }
 
-        private static void TweetExamples()
+        private static async Task TweetExamples()
         {
             if (!Examples.ExecuteExamples)
             {
                 return;
             }
 
-            Examples.Tweet_GetExistingTweet(210462857140252672);
+            await Examples.Tweet_GetExistingTweet(210462857140252672);
 
-            Examples.Tweet_PublishTweet(string.Format("I love tweetinvi! ({0})", Guid.NewGuid()));
-            Examples.Tweet_PublishTweetWithImage("Uploadinvi?", "YOUR_FILE_PATH.png");
+            await Examples.Tweet_PublishTweet(string.Format("I love tweetinvi! ({0})", Guid.NewGuid()));
+            await Examples.Tweet_PublishTweetWithImage("Uploadinvi?", "YOUR_FILE_PATH.png");
 
-            Examples.Tweet_PublishTweetInReplyToAnotherTweet(string.Format("I love tweetinvi! ({0})", Guid.NewGuid()), 392711547081854976);
-            Examples.Tweet_PublishTweetWithGeo(string.Format("I love tweetinvi! ({0})", Guid.NewGuid()));
+            await Examples.Tweet_PublishTweetInReplyToAnotherTweet(string.Format("I love tweetinvi! ({0})", Guid.NewGuid()), 392711547081854976);
+            await Examples.Tweet_PublishTweetWithGeo(string.Format("I love tweetinvi! ({0})", Guid.NewGuid()));
 
-            Examples.Tweet_Destroy();
+            await Examples.Tweet_Destroy();
 
-            Examples.Tweet_GetRetweets(210462857140252672);
-            Examples.Tweet_PublishRetweet(210462857140252672);
-            Examples.Tweet_DestroyRetweet(210462857140252672);
+            await Examples.Tweet_GetRetweets(210462857140252672);
+            await Examples.Tweet_PublishRetweet(210462857140252672);
+            await Examples.Tweet_DestroyRetweet(210462857140252672);
 
-            Examples.Tweet_GenerateOEmbedTweet();
-            Examples.Tweet_SetTweetAsFavorite(392711547081854976);
+            await Examples.Tweet_GenerateOEmbedTweet();
+            await Examples.Tweet_SetTweetAsFavorite(392711547081854976);
         }
 
-        private static void UserExamples()
+        private static async Task UserExamples()
         {
             if (!Examples.ExecuteExamples)
             {
                 return;
             }
 
-            Examples.User_GetCurrentUser();
+            await Examples.User_GetCurrentUser();
 
-            Examples.User_GetUserFromId(1478171);
-            Examples.User_GetUserFromName(Examples.USER_SCREEN_NAME_TO_TEST);
+            await Examples.User_GetUserFromId(1478171);
+            await Examples.User_GetUserFromName(Examples.USER_SCREEN_NAME_TO_TEST);
 
-            Examples.User_GetFavorites(Examples.USER_SCREEN_NAME_TO_TEST);
+            await Examples.User_GetFavorites(Examples.USER_SCREEN_NAME_TO_TEST);
 
-            Examples.User_GetFriends(Examples.USER_SCREEN_NAME_TO_TEST);
-            Examples.User_GetFriendIds(Examples.USER_SCREEN_NAME_TO_TEST);
-            Examples.User_GetFriendIdsUpTo(Examples.USER_SCREEN_NAME_TO_TEST, 10000);
+            await Examples.User_GetFriends(Examples.USER_SCREEN_NAME_TO_TEST);
+            await Examples.User_GetFriendIds(Examples.USER_SCREEN_NAME_TO_TEST);
+            await Examples.User_GetFriendIdsUpTo(Examples.USER_SCREEN_NAME_TO_TEST, 10000);
 
-            Examples.User_GetFollowers(Examples.USER_SCREEN_NAME_TO_TEST);
-            Examples.User_GetFollowerIds(Examples.USER_SCREEN_NAME_TO_TEST);
-            Examples.User_GetFollowerIdsUpTo(Examples.USER_SCREEN_NAME_TO_TEST, 10000);
+            await Examples.User_GetFollowers(Examples.USER_SCREEN_NAME_TO_TEST);
+            await Examples.User_GetFollowerIds(Examples.USER_SCREEN_NAME_TO_TEST);
+            await Examples.User_GetFollowerIdsUpTo(Examples.USER_SCREEN_NAME_TO_TEST, 10000);
 
-            Examples.User_GetRelationshipBetween("tweetinvitest", Examples.USER_SCREEN_NAME_TO_TEST);
+            await Examples.User_GetRelationshipBetween("tweetinvitest", Examples.USER_SCREEN_NAME_TO_TEST);
 
-            Examples.User_BlockUser(Examples.USER_SCREEN_NAME_TO_TEST);
-            Examples.User_UnBlockUser(Examples.USER_SCREEN_NAME_TO_TEST);
-            Examples.User_GetBlockedUsers();
+            await Examples.User_BlockUser(Examples.USER_SCREEN_NAME_TO_TEST);
+            await Examples.User_UnBlockUser(Examples.USER_SCREEN_NAME_TO_TEST);
+            await Examples.User_GetBlockedUsers();
 
-            Examples.User_DownloadProfileImage(Examples.USER_SCREEN_NAME_TO_TEST);
+            await Examples.User_DownloadProfileImage(Examples.USER_SCREEN_NAME_TO_TEST);
         }
 
-        private static void AuthenticatedUserExamples()
+        private static async Task AuthenticatedUserExamples()
         {
             if (!Examples.ExecuteExamples)
             {
                 return;
             }
 
-            Examples.Friendship_GetMultipleRelationships();
-            Examples.AuthenticatedUser_GetIncomingRequests();
-            Examples.AuthenticatedUser_GetOutgoingRequests();
-            Examples.AuthenticatedUser_FollowUser(Examples.USER_SCREEN_NAME_TO_TEST);
-            Examples.AuthenticatedUser_UnFollowUser(Examples.USER_SCREEN_NAME_TO_TEST);
-            Examples.AuthenticatedUser_UpdateFollowAuthorizationsForUser(Examples.USER_SCREEN_NAME_TO_TEST);
-            Examples.AuthenticatedUser_GetLatestMessages();
-            Examples.AuthenticatedUser_GetAccountSettings();
+            await Examples.Friendship_GetMultipleRelationships();
+            await Examples.AuthenticatedUser_GetIncomingRequests();
+            await Examples.AuthenticatedUser_GetOutgoingRequests();
+            await Examples.AuthenticatedUser_FollowUser(Examples.USER_SCREEN_NAME_TO_TEST);
+            await Examples.AuthenticatedUser_UnFollowUser(Examples.USER_SCREEN_NAME_TO_TEST);
+            await Examples.AuthenticatedUser_UpdateFollowAuthorizationsForUser(Examples.USER_SCREEN_NAME_TO_TEST);
+            await Examples.AuthenticatedUser_GetLatestMessages();
+            await Examples.AuthenticatedUser_GetAccountSettings();
         }
 
-        private static void TimelineExamples()
+        private static async Task TimelineExamples()
         {
             if (!Examples.ExecuteExamples)
             {
                 return;
             }
 
-            Examples.Timeline_GetHomeTimeline();
-            Examples.Timeline_GetUserTimeline(Examples.USER_SCREEN_NAME_TO_TEST);
-            Examples.Timeline_GetMentionsTimeline();
+            await Examples.Timeline_GetHomeTimeline();
+            await Examples.Timeline_GetUserTimeline(Examples.USER_SCREEN_NAME_TO_TEST);
+            await Examples.Timeline_GetMentionsTimeline();
         }
 
-        private static void MessageExamples()
+        private static async Task MessageExamples()
         {
             if (!Examples.ExecuteExamples)
             {
                 return;
             }
 
-            Examples.AuthenticatedUser_GetLatestMessages();
+            await Examples.AuthenticatedUser_GetLatestMessages();
 
-            Examples.Message_GetLatests();
-            Examples.Message_GetMessageFromId(381069551028293633);
-            Examples.Message_PublishMessage("I love tweetinvi", Examples.USER_SCREEN_NAME_TO_TEST);
-            Examples.Message_PublishMessageWithImage("I love attachments", Examples.USER_SCREEN_NAME_TO_TEST,
+            await Examples.Message_GetLatests();
+            await Examples.Message_GetMessageFromId(381069551028293633);
+            await Examples.Message_PublishMessage("I love tweetinvi", Examples.USER_SCREEN_NAME_TO_TEST);
+            await Examples.Message_PublishMessageWithImage("I love attachments", Examples.USER_SCREEN_NAME_TO_TEST,
                 "./path_to_image_file");
-            Examples.Message_PublishMessageWithQuickReplyOptions();
+            await Examples.Message_PublishMessageWithQuickReplyOptions();
         }
 
-        private static void StreamExamples()
+        private static async Task StreamExamples()
         {
             if (!Examples.ExecuteExamples)
             {
                 return;
             }
 
-            Examples.Stream_SampleStreamExample();
-            Examples.Stream_FilteredStreamExample();
-            Examples.SimpleStream_Events();
+            await Examples.Stream_SampleStreamExample();
+            await Examples.Stream_FilteredStreamExample();
+            await Examples.SimpleStream_Events();
         }
 
         private static void TwitterListExamples()
@@ -222,15 +223,15 @@ namespace Examplinvi
                 return;
             }
 
-            Examples.TwitterList_GetUserOwnedLists();
-            Examples.TwitterList_GetUserSubscribedLists();
+            await Examples.TwitterList_GetUserOwnedLists();
+            await Examples.TwitterList_GetUserSubscribedLists();
 
-            Examples.TwitterList_CreateList();
-            Examples.TwitterList_GetExistingListById(105601767);
-            Examples.TwitterList_UpdateList(105601767);
-            Examples.TwitterList_DestroyList(105601767);
-            Examples.TwitterList_GetTweetsFromList(105601767);
-            Examples.TwitterList_GetMembersOfList(105601767);
+            await Examples.TwitterList_CreateList();
+            await Examples.TwitterList_GetExistingListById(105601767);
+            await Examples.TwitterList_UpdateList(105601767);
+            await Examples.TwitterList_DestroyList(105601767);
+            await Examples.TwitterList_GetTweetsFromList(105601767);
+            await Examples.TwitterList_GetMembersOfList(105601767);
         }
 
         private static void GeoExamples()
@@ -240,8 +241,8 @@ namespace Examplinvi
                 return;
             }
 
-            Examples.Geo_GetPlaceFromId("df51dec6f4ee2b2c");
-            Examples.Trends_GetTrendsFromWoeId(1);
+            await Examples.Geo_GetPlaceFromId("df51dec6f4ee2b2c");
+            await Examples.Trends_GetTrendsFromWoeId(1);
         }
 
         private static void SearchExamples()
@@ -251,11 +252,11 @@ namespace Examplinvi
                 return;
             }
 
-            Examples.Search_SimpleTweetSearch();
-            Examples.Search_SearchTweet();
-            Examples.Search_SearchWithMetadata();
-            Examples.Search_FilteredSearch();
-            Examples.Search_SearchUsers();
+            await Examples.Search_SimpleTweetSearch();
+            await Examples.Search_SearchTweet();
+            await Examples.Search_SearchWithMetadata();
+            await Examples.Search_FilteredSearch();
+            await Examples.Search_SearchUsers();
         }
 
         private static void SavedSearchesExamples()
@@ -265,10 +266,10 @@ namespace Examplinvi
                 return;
             }
 
-            Examples.SavedSearch_CreateSavedSearch("tweetinvi");
-            Examples.SavedSearch_GetSavedSearches();
-            Examples.SavedSearch_GetSavedSearch(307102135);
-            Examples.SavedSearch_DestroySavedSearch(307102135);
+            await Examples.SavedSearch_CreateSavedSearch("tweetinvi");
+            await Examples.SavedSearch_GetSavedSearches();
+            await Examples.SavedSearch_GetSavedSearch(307102135);
+            await Examples.SavedSearch_DestroySavedSearch(307102135);
         }
 
         private static void RateLimitExamples()
@@ -278,11 +279,11 @@ namespace Examplinvi
                 return;
             }
 
-            Examples.RateLimits_Track_Examples();
-            Examples.RateLimits_ManualAwait();
+            await Examples.RateLimits_Track_Examples();
+            await Examples.RateLimits_ManualAwait();
 
-            Examples.GetCredentialsRateLimits();
-            Examples.GetCurrentCredentialsRateLimits();
+            await Examples.GetCredentialsRateLimits();
+            await Examples.GetCurrentCredentialsRateLimits();
         }
 
         private static void HelpExamples()
@@ -292,7 +293,7 @@ namespace Examplinvi
                 return;
             }
 
-            Examples.GetTwitterPrivacyPolicy();
+            await Examples.GetTwitterPrivacyPolicy();
         }
 
         private static void JsonExamples()
@@ -302,16 +303,16 @@ namespace Examplinvi
                 return;
             }
 
-            Examples.Json_GetJsonForAccountRequestExample();
-            Examples.Json_GetJsonForMessageRequestExample();
-            Examples.Json_GetJsonCursorRequestExample();
-            Examples.Json_GetJsonForGeoRequestExample();
-            Examples.Json_GetJsonForHelpRequestExample();
-            Examples.Json_GetJsonForSavedSearchRequestExample();
-            Examples.Json_GetJsonForTimelineRequestExample();
-            Examples.Json_GetJsonForTrendsRequestExample();
-            Examples.Json_GetJsonForTweetRequestExample();
-            Examples.Json_GetJsonForUserRequestExample();
+            await Examples.Json_GetJsonForAccountRequestExample();
+            await Examples.Json_GetJsonForMessageRequestExample();
+            await Examples.Json_GetJsonCursorRequestExample();
+            await Examples.Json_GetJsonForGeoRequestExample();
+            await Examples.Json_GetJsonForHelpRequestExample();
+            await Examples.Json_GetJsonForSavedSearchRequestExample();
+            await Examples.Json_GetJsonForTimelineRequestExample();
+            await Examples.Json_GetJsonForTrendsRequestExample();
+            await Examples.Json_GetJsonForTweetRequestExample();
+            await Examples.Json_GetJsonForUserRequestExample();
         }
 
         private static void AdditionalFeaturesExamples()
@@ -321,8 +322,8 @@ namespace Examplinvi
                 return;
             }
 
-            Examples.Exceptions_GetExceptionsInfo();
-            Examples.ManualQuery_Example();
+            await Examples.Exceptions_GetExceptionsInfo();
+            await Examples.ManualQuery_Example();
         }
 
         private static void UploadExamples()
@@ -332,10 +333,10 @@ namespace Examplinvi
                 return;
             }
 
-            Examples.UploadImage("./path_to_image_file");
-            Examples.UploadImage("./path_to_gif_file");
-            Examples.UploadVideo("./path_to_video_file");
-            Examples.Tweet_PublishTweetWithImage("publish with img", "filePath");
+            await Examples.UploadImage("./path_to_image_file");
+            await Examples.UploadImage("./path_to_gif_file");
+            await Examples.UploadVideo("./path_to_video_file");
+            await Examples.Tweet_PublishTweetWithImage("publish with img", "filePath");
         }
 
         private static void DownloadExamples()
@@ -345,7 +346,7 @@ namespace Examplinvi
                 return;
             }
 
-            var binary = Examples.DownloadBinaryFromTwitter("https://ton.twitter.com/1.1/ton/data/dm/764104492082233347/764104492107370496/X0v8XTZ4.jpg");
+            var binary = await Examples.DownloadBinaryFromTwitter("https://ton.twitter.com/1.1/ton/data/dm/764104492082233347/764104492107370496/X0v8XTZ4.jpg");
         }
 
         #endregion
@@ -431,38 +432,38 @@ namespace Examplinvi
 
         #region Tweet
 
-        public static void Tweet_GetExistingTweet(long tweetId)
+        public static async Task Tweet_GetExistingTweet(long tweetId)
         {
-            var tweet = Tweet.GetTweet(tweetId);
+            var tweet = await Tweet.GetTweet(tweetId);
             Console.WriteLine(tweet.Text);
         }
 
-        public static void Tweet_PublishTweet(string text)
+        public static async Task Tweet_PublishTweet(string text)
         {
-            var tweet = Tweet.PublishTweet(text);
+            var tweet = await Tweet.PublishTweet(text);
             Console.WriteLine(tweet.IsTweetPublished);
         }
 
-        public static ITweet Tweet_PublishTweetWithImage(string text, string filePath)
+        public static async Task<ITweet> Tweet_PublishTweetWithImage(string text, string filePath)
         {
-            var media = UploadImage(filePath);
+            var media = await UploadImage(filePath);
 
-            return Tweet.PublishTweet(new PublishTweetParameters(text)
+            return await Tweet.PublishTweet(new PublishTweetParameters(text)
             {
                 Medias = new List<IMedia>() { media }
             });
         }
 
-        public static void Tweet_PublishTweetInReplyToAnotherTweet(string text, long tweetIdToReplyTo)
+        public static async Task Tweet_PublishTweetInReplyToAnotherTweet(string text, long tweetIdToReplyTo)
         {
             // With the new version of Twitter you no longer have to specify the mentions. Twitter can do that for you automatically.
-            var reply = Tweet.PublishTweet(new PublishTweetParameters(text)
+            var reply = await Tweet.PublishTweet(new PublishTweetParameters(text)
             {
                 InReplyToTweetId = tweetIdToReplyTo,
                 AutoPopulateReplyMetadata = true // Auto populate the @mentions
             });
 
-            var tweetToReplyTo = Tweet.GetTweet(tweetIdToReplyTo);
+            var tweetToReplyTo = await Tweet.GetTweet(tweetIdToReplyTo);
 
             // We must add @screenName of the author of the tweet we want to reply to
             var textToPublish = string.Format("@{0} {1}", tweetToReplyTo.CreatedBy.ScreenName, text);
@@ -470,7 +471,7 @@ namespace Examplinvi
             Console.WriteLine("Publish success? {0}", tweet != null);
         }
 
-        public static void Tweet_PublishTweetWithGeo(string text)
+        public static async Task Tweet_PublishTweetWithGeo(string text)
         {
             const double latitude = 37.7821120598956;
             const double longitude = -122.400612831116;
@@ -480,69 +481,69 @@ namespace Examplinvi
                 Coordinates = new Coordinates(latitude, longitude)
             };
 
-            var tweet = Tweet.PublishTweet(publishParameters);
+            var tweet = await Tweet.PublishTweet(publishParameters);
 
             Console.WriteLine(tweet.IsTweetPublished);
         }
 
-        public static void Tweet_PublishRetweet(long tweetId)
+        public static async Task Tweet_PublishRetweet(long tweetId)
         {
-            var tweet = Tweet.GetTweet(tweetId);
-            var retweet = tweet.PublishRetweet();
+            var tweet = await Tweet.GetTweet(tweetId);
+            var retweet = await tweet.PublishRetweet();
 
             Console.WriteLine("You retweeted : '{0}'", retweet.Text);
         }
 
-        public static void Tweet_DestroyRetweet(long tweetId)
+        public static async Task Tweet_DestroyRetweet(long tweetId)
         {
-            var tweet = Tweet.GetTweet(tweetId);
-            var retweet = tweet.PublishRetweet();
+            var tweet = await Tweet.GetTweet(tweetId);
+            var retweet = await tweet.PublishRetweet();
 
             retweet.Destroy();
         }
 
-        public static void Tweet_GetRetweets(long tweetId)
+        public static async Task Tweet_GetRetweets(long tweetId)
         {
-            var tweet = Tweet.GetTweet(tweetId);
-            IEnumerable<ITweet> retweets = tweet.GetRetweets();
+            var tweet = await Tweet.GetTweet(tweetId);
+            IEnumerable<ITweet> retweets = await tweet.GetRetweets();
 
             var firstRetweeter = retweets.ElementAt(0).CreatedBy;
             var originalTweet = retweets.ElementAt(0).RetweetedTweet;
             Console.WriteLine("{0} retweeted : '{1}'", firstRetweeter.Name, originalTweet.Text);
         }
 
-        public static void Tweet_GenerateOEmbedTweet()
+        public static async Task Tweet_GenerateOEmbedTweet()
         {
-            var newTweet = Tweet.PublishTweet("to be oembed");
-
-            var oembedTweet = newTweet.GenerateOEmbedTweet();
+            var newTweet = await Tweet.PublishTweet("to be oembed");
+            var oembedTweet = await newTweet.GenerateOEmbedTweet();
 
             Console.WriteLine("Oembed tweet url : {0}", oembedTweet.URL);
 
             if (newTweet.IsTweetPublished)
             {
-                newTweet.Destroy();
+                await newTweet.Destroy();
             }
         }
 
-        public static void Tweet_Destroy()
+        public static async Task Tweet_Destroy()
         {
-            var newTweet = Tweet.PublishTweet("to be destroyed!");
+            var newTweet = await Tweet.PublishTweet("to be destroyed!");
             bool isTweetPublished = newTweet.IsTweetPublished;
 
             if (isTweetPublished)
             {
-                newTweet.Destroy();
+                await newTweet.Destroy();
             }
 
             bool tweetDestroyed = newTweet.IsTweetDestroyed;
             Console.WriteLine("Has the tweet destroyed? {0}", tweetDestroyed);
         }
 
-        public static void Tweet_SetTweetAsFavorite(long tweetId)
+        public static async Task Tweet_SetTweetAsFavorite(long tweetId)
         {
-            var tweet = Tweet.GetTweet(tweetId);
-            tweet.Favorite();
+            var tweet = await Tweet.GetTweet(tweetId);
+            await tweet.Favorite();
+
             Console.WriteLine("Is tweet now favourite? -> {0}", tweet.Favorited);
         }
 
@@ -550,27 +551,27 @@ namespace Examplinvi
 
         #region User
 
-        public static void User_GetCurrentUser()
+        public static async Task User_GetCurrentUser()
         {
-            var user = User.GetAuthenticatedUser();
+            var user = await User.GetAuthenticatedUser();
             Console.WriteLine(user.ScreenName);
         }
 
-        public static void User_GetUserFromId(long userId)
+        public static async Task User_GetUserFromId(long userId)
         {
-            var user = User.GetUserFromId(userId);
+            var user = await User.GetUserFromId(userId);
             Console.WriteLine(user.ScreenName);
         }
 
-        public static void User_GetUserFromName(string userName)
+        public static async Task User_GetUserFromName(string userName)
         {
-            var user = User.GetUserFromScreenName(userName);
+            var user = await User.GetUserFromScreenName(userName);
             Console.WriteLine(user.Id);
         }
 
         public static async Task User_GetFriendIds(string userName)
         {
-            var user = User.GetUserFromScreenName(userName);
+            var user = await User.GetUserFromScreenName(userName);
             var friendIds = await user.GetFriendIds();
 
             Console.WriteLine("{0} has {1} friends, here are some of them :", user.Name, user.FriendsCount);
@@ -582,7 +583,7 @@ namespace Examplinvi
 
         public static async Task User_GetFriendIdsUpTo(string userName, int limit)
         {
-            var user = User.GetUserFromScreenName(userName);
+            var user = await User.GetUserFromScreenName(userName);
             var friendIds = await user.GetFriendIds(limit);
 
             Console.WriteLine("{0} has {1} friends, here are some of them :", user.Name, user.FriendsCount);
@@ -594,7 +595,7 @@ namespace Examplinvi
 
         public static async Task User_GetFriends(string userName)
         {
-            var user = User.GetUserFromScreenName(userName);
+            var user = await User.GetUserFromScreenName(userName);
             var friends = await user.GetFriends();
 
             Console.WriteLine("{0} has {1} friends, here are some of them :", user.Name, user.FriendsCount);
@@ -606,7 +607,7 @@ namespace Examplinvi
 
         public static async Task User_GetFollowerIds(string userName)
         {
-            var user = User.GetUserFromScreenName(userName);
+            var user = await User.GetUserFromScreenName(userName);
             var followerIds = await user.GetFollowerIds();
 
             Console.WriteLine("{0} has {1} followers, here are some of them :", user.Name, user.FollowersCount);
@@ -618,7 +619,7 @@ namespace Examplinvi
 
         public static async Task User_GetFollowerIdsUpTo(string userName, int limit)
         {
-            var user = User.GetUserFromScreenName(userName);
+            var user = await User.GetUserFromScreenName(userName);
             var followerIds = await user.GetFollowerIds(limit);
 
             Console.WriteLine("{0} has {1} followers, here are some of them :", user.Name, user.FollowersCount);
@@ -630,7 +631,7 @@ namespace Examplinvi
 
         public static async Task User_GetFollowers(string userName)
         {
-            var user = User.GetUserFromScreenName(userName);
+            var user = await User.GetUserFromScreenName(userName);
             var followers = await user.GetFollowers();
 
             Console.WriteLine("{0} has {1} followers, here are some of them :", user.Name, user.FollowersCount);
@@ -642,18 +643,18 @@ namespace Examplinvi
 
         public static async Task User_GetRelationshipBetween(string sourceUserName, string targetUsername)
         {
-            var sourceUser = User.GetUserFromScreenName(sourceUserName);
-            var targetUser = User.GetUserFromScreenName(targetUsername);
+            var sourceUser = await User.GetUserFromScreenName(sourceUserName);
+            var targetUser = await User.GetUserFromScreenName(targetUsername);
 
             var relationship = await sourceUser.GetRelationshipWith(targetUser);
             Console.WriteLine("You are{0} following {1}", relationship.Following ? "" : " not", targetUsername);
             Console.WriteLine("You are{0} being followed by {1}", relationship.FollowedBy ? "" : " not", targetUsername);
         }
 
-        public static void User_GetFavorites(string userName)
+        public static async Task User_GetFavorites(string userName)
         {
-            var user = User.GetUserFromScreenName(userName);
-            var favorites = user.GetFavorites();
+            var user = await User.GetUserFromScreenName(userName);
+            var favorites = await user.GetFavorites();
 
             Console.WriteLine("{0} has {1} favorites, here are some of them :", user.Name, user.FavouritesCount);
             foreach (var favoriteTweet in favorites)
@@ -662,11 +663,11 @@ namespace Examplinvi
             }
         }
 
-        public static void User_BlockUser(string userName)
+        public static async Task User_BlockUser(string userName)
         {
-            var user = User.GetUserFromScreenName(userName);
+            var user = await User.GetUserFromScreenName(userName);
 
-            if (user.BlockUser())
+            if (await user.BlockUser())
             {
                 Console.WriteLine("{0} has been blocked.", userName);
             }
@@ -676,29 +677,29 @@ namespace Examplinvi
             }
         }
 
-        public static void User_UnBlockUser(string userName)
+        public static async Task User_UnBlockUser(string userName)
         {
-            var user = User.GetUserFromScreenName(userName);
-            user.UnBlockUser();
+            var user = await User.GetUserFromScreenName(userName);
+            await user.UnBlockUser();
         }
 
-        public static void User_GetBlockedUsers()
+        public static async Task User_GetBlockedUsers()
         {
-            var authenticatedUser = User.GetAuthenticatedUser();
-            authenticatedUser.GetBlockedUsers();
-            authenticatedUser.GetBlockedUserIds();
+            var authenticatedUser = await User.GetAuthenticatedUser();
+            await authenticatedUser.GetBlockedUsers();
+            await authenticatedUser.GetBlockedUserIds();
         }
 
-        public static void User_DownloadProfileImage(string userName)
+        public static async Task User_DownloadProfileImage(string userName)
         {
-            var user = User.GetUserFromScreenName(userName);
+            var user = await User.GetUserFromScreenName(userName);
             var stream = user.GetProfileImageStream(ImageSize.bigger);
-            var fileStream = new System.IO.FileStream(string.Format("{0}.jpg", user.Id), System.IO.FileMode.Create);
+            var fileStream = new FileStream($"{user.Id}.jpg", FileMode.Create);
             stream.CopyTo(fileStream);
 #if NET_CORE
             string assemblyPath = Path.GetDirectoryName(typeof(User).GetTypeInfo().Assembly.CodeBase);
 #else
-            string assemblyPath = System.IO.Path.GetDirectoryName(Assembly.GetExecutingAssembly().CodeBase);
+            string assemblyPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().CodeBase);
 #endif
 
             if (assemblyPath != null)
@@ -707,20 +708,22 @@ namespace Examplinvi
             }
         }
 
-        public static void User_GetMutedUsers()
+        public static async Task User_GetMutedUsers()
         {
-            var authenticatedUser = User.GetAuthenticatedUser();
-            authenticatedUser.GetMutedUserIds();
+            var authenticatedUser = await User.GetAuthenticatedUser();
+            var mutedUsed = await authenticatedUser.GetMutedUserIds();
+
+            Console.WriteLine($"Muted user ids : {string.Concat(mutedUsed.Select(x => x.ToString() + " ; "))}");
         }
 
         #endregion
 
         #region AuthenticatedUser
 
-        public static void AuthenticatedUser_GetIncomingRequests()
+        public static async Task AuthenticatedUser_GetIncomingRequests()
         {
-            var authenticatedUser = User.GetAuthenticatedUser();
-            var usersRequestingFriendship = authenticatedUser.GetUsersRequestingFriendship();
+            var authenticatedUser = await User.GetAuthenticatedUser();
+            var usersRequestingFriendship = await authenticatedUser.GetUsersRequestingFriendship();
 
             foreach (var user in usersRequestingFriendship)
             {
@@ -728,10 +731,10 @@ namespace Examplinvi
             }
         }
 
-        public static void AuthenticatedUser_GetOutgoingRequests()
+        public static async Task AuthenticatedUser_GetOutgoingRequests()
         {
-            var authenticatedUser = User.GetAuthenticatedUser();
-            var usersRequestingFriendship = authenticatedUser.GetUsersYouRequestedToFollow();
+            var authenticatedUser = await User.GetAuthenticatedUser();
+            var usersRequestingFriendship = await authenticatedUser.GetUsersYouRequestedToFollow();
 
             foreach (var user in usersRequestingFriendship)
             {
@@ -739,43 +742,43 @@ namespace Examplinvi
             }
         }
 
-        public static void AuthenticatedUser_FollowUser(string userName)
+        public static async Task AuthenticatedUser_FollowUser(string userName)
         {
-            var authenticatedUser = User.GetAuthenticatedUser();
-            var userToFollow = User.GetUserFromScreenName(userName);
+            var authenticatedUser = await User.GetAuthenticatedUser();
+            var userToFollow = await User.GetUserFromScreenName(userName);
 
-            if (authenticatedUser.FollowUser(userToFollow))
+            if (await authenticatedUser.FollowUser(userToFollow))
             {
                 Console.WriteLine("You have successfully sent a request to follow {0}", userToFollow.Name);
             }
         }
 
-        public static void AuthenticatedUser_UnFollowUser(string userName)
+        public static async Task AuthenticatedUser_UnFollowUser(string userName)
         {
-            var authenticatedUser = User.GetAuthenticatedUser();
-            var userToFollow = User.GetUserFromScreenName(userName);
+            var authenticatedUser = await User.GetAuthenticatedUser();
+            var userToFollow = await User.GetUserFromScreenName(userName);
 
-            if (authenticatedUser.UnFollowUser(userToFollow))
+            if (await authenticatedUser.UnFollowUser(userToFollow))
             {
                 Console.WriteLine("You are not following {0} anymore", userToFollow.Name);
             }
         }
 
-        public static void AuthenticatedUser_UpdateFollowAuthorizationsForUser(string userName)
+        public static async Task AuthenticatedUser_UpdateFollowAuthorizationsForUser(string userName)
         {
-            var authenticatedUser = User.GetAuthenticatedUser();
-            var userToFollow = User.GetUserFromScreenName(userName);
+            var authenticatedUser = await User.GetAuthenticatedUser();
+            var userToFollow = await User.GetUserFromScreenName(userName);
 
-            if (authenticatedUser.UpdateRelationshipAuthorizationsWith(userToFollow, false, false))
+            if (await authenticatedUser.UpdateRelationshipAuthorizationsWith(userToFollow, false, false))
             {
                 Console.WriteLine("Authorizations updated");
             }
         }
 
-        public static void AuthenticatedUser_GetLatestMessages()
+        public static async Task AuthenticatedUser_GetLatestMessages()
         {
-            var authenticatedUser = User.GetAuthenticatedUser();
-            var messages = authenticatedUser.GetLatestMessages(20);
+            var authenticatedUser = await User.GetAuthenticatedUser();
+            var messages = await authenticatedUser.GetLatestMessages(20);
 
             Console.WriteLine("Messages : ");
             foreach (var message in messages)
@@ -784,13 +787,10 @@ namespace Examplinvi
             }
         }
 
-        public static void AuthenticatedUser_GetAccountSettings()
+        public static async Task AuthenticatedUser_GetAccountSettings()
         {
-            var authenticatedUser = User.GetAuthenticatedUser();
-            var settings = authenticatedUser.GetAccountSettings();
-
-            // Store information
-            authenticatedUser.AccountSettings = settings;
+            var authenticatedUser = await User.GetAuthenticatedUser();
+            var settings = await authenticatedUser.GetAccountSettings();
 
             Console.WriteLine("{0} uses lang : {1}", settings.ScreenName, settings.Language);
         }
@@ -799,11 +799,11 @@ namespace Examplinvi
 
         #region Timeline
 
-        public static void Timeline_GetUserTimeline(string username)
+        public static async Task Timeline_GetUserTimeline(string username)
         {
-            var user = User.GetUserFromScreenName(username);
+            var user = await User.GetUserFromScreenName(username);
 
-            var timelineTweets = user.GetUserTimeline();
+            var timelineTweets = await user.GetUserTimeline();
             foreach (var tweet in timelineTweets)
             {
                 Console.WriteLine(tweet.Text);
@@ -812,7 +812,7 @@ namespace Examplinvi
 
         public static async Task Timeline_GetHomeTimeline()
         {
-            var authenticatedUser = User.GetAuthenticatedUser();
+            var authenticatedUser = await User.GetAuthenticatedUser();
 
             var homeTimelineTweets = await authenticatedUser.GetHomeTimeline();
             foreach (var tweet in homeTimelineTweets)
@@ -823,7 +823,7 @@ namespace Examplinvi
 
         public static async Task Timeline_GetMentionsTimeline()
         {
-            var authenticatedUser = User.GetAuthenticatedUser();
+            var authenticatedUser = await User.GetAuthenticatedUser();
 
             var mentionsTimelineTweets = await authenticatedUser.GetMentionsTimeline();
             foreach (var mention in mentionsTimelineTweets)
@@ -853,7 +853,7 @@ namespace Examplinvi
             stream.UnmanagedEventReceived += (sender, args) => { };
         }
 
-        public static void Stream_SampleStreamExample()
+        public static async Task Stream_SampleStreamExample()
         {
             var stream = Stream.CreateSampleStream();
 
@@ -865,10 +865,10 @@ namespace Examplinvi
             stream.AddTweetLanguageFilter(LanguageFilter.English);
             stream.AddTweetLanguageFilter(LanguageFilter.French);
 
-            stream.StartStream();
+            await stream.StartStream();
         }
 
-        public static void Stream_FilteredStreamExample()
+        public static async Task Stream_FilteredStreamExample()
         {
             var stream = Stream.CreateFilteredStream();
             var location = new Location(36.8, -124.75, 32.75, -126.89);
@@ -890,17 +890,17 @@ namespace Examplinvi
                 }
             };
 
-            stream.StartStreamMatchingAllConditions();
+            await stream.StartStreamMatchingAllConditions();
         }
 
         #endregion
 
         #region Search
 
-        public static void Search_SimpleTweetSearch()
+        public static async Task Search_SimpleTweetSearch()
         {
             // IF YOU DO NOT RECEIVE ANY TWEET, CHANGE THE PARAMETERS!
-            var tweets = Search.SearchTweets("#obama");
+            var tweets = await Search.SearchTweets("#obama");
 
             foreach (var tweet in tweets)
             {
@@ -908,7 +908,7 @@ namespace Examplinvi
             }
         }
 
-        public static void Search_SearchTweet()
+        public static async Task Search_SearchTweet()
         {
             // IF YOU DO NOT RECEIVE ANY TWEET, CHANGE THE PARAMETERS!
 
@@ -925,36 +925,36 @@ namespace Examplinvi
             searchParameter.TweetSearchType = TweetSearchType.OriginalTweetsOnly;
             searchParameter.Filters = TweetSearchFilters.Videos;
 
-            var tweets = Search.SearchTweets(searchParameter);
+            var tweets = await Search.SearchTweets(searchParameter);
             tweets.ForEach(t => Console.WriteLine(t.Text));
         }
 
-        public static void Search_SearchWithMetadata()
+        public static async Task Search_SearchWithMetadata()
         {
-            Search.SearchTweetsWithMetadata("hello");
+            await Search.SearchTweetsWithMetadata("hello");
         }
 
-        public static void Search_FilteredSearch()
+        public static async Task Search_FilteredSearch()
         {
             var searchParameter = Search.CreateTweetSearchParameter("#tweetinvi");
             searchParameter.TweetSearchType = TweetSearchType.OriginalTweetsOnly;
 
-            var tweets = Search.SearchTweets(searchParameter);
+            var tweets = await Search.SearchTweets(searchParameter);
             tweets.ForEach(t => Console.WriteLine(t.Text));
         }
 
-        public static void Search_SearchAndGetMoreThan100Results()
+        public static async Task Search_SearchAndGetMoreThan100Results()
         {
             var searchParameter = Search.CreateTweetSearchParameter("us");
             searchParameter.MaximumNumberOfResults = 200;
 
-            var tweets = Search.SearchTweets(searchParameter);
+            var tweets = await Search.SearchTweets(searchParameter);
             tweets.ForEach(t => Console.WriteLine(t.Text));
         }
 
-        public static void Search_SearchUsers()
+        public static async Task Search_SearchUsers()
         {
-            var users = Search.SearchUsers("linvi", 100);
+            var users = await Search.SearchUsers("linvi", 100);
             users.ForEach(Console.WriteLine);
         }
 
@@ -962,10 +962,10 @@ namespace Examplinvi
 
         #region Saved Searches
 
-        public static void SavedSearch_GetSavedSearches()
+        public static async Task SavedSearch_GetSavedSearches()
         {
-            var authenticatedUser = User.GetAuthenticatedUser();
-            var savedSearches = authenticatedUser.GetSavedSearches();
+            var authenticatedUser = await User.GetAuthenticatedUser();
+            var savedSearches = await authenticatedUser.GetSavedSearches();
 
             Console.WriteLine("Saved Searches");
             foreach (var savedSearch in savedSearches)
@@ -974,23 +974,23 @@ namespace Examplinvi
             }
         }
 
-        public static void SavedSearch_CreateSavedSearch(string query)
+        public static async Task SavedSearch_CreateSavedSearch(string query)
         {
-            var savedSearch = SavedSearch.CreateSavedSearch(query);
+            var savedSearch = await SavedSearch.CreateSavedSearch(query);
             Console.WriteLine("Saved Search created as : {0}", savedSearch.Name);
         }
 
-        public static void SavedSearch_GetSavedSearch(long searchId)
+        public static async Task SavedSearch_GetSavedSearch(long searchId)
         {
-            var savedSearch = SavedSearch.GetSavedSearch(searchId);
+            var savedSearch = await SavedSearch.GetSavedSearch(searchId);
             Console.WriteLine("Saved searched query is : '{0}'", savedSearch.Query);
         }
 
-        public static void SavedSearch_DestroySavedSearch(long searchId)
+        public static async Task SavedSearch_DestroySavedSearch(long searchId)
         {
-            var savedSearch = SavedSearch.GetSavedSearch(searchId);
+            var savedSearch = await SavedSearch.GetSavedSearch(searchId);
 
-            if (SavedSearch.DestroySavedSearch(savedSearch))
+            if (await SavedSearch.DestroySavedSearch(savedSearch))
             {
                 Console.WriteLine("You destroyed the search successfully!");
             }
@@ -1000,10 +1000,11 @@ namespace Examplinvi
 
         #region Message
 
-        public static void Message_GetLatests()
+        public static async Task Message_GetLatests()
         {
             // Messages Sent or received
-            var latestMessages = Message.GetLatestMessages(TweetinviConsts.MESSAGE_GET_COUNT, out string cursor);
+            var asyncCursorResult = await Message.GetLatestMessagesWithCursor();
+            var cursor = asyncCursorResult.Cursor;
 
             // Check for a cursor having been returned, if not, there's no more results
             if (cursor == null)
@@ -1019,28 +1020,29 @@ namespace Examplinvi
                 Count = 20,
                 Cursor = cursor
             };
-            var latestMessagesFromParameters = Message.GetLatestMessages(latestMessagesParameters, out cursor);
+
+            var latestMessagesFromParameters = await Message.GetLatestMessages(latestMessagesParameters);
         }
 
-        public static void Message_GetMessageFromId(long messageId)
+        public static async Task Message_GetMessageFromId(long messageId)
         {
-            var message = Message.GetExistingMessage(messageId);
+            var message = await Message.GetExistingMessage(messageId);
             Console.WriteLine("Message from {0} to {1} : {2}", message.SenderId, message.RecipientId, message.Text);
         }
 
-        public static void Message_DestroyMessageFromId(long messageId)
+        public static async Task Message_DestroyMessageFromId(long messageId)
         {
-            var message = Message.GetExistingMessage(messageId);
-            if (message.Destroy())
+            var message = await Message.GetExistingMessage(messageId);
+            if (await message.Destroy())
             {
                 Console.WriteLine("Message successfully destroyed!");
             }
         }
 
-        public static void Message_PublishMessage(string text, string username)
+        public static async Task Message_PublishMessage(string text, string username)
         {
-            var recipient = User.GetUserFromScreenName(username);
-            var message = Message.PublishMessage(text, recipient.Id);
+            var recipient = await User.GetUserFromScreenName(username);
+            var message = await Message.PublishMessage(text, recipient.Id);
 
             if (message != null)
             {
@@ -1048,7 +1050,7 @@ namespace Examplinvi
             }
         }
 
-        public static void Message_PublishMessageWithImage(string text, string username, string imgPath)
+        public static async Task Message_PublishMessageWithImage(string text, string username, string imgPath)
         {
             // Get the user to DM
             var recipient = User.GetUserFromScreenName(username);
@@ -1064,7 +1066,8 @@ namespace Examplinvi
                 //  category of media you are uploading
                 MediaCategory = Tweetinvi.Core.Public.Models.Enum.MediaCategory.DmImage
             };
-            var media = Upload.UploadBinary(uploadMediaParams);
+
+            var media = await Upload.UploadBinary(uploadMediaParams);
 
             // Publish the DM
             var publishMsgParams = new PublishMessageParameters(text, recipient.Id)
@@ -1079,7 +1082,7 @@ namespace Examplinvi
             }
         }
 
-        public static void Message_PublishMessageWithQuickReplyOptions()
+        public static async Task Message_PublishMessageWithQuickReplyOptions()
         {
             // Get the user to DM
             var recipient = User.GetUserFromScreenName(USER_SCREEN_NAME_TO_TEST);
@@ -1103,7 +1106,7 @@ namespace Examplinvi
                     }
                 }
             };
-            var message = Message.PublishMessage(publishMsgParams);
+            var message = await Message.PublishMessage(publishMsgParams);
 
             if (message != null)
             {
@@ -1115,56 +1118,56 @@ namespace Examplinvi
 
         #region Lists
 
-        public static void TwitterList_GetUserOwnedLists()
+        public static async Task TwitterList_GetUserOwnedLists()
         {
-            var user = User.GetAuthenticatedUser();
-            var ownedLists = TwitterList.GetUserOwnedLists(user);
+            var user = await User.GetAuthenticatedUser();
+            var ownedLists = await TwitterList.GetUserOwnedLists(user);
 
             ownedLists.ForEach(list => Console.WriteLine("- {0}", list.FullName));
         }
 
-        public static void TwitterList_GetUserSubscribedLists()
+        public static async Task TwitterList_GetUserSubscribedLists()
         {
-            var currentUser = User.GetAuthenticatedUser();
-            var lists = TwitterList.GetUserSubscribedLists(currentUser);
+            var currentUser = await User.GetAuthenticatedUser();
+            var lists = await TwitterList.GetUserSubscribedLists(currentUser);
 
             lists.ForEach(list => Console.WriteLine("- {0}", list.FullName));
         }
 
-        public static void TwitterList_GetExistingListById(long listId)
+        public static async Task TwitterList_GetExistingListById(long listId)
         {
-            var list = TwitterList.GetExistingList(listId);
+            var list = await TwitterList.GetExistingList(listId);
             Console.WriteLine("You have retrieved the list {0}", list.Name);
         }
 
-        public static void TwitterList_CreateList()
+        public static async Task TwitterList_CreateList()
         {
-            var list = TwitterList.CreateList("plop", PrivacyMode.Public, "description");
+            var list = await TwitterList.CreateList("plop", PrivacyMode.Public, "description");
             Console.WriteLine("List '{0}' has been created!", list.FullName);
         }
 
-        public static void TwitterList_UpdateList(long listId)
+        public static async Task TwitterList_UpdateList(long listId)
         {
-            var list = TwitterList.GetExistingList(listId);
+            var list = await TwitterList.GetExistingList(listId);
             var updateParameters = new TwitterListUpdateParameters();
             updateParameters.Name = "piloupe";
             updateParameters.Description = "pilouping description";
             updateParameters.PrivacyMode = PrivacyMode.Private;
-            list.Update(updateParameters);
+            await list.Update(updateParameters);
 
             Console.WriteLine("List new name is : {0}", list.Name);
         }
 
-        public static void TwitterList_DestroyList(long listId)
+        public static async Task TwitterList_DestroyList(long listId)
         {
-            var list = TwitterList.GetExistingList(listId);
-            var hasBeenDestroyed = list.Destroy();
+            var list = await TwitterList.GetExistingList(listId);
+            var hasBeenDestroyed = await list.Destroy();
             Console.WriteLine("Tweet {0} been destroyed.", hasBeenDestroyed ? "has" : "has not");
         }
 
         public static async Task TwitterList_GetTweetsFromList(long listId)
         {
-            var list = TwitterList.GetExistingList(listId);
+            var list = await TwitterList.GetExistingList(listId);
             var tweets = await list.GetTweets();
 
             tweets.ForEach(t => Console.WriteLine(t.Text));
@@ -1172,21 +1175,21 @@ namespace Examplinvi
 
         public static async Task TwitterList_GetMembersOfList(long listId)
         {
-            var list = TwitterList.GetExistingList(listId);
+            var list = await TwitterList.GetExistingList(listId);
             var members = await list.GetMembers();
 
             members.ForEach(x => Console.WriteLine(x.Name));
         }
 
-        public static void TwitterList_CheckUserMembership(long userId, long listId)
+        public static async Task TwitterList_CheckUserMembership(long userId, long listId)
         {
-            var isUserAMember = TwitterList.CheckIfUserIsAListMember(userId, listId);
+            var isUserAMember = await TwitterList.CheckIfUserIsAListMember(userId, listId);
             Console.WriteLine("{0} is{1}a member of list {2}", userId, isUserAMember ? " " : " NOT ", listId);
         }
 
-        public static void TwitterList_GetSubscribers(long listId)
+        public static async Task TwitterList_GetSubscribers(long listId)
         {
-            var subscribers = TwitterList.GetListSubscribers(listId);
+            var subscribers = await TwitterList.GetListSubscribers(listId);
 
             subscribers.ForEach(user => Console.WriteLine(user));
         }
@@ -1197,9 +1200,9 @@ namespace Examplinvi
             var hasUnsubscribed = TwitterList.UnSubscribeAuthenticatedUserToList(listId);
         }
 
-        public static void TwitterList_CheckUserSubscription(long userId, long listId)
+        public static async Task TwitterList_CheckUserSubscription(long userId, long listId)
         {
-            var isUserASubscriber = TwitterList.CheckIfUserIsAListSubscriber(userId, listId);
+            var isUserASubscriber = await TwitterList.CheckIfUserIsAListSubscriber(userId, listId);
             Console.WriteLine("{0} is{1}subscribed to the list {2}", userId, isUserASubscriber ? " " : " NOT ", listId);
         }
 
@@ -1207,15 +1210,15 @@ namespace Examplinvi
 
         #region Geo/Trends
 
-        public static void Geo_GetPlaceFromId(string placeId)
+        public static async Task Geo_GetPlaceFromId(string placeId)
         {
-            var place = Geo.GetPlaceFromId(placeId);
+            var place = await Geo.GetPlaceFromId(placeId);
             Console.WriteLine(place.Name);
         }
 
-        public static void Trends_GetTrendsFromWoeId(long woeid)
+        public static async Task Trends_GetTrendsFromWoeId(long woeid)
         {
-            var placeTrends = Trends.GetTrendsAt(woeid);
+            var placeTrends = await Trends.GetTrendsAt(woeid);
             Console.WriteLine(placeTrends.woeIdLocations.First().Name);
         }
 
@@ -1257,19 +1260,19 @@ namespace Examplinvi
             };
         }
 
-        public static void GetCurrentCredentialsRateLimits()
+        public static async Task GetCurrentCredentialsRateLimits()
         {
-            var tokenRateLimits = RateLimit.GetCurrentCredentialsRateLimits();
+            var tokenRateLimits = await RateLimit.GetCurrentCredentialsRateLimits();
 
             Console.WriteLine("Remaning Requests for GetRate : {0}", tokenRateLimits.ApplicationRateLimitStatusLimit.Remaining);
             Console.WriteLine("Total Requests Allowed for GetRate : {0}", tokenRateLimits.ApplicationRateLimitStatusLimit.Limit);
             Console.WriteLine("GetRate limits will reset at : {0} local time", tokenRateLimits.ApplicationRateLimitStatusLimit.ResetDateTime.ToString("T"));
         }
 
-        public static void GetCredentialsRateLimits()
+        public static async Task GetCredentialsRateLimits()
         {
             var credentials = Auth.CreateCredentials("CONSUMER_KEY", "CONSUMER_SECRET", "ACCESS_TOKEN", "ACCESS_TOKEN_SECRET");
-            var tokenRateLimits = RateLimit.GetCredentialsRateLimits(credentials);
+            var tokenRateLimits = await RateLimit.GetCredentialsRateLimits(credentials);
 
             Console.WriteLine("Remaning Requests for GetRate : {0}", tokenRateLimits.ApplicationRateLimitStatusLimit.Remaining);
             Console.WriteLine("Total Requests Allowed for GetRate : {0}", tokenRateLimits.ApplicationRateLimitStatusLimit.Limit);
@@ -1280,14 +1283,14 @@ namespace Examplinvi
 
         #region Account & Relationships
 
-        public static void Account_GetAndSetAccountSettings()
+        public static async Task Account_GetAndSetAccountSettings()
         {
-            var settings = Account.GetCurrentAccountSettings();
+            var settings = await Account.GetCurrentAccountSettings();
 
             var updatedSettingsRequestParameter = Account.CreateUpdateAccountSettingsRequestParameters(settings);
             updatedSettingsRequestParameter.SleepTimeEnabled = false;
 
-            var updatedSettings = Account.UpdateAccountSettings(updatedSettingsRequestParameter);
+            var updatedSettings = await Account.UpdateAccountSettings(updatedSettingsRequestParameter);
             Console.WriteLine(updatedSettings.SleepTimeEnabled);
         }
 
@@ -1304,10 +1307,10 @@ namespace Examplinvi
             Account.UnMuteUser("username");
         }
 
-        public static void Friendship_GetMultipleRelationships()
+        public static async Task Friendship_GetMultipleRelationships()
         {
-            var user1 = User.GetUserFromScreenName("tweetinviapi");
-            var user2 = User.GetUserFromScreenName(USER_SCREEN_NAME_TO_TEST);
+            var user1 = await User.GetUserFromScreenName("tweetinviapi");
+            var user2 = await User.GetUserFromScreenName(USER_SCREEN_NAME_TO_TEST);
 
             var userList = new List<IUser>
             {
@@ -1315,7 +1318,7 @@ namespace Examplinvi
                 user2
             };
 
-            var relationships = Account.GetRelationshipsWith(userList);
+            var relationships = await Account.GetRelationshipsWith(userList);
             foreach (var relationship in relationships)
             {
                 Console.WriteLine("You are{0} following {1}", relationship.Following ? "" : " not", relationship.TargetScreenName);
@@ -1324,9 +1327,9 @@ namespace Examplinvi
             }
         }
 
-        public static void Friendship_GetUserRequestingFriendship()
+        public static async Task Friendship_GetUserRequestingFriendship()
         {
-            var friendshipRequests = Account.GetUsersRequestingFriendship();
+            var friendshipRequests = await Account.GetUsersRequestingFriendship();
 
             foreach (var friendshipRequest in friendshipRequests)
             {
@@ -1334,9 +1337,9 @@ namespace Examplinvi
             }
         }
 
-        public static void Friendship_GetUsersYouRequestedToFollow()
+        public static async Task Friendship_GetUsersYouRequestedToFollow()
         {
-            var usersYouWantToFollow = Account.GetUsersYouRequestedToFollow();
+            var usersYouWantToFollow = await Account.GetUsersYouRequestedToFollow();
 
             foreach (var user in usersYouWantToFollow)
             {
@@ -1366,7 +1369,7 @@ namespace Examplinvi
 
         #region Upload
 
-        public static IMedia UploadImage(string filepath)
+        public static Task<IMedia> UploadImage(string filepath)
         {
             var imageBinary = File.ReadAllBytes(filepath);
             var media = Upload.UploadBinary(imageBinary);
@@ -1374,7 +1377,7 @@ namespace Examplinvi
             return media;
         }
 
-        public static IMedia UploadGif(string filepath)
+        public static Task<IMedia> UploadGif(string filepath)
         {
             var gifBinary = File.ReadAllBytes(filepath);
             var media = Upload.UploadBinary(gifBinary);
@@ -1382,11 +1385,11 @@ namespace Examplinvi
             return media;
         }
 
-        public static IMedia UploadVideo(string filepath)
+        public static async Task<IMedia> UploadVideo(string filepath)
         {
             var videoBinary = File.ReadAllBytes(filepath);
 
-            var media = Upload.UploadVideo(videoBinary, new UploadVideoOptionalParameters()
+            var media = await Upload.UploadVideo(videoBinary, new UploadVideoOptionalParameters()
             {
                 UploadStateChanged = uploadChangeEventArgs =>
                 {
@@ -1410,16 +1413,16 @@ namespace Examplinvi
 
         #region Json
 
-        public static void Json_GetJsonForAccountRequestExample()
+        public static async Task Json_GetJsonForAccountRequestExample()
         {
-            string jsonResponse = AccountJson.GetAuthenticatedUserSettingsJson();
+            string jsonResponse = await AccountJson.GetAuthenticatedUserSettingsJson();
             Console.WriteLine(jsonResponse);
         }
 
-        public static void Json_GetJsonForMessageRequestExample()
+        public static async Task Json_GetJsonForMessageRequestExample()
         {
-            IUser user = User.GetUserFromScreenName("tweetinviapi");
-            string jsonResponse = MessageJson.PublishMessage("salut", user.Id);
+            IUser user = await User.GetUserFromScreenName("tweetinviapi");
+            string jsonResponse = await MessageJson.PublishMessage("salut", user.Id);
 
             Console.WriteLine(jsonResponse);
         }
@@ -1459,17 +1462,17 @@ namespace Examplinvi
             var json = TweetJson.PublishTweet("text");
         }
 
-        public static void Json_GetJsonForUserRequestExample()
+        public static async Task Json_GetJsonForUserRequestExample()
         {
-            var authenticatedUser = User.GetAuthenticatedUser();
-            var jsonResponse = UserJson.GetFriendIds(authenticatedUser);
+            var authenticatedUser = await User.GetAuthenticatedUser();
+            var jsonResponse = await UserJson.GetFriendIds(authenticatedUser);
             Console.WriteLine(jsonResponse.ElementAt(0));
         }
 
-        public static void Json_GetJsonCursorRequestExample()
+        public static async Task Json_GetJsonCursorRequestExample()
         {
             // This query is a cursor query
-            var jsonResponses = FriendshipJson.GetUserIdsRequestingFriendship();
+            var jsonResponses = await FriendshipJson.GetUserIdsRequestingFriendship();
 
             foreach (var jsonResponse in jsonResponses)
             {

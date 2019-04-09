@@ -13,13 +13,8 @@ namespace Tweetinvi.Streaming
         event EventHandler<TweetReceivedEventArgs> TweetReceived;
 
         /// <summary>
-        /// Start a stream SYNCHRONOUSLY. The thread will continue after the stream has stopped.
-        /// </summary>
-        void StartStream();
-
-        /// <summary>
         /// Start a stream ASYNCHRONOUSLY. The task will complete when the stream stops.
         /// </summary>
-        Task StartStreamAsync();
+        Task StartStream();
     }
 }

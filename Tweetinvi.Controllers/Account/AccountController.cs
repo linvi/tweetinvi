@@ -121,17 +121,17 @@ namespace Tweetinvi.Controllers.Account
             return _accountQueryExecutor.RemoveUserProfileBanner();
         }
 
-        public bool UpdateProfileBackgroundImage(byte[] imageBinary)
+        public Task<bool> UpdateProfileBackgroundImage(byte[] imageBinary)
         {
             return UpdateProfileBackgroundImage(new AccountUpdateProfileBackgroundImageParameters(imageBinary));
         }
 
-        public bool UpdateProfileBackgroundImage(long mediaId)
+        public Task<bool> UpdateProfileBackgroundImage(long mediaId)
         {
             return UpdateProfileBackgroundImage(new AccountUpdateProfileBackgroundImageParameters(mediaId));
         }
 
-        public bool UpdateProfileBackgroundImage(IAccountUpdateProfileBackgroundImageParameters parameters)
+        public Task<bool> UpdateProfileBackgroundImage(IAccountUpdateProfileBackgroundImageParameters parameters)
         {
             return _accountQueryExecutor.UpdateProfileBackgroundImage(parameters);
         }
@@ -163,17 +163,17 @@ namespace Tweetinvi.Controllers.Account
             return _accountQueryExecutor.MuteUser(new UserIdentifier(screenName));
         }
 
-        public bool UnMuteUser(IUserIdentifier user)
+        public Task<bool> UnMuteUser(IUserIdentifier user)
         {
             return _accountQueryExecutor.UnMuteUser(user);
         }
 
-        public bool UnMuteUser(long userId)
+        public Task<bool> UnMuteUser(long userId)
         {
             return _accountQueryExecutor.UnMuteUser(new UserIdentifier(userId));
         }
 
-        public bool UnMuteUser(string screenName)
+        public Task<bool> UnMuteUser(string screenName)
         {
             return _accountQueryExecutor.UnMuteUser(new UserIdentifier(screenName));
         }

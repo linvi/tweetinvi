@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Tweetinvi.Core.Controllers;
 using Tweetinvi.Core.Factories;
 using Tweetinvi.Models;
@@ -66,17 +67,17 @@ namespace Tweetinvi
         /// <summary>
         /// Create a saved search to be published on Twitter
         /// </summary>
-        public static ISavedSearch CreateSavedSearch(string query)
+        public static Task<ISavedSearch> CreateSavedSearch(string query)
         {
-            return SavedSearchFactory.CreateSavedSearch(query).Result;
+            return SavedSearchFactory.CreateSavedSearch(query);
         }
 
         /// <summary>
         /// Get a saved search from its identifier
         /// </summary>
-        public static ISavedSearch GetSavedSearch(long searchId)
+        public static Task<ISavedSearch> GetSavedSearch(long searchId)
         {
-            return SavedSearchFactory.GetSavedSearch(searchId).Result;
+            return SavedSearchFactory.GetSavedSearch(searchId);
         }
 
         // Controller
@@ -84,22 +85,17 @@ namespace Tweetinvi
         /// <summary>
         /// Get the saved searches of the authenticated user
         /// </summary>
-        public static List<ISavedSearch> GetSavedSearches()
+        public static async Task<List<ISavedSearch>> GetSavedSearches()
         {
-            var savedSearches = SavedSearchController.GetSavedSearches();
+            var savedSearches = await SavedSearchController.GetSavedSearches();
 
-            if (savedSearches == null)
-            {
-                return null;
-            }
-
-            return savedSearches.ToList();
+            return savedSearches?.ToList();
         }
 
         /// <summary>
         /// Delete a saved search own by the authenticated user
         /// </summary>
-        public static bool DestroySavedSearch(ISavedSearch savedSearch)
+        public static Task<bool> DestroySavedSearch(ISavedSearch savedSearch)
         {
             return SavedSearchController.DestroySavedSearch(savedSearch);
         }
@@ -107,7 +103,7 @@ namespace Tweetinvi
         /// <summary>
         /// Delete a saved search own by the authenticated user
         /// </summary>
-        public static bool DestroySavedSearch(long searchId)
+        public static Task<bool> DestroySavedSearch(long searchId)
         {
             return SavedSearchController.DestroySavedSearch(searchId);
         }

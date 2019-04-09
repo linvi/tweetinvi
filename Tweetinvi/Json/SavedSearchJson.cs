@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Tweetinvi.Controllers.SavedSearch;
 using Tweetinvi.Factories.SavedSearch;
 using Tweetinvi.Models;
@@ -71,7 +72,7 @@ namespace Tweetinvi.Json
         /// <summary>
         /// Get the search queries saved in the Twitter account
         /// </summary>
-        public static string GetSavedSearches()
+        public static Task<string> GetSavedSearches()
         {
             return SavedSearchJsonController.GetSavedSearches();
         }
@@ -79,7 +80,7 @@ namespace Tweetinvi.Json
         /// <summary>
         /// Destroy a search saved in the Twitter account
         /// </summary>
-        public static string DestroySavedSearch(ISavedSearch savedSearch)
+        public static Task<string> DestroySavedSearch(ISavedSearch savedSearch)
         {
             return SavedSearchJsonController.DestroySavedSearch(savedSearch);
         }
@@ -87,7 +88,7 @@ namespace Tweetinvi.Json
         /// <summary>
         /// Destroy a search saved in the Twitter account
         /// </summary>
-        public static string DestroySavedSearch(long searchId)
+        public static Task<string> DestroySavedSearch(long searchId)
         {
             return SavedSearchJsonController.DestroySavedSearch(searchId);
         }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Tweetinvi.Controllers.Account;
 
 namespace Tweetinvi.Json
@@ -30,7 +31,7 @@ namespace Tweetinvi.Json
             _accountJsonController = TweetinviContainer.Resolve<IAccountJsonController>();
         }
 
-        public static string GetAuthenticatedUserSettingsJson()
+        public static Task<string> GetAuthenticatedUserSettingsJson()
         {
             return AccountJsonController.GetAuthenticatedUserSettingsJson();
         }

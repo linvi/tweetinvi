@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Tweetinvi.Controllers.Trends;
 using Tweetinvi.Models;
 
@@ -31,12 +32,12 @@ namespace Tweetinvi.Json
             _trendsJsonController = TweetinviContainer.Resolve<ITrendsJsonController>();
         }
 
-        public static string GetTrendsAt(long woeid)
+        public static Task<string> GetTrendsAt(long woeid)
         {
             return TrendsJsonController.GetPlaceTrendsAt(woeid);
         }
 
-        public static string GetTrendsAt(IWoeIdLocation woeIdLocation)
+        public static Task<string> GetTrendsAt(IWoeIdLocation woeIdLocation)
         {
             return TrendsJsonController.GetPlaceTrendsAt(woeIdLocation);
         }

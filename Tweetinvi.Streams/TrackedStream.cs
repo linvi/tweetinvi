@@ -54,12 +54,6 @@ namespace Tweetinvi.Streams
             _twitterQueryFactory = twitterQueryFactory;
         }
 
-        public void StartStream(string url)
-        {
-            Action startStreamAction = () => _synchronousInvoker.ExecuteSynchronously(() => StartStreamAsync(url));
-            _singleAggregateExceptionThrower.ExecuteActionAndThrowJustOneExceptionIfExist(startStreamAction);
-        }
-
         public async Task StartStreamAsync(string url)
         {
             Func<ITwitterQuery> generateTwitterQuery = delegate

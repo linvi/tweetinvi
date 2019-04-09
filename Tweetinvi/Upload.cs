@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Tweetinvi.Controllers.Upload;
 using Tweetinvi.Core.Public.Parameters;
 using Tweetinvi.Logic.QueryParameters;
@@ -69,7 +70,7 @@ namespace Tweetinvi
         /// <summary>
         /// Upload a media on upload.twitter.com
         /// </summary>
-        public static IMedia UploadBinary(IUploadParameters parameters)
+        public static Task<IMedia> UploadBinary(IUploadParameters parameters)
         {
             return UploadQueryExecutor.UploadBinary(parameters);
         }
@@ -77,7 +78,7 @@ namespace Tweetinvi
         /// <summary>
         /// Upload a media on upload.twitter.com
         /// </summary>
-        public static IMedia UploadBinary(byte[] binary, IUploadOptionalParameters optionalParameters = null)
+        public static Task<IMedia> UploadBinary(byte[] binary, IUploadOptionalParameters optionalParameters = null)
         {
             return UploadQueryExecutor.UploadBinary(binary, optionalParameters);
         }
@@ -86,7 +87,7 @@ namespace Tweetinvi
         /// Upload a video to twitter. The mediaCategory needs to be `tweet_video` 
         /// if you want to use GetMediaStatus.
         /// </summary>
-        public static IMedia UploadVideo(byte[] binary, IUploadVideoOptionalParameters parameters = null)
+        public static Task<IMedia> UploadVideo(byte[] binary, IUploadVideoOptionalParameters parameters = null)
         {
             if (parameters == null)
             {
@@ -100,7 +101,7 @@ namespace Tweetinvi
         /// Upload a video to twitter. The mediaCategory needs to be `tweet_video` 
         /// if you want to use GetMediaStatus.
         /// </summary>
-        public static IMedia UploadVideo(IUploadVideoParameters parameters)
+        public static Task<IMedia> UploadVideo(IUploadVideoParameters parameters)
         {
             return UploadQueryExecutor.UploadBinary(parameters);
         }
@@ -118,7 +119,7 @@ namespace Tweetinvi
         /// has been set. And the endpoint is available only after the 
         /// UploadedMediaInfo.ProcessingInfo.CheckAfterInSeconds Timespan has completed.
         /// </summary>
-        public static IUploadedMediaInfo GetMediaStatus(IMedia media, bool waitForStatusToBeAvailable = true)
+        public static Task<IUploadedMediaInfo> GetMediaStatus(IMedia media, bool waitForStatusToBeAvailable = true)
         {
             return UploadMediaStatusQueryExecutor.GetMediaStatus(media, waitForStatusToBeAvailable);
         }

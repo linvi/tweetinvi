@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Tweetinvi.Core.Controllers;
 using Tweetinvi.Core.Factories;
 using Tweetinvi.Models;
@@ -87,41 +88,41 @@ namespace Tweetinvi
         /// <summary>
         /// Get the authenticated user based on the application credentials or given parameter credentials.
         /// </summary>
-        public static IAuthenticatedUser GetAuthenticatedUser(ITwitterCredentials credentials = null, IGetAuthenticatedUserParameters parameters = null)
+        public static Task<IAuthenticatedUser> GetAuthenticatedUser(ITwitterCredentials credentials = null, IGetAuthenticatedUserParameters parameters = null)
         {
-            return UserFactory.GetAuthenticatedUser(credentials, parameters).Result;
+            return UserFactory.GetAuthenticatedUser(credentials, parameters);
         }
 
         /// <summary>
         /// Get a user from its identifier.
         /// </summary>
-        public static IUser GetUserFromId(long userId)
+        public static Task<IUser> GetUserFromId(long userId)
         {
-            return UserFactory.GetUserFromId(userId).Result;
+            return UserFactory.GetUserFromId(userId);
         }
 
         /// <summary>
         /// Get a collection of users from a collection of user ids.
         /// </summary>
-        public static IEnumerable<IUser> GetUsersFromIds(IEnumerable<long> userIds)
+        public static Task<IEnumerable<IUser>> GetUsersFromIds(IEnumerable<long> userIds)
         {
-            return UserFactory.GetUsersFromIds(userIds).Result;
+            return UserFactory.GetUsersFromIds(userIds);
         }
 
         /// <summary>
         /// Get a user from its username.
         /// </summary>
-        public static IUser GetUserFromScreenName(string userName)
+        public static Task<IUser> GetUserFromScreenName(string userName)
         {
-            return UserFactory.GetUserFromScreenName(userName).Result;
+            return UserFactory.GetUserFromScreenName(userName);
         }
 
         /// <summary>
         /// Get a collection of users from a collection of screen names.
         /// </summary>
-        public static IEnumerable<IUser> GetUsersFromScreenNames(IEnumerable<string> screenNames)
+        public static Task<IEnumerable<IUser>> GetUsersFromScreenNames(IEnumerable<string> screenNames)
         {
-            return UserFactory.GetUsersFromScreenNames(screenNames).Result;
+            return UserFactory.GetUsersFromScreenNames(screenNames);
         }
 
         /// <summary>
@@ -149,7 +150,7 @@ namespace Tweetinvi
         /// <summary>
         /// Get friend ids of a specific user.
         /// </summary>
-        public static IEnumerable<long> GetFriendIds(IUserIdentifier user, int maxFriendsToRetrieve = 5000)
+        public static Task<IEnumerable<long>> GetFriendIds(IUserIdentifier user, int maxFriendsToRetrieve = 5000)
         {
             return UserController.GetFriendIds(user, maxFriendsToRetrieve);
         }
@@ -157,7 +158,7 @@ namespace Tweetinvi
         /// <summary>
         /// Get friend ids of a specific user.
         /// </summary>
-        public static IEnumerable<long> GetFriendIds(long userId, int maxFriendsToRetrieve = 5000)
+        public static Task<IEnumerable<long>> GetFriendIds(long userId, int maxFriendsToRetrieve = 5000)
         {
             return UserController.GetFriendIds(userId, maxFriendsToRetrieve);
         }
@@ -165,7 +166,7 @@ namespace Tweetinvi
         /// <summary>
         /// Get friend ids of a specific user.
         /// </summary>
-        public static IEnumerable<long> GetFriendIds(string userScreenName, int maxFriendsToRetrieve = 5000)
+        public static Task<IEnumerable<long>> GetFriendIds(string userScreenName, int maxFriendsToRetrieve = 5000)
         {
             return UserController.GetFriendIds(userScreenName, maxFriendsToRetrieve);
         }
@@ -175,7 +176,7 @@ namespace Tweetinvi
         /// <summary>
         /// Get friend of a specific user.
         /// </summary>
-        public static IEnumerable<IUser> GetFriends(IUserIdentifier user, int maxFriendsToRetrieve = 250)
+        public static Task<IEnumerable<IUser>> GetFriends(IUserIdentifier user, int maxFriendsToRetrieve = 250)
         {
             return UserController.GetFriends(user, maxFriendsToRetrieve);
         }
@@ -183,7 +184,7 @@ namespace Tweetinvi
         /// <summary>
         /// Get friend of a specific user.
         /// </summary>
-        public static IEnumerable<IUser> GetFriends(long userId, int maxFriendsToRetrieve = 250)
+        public static Task<IEnumerable<IUser>> GetFriends(long userId, int maxFriendsToRetrieve = 250)
         {
             return UserController.GetFriends(userId, maxFriendsToRetrieve);
         }
@@ -191,7 +192,7 @@ namespace Tweetinvi
         /// <summary>
         /// Get friend of a specific user.
         /// </summary>
-        public static IEnumerable<IUser> GetFriends(string userScreenName, int maxFriendsToRetrieve = 250)
+        public static Task<IEnumerable<IUser>> GetFriends(string userScreenName, int maxFriendsToRetrieve = 250)
         {
             return UserController.GetFriends(userScreenName, maxFriendsToRetrieve);
         }
@@ -201,7 +202,7 @@ namespace Tweetinvi
         /// <summary>
         /// Get follower ids of a specific user.
         /// </summary>
-        public static IEnumerable<long> GetFollowerIds(IUserIdentifier user, int maxFollowersToRetrieve = 5000)
+        public static Task<IEnumerable<long>> GetFollowerIds(IUserIdentifier user, int maxFollowersToRetrieve = 5000)
         {
             return UserController.GetFollowerIds(user, maxFollowersToRetrieve);
         }
@@ -209,7 +210,7 @@ namespace Tweetinvi
         /// <summary>
         /// Get follower ids of a specific user.
         /// </summary>
-        public static IEnumerable<long> GetFollowerIds(long userId, int maxFollowersToRetrieve = 5000)
+        public static Task<IEnumerable<long>> GetFollowerIds(long userId, int maxFollowersToRetrieve = 5000)
         {
             return UserController.GetFollowerIds(userId, maxFollowersToRetrieve);
         }
@@ -217,7 +218,7 @@ namespace Tweetinvi
         /// <summary>
         /// Get follower ids of a specific user.
         /// </summary>
-        public static IEnumerable<long> GetFollowerIds(string userScreenName, int maxFollowersToRetrieve = 5000)
+        public static Task<IEnumerable<long>> GetFollowerIds(string userScreenName, int maxFollowersToRetrieve = 5000)
         {
             return UserController.GetFollowerIds(userScreenName, maxFollowersToRetrieve);
         }
@@ -227,7 +228,7 @@ namespace Tweetinvi
         /// <summary>
         /// Get follower of a specific user.
         /// </summary>
-        public static IEnumerable<IUser> GetFollowers(IUserIdentifier user, int maxFollowersToRetrieve = 250)
+        public static Task<IEnumerable<IUser>> GetFollowers(IUserIdentifier user, int maxFollowersToRetrieve = 250)
         {
             return UserController.GetFollowers(user, maxFollowersToRetrieve);
         }
@@ -235,7 +236,7 @@ namespace Tweetinvi
         /// <summary>
         /// Get follower of a specific user.
         /// </summary>
-        public static IEnumerable<IUser> GetFollowers(long userId, int maxFollowersToRetrieve = 250)
+        public static Task<IEnumerable<IUser>> GetFollowers(long userId, int maxFollowersToRetrieve = 250)
         {
             return UserController.GetFollowers(userId, maxFollowersToRetrieve);
         }
@@ -243,7 +244,7 @@ namespace Tweetinvi
         /// <summary>
         /// Get follower of a specific user.
         /// </summary>
-        public static IEnumerable<IUser> GetFollowers(string userScreenName, int maxFollowersToRetrieve = 250)
+        public static Task<IEnumerable<IUser>> GetFollowers(string userScreenName, int maxFollowersToRetrieve = 250)
         {
             return UserController.GetFollowers(userScreenName, maxFollowersToRetrieve);
         }
@@ -253,7 +254,7 @@ namespace Tweetinvi
         /// <summary>
         /// Get tweets favorited by a specific user.
         /// </summary>
-        public static IEnumerable<ITweet> GetFavoriteTweets(IUserIdentifier user, IGetUserFavoritesParameters parameters = null)
+        public static Task<IEnumerable<ITweet>> GetFavoriteTweets(IUserIdentifier user, IGetUserFavoritesParameters parameters = null)
         {
             return UserController.GetFavoriteTweets(user, parameters);
         }
@@ -261,7 +262,7 @@ namespace Tweetinvi
         /// <summary>
         /// Get tweets favorited by a specific user.
         /// </summary>
-        public static IEnumerable<ITweet> GetFavoriteTweets(long userId, IGetUserFavoritesParameters parameters = null)
+        public static Task<IEnumerable<ITweet>> GetFavoriteTweets(long userId, IGetUserFavoritesParameters parameters = null)
         {
             return UserController.GetFavoriteTweets(new UserIdentifier(userId), parameters);
         }
@@ -269,7 +270,7 @@ namespace Tweetinvi
         /// <summary>
         /// Get tweets favorited by a specific user.
         /// </summary>
-        public static IEnumerable<ITweet> GetFavoriteTweets(string userScreenName, IGetUserFavoritesParameters parameters = null)
+        public static Task<IEnumerable<ITweet>> GetFavoriteTweets(string userScreenName, IGetUserFavoritesParameters parameters = null)
         {
             return UserController.GetFavoriteTweets(new UserIdentifier(userScreenName), parameters);
         }
@@ -279,7 +280,7 @@ namespace Tweetinvi
         /// <summary>
         /// Block a user on the authenticated account.
         /// </summary>
-        public static bool BlockUser(IUserIdentifier user)
+        public static Task<bool> BlockUser(IUserIdentifier user)
         {
             return UserController.BlockUser(user);
         }
@@ -287,7 +288,7 @@ namespace Tweetinvi
         /// <summary>
         /// Block a user on the authenticated account.
         /// </summary>
-        public static bool BlockUser(long userId)
+        public static Task<bool> BlockUser(long userId)
         {
             return UserController.BlockUser(userId);
         }
@@ -295,7 +296,7 @@ namespace Tweetinvi
         /// <summary>
         /// Block a user on the authenticated account.
         /// </summary>
-        public static bool BlockUser(string userScreenName)
+        public static Task<bool> BlockUser(string userScreenName)
         {
             return UserController.BlockUser(userScreenName);
         }
@@ -305,7 +306,7 @@ namespace Tweetinvi
         /// <summary>
         /// Unblock a user on the authenticated account.
         /// </summary>
-        public static bool UnBlockUser(IUserIdentifier user)
+        public static Task<bool> UnBlockUser(IUserIdentifier user)
         {
             return UserController.UnBlockUser(user);
         }
@@ -313,7 +314,7 @@ namespace Tweetinvi
         /// <summary>
         /// Unblock a user on the authenticated account.
         /// </summary>
-        public static bool UnBlockUser(long userId)
+        public static Task<bool> UnBlockUser(long userId)
         {
             return UserController.UnBlockUser(userId);
         }
@@ -321,7 +322,7 @@ namespace Tweetinvi
         /// <summary>
         /// Unblock a user on the authenticated account.
         /// </summary>
-        public static bool UnBlockUser(string userScreenName)
+        public static Task<bool> UnBlockUser(string userScreenName)
         {
             return UserController.UnBlockUser(userScreenName);
         }
@@ -349,12 +350,12 @@ namespace Tweetinvi
         /// <summary>
         /// Report a user for spam.
         /// </summary>
-        public static bool ReportUserForSpam(IUserIdentifier user)
+        public static Task<bool> ReportUserForSpam(IUserIdentifier user)
         {
             return UserController.ReportUserForSpam(user);
         }
 
-        public static bool ReportUserForSpam(long userId)
+        public static Task<bool> ReportUserForSpam(long userId)
         {
             return UserController.ReportUserForSpam(userId);
         }
@@ -362,7 +363,7 @@ namespace Tweetinvi
         /// <summary>
         /// Report a user for spam.
         /// </summary>
-        public static bool ReportUserForSpam(string userScreenName)
+        public static Task<bool> ReportUserForSpam(string userScreenName)
         {
             return UserController.ReportUserForSpam(userScreenName);
         }
@@ -376,7 +377,7 @@ namespace Tweetinvi
         /// <summary>
         /// Follow a user.
         /// </summary>
-        public static bool FollowUser(IUserIdentifier user)
+        public static Task<bool> FollowUser(IUserIdentifier user)
         {
             return FriendshipController.CreateFriendshipWith(user);
         }
@@ -384,7 +385,7 @@ namespace Tweetinvi
         /// <summary>
         /// Follow a user.
         /// </summary>
-        public static bool FollowUser(long userScreenName)
+        public static Task<bool> FollowUser(long userScreenName)
         {
             return FriendshipController.CreateFriendshipWith(userScreenName);
         }
@@ -392,7 +393,7 @@ namespace Tweetinvi
         /// <summary>
         /// Follow a user.
         /// </summary>
-        public static bool FollowUser(string userScreenName)
+        public static Task<bool> FollowUser(string userScreenName)
         {
             return FriendshipController.CreateFriendshipWith(userScreenName);
         }
@@ -402,7 +403,7 @@ namespace Tweetinvi
         /// <summary>
         /// Unfollow a user.
         /// </summary>
-        public static bool UnFollowUser(IUserIdentifier user)
+        public static Task<bool> UnFollowUser(IUserIdentifier user)
         {
             return FriendshipController.DestroyFriendshipWith(user);
         }
@@ -410,7 +411,7 @@ namespace Tweetinvi
         /// <summary>
         /// Unfollow a user.
         /// </summary>
-        public static bool UnFollowUser(long userScreenName)
+        public static Task<bool> UnFollowUser(long userScreenName)
         {
             return FriendshipController.DestroyFriendshipWith(userScreenName);
         }
@@ -418,7 +419,7 @@ namespace Tweetinvi
         /// <summary>
         /// Unfollow a user.
         /// </summary>
-        public static bool UnFollowUser(string userScreenName)
+        public static Task<bool> UnFollowUser(string userScreenName)
         {
             return FriendshipController.DestroyFriendshipWith(userScreenName);
         }

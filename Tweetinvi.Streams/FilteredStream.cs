@@ -22,7 +22,6 @@ namespace Tweetinvi.Streams
     {
         private readonly IFilterStreamTweetMatcherFactory _filterStreamTweetMatcherFactory;
         private readonly ITwitterQueryFactory _twitterQueryFactory;
-        private readonly ISingleAggregateExceptionThrower _singleAggregateExceptionThrower;
 
         // Const
         private const int MAXIMUM_TRACKED_LOCATIONS_AUTHORIZED = 25;
@@ -72,7 +71,6 @@ namespace Tweetinvi.Streams
         {
             _filterStreamTweetMatcherFactory = filterStreamTweetMatcherFactory;
             _twitterQueryFactory = twitterQueryFactory;
-            _singleAggregateExceptionThrower = singleAggregateExceptionThrower;
 
             _followingUserIds = new Dictionary<long?, Action<ITweet>>();
             _locations = new Dictionary<ILocation, Action<ITweet>>();
@@ -80,13 +78,7 @@ namespace Tweetinvi.Streams
             MatchOn = MatchOn.Everything;
         }
 
-        public void StartStreamMatchingAnyCondition()
-        {
-            Action startStreamAction = () => _synchronousInvoker.ExecuteSynchronously(() => StartStreamMatchingAnyConditionAsync());
-            _singleAggregateExceptionThrower.ExecuteActionAndThrowJustOneExceptionIfExist(startStreamAction);
-        }
-
-        public async Task StartStreamMatchingAnyConditionAsync()
+        public async Task StartStreamMatchingAnyCondition()
         {
             _filterStreamTweetMatcher = _filterStreamTweetMatcherFactory.Create(_streamTrackManager, _locations, _followingUserIds);
 
@@ -138,13 +130,7 @@ namespace Tweetinvi.Streams
             await _streamResultGenerator.StartStreamAsync(tweetReceived, generateWebRequest);
         }
 
-        public void StartStreamMatchingAllConditions()
-        {
-            Action startStreamAction = () => _synchronousInvoker.ExecuteSynchronously(() => StartStreamMatchingAllConditionsAsync());
-            _singleAggregateExceptionThrower.ExecuteActionAndThrowJustOneExceptionIfExist(startStreamAction);
-        }
-
-        public async Task StartStreamMatchingAllConditionsAsync()
+        public async Task StartStreamMatchingAllConditions()
         {
             _filterStreamTweetMatcher = _filterStreamTweetMatcherFactory.Create(_streamTrackManager, _locations, _followingUserIds);
 

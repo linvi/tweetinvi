@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Tweetinvi.Core.Controllers;
 using Tweetinvi.Core.Core.Parameters;
 using Tweetinvi.Core.Factories;
@@ -70,41 +71,41 @@ namespace Tweetinvi
         /// <summary>
         /// Get an existing List
         /// </summary>
-        public static ITwitterList GetExistingList(ITwitterListIdentifier twitterListIdentifier)
+        public static Task<ITwitterList> GetExistingList(ITwitterListIdentifier twitterListIdentifier)
         {
-            return TwitterListFactory.GetExistingList(twitterListIdentifier).Result;
+            return TwitterListFactory.GetExistingList(twitterListIdentifier);
         }
 
         /// <summary>
         /// Get an existing List
         /// </summary>
-        public static ITwitterList GetExistingList(long listId)
+        public static Task<ITwitterList> GetExistingList(long listId)
         {
-            return TwitterListFactory.GetExistingList(listId).Result;
+            return TwitterListFactory.GetExistingList(listId);
         }
 
         /// <summary>
         /// Get an existing List
         /// </summary>
-        public static ITwitterList GetExistingList(string slug, IUserIdentifier user)
+        public static Task<ITwitterList> GetExistingList(string slug, IUserIdentifier user)
         {
-            return TwitterListFactory.GetExistingList(slug, user).Result;
+            return TwitterListFactory.GetExistingList(slug, user);
         }
 
         /// <summary>
         /// Get an existing List
         /// </summary>
-        public static ITwitterList GetExistingList(string slug, long userId)
+        public static Task<ITwitterList> GetExistingList(string slug, long userId)
         {
-            return TwitterListFactory.GetExistingList(slug, userId).Result;
+            return TwitterListFactory.GetExistingList(slug, userId);
         }
 
         /// <summary>
         /// Get an existing List
         /// </summary>
-        public static ITwitterList GetExistingList(string slug, string userScreenName)
+        public static Task<ITwitterList> GetExistingList(string slug, string userScreenName)
         {
-            return TwitterListFactory.GetExistingList(slug, userScreenName).Result;
+            return TwitterListFactory.GetExistingList(slug, userScreenName);
         }
 
         // Owner Lists
@@ -112,7 +113,7 @@ namespace Tweetinvi
         /// <summary>
         /// Get the authenticated user's lists
         /// </summary>
-        public static IEnumerable<ITwitterList> GetUserOwnedLists(long userId, int maximumNumberOfListsToRetrieve = TweetinviConsts.LIST_OWNED_COUNT)
+        public static Task<IEnumerable<ITwitterList>> GetUserOwnedLists(long userId, int maximumNumberOfListsToRetrieve = TweetinviConsts.LIST_OWNED_COUNT)
         {
             return TwitterListController.GetUserOwnedLists(userId, maximumNumberOfListsToRetrieve);
         }
@@ -120,7 +121,7 @@ namespace Tweetinvi
         /// <summary>
         /// Get the authenticated user's lists
         /// </summary>
-        public static IEnumerable<ITwitterList> GetUserOwnedLists(string userScreenName, int maximumNumberOfListsToRetrieve = TweetinviConsts.LIST_OWNED_COUNT)
+        public static Task<IEnumerable<ITwitterList>> GetUserOwnedLists(string userScreenName, int maximumNumberOfListsToRetrieve = TweetinviConsts.LIST_OWNED_COUNT)
         {
             return TwitterListController.GetUserOwnedLists(userScreenName, maximumNumberOfListsToRetrieve);
         }
@@ -128,7 +129,7 @@ namespace Tweetinvi
         /// <summary>
         /// Get the authenticated user's lists
         /// </summary>
-        public static IEnumerable<ITwitterList> GetUserOwnedLists(IUserIdentifier user, int maximumNumberOfListsToRetrieve = TweetinviConsts.LIST_OWNED_COUNT)
+        public static Task<IEnumerable<ITwitterList>> GetUserOwnedLists(IUserIdentifier user, int maximumNumberOfListsToRetrieve = TweetinviConsts.LIST_OWNED_COUNT)
         {
             return TwitterListController.GetUserOwnedLists(user, maximumNumberOfListsToRetrieve);
         }
@@ -138,9 +139,9 @@ namespace Tweetinvi
         /// <summary>
         /// Create a list
         /// </summary>
-        public static ITwitterList CreateList(string name, PrivacyMode privacyMode, string description = null)
+        public static Task<ITwitterList> CreateList(string name, PrivacyMode privacyMode, string description = null)
         {
-            return TwitterListFactory.CreateList(name, privacyMode, description).Result;
+            return TwitterListFactory.CreateList(name, privacyMode, description);
         }
 
         // Update List
@@ -148,7 +149,7 @@ namespace Tweetinvi
         /// <summary>
         /// Update a list
         /// </summary>
-        public static ITwitterList UpdateList(ITwitterListIdentifier twitterListIdentifier, ITwitterListUpdateParameters parameters)
+        public static Task<ITwitterList> UpdateList(ITwitterListIdentifier twitterListIdentifier, ITwitterListUpdateParameters parameters)
         {
             return TwitterListController.UpdateList(twitterListIdentifier, parameters);
         }
@@ -156,7 +157,7 @@ namespace Tweetinvi
         /// <summary>
         /// Update a list
         /// </summary>
-        public static ITwitterList UpdateList(long listId, ITwitterListUpdateParameters parameters)
+        public static Task<ITwitterList> UpdateList(long listId, ITwitterListUpdateParameters parameters)
         {
             return TwitterListController.UpdateList(listId, parameters);
         }
@@ -164,7 +165,7 @@ namespace Tweetinvi
         /// <summary>
         /// Update a list
         /// </summary>
-        public static ITwitterList UpdateList(string slug, IUserIdentifier ownerIdentifier, ITwitterListUpdateParameters parameters)
+        public static Task<ITwitterList> UpdateList(string slug, IUserIdentifier ownerIdentifier, ITwitterListUpdateParameters parameters)
         {
             return TwitterListController.UpdateList(slug, ownerIdentifier, parameters);
         }
@@ -172,7 +173,7 @@ namespace Tweetinvi
         /// <summary>
         /// Update a list
         /// </summary>
-        public static ITwitterList UpdateList(string slug, long ownerId, ITwitterListUpdateParameters parameters)
+        public static Task<ITwitterList> UpdateList(string slug, long ownerId, ITwitterListUpdateParameters parameters)
         {
             return TwitterListController.UpdateList(slug, ownerId, parameters);
         }
@@ -180,7 +181,7 @@ namespace Tweetinvi
         /// <summary>
         /// Update a list
         /// </summary>
-        public static ITwitterList UpdateList(string slug, string ownerScreenName, ITwitterListUpdateParameters parameters)
+        public static Task<ITwitterList> UpdateList(string slug, string ownerScreenName, ITwitterListUpdateParameters parameters)
         {
             return TwitterListController.UpdateList(slug, ownerScreenName, parameters);
         }
@@ -190,7 +191,7 @@ namespace Tweetinvi
         /// <summary>
         /// Destroy a list
         /// </summary>
-        public static bool DestroyList(ITwitterListIdentifier list)
+        public static Task<bool> DestroyList(ITwitterListIdentifier list)
         {
             return TwitterListController.DestroyList(list);
         }
@@ -198,7 +199,7 @@ namespace Tweetinvi
         /// <summary>
         /// Destroy a list
         /// </summary>
-        public static bool DestroyList(long listId)
+        public static Task<bool> DestroyList(long listId)
         {
             return TwitterListController.DestroyList(listId);
         }
@@ -206,7 +207,7 @@ namespace Tweetinvi
         /// <summary>
         /// Destroy a list
         /// </summary>
-        public static bool DestroyList(string slug, IUserIdentifier owner)
+        public static Task<bool> DestroyList(string slug, IUserIdentifier owner)
         {
             return TwitterListController.DestroyList(slug, owner);
         }
@@ -214,7 +215,7 @@ namespace Tweetinvi
         /// <summary>
         /// Destroy a list
         /// </summary>
-        public static bool DestroyList(string slug, long ownerId)
+        public static Task<bool> DestroyList(string slug, long ownerId)
         {
             return TwitterListController.DestroyList(slug, ownerId);
         }
@@ -222,7 +223,7 @@ namespace Tweetinvi
         /// <summary>
         /// Destroy a list
         /// </summary>
-        public static bool DestroyList(string slug, string ownerScreenName)
+        public static Task<bool> DestroyList(string slug, string ownerScreenName)
         {
             return TwitterListController.DestroyList(slug, ownerScreenName);
         }
@@ -232,7 +233,7 @@ namespace Tweetinvi
         /// <summary>
         /// Get tweets displayed in a specific list
         /// </summary>
-        public static IEnumerable<ITweet> GetTweetsFromList(long listId)
+        public static Task<IEnumerable<ITweet>> GetTweetsFromList(long listId)
         {
             return TwitterListController.GetTweetsFromList(listId);
         }
@@ -240,7 +241,7 @@ namespace Tweetinvi
         /// <summary>
         /// Get tweets displayed in a specific list
         /// </summary>
-        public static IEnumerable<ITweet> GetTweetsFromList(string slug, IUserIdentifier owner)
+        public static Task<IEnumerable<ITweet>> GetTweetsFromList(string slug, IUserIdentifier owner)
         {
             return TwitterListController.GetTweetsFromList(slug, owner);
         }
@@ -248,7 +249,7 @@ namespace Tweetinvi
         /// <summary>
         /// Get tweets displayed in a specific list
         /// </summary>
-        public static IEnumerable<ITweet> GetTweetsFromList(string slug, string ownerScreenName)
+        public static Task<IEnumerable<ITweet>> GetTweetsFromList(string slug, string ownerScreenName)
         {
             return TwitterListController.GetTweetsFromList(slug, ownerScreenName);
         }
@@ -256,7 +257,7 @@ namespace Tweetinvi
         /// <summary>
         /// Get tweets displayed in a specific list
         /// </summary>
-        public static IEnumerable<ITweet> GetTweetsFromList(string slug, long ownerId)
+        public static Task<IEnumerable<ITweet>> GetTweetsFromList(string slug, long ownerId)
         {
             return TwitterListController.GetTweetsFromList(slug, ownerId);
         }
@@ -264,7 +265,7 @@ namespace Tweetinvi
         /// <summary>
         /// Get tweets displayed in a specific list
         /// </summary>
-        public static IEnumerable<ITweet> GetTweetsFromList(ITwitterListIdentifier list, IGetTweetsFromListParameters parameters = null)
+        public static Task<IEnumerable<ITweet>> GetTweetsFromList(ITwitterListIdentifier list, IGetTweetsFromListParameters parameters = null)
         {
             return TwitterListController.GetTweetsFromList(list, parameters);
         }
@@ -274,7 +275,7 @@ namespace Tweetinvi
         /// <summary>
         /// Get the members of a list
         /// </summary>
-        public static IEnumerable<IUser> GetMembersOfList(ITwitterListIdentifier list, int maxNumberOfUsersToRetrieve = 100)
+        public static Task<IEnumerable<IUser>> GetMembersOfList(ITwitterListIdentifier list, int maxNumberOfUsersToRetrieve = 100)
         {
             return TwitterListController.GetListMembers(list, maxNumberOfUsersToRetrieve);
         }
@@ -282,7 +283,7 @@ namespace Tweetinvi
         /// <summary>
         /// Get the members of a list
         /// </summary>
-        public static IEnumerable<IUser> GetMembersOfList(long listId, int maxNumberOfUsersToRetrieve = 100)
+        public static Task<IEnumerable<IUser>> GetMembersOfList(long listId, int maxNumberOfUsersToRetrieve = 100)
         {
             return TwitterListController.GetListMembers(listId, maxNumberOfUsersToRetrieve);
         }
@@ -290,7 +291,7 @@ namespace Tweetinvi
         /// <summary>
         /// Get the members of a list
         /// </summary>
-        public static IEnumerable<IUser> GetMembersOfList(string slug, IUserIdentifier owner, int maxNumberOfUsersToRetrieve = 100)
+        public static Task<IEnumerable<IUser>> GetMembersOfList(string slug, IUserIdentifier owner, int maxNumberOfUsersToRetrieve = 100)
         {
             return TwitterListController.GetListMembers(slug, owner, maxNumberOfUsersToRetrieve);
         }
@@ -298,7 +299,7 @@ namespace Tweetinvi
         /// <summary>
         /// Get the members of a list
         /// </summary>
-        public static IEnumerable<IUser> GetMembersOfList(string slug, string ownerScreenName, int maxNumberOfUsersToRetrieve = 100)
+        public static Task<IEnumerable<IUser>> GetMembersOfList(string slug, string ownerScreenName, int maxNumberOfUsersToRetrieve = 100)
         {
             return TwitterListController.GetListMembers(slug, ownerScreenName, maxNumberOfUsersToRetrieve);
         }
@@ -306,7 +307,7 @@ namespace Tweetinvi
         /// <summary>
         /// Get the members of a list
         /// </summary>
-        public static IEnumerable<IUser> GetMembersOfList(string slug, long ownerId, int maxNumberOfUsersToRetrieve = 100)
+        public static Task<IEnumerable<IUser>> GetMembersOfList(string slug, long ownerId, int maxNumberOfUsersToRetrieve = 100)
         {
             return TwitterListController.GetListMembers(slug, ownerId, maxNumberOfUsersToRetrieve);
         }
@@ -316,7 +317,7 @@ namespace Tweetinvi
         /// <summary>
         /// Add a user to become a member of the list
         /// </summary>
-        public static bool AddMemberToList(long listId, long newUserId)
+        public static Task<bool> AddMemberToList(long listId, long newUserId)
         {
             return TwitterListController.AddMemberToList(listId, newUserId);
         }
@@ -324,7 +325,7 @@ namespace Tweetinvi
         /// <summary>
         /// Add a user to become a member of the list
         /// </summary>
-        public static bool AddMemberToList(long listId, string newUserName)
+        public static Task<bool> AddMemberToList(long listId, string newUserName)
         {
             return TwitterListController.AddMemberToList(listId, newUserName);
         }
@@ -332,7 +333,7 @@ namespace Tweetinvi
         /// <summary>
         /// Add a user to become a member of the list
         /// </summary>
-        public static bool AddMemberToList(long listId, IUserIdentifier newUser)
+        public static Task<bool> AddMemberToList(long listId, IUserIdentifier newUser)
         {
             return TwitterListController.AddMemberToList(listId, newUser);
         }
@@ -340,7 +341,7 @@ namespace Tweetinvi
         /// <summary>
         /// Add a user to become a member of the list
         /// </summary>
-        public static bool AddMemberToList(string slug, long ownerId, long newUserId)
+        public static Task<bool> AddMemberToList(string slug, long ownerId, long newUserId)
         {
             return TwitterListController.AddMemberToList(slug, ownerId, newUserId);
         }
@@ -348,7 +349,7 @@ namespace Tweetinvi
         /// <summary>
         /// Add a user to become a member of the list
         /// </summary>
-        public static bool AddMemberToList(string slug, long ownerId, string newUserName)
+        public static Task<bool> AddMemberToList(string slug, long ownerId, string newUserName)
         {
             return TwitterListController.AddMemberToList(slug, ownerId, newUserName);
         }
@@ -356,7 +357,7 @@ namespace Tweetinvi
         /// <summary>
         /// Add a user to become a member of the list
         /// </summary>
-        public static bool AddMemberToList(string slug, long ownerId, IUserIdentifier newUser)
+        public static Task<bool> AddMemberToList(string slug, long ownerId, IUserIdentifier newUser)
         {
             return TwitterListController.AddMemberToList(slug, ownerId, newUser);
         }
@@ -364,7 +365,7 @@ namespace Tweetinvi
         /// <summary>
         /// Add a user to become a member of the list
         /// </summary>
-        public static bool AddMemberToList(string slug, string ownerScreenName, long newUserId)
+        public static Task<bool> AddMemberToList(string slug, string ownerScreenName, long newUserId)
         {
             return TwitterListController.AddMemberToList(slug, ownerScreenName, newUserId);
         }
@@ -372,7 +373,7 @@ namespace Tweetinvi
         /// <summary>
         /// Add a user to become a member of the list
         /// </summary>
-        public static bool AddMemberToList(string slug, string ownerScreenName, string newUserName)
+        public static Task<bool> AddMemberToList(string slug, string ownerScreenName, string newUserName)
         {
             return TwitterListController.AddMemberToList(slug, ownerScreenName, newUserName);
         }
@@ -380,7 +381,7 @@ namespace Tweetinvi
         /// <summary>
         /// Add a user to become a member of the list
         /// </summary>
-        public static bool AddMemberToList(string slug, string ownerScreenName, IUserIdentifier newUser)
+        public static Task<bool> AddMemberToList(string slug, string ownerScreenName, IUserIdentifier newUser)
         {
             return TwitterListController.AddMemberToList(slug, ownerScreenName, newUser);
         }
@@ -388,7 +389,7 @@ namespace Tweetinvi
         /// <summary>
         /// Add a user to become a member of the list
         /// </summary>
-        public static bool AddMemberToList(string slug, IUserIdentifier owner, long newUserId)
+        public static Task<bool> AddMemberToList(string slug, IUserIdentifier owner, long newUserId)
         {
             return TwitterListController.AddMemberToList(slug, owner, newUserId);
         }
@@ -396,7 +397,7 @@ namespace Tweetinvi
         /// <summary>
         /// Add a user to become a member of the list
         /// </summary>
-        public static bool AddMemberToList(string slug, IUserIdentifier owner, string newUserName)
+        public static Task<bool> AddMemberToList(string slug, IUserIdentifier owner, string newUserName)
         {
             return TwitterListController.AddMemberToList(slug, owner, newUserName);
         }
@@ -404,7 +405,7 @@ namespace Tweetinvi
         /// <summary>
         /// Add a user to become a member of the list
         /// </summary>
-        public static bool AddMemberToList(string slug, IUserIdentifier owner, IUserIdentifier newUser)
+        public static Task<bool> AddMemberToList(string slug, IUserIdentifier owner, IUserIdentifier newUser)
         {
             return TwitterListController.AddMemberToList(slug, owner, newUser);
         }
@@ -412,7 +413,7 @@ namespace Tweetinvi
         /// <summary>
         /// Add a user to become a member of the list
         /// </summary>
-        public static bool AddMemberToList(ITwitterListIdentifier list, long newUserId)
+        public static Task<bool> AddMemberToList(ITwitterListIdentifier list, long newUserId)
         {
             return TwitterListController.AddMemberToList(list, newUserId);
         }
@@ -420,7 +421,7 @@ namespace Tweetinvi
         /// <summary>
         /// Add a user to become a member of the list
         /// </summary>
-        public static bool AddMemberToList(ITwitterListIdentifier list, string newUserName)
+        public static Task<bool> AddMemberToList(ITwitterListIdentifier list, string newUserName)
         {
             return TwitterListController.AddMemberToList(list, newUserName);
         }
@@ -428,7 +429,7 @@ namespace Tweetinvi
         /// <summary>
         /// Add a user to become a member of the list
         /// </summary>
-        public static bool AddMemberToList(ITwitterListIdentifier list, IUserIdentifier newUser)
+        public static Task<bool> AddMemberToList(ITwitterListIdentifier list, IUserIdentifier newUser)
         {
             return TwitterListController.AddMemberToList(list, newUser);
         }
@@ -438,7 +439,7 @@ namespace Tweetinvi
         /// <summary>
         /// Add multiple users to become members of the list
         /// </summary>
-        public static MultiRequestsResult AddMultipleMembersToList(long listId, IEnumerable<long> newUserIds)
+        public static Task<MultiRequestsResult> AddMultipleMembersToList(long listId, IEnumerable<long> newUserIds)
         {
             return TwitterListController.AddMultipleMembersToList(listId, newUserIds);
         }
@@ -446,7 +447,7 @@ namespace Tweetinvi
         /// <summary>
         /// Add multiple users to become members of the list
         /// </summary>
-        public static MultiRequestsResult AddMultipleMembersToList(long listId, IEnumerable<string> newUserScreenNames)
+        public static Task<MultiRequestsResult> AddMultipleMembersToList(long listId, IEnumerable<string> newUserScreenNames)
         {
             return TwitterListController.AddMultipleMembersToList(listId, newUserScreenNames);
         }
@@ -454,7 +455,7 @@ namespace Tweetinvi
         /// <summary>
         /// Add multiple users to become members of the list
         /// </summary>
-        public static MultiRequestsResult AddMultipleMembersToList(long listId, IEnumerable<IUserIdentifier> newUsers)
+        public static Task<MultiRequestsResult> AddMultipleMembersToList(long listId, IEnumerable<IUserIdentifier> newUsers)
         {
             return TwitterListController.AddMultipleMembersToList(listId, newUsers);
         }
@@ -462,7 +463,7 @@ namespace Tweetinvi
         /// <summary>
         /// Add multiple users to become members of the list
         /// </summary>
-        public static MultiRequestsResult AddMultipleMembersToList(string slug, long ownerId, IEnumerable<long> newUserIds)
+        public static Task<MultiRequestsResult> AddMultipleMembersToList(string slug, long ownerId, IEnumerable<long> newUserIds)
         {
             return TwitterListController.AddMultipleMembersToList(slug, ownerId, newUserIds);
         }
@@ -470,7 +471,7 @@ namespace Tweetinvi
         /// <summary>
         /// Add multiple users to become members of the list
         /// </summary>
-        public static MultiRequestsResult AddMultipleMembersToList(string slug, long ownerId, IEnumerable<string> newUserScreenNames)
+        public static Task<MultiRequestsResult> AddMultipleMembersToList(string slug, long ownerId, IEnumerable<string> newUserScreenNames)
         {
             return TwitterListController.AddMultipleMembersToList(slug, ownerId, newUserScreenNames);
         }
@@ -478,7 +479,7 @@ namespace Tweetinvi
         /// <summary>
         /// Add multiple users to become members of the list
         /// </summary>
-        public static MultiRequestsResult AddMultipleMembersToList(string slug, long ownerId, IEnumerable<IUserIdentifier> newUsers)
+        public static Task<MultiRequestsResult> AddMultipleMembersToList(string slug, long ownerId, IEnumerable<IUserIdentifier> newUsers)
         {
             return TwitterListController.AddMultipleMembersToList(slug, ownerId, newUsers);
         }
@@ -486,7 +487,7 @@ namespace Tweetinvi
         /// <summary>
         /// Add multiple users to become members of the list
         /// </summary>
-        public static MultiRequestsResult AddMultipleMembersToList(string slug, string ownerScreenName, IEnumerable<long> newUserIds)
+        public static Task<MultiRequestsResult> AddMultipleMembersToList(string slug, string ownerScreenName, IEnumerable<long> newUserIds)
         {
             return TwitterListController.AddMultipleMembersToList(slug, ownerScreenName, newUserIds);
         }
@@ -494,7 +495,7 @@ namespace Tweetinvi
         /// <summary>
         /// Add multiple users to become members of the list
         /// </summary>
-        public static MultiRequestsResult AddMultipleMembersToList(string slug, string ownerScreenName, IEnumerable<string> newUserScreenNames)
+        public static Task<MultiRequestsResult> AddMultipleMembersToList(string slug, string ownerScreenName, IEnumerable<string> newUserScreenNames)
         {
             return TwitterListController.AddMultipleMembersToList(slug, ownerScreenName, newUserScreenNames);
         }
@@ -502,7 +503,7 @@ namespace Tweetinvi
         /// <summary>
         /// Add multiple users to become members of the list
         /// </summary>
-        public static MultiRequestsResult AddMultipleMembersToList(string slug, string ownerScreenName, IEnumerable<IUserIdentifier> newUsers)
+        public static Task<MultiRequestsResult> AddMultipleMembersToList(string slug, string ownerScreenName, IEnumerable<IUserIdentifier> newUsers)
         {
             return TwitterListController.AddMultipleMembersToList(slug, ownerScreenName, newUsers);
         }
@@ -510,7 +511,7 @@ namespace Tweetinvi
         /// <summary>
         /// Add multiple users to become members of the list
         /// </summary>
-        public static MultiRequestsResult AddMultipleMembersToList(string slug, IUserIdentifier owner, IEnumerable<long> newUserIds)
+        public static Task<MultiRequestsResult> AddMultipleMembersToList(string slug, IUserIdentifier owner, IEnumerable<long> newUserIds)
         {
             return TwitterListController.AddMultipleMembersToList(slug, owner, newUserIds);
         }
@@ -518,7 +519,7 @@ namespace Tweetinvi
         /// <summary>
         /// Add multiple users to become members of the list
         /// </summary>
-        public static MultiRequestsResult AddMultipleMembersToList(string slug, IUserIdentifier owner, IEnumerable<string> newUserScreenNames)
+        public static Task<MultiRequestsResult> AddMultipleMembersToList(string slug, IUserIdentifier owner, IEnumerable<string> newUserScreenNames)
         {
             return TwitterListController.AddMultipleMembersToList(slug, owner, newUserScreenNames);
         }
@@ -526,7 +527,7 @@ namespace Tweetinvi
         /// <summary>
         /// Add multiple users to become members of the list
         /// </summary>
-        public static MultiRequestsResult AddMultipleMembersToList(string slug, IUserIdentifier owner, IEnumerable<IUserIdentifier> newUsers)
+        public static Task<MultiRequestsResult> AddMultipleMembersToList(string slug, IUserIdentifier owner, IEnumerable<IUserIdentifier> newUsers)
         {
             return TwitterListController.AddMultipleMembersToList(slug, owner, newUsers);
         }
@@ -534,7 +535,7 @@ namespace Tweetinvi
         /// <summary>
         /// Add multiple users to become members of the list
         /// </summary>
-        public static MultiRequestsResult AddMultipleMembersToList(ITwitterListIdentifier list, IEnumerable<long> newUserIds)
+        public static Task<MultiRequestsResult> AddMultipleMembersToList(ITwitterListIdentifier list, IEnumerable<long> newUserIds)
         {
             return TwitterListController.AddMultipleMembersToList(list, newUserIds);
         }
@@ -542,7 +543,7 @@ namespace Tweetinvi
         /// <summary>
         /// Add multiple users to become members of the list
         /// </summary>
-        public static MultiRequestsResult AddMultipleMembersToList(ITwitterListIdentifier list, IEnumerable<string> newUserScreenNames)
+        public static Task<MultiRequestsResult> AddMultipleMembersToList(ITwitterListIdentifier list, IEnumerable<string> newUserScreenNames)
         {
             return TwitterListController.AddMultipleMembersToList(list, newUserScreenNames);
         }
@@ -550,7 +551,7 @@ namespace Tweetinvi
         /// <summary>
         /// Add multiple users to become members of the list
         /// </summary>
-        public static MultiRequestsResult AddMultipleMembersToList(ITwitterListIdentifier list, IEnumerable<IUserIdentifier> users)
+        public static Task<MultiRequestsResult> AddMultipleMembersToList(ITwitterListIdentifier list, IEnumerable<IUserIdentifier> users)
         {
             return TwitterListController.AddMultipleMembersToList(list, users);
         }
@@ -561,7 +562,7 @@ namespace Tweetinvi
         /// <summary>
         /// Remove a member from a list
         /// </summary>
-        public static bool RemoveMemberFromList(long listId, long userId)
+        public static Task<bool> RemoveMemberFromList(long listId, long userId)
         {
             return TwitterListController.RemoveMemberFromList(listId, userId);
         }
@@ -569,7 +570,7 @@ namespace Tweetinvi
         /// <summary>
         /// Remove a member from a list
         /// </summary>
-        public static bool RemoveMemberFromList(long listId, string userName)
+        public static Task<bool> RemoveMemberFromList(long listId, string userName)
         {
             return TwitterListController.RemoveMemberFromList(listId, userName);
         }
@@ -577,7 +578,7 @@ namespace Tweetinvi
         /// <summary>
         /// Remove a member from a list
         /// </summary>
-        public static bool RemoveMemberFromList(long listId, IUserIdentifier user)
+        public static Task<bool> RemoveMemberFromList(long listId, IUserIdentifier user)
         {
             return TwitterListController.RemoveMemberFromList(listId, user);
         }
@@ -585,7 +586,7 @@ namespace Tweetinvi
         /// <summary>
         /// Remove a member from a list
         /// </summary>
-        public static bool RemoveMemberFromList(string slug, long ownerId, long userId)
+        public static Task<bool> RemoveMemberFromList(string slug, long ownerId, long userId)
         {
             return TwitterListController.RemoveMemberFromList(slug, ownerId, userId);
         }
@@ -593,7 +594,7 @@ namespace Tweetinvi
         /// <summary>
         /// Remove a member from a list
         /// </summary>
-        public static bool RemoveMemberFromList(string slug, long ownerId, string userName)
+        public static Task<bool> RemoveMemberFromList(string slug, long ownerId, string userName)
         {
             return TwitterListController.RemoveMemberFromList(slug, ownerId, userName);
         }
@@ -601,7 +602,7 @@ namespace Tweetinvi
         /// <summary>
         /// Remove a member from a list
         /// </summary>
-        public static bool RemoveMemberFromList(string slug, long ownerId, IUserIdentifier user)
+        public static Task<bool> RemoveMemberFromList(string slug, long ownerId, IUserIdentifier user)
         {
             return TwitterListController.RemoveMemberFromList(slug, ownerId, user);
         }
@@ -609,7 +610,7 @@ namespace Tweetinvi
         /// <summary>
         /// Remove a member from a list
         /// </summary>
-        public static bool RemoveMemberFromList(string slug, string ownerScreenName, long userId)
+        public static Task<bool> RemoveMemberFromList(string slug, string ownerScreenName, long userId)
         {
             return TwitterListController.RemoveMemberFromList(slug, ownerScreenName, userId);
         }
@@ -617,7 +618,7 @@ namespace Tweetinvi
         /// <summary>
         /// Remove a member from a list
         /// </summary>
-        public static bool RemoveMemberFromList(string slug, string ownerScreenName, string userName)
+        public static Task<bool> RemoveMemberFromList(string slug, string ownerScreenName, string userName)
         {
             return TwitterListController.RemoveMemberFromList(slug, ownerScreenName, userName);
         }
@@ -625,7 +626,7 @@ namespace Tweetinvi
         /// <summary>
         /// Remove a member from a list
         /// </summary>
-        public static bool RemoveMemberFromList(string slug, string ownerScreenName, IUserIdentifier user)
+        public static Task<bool> RemoveMemberFromList(string slug, string ownerScreenName, IUserIdentifier user)
         {
             return TwitterListController.RemoveMemberFromList(slug, ownerScreenName, user);
         }
@@ -633,7 +634,7 @@ namespace Tweetinvi
         /// <summary>
         /// Remove a member from a list
         /// </summary>
-        public static bool RemoveMemberFromList(string slug, IUserIdentifier owner, long userId)
+        public static Task<bool> RemoveMemberFromList(string slug, IUserIdentifier owner, long userId)
         {
             return TwitterListController.RemoveMemberFromList(slug, owner, userId);
         }
@@ -641,7 +642,7 @@ namespace Tweetinvi
         /// <summary>
         /// Remove a member from a list
         /// </summary>
-        public static bool RemoveMemberFromList(string slug, IUserIdentifier owner, string userName)
+        public static Task<bool> RemoveMemberFromList(string slug, IUserIdentifier owner, string userName)
         {
             return TwitterListController.RemoveMemberFromList(slug, owner, userName);
         }
@@ -649,7 +650,7 @@ namespace Tweetinvi
         /// <summary>
         /// Remove a member from a list
         /// </summary>
-        public static bool RemoveMemberFromList(string slug, IUserIdentifier owner, IUserIdentifier user)
+        public static Task<bool> RemoveMemberFromList(string slug, IUserIdentifier owner, IUserIdentifier user)
         {
             return TwitterListController.RemoveMemberFromList(slug, owner, user);
         }
@@ -657,7 +658,7 @@ namespace Tweetinvi
         /// <summary>
         /// Remove a member from a list
         /// </summary>
-        public static bool RemoveMemberFromList(ITwitterListIdentifier list, long userId)
+        public static Task<bool> RemoveMemberFromList(ITwitterListIdentifier list, long userId)
         {
             return TwitterListController.RemoveMemberFromList(list, userId);
         }
@@ -665,7 +666,7 @@ namespace Tweetinvi
         /// <summary>
         /// Remove a member from a list
         /// </summary>
-        public static bool RemoveMemberFromList(ITwitterListIdentifier list, string userName)
+        public static Task<bool> RemoveMemberFromList(ITwitterListIdentifier list, string userName)
         {
             return TwitterListController.RemoveMemberFromList(list, userName);
         }
@@ -673,7 +674,7 @@ namespace Tweetinvi
         /// <summary>
         /// Remove a member from a list
         /// </summary>
-        public static bool RemoveMemberFromList(ITwitterListIdentifier list, IUserIdentifier user)
+        public static Task<bool> RemoveMemberFromList(ITwitterListIdentifier list, IUserIdentifier user)
         {
             return TwitterListController.RemoveMemberFromList(list, user);
         }
@@ -683,7 +684,7 @@ namespace Tweetinvi
         /// <summary>
         /// Remove multiple members from a list
         /// </summary>
-        public static MultiRequestsResult RemoveMultipleMembersFromList(long listId, IEnumerable<long> userIdsToRemove)
+        public static Task<MultiRequestsResult> RemoveMultipleMembersFromList(long listId, IEnumerable<long> userIdsToRemove)
         {
             return TwitterListController.RemoveMultipleMembersFromList(listId, userIdsToRemove);
         }
@@ -691,7 +692,7 @@ namespace Tweetinvi
         /// <summary>
         /// Remove multiple members from a list
         /// </summary>
-        public static MultiRequestsResult RemoveMultipleMembersFromList(long listId, IEnumerable<string> userScreenNamesToRemove)
+        public static Task<MultiRequestsResult> RemoveMultipleMembersFromList(long listId, IEnumerable<string> userScreenNamesToRemove)
         {
             return TwitterListController.RemoveMultipleMembersFromList(listId, userScreenNamesToRemove);
         }
@@ -699,7 +700,7 @@ namespace Tweetinvi
         /// <summary>
         /// Remove multiple members from a list
         /// </summary>
-        public static MultiRequestsResult RemoveMultipleMembersFromList(long listId, IEnumerable<IUserIdentifier> usersToRemove)
+        public static Task<MultiRequestsResult> RemoveMultipleMembersFromList(long listId, IEnumerable<IUserIdentifier> usersToRemove)
         {
             return TwitterListController.RemoveMultipleMembersFromList(listId, usersToRemove);
         }
@@ -707,7 +708,7 @@ namespace Tweetinvi
         /// <summary>
         /// Remove multiple members from a list
         /// </summary>
-        public static MultiRequestsResult RemoveMultipleMembersFromList(string slug, long ownerId, IEnumerable<long> userIdsToRemove)
+        public static Task<MultiRequestsResult> RemoveMultipleMembersFromList(string slug, long ownerId, IEnumerable<long> userIdsToRemove)
         {
             return TwitterListController.RemoveMultipleMembersFromList(slug, ownerId, userIdsToRemove);
         }
@@ -715,7 +716,7 @@ namespace Tweetinvi
         /// <summary>
         /// Remove multiple members from a list
         /// </summary>
-        public static MultiRequestsResult RemoveMultipleMembersFromList(string slug, long ownerId, IEnumerable<string> userScreenNamesToRemove)
+        public static Task<MultiRequestsResult> RemoveMultipleMembersFromList(string slug, long ownerId, IEnumerable<string> userScreenNamesToRemove)
         {
             return TwitterListController.RemoveMultipleMembersFromList(slug, ownerId, userScreenNamesToRemove);
         }
@@ -723,7 +724,7 @@ namespace Tweetinvi
         /// <summary>
         /// Remove multiple members from a list
         /// </summary>
-        public static MultiRequestsResult RemoveMultipleMembersFromList(string slug, long ownerId, IEnumerable<IUserIdentifier> usersToRemove)
+        public static Task<MultiRequestsResult> RemoveMultipleMembersFromList(string slug, long ownerId, IEnumerable<IUserIdentifier> usersToRemove)
         {
             return TwitterListController.RemoveMultipleMembersFromList(slug, ownerId, usersToRemove);
         }
@@ -731,7 +732,7 @@ namespace Tweetinvi
         /// <summary>
         /// Remove multiple members from a list
         /// </summary>
-        public static MultiRequestsResult RemoveMultipleMembersFromList(string slug, string ownerScreenName, IEnumerable<long> userIdsToRemove)
+        public static Task<MultiRequestsResult> RemoveMultipleMembersFromList(string slug, string ownerScreenName, IEnumerable<long> userIdsToRemove)
         {
             return TwitterListController.RemoveMultipleMembersFromList(slug, ownerScreenName, userIdsToRemove);
         }
@@ -739,7 +740,7 @@ namespace Tweetinvi
         /// <summary>
         /// Remove multiple members from a list
         /// </summary>
-        public static MultiRequestsResult RemoveMultipleMembersFromList(string slug, string ownerScreenName, IEnumerable<string> userScreenNamesToRemove)
+        public static Task<MultiRequestsResult> RemoveMultipleMembersFromList(string slug, string ownerScreenName, IEnumerable<string> userScreenNamesToRemove)
         {
             return TwitterListController.RemoveMultipleMembersFromList(slug, ownerScreenName, userScreenNamesToRemove);
         }
@@ -747,7 +748,7 @@ namespace Tweetinvi
         /// <summary>
         /// Remove multiple members from a list
         /// </summary>
-        public static MultiRequestsResult RemoveMultipleMembersFromList(string slug, string ownerScreenName, IEnumerable<IUserIdentifier> usersToRemove)
+        public static Task<MultiRequestsResult> RemoveMultipleMembersFromList(string slug, string ownerScreenName, IEnumerable<IUserIdentifier> usersToRemove)
         {
             return TwitterListController.RemoveMultipleMembersFromList(slug, ownerScreenName, usersToRemove);
         }
@@ -755,7 +756,7 @@ namespace Tweetinvi
         /// <summary>
         /// Remove multiple members from a list
         /// </summary>
-        public static MultiRequestsResult RemoveMultipleMembersFromList(string slug, IUserIdentifier owner, IEnumerable<long> userIdsToRemove)
+        public static Task<MultiRequestsResult> RemoveMultipleMembersFromList(string slug, IUserIdentifier owner, IEnumerable<long> userIdsToRemove)
         {
             return TwitterListController.RemoveMultipleMembersFromList(slug, owner, userIdsToRemove);
         }
@@ -763,7 +764,7 @@ namespace Tweetinvi
         /// <summary>
         /// Remove multiple members from a list
         /// </summary>
-        public static MultiRequestsResult RemoveMultipleMembersFromList(string slug, IUserIdentifier owner, IEnumerable<string> userScreenNamesToRemove)
+        public static Task<MultiRequestsResult> RemoveMultipleMembersFromList(string slug, IUserIdentifier owner, IEnumerable<string> userScreenNamesToRemove)
         {
             return TwitterListController.RemoveMultipleMembersFromList(slug, owner, userScreenNamesToRemove);
         }
@@ -771,7 +772,7 @@ namespace Tweetinvi
         /// <summary>
         /// Remove multiple members from a list
         /// </summary>
-        public static MultiRequestsResult RemoveMultipleMembersFromList(string slug, IUserIdentifier owner, IEnumerable<IUserIdentifier> usersToRemove)
+        public static Task<MultiRequestsResult> RemoveMultipleMembersFromList(string slug, IUserIdentifier owner, IEnumerable<IUserIdentifier> usersToRemove)
         {
             return TwitterListController.RemoveMultipleMembersFromList(slug, owner, usersToRemove);
         }
@@ -779,7 +780,7 @@ namespace Tweetinvi
         /// <summary>
         /// Remove multiple members from a list
         /// </summary>
-        public static MultiRequestsResult RemoveMultipleMembersFromList(ITwitterListIdentifier list, IEnumerable<long> userIdsToRemove)
+        public static Task<MultiRequestsResult> RemoveMultipleMembersFromList(ITwitterListIdentifier list, IEnumerable<long> userIdsToRemove)
         {
             return TwitterListController.RemoveMultipleMembersFromList(list, userIdsToRemove);
         }
@@ -787,7 +788,7 @@ namespace Tweetinvi
         /// <summary>
         /// Remove multiple members from a list
         /// </summary>
-        public static MultiRequestsResult RemoveMultipleMembersFromList(ITwitterListIdentifier list, IEnumerable<string> userScreenNamesToRemove)
+        public static Task<MultiRequestsResult> RemoveMultipleMembersFromList(ITwitterListIdentifier list, IEnumerable<string> userScreenNamesToRemove)
         {
             return TwitterListController.RemoveMultipleMembersFromList(list, userScreenNamesToRemove);
         }
@@ -795,29 +796,29 @@ namespace Tweetinvi
         /// <summary>
         /// Remove multiple members from a list
         /// </summary>
-        public static MultiRequestsResult RemoveMultipleMembersFromList(ITwitterListIdentifier list, IEnumerable<IUserIdentifier> usersToRemove)
+        public static Task<MultiRequestsResult> RemoveMultipleMembersFromList(ITwitterListIdentifier list, IEnumerable<IUserIdentifier> usersToRemove)
         {
             return TwitterListController.RemoveMultipleMembersFromList(list, usersToRemove);
         }
 
         // Get Memberships
 
-        public static IEnumerable<ITwitterList> GetUserListMemberships(string username, IGetUserListMembershipsParameters parameters = null)
+        public static Task<IEnumerable<ITwitterList>> GetUserListMemberships(string username, IGetUserListMembershipsParameters parameters = null)
         {
             return TwitterListController.GetUserListsMemberships(new UserIdentifier(username), parameters);
         }
 
-        public static IEnumerable<ITwitterList> GetUserListMemberships(long userId, IGetUserListMembershipsParameters parameters = null)
+        public static Task<IEnumerable<ITwitterList>> GetUserListMemberships(long userId, IGetUserListMembershipsParameters parameters = null)
         {
             return TwitterListController.GetUserListsMemberships(new UserIdentifier(userId), parameters);
         }
 
-        public static IEnumerable<ITwitterList> GetUserListMemberships(IUserIdentifier userIdentifier, IGetUserListMembershipsParameters parameters = null)
+        public static Task<IEnumerable<ITwitterList>> GetUserListMemberships(IUserIdentifier userIdentifier, IGetUserListMembershipsParameters parameters = null)
         {
             return TwitterListController.GetUserListsMemberships(userIdentifier, parameters);
         }
 
-        public static IEnumerable<ITwitterList> GetUserListMemberships(IGetUserListMembershipsQueryParameters parameters)
+        public static Task<IEnumerable<ITwitterList>> GetUserListMemberships(IGetUserListMembershipsQueryParameters parameters)
         {
             return TwitterListController.GetUserListsMemberships(parameters);
         }
@@ -827,7 +828,7 @@ namespace Tweetinvi
         /// <summary>
         /// Check if a user is a member of a specific list
         /// </summary>
-        public static bool CheckIfUserIsAListMember(long listId, long newUserId)
+        public static Task<bool> CheckIfUserIsAListMember(long listId, long newUserId)
         {
             return TwitterListController.CheckIfUserIsAListMember(listId, newUserId);
         }
@@ -835,7 +836,7 @@ namespace Tweetinvi
         /// <summary>
         /// Check if a user is a member of a specific list
         /// </summary>
-        public static bool CheckIfUserIsAListMember(long listId, string newUserName)
+        public static Task<bool> CheckIfUserIsAListMember(long listId, string newUserName)
         {
             return TwitterListController.CheckIfUserIsAListMember(listId, newUserName);
         }
@@ -843,7 +844,7 @@ namespace Tweetinvi
         /// <summary>
         /// Check if a user is a member of a specific list
         /// </summary>
-        public static bool CheckIfUserIsAListMember(long listId, IUserIdentifier newUser)
+        public static Task<bool> CheckIfUserIsAListMember(long listId, IUserIdentifier newUser)
         {
             return TwitterListController.CheckIfUserIsAListMember(listId, newUser);
         }
@@ -851,7 +852,7 @@ namespace Tweetinvi
         /// <summary>
         /// Check if a user is a member of a specific list
         /// </summary>
-        public static bool CheckIfUserIsAListMember(string slug, long ownerId, long newUserId)
+        public static Task<bool> CheckIfUserIsAListMember(string slug, long ownerId, long newUserId)
         {
             return TwitterListController.CheckIfUserIsAListMember(slug, ownerId, newUserId);
         }
@@ -859,7 +860,7 @@ namespace Tweetinvi
         /// <summary>
         /// Check if a user is a member of a specific list
         /// </summary>
-        public static bool CheckIfUserIsAListMember(string slug, long ownerId, string newUserName)
+        public static Task<bool> CheckIfUserIsAListMember(string slug, long ownerId, string newUserName)
         {
             return TwitterListController.CheckIfUserIsAListMember(slug, ownerId, newUserName);
         }
@@ -867,7 +868,7 @@ namespace Tweetinvi
         /// <summary>
         /// Check if a user is a member of a specific list
         /// </summary>
-        public static bool CheckIfUserIsAListMember(string slug, long ownerId, IUserIdentifier newUser)
+        public static Task<bool> CheckIfUserIsAListMember(string slug, long ownerId, IUserIdentifier newUser)
         {
             return TwitterListController.CheckIfUserIsAListMember(slug, ownerId, newUser);
         }
@@ -875,7 +876,7 @@ namespace Tweetinvi
         /// <summary>
         /// Check if a user is a member of a specific list
         /// </summary>
-        public static bool CheckIfUserIsAListMember(string slug, string ownerScreenName, long newUserId)
+        public static Task<bool> CheckIfUserIsAListMember(string slug, string ownerScreenName, long newUserId)
         {
             return TwitterListController.CheckIfUserIsAListMember(slug, ownerScreenName, newUserId);
         }
@@ -883,7 +884,7 @@ namespace Tweetinvi
         /// <summary>
         /// Check if a user is a member of a specific list
         /// </summary>
-        public static bool CheckIfUserIsAListMember(string slug, string ownerScreenName, string newUserName)
+        public static Task<bool> CheckIfUserIsAListMember(string slug, string ownerScreenName, string newUserName)
         {
             return TwitterListController.CheckIfUserIsAListMember(slug, ownerScreenName, newUserName);
         }
@@ -891,7 +892,7 @@ namespace Tweetinvi
         /// <summary>
         /// Check if a user is a member of a specific list
         /// </summary>
-        public static bool CheckIfUserIsAListMember(string slug, string ownerScreenName, IUserIdentifier newUser)
+        public static Task<bool> CheckIfUserIsAListMember(string slug, string ownerScreenName, IUserIdentifier newUser)
         {
             return TwitterListController.CheckIfUserIsAListMember(slug, ownerScreenName, newUser);
         }
@@ -899,7 +900,7 @@ namespace Tweetinvi
         /// <summary>
         /// Check if a user is a member of a specific list
         /// </summary>
-        public static bool CheckIfUserIsAListMember(string slug, IUserIdentifier owner, long newUserId)
+        public static Task<bool> CheckIfUserIsAListMember(string slug, IUserIdentifier owner, long newUserId)
         {
             return TwitterListController.CheckIfUserIsAListMember(slug, owner, newUserId);
         }
@@ -907,7 +908,7 @@ namespace Tweetinvi
         /// <summary>
         /// Check if a user is a member of a specific list
         /// </summary>
-        public static bool CheckIfUserIsAListMember(string slug, IUserIdentifier owner, string newUserName)
+        public static Task<bool> CheckIfUserIsAListMember(string slug, IUserIdentifier owner, string newUserName)
         {
             return TwitterListController.CheckIfUserIsAListMember(slug, owner, newUserName);
         }
@@ -915,7 +916,7 @@ namespace Tweetinvi
         /// <summary>
         /// Check if a user is a member of a specific list
         /// </summary>
-        public static bool CheckIfUserIsAListMember(string slug, IUserIdentifier owner, IUserIdentifier newUser)
+        public static Task<bool> CheckIfUserIsAListMember(string slug, IUserIdentifier owner, IUserIdentifier newUser)
         {
             return TwitterListController.CheckIfUserIsAListMember(slug, owner, newUser);
         }
@@ -923,7 +924,7 @@ namespace Tweetinvi
         /// <summary>
         /// Check if a user is a member of a specific list
         /// </summary>
-        public static bool CheckIfUserIsAListMember(ITwitterListIdentifier list, long newUserId)
+        public static Task<bool> CheckIfUserIsAListMember(ITwitterListIdentifier list, long newUserId)
         {
             return TwitterListController.CheckIfUserIsAListMember(list, newUserId);
         }
@@ -931,7 +932,7 @@ namespace Tweetinvi
         /// <summary>
         /// Check if a user is a member of a specific list
         /// </summary>
-        public static bool CheckIfUserIsAListMember(ITwitterListIdentifier list, string newUserName)
+        public static Task<bool> CheckIfUserIsAListMember(ITwitterListIdentifier list, string newUserName)
         {
             return TwitterListController.CheckIfUserIsAListMember(list, newUserName);
         }
@@ -939,7 +940,7 @@ namespace Tweetinvi
         /// <summary>
         /// Check if a user is a member of a specific list
         /// </summary>
-        public static bool CheckIfUserIsAListMember(ITwitterListIdentifier listIdentifier, IUserIdentifier user)
+        public static Task<bool> CheckIfUserIsAListMember(ITwitterListIdentifier listIdentifier, IUserIdentifier user)
         {
             return TwitterListController.CheckIfUserIsAListMember(listIdentifier, user);
         }
@@ -949,7 +950,7 @@ namespace Tweetinvi
         /// <summary>
         /// Get the lists the authenticated user has subsribed to
         /// </summary>
-        public static IEnumerable<ITwitterList> GetUserSubscribedLists(long userId, int maxNumberOfListsToRetrieve = TweetinviConsts.LIST_GET_USER_SUBSCRIPTIONS_COUNT)
+        public static Task<IEnumerable<ITwitterList>> GetUserSubscribedLists(long userId, int maxNumberOfListsToRetrieve = TweetinviConsts.LIST_GET_USER_SUBSCRIPTIONS_COUNT)
         {
             return TwitterListController.GetUserSubscribedLists(userId, maxNumberOfListsToRetrieve);
         }
@@ -957,7 +958,7 @@ namespace Tweetinvi
         /// <summary>
         /// Get the lists the authenticated user has subsribed to
         /// </summary>
-        public static IEnumerable<ITwitterList> GetUserSubscribedLists(string userScreenName, int maxNumberOfListsToRetrieve = TweetinviConsts.LIST_GET_USER_SUBSCRIPTIONS_COUNT)
+        public static Task<IEnumerable<ITwitterList>> GetUserSubscribedLists(string userScreenName, int maxNumberOfListsToRetrieve = TweetinviConsts.LIST_GET_USER_SUBSCRIPTIONS_COUNT)
         {
             return TwitterListController.GetUserSubscribedLists(userScreenName, maxNumberOfListsToRetrieve);
         }
@@ -965,7 +966,7 @@ namespace Tweetinvi
         /// <summary>
         /// Get the lists the authenticated user has subsribed to
         /// </summary>
-        public static IEnumerable<ITwitterList> GetUserSubscribedLists(IUserIdentifier user, int maxNumberOfListsToRetrieve = TweetinviConsts.LIST_GET_USER_SUBSCRIPTIONS_COUNT)
+        public static Task<IEnumerable<ITwitterList>> GetUserSubscribedLists(IUserIdentifier user, int maxNumberOfListsToRetrieve = TweetinviConsts.LIST_GET_USER_SUBSCRIPTIONS_COUNT)
         {
             return TwitterListController.GetUserSubscribedLists(user, maxNumberOfListsToRetrieve);
         }
@@ -975,7 +976,7 @@ namespace Tweetinvi
         /// <summary>
         /// Get the users who subscribed to a specific list
         /// </summary>
-        public static IEnumerable<IUser> GetListSubscribers(long listId, int maximumNumberOfUsersToRetrieve = 100)
+        public static Task<IEnumerable<IUser>> GetListSubscribers(long listId, int maximumNumberOfUsersToRetrieve = 100)
         {
             return TwitterListController.GetListSubscribers(listId, maximumNumberOfUsersToRetrieve);
         }
@@ -983,7 +984,7 @@ namespace Tweetinvi
         /// <summary>
         /// Get the users who subscribed to a specific list
         /// </summary>
-        public static IEnumerable<IUser> GetListSubscribers(string slug, IUserIdentifier owner, int maximumNumberOfUsersToRetrieve = 100)
+        public static Task<IEnumerable<IUser>> GetListSubscribers(string slug, IUserIdentifier owner, int maximumNumberOfUsersToRetrieve = 100)
         {
             return TwitterListController.GetListSubscribers(slug, owner, maximumNumberOfUsersToRetrieve);
         }
@@ -991,7 +992,7 @@ namespace Tweetinvi
         /// <summary>
         /// Get the users who subscribed to a specific list
         /// </summary>
-        public static IEnumerable<IUser> GetListSubscribers(string slug, string ownerScreenName, int maximumNumberOfUsersToRetrieve = 100)
+        public static Task<IEnumerable<IUser>> GetListSubscribers(string slug, string ownerScreenName, int maximumNumberOfUsersToRetrieve = 100)
         {
             return TwitterListController.GetListSubscribers(slug, ownerScreenName, maximumNumberOfUsersToRetrieve);
         }
@@ -999,7 +1000,7 @@ namespace Tweetinvi
         /// <summary>
         /// Get the users who subscribed to a specific list
         /// </summary>
-        public static IEnumerable<IUser> GetListSubscribers(string slug, long ownerId, int maximumNumberOfUsersToRetrieve = 100)
+        public static Task<IEnumerable<IUser>> GetListSubscribers(string slug, long ownerId, int maximumNumberOfUsersToRetrieve = 100)
         {
             return TwitterListController.GetListSubscribers(slug, ownerId, maximumNumberOfUsersToRetrieve);
         }
@@ -1007,7 +1008,7 @@ namespace Tweetinvi
         /// <summary>
         /// Get the users who subscribed to a specific list
         /// </summary>
-        public static IEnumerable<IUser> GetListSubscribers(ITwitterListIdentifier list, int maximumNumberOfUsersToRetrieve = 100)
+        public static Task<IEnumerable<IUser>> GetListSubscribers(ITwitterListIdentifier list, int maximumNumberOfUsersToRetrieve = 100)
         {
             return TwitterListController.GetListSubscribers(list, maximumNumberOfUsersToRetrieve);
         }
@@ -1017,7 +1018,7 @@ namespace Tweetinvi
         /// <summary>
         /// Subscribe the authenticated user to a specific list
         /// </summary>
-        public static bool SubscribeAuthenticatedUserToList(long listId, IAuthenticatedUser authenticatedUser = null)
+        public static Task<bool> SubscribeAuthenticatedUserToList(long listId, IAuthenticatedUser authenticatedUser = null)
         {
             if (authenticatedUser != null)
             {
@@ -1030,7 +1031,7 @@ namespace Tweetinvi
         /// <summary>
         /// Subscribe the authenticated user to a specific list
         /// </summary>
-        public static bool SubscribeAuthenticatedUserToList(string slug, IUserIdentifier owner, IAuthenticatedUser authenticatedUser = null)
+        public static Task<bool> SubscribeAuthenticatedUserToList(string slug, IUserIdentifier owner, IAuthenticatedUser authenticatedUser = null)
         {
             if (authenticatedUser != null)
             {
@@ -1043,7 +1044,7 @@ namespace Tweetinvi
         /// <summary>
         /// Subscribe the authenticated user to a specific list
         /// </summary>
-        public static bool SubscribeAuthenticatedUserToList(string slug, string ownerScreenName, IAuthenticatedUser authenticatedUser = null)
+        public static Task<bool> SubscribeAuthenticatedUserToList(string slug, string ownerScreenName, IAuthenticatedUser authenticatedUser = null)
         {
             if (authenticatedUser != null)
             {
@@ -1056,7 +1057,7 @@ namespace Tweetinvi
         /// <summary>
         /// Subscribe the authenticated user to a specific list
         /// </summary>
-        public static bool SubscribeAuthenticatedUserToList(string slug, long ownerId, IAuthenticatedUser authenticatedUser = null)
+        public static Task<bool> SubscribeAuthenticatedUserToList(string slug, long ownerId, IAuthenticatedUser authenticatedUser = null)
         {
             if (authenticatedUser != null)
             {
@@ -1069,7 +1070,7 @@ namespace Tweetinvi
         /// <summary>
         /// Subscribe the authenticated user to a specific list
         /// </summary>
-        public static bool SubscribeAuthenticatedUserToList(ITwitterListIdentifier listIdentifier, IAuthenticatedUser authenticatedUser = null)
+        public static Task<bool> SubscribeAuthenticatedUserToList(ITwitterListIdentifier listIdentifier, IAuthenticatedUser authenticatedUser = null)
         {
             if (authenticatedUser != null)
             {
@@ -1084,7 +1085,7 @@ namespace Tweetinvi
         /// <summary>
         /// Unubscribe the authenticated user to a specific list
         /// </summary>
-        public static bool UnSubscribeAuthenticatedUserToList(long listId, IAuthenticatedUser authenticatedUser = null)
+        public static Task<bool> UnSubscribeAuthenticatedUserToList(long listId, IAuthenticatedUser authenticatedUser = null)
         {
             if (authenticatedUser != null)
             {
@@ -1097,7 +1098,7 @@ namespace Tweetinvi
         /// <summary>
         /// Unubscribe the authenticated user to a specific list
         /// </summary>
-        public static bool UnSubscribeAuthenticatedUserFromList(string slug, IUserIdentifier owner, IAuthenticatedUser authenticatedUser = null)
+        public static Task<bool> UnSubscribeAuthenticatedUserFromList(string slug, IUserIdentifier owner, IAuthenticatedUser authenticatedUser = null)
         {
             if (authenticatedUser != null)
             {
@@ -1110,7 +1111,7 @@ namespace Tweetinvi
         /// <summary>
         /// Unubscribe the authenticated user to a specific list
         /// </summary>
-        public static bool UnSubscribeAuthenticatedUserFromList(string slug, string ownerScreenName, IAuthenticatedUser authenticatedUser = null)
+        public static Task<bool> UnSubscribeAuthenticatedUserFromList(string slug, string ownerScreenName, IAuthenticatedUser authenticatedUser = null)
         {
             if (authenticatedUser != null)
             {
@@ -1123,7 +1124,7 @@ namespace Tweetinvi
         /// <summary>
         /// Unubscribe the authenticated user to a specific list
         /// </summary>
-        public static bool UnSubscribeAuthenticatedUserFromList(string slug, long ownerId, IAuthenticatedUser authenticatedUser = null)
+        public static Task<bool> UnSubscribeAuthenticatedUserFromList(string slug, long ownerId, IAuthenticatedUser authenticatedUser = null)
         {
             if (authenticatedUser != null)
             {
@@ -1136,7 +1137,7 @@ namespace Tweetinvi
         /// <summary>
         /// Unubscribe the authenticated user to a specific list
         /// </summary>
-        public static bool UnSubscribeAuthenticatedUserFromList(ITwitterListIdentifier listIdentifier, IAuthenticatedUser authenticatedUser = null)
+        public static Task<bool> UnSubscribeAuthenticatedUserFromList(ITwitterListIdentifier listIdentifier, IAuthenticatedUser authenticatedUser = null)
         {
             if (authenticatedUser != null)
             {
@@ -1151,7 +1152,7 @@ namespace Tweetinvi
         /// <summary>
         /// Check if a user is a subscriber of a specific list
         /// </summary>
-        public static bool CheckIfUserIsAListSubscriber(long listId, long newUserId)
+        public static Task<bool> CheckIfUserIsAListSubscriber(long listId, long newUserId)
         {
             return TwitterListController.CheckIfUserIsAListSubscriber(listId, newUserId);
         }
@@ -1159,7 +1160,7 @@ namespace Tweetinvi
         /// <summary>
         /// Check if a user is a subscriber of a specific list
         /// </summary>
-        public static bool CheckIfUserIsAListSubscriber(long listId, string newUserName)
+        public static Task<bool> CheckIfUserIsAListSubscriber(long listId, string newUserName)
         {
             return TwitterListController.CheckIfUserIsAListSubscriber(listId, newUserName);
         }
@@ -1167,7 +1168,7 @@ namespace Tweetinvi
         /// <summary>
         /// Check if a user is a subscriber of a specific list
         /// </summary>
-        public static bool CheckIfUserIsAListSubscriber(long listId, IUserIdentifier newUser)
+        public static Task<bool> CheckIfUserIsAListSubscriber(long listId, IUserIdentifier newUser)
         {
             return TwitterListController.CheckIfUserIsAListSubscriber(listId, newUser);
         }
@@ -1175,7 +1176,7 @@ namespace Tweetinvi
         /// <summary>
         /// Check if a user is a subscriber of a specific list
         /// </summary>
-        public static bool CheckIfUserIsAListSubscriber(string slug, long ownerId, long newUserId)
+        public static Task<bool> CheckIfUserIsAListSubscriber(string slug, long ownerId, long newUserId)
         {
             return TwitterListController.CheckIfUserIsAListSubscriber(slug, ownerId, newUserId);
         }
@@ -1183,7 +1184,7 @@ namespace Tweetinvi
         /// <summary>
         /// Check if a user is a subscriber of a specific list
         /// </summary>
-        public static bool CheckIfUserIsAListSubscriber(string slug, long ownerId, string newUserName)
+        public static Task<bool> CheckIfUserIsAListSubscriber(string slug, long ownerId, string newUserName)
         {
             return TwitterListController.CheckIfUserIsAListSubscriber(slug, ownerId, newUserName);
         }
@@ -1191,7 +1192,7 @@ namespace Tweetinvi
         /// <summary>
         /// Check if a user is a subscriber of a specific list
         /// </summary>
-        public static bool CheckIfUserIsAListSubscriber(string slug, long ownerId, IUserIdentifier newUser)
+        public static Task<bool> CheckIfUserIsAListSubscriber(string slug, long ownerId, IUserIdentifier newUser)
         {
             return TwitterListController.CheckIfUserIsAListSubscriber(slug, ownerId, newUser);
         }
@@ -1199,7 +1200,7 @@ namespace Tweetinvi
         /// <summary>
         /// Check if a user is a subscriber of a specific list
         /// </summary>
-        public static bool CheckIfUserIsAListSubscriber(string slug, string ownerScreenName, long newUserId)
+        public static Task<bool> CheckIfUserIsAListSubscriber(string slug, string ownerScreenName, long newUserId)
         {
             return TwitterListController.CheckIfUserIsAListSubscriber(slug, ownerScreenName, newUserId);
         }
@@ -1207,7 +1208,7 @@ namespace Tweetinvi
         /// <summary>
         /// Check if a user is a subscriber of a specific list
         /// </summary>
-        public static bool CheckIfUserIsAListSubscriber(string slug, string ownerScreenName, string newUserName)
+        public static Task<bool> CheckIfUserIsAListSubscriber(string slug, string ownerScreenName, string newUserName)
         {
             return TwitterListController.CheckIfUserIsAListSubscriber(slug, ownerScreenName, newUserName);
         }
@@ -1215,7 +1216,7 @@ namespace Tweetinvi
         /// <summary>
         /// Check if a user is a subscriber of a specific list
         /// </summary>
-        public static bool CheckIfUserIsAListSubscriber(string slug, string ownerScreenName, IUserIdentifier newUser)
+        public static Task<bool> CheckIfUserIsAListSubscriber(string slug, string ownerScreenName, IUserIdentifier newUser)
         {
             return TwitterListController.CheckIfUserIsAListSubscriber(slug, ownerScreenName, newUser);
         }
@@ -1223,7 +1224,7 @@ namespace Tweetinvi
         /// <summary>
         /// Check if a user is a subscriber of a specific list
         /// </summary>
-        public static bool CheckIfUserIsAListSubscriber(string slug, IUserIdentifier owner, long newUserId)
+        public static Task<bool> CheckIfUserIsAListSubscriber(string slug, IUserIdentifier owner, long newUserId)
         {
             return TwitterListController.CheckIfUserIsAListSubscriber(slug, owner, newUserId);
         }
@@ -1231,7 +1232,7 @@ namespace Tweetinvi
         /// <summary>
         /// Check if a user is a subscriber of a specific list
         /// </summary>
-        public static bool CheckIfUserIsAListSubscriber(string slug, IUserIdentifier owner, string newUserName)
+        public static Task<bool> CheckIfUserIsAListSubscriber(string slug, IUserIdentifier owner, string newUserName)
         {
             return TwitterListController.CheckIfUserIsAListSubscriber(slug, owner, newUserName);
         }
@@ -1239,7 +1240,7 @@ namespace Tweetinvi
         /// <summary>
         /// Check if a user is a subscriber of a specific list
         /// </summary>
-        public static bool CheckIfUserIsAListSubscriber(string slug, IUserIdentifier owner, IUserIdentifier newUser)
+        public static Task<bool> CheckIfUserIsAListSubscriber(string slug, IUserIdentifier owner, IUserIdentifier newUser)
         {
             return TwitterListController.CheckIfUserIsAListSubscriber(slug, owner, newUser);
         }
@@ -1247,7 +1248,7 @@ namespace Tweetinvi
         /// <summary>
         /// Check if a user is a subscriber of a specific list
         /// </summary>
-        public static bool CheckIfUserIsAListSubscriber(ITwitterListIdentifier list, long newUserId)
+        public static Task<bool> CheckIfUserIsAListSubscriber(ITwitterListIdentifier list, long newUserId)
         {
             return TwitterListController.CheckIfUserIsAListSubscriber(list, newUserId);
         }
@@ -1255,7 +1256,7 @@ namespace Tweetinvi
         /// <summary>
         /// Check if a user is a subscriber of a specific list
         /// </summary>
-        public static bool CheckIfUserIsAListSubscriber(ITwitterListIdentifier list, string newUserName)
+        public static Task<bool> CheckIfUserIsAListSubscriber(ITwitterListIdentifier list, string newUserName)
         {
             return TwitterListController.CheckIfUserIsAListMember(list, newUserName);
         }
@@ -1263,7 +1264,7 @@ namespace Tweetinvi
         /// <summary>
         /// Check if a user is a subscriber of a specific list
         /// </summary>
-        public static bool CheckIfUserIsAListSubscriber(ITwitterListIdentifier listIdentifier, IUserIdentifier user)
+        public static Task<bool> CheckIfUserIsAListSubscriber(ITwitterListIdentifier listIdentifier, IUserIdentifier user)
         {
             return TwitterListController.CheckIfUserIsAListSubscriber(listIdentifier, user);
         }

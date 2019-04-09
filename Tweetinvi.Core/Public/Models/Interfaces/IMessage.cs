@@ -1,5 +1,5 @@
 ﻿using System;
-using Tweetinvi.Core.Models.Async;
+using System.Threading.Tasks;
 using Tweetinvi.Models.DTO;
 using Tweetinvi.Models.Entities;
 
@@ -9,7 +9,7 @@ namespace Tweetinvi.Models
     /// Message that can be sent privately between Twitter users privately.
     /// https://developer.twitter.com/en/docs/direct-messages/sending-and-receiving/api-reference/new-event
     /// </summary>
-    public interface IMessage : IMessageAsync, IEquatable<IMessage>
+    public interface IMessage : IEquatable<IMessage>
     {
         /// <summary>
         /// Underlying DTO representing this message (as an event).
@@ -80,6 +80,6 @@ namespace Tweetinvi.Models
         /// <summary>
         /// Destroy the message.
         /// </summary>
-        bool Destroy();
+        Task<bool> Destroy();
     }
 }

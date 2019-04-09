@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Tweetinvi.Controllers.Timeline;
 using Tweetinvi.Models;
 using Tweetinvi.Parameters;
@@ -33,33 +34,33 @@ namespace Tweetinvi.Json
         }
 
         // Home Timeline
-        public static string GetHomeTimeline(int maximumTweets = 40)
+        public static Task<string> GetHomeTimeline(int maximumTweets = 40)
         {
             return TimelineJsonController.GetHomeTimeline(maximumTweets);
         }
 
-        public static string GetHomeTimeline(IHomeTimelineParameters timelineParameters)
+        public static Task<string> GetHomeTimeline(IHomeTimelineParameters timelineParameters)
         {
             return TimelineJsonController.GetHomeTimeline(timelineParameters);
         }
 
         // User Timeline
-        public static string GetUserTimeline(IUserIdentifier user, int maximumTweets = 40)
+        public static Task<string> GetUserTimeline(IUserIdentifier user, int maximumTweets = 40)
         {
             return TimelineJsonController.GetUserTimeline(user, maximumTweets);
         }
 
-        public static string GetUserTimeline(long userId, int maximumTweets = 40)
+        public static Task<string> GetUserTimeline(long userId, int maximumTweets = 40)
         {
             return TimelineJsonController.GetUserTimeline(userId, maximumTweets);
         }
 
-        public static string GetUserTimeline(string userScreenName, int maximumTweets = 40)
+        public static Task<string> GetUserTimeline(string userScreenName, int maximumTweets = 40)
         {
             return TimelineJsonController.GetUserTimeline(userScreenName, maximumTweets);
         }
 
-        public static string GetMentionsTimeline(int maximumTweets = 40)
+        public static Task<string> GetMentionsTimeline(int maximumTweets = 40)
         {
             return TimelineJsonController.GetMentionsTimeline(maximumTweets);
         }

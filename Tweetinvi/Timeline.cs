@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Tweetinvi.Core.Controllers;
 using Tweetinvi.Core.Injectinvi;
 using Tweetinvi.Models;
@@ -89,7 +90,7 @@ namespace Tweetinvi
         /// <summary>
         /// Get the tweets visible on the authenticated user timeline.
         /// </summary>
-        public static IEnumerable<ITweet> GetHomeTimeline(int maximumTweets = 40)
+        public static Task<IEnumerable<ITweet>> GetHomeTimeline(int maximumTweets = 40)
         {
             return TimelineController.GetHomeTimeline(maximumTweets);
         }
@@ -97,7 +98,7 @@ namespace Tweetinvi
         /// <summary>
         /// Get the tweets visible on the authenticated user timeline.
         /// </summary>
-        public static IEnumerable<ITweet> GetHomeTimeline(IHomeTimelineParameters homeTimelineParameters)
+        public static Task<IEnumerable<ITweet>> GetHomeTimeline(IHomeTimelineParameters homeTimelineParameters)
         {
             return TimelineController.GetHomeTimeline(homeTimelineParameters);
         }
@@ -107,7 +108,7 @@ namespace Tweetinvi
         /// <summary>
         /// Get the tweets visible on the specified user Timeline
         /// </summary>
-        public static IEnumerable<ITweet> GetUserTimeline(IUserIdentifier user, int maximumTweets = 40)
+        public static Task<IEnumerable<ITweet>> GetUserTimeline(IUserIdentifier user, int maximumTweets = 40)
         {
             return TimelineController.GetUserTimeline(user, maximumTweets);
         }
@@ -115,7 +116,7 @@ namespace Tweetinvi
         /// <summary>
         /// Get the tweets visible on the specified user Timeline
         /// </summary>
-        public static IEnumerable<ITweet> GetUserTimeline(long userId, int maximumTweets = 40)
+        public static Task<IEnumerable<ITweet>> GetUserTimeline(long userId, int maximumTweets = 40)
         {
             return TimelineController.GetUserTimeline(userId, maximumTweets);
         }
@@ -123,7 +124,7 @@ namespace Tweetinvi
         /// <summary>
         /// Get the tweets visible on the specified user Timeline
         /// </summary>
-        public static IEnumerable<ITweet> GetUserTimeline(string userScreenName, int maximumTweets = 40)
+        public static Task<IEnumerable<ITweet>> GetUserTimeline(string userScreenName, int maximumTweets = 40)
         {
             return TimelineController.GetUserTimeline(userScreenName, maximumTweets);
         }
@@ -131,7 +132,7 @@ namespace Tweetinvi
         /// <summary>
         /// Get the tweets visible on the specified user Timeline
         /// </summary>
-        public static IEnumerable<ITweet> GetUserTimeline(long userId, IUserTimelineParameters userTimelineParameters)
+        public static Task<IEnumerable<ITweet>> GetUserTimeline(long userId, IUserTimelineParameters userTimelineParameters)
         {
             return TimelineController.GetUserTimeline(userId, userTimelineParameters);
         }
@@ -139,7 +140,7 @@ namespace Tweetinvi
         /// <summary>
         /// Get the tweets visible on the specified user Timeline
         /// </summary>
-        public static IEnumerable<ITweet> GetUserTimeline(string userScreenName, IUserTimelineParameters userTimelineParameters)
+        public static Task<IEnumerable<ITweet>> GetUserTimeline(string userScreenName, IUserTimelineParameters userTimelineParameters)
         {
             return TimelineController.GetUserTimeline(userScreenName, userTimelineParameters);
         }
@@ -147,7 +148,7 @@ namespace Tweetinvi
         /// <summary>
         /// Get the tweets visible on the specified user Timeline
         /// </summary>
-        public static IEnumerable<ITweet> GetUserTimeline(IUserIdentifier user, IUserTimelineParameters userTimelineParameters)
+        public static Task<IEnumerable<ITweet>> GetUserTimeline(IUserIdentifier user, IUserTimelineParameters userTimelineParameters)
         {
             return TimelineController.GetUserTimeline(user, userTimelineParameters);
         }
@@ -157,7 +158,7 @@ namespace Tweetinvi
         /// <summary>
         /// Get the tweets visible on your mentions timeline
         /// </summary>
-        public static IEnumerable<IMention> GetMentionsTimeline(int maximumTweets = 40)
+        public static Task<IEnumerable<IMention>> GetMentionsTimeline(int maximumTweets = 40)
         {
             return TimelineController.GetMentionsTimeline(maximumTweets);
         }
@@ -165,7 +166,7 @@ namespace Tweetinvi
         /// <summary>
         /// Get the tweets visible on your mentions timeline
         /// </summary>
-        public static IEnumerable<IMention> GetMentionsTimeline(IMentionsTimelineParameters mentionsTimelineParameters)
+        public static Task<IEnumerable<IMention>> GetMentionsTimeline(IMentionsTimelineParameters mentionsTimelineParameters)
         {
             return TimelineController.GetMentionsTimeline(mentionsTimelineParameters);
         }
@@ -175,7 +176,7 @@ namespace Tweetinvi
         /// <summary>
         /// Get the tweets visible on your retweets of me Timeline
         /// </summary>
-        public static IEnumerable<ITweet> GetRetweetsOfMeTimeline(IRetweetsOfMeTimelineParameters parameters = null)
+        public static Task<IEnumerable<ITweet>> GetRetweetsOfMeTimeline(IRetweetsOfMeTimelineParameters parameters = null)
         {
             return TimelineController.GetRetweetsOfMeTimeline(parameters);
         }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Tweetinvi.Core.Controllers;
 using Tweetinvi.Core.RateLimit;
 using Tweetinvi.Events;
@@ -151,12 +152,12 @@ namespace Tweetinvi
         /// <summary>
         /// Get all the rate limits of all the Twitter endpoints
         /// </summary>
-        public static ICredentialsRateLimits GetCurrentCredentialsRateLimits(bool useRateLimitCache = false)
+        public static async Task<ICredentialsRateLimits> GetCurrentCredentialsRateLimits(bool useRateLimitCache = false)
         {
             ICredentialsRateLimits credentialsRateLimits;
             if (!useRateLimitCache)
             {
-                credentialsRateLimits = HelpController.GetCurrentCredentialsRateLimits();
+                credentialsRateLimits = await HelpController.GetCurrentCredentialsRateLimits();
                 RateLimitCacheManager.UpdateCredentialsRateLimits(Auth.Credentials, credentialsRateLimits);
             }
             else
@@ -170,11 +171,11 @@ namespace Tweetinvi
         /// <summary>
         /// Get all the rate limits of all the Twitter endpoints
         /// </summary>
-        public static ICredentialsRateLimits GetCredentialsRateLimits(ITwitterCredentials credentials, bool useRateLimitCache = false)
+        public static Task<ICredentialsRateLimits> GetCredentialsRateLimits(ITwitterCredentials credentials, bool useRateLimitCache = false)
         {
             if (useRateLimitCache)
             {
-                return RateLimitCacheManager.GetCredentialsRateLimits(credentials).Result;
+                return RateLimitCacheManager.GetCredentialsRateLimits(credentials);
             }
 
             return HelpController.GetCredentialsRateLimits(credentials);

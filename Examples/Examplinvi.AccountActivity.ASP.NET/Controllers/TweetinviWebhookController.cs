@@ -24,7 +24,7 @@ namespace Examplinvi.AccountActivity.ASP.NET.Controllers
         // WEBHOOK
         [HttpPost]
         [Route("SetUserCredentials")]
-        public async Task SetUserCredentials(long userId, [System.Web.Http.FromBody]TwitterCredentials credentials)
+        public async Task SetUserCredentials(long userId, [FromBody]TwitterCredentials credentials)
         {
             await AccountActivityCredentialsRetriever.SetUserCredentials(userId, credentials);
         }

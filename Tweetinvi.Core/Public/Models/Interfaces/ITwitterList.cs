@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Tweetinvi.Core.Models.Async;
 using Tweetinvi.Models.DTO;
 using Tweetinvi.Parameters;
 
 namespace Tweetinvi.Models
 {
-    public interface ITwitterList : ITwitterListAsync, ITwitterListIdentifier
+    public interface ITwitterList : ITwitterListIdentifier
     {
         ITwitterListDTO TwitterListDTO { get; set; }
 
@@ -161,31 +160,31 @@ namespace Tweetinvi.Models
         /// <summary>
         /// Unsubscribe the authenticated user from the list.
         /// </summary>
-        bool UnSubscribeAuthenticatedUserFromList(IAuthenticatedUser authenticatedUser = null);
+        Task<bool> UnSubscribeAuthenticatedUserFromList(IAuthenticatedUser authenticatedUser = null);
 
         /// <summary>
         /// Check whether a user has subscribed to the list.
         /// </summary>
-        bool CheckUserSubscription(long userId);
+        Task<bool> CheckUserSubscription(long userId);
 
         /// <summary>
         /// Check whether a user has subscribed to the list.
         /// </summary>
-        bool CheckUserSubscription(string userScreenName);
+        Task<bool> CheckUserSubscription(string userScreenName);
 
         /// <summary>
         /// Check whether a user has subscribed to the list.
         /// </summary>
-        bool CheckUserSubscription(IUserIdentifier user);
+        Task<bool> CheckUserSubscription(IUserIdentifier user);
 
         /// <summary>
         /// Update the list.
         /// </summary>
-        bool Update(ITwitterListUpdateParameters parameters);
+        Task<bool> Update(ITwitterListUpdateParameters parameters);
 
         /// <summary>
         /// Destroy the list.
         /// </summary>
-        bool Destroy();
+        Task<bool> Destroy();
     }
 }

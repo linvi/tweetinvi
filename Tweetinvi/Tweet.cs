@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Tweetinvi.Core.Controllers;
 using Tweetinvi.Core.Factories;
 using Tweetinvi.Models;
@@ -56,14 +57,14 @@ namespace Tweetinvi
 
         #region Tweet Factory
 
-        public static ITweet GetTweet(long tweetId)
+        public static Task<ITweet> GetTweet(long tweetId)
         {
-            return TweetFactory.GetTweet(tweetId).Result;
+            return TweetFactory.GetTweet(tweetId);
         }
 
-        public static IEnumerable<ITweet> GetTweets(params long[] tweetIds)
+        public static Task<IEnumerable<ITweet>> GetTweets(params long[] tweetIds)
         {
-            return TweetFactory.GetTweets(tweetIds).Result;
+            return TweetFactory.GetTweets(tweetIds);
         }
 
         public static ITweet GenerateTweetFromDTO(ITweetDTO tweetDTO)
@@ -106,7 +107,7 @@ namespace Tweetinvi
         /// <summary>
         /// Publish a tweet
         /// </summary>
-        public static ITweet PublishTweet(IPublishTweetParameters publishTweetParameters)
+        public static Task<ITweet> PublishTweet(IPublishTweetParameters publishTweetParameters)
         {
             return TweetController.PublishTweet(publishTweetParameters);
         }
@@ -114,7 +115,7 @@ namespace Tweetinvi
         /// <summary>
         /// Publish a tweet
         /// </summary>
-        public static ITweet PublishTweet(string text)
+        public static Task<ITweet> PublishTweet(string text)
         {
             IPublishTweetParameters parameters = new PublishTweetParameters(text);
             return TweetController.PublishTweet(parameters);
@@ -123,7 +124,7 @@ namespace Tweetinvi
         /// <summary>
         /// Publish a tweet in reply to another one
         /// </summary>
-        public static ITweet PublishTweetInReplyTo(string text, long tweetToReplyToId)
+        public static Task<ITweet> PublishTweetInReplyTo(string text, long tweetToReplyToId)
         {
             return TweetController.PublishTweetInReplyTo(text, tweetToReplyToId);
         }
@@ -131,7 +132,7 @@ namespace Tweetinvi
         /// <summary>
         /// Publish a tweet in reply to another one
         /// </summary>
-        public static ITweet PublishTweetInReplyTo(string text, ITweetIdentifier tweetToReplyTo)
+        public static Task<ITweet> PublishTweetInReplyTo(string text, ITweetIdentifier tweetToReplyTo)
         {
             return TweetController.PublishTweetInReplyTo(text, tweetToReplyTo);
         }
@@ -141,7 +142,7 @@ namespace Tweetinvi
         /// <summary>
         /// Publish a retweet tweet
         /// </summary>
-        public static ITweet PublishRetweet(ITweet tweet)
+        public static Task<ITweet> PublishRetweet(ITweet tweet)
         {
             return TweetController.PublishRetweet(tweet);
         }
@@ -149,7 +150,7 @@ namespace Tweetinvi
         /// <summary>
         /// Publish a retweet tweet
         /// </summary>
-        public static ITweet PublishRetweet(long tweetId)
+        public static Task<ITweet> PublishRetweet(long tweetId)
         {
             return TweetController.PublishRetweet(tweetId);
         }
@@ -159,17 +160,19 @@ namespace Tweetinvi
         /// <summary>
         /// Publish a unretweet tweet
         /// </summary>
-        public static bool UnRetweet(ITweetIdentifier tweet)
+        public static async Task<bool> UnRetweet(ITweetIdentifier tweet)
         {
-            return TweetController.UnRetweet(tweet) != null;
+            var retweet = await TweetController.UnRetweet(tweet);
+            return retweet != null;
         }
 
         /// <summary>
         /// Publish a unretweet tweet
         /// </summary>
-        public static bool UnRetweet(long tweetId)
+        public static async Task<bool> UnRetweet(long tweetId)
         {
-            return TweetController.UnRetweet(tweetId) != null;
+            var retweet = await TweetController.UnRetweet(tweetId);
+            return retweet != null;
         }
 
         // Get Retweet
@@ -177,7 +180,7 @@ namespace Tweetinvi
         /// <summary>
         /// Get the retweets of a specific tweet
         /// </summary>
-        public static IEnumerable<ITweet> GetRetweets(ITweetIdentifier tweet)
+        public static Task<IEnumerable<ITweet>> GetRetweets(ITweetIdentifier tweet)
         {
             return TweetController.GetRetweets(tweet);
         }
@@ -185,7 +188,7 @@ namespace Tweetinvi
         /// <summary>
         /// Get the retweets of a specific tweet
         /// </summary>
-        public static IEnumerable<ITweet> GetRetweets(long tweetId)
+        public static Task<IEnumerable<ITweet>> GetRetweets(long tweetId)
         {
             return TweetController.GetRetweets(tweetId);
         }
@@ -195,7 +198,7 @@ namespace Tweetinvi
         /// <summary>
         /// Get the retweeter Ids who tweeted a specific tweet
         /// </summary>
-        public static IEnumerable<long> GetRetweetersIds(long tweetId, int maxRetweetersToRetrieve = 100)
+        public static Task<IEnumerable<long>> GetRetweetersIds(long tweetId, int maxRetweetersToRetrieve = 100)
         {
             return TweetController.GetRetweetersIds(tweetId, maxRetweetersToRetrieve);
         }
@@ -203,7 +206,7 @@ namespace Tweetinvi
         /// <summary>
         /// Get the retweeter Ids who tweeted a specific tweet
         /// </summary>
-        public static IEnumerable<long> GetRetweetersIds(ITweetIdentifier tweetIdentifier, int maxRetweetersToRetrieve = 100)
+        public static Task<IEnumerable<long>> GetRetweetersIds(ITweetIdentifier tweetIdentifier, int maxRetweetersToRetrieve = 100)
         {
             return TweetController.GetRetweetersIds(tweetIdentifier, maxRetweetersToRetrieve);
         }
@@ -213,7 +216,7 @@ namespace Tweetinvi
         /// <summary>
         /// Destroy a specific tweet
         /// </summary>
-        public static bool DestroyTweet(ITweet tweet)
+        public static Task<bool> DestroyTweet(ITweet tweet)
         {
             return TweetController.DestroyTweet(tweet);
         }
@@ -221,7 +224,7 @@ namespace Tweetinvi
         /// <summary>
         /// Destroy a specific tweet
         /// </summary>
-        public static bool DestroyTweet(long tweetId)
+        public static Task<bool> DestroyTweet(long tweetId)
         {
             return TweetController.DestroyTweet(tweetId);
         }
@@ -231,7 +234,7 @@ namespace Tweetinvi
         /// <summary>
         /// Favorite a specific tweet
         /// </summary>
-        public static bool FavoriteTweet(ITweet tweet)
+        public static Task<bool> FavoriteTweet(ITweet tweet)
         {
             return TweetController.FavoriteTweet(tweet);
         }
@@ -239,7 +242,7 @@ namespace Tweetinvi
         /// <summary>
         /// Favorite a specific tweet
         /// </summary>
-        public static bool FavoriteTweet(long tweetId)
+        public static Task<bool> FavoriteTweet(long tweetId)
         {
             return TweetController.FavoriteTweet(tweetId);
         }
@@ -249,7 +252,7 @@ namespace Tweetinvi
         /// <summary>
         /// UnFavorite a specific tweet
         /// </summary>
-        public static bool UnFavoriteTweet(ITweet tweet)
+        public static Task<bool> UnFavoriteTweet(ITweet tweet)
         {
             return TweetController.UnFavoriteTweet(tweet);
         }
@@ -257,7 +260,7 @@ namespace Tweetinvi
         /// <summary>
         /// UnFavorite a specific tweet
         /// </summary>
-        public static bool UnFavoriteTweet(long tweetId)
+        public static Task<bool> UnFavoriteTweet(long tweetId)
         {
             return TweetController.UnFavoriteTweet(tweetId);
         }
@@ -267,7 +270,7 @@ namespace Tweetinvi
         /// <summary>
         /// Generate an OEmbed Tweet
         /// </summary>
-        public static IOEmbedTweet GetOEmbedTweet(ITweet tweet)
+        public static Task<IOEmbedTweet> GetOEmbedTweet(ITweet tweet)
         {
             return TweetController.GenerateOEmbedTweet(tweet);
         }
@@ -275,7 +278,7 @@ namespace Tweetinvi
         /// <summary>
         /// Generate an OEmbed Tweet
         /// </summary>
-        public static IOEmbedTweet GetOEmbedTweet(long tweetId)
+        public static Task<IOEmbedTweet> GetOEmbedTweet(long tweetId)
         {
             return TweetController.GenerateOEmbedTweet(tweetId);
         }

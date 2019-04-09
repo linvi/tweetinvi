@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Tweetinvi.Controllers.Messages;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
@@ -34,7 +35,7 @@ namespace Tweetinvi.Json
         }
 
         // Get Messages
-        public static string GetLatestMessages(int count)
+        public static Task<string> GetLatestMessages(int count)
         {
             return MessageJsonController.GetLatestMessages(count);
         }
@@ -44,34 +45,34 @@ namespace Tweetinvi.Json
         /// This method will not make multiple requests to the Twitter API and combine their results,
         /// as that would require parsing the JSON, instead that is left up to the caller.
         /// </summary>
-        public static string GetLatestMessages(IGetMessagesParameters parameters)
+        public static Task<string> GetLatestMessages(IGetMessagesParameters parameters)
         {
             return MessageJsonController.GetLatestMessages(parameters);
         }
 
         // Publish Message
-        public static string PublishMessage(string text, long targetUserId)
+        public static Task<string> PublishMessage(string text, long targetUserId)
         {
             return MessageJsonController.PublishMessage(text, targetUserId);
         }
 
-        public static string PublishMessage(IPublishMessageParameters parameters)
+        public static Task<string> PublishMessage(IPublishMessageParameters parameters)
         {
             return MessageJsonController.PublishMessage(parameters);
         }
 
         // Destroy Message
-        public static bool DestroyMessage(IMessage message)
+        public static Task<bool> DestroyMessage(IMessage message)
         {
             return MessageJsonController.DestroyMessage(message);
         }
 
-        public static bool DestroyMessage(IMessageEventDTO messageEventDTO)
+        public static Task<bool> DestroyMessage(IMessageEventDTO messageEventDTO)
         {
             return MessageJsonController.DestroyMessage(messageEventDTO);
         }
 
-        public static bool DestroyMessage(long messageId)
+        public static Task<bool> DestroyMessage(long messageId)
         {
             return MessageJsonController.DestroyMessage(messageId);
         }

@@ -30,7 +30,7 @@ namespace Examplinvi.Xamarin.iOS
 
         private void RefreshHomeTimeline()
         {
-            var tweets = Timeline.GetHomeTimeline(20).ToArray();
+            var tweets = Timeline.GetHomeTimeline(20).Result.ToArray();
             var tableSource = new TweetTimelineTableViewSource(tweets);
 
             TimelineTableView.Source = tableSource;
