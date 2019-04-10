@@ -3,7 +3,7 @@ using System.Net.Http;
 using Tweetinvi.Models;
 using HttpMethod = Tweetinvi.Models.HttpMethod;
 
-namespace Tweetinvi.WebLogic
+namespace Tweetinvi
 {
    public class TwitterRequestParameters : ITwitterRequestParameters
     {

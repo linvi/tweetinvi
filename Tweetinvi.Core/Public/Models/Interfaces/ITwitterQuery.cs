@@ -68,6 +68,11 @@ namespace Tweetinvi.Models
         int? TimeToWaitBeforeExecutingTheQueryInMilliSeconds { get; }
 
         /// <summary>
+        /// Mutlipart request like upload
+        /// </summary>
+        IMultipartHttpRequest MultipartHttpRequest { get; set; }
+
+        /// <summary>
         /// Clone the query information into a new object.
         /// </summary>
         ITwitterQuery Clone();

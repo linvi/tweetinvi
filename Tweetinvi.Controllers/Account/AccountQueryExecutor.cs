@@ -64,7 +64,7 @@ namespace Tweetinvi.Controllers.Account
 
             var asyncOperation = await _twitterAccessor.TryExecuteMultipartQuery(new MultipartHttpRequestParameters
             {
-                Query = query,
+                Url = query,
                 HttpMethod = HttpMethod.POST,
                 Binaries = new [] { parameters.Binary },
                 ContentId = "image",
@@ -92,7 +92,7 @@ namespace Tweetinvi.Controllers.Account
 
             var multipartParameters = new MultipartHttpRequestParameters
             {
-                Query = query,
+                Url = query,
                 HttpMethod = HttpMethod.POST,
                 Binaries = new [] { parameters.Binary }, 
                 ContentId = "banner",
@@ -121,7 +121,7 @@ namespace Tweetinvi.Controllers.Account
             {
                 var multipartAsyncOperation = await _twitterAccessor.TryExecuteMultipartQuery(new MultipartHttpRequestParameters
                 {
-                    Query = query,
+                    Url = query,
                     HttpMethod = HttpMethod.POST,
                     Binaries = new [] { parameters.Binary },
                     ContentId = "image",

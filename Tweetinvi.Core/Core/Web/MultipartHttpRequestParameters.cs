@@ -2,12 +2,36 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Net.Http;
+using Tweetinvi.Models;
 using HttpMethod = Tweetinvi.Models.HttpMethod;
 
 namespace Tweetinvi.Core.Web
 {
+    public interface IMultipartHttpRequest
+    {
+        /// <summary>
+        /// Binary to be send via HttpRequest
+        /// </summary>
+        IEnumerable<byte[]> Binaries { get; set; }
+
+        /// <summary>
+        /// Content Id
+        /// </summary>
+        string ContentId { get; set; }
+
+        /// <summary>
+        /// Action invoked to show the progress of the upload. {current / total}
+        /// </summary>
+        Action<long, long> UploadProgressChanged { get; set; }
+    }
+
     public interface IMultipartHttpRequestParameters : IHttpRequestParameters
     {
+        /// <summary>
+        /// Credentials used to execute the query
+        /// </summary>
+        ITwitterCredentials Credentials { get; set; }
+
         /// <summary>
         /// Binary to be send via HttpRequest
         /// </summary>
@@ -33,6 +57,8 @@ namespace Tweetinvi.Core.Web
             ContentId = "media";
             HttpMethod = HttpMethod.POST;
         }
+
+        public ITwitterCredentials Credentials { get; set; }
 
         public IEnumerable<byte[]> Binaries
         {

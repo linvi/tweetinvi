@@ -93,7 +93,7 @@ namespace Tweetinvi.Controllers.Upload
 
             var multiPartRequestParameters = new MultipartHttpRequestParameters
             {
-                Query = appendQuery,
+                Url = appendQuery,
                 Binaries = new List<byte[]> { parameters.Binary },
                 Timeout = parameters.Timeout,
                 ContentId = parameters.MediaType,

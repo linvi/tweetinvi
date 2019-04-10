@@ -4,14 +4,13 @@ using Tweetinvi.Core.Web;
 using Tweetinvi.Models;
 using HttpMethod = Tweetinvi.Models.HttpMethod;
 
-namespace Tweetinvi.WebLogic
+namespace Tweetinvi
 {
     public class TwitterQuery : TwitterRequestParameters, ITwitterQuery
     {
-        public TwitterQuery(string queryURL, HttpMethod httpMethod)
+        public TwitterQuery()
         {
-            QueryURL = queryURL;
-            HttpMethod = httpMethod;
+            _timeout = TimeSpan.FromSeconds(10);
 
             AcceptHeaders = new List<string>
             {
@@ -20,6 +19,12 @@ namespace Tweetinvi.WebLogic
             };
 
             CustomHeaders = new Dictionary<string, string>();
+        }
+
+        public TwitterQuery(string queryURL, HttpMethod httpMethod) : this()
+        {
+            QueryURL = queryURL;
+            HttpMethod = httpMethod;
         }
 
         public IProxyConfig ProxyConfig { get; set; }
@@ -70,6 +75,8 @@ namespace Tweetinvi.WebLogic
                 return (int)Math.Max(0, timeToWait);
             }
         }
+
+        public IMultipartHttpRequest MultipartHttpRequest { get; set; }
 
         public ITwitterQuery Clone()
         {

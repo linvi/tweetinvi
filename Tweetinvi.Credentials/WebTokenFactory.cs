@@ -1,5 +1,6 @@
 ﻿using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using Tweetinvi.Core;
 using Tweetinvi.Core.Credentials;
 using Tweetinvi.Core.Exceptions;
 using Tweetinvi.Core.Extensions;
@@ -19,17 +20,23 @@ namespace Tweetinvi.Credentials
         private readonly IOAuthWebRequestGenerator _oAuthWebRequestGenerator;
         private readonly ICredentialsStore _credentialsStore;
         private readonly ITwitterRequestHandler _twitterRequestHandler;
+        private readonly ITwitterQueryFactory _twitterQueryFactory;
+        private readonly ITweetinviSettingsAccessor _settingsAccessor;
 
         public WebTokenFactory(
             IExceptionHandler exceptionHandler,
             IOAuthWebRequestGenerator oAuthWebRequestGenerator,
             ICredentialsStore credentialsStore,
-            ITwitterRequestHandler twitterRequestHandler)
+            ITwitterRequestHandler twitterRequestHandler,
+            ITwitterQueryFactory twitterQueryFactory,
+            ITweetinviSettingsAccessor settingsAccessor)
         {
             _exceptionHandler = exceptionHandler;
             _oAuthWebRequestGenerator = oAuthWebRequestGenerator;
             _credentialsStore = credentialsStore;
             _twitterRequestHandler = twitterRequestHandler;
+            _twitterQueryFactory = twitterQueryFactory;
+            _settingsAccessor = settingsAccessor;
         }
 
         // Step 1 - Generate Authorization URL
@@ -54,11 +61,20 @@ namespace Tweetinvi.Credentials
                 var callbackParameter = _oAuthWebRequestGenerator.GenerateParameter("oauth_callback", callbackURL, true, true, false);
 
                 var authHandler = new AuthHttpHandler(callbackParameter, authContext.Token);
-                var requestTokenResponse = await _twitterRequestHandler.ExecuteQuery(
-                    Resources.OAuthRequestToken, 
-                    HttpMethod.POST, 
-                    authHandler,
-                    new TwitterCredentials(appCredentials));
+                var consumerCredentials = new TwitterCredentials(appCredentials);
+                var twitterQuery = _twitterQueryFactory.Create(Resources.OAuthRequestToken, HttpMethod.POST, consumerCredentials);
+
+                var twitterRequest = new TwitterRequest
+                {
+                    Query = twitterQuery,
+                    TwitterClientHandler = authHandler,
+                    Config = new TwitterRequestConfig
+                    {
+                        RateLimitTrackerMode = _settingsAccessor.RateLimitTrackerMode
+                    }
+                };
+
+                var requestTokenResponse = await _twitterRequestHandler.ExecuteQuery(twitterRequest);
 
                 if (!string.IsNullOrEmpty(requestTokenResponse.Text) && requestTokenResponse.Text != Resources.OAuthRequestToken)
                 {
@@ -128,8 +144,21 @@ namespace Tweetinvi.Credentials
             try
             {
                 var authHandler = new AuthHttpHandler(callbackParameter, authToken);
-                var response = await _twitterRequestHandler.ExecuteQuery(Resources.OAuthRequestAccessToken, HttpMethod.POST, authHandler, 
-                    new TwitterCredentials(authToken.ConsumerCredentials));
+                var consumerCredentials = new TwitterCredentials(authToken.ConsumerCredentials);
+
+                var twitterQuery = _twitterQueryFactory.Create(Resources.OAuthRequestAccessToken, HttpMethod.POST, consumerCredentials);
+
+                var twitterRequest = new TwitterRequest
+                {
+                    Query = twitterQuery,
+                    TwitterClientHandler = authHandler,
+                    Config = new TwitterRequestConfig
+                    {
+                        RateLimitTrackerMode = _settingsAccessor.RateLimitTrackerMode
+                    }
+                };
+
+                var response = await _twitterRequestHandler.ExecuteQuery(twitterRequest);
 
                 if (response == null)
                 {
