@@ -63,19 +63,19 @@ namespace Examplinvi.NETFramework
             AuthenticatedUserExamples().Wait();
             TimelineExamples().Wait();
             MessageExamples().Wait();
-            TwitterListExamples();
-            GeoExamples();
-            SearchExamples();
-            SavedSearchesExamples();
-            RateLimitExamples();
-            HelpExamples();
-            JsonExamples();
-            StreamExamples();
-            AdditionalFeaturesExamples();
+            TwitterListExamples().Wait();
+            GeoExamples().Wait();
+            SearchExamples().Wait();
+            SavedSearchesExamples().Wait();
+            RateLimitExamples().Wait();
+            HelpExamples().Wait();
+            JsonExamples().Wait();
+            StreamExamples().Wait();
+            AdditionalFeaturesExamples().Wait();
             Examples.ConfigureTweetinvi();
             Examples.GlobalEvents();
-            UploadExamples();
-            DownloadExamples();
+            UploadExamples().Wait();
+            DownloadExamples().Wait();
 
             Console.WriteLine(@"END");
             Console.ReadLine();
@@ -94,12 +94,12 @@ namespace Examplinvi.NETFramework
             }
 
             // With captcha
-            Examples.AuthFlow_WithCaptcha_StepByStep("consumer_key", "consumer_secret");
+            await Examples.AuthFlow_WithCaptcha_StepByStep("consumer_key", "consumer_secret");
 
             // With callback URL
-            Examples.AuthFlow_CreateFromRedirectedCallbackURL_StepByStep("consumer_key", "consumer_secret");
+            await Examples.AuthFlow_CreateFromRedirectedCallbackURL_StepByStep("consumer_key", "consumer_secret");
 
-            Examples.AuthFlow_CreateFromRedirectedVerifierCode_StepByStep("consumer_key", "consumer_secret");
+            await Examples.AuthFlow_CreateFromRedirectedVerifierCode_StepByStep("consumer_key", "consumer_secret");
         }
 
         private static async Task TweetExamples()
@@ -111,11 +111,11 @@ namespace Examplinvi.NETFramework
 
             await Examples.Tweet_GetExistingTweet(210462857140252672);
 
-            await Examples.Tweet_PublishTweet(string.Format("I love tweetinvi! ({0})", Guid.NewGuid()));
-            await Examples.Tweet_PublishTweetWithImage("Uploadinvi?", "YOUR_FILE_PATH.png");
+            await Examples.Tweet_PublishTweet($"I love tweetinvi! ({Guid.NewGuid()})");
+            await Examples.Tweet_PublishTweetWithImage("superb file", "YOUR_FILE_PATH.png");
 
-            await Examples.Tweet_PublishTweetInReplyToAnotherTweet(string.Format("I love tweetinvi! ({0})", Guid.NewGuid()), 392711547081854976);
-            await Examples.Tweet_PublishTweetWithGeo(string.Format("I love tweetinvi! ({0})", Guid.NewGuid()));
+            await Examples.Tweet_PublishTweetInReplyToAnotherTweet($"I love tweetinvi! ({Guid.NewGuid()})", 392711547081854976);
+            await Examples.Tweet_PublishTweetWithGeo($"I love tweetinvi! ({Guid.NewGuid()})");
 
             await Examples.Tweet_Destroy();
 
@@ -198,6 +198,7 @@ namespace Examplinvi.NETFramework
 
             await Examples.Message_GetLatests();
             await Examples.Message_GetMessageFromId(381069551028293633);
+            await Examples.Message_DestroyMessageFromId(42);
             await Examples.Message_PublishMessage("I love tweetinvi", Examples.USER_SCREEN_NAME_TO_TEST);
             await Examples.Message_PublishMessageWithImage("I love attachments", Examples.USER_SCREEN_NAME_TO_TEST,
                 "./path_to_image_file");
@@ -213,10 +214,10 @@ namespace Examplinvi.NETFramework
 
             await Examples.Stream_SampleStreamExample();
             await Examples.Stream_FilteredStreamExample();
-            await Examples.SimpleStream_Events();
+            Examples.SimpleStream_Events();
         }
 
-        private static void TwitterListExamples()
+        private static async Task TwitterListExamples()
         {
             if (!Examples.ExecuteExamples)
             {
@@ -234,7 +235,7 @@ namespace Examplinvi.NETFramework
             await Examples.TwitterList_GetMembersOfList(105601767);
         }
 
-        private static void GeoExamples()
+        private static async Task GeoExamples()
         {
             if (!Examples.ExecuteExamples)
             {
@@ -245,7 +246,7 @@ namespace Examplinvi.NETFramework
             await Examples.Trends_GetTrendsFromWoeId(1);
         }
 
-        private static void SearchExamples()
+        private static async Task SearchExamples()
         {
             if (!Examples.ExecuteExamples)
             {
@@ -256,10 +257,11 @@ namespace Examplinvi.NETFramework
             await Examples.Search_SearchTweet();
             await Examples.Search_SearchWithMetadata();
             await Examples.Search_FilteredSearch();
+            await Examples.Search_SearchAndGetMoreThan100Results();
             await Examples.Search_SearchUsers();
         }
 
-        private static void SavedSearchesExamples()
+        private static async Task SavedSearchesExamples()
         {
             if (!Examples.ExecuteExamples)
             {
@@ -272,7 +274,7 @@ namespace Examplinvi.NETFramework
             await Examples.SavedSearch_DestroySavedSearch(307102135);
         }
 
-        private static void RateLimitExamples()
+        private static async Task RateLimitExamples()
         {
             if (!Examples.ExecuteExamples)
             {
@@ -280,13 +282,13 @@ namespace Examplinvi.NETFramework
             }
 
             await Examples.RateLimits_Track_Examples();
-            await Examples.RateLimits_ManualAwait();
+            Examples.RateLimits_ManualAwait();
 
             await Examples.GetCredentialsRateLimits();
             await Examples.GetCurrentCredentialsRateLimits();
         }
 
-        private static void HelpExamples()
+        private static async Task HelpExamples()
         {
             if (!Examples.ExecuteExamples)
             {
@@ -296,7 +298,7 @@ namespace Examplinvi.NETFramework
             await Examples.GetTwitterPrivacyPolicy();
         }
 
-        private static void JsonExamples()
+        private static async Task JsonExamples()
         {
             if (!Examples.ExecuteExamples)
             {
@@ -315,7 +317,7 @@ namespace Examplinvi.NETFramework
             await Examples.Json_GetJsonForUserRequestExample();
         }
 
-        private static void AdditionalFeaturesExamples()
+        private static async Task AdditionalFeaturesExamples()
         {
             if (!Examples.ExecuteExamples)
             {
@@ -326,7 +328,7 @@ namespace Examplinvi.NETFramework
             await Examples.ManualQuery_Example();
         }
 
-        private static void UploadExamples()
+        private static async Task UploadExamples()
         {
             if (!Examples.ExecuteExamples)
             {
@@ -339,7 +341,7 @@ namespace Examplinvi.NETFramework
             await Examples.Tweet_PublishTweetWithImage("publish with img", "filePath");
         }
 
-        private static void DownloadExamples()
+        private static async Task DownloadExamples()
         {
             if (!Examples.ExecuteExamples)
             {
@@ -363,17 +365,17 @@ namespace Examplinvi.NETFramework
 
         // Get credentials with captcha system
         // ReSharper disable UnusedMethodReturnValue.Local
-        public static ITwitterCredentials AuthFlow_WithCaptcha_StepByStep(string consumerKey, string consumerSecret)
+        public static async Task<ITwitterCredentials> AuthFlow_WithCaptcha_StepByStep(string consumerKey, string consumerSecret)
         {
             var applicationCredentials = new ConsumerCredentials(consumerKey, consumerSecret);
-            var authenticationContext = AuthFlow.InitAuthentication(applicationCredentials);
+            var authenticationContext = await AuthFlow.InitAuthentication(applicationCredentials);
             Console.WriteLine("Go on : {0}", authenticationContext.AuthorizationURL);
-            Console.WriteLine("Enter the captch : ");
+            Console.WriteLine("Enter the captcha : ");
             var captcha = Console.ReadLine();
 
             try
             {
-                var newCredentials = AuthFlow.CreateCredentialsFromVerifierCode(captcha, authenticationContext);
+                var newCredentials = await AuthFlow.CreateCredentialsFromVerifierCode(captcha, authenticationContext);
                 Console.WriteLine("Access Token = {0}", newCredentials.AccessToken);
                 Console.WriteLine("Access Token Secret = {0}", newCredentials.AccessTokenSecret);
 
@@ -386,10 +388,10 @@ namespace Examplinvi.NETFramework
         }
 
         // Get credentials with callbackURL system
-        public static ITwitterCredentials AuthFlow_CreateFromRedirectedCallbackURL_StepByStep(string consumerKey, string consumerSecret)
+        public static async Task<ITwitterCredentials> AuthFlow_CreateFromRedirectedCallbackURL_StepByStep(string consumerKey, string consumerSecret)
         {
             var applicationCredentials = new ConsumerCredentials("YHGdHYh7J464jl6Uk38jLRCvq", "lqKIkby71YV7L7IItQpIOVuyLU9HVIgTinz4f6c0a0yUeT6Pj0");
-            var authenticationContext = AuthFlow.InitAuthentication(applicationCredentials, "http://www.linvi.net");
+            var authenticationContext = await AuthFlow.InitAuthentication(applicationCredentials, "http://www.linvi.net");
             Console.WriteLine("Go on : {0}", authenticationContext);
             Console.WriteLine("When redirected to your website copy and paste the URL: ");
 
@@ -398,17 +400,17 @@ namespace Examplinvi.NETFramework
             var callbackURL = Console.ReadLine();
 
             // Here we provide the entire URL where the user has been redirected
-            var newCredentials = AuthFlow.CreateCredentialsFromCallbackURL(callbackURL, authenticationContext);
+            var newCredentials = await AuthFlow.CreateCredentialsFromCallbackURL(callbackURL, authenticationContext);
             Console.WriteLine("Access Token = {0}", newCredentials.AccessToken);
             Console.WriteLine("Access Token Secret = {0}", newCredentials.AccessTokenSecret);
 
             return newCredentials;
         }
 
-        public static ITwitterCredentials AuthFlow_CreateFromRedirectedVerifierCode_StepByStep(string consumerKey, string consumerSecret)
+        public static async Task<ITwitterCredentials> AuthFlow_CreateFromRedirectedVerifierCode_StepByStep(string consumerKey, string consumerSecret)
         {
             var applicationCredentials = new ConsumerCredentials(consumerKey, consumerSecret);
-            var authenticationContext = AuthFlow.InitAuthentication(applicationCredentials, "https://tweetinvi.codeplex.com");
+            var authenticationContext = await AuthFlow.InitAuthentication(applicationCredentials, "https://tweetinvi.codeplex.com");
             Console.WriteLine("Go on : {0}", authenticationContext);
             Console.WriteLine("When redirected to your website copy and paste the value of the oauth_verifier : ");
 
@@ -418,7 +420,7 @@ namespace Examplinvi.NETFramework
             var verifierCode = Console.ReadLine();
 
             // Here we only provide the verifier code
-            var newCredentials = AuthFlow.CreateCredentialsFromVerifierCode(verifierCode, authenticationContext);
+            var newCredentials = await AuthFlow.CreateCredentialsFromVerifierCode(verifierCode, authenticationContext);
             Console.WriteLine("Access Token = {0}", newCredentials.AccessToken);
             Console.WriteLine("Access Token Secret = {0}", newCredentials.AccessTokenSecret);
 
@@ -466,7 +468,7 @@ namespace Examplinvi.NETFramework
             var tweetToReplyTo = await Tweet.GetTweet(tweetIdToReplyTo);
 
             // We must add @screenName of the author of the tweet we want to reply to
-            var textToPublish = string.Format("@{0} {1}", tweetToReplyTo.CreatedBy.ScreenName, text);
+            var textToPublish = $"@{tweetToReplyTo.CreatedBy.ScreenName} {text}";
             var tweet = Tweet.PublishTweetInReplyTo(textToPublish, tweetIdToReplyTo);
             Console.WriteLine("Publish success? {0}", tweet != null);
         }
@@ -499,7 +501,7 @@ namespace Examplinvi.NETFramework
             var tweet = await Tweet.GetTweet(tweetId);
             var retweet = await tweet.PublishRetweet();
 
-            retweet.Destroy();
+            await retweet.Destroy();
         }
 
         public static async Task Tweet_GetRetweets(long tweetId)
@@ -509,7 +511,7 @@ namespace Examplinvi.NETFramework
 
             var firstRetweeter = retweets.ElementAt(0).CreatedBy;
             var originalTweet = retweets.ElementAt(0).RetweetedTweet;
-            Console.WriteLine("{0} retweeted : '{1}'", firstRetweeter.Name, originalTweet.Text);
+            Console.WriteLine($"{firstRetweeter.Name} retweeted : '{originalTweet.Text}'");
         }
 
         public static async Task Tweet_GenerateOEmbedTweet()
@@ -1226,7 +1228,7 @@ namespace Examplinvi.NETFramework
 
         #region Rate Limits
 
-        public static void RateLimits_Track_Examples()
+        public static async Task RateLimits_Track_Examples()
         {
             // Enable Tweetinvi RateLimit Handler
             RateLimit.RateLimitTrackerMode = RateLimitTrackerMode.TrackAndAwait;
@@ -1238,7 +1240,7 @@ namespace Examplinvi.NETFramework
             };
 
             // Get the RateLimit associated with a query, this can return null
-            var queryRateLimit = RateLimit.GetQueryRateLimit("https://api.twitter.com/1.1/application/rate_limit_status.json");
+            var queryRateLimit = await RateLimit.GetQueryRateLimit("https://api.twitter.com/1.1/application/rate_limit_status.json");
 
             // Pause the current thread until the specific RateLimit can be used
             RateLimit.AwaitForQueryRateLimit(queryRateLimit);
@@ -1255,7 +1257,7 @@ namespace Examplinvi.NETFramework
         {
             TweetinviEvents.QueryBeforeExecute += (sender, args) =>
             {
-                var queryRateLimit = RateLimit.GetQueryRateLimit(args.QueryURL);
+                var queryRateLimit = RateLimit.GetQueryRateLimit(args.QueryURL).Result;
                 RateLimit.AwaitForQueryRateLimit(queryRateLimit);
             };
         }
@@ -1404,7 +1406,7 @@ namespace Examplinvi.NETFramework
 
         #region Download
 
-        public static byte[] DownloadBinaryFromTwitter(string twitterUrl)
+        public static Task<byte[]> DownloadBinaryFromTwitter(string twitterUrl)
         {
             return TwitterAccessor.DownloadBinary(twitterUrl);
         }
@@ -1427,39 +1429,40 @@ namespace Examplinvi.NETFramework
             Console.WriteLine(jsonResponse);
         }
 
-        public static void Json_GetJsonForGeoRequestExample()
+        public static async Task Json_GetJsonForGeoRequestExample()
         {
-            var jsonResponse = GeoJson.GetPlaceFromId("df51dec6f4ee2b2c");
+            var jsonResponse = await GeoJson.GetPlaceFromId("df51dec6f4ee2b2c");
             Console.WriteLine(jsonResponse);
         }
 
-        public static void Json_GetJsonForHelpRequestExample()
+        public static async Task Json_GetJsonForHelpRequestExample()
         {
-            var jsonResponse = HelpJson.GetCredentialsRateLimits();
+            var jsonResponse = await HelpJson.GetCredentialsRateLimits();
             Console.WriteLine(jsonResponse);
         }
 
-        public static void Json_GetJsonForSavedSearchRequestExample()
+        public static async Task Json_GetJsonForSavedSearchRequestExample()
         {
-            var jsonResponse = SavedSearchJson.GetSavedSearches();
+            var jsonResponse = await SavedSearchJson.GetSavedSearches();
             Console.WriteLine(jsonResponse);
         }
 
-        public static void Json_GetJsonForTimelineRequestExample()
+        public static async Task Json_GetJsonForTimelineRequestExample()
         {
-            var jsonResponse = TimelineJson.GetHomeTimeline(2);
+            var jsonResponse = await TimelineJson.GetHomeTimeline(2);
             Console.WriteLine(jsonResponse);
         }
 
-        public static void Json_GetJsonForTrendsRequestExample()
+        public static async Task Json_GetJsonForTrendsRequestExample()
         {
-            var jsonResponse = TrendsJson.GetTrendsAt(1);
+            var jsonResponse = await TrendsJson.GetTrendsAt(1);
             Console.WriteLine(jsonResponse);
         }
 
-        public static void Json_GetJsonForTweetRequestExample()
+        public static async Task Json_GetJsonForTweetRequestExample()
         {
-            var json = TweetJson.PublishTweet("text");
+            var json = await TweetJson.PublishTweet("text");
+            Console.WriteLine(json);
         }
 
         public static async Task Json_GetJsonForUserRequestExample()
@@ -1484,12 +1487,12 @@ namespace Examplinvi.NETFramework
 
         #region Exception
 
-        public static void Exceptions_GetExceptionsInfo()
+        public static async Task Exceptions_GetExceptionsInfo()
         {
             Auth.Credentials = null;
 
             // default
-            var user = User.GetAuthenticatedUser();
+            var user = await User.GetAuthenticatedUser();
             if (user == null)
             {
                 var lastException = ExceptionHandler.GetLastException();
@@ -1498,10 +1501,11 @@ namespace Examplinvi.NETFramework
 
             // throw exception
             ExceptionHandler.SwallowWebExceptions = false;
+
             try
             {
                 // ReSharper disable once RedundantAssignment
-                user = User.GetAuthenticatedUser();
+                user = await User.GetAuthenticatedUser();
             }
             catch (TwitterException ex)
             {
@@ -1513,12 +1517,12 @@ namespace Examplinvi.NETFramework
 
         #region Manual Query
 
-        public static void ManualQuery_Example()
+        public static async Task ManualQuery_Example()
         {
             const string getHomeTimelineQuery = "https://api.twitter.com/1.1/statuses/home_timeline.json";
 
             // Execute Query can either return a json or a DTO interface
-            var tweetsDTO = TwitterAccessor.ExecuteGETQuery<IEnumerable<ITweetDTO>>(getHomeTimelineQuery);
+            var tweetsDTO = await TwitterAccessor.ExecuteGETQuery<IEnumerable<ITweetDTO>>(getHomeTimelineQuery);
             tweetsDTO.ForEach(tweetDTO => Console.WriteLine(tweetDTO.Text));
         }
 
@@ -1569,9 +1573,10 @@ namespace Examplinvi.NETFramework
 
         #region Help
 
-        public static void GetTwitterPrivacyPolicy()
+        public static async Task GetTwitterPrivacyPolicy()
         {
-            Console.WriteLine(Help.GetTwitterPrivacyPolicy());
+            var privacyPolicy = await Help.GetTwitterPrivacyPolicy();
+            Console.WriteLine(privacyPolicy);
         }
 
         #endregion

@@ -84,7 +84,7 @@ namespace Examplinvi.WPF.ViewModels
                 }
             };
 
-            s.StartStreamAsync();
+            s.StartStream();
         }
 
         #region INotifyPropertyChanged Implementation

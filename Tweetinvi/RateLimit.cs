@@ -136,17 +136,17 @@ namespace Tweetinvi
         /// <summary>
         /// Get the rate limits information for an url
         /// </summary>
-        public static IEndpointRateLimit GetQueryRateLimit(string query)
+        public static Task<IEndpointRateLimit> GetQueryRateLimit(string query)
         {
-            return RateLimitCacheManager.GetQueryRateLimit(query, Auth.Credentials).Result;
+            return RateLimitCacheManager.GetQueryRateLimit(query, Auth.Credentials);
         }
 
         /// <summary>
         /// Get the rate limits information for an url
         /// </summary>
-        public static IEndpointRateLimit GetQueryRateLimit(string query, ITwitterCredentials credentials)
+        public static Task<IEndpointRateLimit> GetQueryRateLimit(string query, ITwitterCredentials credentials)
         {
-            return RateLimitCacheManager.GetQueryRateLimit(query, credentials).Result;
+            return RateLimitCacheManager.GetQueryRateLimit(query, credentials);
         }
 
         /// <summary>
@@ -162,7 +162,7 @@ namespace Tweetinvi
             }
             else
             {
-                credentialsRateLimits = RateLimitCacheManager.GetCredentialsRateLimits(Auth.Credentials).Result;
+                credentialsRateLimits = await RateLimitCacheManager.GetCredentialsRateLimits(Auth.Credentials);
             }
 
             return credentialsRateLimits;

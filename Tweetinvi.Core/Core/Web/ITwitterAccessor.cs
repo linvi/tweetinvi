@@ -87,7 +87,7 @@ namespace Tweetinvi.Core.Web
             where T1 : class, IBaseCursorQueryDTO<T>;
 
         // Http Content
-        bool TryPOSTJsonContent(string url, string json);
+        Task<bool> TryPOSTJsonContent(string url, string json);
 
         // POST JSON body & get JSON response
         Task<T> ExecutePOSTQueryJsonBody<T>(string query, object reqBody, JsonConverter[] converters = null) where T : class;

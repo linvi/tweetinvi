@@ -30,7 +30,7 @@ namespace Tweetinvi.Controllers.Upload
         /// <summary>
         /// Add metadata to a media that has been uploaded.
         /// </summary>
-        bool AddMediaMetadata(IMediaMetadata metadata);
+        Task<bool> AddMediaMetadata(IMediaMetadata metadata);
 
     }
 
@@ -123,7 +123,7 @@ namespace Tweetinvi.Controllers.Upload
                 var isAwaitableUpload = category == MediaCategory.Gif || category == MediaCategory.Video;
                 if (isAwaitableUpload && uploadQueryParameters.WaitForTwitterProcessing)
                 {
-                    _uploadHelper.WaitForMediaProcessingToGetAllMetadata(media);
+                    await _uploadHelper.WaitForMediaProcessingToGetAllMetadata(media);
                 }
 
                 return media;
@@ -158,7 +158,7 @@ namespace Tweetinvi.Controllers.Upload
             return _chunkedUploadFactory.Create();
         }
 
-        public bool AddMediaMetadata(IMediaMetadata metadata)
+        public Task<bool> AddMediaMetadata(IMediaMetadata metadata)
         {
             var json = JsonConvert.SerializeObject(metadata);
             return _twitterAccessor.TryPOSTJsonContent("https://upload.twitter.com/1.1/media/metadata/create.json", json);

@@ -469,11 +469,11 @@ namespace Tweetinvi.Credentials
         }
 
         // POST Http Content
-        public bool TryPOSTJsonContent(string url, string json)
+        public async Task<bool> TryPOSTJsonContent(string url, string json)
         {
             try
             {
-                ExecuteQuery(url, (HttpMethod)HttpMethod.POST, (ITwitterCredentials)null, new StringContent(json));
+                await ExecuteQuery(url, (HttpMethod)HttpMethod.POST, (ITwitterCredentials)null, new StringContent(json));
                 return true;
             }
             catch (TwitterException)

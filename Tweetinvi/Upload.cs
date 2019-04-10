@@ -109,7 +109,7 @@ namespace Tweetinvi
         /// <summary>
         /// Add metadata to a media that has been uploaded.
         /// </summary>
-        public static bool AddMediaMetadata(IMediaMetadata metadata)
+        public static Task<bool> AddMediaMetadata(IMediaMetadata metadata)
         {
             return UploadQueryExecutor.AddMediaMetadata(metadata);
         }
