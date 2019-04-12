@@ -4,6 +4,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Tweetinvi.Core.Extensions;
+using Tweetinvi.Core.Web;
 using Tweetinvi.Models;
 using Tweetinvi.WebLogic;
 
@@ -28,6 +29,14 @@ namespace Tweetinvi.Credentials.AuthHttpHandlers
             string base64Credentials = Convert.ToBase64String(credBytes);
 
             return "Basic " + base64Credentials;
+        }
+
+        public override ITwitterClientHandler Clone(ITwitterQuery query)
+        {
+            return new BearerHttpHandler
+            {
+                TwitterQuery = query
+            };
         }
     }
 }

@@ -223,14 +223,14 @@ namespace Tweetinvi
         }
 
         /// <summary>
-        /// Execute a query that returns WebRequestResult
+        /// Execute a query that returns Response
         /// </summary>
-        public static Task<IWebRequestResult> ExecuteQueryWithDetails(string query, HttpMethod method)
+        public static Task<ITwitterResponse> ExecuteQueryWithDetails(string query, HttpMethod method)
         {
             return Accessor.ExecuteQuery(query, method);
         }
 
-        public static Task<IWebRequestResult> ExecuteConsumerQuery(string query, HttpMethod method, IConsumerOnlyCredentials credentials)
+        public static Task<ITwitterResponse> ExecuteConsumerQuery(string query, HttpMethod method, IConsumerOnlyCredentials credentials)
         {
             return Accessor.ExecuteQuery(query, method, credentials, null);
         }

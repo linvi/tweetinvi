@@ -41,9 +41,16 @@ namespace Examplinvi.NETFramework
 
     class Program
     {
+        private static ITwitterCredentials Credentials { get; set; }
+
         static void Main()
         {
+            Credentials = new TwitterCredentials("CONSUMER_KEY", "CONSUMER_SECRET", "ACCESS_TOKEN", "ACCESS_TOKEN_SECRET");
+
             Auth.SetUserCredentials("CONSUMER_KEY", "CONSUMER_SECRET", "ACCESS_TOKEN", "ACCESS_TOKEN_SECRET");
+            Auth.SetCredentials(Credentials);
+
+            Examples.Client = new TwitterClient(Credentials);
 
             TweetinviEvents.QueryBeforeExecute += (sender, args) =>
             {
@@ -360,6 +367,7 @@ namespace Examplinvi.NETFramework
         // ReSharper disable once UnusedAutoPropertyAccessor.Global
         public static bool ExecuteExamples { get; set; }
         public const string USER_SCREEN_NAME_TO_TEST = "ladygaga";
+        public static TwitterClient Client { get; set; }
 
         #region Credentials and Login
 
@@ -436,7 +444,7 @@ namespace Examplinvi.NETFramework
 
         public static async Task Tweet_GetExistingTweet(long tweetId)
         {
-            var tweet = await Tweet.GetTweet(tweetId);
+            var tweet = await Client.Tweets.GetTweet(tweetId);
             Console.WriteLine(tweet.Text);
         }
 
@@ -465,7 +473,7 @@ namespace Examplinvi.NETFramework
                 AutoPopulateReplyMetadata = true // Auto populate the @mentions
             });
 
-            var tweetToReplyTo = await Tweet.GetTweet(tweetIdToReplyTo);
+            var tweetToReplyTo = await Client.Tweets.GetTweet(tweetIdToReplyTo);
 
             // We must add @screenName of the author of the tweet we want to reply to
             var textToPublish = $"@{tweetToReplyTo.CreatedBy.ScreenName} {text}";
@@ -490,7 +498,7 @@ namespace Examplinvi.NETFramework
 
         public static async Task Tweet_PublishRetweet(long tweetId)
         {
-            var tweet = await Tweet.GetTweet(tweetId);
+            var tweet = await Client.Tweets.GetTweet(tweetId);
             var retweet = await tweet.PublishRetweet();
 
             Console.WriteLine("You retweeted : '{0}'", retweet.Text);
@@ -498,7 +506,7 @@ namespace Examplinvi.NETFramework
 
         public static async Task Tweet_DestroyRetweet(long tweetId)
         {
-            var tweet = await Tweet.GetTweet(tweetId);
+            var tweet = await Client.Tweets.GetTweet(tweetId);
             var retweet = await tweet.PublishRetweet();
 
             await retweet.Destroy();
@@ -506,7 +514,7 @@ namespace Examplinvi.NETFramework
 
         public static async Task Tweet_GetRetweets(long tweetId)
         {
-            var tweet = await Tweet.GetTweet(tweetId);
+            var tweet = await Client.Tweets.GetTweet(tweetId);
             IEnumerable<ITweet> retweets = await tweet.GetRetweets();
 
             var firstRetweeter = retweets.ElementAt(0).CreatedBy;
@@ -543,7 +551,7 @@ namespace Examplinvi.NETFramework
 
         public static async Task Tweet_SetTweetAsFavorite(long tweetId)
         {
-            var tweet = await Tweet.GetTweet(tweetId);
+            var tweet = await Client.Tweets.GetTweet(tweetId);
             await tweet.Favorite();
 
             Console.WriteLine("Is tweet now favourite? -> {0}", tweet.Favorited);

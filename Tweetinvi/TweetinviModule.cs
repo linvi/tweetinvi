@@ -1,4 +1,5 @@
-﻿using Tweetinvi.Core.Injectinvi;
+﻿using Tweetinvi.Client;
+using Tweetinvi.Core.Injectinvi;
 
 namespace Tweetinvi
 {
@@ -8,6 +9,8 @@ namespace Tweetinvi
         {
             // Register a singleton of the container, do not use InstancePerApplication
             container.RegisterInstance(typeof(ITweetinviContainer), container);
+            container.RegisterType<IInternalTweetRequester, TweetRequester>();
+            container.RegisterType<IInternalRequestExecutor, RequestExecutor>();
         }
     }
 }

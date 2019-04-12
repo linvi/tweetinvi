@@ -11,7 +11,7 @@ namespace Tweetinvi.Exceptions
     {
         TwitterException Create(ITwitterExceptionInfo[] exceptionInfos, string url);
         TwitterException Create(ITwitterExceptionInfo[] exceptionInfos, ITwitterQuery twitterQuery);
-        TwitterException Create(IWebRequestResult webRequestResult, ITwitterQuery twitterQuery);
+        TwitterException Create(ITwitterResponse twitterResponse, ITwitterQuery twitterQuery);
 
         TwitterException Create(WebException webException, ITwitterQuery twitterQuery);
         TwitterException Create(WebException webException, ITwitterQuery twitterQuery, int statusCode);
@@ -36,9 +36,9 @@ namespace Tweetinvi.Exceptions
             return new TwitterException(exceptionInfos, twitterQuery);
         }
 
-        public TwitterException Create(IWebRequestResult webRequestResult, ITwitterQuery twitterQuery)
+        public TwitterException Create(ITwitterResponse twitterResponse, ITwitterQuery twitterQuery)
         {
-            return new TwitterException(_webExceptionInfoExtractor, webRequestResult, twitterQuery);
+            return new TwitterException(_webExceptionInfoExtractor, twitterResponse, twitterQuery);
         }
 
         public TwitterException Create(WebException webException, ITwitterQuery twitterQuery)
@@ -94,12 +94,12 @@ namespace Tweetinvi.Exceptions
 
         public TwitterException(
             IWebExceptionInfoExtractor webExceptionInfoExtractor,
-            IWebRequestResult webRequestResult,
+            ITwitterResponse twitterResponse,
             ITwitterQuery twitterQuery)
             : this(twitterQuery)
         {
-            StatusCode = webRequestResult.StatusCode;
-            TwitterExceptionInfos = webExceptionInfoExtractor.GetTwitterExceptionInfosFromStream(webRequestResult.ResultStream);
+            StatusCode = twitterResponse.StatusCode;
+            TwitterExceptionInfos = webExceptionInfoExtractor.GetTwitterExceptionInfosFromStream(twitterResponse.ResultStream);
             TwitterDescription = webExceptionInfoExtractor.GetStatusCodeDescription(StatusCode);
         }
 

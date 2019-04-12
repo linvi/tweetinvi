@@ -24,4 +24,8 @@
     <ProjectReference Include="..\Tweetinvi.Core\Tweetinvi.Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Model\" />
+  </ItemGroup>
+
 </Project>

@@ -4,15 +4,18 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Tweetinvi.Core.Helpers;
 using Tweetinvi.Core.Models;
 using Tweetinvi.Core.Public.Models.Authentication;
 using Tweetinvi.Core.Public.Parameters;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO.QueryDTO;
+using Tweetinvi.Models.Interfaces;
 using HttpMethod = Tweetinvi.Models.HttpMethod;
 
 namespace Tweetinvi.Core.Web
 {
+   
     public interface ITwitterAccessor
     {
         // Get Json
@@ -95,8 +98,8 @@ namespace Tweetinvi.Core.Web
 
         // Get Json from Twitter
 
-        Task<IWebRequestResult> ExecuteQuery(string query, HttpMethod method);
-        Task<IWebRequestResult> ExecuteQuery(string query, HttpMethod method, ITwitterCredentials credentials, HttpContent httpContent = null);
+        Task<ITwitterResponse> ExecuteQuery(string query, HttpMethod method);
+        Task<ITwitterResponse> ExecuteQuery(string query, HttpMethod method, ITwitterCredentials credentials, HttpContent httpContent = null);
         Task<T> ExecuteQuery<T>(string query, HttpMethod method, ITwitterCredentials credentials, HttpContent httpContent) where T : class;
 
 
@@ -111,7 +114,9 @@ namespace Tweetinvi.Core.Web
             where T1 : class, IBaseCursorQueryDTO<T>;
 
         // Consumer Credentials Query
-        Task<IWebRequestResult> ExecuteQuery(string query, HttpMethod method, IConsumerOnlyCredentials credentials, HttpContent httpContent = null);
+        Task<ITwitterResponse> ExecuteQuery(string query, HttpMethod method, IConsumerOnlyCredentials credentials, HttpContent httpContent = null);
         Task<T> ExecuteQuery<T>(string query, HttpMethod method, IConsumerOnlyCredentials credentials, HttpContent httpContent = null) where T : class;
+        Task<ITwitterResponse> ExecuteRequest(ITwitterRequest request);
+        Task<ITwitterResult<T>> ExecuteRequest<T>(ITwitterRequest request) where T : class;
     }
 }

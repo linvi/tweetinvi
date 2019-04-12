@@ -57,11 +57,6 @@ namespace Tweetinvi
 
         #region Tweet Factory
 
-        public static Task<ITweet> GetTweet(long tweetId)
-        {
-            return TweetFactory.GetTweet(tweetId);
-        }
-
         public static Task<IEnumerable<ITweet>> GetTweets(params long[] tweetIds)
         {
             return TweetFactory.GetTweets(tweetIds);

@@ -5,9 +5,9 @@ namespace Tweetinvi.Core.Web
 {
     public static class WebRequestResultExtension
     {
-        public static string ToJson(this IWebRequestResult webRequestResult)
+        public static string ToJson(this ITwitterResponse twitterResponse)
         {
-            var resultStream = webRequestResult.ResultStream;
+            var resultStream = twitterResponse.ResultStream;
             if (resultStream != null)
             {
                 var responseReader = new StreamReader(resultStream);
@@ -19,9 +19,9 @@ namespace Tweetinvi.Core.Web
             return null;
         }
 
-        public static byte[] ToBinary(this IWebRequestResult webRequestResult)
+        public static byte[] ToBinary(this ITwitterResponse twitterResponse)
         {
-            var stream = webRequestResult.ResultStream;
+            var stream = twitterResponse.ResultStream;
 
             if (stream == null)
             {
@@ -51,7 +51,7 @@ namespace Tweetinvi.Core.Web
         }
     }
 
-    public interface IWebRequestResult
+    public interface ITwitterResponse
     {
         /// <summary>
         /// Query url.

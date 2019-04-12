@@ -62,6 +62,30 @@ namespace Tweetinvi.WebLogic
             }
         }
 
+        public virtual ITwitterClientHandler Clone(ITwitterQuery query)
+        {
+            if (_action != null)
+            {
+                return new TwitterClientHandler(_action)
+                {
+                    TwitterQuery = query
+                };
+            }
+
+            if (_func != null)
+            {
+                return new TwitterClientHandler(_func)
+                {
+                    TwitterQuery = query
+                };
+            }
+
+            return new TwitterClientHandler()
+            {
+                TwitterQuery = query
+            };
+        }
+
         protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
         {
             return SendAsync(_twitterQuery, request, cancellationToken);

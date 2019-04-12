@@ -9,6 +9,7 @@ using Tweetinvi.Core;
 using Tweetinvi.Core.Credentials;
 using Tweetinvi.Core.Exceptions;
 using Tweetinvi.Core.Helpers;
+using Tweetinvi.Core.Injectinvi;
 using Tweetinvi.Core.Models;
 using Tweetinvi.Core.Public.Models.Authentication;
 using Tweetinvi.Core.Public.Parameters;
@@ -18,6 +19,7 @@ using Tweetinvi.Credentials.QueryJsonConverters;
 using Tweetinvi.Exceptions;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO.QueryDTO;
+using Tweetinvi.Models.Interfaces;
 using Tweetinvi.WebLogic;
 using HttpMethod = Tweetinvi.Models.HttpMethod;
 
@@ -33,6 +35,7 @@ namespace Tweetinvi.Credentials
         private readonly ITwitterQueryFactory _twitterQueryFactory;
         private readonly ICredentialsAccessor _credentialsAccessor;
         private readonly ITweetinviSettingsAccessor _settingsAccessor;
+        private readonly ITwitterResultFactory _twitterResultFactory;
 
         public TwitterAccessor(
             IJObjectStaticWrapper jObjectStaticWrapper,
@@ -42,7 +45,8 @@ namespace Tweetinvi.Credentials
             ITwitterRequestHandler twitterRequestHandler,
             ITwitterQueryFactory twitterQueryFactory,
             ICredentialsAccessor credentialsAccessor,
-            ITweetinviSettingsAccessor settingsAccessor)
+            ITweetinviSettingsAccessor settingsAccessor,
+            ITwitterResultFactory twitterResultFactory)
         {
             _jObjectStaticWrapper = jObjectStaticWrapper;
             _jsonObjectConverter = jsonObjectConverter;
@@ -52,9 +56,11 @@ namespace Tweetinvi.Credentials
             _twitterQueryFactory = twitterQueryFactory;
             _credentialsAccessor = credentialsAccessor;
             _settingsAccessor = settingsAccessor;
+            _twitterResultFactory = twitterResultFactory;
         }
 
         // Execute<Json>
+
         public Task<string> ExecuteGETQueryReturningJson(string query)
         {
             return ExecuteQueryReturningContent(query, HttpMethod.GET);
@@ -512,7 +518,7 @@ namespace Tweetinvi.Credentials
             }
         }
 
-        public Task<IWebRequestResult> ExecuteQuery(string query, HttpMethod method)
+        public Task<ITwitterResponse> ExecuteQuery(string query, HttpMethod method)
         {
             return ExecuteQuery(query, method, null);
         }
@@ -529,8 +535,24 @@ namespace Tweetinvi.Credentials
             return deserializedObject;
         }
 
+        public async Task<ITwitterResult<T>> ExecuteRequest<T>(ITwitterRequest request) where T : class
+        {
+            var response = await ExecuteRequest(request);
+            var json = response.Text;
+            var converters = request.Config.Converters;
+
+            var result = _jsonObjectConverter.DeserializeObject<T>(json, converters);
+
+            return _twitterResultFactory.Create<T>(request, response);
+        }
+
+        public Task<ITwitterResponse> ExecuteRequest(ITwitterRequest request)
+        {
+            return _twitterRequestHandler.ExecuteQuery(request);
+        }
+
         // Concrete Execute
-        public Task<IWebRequestResult> ExecuteQuery(
+        public Task<ITwitterResponse> ExecuteQuery(
             string query,
             HttpMethod method,
             ITwitterCredentials credentials,
@@ -555,17 +577,17 @@ namespace Tweetinvi.Credentials
             var twitterRequest = new TwitterRequest
             {
                 Query = twitterQuery,
-                Config = new TwitterRequestConfig
+                Config = new TweetinviSettings
                 {
                     RateLimitTrackerMode = _settingsAccessor.RateLimitTrackerMode
                 }
             };
 
-            return _twitterRequestHandler.ExecuteQuery(twitterRequest);
+            return ExecuteRequest(twitterRequest);
         }
 
         // Consumer Credentials
-        public async Task<IWebRequestResult> ExecuteQuery(
+        public async Task<ITwitterResponse> ExecuteQuery(
             string query,
             HttpMethod method,
             IConsumerOnlyCredentials credentials,
@@ -607,7 +629,7 @@ namespace Tweetinvi.Credentials
                 var twitterRequest = new TwitterRequest
                 {
                     Query = twitterQuery,
-                    Config = new TwitterRequestConfig
+                    Config = new TweetinviSettings
                     {
                         RateLimitTrackerMode = _settingsAccessor.RateLimitTrackerMode
                     }
@@ -668,7 +690,7 @@ namespace Tweetinvi.Credentials
                 var twitterRequest = new TwitterRequest
                 {
                     Query = twitterQuery,
-                    Config = new TwitterRequestConfig
+                    Config = new TweetinviSettings
                     {
                         RateLimitTrackerMode = _settingsAccessor.RateLimitTrackerMode
                     }
@@ -714,7 +736,7 @@ namespace Tweetinvi.Credentials
             var twitterRequest = new TwitterRequest
             {
                 Query = twitterQuery,
-                Config = new TwitterRequestConfig
+                Config = new TweetinviSettings
                 {
                     RateLimitTrackerMode = _settingsAccessor.RateLimitTrackerMode
                 }

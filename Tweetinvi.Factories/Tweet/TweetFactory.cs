@@ -5,8 +5,11 @@ using Tweetinvi.Core;
 using Tweetinvi.Core.Factories;
 using Tweetinvi.Core.Helpers;
 using Tweetinvi.Core.Injectinvi;
+using Tweetinvi.Core.Web;
+using Tweetinvi.Logic.DTO;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
+using Tweetinvi.Models.Interfaces;
 
 namespace Tweetinvi.Factories.Tweet
 {
@@ -19,6 +22,7 @@ namespace Tweetinvi.Factories.Tweet
         private readonly IFactory<IOEmbedTweet> _oembedTweetUnityFactory;
         private readonly IJsonObjectConverter _jsonObjectConverter;
         private readonly ITweetinviSettingsAccessor _tweetinviSettingsAccessor;
+        private readonly ITwitterResultFactory _twitterResultFactory;
 
         public TweetFactory(
             ITweetFactoryQueryExecutor tweetDTOFactory,
@@ -27,7 +31,8 @@ namespace Tweetinvi.Factories.Tweet
             IFactory<IMention> mentionFactory,
             IFactory<IOEmbedTweet> oembedTweetUnityFactory,
             IJsonObjectConverter jsonObjectConverter,
-            ITweetinviSettingsAccessor tweetinviSettingsAccessor)
+            ITweetinviSettingsAccessor tweetinviSettingsAccessor,
+            ITwitterResultFactory twitterResultFactory)
         {
             _tweetDTOFactory = tweetDTOFactory;
             _tweetUnityFactory = tweetUnityFactory;
@@ -36,13 +41,16 @@ namespace Tweetinvi.Factories.Tweet
             _oembedTweetUnityFactory = oembedTweetUnityFactory;
             _jsonObjectConverter = jsonObjectConverter;
             _tweetinviSettingsAccessor = tweetinviSettingsAccessor;
+            _twitterResultFactory = twitterResultFactory;
         }
 
         // Get Tweet
-        public async Task<ITweet> GetTweet(long tweetId, TweetMode? tweetMode = null)
+
+        public async Task<ITwitterResult<TweetDTO, ITweet>> GetTweet(long tweetId, TweetMode? tweetMode, ITwitterRequest request)
         {
-            var tweetDTO = await _tweetDTOFactory.GetTweetDTO(tweetId);
-            return GenerateTweetFromDTO(tweetDTO, tweetMode);
+            var result = await _tweetDTOFactory.GetTweetDTO(tweetId, request);
+
+            return _twitterResultFactory.Create<TweetDTO, ITweet>(result, dto => GenerateTweetFromDTO(dto, request.Config.TweetMode));
         }
 
         public async Task<IEnumerable<ITweet>> GetTweets(IEnumerable<long> tweetIds, TweetMode? tweetMode = null)

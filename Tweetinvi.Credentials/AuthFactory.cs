@@ -76,7 +76,7 @@ namespace Tweetinvi.Credentials
                 {
                     Query = twitterQuery,
                     TwitterClientHandler = authHandler,
-                    Config = new TwitterRequestConfig
+                    Config = new TweetinviSettings
                     {
                         RateLimitTrackerMode = _settingsAccessor.RateLimitTrackerMode
                     }
@@ -138,7 +138,7 @@ namespace Tweetinvi.Credentials
                     {
                         Query = twitterQuery,
                         TwitterClientHandler = new BearerHttpHandler(),
-                        Config = new TwitterRequestConfig
+                        Config = new TweetinviSettings
                         {
                             RateLimitTrackerMode = _settingsAccessor.RateLimitTrackerMode
                         }
@@ -177,7 +177,7 @@ namespace Tweetinvi.Credentials
             {
                 Query = twitterQuery,
                 TwitterClientHandler = new InvalidateTokenHttpHandler(),
-                Config = new TwitterRequestConfig
+                Config = new TweetinviSettings
                 {
                     RateLimitTrackerMode = _settingsAccessor.RateLimitTrackerMode
                 }

@@ -22,12 +22,12 @@ namespace Tweetinvi.WebLogic
     {
         private readonly IExceptionHandler _exceptionHandler;
         private readonly IHttpClientWebHelper _httpClientWebHelper;
-        private readonly IFactory<IWebRequestResult> _webRequestResultFactory;
+        private readonly IFactory<ITwitterResponse> _webRequestResultFactory;
 
         public WebRequestExecutor(
             IExceptionHandler exceptionHandler,
             IHttpClientWebHelper httpClientWebHelper,
-            IFactory<IWebRequestResult> webRequestResultFactory)
+            IFactory<ITwitterResponse> webRequestResultFactory)
         {
             _exceptionHandler = exceptionHandler;
             _httpClientWebHelper = httpClientWebHelper;
@@ -35,7 +35,7 @@ namespace Tweetinvi.WebLogic
         }
 
         // Simple Query
-        public Task<IWebRequestResult> ExecuteQuery(ITwitterQuery twitterQuery, ITwitterClientHandler handler = null)
+        public Task<ITwitterResponse> ExecuteQuery(ITwitterQuery twitterQuery, ITwitterClientHandler handler = null)
         {
             return ExecuteTwitterQuerySafely(twitterQuery, async () =>
             {
@@ -106,7 +106,7 @@ namespace Tweetinvi.WebLogic
             return binary;
         }
 
-        public Task<IWebRequestResult> ExecuteMultipartQuery(ITwitterQuery twitterQuery, string contentId, IEnumerable<byte[]> binaries)
+        public Task<ITwitterResponse> ExecuteMultipartQuery(ITwitterQuery twitterQuery, string contentId, IEnumerable<byte[]> binaries)
         {
             return ExecuteTwitterQuerySafely(twitterQuery, async () =>
             {
@@ -141,7 +141,7 @@ namespace Tweetinvi.WebLogic
         }
 
         // Helpers
-        private IWebRequestResult GetWebResultFromResponse(string url, HttpResponseMessage httpResponseMessage)
+        private ITwitterResponse GetWebResultFromResponse(string url, HttpResponseMessage httpResponseMessage)
         {
             var stream = httpResponseMessage.Content.ReadAsStreamAsync().Result;
 

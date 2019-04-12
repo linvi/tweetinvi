@@ -6,14 +6,15 @@ using Tweetinvi.Core.QueryGenerators;
 using Tweetinvi.Core.Web;
 using Tweetinvi.Logic.DTO;
 using Tweetinvi.Models.DTO;
+using Tweetinvi.Models.Interfaces;
 
 namespace Tweetinvi.Factories.Tweet
 {
     public interface ITweetFactoryQueryExecutor
     {
-        Task<ITweetDTO> GetTweetDTO(long tweetId);
         Task<IEnumerable<ITweetDTO>> GetTweetDTOs(IEnumerable<long> tweetIds);
         ITweetDTO CreateTweetDTO(string text);
+        Task<ITwitterResult<TweetDTO>> GetTweetDTO(long tweetId, ITwitterRequest request);
     }
 
     public class TweetFactoryQueryExecutor : ITweetFactoryQueryExecutor
@@ -34,10 +35,11 @@ namespace Tweetinvi.Factories.Tweet
             _tweetDTOUnityFactory = tweetDTOUnityFactory;
         }
 
-        public async Task<ITweetDTO> GetTweetDTO(long tweetId)
+        public async Task<ITwitterResult<TweetDTO>> GetTweetDTO(long tweetId, ITwitterRequest request)
         {
-            string query = _tweetQueryGenerator.GetTweetQuery(tweetId);
-            return await _twitterAccessor.ExecuteGETQuery<TweetDTO>(query);
+            request.Query.QueryURL = _tweetQueryGenerator.GetTweetQuery(tweetId);
+
+            return await _twitterAccessor.ExecuteRequest<TweetDTO>(request);
         }
 
         public async Task<IEnumerable<ITweetDTO>> GetTweetDTOs(IEnumerable<long> tweetIds)

@@ -18,6 +18,7 @@ namespace Tweetinvi
                 "application/json"
             };
 
+            HttpMethod = HttpMethod.GET;
             CustomHeaders = new Dictionary<string, string>();
         }
 
@@ -83,7 +84,8 @@ namespace Tweetinvi
             var clone = new TwitterQuery(QueryURL, HttpMethod)
             {
                 TwitterCredentials = TwitterCredentials,
-                QueryParameters = QueryParameters
+                QueryParameters = QueryParameters,
+                ProxyConfig = ProxyConfig
             };
 
             return clone;

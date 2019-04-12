@@ -8,14 +8,15 @@ using Tweetinvi.Core.Web;
 using Tweetinvi.Events;
 using Tweetinvi.Exceptions;
 using Tweetinvi.Models;
+using Tweetinvi.Models.Interfaces;
 
 namespace Tweetinvi.WebLogic
 {
     public interface ITwitterRequestHandler
     {
-        Task<IWebRequestResult> ExecuteQuery(TwitterRequest request);
+        Task<ITwitterResponse> ExecuteQuery(ITwitterRequest request);
 
-        Task PrepareTwitterRequest(TwitterRequest request);
+        Task PrepareTwitterRequest(ITwitterRequest request);
     }
 
     public class TwitterRequestHandler : ITwitterRequestHandler
@@ -40,7 +41,7 @@ namespace Tweetinvi.WebLogic
             _webRequestExecutor = webRequestExecutor;
         }
 
-        public async Task<IWebRequestResult> ExecuteQuery(TwitterRequest request)
+        public async Task<ITwitterResponse> ExecuteQuery(ITwitterRequest request)
         {
             await PrepareTwitterRequest(request);
 
@@ -58,22 +59,22 @@ namespace Tweetinvi.WebLogic
 
             try
             {
-                IWebRequestResult webRequestResult;
+                ITwitterResponse twitterResponse;
 
                 var multiPartRequest = request.Query.MultipartHttpRequest;
 
                 if (multiPartRequest == null || multiPartRequest.Binaries.IsNullOrEmpty())
                 {
-                    webRequestResult = await _webRequestExecutor.ExecuteQuery(request.Query, request.TwitterClientHandler);
+                    twitterResponse = await _webRequestExecutor.ExecuteQuery(request.Query, request.TwitterClientHandler);
                 }
                 else
                 {
-                    webRequestResult = await _webRequestExecutor.ExecuteMultipartQuery(request.Query, multiPartRequest.ContentId, multiPartRequest.Binaries);
+                    twitterResponse = await _webRequestExecutor.ExecuteMultipartQuery(request.Query, multiPartRequest.ContentId, multiPartRequest.Binaries);
                 }
 
-                QueryCompleted(request.Query, webRequestResult, request.Config.RateLimitTrackerMode);
+                QueryCompleted(request.Query, twitterResponse, request.Config.RateLimitTrackerMode);
 
-                return webRequestResult;
+                return twitterResponse;
             }
             catch (TwitterException ex)
             {
@@ -83,7 +84,7 @@ namespace Tweetinvi.WebLogic
             }
         }
 
-        public async Task PrepareTwitterRequest(TwitterRequest request)
+        public async Task PrepareTwitterRequest(ITwitterRequest request)
         {
             var twitterQuery = request.Query;
             twitterQuery.QueryURL = CleanupQueryURL(twitterQuery.QueryURL); // TODO : THIS LOGIC SHOULD HAPPEN BEFORE ARRIVING HERE
@@ -112,7 +113,7 @@ namespace Tweetinvi.WebLogic
             }
         }
 
-        private async Task WaitBeforeExecutingQuery(TwitterRequest twitterRequest)
+        private async Task WaitBeforeExecutingQuery(ITwitterRequest twitterRequest)
         {
             var twitterQuery = twitterRequest.Query;
 
@@ -153,16 +154,16 @@ namespace Tweetinvi.WebLogic
             return query;
         }
 
-        private void QueryCompleted(ITwitterQuery twitterQuery, IWebRequestResult webRequestResult, RateLimitTrackerMode rateLimitTrackerMode)
+        private void QueryCompleted(ITwitterQuery twitterQuery, ITwitterResponse twitterResponse, RateLimitTrackerMode rateLimitTrackerMode)
         {
             if (rateLimitTrackerMode != RateLimitTrackerMode.None)
             {
-                var rateLimitHeaders = webRequestResult.Headers.Where(kvp => kvp.Key.StartsWith("x-rate-limit-")).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
+                var rateLimitHeaders = twitterResponse.Headers.Where(kvp => kvp.Key.StartsWith("x-rate-limit-")).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
 
                 _rateLimitUpdater.QueryExecuted(twitterQuery.QueryURL, twitterQuery.TwitterCredentials, rateLimitHeaders);
             }
 
-            _tweetinviEvents.RaiseAfterQueryExecuted(new QueryAfterExecuteEventArgs(twitterQuery, webRequestResult.Text, webRequestResult.Headers));
+            _tweetinviEvents.RaiseAfterQueryExecuted(new QueryAfterExecuteEventArgs(twitterQuery, twitterResponse.Text, twitterResponse.Headers));
         }
 
         private void HandleException(

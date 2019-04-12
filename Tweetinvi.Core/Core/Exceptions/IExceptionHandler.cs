@@ -23,15 +23,15 @@ namespace Tweetinvi.Core.Exceptions
         TwitterException AddWebException(WebException webException, ITwitterQuery twitterQuery);
         TwitterException TryLogWebException(WebException webException, ITwitterQuery twitterQuery);
 
-        TwitterException AddFailedWebRequestResult(IWebRequestResult webRequestResult, ITwitterQuery twitterQuery);
-        TwitterException TryLogFailedWebRequestResult(IWebRequestResult webRequestResult, ITwitterQuery twitterQuery);
+        TwitterException AddFailedWebRequestResult(ITwitterResponse twitterResponse, ITwitterQuery twitterQuery);
+        TwitterException TryLogFailedWebRequestResult(ITwitterResponse twitterResponse, ITwitterQuery twitterQuery);
 
         TwitterException TryLogExceptionInfos(ITwitterExceptionInfo[] exceptionInfos, string url);
 
         TwitterException GenerateTwitterException(WebException webException, ITwitterQuery twitterQuery);
         TwitterException GenerateTwitterException(WebException webException, ITwitterQuery twitterQuery, int statusCode);
 			
-        TwitterException GenerateTwitterException(IWebRequestResult webRequestResult, ITwitterQuery twitterQuery);
+        TwitterException GenerateTwitterException(ITwitterResponse twitterResponse, ITwitterQuery twitterQuery);
         void AddTwitterException(ITwitterException twitterException);
     }
 }

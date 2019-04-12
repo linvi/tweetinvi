@@ -1,13 +1,16 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using Tweetinvi.Core.Web;
+using Tweetinvi.Logic.DTO;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
+using Tweetinvi.Models.Interfaces;
 
 namespace Tweetinvi.Core.Factories
 {
     public interface ITweetFactory
     {
-        Task<ITweet> GetTweet(long tweetId, TweetMode? tweetMode = null);
+        Task<ITwitterResult<TweetDTO, ITweet>> GetTweet(long tweetId, TweetMode? tweetMode, ITwitterRequest request);
         Task<IEnumerable<ITweet>> GetTweets(IEnumerable<long> tweetIds, TweetMode? tweetMode = null);
 
         ITweet CreateTweet(string text, TweetMode? tweetMode = null);

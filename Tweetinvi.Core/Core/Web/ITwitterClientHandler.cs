@@ -11,5 +11,7 @@ namespace Tweetinvi.Core.Web
         /// Contains all the information required for the HttpClient to create and execute the request.
         /// </summary>
         ITwitterQuery TwitterQuery { get; set; }
+
+        ITwitterClientHandler Clone(ITwitterQuery query);
     }
 }

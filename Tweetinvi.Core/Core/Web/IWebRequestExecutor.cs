@@ -12,11 +12,11 @@ namespace Tweetinvi.Core.Web
         /// <summary>
         /// Execute a TwitterQuery and return the resulting json data.
         /// </summary>
-        Task<IWebRequestResult> ExecuteQuery(ITwitterQuery twitterQuery, ITwitterClientHandler handler = null);
+        Task<ITwitterResponse> ExecuteQuery(ITwitterQuery twitterQuery, ITwitterClientHandler handler = null);
 
         /// <summary>
         /// Execute a multipart TwitterQuery and return the resulting json data.
         /// </summary>
-        Task<IWebRequestResult> ExecuteMultipartQuery(ITwitterQuery twitterQuery, string contentId, IEnumerable<byte[]> binaries);
+        Task<ITwitterResponse> ExecuteMultipartQuery(ITwitterQuery twitterQuery, string contentId, IEnumerable<byte[]> binaries);
     }
 }

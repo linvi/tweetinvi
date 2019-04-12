@@ -1,4 +1,5 @@
 ﻿using System;
+using Newtonsoft.Json;
 
 namespace Tweetinvi
 {
@@ -80,6 +81,8 @@ namespace Tweetinvi
         /// </summary>
         void InitialiseFrom(ITweetinviSettings other);
 
+        JsonConverter[] Converters { get; set; }
+
         /// <summary>
         /// Clone settings.
         /// </summary>
@@ -103,6 +106,8 @@ namespace Tweetinvi
             GetUtcDateTime = () => DateTime.UtcNow;
         }
 
+        public JsonConverter[] Converters { get; set; }
+
         public ITweetinviSettings Clone()
         {
             var clone = new TweetinviSettings();
@@ -114,6 +119,7 @@ namespace Tweetinvi
             clone.RateLimitWaitFudgeMs = RateLimitWaitFudgeMs;
             clone.TweetMode = TweetMode;
             clone.GetUtcDateTime = GetUtcDateTime;
+            clone.Converters = Converters;
 
             return clone;
         }
@@ -127,6 +133,7 @@ namespace Tweetinvi
             RateLimitWaitFudgeMs = other.RateLimitWaitFudgeMs;
             TweetMode = other.TweetMode;
             GetUtcDateTime = other.GetUtcDateTime;
+            Converters = other.Converters;
         }
     }
 }

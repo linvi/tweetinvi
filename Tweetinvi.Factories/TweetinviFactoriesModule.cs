@@ -1,5 +1,6 @@
 ﻿using Tweetinvi.Core.Factories;
 using Tweetinvi.Core.Injectinvi;
+using Tweetinvi.Core.Web;
 using Tweetinvi.Factories.Friendship;
 using Tweetinvi.Factories.Geo;
 using Tweetinvi.Factories.Lists;
@@ -8,6 +9,7 @@ using Tweetinvi.Factories.Search;
 using Tweetinvi.Factories.Tweet;
 using Tweetinvi.Factories.User;
 using Tweetinvi.Models;
+using Tweetinvi.Models.Interfaces;
 
 namespace Tweetinvi.Factories
 {
@@ -42,6 +44,9 @@ namespace Tweetinvi.Factories
 
             // This is instance per thread as we have a CredentialsAccessor that is an instance per thread.
             container.RegisterType<ITwitterQueryFactory, TwitterQueryFactory>(RegistrationLifetime.InstancePerThread);
+
+            container.RegisterType<ITwitterRequestFactory, TwitterRequestFactory>(RegistrationLifetime.InstancePerApplication);
+            container.RegisterType<ITwitterResultFactory, TwitterResultFactory>(RegistrationLifetime.InstancePerApplication);
         }
     }
 }

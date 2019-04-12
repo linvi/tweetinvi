@@ -69,9 +69,11 @@ namespace Examplinvi.ASP.NET.Controllers
 
         public ActionResult DeleteTweet(long id)
         {
+            var client = new TwitterClient(_credentials);
+
             var success = Auth.ExecuteOperationWithCredentials(_credentials, () =>
             {
-                var tweet = Tweet.GetTweet(id).Result;
+                var tweet = client.Tweets.GetTweet(id).Result;
                 if (tweet != null)
                 {
                     return tweet.Destroy().Result;
