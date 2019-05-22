@@ -20,8 +20,6 @@ namespace Tweetinvi.Models.DTO
 
         string Url { get; set; }
 
-        Language Language { get; set; }
-
         string Email { get; set; }
 
         int StatusesCount { get; set; }

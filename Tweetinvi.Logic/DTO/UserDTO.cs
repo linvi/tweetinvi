@@ -35,10 +35,6 @@ namespace Tweetinvi.Logic.DTO
         [JsonProperty("url")]
         public string Url { get; set; }
 
-        [JsonProperty("lang")]
-        [JsonConverter(typeof(JsonPropertyConverterRepository))]
-        public Language Language { get; set; }
-
         [JsonProperty("email")]
         public string Email { get; set; }
 
