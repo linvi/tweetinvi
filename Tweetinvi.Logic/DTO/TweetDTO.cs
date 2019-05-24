@@ -134,7 +134,7 @@ namespace Tweetinvi.Logic.DTO
 
         [JsonProperty("lang")]
         [JsonConverter(typeof(JsonPropertyConverterRepository))]
-        public Language Language { get; set; }
+        public Language? Language { get; set; }
 
         [JsonProperty("contributorsIds")]
         public int[] ContributorsIds { get; set; }
