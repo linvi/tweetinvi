@@ -155,7 +155,7 @@ namespace Tweetinvi.Models
         /// <summary>
         /// Main language used in the tweet
         /// </summary>
-        Language Language { get; }
+        Language? Language { get; }
 
         /// <summary>
         /// Geographic details concerning the location where the tweet has been published

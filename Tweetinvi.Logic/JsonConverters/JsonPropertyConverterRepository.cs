@@ -64,6 +64,7 @@ namespace Tweetinvi.Logic.JsonConverters
             JsonConverters.Add(typeof(PrivacyMode), privacyModeConverter);
             JsonConverters.Add(typeof(ICoordinates), coordinatesConverter);
             JsonConverters.Add(typeof(Language), languageConverter);
+            JsonConverters.Add(typeof(Language?), languageConverter);
             JsonConverters.Add(typeof(AllowContributorRequestMode), allowContributorRequestConverter);
             JsonConverters.Add(typeof(AllowDirectMessagesFrom), allowDirectMessagesConverter);
             JsonConverters.Add(typeof(QuickReplyType), quickReplyTypeConverter);

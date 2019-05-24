@@ -65,7 +65,7 @@ namespace Tweetinvi.Models
         /// <summary>
         /// Primary language of the user account.
         /// </summary>
-        Language Language { get; }
+        Language? Language { get; }
 
         /// <summary>
         /// Number of tweets (including retweets) the user published.
