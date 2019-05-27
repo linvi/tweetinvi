@@ -68,7 +68,7 @@ namespace Tweetinvi.Models.DTO
 
         ITweetDTO QuotedTweetDTO { get; set; }
 
-        Language Language { get; set; }
+        Language? Language { get; set; }
 
         bool PossiblySensitive { get; set; }
 
