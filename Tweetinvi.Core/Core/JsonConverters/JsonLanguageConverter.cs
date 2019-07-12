@@ -11,6 +11,11 @@ namespace Tweetinvi.Logic.JsonConverters
         {
             int parsed;
 
+            if (reader.Value == null && objectType == typeof(Language?))
+            {
+                return null;
+            }
+
             if (int.TryParse(reader.Value.ToString(), out parsed))
             {
                 return LanguageExtension.GetLangFromDescription(parsed);
@@ -26,7 +31,7 @@ namespace Tweetinvi.Logic.JsonConverters
 
         public override bool CanConvert(Type objectType)
         {
-            return objectType == typeof(Language);
+            return objectType == typeof(Language) || objectType == typeof(Language?);
         }
     }
 }

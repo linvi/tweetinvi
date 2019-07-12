@@ -95,11 +95,6 @@ namespace Tweetinvi.Logic
             get { return _userDTO.Url; }
         }
 
-        public Language Language
-        {
-            get { return _userDTO.Language; }
-        }
-
         public int StatusesCount
         {
             get { return _userDTO.StatusesCount; }

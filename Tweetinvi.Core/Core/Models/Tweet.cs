@@ -295,7 +295,7 @@ namespace Tweetinvi.Logic
             get { return _tweetDTO.PossiblySensitive; }
         }
 
-        public Language Language
+        public Language? Language
         {
             get { return _tweetDTO.Language; }
         }

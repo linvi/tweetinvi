@@ -63,11 +63,6 @@ namespace Tweetinvi.Models
         string Url { get; }
 
         /// <summary>
-        /// Primary language of the user account.
-        /// </summary>
-        Language Language { get; }
-
-        /// <summary>
         /// Number of tweets (including retweets) the user published.
         /// </summary>
         int StatusesCount { get; }
