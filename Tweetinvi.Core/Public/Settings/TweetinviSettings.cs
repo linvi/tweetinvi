@@ -77,16 +77,25 @@ namespace Tweetinvi
         Func<DateTime> GetUtcDateTime { get; set; }
 
         /// <summary>
-        /// Initialize a setting from another one.
+        /// Converters used by Tweetinvi to transform json received from Twitter
+        /// into models understandable by Tweetinvi.
         /// </summary>
-        void InitialiseFrom(ITweetinviSettings other);
-
         JsonConverter[] Converters { get; set; }
+
+        /// <summary>
+        /// Limits that Tweetinvi will use to communicate with Twitter
+        /// </summary>
+        TwitterLimits Limits { get; set; }
 
         /// <summary>
         /// Clone settings.
         /// </summary>
         ITweetinviSettings Clone();
+
+        /// <summary>
+        /// Initialize a setting from another one.
+        /// </summary>
+        void InitialiseFrom(ITweetinviSettings other);
     }
 
     public class TweetinviSettings : ITweetinviSettings
@@ -100,10 +109,12 @@ namespace Tweetinvi
         public TweetMode TweetMode { get; set; }
         public int UploadTimeout { get; set; }
         public Func<DateTime> GetUtcDateTime { get; set; }
+        public TwitterLimits Limits { get; set; }
 
         public TweetinviSettings()
         {
             GetUtcDateTime = () => DateTime.UtcNow;
+            Limits = new TwitterLimits();
         }
 
         public JsonConverter[] Converters { get; set; }
@@ -120,6 +131,7 @@ namespace Tweetinvi
             clone.TweetMode = TweetMode;
             clone.GetUtcDateTime = GetUtcDateTime;
             clone.Converters = Converters;
+            clone.Limits = Limits.Clone();
 
             return clone;
         }
@@ -134,6 +146,7 @@ namespace Tweetinvi
             TweetMode = other.TweetMode;
             GetUtcDateTime = other.GetUtcDateTime;
             Converters = other.Converters;
+            Limits = other.Limits.Clone();
         }
     }
 }

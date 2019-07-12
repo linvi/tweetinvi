@@ -59,6 +59,7 @@ namespace Tweetinvi.Core.Web
         DTO DataTransferObject { get; set; }
         ITwitterResponse Response { get; set; }
         ITwitterRequest Request { get; set; }
+        string Json { get; }
     }
 
     public interface ITwitterResult<DTO, Model> : ITwitterResult<DTO>
@@ -104,6 +105,11 @@ namespace Tweetinvi.Core.Web
         }
         public ITwitterResponse Response { get; set; }
         public ITwitterRequest Request { get; set; }
+
+        public string Json
+        {
+            get { return Response?.Text; }
+        }
     }
 
     public class TwitterResult<DTO, Model> : TwitterResult<DTO>, ITwitterResult<DTO, Model>

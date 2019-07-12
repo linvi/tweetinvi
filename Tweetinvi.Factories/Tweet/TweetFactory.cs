@@ -6,7 +6,6 @@ using Tweetinvi.Core.Factories;
 using Tweetinvi.Core.Helpers;
 using Tweetinvi.Core.Injectinvi;
 using Tweetinvi.Core.Web;
-using Tweetinvi.Logic.DTO;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
 using Tweetinvi.Models.Interfaces;
@@ -46,17 +45,18 @@ namespace Tweetinvi.Factories.Tweet
 
         // Get Tweet
 
-        public async Task<ITwitterResult<TweetDTO, ITweet>> GetTweet(long tweetId, TweetMode? tweetMode, ITwitterRequest request)
+        public async Task<ITwitterResult<ITweetDTO, ITweet>> GetTweet(long tweetId, ITwitterRequest request)
         {
             var result = await _tweetDTOFactory.GetTweetDTO(tweetId, request);
 
-            return _twitterResultFactory.Create<TweetDTO, ITweet>(result, dto => GenerateTweetFromDTO(dto, request.Config.TweetMode));
+            return _twitterResultFactory.Create(result, dto => GenerateTweetFromDTO(dto, request.Config.TweetMode));
         }
 
-        public async Task<IEnumerable<ITweet>> GetTweets(IEnumerable<long> tweetIds, TweetMode? tweetMode = null)
+        public async Task<ITwitterResult<ITweetDTO[], ITweet[]>> GetTweets(long[] tweetIds, ITwitterRequest request)
         {
-            var tweetDTOs = await _tweetDTOFactory.GetTweetDTOs(tweetIds);
-            return GenerateTweetsFromDTO(tweetDTOs);
+            var result = await _tweetDTOFactory.GetTweetDTOs(tweetIds, request);
+
+            return _twitterResultFactory.Create(result, dtos => GenerateTweetsFromDTO(dtos, request.Config.TweetMode).ToArray());
         }
 
         // Create Tweet

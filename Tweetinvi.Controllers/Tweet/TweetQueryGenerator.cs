@@ -40,12 +40,12 @@ namespace Tweetinvi.Controllers.Tweet
         }
 
         // Get Tweet
-        public string GetTweetQuery(long tweetId)
+        public string GetTweetQuery(long tweetId, ITweetinviSettings settings) 
         {
             _tweetQueryValidator.ThrowIfTweetCannotBeUsed(tweetId);
 
             var query = new StringBuilder(string.Format(Resources.Tweet_Get, tweetId));
-            query.AddFormattedParameterToQuery(_queryParameterGenerator.GenerateTweetModeParameter(_tweetinviSettingsAccessor.CurrentThreadSettings.TweetMode));
+            query.AddFormattedParameterToQuery(_queryParameterGenerator.GenerateTweetModeParameter(settings.TweetMode));
 
             return query.ToString();
         }

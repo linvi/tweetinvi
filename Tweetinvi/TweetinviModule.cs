@@ -9,7 +9,7 @@ namespace Tweetinvi
         {
             // Register a singleton of the container, do not use InstancePerApplication
             container.RegisterInstance(typeof(ITweetinviContainer), container);
-            container.RegisterType<IInternalTweetRequester, TweetRequester>();
+            container.RegisterType<IInternalTweetsRequester, TweetsRequester>();
             container.RegisterType<IInternalRequestExecutor, RequestExecutor>();
         }
     }

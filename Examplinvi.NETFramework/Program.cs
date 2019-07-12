@@ -400,10 +400,11 @@ namespace Examplinvi.NETFramework
         {
             var applicationCredentials = new ConsumerCredentials("YHGdHYh7J464jl6Uk38jLRCvq", "lqKIkby71YV7L7IItQpIOVuyLU9HVIgTinz4f6c0a0yUeT6Pj0");
             var authenticationContext = await AuthFlow.InitAuthentication(applicationCredentials, "http://www.linvi.net");
+            Console.WriteLine($"Redirecting to {authenticationContext.AuthorizationURL}");
             Console.WriteLine("Go on : {0}", authenticationContext);
             Console.WriteLine("When redirected to your website copy and paste the URL: ");
 
-            // Enter a value like: https://tweeetinvi.codeplex.com?oauth_token={tokenValue}&oauth_verifier={verifierValue}
+            // Enter a value like: http://www.linvi.net?oauth_token={tokenValue}&oauth_verifier={verifierValue}
 
             var callbackURL = Console.ReadLine();
 
@@ -1469,8 +1470,8 @@ namespace Examplinvi.NETFramework
 
         public static async Task Json_GetJsonForTweetRequestExample()
         {
-            var json = await TweetJson.PublishTweet("text");
-            Console.WriteLine(json);
+            var result = await Client.RequestExecutor.Tweets.GetTweet(42);
+            Console.WriteLine(result.Json);
         }
 
         public static async Task Json_GetJsonForUserRequestExample()

@@ -8,7 +8,7 @@ namespace Tweetinvi.Core.QueryGenerators
     public interface ITweetQueryGenerator
     {
         // Get Tweet
-        string GetTweetQuery(long tweetId);
+        string GetTweetQuery(long tweetId, ITweetinviSettings settings);
         string GetTweetsQuery(IEnumerable<long> tweetIds);
 
         // Publish Tweet

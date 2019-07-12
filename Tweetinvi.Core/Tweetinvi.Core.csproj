@@ -18,6 +18,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Core\Webhooks\**" />
+    <EmbeddedResource Remove="Core\Webhooks\**" />
+    <None Remove="Core\Webhooks\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
     <PackageReference Include="System.Net.Requests" Version="4.3.0" />
     <PackageReference Include="System.Reflection.TypeExtensions" Version="4.3.0" />
@@ -26,6 +32,5 @@
 
   <ItemGroup>
     <Folder Include="Core\Models\Async\" />
-    <Folder Include="Core\Webhooks\" />
   </ItemGroup>
 </Project>

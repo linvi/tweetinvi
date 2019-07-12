@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 using Tweetinvi;
 
 namespace Examplinvi.UniversalApp.ViewModels
@@ -32,7 +33,7 @@ namespace Examplinvi.UniversalApp.ViewModels
             Authenticate();
         }
 
-        private void Authenticate()
+        private async Task Authenticate()
         {
             TwitterConfig.InitApp(); // Initializing credentials -> Auth.SetUserCredentials
 
@@ -48,7 +49,7 @@ namespace Examplinvi.UniversalApp.ViewModels
 
             else
             {
-                var user = User.GetAuthenticatedUser();
+                var user = await User.GetAuthenticatedUser();
                 Message = string.Format("Hi '{0}'. Welcome on board with Windows 10 Universal App!", user.Name);                
             }
         }
@@ -87,7 +88,7 @@ namespace Examplinvi.UniversalApp.ViewModels
                 }
             };
 
-            s.StartStreamAsync();
+            s.StartStream();
         }
 
         #region INotifyPropertyChanged Implementation

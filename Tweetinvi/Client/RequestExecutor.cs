@@ -2,7 +2,7 @@
 {
     public interface IRequestExecutor
     {
-        ITweetRequester TweetRequester { get; }
+        ITweetsRequester Tweets { get; }
     }
 
     public interface IInternalRequestExecutor : IRequestExecutor
@@ -12,21 +12,21 @@
 
     public class RequestExecutor : IInternalRequestExecutor
     {
-        private readonly IInternalTweetRequester _tweetRequester;
+        private readonly IInternalTweetsRequester _tweetsRequester;
 
         private TwitterClient _client;
 
-        public RequestExecutor(IInternalTweetRequester tweetRequester)
+        public RequestExecutor(IInternalTweetsRequester tweetsRequester)
         {
-            _tweetRequester = tweetRequester;
+            _tweetsRequester = tweetsRequester;
         }
 
         public void Initialize(TwitterClient client)
         {
             _client = client;
-            _tweetRequester.Initialize(_client);
+            _tweetsRequester.Initialize(_client);
         }
 
-        public ITweetRequester TweetRequester => _tweetRequester;
+        public ITweetsRequester Tweets => _tweetsRequester;
     }
 }

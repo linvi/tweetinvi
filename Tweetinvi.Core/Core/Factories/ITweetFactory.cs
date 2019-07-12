@@ -10,8 +10,8 @@ namespace Tweetinvi.Core.Factories
 {
     public interface ITweetFactory
     {
-        Task<ITwitterResult<TweetDTO, ITweet>> GetTweet(long tweetId, TweetMode? tweetMode, ITwitterRequest request);
-        Task<IEnumerable<ITweet>> GetTweets(IEnumerable<long> tweetIds, TweetMode? tweetMode = null);
+        Task<ITwitterResult<ITweetDTO, ITweet>> GetTweet(long tweetId, ITwitterRequest request);
+        Task<ITwitterResult<ITweetDTO[], ITweet[]>> GetTweets(long[] tweetIds, ITwitterRequest request);
 
         ITweet CreateTweet(string text, TweetMode? tweetMode = null);
 
