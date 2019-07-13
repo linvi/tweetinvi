@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using FakeItEasy;
 using FakeItEasy.ExtensionSyntax.Full;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -30,7 +31,7 @@ namespace Testinvi.TweetinviControllers.MessageTests
         #region GetLatestMessages
 
         [TestMethod]
-        public void GetLatestMessages_ReturnsTwitterAccessorResult()
+        public async Task GetLatestMessages_ReturnsTwitterAccessorResult()
         {
             // Arrange
             var jsonController = CreateMessageJsonController();
@@ -41,7 +42,7 @@ namespace Testinvi.TweetinviControllers.MessageTests
             _fakeTwitterAccessor.ArrangeExecuteJsonGETQuery(query, expectedResult);
 
             // Act
-            var result = jsonController.GetLatestMessages(count);
+            var result = await jsonController.GetLatestMessages(count);
 
             // Assert
             Assert.AreEqual(result, expectedResult);
@@ -60,7 +61,7 @@ namespace Testinvi.TweetinviControllers.MessageTests
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentException))]
-        public void DestroyMessage_WithNullMessage_ThrowArgumentException()
+        public async Task DestroyMessage_WithNullMessage_ThrowArgumentException()
         {
             // Arrange
             var jsonController = CreateMessageJsonController();
@@ -72,11 +73,11 @@ namespace Testinvi.TweetinviControllers.MessageTests
             _fakeTwitterAccessor.ArrangeExecuteJsonPOSTQuery(query, expectedResult);
 
             // Act
-            jsonController.DestroyMessage((IMessage)null);
+            await jsonController.DestroyMessage((IMessage)null);
         }
 
         [TestMethod]
-        public void VerifyDestroyMessageWithTextAndMessage()
+        public async Task VerifyDestroyMessageWithTextAndMessage()
         {
             // Arrange
             var jsonController = CreateMessageJsonController();
@@ -90,14 +91,14 @@ namespace Testinvi.TweetinviControllers.MessageTests
             _fakeTwitterAccessor.ArrangeTryExecuteDELETEQuery(query, true);
 
             // Act
-            var result = jsonController.DestroyMessage(message);
+            var result = await jsonController.DestroyMessage(message);
 
             // Assert
             Assert.IsTrue(result);
         }
 
         [TestMethod]
-        public void DestroyMessage_WithMessageDTO_AlwaysReturnTwitterAccessor()
+        public async Task DestroyMessage_WithMessageDTO_AlwaysReturnTwitterAccessor()
         {
             // Arrange
             var jsonController = CreateMessageJsonController();
@@ -108,14 +109,14 @@ namespace Testinvi.TweetinviControllers.MessageTests
             _fakeTwitterAccessor.ArrangeTryExecuteDELETEQuery(query, true);
 
             // Act
-            var result = jsonController.DestroyMessage(eventDTO);
+            var result = await jsonController.DestroyMessage(eventDTO);
 
             // Assert
             Assert.IsTrue(result);
         }
 
         [TestMethod]
-        public void DestroyMessage_WithMessageId_AlwaysReturnTwitterAccessor()
+        public async Task DestroyMessage_WithMessageId_AlwaysReturnTwitterAccessor()
         {
             // Arrange
             var jsonController = CreateMessageJsonController();
@@ -126,7 +127,7 @@ namespace Testinvi.TweetinviControllers.MessageTests
             _fakeTwitterAccessor.ArrangeTryExecuteDELETEQuery(query, true);
 
             // Act
-            var result = jsonController.DestroyMessage(messageId);
+            var result = await jsonController.DestroyMessage(messageId);
 
             // Assert
             Assert.IsTrue(result);
@@ -134,7 +135,7 @@ namespace Testinvi.TweetinviControllers.MessageTests
 
         #endregion
 
-        public MessageJsonController CreateMessageJsonController()
+        private MessageJsonController CreateMessageJsonController()
         {
             return _fakeBuilder.GenerateClass();
         }

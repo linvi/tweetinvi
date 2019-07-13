@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
+// ReSharper disable UnusedMemberInSuper.Global
 
 namespace Testinvi.json.net
 {
@@ -10,7 +11,7 @@ namespace Testinvi.json.net
     [ExcludeFromCodeCoverage]
     public class JsonConvertTests
     {
-        public interface IMediaSize
+        private interface IMediaSize
         {
             int? Width { get; set; }
             int? Height { get; set; }
@@ -35,7 +36,7 @@ namespace Testinvi.json.net
             public Dictionary<string, IMediaSize2> MediaSizes2 { get; set; }
         }
 
-        public interface IMediaSize2
+        private interface IMediaSize2
         {
             int? Width { get; set; }
             int? Height { get; set; }
@@ -83,7 +84,7 @@ namespace Testinvi.json.net
         }
 
 
-        public class JsonMediaSizeConverter<T, U> : JsonConverter
+        private class JsonMediaSizeConverter<T, U> : JsonConverter
         {
             public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
             {
@@ -101,8 +102,6 @@ namespace Testinvi.json.net
                 return canConvert;
             }
         }
-
-
 
         [TestMethod]
         public void Deserialize_ToDictionaryOfStringToInterface()

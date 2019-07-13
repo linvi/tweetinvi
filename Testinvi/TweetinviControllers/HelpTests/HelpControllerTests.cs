@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using FakeItEasy;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Testinvi.Helpers;
@@ -21,7 +22,7 @@ namespace Testinvi.TweetinviControllers.HelpTests
         }
 
         [TestMethod]
-        public void GetTokenRateLimits_ReturnsQueryExecutor()
+        public async Task  GetTokenRateLimits_ReturnsQueryExecutor()
         {
             var expectedResult = A.Fake<ICredentialsRateLimits>();
 
@@ -30,7 +31,7 @@ namespace Testinvi.TweetinviControllers.HelpTests
             ArrangeQueryExecutorGetTokenRateLimits(expectedResult);
 
             // Act
-            var result = helpController.GetCurrentCredentialsRateLimits();
+            var result = await helpController.GetCurrentCredentialsRateLimits();
 
             // Assert
             Assert.AreEqual(result, expectedResult);
@@ -44,7 +45,7 @@ namespace Testinvi.TweetinviControllers.HelpTests
         }
 
         [TestMethod]
-        public void GetTwitterPrivacyPolicy_ReturnsQueryExecutor()
+        public async Task GetTwitterPrivacyPolicy_ReturnsQueryExecutor()
         {
             var expectedResult = Guid.NewGuid().ToString();
 
@@ -53,7 +54,7 @@ namespace Testinvi.TweetinviControllers.HelpTests
             ArrangeQueryExecutorGetTwitterPrivacyPolicy(expectedResult);
 
             // Act
-            var result = helpController.GetTwitterPrivacyPolicy();
+            var result = await helpController.GetTwitterPrivacyPolicy();
 
             // Assert
             Assert.AreEqual(result, expectedResult);
@@ -66,7 +67,7 @@ namespace Testinvi.TweetinviControllers.HelpTests
                 .Returns(result);
         }
 
-        public HelpController CreateHelpControllerTests()
+        private HelpController CreateHelpControllerTests()
         {
             return _fakeBuilder.GenerateClass();
         }

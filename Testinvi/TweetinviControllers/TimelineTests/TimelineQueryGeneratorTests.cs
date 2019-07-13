@@ -193,7 +193,7 @@ namespace Testinvi.TweetinviControllers.TimelineTests
 
         #endregion
 
-        public TimelineQueryGenerator CreateTimelineQueryGenerator()
+        private TimelineQueryGenerator CreateTimelineQueryGenerator()
         {
             return _fakeBuilder.GenerateClass();
         }

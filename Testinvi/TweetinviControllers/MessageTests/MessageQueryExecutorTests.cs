@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using FakeItEasy;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Testinvi.Helpers;
@@ -25,21 +26,10 @@ namespace Testinvi.TweetinviControllers.MessageTests
             _fakeTwitterAccessor = _fakeBuilder.GetFake<ITwitterAccessor>();
         }
 
-        #region GetLatestMessages
-        
-        private void ArrangeQueryGeneratorGetLatestMessagesReceived(int count, string query)
-        {
-            _fakeMessageQueryGenerator
-                .CallsTo(x => x.GetLatestMessagesQuery(A<IGetMessagesParameters>.That.Matches(p => p.Count == count)))
-                .Returns(query);
-        }
-
-        #endregion
-
         #region Publish Message
 
         [TestMethod]
-        public void PublishMessage_WithCreateMessageDTO_ReturnsTwitterAccessor()
+        public async Task PublishMessage_WithCreateMessageDTO_ReturnsTwitterAccessor()
         {
             // Arrange
             var queryExecutor = CreateMessageQueryExecutor();
@@ -52,7 +42,7 @@ namespace Testinvi.TweetinviControllers.MessageTests
             _fakeTwitterAccessor.ArrangeExecutePostQueryJsonBody(query, reqDTO, resDTO);
 
             // Act
-            var result = queryExecutor.PublishMessage(parameters);
+            var result = await queryExecutor.PublishMessage(parameters);
 
             // Assert
             Assert.AreEqual(result, resDTO);
@@ -75,18 +65,18 @@ namespace Testinvi.TweetinviControllers.MessageTests
         #region Destroy Message
 
         [TestMethod]
-        public void DestroyMessage_WithMessageDTO_ReturnsTwitterAccessorResult()
+        public async Task DestroyMessage_WithMessageDTO_ReturnsTwitterAccessorResult()
         {
             // Arrange - Act
-            var result1 = DestroyMessage_WithMessageDTO_Returns(true);
-            var result2 = DestroyMessage_WithMessageDTO_Returns(false);
+            var result1 = await DestroyMessage_WithMessageDTO_Returns(true);
+            var result2 = await DestroyMessage_WithMessageDTO_Returns(false);
 
             // Assert
             Assert.IsTrue(result1);
             Assert.IsFalse(result2);
         }
 
-        public bool DestroyMessage_WithMessageDTO_Returns(bool expectedResult)
+        private async Task<bool> DestroyMessage_WithMessageDTO_Returns(bool expectedResult)
         {
             // Arrange
             var queryExecutor = CreateMessageQueryExecutor();
@@ -97,7 +87,7 @@ namespace Testinvi.TweetinviControllers.MessageTests
             _fakeTwitterAccessor.ArrangeTryExecuteDELETEQuery(query, expectedResult);
 
             // Act
-            return queryExecutor.DestroyMessage(eventDTO);
+            return await queryExecutor.DestroyMessage(eventDTO);
         }
 
         private void ArrangeQueryGeneratorDestroyMessage(IMessageEventDTO messageEventDTO, string query)
@@ -108,18 +98,18 @@ namespace Testinvi.TweetinviControllers.MessageTests
         }
 
         [TestMethod]
-        public void DestroyMessage_WithMessageId_ReturnsTwitterAccessorResult()
+        public async Task DestroyMessage_WithMessageId_ReturnsTwitterAccessorResult()
         {
             // Arrange - Act
-            var result1 = DestroyMessage_WithMessageId_Returns(true);
-            var result2 = DestroyMessage_WithMessageId_Returns(false);
+            var result1 = await DestroyMessage_WithMessageId_Returns(true);
+            var result2 = await DestroyMessage_WithMessageId_Returns(false);
 
             // Assert
             Assert.IsTrue(result1);
             Assert.IsFalse(result2);
         }
 
-        public bool DestroyMessage_WithMessageId_Returns(bool expectedResult)
+        private async Task<bool> DestroyMessage_WithMessageId_Returns(bool expectedResult)
         {
             // Arrange
             var queryExecutor = CreateMessageQueryExecutor();
@@ -130,7 +120,7 @@ namespace Testinvi.TweetinviControllers.MessageTests
             _fakeTwitterAccessor.ArrangeTryExecuteDELETEQuery(query, expectedResult);
 
             // Act
-            return queryExecutor.DestroyMessage(messageId);
+            return await queryExecutor.DestroyMessage(messageId);
         }
 
         private void ArrangeQueryGeneratorDestroyMessage(long userId, string query)
@@ -142,7 +132,7 @@ namespace Testinvi.TweetinviControllers.MessageTests
 
         #endregion
 
-        public MessageQueryExecutor CreateMessageQueryExecutor()
+        private MessageQueryExecutor CreateMessageQueryExecutor()
         {
             return _fakeBuilder.GenerateClass();
         }

@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Threading.Tasks;
 using FakeItEasy;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Testinvi.Helpers;
@@ -25,7 +26,7 @@ namespace Testinvi.TweetinviControllers.SearchTests
         }
 
         [TestMethod]
-        public void SearchTweet_BasedOnQuery_ReturnsTwitterAccessorStatuses()
+        public async Task  SearchTweet_BasedOnQuery_ReturnsTwitterAccessorStatuses()
         {
             // Arrange
             var queryExecutor = CreateSearchJsonController();
@@ -37,14 +38,14 @@ namespace Testinvi.TweetinviControllers.SearchTests
             _fakeTwitterAccessor.ArrangeExecuteJsonGETQuery(httpQuery, jsonResult);
 
             // Act
-            var result = queryExecutor.SearchTweets(searchQuery);
+            var result = await queryExecutor.SearchTweets(searchQuery);
 
             // Assert
             Assert.AreEqual(result, jsonResult);
         }
 
         [TestMethod]
-        public void SearchTweet_BasedOnSearchParameters_ReturnsTwitterAccessorStatuses()
+        public async Task SearchTweet_BasedOnSearchParameters_ReturnsTwitterAccessorStatuses()
         {
             // Arrange
             var queryExecutor = CreateSearchJsonController();
@@ -56,14 +57,14 @@ namespace Testinvi.TweetinviControllers.SearchTests
             _fakeTwitterAccessor.ArrangeExecuteJsonGETQuery(httpQuery, jsonResult);
 
             // Act
-            var result = queryExecutor.SearchTweets(searchQueryParameter);
+            var result = await queryExecutor.SearchTweets(searchQueryParameter);
 
             // Assert
-            Assert.AreEqual(result.Count(), 1);
+            Assert.AreEqual(result.Length, 1);
             Assert.IsTrue(result.Contains(jsonResult));
         }
 
-        public SearchJsonController CreateSearchJsonController()
+        private SearchJsonController CreateSearchJsonController()
         {
             return _fakeBuilder.GenerateClass();
         }

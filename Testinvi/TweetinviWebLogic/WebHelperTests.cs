@@ -98,7 +98,7 @@ namespace Testinvi.TweetinviWebLogic
             Assert.AreEqual(result, "https://www.google.com/plop");
         }
 
-        public WebHelper CreateWebHelper()
+        private WebHelper CreateWebHelper()
         {
             return _fakeBuilder.GenerateClass();
         }

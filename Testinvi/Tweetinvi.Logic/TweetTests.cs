@@ -49,7 +49,7 @@ namespace Testinvi.Tweetinvi.Logic
             //Assert.AreEqual(length, 29);
         }
 
-        public Tweet CreateTweet()
+        private Tweet CreateTweet()
         {
             return _fakeBuilder.GenerateClass(new ConstructorNamedParameter("tweetMode", TweetMode.Extended));
         }

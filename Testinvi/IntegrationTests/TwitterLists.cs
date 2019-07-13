@@ -1,4 +1,5 @@
-﻿using Tweetinvi;
+﻿using System.Threading.Tasks;
+using Tweetinvi;
 using Tweetinvi.Models;
 using Tweetinvi.Parameters;
 
@@ -6,16 +7,15 @@ namespace Testinvi.IntegrationTests
 {
     public class TwitterLists
     {
-        public void TwitterList_Lifecycle()
+        public async Task TwitterList_Lifecycle()
         {
-            var authenticatedUser = User.GetAuthenticatedUser();
-            var newList = TwitterList.CreateList("myTemporaryList", PrivacyMode.Private, "tmp");
-            var userLists = TwitterList.GetUserSubscribedLists(authenticatedUser);
-            var newListVerify = TwitterList.GetExistingList(newList);
-            var updateParameter = new TwitterListUpdateParameters();
-            updateParameter.Name = "piloupe";
-            newListVerify.Update(updateParameter);
-            newListVerify.Destroy();
+            var authenticatedUser = await User.GetAuthenticatedUser();
+            var newList = await TwitterList.CreateList("myTemporaryList", PrivacyMode.Private, "tmp");
+            var userLists = await TwitterList.GetUserSubscribedLists(authenticatedUser);
+            var newListVerify = await TwitterList.GetExistingList(newList);
+            var updateParameter = new TwitterListUpdateParameters { Name = "piloupe" };
+            await newListVerify.Update(updateParameter);
+            await newListVerify.Destroy();
         }
     }
 }

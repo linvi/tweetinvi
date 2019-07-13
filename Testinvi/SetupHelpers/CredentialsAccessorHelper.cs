@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
+using System.Threading.Tasks;
 using FakeItEasy;
 using Testinvi.Helpers;
 using Tweetinvi.Core.Credentials;
@@ -23,8 +24,8 @@ namespace Testinvi.SetupHelpers
         public static void SetupPassThrough<T>(this Fake<ICredentialsAccessor> fakeCredentialsAccessor) where T : class 
         {
             fakeCredentialsAccessor
-                .CallsTo(x => x.ExecuteOperationWithCredentials(It.IsAny<ITwitterCredentials>(), It.IsAny<Func<T>>()))
-                .ReturnsLazily((ITwitterCredentials cred, Func<T> f) => f());
+                .CallsTo(x => x.ExecuteOperationWithCredentials(It.IsAny<ITwitterCredentials>(), It.IsAny<Func<Task<T>>>()))
+                .ReturnsLazily((ITwitterCredentials cred, Func<Task<T>> f) => f());
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Threading.Tasks;
 using FakeItEasy;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Testinvi.Helpers;
@@ -31,7 +32,7 @@ namespace Testinvi.TweetinviControllers.UserTests
         #region Get FriendIds
 
         [TestMethod]
-        public void GetFriendIds_WithUser_ReturnsUserExecutorResult()
+        public async Task GetFriendIds_WithUser_ReturnsUserExecutorResult()
         {
             // Arrange
             var controller = CreateUserController();
@@ -43,14 +44,14 @@ namespace Testinvi.TweetinviControllers.UserTests
             _fakeUserQueryExecutor.CallsTo(x => x.GetFriendIds(user, maximumNumberOfUsers)).Returns(friendIds);
 
             // Act
-            var result = controller.GetFriendIds(user, maximumNumberOfUsers);
+            var result = await controller.GetFriendIds(user, maximumNumberOfUsers);
 
             // Assert
             Assert.AreEqual(result, friendIds);
         }
 
         [TestMethod]
-        public void GetFriendIds_WithUserDTO_ReturnsUserExecutorResult()
+        public async Task GetFriendIds_WithUserDTO_ReturnsUserExecutorResult()
         {
             // Arrange
             var controller = CreateUserController();
@@ -61,14 +62,14 @@ namespace Testinvi.TweetinviControllers.UserTests
             _fakeUserQueryExecutor.CallsTo(x => x.GetFriendIds(userDTO, maximumNumberOfUsers)).Returns(friendIds);
 
             // Act
-            var result = controller.GetFriendIds(userDTO, maximumNumberOfUsers);
+            var result = await controller.GetFriendIds(userDTO, maximumNumberOfUsers);
 
             // Assert
             Assert.AreEqual(result, friendIds);
         }
 
         [TestMethod]
-        public void GetFriendIds_WithUserScreenName_ReturnsUserExecutorResult()
+        public async Task GetFriendIds_WithUserScreenName_ReturnsUserExecutorResult()
         {
             // Arrange
             var controller = CreateUserController();
@@ -79,14 +80,14 @@ namespace Testinvi.TweetinviControllers.UserTests
             _fakeUserQueryExecutor.CallsTo(x => x.GetFriendIds(A<IUserIdentifier>.That.Matches(u => u.ScreenName == userScreenName), maximumNumberOfUsers)).Returns(friendIds);
 
             // Act
-            var result = controller.GetFriendIds(userScreenName, maximumNumberOfUsers);
+            var result = await controller.GetFriendIds(userScreenName, maximumNumberOfUsers);
 
             // Assert
             Assert.AreEqual(result, friendIds);
         }
 
         [TestMethod]
-        public void GetFriendIds_WithUserId_ReturnsUserExecutorResult()
+        public async Task GetFriendIds_WithUserId_ReturnsUserExecutorResult()
         {
             // Arrange
             var controller = CreateUserController();
@@ -97,7 +98,7 @@ namespace Testinvi.TweetinviControllers.UserTests
             _fakeUserQueryExecutor.CallsTo(x => x.GetFriendIds(A<IUserIdentifier>.That.Matches(u => u.Id == userId), maximumNumberOfUsers)).Returns(friendIds);
 
             // Act
-            var result = controller.GetFriendIds(userId, maximumNumberOfUsers);
+            var result = await controller.GetFriendIds(userId, maximumNumberOfUsers);
 
             // Assert
             Assert.AreEqual(result, friendIds);
@@ -108,7 +109,7 @@ namespace Testinvi.TweetinviControllers.UserTests
         #region Get Friends
 
         [TestMethod]
-        public void GetFriends_WithUser_ReturnsUserExecutorResult()
+        public async Task GetFriends_WithUser_ReturnsUserExecutorResult()
         {
             // Arrange
             var controller = CreateUserController();
@@ -122,14 +123,14 @@ namespace Testinvi.TweetinviControllers.UserTests
             _fakeUserFactory.CallsTo(x => x.GetUsersFromIds(friendIds)).Returns(friends);
 
             // Act
-            var result = controller.GetFriends(user, maximumNumberOfUsers);
+            var result = await controller.GetFriends(user, maximumNumberOfUsers);
 
             // Assert
             Assert.AreEqual(result, friends);
         }
 
         [TestMethod]
-        public void GetFriends_WithUserDTO_ReturnsUserExecutorResult()
+        public async Task GetFriends_WithUserDTO_ReturnsUserExecutorResult()
         {
             // Arrange
             var controller = CreateUserController();
@@ -142,14 +143,14 @@ namespace Testinvi.TweetinviControllers.UserTests
             _fakeUserFactory.CallsTo(x => x.GetUsersFromIds(friendIds)).Returns(friends);
 
             // Act
-            var result = controller.GetFriends(userDTO, maximumNumberOfUsers);
+            var result = await controller.GetFriends(userDTO, maximumNumberOfUsers);
 
             // Assert
             Assert.AreEqual(result, friends);
         }
 
         [TestMethod]
-        public void GetFriends_WithUserScreenName_ReturnsUserExecutorResult()
+        public async Task GetFriends_WithUserScreenName_ReturnsUserExecutorResult()
         {
             // Arrange
             var controller = CreateUserController();
@@ -162,14 +163,14 @@ namespace Testinvi.TweetinviControllers.UserTests
             _fakeUserFactory.CallsTo(x => x.GetUsersFromIds(friendIds)).Returns(friends);
 
             // Act
-            var result = controller.GetFriends(userScreenName, maximumNumberOfUsers);
+            var result = await controller.GetFriends(userScreenName, maximumNumberOfUsers);
 
             // Assert
             Assert.AreEqual(result, friends);
         }
 
         [TestMethod]
-        public void GetFriends_WithUserId_ReturnsUserExecutorResult()
+        public async Task GetFriends_WithUserId_ReturnsUserExecutorResult()
         {
             // Arrange
             var controller = CreateUserController();
@@ -182,7 +183,7 @@ namespace Testinvi.TweetinviControllers.UserTests
             _fakeUserFactory.CallsTo(x => x.GetUsersFromIds(friendIds)).Returns(friends);
 
             // Act
-            var result = controller.GetFriends(userId, maximumNumberOfUsers);
+            var result = await controller.GetFriends(userId, maximumNumberOfUsers);
 
             // Assert
             Assert.AreEqual(result, friends);
@@ -193,7 +194,7 @@ namespace Testinvi.TweetinviControllers.UserTests
         #region Get FollowerIds
 
         [TestMethod]
-        public void GetFollowerIds_WithUser_ReturnsUserExecutorResult()
+        public async Task GetFollowerIds_WithUser_ReturnsUserExecutorResult()
         {
             // Arrange
             var controller = CreateUserController();
@@ -205,14 +206,14 @@ namespace Testinvi.TweetinviControllers.UserTests
             _fakeUserQueryExecutor.CallsTo(x => x.GetFollowerIds(user, maximumNumberOfUsers)).Returns(followersIds);
 
             // Act
-            var result = controller.GetFollowerIds(user, maximumNumberOfUsers);
+            var result = await controller.GetFollowerIds(user, maximumNumberOfUsers);
 
             // Assert
             Assert.AreEqual(result, followersIds);
         }
 
         [TestMethod]
-        public void GetFollowerIds_WithUserDTO_ReturnsUserExecutorResult()
+        public async Task GetFollowerIds_WithUserDTO_ReturnsUserExecutorResult()
         {
             // Arrange
             var controller = CreateUserController();
@@ -223,14 +224,14 @@ namespace Testinvi.TweetinviControllers.UserTests
             _fakeUserQueryExecutor.CallsTo(x => x.GetFollowerIds(userDTO, maximumNumberOfUsers)).Returns(followersIds);
 
             // Act
-            var result = controller.GetFollowerIds(userDTO, maximumNumberOfUsers);
+            var result = await controller.GetFollowerIds(userDTO, maximumNumberOfUsers);
 
             // Assert
             Assert.AreEqual(result, followersIds);
         }
 
         [TestMethod]
-        public void GetFollowerIds_WithUserScreenName_ReturnsUserExecutorResult()
+        public async Task GetFollowerIds_WithUserScreenName_ReturnsUserExecutorResult()
         {
             // Arrange
             var controller = CreateUserController();
@@ -241,14 +242,14 @@ namespace Testinvi.TweetinviControllers.UserTests
             _fakeUserQueryExecutor.CallsTo(x => x.GetFollowerIds(A<IUserIdentifier>.That.Matches(u => u.ScreenName == userScreenName), maximumNumberOfUsers)).Returns(followersIds);
 
             // Act
-            var result = controller.GetFollowerIds(userScreenName, maximumNumberOfUsers);
+            var result = await controller.GetFollowerIds(userScreenName, maximumNumberOfUsers);
 
             // Assert
             Assert.AreEqual(result, followersIds);
         }
 
         [TestMethod]
-        public void GetFollowerIds_WithUserId_ReturnsUserExecutorResult()
+        public async Task GetFollowerIds_WithUserId_ReturnsUserExecutorResult()
         {
             // Arrange
             var controller = CreateUserController();
@@ -259,7 +260,7 @@ namespace Testinvi.TweetinviControllers.UserTests
             _fakeUserQueryExecutor.CallsTo(x => x.GetFollowerIds(A<IUserIdentifier>.That.Matches(u => u.Id == userId), maximumNumberOfUsers)).Returns(followersIds);
 
             // Act
-            var result = controller.GetFollowerIds(userId, maximumNumberOfUsers);
+            var result = await controller.GetFollowerIds(userId, maximumNumberOfUsers);
 
             // Assert
             Assert.AreEqual(result, followersIds);
@@ -270,7 +271,7 @@ namespace Testinvi.TweetinviControllers.UserTests
         #region Get Followers
 
         [TestMethod]
-        public void GetFollowers_WithUser_ReturnsUserExecutorResult()
+        public async Task GetFollowers_WithUser_ReturnsUserExecutorResult()
         {
             // Arrange
             var controller = CreateUserController();
@@ -284,14 +285,14 @@ namespace Testinvi.TweetinviControllers.UserTests
             _fakeUserFactory.CallsTo(x => x.GetUsersFromIds(followerIds)).Returns(followers);
 
             // Act
-            var result = controller.GetFollowers(user, maximumNumberOfUsers);
+            var result = await controller.GetFollowers(user, maximumNumberOfUsers);
 
             // Assert
             Assert.AreEqual(result, followers);
         }
 
         [TestMethod]
-        public void GetFollowers_WithUserDTO_ReturnsUserExecutorResult()
+        public async Task GetFollowers_WithUserDTO_ReturnsUserExecutorResult()
         {
             // Arrange
             var controller = CreateUserController();
@@ -304,14 +305,14 @@ namespace Testinvi.TweetinviControllers.UserTests
             _fakeUserFactory.CallsTo(x => x.GetUsersFromIds(followerIds)).Returns(followers);
 
             // Act
-            var result = controller.GetFollowers(userDTO, maximumNumberOfUsers);
+            var result = await controller.GetFollowers(userDTO, maximumNumberOfUsers);
 
             // Assert
             Assert.AreEqual(result, followers);
         }
 
         [TestMethod]
-        public void GetFollowers_WithUserScreenName_ReturnsUserExecutorResult()
+        public async Task GetFollowers_WithUserScreenName_ReturnsUserExecutorResult()
         {
             // Arrange
             var controller = CreateUserController();
@@ -324,14 +325,14 @@ namespace Testinvi.TweetinviControllers.UserTests
             _fakeUserFactory.CallsTo(x => x.GetUsersFromIds(followerIds)).Returns(followers);
 
             // Act
-            var result = controller.GetFollowers(userScreenName, maximumNumberOfUsers);
+            var result = await controller.GetFollowers(userScreenName, maximumNumberOfUsers);
 
             // Assert
             Assert.AreEqual(result, followers);
         }
 
         [TestMethod]
-        public void GetFollowers_WithUserId_ReturnsUserExecutorResult()
+        public async Task GetFollowers_WithUserId_ReturnsUserExecutorResult()
         {
             // Arrange
             var controller = CreateUserController();
@@ -344,7 +345,7 @@ namespace Testinvi.TweetinviControllers.UserTests
             _fakeUserFactory.CallsTo(x => x.GetUsersFromIds(followerIds)).Returns(followers);
 
             // Act
-            var result = controller.GetFollowers(userId, maximumNumberOfUsers);
+            var result = await controller.GetFollowers(userId, maximumNumberOfUsers);
 
             // Assert
             Assert.AreEqual(result, followers);
@@ -355,7 +356,7 @@ namespace Testinvi.TweetinviControllers.UserTests
         #region Get Favourites
 
         [TestMethod]
-        public void GetFavouriteTweets_WithUser_ReturnsUserExecutorResult()
+        public async Task GetFavouriteTweets_WithUser_ReturnsUserExecutorResult()
         {
             // Arrange
             var controller = CreateUserController();
@@ -367,7 +368,7 @@ namespace Testinvi.TweetinviControllers.UserTests
             _fakeTweetFactory.CallsTo(x => x.GenerateTweetsFromDTO(tweetsDTO, null)).Returns(tweets);
 
             // Act
-            var result = controller.GetFavoriteTweets(parameters);
+            var result = await controller.GetFavoriteTweets(parameters);
 
             // Assert
             Assert.AreEqual(result, tweets);
@@ -378,7 +379,7 @@ namespace Testinvi.TweetinviControllers.UserTests
         #region Block User
 
         [TestMethod]
-        public void BlockUser_WithUser_ReturnsUserExecutorResult_False()
+        public async Task BlockUser_WithUser_ReturnsUserExecutorResult_False()
         {
             // Arrange
             var controller = CreateUserController();
@@ -388,14 +389,14 @@ namespace Testinvi.TweetinviControllers.UserTests
             _fakeUserQueryExecutor.CallsTo(x => x.BlockUser(userDTO)).Returns(false);
 
             // Act
-            var result = controller.BlockUser(user);
+            var result = await controller.BlockUser(user);
 
             // Assert
             Assert.IsFalse(result);
         }
 
         [TestMethod]
-        public void BlockUser_WithUser_ReturnsUserExecutorResult_True()
+        public async Task BlockUser_WithUser_ReturnsUserExecutorResult_True()
         {
             // Arrange
             var controller = CreateUserController();
@@ -404,14 +405,14 @@ namespace Testinvi.TweetinviControllers.UserTests
             _fakeUserQueryExecutor.CallsTo(x => x.BlockUser(user)).Returns(true);
 
             // Act
-            var result = controller.BlockUser(user);
+            var result = await controller.BlockUser(user);
 
             // Assert
             Assert.IsTrue(result);
         }
 
         [TestMethod]
-        public void BlockUser_WithUserDTO_ReturnsUserExecutorResult_False()
+        public async Task BlockUser_WithUserDTO_ReturnsUserExecutorResult_False()
         {
             // Arrange
             var controller = CreateUserController();
@@ -420,14 +421,14 @@ namespace Testinvi.TweetinviControllers.UserTests
             _fakeUserQueryExecutor.CallsTo(x => x.BlockUser(userDTO)).Returns(false);
 
             // Act
-            var result = controller.BlockUser(userDTO);
+            var result = await controller.BlockUser(userDTO);
 
             // Assert
             Assert.IsFalse(result);
         }
 
         [TestMethod]
-        public void BlockUser_WithUserDTO_ReturnsUserExecutorResult_True()
+        public async Task BlockUser_WithUserDTO_ReturnsUserExecutorResult_True()
         {
             // Arrange
             var controller = CreateUserController();
@@ -436,14 +437,14 @@ namespace Testinvi.TweetinviControllers.UserTests
             _fakeUserQueryExecutor.CallsTo(x => x.BlockUser(userDTO)).Returns(true);
 
             // Act
-            var result = controller.BlockUser(userDTO);
+            var result = await controller.BlockUser(userDTO);
 
             // Assert
             Assert.IsTrue(result);
         }
 
         [TestMethod]
-        public void BlockUser_WithUserScreenName_ReturnsUserExecutorResult_False()
+        public async Task BlockUser_WithUserScreenName_ReturnsUserExecutorResult_False()
         {
             // Arrange
             var controller = CreateUserController();
@@ -452,14 +453,14 @@ namespace Testinvi.TweetinviControllers.UserTests
             _fakeUserQueryExecutor.CallsTo(x => x.BlockUser(A<IUserIdentifier>.That.Matches(u => u.ScreenName == userScreenName))).Returns(false);
 
             // Act
-            var result = controller.BlockUser(userScreenName);
+            var result = await controller.BlockUser(userScreenName);
 
             // Assert
             Assert.IsFalse(result);
         }
 
         [TestMethod]
-        public void BlockUser_WithUserScreenName_ReturnsUserExecutorResult_True()
+        public async Task BlockUser_WithUserScreenName_ReturnsUserExecutorResult_True()
         {
             // Arrange
             var controller = CreateUserController();
@@ -468,14 +469,14 @@ namespace Testinvi.TweetinviControllers.UserTests
             _fakeUserQueryExecutor.CallsTo(x => x.BlockUser(A<IUserIdentifier>.That.Matches(u => u.ScreenName == userScreenName))).Returns(true);
 
             // Act
-            var result = controller.BlockUser(userScreenName);
+            var result = await controller.BlockUser(userScreenName);
 
             // Assert
             Assert.IsTrue(result);
         }
 
         [TestMethod]
-        public void BlockUser_WithUserId_ReturnsUserExecutorResult_False()
+        public async Task BlockUser_WithUserId_ReturnsUserExecutorResult_False()
         {
             // Arrange
             var controller = CreateUserController();
@@ -484,14 +485,14 @@ namespace Testinvi.TweetinviControllers.UserTests
             _fakeUserQueryExecutor.CallsTo(x => x.BlockUser(A<IUserIdentifier>.That.Matches(u => u.Id == userId))).Returns(false);
 
             // Act
-            var result = controller.BlockUser(userId);
+            var result = await controller.BlockUser(userId);
 
             // Assert
             Assert.IsFalse(result);
         }
 
         [TestMethod]
-        public void BlockUser_WithUserId_ReturnsUserExecutorResult_True()
+        public async Task BlockUser_WithUserId_ReturnsUserExecutorResult_True()
         {
             // Arrange
             var controller = CreateUserController();
@@ -500,7 +501,7 @@ namespace Testinvi.TweetinviControllers.UserTests
             _fakeUserQueryExecutor.CallsTo(x => x.BlockUser(A<IUserIdentifier>.That.Matches(u => u.Id == userId))).Returns(true);
 
             // Act
-            var result = controller.BlockUser(userId);
+            var result = await controller.BlockUser(userId);
 
             // Assert
             Assert.IsTrue(result);
@@ -516,7 +517,7 @@ namespace Testinvi.TweetinviControllers.UserTests
         {
             // Arrange
             var controller = CreateUserController();
-            
+
             // Act
             controller.GetProfileImageStream((IUser)null, ImageSize.bigger);
         }
@@ -554,13 +555,13 @@ namespace Testinvi.TweetinviControllers.UserTests
 
             // Assert
             Assert.AreEqual(result, stream);
-        } 
+        }
         #endregion
 
         #region Spam
 
         [TestMethod]
-        public void ReportUserForSpam_WithUser_ReturnsUserExecutorResult_False()
+        public async Task ReportUserForSpam_WithUser_ReturnsUserExecutorResult_False()
         {
             // Arrange
             var controller = CreateUserController();
@@ -570,14 +571,14 @@ namespace Testinvi.TweetinviControllers.UserTests
             _fakeUserQueryExecutor.CallsTo(x => x.ReportUserForSpam(userDTO)).Returns(false);
 
             // Act
-            var result = controller.ReportUserForSpam(user);
+            var result = await controller.ReportUserForSpam(user);
 
             // Assert
             Assert.IsFalse(result);
         }
 
         [TestMethod]
-        public void ReportUserForSpam_WithUserDTO_ReturnsUserExecutorResult_False()
+        public async Task ReportUserForSpam_WithUserDTO_ReturnsUserExecutorResult_False()
         {
             // Arrange
             var controller = CreateUserController();
@@ -586,14 +587,14 @@ namespace Testinvi.TweetinviControllers.UserTests
             _fakeUserQueryExecutor.CallsTo(x => x.ReportUserForSpam(userDTO)).Returns(false);
 
             // Act
-            var result = controller.ReportUserForSpam(userDTO);
+            var result = await controller.ReportUserForSpam(userDTO);
 
             // Assert
             Assert.IsFalse(result);
         }
 
         [TestMethod]
-        public void ReportUserForSpam_WithUserDTO_ReturnsUserExecutorResult_True()
+        public async Task ReportUserForSpam_WithUserDTO_ReturnsUserExecutorResult_True()
         {
             // Arrange
             var controller = CreateUserController();
@@ -602,14 +603,14 @@ namespace Testinvi.TweetinviControllers.UserTests
             _fakeUserQueryExecutor.CallsTo(x => x.ReportUserForSpam(userDTO)).Returns(true);
 
             // Act
-            var result = controller.ReportUserForSpam(userDTO);
+            var result = await controller.ReportUserForSpam(userDTO);
 
             // Assert
             Assert.IsTrue(result);
         }
 
         [TestMethod]
-        public void ReportUserForSpam_WithUserScreenName_ReturnsUserExecutorResult_False()
+        public async Task ReportUserForSpam_WithUserScreenName_ReturnsUserExecutorResult_False()
         {
             // Arrange
             var controller = CreateUserController();
@@ -618,14 +619,14 @@ namespace Testinvi.TweetinviControllers.UserTests
             _fakeUserQueryExecutor.CallsTo(x => x.ReportUserForSpam(A<IUserIdentifier>.That.Matches(u => u.ScreenName == userScreenName))).Returns(false);
 
             // Act
-            var result = controller.ReportUserForSpam(userScreenName);
+            var result = await controller.ReportUserForSpam(userScreenName);
 
             // Assert
             Assert.IsFalse(result);
         }
 
         [TestMethod]
-        public void ReportUserForSpam_WithUserScreenName_ReturnsUserExecutorResult_True()
+        public async Task ReportUserForSpam_WithUserScreenName_ReturnsUserExecutorResult_True()
         {
             // Arrange
             var controller = CreateUserController();
@@ -634,14 +635,14 @@ namespace Testinvi.TweetinviControllers.UserTests
             _fakeUserQueryExecutor.CallsTo(x => x.ReportUserForSpam(A<IUserIdentifier>.That.Matches(u => u.ScreenName == userScreenName))).Returns(true);
 
             // Act
-            var result = controller.ReportUserForSpam(userScreenName);
+            var result = await controller.ReportUserForSpam(userScreenName);
 
             // Assert
             Assert.IsTrue(result);
         }
 
         [TestMethod]
-        public void ReportUserForSpam_WithUserId_ReturnsUserExecutorResult_False()
+        public async Task ReportUserForSpam_WithUserId_ReturnsUserExecutorResult_False()
         {
             // Arrange
             var controller = CreateUserController();
@@ -650,14 +651,14 @@ namespace Testinvi.TweetinviControllers.UserTests
             _fakeUserQueryExecutor.CallsTo(x => x.ReportUserForSpam(A<IUserIdentifier>.That.Matches(u => u.Id == userId))).Returns(false);
 
             // Act
-            var result = controller.ReportUserForSpam(userId);
+            var result = await controller.ReportUserForSpam(userId);
 
             // Assert
             Assert.IsFalse(result);
         }
 
         [TestMethod]
-        public void ReportUserForSpam_WithUserId_ReturnsUserExecutorResult_True()
+        public async Task ReportUserForSpam_WithUserId_ReturnsUserExecutorResult_True()
         {
             // Arrange
             var controller = CreateUserController();
@@ -666,7 +667,7 @@ namespace Testinvi.TweetinviControllers.UserTests
             _fakeUserQueryExecutor.CallsTo(x => x.ReportUserForSpam(A<IUserIdentifier>.That.Matches(u => u.Id == userId))).Returns(true);
 
             // Act
-            var result = controller.ReportUserForSpam(userId);
+            var result = await controller.ReportUserForSpam(userId);
 
             // Assert
             Assert.IsTrue(result);
@@ -674,7 +675,7 @@ namespace Testinvi.TweetinviControllers.UserTests
 
         #endregion
 
-        public UserController CreateUserController()
+        private UserController CreateUserController()
         {
             return _fakeBuilder.GenerateClass();
         }

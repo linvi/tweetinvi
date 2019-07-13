@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using FakeItEasy;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Testinvi.Helpers;
@@ -35,24 +35,19 @@ namespace Testinvi.TweetinviControllers.FriendshipTests
         #region Get UserIds Requesting Friendship
 
         [TestMethod]
-        public void GetUserIdsRequestingFriendship_ReturnsQueryExecutor()
+        public async Task GetUserIdsRequestingFriendship_ReturnsQueryExecutor()
         {
             string query = Guid.NewGuid().ToString();
             var ids = new long[] { new Random().Next(), new Random().Next() };
 
             // Arrange
-            var queryExecutor = CreateFrienshipQueryExecutor();
+            var queryExecutor = CreateFriendshipQueryExecutor();
             ArrangeGetUserIdsRequestingFriendshipQuery(query);
-
-            IEnumerable<IIdsCursorQueryResultDTO> userIds = new List<IIdsCursorQueryResultDTO>
-            {
-                GenerateIdsCursorQueryResult(ids)
-            };
 
             _fakeTwitterAccessor.ArrangeExecuteCursorGETQuery<long, IIdsCursorQueryResultDTO>(query, ids);
 
             // Act
-            var result = queryExecutor.GetUserIdsRequestingFriendship(TestHelper.GenerateRandomInt());
+            var result = (await queryExecutor.GetUserIdsRequestingFriendship(TestHelper.GenerateRandomInt())).ToArray();
 
             // Assert
             Assert.IsTrue(result.All(ids.Contains));
@@ -60,26 +55,20 @@ namespace Testinvi.TweetinviControllers.FriendshipTests
         }
 
         [TestMethod]
-        public void GetUserIdsRequestingFriendship_MultipleCursorResult_ContainsAllIds()
+        public async Task GetUserIdsRequestingFriendship_MultipleCursorResult_ContainsAllIds()
         {
             string query = Guid.NewGuid().ToString();
             var ids = new long[] { new Random().Next(), new Random().Next() };
             var ids2 = new long[] { new Random().Next(), new Random().Next() };
 
             // Arrange
-            var queryExecutor = CreateFrienshipQueryExecutor();
+            var queryExecutor = CreateFriendshipQueryExecutor();
             ArrangeGetUserIdsRequestingFriendshipQuery(query);
-
-            IEnumerable<IIdsCursorQueryResultDTO> userIds = new List<IIdsCursorQueryResultDTO>
-            {
-                GenerateIdsCursorQueryResult(ids),
-                GenerateIdsCursorQueryResult(ids2)
-            };
 
             _fakeTwitterAccessor.ArrangeExecuteCursorGETQuery<long, IIdsCursorQueryResultDTO>(query, ids);
 
             // Act
-            var result = queryExecutor.GetUserIdsRequestingFriendship(TestHelper.GenerateRandomInt());
+            var result = await queryExecutor.GetUserIdsRequestingFriendship(TestHelper.GenerateRandomInt());
 
             // Assert
             Assert.IsTrue(result.All(x => ids.Contains(x) || ids2.Contains(x)));
@@ -87,18 +76,18 @@ namespace Testinvi.TweetinviControllers.FriendshipTests
         }
 
         [TestMethod]
-        public void GetUserIdsRequestingFriendship_QueryExecutorReturnsNull_ReturnsNull()
+        public async Task GetUserIdsRequestingFriendship_QueryExecutorReturnsNull_ReturnsNull()
         {
             string query = Guid.NewGuid().ToString();
 
             // Arrange
-            var queryExecutor = CreateFrienshipQueryExecutor();
+            var queryExecutor = CreateFriendshipQueryExecutor();
             ArrangeGetUserIdsRequestingFriendshipQuery(query);
 
             _fakeTwitterAccessor.ArrangeExecuteCursorGETQuery<long, IIdsCursorQueryResultDTO>(query, null);
 
             // Act
-            var result = queryExecutor.GetUserIdsRequestingFriendship(TestHelper.GenerateRandomInt());
+            var result = await queryExecutor.GetUserIdsRequestingFriendship(TestHelper.GenerateRandomInt());
 
             // Assert
             Assert.AreEqual(result, null);
@@ -116,24 +105,19 @@ namespace Testinvi.TweetinviControllers.FriendshipTests
         #region Get UserIds Requesting Friendship
 
         [TestMethod]
-        public void GetUserIdsYouRequestedToFollow_ReturnsQueryExecutor()
+        public async Task GetUserIdsYouRequestedToFollow_ReturnsQueryExecutor()
         {
             string query = Guid.NewGuid().ToString();
             var ids = new long[] { new Random().Next(), new Random().Next() };
 
             // Arrange
-            var queryExecutor = CreateFrienshipQueryExecutor();
+            var queryExecutor = CreateFriendshipQueryExecutor();
             ArrangeGetUserIdsYouRequestedToFollowQuery(query);
-
-            IEnumerable<IIdsCursorQueryResultDTO> userIds = new List<IIdsCursorQueryResultDTO>
-            {
-                GenerateIdsCursorQueryResult(ids)
-            };
 
             _fakeTwitterAccessor.ArrangeExecuteCursorGETQuery<long, IIdsCursorQueryResultDTO>(query, ids);
 
             // Act
-            var result = queryExecutor.GetUserIdsYouRequestedToFollow(TestHelper.GenerateRandomInt());
+            var result = (await queryExecutor.GetUserIdsYouRequestedToFollow(TestHelper.GenerateRandomInt())).ToArray();
 
             // Assert
             Assert.IsTrue(result.All(ids.Contains));
@@ -141,26 +125,20 @@ namespace Testinvi.TweetinviControllers.FriendshipTests
         }
 
         [TestMethod]
-        public void GetUserIdsYouRequestedToFollow_MultipleCursorResult_ContainsAllIds()
+        public async Task GetUserIdsYouRequestedToFollow_MultipleCursorResult_ContainsAllIds()
         {
             string query = Guid.NewGuid().ToString();
             var ids = new long[] { new Random().Next(), new Random().Next() };
             var ids2 = new long[] { new Random().Next(), new Random().Next() };
 
             // Arrange
-            var queryExecutor = CreateFrienshipQueryExecutor();
+            var queryExecutor = CreateFriendshipQueryExecutor();
             ArrangeGetUserIdsYouRequestedToFollowQuery(query);
-
-            IEnumerable<IIdsCursorQueryResultDTO> userIds = new List<IIdsCursorQueryResultDTO>
-            {
-                GenerateIdsCursorQueryResult(ids),
-                GenerateIdsCursorQueryResult(ids2)
-            };
 
             _fakeTwitterAccessor.ArrangeExecuteCursorGETQuery<long, IIdsCursorQueryResultDTO>(query, ids);
 
             // Act
-            var result = queryExecutor.GetUserIdsYouRequestedToFollow(TestHelper.GenerateRandomInt());
+            var result = (await queryExecutor.GetUserIdsYouRequestedToFollow(TestHelper.GenerateRandomInt())).ToArray();
 
             // Assert
             Assert.IsTrue(result.All(x => ids.Contains(x) || ids2.Contains(x)));
@@ -169,18 +147,18 @@ namespace Testinvi.TweetinviControllers.FriendshipTests
         }
 
         [TestMethod]
-        public void GetUserIdsYouRequestedToFollow_QueryExecutorReturnsNull_ReturnsNull()
+        public async Task GetUserIdsYouRequestedToFollow_QueryExecutorReturnsNull_ReturnsNull()
         {
             string query = Guid.NewGuid().ToString();
 
             // Arrange
-            var queryExecutor = CreateFrienshipQueryExecutor();
+            var queryExecutor = CreateFriendshipQueryExecutor();
             ArrangeGetUserIdsYouRequestedToFollowQuery(query);
 
             _fakeTwitterAccessor.ArrangeExecuteCursorGETQuery<long, IIdsCursorQueryResultDTO>(query, null);
 
             // Act
-            var result = queryExecutor.GetUserIdsYouRequestedToFollow(TestHelper.GenerateRandomInt());
+            var result = await queryExecutor.GetUserIdsYouRequestedToFollow(TestHelper.GenerateRandomInt());
 
             // Assert
             Assert.AreEqual(result, null);
@@ -198,29 +176,29 @@ namespace Testinvi.TweetinviControllers.FriendshipTests
         #region Create Friendship With
 
         [TestMethod]
-        public void CreateFriendshipWith_UserDTO_ReturnsQueryExecutor()
+        public async Task CreateFriendshipWith_UserDTO_ReturnsQueryExecutor()
         {
             // Arrange - Act
-            var shouldSucceed = CreateFriendshipWith_UserDTO_Returns(true);
-            var shouldFail = CreateFriendshipWith_UserDTO_Returns(false);
+            var shouldSucceed = await CreateFriendshipWith_UserDTO_Returns(true);
+            var shouldFail = await CreateFriendshipWith_UserDTO_Returns(false);
 
             // Assert
             Assert.IsTrue(shouldSucceed);
             Assert.IsFalse(shouldFail);
         }
 
-        private bool CreateFriendshipWith_UserDTO_Returns(bool result)
+        private async Task<bool> CreateFriendshipWith_UserDTO_Returns(bool result)
         {
             var userDTO = A.Fake<IUserDTO>();
             string query = Guid.NewGuid().ToString();
 
             // Arrange
-            var queryExecutor = CreateFrienshipQueryExecutor();
+            var queryExecutor = CreateFriendshipQueryExecutor();
             ArrangeCreateFriendshipWithUserDTO(userDTO, query);
             _fakeTwitterAccessor.ArrangeTryExecutePOSTQuery(query, result);
 
             // Act
-            return queryExecutor.CreateFriendshipWith(userDTO);
+            return await queryExecutor.CreateFriendshipWith(userDTO);
         }
 
         private void ArrangeCreateFriendshipWithUserDTO(IUserDTO userDTO, string query)
@@ -235,26 +213,26 @@ namespace Testinvi.TweetinviControllers.FriendshipTests
         #region Update Friendship With
 
         [TestMethod]
-        public void UpdateRelationshipAuthorizationsWith_UserDTO_ReturnsQueryExecutor()
+        public async Task UpdateRelationshipAuthorizationsWith_UserDTO_ReturnsQueryExecutor()
         {
             // Arrange - Act
-            var shouldFail1 = UpdateRelationshipAuthorizationsWith_UserDTO_Returns(false, false, false, false);
-            var shouldFail2 = UpdateRelationshipAuthorizationsWith_UserDTO_Returns(false, false, false, true);
-            var shouldFail3 = UpdateRelationshipAuthorizationsWith_UserDTO_Returns(false, false, true, false);
-            var shouldFail4 = UpdateRelationshipAuthorizationsWith_UserDTO_Returns(false, false, true, true);
-            var shouldFail5 = UpdateRelationshipAuthorizationsWith_UserDTO_Returns(false, true, false, false);
-            var shouldFail6 = UpdateRelationshipAuthorizationsWith_UserDTO_Returns(false, true, false, true);
-            var shouldFail7 = UpdateRelationshipAuthorizationsWith_UserDTO_Returns(false, true, true, false);
-            var shouldFail8 = UpdateRelationshipAuthorizationsWith_UserDTO_Returns(false, true, true, true);
+            var shouldFail1 = await UpdateRelationshipAuthorizationsWith_UserDTO_Returns(false, false, false, false);
+            var shouldFail2 = await UpdateRelationshipAuthorizationsWith_UserDTO_Returns(false, false, false, true);
+            var shouldFail3 = await UpdateRelationshipAuthorizationsWith_UserDTO_Returns(false, false, true, false);
+            var shouldFail4 = await UpdateRelationshipAuthorizationsWith_UserDTO_Returns(false, false, true, true);
+            var shouldFail5 = await UpdateRelationshipAuthorizationsWith_UserDTO_Returns(false, true, false, false);
+            var shouldFail6 = await UpdateRelationshipAuthorizationsWith_UserDTO_Returns(false, true, false, true);
+            var shouldFail7 = await UpdateRelationshipAuthorizationsWith_UserDTO_Returns(false, true, true, false);
+            var shouldFail8 = await UpdateRelationshipAuthorizationsWith_UserDTO_Returns(false, true, true, true);
 
-            var shouldFail9 = UpdateRelationshipAuthorizationsWith_UserDTO_Returns(true, false, false, false);
-            var shouldFail10 = UpdateRelationshipAuthorizationsWith_UserDTO_Returns(true, false, false, true);
-            var shouldFail11 = UpdateRelationshipAuthorizationsWith_UserDTO_Returns(true, false, true, false);
-            var shouldFail12 = UpdateRelationshipAuthorizationsWith_UserDTO_Returns(true, false, true, true);
-            var shouldFail13 = UpdateRelationshipAuthorizationsWith_UserDTO_Returns(true, true, false, false);
-            var shouldSucceed1 = UpdateRelationshipAuthorizationsWith_UserDTO_Returns(true, true, false, true);
-            var shouldFail14 = UpdateRelationshipAuthorizationsWith_UserDTO_Returns(true, true, true, false);
-            var shouldSucceed2 = UpdateRelationshipAuthorizationsWith_UserDTO_Returns(true, true, true, true);
+            var shouldFail9 = await UpdateRelationshipAuthorizationsWith_UserDTO_Returns(true, false, false, false);
+            var shouldFail10 = await UpdateRelationshipAuthorizationsWith_UserDTO_Returns(true, false, false, true);
+            var shouldFail11 = await UpdateRelationshipAuthorizationsWith_UserDTO_Returns(true, false, true, false);
+            var shouldFail12 = await UpdateRelationshipAuthorizationsWith_UserDTO_Returns(true, false, true, true);
+            var shouldFail13 = await UpdateRelationshipAuthorizationsWith_UserDTO_Returns(true, true, false, false);
+            var shouldSucceed1 = await UpdateRelationshipAuthorizationsWith_UserDTO_Returns(true, true, false, true);
+            var shouldFail14 = await UpdateRelationshipAuthorizationsWith_UserDTO_Returns(true, true, true, false);
+            var shouldSucceed2 = await UpdateRelationshipAuthorizationsWith_UserDTO_Returns(true, true, true, true);
 
             // Assert
             Assert.IsTrue(shouldSucceed1);
@@ -276,7 +254,7 @@ namespace Testinvi.TweetinviControllers.FriendshipTests
             Assert.IsFalse(shouldFail14);
         }
 
-        private bool UpdateRelationshipAuthorizationsWith_UserDTO_Returns(bool isValid, bool userDTOIsNotNull, bool authParamsAreNotNull, bool result)
+        private async Task<bool> UpdateRelationshipAuthorizationsWith_UserDTO_Returns(bool isValid, bool userDTOIsNotNull, bool authParamsAreNotNull, bool result)
         {
             var userDTO = userDTOIsNotNull ? A.Fake<IUserDTO>() : null;
 
@@ -290,12 +268,12 @@ namespace Testinvi.TweetinviControllers.FriendshipTests
             string query = Guid.NewGuid().ToString();
 
             // Arrange
-            var queryExecutor = CreateFrienshipQueryExecutor();
+            var queryExecutor = CreateFriendshipQueryExecutor();
             ArrangeUpdateRelationshipAuthorizationsWithUserDTO(userDTO, authorizationParameter, query);
             _fakeTwitterAccessor.ArrangeTryExecutePOSTQuery(query, result);
 
             // Act
-            return queryExecutor.UpdateRelationshipAuthorizationsWith(userDTO, authorizationParameter);
+            return await queryExecutor.UpdateRelationshipAuthorizationsWith(userDTO, authorizationParameter);
         }
 
         private void ArrangeUpdateRelationshipAuthorizationsWithUserDTO(IUserDTO userDTO, IFriendshipAuthorizations auth, string query)
@@ -310,13 +288,13 @@ namespace Testinvi.TweetinviControllers.FriendshipTests
         #region Destroy Friendship With
 
         [TestMethod]
-        public void DestroyFriendshipWith_UserDTO_ReturnsQueryExecutor()
+        public async Task DestroyFriendshipWith_UserDTO_ReturnsQueryExecutor()
         {
             // Arrange - Act
-            var shouldSucceed = DestroyFriendshipWith_UserDTO_Returns(true, true);
-            var shouldFail1 = DestroyFriendshipWith_UserDTO_Returns(true, false);
-            var shouldFail2 = DestroyFriendshipWith_UserDTO_Returns(false, true);
-            var shouldFail3 = DestroyFriendshipWith_UserDTO_Returns(false, false);
+            var shouldSucceed = await DestroyFriendshipWith_UserDTO_Returns(true, true);
+            var shouldFail1 = await DestroyFriendshipWith_UserDTO_Returns(true, false);
+            var shouldFail2 = await DestroyFriendshipWith_UserDTO_Returns(false, true);
+            var shouldFail3 = await DestroyFriendshipWith_UserDTO_Returns(false, false);
 
             // Assert
             Assert.IsTrue(shouldSucceed);
@@ -325,7 +303,7 @@ namespace Testinvi.TweetinviControllers.FriendshipTests
             Assert.IsFalse(shouldFail3);
         }
 
-        private bool DestroyFriendshipWith_UserDTO_Returns(bool isValid, bool result)
+        private async Task<bool> DestroyFriendshipWith_UserDTO_Returns(bool isValid, bool result)
         {
             var userDTO = A.Fake<IUserDTO>();
             _fakeUserQueryValidator.CallsTo(x => x.CanUserBeIdentified(userDTO)).Returns(isValid);
@@ -333,12 +311,12 @@ namespace Testinvi.TweetinviControllers.FriendshipTests
             string query = Guid.NewGuid().ToString();
 
             // Arrange
-            var queryExecutor = CreateFrienshipQueryExecutor();
+            var queryExecutor = CreateFriendshipQueryExecutor();
             ArrangeDestroyFriendshipWithUserDTO(userDTO, query);
             _fakeTwitterAccessor.ArrangeTryExecutePOSTQuery(query, result);
 
             // Act
-            return queryExecutor.DestroyFriendshipWith(userDTO);
+            return await queryExecutor.DestroyFriendshipWith(userDTO);
         }
 
         private void ArrangeDestroyFriendshipWithUserDTO(IUserDTO userDTO, string query)
@@ -351,14 +329,7 @@ namespace Testinvi.TweetinviControllers.FriendshipTests
        
         #endregion
 
-        private IIdsCursorQueryResultDTO GenerateIdsCursorQueryResult(long[] ids)
-        {
-            var fakeIdsCursorQueryResult = A.Fake<IIdsCursorQueryResultDTO>();
-            fakeIdsCursorQueryResult.Ids = ids;
-            return fakeIdsCursorQueryResult;
-        }
-
-        public FriendshipQueryExecutor CreateFrienshipQueryExecutor()
+        private FriendshipQueryExecutor CreateFriendshipQueryExecutor()
         {
             return _fakeBuilder.GenerateClass();
         }

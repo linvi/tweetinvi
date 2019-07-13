@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using FakeItEasy;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Testinvi.Helpers;
@@ -26,7 +27,7 @@ namespace Testinvi.TweetinviControllers.SavedSearchTests
         }
 
         [TestMethod]
-        public void GetSavedSearches_ReturnsTwitterAccessorResult()
+        public async Task GetSavedSearches_ReturnsTwitterAccessorResult()
         {
             // Arrange
             var controller = CreateSavedSearchQueryExecutor();
@@ -37,65 +38,65 @@ namespace Testinvi.TweetinviControllers.SavedSearchTests
             _fakeTwitterAccessor.ArrangeExecuteGETQuery(query, expectedResult);
 
             // Act
-            var result = controller.GetSavedSearches();
+            var result = await controller.GetSavedSearches();
 
             // Assert
             Assert.AreEqual(result, expectedResult);
         }
 
         [TestMethod]
-        public void DestroySavedSearch_WithSavedSearchObject_ReturnsTwitterAccessorResult()
+        public async Task DestroySavedSearch_WithSavedSearchObject_ReturnsTwitterAccessorResult()
         {
             // Arrange - Act
-            var result1 = DestroySavedSearch_WithSavedSearchObject(true);
-            var result2 = DestroySavedSearch_WithSavedSearchObject(false);
+            var result1 = await DestroySavedSearch_WithSavedSearchObject(true);
+            var result2 = await DestroySavedSearch_WithSavedSearchObject(false);
 
             // Assert
             Assert.IsTrue(result1);
             Assert.IsFalse(result2);
         }
 
-        private bool DestroySavedSearch_WithSavedSearchObject(bool expectedResult)
+        private async Task<bool> DestroySavedSearch_WithSavedSearchObject(bool expectedResult)
         {
             // Arrange
             var controller = CreateSavedSearchQueryExecutor();
-            string query = TestHelper.GenerateString();
+            var query = TestHelper.GenerateString();
             var savedSearch = A.Fake<ISavedSearch>();
 
             _fakeSavedSearchQueryGenerator.CallsTo(x => x.GetDestroySavedSearchQuery(savedSearch)).Returns(query);
             _fakeTwitterAccessor.ArrangeTryExecutePOSTQuery(query, expectedResult);
 
             // Act
-            return controller.DestroySavedSearch(savedSearch);
+            return await controller.DestroySavedSearch(savedSearch);
         }
 
         [TestMethod]
-        public void DestroySavedSearch_WithSavedSearchId_ReturnsTwitterAccessorResult()
+        public async Task DestroySavedSearch_WithSavedSearchId_ReturnsTwitterAccessorResult()
         {
             // Arrange - Act
-            var result1 = DestroySavedSearch_WithSavedSearchId(true);
-            var result2 = DestroySavedSearch_WithSavedSearchId(false);
+            var result1 = await DestroySavedSearch_WithSavedSearchId(true);
+            var result2 = await DestroySavedSearch_WithSavedSearchId(false);
 
             // Assert
             Assert.IsTrue(result1);
             Assert.IsFalse(result2);
         }
 
-        private bool DestroySavedSearch_WithSavedSearchId(bool expectedResult)
+        private async Task<bool> DestroySavedSearch_WithSavedSearchId(bool expectedResult)
         {
             // Arrange
             var controller = CreateSavedSearchQueryExecutor();
-            string query = TestHelper.GenerateString();
+            var query = TestHelper.GenerateString();
             var searchId = TestHelper.GenerateRandomLong();
 
             _fakeSavedSearchQueryGenerator.CallsTo(x => x.GetDestroySavedSearchQuery(searchId)).Returns(query);
             _fakeTwitterAccessor.ArrangeTryExecutePOSTQuery(query, expectedResult);
 
             // Act
-            return controller.DestroySavedSearch(searchId);
+            return await controller.DestroySavedSearch(searchId);
         }
 
-        public SavedSearchQueryExecutor CreateSavedSearchQueryExecutor()
+        private SavedSearchQueryExecutor CreateSavedSearchQueryExecutor()
         {
             return _fakeBuilder.GenerateClass();
         }

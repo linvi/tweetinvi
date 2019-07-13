@@ -75,6 +75,7 @@ namespace Testinvi.json.net
         {
             var converter = TweetinviContainer.Resolve<IJsonObjectConverter>();
 
+            // ReSharper disable once StringLiteralTypo
             var json = @"{
                 ""environment"": ""appname"",
                 ""application_id"": ""13090192"",

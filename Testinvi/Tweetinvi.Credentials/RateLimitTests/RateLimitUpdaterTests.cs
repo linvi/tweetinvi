@@ -1,4 +1,5 @@
-﻿using FakeItEasy;
+﻿using System.Threading.Tasks;
+using FakeItEasy;
 using FakeItEasy.ExtensionSyntax.Full;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Testinvi.Helpers;
@@ -22,7 +23,7 @@ namespace Testinvi.Tweetinvi.Credentials.RateLimitTests
         private ITwitterCredentials _credentials;
 
         [TestInitialize]
-        public void TestInitialize()
+         public void TestInitialize()
         {
             _fakeBuilder = new FakeClassBuilder<RateLimitUpdater>();
             _fakeRateLimitCacheManager = _fakeBuilder.GetFake<IRateLimitCacheManager>();
@@ -35,95 +36,95 @@ namespace Testinvi.Tweetinvi.Credentials.RateLimitTests
         }
 
         [TestMethod]
-        public void QueryExecuted_QueryCannotBeFound_DoesNothing()
+         public async Task QueryExecuted_QueryCannotBeFound_DoesNothing()
         {
             // Arrange
             var cacheUpdater = CreateRateLimitUpdater();
-            _fakeRateLimitCacheManager.CallsTo(x => x.GetQueryRateLimit(TEST_QUERY, _credentials)).ReturnsLazily(null);
+            _fakeRateLimitCacheManager.CallsTo(x => x.GetQueryRateLimit(TEST_QUERY, _credentials)).Returns(Task.FromResult((IEndpointRateLimit)null));
 
             // Act
-            cacheUpdater.QueryExecuted(TEST_QUERY);
+            await cacheUpdater.QueryExecuted(TEST_QUERY);
 
             // Assert
             Assert.AreEqual(_endpointRateLimit.Remaining, 5);
         }
 
         [TestMethod]
-        public void QueryExecutedWithCredentials_QueryCannotBeFound_DoesNothing()
+         public async Task QueryExecutedWithCredentials_QueryCannotBeFound_DoesNothing()
         {
             // Arrange
             var cacheUpdater = CreateRateLimitUpdater();
-            _fakeRateLimitCacheManager.CallsTo(x => x.GetQueryRateLimit(TEST_QUERY, _credentials)).ReturnsLazily(null);
+            _fakeRateLimitCacheManager.CallsTo(x => x.GetQueryRateLimit(TEST_QUERY, _credentials)).Returns(Task.FromResult((IEndpointRateLimit)null));
 
             // Act
-            cacheUpdater.QueryExecuted(TEST_QUERY, _credentials);
+            await cacheUpdater.QueryExecuted(TEST_QUERY, _credentials);
 
             // Assert
             Assert.AreEqual(_endpointRateLimit.Remaining, 5);
         }
 
         [TestMethod]
-        public void QueryExecutedWithCredentials_QueryFoundAndRemainingGreaterThan0_Substract1()
+         public async Task QueryExecutedWithCredentials_QueryFoundAndRemainingGreaterThan0_Subtract1()
         {
             // Arrange
             var cacheUpdater = CreateRateLimitUpdater();
 
             // Act
-            cacheUpdater.QueryExecuted(TEST_QUERY, _credentials);
+            await cacheUpdater.QueryExecuted(TEST_QUERY, _credentials);
 
             // Assert
             Assert.AreEqual(_endpointRateLimit.Remaining, 4);
         }
 
         [TestMethod]
-        public void QueryExecutedWithCredentials_QueryFoundAndRemainingGreaterThan3_NumberOfRequestIs3_Substract3()
+         public async Task QueryExecutedWithCredentials_QueryFoundAndRemainingGreaterThan3_NumberOfRequestIs3_Subtract3()
         {
             // Arrange
             var cacheUpdater = CreateRateLimitUpdater();
 
             // Act
-            cacheUpdater.QueryExecuted(TEST_QUERY, _credentials, 3);
+            await cacheUpdater.QueryExecuted(TEST_QUERY, _credentials, 3);
 
             // Assert
             Assert.AreEqual(_endpointRateLimit.Remaining, 2);
         }
 
         [TestMethod]
-        public void QueryExecutedWithCredentials_QueryFoundAndRemainingIs2_NumberOfRequestIs3_Substract2()
+         public async Task QueryExecutedWithCredentials_QueryFoundAndRemainingIs2_NumberOfRequestIs3_Subtract2()
         {
             // Arrange
             var cacheUpdater = CreateRateLimitUpdater();
             _endpointRateLimit.CallsTo(x => x.Remaining).Returns(2);
 
             // Act
-            cacheUpdater.QueryExecuted(TEST_QUERY, _credentials, 3);
+            await cacheUpdater.QueryExecuted(TEST_QUERY, _credentials, 3);
 
             // Assert
             Assert.AreEqual(_endpointRateLimit.Remaining, 0);
         }
 
         [TestMethod]
-        public void QueryExecutedWithCredentials_QueryFoundAndRemainingIs0_DoesNothing()
+         public async Task QueryExecutedWithCredentials_QueryFoundAndRemainingIs0_DoesNothing()
         {
             // Arrange
             var cacheUpdater = CreateRateLimitUpdater();
             _endpointRateLimit.CallsTo(x => x.Remaining).Returns(0);
 
             // Act
-            cacheUpdater.QueryExecuted(TEST_QUERY, _credentials);
+            await cacheUpdater.QueryExecuted(TEST_QUERY, _credentials);
 
             // Assert
             Assert.AreEqual(_endpointRateLimit.Remaining, 0);
         }
 
         [TestMethod]
-        public void ClearRateLimitsForQuery_RemainingRateLimitsIsNowEmpty()
+         public async Task ClearRateLimitsForQuery_RemainingRateLimitsIsNowEmpty()
         {
             // Arrange
             var rateLimitUpdater = CreateRateLimitUpdater();
 
             // Act
-            rateLimitUpdater.ClearRateLimitsForQuery(TEST_QUERY);
+            await rateLimitUpdater.ClearRateLimitsForQuery(TEST_QUERY);
 
             // Assert
             Assert.AreEqual(_endpointRateLimit.Remaining, 0);
@@ -136,7 +137,7 @@ namespace Testinvi.Tweetinvi.Credentials.RateLimitTests
             _endpointRateLimit.CallsTo(x => x.Remaining).Returns(5);
         }
 
-        public RateLimitUpdater CreateRateLimitUpdater()
+        private RateLimitUpdater CreateRateLimitUpdater()
         {
             return _fakeBuilder.GenerateClass();
         }

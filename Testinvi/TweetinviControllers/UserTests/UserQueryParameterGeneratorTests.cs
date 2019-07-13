@@ -38,7 +38,7 @@ namespace Testinvi.TweetinviControllers.UserTests
             var result = queryGenerator.GenerateUserIdParameter(userId, parameterName);
 
             // Assert
-            var expectedQuery = string.Format("{0}={1}", parameterName, userId);
+            var expectedQuery = $"{parameterName}={userId}";
             Assert.AreEqual(result, expectedQuery);
         }
 
@@ -60,7 +60,7 @@ namespace Testinvi.TweetinviControllers.UserTests
             var result = queryGenerator.GenerateScreenNameParameter(userScreenName, parameterName);
 
             // Assert
-            var expectedQuery = string.Format("{0}={1}", parameterName, userScreenName);
+            var expectedQuery = $"{parameterName}={userScreenName}";
             Assert.AreEqual(result, expectedQuery);
         }
 
@@ -114,7 +114,7 @@ namespace Testinvi.TweetinviControllers.UserTests
             var result = queryGenerator.GenerateIdOrScreenNameParameter(userDTO, idParameterName, screenNameParameterName);
 
             // Assert
-            var expectedParameter = string.Format("{0}={1}", idParameterName, userId);
+            var expectedParameter = $"{idParameterName}={userId}";
             Assert.AreEqual(result, expectedParameter);
         }
 
@@ -138,7 +138,7 @@ namespace Testinvi.TweetinviControllers.UserTests
             var result = queryGenerator.GenerateIdOrScreenNameParameter(userDTO, idParameterName, screenNameParameterName);
 
             // Assert
-            var expectedParameter = string.Format("{0}={1}", screenNameParameterName, screenName);
+            var expectedParameter = $"{screenNameParameterName}={screenName}";
             Assert.AreEqual(result, expectedParameter);
         }
 
@@ -162,13 +162,13 @@ namespace Testinvi.TweetinviControllers.UserTests
             var result = queryGenerator.GenerateIdOrScreenNameParameter(userDTO, idParameterName, screenNameParameterName);
 
             // Assert
-            var expectedParameter = string.Format("{0}={1}", idParameterName, userId);
+            var expectedParameter = $"{idParameterName}={userId}";
             Assert.AreEqual(result, expectedParameter);
         }
 
         #endregion
 
-        public UserQueryParameterGenerator CreateUserQueryParameterGenerator()
+        private UserQueryParameterGenerator CreateUserQueryParameterGenerator()
         {
             return _fakeBuilder.GenerateClass();
         }

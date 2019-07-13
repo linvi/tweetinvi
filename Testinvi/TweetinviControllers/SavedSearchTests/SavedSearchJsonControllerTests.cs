@@ -1,4 +1,5 @@
-﻿using FakeItEasy;
+﻿using System.Threading.Tasks;
+using FakeItEasy;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Testinvi.Helpers;
 using Testinvi.SetupHelpers;
@@ -24,7 +25,7 @@ namespace Testinvi.TweetinviControllers.SavedSearchTests
         }
 
         [TestMethod]
-        public void GetSavedSearches_ReturnsTwitterAccessorResult()
+        public async Task GetSavedSearches_ReturnsTwitterAccessorResult()
         {
             // Arrange
             var controller = CreateSavedSearchJsonController();
@@ -35,14 +36,14 @@ namespace Testinvi.TweetinviControllers.SavedSearchTests
             _fakeTwitterAccessor.ArrangeExecuteJsonGETQuery(query, expectedResult);
 
             // Act
-            var result = controller.GetSavedSearches();
+            var result = await controller.GetSavedSearches();
 
             // Assert
             Assert.AreEqual(result, expectedResult);
         }
 
         [TestMethod]
-        public void DestroySavedSearch_WithSavedSearchObject_ReturnsTwitterAccessorResult()
+        public async Task DestroySavedSearch_WithSavedSearchObject_ReturnsTwitterAccessorResult()
         {
             // Arrange
             var controller = CreateSavedSearchJsonController();
@@ -54,14 +55,14 @@ namespace Testinvi.TweetinviControllers.SavedSearchTests
             _fakeTwitterAccessor.ArrangeExecuteJsonPOSTQuery(query, expectedResult);
 
             // Act
-            var result = controller.DestroySavedSearch(savedSearch);
+            var result = await controller.DestroySavedSearch(savedSearch);
 
             // Assert
             Assert.AreEqual(result, expectedResult);
         }
 
         [TestMethod]
-        public void DestroySavedSearch_WithSavedSearchId_ReturnsTwitterAccessorResult()
+        public async Task DestroySavedSearch_WithSavedSearchId_ReturnsTwitterAccessorResult()
         {
             // Arrange
             var controller = CreateSavedSearchJsonController();
@@ -73,13 +74,13 @@ namespace Testinvi.TweetinviControllers.SavedSearchTests
             _fakeTwitterAccessor.ArrangeExecuteJsonPOSTQuery(query, expectedResult);
 
             // Act
-            var result = controller.DestroySavedSearch(searchId);
+            var result = await controller.DestroySavedSearch(searchId);
 
             // Assert
             Assert.AreEqual(result, expectedResult);
         }
 
-        public SavedSearchJsonController CreateSavedSearchJsonController()
+        private SavedSearchJsonController CreateSavedSearchJsonController()
         {
             return _fakeBuilder.GenerateClass();
         }

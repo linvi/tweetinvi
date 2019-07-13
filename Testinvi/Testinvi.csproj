@@ -194,7 +194,6 @@
     <Compile Include="TweetinviControllers\TrendsTests\TrendsQueryExecutorTests.cs" />
     <Compile Include="TweetinviControllers\TrendsTests\TrendsQueryGeneratorTests.cs" />
     <Compile Include="TweetinviControllers\TweetTests\TweetControllerTests.cs" />
-    <Compile Include="TweetinviControllers\TweetTests\TweetJsonControllerTests.cs" />
     <Compile Include="TweetinviControllers\TweetTests\TweetQueryExecutorTests.cs" />
     <Compile Include="TweetinviControllers\TweetTests\TweetQueryGeneratorTests.cs" />
     <Compile Include="TweetinviControllers\TweetTests\TweetQueryValidatorTests.cs" />

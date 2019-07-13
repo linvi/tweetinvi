@@ -72,7 +72,7 @@ namespace Testinvi.TweetinviControllers.MessageTests
 
         #endregion
 
-        public MessageQueryGenerator CreateMessageQueryGenerator()
+        private MessageQueryGenerator CreateMessageQueryGenerator()
         {
             return _fakeBuilder.GenerateClass();
         }

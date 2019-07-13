@@ -58,7 +58,7 @@ namespace Testinvi.TweetinviControllers.SavedSearchTests
             var queryGenerator = CreateSavedSearchQueryGenerator();
 
             // Act
-            var result = queryGenerator.GetDestroySavedSearchQuery(null);
+            queryGenerator.GetDestroySavedSearchQuery(null);
         }
 
         [TestMethod]
@@ -72,7 +72,7 @@ namespace Testinvi.TweetinviControllers.SavedSearchTests
             savedSearch.CallsTo(x => x.Id).Returns(searchId);
 
             // Act
-            var result = queryGenerator.GetDestroySavedSearchQuery(savedSearch);
+            queryGenerator.GetDestroySavedSearchQuery(savedSearch);
         }
 
         [TestMethod]
@@ -99,10 +99,10 @@ namespace Testinvi.TweetinviControllers.SavedSearchTests
             var searchId = TestHelper.DefaultId();
 
             // Act
-            var result = queryGenerator.GetDestroySavedSearchQuery(searchId);
+            queryGenerator.GetDestroySavedSearchQuery(searchId);
         }
 
-        public SavedSearchQueryGenerator CreateSavedSearchQueryGenerator()
+        private SavedSearchQueryGenerator CreateSavedSearchQueryGenerator()
         {
             return _fakeBuilder.GenerateClass();
         }

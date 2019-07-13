@@ -1,4 +1,5 @@
-﻿using FakeItEasy;
+﻿using System.Threading.Tasks;
+using FakeItEasy;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Testinvi.Helpers;
 using Testinvi.SetupHelpers;
@@ -26,11 +27,11 @@ namespace Testinvi.TweetinviControllers.AccountTests
         }
 
         [TestMethod]
-        public void GetAuthenticatedUserSettings_ExecuteQuery()
+        public async Task GetAuthenticatedUserSettings_ExecuteQuery()
         {
             var fakeAccountSettingsDTO = A.Fake<IAccountSettingsDTO>();
             var fakeAccountSettings = A.Fake<IAccountSettings>();
-            
+
             // Arrange
             var controller = CreateAccountController();
 
@@ -45,7 +46,7 @@ namespace Testinvi.TweetinviControllers.AccountTests
                 .Returns(fakeAccountSettings);
 
             // Act
-            var result = controller.GetAuthenticatedUserSettings();
+            var result = await controller.GetAuthenticatedUserSettings();
 
             // Assert
             Assert.AreEqual(result, fakeAccountSettings);

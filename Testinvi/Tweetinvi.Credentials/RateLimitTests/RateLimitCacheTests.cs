@@ -9,8 +9,6 @@ namespace Testinvi.Tweetinvi.Credentials.RateLimitTests
     [TestClass]
     public class RateLimitCacheTests
     {
-        private const string TEST_QUERY = "I like cranes!";
-
         private FakeClassBuilder<RateLimitCache> _fakeBuilder;
 
         private ITwitterCredentials _credentials;
@@ -19,7 +17,7 @@ namespace Testinvi.Tweetinvi.Credentials.RateLimitTests
         private ICredentialsRateLimits _credentialsRateLimits2; 
 
         [TestInitialize]
-        public void Itinialize()
+        public void Initialize()
         {
             _fakeBuilder = new FakeClassBuilder<RateLimitCache>();
 

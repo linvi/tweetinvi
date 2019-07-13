@@ -37,7 +37,7 @@ namespace Testinvi.TweetinviControllers.FriendshipTests
         public void GetUserIdsRequestingFriendshipQuery_ReturnsResources()
         {
             // Arrange
-            var queryGenerator = CreateFrienshipQueryGenerator();
+            var queryGenerator = CreateFriendshipQueryGenerator();
 
             // Act
             var query = queryGenerator.GetUserIdsRequestingFriendshipQuery();
@@ -50,7 +50,7 @@ namespace Testinvi.TweetinviControllers.FriendshipTests
         public void GetUserIdsYouRequestedToFollowQuery_ReturnsResources()
         {
             // Arrange
-            var queryGenerator = CreateFrienshipQueryGenerator();
+            var queryGenerator = CreateFriendshipQueryGenerator();
 
             // Act
             var query = queryGenerator.GetUserIdsYouRequestedToFollowQuery();
@@ -65,7 +65,7 @@ namespace Testinvi.TweetinviControllers.FriendshipTests
         public void GetCreateFriendshipWithQuery_WithValidUserDTO_ReturnsIdQuery()
         {
             // Arrange
-            var queryGenerator = CreateFrienshipQueryGenerator();
+            var queryGenerator = CreateFriendshipQueryGenerator();
             var fakeUserDTO = CreateUserDTO(true);
 
             // Act
@@ -86,7 +86,7 @@ namespace Testinvi.TweetinviControllers.FriendshipTests
         public void GetDestroyFriendshipWithQuery_WithValidUserDTO_ReturnsIdQuery()
         {
             // Arrange
-            var queryGenerator = CreateFrienshipQueryGenerator();
+            var queryGenerator = CreateFriendshipQueryGenerator();
             var userDTO = CreateUserDTO(true);
 
             // Act
@@ -110,7 +110,7 @@ namespace Testinvi.TweetinviControllers.FriendshipTests
             var userDTO = CreateUserDTO(true);
 
             // Arrange
-            var queryGenerator = CreateFrienshipQueryGenerator();
+            var queryGenerator = CreateFriendshipQueryGenerator();
 
             // Act
             queryGenerator.GetUpdateRelationshipAuthorizationsWithQuery(userDTO, null);
@@ -120,7 +120,7 @@ namespace Testinvi.TweetinviControllers.FriendshipTests
         public void UpdateRelationshipAuthorizations_WithValidUserDTO_AuthorizationsObjectIsValid_ValidQuery()
         {
             // Arrange
-            var queryGenerator = CreateFrienshipQueryGenerator();
+            var queryGenerator = CreateFriendshipQueryGenerator();
             var userDTO = A.Fake<IUserDTO>();
             
             _fakeUserQueryValidator.ArrangeCanUserBeIdentified(userDTO, true);
@@ -168,7 +168,7 @@ namespace Testinvi.TweetinviControllers.FriendshipTests
             return fakeUserDTO;
         }
 
-        public FriendshipQueryGenerator CreateFrienshipQueryGenerator()
+        private FriendshipQueryGenerator CreateFriendshipQueryGenerator()
         {
             return _fakeBuilder.GenerateClass();
         }

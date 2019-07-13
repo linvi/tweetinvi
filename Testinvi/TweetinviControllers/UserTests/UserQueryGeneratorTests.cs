@@ -85,7 +85,6 @@ namespace Testinvi.TweetinviControllers.UserTests
             _fakeUserQueryValidator.CallsTo(x => x.CanUserBeIdentified(It.IsAny<IUserIdentifier>())).Returns(true);
             var userDTO = GenerateUserDTO(true);
             var maximumNumberOfFavourites = TestHelper.GenerateRandomInt();
-            var userIdParameter = UserQueryGeneratorHelper.GenerateParameterExpectedResult(userDTO);
 
             var parameters = A.Fake<IGetUserFavoritesQueryParameters>();
             parameters.UserIdentifier = userDTO;
@@ -96,7 +95,6 @@ namespace Testinvi.TweetinviControllers.UserTests
             var result = queryGenerator.GetFavoriteTweetsQuery(parameters);
 
             // Assert
-            var expectedResult = string.Format("{0}user_id={1}", Resources.User_GetFavourites, userIdParameter);
             Assert.IsTrue(result.StartsWith(Resources.User_GetFavourites));
             Assert.IsTrue(result.Contains("count=" + maximumNumberOfFavourites));
             Assert.IsTrue(result.Contains("include_entities=true"));
@@ -298,7 +296,7 @@ namespace Testinvi.TweetinviControllers.UserTests
             return userDTO;
         }
 
-        public UserQueryGenerator CreateUserQueryGenerator()
+        private UserQueryGenerator CreateUserQueryGenerator()
         {
             return _fakeBuilder.GenerateClass();
         }

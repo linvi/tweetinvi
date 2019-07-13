@@ -29,7 +29,7 @@ namespace Testinvi.Tweetinvi.Streams
             _fakeBuilder = new FakeClassBuilder<AccountActivityStream>();
         }
 
-        public IAccountActivityStream CreateAccountActivityStream()
+        private IAccountActivityStream CreateAccountActivityStream()
         {
             var activityStream = _fakeBuilder.GenerateClass(
                 new ConstructorNamedParameter("jsonObjectConverter", TweetinviContainer.Resolve<IJsonObjectConverter>()),

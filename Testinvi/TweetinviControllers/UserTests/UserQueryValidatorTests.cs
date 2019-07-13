@@ -149,7 +149,7 @@ namespace Testinvi.TweetinviControllers.UserTests
             return userDTO;
         }
 
-        public UserQueryValidator CreateUserQuerValidator()
+        private UserQueryValidator CreateUserQuerValidator()
         {
             return _fakeBuilder.GenerateClass();
         }

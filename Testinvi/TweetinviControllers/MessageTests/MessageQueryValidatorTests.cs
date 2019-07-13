@@ -226,7 +226,7 @@ namespace Testinvi.TweetinviControllers.MessageTests
             return messageDTO;
         }
 
-        public MessageQueryValidator CreateMessageQueryValidator()
+        private MessageQueryValidator CreateMessageQueryValidator()
         {
             var userQueryValidator = new UserQueryValidator();
             return _fakeBuilder.GenerateClass(new ConstructorNamedParameter("userQueryValidator", userQueryValidator));

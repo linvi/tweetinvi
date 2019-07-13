@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using FakeItEasy;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Testinvi.Helpers;
@@ -7,6 +8,7 @@ using Tweetinvi.Core.Factories;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
 using Tweetinvi.Parameters;
+// ReSharper disable CollectionNeverUpdated.Local
 
 namespace Testinvi.TweetinviControllers.SearchTests
 {
@@ -26,7 +28,7 @@ namespace Testinvi.TweetinviControllers.SearchTests
         }
 
         [TestMethod]
-        public void SearchTweets_WithSearchQuery_ReturnsQueryExecutorDTOTransformed()
+        public async Task  SearchTweets_WithSearchQuery_ReturnsQueryExecutorDTOTransformed()
         {
             // Arrange
             var controller = CreateSearchController();
@@ -38,14 +40,14 @@ namespace Testinvi.TweetinviControllers.SearchTests
             _fakeTweetFactory.CallsTo(x => x.GenerateTweetsFromDTO(searchDTOResult, null)).Returns(searchResult);
 
             // Act
-            var result = controller.SearchTweets(searchQuery);
+            var result = await controller.SearchTweets(searchQuery);
 
             // Assert
             Assert.AreEqual(result, searchResult);
         }
 
         [TestMethod]
-        public void SearchTweets_WithSearchTweetParameter_ReturnsQueryExecutorDTOTransformed()
+        public async Task SearchTweets_WithSearchTweetParameter_ReturnsQueryExecutorDTOTransformed()
         {
             // Arrange
             var controller = CreateSearchController();
@@ -57,13 +59,13 @@ namespace Testinvi.TweetinviControllers.SearchTests
             _fakeTweetFactory.CallsTo(x => x.GenerateTweetsFromDTO(searchDTOResult, null)).Returns(searchResult);
 
             // Act
-            var result = controller.SearchTweets(searchParameter);
+            var result = await controller.SearchTweets(searchParameter);
 
             // Assert
             Assert.AreEqual(result, searchResult);
         }
 
-        public SearchController CreateSearchController()
+        private SearchController CreateSearchController()
         {
             return _fakeBuilder.GenerateClass();
         }

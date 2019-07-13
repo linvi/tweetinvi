@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using FakeItEasy;
 using FakeItEasy.ExtensionSyntax.Full;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -18,7 +19,8 @@ namespace Testinvi.Tweetinvi.Credentials.RateLimitTests
     public class RateLimitAwaiterTests
     {
         private const string TEST_QUERY = "my test query";
-        private readonly int TIME_TO_WAIT = new Random(Int32.MaxValue).Next();
+        // ReSharper disable once InconsistentNaming
+        private readonly int TIME_TO_WAIT = new Random(int.MaxValue).Next();
 
         private FakeClassBuilder<RateLimitAwaiter> _fakeBuilder;
         private Fake<IRateLimitCacheManager> _fakeRateLimitCacheManager;
@@ -47,42 +49,42 @@ namespace Testinvi.Tweetinvi.Credentials.RateLimitTests
         }
 
         [TestMethod]
-        public void WaitForCurrentCredentialsRateLimit_AwaitForRateLimitCheckerTimeToWait()
+        public async Task WaitForCurrentCredentialsRateLimit_AwaitForRateLimitCheckerTimeToWait()
         {
             // Arrange
             var rateLimitAwaiter = CreateRateLimitAwaiter();
 
             // Act
-            rateLimitAwaiter.WaitForCurrentCredentialsRateLimit(TEST_QUERY);
+            await rateLimitAwaiter.WaitForCurrentCredentialsRateLimit(TEST_QUERY);
 
             // Assert
             _fakeThreadHelper.CallsTo(x => x.Sleep(TIME_TO_WAIT)).MustHaveHappened(Repeated.Exactly.Once);
         }
 
         [TestMethod]
-        public void WaitForRateLimit_AwaitForRateLimitCheckerTimeToWait()
+        public async Task WaitForRateLimit_AwaitForRateLimitCheckerTimeToWait()
         {
             // Arrange
             var rateLimitAwaiter = CreateRateLimitAwaiter();
 
             // Act
-            rateLimitAwaiter.WaitForCredentialsRateLimit(TEST_QUERY, _credentials);
+            await rateLimitAwaiter.WaitForCredentialsRateLimit(TEST_QUERY, _credentials);
 
             // Assert
             _fakeThreadHelper.CallsTo(x => x.Sleep(TIME_TO_WAIT)).MustHaveHappened(Repeated.Exactly.Once);
         }
 
         [TestMethod]
-        public void WaitForRateLimit_EventRaised()
+        public async Task WaitForRateLimit_EventRaised()
         {
             // Arrange
             var rateLimitAwaiter = CreateRateLimitAwaiter();
-            
+
             var eventTestHelper = new EventTestHelper<QueryAwaitingEventArgs>();
             rateLimitAwaiter.QueryAwaitingForRateLimit += eventTestHelper.EventAction;
 
             // Act
-            rateLimitAwaiter.WaitForCredentialsRateLimit(TEST_QUERY, _credentials);
+            await rateLimitAwaiter.WaitForCredentialsRateLimit(TEST_QUERY, _credentials);
 
             // Assert
             eventTestHelper.VerifyNumberOfCalls(1);
@@ -90,7 +92,7 @@ namespace Testinvi.Tweetinvi.Credentials.RateLimitTests
         }
 
         [TestMethod]
-        public void WaitForRateLimit_Unregister_EventRaised()
+        public async Task WaitForRateLimit_Unregister_EventRaised()
         {
             // Arrange
             var rateLimitAwaiter = CreateRateLimitAwaiter();
@@ -100,62 +102,62 @@ namespace Testinvi.Tweetinvi.Credentials.RateLimitTests
             rateLimitAwaiter.QueryAwaitingForRateLimit -= eventTestHelper.EventAction;
 
             // Act
-            rateLimitAwaiter.WaitForCredentialsRateLimit(TEST_QUERY, _credentials);
+            await rateLimitAwaiter.WaitForCredentialsRateLimit(TEST_QUERY, _credentials);
 
             // Assert
             eventTestHelper.VerifyNumberOfCalls(0);
         }
 
         [TestMethod]
-        public void WaitForRateLimit_QueriesCanBePerformedRightAway_DoNotWait()
+        public async Task WaitForRateLimit_QueriesCanBePerformedRightAway_DoNotWait()
         {
             // Arrange
             var rateLimitAwaiter = CreateRateLimitAwaiter();
             _endpointRateLimit.CallsTo(x => x.Remaining).Returns(15);
 
             // Act
-            rateLimitAwaiter.WaitForCredentialsRateLimit(TEST_QUERY, _credentials);
+            await rateLimitAwaiter.WaitForCredentialsRateLimit(TEST_QUERY, _credentials);
 
             // Assert
             _fakeThreadHelper.CallsTo(x => x.Sleep(It.IsAny<int>())).MustNotHaveHappened();
         }
 
         [TestMethod]
-        public void WaitForRateLimit_TokenCannotBeAssociatedWithQuery_DoNotWait()
+        public async Task WaitForRateLimit_TokenCannotBeAssociatedWithQuery_DoNotWait()
         {
             // Arrange
             var rateLimitAwaiter = CreateRateLimitAwaiter();
-            _fakeRateLimitCacheManager.CallsTo(x => x.GetQueryRateLimit(TEST_QUERY, _credentials)).ReturnsLazily(null);
+            _fakeRateLimitCacheManager.CallsTo(x => x.GetQueryRateLimit(TEST_QUERY, _credentials)).Returns(Task.FromResult((IEndpointRateLimit)null));
 
             // Act
-            rateLimitAwaiter.WaitForCredentialsRateLimit(TEST_QUERY, _credentials);
+            await rateLimitAwaiter.WaitForCredentialsRateLimit(TEST_QUERY, _credentials);
 
             // Assert
             _fakeThreadHelper.CallsTo(x => x.Sleep(It.IsAny<int>())).MustNotHaveHappened();
         }
 
         [TestMethod]
-        public void TimeToWaitBeforeTwitterRequest_RemainingQueries_Returns0()
+        public async Task TimeToWaitBeforeTwitterRequest_RemainingQueries_Returns0()
         {
             // Arrange
             var rateLimitAwaiter = CreateRateLimitAwaiter();
             _endpointRateLimit.CallsTo(x => x.Remaining).Returns(9);
 
             // Act
-            var result = rateLimitAwaiter.TimeToWaitBeforeTwitterRequest(TEST_QUERY, _credentials);
+            var result = await rateLimitAwaiter.TimeToWaitBeforeTwitterRequest(TEST_QUERY, _credentials);
 
             // Assert
             Assert.AreEqual(0, result);
         }
 
         [TestMethod]
-        public void TimeToWaitBeforeTwitterRequest_NoRemainingQueries_ReturnsTimeToWait()
+        public async Task TimeToWaitBeforeTwitterRequest_NoRemainingQueries_ReturnsTimeToWait()
         {
             // Arrange
             var rateLimitAwaiter = CreateRateLimitAwaiter();
 
             // Act
-            var result = rateLimitAwaiter.TimeToWaitBeforeTwitterRequest(TEST_QUERY, _credentials);
+            var result = await rateLimitAwaiter.TimeToWaitBeforeTwitterRequest(TEST_QUERY, _credentials);
 
             // Assert
             Assert.AreEqual(TIME_TO_WAIT, result);

@@ -47,7 +47,7 @@ namespace Testinvi.Tweetinvi.Credentials.RateLimitTests
         }
 
         [TestMethod]
-        public void GetTokenRateLimitFromQuery_AllEnpointsAssociatedCorrectly()
+        public void GetTokenRateLimitFromQuery_AllEndpointsAssociatedCorrectly()
         {
             var rateLimitHelper = CreateRateLimitHelper();
             GetTokenRateLimitFromQuery_EndpointAssociatedCorrectly(x => x.AccountSettingsLimit, ACCOUNT_SETTINGS_QUERY, rateLimitHelper);
@@ -66,7 +66,7 @@ namespace Testinvi.Tweetinvi.Credentials.RateLimitTests
             Assert.AreEqual(tokenRateLimit, fakeTokenRateLimit);
         }
 
-        public RateLimitHelper CreateRateLimitHelper()
+        private RateLimitHelper CreateRateLimitHelper()
         {
             return _fakeBuilder.GenerateClass
             (

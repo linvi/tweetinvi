@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using FakeItEasy;
 using FakeItEasy.ExtensionSyntax.Full;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -30,17 +31,17 @@ namespace Testinvi.TweetinviControllers.TweetTests
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentException))]
-        public void PublishRetweet_TweetIsNull_ThrowsArgumentException()
+        public async Task PublishRetweet_TweetIsNull_ThrowsArgumentException()
         {
             // Arrange
             var controller = CreateTweetController();
 
             // Act
-            controller.PublishRetweet((ITweet)null);
+            await controller.PublishRetweet((ITweet)null);
         }
 
         [TestMethod]
-        public void PublishRetweet_TweetWithNullTweetDTO_ReturnsTransformedDTOFromQueryExecutor()
+        public async Task PublishRetweet_TweetWithNullTweetDTO_ReturnsTransformedDTOFromQueryExecutor()
         {
             // Arrange
             var controller = CreateTweetController();
@@ -52,14 +53,14 @@ namespace Testinvi.TweetinviControllers.TweetTests
             _fakeTweetFactory.CallsTo(x => x.GenerateTweetFromDTO(expectedTweetDTO, null)).Returns(expectedTweet);
 
             // Act
-            var result = controller.PublishRetweet(tweet);
+            var result = await controller.PublishRetweet(tweet);
 
             // Assert
             Assert.AreEqual(result, expectedTweet);
         }
 
         [TestMethod]
-        public void PublishRetweet_TweetWithTweetDTO_ReturnsTransformedDTOFromQueryExecutor()
+        public async Task PublishRetweet_TweetWithTweetDTO_ReturnsTransformedDTOFromQueryExecutor()
         {
             // Arrange
             var controller = CreateTweetController();
@@ -72,14 +73,14 @@ namespace Testinvi.TweetinviControllers.TweetTests
             _fakeTweetFactory.CallsTo(x => x.GenerateTweetFromDTO(expectedTweetDTO, null)).Returns(expectedTweet);
 
             // Act
-            var result = controller.PublishRetweet(tweet);
+            var result = await controller.PublishRetweet(tweet);
 
             // Assert
             Assert.AreEqual(result, expectedTweet);
         }
 
         [TestMethod]
-        public void PublishRetweet_TweetDTOIsNull_ReturnsTransformedDTOFromQueryExecutor()
+        public async Task PublishRetweet_TweetDTOIsNull_ReturnsTransformedDTOFromQueryExecutor()
         {
             // Arrange
             var controller = CreateTweetController();
@@ -90,14 +91,14 @@ namespace Testinvi.TweetinviControllers.TweetTests
             _fakeTweetFactory.CallsTo(x => x.GenerateTweetFromDTO(expectedTweetDTO, null)).Returns(expectedTweet);
 
             // Act
-            var result = controller.PublishRetweet((ITweetDTO)null);
+            var result = await controller.PublishRetweet((ITweetDTO)null);
 
             // Assert
             Assert.AreEqual(result, expectedTweet);
         }
 
         [TestMethod]
-        public void PublishRetweet_TweetDTO_ReturnsTransformedDTOFromQueryExecutor()
+        public async Task PublishRetweet_TweetDTO_ReturnsTransformedDTOFromQueryExecutor()
         {
             // Arrange
             var controller = CreateTweetController();
@@ -109,14 +110,14 @@ namespace Testinvi.TweetinviControllers.TweetTests
             _fakeTweetFactory.CallsTo(x => x.GenerateTweetFromDTO(expectedTweetDTO, null)).Returns(expectedTweet);
 
             // Act
-            var result = controller.PublishRetweet(tweetDTO);
+            var result = await controller.PublishRetweet(tweetDTO);
 
             // Assert
             Assert.AreEqual(result, expectedTweet);
         }
 
         [TestMethod]
-        public void PublishRetweet_TweetId_ReturnsTransformedDTOFromQueryExecutor()
+        public async Task PublishRetweet_TweetId_ReturnsTransformedDTOFromQueryExecutor()
         {
             // Arrange
             var controller = CreateTweetController();
@@ -128,7 +129,7 @@ namespace Testinvi.TweetinviControllers.TweetTests
             _fakeTweetFactory.CallsTo(x => x.GenerateTweetFromDTO(expectedTweetDTO, null)).Returns(expectedTweet);
 
             // Act
-            var result = controller.PublishRetweet(tweetId);
+            var result = await controller.PublishRetweet(tweetId);
 
             // Assert
             Assert.AreEqual(result, expectedTweet);
@@ -139,27 +140,27 @@ namespace Testinvi.TweetinviControllers.TweetTests
         #region Get Retweets
 
         [TestMethod]
-        public void GetRetweets_TweetDTO_ReturnsTransformedDTOFromQueryExecutor()
+        public async Task GetRetweets_TweetDTO_ReturnsTransformedDTOFromQueryExecutor()
         {
             // Arrange
             var controller = CreateTweetController();
             var tweetDTO = A.Fake<ITweetDTO>();
             IEnumerable<ITweetDTO> expectedTweetsDTO = new List<ITweetDTO> { A.Fake<ITweetDTO>() };
-            var expectedTweets = new ITweet [] { A.Fake<ITweet>() };
+            var expectedTweets = new[] { A.Fake<ITweet>() };
             var maxRetweetsToRetrieve = TestHelper.GenerateRandomInt();
 
             _fakeTweetQueryExecutor.CallsTo(x => x.GetRetweets(tweetDTO, maxRetweetsToRetrieve)).Returns(expectedTweetsDTO);
             _fakeTweetFactory.CallsTo(x => x.GenerateTweetsFromDTO(expectedTweetsDTO, null)).Returns(expectedTweets);
 
             // Act
-            var result = controller.GetRetweets(tweetDTO, maxRetweetsToRetrieve);
+            var result = await controller.GetRetweets(tweetDTO, maxRetweetsToRetrieve);
 
             // Assert
             Assert.AreEqual(result, expectedTweets);
         }
 
         [TestMethod]
-        public void GetRetweets_TweetId_ReturnsTransformedDTOFromQueryExecutor()
+        public async Task GetRetweets_TweetId_ReturnsTransformedDTOFromQueryExecutor()
         {
             // Arrange
             var controller = CreateTweetController();
@@ -172,7 +173,7 @@ namespace Testinvi.TweetinviControllers.TweetTests
             _fakeTweetFactory.CallsTo(x => x.GenerateTweetsFromDTO(expectedTweetsDTO, null)).Returns(expectedTweets);
 
             // Act
-            var result = controller.GetRetweets(tweetId, maxRetweetsToRetrieve);
+            var result = await controller.GetRetweets(tweetId, maxRetweetsToRetrieve);
 
             // Assert
             Assert.AreEqual(result, expectedTweets);
@@ -183,7 +184,7 @@ namespace Testinvi.TweetinviControllers.TweetTests
         #region Get Retweeters Ids
 
         [TestMethod]
-        public void GetRetweetersIds_WithTweetIdentifier_ReturnsIdsListFromQueryExecutor()
+        public async Task GetRetweetersIds_WithTweetIdentifier_ReturnsIdsListFromQueryExecutor()
         {
             // Arrange
             var controller = CreateTweetController();
@@ -194,14 +195,14 @@ namespace Testinvi.TweetinviControllers.TweetTests
             _fakeTweetQueryExecutor.CallsTo(x => x.GetRetweetersIds(tweetIdentifier, maxRetweetersToRetrieve)).Returns(retweeterIds);
 
             // Act
-            var result = controller.GetRetweetersIds(tweetIdentifier, maxRetweetersToRetrieve);
+            var result = await controller.GetRetweetersIds(tweetIdentifier, maxRetweetersToRetrieve);
 
             // Assert
             Assert.AreEqual(result, retweeterIds);
         }
 
         [TestMethod]
-        public void GetRetweetersIds_WithTweetId_ReturnsIdsListFromQueryExecutor()
+        public async Task GetRetweetersIds_WithTweetId_ReturnsIdsListFromQueryExecutor()
         {
             // Arrange
             var controller = CreateTweetController();
@@ -212,7 +213,7 @@ namespace Testinvi.TweetinviControllers.TweetTests
             _fakeTweetQueryExecutor.CallsTo(x => x.GetRetweetersIds(A<ITweetIdentifier>.That.Matches(y => y.Id == tweetId), maxRetweetersToRetrieve)).Returns(retweeterIds);
 
             // Act
-            var result = controller.GetRetweetersIds(tweetId, maxRetweetersToRetrieve);
+            var result = await controller.GetRetweetersIds(tweetId, maxRetweetersToRetrieve);
 
             // Assert
             Assert.AreEqual(result, retweeterIds);
@@ -225,17 +226,17 @@ namespace Testinvi.TweetinviControllers.TweetTests
         // With Tweet
         [TestMethod]
         [ExpectedException(typeof(ArgumentException))]
-        public void DestroyTweet_WithNullTweet_ThrowArgumentException()
+        public async Task DestroyTweet_WithNullTweet_ThrowArgumentException()
         {
             // Arrange
             var controller = CreateTweetController();
 
             // Act
-            controller.DestroyTweet((ITweet)null);
+            await controller.DestroyTweet((ITweet)null);
         }
 
         [TestMethod]
-        public void DestroyTweet_WithTweetButNullTweetDTOAndQueryExecutorReturnsTrue_ReturnsFalse()
+        public async Task DestroyTweet_WithTweetButNullTweetDTOAndQueryExecutorReturnsTrue_ReturnsFalse()
         {
             // Arrange
             var controller = CreateTweetController();
@@ -244,14 +245,14 @@ namespace Testinvi.TweetinviControllers.TweetTests
             _fakeTweetQueryExecutor.CallsTo(x => x.DestroyTweet(null)).Returns(true);
 
             // Act
-            var result = controller.DestroyTweet(tweet);
+            var result = await controller.DestroyTweet(tweet);
 
             // Assert
             Assert.IsFalse(result);
         }
 
         [TestMethod]
-        public void DestroyTweet_WithTweetButNullTweetDTOAndQueryExecutorReturnsFalse_ReturnsFalse()
+        public async Task DestroyTweet_WithTweetButNullTweetDTOAndQueryExecutorReturnsFalse_ReturnsFalse()
         {
             // Arrange
             var controller = CreateTweetController();
@@ -260,14 +261,14 @@ namespace Testinvi.TweetinviControllers.TweetTests
             _fakeTweetQueryExecutor.CallsTo(x => x.DestroyTweet(null)).Returns(false);
 
             // Act
-            var result = controller.DestroyTweet(tweet);
+            var result = await controller.DestroyTweet(tweet);
 
             // Assert
             Assert.IsFalse(result);
         }
 
         [TestMethod]
-        public void DestroyTweet_WithTweetAndQueryExecutorReturnsTrue_ReturnsTrue()
+        public async Task DestroyTweet_WithTweetAndQueryExecutorReturnsTrue_ReturnsTrue()
         {
             // Arrange
             var controller = CreateTweetController();
@@ -277,14 +278,14 @@ namespace Testinvi.TweetinviControllers.TweetTests
             _fakeTweetQueryExecutor.CallsTo(x => x.DestroyTweet(tweetDTO)).Returns(true);
 
             // Act
-            var result = controller.DestroyTweet(tweet);
+            var result = await controller.DestroyTweet(tweet);
 
             // Assert
             Assert.IsTrue(result);
         }
 
         [TestMethod]
-        public void DestroyTweet_WithTweetAndQueryExecutorReturnsFalse_ReturnsFalse()
+        public async Task DestroyTweet_WithTweetAndQueryExecutorReturnsFalse_ReturnsFalse()
         {
             // Arrange
             var controller = CreateTweetController();
@@ -294,7 +295,7 @@ namespace Testinvi.TweetinviControllers.TweetTests
             _fakeTweetQueryExecutor.CallsTo(x => x.DestroyTweet(tweetDTO)).Returns(false);
 
             // Act
-            var result = controller.DestroyTweet(tweet);
+            var result = await controller.DestroyTweet(tweet);
 
             // Assert
             Assert.IsFalse(result);
@@ -302,7 +303,7 @@ namespace Testinvi.TweetinviControllers.TweetTests
 
         // With TweetDTO
         [TestMethod]
-        public void DestroyTweet_WithNullTweetDTOAndQueryExecutorReturnsTrue_ReturnsTrue()
+        public async Task DestroyTweet_WithNullTweetDTOAndQueryExecutorReturnsTrue_ReturnsTrue()
         {
             // Arrange
             var controller = CreateTweetController();
@@ -310,14 +311,14 @@ namespace Testinvi.TweetinviControllers.TweetTests
             _fakeTweetQueryExecutor.CallsTo(x => x.DestroyTweet(null)).Returns(true);
 
             // Act
-            var result = controller.DestroyTweet((ITweetDTO)null);
+            var result = await controller.DestroyTweet((ITweetDTO)null);
 
             // Assert
             Assert.IsFalse(result);
         }
 
         [TestMethod]
-        public void DestroyTweet_WithNullTweetDTOAndQueryExecutorReturnsFalse_ReturnsFalse()
+        public async Task DestroyTweet_WithNullTweetDTOAndQueryExecutorReturnsFalse_ReturnsFalse()
         {
             // Arrange
             var controller = CreateTweetController();
@@ -325,14 +326,14 @@ namespace Testinvi.TweetinviControllers.TweetTests
             _fakeTweetQueryExecutor.CallsTo(x => x.DestroyTweet(null)).Returns(false);
 
             // Act
-            var result = controller.DestroyTweet((ITweetDTO)null);
+            var result = await controller.DestroyTweet((ITweetDTO)null);
 
             // Assert
             Assert.IsFalse(result);
         }
 
         [TestMethod]
-        public void DestroyTweet_WithTweetDTOAndQueryExecutorReturnsTrue_ReturnsTrue()
+        public async Task DestroyTweet_WithTweetDTOAndQueryExecutorReturnsTrue_ReturnsTrue()
         {
             // Arrange
             var controller = CreateTweetController();
@@ -341,14 +342,14 @@ namespace Testinvi.TweetinviControllers.TweetTests
             _fakeTweetQueryExecutor.CallsTo(x => x.DestroyTweet(tweetDTO)).Returns(true);
 
             // Act
-            var result = controller.DestroyTweet(tweetDTO);
+            var result = await controller.DestroyTweet(tweetDTO);
 
             // Assert
             Assert.IsTrue(result);
         }
 
         [TestMethod]
-        public void DestroyTweet_WithTweetDTOAndQueryExecutorReturnsFalse_ReturnsFalse()
+        public async Task  DestroyTweet_WithTweetDTOAndQueryExecutorReturnsFalse_ReturnsFalse()
         {
             // Arrange
             var controller = CreateTweetController();
@@ -357,7 +358,7 @@ namespace Testinvi.TweetinviControllers.TweetTests
             _fakeTweetQueryExecutor.CallsTo(x => x.DestroyTweet(tweetDTO)).Returns(false);
 
             // Act
-            var result = controller.DestroyTweet(tweetDTO);
+            var result = await controller.DestroyTweet(tweetDTO);
 
             // Assert
             Assert.IsFalse(result);
@@ -365,7 +366,7 @@ namespace Testinvi.TweetinviControllers.TweetTests
 
         // With TweetID
         [TestMethod]
-        public void DestroyTweet_WithTweetIdAndQueryExecutorReturnsTrue_ReturnsTrue()
+        public async Task DestroyTweet_WithTweetIdAndQueryExecutorReturnsTrue_ReturnsTrue()
         {
             // Arrange
             var controller = CreateTweetController();
@@ -374,14 +375,14 @@ namespace Testinvi.TweetinviControllers.TweetTests
             _fakeTweetQueryExecutor.CallsTo(x => x.DestroyTweet(tweetId)).Returns(true);
 
             // Act
-            var result = controller.DestroyTweet(tweetId);
+            var result = await controller.DestroyTweet(tweetId);
 
             // Assert
             Assert.IsTrue(result);
         }
 
         [TestMethod]
-        public void DestroyTweet_WithTweetIdAndQueryExecutorReturnsFalse_ReturnsFalse()
+        public async Task DestroyTweet_WithTweetIdAndQueryExecutorReturnsFalse_ReturnsFalse()
         {
             // Arrange
             var controller = CreateTweetController();
@@ -390,7 +391,7 @@ namespace Testinvi.TweetinviControllers.TweetTests
             _fakeTweetQueryExecutor.CallsTo(x => x.DestroyTweet(tweetId)).Returns(false);
 
             // Act
-            var result = controller.DestroyTweet(tweetId);
+            var result = await controller.DestroyTweet(tweetId);
 
             // Assert
             Assert.IsFalse(result);
@@ -402,41 +403,25 @@ namespace Testinvi.TweetinviControllers.TweetTests
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentException))]
-        public void FavoriteTweet_WithNullTweet_ThrowsArgumentException()
+        public async Task FavoriteTweet_WithNullTweet_ThrowsArgumentException()
         {
             // Arrange
             var controller = CreateTweetController();
 
             // Act
-            controller.FavoriteTweet((ITweet)null);
-        }
-
-        public void VerifyFavoriteTweet_WithTweet_ReturnsQueryExecutorResult(bool doesTweetDTOExists, bool expectedResult)
-        {
-            // Arrange
-            var controller = CreateTweetController();
-            var tweetDTO = doesTweetDTOExists ? A.Fake<ITweetDTO>() : null;
-            var tweet = GenerateTweet(tweetDTO);
-
-            _fakeTweetQueryExecutor.CallsTo(x => x.FavoriteTweet(tweetDTO)).Returns(expectedResult);
-
-            // Act
-            var result = controller.FavoriteTweet(tweet);
-
-            // Assert
-            Assert.AreEqual(result, expectedResult);
+            await controller.FavoriteTweet((ITweet)null);
         }
 
         [TestMethod]
-        public void FavoriteTweet_WithTweetDTO_ReturnsQueryExecutorResult()
+        public async Task FavoriteTweet_WithTweetDTO_ReturnsQueryExecutorResult()
         {
-            VerifyFavoriteTweet_WithTweetDTO_ReturnsQueryExecutorResult(false, false);
-            VerifyFavoriteTweet_WithTweetDTO_ReturnsQueryExecutorResult(false, false);
-            VerifyFavoriteTweet_WithTweetDTO_ReturnsQueryExecutorResult(true, false);
-            VerifyFavoriteTweet_WithTweetDTO_ReturnsQueryExecutorResult(true, true);
+            await VerifyFavoriteTweet_WithTweetDTO_ReturnsQueryExecutorResult(false, false);
+            await VerifyFavoriteTweet_WithTweetDTO_ReturnsQueryExecutorResult(false, false);
+            await VerifyFavoriteTweet_WithTweetDTO_ReturnsQueryExecutorResult(true, false);
+            await VerifyFavoriteTweet_WithTweetDTO_ReturnsQueryExecutorResult(true, true);
         }
 
-        public void VerifyFavoriteTweet_WithTweetDTO_ReturnsQueryExecutorResult(bool tweetExists, bool expectedResult)
+        private async Task VerifyFavoriteTweet_WithTweetDTO_ReturnsQueryExecutorResult(bool tweetExists, bool expectedResult)
         {
             // Arrange
             var controller = CreateTweetController();
@@ -445,20 +430,20 @@ namespace Testinvi.TweetinviControllers.TweetTests
             _fakeTweetQueryExecutor.CallsTo(x => x.FavoriteTweet(tweetDTO)).Returns(expectedResult);
 
             // Act
-            var result = controller.FavoriteTweet(tweetDTO);
+            var result = await controller.FavoriteTweet(tweetDTO);
 
             // Assert
             Assert.AreEqual(result, expectedResult);
         }
 
         [TestMethod]
-        public void FavoriteTweet_WithTweetId_ReturnsQueryExecutorResult()
+        public async Task FavoriteTweet_WithTweetId_ReturnsQueryExecutorResult()
         {
-            VerifyFavoriteTweet_WithTweetId_ReturnsQueryExecutorResult(false);
-            VerifyFavoriteTweet_WithTweetId_ReturnsQueryExecutorResult(true);
+            await VerifyFavoriteTweet_WithTweetId_ReturnsQueryExecutorResult(false);
+            await VerifyFavoriteTweet_WithTweetId_ReturnsQueryExecutorResult(true);
         }
 
-        public void VerifyFavoriteTweet_WithTweetId_ReturnsQueryExecutorResult(bool expectedResult)
+        private async Task VerifyFavoriteTweet_WithTweetId_ReturnsQueryExecutorResult(bool expectedResult)
         {
             // Arrange
             var controller = CreateTweetController();
@@ -467,7 +452,7 @@ namespace Testinvi.TweetinviControllers.TweetTests
             _fakeTweetQueryExecutor.CallsTo(x => x.FavoriteTweet(tweetId)).Returns(expectedResult);
 
             // Act
-            var result = controller.FavoriteTweet(tweetId);
+            var result = await controller.FavoriteTweet(tweetId);
 
             // Assert
             Assert.AreEqual(result, expectedResult);
@@ -479,25 +464,25 @@ namespace Testinvi.TweetinviControllers.TweetTests
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentException))]
-        public void UnFavoriteTweet_WithNullTweet_ThrowsArgumentException()
+        public async Task UnFavoriteTweet_WithNullTweet_ThrowsArgumentException()
         {
             // Arrange
             var controller = CreateTweetController();
 
             // Act
-            controller.UnFavoriteTweet((ITweet)null);
+            await controller.UnFavoriteTweet((ITweet)null);
         }
 
         [TestMethod]
-        public void UnFavoriteTweet_WithTweet_ReturnsQueryExecutorResult()
+        public async Task UnFavoriteTweet_WithTweet_ReturnsQueryExecutorResult()
         {
-            VerifyUnFavoriteTweet_WithTweet_ReturnsQueryExecutorResult(false, false);
-            VerifyUnFavoriteTweet_WithTweet_ReturnsQueryExecutorResult(false, true);
-            VerifyUnFavoriteTweet_WithTweet_ReturnsQueryExecutorResult(true, false);
-            VerifyUnFavoriteTweet_WithTweet_ReturnsQueryExecutorResult(true, true);
+            await VerifyUnFavoriteTweet_WithTweet_ReturnsQueryExecutorResult(false, false);
+            await VerifyUnFavoriteTweet_WithTweet_ReturnsQueryExecutorResult(false, true);
+            await VerifyUnFavoriteTweet_WithTweet_ReturnsQueryExecutorResult(true, false);
+            await VerifyUnFavoriteTweet_WithTweet_ReturnsQueryExecutorResult(true, true);
         }
 
-        public void VerifyUnFavoriteTweet_WithTweet_ReturnsQueryExecutorResult(bool doesTweetDTOExists, bool expectedResult)
+        private async Task VerifyUnFavoriteTweet_WithTweet_ReturnsQueryExecutorResult(bool doesTweetDTOExists, bool expectedResult)
         {
             // Arrange
             var controller = CreateTweetController();
@@ -507,22 +492,22 @@ namespace Testinvi.TweetinviControllers.TweetTests
             _fakeTweetQueryExecutor.CallsTo(x => x.UnFavoriteTweet(tweetDTO)).Returns(expectedResult);
 
             // Act
-            var result = controller.UnFavoriteTweet(tweet);
+            var result = await controller.UnFavoriteTweet(tweet);
 
             // Assert
             Assert.AreEqual(result, expectedResult);
         }
 
         [TestMethod]
-        public void UnFavoriteTweet_WithTweetDTO_ReturnsQueryExecutorResult()
+        public async Task UnFavoriteTweet_WithTweetDTO_ReturnsQueryExecutorResult()
         {
-            VerifyUnFavoriteTweet_WithTweetDTO_ReturnsQueryExecutorResult(false, false);
-            VerifyUnFavoriteTweet_WithTweetDTO_ReturnsQueryExecutorResult(false, true);
-            VerifyUnFavoriteTweet_WithTweetDTO_ReturnsQueryExecutorResult(true, false);
-            VerifyUnFavoriteTweet_WithTweetDTO_ReturnsQueryExecutorResult(true, true);
+            await VerifyUnFavoriteTweet_WithTweetDTO_ReturnsQueryExecutorResult(false, false);
+            await VerifyUnFavoriteTweet_WithTweetDTO_ReturnsQueryExecutorResult(false, true);
+            await VerifyUnFavoriteTweet_WithTweetDTO_ReturnsQueryExecutorResult(true, false);
+            await VerifyUnFavoriteTweet_WithTweetDTO_ReturnsQueryExecutorResult(true, true);
         }
 
-        public void VerifyUnFavoriteTweet_WithTweetDTO_ReturnsQueryExecutorResult(bool tweetExists, bool expectedResult)
+        private async Task VerifyUnFavoriteTweet_WithTweetDTO_ReturnsQueryExecutorResult(bool tweetExists, bool expectedResult)
         {
             // Arrange
             var controller = CreateTweetController();
@@ -531,20 +516,20 @@ namespace Testinvi.TweetinviControllers.TweetTests
             _fakeTweetQueryExecutor.CallsTo(x => x.UnFavoriteTweet(tweetDTO)).Returns(expectedResult);
 
             // Act
-            var result = controller.UnFavoriteTweet(tweetDTO);
+            var result = await controller.UnFavoriteTweet(tweetDTO);
 
             // Assert
             Assert.AreEqual(result, expectedResult);
         }
 
         [TestMethod]
-        public void UnFavoriteTweet_WithTweetId_ReturnsQueryExecutorResult()
+        public async Task UnFavoriteTweet_WithTweetId_ReturnsQueryExecutorResult()
         {
-            VerifyUnFavoriteTweet_WithTweetId_ReturnsQueryExecutorResult(false);
-            VerifyUnFavoriteTweet_WithTweetId_ReturnsQueryExecutorResult(true);
+            await VerifyUnFavoriteTweet_WithTweetId_ReturnsQueryExecutorResult(false);
+            await VerifyUnFavoriteTweet_WithTweetId_ReturnsQueryExecutorResult(true);
         }
 
-        public void VerifyUnFavoriteTweet_WithTweetId_ReturnsQueryExecutorResult(bool expectedResult)
+        private async Task VerifyUnFavoriteTweet_WithTweetId_ReturnsQueryExecutorResult(bool expectedResult)
         {
             // Arrange
             var controller = CreateTweetController();
@@ -553,7 +538,7 @@ namespace Testinvi.TweetinviControllers.TweetTests
             _fakeTweetQueryExecutor.CallsTo(x => x.UnFavoriteTweet(tweetId)).Returns(expectedResult);
 
             // Act
-            var result = controller.UnFavoriteTweet(tweetId);
+            var result = await controller.UnFavoriteTweet(tweetId);
 
             // Assert
             Assert.AreEqual(result, expectedResult);
@@ -566,17 +551,17 @@ namespace Testinvi.TweetinviControllers.TweetTests
         // With Tweet
         [TestMethod]
         [ExpectedException(typeof(ArgumentException))]
-        public void GenerateOEmbedTweet_WithNullTweet_ThrowsArgumentException()
+        public async Task GenerateOEmbedTweet_WithNullTweet_ThrowsArgumentException()
         {
             // Arrange
             var controller = CreateTweetController();
 
             // Act
-            controller.GenerateOEmbedTweet((ITweet)null);
+            await controller.GenerateOEmbedTweet((ITweet)null);
         }
 
         [TestMethod]
-        public void GenerateOEmbedTweet_WithTweetButNullTweetDTO_ReturnsQueryExecutor()
+        public async Task GenerateOEmbedTweet_WithTweetButNullTweetDTO_ReturnsQueryExecutor()
         {
             // Arrange
             var controller = CreateTweetController();
@@ -588,14 +573,14 @@ namespace Testinvi.TweetinviControllers.TweetTests
             _fakeTweetFactory.CallsTo(x => x.GenerateOEmbedTweetFromDTO(oembedTweetDTO)).Returns(oembedTweet);
 
             // Act
-            var result = controller.GenerateOEmbedTweet(tweet);
+            var result = await controller.GenerateOEmbedTweet(tweet);
 
             // Assert
             Assert.AreEqual(result, oembedTweet);
         }
 
         [TestMethod]
-        public void GenerateOEmbedTweet_WithTweet_ReturnsTrue()
+        public async Task GenerateOEmbedTweet_WithTweet_ReturnsTrue()
         {
             // Arrange
             var controller = CreateTweetController();
@@ -608,7 +593,7 @@ namespace Testinvi.TweetinviControllers.TweetTests
             _fakeTweetFactory.CallsTo(x => x.GenerateOEmbedTweetFromDTO(oembedTweetDTO)).Returns(oembedTweet);
 
             // Act
-            var result = controller.GenerateOEmbedTweet(tweet);
+            var result = await controller.GenerateOEmbedTweet(tweet);
 
             // Assert
             Assert.AreEqual(result, oembedTweet);
@@ -616,7 +601,7 @@ namespace Testinvi.TweetinviControllers.TweetTests
 
         // With TweetDTO
         [TestMethod]
-        public void GenerateOEmbedTweet_WithNullTweetDTO_ReturnsTrue()
+        public async Task GenerateOEmbedTweet_WithNullTweetDTO_ReturnsTrue()
         {
             // Arrange
             var controller = CreateTweetController();
@@ -627,14 +612,14 @@ namespace Testinvi.TweetinviControllers.TweetTests
             _fakeTweetFactory.CallsTo(x => x.GenerateOEmbedTweetFromDTO(oembedTweetDTO)).Returns(oembedTweet);
 
             // Act
-            var result = controller.GenerateOEmbedTweet((ITweetDTO)null);
+            var result = await controller.GenerateOEmbedTweet((ITweetDTO)null);
 
             // Assert
             Assert.AreEqual(result, oembedTweet);
         }
 
         [TestMethod]
-        public void GenerateOEmbedTweet_WithTweetDTO_ReturnsTrue()
+        public async Task GenerateOEmbedTweet_WithTweetDTO_ReturnsTrue()
         {
             // Arrange
             var controller = CreateTweetController();
@@ -646,7 +631,7 @@ namespace Testinvi.TweetinviControllers.TweetTests
             _fakeTweetFactory.CallsTo(x => x.GenerateOEmbedTweetFromDTO(oembedTweetDTO)).Returns(oembedTweet);
 
             // Act
-            var result = controller.GenerateOEmbedTweet(tweetDTO);
+            var result = await controller.GenerateOEmbedTweet(tweetDTO);
 
             // Assert
             Assert.AreEqual(result, oembedTweet);
@@ -654,7 +639,7 @@ namespace Testinvi.TweetinviControllers.TweetTests
 
         // With TweetID
         [TestMethod]
-        public void GenerateOEmbedTweet_WithTweetIdAndQueryExecutorReturnsTrue_ReturnsTrue()
+        public async Task GenerateOEmbedTweet_WithTweetIdAndQueryExecutorReturnsTrue_ReturnsTrue()
         {
             // Arrange
             var controller = CreateTweetController();
@@ -666,7 +651,7 @@ namespace Testinvi.TweetinviControllers.TweetTests
             _fakeTweetFactory.CallsTo(x => x.GenerateOEmbedTweetFromDTO(oembedTweetDTO)).Returns(oembedTweet);
 
             // Act
-            var result = controller.GenerateOEmbedTweet(tweetId);
+            var result = await controller.GenerateOEmbedTweet(tweetId);
 
             // Assert
             Assert.AreEqual(result, oembedTweet);
@@ -684,7 +669,7 @@ namespace Testinvi.TweetinviControllers.TweetTests
             return tweet;
         }
 
-        public TweetController CreateTweetController()
+        private TweetController CreateTweetController()
         {
             return _fakeBuilder.GenerateClass();
         }

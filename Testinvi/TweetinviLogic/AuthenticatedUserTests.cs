@@ -1,9 +1,12 @@
-﻿using FakeItEasy;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using FakeItEasy;
 using FakeItEasy.ExtensionSyntax.Full;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Testinvi.Helpers;
 using Tweetinvi.Core.Controllers;
 using Tweetinvi.Core.Credentials;
+using Tweetinvi.Core.Models;
 using Tweetinvi.Logic;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
@@ -41,107 +44,111 @@ namespace Testinvi.TweetinviLogic
 
             InitData();
         }
-        
+
         #region GetHomeTimeline
 
         [TestMethod]
-        public void GetHomeTimeline_CurrentCredentialsAreNotAuthenticatedUserCredentials_OperationPerformedWithAppropriateCredentials()
+        public async Task GetHomeTimeline_CurrentCredentialsAreNotAuthenticatedUserCredentials_OperationPerformedWithAppropriateCredentials()
         {
             // Arrange
             var nbTweets = TestHelper.GenerateRandomInt();
 
             ITwitterCredentials startOperationWithCredentials = null;
-            _fakeTimelineController.CallsTo(x => x.GetHomeTimeline(nbTweets)).Invokes(() =>
+            _fakeTimelineController.CallsTo(x => x.GetHomeTimeline(nbTweets)).ReturnsLazily(() =>
             {
                 startOperationWithCredentials = _fakeCredentialsAccessor.FakedObject.CurrentThreadCredentials;
+                return A.Fake<IEnumerable<ITweet>>();
             });
 
             // Act
-            _authenticatedUser.GetHomeTimeline(nbTweets);
+            await _authenticatedUser.GetHomeTimeline(nbTweets);
 
             // Assert
             Assert.AreEqual(startOperationWithCredentials, _authenticatedUserCredentials);
             Assert.AreEqual(_fakeCredentialsAccessor.FakedObject.CurrentThreadCredentials, _currentCredentials);
         }
-        
+
         #endregion
 
         #region GetMentionsTimeline
 
         [TestMethod]
-        public void GetMentionsTimeline_CurrentCredentialsAreNotAuthenticatedUserCredentials_OperationPerformedWithAppropriateCredentials()
+        public async Task GetMentionsTimeline_CurrentCredentialsAreNotAuthenticatedUserCredentials_OperationPerformedWithAppropriateCredentials()
         {
             // Arrange
             var nbTweets = TestHelper.GenerateRandomInt();
 
             ITwitterCredentials startOperationWithCredentials = null;
-            _fakeTimelineController.CallsTo(x => x.GetMentionsTimeline(nbTweets)).Invokes(() =>
+            _fakeTimelineController.CallsTo(x => x.GetMentionsTimeline(nbTweets)).ReturnsLazily(() =>
             {
                 startOperationWithCredentials = _fakeCredentialsAccessor.FakedObject.CurrentThreadCredentials;
+                return A.Fake<IEnumerable<IMention>>();
             });
 
             // Act
-            _authenticatedUser.GetMentionsTimeline(nbTweets);
+            await _authenticatedUser.GetMentionsTimeline(nbTweets);
 
             // Assert
             Assert.AreEqual(startOperationWithCredentials, _authenticatedUserCredentials);
             Assert.AreEqual(_fakeCredentialsAccessor.FakedObject.CurrentThreadCredentials, _currentCredentials);
         }
-        
+
         #endregion
 
         #region GetUsersRequestingFriendship
-        
+
         [TestMethod]
-        public void GetUsersRequestingFriendship_CurrentCredentialsAreNotAuthenticatedUserCredentials_OperationPerformedWithAppropriateCredentials()
+        public async Task GetUsersRequestingFriendship_CurrentCredentialsAreNotAuthenticatedUserCredentials_OperationPerformedWithAppropriateCredentials()
         {
             // Arrange
             ITwitterCredentials startOperationWithCredentials = null;
             var max = TestHelper.GenerateRandomInt();
 
-            _fakeFriendshipController.CallsTo(x => x.GetUsersRequestingFriendship(max)).Invokes(() =>
+            _fakeFriendshipController.CallsTo(x => x.GetUsersRequestingFriendship(max)).ReturnsLazily(() =>
             {
                 startOperationWithCredentials = _fakeCredentialsAccessor.FakedObject.CurrentThreadCredentials;
+                return A.Fake<IEnumerable<IUser>>();
             });
 
             // Act
-            _authenticatedUser.GetUsersRequestingFriendship(max);
+            await _authenticatedUser.GetUsersRequestingFriendship(max);
 
             // Assert
             Assert.AreEqual(startOperationWithCredentials, _authenticatedUserCredentials);
             Assert.AreEqual(_fakeCredentialsAccessor.FakedObject.CurrentThreadCredentials, _currentCredentials);
-        } 
+        }
 
         #endregion
 
         #region GetUsersYouRequestedToFollow
-        
+
         [TestMethod]
-        public void GetUsersYouRequestedToFollow_CurrentCredentialsAreNotAuthenticatedUserCredentials_OperationPerformedWithAppropriateCredentials()
+        public async Task GetUsersYouRequestedToFollow_CurrentCredentialsAreNotAuthenticatedUserCredentials_OperationPerformedWithAppropriateCredentials()
         {
             // Arrange
             ITwitterCredentials startOperationWithCredentials = null;
             var max = TestHelper.GenerateRandomInt();
 
-            _fakeFriendshipController.CallsTo(x => x.GetUsersYouRequestedToFollow(max)).Invokes(() =>
+            _fakeFriendshipController.CallsTo(x => x.GetUsersYouRequestedToFollow(max)).ReturnsLazily(() =>
             {
                 startOperationWithCredentials = _fakeCredentialsAccessor.FakedObject.CurrentThreadCredentials;
+                return A.Fake<IEnumerable<IUser>>();
             });
 
             // Act
-            _authenticatedUser.GetUsersYouRequestedToFollow(max);
+            await _authenticatedUser.GetUsersYouRequestedToFollow(max);
 
             // Assert
             Assert.AreEqual(startOperationWithCredentials, _authenticatedUserCredentials);
             Assert.AreEqual(_fakeCredentialsAccessor.FakedObject.CurrentThreadCredentials, _currentCredentials);
-        } 
+        }
 
         #endregion
 
         #region FollowUser
 
         [TestMethod]
-        public void FollowUser_CurrentCredentialsAreNotAuthenticatedUserCredentials_OperationPerformedWithAppropriateCredentials()
+        public async Task FollowUser_CurrentCredentialsAreNotAuthenticatedUserCredentials_OperationPerformedWithAppropriateCredentials()
         {
             // Arrange
             var user = A.Fake<IUser>();
@@ -152,21 +159,21 @@ namespace Testinvi.TweetinviLogic
                 startOperationWithCredentials = _fakeCredentialsAccessor.FakedObject.CurrentThreadCredentials;
                 return true;
             });
-          
+
             // Act
-            _authenticatedUser.FollowUser(user);
+            await _authenticatedUser.FollowUser(user);
 
             // Assert
             Assert.AreEqual(startOperationWithCredentials, _authenticatedUserCredentials);
             Assert.AreEqual(_fakeCredentialsAccessor.FakedObject.CurrentThreadCredentials, _currentCredentials);
-        } 
+        }
 
         #endregion
 
         #region FollowUser
 
         [TestMethod]
-        public void UnFollowUser_CurrentCredentialsAreNotAuthenticatedUserCredentials_OperationPerformedWithAppropriateCredentials()
+        public async Task UnFollowUser_CurrentCredentialsAreNotAuthenticatedUserCredentials_OperationPerformedWithAppropriateCredentials()
         {
             // Arrange
             var user = A.Fake<IUser>();
@@ -179,7 +186,7 @@ namespace Testinvi.TweetinviLogic
             });
 
             // Act
-            _authenticatedUser.UnFollowUser(user);
+            await _authenticatedUser.UnFollowUser(user);
 
             // Assert
             Assert.AreEqual(startOperationWithCredentials, _authenticatedUserCredentials);
@@ -191,20 +198,20 @@ namespace Testinvi.TweetinviLogic
         #region UpdateRelationshipAuthorizationsWith
 
         [TestMethod]
-        public void UpdateRelationshipAuthorizationsWith_CurrentCredentialsAreNotAuthenticatedUserCredentials_OperationPerformedWithAppropriateCredentials()
+        public async Task UpdateRelationshipAuthorizationsWith_CurrentCredentialsAreNotAuthenticatedUserCredentials_OperationPerformedWithAppropriateCredentials()
         {
             // Arrange
             var user = A.Fake<IUser>();
 
             ITwitterCredentials startOperationWithCredentials = null;
-            _fakeFriendshipController.CallsTo(x => x.UpdateRelationshipAuthorizationsWith((IUserIdentifier)user, true, true)).ReturnsLazily(() =>
+            _fakeFriendshipController.CallsTo(x => x.UpdateRelationshipAuthorizationsWith(user, true, true)).ReturnsLazily(() =>
             {
                 startOperationWithCredentials = _fakeCredentialsAccessor.FakedObject.CurrentThreadCredentials;
                 return true;
             });
 
             // Act
-            _authenticatedUser.UpdateRelationshipAuthorizationsWith(user, true, true);
+            await _authenticatedUser.UpdateRelationshipAuthorizationsWith(user, true, true);
 
             // Assert
             Assert.AreEqual(startOperationWithCredentials, _authenticatedUserCredentials);
@@ -216,17 +223,18 @@ namespace Testinvi.TweetinviLogic
         #region GetSavedSearches
 
         [TestMethod]
-        public void GetSavedSearches_CurrentCredentialsAreNotAuthenticatedUserCredentials_OperationPerformedWithAppropriateCredentials()
+        public async Task GetSavedSearches_CurrentCredentialsAreNotAuthenticatedUserCredentials_OperationPerformedWithAppropriateCredentials()
         {
             // Arrange
             ITwitterCredentials startOperationWithCredentials = null;
-            _fakeSavedSearchController.CallsTo(x => x.GetSavedSearches()).Invokes(() =>
+            _fakeSavedSearchController.CallsTo(x => x.GetSavedSearches()).ReturnsLazily(() =>
             {
                 startOperationWithCredentials = _fakeCredentialsAccessor.FakedObject.CurrentThreadCredentials;
+                return A.Fake<IEnumerable<ISavedSearch>>();
             });
 
             // Act
-            _authenticatedUser.GetSavedSearches();
+            await _authenticatedUser.GetSavedSearches();
 
             // Assert
             Assert.AreEqual(startOperationWithCredentials, _authenticatedUserCredentials);
@@ -238,19 +246,20 @@ namespace Testinvi.TweetinviLogic
         #region GetLatestMessages
 
         [TestMethod]
-        public void GetLatestMessages_CurrentCredentialsAreNotAuthenticatedUserCredentials_OperationPerformedWithAppropriateCredentials()
+        public async Task GetLatestMessages_CurrentCredentialsAreNotAuthenticatedUserCredentials_OperationPerformedWithAppropriateCredentials()
         {
             // Arrange
             var nbMessages = TestHelper.GenerateRandomInt();
 
             ITwitterCredentials startOperationWithCredentials = null;
-            _fakeMessageController.CallsTo(x => x.GetLatestMessages(nbMessages)).Invokes(() =>
+            _fakeMessageController.CallsTo(x => x.GetLatestMessages(nbMessages)).ReturnsLazily(() =>
             {
                 startOperationWithCredentials = _fakeCredentialsAccessor.FakedObject.CurrentThreadCredentials;
+                return A.Fake<AsyncCursorResult<IEnumerable<IMessage>>>();
             });
 
             // Act
-            _authenticatedUser.GetLatestMessages(nbMessages);
+            await _authenticatedUser.GetLatestMessages(nbMessages);
 
             // Assert
             Assert.AreEqual(startOperationWithCredentials, _authenticatedUserCredentials);
@@ -262,19 +271,20 @@ namespace Testinvi.TweetinviLogic
         #region PublishMessage
 
         [TestMethod]
-        public void PublishMessage_CurrentCredentialsAreNotAuthenticatedUserCredentials_OperationPerformedWithAppropriateCredentials()
+        public async Task PublishMessage_CurrentCredentialsAreNotAuthenticatedUserCredentials_OperationPerformedWithAppropriateCredentials()
         {
             // Arrange
             var parameters = A.Fake<IPublishMessageParameters>();
 
             ITwitterCredentials startOperationWithCredentials = null;
-            _fakeMessageController.CallsTo(x => x.PublishMessage(parameters)).Invokes(() =>
+            _fakeMessageController.CallsTo(x => x.PublishMessage(parameters)).ReturnsLazily(() =>
             {
                 startOperationWithCredentials = _fakeCredentialsAccessor.FakedObject.CurrentThreadCredentials;
+                return A.Fake<IMessage>();
             });
 
             // Act
-            _authenticatedUser.PublishMessage(parameters);
+            await _authenticatedUser.PublishMessage(parameters);
 
             // Assert
             Assert.AreEqual(startOperationWithCredentials, _authenticatedUserCredentials);
@@ -286,19 +296,20 @@ namespace Testinvi.TweetinviLogic
         #region PublishTweet
 
         [TestMethod]
-        public void PublishTweetText_CurrentCredentialsAreNotAuthenticatedUserCredentials_OperationPerformedWithAppropriateCredentials()
+        public async Task PublishTweetText_CurrentCredentialsAreNotAuthenticatedUserCredentials_OperationPerformedWithAppropriateCredentials()
         {
             // Arrange
             var parameters = A.Fake<IPublishTweetParameters>();
 
             ITwitterCredentials startOperationWithCredentials = null;
-            _fakeTweetController.CallsTo(x => x.PublishTweet(parameters)).Invokes(() =>
+            _fakeTweetController.CallsTo(x => x.PublishTweet(parameters)).ReturnsLazily(() =>
             {
                 startOperationWithCredentials = _fakeCredentialsAccessor.FakedObject.CurrentThreadCredentials;
+                return A.Fake<ITweet>();
             });
 
             // Act
-            _authenticatedUser.PublishTweet(parameters);
+            await _authenticatedUser.PublishTweet(parameters);
 
             // Assert
             Assert.AreEqual(startOperationWithCredentials, _authenticatedUserCredentials);
@@ -310,7 +321,7 @@ namespace Testinvi.TweetinviLogic
         #region GetAccountSettings
 
         [TestMethod]
-        public void GetAccountSettings_CurrentCredentialsAreNotAuthenticatedUserCredentials_OperationPerformedWithAppropriateCredentials()
+        public async Task GetAccountSettings_CurrentCredentialsAreNotAuthenticatedUserCredentials_OperationPerformedWithAppropriateCredentials()
         {
             // Arrange
             var eventDTO = A.Fake<IMessageEventDTO>();
@@ -318,13 +329,14 @@ namespace Testinvi.TweetinviLogic
             message.CallsTo(x => x.MessageEventDTO).Returns(eventDTO);
 
             ITwitterCredentials startOperationWithCredentials = null;
-            _fakeAccountController.CallsTo(x => x.GetAuthenticatedUserSettings()).Invokes(() =>
+            _fakeAccountController.CallsTo(x => x.GetAuthenticatedUserSettings()).ReturnsLazily(() =>
             {
                 startOperationWithCredentials = _fakeCredentialsAccessor.FakedObject.CurrentThreadCredentials;
+                return A.Fake<IAccountSettings>();
             });
 
             // Act
-            _authenticatedUser.GetAccountSettings();
+            await _authenticatedUser.GetAccountSettings();
 
             // Assert
             Assert.AreEqual(startOperationWithCredentials, _authenticatedUserCredentials);
@@ -338,12 +350,12 @@ namespace Testinvi.TweetinviLogic
             _authenticatedUserCredentials = A.Fake<ITwitterCredentials>();
             _fakeCredentialsAccessor.CallsTo(x => x.CurrentThreadCredentials).Returns(_authenticatedUserCredentials);
             _authenticatedUser = CreateAuthenticatedUser();
-            
+
             _currentCredentials = A.Fake<ITwitterCredentials>();
             _fakeCredentialsAccessor.CallsTo(x => x.CurrentThreadCredentials).Returns(_currentCredentials);
         }
 
-        public AuthenticatedUser CreateAuthenticatedUser()
+        private AuthenticatedUser CreateAuthenticatedUser()
         {
             return _fakeBuilder.GenerateClass();
         }

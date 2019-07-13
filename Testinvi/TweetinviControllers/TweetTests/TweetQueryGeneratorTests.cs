@@ -32,7 +32,7 @@ namespace Testinvi.TweetinviControllers.TweetTests
         }
 
         #region Publish Tweet
-        
+
         [TestMethod]
         public void GetPublishTweetInReplyToQuery_ReturnsExpectedResults()
         {
@@ -57,7 +57,7 @@ namespace Testinvi.TweetinviControllers.TweetTests
             VerifyPublishTweetInReplyToQuery(true, true, true, true, true);
         }
 
-        public void VerifyPublishTweetInReplyToQuery(
+        private void VerifyPublishTweetInReplyToQuery(
             bool canNewTweetBePublished,
             bool replyToTweetId,
             bool tweetContainsPlaceId,
@@ -103,14 +103,14 @@ namespace Testinvi.TweetinviControllers.TweetTests
                 var baseQuery = "https://api.twitter.com/1.1/statuses/update.json?";
 
                 Assert.IsTrue(result.StartsWith(baseQuery));
-                Assert.IsTrue(result.Contains(string.Format("status={0}", _expectedTweetParameter)));
+                Assert.IsTrue(result.Contains($"status={_expectedTweetParameter}"));
 
-                Assert.AreEqual(tweetContainsPlaceId, result.Contains(string.Format("place_id={0}", _expectedPlaceIdParameter)));
+                Assert.AreEqual(tweetContainsPlaceId, result.Contains($"place_id={_expectedPlaceIdParameter}"));
 
                 if (tweetContainsCoordinates)
                 {
-                    Assert.IsTrue(result.Contains(string.Format("lat={0}", _expectedCoordinatesParameter.Latitude)));
-                    Assert.IsTrue(result.Contains(string.Format("long={0}", _expectedCoordinatesParameter.Longitude)));
+                    Assert.IsTrue(result.Contains($"lat={_expectedCoordinatesParameter.Latitude}"));
+                    Assert.IsTrue(result.Contains($"long={_expectedCoordinatesParameter.Longitude}"));
                 }
                 else
                 {
@@ -138,7 +138,7 @@ namespace Testinvi.TweetinviControllers.TweetTests
             VerifyPublishTweetInReplyToIdQuery(true, true, true, true);
         }
 
-        public void VerifyPublishTweetInReplyToIdQuery(
+        private void VerifyPublishTweetInReplyToIdQuery(
             bool canNewTweetBePublished,
             bool tweetContainsPlaceId,
             bool tweetContainsCoordinates,
@@ -169,14 +169,14 @@ namespace Testinvi.TweetinviControllers.TweetTests
                 var baseQuery = "https://api.twitter.com/1.1/statuses/update.json?";
 
                 Assert.IsTrue(result.StartsWith(baseQuery));
-                Assert.IsTrue(result.Contains(string.Format("status={0}", _expectedTweetParameter)));
+                Assert.IsTrue(result.Contains($"status={_expectedTweetParameter}"));
 
-                Assert.AreEqual(tweetContainsPlaceId, result.Contains(string.Format("place_id={0}", _expectedPlaceIdParameter)));
+                Assert.AreEqual(tweetContainsPlaceId, result.Contains($"place_id={_expectedPlaceIdParameter}"));
 
                 if (tweetContainsCoordinates)
                 {
-                    Assert.IsTrue(result.Contains(string.Format("lat={0}", _expectedCoordinatesParameter.Latitude)));
-                    Assert.IsTrue(result.Contains(string.Format("long={0}", _expectedCoordinatesParameter.Longitude)));
+                    Assert.IsTrue(result.Contains($"lat={_expectedCoordinatesParameter.Latitude}"));
+                    Assert.IsTrue(result.Contains($"long={_expectedCoordinatesParameter.Longitude}"));
                 }
                 else
                 {
@@ -189,7 +189,7 @@ namespace Testinvi.TweetinviControllers.TweetTests
                 Assert.IsNull(result);
             }
         }
-        
+
         #endregion
 
         #region GetPublishRetweetQuery
@@ -252,7 +252,7 @@ namespace Testinvi.TweetinviControllers.TweetTests
             var result = queryGenerator.GetRetweetsQuery(tweetToRetweet, maxRetweetsToRetrieve);
 
             // Assert
-            var expectedResult = string.Format("https://api.twitter.com/1.1/statuses/retweets/{0}.json?count={1}", tweetToRetweetId, maxRetweetsToRetrieve);
+            var expectedResult = $"https://api.twitter.com/1.1/statuses/retweets/{tweetToRetweetId}.json?count={maxRetweetsToRetrieve}";
 
             Assert.AreEqual(result, expectedResult);
         }
@@ -273,12 +273,12 @@ namespace Testinvi.TweetinviControllers.TweetTests
             var result = queryGenerator.GetRetweeterIdsQuery(tweetIdentifier, maxRetweetersToRetrieve);
 
             // Assert
-            var expectedResult = string.Format("https://api.twitter.com/1.1/statuses/retweeters/ids.json?id={0}&count={1}", tweetIdentifier.Id, maxRetweetersToRetrieve);
+            var expectedResult = $"https://api.twitter.com/1.1/statuses/retweeters/ids.json?id={tweetIdentifier.Id}&count={maxRetweetersToRetrieve}";
             Assert.AreEqual(result, expectedResult);
 
             _fakeTweetQueryValidator.CallsTo(x => x.ThrowIfTweetCannotBeUsed(tweetIdentifier)).MustHaveHappened();
         }
-        
+
         #endregion
 
         #region GetDestroyTweetQuery
@@ -294,7 +294,7 @@ namespace Testinvi.TweetinviControllers.TweetTests
             _fakeTweetQueryValidator.CallsTo(x => x.ThrowIfTweetCannotBeDestroyed(tweetToDestroy)).Invokes(() => { throw new ArgumentException(); });
 
             // Act
-            var result = queryGenerator.GetDestroyTweetQuery(tweetToDestroy);
+            queryGenerator.GetDestroyTweetQuery(tweetToDestroy);
         }
 
         [TestMethod]
@@ -502,29 +502,7 @@ namespace Testinvi.TweetinviControllers.TweetTests
             return publishTweetParameters;
         }
 
-        private ITweetDTO GeneratePublishedTweet(bool hasTweetBeenPublished = false)
-        {
-            var tweet = A.Fake<ITweetDTO>();
-            var tweetId = TestHelper.GenerateRandomLong();
-
-            tweet.CallsTo(x => x.Id).Returns(tweetId);
-
-            _fakeTweetQueryValidator.CallsTo(x => x.IsTweetPublished(tweet)).Returns(hasTweetBeenPublished);
-
-            return tweet;
-        }
-
-        private string GeneratePlaceIdParameter()
-        {
-            return string.Format("&{0}", _expectedPlaceIdParameter);
-        }
-
-        private string GenerateCoordinatesParameter()
-        {
-            return string.Format("&{0}", _expectedCoordinatesParameter);
-        }
-
-        public TweetQueryGenerator CreateTweetQueryGenerator()
+        private TweetQueryGenerator CreateTweetQueryGenerator()
         {
             return _fakeBuilder.GenerateClass();
         }

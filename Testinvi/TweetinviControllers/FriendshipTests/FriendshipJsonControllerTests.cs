@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using FakeItEasy;
 using FakeItEasy.ExtensionSyntax.Full;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -35,7 +36,7 @@ namespace Testinvi.TweetinviControllers.FriendshipTests
         }
 
         [TestMethod]
-        public void GetUserIdsRequestingFriendship_ReturnsCursorQuery()
+        public async Task GetUserIdsRequestingFriendship_ReturnsCursorQuery()
         {
             var expectedResult = new List<string> {Guid.NewGuid().ToString()};
             
@@ -47,7 +48,7 @@ namespace Testinvi.TweetinviControllers.FriendshipTests
             _fakeTwitterAccessor.ArrangeExecuteJsonCursorGETQuery<IIdsCursorQueryResultDTO>(query, expectedResult);
 
             // Act
-            var result = jsonController.GetUserIdsRequestingFriendship();
+            var result = await jsonController.GetUserIdsRequestingFriendship();
 
             // Assert
             Assert.AreEqual(result, expectedResult);
@@ -61,7 +62,7 @@ namespace Testinvi.TweetinviControllers.FriendshipTests
         }
 
         [TestMethod]
-        public void GetUserIdsYouRequestedToFollow_ReturnsCursorQuery()
+        public async Task GetUserIdsYouRequestedToFollow_ReturnsCursorQuery()
         {
             var expectedResult = new List<string> { Guid.NewGuid().ToString() };
 
@@ -73,7 +74,7 @@ namespace Testinvi.TweetinviControllers.FriendshipTests
             _fakeTwitterAccessor.ArrangeExecuteJsonCursorGETQuery<IIdsCursorQueryResultDTO>(query, expectedResult);
 
             // Act
-            var result = jsonController.GetUserIdsYouRequestedToFollow();
+            var result = await jsonController.GetUserIdsYouRequestedToFollow();
 
             // Assert
             Assert.AreEqual(result, expectedResult);
@@ -89,7 +90,7 @@ namespace Testinvi.TweetinviControllers.FriendshipTests
         #region Create Friendship With
 
         [TestMethod]
-        public void CreateFriendshipWith_User_ReturnsTwitterAccessorResult()
+        public async Task CreateFriendshipWith_User_ReturnsTwitterAccessorResult()
         {
             string expectedResult = Guid.NewGuid().ToString();
 
@@ -104,14 +105,14 @@ namespace Testinvi.TweetinviControllers.FriendshipTests
             _fakeTwitterAccessor.ArrangeExecuteJsonPOSTQuery(query, expectedResult);
 
             // Act
-            var result = jsonController.CreateFriendshipWith(fakeUser);
+            var result = await jsonController.CreateFriendshipWith(fakeUser);
 
             // Assert
             Assert.AreEqual(result, expectedResult);
         }
 
         [TestMethod]
-        public void CreateFriendshipWith_UserAndDTOIsNull_ReturnsNull()
+        public async Task CreateFriendshipWith_UserAndDTOIsNull_ReturnsNull()
         {
             string expectedResult = Guid.NewGuid().ToString();
 
@@ -126,7 +127,7 @@ namespace Testinvi.TweetinviControllers.FriendshipTests
             _fakeTwitterAccessor.ArrangeExecuteJsonPOSTQuery(query, expectedResult);
 
             // Act
-            var result = jsonController.CreateFriendshipWith(fakeUser);
+            var result = await jsonController.CreateFriendshipWith(fakeUser);
 
             // Assert
             Assert.AreEqual(result, expectedResult);
@@ -140,7 +141,7 @@ namespace Testinvi.TweetinviControllers.FriendshipTests
         }
 
         [TestMethod]
-        public void CreateFriendshipWith_UserDTO_ReturnsTwitterAccessorResult()
+        public async Task CreateFriendshipWith_UserDTO_ReturnsTwitterAccessorResult()
         {
             string expectedResult = Guid.NewGuid().ToString();
 
@@ -154,14 +155,14 @@ namespace Testinvi.TweetinviControllers.FriendshipTests
             _fakeTwitterAccessor.ArrangeExecuteJsonPOSTQuery(query, expectedResult);
 
             // Act
-            var result = jsonController.CreateFriendshipWith(fakeUserDTO);
+            var result = await jsonController.CreateFriendshipWith(fakeUserDTO);
 
             // Assert
             Assert.AreEqual(result, expectedResult);
         }
 
         [TestMethod]
-        public void CreateFriendshipWith_UserDTOIsNull_ReturnsTwitterAccessorResult()
+        public async Task CreateFriendshipWith_UserDTOIsNull_ReturnsTwitterAccessorResult()
         {
             string expectedResult = Guid.NewGuid().ToString();
 
@@ -174,7 +175,7 @@ namespace Testinvi.TweetinviControllers.FriendshipTests
             _fakeTwitterAccessor.ArrangeExecuteJsonPOSTQuery(query, expectedResult);
 
             // Act
-            var result = jsonController.CreateFriendshipWith((IUserDTO)null);
+            var result = await jsonController.CreateFriendshipWith((IUserDTO)null);
 
             // Assert
             Assert.AreEqual(result, expectedResult);
@@ -192,7 +193,7 @@ namespace Testinvi.TweetinviControllers.FriendshipTests
         #region Destroy Friendship With
 
         [TestMethod]
-        public void DestroyFriendshipWith_User_ReturnsTwitterAccessorResult()
+        public async Task DestroyFriendshipWith_User_ReturnsTwitterAccessorResult()
         {
             string expectedResult = Guid.NewGuid().ToString();
 
@@ -207,14 +208,14 @@ namespace Testinvi.TweetinviControllers.FriendshipTests
             _fakeTwitterAccessor.ArrangeExecuteJsonPOSTQuery(query, expectedResult);
 
             // Act
-            var result = jsonController.DestroyFriendshipWith(fakeUser);
+            var result = await jsonController.DestroyFriendshipWith(fakeUser);
 
             // Assert
             Assert.AreEqual(result, expectedResult);
         }
 
         [TestMethod]
-        public void DestroyFriendshipWith_UserAndDTOIsNull_ReturnsNull()
+        public async Task DestroyFriendshipWith_UserAndDTOIsNull_ReturnsNull()
         {
             string expectedResult = Guid.NewGuid().ToString();
 
@@ -229,7 +230,7 @@ namespace Testinvi.TweetinviControllers.FriendshipTests
             _fakeTwitterAccessor.ArrangeExecuteJsonPOSTQuery(query, expectedResult);
 
             // Act
-            var result = jsonController.DestroyFriendshipWith(fakeUser);
+            var result = await jsonController.DestroyFriendshipWith(fakeUser);
 
             // Assert
             Assert.AreEqual(result, expectedResult);
@@ -243,7 +244,7 @@ namespace Testinvi.TweetinviControllers.FriendshipTests
         }
 
         [TestMethod]
-        public void DestroyFriendshipWith_UserDTO_ReturnsTwitterAccessorResult()
+        public async Task DestroyFriendshipWith_UserDTO_ReturnsTwitterAccessorResult()
         {
             string expectedResult = Guid.NewGuid().ToString();
 
@@ -257,14 +258,14 @@ namespace Testinvi.TweetinviControllers.FriendshipTests
             _fakeTwitterAccessor.ArrangeExecuteJsonPOSTQuery(query, expectedResult);
 
             // Act
-            var result = jsonController.DestroyFriendshipWith(fakeUserDTO);
+            var result = await jsonController.DestroyFriendshipWith(fakeUserDTO);
 
             // Assert
             Assert.AreEqual(result, expectedResult);
         }
 
         [TestMethod]
-        public void DestroyFriendshipWith_UserDTOIsNull_ReturnsTwitterAccessorResult()
+        public async Task DestroyFriendshipWith_UserDTOIsNull_ReturnsTwitterAccessorResult()
         {
             string expectedResult = Guid.NewGuid().ToString();
 
@@ -277,7 +278,7 @@ namespace Testinvi.TweetinviControllers.FriendshipTests
             _fakeTwitterAccessor.ArrangeExecuteJsonPOSTQuery(query, expectedResult);
 
             // Act
-            var result = jsonController.DestroyFriendshipWith((IUserDTO)null);
+            var result = await jsonController.DestroyFriendshipWith((IUserDTO)null);
 
             // Assert
             Assert.AreEqual(result, expectedResult);
@@ -296,7 +297,7 @@ namespace Testinvi.TweetinviControllers.FriendshipTests
 
         // User
         [TestMethod]
-        public void UpdateRelationshipAuthorizations_UserWithNullUserDTO_ReturnsTwitterAccessorResult()
+        public async Task UpdateRelationshipAuthorizations_UserWithNullUserDTO_ReturnsTwitterAccessorResult()
         {
             string expectedResult1 = Guid.NewGuid().ToString();
             string expectedResult2 = Guid.NewGuid().ToString();
@@ -304,10 +305,10 @@ namespace Testinvi.TweetinviControllers.FriendshipTests
             string expectedResult4 = Guid.NewGuid().ToString();
 
             // Arrange - Act
-            var result1 = UpdateRelationshipAuthorizations_UserWithNullUserDTO_QueryExecutorReturns(true, true, expectedResult1);
-            var result2 = UpdateRelationshipAuthorizations_UserWithNullUserDTO_QueryExecutorReturns(true, false, expectedResult2);
-            var result3 = UpdateRelationshipAuthorizations_UserWithNullUserDTO_QueryExecutorReturns(false, true, expectedResult3);
-            var result4 = UpdateRelationshipAuthorizations_UserWithNullUserDTO_QueryExecutorReturns(false, false, expectedResult4);
+            var result1 = await UpdateRelationshipAuthorizations_UserWithNullUserDTO_QueryExecutorReturns(true, true, expectedResult1);
+            var result2 = await UpdateRelationshipAuthorizations_UserWithNullUserDTO_QueryExecutorReturns(true, false, expectedResult2);
+            var result3 = await UpdateRelationshipAuthorizations_UserWithNullUserDTO_QueryExecutorReturns(false, true, expectedResult3);
+            var result4 = await UpdateRelationshipAuthorizations_UserWithNullUserDTO_QueryExecutorReturns(false, false, expectedResult4);
 
             // Assert
             Assert.AreEqual(result1, expectedResult1);
@@ -316,15 +317,15 @@ namespace Testinvi.TweetinviControllers.FriendshipTests
             Assert.AreEqual(result4, expectedResult4);
         }
 
-        private string UpdateRelationshipAuthorizations_UserWithNullUserDTO_QueryExecutorReturns(bool retweetsEnabled, bool notification, string returnValue)
+        private async Task<string> UpdateRelationshipAuthorizations_UserWithNullUserDTO_QueryExecutorReturns(bool retweetsEnabled, bool notification, string returnValue)
         {
             var user = A.Fake<IUser>();
             user.CallsTo(x => x.UserDTO).Returns(null);
 
-            return ArrangeUpdateRelationshipAuthorizations_User(user, retweetsEnabled, notification, returnValue);
+            return await ArrangeUpdateRelationshipAuthorizations_User(user, retweetsEnabled, notification, returnValue);
         }
 
-        private string ArrangeUpdateRelationshipAuthorizations_User(IUser user, bool retweetsEnabled, bool notification, string returnValue)
+        private async Task<string> ArrangeUpdateRelationshipAuthorizations_User(IUser user, bool retweetsEnabled, bool notification, string returnValue)
         {
             // Arrange
             var query = Guid.NewGuid().ToString();
@@ -335,12 +336,12 @@ namespace Testinvi.TweetinviControllers.FriendshipTests
             _fakeTwitterAccessor.ArrangeExecuteJsonPOSTQuery(query, returnValue);
 
             // Act
-            return jsonController.UpdateRelationshipAuthorizationsWith(user, retweetsEnabled, notification);
+            return await jsonController.UpdateRelationshipAuthorizationsWith(user, retweetsEnabled, notification);
         }
 
         // User DTO
         [TestMethod]
-        public void UpdateRelationshipAuthorizations_UserDTO_ReturnsTwitterAccessorResult()
+        public async Task UpdateRelationshipAuthorizations_UserDTO_ReturnsTwitterAccessorResult()
         {
             string expectedResult1 = Guid.NewGuid().ToString();
             string expectedResult2 = Guid.NewGuid().ToString();
@@ -348,10 +349,10 @@ namespace Testinvi.TweetinviControllers.FriendshipTests
             string expectedResult4 = Guid.NewGuid().ToString();
 
             // Arrange - Act
-            var result1 = UpdateRelationshipAuthorizations_UserDTO_QueryExecutorReturns(true, true, expectedResult1);
-            var result2 = UpdateRelationshipAuthorizations_UserDTO_QueryExecutorReturns(true, false, expectedResult2);
-            var result3 = UpdateRelationshipAuthorizations_UserDTO_QueryExecutorReturns(false, true, expectedResult3);
-            var result4 = UpdateRelationshipAuthorizations_UserDTO_QueryExecutorReturns(false, false, expectedResult4);
+            var result1 = await UpdateRelationshipAuthorizations_UserDTO_QueryExecutorReturns(true, true, expectedResult1);
+            var result2 = await UpdateRelationshipAuthorizations_UserDTO_QueryExecutorReturns(true, false, expectedResult2);
+            var result3 = await UpdateRelationshipAuthorizations_UserDTO_QueryExecutorReturns(false, true, expectedResult3);
+            var result4 = await UpdateRelationshipAuthorizations_UserDTO_QueryExecutorReturns(false, false, expectedResult4);
 
             // Assert
             Assert.AreEqual(result1, expectedResult1);
@@ -360,13 +361,13 @@ namespace Testinvi.TweetinviControllers.FriendshipTests
             Assert.AreEqual(result4, expectedResult4);
         }
 
-        private string UpdateRelationshipAuthorizations_UserDTO_QueryExecutorReturns(bool retweetsEnabled, bool notification, string returnValue)
+        private async Task<string> UpdateRelationshipAuthorizations_UserDTO_QueryExecutorReturns(bool retweetsEnabled, bool notification, string returnValue)
         {
             var user = A.Fake<IUser>();
-            return ArrangeUpdateRelationshipAuthorizations_UserDTO(user, retweetsEnabled, notification, returnValue);
+            return await ArrangeUpdateRelationshipAuthorizations_UserDTO(user, retweetsEnabled, notification, returnValue);
         }
 
-        private string ArrangeUpdateRelationshipAuthorizations_UserDTO(IUser user, bool retweetsEnabled, bool notification, string returnValue)
+        private async Task<string> ArrangeUpdateRelationshipAuthorizations_UserDTO(IUser user, bool retweetsEnabled, bool notification, string returnValue)
         {
             // Arrange
             var query = Guid.NewGuid().ToString();
@@ -377,7 +378,7 @@ namespace Testinvi.TweetinviControllers.FriendshipTests
             _fakeTwitterAccessor.ArrangeExecuteJsonPOSTQuery(query, returnValue);
 
             // Act
-            return jsonController.UpdateRelationshipAuthorizationsWith(user, retweetsEnabled, notification);
+            return await jsonController.UpdateRelationshipAuthorizationsWith(user, retweetsEnabled, notification);
         }
 
         private void ArrangeGetUpdateRelationshipAuthorizationQuery(IUser user, IFriendshipAuthorizations authorizations, string query)
@@ -411,7 +412,7 @@ namespace Testinvi.TweetinviControllers.FriendshipTests
             return fakeFriendshipAuthorization;
         }
 
-        public FriendshipJsonController CreateFriendshipJsonController()
+        private FriendshipJsonController CreateFriendshipJsonController()
         {
             return _fakeBuilder.GenerateClass();
         }

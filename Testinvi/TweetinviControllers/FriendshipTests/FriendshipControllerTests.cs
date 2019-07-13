@@ -41,7 +41,7 @@ namespace Testinvi.TweetinviControllers.FriendshipTests
 
         #region GetUsers Requesting Friendship
         [TestMethod]
-        public void GetUserIdsRequestingFriendship_ReturnsQueryExecutorIds()
+        public async Task GetUserIdsRequestingFriendship_ReturnsQueryExecutorIds()
         {
             var ids = new List<long> { Int64.MaxValue, Int32.MaxValue };
 
@@ -50,14 +50,14 @@ namespace Testinvi.TweetinviControllers.FriendshipTests
             ArrangeGetUserIdsRequestingFriendship(ids);
 
             // Act
-            var result = controller.GetUserIdsRequestingFriendship();
+            var result = await controller.GetUserIdsRequestingFriendship();
 
             // Assert
             Assert.AreEqual(result, ids);
         }
 
         [TestMethod]
-        public void GetUsersRequestingFriendship_ReturnsUsersGeneratedFromUserFactory()
+        public async Task GetUsersRequestingFriendship_ReturnsUsersGeneratedFromUserFactory()
         {
             var ids = new List<long> { Int64.MaxValue, Int32.MaxValue };
             var users = new List<IUser> { A.Fake<IUser>() };
@@ -69,7 +69,7 @@ namespace Testinvi.TweetinviControllers.FriendshipTests
             ArrangeGetUsersFromIds(ids, users);
 
             // Act
-            var result = controller.GetUsersRequestingFriendship();
+            var result = await controller.GetUsersRequestingFriendship();
 
             // Assert
             Assert.AreEqual(result, users);
@@ -85,7 +85,7 @@ namespace Testinvi.TweetinviControllers.FriendshipTests
 
         #region GetUsers you requested to follow
         [TestMethod]
-        public void GetUserIdsYouRequestedToFollow_ReturnsQueryExecutorIds()
+        public async Task GetUserIdsYouRequestedToFollow_ReturnsQueryExecutorIds()
         {
             var ids = new List<long> { Int64.MaxValue, Int32.MaxValue };
 
@@ -94,14 +94,14 @@ namespace Testinvi.TweetinviControllers.FriendshipTests
             ArrangeGetUserIdsYouRequestedToFollow(ids);
 
             // Act
-            var result = controller.GetUserIdsYouRequestedToFollow();
+            var result = await controller.GetUserIdsYouRequestedToFollow();
 
             // Assert
             Assert.AreEqual(result, ids);
         }
 
         [TestMethod]
-        public void GetUsersYouRequestedToFollow_ReturnsUsersGeneratedFromUserFactory()
+        public async Task GetUsersYouRequestedToFollow_ReturnsUsersGeneratedFromUserFactory()
         {
             var ids = new List<long> { Int64.MaxValue, Int32.MaxValue };
             var users = new List<IUser> { A.Fake<IUser>() };
@@ -113,7 +113,7 @@ namespace Testinvi.TweetinviControllers.FriendshipTests
             ArrangeGetUsersFromIds(ids, users);
 
             // Act
-            var result = controller.GetUsersYouRequestedToFollow();
+            var result = await controller.GetUsersYouRequestedToFollow();
 
             // Assert
             Assert.AreEqual(result, users);
@@ -142,7 +142,7 @@ namespace Testinvi.TweetinviControllers.FriendshipTests
             Assert.IsFalse(shouldFail);
         }
 
-        private Task<bool> CreateFriendship_User_QueryExecutorReturns(bool returnValue)
+        private async Task<bool> CreateFriendship_User_QueryExecutorReturns(bool returnValue)
         {
             var fakeUser = A.Fake<IUser>();
             fakeUser.CallsTo(x => x.UserDTO).Returns(A.Fake<IUserDTO>());
@@ -152,7 +152,7 @@ namespace Testinvi.TweetinviControllers.FriendshipTests
             ArrangeCreateFriendshipWithDTO(fakeUser, returnValue);
 
             // Act
-            return controller.CreateFriendshipWith(fakeUser);
+            return await controller.CreateFriendshipWith(fakeUser);
         }
 
         [TestMethod]
@@ -179,7 +179,7 @@ namespace Testinvi.TweetinviControllers.FriendshipTests
             Assert.IsFalse(shouldFail);
         }
 
-        private Task<bool> CreateFriendship_UserDTO_QueryExecutorReturns(bool returnValue, bool isNull = false)
+        private async Task<bool> CreateFriendship_UserDTO_QueryExecutorReturns(bool returnValue, bool isNull = false)
         {
             var user = isNull ? null : A.Fake<IUser>();
 
@@ -188,7 +188,7 @@ namespace Testinvi.TweetinviControllers.FriendshipTests
             ArrangeCreateFriendshipWithDTO(user, returnValue);
 
             // Act
-            return controller.CreateFriendshipWith(user);
+            return await controller.CreateFriendshipWith(user);
         }
 
         private void ArrangeCreateFriendshipWithDTO(IUser user, bool returnValue)
@@ -226,7 +226,7 @@ namespace Testinvi.TweetinviControllers.FriendshipTests
             Assert.IsFalse(shouldFail);
         }
 
-        private Task<bool> DestroyFriendship_UserDTO_QueryExecutorReturns(bool returnValue, bool isNull = false)
+        private async Task<bool> DestroyFriendship_UserDTO_QueryExecutorReturns(bool returnValue, bool isNull = false)
         {
             var userDTO = isNull ? null : A.Fake<IUserDTO>();
 
@@ -235,7 +235,7 @@ namespace Testinvi.TweetinviControllers.FriendshipTests
             ArrangeDestroyFriendshipWithDTO(userDTO, returnValue);
 
             // Act
-            return controller.DestroyFriendshipWith(userDTO);
+            return await controller.DestroyFriendshipWith(userDTO);
         }
 
         private void ArrangeDestroyFriendshipWithDTO(IUserDTO userDTO, bool returnValue)
@@ -276,7 +276,7 @@ namespace Testinvi.TweetinviControllers.FriendshipTests
             Assert.IsFalse(shouldFail4);
         }
 
-        private Task<bool> UpdateRelationshipAuthorizations_User_QueryExecutorReturns(bool retweetsEnabled, bool notification, bool returnValue)
+        private async Task<bool> UpdateRelationshipAuthorizations_User_QueryExecutorReturns(bool retweetsEnabled, bool notification, bool returnValue)
         {
             var fakeUser = A.Fake<IUser>();
             fakeUser.CallsTo(x => x.UserDTO).Returns(A.Fake<IUserDTO>());
@@ -286,7 +286,7 @@ namespace Testinvi.TweetinviControllers.FriendshipTests
             ArrangeUpdateRelationshipAuthorizationsWith(fakeUser, retweetsEnabled, notification, returnValue);
 
             // Act
-            var result = controller.UpdateRelationshipAuthorizationsWith(fakeUser, retweetsEnabled, notification);
+            var result = await controller.UpdateRelationshipAuthorizationsWith(fakeUser, retweetsEnabled, notification);
             VerifyUpdateRelationshipAuthorizationsWith(fakeUser, retweetsEnabled, notification);
 
             return result;
@@ -357,7 +357,7 @@ namespace Testinvi.TweetinviControllers.FriendshipTests
             Assert.IsFalse(shouldFail4);
         }
 
-        private Task<bool> UpdateRelationshipAuthorizations_UserDTO_QueryExecutorReturns(bool retweetsEnabled, bool notification, bool returnValue, bool isNull = false)
+        private async Task<bool> UpdateRelationshipAuthorizations_UserDTO_QueryExecutorReturns(bool retweetsEnabled, bool notification, bool returnValue, bool isNull = false)
         {
             var user = isNull ? null : A.Fake<IUser>();
 
@@ -366,7 +366,7 @@ namespace Testinvi.TweetinviControllers.FriendshipTests
             ArrangeUpdateRelationshipAuthorizationsWith(user, retweetsEnabled, notification, returnValue);
 
             // Act
-            var result = controller.UpdateRelationshipAuthorizationsWith(user, retweetsEnabled, notification);
+            var result = await controller.UpdateRelationshipAuthorizationsWith(user, retweetsEnabled, notification);
             
             if (!isNull)
             {
@@ -403,7 +403,7 @@ namespace Testinvi.TweetinviControllers.FriendshipTests
                 .Returns(users);
         }
 
-        public FriendshipController CreateFriendshipController()
+        private FriendshipController CreateFriendshipController()
         {
             return _fakeBuilder.GenerateClass();
         }

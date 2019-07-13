@@ -1,4 +1,5 @@
-﻿using FakeItEasy;
+﻿using System.Threading.Tasks;
+using FakeItEasy;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Testinvi.Helpers;
 using Tweetinvi.Controllers.Trends;
@@ -20,7 +21,7 @@ namespace Testinvi.TweetinviControllers.TrendsTests
         }
 
         [TestMethod]
-        public void GetPlaceTrendsAt_WithLocationId_ReturnsQueryExecutor()
+        public async Task  GetPlaceTrendsAt_WithLocationId_ReturnsQueryExecutor()
         {
             // Arrange
             var controller = CreateTrendsController();
@@ -30,14 +31,14 @@ namespace Testinvi.TweetinviControllers.TrendsTests
             _fakeTrendsQueryExecutor.CallsTo(x => x.GetPlaceTrendsAt(locationId)).Returns(expectedResult);
 
             // Act
-            var result = controller.GetPlaceTrendsAt(locationId);
+            var result = await controller.GetPlaceTrendsAt(locationId);
 
             // Assert
             Assert.AreEqual(result, expectedResult);
         }
 
         [TestMethod]
-        public void GetPlaceTrendsAt_WithWoeIdLocation_ReturnsQueryExecutor()
+        public async Task GetPlaceTrendsAt_WithWoeIdLocation_ReturnsQueryExecutor()
         {
             // Arrange
             var controller = CreateTrendsController();
@@ -47,13 +48,13 @@ namespace Testinvi.TweetinviControllers.TrendsTests
             _fakeTrendsQueryExecutor.CallsTo(x => x.GetPlaceTrendsAt(woeIdLocation)).Returns(expectedResult);
 
             // Act
-            var result = controller.GetPlaceTrendsAt(woeIdLocation);
+            var result = await controller.GetPlaceTrendsAt(woeIdLocation);
 
             // Assert
             Assert.AreEqual(result, expectedResult);
         }
 
-        public TrendsController CreateTrendsController()
+        private TrendsController CreateTrendsController()
         {
             return _fakeBuilder.GenerateClass();
         }

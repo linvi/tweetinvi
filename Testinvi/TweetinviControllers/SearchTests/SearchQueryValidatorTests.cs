@@ -235,7 +235,7 @@ namespace Testinvi.TweetinviControllers.SearchTests
             var queryValidator = CreateSearchQueryValidator();
 
             // Act
-            var result = queryValidator.IsDateTimeDefined(default(DateTime));
+            var result = queryValidator.IsDateTimeDefined(default);
 
             // Assert
             Assert.IsFalse(result);
@@ -256,7 +256,7 @@ namespace Testinvi.TweetinviControllers.SearchTests
 
         #endregion
 
-        public SearchQueryValidator CreateSearchQueryValidator()
+        private SearchQueryValidator CreateSearchQueryValidator()
         {
             return _fakeBuilder.GenerateClass();
         }

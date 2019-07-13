@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using FakeItEasy;
+using FakeItEasy.ExtensionSyntax.Full;
 using Newtonsoft.Json.Linq;
+using Tweetinvi.Core.Models;
 using Tweetinvi.Core.Web;
 using Tweetinvi.Models.DTO.QueryDTO;
 
@@ -21,8 +23,8 @@ namespace Testinvi.SetupHelpers
         }
 
         public static void ArrangeExecuteGETQuery<T>(
-            this Fake<ITwitterAccessor> fakeTwitterAccessor, 
-            string query, 
+            this Fake<ITwitterAccessor> fakeTwitterAccessor,
+            string query,
             T result) where T : class
         {
             fakeTwitterAccessor
@@ -56,7 +58,7 @@ namespace Testinvi.SetupHelpers
             T result) where T : class
         {
             fakeTwitterAccessor
-                .CallsTo(x => x.ExecuteMultipartQuery<T>(A<IMultipartHttpRequestParameters>.That.Matches(y => y.Query == query), null))
+                .CallsTo(x => x.ExecuteMultipartQuery<T>(A<IMultipartHttpRequestParameters>.That.Matches(y => y.Url == query), null))
                 .Returns(result);
         }
 
@@ -71,6 +73,16 @@ namespace Testinvi.SetupHelpers
                 {
                     return result;
                 });
+
+            fakeTwitterAccessor
+                .CallsTo(x => x.TryExecutePOSTQuery(query))
+                .ReturnsLazily(() =>
+                {
+                    var asyncOperation = A.Fake<AsyncOperation<string>>();
+                    asyncOperation.Success = result;
+
+                    return asyncOperation;
+                });
         }
 
         public static void ArrangeTryExecuteDELETEQuery(
@@ -83,6 +95,16 @@ namespace Testinvi.SetupHelpers
                 .ReturnsLazily(() =>
                 {
                     return result;
+                });
+
+            fakeTwitterAccessor
+                .CallsTo(x => x.TryExecuteDELETEQuery(query))
+                .ReturnsLazily(() =>
+                {
+                    var asyncOperation = A.Fake<AsyncOperation<string>>();
+                    asyncOperation.Success = result;
+
+                    return asyncOperation;
                 });
         }
 

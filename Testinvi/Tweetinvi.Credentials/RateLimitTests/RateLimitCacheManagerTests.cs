@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Threading.Tasks;
 using FakeItEasy;
 using FakeItEasy.ExtensionSyntax.Full;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -38,10 +39,10 @@ namespace Testinvi.Tweetinvi.Credentials.RateLimitTests
         private IEndpointRateLimit _refreshedEndpointRateLimit;
         private ITwitterCredentials _credentials;
         private ICredentialsRateLimits _credentialsRateLimits2;
-        private IWebRequestResult _webRequestResult;
+        private ITwitterResponse _webRequestResult;
 
         [TestInitialize]
-        public void TestInitialize()
+         public void TestInitialize()
         {
             _fakeBuilder = new FakeClassBuilder<RateLimitCacheManager>();
             _fakeRateLimitCache = _fakeBuilder.GetFake<IRateLimitCache>();
@@ -67,8 +68,8 @@ namespace Testinvi.Tweetinvi.Credentials.RateLimitTests
 
             _fakeHelpQueryGenerator.CallsTo(x => x.GetCredentialsLimitsQuery()).Returns(TEST_QUERY);
 
-            _webRequestResult = A.Fake<IWebRequestResult>();
-            _webRequestResult.Text = TEST_QUERY;
+            _webRequestResult = A.Fake<ITwitterResponse>();
+            _webRequestResult.CallsTo(x => x.Text).Returns(TEST_QUERY);
 
             _fakeWebRequestExecutor.CallsTo(x => x.ExecuteQuery(_twitterQuery, null)).Returns(_webRequestResult);
             _fakeJsonObjectConverter.CallsTo(x => x.DeserializeObject<ICredentialsRateLimits>(TEST_QUERY, It.IsAny<JsonConverter[]>())).ReturnsNextFromSequence(_credentialsRateLimits, _credentialsRateLimits2);
@@ -77,7 +78,7 @@ namespace Testinvi.Tweetinvi.Credentials.RateLimitTests
         }
 
         [TestMethod]
-        public void GetQueryRateLimit_TokenRateLimitsIsNull_Refreshes()
+         public async Task GetQueryRateLimit_TokenRateLimitsIsNull_Refreshes()
         {
             // Arrange
             var cacheManager = CreateRateLimitCacheManager();
@@ -85,7 +86,7 @@ namespace Testinvi.Tweetinvi.Credentials.RateLimitTests
             _fakeRateLimitCache.CallsTo(x => x.GetCredentialsRateLimits(_credentials)).Returns(null);
 
             // Act
-            var result = cacheManager.GetQueryRateLimit(TEST_QUERY, _credentials);
+            var result = await cacheManager.GetQueryRateLimit(TEST_QUERY, _credentials);
 
             // Assert
             Assert.AreEqual(result, _refreshedEndpointRateLimit);
@@ -93,7 +94,7 @@ namespace Testinvi.Tweetinvi.Credentials.RateLimitTests
         }
 
         [TestMethod]
-        public void GetQueryRateLimit_QueryCannotBeMatched_ReturnsNull()
+         public async Task GetQueryRateLimit_QueryCannotBeMatched_ReturnsNull()
         {
             // Arrange
             var cacheManager = CreateRateLimitCacheManager();
@@ -101,7 +102,7 @@ namespace Testinvi.Tweetinvi.Credentials.RateLimitTests
             _fakeRateLimitHelper.CallsTo(x => x.GetEndpointRateLimitFromQuery(TEST_QUERY, _credentialsRateLimits, false)).Returns(null);
 
             // Act
-            var result = cacheManager.GetQueryRateLimit(TEST_QUERY, _credentials);
+            var result = await cacheManager.GetQueryRateLimit(TEST_QUERY, _credentials);
 
             // Assert
             Assert.IsNull(result);
@@ -109,13 +110,13 @@ namespace Testinvi.Tweetinvi.Credentials.RateLimitTests
         }
 
         [TestMethod]
-        public void GetQueryRateLimit_QueryReturnedValidTokenRateLimit_NoRefreshAndReturnsTheRateLimit()
+         public async Task GetQueryRateLimit_QueryReturnedValidTokenRateLimit_NoRefreshAndReturnsTheRateLimit()
         {
             // Arrange
             var cacheManager = CreateRateLimitCacheManager();
 
             // Act
-            var result = cacheManager.GetQueryRateLimit(TEST_QUERY, _credentials);
+            var result = await cacheManager.GetQueryRateLimit(TEST_QUERY, _credentials);
 
             // Assert
             Assert.AreEqual(result, _endpointRateLimit);
@@ -123,28 +124,28 @@ namespace Testinvi.Tweetinvi.Credentials.RateLimitTests
         }
 
         [TestMethod]
-        public void GetQueryRateLimit_QueryReturnedOutOfDateTokenRateLimit_RefreshNotPerformed()
+        public async Task GetQueryRateLimit_QueryReturnedOutOfDateTokenRateLimit_RefreshNotPerformed()
         {
             // Arrange
             var cacheManager = CreateRateLimitCacheManager();
             _endpointRateLimit.CallsTo(x => x.ResetDateTime).Returns(DateTime.Now.AddMinutes(1));
 
             // Act
-            cacheManager.GetQueryRateLimit(TEST_QUERY, _credentials);
+            await cacheManager.GetQueryRateLimit(TEST_QUERY, _credentials);
 
             // Assert
             _fakeRateLimitCache.CallsTo(x => x.RefreshEntry(It.IsAny<ITwitterCredentials>(), It.IsAny<ICredentialsRateLimits>())).MustNotHaveHappened();
         }
 
         [TestMethod]
-        public void GetQueryRateLimit_QueryReturnedOutOfDateTokenRateLimit_RefreshPerformed()
+         public async Task GetQueryRateLimit_QueryReturnedOutOfDateTokenRateLimit_RefreshPerformed()
         {
             // Arrange
             var cacheManager = CreateRateLimitCacheManager();
             _endpointRateLimit.CallsTo(x => x.ResetDateTime).Returns(DateTime.Now.AddMinutes(-1));
 
             // Act
-            var result = cacheManager.GetQueryRateLimit(TEST_QUERY, _credentials);
+            var result = await cacheManager.GetQueryRateLimit(TEST_QUERY, _credentials);
 
             // Assert
             Assert.AreEqual(result, _refreshedEndpointRateLimit);
@@ -152,13 +153,13 @@ namespace Testinvi.Tweetinvi.Credentials.RateLimitTests
         }
 
         [TestMethod]
-        public void GetTokenRateLimits_AlreadyInCache_ReturnsCacheValueWithoutRefresh()
+         public async Task GetTokenRateLimits_AlreadyInCache_ReturnsCacheValueWithoutRefresh()
         {
             // Arrange
             var cacheManager = CreateRateLimitCacheManager();
 
             // Act
-            var rateLimits = cacheManager.GetCredentialsRateLimits(_credentials);
+            var rateLimits = await cacheManager.GetCredentialsRateLimits(_credentials);
 
             // Assert
             Assert.AreEqual(rateLimits, _credentialsRateLimits);
@@ -166,7 +167,7 @@ namespace Testinvi.Tweetinvi.Credentials.RateLimitTests
         }
 
         [TestMethod]
-        public void GetTokenRateLimits_NotInCache_ReturnsCacheValueAfterRefresh()
+         public async Task GetTokenRateLimits_NotInCache_ReturnsCacheValueAfterRefresh()
         {
             // Arrange
             var cacheManager = CreateRateLimitCacheManager();
@@ -179,7 +180,7 @@ namespace Testinvi.Tweetinvi.Credentials.RateLimitTests
             });
 
             // Act
-            var rateLimits = cacheManager.GetCredentialsRateLimits(_credentials);
+            var rateLimits = await cacheManager.GetCredentialsRateLimits(_credentials);
 
             // Assert
             Assert.AreEqual(rateLimits, refreshedTokenRateLimits);
@@ -189,7 +190,7 @@ namespace Testinvi.Tweetinvi.Credentials.RateLimitTests
         
 
         [TestMethod]
-        public void UpdateTokenRateLimits_UpdateRateLimitCache()
+         public void UpdateTokenRateLimits_UpdateRateLimitCache()
         {
             // Arrange
             var rateLimitCacheManager = CreateRateLimitCacheManager();

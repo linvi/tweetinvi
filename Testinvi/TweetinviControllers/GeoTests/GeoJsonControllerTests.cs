@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using FakeItEasy;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Testinvi.Helpers;
@@ -24,7 +25,7 @@ namespace Testinvi.TweetinviControllers.GeoTests
         }
 
         [TestMethod]
-        public void GetPlaceFromId_ReturnsGeoQueryExecutorResult()
+        public async Task GetPlaceFromId_ReturnsGeoQueryExecutorResult()
         {
             string expectedResult = Guid.NewGuid().ToString();
 
@@ -38,7 +39,7 @@ namespace Testinvi.TweetinviControllers.GeoTests
             _fakeTwitterAccessor.ArrangeExecuteJsonGETQuery(query, expectedResult);
 
             // Act
-            var result = controller.GetPlaceFromId(placeId);
+            var result = await controller.GetPlaceFromId(placeId);
 
             // Assert
             Assert.AreEqual(result, expectedResult);
@@ -51,7 +52,7 @@ namespace Testinvi.TweetinviControllers.GeoTests
                 .Returns(result);
         }
 
-        public GeoJsonController CreateGeoJsonController()
+        private GeoJsonController CreateGeoJsonController()
         {
             return _fakeBuilder.GenerateClass();
         }

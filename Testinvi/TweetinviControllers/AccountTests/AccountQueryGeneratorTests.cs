@@ -29,7 +29,7 @@ namespace Testinvi.TweetinviControllers.AccountTests
             Assert.AreEqual(result, Resources.Account_GetSettings);
         }
 
-        public AccountQueryGenerator CreateAccountQueryGenerator()
+        private AccountQueryGenerator CreateAccountQueryGenerator()
         {
             return _fakeBuilder.GenerateClass();
         }

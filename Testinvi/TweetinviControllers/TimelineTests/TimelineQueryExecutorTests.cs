@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using FakeItEasy;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Testinvi.Helpers;
@@ -51,7 +52,7 @@ namespace Testinvi.TweetinviControllers.TimelineTests
         #region GetHomeTimeline
 
         [TestMethod]
-        public void GetHomeTimeline_FromHomeTimelineRequest_ReturnsExpectedResult()
+        public async Task GetHomeTimeline_FromHomeTimelineRequest_ReturnsExpectedResult()
         {
             // Arrange
             var queryExecutor = CreateTimelineQueryExecutor();
@@ -59,7 +60,7 @@ namespace Testinvi.TweetinviControllers.TimelineTests
             _fakeTimelineQueryGenerator.CallsTo(x => x.GetHomeTimelineQuery(_fakeHomeTimelineParameters)).Returns(_expectedQuery);
 
             // Act
-            var result = queryExecutor.GetHomeTimeline(_fakeHomeTimelineParameters);
+            var result = await queryExecutor.GetHomeTimeline(_fakeHomeTimelineParameters);
 
             // Assert
             Assert.AreEqual(result, _expectedResult);
@@ -70,7 +71,7 @@ namespace Testinvi.TweetinviControllers.TimelineTests
         #region GetMentionsTimeline
 
         [TestMethod]
-        public void GetMentionsTimeline_FromHomeTimelineRequest_ReturnsExpectedResult()
+        public async Task GetMentionsTimeline_FromHomeTimelineRequest_ReturnsExpectedResult()
         {
             // Arrange
             var queryExecutor = CreateTimelineQueryExecutor();
@@ -78,7 +79,7 @@ namespace Testinvi.TweetinviControllers.TimelineTests
             _fakeTimelineQueryGenerator.CallsTo(x => x.GetMentionsTimelineQuery(_fakeMentionsTimelineParameters)).Returns(_expectedQuery);
 
             // Act
-            var result = queryExecutor.GetMentionsTimeline(_fakeMentionsTimelineParameters);
+            var result = await queryExecutor.GetMentionsTimeline(_fakeMentionsTimelineParameters);
 
             // Assert
             Assert.AreEqual(result, _expectedResult);
@@ -89,7 +90,7 @@ namespace Testinvi.TweetinviControllers.TimelineTests
         #region GetUserTimeline
 
         [TestMethod]
-        public void GetUserTimeline_FromUserTimelineRequest_ReturnsExpectedResult()
+        public async Task GetUserTimeline_FromUserTimelineRequest_ReturnsExpectedResult()
         {
             // Arrange
             var queryExecutor = CreateTimelineQueryExecutor();
@@ -97,7 +98,7 @@ namespace Testinvi.TweetinviControllers.TimelineTests
             _fakeTimelineQueryGenerator.CallsTo(x => x.GetUserTimelineQuery(_fakeUserTimelineQueryParameters)).Returns(_expectedQuery);
 
             // Act
-            var result = queryExecutor.GetUserTimeline(_fakeUserTimelineQueryParameters);
+            var result = await queryExecutor.GetUserTimeline(_fakeUserTimelineQueryParameters);
 
             // Assert
             Assert.AreEqual(result, _expectedResult);
@@ -112,7 +113,7 @@ namespace Testinvi.TweetinviControllers.TimelineTests
             return result;
         }
 
-        public TimelineQueryExecutor CreateTimelineQueryExecutor()
+        private TimelineQueryExecutor CreateTimelineQueryExecutor()
         {
             return _fakeBuilder.GenerateClass();
         }

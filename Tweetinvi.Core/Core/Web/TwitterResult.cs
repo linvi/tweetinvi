@@ -53,13 +53,17 @@ namespace Tweetinvi.Core.Web
         }
     }
 
-    public interface ITwitterResult<DTO>
+    public interface ITwitterResult
     {
-        // ReSharper disable once UnusedMemberInSuper.Global
-        DTO DataTransferObject { get; set; }
         ITwitterResponse Response { get; set; }
         ITwitterRequest Request { get; set; }
         string Json { get; }
+    }
+
+    public interface ITwitterResult<DTO> : ITwitterResult
+    {
+        // ReSharper disable once UnusedMemberInSuper.Global
+        DTO DataTransferObject { get; set; }
     }
 
     public interface ITwitterResult<DTO, Model> : ITwitterResult<DTO>

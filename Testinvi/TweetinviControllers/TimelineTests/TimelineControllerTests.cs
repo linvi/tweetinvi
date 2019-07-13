@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using FakeItEasy;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Testinvi.Helpers;
@@ -8,6 +9,7 @@ using Tweetinvi.Core.Parameters;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
 using Tweetinvi.Parameters;
+// ReSharper disable CollectionNeverUpdated.Local
 
 namespace Testinvi.TweetinviControllers.TimelineTests
 {
@@ -26,7 +28,7 @@ namespace Testinvi.TweetinviControllers.TimelineTests
 
         private IUserTimelineQueryParameters _fakeUserTimelineQueryParameters;
 
-        private int _maximuNumberOfTweets;
+        private int _maximumNumberOfTweets;
         private IEnumerable<ITweetDTO> _resultDTO;
         private IEnumerable<ITweet> _result;
         private string _userName;
@@ -64,7 +66,7 @@ namespace Testinvi.TweetinviControllers.TimelineTests
 
             _fakeUserTimelineQueryParameters = A.Fake<IUserTimelineQueryParameters>();
 
-            _maximuNumberOfTweets = TestHelper.GenerateRandomInt();
+            _maximumNumberOfTweets = TestHelper.GenerateRandomInt();
             _resultDTO = new List<ITweetDTO>();
             _result = new List<ITweet>();
             _userName = TestHelper.GenerateString();
@@ -78,7 +80,7 @@ namespace Testinvi.TweetinviControllers.TimelineTests
         #region Get HomeTimeline
 
         [TestMethod]
-        public void GetHomeTimeline_WithTimelineRequestParameter_ReturnsGeneratedObjectsFromQueryExecutorDTOs()
+        public async Task GetHomeTimeline_WithTimelineRequestParameter_ReturnsGeneratedObjectsFromQueryExecutorDTOs()
         {
             // Arrange
             var controller = CreateTimelineController();
@@ -87,7 +89,7 @@ namespace Testinvi.TweetinviControllers.TimelineTests
             _fakeTweetFactory.CallsTo(x => x.GenerateTweetsFromDTO(_resultDTO, null)).Returns(_result);
 
             // Act
-            var result = controller.GetHomeTimeline(_fakeHomeTimelineParameters);
+            var result = await controller.GetHomeTimeline(_fakeHomeTimelineParameters);
 
             // Assert
             Assert.AreEqual(result, _result);
@@ -98,7 +100,7 @@ namespace Testinvi.TweetinviControllers.TimelineTests
         #region Get UserTimeline
 
         [TestMethod]
-        public void GetUserTimelineWithUser_FromUser_ReturnsResult()
+        public async Task GetUserTimelineWithUser_FromUser_ReturnsResult()
         {
             // Arrange
             var controller = CreateTimelineController();
@@ -107,14 +109,14 @@ namespace Testinvi.TweetinviControllers.TimelineTests
             _fakeTweetFactory.CallsTo(x => x.GenerateTweetsFromDTO(_resultDTO, null)).Returns(_result);
 
             // Act
-            var result = controller.GetUserTimeline(_fakeUser, _maximuNumberOfTweets);
+            var result = await controller.GetUserTimeline(_fakeUser, _maximumNumberOfTweets);
 
             // Assert
             Assert.AreEqual(result, _result);
         }
 
         [TestMethod]
-        public void GetUserTimelineWithUser_FromUserDTO_ReturnsResult()
+        public async Task GetUserTimelineWithUser_FromUserDTO_ReturnsResult()
         {
             // Arrange
             var controller = CreateTimelineController();
@@ -123,14 +125,14 @@ namespace Testinvi.TweetinviControllers.TimelineTests
             _fakeTweetFactory.CallsTo(x => x.GenerateTweetsFromDTO(_resultDTO, null)).Returns(_result);
 
             // Act
-            var result = controller.GetUserTimeline(_fakeUserDTO, _maximuNumberOfTweets);
+            var result = await controller.GetUserTimeline(_fakeUserDTO, _maximumNumberOfTweets);
 
             // Assert
             Assert.AreEqual(result, _result);
         }
 
         [TestMethod]
-        public void GetUserTimelineWithUser_FromUserName_ReturnsResult()
+        public async Task GetUserTimelineWithUser_FromUserName_ReturnsResult()
         {
             // Arrange
             var controller = CreateTimelineController();
@@ -139,14 +141,14 @@ namespace Testinvi.TweetinviControllers.TimelineTests
             _fakeTweetFactory.CallsTo(x => x.GenerateTweetsFromDTO(_resultDTO, null)).Returns(_result);
 
             // Act
-            var result = controller.GetUserTimeline(_userName, _maximuNumberOfTweets);
+            var result = await controller.GetUserTimeline(_userName, _maximumNumberOfTweets);
 
             // Assert
             Assert.AreEqual(result, _result);
         }
 
         [TestMethod]
-        public void GetUserTimelineWithUser_FromUserId_ReturnsResult()
+        public async Task GetUserTimelineWithUser_FromUserId_ReturnsResult()
         {
             // Arrange
             var controller = CreateTimelineController();
@@ -155,7 +157,7 @@ namespace Testinvi.TweetinviControllers.TimelineTests
             _fakeTweetFactory.CallsTo(x => x.GenerateTweetsFromDTO(_resultDTO, null)).Returns(_result);
 
             // Act
-            var result = controller.GetUserTimeline(_userId, _maximuNumberOfTweets);
+            var result = await controller.GetUserTimeline(_userId, _maximumNumberOfTweets);
 
             // Assert
             Assert.AreEqual(result, _result);
@@ -166,7 +168,7 @@ namespace Testinvi.TweetinviControllers.TimelineTests
         #region Get MentionsTimeline
 
         [TestMethod]
-        public void VerifyGetMentionsTimeline_ExcludeReplies_ReturnsGeneratedObjectsFromQueryExecutorDTOs()
+        public async Task VerifyGetMentionsTimeline_ExcludeReplies_ReturnsGeneratedObjectsFromQueryExecutorDTOs()
         {
             // Arrange
             var controller = CreateTimelineController();
@@ -178,7 +180,7 @@ namespace Testinvi.TweetinviControllers.TimelineTests
             _fakeTweetFactory.CallsTo(x => x.GenerateMentionsFromDTO(expectedDTOResult)).Returns(expectedResult);
 
             // Act
-            var result = controller.GetMentionsTimeline(nbTweetsLimit);
+            var result = await controller.GetMentionsTimeline(nbTweetsLimit);
 
             // Assert
             Assert.AreEqual(result, expectedResult);
@@ -186,7 +188,7 @@ namespace Testinvi.TweetinviControllers.TimelineTests
 
         #endregion
 
-        public TimelineController CreateTimelineController()
+        private TimelineController CreateTimelineController()
         {
             return _fakeBuilder.GenerateClass();
         }

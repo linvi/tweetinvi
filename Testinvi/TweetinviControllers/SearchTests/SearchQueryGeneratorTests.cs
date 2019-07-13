@@ -14,13 +14,6 @@ namespace Testinvi.TweetinviControllers.SearchTests
     [TestClass]
     public class SearchQueryGeneratorTests
     {
-        // GC stands for Geo Code
-        // LA stands for Language
-        // MI stands for Max Id
-        // MNOR stands for Maximum Number Of Objects
-        // SI stands for Since Id
-        // U stands for Until
-        
         private FakeClassBuilder<SearchQueryGenerator> _fakeBuilder;
         private Fake<ISearchQueryValidator> _fakeSearchQueryValidator;
         private Fake<ISearchQueryParameterGenerator> _fakeSearchQueryParameterGenerator;
@@ -163,6 +156,8 @@ namespace Testinvi.TweetinviControllers.SearchTests
 
         private void VerifyResultContainsParameters(string result, params string[] expectedParameters)
         {
+            if (result == null) throw new ArgumentNullException(nameof(result));
+
             foreach (var expectedParameter in expectedParameters)
             {
                 Assert.IsTrue(result.Contains(expectedParameter));
@@ -170,7 +165,7 @@ namespace Testinvi.TweetinviControllers.SearchTests
         }
 
 
-        public SearchQueryGenerator CreateSearchQueryGenerator()
+        private SearchQueryGenerator CreateSearchQueryGenerator()
         {
             return _fakeBuilder.GenerateClass();
         }

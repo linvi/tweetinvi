@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using FakeItEasy;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Testinvi.Helpers;
@@ -25,7 +26,7 @@ namespace Testinvi.TweetinviControllers.HelpTests
         }
 
         [TestMethod]
-        public void GetTokenRateLimits_ReturnsJsonTwitterAccessor()
+        public async Task GetTokenRateLimits_ReturnsJsonTwitterAccessor()
         {
             string expectedResult = Guid.NewGuid().ToString();
 
@@ -37,7 +38,7 @@ namespace Testinvi.TweetinviControllers.HelpTests
             _fakeTwitterAccessor.ArrangeExecuteJsonGETQuery(query, expectedResult);
 
             // Act
-            var result = jsonController.GetCredentialsRateLimits();
+            var result = await jsonController.GetCredentialsRateLimits();
 
             // Assert
             Assert.AreEqual(result, expectedResult);
@@ -51,7 +52,7 @@ namespace Testinvi.TweetinviControllers.HelpTests
         }
 
         [TestMethod]
-        public void GetTwitterPrivacyPolicy_ReturnsJsonTwitterAccessor()
+        public async Task GetTwitterPrivacyPolicy_ReturnsJsonTwitterAccessor()
         {
             string expectedResult = Guid.NewGuid().ToString();
 
@@ -63,7 +64,7 @@ namespace Testinvi.TweetinviControllers.HelpTests
             _fakeTwitterAccessor.ArrangeExecuteJsonGETQuery(query, expectedResult);
 
             // Act
-            var result = jsonController.GetTwitterPrivacyPolicy();
+            var result = await jsonController.GetTwitterPrivacyPolicy();
 
             // Assert
             Assert.AreEqual(result, expectedResult);
@@ -76,7 +77,7 @@ namespace Testinvi.TweetinviControllers.HelpTests
                 .Returns(query);
         }
 
-        public HelpJsonController CreateHelpJsonController()
+        private HelpJsonController CreateHelpJsonController()
         {
             return _fakeBuilder.GenerateClass();
         }

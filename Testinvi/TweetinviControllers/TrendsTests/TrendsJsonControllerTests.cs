@@ -1,4 +1,5 @@
-﻿using FakeItEasy;
+﻿using System.Threading.Tasks;
+using FakeItEasy;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Testinvi.Helpers;
 using Testinvi.SetupHelpers;
@@ -25,7 +26,7 @@ namespace Testinvi.TweetinviControllers.TrendsTests
         }
 
         [TestMethod]
-        public void GetPlaceTrendsAt_WithLocationId_ReturnsFirstObjectFromTheResults()
+        public async Task GetPlaceTrendsAt_WithLocationId_ReturnsFirstObjectFromTheResults()
         {
             // Arrange
             var queryExecutor = CreateTrendsJsonController();
@@ -37,14 +38,14 @@ namespace Testinvi.TweetinviControllers.TrendsTests
             _fakeTwitterAccessor.ArrangeExecuteJsonGETQuery(query, expectedResult);
 
             // Act
-            var result = queryExecutor.GetPlaceTrendsAt(locationId);
+            var result = await queryExecutor.GetPlaceTrendsAt(locationId);
 
             // Assert
             Assert.AreEqual(result, expectedResult);
         }
 
         [TestMethod]
-        public void GetPlaceTrendsAt_WithwoeIdLocation_ReturnsFirstObjectFromTheResults()
+        public async Task GetPlaceTrendsAt_WithWoeIdLocation_ReturnsFirstObjectFromTheResults()
         {
             // Arrange
             var queryExecutor = CreateTrendsJsonController();
@@ -56,13 +57,13 @@ namespace Testinvi.TweetinviControllers.TrendsTests
             _fakeTwitterAccessor.ArrangeExecuteJsonGETQuery(query, expectedResult);
 
             // Act
-            var result = queryExecutor.GetPlaceTrendsAt(woeIdLocation);
+            var result = await queryExecutor.GetPlaceTrendsAt(woeIdLocation);
 
             // Assert
             Assert.AreEqual(result, expectedResult);
         }
 
-        public TrendsJsonController CreateTrendsJsonController()
+        private TrendsJsonController CreateTrendsJsonController()
         {
             return _fakeBuilder.GenerateClass();
         }

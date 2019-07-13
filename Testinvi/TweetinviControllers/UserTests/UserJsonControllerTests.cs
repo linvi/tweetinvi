@@ -1,4 +1,5 @@
-﻿using FakeItEasy;
+﻿using System.Threading.Tasks;
+using FakeItEasy;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Testinvi.Helpers;
 using Testinvi.SetupHelpers;
@@ -30,7 +31,7 @@ namespace Testinvi.TweetinviControllers.UserTests
         #region FriendsIds
 
         [TestMethod]
-        public void GetFriendIdsWithNullUser_ReturnsNull()
+        public async Task GetFriendIdsWithNullUser_ReturnsNull()
         {
             // Arrange
             var queryExecutor = CreateUserJsonController();
@@ -42,14 +43,14 @@ namespace Testinvi.TweetinviControllers.UserTests
             _fakeTwitterAccessor.ArrangeExecuteJsonCursorGETQuery<IIdsCursorQueryResultDTO>(expectedQuery, expectedResult);
 
             // Act
-            var result = queryExecutor.GetFriendIds((IUser)null, maximumNumberOfFriends);
+            var result = await queryExecutor.GetFriendIds((IUser)null, maximumNumberOfFriends);
 
             // Assert
             Assert.AreEqual(result, expectedResult);
         }
 
         [TestMethod]
-        public void GetFriendIdsWithUser_ReturnsTwitterAccessorResult()
+        public async Task  GetFriendIdsWithUser_ReturnsTwitterAccessorResult()
         {
             // Arrange
             var queryExecutor = CreateUserJsonController();
@@ -62,14 +63,14 @@ namespace Testinvi.TweetinviControllers.UserTests
             _fakeTwitterAccessor.ArrangeExecuteJsonCursorGETQuery<IIdsCursorQueryResultDTO>(expectedQuery, expectedCursorResults);
 
             // Act
-            var result = queryExecutor.GetFriendIds(user, maximumNumberOfFriends);
+            var result = await queryExecutor.GetFriendIds(user, maximumNumberOfFriends);
 
             // Assert
             Assert.AreEqual(result, expectedCursorResults);
         }
 
         [TestMethod]
-        public void GetFriendIdsWithUserDTO_AnyData_ReturnsTwitterAccessorResult()
+        public async Task GetFriendIdsWithUserDTO_AnyData_ReturnsTwitterAccessorResult()
         {
             // Arrange
             var queryExecutor = CreateUserJsonController();
@@ -82,14 +83,14 @@ namespace Testinvi.TweetinviControllers.UserTests
             _fakeTwitterAccessor.ArrangeExecuteJsonCursorGETQuery<IIdsCursorQueryResultDTO>(expectedQuery, expectedCursorResults);
 
             // Act
-            var result = queryExecutor.GetFriendIds(userDTO, maximumNumberOfFriends);
+            var result = await queryExecutor.GetFriendIds(userDTO, maximumNumberOfFriends);
 
             // Assert
             Assert.IsTrue(result.ContainsAll(expectedCursorResults));
         }
 
         [TestMethod]
-        public void GetFriendIdsWithUserScreenName_AnyData_ReturnsTwitterAccessorResult()
+        public async Task GetFriendIdsWithUserScreenName_AnyData_ReturnsTwitterAccessorResult()
         {
             // Arrange
             var queryExecutor = CreateUserJsonController();
@@ -102,14 +103,14 @@ namespace Testinvi.TweetinviControllers.UserTests
             _fakeTwitterAccessor.ArrangeExecuteJsonCursorGETQuery<IIdsCursorQueryResultDTO>(expectedQuery, expectedCursorResults);
 
             // Act
-            var result = queryExecutor.GetFriendIds(userScreenName, maximumNumberOfFriends);
+            var result = await queryExecutor.GetFriendIds(userScreenName, maximumNumberOfFriends);
 
             // Assert
             Assert.IsTrue(result.ContainsAll(expectedCursorResults));
         }
 
         [TestMethod]
-        public void GetFriendIdsWithUserId_AnyData_ReturnsTwitterAccessorResult()
+        public async Task GetFriendIdsWithUserId_AnyData_ReturnsTwitterAccessorResult()
         {
             // Arrange
             var queryExecutor = CreateUserJsonController();
@@ -122,7 +123,7 @@ namespace Testinvi.TweetinviControllers.UserTests
             _fakeTwitterAccessor.ArrangeExecuteJsonCursorGETQuery<IIdsCursorQueryResultDTO>(expectedQuery, expectedCursorResults);
 
             // Act
-            var result = queryExecutor.GetFriendIds(userId, maximumNumberOfFriends);
+            var result = await queryExecutor.GetFriendIds(userId, maximumNumberOfFriends);
 
             // Assert
             Assert.IsTrue(result.ContainsAll(expectedCursorResults));
@@ -133,7 +134,7 @@ namespace Testinvi.TweetinviControllers.UserTests
         #region FollowerIds
 
         [TestMethod]
-        public void GetFollowerIdsWithNullUser()
+        public async Task GetFollowerIdsWithNullUser()
         {
             // Arrange
             var queryExecutor = CreateUserJsonController();
@@ -145,14 +146,14 @@ namespace Testinvi.TweetinviControllers.UserTests
             _fakeTwitterAccessor.ArrangeExecuteJsonCursorGETQuery<IIdsCursorQueryResultDTO>(expectedQuery, expectedResult);
 
             // Act
-            var result = queryExecutor.GetFollowerIds((IUserIdentifier)null, maximumNumberOfFollowers);
+            var result = await queryExecutor.GetFollowerIds((IUserIdentifier)null, maximumNumberOfFollowers);
 
             // Assert
             Assert.AreEqual(result, expectedResult);
         }
 
         [TestMethod]
-        public void GetFollowerIdsWithUser_ReturnsTwitterAccessorResult()
+        public async Task GetFollowerIdsWithUser_ReturnsTwitterAccessorResult()
         {
             // Arrange
             var queryExecutor = CreateUserJsonController();
@@ -165,14 +166,14 @@ namespace Testinvi.TweetinviControllers.UserTests
             _fakeTwitterAccessor.ArrangeExecuteJsonCursorGETQuery<IIdsCursorQueryResultDTO>(expectedQuery, expectedCursorResults);
 
             // Act
-            var result = queryExecutor.GetFollowerIds(user, maximumNumberOfFollowers);
+            var result = await queryExecutor.GetFollowerIds(user, maximumNumberOfFollowers);
 
             // Assert
             Assert.AreEqual(result, expectedCursorResults);
         }
 
         [TestMethod]
-        public void GetFollowerIdsWithUserDTO_AnyData_ReturnsTwitterAccessorResult()
+        public async Task GetFollowerIdsWithUserDTO_AnyData_ReturnsTwitterAccessorResult()
         {
             // Arrange
             var queryExecutor = CreateUserJsonController();
@@ -185,14 +186,14 @@ namespace Testinvi.TweetinviControllers.UserTests
             _fakeTwitterAccessor.ArrangeExecuteJsonCursorGETQuery<IIdsCursorQueryResultDTO>(expectedQuery, expectedCursorResults);
 
             // Act
-            var result = queryExecutor.GetFollowerIds(userDTO, maximumNumberOfFollowers);
+            var result = await queryExecutor.GetFollowerIds(userDTO, maximumNumberOfFollowers);
 
             // Assert
             Assert.IsTrue(result.ContainsAll(expectedCursorResults));
         }
 
         [TestMethod]
-        public void GetFollowerIdsWithUserScreenName_AnyData_ReturnsTwitterAccessorResult()
+        public async Task GetFollowerIdsWithUserScreenName_AnyData_ReturnsTwitterAccessorResult()
         {
             // Arrange
             var queryExecutor = CreateUserJsonController();
@@ -205,14 +206,14 @@ namespace Testinvi.TweetinviControllers.UserTests
             _fakeTwitterAccessor.ArrangeExecuteJsonCursorGETQuery<IIdsCursorQueryResultDTO>(expectedQuery, expectedCursorResults);
 
             // Act
-            var result = queryExecutor.GetFollowerIds(userScreenName, maximumNumberOfFollowers);
+            var result = await queryExecutor.GetFollowerIds(userScreenName, maximumNumberOfFollowers);
 
             // Assert
             Assert.IsTrue(result.ContainsAll(expectedCursorResults));
         }
 
         [TestMethod]
-        public void GetFollowerIdsWithUserId_AnyData_ReturnsTwitterAccessorResult()
+        public async Task GetFollowerIdsWithUserId_AnyData_ReturnsTwitterAccessorResult()
         {
             // Arrange
             var queryExecutor = CreateUserJsonController();
@@ -225,7 +226,7 @@ namespace Testinvi.TweetinviControllers.UserTests
             _fakeTwitterAccessor.ArrangeExecuteJsonCursorGETQuery<IIdsCursorQueryResultDTO>(expectedQuery, expectedCursorResults);
 
             // Act
-            var result = queryExecutor.GetFollowerIds(userId, maximumNumberOfFollowers);
+            var result = await queryExecutor.GetFollowerIds(userId, maximumNumberOfFollowers);
 
             // Assert
             Assert.IsTrue(result.ContainsAll(expectedCursorResults));
@@ -236,7 +237,7 @@ namespace Testinvi.TweetinviControllers.UserTests
         #region FavouriteTweets
 
         [TestMethod]
-        public void GetFavoriteTweetsWithUser_AnyData_ReturnsTwitterAccessorResult()
+        public async Task GetFavoriteTweetsWithUser_AnyData_ReturnsTwitterAccessorResult()
         {
             // Arrange
             var queryExecutor = CreateUserJsonController();
@@ -248,7 +249,7 @@ namespace Testinvi.TweetinviControllers.UserTests
             _fakeTwitterAccessor.ArrangeExecuteJsonGETQuery(expectedQuery, expectedResult);
 
             // Act
-            var result = queryExecutor.GetFavoriteTweets(parameters);
+            var result = await queryExecutor.GetFavoriteTweets(parameters);
 
             // Assert
             Assert.AreEqual(result, expectedResult);
@@ -260,7 +261,7 @@ namespace Testinvi.TweetinviControllers.UserTests
 
 
         [TestMethod]
-        public void BlockUser_WithUser_ReturnsTwitterAccessorResult()
+        public async Task BlockUser_WithUser_ReturnsTwitterAccessorResult()
         {
             // Arrange
             var queryExecutor = CreateUserJsonController();
@@ -272,14 +273,14 @@ namespace Testinvi.TweetinviControllers.UserTests
             _fakeTwitterAccessor.ArrangeExecuteJsonPOSTQuery(expectedQuery, expectedResult);
 
             // Act
-            var result = queryExecutor.BlockUser(user);
+            var result = await queryExecutor.BlockUser(user);
 
             // Assert
             Assert.AreEqual(result, expectedResult);
         }
 
         [TestMethod]
-        public void BlockUser_WithUserScreenName_ReturnsTwitterAccessorResult()
+        public async Task BlockUser_WithUserScreenName_ReturnsTwitterAccessorResult()
         {
             // Arrange
             var queryExecutor = CreateUserJsonController();
@@ -291,14 +292,14 @@ namespace Testinvi.TweetinviControllers.UserTests
             _fakeTwitterAccessor.ArrangeExecuteJsonPOSTQuery(expectedQuery, expectedResult);
 
             // Act
-            var result = queryExecutor.BlockUser(userScreenName);
+            var result = await queryExecutor.BlockUser(userScreenName);
 
             // Assert
             Assert.AreEqual(result, expectedResult);
         }
 
         [TestMethod]
-        public void BlockUser_WithUserId_ReturnsTwitterAccessorResult()
+        public async Task BlockUser_WithUserId_ReturnsTwitterAccessorResult()
         {
             // Arrange
             var queryExecutor = CreateUserJsonController();
@@ -310,7 +311,7 @@ namespace Testinvi.TweetinviControllers.UserTests
             _fakeTwitterAccessor.ArrangeExecuteJsonPOSTQuery(expectedQuery, expectedResult);
 
             // Act
-            var result = queryExecutor.BlockUser(userId);
+            var result = await queryExecutor.BlockUser(userId);
 
             // Assert
             Assert.AreEqual(result, expectedResult);
@@ -323,7 +324,7 @@ namespace Testinvi.TweetinviControllers.UserTests
             return new string[0];
         }
 
-        public UserJsonController CreateUserJsonController()
+        private UserJsonController CreateUserJsonController()
         {
             return _fakeBuilder.GenerateClass();
         }

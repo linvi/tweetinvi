@@ -64,7 +64,7 @@ namespace Testinvi.TweetinviControllers.TrendsTests
             Assert.AreEqual(result, expectedQuery);
         }
 
-        public TrendsQueryGenerator CreateTrendsQueryGenerator()
+        private TrendsQueryGenerator CreateTrendsQueryGenerator()
         {
             return _fakeBuilder.GenerateClass();
         }

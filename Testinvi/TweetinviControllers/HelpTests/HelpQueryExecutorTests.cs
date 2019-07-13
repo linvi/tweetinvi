@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using FakeItEasy;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json.Linq;
@@ -27,7 +28,7 @@ namespace Testinvi.TweetinviControllers.HelpTests
         }
 
         [TestMethod]
-        public void GetTokenRateLimits_ReturnsJsonTwitterAccessor()
+        public async Task GetTokenRateLimits_ReturnsJsonTwitterAccessor()
         {
             var expectedResult = A.Fake<ICredentialsRateLimits>();
 
@@ -39,7 +40,7 @@ namespace Testinvi.TweetinviControllers.HelpTests
             _fakeTwitterAccessor.ArrangeExecuteGETQuery(query, expectedResult);
 
             // Act
-            var result = queryExecutor.GetCurrentCredentialsRateLimits();
+            var result = await queryExecutor.GetCurrentCredentialsRateLimits();
 
             // Assert
             Assert.AreEqual(result, expectedResult);
@@ -53,7 +54,7 @@ namespace Testinvi.TweetinviControllers.HelpTests
         }
 
         [TestMethod]
-        public void GetTwitterPrivacyPolicy_ReturnsJsonTwitterAccessor()
+        public async Task GetTwitterPrivacyPolicy_ReturnsJsonTwitterAccessor()
         {
             var expectedResult = Guid.NewGuid().ToString();
 
@@ -61,14 +62,16 @@ namespace Testinvi.TweetinviControllers.HelpTests
             var queryExecutor = CreateHelpQueryExecutor();
             string query = Guid.NewGuid().ToString();
 
-            var expectedJObject = new JObject();
-            expectedJObject["privacy"] = expectedResult;
+            var expectedJObject = new JObject
+            {
+                ["privacy"] = expectedResult
+            };
 
             ArrangeQueryGeneratorGetTwitterPrivacyPolicy(query);
             _fakeTwitterAccessor.ArrangeExecuteGETQuery(query, expectedJObject);
 
             // Act
-            var result = queryExecutor.GetTwitterPrivacyPolicy();
+            var result = await queryExecutor.GetTwitterPrivacyPolicy();
 
             // Assert
             Assert.AreEqual(result, expectedResult);
@@ -81,7 +84,7 @@ namespace Testinvi.TweetinviControllers.HelpTests
                 .Returns(query);
         }
 
-        public HelpQueryExecutor CreateHelpQueryExecutor()
+        private HelpQueryExecutor CreateHelpQueryExecutor()
         {
             return _fakeBuilder.GenerateClass();
         }

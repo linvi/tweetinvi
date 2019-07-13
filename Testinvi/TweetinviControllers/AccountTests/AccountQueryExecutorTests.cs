@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using FakeItEasy;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Testinvi.Helpers;
@@ -25,7 +26,7 @@ namespace Testinvi.TweetinviControllers.AccountTests
         }
 
         [TestMethod]
-        public void GetAuthenticatedUserSettings_ReturnsAccessorJsonResult()
+        public async Task GetAuthenticatedUserSettings_ReturnsAccessorJsonResult()
         {
             string query = Guid.NewGuid().ToString();
             var queryResult = A.Fake<IAccountSettingsDTO>();
@@ -37,7 +38,7 @@ namespace Testinvi.TweetinviControllers.AccountTests
             _fakeTwitterAccessor.ArrangeExecuteGETQuery(query, queryResult);
 
             // Act
-            var result = controller.GetAuthenticatedUserAccountSettings();
+            var result = await controller.GetAuthenticatedUserAccountSettings();
 
             // Assert
             Assert.AreEqual(result, queryResult);
@@ -50,7 +51,7 @@ namespace Testinvi.TweetinviControllers.AccountTests
                 .Returns(query);
         }
 
-        public AccountQueryExecutor CreateAccountQueryExecutor()
+        private AccountQueryExecutor CreateAccountQueryExecutor()
         {
             return _fakeBuilder.GenerateClass();
         }

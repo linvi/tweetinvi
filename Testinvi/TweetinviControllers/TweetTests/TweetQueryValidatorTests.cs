@@ -241,7 +241,7 @@ namespace Testinvi.TweetinviControllers.TweetTests
 
         #endregion
 
-        public TweetQueryValidator CreateTweetQueryValidator()
+        private TweetQueryValidator CreateTweetQueryValidator()
         {
             return _fakeBuilder.GenerateClass();
         }

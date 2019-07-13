@@ -86,7 +86,7 @@ namespace Testinvi.TweetinviControllers.GeoTests
 
         #endregion
 
-        public GeoQueryGenerator CreateGeoQueryGenerator()
+        private GeoQueryGenerator CreateGeoQueryGenerator()
         {
             return _fakeBuilder.GenerateClass();
         }
