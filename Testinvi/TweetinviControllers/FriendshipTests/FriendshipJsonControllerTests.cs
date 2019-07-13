@@ -322,7 +322,7 @@ namespace Testinvi.TweetinviControllers.FriendshipTests
             var user = A.Fake<IUser>();
             user.CallsTo(x => x.UserDTO).Returns(null);
 
-            return await ArrangeUpdateRelationshipAuthorizations_User(user, retweetsEnabled, notification, returnValue);
+            return await ArrangeUpdateRelationshipAuthorizations_User(user, retweetsEnabled, notification, returnValue).ConfigureAwait(false);
         }
 
         private async Task<string> ArrangeUpdateRelationshipAuthorizations_User(IUser user, bool retweetsEnabled, bool notification, string returnValue)
