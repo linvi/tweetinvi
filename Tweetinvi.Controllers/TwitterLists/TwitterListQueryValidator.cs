@@ -12,7 +12,7 @@ namespace Tweetinvi.Controllers.TwitterLists
         {
             if (twitterListIdentifier == null)
             {
-                throw new ArgumentNullException("List identifier cannot be null.");
+                throw new ArgumentNullException(nameof(twitterListIdentifier), $"{nameof(twitterListIdentifier)} cannot be null");
             }
 
             var isIdValid = twitterListIdentifier.Id != TweetinviSettings.DEFAULT_ID;
@@ -28,7 +28,7 @@ namespace Tweetinvi.Controllers.TwitterLists
         {
             if (parameters == null)
             {
-                throw new ArgumentNullException("List update parameter cannot be null.");
+                throw new ArgumentNullException(nameof(parameters), $"{nameof(parameters)} cannot be null");
             }
         }
 
@@ -52,7 +52,7 @@ namespace Tweetinvi.Controllers.TwitterLists
         {
             if (parameters == null)
             {
-                throw new ArgumentNullException("GetTweetsFromListQueryP Parameter cannot be null");
+                throw new ArgumentNullException(nameof(parameters), $"{nameof(parameters)} cannot be null");
             }
 
             var identifier = parameters.TwitterListIdentifier;
@@ -60,17 +60,17 @@ namespace Tweetinvi.Controllers.TwitterLists
             ThrowIfListIdentifierIsNotValid(identifier);
         }
 
-        public bool IsOwnerScreenNameValid(string ownerScreenName)
+        private static bool IsOwnerScreenNameValid(string ownerScreenName)
         {
             return !string.IsNullOrEmpty(ownerScreenName);
         }
 
-        public bool IsOwnerIdValid(long? ownderId)
+        private static bool IsOwnerIdValid(long? ownerId)
         {
-            return ownderId != null && ownderId != 0;
+            return ownerId != null && ownerId != 0;
         }
 
-        public bool IsSlugValid(string slug)
+        private static bool IsSlugValid(string slug)
         {
             return !string.IsNullOrEmpty(slug);
         }

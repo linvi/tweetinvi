@@ -30,9 +30,9 @@ module.exports = {
             return fileHelper.replace(
                 nuget,
                 /<releaseNotes>https:\/\/github.com\/linvi\/tweetinvi\/releases\/tag\/[0-9\.]*<\/releaseNotes>/g,
-                `<releaseNotes>https://github.com/linvi/tweetinvi/releases/tag/${buildInfos.version}</releaseNotes>`)
+                `<releaseNotes>https://github.com/linvi/tweetinvi/releases/tag/${buildInfos.version}</releaseNotes>`);
         }).then(() => {
-            console.log('Nuget spec has been updated.')
+            console.log('Nuget spec has been updated.');
         }));
 
         allUpdates.push(fileHelper.replace(clientHandler, /"Tweetinvi\/(\d+(\.\d+)*)(.x)?"/, `"Tweetinvi/${buildInfos.version}"`).then(() => {
