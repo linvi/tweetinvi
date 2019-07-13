@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Tweetinvi.Core.Controllers;
 using Tweetinvi.Core.Factories;
 using Tweetinvi.Core.Web;
-using Tweetinvi.Exceptions;
-using Tweetinvi.Logic.DTO;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
 using Tweetinvi.Models.Interfaces;
+using Tweetinvi.Parameters;
 
 namespace Tweetinvi.Client
 {
@@ -14,55 +14,59 @@ namespace Tweetinvi.Client
     {
         Task<ITwitterResult<ITweetDTO, ITweet>> GetTweet(long tweetId);
         Task<ITwitterResult<ITweetDTO[], ITweet[]>> GetTweets(long[] tweetIds);
+        Task<ITwitterResult<ITweetDTO, ITweet>> PublishTweet(string text);
+        Task<ITwitterResult<ITweetDTO, ITweet>> PublishTweet(IPublishTweetParameters parameters);
     }
 
     public interface IInternalTweetsRequester : ITweetsRequester
     {
-        void Initialize(TwitterClient client);
+        void Initialize(Func<ITwitterRequest> createRequest);
     }
 
-    public class TweetsRequester : IInternalTweetsRequester
+    public class TweetsRequester : BaseRequester, IInternalTweetsRequester
     {
         private readonly ITweetFactory _tweetFactory;
-        private TwitterClient _client;
+        private readonly ITweetController _tweetController;
+        private Func<ITwitterRequest> _createRequest;
 
-        public TweetsRequester(ITweetFactory tweetFactory)
+        public TweetsRequester(ITweetFactory tweetFactory, ITweetController tweetController)
         {
             _tweetFactory = tweetFactory;
+            _tweetController = tweetController;
         }
 
-        public void Initialize(TwitterClient client)
+        public void Initialize(Func<ITwitterRequest> createRequest)
         {
-            if (_client != null)
+            if (_createRequest != null)
             {
-                throw new InvalidOperationException("Client cannot be changed");
+                throw new InvalidOperationException("createRequest cannot be changed");
             }
 
-            _client = client;
+            _createRequest = createRequest;
         }
 
         public Task<ITwitterResult<ITweetDTO, ITweet>> GetTweet(long tweetId)
         {
-            var request = _client.CreateRequest();
+            var request = _createRequest();
             return ExecuteRequest(() => _tweetFactory.GetTweet(tweetId, request), request);
         }
 
         public Task<ITwitterResult<ITweetDTO[], ITweet[]>> GetTweets(long[] tweetIds)
         {
-            var request = _client.CreateRequest();
+            var request = _createRequest();
             return ExecuteRequest(() => _tweetFactory.GetTweets(tweetIds, request), request);
         }
 
-        private async Task<T> ExecuteRequest<T>(Func<Task<T>> action, ITwitterRequest request)
+        public Task<ITwitterResult<ITweetDTO, ITweet>> PublishTweet(string text)
         {
-            try
-            {
-                return await action();
-            }
-            catch (Exception e)
-            {
-                throw new TwitterRequestException(request, e);
-            }
+            var request = _createRequest();
+            return ExecuteRequest(() => _tweetController.PublishTweet(text, request), request);
+        }
+
+        public Task<ITwitterResult<ITweetDTO, ITweet>> PublishTweet(IPublishTweetParameters parameters)
+        {
+            var request = _createRequest();
+            return ExecuteRequest(() => _tweetController.PublishTweet(parameters, request), request);
         }
     }
 }

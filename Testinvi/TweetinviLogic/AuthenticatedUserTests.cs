@@ -7,9 +7,11 @@ using Testinvi.Helpers;
 using Tweetinvi.Core.Controllers;
 using Tweetinvi.Core.Credentials;
 using Tweetinvi.Core.Models;
+using Tweetinvi.Core.Web;
 using Tweetinvi.Logic;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
+using Tweetinvi.Models.Interfaces;
 using Tweetinvi.Parameters;
 
 namespace Testinvi.TweetinviLogic
@@ -298,14 +300,16 @@ namespace Testinvi.TweetinviLogic
         [TestMethod]
         public async Task PublishTweetText_CurrentCredentialsAreNotAuthenticatedUserCredentials_OperationPerformedWithAppropriateCredentials()
         {
+            // CURRENTLY FAILING BUT WILL BE FIXED IN COMING RELEASES
+
             // Arrange
             var parameters = A.Fake<IPublishTweetParameters>();
 
             ITwitterCredentials startOperationWithCredentials = null;
-            _fakeTweetController.CallsTo(x => x.PublishTweet(parameters)).ReturnsLazily(() =>
+            _fakeTweetController.CallsTo(x => x.PublishTweet(parameters, It.IsAny<ITwitterRequest>())).ReturnsLazily(() =>
             {
                 startOperationWithCredentials = _fakeCredentialsAccessor.FakedObject.CurrentThreadCredentials;
-                return A.Fake<ITweet>();
+                return A.Fake<ITwitterResult<ITweetDTO, ITweet>>();
             });
 
             // Act

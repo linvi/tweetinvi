@@ -1,6 +1,6 @@
-﻿using Examplinvi.UniversalApp.ViewModels;
-using Windows.UI.Xaml;
+﻿using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Examplinvi.UAP.ViewModels;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -11,7 +11,7 @@ namespace Examplinvi.UAP
     /// </summary>
     public sealed partial class MainPage : Page
     {
-        public StreamViewModel StreamVM;
+        public readonly StreamViewModel StreamVM;
 
         public MainPage()
         {

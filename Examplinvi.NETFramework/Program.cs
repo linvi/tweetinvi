@@ -26,6 +26,7 @@ using Stream = Tweetinvi.Stream;
 // Data Transfer Objects for Serialization
 using Geo = Tweetinvi.Geo;
 using SavedSearch = Tweetinvi.SavedSearch;
+// ReSharper disable StringLiteralTypo
 
 // JSON static classes to get json from Twitter.
 
@@ -54,7 +55,7 @@ namespace Examplinvi.NETFramework
 
             TweetinviEvents.QueryBeforeExecute += (sender, args) =>
             {
-                Console.WriteLine(args.QueryURL);
+                Console.WriteLine(args.Url);
             };
 
             var authenticatedUser = User.GetAuthenticatedUser();
@@ -451,7 +452,7 @@ namespace Examplinvi.NETFramework
 
         public static async Task Tweet_PublishTweet(string text)
         {
-            var tweet = await Tweet.PublishTweet(text);
+            var tweet = await Client.Tweets.PublishTweet(text);
             Console.WriteLine(tweet.IsTweetPublished);
         }
 
@@ -459,7 +460,7 @@ namespace Examplinvi.NETFramework
         {
             var media = await UploadImage(filePath);
 
-            return await Tweet.PublishTweet(new PublishTweetParameters(text)
+            return await Client.Tweets.PublishTweet(new PublishTweetParameters(text)
             {
                 Medias = new List<IMedia>() { media }
             });
@@ -468,7 +469,7 @@ namespace Examplinvi.NETFramework
         public static async Task Tweet_PublishTweetInReplyToAnotherTweet(string text, long tweetIdToReplyTo)
         {
             // With the new version of Twitter you no longer have to specify the mentions. Twitter can do that for you automatically.
-            var reply = await Tweet.PublishTweet(new PublishTweetParameters(text)
+            var reply = await Client.Tweets.PublishTweet(new PublishTweetParameters(text)
             {
                 InReplyToTweetId = tweetIdToReplyTo,
                 AutoPopulateReplyMetadata = true // Auto populate the @mentions
@@ -478,8 +479,13 @@ namespace Examplinvi.NETFramework
 
             // We must add @screenName of the author of the tweet we want to reply to
             var textToPublish = $"@{tweetToReplyTo.CreatedBy.ScreenName} {text}";
-            var tweet = Tweet.PublishTweetInReplyTo(textToPublish, tweetIdToReplyTo);
-            Console.WriteLine("Publish success? {0}", tweet != null);
+            var tweet = await Client.Tweets.PublishTweet(new PublishTweetParameters
+            {
+                Text = textToPublish,
+                InReplyToTweetId = tweetIdToReplyTo
+            });
+
+            Console.WriteLine($"Publish success? {tweet != null}");
         }
 
         public static async Task Tweet_PublishTweetWithGeo(string text)
@@ -492,7 +498,7 @@ namespace Examplinvi.NETFramework
                 Coordinates = new Coordinates(latitude, longitude)
             };
 
-            var tweet = await Tweet.PublishTweet(publishParameters);
+            var tweet = await Client.Tweets.PublishTweet(publishParameters);
 
             Console.WriteLine(tweet.IsTweetPublished);
         }
@@ -525,7 +531,7 @@ namespace Examplinvi.NETFramework
 
         public static async Task Tweet_GenerateOEmbedTweet()
         {
-            var newTweet = await Tweet.PublishTweet("to be oembed");
+            var newTweet = await Client.Tweets.PublishTweet("to be oembed");
             var oembedTweet = await newTweet.GenerateOEmbedTweet();
 
             Console.WriteLine("Oembed tweet url : {0}", oembedTweet.URL);
@@ -538,7 +544,7 @@ namespace Examplinvi.NETFramework
 
         public static async Task Tweet_Destroy()
         {
-            var newTweet = await Tweet.PublishTweet("to be destroyed!");
+            var newTweet = await Client.Tweets.PublishTweet("to be destroyed!");
             bool isTweetPublished = newTweet.IsTweetPublished;
 
             if (isTweetPublished)
@@ -1160,10 +1166,13 @@ namespace Examplinvi.NETFramework
         public static async Task TwitterList_UpdateList(long listId)
         {
             var list = await TwitterList.GetExistingList(listId);
-            var updateParameters = new TwitterListUpdateParameters();
-            updateParameters.Name = "piloupe";
-            updateParameters.Description = "pilouping description";
-            updateParameters.PrivacyMode = PrivacyMode.Private;
+            var updateParameters = new TwitterListUpdateParameters
+            {
+                Name = "piloupe",
+                Description = "pilouping description",
+                PrivacyMode = PrivacyMode.Private
+            };
+
             await list.Update(updateParameters);
 
             Console.WriteLine("List new name is : {0}", list.Name);
@@ -1266,7 +1275,7 @@ namespace Examplinvi.NETFramework
         {
             TweetinviEvents.QueryBeforeExecute += (sender, args) =>
             {
-                var queryRateLimit = RateLimit.GetQueryRateLimit(args.QueryURL).Result;
+                var queryRateLimit = RateLimit.GetQueryRateLimit(args.Url).Result;
                 RateLimit.AwaitForQueryRateLimit(queryRateLimit);
             };
         }

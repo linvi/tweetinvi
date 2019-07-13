@@ -69,11 +69,11 @@ namespace Tweetinvi.Exceptions
             : base(message)
         {
             CreationDate = DateTime.Now;
-            URL = twitterQuery?.QueryURL;
+            URL = twitterQuery?.Url;
             TwitterQuery = twitterQuery;
         }
 
-        private TwitterException(ITwitterQuery twitterQuery) : this(twitterQuery, string.Format("{0} web request failed.", twitterQuery?.QueryURL))
+        private TwitterException(ITwitterQuery twitterQuery) : this(twitterQuery, string.Format("{0} web request failed.", twitterQuery?.Url))
         {
         }
 

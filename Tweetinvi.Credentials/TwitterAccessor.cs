@@ -538,11 +538,6 @@ namespace Tweetinvi.Credentials
         public async Task<ITwitterResult<T>> ExecuteRequest<T>(ITwitterRequest request) where T : class
         {
             var response = await ExecuteRequest(request);
-            var json = response.Text;
-            var converters = request.Config.Converters;
-
-            var result = _jsonObjectConverter.DeserializeObject<T>(json, converters);
-
             return _twitterResultFactory.Create<T>(request, response);
         }
 
@@ -746,7 +741,7 @@ namespace Tweetinvi.Credentials
 
             return new TwitterRequestParameters
             {
-                QueryURL = twitterQuery.QueryURL,
+                Url = twitterQuery.Url,
                 HttpMethod = twitterQuery.HttpMethod,
                 HttpContent = twitterQuery.HttpContent,
                 AuthorizationHeader = twitterQuery.AuthorizationHeader,

@@ -24,7 +24,7 @@ namespace Tweetinvi
 
         public TwitterQuery(string queryURL, HttpMethod httpMethod) : this()
         {
-            QueryURL = queryURL;
+            Url = queryURL;
             HttpMethod = httpMethod;
         }
 
@@ -81,7 +81,7 @@ namespace Tweetinvi
 
         public ITwitterQuery Clone()
         {
-            var clone = new TwitterQuery(QueryURL, HttpMethod)
+            var clone = new TwitterQuery(Url, HttpMethod)
             {
                 TwitterCredentials = TwitterCredentials,
                 QueryParameters = QueryParameters,
@@ -93,7 +93,7 @@ namespace Tweetinvi
 
         public override string ToString()
         {
-            return QueryURL;
+            return Url;
         }
     }
 }

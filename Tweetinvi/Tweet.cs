@@ -92,41 +92,6 @@ namespace Tweetinvi
             return TweetController.CanBePublished(parameters);
         }
 
-        // Publish Tweet
-
-        /// <summary>
-        /// Publish a tweet
-        /// </summary>
-        public static Task<ITweet> PublishTweet(IPublishTweetParameters publishTweetParameters)
-        {
-            return TweetController.PublishTweet(publishTweetParameters);
-        }
-
-        /// <summary>
-        /// Publish a tweet
-        /// </summary>
-        public static Task<ITweet> PublishTweet(string text)
-        {
-            IPublishTweetParameters parameters = new PublishTweetParameters(text);
-            return TweetController.PublishTweet(parameters);
-        }
-
-        /// <summary>
-        /// Publish a tweet in reply to another one
-        /// </summary>
-        public static Task<ITweet> PublishTweetInReplyTo(string text, long tweetToReplyToId)
-        {
-            return TweetController.PublishTweetInReplyTo(text, tweetToReplyToId);
-        }
-
-        /// <summary>
-        /// Publish a tweet in reply to another one
-        /// </summary>
-        public static Task<ITweet> PublishTweetInReplyTo(string text, ITweetIdentifier tweetToReplyTo)
-        {
-            return TweetController.PublishTweetInReplyTo(text, tweetToReplyTo);
-        }
-
         // Publish Retweet
 
         /// <summary>

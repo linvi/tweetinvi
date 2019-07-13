@@ -8,28 +8,26 @@ namespace Examplinvi.WPF.ViewModels
 {
     public class StreamViewModel : INotifyPropertyChanged
     {
+        public ITwitterClient _client;
+        
         /// <summary>
         /// Informational message to the user.
         /// </summary>
         public string Message { get; private set; }
 
-        private string streamingText;
+        private string _streamingText;
 
         /// <summary>
         /// Tweets from the streaming API.
         /// </summary>
         public string StreamingText
         {
-            get { return this.streamingText; }
+            get { return _streamingText; }
             set
             {
-                this.streamingText = value;
-                NotifyPropertyChanged(nameof(this.StreamingText));
+                _streamingText = value;
+                NotifyPropertyChanged(nameof(StreamingText));
             }
-        }
-
-        public StreamViewModel()
-        {
         }
 
         public async Task Authenticate()
@@ -45,17 +43,18 @@ namespace Examplinvi.WPF.ViewModels
             {
                 Message = "Please enter your credentials in the StreamViewModel.cs file";
             }
-
             else
             {
+                _client = new TwitterClient(Auth.Credentials);
+
                 var user = await User.GetAuthenticatedUser();
                 Message = string.Format("Hi '{0}'. Welcome on board with WPF App!", user.Name);
             }
         }
 
-        public void PublishTweet()
+        public async Task PublishTweet()
         {
-            Tweet.PublishTweet("Check out #tweetinvi, the best c# library!");
+            await _client.Tweets.PublishTweet("Check out #tweetinvi, the best c# library!");
         }
 
         private string _buffer;

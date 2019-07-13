@@ -69,14 +69,14 @@ namespace Examplinvi.AccountActivityEvents.Controllers
             return $"SERVER HAS STOPPED WATCHING EVENTS FOR ALL SUBSCRIPTIONS ON ENVIRONMENT : {environment}";
         }
 
-        public async Task<string> SubscribeToAccountActivitiesEvents(string environment, long userId)
+        public Task<string> SubscribeToAccountActivitiesEvents(string environment, long userId)
         {
             var webhookEnvironment = _webhookConfiguration.RegisteredWebhookEnvironments.FirstOrDefault(x => x.Name == environment);
             var doesWebhookEnvironmentExist = webhookEnvironment != null;
 
             if (doesWebhookEnvironmentExist)
             {
-                return "ENVIRONMENT_NOT_REGISTERED";
+                return Task.FromResult("ENVIRONMENT_NOT_REGISTERED");
             }
 
             var activityStream = Stream.CreateAccountActivityStream(userId);
@@ -84,17 +84,17 @@ namespace Examplinvi.AccountActivityEvents.Controllers
 
             _accountActivityEventsManager.RegisterAccountActivityStream(activityStream);
 
-            return "SUBSCRIBED_ON_SERVER";
+            return Task.FromResult("SUBSCRIBED_ON_SERVER");
         }
 
-        public async Task<string> UnsubscribeFromAccountActivitiesEvents(string environment, string userId)
+        public Task<string> UnsubscribeFromAccountActivitiesEvents(string environment, string userId)
         {
             var webhookEnvironment = _webhookConfiguration.RegisteredWebhookEnvironments.FirstOrDefault(x => x.Name == environment);
             var doesWebhookEnvironmentExist = webhookEnvironment != null;
 
             if (doesWebhookEnvironmentExist)
             {
-                return "ENVIRONMENT_NOT_REGISTERED";
+                return Task.FromResult("ENVIRONMENT_NOT_REGISTERED");
             }
 
             var accountActivityWebhook = _webhookConfiguration.RegisteredActivityStreams.Where(x => x.AccountUserId.ToString() == userId);
@@ -106,7 +106,7 @@ namespace Examplinvi.AccountActivityEvents.Controllers
                 _accountActivityEventsManager.UnregisterAccountActivityStream(stream);
             });
 
-            return "UNSUBSCRIBED";
+            return Task.FromResult("UNSUBSCRIBED");
         }
     }
 }

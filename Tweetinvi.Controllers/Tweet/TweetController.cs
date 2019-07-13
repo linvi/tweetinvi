@@ -6,8 +6,10 @@ using Tweetinvi.Controllers.Upload;
 using Tweetinvi.Core.Controllers;
 using Tweetinvi.Core.Extensions;
 using Tweetinvi.Core.Factories;
+using Tweetinvi.Core.Web;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
+using Tweetinvi.Models.Interfaces;
 using Tweetinvi.Parameters;
 
 namespace Tweetinvi.Controllers.Tweet
@@ -18,53 +20,33 @@ namespace Tweetinvi.Controllers.Tweet
         private readonly ITweetQueryValidator _tweetQueryValidator;
         private readonly IUploadQueryExecutor _uploadQueryExecutor;
         private readonly ITweetFactory _tweetFactory;
+        private readonly ITwitterResultFactory _twitterResultFactory;
 
         public TweetController(
             ITweetQueryExecutor tweetQueryExecutor,
             ITweetQueryValidator tweetQueryValidator,
             IUploadQueryExecutor uploadQueryExecutor,
-            ITweetFactory tweetFactory)
+            ITweetFactory tweetFactory,
+            ITwitterResultFactory twitterResultFactory)
         {
             _tweetQueryExecutor = tweetQueryExecutor;
             _tweetQueryValidator = tweetQueryValidator;
             _uploadQueryExecutor = uploadQueryExecutor;
             _tweetFactory = tweetFactory;
+            _twitterResultFactory = twitterResultFactory;
         }
 
         // Publish Tweet
 
-        public async Task<ITweet> PublishTweet(IPublishTweetParameters parameters)
+        public Task<ITwitterResult<ITweetDTO, ITweet>> PublishTweet(IPublishTweetParameters parameters, ITwitterRequest request)
         {
-            var tweetDTO = await InternalPublishTweet(parameters);
-            return _tweetFactory.GenerateTweetFromDTO(tweetDTO);
+            return InternalPublishTweet(parameters, request);
         }
 
-        public async Task<ITweet> PublishTweet(string text)
+        public Task<ITwitterResult<ITweetDTO, ITweet>> PublishTweet(string text, ITwitterRequest request)
         {
             var parameters = new PublishTweetParameters(text);
-            var tweetDTO = await InternalPublishTweet(parameters);
-
-            return _tweetFactory.GenerateTweetFromDTO(tweetDTO);
-        }
-
-        public Task<ITweet> PublishTweetInReplyTo(string text, long tweetId)
-        {
-            var parameters = new PublishTweetParameters(text)
-            {
-                InReplyToTweetId = tweetId
-            };
-
-            return PublishTweet(parameters);
-        }
-
-        public Task<ITweet> PublishTweetInReplyTo(string text, ITweetIdentifier tweet)
-        {
-            var parameters = new PublishTweetParameters(text)
-            {
-                InReplyToTweet = tweet
-            };
-
-            return PublishTweet(parameters);
+            return InternalPublishTweet(parameters, request);
         }
 
         public bool CanBePublished(IPublishTweetParameters publishTweetParameters)
@@ -88,6 +70,7 @@ namespace Tweetinvi.Controllers.Tweet
         public static int EstimateTweetLength(IPublishTweetParameters publishTweetParameters)
         {
             var text = publishTweetParameters.Text ?? "";
+#pragma warning disable 618
             var textLength = StringExtension.EstimateTweetLength(text);
 
             if (publishTweetParameters.QuotedTweet != null)
@@ -95,6 +78,7 @@ namespace Tweetinvi.Controllers.Tweet
                 textLength = StringExtension.EstimateTweetLength(text.TrimEnd()) + 
                              1 + // for the space that needs to be added before the link to quoted tweet.
                              TweetinviConsts.MEDIA_CONTENT_SIZE;
+#pragma warning restore 618
             }
 
             if (publishTweetParameters.HasMedia)
@@ -105,7 +89,7 @@ namespace Tweetinvi.Controllers.Tweet
             return textLength;
         }
 
-        private async Task<ITweetDTO> InternalPublishTweet(IPublishTweetParameters parameters)
+        private async Task<ITwitterResult<ITweetDTO, ITweet>> InternalPublishTweet(IPublishTweetParameters parameters, ITwitterRequest request)
         {
             // The exceptions have to be raised before the QueryGenerator as 
             // We do not want to wait for the media to be uploaded to throw the
@@ -116,7 +100,9 @@ namespace Tweetinvi.Controllers.Tweet
 
             await UploadMedias(parameters);
 
-            return await _tweetQueryExecutor.PublishTweet(parameters);
+            var result = await _tweetQueryExecutor.PublishTweet(parameters, request);
+
+            return _twitterResultFactory.Create(result, tweetDTO => _tweetFactory.GenerateTweetFromDTO(tweetDTO, request.Config.TweetMode));
         }
 
         public async Task UploadMedias(IPublishTweetParameters parameters)

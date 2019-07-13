@@ -28,6 +28,7 @@ namespace Examplinvi.ASP.NET.Controllers
         public ActionResult Index(string tweet, HttpPostedFileBase file)
         {
             var fileBytes = GetByteArrayFromFile(file);
+            var client = new TwitterClient(_credentials);
 
             var publishedTweet = Auth.ExecuteOperationWithCredentials(_credentials, () =>
             {
@@ -37,7 +38,7 @@ namespace Examplinvi.ASP.NET.Controllers
                     publishOptions.MediaBinaries.Add(fileBytes);
                 }
 
-                return Tweet.PublishTweet(publishOptions);
+                return client.Tweets.PublishTweet(publishOptions);
             });
 
             var routeValueParameters = new RouteValueDictionary();

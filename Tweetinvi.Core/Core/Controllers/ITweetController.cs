@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using Tweetinvi.Core.Web;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
+using Tweetinvi.Models.Interfaces;
 using Tweetinvi.Parameters;
 
 namespace Tweetinvi.Core.Controllers
@@ -9,11 +11,8 @@ namespace Tweetinvi.Core.Controllers
     public interface ITweetController
     {
         // Publish Tweet
-        Task<ITweet> PublishTweet(string text);
-        Task<ITweet> PublishTweet(IPublishTweetParameters parameters);
-
-        Task<ITweet> PublishTweetInReplyTo(string text, long tweetId);
-        Task<ITweet> PublishTweetInReplyTo(string text, ITweetIdentifier tweet);
+        Task<ITwitterResult<ITweetDTO, ITweet>> PublishTweet(string text, ITwitterRequest request);
+        Task<ITwitterResult<ITweetDTO, ITweet>> PublishTweet(IPublishTweetParameters parameters, ITwitterRequest request);
 
         bool CanBePublished(string text);
         bool CanBePublished(IPublishTweetParameters publishTweetParameters);

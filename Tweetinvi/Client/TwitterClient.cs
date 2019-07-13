@@ -2,9 +2,23 @@
 using Tweetinvi.Models;
 using Tweetinvi.Models.Interfaces;
 
+// ReSharper disable once CheckNamespace
 namespace Tweetinvi
 {
-    public class TwitterClient
+    public interface ITwitterClient
+    {
+        /// <summary>
+        /// Client to use in order to execute all actions related with tweets
+        /// </summary>
+        Tweets Tweets { get; }
+
+        ITwitterCredentials Credentials { get; }
+        ITweetinviSettings Config { get; }
+        IRequestExecutor RequestExecutor { get; }
+        ITwitterRequest CreateRequest();
+    }
+
+    public class TwitterClient : ITwitterClient
     {
         public ITwitterCredentials Credentials { get; }
         public ITweetinviSettings Config { get; }

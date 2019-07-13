@@ -78,7 +78,7 @@ namespace Tweetinvi.WebLogic
             }
             catch (TwitterException ex)
             {
-                HandleException(request.Query.QueryURL, request.Config.RateLimitTrackerMode, ex, request.Query);
+                HandleException(request.Query.Url, request.Config.RateLimitTrackerMode, ex, request.Query);
 
                 throw;
             }
@@ -87,7 +87,7 @@ namespace Tweetinvi.WebLogic
         public async Task PrepareTwitterRequest(ITwitterRequest request)
         {
             var twitterQuery = request.Query;
-            twitterQuery.QueryURL = CleanupQueryURL(twitterQuery.QueryURL); // TODO : THIS LOGIC SHOULD HAPPEN BEFORE ARRIVING HERE
+            twitterQuery.Url = CleanupQueryURL(twitterQuery.Url); // TODO : THIS LOGIC SHOULD HAPPEN BEFORE ARRIVING HERE
 
             var rateLimitTrackerMode = request.Config.RateLimitTrackerMode;
 
@@ -102,7 +102,7 @@ namespace Tweetinvi.WebLogic
                 // If we were not able to retrieve the credentials few ms before there is no reason why it would work now.
                 if (credentialRateLimits != null)
                 {
-                    queryRateLimit = await _rateLimitCacheManager.GetQueryRateLimit(twitterQuery.QueryURL, twitterQuery.TwitterCredentials);
+                    queryRateLimit = await _rateLimitCacheManager.GetQueryRateLimit(twitterQuery.Url, twitterQuery.TwitterCredentials);
                 }
 
                 var timeToWait = _rateLimitAwaiter.GetTimeToWaitFromQueryRateLimit(queryRateLimit);
@@ -160,7 +160,7 @@ namespace Tweetinvi.WebLogic
             {
                 var rateLimitHeaders = twitterResponse.Headers.Where(kvp => kvp.Key.StartsWith("x-rate-limit-")).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
 
-                _rateLimitUpdater.QueryExecuted(twitterQuery.QueryURL, twitterQuery.TwitterCredentials, rateLimitHeaders);
+                _rateLimitUpdater.QueryExecuted(twitterQuery.Url, twitterQuery.TwitterCredentials, rateLimitHeaders);
             }
 
             _tweetinviEvents.RaiseAfterQueryExecuted(new QueryAfterExecuteEventArgs(twitterQuery, twitterResponse.Text, twitterResponse.Headers));

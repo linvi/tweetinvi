@@ -7,6 +7,7 @@ using Tweetinvi.Exceptions;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
 using Tweetinvi.Models.DTO.QueryDTO;
+using Tweetinvi.Models.Interfaces;
 using Tweetinvi.Parameters;
 
 namespace Tweetinvi.Controllers.Tweet
@@ -14,7 +15,7 @@ namespace Tweetinvi.Controllers.Tweet
     public interface ITweetQueryExecutor
     {
         // Publish Tweet
-        Task<ITweetDTO> PublishTweet(IPublishTweetParameters publishParameters);
+        Task<ITwitterResult<ITweetDTO>> PublishTweet(IPublishTweetParameters publishParameters, ITwitterRequest request);
 
         // Publish Retweet
         Task<ITweetDTO> PublishRetweet(ITweetDTO tweetToRetweet);
@@ -61,10 +62,14 @@ namespace Tweetinvi.Controllers.Tweet
 
         // Publish Tweet
 
-        public Task<ITweetDTO> PublishTweet(IPublishTweetParameters publishParameters)
+        public Task<ITwitterResult<ITweetDTO>> PublishTweet(IPublishTweetParameters publishParameters, ITwitterRequest request)
         {
-            string query = _tweetQueryGenerator.GetPublishTweetQuery(publishParameters);
-            return _twitterAccessor.ExecutePOSTQuery<ITweetDTO>(query);
+            var query = _tweetQueryGenerator.GetPublishTweetQuery(publishParameters);
+
+            request.Query.Url = query;
+            request.Query.HttpMethod = HttpMethod.POST;
+
+            return _twitterAccessor.ExecuteRequest<ITweetDTO>(request);
         }
 
         // Publish Retweet

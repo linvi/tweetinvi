@@ -2,12 +2,15 @@
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
+using Examplinvi.UniversalApp;
 using Tweetinvi;
 
-namespace Examplinvi.UniversalApp.ViewModels
+namespace Examplinvi.UAP.ViewModels
 {
     public class StreamViewModel : INotifyPropertyChanged
     {
+        private ITwitterClient _client;
+
         /// <summary>
         /// Informational message to the user.
         /// </summary>
@@ -46,17 +49,18 @@ namespace Examplinvi.UniversalApp.ViewModels
             {
                 Message = "Please enter your credentials in the StreamViewModel.cs file";
             }
-
             else
             {
+                _client = new TwitterClient(Auth.Credentials);
+
                 var user = await User.GetAuthenticatedUser();
-                Message = string.Format("Hi '{0}'. Welcome on board with Windows 10 Universal App!", user.Name);                
+                Message = $"Hi '{user.Name}'. Welcome on board with Windows 10 Universal App!";                
             }
         }
 
-        public void PublishTweet()
+        public async Task PublishTweet()
         {
-            Tweet.PublishTweet("Check out #tweetinvi, the best c# library!");
+            await _client.Tweets.PublishTweet("Check out #tweetinvi, the best c# library!");
         }
 
         private string _buffer;

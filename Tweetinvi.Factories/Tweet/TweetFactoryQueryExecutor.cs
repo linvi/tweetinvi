@@ -35,7 +35,7 @@ namespace Tweetinvi.Factories.Tweet
 
         public async Task<ITwitterResult<ITweetDTO>> GetTweetDTO(long tweetId, ITwitterRequest request)
         {
-            request.Query.QueryURL = _tweetQueryGenerator.GetTweetQuery(tweetId, request.Config);
+            request.Query.Url = _tweetQueryGenerator.GetTweetQuery(tweetId, request.Config);
 
             return await _twitterAccessor.ExecuteRequest<ITweetDTO>(request);
         }
@@ -51,7 +51,7 @@ namespace Tweetinvi.Factories.Tweet
 
             var tweetIdsArray = tweetIds.Distinct().ToArray();
 
-            request.Query.QueryURL = _tweetQueryGenerator.GetTweetsQuery(tweetIdsArray);
+            request.Query.Url = _tweetQueryGenerator.GetTweetsQuery(tweetIdsArray);
 
             var result = await _twitterAccessor.ExecuteRequest<ITweetDTO[]>(request);
 

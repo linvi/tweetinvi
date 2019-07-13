@@ -45,7 +45,7 @@ namespace Tweetinvi.WebLogic
                 {
                     httpResponseMessage = await _httpClientWebHelper.GetHttpResponse(twitterQuery, handler);
 
-                    var result = GetWebResultFromResponse(twitterQuery.QueryURL, httpResponseMessage);
+                    var result = GetWebResultFromResponse(twitterQuery.Url, httpResponseMessage);
 
                     if (!result.IsSuccessStatusCode)
                     {
@@ -116,7 +116,7 @@ namespace Tweetinvi.WebLogic
                 {
                     httpResponseMessage = await _httpClientWebHelper.GetHttpResponse(twitterQuery);
 
-                    var result = GetWebResultFromResponse(twitterQuery.QueryURL, httpResponseMessage);
+                    var result = GetWebResultFromResponse(twitterQuery.Url, httpResponseMessage);
 
                     var stream = result.ResultStream;
 

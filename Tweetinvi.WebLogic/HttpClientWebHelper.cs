@@ -20,7 +20,7 @@ namespace Tweetinvi.WebLogic
 
                 if (twitterQuery.HttpContent == null)
                 {
-                    return await client.SendAsync(new HttpRequestMessage(httpMethod, twitterQuery.QueryURL)).ConfigureAwait(false);
+                    return await client.SendAsync(new HttpRequestMessage(httpMethod, twitterQuery.Url)).ConfigureAwait(false);
                 }
                 else
                 {
@@ -29,7 +29,7 @@ namespace Tweetinvi.WebLogic
                         throw new ArgumentException("Cannot send HttpContent in a WebRequest that is not POST.");
                     }
 
-                    return await client.PostAsync(twitterQuery.QueryURL, twitterQuery.HttpContent).ConfigureAwait(false);
+                    return await client.PostAsync(twitterQuery.Url, twitterQuery.HttpContent).ConfigureAwait(false);
                 }
             }
         }

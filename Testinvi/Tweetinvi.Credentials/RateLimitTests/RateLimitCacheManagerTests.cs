@@ -219,7 +219,7 @@ namespace Testinvi.Tweetinvi.Credentials.RateLimitTests
             _endpointRateLimit.CallsTo(x => x.ResetDateTime).Returns(DateTime.Now.AddMinutes(1));
 
             _twitterQuery = A.Fake<ITwitterQuery>();
-            _twitterQuery.CallsTo(x => x.QueryURL).Returns(TEST_QUERY);
+            _twitterQuery.CallsTo(x => x.Url).Returns(TEST_QUERY);
             _twitterQuery.CallsTo(x => x.HttpMethod).Returns(HttpMethod.GET);
             _twitterQuery.CallsTo(x => x.QueryParameters).Returns(Enumerable.Empty<IOAuthQueryParameter>());
         }

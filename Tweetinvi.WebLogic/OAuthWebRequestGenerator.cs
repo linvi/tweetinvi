@@ -242,7 +242,7 @@ namespace Tweetinvi.WebLogic
 
             if (!string.IsNullOrEmpty(credentials.AccessToken) && !string.IsNullOrEmpty(credentials.AccessTokenSecret))
             {
-                var uri = new Uri(twitterQuery.QueryURL);
+                var uri = new Uri(twitterQuery.Url);
                 var credentialsParameters = GenerateParameters(twitterQuery.TwitterCredentials);
                 twitterQuery.AuthorizationHeader = GenerateAuthorizationHeader(uri, twitterQuery.HttpMethod, credentialsParameters);
             }

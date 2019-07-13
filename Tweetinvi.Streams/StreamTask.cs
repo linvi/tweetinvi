@@ -198,7 +198,7 @@ namespace Tweetinvi.Streams
         {
             try
             {
-                var uri = new Uri(twitterQuery.QueryURL);
+                var uri = new Uri(twitterQuery.Url);
                 var endpoint = uri.GetEndpointURL();
                 var queryParameters = uri.Query.Remove(0, 1);
                 var httpMethod = new HttpMethod(twitterQuery.HttpMethod.ToString());
@@ -214,7 +214,7 @@ namespace Tweetinvi.Streams
                 }
                 else
                 {
-                    request = new HttpRequestMessage(httpMethod, twitterQuery.QueryURL);
+                    request = new HttpRequestMessage(httpMethod, twitterQuery.Url);
                 }
 
 

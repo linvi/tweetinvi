@@ -11,7 +11,7 @@ namespace Tweetinvi.Models
         /// <summary>
         /// Query that will be executed.
         /// </summary>
-        string QueryURL { get; set; }
+        string Url { get; set; }
 
         /// <summary>
         /// HTTP Method used to execute the query.

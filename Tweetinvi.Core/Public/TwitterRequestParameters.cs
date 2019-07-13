@@ -7,7 +7,7 @@ namespace Tweetinvi
 {
    public class TwitterRequestParameters : ITwitterRequestParameters
     {
-        public string QueryURL { get; set; }
+        public string Url { get; set; }
         public HttpMethod HttpMethod { get; set; }
         public HttpContent HttpContent { get; set; }
         public List<string> AcceptHeaders { get; set; }

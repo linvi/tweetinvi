@@ -16,6 +16,7 @@ using Tweetinvi.Logic.Exceptions;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
 using Tweetinvi.Models.DTO.QueryDTO;
+using Tweetinvi.Models.Interfaces;
 using Tweetinvi.Parameters;
 
 namespace Testinvi.TweetinviControllers.TweetTests
@@ -63,13 +64,15 @@ namespace Testinvi.TweetinviControllers.TweetTests
             var parameters = A.Fake<IPublishTweetParameters>();
 
             var query = TestHelper.GenerateString();
-            var expectedResult = A.Fake<ITweetDTO>();
+            var expectedResult = A.Fake<ITwitterResult<ITweetDTO>>();
+            var request = A.Fake<ITwitterRequest>();
 
             _fakeTweetQueryGenerator.CallsTo(x => x.GetPublishTweetQuery(parameters)).Returns(query);
             _fakeTwitterAccessor.ArrangeExecutePOSTQuery(query, expectedResult);
+            _fakeTwitterAccessor.CallsTo(x => x.ExecuteRequest<ITweetDTO>(request)).ReturnsLazily(() => expectedResult);
 
             // Act
-            var result = await queryExecutor.PublishTweet(parameters);
+            var result = await queryExecutor.PublishTweet(parameters, request);
 
             // Assert
             Assert.AreEqual(result, expectedResult);
