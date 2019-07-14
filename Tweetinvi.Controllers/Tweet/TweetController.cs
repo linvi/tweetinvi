@@ -218,9 +218,9 @@ namespace Tweetinvi.Controllers.Tweet
             return tweetDTO.IsTweetDestroyed;
         }
 
-        public Task<bool> DestroyTweet(long tweetId)
+        public Task<ITwitterResult> DestroyTweet(long tweetId, ITwitterRequest request)
         {
-            return _tweetQueryExecutor.DestroyTweet(tweetId);
+            return _tweetQueryExecutor.DestroyTweet(tweetId, request);
         }
 
         // Favorite Tweet

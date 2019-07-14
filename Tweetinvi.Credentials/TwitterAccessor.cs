@@ -490,7 +490,7 @@ namespace Tweetinvi.Credentials
         {
             try
             {
-                await ExecuteQuery(url, (HttpMethod)HttpMethod.POST, (ITwitterCredentials)null, new StringContent(json));
+                await ExecuteQuery(url, HttpMethod.POST, (ITwitterCredentials)null, new StringContent(json));
                 return true;
             }
             catch (TwitterException)
@@ -535,19 +535,21 @@ namespace Tweetinvi.Credentials
             return deserializedObject;
         }
 
+        public async Task<ITwitterResult> ExecuteRequest(ITwitterRequest request)
+        {
+            var response = await _twitterRequestHandler.ExecuteQuery(request);
+            return _twitterResultFactory.Create(request, response);
+        }
+
         public async Task<ITwitterResult<T>> ExecuteRequest<T>(ITwitterRequest request) where T : class
         {
-            var response = await ExecuteRequest(request);
+            var response = await _twitterRequestHandler.ExecuteQuery(request);
             return _twitterResultFactory.Create<T>(request, response);
         }
 
-        public Task<ITwitterResponse> ExecuteRequest(ITwitterRequest request)
-        {
-            return _twitterRequestHandler.ExecuteQuery(request);
-        }
 
         // Concrete Execute
-        public Task<ITwitterResponse> ExecuteQuery(
+        public async Task<ITwitterResponse> ExecuteQuery(
             string query,
             HttpMethod method,
             ITwitterCredentials credentials,
@@ -578,7 +580,9 @@ namespace Tweetinvi.Credentials
                 }
             };
 
-            return ExecuteRequest(twitterRequest);
+            var twitterResult = await ExecuteRequest(twitterRequest);
+
+            return twitterResult.Response;
         }
 
         // Consumer Credentials
@@ -668,7 +672,7 @@ namespace Tweetinvi.Credentials
         {
             if (url == null)
             {
-                throw new ArgumentNullException("URL", "Url cannot be null.");
+                throw new ArgumentNullException(nameof(url), "Url cannot be null.");
             }
 
             try

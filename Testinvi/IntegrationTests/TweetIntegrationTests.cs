@@ -1,8 +1,6 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Tweetinvi;
-using Tweetinvi.Exceptions;
 using Tweetinvi.Models;
 
 namespace Testinvi.IntegrationTests
@@ -19,7 +17,7 @@ namespace Testinvi.IntegrationTests
             var client = new TwitterClient(credentials);
             client.Config.ErrorHandlerType = ErrorHandlerType.ReturnNull;
 
-            var tweet = await client.Tweets.PublishTweet("hello from tweetinvi");
+            var tweet = await client.Tweets.PublishTweet("hello from tweetinvi 42");
 
             Assert.IsNotNull(tweet);
 
@@ -27,9 +25,14 @@ namespace Testinvi.IntegrationTests
 
             Assert.AreEqual(checkTweet.Id, tweet.Id);
 
-            var deleteSuccessful = await Tweet.DestroyTweet(tweet);
+            var deleteSuccessful = await client.Tweets.DestroyTweet(tweet.Id);
 
             Assert.AreEqual(deleteSuccessful, true);
+
+            // expected failures
+            var secondDeleteSuccess = await client.Tweets.DestroyTweet(tweet.Id);
+
+            Assert.AreEqual(secondDeleteSuccess, false);
 
             var deletedTweet = await client.Tweets.GetTweet(tweet.Id);
 

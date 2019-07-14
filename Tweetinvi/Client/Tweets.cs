@@ -36,5 +36,11 @@ namespace Tweetinvi.Client
             var requestResult = await _tweetsRequester.PublishTweet(parameters);
             return requestResult?.Result;
         }
+
+        public async Task<bool> DestroyTweet(long tweetId)
+        {
+            var requestResult = await _tweetsRequester.DestroyTweet(tweetId);
+            return requestResult?.Response.IsSuccessStatusCode == true;
+        }
     }
 }

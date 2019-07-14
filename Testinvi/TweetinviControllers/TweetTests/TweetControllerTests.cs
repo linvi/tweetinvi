@@ -7,8 +7,10 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Testinvi.Helpers;
 using Tweetinvi.Controllers.Tweet;
 using Tweetinvi.Core.Factories;
+using Tweetinvi.Core.Web;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
+using Tweetinvi.Models.Interfaces;
 
 namespace Testinvi.TweetinviControllers.TweetTests
 {
@@ -366,35 +368,20 @@ namespace Testinvi.TweetinviControllers.TweetTests
 
         // With TweetID
         [TestMethod]
-        public async Task DestroyTweet_WithTweetIdAndQueryExecutorReturnsTrue_ReturnsTrue()
+        public async Task DestroyTweet_WithTweetIdAndQueryExecutor_ReturnsTwitterResult()
         {
             // Arrange
             var controller = CreateTweetController();
             var tweetId = TestHelper.GenerateRandomLong();
+            var twitterResult = A.Fake<ITwitterResult>();
 
-            _fakeTweetQueryExecutor.CallsTo(x => x.DestroyTweet(tweetId)).Returns(true);
-
-            // Act
-            var result = await controller.DestroyTweet(tweetId);
-
-            // Assert
-            Assert.IsTrue(result);
-        }
-
-        [TestMethod]
-        public async Task DestroyTweet_WithTweetIdAndQueryExecutorReturnsFalse_ReturnsFalse()
-        {
-            // Arrange
-            var controller = CreateTweetController();
-            var tweetId = TestHelper.GenerateRandomLong();
-
-            _fakeTweetQueryExecutor.CallsTo(x => x.DestroyTweet(tweetId)).Returns(false);
+            _fakeTweetQueryExecutor.CallsTo(x => x.DestroyTweet(tweetId, It.IsAny<ITwitterRequest>())).ReturnsLazily(() => twitterResult);
 
             // Act
-            var result = await controller.DestroyTweet(tweetId);
+            var result = await controller.DestroyTweet(tweetId, A.Fake<ITwitterRequest>());
 
             // Assert
-            Assert.IsFalse(result);
+            Assert.AreEqual(result, twitterResult);
         }
 
         #endregion

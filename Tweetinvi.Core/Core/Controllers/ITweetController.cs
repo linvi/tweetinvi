@@ -37,7 +37,7 @@ namespace Tweetinvi.Core.Controllers
         // Destroy Tweet
         Task<bool> DestroyTweet(ITweet tweet);
         Task<bool> DestroyTweet(ITweetDTO tweetDTO);
-        Task<bool> DestroyTweet(long tweetId);
+        Task<ITwitterResult> DestroyTweet(long tweetId, ITwitterRequest request);
 
         // Generate OembedTweet
         Task<IOEmbedTweet> GenerateOEmbedTweet(ITweet tweet);

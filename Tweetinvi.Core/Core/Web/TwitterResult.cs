@@ -6,6 +6,7 @@ namespace Tweetinvi.Core.Web
 {
     public interface ITwitterResultFactory
     {
+        ITwitterResult Create(ITwitterRequest request, ITwitterResponse response);
         ITwitterResult<DTO> Create<DTO>(ITwitterRequest request, ITwitterResponse response) where DTO : class;
 
         ITwitterResult<DTO, Model> Create<DTO, Model>(
@@ -27,6 +28,15 @@ namespace Tweetinvi.Core.Web
         public TwitterResultFactory(IJsonObjectConverter jsonObjectConverter)
         {
             _jsonObjectConverter = jsonObjectConverter;
+        }
+
+        public ITwitterResult Create(ITwitterRequest request, ITwitterResponse response)
+        {
+            return new TwitterResult
+            {
+                Response = response,
+                Request = request
+            };
         }
 
         public ITwitterResult<T> Create<T>(ITwitterRequest request, ITwitterResponse response) where T : class
@@ -73,7 +83,14 @@ namespace Tweetinvi.Core.Web
         Model Result { get; }
     }
 
-    public class TwitterResult<DTO> : ITwitterResult<DTO> where DTO : class
+    public class TwitterResult : ITwitterResult
+    {
+        public ITwitterResponse Response { get; set; }
+        public ITwitterRequest Request { get; set; }
+        public string Json => Response?.Text;
+    }
+
+    public class TwitterResult<DTO> : TwitterResult, ITwitterResult<DTO> where DTO : class
     {
         private readonly IJsonObjectConverter _jsonObjectConverter;
 
@@ -106,13 +123,6 @@ namespace Tweetinvi.Core.Web
                 _initialized = true;
                 _result = value;
             }
-        }
-        public ITwitterResponse Response { get; set; }
-        public ITwitterRequest Request { get; set; }
-
-        public string Json
-        {
-            get { return Response?.Text; }
         }
     }
 

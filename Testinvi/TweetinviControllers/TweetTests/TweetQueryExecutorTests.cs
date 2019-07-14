@@ -28,7 +28,7 @@ namespace Testinvi.TweetinviControllers.TweetTests
         private Fake<ITweetQueryGenerator> _fakeTweetQueryGenerator;
         private Fake<ITwitterAccessor> _fakeTwitterAccessor;
 
-        private TwitterException _fake139TwitterException;
+        private TwitterException _fakeTwitterException;
         private TwitterException _fakeOtherTwitterException;
 
         private List<long> _cursorQueryIds;
@@ -44,7 +44,7 @@ namespace Testinvi.TweetinviControllers.TweetTests
 
             var twitter139ExceptionInfos = new TwitterExceptionInfo { Code = 139 };
             fakeWebExceptionInfoExtractor.CallsTo(x => x.GetTwitterExceptionInfo(It.IsAny<WebException>())).Returns(new[] { twitter139ExceptionInfos });
-            _fake139TwitterException = new TwitterException(fakeWebExceptionInfoExtractor, new WebException(), A.Fake<ITwitterRequest>());
+            _fakeTwitterException = new TwitterException(fakeWebExceptionInfoExtractor, new WebException(), A.Fake<ITwitterRequest>());
 
             var twitterOtherExceptionInfos = new TwitterExceptionInfo { Code = 1 };
             fakeWebExceptionInfoExtractor.CallsTo(x => x.GetTwitterExceptionInfo(It.IsAny<WebException>())).Returns(new[] { twitterOtherExceptionInfos });
@@ -209,39 +209,25 @@ namespace Testinvi.TweetinviControllers.TweetTests
         }
 
         [TestMethod]
-        public async Task DestroyTweet_WithTweetIdSucceed_ReturnsTrue()
+        public async Task DestroyTweet_WithTweetIdSucceed_ReturnsExpectedResult()
         {
             // Arrange
             var queryExecutor = CreateTweetQueryExecutor();
             var tweetId = TestHelper.GenerateRandomLong();
             var query = TestHelper.GenerateString();
+            var expectedResult = A.Fake<ITwitterResult>();
 
             _fakeTweetQueryGenerator.CallsTo(x => x.GetDestroyTweetQuery(tweetId)).Returns(query);
             _fakeTwitterAccessor.ArrangeTryExecutePOSTQuery(query, true);
+            _fakeTwitterAccessor
+                .CallsTo(x => x.ExecuteRequest(A<ITwitterRequest>.That.Matches(request => request.Query.Url == query)))
+                .ReturnsLazily(() => expectedResult);
 
             // Act
-            var result = await queryExecutor.DestroyTweet(tweetId);
+            var result = await queryExecutor.DestroyTweet(tweetId, A.Fake<ITwitterRequest>());
 
             // Assert
-            Assert.IsTrue(result);
-        }
-
-        [TestMethod]
-        public async Task DestroyTweet_WithTweetIdFailed_ReturnsFalse()
-        {
-            // Arrange
-            var queryExecutor = CreateTweetQueryExecutor();
-            var tweetId = TestHelper.GenerateRandomLong();
-            var query = TestHelper.GenerateString();
-
-            _fakeTweetQueryGenerator.CallsTo(x => x.GetDestroyTweetQuery(tweetId)).Returns(query);
-            _fakeTwitterAccessor.ArrangeTryExecutePOSTQuery(query, false);
-
-            // Act
-            var result = await queryExecutor.DestroyTweet(tweetId);
-
-            // Assert
-            Assert.IsFalse(result);
+            Assert.AreEqual(result, expectedResult);
         }
 
         #endregion
@@ -293,7 +279,7 @@ namespace Testinvi.TweetinviControllers.TweetTests
             var query = TestHelper.GenerateString();
 
             _fakeTweetQueryGenerator.CallsTo(x => x.GetFavoriteTweetQuery(tweetDTO)).Returns(query);
-            _fakeTwitterAccessor.CallsTo(x => x.ExecutePOSTQuery(query)).Throws(_fake139TwitterException);
+            _fakeTwitterAccessor.CallsTo(x => x.ExecutePOSTQuery(query)).Throws(_fakeTwitterException);
 
             // Act
             var result = await queryExecutor.FavoriteTweet(tweetDTO);

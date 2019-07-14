@@ -116,7 +116,7 @@ namespace Tweetinvi.Core.Web
         // Consumer Credentials Query
         Task<ITwitterResponse> ExecuteQuery(string query, HttpMethod method, IConsumerOnlyCredentials credentials, HttpContent httpContent = null);
         Task<T> ExecuteQuery<T>(string query, HttpMethod method, IConsumerOnlyCredentials credentials, HttpContent httpContent = null) where T : class;
-        Task<ITwitterResponse> ExecuteRequest(ITwitterRequest request);
+        Task<ITwitterResult> ExecuteRequest(ITwitterRequest request);
         Task<ITwitterResult<T>> ExecuteRequest<T>(ITwitterRequest request) where T : class;
     }
 }

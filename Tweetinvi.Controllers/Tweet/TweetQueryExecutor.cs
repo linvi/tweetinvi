@@ -33,7 +33,7 @@ namespace Tweetinvi.Controllers.Tweet
 
         // Destroy Tweet
         Task<bool> DestroyTweet(ITweetDTO tweet);
-        Task<bool> DestroyTweet(long tweetId);
+        Task<ITwitterResult> DestroyTweet(long tweetId, ITwitterRequest request);
 
         // Favorite Tweet
         Task<bool> FavoriteTweet(ITweetDTO tweet);
@@ -127,12 +127,14 @@ namespace Tweetinvi.Controllers.Tweet
             return asyncOperation.Success;
         }
 
-        public async Task<bool> DestroyTweet(long tweetId)
+        public Task<ITwitterResult> DestroyTweet(long tweetId, ITwitterRequest request)
         {
-            string query = _tweetQueryGenerator.GetDestroyTweetQuery(tweetId);
-            var asyncOperation = await _twitterAccessor.TryExecutePOSTQuery(query);
+            var query = _tweetQueryGenerator.GetDestroyTweetQuery(tweetId);
 
-            return asyncOperation.Success;
+            request.Query.Url = query;
+            request.Query.HttpMethod = HttpMethod.POST;
+
+            return _twitterAccessor.ExecuteRequest(request);
         }
 
         // Favourite Tweet

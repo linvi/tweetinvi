@@ -176,14 +176,6 @@ namespace Tweetinvi
             return TweetController.DestroyTweet(tweet);
         }
 
-        /// <summary>
-        /// Destroy a specific tweet
-        /// </summary>
-        public static Task<bool> DestroyTweet(long tweetId)
-        {
-            return TweetController.DestroyTweet(tweetId);
-        }
-
         // Favorite Tweet
 
         /// <summary>
