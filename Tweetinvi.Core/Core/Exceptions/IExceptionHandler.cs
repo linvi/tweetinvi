@@ -5,6 +5,7 @@ using Tweetinvi.Core.Web;
 using Tweetinvi.Events;
 using Tweetinvi.Exceptions;
 using Tweetinvi.Models;
+using Tweetinvi.Models.Interfaces;
 
 namespace Tweetinvi.Core.Exceptions
 {
@@ -20,18 +21,18 @@ namespace Tweetinvi.Core.Exceptions
 
         void ClearLoggedExceptions();
 
-        TwitterException AddWebException(WebException webException, ITwitterQuery twitterQuery);
-        TwitterException TryLogWebException(WebException webException, ITwitterQuery twitterQuery);
+        TwitterException AddWebException(WebException webException, ITwitterRequest request);
+        TwitterException TryLogWebException(WebException webException, ITwitterRequest request);
 
-        TwitterException AddFailedWebRequestResult(ITwitterResponse twitterResponse, ITwitterQuery twitterQuery);
-        TwitterException TryLogFailedWebRequestResult(ITwitterResponse twitterResponse, ITwitterQuery twitterQuery);
+        TwitterException AddFailedWebRequestResult(ITwitterResponse twitterResponse, ITwitterRequest request);
+        TwitterException TryLogFailedWebRequestResult(ITwitterResponse twitterResponse, ITwitterRequest request);
 
         TwitterException TryLogExceptionInfos(ITwitterExceptionInfo[] exceptionInfos, string url);
 
-        TwitterException GenerateTwitterException(WebException webException, ITwitterQuery twitterQuery);
-        TwitterException GenerateTwitterException(WebException webException, ITwitterQuery twitterQuery, int statusCode);
+        TwitterException GenerateTwitterException(WebException webException, ITwitterRequest request);
+        TwitterException GenerateTwitterException(WebException webException, ITwitterRequest request, int statusCode);
 			
-        TwitterException GenerateTwitterException(ITwitterResponse twitterResponse, ITwitterQuery twitterQuery);
+        TwitterException GenerateTwitterException(ITwitterResponse twitterResponse, ITwitterRequest twitterQuery);
         void AddTwitterException(ITwitterException twitterException);
     }
 }

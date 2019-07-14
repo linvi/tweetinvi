@@ -36,6 +36,11 @@ namespace Tweetinvi
         Compat = 1
     }
 
+    public enum ErrorHandlerType
+    {
+        Throw = 0,
+        ReturnNull = 1
+    };
     public interface ITweetinviSettings
     {
         /// <summary>
@@ -88,6 +93,11 @@ namespace Tweetinvi
         TwitterLimits Limits { get; set; }
 
         /// <summary>
+        /// How errors will be handled by Tweetinvi
+        /// </summary>
+        ErrorHandlerType ErrorHandlerType { get; set; }
+
+        /// <summary>
         /// Clone settings.
         /// </summary>
         ITweetinviSettings Clone();
@@ -110,6 +120,7 @@ namespace Tweetinvi
         public int UploadTimeout { get; set; }
         public Func<DateTime> GetUtcDateTime { get; set; }
         public TwitterLimits Limits { get; set; }
+        public ErrorHandlerType ErrorHandlerType { get; set; }
 
         public TweetinviSettings()
         {
@@ -132,6 +143,7 @@ namespace Tweetinvi
             clone.GetUtcDateTime = GetUtcDateTime;
             clone.Converters = Converters;
             clone.Limits = Limits.Clone();
+            clone.ErrorHandlerType = ErrorHandlerType;
 
             return clone;
         }
@@ -147,6 +159,7 @@ namespace Tweetinvi
             GetUtcDateTime = other.GetUtcDateTime;
             Converters = other.Converters;
             Limits = other.Limits.Clone();
+            ErrorHandlerType = other.ErrorHandlerType;
         }
     }
 }

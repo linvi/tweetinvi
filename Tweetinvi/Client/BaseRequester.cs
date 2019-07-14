@@ -13,9 +13,14 @@ namespace Tweetinvi.Client
             {
                 return await action();
             }
-            catch (Exception e)
+            catch (TwitterException)
             {
-                throw new TwitterRequestException(request, e);
+                if (request.Config.ErrorHandlerType == ErrorHandlerType.ReturnNull)
+                {
+                    return null;
+                }
+
+                throw;
             }
         }
     }

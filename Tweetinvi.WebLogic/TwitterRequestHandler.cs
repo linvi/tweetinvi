@@ -65,20 +65,20 @@ namespace Tweetinvi.WebLogic
 
                 if (multiPartRequest == null || multiPartRequest.Binaries.IsNullOrEmpty())
                 {
-                    twitterResponse = await _webRequestExecutor.ExecuteQuery(request.Query, request.TwitterClientHandler);
+                    twitterResponse = await _webRequestExecutor.ExecuteQuery(request, request.TwitterClientHandler);
                 }
                 else
                 {
-                    twitterResponse = await _webRequestExecutor.ExecuteMultipartQuery(request.Query, multiPartRequest.ContentId, multiPartRequest.Binaries);
+                    twitterResponse = await _webRequestExecutor.ExecuteMultipartQuery(request, multiPartRequest.ContentId, multiPartRequest.Binaries);
                 }
 
-                QueryCompleted(request.Query, twitterResponse, request.Config.RateLimitTrackerMode);
+                QueryCompleted(request, twitterResponse, request.Config.RateLimitTrackerMode);
 
                 return twitterResponse;
             }
             catch (TwitterException ex)
             {
-                HandleException(request.Query.Url, request.Config.RateLimitTrackerMode, ex, request.Query);
+                HandleException(request.Query.Url, request.Config.RateLimitTrackerMode, ex, request);
 
                 throw;
             }
@@ -154,23 +154,23 @@ namespace Tweetinvi.WebLogic
             return query;
         }
 
-        private void QueryCompleted(ITwitterQuery twitterQuery, ITwitterResponse twitterResponse, RateLimitTrackerMode rateLimitTrackerMode)
+        private void QueryCompleted(ITwitterRequest request, ITwitterResponse twitterResponse, RateLimitTrackerMode rateLimitTrackerMode)
         {
             if (rateLimitTrackerMode != RateLimitTrackerMode.None)
             {
                 var rateLimitHeaders = twitterResponse.Headers.Where(kvp => kvp.Key.StartsWith("x-rate-limit-")).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
 
-                _rateLimitUpdater.QueryExecuted(twitterQuery.Url, twitterQuery.TwitterCredentials, rateLimitHeaders);
+                _rateLimitUpdater.QueryExecuted(request.Query.Url, request.Query.TwitterCredentials, rateLimitHeaders);
             }
 
-            _tweetinviEvents.RaiseAfterQueryExecuted(new QueryAfterExecuteEventArgs(twitterQuery, twitterResponse.Text, twitterResponse.Headers));
+            _tweetinviEvents.RaiseAfterQueryExecuted(new QueryAfterExecuteEventArgs(request.Query, twitterResponse.Text, twitterResponse.Headers));
         }
 
         private void HandleException(
             string queryURL,
             RateLimitTrackerMode rateLimitTrackerMode,
             TwitterException exception,
-            ITwitterQuery queryParameter)
+            ITwitterRequest request)
         {
             var statusCode = exception.StatusCode;
             if (rateLimitTrackerMode != RateLimitTrackerMode.None && statusCode == TweetinviConsts.STATUS_CODE_TOO_MANY_REQUEST)
@@ -178,7 +178,7 @@ namespace Tweetinvi.WebLogic
                 _rateLimitUpdater.ClearRateLimitsForQuery(queryURL);
             }
 
-            _tweetinviEvents.RaiseAfterQueryExecuted(new QueryAfterExecuteExceptionEventArgs(queryParameter, exception));
+            _tweetinviEvents.RaiseAfterQueryExecuted(new QueryAfterExecuteExceptionEventArgs(request.Query, exception));
         }
 
         #endregion

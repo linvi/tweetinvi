@@ -100,10 +100,14 @@ namespace Tweetinvi.Credentials.RateLimit
             var result = await _credentialsAccessor.ExecuteOperationWithCredentials(credentials, async () =>
             {
                 var twitterQuery = _twitterQueryFactory.Create(_helpQueryGenerator.GetCredentialsLimitsQuery(), HttpMethod.GET, credentials);
+                var request = new TwitterRequest
+                {
+                    Query = twitterQuery
+                };
 
                 try
                 {
-                    var webRequestResult = await _webRequestExecutor.ExecuteQuery(twitterQuery);
+                    var webRequestResult = await _webRequestExecutor.ExecuteQuery(request);
                     var json = webRequestResult.Text;
 
                     return _jsonObjectConverter.DeserializeObject<ICredentialsRateLimits>(json);

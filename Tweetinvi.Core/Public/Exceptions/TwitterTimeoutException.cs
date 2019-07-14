@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using Tweetinvi.Core.Exceptions;
-using Tweetinvi.Models;
+using Tweetinvi.Models.Interfaces;
 
 namespace Tweetinvi.Exceptions
 {
@@ -13,11 +13,11 @@ namespace Tweetinvi.Exceptions
 
     public class TwitterTimeoutException : TwitterException, ITwitterTimeoutException
     {
-        public TwitterTimeoutException(ITwitterQuery twitterQuery) 
-            : base(twitterQuery, string.Format("{0} web request timed out.", twitterQuery.Url))
+        public TwitterTimeoutException(ITwitterRequest request)
+            : base(request, $"{request.Query.Url} request timed out.")
         {
-            Timeout = twitterQuery.Timeout;
-            TwitterDescription = string.Format("Twitter was not able to perform your query within the Timeout limit of {0} ms.", twitterQuery.Timeout.TotalMilliseconds);
+            Timeout = request.Query.Timeout;
+            TwitterDescription = $"Twitter was not able to perform your query within the Timeout limit of {request.Query.Timeout.TotalMilliseconds} ms.";
             CreationDate = DateTime.Now;
         }
 

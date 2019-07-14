@@ -9,10 +9,10 @@ using Tweetinvi.Core.Events;
 using Tweetinvi.Core.Exceptions;
 using Tweetinvi.Core.Extensions;
 using Tweetinvi.Core.Helpers;
-using Tweetinvi.Core.Injectinvi;
 using Tweetinvi.Events;
 using Tweetinvi.Exceptions;
 using Tweetinvi.Models;
+using Tweetinvi.Models.Interfaces;
 using HttpMethod = System.Net.Http.HttpMethod;
 
 namespace Tweetinvi.Streams
@@ -43,39 +43,35 @@ namespace Tweetinvi.Streams
         private const int STREAM_RESUME_DELAY = 1000;
 
         private readonly Func<string, bool> _processObject;
-        private readonly Func<ITwitterQuery> _generateTwitterQuery;
+        private readonly Func<ITwitterRequest> _generateTwitterRequest;
         private readonly IExceptionHandler _exceptionHandler;
         private readonly ITweetinviEvents _tweetinviEvents;
-        private readonly IFactory<ITwitterTimeoutException> _twitterTimeoutExceptionFactory;
         private readonly IHttpClientWebHelper _httpClientWebHelper;
 
         private bool _isNew;
-        private Exception _lastException;
 
-        private ITwitterQuery _twitterQuery;
+        private ITwitterRequest _twitterRequest;
         private StreamReader _currentStreamReader;
         private HttpClient _currentHttpClient;
         private int _currentResponseHttpStatusCode = TwitterException.DEFAULT_STATUS_CODE;
 
         public StreamTask(
             Func<string, bool> processObject,
-            Func<ITwitterQuery> generateTwitterQuery,
+            Func<ITwitterRequest> generateTwitterRequest,
             IExceptionHandler exceptionHandler,
             ITweetinviEvents tweetinviEvents,
-            IFactory<ITwitterTimeoutException> twitterTimeoutExceptionFactory,
             IHttpClientWebHelper httpClientWebHelper)
         {
             _processObject = processObject;
-            _generateTwitterQuery = generateTwitterQuery;
+            _generateTwitterRequest = generateTwitterRequest;
             _exceptionHandler = exceptionHandler;
             _tweetinviEvents = tweetinviEvents;
-            _twitterTimeoutExceptionFactory = twitterTimeoutExceptionFactory;
             _httpClientWebHelper = httpClientWebHelper;
             _isNew = true;
         }
 
         public StreamState StreamState { get; private set; }
-        public Exception LastException { get { return _lastException; } }
+        public Exception LastException { get; private set; }
 
         public void Start()
         {
@@ -87,20 +83,20 @@ namespace Tweetinvi.Streams
             this.Raise(StreamStarted);
             SetStreamState(StreamState.Running);
 
-            _twitterQuery = _generateTwitterQuery();
+            _twitterRequest = _generateTwitterRequest();
 
-            if (_twitterQuery.TwitterCredentials == null)
+            if (_twitterRequest.Query.TwitterCredentials == null)
             {
                 throw new TwitterNullCredentialsException();
             }
 
-            if (!_twitterQuery.TwitterCredentials.AreSetupForUserAuthentication())
+            if (!_twitterRequest.Query.TwitterCredentials.AreSetupForUserAuthentication())
             {
-                throw new TwitterInvalidCredentialsException(_twitterQuery.TwitterCredentials);
+                throw new TwitterInvalidCredentialsException(_twitterRequest.Query.TwitterCredentials);
             }
 
-            _currentHttpClient = GetHttpClient(_twitterQuery);
-            _currentStreamReader = GetStreamReader(_currentHttpClient, _twitterQuery).Result;
+            _currentHttpClient = GetHttpClient(_twitterRequest);
+            _currentStreamReader = GetStreamReader(_currentHttpClient, _twitterRequest).Result;
 
             int numberOfRepeatedFailures = 0;
 
@@ -118,7 +114,7 @@ namespace Tweetinvi.Streams
 
                 try
                 {
-                    var json = GetJsonResponseFromReader(_currentStreamReader, _twitterQuery);
+                    var json = GetJsonResponseFromReader(_currentStreamReader, _twitterRequest);
 
                     var isJsonResponseValid = json.IsMatchingJsonFormat();
                     if (!isJsonResponseValid)
@@ -161,28 +157,21 @@ namespace Tweetinvi.Streams
                 }
             }
 
-            if (_currentStreamReader != null)
-            {
-                _currentStreamReader.Dispose();
-            }
-
-            if (_currentHttpClient != null)
-            {
-                _currentHttpClient.Dispose();
-            }
+            _currentStreamReader?.Dispose();
+            _currentHttpClient?.Dispose();
         }
 
-        private HttpClient GetHttpClient(ITwitterQuery twitterQuery)
+        private HttpClient GetHttpClient(ITwitterRequest request)
         {
-            if (twitterQuery == null)
+            if (request.Query == null)
             {
                 SetStreamState(StreamState.Stop);
                 return null;
             }
 
-            twitterQuery.Timeout = TimeSpan.FromMilliseconds(Timeout.Infinite);
+            request.Query.Timeout = TimeSpan.FromMilliseconds(Timeout.Infinite);
 
-            var queryBeforeExecuteEventArgs = new QueryBeforeExecuteEventArgs(twitterQuery);
+            var queryBeforeExecuteEventArgs = new QueryBeforeExecuteEventArgs(request.Query);
             _tweetinviEvents.RaiseBeforeQueryExecute(queryBeforeExecuteEventArgs);
 
             if (queryBeforeExecuteEventArgs.Cancel)
@@ -191,34 +180,35 @@ namespace Tweetinvi.Streams
                 return null;
             }
 
-            return _httpClientWebHelper.GetHttpClient(twitterQuery);
+            return _httpClientWebHelper.GetHttpClient(request.Query);
         }
 
-        private async Task<StreamReader> GetStreamReader(HttpClient client, ITwitterQuery twitterQuery)
+        private async Task<StreamReader> GetStreamReader(HttpClient client, ITwitterRequest request)
         {
             try
             {
+                var twitterQuery = request.Query;
                 var uri = new Uri(twitterQuery.Url);
                 var endpoint = uri.GetEndpointURL();
                 var queryParameters = uri.Query.Remove(0, 1);
                 var httpMethod = new HttpMethod(twitterQuery.HttpMethod.ToString());
 
-                HttpRequestMessage request;
+                HttpRequestMessage httpRequestMessage;
 
                 if (httpMethod == HttpMethod.Post)
                 {
-                    request = new HttpRequestMessage(httpMethod, endpoint)
+                    httpRequestMessage = new HttpRequestMessage(httpMethod, endpoint)
                     {
                         Content = new StringContent(queryParameters, Encoding.UTF8, "application/x-www-form-urlencoded")
                     };
                 }
                 else
                 {
-                    request = new HttpRequestMessage(httpMethod, twitterQuery.Url);
+                    httpRequestMessage = new HttpRequestMessage(httpMethod, twitterQuery.Url);
                 }
 
 
-                var response = await client.SendAsync(request, HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false);
+                var response = await client.SendAsync(httpRequestMessage, HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false);
                 _currentResponseHttpStatusCode = (int) response.StatusCode;
                 var body = await response.Content.ReadAsStreamAsync().ConfigureAwait(false);
 
@@ -233,19 +223,19 @@ namespace Tweetinvi.Streams
             {
                 client.Dispose();
 
-                if (ex is AggregateException && ex.InnerException is WebException)
+                if (ex is AggregateException && ex.InnerException is WebException webException)
                 {
-                    HandleWebException(ex.InnerException as WebException);
+                    HandleWebException(webException);
                 }
 
-                _lastException = ex;
+                LastException = ex;
                 SetStreamState(StreamState.Stop);
             }
 
             return null;
         }
 
-        private string GetJsonResponseFromReader(StreamReader reader, ITwitterQuery twitterQuery)
+        private string GetJsonResponseFromReader(StreamReader reader, ITwitterRequest request)
         {
             var requestTask = reader.ReadLineAsync();
 
@@ -259,10 +249,8 @@ namespace Tweetinvi.Streams
                     // so that no scheduler actually receive any potential exception received.
                 }, TaskContinuationOptions.OnlyOnFaulted);
 
-                var twitterQueryParameter =
-                    _twitterTimeoutExceptionFactory.GenerateParameterOverrideWrapper("twitterQuery", twitterQuery);
-                var twitterTimeoutException = _twitterTimeoutExceptionFactory.Create(twitterQueryParameter);
-                throw (Exception) twitterTimeoutException;
+                var twitterTimeoutException = new TwitterTimeoutException(request);
+                throw twitterTimeoutException;
             }
 
             var jsonResponse = requestTask.Result;
@@ -279,7 +267,7 @@ namespace Tweetinvi.Streams
             if (numberOfRepeatedFailures == 1)
             {
                 _currentStreamReader.Dispose();
-                _currentStreamReader = GetStreamReader(_currentHttpClient, _twitterQuery).Result;
+                _currentStreamReader = GetStreamReader(_currentHttpClient, _twitterRequest).Result;
                 return true;
             }
 
@@ -288,8 +276,8 @@ namespace Tweetinvi.Streams
                 _currentStreamReader.Dispose();
                 _currentHttpClient.Dispose();
 
-                _currentHttpClient = GetHttpClient(_twitterQuery);
-                _currentStreamReader = GetStreamReader(_currentHttpClient, _twitterQuery).Result;
+                _currentHttpClient = GetHttpClient(_twitterRequest);
+                _currentStreamReader = GetStreamReader(_currentHttpClient, _twitterRequest).Result;
                 return true;
             }
 
@@ -302,23 +290,20 @@ namespace Tweetinvi.Streams
             // But having such a method to control whether the stream needs to
             // continue running in case of Exception is great.
 
-            var aex = ex as AggregateException;
-            if (aex != null)
+            if (ex is AggregateException aex)
             {
                 ex = aex.InnerException;
             }
 
-            _lastException = ex;
+            LastException = ex;
 
-            var timeoutException = ex as TwitterTimeoutException;
-            if (timeoutException != null)
+            if (ex is TwitterTimeoutException timeoutException)
             {
-                _lastException = timeoutException;
+                LastException = timeoutException;
                 return false;
             }
 
-            var webException = ex as WebException;
-            if (webException != null)
+            if (ex is WebException webException)
             {
                 HandleWebException(webException);
 
@@ -328,10 +313,10 @@ namespace Tweetinvi.Streams
                 return false;
             }
 
-            var isExceptionThrownByStreamBeingStoppedByUser = _lastException is IOException && StreamState == StreamState.Stop;
+            var isExceptionThrownByStreamBeingStoppedByUser = LastException is IOException && StreamState == StreamState.Stop;
             if (isExceptionThrownByStreamBeingStoppedByUser)
             {
-                _lastException = null;
+                LastException = null;
             }
 
             return false;
@@ -339,12 +324,12 @@ namespace Tweetinvi.Streams
 
         private void HandleWebException(WebException wex)
         {
-            _lastException = _exceptionHandler.GenerateTwitterException(wex, _twitterQuery, _currentResponseHttpStatusCode);
+            LastException = _exceptionHandler.GenerateTwitterException(wex, _twitterRequest, _currentResponseHttpStatusCode);
 
             if (!_exceptionHandler.SwallowWebExceptions)
             {
                 SetStreamState(StreamState.Stop);
-                throw _lastException;
+                throw LastException;
             }
         }
 
@@ -360,15 +345,8 @@ namespace Tweetinvi.Streams
 
         public void Stop()
         {
-            if (_currentStreamReader != null)
-            {
-                _currentStreamReader.Dispose();
-            }
-
-            if (_currentHttpClient != null)
-            {
-                _currentHttpClient.Dispose();
-            }
+            _currentStreamReader?.Dispose();
+            _currentHttpClient?.Dispose();
 
             SetStreamState(StreamState.Stop);
         }

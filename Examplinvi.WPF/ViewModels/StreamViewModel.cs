@@ -8,7 +8,7 @@ namespace Examplinvi.WPF.ViewModels
 {
     public class StreamViewModel : INotifyPropertyChanged
     {
-        public ITwitterClient _client;
+        private ITwitterClient _client;
         
         /// <summary>
         /// Informational message to the user.
@@ -61,8 +61,6 @@ namespace Examplinvi.WPF.ViewModels
 
         public void RunSampleStream()
         {
-            var uiDispatcher = Thread.CurrentThread;
-
             var s = Stream.CreateSampleStream();
 
             var i = 0;

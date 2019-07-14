@@ -4,17 +4,18 @@ using System.Net;
 using Tweetinvi.Core.Exceptions;
 using Tweetinvi.Core.Web;
 using Tweetinvi.Models;
+using Tweetinvi.Models.Interfaces;
 
 namespace Tweetinvi.Exceptions
 {
     public interface ITwitterExceptionFactory
     {
         TwitterException Create(ITwitterExceptionInfo[] exceptionInfos, string url);
-        TwitterException Create(ITwitterExceptionInfo[] exceptionInfos, ITwitterQuery twitterQuery);
-        TwitterException Create(ITwitterResponse twitterResponse, ITwitterQuery twitterQuery);
+        TwitterException Create(ITwitterExceptionInfo[] exceptionInfos, ITwitterRequest request);
+        TwitterException Create(ITwitterResponse twitterResponse, ITwitterRequest request);
 
-        TwitterException Create(WebException webException, ITwitterQuery twitterQuery);
-        TwitterException Create(WebException webException, ITwitterQuery twitterQuery, int statusCode);
+        TwitterException Create(WebException webException, ITwitterRequest request);
+        TwitterException Create(WebException webException, ITwitterRequest request, int statusCode);
     }
 
     public class TwitterExceptionFactory : ITwitterExceptionFactory
@@ -31,24 +32,24 @@ namespace Tweetinvi.Exceptions
             return new TwitterException(exceptionInfos, url);
         }
 
-        public TwitterException Create(ITwitterExceptionInfo[] exceptionInfos, ITwitterQuery twitterQuery)
+        public TwitterException Create(ITwitterExceptionInfo[] exceptionInfos, ITwitterRequest request)
         {
-            return new TwitterException(exceptionInfos, twitterQuery);
+            return new TwitterException(exceptionInfos, request);
         }
 
-        public TwitterException Create(ITwitterResponse twitterResponse, ITwitterQuery twitterQuery)
+        public TwitterException Create(ITwitterResponse twitterResponse, ITwitterRequest request)
         {
-            return new TwitterException(_webExceptionInfoExtractor, twitterResponse, twitterQuery);
+            return new TwitterException(_webExceptionInfoExtractor, twitterResponse, request);
         }
 
-        public TwitterException Create(WebException webException, ITwitterQuery twitterQuery)
+        public TwitterException Create(WebException webException, ITwitterRequest request)
         {
-            return Create(webException, twitterQuery, TwitterException.DEFAULT_STATUS_CODE);
+            return Create(webException, request, TwitterException.DEFAULT_STATUS_CODE);
         }
 
-        public TwitterException Create(WebException webException, ITwitterQuery twitterQuery, int defaultStatusCode)
+        public TwitterException Create(WebException webException, ITwitterRequest request, int defaultStatusCode)
         {
-            return new TwitterException(_webExceptionInfoExtractor, webException, twitterQuery, defaultStatusCode);
+            return new TwitterException(_webExceptionInfoExtractor, webException, request, defaultStatusCode);
         }
     }
 
@@ -63,17 +64,18 @@ namespace Tweetinvi.Exceptions
         public virtual DateTime CreationDate { get; protected set; }
         public virtual IEnumerable<ITwitterExceptionInfo> TwitterExceptionInfos { get; protected set; }
         public virtual ITwitterQuery TwitterQuery { get; protected set; }
+        public virtual ITwitterRequest Request { get; protected set; }
 
 
-        protected TwitterException(ITwitterQuery twitterQuery, string message)
-            : base(message)
+        protected TwitterException(ITwitterRequest request, string message) : base(message)
         {
+            Request = request;
             CreationDate = DateTime.Now;
-            URL = twitterQuery?.Url;
-            TwitterQuery = twitterQuery;
+            URL = Request.Query.Url;
+            TwitterQuery = Request.Query;
         }
 
-        private TwitterException(ITwitterQuery twitterQuery) : this(twitterQuery, string.Format("{0} web request failed.", twitterQuery?.Url))
+        private TwitterException(ITwitterRequest request) : this(request, $"{request.Query.Url} request failed.")
         {
         }
 
@@ -84,19 +86,18 @@ namespace Tweetinvi.Exceptions
             URL = url;
         }
 
-        public TwitterException(ITwitterExceptionInfo[] exceptionInfos, ITwitterQuery twitterQuery)
-            : this(twitterQuery)
+        public TwitterException(ITwitterExceptionInfo[] exceptionInfos, ITwitterRequest request)
+            : this(request)
         {
             CreationDate = DateTime.Now;
             TwitterExceptionInfos = exceptionInfos;
-            TwitterQuery = twitterQuery;
         }
 
         public TwitterException(
             IWebExceptionInfoExtractor webExceptionInfoExtractor,
             ITwitterResponse twitterResponse,
-            ITwitterQuery twitterQuery)
-            : this(twitterQuery)
+            ITwitterRequest request)
+            : this(request)
         {
             StatusCode = twitterResponse.StatusCode;
             TwitterExceptionInfos = webExceptionInfoExtractor.GetTwitterExceptionInfosFromStream(twitterResponse.ResultStream);
@@ -106,9 +107,9 @@ namespace Tweetinvi.Exceptions
         public TwitterException(
             IWebExceptionInfoExtractor webExceptionInfoExtractor,
             WebException webException,
-            ITwitterQuery twitterQuery,
+            ITwitterRequest request,
             int defaultStatusCode = DEFAULT_STATUS_CODE)
-            : this(twitterQuery, webException.Message)
+            : this(request, webException.Message)
         {
             WebException = webException;
             StatusCode = webExceptionInfoExtractor.GetWebExceptionStatusNumber(webException, defaultStatusCode);
@@ -118,23 +119,23 @@ namespace Tweetinvi.Exceptions
 
         public override string ToString()
         {
-            string date = string.Format("--- Date : {0}\r\n", CreationDate.ToLocalTime());
-            string url = URL == null ? string.Empty : string.Format("URL : {0}\r\n", URL);
-            string code = string.Format("Code : {0}\r\n", StatusCode);
-            string description = string.Format("Error documentation description : {0}\r\n", TwitterDescription);
-            string exceptionMessage = string.Format("Error message : {0}\r\n", Message);
+            var date = $"--- Date : {CreationDate.ToLocalTime()}\r\n";
+            var url = URL == null ? string.Empty : $"URL : {URL}\r\n";
+            var code = $"Code : {StatusCode}\r\n";
+            var description = $"Error documentation description : {TwitterDescription}\r\n";
+            var exceptionMessage = $"Error message : {Message}\r\n";
 
-            string exceptionInfos = string.Empty;
+            var exceptionInfos = string.Empty;
 
             if (TwitterExceptionInfos != null)
             {
                 foreach (var twitterExceptionInfo in TwitterExceptionInfos)
                 {
-                    exceptionInfos += string.Format("{0} ({1})\r\n", twitterExceptionInfo.Message, twitterExceptionInfo.Code);
+                    exceptionInfos += $"{twitterExceptionInfo.Message} ({twitterExceptionInfo.Code})\r\n";
                 }
             }
 
-            return string.Format("{0}{1}{2}{3}{4}{5}", date, url, code, description, exceptionMessage, exceptionInfos);
+            return $"{date}{url}{code}{description}{exceptionMessage}{exceptionInfos}";
         }
     }
 }

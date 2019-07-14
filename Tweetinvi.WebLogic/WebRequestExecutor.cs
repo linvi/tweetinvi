@@ -11,7 +11,7 @@ using Tweetinvi.Core.Helpers;
 using Tweetinvi.Core.Injectinvi;
 using Tweetinvi.Core.Web;
 using Tweetinvi.Exceptions;
-using Tweetinvi.Models;
+using Tweetinvi.Models.Interfaces;
 
 namespace Tweetinvi.WebLogic
 {
@@ -35,21 +35,21 @@ namespace Tweetinvi.WebLogic
         }
 
         // Simple Query
-        public Task<ITwitterResponse> ExecuteQuery(ITwitterQuery twitterQuery, ITwitterClientHandler handler = null)
+        public Task<ITwitterResponse> ExecuteQuery(ITwitterRequest request, ITwitterClientHandler handler = null)
         {
-            return ExecuteTwitterQuerySafely(twitterQuery, async () =>
+            return ExecuteTwitterQuerySafely(request, async () =>
             {
                 HttpResponseMessage httpResponseMessage = null;
 
                 try
                 {
-                    httpResponseMessage = await _httpClientWebHelper.GetHttpResponse(twitterQuery, handler);
+                    httpResponseMessage = await _httpClientWebHelper.GetHttpResponse(request.Query, handler);
 
-                    var result = GetWebResultFromResponse(twitterQuery.Url, httpResponseMessage);
+                    var result = GetWebResultFromResponse(request.Query.Url, httpResponseMessage);
 
                     if (!result.IsSuccessStatusCode)
                     {
-                        throw _exceptionHandler.TryLogFailedWebRequestResult(result, twitterQuery);
+                        throw _exceptionHandler.TryLogFailedWebRequestResult(result, request);
                     }
 
                     var stream = result.ResultStream;
@@ -64,10 +64,7 @@ namespace Tweetinvi.WebLogic
                 }
                 catch (Exception)
                 {
-                    if (httpResponseMessage != null)
-                    {
-                        httpResponseMessage.Dispose();
-                    }
+                    httpResponseMessage?.Dispose();
 
                     throw;
                 }
@@ -76,7 +73,7 @@ namespace Tweetinvi.WebLogic
 
         // Multipart
 
-        public static byte[] StreamToBinary(Stream stream)
+        private static byte[] StreamToBinary(Stream stream)
         {
             if (stream == null)
             {
@@ -106,17 +103,17 @@ namespace Tweetinvi.WebLogic
             return binary;
         }
 
-        public Task<ITwitterResponse> ExecuteMultipartQuery(ITwitterQuery twitterQuery, string contentId, IEnumerable<byte[]> binaries)
+        public Task<ITwitterResponse> ExecuteMultipartQuery(ITwitterRequest request, string contentId, IEnumerable<byte[]> binaries)
         {
-            return ExecuteTwitterQuerySafely(twitterQuery, async () =>
+            return ExecuteTwitterQuerySafely(request, async () =>
             {
                 HttpResponseMessage httpResponseMessage = null;
 
                 try
                 {
-                    httpResponseMessage = await _httpClientWebHelper.GetHttpResponse(twitterQuery);
+                    httpResponseMessage = await _httpClientWebHelper.GetHttpResponse(request.Query);
 
-                    var result = GetWebResultFromResponse(twitterQuery.Url, httpResponseMessage);
+                    var result = GetWebResultFromResponse(request.Query.Url, httpResponseMessage);
 
                     var stream = result.ResultStream;
 
@@ -130,10 +127,7 @@ namespace Tweetinvi.WebLogic
                 }
                 catch (Exception)
                 {
-                    if (httpResponseMessage != null)
-                    {
-                        httpResponseMessage.Dispose();
-                    }
+                    httpResponseMessage?.Dispose();
 
                     throw;
                 }
@@ -163,7 +157,7 @@ namespace Tweetinvi.WebLogic
             return webRequestResult;
         }
 
-        private async Task<T> ExecuteTwitterQuerySafely<T>(ITwitterQuery twitterQuery, Func<Task<T>> action)
+        private async Task<T> ExecuteTwitterQuerySafely<T>(ITwitterRequest request, Func<Task<T>> action)
         {
             try
             {
@@ -182,12 +176,12 @@ namespace Tweetinvi.WebLogic
 
                 if (webException != null)
                 {
-                    throw _exceptionHandler.TryLogWebException(webException, twitterQuery);
+                    throw _exceptionHandler.TryLogWebException(webException, request);
                 }
 
                 if (taskCanceledException != null)
                 {
-                    var twitterTimeoutException = new TwitterTimeoutException(twitterQuery);
+                    var twitterTimeoutException = new TwitterTimeoutException(request);
 
                     if (_exceptionHandler.LogExceptions)
                     {

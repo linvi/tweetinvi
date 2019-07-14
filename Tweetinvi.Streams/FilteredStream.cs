@@ -11,6 +11,7 @@ using Tweetinvi.Core.Streaming;
 using Tweetinvi.Core.Wrappers;
 using Tweetinvi.Events;
 using Tweetinvi.Models;
+using Tweetinvi.Models.Interfaces;
 using Tweetinvi.Parameters;
 using Tweetinvi.Streaming;
 using Tweetinvi.Streams.Helpers;
@@ -82,12 +83,17 @@ namespace Tweetinvi.Streams
         {
             _filterStreamTweetMatcher = _filterStreamTweetMatcherFactory.Create(_streamTrackManager, _locations, _followingUserIds);
 
-            Func<ITwitterQuery> generateWebRequest = () =>
+            Func<ITwitterRequest> generateWebRequest = () =>
             {
                 var queryBuilder = GenerateORFilterQuery();
                 AddBaseParametersToQuery(queryBuilder);
 
-                return _twitterQueryFactory.Create(queryBuilder.ToString(), HttpMethod.POST, Credentials);
+                var request = new TwitterRequest
+                {
+                    Query = _twitterQueryFactory.Create(queryBuilder.ToString(), HttpMethod.POST, Credentials),
+                };
+
+                return request;
             };
 
             Action<string> tweetReceived = json =>
@@ -134,12 +140,15 @@ namespace Tweetinvi.Streams
         {
             _filterStreamTweetMatcher = _filterStreamTweetMatcherFactory.Create(_streamTrackManager, _locations, _followingUserIds);
 
-            Func<ITwitterQuery> generateTwitterQuery = () =>
+            Func<ITwitterRequest> generateTwitterRequest = () =>
             {
                 var queryBuilder = GenerateANDFilterQuery();
                 AddBaseParametersToQuery(queryBuilder);
 
-                return _twitterQueryFactory.Create(queryBuilder.ToString(), HttpMethod.POST, Credentials);
+                return new TwitterRequest
+                {
+                    Query = _twitterQueryFactory.Create(queryBuilder.ToString(), HttpMethod.POST, Credentials)
+                };
             };
 
             Action<string> tweetReceived = json =>
@@ -176,7 +185,7 @@ namespace Tweetinvi.Streams
                 }
             };
 
-            await _streamResultGenerator.StartStreamAsync(tweetReceived, generateTwitterQuery);
+            await _streamResultGenerator.StartStreamAsync(tweetReceived, generateTwitterRequest);
         }
 
         public MatchOn CheckIfTweetMatchesStreamFilters(ITweet tweet)
@@ -378,7 +387,7 @@ namespace Tweetinvi.Streams
             Locations.Clear();
         }
 
-       
+
 
         #endregion
     }

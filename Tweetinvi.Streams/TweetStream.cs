@@ -8,6 +8,7 @@ using Tweetinvi.Core.Streaming;
 using Tweetinvi.Core.Wrappers;
 using Tweetinvi.Events;
 using Tweetinvi.Models;
+using Tweetinvi.Models.Interfaces;
 using Tweetinvi.Parameters;
 
 namespace Tweetinvi.Streams
@@ -35,12 +36,15 @@ namespace Tweetinvi.Streams
 
         public async Task StartStream(string url)
         {
-            Func<ITwitterQuery> generateTwitterQuery = delegate
+            Func<ITwitterRequest> generateTwitterRequest = delegate
             {
                 var queryBuilder = new StringBuilder(url);
                 AddBaseParametersToQuery(queryBuilder);
 
-                return _twitterQueryFactory.Create(queryBuilder.ToString(), HttpMethod.GET, Credentials);
+                return new TwitterRequest
+                {
+                    Query = _twitterQueryFactory.Create(queryBuilder.ToString(), HttpMethod.GET, Credentials)
+                };
             };
 
             Action<string> generateTweetDelegate = json =>
@@ -57,7 +61,7 @@ namespace Tweetinvi.Streams
                 this.Raise(TweetReceived, new TweetReceivedEventArgs(tweet, json));
             };
 
-            await _streamResultGenerator.StartStreamAsync(generateTweetDelegate, generateTwitterQuery).ConfigureAwait(false);
+            await _streamResultGenerator.StartStreamAsync(generateTweetDelegate, generateTwitterRequest).ConfigureAwait(false);
         }
     }
 }

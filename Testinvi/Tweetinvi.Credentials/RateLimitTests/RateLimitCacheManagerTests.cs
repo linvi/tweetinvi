@@ -14,6 +14,7 @@ using Tweetinvi.Core.RateLimit;
 using Tweetinvi.Core.Web;
 using Tweetinvi.Credentials.RateLimit;
 using Tweetinvi.Models;
+using Tweetinvi.Models.Interfaces;
 using HttpMethod = Tweetinvi.Models.HttpMethod;
 
 namespace Testinvi.Tweetinvi.Credentials.RateLimitTests
@@ -32,6 +33,7 @@ namespace Testinvi.Tweetinvi.Credentials.RateLimitTests
         private Fake<ICredentialsAccessor> _fakeCredentialsAccessor;
         private Fake<ITwitterQueryFactory> _fakeTwitterQueryFactory;
 
+        private ITwitterRequest _twitterRequest;
         private ITwitterQuery _twitterQuery;
         private ICredentialsRateLimits _credentialsRateLimits;
         private IEndpointRateLimit _endpointRateLimit;
@@ -71,7 +73,7 @@ namespace Testinvi.Tweetinvi.Credentials.RateLimitTests
             _webRequestResult = A.Fake<ITwitterResponse>();
             _webRequestResult.CallsTo(x => x.Text).Returns(TEST_QUERY);
 
-            _fakeWebRequestExecutor.CallsTo(x => x.ExecuteQuery(_twitterQuery, null)).Returns(_webRequestResult);
+            _fakeWebRequestExecutor.CallsTo(x => x.ExecuteQuery(A<ITwitterRequest>.That.Matches(request => request.Query == _twitterQuery), null)).Returns(_webRequestResult);
             _fakeJsonObjectConverter.CallsTo(x => x.DeserializeObject<ICredentialsRateLimits>(TEST_QUERY, It.IsAny<JsonConverter[]>())).ReturnsNextFromSequence(_credentialsRateLimits, _credentialsRateLimits2);
 
             _fakeTwitterQueryFactory.CallsTo(x => x.Create(TEST_QUERY, It.IsAny<HttpMethod>(), It.IsAny<ITwitterCredentials>())).Returns(_twitterQuery);
@@ -222,6 +224,9 @@ namespace Testinvi.Tweetinvi.Credentials.RateLimitTests
             _twitterQuery.CallsTo(x => x.Url).Returns(TEST_QUERY);
             _twitterQuery.CallsTo(x => x.HttpMethod).Returns(HttpMethod.GET);
             _twitterQuery.CallsTo(x => x.QueryParameters).Returns(Enumerable.Empty<IOAuthQueryParameter>());
+
+            _twitterRequest = A.Fake<ITwitterRequest>();
+            _twitterRequest.Query = _twitterQuery;
         }
 
         private RateLimitCacheManager CreateRateLimitCacheManager()

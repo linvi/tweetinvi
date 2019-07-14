@@ -11,6 +11,7 @@ using Tweetinvi.Core.Streaming;
 using Tweetinvi.Core.Wrappers;
 using Tweetinvi.Events;
 using Tweetinvi.Models;
+using Tweetinvi.Models.Interfaces;
 using Tweetinvi.Parameters;
 using Tweetinvi.Streaming;
 using Tweetinvi.Streams.Properties;
@@ -24,11 +25,8 @@ namespace Tweetinvi.Streams
         public event EventHandler<TweetEventArgs> NonMatchingTweetReceived;
 
         protected readonly IStreamTrackManager<ITweet> _streamTrackManager;
-        protected readonly IJsonObjectConverter _jsonObjectConverter;
         protected readonly ITweetFactory _tweetFactory;
-        protected readonly ISynchronousInvoker _synchronousInvoker;
 
-        private readonly ISingleAggregateExceptionThrower _singleAggregateExceptionThrower;
         private readonly ITwitterQueryFactory _twitterQueryFactory;
 
         public override event EventHandler<JsonObjectEventArgs> JsonObjectReceived;
@@ -47,21 +45,21 @@ namespace Tweetinvi.Streams
             : base(streamResultGenerator, jsonObjectConverter, jObjectStaticWrapper, customRequestParameters)
         {
             _streamTrackManager = streamTrackManager;
-            _jsonObjectConverter = jsonObjectConverter;
             _tweetFactory = tweetFactory;
-            _synchronousInvoker = synchronousInvoker;
-            _singleAggregateExceptionThrower = singleAggregateExceptionThrower;
             _twitterQueryFactory = twitterQueryFactory;
         }
 
         public async Task StartStreamAsync(string url)
         {
-            Func<ITwitterQuery> generateTwitterQuery = delegate
+            Func<ITwitterRequest> generateTwitterRequest = delegate
             {
                 var queryBuilder = new StringBuilder(url);
                 AddBaseParametersToQuery(queryBuilder);
 
-                return _twitterQueryFactory.Create(queryBuilder.ToString(), HttpMethod.GET, Credentials);
+                return new TwitterRequest
+                {
+                    Query = _twitterQueryFactory.Create(queryBuilder.ToString(), HttpMethod.GET, Credentials)
+                };
             };
 
             Action<string> generateTweetDelegate = json =>
@@ -97,7 +95,7 @@ namespace Tweetinvi.Streams
                 }
             };
 
-            await _streamResultGenerator.StartStreamAsync(generateTweetDelegate, generateTwitterQuery);
+            await _streamResultGenerator.StartStreamAsync(generateTweetDelegate, generateTwitterRequest);
         }
 
         protected void RaiseJsonObjectReceived(string json)

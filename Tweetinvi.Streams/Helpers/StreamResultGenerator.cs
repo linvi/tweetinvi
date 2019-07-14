@@ -6,6 +6,7 @@ using Tweetinvi.Core.Streaming;
 using Tweetinvi.Events;
 using Tweetinvi.Exceptions;
 using Tweetinvi.Models;
+using Tweetinvi.Models.Interfaces;
 using Tweetinvi.Streaming.Events;
 using Tweetinvi.Streams.Model;
 using Tweetinvi.Streams.Properties;
@@ -50,7 +51,7 @@ namespace Tweetinvi.Streams.Helpers
             }
         }
 
-        public async Task StartStreamAsync(Action<string> processObject, Func<ITwitterQuery> generateTwitterQuery)
+        public async Task StartStreamAsync(Action<string> processObject, Func<ITwitterRequest> generateTwitterRequest)
         {
             Func<string, bool> processValidObject = json =>
             {
@@ -58,10 +59,10 @@ namespace Tweetinvi.Streams.Helpers
                 return true;
             };
 
-            await StartStreamAsync(processValidObject, generateTwitterQuery);
+            await StartStreamAsync(processValidObject, generateTwitterRequest);
         }
 
-        public async Task StartStreamAsync(Func<string, bool> processObject, Func<ITwitterQuery> generateTwitterQuery)
+        public async Task StartStreamAsync(Func<string, bool> processObject, Func<ITwitterRequest> generateTwitterRequest)
         {
             IStreamTask streamTask;
 
@@ -78,7 +79,7 @@ namespace Tweetinvi.Streams.Helpers
                 }
 
                 var processObjectParameter = _streamTaskFactory.GenerateParameterOverrideWrapper("processObject", processObject);
-                var generateWebRequestParameter = _streamTaskFactory.GenerateParameterOverrideWrapper("generateTwitterQuery", generateTwitterQuery);
+                var generateWebRequestParameter = _streamTaskFactory.GenerateParameterOverrideWrapper("generateTwitterRequest", generateTwitterRequest);
                 
                 streamTask = _streamTaskFactory.Create(processObjectParameter, generateWebRequestParameter);
 

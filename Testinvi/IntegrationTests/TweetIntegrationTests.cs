@@ -11,11 +11,13 @@ namespace Testinvi.IntegrationTests
     public class TweetIntegrationTests
     {
         [TestMethod]
+        [Ignore]
         public async Task TestTweets()
         {
             var credentials = new TwitterCredentials("CONSUMER_KEY", "CONSUMER_SECRET", "ACCESS_TOKEN", "ACCESS_SECRET");
             Auth.SetCredentials(credentials);
             var client = new TwitterClient(credentials);
+            client.Config.ErrorHandlerType = ErrorHandlerType.ReturnNull;
 
             var tweet = await client.Tweets.PublishTweet("hello from tweetinvi");
 
@@ -29,15 +31,9 @@ namespace Testinvi.IntegrationTests
 
             Assert.AreEqual(deleteSuccessful, true);
 
-            try
-            {
-                await client.Tweets.GetTweet(tweet.Id);
-            }
-            catch (TwitterRequestException e)
-            {
-                Console.WriteLine(e);
-            }
+            var deletedTweet = await client.Tweets.GetTweet(tweet.Id);
 
+            Assert.IsNull(deletedTweet);
         }
     }
 }
