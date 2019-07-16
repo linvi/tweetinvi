@@ -209,12 +209,6 @@ namespace Tweetinvi.Controllers.Tweet
         }
 
         // Destroy Tweet
-        public string GetDestroyTweetQuery(ITweetDTO tweetDTO)
-        {
-            _tweetQueryValidator.ThrowIfTweetCannotBeDestroyed(tweetDTO);
-            return GetDestroyTweetQuery(tweetDTO.Id);
-        }
-
         public string GetDestroyTweetQuery(long tweetId)
         {
             _tweetQueryValidator.ThrowIfTweetCannotBeUsed(tweetId);

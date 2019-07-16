@@ -1,7 +1,7 @@
 ﻿using Tweetinvi.Core;
+using Tweetinvi.Core.Client;
 using Tweetinvi.Core.Controllers;
 using Tweetinvi.Core.Factories;
-using Tweetinvi.Core.Helpers;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
 
@@ -12,13 +12,13 @@ namespace Tweetinvi.Logic
         private ITweetWithSearchMetadataDTO _tweetWithSearchMetadataDTO;
 
         public TweetWithSearchMetadata(
-            ITweetWithSearchMetadataDTO tweetDTO, 
+            ITweetWithSearchMetadataDTO tweetDTO,
+            ITwitterExecutionContext executionContext,
             ITweetController tweetController, 
             ITweetFactory tweetFactory, 
-            IUserFactory userFactory, 
-            ITaskFactory taskFactory,
+            IUserFactory userFactory,
             ITweetinviSettingsAccessor tweetinviSettingsAccessor) 
-            : base(tweetDTO, null, tweetController, tweetFactory, userFactory, taskFactory, tweetinviSettingsAccessor)
+            : base(tweetDTO, null, executionContext, tweetController, tweetFactory, userFactory, tweetinviSettingsAccessor)
         {
             _tweetWithSearchMetadataDTO = tweetDTO;
         }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Tweetinvi.Core.Client;
 using Tweetinvi.Core.Events;
 using Tweetinvi.Core.Exceptions;
 using Tweetinvi.Core.Factories;
@@ -66,7 +67,7 @@ namespace Tweetinvi.Streams
             {
                 RaiseJsonObjectReceived(json);
 
-                var tweet = _tweetFactory.GenerateTweetFromJson(json, TweetMode);
+                var tweet = _tweetFactory.GenerateTweetFromJson(json, TweetMode, ExecutionContext);
                 if (tweet == null)
                 {
                     TryInvokeGlobalStreamMessages(json);

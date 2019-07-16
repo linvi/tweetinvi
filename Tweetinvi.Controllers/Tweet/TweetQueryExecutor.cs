@@ -32,7 +32,7 @@ namespace Tweetinvi.Controllers.Tweet
         Task<IEnumerable<long>> GetRetweetersIds(ITweetIdentifier tweetIdentifier, int maxRetweetersToRetrieve);
 
         // Destroy Tweet
-        Task<bool> DestroyTweet(ITweetDTO tweet);
+        Task<ITwitterResult> DestroyTweet(ITweetDTO tweet, ITwitterRequest request);
         Task<ITwitterResult> DestroyTweet(long tweetId, ITwitterRequest request);
 
         // Favorite Tweet
@@ -119,12 +119,14 @@ namespace Tweetinvi.Controllers.Tweet
         #endregion
 
         // Destroy Tweet
-        public async Task<bool> DestroyTweet(ITweetDTO tweet)
+        public Task<ITwitterResult> DestroyTweet(ITweetDTO tweet, ITwitterRequest request)
         {
-            string query = _tweetQueryGenerator.GetDestroyTweetQuery(tweet);
-            var asyncOperation = await _twitterAccessor.TryExecutePOSTQuery(query);
+            var query = _tweetQueryGenerator.GetDestroyTweetQuery(tweet.Id);
 
-            return asyncOperation.Success;
+            request.Query.Url = query;
+            request.Query.HttpMethod = HttpMethod.POST;
+
+            return _twitterAccessor.ExecuteRequest(request);
         }
 
         public Task<ITwitterResult> DestroyTweet(long tweetId, ITwitterRequest request)

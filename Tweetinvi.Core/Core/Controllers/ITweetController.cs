@@ -35,8 +35,7 @@ namespace Tweetinvi.Core.Controllers
         Task<IEnumerable<long>> GetRetweetersIds(long tweetId, int maxRetweetersToRetrieve = 100);
 
         // Destroy Tweet
-        Task<bool> DestroyTweet(ITweet tweet);
-        Task<bool> DestroyTweet(ITweetDTO tweetDTO);
+        Task<ITwitterResult> DestroyTweet(ITweetDTO tweet, ITwitterRequest request);
         Task<ITwitterResult> DestroyTweet(long tweetId, ITwitterRequest request);
 
         // Generate OembedTweet

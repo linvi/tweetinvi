@@ -45,13 +45,13 @@ namespace Tweetinvi.Controllers.Search
         public async Task<IEnumerable<ITweet>> SearchTweets(string searchQuery)
         {
             var tweetsDTO = await _searchQueryExecutor.SearchTweets(searchQuery);
-            return _tweetFactory.GenerateTweetsFromDTO(tweetsDTO);
+            return _tweetFactory.GenerateTweetsFromDTO(tweetsDTO, null, null);
         }
 
         public async Task<IEnumerable<ITweet>> SearchTweets(ISearchTweetsParameters searchTweetsParameters)
         {
             var tweetsDTO = await _searchQueryExecutor.SearchTweets(searchTweetsParameters);
-            return _tweetFactory.GenerateTweetsFromDTO(tweetsDTO);
+            return _tweetFactory.GenerateTweetsFromDTO(tweetsDTO, null, null);
         }
 
         public async Task<ISearchResult> SearchTweetsWithMetadata(string searchQuery)
@@ -79,7 +79,7 @@ namespace Tweetinvi.Controllers.Search
             }
 
             var repliesDTO = await _searchQueryExecutor.SearchRepliesTo(tweet.TweetDTO, recursiveReplies);
-            return _tweetFactory.GenerateTweetsFromDTO(repliesDTO);
+            return _tweetFactory.GenerateTweetsFromDTO(repliesDTO, null, null);
         }
 
         public async Task<IEnumerable<IUser>> SearchUsers(string searchQuery)

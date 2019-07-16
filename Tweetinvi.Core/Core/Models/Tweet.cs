@@ -3,14 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Tweetinvi.Core;
+using Tweetinvi.Core.Client;
 using Tweetinvi.Core.Controllers;
 using Tweetinvi.Core.Core.Helpers;
 using Tweetinvi.Core.Factories;
-using Tweetinvi.Core.Helpers;
 using Tweetinvi.Logic.TwitterEntities;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
 using Tweetinvi.Models.Entities;
+using Tweetinvi.Models.Interfaces;
 
 namespace Tweetinvi.Logic
 {
@@ -22,10 +23,10 @@ namespace Tweetinvi.Logic
     {
         private ITweetDTO _tweetDTO;
 
+        private readonly ITwitterExecutionContext _executionContext;
         private readonly ITweetController _tweetController;
         private readonly ITweetFactory _tweetFactory;
         private readonly IUserFactory _userFactory;
-        private readonly ITaskFactory _taskFactory;
 
         #region Public Attributes
 
@@ -130,7 +131,7 @@ namespace Tweetinvi.Logic
             get { return _tweetDTO.ExtendedTweet?.DisplayTextRange ?? _tweetDTO.DisplayTextRange; }
         }
 
-        public int[] SafeDisplayTextRange => DisplayTextRange ?? new int[] { 0, FullText.Length };
+        public int[] SafeDisplayTextRange => DisplayTextRange ?? new[] { 0, FullText.Length };
 
         public IExtendedTweet ExtendedTweet
         {
@@ -253,7 +254,7 @@ namespace Tweetinvi.Logic
             {
                 if (_retweetedTweet == null)
                 {
-                    _retweetedTweet = _tweetFactory.GenerateTweetFromDTO(_tweetDTO.RetweetedTweetDTO);
+                    _retweetedTweet = _tweetFactory.GenerateTweetFromDTO(_tweetDTO.RetweetedTweetDTO, TweetMode, _executionContext);
                 }
 
                 return _retweetedTweet;
@@ -283,7 +284,7 @@ namespace Tweetinvi.Logic
             {
                 if (_quotedTweet == null)
                 {
-                    _quotedTweet = _tweetFactory.GenerateTweetFromDTO(_tweetDTO.QuotedTweetDTO);
+                    _quotedTweet = _tweetFactory.GenerateTweetFromDTO(_tweetDTO.QuotedTweetDTO, TweetMode, _executionContext);
                 }
 
                 return _quotedTweet;
@@ -422,16 +423,16 @@ namespace Tweetinvi.Logic
         public Tweet(
             ITweetDTO tweetDTO,
             TweetMode? tweetMode,
+            ITwitterExecutionContext executionContext,
             ITweetController tweetController,
             ITweetFactory tweetFactory,
             IUserFactory userFactory,
-            ITaskFactory taskFactory,
             ITweetinviSettingsAccessor tweetinviSettingsAccessor)
         {
+            _executionContext = executionContext;
             _tweetController = tweetController;
             _tweetFactory = tweetFactory;
             _userFactory = userFactory;
-            _taskFactory = taskFactory;
 
             // IMPORTANT: POSITION MATTERS! Look line below!
             TweetMode = tweetMode ?? tweetinviSettingsAccessor?.CurrentThreadSettings?.TweetMode ?? TweetMode.Extended;
@@ -482,9 +483,12 @@ namespace Tweetinvi.Logic
             return _tweetController.GenerateOEmbedTweet(_tweetDTO);
         }
 
-        public Task<bool> Destroy()
+        public async Task<bool> Destroy()
         {
-            return _tweetController.DestroyTweet(_tweetDTO);
+            var request = _executionContext.RequestFactory();
+            var result = await _tweetController.DestroyTweet(TweetDTO, request);
+
+            return result.Response?.IsSuccessStatusCode == true;
         }
 
         public async Task Favorite()
@@ -528,7 +532,7 @@ namespace Tweetinvi.Logic
         /// <returns></returns>
         public object Clone()
         {
-            return _tweetFactory.GenerateTweetFromDTO(_tweetDTO);
+            return _tweetFactory.GenerateTweetFromDTO(_tweetDTO, TweetMode, _executionContext);
         }
 
         #endregion

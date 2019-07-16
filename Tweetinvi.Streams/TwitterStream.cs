@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Newtonsoft.Json.Linq;
+using Tweetinvi.Core.Client;
 using Tweetinvi.Core.Events;
 using Tweetinvi.Core.Extensions;
 using Tweetinvi.Core.Helpers;
@@ -44,6 +45,8 @@ namespace Tweetinvi.Streams
 
             InitializeStreamEventsActions();
         }
+
+        public ITwitterExecutionContext ExecutionContext { get; set; }
 
         private ITwitterCredentials _credentials;
         public ITwitterCredentials Credentials

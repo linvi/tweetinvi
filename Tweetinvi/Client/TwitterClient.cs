@@ -1,4 +1,5 @@
 ﻿using Tweetinvi.Client;
+using Tweetinvi.Core.Client;
 using Tweetinvi.Models;
 using Tweetinvi.Models.Interfaces;
 
@@ -14,8 +15,8 @@ namespace Tweetinvi
 
         ITwitterCredentials Credentials { get; }
         ITweetinviSettings Config { get; }
-        IRequestExecutor RequestExecutor { get; }
         ITwitterRequest CreateRequest();
+        ITwitterExecutionContext CreateTwitterExecutionContext();
     }
 
     public class TwitterClient : ITwitterClient
@@ -40,14 +41,29 @@ namespace Tweetinvi
 
         public IRequestExecutor RequestExecutor { get; }
 
+        public ITwitterExecutionContext CreateTwitterExecutionContext()
+        {
+            return new TwitterExecutionContext
+            {
+                RequestFactory = CreateRequest
+            };
+        }
+
         public ITwitterRequest CreateRequest()
         {
             var request = new TwitterRequest
             {
-                Config = Config,
+                ExecutionContext = new TwitterExecutionContext
+                {
+                    RequestFactory = CreateRequest
+                },
+                Query =
+                {
+                    TwitterCredentials = Credentials
+                }
             };
 
-            request.Query.TwitterCredentials = Credentials;
+            request.ExecutionContext.InitialiseFrom(Config);
 
             return request;
         }

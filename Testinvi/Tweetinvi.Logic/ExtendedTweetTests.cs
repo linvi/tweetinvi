@@ -218,7 +218,7 @@ namespace Testinvi.Tweetinvi.Core
 
             var tweetDTO = jsonConverter.DeserializeObject<ITweetDTO>(text);
 
-            return new Tweet(tweetDTO, tweetMode, null, null, userFactory, null, TweetinviContainer.Resolve<ITweetinviSettingsAccessor>());
+            return new Tweet(tweetDTO, tweetMode, null, null, A.Fake<ITweetFactory>(), userFactory, TweetinviContainer.Resolve<ITweetinviSettingsAccessor>());
         }
 
         #region tweet examples

@@ -1,4 +1,5 @@
 ﻿using System;
+using Tweetinvi.Core.Client;
 using Tweetinvi.Core.Web;
 using Tweetinvi.Models;
 using Tweetinvi.Models.Interfaces;
@@ -12,7 +13,10 @@ namespace Tweetinvi
         public TwitterRequest()
         {
             Query = new TwitterQuery();
-            Config = new TweetinviSettings();
+            ExecutionContext = new TwitterExecutionContext
+            {
+                RequestFactory = () => new TwitterRequest()
+            };
         }
 
         public ITwitterQuery Query
@@ -24,7 +28,7 @@ namespace Tweetinvi
             }
         }
 
-        public ITweetinviSettings Config { get; set; }
+        public ITwitterExecutionContext ExecutionContext { get; set; }
         public ITwitterClientHandler TwitterClientHandler { get; set; }
 
         public ITwitterRequest Clone()
@@ -32,8 +36,8 @@ namespace Tweetinvi
             return new TwitterRequest
             {
                 Query = Query?.Clone(),
-                Config = Config.Clone(),
-                TwitterClientHandler = TwitterClientHandler
+                TwitterClientHandler = TwitterClientHandler,
+                ExecutionContext = ExecutionContext.Clone()
             };
         }
     }

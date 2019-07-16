@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Tweetinvi.Core.Client;
 using Tweetinvi.Core.Controllers;
 using Tweetinvi.Core.Factories;
 using Tweetinvi.Core.Web;
@@ -17,63 +18,74 @@ namespace Tweetinvi.Client
         Task<ITwitterResult<ITweetDTO, ITweet>> PublishTweet(string text);
         Task<ITwitterResult<ITweetDTO, ITweet>> PublishTweet(IPublishTweetParameters parameters);
         Task<ITwitterResult> DestroyTweet(long tweetId);
+        Task<ITwitterResult> DestroyTweet(ITweetDTO tweet);
     }
 
     public interface IInternalTweetsRequester : ITweetsRequester
     {
-        void Initialize(Func<ITwitterRequest> createRequest);
+        void Initialize(ITwitterClient client);
     }
 
     public class TweetsRequester : BaseRequester, IInternalTweetsRequester
     {
         private readonly ITweetFactory _tweetFactory;
         private readonly ITweetController _tweetController;
-        private Func<ITwitterRequest> _createRequest;
+        private ITwitterClient _twitterClient;
 
-        public TweetsRequester(ITweetFactory tweetFactory, ITweetController tweetController)
+        public TweetsRequester(
+            ITweetFactory tweetFactory, 
+            ITweetController tweetController)
         {
             _tweetFactory = tweetFactory;
             _tweetController = tweetController;
         }
 
-        public void Initialize(Func<ITwitterRequest> createRequest)
+        public void Initialize(ITwitterClient client)
         {
-            if (_createRequest != null)
+            if (_twitterClient != null)
             {
                 throw new InvalidOperationException("createRequest cannot be changed");
             }
 
-            _createRequest = createRequest;
+            _twitterClient = client;
         }
 
         public Task<ITwitterResult<ITweetDTO, ITweet>> GetTweet(long tweetId)
         {
-            var request = _createRequest();
+            var request = _twitterClient.CreateRequest();
             return ExecuteRequest(() => _tweetFactory.GetTweet(tweetId, request), request);
         }
 
         public Task<ITwitterResult<ITweetDTO[], ITweet[]>> GetTweets(long[] tweetIds)
         {
-            var request = _createRequest();
+            var request = _twitterClient.CreateRequest();
             return ExecuteRequest(() => _tweetFactory.GetTweets(tweetIds, request), request);
         }
 
         public Task<ITwitterResult<ITweetDTO, ITweet>> PublishTweet(string text)
         {
-            var request = _createRequest();
+            var request = _twitterClient.CreateRequest();
             return ExecuteRequest(() => _tweetController.PublishTweet(text, request), request);
         }
 
         public Task<ITwitterResult<ITweetDTO, ITweet>> PublishTweet(IPublishTweetParameters parameters)
         {
-            var request = _createRequest();
+            var request = _twitterClient.CreateRequest();
             return ExecuteRequest(() => _tweetController.PublishTweet(parameters, request), request);
         }
 
         public Task<ITwitterResult> DestroyTweet(long tweetId)
         {
-            var request = _createRequest();
+            var request = _twitterClient.CreateRequest();
             return ExecuteRequest(() => _tweetController.DestroyTweet(tweetId, request), request);
         }
+
+        public Task<ITwitterResult> DestroyTweet(ITweetDTO tweet)
+        {
+            var request = _twitterClient.CreateRequest();
+            return ExecuteRequest(() => _tweetController.DestroyTweet(tweet, request), request);
+        }
+
+        // Factories
     }
 }

@@ -51,14 +51,14 @@ namespace Examplinvi.NETFramework
             Auth.SetUserCredentials("CONSUMER_KEY", "CONSUMER_SECRET", "ACCESS_TOKEN", "ACCESS_TOKEN_SECRET");
             Auth.SetCredentials(Credentials);
 
-            Examples.Client = new TwitterClient(Credentials);
+            //Examples.Client = new TwitterClient(Credentials);
 
             TweetinviEvents.QueryBeforeExecute += (sender, args) =>
             {
                 Console.WriteLine(args.Url);
             };
 
-            var authenticatedUser = User.GetAuthenticatedUser();
+            var authenticatedUser = User.GetAuthenticatedUser().Result;
 
             Console.WriteLine(authenticatedUser);
 

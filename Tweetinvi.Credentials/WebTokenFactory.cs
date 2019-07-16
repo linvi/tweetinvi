@@ -1,6 +1,7 @@
 ﻿using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Tweetinvi.Core;
+using Tweetinvi.Core.Client;
 using Tweetinvi.Core.Credentials;
 using Tweetinvi.Core.Exceptions;
 using Tweetinvi.Core.Extensions;
@@ -68,7 +69,7 @@ namespace Tweetinvi.Credentials
                 {
                     Query = twitterQuery,
                     TwitterClientHandler = authHandler,
-                    Config = new TweetinviSettings
+                    ExecutionContext = new TwitterExecutionContext
                     {
                         RateLimitTrackerMode = _settingsAccessor.RateLimitTrackerMode
                     }
@@ -152,7 +153,7 @@ namespace Tweetinvi.Credentials
                 {
                     Query = twitterQuery,
                     TwitterClientHandler = authHandler,
-                    Config = new TweetinviSettings
+                    ExecutionContext = new TwitterExecutionContext
                     {
                         RateLimitTrackerMode = _settingsAccessor.RateLimitTrackerMode
                     }

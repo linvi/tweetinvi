@@ -365,7 +365,7 @@ namespace Testinvi.TweetinviControllers.UserTests
             var parameters = It.IsAny<IGetUserFavoritesQueryParameters>();
 
             _fakeUserQueryExecutor.CallsTo(x => x.GetFavoriteTweets(parameters)).Returns(tweetsDTO);
-            _fakeTweetFactory.CallsTo(x => x.GenerateTweetsFromDTO(tweetsDTO, null)).Returns(tweets);
+            _fakeTweetFactory.CallsTo(x => x.GenerateTweetsFromDTO(tweetsDTO, null, null)).Returns(tweets);
 
             // Act
             var result = await controller.GetFavoriteTweets(parameters);

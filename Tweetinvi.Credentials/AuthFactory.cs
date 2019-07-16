@@ -3,6 +3,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
 using Tweetinvi.Core;
+using Tweetinvi.Core.Client;
 using Tweetinvi.Core.Exceptions;
 using Tweetinvi.Core.Web;
 using Tweetinvi.Core.Wrappers;
@@ -54,12 +55,12 @@ namespace Tweetinvi.Credentials
             {
                 if (authToken == null)
                 {
-                    throw new ArgumentNullException("Authentication Token cannot be null.");
+                    throw new ArgumentNullException(nameof(authToken), "Authentication Token cannot be null.");
                 }
 
                 if (verifierCode == null)
                 {
-                    throw new ArgumentNullException("VerifierCode",
+                    throw new ArgumentNullException(nameof(verifierCode),
                         "If you've received a verifier code that is null, " +
                         "it means that authentication has failed!");
                 }
@@ -76,7 +77,7 @@ namespace Tweetinvi.Credentials
                 {
                     Query = twitterQuery,
                     TwitterClientHandler = authHandler,
-                    Config = new TweetinviSettings
+                    ExecutionContext = new TwitterExecutionContext
                     {
                         RateLimitTrackerMode = _settingsAccessor.RateLimitTrackerMode
                     }
@@ -138,7 +139,7 @@ namespace Tweetinvi.Credentials
                     {
                         Query = twitterQuery,
                         TwitterClientHandler = new BearerHttpHandler(),
-                        Config = new TweetinviSettings
+                        ExecutionContext = new TwitterExecutionContext
                         {
                             RateLimitTrackerMode = _settingsAccessor.RateLimitTrackerMode
                         }
@@ -177,7 +178,7 @@ namespace Tweetinvi.Credentials
             {
                 Query = twitterQuery,
                 TwitterClientHandler = new InvalidateTokenHttpHandler(),
-                Config = new TweetinviSettings
+                ExecutionContext = new TwitterExecutionContext
                 {
                     RateLimitTrackerMode = _settingsAccessor.RateLimitTrackerMode
                 }

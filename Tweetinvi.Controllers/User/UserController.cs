@@ -111,7 +111,7 @@ namespace Tweetinvi.Controllers.User
         public async Task<IEnumerable<ITweet>> GetFavoriteTweets(IGetUserFavoritesQueryParameters parameters)
         {
             var tweetDTOs = await _userQueryExecutor.GetFavoriteTweets(parameters);
-            return _tweetFactory.GenerateTweetsFromDTO(tweetDTOs);
+            return _tweetFactory.GenerateTweetsFromDTO(tweetDTOs, null, null);
         }
 
         // Block User

@@ -35,14 +35,14 @@ namespace Tweetinvi.Factories.Tweet
 
         public async Task<ITwitterResult<ITweetDTO>> GetTweetDTO(long tweetId, ITwitterRequest request)
         {
-            request.Query.Url = _tweetQueryGenerator.GetTweetQuery(tweetId, request.Config);
+            request.Query.Url = _tweetQueryGenerator.GetTweetQuery(tweetId, request.ExecutionContext);
 
             return await _twitterAccessor.ExecuteRequest<ITweetDTO>(request);
         }
 
         public async Task<ITwitterResult<ITweetDTO[]>> GetTweetDTOs(long[] tweetIds, ITwitterRequest request)
         {
-            var maxSize = request.Config.Limits.Tweets.GetTweetsRequestMaxSize;
+            var maxSize = request.ExecutionContext.Limits.Tweets.GetTweetsRequestMaxSize;
 
             if (tweetIds.Length > maxSize)
             {

@@ -29,7 +29,6 @@ namespace Tweetinvi.Core.QueryGenerators
         string GetUnRetweetQuery(long tweetId);
 
         // Destroy Tweet
-        string GetDestroyTweetQuery(ITweetDTO tweetDTO);
         string GetDestroyTweetQuery(long tweetId);
 
         // Generate OembedTweet

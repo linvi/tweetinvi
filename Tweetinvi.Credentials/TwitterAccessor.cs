@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Tweetinvi.Core;
+using Tweetinvi.Core.Client;
 using Tweetinvi.Core.Credentials;
 using Tweetinvi.Core.Exceptions;
 using Tweetinvi.Core.Helpers;
-using Tweetinvi.Core.Injectinvi;
 using Tweetinvi.Core.Models;
 using Tweetinvi.Core.Public.Models.Authentication;
 using Tweetinvi.Core.Public.Parameters;
@@ -574,7 +574,7 @@ namespace Tweetinvi.Credentials
             var twitterRequest = new TwitterRequest
             {
                 Query = twitterQuery,
-                Config = new TweetinviSettings
+                ExecutionContext = new TwitterExecutionContext
                 {
                     RateLimitTrackerMode = _settingsAccessor.RateLimitTrackerMode
                 }
@@ -628,7 +628,7 @@ namespace Tweetinvi.Credentials
                 var twitterRequest = new TwitterRequest
                 {
                     Query = twitterQuery,
-                    Config = new TweetinviSettings
+                    ExecutionContext = new TwitterExecutionContext
                     {
                         RateLimitTrackerMode = _settingsAccessor.RateLimitTrackerMode
                     }
@@ -689,7 +689,8 @@ namespace Tweetinvi.Credentials
                 var twitterRequest = new TwitterRequest
                 {
                     Query = twitterQuery,
-                    Config = new TweetinviSettings
+
+                    ExecutionContext = new TwitterExecutionContext
                     {
                         RateLimitTrackerMode = _settingsAccessor.RateLimitTrackerMode
                     }
@@ -735,7 +736,7 @@ namespace Tweetinvi.Credentials
             var twitterRequest = new TwitterRequest
             {
                 Query = twitterQuery,
-                Config = new TweetinviSettings
+                ExecutionContext = new TwitterExecutionContext
                 {
                     RateLimitTrackerMode = _settingsAccessor.RateLimitTrackerMode
                 }

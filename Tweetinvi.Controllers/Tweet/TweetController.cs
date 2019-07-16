@@ -102,7 +102,7 @@ namespace Tweetinvi.Controllers.Tweet
 
             var result = await _tweetQueryExecutor.PublishTweet(parameters, request);
 
-            return _twitterResultFactory.Create(result, tweetDTO => _tweetFactory.GenerateTweetFromDTO(tweetDTO, request.Config.TweetMode));
+            return _twitterResultFactory.Create(result, tweetDTO => _tweetFactory.GenerateTweetFromDTO(tweetDTO, request.ExecutionContext.TweetMode, request.ExecutionContext));
         }
 
         public async Task UploadMedias(IPublishTweetParameters parameters)
@@ -144,13 +144,13 @@ namespace Tweetinvi.Controllers.Tweet
         public async Task<ITweet> PublishRetweet(ITweetDTO tweet)
         {
             var tweetDTO = await _tweetQueryExecutor.PublishRetweet(tweet);
-            return _tweetFactory.GenerateTweetFromDTO(tweetDTO);
+            return _tweetFactory.GenerateTweetFromDTO(tweetDTO, null, null);
         }
 
         public async Task<ITweet> PublishRetweet(long tweetId)
         {
             var tweetDTO = await _tweetQueryExecutor.PublishRetweet(tweetId);
-            return _tweetFactory.GenerateTweetFromDTO(tweetDTO);
+            return _tweetFactory.GenerateTweetFromDTO(tweetDTO, null, null);
         }
         
         // Publish UnRetweet
@@ -158,13 +158,13 @@ namespace Tweetinvi.Controllers.Tweet
         public async Task<ITweet> UnRetweet(ITweetIdentifier tweet)
         {
             var tweetDTO = await _tweetQueryExecutor.UnRetweet(tweet);
-            return _tweetFactory.GenerateTweetFromDTO(tweetDTO);
+            return _tweetFactory.GenerateTweetFromDTO(tweetDTO, null, null);
         }
 
         public async Task<ITweet> UnRetweet(long tweetId)
         {
             var tweetDTO = await _tweetQueryExecutor.UnRetweet(tweetId);
-            return _tweetFactory.GenerateTweetFromDTO(tweetDTO);
+            return _tweetFactory.GenerateTweetFromDTO(tweetDTO, null, null);
         }
 
         #region GetRetweets
@@ -172,7 +172,7 @@ namespace Tweetinvi.Controllers.Tweet
         public async Task<IEnumerable<ITweet>> GetRetweets(ITweetIdentifier tweetIdentifier, int maxRetweetsToRetrieve = 100)
         {
             var retweetsDTO = await _tweetQueryExecutor.GetRetweets(tweetIdentifier, maxRetweetsToRetrieve);
-            return _tweetFactory.GenerateTweetsFromDTO(retweetsDTO);
+            return _tweetFactory.GenerateTweetsFromDTO(retweetsDTO, null, null);
         }
 
         public Task<IEnumerable<ITweet>> GetRetweets(long tweetId, int maxRetweetsToRetrieve = 100)
@@ -197,25 +197,14 @@ namespace Tweetinvi.Controllers.Tweet
         #endregion
 
         // Destroy Tweet
-        public Task<bool> DestroyTweet(ITweet tweet)
+        public async Task<ITwitterResult> DestroyTweet(ITweetDTO tweet, ITwitterRequest request)
         {
-            if (tweet == null)
-            {
-                throw new ArgumentException("Tweet cannot be null!");
-            }
+            _tweetQueryValidator.ThrowIfTweetCannotBeDestroyed(tweet);
 
-            return DestroyTweet(tweet.TweetDTO);
-        }
+            var twitterResult = await _tweetQueryExecutor.DestroyTweet(tweet, request);
+            tweet.IsTweetDestroyed = twitterResult.Response.IsSuccessStatusCode;
 
-        public async Task<bool> DestroyTweet(ITweetDTO tweetDTO)
-        {
-            if (tweetDTO == null)
-            {
-                return false;
-            }
-
-            tweetDTO.IsTweetDestroyed = await _tweetQueryExecutor.DestroyTweet(tweetDTO);
-            return tweetDTO.IsTweetDestroyed;
+            return twitterResult;
         }
 
         public Task<ITwitterResult> DestroyTweet(long tweetId, ITwitterRequest request)

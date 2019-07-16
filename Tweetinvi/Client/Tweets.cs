@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Tweetinvi.Models;
+using Tweetinvi.Models.DTO;
 using Tweetinvi.Parameters;
 
 namespace Tweetinvi.Client
@@ -40,7 +41,13 @@ namespace Tweetinvi.Client
         public async Task<bool> DestroyTweet(long tweetId)
         {
             var requestResult = await _tweetsRequester.DestroyTweet(tweetId);
-            return requestResult?.Response.IsSuccessStatusCode == true;
+            return requestResult?.Response?.IsSuccessStatusCode == true;
+        }
+
+        public async Task<bool> DestroyTweet(ITweetDTO tweet)
+        {
+            var requestResult = await _tweetsRequester.DestroyTweet(tweet);
+            return requestResult?.Response?.IsSuccessStatusCode == true;
         }
     }
 }

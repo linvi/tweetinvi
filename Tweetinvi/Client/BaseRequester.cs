@@ -15,7 +15,7 @@ namespace Tweetinvi.Client
             }
             catch (TwitterException)
             {
-                if (request.Config.ErrorHandlerType == ErrorHandlerType.ReturnNull)
+                if (request.ExecutionContext.ErrorHandlerType == ErrorHandlerType.ReturnNull)
                 {
                     return null;
                 }

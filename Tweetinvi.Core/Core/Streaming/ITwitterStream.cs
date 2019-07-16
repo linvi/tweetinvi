@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Tweetinvi.Core.Client;
 using Tweetinvi.Events;
 using Tweetinvi.Models;
 using Tweetinvi.Streaming.Parameters;
@@ -168,7 +169,9 @@ namespace Tweetinvi.Core.Streaming
         /// A formatted version of the custom query parameters.
         /// </summary>
         string FormattedCustomQueryParameters { get; }
-        
+
+        ITwitterExecutionContext ExecutionContext { get; set; }
+
         /// <summary>
         /// Append a custom query parameter to the query url.
         /// </summary>

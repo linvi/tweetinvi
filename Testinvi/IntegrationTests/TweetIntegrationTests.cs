@@ -9,7 +9,7 @@ namespace Testinvi.IntegrationTests
     public class TweetIntegrationTests
     {
         [TestMethod]
-        [Ignore]
+        //[Ignore]
         public async Task TestTweets()
         {
             var credentials = new TwitterCredentials("CONSUMER_KEY", "CONSUMER_SECRET", "ACCESS_TOKEN", "ACCESS_SECRET");
@@ -25,7 +25,7 @@ namespace Testinvi.IntegrationTests
 
             Assert.AreEqual(checkTweet.Id, tweet.Id);
 
-            var deleteSuccessful = await client.Tweets.DestroyTweet(tweet.Id);
+            var deleteSuccessful = await tweet.Destroy();
 
             Assert.AreEqual(deleteSuccessful, true);
 

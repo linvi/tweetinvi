@@ -24,7 +24,7 @@
         public void Initialize(TwitterClient client)
         {
             _client = client;
-            _tweetsRequester.Initialize(_client.CreateRequest);
+            _tweetsRequester.Initialize(client);
         }
 
         public ITweetsRequester Tweets => _tweetsRequester;

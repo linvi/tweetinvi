@@ -1,7 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
+using Tweetinvi.Core.Client;
 using Tweetinvi.Core.Web;
-using Tweetinvi.Logic.DTO;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
 using Tweetinvi.Models.Interfaces;
@@ -13,15 +14,16 @@ namespace Tweetinvi.Core.Factories
         Task<ITwitterResult<ITweetDTO, ITweet>> GetTweet(long tweetId, ITwitterRequest request);
         Task<ITwitterResult<ITweetDTO[], ITweet[]>> GetTweets(long[] tweetIds, ITwitterRequest request);
 
-        ITweet CreateTweet(string text, TweetMode? tweetMode = null);
+        ITweet CreateTweet(string text, TweetMode? tweetMode, ITwitterExecutionContext executionContext);
 
         // Generate Tweet From Json
         ITweet GenerateTweetFromJson(string json);
-        ITweet GenerateTweetFromJson(string json, TweetMode? tweetMode);
+        ITweet GenerateTweetFromJson(string json, TweetMode? tweetMode, ITwitterExecutionContext executionContext);
 
         // Generate Tweet from DTO
-        ITweet GenerateTweetFromDTO(ITweetDTO tweetDTO, TweetMode? tweetMode = null);
-        IEnumerable<ITweet> GenerateTweetsFromDTO(IEnumerable<ITweetDTO> tweetsDTO, TweetMode? tweetMode = null);
+        ITweet GenerateTweetFromDTO(ITweetDTO tweetDTO, TweetMode? tweetMode, ITwitterExecutionContext executionContext);
+        IEnumerable<ITweet> GenerateTweetsFromDTO(IEnumerable<ITweetDTO> tweetsDTO, TweetMode? tweetMode,
+            ITwitterExecutionContext executionContext);
 
         ITweetWithSearchMetadata GenerateTweetWithSearchMetadataFromDTO(ITweetWithSearchMetadataDTO tweetDTO);
         IEnumerable<ITweetWithSearchMetadata> GenerateTweetsWithSearchMetadataFromDTOs(IEnumerable<ITweetWithSearchMetadataDTO> tweetsDTO);

@@ -72,13 +72,13 @@ namespace Tweetinvi.WebLogic
                     twitterResponse = await _webRequestExecutor.ExecuteMultipartQuery(request, multiPartRequest.ContentId, multiPartRequest.Binaries);
                 }
 
-                QueryCompleted(request, twitterResponse, request.Config.RateLimitTrackerMode);
+                QueryCompleted(request, twitterResponse, request.ExecutionContext.RateLimitTrackerMode);
 
                 return twitterResponse;
             }
             catch (TwitterException ex)
             {
-                HandleException(request.Query.Url, request.Config.RateLimitTrackerMode, ex, request);
+                HandleException(request.Query.Url, request.ExecutionContext.RateLimitTrackerMode, ex, request);
 
                 throw;
             }
@@ -89,7 +89,7 @@ namespace Tweetinvi.WebLogic
             var twitterQuery = request.Query;
             twitterQuery.Url = CleanupQueryURL(twitterQuery.Url); // TODO : THIS LOGIC SHOULD HAPPEN BEFORE ARRIVING HERE
 
-            var rateLimitTrackerMode = request.Config.RateLimitTrackerMode;
+            var rateLimitTrackerMode = request.ExecutionContext.RateLimitTrackerMode;
 
             if (rateLimitTrackerMode == RateLimitTrackerMode.TrackOnly ||
                 rateLimitTrackerMode == RateLimitTrackerMode.TrackAndAwait)
@@ -122,7 +122,7 @@ namespace Tweetinvi.WebLogic
                 return;
             }
 
-            if (twitterRequest.Config.RateLimitTrackerMode != RateLimitTrackerMode.TrackAndAwait)
+            if (twitterRequest.ExecutionContext.RateLimitTrackerMode != RateLimitTrackerMode.TrackAndAwait)
             {
                 return;
             }

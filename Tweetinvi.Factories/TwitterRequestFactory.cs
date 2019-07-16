@@ -1,7 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using Tweetinvi.Core;
+using Tweetinvi.Core.Client;
 using Tweetinvi.Models;
 using Tweetinvi.Models.Interfaces;
 
@@ -28,7 +27,7 @@ namespace Tweetinvi.Factories
             var twitterRequest = new TwitterRequest
             {
                 Query = twitterQuery,
-                Config = new TweetinviSettings
+                ExecutionContext = new TwitterExecutionContext
                 {
                     RateLimitTrackerMode = _tweetinviSettingsAccessor.RateLimitTrackerMode
                 }

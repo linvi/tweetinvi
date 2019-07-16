@@ -183,7 +183,7 @@ namespace Tweetinvi.Controllers.TwitterLists
         private async Task<IEnumerable<ITweet>> GetTweetsFromList(IGetTweetsFromListQueryParameters queryParameters)
         {
             var tweetsDTO = await _twitterListQueryExecutor.GetTweetsFromList(queryParameters);
-            return _tweetFactory.GenerateTweetsFromDTO(tweetsDTO);
+            return _tweetFactory.GenerateTweetsFromDTO(tweetsDTO, null, null);
         } 
         #endregion
 

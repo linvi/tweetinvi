@@ -44,7 +44,7 @@ namespace Tweetinvi.Controllers.Timeline
             }
 
             var timelineDTO = await _timelineQueryExecutor.GetHomeTimeline(parameters);
-            return _tweetFactory.GenerateTweetsFromDTO(timelineDTO);
+            return _tweetFactory.GenerateTweetsFromDTO(timelineDTO, null, null);
         }
 
         // User Timeline
@@ -93,7 +93,7 @@ namespace Tweetinvi.Controllers.Timeline
         {
             var tweetsDTO = await _timelineQueryExecutor.GetUserTimeline(queryParameters);
 
-            return _tweetFactory.GenerateTweetsFromDTO(tweetsDTO);
+            return _tweetFactory.GenerateTweetsFromDTO(tweetsDTO, null, null);
         }
 
         // Mention Timeline
@@ -125,7 +125,7 @@ namespace Tweetinvi.Controllers.Timeline
             }
 
             var timelineDTO = await _timelineQueryExecutor.GetRetweetsOfMeTimeline(parameters);
-            return _tweetFactory.GenerateTweetsFromDTO(timelineDTO);
+            return _tweetFactory.GenerateTweetsFromDTO(timelineDTO, null, null);
         }
     }
 }

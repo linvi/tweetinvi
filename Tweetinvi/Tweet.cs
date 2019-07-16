@@ -59,12 +59,12 @@ namespace Tweetinvi
 
         public static ITweet GenerateTweetFromDTO(ITweetDTO tweetDTO)
         {
-            return TweetFactory.GenerateTweetFromDTO(tweetDTO);
+            return TweetFactory.GenerateTweetFromDTO(tweetDTO, null, null);
         }
 
         public static IEnumerable<ITweet> GenerateTweetsFromDTO(IEnumerable<ITweetDTO> tweetsDTO)
         {
-            return TweetFactory.GenerateTweetsFromDTO(tweetsDTO);
+            return TweetFactory.GenerateTweetsFromDTO(tweetsDTO, null, null);
         }
 
         #endregion
@@ -164,16 +164,6 @@ namespace Tweetinvi
         public static Task<IEnumerable<long>> GetRetweetersIds(ITweetIdentifier tweetIdentifier, int maxRetweetersToRetrieve = 100)
         {
             return TweetController.GetRetweetersIds(tweetIdentifier, maxRetweetersToRetrieve);
-        }
-
-        // Destroy Tweet
-
-        /// <summary>
-        /// Destroy a specific tweet
-        /// </summary>
-        public static Task<bool> DestroyTweet(ITweet tweet)
-        {
-            return TweetController.DestroyTweet(tweet);
         }
 
         // Favorite Tweet

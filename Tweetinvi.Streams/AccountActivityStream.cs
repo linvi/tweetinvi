@@ -143,7 +143,7 @@ namespace Tweetinvi.Streams
 
             tweetDTOs.ForEach(tweetDTO =>
             {
-                var tweet = _tweetFactory.GenerateTweetFromDTO(tweetDTO);
+                var tweet = _tweetFactory.GenerateTweetFromDTO(tweetDTO, null, null);
 
                 var accountActivityEvent = new AccountActivityEvent<ITweet>(tweet)
                 {
@@ -199,7 +199,7 @@ namespace Tweetinvi.Streams
 
             favouriteEventDTOs.ForEach(favouriteEventDTO =>
             {
-                var tweet = _tweetFactory.GenerateTweetFromDTO(favouriteEventDTO.FavouritedTweet);
+                var tweet = _tweetFactory.GenerateTweetFromDTO(favouriteEventDTO.FavouritedTweet, null, null);
                 var user = _userFactory.GenerateUserFromDTO(favouriteEventDTO.User);
 
                 var accountActivityEvent = new AccountActivityEvent<Tuple<ITweet, IUser>>(new Tuple<ITweet, IUser>(tweet, user))
