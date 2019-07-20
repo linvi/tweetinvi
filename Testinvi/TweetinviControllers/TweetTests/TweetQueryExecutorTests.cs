@@ -83,38 +83,22 @@ namespace Testinvi.TweetinviControllers.TweetTests
         #region Publish Retweet
 
         [TestMethod]
-        public async Task PublishRetweet_WithTweetDTO_ReturnsTwitterAccessorResult()
+        public async Task PublishRetweet_ReturnsTwitterAccessorResult()
         {
             // Arrange
             var queryExecutor = CreateTweetQueryExecutor();
-            var tweetDTO = A.Fake<ITweetDTO>();
-            var query = TestHelper.GenerateString();
-            var expectedResult = A.Fake<ITweetDTO>();
+            var tweetId = TestHelper.GenerateRandomInt();
+            var queryUrl = TestHelper.GenerateString();
+            var expectedResult = A.Fake<ITwitterResult<ITweetDTO>>();
+            var request = A.Fake<ITwitterRequest>();
 
-            _fakeTweetQueryGenerator.CallsTo(x => x.GetPublishRetweetQuery(tweetDTO)).Returns(query);
-            _fakeTwitterAccessor.ArrangeExecutePOSTQuery(query, expectedResult);
-
-            // Act
-            var result = await queryExecutor.PublishRetweet(tweetDTO);
-
-            // Assert
-            Assert.AreEqual(result, expectedResult);
-        }
-
-        [TestMethod]
-        public async Task PublishRetweet_WithTweetId_ReturnsTwitterAccessorResult()
-        {
-            // Arrange
-            var queryExecutor = CreateTweetQueryExecutor();
-            var tweetId = TestHelper.GenerateRandomLong();
-            var query = TestHelper.GenerateString();
-            var expectedResult = A.Fake<ITweetDTO>();
-
-            _fakeTweetQueryGenerator.CallsTo(x => x.GetPublishRetweetQuery(tweetId)).Returns(query);
-            _fakeTwitterAccessor.ArrangeExecutePOSTQuery(query, expectedResult);
+            _fakeTweetQueryGenerator.CallsTo(x => x.GetPublishRetweetQuery(tweetId)).Returns(queryUrl);
+            _fakeTwitterAccessor
+                .CallsTo(x => x.ExecuteRequest<ITweetDTO>(A<ITwitterRequest>.That.Matches(twitterRequest => twitterRequest.Query.Url == queryUrl)))
+                .ReturnsLazily(() => expectedResult);
 
             // Act
-            var result = await queryExecutor.PublishRetweet(tweetId);
+            var result = await queryExecutor.PublishRetweet(tweetId, request);
 
             // Assert
             Assert.AreEqual(result, expectedResult);
@@ -172,42 +156,6 @@ namespace Testinvi.TweetinviControllers.TweetTests
 
         #region Destroy Tweet
 
-        //[TestMethod]
-        //public async Task DestroyTweet_WithTweetDTOSucceed_ReturnsTrue()
-        //{
-        //    // Arrange
-        //    var queryExecutor = CreateTweetQueryExecutor();
-        //    var tweetDTO = A.Fake<ITweetDTO>();
-        //    var query = TestHelper.GenerateString();
-
-        //    _fakeTweetQueryGenerator.CallsTo(x => x.GetDestroyTweetQuery(tweetDTO)).Returns(query);
-        //    _fakeTwitterAccessor.ArrangeTryExecutePOSTQuery(query, true);
-
-        //    // Act
-        //    var result = await queryExecutor.DestroyTweet(tweetDTO, TODO);
-
-        //    // Assert
-        //    Assert.IsTrue(result);
-        //}
-
-        //[TestMethod]
-        //public async Task DestroyTweet_WithTweetDTOFailed_ReturnsFalse()
-        //{
-        //    // Arrange
-        //    var queryExecutor = CreateTweetQueryExecutor();
-        //    var tweetDTO = A.Fake<ITweetDTO>();
-        //    var query = TestHelper.GenerateString();
-
-        //    _fakeTweetQueryGenerator.CallsTo(x => x.GetDestroyTweetQuery(tweetDTO)).Returns(query);
-        //    _fakeTwitterAccessor.ArrangeTryExecutePOSTQuery(query, false);
-
-        //    // Act
-        //    var result = await queryExecutor.DestroyTweet(tweetDTO, TODO);
-
-        //    // Assert
-        //    Assert.IsFalse(result);
-        //}
-
         [TestMethod]
         public async Task DestroyTweet_WithTweetIdSucceed_ReturnsExpectedResult()
         {
@@ -218,7 +166,6 @@ namespace Testinvi.TweetinviControllers.TweetTests
             var expectedResult = A.Fake<ITwitterResult>();
 
             _fakeTweetQueryGenerator.CallsTo(x => x.GetDestroyTweetQuery(tweetId)).Returns(query);
-            _fakeTwitterAccessor.ArrangeTryExecutePOSTQuery(query, true);
             _fakeTwitterAccessor
                 .CallsTo(x => x.ExecuteRequest(A<ITwitterRequest>.That.Matches(request => request.Query.Url == query)))
                 .ReturnsLazily(() => expectedResult);

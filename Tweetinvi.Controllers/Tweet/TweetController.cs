@@ -131,28 +131,12 @@ namespace Tweetinvi.Controllers.Tweet
         }
 
         // Publish Retweet
-        public Task<ITweet> PublishRetweet(ITweet tweet)
+        public async Task<ITwitterResult<ITweetDTO, ITweet>> PublishRetweet(long tweetId, ITwitterRequest request)
         {
-            if (tweet == null)
-            {
-                throw new ArgumentException("Tweet cannot be null!");
-            }
-
-            return PublishRetweet(tweet.TweetDTO);
+            var result = await _tweetQueryExecutor.PublishRetweet(tweetId, request);
+            return _twitterResultFactory.Create(result, tweetDTO => _tweetFactory.GenerateTweetFromDTO(tweetDTO, request.ExecutionContext.TweetMode, request.ExecutionContext));
         }
 
-        public async Task<ITweet> PublishRetweet(ITweetDTO tweet)
-        {
-            var tweetDTO = await _tweetQueryExecutor.PublishRetweet(tweet);
-            return _tweetFactory.GenerateTweetFromDTO(tweetDTO, null, null);
-        }
-
-        public async Task<ITweet> PublishRetweet(long tweetId)
-        {
-            var tweetDTO = await _tweetQueryExecutor.PublishRetweet(tweetId);
-            return _tweetFactory.GenerateTweetFromDTO(tweetDTO, null, null);
-        }
-        
         // Publish UnRetweet
 
         public async Task<ITweet> UnRetweet(ITweetIdentifier tweet)
@@ -201,7 +185,7 @@ namespace Tweetinvi.Controllers.Tweet
         {
             _tweetQueryValidator.ThrowIfTweetCannotBeDestroyed(tweet);
 
-            var twitterResult = await _tweetQueryExecutor.DestroyTweet(tweet, request);
+            var twitterResult = await _tweetQueryExecutor.DestroyTweet(tweet.Id, request);
             tweet.IsTweetDestroyed = twitterResult.Response.IsSuccessStatusCode;
 
             return twitterResult;

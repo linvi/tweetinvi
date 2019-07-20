@@ -62,7 +62,7 @@ namespace Tweetinvi.Controllers.Tweet
         {
             if (tweet == null)
             {
-                throw new ArgumentNullException("Tweet cannot be null.");
+                throw new ArgumentNullException(nameof(tweet));
             }
 
             if (!tweet.IsTweetPublished)

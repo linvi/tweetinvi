@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Tweetinvi.Exceptions;
 using Tweetinvi.Models.Interfaces;
 
 namespace Tweetinvi.Client
@@ -13,7 +12,7 @@ namespace Tweetinvi.Client
             {
                 return await action();
             }
-            catch (TwitterException)
+            catch (Exception)
             {
                 if (request.ExecutionContext.ErrorHandlerType == ErrorHandlerType.ReturnNull)
                 {

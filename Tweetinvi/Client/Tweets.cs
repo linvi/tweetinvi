@@ -38,6 +38,26 @@ namespace Tweetinvi.Client
             return requestResult?.Result;
         }
 
+        // Publish Retweet
+        public async Task<ITweet> PublishRetweet(long tweetId)
+        {
+            var requestResult = await _tweetsRequester.PublishRetweet(tweetId);
+            return requestResult?.Result;
+        }
+
+        public async Task<ITweet> PublishRetweet(ITweetDTO tweet)
+        {
+            var requestResult = await _tweetsRequester.PublishRetweet(tweet);
+            return requestResult?.Result;
+        }
+
+        public Task<ITweet> PublishRetweet(ITweet tweet)
+        {
+            return PublishRetweet(tweet?.TweetDTO);
+        }
+
+
+        // Destroy Tweet
         public async Task<bool> DestroyTweet(long tweetId)
         {
             var requestResult = await _tweetsRequester.DestroyTweet(tweetId);
@@ -48,6 +68,11 @@ namespace Tweetinvi.Client
         {
             var requestResult = await _tweetsRequester.DestroyTweet(tweet);
             return requestResult?.Response?.IsSuccessStatusCode == true;
+        }
+
+        public Task<bool> DestroyTweet(ITweet tweet)
+        {
+            return DestroyTweet(tweet?.TweetDTO);
         }
     }
 }

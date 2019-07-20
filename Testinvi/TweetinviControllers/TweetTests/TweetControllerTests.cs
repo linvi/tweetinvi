@@ -32,110 +32,23 @@ namespace Testinvi.TweetinviControllers.TweetTests
         #region Publish Retweet
 
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
-        public async Task PublishRetweet_TweetIsNull_ThrowsArgumentException()
-        {
-            // Arrange
-            var controller = CreateTweetController();
-
-            // Act
-            await controller.PublishRetweet((ITweet)null);
-        }
-
-        [TestMethod]
-        public async Task PublishRetweet_TweetWithNullTweetDTO_ReturnsTransformedDTOFromQueryExecutor()
-        {
-            // Arrange
-            var controller = CreateTweetController();
-            var tweet = GenerateTweet();
-            var expectedTweetDTO = A.Fake<ITweetDTO>();
-            var expectedTweet = A.Fake<ITweet>();
-
-            _fakeTweetQueryExecutor.CallsTo(x => x.PublishRetweet(null)).Returns(expectedTweetDTO);
-            _fakeTweetFactory.CallsTo(x => x.GenerateTweetFromDTO(expectedTweetDTO, null, null)).Returns(expectedTweet);
-
-            // Act
-            var result = await controller.PublishRetweet(tweet);
-
-            // Assert
-            Assert.AreEqual(result, expectedTweet);
-        }
-
-        [TestMethod]
-        public async Task PublishRetweet_TweetWithTweetDTO_ReturnsTransformedDTOFromQueryExecutor()
-        {
-            // Arrange
-            var controller = CreateTweetController();
-            var tweetDTO = A.Fake<ITweetDTO>();
-            var tweet = GenerateTweet(tweetDTO);
-            var expectedTweetDTO = A.Fake<ITweetDTO>();
-            var expectedTweet = A.Fake<ITweet>();
-
-            _fakeTweetQueryExecutor.CallsTo(x => x.PublishRetweet(tweetDTO)).Returns(expectedTweetDTO);
-            _fakeTweetFactory.CallsTo(x => x.GenerateTweetFromDTO(expectedTweetDTO, null, null)).Returns(expectedTweet);
-
-            // Act
-            var result = await controller.PublishRetweet(tweet);
-
-            // Assert
-            Assert.AreEqual(result, expectedTweet);
-        }
-
-        [TestMethod]
-        public async Task PublishRetweet_TweetDTOIsNull_ReturnsTransformedDTOFromQueryExecutor()
-        {
-            // Arrange
-            var controller = CreateTweetController();
-            var expectedTweetDTO = A.Fake<ITweetDTO>();
-            var expectedTweet = A.Fake<ITweet>();
-
-            _fakeTweetQueryExecutor.CallsTo(x => x.PublishRetweet(null)).Returns(expectedTweetDTO);
-            _fakeTweetFactory.CallsTo(x => x.GenerateTweetFromDTO(expectedTweetDTO, null, null)).Returns(expectedTweet);
-
-            // Act
-            var result = await controller.PublishRetweet((ITweetDTO)null);
-
-            // Assert
-            Assert.AreEqual(result, expectedTweet);
-        }
-
-        [TestMethod]
-        public async Task PublishRetweet_TweetDTO_ReturnsTransformedDTOFromQueryExecutor()
-        {
-            // Arrange
-            var controller = CreateTweetController();
-            var tweetDTO = A.Fake<ITweetDTO>();
-            var expectedTweetDTO = A.Fake<ITweetDTO>();
-            var expectedTweet = A.Fake<ITweet>();
-
-            _fakeTweetQueryExecutor.CallsTo(x => x.PublishRetweet(tweetDTO)).Returns(expectedTweetDTO);
-            _fakeTweetFactory.CallsTo(x => x.GenerateTweetFromDTO(expectedTweetDTO, null, null)).Returns(expectedTweet);
-
-            // Act
-            var result = await controller.PublishRetweet(tweetDTO);
-
-            // Assert
-            Assert.AreEqual(result, expectedTweet);
-        }
-
-        [TestMethod]
-        public async Task PublishRetweet_TweetId_ReturnsTransformedDTOFromQueryExecutor()
+        public async Task PublishRetweet_Returns_TwitterResult()
         {
             // Arrange
             var controller = CreateTweetController();
             var tweetId = TestHelper.GenerateRandomLong();
-            var expectedTweetDTO = A.Fake<ITweetDTO>();
-            var expectedTweet = A.Fake<ITweet>();
+            var twitterResult = A.Fake<ITwitterResult<ITweetDTO, ITweet>>();
 
-            _fakeTweetQueryExecutor.CallsTo(x => x.PublishRetweet(tweetId)).Returns(expectedTweetDTO);
-            _fakeTweetFactory.CallsTo(x => x.GenerateTweetFromDTO(expectedTweetDTO, null, null)).Returns(expectedTweet);
+            _fakeTweetQueryExecutor.CallsTo(x => x.PublishRetweet(tweetId, It.IsAny<ITwitterRequest>())).ReturnsLazily(() => twitterResult);
 
             // Act
-            var result = await controller.PublishRetweet(tweetId);
+            var result = await controller.PublishRetweet(tweetId, A.Fake<ITwitterRequest>());
 
             // Assert
-            Assert.AreEqual(result, expectedTweet);
+            Assert.AreEqual(result, twitterResult);
         }
+
+      
 
         #endregion
 

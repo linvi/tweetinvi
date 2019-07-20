@@ -17,6 +17,10 @@ namespace Tweetinvi.Client
         Task<ITwitterResult<ITweetDTO[], ITweet[]>> GetTweets(long[] tweetIds);
         Task<ITwitterResult<ITweetDTO, ITweet>> PublishTweet(string text);
         Task<ITwitterResult<ITweetDTO, ITweet>> PublishTweet(IPublishTweetParameters parameters);
+
+        Task<ITwitterResult<ITweetDTO, ITweet>> PublishRetweet(long tweetId);
+        Task<ITwitterResult<ITweetDTO, ITweet>> PublishRetweet(ITweetDTO tweet);
+
         Task<ITwitterResult> DestroyTweet(long tweetId);
         Task<ITwitterResult> DestroyTweet(ITweetDTO tweet);
     }
@@ -74,6 +78,20 @@ namespace Tweetinvi.Client
             return ExecuteRequest(() => _tweetController.PublishTweet(parameters, request), request);
         }
 
+        // Publish Retweet
+        public Task<ITwitterResult<ITweetDTO, ITweet>> PublishRetweet(ITweetDTO tweet)
+        {
+            var request = _twitterClient.CreateRequest();
+            return ExecuteRequest(() => _tweetController.PublishRetweet(tweet.Id, request), request);
+        }
+
+        public Task<ITwitterResult<ITweetDTO, ITweet>> PublishRetweet(long tweetId)
+        {
+            var request = _twitterClient.CreateRequest();
+            return ExecuteRequest(() => _tweetController.PublishRetweet(tweetId, request), request);
+        }
+
+        // Destroy Tweet
         public Task<ITwitterResult> DestroyTweet(long tweetId)
         {
             var request = _twitterClient.CreateRequest();

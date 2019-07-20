@@ -18,8 +18,7 @@ namespace Tweetinvi.Controllers.Tweet
         Task<ITwitterResult<ITweetDTO>> PublishTweet(IPublishTweetParameters publishParameters, ITwitterRequest request);
 
         // Publish Retweet
-        Task<ITweetDTO> PublishRetweet(ITweetDTO tweetToRetweet);
-        Task<ITweetDTO> PublishRetweet(long tweetId);
+        Task<ITwitterResult<ITweetDTO>> PublishRetweet(long tweetId, ITwitterRequest request);
 
         // UnRetweet
         Task<ITweetDTO> UnRetweet(ITweetIdentifier tweetToRetweet);
@@ -32,7 +31,6 @@ namespace Tweetinvi.Controllers.Tweet
         Task<IEnumerable<long>> GetRetweetersIds(ITweetIdentifier tweetIdentifier, int maxRetweetersToRetrieve);
 
         // Destroy Tweet
-        Task<ITwitterResult> DestroyTweet(ITweetDTO tweet, ITwitterRequest request);
         Task<ITwitterResult> DestroyTweet(long tweetId, ITwitterRequest request);
 
         // Favorite Tweet
@@ -73,16 +71,14 @@ namespace Tweetinvi.Controllers.Tweet
         }
 
         // Publish Retweet
-        public Task<ITweetDTO> PublishRetweet(ITweetDTO tweetToRetweet)
+        public Task<ITwitterResult<ITweetDTO>> PublishRetweet(long tweetId, ITwitterRequest request)
         {
-            string query = _tweetQueryGenerator.GetPublishRetweetQuery(tweetToRetweet);
-            return _twitterAccessor.ExecutePOSTQuery<ITweetDTO>(query);
-        }
+            var query = _tweetQueryGenerator.GetPublishRetweetQuery(tweetId);
 
-        public Task<ITweetDTO> PublishRetweet(long tweetId)
-        {
-            string query = _tweetQueryGenerator.GetPublishRetweetQuery(tweetId);
-            return _twitterAccessor.ExecutePOSTQuery<ITweetDTO>(query);
+            request.Query.Url = query;
+            request.Query.HttpMethod = HttpMethod.POST;
+
+            return _twitterAccessor.ExecuteRequest<ITweetDTO>(request);
         }
         
         // Publish UnRetweet
@@ -119,16 +115,6 @@ namespace Tweetinvi.Controllers.Tweet
         #endregion
 
         // Destroy Tweet
-        public Task<ITwitterResult> DestroyTweet(ITweetDTO tweet, ITwitterRequest request)
-        {
-            var query = _tweetQueryGenerator.GetDestroyTweetQuery(tweet.Id);
-
-            request.Query.Url = query;
-            request.Query.HttpMethod = HttpMethod.POST;
-
-            return _twitterAccessor.ExecuteRequest(request);
-        }
-
         public Task<ITwitterResult> DestroyTweet(long tweetId, ITwitterRequest request)
         {
             var query = _tweetQueryGenerator.GetDestroyTweetQuery(tweetId);

@@ -92,24 +92,6 @@ namespace Tweetinvi
             return TweetController.CanBePublished(parameters);
         }
 
-        // Publish Retweet
-
-        /// <summary>
-        /// Publish a retweet tweet
-        /// </summary>
-        public static Task<ITweet> PublishRetweet(ITweet tweet)
-        {
-            return TweetController.PublishRetweet(tweet);
-        }
-
-        /// <summary>
-        /// Publish a retweet tweet
-        /// </summary>
-        public static Task<ITweet> PublishRetweet(long tweetId)
-        {
-            return TweetController.PublishRetweet(tweetId);
-        }
-
         // UnRetweet
 
         /// <summary>

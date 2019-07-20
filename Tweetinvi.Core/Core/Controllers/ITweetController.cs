@@ -18,9 +18,7 @@ namespace Tweetinvi.Core.Controllers
         bool CanBePublished(IPublishTweetParameters publishTweetParameters);
 
         // Publish Retweet
-        Task<ITweet> PublishRetweet(ITweet tweetToPublish);
-        Task<ITweet> PublishRetweet(ITweetDTO tweetToPublish);
-        Task<ITweet> PublishRetweet(long tweetId);
+        Task<ITwitterResult<ITweetDTO, ITweet>> PublishRetweet(long tweetId, ITwitterRequest request);
         
         // Publish UnRetweet
         Task<ITweet> UnRetweet(ITweetIdentifier tweetToPublish);

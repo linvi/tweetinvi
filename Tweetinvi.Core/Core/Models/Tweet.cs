@@ -11,7 +11,6 @@ using Tweetinvi.Logic.TwitterEntities;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
 using Tweetinvi.Models.Entities;
-using Tweetinvi.Models.Interfaces;
 
 namespace Tweetinvi.Logic
 {
@@ -441,19 +440,12 @@ namespace Tweetinvi.Logic
             TweetDTO = tweetDTO;
         }
 
-        private bool CanTweetBeRetweeted()
+        public async Task<ITweet> PublishRetweet()
         {
-            return _tweetDTO != null && _tweetDTO.Id != TweetinviSettings.DEFAULT_ID && IsTweetPublished && !IsTweetDestroyed;
-        }
+            var request = _executionContext.RequestFactory();
+            var twitterResult = await _tweetController.PublishRetweet(Id, request);
 
-        public Task<ITweet> PublishRetweet()
-        {
-            if (!CanTweetBeRetweeted())
-            {
-                return null;
-            }
-
-            return _tweetController.PublishRetweet(this);
+            return twitterResult.Result;
         }
 
         public async Task<List<ITweet>> GetRetweets()
