@@ -120,26 +120,27 @@ namespace Tweetinvi.Factories.Tweet
             return tweet;
         }
 
-        public IEnumerable<ITweet> GenerateTweetsFromDTO(IEnumerable<ITweetDTO> tweetsDTO, TweetMode? tweetMode, ITwitterExecutionContext executionContext)
+        public ITweet[] GenerateTweetsFromDTO(IEnumerable<ITweetDTO> tweetsDTO, TweetMode? tweetMode, ITwitterExecutionContext executionContext)
         {
             if (tweetsDTO == null)
             {
                 return null;
             }
 
-            List<ITweet> tweets = new List<ITweet>();
+            var tweets = new List<ITweet>();
             var tweetsDTOArray = tweetsDTO.ToArray();
 
             for (int i = 0; i < tweetsDTOArray.Length; ++i)
             {
                 var tweet = GenerateTweetFromDTO(tweetsDTOArray[i], tweetMode, executionContext);
+
                 if (tweet != null)
                 {
                     tweets.Add(tweet);
                 }
             }
 
-            return tweets;
+            return tweets.ToArray();
         }
 
         public IEnumerable<ITweetWithSearchMetadata> GenerateTweetsWithSearchMetadataFromDTOs(IEnumerable<ITweetWithSearchMetadataDTO> tweetsDTO)

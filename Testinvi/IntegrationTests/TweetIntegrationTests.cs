@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Tweetinvi;
 using Tweetinvi.Models;
@@ -18,16 +19,20 @@ namespace Testinvi.IntegrationTests
 
             client.Config.ErrorHandlerType = ErrorHandlerType.ReturnNull;
 
+            // Publish Tweet
             var tweet = await client.Tweets.PublishTweet("hello from tweetinvi 42");
 
             Assert.IsNotNull(tweet);
 
             var retrievedTweet = await client.Tweets.GetTweet(tweet.Id);
 
+            // Retweets
             Assert.AreEqual(retrievedTweet.Id, tweet.Id);
 
             var retweet = await client.Tweets.PublishRetweet(tweet);
+            var retweets = await client.Tweets.GetRetweets(tweet);
 
+            Assert.IsTrue(retweets.Any(x => x.Id == retweet.Id));
             Assert.AreEqual(retweet.RetweetedTweet.Id, tweet.Id);
 
             var retweetDeleteSuccess = await retweet.Destroy();
@@ -38,9 +43,10 @@ namespace Testinvi.IntegrationTests
 
             Assert.AreEqual(retweet2.RetweetedTweet.Id, tweet.Id);
 
+            // Tweet Delete
             var retweet2DeleteSuccess = await retweet2.Destroy();
 
-            Assert.AreEqual(retweetDeleteSuccess, true);
+            Assert.AreEqual(retweet2DeleteSuccess, true);
 
             var tweetDeletedSuccess = await tweet.Destroy();
 

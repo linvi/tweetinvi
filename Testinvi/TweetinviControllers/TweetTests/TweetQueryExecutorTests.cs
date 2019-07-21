@@ -7,7 +7,9 @@ using FakeItEasy.ExtensionSyntax.Full;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Testinvi.Helpers;
 using Testinvi.SetupHelpers;
+using Tweetinvi;
 using Tweetinvi.Controllers.Tweet;
+using Tweetinvi.Core.Client;
 using Tweetinvi.Core.Exceptions;
 using Tweetinvi.Core.QueryGenerators;
 using Tweetinvi.Core.Web;
@@ -92,7 +94,7 @@ namespace Testinvi.TweetinviControllers.TweetTests
             var expectedResult = A.Fake<ITwitterResult<ITweetDTO>>();
             var request = A.Fake<ITwitterRequest>();
 
-            _fakeTweetQueryGenerator.CallsTo(x => x.GetPublishRetweetQuery(tweetId)).Returns(queryUrl);
+            _fakeTweetQueryGenerator.CallsTo(x => x.GetPublishRetweetQuery(tweetId, TweetMode.Extended)).Returns(queryUrl);
             _fakeTwitterAccessor
                 .CallsTo(x => x.ExecuteRequest<ITweetDTO>(A<ITwitterRequest>.That.Matches(twitterRequest => twitterRequest.Query.Url == queryUrl)))
                 .ReturnsLazily(() => expectedResult);
@@ -116,13 +118,19 @@ namespace Testinvi.TweetinviControllers.TweetTests
             var tweetIdentifier = A.Fake<ITweetIdentifier>();
             var query = TestHelper.GenerateString();
             var maxRetweetsToRetrieve = TestHelper.GenerateRandomInt();
-            var expectedResult = GenerateExpectedIRetweetsCursorResults();
+            var request = A.Fake<ITwitterRequest>();
+            var expectedResult = A.Fake<ITwitterResult<ITweetDTO[]>>();
 
-            _fakeTweetQueryGenerator.CallsTo(x => x.GetRetweetsQuery(tweetIdentifier, maxRetweetsToRetrieve)).Returns(query);
-            _fakeTwitterAccessor.ArrangeExecuteGETQuery<IEnumerable<ITweetDTO>>(query, expectedResult);
+            _fakeTweetQueryGenerator
+                .CallsTo(x => x.GetRetweetsQuery(tweetIdentifier, maxRetweetsToRetrieve, It.IsAny<ITwitterExecutionContext>()))
+                .Returns(query);
+
+            _fakeTwitterAccessor
+                .CallsTo(x => x.ExecuteRequest<ITweetDTO[]>(A<ITwitterRequest>.That.Matches(twitterRequest => twitterRequest.Query.Url == query)))
+                .ReturnsLazily(() => expectedResult);
 
             // Act
-            var result = await queryExecutor.GetRetweets(tweetIdentifier, maxRetweetsToRetrieve);
+            var result = await queryExecutor.GetRetweets(tweetIdentifier, maxRetweetsToRetrieve, request);
 
             // Assert
             Assert.AreEqual(result, expectedResult);
@@ -431,11 +439,6 @@ namespace Testinvi.TweetinviControllers.TweetTests
             _cursorQueryIds.Add(queryId2);
 
             return new[] { queryId1, queryId2 };
-        }
-
-        private ITweetDTO[] GenerateExpectedIRetweetsCursorResults()
-        {
-            return new[] { A.Fake<ITweetDTO>(), A.Fake<ITweetDTO>() };
         }
     }
 }

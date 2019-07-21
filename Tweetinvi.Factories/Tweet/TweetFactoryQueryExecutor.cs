@@ -4,7 +4,6 @@ using Tweetinvi.Core.Injectinvi;
 using Tweetinvi.Core.QueryGenerators;
 using Tweetinvi.Core.Web;
 using Tweetinvi.Exceptions;
-using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
 using Tweetinvi.Models.Interfaces;
 

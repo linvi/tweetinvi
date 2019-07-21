@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using FakeItEasy;
 using FakeItEasy.ExtensionSyntax.Full;
@@ -20,6 +21,7 @@ namespace Testinvi.TweetinviControllers.TweetTests
         private FakeClassBuilder<TweetController> _fakeBuilder;
         private Fake<ITweetQueryExecutor> _fakeTweetQueryExecutor;
         private Fake<ITweetFactory> _fakeTweetFactory;
+        private Fake<ITwitterResultFactory> _fakeTwitterResultFactory;
 
         [TestInitialize]
         public void TestInitialize()
@@ -27,6 +29,7 @@ namespace Testinvi.TweetinviControllers.TweetTests
             _fakeBuilder = new FakeClassBuilder<TweetController>();
             _fakeTweetQueryExecutor = _fakeBuilder.GetFake<ITweetQueryExecutor>();
             _fakeTweetFactory = _fakeBuilder.GetFake<ITweetFactory>();
+            _fakeTwitterResultFactory = _fakeBuilder.GetFake<ITwitterResultFactory>();
         }
 
         #region Publish Retweet
@@ -37,9 +40,16 @@ namespace Testinvi.TweetinviControllers.TweetTests
             // Arrange
             var controller = CreateTweetController();
             var tweetId = TestHelper.GenerateRandomLong();
+            var requestResult = A.Fake<ITwitterResult<ITweetDTO>>();
             var twitterResult = A.Fake<ITwitterResult<ITweetDTO, ITweet>>();
 
-            _fakeTweetQueryExecutor.CallsTo(x => x.PublishRetweet(tweetId, It.IsAny<ITwitterRequest>())).ReturnsLazily(() => twitterResult);
+            _fakeTweetQueryExecutor
+                .CallsTo(x => x.PublishRetweet(tweetId, It.IsAny<ITwitterRequest>()))
+                .ReturnsLazily(() => requestResult);
+
+            _fakeTwitterResultFactory
+                .CallsTo(x => x.Create(requestResult, A<Func<ITweetDTO, ITweet>>.Ignored))
+                .Returns(twitterResult);
 
             // Act
             var result = await controller.PublishRetweet(tweetId, A.Fake<ITwitterRequest>());
@@ -48,50 +58,60 @@ namespace Testinvi.TweetinviControllers.TweetTests
             Assert.AreEqual(result, twitterResult);
         }
 
-      
-
         #endregion
 
         #region Get Retweets
 
         [TestMethod]
-        public async Task GetRetweets_TweetDTO_ReturnsTransformedDTOFromQueryExecutor()
+        public async Task GetRetweets_TweetDTO_ReturnsTwitterResultFromQueryExecutor()
         {
             // Arrange
             var controller = CreateTweetController();
             var tweetDTO = A.Fake<ITweetDTO>();
-            IEnumerable<ITweetDTO> expectedTweetsDTO = new List<ITweetDTO> { A.Fake<ITweetDTO>() };
-            var expectedTweets = new[] { A.Fake<ITweet>() };
             var maxRetweetsToRetrieve = TestHelper.GenerateRandomInt();
+            var twitterResult = A.Fake<ITwitterResult<ITweetDTO[], ITweet[]>>();
+            var request = A.Fake<ITwitterRequest>();
+            var requestResult = A.Fake<ITwitterResult<ITweetDTO[]>>();
 
-            _fakeTweetQueryExecutor.CallsTo(x => x.GetRetweets(tweetDTO, maxRetweetsToRetrieve)).Returns(expectedTweetsDTO);
-            _fakeTweetFactory.CallsTo(x => x.GenerateTweetsFromDTO(expectedTweetsDTO, null, null)).Returns(expectedTweets);
+            _fakeTweetQueryExecutor
+                .CallsTo(x => x.GetRetweets(tweetDTO, maxRetweetsToRetrieve, request))
+                .Returns(requestResult);
+
+            _fakeTwitterResultFactory
+                .CallsTo(x => x.Create(requestResult, A<Func<ITweetDTO[], ITweet[]>>.Ignored))
+                .Returns(twitterResult);
 
             // Act
-            var result = await controller.GetRetweets(tweetDTO, maxRetweetsToRetrieve);
+            var result = await controller.GetRetweets(tweetDTO, maxRetweetsToRetrieve, request);
 
             // Assert
-            Assert.AreEqual(result, expectedTweets);
+            Assert.AreEqual(result, twitterResult);
         }
 
         [TestMethod]
-        public async Task GetRetweets_TweetId_ReturnsTransformedDTOFromQueryExecutor()
+        public async Task GetRetweets_TweetId_ReturnsTwitterResultFromQueryExecutor()
         {
             // Arrange
             var controller = CreateTweetController();
             var tweetId = TestHelper.GenerateRandomLong();
             var maxRetweetsToRetrieve = TestHelper.GenerateRandomInt();
-            IEnumerable<ITweetDTO> expectedTweetsDTO = new List<ITweetDTO> { A.Fake<ITweetDTO>() };
-            IEnumerable<ITweet> expectedTweets = new List<ITweet> { A.Fake<ITweet>() };
+            var twitterResult = A.Fake<ITwitterResult<ITweetDTO[], ITweet[]>>();
+            var request = A.Fake<ITwitterRequest>();
+            var requestResult = A.Fake<ITwitterResult<ITweetDTO[]>>();
 
-            _fakeTweetQueryExecutor.CallsTo(x => x.GetRetweets(A<ITweetIdentifier>.That.Matches(y => y.Id == tweetId), maxRetweetsToRetrieve)).Returns(expectedTweetsDTO);
-            _fakeTweetFactory.CallsTo(x => x.GenerateTweetsFromDTO(expectedTweetsDTO, null, null)).Returns(expectedTweets);
+            _fakeTweetQueryExecutor
+                .CallsTo(x => x.GetRetweets(A<ITweetIdentifier>.That.Matches(y => y.Id == tweetId), maxRetweetsToRetrieve, request))
+                .Returns(requestResult);
+
+            _fakeTwitterResultFactory
+                .CallsTo(x => x.Create(requestResult, A<Func<ITweetDTO[], ITweet[]>>.Ignored))
+                .Returns(twitterResult);
 
             // Act
-            var result = await controller.GetRetweets(tweetId, maxRetweetsToRetrieve);
+            var result = await controller.GetRetweets(tweetId, maxRetweetsToRetrieve, request);
 
             // Assert
-            Assert.AreEqual(result, expectedTweets);
+            Assert.AreEqual(result, twitterResult);
         }
 
         #endregion

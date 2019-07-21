@@ -25,8 +25,7 @@ namespace Tweetinvi.Core.Controllers
         Task<ITweet> UnRetweet(long tweetId);
 
         // Get Retweets
-        Task<IEnumerable<ITweet>> GetRetweets(ITweetIdentifier tweet, int maxRetweetsToRetrieve = 100);
-        Task<IEnumerable<ITweet>> GetRetweets(long tweetId, int maxRetweetsToRetrieve = 100);
+        Task<ITwitterResult<ITweetDTO[], ITweet[]>> GetRetweets(ITweetIdentifier tweet, int? maxRetweetsToRetrieve, ITwitterRequest request);
 
         // Get Retweeters
         Task<IEnumerable<long>> GetRetweetersIds(ITweetIdentifier tweet, int maxRetweetersToRetrieve = 100);

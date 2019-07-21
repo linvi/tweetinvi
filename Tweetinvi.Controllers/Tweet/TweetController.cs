@@ -153,15 +153,15 @@ namespace Tweetinvi.Controllers.Tweet
 
         #region GetRetweets
 
-        public async Task<IEnumerable<ITweet>> GetRetweets(ITweetIdentifier tweetIdentifier, int maxRetweetsToRetrieve = 100)
+        public async Task<ITwitterResult<ITweetDTO[], ITweet[]>> GetRetweets(ITweetIdentifier tweetIdentifier, int? maxRetweetsToRetrieve, ITwitterRequest request)
         {
-            var retweetsDTO = await _tweetQueryExecutor.GetRetweets(tweetIdentifier, maxRetweetsToRetrieve);
-            return _tweetFactory.GenerateTweetsFromDTO(retweetsDTO, null, null);
+            var retweetsDTO = await _tweetQueryExecutor.GetRetweets(tweetIdentifier, maxRetweetsToRetrieve, request);
+            return _twitterResultFactory.Create(retweetsDTO, tweetDTOs => _tweetFactory.GenerateTweetsFromDTO(tweetDTOs, request.ExecutionContext.TweetMode, request.ExecutionContext));
         }
 
-        public Task<IEnumerable<ITweet>> GetRetweets(long tweetId, int maxRetweetsToRetrieve = 100)
+        public Task<ITwitterResult<ITweetDTO[], ITweet[]>> GetRetweets(long tweetId, int maxRetweetsToRetrieve, ITwitterRequest request)
         {
-            return GetRetweets(new TweetIdentifier(tweetId), maxRetweetsToRetrieve);
+            return GetRetweets(new TweetIdentifier(tweetId), maxRetweetsToRetrieve, request);
         }
 
         #endregion

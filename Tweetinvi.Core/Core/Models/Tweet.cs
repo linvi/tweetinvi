@@ -450,13 +450,10 @@ namespace Tweetinvi.Logic
 
         public async Task<List<ITweet>> GetRetweets()
         {
-            var retweets = await _tweetController.GetRetweets(_tweetDTO);
-            if (retweets == null)
-            {
-                return null;
-            }
+            var request = _executionContext.RequestFactory();
+            var retweets = await _tweetController.GetRetweets(_tweetDTO, null, request);
 
-            return retweets.ToList();
+            return retweets.Result?.ToList();
         }
 
         public async Task<bool> UnRetweet()

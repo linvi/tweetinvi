@@ -23,12 +23,14 @@
     public class TweetLimits
     {
         public short GetTweetsRequestMaxSize { get; set; } = 100;
+        public short GetRetweetsRequestMaxSize { get; set; } = 100;
 
         public TweetLimits Clone()
         {
             var clone = new TweetLimits
             {
-                GetTweetsRequestMaxSize = GetTweetsRequestMaxSize
+                GetTweetsRequestMaxSize = GetTweetsRequestMaxSize,
+                GetRetweetsRequestMaxSize = GetRetweetsRequestMaxSize
             };
 
             return clone;

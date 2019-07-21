@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using FakeItEasy;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -29,8 +30,8 @@ namespace Testinvi.TweetinviControllers.TimelineTests
         private IUserTimelineQueryParameters _fakeUserTimelineQueryParameters;
 
         private int _maximumNumberOfTweets;
-        private IEnumerable<ITweetDTO> _resultDTO;
-        private IEnumerable<ITweet> _result;
+        private ITweetDTO[] _resultDTO;
+        private ITweet[] _result;
         private string _userName;
         private long _userId;
 
@@ -67,8 +68,8 @@ namespace Testinvi.TweetinviControllers.TimelineTests
             _fakeUserTimelineQueryParameters = A.Fake<IUserTimelineQueryParameters>();
 
             _maximumNumberOfTweets = TestHelper.GenerateRandomInt();
-            _resultDTO = new List<ITweetDTO>();
-            _result = new List<ITweet>();
+            _resultDTO = new ITweetDTO[0];
+            _result = new ITweet[0];
             _userName = TestHelper.GenerateString();
             _userId = TestHelper.GenerateRandomLong();
 

@@ -28,13 +28,18 @@ namespace Testinvi.Helpers
             return result;
         }
 
-        public static int GenerateRandomInt()
+        public static int GenerateRandomInt(int? maxValue = null)
         {
-            int result = new Random().Next();
+            if (maxValue == null)
+            {
+                maxValue = Int32.MaxValue;
+            }
+
+            int result = Math.Min(new Random().Next(), maxValue.Value);
 
             while (result == DefaultId())
             {
-                result = new Random().Next();
+                result = Math.Min(new Random().Next(), maxValue.Value);
             }
 
             return result;

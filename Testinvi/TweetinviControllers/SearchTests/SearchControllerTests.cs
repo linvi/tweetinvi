@@ -34,7 +34,7 @@ namespace Testinvi.TweetinviControllers.SearchTests
             var controller = CreateSearchController();
             var searchQuery = TestHelper.GenerateString();
             var searchDTOResult = new List<ITweetDTO>();
-            var searchResult = new List<ITweet>();
+            var searchResult = new ITweet[0];
 
             _fakeSearchQueryExecutor.CallsTo(x => x.SearchTweets(searchQuery)).Returns(searchDTOResult);
             _fakeTweetFactory.CallsTo(x => x.GenerateTweetsFromDTO(searchDTOResult, null, null)).Returns(searchResult);
@@ -53,7 +53,7 @@ namespace Testinvi.TweetinviControllers.SearchTests
             var controller = CreateSearchController();
             var searchParameter = A.Fake<ISearchTweetsParameters>();
             var searchDTOResult = new List<ITweetDTO>();
-            var searchResult = new List<ITweet>();
+            var searchResult = new ITweet[0];
 
             _fakeSearchQueryExecutor.CallsTo(x => x.SearchTweets(searchParameter)).Returns(searchDTOResult);
             _fakeTweetFactory.CallsTo(x => x.GenerateTweetsFromDTO(searchDTOResult, null, null)).Returns(searchResult);

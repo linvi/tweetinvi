@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Tweetinvi.Core.Client;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
 using Tweetinvi.Parameters;
@@ -15,11 +16,11 @@ namespace Tweetinvi.Core.QueryGenerators
         string GetPublishTweetQuery(IPublishTweetParameters queryParameters);
 
         // Publish Retweet
-        string GetPublishRetweetQuery(ITweetDTO tweetDTO);
-        string GetPublishRetweetQuery(long tweetId);
+        string GetPublishRetweetQuery(ITweetDTO tweetDTO, TweetMode tweetMode);
+        string GetPublishRetweetQuery(long tweetId, TweetMode tweetMode);
 
         // Get Retweets
-        string GetRetweetsQuery(ITweetIdentifier tweetIdentifier, int maxRetweetsToRetrieve);
+        string GetRetweetsQuery(ITweetIdentifier tweetIdentifier, int? maxSize, ITwitterExecutionContext executionContext);
 
         // Get Retweeters
         string GetRetweeterIdsQuery(ITweetIdentifier tweet, int maxRetweetersToRetrieve);

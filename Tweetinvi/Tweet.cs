@@ -112,24 +112,6 @@ namespace Tweetinvi
             return retweet != null;
         }
 
-        // Get Retweet
-
-        /// <summary>
-        /// Get the retweets of a specific tweet
-        /// </summary>
-        public static Task<IEnumerable<ITweet>> GetRetweets(ITweetIdentifier tweet)
-        {
-            return TweetController.GetRetweets(tweet);
-        }
-
-        /// <summary>
-        /// Get the retweets of a specific tweet
-        /// </summary>
-        public static Task<IEnumerable<ITweet>> GetRetweets(long tweetId)
-        {
-            return TweetController.GetRetweets(tweetId);
-        }
-
         // Get Retweeters Ids
 
         /// <summary>

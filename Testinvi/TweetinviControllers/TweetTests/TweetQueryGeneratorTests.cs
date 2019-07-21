@@ -3,8 +3,10 @@ using FakeItEasy;
 using FakeItEasy.ExtensionSyntax.Full;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Testinvi.Helpers;
+using Tweetinvi;
 using Tweetinvi.Controllers.Properties;
 using Tweetinvi.Controllers.Tweet;
+using Tweetinvi.Core.Client;
 using Tweetinvi.Core.Helpers;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
@@ -206,7 +208,7 @@ namespace Testinvi.TweetinviControllers.TweetTests
             _fakeTweetQueryValidator.CallsTo(x => x.IsTweetPublished(tweetToRetweet)).Returns(true);
 
             // Act
-            var result = queryGenerator.GetPublishRetweetQuery(tweetToRetweet);
+            var result = queryGenerator.GetPublishRetweetQuery(tweetToRetweet, TweetMode.Extended);
 
             // Assert
             var expectedResult = string.Format(Resources.Tweet_Retweet_Publish, tweetToRetweetId);
@@ -223,7 +225,7 @@ namespace Testinvi.TweetinviControllers.TweetTests
             var tweetToRetweetId = TestHelper.GenerateRandomLong();
 
             // Act
-            var result = queryGenerator.GetPublishRetweetQuery(tweetToRetweetId);
+            var result = queryGenerator.GetPublishRetweetQuery(tweetToRetweetId, TweetMode.Extended);
 
             // Assert
             var expectedResult = string.Format(Resources.Tweet_Retweet_Publish, tweetToRetweetId);
@@ -243,13 +245,15 @@ namespace Testinvi.TweetinviControllers.TweetTests
             var queryGenerator = CreateTweetQueryGenerator();
             var tweetToRetweetId = TestHelper.GenerateRandomLong();
             var tweetToRetweet = A.Fake<ITweetDTO>();
-            var maxRetweetsToRetrieve = TestHelper.GenerateRandomInt();
+            var maxRetweetsToRetrieve = TestHelper.GenerateRandomInt(100);
             tweetToRetweet.CallsTo(x => x.Id).Returns(tweetToRetweetId);
+
+            var executionContext = new TwitterExecutionContext();
 
             _fakeTweetQueryValidator.CallsTo(x => x.IsTweetPublished(tweetToRetweet)).Returns(true);
 
             // Act
-            var result = queryGenerator.GetRetweetsQuery(tweetToRetweet, maxRetweetsToRetrieve);
+            var result = queryGenerator.GetRetweetsQuery(tweetToRetweet, maxRetweetsToRetrieve, executionContext);
 
             // Assert
             var expectedResult = $"https://api.twitter.com/1.1/statuses/retweets/{tweetToRetweetId}.json?count={maxRetweetsToRetrieve}";

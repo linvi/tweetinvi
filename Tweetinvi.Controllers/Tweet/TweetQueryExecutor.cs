@@ -25,7 +25,7 @@ namespace Tweetinvi.Controllers.Tweet
         Task<ITweetDTO> UnRetweet(long tweetId);
 
         // Get Retweets
-        Task<IEnumerable<ITweetDTO>> GetRetweets(ITweetIdentifier tweetIdentifier, int maxRetweetsToRetrieve);
+        Task<ITwitterResult<ITweetDTO[]>> GetRetweets(ITweetIdentifier tweetIdentifier, int? maxRetweetsToRetrieve, ITwitterRequest request);
 
         //Get Retweeters Ids
         Task<IEnumerable<long>> GetRetweetersIds(ITweetIdentifier tweetIdentifier, int maxRetweetersToRetrieve);
@@ -73,7 +73,7 @@ namespace Tweetinvi.Controllers.Tweet
         // Publish Retweet
         public Task<ITwitterResult<ITweetDTO>> PublishRetweet(long tweetId, ITwitterRequest request)
         {
-            var query = _tweetQueryGenerator.GetPublishRetweetQuery(tweetId);
+            var query = _tweetQueryGenerator.GetPublishRetweetQuery(tweetId, request.ExecutionContext.TweetMode);
 
             request.Query.Url = query;
             request.Query.HttpMethod = HttpMethod.POST;
@@ -96,10 +96,14 @@ namespace Tweetinvi.Controllers.Tweet
 
         #region Get Retweets
 
-        public Task<IEnumerable<ITweetDTO>> GetRetweets(ITweetIdentifier tweetIdentifier, int maxRetweetsToRetrieve)
+        public Task<ITwitterResult<ITweetDTO[]>> GetRetweets(ITweetIdentifier tweetIdentifier, int? maxRetweetsToRetrieve, ITwitterRequest request)
         {
-            var query = _tweetQueryGenerator.GetRetweetsQuery(tweetIdentifier, maxRetweetsToRetrieve);
-            return _twitterAccessor.ExecuteGETQuery<IEnumerable<ITweetDTO>>(query);
+            var query = _tweetQueryGenerator.GetRetweetsQuery(tweetIdentifier, maxRetweetsToRetrieve, request.ExecutionContext);
+
+            request.Query.Url = query;
+            request.Query.HttpMethod = HttpMethod.GET;
+
+            return _twitterAccessor.ExecuteRequest<ITweetDTO[]>(request);
         }
 
         #endregion
