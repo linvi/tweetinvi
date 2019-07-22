@@ -92,26 +92,6 @@ namespace Tweetinvi
             return TweetController.CanBePublished(parameters);
         }
 
-        // UnRetweet
-
-        /// <summary>
-        /// Publish a unretweet tweet
-        /// </summary>
-        public static async Task<bool> UnRetweet(ITweetIdentifier tweet)
-        {
-            var retweet = await TweetController.UnRetweet(tweet);
-            return retweet != null;
-        }
-
-        /// <summary>
-        /// Publish a unretweet tweet
-        /// </summary>
-        public static async Task<bool> UnRetweet(long tweetId)
-        {
-            var retweet = await TweetController.UnRetweet(tweetId);
-            return retweet != null;
-        }
-
         // Get Retweeters Ids
 
         /// <summary>

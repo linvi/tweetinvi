@@ -126,6 +126,7 @@
     <Compile Include="Helpers\FakeHelpers.cs" />
     <Compile Include="Helpers\FakeRepository.cs" />
     <Compile Include="Helpers\LinqHelpers.cs" />
+    <Compile Include="Helpers\QueryParameterGeneratorTestHelper.cs" />
     <Compile Include="Helpers\TestHelper.cs" />
     <Compile Include="Helpers\ThreadTestHelper.cs" />
     <Compile Include="IntegrationTests\TweetIntegrationTests.cs" />

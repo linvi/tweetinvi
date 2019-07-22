@@ -26,27 +26,9 @@ namespace Testinvi.IntegrationTests
 
             var retrievedTweet = await client.Tweets.GetTweet(tweet.Id);
 
-            // Retweets
             Assert.AreEqual(retrievedTweet.Id, tweet.Id);
 
-            var retweet = await client.Tweets.PublishRetweet(tweet);
-            var retweets = await client.Tweets.GetRetweets(tweet);
-
-            Assert.IsTrue(retweets.Any(x => x.Id == retweet.Id));
-            Assert.AreEqual(retweet.RetweetedTweet.Id, tweet.Id);
-
-            var retweetDeleteSuccess = await retweet.Destroy();
-
-            Assert.AreEqual(retweetDeleteSuccess, true);
-
-            var retweet2 = await tweet.PublishRetweet();
-
-            Assert.AreEqual(retweet2.RetweetedTweet.Id, tweet.Id);
-
-            // Tweet Delete
-            var retweet2DeleteSuccess = await retweet2.Destroy();
-
-            Assert.AreEqual(retweet2DeleteSuccess, true);
+            await TestRetweets(client, tweet);
 
             var tweetDeletedSuccess = await tweet.Destroy();
 
@@ -61,6 +43,30 @@ namespace Testinvi.IntegrationTests
             var deletedTweet = await client.Tweets.GetTweet(tweet.Id);
 
             Assert.IsNull(deletedTweet);
+        }
+
+        private async Task TestRetweets(ITwitterClient client, ITweet tweet)
+        {
+            var retweet = await client.Tweets.PublishRetweet(tweet);
+            var retweets = await client.Tweets.GetRetweets(tweet);
+
+            Assert.IsTrue(retweets.Any(x => x.Id == retweet.Id));
+            Assert.AreEqual(retweet.RetweetedTweet.Id, tweet.Id);
+
+            var retweetDeleteSuccess = await tweet.UnRetweet();
+            Assert.AreEqual(retweetDeleteSuccess, true);
+
+            var retweet2 = await tweet.PublishRetweet();
+
+            Assert.AreEqual(retweet2.RetweetedTweet.Id, tweet.Id);
+
+            var retweet2DeleteSuccess = await client.Tweets.UnRetweet(tweet);
+
+            Assert.AreEqual(retweet2DeleteSuccess, true);
+
+            var retweets2 = await client.Tweets.GetRetweets(tweet);
+
+            Assert.AreEqual(retweets2.Length, 0);
         }
     }
 }

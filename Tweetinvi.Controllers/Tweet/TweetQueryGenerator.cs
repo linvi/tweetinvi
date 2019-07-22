@@ -55,7 +55,7 @@ namespace Tweetinvi.Controllers.Tweet
         {
             if (tweetIds == null)
             {
-                throw new ArgumentNullException("Tweet Ids cannot be null.");
+                throw new ArgumentNullException(nameof(tweetIds));
             }
 
             var tweetIdsAsList = new List<long>(tweetIds);
@@ -140,23 +140,15 @@ namespace Tweetinvi.Controllers.Tweet
                 return null;
             }
 
-            return string.Format("https://twitter.com/{0}/status/{1}",
-                        parameters.QuotedTweet.CreatedBy.ScreenName,
-                        parameters.QuotedTweet.Id.ToString(CultureInfo.InvariantCulture));
+            return $"https://twitter.com/{parameters.QuotedTweet.CreatedBy.ScreenName}/status/{parameters.QuotedTweet.Id.ToString(CultureInfo.InvariantCulture)}";
         }
 
         // Publish Retweet
-        public string GetPublishRetweetQuery(ITweetDTO tweetDTO, TweetMode tweetMode)
-        {
-            _tweetQueryValidator.ThrowIfTweetCannotBeUsed(tweetDTO);
-            return GetPublishRetweetQuery(tweetDTO.Id, tweetMode);
-        }
-
-        public string GetPublishRetweetQuery(long tweetId, TweetMode tweetMode)
+        public string GetPublishRetweetQuery(ITweetIdentifier tweetId, TweetMode tweetMode)
         {
             _tweetQueryValidator.ThrowIfTweetCannotBeUsed(tweetId);
 
-            var query = new StringBuilder(string.Format(Resources.Tweet_Retweet_Publish, tweetId));
+            var query = new StringBuilder(string.Format(Resources.Tweet_Retweet_Publish, _queryParameterGenerator.GenerateTweetIdentifier(tweetId)));
             query.AddFormattedParameterToQuery(_queryParameterGenerator.GenerateTweetModeParameter(tweetMode));
 
             return query.ToString();
@@ -164,9 +156,9 @@ namespace Tweetinvi.Controllers.Tweet
 
         // Get Retweets
 
-        public string GetRetweetsQuery(ITweetIdentifier tweetIdentifier, int? maxRetweetsToRetrieve, ITwitterExecutionContext executionContext)
+        public string GetRetweetsQuery(ITweetIdentifier tweetId, int? maxRetweetsToRetrieve, ITwitterExecutionContext executionContext)
         {
-            _tweetQueryValidator.ThrowIfTweetCannotBeUsed(tweetIdentifier);
+            _tweetQueryValidator.ThrowIfTweetCannotBeUsed(tweetId);
 
             maxRetweetsToRetrieve = maxRetweetsToRetrieve ?? executionContext.Limits.Tweets.GetRetweetsRequestMaxSize;
 
@@ -175,7 +167,7 @@ namespace Tweetinvi.Controllers.Tweet
                 throw new ArgumentException(nameof(maxRetweetsToRetrieve), $"Cannot be bigger than {executionContext.Limits.Tweets.GetRetweetsRequestMaxSize}");
             }
 
-            var query = new StringBuilder(string.Format(Resources.Tweet_Retweet_GetRetweets, tweetIdentifier.Id));
+            var query = new StringBuilder(string.Format(Resources.Tweet_Retweet_GetRetweets, _queryParameterGenerator.GenerateTweetIdentifier(tweetId)));
 
             query.AddParameterToQuery("count", maxRetweetsToRetrieve);
             query.AddFormattedParameterToQuery(_queryParameterGenerator.GenerateTweetModeParameter(executionContext.TweetMode));

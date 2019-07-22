@@ -24,8 +24,8 @@ namespace Tweetinvi.Client
         // Retweets
         Task<ITwitterResult<ITweetDTO[], ITweet[]>> GetRetweets(ITweetIdentifier tweet, int? maxRetweetsToRetrieve);
 
-        Task<ITwitterResult<ITweetDTO, ITweet>> PublishRetweet(long tweetId);
-        Task<ITwitterResult<ITweetDTO, ITweet>> PublishRetweet(ITweetDTO tweet);
+        Task<ITwitterResult<ITweetDTO, ITweet>> PublishRetweet(ITweetIdentifier tweet);
+        Task<ITwitterResult> DestroyRetweet(ITweetIdentifier retweetId);
     }
 
     public interface IInternalTweetsRequester : ITweetsRequester
@@ -104,16 +104,17 @@ namespace Tweetinvi.Client
         }
 
         // Retweets - Publish
-        public Task<ITwitterResult<ITweetDTO, ITweet>> PublishRetweet(ITweetDTO tweet)
+        public Task<ITwitterResult<ITweetDTO, ITweet>> PublishRetweet(ITweetIdentifier tweet)
         {
             var request = _twitterClient.CreateRequest();
-            return ExecuteRequest(() => _tweetController.PublishRetweet(tweet.Id, request), request);
+            return ExecuteRequest(() => _tweetController.PublishRetweet(tweet, request), request);
         }
 
-        public Task<ITwitterResult<ITweetDTO, ITweet>> PublishRetweet(long tweetId)
+        // Retweets - Destroy
+        public Task<ITwitterResult> DestroyRetweet(ITweetIdentifier retweetId)
         {
             var request = _twitterClient.CreateRequest();
-            return ExecuteRequest(() => _tweetController.PublishRetweet(tweetId, request), request);
+            return ExecuteRequest(() => _tweetController.DestroyRetweet(retweetId, request), request);
         }
 
         // Factories

@@ -130,25 +130,19 @@ namespace Tweetinvi.Controllers.Tweet
             parameters.MediaIds.AddRange(uploadedMedias.Select(x => x.UploadedMediaInfo.MediaId));
         }
 
-        // Publish Retweet
-        public async Task<ITwitterResult<ITweetDTO, ITweet>> PublishRetweet(long tweetId, ITwitterRequest request)
+        // Retweets - Publish
+        public async Task<ITwitterResult<ITweetDTO, ITweet>> PublishRetweet(ITweetIdentifier tweetId, ITwitterRequest request)
         {
             var result = await _tweetQueryExecutor.PublishRetweet(tweetId, request);
             return _twitterResultFactory.Create(result, tweetDTO => _tweetFactory.GenerateTweetFromDTO(tweetDTO, request.ExecutionContext.TweetMode, request.ExecutionContext));
         }
 
-        // Publish UnRetweet
+        // Retweets - Destroy
 
-        public async Task<ITweet> UnRetweet(ITweetIdentifier tweet)
+        public async Task<ITwitterResult> DestroyRetweet(ITweetIdentifier retweet, ITwitterRequest request)
         {
-            var tweetDTO = await _tweetQueryExecutor.UnRetweet(tweet);
-            return _tweetFactory.GenerateTweetFromDTO(tweetDTO, null, null);
-        }
-
-        public async Task<ITweet> UnRetweet(long tweetId)
-        {
-            var tweetDTO = await _tweetQueryExecutor.UnRetweet(tweetId);
-            return _tweetFactory.GenerateTweetFromDTO(tweetDTO, null, null);
+            var result = await _tweetQueryExecutor.DestroyRetweet(retweet, request);
+            return result;
         }
 
         #region GetRetweets

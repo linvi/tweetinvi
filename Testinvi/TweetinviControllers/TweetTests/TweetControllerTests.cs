@@ -37,25 +37,25 @@ namespace Testinvi.TweetinviControllers.TweetTests
         [TestMethod]
         public async Task PublishRetweet_Returns_TwitterResult()
         {
-            // Arrange
-            var controller = CreateTweetController();
-            var tweetId = TestHelper.GenerateRandomLong();
-            var requestResult = A.Fake<ITwitterResult<ITweetDTO>>();
-            var twitterResult = A.Fake<ITwitterResult<ITweetDTO, ITweet>>();
+           // Arrange
+           var controller = CreateTweetController();
+           var tweetId = new TweetIdentifier(TestHelper.GenerateRandomLong());
+           var requestResult = A.Fake<ITwitterResult<ITweetDTO>>();
+           var twitterResult = A.Fake<ITwitterResult<ITweetDTO, ITweet>>();
 
-            _fakeTweetQueryExecutor
-                .CallsTo(x => x.PublishRetweet(tweetId, It.IsAny<ITwitterRequest>()))
-                .ReturnsLazily(() => requestResult);
+           _fakeTweetQueryExecutor
+               .CallsTo(x => x.PublishRetweet(tweetId, It.IsAny<ITwitterRequest>()))
+               .ReturnsLazily(() => requestResult);
 
-            _fakeTwitterResultFactory
-                .CallsTo(x => x.Create(requestResult, A<Func<ITweetDTO, ITweet>>.Ignored))
-                .Returns(twitterResult);
+           _fakeTwitterResultFactory
+               .CallsTo(x => x.Create(requestResult, A<Func<ITweetDTO, ITweet>>.Ignored))
+               .Returns(twitterResult);
 
-            // Act
-            var result = await controller.PublishRetweet(tweetId, A.Fake<ITwitterRequest>());
+           // Act
+           var result = await controller.PublishRetweet(tweetId, A.Fake<ITwitterRequest>());
 
-            // Assert
-            Assert.AreEqual(result, twitterResult);
+           // Assert
+           Assert.AreEqual(result, twitterResult);
         }
 
         #endregion

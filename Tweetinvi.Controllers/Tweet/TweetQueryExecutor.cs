@@ -18,11 +18,10 @@ namespace Tweetinvi.Controllers.Tweet
         Task<ITwitterResult<ITweetDTO>> PublishTweet(IPublishTweetParameters publishParameters, ITwitterRequest request);
 
         // Publish Retweet
-        Task<ITwitterResult<ITweetDTO>> PublishRetweet(long tweetId, ITwitterRequest request);
+        Task<ITwitterResult<ITweetDTO>> PublishRetweet(ITweetIdentifier tweetId, ITwitterRequest request);
 
         // UnRetweet
-        Task<ITweetDTO> UnRetweet(ITweetIdentifier tweetToRetweet);
-        Task<ITweetDTO> UnRetweet(long tweetId);
+        Task<ITwitterResult> DestroyRetweet(ITweetIdentifier retweet, ITwitterRequest request);
 
         // Get Retweets
         Task<ITwitterResult<ITweetDTO[]>> GetRetweets(ITweetIdentifier tweetIdentifier, int? maxRetweetsToRetrieve, ITwitterRequest request);
@@ -71,7 +70,7 @@ namespace Tweetinvi.Controllers.Tweet
         }
 
         // Publish Retweet
-        public Task<ITwitterResult<ITweetDTO>> PublishRetweet(long tweetId, ITwitterRequest request)
+        public Task<ITwitterResult<ITweetDTO>> PublishRetweet(ITweetIdentifier tweetId, ITwitterRequest request)
         {
             var query = _tweetQueryGenerator.GetPublishRetweetQuery(tweetId, request.ExecutionContext.TweetMode);
 
@@ -82,16 +81,14 @@ namespace Tweetinvi.Controllers.Tweet
         }
         
         // Publish UnRetweet
-        public Task<ITweetDTO> UnRetweet(ITweetIdentifier tweetToRetweet)
+        public Task<ITwitterResult> DestroyRetweet(ITweetIdentifier retweet, ITwitterRequest request)
         {
-            string query = _tweetQueryGenerator.GetUnRetweetQuery(tweetToRetweet);
-            return _twitterAccessor.ExecutePOSTQuery<ITweetDTO>(query);
-        }
+            var query = _tweetQueryGenerator.GetUnRetweetQuery(retweet);
 
-        public Task<ITweetDTO> UnRetweet(long tweetId)
-        {
-            string query = _tweetQueryGenerator.GetUnRetweetQuery(tweetId);
-            return _twitterAccessor.ExecutePOSTQuery<ITweetDTO>(query);
+            request.Query.Url = query;
+            request.Query.HttpMethod = HttpMethod.POST;
+
+            return _twitterAccessor.ExecuteRequest(request);
         }
 
         #region Get Retweets

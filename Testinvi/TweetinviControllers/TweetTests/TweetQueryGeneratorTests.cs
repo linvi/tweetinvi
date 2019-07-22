@@ -5,9 +5,11 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Testinvi.Helpers;
 using Tweetinvi;
 using Tweetinvi.Controllers.Properties;
+using Tweetinvi.Controllers.Shared;
 using Tweetinvi.Controllers.Tweet;
 using Tweetinvi.Core.Client;
 using Tweetinvi.Core.Helpers;
+using Tweetinvi.Core.Injectinvi;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
 using Tweetinvi.Parameters;
@@ -20,6 +22,7 @@ namespace Testinvi.TweetinviControllers.TweetTests
         private FakeClassBuilder<TweetQueryGenerator> _fakeBuilder;
         private Fake<ITweetQueryValidator> _fakeTweetQueryValidator;
         private Fake<ITwitterStringFormatter> _fakeTwitterStringFormatter;
+        private Fake<IQueryParameterGenerator> _fakeQueryParameterGenerator;
 
         private string _expectedTweetParameter;
         private string _expectedPlaceIdParameter;
@@ -31,6 +34,9 @@ namespace Testinvi.TweetinviControllers.TweetTests
             _fakeBuilder = new FakeClassBuilder<TweetQueryGenerator>();
             _fakeTweetQueryValidator = _fakeBuilder.GetFake<ITweetQueryValidator>();
             _fakeTwitterStringFormatter = _fakeBuilder.GetFake<ITwitterStringFormatter>();
+            _fakeQueryParameterGenerator = _fakeBuilder.GetFake<IQueryParameterGenerator>();
+
+            QueryParameterGeneratorTestHelper.InitializeQueryParameterGenerator(_fakeQueryParameterGenerator);
         }
 
         #region Publish Tweet
@@ -213,8 +219,6 @@ namespace Testinvi.TweetinviControllers.TweetTests
             // Assert
             var expectedResult = string.Format(Resources.Tweet_Retweet_Publish, tweetToRetweetId);
             Assert.AreEqual(result, expectedResult);
-
-            _fakeTweetQueryValidator.CallsTo(x => x.ThrowIfTweetCannotBeUsed(tweetToRetweet)).MustHaveHappened();
         }
 
         [TestMethod]
@@ -222,7 +226,7 @@ namespace Testinvi.TweetinviControllers.TweetTests
         {
             // Arrange
             var queryGenerator = CreateTweetQueryGenerator();
-            var tweetToRetweetId = TestHelper.GenerateRandomLong();
+            var tweetToRetweetId = new TweetIdentifier(TestHelper.GenerateRandomLong());
 
             // Act
             var result = queryGenerator.GetPublishRetweetQuery(tweetToRetweetId, TweetMode.Extended);
@@ -230,8 +234,6 @@ namespace Testinvi.TweetinviControllers.TweetTests
             // Assert
             var expectedResult = string.Format(Resources.Tweet_Retweet_Publish, tweetToRetweetId);
             Assert.AreEqual(result, expectedResult);
-
-            _fakeTweetQueryValidator.CallsTo(x => x.ThrowIfTweetCannotBeUsed(tweetToRetweetId)).MustHaveHappened();
         }
 
         #endregion

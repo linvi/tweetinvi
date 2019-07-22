@@ -89,20 +89,35 @@ namespace Tweetinvi.Client
         // Retweets - Publish
         public async Task<ITweet> PublishRetweet(long tweetId)
         {
-            var requestResult = await _tweetsRequester.PublishRetweet(tweetId);
+            var requestResult = await _tweetsRequester.PublishRetweet(new TweetIdentifier(tweetId));
             return requestResult?.Result;
         }
 
-        public async Task<ITweet> PublishRetweet(ITweetDTO tweet)
+        public async Task<ITweet> PublishRetweet(ITweetIdentifier tweet)
         {
             var requestResult = await _tweetsRequester.PublishRetweet(tweet);
             return requestResult?.Result;
         }
 
-        public Task<ITweet> PublishRetweet(ITweet tweet)
+        // Retweets - Destroy
+
+        /// <summary>
+        /// Destroy a retweet
+        /// </summary>
+        /// <returns>Whether the operation was a success</returns>
+        public async Task<bool> UnRetweet(ITweetIdentifier retweet)
         {
-            return PublishRetweet(tweet?.TweetDTO);
+            var requestResult = await _tweetsRequester.DestroyRetweet(retweet);
+            return requestResult?.Response?.IsSuccessStatusCode == true;
         }
 
+        /// <summary>
+        /// Destroy a retweet
+        /// </summary>
+        /// <returns>Whether the operation was a success</returns>
+        public Task<bool> UnRetweet(long retweetId)
+        {
+            return UnRetweet(new TweetIdentifier(retweetId));
+        }
     }
 }

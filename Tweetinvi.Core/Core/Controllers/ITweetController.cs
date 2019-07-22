@@ -17,12 +17,11 @@ namespace Tweetinvi.Core.Controllers
         bool CanBePublished(string text);
         bool CanBePublished(IPublishTweetParameters publishTweetParameters);
 
-        // Publish Retweet
-        Task<ITwitterResult<ITweetDTO, ITweet>> PublishRetweet(long tweetId, ITwitterRequest request);
+        // Retweets - Publish
+        Task<ITwitterResult<ITweetDTO, ITweet>> PublishRetweet(ITweetIdentifier tweetId1, ITwitterRequest request);
         
-        // Publish UnRetweet
-        Task<ITweet> UnRetweet(ITweetIdentifier tweetToPublish);
-        Task<ITweet> UnRetweet(long tweetId);
+        // Retweets - Destroy
+        Task<ITwitterResult> DestroyRetweet(ITweetIdentifier retweet, ITwitterRequest request);
 
         // Get Retweets
         Task<ITwitterResult<ITweetDTO[], ITweet[]>> GetRetweets(ITweetIdentifier tweet, int? maxRetweetsToRetrieve, ITwitterRequest request);

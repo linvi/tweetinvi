@@ -99,7 +99,7 @@ namespace Tweetinvi.Logic
                     return text.Substring(0, prefixEndIndex);
                 }
 
-                return null; 
+                return null;
             }
         }
 
@@ -442,14 +442,18 @@ namespace Tweetinvi.Logic
 
         public async Task<ITweet> PublishRetweet()
         {
+            ThrowIfTweetCannotBeUsed();
+
             var request = _executionContext.RequestFactory();
-            var twitterResult = await _tweetController.PublishRetweet(Id, request);
+            var twitterResult = await _tweetController.PublishRetweet(this, request);
 
             return twitterResult.Result;
         }
 
         public async Task<List<ITweet>> GetRetweets()
         {
+            ThrowIfTweetCannotBeUsed();
+
             var request = _executionContext.RequestFactory();
             var retweets = await _tweetController.GetRetweets(_tweetDTO, null, request);
 
@@ -458,22 +462,44 @@ namespace Tweetinvi.Logic
 
         public async Task<bool> UnRetweet()
         {
-            var updatedTweet = await _tweetController.UnRetweet(this);
+            ThrowIfTweetCannotBeUsed();
+
+            var request = _executionContext.RequestFactory();
+
+            var updatedTweet = await _tweetController.DestroyRetweet(this, request);
+
             if (updatedTweet != null)
             {
                 _tweetDTO.Retweeted = false;
             }
 
-            return (await _tweetController.UnRetweet(this)) != null;
+            return (await _tweetController.DestroyRetweet(this, request)) != null;
+        }
+
+        private void ThrowIfTweetCannotBeUsed()
+        {
+            if (!IsTweetPublished)
+            {
+                throw new InvalidOperationException("Cannot execute the operation when the Tweet has not yet been published");
+            }
+
+            if (IsTweetDestroyed)
+            {
+                throw new InvalidOperationException("Cannot execute the operation if the Tweet has been deleted.");
+            }
+
         }
 
         public Task<IOEmbedTweet> GenerateOEmbedTweet()
         {
+            ThrowIfTweetCannotBeUsed();
             return _tweetController.GenerateOEmbedTweet(_tweetDTO);
         }
 
         public async Task<bool> Destroy()
         {
+            ThrowIfTweetCannotBeUsed();
+
             var request = _executionContext.RequestFactory();
             var result = await _tweetController.DestroyTweet(TweetDTO, request);
 
@@ -482,6 +508,8 @@ namespace Tweetinvi.Logic
 
         public async Task Favorite()
         {
+            ThrowIfTweetCannotBeUsed();
+
             if (await _tweetController.FavoriteTweet(_tweetDTO))
             {
                 _tweetDTO.Favorited = true;
@@ -490,6 +518,8 @@ namespace Tweetinvi.Logic
 
         public async Task UnFavorite()
         {
+            ThrowIfTweetCannotBeUsed();
+
             if (await _tweetController.UnFavoriteTweet(_tweetDTO))
             {
                 _tweetDTO.Favorited = false;

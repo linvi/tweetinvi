@@ -16,11 +16,10 @@ namespace Tweetinvi.Core.QueryGenerators
         string GetPublishTweetQuery(IPublishTweetParameters queryParameters);
 
         // Publish Retweet
-        string GetPublishRetweetQuery(ITweetDTO tweetDTO, TweetMode tweetMode);
-        string GetPublishRetweetQuery(long tweetId, TweetMode tweetMode);
+        string GetPublishRetweetQuery(ITweetIdentifier tweetId, TweetMode tweetMode);
 
         // Get Retweets
-        string GetRetweetsQuery(ITweetIdentifier tweetIdentifier, int? maxSize, ITwitterExecutionContext executionContext);
+        string GetRetweetsQuery(ITweetIdentifier tweetId, int? maxRetweetsToRetrieve, ITwitterExecutionContext executionContext);
 
         // Get Retweeters
         string GetRetweeterIdsQuery(ITweetIdentifier tweet, int maxRetweetersToRetrieve);

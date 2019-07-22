@@ -17,6 +17,7 @@ namespace Tweetinvi.Controllers.Shared
         string GenerateLanguageParameter(Language? language);
         string GenerateTweetModeParameter(TweetMode? tweetMode);
         string GenerateCursorParameter(string cursor);
+        string GenerateTweetIdentifier(ITweetIdentifier tweetId);
 
         string GenerateAdditionalRequestParameters(string additionalParameters, bool existingParameters = true);
     }
@@ -113,6 +114,11 @@ namespace Tweetinvi.Controllers.Shared
         public string GenerateCursorParameter(string cursor)
         {
             return string.IsNullOrEmpty(cursor) ? "" : string.Format(Resources.QueryParameter_Cursor, cursor);
+        }
+
+        public string GenerateTweetIdentifier(ITweetIdentifier tweetId)
+        {
+            return tweetId.IdStr ?? tweetId.Id.ToString();
         }
 
         public string GenerateAdditionalRequestParameters(string additionalParameters, bool existingParameters = true)

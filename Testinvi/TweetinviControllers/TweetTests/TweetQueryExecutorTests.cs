@@ -89,7 +89,7 @@ namespace Testinvi.TweetinviControllers.TweetTests
         {
             // Arrange
             var queryExecutor = CreateTweetQueryExecutor();
-            var tweetId = TestHelper.GenerateRandomInt();
+            var tweetId = new TweetIdentifier(TestHelper.GenerateRandomInt());
             var queryUrl = TestHelper.GenerateString();
             var expectedResult = A.Fake<ITwitterResult<ITweetDTO>>();
             var request = A.Fake<ITwitterRequest>();

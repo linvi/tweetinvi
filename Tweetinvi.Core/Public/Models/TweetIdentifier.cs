@@ -12,5 +12,10 @@ namespace Tweetinvi.Models
 
         public long Id { get; set; }
         public string IdStr { get; set; }
+
+        public override string ToString()
+        {
+            return IdStr ?? Id.ToString();
+        }
     }
 }
