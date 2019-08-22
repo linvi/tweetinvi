@@ -11,7 +11,7 @@ namespace Tweetinvi.Logic.JsonConverters
         {
             int parsed;
 
-            if (int.TryParse(reader.Value.ToString(), out parsed))
+            if (int.TryParse(reader?.ToString(), out parsed))
             {
                 return LanguageExtension.GetLangFromDescription(parsed);
             }
