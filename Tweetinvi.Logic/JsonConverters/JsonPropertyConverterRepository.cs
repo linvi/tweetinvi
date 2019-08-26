@@ -85,7 +85,7 @@ namespace Tweetinvi.Logic.JsonConverters
             var relationshipStateConverter = new JsonInterfaceToObjectConverter<IRelationshipStateDTO, RelationshipStateDTO>();
             var accountSettingsConverter = new JsonInterfaceToObjectConverter<IAccountSettingsDTO, AccountSettingsDTO>();
             var geoConverter = new JsonInterfaceToObjectConverter<IGeo, Geo>();
-            var timezoneConverter = new JsonInterfaceToObjectConverter<ITimeZone, TimeZone>();
+            var timezoneConverter = new JsonInterfaceToObjectConverter<ITimeZone, Tweetinvi.Logic.Model.TimeZone>();
             var trendLocationConverter = new JsonInterfaceToObjectConverter<ITrendLocation, TrendLocation>();
             var placeConverter = new JsonInterfaceToObjectConverter<IPlace, Place>();
             var trendConverter = new JsonInterfaceToObjectConverter<ITrend, Trend>();

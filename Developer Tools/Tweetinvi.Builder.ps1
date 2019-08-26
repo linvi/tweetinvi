@@ -1,5 +1,5 @@
 Param(
-    $v = '4.0.1', # Version number
+    $v = '4.0.2', # Version number
     $m = 'Release', # Visual Studio Build Mode
     [Switch]$dnr, # Do Not Rebuild 
     [Switch]$h, # Help
@@ -154,7 +154,7 @@ if (!$uv.IsPresent) {
     cp $env:USERPROFILE\.nuget\packages\Newtonsoft.Json\10.0.2\lib\netstandard1.0\Newtonsoft.Json.dll $netCoreTemp
     cp $env:USERPROFILE\.nuget\packages\Autofac\4.6.0\lib\netstandard1.1\Autofac.dll $netCoreTemp
     cp $env:USERPROFILE\.nuget\packages\nito.asyncex.context\1.1.0\lib\netstandard1.3\Nito.AsyncEx.Context.dll $netCoreTemp
-    cp 'C:\Program Files\dotnet\shared\Microsoft.NETCore.App\1.0.5\System.Reflection.TypeExtensions.dll' $netCoreTemp 
+    cp 'C:\Program Files\dotnet\shared\Microsoft.NETCore.App\2.0.9\System.Reflection.TypeExtensions.dll' $netCoreTemp 
 
     if ($b.IsPresent) {
         Exit;
