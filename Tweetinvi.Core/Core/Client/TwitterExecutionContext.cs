@@ -6,7 +6,7 @@ namespace Tweetinvi.Core.Client
     public interface ITwitterExecutionContext : ITweetinviSettings
     {
         Func<ITwitterRequest> RequestFactory { get; set; }
-        ITwitterExecutionContext Clone();
+        new ITwitterExecutionContext Clone();
     }
 
     public class TwitterExecutionContext : TweetinviSettings, ITwitterExecutionContext
