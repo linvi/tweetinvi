@@ -79,3 +79,21 @@ lib/net45
 lib/netstandard1.6
 lib/portable-net40+sl5+wp80+win8+wpa81
 lib/portable-net45+wp80+win8+wpa81+dnxcore50
+
+
+***********************************************************
+********************* MANUAL BUILD ************************
+***********************************************************
+
+``` sh
+cd Tweetinvi
+
+dotnet build -c Release -f netstandard1.4
+cp bin/Release/netstandard1.4/ ../Developer\ Tools/TweetinviAPI/lib/
+
+dotnet build -c Release -f netstandard2.0
+cp bin/Release/netstandard2.0/ ../Developer\ Tools/TweetinviAPI/lib/
+
+cd ../Developer\ Tools/TweetinviAPI/
+../nuget.exe pack
+```
