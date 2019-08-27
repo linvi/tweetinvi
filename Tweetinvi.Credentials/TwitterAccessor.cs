@@ -357,18 +357,18 @@ namespace Tweetinvi.Credentials
         public async Task<IEnumerable<string>> ExecuteJsonCursorGETQuery<T>(
                 string baseQuery,
                 int maxObjectToRetrieve = Int32.MaxValue,
-                long cursor = -1)
+                string cursor = null)
             where T : class, IBaseCursorQueryDTO
         {
             int nbOfObjectsProcessed = 0;
-            long previousCursor = -2;
-            long nextCursor = cursor;
+            string previousCursor = null;
+            string nextCursor = cursor;
 
             // add & for query parameters
             baseQuery = FormatBaseQuery(baseQuery);
 
             var result = new List<string>();
-            while (previousCursor != nextCursor && nbOfObjectsProcessed < maxObjectToRetrieve)
+            while ((previousCursor != nextCursor || previousCursor == null) && nbOfObjectsProcessed < maxObjectToRetrieve)
             {
                 T cursorResult = await ExecuteCursorQuery<T>(baseQuery, cursor, true);
 
@@ -378,8 +378,8 @@ namespace Tweetinvi.Credentials
                 }
 
                 nbOfObjectsProcessed += cursorResult.GetNumberOfObjectRetrieved();
-                previousCursor = cursorResult.PreviousCursor;
-                nextCursor = cursorResult.NextCursor;
+                previousCursor = cursorResult.PreviousCursorStr;
+                nextCursor = cursorResult.NextCursorStr;
 
                 result.Add(cursorResult.RawJson);
             }
@@ -390,18 +390,19 @@ namespace Tweetinvi.Credentials
         public async Task<IEnumerable<T>> ExecuteCursorGETCursorQueryResult<T>(
                 string baseQuery,
                 int maxObjectToRetrieve = Int32.MaxValue,
-                long cursor = -1)
+                string cursor = null)
             where T : class, IBaseCursorQueryDTO
         {
             int nbOfObjectsProcessed = 0;
-            long previousCursor = -2;
-            long nextCursor = cursor;
+            string previousCursor = null;
+            string nextCursor = cursor;
 
             // add & for query parameters
             baseQuery = FormatBaseQuery(baseQuery);
 
             var result = new List<T>();
-            while (previousCursor != nextCursor && nbOfObjectsProcessed < maxObjectToRetrieve)
+
+            while ((previousCursor != nextCursor || previousCursor == null) && nbOfObjectsProcessed < maxObjectToRetrieve)
             {
                 T cursorResult = await ExecuteCursorQuery<T>(baseQuery, nextCursor, false);
 
@@ -411,8 +412,8 @@ namespace Tweetinvi.Credentials
                 }
 
                 nbOfObjectsProcessed += cursorResult.GetNumberOfObjectRetrieved();
-                previousCursor = cursorResult.PreviousCursor;
-                nextCursor = cursorResult.NextCursor;
+                previousCursor = cursorResult.PreviousCursorStr;
+                nextCursor = cursorResult.NextCursorStr;
 
                 result.Add(cursorResult);
             }
@@ -446,7 +447,7 @@ namespace Tweetinvi.Credentials
         public async Task<IEnumerable<T>> ExecuteCursorGETQuery<T, T1>(
                 string baseQuery,
                 int maxObjectToRetrieve = Int32.MaxValue,
-                long cursor = -1)
+                string cursor = null)
             where T1 : class, IBaseCursorQueryDTO<T>
         {
             var cursorQueryResult = await ExecuteCursorGETCursorQueryResult<T1>(baseQuery, maxObjectToRetrieve, cursor);
@@ -463,9 +464,9 @@ namespace Tweetinvi.Credentials
             return baseQuery;
         }
 
-        private async Task<T> ExecuteCursorQuery<T>(string baseQuery, long cursor, bool storeJson) where T : class, IBaseCursorQueryDTO
+        private async Task<T> ExecuteCursorQuery<T>(string baseQuery, string cursor, bool storeJson) where T : class, IBaseCursorQueryDTO
         {
-            var query = string.Format("{0}cursor={1}", baseQuery, cursor);
+            var query = $"{baseQuery}cursor={cursor}";
 
             var request = await TryExecuteGETQuery(query);
 

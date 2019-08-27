@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
+using Tweetinvi.Core.Models;
+using Tweetinvi.Core.Public.Parameters;
 using Tweetinvi.Models.DTO;
 using Tweetinvi.Models.Entities;
 using Tweetinvi.Parameters;
@@ -296,12 +298,17 @@ namespace Tweetinvi.Models
         /// <summary>
         /// Get a list of the user's friend ids.
         /// </summary>
-        Task<IEnumerable<long>> GetFriendIds(int maxFriendsToRetrieve = 5000);
+        Task<ICursorResult<IUser>> GetFriendIds();
 
         /// <summary>
         /// Get a list of the user's friends.
         /// </summary>
-        Task<IEnumerable<IUser>> GetFriends(int maxFriendsToRetrieve = 250);
+        Task<ICursorResult<IUser>> GetFriends();
+
+        /// <summary>
+        /// Get a list of the user's friends.
+        /// </summary>
+        Task<ICursorResult<IUser>> GetFriends(ICursorQueryParameters cursorQueryParameters);
 
         // Followers
 

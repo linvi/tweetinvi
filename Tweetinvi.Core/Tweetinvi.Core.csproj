@@ -18,8 +18,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Core\Models\Async\**" />
     <Compile Remove="Core\Webhooks\**" />
+    <EmbeddedResource Remove="Core\Models\Async\**" />
     <EmbeddedResource Remove="Core\Webhooks\**" />
+    <None Remove="Core\Models\Async\**" />
     <None Remove="Core\Webhooks\**" />
   </ItemGroup>
 
@@ -29,9 +32,5 @@
     <PackageReference Include="System.Net.Requests" Version="4.3.0" />
     <PackageReference Include="System.Reflection.TypeExtensions" Version="4.5.1" />
     <PackageReference Include="System.Runtime.Serialization.Primitives" Version="4.3.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Core\Models\Async\" />
   </ItemGroup>
 </Project>

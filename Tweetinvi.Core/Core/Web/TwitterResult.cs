@@ -1,6 +1,6 @@
 ﻿using System;
 using Tweetinvi.Core.Helpers;
-using Tweetinvi.Models.Interfaces;
+using Tweetinvi.Models;
 
 namespace Tweetinvi.Core.Web
 {
@@ -70,10 +70,9 @@ namespace Tweetinvi.Core.Web
         string Json { get; }
     }
 
-    public interface ITwitterResult<DTO> : ITwitterResult
+    public interface ITwitterResult<TDTO> : ITwitterResult
     {
-        // ReSharper disable once UnusedMemberInSuper.Global
-        DTO DataTransferObject { get; set; }
+        TDTO DataTransferObject { get; set; }
     }
 
     public interface ITwitterResult<DTO, Model> : ITwitterResult<DTO>

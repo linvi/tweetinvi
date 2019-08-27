@@ -5,10 +5,14 @@ using FakeItEasy;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Testinvi.Helpers;
 using Tweetinvi.Controllers.User;
+using Tweetinvi.Core.DTO.Cursor;
 using Tweetinvi.Core.Factories;
 using Tweetinvi.Core.Parameters;
+using Tweetinvi.Core.Web;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
+using Tweetinvi.Models.DTO.QueryDTO;
+using Tweetinvi.Parameters;
 
 namespace Testinvi.TweetinviControllers.UserTests
 {
@@ -32,76 +36,22 @@ namespace Testinvi.TweetinviControllers.UserTests
         #region Get FriendIds
 
         [TestMethod]
-        public async Task GetFriendIds_WithUser_ReturnsUserExecutorResult()
+        public void GetFriendIds_ReturnsUserExecutorResult()
         {
             // Arrange
             var controller = CreateUserController();
-            var userDTO = A.Fake<IUserDTO>();
-            var user = TestHelper.GenerateUser(userDTO);
-            var maximumNumberOfUsers = TestHelper.GenerateRandomInt();
-            var friendIds = new[] { TestHelper.GenerateRandomLong() };
 
-            _fakeUserQueryExecutor.CallsTo(x => x.GetFriendIds(user, maximumNumberOfUsers)).Returns(friendIds);
+            var parameters = new GetFriendIdsParameters("username");
+            var expectedResult = A.Fake<ITwitterResult<IIdsCursorQueryResultDTO>>();
 
-            // Act
-            var result = await controller.GetFriendIds(user, maximumNumberOfUsers);
-
-            // Assert
-            Assert.AreEqual(result, friendIds);
-        }
-
-        [TestMethod]
-        public async Task GetFriendIds_WithUserDTO_ReturnsUserExecutorResult()
-        {
-            // Arrange
-            var controller = CreateUserController();
-            var userDTO = A.Fake<IUserDTO>();
-            var maximumNumberOfUsers = TestHelper.GenerateRandomInt();
-            var friendIds = new[] { TestHelper.GenerateRandomLong() };
-
-            _fakeUserQueryExecutor.CallsTo(x => x.GetFriendIds(userDTO, maximumNumberOfUsers)).Returns(friendIds);
+            _fakeUserQueryExecutor.CallsTo(x => x.GetFriendIds(A<IGetFriendIdsParameters>.Ignored, A<ITwitterRequest>.Ignored)).Returns(expectedResult);
 
             // Act
-            var result = await controller.GetFriendIds(userDTO, maximumNumberOfUsers);
+            var result = controller.GetFriendIds(parameters, A.Fake<ITwitterRequest>());
+            result.MoveNext();
 
             // Assert
-            Assert.AreEqual(result, friendIds);
-        }
-
-        [TestMethod]
-        public async Task GetFriendIds_WithUserScreenName_ReturnsUserExecutorResult()
-        {
-            // Arrange
-            var controller = CreateUserController();
-            var userScreenName = TestHelper.GenerateString();
-            var maximumNumberOfUsers = TestHelper.GenerateRandomInt();
-            var friendIds = new[] { TestHelper.GenerateRandomLong() };
-
-            _fakeUserQueryExecutor.CallsTo(x => x.GetFriendIds(A<IUserIdentifier>.That.Matches(u => u.ScreenName == userScreenName), maximumNumberOfUsers)).Returns(friendIds);
-
-            // Act
-            var result = await controller.GetFriendIds(userScreenName, maximumNumberOfUsers);
-
-            // Assert
-            Assert.AreEqual(result, friendIds);
-        }
-
-        [TestMethod]
-        public async Task GetFriendIds_WithUserId_ReturnsUserExecutorResult()
-        {
-            // Arrange
-            var controller = CreateUserController();
-            var userId = TestHelper.GenerateRandomLong();
-            var maximumNumberOfUsers = TestHelper.GenerateRandomInt();
-            var friendIds = new[] { TestHelper.GenerateRandomLong() };
-
-            _fakeUserQueryExecutor.CallsTo(x => x.GetFriendIds(A<IUserIdentifier>.That.Matches(u => u.Id == userId), maximumNumberOfUsers)).Returns(friendIds);
-
-            // Act
-            var result = await controller.GetFriendIds(userId, maximumNumberOfUsers);
-
-            // Assert
-            Assert.AreEqual(result, friendIds);
+            Assert.AreEqual(result.TwitterResults[0], expectedResult);
         }
 
         #endregion
@@ -109,84 +59,31 @@ namespace Testinvi.TweetinviControllers.UserTests
         #region Get Friends
 
         [TestMethod]
-        public async Task GetFriends_WithUser_ReturnsUserExecutorResult()
+        public void GetFriend_ReturnsUserExecutorResult()
         {
+            throw new NotImplementedException("TO COMPLETE");
+
             // Arrange
             var controller = CreateUserController();
-            var userDTO = A.Fake<IUserDTO>();
-            var user = TestHelper.GenerateUser(userDTO);
-            var maximumNumberOfUsers = TestHelper.GenerateRandomInt();
+
+            var parameter = new GetFriendIdsParameters("username");
+            var expectedResult = A.Fake<TwitterResult<IIdsCursorQueryResultDTO>>();
             var friendIds = new[] { TestHelper.GenerateRandomLong() };
             var friends = new[] { A.Fake<IUser>() };
 
-            _fakeUserQueryExecutor.CallsTo(x => x.GetFriendIds(user, maximumNumberOfUsers)).Returns(friendIds);
+            expectedResult.DataTransferObject = new IdsCursorQueryResultDTO()
+            {
+                Ids = friendIds
+            };
+
+            _fakeUserQueryExecutor.CallsTo(x => x.GetFriendIds(parameter, A<ITwitterRequest>.Ignored)).Returns(expectedResult);
             _fakeUserFactory.CallsTo(x => x.GetUsersFromIds(friendIds)).Returns(friends);
 
             // Act
-            var result = await controller.GetFriends(user, maximumNumberOfUsers);
+            var result = controller.GetFriendIds(parameter, A.Fake<ITwitterRequest>());
 
             // Assert
-            Assert.AreEqual(result, friends);
-        }
-
-        [TestMethod]
-        public async Task GetFriends_WithUserDTO_ReturnsUserExecutorResult()
-        {
-            // Arrange
-            var controller = CreateUserController();
-            var userDTO = A.Fake<IUserDTO>();
-            var maximumNumberOfUsers = TestHelper.GenerateRandomInt();
-            var friendIds = new[] { TestHelper.GenerateRandomLong() };
-            var friends = new[] { A.Fake<IUser>() };
-
-            _fakeUserQueryExecutor.CallsTo(x => x.GetFriendIds(userDTO, maximumNumberOfUsers)).Returns(friendIds);
-            _fakeUserFactory.CallsTo(x => x.GetUsersFromIds(friendIds)).Returns(friends);
-
-            // Act
-            var result = await controller.GetFriends(userDTO, maximumNumberOfUsers);
-
-            // Assert
-            Assert.AreEqual(result, friends);
-        }
-
-        [TestMethod]
-        public async Task GetFriends_WithUserScreenName_ReturnsUserExecutorResult()
-        {
-            // Arrange
-            var controller = CreateUserController();
-            var userScreenName = TestHelper.GenerateString();
-            var maximumNumberOfUsers = TestHelper.GenerateRandomInt();
-            var friendIds = new[] { TestHelper.GenerateRandomLong() };
-            var friends = new[] { A.Fake<IUser>() };
-
-            _fakeUserQueryExecutor.CallsTo(x => x.GetFriendIds(A<IUserIdentifier>.That.Matches(u => u.ScreenName == userScreenName), maximumNumberOfUsers)).Returns(friendIds);
-            _fakeUserFactory.CallsTo(x => x.GetUsersFromIds(friendIds)).Returns(friends);
-
-            // Act
-            var result = await controller.GetFriends(userScreenName, maximumNumberOfUsers);
-
-            // Assert
-            Assert.AreEqual(result, friends);
-        }
-
-        [TestMethod]
-        public async Task GetFriends_WithUserId_ReturnsUserExecutorResult()
-        {
-            // Arrange
-            var controller = CreateUserController();
-            var userId = TestHelper.GenerateRandomLong();
-            var maximumNumberOfUsers = TestHelper.GenerateRandomInt();
-            var friendIds = new[] { TestHelper.GenerateRandomLong() };
-            var friends = new[] { A.Fake<IUser>() };
-
-            _fakeUserQueryExecutor.CallsTo(x => x.GetFriendIds(A<IUserIdentifier>.That.Matches(u => u.Id == userId), maximumNumberOfUsers)).Returns(friendIds);
-            _fakeUserFactory.CallsTo(x => x.GetUsersFromIds(friendIds)).Returns(friends);
-
-            // Act
-            var result = await controller.GetFriends(userId, maximumNumberOfUsers);
-
-            // Assert
-            Assert.AreEqual(result, friends);
+            //Assert.AreEqual(result, );
         }
 
         #endregion

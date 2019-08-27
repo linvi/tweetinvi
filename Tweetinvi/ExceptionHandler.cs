@@ -6,7 +6,7 @@ using System.Text;
 using Tweetinvi.Core.Exceptions;
 using Tweetinvi.Events;
 using Tweetinvi.Exceptions;
-using Tweetinvi.Models.Interfaces;
+using Tweetinvi.Models;
 
 namespace Tweetinvi
 {

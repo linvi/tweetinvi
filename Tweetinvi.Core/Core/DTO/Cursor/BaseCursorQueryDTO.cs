@@ -2,7 +2,7 @@
 using Newtonsoft.Json;
 using Tweetinvi.Models.DTO.QueryDTO;
 
-namespace Tweetinvi.Credentials.QueryDTO
+namespace Tweetinvi.Core.DTO.Cursor
 {
     public abstract class BaseCursorQueryDTO<T> : IBaseCursorQueryDTO<T>
     {

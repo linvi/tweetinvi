@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using Tweetinvi.Models.DTO.QueryDTO;
 
-namespace Tweetinvi.Credentials.QueryDTO
+namespace Tweetinvi.Core.DTO.Cursor
 {
     public class IdsCursorQueryResultDTO : BaseCursorQueryDTO<long>, IIdsCursorQueryResultDTO
     {

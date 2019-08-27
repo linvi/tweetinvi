@@ -152,7 +152,6 @@ namespace Examplinvi.NETFramework
 
             await Examples.User_GetFriends(Examples.USER_SCREEN_NAME_TO_TEST);
             await Examples.User_GetFriendIds(Examples.USER_SCREEN_NAME_TO_TEST);
-            await Examples.User_GetFriendIdsUpTo(Examples.USER_SCREEN_NAME_TO_TEST, 10000);
 
             await Examples.User_GetFollowers(Examples.USER_SCREEN_NAME_TO_TEST);
             await Examples.User_GetFollowerIds(Examples.USER_SCREEN_NAME_TO_TEST);
@@ -363,7 +362,6 @@ namespace Examplinvi.NETFramework
         #endregion
     }
 
-
     static class Examples
     {
         // ReSharper disable once UnusedAutoPropertyAccessor.Global
@@ -439,7 +437,6 @@ namespace Examplinvi.NETFramework
         }
 
         // ReSharper restore UnusedMethodReturnValue.Local
-
 
         #endregion
 
@@ -590,23 +587,19 @@ namespace Examplinvi.NETFramework
 
         public static async Task User_GetFriendIds(string userName)
         {
-            var user = await User.GetUserFromScreenName(userName);
-            var friendIds = await user.GetFriendIds();
-
-            Console.WriteLine("{0} has {1} friends, here are some of them :", user.Name, user.FriendsCount);
-            foreach (var friendId in friendIds)
+            var friendIds = await Client.Users.GetFriendIds(new GetFriendIdsParameters(userName)
             {
-                Console.WriteLine("- {0}", friendId);
+                MaximumNumberOfResults = 50
+            });
+
+            while (friendIds.Items.Count < 200 && !friendIds.Completed)
+            {
+                await friendIds.MoveNext();
             }
-        }
 
-        public static async Task User_GetFriendIdsUpTo(string userName, int limit)
-        {
-            var user = await User.GetUserFromScreenName(userName);
-            var friendIds = await user.GetFriendIds(limit);
+            Console.WriteLine($"{userName} has friends, here are some of them :", userName);
 
-            Console.WriteLine("{0} has {1} friends, here are some of them :", user.Name, user.FriendsCount);
-            foreach (var friendId in friendIds)
+            foreach (var friendId in friendIds.Items)
             {
                 Console.WriteLine("- {0}", friendId);
             }
@@ -618,7 +611,7 @@ namespace Examplinvi.NETFramework
             var friends = await user.GetFriends();
 
             Console.WriteLine("{0} has {1} friends, here are some of them :", user.Name, user.FriendsCount);
-            foreach (var friend in friends)
+            foreach (var friend in friends.Items)
             {
                 Console.WriteLine("- {0}", friend.Name);
             }

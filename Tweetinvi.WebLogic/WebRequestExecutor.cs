@@ -11,7 +11,7 @@ using Tweetinvi.Core.Helpers;
 using Tweetinvi.Core.Injectinvi;
 using Tweetinvi.Core.Web;
 using Tweetinvi.Exceptions;
-using Tweetinvi.Models.Interfaces;
+using Tweetinvi.Models;
 
 namespace Tweetinvi.WebLogic
 {

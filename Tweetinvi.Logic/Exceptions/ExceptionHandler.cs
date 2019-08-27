@@ -7,7 +7,7 @@ using Tweetinvi.Core.Exceptions;
 using Tweetinvi.Core.Web;
 using Tweetinvi.Events;
 using Tweetinvi.Exceptions;
-using Tweetinvi.Models.Interfaces;
+using Tweetinvi.Models;
 
 namespace Tweetinvi.Logic.Exceptions
 {

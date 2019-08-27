@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Tweetinvi.Models.Interfaces;
+using Tweetinvi.Models;
 
 namespace Tweetinvi.Client
 {

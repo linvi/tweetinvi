@@ -357,7 +357,7 @@ namespace Tweetinvi.Core.Extensions
                 query += "?";
             }
 
-            query += string.Format("{0}={1}", parameterName, parameterValue);
+            query += $"{parameterName}={parameterValue}";
 
             return query;
         }

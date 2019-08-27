@@ -144,7 +144,8 @@ namespace Tweetinvi
         /// </summary>
         public static Task<IEnumerable<long>> GetFriendIds(IUserIdentifier user, int maxFriendsToRetrieve = 5000)
         {
-            return UserController.GetFriendIds(user, maxFriendsToRetrieve);
+            //return UserController.GetFriendIds();
+            throw new NotImplementedException("TODO");
         }
 
         /// <summary>
@@ -152,7 +153,8 @@ namespace Tweetinvi
         /// </summary>
         public static Task<IEnumerable<long>> GetFriendIds(long userId, int maxFriendsToRetrieve = 5000)
         {
-            return UserController.GetFriendIds(userId, maxFriendsToRetrieve);
+            //return UserController.GetFriendIds();
+            throw new NotImplementedException("TODO");
         }
 
         /// <summary>
@@ -160,7 +162,8 @@ namespace Tweetinvi
         /// </summary>
         public static Task<IEnumerable<long>> GetFriendIds(string userScreenName, int maxFriendsToRetrieve = 5000)
         {
-            return UserController.GetFriendIds(userScreenName, maxFriendsToRetrieve);
+            //return UserController.GetFriendIds();
+            throw new NotImplementedException("TODO");
         }
 
         // Friends
@@ -170,7 +173,7 @@ namespace Tweetinvi
         /// </summary>
         public static Task<IEnumerable<IUser>> GetFriends(IUserIdentifier user, int maxFriendsToRetrieve = 250)
         {
-            return UserController.GetFriends(user, maxFriendsToRetrieve);
+            throw new NotImplementedException("TODO");
         }
 
         /// <summary>

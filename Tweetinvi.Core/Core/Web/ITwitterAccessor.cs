@@ -74,19 +74,19 @@ namespace Tweetinvi.Core.Web
         Task<IEnumerable<string>> ExecuteJsonCursorGETQuery<T>(
             string baseQuery,
             int maxObjectToRetrieve = Int32.MaxValue,
-            long cursor = -1)
+            string cursor = null)
             where T : class, IBaseCursorQueryDTO;
 
         Task<IEnumerable<T>> ExecuteCursorGETCursorQueryResult<T>(
             string query,
             int maxObjectToRetrieve = Int32.MaxValue,
-            long cursor = -1)
+            string cursor = null)
             where T : class, IBaseCursorQueryDTO;
 
         Task<IEnumerable<T>> ExecuteCursorGETQuery<T, T1>(
             string baseQuery,
             int maxObjectToRetrieve = Int32.MaxValue,
-            long cursor = -1)
+            string cursor = null)
             where T1 : class, IBaseCursorQueryDTO<T>;
 
         // Http Content

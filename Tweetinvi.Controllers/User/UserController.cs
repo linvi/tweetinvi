@@ -9,7 +9,7 @@ using Tweetinvi.Core.Web;
 using Tweetinvi.Logic.QueryParameters;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
-using Tweetinvi.Models.Interfaces;
+using Tweetinvi.Models.DTO.QueryDTO;
 using Tweetinvi.Parameters;
 
 namespace Tweetinvi.Controllers.User
@@ -43,40 +43,37 @@ namespace Tweetinvi.Controllers.User
         }
 
         // Friend Ids
-        public Task<IEnumerable<long>> GetFriendIds(IUserIdentifier user, int maxFriendsToRetrieve = 5000)
+        public TwitterCursorResult<long, IIdsCursorQueryResultDTO> GetFriendIds(IGetFriendIdsParameters parameters, ITwitterRequest request)
         {
-            return _userQueryExecutor.GetFriendIds(user, maxFriendsToRetrieve);
-        }
+            var twitterCursorResult = new TwitterCursorResult<long, IIdsCursorQueryResultDTO>(async cursor => 
+            {
+                var cursoredParameters = new GetFriendIdsParameters(parameters)
+                {
+                    Cursor = cursor
+                };
 
-        public Task<IEnumerable<long>> GetFriendIds(long userId, int maxFriendsToRetrieve = 5000)
-        {
-            return _userQueryExecutor.GetFriendIds(new UserIdentifier(userId), maxFriendsToRetrieve);
-        }
-
-        public Task<IEnumerable<long>> GetFriendIds(string userScreenName, int maxFriendsToRetrieve = 5000)
-        {
-            return _userQueryExecutor.GetFriendIds(new UserIdentifier(userScreenName), maxFriendsToRetrieve);
+                return await _userQueryExecutor.GetFriendIds(cursoredParameters, new TwitterRequest(request));
+            });
+            
+            return twitterCursorResult;
         }
 
         // Friends
-        public async Task<IEnumerable<IUser>> GetFriends(IUserIdentifier user, int maxFriendsToRetrieve = 250)
+        public Task<IEnumerable<IUser>> GetFriends(IUserIdentifier user, int maxFriendsToRetrieve = 250)
         {
-            var friendIds = await GetFriendIds(user, maxFriendsToRetrieve);
-            return await _userFactory.GetUsersFromIds(friendIds);
+            throw new NotImplementedException("TODO");
         }
 
-        public async Task<IEnumerable<IUser>> GetFriends(long userId, int maxFriendsToRetrieve = 250)
+        public Task<IEnumerable<IUser>> GetFriends(long userId, int maxFriendsToRetrieve = 250)
         {
-            var friendIds = await GetFriendIds(userId, maxFriendsToRetrieve);
-            return await _userFactory.GetUsersFromIds(friendIds);
+            throw new NotImplementedException("TODO");
         }
 
-        public async Task<IEnumerable<IUser>> GetFriends(string userScreenName, int maxFriendsToRetrieve = 250)
+        public Task<IEnumerable<IUser>> GetFriends(string userScreenName, int maxFriendsToRetrieve = 250)
         {
-            var friendIds = await GetFriendIds(userScreenName, maxFriendsToRetrieve);
-            return await _userFactory.GetUsersFromIds(friendIds);
+            throw new NotImplementedException("TODO");
         }
-
+        
         // Follower Ids
         public Task<IEnumerable<long>> GetFollowerIds(IUserIdentifier user, int maxFollowersToRetrieve = 5000)
         {

@@ -8,7 +8,6 @@ using Tweetinvi.Core.Web;
 using Tweetinvi.Events;
 using Tweetinvi.Exceptions;
 using Tweetinvi.Models;
-using Tweetinvi.Models.Interfaces;
 
 namespace Tweetinvi.WebLogic
 {
@@ -42,7 +41,7 @@ namespace Tweetinvi.WebLogic
         }
 
         public async Task<ITwitterResponse> ExecuteQuery(ITwitterRequest request)
-        {
+        {         
             await PrepareTwitterRequest(request);
 
             var beforeQueryExecuteEventArgs = new QueryBeforeExecuteEventArgs(request.Query);

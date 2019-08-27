@@ -12,25 +12,71 @@ namespace Tweetinvi.Client.Requesters
     {
     }
 
+    /// <summary>
+    /// A client providing all the methods related with tweets.
+    /// The results from this client contain additional metadata.
+    /// </summary>
     public interface ITweetsRequester
     {
         // Tweets
+        
+        /// <summary>
+        /// Get a tweet
+        /// </summary>
+        /// <returns>TwitterResult containing specified tweet</returns>
         Task<ITwitterResult<ITweetDTO, ITweet>> GetTweet(long tweetId);
+        
+        /// <summary>
+        /// Get multiple tweets
+        /// </summary>
+        /// <returns>TwitterResult containing multiple tweets</returns>
         Task<ITwitterResult<ITweetDTO[], ITweet[]>> GetTweets(long[] tweetIds);
 
+        /// <summary>
+        /// Publish a tweet
+        /// </summary>
+        /// <returns>TwitterResult containing the published tweet</returns>
         Task<ITwitterResult<ITweetDTO, ITweet>> PublishTweet(string text);
+        
+        /// <summary>
+        /// Publish a tweet
+        /// </summary>
+        /// <returns>TwitterResult containing the published tweet</returns>
         Task<ITwitterResult<ITweetDTO, ITweet>> PublishTweet(IPublishTweetParameters parameters);
 
+        /// <summary>
+        /// Destroying a tweet
+        /// </summary>
+        /// <returns>TwitterResult with the success status of the request</returns>
         Task<ITwitterResult> DestroyTweet(long tweetId);
+        
+        /// <summary>
+        /// Destroying a tweet
+        /// </summary>
+        /// <returns>TwitterResult with the success status of the request</returns>
         Task<ITwitterResult> DestroyTweet(ITweetDTO tweet);
 
         // Retweets
+        
+        /// <summary>
+        /// Get the retweets associated with a specific tweet
+        /// </summary>
+        /// <returns>TwitterResult containing the retweets</returns>
         Task<ITwitterResult<ITweetDTO[], ITweet[]>> GetRetweets(ITweetIdentifier tweet, int? maxRetweetsToRetrieve);
 
+        /// <summary>
+        /// Publish a retweet 
+        /// </summary>
+        /// <returns>TwitterResult containing the published retweet</returns>
         Task<ITwitterResult<ITweetDTO, ITweet>> PublishRetweet(ITweetIdentifier tweet);
+        
+        /// <summary>
+        /// Destroy a retweet
+        /// </summary>
+        /// <returns>TwitterResult containing the success status of the request</returns>
         Task<ITwitterResult> DestroyRetweet(ITweetIdentifier retweetId);
     }
-
+    
     public class TweetsRequester : BaseRequester, IInternalTweetsRequester
     {
         private readonly ITweetFactory _tweetFactory;

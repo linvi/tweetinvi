@@ -114,7 +114,7 @@ namespace Testinvi.SetupHelpers
             IEnumerable<T> result) where T1 : class, IBaseCursorQueryDTO<T>
         {
             fakeTwitterAccessor
-                .CallsTo(x => x.ExecuteCursorGETQuery<T, T1>(query, A<int>.Ignored, -1))
+                .CallsTo(x => x.ExecuteCursorGETQuery<T, T1>(query, A<int>.Ignored, null))
                 .Returns(result);
         }
 
@@ -145,7 +145,7 @@ namespace Testinvi.SetupHelpers
             IEnumerable<string> jsonResult) where T : class, IBaseCursorQueryDTO
         {
             fakeTwitterAccessor
-                .CallsTo(x => x.ExecuteJsonCursorGETQuery<T>(query, A<int>.Ignored, A<long>.Ignored))
+                .CallsTo(x => x.ExecuteJsonCursorGETQuery<T>(query, A<int>.Ignored, A<string>.Ignored))
                 .Returns(jsonResult);
         }
 

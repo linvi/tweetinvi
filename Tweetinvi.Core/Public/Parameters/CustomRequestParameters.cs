@@ -35,6 +35,17 @@ namespace Tweetinvi.Parameters
         {
             _customQueryParameters = new List<Tuple<string, string>>();
         }
+        
+        public CustomRequestParameters(ICustomRequestParameters parameters)
+        {
+            if (parameters?.CustomQueryParameters == null)
+            {
+                _customQueryParameters = new List<Tuple<string, string>>();
+                return;
+            }
+            
+            _customQueryParameters = parameters.CustomQueryParameters;
+        }
 
         public void AddCustomQueryParameter(string name, string value)
         {

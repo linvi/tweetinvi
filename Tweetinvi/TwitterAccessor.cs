@@ -176,7 +176,7 @@ namespace Tweetinvi
         public static Task<IEnumerable<string>> ExecuteCursorGETQueryReturningJson<T>(
             string baseQuery,
             int maxObjectToRetrieve = Int32.MaxValue,
-            long cursor = -1)
+            string cursor = null)
             where T : class, IBaseCursorQueryDTO
         {
             return Accessor.ExecuteJsonCursorGETQuery<T>(baseQuery, maxObjectToRetrieve, cursor);
@@ -188,7 +188,7 @@ namespace Tweetinvi
         public static Task<IEnumerable<T>> ExecuteCursorGETCursorQueryResult<T>(
             string query,
             int maxObjectToRetrieve = Int32.MaxValue,
-            long cursor = -1)
+            string cursor = null)
             where T : class, IBaseCursorQueryDTO
         {
             return Accessor.ExecuteCursorGETCursorQueryResult<T>(query, maxObjectToRetrieve, cursor);
@@ -200,7 +200,7 @@ namespace Tweetinvi
         public static Task<IEnumerable<T>> ExecuteCursorGETQuery<T, T1>(
             string baseQuery,
             int maxObjectToRetrieve = Int32.MaxValue,
-            long cursor = -1)
+            string cursor = null)
             where T1 : class, IBaseCursorQueryDTO<T>
         {
             return Accessor.ExecuteCursorGETQuery<T, T1>(baseQuery, maxObjectToRetrieve, cursor);

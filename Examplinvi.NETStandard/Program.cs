@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Tweetinvi;
 using Tweetinvi.Models;
 
@@ -8,25 +9,17 @@ namespace Examplinvi.NETStandard
     {
         static void Main()
         {
-            var credentials = new TwitterCredentials("5EpUsp9mbMMRMJ0zqsug", "cau8CExOCUordXMJeoGfW0QoPTp6bUAOrqUELKk1CSM", "1577389800-c8ecF1YWfYJjFraEohBHxqv37xXDnsAOoQOP4vX", "YZ3wcpMDX7ydZ8IPVkbBpcUWIyRnTqTnudyjD9Fm8g");
+            Run().Wait();
+        }
+
+        static async Task Run()
+        {
+            var credentials = new TwitterCredentials("A", "B", "C", "D");
             var client = new TwitterClient(credentials);
 
-            var tweet = client.Tweets.GetTweets(new[] { 979753598446948353 }).Result;
+            var authenticatedUser = await client.Users.GetAuthenticatedUser();
 
-
-            //Tweet.TweetFactory.GetTweets(new [] { 1, 2, 3 }, )
-
-            Console.WriteLine(tweet);
-
-            //Auth.SetUserCredentials("CONSUMER_KEY", "CONSUMER_SECRET", "ACCESS_TOKEN", "ACCESS_TOKEN_SECRET");
-
-            //var authenticatedUser = User.GetAuthenticatedUser();
-
-            //var tweet = Tweet.GetTweet(1).Result;
-
-            //RateLimit.RateLimitTrackerMode = RateLimitTrackerMode.TrackAndAwait;
-
-            //Console.WriteLine(authenticatedUser);
+            Console.WriteLine(authenticatedUser);
             Console.ReadLine();
         }
     }

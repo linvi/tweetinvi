@@ -1,5 +1,5 @@
 ﻿using System;
-using Tweetinvi.Models.Interfaces;
+using Tweetinvi.Models;
 
 namespace Tweetinvi.Core.Client
 {

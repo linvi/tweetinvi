@@ -9,9 +9,13 @@ namespace Tweetinvi
     public interface ITwitterClient
     {
         /// <summary>
-        /// Client to use in order to execute all actions related with tweets
+        /// Client to execute all actions related with tweets
         /// </summary>
         TweetsClient Tweets { get; }
+
+        /// <summary>
+        /// Client to execute all actions related with users
+        /// </summary>
         UsersClient Users { get; }
 
 

@@ -19,6 +19,18 @@ namespace Tweetinvi
             };
         }
 
+        public TwitterRequest(ITwitterRequest source) : this()
+        {
+            if (source == null)
+            {
+                return;
+            }
+            
+            Query = source.Query?.Clone();
+            TwitterClientHandler = source.TwitterClientHandler;
+            ExecutionContext = source.ExecutionContext.Clone();
+        }
+
         public ITwitterQuery Query
         {
             get { return _query; }
@@ -30,15 +42,5 @@ namespace Tweetinvi
 
         public ITwitterExecutionContext ExecutionContext { get; set; }
         public ITwitterClientHandler TwitterClientHandler { get; set; }
-
-        public ITwitterRequest Clone()
-        {
-            return new TwitterRequest
-            {
-                Query = Query?.Clone(),
-                TwitterClientHandler = TwitterClientHandler,
-                ExecutionContext = ExecutionContext.Clone()
-            };
-        }
     }
 }

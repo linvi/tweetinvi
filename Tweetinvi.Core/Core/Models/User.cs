@@ -4,6 +4,8 @@ using System.IO;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Tweetinvi.Core.Controllers;
+using Tweetinvi.Core.Models;
+using Tweetinvi.Core.Public.Parameters;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
 using Tweetinvi.Models.Entities;
@@ -313,14 +315,19 @@ namespace Tweetinvi.Logic
         }
 
         // Friends
-        public virtual Task<IEnumerable<long>> GetFriendIds(int maxFriendsToRetrieve = 5000)
+        public virtual Task<ICursorResult<IUser>> GetFriendIds()
         {
-            return _userController.GetFriendIds(_userDTO, maxFriendsToRetrieve);
+            throw new NotImplementedException("TODO as requires client.GetFriends");
         }
 
-        public virtual Task<IEnumerable<IUser>> GetFriends(int maxFriendsToRetrieve = 250)
+        public virtual Task<ICursorResult<IUser>> GetFriends()
         {
-            return _userController.GetFriends(_userDTO, maxFriendsToRetrieve);
+            throw new NotImplementedException("TODO as requires client.GetFriends");
+        }
+
+        public virtual Task<ICursorResult<IUser>> GetFriends(ICursorQueryParameters cursorQueryParameters)
+        {
+            throw new NotImplementedException("TODO as requires client.GetFriends");
         }
 
         // Followers

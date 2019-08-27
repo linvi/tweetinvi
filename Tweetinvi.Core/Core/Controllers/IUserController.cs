@@ -6,7 +6,7 @@ using Tweetinvi.Core.Parameters;
 using Tweetinvi.Core.Web;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
-using Tweetinvi.Models.Interfaces;
+using Tweetinvi.Models.DTO.QueryDTO;
 using Tweetinvi.Parameters;
 
 namespace Tweetinvi.Core.Controllers
@@ -16,9 +16,9 @@ namespace Tweetinvi.Core.Controllers
         Task<ITwitterResult<IUserDTO, IAuthenticatedUser>> GetAuthenticatedUser(IGetAuthenticatedUserParameters parameters, ITwitterRequest request);
 
         // Friends
-        Task<IEnumerable<long>> GetFriendIds(IUserIdentifier user, int maxFriendsToRetrieve = 5000);
-        Task<IEnumerable<long>> GetFriendIds(long userId, int maxFriendsToRetrieve = 5000);
-        Task<IEnumerable<long>> GetFriendIds(string userScreenName, int maxFriendsToRetrieve = 5000);
+        TwitterCursorResult<long, IIdsCursorQueryResultDTO> GetFriendIds(
+            IGetFriendIdsParameters parameters,
+            ITwitterRequest request);
 
         Task<IEnumerable<IUser>> GetFriends(IUserIdentifier user, int maxFriendsToRetrieve = 250);
         Task<IEnumerable<IUser>> GetFriends(long userId, int maxFriendsToRetrieve = 250);

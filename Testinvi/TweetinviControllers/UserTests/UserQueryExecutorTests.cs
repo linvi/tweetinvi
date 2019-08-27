@@ -13,6 +13,7 @@ using Tweetinvi.Core.Web;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
 using Tweetinvi.Models.DTO.QueryDTO;
+using Tweetinvi.Parameters;
 
 namespace Testinvi.TweetinviControllers.UserTests
 {
@@ -41,41 +42,53 @@ namespace Testinvi.TweetinviControllers.UserTests
 
         // This tests that if the CursorQuery returns null, the accessor returns null
         [TestMethod]
-        public async Task GetFriendIdWithUserDTOs_TwitterAccessorReturnsNull_ReturnsNull()
+        public async Task GetFriendIds_TwitterAccessorReturnsNull_ReturnsNull()
         {
             // Arrange
             var queryExecutor = CreateUserQueryExecutor();
-            var userDTO = A.Fake<IUserDTO>();
-            var maximumNumberOfFriends = TestHelper.GenerateRandomInt();
             var expectedQuery = TestHelper.GenerateString();
 
-            _fakeUserQueryGenerator.CallsTo(x => x.GetFriendIdsQuery(userDTO, maximumNumberOfFriends)).Returns(expectedQuery);
-            _fakeTwitterAccessor.ArrangeExecuteCursorGETQuery<long, IIdsCursorQueryResultDTO>(expectedQuery, null);
+            var parameters = new GetFriendIdsParameters("username")
+            {
+                MaximumNumberOfResults = TestHelper.GenerateRandomInt()
+            };
+
+            _fakeUserQueryGenerator.CallsTo(x => x.GetFriendIdsQuery(parameters.UserIdentifier, parameters.MaximumNumberOfResults)).Returns(expectedQuery);
+
+            _fakeTwitterAccessor
+                .CallsTo(x => x.ExecuteRequest<IIdsCursorQueryResultDTO>(A<ITwitterRequest>.That.Matches(twitterRequest => twitterRequest.Query.Url == expectedQuery)))
+                .ReturnsLazily(() => (ITwitterResult<IIdsCursorQueryResultDTO>)null);
 
             // Act
-            var result = await queryExecutor.GetFriendIds(userDTO, maximumNumberOfFriends);
+            var result = await queryExecutor.GetFriendIds(parameters, A.Fake<ITwitterRequest>());
 
             // Assert
             Assert.IsNull(result);
         }
         [TestMethod]
-        public async Task GetFriendIdsWithUserDTO_AnyData_ReturnsTwitterAccessorResult()
+        public async Task GetFriendIds_AnyData_ReturnsTwitterAccessorResult()
         {
             // Arrange
             var queryExecutor = CreateUserQueryExecutor();
-            var userDTO = A.Fake<IUserDTO>();
-            var maximumNumberOfFriends = TestHelper.GenerateRandomInt();
             var expectedQuery = TestHelper.GenerateString();
-            var expectedCursorResults = GenerateExpectedCursorResults();
+            var expectedResult = A.Fake<ITwitterResult<IIdsCursorQueryResultDTO>>();
 
-            _fakeUserQueryGenerator.CallsTo(x => x.GetFriendIdsQuery(userDTO, maximumNumberOfFriends)).Returns(expectedQuery);
-            _fakeTwitterAccessor.ArrangeExecuteCursorGETQuery<long, IIdsCursorQueryResultDTO>(expectedQuery, expectedCursorResults);
+            var parameters = new GetFriendIdsParameters("username")
+            {
+                MaximumNumberOfResults = TestHelper.GenerateRandomInt()
+            };
+
+            _fakeUserQueryGenerator.CallsTo(x => x.GetFriendIdsQuery(parameters.UserIdentifier, parameters.MaximumNumberOfResults)).Returns(expectedQuery);
+
+            _fakeTwitterAccessor
+                .CallsTo(x => x.ExecuteRequest<IIdsCursorQueryResultDTO>(A<ITwitterRequest>.That.Matches(twitterRequest => twitterRequest.Query.Url == expectedQuery)))
+                .ReturnsLazily(() => expectedResult);
 
             // Act
-            var result = await queryExecutor.GetFriendIds(userDTO, maximumNumberOfFriends);
+            var result = await queryExecutor.GetFriendIds(parameters, A.Fake<ITwitterRequest>());
 
             // Assert
-            Assert.IsTrue(result.ContainsAll(_cursorQueryIds));
+            Assert.AreEqual(result, expectedResult);
         }
 
         #endregion
