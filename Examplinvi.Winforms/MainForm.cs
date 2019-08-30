@@ -1,5 +1,6 @@
 ﻿using System.Windows.Forms;
 using Tweetinvi;
+using Tweetinvi.Models;
 
 namespace Examplinvi.Winforms
 {
@@ -12,11 +13,14 @@ namespace Examplinvi.Winforms
 
         private void button_Click(object sender, System.EventArgs e)
         {
-            Auth.SetUserCredentials("CONSUMER_KEY", "CONSUMER_SECRET", "ACCESS_TOKEN", "ACCESS_TOKEN_SECRET");
+            var creds = new TwitterCredentials("CONSUMER_KEY", "CONSUMER_SECRET", "ACCESS_TOKEN", "ACCESS_TOKEN_SECRET");
 
-            var user = User.GetAuthenticatedUser();
+            Auth.SetCredentials(creds);
 
-            textBox.Text = string.Format("You are now authenticated as {0}!", user);
+            var client = new TwitterClient(creds);
+            var user = client.Users.GetAuthenticatedUser().Result;
+
+            textBox.Text = $"You are now authenticated as {user}!";
         }
     }
 }

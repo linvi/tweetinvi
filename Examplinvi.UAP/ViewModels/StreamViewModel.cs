@@ -53,7 +53,7 @@ namespace Examplinvi.UAP.ViewModels
             {
                 _client = new TwitterClient(Auth.Credentials);
 
-                var user = await User.GetAuthenticatedUser();
+                var user = await _client.Users.GetAuthenticatedUser();
                 Message = $"Hi '{user.Name}'. Welcome on board with Windows 10 Universal App!";                
             }
         }

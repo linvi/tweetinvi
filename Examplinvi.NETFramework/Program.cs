@@ -42,7 +42,7 @@ namespace Examplinvi.NETFramework
 
     class Program
     {
-        private static ITwitterCredentials Credentials { get; set; }
+        public static ITwitterCredentials Credentials { get; set; }
 
         static void Main()
         {
@@ -58,7 +58,8 @@ namespace Examplinvi.NETFramework
                 Console.WriteLine(args.Url);
             };
 
-            var authenticatedUser = User.GetAuthenticatedUser().Result;
+            var client = new TwitterClient(Credentials);
+            var authenticatedUser = client.Users.GetAuthenticatedUser().Result;
 
             Console.WriteLine(authenticatedUser);
 
@@ -570,7 +571,8 @@ namespace Examplinvi.NETFramework
 
         public static async Task User_GetCurrentUser()
         {
-            var user = await User.GetAuthenticatedUser();
+            var client = new TwitterClient(Program.Credentials);
+            var user = await client.Users.GetAuthenticatedUser();
             Console.WriteLine(user.ScreenName);
         }
 
@@ -702,7 +704,8 @@ namespace Examplinvi.NETFramework
 
         public static async Task User_GetBlockedUsers()
         {
-            var authenticatedUser = await User.GetAuthenticatedUser();
+            var client = new TwitterClient(Program.Credentials);
+            var authenticatedUser = await client.Users.GetAuthenticatedUser();
             await authenticatedUser.GetBlockedUsers();
             await authenticatedUser.GetBlockedUserIds();
         }
@@ -727,7 +730,8 @@ namespace Examplinvi.NETFramework
 
         public static async Task User_GetMutedUsers()
         {
-            var authenticatedUser = await User.GetAuthenticatedUser();
+            var client = new TwitterClient(Program.Credentials);
+            var authenticatedUser = await client.Users.GetAuthenticatedUser();
             var mutedUsed = await authenticatedUser.GetMutedUserIds();
 
             Console.WriteLine($"Muted user ids : {string.Concat(mutedUsed.Select(x => x.ToString() + " ; "))}");
@@ -739,7 +743,7 @@ namespace Examplinvi.NETFramework
 
         public static async Task AuthenticatedUser_GetIncomingRequests()
         {
-            var authenticatedUser = await User.GetAuthenticatedUser();
+            var authenticatedUser = await Client.Users.GetAuthenticatedUser();
             var usersRequestingFriendship = await authenticatedUser.GetUsersRequestingFriendship();
 
             foreach (var user in usersRequestingFriendship)
@@ -750,7 +754,7 @@ namespace Examplinvi.NETFramework
 
         public static async Task AuthenticatedUser_GetOutgoingRequests()
         {
-            var authenticatedUser = await User.GetAuthenticatedUser();
+            var authenticatedUser = await Client.Users.GetAuthenticatedUser();
             var usersRequestingFriendship = await authenticatedUser.GetUsersYouRequestedToFollow();
 
             foreach (var user in usersRequestingFriendship)
@@ -761,7 +765,7 @@ namespace Examplinvi.NETFramework
 
         public static async Task AuthenticatedUser_FollowUser(string userName)
         {
-            var authenticatedUser = await User.GetAuthenticatedUser();
+            var authenticatedUser = await Client.Users.GetAuthenticatedUser();
             var userToFollow = await User.GetUserFromScreenName(userName);
 
             if (await authenticatedUser.FollowUser(userToFollow))
@@ -772,7 +776,7 @@ namespace Examplinvi.NETFramework
 
         public static async Task AuthenticatedUser_UnFollowUser(string userName)
         {
-            var authenticatedUser = await User.GetAuthenticatedUser();
+            var authenticatedUser = await Client.Users.GetAuthenticatedUser();
             var userToFollow = await User.GetUserFromScreenName(userName);
 
             if (await authenticatedUser.UnFollowUser(userToFollow))
@@ -783,7 +787,7 @@ namespace Examplinvi.NETFramework
 
         public static async Task AuthenticatedUser_UpdateFollowAuthorizationsForUser(string userName)
         {
-            var authenticatedUser = await User.GetAuthenticatedUser();
+            var authenticatedUser = await Client.Users.GetAuthenticatedUser();
             var userToFollow = await User.GetUserFromScreenName(userName);
 
             if (await authenticatedUser.UpdateRelationshipAuthorizationsWith(userToFollow, false, false))
@@ -794,7 +798,7 @@ namespace Examplinvi.NETFramework
 
         public static async Task AuthenticatedUser_GetLatestMessages()
         {
-            var authenticatedUser = await User.GetAuthenticatedUser();
+            var authenticatedUser = await Client.Users.GetAuthenticatedUser();
             var messages = await authenticatedUser.GetLatestMessages(20);
 
             Console.WriteLine("Messages : ");
@@ -806,7 +810,7 @@ namespace Examplinvi.NETFramework
 
         public static async Task AuthenticatedUser_GetAccountSettings()
         {
-            var authenticatedUser = await User.GetAuthenticatedUser();
+            var authenticatedUser = await Client.Users.GetAuthenticatedUser();
             var settings = await authenticatedUser.GetAccountSettings();
 
             Console.WriteLine("{0} uses lang : {1}", settings.ScreenName, settings.Language);
@@ -829,7 +833,7 @@ namespace Examplinvi.NETFramework
 
         public static async Task Timeline_GetHomeTimeline()
         {
-            var authenticatedUser = await User.GetAuthenticatedUser();
+            var authenticatedUser = await Client.Users.GetAuthenticatedUser();
 
             var homeTimelineTweets = await authenticatedUser.GetHomeTimeline();
             foreach (var tweet in homeTimelineTweets)
@@ -840,7 +844,7 @@ namespace Examplinvi.NETFramework
 
         public static async Task Timeline_GetMentionsTimeline()
         {
-            var authenticatedUser = await User.GetAuthenticatedUser();
+            var authenticatedUser = await Client.Users.GetAuthenticatedUser();
 
             var mentionsTimelineTweets = await authenticatedUser.GetMentionsTimeline();
             foreach (var mention in mentionsTimelineTweets)
@@ -981,7 +985,7 @@ namespace Examplinvi.NETFramework
 
         public static async Task SavedSearch_GetSavedSearches()
         {
-            var authenticatedUser = await User.GetAuthenticatedUser();
+            var authenticatedUser = await Client.Users.GetAuthenticatedUser();
             var savedSearches = await authenticatedUser.GetSavedSearches();
 
             Console.WriteLine("Saved Searches");
@@ -1137,16 +1141,16 @@ namespace Examplinvi.NETFramework
 
         public static async Task TwitterList_GetUserOwnedLists()
         {
-            var user = await User.GetAuthenticatedUser();
-            var ownedLists = await TwitterList.GetUserOwnedLists(user);
+            var authenticatedUser = await Client.Users.GetAuthenticatedUser();
+            var ownedLists = await TwitterList.GetUserOwnedLists(authenticatedUser);
 
             ownedLists.ForEach(list => Console.WriteLine("- {0}", list.FullName));
         }
 
         public static async Task TwitterList_GetUserSubscribedLists()
         {
-            var currentUser = await User.GetAuthenticatedUser();
-            var lists = await TwitterList.GetUserSubscribedLists(currentUser);
+            var authenticatedUser = await Client.Users.GetAuthenticatedUser();
+            var lists = await TwitterList.GetUserSubscribedLists(authenticatedUser);
 
             lists.ForEach(list => Console.WriteLine("- {0}", list.FullName));
         }
@@ -1485,7 +1489,7 @@ namespace Examplinvi.NETFramework
 
         public static async Task Json_GetJsonForUserRequestExample()
         {
-            var authenticatedUser = await User.GetAuthenticatedUser();
+            var authenticatedUser = await Client.Users.GetAuthenticatedUser();
             var jsonResponse = await UserJson.GetFriendIds(authenticatedUser);
             Console.WriteLine(jsonResponse.ElementAt(0));
         }
@@ -1510,8 +1514,9 @@ namespace Examplinvi.NETFramework
             Auth.Credentials = null;
 
             // default
-            var user = await User.GetAuthenticatedUser();
-            if (user == null)
+            var authenticatedUser = await Client.Users.GetAuthenticatedUser();
+
+            if (authenticatedUser == null)
             {
                 var lastException = ExceptionHandler.GetLastException();
                 Console.WriteLine(lastException.TwitterDescription);
@@ -1523,7 +1528,7 @@ namespace Examplinvi.NETFramework
             try
             {
                 // ReSharper disable once RedundantAssignment
-                user = await User.GetAuthenticatedUser();
+                authenticatedUser = await Client.Users.GetAuthenticatedUser();
             }
             catch (TwitterException ex)
             {

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Tweetinvi.Core.Controllers;
 using Tweetinvi.Core.Factories;
 using Tweetinvi.Core.Web;
@@ -7,8 +6,12 @@ using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
 using Tweetinvi.Parameters;
 
-namespace Tweetinvi.Client
+namespace Tweetinvi.Client.Requesters
 {
+    public interface IInternalTweetsRequester : ITweetsRequester, IBaseRequester
+    {
+    }
+
     public interface ITweetsRequester
     {
         // Tweets
@@ -28,16 +31,10 @@ namespace Tweetinvi.Client
         Task<ITwitterResult> DestroyRetweet(ITweetIdentifier retweetId);
     }
 
-    public interface IInternalTweetsRequester : ITweetsRequester
-    {
-        void Initialize(ITwitterClient client);
-    }
-
     public class TweetsRequester : BaseRequester, IInternalTweetsRequester
     {
         private readonly ITweetFactory _tweetFactory;
         private readonly ITweetController _tweetController;
-        private ITwitterClient _twitterClient;
 
         public TweetsRequester(
             ITweetFactory tweetFactory,
@@ -45,16 +42,6 @@ namespace Tweetinvi.Client
         {
             _tweetFactory = tweetFactory;
             _tweetController = tweetController;
-        }
-
-        public void Initialize(ITwitterClient client)
-        {
-            if (_twitterClient != null)
-            {
-                throw new InvalidOperationException("createRequest cannot be changed");
-            }
-
-            _twitterClient = client;
         }
 
         // Tweets

@@ -1,15 +1,16 @@
 ﻿using System.Threading.Tasks;
+using Tweetinvi.Client.Requesters;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
 using Tweetinvi.Parameters;
 
 namespace Tweetinvi.Client
 {
-    public class Tweets
+    public class TweetsClient
     {
         private readonly ITweetsRequester _tweetsRequester;
 
-        public Tweets(TwitterClient client)
+        public TweetsClient(TwitterClient client)
         {
             _tweetsRequester = client.RequestExecutor.Tweets;
         }

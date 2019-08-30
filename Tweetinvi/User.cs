@@ -86,14 +86,6 @@ namespace Tweetinvi
         #region User Factory
 
         /// <summary>
-        /// Get the authenticated user based on the application credentials or given parameter credentials.
-        /// </summary>
-        public static Task<IAuthenticatedUser> GetAuthenticatedUser(ITwitterCredentials credentials = null, IGetAuthenticatedUserParameters parameters = null)
-        {
-            return UserFactory.GetAuthenticatedUser(credentials, parameters);
-        }
-
-        /// <summary>
         /// Get a user from its identifier.
         /// </summary>
         public static Task<IUser> GetUserFromId(long userId)

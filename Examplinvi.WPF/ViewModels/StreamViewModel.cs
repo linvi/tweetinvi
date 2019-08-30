@@ -47,8 +47,8 @@ namespace Examplinvi.WPF.ViewModels
             {
                 _client = new TwitterClient(Auth.Credentials);
 
-                var user = await User.GetAuthenticatedUser();
-                Message = string.Format("Hi '{0}'. Welcome on board with WPF App!", user.Name);
+                var user = await _client.Users.GetAuthenticatedUser();
+                Message = $"Hi '{user.Name}'. Welcome on board with WPF App!";
             }
         }
 

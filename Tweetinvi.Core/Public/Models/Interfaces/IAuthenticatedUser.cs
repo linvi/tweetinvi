@@ -20,7 +20,7 @@ namespace Tweetinvi.Models
         /// <summary>
         /// Credentials used to authenticate this user.
         /// </summary>
-        ITwitterCredentials Credentials { get; }
+        ITwitterCredentials Credentials { get; set; }
 
         /// <summary>
         /// Set the credentials of the user.

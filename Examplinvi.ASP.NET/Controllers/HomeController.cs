@@ -28,7 +28,9 @@ namespace Examplinvi.ASP.NET.Controllers
             if (verifierCode != null)
             {
                 var userCreds = AuthFlow.CreateCredentialsFromVerifierCode(verifierCode, authorizationId).Result;
-                var user = Tweetinvi.User.GetAuthenticatedUser(userCreds).Result;
+
+                var client = new TwitterClient(userCreds);
+                var user = client.Users.GetAuthenticatedUser().Result;
 
                 ViewBag.User = user;
             }

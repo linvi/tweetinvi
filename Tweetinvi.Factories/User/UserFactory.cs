@@ -34,33 +34,6 @@ namespace Tweetinvi.Factories.User
         }
 
         // Get User
-        public async Task<IAuthenticatedUser> GetAuthenticatedUser(ITwitterCredentials credentials = null, IGetAuthenticatedUserParameters parameters = null)
-        {
-            IUserDTO userDTO;
-
-            if (credentials == null)
-            {
-                credentials = _credentialsAccessor.CurrentThreadCredentials;
-                userDTO = await _userFactoryQueryExecutor.GetAuthenticatedUser(parameters);
-            }
-            else
-            {
-                userDTO = await _credentialsAccessor.ExecuteOperationWithCredentials(credentials, () =>
-                {
-                    return _userFactoryQueryExecutor.GetAuthenticatedUser(parameters);
-                });
-            }
-
-            var authenticatedUser = GenerateAuthenticatedUserFromDTO(userDTO);
-
-            if (authenticatedUser != null)
-            {
-                authenticatedUser.SetCredentials(credentials);
-            }
-
-            return authenticatedUser;
-        }
-
         public async Task<IUser> GetUserFromId(long userId)
         {
             var userDTO = await _userFactoryQueryExecutor.GetUserDTOFromId(userId);
@@ -104,7 +77,7 @@ namespace Tweetinvi.Factories.User
         }
 
         // Generate from DTO
-        public IAuthenticatedUser GenerateAuthenticatedUserFromDTO(IUserDTO userDTO)
+        public IAuthenticatedUser GenerateAuthenticatedUserFromDTO(IUserDTO userDTO, ITwitterCredentials credentials = null)
         {
             if (userDTO == null)
             {
@@ -113,6 +86,11 @@ namespace Tweetinvi.Factories.User
 
             var userDTOParameterOverride = _authenticatedUserUnityFactory.GenerateParameterOverrideWrapper("userDTO", userDTO);
             var user = _authenticatedUserUnityFactory.Create(userDTOParameterOverride);
+
+            if (credentials != null)
+            {
+                user.Credentials = credentials;
+            }
 
             return user;
         }

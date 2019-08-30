@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using Tweetinvi;
+using Tweetinvi.Models;
 using UIKit;
 
 namespace Examplinvi.Xamarin.iOS
@@ -16,8 +17,12 @@ namespace Examplinvi.Xamarin.iOS
             base.ViewDidLoad();
             // Perform any additional setup after loading the view, typically from a nib.
 
-            Auth.SetUserCredentials("CONSUMER_KEY", "CONSUMER_SECRET", "ACCESS_TOKEN", "ACCESS_TOKEN_SECRET");
-            var authenticatedUser = User.GetAuthenticatedUser().ToString();
+            var creds = new TwitterCredentials("CONSUMER_KEY", "CONSUMER_SECRET", "ACCESS_TOKEN", "ACCESS_TOKEN_SECRET");
+            Auth.SetCredentials(creds);
+
+            var client = new TwitterClient(creds);
+
+            var authenticatedUser = client.Users.GetAuthenticatedUser().Result.ToString();
 
             WelcomeText.Text = $"Welcome {authenticatedUser}";
             RefreshHomeTimeline();

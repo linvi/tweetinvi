@@ -4,6 +4,7 @@ using Android.Widget;
 using Examplinvi.Xamarin.Android.Resources;
 using System.Collections.Generic;
 using Tweetinvi;
+using Tweetinvi.Models;
 
 namespace Examplinvi.Xamarin.Android
 {
@@ -16,8 +17,11 @@ namespace Examplinvi.Xamarin.Android
 
             SetContentView(Resource.Layout.Main);
 
-            Auth.SetUserCredentials("CONSUMER_KEY", "CONSUMER_SECRET", "ACCESS_TOKEN", "ACCESS_TOKEN_SECRET");
-            var authenticatedUser = User.GetAuthenticatedUser();
+            var creds = new TwitterCredentials("CONSUMER_KEY", "CONSUMER_SECRET", "ACCESS_TOKEN", "ACCESS_TOKEN_SECRET");
+            Auth.SetCredentials(creds);
+
+            var client = new TwitterClient(creds);
+            var authenticatedUser = client.Users.GetAuthenticatedUser().Result;
 
             TextView status = FindViewById<TextView>(Resource.Id.Status);
             status.Text = string.Format("Welcome {0}", authenticatedUser.ToString());

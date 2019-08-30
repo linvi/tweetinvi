@@ -5,9 +5,11 @@ using System.Threading.Tasks;
 using Tweetinvi.Core.Controllers;
 using Tweetinvi.Core.Factories;
 using Tweetinvi.Core.Parameters;
+using Tweetinvi.Core.Web;
 using Tweetinvi.Logic.QueryParameters;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
+using Tweetinvi.Models.Interfaces;
 using Tweetinvi.Parameters;
 
 namespace Tweetinvi.Controllers.User
@@ -20,15 +22,24 @@ namespace Tweetinvi.Controllers.User
         private readonly IUserQueryExecutor _userQueryExecutor;
         private readonly ITweetFactory _tweetFactory;
         private readonly IUserFactory _userFactory;
+        private readonly ITwitterResultFactory _twitterResultFactory;
 
         public UserController(
             IUserQueryExecutor userQueryExecutor,
             ITweetFactory tweetFactory,
-            IUserFactory userFactory)
+            IUserFactory userFactory,
+            ITwitterResultFactory twitterResultFactory)
         {
             _userQueryExecutor = userQueryExecutor;
             _tweetFactory = tweetFactory;
             _userFactory = userFactory;
+            _twitterResultFactory = twitterResultFactory;
+        }
+
+        public async Task<ITwitterResult<IUserDTO, IAuthenticatedUser>> GetAuthenticatedUser(IGetAuthenticatedUserParameters parameters, ITwitterRequest request)
+        {
+            var result = await _userQueryExecutor.GetAuthenticatedUser(parameters, request);
+            return _twitterResultFactory.Create(result, userDTO => _userFactory.GenerateAuthenticatedUserFromDTO(userDTO));
         }
 
         // Friend Ids

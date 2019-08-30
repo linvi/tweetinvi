@@ -1,35 +1,33 @@
 ﻿using Tweetinvi.Core.Parameters;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
+using Tweetinvi.Parameters;
 
 namespace Tweetinvi.Core.QueryGenerators
 {
     public interface IUserQueryGenerator
     {
-        // Friend Ids
-        string GetFriendIdsQuery(IUserIdentifier user, int maxFriendsToRetrieve);
+        string GetAuthenticatedUserQuery (IGetAuthenticatedUserParameters parameters);
 
-        // Followers Ids
-        string GetFollowerIdsQuery(IUserIdentifier user, int maxFollowersToRetrieve);
+        string GetFriendIdsQuery (IUserIdentifier user, int maxFriendsToRetrieve);
 
-        // Favourites
-        string GetFavoriteTweetsQuery(IGetUserFavoritesQueryParameters parameters);
+        string GetFollowerIdsQuery (IUserIdentifier user, int maxFollowersToRetrieve);
+
+        string GetFavoriteTweetsQuery (IGetUserFavoritesQueryParameters parameters);
 
         // Block User
-        string GetBlockUserQuery(IUserIdentifier user);
+        string GetBlockUserQuery (IUserIdentifier user);
 
-        // Unblock User
-        string GetUnBlockUserQuery(IUserIdentifier user);
+        string GetUnBlockUserQuery (IUserIdentifier user);
 
-        // Get Blocked User
-        string GetBlockedUserIdsQuery();
-        string GetBlockedUsersQuery();
+        string GetBlockedUserIdsQuery ();
+        string GetBlockedUsersQuery ();
 
         // Download Profile Image
-        string DownloadProfileImageURL(IUserDTO userDTO, ImageSize size = ImageSize.normal);
-        string DownloadProfileImageInHttpURL(IUserDTO userDTO, ImageSize size = ImageSize.normal);
+        string DownloadProfileImageURL (IUserDTO userDTO, ImageSize size = ImageSize.normal);
+        string DownloadProfileImageInHttpURL (IUserDTO userDTO, ImageSize size = ImageSize.normal);
 
         // Spam
-        string GetReportUserForSpamQuery(IUserIdentifier user);
+        string GetReportUserForSpamQuery (IUserIdentifier user);
     }
 }

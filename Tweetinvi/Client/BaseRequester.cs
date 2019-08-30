@@ -4,8 +4,25 @@ using Tweetinvi.Models.Interfaces;
 
 namespace Tweetinvi.Client
 {
-    public abstract class BaseRequester
+    public interface IBaseRequester
     {
+        void Initialize(ITwitterClient client);
+    }
+
+    public abstract class BaseRequester : IBaseRequester
+    {
+        protected ITwitterClient _twitterClient;
+
+        public void Initialize(ITwitterClient client)
+        {
+            if (_twitterClient != null)
+            {
+                throw new InvalidOperationException("createRequest cannot be changed");
+            }
+
+            _twitterClient = client;
+        }
+
         protected async Task<T> ExecuteRequest<T>(Func<Task<T>> action, ITwitterRequest request) where T : class
         {
             try

@@ -59,7 +59,7 @@ namespace Tweetinvi.Logic
             Credentials = credentials;
         }
 
-        public ITwitterCredentials Credentials { get; private set; }
+        public ITwitterCredentials Credentials { get; set; }
         public IEnumerable<IMessage> LatestDirectMessages { get; set; }
         public IEnumerable<IMention> LatestMentionsTimeline { get; set; }
         public IEnumerable<ITweet> LatestHomeTimeline { get; set; }

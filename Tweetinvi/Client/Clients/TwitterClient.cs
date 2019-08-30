@@ -11,7 +11,9 @@ namespace Tweetinvi
         /// <summary>
         /// Client to use in order to execute all actions related with tweets
         /// </summary>
-        Tweets Tweets { get; }
+        TweetsClient Tweets { get; }
+        UsersClient Users { get; }
+
 
         ITwitterCredentials Credentials { get; }
         ITweetinviSettings Config { get; }
@@ -34,10 +36,12 @@ namespace Tweetinvi
 
             RequestExecutor = requestExecutor;
 
-            Tweets = new Tweets(this);
+            Tweets = new TweetsClient(this);
+            Users = new UsersClient(this);
         }
 
-        public Tweets Tweets { get; }
+        public TweetsClient Tweets { get; }
+        public UsersClient Users { get; }
 
         public IRequestExecutor RequestExecutor { get; }
 
