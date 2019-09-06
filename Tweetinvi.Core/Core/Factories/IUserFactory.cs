@@ -7,9 +7,6 @@ namespace Tweetinvi.Core.Factories
 {
     public interface IUserFactory
     {
-        Task<IUser> GetUserFromId(long userId);
-        Task<IUser> GetUserFromScreenName(string userName);
-
         // Generate User from Json
         IUser GenerateUserFromJson(string jsonUser);
 

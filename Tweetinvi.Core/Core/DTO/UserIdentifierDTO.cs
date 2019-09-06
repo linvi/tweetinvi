@@ -9,16 +9,16 @@ namespace Tweetinvi.Logic.DTO
         private long? _id;
 
         [JsonProperty("id")]
-        public long Id
+        public long? Id
         {
             get
             {
                 if (_id == null)
                 {
-                    _id = IdStr == null ? TweetinviSettings.DEFAULT_ID : Int64.Parse(IdStr);
+                    _id = IdStr == null ? null : (long?)Int64.Parse(IdStr);
                 }
 
-                return _id.Value;
+                return _id;
             }
             set
             {

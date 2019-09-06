@@ -99,7 +99,7 @@ namespace Tweetinvi.Controllers.Messages
         }
 
         // Publish Message
-        public Task<IMessage> PublishMessage(string text, long recipientId)
+        public Task<IMessage> PublishMessage(string text, long? recipientId)
         {
             var queryParameters = new PublishMessageParameters(text, recipientId);
             return PublishMessage(queryParameters);

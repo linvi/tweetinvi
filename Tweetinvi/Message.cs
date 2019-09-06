@@ -116,7 +116,7 @@ namespace Tweetinvi
         /// <summary>
         /// Publish a message
         /// </summary>
-        public static Task<IMessage> PublishMessage(string text, long recipientId)
+        public static Task<IMessage> PublishMessage(string text, long? recipientId)
         {
             return MessageController.PublishMessage(text, recipientId);
         }

@@ -131,7 +131,7 @@ namespace Tweetinvi.Controllers.Friendship
             return GenerateRelationshipFromRelationshipDTO(relationshipDTO);
         }
 
-        public Task<IRelationshipDetails> GetRelationshipBetween(IUserIdentifier sourceUserIdentifier, long targetUserId)
+        public Task<IRelationshipDetails> GetRelationshipBetween(IUserIdentifier sourceUserIdentifier, long? targetUserId)
         {
             return InternalGetRelationshipBetween(sourceUserIdentifier, targetUserId);
         }
@@ -141,7 +141,8 @@ namespace Tweetinvi.Controllers.Friendship
             return InternalGetRelationshipBetween(sourceUserIdentifier, targetUserScreenName);
         }
 
-        public Task<IRelationshipDetails> GetRelationshipBetween(long sourceUserId, IUserIdentifier targetUserIdentifier)
+        public Task<IRelationshipDetails> GetRelationshipBetween(long? sourceUserId,
+            IUserIdentifier targetUserIdentifier)
         {
             return InternalGetRelationshipBetween(sourceUserId, targetUserIdentifier);
         }
@@ -151,17 +152,17 @@ namespace Tweetinvi.Controllers.Friendship
             return InternalGetRelationshipBetween(sourceUserScreenName, targetUserIdentifier);
         }
 
-        public Task<IRelationshipDetails> GetRelationshipBetween(long sourceUserId, long targetUserId)
+        public Task<IRelationshipDetails> GetRelationshipBetween(long? sourceUserId, long? targetUserId)
         {
             return InternalGetRelationshipBetween(sourceUserId, targetUserId);
         }
 
-        public Task<IRelationshipDetails> GetRelationshipBetween(long sourceUserId, string targetUserScreenName)
+        public Task<IRelationshipDetails> GetRelationshipBetween(long? sourceUserId, string targetUserScreenName)
         {
             return InternalGetRelationshipBetween(sourceUserId, targetUserScreenName);
         }
 
-        public Task<IRelationshipDetails> GetRelationshipBetween(string sourceUserScreenName, long targetUserId)
+        public Task<IRelationshipDetails> GetRelationshipBetween(string sourceUserScreenName, long? targetUserId)
         {
             return InternalGetRelationshipBetween(sourceUserScreenName, targetUserId);
         }

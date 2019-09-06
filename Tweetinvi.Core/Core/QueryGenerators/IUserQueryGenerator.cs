@@ -8,6 +8,8 @@ namespace Tweetinvi.Core.QueryGenerators
     public interface IUserQueryGenerator
     {
         string GetAuthenticatedUserQuery (IGetAuthenticatedUserParameters parameters);
+        string GetUserQuery(IGetUserParameters parameters);
+
 
         string GetFriendIdsQuery (IUserIdentifier user, int maxFriendsToRetrieve);
 

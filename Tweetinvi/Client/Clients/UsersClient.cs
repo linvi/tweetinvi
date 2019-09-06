@@ -42,6 +42,39 @@ namespace Tweetinvi.Client
         }
 
         /// <summary>
+        /// Get the user's information
+        /// </summary>
+        public Task<IUser> GetUser(long userId)
+        {
+            return GetUser(new UserIdentifier(userId));
+        }
+
+        /// <summary>
+        /// Get the user's information
+        /// </summary>
+        public Task<IUser> GetUser(string username)
+        {
+            return GetUser(new UserIdentifier(username));
+        }
+
+        /// <summary>
+        /// Get the user's information
+        /// </summary>
+        public Task<IUser> GetUser(IUserIdentifier userIdentifier)
+        {
+            return GetUser(new GetUserParameters(userIdentifier));
+        }
+
+        /// <summary>
+        /// Get the user's information
+        /// </summary>
+        public async Task<IUser> GetUser(IGetUserParameters parameters)
+        {
+            var requestResult = await _usersRequester.GetUser(parameters);
+            return requestResult?.Result;
+        }
+
+        /// <summary>
         /// Get friend ids from a specific user
         /// </summary>
         /// <returns>A CursorResult to iterate over all the user's friends</returns>

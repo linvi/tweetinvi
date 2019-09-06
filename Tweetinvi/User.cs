@@ -86,27 +86,11 @@ namespace Tweetinvi
         #region User Factory
 
         /// <summary>
-        /// Get a user from its identifier.
-        /// </summary>
-        public static Task<IUser> GetUserFromId(long userId)
-        {
-            return UserFactory.GetUserFromId(userId);
-        }
-
-        /// <summary>
         /// Get a collection of users from a collection of user ids.
         /// </summary>
         public static Task<IEnumerable<IUser>> GetUsersFromIds(IEnumerable<long> userIds)
         {
             return UserFactory.GetUsersFromIds(userIds);
-        }
-
-        /// <summary>
-        /// Get a user from its username.
-        /// </summary>
-        public static Task<IUser> GetUserFromScreenName(string userName)
-        {
-            return UserFactory.GetUserFromScreenName(userName);
         }
 
         /// <summary>

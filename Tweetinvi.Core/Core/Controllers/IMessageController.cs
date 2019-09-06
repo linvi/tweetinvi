@@ -13,7 +13,7 @@ namespace Tweetinvi.Core.Controllers
         Task<AsyncCursorResult<IEnumerable<IMessage>>> GetLatestMessages(IGetMessagesParameters getMessagesParameters);
 
         // Publish Message
-        Task<IMessage> PublishMessage(string text, long recipientId);
+        Task<IMessage> PublishMessage(string text, long? recipientId);
         Task<IMessage> PublishMessage(IPublishMessageParameters parameters);
 
         // Destroy Message

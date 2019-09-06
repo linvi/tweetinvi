@@ -38,14 +38,29 @@ namespace Tweetinvi.Controllers.User
             return query.ToString();
         }
 
-        public string GenerateUserIdParameter(long userId, string parameterName = "user_id")
+        public string GenerateUserIdParameter(long? userId, string parameterName = "user_id")
         {
-            return string.Format("{0}={1}", parameterName, userId);
+            if (userId == null)
+            {
+                return null;
+            }
+
+            return $"{parameterName}={userId}";
+        }
+
+        public string GenerateUserIdParameter(string userId, string parameterName = "user_id")
+        {
+            if (userId == null)
+            {
+                return null;
+            }
+
+            return $"{parameterName}={userId}";
         }
 
         public string GenerateScreenNameParameter(string screenName, string parameterName = "screen_name")
         {
-            return string.Format("{0}={1}", parameterName, screenName);
+            return $"{parameterName}={screenName}";
         }
 
         public string GenerateIdOrScreenNameParameter(
@@ -58,6 +73,11 @@ namespace Tweetinvi.Controllers.User
             if (_userQueryValidator.IsUserIdValid(user.Id))
             {
                 return GenerateUserIdParameter(user.Id, idParameterName);
+            }
+
+            if (!user.IdStr.IsNullOrEmpty())
+            {
+                return GenerateUserIdParameter(user.IdStr, idParameterName);
             }
 
             return GenerateScreenNameParameter(user.ScreenName, screenNameParameterName);

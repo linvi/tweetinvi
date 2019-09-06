@@ -41,7 +41,7 @@ namespace Tweetinvi.Controllers.TwitterLists
             string ownerIdentifier;
             if (_userQueryValidator.IsUserIdValid(twitterListIdentifier.OwnerId))
             {
-                ownerIdentifier = string.Format(Resources.List_OwnerIdParameter, twitterListIdentifier.OwnerId.ToString(CultureInfo.InvariantCulture));
+                ownerIdentifier = string.Format(Resources.List_OwnerIdParameter, twitterListIdentifier.OwnerId?.ToString(CultureInfo.InvariantCulture));
             }
             else
             {

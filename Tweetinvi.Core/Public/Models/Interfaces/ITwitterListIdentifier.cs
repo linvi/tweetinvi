@@ -20,7 +20,7 @@
         /// Id of the user owning the list.
         /// A slug needs to be provided in addition to identify the list.
         /// </summary>
-        long OwnerId { get; }
+        long? OwnerId { get; }
 
         /// <summary>
         /// Screen name of the user owning the list.

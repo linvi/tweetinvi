@@ -550,6 +550,11 @@ namespace Tweetinvi.Controllers.Properties
         public static string User_GetFriends = "https://api.twitter.com/1.1/friends/ids.json?{0}&count={1}";
 
         /// <summary>
+        ///   Looks up a localized string similar to https://api.twitter.com/1.1/users/show.json?.
+        /// </summary>
+        public static string User_GetUser = "https://api.twitter.com/1.1/users/show.json?";
+
+        /// <summary>
         ///   Looks up a localized string similar to https://api.twitter.com/1.1/users/report_spam.json?{0}.
         /// </summary>
         public static string User_Report_Spam = "https://api.twitter.com/1.1/users/report_spam.json?{0}";

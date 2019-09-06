@@ -51,7 +51,7 @@ namespace Examplinvi.NETFramework
             Auth.SetUserCredentials("CONSUMER_KEY", "CONSUMER_SECRET", "ACCESS_TOKEN", "ACCESS_TOKEN_SECRET");
             Auth.SetCredentials(Credentials);
 
-            //Examples.Client = new TwitterClient(Credentials);
+            Examples.Client = new TwitterClient(Credentials);
 
             TweetinviEvents.QueryBeforeExecute += (sender, args) =>
             {
@@ -575,19 +575,19 @@ namespace Examplinvi.NETFramework
 
         public static async Task User_GetUserFromId(long userId)
         {
-            var user = await User.GetUserFromId(userId);
+            var user = await Client.Users.GetUser(userId);
             Console.WriteLine(user.ScreenName);
         }
 
-        public static async Task User_GetUserFromName(string userName)
+        public static async Task User_GetUserFromName(string username)
         {
-            var user = await User.GetUserFromScreenName(userName);
+            var user = await Client.Users.GetUser(username);
             Console.WriteLine(user.Id);
         }
 
-        public static async Task User_GetFriendIds(string userName)
+        public static async Task User_GetFriendIds(string username)
         {
-            var friendIds = await Client.Users.GetFriendIds(new GetFriendIdsParameters(userName)
+            var friendIds = await Client.Users.GetFriendIds(new GetFriendIdsParameters(username)
             {
                 MaximumNumberOfResults = 50
             });
@@ -597,7 +597,7 @@ namespace Examplinvi.NETFramework
                 await friendIds.MoveNext();
             }
 
-            Console.WriteLine($"{userName} has friends, here are some of them :", userName);
+            Console.WriteLine($"{username} has friends, here are some of them :", username);
 
             foreach (var friendId in friendIds.Items)
             {
@@ -605,9 +605,9 @@ namespace Examplinvi.NETFramework
             }
         }
 
-        public static async Task User_GetFriends(string userName)
+        public static async Task User_GetFriends(string username)
         {
-            var user = await User.GetUserFromScreenName(userName);
+            var user = await Client.Users.GetUser(username);
             var friends = await user.GetFriends();
 
             Console.WriteLine("{0} has {1} friends, here are some of them :", user.Name, user.FriendsCount);
@@ -617,9 +617,9 @@ namespace Examplinvi.NETFramework
             }
         }
 
-        public static async Task User_GetFollowerIds(string userName)
+        public static async Task User_GetFollowerIds(string username)
         {
-            var user = await User.GetUserFromScreenName(userName);
+            var user = await Client.Users.GetUser(username);
             var followerIds = await user.GetFollowerIds();
 
             Console.WriteLine("{0} has {1} followers, here are some of them :", user.Name, user.FollowersCount);
@@ -629,9 +629,9 @@ namespace Examplinvi.NETFramework
             }
         }
 
-        public static async Task User_GetFollowerIdsUpTo(string userName, int limit)
+        public static async Task User_GetFollowerIdsUpTo(string username, int limit)
         {
-            var user = await User.GetUserFromScreenName(userName);
+            var user = await Client.Users.GetUser(username);
             var followerIds = await user.GetFollowerIds(limit);
 
             Console.WriteLine("{0} has {1} followers, here are some of them :", user.Name, user.FollowersCount);
@@ -641,9 +641,9 @@ namespace Examplinvi.NETFramework
             }
         }
 
-        public static async Task User_GetFollowers(string userName)
+        public static async Task User_GetFollowers(string username)
         {
-            var user = await User.GetUserFromScreenName(userName);
+            var user = await Client.Users.GetUser(username);
             var followers = await user.GetFollowers();
 
             Console.WriteLine("{0} has {1} followers, here are some of them :", user.Name, user.FollowersCount);
@@ -653,19 +653,19 @@ namespace Examplinvi.NETFramework
             }
         }
 
-        public static async Task User_GetRelationshipBetween(string sourceUserName, string targetUsername)
+        public static async Task User_GetRelationshipBetween(string sourceusername, string targetusername)
         {
-            var sourceUser = await User.GetUserFromScreenName(sourceUserName);
-            var targetUser = await User.GetUserFromScreenName(targetUsername);
+            var sourceUser = await Client.Users.GetUser(sourceusername);
+            var targetUser = await Client.Users.GetUser(targetusername);
 
             var relationship = await sourceUser.GetRelationshipWith(targetUser);
-            Console.WriteLine("You are{0} following {1}", relationship.Following ? "" : " not", targetUsername);
-            Console.WriteLine("You are{0} being followed by {1}", relationship.FollowedBy ? "" : " not", targetUsername);
+            Console.WriteLine("You are{0} following {1}", relationship.Following ? "" : " not", targetusername);
+            Console.WriteLine("You are{0} being followed by {1}", relationship.FollowedBy ? "" : " not", targetusername);
         }
 
-        public static async Task User_GetFavorites(string userName)
+        public static async Task User_GetFavorites(string username)
         {
-            var user = await User.GetUserFromScreenName(userName);
+            var user = await Client.Users.GetUser(username);
             var favorites = await user.GetFavorites();
 
             Console.WriteLine("{0} has {1} favorites, here are some of them :", user.Name, user.FavouritesCount);
@@ -675,23 +675,23 @@ namespace Examplinvi.NETFramework
             }
         }
 
-        public static async Task User_BlockUser(string userName)
+        public static async Task User_BlockUser(string username)
         {
-            var user = await User.GetUserFromScreenName(userName);
+            var user = await Client.Users.GetUser(username);
 
             if (await user.BlockUser())
             {
-                Console.WriteLine("{0} has been blocked.", userName);
+                Console.WriteLine("{0} has been blocked.", username);
             }
             else
             {
-                Console.WriteLine("{0} has not been blocked.", userName);
+                Console.WriteLine("{0} has not been blocked.", username);
             }
         }
 
-        public static async Task User_UnBlockUser(string userName)
+        public static async Task User_UnBlockUser(string username)
         {
-            var user = await User.GetUserFromScreenName(userName);
+            var user = await Client.Users.GetUser(username);
             await user.UnBlockUser();
         }
 
@@ -703,9 +703,9 @@ namespace Examplinvi.NETFramework
             await authenticatedUser.GetBlockedUserIds();
         }
 
-        public static async Task User_DownloadProfileImage(string userName)
+        public static async Task User_DownloadProfileImage(string username)
         {
-            var user = await User.GetUserFromScreenName(userName);
+            var user = await Client.Users.GetUser(username);
             var stream = user.GetProfileImageStream(ImageSize.bigger);
             var fileStream = new FileStream($"{user.Id}.jpg", FileMode.Create);
             stream.CopyTo(fileStream);
@@ -756,10 +756,10 @@ namespace Examplinvi.NETFramework
             }
         }
 
-        public static async Task AuthenticatedUser_FollowUser(string userName)
+        public static async Task AuthenticatedUser_FollowUser(string username)
         {
             var authenticatedUser = await Client.Users.GetAuthenticatedUser();
-            var userToFollow = await User.GetUserFromScreenName(userName);
+            var userToFollow = await Client.Users.GetUser(username);
 
             if (await authenticatedUser.FollowUser(userToFollow))
             {
@@ -767,10 +767,10 @@ namespace Examplinvi.NETFramework
             }
         }
 
-        public static async Task AuthenticatedUser_UnFollowUser(string userName)
+        public static async Task AuthenticatedUser_UnFollowUser(string username)
         {
             var authenticatedUser = await Client.Users.GetAuthenticatedUser();
-            var userToFollow = await User.GetUserFromScreenName(userName);
+            var userToFollow = await Client.Users.GetUser(username);
 
             if (await authenticatedUser.UnFollowUser(userToFollow))
             {
@@ -778,10 +778,10 @@ namespace Examplinvi.NETFramework
             }
         }
 
-        public static async Task AuthenticatedUser_UpdateFollowAuthorizationsForUser(string userName)
+        public static async Task AuthenticatedUser_UpdateFollowAuthorizationsForUser(string username)
         {
             var authenticatedUser = await Client.Users.GetAuthenticatedUser();
-            var userToFollow = await User.GetUserFromScreenName(userName);
+            var userToFollow = await Client.Users.GetUser(username);
 
             if (await authenticatedUser.UpdateRelationshipAuthorizationsWith(userToFollow, false, false))
             {
@@ -815,7 +815,7 @@ namespace Examplinvi.NETFramework
 
         public static async Task Timeline_GetUserTimeline(string username)
         {
-            var user = await User.GetUserFromScreenName(username);
+            var user = await Client.Users.GetUser(username);
 
             var timelineTweets = await user.GetUserTimeline();
             foreach (var tweet in timelineTweets)
@@ -1055,7 +1055,7 @@ namespace Examplinvi.NETFramework
 
         public static async Task Message_PublishMessage(string text, string username)
         {
-            var recipient = await User.GetUserFromScreenName(username);
+            var recipient = await Client.Users.GetUser(username);
             var message = await Message.PublishMessage(text, recipient.Id);
 
             if (message != null)
@@ -1067,7 +1067,7 @@ namespace Examplinvi.NETFramework
         public static async Task Message_PublishMessageWithImage(string text, string username, string imgPath)
         {
             // Get the user to DM
-            var recipient = User.GetUserFromScreenName(username);
+            var recipient = Client.Users.GetUser(username);
 
             // Get the image to attach from the local filesystem
             var imageBinary = File.ReadAllBytes(imgPath);
@@ -1099,7 +1099,7 @@ namespace Examplinvi.NETFramework
         public static async Task Message_PublishMessageWithQuickReplyOptions()
         {
             // Get the user to DM
-            var recipient = User.GetUserFromScreenName(USER_SCREEN_NAME_TO_TEST);
+            var recipient = await Client.Users.GetUser(USER_SCREEN_NAME_TO_TEST);
 
             // Publish the DM
             var publishMsgParams = new PublishMessageParameters("Do you like cheese?", recipient.Id)
@@ -1326,8 +1326,8 @@ namespace Examplinvi.NETFramework
 
         public static async Task Friendship_GetMultipleRelationships()
         {
-            var user1 = await User.GetUserFromScreenName("tweetinviapi");
-            var user2 = await User.GetUserFromScreenName(USER_SCREEN_NAME_TO_TEST);
+            var user1 = await Client.Users.GetUser("tweetinviapi");
+            var user2 = await Client.Users.GetUser(USER_SCREEN_NAME_TO_TEST);
 
             var userList = new List<IUser>
             {
@@ -1438,7 +1438,7 @@ namespace Examplinvi.NETFramework
 
         public static async Task Json_GetJsonForMessageRequestExample()
         {
-            IUser user = await User.GetUserFromScreenName("tweetinviapi");
+            IUser user = await Client.Users.GetUser("tweetinviapi");
             string jsonResponse = await MessageJson.PublishMessage("salut", user.Id);
 
             Console.WriteLine(jsonResponse);

@@ -51,7 +51,7 @@ namespace Tweetinvi.Logic
             get { return _twitterListDTO.Slug; }
         }
 
-        public long OwnerId
+        public long? OwnerId
         {
             get { return _twitterListDTO.OwnerId; }
         }

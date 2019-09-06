@@ -24,15 +24,15 @@ namespace Tweetinvi.Logic.DTO
         public string Slug { get; set; }
 
         [JsonIgnore]
-        public long OwnerId
+        public long? OwnerId
         {
-            get { return Owner != null ? Owner.Id : TweetinviSettings.DEFAULT_ID; }
+            get { return Owner?.Id; }
         }
 
         [JsonIgnore]
         public string OwnerScreenName
         {
-            get { return Owner != null ? Owner.ScreenName : null; }
+            get { return Owner?.ScreenName; }
         }
 
         [JsonProperty("name")]

@@ -34,7 +34,7 @@
         public long Id { get; private set; }
         public string Slug { get; private set; }
 
-        public long OwnerId
+        public long? OwnerId
         {
             get { return Owner.Id; }
         }

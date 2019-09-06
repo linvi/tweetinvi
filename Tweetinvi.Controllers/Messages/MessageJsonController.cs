@@ -19,7 +19,7 @@ namespace Tweetinvi.Controllers.Messages
         Task<string> GetLatestMessages(IGetMessagesParameters queryParameters);
 
         // Publish Message
-        Task<string> PublishMessage(string text, long recipientId);
+        Task<string> PublishMessage(string text, long? recipientId);
         Task<string> PublishMessage(IPublishMessageParameters parameters);
 
         // Destroy Message
@@ -64,7 +64,7 @@ namespace Tweetinvi.Controllers.Messages
         }
 
         // Publish Message
-        public Task<string> PublishMessage(string messageText, long recipientId)
+        public Task<string> PublishMessage(string messageText, long? recipientId)
         {
             return PublishMessage(new PublishMessageParameters(messageText, recipientId));
         }

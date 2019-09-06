@@ -19,7 +19,7 @@ namespace Tweetinvi.Controllers.User
         private readonly ITweetinviSettingsAccessor _tweetinviSettingsAccessor;
         private readonly IUserQueryValidator _userQueryValidator;
 
-        public UserQueryGenerator (
+        public UserQueryGenerator(
             IUserQueryParameterGenerator userQueryParameterGenerator,
             IQueryParameterGenerator queryParameterGenerator,
             ITweetinviSettingsAccessor tweetinviSettingsAccessor,
@@ -44,116 +44,127 @@ namespace Tweetinvi.Controllers.User
             return query.ToString();
         }
 
-        // Friends
-        public string GetFriendIdsQuery (IUserIdentifier user, int maxFriendsToRetrieve)
+        public string GetUserQuery(IGetUserParameters parameters)
         {
-            _userQueryValidator.ThrowIfUserCannotBeIdentified (user);
+            var query = new StringBuilder(Resources.User_GetUser);
 
-            string userParameter = _userQueryParameterGenerator.GenerateIdOrScreenNameParameter (user);
-            return GenerateGetFriendIdsQuery (userParameter, maxFriendsToRetrieve);
+            query.AddFormattedParameterToQuery(_userQueryParameterGenerator.GenerateIdOrScreenNameParameter(parameters.UserIdentifier));
+            query.AddParameterToQuery("include_entities", parameters.IncludeEntities);
+            query.Append(_queryParameterGenerator.GenerateAdditionalRequestParameters(parameters.FormattedCustomQueryParameters));
+
+            return query.ToString();
         }
 
-        private string GenerateGetFriendIdsQuery (string userParameter, int maxFriendsToRetrieve)
+        // Friends
+        public string GetFriendIdsQuery(IUserIdentifier user, int maxFriendsToRetrieve)
         {
-            return string.Format (Resources.User_GetFriends, userParameter, maxFriendsToRetrieve);
+            _userQueryValidator.ThrowIfUserCannotBeIdentified(user);
+
+            string userParameter = _userQueryParameterGenerator.GenerateIdOrScreenNameParameter(user);
+            return GenerateGetFriendIdsQuery(userParameter, maxFriendsToRetrieve);
+        }
+
+        private string GenerateGetFriendIdsQuery(string userParameter, int maxFriendsToRetrieve)
+        {
+            return string.Format(Resources.User_GetFriends, userParameter, maxFriendsToRetrieve);
         }
 
         // Followers
-        public string GetFollowerIdsQuery (IUserIdentifier user, int maxFollowersToRetrieve)
+        public string GetFollowerIdsQuery(IUserIdentifier user, int maxFollowersToRetrieve)
         {
-            _userQueryValidator.ThrowIfUserCannotBeIdentified (user);
+            _userQueryValidator.ThrowIfUserCannotBeIdentified(user);
 
-            string userParameter = _userQueryParameterGenerator.GenerateIdOrScreenNameParameter (user);
-            return GenerateGetFollowerIdsQuery (userParameter, maxFollowersToRetrieve);
+            string userParameter = _userQueryParameterGenerator.GenerateIdOrScreenNameParameter(user);
+            return GenerateGetFollowerIdsQuery(userParameter, maxFollowersToRetrieve);
         }
 
-        private string GenerateGetFollowerIdsQuery (string userParameter, int maxFollowersToRetrieve)
+        private string GenerateGetFollowerIdsQuery(string userParameter, int maxFollowersToRetrieve)
         {
-            return string.Format (Resources.User_GetFollowers, userParameter, maxFollowersToRetrieve);
+            return string.Format(Resources.User_GetFollowers, userParameter, maxFollowersToRetrieve);
         }
 
         // Favourites
-        public string GetFavoriteTweetsQuery (IGetUserFavoritesQueryParameters favoriteParameters)
+        public string GetFavoriteTweetsQuery(IGetUserFavoritesQueryParameters favoriteParameters)
         {
-            _userQueryValidator.ThrowIfUserCannotBeIdentified (favoriteParameters.UserIdentifier);
+            _userQueryValidator.ThrowIfUserCannotBeIdentified(favoriteParameters.UserIdentifier);
 
-            var userParameter = _userQueryParameterGenerator.GenerateIdOrScreenNameParameter (favoriteParameters.UserIdentifier);
-            var query = new StringBuilder (Resources.User_GetFavourites + userParameter);
+            var userParameter = _userQueryParameterGenerator.GenerateIdOrScreenNameParameter(favoriteParameters.UserIdentifier);
+            var query = new StringBuilder(Resources.User_GetFavourites + userParameter);
 
             var parameters = favoriteParameters.Parameters;
 
-            query.AddParameterToQuery ("include_entities", parameters.IncludeEntities);
-            query.AddParameterToQuery ("since_id", parameters.SinceId);
-            query.AddParameterToQuery ("max_id", parameters.MaxId);
-            query.AddParameterToQuery ("count", parameters.MaximumNumberOfTweetsToRetrieve);
+            query.AddParameterToQuery("include_entities", parameters.IncludeEntities);
+            query.AddParameterToQuery("since_id", parameters.SinceId);
+            query.AddParameterToQuery("max_id", parameters.MaxId);
+            query.AddParameterToQuery("count", parameters.MaximumNumberOfTweetsToRetrieve);
 
-            query.AddFormattedParameterToQuery (_queryParameterGenerator.GenerateTweetModeParameter (_tweetinviSettingsAccessor.CurrentThreadSettings.TweetMode));
-            query.Append (_queryParameterGenerator.GenerateAdditionalRequestParameters (parameters.FormattedCustomQueryParameters));
+            query.AddFormattedParameterToQuery(_queryParameterGenerator.GenerateTweetModeParameter(_tweetinviSettingsAccessor.CurrentThreadSettings.TweetMode));
+            query.Append(_queryParameterGenerator.GenerateAdditionalRequestParameters(parameters.FormattedCustomQueryParameters));
 
-            return query.ToString ();
+            return query.ToString();
         }
 
         // Block User
-        public string GetBlockUserQuery (IUserIdentifier user)
+        public string GetBlockUserQuery(IUserIdentifier user)
         {
-            _userQueryValidator.ThrowIfUserCannotBeIdentified (user);
+            _userQueryValidator.ThrowIfUserCannotBeIdentified(user);
 
-            string userParameter = _userQueryParameterGenerator.GenerateIdOrScreenNameParameter (user);
-            return string.Format (Resources.User_Block_Create, userParameter);
+            string userParameter = _userQueryParameterGenerator.GenerateIdOrScreenNameParameter(user);
+            return string.Format(Resources.User_Block_Create, userParameter);
         }
 
         // Unblock
-        public string GetUnBlockUserQuery (IUserIdentifier user)
+        public string GetUnBlockUserQuery(IUserIdentifier user)
         {
-            _userQueryValidator.ThrowIfUserCannotBeIdentified (user);
+            _userQueryValidator.ThrowIfUserCannotBeIdentified(user);
 
-            string userParameter = _userQueryParameterGenerator.GenerateIdOrScreenNameParameter (user);
-            return string.Format (Resources.User_Block_Destroy, userParameter);
+            string userParameter = _userQueryParameterGenerator.GenerateIdOrScreenNameParameter(user);
+            return string.Format(Resources.User_Block_Destroy, userParameter);
         }
 
         // Get Blocked Users
-        public string GetBlockedUserIdsQuery ()
+        public string GetBlockedUserIdsQuery()
         {
             return Resources.User_Block_List_Ids;
         }
 
-        public string GetBlockedUsersQuery ()
+        public string GetBlockedUsersQuery()
         {
             return Resources.User_Block_List;
         }
 
         // Download Profile Image
-        public string DownloadProfileImageURL (IUserDTO userDTO, ImageSize imageSize = ImageSize.normal)
+        public string DownloadProfileImageURL(IUserDTO userDTO, ImageSize imageSize = ImageSize.normal)
         {
-            var url = string.IsNullOrEmpty (userDTO.ProfileImageUrlHttps) ? userDTO.ProfileImageUrl : userDTO.ProfileImageUrlHttps;
+            var url = string.IsNullOrEmpty(userDTO.ProfileImageUrlHttps) ? userDTO.ProfileImageUrl : userDTO.ProfileImageUrlHttps;
 
-            if (string.IsNullOrEmpty (url))
+            if (string.IsNullOrEmpty(url))
             {
                 return null;
             }
 
-            return url.Replace ("_normal", string.Format ("_{0}", imageSize));
+            return url.Replace("_normal", string.Format("_{0}", imageSize));
         }
 
-        public string DownloadProfileImageInHttpURL (IUserDTO userDTO, ImageSize imageSize = ImageSize.normal)
+        public string DownloadProfileImageInHttpURL(IUserDTO userDTO, ImageSize imageSize = ImageSize.normal)
         {
             var url = userDTO.ProfileImageUrl;
 
-            if (string.IsNullOrEmpty (url))
+            if (string.IsNullOrEmpty(url))
             {
                 return null;
             }
 
-            return url.Replace ("_normal", string.Format ("_{0}", imageSize));
+            return url.Replace("_normal", string.Format("_{0}", imageSize));
         }
 
         // Report Spam
-        public string GetReportUserForSpamQuery (IUserIdentifier user)
+        public string GetReportUserForSpamQuery(IUserIdentifier user)
         {
-            _userQueryValidator.ThrowIfUserCannotBeIdentified (user);
+            _userQueryValidator.ThrowIfUserCannotBeIdentified(user);
 
-            string userParameter = _userQueryParameterGenerator.GenerateIdOrScreenNameParameter (user);
-            return string.Format (Resources.User_Report_Spam, userParameter);
+            string userParameter = _userQueryParameterGenerator.GenerateIdOrScreenNameParameter(user);
+            return string.Format(Resources.User_Report_Spam, userParameter);
         }
     }
 }

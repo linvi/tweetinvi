@@ -8,7 +8,7 @@ namespace Tweetinvi.Core.QueryGenerators
     {
         string GetAuthenticatedUserQuery(IGetAuthenticatedUserParameters parameters);
 
-        string GenerateUserIdParameter(long userId, string parameterName = "user_id");
+        string GenerateUserIdParameter(long? userId, string parameterName = "user_id");
         string GenerateScreenNameParameter(string screenName, string parameterName = "screen_name");
         string GenerateIdOrScreenNameParameter(IUserIdentifier user, string idParameterName = "user_id", string screenNameParameterName = "screen_name");
 

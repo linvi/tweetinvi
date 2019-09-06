@@ -17,9 +17,9 @@ namespace Tweetinvi.Factories.Lists
                 return null;
             }
 
-            if (user.Id != TweetinviSettings.DEFAULT_ID)
+            if (user.Id != null)
             {
-                return Create(slug, user.Id);
+                return Create(slug, user.Id.Value);
             }
 
             if (!string.IsNullOrEmpty(user.ScreenName))

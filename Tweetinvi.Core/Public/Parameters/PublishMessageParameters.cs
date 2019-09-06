@@ -19,15 +19,20 @@ namespace Tweetinvi.Parameters
     /// </summary>
     public class PublishMessageParameters : CustomRequestParameters, IPublishMessageParameters
     {
-        public PublishMessageParameters(string text, long recipientId)
+        public PublishMessageParameters(string text, long? recipientId)
         {
             if (string.IsNullOrEmpty(text))
             {
                 throw new ArgumentNullException(nameof(text), "Message Text cannot be null or empty.");
             }
 
+            if (recipientId == null)
+            {
+                throw new ArgumentNullException(nameof(text), "Recipient Text cannot be null or empty.");
+            }
+
             Text = text;
-            RecipientId = recipientId;
+            RecipientId = recipientId.Value;
         }
 
         public string Text { get; }

@@ -34,16 +34,16 @@ namespace Tweetinvi.Core.Controllers
         // Relationship
         Task<IRelationshipDetails> GetRelationshipBetween(IUserIdentifier sourceUserIdentifier, IUserIdentifier targetUserIdentifier);
 
-        Task<IRelationshipDetails> GetRelationshipBetween(IUserIdentifier sourceUserIdentifier, long targetUserId);
+        Task<IRelationshipDetails> GetRelationshipBetween(IUserIdentifier sourceUserIdentifier, long? targetUserId);
         Task<IRelationshipDetails> GetRelationshipBetween(IUserIdentifier sourceUserIdentifier, string targetUserScreenName);
-        Task<IRelationshipDetails> GetRelationshipBetween(long sourceUserId, IUserIdentifier targetUserIdentifier);
+        Task<IRelationshipDetails> GetRelationshipBetween(long? sourceUserId, IUserIdentifier targetUserIdentifier);
         Task<IRelationshipDetails> GetRelationshipBetween(string sourceUserScreenName, IUserIdentifier targetUserIdentifier);
 
-        Task<IRelationshipDetails> GetRelationshipBetween(long sourceUserId, long targetUserId);
-        Task<IRelationshipDetails> GetRelationshipBetween(long sourceUserId, string targetUserScreenName);
+        Task<IRelationshipDetails> GetRelationshipBetween(long? sourceUserId, long? targetUserId);
+        Task<IRelationshipDetails> GetRelationshipBetween(long? sourceUserId, string targetUserScreenName);
 
         Task<IRelationshipDetails> GetRelationshipBetween(string sourceUserScreenName, string targetUserScreenName);
-        Task<IRelationshipDetails> GetRelationshipBetween(string sourceUserScreenName, long targetUserId);
+        Task<IRelationshipDetails> GetRelationshipBetween(string sourceUserScreenName, long? targetUserId);
 
         // Get Relationships between the current user and a list of users
         Task<Dictionary<IUser, IRelationshipState>> GetRelationshipStatesAssociatedWith(IEnumerable<IUser> targetUsers);

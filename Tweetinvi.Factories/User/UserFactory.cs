@@ -7,7 +7,6 @@ using Tweetinvi.Core.Helpers;
 using Tweetinvi.Core.Injectinvi;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
-using Tweetinvi.Parameters;
 
 namespace Tweetinvi.Factories.User
 {
@@ -31,19 +30,6 @@ namespace Tweetinvi.Factories.User
             _userUnityFactory = userUnityFactory;
             _jsonObjectConverter = jsonObjectConverter;
             _credentialsAccessor = credentialsAccessor;
-        }
-
-        // Get User
-        public async Task<IUser> GetUserFromId(long userId)
-        {
-            var userDTO = await _userFactoryQueryExecutor.GetUserDTOFromId(userId);
-            return GenerateUserFromDTO(userDTO);
-        }
-
-        public async Task<IUser> GetUserFromScreenName(string userName)
-        {
-            var userDTO = await _userFactoryQueryExecutor.GetUserDTOFromScreenName(userName);
-            return GenerateUserFromDTO(userDTO);
         }
 
         // Generate User from Json

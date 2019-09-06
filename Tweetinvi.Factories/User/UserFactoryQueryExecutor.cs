@@ -7,17 +7,11 @@ using Tweetinvi.Core.QueryGenerators;
 using Tweetinvi.Core.Web;
 using Tweetinvi.Factories.Properties;
 using Tweetinvi.Models.DTO;
-using Tweetinvi.Parameters;
 
 namespace Tweetinvi.Factories.User
 {
     public interface IUserFactoryQueryExecutor
     {
-        Task<IUserDTO> GetAuthenticatedUser(IGetAuthenticatedUserParameters parameters);
-
-        Task<IUserDTO> GetUserDTOFromId(long userId);
-        Task<IUserDTO> GetUserDTOFromScreenName(string userName);
-
         Task<List<IUserDTO>> GetUsersDTOFromIds(IEnumerable<long> userIds);
         Task<List<IUserDTO>> GetUsersDTOFromScreenNames(IEnumerable<string> userScreenNames);
 
@@ -34,25 +28,6 @@ namespace Tweetinvi.Factories.User
         {
             _twitterAccessor = twitterAccessor;
             _userQueryParameterGenerator = userQueryParameterGenerator;
-        }
-
-        // Get single user
-        public Task<IUserDTO> GetAuthenticatedUser(IGetAuthenticatedUserParameters parameters)
-        {
-            var query = _userQueryParameterGenerator.GetAuthenticatedUserQuery(parameters);
-            return _twitterAccessor.ExecuteGETQuery<IUserDTO>(query);
-        }
-
-        public Task<IUserDTO> GetUserDTOFromId(long userId)
-        {
-            var query = string.Format(Resources.User_GetUserFromId, userId);
-            return _twitterAccessor.ExecuteGETQuery<IUserDTO>(query);
-        }
-
-        public Task<IUserDTO> GetUserDTOFromScreenName(string userName)
-        {
-            var query = string.Format(Resources.User_GetUserFromName, userName);
-            return _twitterAccessor.ExecuteGETQuery<IUserDTO>(query);
         }
 
         // Get Multiple users

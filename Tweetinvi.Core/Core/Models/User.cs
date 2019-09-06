@@ -44,21 +44,21 @@ namespace Tweetinvi.Logic
         // This region represents the information accessible from a Twitter API
         // when querying for a User
 
-        public long Id
+        public long? Id
         {
-            get { return _userDTO == null ? -1 : _userDTO.Id; }
+            get { return _userDTO?.Id; }
             set { throw new InvalidOperationException("Cannot set the Id of a user");}
         }
 
         public string IdStr
         {
-            get { return _userDTO == null ? null : _userDTO.IdStr; }
+            get { return _userDTO?.IdStr; }
             set { throw new InvalidOperationException("Cannot set the Id of a user"); }
         }
 
         public string ScreenName
         {
-            get { return _userDTO == null ? null : _userDTO.ScreenName; }
+            get { return _userDTO?.ScreenName; }
             set { throw new InvalidOperationException("Cannot set the ScreenName of a user"); }
         }
 
@@ -424,7 +424,7 @@ namespace Tweetinvi.Logic
 
         public override string ToString()
         {
-            return _userDTO != null ? _userDTO.Name : "Undefined";
+            return _userDTO?.Name ?? "Undefined";
         }
     }
 }

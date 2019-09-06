@@ -8,7 +8,7 @@
         /// <summary>
         /// User Id
         /// </summary>
-        long Id { get; set; }
+        long? Id { get; set; }
 
         /// <summary>
         /// User Id as a string

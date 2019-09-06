@@ -4,9 +4,8 @@ namespace Tweetinvi.Models
 {
     public class UserIdentifier : IUserIdentifier
     {
-        private UserIdentifier()
+        public UserIdentifier()
         {
-            Id = TweetinviSettings.DEFAULT_ID;
         }
 
         public UserIdentifier(long userId) : this()
@@ -20,7 +19,7 @@ namespace Tweetinvi.Models
             ScreenName = userScreenName;
         }
 
-        public long Id { get; set; }
+        public long? Id { get; set; }
         public string IdStr { get; set; }
         public string ScreenName { get; set; }
     }

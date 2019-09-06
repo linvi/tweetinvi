@@ -135,7 +135,6 @@
     <Compile Include="Helpers\ThreadTestHelper.cs" />
     <Compile Include="IntegrationTests\TweetIntegrationTests.cs" />
     <Compile Include="IntegrationTests\TwitterLists.cs" />
-    <Compile Include="IntegrationTests\UserIntegrationTests.cs" />
     <Compile Include="json.net\JsonConvertMessageTests.cs" />
     <Compile Include="json.net\JsonConvertTests.cs" />
     <Compile Include="json.net\JsonTests.cs" />

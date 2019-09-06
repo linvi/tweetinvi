@@ -119,6 +119,31 @@ namespace Testinvi.TweetinviControllers.UserTests
         }
 
         [TestMethod]
+        public void GenerateIdOrScreenNameParameter_UserDTOHasValidIdStr_ReturnsUserIdParameter()
+        {
+            var queryGenerator = CreateUserQueryParameterGenerator();
+            var userId = TestHelper.GenerateRandomLong();
+            var screenName = TestHelper.GenerateString();
+            var userDTO = A.Fake<IUserDTO>();
+            userDTO.CallsTo(x => x.Id).Returns(userId);
+            userDTO.CallsTo(x => x.IdStr).Returns(userId.ToString());
+            userDTO.CallsTo(x => x.ScreenName).Returns(screenName);
+            var idParameterName = TestHelper.GenerateString();
+            var screenNameParameterName = TestHelper.GenerateString();
+
+            _fakeUserQueryValidator.CallsTo(x => x.CanUserBeIdentified(userDTO)).Returns(true);
+            _fakeUserQueryValidator.CallsTo(x => x.IsUserIdValid(userId)).Returns(false);
+            _fakeUserQueryValidator.CallsTo(x => x.IsScreenNameValid(screenName)).Returns(true);
+
+            // Act
+            var result = queryGenerator.GenerateIdOrScreenNameParameter(userDTO, idParameterName, screenNameParameterName);
+
+            // Assert
+            var expectedParameter = $"{idParameterName}={userId}";
+            Assert.AreEqual(result, expectedParameter);
+        }
+
+        [TestMethod]
         public void GenerateIdOrScreenNameParameter_UserDTOHasValidScreenName_ReturnsUserScreenNameParameter()
         {
             var queryGenerator = CreateUserQueryParameterGenerator();

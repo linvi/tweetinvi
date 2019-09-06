@@ -51,7 +51,7 @@ namespace Tweetinvi.Json
         }
 
         // Publish Message
-        public static Task<string> PublishMessage(string text, long targetUserId)
+        public static Task<string> PublishMessage(string text, long? targetUserId)
         {
             return MessageJsonController.PublishMessage(text, targetUserId);
         }

@@ -16,6 +16,7 @@ namespace Tweetinvi.Controllers.User
     public interface IUserQueryExecutor
     {
         Task<ITwitterResult<IUserDTO>> GetAuthenticatedUser(IGetAuthenticatedUserParameters parameters, ITwitterRequest request);
+        Task<ITwitterResult<IUserDTO>> GetUser(IGetUserParameters parameters, ITwitterRequest request);
 
         // Friend Ids
         Task<ITwitterResult<IIdsCursorQueryResultDTO>> GetFriendIds(IGetFriendIdsParameters parameters, ITwitterRequest request);
@@ -62,6 +63,16 @@ namespace Tweetinvi.Controllers.User
         public Task<ITwitterResult<IUserDTO>> GetAuthenticatedUser(IGetAuthenticatedUserParameters parameters, ITwitterRequest request)
         {
             var query = _userQueryGenerator.GetAuthenticatedUserQuery(parameters);
+
+            request.Query.Url = query;
+            request.Query.HttpMethod = HttpMethod.GET;
+
+            return _twitterAccessor.ExecuteRequest<IUserDTO>(request);
+        }
+
+        public Task<ITwitterResult<IUserDTO>> GetUser(IGetUserParameters parameters, ITwitterRequest request)
+        {
+            var query = _userQueryGenerator.GetUserQuery(parameters);
 
             request.Query.Url = query;
             request.Query.HttpMethod = HttpMethod.GET;
