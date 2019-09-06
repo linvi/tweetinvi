@@ -144,7 +144,7 @@ namespace Tweetinvi.Controllers.Tweet
         }
 
         // Publish Retweet
-        public string GetPublishRetweetQuery(ITweetIdentifier tweetId, TweetMode tweetMode)
+        public string GetPublishRetweetQuery(ITweetIdentifier tweetId, TweetMode? tweetMode)
         {
             _tweetQueryValidator.ThrowIfTweetCannotBeUsed(tweetId);
 

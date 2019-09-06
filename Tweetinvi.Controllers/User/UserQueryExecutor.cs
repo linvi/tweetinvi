@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using Tweetinvi.Core.Extensions;
@@ -42,6 +43,7 @@ namespace Tweetinvi.Controllers.User
 
         // Spam
         Task<bool> ReportUserForSpam (IUserIdentifier user);
+        Task<ITwitterResult<IUserDTO[]>> GetUsers(IGetUsersParameters parameters, ITwitterRequest request);
     }
 
     public class UserQueryExecutor : IUserQueryExecutor
@@ -78,6 +80,30 @@ namespace Tweetinvi.Controllers.User
             request.Query.HttpMethod = HttpMethod.GET;
 
             return _twitterAccessor.ExecuteRequest<IUserDTO>(request);
+        }
+
+        public Task<ITwitterResult<IUserDTO[]>> GetUsers(IGetUsersParameters parameters, ITwitterRequest request)
+        {
+            if (parameters?.UserIdentifiers == null)
+            {
+                // ReSharper disable once NotResolvedInText
+                throw new ArgumentNullException("UserIdentifiers");
+            }
+
+            var maxSize = request.ExecutionContext.Limits.Users.GetUsersMaxSize;
+
+            if (parameters.UserIdentifiers.Length > maxSize)
+            {
+                // ReSharper disable once NotResolvedInText
+                throw new ArgumentOutOfRangeException($"UserIdentifiers cannot have more than {maxSize} items", "UserIdentifiers");
+            }
+
+            var query = _userQueryGenerator.GetUsersQuery(parameters, request.ExecutionContext.TweetMode);
+
+            request.Query.Url = query;
+            request.Query.HttpMethod = HttpMethod.GET;
+
+            return _twitterAccessor.ExecuteRequest<IUserDTO[]>(request);
         }
 
         // Friend ids

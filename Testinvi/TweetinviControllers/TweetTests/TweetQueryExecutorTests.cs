@@ -94,7 +94,7 @@ namespace Testinvi.TweetinviControllers.TweetTests
             var expectedResult = A.Fake<ITwitterResult<ITweetDTO>>();
             var request = A.Fake<ITwitterRequest>();
 
-            _fakeTweetQueryGenerator.CallsTo(x => x.GetPublishRetweetQuery(tweetId, TweetMode.Extended)).Returns(queryUrl);
+            _fakeTweetQueryGenerator.CallsTo(x => x.GetPublishRetweetQuery(tweetId, null)).Returns(queryUrl);
             _fakeTwitterAccessor
                 .CallsTo(x => x.ExecuteRequest<ITweetDTO>(A<ITwitterRequest>.That.Matches(twitterRequest => twitterRequest.Query.Url == queryUrl)))
                 .ReturnsLazily(() => expectedResult);

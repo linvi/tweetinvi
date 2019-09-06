@@ -95,7 +95,7 @@ namespace Tweetinvi
         private static T GetConfiguredStream<T>(T stream, ITwitterCredentials credentials, TweetMode? tweetMode) where T : ITwitterStream
         {
             stream.Credentials = credentials ?? ThreadCredentialsAccessor.CurrentThreadCredentials;
-            stream.TweetMode = tweetMode ?? ThreadSettingsAccessor.CurrentThreadSettings.TweetMode;
+            stream.TweetMode = tweetMode ?? ThreadSettingsAccessor.CurrentThreadSettings.TweetMode ?? TweetMode.Extended;
 
             return stream;
         }

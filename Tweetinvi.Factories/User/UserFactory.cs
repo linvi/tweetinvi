@@ -94,14 +94,14 @@ namespace Tweetinvi.Factories.User
             return user;
         }
 
-        public IEnumerable<IUser> GenerateUsersFromDTO(IEnumerable<IUserDTO> usersDTO)
+        public IUser[] GenerateUsersFromDTO(IEnumerable<IUserDTO> usersDTO)
         {
             if (usersDTO == null)
             {
                 return null;
             }
 
-            return usersDTO.Select(GenerateUserFromDTO).ToList();
+            return usersDTO.Select(GenerateUserFromDTO).ToArray();
         }
     }
 }

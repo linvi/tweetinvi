@@ -8,6 +8,15 @@ namespace Tweetinvi.Models
         {
         }
 
+        public UserIdentifier(long? userId) : this()
+        {
+            if (userId != null)
+            {
+                Id = userId;
+                IdStr = userId.Value.ToString(CultureInfo.InvariantCulture);
+            }
+        }
+
         public UserIdentifier(long userId) : this()
         {
             Id = userId;

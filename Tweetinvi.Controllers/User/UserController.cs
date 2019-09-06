@@ -48,6 +48,12 @@ namespace Tweetinvi.Controllers.User
             return _twitterResultFactory.Create(result, userDTO => _userFactory.GenerateUserFromDTO(userDTO));
         }
 
+        public async Task<ITwitterResult<IUserDTO[], IUser[]>> GetUsers(IGetUsersParameters parameters, ITwitterRequest request)
+        {
+            var result = await _userQueryExecutor.GetUsers(parameters, request);
+            return _twitterResultFactory.Create(result, userDTO => _userFactory.GenerateUsersFromDTO(userDTO));
+        }
+
         // Friend Ids
         public TwitterCursorResult<long, IIdsCursorQueryResultDTO> GetFriendIds(IGetFriendIdsParameters parameters, ITwitterRequest request)
         {

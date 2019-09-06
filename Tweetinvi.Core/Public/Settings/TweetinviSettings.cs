@@ -73,7 +73,7 @@ namespace Tweetinvi
         /// <summary>
         /// Specify whether you want your tweet to use the extended mode.
         /// </summary>
-        TweetMode TweetMode { get; set; }
+        TweetMode? TweetMode { get; set; }
 
         /// <summary>
         /// A method allowing developers to specify how to retrieve the current DateTime.
@@ -116,7 +116,7 @@ namespace Tweetinvi
         public int HttpRequestTimeout { get; set; }
         public RateLimitTrackerMode RateLimitTrackerMode { get; set; }
         public int RateLimitWaitFudgeMs { get; set; }
-        public TweetMode TweetMode { get; set; }
+        public TweetMode? TweetMode { get; set; }
         public int UploadTimeout { get; set; }
         public Func<DateTime> GetUtcDateTime { get; set; }
         public TwitterLimits Limits { get; set; }
@@ -142,7 +142,7 @@ namespace Tweetinvi
             clone.TweetMode = TweetMode;
             clone.GetUtcDateTime = GetUtcDateTime;
             clone.Converters = Converters;
-            clone.Limits = Limits.Clone();
+            clone.Limits = new TwitterLimits(Limits);
             clone.ErrorHandlerType = ErrorHandlerType;
 
             return clone;
@@ -158,7 +158,7 @@ namespace Tweetinvi
             TweetMode = other.TweetMode;
             GetUtcDateTime = other.GetUtcDateTime;
             Converters = other.Converters;
-            Limits = other.Limits.Clone();
+            Limits = new TwitterLimits(other.Limits);
             ErrorHandlerType = other.ErrorHandlerType;
         }
     }

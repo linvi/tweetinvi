@@ -26,10 +26,16 @@ namespace Tweetinvi.Client.Requesters
         Task<ITwitterResult<IUserDTO, IAuthenticatedUser>> GetAuthenticatedUser(IGetAuthenticatedUserParameters parameters);
 
         /// <summary>
-        /// Get the user's information
+        /// Get a user
         /// </summary>
         /// <returns>TwitterResult containing a user</returns>
         Task<ITwitterResult<IUserDTO, IUser>> GetUser(IGetUserParameters parameters);
+
+        /// <summary>
+        /// Get multiple users
+        /// </summary>
+        /// <returns>TwitterResult containing a collection of users</returns>
+        Task<ITwitterResult<IUserDTO[], IUser[]>> GetUsers(IGetUsersParameters parameters);
 
         /// <summary>
         /// Get friend ids from a specific user
@@ -57,6 +63,12 @@ namespace Tweetinvi.Client.Requesters
         {
             var request = _twitterClient.CreateRequest();
             return ExecuteRequest(() => _userController.GetUser(parameters, request), request);
+        }
+
+        public Task<ITwitterResult<IUserDTO[], IUser[]>> GetUsers(IGetUsersParameters parameters)
+        {
+            var request = _twitterClient.CreateRequest();
+            return ExecuteRequest(() => _userController.GetUsers(parameters, request), request);
         }
 
         public async Task<ITwitterCursorResult<long, IIdsCursorQueryResultDTO>> GetFriendIds(IGetFriendIdsParameters parameters)

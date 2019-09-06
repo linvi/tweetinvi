@@ -18,12 +18,14 @@ namespace xUnitinvi.IntegrationTests
             // act
             var authenticatedUser = await client.Users.GetAuthenticatedUser();
             var tweetinviUser = await client.Users.GetUser("tweetinviapi");
-            var user = await client.Users.GetFriendIds("tweetinviapi");
+            var friendIdsIterator = await client.Users.GetFriendIds("tweetinviapi");
+            var friends = await client.Users.GetUsers(friendIdsIterator.Items);
 
             // assert
             Assert.Equal(tweetinviUser.Id, 1577389800);
             Assert.NotNull(authenticatedUser);
-            Assert.Contains(1693649419, user.Items);
+            Assert.Contains(1693649419, friendIdsIterator.Items);
+            Assert.Contains(friends, (item) => { return item.ScreenName == "tweetinvitest"; });
         }
     }
 }

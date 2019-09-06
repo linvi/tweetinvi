@@ -15,6 +15,7 @@ namespace Tweetinvi.Core.Controllers
     {
         Task<ITwitterResult<IUserDTO, IAuthenticatedUser>> GetAuthenticatedUser(IGetAuthenticatedUserParameters parameters, ITwitterRequest request);
         Task<ITwitterResult<IUserDTO, IUser>> GetUser(IGetUserParameters parameters, ITwitterRequest request);
+        Task<ITwitterResult<IUserDTO[], IUser[]>> GetUsers(IGetUsersParameters parameters, ITwitterRequest request);
 
         // Friends
         TwitterCursorResult<long, IIdsCursorQueryResultDTO> GetFriendIds(

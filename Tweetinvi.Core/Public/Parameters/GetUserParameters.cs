@@ -15,6 +15,14 @@ namespace Tweetinvi.Parameters
             UserIdentifier = userIdentifier;
         }
 
+        public GetUserParameters(IGetUserParameters source) : base(source)
+        {
+            if (source == null) {  return;}
+
+            UserIdentifier = source.UserIdentifier;
+            IncludeEntities = source.IncludeEntities;
+        }
+
         public IUserIdentifier UserIdentifier { get; set; }
         public bool? IncludeEntities { get; set; }
     }

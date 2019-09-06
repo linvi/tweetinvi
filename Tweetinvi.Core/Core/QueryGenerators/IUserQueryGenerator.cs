@@ -9,6 +9,7 @@ namespace Tweetinvi.Core.QueryGenerators
     {
         string GetAuthenticatedUserQuery (IGetAuthenticatedUserParameters parameters);
         string GetUserQuery(IGetUserParameters parameters);
+        string GetUsersQuery(IGetUsersParameters parameters, TweetMode? tweetMode);
 
 
         string GetFriendIdsQuery (IUserIdentifier user, int maxFriendsToRetrieve);

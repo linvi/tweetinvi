@@ -108,11 +108,11 @@ namespace Tweetinvi.Controllers.User
 
                 if (userDTO.Id != TweetinviSettings.DEFAULT_ID)
                 {
-                    idsBuilder.Append(string.Format("{0}%2C", userDTO.Id));
+                    idsBuilder.Append($"{userDTO.Id}%2C");
                 }
                 else
                 {
-                    screeNameBuilder.Append(string.Format("{0}%2C", userDTO.ScreenName));
+                    screeNameBuilder.Append($"{userDTO.ScreenName}%2C");
                 }
             }
 

@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System;
+using System.Text;
 using Tweetinvi.Controllers.Properties;
 using Tweetinvi.Controllers.Shared;
 using Tweetinvi.Core;
@@ -50,6 +51,19 @@ namespace Tweetinvi.Controllers.User
 
             query.AddFormattedParameterToQuery(_userQueryParameterGenerator.GenerateIdOrScreenNameParameter(parameters.UserIdentifier));
             query.AddParameterToQuery("include_entities", parameters.IncludeEntities);
+            query.Append(_queryParameterGenerator.GenerateAdditionalRequestParameters(parameters.FormattedCustomQueryParameters));
+
+            return query.ToString();
+        }
+
+        public string GetUsersQuery(IGetUsersParameters parameters, TweetMode? tweetMode)
+        {
+            var userIdsParameter = _userQueryParameterGenerator.GenerateListOfUserIdentifiersParameter(parameters.UserIdentifiers);
+            var query = new StringBuilder(Resources.User_GetUsers);
+
+            query.AddFormattedParameterToQuery(userIdsParameter);
+            query.AddParameterToQuery("include_entities", parameters.IncludeEntities);
+            query.AddFormattedParameterToQuery(_queryParameterGenerator.GenerateTweetModeParameter(tweetMode));
             query.Append(_queryParameterGenerator.GenerateAdditionalRequestParameters(parameters.FormattedCustomQueryParameters));
 
             return query.ToString();
