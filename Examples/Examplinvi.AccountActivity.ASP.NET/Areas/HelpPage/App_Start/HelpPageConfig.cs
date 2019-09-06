@@ -2,21 +2,15 @@
 // package to your project.
 ////#define Handle_PageResultOfT
 
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
-using System.Linq;
 using System.Net.Http.Headers;
-using System.Reflection;
-using System.Web;
 using System.Web.Http;
+
 #if Handle_PageResultOfT
 using System.Web.Http.OData;
 #endif
 
-namespace Examplinvi.WebhooksApi.Areas.HelpPage
+namespace Examplinvi.AccountActivity.ASP.NET.Areas.HelpPage
 {
     /// <summary>
     /// Use this class to customize the Help Page.

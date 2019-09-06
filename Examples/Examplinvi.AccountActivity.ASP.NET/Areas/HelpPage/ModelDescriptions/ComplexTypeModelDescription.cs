@@ -1,6 +1,6 @@
 using System.Collections.ObjectModel;
 
-namespace Examplinvi.WebhooksApi.Areas.HelpPage.ModelDescriptions
+namespace Examplinvi.AccountActivity.ASP.NET.Areas.HelpPage
 {
     public class ComplexTypeModelDescription : ModelDescription
     {

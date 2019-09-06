@@ -6,7 +6,7 @@ using System.Globalization;
 using System.Linq;
 using System.Reflection;
 
-namespace Examplinvi.WebhooksApi.Areas.HelpPage
+namespace Examplinvi.AccountActivity.ASP.NET.Areas.HelpPage
 {
     /// <summary>
     /// This class will create an object of a given type and populate it with sample data.

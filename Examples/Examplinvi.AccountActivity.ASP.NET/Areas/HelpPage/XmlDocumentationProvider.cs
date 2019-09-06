@@ -5,9 +5,8 @@ using System.Reflection;
 using System.Web.Http.Controllers;
 using System.Web.Http.Description;
 using System.Xml.XPath;
-using Examplinvi.WebhooksApi.Areas.HelpPage.ModelDescriptions;
 
-namespace Examplinvi.WebhooksApi.Areas.HelpPage
+namespace Examplinvi.AccountActivity.ASP.NET.Areas.HelpPage
 {
     /// <summary>
     /// A custom <see cref="IDocumentationProvider"/> that reads the API documentation from an XML documentation file.

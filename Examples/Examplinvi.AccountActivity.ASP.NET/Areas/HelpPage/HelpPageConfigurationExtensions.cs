@@ -11,10 +11,8 @@ using System.Net.Http.Headers;
 using System.Web.Http;
 using System.Web.Http.Controllers;
 using System.Web.Http.Description;
-using Examplinvi.WebhooksApi.Areas.HelpPage.ModelDescriptions;
-using Examplinvi.WebhooksApi.Areas.HelpPage.Models;
 
-namespace Examplinvi.WebhooksApi.Areas.HelpPage
+namespace Examplinvi.AccountActivity.ASP.NET.Areas.HelpPage
 {
     public static class HelpPageConfigurationExtensions
     {

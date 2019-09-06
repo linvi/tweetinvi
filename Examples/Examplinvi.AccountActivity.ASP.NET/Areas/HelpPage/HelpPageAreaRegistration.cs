@@ -1,7 +1,7 @@
 using System.Web.Http;
 using System.Web.Mvc;
 
-namespace Examplinvi.WebhooksApi.Areas.HelpPage
+namespace Examplinvi.AccountActivity.ASP.NET.Areas.HelpPage
 {
     public class HelpPageAreaRegistration : AreaRegistration
     {

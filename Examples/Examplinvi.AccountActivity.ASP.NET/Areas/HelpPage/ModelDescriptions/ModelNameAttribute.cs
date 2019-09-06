@@ -1,6 +1,6 @@
 using System;
 
-namespace Examplinvi.WebhooksApi.Areas.HelpPage.ModelDescriptions
+namespace Examplinvi.AccountActivity.ASP.NET.Areas.HelpPage
 {
     /// <summary>
     /// Use this attribute to change the name of the <see cref="ModelDescription"/> generated for a type.

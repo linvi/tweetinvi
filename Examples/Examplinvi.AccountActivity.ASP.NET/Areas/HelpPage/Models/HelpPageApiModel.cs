@@ -2,9 +2,8 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Net.Http.Headers;
 using System.Web.Http.Description;
-using Examplinvi.WebhooksApi.Areas.HelpPage.ModelDescriptions;
 
-namespace Examplinvi.WebhooksApi.Areas.HelpPage.Models
+namespace Examplinvi.AccountActivity.ASP.NET.Areas.HelpPage
 {
     /// <summary>
     /// The model that represents an API displayed on the help page.

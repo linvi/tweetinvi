@@ -1,7 +1,7 @@
 using System;
 using System.Reflection;
 
-namespace Examplinvi.WebhooksApi.Areas.HelpPage.ModelDescriptions
+namespace Examplinvi.AccountActivity.ASP.NET.Areas.HelpPage
 {
     public interface IModelDocumentationProvider
     {

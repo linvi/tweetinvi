@@ -3,7 +3,7 @@ using System.Globalization;
 using System.Linq;
 using System.Reflection;
 
-namespace Examplinvi.WebhooksApi.Areas.HelpPage.ModelDescriptions
+namespace Examplinvi.AccountActivity.ASP.NET.Areas.HelpPage
 {
     internal static class ModelNameHelper
     {

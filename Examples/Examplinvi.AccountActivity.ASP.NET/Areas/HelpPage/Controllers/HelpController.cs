@@ -1,10 +1,8 @@
 using System;
 using System.Web.Http;
 using System.Web.Mvc;
-using Examplinvi.WebhooksApi.Areas.HelpPage.ModelDescriptions;
-using Examplinvi.WebhooksApi.Areas.HelpPage.Models;
 
-namespace Examplinvi.WebhooksApi.Areas.HelpPage.Controllers
+namespace Examplinvi.AccountActivity.ASP.NET.Areas.HelpPage
 {
     /// <summary>
     /// The controller that will handle requests for the help page.
