@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Tweetinvi.Core.Extensions;
 
 namespace Tweetinvi.Core.Helpers
 {
@@ -21,12 +20,13 @@ namespace Tweetinvi.Core.Helpers
             {
                 var pageItemsInput = input.Skip(i).Take(maxItemsPerRequest).ToArray();
                 var pageResults = await transform(pageItemsInput);
-                result.AddRangeSafely(pageResults);
-
+                
                 if (pageResults == null)
                 {
-                    throw new Exception("An error occurred in the middle of the iterations");
+                    throw new Exception($"Transformation from {typeof(TInput).FullName}[] to {typeof(TResult).FullName}[] returned null in the middle of the iterations.");
                 }
+
+                result.AddRange(pageResults);
             }
 
             return result.ToArray();

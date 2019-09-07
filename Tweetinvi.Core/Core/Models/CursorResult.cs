@@ -143,7 +143,17 @@ namespace Tweetinvi.Core.Models
             var cursorResult = twitterResults.DataTransferObject;
 
             var dtoItems = cursorResult.Results.ToArray();
-            var items = await _transformer(dtoItems);
+
+            TItem[] items;
+
+            try
+            {
+                items = await _transformer(dtoItems);
+            }
+            catch (Exception e)
+            {
+                throw new Exception("An exception occurred and prevented the MoveNext to successfully complete. You can call MoveNext again to retry. Check innerException to learn more", e);
+            }
 
             NextCursor = _twitterCursorResult.NextCursor;
             PreviousCursor = _twitterCursorResult.PreviousCursor;
