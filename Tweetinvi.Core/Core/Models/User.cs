@@ -19,6 +19,7 @@ namespace Tweetinvi.Logic
     public class User : IUser
     {
         private const string REGEX_PROFILE_IMAGE_SIZE = "_[^\\W_]+(?=(?:\\.[a-zA-Z0-9_]+$))";
+        public ITwitterClient Client { get; set; }
 
         protected IUserDTO _userDTO;
         protected readonly ITimelineController _timelineController;
@@ -315,19 +316,14 @@ namespace Tweetinvi.Logic
         }
 
         // Friends
-        public virtual Task<ICursorResult<IUser>> GetFriendIds()
+        public virtual Task<ICursorResult<long>> GetFriendIds()
         {
-            throw new NotImplementedException("TODO as requires client.GetFriends");
+            return Client?.Users.GetFriendIds(new GetFriendIdsParameters(this));
         }
 
         public virtual Task<ICursorResult<IUser>> GetFriends()
         {
-            throw new NotImplementedException("TODO as requires client.GetFriends");
-        }
-
-        public virtual Task<ICursorResult<IUser>> GetFriends(ICursorQueryParameters cursorQueryParameters)
-        {
-            throw new NotImplementedException("TODO as requires client.GetFriends");
+            return Client?.Users.GetFriends(new GetFriendsParameters(this));
         }
 
         // Followers

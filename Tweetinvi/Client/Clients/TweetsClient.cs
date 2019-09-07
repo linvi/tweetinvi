@@ -9,7 +9,7 @@ namespace Tweetinvi.Client
     /// <summary>
     /// A client providing all the methods related with tweets
     /// </summary>
-    public class TweetsClient
+    public class TweetsClient : ITweetsClient
     {
         private readonly ITweetsRequester _tweetsRequester;
 

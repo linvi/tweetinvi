@@ -12,7 +12,6 @@ namespace Tweetinvi.Core.Factories
 
         // Get Multiple users
         Task<IEnumerable<IUser>> GetUsersFromIds(IEnumerable<long> userIds);
-        Task<IEnumerable<IUser>> GetUsersFromScreenNames(IEnumerable<string> userNames);
 
         // Generate user from DTO
         IUser GenerateUserFromDTO(IUserDTO userDTO);

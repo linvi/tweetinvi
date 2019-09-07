@@ -1,4 +1,5 @@
-﻿using Tweetinvi.Models;
+﻿using System.Linq;
+using Tweetinvi.Models;
 
 namespace Tweetinvi.Parameters
 {
@@ -10,6 +11,16 @@ namespace Tweetinvi.Parameters
 
     public class GetUsersParameters : CustomRequestParameters, IGetUsersParameters
     {
+        public GetUsersParameters(long[] userIds)
+        {
+            UserIdentifiers = userIds.Select(userId => new UserIdentifier(userId) as IUserIdentifier).ToArray();
+        }
+
+        public GetUsersParameters(string[] usernames)
+        {
+            UserIdentifiers = usernames.Select(username => new UserIdentifier(username) as IUserIdentifier).ToArray();
+        }
+
         public GetUsersParameters(IUserIdentifier[] userIdentifiers)
         {
             UserIdentifiers = userIdentifiers;

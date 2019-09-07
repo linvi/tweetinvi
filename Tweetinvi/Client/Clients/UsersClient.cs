@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Tweetinvi.Client.Requesters;
+using Tweetinvi.Core.Helpers;
 using Tweetinvi.Core.Models;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO.QueryDTO;
@@ -14,13 +15,17 @@ namespace Tweetinvi.Client
     /// <summary>
     /// A client providing all the methods related with users
     /// </summary>
-    public class UsersClient
+    public class UsersClient : IUsersClient
     {
         private readonly IUsersRequester _usersRequester;
+        private readonly TwitterClient _client;
+        private readonly IPagedOperationsHelper _pageOperationHelper;
 
         public UsersClient(TwitterClient client)
         {
+            _client = client;
             _usersRequester = client.RequestExecutor.Users;
+            _pageOperationHelper = TweetinviContainer.Resolve<IPagedOperationsHelper>();
         }
 
         /// <summary>
@@ -127,14 +132,20 @@ namespace Tweetinvi.Client
 
         #endregion
 
+        #region GetFriendIds
+
         /// <summary>
         /// Get friend ids from a specific user
         /// </summary>
         /// <returns>A CursorResult to iterate over all the user's friends</returns>
         public async Task<ICursorResult<long>> GetFriendIds(IGetFriendIdsParameters parameters)
         {
-            var twitterCursorResult = await _usersRequester.GetFriendIds(parameters);
-            return new CursorResult<long, IIdsCursorQueryResultDTO>(twitterCursorResult);
+            var twitterCursorResult = _usersRequester.GetFriendIds(parameters);
+            var cursorResult = new CursorResult<long, IIdsCursorQueryResultDTO>(twitterCursorResult);
+
+            await cursorResult.MoveNext();
+
+            return cursorResult;
         }
 
         /// <summary>
@@ -166,5 +177,30 @@ namespace Tweetinvi.Client
             var parameters = new GetFriendIdsParameters(userIdentifier);
             return GetFriendIds(parameters);
         }
+
+        #endregion
+
+        #region GetFriends
+
+        /// <summary>
+        /// Get friend ids from a specific user
+        /// </summary>
+        /// <returns>A CursorResult to iterate over all the user's friends</returns>
+        public async Task<ICursorResult<IUser>> GetFriends(IGetFriendsParameters parameters)
+        {
+            var twitterCursorResult = _usersRequester.GetFriendIds(parameters);
+
+            var cursorResult = new CursorResult<IUser, long, IIdsCursorQueryResultDTO>(twitterCursorResult, async ids =>
+            {
+                var maxItemsPerRequest = _client.Config.Limits.Users.GetUsersMaxSize;
+                return await _pageOperationHelper.IterateOverWithLimit(ids, GetUsers, maxItemsPerRequest);
+            });
+
+            await cursorResult.MoveNext();
+
+            return cursorResult;
+        }
+
+        #endregion
     }
 }

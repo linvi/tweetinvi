@@ -78,7 +78,7 @@ namespace Tweetinvi.Core.Web
         public List<ITwitterResult<TDTO>> TwitterResults { get; }
         public List<TItem> Items { get; }
         public TItem[] Current { get; private set; }
-        public string NextCursor { get; private set; }
+        public string NextCursor { get; set; }
         public string PreviousCursor { get; private set; }
         public bool Completed => TwitterResults.Count > 0 && (NextCursor == null || NextCursor == "0");
 

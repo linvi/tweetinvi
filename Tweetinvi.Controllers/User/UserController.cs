@@ -66,26 +66,12 @@ namespace Tweetinvi.Controllers.User
 
                 return await _userQueryExecutor.GetFriendIds(cursoredParameters, new TwitterRequest(request));
             });
+
+            twitterCursorResult.NextCursor = parameters.Cursor;
             
             return twitterCursorResult;
         }
 
-        // Friends
-        public Task<IEnumerable<IUser>> GetFriends(IUserIdentifier user, int maxFriendsToRetrieve = 250)
-        {
-            throw new NotImplementedException("TODO");
-        }
-
-        public Task<IEnumerable<IUser>> GetFriends(long userId, int maxFriendsToRetrieve = 250)
-        {
-            throw new NotImplementedException("TODO");
-        }
-
-        public Task<IEnumerable<IUser>> GetFriends(string userScreenName, int maxFriendsToRetrieve = 250)
-        {
-            throw new NotImplementedException("TODO");
-        }
-        
         // Follower Ids
         public Task<IEnumerable<long>> GetFollowerIds(IUserIdentifier user, int maxFollowersToRetrieve = 5000)
         {

@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Threading.Tasks;
 using Tweetinvi;
 using Tweetinvi.Models;
 using Xunit;
@@ -20,12 +21,14 @@ namespace xUnitinvi.IntegrationTests
             var tweetinviUser = await client.Users.GetUser("tweetinviapi");
             var friendIdsIterator = await client.Users.GetFriendIds("tweetinviapi");
             var friends = await client.Users.GetUsers(friendIdsIterator.Items);
+            var tweetinviFriends = (await tweetinviUser.GetFriends()).Items;
 
             // assert
             Assert.Equal(tweetinviUser.Id, 1577389800);
             Assert.NotNull(authenticatedUser);
             Assert.Contains(1693649419, friendIdsIterator.Items);
             Assert.Contains(friends, (item) => { return item.ScreenName == "tweetinvitest"; });
+            Assert.Equal(friends.Select(x => x.ToString()), tweetinviFriends.Select(x => x.ToString()));
         }
     }
 }

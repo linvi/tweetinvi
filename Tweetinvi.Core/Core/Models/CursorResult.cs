@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Tweetinvi.Core.Extensions;
 using Tweetinvi.Core.Web;
 using Tweetinvi.Models.DTO.QueryDTO;
 
@@ -31,12 +32,12 @@ namespace Tweetinvi.Core.Models
         /// <summary>
         /// List of aggregated items retrieved over the different cursor requests
         /// </summary>
-        List<TItem> Items { get; }
+        TItem[] Items { get; }
         
         /// <summary>
         /// Items returned by the last cursor request
         /// </summary>
-        TItem[] Current { get; }
+        TItem[] LastIterationItems { get; }
 
         /// <summary>
         /// Move to the next cursor and update the items
@@ -68,8 +69,8 @@ namespace Tweetinvi.Core.Models
 
         public string PreviousCursor => _twitterCursorResult.PreviousCursor;
         public string NextCursor => _twitterCursorResult.NextCursor;
-        public List<TItem> Items => _twitterCursorResult.Items.ToList();
-        public TItem[] Current => _twitterCursorResult.Current;
+        public TItem[] Items => _twitterCursorResult.Items.ToArray();
+        public TItem[] LastIterationItems => _twitterCursorResult.Current;
         public bool Completed => _twitterCursorResult.Completed;
 
         public async Task<CursorOperationResult<TItem>> MoveNext()
@@ -89,6 +90,67 @@ namespace Tweetinvi.Core.Models
             var cursorResult = twitterResults.DataTransferObject;
 
             var items = cursorResult.Results.ToArray();
+
+            return new CursorOperationResult<TItem>
+            {
+                Items = items,
+                NextCursor = cursorResult.NextCursorStr,
+                PreviousCursor = cursorResult.PreviousCursorStr
+            };
+        }
+    }
+
+    public class CursorResult<TItem, TDTOItem, TDTO> : ICursorResult<TItem> where TDTO : IBaseCursorQueryDTO<TDTOItem>
+    {
+        private readonly ITwitterCursorResult<TDTOItem, TDTO> _twitterCursorResult;
+        private readonly Func<TDTOItem[], Task<TItem[]>> _transformer;
+        private readonly List<TItem> _items;
+
+        public CursorResult(ITwitterCursorResult<TDTOItem, TDTO> twitterCursorResult, Func<TDTOItem[], Task<TItem[]>> transformer)
+        {
+            if (twitterCursorResult == null)
+            {
+                throw new ArgumentNullException(nameof(twitterCursorResult));
+            }
+
+            _twitterCursorResult = twitterCursorResult;
+            _transformer = transformer;
+            _items = new List<TItem>();
+
+            NextCursor = _twitterCursorResult.NextCursor;
+            PreviousCursor = _twitterCursorResult.PreviousCursor;
+        }
+
+        public string NextCursor { get; private set; }
+        public string PreviousCursor { get; private set; }
+        public bool Completed { get; private set; }
+        public TItem[] Items => _items.ToArray();
+        public TItem[] LastIterationItems { get; private set; }
+
+        public Task<CursorOperationResult<TItem>> MoveNext()
+        {
+            return MoveNext(NextCursor);
+        }
+
+        public async Task<CursorOperationResult<TItem>> MoveNext(string nextCursor)
+        {
+            var result = await _twitterCursorResult.MoveNext(nextCursor);
+            return await CreateCursorOperationResult(result);
+        }
+
+        private async Task<CursorOperationResult<TItem>> CreateCursorOperationResult(ITwitterResult<TDTO> twitterResults)
+        {
+            var cursorResult = twitterResults.DataTransferObject;
+
+            var dtoItems = cursorResult.Results.ToArray();
+            var items = await _transformer(dtoItems);
+
+            NextCursor = _twitterCursorResult.NextCursor;
+            PreviousCursor = _twitterCursorResult.PreviousCursor;
+
+            _items.AddRangeSafely(items);
+            LastIterationItems = items;
+            Completed = _twitterCursorResult.Completed;
 
             return new CursorOperationResult<TItem>
             {

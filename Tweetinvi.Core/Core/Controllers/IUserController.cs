@@ -22,10 +22,6 @@ namespace Tweetinvi.Core.Controllers
             IGetFriendIdsParameters parameters,
             ITwitterRequest request);
 
-        Task<IEnumerable<IUser>> GetFriends(IUserIdentifier user, int maxFriendsToRetrieve = 250);
-        Task<IEnumerable<IUser>> GetFriends(long userId, int maxFriendsToRetrieve = 250);
-        Task<IEnumerable<IUser>> GetFriends(string userScreenName, int maxFriendsToRetrieve = 250);
-
         // Followers
         Task<IEnumerable<long>> GetFollowerIds(IUserIdentifier user, int maxFollowersToRetrieve = 5000);
         Task<IEnumerable<long>> GetFollowerIds(long userId, int maxFollowersToRetrieve = 5000);

@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Tweetinvi.Core.Controllers;
+using Tweetinvi.Core.Extensions;
 using Tweetinvi.Core.Web;
 using Tweetinvi.Credentials.QueryJsonConverters;
 using Tweetinvi.Models;
@@ -41,7 +42,7 @@ namespace Tweetinvi.Client.Requesters
         /// Get friend ids from a specific user
         /// </summary>
         /// <returns>TwitterCursorResult to iterate over all the user's friends</returns>
-        Task<ITwitterCursorResult<long, IIdsCursorQueryResultDTO>> GetFriendIds(IGetFriendIdsParameters parameters);
+        ITwitterCursorResult<long, IIdsCursorQueryResultDTO> GetFriendIds(IGetFriendIdsParameters parameters);
     }
 
     public class UsersRequester : BaseRequester, IInternalUsersRequester
@@ -53,36 +54,48 @@ namespace Tweetinvi.Client.Requesters
             _userController = userController;
         }
 
-        public Task<ITwitterResult<IUserDTO, IAuthenticatedUser>> GetAuthenticatedUser(IGetAuthenticatedUserParameters parameters)
+        public async Task<ITwitterResult<IUserDTO, IAuthenticatedUser>> GetAuthenticatedUser(IGetAuthenticatedUserParameters parameters)
         {
             var request = _twitterClient.CreateRequest();
-            return ExecuteRequest(() => _userController.GetAuthenticatedUser(parameters, request), request);
+            var result = await ExecuteRequest(() => _userController.GetAuthenticatedUser(parameters, request), request);
+
+            var user = result.Result;
+
+            if (user != null) { user.Client = _twitterClient; }
+
+            return result;
         }
 
-        public Task<ITwitterResult<IUserDTO, IUser>> GetUser(IGetUserParameters parameters)
+        public async Task<ITwitterResult<IUserDTO, IUser>> GetUser(IGetUserParameters parameters)
         {
             var request = _twitterClient.CreateRequest();
-            return ExecuteRequest(() => _userController.GetUser(parameters, request), request);
+            var result = await ExecuteRequest(() => _userController.GetUser(parameters, request), request);
+            var user = result.Result;
+
+            if (user != null) { user.Client = _twitterClient; }
+
+            return result;
         }
 
-        public Task<ITwitterResult<IUserDTO[], IUser[]>> GetUsers(IGetUsersParameters parameters)
+        public async Task<ITwitterResult<IUserDTO[], IUser[]>> GetUsers(IGetUsersParameters parameters)
         {
             var request = _twitterClient.CreateRequest();
-            return ExecuteRequest(() => _userController.GetUsers(parameters, request), request);
+            var result = await ExecuteRequest(() => _userController.GetUsers(parameters, request), request);
+
+            var users = result.Result;
+
+            users?.ForEach(x => x.Client = _twitterClient);
+
+            return result;
         }
 
-        public async Task<ITwitterCursorResult<long, IIdsCursorQueryResultDTO>> GetFriendIds(IGetFriendIdsParameters parameters)
+        public ITwitterCursorResult<long, IIdsCursorQueryResultDTO> GetFriendIds(IGetFriendIdsParameters parameters)
         {
             var request = _twitterClient.CreateRequest();
-            
+
             request.ExecutionContext.Converters = JsonQueryConverterRepository.Converters;
-            
-            var idsCursorResult = _userController.GetFriendIds(parameters, request);
 
-            await idsCursorResult.MoveNext(parameters.Cursor);
-
-            return idsCursorResult;
+            return _userController.GetFriendIds(parameters, request);
         }
-
     }
 }

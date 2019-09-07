@@ -45,12 +45,6 @@ namespace Tweetinvi.Factories.User
             return GenerateUsersFromDTO(usersDTO);
         }
 
-        public async Task<IEnumerable<IUser>> GetUsersFromScreenNames(IEnumerable<string> userNames)
-        {
-            var usersDTO = await _userFactoryQueryExecutor.GetUsersDTOFromScreenNames(userNames);
-            return GenerateUsersFromDTO(usersDTO);
-        }
-
         // Generate DTO from id
         public IUserIdentifier GenerateUserIdentifierFromId(long userId)
         {
@@ -88,8 +82,10 @@ namespace Tweetinvi.Factories.User
                 return null;
             }
 
-            var parameterOverride = _userUnityFactory.GenerateParameterOverrideWrapper("userDTO", userDTO);
-            var user = _userUnityFactory.Create(parameterOverride);
+            var userDTOParameterOverride = _userUnityFactory.GenerateParameterOverrideWrapper("userDTO", userDTO);
+            var clientParameterOverride = _userUnityFactory.GenerateParameterOverrideWrapper("client", null);
+
+            var user = _userUnityFactory.Create(userDTOParameterOverride, clientParameterOverride);
 
             return user;
         }

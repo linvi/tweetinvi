@@ -86,22 +86,6 @@ namespace Tweetinvi
         #region User Factory
 
         /// <summary>
-        /// Get a collection of users from a collection of user ids.
-        /// </summary>
-        public static Task<IEnumerable<IUser>> GetUsersFromIds(IEnumerable<long> userIds)
-        {
-            return UserFactory.GetUsersFromIds(userIds);
-        }
-
-        /// <summary>
-        /// Get a collection of users from a collection of screen names.
-        /// </summary>
-        public static Task<IEnumerable<IUser>> GetUsersFromScreenNames(IEnumerable<string> screenNames)
-        {
-            return UserFactory.GetUsersFromScreenNames(screenNames);
-        }
-
-        /// <summary>
         /// Generate a user from a Data Transfer Object.
         /// </summary>
         public static IUser GenerateUserFromDTO(IUserDTO userDTO)
@@ -120,61 +104,6 @@ namespace Tweetinvi
         #endregion
 
         #region User Controller
-
-        // Friend Ids
-
-        /// <summary>
-        /// Get friend ids of a specific user.
-        /// </summary>
-        public static Task<IEnumerable<long>> GetFriendIds(IUserIdentifier user, int maxFriendsToRetrieve = 5000)
-        {
-            //return UserController.GetFriendIds();
-            throw new NotImplementedException("TODO");
-        }
-
-        /// <summary>
-        /// Get friend ids of a specific user.
-        /// </summary>
-        public static Task<IEnumerable<long>> GetFriendIds(long userId, int maxFriendsToRetrieve = 5000)
-        {
-            //return UserController.GetFriendIds();
-            throw new NotImplementedException("TODO");
-        }
-
-        /// <summary>
-        /// Get friend ids of a specific user.
-        /// </summary>
-        public static Task<IEnumerable<long>> GetFriendIds(string userScreenName, int maxFriendsToRetrieve = 5000)
-        {
-            //return UserController.GetFriendIds();
-            throw new NotImplementedException("TODO");
-        }
-
-        // Friends
-
-        /// <summary>
-        /// Get friend of a specific user.
-        /// </summary>
-        public static Task<IEnumerable<IUser>> GetFriends(IUserIdentifier user, int maxFriendsToRetrieve = 250)
-        {
-            throw new NotImplementedException("TODO");
-        }
-
-        /// <summary>
-        /// Get friend of a specific user.
-        /// </summary>
-        public static Task<IEnumerable<IUser>> GetFriends(long userId, int maxFriendsToRetrieve = 250)
-        {
-            return UserController.GetFriends(userId, maxFriendsToRetrieve);
-        }
-
-        /// <summary>
-        /// Get friend of a specific user.
-        /// </summary>
-        public static Task<IEnumerable<IUser>> GetFriends(string userScreenName, int maxFriendsToRetrieve = 250)
-        {
-            return UserController.GetFriends(userScreenName, maxFriendsToRetrieve);
-        }
 
         // Follower Ids
 

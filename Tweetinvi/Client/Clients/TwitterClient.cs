@@ -1,30 +1,10 @@
 ﻿using Tweetinvi.Client;
 using Tweetinvi.Core.Client;
 using Tweetinvi.Models;
-using Tweetinvi.Models.Interfaces;
 
 // ReSharper disable once CheckNamespace
 namespace Tweetinvi
 {
-    public interface ITwitterClient
-    {
-        /// <summary>
-        /// Client to execute all actions related with tweets
-        /// </summary>
-        TweetsClient Tweets { get; }
-
-        /// <summary>
-        /// Client to execute all actions related with users
-        /// </summary>
-        UsersClient Users { get; }
-
-
-        ITwitterCredentials Credentials { get; }
-        ITweetinviSettings Config { get; }
-        ITwitterRequest CreateRequest();
-        ITwitterExecutionContext CreateTwitterExecutionContext();
-    }
-
     public class TwitterClient : ITwitterClient
     {
         public ITwitterCredentials Credentials { get; }
@@ -44,8 +24,8 @@ namespace Tweetinvi
             Users = new UsersClient(this);
         }
 
-        public TweetsClient Tweets { get; }
-        public UsersClient Users { get; }
+        public ITweetsClient Tweets { get; }
+        public IUsersClient Users { get; }
 
         public IRequestExecutor RequestExecutor { get; }
 

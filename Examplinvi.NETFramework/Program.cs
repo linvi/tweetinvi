@@ -592,7 +592,7 @@ namespace Examplinvi.NETFramework
                 MaximumNumberOfResults = 50
             });
 
-            while (friendIds.Items.Count < 200 && !friendIds.Completed)
+            while (friendIds.Items.Length < 200 && !friendIds.Completed)
             {
                 await friendIds.MoveNext();
             }

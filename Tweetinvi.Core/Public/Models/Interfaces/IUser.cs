@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using Tweetinvi.Core.Models;
-using Tweetinvi.Core.Public.Parameters;
 using Tweetinvi.Models.DTO;
 using Tweetinvi.Models.Entities;
 using Tweetinvi.Parameters;
@@ -16,6 +15,11 @@ namespace Tweetinvi.Models
     /// </summary>
     public interface IUser : IUserIdentifier, IEquatable<IUser>
     {
+        /// <summary>
+        /// Client used to perform all actions on Twitter
+        /// </summary>
+        ITwitterClient Client { get; set; }
+
         /// <summary>
         /// Property used to store the twitter properties
         /// </summary>
@@ -298,17 +302,12 @@ namespace Tweetinvi.Models
         /// <summary>
         /// Get a list of the user's friend ids.
         /// </summary>
-        Task<ICursorResult<IUser>> GetFriendIds();
+        Task<ICursorResult<long>> GetFriendIds();
 
         /// <summary>
         /// Get a list of the user's friends.
         /// </summary>
         Task<ICursorResult<IUser>> GetFriends();
-
-        /// <summary>
-        /// Get a list of the user's friends.
-        /// </summary>
-        Task<ICursorResult<IUser>> GetFriends(ICursorQueryParameters cursorQueryParameters);
 
         // Followers
 
