@@ -5,7 +5,7 @@ using FakeItEasy;
 namespace xUnitinvi.TestHelpers
 {
     [ExcludeFromCodeCoverage]
-    public class FakeRepository
+    public static class FakeRepository
     {
         private static readonly Dictionary<object, object> _fakedRepository;
 

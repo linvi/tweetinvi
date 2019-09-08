@@ -9,7 +9,7 @@ using Tweetinvi.Models.DTO;
 namespace Testinvi.Helpers
 {
     [ExcludeFromCodeCoverage]
-    public class TestHelper
+    public static class TestHelper
     {
         public static string GenerateString()
         {

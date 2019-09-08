@@ -14,10 +14,10 @@ namespace xUnitinvi.TweetinviControllers.UserTests
 {
     public class UserQueryExecutorTests
     {
-        private FakeClassBuilder<UserQueryExecutor> _fakeBuilder;
-        private Fake<IUserQueryGenerator> _fakeUserQueryGenerator;
-        private Fake<ITwitterAccessor> _fakeTwitterAccessor;
-        private Fake<IWebHelper> _fakeWebHelper;
+        private readonly FakeClassBuilder<UserQueryExecutor> _fakeBuilder;
+        private readonly Fake<IUserQueryGenerator> _fakeUserQueryGenerator;
+        private readonly Fake<ITwitterAccessor> _fakeTwitterAccessor;
+        private readonly Fake<IWebHelper> _fakeWebHelper;
 
         public UserQueryExecutorTests()
         {

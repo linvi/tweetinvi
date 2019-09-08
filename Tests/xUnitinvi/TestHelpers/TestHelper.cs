@@ -8,7 +8,7 @@ using Tweetinvi.Models.DTO;
 namespace xUnitinvi.TestHelpers
 {
     [ExcludeFromCodeCoverage]
-    public class TestHelper
+    public static class TestHelper
     {
         public static string GenerateString()
         {
@@ -27,7 +27,12 @@ namespace xUnitinvi.TestHelpers
             return result;
         }
 
-        public static int GenerateRandomInt(int? maxValue = null)
+        public static int GenerateRandomInt()
+        {
+            return GenerateRandomInt(null);
+        }
+
+        public static int GenerateRandomInt(int? maxValue)
         {
             if (maxValue == null)
             {

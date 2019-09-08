@@ -29,7 +29,9 @@ namespace Testinvi.Helpers
             foreach (var parameter in constructor.GetParameters())
             {
                 if (parametersToIgnore.Any(x => x == parameter.Name))
+                {
                     continue;
+                }
 
                 var t = parameter.ParameterType;
                 if (!t.IsValueType)

@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using FakeItEasy;
 using Tweetinvi.Controllers.User;
 using Tweetinvi.Core.Factories;
@@ -16,10 +13,10 @@ namespace xUnitinvi.TweetinviControllers.UserTests
 {
     public class UserControllerTests
     {
-        private FakeClassBuilder<UserController> _fakeBuilder;
-        private Fake<IUserQueryExecutor> _fakeUserQueryExecutor;
-        private Fake<ITweetFactory> _fakeTweetFactory;
-        private Fake<IUserFactory> _fakeUserFactory;
+        private readonly FakeClassBuilder<UserController> _fakeBuilder;
+        private readonly Fake<IUserQueryExecutor> _fakeUserQueryExecutor;
+        private readonly Fake<ITweetFactory> _fakeTweetFactory;
+        private readonly Fake<IUserFactory> _fakeUserFactory;
 
         public UserControllerTests()
         {

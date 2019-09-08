@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using FakeItEasy;
 using Tweetinvi.Controllers.User;
 using Tweetinvi.Core.QueryGenerators;
@@ -14,9 +12,9 @@ namespace xUnitinvi.TweetinviControllers.UserTests
 {
     public class UserQueryGeneratorTests
     {
-        private FakeClassBuilder<UserQueryGenerator> _fakeBuilder;
-        private Fake<IUserQueryParameterGenerator> _fakeUserQueryParameterGenerator;
-        private Fake<IUserQueryValidator> _fakeUserQueryValidator;
+        private readonly FakeClassBuilder<UserQueryGenerator> _fakeBuilder;
+        private readonly Fake<IUserQueryParameterGenerator> _fakeUserQueryParameterGenerator;
+        private readonly Fake<IUserQueryValidator> _fakeUserQueryValidator;
 
         public UserQueryGeneratorTests()
         {
