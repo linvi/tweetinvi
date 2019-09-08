@@ -19,15 +19,12 @@ namespace Tweetinvi.Core.Controllers
 
         TwitterCursorResult<long, IIdsCursorQueryResultDTO> GetFriendIds(IGetFriendIdsParameters parameters, ITwitterRequest request);
         TwitterCursorResult<long, IIdsCursorQueryResultDTO> GetFollowerIds(IGetFollowerIdsParameters parameters, ITwitterRequest request);
+        
+        Task<ITwitterResult<IUserDTO>> BlockUser(IBlockUserParameters parameters, ITwitterRequest request);
 
         // Favourites
         Task<IEnumerable<ITweet>> GetFavoriteTweets(IGetUserFavoritesQueryParameters parameters);
         Task<IEnumerable<ITweet>> GetFavoriteTweets(IUserIdentifier user, IGetUserFavoritesParameters parameters);
-
-        // Block User
-        Task<bool> BlockUser(IUserIdentifier user);
-        Task<bool> BlockUser(long userId);
-        Task<bool> BlockUser(string userScreenName);
 
         // Unblock User
         Task<bool> UnBlockUser(IUserIdentifier user);

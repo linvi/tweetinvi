@@ -15,11 +15,6 @@ namespace Tweetinvi.Controllers.User
         // Favorites
         Task<string> GetFavoriteTweets(IGetUserFavoritesQueryParameters parameters);
         Task<string> GetFavoriteTweets(IUserIdentifier user, IGetUserFavoritesParameters parameters);
-
-        // Block User
-        Task<string> BlockUser(IUserIdentifier user);
-        Task<string> BlockUser(long userId);
-        Task<string> BlockUser(string userScreenName);
     }
 
     public class UserJsonController : IUserJsonController
@@ -46,25 +41,6 @@ namespace Tweetinvi.Controllers.User
         {
             var favoritesParameters = new GetUserFavoritesQueryParameters(user, parameters);
             return GetFavoriteTweets(favoritesParameters);
-        }
-
-        // Block User
-        public Task<string> BlockUser(IUserIdentifier user)
-        {
-            string query = _userQueryGenerator.GetBlockUserQuery(user);
-            return _twitterAccessor.ExecutePOSTQueryReturningJson(query);
-        }
-
-        public Task<string> BlockUser(long userId)
-        {
-            string query = _userQueryGenerator.GetBlockUserQuery(new UserIdentifier(userId));
-            return _twitterAccessor.ExecutePOSTQueryReturningJson(query);
-        }
-
-        public Task<string> BlockUser(string userScreenName)
-        {
-            string query = _userQueryGenerator.GetBlockUserQuery(new UserIdentifier(userScreenName));
-            return _twitterAccessor.ExecutePOSTQueryReturningJson(query);
         }
     }
 }

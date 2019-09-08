@@ -20,7 +20,7 @@ namespace Tweetinvi.Core.QueryGenerators
         string GetFavoriteTweetsQuery (IGetUserFavoritesQueryParameters parameters);
 
         // Block User
-        string GetBlockUserQuery (IUserIdentifier user);
+        string GetBlockUserQuery (IBlockUserParameters parameters);
 
         string GetUnBlockUserQuery (IUserIdentifier user);
 

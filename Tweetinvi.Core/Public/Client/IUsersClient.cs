@@ -130,5 +130,25 @@ namespace Tweetinvi
         /// </summary>
         /// <returns>A CursorResult to iterate over all the user's followers</returns>
         Task<ICursorResult<IUser>> GetFollowers(IGetFollowersParameters parameters);
+
+        /// <summary>
+        /// Block a user from the clients' user account
+        /// </summary>
+        Task<bool> BlockUser(long? userId);
+
+        /// <summary>
+        /// Block a user from the clients' user account
+        /// </summary>
+        Task<bool> BlockUser(string username);
+
+        /// <summary>
+        /// Block a user from the clients' user account
+        /// </summary>
+        Task<bool> BlockUser(IUserIdentifier user);
+
+        /// <summary>
+        /// Block a user from the clients' user account
+        /// </summary>
+        Task<bool> BlockUser(IBlockUserParameters parameters);
     }
 }

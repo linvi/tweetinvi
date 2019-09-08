@@ -184,46 +184,6 @@ namespace Testinvi.TweetinviControllers.UserTests
 
         #endregion
 
-        #region Block User
-
-        [TestMethod]
-        public async Task BlockUser_WithUserDTO_ReturnsTrue()
-        {
-            // Arrange
-            var queryExecutor = CreateUserQueryExecutor();
-            var userDTO = A.Fake<IUserDTO>();
-            var expectedQuery = TestHelper.GenerateString();
-
-            _fakeUserQueryGenerator.CallsTo(x => x.GetBlockUserQuery(userDTO)).Returns(expectedQuery);
-            _fakeTwitterAccessor.ArrangeTryExecutePOSTQuery(expectedQuery, true);
-
-            // Act
-            var result = await queryExecutor.BlockUser(userDTO);
-
-            // Assert
-            Assert.AreEqual(result, true);
-        }
-
-        [TestMethod]
-        public async Task BlockUser_WithUserDTO_ReturnsFalse()
-        {
-            // Arrange
-            var queryExecutor = CreateUserQueryExecutor();
-            var userDTO = A.Fake<IUserDTO>();
-            var expectedQuery = TestHelper.GenerateString();
-
-            _fakeUserQueryGenerator.CallsTo(x => x.GetBlockUserQuery(userDTO)).Returns(expectedQuery);
-            _fakeTwitterAccessor.ArrangeTryExecutePOSTQuery(expectedQuery, false);
-
-            // Act
-            var result = await queryExecutor.BlockUser(userDTO);
-
-            // Assert
-            Assert.AreEqual(result, false);
-        }
-
-        #endregion
-
         #region Stream Profile Image
 
         [TestMethod]

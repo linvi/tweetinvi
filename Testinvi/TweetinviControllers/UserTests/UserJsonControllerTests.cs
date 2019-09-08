@@ -49,68 +49,6 @@ namespace Testinvi.TweetinviControllers.UserTests
 
         #endregion
 
-        #region Block User
-
-
-        [TestMethod]
-        public async Task BlockUser_WithUser_ReturnsTwitterAccessorResult()
-        {
-            // Arrange
-            var queryExecutor = CreateUserJsonController();
-            var user = A.Fake<IUserIdentifier>();
-            var expectedQuery = TestHelper.GenerateString();
-            var expectedResult = TestHelper.GenerateString();
-
-            _fakeUserQueryGenerator.CallsTo(x => x.GetBlockUserQuery(user)).Returns(expectedQuery);
-            _fakeTwitterAccessor.ArrangeExecuteJsonPOSTQuery(expectedQuery, expectedResult);
-
-            // Act
-            var result = await queryExecutor.BlockUser(user);
-
-            // Assert
-            Assert.AreEqual(result, expectedResult);
-        }
-
-        [TestMethod]
-        public async Task BlockUser_WithUserScreenName_ReturnsTwitterAccessorResult()
-        {
-            // Arrange
-            var queryExecutor = CreateUserJsonController();
-            var userScreenName = TestHelper.GenerateString();
-            var expectedQuery = TestHelper.GenerateString();
-            var expectedResult = TestHelper.GenerateString();
-
-            _fakeUserQueryGenerator.CallsTo(x => x.GetBlockUserQuery(A<IUserIdentifier>.That.Matches(u => u.ScreenName == userScreenName))).Returns(expectedQuery);
-            _fakeTwitterAccessor.ArrangeExecuteJsonPOSTQuery(expectedQuery, expectedResult);
-
-            // Act
-            var result = await queryExecutor.BlockUser(userScreenName);
-
-            // Assert
-            Assert.AreEqual(result, expectedResult);
-        }
-
-        [TestMethod]
-        public async Task BlockUser_WithUserId_ReturnsTwitterAccessorResult()
-        {
-            // Arrange
-            var queryExecutor = CreateUserJsonController();
-            var userId = TestHelper.GenerateRandomLong();
-            var expectedQuery = TestHelper.GenerateString();
-            var expectedResult = TestHelper.GenerateString();
-
-            _fakeUserQueryGenerator.CallsTo(x => x.GetBlockUserQuery(A<IUserIdentifier>.That.Matches(u => u.Id == userId))).Returns(expectedQuery);
-            _fakeTwitterAccessor.ArrangeExecuteJsonPOSTQuery(expectedQuery, expectedResult);
-
-            // Act
-            var result = await queryExecutor.BlockUser(userId);
-
-            // Assert
-            Assert.AreEqual(result, expectedResult);
-        }
-
-        #endregion
-
         private string[] GenerateExpectedCursorResults()
         {
             return new string[0];

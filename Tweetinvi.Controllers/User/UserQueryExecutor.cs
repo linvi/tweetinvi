@@ -25,12 +25,11 @@ namespace Tweetinvi.Controllers.User
         Task<ITwitterResult<IIdsCursorQueryResultDTO>> GetFriendIds(IGetFriendIdsParameters parameters, ITwitterRequest request);
         Task<ITwitterResult<IIdsCursorQueryResultDTO>> GetFollowerIds(IGetFollowerIdsParameters parameters, ITwitterRequest request);
 
+        Task<ITwitterResult<IUserDTO>> BlockUser(IBlockUserParameters parameters, ITwitterRequest request);
+
 
         // Favourites
         Task<IEnumerable<ITweetDTO>> GetFavoriteTweets (IGetUserFavoritesQueryParameters parameters);
-
-        // Block User
-        Task<bool> BlockUser (IUserIdentifier user);
 
         // UnBlock User
         Task<bool> UnBlockUser (IUserIdentifier user);
@@ -137,20 +136,21 @@ namespace Tweetinvi.Controllers.User
             return _twitterAccessor.ExecuteRequest<IIdsCursorQueryResultDTO>(request);
         }
 
+        public Task<ITwitterResult<IUserDTO>> BlockUser(IBlockUserParameters parameters, ITwitterRequest request)
+        {
+            var query = _userQueryGenerator.GetBlockUserQuery(parameters);
+
+            request.Query.Url = query;
+            request.Query.HttpMethod = HttpMethod.POST;
+
+            return _twitterAccessor.ExecuteRequest<IUserDTO>(request);
+        }
+
         // Favourites
         public Task<IEnumerable<ITweetDTO>> GetFavoriteTweets (IGetUserFavoritesQueryParameters parameters)
         {
             var query = _userQueryGenerator.GetFavoriteTweetsQuery (parameters);
             return _twitterAccessor.ExecuteGETQuery<IEnumerable<ITweetDTO>> (query);
-        }
-
-        // Block
-        public async Task<bool> BlockUser (IUserIdentifier user)
-        {
-            string query = _userQueryGenerator.GetBlockUserQuery (user);
-            var asyncOperation = await _twitterAccessor.TryExecutePOSTQuery (query);
-
-            return asyncOperation.Success;
         }
 
         // UnBlock User

@@ -195,12 +195,12 @@ namespace Tweetinvi.Models
         /// <summary>
         /// Block a specific user.
         /// </summary>
-        Task<bool> BlockUser(long userId);
+        Task<bool> BlockUser(long? userId);
 
         /// <summary>
         /// Block a specific user.
         /// </summary>
-        Task<bool> BlockUser(string userName);
+        Task<bool> BlockUser(string username);
 
         // Unblock
 

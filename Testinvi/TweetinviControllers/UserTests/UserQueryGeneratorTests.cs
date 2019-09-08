@@ -115,28 +115,6 @@ namespace Testinvi.TweetinviControllers.UserTests
 
         #endregion
 
-        #region Block
-
-        [TestMethod]
-        public void GetBlockUserQuery_WithValidUserDTO_ReturnsExpectedQuery()
-        {
-            // Arrange
-            var queryGenerator = CreateUserQueryGenerator();
-            var userDTO = GenerateUserDTO(true);
-            var userIdParameter = UserQueryGeneratorHelper.GenerateParameterExpectedResult(userDTO);
-
-            // Act
-            var result = queryGenerator.GetBlockUserQuery(userDTO);
-
-            // Assert
-            var expectedResult = string.Format(Resources.User_Block_Create, userIdParameter);
-            Assert.AreEqual(result, expectedResult);
-
-            _fakeUserQueryValidator.CallsTo(x => x.ThrowIfUserCannotBeIdentified(userDTO)).MustHaveHappened();
-        }
-
-        #endregion
-
         #region Download Profile Image
 
         [TestMethod]

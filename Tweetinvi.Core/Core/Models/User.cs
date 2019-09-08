@@ -379,7 +379,7 @@ namespace Tweetinvi.Logic
         // Block User
         public virtual Task<bool> BlockUser()
         {
-            return _userController.BlockUser(_userDTO);
+            return Client.Users.BlockUser(this);
         }
 
         public virtual Task<bool> UnBlockUser()

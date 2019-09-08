@@ -36,6 +36,8 @@ namespace xUnitinvi.IntegrationTests
             var friends = await client.Users.GetUsers(friendIdsIterator.Items);
             var tweetinviFriends = (await tweetinviUser.GetFriends()).Items;
             var followers = (await authenticatedUser.GetFollowers()).Items;
+            
+            // todo block + unblock user
 
             // assert
             Assert.Equal(tweetinviUser.Id, 1577389800);

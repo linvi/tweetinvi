@@ -49,6 +49,12 @@ namespace Tweetinvi.Client.Requesters
         /// </summary>
         /// <returns>TwitterCursorResult to iterate over all the user's friends</returns>
         ITwitterCursorResult<long, IIdsCursorQueryResultDTO> GetFollowerIds(IGetFollowerIdsParameters parameters);
+
+        /// <summary>
+        /// Block a user
+        /// </summary>
+        /// <returns>TwitterResult containing the blocked user and whether it succeeded</returns>
+        Task<ITwitterResult<IUserDTO>> BlockUser(IBlockUserParameters parameters);
     }
 
     public class UsersRequester : BaseRequester, IInternalUsersRequester
@@ -63,7 +69,7 @@ namespace Tweetinvi.Client.Requesters
         public async Task<ITwitterResult<IUserDTO, IAuthenticatedUser>> GetAuthenticatedUser(IGetAuthenticatedUserParameters parameters)
         {
             var request = _twitterClient.CreateRequest();
-            var result = await ExecuteRequest(() => _userController.GetAuthenticatedUser(parameters, request), request);
+            var result = await ExecuteRequest(() => _userController.GetAuthenticatedUser(parameters, request), request).ConfigureAwait(false);
 
             var user = result.Result;
 
@@ -75,7 +81,7 @@ namespace Tweetinvi.Client.Requesters
         public async Task<ITwitterResult<IUserDTO, IUser>> GetUser(IGetUserParameters parameters)
         {
             var request = _twitterClient.CreateRequest();
-            var result = await ExecuteRequest(() => _userController.GetUser(parameters, request), request);
+            var result = await ExecuteRequest(() => _userController.GetUser(parameters, request), request).ConfigureAwait(false);
             var user = result.Result;
 
             if (user != null) { user.Client = _twitterClient; }
@@ -86,7 +92,7 @@ namespace Tweetinvi.Client.Requesters
         public async Task<ITwitterResult<IUserDTO[], IUser[]>> GetUsers(IGetUsersParameters parameters)
         {
             var request = _twitterClient.CreateRequest();
-            var result = await ExecuteRequest(() => _userController.GetUsers(parameters, request), request);
+            var result = await ExecuteRequest(() => _userController.GetUsers(parameters, request), request).ConfigureAwait(false);
 
             var users = result.Result;
 
@@ -111,6 +117,12 @@ namespace Tweetinvi.Client.Requesters
             request.ExecutionContext.Converters = JsonQueryConverterRepository.Converters;
 
             return _userController.GetFollowerIds(parameters, request);
+        }
+
+        public Task<ITwitterResult<IUserDTO>> BlockUser(IBlockUserParameters parameters)
+        {
+            var request = _twitterClient.CreateRequest();
+            return ExecuteRequest(() => _userController.BlockUser(parameters, request), request);
         }
     }
 }

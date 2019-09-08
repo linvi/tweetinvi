@@ -190,5 +190,30 @@ namespace Tweetinvi.Client
         }
 
         #endregion
+
+        #region BlockUsers
+
+        public Task<bool> BlockUser(long? userId)
+        {
+            return BlockUser(new BlockUserParameters(userId));
+        }
+        
+        public Task<bool> BlockUser(string username)
+        {
+            return BlockUser(new BlockUserParameters(username));
+        }
+        
+        public Task<bool> BlockUser(IUserIdentifier user)
+        {
+            return BlockUser(new BlockUserParameters(user));
+        }
+
+        public async Task<bool> BlockUser(IBlockUserParameters parameters)
+        {
+            var requestResult = await _usersRequester.BlockUser(parameters).ConfigureAwait(false);
+            return requestResult?.DataTransferObject != null;
+        } 
+
+        #endregion
     }
 }

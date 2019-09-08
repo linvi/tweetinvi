@@ -77,7 +77,6 @@ namespace Tweetinvi.Core.Web
 
     public interface ITwitterResult<DTO, Model> : ITwitterResult<DTO>
         where DTO : class
-        where Model : class
     {
         Model Result { get; }
     }

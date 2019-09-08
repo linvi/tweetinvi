@@ -515,9 +515,9 @@ namespace Tweetinvi.Controllers.Properties
         public static string User_GetCurrentUser = "https://api.twitter.com/1.1/account/verify_credentials.json";
 
         /// <summary>
-        ///   Looks up a localized string similar to https://api.twitter.com/1.1/blocks/create.json?{0}.
+        ///   Looks up a localized string similar to https://api.twitter.com/1.1/blocks/create.json?.
         /// </summary>
-        public static string User_Block_Create = "https://api.twitter.com/1.1/blocks/create.json?{0}";
+        public static string User_Block_Create = "https://api.twitter.com/1.1/blocks/create.json?";
 
         /// <summary>
         ///   Looks up a localized string similar to https://api.twitter.com/1.1/blocks/destroy.json?{0}.

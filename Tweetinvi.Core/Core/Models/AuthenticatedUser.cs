@@ -195,17 +195,17 @@ namespace Tweetinvi.Logic
 
         public Task<bool> BlockUser(IUserIdentifier user)
         {
-            return ExecuteAuthenticatedUserOperation(() => _userController.BlockUser(user));
+            return Client.Users.BlockUser(user);
         }
 
-        public Task<bool> BlockUser(long userId)
+        public Task<bool> BlockUser(long? userId)
         {
-            return ExecuteAuthenticatedUserOperation(() => _userController.BlockUser(userId));
+            return Client.Users.BlockUser(userId);
         }
 
-        public Task<bool> BlockUser(string userName)
+        public Task<bool> BlockUser(string username)
         {
-            return ExecuteAuthenticatedUserOperation(() => _userController.BlockUser(userName));
+            return Client.Users.BlockUser(username);
         }
 
         // Unblock
@@ -248,17 +248,17 @@ namespace Tweetinvi.Logic
 
         public Task<bool> ReportUserForSpam(IUserIdentifier user)
         {
-            return ExecuteAuthenticatedUserOperation(() => _userController.BlockUser(user));
+            throw new NotImplementedException("TODO");
         }
 
         public Task<bool> ReportUserForSpam(string userName)
         {
-            return ExecuteAuthenticatedUserOperation(() => _userController.BlockUser(userName));
+            throw new NotImplementedException("TODO");
         }
 
         public Task<bool> ReportUserForSpam(long userId)
         {
-            return ExecuteAuthenticatedUserOperation(() => _userController.BlockUser(userId));
+            throw new NotImplementedException("TODO");
         }
 
         // Direct Messages

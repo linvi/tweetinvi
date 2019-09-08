@@ -78,6 +78,7 @@ namespace Tweetinvi.Controllers.User
 
             query.AddFormattedParameterToQuery(_userQueryParameterGenerator.GenerateIdOrScreenNameParameter(parameters.UserIdentifier));
             query.AddParameterToQuery("count", parameters.MaximumNumberOfResults);
+            query.Append(_queryParameterGenerator.GenerateAdditionalRequestParameters(parameters.FormattedCustomQueryParameters));
 
             return query.ToString();
         }
@@ -91,6 +92,7 @@ namespace Tweetinvi.Controllers.User
 
             query.AddFormattedParameterToQuery(_userQueryParameterGenerator.GenerateIdOrScreenNameParameter(parameters.UserIdentifier));
             query.AddParameterToQuery("count", parameters.MaximumNumberOfResults);
+            query.Append(_queryParameterGenerator.GenerateAdditionalRequestParameters(parameters.FormattedCustomQueryParameters));
 
             return query.ToString();
         }
@@ -116,14 +118,21 @@ namespace Tweetinvi.Controllers.User
             return query.ToString();
         }
 
-        // Block User
-        public string GetBlockUserQuery(IUserIdentifier user)
+        public string GetBlockUserQuery(IBlockUserParameters parameters)
         {
-            _userQueryValidator.ThrowIfUserCannotBeIdentified(user);
+            _userQueryValidator.ThrowIfUserCannotBeIdentified(parameters.UserIdentifier);
 
-            string userParameter = _userQueryParameterGenerator.GenerateIdOrScreenNameParameter(user);
-            return string.Format(Resources.User_Block_Create, userParameter);
+            var query = new StringBuilder(Resources.User_Block_Create);
+            
+            query.AddFormattedParameterToQuery(_userQueryParameterGenerator.GenerateIdOrScreenNameParameter(parameters.UserIdentifier));
+            query.AddParameterToQuery("include_entities", parameters.IncludeEntities);
+            query.AddParameterToQuery("skip_status", parameters.SkipStatus);
+            query.Append(_queryParameterGenerator.GenerateAdditionalRequestParameters(parameters.FormattedCustomQueryParameters));
+
+            return query.ToString();
         }
+
+        // Block User
 
         // Unblock
         public string GetUnBlockUserQuery(IUserIdentifier user)
