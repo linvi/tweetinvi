@@ -314,12 +314,9 @@ namespace Tweetinvi.Models
         /// <summary>
         /// Get a list of the user's follower ids.
         /// </summary>
-        Task<IEnumerable<long>> GetFollowerIds(int maxFriendsToRetrieve = 5000);
+        Task<ICursorResult<long>> GetFollowerIds();
 
-        /// <summary>
-        /// Get a list of the user's followers.
-        /// </summary>
-        Task<IEnumerable<IUser>> GetFollowers(int maxFriendsToRetrieve = 250);
+        Task<ICursorResult<IUser>> GetFollowers();
 
         // Friendship
 

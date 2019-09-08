@@ -54,198 +54,24 @@ namespace Testinvi.TweetinviControllers.UserTests
             Assert.AreEqual(result.TwitterResults[0], expectedResult);
         }
 
-        #endregion
-
-        #region Get Friends
 
         [TestMethod]
-        public void GetFriend_ReturnsUserExecutorResult()
-        {
-            throw new NotImplementedException("TO COMPLETE");
-
-            // Arrange
-            var controller = CreateUserController();
-
-            var parameter = new GetFriendIdsParameters("username");
-            var expectedResult = A.Fake<TwitterResult<IIdsCursorQueryResultDTO>>();
-            var friendIds = new[] { TestHelper.GenerateRandomLong() };
-            var friends = new[] { A.Fake<IUser>() };
-
-            expectedResult.DataTransferObject = new IdsCursorQueryResultDTO()
-            {
-                Ids = friendIds
-            };
-
-            _fakeUserQueryExecutor.CallsTo(x => x.GetFriendIds(parameter, A<ITwitterRequest>.Ignored)).Returns(expectedResult);
-            _fakeUserFactory.CallsTo(x => x.GetUsersFromIds(friendIds)).Returns(friends);
-
-            // Act
-            var result = controller.GetFriendIds(parameter, A.Fake<ITwitterRequest>());
-
-            // Assert
-            //Assert.AreEqual(result, );
-        }
-
-        #endregion
-
-        #region Get FollowerIds
-
-        [TestMethod]
-        public async Task GetFollowerIds_WithUser_ReturnsUserExecutorResult()
+        public void GetFollowerIds_ReturnsUserExecutorResult()
         {
             // Arrange
             var controller = CreateUserController();
-            var userDTO = A.Fake<IUserDTO>();
-            var user = TestHelper.GenerateUser(userDTO);
-            var maximumNumberOfUsers = TestHelper.GenerateRandomInt();
-            var followersIds = new[] { TestHelper.GenerateRandomLong() };
 
-            _fakeUserQueryExecutor.CallsTo(x => x.GetFollowerIds(user, maximumNumberOfUsers)).Returns(followersIds);
+            var parameters = new GetFollowerIdsParameters("username");
+            var expectedResult = A.Fake<ITwitterResult<IIdsCursorQueryResultDTO>>();
 
-            // Act
-            var result = await controller.GetFollowerIds(user, maximumNumberOfUsers);
-
-            // Assert
-            Assert.AreEqual(result, followersIds);
-        }
-
-        [TestMethod]
-        public async Task GetFollowerIds_WithUserDTO_ReturnsUserExecutorResult()
-        {
-            // Arrange
-            var controller = CreateUserController();
-            var userDTO = A.Fake<IUserDTO>();
-            var maximumNumberOfUsers = TestHelper.GenerateRandomInt();
-            var followersIds = new[] { TestHelper.GenerateRandomLong() };
-
-            _fakeUserQueryExecutor.CallsTo(x => x.GetFollowerIds(userDTO, maximumNumberOfUsers)).Returns(followersIds);
+            _fakeUserQueryExecutor.CallsTo(x => x.GetFollowerIds(A<IGetFollowerIdsParameters>.Ignored, A<ITwitterRequest>.Ignored)).Returns(expectedResult);
 
             // Act
-            var result = await controller.GetFollowerIds(userDTO, maximumNumberOfUsers);
+            var result = controller.GetFollowerIds(parameters, A.Fake<ITwitterRequest>());
+            result.MoveNext();
 
             // Assert
-            Assert.AreEqual(result, followersIds);
-        }
-
-        [TestMethod]
-        public async Task GetFollowerIds_WithUserScreenName_ReturnsUserExecutorResult()
-        {
-            // Arrange
-            var controller = CreateUserController();
-            var userScreenName = TestHelper.GenerateString();
-            var maximumNumberOfUsers = TestHelper.GenerateRandomInt();
-            var followersIds = new[] { TestHelper.GenerateRandomLong() };
-
-            _fakeUserQueryExecutor.CallsTo(x => x.GetFollowerIds(A<IUserIdentifier>.That.Matches(u => u.ScreenName == userScreenName), maximumNumberOfUsers)).Returns(followersIds);
-
-            // Act
-            var result = await controller.GetFollowerIds(userScreenName, maximumNumberOfUsers);
-
-            // Assert
-            Assert.AreEqual(result, followersIds);
-        }
-
-        [TestMethod]
-        public async Task GetFollowerIds_WithUserId_ReturnsUserExecutorResult()
-        {
-            // Arrange
-            var controller = CreateUserController();
-            var userId = TestHelper.GenerateRandomLong();
-            var maximumNumberOfUsers = TestHelper.GenerateRandomInt();
-            var followersIds = new[] { TestHelper.GenerateRandomLong() };
-
-            _fakeUserQueryExecutor.CallsTo(x => x.GetFollowerIds(A<IUserIdentifier>.That.Matches(u => u.Id == userId), maximumNumberOfUsers)).Returns(followersIds);
-
-            // Act
-            var result = await controller.GetFollowerIds(userId, maximumNumberOfUsers);
-
-            // Assert
-            Assert.AreEqual(result, followersIds);
-        }
-
-        #endregion
-
-        #region Get Followers
-
-        [TestMethod]
-        public async Task GetFollowers_WithUser_ReturnsUserExecutorResult()
-        {
-            // Arrange
-            var controller = CreateUserController();
-            var userDTO = A.Fake<IUserDTO>();
-            var user = TestHelper.GenerateUser(userDTO);
-            var maximumNumberOfUsers = TestHelper.GenerateRandomInt();
-            var followerIds = new[] { TestHelper.GenerateRandomLong() };
-            var followers = new[] { A.Fake<IUser>() };
-
-            _fakeUserQueryExecutor.CallsTo(x => x.GetFollowerIds(user, maximumNumberOfUsers)).Returns(followerIds);
-            _fakeUserFactory.CallsTo(x => x.GetUsersFromIds(followerIds)).Returns(followers);
-
-            // Act
-            var result = await controller.GetFollowers(user, maximumNumberOfUsers);
-
-            // Assert
-            Assert.AreEqual(result, followers);
-        }
-
-        [TestMethod]
-        public async Task GetFollowers_WithUserDTO_ReturnsUserExecutorResult()
-        {
-            // Arrange
-            var controller = CreateUserController();
-            var userDTO = A.Fake<IUserDTO>();
-            var maximumNumberOfUsers = TestHelper.GenerateRandomInt();
-            var followerIds = new[] { TestHelper.GenerateRandomLong() };
-            var followers = new[] { A.Fake<IUser>() };
-
-            _fakeUserQueryExecutor.CallsTo(x => x.GetFollowerIds(userDTO, maximumNumberOfUsers)).Returns(followerIds);
-            _fakeUserFactory.CallsTo(x => x.GetUsersFromIds(followerIds)).Returns(followers);
-
-            // Act
-            var result = await controller.GetFollowers(userDTO, maximumNumberOfUsers);
-
-            // Assert
-            Assert.AreEqual(result, followers);
-        }
-
-        [TestMethod]
-        public async Task GetFollowers_WithUserScreenName_ReturnsUserExecutorResult()
-        {
-            // Arrange
-            var controller = CreateUserController();
-            var userScreenName = TestHelper.GenerateString();
-            var maximumNumberOfUsers = TestHelper.GenerateRandomInt();
-            var followerIds = new[] { TestHelper.GenerateRandomLong() };
-            var followers = new[] { A.Fake<IUser>() };
-
-            _fakeUserQueryExecutor.CallsTo(x => x.GetFollowerIds(A<IUserIdentifier>.That.Matches(u => u.ScreenName == userScreenName), maximumNumberOfUsers)).Returns(followerIds);
-            _fakeUserFactory.CallsTo(x => x.GetUsersFromIds(followerIds)).Returns(followers);
-
-            // Act
-            var result = await controller.GetFollowers(userScreenName, maximumNumberOfUsers);
-
-            // Assert
-            Assert.AreEqual(result, followers);
-        }
-
-        [TestMethod]
-        public async Task GetFollowers_WithUserId_ReturnsUserExecutorResult()
-        {
-            // Arrange
-            var controller = CreateUserController();
-            var userId = TestHelper.GenerateRandomLong();
-            var maximumNumberOfUsers = TestHelper.GenerateRandomInt();
-            var followerIds = new[] { TestHelper.GenerateRandomLong() };
-            var followers = new[] { A.Fake<IUser>() };
-
-            _fakeUserQueryExecutor.CallsTo(x => x.GetFollowerIds(A<IUserIdentifier>.That.Matches(u => u.Id == userId), maximumNumberOfUsers)).Returns(followerIds);
-            _fakeUserFactory.CallsTo(x => x.GetUsersFromIds(followerIds)).Returns(followers);
-
-            // Act
-            var result = await controller.GetFollowers(userId, maximumNumberOfUsers);
-
-            // Assert
-            Assert.AreEqual(result, followers);
+            Assert.AreEqual(result.TwitterResults[0], expectedResult);
         }
 
         #endregion

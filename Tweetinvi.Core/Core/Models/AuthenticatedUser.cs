@@ -281,14 +281,12 @@ namespace Tweetinvi.Logic
         // Tweet
         public Task<ITweet> PublishTweet(IPublishTweetParameters parameters)
         {
-            //return ExecuteAuthenticatedUserOperation(() => _tweetController.PublishTweet((string) parameters, TODO));
-            throw new NotImplementedException("This will be implemented as soon as we have the GetAuthenticatedUser working with the client");
+            return Client.Tweets.PublishTweet(parameters);
         }
 
         public Task<ITweet> PublishTweet(string text)
         {
-            //return ExecuteAuthenticatedUserOperation(() =>  _tweetController.PublishTweet(text, TODO));
-            throw new NotImplementedException("This will be implemented as soon as we have the GetAuthenticatedUser working with the client");
+            return Client.Tweets.PublishTweet(text);
         }
 
         // Settings

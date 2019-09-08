@@ -45,6 +45,8 @@ namespace Tweetinvi
         /// </summary>
         Task<IUser> GetUser(IGetUserParameters parameters);
 
+        // GET_USERS
+
         /// <summary>
         /// Get multiple users
         /// </summary>
@@ -65,11 +67,7 @@ namespace Tweetinvi
         /// </summary>
         Task<IUser[]> GetUsers(IGetUsersParameters parameters);
 
-        /// <summary>
-        /// Get friend ids from a specific user
-        /// </summary>
-        /// <returns>A CursorResult to iterate over all the user's friends</returns>
-        Task<ICursorResult<long>> GetFriendIds(IGetFriendIdsParameters parameters);
+        // FRIENDS
 
         /// <summary>
         /// Get friend ids from a specific user
@@ -87,12 +85,50 @@ namespace Tweetinvi
         /// Get friend ids from a specific user
         /// </summary>
         /// <returns>A CursorResult to iterate over all the user's friends</returns>
-        Task<ICursorResult<long>> GetFriendIds(IUserIdentifier userIdentifier);
+        Task<ICursorResult<long>> GetFriendIds(IGetFriendIdsParameters parameters);
 
         /// <summary>
         /// Get friend ids from a specific user
         /// </summary>
         /// <returns>A CursorResult to iterate over all the user's friends</returns>
+        Task<ICursorResult<long>> GetFriendIds(IUserIdentifier userIdentifier);
+
+        /// <summary>
+        /// Get friends from a specific user
+        /// </summary>
+        /// <returns>A CursorResult to iterate over all the user's friends</returns>
         Task<ICursorResult<IUser>> GetFriends(IGetFriendsParameters parameters);
+
+        // FOLLOWERS
+
+        /// <summary>
+        /// Get followers ids from a specific user
+        /// </summary>
+        /// <returns>A CursorResult to iterate over all the user's followers</returns>
+        Task<ICursorResult<long>> GetFollowerIds(string username);
+
+        /// <summary>
+        /// Get followers ids from a specific user
+        /// </summary>
+        /// <returns>A CursorResult to iterate over all the user's followers</returns>
+        Task<ICursorResult<long>> GetFollowerIds(long userId);
+
+        /// <summary>
+        /// Get followers ids from a specific user
+        /// </summary>
+        /// <returns>A CursorResult to iterate over all the user's followers</returns>
+        Task<ICursorResult<long>> GetFollowerIds(IUserIdentifier userIdentifier);
+
+        /// <summary>
+        /// Get followers ids from a specific user
+        /// </summary>
+        /// <returns>A CursorResult to iterate over all the user's followers</returns>
+        Task<ICursorResult<long>> GetFollowerIds(IGetFollowerIdsParameters parameters);
+
+        /// <summary>
+        /// Get followers from a specific user
+        /// </summary>
+        /// <returns>A CursorResult to iterate over all the user's followers</returns>
+        Task<ICursorResult<IUser>> GetFollowers(IGetFollowersParameters parameters);
     }
 }

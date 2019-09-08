@@ -28,20 +28,12 @@ namespace Tweetinvi.Client
             _pageOperationHelper = TweetinviContainer.Resolve<IPagedOperationsHelper>();
         }
 
-        /// <summary>
-        /// Get the authenticated user based on the TwitterClient's credentials
-        /// </summary>
-        /// <returns>The client's authenticated user</returns>
         public async Task<IAuthenticatedUser> GetAuthenticatedUser()
         {
             var requestResult = await _usersRequester.GetAuthenticatedUser(null);
             return requestResult?.Result;
         }
 
-        /// <summary>
-        /// Get the authenticated user based on the TwitterClient's credentials
-        /// </summary>
-        /// <returns>The client's authenticated user</returns>
         public async Task<IAuthenticatedUser> GetAuthenticatedUser(IGetAuthenticatedUserParameters parameters)
         {
             var requestResult = await _usersRequester.GetAuthenticatedUser(parameters);
@@ -50,41 +42,26 @@ namespace Tweetinvi.Client
 
         #region GetUser
 
-        /// <summary>
-        /// Get a user
-        /// </summary>
         public Task<IUser> GetUser(long? userId)
         {
             return GetUser(new UserIdentifier(userId));
         }
 
-        /// <summary>
-        /// Get a user
-        /// </summary>
         public Task<IUser> GetUser(long userId)
         {
             return GetUser(new UserIdentifier(userId));
         }
 
-        /// <summary>
-        /// Get a user
-        /// </summary>
         public Task<IUser> GetUser(string username)
         {
             return GetUser(new UserIdentifier(username));
         }
 
-        /// <summary>
-        /// Get a user
-        /// </summary>
         public Task<IUser> GetUser(IUserIdentifier userIdentifier)
         {
             return GetUser(new GetUserParameters(userIdentifier));
         }
 
-        /// <summary>
-        /// Get a user
-        /// </summary>
         public async Task<IUser> GetUser(IGetUserParameters parameters)
         {
             var requestResult = await _usersRequester.GetUser(parameters);
@@ -95,97 +72,61 @@ namespace Tweetinvi.Client
 
         #region GetUsers
 
-        /// <summary>
-        /// Get multiple users
-        /// </summary>
         public Task<IUser[]> GetUsers(IEnumerable<long> userIds)
         {
             var userIdentifiers = userIds.Select(x => new UserIdentifier(x));
             return GetUsers(userIdentifiers);
         }
 
-        /// <summary>
-        /// Get multiple users
-        /// </summary>
         public Task<IUser[]> GetUsers(IEnumerable<string> usernames)
         {
             var userIdentifiers = usernames.Select(x => new UserIdentifier(x));
             return GetUsers(userIdentifiers);
         }
 
-        /// <summary>
-        /// Get multiple users
-        /// </summary>
         public Task<IUser[]> GetUsers(IEnumerable<IUserIdentifier> userIdentifiers)
         {
             return GetUsers(new GetUsersParameters(userIdentifiers.ToArray()));
         }
 
-        /// <summary>
-        /// Get multiple users
-        /// </summary>
         public async Task<IUser[]> GetUsers(IGetUsersParameters parameters)
         {
-            var requestResult = await _usersRequester.GetUsers(parameters);
+            var requestResult = await _usersRequester.GetUsers(parameters).ConfigureAwait(false);
             return requestResult?.Result;
-        }
-
-        #endregion
-
-        #region GetFriendIds
-
-        /// <summary>
-        /// Get friend ids from a specific user
-        /// </summary>
-        /// <returns>A CursorResult to iterate over all the user's friends</returns>
-        public async Task<ICursorResult<long>> GetFriendIds(IGetFriendIdsParameters parameters)
-        {
-            var twitterCursorResult = _usersRequester.GetFriendIds(parameters);
-            var cursorResult = new CursorResult<long, IIdsCursorQueryResultDTO>(twitterCursorResult);
-
-            await cursorResult.MoveNext();
-
-            return cursorResult;
-        }
-
-        /// <summary>
-        /// Get friend ids from a specific user
-        /// </summary>
-        /// <returns>A CursorResult to iterate over all the user's friends</returns>
-        public Task<ICursorResult<long>> GetFriendIds(string username)
-        {
-            var parameters = new GetFriendIdsParameters(username);
-            return GetFriendIds(parameters);
-        }
-
-        /// <summary>
-        /// Get friend ids from a specific user
-        /// </summary>
-        /// <returns>A CursorResult to iterate over all the user's friends</returns>
-        public Task<ICursorResult<long>> GetFriendIds(long userId)
-        {
-            var parameters = new GetFriendIdsParameters(userId);
-            return GetFriendIds(parameters);
-        }
-
-        /// <summary>
-        /// Get friend ids from a specific user
-        /// </summary>
-        /// <returns>A CursorResult to iterate over all the user's friends</returns>
-        public Task<ICursorResult<long>> GetFriendIds(IUserIdentifier userIdentifier)
-        {
-            var parameters = new GetFriendIdsParameters(userIdentifier);
-            return GetFriendIds(parameters);
         }
 
         #endregion
 
         #region GetFriends
 
-        /// <summary>
-        /// Get friend ids from a specific user
-        /// </summary>
-        /// <returns>A CursorResult to iterate over all the user's friends</returns>
+        public Task<ICursorResult<long>> GetFriendIds(string username)
+        {
+            var parameters = new GetFriendIdsParameters(username);
+            return GetFriendIds(parameters);
+        }
+
+        public Task<ICursorResult<long>> GetFriendIds(long userId)
+        {
+            var parameters = new GetFriendIdsParameters(userId);
+            return GetFriendIds(parameters);
+        }
+
+        public Task<ICursorResult<long>> GetFriendIds(IUserIdentifier userIdentifier)
+        {
+            var parameters = new GetFriendIdsParameters(userIdentifier);
+            return GetFriendIds(parameters);
+        }
+
+        public async Task<ICursorResult<long>> GetFriendIds(IGetFriendIdsParameters parameters)
+        {
+            var twitterCursorResult = _usersRequester.GetFriendIds(parameters);
+            var cursorResult = new CursorResult<long, IIdsCursorQueryResultDTO>(twitterCursorResult);
+
+            await cursorResult.MoveNext().ConfigureAwait(false);
+
+            return cursorResult;
+        }
+
         public async Task<ICursorResult<IUser>> GetFriends(IGetFriendsParameters parameters)
         {
             var twitterCursorResult = _usersRequester.GetFriendIds(parameters);
@@ -193,10 +134,57 @@ namespace Tweetinvi.Client
             var cursorResult = new CursorResult<IUser, long, IIdsCursorQueryResultDTO>(twitterCursorResult, async ids =>
             {
                 var maxItemsPerRequest = _client.Config.Limits.Users.GetUsersMaxSize;
-                return await _pageOperationHelper.IterateOverWithLimit(ids, GetUsers, maxItemsPerRequest);
+                return await _pageOperationHelper.IterateOverWithLimit(ids, GetUsers, maxItemsPerRequest).ConfigureAwait(false);
             });
 
-            await cursorResult.MoveNext();
+            await cursorResult.MoveNext().ConfigureAwait(false);
+
+            return cursorResult;
+        }
+
+        #endregion
+
+        #region GetFollowers
+
+        public Task<ICursorResult<long>> GetFollowerIds(string username)
+        {
+            var parameters = new GetFollowerIdsParameters(username);
+            return GetFollowerIds(parameters);
+        }
+
+        public Task<ICursorResult<long>> GetFollowerIds(long userId)
+        {
+            var parameters = new GetFollowerIdsParameters(userId);
+            return GetFollowerIds(parameters);
+        }
+
+        public Task<ICursorResult<long>> GetFollowerIds(IUserIdentifier userIdentifier)
+        {
+            var parameters = new GetFollowerIdsParameters(userIdentifier);
+            return GetFollowerIds(parameters);
+        }
+
+        public async Task<ICursorResult<long>> GetFollowerIds(IGetFollowerIdsParameters parameters)
+        {
+            var twitterCursorResult = _usersRequester.GetFollowerIds(parameters);
+            var cursorResult = new CursorResult<long, IIdsCursorQueryResultDTO>(twitterCursorResult);
+
+            await cursorResult.MoveNext().ConfigureAwait(false);
+
+            return cursorResult;
+        }
+
+        public async Task<ICursorResult<IUser>> GetFollowers(IGetFollowersParameters parameters)
+        {
+            var twitterCursorResult = _usersRequester.GetFollowerIds(parameters);
+
+            var cursorResult = new CursorResult<IUser, long, IIdsCursorQueryResultDTO>(twitterCursorResult, async ids =>
+            {
+                var maxItemsPerRequest = _client.Config.Limits.Users.GetUsersMaxSize;
+                return await _pageOperationHelper.IterateOverWithLimit(ids, GetUsers, maxItemsPerRequest).ConfigureAwait(false);
+            });
+
+            await cursorResult.MoveNext().ConfigureAwait(false);
 
             return cursorResult;
         }

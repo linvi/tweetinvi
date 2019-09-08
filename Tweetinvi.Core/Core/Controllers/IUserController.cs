@@ -17,19 +17,8 @@ namespace Tweetinvi.Core.Controllers
         Task<ITwitterResult<IUserDTO, IUser>> GetUser(IGetUserParameters parameters, ITwitterRequest request);
         Task<ITwitterResult<IUserDTO[], IUser[]>> GetUsers(IGetUsersParameters parameters, ITwitterRequest request);
 
-        // Friends
-        TwitterCursorResult<long, IIdsCursorQueryResultDTO> GetFriendIds(
-            IGetFriendIdsParameters parameters,
-            ITwitterRequest request);
-
-        // Followers
-        Task<IEnumerable<long>> GetFollowerIds(IUserIdentifier user, int maxFollowersToRetrieve = 5000);
-        Task<IEnumerable<long>> GetFollowerIds(long userId, int maxFollowersToRetrieve = 5000);
-        Task<IEnumerable<long>> GetFollowerIds(string userScreenName, int maxFollowersToRetrieve = 5000);
-
-        Task<IEnumerable<IUser>> GetFollowers(IUserIdentifier user, int maxFollowersToRetrieve = 250);
-        Task<IEnumerable<IUser>> GetFollowers(long userId, int maxFollowersToRetrieve = 250);
-        Task<IEnumerable<IUser>> GetFollowers(string userScreenName, int maxFollowersToRetrieve = 250);
+        TwitterCursorResult<long, IIdsCursorQueryResultDTO> GetFriendIds(IGetFriendIdsParameters parameters, ITwitterRequest request);
+        TwitterCursorResult<long, IIdsCursorQueryResultDTO> GetFollowerIds(IGetFollowerIdsParameters parameters, ITwitterRequest request);
 
         // Favourites
         Task<IEnumerable<ITweet>> GetFavoriteTweets(IGetUserFavoritesQueryParameters parameters);

@@ -70,31 +70,29 @@ namespace Tweetinvi.Controllers.User
         }
 
         // Friends
-        public string GetFriendIdsQuery(IUserIdentifier user, int maxFriendsToRetrieve)
+        public string GetFriendIdsQuery(IGetFriendIdsParameters parameters)
         {
-            _userQueryValidator.ThrowIfUserCannotBeIdentified(user);
+            _userQueryValidator.ThrowIfUserCannotBeIdentified(parameters.UserIdentifier);
 
-            string userParameter = _userQueryParameterGenerator.GenerateIdOrScreenNameParameter(user);
-            return GenerateGetFriendIdsQuery(userParameter, maxFriendsToRetrieve);
-        }
+            var query = new StringBuilder(Resources.User_GetFriends);
 
-        private string GenerateGetFriendIdsQuery(string userParameter, int maxFriendsToRetrieve)
-        {
-            return string.Format(Resources.User_GetFriends, userParameter, maxFriendsToRetrieve);
+            query.AddFormattedParameterToQuery(_userQueryParameterGenerator.GenerateIdOrScreenNameParameter(parameters.UserIdentifier));
+            query.AddParameterToQuery("count", parameters.MaximumNumberOfResults);
+
+            return query.ToString();
         }
 
         // Followers
-        public string GetFollowerIdsQuery(IUserIdentifier user, int maxFollowersToRetrieve)
+        public string GetFollowerIdsQuery(IGetFollowerIdsParameters parameters)
         {
-            _userQueryValidator.ThrowIfUserCannotBeIdentified(user);
+            _userQueryValidator.ThrowIfUserCannotBeIdentified(parameters.UserIdentifier);
 
-            string userParameter = _userQueryParameterGenerator.GenerateIdOrScreenNameParameter(user);
-            return GenerateGetFollowerIdsQuery(userParameter, maxFollowersToRetrieve);
-        }
+            var query = new StringBuilder(Resources.User_GetFollowers);
 
-        private string GenerateGetFollowerIdsQuery(string userParameter, int maxFollowersToRetrieve)
-        {
-            return string.Format(Resources.User_GetFollowers, userParameter, maxFollowersToRetrieve);
+            query.AddFormattedParameterToQuery(_userQueryParameterGenerator.GenerateIdOrScreenNameParameter(parameters.UserIdentifier));
+            query.AddParameterToQuery("count", parameters.MaximumNumberOfResults);
+
+            return query.ToString();
         }
 
         // Favourites

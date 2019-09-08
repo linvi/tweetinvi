@@ -75,13 +75,13 @@ namespace Tweetinvi.Core.Models
 
         public async Task<CursorOperationResult<TItem>> MoveNext()
         {
-            var nextTwitterResults = await _twitterCursorResult.MoveNext();
+            var nextTwitterResults = await _twitterCursorResult.MoveNext().ConfigureAwait(false);
             return CreateCursorOperationResult(nextTwitterResults);
         }
         
         public async Task<CursorOperationResult<TItem>> MoveNext(string nextCursor)
         {
-            var nextTwitterResults = await _twitterCursorResult.MoveNext(nextCursor);
+            var nextTwitterResults = await _twitterCursorResult.MoveNext(nextCursor).ConfigureAwait(false);
             return CreateCursorOperationResult(nextTwitterResults);
         }
 
@@ -134,8 +134,8 @@ namespace Tweetinvi.Core.Models
 
         public async Task<CursorOperationResult<TItem>> MoveNext(string nextCursor)
         {
-            var result = await _twitterCursorResult.MoveNext(nextCursor);
-            return await CreateCursorOperationResult(result);
+            var result = await _twitterCursorResult.MoveNext(nextCursor).ConfigureAwait(false);
+            return await CreateCursorOperationResult(result).ConfigureAwait(false);
         }
 
         private async Task<CursorOperationResult<TItem>> CreateCursorOperationResult(ITwitterResult<TDTO> twitterResults)
@@ -148,7 +148,7 @@ namespace Tweetinvi.Core.Models
 
             try
             {
-                items = await _transformer(dtoItems);
+                items = await _transformer(dtoItems).ConfigureAwait(false);
             }
             catch (Exception e)
             {

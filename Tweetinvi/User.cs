@@ -105,58 +105,6 @@ namespace Tweetinvi
 
         #region User Controller
 
-        // Follower Ids
-
-        /// <summary>
-        /// Get follower ids of a specific user.
-        /// </summary>
-        public static Task<IEnumerable<long>> GetFollowerIds(IUserIdentifier user, int maxFollowersToRetrieve = 5000)
-        {
-            return UserController.GetFollowerIds(user, maxFollowersToRetrieve);
-        }
-
-        /// <summary>
-        /// Get follower ids of a specific user.
-        /// </summary>
-        public static Task<IEnumerable<long>> GetFollowerIds(long userId, int maxFollowersToRetrieve = 5000)
-        {
-            return UserController.GetFollowerIds(userId, maxFollowersToRetrieve);
-        }
-
-        /// <summary>
-        /// Get follower ids of a specific user.
-        /// </summary>
-        public static Task<IEnumerable<long>> GetFollowerIds(string userScreenName, int maxFollowersToRetrieve = 5000)
-        {
-            return UserController.GetFollowerIds(userScreenName, maxFollowersToRetrieve);
-        }
-
-        // Followers
-
-        /// <summary>
-        /// Get follower of a specific user.
-        /// </summary>
-        public static Task<IEnumerable<IUser>> GetFollowers(IUserIdentifier user, int maxFollowersToRetrieve = 250)
-        {
-            return UserController.GetFollowers(user, maxFollowersToRetrieve);
-        }
-
-        /// <summary>
-        /// Get follower of a specific user.
-        /// </summary>
-        public static Task<IEnumerable<IUser>> GetFollowers(long userId, int maxFollowersToRetrieve = 250)
-        {
-            return UserController.GetFollowers(userId, maxFollowersToRetrieve);
-        }
-
-        /// <summary>
-        /// Get follower of a specific user.
-        /// </summary>
-        public static Task<IEnumerable<IUser>> GetFollowers(string userScreenName, int maxFollowersToRetrieve = 250)
-        {
-            return UserController.GetFollowers(userScreenName, maxFollowersToRetrieve);
-        }
-
         // Favourites
 
         /// <summary>

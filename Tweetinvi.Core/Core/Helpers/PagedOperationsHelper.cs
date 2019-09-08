@@ -19,7 +19,7 @@ namespace Tweetinvi.Core.Helpers
             for (var i = 0; i < input.Length; i += maxItemsPerRequest)
             {
                 var pageItemsInput = input.Skip(i).Take(maxItemsPerRequest).ToArray();
-                var pageResults = await transform(pageItemsInput);
+                var pageResults = await transform(pageItemsInput).ConfigureAwait(false);
                 
                 if (pageResults == null)
                 {

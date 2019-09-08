@@ -17,13 +17,14 @@ namespace Tweetinvi.Controllers.User
     public interface IUserQueryExecutor
     {
         Task<ITwitterResult<IUserDTO>> GetAuthenticatedUser(IGetAuthenticatedUserParameters parameters, ITwitterRequest request);
+
         Task<ITwitterResult<IUserDTO>> GetUser(IGetUserParameters parameters, ITwitterRequest request);
+        Task<ITwitterResult<IUserDTO[]>> GetUsers(IGetUsersParameters parameters, ITwitterRequest request);
 
-        // Friend Ids
+
         Task<ITwitterResult<IIdsCursorQueryResultDTO>> GetFriendIds(IGetFriendIdsParameters parameters, ITwitterRequest request);
+        Task<ITwitterResult<IIdsCursorQueryResultDTO>> GetFollowerIds(IGetFollowerIdsParameters parameters, ITwitterRequest request);
 
-        // Followers Ids
-        Task<IEnumerable<long>> GetFollowerIds (IUserIdentifier user, int maxFollowersToRetrieve);
 
         // Favourites
         Task<IEnumerable<ITweetDTO>> GetFavoriteTweets (IGetUserFavoritesQueryParameters parameters);
@@ -43,7 +44,6 @@ namespace Tweetinvi.Controllers.User
 
         // Spam
         Task<bool> ReportUserForSpam (IUserIdentifier user);
-        Task<ITwitterResult<IUserDTO[]>> GetUsers(IGetUsersParameters parameters, ITwitterRequest request);
     }
 
     public class UserQueryExecutor : IUserQueryExecutor
@@ -109,7 +109,7 @@ namespace Tweetinvi.Controllers.User
         // Friend ids
         public Task<ITwitterResult<IIdsCursorQueryResultDTO>> GetFriendIds(IGetFriendIdsParameters parameters, ITwitterRequest request)
         {
-            var query = _userQueryGenerator.GetFriendIdsQuery(parameters.UserIdentifier, parameters.MaximumNumberOfResults);
+            var query = _userQueryGenerator.GetFriendIdsQuery(parameters);
 
             if (parameters.Cursor != null)
             {
@@ -122,11 +122,19 @@ namespace Tweetinvi.Controllers.User
             return _twitterAccessor.ExecuteRequest<IIdsCursorQueryResultDTO>(request);
         }
 
-        // Followers
-        public Task<IEnumerable<long>> GetFollowerIds (IUserIdentifier user, int maxFollowersToRetrieve)
+        public Task<ITwitterResult<IIdsCursorQueryResultDTO>> GetFollowerIds(IGetFollowerIdsParameters parameters, ITwitterRequest request)
         {
-            string query = _userQueryGenerator.GetFollowerIdsQuery (user, maxFollowersToRetrieve);
-            return _twitterAccessor.ExecuteCursorGETQuery<long, IIdsCursorQueryResultDTO> (query, maxFollowersToRetrieve);
+            var query = _userQueryGenerator.GetFollowerIdsQuery(parameters);
+
+            if (parameters.Cursor != null)
+            {
+                query = query.AddParameterToQuery("cursor", parameters.Cursor);
+            }
+
+            request.Query.Url = query;
+            request.Query.HttpMethod = HttpMethod.GET;
+
+            return _twitterAccessor.ExecuteRequest<IIdsCursorQueryResultDTO>(request);
         }
 
         // Favourites

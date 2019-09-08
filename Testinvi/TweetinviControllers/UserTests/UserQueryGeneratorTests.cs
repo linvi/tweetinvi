@@ -11,6 +11,7 @@ using Tweetinvi.Core.QueryGenerators;
 using Tweetinvi.Core.QueryValidators;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
+using Tweetinvi.Parameters;
 
 namespace Testinvi.TweetinviControllers.UserTests
 {
@@ -40,11 +41,16 @@ namespace Testinvi.TweetinviControllers.UserTests
             var maximumNumberOfFriends = TestHelper.GenerateRandomInt();
             var userIdParameter = UserQueryGeneratorHelper.GenerateParameterExpectedResult(userDTO);
 
+            var friendIdsParameter = new GetFriendIdsParameters(userDTO)
+            {
+                MaximumNumberOfResults = maximumNumberOfFriends
+            };
+
             // Act
-            var result = queryGenerator.GetFriendIdsQuery(userDTO, maximumNumberOfFriends);
+            var result = queryGenerator.GetFriendIdsQuery(friendIdsParameter);
 
             // Assert
-            var expectedResult = string.Format(Resources.User_GetFriends, userIdParameter, maximumNumberOfFriends);
+            var expectedResult = $"{Resources.User_GetFriends}{userIdParameter}&count={maximumNumberOfFriends}";
             Assert.AreEqual(result, expectedResult);
 
             _fakeUserQueryValidator.CallsTo(x => x.ThrowIfUserCannotBeIdentified(userDTO)).MustHaveHappened();
@@ -63,11 +69,16 @@ namespace Testinvi.TweetinviControllers.UserTests
             var maximumNumberOfFollowers = TestHelper.GenerateRandomInt();
             var userIdParameter = UserQueryGeneratorHelper.GenerateParameterExpectedResult(userDTO);
 
+            var followerIdsParameter = new GetFollowerIdsParameters(userDTO)
+            {
+                MaximumNumberOfResults = maximumNumberOfFollowers
+            };
+
             // Act
-            var result = queryGenerator.GetFollowerIdsQuery(userDTO, maximumNumberOfFollowers);
+            var result = queryGenerator.GetFollowerIdsQuery(followerIdsParameter);
 
             // Assert
-            var expectedResult = string.Format(Resources.User_GetFollowers, userIdParameter, maximumNumberOfFollowers);
+            var expectedResult = $"{Resources.User_GetFollowers}{userIdParameter}&count={maximumNumberOfFollowers}";
             Assert.AreEqual(result, expectedResult);
 
             _fakeUserQueryValidator.CallsTo(x => x.ThrowIfUserCannotBeIdentified(userDTO)).MustHaveHappened();

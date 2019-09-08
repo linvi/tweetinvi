@@ -4,6 +4,7 @@ using FakeItEasy;
 using FakeItEasy.ExtensionSyntax.Full;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Testinvi.Helpers;
+using Tweetinvi;
 using Tweetinvi.Core.Controllers;
 using Tweetinvi.Core.Credentials;
 using Tweetinvi.Core.Models;
@@ -11,7 +12,6 @@ using Tweetinvi.Core.Web;
 using Tweetinvi.Logic;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
-using Tweetinvi.Models.Interfaces;
 using Tweetinvi.Parameters;
 
 namespace Testinvi.TweetinviLogic
@@ -27,6 +27,8 @@ namespace Testinvi.TweetinviLogic
         private Fake<IMessageController> _fakeMessageController;
         private Fake<ITweetController> _fakeTweetController;
         private Fake<IAccountController> _fakeAccountController;
+        private Fake<ITwitterClient> _twitterClient;
+        private Fake<ITweetsClient> _tweetsClient;
 
         private IAuthenticatedUser _authenticatedUser;
         private ITwitterCredentials _authenticatedUserCredentials;
@@ -298,26 +300,16 @@ namespace Testinvi.TweetinviLogic
         #region PublishTweet
 
         [TestMethod]
-        public async Task PublishTweetText_CurrentCredentialsAreNotAuthenticatedUserCredentials_OperationPerformedWithAppropriateCredentials()
+        public async Task PublishTweetText_UsesTweetsClient()
         {
-            // CURRENTLY FAILING BUT WILL BE FIXED IN COMING RELEASES
-
             // Arrange
             var parameters = A.Fake<IPublishTweetParameters>();
-
-            ITwitterCredentials startOperationWithCredentials = null;
-            _fakeTweetController.CallsTo(x => x.PublishTweet(parameters, It.IsAny<ITwitterRequest>())).ReturnsLazily(() =>
-            {
-                startOperationWithCredentials = _fakeCredentialsAccessor.FakedObject.CurrentThreadCredentials;
-                return A.Fake<ITwitterResult<ITweetDTO, ITweet>>();
-            });
 
             // Act
             await _authenticatedUser.PublishTweet(parameters);
 
             // Assert
-            Assert.AreEqual(startOperationWithCredentials, _authenticatedUserCredentials);
-            Assert.AreEqual(_fakeCredentialsAccessor.FakedObject.CurrentThreadCredentials, _currentCredentials);
+            _tweetsClient.CallsTo(x => x.PublishTweet(parameters)).MustHaveHappened();
         }
 
         #endregion
@@ -353,6 +345,11 @@ namespace Testinvi.TweetinviLogic
         {
             _authenticatedUserCredentials = A.Fake<ITwitterCredentials>();
             _fakeCredentialsAccessor.CallsTo(x => x.CurrentThreadCredentials).Returns(_authenticatedUserCredentials);
+
+            _twitterClient = new Fake<ITwitterClient>();
+            _tweetsClient = new Fake<ITweetsClient>();
+            _twitterClient.CallsTo(x => x.Tweets).Returns(_tweetsClient.FakedObject);
+
             _authenticatedUser = CreateAuthenticatedUser();
 
             _currentCredentials = A.Fake<ITwitterCredentials>();
@@ -361,7 +358,11 @@ namespace Testinvi.TweetinviLogic
 
         private AuthenticatedUser CreateAuthenticatedUser()
         {
-            return _fakeBuilder.GenerateClass();
+            var authenticatedUser = _fakeBuilder.GenerateClass();
+
+            authenticatedUser.Client = _twitterClient.FakedObject;
+
+            return authenticatedUser;
         }
     }
 }

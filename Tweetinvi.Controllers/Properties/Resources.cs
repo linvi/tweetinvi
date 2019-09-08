@@ -540,14 +540,14 @@ namespace Tweetinvi.Controllers.Properties
         public static string User_GetFavourites = "https://api.twitter.com/1.1/favorites/list.json?";
 
         /// <summary>
-        ///   Looks up a localized string similar to https://api.twitter.com/1.1/followers/ids.json?{0}&amp;count={1}.
+        ///   Looks up a localized string similar to https://api.twitter.com/1.1/followers/ids.json?.
         /// </summary>
-        public static string User_GetFollowers = "https://api.twitter.com/1.1/followers/ids.json?{0}&count={1}";
+        public static string User_GetFollowers = "https://api.twitter.com/1.1/followers/ids.json?";
 
         /// <summary>
-        ///   Looks up a localized string similar to https://api.twitter.com/1.1/friends/ids.json?{0}&amp;count={1}.
+        ///   Looks up a localized string similar to https://api.twitter.com/1.1/friends/ids.json?.
         /// </summary>
-        public static string User_GetFriends = "https://api.twitter.com/1.1/friends/ids.json?{0}&count={1}";
+        public static string User_GetFriends = "https://api.twitter.com/1.1/friends/ids.json?";
 
         /// <summary>
         ///   Looks up a localized string similar to https://api.twitter.com/1.1/users/show.json?.

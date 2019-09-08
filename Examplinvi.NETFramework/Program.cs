@@ -155,7 +155,6 @@ namespace Examplinvi.NETFramework
 
             await Examples.User_GetFollowers(Examples.USER_SCREEN_NAME_TO_TEST);
             await Examples.User_GetFollowerIds(Examples.USER_SCREEN_NAME_TO_TEST);
-            await Examples.User_GetFollowerIdsUpTo(Examples.USER_SCREEN_NAME_TO_TEST, 10000);
 
             await Examples.User_GetRelationshipBetween("tweetinvitest", Examples.USER_SCREEN_NAME_TO_TEST);
 
@@ -622,20 +621,13 @@ namespace Examplinvi.NETFramework
             var user = await Client.Users.GetUser(username);
             var followerIds = await user.GetFollowerIds();
 
-            Console.WriteLine("{0} has {1} followers, here are some of them :", user.Name, user.FollowersCount);
-            foreach (var followerId in followerIds)
+            while (!followerIds.Completed)
             {
-                Console.WriteLine("- {0}", followerId);
+                await followerIds.MoveNext();
             }
-        }
-
-        public static async Task User_GetFollowerIdsUpTo(string username, int limit)
-        {
-            var user = await Client.Users.GetUser(username);
-            var followerIds = await user.GetFollowerIds(limit);
 
             Console.WriteLine("{0} has {1} followers, here are some of them :", user.Name, user.FollowersCount);
-            foreach (var followerId in followerIds)
+            foreach (var followerId in followerIds.Items)
             {
                 Console.WriteLine("- {0}", followerId);
             }
@@ -646,8 +638,8 @@ namespace Examplinvi.NETFramework
             var user = await Client.Users.GetUser(username);
             var followers = await user.GetFollowers();
 
-            Console.WriteLine("{0} has {1} followers, here are some of them :", user.Name, user.FollowersCount);
-            foreach (var follower in followers)
+            Console.WriteLine("{0} has {1} followers, here are some of them :", user.Name, user.FriendsCount);
+            foreach (var follower in followers.Items)
             {
                 Console.WriteLine("- {0}", follower.Name);
             }
@@ -1483,8 +1475,11 @@ namespace Examplinvi.NETFramework
         public static async Task Json_GetJsonForUserRequestExample()
         {
             var authenticatedUser = await Client.Users.GetAuthenticatedUser();
-            var jsonResponse = await UserJson.GetFriendIds(authenticatedUser);
-            Console.WriteLine(jsonResponse.ElementAt(0));
+            var twitterResult = Client.RequestExecutor.Users.GetFollowerIds(new GetFollowerIdsParameters(authenticatedUser));
+
+            await twitterResult.MoveNext();
+
+            Console.WriteLine(twitterResult.TwitterResults[0].Json);
         }
 
         public static async Task Json_GetJsonCursorRequestExample()

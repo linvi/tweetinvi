@@ -12,9 +12,10 @@ namespace Tweetinvi.Core.QueryGenerators
         string GetUsersQuery(IGetUsersParameters parameters, TweetMode? tweetMode);
 
 
-        string GetFriendIdsQuery (IUserIdentifier user, int maxFriendsToRetrieve);
+        string GetFriendIdsQuery(IGetFriendIdsParameters parameters);
 
-        string GetFollowerIdsQuery (IUserIdentifier user, int maxFollowersToRetrieve);
+        string GetFollowerIdsQuery (IGetFollowerIdsParameters parameters);
+
 
         string GetFavoriteTweetsQuery (IGetUserFavoritesQueryParameters parameters);
 

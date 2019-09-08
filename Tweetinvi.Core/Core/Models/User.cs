@@ -327,14 +327,14 @@ namespace Tweetinvi.Logic
         }
 
         // Followers
-        public virtual Task<IEnumerable<long>> GetFollowerIds(int maxFriendsToRetrieve = 5000)
+        public virtual Task<ICursorResult<long>> GetFollowerIds()
         {
-            return _userController.GetFollowerIds(_userDTO, maxFriendsToRetrieve);
+            return Client?.Users.GetFollowerIds(new GetFollowerIdsParameters(this));
         }
 
-        public virtual Task<IEnumerable<IUser>> GetFollowers(int maxFriendsToRetrieve = 250)
+        public virtual Task<ICursorResult<IUser>> GetFollowers()
         {
-            return _userController.GetFollowers(_userDTO, maxFriendsToRetrieve);
+            return Client?.Users.GetFollowers(new GetFollowersParameters(this));
         }
 
         // Relationship

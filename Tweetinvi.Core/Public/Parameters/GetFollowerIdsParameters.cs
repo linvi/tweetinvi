@@ -7,7 +7,7 @@ namespace Tweetinvi.Parameters
     /// <summary>
     /// Parameters to get a user's list of friends
     /// </summary>
-    public interface IGetFriendIdsParameters : ICursorQueryParameters
+    public interface IGetFollowerIdsParameters : ICursorQueryParameters
     {
         /// <summary>
         /// A unique identifier of a user
@@ -15,29 +15,29 @@ namespace Tweetinvi.Parameters
         IUserIdentifier UserIdentifier { get; }
     }
 
-    public class GetFriendIdsParameters : CursorQueryParameters, IGetFriendIdsParameters
+    public class GetFollowerIdsParameters : CursorQueryParameters, IGetFollowerIdsParameters
     {
-        private GetFriendIdsParameters()
+        private GetFollowerIdsParameters()
         {
             MaximumNumberOfResults = 5000;
         }
 
-        public GetFriendIdsParameters(IUserIdentifier userIdentifier) : this()
+        public GetFollowerIdsParameters(IUserIdentifier userIdentifier) : this()
         {
             UserIdentifier = userIdentifier;
         }
 
-        public GetFriendIdsParameters(string username) : this()
+        public GetFollowerIdsParameters(string username) : this()
         {
             UserIdentifier = new UserIdentifier(username);
         }
 
-        public GetFriendIdsParameters(long userId) : this()
+        public GetFollowerIdsParameters(long userId) : this()
         {
             UserIdentifier = new UserIdentifier(userId);
         }
         
-        public GetFriendIdsParameters(IGetFriendIdsParameters parameters) : base(parameters)
+        public GetFollowerIdsParameters(IGetFollowerIdsParameters parameters) : base(parameters)
         {
             if (parameters == null)
             {

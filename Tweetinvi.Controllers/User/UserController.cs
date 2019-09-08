@@ -72,39 +72,21 @@ namespace Tweetinvi.Controllers.User
             return twitterCursorResult;
         }
 
-        // Follower Ids
-        public Task<IEnumerable<long>> GetFollowerIds(IUserIdentifier user, int maxFollowersToRetrieve = 5000)
+        public TwitterCursorResult<long, IIdsCursorQueryResultDTO> GetFollowerIds(IGetFollowerIdsParameters parameters, ITwitterRequest request)
         {
-            return _userQueryExecutor.GetFollowerIds(user, maxFollowersToRetrieve);
-        }
+            var twitterCursorResult = new TwitterCursorResult<long, IIdsCursorQueryResultDTO>(async cursor =>
+            {
+                var cursoredParameters = new GetFollowerIdsParameters(parameters)
+                {
+                    Cursor = cursor
+                };
 
-        public Task<IEnumerable<long>> GetFollowerIds(long userId, int maxFollowersToRetrieve = 5000)
-        {
-            return _userQueryExecutor.GetFollowerIds(new UserIdentifier(userId), maxFollowersToRetrieve);
-        }
+                return await _userQueryExecutor.GetFollowerIds(cursoredParameters, new TwitterRequest(request));
+            });
 
-        public Task<IEnumerable<long>> GetFollowerIds(string userScreenName, int maxFollowersToRetrieve = 5000)
-        {
-            return _userQueryExecutor.GetFollowerIds(new UserIdentifier(userScreenName), maxFollowersToRetrieve);
-        }
+            twitterCursorResult.NextCursor = parameters.Cursor;
 
-        // Followers
-        public async Task<IEnumerable<IUser>> GetFollowers(IUserIdentifier user, int maxFollowersToRetrieve = 250)
-        {
-            var followerIds = await GetFollowerIds(user, maxFollowersToRetrieve);
-            return await _userFactory.GetUsersFromIds(followerIds);
-        }
-
-        public async Task<IEnumerable<IUser>> GetFollowers(long userId, int maxFollowersToRetrieve = 250)
-        {
-            var followerIds = await GetFollowerIds(userId, maxFollowersToRetrieve);
-            return await _userFactory.GetUsersFromIds(followerIds);
-        }
-
-        public async Task<IEnumerable<IUser>> GetFollowers(string userScreenName, int maxFollowersToRetrieve = 250)
-        {
-            var followerIds = await GetFollowerIds(userScreenName, maxFollowersToRetrieve);
-            return await _userFactory.GetUsersFromIds(followerIds);
+            return twitterCursorResult;
         }
 
         // Favourites

@@ -12,16 +12,6 @@ namespace Tweetinvi.Controllers.User
 {
     public interface IUserJsonController
     {
-        // Friends
-        Task<IEnumerable<string>> GetFriendIds(IUserIdentifier user, int maxFriendsToRetrieve = 5000);
-        Task<IEnumerable<string>> GetFriendIds(long userId, int maxFriendsToRetrieve = 5000);
-        Task<IEnumerable<string>> GetFriendIds(string userScreenName, int maxFriendsToRetrieve = 5000);
-
-        // Followers
-        Task<IEnumerable<string>> GetFollowerIds(IUserIdentifier user, int maxFollowersToRetrieve = 5000);
-        Task<IEnumerable<string>> GetFollowerIds(long userId, int maxFollowersToRetrieve = 5000);
-        Task<IEnumerable<string>> GetFollowerIds(string userScreenName, int maxFollowersToRetrieve = 5000);
-
         // Favorites
         Task<string> GetFavoriteTweets(IGetUserFavoritesQueryParameters parameters);
         Task<string> GetFavoriteTweets(IUserIdentifier user, IGetUserFavoritesParameters parameters);
@@ -43,44 +33,6 @@ namespace Tweetinvi.Controllers.User
         {
             _userQueryGenerator = userQueryGenerator;
             _twitterAccessor = twitterAccessor;
-        }
-
-        // Friend ids
-        public Task<IEnumerable<string>> GetFriendIds(IUserIdentifier user, int maxFriendsToRetrieve = 5000)
-        {
-            string query = _userQueryGenerator.GetFriendIdsQuery(user, maxFriendsToRetrieve);
-            return _twitterAccessor.ExecuteJsonCursorGETQuery<IIdsCursorQueryResultDTO>(query);
-        }
-
-        public Task<IEnumerable<string>> GetFriendIds(long userId, int maxFriendsToRetrieve = 5000)
-        {
-            string query = _userQueryGenerator.GetFriendIdsQuery(new UserIdentifier(userId), maxFriendsToRetrieve);
-            return _twitterAccessor.ExecuteJsonCursorGETQuery<IIdsCursorQueryResultDTO>(query);
-        }
-
-        public Task<IEnumerable<string>> GetFriendIds(string userScreenName, int maxFriendsToRetrieve = 5000)
-        {
-            string query = _userQueryGenerator.GetFriendIdsQuery(new UserIdentifier(userScreenName), maxFriendsToRetrieve);
-            return _twitterAccessor.ExecuteJsonCursorGETQuery<IIdsCursorQueryResultDTO>(query);
-        }
-
-        // Followers
-        public Task<IEnumerable<string>> GetFollowerIds(IUserIdentifier user, int maxFollowersToRetrieve = 5000)
-        {
-            string query = _userQueryGenerator.GetFollowerIdsQuery(user, maxFollowersToRetrieve);
-            return _twitterAccessor.ExecuteJsonCursorGETQuery<IIdsCursorQueryResultDTO>(query);
-        }
-
-        public Task<IEnumerable<string>> GetFollowerIds(long userId, int maxFollowersToRetrieve = 5000)
-        {
-            string query = _userQueryGenerator.GetFollowerIdsQuery(new UserIdentifier(userId), maxFollowersToRetrieve);
-            return _twitterAccessor.ExecuteJsonCursorGETQuery<IIdsCursorQueryResultDTO>(query);
-        }
-
-        public Task<IEnumerable<string>> GetFollowerIds(string userScreenName, int maxFollowersToRetrieve = 5000)
-        {
-            string query = _userQueryGenerator.GetFollowerIdsQuery(new UserIdentifier(userScreenName), maxFollowersToRetrieve);
-            return _twitterAccessor.ExecuteJsonCursorGETQuery<IIdsCursorQueryResultDTO>(query);
         }
 
         // Favourites

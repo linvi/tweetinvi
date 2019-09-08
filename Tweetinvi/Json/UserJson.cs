@@ -35,38 +35,6 @@ namespace Tweetinvi.Json
             _userJsonController = TweetinviContainer.Resolve<IUserJsonController>();
         }
 
-        // Friends
-        public static Task<IEnumerable<string>> GetFriendIds(IUserIdentifier user, int maxFriendsToRetrieve = 5000)
-        {
-            return UserJsonController.GetFriendIds(user, maxFriendsToRetrieve);
-        }
-
-        public static Task<IEnumerable<string>> GetFriendIds(long userId, int maxFriendsToRetrieve = 5000)
-        {
-            return UserJsonController.GetFriendIds(userId, maxFriendsToRetrieve);
-        }
-
-        public static Task<IEnumerable<string>> GetFriendIds(string userScreenName, int maxFriendsToRetrieve = 5000)
-        {
-            return UserJsonController.GetFriendIds(userScreenName, maxFriendsToRetrieve);
-        }
-
-        // Followers
-        public static Task<IEnumerable<string>> GetFollowerIds(IUserIdentifier user, int maxFollowersToRetrieve = 5000)
-        {
-            return UserJsonController.GetFollowerIds(user, maxFollowersToRetrieve);
-        }
-
-        public static Task<IEnumerable<string>> GetFollowerIds(long userId, int maxFollowersToRetrieve = 5000)
-        {
-            return UserJsonController.GetFollowerIds(userId, maxFollowersToRetrieve);
-        }
-
-        public static Task<IEnumerable<string>> GetFollowerIds(string userScreenName, int maxFollowersToRetrieve = 5000)
-        {
-            return UserJsonController.GetFollowerIds(userScreenName, maxFollowersToRetrieve);
-        }
-
         // Favorites
         
         public static Task<string> GetFavoriteTweets(IUserIdentifier user, IGetUserFavoritesParameters parameters = null)

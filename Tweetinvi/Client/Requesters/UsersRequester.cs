@@ -43,6 +43,12 @@ namespace Tweetinvi.Client.Requesters
         /// </summary>
         /// <returns>TwitterCursorResult to iterate over all the user's friends</returns>
         ITwitterCursorResult<long, IIdsCursorQueryResultDTO> GetFriendIds(IGetFriendIdsParameters parameters);
+
+        /// <summary>
+        /// Get friend ids from a specific user
+        /// </summary>
+        /// <returns>TwitterCursorResult to iterate over all the user's friends</returns>
+        ITwitterCursorResult<long, IIdsCursorQueryResultDTO> GetFollowerIds(IGetFollowerIdsParameters parameters);
     }
 
     public class UsersRequester : BaseRequester, IInternalUsersRequester
@@ -96,6 +102,15 @@ namespace Tweetinvi.Client.Requesters
             request.ExecutionContext.Converters = JsonQueryConverterRepository.Converters;
 
             return _userController.GetFriendIds(parameters, request);
+        }
+
+        public ITwitterCursorResult<long, IIdsCursorQueryResultDTO> GetFollowerIds(IGetFollowerIdsParameters parameters)
+        {
+            var request = _twitterClient.CreateRequest();
+
+            request.ExecutionContext.Converters = JsonQueryConverterRepository.Converters;
+
+            return _userController.GetFollowerIds(parameters, request);
         }
     }
 }
