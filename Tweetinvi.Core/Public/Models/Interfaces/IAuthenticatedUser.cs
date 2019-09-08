@@ -217,7 +217,7 @@ namespace Tweetinvi.Models
         /// <summary>
         /// Unblock a specific user.
         /// </summary>
-        Task<bool> UnBlockUser(string userName);
+        Task<bool> UnBlockUser(string username);
 
         /// <summary>
         /// Get the ids of the user you blocked.

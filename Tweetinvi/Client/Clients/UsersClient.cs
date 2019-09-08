@@ -191,7 +191,7 @@ namespace Tweetinvi.Client
 
         #endregion
 
-        #region BlockUsers
+        #region Block / Unblock
 
         public Task<bool> BlockUser(long? userId)
         {
@@ -212,7 +212,28 @@ namespace Tweetinvi.Client
         {
             var requestResult = await _usersRequester.BlockUser(parameters).ConfigureAwait(false);
             return requestResult?.DataTransferObject != null;
-        } 
+        }
+
+        public Task<bool> UnblockUser(long? userId)
+        {
+            return UnblockUser(new UnblockUserParameters(userId));
+        }
+
+        public Task<bool> UnblockUser(string username)
+        {
+            return UnblockUser(new UnblockUserParameters(username));
+        }
+
+        public Task<bool> UnblockUser(IUserIdentifier user)
+        {
+            return UnblockUser(new UnblockUserParameters(user));
+        }
+
+        public async Task<bool> UnblockUser(IUnblockUserParameters parameters)
+        {
+            var requestResult = await _usersRequester.UnblockUser(parameters).ConfigureAwait(false);
+            return requestResult?.DataTransferObject != null;
+        }
 
         #endregion
     }

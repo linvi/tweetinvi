@@ -7,31 +7,31 @@ namespace Tweetinvi.Core.QueryGenerators
 {
     public interface IUserQueryGenerator
     {
-        string GetAuthenticatedUserQuery (IGetAuthenticatedUserParameters parameters);
+        string GetAuthenticatedUserQuery(IGetAuthenticatedUserParameters parameters);
         string GetUserQuery(IGetUserParameters parameters);
         string GetUsersQuery(IGetUsersParameters parameters, TweetMode? tweetMode);
 
 
         string GetFriendIdsQuery(IGetFriendIdsParameters parameters);
 
-        string GetFollowerIdsQuery (IGetFollowerIdsParameters parameters);
+        string GetFollowerIdsQuery(IGetFollowerIdsParameters parameters);
 
 
-        string GetFavoriteTweetsQuery (IGetUserFavoritesQueryParameters parameters);
+        string GetFavoriteTweetsQuery(IGetUserFavoritesQueryParameters parameters);
 
         // Block User
-        string GetBlockUserQuery (IBlockUserParameters parameters);
+        string GetBlockUserQuery(IBlockUserParameters parameters);
+        string GetUnblockUserQuery(IUnblockUserParameters parameters);
 
-        string GetUnBlockUserQuery (IUserIdentifier user);
 
-        string GetBlockedUserIdsQuery ();
-        string GetBlockedUsersQuery ();
+        string GetBlockedUserIdsQuery();
+        string GetBlockedUsersQuery();
 
         // Download Profile Image
-        string DownloadProfileImageURL (IUserDTO userDTO, ImageSize size = ImageSize.normal);
-        string DownloadProfileImageInHttpURL (IUserDTO userDTO, ImageSize size = ImageSize.normal);
+        string DownloadProfileImageURL(IUserDTO userDTO, ImageSize size = ImageSize.normal);
+        string DownloadProfileImageInHttpURL(IUserDTO userDTO, ImageSize size = ImageSize.normal);
 
         // Spam
-        string GetReportUserForSpamQuery (IUserIdentifier user);
+        string GetReportUserForSpamQuery(IUserIdentifier user);
     }
 }

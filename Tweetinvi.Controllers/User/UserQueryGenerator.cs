@@ -132,15 +132,18 @@ namespace Tweetinvi.Controllers.User
             return query.ToString();
         }
 
-        // Block User
-
-        // Unblock
-        public string GetUnBlockUserQuery(IUserIdentifier user)
+        public string GetUnblockUserQuery(IUnblockUserParameters parameters)
         {
-            _userQueryValidator.ThrowIfUserCannotBeIdentified(user);
+            _userQueryValidator.ThrowIfUserCannotBeIdentified(parameters.UserIdentifier);
 
-            string userParameter = _userQueryParameterGenerator.GenerateIdOrScreenNameParameter(user);
-            return string.Format(Resources.User_Block_Destroy, userParameter);
+            var query = new StringBuilder(Resources.User_Block_Destroy);
+
+            query.AddFormattedParameterToQuery(_userQueryParameterGenerator.GenerateIdOrScreenNameParameter(parameters.UserIdentifier));
+            query.AddParameterToQuery("include_entities", parameters.IncludeEntities);
+            query.AddParameterToQuery("skip_status", parameters.SkipStatus);
+            query.Append(_queryParameterGenerator.GenerateAdditionalRequestParameters(parameters.FormattedCustomQueryParameters));
+
+            return query.ToString();
         }
 
         // Get Blocked Users

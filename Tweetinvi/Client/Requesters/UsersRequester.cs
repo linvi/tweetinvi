@@ -53,8 +53,14 @@ namespace Tweetinvi.Client.Requesters
         /// <summary>
         /// Block a user
         /// </summary>
-        /// <returns>TwitterResult containing the blocked user and whether it succeeded</returns>
+        /// <returns>TwitterResult containing the blocked user</returns>
         Task<ITwitterResult<IUserDTO>> BlockUser(IBlockUserParameters parameters);
+
+        /// <summary>
+        /// Unblock a user
+        /// </summary>
+        /// <returns>TwitterResult containing the unblocked user</returns>
+        Task<ITwitterResult<IUserDTO>> UnblockUser(IUnblockUserParameters parameters);
     }
 
     public class UsersRequester : BaseRequester, IInternalUsersRequester
@@ -123,6 +129,12 @@ namespace Tweetinvi.Client.Requesters
         {
             var request = _twitterClient.CreateRequest();
             return ExecuteRequest(() => _userController.BlockUser(parameters, request), request);
+        }
+
+        public Task<ITwitterResult<IUserDTO>> UnblockUser(IUnblockUserParameters parameters)
+        {
+            var request = _twitterClient.CreateRequest();
+            return ExecuteRequest(() => _userController.UnblockUser(parameters, request), request);
         }
     }
 }

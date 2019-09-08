@@ -216,17 +216,17 @@ namespace Tweetinvi.Logic
 
         public Task<bool> UnBlockUser(IUserIdentifier user)
         {
-            return ExecuteAuthenticatedUserOperation(() => _userController.UnBlockUser(user));
+            return Client.Users.UnblockUser(user);
         }
 
         public Task<bool> UnBlockUser(long userId)
         {
-            return ExecuteAuthenticatedUserOperation(() => _userController.UnBlockUser(userId));
+            return Client.Users.UnblockUser(userId);
         }
 
-        public Task<bool> UnBlockUser(string userName)
+        public Task<bool> UnBlockUser(string username)
         {
-            return ExecuteAuthenticatedUserOperation(() => _userController.UnBlockUser(userName));
+            return Client.Users.UnblockUser(username);
         }
 
         // Get Blocked Users

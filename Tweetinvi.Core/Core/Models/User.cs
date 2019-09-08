@@ -48,7 +48,7 @@ namespace Tweetinvi.Logic
         public long? Id
         {
             get { return _userDTO?.Id; }
-            set { throw new InvalidOperationException("Cannot set the Id of a user");}
+            set { throw new InvalidOperationException("Cannot set the Id of a user"); }
         }
 
         public string IdStr
@@ -353,11 +353,11 @@ namespace Tweetinvi.Logic
         {
             return _timelineController.GetUserTimeline(this, timelineParameters);
         }
-        
+
         // Favorites
         public virtual Task<IEnumerable<ITweet>> GetFavorites(int maximumNumberOfTweets = 40)
         {
-            return _userController.GetFavoriteTweets(this, new GetUserFavoritesParameters { MaximumNumberOfTweetsToRetrieve =  maximumNumberOfTweets});
+            return _userController.GetFavoriteTweets(this, new GetUserFavoritesParameters { MaximumNumberOfTweetsToRetrieve = maximumNumberOfTweets });
         }
 
         public Task<IEnumerable<ITweet>> GetFavorites(IGetUserFavoritesParameters parameters)
@@ -384,7 +384,7 @@ namespace Tweetinvi.Logic
 
         public virtual Task<bool> UnBlockUser()
         {
-            return _userController.UnBlockUser(_userDTO);
+            return Client.Users.UnblockUser(this);
         }
 
         // Spam

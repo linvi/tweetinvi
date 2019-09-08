@@ -8,6 +8,8 @@ namespace Tweetinvi
 {
     public interface IUsersClient
     {
+        #region GetAuthenticatedUser
+
         /// <summary>
         /// Get the authenticated user based on the TwitterClient's credentials
         /// </summary>
@@ -19,6 +21,10 @@ namespace Tweetinvi
         /// </summary>
         /// <returns>The client's authenticated user</returns>
         Task<IAuthenticatedUser> GetAuthenticatedUser(IGetAuthenticatedUserParameters parameters);
+
+        #endregion
+
+        #region Get User
 
         /// <summary>
         /// Get a user
@@ -45,7 +51,9 @@ namespace Tweetinvi
         /// </summary>
         Task<IUser> GetUser(IGetUserParameters parameters);
 
-        // GET_USERS
+        #endregion
+
+        #region GetUsers
 
         /// <summary>
         /// Get multiple users
@@ -67,7 +75,9 @@ namespace Tweetinvi
         /// </summary>
         Task<IUser[]> GetUsers(IGetUsersParameters parameters);
 
-        // FRIENDS
+        #endregion
+
+        #region GetFriendIds / Friends
 
         /// <summary>
         /// Get friend ids from a specific user
@@ -99,7 +109,9 @@ namespace Tweetinvi
         /// <returns>A CursorResult to iterate over all the user's friends</returns>
         Task<ICursorResult<IUser>> GetFriends(IGetFriendsParameters parameters);
 
-        // FOLLOWERS
+        #endregion
+
+        #region GetFollowerIds / Followers
 
         /// <summary>
         /// Get followers ids from a specific user
@@ -131,6 +143,10 @@ namespace Tweetinvi
         /// <returns>A CursorResult to iterate over all the user's followers</returns>
         Task<ICursorResult<IUser>> GetFollowers(IGetFollowersParameters parameters);
 
+        #endregion
+
+        #region Block / Unblock
+
         /// <summary>
         /// Block a user from the clients' user account
         /// </summary>
@@ -149,6 +165,28 @@ namespace Tweetinvi
         /// <summary>
         /// Block a user from the clients' user account
         /// </summary>
-        Task<bool> BlockUser(IBlockUserParameters parameters);
+        Task<bool> BlockUser(IBlockUserParameters parameters); 
+
+        /// <summary>
+        /// Unblock a user from the clients' user account
+        /// </summary>
+        Task<bool> UnblockUser(long? userId);
+
+        /// <summary>
+        /// Unblock a user from the clients' user account
+        /// </summary>
+        Task<bool> UnblockUser(string username);
+
+        /// <summary>
+        /// Unblock a user from the clients' user account
+        /// </summary>
+        Task<bool> UnblockUser(IUserIdentifier user);
+
+        /// <summary>
+        /// Unblock a user from the clients' user account
+        /// </summary>
+        Task<bool> UnblockUser(IUnblockUserParameters parameters); 
+
+        #endregion
     }
 }

@@ -131,32 +131,6 @@ namespace Tweetinvi
             return UserController.GetFavoriteTweets(new UserIdentifier(userScreenName), parameters);
         }
 
-        // Un BlockUser User
-
-        /// <summary>
-        /// Unblock a user on the authenticated account.
-        /// </summary>
-        public static Task<bool> UnBlockUser(IUserIdentifier user)
-        {
-            return UserController.UnBlockUser(user);
-        }
-
-        /// <summary>
-        /// Unblock a user on the authenticated account.
-        /// </summary>
-        public static Task<bool> UnBlockUser(long userId)
-        {
-            return UserController.UnBlockUser(userId);
-        }
-
-        /// <summary>
-        /// Unblock a user on the authenticated account.
-        /// </summary>
-        public static Task<bool> UnBlockUser(string userScreenName)
-        {
-            return UserController.UnBlockUser(userScreenName);
-        }
-
         // Stream Profile Image 
 
         /// <summary>

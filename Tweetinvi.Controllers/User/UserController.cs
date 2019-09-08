@@ -95,6 +95,11 @@ namespace Tweetinvi.Controllers.User
             return _userQueryExecutor.BlockUser(parameters, request);
         }
 
+        public Task<ITwitterResult<IUserDTO>> UnblockUser(IUnblockUserParameters parameters, ITwitterRequest request)
+        {
+            return _userQueryExecutor.UnblockUser(parameters, request);
+        }
+
         // Favourites
         public Task<IEnumerable<ITweet>> GetFavoriteTweets(IUserIdentifier user, IGetUserFavoritesParameters parameters)
         {
@@ -106,22 +111,6 @@ namespace Tweetinvi.Controllers.User
         {
             var tweetDTOs = await _userQueryExecutor.GetFavoriteTweets(parameters);
             return _tweetFactory.GenerateTweetsFromDTO(tweetDTOs, null, null);
-        }
-
-        // UnBlock user
-        public Task<bool> UnBlockUser(IUserIdentifier user)
-        {
-            return _userQueryExecutor.UnBlockUser(user);
-        }
-
-        public Task<bool> UnBlockUser(long userId)
-        {
-            return _userQueryExecutor.UnBlockUser(new UserIdentifier(userId));
-        }
-
-        public Task<bool> UnBlockUser(string userScreenName)
-        {
-            return _userQueryExecutor.UnBlockUser(new UserIdentifier(userScreenName));
         }
 
         public Task<IEnumerable<long>> GetBlockedUserIds(int maxUserIds)

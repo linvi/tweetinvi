@@ -50,6 +50,28 @@ namespace xUnitinvi.TweetinviControllers.UserTests
             _fakeUserQueryValidator.CallsTo(x => x.ThrowIfUserCannotBeIdentified(userDTO)).MustHaveHappened();
         }
 
+        [Fact]
+        public void GetUnblockUserQuery_WithValidUserDTO_ReturnsExpectedQuery()
+        {
+            // Arrange
+            var queryGenerator = CreateUserQueryGenerator();
+            var userDTO = GenerateUserDTO(true);
+
+            var parameters = new UnblockUserParameters(userDTO)
+            {
+                SkipStatus = true,
+                IncludeEntities = true
+            };
+
+            // Act
+            var result = queryGenerator.GetUnblockUserQuery(parameters);
+
+            // Assert
+            Assert.Equal(result, $"https://api.twitter.com/1.1/blocks/destroy.json?user_id=42&include_entities=true&skip_status=true");
+
+            _fakeUserQueryValidator.CallsTo(x => x.ThrowIfUserCannotBeIdentified(userDTO)).MustHaveHappened();
+        }
+
         private IUserDTO GenerateUserDTO(bool isValid)
         {
             var userDTO = A.Fake<IUserDTO>();

@@ -50,5 +50,25 @@ namespace xUnitinvi.TweetinviControllers.UserTests
             // Assert
             Assert.Equal(result, expectedResult);
         }
+
+        [Fact]
+        public async Task UnblockUser_ReturnsUserExecutorResult()
+        {
+            // Arrange
+            var controller = CreateUserController();
+            var userDTO = A.Fake<IUserDTO>();
+
+            var parameters = new UnblockUserParameters(userDTO);
+            var request = A.Fake<ITwitterRequest>();
+            var expectedResult = A.Fake<ITwitterResult<IUserDTO>>();
+
+            _fakeUserQueryExecutor.CallsTo(x => x.UnblockUser(parameters, request)).Returns(expectedResult);
+
+            // Act
+            var result = await controller.UnblockUser(parameters, request);
+
+            // Assert
+            Assert.Equal(result, expectedResult);
+        }
     }
 }

@@ -36,8 +36,10 @@ namespace xUnitinvi.IntegrationTests
             var friends = await client.Users.GetUsers(friendIdsIterator.Items);
             var tweetinviFriends = (await tweetinviUser.GetFriends()).Items;
             var followers = (await authenticatedUser.GetFollowers()).Items;
-            
-            // todo block + unblock user
+
+            var user = await client.Users.GetUser("artwolkt");
+            var blockSuccess = await user.BlockUser();
+            var unblockSuccess = await user.UnBlockUser();
 
             // assert
             Assert.Equal(tweetinviUser.Id, 1577389800);
@@ -46,6 +48,8 @@ namespace xUnitinvi.IntegrationTests
             Assert.Contains(friends, (item) => { return item.ScreenName == "tweetinvitest"; });
             Assert.Contains(followers, (item) => { return item.ScreenName == "tweetinvitest"; });
             Assert.Equal(friends.Select(x => x.ToString()), tweetinviFriends.Select(x => x.ToString()));
+            Assert.True(blockSuccess);
+            Assert.True(unblockSuccess);
         }
     }
 }

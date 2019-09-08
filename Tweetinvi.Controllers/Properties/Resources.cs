@@ -520,9 +520,9 @@ namespace Tweetinvi.Controllers.Properties
         public static string User_Block_Create = "https://api.twitter.com/1.1/blocks/create.json?";
 
         /// <summary>
-        ///   Looks up a localized string similar to https://api.twitter.com/1.1/blocks/destroy.json?{0}.
+        ///   Looks up a localized string similar to https://api.twitter.com/1.1/blocks/destroy.json?.
         /// </summary>
-        public static string User_Block_Destroy = "https://api.twitter.com/1.1/blocks/destroy.json?{0}";
+        public static string User_Block_Destroy = "https://api.twitter.com/1.1/blocks/destroy.json?";
 
         /// <summary>
         ///   Looks up a localized string similar to https://api.twitter.com/1.1/blocks/list.json?.
