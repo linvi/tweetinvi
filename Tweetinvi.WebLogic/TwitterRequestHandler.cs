@@ -42,7 +42,7 @@ namespace Tweetinvi.WebLogic
 
         public async Task<ITwitterResponse> ExecuteQuery(ITwitterRequest request)
         {         
-            await PrepareTwitterRequest(request);
+            await PrepareTwitterRequest(request).ConfigureAwait(false);
 
             var beforeQueryExecuteEventArgs = new QueryBeforeExecuteEventArgs(request.Query);
             _tweetinviEvents.RaiseBeforeQueryExecute(beforeQueryExecuteEventArgs);
@@ -52,7 +52,7 @@ namespace Tweetinvi.WebLogic
                 throw new OperationCanceledException("Operation was cancelled intentionally.");
             }
 
-            await WaitBeforeExecutingQuery(request);
+            await WaitBeforeExecutingQuery(request).ConfigureAwait(false);
 
             _tweetinviEvents.RaiseBeforeExecuteAfterRateLimitAwait(beforeQueryExecuteEventArgs);
 
@@ -64,11 +64,11 @@ namespace Tweetinvi.WebLogic
 
                 if (multiPartRequest == null || multiPartRequest.Binaries.IsNullOrEmpty())
                 {
-                    twitterResponse = await _webRequestExecutor.ExecuteQuery(request, request.TwitterClientHandler);
+                    twitterResponse = await _webRequestExecutor.ExecuteQuery(request, request.TwitterClientHandler).ConfigureAwait(false);
                 }
                 else
                 {
-                    twitterResponse = await _webRequestExecutor.ExecuteMultipartQuery(request, multiPartRequest.ContentId, multiPartRequest.Binaries);
+                    twitterResponse = await _webRequestExecutor.ExecuteMultipartQuery(request, multiPartRequest.ContentId, multiPartRequest.Binaries).ConfigureAwait(false);
                 }
 
                 QueryCompleted(request, twitterResponse, request.ExecutionContext.RateLimitTrackerMode);
@@ -94,14 +94,14 @@ namespace Tweetinvi.WebLogic
                 rateLimitTrackerMode == RateLimitTrackerMode.TrackAndAwait)
             {
                 // Use the RateLimitCacheManager instead of RateLimitHelper to get the queryRateLimits to ensure the cache is up to date!
-                var credentialRateLimits = await _rateLimitCacheManager.GetCredentialsRateLimits(twitterQuery.TwitterCredentials);
+                var credentialRateLimits = await _rateLimitCacheManager.GetCredentialsRateLimits(twitterQuery.TwitterCredentials).ConfigureAwait(false);
 
                 IEndpointRateLimit queryRateLimit = null;
 
                 // If we were not able to retrieve the credentials few ms before there is no reason why it would work now.
                 if (credentialRateLimits != null)
                 {
-                    queryRateLimit = await _rateLimitCacheManager.GetQueryRateLimit(twitterQuery.Url, twitterQuery.TwitterCredentials);
+                    queryRateLimit = await _rateLimitCacheManager.GetQueryRateLimit(twitterQuery.Url, twitterQuery.TwitterCredentials).ConfigureAwait(false);
                 }
 
                 var timeToWait = _rateLimitAwaiter.GetTimeToWaitFromQueryRateLimit(queryRateLimit);
@@ -128,7 +128,7 @@ namespace Tweetinvi.WebLogic
 
             var timeToWait = (int)twitterQuery.DateWhenCredentialsWillHaveTheRequiredRateLimits?.Subtract(DateTime.UtcNow).TotalMilliseconds;
 
-            await Task.Delay(timeToWait);
+            await Task.Delay(timeToWait).ConfigureAwait(false);
         }
 
         #region Helper Methods

@@ -19,7 +19,6 @@ using Tweetinvi.Credentials.QueryJsonConverters;
 using Tweetinvi.Exceptions;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO.QueryDTO;
-using Tweetinvi.Models.Interfaces;
 using Tweetinvi.WebLogic;
 using HttpMethod = Tweetinvi.Models.HttpMethod;
 
@@ -538,13 +537,13 @@ namespace Tweetinvi.Credentials
 
         public async Task<ITwitterResult> ExecuteRequest(ITwitterRequest request)
         {
-            var response = await _twitterRequestHandler.ExecuteQuery(request);
+            var response = await _twitterRequestHandler.ExecuteQuery(request).ConfigureAwait(false);
             return _twitterResultFactory.Create(request, response);
         }
 
         public async Task<ITwitterResult<T>> ExecuteRequest<T>(ITwitterRequest request) where T : class
         {
-            var response = await _twitterRequestHandler.ExecuteQuery(request);
+            var response = await _twitterRequestHandler.ExecuteQuery(request).ConfigureAwait(false);
             return _twitterResultFactory.Create<T>(request, response);
         }
 

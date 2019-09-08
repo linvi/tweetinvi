@@ -59,7 +59,7 @@ namespace Tweetinvi.Credentials.RateLimit
 
             if (rateLimits == null || DoesQueryNeedsToRefreshTheCacheInformation(queryRateLimit))
             {
-                rateLimits = await RefreshCredentialsRateLimits(credentials);
+                rateLimits = await RefreshCredentialsRateLimits(credentials).ConfigureAwait(false);
                 queryRateLimit = _rateLimitHelper.GetEndpointRateLimitFromQuery(query, rateLimits, false);
             }
 
@@ -71,7 +71,7 @@ namespace Tweetinvi.Credentials.RateLimit
             var rateLimits = _rateLimitCache.GetCredentialsRateLimits(credentials);
             if (rateLimits == null)
             {
-                rateLimits = await RefreshCredentialsRateLimits(credentials);
+                rateLimits = await RefreshCredentialsRateLimits(credentials).ConfigureAwait(false);
             }
 
             return rateLimits;
@@ -84,7 +84,7 @@ namespace Tweetinvi.Credentials.RateLimit
 
         private async Task<ICredentialsRateLimits> RefreshCredentialsRateLimits(ITwitterCredentials credentials)
         {
-            var tokenRateLimits = await GetTokenRateLimitsFromTwitter(credentials);
+            var tokenRateLimits = await GetTokenRateLimitsFromTwitter(credentials).ConfigureAwait(false);
             _rateLimitCache.RefreshEntry(credentials, tokenRateLimits);
             return _rateLimitCache.GetCredentialsRateLimits(credentials);
         }
@@ -107,7 +107,7 @@ namespace Tweetinvi.Credentials.RateLimit
 
                 try
                 {
-                    var webRequestResult = await _webRequestExecutor.ExecuteQuery(request);
+                    var webRequestResult = await _webRequestExecutor.ExecuteQuery(request).ConfigureAwait(false);
                     var json = webRequestResult.Text;
 
                     return _jsonObjectConverter.DeserializeObject<ICredentialsRateLimits>(json);
@@ -116,7 +116,7 @@ namespace Tweetinvi.Credentials.RateLimit
                 {
                     return null;
                 }
-            });
+            }).ConfigureAwait(false);
 
             return result;
         }

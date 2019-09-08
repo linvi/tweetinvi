@@ -43,7 +43,7 @@ namespace Tweetinvi.WebLogic
 
                 try
                 {
-                    httpResponseMessage = await _httpClientWebHelper.GetHttpResponse(request.Query, handler);
+                    httpResponseMessage = await _httpClientWebHelper.GetHttpResponse(request.Query, handler).ConfigureAwait(false);
 
                     var result = GetWebResultFromResponse(request.Query.Url, httpResponseMessage);
 
@@ -111,7 +111,7 @@ namespace Tweetinvi.WebLogic
 
                 try
                 {
-                    httpResponseMessage = await _httpClientWebHelper.GetHttpResponse(request.Query);
+                    httpResponseMessage = await _httpClientWebHelper.GetHttpResponse(request.Query).ConfigureAwait(false);
 
                     var result = GetWebResultFromResponse(request.Query.Url, httpResponseMessage);
 
