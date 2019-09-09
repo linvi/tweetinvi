@@ -146,6 +146,19 @@ namespace Tweetinvi.Controllers.User
             return query.ToString();
         }
 
+        public string GetReportUserForSpamQuery(IReportUserForSpamParameters parameters)
+        {
+            _userQueryValidator.ThrowIfUserCannotBeIdentified(parameters.UserIdentifier);
+
+            var query = new StringBuilder(Resources.User_Report_Spam);
+
+            query.AddFormattedParameterToQuery(_userQueryParameterGenerator.GenerateIdOrScreenNameParameter(parameters.UserIdentifier));
+            query.AddParameterToQuery("perform_block", parameters.PerformBlock);
+            query.Append(_queryParameterGenerator.GenerateAdditionalRequestParameters(parameters.FormattedCustomQueryParameters));
+
+            return query.ToString();
+        }
+
         // Get Blocked Users
         public string GetBlockedUserIdsQuery()
         {

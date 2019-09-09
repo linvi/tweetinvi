@@ -390,7 +390,7 @@ namespace Tweetinvi.Logic
         // Spam
         public virtual Task<bool> ReportUserForSpam()
         {
-            return _userController.ReportUserForSpam(_userDTO);
+            return Client.Users.ReportUserForSpam(this);
         }
 
         // Stream Profile IMage

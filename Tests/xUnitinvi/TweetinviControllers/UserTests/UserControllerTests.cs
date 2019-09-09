@@ -70,5 +70,25 @@ namespace xUnitinvi.TweetinviControllers.UserTests
             // Assert
             Assert.Equal(result, expectedResult);
         }
+        
+        [Fact]
+        public async Task ReportUserFromSpam_ReturnsUserExecutorResult()
+        {
+            // Arrange
+            var controller = CreateUserController();
+            var userDTO = A.Fake<IUserDTO>();
+
+            var parameters = new ReportUserForSpamParameters(userDTO);
+            var request = A.Fake<ITwitterRequest>();
+            var expectedResult = A.Fake<ITwitterResult<IUserDTO>>();
+
+            _fakeUserQueryExecutor.CallsTo(x => x.ReportUserForSpam(parameters, request)).Returns(expectedResult);
+
+            // Act
+            var result = await controller.ReportUserForSpam(parameters, request);
+
+            // Assert
+            Assert.Equal(result, expectedResult);
+        }
     }
 }

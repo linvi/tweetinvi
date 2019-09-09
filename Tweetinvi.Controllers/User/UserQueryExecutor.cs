@@ -27,6 +27,7 @@ namespace Tweetinvi.Controllers.User
 
         Task<ITwitterResult<IUserDTO>> BlockUser(IBlockUserParameters parameters, ITwitterRequest request);
         Task<ITwitterResult<IUserDTO>> UnblockUser(IUnblockUserParameters parameters, ITwitterRequest request);
+        Task<ITwitterResult<IUserDTO>> ReportUserForSpam(IReportUserForSpamParameters parameters, ITwitterRequest request);
 
 
         // Favourites
@@ -38,9 +39,6 @@ namespace Tweetinvi.Controllers.User
 
         // Stream Profile Image
         Stream GetProfileImageStream(IUserDTO userDTO, ImageSize imageSize = ImageSize.normal);
-
-        // Spam
-        Task<bool> ReportUserForSpam(IUserIdentifier user);
     }
 
     public class UserQueryExecutor : IUserQueryExecutor
@@ -154,6 +152,16 @@ namespace Tweetinvi.Controllers.User
             return _twitterAccessor.ExecuteRequest<IUserDTO>(request);
         }
 
+        public Task<ITwitterResult<IUserDTO>> ReportUserForSpam(IReportUserForSpamParameters parameters, ITwitterRequest request)
+        {
+            var query = _userQueryGenerator.GetReportUserForSpamQuery(parameters);
+
+            request.Query.Url = query;
+            request.Query.HttpMethod = HttpMethod.POST;
+
+            return _twitterAccessor.ExecuteRequest<IUserDTO>(request);
+        }
+
         // Favourites
         public Task<IEnumerable<ITweetDTO>> GetFavoriteTweets(IGetUserFavoritesQueryParameters parameters)
         {
@@ -180,15 +188,5 @@ namespace Tweetinvi.Controllers.User
             var url = _userQueryGenerator.DownloadProfileImageURL(userDTO, imageSize);
             return _webHelper.GetResponseStream(url);
         }
-
-        // Report Spam
-        public async Task<bool> ReportUserForSpam(IUserIdentifier user)
-        {
-            string query = _userQueryGenerator.GetReportUserForSpamQuery(user);
-            var asyncOperation = await _twitterAccessor.TryExecutePOSTQuery(query);
-
-            return asyncOperation.Success;
-        }
-
     }
 }

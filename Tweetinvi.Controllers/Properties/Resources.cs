@@ -560,9 +560,9 @@ namespace Tweetinvi.Controllers.Properties
         public static string User_GetUsers = "https://api.twitter.com/1.1/users/lookup.json?";
 
         /// <summary>
-        ///   Looks up a localized string similar to https://api.twitter.com/1.1/users/report_spam.json?{0}.
+        ///   Looks up a localized string similar to https://api.twitter.com/1.1/users/report_spam.json?.
         /// </summary>
-        public static string User_Report_Spam = "https://api.twitter.com/1.1/users/report_spam.json?{0}";
+        public static string User_Report_Spam = "https://api.twitter.com/1.1/users/report_spam.json?";
 
         /// <summary>
         ///   Looks up a localized string similar to Upload STATUS can only be retrieved for uploaded media. The FINALIZE query must be invoked.

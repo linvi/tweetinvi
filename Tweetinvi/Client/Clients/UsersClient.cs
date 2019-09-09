@@ -235,6 +235,27 @@ namespace Tweetinvi.Client
             return requestResult?.DataTransferObject != null;
         }
 
+        public Task<bool> ReportUserForSpam(long? userId)
+        {
+            return ReportUserForSpam(new ReportUserForSpamParameters(userId));
+        }
+
+        public Task<bool> ReportUserForSpam(string username)
+        {
+            return ReportUserForSpam(new ReportUserForSpamParameters(username));
+        }
+
+        public Task<bool> ReportUserForSpam(IUserIdentifier user)
+        {
+            return ReportUserForSpam(new ReportUserForSpamParameters(user));
+        }
+
+        public async Task<bool> ReportUserForSpam(IReportUserForSpamParameters parameters)
+        {
+            var requestResult = await _usersRequester.ReportUserForSpam(parameters).ConfigureAwait(false);
+            return requestResult?.DataTransferObject != null;
+        }
+
         #endregion
     }
 }

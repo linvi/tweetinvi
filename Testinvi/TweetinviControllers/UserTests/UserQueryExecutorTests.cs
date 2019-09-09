@@ -207,57 +207,6 @@ namespace Testinvi.TweetinviControllers.UserTests
 
         #endregion
 
-        #region Spam
-
-        [TestMethod]
-        public async Task ReportUserForSpam_WithUserDTO_ReturnsTrue()
-        {
-            // Arrange
-            var queryExecutor = CreateUserQueryExecutor();
-            var userDTO = A.Fake<IUserDTO>();
-            var expectedQuery = TestHelper.GenerateString();
-
-            _fakeUserQueryGenerator.CallsTo(x => x.GetReportUserForSpamQuery(userDTO)).Returns(expectedQuery);
-            _fakeTwitterAccessor.ArrangeTryExecutePOSTQuery(expectedQuery, true);
-
-            // Act
-            var result = await queryExecutor.ReportUserForSpam(userDTO);
-
-            // Assert
-            Assert.AreEqual(result, true);
-        }
-
-        [TestMethod]
-        public async Task ReportUserForSpam_WithUserDTO_ReturnsFalse()
-        {
-            // Arrange
-            var queryExecutor = CreateUserQueryExecutor();
-            var userDTO = A.Fake<IUserDTO>();
-            var expectedQuery = TestHelper.GenerateString();
-
-            _fakeUserQueryGenerator.CallsTo(x => x.GetReportUserForSpamQuery(userDTO)).Returns(expectedQuery);
-            _fakeTwitterAccessor.ArrangeTryExecutePOSTQuery(expectedQuery, false);
-
-            // Act
-            var result = await queryExecutor.ReportUserForSpam(userDTO);
-
-            // Assert
-            Assert.AreEqual(result, false);
-        }
-
-        #endregion
-
-        private IEnumerable<long> GenerateExpectedCursorResults()
-        {
-            var queryId1 = TestHelper.GenerateRandomLong();
-            var queryId2 = TestHelper.GenerateRandomLong();
-
-            _cursorQueryIds.Add(queryId1);
-            _cursorQueryIds.Add(queryId2);
-
-            return new[] {queryId1, queryId2};
-        }
-
         private UserQueryExecutor CreateUserQueryExecutor()
         {
             return _fakeBuilder.GenerateClass();

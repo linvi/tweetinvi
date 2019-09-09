@@ -22,6 +22,7 @@ namespace Tweetinvi.Core.QueryGenerators
         // Block User
         string GetBlockUserQuery(IBlockUserParameters parameters);
         string GetUnblockUserQuery(IUnblockUserParameters parameters);
+        string GetReportUserForSpamQuery(IReportUserForSpamParameters parameters);
 
 
         string GetBlockedUserIdsQuery();
@@ -30,8 +31,5 @@ namespace Tweetinvi.Core.QueryGenerators
         // Download Profile Image
         string DownloadProfileImageURL(IUserDTO userDTO, ImageSize size = ImageSize.normal);
         string DownloadProfileImageInHttpURL(IUserDTO userDTO, ImageSize size = ImageSize.normal);
-
-        // Spam
-        string GetReportUserForSpamQuery(IUserIdentifier user);
     }
 }

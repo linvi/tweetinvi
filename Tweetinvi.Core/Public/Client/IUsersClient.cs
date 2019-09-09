@@ -187,6 +187,26 @@ namespace Tweetinvi
         /// </summary>
         Task<bool> UnblockUser(IUnblockUserParameters parameters); 
 
+        /// <summary>
+        /// Report a user
+        /// </summary>
+        Task<bool> ReportUserForSpam(long? userId);
+
+        /// <summary>
+        /// Report a user
+        /// </summary>
+        Task<bool> ReportUserForSpam(string username);
+
+        /// <summary>
+        /// Report a user
+        /// </summary>
+        Task<bool> ReportUserForSpam(IUserIdentifier user);
+
+        /// <summary>
+        /// Report a user
+        /// </summary>
+        Task<bool> ReportUserForSpam(IReportUserForSpamParameters parameters); 
+        
         #endregion
     }
 }

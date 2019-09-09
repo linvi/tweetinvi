@@ -149,29 +149,7 @@ namespace Tweetinvi
             return UserController.GetProfileImageStream(userDTO, imageSize);
         }
 
-        // Spam
-
-        /// <summary>
-        /// Report a user for spam.
-        /// </summary>
-        public static Task<bool> ReportUserForSpam(IUserIdentifier user)
-        {
-            return UserController.ReportUserForSpam(user);
-        }
-
-        public static Task<bool> ReportUserForSpam(long userId)
-        {
-            return UserController.ReportUserForSpam(userId);
-        }
-
-        /// <summary>
-        /// Report a user for spam.
-        /// </summary>
-        public static Task<bool> ReportUserForSpam(string userScreenName)
-        {
-            return UserController.ReportUserForSpam(userScreenName);
-        }
-
+        
         #endregion
 
         #region Friendship Controller

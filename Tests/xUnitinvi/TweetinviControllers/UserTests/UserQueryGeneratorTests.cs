@@ -71,6 +71,27 @@ namespace xUnitinvi.TweetinviControllers.UserTests
 
             _fakeUserQueryValidator.CallsTo(x => x.ThrowIfUserCannotBeIdentified(userDTO)).MustHaveHappened();
         }
+        
+        [Fact]
+        public void ReportUserForSpamQuery_WithValidUserDTO_ReturnsExpectedQuery()
+        {
+            // Arrange
+            var queryGenerator = CreateUserQueryGenerator();
+            var userDTO = GenerateUserDTO(true);
+
+            var parameters = new ReportUserForSpamParameters(userDTO)
+            {
+                PerformBlock = false
+            };
+
+            // Act
+            var result = queryGenerator.GetReportUserForSpamQuery(parameters);
+
+            // Assert
+            Assert.Equal(result, $"https://api.twitter.com/1.1/users/report_spam.json?user_id=42&perform_block=false");
+
+            _fakeUserQueryValidator.CallsTo(x => x.ThrowIfUserCannotBeIdentified(userDTO)).MustHaveHappened();
+        }
 
         private IUserDTO GenerateUserDTO(bool isValid)
         {

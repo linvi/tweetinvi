@@ -22,6 +22,7 @@ namespace Tweetinvi.Core.Controllers
         
         Task<ITwitterResult<IUserDTO>> BlockUser(IBlockUserParameters parameters, ITwitterRequest request);
         Task<ITwitterResult<IUserDTO>> UnblockUser(IUnblockUserParameters parameters, ITwitterRequest request);
+        Task<ITwitterResult<IUserDTO>> ReportUserForSpam(IReportUserForSpamParameters parameters, ITwitterRequest request);
 
         // Favourites
         Task<IEnumerable<ITweet>> GetFavoriteTweets(IGetUserFavoritesQueryParameters parameters);
@@ -35,10 +36,5 @@ namespace Tweetinvi.Core.Controllers
         // Stream Profile Image
         Stream GetProfileImageStream(IUser user, ImageSize imageSize = ImageSize.normal);
         Stream GetProfileImageStream(IUserDTO userDTO, ImageSize imageSize = ImageSize.normal);
-
-        // Report Spam
-        Task<bool> ReportUserForSpam(IUserIdentifier user);
-        Task<bool> ReportUserForSpam(long userId);
-        Task<bool> ReportUserForSpam(string userScreenName);
     }
 }
