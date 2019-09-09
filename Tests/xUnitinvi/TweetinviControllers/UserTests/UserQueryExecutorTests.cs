@@ -6,6 +6,7 @@ using Tweetinvi.Core.QueryGenerators;
 using Tweetinvi.Core.Web;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
+using Tweetinvi.Models.DTO.QueryDTO;
 using Tweetinvi.Parameters;
 using Xunit;
 using xUnitinvi.TestHelpers;
@@ -71,6 +72,27 @@ namespace xUnitinvi.TweetinviControllers.UserTests
 
             // Act
             var result = await queryExecutor.UnblockUser(parameters, request);
+
+            // Assert
+            Assert.Equal(result, expectedResult);
+        }
+
+        [Fact]
+        public async Task GetBlockedUserIds_ReturnsUserDTO()
+        {
+            // Arrange
+            var queryExecutor = CreateUserQueryExecutor();
+            var expectedQuery = TestHelper.GenerateString();
+
+            var parameters = new GetBlockedUserIdsParameters();
+            var request = A.Fake<ITwitterRequest>();
+            var expectedResult = A.Fake<ITwitterResult<IIdsCursorQueryResultDTO>>();
+
+            A.CallTo(() => _fakeUserQueryGenerator.FakedObject.GetBlockedUserIdsQuery(parameters)).Returns(expectedQuery);
+            A.CallTo(() => _fakeTwitterAccessor.FakedObject.ExecuteRequest<IIdsCursorQueryResultDTO>(request)).Returns(expectedResult);
+
+            // Act
+            var result = await queryExecutor.GetBlockedUserIds(parameters, request);
 
             // Assert
             Assert.Equal(result, expectedResult);

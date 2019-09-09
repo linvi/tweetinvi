@@ -43,7 +43,6 @@ namespace Testinvi.TweetinviLogic
             _fakeFriendshipController = _fakeBuilder.GetFake<IFriendshipController>();
             _fakeSavedSearchController = _fakeBuilder.GetFake<ISavedSearchController>();
             _fakeMessageController = _fakeBuilder.GetFake<IMessageController>();
-            _fakeTweetController = _fakeBuilder.GetFake<ITweetController>();
             _fakeAccountController = _fakeBuilder.GetFake<IAccountController>();
 
             InitData();

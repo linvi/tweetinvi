@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Tweetinvi.Core.Controllers;
 using Tweetinvi.Core.Credentials;
-using Tweetinvi.Core.Models;
+using Tweetinvi.Logic;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
 using Tweetinvi.Parameters;
 
-namespace Tweetinvi.Logic
+namespace Tweetinvi.Core.Models
 {
     /// <summary>
     /// A token user is unique to a Token and provides action that will
@@ -18,7 +18,6 @@ namespace Tweetinvi.Logic
     public class AuthenticatedUser : User, IAuthenticatedUser
     {
         private readonly ICredentialsAccessor _credentialsAccessor;
-        private readonly ITweetController _tweetController;
         private readonly IMessageController _messageController;
         private readonly IFriendshipController _friendshipController;
         private readonly IAccountController _accountController;
@@ -31,7 +30,6 @@ namespace Tweetinvi.Logic
             IUserDTO userDTO,
             ICredentialsAccessor credentialsAccessor,
             ITimelineController timelineController,
-            ITweetController tweetController,
             IUserController userController,
             IMessageController messageController,
             IFriendshipController friendshipController,
@@ -42,7 +40,6 @@ namespace Tweetinvi.Logic
             : base(userDTO, userController, timelineController, friendshipController, twitterListController)
         {
             _credentialsAccessor = credentialsAccessor;
-            _tweetController = tweetController;
             _messageController = messageController;
             _friendshipController = friendshipController;
             _accountController = accountController;
@@ -230,9 +227,9 @@ namespace Tweetinvi.Logic
         }
 
         // Get Blocked Users
-        public Task<IEnumerable<long>> GetBlockedUserIds()
+        public Task<ICursorResult<long>> GetBlockedUserIds()
         {
-            return ExecuteAuthenticatedUserOperation(() => _userController.GetBlockedUserIds());
+            return Client.Users.GetBlockedUserIds();
         }
 
         public Task<IEnumerable<IUser>> GetBlockedUsers()

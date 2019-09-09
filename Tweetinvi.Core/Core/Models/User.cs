@@ -5,7 +5,6 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Tweetinvi.Core.Controllers;
 using Tweetinvi.Core.Models;
-using Tweetinvi.Core.Public.Parameters;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
 using Tweetinvi.Models.Entities;

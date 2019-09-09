@@ -1,5 +1,4 @@
-﻿using System;
-using System.Text;
+﻿using System.Text;
 using Tweetinvi.Controllers.Properties;
 using Tweetinvi.Controllers.Shared;
 using Tweetinvi.Core;
@@ -159,12 +158,17 @@ namespace Tweetinvi.Controllers.User
             return query.ToString();
         }
 
-        // Get Blocked Users
-        public string GetBlockedUserIdsQuery()
+        public string GetBlockedUserIdsQuery(IGetBlockedUserIdsParameters parameters)
         {
-            return Resources.User_Block_List_Ids;
+            var query = new StringBuilder(Resources.User_Block_List_Ids);
+
+            query.AddParameterToQuery("count", parameters.MaximumNumberOfResults);
+            query.Append(_queryParameterGenerator.GenerateAdditionalRequestParameters(parameters.FormattedCustomQueryParameters));
+
+            return query.ToString();
         }
 
+        // Get Blocked Users
         public string GetBlockedUsersQuery()
         {
             return Resources.User_Block_List;
@@ -193,15 +197,6 @@ namespace Tweetinvi.Controllers.User
             }
 
             return url.Replace("_normal", string.Format("_{0}", imageSize));
-        }
-
-        // Report Spam
-        public string GetReportUserForSpamQuery(IUserIdentifier user)
-        {
-            _userQueryValidator.ThrowIfUserCannotBeIdentified(user);
-
-            string userParameter = _userQueryParameterGenerator.GenerateIdOrScreenNameParameter(user);
-            return string.Format(Resources.User_Report_Spam, userParameter);
         }
     }
 }

@@ -105,6 +105,23 @@ namespace Tweetinvi.Controllers.User
             return _userQueryExecutor.ReportUserForSpam(parameters, request);
         }
 
+        public TwitterCursorResult<long, IIdsCursorQueryResultDTO> GetBlockedUserIds(IGetBlockedUserIdsParameters parameters, ITwitterRequest request)
+        {
+            var twitterCursorResult = new TwitterCursorResult<long, IIdsCursorQueryResultDTO>(async cursor =>
+            {
+                var cursoredParameters = new GetBlockedUserIdsParameters(parameters)
+                {
+                    Cursor = cursor
+                };
+
+                return await _userQueryExecutor.GetBlockedUserIds(cursoredParameters, new TwitterRequest(request));
+            });
+
+            twitterCursorResult.NextCursor = parameters.Cursor;
+
+            return twitterCursorResult;
+        }
+
         // Favourites
         public Task<IEnumerable<ITweet>> GetFavoriteTweets(IUserIdentifier user, IGetUserFavoritesParameters parameters)
         {
@@ -116,11 +133,6 @@ namespace Tweetinvi.Controllers.User
         {
             var tweetDTOs = await _userQueryExecutor.GetFavoriteTweets(parameters);
             return _tweetFactory.GenerateTweetsFromDTO(tweetDTOs, null, null);
-        }
-
-        public Task<IEnumerable<long>> GetBlockedUserIds(int maxUserIds)
-        {
-            return _userQueryExecutor.GetBlockedUserIds(maxUserIds);
         }
 
         public async Task<IEnumerable<IUser>> GetBlockedUsers(int maxUsers = Int32.MaxValue)

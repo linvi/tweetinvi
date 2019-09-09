@@ -67,6 +67,12 @@ namespace Tweetinvi.Client.Requesters
         /// </summary>
         /// <returns>TwitterResult containing the reported user</returns>
         Task<ITwitterResult<IUserDTO>> ReportUserForSpam(IReportUserForSpamParameters parameters);
+
+        /// <summary>
+        /// Get blocked user ids
+        /// </summary>
+        /// <returns>TwitterCursorResult to iterate over all the blocked users</returns>
+        ITwitterCursorResult<long, IIdsCursorQueryResultDTO> GetBlockedUserIds(IGetBlockedUserIdsParameters parameters);
     }
 
     public class UsersRequester : BaseRequester, IInternalUsersRequester
@@ -147,6 +153,15 @@ namespace Tweetinvi.Client.Requesters
         {
             var request = _twitterClient.CreateRequest();
             return ExecuteRequest(() => _userController.ReportUserForSpam(parameters, request), request);
+        }
+
+        public ITwitterCursorResult<long, IIdsCursorQueryResultDTO> GetBlockedUserIds(IGetBlockedUserIdsParameters parameters)
+        {
+            var request = _twitterClient.CreateRequest();
+
+            request.ExecutionContext.Converters = JsonQueryConverterRepository.Converters;
+
+            return _userController.GetBlockedUserIds(parameters, request);
         }
     }
 }

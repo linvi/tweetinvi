@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using Tweetinvi.Core.Parameters;
@@ -23,13 +22,13 @@ namespace Tweetinvi.Core.Controllers
         Task<ITwitterResult<IUserDTO>> BlockUser(IBlockUserParameters parameters, ITwitterRequest request);
         Task<ITwitterResult<IUserDTO>> UnblockUser(IUnblockUserParameters parameters, ITwitterRequest request);
         Task<ITwitterResult<IUserDTO>> ReportUserForSpam(IReportUserForSpamParameters parameters, ITwitterRequest request);
+        TwitterCursorResult<long,IIdsCursorQueryResultDTO> GetBlockedUserIds(IGetBlockedUserIdsParameters parameters, ITwitterRequest request);
 
         // Favourites
         Task<IEnumerable<ITweet>> GetFavoriteTweets(IGetUserFavoritesQueryParameters parameters);
         Task<IEnumerable<ITweet>> GetFavoriteTweets(IUserIdentifier user, IGetUserFavoritesParameters parameters);
 
         // Get Blocked Users
-        Task<IEnumerable<long>> GetBlockedUserIds(int maxUserIds = Int32.MaxValue);
 
         Task<IEnumerable<IUser>> GetBlockedUsers(int maxUsers = 2147483647);
 

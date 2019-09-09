@@ -248,28 +248,6 @@ namespace Testinvi.TweetinviControllers.UserTests
 
         #endregion
 
-        #region Spam
-
-        [TestMethod]
-        public void GetReportUserForSpamQuery_WithValidUserDTO_ReturnsExpectedQuery()
-        {
-            // Arrange
-            var queryGenerator = CreateUserQueryGenerator();
-            var userDTO = GenerateUserDTO(true);
-            var userIdParameter = UserQueryGeneratorHelper.GenerateParameterExpectedResult(userDTO);
-
-            // Act
-            var result = queryGenerator.GetReportUserForSpamQuery(userDTO);
-
-            // Assert
-            var expectedResult = string.Format(Resources.User_Report_Spam, userIdParameter);
-            Assert.AreEqual(result, expectedResult);
-
-            _fakeUserQueryValidator.CallsTo(x => x.ThrowIfUserCannotBeIdentified(userDTO)).MustHaveHappened();
-        }
-
-        #endregion
-
         private IUserDTO GenerateUserDTO(bool isValid)
         {
             var userDTO = A.Fake<IUserDTO>();

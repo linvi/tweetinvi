@@ -23,9 +23,8 @@ namespace Tweetinvi.Core.QueryGenerators
         string GetBlockUserQuery(IBlockUserParameters parameters);
         string GetUnblockUserQuery(IUnblockUserParameters parameters);
         string GetReportUserForSpamQuery(IReportUserForSpamParameters parameters);
+        string GetBlockedUserIdsQuery(IGetBlockedUserIdsParameters parameters);
 
-
-        string GetBlockedUserIdsQuery();
         string GetBlockedUsersQuery();
 
         // Download Profile Image

@@ -222,7 +222,7 @@ namespace Tweetinvi.Models
         /// <summary>
         /// Get the ids of the user you blocked.
         /// </summary>
-        Task<IEnumerable<long>> GetBlockedUserIds();
+        Task<ICursorResult<long>> GetBlockedUserIds();
 
         /// <summary>
         /// Retrieve the users blocked by the current user.

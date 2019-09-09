@@ -256,6 +256,21 @@ namespace Tweetinvi.Client
             return requestResult?.DataTransferObject != null;
         }
 
+        public Task<ICursorResult<long>> GetBlockedUserIds()
+        {
+            return GetBlockedUserIds(new GetBlockedUserIdsParameters());
+        }
+
+        public async Task<ICursorResult<long>> GetBlockedUserIds(IGetBlockedUserIdsParameters parameters)
+        {
+            var twitterCursorResult = _usersRequester.GetBlockedUserIds(parameters);
+            var cursorResult = new CursorResult<long, IIdsCursorQueryResultDTO>(twitterCursorResult);
+
+            await cursorResult.MoveNext().ConfigureAwait(false);
+
+            return cursorResult;
+        }
+
         #endregion
     }
 }

@@ -73,7 +73,7 @@ namespace xUnitinvi.TweetinviControllers.UserTests
         }
         
         [Fact]
-        public void ReportUserForSpamQuery_WithValidUserDTO_ReturnsExpectedQuery()
+        public void ReportUserForSpamQuery_ReturnsExpectedQuery()
         {
             // Arrange
             var queryGenerator = CreateUserQueryGenerator();
@@ -91,6 +91,24 @@ namespace xUnitinvi.TweetinviControllers.UserTests
             Assert.Equal(result, $"https://api.twitter.com/1.1/users/report_spam.json?user_id=42&perform_block=false");
 
             _fakeUserQueryValidator.CallsTo(x => x.ThrowIfUserCannotBeIdentified(userDTO)).MustHaveHappened();
+        }
+
+        [Fact]
+        public void GetBlockedUserIdsQuery_ReturnsExpectedQuery()
+        {
+            // Arrange
+            var queryGenerator = CreateUserQueryGenerator();
+
+            var parameters = new GetBlockedUserIdsParameters
+            {
+                MaximumNumberOfResults = 42
+            };
+
+            // Act
+            var result = queryGenerator.GetBlockedUserIdsQuery(parameters);
+
+            // Assert
+            Assert.Equal(result, $"https://api.twitter.com/1.1/blocks/ids.json?count=42");
         }
 
         private IUserDTO GenerateUserDTO(bool isValid)

@@ -205,8 +205,20 @@ namespace Tweetinvi
         /// <summary>
         /// Report a user
         /// </summary>
-        Task<bool> ReportUserForSpam(IReportUserForSpamParameters parameters); 
+        Task<bool> ReportUserForSpam(IReportUserForSpamParameters parameters);
+
+        /// <summary>
+        /// Get users blocked from a specific user
+        /// </summary>
+        /// <returns>A CursorResult to iterate over all the blocked users</returns>
+        Task<ICursorResult<long>> GetBlockedUserIds();
         
+        /// <summary>
+        /// Get users blocked from a specific user
+        /// </summary>
+        /// <returns>A CursorResult to iterate over all the blocked users</returns>
+        Task<ICursorResult<long>> GetBlockedUserIds(IGetBlockedUserIdsParameters parameters);
+
         #endregion
     }
 }
