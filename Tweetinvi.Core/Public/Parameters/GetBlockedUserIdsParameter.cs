@@ -7,13 +7,17 @@ namespace Tweetinvi.Parameters
     /// </summary>
     public interface IGetBlockedUserIdsParameters : ICursorQueryParameters
     {
+        /// <summary>
+        /// Max page size to retrieve
+        /// </summary>
+        new int PageSize { get; set; }
     }
 
     public class GetBlockedUserIdsParameters : CursorQueryParameters, IGetBlockedUserIdsParameters
     {
         public GetBlockedUserIdsParameters()
         {
-            MaximumNumberOfResults = 5000;
+            PageSize = 5000;
         }
 
         public GetBlockedUserIdsParameters(IGetBlockedUserIdsParameters source) : base(source)

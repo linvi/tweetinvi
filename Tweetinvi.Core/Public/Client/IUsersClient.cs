@@ -83,31 +83,31 @@ namespace Tweetinvi
         /// Get friend ids from a specific user
         /// </summary>
         /// <returns>A CursorResult to iterate over all the user's friends</returns>
-        Task<ICursorResult<long>> GetFriendIds(string username);
+        ISkippableResultIterator<long> GetFriendIds(string username);
 
         /// <summary>
         /// Get friend ids from a specific user
         /// </summary>
         /// <returns>A CursorResult to iterate over all the user's friends</returns>
-        Task<ICursorResult<long>> GetFriendIds(long userId);
+        ISkippableResultIterator<long> GetFriendIds(long userId);
 
         /// <summary>
         /// Get friend ids from a specific user
         /// </summary>
         /// <returns>A CursorResult to iterate over all the user's friends</returns>
-        Task<ICursorResult<long>> GetFriendIds(IGetFriendIdsParameters parameters);
+        ISkippableResultIterator<long> GetFriendIds(IGetFriendIdsParameters parameters);
 
         /// <summary>
         /// Get friend ids from a specific user
         /// </summary>
         /// <returns>A CursorResult to iterate over all the user's friends</returns>
-        Task<ICursorResult<long>> GetFriendIds(IUserIdentifier userIdentifier);
+        ISkippableResultIterator<long> GetFriendIds(IUserIdentifier userIdentifier);
 
         /// <summary>
         /// Get friends from a specific user
         /// </summary>
         /// <returns>A CursorResult to iterate over all the user's friends</returns>
-        Task<ICursorResult<IUser>> GetFriends(IGetFriendsParameters parameters);
+        ICursorResultIterator<IUser> GetFriends(IGetFriendsParameters parameters);
 
         #endregion
 
@@ -117,31 +117,31 @@ namespace Tweetinvi
         /// Get followers ids from a specific user
         /// </summary>
         /// <returns>A CursorResult to iterate over all the user's followers</returns>
-        Task<ICursorResult<long>> GetFollowerIds(string username);
+        ISkippableResultIterator<long> GetFollowerIds(string username);
 
         /// <summary>
         /// Get followers ids from a specific user
         /// </summary>
         /// <returns>A CursorResult to iterate over all the user's followers</returns>
-        Task<ICursorResult<long>> GetFollowerIds(long userId);
+        ISkippableResultIterator<long> GetFollowerIds(long userId);
 
         /// <summary>
         /// Get followers ids from a specific user
         /// </summary>
         /// <returns>A CursorResult to iterate over all the user's followers</returns>
-        Task<ICursorResult<long>> GetFollowerIds(IUserIdentifier userIdentifier);
+        ISkippableResultIterator<long> GetFollowerIds(IUserIdentifier userIdentifier);
 
         /// <summary>
         /// Get followers ids from a specific user
         /// </summary>
         /// <returns>A CursorResult to iterate over all the user's followers</returns>
-        Task<ICursorResult<long>> GetFollowerIds(IGetFollowerIdsParameters parameters);
+        ISkippableResultIterator<long> GetFollowerIds(IGetFollowerIdsParameters parameters);
 
         /// <summary>
         /// Get followers from a specific user
         /// </summary>
         /// <returns>A CursorResult to iterate over all the user's followers</returns>
-        Task<ICursorResult<IUser>> GetFollowers(IGetFollowersParameters parameters);
+        ICursorResultIterator<IUser> GetFollowers(IGetFollowersParameters parameters);
 
         #endregion
 
@@ -211,14 +211,22 @@ namespace Tweetinvi
         /// Get users blocked from a specific user
         /// </summary>
         /// <returns>A CursorResult to iterate over all the blocked users</returns>
-        Task<ICursorResult<long>> GetBlockedUserIds();
+        ISkippableResultIterator<long> GetBlockedUserIds();
         
         /// <summary>
         /// Get users blocked from a specific user
         /// </summary>
         /// <returns>A CursorResult to iterate over all the blocked users</returns>
-        Task<ICursorResult<long>> GetBlockedUserIds(IGetBlockedUserIdsParameters parameters);
+        ISkippableResultIterator<long> GetBlockedUserIds(IGetBlockedUserIdsParameters parameters);
+
+        /// <summary>
+        /// Get users blocked from a specific user
+        /// </summary>
+        /// <returns>A CursorResult to iterate over all the blocked users</returns>
+        ISkippableResultIterator<IUser> GetBlockedUsers(IGetBlockedUsersParameters parameters);
 
         #endregion
+
+        ISkippableResultIterator<IUser> GetBlockedUsers();
     }
 }

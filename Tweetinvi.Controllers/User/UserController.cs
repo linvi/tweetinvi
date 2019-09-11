@@ -55,7 +55,7 @@ namespace Tweetinvi.Controllers.User
         }
 
         // Friend Ids
-        public TwitterCursorResult<long, IIdsCursorQueryResultDTO> GetFriendIds(IGetFriendIdsParameters parameters, ITwitterRequest request)
+        public ITwitterCursorResult<long, IIdsCursorQueryResultDTO> GetFriendIds(IGetFriendIdsParameters parameters, ITwitterRequest request)
         {
             var twitterCursorResult = new TwitterCursorResult<long, IIdsCursorQueryResultDTO>(async cursor => 
             {
@@ -67,12 +67,10 @@ namespace Tweetinvi.Controllers.User
                 return await _userQueryExecutor.GetFriendIds(cursoredParameters, new TwitterRequest(request));
             });
 
-            twitterCursorResult.NextCursor = parameters.Cursor;
-            
             return twitterCursorResult;
         }
 
-        public TwitterCursorResult<long, IIdsCursorQueryResultDTO> GetFollowerIds(IGetFollowerIdsParameters parameters, ITwitterRequest request)
+        public ITwitterCursorResult<long, IIdsCursorQueryResultDTO> GetFollowerIds(IGetFollowerIdsParameters parameters, ITwitterRequest request)
         {
             var twitterCursorResult = new TwitterCursorResult<long, IIdsCursorQueryResultDTO>(async cursor =>
             {
@@ -83,8 +81,6 @@ namespace Tweetinvi.Controllers.User
 
                 return await _userQueryExecutor.GetFollowerIds(cursoredParameters, new TwitterRequest(request));
             });
-
-            twitterCursorResult.NextCursor = parameters.Cursor;
 
             return twitterCursorResult;
         }
@@ -105,7 +101,7 @@ namespace Tweetinvi.Controllers.User
             return _userQueryExecutor.ReportUserForSpam(parameters, request);
         }
 
-        public TwitterCursorResult<long, IIdsCursorQueryResultDTO> GetBlockedUserIds(IGetBlockedUserIdsParameters parameters, ITwitterRequest request)
+        public ITwitterCursorResult<long, IIdsCursorQueryResultDTO> GetBlockedUserIds(IGetBlockedUserIdsParameters parameters, ITwitterRequest request)
         {
             var twitterCursorResult = new TwitterCursorResult<long, IIdsCursorQueryResultDTO>(async cursor =>
             {
@@ -117,7 +113,20 @@ namespace Tweetinvi.Controllers.User
                 return await _userQueryExecutor.GetBlockedUserIds(cursoredParameters, new TwitterRequest(request));
             });
 
-            twitterCursorResult.NextCursor = parameters.Cursor;
+            return twitterCursorResult;
+        }
+
+        public ITwitterCursorResult<IUserDTO, IUserCursorQueryResultDTO> GetBlockedUsers(IGetBlockedUsersParameters parameters, ITwitterRequest request)
+        {
+            var twitterCursorResult = new TwitterCursorResult<IUserDTO, IUserCursorQueryResultDTO>(async cursor =>
+            {
+                var cursoredParameters = new GetBlockedUsersParameters(parameters)
+                {
+                    Cursor = cursor
+                };
+
+                return await _userQueryExecutor.GetBlockedUsers(cursoredParameters, new TwitterRequest(request));
+            });
 
             return twitterCursorResult;
         }
@@ -133,12 +142,6 @@ namespace Tweetinvi.Controllers.User
         {
             var tweetDTOs = await _userQueryExecutor.GetFavoriteTweets(parameters);
             return _tweetFactory.GenerateTweetsFromDTO(tweetDTOs, null, null);
-        }
-
-        public async Task<IEnumerable<IUser>> GetBlockedUsers(int maxUsers = Int32.MaxValue)
-        {
-            var userDTOs = await _userQueryExecutor.GetBlockedUsers(maxUsers);
-            return _userFactory.GenerateUsersFromDTO(userDTOs);
         }
 
         // Stream Profile Image

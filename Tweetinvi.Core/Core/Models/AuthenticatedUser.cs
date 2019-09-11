@@ -227,14 +227,14 @@ namespace Tweetinvi.Core.Models
         }
 
         // Get Blocked Users
-        public Task<ICursorResult<long>> GetBlockedUserIds()
+        public ISkippableResultIterator<long> GetBlockedUserIds()
         {
             return Client.Users.GetBlockedUserIds();
         }
 
-        public Task<IEnumerable<IUser>> GetBlockedUsers()
+        public ISkippableResultIterator<IUser> GetBlockedUsers()
         {
-            return ExecuteAuthenticatedUserOperation(() => _userController.GetBlockedUsers());
+            return Client.Users.GetBlockedUsers();
         }
 
         // Spam

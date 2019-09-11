@@ -101,7 +101,7 @@ namespace xUnitinvi.TweetinviControllers.UserTests
 
             var parameters = new GetBlockedUserIdsParameters
             {
-                MaximumNumberOfResults = 42
+                PageSize= 42
             };
 
             // Act

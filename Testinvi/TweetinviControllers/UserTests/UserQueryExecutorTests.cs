@@ -51,18 +51,18 @@ namespace Testinvi.TweetinviControllers.UserTests
             var expectedQuery = TestHelper.GenerateString();
             var request = A.Fake<ITwitterRequest>();
 
-            var FriendIdsParameter = new GetFriendIdsParameters(userDTO)
+            var friendIdsParameter = new GetFriendIdsParameters(userDTO)
             {
-                MaximumNumberOfResults = maximumNumberOfFriends
+                PageSize = maximumNumberOfFriends
             };
 
-            _fakeUserQueryGenerator.CallsTo(x => x.GetFriendIdsQuery(FriendIdsParameter)).Returns(expectedQuery);
+            _fakeUserQueryGenerator.CallsTo(x => x.GetFriendIdsQuery(friendIdsParameter)).Returns(expectedQuery);
             _fakeTwitterAccessor
                 .CallsTo(x => x.ExecuteRequest<IIdsCursorQueryResultDTO>(A<ITwitterRequest>.That.Matches(twitterRequest => twitterRequest.Query.Url == expectedQuery)))
                 .ReturnsLazily<ITwitterResult<IIdsCursorQueryResultDTO>>(() => null);
 
             // Act
-            var result = await queryExecutor.GetFriendIds(FriendIdsParameter, request);
+            var result = await queryExecutor.GetFriendIds(friendIdsParameter, request);
 
             // Assert
             Assert.IsNull(result);
@@ -81,7 +81,7 @@ namespace Testinvi.TweetinviControllers.UserTests
 
             var friendIdsParameter = new GetFriendIdsParameters(userDTO)
             {
-                MaximumNumberOfResults = maximumNumberOfFriends
+                PageSize = maximumNumberOfFriends
             };
 
             _fakeUserQueryGenerator.CallsTo(x => x.GetFriendIdsQuery(friendIdsParameter)).Returns(expectedQuery);
@@ -114,7 +114,7 @@ namespace Testinvi.TweetinviControllers.UserTests
 
             var followerIdsParameter = new GetFollowerIdsParameters(userDTO)
             {
-                MaximumNumberOfResults = maximumNumberOfFollowers
+                PageSize = maximumNumberOfFollowers
             };
 
             _fakeUserQueryGenerator.CallsTo(x => x.GetFollowerIdsQuery(followerIdsParameter)).Returns(expectedQuery);
@@ -142,7 +142,7 @@ namespace Testinvi.TweetinviControllers.UserTests
 
             var followerIdsParameter = new GetFollowerIdsParameters(userDTO)
             {
-                MaximumNumberOfResults = maximumNumberOfFollowers
+                PageSize = maximumNumberOfFollowers
             };
 
             _fakeUserQueryGenerator.CallsTo(x => x.GetFollowerIdsQuery(followerIdsParameter)).Returns(expectedQuery);

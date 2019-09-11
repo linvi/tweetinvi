@@ -40,6 +40,8 @@
         // https://dev.twitter.com/rest/reference/get/lists/subscriptions
         public const int LIST_GET_USER_SUBSCRIPTIONS_COUNT = 1000;
 
+        public static int GET_USERS_MAX_PAGE_SIZE = 100;
+
         // 
         public const int LIST_OWNED_COUNT = 1000;
 

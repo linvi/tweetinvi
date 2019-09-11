@@ -5,6 +5,10 @@ namespace Tweetinvi.Parameters
     public interface IGetUserParameters : ICustomRequestParameters
     {
         IUserIdentifier UserIdentifier { get; set; }
+        
+        /// <summary>
+        /// Include user entities.
+        /// </summary>
         bool? IncludeEntities { get; set; }
     }
 

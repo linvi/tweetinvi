@@ -10,6 +10,11 @@ namespace Tweetinvi.Parameters
     public interface IGetFriendIdsParameters : ICursorQueryParameters
     {
         /// <summary>
+        /// Page size when retrieving the user ids from Twitter
+        /// </summary>
+        new int PageSize { get; set; } 
+        
+        /// <summary>
         /// A unique identifier of a user
         /// </summary>
         IUserIdentifier UserIdentifier { get; }
@@ -19,7 +24,7 @@ namespace Tweetinvi.Parameters
     {
         private GetFriendIdsParameters()
         {
-            MaximumNumberOfResults = 5000;
+            PageSize = 5000;
         }
 
         public GetFriendIdsParameters(IUserIdentifier userIdentifier) : this()
@@ -41,7 +46,7 @@ namespace Tweetinvi.Parameters
         {
             if (parameters == null)
             {
-                throw new ArgumentException($"{nameof(parameters)} cannot be null as well as UserIdentifier");
+                throw new ArgumentNullException($"{nameof(parameters)} cannot be null as well as UserIdentifier");
             }
             
             UserIdentifier = parameters.UserIdentifier;

@@ -1,15 +1,13 @@
-﻿namespace Tweetinvi.Core.Models
+﻿using System.Collections;
+using System.Collections.Generic;
+
+namespace Tweetinvi.Core.Models
 {
     /// <summary>
     /// Output of a cursor based requests
     /// </summary>
-    public class CursorOperationResult<TItem>
+    public class CursorPageResult<TItem> : PageResult<TItem>
     {
-        /// <summary>
-        /// Items returned during for a specific cursor iteration
-        /// </summary>
-        public TItem[] Items { get; set; }
-
         /// <summary>
         /// Cursor to get the next set of items
         /// </summary>

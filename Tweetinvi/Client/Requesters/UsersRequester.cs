@@ -73,6 +73,12 @@ namespace Tweetinvi.Client.Requesters
         /// </summary>
         /// <returns>TwitterCursorResult to iterate over all the blocked users</returns>
         ITwitterCursorResult<long, IIdsCursorQueryResultDTO> GetBlockedUserIds(IGetBlockedUserIdsParameters parameters);
+
+        /// <summary>
+        /// Get blocked user ids
+        /// </summary>
+        /// <returns>TwitterCursorResult to iterate over all the blocked users</returns>
+        ITwitterCursorResult<IUserDTO, IUserCursorQueryResultDTO> GetBlockedUsers(IGetBlockedUsersParameters parameters);
     }
 
     public class UsersRequester : BaseRequester, IInternalUsersRequester
@@ -122,18 +128,14 @@ namespace Tweetinvi.Client.Requesters
         public ITwitterCursorResult<long, IIdsCursorQueryResultDTO> GetFriendIds(IGetFriendIdsParameters parameters)
         {
             var request = _twitterClient.CreateRequest();
-
             request.ExecutionContext.Converters = JsonQueryConverterRepository.Converters;
-
             return _userController.GetFriendIds(parameters, request);
         }
 
         public ITwitterCursorResult<long, IIdsCursorQueryResultDTO> GetFollowerIds(IGetFollowerIdsParameters parameters)
         {
             var request = _twitterClient.CreateRequest();
-
             request.ExecutionContext.Converters = JsonQueryConverterRepository.Converters;
-
             return _userController.GetFollowerIds(parameters, request);
         }
 
@@ -158,10 +160,15 @@ namespace Tweetinvi.Client.Requesters
         public ITwitterCursorResult<long, IIdsCursorQueryResultDTO> GetBlockedUserIds(IGetBlockedUserIdsParameters parameters)
         {
             var request = _twitterClient.CreateRequest();
-
             request.ExecutionContext.Converters = JsonQueryConverterRepository.Converters;
-
             return _userController.GetBlockedUserIds(parameters, request);
+        }
+
+        public ITwitterCursorResult<IUserDTO, IUserCursorQueryResultDTO> GetBlockedUsers(IGetBlockedUsersParameters parameters)
+        {
+            var request = _twitterClient.CreateRequest();
+            request.ExecutionContext.Converters = JsonQueryConverterRepository.Converters;
+            return _userController.GetBlockedUsers(parameters, request);
         }
     }
 }

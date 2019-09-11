@@ -29,13 +29,11 @@ namespace Tweetinvi.Controllers.User
         Task<ITwitterResult<IUserDTO>> UnblockUser(IUnblockUserParameters parameters, ITwitterRequest request);
         Task<ITwitterResult<IUserDTO>> ReportUserForSpam(IReportUserForSpamParameters parameters, ITwitterRequest request);
         Task<ITwitterResult<IIdsCursorQueryResultDTO>> GetBlockedUserIds(IGetBlockedUserIdsParameters parameters, ITwitterRequest request);
+        Task<ITwitterResult<IUserCursorQueryResultDTO>> GetBlockedUsers(IGetBlockedUsersParameters parameters, ITwitterRequest request);
 
 
         // Favourites
         Task<IEnumerable<ITweetDTO>> GetFavoriteTweets(IGetUserFavoritesQueryParameters parameters);
-
-        // Get blocked users
-        Task<IEnumerable<IUserDTO>> GetBlockedUsers(int maxUsers = int.MaxValue);
 
         // Stream Profile Image
         Stream GetProfileImageStream(IUserDTO userDTO, ImageSize imageSize = ImageSize.normal);
@@ -178,18 +176,26 @@ namespace Tweetinvi.Controllers.User
             return _twitterAccessor.ExecuteRequest<IIdsCursorQueryResultDTO>(request);
         }
 
+        public Task<ITwitterResult<IUserCursorQueryResultDTO>> GetBlockedUsers(IGetBlockedUsersParameters parameters, ITwitterRequest request)
+        {
+            var query = _userQueryGenerator.GetBlockedUsersQuery(parameters);
+
+            if (parameters.Cursor != null)
+            {
+                query = query.AddParameterToQuery("cursor", parameters.Cursor);
+            }
+
+            request.Query.Url = query;
+            request.Query.HttpMethod = HttpMethod.GET;
+
+            return _twitterAccessor.ExecuteRequest<IUserCursorQueryResultDTO>(request);
+        }
+
         // Favourites
         public Task<IEnumerable<ITweetDTO>> GetFavoriteTweets(IGetUserFavoritesQueryParameters parameters)
         {
             var query = _userQueryGenerator.GetFavoriteTweetsQuery(parameters);
             return _twitterAccessor.ExecuteGETQuery<IEnumerable<ITweetDTO>>(query);
-        }
-
-        // Get Block List
-        public Task<IEnumerable<IUserDTO>> GetBlockedUsers(int maxUsers = int.MaxValue)
-        {
-            string query = _userQueryGenerator.GetBlockedUsersQuery();
-            return _twitterAccessor.ExecuteCursorGETQuery<IUserDTO, IUserCursorQueryResultDTO>(query, maxUsers);
         }
 
         // Stream Profile Image

@@ -82,7 +82,7 @@ namespace Tweetinvi.Controllers.TwitterLists
             var baseQuery = string.Format(Resources.List_GetUserMemberships, userIdentifierParameter);
             var queryBuilder = new StringBuilder(baseQuery);
 
-            queryBuilder.AddParameterToQuery("count", additionalParameters.MaximumNumberOfResults);
+            queryBuilder.AddParameterToQuery("count", additionalParameters.PageSize);
             queryBuilder.AddParameterToQuery("filter_to_owned_lists", additionalParameters.FilterToOwnLists);
 
             return queryBuilder.ToString();

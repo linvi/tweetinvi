@@ -14,53 +14,103 @@ namespace xUnitinvi
         {
             Assert.Throws<ArgumentNullException>(() => new TwitterCursorResult<long, IdsCursorQueryResultDTO>(null));
         }
+        
+        [Fact]
+        public void BeforeMoveNext_ShouldNotHaveExecutedCallback()
+        {
+            var callback = A.Fake<Func<string, Task<ITwitterResult<IdsCursorQueryResultDTO>>>>();
+            var result = new TwitterResult<IdsCursorQueryResultDTO>(null)
+            {
+                DataTransferObject = new IdsCursorQueryResultDTO
+                {
+                    Ids = new long[] { 42 },
+                    NextCursorStr = "0"
+                }
+            };
+
+            A.CallTo(callback).WithReturnType<Task<ITwitterResult<IdsCursorQueryResultDTO>>>().Returns(result);
+
+            // act
+            var cursorResult = new TwitterCursorResult<long, IdsCursorQueryResultDTO>(callback);
+
+            // assert
+            Assert.False(cursorResult.Completed);
+
+            A.CallTo(callback).MustNotHaveHappened();
+        }
 
         [Fact]
         public async Task MoveNext_RunCallbackOperation()
         {
-            var fake = A.Fake<Func<string, Task<ITwitterResult<IdsCursorQueryResultDTO>>>>();
-            A.CallTo(fake).WithReturnType<Task<ITwitterResult<IdsCursorQueryResultDTO>>>().ReturnsLazily(async (cursor) =>
+            var callback = A.Fake<Func<string, Task<ITwitterResult<IdsCursorQueryResultDTO>>>>();
+            var result = new TwitterResult<IdsCursorQueryResultDTO>(null)
             {
-                return new TwitterResult<IdsCursorQueryResultDTO>(null)
+                DataTransferObject = new IdsCursorQueryResultDTO
                 {
-                    DataTransferObject = new IdsCursorQueryResultDTO
-                    {
-                        Ids = new long[] { 42 },
-                    }
-                };
-            });
+                    Ids = new long[] { 42 },
+                    NextCursorStr = "0"
+                }
+            };
 
-            var cursorResult = new TwitterCursorResult<long, IdsCursorQueryResultDTO>(fake);
+            A.CallTo(callback).WithReturnType<Task<ITwitterResult<IdsCursorQueryResultDTO>>>().Returns(result);
+
+            var cursorResult = new TwitterCursorResult<long, IdsCursorQueryResultDTO>(callback);
 
             // act
-            await cursorResult.MoveNext();
+            await cursorResult.MoveToNextPage();
 
             // assert
             Assert.True(cursorResult.Completed);
 
-            A.CallTo(fake).MustHaveHappenedOnceExactly();
+            A.CallTo(callback).MustHaveHappenedOnceExactly();
+        }
+        
+        [Fact]
+        public async Task MoveNext_CallbackReturnsNextCursor_ShouldNotBeCompleted()
+        {
+            var callback = A.Fake<Func<string, Task<ITwitterResult<IdsCursorQueryResultDTO>>>>();
+            var result = new TwitterResult<IdsCursorQueryResultDTO>(null)
+            {
+                DataTransferObject = new IdsCursorQueryResultDTO
+                {
+                    Ids = new long[] { 42 },
+                    NextCursorStr = "42314",
+                }
+            };
+
+            A.CallTo(callback).WithReturnType<Task<ITwitterResult<IdsCursorQueryResultDTO>>>().Returns(result);
+
+            var cursorResult = new TwitterCursorResult<long, IdsCursorQueryResultDTO>(callback);
+
+            // act
+            await cursorResult.MoveToNextPage();
+
+            // assert
+            Assert.False(cursorResult.Completed);
+
+            A.CallTo(callback).MustHaveHappenedOnceExactly();
         }
 
         [Fact]
         public async Task MoveNext_ThrowsWhenAlreadyCompleted()
         {
-            var fake = A.Fake<Func<string, Task<ITwitterResult<IdsCursorQueryResultDTO>>>>();
-            A.CallTo(fake).WithReturnType<Task<ITwitterResult<IdsCursorQueryResultDTO>>>().ReturnsLazily(async (cursor) =>
+            var callback = A.Fake<Func<string, Task<ITwitterResult<IdsCursorQueryResultDTO>>>>();
+            var result = new TwitterResult<IdsCursorQueryResultDTO>(null)
             {
-                return new TwitterResult<IdsCursorQueryResultDTO>(null)
+                DataTransferObject = new IdsCursorQueryResultDTO
                 {
-                    DataTransferObject = new IdsCursorQueryResultDTO
-                    {
-                        Ids = new long[] { 42 },
-                    }
-                };
-            });
+                    Ids = new long[] { 42 },
+                    NextCursorStr = "0"
+                }
+            };
 
-            var cursorResult = new TwitterCursorResult<long, IdsCursorQueryResultDTO>(fake);
-            await cursorResult.MoveNext();
+            A.CallTo(callback).WithReturnType<Task<ITwitterResult<IdsCursorQueryResultDTO>>>().Returns(result);
+
+            var cursorResult = new TwitterCursorResult<long, IdsCursorQueryResultDTO>(callback);
+            await cursorResult.MoveToNextPage();
 
             // act - assert
-            await Assert.ThrowsAsync<InvalidOperationException>(async () => await cursorResult.MoveNext());
+            await Assert.ThrowsAsync<IndexOutOfRangeException>(async () => await cursorResult.MoveToNextPage());
         }
 
         [Fact]
@@ -84,12 +134,12 @@ namespace xUnitinvi
             var cursorResult = new TwitterCursorResult<long, IdsCursorQueryResultDTO>(fake);
 
             // act - assert
-            await cursorResult.MoveNext();
+            await cursorResult.MoveToNextPage();
 
             Assert.False(cursorResult.Completed);
             Assert.Equal(cursorResult.NextCursor, "NextCursor");
 
-            await cursorResult.MoveNext();
+            await cursorResult.MoveToNextPage();
 
             Assert.True(cursorResult.Completed);
             Assert.Equal(cursorResult.NextCursor, "0");

@@ -4,7 +4,6 @@ using System.Net;
 using Tweetinvi.Core.Exceptions;
 using Tweetinvi.Core.Web;
 using Tweetinvi.Models;
-using Tweetinvi.Models.Interfaces;
 
 namespace Tweetinvi.Exceptions
 {

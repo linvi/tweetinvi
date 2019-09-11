@@ -315,23 +315,23 @@ namespace Tweetinvi.Logic
         }
 
         // Friends
-        public virtual Task<ICursorResult<long>> GetFriendIds()
+        public virtual ISkippableResultIterator<long> GetFriendIds()
         {
             return Client?.Users.GetFriendIds(new GetFriendIdsParameters(this));
         }
 
-        public virtual Task<ICursorResult<IUser>> GetFriends()
+        public virtual ICursorResultIterator<IUser> GetFriends()
         {
             return Client?.Users.GetFriends(new GetFriendsParameters(this));
         }
 
         // Followers
-        public virtual Task<ICursorResult<long>> GetFollowerIds()
+        public virtual ISkippableResultIterator<long> GetFollowerIds()
         {
             return Client?.Users.GetFollowerIds(new GetFollowerIdsParameters(this));
         }
 
-        public virtual Task<ICursorResult<IUser>> GetFollowers()
+        public virtual ICursorResultIterator<IUser> GetFollowers()
         {
             return Client?.Users.GetFollowers(new GetFollowersParameters(this));
         }

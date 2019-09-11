@@ -586,19 +586,22 @@ namespace Examplinvi.NETFramework
 
         public static async Task User_GetFriendIds(string username)
         {
-            var friendIds = await Client.Users.GetFriendIds(new GetFriendIdsParameters(username)
+            var friendIdsIterator = Client.Users.GetFriendIds(new GetFriendIdsParameters(username)
             {
-                MaximumNumberOfResults = 50
+                PageSize = 50
             });
 
-            while (friendIds.Items.Length < 200 && !friendIds.Completed)
+            var allFriendIds = new List<long>();
+
+            while (allFriendIds.Count < 200 && !friendIdsIterator.Completed)
             {
-                await friendIds.MoveNext();
+                var pageOfFriendIds = await friendIdsIterator.MoveToNextPage();
+                allFriendIds.AddRange(pageOfFriendIds);
             }
 
-            Console.WriteLine($"{username} has friends, here are some of them :", username);
+            Console.WriteLine($"{username} has friends, here are some of them :");
 
-            foreach (var friendId in friendIds.Items)
+            foreach (var friendId in allFriendIds)
             {
                 Console.WriteLine("- {0}", friendId);
             }
@@ -607,27 +610,38 @@ namespace Examplinvi.NETFramework
         public static async Task User_GetFriends(string username)
         {
             var user = await Client.Users.GetUser(username);
-            var friends = await user.GetFriends();
 
-            Console.WriteLine("{0} has {1} friends, here are some of them :", user.Name, user.FriendsCount);
-            foreach (var friend in friends.Items)
+            var friendsIterator = user.GetFriends();
+            var allFriends = new List<IUser>();
+
+            while (allFriends.Count < 200 && !friendsIterator.Completed)
             {
-                Console.WriteLine("- {0}", friend.Name);
+                var pageOfFriends = await friendsIterator.MoveToNextPage();
+                allFriends.AddRange(pageOfFriends);
+            }
+
+            Console.WriteLine($"{username} has friends, here are some of them :");
+
+            foreach (var friendId in allFriends)
+            {
+                Console.WriteLine("- {0}", friendId);
             }
         }
 
         public static async Task User_GetFollowerIds(string username)
         {
-            var user = await Client.Users.GetUser(username);
-            var followerIds = await user.GetFollowerIds();
+            var followersIterator = Client.Users.GetFollowerIds(username);
+            var allFollowerIds = new List<long>();
 
-            while (!followerIds.Completed)
+            while (allFollowerIds.Count < 200 && !followersIterator.Completed)
             {
-                await followerIds.MoveNext();
+                var pageOfFollowerIds = await followersIterator.MoveToNextPage();
+                allFollowerIds.AddRange(pageOfFollowerIds);
             }
 
-            Console.WriteLine("{0} has {1} followers, here are some of them :", user.Name, user.FollowersCount);
-            foreach (var followerId in followerIds.Items)
+            Console.WriteLine($"{username} has some followers, here are some of them :");
+
+            foreach (var followerId in allFollowerIds)
             {
                 Console.WriteLine("- {0}", followerId);
             }
@@ -636,12 +650,20 @@ namespace Examplinvi.NETFramework
         public static async Task User_GetFollowers(string username)
         {
             var user = await Client.Users.GetUser(username);
-            var followers = await user.GetFollowers();
+            var followersIterator = user.GetFollowers();
+            var allFollowers = new List<IUser>();
 
-            Console.WriteLine("{0} has {1} followers, here are some of them :", user.Name, user.FriendsCount);
-            foreach (var follower in followers.Items)
+            while (allFollowers.Count < 200 && !followersIterator.Completed)
             {
-                Console.WriteLine("- {0}", follower.Name);
+                var pageOfFollowers = await followersIterator.MoveToNextPage();
+                allFollowers.AddRange(pageOfFollowers);
+            }
+
+            Console.WriteLine($"{username} has some followers, here are some of them :");
+
+            foreach (var follower in allFollowers)
+            {
+                Console.WriteLine("- {0}", follower);
             }
         }
 
@@ -691,8 +713,16 @@ namespace Examplinvi.NETFramework
         {
             var client = new TwitterClient(Program.Credentials);
             var authenticatedUser = await client.Users.GetAuthenticatedUser();
-            await authenticatedUser.GetBlockedUsers();
-            await authenticatedUser.GetBlockedUserIds();
+
+            var blockedUserIterator = authenticatedUser.GetBlockedUsers();
+            var someBlockedUsers = await blockedUserIterator.MoveToNextPage();
+
+            Console.WriteLine(string.Concat(someBlockedUsers.Select(x => x.ToString())));
+
+            var blockedUserIdsIterator = authenticatedUser.GetBlockedUserIds();
+            var someBlockedUserIds = await blockedUserIdsIterator.MoveToNextPage();
+
+            Console.WriteLine(string.Concat(someBlockedUserIds.Select(x => x.ToString())));
         }
 
         public static async Task User_DownloadProfileImage(string username)
@@ -1477,9 +1507,9 @@ namespace Examplinvi.NETFramework
             var authenticatedUser = await Client.Users.GetAuthenticatedUser();
             var twitterResult = Client.RequestExecutor.Users.GetFollowerIds(new GetFollowerIdsParameters(authenticatedUser));
 
-            await twitterResult.MoveNext();
+            var pageResult = await twitterResult.MoveToNextPage();
 
-            Console.WriteLine(twitterResult.TwitterResults[0].Json);
+            Console.WriteLine(pageResult.TwitterResult.Json);
         }
 
         public static async Task Json_GetJsonCursorRequestExample()

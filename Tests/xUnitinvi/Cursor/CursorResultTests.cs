@@ -15,7 +15,7 @@ namespace xUnitinvi
         [Fact]
         public void Ctor_twitterCursorResultCannotBeNull()
         {
-            Assert.Throws<ArgumentNullException>(() => new CursorResult<long, IIdsCursorQueryResultDTO>(null));
+            Assert.Throws<ArgumentNullException>(() => new SkippableResultIterator<long, IIdsCursorQueryResultDTO>(null));
         }
 
         [Fact]
@@ -23,31 +23,32 @@ namespace xUnitinvi
         {
             // arrange
             var twitterCursorResult = A.Fake<ITwitterCursorResult<long, IIdsCursorQueryResultDTO>>();
-            var cursorResult = new CursorResult<long, IIdsCursorQueryResultDTO>(twitterCursorResult);
+            var cursorResult = new SkippableResultIterator<long, IIdsCursorQueryResultDTO>(twitterCursorResult);
 
-            var idsCursorQueryResultDTO = new IdsCursorQueryResultDTO()
+            var twitterResult = A.Fake<ITwitterResult<IIdsCursorQueryResultDTO>>();
+            var idsCursorQueryResultDTO = new IdsCursorQueryResultDTO
             {
                 Ids = new long[] { 42 },
                 NextCursorStr = "NextCursor",
                 PreviousCursorStr = "PreviousCursor"
             };
 
-            A.CallTo(() => twitterCursorResult.MoveNext()).Returns(new TwitterResult<IIdsCursorQueryResultDTO>(null)
-            {
-                DataTransferObject = idsCursorQueryResultDTO
-            });
+            A.CallTo(() => twitterCursorResult.MoveToNextPage())
+                .ReturnsLazily(() => new DetailedCursorPageResult<long, IIdsCursorQueryResultDTO>(twitterResult, idsCursorQueryResultDTO)
+);
 
             // act
-            var result = await cursorResult.MoveNext();
+            var result = await cursorResult.MoveToNextPage();
 
             // assert
-            A.CallTo(() => twitterCursorResult.MoveNext()).MustHaveHappenedOnceExactly();
+            A.CallTo(() => twitterCursorResult.MoveToNextPage()).MustHaveHappenedOnceExactly();
 
-            result.ShouldDeepEqual(new CursorOperationResult<long>()
+            result.ShouldDeepEqual(new CursorPageResult<long>
             {
                 Items = idsCursorQueryResultDTO.Ids,
                 NextCursor = idsCursorQueryResultDTO.NextCursorStr,
-                PreviousCursor = idsCursorQueryResultDTO.PreviousCursorStr
+                PreviousCursor = idsCursorQueryResultDTO.PreviousCursorStr,
+                IsLastPage = false
             });
         }
 
@@ -56,31 +57,35 @@ namespace xUnitinvi
         {
             // arrange
             var twitterCursorResult = A.Fake<ITwitterCursorResult<long, IIdsCursorQueryResultDTO>>();
-            var cursorResult = new CursorResult<long, IIdsCursorQueryResultDTO>(twitterCursorResult);
+            var cursorResult = new SkippableResultIterator<long, IIdsCursorQueryResultDTO>(twitterCursorResult);
 
-            var idsCursorQueryResultDTO = new IdsCursorQueryResultDTO()
+            var idsCursorQueryResultDTO = new IdsCursorQueryResultDTO
             {
                 Ids = new long[] { 42 },
                 NextCursorStr = "NextCursor",
                 PreviousCursorStr = "PreviousCursor"
             };
 
-            A.CallTo(() => twitterCursorResult.MoveNext("nextToken")).Returns(new TwitterResult<IIdsCursorQueryResultDTO>(null)
-            {
-                DataTransferObject = idsCursorQueryResultDTO
-            });
+            var twitterResult = A.Fake<ITwitterResult<IIdsCursorQueryResultDTO>>();
+            var pageResult = new DetailedCursorPageResult<long, IIdsCursorQueryResultDTO>(twitterResult,
+                idsCursorQueryResultDTO.Ids, 
+                idsCursorQueryResultDTO.NextCursorStr,
+                idsCursorQueryResultDTO.PreviousCursorStr);
+
+            A.CallTo(() => twitterCursorResult.MoveToNextPage("nextToken")).Returns(pageResult);
 
             // act
-            var result = await cursorResult.MoveNext("nextToken");
+            var result = await cursorResult.MoveToNextPage("nextToken");
 
             // assert
-            A.CallTo(() => twitterCursorResult.MoveNext("nextToken")).MustHaveHappenedOnceExactly();
+            A.CallTo(() => twitterCursorResult.MoveToNextPage("nextToken")).MustHaveHappenedOnceExactly();
 
-            result.ShouldDeepEqual(new CursorOperationResult<long>()
+            result.ShouldDeepEqual(new CursorPageResult<long>
             {
                 Items = idsCursorQueryResultDTO.Ids,
                 NextCursor = idsCursorQueryResultDTO.NextCursorStr,
-                PreviousCursor = idsCursorQueryResultDTO.PreviousCursorStr
+                PreviousCursor = idsCursorQueryResultDTO.PreviousCursorStr,
+                IsLastPage = false
             });
         }
     }

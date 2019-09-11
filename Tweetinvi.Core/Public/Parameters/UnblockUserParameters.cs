@@ -5,6 +5,10 @@ namespace Tweetinvi.Parameters
     public interface IUnblockUserParameters : ICustomRequestParameters
     {
         IUserIdentifier UserIdentifier { get; set; }
+        
+        /// <summary>
+        /// Include user entities.
+        /// </summary>
         bool? IncludeEntities { get; set; }
         bool? SkipStatus { get; set; }
     }

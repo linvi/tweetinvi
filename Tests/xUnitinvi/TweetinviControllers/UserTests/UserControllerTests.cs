@@ -5,6 +5,7 @@ using Tweetinvi.Core.Factories;
 using Tweetinvi.Core.Web;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
+using Tweetinvi.Models.DTO.QueryDTO;
 using Tweetinvi.Parameters;
 using Xunit;
 using xUnitinvi.TestHelpers;
@@ -29,6 +30,54 @@ namespace xUnitinvi.TweetinviControllers.UserTests
         private UserController CreateUserController()
         {
             return _fakeBuilder.GenerateClass();
+        }
+
+        [Fact]
+        public async Task GetFriendIds_ReturnsUserExecutorResult()
+        {
+            // Arrange
+            var controller = CreateUserController();
+
+            var parameters = new GetFriendIdsParameters("username");
+            var expectedResult = A.Fake<ITwitterResult<IIdsCursorQueryResultDTO>>();
+
+            _fakeUserQueryExecutor.CallsTo(x => x.GetFriendIds(A<IGetFriendIdsParameters>.Ignored, A<ITwitterRequest>.Ignored)).Returns(expectedResult);
+
+            // Act
+            var friendIdsIterator = controller.GetFriendIds(parameters, A.Fake<ITwitterRequest>());
+            
+            A.CallTo(() => _fakeUserQueryExecutor.FakedObject.GetFriendIds(A<IGetFriendIdsParameters>.Ignored, A<ITwitterRequest>.Ignored)).MustNotHaveHappened();
+
+            var page = await friendIdsIterator.MoveToNextPage();
+
+            A.CallTo(() => _fakeUserQueryExecutor.FakedObject.GetFriendIds(A<IGetFriendIdsParameters>.Ignored, A<ITwitterRequest>.Ignored)).MustHaveHappenedOnceExactly();
+
+            // Assert
+            Assert.Equal(page.TwitterResult, expectedResult);
+        }
+
+        [Fact]
+        public async Task GetFollowerIds_ReturnsUserExecutorResult()
+        {
+            // Arrange
+            var controller = CreateUserController();
+
+            var parameters = new GetFollowerIdsParameters("username");
+            var expectedResult = A.Fake<ITwitterResult<IIdsCursorQueryResultDTO>>();
+
+            _fakeUserQueryExecutor.CallsTo(x => x.GetFollowerIds(A<IGetFollowerIdsParameters>.Ignored, A<ITwitterRequest>.Ignored)).Returns(expectedResult);
+
+            // Act
+            var friendIdsIterator = controller.GetFollowerIds(parameters, A.Fake<ITwitterRequest>());
+
+            A.CallTo(() => _fakeUserQueryExecutor.FakedObject.GetFollowerIds(A<IGetFollowerIdsParameters>.Ignored, A<ITwitterRequest>.Ignored)).MustNotHaveHappened();
+
+            var page = await friendIdsIterator.MoveToNextPage();
+
+            A.CallTo(() => _fakeUserQueryExecutor.FakedObject.GetFollowerIds(A<IGetFollowerIdsParameters>.Ignored, A<ITwitterRequest>.Ignored)).MustHaveHappenedOnceExactly();
+
+            // Assert
+            Assert.Equal(page.TwitterResult, expectedResult);
         }
 
         [Fact]

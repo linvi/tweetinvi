@@ -33,49 +33,6 @@ namespace Testinvi.TweetinviControllers.UserTests
             _fakeUserFactory = _fakeBuilder.GetFake<IUserFactory>();
         }
 
-        #region Get FriendIds
-
-        [TestMethod]
-        public void GetFriendIds_ReturnsUserExecutorResult()
-        {
-            // Arrange
-            var controller = CreateUserController();
-
-            var parameters = new GetFriendIdsParameters("username");
-            var expectedResult = A.Fake<ITwitterResult<IIdsCursorQueryResultDTO>>();
-
-            _fakeUserQueryExecutor.CallsTo(x => x.GetFriendIds(A<IGetFriendIdsParameters>.Ignored, A<ITwitterRequest>.Ignored)).Returns(expectedResult);
-
-            // Act
-            var result = controller.GetFriendIds(parameters, A.Fake<ITwitterRequest>());
-            result.MoveNext();
-
-            // Assert
-            Assert.AreEqual(result.TwitterResults[0], expectedResult);
-        }
-
-
-        [TestMethod]
-        public void GetFollowerIds_ReturnsUserExecutorResult()
-        {
-            // Arrange
-            var controller = CreateUserController();
-
-            var parameters = new GetFollowerIdsParameters("username");
-            var expectedResult = A.Fake<ITwitterResult<IIdsCursorQueryResultDTO>>();
-
-            _fakeUserQueryExecutor.CallsTo(x => x.GetFollowerIds(A<IGetFollowerIdsParameters>.Ignored, A<ITwitterRequest>.Ignored)).Returns(expectedResult);
-
-            // Act
-            var result = controller.GetFollowerIds(parameters, A.Fake<ITwitterRequest>());
-            result.MoveNext();
-
-            // Assert
-            Assert.AreEqual(result.TwitterResults[0], expectedResult);
-        }
-
-        #endregion
-
         #region Get Favourites
 
         [TestMethod]

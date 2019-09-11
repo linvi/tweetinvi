@@ -16,13 +16,14 @@ namespace Tweetinvi.Core.Controllers
         Task<ITwitterResult<IUserDTO, IUser>> GetUser(IGetUserParameters parameters, ITwitterRequest request);
         Task<ITwitterResult<IUserDTO[], IUser[]>> GetUsers(IGetUsersParameters parameters, ITwitterRequest request);
 
-        TwitterCursorResult<long, IIdsCursorQueryResultDTO> GetFriendIds(IGetFriendIdsParameters parameters, ITwitterRequest request);
-        TwitterCursorResult<long, IIdsCursorQueryResultDTO> GetFollowerIds(IGetFollowerIdsParameters parameters, ITwitterRequest request);
+        ITwitterCursorResult<long, IIdsCursorQueryResultDTO> GetFriendIds(IGetFriendIdsParameters parameters, ITwitterRequest request);
+        ITwitterCursorResult<long, IIdsCursorQueryResultDTO> GetFollowerIds(IGetFollowerIdsParameters parameters, ITwitterRequest request);
         
         Task<ITwitterResult<IUserDTO>> BlockUser(IBlockUserParameters parameters, ITwitterRequest request);
         Task<ITwitterResult<IUserDTO>> UnblockUser(IUnblockUserParameters parameters, ITwitterRequest request);
         Task<ITwitterResult<IUserDTO>> ReportUserForSpam(IReportUserForSpamParameters parameters, ITwitterRequest request);
-        TwitterCursorResult<long,IIdsCursorQueryResultDTO> GetBlockedUserIds(IGetBlockedUserIdsParameters parameters, ITwitterRequest request);
+        ITwitterCursorResult<long,IIdsCursorQueryResultDTO> GetBlockedUserIds(IGetBlockedUserIdsParameters parameters, ITwitterRequest request);
+        ITwitterCursorResult<IUserDTO, IUserCursorQueryResultDTO> GetBlockedUsers(IGetBlockedUsersParameters parameters, ITwitterRequest request);
 
         // Favourites
         Task<IEnumerable<ITweet>> GetFavoriteTweets(IGetUserFavoritesQueryParameters parameters);
@@ -30,7 +31,6 @@ namespace Tweetinvi.Core.Controllers
 
         // Get Blocked Users
 
-        Task<IEnumerable<IUser>> GetBlockedUsers(int maxUsers = 2147483647);
 
         // Stream Profile Image
         Stream GetProfileImageStream(IUser user, ImageSize imageSize = ImageSize.normal);

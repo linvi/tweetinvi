@@ -15,7 +15,7 @@ namespace Tweetinvi.Core.Public.Parameters
         /// <summary>
         /// The maximum number of objects to return
         /// </summary>
-        int MaximumNumberOfResults { get; set; }
+        int PageSize { get; set; }
     }
 
     public class CursorQueryParameters : CustomRequestParameters, ICursorQueryParameters
@@ -23,7 +23,7 @@ namespace Tweetinvi.Core.Public.Parameters
         public CursorQueryParameters()
         {
             Cursor = null;
-            MaximumNumberOfResults = 20;
+            PageSize = 20;
         }
 
         public CursorQueryParameters(ICursorQueryParameters parameters) : base(parameters)
@@ -34,11 +34,11 @@ namespace Tweetinvi.Core.Public.Parameters
             }
             
             Cursor = parameters.Cursor;
-            MaximumNumberOfResults = parameters.MaximumNumberOfResults;
+            PageSize = parameters.PageSize;
         }
 
         public string Cursor { get; set; }
 
-        public int MaximumNumberOfResults { get; set; }
+        public int PageSize { get; set; }
     }
 }

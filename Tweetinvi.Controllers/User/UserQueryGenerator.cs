@@ -76,7 +76,7 @@ namespace Tweetinvi.Controllers.User
             var query = new StringBuilder(Resources.User_GetFriends);
 
             query.AddFormattedParameterToQuery(_userQueryParameterGenerator.GenerateIdOrScreenNameParameter(parameters.UserIdentifier));
-            query.AddParameterToQuery("count", parameters.MaximumNumberOfResults);
+            query.AddParameterToQuery("count", parameters.PageSize);
             query.Append(_queryParameterGenerator.GenerateAdditionalRequestParameters(parameters.FormattedCustomQueryParameters));
 
             return query.ToString();
@@ -90,7 +90,7 @@ namespace Tweetinvi.Controllers.User
             var query = new StringBuilder(Resources.User_GetFollowers);
 
             query.AddFormattedParameterToQuery(_userQueryParameterGenerator.GenerateIdOrScreenNameParameter(parameters.UserIdentifier));
-            query.AddParameterToQuery("count", parameters.MaximumNumberOfResults);
+            query.AddParameterToQuery("count", parameters.PageSize);
             query.Append(_queryParameterGenerator.GenerateAdditionalRequestParameters(parameters.FormattedCustomQueryParameters));
 
             return query.ToString();
@@ -162,7 +162,19 @@ namespace Tweetinvi.Controllers.User
         {
             var query = new StringBuilder(Resources.User_Block_List_Ids);
 
-            query.AddParameterToQuery("count", parameters.MaximumNumberOfResults);
+            query.AddParameterToQuery("count", parameters.PageSize);
+            query.Append(_queryParameterGenerator.GenerateAdditionalRequestParameters(parameters.FormattedCustomQueryParameters));
+
+            return query.ToString();
+        }
+
+        public string GetBlockedUsersQuery(IGetBlockedUsersParameters parameters)
+        {
+            var query = new StringBuilder(Resources.User_Block_List);
+
+            query.AddParameterToQuery("count", parameters.PageSize);
+            query.AddParameterToQuery("include_entities", parameters.IncludeEntities);
+            query.AddParameterToQuery("skip_status",  parameters.SkipStatus);
             query.Append(_queryParameterGenerator.GenerateAdditionalRequestParameters(parameters.FormattedCustomQueryParameters));
 
             return query.ToString();

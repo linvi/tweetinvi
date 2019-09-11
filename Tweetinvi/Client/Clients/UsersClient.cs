@@ -2,9 +2,10 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Tweetinvi.Client.Requesters;
-using Tweetinvi.Core.Helpers;
+using Tweetinvi.Core.Factories;
 using Tweetinvi.Core.Models;
 using Tweetinvi.Models;
+using Tweetinvi.Models.DTO;
 using Tweetinvi.Models.DTO.QueryDTO;
 using Tweetinvi.Parameters;
 
@@ -18,14 +19,12 @@ namespace Tweetinvi.Client
     public class UsersClient : IUsersClient
     {
         private readonly IUsersRequester _usersRequester;
-        private readonly TwitterClient _client;
-        private readonly IPagedOperationsHelper _pageOperationHelper;
+        private readonly IUserFactory _userFactory;
 
         public UsersClient(TwitterClient client)
         {
-            _client = client;
             _usersRequester = client.RequestExecutor.Users;
-            _pageOperationHelper = TweetinviContainer.Resolve<IPagedOperationsHelper>();
+            _userFactory = TweetinviContainer.Resolve<IUserFactory>();
         }
 
         public async Task<IAuthenticatedUser> GetAuthenticatedUser()
@@ -99,94 +98,86 @@ namespace Tweetinvi.Client
 
         #region GetFriends
 
-        public Task<ICursorResult<long>> GetFriendIds(string username)
+        public ISkippableResultIterator<long> GetFriendIds(string username)
         {
             var parameters = new GetFriendIdsParameters(username);
             return GetFriendIds(parameters);
         }
 
-        public Task<ICursorResult<long>> GetFriendIds(long userId)
+        public ISkippableResultIterator<long> GetFriendIds(long userId)
         {
             var parameters = new GetFriendIdsParameters(userId);
             return GetFriendIds(parameters);
         }
 
-        public Task<ICursorResult<long>> GetFriendIds(IUserIdentifier userIdentifier)
+        public ISkippableResultIterator<long> GetFriendIds(IUserIdentifier userIdentifier)
         {
             var parameters = new GetFriendIdsParameters(userIdentifier);
             return GetFriendIds(parameters);
         }
 
-        public async Task<ICursorResult<long>> GetFriendIds(IGetFriendIdsParameters parameters)
+        public ISkippableResultIterator<long> GetFriendIds(IGetFriendIdsParameters parameters)
         {
             var twitterCursorResult = _usersRequester.GetFriendIds(parameters);
-            var cursorResult = new CursorResult<long, IIdsCursorQueryResultDTO>(twitterCursorResult);
-
-            await cursorResult.MoveNext().ConfigureAwait(false);
+            var cursorResult = new SkippableResultIterator<long, IIdsCursorQueryResultDTO>(twitterCursorResult);
 
             return cursorResult;
         }
 
-        public async Task<ICursorResult<IUser>> GetFriends(IGetFriendsParameters parameters)
+        public ICursorResultIterator<IUser> GetFriends(IGetFriendsParameters parameters)
         {
             var twitterCursorResult = _usersRequester.GetFriendIds(parameters);
 
-            var cursorResult = new CursorResult<IUser, long, IIdsCursorQueryResultDTO>(twitterCursorResult, async ids =>
+            var friendIdsIterator = new SkippableResultIterator<long, IIdsCursorQueryResultDTO>(twitterCursorResult);
+            var userCursorIterator = new MultiLevelCursorResultIterator<IUser, long>(friendIdsIterator, friendIds =>
             {
-                var maxItemsPerRequest = _client.Config.Limits.Users.GetUsersMaxSize;
-                return await _pageOperationHelper.IterateOverWithLimit(ids, GetUsers, maxItemsPerRequest).ConfigureAwait(false);
+                return new PageResultIterator<long, IUser>(friendIds, GetUsers, parameters.GetUsersPageSize);
             });
-
-            await cursorResult.MoveNext().ConfigureAwait(false);
-
-            return cursorResult;
+            
+            return userCursorIterator;
         }
 
         #endregion
 
         #region GetFollowers
 
-        public Task<ICursorResult<long>> GetFollowerIds(string username)
+        public ISkippableResultIterator<long> GetFollowerIds(string username)
         {
             var parameters = new GetFollowerIdsParameters(username);
             return GetFollowerIds(parameters);
         }
 
-        public Task<ICursorResult<long>> GetFollowerIds(long userId)
+        public ISkippableResultIterator<long> GetFollowerIds(long userId)
         {
             var parameters = new GetFollowerIdsParameters(userId);
             return GetFollowerIds(parameters);
         }
 
-        public Task<ICursorResult<long>> GetFollowerIds(IUserIdentifier userIdentifier)
+        public ISkippableResultIterator<long> GetFollowerIds(IUserIdentifier userIdentifier)
         {
             var parameters = new GetFollowerIdsParameters(userIdentifier);
             return GetFollowerIds(parameters);
         }
 
-        public async Task<ICursorResult<long>> GetFollowerIds(IGetFollowerIdsParameters parameters)
+        public ISkippableResultIterator<long> GetFollowerIds(IGetFollowerIdsParameters parameters)
         {
             var twitterCursorResult = _usersRequester.GetFollowerIds(parameters);
-            var cursorResult = new CursorResult<long, IIdsCursorQueryResultDTO>(twitterCursorResult);
-
-            await cursorResult.MoveNext().ConfigureAwait(false);
+            var cursorResult = new SkippableResultIterator<long, IIdsCursorQueryResultDTO>(twitterCursorResult);
 
             return cursorResult;
         }
 
-        public async Task<ICursorResult<IUser>> GetFollowers(IGetFollowersParameters parameters)
+        public ICursorResultIterator<IUser> GetFollowers(IGetFollowersParameters parameters)
         {
             var twitterCursorResult = _usersRequester.GetFollowerIds(parameters);
-
-            var cursorResult = new CursorResult<IUser, long, IIdsCursorQueryResultDTO>(twitterCursorResult, async ids =>
+            
+            var followerIdsIterator = new SkippableResultIterator<long, IIdsCursorQueryResultDTO>(twitterCursorResult);
+            var userCursorIterator = new MultiLevelCursorResultIterator<IUser, long>(followerIdsIterator, followerIds =>
             {
-                var maxItemsPerRequest = _client.Config.Limits.Users.GetUsersMaxSize;
-                return await _pageOperationHelper.IterateOverWithLimit(ids, GetUsers, maxItemsPerRequest).ConfigureAwait(false);
+                return new PageResultIterator<long, IUser>(followerIds, GetUsers, parameters.GetUsersPageSize);
             });
 
-            await cursorResult.MoveNext().ConfigureAwait(false);
-
-            return cursorResult;
+            return userCursorIterator;
         }
 
         #endregion
@@ -197,12 +188,12 @@ namespace Tweetinvi.Client
         {
             return BlockUser(new BlockUserParameters(userId));
         }
-        
+
         public Task<bool> BlockUser(string username)
         {
             return BlockUser(new BlockUserParameters(username));
         }
-        
+
         public Task<bool> BlockUser(IUserIdentifier user)
         {
             return BlockUser(new BlockUserParameters(user));
@@ -256,17 +247,28 @@ namespace Tweetinvi.Client
             return requestResult?.DataTransferObject != null;
         }
 
-        public Task<ICursorResult<long>> GetBlockedUserIds()
+        public ISkippableResultIterator<long> GetBlockedUserIds()
         {
             return GetBlockedUserIds(new GetBlockedUserIdsParameters());
         }
 
-        public async Task<ICursorResult<long>> GetBlockedUserIds(IGetBlockedUserIdsParameters parameters)
+        public ISkippableResultIterator<long> GetBlockedUserIds(IGetBlockedUserIdsParameters parameters)
         {
             var twitterCursorResult = _usersRequester.GetBlockedUserIds(parameters);
-            var cursorResult = new CursorResult<long, IIdsCursorQueryResultDTO>(twitterCursorResult);
+            var cursorResult = new SkippableResultIterator<long, IIdsCursorQueryResultDTO>(twitterCursorResult);
 
-            await cursorResult.MoveNext().ConfigureAwait(false);
+            return cursorResult;
+        }
+
+        public ISkippableResultIterator<IUser> GetBlockedUsers()
+        {
+            return GetBlockedUsers(new GetBlockedUsersParameters());
+        }
+
+        public ISkippableResultIterator<IUser> GetBlockedUsers(IGetBlockedUsersParameters parameters)
+        {
+            var twitterCursorResult = _usersRequester.GetBlockedUsers(parameters);
+            var cursorResult = new SkippableResultIterator<IUser, IUserDTO, IUserCursorQueryResultDTO>(twitterCursorResult, _userFactory.GenerateUsersFromDTO);
 
             return cursorResult;
         }

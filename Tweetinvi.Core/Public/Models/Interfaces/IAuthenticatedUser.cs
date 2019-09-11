@@ -222,12 +222,12 @@ namespace Tweetinvi.Models
         /// <summary>
         /// Get the ids of the user you blocked.
         /// </summary>
-        Task<ICursorResult<long>> GetBlockedUserIds();
+        ISkippableResultIterator<long> GetBlockedUserIds();
 
         /// <summary>
         /// Retrieve the users blocked by the current user.
         /// </summary>
-        Task<IEnumerable<IUser>> GetBlockedUsers();
+        ISkippableResultIterator<IUser> GetBlockedUsers();
 
         // Spam
 

@@ -43,7 +43,7 @@ namespace Testinvi.TweetinviControllers.UserTests
 
             var friendIdsParameter = new GetFriendIdsParameters(userDTO)
             {
-                MaximumNumberOfResults = maximumNumberOfFriends
+                PageSize = maximumNumberOfFriends
             };
 
             // Act
@@ -71,7 +71,7 @@ namespace Testinvi.TweetinviControllers.UserTests
 
             var followerIdsParameter = new GetFollowerIdsParameters(userDTO)
             {
-                MaximumNumberOfResults = maximumNumberOfFollowers
+                PageSize = maximumNumberOfFollowers
             };
 
             // Act

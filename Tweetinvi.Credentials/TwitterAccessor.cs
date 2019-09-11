@@ -440,7 +440,7 @@ namespace Tweetinvi.Credentials
             ICursorQueryParameters cursorQueryParameters)
             where T1 : class, IBaseCursorQueryDTO<T>
         {
-            return ExecuteCursorGETQuery<T, T1>(baseQuery, cursorQueryParameters.MaximumNumberOfResults, cursorQueryParameters.Cursor);
+            return ExecuteCursorGETQuery<T, T1>(baseQuery, cursorQueryParameters.PageSize, cursorQueryParameters.Cursor);
         }
 
         public async Task<IEnumerable<T>> ExecuteCursorGETQuery<T, T1>(

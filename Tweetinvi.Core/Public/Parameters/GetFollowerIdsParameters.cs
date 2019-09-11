@@ -19,7 +19,7 @@ namespace Tweetinvi.Parameters
     {
         private GetFollowerIdsParameters()
         {
-            MaximumNumberOfResults = 5000;
+            PageSize = 5000;
         }
 
         public GetFollowerIdsParameters(IUserIdentifier userIdentifier) : this()

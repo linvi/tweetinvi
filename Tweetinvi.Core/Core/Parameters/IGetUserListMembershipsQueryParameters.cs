@@ -1,5 +1,6 @@
 ﻿using Tweetinvi.Core.Public.Parameters;
 using Tweetinvi.Models;
+using Tweetinvi.Parameters;
 
 namespace Tweetinvi.Core.Core.Parameters
 {

@@ -60,6 +60,6 @@ namespace Tweetinvi
         /// Maximum numbers of users that can be retrieved in 1 request
         /// https://developer.twitter.com/en/docs/accounts-and-users/follow-search-get-users/api-reference/get-users-lookup
         /// </summary>
-        public short GetUsersMaxSize { get; set; } = 100;
+        public int GetUsersMaxSize { get; set; } = TweetinviConsts.GET_USERS_MAX_PAGE_SIZE;
     }
 }

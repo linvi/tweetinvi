@@ -1,6 +1,7 @@
 ﻿using Tweetinvi.Core.Core.Parameters;
 using Tweetinvi.Core.Public.Parameters;
 using Tweetinvi.Models;
+using Tweetinvi.Parameters;
 
 namespace Tweetinvi.Logic.QueryParameters
 {

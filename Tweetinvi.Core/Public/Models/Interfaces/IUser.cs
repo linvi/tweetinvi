@@ -302,21 +302,21 @@ namespace Tweetinvi.Models
         /// <summary>
         /// Get a list of the user's friend ids.
         /// </summary>
-        Task<ICursorResult<long>> GetFriendIds();
+        ISkippableResultIterator<long> GetFriendIds();
 
         /// <summary>
         /// Get a list of the user's friends.
         /// </summary>
-        Task<ICursorResult<IUser>> GetFriends();
+        ICursorResultIterator<IUser> GetFriends();
 
         // Followers
 
         /// <summary>
         /// Get a list of the user's follower ids.
         /// </summary>
-        Task<ICursorResult<long>> GetFollowerIds();
+        ISkippableResultIterator<long> GetFollowerIds();
 
-        Task<ICursorResult<IUser>> GetFollowers();
+        ICursorResultIterator<IUser> GetFollowers();
 
         // Friendship
 

@@ -1,7 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Tweetinvi.Core.Models;
+using Tweetinvi.Exceptions;
 using Tweetinvi.Models.DTO.QueryDTO;
 
 namespace Tweetinvi.Core.Web
@@ -11,58 +12,66 @@ namespace Tweetinvi.Core.Web
     /// </summary>
     /// <typeparam name="TItem">Type of items returned by the cursor requests</typeparam>
     /// <typeparam name="TDTO">DataTransferObject returned by the cursor requests</typeparam>
-    public interface ITwitterCursorResult<TItem, TDTO> where TDTO : IBaseCursorQueryDTO<TItem>
+    public interface ITwitterCursorResult<TItem, TDTO> : ITwitterCursorResult<TItem, TItem, TDTO> where TDTO : IBaseCursorQueryDTO<TItem>
     {
-        /// <summary>
-        /// List of TwitterResults performed over the different cursor requests
-        /// </summary>
-        List<ITwitterResult<TDTO>> TwitterResults { get; }
-        
-        /// <summary>
-        /// List of aggregated items retrieved over the different cursor requests
-        /// </summary>
-        List<TItem> Items { get; }
-        
+    }
+
+    public class TwitterCursorResult<TItem, TDTO> : TwitterCursorResult<TItem, TItem, TDTO>, ITwitterCursorResult<TItem, TDTO> where TDTO : IBaseCursorQueryDTO<TItem>
+    {
+        public TwitterCursorResult(Func<string, Task<ITwitterResult<TDTO>>> getItemsFromCursor) : base(getItemsFromCursor, x => x)
+        {
+        }
+    }
+
+    /// <summary>
+    /// Object iterating over cursored stored items in Twitter
+    /// </summary>
+    /// <typeparam name="TItem">Type of items returned by the cursor requests</typeparam>
+    /// <typeparam name="TDTO">DataTransferObject returned by the cursor requests</typeparam>
+    public interface ITwitterCursorResult<TItem, TCursorItem, TDTO> where TDTO : IBaseCursorQueryDTO<TCursorItem>
+    {
         /// <summary>
         /// Items returned by the last cursor request
         /// </summary>
-        TItem[] Current { get;  }
-        
+        TItem[] Current { get; }
+
         /// <summary>
         /// Cursor to retrieve next data
         /// </summary>
         string NextCursor { get; }
-        
+
         /// <summary>
         /// Cursor to retrieve previous data
         /// </summary>
-        string PreviousCursor { get;  }
-        
+        string PreviousCursor { get; }
+
         /// <summary>
         /// Whether all the data have been returned
         /// </summary>
         bool Completed { get; }
-        
+
         /// <summary>
         /// Move to the next cursor and update the items
         /// </summary>
         /// <returns>TwitterResult of the cursor requests</returns>
-        Task<ITwitterResult<TDTO>> MoveNext();
-        
+        Task<IDetailedCursorPageResult<TItem, TDTO>> MoveToNextPage();
+
         /// <summary>
         /// Move to the defined cursor and update the items
         /// </summary>
         /// <param name="nextCursor">Cursor from where to get items</param>
         /// <returns>Items at the cursor</returns>
-        Task<ITwitterResult<TDTO>> MoveNext(string nextCursor);
+        Task<IDetailedCursorPageResult<TItem, TDTO>> MoveToNextPage(string nextCursor);
     }
-    
-    public class TwitterCursorResult<TItem, TDTO> : ITwitterCursorResult<TItem, TDTO> where TDTO : IBaseCursorQueryDTO<TItem>
+
+
+    public class TwitterCursorResult<TItem, TCursorItem, TDTO> : ITwitterCursorResult<TItem, TCursorItem, TDTO> where TDTO : IBaseCursorQueryDTO<TCursorItem>
     {
         private readonly Func<string, Task<ITwitterResult<TDTO>>> _getItemsFromCursor;
+        private readonly Func<TCursorItem, TItem> _transform;
         private bool _isOperationRunning;
 
-        public TwitterCursorResult(Func<string, Task<ITwitterResult<TDTO>>> getItemsFromCursor)
+        public TwitterCursorResult(Func<string, Task<ITwitterResult<TDTO>>> getItemsFromCursor, Func<TCursorItem, TItem> transform)
         {
             if (getItemsFromCursor == null)
             {
@@ -70,63 +79,66 @@ namespace Tweetinvi.Core.Web
             }
 
             _getItemsFromCursor = getItemsFromCursor;
-
-            TwitterResults = new List<ITwitterResult<TDTO>>();
-            Items = new List<TItem>(); 
+            _transform = transform;
         }
 
-        public List<ITwitterResult<TDTO>> TwitterResults { get; }
-        public List<TItem> Items { get; }
         public TItem[] Current { get; private set; }
-        public string NextCursor { get; set; }
+        public string NextCursor { get; private set; }
         public string PreviousCursor { get; private set; }
-        public bool Completed => TwitterResults.Count > 0 && (NextCursor == null || NextCursor == "0");
+        public bool Completed
+        {
+            get
+            {
+                var isFirstRequest = NextCursor == null;
+                return !isFirstRequest && NextCursor == "0";
+            }
+        }
 
-        public async Task<ITwitterResult<TDTO>> MoveNext(string nextCursor)
+        public async Task<IDetailedCursorPageResult<TItem, TDTO>> MoveToNextPage(string nextCursor)
         {
             EnsuresASingleOperationRunsAtOnce();
 
             if (Completed)
             {
-                throw new InvalidOperationException("You have already retrieved all the items");
+                throw new TwitterCursorOutOfBoundsException("No more pages available, you have already retrieved all the items.");
             }
 
             var twitterResult = await _getItemsFromCursor(nextCursor);
             var dto = twitterResult.DataTransferObject;
-            
-            TwitterResults.Add(twitterResult);
+
+            TItem[] items = null;
 
             if (dto != null)
             {
                 var cursorItems = dto.Results?.ToArray();
-                
+
                 // only when the request succeeded do we want to move the cursor
                 NextCursor = dto.NextCursorStr;
                 PreviousCursor = dto.PreviousCursorStr;
-                
+
                 // only when the request succeeded do we want to change the current items
                 if (cursorItems != null)
                 {
-                    Current = cursorItems;
-                    Items.AddRange(cursorItems);
+                    items = cursorItems.Select(x => _transform(x)).ToArray();
+                    Current = items;
                 }
             }
 
             _isOperationRunning = false;
 
-            return twitterResult;
+            return new DetailedCursorPageResult<TItem, TDTO>(twitterResult, items, NextCursor, PreviousCursor);
         }
-        
-        public Task<ITwitterResult<TDTO>> MoveNext()
+
+        public Task<IDetailedCursorPageResult<TItem, TDTO>> MoveToNextPage()
         {
-            return MoveNext(NextCursor);
+            return MoveToNextPage(NextCursor);
         }
 
         private void EnsuresASingleOperationRunsAtOnce()
         {
             if (_isOperationRunning)
             {
-                throw new InvalidOperationException($"You can only run 1 {nameof(MoveNext)} at a time");
+                throw new InvalidOperationException($"You can only run 1 {nameof(MoveToNextPage)} at a time");
             }
 
             _isOperationRunning = true;
