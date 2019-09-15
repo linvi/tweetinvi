@@ -83,6 +83,18 @@ namespace Tweetinvi.Controllers.User
         }
 
         // Followers
+        public string GetFollowUserQuery(IFollowUserParameters parameters)
+        {
+            _userQueryValidator.ThrowIfUserCannotBeIdentified(parameters.UserIdentifier);
+
+            var query = new StringBuilder(Resources.Friendship_Create);
+
+            query.AddFormattedParameterToQuery(_userQueryParameterGenerator.GenerateIdOrScreenNameParameter(parameters.UserIdentifier));
+            query.AddParameterToQuery("follow", parameters.EnableNotifications);
+            query.Append(_queryParameterGenerator.GenerateAdditionalRequestParameters(parameters.FormattedCustomQueryParameters));
+
+            return query.ToString();
+        }
         public string GetFollowerIdsQuery(IGetFollowerIdsParameters parameters)
         {
             _userQueryValidator.ThrowIfUserCannotBeIdentified(parameters.UserIdentifier);

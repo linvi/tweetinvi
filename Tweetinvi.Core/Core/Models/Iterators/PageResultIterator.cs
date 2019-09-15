@@ -24,7 +24,7 @@ namespace Tweetinvi.Core.Models
         {
             if (_currentPosition >= _input.Length)
             {
-                return new PageResult<TResult>()
+                return new PageResult<TResult>
                 {
                     Items = new TResult[0],
                     IsLastPage = true

@@ -81,7 +81,7 @@ namespace xUnitinvi.TweetinviControllers.UserTests
         }
 
         [Fact]
-        public async Task BlockUser_WithUser_ReturnsUserExecutorResult_False()
+        public async Task BlockUser_ReturnsUserExecutorResult()
         {
             // Arrange
             var controller = CreateUserController();
@@ -135,6 +135,26 @@ namespace xUnitinvi.TweetinviControllers.UserTests
 
             // Act
             var result = await controller.ReportUserForSpam(parameters, request);
+
+            // Assert
+            Assert.Equal(result, expectedResult);
+        }
+
+        [Fact]
+        public async Task FollowUser_ReturnsUserExecrutorResult()
+        {
+            // Arrange
+            var controller = CreateUserController();
+            var userDTO = A.Fake<IUserDTO>();
+
+            var followUserParameters = new FollowUserParameters(userDTO);
+            var request = A.Fake<ITwitterRequest>();
+            var expectedResult = A.Fake<ITwitterResult<IUserDTO>>();
+
+            _fakeUserQueryExecutor.CallsTo(x => x.FollowUser(followUserParameters, request)).Returns(expectedResult);
+
+            // Act
+            var result = await controller.FollowUser(followUserParameters, request);
 
             // Assert
             Assert.Equal(result, expectedResult);

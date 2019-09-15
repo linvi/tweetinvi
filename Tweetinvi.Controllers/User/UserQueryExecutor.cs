@@ -23,6 +23,8 @@ namespace Tweetinvi.Controllers.User
 
 
         Task<ITwitterResult<IIdsCursorQueryResultDTO>> GetFriendIds(IGetFriendIdsParameters parameters, ITwitterRequest request);
+
+        Task<ITwitterResult<IUserDTO>> FollowUser(IFollowUserParameters parameters, ITwitterRequest request);
         Task<ITwitterResult<IIdsCursorQueryResultDTO>> GetFollowerIds(IGetFollowerIdsParameters parameters, ITwitterRequest request);
 
         Task<ITwitterResult<IUserDTO>> BlockUser(IBlockUserParameters parameters, ITwitterRequest request);
@@ -37,7 +39,6 @@ namespace Tweetinvi.Controllers.User
 
         // Stream Profile Image
         Stream GetProfileImageStream(IUserDTO userDTO, ImageSize imageSize = ImageSize.normal);
-        
     }
 
     public class UserQueryExecutor : IUserQueryExecutor
@@ -114,6 +115,16 @@ namespace Tweetinvi.Controllers.User
             request.Query.HttpMethod = HttpMethod.GET;
 
             return _twitterAccessor.ExecuteRequest<IIdsCursorQueryResultDTO>(request);
+        }
+
+        public Task<ITwitterResult<IUserDTO>> FollowUser(IFollowUserParameters parameters, ITwitterRequest request)
+        {
+            var query = _userQueryGenerator.GetFollowUserQuery(parameters);
+
+            request.Query.Url = query;
+            request.Query.HttpMethod = HttpMethod.POST;
+
+            return _twitterAccessor.ExecuteRequest<IUserDTO>(request);
         }
 
         public Task<ITwitterResult<IIdsCursorQueryResultDTO>> GetFollowerIds(IGetFollowerIdsParameters parameters, ITwitterRequest request)

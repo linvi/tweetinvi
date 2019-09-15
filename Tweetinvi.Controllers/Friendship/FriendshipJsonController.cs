@@ -13,11 +13,6 @@ namespace Tweetinvi.Controllers.Friendship
         Task<IEnumerable<string>> GetUserIdsRequestingFriendship();
         Task<IEnumerable<string>> GetUserIdsYouRequestedToFollow();
 
-        // Create Friendship with
-        Task<string> CreateFriendshipWith(IUserIdentifier user);
-        Task<string> CreateFriendshipWith(long userId);
-        Task<string> CreateFriendshipWith(string userScreeName);
-
         // Destroy Friendship with
         Task<string> DestroyFriendshipWith(IUserIdentifier user);
         Task<string> DestroyFriendshipWith(long userId);
@@ -56,25 +51,6 @@ namespace Tweetinvi.Controllers.Friendship
             string query = _friendshipQueryGenerator.GetUserIdsYouRequestedToFollowQuery();
             return _twitterAccessor.ExecuteJsonCursorGETQuery<IIdsCursorQueryResultDTO>(query);
         }
-
-        public Task<string> CreateFriendshipWith(IUserIdentifier user)
-        {
-            string query = _friendshipQueryGenerator.GetCreateFriendshipWithQuery(user);
-            return _twitterAccessor.ExecutePOSTQueryReturningJson(query);
-        }
-
-        public Task<string> CreateFriendshipWith(long userId)
-        {
-            string query = _friendshipQueryGenerator.GetCreateFriendshipWithQuery(new UserIdentifier(userId));
-            return _twitterAccessor.ExecutePOSTQueryReturningJson(query);
-        }
-
-        public Task<string> CreateFriendshipWith(string userScreeName)
-        {
-            string query = _friendshipQueryGenerator.GetCreateFriendshipWithQuery(new UserIdentifier(userScreeName));
-            return _twitterAccessor.ExecutePOSTQueryReturningJson(query);
-        }
-
 
         public Task<string> DestroyFriendshipWith(IUserIdentifier user)
         {

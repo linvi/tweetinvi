@@ -79,6 +79,12 @@ namespace Tweetinvi.Client.Requesters
         /// </summary>
         /// <returns>TwitterCursorResult to iterate over all the blocked users</returns>
         ITwitterCursorResult<IUserDTO, IUserCursorQueryResultDTO> GetBlockedUsers(IGetBlockedUsersParameters parameters);
+
+        /// <summary>
+        /// Follow a user
+        /// </summary>
+        /// <returns>Twitter result containing the followed user</returns>
+        Task<ITwitterResult<IUserDTO>> FollowUser(IFollowUserParameters parameters);
     }
 
     public class UsersRequester : BaseRequester, IInternalUsersRequester
@@ -130,6 +136,12 @@ namespace Tweetinvi.Client.Requesters
             var request = _twitterClient.CreateRequest();
             request.ExecutionContext.Converters = JsonQueryConverterRepository.Converters;
             return _userController.GetFriendIds(parameters, request);
+        }
+
+        public Task<ITwitterResult<IUserDTO>> FollowUser(IFollowUserParameters parameters)
+        {
+            var request = _twitterClient.CreateRequest();
+            return ExecuteRequest(() => _userController.FollowUser(parameters, request), request);
         }
 
         public ITwitterCursorResult<long, IIdsCursorQueryResultDTO> GetFollowerIds(IGetFollowerIdsParameters parameters)

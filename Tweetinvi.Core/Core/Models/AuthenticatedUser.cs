@@ -151,17 +151,17 @@ namespace Tweetinvi.Core.Models
         // Follow
         public Task<bool> FollowUser(IUserIdentifier user)
         {
-            return ExecuteAuthenticatedUserOperation(() => _friendshipController.CreateFriendshipWith(user));
+            return Client.Users.FollowUser(user);
         }
 
         public Task<bool> FollowUser(long userId)
         {
-            return ExecuteAuthenticatedUserOperation(() => _friendshipController.CreateFriendshipWith(userId));
+            return Client.Users.FollowUser(userId);
         }
 
-        public Task<bool> FollowUser(string screenName)
+        public Task<bool> FollowUser(string username)
         {
-            return ExecuteAuthenticatedUserOperation(() => _friendshipController.CreateFriendshipWith(screenName));
+            return Client.Users.FollowUser(username);
         }
 
         public Task<bool> UnFollowUser(IUserIdentifier user)

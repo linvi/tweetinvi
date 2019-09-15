@@ -14,6 +14,8 @@ namespace Tweetinvi.Core.QueryGenerators
 
         string GetFriendIdsQuery(IGetFriendIdsParameters parameters);
 
+
+        string GetFollowUserQuery(IFollowUserParameters parameters);
         string GetFollowerIdsQuery(IGetFollowerIdsParameters parameters);
 
 

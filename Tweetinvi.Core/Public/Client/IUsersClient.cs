@@ -225,8 +225,37 @@ namespace Tweetinvi
         /// <returns>A CursorResult to iterate over all the blocked users</returns>
         ISkippableResultIterator<IUser> GetBlockedUsers(IGetBlockedUsersParameters parameters);
 
+        ISkippableResultIterator<IUser> GetBlockedUsers();
+
         #endregion
 
-        ISkippableResultIterator<IUser> GetBlockedUsers();
+        #region Follow / Unfollow
+
+        /// <summary>
+        /// Follow a user
+        /// </summary>
+        /// <returns>Whether the operation was successful</returns>
+        Task<bool> FollowUser(long userId);
+
+        /// <summary>
+        /// Follow a user
+        /// </summary>
+        /// <returns>Whether the operation was successful</returns>
+        Task<bool> FollowUser(string username);
+
+        /// <summary>
+        /// Follow a user
+        /// </summary>
+        /// <returns>Whether the operation was successful</returns>
+        Task<bool> FollowUser(IUserIdentifier user);
+
+        /// <summary>
+        /// Follow a user
+        /// </summary>
+        /// <returns>Whether the operation was successful</returns>
+        Task<bool> FollowUser(IFollowUserParameters parameters);
+
+        #endregion
+
     }
 }

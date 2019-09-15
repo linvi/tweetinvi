@@ -148,32 +148,7 @@ namespace Testinvi.TweetinviLogic
 
         #endregion
 
-        #region FollowUser
-
-        [TestMethod]
-        public async Task FollowUser_CurrentCredentialsAreNotAuthenticatedUserCredentials_OperationPerformedWithAppropriateCredentials()
-        {
-            // Arrange
-            var user = A.Fake<IUser>();
-
-            ITwitterCredentials startOperationWithCredentials = null;
-            _fakeFriendshipController.CallsTo(x => x.CreateFriendshipWith(user)).ReturnsLazily(() =>
-            {
-                startOperationWithCredentials = _fakeCredentialsAccessor.FakedObject.CurrentThreadCredentials;
-                return true;
-            });
-
-            // Act
-            await _authenticatedUser.FollowUser(user);
-
-            // Assert
-            Assert.AreEqual(startOperationWithCredentials, _authenticatedUserCredentials);
-            Assert.AreEqual(_fakeCredentialsAccessor.FakedObject.CurrentThreadCredentials, _currentCredentials);
-        }
-
-        #endregion
-
-        #region FollowUser
+        #region UnFollowUser
 
         [TestMethod]
         public async Task UnFollowUser_CurrentCredentialsAreNotAuthenticatedUserCredentials_OperationPerformedWithAppropriateCredentials()
@@ -292,23 +267,6 @@ namespace Testinvi.TweetinviLogic
             // Assert
             Assert.AreEqual(startOperationWithCredentials, _authenticatedUserCredentials);
             Assert.AreEqual(_fakeCredentialsAccessor.FakedObject.CurrentThreadCredentials, _currentCredentials);
-        }
-
-        #endregion
-
-        #region PublishTweet
-
-        [TestMethod]
-        public async Task PublishTweetText_UsesTweetsClient()
-        {
-            // Arrange
-            var parameters = A.Fake<IPublishTweetParameters>();
-
-            // Act
-            await _authenticatedUser.PublishTweet(parameters);
-
-            // Assert
-            _tweetsClient.CallsTo(x => x.PublishTweet(parameters)).MustHaveHappened();
         }
 
         #endregion

@@ -173,43 +173,6 @@ namespace Testinvi.TweetinviControllers.FriendshipTests
 
         #endregion
 
-        #region Create Friendship With
-
-        [TestMethod]
-        public async Task CreateFriendshipWith_UserDTO_ReturnsQueryExecutor()
-        {
-            // Arrange - Act
-            var shouldSucceed = await CreateFriendshipWith_UserDTO_Returns(true);
-            var shouldFail = await CreateFriendshipWith_UserDTO_Returns(false);
-
-            // Assert
-            Assert.IsTrue(shouldSucceed);
-            Assert.IsFalse(shouldFail);
-        }
-
-        private async Task<bool> CreateFriendshipWith_UserDTO_Returns(bool result)
-        {
-            var userDTO = A.Fake<IUserDTO>();
-            string query = Guid.NewGuid().ToString();
-
-            // Arrange
-            var queryExecutor = CreateFriendshipQueryExecutor();
-            ArrangeCreateFriendshipWithUserDTO(userDTO, query);
-            _fakeTwitterAccessor.ArrangeTryExecutePOSTQuery(query, result);
-
-            // Act
-            return await queryExecutor.CreateFriendshipWith(userDTO);
-        }
-
-        private void ArrangeCreateFriendshipWithUserDTO(IUserDTO userDTO, string query)
-        {
-            _fakeFriendshipQueryGenerator
-                .CallsTo(x => x.GetCreateFriendshipWithQuery(userDTO))
-                .Returns(query);
-        }
-
-        #endregion
-
         #region Update Friendship With
 
         [TestMethod]

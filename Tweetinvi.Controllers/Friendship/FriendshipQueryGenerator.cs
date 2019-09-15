@@ -91,13 +91,7 @@ namespace Tweetinvi.Controllers.Friendship
         }
 
         // Create Friendship
-        public string GetCreateFriendshipWithQuery(IUserIdentifier user)
-        {
-            _userQueryValidator.ThrowIfUserCannotBeIdentified(user);
-
-            var userParameter = _userQueryParameterGenerator.GenerateIdOrScreenNameParameter(user);
-            return string.Format(Resources.Friendship_Create, userParameter);
-        }
+       
 
         // Destroy Friendship
         public string GetDestroyFriendshipWithQuery(IUserIdentifier user)

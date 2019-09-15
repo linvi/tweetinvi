@@ -59,27 +59,6 @@ namespace Testinvi.TweetinviControllers.FriendshipTests
             Assert.AreEqual(query, Resources.Friendship_GetOutgoingIds);
         }
 
-        #region Create Friendship
-
-        [TestMethod]
-        public void GetCreateFriendshipWithQuery_WithValidUserDTO_ReturnsIdQuery()
-        {
-            // Arrange
-            var queryGenerator = CreateFriendshipQueryGenerator();
-            var fakeUserDTO = CreateUserDTO(true);
-
-            // Act
-            var query = queryGenerator.GetCreateFriendshipWithQuery(fakeUserDTO);
-
-            // Assert
-            string expectedUserIdParameter = UserQueryGeneratorHelper.GenerateParameterExpectedResult(fakeUserDTO);
-            Assert.AreEqual(query, string.Format(Resources.Friendship_Create, expectedUserIdParameter));
-
-            _fakeUserQueryValidator.CallsTo(x => x.ThrowIfUserCannotBeIdentified(fakeUserDTO)).MustHaveHappened();
-        }
-
-        #endregion
-
         #region Destroy Friendship
 
         [TestMethod]

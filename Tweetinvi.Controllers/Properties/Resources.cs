@@ -72,7 +72,7 @@ namespace Tweetinvi.Controllers.Properties
         /// <summary>
         ///   Looks up a localized string similar to https://api.twitter.com/1.1/friendships/create.json?{0}.
         /// </summary>
-        public static string Friendship_Create = "https://api.twitter.com/1.1/friendships/create.json?{0}";
+        public static string Friendship_Create = "https://api.twitter.com/1.1/friendships/create.json?";
 
         /// <summary>
         ///   Looks up a localized string similar to https://api.twitter.com/1.1/friendships/destroy.json?{0}.

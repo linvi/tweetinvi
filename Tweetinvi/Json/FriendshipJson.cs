@@ -35,21 +35,6 @@ namespace Tweetinvi.Json
             return FriendshipJsonController.GetUserIdsYouRequestedToFollow();
         }
 
-        public static Task<string> CreateFriendshipWith(IUserIdentifier user)
-        {
-            return FriendshipJsonController.CreateFriendshipWith(user);
-        }
-
-        public static Task<string> CreateFriendshipWith(long userId)
-        {
-            return FriendshipJsonController.CreateFriendshipWith(userId);
-        }
-
-        public static Task<string> CreateFriendshipWith(string userScreeName)
-        {
-            return FriendshipJsonController.CreateFriendshipWith(userScreeName);
-        }
-
         public static Task<string> DestroyFriendshipWith(IUserIdentifier user)
         {
             return FriendshipJsonController.DestroyFriendshipWith(user);

@@ -274,5 +274,30 @@ namespace Tweetinvi.Client
         }
 
         #endregion
+
+        #region Follow / Unfollow
+
+        public Task<bool> FollowUser(long userId)
+        {
+            return FollowUser(new FollowUserParameters(userId));
+        }
+
+        public Task<bool> FollowUser(string username)
+        {
+            return FollowUser(new FollowUserParameters(username));
+        }
+
+        public Task<bool> FollowUser(IUserIdentifier user)
+        {
+            return FollowUser(new FollowUserParameters(user));
+        }
+
+        public async Task<bool> FollowUser(IFollowUserParameters parameters)
+        {
+            var requestResult = await _usersRequester.FollowUser(parameters).ConfigureAwait(false);
+            return requestResult?.DataTransferObject != null;
+        }
+
+        #endregion
     }
 }

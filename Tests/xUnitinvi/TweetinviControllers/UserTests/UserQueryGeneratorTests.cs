@@ -111,6 +111,27 @@ namespace xUnitinvi.TweetinviControllers.UserTests
             Assert.Equal(result, $"https://api.twitter.com/1.1/blocks/ids.json?count=42");
         }
 
+        [Fact]
+        public void GetFollowUserQuery_WithValidUserDTO_ReturnsExpectedQuery()
+        {
+            // Arrange
+            var queryGenerator = CreateUserQueryGenerator();
+            var userDTO = GenerateUserDTO(true);
+
+            var parameters = new FollowUserParameters(userDTO)
+            {
+                EnableNotifications = true
+            };
+
+            // Act
+            var result = queryGenerator.GetFollowUserQuery(parameters);
+
+            // Assert
+            Assert.Equal(result, $"https://api.twitter.com/1.1/friendships/create.json?user_id=42&follow=true");
+
+            _fakeUserQueryValidator.CallsTo(x => x.ThrowIfUserCannotBeIdentified(userDTO)).MustHaveHappened();
+        }
+
         private IUserDTO GenerateUserDTO(bool isValid)
         {
             var userDTO = A.Fake<IUserDTO>();

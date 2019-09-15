@@ -72,22 +72,6 @@ namespace Tweetinvi.Controllers.Friendship
             return await _userFactory.GetUsersFromIds(userIds);
         }
 
-        // Create Friendship with
-        public Task<bool> CreateFriendshipWith(IUserIdentifier user)
-        {
-            return _friendshipQueryExecutor.CreateFriendshipWith(user);
-        }
-
-        public Task<bool> CreateFriendshipWith(long userId)
-        {
-            return _friendshipQueryExecutor.CreateFriendshipWith(new UserIdentifier(userId));
-        }
-
-        public Task<bool> CreateFriendshipWith(string userScreeName)
-        {
-            return _friendshipQueryExecutor.CreateFriendshipWith(new UserIdentifier(userScreeName));
-        }
-
         // Destroy Friendship with
 
         public Task<bool> DestroyFriendshipWith(IUserIdentifier user)

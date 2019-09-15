@@ -16,11 +16,6 @@ namespace Tweetinvi.Core.Controllers
         Task<IEnumerable<IUser>> GetUsersYouRequestedToFollow(
             int maximumUsersToRetrieve = TweetinviConsts.FRIENDSHIPS_OUTGOING_USERS_MAX_PER_REQ);
 
-        // Create Friendship with
-        Task<bool> CreateFriendshipWith(IUserIdentifier user);
-        Task<bool> CreateFriendshipWith(long userId);
-        Task<bool> CreateFriendshipWith(string userScreeName);
-
         // Destroy Friendship with
         Task<bool> DestroyFriendshipWith(IUserIdentifier user);
         Task<bool> DestroyFriendshipWith(long userId);

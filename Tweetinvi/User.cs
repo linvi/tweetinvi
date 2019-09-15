@@ -152,34 +152,6 @@ namespace Tweetinvi
         
         #endregion
 
-        #region Friendship Controller
-
-        // Follow
-
-        /// <summary>
-        /// Follow a user.
-        /// </summary>
-        public static Task<bool> FollowUser(IUserIdentifier user)
-        {
-            return FriendshipController.CreateFriendshipWith(user);
-        }
-
-        /// <summary>
-        /// Follow a user.
-        /// </summary>
-        public static Task<bool> FollowUser(long userScreenName)
-        {
-            return FriendshipController.CreateFriendshipWith(userScreenName);
-        }
-
-        /// <summary>
-        /// Follow a user.
-        /// </summary>
-        public static Task<bool> FollowUser(string userScreenName)
-        {
-            return FriendshipController.CreateFriendshipWith(userScreenName);
-        }
-
         // Un Follow
 
         /// <summary>
@@ -205,7 +177,5 @@ namespace Tweetinvi
         {
             return FriendshipController.DestroyFriendshipWith(userScreenName);
         }
-
-        #endregion
     }
 }
