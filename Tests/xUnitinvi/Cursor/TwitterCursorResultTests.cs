@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using FakeItEasy;
 using Tweetinvi.Core.DTO.Cursor;
 using Tweetinvi.Core.Web;
+using Tweetinvi.Exceptions;
 using Xunit;
 
 namespace xUnitinvi
@@ -110,7 +111,7 @@ namespace xUnitinvi
             await cursorResult.MoveToNextPage();
 
             // act - assert
-            await Assert.ThrowsAsync<IndexOutOfRangeException>(async () => await cursorResult.MoveToNextPage());
+            await Assert.ThrowsAsync<TwitterCursorOutOfBoundsException>(async () => await cursorResult.MoveToNextPage());
         }
 
         [Fact]

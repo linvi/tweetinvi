@@ -21,12 +21,15 @@ namespace Tweetinvi.Controllers.User
         Task<ITwitterResult<IUserDTO>> GetUser(IGetUserParameters parameters, ITwitterRequest request);
         Task<ITwitterResult<IUserDTO[]>> GetUsers(IGetUsersParameters parameters, ITwitterRequest request);
 
-
+        // FRIENDS
         Task<ITwitterResult<IIdsCursorQueryResultDTO>> GetFriendIds(IGetFriendIdsParameters parameters, ITwitterRequest request);
 
+        // FOLLOWERS
         Task<ITwitterResult<IUserDTO>> FollowUser(IFollowUserParameters parameters, ITwitterRequest request);
+        Task<ITwitterResult<IUserDTO>> UnFollowUser(IUnFollowUserParameters parameters, ITwitterRequest request);
         Task<ITwitterResult<IIdsCursorQueryResultDTO>> GetFollowerIds(IGetFollowerIdsParameters parameters, ITwitterRequest request);
 
+        // BLOCK
         Task<ITwitterResult<IUserDTO>> BlockUser(IBlockUserParameters parameters, ITwitterRequest request);
         Task<ITwitterResult<IUserDTO>> UnblockUser(IUnblockUserParameters parameters, ITwitterRequest request);
         Task<ITwitterResult<IUserDTO>> ReportUserForSpam(IReportUserForSpamParameters parameters, ITwitterRequest request);
@@ -120,6 +123,16 @@ namespace Tweetinvi.Controllers.User
         public Task<ITwitterResult<IUserDTO>> FollowUser(IFollowUserParameters parameters, ITwitterRequest request)
         {
             var query = _userQueryGenerator.GetFollowUserQuery(parameters);
+
+            request.Query.Url = query;
+            request.Query.HttpMethod = HttpMethod.POST;
+
+            return _twitterAccessor.ExecuteRequest<IUserDTO>(request);
+        }
+
+        public Task<ITwitterResult<IUserDTO>> UnFollowUser(IUnFollowUserParameters parameters, ITwitterRequest request)
+        {
+            var query = _userQueryGenerator.GetUnFollowUserQuery(parameters);
 
             request.Query.Url = query;
             request.Query.HttpMethod = HttpMethod.POST;

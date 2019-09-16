@@ -35,21 +35,6 @@ namespace Tweetinvi.Json
             return FriendshipJsonController.GetUserIdsYouRequestedToFollow();
         }
 
-        public static Task<string> DestroyFriendshipWith(IUserIdentifier user)
-        {
-            return FriendshipJsonController.DestroyFriendshipWith(user);
-        }
-
-        public static Task<string> DestroyFriendshipWith(long userId)
-        {
-            return FriendshipJsonController.DestroyFriendshipWith(userId);
-        }
-
-        public static Task<string> DestroyFriendshipWith(string userScreeName)
-        {
-            return FriendshipJsonController.DestroyFriendshipWith(userScreeName);
-        }
-
         public static Task<string> UpdateRelationshipAuthorizationsWith(IUserIdentifier user, bool retweetsEnabled, bool deviceNotifictionEnabled)
         {
             return FriendshipJsonController.UpdateRelationshipAuthorizationsWith(user, retweetsEnabled, deviceNotifictionEnabled);

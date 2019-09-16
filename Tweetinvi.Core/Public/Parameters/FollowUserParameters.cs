@@ -20,11 +20,6 @@ namespace Tweetinvi.Parameters
 
     public class FollowUserParameters : CustomRequestParameters, IFollowUserParameters
     {
-        public FollowUserParameters()
-        {
-            
-        }
-
         public FollowUserParameters(string username) : this(new UserIdentifier(username))
         {
         }

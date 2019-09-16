@@ -148,31 +148,6 @@ namespace Testinvi.TweetinviLogic
 
         #endregion
 
-        #region UnFollowUser
-
-        [TestMethod]
-        public async Task UnFollowUser_CurrentCredentialsAreNotAuthenticatedUserCredentials_OperationPerformedWithAppropriateCredentials()
-        {
-            // Arrange
-            var user = A.Fake<IUser>();
-
-            ITwitterCredentials startOperationWithCredentials = null;
-            _fakeFriendshipController.CallsTo(x => x.DestroyFriendshipWith(user)).ReturnsLazily(() =>
-            {
-                startOperationWithCredentials = _fakeCredentialsAccessor.FakedObject.CurrentThreadCredentials;
-                return true;
-            });
-
-            // Act
-            await _authenticatedUser.UnFollowUser(user);
-
-            // Assert
-            Assert.AreEqual(startOperationWithCredentials, _authenticatedUserCredentials);
-            Assert.AreEqual(_fakeCredentialsAccessor.FakedObject.CurrentThreadCredentials, _currentCredentials);
-        }
-
-        #endregion
-
         #region UpdateRelationshipAuthorizationsWith
 
         [TestMethod]

@@ -54,6 +54,21 @@ namespace xUnitinvi.TwitterObjects
         }
 
         [Fact]
+        public async Task UnFollowUser_ReturnsUsersClientTask()
+        {
+            // Arrange
+            var user = A.Fake<IUserIdentifier>();
+            _usersClient.CallsTo(x => x.UnFollowUser(user)).Returns(true);
+
+            // Act
+            var result = await _authenticatedUser.UnFollowUser(user);
+
+            // Assert
+            Assert.True(result);
+            _usersClient.CallsTo(x => x.UnFollowUser(user)).MustHaveHappened();
+        }
+
+        [Fact]
         public async Task PublishTweetText_UsesTweetsClient()
         {
             // Arrange
@@ -68,5 +83,7 @@ namespace xUnitinvi.TwitterObjects
             // Assert
             Assert.Same(result, expectedResult);
         }
+
+
     }
 }

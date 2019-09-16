@@ -119,5 +119,27 @@ namespace xUnitinvi.TweetinviControllers.UserTests
             // Assert
             Assert.Equal(result, expectedResult);
         }
+        
+        [Fact]
+        public async Task UnFollowUser_ReturnsUserDTO()
+        {
+            // Arrange
+            var queryExecutor = CreateUserQueryExecutor();
+            var userDTO = A.Fake<IUserDTO>();
+            var expectedQuery = TestHelper.GenerateString();
+
+            var parameters = new UnFollowUserParameters(userDTO);
+            var request = A.Fake<ITwitterRequest>();
+            var expectedResult = A.Fake<ITwitterResult<IUserDTO>>();
+
+            A.CallTo(() => _fakeUserQueryGenerator.FakedObject.GetUnFollowUserQuery(parameters)).Returns(expectedQuery);
+            A.CallTo(() => _fakeTwitterAccessor.FakedObject.ExecuteRequest<IUserDTO>(request)).Returns(expectedResult);
+
+            // Act
+            var result = await queryExecutor.UnFollowUser(parameters, request);
+
+            // Assert
+            Assert.Equal(result, expectedResult);
+        }
     }
 }

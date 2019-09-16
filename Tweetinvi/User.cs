@@ -149,33 +149,6 @@ namespace Tweetinvi
             return UserController.GetProfileImageStream(userDTO, imageSize);
         }
 
-        
         #endregion
-
-        // Un Follow
-
-        /// <summary>
-        /// Unfollow a user.
-        /// </summary>
-        public static Task<bool> UnFollowUser(IUserIdentifier user)
-        {
-            return FriendshipController.DestroyFriendshipWith(user);
-        }
-
-        /// <summary>
-        /// Unfollow a user.
-        /// </summary>
-        public static Task<bool> UnFollowUser(long userScreenName)
-        {
-            return FriendshipController.DestroyFriendshipWith(userScreenName);
-        }
-
-        /// <summary>
-        /// Unfollow a user.
-        /// </summary>
-        public static Task<bool> UnFollowUser(string userScreenName)
-        {
-            return FriendshipController.DestroyFriendshipWith(userScreenName);
-        }
     }
 }

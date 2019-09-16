@@ -112,7 +112,7 @@ namespace xUnitinvi.TweetinviControllers.UserTests
         }
 
         [Fact]
-        public void GetFollowUserQuery_WithValidUserDTO_ReturnsExpectedQuery()
+        public void GetFollowUserQuery_ReturnsExpectedQuery()
         {
             // Arrange
             var queryGenerator = CreateUserQueryGenerator();
@@ -128,6 +128,24 @@ namespace xUnitinvi.TweetinviControllers.UserTests
 
             // Assert
             Assert.Equal(result, $"https://api.twitter.com/1.1/friendships/create.json?user_id=42&follow=true");
+
+            _fakeUserQueryValidator.CallsTo(x => x.ThrowIfUserCannotBeIdentified(userDTO)).MustHaveHappened();
+        }
+        
+        [Fact]
+        public void GetUnFollowUserQuery_ReturnsExpectedQuery()
+        {
+            // Arrange
+            var queryGenerator = CreateUserQueryGenerator();
+            var userDTO = GenerateUserDTO(true);
+
+            var parameters = new UnFollowUserParameters(userDTO);
+
+            // Act
+            var result = queryGenerator.GetUnFollowUserQuery(parameters);
+
+            // Assert
+            Assert.Equal(result, $"https://api.twitter.com/1.1/friendships/destroy.json?user_id=42");
 
             _fakeUserQueryValidator.CallsTo(x => x.ThrowIfUserCannotBeIdentified(userDTO)).MustHaveHappened();
         }

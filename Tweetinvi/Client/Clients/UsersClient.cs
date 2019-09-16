@@ -297,6 +297,27 @@ namespace Tweetinvi.Client
             var requestResult = await _usersRequester.FollowUser(parameters).ConfigureAwait(false);
             return requestResult?.DataTransferObject != null;
         }
+        
+        public Task<bool> UnFollowUser(long userId)
+        {
+            return UnFollowUser(new UnFollowUserParameters(userId));
+        }
+
+        public Task<bool> UnFollowUser(string username)
+        {
+            return UnFollowUser(new UnFollowUserParameters(username));
+        }
+
+        public Task<bool> UnFollowUser(IUserIdentifier user)
+        {
+            return UnFollowUser(new UnFollowUserParameters(user));
+        }
+
+        public async Task<bool> UnFollowUser(IUnFollowUserParameters parameters)
+        {
+            var requestResult = await _usersRequester.UnFollowUser(parameters).ConfigureAwait(false);
+            return requestResult?.DataTransferObject != null;
+        }
 
         #endregion
     }

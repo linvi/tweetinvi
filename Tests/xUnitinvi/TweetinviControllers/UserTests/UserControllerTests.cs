@@ -141,7 +141,7 @@ namespace xUnitinvi.TweetinviControllers.UserTests
         }
 
         [Fact]
-        public async Task FollowUser_ReturnsUserExecrutorResult()
+        public async Task FollowUser_ReturnsUserExecutorResult()
         {
             // Arrange
             var controller = CreateUserController();
@@ -155,6 +155,26 @@ namespace xUnitinvi.TweetinviControllers.UserTests
 
             // Act
             var result = await controller.FollowUser(followUserParameters, request);
+
+            // Assert
+            Assert.Equal(result, expectedResult);
+        }
+        
+        [Fact]
+        public async Task UnFollowUser_ReturnsUserExecutorResult()
+        {
+            // Arrange
+            var controller = CreateUserController();
+            var userDTO = A.Fake<IUserDTO>();
+
+            var followUserParameters = new UnFollowUserParameters(userDTO);
+            var request = A.Fake<ITwitterRequest>();
+            var expectedResult = A.Fake<ITwitterResult<IUserDTO>>();
+
+            _fakeUserQueryExecutor.CallsTo(x => x.UnFollowUser(followUserParameters, request)).Returns(expectedResult);
+
+            // Act
+            var result = await controller.UnFollowUser(followUserParameters, request);
 
             // Assert
             Assert.Equal(result, expectedResult);

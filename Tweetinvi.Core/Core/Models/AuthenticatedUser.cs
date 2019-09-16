@@ -166,17 +166,17 @@ namespace Tweetinvi.Core.Models
 
         public Task<bool> UnFollowUser(IUserIdentifier user)
         {
-            return ExecuteAuthenticatedUserOperation(() => _friendshipController.DestroyFriendshipWith(user));
+            return Client.Users.UnFollowUser(user);
         }
 
         public Task<bool> UnFollowUser(long userId)
         {
-            return ExecuteAuthenticatedUserOperation(() => _friendshipController.DestroyFriendshipWith(userId));
+            return Client.Users.UnFollowUser(userId);
         }
 
-        public Task<bool> UnFollowUser(string screenName)
+        public Task<bool> UnFollowUser(string username)
         {
-            return ExecuteAuthenticatedUserOperation(() => _friendshipController.DestroyFriendshipWith(screenName));
+            return Client.Users.UnFollowUser(username);
         }
 
         public Task<IEnumerable<ISavedSearch>> GetSavedSearches()

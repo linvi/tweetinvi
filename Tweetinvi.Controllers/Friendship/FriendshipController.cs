@@ -72,23 +72,6 @@ namespace Tweetinvi.Controllers.Friendship
             return await _userFactory.GetUsersFromIds(userIds);
         }
 
-        // Destroy Friendship with
-
-        public Task<bool> DestroyFriendshipWith(IUserIdentifier user)
-        {
-            return _friendshipQueryExecutor.DestroyFriendshipWith(user);
-        }
-
-        public Task<bool> DestroyFriendshipWith(long userId)
-        {
-            return _friendshipQueryExecutor.DestroyFriendshipWith(new UserIdentifier(userId));
-        }
-
-        public Task<bool> DestroyFriendshipWith(string userScreeName)
-        {
-            return _friendshipQueryExecutor.DestroyFriendshipWith(new UserIdentifier(userScreeName));
-        }
-
         // Update Friendship Authorizations
        public Task<bool> UpdateRelationshipAuthorizationsWith(IUserIdentifier user, bool retweetsEnabled, bool deviceNotificationEnabled)
         {

@@ -17,9 +17,6 @@ namespace Tweetinvi.Controllers.Friendship
         Task<IEnumerable<long>> GetUserIdsYouRequestedToFollow(int maximumUserIdsToRetrieve);
         Task<long[]> GetUserIdsWhoseRetweetsAreMuted();
 
-        // Destroy Friendship
-        Task<bool> DestroyFriendshipWith(IUserIdentifier user);
-
         // Update Friendship Authorization
         Task<bool> UpdateRelationshipAuthorizationsWith(IUserIdentifier user, IFriendshipAuthorizations friendshipAuthorizations);
 
@@ -65,20 +62,6 @@ namespace Tweetinvi.Controllers.Friendship
         {
             string query = _friendshipQueryGenerator.GetUserIdsWhoseRetweetsAreMutedQuery();
             return _twitterAccessor.ExecuteGETQuery<long[]>(query);
-        }
-
-        // Destroy Friendship
-        public async Task<bool> DestroyFriendshipWith(IUserIdentifier user)
-        {
-            if (!_userQueryValidator.CanUserBeIdentified(user))
-            {
-                return false;
-            }
-
-            string query = _friendshipQueryGenerator.GetDestroyFriendshipWithQuery(user);
-            var asyncOperation = await _twitterAccessor.TryExecutePOSTQuery(query);
-
-            return asyncOperation.Success;
         }
 
         // Update Friendship Authorizations

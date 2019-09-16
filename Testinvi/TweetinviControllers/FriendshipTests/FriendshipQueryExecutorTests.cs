@@ -248,50 +248,6 @@ namespace Testinvi.TweetinviControllers.FriendshipTests
 
         #endregion
 
-        #region Destroy Friendship With
-
-        [TestMethod]
-        public async Task DestroyFriendshipWith_UserDTO_ReturnsQueryExecutor()
-        {
-            // Arrange - Act
-            var shouldSucceed = await DestroyFriendshipWith_UserDTO_Returns(true, true);
-            var shouldFail1 = await DestroyFriendshipWith_UserDTO_Returns(true, false);
-            var shouldFail2 = await DestroyFriendshipWith_UserDTO_Returns(false, true);
-            var shouldFail3 = await DestroyFriendshipWith_UserDTO_Returns(false, false);
-
-            // Assert
-            Assert.IsTrue(shouldSucceed);
-            Assert.IsFalse(shouldFail1);
-            Assert.IsFalse(shouldFail2);
-            Assert.IsFalse(shouldFail3);
-        }
-
-        private async Task<bool> DestroyFriendshipWith_UserDTO_Returns(bool isValid, bool result)
-        {
-            var userDTO = A.Fake<IUserDTO>();
-            _fakeUserQueryValidator.CallsTo(x => x.CanUserBeIdentified(userDTO)).Returns(isValid);
-
-            string query = Guid.NewGuid().ToString();
-
-            // Arrange
-            var queryExecutor = CreateFriendshipQueryExecutor();
-            ArrangeDestroyFriendshipWithUserDTO(userDTO, query);
-            _fakeTwitterAccessor.ArrangeTryExecutePOSTQuery(query, result);
-
-            // Act
-            return await queryExecutor.DestroyFriendshipWith(userDTO);
-        }
-
-        private void ArrangeDestroyFriendshipWithUserDTO(IUserDTO userDTO, string query)
-        {
-            _fakeFriendshipQueryGenerator
-                .CallsTo(x => x.GetDestroyFriendshipWithQuery(userDTO))
-                .Returns(query);
-        }
-
-       
-        #endregion
-
         private FriendshipQueryExecutor CreateFriendshipQueryExecutor()
         {
             return _fakeBuilder.GenerateClass();

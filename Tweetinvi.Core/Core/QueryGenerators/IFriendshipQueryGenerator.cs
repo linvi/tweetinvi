@@ -17,9 +17,6 @@ namespace Tweetinvi.Core.QueryGenerators
         string GetMultipleRelationshipsQuery(IEnumerable<long> userIds);
         string GetMultipleRelationshipsQuery(IEnumerable<string> screenNames);
 
-        // Destroy Friendship
-        string GetDestroyFriendshipWithQuery(IUserIdentifier user);
-
         // Update Friendship Authorization
         string GetUpdateRelationshipAuthorizationsWithQuery(IUserIdentifier user, IFriendshipAuthorizations friendshipAuthorizations);
     }

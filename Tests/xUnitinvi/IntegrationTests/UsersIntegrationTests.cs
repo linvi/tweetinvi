@@ -17,8 +17,8 @@ namespace xUnitinvi.IntegrationTests
             _logger = logger;
         }
 
-        //[Fact]
-        [Fact(Skip = "IntegrationTests")]
+        [Fact]
+        //[Fact(Skip = "IntegrationTests")]
         public async Task TestUsers()
         {
             TweetinviEvents.QueryBeforeExecute += (sender, args) =>
@@ -27,6 +27,7 @@ namespace xUnitinvi.IntegrationTests
             };
 
             var credentials = new TwitterCredentials("A", "B", "C", "D");
+
 
             var client = new TwitterClient(credentials);
 
@@ -41,16 +42,22 @@ namespace xUnitinvi.IntegrationTests
             var tweetinviFriendsIterator = tweetinviUser.GetFriends();
             var tweetinviFriendsPage = await tweetinviFriendsIterator.MoveToNextPage();
 
-            var followers = new List<IUser>();
+            var followersBeforeAdd = new List<IUser>();
             var followersIterator = authenticatedUser.GetFollowers();
 
             while (!followersIterator.Completed)
             {
                 var pageFollowers = await followersIterator.MoveToNextPage();
-                followers.AddRange(pageFollowers);
+                followersBeforeAdd.AddRange(pageFollowers);
             }
 
             var artwolktUser = await client.Users.GetUser("artwolkt");
+
+            await client.Users.FollowUser(artwolktUser);
+            var followersAfterAdd = await authenticatedUser.GetFollowers().MoveToNextPage();
+            await client.Users.UnFollowUser(artwolktUser);
+            var followersAfterRemove = await authenticatedUser.GetFollowers().MoveToNextPage();
+
             var blockSuccess = await artwolktUser.BlockUser();
 
             var blockedUserIdsIterator = client.Users.GetBlockedUserIds();
@@ -66,8 +73,11 @@ namespace xUnitinvi.IntegrationTests
             Assert.NotNull(authenticatedUser);
             Assert.Contains(1693649419, friendIds);
             Assert.Contains(friends, item => { return item.ScreenName == "tweetinvitest"; });
-            Assert.Contains(followers, item => { return item.ScreenName == "tweetinvitest"; });
             Assert.Equal(friends.Select(x => x.ToString()), tweetinviFriendsPage.Select(x => x.ToString()));
+
+            Assert.DoesNotContain(followersBeforeAdd, item => { return item.ScreenName == "artwolkt"; });
+            Assert.Contains(followersAfterAdd, item => { return item.ScreenName == "artwolkt"; });
+            Assert.DoesNotContain(followersAfterRemove, item => { return item.ScreenName == "artwolkt"; });
 
             Assert.True(blockSuccess);
             Assert.Contains(blockedUsersFromIdsIterator, id => id == artwolktUser.Id);

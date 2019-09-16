@@ -176,7 +176,7 @@ namespace Tweetinvi.Models
         /// <summary>
         /// Unfollow a specific user.
         /// </summary>
-        Task<bool> UnFollowUser(string screenName);
+        Task<bool> UnFollowUser(string username);
 
         // Saved Searches
 

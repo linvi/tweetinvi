@@ -75,6 +75,11 @@ namespace Tweetinvi.Controllers.User
             return _userQueryExecutor.FollowUser(parameters, request);
         }
 
+        public Task<ITwitterResult<IUserDTO>> UnFollowUser(IUnFollowUserParameters parameters, ITwitterRequest request)
+        {
+            return _userQueryExecutor.UnFollowUser(parameters, request);
+        }
+
         public ITwitterCursorResult<long, IIdsCursorQueryResultDTO> GetFollowerIds(IGetFollowerIdsParameters parameters, ITwitterRequest request)
         {
             var twitterCursorResult = new TwitterCursorResult<long, IIdsCursorQueryResultDTO>(async cursor =>

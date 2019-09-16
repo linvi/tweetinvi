@@ -128,53 +128,6 @@ namespace Testinvi.TweetinviControllers.FriendshipTests
 
         #endregion
 
-        #region Destroy Friendship
-
-        [TestMethod]
-        public async Task DestroyFriendship_UserDTOIsNull_ReturnsQueryExecutorResult()
-        {
-            // Arrange 
-            var shouldSuccess = await DestroyFriendship_UserDTO_QueryExecutorReturns(true, true);
-            var shouldFail = await DestroyFriendship_UserDTO_QueryExecutorReturns(false, true);
-
-            // Assert
-            Assert.IsTrue(shouldSuccess);
-            Assert.IsFalse(shouldFail);
-        }
-
-        [TestMethod]
-        public async Task DestroyFriendship_UserDTO_ReturnsQueryExecutorResult()
-        {
-            // Arrange - Act
-            var shouldSuccess = await DestroyFriendship_UserDTO_QueryExecutorReturns(true);
-            var shouldFail = await DestroyFriendship_UserDTO_QueryExecutorReturns(false);
-
-            // Assert
-            Assert.IsTrue(shouldSuccess);
-            Assert.IsFalse(shouldFail);
-        }
-
-        private async Task<bool> DestroyFriendship_UserDTO_QueryExecutorReturns(bool returnValue, bool isNull = false)
-        {
-            var userDTO = isNull ? null : A.Fake<IUserDTO>();
-
-            // Arrange
-            var controller = CreateFriendshipController();
-            ArrangeDestroyFriendshipWithDTO(userDTO, returnValue);
-
-            // Act
-            return await controller.DestroyFriendshipWith(userDTO);
-        }
-
-        private void ArrangeDestroyFriendshipWithDTO(IUserDTO userDTO, bool returnValue)
-        {
-            _fakeFriendshipQueryExecutor
-                .CallsTo(x => x.DestroyFriendshipWith(userDTO))
-                .Returns(returnValue);
-        }
-
-        #endregion
-
         #region Update Friendship Authorizations
 
         // User

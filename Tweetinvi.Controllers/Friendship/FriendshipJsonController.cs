@@ -13,11 +13,6 @@ namespace Tweetinvi.Controllers.Friendship
         Task<IEnumerable<string>> GetUserIdsRequestingFriendship();
         Task<IEnumerable<string>> GetUserIdsYouRequestedToFollow();
 
-        // Destroy Friendship with
-        Task<string> DestroyFriendshipWith(IUserIdentifier user);
-        Task<string> DestroyFriendshipWith(long userId);
-        Task<string> DestroyFriendshipWith(string userScreeName);
-
         // Update Friendship Authorizations
         Task<string> UpdateRelationshipAuthorizationsWith(IUserIdentifier user, bool retweetsEnabled, bool deviceNotifictionEnabled);
         Task<string> UpdateRelationshipAuthorizationsWith(long userId, bool retweetsEnabled, bool deviceNotifictionEnabled);
@@ -51,25 +46,6 @@ namespace Tweetinvi.Controllers.Friendship
             string query = _friendshipQueryGenerator.GetUserIdsYouRequestedToFollowQuery();
             return _twitterAccessor.ExecuteJsonCursorGETQuery<IIdsCursorQueryResultDTO>(query);
         }
-
-        public Task<string> DestroyFriendshipWith(IUserIdentifier user)
-        {
-            string query = _friendshipQueryGenerator.GetDestroyFriendshipWithQuery(user);
-            return _twitterAccessor.ExecutePOSTQueryReturningJson(query);
-        }
-
-        public Task<string> DestroyFriendshipWith(long userId)
-        {
-            string query = _friendshipQueryGenerator.GetDestroyFriendshipWithQuery(new UserIdentifier(userId));
-            return _twitterAccessor.ExecutePOSTQueryReturningJson(query);
-        }
-
-        public Task<string> DestroyFriendshipWith(string userScreeName)
-        {
-            string query = _friendshipQueryGenerator.GetDestroyFriendshipWithQuery(new UserIdentifier(userScreeName));
-            return _twitterAccessor.ExecutePOSTQueryReturningJson(query);
-        }
-
 
         public Task<string> UpdateRelationshipAuthorizationsWith(IUserIdentifier user, bool retweetsEnabled, bool deviceNotifictionEnabled)
         {

@@ -254,8 +254,31 @@ namespace Tweetinvi
         /// </summary>
         /// <returns>Whether the operation was successful</returns>
         Task<bool> FollowUser(IFollowUserParameters parameters);
+        
+        /// <summary>
+        /// Stop following a user
+        /// </summary>
+        /// <returns>Whether the operation was successful</returns>
+        Task<bool> UnFollowUser(long userId);
+        
+        /// <summary>
+        /// Stop following a user
+        /// </summary>
+        /// <returns>Whether the operation was successful</returns>
+        Task<bool> UnFollowUser(string username);
+        
+        /// <summary>
+        /// Stop following a user
+        /// </summary>
+        /// <returns>Whether the operation was successful</returns>
+        Task<bool> UnFollowUser(IUserIdentifier user);
+        
+        /// <summary>
+        /// Stop following a user
+        /// </summary>
+        /// <returns>Whether the operation was successful</returns>
+        Task<bool> UnFollowUser(IUnFollowUserParameters parameters);
 
         #endregion
-
     }
 }
