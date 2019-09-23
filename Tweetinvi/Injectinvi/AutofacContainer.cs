@@ -46,18 +46,27 @@ namespace Tweetinvi.Injectinvi
         public event EventHandler<TweetinviContainerEventArgs> BeforeRegistrationCompletes;
 
 
+        private readonly object _lock = new object();
         public void Initialize()
         {
-            _containerBuilder = new ContainerBuilder();
-            _moduleCatalog = new List<ITweetinviModule>();
+            lock (_lock)
+            {
+                if (_container != null)
+                {
+                    return;
+                }
 
-            RegisterModules();
-            InitializeModules();
+                _containerBuilder = new ContainerBuilder();
+                _moduleCatalog = new List<ITweetinviModule>();
 
-            var overridableContainer = new OverridableContainer(this);
-            this.Raise(BeforeRegistrationCompletes, new TweetinviContainerEventArgs(overridableContainer));
+                RegisterModules();
+                InitializeModules();
 
-            _container = _containerBuilder.Build();
+                var overridableContainer = new OverridableContainer(this);
+                this.Raise(BeforeRegistrationCompletes, new TweetinviContainerEventArgs(overridableContainer));
+
+                _container = _containerBuilder.Build();
+            }
         }
 
         private void RegisterModules()
