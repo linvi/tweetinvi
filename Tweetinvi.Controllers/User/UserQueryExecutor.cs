@@ -36,7 +36,7 @@ namespace Tweetinvi.Controllers.User
         Task<ITwitterResult<IUserCursorQueryResultDTO>> GetBlockedUsers(IGetBlockedUsersParameters parameters, ITwitterRequest request);
 
         // Stream Profile Image
-        Stream GetProfileImageStream(IUserDTO userDTO, ImageSize imageSize = ImageSize.normal);
+        Task<Stream> GetProfileImageStream(IGetProfileImageParameters parameters, ITwitterRequest request);
     }
 
     public class UserQueryExecutor : IUserQueryExecutor
@@ -212,10 +212,14 @@ namespace Tweetinvi.Controllers.User
 
 
         // Stream Profile Image
-        public Stream GetProfileImageStream(IUserDTO userDTO, ImageSize imageSize = ImageSize.normal)
+        public Task<Stream> GetProfileImageStream(IGetProfileImageParameters parameters, ITwitterRequest request)
         {
-            var url = _userQueryGenerator.DownloadProfileImageURL(userDTO, imageSize);
-            return _webHelper.GetResponseStream(url);
+            var url = _userQueryGenerator.DownloadProfileImageURL(parameters);
+
+            request.Query.Url = url;
+            request.Query.HttpMethod = HttpMethod.GET;
+
+            return _webHelper.GetResponseStreamAsync(request);
         }
     }
 }

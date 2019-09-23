@@ -109,7 +109,6 @@ namespace Tweetinvi.Logic
             container.RegisterType<ITwitterListUpdateQueryParameters, TwitterListUpdateQueryParameters>();
             container.RegisterType<IGetTweetsFromListQueryParameters, GetTweetsFromListQueryParameters>();
             container.RegisterType<IUserTimelineQueryParameters, UserTimelineQueryParameters>();
-            container.RegisterType<IGetUserFavoritesQueryParameters, GetUserFavoritesQueryParameters>();
         }
 
         private void InitializeWrappers(ITweetinviContainer container)

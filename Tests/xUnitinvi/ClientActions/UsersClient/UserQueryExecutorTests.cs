@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.IO;
+using System.Threading.Tasks;
 using FakeItEasy;
 using Tweetinvi.Controllers.User;
 using Tweetinvi.Core.Helpers;
@@ -140,6 +142,27 @@ namespace xUnitinvi.ClientActions.UsersClient
 
             // Assert
             Assert.Equal(result, expectedResult);
+        }
+
+        [Fact]
+        public async Task GetProfileImageStream_ReturnsWebHelperResult()
+        {
+            // Arrange
+            var queryExecutor = CreateUserQueryExecutor();
+            var stream = A.Fake<Stream>();
+            var url = TestHelper.GenerateString();
+            var request = A.Fake<ITwitterRequest>();
+
+            var parameter = new GetProfileImageParameters("url");
+
+            _fakeUserQueryGenerator.CallsTo(x => x.DownloadProfileImageURL(parameter)).Returns(url);
+            _fakeWebHelper.CallsTo(x => x.GetResponseStreamAsync(request)).Returns(stream);
+
+            // Act
+            var result = await queryExecutor.GetProfileImageStream(parameter, request);
+
+            // Assert
+            Assert.Equal(result, stream);
         }
     }
 }

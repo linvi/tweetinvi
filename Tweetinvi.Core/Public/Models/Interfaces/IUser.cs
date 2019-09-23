@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
-using Tweetinvi.Core.Iterators;
 using Tweetinvi.Iterators;
 using Tweetinvi.Models.DTO;
 using Tweetinvi.Models.Entities;
@@ -381,7 +380,12 @@ namespace Tweetinvi.Models
         /// <summary>
         /// Get a stream to get the profile image of this user.
         /// </summary>
-        Stream GetProfileImageStream(ImageSize imageSize = ImageSize.normal);
+        Task<Stream> GetProfileImageStream();
+
+        /// <summary>
+        /// Get a stream to get the profile image of this user.
+        /// </summary>
+        Task<Stream> GetProfileImageStream(ImageSize imageSize);
 
         /// <summary>
         /// Get the list of contributors to the account of the current user
@@ -398,5 +402,6 @@ namespace Tweetinvi.Models
         /// </summary>
         /// <returns>The list of accounts the current user is allowed to update</returns>
         IEnumerable<IUser> GetContributees(bool createContributeeList = false);
+
     }
 }

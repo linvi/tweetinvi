@@ -387,10 +387,18 @@ namespace Tweetinvi.Logic
             return Client.Users.ReportUserForSpam(this);
         }
 
-        // Stream Profile IMage
-        public Stream GetProfileImageStream(ImageSize imageSize = ImageSize.normal)
+        // Stream Profile Image
+        public Task<Stream> GetProfileImageStream()
         {
-            return _userController.GetProfileImageStream(_userDTO, imageSize);
+            return GetProfileImageStream(ImageSize.normal);
+        }
+
+        public Task<Stream> GetProfileImageStream(ImageSize imageSize)
+        {
+            return Client.Users.GetProfileImageStream(new GetProfileImageParameters(this)
+            {
+                ImageSize = imageSize
+            });
         }
 
         // Contributors

@@ -1,8 +1,6 @@
-﻿using System.Collections.Generic;
-using System.IO;
+﻿using System.IO;
 using System.Threading.Tasks;
 using Tweetinvi.Core.Iterators;
-using Tweetinvi.Core.Parameters;
 using Tweetinvi.Core.Web;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
@@ -33,7 +31,6 @@ namespace Tweetinvi.Core.Controllers
         ITwitterPageIterator<ITwitterResult<IUserCursorQueryResultDTO>> GetBlockedUsers(IGetBlockedUsersParameters parameters, ITwitterRequest request);
 
         // Stream Profile Image
-        Stream GetProfileImageStream(IUser user, ImageSize imageSize = ImageSize.normal);
-        Stream GetProfileImageStream(IUserDTO userDTO, ImageSize imageSize = ImageSize.normal);
+        Task<Stream> GetProfileImageStream(IGetProfileImageParameters parameters, ITwitterRequest request);
     }
 }

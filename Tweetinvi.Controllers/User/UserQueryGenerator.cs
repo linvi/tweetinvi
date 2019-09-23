@@ -1,11 +1,10 @@
-﻿using System.Text;
+﻿using System;
+using System.Text;
 using Tweetinvi.Controllers.Properties;
 using Tweetinvi.Controllers.Shared;
 using Tweetinvi.Core.Extensions;
 using Tweetinvi.Core.QueryGenerators;
 using Tweetinvi.Core.QueryValidators;
-using Tweetinvi.Models;
-using Tweetinvi.Models.DTO;
 using Tweetinvi.Parameters;
 
 namespace Tweetinvi.Controllers.User
@@ -188,28 +187,18 @@ namespace Tweetinvi.Controllers.User
         }
 
         // Download Profile Image
-        public string DownloadProfileImageURL(IUserDTO userDTO, ImageSize imageSize = ImageSize.normal)
+        public string DownloadProfileImageURL(IGetProfileImageParameters parameters)
         {
-            var url = string.IsNullOrEmpty(userDTO.ProfileImageUrlHttps) ? userDTO.ProfileImageUrl : userDTO.ProfileImageUrlHttps;
-
-            if (string.IsNullOrEmpty(url))
+            if (string.IsNullOrEmpty(parameters.ImageUrl))
             {
-                return null;
+                throw new ArgumentException("ImageUrl cannot be null or empty", nameof(parameters));
             }
 
-            return url.Replace("_normal", string.Format("_{0}", imageSize));
-        }
+            var query = new StringBuilder(parameters.ImageUrl.Replace("_normal", $"_{parameters.ImageSize}"));
 
-        public string DownloadProfileImageInHttpURL(IUserDTO userDTO, ImageSize imageSize = ImageSize.normal)
-        {
-            var url = userDTO.ProfileImageUrl;
+            query.AddFormattedParameterToQuery(parameters.FormattedCustomQueryParameters);
 
-            if (string.IsNullOrEmpty(url))
-            {
-                return null;
-            }
-
-            return url.Replace("_normal", string.Format("_{0}", imageSize));
+            return query.ToString();
         }
     }
 }

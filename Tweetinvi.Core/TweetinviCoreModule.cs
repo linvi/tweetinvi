@@ -73,7 +73,6 @@ namespace Tweetinvi.Core.Injectinvi
 
             // Tweet
             container.RegisterType<IPublishTweetParameters, PublishTweetParameters>();
-            container.RegisterType<IGetUserFavoritesParameters, GetUserFavoritesParameters>();
 
             // Account
             container.RegisterType<IAccountSettingsRequestParameters, AccountSettingsRequestParameters>();

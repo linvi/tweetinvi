@@ -1,20 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Net;
 using System.Threading.Tasks;
+using Tweetinvi.Models;
 
 namespace Tweetinvi.Core.Helpers
 {
     public interface IWebHelper
     {
-        WebResponse GetWebResponse(WebRequest webRequest);
-        Stream GetResponseStream(string url);
-        Stream GetResponseStream(WebRequest webRequest);
-
-        Task<WebResponse> GetWebResponseAsync(WebRequest webRequest);
-        Task<Stream> GetResponseStreamAsync(string url);
-        Task<Stream> GetResponseStreamAsync(WebRequest webRequest);
+        Task<Stream> GetResponseStreamAsync(ITwitterRequest request);
 
         Dictionary<string, string> GetUriParameters(Uri uri);
         Dictionary<string, string> GetURLParameters(string url);

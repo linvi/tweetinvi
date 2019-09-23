@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Tweetinvi.Iterators;
 using Tweetinvi.Models;
+using Tweetinvi.Models.DTO;
 using Tweetinvi.Parameters;
 
 namespace Tweetinvi
@@ -278,6 +279,34 @@ namespace Tweetinvi
         /// </summary>
         /// <returns>Whether the operation was successful</returns>
         Task<bool> UnFollowUser(IUnFollowUserParameters parameters);
+
+        #endregion
+
+        #region Profile Image
+
+        /// <summary>
+        /// Get the profile image of a user
+        /// </summary>
+        /// <returns>A stream of the image file</returns>
+        Task<System.IO.Stream> GetProfileImageStream(string url);
+
+        /// <summary>
+        /// Get the profile image of a user
+        /// </summary>
+        /// <returns>A stream of the image file</returns>
+        Task<System.IO.Stream> GetProfileImageStream(IUser user);
+
+        /// <summary>
+        /// Get the profile image of a user
+        /// </summary>
+        /// <returns>A stream of the image file</returns>
+        Task<System.IO.Stream> GetProfileImageStream(IUserDTO user);
+
+        /// <summary>
+        /// Get the profile image of a user
+        /// </summary>
+        /// <returns>A stream of the image file</returns>
+        Task<System.IO.Stream> GetProfileImageStream(IGetProfileImageParameters parameters);
 
         #endregion
     }

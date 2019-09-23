@@ -1,6 +1,4 @@
-﻿using Tweetinvi.Models;
-using Tweetinvi.Models.DTO;
-using Tweetinvi.Parameters;
+﻿using Tweetinvi.Parameters;
 
 namespace Tweetinvi.Core.QueryGenerators
 {
@@ -26,7 +24,6 @@ namespace Tweetinvi.Core.QueryGenerators
         string GetBlockedUsersQuery(IGetBlockedUsersParameters parameters);
 
         // Download Profile Image
-        string DownloadProfileImageURL(IUserDTO userDTO, ImageSize size = ImageSize.normal);
-        string DownloadProfileImageInHttpURL(IUserDTO userDTO, ImageSize size = ImageSize.normal);
+        string DownloadProfileImageURL(IGetProfileImageParameters parameters);
     }
 }

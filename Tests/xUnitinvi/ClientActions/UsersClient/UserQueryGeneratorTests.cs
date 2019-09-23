@@ -68,7 +68,7 @@ namespace xUnitinvi.ClientActions.UsersClient
             var result = queryGenerator.GetBlockUserQuery(parameters);
 
             // Assert
-            Assert.Equal(result, "https://api.twitter.com/1.1/blocks/create.json?user_id=42&include_entities=true&skip_status=true&hello=world");
+            Assert.Equal(result, $"https://api.twitter.com/1.1/blocks/create.json?user_id=42&include_entities=true&skip_status=true&hello=world");
 
             _fakeUserQueryValidator.CallsTo(x => x.ThrowIfUserCannotBeIdentified(user)).MustHaveHappened();
         }
@@ -90,7 +90,7 @@ namespace xUnitinvi.ClientActions.UsersClient
             var result = queryGenerator.GetFollowUserQuery(parameters);
 
             // Assert
-            Assert.Equal(result, "https://api.twitter.com/1.1/friendships/create.json?user_id=42&follow=true&hello=world");
+            Assert.Equal(result, $"https://api.twitter.com/1.1/friendships/create.json?user_id=42&follow=true&hello=world");
 
             _fakeUserQueryValidator.CallsTo(x => x.ThrowIfUserCannotBeIdentified(user)).MustHaveHappened();
         }
@@ -113,7 +113,7 @@ namespace xUnitinvi.ClientActions.UsersClient
             var result = queryGenerator.GetUnblockUserQuery(parameters);
 
             // Assert
-            Assert.Equal(result, "https://api.twitter.com/1.1/blocks/destroy.json?user_id=42&include_entities=true&skip_status=true&hello=world");
+            Assert.Equal(result, $"https://api.twitter.com/1.1/blocks/destroy.json?user_id=42&include_entities=true&skip_status=true&hello=world");
 
             _fakeUserQueryValidator.CallsTo(x => x.ThrowIfUserCannotBeIdentified(user)).MustHaveHappened();
         }
@@ -134,7 +134,7 @@ namespace xUnitinvi.ClientActions.UsersClient
             var result = queryGenerator.GetUnFollowUserQuery(parameters);
 
             // Assert
-            Assert.Equal(result, "https://api.twitter.com/1.1/friendships/destroy.json?user_id=42&hello=world");
+            Assert.Equal(result, $"https://api.twitter.com/1.1/friendships/destroy.json?user_id=42&hello=world");
 
             _fakeUserQueryValidator.CallsTo(x => x.ThrowIfUserCannotBeIdentified(user)).MustHaveHappened();
         }
@@ -156,9 +156,28 @@ namespace xUnitinvi.ClientActions.UsersClient
             var result = queryGenerator.GetReportUserForSpamQuery(parameters);
 
             // Assert
-            Assert.Equal(result, "https://api.twitter.com/1.1/users/report_spam.json?user_id=42&perform_block=false&hello=world");
+            Assert.Equal(result, $"https://api.twitter.com/1.1/users/report_spam.json?user_id=42&perform_block=false&hello=world");
 
             _fakeUserQueryValidator.CallsTo(x => x.ThrowIfUserCannotBeIdentified(user)).MustHaveHappened();
+        }
+
+        [Fact]
+        public void DownloadProfileImageURL_ReturnsExpectedQuery()
+        {
+            // Arrange
+            var parameters = new GetProfileImageParameters("https://url_normal.jpg")
+            {
+                ImageSize = ImageSize.bigger,
+                CustomQueryParameters = { new Tuple<string, string>("hello", "world") }
+            };
+
+            var queryGenerator = CreateUserQueryGenerator();
+
+            // Act
+            var result = queryGenerator.DownloadProfileImageURL(parameters);
+
+            // Assert
+            Assert.Equal(result, $"https://url_bigger.jpg?hello=world");
         }
     }
 }

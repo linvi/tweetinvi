@@ -1,81 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Net;
+using System.Net.Http;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using Tweetinvi.Core;
 using Tweetinvi.Core.Helpers;
+using Tweetinvi.Models;
 
 namespace Tweetinvi.WebLogic
 {
     public class WebHelper : IWebHelper
     {
-        private readonly ITweetinviSettingsAccessor _tweetinviSettingsAccessor;
-
-        public WebHelper(ITweetinviSettingsAccessor tweetinviSettingsAccessor)
+        public Task<Stream> GetResponseStreamAsync(ITwitterRequest request)
         {
-            _tweetinviSettingsAccessor = tweetinviSettingsAccessor;
-        }
-
-        public Stream GetResponseStream(string url)
-        {
-            if (!ValidateUrl(url))
-            {
-                return null;
-            }
-
-            WebRequest httpWebRequest = WebRequest.Create(url);
-            var webResponse = GetWebResponse(httpWebRequest);
-
-            return webResponse.GetResponseStream();
-        }
-
-        private bool ValidateUrl(string url)
-        {
-            return !string.IsNullOrEmpty(url);
-        }
-
-        public WebResponse GetWebResponse(WebRequest webRequest)
-        {
-            Task<WebResponse> requestTask = Task.Factory.FromAsync<WebResponse>(webRequest.BeginGetResponse, webRequest.EndGetResponse, webRequest);
-
-            if (_tweetinviSettingsAccessor.HttpRequestTimeout > 0)
-            {
-                var resultingTask = Task.WhenAny(requestTask, Task.Delay(_tweetinviSettingsAccessor.HttpRequestTimeout)).Result;
-
-                if (resultingTask == requestTask)
-                {
-                    return requestTask.Result;
-                }
-
-                throw new TimeoutException("The operation could not complete");
-            }
-
-            return requestTask.Result;
-        }
-
-        public Stream GetResponseStream(WebRequest webRequest)
-        {
-            var webResponse = GetWebResponse(webRequest);
-            return webResponse.GetResponseStream();
-        }
-
-        public async Task<WebResponse> GetWebResponseAsync(WebRequest webRequest)
-        {
-            return await webRequest.GetResponseAsync();
-        }
-
-        public async Task<Stream> GetResponseStreamAsync(string url)
-        {
-            WebRequest webRequest = WebRequest.Create(url);
-            return await GetResponseStreamAsync(webRequest);
-        }
-
-        public async Task<Stream> GetResponseStreamAsync(WebRequest webRequest)
-        {
-            var webResponse = await GetWebResponseAsync(webRequest);
-            return webResponse.GetResponseStream();
+            var httpClient = new HttpClient();
+            return httpClient.GetStreamAsync(request.Query.Url);
         }
 
         public Dictionary<string, string> GetURLParameters(string url)
@@ -85,7 +24,8 @@ namespace Tweetinvi.WebLogic
 
         public Dictionary<string, string> GetUriParameters(Uri uri)
         {
-            Dictionary<string, string> uriParameters = new Dictionary<string, string>();
+            var uriParameters = new Dictionary<string, string>();
+            
             if (!string.IsNullOrEmpty(uri.Query))
             {
                 foreach (Match variable in Regex.Matches(uri.Query, @"(?<varName>[^&?=]+)=(?<value>[^&?=]*)"))
@@ -93,6 +33,7 @@ namespace Tweetinvi.WebLogic
                     uriParameters.Add(variable.Groups["varName"].Value, variable.Groups["value"].Value);
                 }
             }
+            
             return uriParameters;
         }
 

@@ -335,5 +335,29 @@ namespace Tweetinvi.Client
         }
 
         #endregion
+
+        #region Profile Image
+
+        public Task<System.IO.Stream> GetProfileImageStream(string url)
+        {
+            return GetProfileImageStream(new GetProfileImageParameters(url));
+        }
+
+        public Task<System.IO.Stream> GetProfileImageStream(IUser user)
+        {
+            return GetProfileImageStream(new GetProfileImageParameters(user));
+        }
+
+        public Task<System.IO.Stream> GetProfileImageStream(IUserDTO user)
+        {
+            return GetProfileImageStream(new GetProfileImageParameters(user));
+        }
+
+        public Task<System.IO.Stream> GetProfileImageStream(IGetProfileImageParameters parameters)
+        {
+            return _usersRequester.GetProfileImageStream(parameters);
+        }
+
+        #endregion
     }
 }

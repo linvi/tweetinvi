@@ -93,6 +93,12 @@ namespace Tweetinvi.Client.Requesters
         /// </summary>
         /// <returns>Twitter result containing the user who is no longer followed</returns>
         Task<ITwitterResult<IUserDTO>> UnFollowUser(IUnFollowUserParameters parameters);
+
+        /// <summary>
+        /// Get the profile image of a user
+        /// </summary>
+        /// <returns>A stream of the image file</returns>
+        Task<System.IO.Stream> GetProfileImageStream(IGetProfileImageParameters parameters);
     }
 
     public class UsersRequester : BaseRequester, IInternalUsersRequester
@@ -205,6 +211,12 @@ namespace Tweetinvi.Client.Requesters
             var request = _twitterClient.CreateRequest();
             request.ExecutionContext.Converters = JsonQueryConverterRepository.Converters;
             return _userController.GetBlockedUsers(parameters, request);
+        }
+
+        public Task<System.IO.Stream> GetProfileImageStream(IGetProfileImageParameters parameters)
+        {
+            var request = _twitterClient.CreateRequest();
+            return _userController.GetProfileImageStream(parameters, request);
         }
     }
 }

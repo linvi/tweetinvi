@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.IO;
+using System.Threading.Tasks;
 using FakeItEasy;
 using Tweetinvi.Controllers.User;
 using Tweetinvi.Core.Web;
@@ -28,7 +29,7 @@ namespace xUnitinvi.ClientActions.UsersClient
         }
 
         [Fact]
-        public async Task BlockUser_ReturnsUserExecutorResult()
+        public async Task BlockUser_ReturnsFromUserQueryExecutor()
         {
             // Arrange
             var controller = CreateUserController();
@@ -48,7 +49,7 @@ namespace xUnitinvi.ClientActions.UsersClient
         }
 
         [Fact]
-        public async Task FollowUser_ReturnsUserExecutorResult()
+        public async Task FollowUser_ReturnsFromUserQueryExecutor()
         {
             // Arrange
             var controller = CreateUserController();
@@ -68,7 +69,7 @@ namespace xUnitinvi.ClientActions.UsersClient
         }
 
         [Fact]
-        public async Task GetFollowerIds_ReturnsUserExecutorResult()
+        public async Task GetFollowerIds_ReturnsFromUserQueryExecutor()
         {
             // Arrange
             var controller = CreateUserController();
@@ -92,7 +93,7 @@ namespace xUnitinvi.ClientActions.UsersClient
         }
 
         [Fact]
-        public async Task GetFriendIds_ReturnsUserExecutorResult()
+        public async Task GetFriendIds_ReturnsFromUserQueryExecutor()
         {
             // Arrange
             var controller = CreateUserController();
@@ -116,7 +117,7 @@ namespace xUnitinvi.ClientActions.UsersClient
         }
 
         [Fact]
-        public async Task ReportUserFromSpam_ReturnsUserExecutorResult()
+        public async Task ReportUserFromSpam_ReturnsFromUserQueryExecutor()
         {
             // Arrange
             var controller = CreateUserController();
@@ -136,7 +137,7 @@ namespace xUnitinvi.ClientActions.UsersClient
         }
 
         [Fact]
-        public async Task UnblockUser_ReturnsUserExecutorResult()
+        public async Task UnblockUser_ReturnsFromUserQueryExecutor()
         {
             // Arrange
             var controller = CreateUserController();
@@ -156,7 +157,7 @@ namespace xUnitinvi.ClientActions.UsersClient
         }
 
         [Fact]
-        public async Task UnFollowUser_ReturnsUserExecutorResult()
+        public async Task UnFollowUser_ReturnsFromUserQueryExecutor()
         {
             // Arrange
             var controller = CreateUserController();
@@ -173,6 +174,24 @@ namespace xUnitinvi.ClientActions.UsersClient
 
             // Assert
             Assert.Equal(result, expectedResult);
+        }
+
+        [Fact]
+        public async Task GetProfileImageStream_ReturnsFromUserQueryExecutor()
+        {
+            // Arrange
+            var controller = CreateUserController();
+            var stream = A.Fake<Stream>();
+            var parameters = A.Fake<IGetProfileImageParameters>();
+            var request = A.Fake<ITwitterRequest>();
+
+            _fakeUserQueryExecutor.CallsTo(x => x.GetProfileImageStream(parameters, It.IsAny<ITwitterRequest>())).Returns(stream);
+
+            // Act
+            var result = await controller.GetProfileImageStream(parameters, request);
+
+            // Assert
+            Assert.Equal(result, stream);
         }
     }
 }

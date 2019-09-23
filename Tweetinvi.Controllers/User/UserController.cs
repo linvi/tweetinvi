@@ -1,14 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Threading.Tasks;
 using Tweetinvi.Core.Controllers;
 using Tweetinvi.Core.Factories;
 using Tweetinvi.Core.Iterators;
-using Tweetinvi.Core.Parameters;
 using Tweetinvi.Core.Web;
-using Tweetinvi.Logic.QueryParameters;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
 using Tweetinvi.Models.DTO.QueryDTO;
@@ -159,20 +155,9 @@ namespace Tweetinvi.Controllers.User
             return twitterCursorResult;
         }
 
-        // Stream Profile Image
-        public Stream GetProfileImageStream(IUser user, ImageSize imageSize = ImageSize.normal)
+        public Task<Stream> GetProfileImageStream(IGetProfileImageParameters parameters, ITwitterRequest request)
         {
-            if (user == null)
-            {
-                throw new ArgumentException("User cannot be null");
-            }
-
-            return GetProfileImageStream(user.UserDTO, imageSize);
-        }
-
-        public Stream GetProfileImageStream(IUserDTO userDTO, ImageSize imageSize = ImageSize.normal)
-        {
-            return _userQueryExecutor.GetProfileImageStream(userDTO, imageSize);
+            return _userQueryExecutor.GetProfileImageStream(parameters, request);
         }
     }
 }

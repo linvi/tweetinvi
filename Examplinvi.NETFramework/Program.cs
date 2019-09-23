@@ -733,9 +733,13 @@ namespace Examplinvi.NETFramework
         public static async Task User_DownloadProfileImage(string username)
         {
             var user = await Client.Users.GetUser(username);
-            var stream = user.GetProfileImageStream(ImageSize.bigger);
-            var fileStream = new FileStream($"{user.Id}.jpg", FileMode.Create);
-            stream.CopyTo(fileStream);
+            var stream = await user.GetProfileImageStream(ImageSize.bigger);
+
+            using (var fileStream = new FileStream($"{user.Id}.jpg", FileMode.Create))
+            {
+                await stream.CopyToAsync(fileStream);
+            }
+
 #if NET_CORE
             string assemblyPath = Path.GetDirectoryName(typeof(User).GetTypeInfo().Assembly.CodeBase);
 #else

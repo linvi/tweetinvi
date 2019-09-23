@@ -4,7 +4,6 @@ using FakeItEasy;
 using FakeItEasy.ExtensionSyntax.Full;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Testinvi.Helpers;
-using Tweetinvi.Core;
 using Tweetinvi.Core.Helpers;
 using Tweetinvi.Core.Injectinvi;
 using Tweetinvi.Core.RateLimit;
@@ -29,7 +28,7 @@ namespace Testinvi.Tweetinvi.Credentials.RateLimitTests
             _fakeBuilder = new FakeClassBuilder<RateLimitHelper>();
             _credentialsRateLimits = A.Fake<ICredentialsRateLimits>();
 
-            _webHelper = new WebHelper(A.Fake<ITweetinviSettingsAccessor>());
+            _webHelper = new WebHelper();
             _attributeHelper = new AttributeHelper();
         }
 

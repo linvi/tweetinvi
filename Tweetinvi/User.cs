@@ -102,27 +102,5 @@ namespace Tweetinvi
         }
 
         #endregion
-
-        #region User Controller
-
-        // Stream Profile Image 
-
-        /// <summary>
-        /// Get a stream to download a user profile image.
-        /// </summary>
-        public static System.IO.Stream GetProfileImageStream(IUser user, ImageSize imageSize = ImageSize.normal)
-        {
-            return UserController.GetProfileImageStream(user, imageSize);
-        }
-
-        /// <summary>
-        /// Get a stream to download a user profile image.
-        /// </summary>
-        public static System.IO.Stream GetProfileImageStream(IUserDTO userDTO, ImageSize imageSize = ImageSize.normal)
-        {
-            return UserController.GetProfileImageStream(userDTO, imageSize);
-        }
-
-        #endregion
     }
 }
