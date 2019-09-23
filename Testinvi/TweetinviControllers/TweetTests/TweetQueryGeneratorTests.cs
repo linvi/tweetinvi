@@ -272,14 +272,14 @@ namespace Testinvi.TweetinviControllers.TweetTests
         {
             // Arrange
             var queryGenerator = CreateTweetQueryGenerator();
-            var tweetIdentifier = A.Fake<ITweetIdentifier>();
-            var maxRetweetersToRetrieve = TestHelper.GenerateRandomInt();
+            var tweetIdentifier = new TweetIdentifier(42);
+            var maxRetweetersToRetrieve = 43;
 
             // Act
             var result = queryGenerator.GetRetweeterIdsQuery(tweetIdentifier, maxRetweetersToRetrieve);
 
             // Assert
-            var expectedResult = $"https://api.twitter.com/1.1/statuses/retweeters/ids.json?id={tweetIdentifier.Id}&count={maxRetweetersToRetrieve}";
+            var expectedResult = $"https://api.twitter.com/1.1/statuses/retweeters/ids.json?id=42&count=43";
             Assert.AreEqual(result, expectedResult);
 
             _fakeTweetQueryValidator.CallsTo(x => x.ThrowIfTweetCannotBeUsed(tweetIdentifier)).MustHaveHappened();
