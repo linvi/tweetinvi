@@ -64,7 +64,6 @@ namespace Tweetinvi.Controllers
             container.RegisterType<ISavedSearchJsonController, SavedSearchJsonController>(RegistrationLifetime.InstancePerThread);
             container.RegisterType<ITimelineJsonController, TimelineJsonController>(RegistrationLifetime.InstancePerThread);
             container.RegisterType<ITrendsJsonController, TrendsJsonController>(RegistrationLifetime.InstancePerThread);
-            container.RegisterType<IUserJsonController, UserJsonController>(RegistrationLifetime.InstancePerThread);
             container.RegisterType<ITwitterListJsonController, TwitterListJsonController>(RegistrationLifetime.InstancePerThread);
 
             container.RegisterType<ISearchJsonController, SearchJsonController>(RegistrationLifetime.InstancePerThread);

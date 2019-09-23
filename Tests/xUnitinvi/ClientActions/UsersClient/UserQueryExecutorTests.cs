@@ -11,15 +11,10 @@ using Tweetinvi.Parameters;
 using Xunit;
 using xUnitinvi.TestHelpers;
 
-namespace xUnitinvi.TweetinviControllers.UserTests
+namespace xUnitinvi.ClientActions.UsersClient
 {
     public class UserQueryExecutorTests
     {
-        private readonly FakeClassBuilder<UserQueryExecutor> _fakeBuilder;
-        private readonly Fake<IUserQueryGenerator> _fakeUserQueryGenerator;
-        private readonly Fake<ITwitterAccessor> _fakeTwitterAccessor;
-        private readonly Fake<IWebHelper> _fakeWebHelper;
-
         public UserQueryExecutorTests()
         {
             _fakeBuilder = new FakeClassBuilder<UserQueryExecutor>();
@@ -27,6 +22,11 @@ namespace xUnitinvi.TweetinviControllers.UserTests
             _fakeTwitterAccessor = _fakeBuilder.GetFake<ITwitterAccessor>();
             _fakeWebHelper = _fakeBuilder.GetFake<IWebHelper>();
         }
+
+        private readonly FakeClassBuilder<UserQueryExecutor> _fakeBuilder;
+        private readonly Fake<IUserQueryGenerator> _fakeUserQueryGenerator;
+        private readonly Fake<ITwitterAccessor> _fakeTwitterAccessor;
+        private readonly Fake<IWebHelper> _fakeWebHelper;
 
         private UserQueryExecutor CreateUserQueryExecutor()
         {
@@ -56,22 +56,22 @@ namespace xUnitinvi.TweetinviControllers.UserTests
         }
 
         [Fact]
-        public async Task UnblockUser_ReturnsUserDTO()
+        public async Task FollowUser_ReturnsUserDTO()
         {
             // Arrange
             var queryExecutor = CreateUserQueryExecutor();
             var userDTO = A.Fake<IUserDTO>();
             var expectedQuery = TestHelper.GenerateString();
 
-            var parameters = new UnblockUserParameters(userDTO);
+            var parameters = new FollowUserParameters(userDTO);
             var request = A.Fake<ITwitterRequest>();
             var expectedResult = A.Fake<ITwitterResult<IUserDTO>>();
 
-            A.CallTo(() => _fakeUserQueryGenerator.FakedObject.GetUnblockUserQuery(parameters)).Returns(expectedQuery);
+            A.CallTo(() => _fakeUserQueryGenerator.FakedObject.GetFollowUserQuery(parameters)).Returns(expectedQuery);
             A.CallTo(() => _fakeTwitterAccessor.FakedObject.ExecuteRequest<IUserDTO>(request)).Returns(expectedResult);
 
             // Act
-            var result = await queryExecutor.UnblockUser(parameters, request);
+            var result = await queryExecutor.FollowUser(parameters, request);
 
             // Assert
             Assert.Equal(result, expectedResult);
@@ -99,27 +99,27 @@ namespace xUnitinvi.TweetinviControllers.UserTests
         }
 
         [Fact]
-        public async Task FollowUser_ReturnsUserDTO()
+        public async Task UnblockUser_ReturnsUserDTO()
         {
             // Arrange
             var queryExecutor = CreateUserQueryExecutor();
             var userDTO = A.Fake<IUserDTO>();
             var expectedQuery = TestHelper.GenerateString();
 
-            var parameters = new FollowUserParameters(userDTO);
+            var parameters = new UnblockUserParameters(userDTO);
             var request = A.Fake<ITwitterRequest>();
             var expectedResult = A.Fake<ITwitterResult<IUserDTO>>();
 
-            A.CallTo(() => _fakeUserQueryGenerator.FakedObject.GetFollowUserQuery(parameters)).Returns(expectedQuery);
+            A.CallTo(() => _fakeUserQueryGenerator.FakedObject.GetUnblockUserQuery(parameters)).Returns(expectedQuery);
             A.CallTo(() => _fakeTwitterAccessor.FakedObject.ExecuteRequest<IUserDTO>(request)).Returns(expectedResult);
 
             // Act
-            var result = await queryExecutor.FollowUser(parameters, request);
+            var result = await queryExecutor.UnblockUser(parameters, request);
 
             // Assert
             Assert.Equal(result, expectedResult);
         }
-        
+
         [Fact]
         public async Task UnFollowUser_ReturnsUserDTO()
         {

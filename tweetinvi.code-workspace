@@ -29,6 +29,9 @@
 		},
 		{
 			"path": "Tweetinvi.ASPNETPlugins"
+		},
+		{
+			"path": "Tests/xUnitinvi"
 		}
 	],
 	"settings": {}

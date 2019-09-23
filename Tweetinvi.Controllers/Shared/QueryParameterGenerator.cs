@@ -105,7 +105,7 @@ namespace Tweetinvi.Controllers.Shared
 
             if (tweetMode != null)
             {
-                tweetModeParameter = string.Format("tweet_mode={0}", tweetMode.ToString().ToLowerInvariant());
+                tweetModeParameter = $"tweet_mode={tweetMode.ToString().ToLowerInvariant()}";
             }
 
             return tweetModeParameter;
@@ -128,7 +128,7 @@ namespace Tweetinvi.Controllers.Shared
                 return string.Empty;
             }
 
-            return string.Format("{0}{1}", existingParameters ? "&" : "?", additionalParameters);
+            return $"{(existingParameters ? "&" : "?")}{additionalParameters}";
         }
     }
 }

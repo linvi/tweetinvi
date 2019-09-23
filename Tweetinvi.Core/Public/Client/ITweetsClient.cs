@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using Tweetinvi.Iterators;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
 using Tweetinvi.Parameters;
@@ -11,7 +12,7 @@ namespace Tweetinvi
         /// Get a tweet
         /// </summary>
         /// <returns>The specified tweet</returns>
-        Task<ITweet> GetTweet(long tweetId);
+        Task<ITweet> GetTweet(long? tweetId);
 
         /// <summary>
         /// Get multiple tweets
@@ -96,5 +97,12 @@ namespace Tweetinvi
         /// </summary>
         /// <returns>Whether the operation was a success</returns>
         Task<bool> UnRetweet(long retweetId);
+        
+        
+        ITwitterIterator<ITweet, long?> GetFavoriteTweets(long? userId);
+        ITwitterIterator<ITweet, long?> GetFavoriteTweets(string username);
+        ITwitterIterator<ITweet, long?> GetFavoriteTweets(IUserIdentifier user);
+        
+        ITwitterIterator<ITweet, long?> GetFavoriteTweets(IGetFavoriteTweetsParameters parameters);
     }
 }

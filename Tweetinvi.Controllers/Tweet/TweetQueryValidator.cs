@@ -14,7 +14,7 @@ namespace Tweetinvi.Controllers.Tweet
         void ThrowIfTweetCannotBeDestroyed(ITweetDTO tweet);
         void ThrowIfTweetCannotBeUsed(ITweetDTO tweet);
         void ThrowIfTweetCannotBeUsed(ITweetIdentifier tweet);
-        void ThrowIfTweetCannotBeUsed(long tweetId);
+        void ThrowIfTweetCannotBeUsed(long? tweetId);
     }
 
     public class TweetQueryValidator : ITweetQueryValidator
@@ -76,9 +76,9 @@ namespace Tweetinvi.Controllers.Tweet
             }
         }
 
-        public void ThrowIfTweetCannotBeUsed(long tweetId)
+        public void ThrowIfTweetCannotBeUsed(long? tweetId)
         {
-            if (tweetId == TweetinviSettings.DEFAULT_ID)
+            if (tweetId == null || tweetId.Value == TweetinviSettings.DEFAULT_ID)
             {
                 throw new ArgumentException("Tweet Id must be valid.");
             }
@@ -88,12 +88,12 @@ namespace Tweetinvi.Controllers.Tweet
         {
             if (tweet == null)
             {
-                throw new ArgumentNullException("Tweet cannot be null.");
+                throw new ArgumentNullException(nameof(tweet));
             }
 
             if (tweet.Id == TweetinviSettings.DEFAULT_ID)
             {
-                throw new ArgumentNullException("Tweet id is invalid.");
+                throw new ArgumentNullException($"{nameof(tweet)}.{nameof(tweet.Id)}");
             }
         }
 

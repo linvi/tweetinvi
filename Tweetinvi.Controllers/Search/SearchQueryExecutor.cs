@@ -178,7 +178,12 @@ namespace Tweetinvi.Controllers.Search
         {
             if (tweetDTO == null)
             {
-                throw new ArgumentException("TweetDTO cannot be null");
+                throw new ArgumentNullException(nameof(tweetDTO));
+            }
+
+            if (tweetDTO.Id == null)
+            {
+                throw new ArgumentNullException($"{nameof(tweetDTO)}.{nameof(tweetDTO.Id)}");
             }
 
             var searchTweets = await SearchTweets(string.Format(tweetDTO.CreatedBy.ScreenName));
@@ -186,7 +191,7 @@ namespace Tweetinvi.Controllers.Search
 
             if (recursiveReplies)
             {
-                return GetRecursiveReplies(searchTweetsLists, tweetDTO.Id);
+                return GetRecursiveReplies(searchTweetsLists, tweetDTO.Id.Value);
             }
 
             var repliesDTO = searchTweetsLists.Where(x => x.InReplyToStatusId == tweetDTO.Id);

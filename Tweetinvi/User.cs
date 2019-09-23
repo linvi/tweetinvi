@@ -105,32 +105,6 @@ namespace Tweetinvi
 
         #region User Controller
 
-        // Favourites
-
-        /// <summary>
-        /// Get tweets favorited by a specific user.
-        /// </summary>
-        public static Task<IEnumerable<ITweet>> GetFavoriteTweets(IUserIdentifier user, IGetUserFavoritesParameters parameters = null)
-        {
-            return UserController.GetFavoriteTweets(user, parameters);
-        }
-
-        /// <summary>
-        /// Get tweets favorited by a specific user.
-        /// </summary>
-        public static Task<IEnumerable<ITweet>> GetFavoriteTweets(long userId, IGetUserFavoritesParameters parameters = null)
-        {
-            return UserController.GetFavoriteTweets(new UserIdentifier(userId), parameters);
-        }
-
-        /// <summary>
-        /// Get tweets favorited by a specific user.
-        /// </summary>
-        public static Task<IEnumerable<ITweet>> GetFavoriteTweets(string userScreenName, IGetUserFavoritesParameters parameters = null)
-        {
-            return UserController.GetFavoriteTweets(new UserIdentifier(userScreenName), parameters);
-        }
-
         // Stream Profile Image 
 
         /// <summary>

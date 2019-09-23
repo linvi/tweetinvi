@@ -26,20 +26,21 @@ namespace Tweetinvi.Core.QueryGenerators
 
         // Publish UnRetweet
         string GetUnRetweetQuery(ITweetIdentifier tweetIdentifier);
-        string GetUnRetweetQuery(long tweetId);
+        string GetUnRetweetQuery(long? tweetId);
 
         // Destroy Tweet
-        string GetDestroyTweetQuery(long tweetId);
+        string GetDestroyTweetQuery(long? tweetId);
 
         // Generate OembedTweet
         string GetGenerateOEmbedTweetQuery(ITweetDTO tweetDTO);
-        string GetGenerateOEmbedTweetQuery(long tweetId);
+        string GetGenerateOEmbedTweetQuery(long? tweetId);
 
         // Favorite Tweet
         string GetFavoriteTweetQuery(ITweetDTO tweetDTO);
-        string GetFavoriteTweetQuery(long tweetId);
+        string GetFavoriteTweetQuery(long? tweetId);
 
         string GetUnFavoriteTweetQuery(ITweetDTO tweetDTO);
-        string GetUnFavoriteTweetQuery(long tweetId);
+        string GetUnFavoriteTweetQuery(long? tweetId);
+        string GetFavoriteTweetsQuery(IGetFavoriteTweetsParameters parameters, TweetMode? tweetMode);
     }
 }

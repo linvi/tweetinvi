@@ -75,10 +75,9 @@ namespace Tweetinvi.Core.Web
         TDTO DataTransferObject { get; set; }
     }
 
-    public interface ITwitterResult<DTO, Model> : ITwitterResult<DTO>
-        where DTO : class
+    public interface ITwitterResult<DTO, TModel> : ITwitterResult<DTO>
     {
-        Model Result { get; }
+        TModel Result { get; }
     }
 
     public class TwitterResult : ITwitterResult

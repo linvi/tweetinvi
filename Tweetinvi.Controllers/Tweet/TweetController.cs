@@ -6,10 +6,10 @@ using Tweetinvi.Controllers.Upload;
 using Tweetinvi.Core.Controllers;
 using Tweetinvi.Core.Extensions;
 using Tweetinvi.Core.Factories;
+using Tweetinvi.Core.Iterators;
 using Tweetinvi.Core.Web;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
-using Tweetinvi.Models.Interfaces;
 using Tweetinvi.Parameters;
 
 namespace Tweetinvi.Controllers.Tweet
@@ -191,6 +191,28 @@ namespace Tweetinvi.Controllers.Tweet
         }
 
         // Favorite Tweet
+        public ITwitterPageIterator<ITwitterResult<ITweetDTO[]>, long?> GetFavoriteTweets(IGetFavoriteTweetsParameters parameters, ITwitterRequest request)
+        {
+            var twitterCursorResult = new TwitterPageIterator<ITwitterResult<ITweetDTO[]>, long?>(
+                parameters.MaxId,
+                cursor =>
+                {
+                    var cursoredParameters = new GetFavoriteTweetsParameters(parameters)
+                    {
+                        MaxId = cursor
+                    };
+
+                    return _tweetQueryExecutor.GetFavoriteTweets(cursoredParameters, new TwitterRequest(request));
+                },
+                page =>
+                {
+                    return page.DataTransferObject.Min(x => x.Id);
+                },
+                page => page.DataTransferObject.Length < parameters.PageSize);
+
+            return twitterCursorResult;
+        }
+        
         public Task<bool> FavoriteTweet(ITweet tweet)
         {
             if (tweet == null)

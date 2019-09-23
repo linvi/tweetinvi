@@ -45,6 +45,7 @@ namespace Tweetinvi.Logic.JsonConverters
 
             JsonConverters.Add(typeof(bool), nullableBoolConverter);
             JsonConverters.Add(typeof(long), nullableLongConverter);
+            JsonConverters.Add(typeof(long?), nullableLongConverter);
             JsonConverters.Add(typeof(int), nullableIntegerConverter);
             JsonConverters.Add(typeof(double), nullableDoubleConverter);
             JsonConverters.Add(typeof(DateTime), dateTimeConverter);

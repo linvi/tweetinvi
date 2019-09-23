@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Tweetinvi.Core.Controllers;
 using Tweetinvi.Core.Credentials;
+using Tweetinvi.Core.Iterators;
+using Tweetinvi.Iterators;
 using Tweetinvi.Logic;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
@@ -227,12 +229,12 @@ namespace Tweetinvi.Core.Models
         }
 
         // Get Blocked Users
-        public ISkippableResultIterator<long> GetBlockedUserIds()
+        public ITwitterIterator<long> GetBlockedUserIds()
         {
             return Client.Users.GetBlockedUserIds();
         }
 
-        public ISkippableResultIterator<IUser> GetBlockedUsers()
+        public ITwitterIterator<IUser> GetBlockedUsers()
         {
             return Client.Users.GetBlockedUsers();
         }
@@ -287,7 +289,7 @@ namespace Tweetinvi.Core.Models
         }
 
         // Settings
-        
+
         /// <summary>
         /// Retrieve the settings of the Token's owner
         /// </summary>

@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
-using Tweetinvi.Core.Models;
+using Tweetinvi.Core.Iterators;
+using Tweetinvi.Iterators;
 using Tweetinvi.Models.DTO;
 using Tweetinvi.Models.Entities;
 using Tweetinvi.Parameters;
@@ -302,21 +303,21 @@ namespace Tweetinvi.Models
         /// <summary>
         /// Get a list of the user's friend ids.
         /// </summary>
-        ISkippableResultIterator<long> GetFriendIds();
+        ITwitterIterator<long> GetFriendIds();
 
         /// <summary>
         /// Get a list of the user's friends.
         /// </summary>
-        ICursorResultIterator<IUser> GetFriends();
+        IMultiLevelCursorIterator<long, IUser> GetFriends();
 
         // Followers
 
         /// <summary>
         /// Get a list of the user's follower ids.
         /// </summary>
-        ISkippableResultIterator<long> GetFollowerIds();
+        ITwitterIterator<long> GetFollowerIds();
 
-        ICursorResultIterator<IUser> GetFollowers();
+        IMultiLevelCursorIterator<long, IUser> GetFollowers();
 
         // Friendship
 
@@ -342,12 +343,7 @@ namespace Tweetinvi.Models
         /// <summary>
         /// Get the tweets favourited by the user.
         /// </summary>
-        Task<IEnumerable<ITweet>> GetFavorites(int maximumNumberOfTweets = 40);
-
-        /// <summary>
-        /// Get the tweets favourited by the user.
-        /// </summary>
-        Task<IEnumerable<ITweet>> GetFavorites(IGetUserFavoritesParameters parameters);
+        ITwitterIterator<ITweet, long?> GetFavoriteTweets();
 
         // Lists
 

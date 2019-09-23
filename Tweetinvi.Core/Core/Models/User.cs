@@ -4,7 +4,7 @@ using System.IO;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Tweetinvi.Core.Controllers;
-using Tweetinvi.Core.Models;
+using Tweetinvi.Iterators;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
 using Tweetinvi.Models.Entities;
@@ -315,23 +315,23 @@ namespace Tweetinvi.Logic
         }
 
         // Friends
-        public virtual ISkippableResultIterator<long> GetFriendIds()
+        public virtual ITwitterIterator<long> GetFriendIds()
         {
             return Client?.Users.GetFriendIds(new GetFriendIdsParameters(this));
         }
 
-        public virtual ICursorResultIterator<IUser> GetFriends()
+        public virtual IMultiLevelCursorIterator<long, IUser> GetFriends()
         {
             return Client?.Users.GetFriends(new GetFriendsParameters(this));
         }
 
         // Followers
-        public virtual ISkippableResultIterator<long> GetFollowerIds()
+        public virtual ITwitterIterator<long> GetFollowerIds()
         {
             return Client?.Users.GetFollowerIds(new GetFollowerIdsParameters(this));
         }
 
-        public virtual ICursorResultIterator<IUser> GetFollowers()
+        public virtual IMultiLevelCursorIterator<long, IUser> GetFollowers()
         {
             return Client?.Users.GetFollowers(new GetFollowersParameters(this));
         }
@@ -354,14 +354,9 @@ namespace Tweetinvi.Logic
         }
 
         // Favorites
-        public virtual Task<IEnumerable<ITweet>> GetFavorites(int maximumNumberOfTweets = 40)
+        public virtual ITwitterIterator<ITweet, long?> GetFavoriteTweets()
         {
-            return _userController.GetFavoriteTweets(this, new GetUserFavoritesParameters { MaximumNumberOfTweetsToRetrieve = maximumNumberOfTweets });
-        }
-
-        public Task<IEnumerable<ITweet>> GetFavorites(IGetUserFavoritesParameters parameters)
-        {
-            return _userController.GetFavoriteTweets(this, parameters);
+            return Client.Tweets.GetFavoriteTweets(this);
         }
 
         // Lists

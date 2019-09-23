@@ -11,6 +11,7 @@ using Tweetinvi.Core.Public.Parameters;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO.QueryDTO;
 using Tweetinvi.Models.Interfaces;
+using Tweetinvi.Parameters;
 using HttpMethod = Tweetinvi.Models.HttpMethod;
 
 namespace Tweetinvi.Core.Web

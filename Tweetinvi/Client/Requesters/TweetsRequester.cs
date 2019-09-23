@@ -1,9 +1,12 @@
 ﻿using System.Threading.Tasks;
 using Tweetinvi.Core.Controllers;
 using Tweetinvi.Core.Factories;
+using Tweetinvi.Core.Iterators;
 using Tweetinvi.Core.Web;
+using Tweetinvi.Iterators;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
+using Tweetinvi.Models.DTO.QueryDTO;
 using Tweetinvi.Parameters;
 
 namespace Tweetinvi.Client.Requesters
@@ -75,6 +78,8 @@ namespace Tweetinvi.Client.Requesters
         /// </summary>
         /// <returns>TwitterResult containing the success status of the request</returns>
         Task<ITwitterResult> DestroyRetweet(ITweetIdentifier retweetId);
+
+        ITwitterPageIterator<ITwitterResult<ITweetDTO[]>, long?> GetFavoriteTweets(IGetFavoriteTweetsParameters parameters);
     }
     
     public class TweetsRequester : BaseRequester, IInternalTweetsRequester
@@ -150,6 +155,10 @@ namespace Tweetinvi.Client.Requesters
             return ExecuteRequest(() => _tweetController.DestroyRetweet(retweetId, request), request);
         }
 
-        // Factories
+        public ITwitterPageIterator<ITwitterResult<ITweetDTO[]>, long?> GetFavoriteTweets(IGetFavoriteTweetsParameters parameters)
+        {
+            var request = _twitterClient.CreateRequest();
+            return _tweetController.GetFavoriteTweets(parameters, request);
+        }
     }
 }

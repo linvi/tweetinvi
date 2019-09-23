@@ -11,19 +11,19 @@ namespace xUnitinvi.TwitterObjects
 {
     public class AuthenticatedUserTests
     {
-        private readonly FakeClassBuilder<AuthenticatedUser> _fakeBuilder;
-        private Fake<ITwitterClient> _twitterClient;
-        private Fake<ITweetsClient> _tweetsClient;
-        private Fake<IUsersClient> _usersClient;
-
-        private IAuthenticatedUser _authenticatedUser;
-
         public AuthenticatedUserTests()
         {
             _fakeBuilder = new FakeClassBuilder<AuthenticatedUser>();
 
             InitData();
         }
+
+        private readonly FakeClassBuilder<AuthenticatedUser> _fakeBuilder;
+        private Fake<ITwitterClient> _twitterClient;
+        private Fake<ITweetsClient> _tweetsClient;
+        private Fake<IUsersClient> _usersClient;
+
+        private IAuthenticatedUser _authenticatedUser;
 
         private void InitData()
         {
@@ -54,21 +54,6 @@ namespace xUnitinvi.TwitterObjects
         }
 
         [Fact]
-        public async Task UnFollowUser_ReturnsUsersClientTask()
-        {
-            // Arrange
-            var user = A.Fake<IUserIdentifier>();
-            _usersClient.CallsTo(x => x.UnFollowUser(user)).Returns(true);
-
-            // Act
-            var result = await _authenticatedUser.UnFollowUser(user);
-
-            // Assert
-            Assert.True(result);
-            _usersClient.CallsTo(x => x.UnFollowUser(user)).MustHaveHappened();
-        }
-
-        [Fact]
         public async Task PublishTweetText_UsesTweetsClient()
         {
             // Arrange
@@ -84,6 +69,19 @@ namespace xUnitinvi.TwitterObjects
             Assert.Same(result, expectedResult);
         }
 
+        [Fact]
+        public async Task UnFollowUser_ReturnsUsersClientTask()
+        {
+            // Arrange
+            var user = A.Fake<IUserIdentifier>();
+            _usersClient.CallsTo(x => x.UnFollowUser(user)).Returns(true);
 
+            // Act
+            var result = await _authenticatedUser.UnFollowUser(user);
+
+            // Assert
+            Assert.True(result);
+            _usersClient.CallsTo(x => x.UnFollowUser(user)).MustHaveHappened();
+        }
     }
 }

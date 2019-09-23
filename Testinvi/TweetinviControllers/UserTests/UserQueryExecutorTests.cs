@@ -160,30 +160,6 @@ namespace Testinvi.TweetinviControllers.UserTests
 
         #endregion
 
-        #region FavouriteTweets
-
-        [TestMethod]
-        public async Task GetFavouriteTweetsWithUserDTO_AnyData_ReturnsTwitterAccessorResult()
-        {
-            // Arrange
-            var queryExecutor = CreateUserQueryExecutor();
-            TestHelper.GenerateRandomInt();
-            var expectedQuery = TestHelper.GenerateString();
-            IEnumerable<ITweetDTO> expectedResult = new[] { A.Fake<ITweetDTO>() };
-            var parameters = It.IsAny<IGetUserFavoritesQueryParameters>();
-
-            _fakeUserQueryGenerator.CallsTo(x => x.GetFavoriteTweetsQuery(parameters)).Returns(expectedQuery);
-            _fakeTwitterAccessor.ArrangeExecuteGETQuery(expectedQuery, expectedResult);
-
-            // Act
-            var result = await queryExecutor.GetFavoriteTweets(parameters);
-
-            // Assert
-            Assert.AreEqual(result, expectedResult);
-        }
-
-        #endregion
-
         #region Stream Profile Image
 
         [TestMethod]

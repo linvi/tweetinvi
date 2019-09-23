@@ -19,6 +19,7 @@ using Tweetinvi.Credentials.QueryJsonConverters;
 using Tweetinvi.Exceptions;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO.QueryDTO;
+using Tweetinvi.Parameters;
 using Tweetinvi.WebLogic;
 using HttpMethod = Tweetinvi.Models.HttpMethod;
 

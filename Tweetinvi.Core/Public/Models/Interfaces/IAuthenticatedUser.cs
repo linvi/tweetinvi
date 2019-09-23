@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Tweetinvi.Core.Iterators;
 using Tweetinvi.Core.Models;
+using Tweetinvi.Iterators;
 using Tweetinvi.Parameters;
 
 namespace Tweetinvi.Models
@@ -222,12 +224,12 @@ namespace Tweetinvi.Models
         /// <summary>
         /// Get the ids of the user you blocked.
         /// </summary>
-        ISkippableResultIterator<long> GetBlockedUserIds();
+        ITwitterIterator<long> GetBlockedUserIds();
 
         /// <summary>
         /// Retrieve the users blocked by the current user.
         /// </summary>
-        ISkippableResultIterator<IUser> GetBlockedUsers();
+        ITwitterIterator<IUser> GetBlockedUsers();
 
         // Spam
 

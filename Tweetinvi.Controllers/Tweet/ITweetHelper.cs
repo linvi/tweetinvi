@@ -13,7 +13,7 @@ namespace Tweetinvi.Controllers.Tweet
     {
         public long GetOldestTweetId(IEnumerable<ITweetDTO> tweetDTOs)
         {
-            return tweetDTOs.Min(x => x.Id);
+            return long.Parse(tweetDTOs.Min(x => x.IdStr));
         }
     }
 }

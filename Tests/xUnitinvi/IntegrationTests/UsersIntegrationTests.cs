@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Tweetinvi;
 using Tweetinvi.Models;
@@ -10,21 +9,18 @@ namespace xUnitinvi.IntegrationTests
 {
     public class UserIntegrationTests
     {
-        private readonly ITestOutputHelper _logger;
-
         public UserIntegrationTests(ITestOutputHelper logger)
         {
             _logger = logger;
         }
 
-        [Fact]
-        //[Fact(Skip = "IntegrationTests")]
+        private readonly ITestOutputHelper _logger;
+
+        //[Fact]
+        [Fact(Skip = "IntegrationTests")]
         public async Task TestUsers()
         {
-            TweetinviEvents.QueryBeforeExecute += (sender, args) =>
-            {
-                _logger.WriteLine(args.Url);
-            };
+            TweetinviEvents.QueryBeforeExecute += (sender, args) => { _logger.WriteLine(args.Url); };
 
             var credentials = new TwitterCredentials("A", "B", "C", "D");
 
@@ -35,28 +31,25 @@ namespace xUnitinvi.IntegrationTests
             var authenticatedUser = await client.Users.GetAuthenticatedUser();
             var tweetinviUser = await client.Users.GetUser("tweetinviapi");
 
-            var friendIdsIterator = client.Users.GetFriendIds("tweetinviapi");
-            var friendIds = await friendIdsIterator.MoveToNextPage();
-
-            var friends = await client.Users.GetUsers(friendIds);
-            var tweetinviFriendsIterator = tweetinviUser.GetFriends();
-            var tweetinviFriendsPage = await tweetinviFriendsIterator.MoveToNextPage();
-
-            var followersBeforeAdd = new List<IUser>();
+            var followers = new List<IUser>();
             var followersIterator = authenticatedUser.GetFollowers();
 
             while (!followersIterator.Completed)
             {
                 var pageFollowers = await followersIterator.MoveToNextPage();
-                followersBeforeAdd.AddRange(pageFollowers);
+                followers.AddRange(pageFollowers);
             }
 
             var artwolktUser = await client.Users.GetUser("artwolkt");
 
+            var friendIdsIterator = client.Users.GetFriendIds("tweetinviapi");
+            var friendIds = await friendIdsIterator.MoveToNextPage();
+            var friendsBeforeAdd = await client.Users.GetUsers(friendIds);
+
             await client.Users.FollowUser(artwolktUser);
-            var followersAfterAdd = await authenticatedUser.GetFollowers().MoveToNextPage();
+            var friendsAfterAdd = await authenticatedUser.GetFriends().MoveToNextPage();
             await client.Users.UnFollowUser(artwolktUser);
-            var followersAfterRemove = await authenticatedUser.GetFollowers().MoveToNextPage();
+            var friendsAfterRemove = await authenticatedUser.GetFriends().MoveToNextPage();
 
             var blockSuccess = await artwolktUser.BlockUser();
 
@@ -72,12 +65,12 @@ namespace xUnitinvi.IntegrationTests
             Assert.Equal(tweetinviUser.Id, 1577389800);
             Assert.NotNull(authenticatedUser);
             Assert.Contains(1693649419, friendIds);
-            Assert.Contains(friends, item => { return item.ScreenName == "tweetinvitest"; });
-            Assert.Equal(friends.Select(x => x.ToString()), tweetinviFriendsPage.Select(x => x.ToString()));
+            Assert.Contains(friendsBeforeAdd, item => { return item.ScreenName == "tweetinvitest"; });
 
-            Assert.DoesNotContain(followersBeforeAdd, item => { return item.ScreenName == "artwolkt"; });
-            Assert.Contains(followersAfterAdd, item => { return item.ScreenName == "artwolkt"; });
-            Assert.DoesNotContain(followersAfterRemove, item => { return item.ScreenName == "artwolkt"; });
+
+            Assert.DoesNotContain(friendsBeforeAdd, friend => friend.Id == artwolktUser.Id);
+            Assert.Contains(friendsAfterAdd, friend => friend.Id == artwolktUser.Id);
+            Assert.DoesNotContain(friendsAfterRemove, friend => friend.Id == artwolktUser.Id);
 
             Assert.True(blockSuccess);
             Assert.Contains(blockedUsersFromIdsIterator, id => id == artwolktUser.Id);

@@ -86,35 +86,6 @@ namespace Testinvi.TweetinviControllers.UserTests
 
         #endregion
 
-        #region Favourites
-
-        [TestMethod]
-        public void GetFavouriteTweetsQuery_WithValidUserDTO_ReturnsExpectedQuery()
-        {
-            // Arrange
-            var queryGenerator = CreateUserQueryGenerator();
-            _fakeUserQueryValidator.CallsTo(x => x.CanUserBeIdentified(It.IsAny<IUserIdentifier>())).Returns(true);
-            var userDTO = GenerateUserDTO(true);
-            var maximumNumberOfFavourites = TestHelper.GenerateRandomInt();
-
-            var parameters = A.Fake<IGetUserFavoritesQueryParameters>();
-            parameters.UserIdentifier = userDTO;
-            parameters.Parameters.MaximumNumberOfTweetsToRetrieve = maximumNumberOfFavourites;
-            parameters.Parameters.IncludeEntities = true;
-
-            // Act
-            var result = queryGenerator.GetFavoriteTweetsQuery(parameters);
-
-            // Assert
-            Assert.IsTrue(result.StartsWith(Resources.User_GetFavourites));
-            Assert.IsTrue(result.Contains("count=" + maximumNumberOfFavourites));
-            Assert.IsTrue(result.Contains("include_entities=true"));
-
-            _fakeUserQueryValidator.CallsTo(x => x.ThrowIfUserCannotBeIdentified(userDTO)).MustHaveHappened();
-        }
-
-        #endregion
-
         #region Download Profile Image
 
         [TestMethod]

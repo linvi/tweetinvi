@@ -57,10 +57,7 @@ namespace Tweetinvi.Parameters
             _customQueryParameters.Clear();
         }
 
-        public List<Tuple<string, string>> CustomQueryParameters
-        {
-            get { return _customQueryParameters; }
-        }
+        public List<Tuple<string, string>> CustomQueryParameters => _customQueryParameters;
 
         public string FormattedCustomQueryParameters
         {
@@ -71,11 +68,11 @@ namespace Tweetinvi.Parameters
                     return string.Empty;
                 }
 
-                var queryParameters = new StringBuilder(string.Format("{0}={1}", _customQueryParameters[0].Item1, _customQueryParameters[0].Item2));
+                var queryParameters = new StringBuilder($"{_customQueryParameters[0].Item1}={_customQueryParameters[0].Item2}");
 
                 for (int i = 1; i < _customQueryParameters.Count; ++i)
                 {
-                    queryParameters.Append(string.Format("&{0}={1}", _customQueryParameters[i].Item1, _customQueryParameters[i].Item2));
+                    queryParameters.Append($"&{_customQueryParameters[i].Item1}={_customQueryParameters[i].Item2}");
                 }
 
                 return queryParameters.ToString();

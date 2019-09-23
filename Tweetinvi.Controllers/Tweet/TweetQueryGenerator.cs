@@ -10,6 +10,7 @@ using Tweetinvi.Core.Client;
 using Tweetinvi.Core.Extensions;
 using Tweetinvi.Core.Helpers;
 using Tweetinvi.Core.QueryGenerators;
+using Tweetinvi.Core.QueryValidators;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
 using Tweetinvi.Parameters;
@@ -19,17 +20,23 @@ namespace Tweetinvi.Controllers.Tweet
     public class TweetQueryGenerator : ITweetQueryGenerator
     {
         private readonly IQueryParameterGenerator _queryParameterGenerator;
+        private readonly IUserQueryValidator _userQueryValidator;
+        private readonly IUserQueryParameterGenerator _userQueryParameterGenerator;
         private readonly ITweetQueryValidator _tweetQueryValidator;
         private readonly ITweetinviSettingsAccessor _tweetinviSettingsAccessor;
         private readonly ITwitterStringFormatter _twitterStringFormatter;
 
         public TweetQueryGenerator(
             IQueryParameterGenerator queryParameterGenerator,
+            IUserQueryValidator userQueryValidator,
+            IUserQueryParameterGenerator userQueryParameterGenerator, 
             ITweetQueryValidator tweetQueryValidator,
             ITweetinviSettingsAccessor tweetinviSettingsAccessor,
             ITwitterStringFormatter twitterStringFormatter)
         {
             _queryParameterGenerator = queryParameterGenerator;
+            _userQueryValidator = userQueryValidator;
+            _userQueryParameterGenerator = userQueryParameterGenerator;
             _tweetQueryValidator = tweetQueryValidator;
             _tweetinviSettingsAccessor = tweetinviSettingsAccessor;
             _twitterStringFormatter = twitterStringFormatter;
@@ -139,8 +146,13 @@ namespace Tweetinvi.Controllers.Tweet
             {
                 return null;
             }
+            
+            if (parameters?.QuotedTweet?.Id == null)
+            {
+                return null;
+            }
 
-            return $"https://twitter.com/{parameters.QuotedTweet.CreatedBy.ScreenName}/status/{parameters.QuotedTweet.Id.ToString(CultureInfo.InvariantCulture)}";
+            return $"https://twitter.com/{parameters.QuotedTweet.CreatedBy.ScreenName}/status/{parameters.QuotedTweet.Id.Value.ToString(CultureInfo.InvariantCulture)}";
         }
 
         // Publish Retweet
@@ -174,6 +186,26 @@ namespace Tweetinvi.Controllers.Tweet
 
             return query.ToString();
         }
+        
+        public string GetFavoriteTweetsQuery(IGetFavoriteTweetsParameters parameters, TweetMode? tweetMode)
+        {
+            _userQueryValidator.ThrowIfUserCannotBeIdentified(parameters.UserIdentifier);
+
+            var userParameter = _userQueryParameterGenerator.GenerateIdOrScreenNameParameter(parameters.UserIdentifier);
+            var query = new StringBuilder(Resources.User_GetFavourites + userParameter);
+
+            query.AddParameterToQuery("include_entities", parameters.IncludeEntities);
+            query.AddParameterToQuery("since_id", parameters.SinceId);
+            query.AddParameterToQuery("max_id", parameters.MaxId);
+            query.AddParameterToQuery("count", parameters.PageSize);
+
+            var tweetModeParameter = _queryParameterGenerator.GenerateTweetModeParameter(tweetMode);
+            
+            query.AddFormattedParameterToQuery(tweetModeParameter);
+            query.AddFormattedParameterToQuery(parameters.FormattedCustomQueryParameters);
+
+            return query.ToString();
+        }
 
         #region Get Retweeter Ids
 
@@ -198,7 +230,7 @@ namespace Tweetinvi.Controllers.Tweet
             return GetUnRetweetQuery(tweetIdentifier.Id);
         }
 
-        public string GetUnRetweetQuery(long tweetId)
+        public string GetUnRetweetQuery(long? tweetId)
         {
             _tweetQueryValidator.ThrowIfTweetCannotBeUsed(tweetId);
 
@@ -209,7 +241,7 @@ namespace Tweetinvi.Controllers.Tweet
         }
 
         // Destroy Tweet
-        public string GetDestroyTweetQuery(long tweetId)
+        public string GetDestroyTweetQuery(long? tweetId)
         {
             _tweetQueryValidator.ThrowIfTweetCannotBeUsed(tweetId);
 
@@ -227,7 +259,7 @@ namespace Tweetinvi.Controllers.Tweet
             return GetFavoriteTweetQuery(tweetDTO.Id);
         }
 
-        public string GetFavoriteTweetQuery(long tweetId)
+        public string GetFavoriteTweetQuery(long? tweetId)
         {
             _tweetQueryValidator.ThrowIfTweetCannotBeUsed(tweetId);
             return string.Format(Resources.Tweet_Favorite_Create, tweetId);
@@ -240,7 +272,7 @@ namespace Tweetinvi.Controllers.Tweet
             return GetUnFavoriteTweetQuery(tweetDTO.Id);
         }
 
-        public string GetUnFavoriteTweetQuery(long tweetId)
+        public string GetUnFavoriteTweetQuery(long? tweetId)
         {
             _tweetQueryValidator.ThrowIfTweetCannotBeUsed(tweetId);
             return string.Format(Resources.Tweet_Favorite_Destroy, tweetId);
@@ -253,7 +285,7 @@ namespace Tweetinvi.Controllers.Tweet
             return GetGenerateOEmbedTweetQuery(tweetDTO.Id);
         }
 
-        public string GetGenerateOEmbedTweetQuery(long tweetId)
+        public string GetGenerateOEmbedTweetQuery(long? tweetId)
         {
             _tweetQueryValidator.ThrowIfTweetCannotBeUsed(tweetId);
             return string.Format(Resources.Tweet_GenerateOEmbed, tweetId);

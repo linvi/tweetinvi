@@ -40,7 +40,7 @@ namespace Tweetinvi.Logic
 
         public ITweetDTO TweetDTO
         {
-            get { return _tweetDTO; }
+            get => _tweetDTO;
             set
             {
                 _tweetDTO = value;
@@ -50,14 +50,16 @@ namespace Tweetinvi.Logic
 
         #region Twitter API Attributes
 
-        public long Id
+        public long? Id
         {
-            get { return _tweetDTO.Id; }
+            get => _tweetDTO.Id;
+            set => _tweetDTO.Id = value;
         }
 
         public string IdStr
         {
-            get { return _tweetDTO.IdStr; }
+            get => _tweetDTO.IdStr;
+            set => _tweetDTO.IdStr = value;
         }
 
         public string Text

@@ -1,5 +1,4 @@
-﻿using Tweetinvi.Core.Parameters;
-using Tweetinvi.Models;
+﻿using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
 using Tweetinvi.Parameters;
 
@@ -18,9 +17,6 @@ namespace Tweetinvi.Core.QueryGenerators
         string GetFollowUserQuery(IFollowUserParameters parameters);
         string GetUnFollowUserQuery(IUnFollowUserParameters parameters);
         string GetFollowerIdsQuery(IGetFollowerIdsParameters parameters);
-
-
-        string GetFavoriteTweetsQuery(IGetUserFavoritesQueryParameters parameters);
 
         // Block User
         string GetBlockUserQuery(IBlockUserParameters parameters);

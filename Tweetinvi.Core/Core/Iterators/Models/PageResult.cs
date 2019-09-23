@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-namespace Tweetinvi.Core.Models
+namespace Tweetinvi.Core.Iterators
 {
     public interface IPageResult<TItem> : IEnumerable<TItem>
     {

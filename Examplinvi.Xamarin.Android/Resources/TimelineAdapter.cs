@@ -30,7 +30,8 @@ namespace Examplinvi.Xamarin.Android.Resources
 
         public override long GetItemId(int position)
         {
-            return Tweets[position].Id;
+            // ReSharper disable once PossibleInvalidOperationException - we ensure that when we added a tweet the id was specified
+            return (long)Tweets[position].Id;
         }
 
         public override View GetView(int position, View convertView, ViewGroup parent)

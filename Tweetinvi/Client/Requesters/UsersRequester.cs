@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Tweetinvi.Core.Controllers;
 using Tweetinvi.Core.Extensions;
+using Tweetinvi.Core.Iterators;
 using Tweetinvi.Core.Web;
 using Tweetinvi.Credentials.QueryJsonConverters;
 using Tweetinvi.Models;
@@ -24,8 +25,7 @@ namespace Tweetinvi.Client.Requesters
         /// Get the authenticated user based on the TwitterClient's credentials
         /// </summary>
         /// <returns>TwitterResult containing the client's authenticated user</returns>
-        Task<ITwitterResult<IUserDTO, IAuthenticatedUser>> GetAuthenticatedUser(
-            IGetAuthenticatedUserParameters parameters);
+        Task<ITwitterResult<IUserDTO, IAuthenticatedUser>> GetAuthenticatedUser(IGetAuthenticatedUserParameters parameters);
 
         /// <summary>
         /// Get a user
@@ -43,13 +43,13 @@ namespace Tweetinvi.Client.Requesters
         /// Get friend ids from a specific user
         /// </summary>
         /// <returns>TwitterCursorResult to iterate over all the user's friends</returns>
-        ITwitterCursorResult<long, IIdsCursorQueryResultDTO> GetFriendIds(IGetFriendIdsParameters parameters);
+        ITwitterPageIterator<ITwitterResult<IIdsCursorQueryResultDTO>> GetFriendIds(IGetFriendIdsParameters parameters);
 
         /// <summary>
         /// Get friend ids from a specific user
         /// </summary>
         /// <returns>TwitterCursorResult to iterate over all the user's friends</returns>
-        ITwitterCursorResult<long, IIdsCursorQueryResultDTO> GetFollowerIds(IGetFollowerIdsParameters parameters);
+        ITwitterPageIterator<ITwitterResult<IIdsCursorQueryResultDTO>> GetFollowerIds(IGetFollowerIdsParameters parameters);
 
         /// <summary>
         /// Block a user
@@ -73,14 +73,14 @@ namespace Tweetinvi.Client.Requesters
         /// Get blocked user ids
         /// </summary>
         /// <returns>TwitterCursorResult to iterate over all the blocked users</returns>
-        ITwitterCursorResult<long, IIdsCursorQueryResultDTO> GetBlockedUserIds(IGetBlockedUserIdsParameters parameters);
+        ITwitterPageIterator<ITwitterResult<IIdsCursorQueryResultDTO>> GetBlockedUserIds(
+            IGetBlockedUserIdsParameters parameters);
 
         /// <summary>
         /// Get blocked user ids
         /// </summary>
         /// <returns>TwitterCursorResult to iterate over all the blocked users</returns>
-        ITwitterCursorResult<IUserDTO, IUserCursorQueryResultDTO>
-            GetBlockedUsers(IGetBlockedUsersParameters parameters);
+        ITwitterPageIterator<ITwitterResult<IUserCursorQueryResultDTO>> GetBlockedUsers(IGetBlockedUsersParameters parameters);
 
         /// <summary>
         /// Follow a user
@@ -139,8 +139,7 @@ namespace Tweetinvi.Client.Requesters
         public async Task<ITwitterResult<IUserDTO[], IUser[]>> GetUsers(IGetUsersParameters parameters)
         {
             var request = _twitterClient.CreateRequest();
-            var result = await ExecuteRequest(() => _userController.GetUsers(parameters, request), request)
-                .ConfigureAwait(false);
+            var result = await ExecuteRequest(() => _userController.GetUsers(parameters, request), request).ConfigureAwait(false);
 
             var users = result.Result;
 
@@ -149,12 +148,13 @@ namespace Tweetinvi.Client.Requesters
             return result;
         }
 
-        public ITwitterCursorResult<long, IIdsCursorQueryResultDTO> GetFriendIds(IGetFriendIdsParameters parameters)
+        public ITwitterPageIterator<ITwitterResult<IIdsCursorQueryResultDTO>> GetFriendIds(IGetFriendIdsParameters parameters)
         {
             var request = _twitterClient.CreateRequest();
             request.ExecutionContext.Converters = JsonQueryConverterRepository.Converters;
-            return _userController.GetFriendIds(parameters, request);
+            return _userController.GetFriendIdsIterator(parameters, request);
         }
+
 
         public Task<ITwitterResult<IUserDTO>> FollowUser(IFollowUserParameters parameters)
         {
@@ -168,7 +168,7 @@ namespace Tweetinvi.Client.Requesters
             return ExecuteRequest(() => _userController.UnFollowUser(parameters, request), request);
         }
 
-        public ITwitterCursorResult<long, IIdsCursorQueryResultDTO> GetFollowerIds(IGetFollowerIdsParameters parameters)
+        public ITwitterPageIterator<ITwitterResult<IIdsCursorQueryResultDTO>> GetFollowerIds(IGetFollowerIdsParameters parameters)
         {
             var request = _twitterClient.CreateRequest();
             request.ExecutionContext.Converters = JsonQueryConverterRepository.Converters;
@@ -193,16 +193,14 @@ namespace Tweetinvi.Client.Requesters
             return ExecuteRequest(() => _userController.ReportUserForSpam(parameters, request), request);
         }
 
-        public ITwitterCursorResult<long, IIdsCursorQueryResultDTO> GetBlockedUserIds(
-            IGetBlockedUserIdsParameters parameters)
+        public ITwitterPageIterator<ITwitterResult<IIdsCursorQueryResultDTO>> GetBlockedUserIds(IGetBlockedUserIdsParameters parameters)
         {
             var request = _twitterClient.CreateRequest();
             request.ExecutionContext.Converters = JsonQueryConverterRepository.Converters;
             return _userController.GetBlockedUserIds(parameters, request);
         }
 
-        public ITwitterCursorResult<IUserDTO, IUserCursorQueryResultDTO> GetBlockedUsers(
-            IGetBlockedUsersParameters parameters)
+        public ITwitterPageIterator<ITwitterResult<IUserCursorQueryResultDTO>> GetBlockedUsers(IGetBlockedUsersParameters parameters)
         {
             var request = _twitterClient.CreateRequest();
             request.ExecutionContext.Converters = JsonQueryConverterRepository.Converters;

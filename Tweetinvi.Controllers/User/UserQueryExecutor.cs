@@ -4,7 +4,6 @@ using System.IO;
 using System.Threading.Tasks;
 using Tweetinvi.Core.Extensions;
 using Tweetinvi.Core.Helpers;
-using Tweetinvi.Core.Parameters;
 using Tweetinvi.Core.QueryGenerators;
 using Tweetinvi.Core.Web;
 using Tweetinvi.Models;
@@ -35,10 +34,6 @@ namespace Tweetinvi.Controllers.User
         Task<ITwitterResult<IUserDTO>> ReportUserForSpam(IReportUserForSpamParameters parameters, ITwitterRequest request);
         Task<ITwitterResult<IIdsCursorQueryResultDTO>> GetBlockedUserIds(IGetBlockedUserIdsParameters parameters, ITwitterRequest request);
         Task<ITwitterResult<IUserCursorQueryResultDTO>> GetBlockedUsers(IGetBlockedUsersParameters parameters, ITwitterRequest request);
-
-
-        // Favourites
-        Task<IEnumerable<ITweetDTO>> GetFavoriteTweets(IGetUserFavoritesQueryParameters parameters);
 
         // Stream Profile Image
         Stream GetProfileImageStream(IUserDTO userDTO, ImageSize imageSize = ImageSize.normal);
@@ -215,12 +210,6 @@ namespace Tweetinvi.Controllers.User
             return _twitterAccessor.ExecuteRequest<IUserCursorQueryResultDTO>(request);
         }
 
-        // Favourites
-        public Task<IEnumerable<ITweetDTO>> GetFavoriteTweets(IGetUserFavoritesQueryParameters parameters)
-        {
-            var query = _userQueryGenerator.GetFavoriteTweetsQuery(parameters);
-            return _twitterAccessor.ExecuteGETQuery<IEnumerable<ITweetDTO>>(query);
-        }
 
         // Stream Profile Image
         public Stream GetProfileImageStream(IUserDTO userDTO, ImageSize imageSize = ImageSize.normal)

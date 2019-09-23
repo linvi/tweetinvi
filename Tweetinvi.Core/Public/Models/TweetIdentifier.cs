@@ -10,7 +10,7 @@ namespace Tweetinvi.Models
             IdStr = tweetId.ToString(CultureInfo.InvariantCulture);
         }
 
-        public long Id { get; set; }
+        public long? Id { get; set; }
         public string IdStr { get; set; }
 
         public override string ToString()

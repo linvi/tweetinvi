@@ -1,6 +1,4 @@
-﻿using Tweetinvi.Parameters;
-
-namespace Tweetinvi.Core.Public.Parameters
+﻿namespace Tweetinvi.Parameters
 {
     /// <summary>
     /// A query that can return multiple times based on a cursor value

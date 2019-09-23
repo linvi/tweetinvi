@@ -6,7 +6,7 @@ namespace Tweetinvi.Logic.DTO
 {
     public class TweetIdentifierDTO : ITweetIdentifier
     {
-        private long _id;
+        private long? _id;
 
         public TweetIdentifierDTO()
         {
@@ -17,7 +17,7 @@ namespace Tweetinvi.Logic.DTO
 
         [JsonProperty("id")]
         [JsonConverter(typeof(JsonPropertyConverterRepository))]
-        public long Id
+        public long? Id
         {
             get { return _id; }
             set

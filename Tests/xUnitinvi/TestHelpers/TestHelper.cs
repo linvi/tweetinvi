@@ -17,11 +17,11 @@ namespace xUnitinvi.TestHelpers
 
         public static long GenerateRandomLong()
         {
-            long result = Int64.MaxValue - new Random().Next();
+            var result = long.MaxValue - new Random().Next();
 
             while (result == DefaultId())
             {
-                result = Int64.MaxValue - new Random().Next();
+                result = long.MaxValue - new Random().Next();
             }
 
             return result;
@@ -36,10 +36,10 @@ namespace xUnitinvi.TestHelpers
         {
             if (maxValue == null)
             {
-                maxValue = Int32.MaxValue;
+                maxValue = int.MaxValue;
             }
 
-            int result = Math.Min(new Random().Next(), maxValue.Value);
+            var result = Math.Min(new Random().Next(), maxValue.Value);
 
             while (result == DefaultId())
             {

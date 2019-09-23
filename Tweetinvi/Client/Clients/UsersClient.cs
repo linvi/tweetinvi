@@ -3,7 +3,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using Tweetinvi.Client.Requesters;
 using Tweetinvi.Core.Factories;
-using Tweetinvi.Core.Models;
+using Tweetinvi.Core.Iterators;
+using Tweetinvi.Core.Web;
+using Tweetinvi.Iterators;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
 using Tweetinvi.Models.DTO.QueryDTO;
@@ -98,86 +100,99 @@ namespace Tweetinvi.Client
 
         #region GetFriends
 
-        public ISkippableResultIterator<long> GetFriendIds(string username)
+        public ITwitterIterator<long> GetFriendIds(string username)
         {
             var parameters = new GetFriendIdsParameters(username);
             return GetFriendIds(parameters);
         }
 
-        public ISkippableResultIterator<long> GetFriendIds(long userId)
+        public ITwitterIterator<long> GetFriendIds(long userId)
         {
             var parameters = new GetFriendIdsParameters(userId);
             return GetFriendIds(parameters);
         }
 
-        public ISkippableResultIterator<long> GetFriendIds(IUserIdentifier userIdentifier)
+        public ITwitterIterator<long> GetFriendIds(IUserIdentifier userIdentifier)
         {
             var parameters = new GetFriendIdsParameters(userIdentifier);
             return GetFriendIds(parameters);
         }
 
-        public ISkippableResultIterator<long> GetFriendIds(IGetFriendIdsParameters parameters)
+        public ITwitterIterator<long> GetFriendIds(IGetFriendIdsParameters parameters)
         {
-            var twitterCursorResult = _usersRequester.GetFriendIds(parameters);
-            var cursorResult = new SkippableResultIterator<long, IIdsCursorQueryResultDTO>(twitterCursorResult);
-
-            return cursorResult;
+            var twitterResultIterator = _usersRequester.GetFriendIds(parameters);
+            return new TwitterIteratorProxy<ITwitterResult<IIdsCursorQueryResultDTO>, long>(twitterResultIterator, dto => dto.DataTransferObject.Ids);
         }
 
-        public ICursorResultIterator<IUser> GetFriends(IGetFriendsParameters parameters)
+        public IMultiLevelCursorIterator<long, IUser> GetFriends(IGetFriendsParameters parameters)
         {
-            var twitterCursorResult = _usersRequester.GetFriendIds(parameters);
+            var friendsPageIterator = _usersRequester.GetFriendIds(parameters);
+            var maxPageSize = parameters.GetUsersPageSize;
 
-            var friendIdsIterator = new SkippableResultIterator<long, IIdsCursorQueryResultDTO>(twitterCursorResult);
-            var userCursorIterator = new MultiLevelCursorResultIterator<IUser, long>(friendIdsIterator, friendIds =>
-            {
-                return new PageResultIterator<long, IUser>(friendIds, GetUsers, parameters.GetUsersPageSize);
-            });
-            
-            return userCursorIterator;
+            return _createUserMultiLevelIterator(friendsPageIterator, maxPageSize);
+        }
+
+        private IMultiLevelCursorIterator<long, IUser> _createUserMultiLevelIterator(ITwitterPageIterator<ITwitterResult<IIdsCursorQueryResultDTO>> friendsPageIterator, int maxPageSize)
+        {
+            var iterator = new MultiLevelCursorIterator<long, IUser>(
+                async () =>
+                {
+                    var userIdsPage = await friendsPageIterator.MoveToNextPage().ConfigureAwait(false);
+                    return new CursorPageResult<long, string>
+                    {
+                        Items = userIdsPage.Content.DataTransferObject.Ids,
+                        NextCursor = userIdsPage.NextCursor,
+                        IsLastPage = userIdsPage.IsLastPage
+                    };
+                }, async userIds =>
+                {
+                    var userIdsToAnalyze = userIds.Take(maxPageSize).ToArray();
+                    var friends = await GetUsers(userIdsToAnalyze).ConfigureAwait(false);
+
+                    return new MultiLevelPageProcessingResult<long, IUser>
+                    {
+                        Items = friends,
+                        AssociatedParentItems = userIdsToAnalyze,
+                    };
+                });
+
+            return iterator;
         }
 
         #endregion
 
         #region GetFollowers
 
-        public ISkippableResultIterator<long> GetFollowerIds(string username)
+        public ITwitterIterator<long> GetFollowerIds(string username)
         {
             var parameters = new GetFollowerIdsParameters(username);
             return GetFollowerIds(parameters);
         }
 
-        public ISkippableResultIterator<long> GetFollowerIds(long userId)
+        public ITwitterIterator<long> GetFollowerIds(long userId)
         {
             var parameters = new GetFollowerIdsParameters(userId);
             return GetFollowerIds(parameters);
         }
 
-        public ISkippableResultIterator<long> GetFollowerIds(IUserIdentifier userIdentifier)
+        public ITwitterIterator<long> GetFollowerIds(IUserIdentifier userIdentifier)
         {
             var parameters = new GetFollowerIdsParameters(userIdentifier);
             return GetFollowerIds(parameters);
         }
 
-        public ISkippableResultIterator<long> GetFollowerIds(IGetFollowerIdsParameters parameters)
+        public ITwitterIterator<long> GetFollowerIds(IGetFollowerIdsParameters parameters)
         {
-            var twitterCursorResult = _usersRequester.GetFollowerIds(parameters);
-            var cursorResult = new SkippableResultIterator<long, IIdsCursorQueryResultDTO>(twitterCursorResult);
-
-            return cursorResult;
+            var followerIdsPageIterator = _usersRequester.GetFollowerIds(parameters);
+            return new TwitterIteratorProxy<ITwitterResult<IIdsCursorQueryResultDTO>, long>(followerIdsPageIterator, dto => dto.DataTransferObject.Ids);
         }
 
-        public ICursorResultIterator<IUser> GetFollowers(IGetFollowersParameters parameters)
+        public IMultiLevelCursorIterator<long, IUser> GetFollowers(IGetFollowersParameters parameters)
         {
-            var twitterCursorResult = _usersRequester.GetFollowerIds(parameters);
-            
-            var followerIdsIterator = new SkippableResultIterator<long, IIdsCursorQueryResultDTO>(twitterCursorResult);
-            var userCursorIterator = new MultiLevelCursorResultIterator<IUser, long>(followerIdsIterator, followerIds =>
-            {
-                return new PageResultIterator<long, IUser>(followerIds, GetUsers, parameters.GetUsersPageSize);
-            });
+            var followerPageIterator = _usersRequester.GetFollowerIds(parameters);
+            var maxPageSize = parameters.GetUsersPageSize;
 
-            return userCursorIterator;
+            return _createUserMultiLevelIterator(followerPageIterator, maxPageSize);
         }
 
         #endregion
@@ -247,30 +262,30 @@ namespace Tweetinvi.Client
             return requestResult?.DataTransferObject != null;
         }
 
-        public ISkippableResultIterator<long> GetBlockedUserIds()
+        public ITwitterIterator<long> GetBlockedUserIds()
         {
             return GetBlockedUserIds(new GetBlockedUserIdsParameters());
         }
 
-        public ISkippableResultIterator<long> GetBlockedUserIds(IGetBlockedUserIdsParameters parameters)
+        public ITwitterIterator<long> GetBlockedUserIds(IGetBlockedUserIdsParameters parameters)
         {
             var twitterCursorResult = _usersRequester.GetBlockedUserIds(parameters);
-            var cursorResult = new SkippableResultIterator<long, IIdsCursorQueryResultDTO>(twitterCursorResult);
-
-            return cursorResult;
+            return new TwitterIteratorProxy<ITwitterResult<IIdsCursorQueryResultDTO>, long>(twitterCursorResult, dto => dto.DataTransferObject.Ids);
         }
 
-        public ISkippableResultIterator<IUser> GetBlockedUsers()
+        public ITwitterIterator<IUser> GetBlockedUsers()
         {
             return GetBlockedUsers(new GetBlockedUsersParameters());
         }
 
-        public ISkippableResultIterator<IUser> GetBlockedUsers(IGetBlockedUsersParameters parameters)
+        public ITwitterIterator<IUser> GetBlockedUsers(IGetBlockedUsersParameters parameters)
         {
             var twitterCursorResult = _usersRequester.GetBlockedUsers(parameters);
-            var cursorResult = new SkippableResultIterator<IUser, IUserDTO, IUserCursorQueryResultDTO>(twitterCursorResult, _userFactory.GenerateUsersFromDTO);
-
-            return cursorResult;
+            return new TwitterIteratorProxy<ITwitterResult<IUserCursorQueryResultDTO>, IUser>(twitterCursorResult, pageResult =>
+            {
+                var userDTOs = pageResult.DataTransferObject.Users;
+                return _userFactory.GenerateUsersFromDTO(userDTOs);
+            });
         }
 
         #endregion
@@ -297,7 +312,7 @@ namespace Tweetinvi.Client
             var requestResult = await _usersRequester.FollowUser(parameters).ConfigureAwait(false);
             return requestResult?.DataTransferObject != null;
         }
-        
+
         public Task<bool> UnFollowUser(long userId)
         {
             return UnFollowUser(new UnFollowUserParameters(userId));

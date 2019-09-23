@@ -33,29 +33,6 @@ namespace Testinvi.TweetinviControllers.UserTests
             _fakeUserFactory = _fakeBuilder.GetFake<IUserFactory>();
         }
 
-        #region Get Favourites
-
-        [TestMethod]
-        public async Task GetFavouriteTweets_WithUser_ReturnsUserExecutorResult()
-        {
-            // Arrange
-            var controller = CreateUserController();
-            var tweetsDTO = new[] { A.Fake<ITweetDTO>() };
-            var tweets = new[] { A.Fake<ITweet>() };
-            var parameters = It.IsAny<IGetUserFavoritesQueryParameters>();
-
-            _fakeUserQueryExecutor.CallsTo(x => x.GetFavoriteTweets(parameters)).Returns(tweetsDTO);
-            _fakeTweetFactory.CallsTo(x => x.GenerateTweetsFromDTO(tweetsDTO, null, null)).Returns(tweets);
-
-            // Act
-            var result = await controller.GetFavoriteTweets(parameters);
-
-            // Assert
-            Assert.AreEqual(result, tweets);
-        }
-
-        #endregion
-
         #region Stream Profile Image
 
         [TestMethod]

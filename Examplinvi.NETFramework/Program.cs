@@ -321,7 +321,6 @@ namespace Examplinvi.NETFramework
             await Examples.Json_GetJsonForTimelineRequestExample();
             await Examples.Json_GetJsonForTrendsRequestExample();
             await Examples.Json_GetJsonForTweetRequestExample();
-            await Examples.Json_GetJsonForUserRequestExample();
         }
 
         private static async Task AdditionalFeaturesExamples()
@@ -680,10 +679,16 @@ namespace Examplinvi.NETFramework
         public static async Task User_GetFavorites(string username)
         {
             var user = await Client.Users.GetUser(username);
-            var favorites = await user.GetFavorites();
+            var favoritesIterator = user.GetFavoriteTweets();
+            var favoriteTweets = new List<ITweet>();
 
-            Console.WriteLine("{0} has {1} favorites, here are some of them :", user.Name, user.FavouritesCount);
-            foreach (var favoriteTweet in favorites)
+            while (!favoritesIterator.Completed)
+            {
+                var page = await favoritesIterator.MoveToNextPage();
+                favoriteTweets.AddRange(page);
+            }
+
+            foreach (var favoriteTweet in favoriteTweets)
             {
                 Console.WriteLine("- {0}", favoriteTweet.Text);
             }
@@ -1500,16 +1505,6 @@ namespace Examplinvi.NETFramework
         {
             var result = await Client.RequestExecutor.Tweets.GetTweet(42);
             Console.WriteLine(result.Json);
-        }
-
-        public static async Task Json_GetJsonForUserRequestExample()
-        {
-            var authenticatedUser = await Client.Users.GetAuthenticatedUser();
-            var twitterResult = Client.RequestExecutor.Users.GetFollowerIds(new GetFollowerIdsParameters(authenticatedUser));
-
-            var pageResult = await twitterResult.MoveToNextPage();
-
-            Console.WriteLine(pageResult.TwitterResult.Json);
         }
 
         public static async Task Json_GetJsonCursorRequestExample()

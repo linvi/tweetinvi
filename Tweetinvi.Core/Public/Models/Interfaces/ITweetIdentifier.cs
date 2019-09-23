@@ -3,16 +3,7 @@
     /// <summary>
     /// Identifier allowing to identify a unique tweet.
     /// </summary>
-    public interface ITweetIdentifier
+    public interface ITweetIdentifier : ITwitterIdentifier
     {
-        /// <summary>
-        /// Id of the Tweet.
-        /// </summary>
-        long Id { get; }
-
-        /// <summary>
-        /// Id of the tweet as a string.
-        /// </summary>
-        string IdStr { get; }
     }
 }

@@ -11,8 +11,8 @@ namespace xUnitinvi.TestHelpers
     [ExcludeFromCodeCoverage]
     public class FakeClassBuilder<T> where T : class
     {
-        private readonly ContainerBuilder _containerBuilder;
         private readonly IContainer _container;
+        private readonly ContainerBuilder _containerBuilder;
 
         public FakeClassBuilder(params string[] parametersToIgnore)
         {
