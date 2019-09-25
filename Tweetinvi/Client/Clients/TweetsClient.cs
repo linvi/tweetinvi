@@ -215,12 +215,12 @@ namespace Tweetinvi.Client
         {
             var tweetMode = _client.Config.TweetMode;
             var executionContext = _client.CreateTwitterExecutionContext();
-            
+
             var favoriteTweetsIterator = _tweetsRequester.GetFavoriteTweets(parameters);
-            return new TwitterIteratorProxy<ITwitterResult<ITweetDTO[]>, ITweet, long?>(favoriteTweetsIterator, 
+            return new TwitterIteratorProxy<ITwitterResult<ITweetDTO[]>, ITweet, long?>(favoriteTweetsIterator,
                 twitterResult =>
                 {
-                    return _tweetFactory.GenerateTweetsFromDTO(twitterResult.DataTransferObject, tweetMode, executionContext); 
+                    return _tweetFactory.GenerateTweetsFromDTO(twitterResult.DataTransferObject, tweetMode, executionContext);
                 });
         }
 

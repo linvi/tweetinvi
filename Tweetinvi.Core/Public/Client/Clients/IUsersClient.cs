@@ -5,7 +5,7 @@ using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
 using Tweetinvi.Parameters;
 
-namespace Tweetinvi
+namespace Tweetinvi.Client
 {
     public interface IUsersClient
     {
@@ -31,11 +31,6 @@ namespace Tweetinvi
         /// Get a user
         /// </summary>
         Task<IUser> GetUser(long? userId);
-
-        /// <summary>
-        /// Get a user
-        /// </summary>
-        Task<IUser> GetUser(long userId);
 
         /// <summary>
         /// Get a user
@@ -91,18 +86,18 @@ namespace Tweetinvi
         /// </summary>
         /// <returns>A CursorResult to iterate over all the user's friends</returns>
         ITwitterIterator<long> GetFriendIds(long userId);
+        
+        /// <summary>
+        /// Get friend ids from a specific user
+        /// </summary>
+        /// <returns>A CursorResult to iterate over all the user's friends</returns>
+        ITwitterIterator<long> GetFriendIds(IUserIdentifier userIdentifier);
 
         /// <summary>
         /// Get friend ids from a specific user
         /// </summary>
         /// <returns>A CursorResult to iterate over all the user's friends</returns>
         ITwitterIterator<long> GetFriendIds(IGetFriendIdsParameters parameters);
-
-        /// <summary>
-        /// Get friend ids from a specific user
-        /// </summary>
-        /// <returns>A CursorResult to iterate over all the user's friends</returns>
-        ITwitterIterator<long> GetFriendIds(IUserIdentifier userIdentifier);
 
         /// <summary>
         /// Get friends from a specific user

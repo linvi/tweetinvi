@@ -1,6 +1,4 @@
-﻿using System;
-using Tweetinvi.Core.Public.Parameters;
-using Tweetinvi.Models;
+﻿using Tweetinvi.Models;
 
 namespace Tweetinvi.Parameters
 {
@@ -9,11 +7,6 @@ namespace Tweetinvi.Parameters
     /// </summary>
     public interface IGetFriendIdsParameters : ICursorQueryParameters
     {
-        /// <summary>
-        /// Page size when retrieving the user ids from Twitter
-        /// </summary>
-        new int PageSize { get; set; } 
-        
         /// <summary>
         /// A unique identifier of a user
         /// </summary>
@@ -44,10 +37,7 @@ namespace Tweetinvi.Parameters
         
         public GetFriendIdsParameters(IGetFriendIdsParameters parameters) : base(parameters)
         {
-            if (parameters == null)
-            {
-                throw new ArgumentNullException($"{nameof(parameters)} cannot be null as well as UserIdentifier");
-            }
+            if (parameters == null) { return; }
             
             UserIdentifier = parameters.UserIdentifier;
         }

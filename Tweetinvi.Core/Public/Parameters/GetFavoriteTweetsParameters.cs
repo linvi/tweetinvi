@@ -1,11 +1,12 @@
-﻿using Tweetinvi.Models;
+﻿using Tweetinvi.Core.Extensions;
+using Tweetinvi.Models;
+using Tweetinvi.Parameters.Optionals;
 
 namespace Tweetinvi.Parameters
 {
-    public interface IGetFavoriteTweetsParameters : IMaxAndMinBaseQueryParameters
+    public interface IGetFavoriteTweetsParameters : IMaxAndMinBaseQueryParameters, IGetUsersOptionalParameters
     {
         IUserIdentifier UserIdentifier { get; set; }
-        bool? IncludeEntities { get; set; }
     }
 
     /// <summary>
@@ -35,10 +36,12 @@ namespace Tweetinvi.Parameters
             }
 
             UserIdentifier = source.UserIdentifier;
+            SkipStatus = source.SkipStatus;
             IncludeEntities = source.IncludeEntities;
         }
 
         public IUserIdentifier UserIdentifier { get; set; }
+        public bool? SkipStatus { get; set; }
         public bool? IncludeEntities { get; set; }
     }
 }

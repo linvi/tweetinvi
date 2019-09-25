@@ -20,13 +20,17 @@ namespace Tweetinvi.Client
     /// </summary>
     public class UsersClient : IUsersClient
     {
+        private readonly TwitterClient _client;
         private readonly IUsersRequester _usersRequester;
         private readonly IUserFactory _userFactory;
+        private readonly IMultiLevelCursorIteratorFactory _multiLevelCursorIteratorFactory;
 
         public UsersClient(TwitterClient client)
         {
+            _client = client;
             _usersRequester = client.RequestExecutor.Users;
             _userFactory = TweetinviContainer.Resolve<IUserFactory>();
+            _multiLevelCursorIteratorFactory = TweetinviContainer.Resolve<IMultiLevelCursorIteratorFactory>();
         }
 
         public async Task<IAuthenticatedUser> GetAuthenticatedUser()
@@ -44,11 +48,6 @@ namespace Tweetinvi.Client
         #region GetUser
 
         public Task<IUser> GetUser(long? userId)
-        {
-            return GetUser(new UserIdentifier(userId));
-        }
-
-        public Task<IUser> GetUser(long userId)
         {
             return GetUser(new UserIdentifier(userId));
         }
@@ -129,34 +128,7 @@ namespace Tweetinvi.Client
             var friendsPageIterator = _usersRequester.GetFriendIds(parameters);
             var maxPageSize = parameters.GetUsersPageSize;
 
-            return _createUserMultiLevelIterator(friendsPageIterator, maxPageSize);
-        }
-
-        private IMultiLevelCursorIterator<long, IUser> _createUserMultiLevelIterator(ITwitterPageIterator<ITwitterResult<IIdsCursorQueryResultDTO>> friendsPageIterator, int maxPageSize)
-        {
-            var iterator = new MultiLevelCursorIterator<long, IUser>(
-                async () =>
-                {
-                    var userIdsPage = await friendsPageIterator.MoveToNextPage().ConfigureAwait(false);
-                    return new CursorPageResult<long, string>
-                    {
-                        Items = userIdsPage.Content.DataTransferObject.Ids,
-                        NextCursor = userIdsPage.NextCursor,
-                        IsLastPage = userIdsPage.IsLastPage
-                    };
-                }, async userIds =>
-                {
-                    var userIdsToAnalyze = userIds.Take(maxPageSize).ToArray();
-                    var friends = await GetUsers(userIdsToAnalyze).ConfigureAwait(false);
-
-                    return new MultiLevelPageProcessingResult<long, IUser>
-                    {
-                        Items = friends,
-                        AssociatedParentItems = userIdsToAnalyze,
-                    };
-                });
-
-            return iterator;
+            return _multiLevelCursorIteratorFactory.CreateUserMultiLevelIterator(_client, friendsPageIterator, maxPageSize);
         }
 
         #endregion
@@ -192,7 +164,7 @@ namespace Tweetinvi.Client
             var followerPageIterator = _usersRequester.GetFollowerIds(parameters);
             var maxPageSize = parameters.GetUsersPageSize;
 
-            return _createUserMultiLevelIterator(followerPageIterator, maxPageSize);
+            return _multiLevelCursorIteratorFactory.CreateUserMultiLevelIterator(_client, followerPageIterator, maxPageSize);
         }
 
         #endregion

@@ -1,4 +1,6 @@
-﻿using Tweetinvi.Core.Client;
+﻿using Tweetinvi.Client;
+using Tweetinvi.Client.Requesters;
+using Tweetinvi.Core.Client;
 using Tweetinvi.Models;
 
 namespace Tweetinvi
@@ -22,6 +24,7 @@ namespace Tweetinvi
 
         ITwitterCredentials Credentials { get; }
         ITweetinviSettings Config { get; }
+        IRequestExecutor RequestExecutor { get; }
         ITwitterRequest CreateRequest();
         ITwitterExecutionContext CreateTwitterExecutionContext();
     }

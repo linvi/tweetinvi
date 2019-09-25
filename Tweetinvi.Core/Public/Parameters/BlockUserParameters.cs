@@ -5,12 +5,6 @@ namespace Tweetinvi.Parameters
     public interface IBlockUserParameters : ICustomRequestParameters
     {
         IUserIdentifier UserIdentifier { get; set; }
-        
-        /// <summary>
-        /// Include user entities.
-        /// </summary>
-        bool? IncludeEntities { get; set; }
-        bool? SkipStatus { get; set; }
     }
     
     public class BlockUserParameters : CustomRequestParameters, IBlockUserParameters
@@ -18,7 +12,6 @@ namespace Tweetinvi.Parameters
         public BlockUserParameters(IUserIdentifier userIdentifier)
         {
             UserIdentifier = userIdentifier;
-            SkipStatus = true;
         }
         
         public BlockUserParameters(string username) : this(new UserIdentifier(username))
@@ -31,13 +24,9 @@ namespace Tweetinvi.Parameters
         
         public BlockUserParameters(IBlockUserParameters source) : base(source)
         {
-            UserIdentifier = source.UserIdentifier;
-            IncludeEntities = source.IncludeEntities;
-            SkipStatus = source.SkipStatus;
+            UserIdentifier = source?.UserIdentifier;
         }
         
         public IUserIdentifier UserIdentifier { get; set; }
-        public bool? IncludeEntities { get; set; }
-        public bool? SkipStatus { get; set; }
     }
 }

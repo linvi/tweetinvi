@@ -5,7 +5,14 @@ namespace Tweetinvi.Parameters
 {
     public interface IGetProfileImageParameters : ICustomRequestParameters
     {
+        /// <summary>
+        /// Url of the profile image
+        /// </summary>
         string ImageUrl { get; set; }
+        
+        /// <summary>
+        /// Size of the image
+        /// </summary>
         ImageSize ImageSize { get; set; }
     }
 

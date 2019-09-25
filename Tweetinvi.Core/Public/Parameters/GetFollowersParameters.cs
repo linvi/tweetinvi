@@ -1,19 +1,10 @@
 ﻿using Tweetinvi.Models;
+using Tweetinvi.Parameters.Optionals;
 
 namespace Tweetinvi.Parameters
 {
-    public interface IGetFollowersParameters : IGetFollowerIdsParameters
+    public interface IGetFollowersParameters : IGetFollowerIdsParameters, IGetUsersOptionalParameters
     {
-        /// <summary>
-        /// Page size when retrieving the user ids from Twitter
-        /// </summary>
-        new int PageSize { get; set; } 
-        
-        /// <summary>
-        /// Include user entities.
-        /// </summary>
-        bool? IncludeEntities { get; set; }
-        
         /// <summary>
         /// Page size when retrieving the users objects from Twitter
         /// </summary>
@@ -39,8 +30,16 @@ namespace Tweetinvi.Parameters
 
         public GetFollowersParameters(IGetFollowersParameters parameters) : base(parameters)
         {
+            GetUsersPageSize = TweetinviConsts.GET_USERS_MAX_PAGE_SIZE;
+            
+            if (parameters == null) { return; }
+            
+            SkipStatus = parameters.SkipStatus;
+            IncludeEntities = parameters.IncludeEntities;
+            GetUsersPageSize = parameters.GetUsersPageSize;
         }
 
+        public bool? SkipStatus { get; set; }
         public bool? IncludeEntities { get; set; }
         public int GetUsersPageSize { get; set; }
     }

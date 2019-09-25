@@ -1,18 +1,14 @@
 ﻿using Tweetinvi.Models;
+using Tweetinvi.Parameters.Optionals;
 
 namespace Tweetinvi.Parameters
 {
-    public interface IGetUserParameters : ICustomRequestParameters
+    public interface IGetUserParameters : IGetUsersOptionalParameters
     {
         IUserIdentifier UserIdentifier { get; set; }
-        
-        /// <summary>
-        /// Include user entities.
-        /// </summary>
-        bool? IncludeEntities { get; set; }
     }
 
-    public class GetUserParameters : CustomRequestParameters, IGetUserParameters
+    public class GetUserParameters : GetUsersOptionalParameters, IGetUserParameters
     {
         public GetUserParameters(IUserIdentifier userIdentifier)
         {
@@ -21,13 +17,9 @@ namespace Tweetinvi.Parameters
 
         public GetUserParameters(IGetUserParameters source) : base(source)
         {
-            if (source == null) {  return;}
-
-            UserIdentifier = source.UserIdentifier;
-            IncludeEntities = source.IncludeEntities;
+            UserIdentifier = source?.UserIdentifier;
         }
 
         public IUserIdentifier UserIdentifier { get; set; }
-        public bool? IncludeEntities { get; set; }
     }
 }

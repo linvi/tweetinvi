@@ -59,8 +59,6 @@ namespace xUnitinvi.ClientActions.UsersClient
 
             var parameters = new BlockUserParameters(user)
             {
-                SkipStatus = true,
-                IncludeEntities = true,
                 CustomQueryParameters = { new Tuple<string, string>("hello", "world") }
             };
 
@@ -68,7 +66,7 @@ namespace xUnitinvi.ClientActions.UsersClient
             var result = queryGenerator.GetBlockUserQuery(parameters);
 
             // Assert
-            Assert.Equal(result, $"https://api.twitter.com/1.1/blocks/create.json?user_id=42&include_entities=true&skip_status=true&hello=world");
+            Assert.Equal(result, $"https://api.twitter.com/1.1/blocks/create.json?user_id=42&hello=world");
 
             _fakeUserQueryValidator.CallsTo(x => x.ThrowIfUserCannotBeIdentified(user)).MustHaveHappened();
         }
@@ -104,8 +102,6 @@ namespace xUnitinvi.ClientActions.UsersClient
 
             var parameters = new UnblockUserParameters(user)
             {
-                SkipStatus = true,
-                IncludeEntities = true,
                 CustomQueryParameters = { new Tuple<string, string>("hello", "world") }
             };
 
@@ -113,7 +109,7 @@ namespace xUnitinvi.ClientActions.UsersClient
             var result = queryGenerator.GetUnblockUserQuery(parameters);
 
             // Assert
-            Assert.Equal(result, $"https://api.twitter.com/1.1/blocks/destroy.json?user_id=42&include_entities=true&skip_status=true&hello=world");
+            Assert.Equal(result, $"https://api.twitter.com/1.1/blocks/destroy.json?user_id=42&hello=world");
 
             _fakeUserQueryValidator.CallsTo(x => x.ThrowIfUserCannotBeIdentified(user)).MustHaveHappened();
         }

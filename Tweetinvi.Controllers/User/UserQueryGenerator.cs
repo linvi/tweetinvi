@@ -115,8 +115,6 @@ namespace Tweetinvi.Controllers.User
             return query.ToString();
         }
 
-        
-
         public string GetBlockUserQuery(IBlockUserParameters parameters)
         {
             _userQueryValidator.ThrowIfUserCannotBeIdentified(parameters.UserIdentifier);
@@ -124,8 +122,6 @@ namespace Tweetinvi.Controllers.User
             var query = new StringBuilder(Resources.User_Block_Create);
             
             query.AddFormattedParameterToQuery(_userQueryParameterGenerator.GenerateIdOrScreenNameParameter(parameters.UserIdentifier));
-            query.AddParameterToQuery("include_entities", parameters.IncludeEntities);
-            query.AddParameterToQuery("skip_status", parameters.SkipStatus);
             query.AddFormattedParameterToQuery(parameters.FormattedCustomQueryParameters);
 
             return query.ToString();
@@ -138,8 +134,6 @@ namespace Tweetinvi.Controllers.User
             var query = new StringBuilder(Resources.User_Block_Destroy);
 
             query.AddFormattedParameterToQuery(_userQueryParameterGenerator.GenerateIdOrScreenNameParameter(parameters.UserIdentifier));
-            query.AddParameterToQuery("include_entities", parameters.IncludeEntities);
-            query.AddParameterToQuery("skip_status", parameters.SkipStatus);
             query.AddFormattedParameterToQuery(parameters.FormattedCustomQueryParameters);
 
             return query.ToString();

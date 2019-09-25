@@ -4,7 +4,14 @@ namespace Tweetinvi.Parameters
 {
     public interface IReportUserForSpamParameters : ICustomRequestParameters
     {
+        /// <summary>
+        /// The user you want to block
+        /// </summary>
         IUserIdentifier UserIdentifier { get; set; }
+        
+        /// <summary>
+        /// Whether you want to block the user in addition to report him
+        /// </summary>
         bool? PerformBlock { get; set; }
     }
 
@@ -25,8 +32,8 @@ namespace Tweetinvi.Parameters
 
         public ReportUserForSpamParameters(IReportUserForSpamParameters source) : base(source)
         {
-            UserIdentifier = source.UserIdentifier;
-            PerformBlock = source.PerformBlock;
+            UserIdentifier = source?.UserIdentifier;
+            PerformBlock = source?.PerformBlock;
         }
 
         public IUserIdentifier UserIdentifier { get; set; }

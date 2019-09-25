@@ -2,6 +2,7 @@
 using Tweetinvi.Core.Events;
 using Tweetinvi.Core.Exceptions;
 using Tweetinvi.Core.Helpers;
+using Tweetinvi.Core.Iterators;
 using Tweetinvi.Core.Web;
 using Tweetinvi.Exceptions;
 using Tweetinvi.Models;
@@ -44,6 +45,7 @@ namespace Tweetinvi.Core.Injectinvi
             container.RegisterType<ITwitterExceptionFactory, TwitterExceptionFactory>();
             container.RegisterType<ITwitterException, TwitterException>();
             container.RegisterType<IPagedOperationsHelper, PagedOperationsHelper>(RegistrationLifetime.InstancePerApplication);
+            container.RegisterType<IMultiLevelCursorIteratorFactory, MultiLevelCursorIteratorFactory>(RegistrationLifetime.InstancePerApplication);
 
             InitializeParameters(container);
         }

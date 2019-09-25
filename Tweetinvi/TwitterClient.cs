@@ -1,4 +1,5 @@
 ﻿using Tweetinvi.Client;
+using Tweetinvi.Client.Requesters;
 using Tweetinvi.Core.Client;
 using Tweetinvi.Models;
 

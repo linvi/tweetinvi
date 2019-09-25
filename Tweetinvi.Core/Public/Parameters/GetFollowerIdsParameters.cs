@@ -1,6 +1,4 @@
-﻿using System;
-using Tweetinvi.Core.Public.Parameters;
-using Tweetinvi.Models;
+﻿using Tweetinvi.Models;
 
 namespace Tweetinvi.Parameters
 {
@@ -39,10 +37,7 @@ namespace Tweetinvi.Parameters
         
         public GetFollowerIdsParameters(IGetFollowerIdsParameters parameters) : base(parameters)
         {
-            if (parameters == null)
-            {
-                throw new ArgumentException($"{nameof(parameters)} cannot be null as well as UserIdentifier");
-            }
+            if (parameters == null) { return; }
             
             UserIdentifier = parameters.UserIdentifier;
         }

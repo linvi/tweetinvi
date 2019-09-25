@@ -4,7 +4,7 @@ using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
 using Tweetinvi.Parameters;
 
-namespace Tweetinvi
+namespace Tweetinvi.Client
 {
     public interface ITweetsClient
     {

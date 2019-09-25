@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using FakeItEasy;
 using Tweetinvi;
+using Tweetinvi.Client;
 using Tweetinvi.Core.Models;
 using Tweetinvi.Models;
 using Tweetinvi.Parameters;

@@ -2,13 +2,6 @@
 
 namespace Tweetinvi.Client
 {
-    public interface IRequestExecutor
-    {
-        IAccountsRequester Accounts { get; }
-        ITweetsRequester Tweets { get; }
-        IUsersRequester Users { get; }
-    }
-
     public interface IInternalRequestExecutor : IRequestExecutor
     {
         void Initialize(TwitterClient client);
