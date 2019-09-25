@@ -272,22 +272,6 @@ namespace Tweetinvi
         #region Friendship
 
         /// <summary>
-        /// Get the ids of the users who want to follow you.
-        /// </summary>
-        public static Task<IEnumerable<long>> GetUserIdsRequestingFriendship(int maximumUserIdsToRetrieve = TweetinviConsts.FRIENDSHIPS_INCOMING_IDS_MAX_PER_REQ)
-        {
-            return FriendshipController.GetUserIdsRequestingFriendship(maximumUserIdsToRetrieve);
-        }
-
-        /// <summary>
-        /// Get the users who want to follow you.
-        /// </summary>
-        public static Task<IEnumerable<IUser>> GetUsersRequestingFriendship(int maximumUserIdsToRetrieve = TweetinviConsts.FRIENDSHIPS_INCOMING_USERS_MAX_PER_REQ)
-        {
-            return FriendshipController.GetUsersRequestingFriendship(maximumUserIdsToRetrieve);
-        }
-
-        /// <summary>
         /// Get the user ids of the people you requested to follow.
         /// </summary>
         public static Task<IEnumerable<long>> GetUserIdsYouRequestedToFollow(int maximumUserIdsToRetrieve = TweetinviConsts.FRIENDSHIPS_OUTGOING_IDS_MAX_PER_REQ)

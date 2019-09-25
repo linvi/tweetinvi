@@ -11,6 +11,8 @@ namespace Tweetinvi.Controllers.Account
 {
     public interface IAccountQueryExecutor
     {
+        Task<ITwitterResult<IIdsCursorQueryResultDTO>> GetUserIdsRequestingFriendship(IGetUserIdsRequestingFriendshipParameters parameters, ITwitterRequest request);
+        
         Task<IAccountSettingsDTO> GetAuthenticatedUserAccountSettings();
         Task<IAccountSettingsDTO> UpdateAuthenticatedUserSettings(IAccountSettingsRequestParameters accountSettingsRequestParameters);
 
@@ -46,6 +48,16 @@ namespace Tweetinvi.Controllers.Account
             _accountQueryGenerator = accountQueryGenerator;
         }
 
+        public Task<ITwitterResult<IIdsCursorQueryResultDTO>> GetUserIdsRequestingFriendship(IGetUserIdsRequestingFriendshipParameters parameters, ITwitterRequest request)
+        {
+            var query = _accountQueryGenerator.GetUserIdsRequestingFriendshipQuery(parameters);
+
+            request.Query.Url = query;
+            request.Query.HttpMethod = HttpMethod.GET;
+
+            return _twitterAccessor.ExecuteRequest<IIdsCursorQueryResultDTO>(request);
+        }
+        
         public Task<IAccountSettingsDTO> GetAuthenticatedUserAccountSettings()
         {
             var query = _accountQueryGenerator.GetAuthenticatedUserAccountSettingsQuery();
@@ -87,7 +99,7 @@ namespace Tweetinvi.Controllers.Account
 
             if (parameters.Binary == null)
             {
-                throw new ArgumentNullException("Banner binary cannot be null.");
+                throw new ArgumentNullException(nameof(parameters), "Banner binary cannot be null.");
             }
 
             var multipartParameters = new MultipartHttpRequestParameters

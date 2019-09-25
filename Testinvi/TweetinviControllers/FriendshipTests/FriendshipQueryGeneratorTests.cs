@@ -34,19 +34,6 @@ namespace Testinvi.TweetinviControllers.FriendshipTests
         }
 
         [TestMethod]
-        public void GetUserIdsRequestingFriendshipQuery_ReturnsResources()
-        {
-            // Arrange
-            var queryGenerator = CreateFriendshipQueryGenerator();
-
-            // Act
-            var query = queryGenerator.GetUserIdsRequestingFriendshipQuery();
-
-            // Assert
-            Assert.AreEqual(query, Resources.Friendship_GetIncomingIds);
-        }
-
-        [TestMethod]
         public void GetUserIdsYouRequestedToFollowQuery_ReturnsResources()
         {
             // Arrange

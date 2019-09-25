@@ -98,31 +98,6 @@ namespace Testinvi.TweetinviLogic
 
         #endregion
 
-        #region GetUsersRequestingFriendship
-
-        [TestMethod]
-        public async Task GetUsersRequestingFriendship_CurrentCredentialsAreNotAuthenticatedUserCredentials_OperationPerformedWithAppropriateCredentials()
-        {
-            // Arrange
-            ITwitterCredentials startOperationWithCredentials = null;
-            var max = TestHelper.GenerateRandomInt();
-
-            _fakeFriendshipController.CallsTo(x => x.GetUsersRequestingFriendship(max)).ReturnsLazily(() =>
-            {
-                startOperationWithCredentials = _fakeCredentialsAccessor.FakedObject.CurrentThreadCredentials;
-                return A.Fake<IEnumerable<IUser>>();
-            });
-
-            // Act
-            await _authenticatedUser.GetUsersRequestingFriendship(max);
-
-            // Assert
-            Assert.AreEqual(startOperationWithCredentials, _authenticatedUserCredentials);
-            Assert.AreEqual(_fakeCredentialsAccessor.FakedObject.CurrentThreadCredentials, _currentCredentials);
-        }
-
-        #endregion
-
         #region GetUsersYouRequestedToFollow
 
         [TestMethod]

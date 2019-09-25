@@ -73,8 +73,7 @@ namespace Tweetinvi.Client.Requesters
         /// Get blocked user ids
         /// </summary>
         /// <returns>TwitterCursorResult to iterate over all the blocked users</returns>
-        ITwitterPageIterator<ITwitterResult<IIdsCursorQueryResultDTO>> GetBlockedUserIds(
-            IGetBlockedUserIdsParameters parameters);
+        ITwitterPageIterator<ITwitterResult<IIdsCursorQueryResultDTO>> GetBlockedUserIds(IGetBlockedUserIdsParameters parameters);
 
         /// <summary>
         /// Get blocked user ids
@@ -110,12 +109,10 @@ namespace Tweetinvi.Client.Requesters
             _userController = userController;
         }
 
-        public async Task<ITwitterResult<IUserDTO, IAuthenticatedUser>> GetAuthenticatedUser(
-            IGetAuthenticatedUserParameters parameters)
+        public async Task<ITwitterResult<IUserDTO, IAuthenticatedUser>> GetAuthenticatedUser(IGetAuthenticatedUserParameters parameters)
         {
             var request = _twitterClient.CreateRequest();
-            var result = await ExecuteRequest(() => _userController.GetAuthenticatedUser(parameters, request), request)
-                .ConfigureAwait(false);
+            var result = await ExecuteRequest(() => _userController.GetAuthenticatedUser(parameters, request), request).ConfigureAwait(false);
 
             var user = result.Result;
 
@@ -130,8 +127,7 @@ namespace Tweetinvi.Client.Requesters
         public async Task<ITwitterResult<IUserDTO, IUser>> GetUser(IGetUserParameters parameters)
         {
             var request = _twitterClient.CreateRequest();
-            var result = await ExecuteRequest(() => _userController.GetUser(parameters, request), request)
-                .ConfigureAwait(false);
+            var result = await ExecuteRequest(() => _userController.GetUser(parameters, request), request).ConfigureAwait(false);
             var user = result.Result;
 
             if (user != null)

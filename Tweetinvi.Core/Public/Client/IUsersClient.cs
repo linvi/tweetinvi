@@ -224,10 +224,14 @@ namespace Tweetinvi
         /// Get users blocked from a specific user
         /// </summary>
         /// <returns>A CursorResult to iterate over all the blocked users</returns>
-        ITwitterIterator<IUser> GetBlockedUsers(IGetBlockedUsersParameters parameters);
-
         ITwitterIterator<IUser> GetBlockedUsers();
-
+        
+        /// <summary>
+        /// Get users blocked from a specific user
+        /// </summary>
+        /// <returns>A CursorResult to iterate over all the blocked users</returns>
+        ITwitterIterator<IUser> GetBlockedUsers(IGetBlockedUsersParameters parameters);
+        
         #endregion
 
         #region Follow / Unfollow

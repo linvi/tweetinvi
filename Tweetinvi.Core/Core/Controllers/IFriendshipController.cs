@@ -1,16 +1,15 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using Tweetinvi.Core.Iterators;
+using Tweetinvi.Core.Web;
 using Tweetinvi.Models;
+using Tweetinvi.Models.DTO.QueryDTO;
+using Tweetinvi.Parameters;
 
 namespace Tweetinvi.Core.Controllers
 {
     public interface IFriendshipController
     {
-        Task<IEnumerable<long>> GetUserIdsRequestingFriendship(
-            int maximumUserIdsToRetrieve = TweetinviConsts.FRIENDSHIPS_INCOMING_IDS_MAX_PER_REQ);
-        Task<IEnumerable<IUser>> GetUsersRequestingFriendship(
-            int maximumUsersToRetrieve = TweetinviConsts.FRIENDSHIPS_INCOMING_USERS_MAX_PER_REQ);
-
         Task<IEnumerable<long>> GetUserIdsYouRequestedToFollow(
             int maximumUsersToRetrieve = TweetinviConsts.FRIENDSHIPS_OUTGOING_IDS_MAX_PER_REQ);
         Task<IEnumerable<IUser>> GetUsersYouRequestedToFollow(

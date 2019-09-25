@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Tweetinvi.Core.Iterators;
 using Tweetinvi.Core.Models;
 using Tweetinvi.Iterators;
 using Tweetinvi.Parameters;
@@ -141,9 +140,9 @@ namespace Tweetinvi.Models
         // Friends - Followers
 
         /// <summary>
-        /// Get the users who requested to follow you.
+        /// Get the user ids who requested to follow you.
         /// </summary>
-        Task<IEnumerable<IUser>> GetUsersRequestingFriendship(int maximumUserIdsToRetrieve = 5000);
+        ITwitterIterator<long> GetUserIdsRequestingFriendship();
 
         /// <summary>
         /// Get the users you've requested to follow.

@@ -159,12 +159,10 @@
     <Compile Include="Tweetinvi.Streams\StreamTrackManagerTests.cs" />
     <Compile Include="TweetinviControllers\AccountTests\AccountControllerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TweetinviControllers\AccountTests\AccountJsonControllerTests.cs" />
     <Compile Include="TweetinviControllers\AccountTests\AccountQueryExecutorTests.cs" />
     <Compile Include="SetupHelpers\UnityFactoryHelper.cs" />
     <Compile Include="TweetinviControllers\AccountTests\AccountQueryGeneratorTests.cs" />
     <Compile Include="TweetinviControllers\FriendshipTests\FriendshipControllerTests.cs" />
-    <Compile Include="TweetinviControllers\FriendshipTests\FriendshipJsonControllerTests.cs" />
     <Compile Include="TweetinviControllers\FriendshipTests\FriendshipQueryExecutorTests.cs" />
     <Compile Include="TweetinviControllers\FriendshipTests\FriendshipQueryGeneratorTests.cs" />
     <Compile Include="TweetinviControllers\GeoTests\GeoControllerTests.cs" />

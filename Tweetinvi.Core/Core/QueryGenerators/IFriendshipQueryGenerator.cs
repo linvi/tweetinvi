@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
 using Tweetinvi.Models;
+using Tweetinvi.Parameters;
 
 namespace Tweetinvi.Core.QueryGenerators
 {
     public interface IFriendshipQueryGenerator
     {
-        string GetUserIdsRequestingFriendshipQuery();
         string GetUserIdsYouRequestedToFollowQuery();
         string GetUserIdsWhoseRetweetsAreMutedQuery();
 

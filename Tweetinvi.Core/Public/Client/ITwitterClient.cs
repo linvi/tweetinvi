@@ -6,6 +6,11 @@ namespace Tweetinvi
     public interface ITwitterClient
     {
         /// <summary>
+        /// Client to execute all actions related the account associated with the clients' credentials
+        /// </summary>
+        IAccountsClient Accounts { get; }
+        
+        /// <summary>
         /// Client to execute all actions related with tweets
         /// </summary>
         ITweetsClient Tweets { get; }

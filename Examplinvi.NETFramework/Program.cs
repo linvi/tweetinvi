@@ -312,9 +312,7 @@ namespace Examplinvi.NETFramework
                 return;
             }
 
-            await Examples.Json_GetJsonForAccountRequestExample();
             await Examples.Json_GetJsonForMessageRequestExample();
-            await Examples.Json_GetJsonCursorRequestExample();
             await Examples.Json_GetJsonForGeoRequestExample();
             await Examples.Json_GetJsonForHelpRequestExample();
             await Examples.Json_GetJsonForSavedSearchRequestExample();
@@ -768,11 +766,17 @@ namespace Examplinvi.NETFramework
         public static async Task AuthenticatedUser_GetIncomingRequests()
         {
             var authenticatedUser = await Client.Users.GetAuthenticatedUser();
-            var usersRequestingFriendship = await authenticatedUser.GetUsersRequestingFriendship();
+            var iterator = authenticatedUser.GetUserIdsRequestingFriendship();
+            var ids = new List<long>();
 
-            foreach (var user in usersRequestingFriendship)
+            while (!iterator.Completed)
             {
-                Console.WriteLine("{0} wants to follow you!", user.Name);
+                ids.AddRange(await iterator.MoveToNextPage());
+            }
+
+            foreach (var userIds in ids)
+            {
+                Console.WriteLine("{0} wants to follow you!", userIds);
             }
         }
 
@@ -1375,16 +1379,6 @@ namespace Examplinvi.NETFramework
             }
         }
 
-        public static async Task Friendship_GetUserRequestingFriendship()
-        {
-            var friendshipRequests = await Account.GetUsersRequestingFriendship();
-
-            foreach (var friendshipRequest in friendshipRequests)
-            {
-                Console.WriteLine("{0} requested to be your friend!", friendshipRequest.Name);
-            }
-        }
-
         public static async Task Friendship_GetUsersYouRequestedToFollow()
         {
             var usersYouWantToFollow = await Account.GetUsersYouRequestedToFollow();
@@ -1460,13 +1454,6 @@ namespace Examplinvi.NETFramework
         #endregion
 
         #region Json
-
-        public static async Task Json_GetJsonForAccountRequestExample()
-        {
-            string jsonResponse = await AccountJson.GetAuthenticatedUserSettingsJson();
-            Console.WriteLine(jsonResponse);
-        }
-
         public static async Task Json_GetJsonForMessageRequestExample()
         {
             IUser user = await Client.Users.GetUser("tweetinviapi");
@@ -1509,17 +1496,6 @@ namespace Examplinvi.NETFramework
         {
             var result = await Client.RequestExecutor.Tweets.GetTweet(42);
             Console.WriteLine(result.Json);
-        }
-
-        public static async Task Json_GetJsonCursorRequestExample()
-        {
-            // This query is a cursor query
-            var jsonResponses = await FriendshipJson.GetUserIdsRequestingFriendship();
-
-            foreach (var jsonResponse in jsonResponses)
-            {
-                Console.WriteLine(jsonResponse);
-            }
         }
 
         #endregion

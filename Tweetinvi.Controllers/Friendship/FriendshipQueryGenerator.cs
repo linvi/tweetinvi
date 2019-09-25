@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
 using Tweetinvi.Controllers.Properties;
 using Tweetinvi.Core.Extensions;
 using Tweetinvi.Core.QueryGenerators;
 using Tweetinvi.Core.QueryValidators;
 using Tweetinvi.Models;
+using Tweetinvi.Parameters;
 
 namespace Tweetinvi.Controllers.Friendship
 {
@@ -22,11 +24,6 @@ namespace Tweetinvi.Controllers.Friendship
         }
 
         // Get Friendship
-        public string GetUserIdsRequestingFriendshipQuery()
-        {
-            return Resources.Friendship_GetIncomingIds;
-        }
-
         public string GetUserIdsYouRequestedToFollowQuery()
         {
             return Resources.Friendship_GetOutgoingIds;

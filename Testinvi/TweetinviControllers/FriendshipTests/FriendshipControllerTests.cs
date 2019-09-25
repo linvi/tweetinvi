@@ -39,50 +39,6 @@ namespace Testinvi.TweetinviControllers.FriendshipTests
                 });
         }
 
-        #region GetUsers Requesting Friendship
-        [TestMethod]
-        public async Task GetUserIdsRequestingFriendship_ReturnsQueryExecutorIds()
-        {
-            var ids = new List<long> { Int64.MaxValue, Int32.MaxValue };
-
-            // Arrange
-            var controller = CreateFriendshipController();
-            ArrangeGetUserIdsRequestingFriendship(ids);
-
-            // Act
-            var result = await controller.GetUserIdsRequestingFriendship();
-
-            // Assert
-            Assert.AreEqual(result, ids);
-        }
-
-        [TestMethod]
-        public async Task GetUsersRequestingFriendship_ReturnsUsersGeneratedFromUserFactory()
-        {
-            var ids = new List<long> { Int64.MaxValue, Int32.MaxValue };
-            var users = new List<IUser> { A.Fake<IUser>() };
-
-            // Arrange
-            var controller = CreateFriendshipController();
-
-            ArrangeGetUserIdsRequestingFriendship(ids);
-            ArrangeGetUsersFromIds(ids, users);
-
-            // Act
-            var result = await controller.GetUsersRequestingFriendship();
-
-            // Assert
-            Assert.AreEqual(result, users);
-        }
-
-        private void ArrangeGetUserIdsRequestingFriendship(IEnumerable<long> userIds)
-        {
-            _fakeFriendshipQueryExecutor
-                .CallsTo(x => x.GetUserIdsRequestingFriendship(It.IsAny<int>()))
-                .Returns(userIds);
-        }
-        #endregion
-
         #region GetUsers you requested to follow
         [TestMethod]
         public async Task GetUserIdsYouRequestedToFollow_ReturnsQueryExecutorIds()

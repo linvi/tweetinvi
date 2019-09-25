@@ -6,8 +6,12 @@ using Tweetinvi.Core.Controllers;
 using Tweetinvi.Core.Extensions;
 using Tweetinvi.Core.Factories;
 using Tweetinvi.Core.Injectinvi;
+using Tweetinvi.Core.Iterators;
+using Tweetinvi.Core.Web;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
+using Tweetinvi.Models.DTO.QueryDTO;
+using Tweetinvi.Parameters;
 
 namespace Tweetinvi.Controllers.Friendship
 {
@@ -35,19 +39,7 @@ namespace Tweetinvi.Controllers.Friendship
             _relationshipStateFactory = relationshipStateFactory;
             _friendshipAuthorizationsFactory = friendshipAuthorizationsFactory;
         }
-
-        // Get Users Requesting Friendship
-        public Task<IEnumerable<long>> GetUserIdsRequestingFriendship(int maximumUserIdsToRetrieve = TweetinviConsts.FRIENDSHIPS_INCOMING_IDS_MAX_PER_REQ)
-        {
-            return _friendshipQueryExecutor.GetUserIdsRequestingFriendship(maximumUserIdsToRetrieve);
-        }
-
-        public async Task<IEnumerable<IUser>> GetUsersRequestingFriendship(int maximumUsersToRetrieve = TweetinviConsts.FRIENDSHIPS_INCOMING_USERS_MAX_PER_REQ)
-        {
-            var userIds = await GetUserIdsRequestingFriendship(maximumUsersToRetrieve);
-            return await _userFactory.GetUsersFromIds(userIds);
-        }
-
+        
         // Get Users You requested to follow
         public Task<IEnumerable<long>> GetUserIdsYouRequestedToFollow(int maximumUsersToRetrieve = TweetinviConsts.FRIENDSHIPS_OUTGOING_IDS_MAX_PER_REQ)
         {
@@ -73,7 +65,7 @@ namespace Tweetinvi.Controllers.Friendship
         }
 
         // Update Friendship Authorizations
-       public Task<bool> UpdateRelationshipAuthorizationsWith(IUserIdentifier user, bool retweetsEnabled, bool deviceNotificationEnabled)
+        public Task<bool> UpdateRelationshipAuthorizationsWith(IUserIdentifier user, bool retweetsEnabled, bool deviceNotificationEnabled)
         {
             var friendshipAuthorizations = _friendshipFactory.GenerateFriendshipAuthorizations(retweetsEnabled, deviceNotificationEnabled);
             return _friendshipQueryExecutor.UpdateRelationshipAuthorizationsWith(user, friendshipAuthorizations);
@@ -146,7 +138,7 @@ namespace Tweetinvi.Controllers.Friendship
 
             if (sourceIdentifier is long)
             {
-                sourceUserIdentifier = _userFactory.GenerateUserIdentifierFromId((long)sourceIdentifier);
+                sourceUserIdentifier = _userFactory.GenerateUserIdentifierFromId((long) sourceIdentifier);
             }
             else
             {
@@ -163,7 +155,7 @@ namespace Tweetinvi.Controllers.Friendship
 
             if (targetIdentifier is long)
             {
-                targetUserIdentifier = _userFactory.GenerateUserIdentifierFromId((long)targetIdentifier);
+                targetUserIdentifier = _userFactory.GenerateUserIdentifierFromId((long) targetIdentifier);
             }
             else
             {
@@ -269,6 +261,5 @@ namespace Tweetinvi.Controllers.Friendship
 
             return friendshipAuthorization;
         }
-
     }
 }

@@ -4,6 +4,7 @@ namespace Tweetinvi.Client
 {
     public interface IRequestExecutor
     {
+        IAccountsRequester Accounts { get; }
         ITweetsRequester Tweets { get; }
         IUsersRequester Users { get; }
     }
@@ -15,15 +16,18 @@ namespace Tweetinvi.Client
 
     public class RequestExecutor : IInternalRequestExecutor
     {
+        private readonly IInternalAccountsRequester _accountsRequester;
         private readonly IInternalTweetsRequester _tweetsRequester;
         private readonly IInternalUsersRequester _usersRequester;
 
         private TwitterClient _client;
 
         public RequestExecutor(
+            IInternalAccountsRequester accountsRequester,
             IInternalTweetsRequester tweetsRequester,
             IInternalUsersRequester usersRequester)
         {
+            _accountsRequester = accountsRequester;
             _tweetsRequester = tweetsRequester;
             _usersRequester = usersRequester;
         }
@@ -31,10 +35,13 @@ namespace Tweetinvi.Client
         public void Initialize(TwitterClient client)
         {
             _client = client;
+            
+            _accountsRequester.Initialize(client);
             _tweetsRequester.Initialize(client);
             _usersRequester.Initialize(client);
         }
 
+        public IAccountsRequester Accounts => _accountsRequester;
         public ITweetsRequester Tweets => _tweetsRequester;
         public IUsersRequester Users => _usersRequester;
     }

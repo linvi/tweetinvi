@@ -6,8 +6,11 @@ using Tweetinvi.Core.Controllers;
 using Tweetinvi.Core.Factories;
 using Tweetinvi.Core.Helpers;
 using Tweetinvi.Core.Injectinvi;
+using Tweetinvi.Core.Iterators;
+using Tweetinvi.Core.Web;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
+using Tweetinvi.Models.DTO.QueryDTO;
 using Tweetinvi.Parameters;
 
 namespace Tweetinvi.Controllers.Account
@@ -34,6 +37,25 @@ namespace Tweetinvi.Controllers.Account
             _jsonObjectConverter = jsonObjectConverter;
         }
 
+        public ITwitterPageIterator<ITwitterResult<IIdsCursorQueryResultDTO>> GetUserIdsRequestingFriendship(IGetUserIdsRequestingFriendshipParameters parameters, ITwitterRequest request)
+        {
+            var twitterCursorResult = new TwitterPageIterator<ITwitterResult<IIdsCursorQueryResultDTO>>(
+                parameters.Cursor,
+                cursor =>
+                {
+                    var cursoredParameters = new GetUserIdsRequestingFriendshipParameters(parameters)
+                    {
+                        Cursor = cursor
+                    };
+
+                    return _accountQueryExecutor.GetUserIdsRequestingFriendship(cursoredParameters, new TwitterRequest(request));
+                },
+                page => page.DataTransferObject.NextCursorStr,
+                page => page.DataTransferObject.NextCursorStr == "0");
+
+            return twitterCursorResult;
+        }
+        
         public async Task<IAccountSettings> GetAuthenticatedUserSettings()
         {
             var accountSettingsDTO = await _accountQueryExecutor.GetAuthenticatedUserAccountSettings();

@@ -8,12 +8,12 @@ using Tweetinvi.Core.Web;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
 using Tweetinvi.Models.DTO.QueryDTO;
+using Tweetinvi.Parameters;
 
 namespace Tweetinvi.Controllers.Friendship
 {
     public interface IFriendshipQueryExecutor
     {
-        Task<IEnumerable<long>> GetUserIdsRequestingFriendship(int maximumUserIdsToRetrieve);
         Task<IEnumerable<long>> GetUserIdsYouRequestedToFollow(int maximumUserIdsToRetrieve);
         Task<long[]> GetUserIdsWhoseRetweetsAreMuted();
 
@@ -46,11 +46,8 @@ namespace Tweetinvi.Controllers.Friendship
             _userQueryValidator = userQueryValidator;
         }
 
-        public Task<IEnumerable<long>> GetUserIdsRequestingFriendship(int maximumUserIdsToRetrieve)
-        {
-            string query = _friendshipQueryGenerator.GetUserIdsRequestingFriendshipQuery();
-            return _twitterAccessor.ExecuteCursorGETQuery<long, IIdsCursorQueryResultDTO>(query, maximumUserIdsToRetrieve);
-        }
+
+       
 
         public Task<IEnumerable<long>> GetUserIdsYouRequestedToFollow(int maximumUserIdsToRetrieve)
         {

@@ -11,6 +11,7 @@ namespace Tweetinvi
             // Register a singleton of the container, do not use InstancePerApplication
             container.RegisterInstance(typeof(ITweetinviContainer), container);
 
+            container.RegisterType<IInternalAccountsRequester, AccountsRequester>();
             container.RegisterType<IInternalTweetsRequester, TweetsRequester>();
             container.RegisterType<IInternalUsersRequester, UsersRequester>();
 

@@ -20,10 +20,12 @@ namespace Tweetinvi
 
             RequestExecutor = requestExecutor;
 
+            Accounts = new AccountsClient(this);
             Tweets = new TweetsClient(this);
             Users = new UsersClient(this);
         }
 
+        public IAccountsClient Accounts { get; }
         public ITweetsClient Tweets { get; }
         public IUsersClient Users { get; }
 

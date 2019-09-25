@@ -56,8 +56,6 @@ namespace Tweetinvi.Controllers
 
         private void InitializeJsonControllers(ITweetinviContainer container)
         {
-            container.RegisterType<IAccountJsonController, AccountJsonController>(RegistrationLifetime.InstancePerThread);
-            container.RegisterType<IFriendshipJsonController, FriendshipJsonController>(RegistrationLifetime.InstancePerThread);
             container.RegisterType<IGeoJsonController, GeoJsonController>(RegistrationLifetime.InstancePerThread);
             container.RegisterType<IHelpJsonController, HelpJsonController>(RegistrationLifetime.InstancePerThread);
             container.RegisterType<IMessageJsonController, MessageJsonController>(RegistrationLifetime.InstancePerThread);

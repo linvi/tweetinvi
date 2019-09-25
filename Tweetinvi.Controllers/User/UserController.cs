@@ -18,18 +18,15 @@ namespace Tweetinvi.Controllers.User
     public class UserController : IUserController
     {
         private readonly IUserQueryExecutor _userQueryExecutor;
-        private readonly ITweetFactory _tweetFactory;
         private readonly IUserFactory _userFactory;
         private readonly ITwitterResultFactory _twitterResultFactory;
 
         public UserController(
             IUserQueryExecutor userQueryExecutor,
-            ITweetFactory tweetFactory,
             IUserFactory userFactory,
             ITwitterResultFactory twitterResultFactory)
         {
             _userQueryExecutor = userQueryExecutor;
-            _tweetFactory = tweetFactory;
             _userFactory = userFactory;
             _twitterResultFactory = twitterResultFactory;
         }
@@ -155,6 +152,7 @@ namespace Tweetinvi.Controllers.User
             return twitterCursorResult;
         }
 
+        // Profile Image
         public Task<Stream> GetProfileImageStream(IGetProfileImageParameters parameters, ITwitterRequest request)
         {
             return _userQueryExecutor.GetProfileImageStream(parameters, request);

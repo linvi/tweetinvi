@@ -14,6 +14,8 @@ namespace Tweetinvi.Controllers.Account
 {
     public interface IAccountQueryGenerator
     {
+        string GetUserIdsRequestingFriendshipQuery(IGetUserIdsRequestingFriendshipParameters parameters);
+
         string GetAuthenticatedUserAccountSettingsQuery();
         string GetUpdateAuthenticatedUserAccountSettingsQuery(IAccountSettingsRequestParameters accountSettingsRequestParameters);
 
@@ -54,6 +56,17 @@ namespace Tweetinvi.Controllers.Account
             _queryParameterGenerator = queryParameterGenerator;
         }
 
+        public string GetUserIdsRequestingFriendshipQuery(IGetUserIdsRequestingFriendshipParameters parameters)
+        {
+            var query = new StringBuilder(Resources.Friendship_GetIncomingIds);
+            
+            query.AddParameterToQuery("count", parameters.PageSize);
+            query.AddParameterToQuery("cursor", parameters.Cursor);
+            query.AddFormattedParameterToQuery(parameters.FormattedCustomQueryParameters);
+
+            return query.ToString();
+        }
+        
         public string GetAuthenticatedUserAccountSettingsQuery()
         {
             return Resources.Account_GetSettings;
