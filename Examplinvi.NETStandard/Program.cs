@@ -24,7 +24,7 @@ namespace Examplinvi.NETStandard
             var credentials = new TwitterCredentials("A", "B", "C", "D");
             var client = new TwitterClient(credentials);
 
-            var authenticatedUser = await client.Users.GetAuthenticatedUser();
+            var authenticatedUser = await client.Account.GetAuthenticatedUser();
 
             Console.WriteLine(authenticatedUser);
             Console.ReadLine();

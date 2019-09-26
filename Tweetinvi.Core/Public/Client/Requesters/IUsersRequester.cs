@@ -15,12 +15,6 @@ namespace Tweetinvi.Client.Requesters
     public interface IUsersRequester
     {
         /// <summary>
-        /// Get the authenticated user based on the TwitterClient's credentials
-        /// </summary>
-        /// <returns>TwitterResult containing the client's authenticated user</returns>
-        Task<ITwitterResult<IUserDTO, IAuthenticatedUser>> GetAuthenticatedUser(IGetAuthenticatedUserParameters parameters);
-
-        /// <summary>
         /// Get a user
         /// </summary>
         /// <returns>TwitterResult containing a user</returns>
@@ -44,47 +38,7 @@ namespace Tweetinvi.Client.Requesters
         /// <returns>TwitterCursorResult to iterate over all the user's friends</returns>
         ITwitterPageIterator<ITwitterResult<IIdsCursorQueryResultDTO>> GetFollowerIds(IGetFollowerIdsParameters parameters);
 
-        /// <summary>
-        /// Block a user
-        /// </summary>
-        /// <returns>TwitterResult containing the blocked user</returns>
-        Task<ITwitterResult<IUserDTO>> BlockUser(IBlockUserParameters parameters);
-
-        /// <summary>
-        /// Unblock a user
-        /// </summary>
-        /// <returns>TwitterResult containing the unblocked user</returns>
-        Task<ITwitterResult<IUserDTO>> UnblockUser(IUnblockUserParameters parameters);
-
-        /// <summary>
-        /// Unblock a user
-        /// </summary>
-        /// <returns>TwitterResult containing the reported user</returns>
-        Task<ITwitterResult<IUserDTO>> ReportUserForSpam(IReportUserForSpamParameters parameters);
-
-        /// <summary>
-        /// Get blocked user ids
-        /// </summary>
-        /// <returns>TwitterCursorResult to iterate over all the blocked users</returns>
-        ITwitterPageIterator<ITwitterResult<IIdsCursorQueryResultDTO>> GetBlockedUserIds(IGetBlockedUserIdsParameters parameters);
-
-        /// <summary>
-        /// Get blocked user ids
-        /// </summary>
-        /// <returns>TwitterCursorResult to iterate over all the blocked users</returns>
-        ITwitterPageIterator<ITwitterResult<IUserCursorQueryResultDTO>> GetBlockedUsers(IGetBlockedUsersParameters parameters);
-
-        /// <summary>
-        /// Follow a user
-        /// </summary>
-        /// <returns>Twitter result containing the followed user</returns>
-        Task<ITwitterResult<IUserDTO>> FollowUser(IFollowUserParameters parameters);
-
-        /// <summary>
-        /// Stop following a user
-        /// </summary>
-        /// <returns>Twitter result containing the user who is no longer followed</returns>
-        Task<ITwitterResult<IUserDTO>> UnFollowUser(IUnFollowUserParameters parameters);
+        
 
         /// <summary>
         /// Get the profile image of a user

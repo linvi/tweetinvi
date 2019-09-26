@@ -29,7 +29,7 @@ namespace Examplinvi.ASP.NET.Core.Controllers
 
                 var userCreds = AuthFlow.CreateCredentialsFromVerifierCode(verifierCode, authorizationId).Result;
                 var client = new TwitterClient(userCreds);
-                var user = client.Users.GetAuthenticatedUser().Result;
+                var user = client.Account.GetAuthenticatedUser().Result;
 
                 ViewBag.User = user;
             }

@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Tweetinvi.Client.Requesters;
-using Tweetinvi.Core.Factories;
 using Tweetinvi.Core.Iterators;
 using Tweetinvi.Core.Web;
 using Tweetinvi.Iterators;
@@ -22,29 +21,15 @@ namespace Tweetinvi.Client
     {
         private readonly TwitterClient _client;
         private readonly IUsersRequester _usersRequester;
-        private readonly IUserFactory _userFactory;
         private readonly IMultiLevelCursorIteratorFactory _multiLevelCursorIteratorFactory;
 
         public UsersClient(TwitterClient client)
         {
             _client = client;
             _usersRequester = client.RequestExecutor.Users;
-            _userFactory = TweetinviContainer.Resolve<IUserFactory>();
             _multiLevelCursorIteratorFactory = TweetinviContainer.Resolve<IMultiLevelCursorIteratorFactory>();
         }
-
-        public async Task<IAuthenticatedUser> GetAuthenticatedUser()
-        {
-            var requestResult = await _usersRequester.GetAuthenticatedUser(null);
-            return requestResult?.Result;
-        }
-
-        public async Task<IAuthenticatedUser> GetAuthenticatedUser(IGetAuthenticatedUserParameters parameters)
-        {
-            var requestResult = await _usersRequester.GetAuthenticatedUser(parameters);
-            return requestResult?.Result;
-        }
-
+        
         #region GetUser
 
         public Task<IUser> GetUser(long? userId)
@@ -165,145 +150,6 @@ namespace Tweetinvi.Client
             var maxPageSize = parameters.GetUsersPageSize;
 
             return _multiLevelCursorIteratorFactory.CreateUserMultiLevelIterator(_client, followerPageIterator, maxPageSize);
-        }
-
-        #endregion
-
-        #region Block / Unblock
-
-        public Task<bool> BlockUser(long? userId)
-        {
-            return BlockUser(new BlockUserParameters(userId));
-        }
-
-        public Task<bool> BlockUser(string username)
-        {
-            return BlockUser(new BlockUserParameters(username));
-        }
-
-        public Task<bool> BlockUser(IUserIdentifier user)
-        {
-            return BlockUser(new BlockUserParameters(user));
-        }
-
-        public async Task<bool> BlockUser(IBlockUserParameters parameters)
-        {
-            var requestResult = await _usersRequester.BlockUser(parameters).ConfigureAwait(false);
-            return requestResult?.DataTransferObject != null;
-        }
-
-        public Task<bool> UnblockUser(long? userId)
-        {
-            return UnblockUser(new UnblockUserParameters(userId));
-        }
-
-        public Task<bool> UnblockUser(string username)
-        {
-            return UnblockUser(new UnblockUserParameters(username));
-        }
-
-        public Task<bool> UnblockUser(IUserIdentifier user)
-        {
-            return UnblockUser(new UnblockUserParameters(user));
-        }
-
-        public async Task<bool> UnblockUser(IUnblockUserParameters parameters)
-        {
-            var requestResult = await _usersRequester.UnblockUser(parameters).ConfigureAwait(false);
-            return requestResult?.DataTransferObject != null;
-        }
-
-        public Task<bool> ReportUserForSpam(long? userId)
-        {
-            return ReportUserForSpam(new ReportUserForSpamParameters(userId));
-        }
-
-        public Task<bool> ReportUserForSpam(string username)
-        {
-            return ReportUserForSpam(new ReportUserForSpamParameters(username));
-        }
-
-        public Task<bool> ReportUserForSpam(IUserIdentifier user)
-        {
-            return ReportUserForSpam(new ReportUserForSpamParameters(user));
-        }
-
-        public async Task<bool> ReportUserForSpam(IReportUserForSpamParameters parameters)
-        {
-            var requestResult = await _usersRequester.ReportUserForSpam(parameters).ConfigureAwait(false);
-            return requestResult?.DataTransferObject != null;
-        }
-
-        public ITwitterIterator<long> GetBlockedUserIds()
-        {
-            return GetBlockedUserIds(new GetBlockedUserIdsParameters());
-        }
-
-        public ITwitterIterator<long> GetBlockedUserIds(IGetBlockedUserIdsParameters parameters)
-        {
-            var twitterCursorResult = _usersRequester.GetBlockedUserIds(parameters);
-            return new TwitterIteratorProxy<ITwitterResult<IIdsCursorQueryResultDTO>, long>(twitterCursorResult, dto => dto.DataTransferObject.Ids);
-        }
-
-        public ITwitterIterator<IUser> GetBlockedUsers()
-        {
-            return GetBlockedUsers(new GetBlockedUsersParameters());
-        }
-
-        public ITwitterIterator<IUser> GetBlockedUsers(IGetBlockedUsersParameters parameters)
-        {
-            var twitterCursorResult = _usersRequester.GetBlockedUsers(parameters);
-            return new TwitterIteratorProxy<ITwitterResult<IUserCursorQueryResultDTO>, IUser>(twitterCursorResult, pageResult =>
-            {
-                var userDTOs = pageResult.DataTransferObject.Users;
-                return _userFactory.GenerateUsersFromDTO(userDTOs);
-            });
-        }
-
-        #endregion
-
-        #region Follow / Unfollow
-
-        public Task<bool> FollowUser(long userId)
-        {
-            return FollowUser(new FollowUserParameters(userId));
-        }
-
-        public Task<bool> FollowUser(string username)
-        {
-            return FollowUser(new FollowUserParameters(username));
-        }
-
-        public Task<bool> FollowUser(IUserIdentifier user)
-        {
-            return FollowUser(new FollowUserParameters(user));
-        }
-
-        public async Task<bool> FollowUser(IFollowUserParameters parameters)
-        {
-            var requestResult = await _usersRequester.FollowUser(parameters).ConfigureAwait(false);
-            return requestResult?.DataTransferObject != null;
-        }
-
-        public Task<bool> UnFollowUser(long userId)
-        {
-            return UnFollowUser(new UnFollowUserParameters(userId));
-        }
-
-        public Task<bool> UnFollowUser(string username)
-        {
-            return UnFollowUser(new UnFollowUserParameters(username));
-        }
-
-        public Task<bool> UnFollowUser(IUserIdentifier user)
-        {
-            return UnFollowUser(new UnFollowUserParameters(user));
-        }
-
-        public async Task<bool> UnFollowUser(IUnFollowUserParameters parameters)
-        {
-            var requestResult = await _usersRequester.UnFollowUser(parameters).ConfigureAwait(false);
-            return requestResult?.DataTransferObject != null;
         }
 
         #endregion

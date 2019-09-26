@@ -1,17 +1,24 @@
-﻿using Tweetinvi.Core.Extensions;
-using Tweetinvi.Models;
-using Tweetinvi.Parameters.Optionals;
+﻿using Tweetinvi.Models;
 
 namespace Tweetinvi.Parameters
 {
-    public interface IGetFavoriteTweetsParameters : IMaxAndMinBaseQueryParameters, IGetUsersOptionalParameters
+    /// <summary>
+    /// For more information visit : https://developer.twitter.com/en/docs/tweets/post-and-engage/api-reference/get-favorites-list
+    /// </summary>
+    public interface IGetFavoriteTweetsParameters : IMaxAndMinBaseQueryParameters
     {
+        /// <summary>
+        /// The user from whom you want to get his favorite tweets
+        /// </summary>
         IUserIdentifier UserIdentifier { get; set; }
+        
+        /// <summary>
+        /// Include the tweet entities
+        /// </summary>
+        bool? IncludeEntities { get; set; }
     }
 
-    /// <summary>
-    /// https://developer.twitter.com/en/docs/tweets/post-and-engage/api-reference/get-favorites-list
-    /// </summary>
+    /// <inheritdoc cref="IGetFavoriteTweetsParameters" />
     public class GetFavoriteTweetsParameters : MaxAndMinBaseQueryParameters, IGetFavoriteTweetsParameters
     {
         public GetFavoriteTweetsParameters(string username) : this(new UserIdentifier(username))
@@ -36,12 +43,13 @@ namespace Tweetinvi.Parameters
             }
 
             UserIdentifier = source.UserIdentifier;
-            SkipStatus = source.SkipStatus;
             IncludeEntities = source.IncludeEntities;
         }
 
+        /// <inheritdoc/>
         public IUserIdentifier UserIdentifier { get; set; }
-        public bool? SkipStatus { get; set; }
+        
+        /// <inheritdoc/>
         public bool? IncludeEntities { get; set; }
     }
 }

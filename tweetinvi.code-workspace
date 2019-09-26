@@ -4,6 +4,9 @@
 			"path": "Examplinvi.NETStandard-2.0"
 		},
 		{
+			"path": "Examplinvi.NETStandard"
+		},
+		{
 			"path": "Tweetinvi.Controllers"
 		},
 		{

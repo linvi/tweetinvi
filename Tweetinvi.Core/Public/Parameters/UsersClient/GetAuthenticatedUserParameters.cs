@@ -5,6 +5,7 @@ namespace Tweetinvi.Parameters
     /// <summary>
     /// For more information visit : https://dev.twitter.com/rest/reference/get/account/verify_credentials
     /// </summary>
+    /// <inheritdoc />
     public interface IGetAuthenticatedUserParameters : IGetUsersOptionalParameters
     {
         /// <summary>
@@ -14,9 +15,7 @@ namespace Tweetinvi.Parameters
         bool? IncludeEmail { get; set; }
     }
 
-    /// <summary>
-    /// For more information visit : https://dev.twitter.com/rest/reference/get/account/verify_credentials
-    /// </summary>
+    /// <inheritdoc />
     public class GetAuthenticatedUserParameters : GetUsersOptionalParameters, IGetAuthenticatedUserParameters
     {
         public GetAuthenticatedUserParameters()
@@ -29,6 +28,7 @@ namespace Tweetinvi.Parameters
             IncludeEmail = parameters?.IncludeEmail;
         }
 
+        /// <inheritdoc/>
         public bool? IncludeEmail { get; set; }
     }
 }

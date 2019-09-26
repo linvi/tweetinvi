@@ -1,5 +1,6 @@
 namespace Tweetinvi.Parameters.Optionals
 {
+    /// <inheritdoc />
     public interface IGetUsersOptionalParameters : ICustomRequestParameters
     {
         /// <summary>
@@ -13,6 +14,7 @@ namespace Tweetinvi.Parameters.Optionals
         bool? IncludeEntities { get; set; }
     }
     
+    /// <inheritdoc />
     public class GetUsersOptionalParameters : CustomRequestParameters, IGetUsersOptionalParameters
     {
         public GetUsersOptionalParameters()
@@ -25,7 +27,9 @@ namespace Tweetinvi.Parameters.Optionals
             SkipStatus = parameters?.SkipStatus;
         }        
         
+        /// <inheritdoc />
         public bool? IncludeEntities { get; set; }
+        /// <inheritdoc />
         public bool? SkipStatus { get; set; }
     }
 }

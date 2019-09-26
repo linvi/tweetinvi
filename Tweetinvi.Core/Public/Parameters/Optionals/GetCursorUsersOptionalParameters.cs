@@ -1,9 +1,11 @@
 namespace Tweetinvi.Parameters.Optionals
 {
+    /// <inheritdoc />
     public interface IGetCursorUsersOptionalParameters : ICursorQueryParameters, IGetUsersOptionalParameters
     {
     }
     
+    /// <inheritdoc />
     public class GetCursorUsersOptionalParameters : CursorQueryParameters, IGetUsersOptionalParameters
     {
         public GetCursorUsersOptionalParameters()
@@ -16,7 +18,9 @@ namespace Tweetinvi.Parameters.Optionals
             SkipStatus = parameters?.SkipStatus;
         }        
         
+        /// <inheritdoc />
         public bool? IncludeEntities { get; set; }
+        /// <inheritdoc />
         public bool? SkipStatus { get; set; }
     }
 }

@@ -10,7 +10,7 @@ namespace Tweetinvi
         /// <summary>
         /// Client to execute all actions related the account associated with the clients' credentials
         /// </summary>
-        IAccountsClient Accounts { get; }
+        IAccountClient Account { get; }
         
         /// <summary>
         /// Client to execute all actions related with tweets
@@ -22,7 +22,14 @@ namespace Tweetinvi
         /// </summary>
         IUsersClient Users { get; }
 
+        /// <summary>
+        /// Client's credentials
+        /// </summary>
         ITwitterCredentials Credentials { get; }
+        
+        /// <summary>
+        /// Client's settings
+        /// </summary>
         ITweetinviSettings Config { get; }
         IRequestExecutor RequestExecutor { get; }
         ITwitterRequest CreateRequest();

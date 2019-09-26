@@ -2,11 +2,19 @@
 
 namespace Tweetinvi.Parameters
 {
+    /// <summary>
+    /// For more information visit : https://dev.twitter.com/en/docs/accounts-and-users/mute-block-report-users/api-reference/post-blocks-destroy
+    /// </summary>
+    /// <inheritdoc />
     public interface IUnblockUserParameters : ICustomRequestParameters
     {
+        /// <summary>
+        /// User that you want to unblock
+        /// </summary>  
         IUserIdentifier UserIdentifier { get; set; }
     }
 
+    /// <inheritdoc />
     public class UnblockUserParameters : CustomRequestParameters, IUnblockUserParameters
     {
         public UnblockUserParameters(IUserIdentifier userIdentifier)
@@ -27,6 +35,7 @@ namespace Tweetinvi.Parameters
             UserIdentifier = source?.UserIdentifier;
         }
 
+        /// <inheritdoc />
         public IUserIdentifier UserIdentifier { get; set; }
     }
 }

@@ -14,7 +14,28 @@ namespace Tweetinvi.Controllers.Account
 {
     public interface IAccountQueryGenerator
     {
+        string GetAuthenticatedUserQuery(IGetAuthenticatedUserParameters parameters, TweetMode? tweetMode);
+        
+        // BLOCK
+        string GetBlockUserQuery(IBlockUserParameters parameters);
+        string GetUnblockUserQuery(IUnblockUserParameters parameters);
+        string GetReportUserForSpamQuery(IReportUserForSpamParameters parameters);
+        string GetBlockedUserIdsQuery(IGetBlockedUserIdsParameters parameters);
+        string GetBlockedUsersQuery(IGetBlockedUsersParameters parameters);
+        
+        // FOLLOWERS
+        string GetFollowUserQuery(IFollowUserParameters parameters);
+        string GetUnFollowUserQuery(IUnFollowUserParameters parameters);
         string GetUserIdsRequestingFriendshipQuery(IGetUserIdsRequestingFriendshipParameters parameters);
+        
+        
+        
+        
+        
+        
+        
+        
+        
 
         string GetAuthenticatedUserAccountSettingsQuery();
         string GetUpdateAuthenticatedUserAccountSettingsQuery(IAccountSettingsRequestParameters accountSettingsRequestParameters);
@@ -56,6 +77,108 @@ namespace Tweetinvi.Controllers.Account
             _queryParameterGenerator = queryParameterGenerator;
         }
 
+        public string GetAuthenticatedUserQuery(IGetAuthenticatedUserParameters parameters, TweetMode? tweetMode)
+        {
+            var query = new StringBuilder(Resources.User_GetCurrentUser);
+            parameters = parameters ?? new GetAuthenticatedUserParameters();
+
+            query.AddParameterToQuery("skip_status", parameters.SkipStatus);
+            query.AddParameterToQuery("include_entities", parameters.IncludeEntities);
+            query.AddParameterToQuery("include_email", parameters.IncludeEmail);
+            query.AddFormattedParameterToQuery(_queryParameterGenerator.GenerateTweetModeParameter(tweetMode));
+            query.AddFormattedParameterToQuery(parameters.FormattedCustomQueryParameters);
+
+            return query.ToString();
+        }
+        
+        // BLOCK
+        public string GetBlockUserQuery(IBlockUserParameters parameters)
+        {
+            _userQueryValidator.ThrowIfUserCannotBeIdentified(parameters.UserIdentifier);
+
+            var query = new StringBuilder(Resources.User_Block_Create);
+            
+            query.AddFormattedParameterToQuery(_userQueryParameterGenerator.GenerateIdOrScreenNameParameter(parameters.UserIdentifier));
+            query.AddFormattedParameterToQuery(parameters.FormattedCustomQueryParameters);
+
+            return query.ToString();
+        }
+
+        public string GetUnblockUserQuery(IUnblockUserParameters parameters)
+        {
+            _userQueryValidator.ThrowIfUserCannotBeIdentified(parameters.UserIdentifier);
+
+            var query = new StringBuilder(Resources.User_Block_Destroy);
+
+            query.AddFormattedParameterToQuery(_userQueryParameterGenerator.GenerateIdOrScreenNameParameter(parameters.UserIdentifier));
+            query.AddFormattedParameterToQuery(parameters.FormattedCustomQueryParameters);
+
+            return query.ToString();
+        }
+
+        public string GetReportUserForSpamQuery(IReportUserForSpamParameters parameters)
+        {
+            _userQueryValidator.ThrowIfUserCannotBeIdentified(parameters.UserIdentifier);
+
+            var query = new StringBuilder(Resources.User_Report_Spam);
+
+            query.AddFormattedParameterToQuery(_userQueryParameterGenerator.GenerateIdOrScreenNameParameter(parameters.UserIdentifier));
+            query.AddParameterToQuery("perform_block", parameters.PerformBlock);
+            query.AddFormattedParameterToQuery(parameters.FormattedCustomQueryParameters);
+
+            return query.ToString();
+        }
+
+        public string GetBlockedUserIdsQuery(IGetBlockedUserIdsParameters parameters)
+        {
+            var query = new StringBuilder(Resources.User_Block_List_Ids);
+
+            query.AddParameterToQuery("cursor", parameters.Cursor);
+            query.AddParameterToQuery("count", parameters.PageSize);
+            query.AddFormattedParameterToQuery(parameters.FormattedCustomQueryParameters);
+
+            return query.ToString();
+        }
+
+        public string GetBlockedUsersQuery(IGetBlockedUsersParameters parameters)
+        {
+            var query = new StringBuilder(Resources.User_Block_List);
+
+            query.AddParameterToQuery("cursor", parameters.Cursor);
+            query.AddParameterToQuery("count", parameters.PageSize);
+            query.AddParameterToQuery("include_entities", parameters.IncludeEntities);
+            query.AddParameterToQuery("skip_status",  parameters.SkipStatus);
+            query.AddFormattedParameterToQuery(parameters.FormattedCustomQueryParameters);
+
+            return query.ToString();
+        }
+        
+        // FOLLOWERS
+        public string GetFollowUserQuery(IFollowUserParameters parameters)
+        {
+            _userQueryValidator.ThrowIfUserCannotBeIdentified(parameters.UserIdentifier);
+
+            var query = new StringBuilder(Resources.Friendship_Create);
+
+            query.AddFormattedParameterToQuery(_userQueryParameterGenerator.GenerateIdOrScreenNameParameter(parameters.UserIdentifier));
+            query.AddParameterToQuery("follow", parameters.EnableNotifications);
+            query.AddFormattedParameterToQuery(parameters.FormattedCustomQueryParameters);
+
+            return query.ToString();
+        }
+
+        public string GetUnFollowUserQuery(IUnFollowUserParameters parameters)
+        {
+            _userQueryValidator.ThrowIfUserCannotBeIdentified(parameters.UserIdentifier);
+
+            var query = new StringBuilder(Resources.Friendship_Destroy);
+
+            query.AddFormattedParameterToQuery(_userQueryParameterGenerator.GenerateIdOrScreenNameParameter(parameters.UserIdentifier));
+            query.AddFormattedParameterToQuery(parameters.FormattedCustomQueryParameters);
+
+            return query.ToString();
+        }
+        
         public string GetUserIdsRequestingFriendshipQuery(IGetUserIdsRequestingFriendshipParameters parameters)
         {
             var query = new StringBuilder(Resources.Friendship_GetIncomingIds);
@@ -66,6 +189,20 @@ namespace Tweetinvi.Controllers.Account
 
             return query.ToString();
         }
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
         
         public string GetAuthenticatedUserAccountSettingsQuery()
         {

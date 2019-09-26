@@ -1,15 +1,14 @@
 namespace Tweetinvi.Parameters
 {
     /// <summary>
-    /// https://developer.twitter.com/en/docs/accounts-and-users/follow-search-get-users/api-reference/get-friendships-incoming
+    /// For more information visit : https://developer.twitter.com/en/docs/accounts-and-users/follow-search-get-users/api-reference/get-friendships-incoming
     /// </summary>
+    /// <inheritdoc />
     public interface IGetUserIdsRequestingFriendshipParameters : ICursorQueryParameters
     {
     }
-    
-    /// <summary>
-    /// https://developer.twitter.com/en/docs/accounts-and-users/follow-search-get-users/api-reference/get-friendships-incoming
-    /// </summary>
+
+    /// <inheritdoc />
     public class GetUserIdsRequestingFriendshipParameters : CursorQueryParameters, IGetUserIdsRequestingFriendshipParameters
     {
         public GetUserIdsRequestingFriendshipParameters()

@@ -3,12 +3,14 @@
 namespace Tweetinvi.Parameters
 {
     /// <summary>
-    /// Parameters to get a user's blocked users
+    /// For more information visit : https://dev.twitter.com/en/docs/accounts-and-users/mute-block-report-users/api-reference/get-blocks-list
     /// </summary>
+    /// <inheritdoc />
     public interface IGetBlockedUsersParameters : IGetCursorUsersOptionalParameters
     {
     }
 
+    /// <inheritdoc />
     public class GetBlockedUsersParameters : GetCursorUsersOptionalParameters, IGetBlockedUsersParameters
     {
         public GetBlockedUsersParameters()

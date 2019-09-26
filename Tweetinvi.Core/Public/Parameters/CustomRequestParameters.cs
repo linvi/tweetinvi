@@ -47,18 +47,22 @@ namespace Tweetinvi.Parameters
             _customQueryParameters = parameters.CustomQueryParameters;
         }
 
+        /// <inheritdoc/>
         public void AddCustomQueryParameter(string name, string value)
         {
             _customQueryParameters.Add(new Tuple<string, string>(name, value));
         }
 
+        /// <inheritdoc/>
         public void ClearCustomQueryParameters()
         {
             _customQueryParameters.Clear();
         }
 
+        /// <inheritdoc/>
         public List<Tuple<string, string>> CustomQueryParameters => _customQueryParameters;
 
+        /// <inheritdoc/>
         public string FormattedCustomQueryParameters
         {
             get

@@ -32,8 +32,10 @@
             PageSize = parameters.PageSize;
         }
 
+        /// <inheritdoc/>
         public string Cursor { get; set; }
 
+        /// <inheritdoc/>
         public int PageSize { get; set; }
     }
 }

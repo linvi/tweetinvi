@@ -3,12 +3,13 @@ using Tweetinvi.Models;
 namespace Tweetinvi.Parameters
 {
     /// <summary>
-    /// https://developer.twitter.com/en/docs/accounts-and-users/follow-search-get-users/api-reference/post-friendships-destroy
+    /// For more information visit : https://dev.twitter.com/en/docs/accounts-and-users/follow-search-get-users/api-reference/post-friendships-destroy
     /// </summary>
+    /// <inheritdoc />
     public interface IUnFollowUserParameters : ICustomRequestParameters
     {
         /// <summary>
-        /// User that you want to follow
+        /// The user that you want to stop following
         /// </summary>
         IUserIdentifier UserIdentifier { get; set; }
     }

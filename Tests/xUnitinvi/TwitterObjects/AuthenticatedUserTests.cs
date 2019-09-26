@@ -21,6 +21,7 @@ namespace xUnitinvi.TwitterObjects
 
         private readonly FakeClassBuilder<AuthenticatedUser> _fakeBuilder;
         private Fake<ITwitterClient> _twitterClient;
+        private Fake<IAccountClient> _accountClient;
         private Fake<ITweetsClient> _tweetsClient;
         private Fake<IUsersClient> _usersClient;
 
@@ -29,31 +30,99 @@ namespace xUnitinvi.TwitterObjects
         private void InitData()
         {
             _twitterClient = new Fake<ITwitterClient>();
+            _accountClient = new Fake<IAccountClient>();
             _tweetsClient = new Fake<ITweetsClient>();
             _usersClient = new Fake<IUsersClient>();
 
+            _twitterClient.CallsTo(x => x.Account).Returns(_accountClient.FakedObject);
             _twitterClient.CallsTo(x => x.Tweets).Returns(_tweetsClient.FakedObject);
             _twitterClient.CallsTo(x => x.Users).Returns(_usersClient.FakedObject);
 
             _authenticatedUser = _fakeBuilder.GenerateClass();
             _authenticatedUser.Client = _twitterClient.FakedObject;
         }
+        
+        // BLOCK
 
         [Fact]
-        public async Task FollowUser_ReturnsUsersClientTask()
+        public async Task BlockUser_ReturnsAccountClientTask()
         {
             // Arrange
             var user = A.Fake<IUserIdentifier>();
-            _usersClient.CallsTo(x => x.FollowUser(user)).Returns(true);
+            _accountClient.CallsTo(x => x.BlockUser(user)).Returns(true);
+
+            // Act
+            var result = await _authenticatedUser.BlockUser(user);
+
+            // Assert
+            Assert.True(result);
+            _accountClient.CallsTo(x => x.BlockUser(user)).MustHaveHappened();
+        }
+        
+        [Fact]
+        public async Task UnblockUser_ReturnsAccountClientTask()
+        {
+            // Arrange
+            var user = A.Fake<IUserIdentifier>();
+            _accountClient.CallsTo(x => x.UnBlockUser(user)).Returns(true);
+
+            // Act
+            var result = await _authenticatedUser.UnBlockUser(user);
+
+            // Assert
+            Assert.True(result);
+            _accountClient.CallsTo(x => x.UnBlockUser(user)).MustHaveHappened();
+        }
+        
+        [Fact]
+        public async Task ReportUserForSpam_ReturnsAccountClientTask()
+        {
+            // Arrange
+            var user = A.Fake<IUserIdentifier>();
+            _accountClient.CallsTo(x => x.ReportUserForSpam(user)).Returns(true);
+
+            // Act
+            var result = await _authenticatedUser.ReportUserForSpam(user);
+
+            // Assert
+            Assert.True(result);
+            _accountClient.CallsTo(x => x.ReportUserForSpam(user)).MustHaveHappened();
+        }
+        
+        // FOLLOWERS
+        
+        [Fact]
+        public async Task FollowUser_ReturnsAccountClientTask()
+        {
+            // Arrange
+            var user = A.Fake<IUserIdentifier>();
+            _accountClient.CallsTo(x => x.FollowUser(user)).Returns(true);
 
             // Act
             var result = await _authenticatedUser.FollowUser(user);
 
             // Assert
             Assert.True(result);
-            _usersClient.CallsTo(x => x.FollowUser(user)).MustHaveHappened();
+            _accountClient.CallsTo(x => x.FollowUser(user)).MustHaveHappened();
         }
 
+        [Fact]
+        public async Task UnFollowUser_ReturnsAccountClientTask()
+        {
+            // Arrange
+            var user = A.Fake<IUserIdentifier>();
+            _accountClient.CallsTo(x => x.UnFollowUser(user)).Returns(true);
+
+            // Act
+            var result = await _authenticatedUser.UnFollowUser(user);
+
+            // Assert
+            Assert.True(result);
+            _accountClient.CallsTo(x => x.UnFollowUser(user)).MustHaveHappened();
+        }
+        
+        // TWEETS
+        
         [Fact]
         public async Task PublishTweetText_UsesTweetsClient()
         {
@@ -68,21 +137,6 @@ namespace xUnitinvi.TwitterObjects
 
             // Assert
             Assert.Same(result, expectedResult);
-        }
-
-        [Fact]
-        public async Task UnFollowUser_ReturnsUsersClientTask()
-        {
-            // Arrange
-            var user = A.Fake<IUserIdentifier>();
-            _usersClient.CallsTo(x => x.UnFollowUser(user)).Returns(true);
-
-            // Act
-            var result = await _authenticatedUser.UnFollowUser(user);
-
-            // Assert
-            Assert.True(result);
-            _usersClient.CallsTo(x => x.UnFollowUser(user)).MustHaveHappened();
         }
     }
 }

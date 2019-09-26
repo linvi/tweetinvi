@@ -16,7 +16,6 @@ namespace Tweetinvi.Client.Requesters
     }
 
     
-
     public class UsersRequester : BaseRequester, IInternalUsersRequester
     {
         private readonly IUserController _userController;
@@ -24,21 +23,6 @@ namespace Tweetinvi.Client.Requesters
         public UsersRequester(IUserController userController)
         {
             _userController = userController;
-        }
-
-        public async Task<ITwitterResult<IUserDTO, IAuthenticatedUser>> GetAuthenticatedUser(IGetAuthenticatedUserParameters parameters)
-        {
-            var request = _twitterClient.CreateRequest();
-            var result = await ExecuteRequest(() => _userController.GetAuthenticatedUser(parameters, request), request).ConfigureAwait(false);
-
-            var user = result.Result;
-
-            if (user != null)
-            {
-                user.Client = _twitterClient;
-            }
-
-            return result;
         }
 
         public async Task<ITwitterResult<IUserDTO, IUser>> GetUser(IGetUserParameters parameters)
@@ -71,19 +55,7 @@ namespace Tweetinvi.Client.Requesters
         {
             var request = _twitterClient.CreateRequest();
             request.ExecutionContext.Converters = JsonQueryConverterRepository.Converters;
-            return _userController.GetFriendIdsIterator(parameters, request);
-        }
-
-        public Task<ITwitterResult<IUserDTO>> FollowUser(IFollowUserParameters parameters)
-        {
-            var request = _twitterClient.CreateRequest();
-            return ExecuteRequest(() => _userController.FollowUser(parameters, request), request);
-        }
-
-        public Task<ITwitterResult<IUserDTO>> UnFollowUser(IUnFollowUserParameters parameters)
-        {
-            var request = _twitterClient.CreateRequest();
-            return ExecuteRequest(() => _userController.UnFollowUser(parameters, request), request);
+            return _userController.GetFriendIds(parameters, request);
         }
 
         public ITwitterPageIterator<ITwitterResult<IIdsCursorQueryResultDTO>> GetFollowerIds(IGetFollowerIdsParameters parameters)
@@ -92,39 +64,7 @@ namespace Tweetinvi.Client.Requesters
             request.ExecutionContext.Converters = JsonQueryConverterRepository.Converters;
             return _userController.GetFollowerIds(parameters, request);
         }
-
-        public Task<ITwitterResult<IUserDTO>> BlockUser(IBlockUserParameters parameters)
-        {
-            var request = _twitterClient.CreateRequest();
-            return ExecuteRequest(() => _userController.BlockUser(parameters, request), request);
-        }
-
-        public Task<ITwitterResult<IUserDTO>> UnblockUser(IUnblockUserParameters parameters)
-        {
-            var request = _twitterClient.CreateRequest();
-            return ExecuteRequest(() => _userController.UnblockUser(parameters, request), request);
-        }
-
-        public Task<ITwitterResult<IUserDTO>> ReportUserForSpam(IReportUserForSpamParameters parameters)
-        {
-            var request = _twitterClient.CreateRequest();
-            return ExecuteRequest(() => _userController.ReportUserForSpam(parameters, request), request);
-        }
-
-        public ITwitterPageIterator<ITwitterResult<IIdsCursorQueryResultDTO>> GetBlockedUserIds(IGetBlockedUserIdsParameters parameters)
-        {
-            var request = _twitterClient.CreateRequest();
-            request.ExecutionContext.Converters = JsonQueryConverterRepository.Converters;
-            return _userController.GetBlockedUserIds(parameters, request);
-        }
-
-        public ITwitterPageIterator<ITwitterResult<IUserCursorQueryResultDTO>> GetBlockedUsers(IGetBlockedUsersParameters parameters)
-        {
-            var request = _twitterClient.CreateRequest();
-            request.ExecutionContext.Converters = JsonQueryConverterRepository.Converters;
-            return _userController.GetBlockedUsers(parameters, request);
-        }
-
+        
         public Task<System.IO.Stream> GetProfileImageStream(IGetProfileImageParameters parameters)
         {
             var request = _twitterClient.CreateRequest();

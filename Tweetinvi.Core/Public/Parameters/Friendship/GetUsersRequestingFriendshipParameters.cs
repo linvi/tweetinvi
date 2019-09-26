@@ -3,8 +3,9 @@ using Tweetinvi.Parameters.Optionals;
 namespace Tweetinvi.Parameters
 {
     /// <summary>
-    /// https://developer.twitter.com/en/docs/accounts-and-users/follow-search-get-users/api-reference/get-friendships-incoming
+    /// For more information visit : https://developer.twitter.com/en/docs/accounts-and-users/follow-search-get-users/api-reference/get-friendships-incoming
     /// </summary>
+    /// <inheritdoc />
     public interface IGetUsersRequestingFriendshipParameters : IGetCursorUsersOptionalParameters, IGetUserIdsRequestingFriendshipParameters
     {
         /// <summary>
@@ -12,10 +13,8 @@ namespace Tweetinvi.Parameters
         /// </summary>
         int GetUsersPageSize { get; set; }
     }
-    
-    /// <summary>
-    /// https://developer.twitter.com/en/docs/accounts-and-users/follow-search-get-users/api-reference/get-friendships-incoming
-    /// </summary>
+
+    /// <inheritdoc />
     public class GetUsersRequestingFriendshipParameters : GetCursorUsersOptionalParameters, IGetUsersRequestingFriendshipParameters
     {
         public GetUsersRequestingFriendshipParameters()
@@ -33,6 +32,7 @@ namespace Tweetinvi.Parameters
             GetUsersPageSize = source.GetUsersPageSize;
         }
 
+        /// <inheritdoc/>
         public int GetUsersPageSize { get; set; }
     }
 }

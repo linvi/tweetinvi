@@ -2,6 +2,10 @@
 
 namespace Tweetinvi.Parameters
 {
+    /// <summary>
+    /// https://dev.twitter.com/en/docs/accounts-and-users/mute-block-report-users/api-reference/post-users-report_spam
+    /// </summary>
+    /// <inheritdoc />
     public interface IReportUserForSpamParameters : ICustomRequestParameters
     {
         /// <summary>
@@ -15,6 +19,7 @@ namespace Tweetinvi.Parameters
         bool? PerformBlock { get; set; }
     }
 
+    /// <inheritdoc />
     public class ReportUserForSpamParameters : CustomRequestParameters, IReportUserForSpamParameters
     {
         public ReportUserForSpamParameters(IUserIdentifier userIdentifier)
@@ -36,7 +41,9 @@ namespace Tweetinvi.Parameters
             PerformBlock = source?.PerformBlock;
         }
 
+        /// <inheritdoc />
         public IUserIdentifier UserIdentifier { get; set; }
+        /// <inheritdoc />
         public bool? PerformBlock { get; set; }
     }
 }

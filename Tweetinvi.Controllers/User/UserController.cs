@@ -12,9 +12,6 @@ using Tweetinvi.Parameters;
 
 namespace Tweetinvi.Controllers.User
 {
-    /// <summary>
-    /// Reason for change : Twitter changes the operation exposed on its REST API
-    /// </summary>
     public class UserController : IUserController
     {
         private readonly IUserQueryExecutor _userQueryExecutor;
@@ -31,12 +28,6 @@ namespace Tweetinvi.Controllers.User
             _twitterResultFactory = twitterResultFactory;
         }
 
-        public async Task<ITwitterResult<IUserDTO, IAuthenticatedUser>> GetAuthenticatedUser(IGetAuthenticatedUserParameters parameters, ITwitterRequest request)
-        {
-            var result = await _userQueryExecutor.GetAuthenticatedUser(parameters, request);
-            return _twitterResultFactory.Create(result, userDTO => _userFactory.GenerateAuthenticatedUserFromDTO(userDTO));
-        }
-
         public async Task<ITwitterResult<IUserDTO, IUser>> GetUser(IGetUserParameters parameters, ITwitterRequest request)
         {
             var result = await _userQueryExecutor.GetUser(parameters, request);
@@ -50,7 +41,7 @@ namespace Tweetinvi.Controllers.User
         }
 
         // Friend Ids
-        public ITwitterPageIterator<ITwitterResult<IIdsCursorQueryResultDTO>> GetFriendIdsIterator(IGetFriendIdsParameters parameters, ITwitterRequest request)
+        public ITwitterPageIterator<ITwitterResult<IIdsCursorQueryResultDTO>> GetFriendIds(IGetFriendIdsParameters parameters, ITwitterRequest request)
         {
             var twitterCursorResult = new TwitterPageIterator<ITwitterResult<IIdsCursorQueryResultDTO>>(
                 parameters.Cursor,
@@ -69,16 +60,6 @@ namespace Tweetinvi.Controllers.User
             return twitterCursorResult;
         }
 
-        public Task<ITwitterResult<IUserDTO>> FollowUser(IFollowUserParameters parameters, ITwitterRequest request)
-        {
-            return _userQueryExecutor.FollowUser(parameters, request);
-        }
-
-        public Task<ITwitterResult<IUserDTO>> UnFollowUser(IUnFollowUserParameters parameters, ITwitterRequest request)
-        {
-            return _userQueryExecutor.UnFollowUser(parameters, request);
-        }
-
         public ITwitterPageIterator<ITwitterResult<IIdsCursorQueryResultDTO>> GetFollowerIds(IGetFollowerIdsParameters parameters, ITwitterRequest request)
         {
             var twitterCursorResult = new TwitterPageIterator<ITwitterResult<IIdsCursorQueryResultDTO>>(
@@ -91,60 +72,6 @@ namespace Tweetinvi.Controllers.User
                     };
 
                     return _userQueryExecutor.GetFollowerIds(cursoredParameters, new TwitterRequest(request));
-                },
-                page => page.DataTransferObject.NextCursorStr,
-                page => page.DataTransferObject.NextCursorStr == "0");
-
-            return twitterCursorResult;
-        }
-
-        // Block
-        public Task<ITwitterResult<IUserDTO>> BlockUser(IBlockUserParameters parameters, ITwitterRequest request)
-        {
-            return _userQueryExecutor.BlockUser(parameters, request);
-        }
-
-        public Task<ITwitterResult<IUserDTO>> UnblockUser(IUnblockUserParameters parameters, ITwitterRequest request)
-        {
-            return _userQueryExecutor.UnblockUser(parameters, request);
-        }
-
-        public Task<ITwitterResult<IUserDTO>> ReportUserForSpam(IReportUserForSpamParameters parameters, ITwitterRequest request)
-        {
-            return _userQueryExecutor.ReportUserForSpam(parameters, request);
-        }
-
-        public ITwitterPageIterator<ITwitterResult<IIdsCursorQueryResultDTO>> GetBlockedUserIds(IGetBlockedUserIdsParameters parameters, ITwitterRequest request)
-        {
-            var twitterCursorResult = new TwitterPageIterator<ITwitterResult<IIdsCursorQueryResultDTO>>(
-                parameters.Cursor,
-                cursor =>
-                {
-                    var cursoredParameters = new GetBlockedUserIdsParameters(parameters)
-                    {
-                        Cursor = cursor
-                    };
-
-                    return _userQueryExecutor.GetBlockedUserIds(cursoredParameters, new TwitterRequest(request));
-                },
-                page => page.DataTransferObject.NextCursorStr,
-                page => page.DataTransferObject.NextCursorStr == "0");
-
-            return twitterCursorResult;
-        }
-
-        public ITwitterPageIterator<ITwitterResult<IUserCursorQueryResultDTO>> GetBlockedUsers(IGetBlockedUsersParameters parameters, ITwitterRequest request)
-        {
-            var twitterCursorResult = new TwitterPageIterator<ITwitterResult<IUserCursorQueryResultDTO>>(
-                parameters.Cursor,
-                cursor =>
-                {
-                    var cursoredParameters = new GetBlockedUsersParameters(parameters)
-                    {
-                        Cursor = cursor
-                    };
-
-                    return _userQueryExecutor.GetBlockedUsers(cursoredParameters, new TwitterRequest(request));
                 },
                 page => page.DataTransferObject.NextCursorStr,
                 page => page.DataTransferObject.NextCursorStr == "0");

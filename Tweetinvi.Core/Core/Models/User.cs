@@ -373,18 +373,18 @@ namespace Tweetinvi.Logic
         // Block User
         public virtual Task<bool> BlockUser()
         {
-            return Client.Users.BlockUser(this);
+            return Client.Account.BlockUser(this);
         }
 
         public virtual Task<bool> UnBlockUser()
         {
-            return Client.Users.UnblockUser(this);
+            return Client.Account.UnBlockUser(this);
         }
 
         // Spam
         public virtual Task<bool> ReportUserForSpam()
         {
-            return Client.Users.ReportUserForSpam(this);
+            return Client.Account.ReportUserForSpam(this);
         }
 
         // Stream Profile Image

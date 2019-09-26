@@ -3,6 +3,10 @@ using Tweetinvi.Models.DTO;
 
 namespace Tweetinvi.Parameters
 {
+    /// <summary>
+    /// Parameters to download an profile image from Twitter. 
+    /// </summary>
+    /// <inheritdoc />
     public interface IGetProfileImageParameters : ICustomRequestParameters
     {
         /// <summary>
@@ -16,6 +20,7 @@ namespace Tweetinvi.Parameters
         ImageSize ImageSize { get; set; }
     }
 
+    /// <inheritdoc />
     public class GetProfileImageParameters : CustomRequestParameters, IGetProfileImageParameters
     {
         public GetProfileImageParameters(string imageUrl)
@@ -43,7 +48,9 @@ namespace Tweetinvi.Parameters
             ImageUrl = parameters.ImageUrl;
         }
 
+        /// <inheritdoc />
         public string ImageUrl { get; set; }
+        /// <inheritdoc />
         public ImageSize ImageSize { get; set; }
     }
 }

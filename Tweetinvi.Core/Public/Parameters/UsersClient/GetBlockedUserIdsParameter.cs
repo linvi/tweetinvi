@@ -1,12 +1,14 @@
 ﻿namespace Tweetinvi.Parameters
 {
     /// <summary>
-    /// Parameters to get a user's list of friends
+    /// For more information visit : https://dev.twitter.com/en/docs/accounts-and-users/mute-block-report-users/api-reference/get-blocks-ids
     /// </summary>
+    /// <inheritdoc />
     public interface IGetBlockedUserIdsParameters : ICursorQueryParameters
     {
     }
 
+    /// <inheritdoc />
     public class GetBlockedUserIdsParameters : CursorQueryParameters, IGetBlockedUserIdsParameters
     {
         public GetBlockedUserIdsParameters()

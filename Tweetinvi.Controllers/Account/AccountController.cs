@@ -22,21 +22,43 @@ namespace Tweetinvi.Controllers.Account
         private readonly IFactory<IAccountSettings> _accountSettingsUnityFactory;
         private readonly IFactory<IAccountSettingsRequestParameters> _accountSettingsRequestParametersFactory;
         private readonly IJsonObjectConverter _jsonObjectConverter;
+        private readonly ITwitterResultFactory _twitterResultFactory;
 
         public AccountController(
             IAccountQueryExecutor accountQueryExecutor,
             IUserFactory userFactory,
             IFactory<IAccountSettings> accountSettingsUnityFactory,
             IFactory<IAccountSettingsRequestParameters> accountSettingsRequestParametersFactory,
-            IJsonObjectConverter jsonObjectConverter)
+            IJsonObjectConverter jsonObjectConverter,
+            ITwitterResultFactory twitterResultFactory)
         {
             _accountQueryExecutor = accountQueryExecutor;
             _userFactory = userFactory;
             _accountSettingsUnityFactory = accountSettingsUnityFactory;
             _accountSettingsRequestParametersFactory = accountSettingsRequestParametersFactory;
             _jsonObjectConverter = jsonObjectConverter;
+            _twitterResultFactory = twitterResultFactory;
         }
 
+        public async Task<ITwitterResult<IUserDTO, IAuthenticatedUser>> GetAuthenticatedUser(IGetAuthenticatedUserParameters parameters, ITwitterRequest request)
+        {
+            var result = await _accountQueryExecutor.GetAuthenticatedUser(parameters, request);
+            return _twitterResultFactory.Create(result, userDTO => _userFactory.GenerateAuthenticatedUserFromDTO(userDTO));
+        }
+
+        // FOLLOW/UNFOLLOW
+        public Task<ITwitterResult<IUserDTO>> FollowUser(IFollowUserParameters parameters, ITwitterRequest request)
+        {
+            return _accountQueryExecutor.FollowUser(parameters, request);
+        }
+
+        public Task<ITwitterResult<IUserDTO>> UnFollowUser(IUnFollowUserParameters parameters, ITwitterRequest request)
+        {
+            return _accountQueryExecutor.UnFollowUser(parameters, request);
+        }
+        
+        // FRIENDSHIP
+        
         public ITwitterPageIterator<ITwitterResult<IIdsCursorQueryResultDTO>> GetUserIdsRequestingFriendship(IGetUserIdsRequestingFriendshipParameters parameters, ITwitterRequest request)
         {
             var twitterCursorResult = new TwitterPageIterator<ITwitterResult<IIdsCursorQueryResultDTO>>(
@@ -55,7 +77,67 @@ namespace Tweetinvi.Controllers.Account
 
             return twitterCursorResult;
         }
+
+        // BLOCK
+        public Task<ITwitterResult<IUserDTO>> BlockUser(IBlockUserParameters parameters, ITwitterRequest request)
+        {
+            return _accountQueryExecutor.BlockUser(parameters, request);
+        }
+
+        public Task<ITwitterResult<IUserDTO>> UnblockUser(IUnblockUserParameters parameters, ITwitterRequest request)
+        {
+            return _accountQueryExecutor.UnblockUser(parameters, request);
+        }
+
+        public Task<ITwitterResult<IUserDTO>> ReportUserForSpam(IReportUserForSpamParameters parameters, ITwitterRequest request)
+        {
+            return _accountQueryExecutor.ReportUserForSpam(parameters, request);
+        }
+
+        public ITwitterPageIterator<ITwitterResult<IIdsCursorQueryResultDTO>> GetBlockedUserIds(IGetBlockedUserIdsParameters parameters, ITwitterRequest request)
+        {
+            var twitterCursorResult = new TwitterPageIterator<ITwitterResult<IIdsCursorQueryResultDTO>>(
+                parameters.Cursor,
+                cursor =>
+                {
+                    var cursoredParameters = new GetBlockedUserIdsParameters(parameters)
+                    {
+                        Cursor = cursor
+                    };
+
+                    return _accountQueryExecutor.GetBlockedUserIds(cursoredParameters, new TwitterRequest(request));
+                },
+                page => page.DataTransferObject.NextCursorStr,
+                page => page.DataTransferObject.NextCursorStr == "0");
+
+            return twitterCursorResult;
+        }
+
+        public ITwitterPageIterator<ITwitterResult<IUserCursorQueryResultDTO>> GetBlockedUsers(IGetBlockedUsersParameters parameters, ITwitterRequest request)
+        {
+            var twitterCursorResult = new TwitterPageIterator<ITwitterResult<IUserCursorQueryResultDTO>>(
+                parameters.Cursor,
+                cursor =>
+                {
+                    var cursoredParameters = new GetBlockedUsersParameters(parameters)
+                    {
+                        Cursor = cursor
+                    };
+
+                    return _accountQueryExecutor.GetBlockedUsers(cursoredParameters, new TwitterRequest(request));
+                },
+                page => page.DataTransferObject.NextCursorStr,
+                page => page.DataTransferObject.NextCursorStr == "0");
+
+            return twitterCursorResult;
+        }
         
+        
+        
+        
+        
+
+
         public async Task<IAccountSettings> GetAuthenticatedUserSettings()
         {
             var accountSettingsDTO = await _accountQueryExecutor.GetAuthenticatedUserAccountSettings();
@@ -64,10 +146,10 @@ namespace Tweetinvi.Controllers.Account
 
         public Task<IAccountSettings> UpdateAuthenticatedUserSettings(
             IEnumerable<Language> languages = null,
-            string timeZone = null, 
-            long? trendLocationWoeid = null, 
-            bool? sleepTimeEnabled = null, 
-            int? startSleepTime = null, 
+            string timeZone = null,
+            long? trendLocationWoeid = null,
+            bool? sleepTimeEnabled = null,
+            int? startSleepTime = null,
             int? endSleepTime = null)
         {
             var settings = _accountSettingsRequestParametersFactory.Create();

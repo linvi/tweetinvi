@@ -240,7 +240,7 @@ namespace Tweetinvi.Models
         /// <summary>
         /// Report a specific user for being a spammer.
         /// </summary>
-        Task<bool> ReportUserForSpam(long userId);
+        Task<bool> ReportUserForSpam(long? userId);
 
         /// <summary>
         /// Report a specific user for being a spammer.

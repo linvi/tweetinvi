@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Tweetinvi.Core.Controllers;
 using Tweetinvi.Core.Credentials;
-using Tweetinvi.Core.Iterators;
 using Tweetinvi.Iterators;
 using Tweetinvi.Logic;
 using Tweetinvi.Models;
@@ -51,7 +50,7 @@ namespace Tweetinvi.Core.Models
             Credentials = _credentialsAccessor.CurrentThreadCredentials;
         }
 
-        public string Email { get { return _userDTO.Email; } }
+        public string Email => _userDTO.Email;
 
         public void SetCredentials(ITwitterCredentials credentials)
         {
@@ -142,7 +141,7 @@ namespace Tweetinvi.Core.Models
         // Friends - Followers
         public ITwitterIterator<long> GetUserIdsRequestingFriendship()
         {
-            return Client.Accounts.GetUserIdsRequestingFriendship();
+            return Client.Account.GetUserIdsRequestingFriendship();
         }
 
         public Task<IEnumerable<IUser>> GetUsersYouRequestedToFollow(int maximumUserIdsToRetrieve = TweetinviConsts.FRIENDSHIPS_OUTGOING_USERS_MAX_PER_REQ)
@@ -153,32 +152,32 @@ namespace Tweetinvi.Core.Models
         // Follow
         public Task<bool> FollowUser(IUserIdentifier user)
         {
-            return Client.Users.FollowUser(user);
+            return Client.Account.FollowUser(user);
         }
 
         public Task<bool> FollowUser(long userId)
         {
-            return Client.Users.FollowUser(userId);
+            return Client.Account.FollowUser(userId);
         }
 
         public Task<bool> FollowUser(string username)
         {
-            return Client.Users.FollowUser(username);
+            return Client.Account.FollowUser(username);
         }
 
         public Task<bool> UnFollowUser(IUserIdentifier user)
         {
-            return Client.Users.UnFollowUser(user);
+            return Client.Account.UnFollowUser(user);
         }
 
         public Task<bool> UnFollowUser(long userId)
         {
-            return Client.Users.UnFollowUser(userId);
+            return Client.Account.UnFollowUser(userId);
         }
 
         public Task<bool> UnFollowUser(string username)
         {
-            return Client.Users.UnFollowUser(username);
+            return Client.Account.UnFollowUser(username);
         }
 
         public Task<IEnumerable<ISavedSearch>> GetSavedSearches()
@@ -194,17 +193,17 @@ namespace Tweetinvi.Core.Models
 
         public Task<bool> BlockUser(IUserIdentifier user)
         {
-            return Client.Users.BlockUser(user);
+            return Client.Account.BlockUser(user);
         }
 
         public Task<bool> BlockUser(long? userId)
         {
-            return Client.Users.BlockUser(userId);
+            return Client.Account.BlockUser(userId);
         }
 
         public Task<bool> BlockUser(string username)
         {
-            return Client.Users.BlockUser(username);
+            return Client.Account.BlockUser(username);
         }
 
         // Unblock
@@ -215,28 +214,28 @@ namespace Tweetinvi.Core.Models
 
         public Task<bool> UnBlockUser(IUserIdentifier user)
         {
-            return Client.Users.UnblockUser(user);
+            return Client.Account.UnBlockUser(user);
         }
 
         public Task<bool> UnBlockUser(long userId)
         {
-            return Client.Users.UnblockUser(userId);
+            return Client.Account.UnblockUser(userId);
         }
 
         public Task<bool> UnBlockUser(string username)
         {
-            return Client.Users.UnblockUser(username);
+            return Client.Account.UnblockUser(username);
         }
 
         // Get Blocked Users
         public ITwitterIterator<long> GetBlockedUserIds()
         {
-            return Client.Users.GetBlockedUserIds();
+            return Client.Account.GetBlockedUserIds();
         }
 
         public ITwitterIterator<IUser> GetBlockedUsers()
         {
-            return Client.Users.GetBlockedUsers();
+            return Client.Account.GetBlockedUsers();
         }
 
         // Spam
@@ -247,17 +246,17 @@ namespace Tweetinvi.Core.Models
 
         public Task<bool> ReportUserForSpam(IUserIdentifier user)
         {
-            throw new NotImplementedException("TODO");
+            return Client.Account.ReportUserForSpam(user);
         }
 
-        public Task<bool> ReportUserForSpam(string userName)
+        public Task<bool> ReportUserForSpam(string username)
         {
-            throw new NotImplementedException("TODO");
+            return Client.Account.ReportUserForSpam(username);
         }
 
-        public Task<bool> ReportUserForSpam(long userId)
+        public Task<bool> ReportUserForSpam(long? userId)
         {
-            throw new NotImplementedException("TODO");
+            return Client.Account.ReportUserForSpam(userId);
         }
 
         // Direct Messages

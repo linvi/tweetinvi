@@ -21,7 +21,7 @@ namespace Examplinvi.Xamarin.Android
             Auth.SetCredentials(creds);
 
             var client = new TwitterClient(creds);
-            var authenticatedUser = client.Users.GetAuthenticatedUser().Result;
+            var authenticatedUser = client.Account.GetAuthenticatedUser().Result;
 
             TextView status = FindViewById<TextView>(Resource.Id.Status);
             status.Text = string.Format("Welcome {0}", authenticatedUser.ToString());

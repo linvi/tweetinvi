@@ -22,7 +22,7 @@ namespace Examplinvi.Xamarin.iOS
 
             var client = new TwitterClient(creds);
 
-            var authenticatedUser = client.Users.GetAuthenticatedUser().Result.ToString();
+            var authenticatedUser = client.Account.GetAuthenticatedUser().Result.ToString();
 
             WelcomeText.Text = $"Welcome {authenticatedUser}";
             RefreshHomeTimeline();

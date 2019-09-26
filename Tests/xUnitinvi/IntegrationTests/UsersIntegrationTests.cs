@@ -28,7 +28,7 @@ namespace xUnitinvi.IntegrationTests
             var client = new TwitterClient(credentials);
 
             // act
-            var authenticatedUser = await client.Users.GetAuthenticatedUser();
+            var authenticatedUser = await client.Account.GetAuthenticatedUser();
             var tweetinviUser = await client.Users.GetUser("tweetinviapi");
 
             var followers = new List<IUser>();
@@ -46,16 +46,16 @@ namespace xUnitinvi.IntegrationTests
             var friendIds = await friendIdsIterator.MoveToNextPage();
             var friendsBeforeAdd = await client.Users.GetUsers(friendIds);
 
-            await client.Users.FollowUser(artwolktUser);
+            await client.Account.FollowUser(artwolktUser);
             var friendsAfterAdd = await authenticatedUser.GetFriends().MoveToNextPage();
-            await client.Users.UnFollowUser(artwolktUser);
+            await client.Account.UnFollowUser(artwolktUser);
             var friendsAfterRemove = await authenticatedUser.GetFriends().MoveToNextPage();
 
             var blockSuccess = await artwolktUser.BlockUser();
 
-            var blockedUserIdsIterator = client.Users.GetBlockedUserIds();
+            var blockedUserIdsIterator = client.Account.GetBlockedUserIds();
             var blockedUsersFromIdsIterator = await blockedUserIdsIterator.MoveToNextPage();
-            var blockedUsersIterator = client.Users.GetBlockedUsers();
+            var blockedUsersIterator = client.Account.GetBlockedUsers();
             var blockedUsers = await blockedUsersIterator.MoveToNextPage();
 
             var unblockSuccess = await artwolktUser.UnBlockUser();

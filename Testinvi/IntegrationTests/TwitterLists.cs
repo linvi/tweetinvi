@@ -12,7 +12,7 @@ namespace Testinvi.IntegrationTests
             var creds = new TwitterCredentials("CONSUMER_KEY", "CONSUMER_SECRET", "ACCESS_TOKEN", "ACCESS_TOKEN_SECRET");
             var client = new TwitterClient(creds);
 
-            var authenticatedUser = await client.Users.GetAuthenticatedUser();
+            var authenticatedUser = await client.Account.GetAuthenticatedUser();
             var newList = await TwitterList.CreateList("myTemporaryList", PrivacyMode.Private, "tmp");
             var userLists = await TwitterList.GetUserSubscribedLists(authenticatedUser);
             var newListVerify = await TwitterList.GetExistingList(newList);

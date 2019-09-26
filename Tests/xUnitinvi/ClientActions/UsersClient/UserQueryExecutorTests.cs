@@ -1,7 +1,6 @@
-﻿using System;
-using System.IO;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using FakeItEasy;
+using Tweetinvi;
 using Tweetinvi.Controllers.User;
 using Tweetinvi.Core.Helpers;
 using Tweetinvi.Core.QueryGenerators;
@@ -12,6 +11,7 @@ using Tweetinvi.Models.DTO.QueryDTO;
 using Tweetinvi.Parameters;
 using Xunit;
 using xUnitinvi.TestHelpers;
+using Stream = System.IO.Stream;
 
 namespace xUnitinvi.ClientActions.UsersClient
 {
@@ -34,114 +34,89 @@ namespace xUnitinvi.ClientActions.UsersClient
         {
             return _fakeBuilder.GenerateClass();
         }
-
+        
         [Fact]
-        public async Task BlockUser_ReturnsUserDTO()
+        public async Task GetUser_ReturnsUserDTO()
         {
             // Arrange
             var queryExecutor = CreateUserQueryExecutor();
-            var userDTO = A.Fake<IUserDTO>();
-            var expectedQuery = TestHelper.GenerateString();
-
-            var parameters = new BlockUserParameters(userDTO);
             var request = A.Fake<ITwitterRequest>();
+            var url = TestHelper.GenerateString();
+            var parameter = new GetUserParameters(42);
             var expectedResult = A.Fake<ITwitterResult<IUserDTO>>();
-
-            A.CallTo(() => _fakeUserQueryGenerator.FakedObject.GetBlockUserQuery(parameters)).Returns(expectedQuery);
-            A.CallTo(() => _fakeTwitterAccessor.FakedObject.ExecuteRequest<IUserDTO>(request)).Returns(expectedResult);
+            
+            _fakeUserQueryGenerator.CallsTo(x => x.GetUserQuery(parameter, It.IsAny<TweetMode?>())).Returns(url);
+            _fakeTwitterAccessor.CallsTo(x => x.ExecuteRequest<IUserDTO>(request)).Returns(expectedResult);
 
             // Act
-            var result = await queryExecutor.BlockUser(parameters, request);
+            var result = await queryExecutor.GetUser(parameter, request);
 
             // Assert
             Assert.Equal(result, expectedResult);
+            Assert.Equal(request.Query.Url, url);
         }
-
+        
         [Fact]
-        public async Task FollowUser_ReturnsUserDTO()
+        public async Task GetUsers_ReturnsUserDTO()
         {
             // Arrange
             var queryExecutor = CreateUserQueryExecutor();
-            var userDTO = A.Fake<IUserDTO>();
-            var expectedQuery = TestHelper.GenerateString();
-
-            var parameters = new FollowUserParameters(userDTO);
             var request = A.Fake<ITwitterRequest>();
-            var expectedResult = A.Fake<ITwitterResult<IUserDTO>>();
-
-            A.CallTo(() => _fakeUserQueryGenerator.FakedObject.GetFollowUserQuery(parameters)).Returns(expectedQuery);
-            A.CallTo(() => _fakeTwitterAccessor.FakedObject.ExecuteRequest<IUserDTO>(request)).Returns(expectedResult);
+            var url = TestHelper.GenerateString();
+            var parameter = new GetUsersParameters(new long[] { 42 });
+            var expectedResult = A.Fake<ITwitterResult<IUserDTO[]>>();
+            
+            _fakeUserQueryGenerator.CallsTo(x => x.GetUsersQuery(parameter, It.IsAny<TweetMode?>())).Returns(url);
+            _fakeTwitterAccessor.CallsTo(x => x.ExecuteRequest<IUserDTO[]>(request)).Returns(expectedResult);
 
             // Act
-            var result = await queryExecutor.FollowUser(parameters, request);
+            var result = await queryExecutor.GetUsers(parameter, request);
 
             // Assert
             Assert.Equal(result, expectedResult);
+            Assert.Equal(request.Query.Url, url);
         }
-
+        
         [Fact]
-        public async Task GetBlockedUserIds_ReturnsUserDTO()
+        public async Task GetFollowerIds_ReturnsUserDTO()
         {
             // Arrange
             var queryExecutor = CreateUserQueryExecutor();
-            var expectedQuery = TestHelper.GenerateString();
-
-            var parameters = new GetBlockedUserIdsParameters();
             var request = A.Fake<ITwitterRequest>();
+            var url = TestHelper.GenerateString();
+            var parameter = new GetFollowerIdsParameters(42);
             var expectedResult = A.Fake<ITwitterResult<IIdsCursorQueryResultDTO>>();
-
-            A.CallTo(() => _fakeUserQueryGenerator.FakedObject.GetBlockedUserIdsQuery(parameters)).Returns(expectedQuery);
-            A.CallTo(() => _fakeTwitterAccessor.FakedObject.ExecuteRequest<IIdsCursorQueryResultDTO>(request)).Returns(expectedResult);
+            
+            _fakeUserQueryGenerator.CallsTo(x => x.GetFollowerIdsQuery(parameter)).Returns(url);
+            _fakeTwitterAccessor.CallsTo(x => x.ExecuteRequest<IIdsCursorQueryResultDTO>(request)).Returns(expectedResult);
 
             // Act
-            var result = await queryExecutor.GetBlockedUserIds(parameters, request);
+            var result = await queryExecutor.GetFollowerIds(parameter, request);
 
             // Assert
             Assert.Equal(result, expectedResult);
+            Assert.Equal(request.Query.Url, url);
         }
-
+        
         [Fact]
-        public async Task UnblockUser_ReturnsUserDTO()
+        public async Task GetFriendIds_ReturnsUserDTO()
         {
             // Arrange
             var queryExecutor = CreateUserQueryExecutor();
-            var userDTO = A.Fake<IUserDTO>();
-            var expectedQuery = TestHelper.GenerateString();
-
-            var parameters = new UnblockUserParameters(userDTO);
             var request = A.Fake<ITwitterRequest>();
-            var expectedResult = A.Fake<ITwitterResult<IUserDTO>>();
-
-            A.CallTo(() => _fakeUserQueryGenerator.FakedObject.GetUnblockUserQuery(parameters)).Returns(expectedQuery);
-            A.CallTo(() => _fakeTwitterAccessor.FakedObject.ExecuteRequest<IUserDTO>(request)).Returns(expectedResult);
+            var url = TestHelper.GenerateString();
+            var parameter = new GetFriendsParameters(42);
+            var expectedResult = A.Fake<ITwitterResult<IIdsCursorQueryResultDTO>>();
+            
+            _fakeUserQueryGenerator.CallsTo(x => x.GetFriendIdsQuery(parameter)).Returns(url);
+            _fakeTwitterAccessor.CallsTo(x => x.ExecuteRequest<IIdsCursorQueryResultDTO>(request)).Returns(expectedResult);
 
             // Act
-            var result = await queryExecutor.UnblockUser(parameters, request);
+            var result = await queryExecutor.GetFriendIds(parameter, request);
 
             // Assert
             Assert.Equal(result, expectedResult);
-        }
-
-        [Fact]
-        public async Task UnFollowUser_ReturnsUserDTO()
-        {
-            // Arrange
-            var queryExecutor = CreateUserQueryExecutor();
-            var userDTO = A.Fake<IUserDTO>();
-            var expectedQuery = TestHelper.GenerateString();
-
-            var parameters = new UnFollowUserParameters(userDTO);
-            var request = A.Fake<ITwitterRequest>();
-            var expectedResult = A.Fake<ITwitterResult<IUserDTO>>();
-
-            A.CallTo(() => _fakeUserQueryGenerator.FakedObject.GetUnFollowUserQuery(parameters)).Returns(expectedQuery);
-            A.CallTo(() => _fakeTwitterAccessor.FakedObject.ExecuteRequest<IUserDTO>(request)).Returns(expectedResult);
-
-            // Act
-            var result = await queryExecutor.UnFollowUser(parameters, request);
-
-            // Assert
-            Assert.Equal(result, expectedResult);
+            Assert.Equal(request.Query.Url, url);
         }
 
         [Fact]

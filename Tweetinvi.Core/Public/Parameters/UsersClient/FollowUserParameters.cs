@@ -3,8 +3,9 @@
 namespace Tweetinvi.Parameters
 {
     /// <summary>
-    /// https://developer.twitter.com/en/docs/accounts-and-users/follow-search-get-users/api-reference/post-friendships-create
+    /// For more information visit : https://dev.twitter.com/en/docs/accounts-and-users/follow-search-get-users/api-reference/post-friendships-create
     /// </summary>
+    /// <inheritdoc />
     public interface IFollowUserParameters : ICustomRequestParameters
     {
         /// <summary>
@@ -18,13 +19,14 @@ namespace Tweetinvi.Parameters
         bool? EnableNotifications { get; set; }
     }
 
+    /// <inheritdoc />
     public class FollowUserParameters : CustomRequestParameters, IFollowUserParameters
     {
         public FollowUserParameters(string username) : this(new UserIdentifier(username))
         {
         }
 
-        public FollowUserParameters(long userId) : this(new UserIdentifier(userId))
+        public FollowUserParameters(long? userId) : this(new UserIdentifier(userId))
         {
         }
 
@@ -39,7 +41,9 @@ namespace Tweetinvi.Parameters
             EnableNotifications = parameters?.EnableNotifications;
         }
 
+        /// <inheritdoc/>
         public IUserIdentifier UserIdentifier { get; set; }
+        /// <inheritdoc/>
         public bool? EnableNotifications { get; set; }
     }
 }

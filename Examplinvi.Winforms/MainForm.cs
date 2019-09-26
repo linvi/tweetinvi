@@ -18,7 +18,7 @@ namespace Examplinvi.Winforms
             Auth.SetCredentials(creds);
 
             var client = new TwitterClient(creds);
-            var user = client.Users.GetAuthenticatedUser().Result;
+            var user = client.Account.GetAuthenticatedUser().Result;
 
             textBox.Text = $"You are now authenticated as {user}!";
         }
