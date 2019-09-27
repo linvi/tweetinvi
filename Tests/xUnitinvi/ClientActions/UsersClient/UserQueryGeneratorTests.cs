@@ -6,7 +6,6 @@ using Tweetinvi.Core.Injectinvi;
 using Tweetinvi.Core.QueryGenerators;
 using Tweetinvi.Models;
 using Tweetinvi.Parameters;
-using Tweetinvi.Public.Parameters.UsersClient;
 using Xunit;
 using xUnitinvi.TestHelpers;
 

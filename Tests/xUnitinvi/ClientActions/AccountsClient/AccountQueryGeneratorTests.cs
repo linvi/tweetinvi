@@ -50,9 +50,9 @@ namespace xUnitinvi.ClientActions.AccountsClient
             // assert
             Assert.Equal(result, $"https://api.twitter.com/1.1/account/verify_credentials.json?skip_status=true&include_entities=true&include_email=true&tweet_mode=extended&hello=world");
         }
-        
+
         // BLOCK
-        
+
         [Fact]
         public void GetBlockedUserIdsQuery_ReturnsExpectedQuery()
         {
@@ -72,7 +72,7 @@ namespace xUnitinvi.ClientActions.AccountsClient
             // Assert
             Assert.Equal(result, $"https://api.twitter.com/1.1/blocks/ids.json?cursor=cursor_id&count=42&hello=world");
         }
-        
+
         [Fact]
         public void GetBlockedUsersQuery_ReturnsExpectedQuery()
         {
@@ -160,7 +160,7 @@ namespace xUnitinvi.ClientActions.AccountsClient
         }
 
         // FOLLOWERS
-        
+
         [Fact]
         public void GetUnFollowUserQuery_ReturnsExpectedQuery()
         {
@@ -222,6 +222,33 @@ namespace xUnitinvi.ClientActions.AccountsClient
 
             // Assert
             Assert.Equal(result, $"https://api.twitter.com/1.1/friendships/incoming.json?count=42&cursor=start_cursor&hello=world");
+        }
+
+        // FRIENDSHIPS
+        [Fact]
+        public void GetRelationshipsWithQuery_ReturnsExpectedQuery()
+        {
+            // Arrange
+            var queryGenerator = CreateAccountQueryGenerator();
+            
+            var users = new IUserIdentifier[]
+            {
+                new UserIdentifier(42),
+                new UserIdentifier(43),
+                new UserIdentifier("tweetinviapi"),
+                new UserIdentifier("tweetinvitest"),
+            };
+
+            var parameters = new GetRelationshipsWithParameters(users)
+            {
+                CustomQueryParameters = { new Tuple<string, string>("hello", "world") }
+            };
+
+            // Act
+            var result = queryGenerator.GetRelationshipsWithQuery(parameters);
+
+            // Assert
+            Assert.Equal(result, $"https://api.twitter.com/1.1/friendships/lookup.json?user_id=42%2C43&screen_name=tweetinviapi%2Ctweetinvitest&hello=world");
         }
     }
 }

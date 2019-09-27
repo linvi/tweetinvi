@@ -3,6 +3,7 @@ using System.Linq;
 using Tweetinvi.Core.Factories;
 using Tweetinvi.Core.Helpers;
 using Tweetinvi.Core.Injectinvi;
+using Tweetinvi.Logic.TwitterEntities;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
 
@@ -71,19 +72,19 @@ namespace Tweetinvi.Factories.Friendship
                 return null;
             }
 
-            var relationshipStateParameter = _unityRelationshipFactory.GenerateParameterOverrideWrapper("relationshipStateDTO", relationshipStateDTO);
-            return _unityRelationshipStateFactory.Create(relationshipStateParameter);
+            return new RelationshipState(relationshipStateDTO);
         }
 
-        public List<IRelationshipState> GenerateRelationshipStatesFromRelationshipStatesDTO(IEnumerable<IRelationshipStateDTO> relationshipStateDTOs)
+        public IRelationshipState[] GenerateRelationshipStatesFromRelationshipStatesDTO(IEnumerable<IRelationshipStateDTO> relationshipStateDTOs)
         {
             if (relationshipStateDTOs == null)
             {
                 return null;
             }
 
-            return relationshipStateDTOs.Select(GenerateRelationshipStateFromRelationshipStateDTO).ToList();
+            return relationshipStateDTOs.Select(GenerateRelationshipStateFromRelationshipStateDTO).ToArray();
         }
+
 
         // Generate RelationshipAuthorizations
         public IFriendshipAuthorizations GenerateFriendshipAuthorizations(bool retweetsEnabled, bool deviceNotificationEnabled)

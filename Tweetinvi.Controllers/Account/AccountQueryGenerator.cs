@@ -27,15 +27,16 @@ namespace Tweetinvi.Controllers.Account
         string GetFollowUserQuery(IFollowUserParameters parameters);
         string GetUnFollowUserQuery(IUnFollowUserParameters parameters);
         string GetUserIdsRequestingFriendshipQuery(IGetUserIdsRequestingFriendshipParameters parameters);
-        
-        
-        
-        
-        
-        
-        
-        
-        
+
+        // FRIENDSHIPS
+        string GetRelationshipsWithQuery(IGetRelationshipsWithParameters parameters);
+
+
+
+
+
+
+
 
         string GetAuthenticatedUserAccountSettingsQuery();
         string GetUpdateAuthenticatedUserAccountSettingsQuery(IAccountSettingsRequestParameters accountSettingsRequestParameters);
@@ -189,21 +190,24 @@ namespace Tweetinvi.Controllers.Account
 
             return query.ToString();
         }
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
+
+        public string GetRelationshipsWithQuery(IGetRelationshipsWithParameters parameters)
+        {
+            var query = new StringBuilder(Resources.Friendship_GetRelationships);
+
+            query.AddFormattedParameterToQuery(_userQueryParameterGenerator.GenerateListOfUserIdentifiersParameter(parameters.Users));
+            query.AddFormattedParameterToQuery(parameters.FormattedCustomQueryParameters);
+
+            return query.ToString();
+        }
+
+
+
+
+
+
+
+
         public string GetAuthenticatedUserAccountSettingsQuery()
         {
             return Resources.Account_GetSettings;

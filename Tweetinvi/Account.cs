@@ -314,33 +314,6 @@ namespace Tweetinvi
         }
 
 
-        // Lookup Relationships
-
-        /// <summary>
-        /// Get the states of relationships you have with a collection of users.
-        /// </summary>
-        public static Task<IEnumerable<IRelationshipState>> GetRelationshipsWith(IEnumerable<IUserIdentifier> targetUserIdentifiers)
-        {
-            return FriendshipController.GetMultipleRelationships(targetUserIdentifiers);
-        }
-
-        /// <summary>
-        /// Get the states of relationships you have with a collection of users.
-        /// </summary>
-        public static Task<IEnumerable<IRelationshipState>> GetRelationshipsWith(IEnumerable<long> targetUserIds)
-        {
-            return FriendshipController.GetMultipleRelationships(targetUserIds);
-        }
-
-        /// <summary>
-        /// Get the states of relationships you have with a collection of users.
-        /// </summary>
-        public static Task<IEnumerable<IRelationshipState>> GetRelationshipsWith(IEnumerable<string> targetUserScreenNames)
-        {
-            return FriendshipController.GetMultipleRelationships(targetUserScreenNames);
-        }
-
-
         // Get User Ids Whose Retweets Are Muted
 
         /// <summary>

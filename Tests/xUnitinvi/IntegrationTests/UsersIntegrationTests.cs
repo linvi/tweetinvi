@@ -47,11 +47,16 @@ namespace xUnitinvi.IntegrationTests
             var friendsBeforeAdd = await client.Users.GetUsers(friendIds);
 
             await client.Account.FollowUser(userToFollow);
+            
             var relationshipAfterAdd = await client.Users.GetRelationshipBetween(authenticatedUser, userToFollow);
+            var relationshipStateAfterAdd = await client.Account.GetRelationshipsWith(new IUserIdentifier[] { userToFollow });
+
             var friendsAfterAdd = await authenticatedUser.GetFriends().MoveToNextPage();
             await client.Account.UnFollowUser(userToFollow);
             var friendsAfterRemove = await authenticatedUser.GetFriends().MoveToNextPage();
+            
             var relationshipAfterRemove = await client.Users.GetRelationshipBetween(authenticatedUser, userToFollow);
+            var relationshipStateAfterRemove = await client.Account.GetRelationshipsWith(new [] { "artwolkt" });
 
             var blockSuccess = await userToFollow.BlockUser();
 
@@ -75,6 +80,9 @@ namespace xUnitinvi.IntegrationTests
 
             Assert.True(relationshipAfterAdd.Following);
             Assert.False(relationshipAfterRemove.Following);
+
+            Assert.True(relationshipStateAfterAdd[userToFollow].Following);
+            Assert.False(relationshipStateAfterRemove["artwolkt"].Following);
 
             Assert.True(blockSuccess);
             Assert.Contains(blockedUsersFromIdsIterator, id => id == userToFollow.Id);

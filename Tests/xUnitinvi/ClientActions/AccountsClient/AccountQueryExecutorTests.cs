@@ -180,6 +180,24 @@ namespace xUnitinvi.ClientActions.AccountsClient
             // Assert
             Assert.Equal(result, expectedResult);
         }
-        
+
+        [Fact]
+        public async Task GetRelationshipsWith_ReturnsRelationships()
+        {
+            // Arrange
+            var queryExecutor = CreateAccountQueryExecutor();
+            var parameters = new GetRelationshipsWithParameters(new long[] { 42 });
+
+            var request = A.Fake<ITwitterRequest>();
+            var expectedResult = A.Fake<ITwitterResult<IRelationshipStateDTO[]>>();
+
+            A.CallTo(() => _fakeTwitterAccessor.ExecuteRequest<IRelationshipStateDTO[]>(request)).Returns(expectedResult);
+
+            // Act
+            var result = await queryExecutor.GetRelationshipsWith(parameters, request);
+
+            // Assert
+            Assert.Equal(result, expectedResult);
+        }
     }
 }

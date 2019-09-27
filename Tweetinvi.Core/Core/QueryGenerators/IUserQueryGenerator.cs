@@ -1,5 +1,4 @@
 ﻿using Tweetinvi.Parameters;
-using Tweetinvi.Public.Parameters.UsersClient;
 
 namespace Tweetinvi.Core.QueryGenerators
 {

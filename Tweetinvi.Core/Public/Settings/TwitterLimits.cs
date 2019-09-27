@@ -6,18 +6,36 @@ namespace Tweetinvi
     {
         public TwitterLimits()
         {
+            Account = new AccountLimits();
             Tweets = new TweetLimits();
             Users = new UserLimits();
         }
 
         public TwitterLimits(TwitterLimits source)
         {
+            Account = new AccountLimits(source?.Account);
             Tweets = new TweetLimits(source?.Tweets);
             Users = new UserLimits(source?.Users);
         }
 
+        public AccountLimits Account { get; }
         public TweetLimits Tweets { get; }
         public UserLimits Users { get; }
+    }
+
+    [SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]
+    public class AccountLimits
+    {
+        public short GetRelationshipsWithMaxSize { get; set; } = 100;
+
+        public AccountLimits()
+        {
+        }
+
+        public AccountLimits(AccountLimits source)
+        {
+            GetRelationshipsWithMaxSize = source.GetRelationshipsWithMaxSize;
+        }
     }
 
     [SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]

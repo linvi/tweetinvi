@@ -31,5 +31,15 @@ namespace Tweetinvi.Models
         public long? Id { get; set; }
         public string IdStr { get; set; }
         public string ScreenName { get; set; }
+
+        public override string ToString()
+        {
+            if (!string.IsNullOrEmpty(ScreenName))
+            {
+                return ScreenName;
+            }
+
+            return Id?.ToString() ?? IdStr;
+        }
     }
 }

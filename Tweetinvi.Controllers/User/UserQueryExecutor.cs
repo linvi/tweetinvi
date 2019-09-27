@@ -8,7 +8,6 @@ using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
 using Tweetinvi.Models.DTO.QueryDTO;
 using Tweetinvi.Parameters;
-using Tweetinvi.Public.Parameters.UsersClient;
 
 namespace Tweetinvi.Controllers.User
 {
@@ -22,6 +21,7 @@ namespace Tweetinvi.Controllers.User
         Task<ITwitterResult<IIdsCursorQueryResultDTO>> GetFriendIds(IGetFriendIdsParameters parameters, ITwitterRequest request);
         Task<ITwitterResult<IIdsCursorQueryResultDTO>> GetFollowerIds(IGetFollowerIdsParameters parameters, ITwitterRequest request);
 
+        // FRIENDSHIPS
         Task<ITwitterResult<IRelationshipDetailsDTO>> GetRelationshipBetween(IGetRelationshipBetweenParameters parameters, ITwitterRequest request);
 
         Task<Stream> GetProfileImageStream(IGetProfileImageParameters parameters, ITwitterRequest request);

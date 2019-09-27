@@ -259,7 +259,7 @@ namespace Tweetinvi.Core.Extensions
                 queryBuilder.Append("?");
             }
 
-            queryBuilder.Append(string.Format("{0}={1}", parameterName, Uri.EscapeDataString(parameterValue)));
+            queryBuilder.Append($"{parameterName}={Uri.EscapeDataString(parameterValue)}");
         }
 
         public static void AddFormattedParameterToQuery(this StringBuilder queryBuilder, string parameter)

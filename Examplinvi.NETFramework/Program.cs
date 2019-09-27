@@ -1364,15 +1364,17 @@ namespace Examplinvi.NETFramework
             var user1 = await Client.Users.GetUser("tweetinviapi");
             var user2 = await Client.Users.GetUser(USER_SCREEN_NAME_TO_TEST);
 
-            var userList = new List<IUser>
+            var users = new List<IUser>
             {
                 user1,
                 user2
             };
 
-            var relationships = await Account.GetRelationshipsWith(userList);
-            foreach (var relationship in relationships)
+            var relationships = await Client.Account.GetRelationshipsWith(users.ToArray());
+
+            foreach (var user in users)
             {
+                var relationship = relationships[user];
                 Console.WriteLine("You are{0} following {1}", relationship.Following ? "" : " not", relationship.TargetScreenName);
                 Console.WriteLine("You are{0} being followed by {1}", relationship.FollowedBy ? "" : " not", relationship.TargetScreenName);
                 Console.WriteLine();

@@ -1,10 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Tweetinvi.Core.Iterators;
-using Tweetinvi.Core.Web;
 using Tweetinvi.Models;
-using Tweetinvi.Models.DTO.QueryDTO;
-using Tweetinvi.Parameters;
 
 namespace Tweetinvi.Core.Controllers
 {
@@ -20,12 +16,6 @@ namespace Tweetinvi.Core.Controllers
         Task<bool> UpdateRelationshipAuthorizationsWith(long userId, bool retweetsEnabled, bool deviceNotificationEnabled);
         Task<bool> UpdateRelationshipAuthorizationsWith(string userScreenName, bool retweetsEnabled, bool deviceNotificationEnabled);
 
-        // Get Relationships between the current user and a list of users
-        Task<Dictionary<IUser, IRelationshipState>> GetRelationshipStatesAssociatedWith(IEnumerable<IUser> targetUsers);
-
-        Task<IEnumerable<IRelationshipState>> GetMultipleRelationships(IEnumerable<IUserIdentifier> targetUserIdentifiers);
-        Task<IEnumerable<IRelationshipState>> GetMultipleRelationships(IEnumerable<long> targetUsersId);
-        Task<IEnumerable<IRelationshipState>> GetMultipleRelationships(IEnumerable<string> targetUsersScreenName);
 
         // Retweet Muted Friends
         Task<long[]> GetUserIdsWhoseRetweetsAreMuted();

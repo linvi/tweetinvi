@@ -100,9 +100,9 @@ namespace Tweetinvi.Controllers.Properties
         public static string Friendship_GetRelationship = "https://api.twitter.com/1.1/friendships/show.json?";
 
         /// <summary>
-        ///   Looks up a localized string similar to https://api.twitter.com/1.1/friendships/lookup.json?{0}.
+        ///   Looks up a localized string similar to https://api.twitter.com/1.1/friendships/lookup.json?.
         /// </summary>
-        public static string Friendship_GetRelationships = "https://api.twitter.com/1.1/friendships/lookup.json?{0}";
+        public static string Friendship_GetRelationships = "https://api.twitter.com/1.1/friendships/lookup.json?";
 
         /// <summary>
         ///   Looks up a localized string similar to https://api.twitter.com/1.1/friendships/update.json?retweets={0}&amp;device={1}&amp;{2}.

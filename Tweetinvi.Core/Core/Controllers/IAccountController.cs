@@ -26,13 +26,16 @@ namespace Tweetinvi.Core.Controllers
         ITwitterPageIterator<ITwitterResult<IIdsCursorQueryResultDTO>> GetBlockedUserIds(IGetBlockedUserIdsParameters parameters, ITwitterRequest request);
         ITwitterPageIterator<ITwitterResult<IUserCursorQueryResultDTO>> GetBlockedUsers(IGetBlockedUsersParameters parameters, ITwitterRequest request);
 
-        
-        
-        
-        
-        
-        
-        
+        // FRIENDSHIPS
+        Task<ITwitterResult<IRelationshipStateDTO[]>> GetRelationshipsWith(IGetRelationshipsWithParameters parameters, ITwitterRequest request);
+
+
+
+
+
+
+
+
         Task<IAccountSettings> GetAuthenticatedUserSettings();
 
         Task<IAccountSettings> UpdateAuthenticatedUserSettings(

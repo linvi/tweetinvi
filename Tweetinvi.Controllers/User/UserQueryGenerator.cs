@@ -6,7 +6,6 @@ using Tweetinvi.Core.Extensions;
 using Tweetinvi.Core.QueryGenerators;
 using Tweetinvi.Core.QueryValidators;
 using Tweetinvi.Parameters;
-using Tweetinvi.Public.Parameters.UsersClient;
 
 namespace Tweetinvi.Controllers.User
 {

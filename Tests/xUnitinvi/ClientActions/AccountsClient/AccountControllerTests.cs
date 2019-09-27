@@ -204,5 +204,24 @@ namespace xUnitinvi.ClientActions.AccountsClient
 
             await Assert.ThrowsAsync<TwitterIteratorAlreadyCompletedException>(() => result.MoveToNextPage());
         }
+
+        [Fact]
+        public async Task GetRelationshipsWith_ReturnsFromUserQueryExecutor()
+        {
+            // Arrange
+            var controller = CreateAccountController();
+
+            var parameters = new GetRelationshipsWithParameters(new long[] { 42 });
+            var request = A.Fake<ITwitterRequest>();
+            var expectedResult = A.Fake<ITwitterResult<IRelationshipStateDTO[]>>();
+
+            A.CallTo(() => _fakeAccountQueryExecutor.GetRelationshipsWith(parameters, request)).Returns(expectedResult);
+
+            // Act
+            var result = await controller.GetRelationshipsWith(parameters, request);
+
+            // Assert
+            Assert.Equal(result, expectedResult);
+        }
     }
 }

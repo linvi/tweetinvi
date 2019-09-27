@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Threading.Tasks;
 using Tweetinvi.Client.Requesters;
 using Tweetinvi.Core.Factories;
@@ -18,6 +19,7 @@ namespace Tweetinvi.Client
         private readonly TwitterClient _client;
         private readonly IAccountsRequester _accountsRequester;
         private readonly IUserFactory _userFactory;
+        private readonly IFriendshipFactory _friendshipFactory;
         private readonly IMultiLevelCursorIteratorFactory _multiLevelCursorIteratorFactory;
 
         public AccountClient(TwitterClient client)
@@ -26,6 +28,7 @@ namespace Tweetinvi.Client
             _accountsRequester = client.RequestExecutor.Accounts;
 
             _userFactory = TweetinviContainer.Resolve<IUserFactory>();
+            _friendshipFactory = TweetinviContainer.Resolve<IFriendshipFactory>();
             _multiLevelCursorIteratorFactory = TweetinviContainer.Resolve<IMultiLevelCursorIteratorFactory>();
         }
 
@@ -236,6 +239,51 @@ namespace Tweetinvi.Client
             var iterator = _accountsRequester.GetUserIdsRequestingFriendship(parameters);
             var maxPageSize = parameters.GetUsersPageSize;
             return _multiLevelCursorIteratorFactory.CreateUserMultiLevelIterator(_client, iterator, maxPageSize);
+        }
+
+        #endregion
+
+        #region Relationships With
+
+        public Task<IUserDictionary<IRelationshipState>> GetRelationshipsWith(long[] userIds)
+        {
+            return GetRelationshipsWith(new GetRelationshipsWithParameters(userIds));
+        }
+
+        public Task<IUserDictionary<IRelationshipState>> GetRelationshipsWith(long?[] userIds)
+        {
+            return GetRelationshipsWith(new GetRelationshipsWithParameters(userIds));
+        }
+
+        public Task<IUserDictionary<IRelationshipState>> GetRelationshipsWith(string[] usernames)
+        {
+            return GetRelationshipsWith(new GetRelationshipsWithParameters(usernames));
+        }
+
+        public Task<IUserDictionary<IRelationshipState>> GetRelationshipsWith(IUserIdentifier[] users)
+        {
+            return GetRelationshipsWith(new GetRelationshipsWithParameters(users));
+        }
+
+        public Task<IUserDictionary<IRelationshipState>> GetRelationshipsWith(IUser[] users)
+        {
+            return GetRelationshipsWith(new GetRelationshipsWithParameters(users));
+        }
+
+        public async Task<IUserDictionary<IRelationshipState>> GetRelationshipsWith(IGetRelationshipsWithParameters parameters)
+        {
+            var twitterResult = await _accountsRequester.GetRelationshipsWith(parameters);
+            var relationshipsWith = twitterResult.Result;
+
+            var userRelationshipState = new UserDictionary<IRelationshipState>();
+
+            foreach (var user in parameters.Users)
+            {
+                var userRelationship = relationshipsWith.First(x => x.TargetId == user.Id || x.TargetScreenName == user.ScreenName);
+                userRelationshipState.AddOrUpdate(user, userRelationship);
+            }
+
+            return userRelationshipState;
         }
 
         #endregion

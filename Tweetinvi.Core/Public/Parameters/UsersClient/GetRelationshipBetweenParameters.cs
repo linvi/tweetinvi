@@ -1,7 +1,6 @@
 ﻿using Tweetinvi.Models;
-using Tweetinvi.Parameters;
 
-namespace Tweetinvi.Public.Parameters.UsersClient
+namespace Tweetinvi.Parameters
 {
     /// <summary>
     /// For more information visit : https://dev.twitter.com/en/docs/accounts-and-users/follow-search-get-users/api-reference/get-friendships-show

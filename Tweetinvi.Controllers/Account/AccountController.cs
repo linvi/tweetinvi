@@ -131,11 +131,13 @@ namespace Tweetinvi.Controllers.Account
 
             return twitterCursorResult;
         }
-        
-        
-        
-        
-        
+
+        public Task<ITwitterResult<IRelationshipStateDTO[]>> GetRelationshipsWith(IGetRelationshipsWithParameters parameters, ITwitterRequest request)
+        {
+            return _accountQueryExecutor.GetRelationshipsWith(parameters, request);
+        }
+
+
 
 
         public async Task<IAccountSettings> GetAuthenticatedUserSettings()

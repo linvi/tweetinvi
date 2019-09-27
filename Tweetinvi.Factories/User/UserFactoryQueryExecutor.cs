@@ -59,7 +59,7 @@ namespace Tweetinvi.Factories.User
                 throw new InvalidOperationException("Cannot retrieve that quantity of users at once");
             }
 
-            var userIdsParameter = _userQueryParameterGenerator.GenerateListOfIdsParameter(userIds);
+            var userIdsParameter = _userQueryParameterGenerator.GenerateListOfIdsParameter(userIds.ToArray());
             var query = string.Format(Resources.User_GetUsersFromIds, userIdsParameter);
 
             return _twitterAccessor.ExecutePOSTQuery<List<IUserDTO>>(query);

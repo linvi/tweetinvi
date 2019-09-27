@@ -4,7 +4,6 @@ using Tweetinvi.Iterators;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
 using Tweetinvi.Parameters;
-using Tweetinvi.Public.Parameters.UsersClient;
 
 namespace Tweetinvi.Client
 {

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Tweetinvi.Core.Extensions;
 using Tweetinvi.Core.Web;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
@@ -26,15 +25,16 @@ namespace Tweetinvi.Controllers.Account
         Task<ITwitterResult<IUserDTO>> UnFollowUser(IUnFollowUserParameters parameters, ITwitterRequest request);
         Task<ITwitterResult<IIdsCursorQueryResultDTO>> GetUserIdsRequestingFriendship(IGetUserIdsRequestingFriendshipParameters parameters, ITwitterRequest request);
 
-        
-        
-        
-        
-        
-        
-        
-        
-        
+        // FRIENDSHIPS
+        Task<ITwitterResult<IRelationshipStateDTO[]>> GetRelationshipsWith(IGetRelationshipsWithParameters parameters, ITwitterRequest request);
+
+
+
+
+
+
+
+
         Task<IAccountSettingsDTO> GetAuthenticatedUserAccountSettings();
         Task<IAccountSettingsDTO> UpdateAuthenticatedUserSettings(IAccountSettingsRequestParameters accountSettingsRequestParameters);
 
@@ -152,17 +152,6 @@ namespace Tweetinvi.Controllers.Account
             return _twitterAccessor.ExecuteRequest<IUserDTO>(request);
         }
         
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
         public Task<ITwitterResult<IIdsCursorQueryResultDTO>> GetUserIdsRequestingFriendship(IGetUserIdsRequestingFriendshipParameters parameters, ITwitterRequest request)
         {
             var query = _accountQueryGenerator.GetUserIdsRequestingFriendshipQuery(parameters);
@@ -172,7 +161,34 @@ namespace Tweetinvi.Controllers.Account
 
             return _twitterAccessor.ExecuteRequest<IIdsCursorQueryResultDTO>(request);
         }
-        
+
+        // FRIENDSHIPS
+        public Task<ITwitterResult<IRelationshipStateDTO[]>> GetRelationshipsWith(IGetRelationshipsWithParameters parameters, ITwitterRequest request)
+        {
+            if (parameters.Users.Length > request.ExecutionContext.Limits.Users.GetUsersMaxSize)
+            {
+                throw new ArgumentException($"{nameof(parameters)}.${nameof(parameters.Users)}");
+            }
+
+            var query = _accountQueryGenerator.GetRelationshipsWithQuery(parameters);
+
+            request.Query.Url = query;
+            request.Query.HttpMethod = HttpMethod.GET;
+
+            return _twitterAccessor.ExecuteRequest<IRelationshipStateDTO[]>(request);
+        }
+
+
+
+
+
+
+
+
+
+
+
+
         public Task<IAccountSettingsDTO> GetAuthenticatedUserAccountSettings()
         {
             var query = _accountQueryGenerator.GetAuthenticatedUserAccountSettingsQuery();

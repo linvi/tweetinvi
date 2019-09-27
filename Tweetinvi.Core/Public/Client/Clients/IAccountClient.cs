@@ -157,5 +157,27 @@ namespace Tweetinvi.Client
         IMultiLevelCursorIterator<long, IUser> GetUsersRequestingFriendship(IGetUsersRequestingFriendshipParameters parameters);
 
         #endregion
+
+        #region Relationships With
+
+        /// <inheritdoc cref="GetRelationshipsWith(IGetRelationshipsWithParameters)" />
+        Task<IUserDictionary<IRelationshipState>> GetRelationshipsWith(long[] userIds);
+        /// <inheritdoc cref="GetRelationshipsWith(IGetRelationshipsWithParameters)" />
+        Task<IUserDictionary<IRelationshipState>> GetRelationshipsWith(long?[] userIds);
+        /// <inheritdoc cref="GetRelationshipsWith(IGetRelationshipsWithParameters)" />
+        Task<IUserDictionary<IRelationshipState>> GetRelationshipsWith(string[] usernames);
+        /// <inheritdoc cref="GetRelationshipsWith(IGetRelationshipsWithParameters)" />
+        Task<IUserDictionary<IRelationshipState>> GetRelationshipsWith(IUserIdentifier[] users);
+        /// <inheritdoc cref="GetRelationshipsWith(IGetRelationshipsWithParameters)" />
+        Task<IUserDictionary<IRelationshipState>> GetRelationshipsWith(IUser[] users);
+
+        /// <summary>
+        /// Get the relationships between the account's user and multiple users
+        /// <para>Read more : https://dev.twitter.com/en/docs/accounts-and-users/follow-search-get-users/api-reference/get-friendships-lookup </para>
+        /// </summary>
+        /// <returns>Returns a dictionary of user and their relationship with the client's user</returns>
+        Task<IUserDictionary<IRelationshipState>> GetRelationshipsWith(IGetRelationshipsWithParameters parameters);
+
+        #endregion
     }
 }

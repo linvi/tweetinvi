@@ -83,93 +83,99 @@ namespace Tweetinvi.Controllers.User
             return GenerateScreenNameParameter(user.ScreenName, screenNameParameterName);
         }
 
+        public string GenerateUserNamesParameter(IUserIdentifier[] users)
+        {
+            return GenerateListOfScreenNameParameter(users.Select(x => x.ScreenName).ToArray());
+        }
+
+        public string GenerateUserIdsParameter(IUserIdentifier[] users)
+        {
+            return GenerateListOfUserIds(users.Select(x => x.Id).ToArray());
+        }
+
+
+        public string GenerateListOfScreenNameParameter(string[] screenNames)
+        {
+            if (screenNames == null || screenNames.Length == 0)
+            {
+                return null;
+            }
+
+            return string.Join("%2C", screenNames.Where(x => x != null));
+        }
+
+        public string GenerateListOfUserIds(IEnumerable<long?> ids)
+        {
+            return string.Join("%2C", ids.Where(x => x != null).Select(x => x.ToString()));
+        }
+
+        public string GenerateListOfIdsParameter(long?[] ids)
+        {
+            return GenerateListOfIdsParameter(ids.Where(x => x != null).Cast<long>().ToArray());
+        }
+
+        public string GenerateListOfIdsParameter(long[] ids)
+        {
+            if (ids == null || ids.Length == 0)
+            {
+                return null;
+            }
+
+            return string.Join("%2C", ids.Select(x => x.ToString()));
+        }
+
         public string GenerateListOfUserIdentifiersParameter(IEnumerable<IUserIdentifier> usersIdentifiers)
         {
             if (usersIdentifiers == null)
             {
-                throw new ArgumentNullException("User identifiers cannot be null.");
+                throw new ArgumentNullException(nameof(usersIdentifiers));
             }
 
-            var usersList = usersIdentifiers.ToList();
+            var usersList = usersIdentifiers.ToArray();
+
             if (usersList.Any(user => user.Id == TweetinviSettings.DEFAULT_ID && string.IsNullOrEmpty(user.ScreenName)))
             {
                 throw new ArgumentException("At least 1 valid user identifier is required.");
             }
 
-            const string initialUserId = "user_id=";
-            const string initialScreenName = "&screen_name=";
+            var userIds = new List<long?>();
+            var usernames = new List<string>();
 
-            StringBuilder idsBuilder = new StringBuilder(initialUserId);
-            StringBuilder screeNameBuilder = new StringBuilder(initialScreenName);
-
-            for (int i = 0; i < usersList.Count - 1; ++i)
+            usersList.ForEach(user =>
             {
-                var userDTO = usersList[i];
-
-                if (userDTO.Id != TweetinviSettings.DEFAULT_ID)
+                if (user.Id != null && user.Id != TweetinviSettings.DEFAULT_ID)
                 {
-                    idsBuilder.Append($"{userDTO.Id}%2C");
+                    userIds.Add(user.Id);
                 }
-                else
+                else if (user.ScreenName != null)
                 {
-                    screeNameBuilder.Append($"{userDTO.ScreenName}%2C");
+                    usernames.Add(user.ScreenName);
+                }
+            });
+
+            var parameterBuilder = new StringBuilder();
+
+            if (userIds.Count == 0 && usernames.Count == 0)
+            {
+                return null;
+            }
+
+            if (userIds.Count > 0)
+            {
+                parameterBuilder.Append($"user_id={GenerateListOfIdsParameter(userIds.ToArray())}");
+
+                if (usernames.Count > 0)
+                {
+                    parameterBuilder.Append("&");
                 }
             }
 
-            // Last element does not have a comma
-            if (usersList[usersList.Count - 1].Id != -1)
+            if (usernames.Count > 0)
             {
-                idsBuilder.Append(usersList[usersList.Count - 1].Id);
-            }
-            else
-            {
-                screeNameBuilder.Append(usersList[usersList.Count - 1].ScreenName);
+                parameterBuilder.Append($"screen_name={GenerateListOfScreenNameParameter(usernames.ToArray())}");
             }
 
-            // Only ids
-            if (idsBuilder.ToString() == initialUserId)
-            {
-                return screeNameBuilder.ToString();
-            }
-
-            // Only screenames
-            if (screeNameBuilder.ToString() == initialScreenName)
-            {
-                return idsBuilder.ToString();
-            }
-
-            // Both
-            return idsBuilder.Append(screeNameBuilder).ToString();
-        }
-
-        public string GenerateListOfIdsParameter(IEnumerable<long> ids)
-        {
-            var idsList = ids.ToList();
-            StringBuilder builder = new StringBuilder();
-
-            for (int i = 0; i < idsList.Count - 1; ++i)
-            {
-                builder.Append(string.Format("{0}%2C", idsList[i]));
-            }
-
-            builder.Append(idsList.ElementAt(idsList.Count - 1));
-
-            return builder.ToString();
-        }
-
-        public string GenerateListOfScreenNameParameter(IEnumerable<string> screenNames)
-        {
-            var screenNamesList = screenNames.ToList();
-            StringBuilder builder = new StringBuilder();
-
-            for (int i = 0; i < screenNamesList.Count - 1; ++i)
-            {
-                builder.Append(string.Format("{0}%2C", screenNamesList.ElementAt(i)));
-            }
-
-            builder.Append(screenNamesList.ElementAt(screenNamesList.Count - 1));
-
-            return builder.ToString();
+            return parameterBuilder.ToString();
         }
     }
 }

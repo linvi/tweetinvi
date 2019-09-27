@@ -1,5 +1,4 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using System.Threading.Tasks;
 using Tweetinvi.Core.Controllers;
 using Tweetinvi.Core.Factories;
@@ -9,7 +8,6 @@ using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
 using Tweetinvi.Models.DTO.QueryDTO;
 using Tweetinvi.Parameters;
-using Tweetinvi.Public.Parameters.UsersClient;
 
 namespace Tweetinvi.Controllers.User
 {

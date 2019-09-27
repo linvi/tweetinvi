@@ -9,7 +9,6 @@ using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
 using Tweetinvi.Models.DTO.QueryDTO;
 using Tweetinvi.Parameters;
-using Tweetinvi.Public.Parameters.UsersClient;
 
 // ReSharper disable MemberCanBePrivate.Global
 
