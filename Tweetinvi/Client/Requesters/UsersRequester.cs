@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Tweetinvi.Core.Controllers;
 using Tweetinvi.Core.Extensions;
+using Tweetinvi.Core.Factories;
 using Tweetinvi.Core.Iterators;
 using Tweetinvi.Core.Web;
 using Tweetinvi.Credentials.QueryJsonConverters;
@@ -8,6 +9,7 @@ using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
 using Tweetinvi.Models.DTO.QueryDTO;
 using Tweetinvi.Parameters;
+using Tweetinvi.Public.Parameters.UsersClient;
 
 namespace Tweetinvi.Client.Requesters
 {
@@ -15,14 +17,20 @@ namespace Tweetinvi.Client.Requesters
     {
     }
 
-    
     public class UsersRequester : BaseRequester, IInternalUsersRequester
     {
         private readonly IUserController _userController;
+        private readonly ITwitterResultFactory _twitterResultFactory;
+        private readonly IFriendshipFactory _friendshipFactory;
 
-        public UsersRequester(IUserController userController)
+        public UsersRequester(
+            IUserController userController, 
+            ITwitterResultFactory twitterResultFactory, 
+            IFriendshipFactory friendshipFactory)
         {
             _userController = userController;
+            _twitterResultFactory = twitterResultFactory;
+            _friendshipFactory = friendshipFactory;
         }
 
         public async Task<ITwitterResult<IUserDTO, IUser>> GetUser(IGetUserParameters parameters)
@@ -64,7 +72,15 @@ namespace Tweetinvi.Client.Requesters
             request.ExecutionContext.Converters = JsonQueryConverterRepository.Converters;
             return _userController.GetFollowerIds(parameters, request);
         }
-        
+
+        public async Task<ITwitterResult<IRelationshipDetailsDTO, IRelationshipDetails>> GetRelationshipBetween(IGetRelationshipBetweenParameters parameters)
+        {
+            var request = _twitterClient.CreateRequest();
+            var result = await ExecuteRequest(() => _userController.GetRelationshipBetween(parameters, request), request).ConfigureAwait(false);
+
+            return _twitterResultFactory.Create(result, _friendshipFactory.GenerateRelationshipFromRelationshipDTO);
+        }
+
         public Task<System.IO.Stream> GetProfileImageStream(IGetProfileImageParameters parameters)
         {
             var request = _twitterClient.CreateRequest();

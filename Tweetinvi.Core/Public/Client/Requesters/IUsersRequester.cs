@@ -5,6 +5,7 @@ using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
 using Tweetinvi.Models.DTO.QueryDTO;
 using Tweetinvi.Parameters;
+using Tweetinvi.Public.Parameters.UsersClient;
 
 namespace Tweetinvi.Client.Requesters
 {
@@ -38,7 +39,11 @@ namespace Tweetinvi.Client.Requesters
         /// <returns>TwitterCursorResult to iterate over all the user's friends</returns>
         ITwitterPageIterator<ITwitterResult<IIdsCursorQueryResultDTO>> GetFollowerIds(IGetFollowerIdsParameters parameters);
 
-        
+        /// <summary>
+        /// Get relationship information between 2 users.
+        /// </summary>
+        /// <returns>Returns detailed information about the relationship between two arbitrary users</returns>
+        Task<ITwitterResult<IRelationshipDetailsDTO, IRelationshipDetails>> GetRelationshipBetween(IGetRelationshipBetweenParameters parameters);
 
         /// <summary>
         /// Get the profile image of a user

@@ -97,12 +97,22 @@ namespace Tweetinvi.Client
         /// </summary>
         /// <returns>Whether the operation was a success</returns>
         Task<bool> UnRetweet(long retweetId);
-        
-        
+
+
+        /// <inheritdoc cref="GetFavoriteTweets(IGetFavoriteTweetsParameters)" />
         ITwitterIterator<ITweet, long?> GetFavoriteTweets(long? userId);
+
+        /// <inheritdoc cref="GetFavoriteTweets(IGetFavoriteTweetsParameters)" />
         ITwitterIterator<ITweet, long?> GetFavoriteTweets(string username);
+
+        /// <inheritdoc cref="GetFavoriteTweets(IGetFavoriteTweetsParameters)" />
         ITwitterIterator<ITweet, long?> GetFavoriteTweets(IUserIdentifier user);
-        
+
+        /// <summary>
+        /// Get favorite tweets of a user
+        /// <para>Read more : https://dev.twitter.com/en/docs/tweets/post-and-engage/api-reference/get-favorites-list </para>
+        /// </summary>
+        /// <returns>An iterator to list the favorite tweets</returns>
         ITwitterIterator<ITweet, long?> GetFavoriteTweets(IGetFavoriteTweetsParameters parameters);
     }
 }

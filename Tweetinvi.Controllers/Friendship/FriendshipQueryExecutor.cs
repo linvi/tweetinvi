@@ -20,8 +20,6 @@ namespace Tweetinvi.Controllers.Friendship
         // Update Friendship Authorization
         Task<bool> UpdateRelationshipAuthorizationsWith(IUserIdentifier user, IFriendshipAuthorizations friendshipAuthorizations);
 
-        // Get Existing Relationship
-        Task<IRelationshipDetailsDTO> GetRelationshipBetween(IUserIdentifier sourceUserIdentifier, IUserIdentifier targetUserIdentifier);
 
         // Get Multiple Relationships
         Task<IEnumerable<IRelationshipStateDTO>> GetMultipleRelationshipsQuery(IEnumerable<IUserIdentifier> targetUserIdentifiers);
@@ -47,8 +45,6 @@ namespace Tweetinvi.Controllers.Friendship
         }
 
 
-       
-
         public Task<IEnumerable<long>> GetUserIdsYouRequestedToFollow(int maximumUserIdsToRetrieve)
         {
             string query = _friendshipQueryGenerator.GetUserIdsYouRequestedToFollowQuery();
@@ -73,13 +69,6 @@ namespace Tweetinvi.Controllers.Friendship
             var asyncOeration = await _twitterAccessor.TryExecutePOSTQuery(query);
 
             return asyncOeration.Success;
-        }
-
-        // Relationship Between
-        public Task<IRelationshipDetailsDTO> GetRelationshipBetween(IUserIdentifier sourceUserIdentifier, IUserIdentifier targetUserIdentifier)
-        {
-            var query = _friendshipQueryGenerator.GetRelationshipDetailsQuery(sourceUserIdentifier, targetUserIdentifier);
-            return _twitterAccessor.ExecuteGETQuery<IRelationshipDetailsDTO>(query);
         }
 
         // Get Relationship with

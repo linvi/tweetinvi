@@ -9,6 +9,7 @@ using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
 using Tweetinvi.Models.DTO.QueryDTO;
 using Tweetinvi.Parameters;
+using Tweetinvi.Public.Parameters.UsersClient;
 
 // ReSharper disable MemberCanBePrivate.Global
 
@@ -82,6 +83,61 @@ namespace Tweetinvi.Client
 
         #endregion
 
+        #region Relationship Between Users
+
+        public Task<IRelationshipDetails> GetRelationshipBetween(long? sourceUserId, long? targetUserId)
+        {
+            return GetRelationshipBetween(new GetRelationshipBetweenParameters(sourceUserId, targetUserId));
+        }
+
+        public Task<IRelationshipDetails> GetRelationshipBetween(long? sourceUserId, string targetUsername)
+        {
+            return GetRelationshipBetween(new GetRelationshipBetweenParameters(sourceUserId, targetUsername));
+        }
+
+        public Task<IRelationshipDetails> GetRelationshipBetween(long? sourceUserId, IUserIdentifier targetUser)
+        {
+            return GetRelationshipBetween(new GetRelationshipBetweenParameters(sourceUserId, targetUser));
+        }
+
+        public Task<IRelationshipDetails> GetRelationshipBetween(string sourceUsername, long? targetUserId)
+        {
+            return GetRelationshipBetween(new GetRelationshipBetweenParameters(sourceUsername, targetUserId));
+        }
+
+        public Task<IRelationshipDetails> GetRelationshipBetween(string sourceUsername, string targetUsername)
+        {
+            return GetRelationshipBetween(new GetRelationshipBetweenParameters(sourceUsername, targetUsername));
+        }
+
+        public Task<IRelationshipDetails> GetRelationshipBetween(string sourceUsername, IUserIdentifier targetUser)
+        {
+            return GetRelationshipBetween(new GetRelationshipBetweenParameters(sourceUsername, targetUser));
+        }
+
+        public Task<IRelationshipDetails> GetRelationshipBetween(IUserIdentifier sourceUser, long? targetUserId)
+        {
+            return GetRelationshipBetween(new GetRelationshipBetweenParameters(sourceUser, targetUserId));
+        }
+
+        public Task<IRelationshipDetails> GetRelationshipBetween(IUserIdentifier sourceUser, string targetUsername)
+        {
+            return GetRelationshipBetween(new GetRelationshipBetweenParameters(sourceUser, targetUsername));
+        }
+
+        public Task<IRelationshipDetails> GetRelationshipBetween(IUserIdentifier sourceUser, IUserIdentifier targetUser)
+        {
+            return GetRelationshipBetween(new GetRelationshipBetweenParameters(sourceUser, targetUser));
+        }
+
+        public async Task<IRelationshipDetails> GetRelationshipBetween(IGetRelationshipBetweenParameters parameters)
+        {
+            var relationshipTwitterResult = await _usersRequester.GetRelationshipBetween(parameters);
+            return relationshipTwitterResult?.Result;
+        }
+
+        #endregion
+
         #region GetFriends
 
         public ITwitterIterator<long> GetFriendIds(string username)
@@ -126,7 +182,7 @@ namespace Tweetinvi.Client
             return GetFollowerIds(parameters);
         }
 
-        public ITwitterIterator<long> GetFollowerIds(long userId)
+        public ITwitterIterator<long> GetFollowerIds(long? userId)
         {
             var parameters = new GetFollowerIdsParameters(userId);
             return GetFollowerIds(parameters);

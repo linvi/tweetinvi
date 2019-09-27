@@ -291,13 +291,13 @@ namespace Tweetinvi.Controllers.Account
         public async Task<IEnumerable<IUser>> GetSuggestedUsers(string slug, Language? language)
         {
             var userDTOs = await _accountQueryExecutor.GetSuggestedUsers(slug, language);
-            return _userFactory.GenerateUsersFromDTO(userDTOs);
+            return _userFactory.GenerateUsersFromDTO(userDTOs, null);
         }
 
         public async Task<IEnumerable<IUser>> GetSuggestedUsersWithTheirLatestTweet(string slug)
         {
             var userDTOs = await _accountQueryExecutor.GetSuggestedUsersWithTheirLatestTweet(slug);
-            return _userFactory.GenerateUsersFromDTO(userDTOs);
+            return _userFactory.GenerateUsersFromDTO(userDTOs, null);
         }
     }
 }

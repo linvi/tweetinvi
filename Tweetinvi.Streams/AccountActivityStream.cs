@@ -200,7 +200,7 @@ namespace Tweetinvi.Streams
             favouriteEventDTOs.ForEach(favouriteEventDTO =>
             {
                 var tweet = _tweetFactory.GenerateTweetFromDTO(favouriteEventDTO.FavouritedTweet, null, null);
-                var user = _userFactory.GenerateUserFromDTO(favouriteEventDTO.User);
+                var user = _userFactory.GenerateUserFromDTO(favouriteEventDTO.User, null);
 
                 var accountActivityEvent = new AccountActivityEvent<Tuple<ITweet, IUser>>(new Tuple<ITweet, IUser>(tweet, user))
                 {
@@ -228,8 +228,8 @@ namespace Tweetinvi.Streams
 
             followedUsersEvents.ForEach(followedUsersEvent =>
             {
-                var sourceUser = _userFactory.GenerateUserFromDTO(followedUsersEvent.Source);
-                var targetUser = _userFactory.GenerateUserFromDTO(followedUsersEvent.Target);
+                var sourceUser = _userFactory.GenerateUserFromDTO(followedUsersEvent.Source, null);
+                var targetUser = _userFactory.GenerateUserFromDTO(followedUsersEvent.Target, null);
 
                 var timestamp = long.Parse(followedUsersEvent.CreatedTimestamp);
                 var dateOffset = DateTimeOffset.FromUnixTimeMilliseconds(timestamp);
@@ -278,8 +278,8 @@ namespace Tweetinvi.Streams
 
             blockedEventInfos.ForEach(blockedEventInfo =>
             {
-                var sourceUser = _userFactory.GenerateUserFromDTO(blockedEventInfo.Source);
-                var targetUser = _userFactory.GenerateUserFromDTO(blockedEventInfo.Target);
+                var sourceUser = _userFactory.GenerateUserFromDTO(blockedEventInfo.Source, null);
+                var targetUser = _userFactory.GenerateUserFromDTO(blockedEventInfo.Target, null);
 
                 var timestamp = long.Parse(blockedEventInfo.CreatedTimestamp);
                 var dateOffset = DateTimeOffset.FromUnixTimeMilliseconds(timestamp);
@@ -328,8 +328,8 @@ namespace Tweetinvi.Streams
 
             mutedEventInfos.ForEach(mutedEventInfo =>
             {
-                var sourceUser = _userFactory.GenerateUserFromDTO(mutedEventInfo.Source);
-                var targetUser = _userFactory.GenerateUserFromDTO(mutedEventInfo.Target);
+                var sourceUser = _userFactory.GenerateUserFromDTO(mutedEventInfo.Source, null);
+                var targetUser = _userFactory.GenerateUserFromDTO(mutedEventInfo.Target, null);
 
                 var timestamp = long.Parse(mutedEventInfo.CreatedTimestamp);
                 var dateOffset = DateTimeOffset.FromUnixTimeMilliseconds(timestamp);
@@ -420,8 +420,8 @@ namespace Tweetinvi.Streams
                 eventInfo.UsersById.TryGetValue(messageEventDTO.MessageCreate.SenderId.ToString(), out var senderDTO);
                 eventInfo.UsersById.TryGetValue(messageEventDTO.MessageCreate.Target.RecipientId.ToString(), out var recipientDTO);
 
-                var sender = _userFactory.GenerateUserFromDTO(senderDTO);
-                var recipient = _userFactory.GenerateUserFromDTO(recipientDTO);
+                var sender = _userFactory.GenerateUserFromDTO(senderDTO, null);
+                var recipient = _userFactory.GenerateUserFromDTO(recipientDTO, null);
 
                 var message = _messageFactory.GenerateMessageFromEventDTO(messageEventDTO, app);
 
@@ -476,8 +476,8 @@ namespace Tweetinvi.Streams
                 events.UsersById.TryGetValue(typingEvent.SenderId.ToString(), out var senderDTO);
                 events.UsersById.TryGetValue(typingEvent.Target.RecipientId.ToString(), out var recipientDTO);
 
-                var sender = _userFactory.GenerateUserFromDTO(senderDTO);
-                var recipient = _userFactory.GenerateUserFromDTO(recipientDTO);
+                var sender = _userFactory.GenerateUserFromDTO(senderDTO, null);
+                var recipient = _userFactory.GenerateUserFromDTO(recipientDTO, null);
 
                 var eventArgs = new AccountActivityUserIsTypingMessageEventArgs(activityEvent, sender, recipient);
 
@@ -507,8 +507,8 @@ namespace Tweetinvi.Streams
                 events.UsersById.TryGetValue(messageConversationReadEvent.SenderId.ToString(), out var senderDTO);
                 events.UsersById.TryGetValue(messageConversationReadEvent.Target.RecipientId.ToString(), out var recipientDTO);
 
-                var sender = _userFactory.GenerateUserFromDTO(senderDTO);
-                var recipient = _userFactory.GenerateUserFromDTO(recipientDTO);
+                var sender = _userFactory.GenerateUserFromDTO(senderDTO, null);
+                var recipient = _userFactory.GenerateUserFromDTO(recipientDTO, null);
 
                 var eventArgs = new AccountActivityUserReadMessageConversationEventArgs(activityEvent, sender, recipient, messageConversationReadEvent.LastReadEventId);
 

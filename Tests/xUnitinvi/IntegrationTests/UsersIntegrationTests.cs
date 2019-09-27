@@ -40,41 +40,45 @@ namespace xUnitinvi.IntegrationTests
                 followers.AddRange(pageFollowers);
             }
 
-            var artwolktUser = await client.Users.GetUser("artwolkt");
+            var userToFollow = await client.Users.GetUser("artwolkt");
 
             var friendIdsIterator = client.Users.GetFriendIds("tweetinviapi");
             var friendIds = await friendIdsIterator.MoveToNextPage();
             var friendsBeforeAdd = await client.Users.GetUsers(friendIds);
 
-            await client.Account.FollowUser(artwolktUser);
+            await client.Account.FollowUser(userToFollow);
+            var relationshipAfterAdd = await client.Users.GetRelationshipBetween(authenticatedUser, userToFollow);
             var friendsAfterAdd = await authenticatedUser.GetFriends().MoveToNextPage();
-            await client.Account.UnFollowUser(artwolktUser);
+            await client.Account.UnFollowUser(userToFollow);
             var friendsAfterRemove = await authenticatedUser.GetFriends().MoveToNextPage();
+            var relationshipAfterRemove = await client.Users.GetRelationshipBetween(authenticatedUser, userToFollow);
 
-            var blockSuccess = await artwolktUser.BlockUser();
+            var blockSuccess = await userToFollow.BlockUser();
 
             var blockedUserIdsIterator = client.Account.GetBlockedUserIds();
             var blockedUsersFromIdsIterator = await blockedUserIdsIterator.MoveToNextPage();
             var blockedUsersIterator = client.Account.GetBlockedUsers();
             var blockedUsers = await blockedUsersIterator.MoveToNextPage();
 
-            var unblockSuccess = await artwolktUser.UnBlockUser();
+            var unblockSuccess = await userToFollow.UnBlockUser();
 
 
             // assert
             Assert.Equal(tweetinviUser.Id, 1577389800);
             Assert.NotNull(authenticatedUser);
             Assert.Contains(1693649419, friendIds);
+            
             Assert.Contains(friendsBeforeAdd, item => { return item.ScreenName == "tweetinvitest"; });
+            Assert.DoesNotContain(friendsBeforeAdd, friend => friend.Id == userToFollow.Id);
+            Assert.Contains(friendsAfterAdd, friend => friend.Id == userToFollow.Id);
+            Assert.DoesNotContain(friendsAfterRemove, friend => friend.Id == userToFollow.Id);
 
-
-            Assert.DoesNotContain(friendsBeforeAdd, friend => friend.Id == artwolktUser.Id);
-            Assert.Contains(friendsAfterAdd, friend => friend.Id == artwolktUser.Id);
-            Assert.DoesNotContain(friendsAfterRemove, friend => friend.Id == artwolktUser.Id);
+            Assert.True(relationshipAfterAdd.Following);
+            Assert.False(relationshipAfterRemove.Following);
 
             Assert.True(blockSuccess);
-            Assert.Contains(blockedUsersFromIdsIterator, id => id == artwolktUser.Id);
-            Assert.Contains(blockedUsers, user => user.Id == artwolktUser.Id);
+            Assert.Contains(blockedUsersFromIdsIterator, id => id == userToFollow.Id);
+            Assert.Contains(blockedUsers, user => user.Id == userToFollow.Id);
             Assert.True(unblockSuccess);
         }
     }

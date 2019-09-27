@@ -267,7 +267,7 @@ namespace Tweetinvi.Logic
         {
             if (_twitterListDTO != null)
             {
-                _owner = _userFactory.GenerateUserFromDTO(_twitterListDTO.Owner);
+                _owner = _userFactory.GenerateUserFromDTO(_twitterListDTO.Owner, null);
             }
         }
     }

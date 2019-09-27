@@ -6,6 +6,7 @@ using Tweetinvi.Core.Injectinvi;
 using Tweetinvi.Core.QueryGenerators;
 using Tweetinvi.Models;
 using Tweetinvi.Parameters;
+using Tweetinvi.Public.Parameters.UsersClient;
 using Xunit;
 using xUnitinvi.TestHelpers;
 
@@ -105,6 +106,24 @@ namespace xUnitinvi.ClientActions.UsersClient
 
             // Assert
             Assert.Equal(result, $"https://api.twitter.com/1.1/followers/ids.json?user_id=42&cursor=cursor_id&count=43&hello=world");
+        }
+
+        [Fact]
+        public void GetRelationshipBetween_ReturnsExpectedQuery()
+        {
+            // Arrange
+            var parameters = new GetRelationshipBetweenParameters(42, 43)
+            {
+                CustomQueryParameters = { new Tuple<string, string>("hello", "world") }
+            };
+
+            var queryGenerator = CreateUserQueryGenerator();
+
+            // Act
+            var result = queryGenerator.GetRelationshipBetweenQuery(parameters);
+
+            // Assert
+            Assert.Equal(result, $"https://api.twitter.com/1.1/friendships/show.json?source_id=42&target_id=43&hello=world");
         }
 
         [Fact]

@@ -83,96 +83,6 @@ namespace Tweetinvi.Controllers.Friendship
             return _friendshipQueryExecutor.UpdateRelationshipAuthorizationsWith(new UserIdentifier(userScreenName), friendshipAuthorizations);
         }
 
-        // Get Relationship (get between 2 users as there is no id for a relationship)
-        public async Task<IRelationshipDetails> GetRelationshipBetween(IUserIdentifier sourceUserIdentifier, IUserIdentifier targetUserIdentifier)
-        {
-            var relationshipDTO = await _friendshipQueryExecutor.GetRelationshipBetween(sourceUserIdentifier, targetUserIdentifier);
-            return GenerateRelationshipFromRelationshipDTO(relationshipDTO);
-        }
-
-        public Task<IRelationshipDetails> GetRelationshipBetween(IUserIdentifier sourceUserIdentifier, long? targetUserId)
-        {
-            return InternalGetRelationshipBetween(sourceUserIdentifier, targetUserId);
-        }
-
-        public Task<IRelationshipDetails> GetRelationshipBetween(IUserIdentifier sourceUserIdentifier, string targetUserScreenName)
-        {
-            return InternalGetRelationshipBetween(sourceUserIdentifier, targetUserScreenName);
-        }
-
-        public Task<IRelationshipDetails> GetRelationshipBetween(long? sourceUserId,
-            IUserIdentifier targetUserIdentifier)
-        {
-            return InternalGetRelationshipBetween(sourceUserId, targetUserIdentifier);
-        }
-
-        public Task<IRelationshipDetails> GetRelationshipBetween(string sourceUserScreenName, IUserIdentifier targetUserIdentifier)
-        {
-            return InternalGetRelationshipBetween(sourceUserScreenName, targetUserIdentifier);
-        }
-
-        public Task<IRelationshipDetails> GetRelationshipBetween(long? sourceUserId, long? targetUserId)
-        {
-            return InternalGetRelationshipBetween(sourceUserId, targetUserId);
-        }
-
-        public Task<IRelationshipDetails> GetRelationshipBetween(long? sourceUserId, string targetUserScreenName)
-        {
-            return InternalGetRelationshipBetween(sourceUserId, targetUserScreenName);
-        }
-
-        public Task<IRelationshipDetails> GetRelationshipBetween(string sourceUserScreenName, long? targetUserId)
-        {
-            return InternalGetRelationshipBetween(sourceUserScreenName, targetUserId);
-        }
-
-        public Task<IRelationshipDetails> GetRelationshipBetween(string sourceUserScreenName, string targetUserScreenName)
-        {
-            return InternalGetRelationshipBetween(sourceUserScreenName, targetUserScreenName);
-        }
-
-        private Task<IRelationshipDetails> InternalGetRelationshipBetween(object sourceIdentifier, object targetIdentifier)
-        {
-            IUserIdentifier sourceUserIdentifier = null;
-            IUserIdentifier targetUserIdentifier = null;
-
-            if (sourceIdentifier is long)
-            {
-                sourceUserIdentifier = _userFactory.GenerateUserIdentifierFromId((long) sourceIdentifier);
-            }
-            else
-            {
-                var screenName = sourceIdentifier as string;
-                if (screenName != null)
-                {
-                    sourceUserIdentifier = _userFactory.GenerateUserIdentifierFromScreenName(screenName);
-                }
-                else
-                {
-                    sourceUserIdentifier = sourceIdentifier as IUserIdentifier;
-                }
-            }
-
-            if (targetIdentifier is long)
-            {
-                targetUserIdentifier = _userFactory.GenerateUserIdentifierFromId((long) targetIdentifier);
-            }
-            else
-            {
-                var screenName = targetIdentifier as string;
-                if (screenName != null)
-                {
-                    targetUserIdentifier = _userFactory.GenerateUserIdentifierFromScreenName(screenName);
-                }
-                else
-                {
-                    targetUserIdentifier = targetIdentifier as IUserIdentifier;
-                }
-            }
-
-            return GetRelationshipBetween(sourceUserIdentifier, targetUserIdentifier);
-        }
-
         // Get multiple relationships
         public async Task<Dictionary<IUser, IRelationshipState>> GetRelationshipStatesAssociatedWith(IEnumerable<IUser> targetUsers)
         {
@@ -215,18 +125,6 @@ namespace Tweetinvi.Controllers.Friendship
         {
             var relationshipDTO = await _friendshipQueryExecutor.GetMultipleRelationshipsQuery(targetUsersScreenName);
             return GenerateRelationshipStatesFromRelationshipStatesDTO(relationshipDTO);
-        }
-
-        // Generate From DTO
-        private IRelationshipDetails GenerateRelationshipFromRelationshipDTO(IRelationshipDetailsDTO relationshipDetailsDTO)
-        {
-            if (relationshipDetailsDTO == null)
-            {
-                return null;
-            }
-
-            var relationshipParameter = _relationshipFactory.GenerateParameterOverrideWrapper("relationshipDetailsDTO", relationshipDetailsDTO);
-            return _relationshipFactory.Create(relationshipParameter);
         }
 
         // Generate Relationship state from DTO

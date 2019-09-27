@@ -115,12 +115,12 @@ namespace Tweetinvi.Models
         /// <summary>
         /// Get the relationship between the authenticated user (source) and another user (target).
         /// </summary>
-        Task<IRelationshipDetails> GetRelationshipWith(long userId);
+        Task<IRelationshipDetails> GetRelationshipWith(long? userId);
 
         /// <summary>
         /// Get the relationship between the authenticated user (source) and another user (target).
         /// </summary>
-        Task<IRelationshipDetails> GetRelationshipWith(string screenName);
+        Task<IRelationshipDetails> GetRelationshipWith(string username);
 
         /// <summary>
         /// Modify the relationship between the authenticated user (source) and another user (target).

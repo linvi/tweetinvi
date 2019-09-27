@@ -14,9 +14,9 @@ namespace Tweetinvi.Core.Factories
         Task<IEnumerable<IUser>> GetUsersFromIds(IEnumerable<long> userIds);
 
         // Generate user from DTO
-        IUser GenerateUserFromDTO(IUserDTO userDTO);
+        IUser GenerateUserFromDTO(IUserDTO userDTO, ITwitterClient client);
         IAuthenticatedUser GenerateAuthenticatedUserFromDTO(IUserDTO userDTO, ITwitterCredentials credentials = null);
-        IUser[] GenerateUsersFromDTO(IEnumerable<IUserDTO> usersDTO);
+        IUser[] GenerateUsersFromDTO(IEnumerable<IUserDTO> usersDTO, ITwitterClient client);
 
         // Generate userIdentifier from
         IUserIdentifier GenerateUserIdentifierFromId(long userId);

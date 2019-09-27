@@ -211,7 +211,7 @@ namespace Testinvi.Tweetinvi.Core
         private static ITweet InitTweet(string text, TweetMode? tweetMode)
         {
             var userFactory = A.Fake<IUserFactory>();
-            userFactory.CallsTo(x => x.GenerateUserFromDTO(It.IsAny<IUserDTO>())).Returns(null);
+            userFactory.CallsTo(x => x.GenerateUserFromDTO(It.IsAny<IUserDTO>(), It.IsAny<ITwitterClient>())).Returns(null);
 
             var jsonConverterLib = new JsonConvertWrapper();
             var jsonConverter = new JsonObjectConverter(jsonConverterLib);

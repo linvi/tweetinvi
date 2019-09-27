@@ -1,7 +1,6 @@
 ﻿using System;
 using System.IO;
 using System.Threading.Tasks;
-using Tweetinvi.Core.Extensions;
 using Tweetinvi.Core.Helpers;
 using Tweetinvi.Core.QueryGenerators;
 using Tweetinvi.Core.Web;
@@ -9,19 +8,22 @@ using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
 using Tweetinvi.Models.DTO.QueryDTO;
 using Tweetinvi.Parameters;
+using Tweetinvi.Public.Parameters.UsersClient;
 
 namespace Tweetinvi.Controllers.User
 {
     public interface IUserQueryExecutor
     {
+        // USERS
         Task<ITwitterResult<IUserDTO>> GetUser(IGetUserParameters parameters, ITwitterRequest request);
         Task<ITwitterResult<IUserDTO[]>> GetUsers(IGetUsersParameters parameters, ITwitterRequest request);
 
         // FRIENDS
         Task<ITwitterResult<IIdsCursorQueryResultDTO>> GetFriendIds(IGetFriendIdsParameters parameters, ITwitterRequest request);
         Task<ITwitterResult<IIdsCursorQueryResultDTO>> GetFollowerIds(IGetFollowerIdsParameters parameters, ITwitterRequest request);
-        
-        // Stream Profile Image
+
+        Task<ITwitterResult<IRelationshipDetailsDTO>> GetRelationshipBetween(IGetRelationshipBetweenParameters parameters, ITwitterRequest request);
+
         Task<Stream> GetProfileImageStream(IGetProfileImageParameters parameters, ITwitterRequest request);
     }
 
@@ -94,10 +96,16 @@ namespace Tweetinvi.Controllers.User
 
             return _twitterAccessor.ExecuteRequest<IIdsCursorQueryResultDTO>(request);
         }
-        
 
-        
+        public Task<ITwitterResult<IRelationshipDetailsDTO>> GetRelationshipBetween(IGetRelationshipBetweenParameters parameters, ITwitterRequest request)
+        {
+            var query = _userQueryGenerator.GetRelationshipBetweenQuery(parameters);
 
+            request.Query.Url = query;
+            request.Query.HttpMethod = HttpMethod.GET;
+
+            return _twitterAccessor.ExecuteRequest<IRelationshipDetailsDTO>(request);
+        }
 
         // Stream Profile Image
         public Task<Stream> GetProfileImageStream(IGetProfileImageParameters parameters, ITwitterRequest request)
@@ -109,5 +117,6 @@ namespace Tweetinvi.Controllers.User
 
             return _webHelper.GetResponseStreamAsync(request);
         }
+
     }
 }

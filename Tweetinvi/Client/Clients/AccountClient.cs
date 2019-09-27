@@ -149,7 +149,7 @@ namespace Tweetinvi.Client
             return new TwitterIteratorProxy<ITwitterResult<IUserCursorQueryResultDTO>, IUser>(twitterCursorResult, pageResult =>
             {
                 var userDTOs = pageResult.DataTransferObject.Users;
-                return _userFactory.GenerateUsersFromDTO(userDTOs);
+                return _userFactory.GenerateUsersFromDTO(userDTOs, null);
             });
         }
 

@@ -3,7 +3,7 @@
 namespace Tweetinvi.Parameters
 {
     /// <summary>
-    /// For more information visit : https://developer.twitter.com/en/docs/tweets/post-and-engage/api-reference/get-favorites-list
+    /// For more information visit : https://dev.twitter.com/en/docs/tweets/post-and-engage/api-reference/get-favorites-list
     /// </summary>
     public interface IGetFavoriteTweetsParameters : IMaxAndMinBaseQueryParameters
     {

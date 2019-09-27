@@ -90,7 +90,7 @@ namespace Tweetinvi
         /// </summary>
         public static IUser GenerateUserFromDTO(IUserDTO userDTO)
         {
-            return UserFactory.GenerateUserFromDTO(userDTO);
+            return UserFactory.GenerateUserFromDTO(userDTO, null);
         }
 
         /// <summary>
@@ -98,7 +98,7 @@ namespace Tweetinvi
         /// </summary>
         public static IEnumerable<IUser> GenerateUsersFromDTO(IEnumerable<IUserDTO> usersDTO)
         {
-            return UserFactory.GenerateUsersFromDTO(usersDTO);
+            return UserFactory.GenerateUsersFromDTO(usersDTO, null);
         }
 
         #endregion

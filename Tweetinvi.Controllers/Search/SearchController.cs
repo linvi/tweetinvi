@@ -85,13 +85,13 @@ namespace Tweetinvi.Controllers.Search
         public async Task<IEnumerable<IUser>> SearchUsers(string searchQuery)
         {
             var userDTOs = await _searchQueryExecutor.SearchUsers(searchQuery);
-            return _userFactory.GenerateUsersFromDTO(userDTOs);
+            return _userFactory.GenerateUsersFromDTO(userDTOs, null);
         }
 
         public async Task<IEnumerable<IUser>> SearchUsers(ISearchUsersParameters searchUsersParameters)
         {
             var userDTOs = await _searchQueryExecutor.SearchUsers(searchUsersParameters);
-            return _userFactory.GenerateUsersFromDTO(userDTOs);
+            return _userFactory.GenerateUsersFromDTO(userDTOs, null);
         }
     }
 }

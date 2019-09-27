@@ -339,7 +339,7 @@ namespace Tweetinvi.Logic
         // Relationship
         public virtual Task<IRelationshipDetails> GetRelationshipWith(IUserIdentifier targetUser)
         {
-            return _friendshipController.GetRelationshipBetween(_userDTO, targetUser);
+            return Client.Users.GetRelationshipBetween(_userDTO, targetUser);
         }
 
         // Timeline

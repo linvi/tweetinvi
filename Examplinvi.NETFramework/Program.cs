@@ -1402,9 +1402,10 @@ namespace Examplinvi.NETFramework
             var success = Account.UpdateRelationshipAuthorizationsWith("tweetinviapi", enableRetweets, enableNotificationsOnDevices);
         }
 
-        public static void Friendship_GetRelationshipDetails()
+        public static async Task Friendship_GetRelationshipDetails()
         {
-            var relationshipDetails = Friendship.GetRelationshipDetailsBetween("tweetinviapi", "twitterapi");
+            var relationshipDetails = await Client.Users.GetRelationshipBetween("tweetinviapi", "twitterapi");
+            Console.WriteLine(relationshipDetails.BlockedBy);
         }
 
         #endregion

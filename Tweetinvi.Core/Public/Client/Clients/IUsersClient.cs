@@ -4,6 +4,7 @@ using Tweetinvi.Iterators;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
 using Tweetinvi.Parameters;
+using Tweetinvi.Public.Parameters.UsersClient;
 
 namespace Tweetinvi.Client
 {
@@ -11,138 +12,99 @@ namespace Tweetinvi.Client
     {
         #region Get User
 
-        /// <summary>
-        /// Get a user
-        /// </summary>
+        /// <inheritdoc cref="GetUser(IGetUserParameters)" />
         Task<IUser> GetUser(long? userId);
-
-        /// <summary>
-        /// Get a user
-        /// </summary>
+        /// <inheritdoc cref="GetUser(IGetUserParameters)" />
         Task<IUser> GetUser(string username);
-
-        /// <summary>
-        /// Get a user
-        /// </summary>
+        /// <inheritdoc cref="GetUser(IGetUserParameters)" />
         Task<IUser> GetUser(IUserIdentifier userIdentifier);
 
         /// <summary>
         /// Get a user
+        /// <para>Read more : https://dev.twitter.com/en/docs/accounts-and-users/follow-search-get-users/api-reference/get-users-show </para>
         /// </summary>
+        /// <returns>Returns a user</returns>
         Task<IUser> GetUser(IGetUserParameters parameters);
 
         #endregion
 
         #region GetUsers
 
-        /// <summary>
-        /// Get multiple users
-        /// </summary>
+        /// <inheritdoc cref="GetUsers(IGetUsersParameters)" />
         Task<IUser[]> GetUsers(IEnumerable<long> userIds);
-
-        /// <summary>
-        /// Get multiple users
-        /// </summary>
+        /// <inheritdoc cref="GetUsers(IGetUsersParameters)" />
         Task<IUser[]> GetUsers(IEnumerable<string> usernames);
-
-        /// <summary>
-        /// Get multiple users
-        /// </summary>
+        /// <inheritdoc cref="GetUsers(IGetUsersParameters)" />
         Task<IUser[]> GetUsers(IEnumerable<IUserIdentifier> userIdentifiers);
 
         /// <summary>
         /// Get multiple users
         /// </summary>
+        /// <para>Read more : https://dev.twitter.com/en/docs/accounts-and-users/follow-search-get-users/api-reference/get-users-lookup </para>
+        /// <returns>Returns the list of users requested</returns>
         Task<IUser[]> GetUsers(IGetUsersParameters parameters);
 
         #endregion
 
         #region GetFriendIds / Friends
 
-        /// <summary>
-        /// Get friend ids from a specific user
-        /// </summary>
-        /// <returns>A CursorResult to iterate over all the user's friends</returns>
+        /// <inheritdoc cref="GetFriendIds(IGetFriendIdsParameters)" />
         ITwitterIterator<long> GetFriendIds(string username);
-
-        /// <summary>
-        /// Get friend ids from a specific user
-        /// </summary>
-        /// <returns>A CursorResult to iterate over all the user's friends</returns>
+        /// <inheritdoc cref="GetFriendIds(IGetFriendIdsParameters)" />
         ITwitterIterator<long> GetFriendIds(long userId);
-        
-        /// <summary>
-        /// Get friend ids from a specific user
-        /// </summary>
-        /// <returns>A CursorResult to iterate over all the user's friends</returns>
+        /// <inheritdoc cref="GetFriendIds(IGetFriendIdsParameters)" />
         ITwitterIterator<long> GetFriendIds(IUserIdentifier userIdentifier);
 
         /// <summary>
         /// Get friend ids from a specific user
+        /// <para>Read more : https://dev.twitter.com/en/docs/accounts-and-users/follow-search-get-users/api-reference/get-friends-ids </para>
         /// </summary>
-        /// <returns>A CursorResult to iterate over all the user's friends</returns>
+        /// <returns>An iterator to list a user's friend ids</returns>
         ITwitterIterator<long> GetFriendIds(IGetFriendIdsParameters parameters);
 
         /// <summary>
         /// Get friends from a specific user
+        /// <para>Read more : https://dev.twitter.com/en/docs/accounts-and-users/follow-search-get-users/api-reference/get-friends-ids </para>
         /// </summary>
-        /// <returns>A CursorResult to iterate over all the user's friends</returns>
+        /// <returns>An iterator to list a user's friends</returns>
         IMultiLevelCursorIterator<long, IUser> GetFriends(IGetFriendsParameters parameters);
 
         #endregion
 
         #region GetFollowerIds / Followers
 
-        /// <summary>
-        /// Get followers ids from a specific user
-        /// </summary>
-        /// <returns>A CursorResult to iterate over all the user's followers</returns>
+        /// <inheritdoc cref="GetFollowerIds(IGetFollowerIdsParameters)" />
+        ITwitterIterator<long> GetFollowerIds(long? userId);
+        /// <inheritdoc cref="GetFollowerIds(IGetFollowerIdsParameters)" />
         ITwitterIterator<long> GetFollowerIds(string username);
-
-        /// <summary>
-        /// Get followers ids from a specific user
-        /// </summary>
-        /// <returns>A CursorResult to iterate over all the user's followers</returns>
-        ITwitterIterator<long> GetFollowerIds(long userId);
-
-        /// <summary>
-        /// Get followers ids from a specific user
-        /// </summary>
-        /// <returns>A CursorResult to iterate over all the user's followers</returns>
+        /// <inheritdoc cref="GetFollowerIds(IGetFollowerIdsParameters)" />
         ITwitterIterator<long> GetFollowerIds(IUserIdentifier userIdentifier);
 
         /// <summary>
-        /// Get followers ids from a specific user
+        /// Get the follower ids from a specific user
+        /// <para>Read more : https://dev.twitter.com/en/docs/accounts-and-users/follow-search-get-users/api-reference/get-followers-ids </para>
         /// </summary>
-        /// <returns>A CursorResult to iterate over all the user's followers</returns>
+        /// <returns>An iterator to list a user's follower ids'</returns>
         ITwitterIterator<long> GetFollowerIds(IGetFollowerIdsParameters parameters);
 
         /// <summary>
-        /// Get followers from a specific user
+        /// Get the followers from a specific user
+        /// <para>Read more : https://dev.twitter.com/en/docs/accounts-and-users/follow-search-get-users/api-reference/get-followers-ids </para>
         /// </summary>
-        /// <returns>A CursorResult to iterate over all the user's followers</returns>
+        /// <returns>An iterator to list a user's followers'</returns>
         IMultiLevelCursorIterator<long, IUser> GetFollowers(IGetFollowersParameters parameters);
 
         #endregion
 
         #region Profile Image
 
-        /// <summary>
-        /// Get the profile image of a user
-        /// </summary>
-        /// <returns>A stream of the image file</returns>
+        /// <inheritdoc cref="GetProfileImageStream(IGetProfileImageParameters)" />
         Task<System.IO.Stream> GetProfileImageStream(string url);
 
-        /// <summary>
-        /// Get the profile image of a user
-        /// </summary>
-        /// <returns>A stream of the image file</returns>
+        /// <inheritdoc cref="GetProfileImageStream(IGetProfileImageParameters)" />
         Task<System.IO.Stream> GetProfileImageStream(IUser user);
 
-        /// <summary>
-        /// Get the profile image of a user
-        /// </summary>
-        /// <returns>A stream of the image file</returns>
+        /// <inheritdoc cref="GetProfileImageStream(IGetProfileImageParameters)" />
         Task<System.IO.Stream> GetProfileImageStream(IUserDTO user);
 
         /// <summary>
@@ -150,6 +112,36 @@ namespace Tweetinvi.Client
         /// </summary>
         /// <returns>A stream of the image file</returns>
         Task<System.IO.Stream> GetProfileImageStream(IGetProfileImageParameters parameters);
+
+        #endregion
+
+        #region Relationship between users
+
+        /// <inheritdoc cref="GetRelationshipBetween(IGetRelationshipBetweenParameters)" />
+        Task<IRelationshipDetails> GetRelationshipBetween(long? sourceUserId, long? targetUserId);
+        /// <inheritdoc cref="GetRelationshipBetween(IGetRelationshipBetweenParameters)" />
+        Task<IRelationshipDetails> GetRelationshipBetween(long? sourceUserId, string targetUsername);
+        /// <inheritdoc cref="GetRelationshipBetween(IGetRelationshipBetweenParameters)" />
+        Task<IRelationshipDetails> GetRelationshipBetween(long? sourceUserId, IUserIdentifier targetUser);
+        /// <inheritdoc cref="GetRelationshipBetween(IGetRelationshipBetweenParameters)" />
+        Task<IRelationshipDetails> GetRelationshipBetween(string sourceUsername, long? targetUserId);
+        /// <inheritdoc cref="GetRelationshipBetween(IGetRelationshipBetweenParameters)" />
+        Task<IRelationshipDetails> GetRelationshipBetween(string sourceUsername, string targetUsername);
+        /// <inheritdoc cref="GetRelationshipBetween(IGetRelationshipBetweenParameters)" />
+        Task<IRelationshipDetails> GetRelationshipBetween(string sourceUsername, IUserIdentifier targetUser);
+        /// <inheritdoc cref="GetRelationshipBetween(IGetRelationshipBetweenParameters)" />
+        Task<IRelationshipDetails> GetRelationshipBetween(IUserIdentifier sourceUser, long? targetUserId);
+        /// <inheritdoc cref="GetRelationshipBetween(IGetRelationshipBetweenParameters)" />
+        Task<IRelationshipDetails> GetRelationshipBetween(IUserIdentifier sourceUser, string targetUsername);
+        /// <inheritdoc cref="GetRelationshipBetween(IGetRelationshipBetweenParameters)" />
+        Task<IRelationshipDetails> GetRelationshipBetween(IUserIdentifier sourceUser, IUserIdentifier targetUser);
+
+        /// <summary>
+        /// Get the relationship between a source user and the target
+        /// <para>Read more : https://dev.twitter.com/en/docs/accounts-and-users/follow-search-get-users/api-reference/get-friendships-show </para>
+        /// </summary>
+        /// <returns>Returns relationship information seen from a source user</returns>
+        Task<IRelationshipDetails> GetRelationshipBetween(IGetRelationshipBetweenParameters parameters);
 
         #endregion
     }

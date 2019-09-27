@@ -1,4 +1,5 @@
 ﻿using Tweetinvi.Parameters;
+using Tweetinvi.Public.Parameters.UsersClient;
 
 namespace Tweetinvi.Core.QueryGenerators
 {
@@ -10,7 +11,7 @@ namespace Tweetinvi.Core.QueryGenerators
         string GetFriendIdsQuery(IGetFriendIdsParameters parameters);
         string GetFollowerIdsQuery(IGetFollowerIdsParameters parameters);
 
-        // Download Profile Image
+        string GetRelationshipBetweenQuery(IGetRelationshipBetweenParameters parameters);
         string DownloadProfileImageURL(IGetProfileImageParameters parameters);
     }
 }

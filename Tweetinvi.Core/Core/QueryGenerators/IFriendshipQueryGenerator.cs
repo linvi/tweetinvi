@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using Tweetinvi.Models;
-using Tweetinvi.Parameters;
 
 namespace Tweetinvi.Core.QueryGenerators
 {
@@ -8,9 +7,6 @@ namespace Tweetinvi.Core.QueryGenerators
     {
         string GetUserIdsYouRequestedToFollowQuery();
         string GetUserIdsWhoseRetweetsAreMutedQuery();
-
-        // Get Existing Friendship
-        string GetRelationshipDetailsQuery(IUserIdentifier sourceUserIdentifier, IUserIdentifier targetUserIdentifier);
 
         // Lookup Relationship State
         string GetMultipleRelationshipsQuery(IEnumerable<IUserIdentifier> users);

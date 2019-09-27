@@ -215,7 +215,7 @@ namespace Tweetinvi.Controllers.TwitterLists
         public async Task<IEnumerable<IUser>> GetListMembers(ITwitterListIdentifier list, int maximumNumberOfUsersToRetrieve = 100)
         {
             var usersDTO = await _twitterListQueryExecutor.GetMembersOfList(list, maximumNumberOfUsersToRetrieve);
-            return _userFactory.GenerateUsersFromDTO(usersDTO);
+            return _userFactory.GenerateUsersFromDTO(usersDTO, null);
         } 
         #endregion
 
@@ -727,7 +727,7 @@ namespace Tweetinvi.Controllers.TwitterLists
         public async Task<IEnumerable<IUser>> GetListSubscribers(ITwitterListIdentifier list, int maximumNumberOfUsersToRetrieve = 100)
         {
             var usersDTO = await _twitterListQueryExecutor.GetListSubscribers(list, maximumNumberOfUsersToRetrieve);
-            return _userFactory.GenerateUsersFromDTO(usersDTO);
+            return _userFactory.GenerateUsersFromDTO(usersDTO, null);
         }
         #endregion
 

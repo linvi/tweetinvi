@@ -9,6 +9,7 @@ using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
 using Tweetinvi.Models.DTO.QueryDTO;
 using Tweetinvi.Parameters;
+using Tweetinvi.Public.Parameters.UsersClient;
 
 namespace Tweetinvi.Controllers.User
 {
@@ -31,13 +32,13 @@ namespace Tweetinvi.Controllers.User
         public async Task<ITwitterResult<IUserDTO, IUser>> GetUser(IGetUserParameters parameters, ITwitterRequest request)
         {
             var result = await _userQueryExecutor.GetUser(parameters, request);
-            return _twitterResultFactory.Create(result, userDTO => _userFactory.GenerateUserFromDTO(userDTO));
+            return _twitterResultFactory.Create(result, userDTO => _userFactory.GenerateUserFromDTO(userDTO, null));
         }
 
         public async Task<ITwitterResult<IUserDTO[], IUser[]>> GetUsers(IGetUsersParameters parameters, ITwitterRequest request)
         {
             var result = await _userQueryExecutor.GetUsers(parameters, request);
-            return _twitterResultFactory.Create(result, userDTO => _userFactory.GenerateUsersFromDTO(userDTO));
+            return _twitterResultFactory.Create(result, userDTO => _userFactory.GenerateUsersFromDTO(userDTO, null));
         }
 
         // Friend Ids
@@ -77,6 +78,11 @@ namespace Tweetinvi.Controllers.User
                 page => page.DataTransferObject.NextCursorStr == "0");
 
             return twitterCursorResult;
+        }
+
+        public Task<ITwitterResult<IRelationshipDetailsDTO>> GetRelationshipBetween(IGetRelationshipBetweenParameters parameters, ITwitterRequest request)
+        {
+            return _userQueryExecutor.GetRelationshipBetween(parameters, request);
         }
 
         // Profile Image

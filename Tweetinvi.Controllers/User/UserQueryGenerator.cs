@@ -6,6 +6,7 @@ using Tweetinvi.Core.Extensions;
 using Tweetinvi.Core.QueryGenerators;
 using Tweetinvi.Core.QueryValidators;
 using Tweetinvi.Parameters;
+using Tweetinvi.Public.Parameters.UsersClient;
 
 namespace Tweetinvi.Controllers.User
 {
@@ -76,6 +77,23 @@ namespace Tweetinvi.Controllers.User
             query.AddFormattedParameterToQuery(_userQueryParameterGenerator.GenerateIdOrScreenNameParameter(parameters.UserIdentifier));
             query.AddParameterToQuery("cursor", parameters.Cursor);
             query.AddParameterToQuery("count", parameters.PageSize);
+            query.AddFormattedParameterToQuery(parameters.FormattedCustomQueryParameters);
+
+            return query.ToString();
+        }
+
+        public string GetRelationshipBetweenQuery(IGetRelationshipBetweenParameters parameters)
+        {
+            _userQueryValidator.ThrowIfUserCannotBeIdentified(parameters.SourceUser);
+            _userQueryValidator.ThrowIfUserCannotBeIdentified(parameters.TargetUser);
+
+            var sourceParameter = _userQueryParameterGenerator.GenerateIdOrScreenNameParameter(parameters.SourceUser, "source_id", "source_screen_name");
+            var targetParameter = _userQueryParameterGenerator.GenerateIdOrScreenNameParameter(parameters.TargetUser, "target_id", "target_screen_name");
+
+            var query = new StringBuilder(Resources.Friendship_GetRelationship);
+
+            query.AddFormattedParameterToQuery(sourceParameter);
+            query.AddFormattedParameterToQuery(targetParameter);
             query.AddFormattedParameterToQuery(parameters.FormattedCustomQueryParameters);
 
             return query.ToString();

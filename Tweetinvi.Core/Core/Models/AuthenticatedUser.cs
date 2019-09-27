@@ -110,17 +110,17 @@ namespace Tweetinvi.Core.Models
         // Frienships
         public override Task<IRelationshipDetails> GetRelationshipWith(IUserIdentifier user)
         {
-            return ExecuteAuthenticatedUserOperation(() => _friendshipController.GetRelationshipBetween(this, user));
+            return Client.Users.GetRelationshipBetween(this, user);
         }
 
-        public Task<IRelationshipDetails> GetRelationshipWith(long userId)
+        public Task<IRelationshipDetails> GetRelationshipWith(long? userId)
         {
-            return ExecuteAuthenticatedUserOperation(() => _friendshipController.GetRelationshipBetween(Id, userId));
+            return Client.Users.GetRelationshipBetween(this, userId);
         }
 
-        public Task<IRelationshipDetails> GetRelationshipWith(string screenName)
+        public Task<IRelationshipDetails> GetRelationshipWith(string username)
         {
-            return ExecuteAuthenticatedUserOperation(() => _friendshipController.GetRelationshipBetween(ScreenName, screenName));
+            return Client.Users.GetRelationshipBetween(this, username);
         }
 
         public Task<bool> UpdateRelationshipAuthorizationsWith(IUserIdentifier user, bool retweetsEnabled, bool deviceNotificationsEnabled)

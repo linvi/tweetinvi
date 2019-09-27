@@ -34,7 +34,7 @@ namespace Tweetinvi.Logic
 
         private void DTOUpdated()
         {
-            _createdBy = _tweetDTO == null ? null : _userFactory.GenerateUserFromDTO(_tweetDTO.CreatedBy);
+            _createdBy = _tweetDTO == null ? null : _userFactory.GenerateUserFromDTO(_tweetDTO.CreatedBy, null);
             _entities = _tweetDTO == null ? null : new TweetEntities(_tweetDTO, TweetMode);
         }
 

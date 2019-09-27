@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Tweetinvi.Core.Credentials;
 using Tweetinvi.Core.Factories;
 using Tweetinvi.Core.Helpers;
 using Tweetinvi.Core.Injectinvi;
@@ -16,33 +15,30 @@ namespace Tweetinvi.Factories.User
         private readonly IFactory<IAuthenticatedUser> _authenticatedUserUnityFactory;
         private readonly IFactory<IUser> _userUnityFactory;
         private readonly IJsonObjectConverter _jsonObjectConverter;
-        private readonly ICredentialsAccessor _credentialsAccessor;
 
         public UserFactory(
             IUserFactoryQueryExecutor userFactoryQueryExecutor,
             IFactory<IAuthenticatedUser> authenticatedUserUnityFactory,
             IFactory<IUser> userUnityFactory,
-            IJsonObjectConverter jsonObjectConverter,
-            ICredentialsAccessor credentialsAccessor)
+            IJsonObjectConverter jsonObjectConverter)
         {
             _userFactoryQueryExecutor = userFactoryQueryExecutor;
             _authenticatedUserUnityFactory = authenticatedUserUnityFactory;
             _userUnityFactory = userUnityFactory;
             _jsonObjectConverter = jsonObjectConverter;
-            _credentialsAccessor = credentialsAccessor;
         }
 
         // Generate User from Json
         public IUser GenerateUserFromJson(string jsonUser)
         {
             var userDTO = _jsonObjectConverter.DeserializeObject<IUserDTO>(jsonUser);
-            return GenerateUserFromDTO(userDTO);
+            return GenerateUserFromDTO(userDTO, null);
         }
 
         public async Task<IEnumerable<IUser>> GetUsersFromIds(IEnumerable<long> userIds)
         {
             var usersDTO = await _userFactoryQueryExecutor.GetUsersDTOFromIds(userIds);
-            return GenerateUsersFromDTO(usersDTO);
+            return GenerateUsersFromDTO(usersDTO, null);
         }
 
         // Generate DTO from id
@@ -75,7 +71,7 @@ namespace Tweetinvi.Factories.User
             return user;
         }
 
-        public IUser GenerateUserFromDTO(IUserDTO userDTO)
+        public IUser GenerateUserFromDTO(IUserDTO userDTO, ITwitterClient client)
         {
             if (userDTO == null)
             {
@@ -87,17 +83,19 @@ namespace Tweetinvi.Factories.User
 
             var user = _userUnityFactory.Create(userDTOParameterOverride, clientParameterOverride);
 
+            user.Client = client;
+
             return user;
         }
 
-        public IUser[] GenerateUsersFromDTO(IEnumerable<IUserDTO> usersDTO)
+        public IUser[] GenerateUsersFromDTO(IEnumerable<IUserDTO> usersDTO, ITwitterClient client)
         {
             if (usersDTO == null)
             {
                 return null;
             }
 
-            return usersDTO.Select(GenerateUserFromDTO).ToArray();
+            return usersDTO.Select(x => GenerateUserFromDTO(x, client)).ToArray();
         }
     }
 }
