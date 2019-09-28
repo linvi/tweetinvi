@@ -26,18 +26,6 @@ namespace Tweetinvi.Controllers.Friendship
             _friendshipAuthorizationsFactory = friendshipAuthorizationsFactory;
         }
         
-        // Get Users You requested to follow
-        public Task<IEnumerable<long>> GetUserIdsYouRequestedToFollow(int maximumUsersToRetrieve = TweetinviConsts.FRIENDSHIPS_OUTGOING_IDS_MAX_PER_REQ)
-        {
-            return _friendshipQueryExecutor.GetUserIdsYouRequestedToFollow(maximumUsersToRetrieve);
-        }
-
-        public async Task<IEnumerable<IUser>> GetUsersYouRequestedToFollow(int maximumUsersToRetrieve = TweetinviConsts.FRIENDSHIPS_OUTGOING_USERS_MAX_PER_REQ)
-        {
-            var userIds = await GetUserIdsYouRequestedToFollow(maximumUsersToRetrieve);
-            return await _userFactory.GetUsersFromIds(userIds);
-        }
-
         // Get Users not authorized to retweet
         public Task<long[]> GetUserIdsWhoseRetweetsAreMuted()
         {

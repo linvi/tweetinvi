@@ -141,13 +141,24 @@ namespace Tweetinvi.Core.Models
         // Friends - Followers
         public ITwitterIterator<long> GetUserIdsRequestingFriendship()
         {
-            return Client.Account.GetUserIdsRequestingFriendship();
+            return Client.Account.GetUserIdsRequestingFriendship(new GetUserIdsRequestingFriendshipParameters());
         }
 
-        public Task<IEnumerable<IUser>> GetUsersYouRequestedToFollow(int maximumUserIdsToRetrieve = TweetinviConsts.FRIENDSHIPS_OUTGOING_USERS_MAX_PER_REQ)
+        public IMultiLevelCursorIterator<long, IUser> GetUsersRequestingFriendship()
         {
-            return ExecuteAuthenticatedUserOperation(() => _friendshipController.GetUsersYouRequestedToFollow(maximumUserIdsToRetrieve));
+            return Client.Account.GetUsersRequestingFriendship(new GetUsersRequestingFriendshipParameters());
         }
+
+        public ITwitterIterator<long> GetUserIdsYouRequestedToFollow()
+        {
+            return Client.Account.GetUserIdsYouRequestedToFollow();
+        }
+
+        public IMultiLevelCursorIterator<long, IUser> GetUsersYouRequestedToFollow()
+        {
+            return Client.Account.GetUsersYouRequestedToFollow(new GetUsersYouRequestedToFollowParameters());
+        }
+
 
         // Follow
         public Task<bool> FollowUser(IUserIdentifier user)

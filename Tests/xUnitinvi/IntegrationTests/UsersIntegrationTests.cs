@@ -23,8 +23,6 @@ namespace xUnitinvi.IntegrationTests
             TweetinviEvents.QueryBeforeExecute += (sender, args) => { _logger.WriteLine(args.Url); };
 
             var credentials = new TwitterCredentials("A", "B", "C", "D");
-
-
             var client = new TwitterClient(credentials);
 
             // act
@@ -40,23 +38,23 @@ namespace xUnitinvi.IntegrationTests
                 followers.AddRange(pageFollowers);
             }
 
-            var userToFollow = await client.Users.GetUser("artwolkt");
+            var userToFollow = await client.Users.GetUser("tweetinvitest");
 
             var friendIdsIterator = client.Users.GetFriendIds("tweetinviapi");
             var friendIds = await friendIdsIterator.MoveToNextPage();
             var friendsBeforeAdd = await client.Users.GetUsers(friendIds);
 
             await client.Account.FollowUser(userToFollow);
-            
+
             var relationshipAfterAdd = await client.Users.GetRelationshipBetween(authenticatedUser, userToFollow);
             var relationshipStateAfterAdd = await client.Account.GetRelationshipsWith(new IUserIdentifier[] { userToFollow });
 
             var friendsAfterAdd = await authenticatedUser.GetFriends().MoveToNextPage();
             await client.Account.UnFollowUser(userToFollow);
             var friendsAfterRemove = await authenticatedUser.GetFriends().MoveToNextPage();
-            
+
             var relationshipAfterRemove = await client.Users.GetRelationshipBetween(authenticatedUser, userToFollow);
-            var relationshipStateAfterRemove = await client.Account.GetRelationshipsWith(new [] { "artwolkt" });
+            var relationshipStateAfterRemove = await client.Account.GetRelationshipsWith(new[] { "tweetinvitest" });
 
             var blockSuccess = await userToFollow.BlockUser();
 
@@ -71,10 +69,8 @@ namespace xUnitinvi.IntegrationTests
             // assert
             Assert.Equal(tweetinviUser.Id, 1577389800);
             Assert.NotNull(authenticatedUser);
-            Assert.Contains(1693649419, friendIds);
-            
-            Assert.Contains(friendsBeforeAdd, item => { return item.ScreenName == "tweetinvitest"; });
-            Assert.DoesNotContain(friendsBeforeAdd, friend => friend.Id == userToFollow.Id);
+
+            Assert.NotEmpty(friendsBeforeAdd);
             Assert.Contains(friendsAfterAdd, friend => friend.Id == userToFollow.Id);
             Assert.DoesNotContain(friendsAfterRemove, friend => friend.Id == userToFollow.Id);
 
@@ -82,12 +78,51 @@ namespace xUnitinvi.IntegrationTests
             Assert.False(relationshipAfterRemove.Following);
 
             Assert.True(relationshipStateAfterAdd[userToFollow].Following);
-            Assert.False(relationshipStateAfterRemove["artwolkt"].Following);
+            Assert.False(relationshipStateAfterRemove["tweetinvitest"].Following);
 
             Assert.True(blockSuccess);
             Assert.Contains(blockedUsersFromIdsIterator, id => id == userToFollow.Id);
             Assert.Contains(blockedUsers, user => user.Id == userToFollow.Id);
             Assert.True(unblockSuccess);
+        }
+
+        // [Fact]
+        [Fact(Skip = "IntegrationTests")]
+        public async Task TestWithPrivateUser()
+        {
+            var publicUserCredentials = new TwitterCredentials("A", "B", "C", "D");
+            var privateUserCredentials = new TwitterCredentials("A", "B", "C", "D");
+            
+            var publicUserClient = new TwitterClient(publicUserCredentials);
+            var privateUserClient = new TwitterClient(privateUserCredentials);
+
+            var publicUser = await publicUserClient.Account.GetAuthenticatedUser();
+            var privateUser = await privateUserClient.Account.GetAuthenticatedUser();
+
+            // act
+            await publicUserClient.Account.FollowUser(privateUser);
+            
+            var sentRequestsIterator = publicUserClient.Account.GetUsersYouRequestedToFollow();
+            var sentRequestUsers = await sentRequestsIterator.MoveToNextPage();
+
+            var receivedRequestsIterator = privateUserClient.Account.GetUsersRequestingFriendship();
+            var receivedRequestUsers = await receivedRequestsIterator.MoveToNextPage();
+
+            // delete ongoing request
+//            await publicUserClient.Account.UnFollowUser(privateUser);
+//            
+//            var afterUnfollowSentRequestsIterator = publicUserClient.Account.GetUsersYouRequestedToFollow();
+//            var afterUnfollowSentRequestUsers = await afterUnfollowSentRequestsIterator.MoveToNextPage();
+//
+//            var afterUnfollowReceivedRequestsIterator = privateUserClient.Account.GetUsersRequestingFriendship();
+//            var afterUnfollowReceivedRequestUsers = await afterUnfollowReceivedRequestsIterator.MoveToNextPage();
+
+            // assert
+            Assert.Contains(sentRequestUsers, user => user.Id == privateUser.Id);
+            Assert.Contains(receivedRequestUsers, user => user.Id == publicUser.Id);
+            
+//            Assert.DoesNotContain(afterUnfollowSentRequestUsers, user => user.Id == privateUser.Id);
+//            Assert.DoesNotContain(afterUnfollowReceivedRequestUsers, user => user.Id == publicUser.Id);
         }
     }
 }

@@ -157,6 +157,8 @@ namespace xUnitinvi.ClientActions.AccountsClient
             Assert.Equal(result, expectedResult);
         }
 
+        // ONGOING REQUESTS
+        
         [Fact]
         public async Task GetUserIdsRequestingFriendship_MoveToNextPage_ReturnsAllPages()
         {
@@ -204,7 +206,57 @@ namespace xUnitinvi.ClientActions.AccountsClient
 
             await Assert.ThrowsAsync<TwitterIteratorAlreadyCompletedException>(() => result.MoveToNextPage());
         }
+        
+        [Fact]
+        public async Task GetUserIdsYouRequestedToFollow_MoveToNextPage_ReturnsAllPages()
+        {
+            // arrange
+            var accountController = CreateAccountController();
+            var parameters = new GetUserIdsYouRequestedToFollowParameters();
 
+            ITwitterResult<IIdsCursorQueryResultDTO>[] results =
+            {
+                new TwitterResult<IIdsCursorQueryResultDTO>(null)
+                {
+                    DataTransferObject = new IdsCursorQueryResultDTO
+                    {
+                        Ids = new long[] { 42, 43 },
+                        NextCursorStr = "cursor_to_page_2",
+                    },
+                    Response = new TwitterResponse()
+                },
+                new TwitterResult<IIdsCursorQueryResultDTO>(null)
+                {
+                    DataTransferObject = new IdsCursorQueryResultDTO
+                    {
+                        Ids = new long[] { 44, 45 },
+                        NextCursorStr = "0",
+                    },
+                    Response = new TwitterResponse()
+                }
+            };
+
+            A.CallTo(() => _fakeAccountQueryExecutor.GetUserIdsYouRequestedToFollow(It.IsAny<IGetUserIdsYouRequestedToFollowParameters>(), It.IsAny<ITwitterRequest>()))
+                .ReturnsNextFromSequence(results);
+
+            var result = accountController.GetUserIdsYouRequestedToFollow(parameters, A.Fake<ITwitterRequest>());
+
+            // act
+            var page1 = await result.MoveToNextPage();
+            var page2 = await result.MoveToNextPage();
+
+            // assert
+            Assert.Equal(page1.Content, results[0]);
+            Assert.False(page1.IsLastPage);
+
+            Assert.Equal(page2.Content, results[1]);
+            Assert.True(page2.IsLastPage);
+
+            await Assert.ThrowsAsync<TwitterIteratorAlreadyCompletedException>(() => result.MoveToNextPage());
+        }
+
+        // FRIENDSHIPS
+        
         [Fact]
         public async Task GetRelationshipsWith_ReturnsFromUserQueryExecutor()
         {

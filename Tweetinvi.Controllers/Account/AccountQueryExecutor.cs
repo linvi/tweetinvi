@@ -23,10 +23,14 @@ namespace Tweetinvi.Controllers.Account
         // FOLLOWERS
         Task<ITwitterResult<IUserDTO>> FollowUser(IFollowUserParameters parameters, ITwitterRequest request);
         Task<ITwitterResult<IUserDTO>> UnFollowUser(IUnFollowUserParameters parameters, ITwitterRequest request);
+        
+        // ONGOING REQUESTS
         Task<ITwitterResult<IIdsCursorQueryResultDTO>> GetUserIdsRequestingFriendship(IGetUserIdsRequestingFriendshipParameters parameters, ITwitterRequest request);
-
+        Task<ITwitterResult<IIdsCursorQueryResultDTO>> GetUserIdsYouRequestedToFollow(IGetUserIdsYouRequestedToFollowParameters parameters, ITwitterRequest request);
+        
         // FRIENDSHIPS
         Task<ITwitterResult<IRelationshipStateDTO[]>> GetRelationshipsWith(IGetRelationshipsWithParameters parameters, ITwitterRequest request);
+
 
 
 
@@ -155,6 +159,16 @@ namespace Tweetinvi.Controllers.Account
         public Task<ITwitterResult<IIdsCursorQueryResultDTO>> GetUserIdsRequestingFriendship(IGetUserIdsRequestingFriendshipParameters parameters, ITwitterRequest request)
         {
             var query = _accountQueryGenerator.GetUserIdsRequestingFriendshipQuery(parameters);
+
+            request.Query.Url = query;
+            request.Query.HttpMethod = HttpMethod.GET;
+
+            return _twitterAccessor.ExecuteRequest<IIdsCursorQueryResultDTO>(request);
+        }
+
+        public Task<ITwitterResult<IIdsCursorQueryResultDTO>> GetUserIdsYouRequestedToFollow(IGetUserIdsYouRequestedToFollowParameters parameters, ITwitterRequest request)
+        {
+            var query = _accountQueryGenerator.GetUserIdsYouRequestedToFollowQuery(parameters);
 
             request.Query.Url = query;
             request.Query.HttpMethod = HttpMethod.GET;

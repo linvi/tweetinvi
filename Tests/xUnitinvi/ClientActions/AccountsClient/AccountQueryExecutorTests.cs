@@ -180,6 +180,25 @@ namespace xUnitinvi.ClientActions.AccountsClient
             // Assert
             Assert.Equal(result, expectedResult);
         }
+        
+        [Fact]
+        public async Task GetUserIdsYouRequestedToFollow_ReturnsPendingFollowers()
+        {
+            // Arrange
+            var queryExecutor = CreateAccountQueryExecutor();
+            var parameters = new GetUserIdsYouRequestedToFollowParameters();
+
+            var request = A.Fake<ITwitterRequest>();
+            var expectedResult = A.Fake<ITwitterResult<IIdsCursorQueryResultDTO>>();
+
+            A.CallTo(() => _fakeTwitterAccessor.ExecuteRequest<IIdsCursorQueryResultDTO>(request)).Returns(expectedResult);
+
+            // Act
+            var result = await queryExecutor.GetUserIdsYouRequestedToFollow(parameters, request);
+
+            // Assert
+            Assert.Equal(result, expectedResult);
+        }
 
         [Fact]
         public async Task GetRelationshipsWith_ReturnsRelationships()

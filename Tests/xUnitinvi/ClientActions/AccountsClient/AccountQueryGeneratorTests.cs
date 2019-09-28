@@ -18,7 +18,6 @@ namespace xUnitinvi.ClientActions.AccountsClient
         public AccountQueryGeneratorTests()
         {
             _fakeBuilder = new FakeClassBuilder<AccountQueryGenerator>();
-            _fakeUserQueryValidator = _fakeBuilder.GetFake<IUserQueryValidator>();
         }
 
         private readonly FakeClassBuilder<AccountQueryGenerator> _fakeBuilder;
@@ -112,8 +111,6 @@ namespace xUnitinvi.ClientActions.AccountsClient
 
             // Assert
             Assert.Equal(result, $"https://api.twitter.com/1.1/blocks/create.json?user_id=42&hello=world");
-
-            _fakeUserQueryValidator.CallsTo(x => x.ThrowIfUserCannotBeIdentified(user)).MustHaveHappened();
         }
 
         [Fact]
@@ -134,8 +131,6 @@ namespace xUnitinvi.ClientActions.AccountsClient
 
             // Assert
             Assert.Equal(result, $"https://api.twitter.com/1.1/friendships/create.json?user_id=42&follow=true&hello=world");
-
-            _fakeUserQueryValidator.CallsTo(x => x.ThrowIfUserCannotBeIdentified(user)).MustHaveHappened();
         }
 
         [Fact]
@@ -155,8 +150,6 @@ namespace xUnitinvi.ClientActions.AccountsClient
 
             // Assert
             Assert.Equal(result, $"https://api.twitter.com/1.1/blocks/destroy.json?user_id=42&hello=world");
-
-            _fakeUserQueryValidator.CallsTo(x => x.ThrowIfUserCannotBeIdentified(user)).MustHaveHappened();
         }
 
         // FOLLOWERS
@@ -178,8 +171,6 @@ namespace xUnitinvi.ClientActions.AccountsClient
 
             // Assert
             Assert.Equal(result, $"https://api.twitter.com/1.1/friendships/destroy.json?user_id=42&hello=world");
-
-            _fakeUserQueryValidator.CallsTo(x => x.ThrowIfUserCannotBeIdentified(user)).MustHaveHappened();
         }
 
         [Fact]
@@ -200,8 +191,6 @@ namespace xUnitinvi.ClientActions.AccountsClient
 
             // Assert
             Assert.Equal(result, $"https://api.twitter.com/1.1/users/report_spam.json?user_id=42&perform_block=false&hello=world");
-
-            _fakeUserQueryValidator.CallsTo(x => x.ThrowIfUserCannotBeIdentified(user)).MustHaveHappened();
         }
 
         [Fact]
@@ -221,7 +210,27 @@ namespace xUnitinvi.ClientActions.AccountsClient
             var result = queryGenerator.GetUserIdsRequestingFriendshipQuery(parameters);
 
             // Assert
-            Assert.Equal(result, $"https://api.twitter.com/1.1/friendships/incoming.json?count=42&cursor=start_cursor&hello=world");
+            Assert.Equal(result, $"https://api.twitter.com/1.1/friendships/incoming.json?cursor=start_cursor&count=42&hello=world");
+        }
+        
+        [Fact]
+        public void GetUserIdsYouRequestedToFollowQuery_ReturnsExpectedQuery()
+        {
+            // Arrange
+            var queryGenerator = CreateAccountQueryGenerator();
+
+            var parameters = new GetUserIdsYouRequestedToFollowParameters
+            {
+                PageSize = 42,
+                Cursor = "start_cursor",
+                CustomQueryParameters = { new Tuple<string, string>("hello", "world") }
+            };
+
+            // Act
+            var result = queryGenerator.GetUserIdsYouRequestedToFollowQuery(parameters);
+
+            // Assert
+            Assert.Equal(result, $"https://api.twitter.com/1.1/friendships/outgoing.json?cursor=start_cursor&count=42&hello=world");
         }
 
         // FRIENDSHIPS

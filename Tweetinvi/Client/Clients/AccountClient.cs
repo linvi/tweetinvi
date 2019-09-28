@@ -218,7 +218,7 @@ namespace Tweetinvi.Client
         {
             return GetUserIdsRequestingFriendship(new GetUserIdsRequestingFriendshipParameters());
         }
-
+        
         /// <inheritdoc />
         public ITwitterIterator<long> GetUserIdsRequestingFriendship(IGetUserIdsRequestingFriendshipParameters parameters)
         {
@@ -231,7 +231,7 @@ namespace Tweetinvi.Client
         {
             return GetUsersRequestingFriendship(new GetUsersRequestingFriendshipParameters());
         }
-
+        
         /// <inheritdoc />
         public IMultiLevelCursorIterator<long, IUser> GetUsersRequestingFriendship(IGetUsersRequestingFriendshipParameters parameters)
         {
@@ -246,6 +246,39 @@ namespace Tweetinvi.Client
             return _multiLevelCursorIteratorFactory.CreateUserMultiLevelIterator(_client, iterator, maxPageSize);
         }
 
+        /// <inheritdoc />
+        public ITwitterIterator<long> GetUserIdsYouRequestedToFollow()
+        {
+            return GetUserIdsYouRequestedToFollow(new GetUserIdsYouRequestedToFollowParameters());
+        }
+
+        /// <inheritdoc />
+        public ITwitterIterator<long> GetUserIdsYouRequestedToFollow(IGetUserIdsYouRequestedToFollowParameters parameters)
+        {
+            var iterator = _accountsRequester.GetUserIdsYouRequestedToFollow(parameters);
+            return new TwitterIteratorProxy<ITwitterResult<IIdsCursorQueryResultDTO>, long>(iterator, dto => dto.DataTransferObject.Ids);
+        }
+        
+        /// <inheritdoc />
+        public IMultiLevelCursorIterator<long, IUser> GetUsersYouRequestedToFollow()
+        {
+            return GetUsersYouRequestedToFollow(new GetUsersYouRequestedToFollowParameters());
+        }
+
+        /// <inheritdoc />
+        public IMultiLevelCursorIterator<long, IUser> GetUsersYouRequestedToFollow(IGetUsersYouRequestedToFollowParameters parameters)
+        {
+            var iterator = _accountsRequester.GetUserIdsYouRequestedToFollow(parameters);
+
+            var maxPageSize = parameters.GetUsersPageSize;
+            if (maxPageSize > _client.Config.Limits.USERS_GET_USERS_MAX_SIZE)
+            {
+                throw new TwitterArgumentLimitException($"${nameof(parameters)}.{nameof(parameters.GetUsersPageSize)}", maxPageSize, nameof(_client.Config.Limits.USERS_GET_USERS_MAX_SIZE), "page size");
+            }
+            
+            return _multiLevelCursorIteratorFactory.CreateUserMultiLevelIterator(_client, iterator, maxPageSize);
+        }
+        
         #endregion
 
         #region Relationships With

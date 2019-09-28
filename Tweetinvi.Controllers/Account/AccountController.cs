@@ -71,6 +71,23 @@ namespace Tweetinvi.Controllers.Account
         
         // FRIENDSHIP
         
+        public Task<ITwitterResult<IRelationshipStateDTO[]>> GetRelationshipsWith(IGetRelationshipsWithParameters parameters, ITwitterRequest request)
+        {
+            if (parameters == null)
+            {
+                throw new ArgumentNullException(nameof(parameters));
+            }
+            
+            var limits = request.ExecutionContext.Limits;
+            var maxUsers = limits.ACCOUNT_GET_RELATIONSHIPS_WITH_MAX_SIZE;
+            if (parameters.Users.Length > maxUsers)
+            {
+                throw new TwitterArgumentLimitException($"${nameof(parameters)}.{nameof(parameters.Users)}", maxUsers, nameof(limits.ACCOUNT_GET_RELATIONSHIPS_WITH_MAX_SIZE), "users");
+            }
+
+            return _accountQueryExecutor.GetRelationshipsWith(parameters, request);
+        }
+
         public ITwitterPageIterator<ITwitterResult<IIdsCursorQueryResultDTO>> GetUserIdsRequestingFriendship(IGetUserIdsRequestingFriendshipParameters parameters, ITwitterRequest request)
         {
             if (parameters == null)
@@ -95,6 +112,37 @@ namespace Tweetinvi.Controllers.Account
                     };
 
                     return _accountQueryExecutor.GetUserIdsRequestingFriendship(cursoredParameters, new TwitterRequest(request));
+                },
+                page => page.DataTransferObject.NextCursorStr,
+                page => page.DataTransferObject.NextCursorStr == "0");
+
+            return twitterCursorResult;
+        }
+        
+        public ITwitterPageIterator<ITwitterResult<IIdsCursorQueryResultDTO>> GetUserIdsYouRequestedToFollow(IGetUserIdsYouRequestedToFollowParameters parameters, ITwitterRequest request)
+        {
+            if (parameters == null)
+            {
+                throw new ArgumentNullException($"{nameof(parameters)}");
+            }
+            
+            var limits = request.ExecutionContext.Limits;
+            var maxPageSize = limits.ACCOUNT_GET_REQUESTED_USER_IDS_TO_FOLLOW_MAX_PAGE_SIZE;
+            if (parameters.PageSize > maxPageSize)
+            {
+                throw new TwitterArgumentLimitException($"${nameof(parameters)}.{nameof(parameters.PageSize)}", maxPageSize, nameof(limits.ACCOUNT_GET_REQUESTED_USER_IDS_TO_FOLLOW_MAX_PAGE_SIZE), "page size");
+            }
+
+            var twitterCursorResult = new TwitterPageIterator<ITwitterResult<IIdsCursorQueryResultDTO>>(
+                parameters.Cursor,
+                cursor =>
+                {
+                    var cursoredParameters = new GetUserIdsYouRequestedToFollowParameters(parameters)
+                    {
+                        Cursor = cursor
+                    };
+
+                    return _accountQueryExecutor.GetUserIdsYouRequestedToFollow(cursoredParameters, new TwitterRequest(request));
                 },
                 page => page.DataTransferObject.NextCursorStr,
                 page => page.DataTransferObject.NextCursorStr == "0");
@@ -183,22 +231,6 @@ namespace Tweetinvi.Controllers.Account
             return twitterCursorResult;
         }
 
-        public Task<ITwitterResult<IRelationshipStateDTO[]>> GetRelationshipsWith(IGetRelationshipsWithParameters parameters, ITwitterRequest request)
-        {
-            if (parameters == null)
-            {
-                throw new ArgumentNullException(nameof(parameters));
-            }
-            
-            var limits = request.ExecutionContext.Limits;
-            var maxUsers = limits.ACCOUNT_GET_RELATIONSHIPS_WITH_MAX_SIZE;
-            if (parameters.Users.Length > maxUsers)
-            {
-                throw new TwitterArgumentLimitException($"${nameof(parameters)}.{nameof(parameters.Users)}", maxUsers, nameof(limits.ACCOUNT_GET_RELATIONSHIPS_WITH_MAX_SIZE), "users");
-            }
-
-            return _accountQueryExecutor.GetRelationshipsWith(parameters, request);
-        }
 
 
 

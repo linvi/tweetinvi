@@ -13,10 +13,16 @@ namespace Tweetinvi
         public short ACCOUNT_GET_RELATIONSHIPS_WITH_MAX_SIZE { get; set; } = 100;
         
         /// <summary>
-        /// Maximum numbers of users that can be retrieved in 1 request
+        /// Maximum numbers of user ids that can be retrieved in 1 request
         /// <para>https://dev.twitter.com/en/docs/accounts-and-users/follow-search-get-users/api-reference/get-friendships-incoming</para>
         /// </summary>
         public short ACCOUNT_GET_USER_IDS_REQUESTING_FRIENDSHIP_MAX_PAGE_SIZE { get; set; } = 5000;
+        
+        /// <summary>
+        /// Maximum numbers of user ids that can be retrieved in 1 request
+        /// <para>https://dev.twitter.com/en/docs/accounts-and-users/follow-search-get-users/api-reference/get-friendships-outgoing</para>
+        /// </summary>
+        public short ACCOUNT_GET_REQUESTED_USER_IDS_TO_FOLLOW_MAX_PAGE_SIZE { get; set; } = 5000;
         
         /// <summary>
         /// Maximum numbers of user ids that can be retrieved in 1 request

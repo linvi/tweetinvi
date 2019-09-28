@@ -65,6 +65,13 @@ namespace Tweetinvi.Client.Requesters
             request.ExecutionContext.Converters = JsonQueryConverterRepository.Converters;
             return _accountController.GetUserIdsRequestingFriendship(parameters, request);
         }
+        
+        public ITwitterPageIterator<ITwitterResult<IIdsCursorQueryResultDTO>> GetUserIdsYouRequestedToFollow(IGetUserIdsYouRequestedToFollowParameters parameters)
+        {
+            var request = _twitterClient.CreateRequest();
+            request.ExecutionContext.Converters = JsonQueryConverterRepository.Converters;
+            return _accountController.GetUserIdsYouRequestedToFollow(parameters, request);
+        }
 
         // BLOCK
         public Task<ITwitterResult<IUserDTO>> BlockUser(IBlockUserParameters parameters)

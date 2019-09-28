@@ -143,11 +143,21 @@ namespace Tweetinvi.Models
         /// Get the user ids who requested to follow you.
         /// </summary>
         ITwitterIterator<long> GetUserIdsRequestingFriendship();
+        
+        /// <summary>
+        /// Get the users who requested to follow you.
+        /// </summary>
+        IMultiLevelCursorIterator<long, IUser> GetUsersRequestingFriendship();
 
+        /// <summary>
+        /// Get the user ids you've requested to follow.
+        /// </summary>
+        ITwitterIterator<long> GetUserIdsYouRequestedToFollow();
+        
         /// <summary>
         /// Get the users you've requested to follow.
         /// </summary>
-        Task<IEnumerable<IUser>> GetUsersYouRequestedToFollow(int maximumUserIdsToRetrieve = 5000);
+        IMultiLevelCursorIterator<long, IUser> GetUsersYouRequestedToFollow();
 
         /// <summary>
         /// Folow a specific user.

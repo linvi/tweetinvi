@@ -25,7 +25,11 @@ namespace Tweetinvi.Controllers.Account
         // FOLLOWERS
         string GetFollowUserQuery(IFollowUserParameters parameters);
         string GetUnFollowUserQuery(IUnFollowUserParameters parameters);
+        
+        // ONGOING REQUESTS
         string GetUserIdsRequestingFriendshipQuery(IGetUserIdsRequestingFriendshipParameters parameters);
+        string GetUserIdsYouRequestedToFollowQuery(IGetUserIdsYouRequestedToFollowParameters parameters);
+
 
         // FRIENDSHIPS
         string GetRelationshipsWithQuery(IGetRelationshipsWithParameters parameters);
@@ -170,8 +174,19 @@ namespace Tweetinvi.Controllers.Account
         {
             var query = new StringBuilder(Resources.Friendship_GetIncomingIds);
             
-            query.AddParameterToQuery("count", parameters.PageSize);
             query.AddParameterToQuery("cursor", parameters.Cursor);
+            query.AddParameterToQuery("count", parameters.PageSize);
+            query.AddFormattedParameterToQuery(parameters.FormattedCustomQueryParameters);
+
+            return query.ToString();
+        }
+
+        public string GetUserIdsYouRequestedToFollowQuery(IGetUserIdsYouRequestedToFollowParameters parameters)
+        {
+            var query = new StringBuilder(Resources.Friendship_GetOutgoingIds);
+            
+            query.AddParameterToQuery("cursor", parameters.Cursor);
+            query.AddParameterToQuery("count", parameters.PageSize);
             query.AddFormattedParameterToQuery(parameters.FormattedCustomQueryParameters);
 
             return query.ToString();

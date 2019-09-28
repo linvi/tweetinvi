@@ -10,7 +10,6 @@ namespace Tweetinvi.Controllers.Friendship
 {
     public interface IFriendshipQueryExecutor
     {
-        Task<IEnumerable<long>> GetUserIdsYouRequestedToFollow(int maximumUserIdsToRetrieve);
         Task<long[]> GetUserIdsWhoseRetweetsAreMuted();
 
         // Update Friendship Authorization
@@ -32,13 +31,6 @@ namespace Tweetinvi.Controllers.Friendship
             _twitterAccessor = twitterAccessor;
             _friendshipQueryGenerator = friendshipQueryGenerator;
             _userQueryValidator = userQueryValidator;
-        }
-
-
-        public Task<IEnumerable<long>> GetUserIdsYouRequestedToFollow(int maximumUserIdsToRetrieve)
-        {
-            string query = _friendshipQueryGenerator.GetUserIdsYouRequestedToFollowQuery();
-            return _twitterAccessor.ExecuteCursorGETQuery<long, IIdsCursorQueryResultDTO>(query, maximumUserIdsToRetrieve);
         }
 
         public Task<long[]> GetUserIdsWhoseRetweetsAreMuted()

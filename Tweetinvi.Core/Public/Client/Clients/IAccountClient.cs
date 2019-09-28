@@ -136,15 +136,15 @@ namespace Tweetinvi.Client
 
         /// <inheritdoc cref="GetUserIdsRequestingFriendship(IGetUserIdsRequestingFriendshipParameters)" />
         ITwitterIterator<long> GetUserIdsRequestingFriendship();
-
+        
         /// <summary>
-        /// Get the pending follower requests for protected accounts.
+        /// Get the pending follower ids requests for protected accounts.
         /// <para>Read more : https://developer.twitter.com/en/docs/accounts-and-users/follow-search-get-users/api-reference/get-friendships-incoming </para>
         /// <para>Protected accounts : https://help.twitter.com/en/safety-and-security/public-and-protected-tweets </para>
         /// </summary>
         /// <returns>An iterator to list the user ids who requested to follow the client's account</returns>
         ITwitterIterator<long> GetUserIdsRequestingFriendship(IGetUserIdsRequestingFriendshipParameters parameters);
-
+        
         /// <inheritdoc cref="GetUsersRequestingFriendship(IGetUsersRequestingFriendshipParameters)" />
         IMultiLevelCursorIterator<long, IUser> GetUsersRequestingFriendship();
 
@@ -155,7 +155,29 @@ namespace Tweetinvi.Client
         /// </summary>
         /// <returns>An iterator to list the users who requested to follow the client's account</returns>
         IMultiLevelCursorIterator<long, IUser> GetUsersRequestingFriendship(IGetUsersRequestingFriendshipParameters parameters);
+        
+        /// <inheritdoc cref="GetUserIdsYouRequestedToFollow(IGetUserIdsYouRequestedToFollowParameters)" />
+        ITwitterIterator<long> GetUserIdsYouRequestedToFollow();
+        
+        /// <summary>
+        /// Get the pending follower ids requests that you have requested.
+        /// <para>Read more : https://dev.twitter.com/en/docs/accounts-and-users/follow-search-get-users/api-reference/get-friendships-outgoing </para>
+        /// <para>Protected accounts : https://help.twitter.com/en/safety-and-security/public-and-protected-tweets</para>
+        /// </summary>
+        /// <returns>An iterator to list the user ids the client's account requested to follow</returns>
+        ITwitterIterator<long> GetUserIdsYouRequestedToFollow(IGetUserIdsYouRequestedToFollowParameters parameters);
 
+        /// <inheritdoc cref="GetUsersYouRequestedToFollow(IGetUsersYouRequestedToFollowParameters)" />
+        IMultiLevelCursorIterator<long, IUser> GetUsersYouRequestedToFollow();
+        
+        /// <summary>
+        /// Get the pending follower ids requests that you have requested.
+        /// <para>Read more : https://dev.twitter.com/en/docs/accounts-and-users/follow-search-get-users/api-reference/get-friendships-outgoing </para>
+        /// <para>Protected accounts : https://help.twitter.com/en/safety-and-security/public-and-protected-tweets</para>
+        /// </summary>
+        /// <returns>An iterator to list the users the client's account requested to follow</returns>
+        IMultiLevelCursorIterator<long, IUser> GetUsersYouRequestedToFollow(IGetUsersYouRequestedToFollowParameters parameters);
+        
         #endregion
 
         #region Relationships With
@@ -179,5 +201,7 @@ namespace Tweetinvi.Client
         Task<IUserDictionary<IRelationshipState>> GetRelationshipsWith(IGetRelationshipsWithParameters parameters);
 
         #endregion
+
+      
     }
 }

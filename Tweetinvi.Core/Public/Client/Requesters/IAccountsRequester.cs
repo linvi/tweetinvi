@@ -46,14 +46,14 @@ namespace Tweetinvi.Client.Requesters
         /// Get the user ids blocked by the client's account
         /// <para>Read more : https://dev.twitter.com/en/docs/accounts-and-users/mute-block-report-users/api-reference/get-blocks-ids </para>
         /// </summary>
-        /// <returns>TwitterCursorResult to iterate over all the blocked user ids</returns>
+        /// <returns>An iterator to list the blocked user ids</returns>
         ITwitterPageIterator<ITwitterResult<IIdsCursorQueryResultDTO>> GetBlockedUserIds(IGetBlockedUserIdsParameters parameters);
 
         /// <summary>
         /// Get the users blocked by the client's account
         /// <para>Read more : https://dev.twitter.com/en/docs/accounts-and-users/mute-block-report-users/api-reference/get-blocks-ids </para>
         /// </summary>
-        /// <returns>TwitterCursorResult to iterate over all the blocked users</returns>
+        /// <returns>An iterator to list the blocked users</returns>
         ITwitterPageIterator<ITwitterResult<IUserCursorQueryResultDTO>> GetBlockedUsers(IGetBlockedUsersParameters parameters);
 
         // FOLLOWERS
@@ -72,13 +72,23 @@ namespace Tweetinvi.Client.Requesters
         /// <returns>TwitterResult containing the user who is no longer followed</returns>
         Task<ITwitterResult<IUserDTO>> UnFollowUser(IUnFollowUserParameters parameters);
         
+        // ONGOING REQUESTS
+        
         /// <summary>
-        /// Get the pending follower requests for protected accounts.
+        /// Get the pending follower requests you have received.
         /// <para>Read more : https://dev.twitter.com/en/docs/accounts-and-users/follow-search-get-users/api-reference/get-friendships-incoming </para>
         /// <para>Protected accounts : https://help.twitter.com/en/safety-and-security/public-and-protected-tweets</para>
         /// </summary>
-        /// <returns>TwitterCursorResult to iterate over all user ids requesting to follow the client's account</returns>
+        /// <returns>An iterator to list the users who requested to follow the client's account</returns>
         ITwitterPageIterator<ITwitterResult<IIdsCursorQueryResultDTO>> GetUserIdsRequestingFriendship(IGetUserIdsRequestingFriendshipParameters parameters);
+        
+        /// <summary>
+        /// Get the pending follower requests that you have requested.
+        /// <para>Read more : https://dev.twitter.com/en/docs/accounts-and-users/follow-search-get-users/api-reference/get-friendships-outgoing </para>
+        /// <para>Protected accounts : https://help.twitter.com/en/safety-and-security/public-and-protected-tweets</para>
+        /// </summary>
+        /// <returns>An iterator to list the user ids the client's account requested to follow</returns>
+        ITwitterPageIterator<ITwitterResult<IIdsCursorQueryResultDTO>> GetUserIdsYouRequestedToFollow(IGetUserIdsYouRequestedToFollowParameters parameters);
 
         // FRIENDSHIPS
 
