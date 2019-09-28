@@ -52,6 +52,14 @@ namespace Tweetinvi.Client.Requesters
             var request = _twitterClient.CreateRequest();
             return ExecuteRequest(() => _accountController.FollowUser(parameters, request), request);
         }
+        
+        public async Task<ITwitterResult<IRelationshipDetailsDTO, IRelationshipDetails>> UpdateRelationship(IUpdateRelationshipParameters parameters)
+        {
+            var request = _twitterClient.CreateRequest();
+            var result = await ExecuteRequest(() => _accountController.UpdateRelationship(parameters, request), request).ConfigureAwait(false);
+            
+            return _twitterResultFactory.Create(result, _friendshipFactory.GenerateRelationshipFromRelationshipDTO);
+        }
 
         public Task<ITwitterResult<IUserDTO>> UnFollowUser(IUnFollowUserParameters parameters)
         {
@@ -110,7 +118,7 @@ namespace Tweetinvi.Client.Requesters
         public async Task<ITwitterResult<IRelationshipStateDTO[], IRelationshipState[]>> GetRelationshipsWith(IGetRelationshipsWithParameters parameters)
         {
             var request = _twitterClient.CreateRequest();
-            var twitterResult = await _accountController.GetRelationshipsWith(parameters, request);
+            var twitterResult = await _accountController.GetRelationshipsWith(parameters, request).ConfigureAwait(false);
 
             return _twitterResultFactory.Create(twitterResult, _friendshipFactory.GenerateRelationshipStatesFromRelationshipStatesDTO);
         }

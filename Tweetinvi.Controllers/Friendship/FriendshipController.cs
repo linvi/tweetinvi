@@ -11,18 +11,15 @@ namespace Tweetinvi.Controllers.Friendship
     {
         private readonly IFriendshipQueryExecutor _friendshipQueryExecutor;
         private readonly IUserFactory _userFactory;
-        private readonly IFriendshipFactory _friendshipFactory;
         private readonly IFactory<IFriendshipAuthorizations> _friendshipAuthorizationsFactory;
 
         public FriendshipController(
             IFriendshipQueryExecutor friendshipQueryExecutor,
             IUserFactory userFactory,
-            IFriendshipFactory friendshipFactory,
             IFactory<IFriendshipAuthorizations> friendshipAuthorizationsFactory)
         {
             _friendshipQueryExecutor = friendshipQueryExecutor;
             _userFactory = userFactory;
-            _friendshipFactory = friendshipFactory;
             _friendshipAuthorizationsFactory = friendshipAuthorizationsFactory;
         }
         
@@ -36,25 +33,6 @@ namespace Tweetinvi.Controllers.Friendship
         {
             var userIds = await GetUserIdsWhoseRetweetsAreMuted();
             return await _userFactory.GetUsersFromIds(userIds);
-        }
-
-        // Update Friendship Authorizations
-        public Task<bool> UpdateRelationshipAuthorizationsWith(IUserIdentifier user, bool retweetsEnabled, bool deviceNotificationEnabled)
-        {
-            var friendshipAuthorizations = _friendshipFactory.GenerateFriendshipAuthorizations(retweetsEnabled, deviceNotificationEnabled);
-            return _friendshipQueryExecutor.UpdateRelationshipAuthorizationsWith(user, friendshipAuthorizations);
-        }
-
-        public Task<bool> UpdateRelationshipAuthorizationsWith(long userId, bool retweetsEnabled, bool deviceNotificationEnabled)
-        {
-            var friendshipAuthorizations = _friendshipFactory.GenerateFriendshipAuthorizations(retweetsEnabled, deviceNotificationEnabled);
-            return _friendshipQueryExecutor.UpdateRelationshipAuthorizationsWith(new UserIdentifier(userId), friendshipAuthorizations);
-        }
-
-        public Task<bool> UpdateRelationshipAuthorizationsWith(string userScreenName, bool retweetsEnabled, bool deviceNotificationEnabled)
-        {
-            var friendshipAuthorizations = _friendshipFactory.GenerateFriendshipAuthorizations(retweetsEnabled, deviceNotificationEnabled);
-            return _friendshipQueryExecutor.UpdateRelationshipAuthorizationsWith(new UserIdentifier(userScreenName), friendshipAuthorizations);
         }
 
         // Generate RelationshipAuthorizations

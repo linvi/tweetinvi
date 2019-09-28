@@ -258,6 +258,25 @@ namespace xUnitinvi.ClientActions.AccountsClient
         // FRIENDSHIPS
         
         [Fact]
+        public async Task UpdateRelationship_ReturnsFromUserQueryExecutor()
+        {
+            // Arrange
+            var controller = CreateAccountController();
+
+            var parameters = new UpdateRelationshipParameters(42);
+            var request = A.Fake<ITwitterRequest>();
+            var expectedResult = A.Fake<ITwitterResult<IRelationshipDetailsDTO>>();
+
+            A.CallTo(() => _fakeAccountQueryExecutor.UpdateRelationship(parameters, request)).Returns(expectedResult);
+
+            // Act
+            var result = await controller.UpdateRelationship(parameters, request);
+
+            // Assert
+            Assert.Equal(result, expectedResult);
+        }
+        
+        [Fact]
         public async Task GetRelationshipsWith_ReturnsFromUserQueryExecutor()
         {
             // Arrange

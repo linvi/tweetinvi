@@ -123,20 +123,10 @@ namespace Tweetinvi.Models
         Task<IRelationshipDetails> GetRelationshipWith(string username);
 
         /// <summary>
-        /// Modify the relationship between the authenticated user (source) and another user (target).
+        /// Modify the friendship between the authenticated user (source) and another user (target).
         /// </summary>
-        Task<bool> UpdateRelationshipAuthorizationsWith(IUserIdentifier user, bool retweetsEnabled, bool deviceNotificationsEnabled);
-
-        /// <summary>
-        /// Modify the relationship between the authenticated user (source) and another user (target).
-        /// </summary>
-        Task<bool> UpdateRelationshipAuthorizationsWith(long userId, bool retweetsEnabled, bool deviceNotificationsEnabled);
-
-        /// <summary>
-        /// Modify the relationship between the authenticated user (source) and another user (target).
-        /// </summary>
-        Task<bool> UpdateRelationshipAuthorizationsWith(string screenName, bool retweetsEnabled, bool deviceNotificationsEnabled);
-
+        Task<bool> UpdateRelationship(IUpdateRelationshipParameters parameters);
+        
         // Friends - Followers
 
         /// <summary>

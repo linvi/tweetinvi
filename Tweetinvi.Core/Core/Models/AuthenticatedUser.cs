@@ -20,7 +20,6 @@ namespace Tweetinvi.Core.Models
     {
         private readonly ICredentialsAccessor _credentialsAccessor;
         private readonly IMessageController _messageController;
-        private readonly IFriendshipController _friendshipController;
         private readonly IAccountController _accountController;
         private readonly ITwitterListController _twitterListController;
         private readonly ISavedSearchController _savedSearchController;
@@ -42,7 +41,6 @@ namespace Tweetinvi.Core.Models
         {
             _credentialsAccessor = credentialsAccessor;
             _messageController = messageController;
-            _friendshipController = friendshipController;
             _accountController = accountController;
             _twitterListController = twitterListController;
             _savedSearchController = savedSearchController;
@@ -107,7 +105,12 @@ namespace Tweetinvi.Core.Models
             return ExecuteAuthenticatedUserOperation(() => _timelineController.GetMentionsTimeline(maximumNumberOfMentions));
         }
 
-        // Frienships
+        // Friendships
+        public Task<bool> UpdateRelationship(IUpdateRelationshipParameters parameters)
+        {
+            return Client.Account.UpdateRelationship(parameters);
+        }
+        
         public override Task<IRelationshipDetails> GetRelationshipWith(IUserIdentifier user)
         {
             return Client.Users.GetRelationshipBetween(this, user);
@@ -121,21 +124,6 @@ namespace Tweetinvi.Core.Models
         public Task<IRelationshipDetails> GetRelationshipWith(string username)
         {
             return Client.Users.GetRelationshipBetween(this, username);
-        }
-
-        public Task<bool> UpdateRelationshipAuthorizationsWith(IUserIdentifier user, bool retweetsEnabled, bool deviceNotificationsEnabled)
-        {
-            return ExecuteAuthenticatedUserOperation(() => _friendshipController.UpdateRelationshipAuthorizationsWith(user, retweetsEnabled, deviceNotificationsEnabled));
-        }
-
-        public Task<bool> UpdateRelationshipAuthorizationsWith(long userId, bool retweetsEnabled, bool deviceNotificationsEnabled)
-        {
-            return ExecuteAuthenticatedUserOperation(() => _friendshipController.UpdateRelationshipAuthorizationsWith(userId, retweetsEnabled, deviceNotificationsEnabled));
-        }
-
-        public Task<bool> UpdateRelationshipAuthorizationsWith(string screenName, bool retweetsEnabled, bool deviceNotificationsEnabled)
-        {
-            return ExecuteAuthenticatedUserOperation(() => _friendshipController.UpdateRelationshipAuthorizationsWith(screenName, retweetsEnabled, deviceNotificationsEnabled));
         }
 
         // Friends - Followers

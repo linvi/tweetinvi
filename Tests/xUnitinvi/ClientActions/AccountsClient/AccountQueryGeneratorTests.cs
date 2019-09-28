@@ -235,6 +235,26 @@ namespace xUnitinvi.ClientActions.AccountsClient
 
         // FRIENDSHIPS
         [Fact]
+        public void GetUpdateRelationshipQuery_ReturnsExpectedQuery()
+        {
+            // Arrange
+            var queryGenerator = CreateAccountQueryGenerator();
+
+            var parameters = new UpdateRelationshipParameters(42)
+            {
+                EnableRetweets = true,
+                EnableDeviceNotifications = true,
+                CustomQueryParameters = { new Tuple<string, string>("hello", "world") }
+            };
+
+            // Act
+            var result = queryGenerator.GetUpdateRelationshipQuery(parameters);
+
+            // Assert
+            Assert.Equal(result, $"https://api.twitter.com/1.1/friendships/update.json?user_id=42&device=true&retweets=true&hello=world");
+        }
+        
+        [Fact]
         public void GetRelationshipsWithQuery_ReturnsExpectedQuery()
         {
             // Arrange

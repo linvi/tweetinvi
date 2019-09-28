@@ -59,6 +59,7 @@ namespace Tweetinvi.Controllers.Account
         Task<IEnumerable<IUserDTO>> GetSuggestedUsers(string slug, Language? language);
         Task<IEnumerable<ICategorySuggestion>> GetSuggestedCategories(Language? language);
         Task<IEnumerable<IUserDTO>> GetSuggestedUsersWithTheirLatestTweet(string slug);
+        Task<ITwitterResult<IRelationshipDetailsDTO>> UpdateRelationship(IUpdateRelationshipParameters parameters, ITwitterRequest request);
     }
 
     public class AccountQueryExecutor : IAccountQueryExecutor
@@ -144,6 +145,16 @@ namespace Tweetinvi.Controllers.Account
             request.Query.HttpMethod = HttpMethod.POST;
 
             return _twitterAccessor.ExecuteRequest<IUserDTO>(request);
+        }
+        
+        public Task<ITwitterResult<IRelationshipDetailsDTO>> UpdateRelationship(IUpdateRelationshipParameters parameters, ITwitterRequest request)
+        {
+            var query = _accountQueryGenerator.GetUpdateRelationshipQuery(parameters);
+
+            request.Query.Url = query;
+            request.Query.HttpMethod = HttpMethod.POST;
+
+            return _twitterAccessor.ExecuteRequest<IRelationshipDetailsDTO>(request);
         }
 
         public Task<ITwitterResult<IUserDTO>> UnFollowUser(IUnFollowUserParameters parameters, ITwitterRequest request)

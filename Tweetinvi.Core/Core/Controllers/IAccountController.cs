@@ -81,5 +81,6 @@ namespace Tweetinvi.Core.Controllers
         Task<IEnumerable<IUser>> GetSuggestedUsers(string slug, Language? language);
         Task<IEnumerable<IUser>> GetSuggestedUsersWithTheirLatestTweet(string slug);
         IAccountSettings GenerateAccountSettingsFromJson(string json);
+        Task<ITwitterResult<IRelationshipDetailsDTO>> UpdateRelationship(IUpdateRelationshipParameters parameters, ITwitterRequest request);
     }
 }

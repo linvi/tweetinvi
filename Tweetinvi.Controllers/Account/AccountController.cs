@@ -52,7 +52,7 @@ namespace Tweetinvi.Controllers.Account
                 throw new ArgumentNullException($"{nameof(parameters)}");
             }
 
-            var result = await _accountQueryExecutor.GetAuthenticatedUser(parameters, request);
+            var result = await _accountQueryExecutor.GetAuthenticatedUser(parameters, request).ConfigureAwait(false);
             return _twitterResultFactory.Create(result, userDTO => _userFactory.GenerateAuthenticatedUserFromDTO(userDTO));
         }
 
@@ -61,6 +61,12 @@ namespace Tweetinvi.Controllers.Account
         {
             _userQueryValidator.ThrowIfUserCannotBeIdentified(parameters?.User, $"${nameof(parameters)}.{nameof(parameters.User)}");
             return _accountQueryExecutor.FollowUser(parameters, request);
+        }
+        
+        public Task<ITwitterResult<IRelationshipDetailsDTO>> UpdateRelationship(IUpdateRelationshipParameters parameters, ITwitterRequest request)
+        {
+            _userQueryValidator.ThrowIfUserCannotBeIdentified(parameters?.User, $"${nameof(parameters)}.{nameof(parameters.User)}");
+            return _accountQueryExecutor.UpdateRelationship(parameters, request);
         }
 
         public Task<ITwitterResult<IUserDTO>> UnFollowUser(IUnFollowUserParameters parameters, ITwitterRequest request)
@@ -240,7 +246,7 @@ namespace Tweetinvi.Controllers.Account
 
         public async Task<IAccountSettings> GetAuthenticatedUserSettings()
         {
-            var accountSettingsDTO = await _accountQueryExecutor.GetAuthenticatedUserAccountSettings();
+            var accountSettingsDTO = await _accountQueryExecutor.GetAuthenticatedUserAccountSettings().ConfigureAwait(false);
             return GenerateAccountSettingsFromDTO(accountSettingsDTO);
         }
 
@@ -266,7 +272,7 @@ namespace Tweetinvi.Controllers.Account
 
         public async Task<IAccountSettings> UpdateAuthenticatedUserSettings(IAccountSettingsRequestParameters accountSettingsRequestParameters)
         {
-            var accountSettingsDTO = await _accountQueryExecutor.UpdateAuthenticatedUserSettings(accountSettingsRequestParameters);
+            var accountSettingsDTO = await _accountQueryExecutor.UpdateAuthenticatedUserSettings(accountSettingsRequestParameters).ConfigureAwait(false);
             return GenerateAccountSettingsFromDTO(accountSettingsDTO);
         }
 

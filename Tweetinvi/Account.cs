@@ -271,33 +271,6 @@ namespace Tweetinvi
 
         #region Friendship
 
-        // Update Relationship Authorization With
-
-        /// <summary>
-        /// Changes the authorizations you give to a specific user.
-        /// </summary>
-        public static Task<bool> UpdateRelationshipAuthorizationsWith(IUserIdentifier user, bool retweetsEnabled, bool deviceNotifictionEnabled)
-        {
-            return FriendshipController.UpdateRelationshipAuthorizationsWith(user, retweetsEnabled, deviceNotifictionEnabled);
-        }
-
-        /// <summary>
-        /// Changes the authorizations you give to a specific user.
-        /// </summary>
-        public static Task<bool> UpdateRelationshipAuthorizationsWith(long userId, bool retweetsEnabled, bool deviceNotifictionEnabled)
-        {
-            return FriendshipController.UpdateRelationshipAuthorizationsWith(userId, retweetsEnabled, deviceNotifictionEnabled);
-        }
-
-        /// <summary>
-        /// Changes the authorizations you give to a specific user.
-        /// </summary>
-        public static Task<bool> UpdateRelationshipAuthorizationsWith(string userScreenName, bool retweetsEnabled, bool deviceNotifictionEnabled)
-        {
-            return FriendshipController.UpdateRelationshipAuthorizationsWith(userScreenName, retweetsEnabled, deviceNotifictionEnabled);
-        }
-
-
         // Get User Ids Whose Retweets Are Muted
 
         /// <summary>

@@ -199,6 +199,25 @@ namespace xUnitinvi.ClientActions.AccountsClient
             // Assert
             Assert.Equal(result, expectedResult);
         }
+        
+        [Fact]
+        public async Task UpdateRelationship_ReturnsRelationships()
+        {
+            // Arrange
+            var queryExecutor = CreateAccountQueryExecutor();
+            var parameters = new UpdateRelationshipParameters(42);
+
+            var request = A.Fake<ITwitterRequest>();
+            var expectedResult = A.Fake<ITwitterResult<IRelationshipDetailsDTO>>();
+
+            A.CallTo(() => _fakeTwitterAccessor.ExecuteRequest<IRelationshipDetailsDTO>(request)).Returns(expectedResult);
+
+            // Act
+            var result = await queryExecutor.UpdateRelationship(parameters, request);
+
+            // Assert
+            Assert.Equal(result, expectedResult);
+        }
 
         [Fact]
         public async Task GetRelationshipsWith_ReturnsRelationships()

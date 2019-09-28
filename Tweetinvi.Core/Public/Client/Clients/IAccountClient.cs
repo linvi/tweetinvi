@@ -180,7 +180,14 @@ namespace Tweetinvi.Client
         
         #endregion
 
-        #region Relationships With
+        #region Relationship
+        
+        /// <summary>
+        /// Modify the relationship between the authenticated user (source) and another user (target).
+        /// <para>Read more : https://dev.twitter.com/en/docs/accounts-and-users/follow-search-get-users/api-reference/post-friendships-update </para>
+        /// </summary>
+        /// <returns>Returns whether the update operation was successful.</returns>
+        Task<bool> UpdateRelationship(IUpdateRelationshipParameters parameters);
 
         /// <inheritdoc cref="GetRelationshipsWith(IGetRelationshipsWithParameters)" />
         Task<IUserDictionary<IRelationshipState>> GetRelationshipsWith(long[] userIds);
@@ -201,7 +208,5 @@ namespace Tweetinvi.Client
         Task<IUserDictionary<IRelationshipState>> GetRelationshipsWith(IGetRelationshipsWithParameters parameters);
 
         #endregion
-
-      
     }
 }

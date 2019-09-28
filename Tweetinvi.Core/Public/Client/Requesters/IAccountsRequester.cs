@@ -66,14 +66,21 @@ namespace Tweetinvi.Client.Requesters
         Task<ITwitterResult<IUserDTO>> FollowUser(IFollowUserParameters parameters);
 
         /// <summary>
+        /// Modify the relationship between the authenticated user (source) and another user (target).
+        /// <para>Read more : https://dev.twitter.com/en/docs/accounts-and-users/follow-search-get-users/api-reference/post-friendships-update </para>
+        /// </summary>
+        /// <returns>TwitterResult containing the updated relationship details</returns>
+        Task<ITwitterResult<IRelationshipDetailsDTO, IRelationshipDetails>> UpdateRelationship(IUpdateRelationshipParameters parameters);
+        
+        /// <summary>
         /// Stops following a user
         /// <para>Read more : https://dev.twitter.com/en/docs/accounts-and-users/follow-search-get-users/api-reference/post-friendships-destroy </para>
         /// </summary>
         /// <returns>TwitterResult containing the user who is no longer followed</returns>
         Task<ITwitterResult<IUserDTO>> UnFollowUser(IUnFollowUserParameters parameters);
-        
+
         // ONGOING REQUESTS
-        
+
         /// <summary>
         /// Get the pending follower requests you have received.
         /// <para>Read more : https://dev.twitter.com/en/docs/accounts-and-users/follow-search-get-users/api-reference/get-friendships-incoming </para>
@@ -81,7 +88,7 @@ namespace Tweetinvi.Client.Requesters
         /// </summary>
         /// <returns>An iterator to list the users who requested to follow the client's account</returns>
         ITwitterPageIterator<ITwitterResult<IIdsCursorQueryResultDTO>> GetUserIdsRequestingFriendship(IGetUserIdsRequestingFriendshipParameters parameters);
-        
+
         /// <summary>
         /// Get the pending follower requests that you have requested.
         /// <para>Read more : https://dev.twitter.com/en/docs/accounts-and-users/follow-search-get-users/api-reference/get-friendships-outgoing </para>

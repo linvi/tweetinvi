@@ -63,6 +63,7 @@ namespace Tweetinvi.Controllers.Account
         string GetSuggestedCategories(Language? language);
         string GetUserSuggestionsQuery(string slug, Language? language);
         string GetSuggestedUsersWithTheirLatestTweetQuery(string slug);
+        string GetUpdateRelationshipQuery(IUpdateRelationshipParameters parameters);
     }
 
     public class AccountQueryGenerator : IAccountQueryGenerator
@@ -155,6 +156,18 @@ namespace Tweetinvi.Controllers.Account
 
             query.AddFormattedParameterToQuery(_userQueryParameterGenerator.GenerateIdOrScreenNameParameter(parameters.User));
             query.AddParameterToQuery("follow", parameters.EnableNotifications);
+            query.AddFormattedParameterToQuery(parameters.FormattedCustomQueryParameters);
+
+            return query.ToString();
+        }
+        
+        public string GetUpdateRelationshipQuery(IUpdateRelationshipParameters parameters)
+        {
+            var query = new StringBuilder(Resources.Friendship_Update);
+
+            query.AddFormattedParameterToQuery(_userQueryParameterGenerator.GenerateIdOrScreenNameParameter(parameters.User));
+            query.AddParameterToQuery("device", parameters.EnableDeviceNotifications);
+            query.AddParameterToQuery("retweets", parameters.EnableRetweets);
             query.AddFormattedParameterToQuery(parameters.FormattedCustomQueryParameters);
 
             return query.ToString();
