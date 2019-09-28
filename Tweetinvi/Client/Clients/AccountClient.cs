@@ -4,6 +4,7 @@ using Tweetinvi.Client.Requesters;
 using Tweetinvi.Core.Factories;
 using Tweetinvi.Core.Iterators;
 using Tweetinvi.Core.Web;
+using Tweetinvi.Exceptions;
 using Tweetinvi.Iterators;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO.QueryDTO;
@@ -19,7 +20,6 @@ namespace Tweetinvi.Client
         private readonly TwitterClient _client;
         private readonly IAccountsRequester _accountsRequester;
         private readonly IUserFactory _userFactory;
-        private readonly IFriendshipFactory _friendshipFactory;
         private readonly IMultiLevelCursorIteratorFactory _multiLevelCursorIteratorFactory;
 
         public AccountClient(TwitterClient client)
@@ -28,7 +28,6 @@ namespace Tweetinvi.Client
             _accountsRequester = client.RequestExecutor.Accounts;
 
             _userFactory = TweetinviContainer.Resolve<IUserFactory>();
-            _friendshipFactory = TweetinviContainer.Resolve<IFriendshipFactory>();
             _multiLevelCursorIteratorFactory = TweetinviContainer.Resolve<IMultiLevelCursorIteratorFactory>();
         }
 
@@ -237,7 +236,13 @@ namespace Tweetinvi.Client
         public IMultiLevelCursorIterator<long, IUser> GetUsersRequestingFriendship(IGetUsersRequestingFriendshipParameters parameters)
         {
             var iterator = _accountsRequester.GetUserIdsRequestingFriendship(parameters);
+
             var maxPageSize = parameters.GetUsersPageSize;
+            if (maxPageSize > _client.Config.Limits.USERS_GET_USERS_MAX_SIZE)
+            {
+                throw new TwitterArgumentLimitException($"${nameof(parameters)}.{nameof(parameters.GetUsersPageSize)}", maxPageSize, nameof(_client.Config.Limits.USERS_GET_USERS_MAX_SIZE), "page size");
+            }
+            
             return _multiLevelCursorIteratorFactory.CreateUserMultiLevelIterator(_client, iterator, maxPageSize);
         }
 

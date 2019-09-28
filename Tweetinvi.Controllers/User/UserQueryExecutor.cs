@@ -1,5 +1,4 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using System.Threading.Tasks;
 using Tweetinvi.Core.Helpers;
 using Tweetinvi.Core.QueryGenerators;
@@ -55,20 +54,18 @@ namespace Tweetinvi.Controllers.User
 
         public Task<ITwitterResult<IUserDTO[]>> GetUsers(IGetUsersParameters parameters, ITwitterRequest request)
         {
-            if (parameters?.UserIdentifiers == null)
+            if (parameters.Users.Length == 0)
             {
-                // ReSharper disable once NotResolvedInText
-                throw new ArgumentNullException("UserIdentifiers");
+                ITwitterResult<IUserDTO[]> result = new TwitterResult<IUserDTO[]>(null)
+                {
+                    Request = null,
+                    Response = null,
+                    DataTransferObject = new IUserDTO[0]
+                };
+
+                return Task.FromResult(result);
             }
-
-            var maxSize = request.ExecutionContext.Limits.Users.GetUsersMaxSize;
-
-            if (parameters.UserIdentifiers.Length > maxSize)
-            {
-                // ReSharper disable once NotResolvedInText
-                throw new ArgumentOutOfRangeException($"UserIdentifiers cannot have more than {maxSize} items", "UserIdentifiers");
-            }
-
+            
             var query = _userQueryGenerator.GetUsersQuery(parameters, request.ExecutionContext.TweetMode);
 
             request.Query.Url = query;
@@ -117,6 +114,5 @@ namespace Tweetinvi.Controllers.User
 
             return _webHelper.GetResponseStreamAsync(request);
         }
-
     }
 }

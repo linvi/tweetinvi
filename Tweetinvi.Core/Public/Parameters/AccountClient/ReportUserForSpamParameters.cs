@@ -11,7 +11,7 @@ namespace Tweetinvi.Parameters
         /// <summary>
         /// The user you want to block
         /// </summary>
-        IUserIdentifier UserIdentifier { get; set; }
+        IUserIdentifier User { get; set; }
         
         /// <summary>
         /// Whether you want to block the user in addition to report him
@@ -24,7 +24,7 @@ namespace Tweetinvi.Parameters
     {
         public ReportUserForSpamParameters(IUserIdentifier userIdentifier)
         {
-            UserIdentifier = userIdentifier;
+            User = userIdentifier;
         }
 
         public ReportUserForSpamParameters(string username) : this(new UserIdentifier(username))
@@ -37,12 +37,12 @@ namespace Tweetinvi.Parameters
 
         public ReportUserForSpamParameters(IReportUserForSpamParameters source) : base(source)
         {
-            UserIdentifier = source?.UserIdentifier;
+            User = source?.User;
             PerformBlock = source?.PerformBlock;
         }
 
         /// <inheritdoc />
-        public IUserIdentifier UserIdentifier { get; set; }
+        public IUserIdentifier User { get; set; }
         /// <inheritdoc />
         public bool? PerformBlock { get; set; }
     }

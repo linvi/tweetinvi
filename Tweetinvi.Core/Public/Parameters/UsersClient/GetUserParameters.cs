@@ -12,7 +12,7 @@ namespace Tweetinvi.Parameters
         /// <summary>
         /// User identifier
         /// </summary>
-        IUserIdentifier UserIdentifier { get; set; }
+        IUserIdentifier User { get; set; }
     }
 
     /// <inheritdoc />
@@ -28,15 +28,15 @@ namespace Tweetinvi.Parameters
         
         public GetUserParameters(IUserIdentifier userIdentifier)
         {
-            UserIdentifier = userIdentifier;
+            User = userIdentifier;
         }
 
         public GetUserParameters(IGetUserParameters source) : base(source)
         {
-            UserIdentifier = source?.UserIdentifier;
+            User = source?.User;
         }
 
         /// <inheritdoc />
-        public IUserIdentifier UserIdentifier { get; set; }
+        public IUserIdentifier User { get; set; }
     }
 }

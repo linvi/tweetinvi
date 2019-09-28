@@ -11,7 +11,7 @@ namespace Tweetinvi.Parameters
         /// <summary>
         /// User for who you want to get the friends from.
         /// </summary>
-        IUserIdentifier UserIdentifier { get; }
+        IUserIdentifier User { get; }
     }
 
     /// <inheritdoc />
@@ -19,32 +19,36 @@ namespace Tweetinvi.Parameters
     {
         private GetFriendIdsParameters()
         {
-            PageSize = 5000;
+            PageSize = TwitterLimits.DEFAULTS.USERS_GET_FRIEND_IDS_PAGE_MAX_SIZE;
         }
 
         public GetFriendIdsParameters(IUserIdentifier userIdentifier) : this()
         {
-            UserIdentifier = userIdentifier;
+            User = userIdentifier;
         }
 
         public GetFriendIdsParameters(string username) : this()
         {
-            UserIdentifier = new UserIdentifier(username);
+            User = new UserIdentifier(username);
         }
 
         public GetFriendIdsParameters(long? userId) : this()
         {
-            UserIdentifier = new UserIdentifier(userId);
+            User = new UserIdentifier(userId);
         }
         
         public GetFriendIdsParameters(IGetFriendIdsParameters parameters) : base(parameters)
         {
-            if (parameters == null) { return; }
+            if (parameters == null)
+            {
+                PageSize = TwitterLimits.DEFAULTS.USERS_GET_FRIEND_IDS_PAGE_MAX_SIZE;
+                return;
+            }
             
-            UserIdentifier = parameters.UserIdentifier;
+            User = parameters.User;
         }
 
         /// <inheritdoc />
-        public IUserIdentifier UserIdentifier { get; }
+        public IUserIdentifier User { get; }
     }
 }

@@ -11,7 +11,7 @@ namespace Tweetinvi.Parameters
         /// <summary>
         /// The user that you wish to block
         /// </summary>   
-        IUserIdentifier UserIdentifier { get; set; }
+        IUserIdentifier User { get; set; }
     }
 
     /// <inheritdoc />
@@ -19,7 +19,7 @@ namespace Tweetinvi.Parameters
     {
         public BlockUserParameters(IUserIdentifier userIdentifier)
         {
-            UserIdentifier = userIdentifier;
+            User = userIdentifier;
         }
         
         public BlockUserParameters(string username) : this(new UserIdentifier(username))
@@ -32,10 +32,10 @@ namespace Tweetinvi.Parameters
         
         public BlockUserParameters(IBlockUserParameters source) : base(source)
         {
-            UserIdentifier = source?.UserIdentifier;
+            User = source?.User;
         }
         
         /// <inheritdoc/>
-        public IUserIdentifier UserIdentifier { get; set; }
+        public IUserIdentifier User { get; set; }
     }
 }

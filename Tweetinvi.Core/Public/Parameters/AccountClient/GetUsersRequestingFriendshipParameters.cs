@@ -19,16 +19,17 @@ namespace Tweetinvi.Parameters
     {
         public GetUsersRequestingFriendshipParameters()
         {
-            PageSize = TweetinviConsts.FRIENDSHIPS_INCOMING_IDS_MAX_PER_REQ;
-            GetUsersPageSize = TweetinviConsts.GET_USERS_MAX_PAGE_SIZE;
+            GetUsersPageSize = TwitterLimits.DEFAULTS.USERS_GET_USERS_MAX_SIZE;
         }
 
         public GetUsersRequestingFriendshipParameters(IGetUsersRequestingFriendshipParameters source) : base(source)
         {
-            GetUsersPageSize = TweetinviConsts.GET_USERS_MAX_PAGE_SIZE;
-            
-            if (source == null) { return; }
-            
+            if (source == null)
+            {
+                GetUsersPageSize = TwitterLimits.DEFAULTS.USERS_GET_USERS_MAX_SIZE;
+                return;
+            }
+
             GetUsersPageSize = source.GetUsersPageSize;
         }
 

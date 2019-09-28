@@ -11,7 +11,7 @@ namespace Tweetinvi.Parameters
         /// <summary>
         /// The user that you want to stop following
         /// </summary>
-        IUserIdentifier UserIdentifier { get; set; }
+        IUserIdentifier User { get; set; }
     }
 
     public class UnFollowUserParameters : CustomRequestParameters, IUnFollowUserParameters
@@ -26,14 +26,14 @@ namespace Tweetinvi.Parameters
 
         public UnFollowUserParameters(IUserIdentifier userIdentifier)
         {
-            UserIdentifier = userIdentifier;
+            User = userIdentifier;
         }
 
         public UnFollowUserParameters(IUnFollowUserParameters parameters) : base(parameters)
         {
-            UserIdentifier = parameters?.UserIdentifier;
+            User = parameters?.User;
         }
 
-        public IUserIdentifier UserIdentifier { get; set; }
+        public IUserIdentifier User { get; set; }
     }
 }

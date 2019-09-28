@@ -8,6 +8,7 @@ using Tweetinvi.Core.Extensions;
 using Tweetinvi.Core.Factories;
 using Tweetinvi.Core.Iterators;
 using Tweetinvi.Core.Web;
+using Tweetinvi.Exceptions;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
 using Tweetinvi.Parameters;
@@ -40,12 +41,11 @@ namespace Tweetinvi.Controllers.Tweet
 
         public Task<ITwitterResult<ITweetDTO, ITweet>> PublishTweet(IPublishTweetParameters parameters, ITwitterRequest request)
         {
-            return InternalPublishTweet(parameters, request);
-        }
-
-        public Task<ITwitterResult<ITweetDTO, ITweet>> PublishTweet(string text, ITwitterRequest request)
-        {
-            var parameters = new PublishTweetParameters(text);
+            if (parameters == null)
+            {
+                throw new ArgumentNullException(nameof(parameters));
+            }
+            
             return InternalPublishTweet(parameters, request);
         }
 
@@ -67,7 +67,7 @@ namespace Tweetinvi.Controllers.Tweet
             return EstimateTweetLength(parameters);
         }
 
-        public static int EstimateTweetLength(IPublishTweetParameters publishTweetParameters)
+        private static int EstimateTweetLength(IPublishTweetParameters publishTweetParameters)
         {
             var text = publishTweetParameters.Text ?? "";
 #pragma warning disable 618
@@ -193,6 +193,18 @@ namespace Tweetinvi.Controllers.Tweet
         // Favorite Tweet
         public ITwitterPageIterator<ITwitterResult<ITweetDTO[]>, long?> GetFavoriteTweets(IGetFavoriteTweetsParameters parameters, ITwitterRequest request)
         {
+            if (parameters == null)
+            {
+                throw new ArgumentNullException(nameof(parameters));
+            }
+
+            var limits = request.ExecutionContext.Limits;
+            var maxPageSize = parameters.PageSize;
+            if (maxPageSize > limits.TWEETS_GET_FAVORITE_TWEETS_MAX_SIZE)
+            {
+                throw new TwitterArgumentLimitException($"${nameof(parameters)}.{nameof(parameters.PageSize)}", maxPageSize, nameof(limits.TWEETS_GET_FAVORITE_TWEETS_MAX_SIZE), "page size");
+            }
+            
             var twitterCursorResult = new TwitterPageIterator<ITwitterResult<ITweetDTO[]>, long?>(
                 parameters.MaxId,
                 cursor =>

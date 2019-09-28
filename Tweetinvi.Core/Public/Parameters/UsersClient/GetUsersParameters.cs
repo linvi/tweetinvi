@@ -13,7 +13,7 @@ namespace Tweetinvi.Parameters
         /// <summary>
         /// User identifiers
         /// </summary>
-        IUserIdentifier[] UserIdentifiers { get; set; }
+        IUserIdentifier[] Users { get; set; }
     }
 
     /// <inheritdoc />
@@ -21,30 +21,30 @@ namespace Tweetinvi.Parameters
     {
         public GetUsersParameters(long[] userIds)
         {
-            UserIdentifiers = userIds.Select(userId => new UserIdentifier(userId) as IUserIdentifier).ToArray();
+            Users = userIds.Select(userId => new UserIdentifier(userId) as IUserIdentifier).ToArray();
         }
         
         public GetUsersParameters(long?[] userIds)
         {
-            UserIdentifiers = userIds.Select(userId => new UserIdentifier(userId) as IUserIdentifier).ToArray();
+            Users = userIds.Select(userId => new UserIdentifier(userId) as IUserIdentifier).ToArray();
         }
 
         public GetUsersParameters(string[] usernames)
         {
-            UserIdentifiers = usernames.Select(username => new UserIdentifier(username) as IUserIdentifier).ToArray();
+            Users = usernames.Select(username => new UserIdentifier(username) as IUserIdentifier).ToArray();
         }
 
         public GetUsersParameters(IUserIdentifier[] userIdentifiers)
         {
-            UserIdentifiers = userIdentifiers;
+            Users = userIdentifiers;
         }
 
         public GetUsersParameters(IGetUsersParameters source) : base(source)
         {
-            UserIdentifiers = source?.UserIdentifiers;
+            Users = source?.Users;
         }
 
         /// <inheritdoc />
-        public IUserIdentifier[] UserIdentifiers { get; set; }
+        public IUserIdentifier[] Users { get; set; }
     }
 }

@@ -13,11 +13,18 @@
     {
         public GetBlockedUserIdsParameters()
         {
-            PageSize = 5000;
+            PageSize = TwitterLimits.DEFAULTS.ACCOUNT_GET_BLOCKED_USER_IDS_MAX_PAGE_SIZE;
         }
 
         public GetBlockedUserIdsParameters(IGetBlockedUserIdsParameters source) : base(source)
         {
+            if (source == null)
+            {
+                PageSize = TwitterLimits.DEFAULTS.ACCOUNT_GET_BLOCKED_USER_IDS_MAX_PAGE_SIZE;
+                return;
+            }
+
+            PageSize = source.PageSize;
         }
     }
 }

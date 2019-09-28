@@ -11,7 +11,7 @@ namespace Tweetinvi.Parameters
         /// <summary>
         /// User that you want to follow
         /// </summary>
-        IUserIdentifier UserIdentifier { get; set; }
+        IUserIdentifier User { get; set; }
 
         /// <summary>
         /// Enable notifications for the target user (twitter documentation name: follow)
@@ -32,17 +32,17 @@ namespace Tweetinvi.Parameters
 
         public FollowUserParameters(IUserIdentifier userIdentifier)
         {
-            UserIdentifier = userIdentifier;
+            User = userIdentifier;
         }
 
         public FollowUserParameters(IFollowUserParameters parameters) : base(parameters)
         {
-            UserIdentifier = parameters?.UserIdentifier;
+            User = parameters?.User;
             EnableNotifications = parameters?.EnableNotifications;
         }
 
         /// <inheritdoc/>
-        public IUserIdentifier UserIdentifier { get; set; }
+        public IUserIdentifier User { get; set; }
         /// <inheritdoc/>
         public bool? EnableNotifications { get; set; }
     }

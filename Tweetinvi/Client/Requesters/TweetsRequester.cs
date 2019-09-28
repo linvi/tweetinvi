@@ -42,12 +42,6 @@ namespace Tweetinvi.Client.Requesters
         }
 
         // Tweets - Publish
-        public Task<ITwitterResult<ITweetDTO, ITweet>> PublishTweet(string text)
-        {
-            var request = _twitterClient.CreateRequest();
-            return ExecuteRequest(() => _tweetController.PublishTweet(text, request), request);
-        }
-
         public Task<ITwitterResult<ITweetDTO, ITweet>> PublishTweet(IPublishTweetParameters parameters)
         {
             var request = _twitterClient.CreateRequest();

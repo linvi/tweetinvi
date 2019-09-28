@@ -11,7 +11,7 @@ namespace Tweetinvi.Parameters
         /// <summary>
         /// A unique identifier of a user
         /// </summary>
-        IUserIdentifier UserIdentifier { get; }
+        IUserIdentifier User { get; }
     }
 
     /// <inheritdoc />
@@ -19,32 +19,36 @@ namespace Tweetinvi.Parameters
     {
         private GetFollowerIdsParameters()
         {
-            PageSize = 5000;
+            PageSize = TwitterLimits.DEFAULTS.USERS_GET_FOLLOWER_IDS_PAGE_MAX_SIZE;
         }
 
         public GetFollowerIdsParameters(IUserIdentifier userIdentifier) : this()
         {
-            UserIdentifier = userIdentifier;
+            User = userIdentifier;
         }
 
         public GetFollowerIdsParameters(string username) : this()
         {
-            UserIdentifier = new UserIdentifier(username);
+            User = new UserIdentifier(username);
         }
 
         public GetFollowerIdsParameters(long? userId) : this()
         {
-            UserIdentifier = new UserIdentifier(userId);
+            User = new UserIdentifier(userId);
         }
-        
+
         public GetFollowerIdsParameters(IGetFollowerIdsParameters parameters) : base(parameters)
         {
-            if (parameters == null) { return; }
-            
-            UserIdentifier = parameters.UserIdentifier;
+            if (parameters == null)
+            {
+                PageSize = TwitterLimits.DEFAULTS.USERS_GET_FOLLOWER_IDS_PAGE_MAX_SIZE;
+                return;
+            }
+
+            User = parameters.User;
         }
 
         /// <inheritdoc />
-        public IUserIdentifier UserIdentifier { get; }
+        public IUserIdentifier User { get; }
     }
 }

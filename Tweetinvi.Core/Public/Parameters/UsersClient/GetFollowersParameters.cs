@@ -36,8 +36,11 @@ namespace Tweetinvi.Parameters
         public GetFollowersParameters(IGetFollowersParameters parameters) : base(parameters)
         {
             GetUsersPageSize = TweetinviConsts.GET_USERS_MAX_PAGE_SIZE;
-            
-            if (parameters == null) { return; }
+
+            if (parameters == null)
+            {
+                return;
+            }
             
             SkipStatus = parameters.SkipStatus;
             IncludeEntities = parameters.IncludeEntities;

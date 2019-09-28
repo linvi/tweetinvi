@@ -13,6 +13,20 @@ namespace Tweetinvi.Client.Requesters
     /// </summary>
     public interface ITweetsRequester
     {
+        /// <summary>
+        /// Publish a tweet
+        /// <para>Read more : https://dev.twitter.com/rest/reference/post/statuses/update </para>
+        /// </summary>
+        /// <returns>TwitterResult containing the published tweet</returns>
+        Task<ITwitterResult<ITweetDTO, ITweet>> PublishTweet(IPublishTweetParameters parameters);
+        
+        /// <summary>
+        /// Get favorite tweets of a user
+        /// <para>Read more : https://dev.twitter.com/en/docs/tweets/post-and-engage/api-reference/get-favorites-list </para>
+        /// </summary>
+        /// <returns>Iterator over the list of tweets favorited by a user</returns>
+        ITwitterPageIterator<ITwitterResult<ITweetDTO[]>, long?> GetFavoriteTweets(IGetFavoriteTweetsParameters parameters);
+        
         // Tweets
         
         /// <summary>
@@ -26,18 +40,8 @@ namespace Tweetinvi.Client.Requesters
         /// </summary>
         /// <returns>TwitterResult containing multiple tweets</returns>
         Task<ITwitterResult<ITweetDTO[], ITweet[]>> GetTweets(long[] tweetIds);
-
-        /// <summary>
-        /// Publish a tweet
-        /// </summary>
-        /// <returns>TwitterResult containing the published tweet</returns>
-        Task<ITwitterResult<ITweetDTO, ITweet>> PublishTweet(string text);
         
-        /// <summary>
-        /// Publish a tweet
-        /// </summary>
-        /// <returns>TwitterResult containing the published tweet</returns>
-        Task<ITwitterResult<ITweetDTO, ITweet>> PublishTweet(IPublishTweetParameters parameters);
+        
 
         /// <summary>
         /// Destroying a tweet
@@ -70,11 +74,5 @@ namespace Tweetinvi.Client.Requesters
         /// </summary>
         /// <returns>TwitterResult containing the success status of the request</returns>
         Task<ITwitterResult> DestroyRetweet(ITweetIdentifier retweetId);
-
-        /// <summary>
-        /// Get favorite tweets of a user
-        /// </summary>
-        /// <returns>Iterator over the list of tweets favorited by a user</returns>
-        ITwitterPageIterator<ITwitterResult<ITweetDTO[]>, long?> GetFavoriteTweets(IGetFavoriteTweetsParameters parameters);
     }
 }

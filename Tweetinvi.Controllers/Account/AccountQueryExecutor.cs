@@ -114,7 +114,7 @@ namespace Tweetinvi.Controllers.Account
         public Task<ITwitterResult<IIdsCursorQueryResultDTO>> GetBlockedUserIds(IGetBlockedUserIdsParameters parameters, ITwitterRequest request)
         {
             var query = _accountQueryGenerator.GetBlockedUserIdsQuery(parameters);
-            
+
             request.Query.Url = query;
             request.Query.HttpMethod = HttpMethod.GET;
 
@@ -124,13 +124,13 @@ namespace Tweetinvi.Controllers.Account
         public Task<ITwitterResult<IUserCursorQueryResultDTO>> GetBlockedUsers(IGetBlockedUsersParameters parameters, ITwitterRequest request)
         {
             var query = _accountQueryGenerator.GetBlockedUsersQuery(parameters);
-            
+
             request.Query.Url = query;
             request.Query.HttpMethod = HttpMethod.GET;
 
             return _twitterAccessor.ExecuteRequest<IUserCursorQueryResultDTO>(request);
         }
-        
+
         // FOLLOWERS
         public Task<ITwitterResult<IUserDTO>> FollowUser(IFollowUserParameters parameters, ITwitterRequest request)
         {
@@ -151,7 +151,7 @@ namespace Tweetinvi.Controllers.Account
 
             return _twitterAccessor.ExecuteRequest<IUserDTO>(request);
         }
-        
+
         public Task<ITwitterResult<IIdsCursorQueryResultDTO>> GetUserIdsRequestingFriendship(IGetUserIdsRequestingFriendshipParameters parameters, ITwitterRequest request)
         {
             var query = _accountQueryGenerator.GetUserIdsRequestingFriendshipQuery(parameters);
@@ -165,11 +165,6 @@ namespace Tweetinvi.Controllers.Account
         // FRIENDSHIPS
         public Task<ITwitterResult<IRelationshipStateDTO[]>> GetRelationshipsWith(IGetRelationshipsWithParameters parameters, ITwitterRequest request)
         {
-            if (parameters.Users.Length > request.ExecutionContext.Limits.Users.GetUsersMaxSize)
-            {
-                throw new ArgumentException($"{nameof(parameters)}.${nameof(parameters.Users)}");
-            }
-
             var query = _accountQueryGenerator.GetRelationshipsWithQuery(parameters);
 
             request.Query.Url = query;
@@ -209,7 +204,7 @@ namespace Tweetinvi.Controllers.Account
             {
                 Url = query,
                 HttpMethod = HttpMethod.POST,
-                Binaries = new [] { parameters.Binary },
+                Binaries = new[] { parameters.Binary },
                 ContentId = "image",
                 Timeout = parameters.Timeout,
                 UploadProgressChanged = parameters.UploadProgressChanged
@@ -237,7 +232,7 @@ namespace Tweetinvi.Controllers.Account
             {
                 Url = query,
                 HttpMethod = HttpMethod.POST,
-                Binaries = new [] { parameters.Binary }, 
+                Binaries = new[] { parameters.Binary },
                 ContentId = "banner",
                 Timeout = parameters.Timeout,
                 UploadProgressChanged = parameters.UploadProgressChanged
@@ -266,7 +261,7 @@ namespace Tweetinvi.Controllers.Account
                 {
                     Url = query,
                     HttpMethod = HttpMethod.POST,
-                    Binaries = new [] { parameters.Binary },
+                    Binaries = new[] { parameters.Binary },
                     ContentId = "image",
                     Timeout = parameters.Timeout,
                     UploadProgressChanged = parameters.UploadProgressChanged

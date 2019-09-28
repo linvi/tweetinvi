@@ -20,9 +20,9 @@ namespace Tweetinvi.Controllers.User
         {
             if (user == null)
             {
-                throw new ArgumentNullException($"{parameterName} cannot be null");
+                throw new ArgumentNullException($"{parameterName}", $"{parameterName} cannot be null");
             }
-
+            
             if (!IsUserIdValid(user.Id) && !IsScreenNameValid(user.ScreenName))
             {
                 throw new ArgumentException($"{parameterName} is not valid.");

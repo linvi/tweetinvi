@@ -100,7 +100,11 @@ namespace Tweetinvi.Parameters
     {
         private ITweetIdentifier _tweetIdentifier;
 
-        public PublishTweetParameters(string text = null)
+        public PublishTweetParameters()
+        {
+        }
+        
+        public PublishTweetParameters(string text)
         {
             Text = text;
         }

@@ -15,11 +15,18 @@ namespace Tweetinvi.Parameters
     {
         public GetBlockedUsersParameters()
         {
-            PageSize = 5000;
+            PageSize = TwitterLimits.DEFAULTS.ACCOUNT_GET_BLOCKED_USER_MAX_PAGE_SIZE;
         }
 
         public GetBlockedUsersParameters(IGetBlockedUsersParameters source) : base(source)
         {
+            if (source == null)
+            {
+                PageSize = TwitterLimits.DEFAULTS.ACCOUNT_GET_BLOCKED_USER_MAX_PAGE_SIZE;
+                return;
+            }
+
+            PageSize = source.PageSize;
         }
     }
 }

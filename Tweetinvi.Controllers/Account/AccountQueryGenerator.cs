@@ -6,7 +6,6 @@ using Tweetinvi.Controllers.Properties;
 using Tweetinvi.Controllers.Shared;
 using Tweetinvi.Core.Extensions;
 using Tweetinvi.Core.QueryGenerators;
-using Tweetinvi.Core.QueryValidators;
 using Tweetinvi.Models;
 using Tweetinvi.Parameters;
 
@@ -64,16 +63,13 @@ namespace Tweetinvi.Controllers.Account
 
     public class AccountQueryGenerator : IAccountQueryGenerator
     {
-        private readonly IUserQueryValidator _userQueryValidator;
         private readonly IUserQueryParameterGenerator _userQueryParameterGenerator;
         private readonly IQueryParameterGenerator _queryParameterGenerator;
 
         public AccountQueryGenerator(
-            IUserQueryValidator userQueryValidator,
             IUserQueryParameterGenerator userQueryParameterGenerator,
             IQueryParameterGenerator queryParameterGenerator)
         {
-            _userQueryValidator = userQueryValidator;
             _userQueryParameterGenerator = userQueryParameterGenerator;
             _queryParameterGenerator = queryParameterGenerator;
         }
@@ -95,11 +91,9 @@ namespace Tweetinvi.Controllers.Account
         // BLOCK
         public string GetBlockUserQuery(IBlockUserParameters parameters)
         {
-            _userQueryValidator.ThrowIfUserCannotBeIdentified(parameters.UserIdentifier);
-
             var query = new StringBuilder(Resources.User_Block_Create);
             
-            query.AddFormattedParameterToQuery(_userQueryParameterGenerator.GenerateIdOrScreenNameParameter(parameters.UserIdentifier));
+            query.AddFormattedParameterToQuery(_userQueryParameterGenerator.GenerateIdOrScreenNameParameter(parameters.User));
             query.AddFormattedParameterToQuery(parameters.FormattedCustomQueryParameters);
 
             return query.ToString();
@@ -107,11 +101,9 @@ namespace Tweetinvi.Controllers.Account
 
         public string GetUnblockUserQuery(IUnblockUserParameters parameters)
         {
-            _userQueryValidator.ThrowIfUserCannotBeIdentified(parameters.UserIdentifier);
-
             var query = new StringBuilder(Resources.User_Block_Destroy);
 
-            query.AddFormattedParameterToQuery(_userQueryParameterGenerator.GenerateIdOrScreenNameParameter(parameters.UserIdentifier));
+            query.AddFormattedParameterToQuery(_userQueryParameterGenerator.GenerateIdOrScreenNameParameter(parameters.User));
             query.AddFormattedParameterToQuery(parameters.FormattedCustomQueryParameters);
 
             return query.ToString();
@@ -119,11 +111,9 @@ namespace Tweetinvi.Controllers.Account
 
         public string GetReportUserForSpamQuery(IReportUserForSpamParameters parameters)
         {
-            _userQueryValidator.ThrowIfUserCannotBeIdentified(parameters.UserIdentifier);
-
             var query = new StringBuilder(Resources.User_Report_Spam);
 
-            query.AddFormattedParameterToQuery(_userQueryParameterGenerator.GenerateIdOrScreenNameParameter(parameters.UserIdentifier));
+            query.AddFormattedParameterToQuery(_userQueryParameterGenerator.GenerateIdOrScreenNameParameter(parameters.User));
             query.AddParameterToQuery("perform_block", parameters.PerformBlock);
             query.AddFormattedParameterToQuery(parameters.FormattedCustomQueryParameters);
 
@@ -157,11 +147,9 @@ namespace Tweetinvi.Controllers.Account
         // FOLLOWERS
         public string GetFollowUserQuery(IFollowUserParameters parameters)
         {
-            _userQueryValidator.ThrowIfUserCannotBeIdentified(parameters.UserIdentifier);
-
             var query = new StringBuilder(Resources.Friendship_Create);
 
-            query.AddFormattedParameterToQuery(_userQueryParameterGenerator.GenerateIdOrScreenNameParameter(parameters.UserIdentifier));
+            query.AddFormattedParameterToQuery(_userQueryParameterGenerator.GenerateIdOrScreenNameParameter(parameters.User));
             query.AddParameterToQuery("follow", parameters.EnableNotifications);
             query.AddFormattedParameterToQuery(parameters.FormattedCustomQueryParameters);
 
@@ -170,11 +158,9 @@ namespace Tweetinvi.Controllers.Account
 
         public string GetUnFollowUserQuery(IUnFollowUserParameters parameters)
         {
-            _userQueryValidator.ThrowIfUserCannotBeIdentified(parameters.UserIdentifier);
-
             var query = new StringBuilder(Resources.Friendship_Destroy);
 
-            query.AddFormattedParameterToQuery(_userQueryParameterGenerator.GenerateIdOrScreenNameParameter(parameters.UserIdentifier));
+            query.AddFormattedParameterToQuery(_userQueryParameterGenerator.GenerateIdOrScreenNameParameter(parameters.User));
             query.AddFormattedParameterToQuery(parameters.FormattedCustomQueryParameters);
 
             return query.ToString();
@@ -317,8 +303,6 @@ namespace Tweetinvi.Controllers.Account
 
         public string GetMuteQuery(IUserIdentifier user)
         {
-            _userQueryValidator.ThrowIfUserCannotBeIdentified(user);
-
             string userIdParameter = _userQueryParameterGenerator.GenerateIdOrScreenNameParameter(user);
             return GenerateCreateMuteQuery(userIdParameter);
         }
@@ -330,8 +314,6 @@ namespace Tweetinvi.Controllers.Account
 
         public string GetUnMuteQuery(IUserIdentifier user)
         {
-           _userQueryValidator.ThrowIfUserCannotBeIdentified(user);
-
             string userIdParameter = _userQueryParameterGenerator.GenerateIdOrScreenNameParameter(user);
             return GenerateUnMuteQuery(userIdParameter);
         }

@@ -172,11 +172,11 @@ namespace Tweetinvi.Controllers.Tweet
         {
             _tweetQueryValidator.ThrowIfTweetCannotBeUsed(tweetId);
 
-            maxRetweetsToRetrieve = maxRetweetsToRetrieve ?? executionContext.Limits.Tweets.GetRetweetsRequestMaxSize;
+            maxRetweetsToRetrieve = maxRetweetsToRetrieve ?? executionContext.Limits.TWEETS_GET_RETWEETS_MAX_SIZE;
 
-            if (maxRetweetsToRetrieve > executionContext.Limits.Tweets.GetRetweetsRequestMaxSize)
+            if (maxRetweetsToRetrieve > executionContext.Limits.TWEETS_GET_RETWEETS_MAX_SIZE)
             {
-                throw new ArgumentException(nameof(maxRetweetsToRetrieve), $"Cannot be bigger than {executionContext.Limits.Tweets.GetRetweetsRequestMaxSize}");
+                throw new ArgumentException(nameof(maxRetweetsToRetrieve), $"Cannot be bigger than {executionContext.Limits.TWEETS_GET_RETWEETS_MAX_SIZE}");
             }
 
             var query = new StringBuilder(string.Format(Resources.Tweet_Retweet_GetRetweets, _queryParameterGenerator.GenerateTweetIdentifier(tweetId)));
@@ -189,9 +189,9 @@ namespace Tweetinvi.Controllers.Tweet
         
         public string GetFavoriteTweetsQuery(IGetFavoriteTweetsParameters parameters, TweetMode? tweetMode)
         {
-            _userQueryValidator.ThrowIfUserCannotBeIdentified(parameters.UserIdentifier);
+            _userQueryValidator.ThrowIfUserCannotBeIdentified(parameters.User);
 
-            var userParameter = _userQueryParameterGenerator.GenerateIdOrScreenNameParameter(parameters.UserIdentifier);
+            var userParameter = _userQueryParameterGenerator.GenerateIdOrScreenNameParameter(parameters.User);
             var query = new StringBuilder(Resources.User_GetFavourites + userParameter);
 
             query.AddParameterToQuery("include_entities", parameters.IncludeEntities);

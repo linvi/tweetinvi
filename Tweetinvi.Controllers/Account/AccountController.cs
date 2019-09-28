@@ -7,7 +7,9 @@ using Tweetinvi.Core.Factories;
 using Tweetinvi.Core.Helpers;
 using Tweetinvi.Core.Injectinvi;
 using Tweetinvi.Core.Iterators;
+using Tweetinvi.Core.QueryValidators;
 using Tweetinvi.Core.Web;
+using Tweetinvi.Exceptions;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
 using Tweetinvi.Models.DTO.QueryDTO;
@@ -23,6 +25,7 @@ namespace Tweetinvi.Controllers.Account
         private readonly IFactory<IAccountSettingsRequestParameters> _accountSettingsRequestParametersFactory;
         private readonly IJsonObjectConverter _jsonObjectConverter;
         private readonly ITwitterResultFactory _twitterResultFactory;
+        private readonly IUserQueryValidator _userQueryValidator;
 
         public AccountController(
             IAccountQueryExecutor accountQueryExecutor,
@@ -30,7 +33,8 @@ namespace Tweetinvi.Controllers.Account
             IFactory<IAccountSettings> accountSettingsUnityFactory,
             IFactory<IAccountSettingsRequestParameters> accountSettingsRequestParametersFactory,
             IJsonObjectConverter jsonObjectConverter,
-            ITwitterResultFactory twitterResultFactory)
+            ITwitterResultFactory twitterResultFactory, 
+            IUserQueryValidator userQueryValidator)
         {
             _accountQueryExecutor = accountQueryExecutor;
             _userFactory = userFactory;
@@ -38,10 +42,16 @@ namespace Tweetinvi.Controllers.Account
             _accountSettingsRequestParametersFactory = accountSettingsRequestParametersFactory;
             _jsonObjectConverter = jsonObjectConverter;
             _twitterResultFactory = twitterResultFactory;
+            _userQueryValidator = userQueryValidator;
         }
 
         public async Task<ITwitterResult<IUserDTO, IAuthenticatedUser>> GetAuthenticatedUser(IGetAuthenticatedUserParameters parameters, ITwitterRequest request)
         {
+            if (parameters == null)
+            {
+                throw new ArgumentNullException($"{nameof(parameters)}");
+            }
+
             var result = await _accountQueryExecutor.GetAuthenticatedUser(parameters, request);
             return _twitterResultFactory.Create(result, userDTO => _userFactory.GenerateAuthenticatedUserFromDTO(userDTO));
         }
@@ -49,11 +59,13 @@ namespace Tweetinvi.Controllers.Account
         // FOLLOW/UNFOLLOW
         public Task<ITwitterResult<IUserDTO>> FollowUser(IFollowUserParameters parameters, ITwitterRequest request)
         {
+            _userQueryValidator.ThrowIfUserCannotBeIdentified(parameters?.User, $"${nameof(parameters)}.{nameof(parameters.User)}");
             return _accountQueryExecutor.FollowUser(parameters, request);
         }
 
         public Task<ITwitterResult<IUserDTO>> UnFollowUser(IUnFollowUserParameters parameters, ITwitterRequest request)
         {
+            _userQueryValidator.ThrowIfUserCannotBeIdentified(parameters?.User, $"${nameof(parameters)}.{nameof(parameters.User)}");
             return _accountQueryExecutor.UnFollowUser(parameters, request);
         }
         
@@ -61,6 +73,18 @@ namespace Tweetinvi.Controllers.Account
         
         public ITwitterPageIterator<ITwitterResult<IIdsCursorQueryResultDTO>> GetUserIdsRequestingFriendship(IGetUserIdsRequestingFriendshipParameters parameters, ITwitterRequest request)
         {
+            if (parameters == null)
+            {
+                throw new ArgumentNullException($"{nameof(parameters)}");
+            }
+            
+            var limits = request.ExecutionContext.Limits;
+            var maxPageSize = limits.ACCOUNT_GET_USER_IDS_REQUESTING_FRIENDSHIP_MAX_PAGE_SIZE;
+            if (parameters.PageSize > maxPageSize)
+            {
+                throw new TwitterArgumentLimitException($"${nameof(parameters)}.{nameof(parameters.PageSize)}", maxPageSize, nameof(limits.ACCOUNT_GET_USER_IDS_REQUESTING_FRIENDSHIP_MAX_PAGE_SIZE), "page size");
+            }
+
             var twitterCursorResult = new TwitterPageIterator<ITwitterResult<IIdsCursorQueryResultDTO>>(
                 parameters.Cursor,
                 cursor =>
@@ -81,21 +105,36 @@ namespace Tweetinvi.Controllers.Account
         // BLOCK
         public Task<ITwitterResult<IUserDTO>> BlockUser(IBlockUserParameters parameters, ITwitterRequest request)
         {
+            _userQueryValidator.ThrowIfUserCannotBeIdentified(parameters.User, $"${nameof(parameters)}.{nameof(parameters.User)}");
             return _accountQueryExecutor.BlockUser(parameters, request);
         }
 
         public Task<ITwitterResult<IUserDTO>> UnblockUser(IUnblockUserParameters parameters, ITwitterRequest request)
         {
+            _userQueryValidator.ThrowIfUserCannotBeIdentified(parameters.User, $"${nameof(parameters)}.{nameof(parameters.User)}");
             return _accountQueryExecutor.UnblockUser(parameters, request);
         }
 
         public Task<ITwitterResult<IUserDTO>> ReportUserForSpam(IReportUserForSpamParameters parameters, ITwitterRequest request)
         {
+            _userQueryValidator.ThrowIfUserCannotBeIdentified(parameters.User, $"${nameof(parameters)}.{nameof(parameters.User)}");
             return _accountQueryExecutor.ReportUserForSpam(parameters, request);
         }
 
         public ITwitterPageIterator<ITwitterResult<IIdsCursorQueryResultDTO>> GetBlockedUserIds(IGetBlockedUserIdsParameters parameters, ITwitterRequest request)
         {
+            if (parameters == null)
+            {
+                throw new ArgumentNullException(nameof(parameters));
+            }
+            
+            var limits = request.ExecutionContext.Limits;
+            var maxPageSize = limits.ACCOUNT_GET_BLOCKED_USER_IDS_MAX_PAGE_SIZE;
+            if (parameters.PageSize > maxPageSize)
+            {
+                throw new TwitterArgumentLimitException($"${nameof(parameters)}.{nameof(parameters.PageSize)}", maxPageSize, nameof(limits.ACCOUNT_GET_BLOCKED_USER_IDS_MAX_PAGE_SIZE), "page size");
+            }
+            
             var twitterCursorResult = new TwitterPageIterator<ITwitterResult<IIdsCursorQueryResultDTO>>(
                 parameters.Cursor,
                 cursor =>
@@ -115,6 +154,18 @@ namespace Tweetinvi.Controllers.Account
 
         public ITwitterPageIterator<ITwitterResult<IUserCursorQueryResultDTO>> GetBlockedUsers(IGetBlockedUsersParameters parameters, ITwitterRequest request)
         {
+            if (parameters == null)
+            {
+                throw new ArgumentNullException(nameof(parameters));
+            }
+            
+            var limits = request.ExecutionContext.Limits;
+            var maxPageSize = limits.ACCOUNT_GET_BLOCKED_USER_MAX_PAGE_SIZE;
+            if (parameters.PageSize > maxPageSize)
+            {
+                throw new TwitterArgumentLimitException($"${nameof(parameters)}.{nameof(parameters.PageSize)}", maxPageSize, nameof(limits.ACCOUNT_GET_BLOCKED_USER_MAX_PAGE_SIZE), "page size");
+            }
+            
             var twitterCursorResult = new TwitterPageIterator<ITwitterResult<IUserCursorQueryResultDTO>>(
                 parameters.Cursor,
                 cursor =>
@@ -134,11 +185,26 @@ namespace Tweetinvi.Controllers.Account
 
         public Task<ITwitterResult<IRelationshipStateDTO[]>> GetRelationshipsWith(IGetRelationshipsWithParameters parameters, ITwitterRequest request)
         {
+            if (parameters == null)
+            {
+                throw new ArgumentNullException(nameof(parameters));
+            }
+            
+            var limits = request.ExecutionContext.Limits;
+            var maxUsers = limits.ACCOUNT_GET_RELATIONSHIPS_WITH_MAX_SIZE;
+            if (parameters.Users.Length > maxUsers)
+            {
+                throw new TwitterArgumentLimitException($"${nameof(parameters)}.{nameof(parameters.Users)}", maxUsers, nameof(limits.ACCOUNT_GET_RELATIONSHIPS_WITH_MAX_SIZE), "users");
+            }
+
             return _accountQueryExecutor.GetRelationshipsWith(parameters, request);
         }
 
 
 
+        
+        
+        
 
         public async Task<IAccountSettings> GetAuthenticatedUserSettings()
         {

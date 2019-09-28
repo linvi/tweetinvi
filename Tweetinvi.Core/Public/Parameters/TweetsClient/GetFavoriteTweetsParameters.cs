@@ -10,7 +10,7 @@ namespace Tweetinvi.Parameters
         /// <summary>
         /// The user from whom you want to get his favorite tweets
         /// </summary>
-        IUserIdentifier UserIdentifier { get; set; }
+        IUserIdentifier User { get; set; }
         
         /// <summary>
         /// Include the tweet entities
@@ -31,23 +31,24 @@ namespace Tweetinvi.Parameters
 
         public GetFavoriteTweetsParameters(IUserIdentifier user)
         {
-            PageSize = 200;
-            UserIdentifier = user;
+            PageSize = TwitterLimits.DEFAULTS.TWEETS_GET_FAVORITE_TWEETS_MAX_SIZE;
+            User = user;
         }
 
         public GetFavoriteTweetsParameters(IGetFavoriteTweetsParameters source) : base(source)
         {
             if (source == null)
             {
+                PageSize = TwitterLimits.DEFAULTS.TWEETS_GET_FAVORITE_TWEETS_MAX_SIZE;
                 return;
             }
 
-            UserIdentifier = source.UserIdentifier;
+            User = source.User;
             IncludeEntities = source.IncludeEntities;
         }
 
         /// <inheritdoc/>
-        public IUserIdentifier UserIdentifier { get; set; }
+        public IUserIdentifier User { get; set; }
         
         /// <inheritdoc/>
         public bool? IncludeEntities { get; set; }

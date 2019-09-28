@@ -29,7 +29,7 @@ namespace Tweetinvi.Controllers.User
         {
             var query = new StringBuilder(Resources.User_GetUser);
 
-            query.AddFormattedParameterToQuery(_userQueryParameterGenerator.GenerateIdOrScreenNameParameter(parameters.UserIdentifier));
+            query.AddFormattedParameterToQuery(_userQueryParameterGenerator.GenerateIdOrScreenNameParameter(parameters.User));
             query.AddParameterToQuery("skip_status", parameters.SkipStatus);
             query.AddParameterToQuery("include_entities", parameters.IncludeEntities);
             query.AddFormattedParameterToQuery(_queryParameterGenerator.GenerateTweetModeParameter(tweetMode));
@@ -40,7 +40,7 @@ namespace Tweetinvi.Controllers.User
 
         public string GetUsersQuery(IGetUsersParameters parameters, TweetMode? tweetMode)
         {
-            var userIdsParameter = _userQueryParameterGenerator.GenerateListOfUserIdentifiersParameter(parameters.UserIdentifiers);
+            var userIdsParameter = _userQueryParameterGenerator.GenerateListOfUserIdentifiersParameter(parameters.Users);
             var query = new StringBuilder(Resources.User_GetUsers);
 
             query.AddFormattedParameterToQuery(userIdsParameter);
@@ -55,11 +55,11 @@ namespace Tweetinvi.Controllers.User
         // FOLLOWERS
         public string GetFriendIdsQuery(IGetFriendIdsParameters parameters)
         {
-            _userQueryValidator.ThrowIfUserCannotBeIdentified(parameters.UserIdentifier);
+            _userQueryValidator.ThrowIfUserCannotBeIdentified(parameters.User);
 
             var query = new StringBuilder(Resources.User_GetFriends);
 
-            query.AddFormattedParameterToQuery(_userQueryParameterGenerator.GenerateIdOrScreenNameParameter(parameters.UserIdentifier));
+            query.AddFormattedParameterToQuery(_userQueryParameterGenerator.GenerateIdOrScreenNameParameter(parameters.User));
             query.AddParameterToQuery("cursor", parameters.Cursor);
             query.AddParameterToQuery("count", parameters.PageSize);
             query.AddFormattedParameterToQuery(parameters.FormattedCustomQueryParameters);
@@ -69,11 +69,11 @@ namespace Tweetinvi.Controllers.User
 
         public string GetFollowerIdsQuery(IGetFollowerIdsParameters parameters)
         {
-            _userQueryValidator.ThrowIfUserCannotBeIdentified(parameters.UserIdentifier);
+            _userQueryValidator.ThrowIfUserCannotBeIdentified(parameters.User);
 
             var query = new StringBuilder(Resources.User_GetFollowers);
 
-            query.AddFormattedParameterToQuery(_userQueryParameterGenerator.GenerateIdOrScreenNameParameter(parameters.UserIdentifier));
+            query.AddFormattedParameterToQuery(_userQueryParameterGenerator.GenerateIdOrScreenNameParameter(parameters.User));
             query.AddParameterToQuery("cursor", parameters.Cursor);
             query.AddParameterToQuery("count", parameters.PageSize);
             query.AddFormattedParameterToQuery(parameters.FormattedCustomQueryParameters);

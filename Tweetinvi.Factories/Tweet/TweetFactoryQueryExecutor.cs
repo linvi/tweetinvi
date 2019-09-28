@@ -24,7 +24,7 @@ namespace Tweetinvi.Factories.Tweet
 
         public TweetFactoryQueryExecutor(
             ITweetQueryGenerator tweetQueryGenerator,
-            ITwitterAccessor twitterAccessor, 
+            ITwitterAccessor twitterAccessor,
             IFactory<ITweetDTO> tweetDTOUnityFactory)
         {
             _tweetQueryGenerator = tweetQueryGenerator;
@@ -41,11 +41,11 @@ namespace Tweetinvi.Factories.Tweet
 
         public async Task<ITwitterResult<ITweetDTO[]>> GetTweetDTOs(long[] tweetIds, ITwitterRequest request)
         {
-            var maxSize = request.ExecutionContext.Limits.Tweets.GetTweetsRequestMaxSize;
-
+            var limits = request.ExecutionContext.Limits;
+            var maxSize = limits.TWEETS_GET_TWEETS_REQUEST_MAX_SIZE;
             if (tweetIds.Length > maxSize)
             {
-                throw new TwitterLimitException($"tweetIds cannot contain more than {maxSize} elements.", "Limits.Tweets.GetTweetsRequestMaxSize");
+                throw new TwitterArgumentLimitException(nameof(tweetIds), maxSize, nameof(limits.TWEETS_GET_TWEETS_REQUEST_MAX_SIZE), "ids");
             }
 
             var tweetIdsArray = tweetIds.Distinct().ToArray();
