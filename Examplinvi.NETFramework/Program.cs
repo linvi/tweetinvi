@@ -783,7 +783,15 @@ namespace Examplinvi.NETFramework
         public static async Task AuthenticatedUser_GetOutgoingRequests()
         {
             var authenticatedUser = await Client.Account.GetAuthenticatedUser();
-            var usersRequestingFriendship = await authenticatedUser.GetUsersYouRequestedToFollow();
+            var usersRequestingFriendshipIterator = authenticatedUser.GetUsersYouRequestedToFollow();
+
+            var usersRequestingFriendship = new List<IUser>();
+
+            while (!usersRequestingFriendshipIterator.Completed)
+            {
+                var page = await usersRequestingFriendshipIterator.MoveToNextPage();
+                usersRequestingFriendship.AddRange(page);
+            }
 
             foreach (var user in usersRequestingFriendship)
             {
@@ -816,12 +824,11 @@ namespace Examplinvi.NETFramework
         public static async Task AuthenticatedUser_UpdateFollowAuthorizationsForUser(string username)
         {
             var authenticatedUser = await Client.Account.GetAuthenticatedUser();
-            var userToFollow = await Client.Users.GetUser(username);
-
-            if (await authenticatedUser.UpdateRelationshipAuthorizationsWith(userToFollow, false, false))
+            await authenticatedUser.UpdateRelationship(new UpdateRelationshipParameters(username)
             {
-                Console.WriteLine("Authorizations updated");
-            }
+                EnableRetweets = false,
+                EnableDeviceNotifications = true
+            });
         }
 
         public static async Task AuthenticatedUser_GetLatestMessages()
@@ -1383,7 +1390,14 @@ namespace Examplinvi.NETFramework
 
         public static async Task Friendship_GetUsersYouRequestedToFollow()
         {
-            var usersYouWantToFollow = await Account.GetUsersYouRequestedToFollow();
+            var usersYouWantToFollowIterator = Client.Account.GetUsersYouRequestedToFollow();
+            var usersYouWantToFollow = new List<IUser>();
+
+            while (!usersYouWantToFollowIterator.Completed)
+            {
+                var page = await usersYouWantToFollowIterator.MoveToNextPage();
+                usersYouWantToFollow.AddRange(usersYouWantToFollow);
+            }
 
             foreach (var user in usersYouWantToFollow)
             {
@@ -1391,17 +1405,20 @@ namespace Examplinvi.NETFramework
             }
         }
 
-        public static void Friendship_GetUsersWhoCantRetweet()
+        public static async Task Friendship_GetUsersWhoseRetweetsAreMuted()
         {
-            Account.GetUsersWhoseRetweetsAreMuted();
+            var userIds = await Client.Account.GetUserIdsWhoseRetweetsAreMuted();
+            Console.WriteLine($"Muted users = {string.Join(", ", userIds)}");
         }
 
-        public static void Friendship_UpdateRelationship()
+        public static async Task Friendship_UpdateRelationship()
         {
-            const bool enableRetweets = true;
-            const bool enableNotificationsOnDevices = true;
+            var success = await Client.Account.UpdateRelationship(new UpdateRelationshipParameters("tweetinvitest")
+            {
+                EnableRetweets = false
+            });
 
-            var success = Account.UpdateRelationshipAuthorizationsWith("tweetinviapi", enableRetweets, enableNotificationsOnDevices);
+            Console.WriteLine($"Update of relationship success = ${success}");
         }
 
         public static async Task Friendship_GetRelationshipDetails()

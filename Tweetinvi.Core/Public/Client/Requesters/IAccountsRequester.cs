@@ -105,5 +105,12 @@ namespace Tweetinvi.Client.Requesters
         /// </summary>
         /// <returns>TwitterResult containing the relationships between the authenticated user and multiple other users</returns>
         Task<ITwitterResult<IRelationshipStateDTO[], IRelationshipState[]>> GetRelationshipsWith(IGetRelationshipsWithParameters parameters);
+
+        /// <summary>
+        /// Get the user ids for whom the retweets are muted
+        /// <para>Read more : https://dev.twitter.com/en/docs/accounts-and-users/follow-search-get-users/api-reference/get-friendships-no_retweets-ids </para>
+        /// </summary>
+        /// <returns>TwitterResult containing a list of user ids for whom the retweets are muted</returns>
+        Task<ITwitterResult<long[]>> GetUserIdsWhoseRetweetsAreMuted(IGetUserIdsWhoseRetweetsAreMutedParameters parameters);
     }
 }

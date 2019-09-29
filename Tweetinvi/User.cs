@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using Tweetinvi.Core.Controllers;
 using Tweetinvi.Core.Factories;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
-using Tweetinvi.Parameters;
 
 namespace Tweetinvi
 {
@@ -52,25 +50,6 @@ namespace Tweetinvi
             }
         }
 
-        [ThreadStatic]
-        private static IFriendshipController _friendshipController;
-
-        /// <summary>
-        /// Controller handling any Friendship request
-        /// </summary>
-        public static IFriendshipController FriendshipController
-        {
-            get
-            {
-                if (_friendshipController == null)
-                {
-                    Initialize();
-                }
-
-                return _friendshipController;
-            }
-        }
-
         static User()
         {
             Initialize();
@@ -80,7 +59,6 @@ namespace Tweetinvi
         {
             _userController = TweetinviContainer.Resolve<IUserController>();
             _userFactory = TweetinviContainer.Resolve<IUserFactory>();
-            _friendshipController = TweetinviContainer.Resolve<IFriendshipController>();
         }
 
         #region User Factory

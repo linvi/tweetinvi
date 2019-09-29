@@ -237,7 +237,10 @@ namespace Tweetinvi.Controllers.Account
             return twitterCursorResult;
         }
 
-
+        public Task<ITwitterResult<long[]>> GetUserIdsWhoseRetweetsAreMuted(IGetUserIdsWhoseRetweetsAreMutedParameters parameters, ITwitterRequest request)
+        {
+            return _accountQueryExecutor.GetUserIdsWhoseRetweetsAreMuted(parameters, request);
+        }
 
 
         

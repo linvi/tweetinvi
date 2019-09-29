@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using Tweetinvi.Core.Web;
 using Tweetinvi.Iterators;
 using Tweetinvi.Models;
 using Tweetinvi.Parameters;
@@ -208,5 +209,15 @@ namespace Tweetinvi.Client
         Task<IUserDictionary<IRelationshipState>> GetRelationshipsWith(IGetRelationshipsWithParameters parameters);
 
         #endregion
+
+        /// <inheritdoc cref="GetUserIdsWhoseRetweetsAreMuted(IGetUserIdsWhoseRetweetsAreMutedParameters)" />
+        Task<long[]> GetUserIdsWhoseRetweetsAreMuted();
+        
+        /// <summary>
+        /// Get the user ids for whom the retweets are muted
+        /// <para>Read more : https://dev.twitter.com/en/docs/accounts-and-users/follow-search-get-users/api-reference/get-friendships-no_retweets-ids </para>
+        /// </summary>
+        /// <returns>Returns a list of user ids for whom the retweets are muted</returns>
+        Task<long[]> GetUserIdsWhoseRetweetsAreMuted(IGetUserIdsWhoseRetweetsAreMutedParameters parameters);
     }
 }

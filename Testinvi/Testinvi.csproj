@@ -162,9 +162,6 @@
     <Compile Include="TweetinviControllers\AccountTests\AccountQueryExecutorTests.cs" />
     <Compile Include="SetupHelpers\UnityFactoryHelper.cs" />
     <Compile Include="TweetinviControllers\AccountTests\AccountQueryGeneratorTests.cs" />
-    <Compile Include="TweetinviControllers\FriendshipTests\FriendshipControllerTests.cs" />
-    <Compile Include="TweetinviControllers\FriendshipTests\FriendshipQueryExecutorTests.cs" />
-    <Compile Include="TweetinviControllers\FriendshipTests\FriendshipQueryGeneratorTests.cs" />
     <Compile Include="TweetinviControllers\GeoTests\GeoControllerTests.cs" />
     <Compile Include="TweetinviControllers\GeoTests\GeoJsonControllerTests.cs" />
     <Compile Include="TweetinviControllers\GeoTests\GeoQueryExecutorTests.cs" />

@@ -82,5 +82,6 @@ namespace Tweetinvi.Core.Controllers
         Task<IEnumerable<IUser>> GetSuggestedUsersWithTheirLatestTweet(string slug);
         IAccountSettings GenerateAccountSettingsFromJson(string json);
         Task<ITwitterResult<IRelationshipDetailsDTO>> UpdateRelationship(IUpdateRelationshipParameters parameters, ITwitterRequest request);
+        Task<ITwitterResult<long[]>> GetUserIdsWhoseRetweetsAreMuted(IGetUserIdsWhoseRetweetsAreMutedParameters parameters, ITwitterRequest request);
     }
 }

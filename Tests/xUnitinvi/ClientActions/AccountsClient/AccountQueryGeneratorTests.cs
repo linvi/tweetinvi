@@ -279,5 +279,23 @@ namespace xUnitinvi.ClientActions.AccountsClient
             // Assert
             Assert.Equal(result, $"https://api.twitter.com/1.1/friendships/lookup.json?user_id=42%2C43&screen_name=tweetinviapi%2Ctweetinvitest&hello=world");
         }
+        
+        [Fact]
+        public void GetUserIdsWhoseRetweetsAreMutedQuery_ReturnsExpectedQuery()
+        {
+            // Arrange
+            var queryGenerator = CreateAccountQueryGenerator();
+
+            var parameters = new GetUserIdsWhoseRetweetsAreMutedParameters
+            {
+                CustomQueryParameters = { new Tuple<string, string>("hello", "world") }
+            };
+
+            // Act
+            var result = queryGenerator.GetUserIdsWhoseRetweetsAreMutedQuery(parameters);
+
+            // Assert
+            Assert.Equal(result, $"https://api.twitter.com/1.1/friendships/no_retweets/ids.json?hello=world");
+        }
     }
 }

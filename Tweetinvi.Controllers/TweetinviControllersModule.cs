@@ -1,5 +1,4 @@
 ﻿using Tweetinvi.Controllers.Account;
-using Tweetinvi.Controllers.Friendship;
 using Tweetinvi.Controllers.Geo;
 using Tweetinvi.Controllers.Help;
 using Tweetinvi.Controllers.Messages;
@@ -17,7 +16,6 @@ using Tweetinvi.Core.Controllers;
 using Tweetinvi.Core.Injectinvi;
 using Tweetinvi.Core.QueryGenerators;
 using Tweetinvi.Core.QueryValidators;
-using Tweetinvi.Models;
 
 namespace Tweetinvi.Controllers
 {
@@ -31,13 +29,11 @@ namespace Tweetinvi.Controllers
             InitializeQueryGenerators(container);
             InitializeQueryValidators(container);
             InitializeHelpers(container);
-            InitializeParameters(container);
         }
 
         private void InitializeControllers(ITweetinviContainer container)
         {
             container.RegisterType<IAccountController, AccountController>(RegistrationLifetime.InstancePerThread);
-            container.RegisterType<IFriendshipController, FriendshipController>(RegistrationLifetime.InstancePerThread);
             container.RegisterType<IGeoController, GeoController>(RegistrationLifetime.InstancePerThread);
             container.RegisterType<IHelpController, HelpController>(RegistrationLifetime.InstancePerThread);
             container.RegisterType<IMessageController, MessageController>(RegistrationLifetime.InstancePerThread);
@@ -70,7 +66,6 @@ namespace Tweetinvi.Controllers
         private void InitializeQueryExecutors(ITweetinviContainer container)
         {
             container.RegisterType<IAccountQueryExecutor, AccountQueryExecutor>();
-            container.RegisterType<IFriendshipQueryExecutor, FriendshipQueryExecutor>();
             container.RegisterType<IGeoQueryExecutor, GeoQueryExecutor>();
             container.RegisterType<IHelpQueryExecutor, HelpQueryExecutor>();
             container.RegisterType<IMessageQueryExecutor, MessageQueryExecutor>();
@@ -89,7 +84,6 @@ namespace Tweetinvi.Controllers
         private void InitializeQueryGenerators(ITweetinviContainer container)
         {
             container.RegisterType<IAccountQueryGenerator, AccountQueryGenerator>(RegistrationLifetime.InstancePerApplication);
-            container.RegisterType<IFriendshipQueryGenerator, FriendshipQueryGenerator>(RegistrationLifetime.InstancePerApplication);
             container.RegisterType<IGeoQueryGenerator, GeoQueryGenerator>(RegistrationLifetime.InstancePerApplication);
             container.RegisterType<IHelpQueryGenerator, HelpQueryGenerator>(RegistrationLifetime.InstancePerApplication);
             container.RegisterType<IMessageQueryGenerator, MessageQueryGenerator>(RegistrationLifetime.InstancePerApplication);
@@ -124,11 +118,6 @@ namespace Tweetinvi.Controllers
             container.RegisterType<ITweetHelper, TweetHelper>();
             container.RegisterType<ISearchQueryHelper, SearchQueryHelper>();
             container.RegisterType<IUploadHelper, UploadHelper>(RegistrationLifetime.InstancePerApplication);
-        }
-
-        private void InitializeParameters(ITweetinviContainer container)
-        {
-            container.RegisterType<IFriendshipAuthorizations, FriendshipAuthorizations>();
         }
     }
 }

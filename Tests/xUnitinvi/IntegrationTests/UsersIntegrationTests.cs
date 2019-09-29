@@ -118,7 +118,7 @@ namespace xUnitinvi.IntegrationTests
             Assert.True(unblockSuccess);
         }
 
-        [Fact]
+        [Fact(Skip = "IntegrationTests")]
         private async Task TestRelationships()
         {
             // act
@@ -134,13 +134,15 @@ namespace xUnitinvi.IntegrationTests
 
             await Client.Account.UpdateRelationship(new UpdateRelationshipParameters(userToFollow)
             {
+                EnableRetweets = false,
                 EnableDeviceNotifications = true
             });
-            
+
+            var retweetMutedUsers = await Client.Account.GetUserIdsWhoseRetweetsAreMuted();
             var relationshipAfterUpdate = await Client.Users.GetRelationshipBetween(authenticatedUser, userToFollow);
 
             await Client.Account.UnFollowUser(userToFollow);
-
+            
             var relationshipAfterRemove = await Client.Users.GetRelationshipBetween(authenticatedUser, userToFollow);
             var relationshipStateAfterRemove = await Client.Account.GetRelationshipsWith(new[] { usernameToFollow });
             
@@ -153,6 +155,8 @@ namespace xUnitinvi.IntegrationTests
 
             Assert.True(relationshipStateAfterAdd[userToFollow].Following);
             Assert.False(relationshipStateAfterRemove[usernameToFollow].Following);
+
+            Assert.Contains(retweetMutedUsers, x => x == userToFollow.Id);
         }
 
         [Fact(Skip = "IntegrationTests")]

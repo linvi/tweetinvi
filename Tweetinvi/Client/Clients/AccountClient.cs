@@ -301,5 +301,20 @@ namespace Tweetinvi.Client
         }
 
         #endregion
+
+        #region Others
+
+        public Task<long[]> GetUserIdsWhoseRetweetsAreMuted()
+        {
+            return GetUserIdsWhoseRetweetsAreMuted(new GetUserIdsWhoseRetweetsAreMutedParameters());
+        }
+        
+        public async Task<long[]> GetUserIdsWhoseRetweetsAreMuted(IGetUserIdsWhoseRetweetsAreMutedParameters parameters)
+        {
+            var twitterResult = await _accountsRequester.GetUserIdsWhoseRetweetsAreMuted(parameters).ConfigureAwait(false);
+            return twitterResult?.DataTransferObject;
+        }
+        
+        #endregion
     }
 }

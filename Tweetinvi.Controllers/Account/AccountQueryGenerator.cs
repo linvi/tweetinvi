@@ -64,6 +64,7 @@ namespace Tweetinvi.Controllers.Account
         string GetUserSuggestionsQuery(string slug, Language? language);
         string GetSuggestedUsersWithTheirLatestTweetQuery(string slug);
         string GetUpdateRelationshipQuery(IUpdateRelationshipParameters parameters);
+        string GetUserIdsWhoseRetweetsAreMutedQuery(IGetUserIdsWhoseRetweetsAreMutedParameters parameters);
     }
 
     public class AccountQueryGenerator : IAccountQueryGenerator
@@ -215,7 +216,14 @@ namespace Tweetinvi.Controllers.Account
             return query.ToString();
         }
 
+        public string GetUserIdsWhoseRetweetsAreMutedQuery(IGetUserIdsWhoseRetweetsAreMutedParameters parameters)
+        {
+            var query = new StringBuilder(Resources.Friendship_FriendIdsWithNoRetweets);
 
+            query.AddFormattedParameterToQuery(parameters.FormattedCustomQueryParameters);
+            
+            return query.ToString();
+        }
 
 
 

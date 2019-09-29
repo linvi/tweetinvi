@@ -60,6 +60,7 @@ namespace Tweetinvi.Controllers.Account
         Task<IEnumerable<ICategorySuggestion>> GetSuggestedCategories(Language? language);
         Task<IEnumerable<IUserDTO>> GetSuggestedUsersWithTheirLatestTweet(string slug);
         Task<ITwitterResult<IRelationshipDetailsDTO>> UpdateRelationship(IUpdateRelationshipParameters parameters, ITwitterRequest request);
+        Task<ITwitterResult<long[]>> GetUserIdsWhoseRetweetsAreMuted(IGetUserIdsWhoseRetweetsAreMutedParameters parameters, ITwitterRequest request);
     }
 
     public class AccountQueryExecutor : IAccountQueryExecutor
@@ -198,7 +199,13 @@ namespace Tweetinvi.Controllers.Account
             return _twitterAccessor.ExecuteRequest<IRelationshipStateDTO[]>(request);
         }
 
-
+        public Task<ITwitterResult<long[]>> GetUserIdsWhoseRetweetsAreMuted(IGetUserIdsWhoseRetweetsAreMutedParameters parameters, ITwitterRequest request)
+        {
+            var query = _accountQueryGenerator.GetUserIdsWhoseRetweetsAreMutedQuery(parameters);
+            request.Query.Url = query;
+            request.Query.HttpMethod = HttpMethod.GET;
+            return _twitterAccessor.ExecuteRequest<long[]>(request);
+        }
 
 
 

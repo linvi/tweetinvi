@@ -11,7 +11,6 @@ namespace Tweetinvi.Core.Factories
         IEnumerable<IRelationshipDetails> GenerateRelationshipsFromRelationshipsDTO(IEnumerable<IRelationshipDetailsDTO> relationshipDTO);
 
         // Generate RelationshipAuthorizations
-        IFriendshipAuthorizations GenerateFriendshipAuthorizations(bool retweetsEnabled, bool deviceNotificationEnabled);
         IRelationshipDetails GenerateFriendshipDetailsFromJson(string json);
         IRelationshipState GenerateFriendshipStateFromJson(string json);
         IRelationshipState[] GenerateRelationshipStatesFromRelationshipStatesDTO(IEnumerable<IRelationshipStateDTO> relationshipStateDTOs);

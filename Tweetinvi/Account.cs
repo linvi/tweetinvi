@@ -29,21 +29,6 @@ namespace Tweetinvi
             }
         }
 
-        [ThreadStatic]
-        private static IFriendshipController _friendshipController;
-        private static IFriendshipController FriendshipController
-        {
-            get
-            {
-                if (_friendshipController == null)
-                {
-                    Initialize();
-                }
-
-                return _friendshipController;
-            }
-        }
-
         private static readonly IFactory<IAccountSettingsRequestParameters> _accountSettingsRequestParametersFactory;
 
         static Account()
@@ -56,7 +41,6 @@ namespace Tweetinvi
         private static void Initialize()
         {
             _accountController = TweetinviContainer.Resolve<IAccountController>();
-            _friendshipController = TweetinviContainer.Resolve<IFriendshipController>();
         }
 
         // Settings
@@ -268,28 +252,6 @@ namespace Tweetinvi
         {
             return AccountController.UnMuteUser(screenName);
         }
-
-        #region Friendship
-
-        // Get User Ids Whose Retweets Are Muted
-
-        /// <summary>
-        /// Get ids of users from whom you won't receive retweets.
-        /// </summary>
-        public static Task<long[]> GetUserIdsWhoseRetweetsAreMuted()
-        {
-            return FriendshipController.GetUserIdsWhoseRetweetsAreMuted();
-        }
-
-        /// <summary>
-        /// Get ids of users from whom you won't receive retweets.
-        /// </summary>
-        public static Task<IEnumerable<IUser>> GetUsersWhoseRetweetsAreMuted()
-        {
-            return FriendshipController.GetUsersWhoseRetweetsAreMuted();
-        }
-
-        #endregion
 
         /// <summary>
         /// Get a list of categories that can interest the user of the current account.

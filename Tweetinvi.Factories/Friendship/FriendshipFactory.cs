@@ -12,20 +12,15 @@ namespace Tweetinvi.Factories.Friendship
     public class FriendshipFactory : IFriendshipFactory
     {
         private readonly IFactory<IRelationshipDetails> _unityRelationshipFactory;
-        private readonly IFactory<IRelationshipState> _unityRelationshipStateFactory;
-        private readonly IFactory<IFriendshipAuthorizations> _friendshipAuthorizationUnityFactory;
         private readonly IJsonObjectConverter _jsonObjectConverter;
 
 
         public FriendshipFactory(
             IFactory<IRelationshipDetails> unityRelationshipFactory,
             IFactory<IRelationshipState> unityRelationshipStateFactory,
-            IFactory<IFriendshipAuthorizations> friendshipAuthorizationUnityFactory,
             IJsonObjectConverter jsonObjectConverter)
         {
             _unityRelationshipFactory = unityRelationshipFactory;
-            _unityRelationshipStateFactory = unityRelationshipStateFactory;
-            _friendshipAuthorizationUnityFactory = friendshipAuthorizationUnityFactory;
             _jsonObjectConverter = jsonObjectConverter;
         }
 
@@ -83,18 +78,6 @@ namespace Tweetinvi.Factories.Friendship
             }
 
             return relationshipStateDTOs.Select(GenerateRelationshipStateFromRelationshipStateDTO).ToArray();
-        }
-
-
-        // Generate RelationshipAuthorizations
-        public IFriendshipAuthorizations GenerateFriendshipAuthorizations(bool retweetsEnabled, bool deviceNotificationEnabled)
-        {
-            var friendshipAuthorization = _friendshipAuthorizationUnityFactory.Create();
-
-            friendshipAuthorization.RetweetsEnabled = retweetsEnabled;
-            friendshipAuthorization.DeviceNotificationEnabled = deviceNotificationEnabled;
-
-            return friendshipAuthorization;
         }
     }
 }

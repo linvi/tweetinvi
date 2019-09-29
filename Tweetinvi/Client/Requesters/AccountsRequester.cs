@@ -122,5 +122,12 @@ namespace Tweetinvi.Client.Requesters
 
             return _twitterResultFactory.Create(twitterResult, _friendshipFactory.GenerateRelationshipStatesFromRelationshipStatesDTO);
         }
+        
+        // OTHERS
+        public Task<ITwitterResult<long[]>> GetUserIdsWhoseRetweetsAreMuted(IGetUserIdsWhoseRetweetsAreMutedParameters parameters)
+        {
+            var request = _twitterClient.CreateRequest();
+            return _accountController.GetUserIdsWhoseRetweetsAreMuted(parameters, request);
+        }
     }
 }

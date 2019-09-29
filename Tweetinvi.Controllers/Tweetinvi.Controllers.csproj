@@ -21,4 +21,8 @@
     <ProjectReference Include="..\Tweetinvi.Logic\Tweetinvi.Logic.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Friendship" />
+  </ItemGroup>
+
 </Project>
