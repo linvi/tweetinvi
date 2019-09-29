@@ -103,7 +103,7 @@ namespace Tweetinvi.WebLogic
             return binary;
         }
 
-        public Task<ITwitterResponse> ExecuteMultipartQuery(ITwitterRequest request, string contentId, IEnumerable<byte[]> binaries)
+        public Task<ITwitterResponse> ExecuteMultipartQuery(ITwitterRequest request)
         {
             return ExecuteTwitterQuerySafely(request, async () =>
             {
@@ -161,7 +161,7 @@ namespace Tweetinvi.WebLogic
         {
             try
             {
-                return await action();
+                return await action().ConfigureAwait(false);
             }
             catch (AggregateException aex)
             {

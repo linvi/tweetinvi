@@ -70,9 +70,9 @@ namespace Tweetinvi.Core.Web
         string Json { get; }
     }
 
-    public interface ITwitterResult<TDTO> : ITwitterResult
+    public interface ITwitterResult<out TDTO> : ITwitterResult
     {
-        TDTO DataTransferObject { get; set; }
+        TDTO DataTransferObject { get; }
     }
 
     public interface ITwitterResult<DTO, TModel> : ITwitterResult<DTO>

@@ -3,6 +3,7 @@ using Tweetinvi.Core.Events;
 using Tweetinvi.Core.Exceptions;
 using Tweetinvi.Core.Helpers;
 using Tweetinvi.Core.Iterators;
+using Tweetinvi.Core.Upload;
 using Tweetinvi.Core.Web;
 using Tweetinvi.Exceptions;
 using Tweetinvi.Models;

@@ -2,6 +2,7 @@
 using Tweetinvi.Core.Helpers;
 using Tweetinvi.Core.Injectinvi;
 using Tweetinvi.Core.Models;
+using Tweetinvi.Core.Models.Properties;
 using Tweetinvi.Core.Parameters;
 using Tweetinvi.Core.Wrappers;
 using Tweetinvi.Exceptions;
@@ -38,7 +39,6 @@ namespace Tweetinvi.Logic
         private void InitializeTweetinviModels(ITweetinviContainer container)
         {
             container.RegisterType<IMedia, Media>();
-            container.RegisterType<IEditableMedia, Media>();
             container.RegisterType<ISearchQueryResult, SearchQueryResult>();
             container.RegisterGeneric(typeof(IResultsWithCursor<>), typeof(ResultsWithCursor<>));
         }

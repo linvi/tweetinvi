@@ -16,6 +16,7 @@ using Tweetinvi.Core.Controllers;
 using Tweetinvi.Core.Injectinvi;
 using Tweetinvi.Core.QueryGenerators;
 using Tweetinvi.Core.QueryValidators;
+using Tweetinvi.Core.Upload;
 
 namespace Tweetinvi.Controllers
 {
@@ -94,7 +95,7 @@ namespace Tweetinvi.Controllers
             container.RegisterType<IUserQueryGenerator, UserQueryGenerator>(RegistrationLifetime.InstancePerApplication);
             container.RegisterType<ISearchQueryGenerator, SearchQueryGenerator>(RegistrationLifetime.InstancePerApplication);
             container.RegisterType<ITwitterListQueryGenerator, TwitterListQueryGenerator>(RegistrationLifetime.InstancePerApplication);
-            
+
             container.RegisterType<IQueryParameterGenerator, QueryParameterGenerator>(RegistrationLifetime.InstancePerApplication);
             container.RegisterType<ITwitterListQueryParameterGenerator, TwittertListQueryParameterGenerator>(RegistrationLifetime.InstancePerApplication);
             container.RegisterType<IUserQueryParameterGenerator, UserQueryParameterGenerator>(RegistrationLifetime.InstancePerApplication);

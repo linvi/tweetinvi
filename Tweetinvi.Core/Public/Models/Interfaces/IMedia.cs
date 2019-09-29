@@ -2,16 +2,11 @@
 
 namespace Tweetinvi.Models
 {
-    public interface IEditableMedia : IMedia
-    {
-        new long? MediaId { get; set; }
-    }
-
     public interface IMedia
     {
         string Name { get; set; }
         byte[] Data { get; set; }
-        long? MediaId { get; }
+        long? Id { get; set; }
         string ContentType { get; set; }
 
         bool HasBeenUploaded { get; }

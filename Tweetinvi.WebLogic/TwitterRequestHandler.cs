@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Tweetinvi.Core.Events;
-using Tweetinvi.Core.Extensions;
 using Tweetinvi.Core.RateLimit;
 using Tweetinvi.Core.Web;
 using Tweetinvi.Events;
@@ -60,15 +59,13 @@ namespace Tweetinvi.WebLogic
             {
                 ITwitterResponse twitterResponse;
 
-                var multiPartRequest = request.Query.MultipartHttpRequest;
-
-                if (multiPartRequest == null || multiPartRequest.Binaries.IsNullOrEmpty())
+                if (!(request.Query is IMultipartTwitterQuery))
                 {
                     twitterResponse = await _webRequestExecutor.ExecuteQuery(request, request.TwitterClientHandler).ConfigureAwait(false);
                 }
                 else
                 {
-                    twitterResponse = await _webRequestExecutor.ExecuteMultipartQuery(request, multiPartRequest.ContentId, multiPartRequest.Binaries).ConfigureAwait(false);
+                    twitterResponse = await _webRequestExecutor.ExecuteMultipartQuery(request).ConfigureAwait(false);
                 }
 
                 QueryCompleted(request, twitterResponse, request.ExecutionContext.RateLimitTrackerMode);

@@ -56,19 +56,11 @@ namespace Tweetinvi.Client
 
         // Tweets - Publish
 
-        /// <summary>
-        /// Publish a tweet to Twitter
-        /// </summary>
-        /// <returns>The published tweet</returns>
         public Task<ITweet> PublishTweet(string text)
         {
             return PublishTweet(new PublishTweetParameters(text));
         }
 
-        /// <summary>
-        /// Publish a tweet to Twitter
-        /// </summary>
-        /// <returns>The published tweet</returns>
         public async Task<ITweet> PublishTweet(IPublishTweetParameters parameters)
         {
             var requestResult = await _tweetsRequester.PublishTweet(parameters);

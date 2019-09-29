@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Tweetinvi.Models;
 
 namespace Tweetinvi.Parameters
 {
     /// <summary>
-    /// https://dev.twitter.com/rest/reference/post/statuses/update
+    /// For more information visit : https://dev.twitter.com/rest/reference/post/statuses/update
     /// </summary>
     public interface IPublishTweetParameters : ICustomRequestParameters
     {
@@ -93,30 +94,54 @@ namespace Tweetinvi.Parameters
         IEnumerable<long> ExcludeReplyUserIds { get; set; }
     }
 
-    /// <summary>
-    /// https://dev.twitter.com/rest/reference/post/statuses/update
-    /// </summary>
+    /// <inheritdoc/>
     public class PublishTweetParameters : CustomRequestParameters, IPublishTweetParameters
     {
         private ITweetIdentifier _tweetIdentifier;
 
-        public PublishTweetParameters()
-        {
-        }
-        
         public PublishTweetParameters(string text)
         {
             Text = text;
         }
 
+        public PublishTweetParameters(IPublishTweetParameters source) : base(source)
+        {
+            if (source == null)
+            {
+                return;
+            }
+
+            Text = source.Text;
+            InReplyToTweet = source.InReplyToTweet;
+            QuotedTweet = source.QuotedTweet;
+
+            if (InReplyToTweet == null)
+            {
+                InReplyToTweetId = source.InReplyToTweetId;
+            }
+
+            MediaIds = source.MediaIds?.ToList();
+            Medias = source.Medias?.ToList();
+            MediaBinaries = source.MediaBinaries?.ToList();
+            PlaceId = source.PlaceId;
+            Coordinates = source.Coordinates;
+            DisplayExactCoordinates = source.DisplayExactCoordinates;
+            PossiblySensitive = source.PossiblySensitive;
+            TrimUser = source.TrimUser;
+            AutoPopulateReplyMetadata = source.AutoPopulateReplyMetadata;
+            ExcludeReplyUserIds = source.ExcludeReplyUserIds;
+        }
+
+        /// <inheritdoc/>
         public string Text { get; set; }
 
+        /// <inheritdoc/>
         public ITweetIdentifier InReplyToTweet
         {
             get => _tweetIdentifier;
             set
             {
-                if (value != null && value.Id == TweetinviSettings.DEFAULT_ID)
+                if (value != null && (value.Id == null || value.Id == TweetinviSettings.DEFAULT_ID))
                 {
                     throw new InvalidOperationException("You cannot reply to a tweet that has not yet been published!");
                 }
@@ -125,27 +150,40 @@ namespace Tweetinvi.Parameters
             }
         }
 
+        /// <inheritdoc/>
         public ITweet QuotedTweet { get; set; }
 
+        /// <inheritdoc/>
         public long? InReplyToTweetId
         {
             get => InReplyToTweet?.Id;
             set => InReplyToTweet = value != null ? new TweetIdentifier((long)value) : null;
         }
 
+        /// <inheritdoc/>
         public List<long> MediaIds { get; set; } = new List<long>();
+        /// <inheritdoc/>
         public List<IMedia> Medias { get; set; } = new List<IMedia>();
+        /// <inheritdoc/>
         public List<byte[]> MediaBinaries { get; set; } = new List<byte[]>();
 
+        /// <inheritdoc/>
         public bool HasMedia => MediaIds?.Count > 0 || Medias?.Count > 0 || MediaBinaries?.Count > 0;
 
+        /// <inheritdoc/>
         public string PlaceId { get; set; }
+        /// <inheritdoc/>
         public ICoordinates Coordinates { get; set; }
+        /// <inheritdoc/>
         public bool? DisplayExactCoordinates { get; set; }
 
+        /// <inheritdoc/>
         public bool? PossiblySensitive { get; set; }
+        /// <inheritdoc/>
         public bool? TrimUser { get; set; }
+        /// <inheritdoc/>
         public bool? AutoPopulateReplyMetadata { get; set; }
+        /// <inheritdoc/>
         public IEnumerable<long> ExcludeReplyUserIds { get; set; }
     }
 }

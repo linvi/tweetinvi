@@ -82,13 +82,10 @@ namespace Tweetinvi.Controllers.Tweet
         }
 
         // Publish Tweet
-        public string GetPublishTweetQuery(IPublishTweetParameters queryParameters)
+        public string GetPublishTweetQuery(IPublishTweetParameters queryParameters, TweetMode? tweetMode)
         {
-            _tweetQueryValidator.ThrowIfTweetCannotBePublished(queryParameters);
-
             var text = queryParameters.Text;
-
-            var useExtendedMode = _tweetinviSettingsAccessor.CurrentThreadSettings.TweetMode == TweetMode.Extended;
+            var useExtendedMode = tweetMode == null || tweetMode == TweetMode.Extended;
 
             var quotedTweetUrl = GetQuotedTweetUrl(queryParameters);
 
@@ -122,7 +119,7 @@ namespace Tweetinvi.Controllers.Tweet
             query.AddParameterToQuery("place_id", queryParameters.PlaceId);
             query.AddParameterToQuery("display_coordinates", queryParameters.DisplayExactCoordinates);
             query.AddParameterToQuery("trim_user", queryParameters.TrimUser);
-            query.AddParameterToQuery("tweet_mode", _tweetinviSettingsAccessor.CurrentThreadSettings.TweetMode.ToString().ToLowerInvariant());
+            query.AddParameterToQuery("tweet_mode", tweetMode?.ToString()?.ToLowerInvariant());
 
             if (useExtendedMode && quotedTweetUrl != null)
             {
@@ -135,7 +132,7 @@ namespace Tweetinvi.Controllers.Tweet
                 query.AddParameterToQuery("media_ids", mediaIdsParameter);
             }
 
-            query.Append(_queryParameterGenerator.GenerateAdditionalRequestParameters(queryParameters.FormattedCustomQueryParameters));
+            query.AddFormattedParameterToQuery(queryParameters.FormattedCustomQueryParameters);
 
             return query.ToString();
         }

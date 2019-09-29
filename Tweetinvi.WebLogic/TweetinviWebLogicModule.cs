@@ -20,7 +20,6 @@ namespace Tweetinvi.WebLogic
             container.RegisterType<IUploadParameters, UploadParameters>();
             container.RegisterType<IUploadOptionalParameters, UploadOptionalParameters>();
             container.RegisterType<IUploadVideoParameters, UploadVideoParameters>();
-            container.RegisterType<IUploadVideoOptionalParameters, UploadVideoOptionalParameters>();
 
             container.RegisterType<IOAuthQueryParameter, OAuthQueryParameter>();
             container.RegisterType<IOAuthWebRequestGenerator, OAuthWebRequestGenerator>();

@@ -39,14 +39,18 @@ namespace Tweetinvi.Controllers.Tweet
 
         // Publish Tweet
 
-        public Task<ITwitterResult<ITweetDTO, ITweet>> PublishTweet(IPublishTweetParameters parameters, ITwitterRequest request)
+        public async Task<ITwitterResult<ITweetDTO>> PublishTweet(IPublishTweetParameters parameters, ITwitterRequest request)
         {
             if (parameters == null)
             {
                 throw new ArgumentNullException(nameof(parameters));
             }
             
-            return InternalPublishTweet(parameters, request);
+            _tweetQueryValidator.ThrowIfTweetCannotBePublished(parameters);
+
+            await UploadMedias(parameters, request).ConfigureAwait(false);
+
+            return await _tweetQueryExecutor.PublishTweet(parameters, request).ConfigureAwait(false);
         }
 
         public bool CanBePublished(IPublishTweetParameters publishTweetParameters)
@@ -89,23 +93,7 @@ namespace Tweetinvi.Controllers.Tweet
             return textLength;
         }
 
-        private async Task<ITwitterResult<ITweetDTO, ITweet>> InternalPublishTweet(IPublishTweetParameters parameters, ITwitterRequest request)
-        {
-            // The exceptions have to be raised before the QueryGenerator as 
-            // We do not want to wait for the media to be uploaded to throw the
-            // Exception. And The logic of uploading the media should live in
-            // the TweetController
-
-            _tweetQueryValidator.ThrowIfTweetCannotBePublished(parameters);
-
-            await UploadMedias(parameters);
-
-            var result = await _tweetQueryExecutor.PublishTweet(parameters, request);
-
-            return _twitterResultFactory.Create(result, tweetDTO => _tweetFactory.GenerateTweetFromDTO(tweetDTO, request.ExecutionContext.TweetMode, request.ExecutionContext));
-        }
-
-        public async Task UploadMedias(IPublishTweetParameters parameters)
+        public async Task UploadMedias(IPublishTweetParameters parameters, ITwitterRequest request)
         {
             if (parameters.Medias.Any(x => !x.HasBeenUploaded))
             {
@@ -118,8 +106,8 @@ namespace Tweetinvi.Controllers.Tweet
 
             foreach (var binary in parameters.MediaBinaries)
             {
-                var uploadedMedia = await _uploadQueryExecutor.UploadBinary(binary);
-                uploadedMedias.Add(uploadedMedia);
+                var uploadResult = await _uploadQueryExecutor.UploadBinary(new UploadParameters(binary), request).ConfigureAwait(false);
+                uploadedMedias.Add(uploadResult.Media);
             }
 
             if (uploadedMedias.Any(x => x == null || !x.HasBeenUploaded))

@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Globalization;
 using System.Linq;
+using System.Text;
 using Tweetinvi.Controllers.Properties;
 using Tweetinvi.Core.Extensions;
 using Tweetinvi.Core.QueryGenerators;
-using Tweetinvi.Core.Web;
+using Tweetinvi.Core.Upload;
+using Tweetinvi.Parameters;
 
 namespace Tweetinvi.Controllers.Upload
 {
@@ -12,12 +14,12 @@ namespace Tweetinvi.Controllers.Upload
     {
         public string GetChunkedUploadInitQuery(IChunkUploadInitParameters parameters)
         {
-            var initQuery = Resources.Upload_URL;
+            var initQuery = new StringBuilder(Resources.Upload_URL);
 
-            initQuery = initQuery.AddParameterToQuery("command", "INIT");
-            initQuery = initQuery.AddParameterToQuery("media_type", parameters.MediaType);
-            initQuery = initQuery.AddParameterToQuery("total_bytes", parameters.TotalBinaryLength.ToString(CultureInfo.InvariantCulture));
-            initQuery = initQuery.AddParameterToQuery("media_category", parameters.MediaCategory);
+            initQuery.AddParameterToQuery("command", "INIT");
+            initQuery.AddParameterToQuery("media_type", parameters.MediaType);
+            initQuery.AddParameterToQuery("total_bytes", parameters.TotalBinaryLength.ToString(CultureInfo.InvariantCulture));
+            initQuery.AddParameterToQuery("media_category", parameters.MediaCategory);
 
             if (parameters.AdditionalOwnerIds != null && parameters.AdditionalOwnerIds.Any())
             {
@@ -25,44 +27,43 @@ namespace Tweetinvi.Controllers.Upload
                 initQuery.AddParameterToQuery("additional_owners", ids);
             }
 
-            var formattedParameters = parameters.CustomRequestParameters.FormattedCustomQueryParameters;
-            initQuery += formattedParameters;
+            initQuery.AddFormattedParameterToQuery(parameters.CustomRequestParameters?.FormattedCustomQueryParameters);
 
-            return initQuery;
+            return initQuery.ToString();
         }
 
         public string GetChunkedUploadAppendQuery(IChunkUploadAppendParameters parameters)
         {
             if (parameters.MediaId == null)
             {
-                throw new ArgumentNullException("APPEND Media Id cannot be null. Make sure you use the media id retrieved from the INIT query.");
+                throw new ArgumentNullException($"{nameof(parameters.MediaId)}", "APPEND Media Id cannot be null. Make sure you use the media id retrieved from the INIT query.");
             }
 
             if (parameters.SegmentIndex == null)
             {
-                throw new ArgumentNullException("APPEND Segment index is required. Its initial value should be 0.");
+                throw new ArgumentNullException($"{nameof(parameters.SegmentIndex)}", "APPEND Segment index is required. Its initial value should be 0.");
             }
 
-            var appendQuery = Resources.Upload_URL;
+            var appendQuery = new StringBuilder(Resources.Upload_URL);
 
-            appendQuery = appendQuery.AddParameterToQuery("command", "APPEND");
-            appendQuery = appendQuery.AddParameterToQuery("media_id", parameters.MediaId.Value.ToString(CultureInfo.InvariantCulture));
-            appendQuery = appendQuery.AddParameterToQuery("segment_index", parameters.SegmentIndex.Value.ToString(CultureInfo.InvariantCulture));
+            appendQuery.AddParameterToQuery("command", "APPEND");
+            appendQuery.AddParameterToQuery("media_id", parameters.MediaId.Value.ToString(CultureInfo.InvariantCulture));
+            appendQuery.AddParameterToQuery("segment_index", parameters.SegmentIndex.Value.ToString(CultureInfo.InvariantCulture));
 
-            var formattedParameters = parameters.CustomRequestParameters.FormattedCustomQueryParameters;
-            appendQuery += formattedParameters;
+            appendQuery.AddFormattedParameterToQuery(parameters.CustomRequestParameters?.FormattedCustomQueryParameters);
 
-            return appendQuery;
+            return appendQuery.ToString();
         }
 
-        public string GetChunkedUploadFinalizeQuery(long mediaId)
+        public string GetChunkedUploadFinalizeQuery(long mediaId, ICustomRequestParameters customRequestParameters)
         {
-            var finalizeQuery = Resources.Upload_URL;
+            var finalizeQuery = new StringBuilder(Resources.Upload_URL);
 
-            finalizeQuery = finalizeQuery.AddParameterToQuery("command", "FINALIZE");
-            finalizeQuery = finalizeQuery.AddParameterToQuery("media_id", mediaId.ToString(CultureInfo.InvariantCulture));
+            finalizeQuery.AddParameterToQuery("command", "FINALIZE");
+            finalizeQuery.AddParameterToQuery("media_id", mediaId.ToString(CultureInfo.InvariantCulture));
+            finalizeQuery.AddFormattedParameterToQuery(customRequestParameters?.FormattedCustomQueryParameters);
 
-            return finalizeQuery;
+            return finalizeQuery.ToString();
         }
     }
 }

@@ -1,9 +1,9 @@
 ﻿using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
 
-namespace Tweetinvi.Logic.Model
+namespace Tweetinvi.Core.Models.Properties
 {
-    public class Media : IEditableMedia
+    public class Media : IMedia
     {
         // Parameter used to indicate that the media is in the process
         // of being uploaded, but has not yet completed. This give developers
@@ -14,7 +14,7 @@ namespace Tweetinvi.Logic.Model
         public byte[] Data { get; set; }
         public string ContentType { get; set; }
 
-        public long? MediaId
+        public long? Id
         {
             get
             {
@@ -61,7 +61,7 @@ namespace Tweetinvi.Logic.Model
                 Name = Name,
                 Data = Data,
                 ContentType = ContentType,
-                MediaId = MediaId,
+                Id = Id,
                 _existingMediaId = _existingMediaId
             };
 

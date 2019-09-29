@@ -155,22 +155,6 @@ namespace Tweetinvi
         // MultiPart Query
 
         /// <summary>
-        /// Execute a POST mutlipart query an return the result as an object of type T.
-        /// </summary>
-        public static Task<T> ExecutePOSTMultipartQuery<T>(IMultipartHttpRequestParameters parameters) where T : class
-        {
-            return Accessor.ExecuteMultipartQuery<T>(parameters);
-        }
-
-        /// <summary>
-        /// Execute a POST mutlipart query an return the json result.
-        /// </summary>
-        public static Task<string> ExecuteJsonPOSTMultipartQuery(IMultipartHttpRequestParameters parameters)
-        {
-            return Accessor.ExecuteMultipartQuery(parameters);
-        }
-
-        /// <summary>
         /// Execute a GET cursor query that returns a list of json
         /// </summary>
         public static Task<IEnumerable<string>> ExecuteCursorGETQueryReturningJson<T>(

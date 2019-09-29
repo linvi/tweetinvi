@@ -1,5 +1,4 @@
 ﻿using Tweetinvi.Client;
-using Tweetinvi.Client.Requesters;
 using Tweetinvi.Core.Client;
 using Tweetinvi.Models;
 
@@ -23,11 +22,13 @@ namespace Tweetinvi
 
             Account = new AccountClient(this);
             Tweets = new TweetsClient(this);
+            Upload = new UploadClient(this);
             Users = new UsersClient(this);
         }
 
         public IAccountClient Account { get; }
         public ITweetsClient Tweets { get; }
+        public IUploadClient Upload { get; }
         public IUsersClient Users { get; }
 
         public IRequestExecutor RequestExecutor { get; }

@@ -4,7 +4,6 @@ using Tweetinvi.Core.Iterators;
 using Tweetinvi.Core.Web;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
-using Tweetinvi.Models.Interfaces;
 using Tweetinvi.Parameters;
 
 namespace Tweetinvi.Core.Controllers
@@ -12,7 +11,7 @@ namespace Tweetinvi.Core.Controllers
     public interface ITweetController
     {
         // Publish Tweet
-        Task<ITwitterResult<ITweetDTO, ITweet>> PublishTweet(IPublishTweetParameters parameters, ITwitterRequest request);
+        Task<ITwitterResult<ITweetDTO>> PublishTweet(IPublishTweetParameters parameters, ITwitterRequest request);
         ITwitterPageIterator<ITwitterResult<ITweetDTO[]>, long?> GetFavoriteTweets(IGetFavoriteTweetsParameters parameters, ITwitterRequest request);
 
 
@@ -52,6 +51,6 @@ namespace Tweetinvi.Core.Controllers
 
         // Update Published Tweet
         void UpdateTweetIfTweetSuccessfullyBeenPublished(ITweet sourceTweet, ITweetDTO publishedTweetDTO);
-        Task UploadMedias(IPublishTweetParameters parameters);
+        Task UploadMedias(IPublishTweetParameters parameters, ITwitterRequest request);
     }
 }

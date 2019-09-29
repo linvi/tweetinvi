@@ -1,27 +1,23 @@
 ﻿using Newtonsoft.Json;
 using Tweetinvi.Logic.JsonConverters;
+using Tweetinvi.Models;
+using Tweetinvi.Models.DTO;
 
 namespace Tweetinvi.Logic.QueryParameters
 {
-    public interface IMediaMetadata
-    {
-        long MediaId { get; set; }
-        string AltText { get; set; }
-    }
-
     public class MediaMetadata : IMediaMetadata
     {
-        public MediaMetadata(long mediaId, string altText)
+        public MediaMetadata(long? mediaId)
         {
             MediaId = mediaId;
-            AltText = altText;
         }
 
-        [JsonProperty("media_id")]
-        public long MediaId { get; set; }
+        public MediaMetadata(IMedia media)
+        {
+            MediaId = media.Id;
+        }
 
-        [JsonProperty("alt_text")]
-        [JsonConverter(typeof(JsonUploadMetadataAltTextConverter))]
+        public long? MediaId { get; set; }
         public string AltText { get; set; }
     }
 }

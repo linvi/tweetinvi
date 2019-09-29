@@ -61,7 +61,7 @@ namespace Tweetinvi.Controllers.Tweet
 
         public Task<ITwitterResult<ITweetDTO>> PublishTweet(IPublishTweetParameters publishParameters, ITwitterRequest request)
         {
-            var query = _tweetQueryGenerator.GetPublishTweetQuery(publishParameters);
+            var query = _tweetQueryGenerator.GetPublishTweetQuery(publishParameters, request.ExecutionContext.TweetMode);
 
             request.Query.Url = query;
             request.Query.HttpMethod = HttpMethod.POST;

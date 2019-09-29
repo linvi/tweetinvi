@@ -3,10 +3,8 @@ using Tweetinvi.Core.Controllers;
 using Tweetinvi.Core.Factories;
 using Tweetinvi.Core.Iterators;
 using Tweetinvi.Core.Web;
-using Tweetinvi.Iterators;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
-using Tweetinvi.Models.DTO.QueryDTO;
 using Tweetinvi.Parameters;
 
 namespace Tweetinvi.Client.Requesters
@@ -19,13 +17,16 @@ namespace Tweetinvi.Client.Requesters
     {
         private readonly ITweetFactory _tweetFactory;
         private readonly ITweetController _tweetController;
+        private readonly ITwitterResultFactory _twitterResultFactory;
 
         public TweetsRequester(
             ITweetFactory tweetFactory,
-            ITweetController tweetController)
+            ITweetController tweetController, 
+            ITwitterResultFactory twitterResultFactory)
         {
             _tweetFactory = tweetFactory;
             _tweetController = tweetController;
+            _twitterResultFactory = twitterResultFactory;
         }
 
         // Tweets
@@ -42,10 +43,11 @@ namespace Tweetinvi.Client.Requesters
         }
 
         // Tweets - Publish
-        public Task<ITwitterResult<ITweetDTO, ITweet>> PublishTweet(IPublishTweetParameters parameters)
+        public async Task<ITwitterResult<ITweetDTO, ITweet>> PublishTweet(IPublishTweetParameters parameters)
         {
             var request = _twitterClient.CreateRequest();
-            return ExecuteRequest(() => _tweetController.PublishTweet(parameters, request), request);
+            var twitterResult = await ExecuteRequest(() => _tweetController.PublishTweet(parameters, request), request).ConfigureAwait(false);
+            return _twitterResultFactory.Create(twitterResult, tweetDTO => _tweetFactory.GenerateTweetFromDTO(tweetDTO, request.ExecutionContext.TweetMode, request.ExecutionContext));
         }
 
         // Tweets - Destroy

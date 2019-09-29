@@ -12,7 +12,6 @@ using Tweetinvi.Core.Exceptions;
 using Tweetinvi.Core.Helpers;
 using Tweetinvi.Core.Models;
 using Tweetinvi.Core.Public.Models.Authentication;
-using Tweetinvi.Core.Public.Parameters;
 using Tweetinvi.Core.Web;
 using Tweetinvi.Core.Wrappers;
 using Tweetinvi.Credentials.QueryJsonConverters;
@@ -339,20 +338,6 @@ namespace Tweetinvi.Credentials
             }
         }
 
-        // Multipart Query
-        public async Task<T> ExecuteMultipartQuery<T>(IMultipartHttpRequestParameters parameters, JsonConverter[] converters = null) where T : class
-        {
-            string jsonResponse = await ExecuteMultipartQuery(parameters);
-            return _jsonObjectConverter.DeserializeObject<T>(jsonResponse, converters);
-        }
-
-        public async Task<string> ExecuteMultipartQuery(IMultipartHttpRequestParameters parameters)
-        {
-            var result = await TryExecuteMultipartQuery(parameters);
-
-            return result.Result;
-        }
-
         // Cursor Query
         public async Task<IEnumerable<string>> ExecuteJsonCursorGETQuery<T>(
                 string baseQuery,
@@ -606,36 +591,11 @@ namespace Tweetinvi.Credentials
         }
 
 
-        public async Task<AsyncOperation<string>> TryExecuteMultipartQuery(IMultipartHttpRequestParameters parameters)
+        public async Task<AsyncOperation<string>> TryExecuteMultipartQuery(ITwitterRequest request)
         {
-            if (parameters.Url == null)
-            {
-                throw new ArgumentException("At least one of the arguments provided to the query was invalid.");
-            }
-
             try
             {
-                var credentials = _credentialsAccessor.CurrentThreadCredentials;
-
-                if (credentials == null)
-                {
-                    throw new TwitterNullCredentialsException();
-                }
-
-                parameters.Credentials = credentials;
-                parameters.Timeout = parameters.Timeout ?? TimeSpan.FromMilliseconds(_settingsAccessor.UploadTimeout);
-
-                var twitterQuery = _twitterQueryFactory.Create(parameters.Url, HttpMethod.POST, credentials);
-                var twitterRequest = new TwitterRequest
-                {
-                    Query = twitterQuery,
-                    ExecutionContext = new TwitterExecutionContext
-                    {
-                        RateLimitTrackerMode = _settingsAccessor.RateLimitTrackerMode
-                    }
-                };
-
-                var response = await _twitterRequestHandler.ExecuteQuery(twitterRequest);
+                var response = await _twitterRequestHandler.ExecuteQuery(request);
 
                 return new AsyncOperation<string>
                 {
@@ -726,14 +686,8 @@ namespace Tweetinvi.Credentials
         // Sign
         public async Task<ITwitterRequestParameters> GenerateTwitterRequestParameters(string url, HttpMethod method, ITwitterCredentials credentials, HttpContent httpContent)
         {
-            var requestParameters = new HttpRequestParameters
-            {
-                Url = url,
-                HttpMethod = method,
-                HttpContent = httpContent
-            };
-
             var twitterQuery = _twitterQueryFactory.Create(url, method, credentials);
+            twitterQuery.HttpContent = httpContent;
             var twitterRequest = new TwitterRequest
             {
                 Query = twitterQuery,

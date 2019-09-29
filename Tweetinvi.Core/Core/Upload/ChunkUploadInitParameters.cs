@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Tweetinvi.Parameters;
 
-namespace Tweetinvi.Core.Web
+namespace Tweetinvi.Core.Upload
 {
     public interface IChunkUploadInitParameters
     {

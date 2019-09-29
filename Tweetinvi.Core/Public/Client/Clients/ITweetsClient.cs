@@ -20,17 +20,19 @@ namespace Tweetinvi.Client
         /// <returns>The specified tweets</returns>
         Task<ITweet[]> GetTweets(long[] tweetIds);
 
-        /// <summary>
-        /// Publish a tweet to Twitter
-        /// </summary>
-        /// <returns>The published tweet</returns>
+        #region Publish Tweet
+
+        /// <inheritdoc cref="PublishTweet(IPublishTweetParameters)" />
         Task<ITweet> PublishTweet(string text);
 
         /// <summary>
-        /// Publish a tweet to Twitter
+        /// Publish a tweet
+        /// <para>Read more : https://dev.twitter.com/rest/reference/post/statuses/update </para>
         /// </summary>
-        /// <returns>The published tweet</returns>
+        /// <returns>Returns the published tweet</returns>
         Task<ITweet> PublishTweet(IPublishTweetParameters parameters);
+
+        #endregion
 
         /// <summary>
         /// Remove a tweet from Twitter

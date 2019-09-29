@@ -31,7 +31,7 @@ namespace Tweetinvi.Controllers.Tweet
                 throw new ArgumentException("The text message of a tweet cannot be null or empty, unless media is attached.");
             }
 
-            var mediaObjectIds = parameters.Medias.Where(x => x.MediaId != null).Select(x => x.MediaId.Value);
+            var mediaObjectIds = parameters.Medias.Where(x => x.Id != null).Select(x => x.Id.Value);
             var mediaIds = parameters.MediaIds.Concat(mediaObjectIds).Distinct();
 
             if (mediaIds.Count() > 4)

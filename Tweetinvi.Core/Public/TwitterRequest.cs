@@ -2,7 +2,6 @@
 using Tweetinvi.Core.Client;
 using Tweetinvi.Core.Web;
 using Tweetinvi.Models;
-using Tweetinvi.Models.Interfaces;
 
 namespace Tweetinvi
 {
@@ -26,18 +25,15 @@ namespace Tweetinvi
                 return;
             }
             
-            Query = source.Query?.Clone();
+            Query = new TwitterQuery(source.Query);
             TwitterClientHandler = source.TwitterClientHandler;
             ExecutionContext = source.ExecutionContext.Clone();
         }
 
         public ITwitterQuery Query
         {
-            get { return _query; }
-            set
-            {
-                _query = value ?? throw new ArgumentException("Cannot set query to null");
-            }
+            get => _query;
+            set => _query = value ?? throw new ArgumentException("Cannot set query to null");
         }
 
         public ITwitterExecutionContext ExecutionContext { get; set; }

@@ -232,15 +232,16 @@ namespace Tweetinvi.Controllers.Account
         {
             var query = _accountQueryGenerator.GetUpdateProfileImageQuery(parameters);
 
-            var asyncOperation = await _twitterAccessor.TryExecuteMultipartQuery(new MultipartHttpRequestParameters
-            {
-                Url = query,
-                HttpMethod = HttpMethod.POST,
-                Binaries = new[] { parameters.Binary },
-                ContentId = "image",
-                Timeout = parameters.Timeout,
-                UploadProgressChanged = parameters.UploadProgressChanged
-            });
+            var asyncOperation = await _twitterAccessor.TryExecuteMultipartQuery(null);
+//                new MultipartHttpRequest
+//            {
+//                Url = query,
+//                HttpMethod = HttpMethod.POST,
+//                Binaries = new[] { parameters.Binary },
+//                ContentId = "image",
+//                Timeout = parameters.Timeout,
+//                UploadProgressChanged = parameters.UploadProgressChanged
+//            });
 
             return asyncOperation.Success;
         }
@@ -260,17 +261,17 @@ namespace Tweetinvi.Controllers.Account
                 throw new ArgumentNullException(nameof(parameters), "Banner binary cannot be null.");
             }
 
-            var multipartParameters = new MultipartHttpRequestParameters
-            {
-                Url = query,
-                HttpMethod = HttpMethod.POST,
-                Binaries = new[] { parameters.Binary },
-                ContentId = "banner",
-                Timeout = parameters.Timeout,
-                UploadProgressChanged = parameters.UploadProgressChanged
-            };
+//            var multipartParameters = new MultipartHttpRequest
+//            {
+//                Url = query,
+//                HttpMethod = HttpMethod.POST,
+//                Binaries = new[] { parameters.Binary },
+//                ContentId = "banner",
+//                Timeout = parameters.Timeout,
+//                UploadProgressChanged = parameters.UploadProgressChanged
+//            };
 
-            var asyncOperation = await _twitterAccessor.TryExecuteMultipartQuery(multipartParameters);
+            var asyncOperation = await _twitterAccessor.TryExecuteMultipartQuery(null);
 
             return asyncOperation.Success;
         }
@@ -289,15 +290,16 @@ namespace Tweetinvi.Controllers.Account
 
             if (parameters.Binary != null)
             {
-                var multipartAsyncOperation = await _twitterAccessor.TryExecuteMultipartQuery(new MultipartHttpRequestParameters
-                {
-                    Url = query,
-                    HttpMethod = HttpMethod.POST,
-                    Binaries = new[] { parameters.Binary },
-                    ContentId = "image",
-                    Timeout = parameters.Timeout,
-                    UploadProgressChanged = parameters.UploadProgressChanged
-                });
+                var multipartAsyncOperation = await _twitterAccessor.TryExecuteMultipartQuery(null);
+//                    new MultipartHttpRequest
+//                {
+//                    Url = query,
+//                    HttpMethod = HttpMethod.POST,
+//                    Binaries = new[] { parameters.Binary },
+//                    ContentId = "image",
+//                    Timeout = parameters.Timeout,
+//                    UploadProgressChanged = parameters.UploadProgressChanged
+//                });
 
                 return multipartAsyncOperation.Success;
             }

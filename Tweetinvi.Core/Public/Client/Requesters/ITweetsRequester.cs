@@ -41,8 +41,6 @@ namespace Tweetinvi.Client.Requesters
         /// <returns>TwitterResult containing multiple tweets</returns>
         Task<ITwitterResult<ITweetDTO[], ITweet[]>> GetTweets(long[] tweetIds);
         
-        
-
         /// <summary>
         /// Destroying a tweet
         /// </summary>

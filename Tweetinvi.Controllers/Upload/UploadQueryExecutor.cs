@@ -1,17 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using Tweetinvi.Controllers.Properties;
 using Tweetinvi.Core.Injectinvi;
 using Tweetinvi.Core.Public.Events;
 using Tweetinvi.Core.Public.Models.Enum;
-using Tweetinvi.Core.Public.Parameters;
 using Tweetinvi.Core.Public.Parameters.Enum;
+using Tweetinvi.Core.Upload;
 using Tweetinvi.Core.Web;
-using Tweetinvi.Logic.QueryParameters;
 using Tweetinvi.Models;
+using Tweetinvi.Models.DTO;
 using Tweetinvi.Parameters;
+using HttpMethod = Tweetinvi.Models.HttpMethod;
 
 namespace Tweetinvi.Controllers.Upload
 {
@@ -20,48 +23,31 @@ namespace Tweetinvi.Controllers.Upload
         /// <summary>
         /// Upload a binary
         /// </summary>
-        Task<IMedia> UploadBinary(byte[] binary, IUploadOptionalParameters parameters = null);
-
-        /// <summary>
-        /// Upload a binary
-        /// </summary>
-        Task<IMedia> UploadBinary(IUploadParameters uploadQueryParameters);
+        Task<IChunkUploadResult> UploadBinary(IUploadParameters uploadQueryParameters, ITwitterRequest request);
 
         /// <summary>
         /// Add metadata to a media that has been uploaded.
         /// </summary>
-        Task<bool> AddMediaMetadata(IMediaMetadata metadata);
-
+        Task<ITwitterResult> AddMediaMetadata(IAddMediaMetadataParameters metadata, ITwitterRequest request);
     }
 
     public class UploadQueryExecutor : IUploadQueryExecutor
     {
         private readonly ITwitterAccessor _twitterAccessor;
-        private readonly IFactory<IMedia> _mediaFactory;
         private readonly IFactory<IChunkedUploader> _chunkedUploadFactory;
         private readonly IUploadHelper _uploadHelper;
 
         public UploadQueryExecutor(
             ITwitterAccessor twitterAccessor,
-            IFactory<IMedia> mediaFactory,
             IFactory<IChunkedUploader> chunkedUploadFactory,
             IUploadHelper uploadHelper)
         {
             _twitterAccessor = twitterAccessor;
-            _mediaFactory = mediaFactory;
             _chunkedUploadFactory = chunkedUploadFactory;
             _uploadHelper = uploadHelper;
         }
 
-
-        public Task<IMedia> UploadBinary(byte[] binary, IUploadOptionalParameters parameters)
-        {
-            var uploadParameters = CreateUploadParametersFromOptionalParameters(binary, parameters);
-
-            return UploadBinary(uploadParameters);
-        }
-
-        public async Task<IMedia> UploadBinary(IUploadParameters uploadQueryParameters)
+        public async Task<IChunkUploadResult> UploadBinary(IUploadParameters uploadQueryParameters, ITwitterRequest baseRequest)
         {
             var binary = uploadQueryParameters.Binary;
             var uploader = CreateChunkedUploader();
@@ -75,115 +61,139 @@ namespace Tweetinvi.Controllers.Upload
                 CustomRequestParameters = uploadQueryParameters.InitCustomRequestParameters,
             };
 
-            var initOperationSucceeded = await uploader.Init(initParameters);
+            var initRequest = new TwitterRequest(baseRequest);
+            var initOperationSucceeded = await uploader.Init(initParameters, initRequest).ConfigureAwait(false);
 
-            if (initOperationSucceeded)
+            if (!initOperationSucceeded)
             {
-                var binaryChunks = GetBinaryChunks(binary, uploadQueryParameters.MaxChunkSize);
+                return uploader.Result;
+            }
+            
+            var binaryChunks = GetBinaryChunks(binary, uploadQueryParameters.MaxChunkSize);
 
-                var totalSize = binary.Length;
-                var uploadedSize = 0;
+            var totalSize = await CalculateSize("media", binary).ConfigureAwait(false);
+            long uploadedSize = 0;
 
-                uploadQueryParameters.UploadStateChanged?.Invoke(new UploadStateChangedEventArgs(UploadProgressState.INITIALIZED, 0, totalSize));
+            uploadQueryParameters.UploadStateChanged?.Invoke(new UploadStateChangedEventArgs(UploadProgressState.INITIALIZED, 0, totalSize));
 
-                for (int i = 0; i < binaryChunks.Count; ++i)
+            for (var i = 0; i < binaryChunks.Count; ++i)
+            {
+                var binaryChunk = binaryChunks[i];
+                var startUploadedSize = uploadedSize;
+
+                var appendParameters = new ChunkUploadAppendParameters(
+                    binaryChunk,
+                    "media", // Must be `media`, if using the real media type as content id, Twitter does not accept when invoking .Finalize().
+                    uploadQueryParameters.Timeout)
                 {
-                    var binaryChunk = binaryChunks[i];
-
-                    var appendParameters = new ChunkUploadAppendParameters(
-                        binaryChunk,
-                        "media", // Must be `media`, if using the real media type as content id, Twitter does not accept when invoking .Finalize().
-                        uploadQueryParameters.Timeout)
+                    UploadProgressChanged = (current, total) =>
                     {
-                        UploadProgressChanged = (current, total) =>
-                        {
-                            uploadQueryParameters.UploadStateChanged?.Invoke(new UploadStateChangedEventArgs(UploadProgressState.PROGRESS_CHANGED, uploadedSize + current, totalSize));
-                        }
-                    };
+                        uploadedSize = startUploadedSize + current;
+                        uploadQueryParameters.UploadStateChanged?.Invoke(new UploadStateChangedEventArgs(UploadProgressState.PROGRESS_CHANGED, uploadedSize, totalSize));
+                    },
+                    CustomRequestParameters = uploadQueryParameters.AppendCustomRequestParameters
+                };
 
-                    appendParameters.CustomRequestParameters = uploadQueryParameters.AppendCustomRequestParameters;
+                var appendRequest = new TwitterRequest(baseRequest);
+                var appendOperationSucceeded = await uploader.Append(appendParameters, appendRequest).ConfigureAwait(false);
 
-                    var appendOperationSucceeded = await uploader.Append(appendParameters);
-
-                    if (!appendOperationSucceeded)
-                    {
-                        uploadQueryParameters.UploadStateChanged?.Invoke(new UploadStateChangedEventArgs(UploadProgressState.FAILED, uploadedSize, totalSize));
-
-                        return null;
-                    }
-
-                    uploadedSize += binaryChunk.Length;
+                if (!appendOperationSucceeded)
+                {
+                    uploadQueryParameters.UploadStateChanged?.Invoke(new UploadStateChangedEventArgs(UploadProgressState.FAILED, uploadedSize, totalSize));
+                    return uploader.Result;
                 }
+            }
 
-                var media = await uploader.Complete();
+            var finalizeRequest = new TwitterRequest(baseRequest);
 
+            var finalizeSucceeded = await uploader.Finalize(uploadQueryParameters.FinalizeCustomRequestParameters, finalizeRequest).ConfigureAwait(false);
+            if (finalizeSucceeded)
+            {
+                var result = uploader.Result;
                 uploadQueryParameters.UploadStateChanged?.Invoke(new UploadStateChangedEventArgs(UploadProgressState.COMPLETED, uploadedSize, totalSize));
 
                 var category = uploadQueryParameters.MediaCategory;
                 var isAwaitableUpload = category == MediaCategory.Gif || category == MediaCategory.Video;
+                
                 if (isAwaitableUpload && uploadQueryParameters.WaitForTwitterProcessing)
                 {
-                    await _uploadHelper.WaitForMediaProcessingToGetAllMetadata(media);
+                    var request = new TwitterRequest(baseRequest);
+                    await _uploadHelper.WaitForMediaProcessingToGetAllMetadata(result.Media, request).ConfigureAwait(false);
                 }
-
-                return media;
             }
 
-            return _mediaFactory.Create();
+            return uploader.Result;
         }
 
-        private List<byte[]> GetBinaryChunks(byte[] binary, int chunkSize)
+        private static async Task<long> CalculateSize(string contentId, byte[] binary)
+        {
+            using (var httpContent = MultipartTwitterQuery.CreateHttpContent(contentId, new[] { binary }))
+            {
+                return (await httpContent.ReadAsByteArrayAsync().ConfigureAwait(false)).Length;
+            }
+        }
+
+        private static List<byte[]> GetBinaryChunks(byte[] binary, int chunkSize)
         {
             var result = new List<byte[]>();
-            var numberOfChunks = (int)Math.Ceiling((double)binary.Length / chunkSize);
+            var numberOfChunks = (int) Math.Ceiling((double) binary.Length / chunkSize);
 
-            for (int i = 0; i < numberOfChunks; ++i)
+            for (var i = 0; i < numberOfChunks; ++i)
             {
                 var skip = i * chunkSize;
                 var take = Math.Min(chunkSize, binary.Length - skip);
 
-                var elts = binary.Skip(skip).Take(take).ToArray();
+                var chunkBytes = binary.Skip(skip).Take(take).ToArray();
 
-                result.Add(elts);
+                result.Add(chunkBytes);
             }
 
             return result;
         }
 
-        /// <summary>
-        /// Create a chunked uploader that give developers access to Twitter chunked uploads
-        /// </summary>
         private IChunkedUploader CreateChunkedUploader()
         {
             return _chunkedUploadFactory.Create();
         }
 
-        public Task<bool> AddMediaMetadata(IMediaMetadata metadata)
+        public Task<ITwitterResult> AddMediaMetadata(IAddMediaMetadataParameters metadata, ITwitterRequest request)
         {
             var json = JsonConvert.SerializeObject(metadata);
-            return _twitterAccessor.TryPOSTJsonContent("https://upload.twitter.com/1.1/media/metadata/create.json", json);
+
+            request.Query.Url = "https://upload.twitter.com/1.1/media/metadata/create.json";
+            request.Query.HttpMethod = HttpMethod.POST;
+            request.Query.HttpContent = new StringContent(json);
+
+            return _twitterAccessor.ExecuteRequest(request);
         }
-
-        private static UploadParameters CreateUploadParametersFromOptionalParameters(
-            byte[] binary,
-            IUploadOptionalParameters parameters)
+        
+        public async Task<ITwitterResult<IUploadedMediaInfo>> GetMediaStatus(IMedia media, bool autoWait, ITwitterRequest request)
         {
-            var uploadParameters = new UploadParameters(binary);
-
-            if (parameters != null)
+            if (!media.HasBeenUploaded)
             {
-                uploadParameters.AdditionalOwnerIds = parameters.AdditionalOwnerIds;
-                uploadParameters.AppendCustomRequestParameters = parameters.AppendCustomRequestParameters;
-                uploadParameters.InitCustomRequestParameters = parameters.InitCustomRequestParameters;
-                uploadParameters.MaxChunkSize = parameters.MaxChunkSize;
-                uploadParameters.QueryMediaCategory = parameters.QueryMediaCategory;
-                uploadParameters.QueryMediaType = parameters.QueryMediaType;
-                uploadParameters.Timeout = parameters.Timeout;
-                uploadParameters.UploadStateChanged = parameters.UploadStateChanged;
-                uploadParameters.WaitForTwitterProcessing = parameters.WaitForTwitterProcessing;
+                throw new InvalidOperationException(Resources.Exception_Upload_Status_NotUploaded);
             }
 
-            return uploadParameters;
+            if (media.UploadedMediaInfo.ProcessingInfo == null)
+            {
+                throw new InvalidOperationException(Resources.Exception_Upload_Status_No_ProcessingInfo);
+            }
+
+            if (autoWait)
+            {
+                var timeBeforeOperationPermitted = TimeSpan.FromSeconds(media.UploadedMediaInfo.ProcessingInfo.CheckAfterInSeconds);
+
+                var waitTimeRemaining = media.UploadedMediaInfo.CreatedDate.Add(timeBeforeOperationPermitted).Subtract(DateTime.Now);
+                if (waitTimeRemaining.TotalMilliseconds > 0)
+                {
+                    await Task.Delay((int) waitTimeRemaining.TotalMilliseconds).ConfigureAwait(false);
+                }
+            }
+
+            request.Query.Url = $"https://upload.twitter.com/1.1/media/upload.json?command=STATUS&media_id={media.Id}";
+            request.Query.HttpMethod = HttpMethod.GET;
+            
+            return await _twitterAccessor.ExecuteRequest<IUploadedMediaInfo>(request).ConfigureAwait(false);
         }
     }
 }

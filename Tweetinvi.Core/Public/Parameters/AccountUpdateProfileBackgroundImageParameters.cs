@@ -53,7 +53,7 @@ namespace Tweetinvi.Parameters
 
         public AccountUpdateProfileBackgroundImageParameters(IMedia media)
         {
-            MediaId = media.MediaId;
+            MediaId = media.Id;
             IncludeEntities = true;
         }
 

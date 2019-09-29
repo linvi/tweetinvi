@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using Tweetinvi.Core.Public.Events;
 using Tweetinvi.Core.Public.Models.Enum;
-using Tweetinvi.Parameters;
 
-namespace Tweetinvi.Core.Public.Parameters
+namespace Tweetinvi.Parameters
 {
     public interface IUploadOptionalParameters
     {
@@ -16,7 +15,7 @@ namespace Tweetinvi.Core.Public.Parameters
 
         /// <summary>
         /// Type of element that you want to publish.
-        /// This will be used as the ContenType in the HttpRequest.
+        /// This will be used as the ContentType in the HttpRequest.
         /// </summary>
         string QueryMediaType { get; set; }
 
@@ -65,11 +64,17 @@ namespace Tweetinvi.Core.Public.Parameters
         ICustomRequestParameters AppendCustomRequestParameters { get; set; }
 
         /// <summary>
+        /// Additional parameters to use during the upload FINALIZE HttpRequest.
+        /// </summary>
+        ICustomRequestParameters FinalizeCustomRequestParameters { get; set; }
+
+        /// <summary>
         /// Event to notify that the upload state has changed
         /// </summary>
         Action<UploadStateChangedEventArgs> UploadStateChanged { get; set; }
     }
 
+    /// <inheritdoc/>
     public class UploadOptionalParameters : IUploadOptionalParameters
     {
         public UploadOptionalParameters()
@@ -81,18 +86,20 @@ namespace Tweetinvi.Core.Public.Parameters
 
             InitCustomRequestParameters = new CustomRequestParameters();
             AppendCustomRequestParameters = new CustomRequestParameters();
+            FinalizeCustomRequestParameters = new CursorQueryParameters();
         }
 
-        public MediaType? MediaType
+        /// <inheritdoc/>
+        public  MediaType? MediaType
         {
             get
             {
                 switch (QueryMediaType)
                 {
                     case "media":
-                        return Models.Enum.MediaType.Media;
+                        return Core.Public.Models.Enum.MediaType.Media;
                     case "video/mp4":
-                        return Models.Enum.MediaType.VideoMp4;
+                        return Core.Public.Models.Enum.MediaType.VideoMp4;
                     default:
                         return null;
                 }
@@ -101,7 +108,7 @@ namespace Tweetinvi.Core.Public.Parameters
             {
                 switch (value)
                 {
-                    case Models.Enum.MediaType.VideoMp4:
+                    case Core.Public.Models.Enum.MediaType.VideoMp4:
                         QueryMediaType = "video/mp4";
                         break;
                     default:
@@ -111,8 +118,9 @@ namespace Tweetinvi.Core.Public.Parameters
             }
         }
 
+        /// <inheritdoc/>
         public string QueryMediaType { get; set; }
-
+        /// <inheritdoc/>
         public MediaCategory? MediaCategory
         {
             get
@@ -120,17 +128,17 @@ namespace Tweetinvi.Core.Public.Parameters
                 switch (QueryMediaCategory)
                 {
                     case "tweet_video":
-                        return Models.Enum.MediaCategory.Video;
+                        return Core.Public.Models.Enum.MediaCategory.Video;
                     case "tweet_gif":
-                        return Models.Enum.MediaCategory.Gif;
+                        return Core.Public.Models.Enum.MediaCategory.Gif;
                     case "tweet_image":
-                        return Models.Enum.MediaCategory.Image;
+                        return Core.Public.Models.Enum.MediaCategory.Image;
                     case "dm_image":
-                        return Models.Enum.MediaCategory.DmImage;
+                        return Core.Public.Models.Enum.MediaCategory.DmImage;
                     case "dm_gif":
-                        return Models.Enum.MediaCategory.DmGif;
+                        return Core.Public.Models.Enum.MediaCategory.DmGif;
                     case "dm_video":
-                        return Models.Enum.MediaCategory.DmVideo;
+                        return Core.Public.Models.Enum.MediaCategory.DmVideo;
                     default:
                         return null;
                 }
@@ -139,22 +147,22 @@ namespace Tweetinvi.Core.Public.Parameters
             {
                 switch (value)
                 {
-                    case Models.Enum.MediaCategory.Video:
+                    case Core.Public.Models.Enum.MediaCategory.Video:
                         QueryMediaCategory = "tweet_video";
                         break;
-                    case Models.Enum.MediaCategory.Gif:
+                    case Core.Public.Models.Enum.MediaCategory.Gif:
                         QueryMediaCategory = "tweet_gif";
                         break;
-                    case Models.Enum.MediaCategory.Image:
+                    case Core.Public.Models.Enum.MediaCategory.Image:
                         QueryMediaCategory = "tweet_image";
                         break;
-                    case Models.Enum.MediaCategory.DmImage:
+                    case Core.Public.Models.Enum.MediaCategory.DmImage:
                         QueryMediaCategory = "dm_image";
                         break;
-                    case Models.Enum.MediaCategory.DmGif:
+                    case Core.Public.Models.Enum.MediaCategory.DmGif:
                         QueryMediaCategory = "dm_gif";
                         break;
-                    case Models.Enum.MediaCategory.DmVideo:
+                    case Core.Public.Models.Enum.MediaCategory.DmVideo:
                         QueryMediaCategory = "dm_video";
                         break;
                     default:
@@ -163,15 +171,23 @@ namespace Tweetinvi.Core.Public.Parameters
                 }
             }
         }
-
+        /// <inheritdoc/>
         public string QueryMediaCategory { get; set; }
-
+        /// <inheritdoc/>
         public int MaxChunkSize { get; set; }
+        /// <inheritdoc/>
         public TimeSpan? Timeout { get; set; }
+        /// <inheritdoc/>
         public List<long> AdditionalOwnerIds { get; set; }
+        /// <inheritdoc/>
         public bool WaitForTwitterProcessing { get; set; }
+        /// <inheritdoc/>
         public ICustomRequestParameters InitCustomRequestParameters { get; set; }
+        /// <inheritdoc/>
         public ICustomRequestParameters AppendCustomRequestParameters { get; set; }
+        /// <inheritdoc/>
+        public ICustomRequestParameters FinalizeCustomRequestParameters { get; set; }
+        /// <inheritdoc/>
         public Action<UploadStateChangedEventArgs> UploadStateChanged { get; set; }
     }
 }

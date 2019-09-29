@@ -1,7 +1,6 @@
-﻿using System;
+using System;
 using System.Threading.Tasks;
 using Tweetinvi.Controllers.Properties;
-using Tweetinvi.Core.Helpers;
 using Tweetinvi.Core.Web;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
@@ -10,21 +9,19 @@ namespace Tweetinvi.Controllers.Upload
 {
     public interface IUploadMediaStatusQueryExecutor
     {
-        Task<IUploadedMediaInfo> GetMediaStatus(IMedia media, bool autoAwait = true);
+        Task<ITwitterResult<IUploadedMediaInfo>> GetMediaStatus(IMedia media, ITwitterRequest request);
     }
 
     public class UploadMediaStatusQueryExecutor : IUploadMediaStatusQueryExecutor
     {
-        private readonly IThreadHelper _threadHelper;
         private readonly ITwitterAccessor _twitterAccessor;
 
-        public UploadMediaStatusQueryExecutor(IThreadHelper threadHelper, ITwitterAccessor twitterAccessor)
+        public UploadMediaStatusQueryExecutor(ITwitterAccessor twitterAccessor)
         {
-            _threadHelper = threadHelper;
             _twitterAccessor = twitterAccessor;
         }
 
-        public Task<IUploadedMediaInfo> GetMediaStatus(IMedia media, bool autoWait = true)
+        public async Task<ITwitterResult<IUploadedMediaInfo>> GetMediaStatus(IMedia media, ITwitterRequest request)
         {
             if (!media.HasBeenUploaded)
             {
@@ -36,18 +33,12 @@ namespace Tweetinvi.Controllers.Upload
                 throw new InvalidOperationException(Resources.Exception_Upload_Status_No_ProcessingInfo);
             }
 
-            if (autoWait)
-            {
-                var timeBeforeOperationPermitted = TimeSpan.FromSeconds(media.UploadedMediaInfo.ProcessingInfo.CheckAfterInSeconds);
-
-                var waitTimeRemaining = media.UploadedMediaInfo.CreatedDate.Add(timeBeforeOperationPermitted).Subtract(DateTime.Now);
-                if (waitTimeRemaining.TotalMilliseconds > 0)
-                {
-                    _threadHelper.Sleep((int)waitTimeRemaining.TotalMilliseconds);
-                }
-            }
-
-            return _twitterAccessor.ExecuteGETQuery<IUploadedMediaInfo>($"https://upload.twitter.com/1.1/media/upload.json?command=STATUS&media_id={media.MediaId}");
+            request.Query.Url = $"https://upload.twitter.com/1.1/media/upload.json?command=STATUS&media_id={media.Id}";
+            request.Query.HttpMethod = HttpMethod.GET;
+            
+            return await _twitterAccessor.ExecuteRequest<IUploadedMediaInfo>(request).ConfigureAwait(false);
         }
+
+        
     }
 }

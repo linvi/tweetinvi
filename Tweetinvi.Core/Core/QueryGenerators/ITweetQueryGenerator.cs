@@ -13,7 +13,7 @@ namespace Tweetinvi.Core.QueryGenerators
         string GetTweetsQuery(IEnumerable<long> tweetIds);
 
         // Publish Tweet
-        string GetPublishTweetQuery(IPublishTweetParameters queryParameters);
+        string GetPublishTweetQuery(IPublishTweetParameters queryParameters, TweetMode? tweetMode);
 
         // Publish Retweet
         string GetPublishRetweetQuery(ITweetIdentifier tweetId, TweetMode? tweetMode);

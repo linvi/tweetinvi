@@ -3,7 +3,10 @@
 namespace Tweetinvi.Parameters
 {
     /// <summary>
-    /// https://dev.twitter.com/rest/media/uploading-media
+    /// For more description visit : https://dev.twitter.com/rest/media/uploading-media
+    /// <para>INIT : https://dev.twitter.com/en/docs/media/upload-media/api-reference/post-media-upload-init</para>
+    /// <para>APPEND : https://dev.twitter.com/en/docs/media/upload-media/api-reference/post-media-upload-append</para>
+    /// <para>FINALIZE : https://dev.twitter.com/en/docs/media/upload-media/api-reference/post-media-upload-finalize</para>
     /// </summary>
     public interface IUploadParameters : IUploadOptionalParameters
     {
@@ -19,7 +22,7 @@ namespace Tweetinvi.Parameters
     public class UploadParameters : UploadOptionalParameters, IUploadParameters
     {
 
-        public UploadParameters(byte[] binary = null)
+        public UploadParameters(byte[] binary)
         {
             Binary = binary;
         }

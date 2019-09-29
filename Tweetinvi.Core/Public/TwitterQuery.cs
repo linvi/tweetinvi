@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Tweetinvi.Core.Web;
 using Tweetinvi.Models;
 using HttpMethod = Tweetinvi.Models.HttpMethod;
@@ -28,12 +29,27 @@ namespace Tweetinvi
             HttpMethod = httpMethod;
         }
 
-        public IProxyConfig ProxyConfig { get; set; }
+        public TwitterQuery(ITwitterQuery source) : base(source)
+        {
+            if (source == null)
+            {
+                return;
+            }
 
+            ProxyConfig = source.ProxyConfig;
+            Timeout = source.Timeout;
+            QueryParameters = source.QueryParameters?.ToArray();
+            TwitterCredentials = source.TwitterCredentials;
+            CredentialsRateLimits = source.CredentialsRateLimits;
+            QueryRateLimit = source.QueryRateLimit;
+            DateWhenCredentialsWillHaveTheRequiredRateLimits = source.DateWhenCredentialsWillHaveTheRequiredRateLimits;
+        }
+
+        public IProxyConfig ProxyConfig { get; set; }
         private TimeSpan _timeout;
         public TimeSpan Timeout
         {
-            get { return _timeout; }
+            get => _timeout;
             set
             {
                 if ((int)value.TotalMilliseconds == 0) // Default
@@ -51,18 +67,11 @@ namespace Tweetinvi
                 _timeout = value;
             }
         }
-
         public ITwitterCredentials TwitterCredentials { get; set; }
-        public IEnumerable<IOAuthQueryParameter> QueryParameters { get; set; }
-
+        public IOAuthQueryParameter[] QueryParameters { get; set; }
         public IEndpointRateLimit QueryRateLimit { get; set; }
         public ICredentialsRateLimits CredentialsRateLimits { get; set; }
-
-        /// <summary>
-        /// Date at which the Twitter query will be ready to be executed
-        /// </summary>
         public DateTime? DateWhenCredentialsWillHaveTheRequiredRateLimits { get; set; }
-
         public int? TimeToWaitBeforeExecutingTheQueryInMilliSeconds
         {
             get
@@ -76,21 +85,6 @@ namespace Tweetinvi
                 return (int)Math.Max(0, timeToWait);
             }
         }
-
-        public IMultipartHttpRequest MultipartHttpRequest { get; set; }
-
-        public ITwitterQuery Clone()
-        {
-            var clone = new TwitterQuery(Url, HttpMethod)
-            {
-                TwitterCredentials = TwitterCredentials,
-                QueryParameters = QueryParameters,
-                ProxyConfig = ProxyConfig
-            };
-
-            return clone;
-        }
-
         public override string ToString()
         {
             return Url;

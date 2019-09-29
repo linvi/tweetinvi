@@ -59,17 +59,7 @@ namespace Tweetinvi.Core.Web
         /// <summary>
         /// Starts a multipart HttpWebRequest required by Twitter to upload binaries
         /// </summary>
-        Task<string> ExecuteMultipartQuery(IMultipartHttpRequestParameters parameters);
-
-        /// <summary>
-        /// Starts a multipart HttpWebRequest required by Twitter to upload binaries
-        /// </summary>
-        Task<T> ExecuteMultipartQuery<T>(IMultipartHttpRequestParameters parameters, JsonConverter[] converters = null) where T : class;
-
-        /// <summary>
-        /// Starts a multipart HttpWebRequest required by Twitter to upload binaries
-        /// </summary>
-        Task<AsyncOperation<string>> TryExecuteMultipartQuery(IMultipartHttpRequestParameters parameters);
+        Task<AsyncOperation<string>> TryExecuteMultipartQuery(ITwitterRequest request);
 
         // Cursor Query
         Task<IEnumerable<string>> ExecuteJsonCursorGETQuery<T>(

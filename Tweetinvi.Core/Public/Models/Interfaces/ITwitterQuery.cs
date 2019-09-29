@@ -43,7 +43,7 @@ namespace Tweetinvi.Models
         /// <summary>
         /// OAuth request parameters.
         /// </summary>
-        IEnumerable<IOAuthQueryParameter> QueryParameters { get; set; }
+        IOAuthQueryParameter[] QueryParameters { get; set; }
 
         /// <summary>
         /// RateLimit for the specific query. These can be null if the query url, 
@@ -66,15 +66,5 @@ namespace Tweetinvi.Models
         /// Rate Limits will be available to execute the query.
         /// </summary>
         int? TimeToWaitBeforeExecutingTheQueryInMilliSeconds { get; }
-
-        /// <summary>
-        /// Mutlipart request like upload
-        /// </summary>
-        IMultipartHttpRequest MultipartHttpRequest { get; set; }
-
-        /// <summary>
-        /// Clone the query information into a new object.
-        /// </summary>
-        ITwitterQuery Clone();
     }
 }

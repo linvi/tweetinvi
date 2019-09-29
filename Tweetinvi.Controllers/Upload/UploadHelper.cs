@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Tweetinvi.Controllers.Properties;
-using Tweetinvi.Core.Helpers;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
 using Tweetinvi.Public.Models.Enum;
@@ -10,23 +9,19 @@ namespace Tweetinvi.Controllers.Upload
 {
     public interface IUploadHelper
     {
-        Task WaitForMediaProcessingToGetAllMetadata(IMedia media);
+        Task WaitForMediaProcessingToGetAllMetadata(IMedia media, ITwitterRequest request);
     }
 
     public class UploadHelper : IUploadHelper
     {
-        private readonly IThreadHelper _threadHelper;
         private readonly IUploadMediaStatusQueryExecutor _uploadQueryExecutor;
 
-        public UploadHelper(
-            IThreadHelper threadHelper,
-            IUploadMediaStatusQueryExecutor uploadQueryExecutor)
+        public UploadHelper(IUploadMediaStatusQueryExecutor uploadQueryExecutor)
         {
-            _threadHelper = threadHelper;
             _uploadQueryExecutor = uploadQueryExecutor;
         }
 
-        public async Task WaitForMediaProcessingToGetAllMetadata(IMedia media)
+        public async Task WaitForMediaProcessingToGetAllMetadata(IMedia media, ITwitterRequest request)
         {
             if (media == null)
             {
@@ -47,10 +42,12 @@ namespace Tweetinvi.Controllers.Upload
             IUploadedMediaInfo mediaStatus = null;
             while (!isProcessed)
             {
-                _threadHelper.Sleep(timeToWait);
+                await Task.Delay(Math.Max(timeToWait, 1)).ConfigureAwait(false);
 
                 // The second parameter (false) informs Tweetinvi that you are manually awaiting the media to be ready
-                mediaStatus = await _uploadQueryExecutor.GetMediaStatus(media, false);
+                var mediaStatusTwitterResult = await _uploadQueryExecutor.GetMediaStatus(media, request).ConfigureAwait(false);
+                
+                mediaStatus = mediaStatusTwitterResult.DataTransferObject;
                 isProcessed = IsMediaProcessed(mediaStatus.ProcessingInfo);
                 timeToWait = mediaStatus.ProcessingInfo.CheckAfterInMilliseconds;
             }

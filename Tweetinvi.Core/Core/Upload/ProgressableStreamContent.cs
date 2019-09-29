@@ -12,8 +12,8 @@ namespace Tweetinvi.Core.Web
     {
         private const int DEFAULT_BUFFER_SIZE = 5 * 4096;
 
-        private HttpContent _content;
-        private int _bufferSize;
+        private readonly HttpContent _content;
+        private readonly int _bufferSize;
         private Action<long, long> _progress;
 
         public ProgressableStreamContent(HttpContent content, Action<long, long> progress) : this(content, DEFAULT_BUFFER_SIZE, progress) { }
@@ -22,12 +22,12 @@ namespace Tweetinvi.Core.Web
         {
             if (content == null)
             {
-                throw new ArgumentNullException("content");
+                throw new ArgumentNullException(nameof(content));
             }
 
             if (bufferSize <= 0)
             {
-                throw new ArgumentOutOfRangeException("bufferSize");
+                throw new ArgumentOutOfRangeException(nameof(bufferSize));
             }
 
             _content = content;
@@ -68,6 +68,12 @@ namespace Tweetinvi.Core.Web
             });
         }
 
+        public long GetLength()
+        {
+            TryComputeLength(out var length);
+            return length;
+        }
+        
         protected override bool TryComputeLength(out long length)
         {
             length = _content.Headers.ContentLength.GetValueOrDefault();
@@ -79,6 +85,7 @@ namespace Tweetinvi.Core.Web
             if (disposing)
             {
                 _content.Dispose();
+                _progress = null;
             }
 
             base.Dispose(disposing);

@@ -59,7 +59,7 @@ namespace Tweetinvi.WebLogic
                     urlParametersFormatted.Append("&");
                 }
 
-                urlParametersFormatted.Append(string.Format("{0}={1}", param.Key, param.Value));
+                urlParametersFormatted.Append($"{param.Key}={param.Value}");
             }
 
             #endregion
@@ -248,7 +248,7 @@ namespace Tweetinvi.WebLogic
             }
             else
             {
-                twitterQuery.AuthorizationHeader = string.Format("Bearer {0}", credentials.ApplicationOnlyBearerToken);
+                twitterQuery.AuthorizationHeader = $"Bearer {credentials.ApplicationOnlyBearerToken}";
             }
 
             return twitterQuery.AuthorizationHeader;

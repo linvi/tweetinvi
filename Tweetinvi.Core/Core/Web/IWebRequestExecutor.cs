@@ -1,7 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Tweetinvi.Models;
-using Tweetinvi.Models.Interfaces;
 
 namespace Tweetinvi.Core.Web
 {
@@ -18,7 +16,6 @@ namespace Tweetinvi.Core.Web
         /// <summary>
         /// Execute a multipart TwitterQuery and return the resulting json data.
         /// </summary>
-        Task<ITwitterResponse> ExecuteMultipartQuery(ITwitterRequest request, string contentId,
-            IEnumerable<byte[]> binaries);
+        Task<ITwitterResponse> ExecuteMultipartQuery(ITwitterRequest request);
     }
 }

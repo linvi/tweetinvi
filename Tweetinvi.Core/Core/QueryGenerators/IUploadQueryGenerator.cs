@@ -1,4 +1,5 @@
-﻿using Tweetinvi.Core.Web;
+﻿using Tweetinvi.Core.Upload;
+using Tweetinvi.Parameters;
 
 namespace Tweetinvi.Core.QueryGenerators
 {
@@ -6,6 +7,6 @@ namespace Tweetinvi.Core.QueryGenerators
     {
         string GetChunkedUploadInitQuery(IChunkUploadInitParameters chunkUploadInitParameters);
         string GetChunkedUploadAppendQuery(IChunkUploadAppendParameters parameters);
-        string GetChunkedUploadFinalizeQuery(long mediaId);
+        string GetChunkedUploadFinalizeQuery(long mediaId, ICustomRequestParameters customRequestParameters);
     }
 }

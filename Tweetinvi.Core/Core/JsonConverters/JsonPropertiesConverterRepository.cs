@@ -5,6 +5,7 @@ using Tweetinvi.Core.Exceptions;
 using Tweetinvi.Core.Extensions;
 using Tweetinvi.Core.Models;
 using Tweetinvi.Core.Public.Models.Interfaces.DTO.Webhooks;
+using Tweetinvi.Core.Upload;
 using Tweetinvi.Logic.DTO;
 using Tweetinvi.Logic.Exceptions;
 using Tweetinvi.Logic.Model;
@@ -101,6 +102,8 @@ namespace Tweetinvi.Logic.JsonConverters
                 new JsonInterfaceToObjectConverter<ICreateMessageDTO, CreateMessageDTO>(),
                 new JsonInterfaceToObjectConverter<IAttachmentDTO, AttachmentDTO>(),
                 new JsonInterfaceToObjectConverter<IMessageEntities, MessageEntitiesDTO>(),
+                
+                new JsonInterfaceToObjectConverter<IUploadInitModel, UploadInitModel>(),
 
                 // Webhooks
                 new JsonInterfaceToObjectConverter<IWebhookDTO, WebhookDTO>(),
