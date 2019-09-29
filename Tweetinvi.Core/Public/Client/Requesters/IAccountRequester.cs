@@ -12,7 +12,7 @@ namespace Tweetinvi.Client.Requesters
     /// A client providing all the methods related with account management.
     /// The results from this client contain additional metadata.
     /// </summary>
-    public interface IAccountsRequester
+    public interface IAccountRequester
     {
         /// <summary>
         /// Get the authenticated user based on the TwitterClient's credentials

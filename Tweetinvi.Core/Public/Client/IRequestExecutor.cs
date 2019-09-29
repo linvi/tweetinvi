@@ -4,7 +4,7 @@ namespace Tweetinvi.Client
 {
     public interface IRequestExecutor
     {
-        IAccountsRequester Accounts { get; }
+        IAccountRequester Account { get; }
         ITweetsRequester Tweets { get; }
         IUsersRequester Users { get; }
     }

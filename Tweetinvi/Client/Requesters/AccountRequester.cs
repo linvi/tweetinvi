@@ -11,17 +11,17 @@ using Tweetinvi.Parameters;
 
 namespace Tweetinvi.Client.Requesters
 {
-    public interface IInternalAccountsRequester : IAccountsRequester, IBaseRequester
+    public interface IInternalAccountRequester : IAccountRequester, IBaseRequester
     {
     }
 
-    public class AccountsRequester : BaseRequester, IInternalAccountsRequester
+    public class AccountRequester : BaseRequester, IInternalAccountRequester
     {
         private readonly IAccountController _accountController;
         private readonly ITwitterResultFactory _twitterResultFactory;
         private readonly IFriendshipFactory _friendshipFactory;
 
-        public AccountsRequester(
+        public AccountRequester(
             IAccountController accountController, 
             ITwitterResultFactory twitterResultFactory, 
             IFriendshipFactory friendshipFactory)
