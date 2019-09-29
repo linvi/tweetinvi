@@ -129,7 +129,7 @@ namespace xUnitinvi.IntegrationTests
             
             await Client.Account.FollowUser(userToFollow);
 
-            var relationshipAfterAdd = await Client.Users.GetRelationshipBetween(authenticatedUser, userToFollow);
+            var relationshipAfterAdd = await authenticatedUser.GetRelationshipWith(userToFollow);
             var relationshipStateAfterAdd = await Client.Account.GetRelationshipsWith(new IUserIdentifier[] { userToFollow });
 
             await Client.Account.UpdateRelationship(new UpdateRelationshipParameters(userToFollow)

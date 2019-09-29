@@ -30,14 +30,12 @@ namespace Tweetinvi.Core.Models
             IUserDTO userDTO,
             ICredentialsAccessor credentialsAccessor,
             ITimelineController timelineController,
-            IUserController userController,
             IMessageController messageController,
-            IFriendshipController friendshipController,
             IAccountController accountController,
             ITwitterListController twitterListController,
             ISavedSearchController savedSearchController)
 
-            : base(userDTO, userController, timelineController, friendshipController, twitterListController)
+            : base(userDTO, timelineController, twitterListController)
         {
             _credentialsAccessor = credentialsAccessor;
             _messageController = messageController;
@@ -109,21 +107,6 @@ namespace Tweetinvi.Core.Models
         public Task<bool> UpdateRelationship(IUpdateRelationshipParameters parameters)
         {
             return Client.Account.UpdateRelationship(parameters);
-        }
-        
-        public override Task<IRelationshipDetails> GetRelationshipWith(IUserIdentifier user)
-        {
-            return Client.Users.GetRelationshipBetween(this, user);
-        }
-
-        public Task<IRelationshipDetails> GetRelationshipWith(long? userId)
-        {
-            return Client.Users.GetRelationshipBetween(this, userId);
-        }
-
-        public Task<IRelationshipDetails> GetRelationshipWith(string username)
-        {
-            return Client.Users.GetRelationshipBetween(this, username);
         }
 
         // Friends - Followers

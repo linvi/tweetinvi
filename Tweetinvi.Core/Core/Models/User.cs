@@ -22,8 +22,6 @@ namespace Tweetinvi.Logic
 
         protected IUserDTO _userDTO;
         protected readonly ITimelineController _timelineController;
-        protected readonly IUserController _userController;
-        private readonly IFriendshipController _friendshipController;
         private readonly ITwitterListController _twitterListController;
 
         public IUserDTO UserDTO
@@ -302,15 +300,11 @@ namespace Tweetinvi.Logic
 
         public User(
             IUserDTO userDTO,
-            IUserController userController,
             ITimelineController timelineController,
-            IFriendshipController friendshipController,
             ITwitterListController twitterListController)
         {
             _userDTO = userDTO;
             _timelineController = timelineController;
-            _userController = userController;
-            _friendshipController = friendshipController;
             _twitterListController = twitterListController;
         }
 
@@ -337,9 +331,19 @@ namespace Tweetinvi.Logic
         }
 
         // Relationship
-        public virtual Task<IRelationshipDetails> GetRelationshipWith(IUserIdentifier targetUser)
+        public Task<IRelationshipDetails> GetRelationshipWith(IUserIdentifier user)
         {
-            return Client.Users.GetRelationshipBetween(_userDTO, targetUser);
+            return Client.Users.GetRelationshipBetween(this, user);
+        }
+        
+        public Task<IRelationshipDetails> GetRelationshipWith(long? userId)
+        {
+            return Client.Users.GetRelationshipBetween(this, userId);
+        }
+
+        public Task<IRelationshipDetails> GetRelationshipWith(string username)
+        {
+            return Client.Users.GetRelationshipBetween(this, username);
         }
 
         // Timeline
