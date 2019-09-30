@@ -1,4 +1,5 @@
 ﻿using Tweetinvi.Controllers.Account;
+using Tweetinvi.Controllers.AccountSettings;
 using Tweetinvi.Controllers.Geo;
 using Tweetinvi.Controllers.Help;
 using Tweetinvi.Controllers.Messages;
@@ -35,6 +36,8 @@ namespace Tweetinvi.Controllers
         private void InitializeControllers(ITweetinviContainer container)
         {
             container.RegisterType<IAccountController, AccountController>(RegistrationLifetime.InstancePerThread);
+            container.RegisterType<IAccountSettingsController, AccountSettingsController>(RegistrationLifetime.InstancePerApplication);
+            
             container.RegisterType<IGeoController, GeoController>(RegistrationLifetime.InstancePerThread);
             container.RegisterType<IHelpController, HelpController>(RegistrationLifetime.InstancePerThread);
             container.RegisterType<IMessageController, MessageController>(RegistrationLifetime.InstancePerThread);
@@ -67,6 +70,8 @@ namespace Tweetinvi.Controllers
         private void InitializeQueryExecutors(ITweetinviContainer container)
         {
             container.RegisterType<IAccountQueryExecutor, AccountQueryExecutor>();
+            container.RegisterType<IAccountSettingsQueryExecutor, AccountSettingsQueryExecutor>();
+            
             container.RegisterType<IGeoQueryExecutor, GeoQueryExecutor>();
             container.RegisterType<IHelpQueryExecutor, HelpQueryExecutor>();
             container.RegisterType<IMessageQueryExecutor, MessageQueryExecutor>();
@@ -85,6 +90,8 @@ namespace Tweetinvi.Controllers
         private void InitializeQueryGenerators(ITweetinviContainer container)
         {
             container.RegisterType<IAccountQueryGenerator, AccountQueryGenerator>(RegistrationLifetime.InstancePerApplication);
+            container.RegisterType<IAccountSettingsQueryGenerator, AccountSettingsQueryGenerator>(RegistrationLifetime.InstancePerApplication);
+            
             container.RegisterType<IGeoQueryGenerator, GeoQueryGenerator>(RegistrationLifetime.InstancePerApplication);
             container.RegisterType<IHelpQueryGenerator, HelpQueryGenerator>(RegistrationLifetime.InstancePerApplication);
             container.RegisterType<IMessageQueryGenerator, MessageQueryGenerator>(RegistrationLifetime.InstancePerApplication);

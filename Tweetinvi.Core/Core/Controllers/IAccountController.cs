@@ -52,10 +52,6 @@ namespace Tweetinvi.Core.Controllers
         // Profile
         Task<IAuthenticatedUser> UpdateAccountProfile(IAccountUpdateProfileParameters parameters);
 
-        Task<bool> UpdateProfileImage(byte[] imageBinary);
-        Task<bool> UpdateProfileImage(IAccountUpdateProfileImageParameters parameters);
-
-
         Task<bool> UpdateProfileBanner(byte[] imageBinary);
         Task<bool> UpdateProfileBanner(IAccountUpdateProfileBannerParameters parameters);
         Task<bool> RemoveUserProfileBanner();

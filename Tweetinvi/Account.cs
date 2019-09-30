@@ -122,24 +122,6 @@ namespace Tweetinvi
         }
 
         /// <summary>
-        /// Updates the authenticated user’s profile image. 
-        /// </summary>
-        /// <param name="imageBinary">Must be a valid GIF, JPG, or PNG image of less than 800 kilobytes in size. Images with width larger than 2048 pixels will be forcibly scaled down.</param>
-        public static Task<bool> UpdateProfileImage(byte[] imageBinary)
-        {
-            return AccountController.UpdateProfileImage(imageBinary);
-        }
-
-        /// <summary>
-        /// Updates the authenticated user’s profile image. 
-        /// </summary>
-        /// <param name="parameters">The parameters must contain a valid GIF, JPG, or PNG image of less than 800 kilobytes in size. Images with width larger than 2048 pixels will be forcibly scaled down.</param>
-        public static Task<bool> UpdateProfileImage(IAccountUpdateProfileImageParameters parameters)
-        {
-            return AccountController.UpdateProfileImage(parameters);
-        }
-
-        /// <summary>
         /// Uploads a profile banner on behalf of the authenticated user.
         /// </summary>
         public static Task<bool> UpdateProfileBanner(byte[] imageBinary)

@@ -9,7 +9,7 @@ using Tweetinvi.Parameters;
 namespace Tweetinvi.Client.Requesters
 {
     /// <summary>
-    /// A client providing all the methods related with account management.
+    /// A client providing all the actions relative to an account and its authenticated user.
     /// The results from this client contain additional metadata.
     /// </summary>
     public interface IAccountRequester

@@ -11,9 +11,6 @@ using Tweetinvi.Parameters;
 
 namespace Tweetinvi.Client
 {
-    /// <summary>
-    /// A client providing all the methods related with tweets
-    /// </summary>
     public class TweetsClient : ITweetsClient
     {
         private readonly TwitterClient _client;

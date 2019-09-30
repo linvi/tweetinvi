@@ -15,9 +15,6 @@ namespace Tweetinvi.Client
             _uploadRequester = client.RequestExecutor.Upload;
         }
         
-        /// <summary>
-        /// Upload a media on upload.twitter.com
-        /// </summary>
         public async Task<IMedia> UploadBinary(IUploadParameters parameters)
         {
             var chunkUploadResult = await _uploadRequester.UploadBinary(parameters).ConfigureAwait(false);

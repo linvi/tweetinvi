@@ -1,0 +1,21 @@
+using System.Threading.Tasks;
+using Tweetinvi.Core.Web;
+using Tweetinvi.Models.DTO;
+using Tweetinvi.Parameters;
+
+namespace Tweetinvi.Client.Requesters
+{
+    /// <summary>
+    /// A client providing all the actions relative to the account settings
+    /// The results from this client contain additional metadata.
+    /// </summary>
+    public interface IAccountSettingsRequester
+    {
+        /// <summary>
+        /// Update the profile image of the account 
+        /// <para>https://dev.twitter.com/rest/reference/post/account/update_profile_image</para>
+        /// </summary>
+        /// <returns>Twitter result containing the updated user</returns>
+        Task<ITwitterResult<IUserDTO>> UpdateProfileImage(IUpdateProfileImageParameters parameters);
+    }
+}

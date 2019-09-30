@@ -7,7 +7,7 @@ using Tweetinvi.Parameters;
 namespace Tweetinvi.Client
 {
     /// <summary>
-    /// AccountsClient contains all the operations that can be executed from an authenticated user's context.
+    /// A client providing all the actions relative to an account and its authenticated user.
     /// </summary>
     public interface IAccountClient
     {

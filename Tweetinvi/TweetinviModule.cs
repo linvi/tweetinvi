@@ -12,6 +12,7 @@ namespace Tweetinvi
             container.RegisterInstance(typeof(ITweetinviContainer), container);
 
             container.RegisterType<IInternalAccountRequester, AccountRequester>();
+            container.RegisterType<IInternalAccountSettingsRequester, AccountSettingsRequester>();
             container.RegisterType<IInternalTweetsRequester, TweetsRequester>();
             container.RegisterType<IInternalUploadRequester, UploadRequester>();
             container.RegisterType<IInternalUsersRequester, UsersRequester>();

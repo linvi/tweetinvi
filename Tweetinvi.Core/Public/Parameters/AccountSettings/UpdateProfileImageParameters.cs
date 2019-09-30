@@ -3,10 +3,9 @@
 namespace Tweetinvi.Parameters
 {
     /// <summary>
-    /// Parameters used to upload the user image.
-    /// For more description visit : https://dev.twitter.com/rest/reference/post/account/update_profile_image
+    /// For more information visit : https://dev.twitter.com/rest/reference/post/account/update_profile_image
     /// </summary>
-    public interface IAccountUpdateProfileImageParameters : ICustomRequestParameters
+    public interface IUpdateProfileImageParameters : ICustomRequestParameters
     {
         /// <summary>
         /// Binary of the profile image. 
@@ -17,13 +16,13 @@ namespace Tweetinvi.Parameters
         /// <summary>
         /// Include tweet entities.
         /// </summary>
-        bool IncludeEntities { get; set; }
+        bool? IncludeEntities { get; set; }
 
 
         /// <summary>
         /// When set to true, statuses will not be included in the returned user objects.
         /// </summary>
-        bool SkipStatus { get; set; }
+        bool? SkipStatus { get; set; }
 
         /// <summary>
         /// If set, the http request will use this duration before throwing an exception.
@@ -36,21 +35,23 @@ namespace Tweetinvi.Parameters
         Action<long, long> UploadProgressChanged { get; set; }
     }
 
-    /// <summary>
-    /// Parameters used to upload the user image.
-    /// For more description visit : https://dev.twitter.com/rest/reference/post/account/update_profile_image
-    /// </summary>
-    public class AccountUpdateProfileImageParameters : CustomRequestParameters, IAccountUpdateProfileImageParameters
+    /// <inheritdoc/>
+    public class UpdateProfileImageParameters : CustomRequestParameters, IUpdateProfileImageParameters
     {
-        public AccountUpdateProfileImageParameters(byte[] image)
+        public UpdateProfileImageParameters(byte[] image)
         {
             Binary = image;
         }
 
+        /// <inheritdoc/>
         public byte[] Binary { get; set; }
-        public bool IncludeEntities { get; set; }
-        public bool SkipStatus { get; set; }
+        /// <inheritdoc/>
+        public bool? IncludeEntities { get; set; }
+        /// <inheritdoc/>
+        public bool? SkipStatus { get; set; }
+        /// <inheritdoc/>
         public TimeSpan? Timeout { get; set; }
+        /// <inheritdoc/>
         public Action<long, long> UploadProgressChanged { get; set; }
     }
 }

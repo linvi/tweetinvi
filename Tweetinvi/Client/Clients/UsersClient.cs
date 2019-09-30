@@ -11,13 +11,8 @@ using Tweetinvi.Models.DTO;
 using Tweetinvi.Models.DTO.QueryDTO;
 using Tweetinvi.Parameters;
 
-// ReSharper disable MemberCanBePrivate.Global
-
 namespace Tweetinvi.Client
 {
-    /// <summary>
-    /// A client providing all the methods related with users
-    /// </summary>
     public class UsersClient : IUsersClient
     {
         private readonly TwitterClient _client;

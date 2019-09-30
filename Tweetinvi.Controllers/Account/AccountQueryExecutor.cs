@@ -30,7 +30,9 @@ namespace Tweetinvi.Controllers.Account
         
         // FRIENDSHIPS
         Task<ITwitterResult<IRelationshipStateDTO[]>> GetRelationshipsWith(IGetRelationshipsWithParameters parameters, ITwitterRequest request);
-
+        
+        // SETTINGS
+        
 
 
 
@@ -43,7 +45,6 @@ namespace Tweetinvi.Controllers.Account
         Task<IAccountSettingsDTO> UpdateAuthenticatedUserSettings(IAccountSettingsRequestParameters accountSettingsRequestParameters);
 
         // Profile
-        Task<bool> UpdateProfileImage(IAccountUpdateProfileImageParameters parameters);
         Task<IUserDTO> UpdateProfileParameters(IAccountUpdateProfileParameters parameters);
         Task<bool> UpdateProfileBanner(IAccountUpdateProfileBannerParameters parameters);
         Task<bool> RemoveUserProfileBanner();
@@ -207,7 +208,7 @@ namespace Tweetinvi.Controllers.Account
             return _twitterAccessor.ExecuteRequest<long[]>(request);
         }
 
-
+       
 
 
 
@@ -228,23 +229,7 @@ namespace Tweetinvi.Controllers.Account
             return _twitterAccessor.ExecutePOSTQuery<IAccountSettingsDTO>(query);
         }
 
-        public async Task<bool> UpdateProfileImage(IAccountUpdateProfileImageParameters parameters)
-        {
-            var query = _accountQueryGenerator.GetUpdateProfileImageQuery(parameters);
-
-            var asyncOperation = await _twitterAccessor.TryExecuteMultipartQuery(null);
-//                new MultipartHttpRequest
-//            {
-//                Url = query,
-//                HttpMethod = HttpMethod.POST,
-//                Binaries = new[] { parameters.Binary },
-//                ContentId = "image",
-//                Timeout = parameters.Timeout,
-//                UploadProgressChanged = parameters.UploadProgressChanged
-//            });
-
-            return asyncOperation.Success;
-        }
+        
 
         public Task<IUserDTO> UpdateProfileParameters(IAccountUpdateProfileParameters parameters)
         {

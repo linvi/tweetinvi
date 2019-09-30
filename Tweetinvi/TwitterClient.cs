@@ -21,12 +21,14 @@ namespace Tweetinvi
             RequestExecutor = requestExecutor;
 
             Account = new AccountClient(this);
+            AccountSettings = new AccountSettingsClient(this);
             Tweets = new TweetsClient(this);
             Upload = new UploadClient(this);
             Users = new UsersClient(this);
         }
 
         public IAccountClient Account { get; }
+        public IAccountSettingsClient AccountSettings { get; }
         public ITweetsClient Tweets { get; }
         public IUploadClient Upload { get; }
         public IUsersClient Users { get; }

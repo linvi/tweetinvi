@@ -309,16 +309,6 @@ namespace Tweetinvi.Controllers.Account
             return _userFactory.GenerateAuthenticatedUserFromDTO(userDTO);
         }
 
-        public Task<bool> UpdateProfileImage(byte[] imageBinary)
-        {
-            return UpdateProfileImage(new AccountUpdateProfileImageParameters(imageBinary));
-        }
-
-        public Task<bool> UpdateProfileImage(IAccountUpdateProfileImageParameters parameters)
-        {
-            return _accountQueryExecutor.UpdateProfileImage(parameters);
-        }
-
         public Task<bool> UpdateProfileBanner(byte[] imageBinary)
         {
             return UpdateProfileBanner(new AccountUpdateProfileBannerParameters(imageBinary));

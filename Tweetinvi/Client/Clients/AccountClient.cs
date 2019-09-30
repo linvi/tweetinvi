@@ -12,9 +12,6 @@ using Tweetinvi.Parameters;
 
 namespace Tweetinvi.Client
 {
-    /// <summary>
-    /// AccountsClient contains all the operations that can be executed from an authenticated user's context.
-    /// </summary>
     public class AccountClient : IAccountClient
     {
         private readonly TwitterClient _client;
