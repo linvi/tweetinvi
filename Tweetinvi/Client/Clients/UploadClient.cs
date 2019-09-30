@@ -14,11 +14,21 @@ namespace Tweetinvi.Client
         {
             _uploadRequester = client.RequestExecutor.Upload;
         }
-        
+
+        public Task<IMedia> UploadBinary(byte[] binary)
+        {
+            return UploadBinary(new UploadParameters(binary));
+        }
+
         public async Task<IMedia> UploadBinary(IUploadParameters parameters)
         {
             var chunkUploadResult = await _uploadRequester.UploadBinary(parameters).ConfigureAwait(false);
             return chunkUploadResult.Media;
+        }
+
+        public Task<IMedia> UploadVideo(byte[] binary)
+        {
+            return UploadVideo(new UploadVideoParameters(binary));
         }
 
         public Task<IMedia> UploadVideo(IUploadVideoParameters parameters)

@@ -52,16 +52,6 @@ namespace Testinvi.SetupHelpers
                 .Returns(result);
         }
 
-        public static void ArrangeExecutePOSTMultipartQuery<T>(
-            this Fake<ITwitterAccessor> fakeTwitterAccessor,
-            string query,
-            T result) where T : class
-        {
-            fakeTwitterAccessor
-                .CallsTo(x => x.ExecuteMultipartQuery<T>(A<IMultipartHttpRequestParameters>.That.Matches(y => y.Url == query), null))
-                .Returns(result);
-        }
-
         public static void ArrangeTryExecutePOSTQuery(
            this Fake<ITwitterAccessor> fakeTwitterAccessor,
            string query,

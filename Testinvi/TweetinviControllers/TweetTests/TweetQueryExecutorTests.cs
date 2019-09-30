@@ -69,7 +69,7 @@ namespace Testinvi.TweetinviControllers.TweetTests
             var expectedResult = A.Fake<ITwitterResult<ITweetDTO>>();
             var request = A.Fake<ITwitterRequest>();
 
-            _fakeTweetQueryGenerator.CallsTo(x => x.GetPublishTweetQuery(parameters)).Returns(query);
+            _fakeTweetQueryGenerator.CallsTo(x => x.GetPublishTweetQuery(parameters, It.IsAny<TweetMode?>())).Returns(query);
             _fakeTwitterAccessor.ArrangeExecutePOSTQuery(query, expectedResult);
             _fakeTwitterAccessor.CallsTo(x => x.ExecuteRequest<ITweetDTO>(request)).ReturnsLazily(() => expectedResult);
 

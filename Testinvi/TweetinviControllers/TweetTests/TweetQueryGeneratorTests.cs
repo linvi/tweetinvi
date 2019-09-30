@@ -44,38 +44,38 @@ namespace Testinvi.TweetinviControllers.TweetTests
         [TestMethod]
         public void GetPublishTweetInReplyToQuery_ReturnsExpectedResults()
         {
-            VerifyPublishTweetInReplyToQuery(false, false, false, false, false);
-            VerifyPublishTweetInReplyToQuery(false, false, false, true, false);
-            VerifyPublishTweetInReplyToQuery(false, false, true, false, false);
-            VerifyPublishTweetInReplyToQuery(false, false, true, true, false);
+            VerifyPublishTweetInReplyToQuery(false, false, false, false);
+            VerifyPublishTweetInReplyToQuery(false, false, false, true);
+            VerifyPublishTweetInReplyToQuery(false, false, true, false);
+            VerifyPublishTweetInReplyToQuery(false, false, true, true);
 
-            VerifyPublishTweetInReplyToQuery(false, true, false, false, false);
-            VerifyPublishTweetInReplyToQuery(false, true, false, true, false);
-            VerifyPublishTweetInReplyToQuery(false, true, true, false, false);
-            VerifyPublishTweetInReplyToQuery(false, true, true, true, false);
+            VerifyPublishTweetInReplyToQuery(false, true, false, false);
+            VerifyPublishTweetInReplyToQuery(false, true, false, true);
+            VerifyPublishTweetInReplyToQuery(false, true, true, false);
+            VerifyPublishTweetInReplyToQuery(false, true, true, true);
 
-            VerifyPublishTweetInReplyToQuery(true, false, false, false, true);
-            VerifyPublishTweetInReplyToQuery(true, false, false, true, true);
-            VerifyPublishTweetInReplyToQuery(true, false, true, false, true);
-            VerifyPublishTweetInReplyToQuery(true, false, true, true, true);
+            VerifyPublishTweetInReplyToQuery(true, false, false, false);
+            VerifyPublishTweetInReplyToQuery(true, false, false, true);
+            VerifyPublishTweetInReplyToQuery(true, false, true, false);
+            VerifyPublishTweetInReplyToQuery(true, false, true, true);
 
-            VerifyPublishTweetInReplyToQuery(true, true, false, false, true);
-            VerifyPublishTweetInReplyToQuery(true, true, false, true, true);
-            VerifyPublishTweetInReplyToQuery(true, true, true, false, true);
-            VerifyPublishTweetInReplyToQuery(true, true, true, true, true);
+            VerifyPublishTweetInReplyToQuery(true, true, false, false);
+            VerifyPublishTweetInReplyToQuery(true, true, false, true);
+            VerifyPublishTweetInReplyToQuery(true, true, true, false);
+            VerifyPublishTweetInReplyToQuery(true, true, true, true);
         }
 
         private void VerifyPublishTweetInReplyToQuery(
             bool canNewTweetBePublished,
             bool replyToTweetId,
             bool tweetContainsPlaceId,
-            bool tweetContainsCoordinates,
-            bool isValid)
+            bool tweetContainsCoordinates)
         {
             // Arrange
             // Arrange
             var queryGenerator = CreateTweetQueryGenerator();
-            var parameter = GeneratePublishTweetParameter(canNewTweetBePublished, tweetContainsPlaceId, tweetContainsCoordinates);
+            var parameter = GeneratePublishTweetParameter(canNewTweetBePublished, tweetContainsPlaceId,
+                tweetContainsCoordinates);
             var tweetId = TestHelper.GenerateRandomLong();
 
             if (replyToTweetId)
@@ -95,7 +95,7 @@ namespace Testinvi.TweetinviControllers.TweetTests
             {
                 try
                 {
-                    queryGenerator.GetPublishTweetQuery(parameter);
+                    queryGenerator.GetPublishTweetQuery(parameter, TweetMode.Extended);
                 }
                 catch (ArgumentException)
                 {
@@ -103,10 +103,9 @@ namespace Testinvi.TweetinviControllers.TweetTests
                 }
             }
 
-            var result = queryGenerator.GetPublishTweetQuery(parameter);
+            var result = queryGenerator.GetPublishTweetQuery(parameter, TweetMode.Extended);
 
             // Assert
-            if (isValid)
             {
                 var baseQuery = "https://api.twitter.com/1.1/statuses/update.json?";
 
@@ -126,31 +125,26 @@ namespace Testinvi.TweetinviControllers.TweetTests
                     Assert.IsFalse(result.Contains("long="));
                 }
             }
-            else
-            {
-                Assert.IsNull(result);
-            }
         }
 
         [TestMethod]
         public void GetPublishTweetInReplyToIdQuery_ReturnsExpectedResults()
         {
-            VerifyPublishTweetInReplyToIdQuery(false, false, false, false);
-            VerifyPublishTweetInReplyToIdQuery(false, false, true, false);
-            VerifyPublishTweetInReplyToIdQuery(false, true, false, false);
-            VerifyPublishTweetInReplyToIdQuery(false, true, true, false);
+            VerifyPublishTweetInReplyToIdQuery(false, false, false);
+            VerifyPublishTweetInReplyToIdQuery(false, false, true);
+            VerifyPublishTweetInReplyToIdQuery(false, true, false);
+            VerifyPublishTweetInReplyToIdQuery(false, true, true);
 
-            VerifyPublishTweetInReplyToIdQuery(true, false, false, true);
-            VerifyPublishTweetInReplyToIdQuery(true, false, true, true);
-            VerifyPublishTweetInReplyToIdQuery(true, true, false, true);
-            VerifyPublishTweetInReplyToIdQuery(true, true, true, true);
+            VerifyPublishTweetInReplyToIdQuery(true, false, false);
+            VerifyPublishTweetInReplyToIdQuery(true, false, true);
+            VerifyPublishTweetInReplyToIdQuery(true, true, false);
+            VerifyPublishTweetInReplyToIdQuery(true, true, true);
         }
 
         private void VerifyPublishTweetInReplyToIdQuery(
             bool canNewTweetBePublished,
             bool tweetContainsPlaceId,
-            bool tweetContainsCoordinates,
-            bool isValid)
+            bool tweetContainsCoordinates)
         {
             // Arrange
             var queryGenerator = CreateTweetQueryGenerator();
@@ -161,7 +155,7 @@ namespace Testinvi.TweetinviControllers.TweetTests
             {
                 try
                 {
-                    queryGenerator.GetPublishTweetQuery(parameter);
+                    queryGenerator.GetPublishTweetQuery(parameter, TweetMode.Extended);
                 }
                 catch (ArgumentException)
                 {
@@ -169,32 +163,25 @@ namespace Testinvi.TweetinviControllers.TweetTests
                 }
             }
 
-            var result = queryGenerator.GetPublishTweetQuery(parameter);
+            var result = queryGenerator.GetPublishTweetQuery(parameter, TweetMode.Extended);
 
             // Assert
-            if (isValid)
+            var baseQuery = "https://api.twitter.com/1.1/statuses/update.json?";
+
+            Assert.IsTrue(result.StartsWith(baseQuery));
+            Assert.IsTrue(result.Contains($"status={_expectedTweetParameter}"));
+
+            Assert.AreEqual(tweetContainsPlaceId, result.Contains($"place_id={_expectedPlaceIdParameter}"));
+
+            if (tweetContainsCoordinates)
             {
-                var baseQuery = "https://api.twitter.com/1.1/statuses/update.json?";
-
-                Assert.IsTrue(result.StartsWith(baseQuery));
-                Assert.IsTrue(result.Contains($"status={_expectedTweetParameter}"));
-
-                Assert.AreEqual(tweetContainsPlaceId, result.Contains($"place_id={_expectedPlaceIdParameter}"));
-
-                if (tweetContainsCoordinates)
-                {
-                    Assert.IsTrue(result.Contains($"lat={_expectedCoordinatesParameter.Latitude}"));
-                    Assert.IsTrue(result.Contains($"long={_expectedCoordinatesParameter.Longitude}"));
-                }
-                else
-                {
-                    Assert.IsFalse(result.Contains("lat="));
-                    Assert.IsFalse(result.Contains("long="));
-                }
+                Assert.IsTrue(result.Contains($"lat={_expectedCoordinatesParameter.Latitude}"));
+                Assert.IsTrue(result.Contains($"long={_expectedCoordinatesParameter.Longitude}"));
             }
             else
             {
-                Assert.IsNull(result);
+                Assert.IsFalse(result.Contains("lat="));
+                Assert.IsFalse(result.Contains("long="));
             }
         }
 

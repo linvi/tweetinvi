@@ -8,7 +8,6 @@ using System.Reflection;
 using System.Threading.Tasks;
 using Tweetinvi;
 using Tweetinvi.Core.Extensions;
-using Tweetinvi.Core.Public.Parameters;
 using Tweetinvi.Exceptions;
 using Tweetinvi.Json;
 using Tweetinvi.Logic.Model;
@@ -1115,20 +1114,19 @@ namespace Examplinvi.NETFramework
             var imageBinary = File.ReadAllBytes(imgPath);
 
             // Upload the image to Twitter
-            var uploadMediaParams = new UploadParameters()
+            var uploadMediaParams = new UploadParameters(imageBinary)
             {
-                Binary = imageBinary,
                 // Note that the media category must be set to the Dm prefixed variant of whatever
                 //  category of media you are uploading
                 MediaCategory = Tweetinvi.Core.Public.Models.Enum.MediaCategory.DmImage
             };
 
-            var media = await Upload.UploadBinary(uploadMediaParams);
+            var media = await Client.Upload.UploadBinary(uploadMediaParams);
 
             // Publish the DM
             var publishMsgParams = new PublishMessageParameters(text, recipient.Id)
             {
-                AttachmentMediaId = media.MediaId
+                AttachmentMediaId = media.Id
             };
             var message = Message.PublishMessage(publishMsgParams);
 
@@ -1431,18 +1429,18 @@ namespace Examplinvi.NETFramework
 
         #region Upload
 
-        public static Task<IMedia> UploadImage(string filepath)
+        public static async Task<IMedia> UploadImage(string filepath)
         {
             var imageBinary = File.ReadAllBytes(filepath);
-            var media = Upload.UploadBinary(imageBinary);
+            var media = await Client.Upload.UploadBinary(imageBinary);
 
             return media;
         }
 
-        public static Task<IMedia> UploadGif(string filepath)
+        public static async Task<IMedia> UploadGif(string filepath)
         {
             var gifBinary = File.ReadAllBytes(filepath);
-            var media = Upload.UploadBinary(gifBinary);
+            var media = await Client.Upload.UploadBinary(gifBinary);
 
             return media;
         }
@@ -1451,7 +1449,7 @@ namespace Examplinvi.NETFramework
         {
             var videoBinary = File.ReadAllBytes(filepath);
 
-            var media = await Upload.UploadVideo(videoBinary, new UploadVideoOptionalParameters()
+            var media = await Client.Upload.UploadVideo(new UploadVideoParameters(videoBinary)
             {
                 UploadStateChanged = uploadChangeEventArgs =>
                 {
