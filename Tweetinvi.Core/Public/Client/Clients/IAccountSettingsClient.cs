@@ -8,6 +8,9 @@ namespace Tweetinvi.Client
     /// </summary>
     public interface IAccountSettingsClient
     {
+        /// <inheritdoc cref="UpdateProfileImage(IUpdateProfileImageParameters)" />
+        Task<bool> UpdateProfileImage(byte[] binary);
+
         /// <summary>
         /// Update the profile image of the account
         /// <para>Read more : https://dev.twitter.com/rest/reference/post/account/update_profile_image</para> 

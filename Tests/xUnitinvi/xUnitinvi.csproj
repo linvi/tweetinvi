@@ -22,4 +22,11 @@
     <ProjectReference Include="..\..\Tweetinvi\Tweetinvi.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Remove="tweetinvi-logo-purple.png" />
+    <Content Include="tweetinvi-logo-purple.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
 </Project>

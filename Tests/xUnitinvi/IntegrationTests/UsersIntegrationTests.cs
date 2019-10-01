@@ -24,18 +24,15 @@ namespace xUnitinvi.IntegrationTests
             
             _logger.WriteLine(DateTime.Now.ToLongTimeString());
             
-            var credentials = new TwitterCredentials("A", "B", "C", "D");
-            var privateUserCredentials = new TwitterCredentials("A", "B", "C", "D");
-            
-            Client = new TwitterClient(credentials);
-            PrivateUserClient = new TwitterClient(privateUserCredentials);
+            Client = new TwitterClient(IntegrationTestCredentials.NormalUserCredentials);
+            PrivateUserClient = new TwitterClient(IntegrationTestCredentials.ProtectedUserCredentials);
         }
 
         private readonly ITestOutputHelper _logger;
 
         //[Fact]
         [Fact(Skip = "IntegrationTests")]
-        public async Task RunIntegrationTests()
+        public async Task RunAllUserTests()
         {
             TweetinviEvents.QueryBeforeExecute += (sender, args) => { _logger.WriteLine(args.Url); };
 
