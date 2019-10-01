@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using Tweetinvi.Core.Public.Events;
 using Tweetinvi.Core.Public.Models.Enum;
+using Tweetinvi.Events;
 
 namespace Tweetinvi.Parameters
 {
@@ -71,7 +71,7 @@ namespace Tweetinvi.Parameters
         /// <summary>
         /// Event to notify that the upload state has changed
         /// </summary>
-        Action<UploadStateChangedEventArgs> UploadStateChanged { get; set; }
+        Action<IMediaUploadProgressChangedEventArgs> UploadStateChanged { get; set; }
     }
 
     /// <inheritdoc/>
@@ -188,6 +188,6 @@ namespace Tweetinvi.Parameters
         /// <inheritdoc/>
         public ICustomRequestParameters FinalizeCustomRequestParameters { get; set; }
         /// <inheritdoc/>
-        public Action<UploadStateChangedEventArgs> UploadStateChanged { get; set; }
+        public Action<IMediaUploadProgressChangedEventArgs> UploadStateChanged { get; set; }
     }
 }

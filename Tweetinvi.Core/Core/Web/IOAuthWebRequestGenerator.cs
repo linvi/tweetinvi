@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net.Http;
+using System.Threading.Tasks;
 using Tweetinvi.Models;
+using HttpMethod = Tweetinvi.Models.HttpMethod;
 
 namespace Tweetinvi.Core.Web
 {
@@ -35,6 +38,12 @@ namespace Tweetinvi.Core.Web
         /// <summary>
         /// Generate authorization headers for a query with the specified OAuth fields.
         /// </summary>
-        string SetTwitterQueryAuthorizationHeader(ITwitterQuery twitterQuery);
+        Task<string> SetTwitterQueryAuthorizationHeader(ITwitterQuery twitterQuery);
+
+        Task<string> GenerateAuthorizationHeader(
+            Uri uri,
+            HttpContent queryContent,
+            HttpMethod httpMethod, 
+            IEnumerable<IOAuthQueryParameter> parameters);
     }
 }

@@ -2,13 +2,16 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
+using System.Threading.Tasks;
 using Tweetinvi.Core;
 using Tweetinvi.Core.Extensions;
 using Tweetinvi.Core.Helpers;
 using Tweetinvi.Core.Web;
 using Tweetinvi.Models;
 using Tweetinvi.Security.System.Security.Cryptography;
+using HttpMethod = Tweetinvi.Models.HttpMethod;
 
 namespace Tweetinvi.WebLogic
 {
@@ -172,7 +175,7 @@ namespace Tweetinvi.WebLogic
         }
 
         public IEnumerable<IOAuthQueryParameter> GenerateApplicationParameters(
-            IConsumerCredentials temporaryCredentials, 
+            IConsumerCredentials temporaryCredentials,
             IAuthenticationToken authenticationToken = null,
             IEnumerable<IOAuthQueryParameter> additionalParameters = null)
         {
@@ -236,7 +239,30 @@ namespace Tweetinvi.WebLogic
             return GenerateHeader(uri, httpMethod, queryParameters, urlParameters);
         }
 
-        public string SetTwitterQueryAuthorizationHeader(ITwitterQuery twitterQuery)
+        public async Task<string> GenerateAuthorizationHeader(
+            Uri uri,
+            HttpContent queryContent,
+            HttpMethod httpMethod,
+            IEnumerable<IOAuthQueryParameter> parameters)
+        {
+            var queryParameters = GenerateAdditionalHeaderParameters(parameters);
+            var urlParameters = _webHelper.GetUriParameters(uri);
+
+            if (queryContent != null)
+            {
+                var query = await queryContent.ReadAsStringAsync().ConfigureAwait(false);
+                var additionalParameters = _webHelper.GetQueryParameters(query);
+
+                additionalParameters.ForEach(x =>
+                {
+                    urlParameters.Add(x.Key, x.Value);
+                });
+            }
+
+            return GenerateHeader(uri, httpMethod, queryParameters, urlParameters);
+        }
+
+        public async Task<string> SetTwitterQueryAuthorizationHeader(ITwitterQuery twitterQuery)
         {
             var credentials = twitterQuery.TwitterCredentials;
 
@@ -244,7 +270,15 @@ namespace Tweetinvi.WebLogic
             {
                 var uri = new Uri(twitterQuery.Url);
                 var credentialsParameters = GenerateParameters(twitterQuery.TwitterCredentials);
-                twitterQuery.AuthorizationHeader = GenerateAuthorizationHeader(uri, twitterQuery.HttpMethod, credentialsParameters);
+
+                if (twitterQuery.HttpContent != null && twitterQuery.IsHttpContentPartOfQueryParams)
+                {
+                    twitterQuery.AuthorizationHeader = await GenerateAuthorizationHeader(uri, twitterQuery.HttpContent, twitterQuery.HttpMethod, credentialsParameters);
+                }
+                else
+                {
+                    twitterQuery.AuthorizationHeader = GenerateAuthorizationHeader(uri, twitterQuery.HttpMethod, credentialsParameters);
+                }
             }
             else
             {

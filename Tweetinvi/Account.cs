@@ -122,22 +122,6 @@ namespace Tweetinvi
         }
 
         /// <summary>
-        /// Uploads a profile banner on behalf of the authenticated user.
-        /// </summary>
-        public static Task<bool> UpdateProfileBanner(byte[] imageBinary)
-        {
-            return AccountController.UpdateProfileBanner(imageBinary);
-        }
-
-        /// <summary>
-        /// Uploads a profile banner on behalf of the authenticated user.
-        /// </summary>
-        public static Task<bool> UpdateProfileBanner(IAccountUpdateProfileBannerParameters parameters)
-        {
-            return AccountController.UpdateProfileBanner(parameters);
-        }
-
-        /// <summary>
         /// Removes the uploaded profile banner for the authenticated user.
         /// </summary>
         public static Task<bool> RemoveUserProfileBanner()

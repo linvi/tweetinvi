@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using Tweetinvi.Core.Public.Parameters.Enum;
 using Tweetinvi.Core.QueryGenerators;
 using Tweetinvi.Core.Upload;
 using Tweetinvi.Core.Web;
+using Tweetinvi.Events;
 using Tweetinvi.Logic.DTO;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
@@ -71,8 +73,7 @@ namespace Tweetinvi.Controllers.Upload
         {
             if (MediaId == null)
             {
-                throw new InvalidOperationException(
-                    "You cannot append content to a non initialized chunked upload. You need to invoke the initialize method OR set the MediaId property of an existing ChunkedUpload.");
+                throw new InvalidOperationException("You cannot append content to a non initialized chunked upload. You need to invoke the initialize method OR set the MediaId property of an existing ChunkedUpload.");
             }
 
             if (parameters.SegmentIndex == null)
@@ -94,7 +95,11 @@ namespace Tweetinvi.Controllers.Upload
                 Binaries = new[] { parameters.Binary },
                 Timeout = parameters.Timeout ?? TimeSpan.FromMilliseconds(System.Threading.Timeout.Infinite),
                 ContentId = parameters.MediaType,
-                UploadProgressChanged = parameters.UploadProgressChanged,
+                UploadProgressChanged = args =>
+                {
+                    var progressChangedEventArgs = new MediaUploadProgressChangedEventArgs(UploadProgressState.PROGRESS_CHANGED, args.NumberOfBytesUploaded, args.TotalOfBytesToUpload);
+                    parameters.UploadProgressChanged(progressChangedEventArgs);
+                },
             };
 
             request.Query = multipartQuery;

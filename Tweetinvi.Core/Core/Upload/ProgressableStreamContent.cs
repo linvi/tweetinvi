@@ -3,8 +3,10 @@ using System.IO;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Tweetinvi.Events;
+using UploadProgressChangedEventArgs = Tweetinvi.Events.UploadProgressChangedEventArgs;
 
-namespace Tweetinvi.Core.Web
+namespace Tweetinvi.Core.Upload
 {
     // This code has been reusing the following code : https://stackoverflow.com/questions/41378457/c-httpclient-file-upload-progress-when-uploading-multiple-file-as-multipartfo
 
@@ -14,11 +16,11 @@ namespace Tweetinvi.Core.Web
 
         private readonly HttpContent _content;
         private readonly int _bufferSize;
-        private Action<long, long> _progress;
+        private Action<IUploadProgressChanged> _progressChanged;
 
-        public ProgressableStreamContent(HttpContent content, Action<long, long> progress) : this(content, DEFAULT_BUFFER_SIZE, progress) { }
+        public ProgressableStreamContent(HttpContent content, Action<IUploadProgressChanged> progress) : this(content, DEFAULT_BUFFER_SIZE, progress) { }
 
-        public ProgressableStreamContent(HttpContent content, int bufferSize, Action<long, long> progress)
+        public ProgressableStreamContent(HttpContent content, int bufferSize, Action<IUploadProgressChanged> progressChanged)
         {
             if (content == null)
             {
@@ -32,7 +34,7 @@ namespace Tweetinvi.Core.Web
 
             _content = content;
             _bufferSize = bufferSize;
-            _progress = progress;
+            _progressChanged = progressChanged;
 
             foreach (var h in content.Headers)
             {
@@ -57,7 +59,7 @@ namespace Tweetinvi.Core.Web
                         if (length <= 0) break;
 
                         uploaded += length;
-                        _progress?.Invoke(uploaded, size);
+                        _progressChanged?.Invoke(new UploadProgressChangedEventArgs(uploaded, size));
 
                         stream.Write(buffer, 0, length);
                         stream.Flush();
@@ -85,7 +87,7 @@ namespace Tweetinvi.Core.Web
             if (disposing)
             {
                 _content.Dispose();
-                _progress = null;
+                _progressChanged = null;
             }
 
             base.Dispose(disposing);

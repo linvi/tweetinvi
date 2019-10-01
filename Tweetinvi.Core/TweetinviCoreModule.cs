@@ -68,7 +68,7 @@ namespace Tweetinvi.Core.Injectinvi
             container.RegisterType<IGetTweetsFromListParameters, GetTweetsFromListParameters>();
 
             // Account
-            container.RegisterType<IAccountUpdateProfileBannerParameters, AccountUpdateProfileBannerParameters>();
+            container.RegisterType<IUpdateProfileBannerParameters, UpdateProfileBannerParameters>();
 
             // Search
             container.RegisterType<ISearchTweetsParameters, SearchTweetsParameters>();

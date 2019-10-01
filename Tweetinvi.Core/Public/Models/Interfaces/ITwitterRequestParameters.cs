@@ -22,6 +22,11 @@ namespace Tweetinvi.Models
         /// Content of the HTTP request.
         /// </summary>
         HttpContent HttpContent { get; set; }
+        
+        /// <summary>
+        /// Whether the HttpContent should be considered as part of the query url
+        /// </summary>
+        bool IsHttpContentPartOfQueryParams { get; set; }
 
         /// <summary>
         /// Content Types accepted by the HttpRequest

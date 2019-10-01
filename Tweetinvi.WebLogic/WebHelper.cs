@@ -24,11 +24,16 @@ namespace Tweetinvi.WebLogic
 
         public Dictionary<string, string> GetUriParameters(Uri uri)
         {
+            return GetQueryParameters(uri.Query);
+        }
+        
+        public Dictionary<string, string> GetQueryParameters(string queryUrl)
+        {
             var uriParameters = new Dictionary<string, string>();
             
-            if (!string.IsNullOrEmpty(uri.Query))
+            if (!string.IsNullOrEmpty(queryUrl))
             {
-                foreach (Match variable in Regex.Matches(uri.Query, @"(?<varName>[^&?=]+)=(?<value>[^&?=]*)"))
+                foreach (Match variable in Regex.Matches(queryUrl, @"(?<varName>[^&?=]+)=(?<value>[^&?=]*)"))
                 {
                     uriParameters.Add(variable.Groups["varName"].Value, variable.Groups["value"].Value);
                 }

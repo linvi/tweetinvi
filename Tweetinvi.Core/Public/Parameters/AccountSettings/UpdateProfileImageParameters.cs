@@ -1,4 +1,5 @@
 ﻿using System;
+using Tweetinvi.Events;
 
 namespace Tweetinvi.Parameters
 {
@@ -32,7 +33,7 @@ namespace Tweetinvi.Parameters
         /// <summary>
         /// Action invoked to show the progress of the upload. {current / total}
         /// </summary>
-        Action<long, long> UploadProgressChanged { get; set; }
+        Action<IUploadProgressChanged> UploadProgressChanged { get; set; }
     }
 
     /// <inheritdoc/>
@@ -52,6 +53,6 @@ namespace Tweetinvi.Parameters
         /// <inheritdoc/>
         public TimeSpan? Timeout { get; set; }
         /// <inheritdoc/>
-        public Action<long, long> UploadProgressChanged { get; set; }
+        public Action<IUploadProgressChanged> UploadProgressChanged { get; set; }
     }
 }

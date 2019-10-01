@@ -46,7 +46,6 @@ namespace Tweetinvi.Controllers.Account
 
         // Profile
         Task<IUserDTO> UpdateProfileParameters(IAccountUpdateProfileParameters parameters);
-        Task<bool> UpdateProfileBanner(IAccountUpdateProfileBannerParameters parameters);
         Task<bool> RemoveUserProfileBanner();
         Task<bool> UpdateProfileBackgroundImage(IAccountUpdateProfileBackgroundImageParameters parameters);
 
@@ -235,30 +234,6 @@ namespace Tweetinvi.Controllers.Account
         {
             var query = _accountQueryGenerator.GetUpdateProfileParametersQuery(parameters);
             return _twitterAccessor.ExecutePOSTQuery<IUserDTO>(query);
-        }
-
-        public async Task<bool> UpdateProfileBanner(IAccountUpdateProfileBannerParameters parameters)
-        {
-            var query = _accountQueryGenerator.GetUpdateProfileBannerQuery(parameters);
-
-            if (parameters.Binary == null)
-            {
-                throw new ArgumentNullException(nameof(parameters), "Banner binary cannot be null.");
-            }
-
-//            var multipartParameters = new MultipartHttpRequest
-//            {
-//                Url = query,
-//                HttpMethod = HttpMethod.POST,
-//                Binaries = new[] { parameters.Binary },
-//                ContentId = "banner",
-//                Timeout = parameters.Timeout,
-//                UploadProgressChanged = parameters.UploadProgressChanged
-//            };
-
-            var asyncOperation = await _twitterAccessor.TryExecuteMultipartQuery(null);
-
-            return asyncOperation.Success;
         }
 
         public async Task<bool> RemoveUserProfileBanner()

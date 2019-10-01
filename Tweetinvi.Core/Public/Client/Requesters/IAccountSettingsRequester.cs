@@ -17,5 +17,12 @@ namespace Tweetinvi.Client.Requesters
         /// </summary>
         /// <returns>Twitter result containing the updated user</returns>
         Task<ITwitterResult<IUserDTO>> UpdateProfileImage(IUpdateProfileImageParameters parameters);
+
+        /// <summary>
+        /// Update the profile banner of the account
+        /// <para>Read more : https://dev.twitter.com/en/docs/accounts-and-users/manage-account-settings/api-reference/post-account-update_profile_banner </para> 
+        /// </summary>
+        /// <returns>Twitter result containing the updated user</returns>
+        Task<ITwitterResult<IUserDTO>> UpdateProfileBanner(IUpdateProfileBannerParameters parameters);
     }
 }

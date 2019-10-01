@@ -91,7 +91,7 @@ namespace Tweetinvi.WebLogic
             return SendAsync(_twitterQuery, request, cancellationToken);
         }
 
-        protected virtual Task<HttpResponseMessage> SendAsync(ITwitterQuery twitterQuery, HttpRequestMessage request, CancellationToken cancellationToken)
+        protected virtual async Task<HttpResponseMessage> SendAsync(ITwitterQuery twitterQuery, HttpRequestMessage request, CancellationToken cancellationToken)
         {
             if (_action != null)
             {
@@ -106,11 +106,11 @@ namespace Tweetinvi.WebLogic
                 }
                 else
                 {
-                    _webRequestGenerator.SetTwitterQueryAuthorizationHeader(twitterQuery);
+                    await _webRequestGenerator.SetTwitterQueryAuthorizationHeader(twitterQuery).ConfigureAwait(false);
                 }
             }
 
-            return SendAsync(request, cancellationToken, twitterQuery.AuthorizationHeader);
+            return await SendAsync(request, cancellationToken, twitterQuery.AuthorizationHeader).ConfigureAwait(false);
         }
 
         protected Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken, string authorizationHeader)

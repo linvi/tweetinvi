@@ -12,6 +12,7 @@ namespace Tweetinvi.Core.Helpers
 
         Dictionary<string, string> GetUriParameters(Uri uri);
         Dictionary<string, string> GetURLParameters(string url);
+        Dictionary<string, string> GetQueryParameters(string queryUrl);
 
         string GetBaseURL(string url);
         string GetBaseURL(Uri uri);

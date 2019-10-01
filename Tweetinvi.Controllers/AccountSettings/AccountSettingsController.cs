@@ -9,6 +9,7 @@ namespace Tweetinvi.Controllers.AccountSettings
     public interface IAccountSettingsController
     {
         Task<ITwitterResult<IUserDTO>> UpdateProfileImage(IUpdateProfileImageParameters parameters, ITwitterRequest request);
+        Task<ITwitterResult<IUserDTO>> UpdateProfileBanner(IUpdateProfileBannerParameters parameters, ITwitterRequest request);
     }
     
     public class AccountSettingsController : IAccountSettingsController
@@ -23,6 +24,11 @@ namespace Tweetinvi.Controllers.AccountSettings
         public Task<ITwitterResult<IUserDTO>> UpdateProfileImage(IUpdateProfileImageParameters parameters, ITwitterRequest request)
         {
             return _accountSettingsQueryExecutor.UpdateProfileImage(parameters, request);
+        }
+
+        public Task<ITwitterResult<IUserDTO>> UpdateProfileBanner(IUpdateProfileBannerParameters parameters, ITwitterRequest request)
+        {
+            return _accountSettingsQueryExecutor.UpdateProfileBanner(parameters, request);
         }
     }
 }

@@ -15,6 +15,7 @@ namespace xUnitinvi.IntegrationTests
 
     public class UserIntegrationTests
     {
+        private readonly ITestOutputHelper _logger;
         private ITwitterClient Client { get; }
         private ITwitterClient PrivateUserClient { get; }
         
@@ -28,7 +29,6 @@ namespace xUnitinvi.IntegrationTests
             PrivateUserClient = new TwitterClient(IntegrationTestCredentials.ProtectedUserCredentials);
         }
 
-        private readonly ITestOutputHelper _logger;
 
         //[Fact]
         [Fact(Skip = "IntegrationTests")]

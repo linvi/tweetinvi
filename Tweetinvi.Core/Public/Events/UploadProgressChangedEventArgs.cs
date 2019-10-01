@@ -1,15 +1,10 @@
 ﻿using System;
 using Tweetinvi.Core.Public.Parameters.Enum;
 
-namespace Tweetinvi.Core.Public.Events
+namespace Tweetinvi.Events
 {
     public interface IUploadProgressChanged
     {
-        /// <summary>
-        /// Type of operation executed for the upload
-        /// </summary>
-        UploadProgressState State { get; }
-
         /// <summary>
         /// Numbers of bytes that have been successfully sent at the current time
         /// </summary>
@@ -26,21 +21,16 @@ namespace Tweetinvi.Core.Public.Events
         int Percentage { get; }
     }
 
-    public class UploadStateChangedEventArgs : EventArgs, IUploadProgressChanged
+    public class UploadProgressChangedEventArgs : EventArgs, IUploadProgressChanged
     {
-        public UploadStateChangedEventArgs(UploadProgressState state, long numberOfBytesUploaded, long totalOfBytesToUpload)
+        public UploadProgressChangedEventArgs(long numberOfBytesUploaded, long totalOfBytesToUpload)
         {
-            State = state;
             NumberOfBytesUploaded = numberOfBytesUploaded;
             TotalOfBytesToUpload = totalOfBytesToUpload;
         }
 
-        public UploadProgressState State { get; }
-
-        public long NumberOfBytesUploaded { get; }
-
-        public long TotalOfBytesToUpload { get; }
-
+        public long NumberOfBytesUploaded { get; protected set; }
+        public long TotalOfBytesToUpload { get; protected set; }
         public int Percentage
         {
             get

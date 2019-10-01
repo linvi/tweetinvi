@@ -22,5 +22,16 @@ namespace Tweetinvi.Client
         {
             return (await _accountRequester.UpdateProfileImage(parameters).ConfigureAwait(false)).Response.IsSuccessStatusCode;
         }
+        
+        public Task<bool> UpdateProfileBanner(byte[] binary)
+        {
+            return UpdateProfileBanner(new UpdateProfileBannerParameters(binary));
+        }
+
+        public async Task<bool> UpdateProfileBanner(IUpdateProfileBannerParameters parameters)
+        {
+            var twitterResult = await _accountRequester.UpdateProfileBanner(parameters).ConfigureAwait(false);
+            return twitterResult.Response.IsSuccessStatusCode;
+        }
     }
 }

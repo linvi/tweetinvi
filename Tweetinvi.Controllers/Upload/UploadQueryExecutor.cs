@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Tweetinvi.Controllers.Properties;
 using Tweetinvi.Core.Injectinvi;
-using Tweetinvi.Core.Public.Events;
 using Tweetinvi.Core.Public.Models.Enum;
 using Tweetinvi.Core.Public.Parameters.Enum;
 using Tweetinvi.Core.Upload;
 using Tweetinvi.Core.Web;
+using Tweetinvi.Events;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
 using Tweetinvi.Parameters;
@@ -74,7 +74,7 @@ namespace Tweetinvi.Controllers.Upload
             var totalSize = await CalculateSize("media", binary).ConfigureAwait(false);
             long uploadedSize = 0;
 
-            uploadQueryParameters.UploadStateChanged?.Invoke(new UploadStateChangedEventArgs(UploadProgressState.INITIALIZED, 0, totalSize));
+            uploadQueryParameters.UploadStateChanged?.Invoke(new MediaUploadProgressChangedEventArgs(UploadProgressState.INITIALIZED, 0, totalSize));
 
             for (var i = 0; i < binaryChunks.Count; ++i)
             {
@@ -86,10 +86,10 @@ namespace Tweetinvi.Controllers.Upload
                     "media", // Must be `media`, if using the real media type as content id, Twitter does not accept when invoking .Finalize().
                     uploadQueryParameters.Timeout)
                 {
-                    UploadProgressChanged = (current, total) =>
+                    UploadProgressChanged = (args) =>
                     {
-                        uploadedSize = startUploadedSize + current;
-                        uploadQueryParameters.UploadStateChanged?.Invoke(new UploadStateChangedEventArgs(UploadProgressState.PROGRESS_CHANGED, uploadedSize, totalSize));
+                        uploadedSize = startUploadedSize + args.NumberOfBytesUploaded;
+                        uploadQueryParameters.UploadStateChanged?.Invoke(new MediaUploadProgressChangedEventArgs(UploadProgressState.PROGRESS_CHANGED, uploadedSize, totalSize));
                     },
                     CustomRequestParameters = uploadQueryParameters.AppendCustomRequestParameters
                 };
@@ -99,7 +99,7 @@ namespace Tweetinvi.Controllers.Upload
 
                 if (!appendOperationSucceeded)
                 {
-                    uploadQueryParameters.UploadStateChanged?.Invoke(new UploadStateChangedEventArgs(UploadProgressState.FAILED, uploadedSize, totalSize));
+                    uploadQueryParameters.UploadStateChanged?.Invoke(new MediaUploadProgressChangedEventArgs(UploadProgressState.FAILED, uploadedSize, totalSize));
                     return uploader.Result;
                 }
             }
@@ -110,7 +110,7 @@ namespace Tweetinvi.Controllers.Upload
             if (finalizeSucceeded)
             {
                 var result = uploader.Result;
-                uploadQueryParameters.UploadStateChanged?.Invoke(new UploadStateChangedEventArgs(UploadProgressState.COMPLETED, uploadedSize, totalSize));
+                uploadQueryParameters.UploadStateChanged?.Invoke(new MediaUploadProgressChangedEventArgs(UploadProgressState.COMPLETED, uploadedSize, totalSize));
 
                 var category = uploadQueryParameters.MediaCategory;
                 var isAwaitableUpload = category == MediaCategory.Gif || category == MediaCategory.Video;

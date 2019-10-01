@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Globalization;
 using System.Net.Http;
-using System.Threading.Tasks;
-using Tweetinvi.Core.Web;
+using Tweetinvi.Core.Upload;
+using Tweetinvi.Events;
 using Tweetinvi.Models;
 using HttpMethod = Tweetinvi.Models.HttpMethod;
 
@@ -23,7 +23,7 @@ namespace Tweetinvi
         /// <summary>
         /// Action invoked to show the progress of the upload. {current / total}
         /// </summary>
-        Action<long, long> UploadProgressChanged { get; set; }
+        Action<IUploadProgressChanged> UploadProgressChanged { get; set; }
     }
 
     public class MultipartTwitterQuery : TwitterQuery, IMultipartTwitterQuery
@@ -64,7 +64,7 @@ namespace Tweetinvi
 
         public string ContentId { get; set; }
 
-        public Action<long, long> UploadProgressChanged { get; set; }
+        public Action<IUploadProgressChanged> UploadProgressChanged { get; set; }
 
         public override HttpContent HttpContent
         {
@@ -76,9 +76,9 @@ namespace Tweetinvi
         {
             var multiPartContent = CreateHttpContent(contentId, binaries);
 
-            var progressableContent = new ProgressableStreamContent(multiPartContent, (current, total) =>
+            var progressableContent = new ProgressableStreamContent(multiPartContent, (args) =>
             {
-                UploadProgressChanged?.Invoke(current, total);
+                UploadProgressChanged?.Invoke(args);
             });
 
             return progressableContent;
