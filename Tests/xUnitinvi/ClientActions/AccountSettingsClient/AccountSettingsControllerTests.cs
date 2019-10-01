@@ -43,5 +43,41 @@ namespace xUnitinvi.ClientActions.AccountSettingsClient
             // Assert
             Assert.Equal(result, twitterResult);
         }
+        
+        [Fact]
+        public async Task UpdateProfileBanner_ReturnsFromQueryExecutor()
+        {
+            // Arrange
+            var controller = CreateAccountSettingsController();
+            var parameters = new UpdateProfileBannerParameters(null);
+            var request = A.Fake<ITwitterRequest>();
+            var twitterResult = A.Fake<ITwitterResult>();
+
+            A.CallTo(() => _fakeAccountSettingsQueryExecutor.UpdateProfileBanner(parameters, request)).Returns(twitterResult);
+
+            // Act
+            var result = await controller.UpdateProfileBanner(parameters, request);
+
+            // Assert
+            Assert.Equal(result, twitterResult);
+        }
+        
+        [Fact]
+        public async Task RemoveProfileBanner_ReturnsFromQueryExecutor()
+        {
+            // Arrange
+            var controller = CreateAccountSettingsController();
+            var parameters = new RemoveProfileBannerParameters();
+            var request = A.Fake<ITwitterRequest>();
+            var twitterResult = A.Fake<ITwitterResult>();
+
+            A.CallTo(() => _fakeAccountSettingsQueryExecutor.RemoveProfileBanner(parameters, request)).Returns(twitterResult);
+
+            // Act
+            var result = await controller.RemoveProfileBanner(parameters, request);
+
+            // Assert
+            Assert.Equal(result, twitterResult);
+        }
     }
 }

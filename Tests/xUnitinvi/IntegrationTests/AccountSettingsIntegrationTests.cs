@@ -19,7 +19,7 @@ namespace xUnitinvi.IntegrationTests
             Client = new TwitterClient(IntegrationTestCredentials.ProtectedUserCredentials);
         }
 
-        //        [Fact]
+        // [Fact]
         [Fact(Skip = "Integration Tests")]
         public async Task RunAllAccountSettings()
         {
@@ -32,16 +32,19 @@ namespace xUnitinvi.IntegrationTests
         public async Task ChangeImages()
         {
             // act
-            var user = await Client.Account.GetAuthenticatedUser();
+            var authenticatedUser = await Client.Account.GetAuthenticatedUser();
             var profile = File.ReadAllBytes("./tweetinvi-logo-purple.png");
             var banner = File.ReadAllBytes("./banner.jpg");
             await Client.AccountSettings.UpdateProfileImage(profile);
-            var success = await Client.AccountSettings.UpdateProfileBanner(banner);
-            var userAfter = await Client.Account.GetAuthenticatedUser();
+            await Client.AccountSettings.UpdateProfileBanner(banner);
+            var userAfterAddingBanner = await Client.Users.GetUser(authenticatedUser);
+            await Client.AccountSettings.RemoveProfileBanner();
+            var userAfterRemovingBanner = await Client.Users.GetUser(authenticatedUser);
 
             // assert
-            Assert.NotEqual(user.ProfileImageUrl, userAfter.ProfileImageUrl);
-            Assert.NotEqual(user.ProfileBannerURL, userAfter.ProfileBannerURL);
+            Assert.NotEqual(authenticatedUser.ProfileImageUrl, userAfterAddingBanner.ProfileImageUrl);
+            Assert.NotEqual(authenticatedUser.ProfileBannerURL, userAfterAddingBanner.ProfileBannerURL);
+            Assert.Null(userAfterRemovingBanner.ProfileBannerURL);
         }
     }
 }

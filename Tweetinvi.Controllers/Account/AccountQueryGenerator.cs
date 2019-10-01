@@ -48,7 +48,6 @@ namespace Tweetinvi.Controllers.Account
         string GetUpdateProfileParametersQuery(IAccountUpdateProfileParameters parameters);
         
 
-        string GetRemoveUserProfileBannerQuery();
         string GetUpdateProfilBackgroundImageQuery(IAccountUpdateProfileBackgroundImageParameters parameters);
 
         // Mute
@@ -279,11 +278,6 @@ namespace Tweetinvi.Controllers.Account
             query.AddFormattedParameterToQuery(parameters.FormattedCustomQueryParameters);
 
             return query.ToString();
-        }
-
-        public string GetRemoveUserProfileBannerQuery()
-        {
-            return Resources.Account_RemoveProfileBanner;
         }
 
         public string GetUpdateProfilBackgroundImageQuery(IAccountUpdateProfileBackgroundImageParameters parameters)

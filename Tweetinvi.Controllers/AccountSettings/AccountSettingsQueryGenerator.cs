@@ -1,4 +1,3 @@
-using System;
 using System.Text;
 using Tweetinvi.Controllers.Properties;
 using Tweetinvi.Core.Extensions;
@@ -10,6 +9,7 @@ namespace Tweetinvi.Controllers.AccountSettings
     {
         string GetUpdateProfileImageQuery(IUpdateProfileImageParameters parameters);
         string GetUpdateProfileBannerQuery(IUpdateProfileBannerParameters parameters);
+        string GetRemoveProfileBannerQuery(IRemoveProfileBannerParameters parameters);
     }
 
     public class AccountSettingsQueryGenerator : IAccountSettingsQueryGenerator
@@ -36,6 +36,15 @@ namespace Tweetinvi.Controllers.AccountSettings
 
             query.AddFormattedParameterToQuery(parameters.FormattedCustomQueryParameters);
 
+            return query.ToString();
+        }
+
+        public string GetRemoveProfileBannerQuery(IRemoveProfileBannerParameters parameters)
+        {
+            var query = new StringBuilder(Resources.Account_RemoveProfileBanner);
+
+            query.AddFormattedParameterToQuery(parameters.FormattedCustomQueryParameters);
+            
             return query.ToString();
         }
     }

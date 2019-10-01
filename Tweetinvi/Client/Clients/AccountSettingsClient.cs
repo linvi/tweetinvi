@@ -33,5 +33,16 @@ namespace Tweetinvi.Client
             var twitterResult = await _accountRequester.UpdateProfileBanner(parameters).ConfigureAwait(false);
             return twitterResult.Response.IsSuccessStatusCode;
         }
+
+        public Task<bool> RemoveProfileBanner()
+        {
+            return RemoveProfileBanner(new RemoveProfileBannerParameters());
+        }
+
+        public async Task<bool> RemoveProfileBanner(IRemoveProfileBannerParameters parameters)
+        {
+            var twitterResult = await _accountRequester.RemoveProfileBanner(parameters).ConfigureAwait(false);
+            return twitterResult.Response.IsSuccessStatusCode;
+        }
     }
 }

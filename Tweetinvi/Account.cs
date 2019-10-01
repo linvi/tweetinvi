@@ -122,14 +122,6 @@ namespace Tweetinvi
         }
 
         /// <summary>
-        /// Removes the uploaded profile banner for the authenticated user.
-        /// </summary>
-        public static Task<bool> RemoveUserProfileBanner()
-        {
-            return AccountController.RemoveUserProfileBanner();
-        }
-
-        /// <summary>
         /// Updates the authenticated user’s profile background image. 
         /// </summary>
         public static Task<bool> UpdateProfileBackgroundImage(byte[] imageBinary)

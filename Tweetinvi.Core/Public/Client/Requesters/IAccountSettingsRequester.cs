@@ -22,7 +22,14 @@ namespace Tweetinvi.Client.Requesters
         /// Update the profile banner of the account
         /// <para>Read more : https://dev.twitter.com/en/docs/accounts-and-users/manage-account-settings/api-reference/post-account-update_profile_banner </para> 
         /// </summary>
-        /// <returns>Twitter result containing the updated user</returns>
-        Task<ITwitterResult<IUserDTO>> UpdateProfileBanner(IUpdateProfileBannerParameters parameters);
+        /// <returns>Twitter result</returns>
+        Task<ITwitterResult> UpdateProfileBanner(IUpdateProfileBannerParameters parameters);
+        
+        /// <summary>
+        /// Remove the profile banner of the account
+        /// <para>Read more : https://dev.twitter.com/en/docs/accounts-and-users/manage-account-settings/api-reference/post-account-remove_profile_banner </para> 
+        /// </summary>
+        /// <returns>Twitter result</returns>
+        Task<ITwitterResult> RemoveProfileBanner(IRemoveProfileBannerParameters parameters);
     }
 }

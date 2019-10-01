@@ -4,8 +4,7 @@ using Tweetinvi.Events;
 namespace Tweetinvi.Parameters
 {
     /// <summary>
-    /// Parameters used to upload a banner for the user profile.
-    /// For more description visit : https://dev.twitter.com/en/docs/accounts-and-users/manage-account-settings/api-reference/post-account-update_profile_banner
+    /// For more information visit : https://dev.twitter.com/en/docs/accounts-and-users/manage-account-settings/api-reference/post-account-update_profile_banner
     /// </summary>
     public interface IUpdateProfileBannerParameters : ICustomRequestParameters
     {
@@ -45,10 +44,7 @@ namespace Tweetinvi.Parameters
         Action<IUploadProgressChanged> UploadProgressChanged { get; set; }
     }
 
-    /// <summary>
-    /// Parameters used to upload a banner for the user profile.
-    /// For more description visit : https://dev.twitter.com/rest/reference/post/account/update_profile_banner
-    /// </summary>
+    /// <inheritdoc/>
     public class UpdateProfileBannerParameters : CustomRequestParameters, IUpdateProfileBannerParameters
     {
         public UpdateProfileBannerParameters(byte[] image)
@@ -56,12 +52,19 @@ namespace Tweetinvi.Parameters
             Binary = image;
         }
 
+        /// <inheritdoc/>
         public byte[] Binary { get; set; }
+        /// <inheritdoc/>
         public int? Width { get; set; }
+        /// <inheritdoc/>
         public int? Height { get; set; }
+        /// <inheritdoc/>
         public int? OffsetLeft { get; set; }
+        /// <inheritdoc/>
         public int? OffsetTop { get; set; }
+        /// <inheritdoc/>
         public TimeSpan? Timeout { get; set; }
+        /// <inheritdoc/>
         public Action<IUploadProgressChanged> UploadProgressChanged { get; set; }
     }
 }

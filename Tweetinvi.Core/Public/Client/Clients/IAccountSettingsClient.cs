@@ -27,5 +27,15 @@ namespace Tweetinvi.Client
         /// </summary>
         /// <returns>Whether the update of the profile banner operation was successful</returns>
         Task<bool> UpdateProfileBanner(IUpdateProfileBannerParameters parameters);
+
+        /// <inheritdoc cref="RemoveProfileBanner(IRemoveProfileBannerParameters)" />
+        Task<bool> RemoveProfileBanner();
+        
+        /// <summary>
+        /// Remove the profile banner of the account
+        /// <para>Read more : https://dev.twitter.com/en/docs/accounts-and-users/manage-account-settings/api-reference/post-account-remove_profile_banner </para> 
+        /// </summary>
+        /// <returns>Whether the deletion of the profile banner operation was successful</returns>
+        Task<bool> RemoveProfileBanner(IRemoveProfileBannerParameters parameters);
     }
 }

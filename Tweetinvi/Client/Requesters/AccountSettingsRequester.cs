@@ -25,10 +25,16 @@ namespace Tweetinvi.Client.Requesters
             return _accountSettingsController.UpdateProfileImage(parameters, request);
         }
 
-        public Task<ITwitterResult<IUserDTO>> UpdateProfileBanner(IUpdateProfileBannerParameters parameters)
+        public Task<ITwitterResult> UpdateProfileBanner(IUpdateProfileBannerParameters parameters)
         {
             var request = _twitterClient.CreateRequest();
             return _accountSettingsController.UpdateProfileBanner(parameters, request);
+        }
+
+        public Task<ITwitterResult> RemoveProfileBanner(IRemoveProfileBannerParameters parameters)
+        {
+            var request = _twitterClient.CreateRequest();
+            return _accountSettingsController.RemoveProfileBanner(parameters, request);
         }
     }
 }

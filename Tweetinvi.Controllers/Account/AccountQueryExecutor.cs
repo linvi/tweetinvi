@@ -46,7 +46,6 @@ namespace Tweetinvi.Controllers.Account
 
         // Profile
         Task<IUserDTO> UpdateProfileParameters(IAccountUpdateProfileParameters parameters);
-        Task<bool> RemoveUserProfileBanner();
         Task<bool> UpdateProfileBackgroundImage(IAccountUpdateProfileBackgroundImageParameters parameters);
 
         // Mute
@@ -234,14 +233,6 @@ namespace Tweetinvi.Controllers.Account
         {
             var query = _accountQueryGenerator.GetUpdateProfileParametersQuery(parameters);
             return _twitterAccessor.ExecutePOSTQuery<IUserDTO>(query);
-        }
-
-        public async Task<bool> RemoveUserProfileBanner()
-        {
-            var query = _accountQueryGenerator.GetRemoveUserProfileBannerQuery();
-            var asyncOperation = await _twitterAccessor.TryExecutePOSTQuery(query);
-
-            return asyncOperation.Success;
         }
 
         public async Task<bool> UpdateProfileBackgroundImage(IAccountUpdateProfileBackgroundImageParameters parameters)

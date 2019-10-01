@@ -51,5 +51,48 @@ namespace xUnitinvi.ClientActions.AccountSettingsClient
             // Assert
             Assert.Equal(result, expectedResult);
         }
+        
+        [Fact]
+        public async Task UpdateProfileBanner_ReturnsAccountUserDTO()
+        {
+            // Arrange
+            var queryExecutor = CreateAccountSettingsQueryExecutor();
+            var parameters = new UpdateProfileBannerParameters(new byte[2]);
+
+            var query = TestHelper.GenerateString();
+            var request = A.Fake<ITwitterRequest>();
+            var expectedResult = A.Fake<ITwitterResult>();
+
+            A.CallTo(() => _fakeAccountSettingsQueryGenerator.GetUpdateProfileBannerQuery(parameters)).Returns(query);
+            A.CallTo(() => _fakeTwitterAccessor.ExecuteRequest(A<ITwitterRequest>.Ignored)).Returns(expectedResult);
+
+            // Act
+            var result = await queryExecutor.UpdateProfileBanner(parameters, request);
+
+            // Assert
+            Assert.Equal(result, expectedResult);
+            Assert.True(request.Query.IsHttpContentPartOfQueryParams);
+        }
+        
+        [Fact]
+        public async Task RemoveProfileBanner_ReturnsAccountUserDTO()
+        {
+            // Arrange
+            var queryExecutor = CreateAccountSettingsQueryExecutor();
+            var parameters = new RemoveProfileBannerParameters();
+
+            var query = TestHelper.GenerateString();
+            var request = A.Fake<ITwitterRequest>();
+            var expectedResult = A.Fake<ITwitterResult>();
+
+            A.CallTo(() => _fakeAccountSettingsQueryGenerator.GetRemoveProfileBannerQuery(parameters)).Returns(query);
+            A.CallTo(() => _fakeTwitterAccessor.ExecuteRequest(A<ITwitterRequest>.Ignored)).Returns(expectedResult);
+
+            // Act
+            var result = await queryExecutor.RemoveProfileBanner(parameters, request);
+
+            // Assert
+            Assert.Equal(result, expectedResult);
+        }
     }
 }
