@@ -25,6 +25,24 @@ namespace xUnitinvi.ClientActions.AccountSettingsClient
         {
             return _fakeBuilder.GenerateClass();
         }
+        
+        [Fact]
+        public async Task GetAccountSettings_ReturnsFromQueryExecutor()
+        {
+            // Arrange
+            var controller = CreateAccountSettingsController();
+            var parameters = new GetAccountSettingsParameters();
+            var request = A.Fake<ITwitterRequest>();
+            var twitterResult = A.Fake<ITwitterResult<IAccountSettingsDTO>>();
+
+            A.CallTo(() => _fakeAccountSettingsQueryExecutor.GetAccountSettings(parameters, request)).Returns(twitterResult);
+
+            // Act
+            var result = await controller.GetAccountSettings(parameters, request);
+
+            // Assert
+            Assert.Equal(result, twitterResult);
+        }
 
         [Fact]
         public async Task UpdateProfileImage_ReturnsFromQueryExecutor()

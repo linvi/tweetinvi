@@ -271,14 +271,6 @@ namespace Tweetinvi.Core.Models
 
         // Settings
 
-        /// <summary>
-        /// Retrieve the settings of the Token's owner
-        /// </summary>
-        public Task<IAccountSettings> GetAccountSettings()
-        {
-            return ExecuteAuthenticatedUserOperation(() => _accountController.GetAuthenticatedUserSettings());
-        }
-
         public Task<IAccountSettings> UpdateAccountSettings(
             IEnumerable<Language> languages = null,
             string timeZone = null,

@@ -21,6 +21,23 @@ namespace xUnitinvi.ClientActions.AccountSettingsClient
         }
 
         [Fact]
+        public void GetAccountSettingsQuery_ReturnsExpectedQuery()
+        {
+            // arrange
+            var queryGenerator = CreateAccountSettingsQueryGenerator();
+            var parameters = new GetAccountSettingsParameters
+            {
+                CustomQueryParameters = { new Tuple<string, string>("hello", "world") }
+            };
+
+            // act
+            var result = queryGenerator.GetAccountSettingsQuery(parameters);
+
+            // assert
+            Assert.Equal(result, $"https://api.twitter.com/1.1/account/settings.json?hello=world");
+        }
+
+        [Fact]
         public void GetUpdateProfileImageQuery_ReturnsExpectedQuery()
         {
             // arrange

@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using Tweetinvi.Models;
 using Tweetinvi.Parameters;
 
 namespace Tweetinvi.Client
@@ -8,6 +9,16 @@ namespace Tweetinvi.Client
     /// </summary>
     public interface IAccountSettingsClient
     {
+        /// <inheritdoc cref="GetAccountSettings(IGetAccountSettingsParameters)" />
+        Task<IAccountSettings> GetAccountSettings();
+
+        /// <summary>
+        /// Get the client's account settings
+        /// <para>Read more : https://dev.twitter.com/en/docs/accounts-and-users/manage-account-settings/api-reference/get-account-settings </para> 
+        /// </summary>
+        /// <returns>Account settings</returns>
+        Task<IAccountSettings> GetAccountSettings(IGetAccountSettingsParameters parameters);
+        
         /// <inheritdoc cref="UpdateProfileImage(IUpdateProfileImageParameters)" />
         Task<bool> UpdateProfileImage(byte[] binary);
 

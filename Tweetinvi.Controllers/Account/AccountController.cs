@@ -247,12 +247,6 @@ namespace Tweetinvi.Controllers.Account
         
         
 
-        public async Task<IAccountSettings> GetAuthenticatedUserSettings()
-        {
-            var accountSettingsDTO = await _accountQueryExecutor.GetAuthenticatedUserAccountSettings().ConfigureAwait(false);
-            return GenerateAccountSettingsFromDTO(accountSettingsDTO);
-        }
-
         public Task<IAccountSettings> UpdateAuthenticatedUserSettings(
             IEnumerable<Language> languages = null,
             string timeZone = null,

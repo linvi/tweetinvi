@@ -1,5 +1,6 @@
 using System.Threading.Tasks;
 using Tweetinvi.Core.Web;
+using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
 using Tweetinvi.Parameters;
 
@@ -11,6 +12,8 @@ namespace Tweetinvi.Client.Requesters
     /// </summary>
     public interface IAccountSettingsRequester
     {
+        Task<ITwitterResult<IAccountSettingsDTO, IAccountSettings>> GetAccountSettings(IGetAccountSettingsParameters parameters);
+        
         /// <summary>
         /// Update the profile image of the account 
         /// <para>https://dev.twitter.com/rest/reference/post/account/update_profile_image</para>

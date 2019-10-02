@@ -7,6 +7,7 @@ namespace Tweetinvi.Controllers.AccountSettings
 {
     public interface IAccountSettingsQueryGenerator
     {
+        string GetAccountSettingsQuery(IGetAccountSettingsParameters parameters);
         string GetUpdateProfileImageQuery(IUpdateProfileImageParameters parameters);
         string GetUpdateProfileBannerQuery(IUpdateProfileBannerParameters parameters);
         string GetRemoveProfileBannerQuery(IRemoveProfileBannerParameters parameters);
@@ -14,6 +15,15 @@ namespace Tweetinvi.Controllers.AccountSettings
 
     public class AccountSettingsQueryGenerator : IAccountSettingsQueryGenerator
     {
+        public string GetAccountSettingsQuery(IGetAccountSettingsParameters parameters)
+        {
+            var query = new StringBuilder(Resources.Account_GetSettings);
+            
+            query.AddFormattedParameterToQuery(parameters.FormattedCustomQueryParameters);
+
+            return query.ToString();
+        }
+        
         public string GetUpdateProfileImageQuery(IUpdateProfileImageParameters parameters)
         {
             var query = new StringBuilder(Resources.Account_UpdateProfileImage);

@@ -41,7 +41,6 @@ namespace Tweetinvi.Controllers.Account
 
 
 
-        Task<IAccountSettingsDTO> GetAuthenticatedUserAccountSettings();
         Task<IAccountSettingsDTO> UpdateAuthenticatedUserSettings(IAccountSettingsRequestParameters accountSettingsRequestParameters);
 
         // Profile
@@ -212,12 +211,6 @@ namespace Tweetinvi.Controllers.Account
 
 
 
-
-        public Task<IAccountSettingsDTO> GetAuthenticatedUserAccountSettings()
-        {
-            var query = _accountQueryGenerator.GetAuthenticatedUserAccountSettingsQuery();
-            return _twitterAccessor.ExecuteGETQuery<IAccountSettingsDTO>(query);
-        }
 
         public Task<IAccountSettingsDTO> UpdateAuthenticatedUserSettings(IAccountSettingsRequestParameters accountSettingsRequestParameters)
         {

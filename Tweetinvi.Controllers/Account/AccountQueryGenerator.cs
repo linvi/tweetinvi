@@ -41,7 +41,6 @@ namespace Tweetinvi.Controllers.Account
 
 
 
-        string GetAuthenticatedUserAccountSettingsQuery();
         string GetUpdateAuthenticatedUserAccountSettingsQuery(IAccountSettingsRequestParameters accountSettingsRequestParameters);
 
         // Profile
@@ -225,10 +224,7 @@ namespace Tweetinvi.Controllers.Account
 
 
 
-        public string GetAuthenticatedUserAccountSettingsQuery()
-        {
-            return Resources.Account_GetSettings;
-        }
+        
 
         public string GetUpdateAuthenticatedUserAccountSettingsQuery(IAccountSettingsRequestParameters accountSettingsRequestParameters)
         {

@@ -28,6 +28,27 @@ namespace xUnitinvi.ClientActions.AccountSettingsClient
         {
             return _fakeBuilder.GenerateClass();
         }
+        
+        [Fact]
+        public async Task GetAccountSettings_ReturnsAccountUserDTO()
+        {
+            // Arrange
+            var queryExecutor = CreateAccountSettingsQueryExecutor();
+            var parameters = new GetAccountSettingsParameters();
+
+            var query = TestHelper.GenerateString();
+            var request = A.Fake<ITwitterRequest>();
+            var expectedResult = A.Fake<ITwitterResult<IAccountSettingsDTO>>();
+
+            A.CallTo(() => _fakeAccountSettingsQueryGenerator.GetAccountSettingsQuery(parameters)).Returns(query);
+            A.CallTo(() => _fakeTwitterAccessor.ExecuteRequest<IAccountSettingsDTO>(request)).Returns(expectedResult);
+
+            // Act
+            var result = await queryExecutor.GetAccountSettings(parameters, request);
+
+            // Assert
+            Assert.Equal(result, expectedResult);
+        }
 
         [Fact]
         public async Task UpdateProfileImage_ReturnsAccountUserDTO()

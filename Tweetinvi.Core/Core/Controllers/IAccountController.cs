@@ -37,7 +37,6 @@ namespace Tweetinvi.Core.Controllers
 
 
 
-        Task<IAccountSettings> GetAuthenticatedUserSettings();
 
         Task<IAccountSettings> UpdateAuthenticatedUserSettings(
             IEnumerable<Language> languages = null,

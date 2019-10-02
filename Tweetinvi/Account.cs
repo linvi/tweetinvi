@@ -46,14 +46,6 @@ namespace Tweetinvi
         // Settings
 
         /// <summary>
-        /// Get the current account settings
-        /// </summary>
-        public static Task<IAccountSettings> GetCurrentAccountSettings()
-        {
-            return AccountController.GetAuthenticatedUserSettings();
-        }
-
-        /// <summary>
         /// Update the current account settings
         /// </summary>
         public static Task<IAccountSettings> UpdateAccountSettings(

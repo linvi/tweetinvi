@@ -334,11 +334,6 @@ namespace Tweetinvi.Models
         #endregion
 
         /// <summary>
-        /// Get the authenticated account settings.
-        /// </summary>
-        Task<IAccountSettings> GetAccountSettings();
-
-        /// <summary>
         /// Modify the authenticated account settings.
         /// </summary>
         Task<IAccountSettings> UpdateAccountSettings(

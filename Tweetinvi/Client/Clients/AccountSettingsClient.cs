@@ -1,5 +1,7 @@
 using System.Threading.Tasks;
 using Tweetinvi.Client.Requesters;
+using Tweetinvi.Controllers.Account;
+using Tweetinvi.Models;
 using Tweetinvi.Parameters;
 
 namespace Tweetinvi.Client
@@ -13,6 +15,17 @@ namespace Tweetinvi.Client
             _accountRequester = client.RequestExecutor.AccountSettings;
         }
 
+        public Task<IAccountSettings> GetAccountSettings()
+        {
+            return GetAccountSettings(new GetAccountSettingsParameters());
+        }
+        
+        public async Task<IAccountSettings> GetAccountSettings(IGetAccountSettingsParameters parameters)
+        {
+            var twitterResult = await _accountRequester.GetAccountSettings(parameters).ConfigureAwait(false);
+            return twitterResult.Result;
+        }
+        
         public Task<bool> UpdateProfileImage(byte[] binary)
         {
             return UpdateProfileImage(new UpdateProfileImageParameters(binary));
