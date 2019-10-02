@@ -52,10 +52,6 @@ namespace Tweetinvi.Core.Controllers
         // Profile
         Task<IAuthenticatedUser> UpdateAccountProfile(IAccountUpdateProfileParameters parameters);
 
-        Task<bool> UpdateProfileBackgroundImage(byte[] imageBinary);
-        Task<bool> UpdateProfileBackgroundImage(long mediaId);
-        Task<bool> UpdateProfileBackgroundImage(IAccountUpdateProfileBackgroundImageParameters parameters);
-
         // Mute
         Task<IEnumerable<long>> GetMutedUserIds(int maxUserIds = Int32.MaxValue);
         Task<IEnumerable<IUser>> GetMutedUsers(int maxUsersToRetrieve = 250);

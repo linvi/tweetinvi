@@ -47,9 +47,6 @@ namespace Tweetinvi.Controllers.Account
         // Profile
         string GetUpdateProfileParametersQuery(IAccountUpdateProfileParameters parameters);
         
-
-        string GetUpdateProfilBackgroundImageQuery(IAccountUpdateProfileBackgroundImageParameters parameters);
-
         // Mute
         string GetMutedUserIdsQuery();
 
@@ -272,24 +269,6 @@ namespace Tweetinvi.Controllers.Account
             query.AddParameterToQuery("location", parameters.Location);
             query.AddParameterToQuery("description", parameters.Description);
             query.AddParameterToQuery("profile_link_color", parameters.ProfileLinkColor);
-            query.AddParameterToQuery("include_entities", parameters.IncludeEntities);
-            query.AddParameterToQuery("skip_status", parameters.SkipStatus);
-
-            query.AddFormattedParameterToQuery(parameters.FormattedCustomQueryParameters);
-
-            return query.ToString();
-        }
-
-        public string GetUpdateProfilBackgroundImageQuery(IAccountUpdateProfileBackgroundImageParameters parameters)
-        {
-            var query = new StringBuilder(Resources.Account_UpdateProfileBackgroundImage);
-
-            if (parameters.Binary == null)
-            {
-                query.AddParameterToQuery("media_id", parameters.MediaId);
-            }
-
-            query.AddParameterToQuery("tile", parameters.UseTileMode);
             query.AddParameterToQuery("include_entities", parameters.IncludeEntities);
             query.AddParameterToQuery("skip_status", parameters.SkipStatus);
 

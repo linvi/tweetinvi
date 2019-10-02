@@ -309,21 +309,6 @@ namespace Tweetinvi.Controllers.Account
             return _userFactory.GenerateAuthenticatedUserFromDTO(userDTO);
         }
 
-        public Task<bool> UpdateProfileBackgroundImage(byte[] imageBinary)
-        {
-            return UpdateProfileBackgroundImage(new AccountUpdateProfileBackgroundImageParameters(imageBinary));
-        }
-
-        public Task<bool> UpdateProfileBackgroundImage(long mediaId)
-        {
-            return UpdateProfileBackgroundImage(new AccountUpdateProfileBackgroundImageParameters(mediaId));
-        }
-
-        public Task<bool> UpdateProfileBackgroundImage(IAccountUpdateProfileBackgroundImageParameters parameters)
-        {
-            return _accountQueryExecutor.UpdateProfileBackgroundImage(parameters);
-        }
-
         // Mute
         public Task<IEnumerable<long>> GetMutedUserIds(int maxUserIds = Int32.MaxValue)
         {

@@ -121,30 +121,6 @@ namespace Tweetinvi
             return AccountController.UpdateAccountProfile(parameters);
         }
 
-        /// <summary>
-        /// Updates the authenticated user’s profile background image. 
-        /// </summary>
-        public static Task<bool> UpdateProfileBackgroundImage(byte[] imageBinary)
-        {
-            return AccountController.UpdateProfileBackgroundImage(imageBinary);
-        }
-
-        /// <summary>
-        /// Updates the authenticated user’s profile background image. 
-        /// </summary>
-        public static Task<bool> UpdateProfileBackgroundImage(long mediaId)
-        {
-            return AccountController.UpdateProfileBackgroundImage(mediaId);
-        }
-
-        /// <summary>
-        /// Updates the authenticated user’s profile background image. 
-        /// </summary>
-        public static Task<bool> UpdateProfileBackgroundImage(IAccountUpdateProfileBackgroundImageParameters parameters)
-        {
-            return AccountController.UpdateProfileBackgroundImage(parameters);
-        }
-
         // Mute
 
         /// <summary>

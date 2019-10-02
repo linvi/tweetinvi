@@ -46,8 +46,6 @@ namespace Tweetinvi.Controllers.Account
 
         // Profile
         Task<IUserDTO> UpdateProfileParameters(IAccountUpdateProfileParameters parameters);
-        Task<bool> UpdateProfileBackgroundImage(IAccountUpdateProfileBackgroundImageParameters parameters);
-
         // Mute
         Task<IEnumerable<long>> GetMutedUserIds(int maxUserIds = int.MaxValue);
 
@@ -233,31 +231,6 @@ namespace Tweetinvi.Controllers.Account
         {
             var query = _accountQueryGenerator.GetUpdateProfileParametersQuery(parameters);
             return _twitterAccessor.ExecutePOSTQuery<IUserDTO>(query);
-        }
-
-        public async Task<bool> UpdateProfileBackgroundImage(IAccountUpdateProfileBackgroundImageParameters parameters)
-        {
-            var query = _accountQueryGenerator.GetUpdateProfilBackgroundImageQuery(parameters);
-
-            if (parameters.Binary != null)
-            {
-                var multipartAsyncOperation = await _twitterAccessor.TryExecuteMultipartQuery(null);
-//                    new MultipartHttpRequest
-//                {
-//                    Url = query,
-//                    HttpMethod = HttpMethod.POST,
-//                    Binaries = new[] { parameters.Binary },
-//                    ContentId = "image",
-//                    Timeout = parameters.Timeout,
-//                    UploadProgressChanged = parameters.UploadProgressChanged
-//                });
-
-                return multipartAsyncOperation.Success;
-            }
-
-            var asyncOperation = await _twitterAccessor.TryExecutePOSTQuery(query);
-
-            return asyncOperation.Success;
         }
 
         // Mute
