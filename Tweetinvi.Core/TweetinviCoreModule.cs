@@ -55,7 +55,7 @@ namespace Tweetinvi.Core.Injectinvi
         {
             // Base
             container.RegisterType<ICustomRequestParameters, CustomRequestParameters>();
-            
+
             // Identifiers
             container.RegisterType<ITweetIdentifier, TweetIdentifier>();
             container.RegisterType<IUserIdentifier, UserIdentifier>();
@@ -76,9 +76,6 @@ namespace Tweetinvi.Core.Injectinvi
 
             // Tweet
             container.RegisterType<IPublishTweetParameters, PublishTweetParameters>();
-
-            // Account
-            container.RegisterType<IAccountSettingsRequestParameters, AccountSettingsRequestParameters>();
 
             // Timeline
             container.RegisterType<IHomeTimelineParameters, HomeTimelineParameters>();

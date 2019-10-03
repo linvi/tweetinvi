@@ -1,5 +1,6 @@
 ﻿using System;
 using Tweetinvi.Controllers.AccountSettings;
+using Tweetinvi.Models;
 using Tweetinvi.Parameters;
 using Xunit;
 using xUnitinvi.TestHelpers;
@@ -35,6 +36,29 @@ namespace xUnitinvi.ClientActions.AccountSettingsClient
 
             // assert
             Assert.Equal(result, $"https://api.twitter.com/1.1/account/settings.json?hello=world");
+        }
+
+        [Fact]
+        public void GetUpdateAccountSettingsQuery_ReturnsExpectedQuery()
+        {
+            // arrange
+            var queryGenerator = CreateAccountSettingsQueryGenerator();
+            var parameters = new UpdateAccountSettingsParameters
+            {
+                DisplayLanguage = DisplayLanguages.Spanish,
+                SleepTimeEnabled = true,
+                StartSleepHour = 23,
+                EndSleepHour = 7,
+                TimeZone = TimeZoneFromTwitter.Bangkok.ToTZinfo(),
+                TrendLocationWoeid = 580778,
+                CustomQueryParameters = { new Tuple<string, string>("hello", "world") }
+            };
+
+            // act
+            var result = queryGenerator.GetUpdateAccountSettingsQuery(parameters);
+
+            // assert
+            Assert.Equal(result, $"https://api.twitter.com/1.1/account/settings.json?lang=es&time_zone=Asia%2FBangkok&sleep_time_enabled=true&start_sleep_time=23&end_sleep_time=07&trend_location_woeid=580778&hello=world");
         }
 
         [Fact]

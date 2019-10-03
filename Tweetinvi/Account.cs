@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Tweetinvi.Core.Controllers;
-using Tweetinvi.Core.Injectinvi;
 using Tweetinvi.Models;
 using Tweetinvi.Parameters;
 
@@ -29,78 +28,14 @@ namespace Tweetinvi
             }
         }
 
-        private static readonly IFactory<IAccountSettingsRequestParameters> _accountSettingsRequestParametersFactory;
-
         static Account()
         {
             Initialize();
-
-            _accountSettingsRequestParametersFactory = TweetinviContainer.Resolve<IFactory<IAccountSettingsRequestParameters>>();
         }
 
         private static void Initialize()
         {
             _accountController = TweetinviContainer.Resolve<IAccountController>();
-        }
-
-        // Settings
-
-        /// <summary>
-        /// Update the current account settings
-        /// </summary>
-        public static Task<IAccountSettings> UpdateAccountSettings(
-            IEnumerable<Language> languages = null,
-            string timeZone = null,
-            long? trendLocationWoeid = null,
-            bool? sleepTimeEnabled = null,
-            int? startSleepTime = null,
-            int? endSleepTime = null)
-        {
-            return AccountController.UpdateAuthenticatedUserSettings(
-                languages,
-                timeZone,
-                trendLocationWoeid,
-                sleepTimeEnabled,
-                startSleepTime,
-                endSleepTime);
-        }
-
-        /// <summary>
-        /// Update the current account settings
-        /// </summary>
-        public static Task<IAccountSettings> UpdateAccountSettings(IAccountSettingsRequestParameters settings)
-        {
-            return AccountController.UpdateAuthenticatedUserSettings(settings);
-        }
-
-        /// <summary>
-        /// Create an object that contains all the Twitter configuration settings
-        /// </summary>
-        public static IAccountSettingsRequestParameters CreateUpdateAccountSettingsRequestParameters()
-        {
-            return _accountSettingsRequestParametersFactory.Create();
-        }
-
-        /// <summary>
-        /// Create an object that contains all the Twitter configuration settings.
-        /// This object is initialized based on the parameter.
-        /// </summary>
-        public static IAccountSettingsRequestParameters CreateUpdateAccountSettingsRequestParameters(IAccountSettings accountSettings)
-        {
-            var accountSettingsParameter = _accountSettingsRequestParametersFactory.Create();
-
-            accountSettingsParameter.Languages.Add(accountSettings.Language);
-
-            accountSettingsParameter.SleepTimeEnabled = accountSettings.SleepTimeEnabled;
-            accountSettingsParameter.StartSleepTime = accountSettings.SleepTimeStartHour;
-            accountSettingsParameter.EndSleepTime = accountSettings.SleepTimeEndHour;
-
-            if (accountSettings.TimeZone != null)
-            {
-                accountSettingsParameter.TimeZone = accountSettings.TimeZone.TzinfoName;
-            }
-
-            return accountSettingsParameter;
         }
 
         // Profile

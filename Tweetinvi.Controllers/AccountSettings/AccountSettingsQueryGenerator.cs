@@ -1,6 +1,7 @@
 using System.Text;
 using Tweetinvi.Controllers.Properties;
 using Tweetinvi.Core.Extensions;
+using Tweetinvi.Models;
 using Tweetinvi.Parameters;
 
 namespace Tweetinvi.Controllers.AccountSettings
@@ -8,6 +9,8 @@ namespace Tweetinvi.Controllers.AccountSettings
     public interface IAccountSettingsQueryGenerator
     {
         string GetAccountSettingsQuery(IGetAccountSettingsParameters parameters);
+        string GetUpdateAccountSettingsQuery(IUpdateAccountSettingsParameters parameters);
+
         string GetUpdateProfileImageQuery(IUpdateProfileImageParameters parameters);
         string GetUpdateProfileBannerQuery(IUpdateProfileBannerParameters parameters);
         string GetRemoveProfileBannerQuery(IRemoveProfileBannerParameters parameters);
@@ -18,12 +21,45 @@ namespace Tweetinvi.Controllers.AccountSettings
         public string GetAccountSettingsQuery(IGetAccountSettingsParameters parameters)
         {
             var query = new StringBuilder(Resources.Account_GetSettings);
-            
+
             query.AddFormattedParameterToQuery(parameters.FormattedCustomQueryParameters);
 
             return query.ToString();
         }
-        
+
+        public string GetUpdateAccountSettingsQuery(IUpdateAccountSettingsParameters parameters)
+        {
+            var baseQuery = new StringBuilder(Resources.Account_UpdateSettings);
+
+            var langParameterValue = parameters.DisplayLanguage == Language.Undefined ? null : parameters.DisplayLanguage?.GetLanguageCode();
+
+            baseQuery.AddParameterToQuery("lang", langParameterValue);
+            baseQuery.AddParameterToQuery("time_zone", parameters.TimeZone);
+            baseQuery.AddParameterToQuery("sleep_time_enabled", parameters.SleepTimeEnabled);
+            baseQuery.AddParameterToQuery("start_sleep_time", SleepHourToString(parameters.StartSleepHour));
+            baseQuery.AddParameterToQuery("end_sleep_time", SleepHourToString(parameters.EndSleepHour));
+            baseQuery.AddParameterToQuery("trend_location_woeid", parameters.TrendLocationWoeid);
+
+            baseQuery.AddFormattedParameterToQuery(parameters.FormattedCustomQueryParameters);
+
+            return baseQuery.ToString();
+        }
+
+        private static string SleepHourToString(int? hour)
+        {
+            if (hour == null)
+            {
+                return null;
+            }
+
+            if (hour >= 0 && hour < 10)
+            {
+                return $"0{hour}";
+            }
+
+            return hour.ToString();
+        }
+
         public string GetUpdateProfileImageQuery(IUpdateProfileImageParameters parameters)
         {
             var query = new StringBuilder(Resources.Account_UpdateProfileImage);
@@ -54,7 +90,7 @@ namespace Tweetinvi.Controllers.AccountSettings
             var query = new StringBuilder(Resources.Account_RemoveProfileBanner);
 
             query.AddFormattedParameterToQuery(parameters.FormattedCustomQueryParameters);
-            
+
             return query.ToString();
         }
     }

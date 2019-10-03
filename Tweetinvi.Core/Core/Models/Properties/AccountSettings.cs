@@ -14,93 +14,28 @@ namespace Tweetinvi.Logic.Model
 
         public IAccountSettingsDTO AccountSettingsDTO
         {
-            get { return _accountSettingsDTO; } 
-            set { _accountSettingsDTO = value; }
+            get => _accountSettingsDTO;
+            set => _accountSettingsDTO = value;
         }
 
-        public string ScreenName
-        {
-            get { return _accountSettingsDTO.ScreenName; }
-        }
-
-        public PrivacyMode PrivacyMode
-        {
-            get { return _accountSettingsDTO.PrivacyMode; }
-        }
-
-        public Language Language
-        {
-            get { return _accountSettingsDTO.Language; }
-        }
-
-        public bool AlwaysUseHttps
-        {
-            get { return _accountSettingsDTO.AlwaysUseHttps; }
-        }
-
-        public bool DiscoverableByEmail
-        {
-            get { return _accountSettingsDTO.DiscoverableByEmail; }
-        }
-
-        public bool DiscoverableByMobilePhone
-        {
-            get { return _accountSettingsDTO.DiscoverableByMobilePhone; }
-        }
-
-        public bool GeoEnabled
-        {
-            get { return _accountSettingsDTO.GeoEnabled; }
-        }
-
-        public bool UseCookiePersonalization
-        {
-            get { return _accountSettingsDTO.UseCookiePersonalization; }
-        }
-
-        public AllowDirectMessagesFrom AllowDirectMessagesFrom
-        {
-            get { return _accountSettingsDTO.AllowDirectMessagesFrom; }
-        }
-
-        public AllowDirectMessagesFrom AllowGroupDirectMessagesFrom
-        {
-            get { return _accountSettingsDTO.AllowGroupDirectMessagesFrom; }
-        }
-
-        public AllowContributorRequestMode AllowContributorRequest
-        {
-            get { return _accountSettingsDTO.AllowContributorRequest; }
-        }
-
-        public bool DisplaySensitiveMedia
-        {
-            get { return _accountSettingsDTO.DisplaySensitiveMedia; }
-        }
-
-        public bool SmartMute
-        {
-            get { return _accountSettingsDTO.SmartMute; }
-        }
-
-        public ITimeZone TimeZone
-        {
-            get { return _accountSettingsDTO.TimeZone; }
-        }
-
-        public bool SleepTimeEnabled
-        {
-            get { return _accountSettingsDTO.SleepTimeEnabled; }
-        }
-
-        public int SleepTimeStartHour
-        {
-            get { return _accountSettingsDTO.SleepTimeStartHour; }
-        }
-
-        public int SleepTimeEndHour
-        {
-            get { return _accountSettingsDTO.SleepTimeEndHour; }
-        }
+        public string ScreenName => _accountSettingsDTO.ScreenName;
+        public PrivacyMode PrivacyMode => _accountSettingsDTO.PrivacyMode;
+        public Language Language => _accountSettingsDTO.Language;
+        public bool AlwaysUseHttps => _accountSettingsDTO.AlwaysUseHttps;
+        public bool DiscoverableByEmail => _accountSettingsDTO.DiscoverableByEmail;
+        public bool DiscoverableByMobilePhone => _accountSettingsDTO.DiscoverableByMobilePhone;
+        public bool GeoEnabled => _accountSettingsDTO.GeoEnabled;
+        public bool UseCookiePersonalization => _accountSettingsDTO.UseCookiePersonalization;
+        public AllowDirectMessagesFrom AllowDirectMessagesFrom => _accountSettingsDTO.AllowDirectMessagesFrom;
+        public AllowDirectMessagesFrom AllowGroupDirectMessagesFrom => _accountSettingsDTO.AllowGroupDirectMessagesFrom;
+        public AllowContributorRequestMode AllowContributorRequest => _accountSettingsDTO.AllowContributorRequest;
+        public bool DisplaySensitiveMedia => _accountSettingsDTO.DisplaySensitiveMedia;
+        public bool SmartMute => _accountSettingsDTO.SmartMute;
+        public ITimeZone TimeZone => _accountSettingsDTO.TimeZone;
+        public bool SleepTimeEnabled => _accountSettingsDTO.SleepTimeEnabled;
+        public int StartSleepHour => _accountSettingsDTO.SleepTimeStartHour;
+        public int EndSleepHour => _accountSettingsDTO.SleepTimeEndHour;
+        public string TranslatorType => _accountSettingsDTO.TranslatorType;
+        public ITrendLocation[] TrendLocations => _accountSettingsDTO.TrendLocations;
     }
 }

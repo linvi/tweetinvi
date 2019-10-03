@@ -85,13 +85,23 @@ namespace Tweetinvi.Models
         bool SleepTimeEnabled { get; }
 
         /// <summary>
-        /// Specify the time after which you do not want to receive any notification.
+        /// Specify the hour after which you do not want to receive any notification.
         /// </summary>
-        int SleepTimeStartHour { get; }
+        int StartSleepHour { get; }
 
         /// <summary>
         /// Specify the time after which you do want to receive notifications.
         /// </summary>
-        int SleepTimeEndHour { get; }
+        int EndSleepHour { get; }
+        
+        /// <summary>
+        /// Undocumented
+        /// </summary>
+        string TranslatorType { get; }
+        
+        /// <summary>
+        /// Trending locations of the user
+        /// </summary>
+        ITrendLocation[] TrendLocations { get; }
     }
 }

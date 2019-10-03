@@ -50,6 +50,7 @@ namespace xUnitinvi.ClientActions.AccountsClient
 
             // Assert
             Assert.Equal(result, expectedResult);
+            Assert.Equal(HttpMethod.GET, request.Query.HttpMethod);
         }
         
         // BLOCK
@@ -73,6 +74,7 @@ namespace xUnitinvi.ClientActions.AccountsClient
 
             // Assert
             Assert.Equal(result, expectedResult);
+            Assert.Equal(HttpMethod.POST, request.Query.HttpMethod);
         }
 
         [Fact]
@@ -95,6 +97,7 @@ namespace xUnitinvi.ClientActions.AccountsClient
 
             // Assert
             Assert.Equal(result, expectedResult);
+            Assert.Equal(HttpMethod.POST, request.Query.HttpMethod);
         }
         
         [Fact]
@@ -116,6 +119,7 @@ namespace xUnitinvi.ClientActions.AccountsClient
 
             // Assert
             Assert.Equal(result, expectedResult);
+            Assert.Equal(HttpMethod.GET, request.Query.HttpMethod);
         }
        
         // FOLLOWERS
@@ -139,6 +143,7 @@ namespace xUnitinvi.ClientActions.AccountsClient
 
             // Assert
             Assert.Equal(result, expectedResult);
+            Assert.Equal(HttpMethod.POST, request.Query.HttpMethod);
         }
         [Fact]
         public async Task UnFollowUser_ReturnsUserDTO()
@@ -160,6 +165,7 @@ namespace xUnitinvi.ClientActions.AccountsClient
 
             // Assert
             Assert.Equal(result, expectedResult);
+            Assert.Equal(HttpMethod.POST, request.Query.HttpMethod);
         }
 
         [Fact]
@@ -179,6 +185,7 @@ namespace xUnitinvi.ClientActions.AccountsClient
 
             // Assert
             Assert.Equal(result, expectedResult);
+            Assert.Equal(HttpMethod.GET, request.Query.HttpMethod);
         }
         
         [Fact]
@@ -198,6 +205,7 @@ namespace xUnitinvi.ClientActions.AccountsClient
 
             // Assert
             Assert.Equal(result, expectedResult);
+            Assert.Equal(HttpMethod.GET, request.Query.HttpMethod);
         }
         
         [Fact]
@@ -217,6 +225,7 @@ namespace xUnitinvi.ClientActions.AccountsClient
 
             // Assert
             Assert.Equal(result, expectedResult);
+            Assert.Equal(HttpMethod.POST, request.Query.HttpMethod);
         }
 
         [Fact]
@@ -236,6 +245,7 @@ namespace xUnitinvi.ClientActions.AccountsClient
 
             // Assert
             Assert.Equal(result, expectedResult);
+            Assert.Equal(HttpMethod.GET, request.Query.HttpMethod);
         }
     }
 }

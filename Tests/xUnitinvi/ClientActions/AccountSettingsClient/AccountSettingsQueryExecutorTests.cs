@@ -48,6 +48,29 @@ namespace xUnitinvi.ClientActions.AccountSettingsClient
 
             // Assert
             Assert.Equal(result, expectedResult);
+            Assert.Equal(HttpMethod.GET, request.Query.HttpMethod);
+        }
+        
+        [Fact]
+        public async Task UpdateAccountSettings_ReturnsAccountUserDTO()
+        {
+            // Arrange
+            var queryExecutor = CreateAccountSettingsQueryExecutor();
+            var parameters = new UpdateAccountSettingsParameters();
+
+            var query = TestHelper.GenerateString();
+            var request = A.Fake<ITwitterRequest>();
+            var expectedResult = A.Fake<ITwitterResult<IAccountSettingsDTO>>();
+
+            A.CallTo(() => _fakeAccountSettingsQueryGenerator.GetUpdateAccountSettingsQuery(parameters)).Returns(query);
+            A.CallTo(() => _fakeTwitterAccessor.ExecuteRequest<IAccountSettingsDTO>(request)).Returns(expectedResult);
+
+            // Act
+            var result = await queryExecutor.UpdateAccountSettings(parameters, request);
+
+            // Assert
+            Assert.Equal(result, expectedResult);
+            Assert.Equal(HttpMethod.POST, request.Query.HttpMethod);
         }
 
         [Fact]
@@ -71,6 +94,7 @@ namespace xUnitinvi.ClientActions.AccountSettingsClient
 
             // Assert
             Assert.Equal(result, expectedResult);
+            Assert.Equal(HttpMethod.POST, request.Query.HttpMethod);
         }
         
         [Fact]
@@ -93,6 +117,7 @@ namespace xUnitinvi.ClientActions.AccountSettingsClient
             // Assert
             Assert.Equal(result, expectedResult);
             Assert.True(request.Query.IsHttpContentPartOfQueryParams);
+            Assert.Equal(HttpMethod.POST, request.Query.HttpMethod);
         }
         
         [Fact]
@@ -114,6 +139,7 @@ namespace xUnitinvi.ClientActions.AccountSettingsClient
 
             // Assert
             Assert.Equal(result, expectedResult);
+            Assert.Equal(HttpMethod.POST, request.Query.HttpMethod);
         }
     }
 }

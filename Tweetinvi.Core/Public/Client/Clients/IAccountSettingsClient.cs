@@ -19,6 +19,13 @@ namespace Tweetinvi.Client
         /// <returns>Account settings</returns>
         Task<IAccountSettings> GetAccountSettings(IGetAccountSettingsParameters parameters);
         
+        /// <summary>
+        /// Update the client's account settings
+        /// <para>Read more : https://dev.twitter.com/en/docs/accounts-and-users/manage-account-settings/api-reference/post-account-settings </para> 
+        /// </summary>
+        /// <returns>Updated account settings</returns>
+        Task<IAccountSettings> UpdateAccountSettings(IUpdateAccountSettingsParameters parameters);
+        
         /// <inheritdoc cref="UpdateProfileImage(IUpdateProfileImageParameters)" />
         Task<bool> UpdateProfileImage(byte[] binary);
 

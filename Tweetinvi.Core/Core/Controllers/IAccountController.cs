@@ -38,16 +38,7 @@ namespace Tweetinvi.Core.Controllers
 
 
 
-        Task<IAccountSettings> UpdateAuthenticatedUserSettings(
-            IEnumerable<Language> languages = null,
-            string timeZone = null,
-            long? trendLocationWoeid = null,
-            bool? sleepTimeEnabled = null,
-            int? startSleepTime = null,
-            int? endSleepTime = null);
-
-        Task<IAccountSettings> UpdateAuthenticatedUserSettings(IAccountSettingsRequestParameters accountSettingsRequestParameters);
-
+        
         // Profile
         Task<IAuthenticatedUser> UpdateAccountProfile(IAccountUpdateProfileParameters parameters);
 

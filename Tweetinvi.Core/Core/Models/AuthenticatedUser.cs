@@ -270,27 +270,9 @@ namespace Tweetinvi.Core.Models
         }
 
         // Settings
-
-        public Task<IAccountSettings> UpdateAccountSettings(
-            IEnumerable<Language> languages = null,
-            string timeZone = null,
-            long? trendLocationWoeid = null,
-            bool? sleepTimeEnabled = null,
-            int? startSleepTime = null,
-            int? endSleepTime = null)
+        public Task<IAccountSettings> UpdateAccountSettings(IUpdateAccountSettingsParameters parameters)
         {
-            return ExecuteAuthenticatedUserOperation(() => _accountController.UpdateAuthenticatedUserSettings(
-                languages,
-                timeZone,
-                trendLocationWoeid,
-                sleepTimeEnabled,
-                startSleepTime,
-                endSleepTime));
-        }
-
-        public Task<IAccountSettings> UpdateAccountSettings(IAccountSettingsRequestParameters accountSettingsRequestParameters)
-        {
-            return ExecuteAuthenticatedUserOperation(() => _accountController.UpdateAuthenticatedUserSettings(accountSettingsRequestParameters));
+            return Client.AccountSettings.UpdateAccountSettings(parameters);
         }
 
         // Twitter Lists

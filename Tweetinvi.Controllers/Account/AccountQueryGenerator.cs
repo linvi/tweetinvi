@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using Tweetinvi.Controllers.Properties;
 using Tweetinvi.Controllers.Shared;
@@ -40,8 +38,6 @@ namespace Tweetinvi.Controllers.Account
 
 
 
-
-        string GetUpdateAuthenticatedUserAccountSettingsQuery(IAccountSettingsRequestParameters accountSettingsRequestParameters);
 
         // Profile
         string GetUpdateProfileParametersQuery(IAccountUpdateProfileParameters parameters);
@@ -226,36 +222,8 @@ namespace Tweetinvi.Controllers.Account
 
         
 
-        public string GetUpdateAuthenticatedUserAccountSettingsQuery(IAccountSettingsRequestParameters accountSettingsRequestParameters)
-        {
-            var baseQuery = new StringBuilder(Resources.Account_UpdateSettings);
-
-            baseQuery.Append(GetLanguagesParameter(accountSettingsRequestParameters.Languages));
-            baseQuery.AddParameterToQuery("time_zone", accountSettingsRequestParameters.TimeZone);
-            baseQuery.AddParameterToQuery("sleep_time_enabled", accountSettingsRequestParameters.SleepTimeEnabled);
-            baseQuery.AddParameterToQuery("start_sleep_time", accountSettingsRequestParameters.StartSleepTime);
-            baseQuery.AddParameterToQuery("end_sleep_time", accountSettingsRequestParameters.EndSleepTime);
-            baseQuery.AddParameterToQuery("trend_location_woeid", accountSettingsRequestParameters.TrendLocationWoeid);
-
-            baseQuery.Append(_queryParameterGenerator.GenerateAdditionalRequestParameters(accountSettingsRequestParameters.FormattedCustomQueryParameters));
-
-            return baseQuery.ToString();
-        }
-        private string GetLanguagesParameter(IEnumerable<Language> languages)
-        {
-            // ReSharper disable once SimplifyLinqExpression
-            if (languages == null || !languages.Any(x => x != Language.Undefined))
-            {
-                return string.Empty;
-            }
-
-            var validLanguages = languages.Where(x => x != Language.Undefined).Select(x => x.GetLanguageCode());
-            var parameters = string.Join(Uri.EscapeDataString(", "), validLanguages);
-
-            return string.Format("&lang={0}", parameters);
-        }
-
-        // Profile
+        
+         // Profile
         public string GetUpdateProfileParametersQuery(IAccountUpdateProfileParameters parameters)
         {
             var query = new StringBuilder(Resources.Account_UpdateProfile);

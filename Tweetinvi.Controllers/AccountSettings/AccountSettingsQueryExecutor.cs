@@ -15,6 +15,7 @@ namespace Tweetinvi.Controllers.AccountSettings
     public interface IAccountSettingsQueryExecutor
     {
         Task<ITwitterResult<IAccountSettingsDTO>> GetAccountSettings(IGetAccountSettingsParameters parameters, ITwitterRequest request);
+        Task<ITwitterResult<IAccountSettingsDTO>> UpdateAccountSettings(IUpdateAccountSettingsParameters parameters, ITwitterRequest request);
         Task<ITwitterResult<IUserDTO>> UpdateProfileImage(IUpdateProfileImageParameters parameters, ITwitterRequest request);
         Task<ITwitterResult> UpdateProfileBanner(IUpdateProfileBannerParameters parameters, ITwitterRequest request);
         Task<ITwitterResult> RemoveProfileBanner(IRemoveProfileBannerParameters parameters, ITwitterRequest request);
@@ -38,6 +39,14 @@ namespace Tweetinvi.Controllers.AccountSettings
             var query = _accountSettingsQueryGenerator.GetAccountSettingsQuery(parameters);
             request.Query.Url = query;
             request.Query.HttpMethod = HttpMethod.GET;
+            return _twitterAccessor.ExecuteRequest<IAccountSettingsDTO>(request);
+        }
+
+        public Task<ITwitterResult<IAccountSettingsDTO>> UpdateAccountSettings(IUpdateAccountSettingsParameters parameters, ITwitterRequest request)
+        {
+            var query = _accountSettingsQueryGenerator.GetUpdateAccountSettingsQuery(parameters);
+            request.Query.Url = query;
+            request.Query.HttpMethod = HttpMethod.POST;
             return _twitterAccessor.ExecuteRequest<IAccountSettingsDTO>(request);
         }
 

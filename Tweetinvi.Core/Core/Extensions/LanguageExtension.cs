@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using Tweetinvi.Core.Attributes;
@@ -35,19 +37,26 @@ namespace Tweetinvi.Core.Extensions
         {
             try
             {
-                if (!string.IsNullOrEmpty(descriptionValue))
+                var language = typeof(Language).GetFields().FirstOrDefault(field => IsValidDescriptionField(descriptionValue, field));
+
+                if (language != null)
                 {
-                    descriptionValue = descriptionValue.Substring(0, 2).ToLower();
+                    return (Language)language.GetValue(null);
                 }
 
-                var language = typeof(Language).GetFields().First(field => IsValidDescriptionField(descriptionValue, field));
-                return (Language)language.GetValue(null);
+                if (!string.IsNullOrEmpty(descriptionValue))
+                {
+                    var lessGenericLanguageCode = descriptionValue.Substring(0, 2).ToLowerInvariant();
+                    language = typeof(Language).GetFields().First(field => IsValidDescriptionField(lessGenericLanguageCode, field));
+                    return (Language)language.GetValue(null);
+                }
+
+                return Language.Undefined;
             }
             catch (Exception)
             {
                 return Language.Undefined;
             }
-            
         }
 
         public static Language GetLangFromDescription(int descriptionIndex)
@@ -70,14 +79,43 @@ namespace Tweetinvi.Core.Extensions
             {
                 return false;
             }
-            
-            var attribute = ((LanguageAttribute) descriptionAttribute);
+
+            var attribute = ((LanguageAttribute)descriptionAttribute);
             if (!attribute.HasMultipleCodes)
             {
                 return attribute.Code == descriptionValue;
             }
 
             return attribute.Codes.Any(x => x == descriptionValue);
+        }
+
+        private static HashSet<Language> ExistingDisplayLanguages { get; set; }
+
+
+        public static bool IsADisplayLanguage(this Language? language)
+        {
+            if (language == null)
+            {
+                return true;
+            }
+
+            return IsADisplayLanguage(language.Value);
+        }
+
+        private static readonly object _displayLanguagesLock = new object();
+
+        public static bool IsADisplayLanguage(this Language language)
+        {
+            lock (_displayLanguagesLock)
+            {
+                if (ExistingDisplayLanguages == null)
+                {
+                    var languages = typeof(DisplayLanguages).GetFields().Select(x => x.GetValue(null)).OfType<Language>();
+                    ExistingDisplayLanguages = new HashSet<Language>(languages);
+                }
+            }
+
+            return ExistingDisplayLanguages.Contains(language);
         }
     }
 }

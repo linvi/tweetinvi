@@ -336,17 +336,6 @@ namespace Tweetinvi.Models
         /// <summary>
         /// Modify the authenticated account settings.
         /// </summary>
-        Task<IAccountSettings> UpdateAccountSettings(
-            IEnumerable<Language> languages = null,
-            string timeZone = null,
-            long? trendLocationWoeid = null,
-            bool? sleepTimeEnabled = null,
-            int? startSleepTime = null,
-            int? endSleepTime = null);
-
-        /// <summary>
-        /// Modify the authenticated account settings.
-        /// </summary>
-        Task<IAccountSettings> UpdateAccountSettings(IAccountSettingsRequestParameters accountSettingsRequestParameters);
+        Task<IAccountSettings> UpdateAccountSettings(IUpdateAccountSettingsParameters parameters);
     }
 }

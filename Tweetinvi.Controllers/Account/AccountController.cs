@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Tweetinvi.Core.Controllers;
 using Tweetinvi.Core.Factories;
@@ -22,7 +21,6 @@ namespace Tweetinvi.Controllers.Account
         private readonly IAccountQueryExecutor _accountQueryExecutor;
         private readonly IUserFactory _userFactory;
         private readonly IFactory<IAccountSettings> _accountSettingsUnityFactory;
-        private readonly IFactory<IAccountSettingsRequestParameters> _accountSettingsRequestParametersFactory;
         private readonly IJsonObjectConverter _jsonObjectConverter;
         private readonly ITwitterResultFactory _twitterResultFactory;
         private readonly IUserQueryValidator _userQueryValidator;
@@ -31,7 +29,6 @@ namespace Tweetinvi.Controllers.Account
             IAccountQueryExecutor accountQueryExecutor,
             IUserFactory userFactory,
             IFactory<IAccountSettings> accountSettingsUnityFactory,
-            IFactory<IAccountSettingsRequestParameters> accountSettingsRequestParametersFactory,
             IJsonObjectConverter jsonObjectConverter,
             ITwitterResultFactory twitterResultFactory, 
             IUserQueryValidator userQueryValidator)
@@ -39,7 +36,6 @@ namespace Tweetinvi.Controllers.Account
             _accountQueryExecutor = accountQueryExecutor;
             _userFactory = userFactory;
             _accountSettingsUnityFactory = accountSettingsUnityFactory;
-            _accountSettingsRequestParametersFactory = accountSettingsRequestParametersFactory;
             _jsonObjectConverter = jsonObjectConverter;
             _twitterResultFactory = twitterResultFactory;
             _userQueryValidator = userQueryValidator;
@@ -247,31 +243,8 @@ namespace Tweetinvi.Controllers.Account
         
         
 
-        public Task<IAccountSettings> UpdateAuthenticatedUserSettings(
-            IEnumerable<Language> languages = null,
-            string timeZone = null,
-            long? trendLocationWoeid = null,
-            bool? sleepTimeEnabled = null,
-            int? startSleepTime = null,
-            int? endSleepTime = null)
-        {
-            var settings = _accountSettingsRequestParametersFactory.Create();
+       
 
-            settings.Languages = new List<Language>(languages ?? Enumerable.Empty<Language>());
-            settings.TimeZone = timeZone;
-            settings.TrendLocationWoeid = trendLocationWoeid;
-            settings.SleepTimeEnabled = sleepTimeEnabled;
-            settings.StartSleepTime = startSleepTime;
-            settings.EndSleepTime = endSleepTime;
-
-            return UpdateAuthenticatedUserSettings(settings);
-        }
-
-        public async Task<IAccountSettings> UpdateAuthenticatedUserSettings(IAccountSettingsRequestParameters accountSettingsRequestParameters)
-        {
-            var accountSettingsDTO = await _accountQueryExecutor.UpdateAuthenticatedUserSettings(accountSettingsRequestParameters).ConfigureAwait(false);
-            return GenerateAccountSettingsFromDTO(accountSettingsDTO);
-        }
 
         public IAccountSettings GenerateAccountSettingsFromJson(string json)
         {

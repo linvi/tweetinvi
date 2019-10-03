@@ -89,5 +89,11 @@ namespace Tweetinvi.Logic.DTO
             get { return _sleepTime.EndTime; }
             set { _sleepTime.EndTime = value; }
         }
+        
+        [JsonProperty("translator_type")]
+        public string TranslatorType { get; set; }
+        
+        [JsonProperty("trend_location")]
+        public ITrendLocation[] TrendLocations { get; set; }    
     }
 }

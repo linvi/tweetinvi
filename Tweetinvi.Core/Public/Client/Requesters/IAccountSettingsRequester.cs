@@ -12,7 +12,19 @@ namespace Tweetinvi.Client.Requesters
     /// </summary>
     public interface IAccountSettingsRequester
     {
+        /// <summary>
+        /// Get the client's account settings
+        /// <para>Read more : https://dev.twitter.com/en/docs/accounts-and-users/manage-account-settings/api-reference/get-account-settings </para> 
+        /// </summary>
+        /// <returns>Twitter result containing the account settings</returns>
         Task<ITwitterResult<IAccountSettingsDTO, IAccountSettings>> GetAccountSettings(IGetAccountSettingsParameters parameters);
+        
+        /// <summary>
+        /// Update the client's account settings
+        /// <para>Read more : https://dev.twitter.com/en/docs/accounts-and-users/manage-account-settings/api-reference/post-account-settings </para> 
+        /// </summary>
+        /// <returns>Twitter result containing the updated account settings</returns>
+        Task<ITwitterResult<IAccountSettingsDTO, IAccountSettings>> UpdateAccountSettings(IUpdateAccountSettingsParameters parameters);
         
         /// <summary>
         /// Update the profile image of the account 

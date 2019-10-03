@@ -24,5 +24,8 @@
         bool SleepTimeEnabled { get; set; }
         int SleepTimeStartHour { get; set; }
         int SleepTimeEndHour { get; set; }
+        
+        string TranslatorType { get; set; }
+        ITrendLocation[] TrendLocations { get; set; }
     }
 }
