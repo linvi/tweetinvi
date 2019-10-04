@@ -54,6 +54,7 @@ namespace xUnitinvi.ClientActions.UsersClient
             // Assert
             Assert.Equal(result, expectedResult);
             Assert.Equal(request.Query.Url, url);
+            Assert.Equal(HttpMethod.GET, request.Query.HttpMethod);
         }
         
         [Fact]
@@ -75,6 +76,7 @@ namespace xUnitinvi.ClientActions.UsersClient
             // Assert
             Assert.Equal(result, expectedResult);
             Assert.Equal(request.Query.Url, url);
+            Assert.Equal(HttpMethod.GET, request.Query.HttpMethod);
         }
         
         [Fact]
@@ -96,6 +98,7 @@ namespace xUnitinvi.ClientActions.UsersClient
             // Assert
             Assert.Equal(result, expectedResult);
             Assert.Equal(request.Query.Url, url);
+            Assert.Equal(HttpMethod.GET, request.Query.HttpMethod);
         }
         
         [Fact]
@@ -117,6 +120,7 @@ namespace xUnitinvi.ClientActions.UsersClient
             // Assert
             Assert.Equal(result, expectedResult);
             Assert.Equal(request.Query.Url, url);
+            Assert.Equal(HttpMethod.GET, request.Query.HttpMethod);
         }
 
         [Fact]
@@ -138,6 +142,7 @@ namespace xUnitinvi.ClientActions.UsersClient
             // Assert
             Assert.Equal(result, expectedResult);
             Assert.Equal(request.Query.Url, url);
+            Assert.Equal(HttpMethod.GET, request.Query.HttpMethod);
         }
 
         [Fact]
@@ -159,6 +164,8 @@ namespace xUnitinvi.ClientActions.UsersClient
 
             // Assert
             Assert.Equal(result, stream);
+            Assert.Equal(request.Query.Url, url);
+            Assert.Equal(HttpMethod.GET, request.Query.HttpMethod);
         }
     }
 }

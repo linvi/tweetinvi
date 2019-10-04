@@ -36,11 +36,11 @@ namespace xUnitinvi.ClientActions.AccountSettingsClient
             var queryExecutor = CreateAccountSettingsQueryExecutor();
             var parameters = new GetAccountSettingsParameters();
 
-            var query = TestHelper.GenerateString();
+            var url = TestHelper.GenerateString();
             var request = A.Fake<ITwitterRequest>();
             var expectedResult = A.Fake<ITwitterResult<IAccountSettingsDTO>>();
 
-            A.CallTo(() => _fakeAccountSettingsQueryGenerator.GetAccountSettingsQuery(parameters)).Returns(query);
+            A.CallTo(() => _fakeAccountSettingsQueryGenerator.GetAccountSettingsQuery(parameters)).Returns(url);
             A.CallTo(() => _fakeTwitterAccessor.ExecuteRequest<IAccountSettingsDTO>(request)).Returns(expectedResult);
 
             // Act
@@ -48,6 +48,7 @@ namespace xUnitinvi.ClientActions.AccountSettingsClient
 
             // Assert
             Assert.Equal(result, expectedResult);
+            Assert.Equal(request.Query.Url, url);
             Assert.Equal(HttpMethod.GET, request.Query.HttpMethod);
         }
         
@@ -58,11 +59,11 @@ namespace xUnitinvi.ClientActions.AccountSettingsClient
             var queryExecutor = CreateAccountSettingsQueryExecutor();
             var parameters = new UpdateAccountSettingsParameters();
 
-            var query = TestHelper.GenerateString();
+            var url = TestHelper.GenerateString();
             var request = A.Fake<ITwitterRequest>();
             var expectedResult = A.Fake<ITwitterResult<IAccountSettingsDTO>>();
 
-            A.CallTo(() => _fakeAccountSettingsQueryGenerator.GetUpdateAccountSettingsQuery(parameters)).Returns(query);
+            A.CallTo(() => _fakeAccountSettingsQueryGenerator.GetUpdateAccountSettingsQuery(parameters)).Returns(url);
             A.CallTo(() => _fakeTwitterAccessor.ExecuteRequest<IAccountSettingsDTO>(request)).Returns(expectedResult);
 
             // Act
@@ -70,6 +71,7 @@ namespace xUnitinvi.ClientActions.AccountSettingsClient
 
             // Assert
             Assert.Equal(result, expectedResult);
+            Assert.Equal(request.Query.Url, url);
             Assert.Equal(HttpMethod.POST, request.Query.HttpMethod);
         }
 
@@ -80,13 +82,13 @@ namespace xUnitinvi.ClientActions.AccountSettingsClient
             var queryExecutor = CreateAccountSettingsQueryExecutor();
             var parameters = new UpdateProfileImageParameters(null);
 
-            var query = TestHelper.GenerateString();
+            var url = TestHelper.GenerateString();
             var request = A.Fake<ITwitterRequest>();
             var expectedResult = A.Fake<ITwitterResult<IUserDTO>>();
 
-            A.CallTo(() => _fakeAccountSettingsQueryGenerator.GetUpdateProfileImageQuery(parameters)).Returns(query);
+            A.CallTo(() => _fakeAccountSettingsQueryGenerator.GetUpdateProfileImageQuery(parameters)).Returns(url);
             A.CallTo(() => _fakeTwitterAccessor.ExecuteRequest<IUserDTO>(A<ITwitterRequest>
-                    .That.Matches(x => x.Query is IMultipartTwitterQuery && x.Query.Url == query)))
+                    .That.Matches(x => x.Query is IMultipartTwitterQuery && x.Query.Url == url)))
                 .Returns(expectedResult);
 
             // Act
@@ -94,6 +96,7 @@ namespace xUnitinvi.ClientActions.AccountSettingsClient
 
             // Assert
             Assert.Equal(result, expectedResult);
+            Assert.Equal(request.Query.Url, url);
             Assert.Equal(HttpMethod.POST, request.Query.HttpMethod);
         }
         
@@ -104,11 +107,11 @@ namespace xUnitinvi.ClientActions.AccountSettingsClient
             var queryExecutor = CreateAccountSettingsQueryExecutor();
             var parameters = new UpdateProfileBannerParameters(new byte[2]);
 
-            var query = TestHelper.GenerateString();
+            var url = TestHelper.GenerateString();
             var request = A.Fake<ITwitterRequest>();
             var expectedResult = A.Fake<ITwitterResult>();
 
-            A.CallTo(() => _fakeAccountSettingsQueryGenerator.GetUpdateProfileBannerQuery(parameters)).Returns(query);
+            A.CallTo(() => _fakeAccountSettingsQueryGenerator.GetUpdateProfileBannerQuery(parameters)).Returns(url);
             A.CallTo(() => _fakeTwitterAccessor.ExecuteRequest(A<ITwitterRequest>.Ignored)).Returns(expectedResult);
 
             // Act
@@ -117,6 +120,7 @@ namespace xUnitinvi.ClientActions.AccountSettingsClient
             // Assert
             Assert.Equal(result, expectedResult);
             Assert.True(request.Query.IsHttpContentPartOfQueryParams);
+            Assert.Equal(request.Query.Url, url);
             Assert.Equal(HttpMethod.POST, request.Query.HttpMethod);
         }
         
@@ -127,11 +131,11 @@ namespace xUnitinvi.ClientActions.AccountSettingsClient
             var queryExecutor = CreateAccountSettingsQueryExecutor();
             var parameters = new RemoveProfileBannerParameters();
 
-            var query = TestHelper.GenerateString();
+            var url = TestHelper.GenerateString();
             var request = A.Fake<ITwitterRequest>();
             var expectedResult = A.Fake<ITwitterResult>();
 
-            A.CallTo(() => _fakeAccountSettingsQueryGenerator.GetRemoveProfileBannerQuery(parameters)).Returns(query);
+            A.CallTo(() => _fakeAccountSettingsQueryGenerator.GetRemoveProfileBannerQuery(parameters)).Returns(url);
             A.CallTo(() => _fakeTwitterAccessor.ExecuteRequest(A<ITwitterRequest>.Ignored)).Returns(expectedResult);
 
             // Act
@@ -139,6 +143,7 @@ namespace xUnitinvi.ClientActions.AccountSettingsClient
 
             // Assert
             Assert.Equal(result, expectedResult);
+            Assert.Equal(request.Query.Url, url);
             Assert.Equal(HttpMethod.POST, request.Query.HttpMethod);
         }
     }

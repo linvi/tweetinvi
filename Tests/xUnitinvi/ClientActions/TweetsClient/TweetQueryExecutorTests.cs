@@ -50,6 +50,7 @@ namespace xUnitinvi.ClientActions.TweetsClient
 
             // Assert
             Assert.Equal(result, expectedResult);
+            Assert.Equal(HttpMethod.GET, request.Query.HttpMethod);
         }
     }
 }
