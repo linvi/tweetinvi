@@ -1,6 +1,7 @@
 ﻿using Tweetinvi.Client;
 using Tweetinvi.Client.Requesters;
 using Tweetinvi.Core.Client;
+using Tweetinvi.Core.Client.Validators;
 using Tweetinvi.Models;
 
 namespace Tweetinvi
@@ -37,6 +38,11 @@ namespace Tweetinvi
         /// </summary>
         ITweetinviSettings Config { get; }
         IRequestExecutor RequestExecutor { get; }
+        
+        /// <summary>
+        /// Validate parameters to ensure that they meet the default criteria
+        /// </summary>
+        IParametersValidator ParametersValidator { get; }
         ITwitterRequest CreateRequest();
         ITwitterExecutionContext CreateTwitterExecutionContext();
     }

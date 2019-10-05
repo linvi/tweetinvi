@@ -1,5 +1,6 @@
 ﻿using Tweetinvi.Client;
 using Tweetinvi.Core.Client;
+using Tweetinvi.Core.Client.Validators;
 using Tweetinvi.Models;
 
 // ReSharper disable once CheckNamespace
@@ -17,8 +18,11 @@ namespace Tweetinvi
 
             var requestExecutor = TweetinviContainer.Resolve<IInternalRequestExecutor>();
             requestExecutor.Initialize(this);
-
             RequestExecutor = requestExecutor;
+
+            var parametersValidator = TweetinviContainer.Resolve<IInternalParametersValidator>();
+            parametersValidator.Initialize(this);
+            ParametersValidator = parametersValidator;
 
             Account = new AccountClient(this);
             AccountSettings = new AccountSettingsClient(this);
@@ -33,6 +37,7 @@ namespace Tweetinvi
         public IUploadClient Upload { get; }
         public IUsersClient Users { get; }
 
+        public IParametersValidator ParametersValidator { get; }
         public IRequestExecutor RequestExecutor { get; }
 
         public ITwitterExecutionContext CreateTwitterExecutionContext()

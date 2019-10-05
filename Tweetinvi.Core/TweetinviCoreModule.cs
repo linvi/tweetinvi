@@ -1,10 +1,10 @@
 ﻿using System;
+using Tweetinvi.Core.Client.Validators;
 using Tweetinvi.Core.Events;
 using Tweetinvi.Core.Exceptions;
 using Tweetinvi.Core.Helpers;
 using Tweetinvi.Core.Iterators;
 using Tweetinvi.Core.Upload;
-using Tweetinvi.Core.Web;
 using Tweetinvi.Exceptions;
 using Tweetinvi.Models;
 using Tweetinvi.Parameters;
@@ -20,10 +20,7 @@ namespace Tweetinvi.Core.Injectinvi
         }
 
         private static ITweetinviContainer _container;
-        public static ITweetinviContainer TweetinviContainer
-        {
-            get { return _container; }
-        }
+        public static ITweetinviContainer TweetinviContainer => _container;
 
         public void Initialize(ITweetinviContainer container)
         {
@@ -84,12 +81,17 @@ namespace Tweetinvi.Core.Injectinvi
             container.RegisterType<IRetweetsOfMeTimelineParameters, RetweetsOfMeTimelineParameter>();
 
             // Message
-            _container.RegisterType<IGetMessagesParameters, GetMessagesParameters>();
-            _container.RegisterType<IPublishMessageParameters, PublishMessageParameters>();
+            container.RegisterType<IGetMessagesParameters, GetMessagesParameters>();
+            container.RegisterType<IPublishMessageParameters, PublishMessageParameters>();
 
             // Upload
             container.RegisterType<IChunkUploadInitParameters, ChunkUploadInitParameters>();
             container.RegisterType<IChunkUploadAppendParameters, ChunkUploadAppendParameters>();
+            
+            // Validators
+            container.RegisterType<IInternalParametersValidator, ParametersValidator>();
+            container.RegisterType<IInternalUsersClientParametersValidator, UsersClientParametersValidator>();
+            container.RegisterType<IUsersClientRequiredParametersValidator, UsersClientRequiredParametersValidator>();
         }
     }
 }
