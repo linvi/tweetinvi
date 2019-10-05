@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Tweetinvi.Client.Requesters;
+using Tweetinvi.Core.Client.Validators;
 using Tweetinvi.Core.Iterators;
 using Tweetinvi.Core.Web;
 using Tweetinvi.Exceptions;
@@ -27,6 +28,8 @@ namespace Tweetinvi.Client
         }
         
         #region GetUser
+
+        public IUsersClientParametersValidator ParametersValidator => _client.ParametersValidator;
 
         public Task<IUser> GetUser(long? userId)
         {

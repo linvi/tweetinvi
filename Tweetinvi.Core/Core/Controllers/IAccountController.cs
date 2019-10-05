@@ -39,9 +39,6 @@ namespace Tweetinvi.Core.Controllers
 
 
         
-        // Profile
-        Task<IAuthenticatedUser> UpdateAccountProfile(IAccountUpdateProfileParameters parameters);
-
         // Mute
         Task<IEnumerable<long>> GetMutedUserIds(int maxUserIds = Int32.MaxValue);
         Task<IEnumerable<IUser>> GetMutedUsers(int maxUsersToRetrieve = 250);

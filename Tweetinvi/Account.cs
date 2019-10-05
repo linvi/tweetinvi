@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Tweetinvi.Core.Controllers;
 using Tweetinvi.Models;
-using Tweetinvi.Parameters;
 
 namespace Tweetinvi
 {
@@ -36,16 +35,6 @@ namespace Tweetinvi
         private static void Initialize()
         {
             _accountController = TweetinviContainer.Resolve<IAccountController>();
-        }
-
-        // Profile
-
-        /// <summary>
-        /// Update the information of the authenticated user profile.
-        /// </summary>
-        public static Task<IAuthenticatedUser> UpdateAccountProfile(IAccountUpdateProfileParameters parameters)
-        {
-            return AccountController.UpdateAccountProfile(parameters);
         }
 
         // Mute

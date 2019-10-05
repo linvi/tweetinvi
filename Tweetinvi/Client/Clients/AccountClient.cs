@@ -1,6 +1,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Tweetinvi.Client.Requesters;
+using Tweetinvi.Core.Client.Validators;
 using Tweetinvi.Core.Factories;
 using Tweetinvi.Core.Iterators;
 using Tweetinvi.Core.Web;
@@ -29,6 +30,8 @@ namespace Tweetinvi.Client
         }
 
         #region Authenticated User
+
+        public IAccountClientParametersValidator ParametersValidator => _client.ParametersValidator;
 
         public Task<IAuthenticatedUser> GetAuthenticatedUser()
         {

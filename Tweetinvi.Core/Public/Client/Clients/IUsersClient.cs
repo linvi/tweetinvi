@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using Tweetinvi.Core.Client.Validators;
 using Tweetinvi.Iterators;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
@@ -9,6 +10,8 @@ namespace Tweetinvi.Client
 {
     public interface IUsersClient
     {
+        IUsersClientParametersValidator ParametersValidator { get; }
+        
         #region Get User
 
         /// <inheritdoc cref="GetUser(IGetUserParameters)" />

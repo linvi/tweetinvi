@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using Tweetinvi.Core.Client.Validators;
 using Tweetinvi.Core.Web;
 using Tweetinvi.Iterators;
 using Tweetinvi.Models;
@@ -11,6 +12,8 @@ namespace Tweetinvi.Client
     /// </summary>
     public interface IAccountClient
     {
+        IAccountClientParametersValidator ParametersValidator { get; }
+        
         #region AuthenticatedUser
 
         /// <inheritdoc cref="GetAuthenticatedUser(IGetAuthenticatedUserParameters)" />

@@ -46,6 +46,7 @@ namespace Tweetinvi.Core.Injectinvi
             container.RegisterType<IMultiLevelCursorIteratorFactory, MultiLevelCursorIteratorFactory>(RegistrationLifetime.InstancePerApplication);
 
             InitializeParameters(container);
+            InitializeParametersValidators(container);
         }
 
         private void InitializeParameters(ITweetinviContainer container)
@@ -87,11 +88,17 @@ namespace Tweetinvi.Core.Injectinvi
             // Upload
             container.RegisterType<IChunkUploadInitParameters, ChunkUploadInitParameters>();
             container.RegisterType<IChunkUploadAppendParameters, ChunkUploadAppendParameters>();
-            
-            // Validators
+        }
+
+        private void InitializeParametersValidators(ITweetinviContainer container)
+        {
             container.RegisterType<IInternalParametersValidator, ParametersValidator>();
+            
             container.RegisterType<IInternalUsersClientParametersValidator, UsersClientParametersValidator>();
             container.RegisterType<IUsersClientRequiredParametersValidator, UsersClientRequiredParametersValidator>();
+            
+            container.RegisterType<IInternalAccountClientParametersValidator, AccountClientParametersValidator>();
+            container.RegisterType<IAccountClientRequiredParametersValidator, AccountClientRequiredParametersValidator>();
         }
     }
 }
