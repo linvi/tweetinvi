@@ -151,13 +151,45 @@ namespace Tweetinvi.Client.Requesters
             return _twitterResultFactory.Create(twitterResult, _friendshipFactory.GenerateRelationshipStatesFromRelationshipStatesDTO);
         }
         
-        // OTHERS
+        // MUTE
         public Task<ITwitterResult<long[]>> GetUserIdsWhoseRetweetsAreMuted(IGetUserIdsWhoseRetweetsAreMutedParameters parameters)
         {
             _validator.Validate(parameters);
             
             var request = _twitterClient.CreateRequest();
             return _accountController.GetUserIdsWhoseRetweetsAreMuted(parameters, request);
+        }
+
+        public ITwitterPageIterator<ITwitterResult<IIdsCursorQueryResultDTO>> GetMutedUserIds(IGetMutedUserIdsParameters parameters)
+        {
+            _validator.Validate(parameters);
+            
+            var request = _twitterClient.CreateRequest();
+            request.ExecutionContext.Converters = JsonQueryConverterRepository.Converters;
+            return _accountController.GetMutedUserIds(parameters, request);
+        }
+
+        public ITwitterPageIterator<ITwitterResult<IUserCursorQueryResultDTO>> GetMutedUsers(IGetMutedUsersParameters parameters)
+        {
+            _validator.Validate(parameters);
+            
+            var request = _twitterClient.CreateRequest();
+            request.ExecutionContext.Converters = JsonQueryConverterRepository.Converters;
+            return _accountController.GetMutedUsers(parameters, request);
+        }
+
+        public Task<ITwitterResult<IUserDTO>> MuteUser(IMuteUserParameters parameters)
+        {
+            _validator.Validate(parameters);
+            var request = _twitterClient.CreateRequest();
+            return _accountController.MuteUser(parameters, request);
+        }
+
+        public Task<ITwitterResult<IUserDTO>> UnMuteUser(IUnMuteUserParameters parameters)
+        {
+            _validator.Validate(parameters);
+            var request = _twitterClient.CreateRequest();
+            return _accountController.UnMuteUser(parameters, request);
         }
     }
 }

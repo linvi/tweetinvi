@@ -112,5 +112,33 @@ namespace Tweetinvi.Client.Requesters
         /// </summary>
         /// <returns>TwitterResult containing a list of user ids for whom the retweets are muted</returns>
         Task<ITwitterResult<long[]>> GetUserIdsWhoseRetweetsAreMuted(IGetUserIdsWhoseRetweetsAreMutedParameters parameters);
+
+        /// <summary>
+        /// Get the muted user ids.
+        /// <para>Read more : https://dev.twitter.com/en/docs/accounts-and-users/mute-block-report-users/api-reference/get-mutes-users-ids </para>
+        /// </summary>
+        /// <returns>An iterator to list the user ids muted by the client's account</returns>
+        ITwitterPageIterator<ITwitterResult<IIdsCursorQueryResultDTO>> GetMutedUserIds(IGetMutedUserIdsParameters parameters);
+        
+        /// <summary>
+        /// Get the muted user ids.
+        /// <para>Read more : https://dev.twitter.com/en/docs/accounts-and-users/mute-block-report-users/api-reference/get-mutes-users-list </para>
+        /// </summary>
+        /// <returns>An iterator to list the users muted by the client's account</returns>
+        ITwitterPageIterator<ITwitterResult<IUserCursorQueryResultDTO>> GetMutedUsers(IGetMutedUsersParameters parameters);
+
+        /// <summary>
+        /// Mute a user
+        /// <para>Read more : https://dev.twitter.com/en/docs/accounts-and-users/mute-block-report-users/api-reference/post-mutes-users-create </para>
+        /// </summary>
+        /// <returns>Twitter result containing the authenticated user</returns>
+        Task<ITwitterResult<IUserDTO>> MuteUser(IMuteUserParameters parameters);
+        
+        /// <summary>
+        /// Remove the mute of a user
+        /// <para>Read more : https://dev.twitter.com/en/docs/accounts-and-users/mute-block-report-users/api-reference/post-mutes-users-destroy </para>
+        /// </summary>
+        /// <returns>Twitter result containing the authenticated user</returns>
+        Task<ITwitterResult<IUserDTO>> UnMuteUser(IUnMuteUserParameters parameters);
     }
 }

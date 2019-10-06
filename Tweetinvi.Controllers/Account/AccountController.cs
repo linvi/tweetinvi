@@ -156,85 +156,64 @@ namespace Tweetinvi.Controllers.Account
 
             return twitterCursorResult;
         }
-
+       
+        // MUTE
         public Task<ITwitterResult<long[]>> GetUserIdsWhoseRetweetsAreMuted(IGetUserIdsWhoseRetweetsAreMutedParameters parameters, ITwitterRequest request)
         {
             return _accountQueryExecutor.GetUserIdsWhoseRetweetsAreMuted(parameters, request);
         }
 
+        public ITwitterPageIterator<ITwitterResult<IIdsCursorQueryResultDTO>> GetMutedUserIds(IGetMutedUserIdsParameters parameters, ITwitterRequest request)
+        {
+            var twitterCursorResult = new TwitterPageIterator<ITwitterResult<IIdsCursorQueryResultDTO>>(
+                parameters.Cursor,
+                cursor =>
+                {
+                    var cursoredParameters = new GetMutedUserIdsParameters(parameters)
+                    {
+                        Cursor = cursor
+                    };
+
+                    return _accountQueryExecutor.GetMutedUserIds(cursoredParameters, new TwitterRequest(request));
+                },
+                page => page.DataTransferObject.NextCursorStr,
+                page => page.DataTransferObject.NextCursorStr == "0");
+
+            return twitterCursorResult;
+        }
+
+        public ITwitterPageIterator<ITwitterResult<IUserCursorQueryResultDTO>> GetMutedUsers(IGetMutedUsersParameters parameters, ITwitterRequest request)
+        {
+            var twitterCursorResult = new TwitterPageIterator<ITwitterResult<IUserCursorQueryResultDTO>>(
+                parameters.Cursor,
+                cursor =>
+                {
+                    var cursoredParameters = new GetMutedUsersParameters(parameters)
+                    {
+                        Cursor = cursor
+                    };
+
+                    return _accountQueryExecutor.GetMutedUsers(cursoredParameters, new TwitterRequest(request));
+                },
+                page => page.DataTransferObject.NextCursorStr,
+                page => page.DataTransferObject.NextCursorStr == "0");
+
+            return twitterCursorResult;
+        }
+
+        public Task<ITwitterResult<IUserDTO>> MuteUser(IMuteUserParameters parameters, ITwitterRequest request)
+        {
+            return _accountQueryExecutor.MuteUser(parameters, request);
+        }
+
+        public Task<ITwitterResult<IUserDTO>> UnMuteUser(IUnMuteUserParameters parameters, ITwitterRequest request)
+        {
+            return _accountQueryExecutor.UnMuteUser(parameters, request);
+        }
+
 
         
         
-        
-
-       
-
-
-        public IAccountSettings GenerateAccountSettingsFromJson(string json)
-        {
-            var accountSettingsDTO = _jsonObjectConverter.DeserializeObject<IAccountSettingsDTO>(json);
-
-            if (accountSettingsDTO == null)
-            {
-                return null;
-            }
-
-            return GenerateAccountSettingsFromDTO(accountSettingsDTO);
-        }
-
-        private IAccountSettings GenerateAccountSettingsFromDTO(IAccountSettingsDTO accountSettingsDTO)
-        {
-            if (accountSettingsDTO == null)
-            {
-                return null;
-            }
-
-            var parameterOverride = _accountSettingsUnityFactory.GenerateParameterOverrideWrapper("accountSettingsDTO", accountSettingsDTO);
-            return _accountSettingsUnityFactory.Create(parameterOverride);
-        }
-
-        // Mute
-        public Task<IEnumerable<long>> GetMutedUserIds(int maxUserIds = Int32.MaxValue)
-        {
-            return _accountQueryExecutor.GetMutedUserIds(maxUserIds);
-        }
-
-        public async Task<IEnumerable<IUser>> GetMutedUsers(int maxUsersToRetrieve = 250)
-        {
-            var usersIds = await GetMutedUserIds(maxUsersToRetrieve);
-            return await _userFactory.GetUsersFromIds(usersIds);
-        }
-
-        public Task<bool> MuteUser(IUserIdentifier user)
-        {
-            return _accountQueryExecutor.MuteUser(user);
-        }
-
-        public Task<bool> MuteUser(long userId)
-        {
-            return _accountQueryExecutor.MuteUser(new UserIdentifier(userId));
-        }
-
-        public Task<bool> MuteUser(string screenName)
-        {
-            return _accountQueryExecutor.MuteUser(new UserIdentifier(screenName));
-        }
-
-        public Task<bool> UnMuteUser(IUserIdentifier user)
-        {
-            return _accountQueryExecutor.UnMuteUser(user);
-        }
-
-        public Task<bool> UnMuteUser(long userId)
-        {
-            return _accountQueryExecutor.UnMuteUser(new UserIdentifier(userId));
-        }
-
-        public Task<bool> UnMuteUser(string screenName)
-        {
-            return _accountQueryExecutor.UnMuteUser(new UserIdentifier(screenName));
-        }
-
         // Suggestions
         public Task<IEnumerable<ICategorySuggestion>> GetSuggestedCategories(Language? language)
         {
@@ -251,6 +230,30 @@ namespace Tweetinvi.Controllers.Account
         {
             var userDTOs = await _accountQueryExecutor.GetSuggestedUsersWithTheirLatestTweet(slug);
             return _userFactory.GenerateUsersFromDTO(userDTOs, null);
+        }
+        
+        
+        public IAccountSettings GenerateAccountSettingsFromJson(string json)
+        {
+            var accountSettingsDTO = _jsonObjectConverter.DeserializeObject<IAccountSettingsDTO>(json);
+
+            if (accountSettingsDTO == null)
+            {
+                return null;
+            }
+
+            return GenerateAccountSettingsFromDTO(accountSettingsDTO);
+        }
+        
+        private IAccountSettings GenerateAccountSettingsFromDTO(IAccountSettingsDTO accountSettingsDTO)
+        {
+            if (accountSettingsDTO == null)
+            {
+                return null;
+            }
+
+            var parameterOverride = _accountSettingsUnityFactory.GenerateParameterOverrideWrapper("accountSettingsDTO", accountSettingsDTO);
+            return _accountSettingsUnityFactory.Create(parameterOverride);
         }
     }
 }

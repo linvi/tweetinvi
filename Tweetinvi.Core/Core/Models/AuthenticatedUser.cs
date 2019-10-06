@@ -20,7 +20,6 @@ namespace Tweetinvi.Core.Models
     {
         private readonly ICredentialsAccessor _credentialsAccessor;
         private readonly IMessageController _messageController;
-        private readonly IAccountController _accountController;
         private readonly ITwitterListController _twitterListController;
         private readonly ISavedSearchController _savedSearchController;
 
@@ -31,7 +30,6 @@ namespace Tweetinvi.Core.Models
             ICredentialsAccessor credentialsAccessor,
             ITimelineController timelineController,
             IMessageController messageController,
-            IAccountController accountController,
             ITwitterListController twitterListController,
             ISavedSearchController savedSearchController)
 
@@ -39,7 +37,6 @@ namespace Tweetinvi.Core.Models
         {
             _credentialsAccessor = credentialsAccessor;
             _messageController = messageController;
-            _accountController = accountController;
             _twitterListController = twitterListController;
             _savedSearchController = savedSearchController;
 
@@ -327,44 +324,44 @@ namespace Tweetinvi.Core.Models
         }
 
         // Mute
-        public Task<IEnumerable<long>> GetMutedUserIds(int maxUserIdsToRetrieve = Int32.MaxValue)
+        public ITwitterIterator<long> GetMutedUserIds()
         {
-            return ExecuteAuthenticatedUserOperation(() => _accountController.GetMutedUserIds(maxUserIdsToRetrieve));
+            return Client.Account.GetMutedUserIds();
         }
 
-        public Task<IEnumerable<IUser>> GetMutedUsers(int maxUsersToRetrieve = 250)
+        public ITwitterIterator<IUser> GetMutedUsers()
         {
-            return ExecuteAuthenticatedUserOperation(() => _accountController.GetMutedUsers(maxUsersToRetrieve));
+            return Client.Account.GetMutedUsers();
         }
 
         public Task<bool> MuteUser(IUserIdentifier user)
         {
-            return ExecuteAuthenticatedUserOperation(() => _accountController.MuteUser(user));
+            return Client.Account.MuteUser(user);
         }
 
-        public Task<bool> MuteUser(long userId)
+        public Task<bool> MuteUser(long? userId)
         {
-            return ExecuteAuthenticatedUserOperation(() => _accountController.MuteUser(userId));
+            return Client.Account.MuteUser(userId);
         }
 
-        public Task<bool> MuteUser(string screenName)
+        public Task<bool> MuteUser(string username)
         {
-            return ExecuteAuthenticatedUserOperation(() => _accountController.MuteUser(screenName));
+            return Client.Account.MuteUser(username);
         }
 
         public Task<bool> UnMuteUser(IUserIdentifier user)
         {
-            return ExecuteAuthenticatedUserOperation(() => _accountController.UnMuteUser(user));
+            return Client.Account.UnMuteUser(user);
         }
 
         public Task<bool> UnMuteUser(long userId)
         {
-            return ExecuteAuthenticatedUserOperation(() => _accountController.UnMuteUser(userId));
+            return Client.Account.UnMuteUser(userId);
         }
 
-        public Task<bool> UnMuteUser(string screenName)
+        public Task<bool> UnMuteUser(string username)
         {
-            return ExecuteAuthenticatedUserOperation(() => _accountController.UnMuteUser(screenName));
+            return Client.Account.UnMuteUser(username);
         }
     }
 }

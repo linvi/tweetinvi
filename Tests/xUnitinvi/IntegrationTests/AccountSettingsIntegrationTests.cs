@@ -20,17 +20,25 @@ namespace xUnitinvi.IntegrationTests
             _logger = logger;
             _logger.WriteLine(DateTime.Now.ToLongTimeString());
             Client = new TwitterClient(IntegrationTestCredentials.ProtectedUserCredentials);
+            
+            TweetinviEvents.QueryBeforeExecute += (sender, args) => { _logger.WriteLine(args.Url); };
         }
 
 //        [Fact]
         [Fact(Skip = "Integration Tests")]
         public async Task RunAllAccountSettings()
         {
-            TweetinviEvents.QueryBeforeExecute += (sender, args) => { _logger.WriteLine($"{args.TwitterQuery.HttpMethod} : {args.Url}"); };
-
+            _logger.WriteLine($"Starting {nameof(ChangeImagesTests)}");
             await ChangeImagesTests().ConfigureAwait(false);
+            _logger.WriteLine($"{nameof(ChangeImagesTests)} succeeded");
+            
+            _logger.WriteLine($"Starting {nameof(AccountSettingsTests)}");
             await AccountSettingsTests().ConfigureAwait(false);
+            _logger.WriteLine($"{nameof(AccountSettingsTests)} succeeded");
+            
+            _logger.WriteLine($"Starting {nameof(AccountProfileTests)}");
             await AccountProfileTests().ConfigureAwait(false);
+            _logger.WriteLine($"{nameof(AccountProfileTests)} succeeded");
         }
 
         [Fact(Skip = "Integration Tests")]

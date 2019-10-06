@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Tweetinvi.Core.Iterators;
 using Tweetinvi.Core.Web;
@@ -17,7 +16,6 @@ namespace Tweetinvi.Core.Controllers
         // FOLLOWERS
         Task<ITwitterResult<IUserDTO>> FollowUser(IFollowUserParameters parameters, ITwitterRequest request);
         Task<ITwitterResult<IUserDTO>> UnFollowUser(IUnFollowUserParameters parameters, ITwitterRequest request);
-        ITwitterPageIterator<ITwitterResult<IIdsCursorQueryResultDTO>> GetUserIdsRequestingFriendship(IGetUserIdsRequestingFriendshipParameters parameters, ITwitterRequest request);
 
         // BLOCK
         Task<ITwitterResult<IUserDTO>> BlockUser(IBlockUserParameters parameters, ITwitterRequest request);
@@ -30,33 +28,22 @@ namespace Tweetinvi.Core.Controllers
         Task<ITwitterResult<IRelationshipStateDTO[]>> GetRelationshipsWith(IGetRelationshipsWithParameters parameters, ITwitterRequest request);
         ITwitterPageIterator<ITwitterResult<IIdsCursorQueryResultDTO>> GetUserIdsYouRequestedToFollow(IGetUserIdsYouRequestedToFollowParameters parameters, ITwitterRequest request);
 
-
-
-
-
-
-
-
-
+        // RELATIONSHIPS
+        ITwitterPageIterator<ITwitterResult<IIdsCursorQueryResultDTO>> GetUserIdsRequestingFriendship(IGetUserIdsRequestingFriendshipParameters parameters, ITwitterRequest request);
+        Task<ITwitterResult<IRelationshipDetailsDTO>> UpdateRelationship(IUpdateRelationshipParameters parameters, ITwitterRequest request);
         
-        // Mute
-        Task<IEnumerable<long>> GetMutedUserIds(int maxUserIds = Int32.MaxValue);
-        Task<IEnumerable<IUser>> GetMutedUsers(int maxUsersToRetrieve = 250);
-
-        Task<bool> MuteUser(IUserIdentifier user);
-        Task<bool> MuteUser(long userId);
-        Task<bool> MuteUser(string screenName);
-
-        Task<bool> UnMuteUser(IUserIdentifier user);
-        Task<bool> UnMuteUser(long userId);
-        Task<bool> UnMuteUser(string screenName);
+        // MUTE
+        Task<ITwitterResult<long[]>> GetUserIdsWhoseRetweetsAreMuted(IGetUserIdsWhoseRetweetsAreMutedParameters parameters, ITwitterRequest request);
+        ITwitterPageIterator<ITwitterResult<IIdsCursorQueryResultDTO>> GetMutedUserIds(IGetMutedUserIdsParameters parameters, ITwitterRequest request);
+        ITwitterPageIterator<ITwitterResult<IUserCursorQueryResultDTO>> GetMutedUsers(IGetMutedUsersParameters parameters, ITwitterRequest request);
+        Task<ITwitterResult<IUserDTO>> MuteUser(IMuteUserParameters parameters, ITwitterRequest request);
+        Task<ITwitterResult<IUserDTO>> UnMuteUser(IUnMuteUserParameters parameters, ITwitterRequest request);
 
         // Suggestions
         Task<IEnumerable<ICategorySuggestion>> GetSuggestedCategories(Language? language);
         Task<IEnumerable<IUser>> GetSuggestedUsers(string slug, Language? language);
         Task<IEnumerable<IUser>> GetSuggestedUsersWithTheirLatestTweet(string slug);
         IAccountSettings GenerateAccountSettingsFromJson(string json);
-        Task<ITwitterResult<IRelationshipDetailsDTO>> UpdateRelationship(IUpdateRelationshipParameters parameters, ITwitterRequest request);
-        Task<ITwitterResult<long[]>> GetUserIdsWhoseRetweetsAreMuted(IGetUserIdsWhoseRetweetsAreMutedParameters parameters, ITwitterRequest request);
+        
     }
 }

@@ -122,6 +122,26 @@ namespace Tweetinvi.Core.Client.Validators
             _accountClientParametersValidator.Validate(parameters);
         }
 
+        public void Validate(IGetMutedUserIdsParameters parameters)
+        {
+            _accountClientParametersValidator.Validate(parameters);
+        }
+
+        public void Validate(IGetMutedUsersParameters parameters)
+        {
+            _accountClientParametersValidator.Validate(parameters);
+        }
+
+        public void Validate(IMuteUserParameters parameters)
+        {
+            _accountClientParametersValidator.Validate(parameters);
+        }
+
+        public void Validate(IUnMuteUserParameters parameters)
+        {
+            _accountClientParametersValidator.Validate(parameters);
+        }
+
         public void Validate(IGetAccountSettingsParameters parameters)
         {
             _accountSettingsClientParametersValidator.Validate(parameters);

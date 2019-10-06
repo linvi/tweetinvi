@@ -19,7 +19,13 @@ namespace Tweetinvi.Core.Client.Validators
         void Validate(IGetUsersYouRequestedToFollowParameters parameters);
         void Validate(IUpdateRelationshipParameters parameters);
         void Validate(IGetRelationshipsWithParameters parameters);
+        
+        //  MUTE
         void Validate(IGetUserIdsWhoseRetweetsAreMutedParameters parameters);
+        void Validate(IGetMutedUserIdsParameters parameters);
+        void Validate(IGetMutedUsersParameters parameters);
+        void Validate(IMuteUserParameters parameters);
+        void Validate(IUnMuteUserParameters parameters);
     }
     
     public interface IInternalAccountClientParametersValidator : IAccountClientParametersValidator
@@ -157,6 +163,38 @@ namespace Tweetinvi.Core.Client.Validators
         }
 
         public void Validate(IGetUserIdsWhoseRetweetsAreMutedParameters parameters)
+        {
+            _accountClientRequiredParametersValidator.Validate(parameters);
+        }
+
+        public void Validate(IGetMutedUserIdsParameters parameters)
+        {
+            _accountClientRequiredParametersValidator.Validate(parameters);
+            
+            var maxPageSize = Limits.ACCOUNT_GET_MUTED_USER_IDS_MAX_PAGE_SIZE;
+            if (parameters.PageSize > maxPageSize)
+            {
+                throw new TwitterArgumentLimitException($"${nameof(parameters)}.{nameof(parameters.PageSize)}", maxPageSize, nameof(Limits.ACCOUNT_GET_MUTED_USER_IDS_MAX_PAGE_SIZE), "users");
+            }
+        }
+
+        public void Validate(IGetMutedUsersParameters parameters)
+        {
+            _accountClientRequiredParametersValidator.Validate(parameters);
+            
+            var maxPageSize = Limits.ACCOUNT_GET_MUTED_USERS_MAX_PAGE_SIZE;
+            if (parameters.PageSize > maxPageSize)
+            {
+                throw new TwitterArgumentLimitException($"${nameof(parameters)}.{nameof(parameters.PageSize)}", maxPageSize, nameof(Limits.ACCOUNT_GET_MUTED_USERS_MAX_PAGE_SIZE), "users");
+            }
+        }
+
+        public void Validate(IMuteUserParameters parameters)
+        {
+            _accountClientRequiredParametersValidator.Validate(parameters);
+        }
+
+        public void Validate(IUnMuteUserParameters parameters)
         {
             _accountClientRequiredParametersValidator.Validate(parameters);
         }

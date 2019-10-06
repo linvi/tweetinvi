@@ -242,12 +242,12 @@ namespace Tweetinvi.Models
         /// <summary>
         /// Get a list of the users you've muted.
         /// </summary>
-        Task<IEnumerable<long>> GetMutedUserIds(int maxUserIdsToRetrieve = Int32.MaxValue);
+        ITwitterIterator<long> GetMutedUserIds();
 
         /// <summary>
         /// Get a list of the users you've muted.
         /// </summary>
-        Task<IEnumerable<IUser>> GetMutedUsers(int maxUsersToRetrieve = 250);
+        ITwitterIterator<IUser> GetMutedUsers();
 
         /// <summary>
         /// Mute a specific user.
@@ -257,12 +257,12 @@ namespace Tweetinvi.Models
         /// <summary>
         /// Mute a specific user.
         /// </summary>
-        Task<bool> MuteUser(long userId);
+        Task<bool> MuteUser(long? userId);
 
         /// <summary>
         /// Mute a specific user.
         /// </summary>
-        Task<bool> MuteUser(string screenName);
+        Task<bool> MuteUser(string username);
 
         /// <summary>
         /// Unmute a specific user.
@@ -277,7 +277,7 @@ namespace Tweetinvi.Models
         /// <summary>
         /// Unmute a specific user.
         /// </summary>
-        Task<bool> UnMuteUser(string screenName);
+        Task<bool> UnMuteUser(string username);
 
         #region List
 

@@ -24,34 +24,32 @@ namespace Tweetinvi.Controllers.Account
         string GetFollowUserQuery(IFollowUserParameters parameters);
         string GetUnFollowUserQuery(IUnFollowUserParameters parameters);
         
+        // RELATIONSHIPS
+        string GetUpdateRelationshipQuery(IUpdateRelationshipParameters parameters);
+        
         // ONGOING REQUESTS
         string GetUserIdsRequestingFriendshipQuery(IGetUserIdsRequestingFriendshipParameters parameters);
         string GetUserIdsYouRequestedToFollowQuery(IGetUserIdsYouRequestedToFollowParameters parameters);
-
-
+        
         // FRIENDSHIPS
         string GetRelationshipsWithQuery(IGetRelationshipsWithParameters parameters);
 
+        // MUTE
+        string GetUserIdsWhoseRetweetsAreMutedQuery(IGetUserIdsWhoseRetweetsAreMutedParameters parameters);
+        string GetMutedUserIdsQuery(IGetMutedUserIdsParameters parameters);
+        string GetMutedUsersQuery(IGetMutedUsersParameters parameters);
+        string GetMuteUserQuery(IMuteUserParameters parameters);
+        string GetUnMuteUserQuery(IUnMuteUserParameters parameters);
 
-
-
-
-
-
-
-        // Mute
-        string GetMutedUserIdsQuery();
-
-        string GetMuteQuery(IUserIdentifier user);
-
-        string GetUnMuteQuery(IUserIdentifier user);
-
-        // Suggestions
+        
+        
+        
+        
+        // SUGGESTIONS
         string GetSuggestedCategories(Language? language);
         string GetUserSuggestionsQuery(string slug, Language? language);
         string GetSuggestedUsersWithTheirLatestTweetQuery(string slug);
-        string GetUpdateRelationshipQuery(IUpdateRelationshipParameters parameters);
-        string GetUserIdsWhoseRetweetsAreMutedQuery(IGetUserIdsWhoseRetweetsAreMutedParameters parameters);
+        
     }
 
     public class AccountQueryGenerator : IAccountQueryGenerator
@@ -203,53 +201,68 @@ namespace Tweetinvi.Controllers.Account
             return query.ToString();
         }
 
+        // MUTE
         public string GetUserIdsWhoseRetweetsAreMutedQuery(IGetUserIdsWhoseRetweetsAreMutedParameters parameters)
         {
             var query = new StringBuilder(Resources.Friendship_FriendIdsWithNoRetweets);
-
             query.AddFormattedParameterToQuery(parameters.FormattedCustomQueryParameters);
+            return query.ToString();
+        }
+        
+        public string GetMutedUserIdsQuery(IGetMutedUserIdsParameters parameters)
+        {
+            var query = new StringBuilder(Resources.Account_Mute_GetUserIds);
             
+            query.AddParameterToQuery("cursor", parameters.Cursor);
+            query.AddParameterToQuery("count", parameters.PageSize);
+            query.AddFormattedParameterToQuery(parameters.FormattedCustomQueryParameters);
+
             return query.ToString();
         }
 
+        public string GetMutedUsersQuery(IGetMutedUsersParameters parameters)
+        {
+            var query = new StringBuilder(Resources.Account_Mute_GetUsers);
+            
+            query.AddParameterToQuery("cursor", parameters.Cursor);
+            query.AddParameterToQuery("count", parameters.PageSize);
+            query.AddParameterToQuery("include_entities", parameters.IncludeEntities);
+            query.AddParameterToQuery("skip_status", parameters.SkipStatus);
+            
+            query.AddFormattedParameterToQuery(parameters.FormattedCustomQueryParameters);
 
+            return query.ToString();
+        }
 
+        public string GetMuteUserQuery(IMuteUserParameters parameters)
+        {
+            var query = new StringBuilder(Resources.Account_Mute_Create);
+            
+            query.AddFormattedParameterToQuery(_userQueryParameterGenerator.GenerateIdOrScreenNameParameter(parameters.User));
+            query.AddFormattedParameterToQuery(parameters.FormattedCustomQueryParameters);
 
+            return query.ToString();
+        }
 
+        public string GetUnMuteUserQuery(IUnMuteUserParameters parameters)
+        {
+            var query = new StringBuilder(Resources.Account_Mute_Destroy);
+            
+            query.AddFormattedParameterToQuery(_userQueryParameterGenerator.GenerateIdOrScreenNameParameter(parameters.User));
+            query.AddFormattedParameterToQuery(parameters.FormattedCustomQueryParameters);
+
+            return query.ToString();
+        }
 
         
-
         
-     
-        // Mute
-        public string GetMutedUserIdsQuery()
-        {
-            return Resources.Account_Mute_GetIds;
-        }
-
-        public string GetMuteQuery(IUserIdentifier user)
-        {
-            string userIdParameter = _userQueryParameterGenerator.GenerateIdOrScreenNameParameter(user);
-            return GenerateCreateMuteQuery(userIdParameter);
-        }
-
-        private string GenerateCreateMuteQuery(string userParameter)
-        {
-            return string.Format(Resources.Account_Mute_Create, userParameter);
-        }
-
-        public string GetUnMuteQuery(IUserIdentifier user)
-        {
-            string userIdParameter = _userQueryParameterGenerator.GenerateIdOrScreenNameParameter(user);
-            return GenerateUnMuteQuery(userIdParameter);
-        }
-
-        private string GenerateUnMuteQuery(string userParameter)
-        {
-            return string.Format(Resources.Account_Mute_Destroy, userParameter);
-        }
-
-        // Suggestions
+        
+        
+        
+        
+        
+        
+        // SUGGESTIONS
         public string GetSuggestedCategories(Language? language)
         {
             var languageParameter = _queryParameterGenerator.GenerateLanguageParameter(language);

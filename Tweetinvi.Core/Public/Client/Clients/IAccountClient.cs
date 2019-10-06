@@ -1,8 +1,10 @@
 using System.Threading.Tasks;
 using Tweetinvi.Core.Client.Validators;
+using Tweetinvi.Core.Iterators;
 using Tweetinvi.Core.Web;
 using Tweetinvi.Iterators;
 using Tweetinvi.Models;
+using Tweetinvi.Models.DTO.QueryDTO;
 using Tweetinvi.Parameters;
 
 namespace Tweetinvi.Client
@@ -225,5 +227,53 @@ namespace Tweetinvi.Client
         /// </summary>
         /// <returns>Returns a list of user ids for whom the retweets are muted</returns>
         Task<long[]> GetUserIdsWhoseRetweetsAreMuted(IGetUserIdsWhoseRetweetsAreMutedParameters parameters);
+        
+        /// <inheritdoc cref="GetMutedUserIds(IGetMutedUserIdsParameters)" />
+        ITwitterIterator<long> GetMutedUserIds();
+        
+        /// <summary>
+        /// Get the muted user ids.
+        /// <para>Read more : https://dev.twitter.com/en/docs/accounts-and-users/mute-block-report-users/api-reference/get-mutes-users-ids </para>
+        /// </summary>
+        /// <returns>An iterator to list the user ids muted by the client's account</returns>
+        ITwitterIterator<long> GetMutedUserIds(IGetMutedUserIdsParameters parameters);
+        
+        /// <inheritdoc cref="GetMutedUsers(IGetMutedUsersParameters)" />
+        ITwitterIterator<IUser> GetMutedUsers();
+        
+        /// <summary>
+        /// Get the muted user ids.
+        /// <para>Read more : https://dev.twitter.com/en/docs/accounts-and-users/mute-block-report-users/api-reference/get-mutes-users-list </para>
+        /// </summary>
+        /// <returns>An iterator to list the users muted by the client's account</returns>
+        ITwitterIterator<IUser> GetMutedUsers(IGetMutedUsersParameters parameters);
+
+        /// <inheritdoc cref="MuteUser(IMuteUserParameters)" />
+        Task<bool> MuteUser(long? userId);
+        /// <inheritdoc cref="MuteUser(IMuteUserParameters)" />
+        Task<bool> MuteUser(string username);
+        /// <inheritdoc cref="MuteUser(IMuteUserParameters)" />
+        Task<bool> MuteUser(IUserIdentifier user);
+        
+        /// <summary>
+        /// Mute a user
+        /// <para>Read more : https://dev.twitter.com/en/docs/accounts-and-users/mute-block-report-users/api-reference/post-mutes-users-create </para>
+        /// </summary>
+        /// <returns>Whether the user was successfully muted</returns>
+        Task<bool> MuteUser(IMuteUserParameters parameters);
+        
+        /// <inheritdoc cref="UnMuteUser(IUnMuteUserParameters)" />
+        Task<bool> UnMuteUser(long? userId);
+        /// <inheritdoc cref="UnMuteUser(IUnMuteUserParameters)" />
+        Task<bool> UnMuteUser(string username);
+        /// <inheritdoc cref="UnMuteUser(IUnMuteUserParameters)" />
+        Task<bool> UnMuteUser(IUserIdentifier user);
+        
+        /// <summary>
+        /// Remove the mute of a user
+        /// <para>Read more : https://dev.twitter.com/en/docs/accounts-and-users/mute-block-report-users/api-reference/post-mutes-users-destroy </para>
+        /// </summary>
+        /// <returns>Whether the user is no longer muted</returns>
+        Task<bool> UnMuteUser(IUnMuteUserParameters parameters);
     }
 }

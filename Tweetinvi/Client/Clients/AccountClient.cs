@@ -302,7 +302,7 @@ namespace Tweetinvi.Client
 
         #endregion
 
-        #region Others
+        #region MUTE
 
         public Task<long[]> GetUserIdsWhoseRetweetsAreMuted()
         {
@@ -314,7 +314,75 @@ namespace Tweetinvi.Client
             var twitterResult = await _accountRequester.GetUserIdsWhoseRetweetsAreMuted(parameters).ConfigureAwait(false);
             return twitterResult?.DataTransferObject;
         }
-        
+
+        public ITwitterIterator<long> GetMutedUserIds()
+        {
+            return GetMutedUserIds(new GetMutedUserIdsParameters());
+        }
+
+        public ITwitterIterator<long> GetMutedUserIds(IGetMutedUserIdsParameters parameters)
+        {
+            var iterator = _accountRequester.GetMutedUserIds(parameters);
+            return new TwitterIteratorProxy<ITwitterResult<IIdsCursorQueryResultDTO>, long>(iterator, dto => dto.DataTransferObject.Ids);
+        }
+
+        public ITwitterIterator<IUser> GetMutedUsers()
+        {
+            return GetMutedUsers(new GetMutedUsersParameters());
+        }
+
+        public ITwitterIterator<IUser> GetMutedUsers(IGetMutedUsersParameters parameters)
+        {
+            var iterator = _accountRequester.GetMutedUsers(parameters);
+            return new TwitterIteratorProxy<ITwitterResult<IUserCursorQueryResultDTO>, IUser>(iterator, pageResult =>
+            {
+                var userDTOs = pageResult.DataTransferObject.Users;
+                return _userFactory.GenerateUsersFromDTO(userDTOs, null);
+            });
+        }
+
+        public Task<bool> MuteUser(long? userId)
+        {
+            return MuteUser(new MuteUserParameters(userId));
+        }
+
+        public Task<bool> MuteUser(string username)
+        {
+            return MuteUser(new MuteUserParameters(username));
+        }
+
+        public Task<bool> MuteUser(IUserIdentifier user)
+        {
+            return MuteUser(new MuteUserParameters(user));
+        }
+
+        public async Task<bool> MuteUser(IMuteUserParameters parameters)
+        {
+            var twitterResult = await _accountRequester.MuteUser(parameters);
+            return twitterResult.Response.IsSuccessStatusCode;
+        }
+
+        public Task<bool> UnMuteUser(long? userId)
+        {
+            return UnMuteUser(new UnMuteUserParameters(userId));
+        }
+
+        public Task<bool> UnMuteUser(string username)
+        {
+            return UnMuteUser(new UnMuteUserParameters(username));
+        }
+
+        public Task<bool> UnMuteUser(IUserIdentifier user)
+        {
+            return UnMuteUser(new UnMuteUserParameters(user));
+        }
+
+        public async Task<bool> UnMuteUser(IUnMuteUserParameters parameters)
+        {
+            var twitterResult = await _accountRequester.UnMuteUser(parameters);
+            return twitterResult.Response.IsSuccessStatusCode;
+        }
+
         #endregion
     }
 }

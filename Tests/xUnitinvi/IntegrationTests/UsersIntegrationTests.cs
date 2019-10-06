@@ -27,31 +27,26 @@ namespace xUnitinvi.IntegrationTests
             
             Client = new TwitterClient(IntegrationTestCredentials.NormalUserCredentials);
             PrivateUserClient = new TwitterClient(IntegrationTestCredentials.ProtectedUserCredentials);
+            
+            TweetinviEvents.QueryBeforeExecute += (sender, args) => { _logger.WriteLine(args.Url); };
         }
-
 
         //[Fact]
         [Fact(Skip = "IntegrationTests")]
         public async Task RunAllUserTests()
         {
-            TweetinviEvents.QueryBeforeExecute += (sender, args) => { _logger.WriteLine(args.Url); };
-
             _logger.WriteLine($"Starting {nameof(TestFollow)}");
-            await TestFollow();
+            await TestFollow().ConfigureAwait(false);
             _logger.WriteLine($"{nameof(TestFollow)} succeeded");
             
             _logger.WriteLine($"Starting {nameof(TestRelationships)}");
-            await TestRelationships();
+            await TestRelationships().ConfigureAwait(false);
             _logger.WriteLine($"{nameof(TestRelationships)} succeeded");
             
             
             _logger.WriteLine($"Starting {nameof(TestWithPrivateUser)}");
-            await TestWithPrivateUser();
+            await TestWithPrivateUser().ConfigureAwait(false);
             _logger.WriteLine($"{nameof(TestWithPrivateUser)} succeeded");
-            
-            _logger.WriteLine($"Starting {nameof(TestBlock)}");
-            await TestBlock();
-            _logger.WriteLine($"{nameof(TestBlock)} succeeded");
         }
 
         [Fact(Skip = "IntegrationTests")]
@@ -91,28 +86,6 @@ namespace xUnitinvi.IntegrationTests
             Assert.NotEmpty(friendsBeforeAdd);
             Assert.Contains(friendsAfterAdd, friend => friend.Id == userToFollow.Id);
             Assert.DoesNotContain(friendsAfterRemove, friend => friend.Id == userToFollow.Id);
-        }
-
-        [Fact(Skip = "IntegrationTests")]
-        private async Task TestBlock()
-        {
-            var userToFollow = await Client.Users.GetUser("tweetinvitest");
-            
-            // act
-            var blockSuccess = await userToFollow.BlockUser();
-
-            var blockedUserIdsIterator = Client.Account.GetBlockedUserIds();
-            var blockedUsersFromIdsIterator = await blockedUserIdsIterator.MoveToNextPage();
-            var blockedUsersIterator = Client.Account.GetBlockedUsers();
-            var blockedUsers = await blockedUsersIterator.MoveToNextPage();
-
-            var unblockSuccess = await userToFollow.UnBlockUser();
-            
-            // assert
-            Assert.True(blockSuccess);
-            Assert.Contains(blockedUsersFromIdsIterator, id => id == userToFollow.Id);
-            Assert.Contains(blockedUsers, user => user.Id == userToFollow.Id);
-            Assert.True(unblockSuccess);
         }
 
         [Fact(Skip = "IntegrationTests")]

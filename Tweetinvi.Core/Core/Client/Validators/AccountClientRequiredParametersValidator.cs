@@ -153,5 +153,41 @@ namespace Tweetinvi.Core.Client.Validators
                 throw new ArgumentNullException(nameof(parameters));
             }
         }
+
+        public void Validate(IGetMutedUserIdsParameters parameters)
+        {
+            if (parameters == null)
+            {
+                throw new ArgumentNullException(nameof(parameters));
+            }
+        }
+
+        public void Validate(IGetMutedUsersParameters parameters)
+        {
+            if (parameters == null)
+            {
+                throw new ArgumentNullException(nameof(parameters));
+            }
+        }
+
+        public void Validate(IMuteUserParameters parameters)
+        {
+            if (parameters == null)
+            {
+                throw new ArgumentNullException(nameof(parameters));
+            }
+            
+            _userQueryValidator.ThrowIfUserCannotBeIdentified(parameters.User, $"${nameof(parameters)}.{nameof(parameters.User)}");
+        }
+
+        public void Validate(IUnMuteUserParameters parameters)
+        {
+            if (parameters == null)
+            {
+                throw new ArgumentNullException(nameof(parameters));
+            }
+            
+            _userQueryValidator.ThrowIfUserCannotBeIdentified(parameters.User, $"${nameof(parameters)}.{nameof(parameters.User)}");
+        }
     }
 }

@@ -20,19 +20,24 @@ namespace Tweetinvi.Controllers.Properties
         public static string Account_MembersSuggestions = "https://api.twitter.com/1.1/users/suggestions/{0}/members.json";
 
         /// <summary>
-        ///   Looks up a localized string similar to https://api.twitter.com/1.1/mutes/users/create.json?{0}.
+        ///   Looks up a localized string similar to https://api.twitter.com/1.1/mutes/users/create.json?.
         /// </summary>
-        public static string Account_Mute_Create = "https://api.twitter.com/1.1/mutes/users/create.json?{0}";
+        public static string Account_Mute_Create = "https://api.twitter.com/1.1/mutes/users/create.json?";
 
         /// <summary>
-        ///   Looks up a localized string similar to https://api.twitter.com/1.1/mutes/users/destroy.json?{0}.
+        ///   Looks up a localized string similar to https://api.twitter.com/1.1/mutes/users/destroy.json?.
         /// </summary>
-        public static string Account_Mute_Destroy = "https://api.twitter.com/1.1/mutes/users/destroy.json?{0}";
+        public static string Account_Mute_Destroy = "https://api.twitter.com/1.1/mutes/users/destroy.json?";
 
         /// <summary>
         ///   Looks up a localized string similar to https://api.twitter.com/1.1/mutes/users/ids.json?.
         /// </summary>
-        public static string Account_Mute_GetIds = "https://api.twitter.com/1.1/mutes/users/ids.json?";
+        public static string Account_Mute_GetUserIds = "https://api.twitter.com/1.1/mutes/users/ids.json?";
+        
+        /// <summary>
+        ///   Looks up a localized string similar to https://api.twitter.com/1.1/mutes/users/ids.json?.
+        /// </summary>
+        public static string Account_Mute_GetUsers = "https://api.twitter.com/1.1/mutes/users/list.json?";
 
         /// <summary>
         ///   Looks up a localized string similar to https://api.twitter.com/1.1/account/settings.json?.
