@@ -18,20 +18,17 @@ namespace Tweetinvi.Controllers.Tweet
     public class TweetController : ITweetController
     {
         private readonly ITweetQueryExecutor _tweetQueryExecutor;
-        private readonly ITweetQueryValidator _tweetQueryValidator;
         private readonly IUploadQueryExecutor _uploadQueryExecutor;
         private readonly ITweetFactory _tweetFactory;
         private readonly ITwitterResultFactory _twitterResultFactory;
 
         public TweetController(
             ITweetQueryExecutor tweetQueryExecutor,
-            ITweetQueryValidator tweetQueryValidator,
             IUploadQueryExecutor uploadQueryExecutor,
             ITweetFactory tweetFactory,
             ITwitterResultFactory twitterResultFactory)
         {
             _tweetQueryExecutor = tweetQueryExecutor;
-            _tweetQueryValidator = tweetQueryValidator;
             _uploadQueryExecutor = uploadQueryExecutor;
             _tweetFactory = tweetFactory;
             _twitterResultFactory = twitterResultFactory;
@@ -41,15 +38,7 @@ namespace Tweetinvi.Controllers.Tweet
 
         public async Task<ITwitterResult<ITweetDTO>> PublishTweet(IPublishTweetParameters parameters, ITwitterRequest request)
         {
-            if (parameters == null)
-            {
-                throw new ArgumentNullException(nameof(parameters));
-            }
-            
-            _tweetQueryValidator.ThrowIfTweetCannotBePublished(parameters);
-
             await UploadMedias(parameters, request).ConfigureAwait(false);
-
             return await _tweetQueryExecutor.PublishTweet(parameters, request).ConfigureAwait(false);
         }
 
@@ -165,11 +154,8 @@ namespace Tweetinvi.Controllers.Tweet
         // Destroy Tweet
         public async Task<ITwitterResult> DestroyTweet(ITweetDTO tweet, ITwitterRequest request)
         {
-            _tweetQueryValidator.ThrowIfTweetCannotBeDestroyed(tweet);
-
             var twitterResult = await _tweetQueryExecutor.DestroyTweet(tweet.Id, request);
             tweet.IsTweetDestroyed = twitterResult.Response.IsSuccessStatusCode;
-
             return twitterResult;
         }
 
@@ -181,18 +167,6 @@ namespace Tweetinvi.Controllers.Tweet
         // Favorite Tweet
         public ITwitterPageIterator<ITwitterResult<ITweetDTO[]>, long?> GetFavoriteTweets(IGetFavoriteTweetsParameters parameters, ITwitterRequest request)
         {
-            if (parameters == null)
-            {
-                throw new ArgumentNullException(nameof(parameters));
-            }
-
-            var limits = request.ExecutionContext.Limits;
-            var maxPageSize = parameters.PageSize;
-            if (maxPageSize > limits.TWEETS_GET_FAVORITE_TWEETS_MAX_SIZE)
-            {
-                throw new TwitterArgumentLimitException($"${nameof(parameters)}.{nameof(parameters.PageSize)}", maxPageSize, nameof(limits.TWEETS_GET_FAVORITE_TWEETS_MAX_SIZE), "page size");
-            }
-            
             var twitterCursorResult = new TwitterPageIterator<ITwitterResult<ITweetDTO[]>, long?>(
                 parameters.MaxId,
                 cursor =>

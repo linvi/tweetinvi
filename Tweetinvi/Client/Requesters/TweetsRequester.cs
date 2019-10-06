@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using Tweetinvi.Core.Client.Validators;
 using Tweetinvi.Core.Controllers;
 using Tweetinvi.Core.Factories;
 using Tweetinvi.Core.Iterators;
@@ -18,15 +19,18 @@ namespace Tweetinvi.Client.Requesters
         private readonly ITweetFactory _tweetFactory;
         private readonly ITweetController _tweetController;
         private readonly ITwitterResultFactory _twitterResultFactory;
+        private readonly ITweetsClientRequiredParametersValidator _tweetsClientRequiredParametersValidator;
 
         public TweetsRequester(
             ITweetFactory tweetFactory,
-            ITweetController tweetController, 
-            ITwitterResultFactory twitterResultFactory)
+            ITweetController tweetController,
+            ITwitterResultFactory twitterResultFactory,
+            ITweetsClientRequiredParametersValidator tweetsClientRequiredParametersValidator)
         {
             _tweetFactory = tweetFactory;
             _tweetController = tweetController;
             _twitterResultFactory = twitterResultFactory;
+            _tweetsClientRequiredParametersValidator = tweetsClientRequiredParametersValidator;
         }
 
         // Tweets
@@ -45,6 +49,8 @@ namespace Tweetinvi.Client.Requesters
         // Tweets - Publish
         public async Task<ITwitterResult<ITweetDTO, ITweet>> PublishTweet(IPublishTweetParameters parameters)
         {
+            _tweetsClientRequiredParametersValidator.Validate(parameters);
+            
             var request = _twitterClient.CreateRequest();
             var twitterResult = await ExecuteRequest(() => _tweetController.PublishTweet(parameters, request), request).ConfigureAwait(false);
             return _twitterResultFactory.Create(twitterResult, tweetDTO => _tweetFactory.GenerateTweetFromDTO(tweetDTO, request.ExecutionContext.TweetMode, request.ExecutionContext));
@@ -86,6 +92,8 @@ namespace Tweetinvi.Client.Requesters
 
         public ITwitterPageIterator<ITwitterResult<ITweetDTO[]>, long?> GetFavoriteTweets(IGetFavoriteTweetsParameters parameters)
         {
+            _tweetsClientRequiredParametersValidator.Validate(parameters);
+            
             var request = _twitterClient.CreateRequest();
             return _tweetController.GetFavoriteTweets(parameters, request);
         }

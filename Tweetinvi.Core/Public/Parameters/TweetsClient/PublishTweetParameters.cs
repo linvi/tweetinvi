@@ -170,17 +170,14 @@ namespace Tweetinvi.Parameters
         public List<IMedia> Medias { get; set; } = new List<IMedia>();
         /// <inheritdoc/>
         public List<byte[]> MediaBinaries { get; set; } = new List<byte[]>();
-
         /// <inheritdoc/>
         public bool HasMedia => MediaIds?.Count > 0 || Medias?.Count > 0 || MediaBinaries?.Count > 0;
-
         /// <inheritdoc/>
         public string PlaceId { get; set; }
         /// <inheritdoc/>
         public ICoordinates Coordinates { get; set; }
         /// <inheritdoc/>
         public bool? DisplayExactCoordinates { get; set; }
-
         /// <inheritdoc/>
         public bool? PossiblySensitive { get; set; }
         /// <inheritdoc/>

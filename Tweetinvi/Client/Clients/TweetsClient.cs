@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Tweetinvi.Client.Requesters;
+using Tweetinvi.Core.Client.Validators;
 using Tweetinvi.Core.Factories;
 using Tweetinvi.Core.Iterators;
 using Tweetinvi.Core.Web;
@@ -23,6 +24,8 @@ namespace Tweetinvi.Client
             _tweetsRequester = client.RequestExecutor.Tweets;
             _tweetFactory = TweetinviContainer.Resolve<ITweetFactory>();
         }
+        
+        public ITweetsClientParametersValidator ParametersValidator => _client.ParametersValidator;
 
         // Tweets
 

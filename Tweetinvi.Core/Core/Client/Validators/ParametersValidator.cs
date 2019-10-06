@@ -5,6 +5,7 @@ namespace Tweetinvi.Core.Client.Validators
     public interface IParametersValidator : 
         IAccountClientParametersValidator,
         IAccountSettingsClientParametersValidator,
+        ITweetsClientParametersValidator,
         IUsersClientParametersValidator
     {
     }
@@ -18,68 +19,21 @@ namespace Tweetinvi.Core.Client.Validators
     {
         private readonly IInternalAccountClientParametersValidator _accountClientParametersValidator;
         private readonly IInternalAccountSettingsClientParametersValidator _accountSettingsClientParametersValidator;
+        private readonly IInternalTweetsClientParametersValidator _tweetsClientParametersValidator;
         private readonly IInternalUsersClientParametersValidator _usersClientParametersValidator;
 
         public ParametersValidator(
             IInternalAccountClientParametersValidator accountClientParametersValidator,
             IInternalAccountSettingsClientParametersValidator accountSettingsClientParametersValidator,
+            IInternalTweetsClientParametersValidator tweetsClientParametersValidator,
             IInternalUsersClientParametersValidator usersClientParametersValidator)
         {
             _usersClientParametersValidator = usersClientParametersValidator;
             _accountClientParametersValidator = accountClientParametersValidator;
             _accountSettingsClientParametersValidator = accountSettingsClientParametersValidator;
+            _tweetsClientParametersValidator = tweetsClientParametersValidator;
         }
         
-        public void Initialize(ITwitterClient client)
-        {
-            _usersClientParametersValidator.Initialize(client);
-        }
-
-        public void Validate(IGetUserParameters parameters)
-        {
-            _usersClientParametersValidator.Validate(parameters);
-        }
-
-        public void Validate(IGetUsersParameters parameters)
-        {
-            _usersClientParametersValidator.Validate(parameters);
-        }
-
-        public void Validate(IGetFollowerIdsParameters parameters)
-        {
-            _usersClientParametersValidator.Validate(parameters);
-        }
-
-        public void Validate(IGetFollowersParameters parameters)
-        {
-            _usersClientParametersValidator.Validate(parameters);
-        }
-
-        public void Validate(IGetFriendIdsParameters parameters)
-        {
-            _usersClientParametersValidator.Validate(parameters);
-        }
-
-        public void Validate(IGetFriendsParameters parameters)
-        {
-            _usersClientParametersValidator.Validate(parameters);
-        }
-
-        public void Validate(IGetRelationshipBetweenParameters parameters)
-        {
-            _usersClientParametersValidator.Validate(parameters);
-        }
-
-        public void Validate(IGetProfileImageParameters parameters)
-        {
-            _usersClientParametersValidator.Validate(parameters);
-        }
-
-        public void Validate(IGetAuthenticatedUserParameters parameters)
-        {
-            _accountClientParametersValidator.Validate(parameters);
-        }
-
         public void Validate(IBlockUserParameters parameters)
         {
             _accountClientParametersValidator.Validate(parameters);
@@ -178,6 +132,66 @@ namespace Tweetinvi.Core.Client.Validators
         public void Validate(IRemoveProfileBannerParameters parameters)
         {
             _accountSettingsClientParametersValidator.Validate(parameters);
+        }
+        
+        public void Validate(IPublishTweetParameters parameters)
+        {
+            _tweetsClientParametersValidator.Validate(parameters);
+        }
+
+        public void Validate(IGetFavoriteTweetsParameters parameters)
+        {
+            _tweetsClientParametersValidator.Validate(parameters);
+        }
+        
+        public void Initialize(ITwitterClient client)
+        {
+            _usersClientParametersValidator.Initialize(client);
+        }
+
+        public void Validate(IGetUserParameters parameters)
+        {
+            _usersClientParametersValidator.Validate(parameters);
+        }
+
+        public void Validate(IGetUsersParameters parameters)
+        {
+            _usersClientParametersValidator.Validate(parameters);
+        }
+
+        public void Validate(IGetFollowerIdsParameters parameters)
+        {
+            _usersClientParametersValidator.Validate(parameters);
+        }
+
+        public void Validate(IGetFollowersParameters parameters)
+        {
+            _usersClientParametersValidator.Validate(parameters);
+        }
+
+        public void Validate(IGetFriendIdsParameters parameters)
+        {
+            _usersClientParametersValidator.Validate(parameters);
+        }
+
+        public void Validate(IGetFriendsParameters parameters)
+        {
+            _usersClientParametersValidator.Validate(parameters);
+        }
+
+        public void Validate(IGetRelationshipBetweenParameters parameters)
+        {
+            _usersClientParametersValidator.Validate(parameters);
+        }
+
+        public void Validate(IGetProfileImageParameters parameters)
+        {
+            _usersClientParametersValidator.Validate(parameters);
+        }
+
+        public void Validate(IGetAuthenticatedUserParameters parameters)
+        {
+            _accountClientParametersValidator.Validate(parameters);
         }
     }
 }

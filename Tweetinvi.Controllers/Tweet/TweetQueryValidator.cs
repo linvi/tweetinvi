@@ -1,22 +1,12 @@
 ﻿using System;
 using System.Linq;
+using Tweetinvi.Core.QueryValidators;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
 using Tweetinvi.Parameters;
 
 namespace Tweetinvi.Controllers.Tweet
 {
-    public interface ITweetQueryValidator
-    {
-        void ThrowIfTweetCannotBePublished(IPublishTweetParameters parameters);
-        bool IsTweetPublished(ITweetDTO tweetDTO);
-        bool IsValidTweetIdentifier(ITweetIdentifier tweetIdentifier);
-        void ThrowIfTweetCannotBeDestroyed(ITweetDTO tweet);
-        void ThrowIfTweetCannotBeUsed(ITweetDTO tweet);
-        void ThrowIfTweetCannotBeUsed(ITweetIdentifier tweet);
-        void ThrowIfTweetCannotBeUsed(long? tweetId);
-    }
-
     public class TweetQueryValidator : ITweetQueryValidator
     {
         public void ThrowIfTweetCannotBePublished(IPublishTweetParameters parameters)
@@ -44,7 +34,7 @@ namespace Tweetinvi.Controllers.Tweet
         {
             if (tweet == null)
             {
-                throw new ArgumentNullException("Tweet cannot be null.");
+                throw new ArgumentNullException(nameof(tweet));
             }
 
             if (!tweet.IsTweetPublished)
@@ -91,7 +81,7 @@ namespace Tweetinvi.Controllers.Tweet
                 throw new ArgumentNullException(nameof(tweet));
             }
 
-            if (tweet.Id == TweetinviSettings.DEFAULT_ID)
+            if (tweet.Id == null || tweet.Id == TweetinviSettings.DEFAULT_ID)
             {
                 throw new ArgumentNullException($"{nameof(tweet)}.{nameof(tweet.Id)}");
             }

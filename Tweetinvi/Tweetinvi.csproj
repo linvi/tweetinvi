@@ -29,8 +29,4 @@
     <ProjectReference Include="..\Tweetinvi.Streams\Tweetinvi.Streams.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Client\Validators" />
-  </ItemGroup>
-
 </Project>

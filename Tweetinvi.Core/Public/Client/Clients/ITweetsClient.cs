@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using Tweetinvi.Core.Client.Validators;
 using Tweetinvi.Iterators;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
@@ -8,6 +9,11 @@ namespace Tweetinvi.Client
 {
     public interface ITweetsClient
     {
+        /// <summary>
+        /// Validate all the TweetsClient parameters
+        /// </summary>
+        ITweetsClientParametersValidator ParametersValidator { get; }
+        
         /// <summary>
         /// Get a tweet
         /// </summary>
