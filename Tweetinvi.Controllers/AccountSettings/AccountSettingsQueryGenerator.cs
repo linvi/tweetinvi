@@ -10,6 +10,7 @@ namespace Tweetinvi.Controllers.AccountSettings
     {
         string GetAccountSettingsQuery(IGetAccountSettingsParameters parameters);
         string GetUpdateAccountSettingsQuery(IUpdateAccountSettingsParameters parameters);
+        string GetUpdateProfileQuery(IUpdateProfileParameters parameters);
 
         string GetUpdateProfileImageQuery(IUpdateProfileImageParameters parameters);
         string GetUpdateProfileBannerQuery(IUpdateProfileBannerParameters parameters);
@@ -43,6 +44,23 @@ namespace Tweetinvi.Controllers.AccountSettings
             baseQuery.AddFormattedParameterToQuery(parameters.FormattedCustomQueryParameters);
 
             return baseQuery.ToString();
+        }
+
+        public string GetUpdateProfileQuery(IUpdateProfileParameters parameters)
+        {
+            var query = new StringBuilder(Resources.Account_UpdateProfile);
+
+            query.AddParameterToQuery("name", parameters.Name);
+            query.AddParameterToQuery("url", parameters.WebsiteUrl);
+            query.AddParameterToQuery("location", parameters.Location);
+            query.AddParameterToQuery("description", parameters.Description);
+            query.AddParameterToQuery("profile_link_color", parameters.ProfileLinkColor);
+            query.AddParameterToQuery("include_entities", parameters.IncludeEntities);
+            query.AddParameterToQuery("skip_status", parameters.SkipStatus);
+
+            query.AddFormattedParameterToQuery(parameters.FormattedCustomQueryParameters);
+
+            return query.ToString();
         }
 
         private static string SleepHourToString(int? hour)

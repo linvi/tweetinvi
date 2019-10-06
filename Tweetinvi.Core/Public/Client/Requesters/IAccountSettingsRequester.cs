@@ -27,6 +27,13 @@ namespace Tweetinvi.Client.Requesters
         Task<ITwitterResult<IAccountSettingsDTO, IAccountSettings>> UpdateAccountSettings(IUpdateAccountSettingsParameters parameters);
         
         /// <summary>
+        /// Update the client's account profile
+        /// <para>Read more : https://dev.twitter.com/en/docs/accounts-and-users/manage-account-settings/api-reference/post-account-update_profile </para> 
+        /// </summary>
+        /// <returns>Twitter result containing the updated authenticated user</returns>
+        Task<ITwitterResult<IUserDTO, IAuthenticatedUser>> UpdateProfile(IUpdateProfileParameters parameters);
+        
+        /// <summary>
         /// Update the profile image of the account 
         /// <para>https://dev.twitter.com/rest/reference/post/account/update_profile_image</para>
         /// </summary>

@@ -35,6 +35,12 @@ namespace Tweetinvi.Client
             var twitterResult = await _accountRequester.UpdateAccountSettings(parameters).ConfigureAwait(false);
             return twitterResult.Result;
         }
+        
+        public async Task<IAuthenticatedUser> UpdateProfile(IUpdateProfileParameters parameters)
+        {
+            var twitterResult = await _accountRequester.UpdateProfile(parameters).ConfigureAwait(false);
+            return twitterResult.Result;
+        }
 
         public Task<bool> UpdateProfileImage(byte[] binary)
         {

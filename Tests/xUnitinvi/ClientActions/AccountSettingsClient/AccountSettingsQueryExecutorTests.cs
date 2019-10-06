@@ -74,6 +74,29 @@ namespace xUnitinvi.ClientActions.AccountSettingsClient
             Assert.Equal(request.Query.Url, url);
             Assert.Equal(HttpMethod.POST, request.Query.HttpMethod);
         }
+        
+        [Fact]
+        public async Task UpdateProfile_ReturnsAccountUserDTO()
+        {
+            // Arrange
+            var queryExecutor = CreateAccountSettingsQueryExecutor();
+            var parameters = new UpdateProfileParameters();
+
+            var url = TestHelper.GenerateString();
+            var request = A.Fake<ITwitterRequest>();
+            var expectedResult = A.Fake<ITwitterResult<IUserDTO>>();
+
+            A.CallTo(() => _fakeAccountSettingsQueryGenerator.GetUpdateProfileQuery(parameters)).Returns(url);
+            A.CallTo(() => _fakeTwitterAccessor.ExecuteRequest<IUserDTO>(request)).Returns(expectedResult);
+
+            // Act
+            var result = await queryExecutor.UpdateProfile(parameters, request);
+
+            // Assert
+            Assert.Equal(result, expectedResult);
+            Assert.Equal(request.Query.Url, url);
+            Assert.Equal(HttpMethod.POST, request.Query.HttpMethod);
+        }
 
         [Fact]
         public async Task UpdateProfileImage_ReturnsAccountUserDTO()

@@ -60,6 +60,30 @@ namespace xUnitinvi.ClientActions.AccountSettingsClient
             // assert
             Assert.Equal(result, $"https://api.twitter.com/1.1/account/settings.json?lang=es&time_zone=Asia%2FBangkok&sleep_time_enabled=true&start_sleep_time=23&end_sleep_time=07&trend_location_woeid=580778&hello=world");
         }
+        
+        [Fact]
+        public void GetUpdateProfileQuery_ReturnsExpectedQuery()
+        {
+            // arrange
+            var queryGenerator = CreateAccountSettingsQueryGenerator();
+            var parameters = new UpdateProfileParameters
+            {
+                Name = "name",
+                WebsiteUrl = "url",
+                Location = "loc",
+                Description = "desc",
+                IncludeEntities = true,
+                SkipStatus = true,
+                ProfileLinkColor = "blue",
+                CustomQueryParameters = { new Tuple<string, string>("hello", "world") }
+            };
+
+            // act
+            var result = queryGenerator.GetUpdateProfileQuery(parameters);
+
+            // assert
+            Assert.Equal(result, $"https://api.twitter.com/1.1/account/update_profile.json?name=name&url=url&location=loc&description=desc&profile_link_color=blue&include_entities=true&skip_status=true&hello=world");
+        }
 
         [Fact]
         public void GetUpdateProfileImageQuery_ReturnsExpectedQuery()

@@ -22,7 +22,7 @@ namespace xUnitinvi.IntegrationTests
             Client = new TwitterClient(IntegrationTestCredentials.ProtectedUserCredentials);
         }
 
-        // [Fact]
+//        [Fact]
         [Fact(Skip = "Integration Tests")]
         public async Task RunAllAccountSettings()
         {
@@ -30,6 +30,7 @@ namespace xUnitinvi.IntegrationTests
 
             await ChangeImagesTests().ConfigureAwait(false);
             await AccountSettingsTests().ConfigureAwait(false);
+            await AccountProfileTests().ConfigureAwait(false);
         }
 
         [Fact(Skip = "Integration Tests")]
@@ -51,6 +52,56 @@ namespace xUnitinvi.IntegrationTests
             Assert.Null(userAfterRemovingBanner.ProfileBannerURL);
         }
 
+        [Fact(Skip = "Integration Tests")]
+        public async Task AccountProfileTests()
+        {
+            var initialProfile = await Client.Account.GetAuthenticatedUser();
+
+            // act
+            var updatedProfileParameters = new UpdateProfileParameters
+            {
+                Name = $"{initialProfile.Name}_42",
+                Description = "new_desc",
+                Location = "new_loc",
+                WebsiteUrl = "https://www.twitter.com/artwolkt",
+                ProfileLinkColor = "F542B9"
+            };
+
+            var newProfile = await Client.AccountSettings.UpdateProfile(updatedProfileParameters);
+            
+            var restoredProfileParameters = new UpdateProfileParameters
+            {
+                Name = initialProfile.Name,
+                Description = initialProfile.Description,
+                Location = initialProfile.Location,
+                WebsiteUrl = initialProfile.Url,
+                ProfileLinkColor = initialProfile.ProfileLinkColor
+            };
+
+            var restoredProfile = await Client.AccountSettings.UpdateProfile(restoredProfileParameters);
+            
+            // assert
+            Assert.Equal($"{initialProfile.Name}_42", newProfile.Name);
+            Assert.NotEqual(initialProfile.Name, newProfile.Name);
+            Assert.Equal(initialProfile.Name, restoredProfile.Name);
+            
+            Assert.Equal("new_desc", newProfile.Description);
+            Assert.NotEqual(initialProfile.Description, updatedProfileParameters.Description);
+            Assert.Equal(initialProfile.Description, newProfile.Description);
+            
+            Assert.Equal("new_loc", newProfile.Location);
+            Assert.NotEqual(initialProfile.Location, newProfile.Location);
+            Assert.Equal(initialProfile.Location, restoredProfile.Location);
+            
+            Assert.Equal("new_url", newProfile.Url);
+            Assert.NotEqual(initialProfile.Url, newProfile.Url);
+            Assert.Equal(initialProfile.Url, restoredProfile.Url);
+            
+            Assert.Equal("blue", newProfile.ProfileLinkColor);
+            Assert.NotEqual(initialProfile.ProfileLinkColor, newProfile.ProfileLinkColor);
+            Assert.Equal(initialProfile.ProfileLinkColor, restoredProfile.ProfileLinkColor);
+        }
+        
         [Fact(Skip = "Integration Tests")]
         public async Task AccountSettingsTests()
         {
