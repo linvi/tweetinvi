@@ -6,6 +6,7 @@ namespace Tweetinvi.Core.Client.Validators
         IAccountClientParametersValidator,
         IAccountSettingsClientParametersValidator,
         ITweetsClientParametersValidator,
+        IUploadClientParametersValidator,
         IUsersClientParametersValidator
     {
     }
@@ -20,18 +21,35 @@ namespace Tweetinvi.Core.Client.Validators
         private readonly IInternalAccountClientParametersValidator _accountClientParametersValidator;
         private readonly IInternalAccountSettingsClientParametersValidator _accountSettingsClientParametersValidator;
         private readonly IInternalTweetsClientParametersValidator _tweetsClientParametersValidator;
+        private readonly IInternalUploadClientParametersValidator _uploadClientParametersValidator;
         private readonly IInternalUsersClientParametersValidator _usersClientParametersValidator;
 
         public ParametersValidator(
             IInternalAccountClientParametersValidator accountClientParametersValidator,
             IInternalAccountSettingsClientParametersValidator accountSettingsClientParametersValidator,
             IInternalTweetsClientParametersValidator tweetsClientParametersValidator,
+            IInternalUploadClientParametersValidator uploadClientParametersValidator,
             IInternalUsersClientParametersValidator usersClientParametersValidator)
         {
-            _usersClientParametersValidator = usersClientParametersValidator;
             _accountClientParametersValidator = accountClientParametersValidator;
             _accountSettingsClientParametersValidator = accountSettingsClientParametersValidator;
             _tweetsClientParametersValidator = tweetsClientParametersValidator;
+            _uploadClientParametersValidator = uploadClientParametersValidator;
+            _usersClientParametersValidator = usersClientParametersValidator;
+        }
+        
+        public void Initialize(ITwitterClient client)
+        {
+            _accountClientParametersValidator.Initialize(client);
+            _accountSettingsClientParametersValidator.Initialize(client);
+            _tweetsClientParametersValidator.Initialize(client);
+            _uploadClientParametersValidator.Initialize(client);
+            _usersClientParametersValidator.Initialize(client);
+        }
+        
+        public void Validate(IGetAuthenticatedUserParameters parameters)
+        {
+            _accountClientParametersValidator.Validate(parameters);
         }
         
         public void Validate(IBlockUserParameters parameters)
@@ -144,9 +162,14 @@ namespace Tweetinvi.Core.Client.Validators
             _tweetsClientParametersValidator.Validate(parameters);
         }
         
-        public void Initialize(ITwitterClient client)
+        public void Validate(IUploadParameters parameters)
         {
-            _usersClientParametersValidator.Initialize(client);
+            _uploadClientParametersValidator.Validate(parameters);
+        }
+
+        public void Validate(IAddMediaMetadataParameters parameters)
+        {
+            _uploadClientParametersValidator.Validate(parameters);
         }
 
         public void Validate(IGetUserParameters parameters)
@@ -189,9 +212,6 @@ namespace Tweetinvi.Core.Client.Validators
             _usersClientParametersValidator.Validate(parameters);
         }
 
-        public void Validate(IGetAuthenticatedUserParameters parameters)
-        {
-            _accountClientParametersValidator.Validate(parameters);
-        }
+       
     }
 }

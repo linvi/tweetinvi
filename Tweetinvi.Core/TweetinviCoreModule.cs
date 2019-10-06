@@ -94,14 +94,20 @@ namespace Tweetinvi.Core.Injectinvi
         {
             container.RegisterType<IInternalParametersValidator, ParametersValidator>();
             
-            container.RegisterType<IInternalUsersClientParametersValidator, UsersClientParametersValidator>();
-            container.RegisterType<IUsersClientRequiredParametersValidator, UsersClientRequiredParametersValidator>();
-            
             container.RegisterType<IInternalAccountClientParametersValidator, AccountClientParametersValidator>();
             container.RegisterType<IAccountClientRequiredParametersValidator, AccountClientRequiredParametersValidator>();
             
             container.RegisterType<IInternalAccountSettingsClientParametersValidator, AccountSettingsClientParametersValidator>();
             container.RegisterType<IAccountSettingsClientRequiredParametersValidator, AccountSettingsClientRequiredParametersValidator>();
+
+            container.RegisterType<IInternalUploadClientParametersValidator, UploadClientParametersValidator>();
+            container.RegisterType<IUploadClientRequiredParametersValidator, UploadClientRequiredParametersValidator>();
+
+            container.RegisterType<IInternalTweetsClientParametersValidator, TweetsClientParametersValidator>();
+            container.RegisterType<ITweetsClientRequiredParametersValidator, TweetsClientRequiredParametersValidator>();
+            
+            container.RegisterType<IInternalUsersClientParametersValidator, UsersClientParametersValidator>();
+            container.RegisterType<IUsersClientRequiredParametersValidator, UsersClientRequiredParametersValidator>();
         }
     }
 }
