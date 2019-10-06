@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using Tweetinvi.Core.Client.Validators;
 using Tweetinvi.Core.Controllers;
 using Tweetinvi.Core.Extensions;
 using Tweetinvi.Core.Factories;
@@ -21,19 +22,24 @@ namespace Tweetinvi.Client.Requesters
         private readonly IUserController _userController;
         private readonly ITwitterResultFactory _twitterResultFactory;
         private readonly IFriendshipFactory _friendshipFactory;
+        private readonly IUsersClientRequiredParametersValidator _validator;
 
         public UsersRequester(
             IUserController userController, 
             ITwitterResultFactory twitterResultFactory, 
-            IFriendshipFactory friendshipFactory)
+            IFriendshipFactory friendshipFactory,
+            IUsersClientRequiredParametersValidator validator)
         {
             _userController = userController;
             _twitterResultFactory = twitterResultFactory;
             _friendshipFactory = friendshipFactory;
+            _validator = validator;
         }
 
         public async Task<ITwitterResult<IUserDTO, IUser>> GetUser(IGetUserParameters parameters)
         {
+            _validator.Validate(parameters);
+            
             var request = _twitterClient.CreateRequest();
             var result = await ExecuteRequest(() => _userController.GetUser(parameters, request), request).ConfigureAwait(false);
             var user = result.Result;
@@ -48,6 +54,8 @@ namespace Tweetinvi.Client.Requesters
 
         public async Task<ITwitterResult<IUserDTO[], IUser[]>> GetUsers(IGetUsersParameters parameters)
         {
+            _validator.Validate(parameters);
+            
             var request = _twitterClient.CreateRequest();
             var result = await ExecuteRequest(() => _userController.GetUsers(parameters, request), request).ConfigureAwait(false);
 
@@ -60,6 +68,8 @@ namespace Tweetinvi.Client.Requesters
 
         public ITwitterPageIterator<ITwitterResult<IIdsCursorQueryResultDTO>> GetFriendIds(IGetFriendIdsParameters parameters)
         {
+            _validator.Validate(parameters);
+            
             var request = _twitterClient.CreateRequest();
             request.ExecutionContext.Converters = JsonQueryConverterRepository.Converters;
             return _userController.GetFriendIds(parameters, request);
@@ -67,6 +77,8 @@ namespace Tweetinvi.Client.Requesters
 
         public ITwitterPageIterator<ITwitterResult<IIdsCursorQueryResultDTO>> GetFollowerIds(IGetFollowerIdsParameters parameters)
         {
+            _validator.Validate(parameters);
+            
             var request = _twitterClient.CreateRequest();
             request.ExecutionContext.Converters = JsonQueryConverterRepository.Converters;
             return _userController.GetFollowerIds(parameters, request);
@@ -74,6 +86,8 @@ namespace Tweetinvi.Client.Requesters
 
         public async Task<ITwitterResult<IRelationshipDetailsDTO, IRelationshipDetails>> GetRelationshipBetween(IGetRelationshipBetweenParameters parameters)
         {
+            _validator.Validate(parameters);
+            
             var request = _twitterClient.CreateRequest();
             var result = await ExecuteRequest(() => _userController.GetRelationshipBetween(parameters, request), request).ConfigureAwait(false);
 
@@ -82,6 +96,8 @@ namespace Tweetinvi.Client.Requesters
 
         public Task<System.IO.Stream> GetProfileImageStream(IGetProfileImageParameters parameters)
         {
+            _validator.Validate(parameters);
+            
             var request = _twitterClient.CreateRequest();
             return _userController.GetProfileImageStream(parameters, request);
         }

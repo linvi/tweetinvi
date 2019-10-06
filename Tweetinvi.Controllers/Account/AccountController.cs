@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Tweetinvi.Core.Client.Validators;
 using Tweetinvi.Core.Controllers;
 using Tweetinvi.Core.Factories;
 using Tweetinvi.Core.Helpers;
@@ -22,28 +21,23 @@ namespace Tweetinvi.Controllers.Account
         private readonly IFactory<IAccountSettings> _accountSettingsUnityFactory;
         private readonly IJsonObjectConverter _jsonObjectConverter;
         private readonly ITwitterResultFactory _twitterResultFactory;
-        private readonly IAccountClientRequiredParametersValidator _validator;
 
         public AccountController(
             IAccountQueryExecutor accountQueryExecutor,
             IUserFactory userFactory,
             IFactory<IAccountSettings> accountSettingsUnityFactory,
             IJsonObjectConverter jsonObjectConverter,
-            ITwitterResultFactory twitterResultFactory, 
-            IAccountClientRequiredParametersValidator validator)
+            ITwitterResultFactory twitterResultFactory)
         {
             _accountQueryExecutor = accountQueryExecutor;
             _userFactory = userFactory;
             _accountSettingsUnityFactory = accountSettingsUnityFactory;
             _jsonObjectConverter = jsonObjectConverter;
             _twitterResultFactory = twitterResultFactory;
-            _validator = validator;
         }
 
         public async Task<ITwitterResult<IUserDTO, IAuthenticatedUser>> GetAuthenticatedUser(IGetAuthenticatedUserParameters parameters, ITwitterRequest request)
         {
-            _validator.Validate(parameters);
-
             var result = await _accountQueryExecutor.GetAuthenticatedUser(parameters, request).ConfigureAwait(false);
             return _twitterResultFactory.Create(result, userDTO => _userFactory.GenerateAuthenticatedUserFromDTO(userDTO));
         }
@@ -51,19 +45,16 @@ namespace Tweetinvi.Controllers.Account
         // FOLLOW/UNFOLLOW
         public Task<ITwitterResult<IUserDTO>> FollowUser(IFollowUserParameters parameters, ITwitterRequest request)
         {
-            _validator.Validate(parameters);
             return _accountQueryExecutor.FollowUser(parameters, request);
         }
         
         public Task<ITwitterResult<IRelationshipDetailsDTO>> UpdateRelationship(IUpdateRelationshipParameters parameters, ITwitterRequest request)
         {
-            _validator.Validate(parameters);
             return _accountQueryExecutor.UpdateRelationship(parameters, request);
         }
 
         public Task<ITwitterResult<IUserDTO>> UnFollowUser(IUnFollowUserParameters parameters, ITwitterRequest request)
         {
-            _validator.Validate(parameters);
             return _accountQueryExecutor.UnFollowUser(parameters, request);
         }
         
@@ -71,15 +62,11 @@ namespace Tweetinvi.Controllers.Account
         
         public Task<ITwitterResult<IRelationshipStateDTO[]>> GetRelationshipsWith(IGetRelationshipsWithParameters parameters, ITwitterRequest request)
         {
-            _validator.Validate(parameters);
-            
             return _accountQueryExecutor.GetRelationshipsWith(parameters, request);
         }
 
         public ITwitterPageIterator<ITwitterResult<IIdsCursorQueryResultDTO>> GetUserIdsRequestingFriendship(IGetUserIdsRequestingFriendshipParameters parameters, ITwitterRequest request)
         {
-            _validator.Validate(parameters);
-            
             var twitterCursorResult = new TwitterPageIterator<ITwitterResult<IIdsCursorQueryResultDTO>>(
                 parameters.Cursor,
                 cursor =>
@@ -99,8 +86,6 @@ namespace Tweetinvi.Controllers.Account
         
         public ITwitterPageIterator<ITwitterResult<IIdsCursorQueryResultDTO>> GetUserIdsYouRequestedToFollow(IGetUserIdsYouRequestedToFollowParameters parameters, ITwitterRequest request)
         {
-            _validator.Validate(parameters);
-            
             var twitterCursorResult = new TwitterPageIterator<ITwitterResult<IIdsCursorQueryResultDTO>>(
                 parameters.Cursor,
                 cursor =>
@@ -121,26 +106,21 @@ namespace Tweetinvi.Controllers.Account
         // BLOCK
         public Task<ITwitterResult<IUserDTO>> BlockUser(IBlockUserParameters parameters, ITwitterRequest request)
         {
-            _validator.Validate(parameters);
             return _accountQueryExecutor.BlockUser(parameters, request);
         }
 
         public Task<ITwitterResult<IUserDTO>> UnblockUser(IUnblockUserParameters parameters, ITwitterRequest request)
         {
-            _validator.Validate(parameters);
             return _accountQueryExecutor.UnblockUser(parameters, request);
         }
 
         public Task<ITwitterResult<IUserDTO>> ReportUserForSpam(IReportUserForSpamParameters parameters, ITwitterRequest request)
         {
-            _validator.Validate(parameters);
             return _accountQueryExecutor.ReportUserForSpam(parameters, request);
         }
 
         public ITwitterPageIterator<ITwitterResult<IIdsCursorQueryResultDTO>> GetBlockedUserIds(IGetBlockedUserIdsParameters parameters, ITwitterRequest request)
         {
-            _validator.Validate(parameters);
-            
             var twitterCursorResult = new TwitterPageIterator<ITwitterResult<IIdsCursorQueryResultDTO>>(
                 parameters.Cursor,
                 cursor =>
@@ -160,8 +140,6 @@ namespace Tweetinvi.Controllers.Account
 
         public ITwitterPageIterator<ITwitterResult<IUserCursorQueryResultDTO>> GetBlockedUsers(IGetBlockedUsersParameters parameters, ITwitterRequest request)
         {
-            _validator.Validate(parameters);
-            
             var twitterCursorResult = new TwitterPageIterator<ITwitterResult<IUserCursorQueryResultDTO>>(
                 parameters.Cursor,
                 cursor =>
@@ -181,7 +159,6 @@ namespace Tweetinvi.Controllers.Account
 
         public Task<ITwitterResult<long[]>> GetUserIdsWhoseRetweetsAreMuted(IGetUserIdsWhoseRetweetsAreMutedParameters parameters, ITwitterRequest request)
         {
-            _validator.Validate(parameters);
             return _accountQueryExecutor.GetUserIdsWhoseRetweetsAreMuted(parameters, request);
         }
 

@@ -3,8 +3,9 @@ using Tweetinvi.Parameters;
 namespace Tweetinvi.Core.Client.Validators
 {
     public interface IParametersValidator : 
-        IUsersClientParametersValidator, 
-        IAccountClientParametersValidator
+        IAccountClientParametersValidator,
+        IAccountSettingsClientParametersValidator,
+        IUsersClientParametersValidator
     {
     }
     
@@ -15,15 +16,18 @@ namespace Tweetinvi.Core.Client.Validators
     
     public class ParametersValidator : IInternalParametersValidator
     {
-        private readonly IInternalUsersClientParametersValidator _usersClientParametersValidator;
         private readonly IInternalAccountClientParametersValidator _accountClientParametersValidator;
+        private readonly IInternalAccountSettingsClientParametersValidator _accountSettingsClientParametersValidator;
+        private readonly IInternalUsersClientParametersValidator _usersClientParametersValidator;
 
         public ParametersValidator(
-            IInternalUsersClientParametersValidator usersClientParametersValidator,
-            IInternalAccountClientParametersValidator accountClientParametersValidator)
+            IInternalAccountClientParametersValidator accountClientParametersValidator,
+            IInternalAccountSettingsClientParametersValidator accountSettingsClientParametersValidator,
+            IInternalUsersClientParametersValidator usersClientParametersValidator)
         {
             _usersClientParametersValidator = usersClientParametersValidator;
             _accountClientParametersValidator = accountClientParametersValidator;
+            _accountSettingsClientParametersValidator = accountSettingsClientParametersValidator;
         }
         
         public void Initialize(ITwitterClient client)
@@ -144,6 +148,36 @@ namespace Tweetinvi.Core.Client.Validators
         public void Validate(IGetUserIdsWhoseRetweetsAreMutedParameters parameters)
         {
             _accountClientParametersValidator.Validate(parameters);
+        }
+
+        public void Validate(IGetAccountSettingsParameters parameters)
+        {
+            _accountSettingsClientParametersValidator.Validate(parameters);
+        }
+
+        public void Validate(IUpdateAccountSettingsParameters parameters)
+        {
+            _accountSettingsClientParametersValidator.Validate(parameters);
+        }
+
+        public void Validate(IUpdateProfileParameters parameters)
+        {
+            _accountSettingsClientParametersValidator.Validate(parameters);
+        }
+
+        public void Validate(IUpdateProfileImageParameters parameters)
+        {
+            _accountSettingsClientParametersValidator.Validate(parameters);
+        }
+
+        public void Validate(IUpdateProfileBannerParameters parameters)
+        {
+            _accountSettingsClientParametersValidator.Validate(parameters);
+        }
+
+        public void Validate(IRemoveProfileBannerParameters parameters)
+        {
+            _accountSettingsClientParametersValidator.Validate(parameters);
         }
     }
 }

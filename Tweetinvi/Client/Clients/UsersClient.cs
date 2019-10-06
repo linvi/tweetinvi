@@ -27,10 +27,10 @@ namespace Tweetinvi.Client
             _multiLevelCursorIteratorFactory = TweetinviContainer.Resolve<IMultiLevelCursorIteratorFactory>();
         }
         
-        #region GetUser
-
         public IUsersClientParametersValidator ParametersValidator => _client.ParametersValidator;
 
+        #region GetUser
+        
         public Task<IUser> GetUser(long? userId)
         {
             return GetUser(new UserIdentifier(userId));

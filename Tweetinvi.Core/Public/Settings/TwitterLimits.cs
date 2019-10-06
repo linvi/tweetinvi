@@ -31,6 +31,30 @@ namespace Tweetinvi
         public short ACCOUNT_GET_BLOCKED_USER_IDS_MAX_PAGE_SIZE { get; set; } = 5000;
         
         /// <summary>
+        /// Max length of the profile's name
+        /// <para>https://twitter.com/settings/profile</para>
+        /// </summary>
+        public short ACCOUNT_SETTINGS_PROFILE_NAME_MAX_LENGTH { get; set; } = 50;
+        
+        /// <summary>
+        /// Max length of the profile's bio/description
+        /// <para>https://twitter.com/settings/profile</para>
+        /// </summary>
+        public short ACCOUNT_SETTINGS_PROFILE_DESCRIPTION_MAX_LENGTH { get; set; } = 160;
+        
+        /// <summary>
+        /// Max length of the profile's location
+        /// <para>https://twitter.com/settings/profile</para>
+        /// </summary>
+        public short ACCOUNT_SETTINGS_PROFILE_LOCATION_MAX_LENGTH { get; set; } = 30;
+        
+        /// <summary>
+        /// Max length of the profile's website url
+        /// <para>https://twitter.com/settings/profile</para>
+        /// </summary>
+        public short ACCOUNT_SETTINGS_PROFILE_WEBSITE_URL_MAX_LENGTH { get; set; } = 100;
+        
+        /// <summary>
         /// Maximum numbers of users that can be retrieved in 1 request
         /// <para>https://dev.twitter.com/en/docs/accounts-and-users/mute-block-report-users/api-reference/get-blocks-list</para>
         /// </summary>

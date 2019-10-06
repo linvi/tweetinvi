@@ -42,7 +42,7 @@ namespace Tweetinvi.Controllers.Account
 
 
         // Profile
-        Task<IUserDTO> UpdateProfileParameters(IAccountUpdateProfileParameters parameters);
+        Task<IUserDTO> UpdateProfileParameters(IUpdateProfileParameters parameters);
         // Mute
         Task<IEnumerable<long>> GetMutedUserIds(int maxUserIds = int.MaxValue);
 
@@ -212,7 +212,7 @@ namespace Tweetinvi.Controllers.Account
 
         
 
-        public Task<IUserDTO> UpdateProfileParameters(IAccountUpdateProfileParameters parameters)
+        public Task<IUserDTO> UpdateProfileParameters(IUpdateProfileParameters parameters)
         {
             var query = _accountQueryGenerator.GetUpdateProfileParametersQuery(parameters);
             return _twitterAccessor.ExecutePOSTQuery<IUserDTO>(query);

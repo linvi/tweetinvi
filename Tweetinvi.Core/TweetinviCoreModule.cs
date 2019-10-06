@@ -99,6 +99,9 @@ namespace Tweetinvi.Core.Injectinvi
             
             container.RegisterType<IInternalAccountClientParametersValidator, AccountClientParametersValidator>();
             container.RegisterType<IAccountClientRequiredParametersValidator, AccountClientRequiredParametersValidator>();
+            
+            container.RegisterType<IInternalAccountSettingsClientParametersValidator, AccountSettingsClientParametersValidator>();
+            container.RegisterType<IAccountSettingsClientRequiredParametersValidator, AccountSettingsClientRequiredParametersValidator>();
         }
     }
 }

@@ -1,5 +1,6 @@
 using System.Threading.Tasks;
 using Tweetinvi.Client.Requesters;
+using Tweetinvi.Core.Client.Validators;
 using Tweetinvi.Models;
 using Tweetinvi.Parameters;
 
@@ -7,12 +8,16 @@ namespace Tweetinvi.Client
 {
     public class AccountSettingsClient : IAccountSettingsClient
     {
+        private readonly TwitterClient _client;
         private readonly IAccountSettingsRequester _accountRequester;
 
         public AccountSettingsClient(TwitterClient client)
         {
+            _client = client;
             _accountRequester = client.RequestExecutor.AccountSettings;
         }
+        
+        public IAccountSettingsClientParametersValidator ParametersValidator => _client.ParametersValidator;
 
         public Task<IAccountSettings> GetAccountSettings()
         {

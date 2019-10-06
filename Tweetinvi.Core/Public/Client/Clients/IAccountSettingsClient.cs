@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using Tweetinvi.Core.Client.Validators;
 using Tweetinvi.Models;
 using Tweetinvi.Parameters;
 
@@ -9,6 +10,11 @@ namespace Tweetinvi.Client
     /// </summary>
     public interface IAccountSettingsClient
     {
+        /// <summary>
+        /// Validate all the AccountSettingsClient parameters
+        /// </summary>
+        IAccountSettingsClientParametersValidator ParametersValidator { get; }
+        
         /// <inheritdoc cref="GetAccountSettings(IGetAccountSettingsParameters)" />
         Task<IAccountSettings> GetAccountSettings();
 

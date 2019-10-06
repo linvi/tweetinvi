@@ -40,7 +40,7 @@ namespace Tweetinvi.Controllers.Account
 
 
         // Profile
-        string GetUpdateProfileParametersQuery(IAccountUpdateProfileParameters parameters);
+        string GetUpdateProfileParametersQuery(IUpdateProfileParameters parameters);
         
         // Mute
         string GetMutedUserIdsQuery();
@@ -224,12 +224,12 @@ namespace Tweetinvi.Controllers.Account
 
         
          // Profile
-        public string GetUpdateProfileParametersQuery(IAccountUpdateProfileParameters parameters)
+        public string GetUpdateProfileParametersQuery(IUpdateProfileParameters parameters)
         {
             var query = new StringBuilder(Resources.Account_UpdateProfile);
 
             query.AddParameterToQuery("name", parameters.Name);
-            query.AddParameterToQuery("url", parameters.Url);
+            query.AddParameterToQuery("url", parameters.WebsiteUrl);
             query.AddParameterToQuery("location", parameters.Location);
             query.AddParameterToQuery("description", parameters.Description);
             query.AddParameterToQuery("profile_link_color", parameters.ProfileLinkColor);

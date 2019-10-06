@@ -10,6 +10,9 @@ namespace Tweetinvi.Client
 {
     public interface IUsersClient
     {
+        /// <summary>
+        /// Validate all the UsersClient parameters
+        /// </summary>
         IUsersClientParametersValidator ParametersValidator { get; }
         
         #region Get User
