@@ -280,6 +280,8 @@ namespace xUnitinvi.ClientActions.AccountsClient
             Assert.Equal(result, $"https://api.twitter.com/1.1/friendships/lookup.json?user_id=42%2C43&screen_name=tweetinviapi%2Ctweetinvitest&hello=world");
         }
         
+        // MUTE
+        
         [Fact]
         public void GetUserIdsWhoseRetweetsAreMutedQuery_ReturnsExpectedQuery()
         {
@@ -296,6 +298,84 @@ namespace xUnitinvi.ClientActions.AccountsClient
 
             // Assert
             Assert.Equal(result, $"https://api.twitter.com/1.1/friendships/no_retweets/ids.json?hello=world");
+        }
+        
+        [Fact]
+        public void GetMutedUserIdsQuery_ReturnsExpectedQuery()
+        {
+            // Arrange
+            var queryGenerator = CreateAccountQueryGenerator();
+
+            var parameters = new GetMutedUserIdsParameters
+            {
+                Cursor = "42",
+                PageSize = 43,
+                CustomQueryParameters = { new Tuple<string, string>("hello", "world") }
+            };
+
+            // Act
+            var result = queryGenerator.GetMutedUserIdsQuery(parameters);
+
+            // Assert
+            Assert.Equal(result, $"https://api.twitter.com/1.1/mutes/users/ids.json?cursor=42&count=43&hello=world");
+        }
+        
+        [Fact]
+        public void GetMutedUsersQuery_ReturnsExpectedQuery()
+        {
+            // Arrange
+            var queryGenerator = CreateAccountQueryGenerator();
+
+            var parameters = new GetMutedUsersParameters
+            {
+                Cursor = "42",
+                PageSize = 43,
+                IncludeEntities = true,
+                SkipStatus = false,
+                CustomQueryParameters = { new Tuple<string, string>("hello", "world") }
+            };
+
+            // Act
+            var result = queryGenerator.GetMutedUsersQuery(parameters);
+
+            // Assert
+            Assert.Equal(result, $"https://api.twitter.com/1.1/mutes/users/list.json?cursor=42&count=43&include_entities=true&skip_status=false&hello=world");
+        }
+        
+        [Fact]
+        public void GetMuteUserQuery_ReturnsExpectedQuery()
+        {
+            // Arrange
+            var queryGenerator = CreateAccountQueryGenerator();
+
+            var parameters = new MuteUserParameters(42)
+            {
+                CustomQueryParameters = { new Tuple<string, string>("hello", "world") }
+            };
+
+            // Act
+            var result = queryGenerator.GetMuteUserQuery(parameters);
+
+            // Assert
+            Assert.Equal(result, $"https://api.twitter.com/1.1/mutes/users/create.json?user_id=42&hello=world");
+        }
+        
+        [Fact]
+        public void GetUnMuteUserQuery_ReturnsExpectedQuery()
+        {
+            // Arrange
+            var queryGenerator = CreateAccountQueryGenerator();
+
+            var parameters = new UnMuteUserParameters(42)
+            {
+                CustomQueryParameters = { new Tuple<string, string>("hello", "world") }
+            };
+
+            // Act
+            var result = queryGenerator.GetUnMuteUserQuery(parameters);
+
+            // Assert
+            Assert.Equal(result, $"https://api.twitter.com/1.1/mutes/users/destroy.json?user_id=42&hello=world");
         }
     }
 }

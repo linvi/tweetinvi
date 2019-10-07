@@ -105,7 +105,30 @@ namespace xUnitinvi.ClientActions.AccountsClient
         }
         
         [Fact]
-        public async Task GetBlockedUserIds_ReturnsUserDTO()
+        public async Task ReportUserForSpam_ReturnsUserDTO()
+        {
+            // Arrange
+            var queryExecutor = CreateAccountQueryExecutor();
+
+            var url = TestHelper.GenerateString();
+            var parameters = new ReportUserForSpamParameters(42);
+            var request = A.Fake<ITwitterRequest>();
+            var expectedResult = A.Fake<ITwitterResult<IUserDTO>>();
+
+            A.CallTo(() => _fakeAccountQueryGenerator.GetReportUserForSpamQuery(parameters)).Returns(url);
+            A.CallTo(() => _fakeTwitterAccessor.ExecuteRequest<IUserDTO>(request)).Returns(expectedResult);
+
+            // Act
+            var result = await queryExecutor.ReportUserForSpam(parameters, request);
+
+            // Assert
+            Assert.Equal(result, expectedResult);
+            Assert.Equal(request.Query.Url, url);
+            Assert.Equal(HttpMethod.POST, request.Query.HttpMethod);
+        }
+        
+        [Fact]
+        public async Task GetBlockedUserIds_ReturnsUserIds()
         {
             // Arrange
             var queryExecutor = CreateAccountQueryExecutor();
@@ -120,6 +143,29 @@ namespace xUnitinvi.ClientActions.AccountsClient
 
             // Act
             var result = await queryExecutor.GetBlockedUserIds(parameters, request);
+
+            // Assert
+            Assert.Equal(result, expectedResult);
+            Assert.Equal(request.Query.Url, url);
+            Assert.Equal(HttpMethod.GET, request.Query.HttpMethod);
+        }
+        
+        [Fact]
+        public async Task GetBlockedUsers_ReturnsUserDTOs()
+        {
+            // Arrange
+            var queryExecutor = CreateAccountQueryExecutor();
+
+            var url = TestHelper.GenerateString();
+            var parameters = new GetBlockedUsersParameters();
+            var request = A.Fake<ITwitterRequest>();
+            var expectedResult = A.Fake<ITwitterResult<IUserCursorQueryResultDTO>>();
+
+            A.CallTo(() => _fakeAccountQueryGenerator.GetBlockedUsersQuery(parameters)).Returns(url);
+            A.CallTo(() => _fakeTwitterAccessor.ExecuteRequest<IUserCursorQueryResultDTO>(request)).Returns(expectedResult);
+
+            // Act
+            var result = await queryExecutor.GetBlockedUsers(parameters, request);
 
             // Assert
             Assert.Equal(result, expectedResult);
@@ -265,6 +311,122 @@ namespace xUnitinvi.ClientActions.AccountsClient
             Assert.Equal(result, expectedResult);
             Assert.Equal(request.Query.Url, url);
             Assert.Equal(HttpMethod.GET, request.Query.HttpMethod);
+        }
+        
+        // MUTE
+        [Fact]
+        public async Task GetUserIdsWhoseRetweetsAreMuted_ReturnsUserIds()
+        {
+            // Arrange
+            var queryExecutor = CreateAccountQueryExecutor();
+
+            var url = TestHelper.GenerateString();
+            var parameters = new GetUserIdsWhoseRetweetsAreMutedParameters();
+            var request = A.Fake<ITwitterRequest>();
+            var expectedResult = A.Fake<ITwitterResult<long[]>>();
+
+            A.CallTo(() => _fakeAccountQueryGenerator.GetUserIdsWhoseRetweetsAreMutedQuery(parameters)).Returns(url);
+            A.CallTo(() => _fakeTwitterAccessor.ExecuteRequest<long[]>(request)).Returns(expectedResult);
+
+            // Act
+            var result = await queryExecutor.GetUserIdsWhoseRetweetsAreMuted(parameters, request);
+
+            // Assert
+            Assert.Equal(result, expectedResult);
+            Assert.Equal(request.Query.Url, url);
+            Assert.Equal(HttpMethod.GET, request.Query.HttpMethod);
+        }
+        
+        [Fact]
+        public async Task GetMutedUserIds_ReturnsUserIds()
+        {
+            // Arrange
+            var queryExecutor = CreateAccountQueryExecutor();
+
+            var url = TestHelper.GenerateString();
+            var parameters = new GetMutedUserIdsParameters();
+            var request = A.Fake<ITwitterRequest>();
+            var expectedResult = A.Fake<ITwitterResult<IIdsCursorQueryResultDTO>>();
+
+            A.CallTo(() => _fakeAccountQueryGenerator.GetMutedUserIdsQuery(parameters)).Returns(url);
+            A.CallTo(() => _fakeTwitterAccessor.ExecuteRequest<IIdsCursorQueryResultDTO>(request)).Returns(expectedResult);
+
+            // Act
+            var result = await queryExecutor.GetMutedUserIds(parameters, request);
+
+            // Assert
+            Assert.Equal(result, expectedResult);
+            Assert.Equal(request.Query.Url, url);
+            Assert.Equal(HttpMethod.GET, request.Query.HttpMethod);
+        }
+        
+        [Fact]
+        public async Task GetMutedUsers_ReturnsUserDTOs()
+        {
+            // Arrange
+            var queryExecutor = CreateAccountQueryExecutor();
+
+            var url = TestHelper.GenerateString();
+            var parameters = new GetMutedUsersParameters();
+            var request = A.Fake<ITwitterRequest>();
+            var expectedResult = A.Fake<ITwitterResult<IUserCursorQueryResultDTO>>();
+
+            A.CallTo(() => _fakeAccountQueryGenerator.GetMutedUsersQuery(parameters)).Returns(url);
+            A.CallTo(() => _fakeTwitterAccessor.ExecuteRequest<IUserCursorQueryResultDTO>(request)).Returns(expectedResult);
+
+            // Act
+            var result = await queryExecutor.GetMutedUsers(parameters, request);
+
+            // Assert
+            Assert.Equal(result, expectedResult);
+            Assert.Equal(request.Query.Url, url);
+            Assert.Equal(HttpMethod.GET, request.Query.HttpMethod);
+        }
+        
+        [Fact]
+        public async Task MutedUser_ReturnsUserDTO()
+        {
+            // Arrange
+            var queryExecutor = CreateAccountQueryExecutor();
+
+            var url = TestHelper.GenerateString();
+            var parameters = new MuteUserParameters(42);
+            var request = A.Fake<ITwitterRequest>();
+            var expectedResult = A.Fake<ITwitterResult<IUserDTO>>();
+
+            A.CallTo(() => _fakeAccountQueryGenerator.GetMuteUserQuery(parameters)).Returns(url);
+            A.CallTo(() => _fakeTwitterAccessor.ExecuteRequest<IUserDTO>(request)).Returns(expectedResult);
+
+            // Act
+            var result = await queryExecutor.MuteUser(parameters, request);
+
+            // Assert
+            Assert.Equal(result, expectedResult);
+            Assert.Equal(request.Query.Url, url);
+            Assert.Equal(HttpMethod.POST, request.Query.HttpMethod);
+        }
+        
+        [Fact]
+        public async Task UnMutedUser_ReturnsUserDTO()
+        {
+            // Arrange
+            var queryExecutor = CreateAccountQueryExecutor();
+
+            var url = TestHelper.GenerateString();
+            var parameters = new UnMuteUserParameters(42);
+            var request = A.Fake<ITwitterRequest>();
+            var expectedResult = A.Fake<ITwitterResult<IUserDTO>>();
+
+            A.CallTo(() => _fakeAccountQueryGenerator.GetUnMuteUserQuery(parameters)).Returns(url);
+            A.CallTo(() => _fakeTwitterAccessor.ExecuteRequest<IUserDTO>(request)).Returns(expectedResult);
+
+            // Act
+            var result = await queryExecutor.UnMuteUser(parameters, request);
+
+            // Assert
+            Assert.Equal(result, expectedResult);
+            Assert.Equal(request.Query.Url, url);
+            Assert.Equal(HttpMethod.POST, request.Query.HttpMethod);
         }
     }
 }

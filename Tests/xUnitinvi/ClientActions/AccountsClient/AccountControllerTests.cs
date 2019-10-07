@@ -2,14 +2,10 @@
 using System.Threading.Tasks;
 using FakeItEasy;
 using Tweetinvi.Controllers.Account;
-using Tweetinvi.Core.DTO.Cursor;
 using Tweetinvi.Core.Web;
-using Tweetinvi.Exceptions;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
-using Tweetinvi.Models.DTO.QueryDTO;
 using Tweetinvi.Parameters;
-using Tweetinvi.WebLogic;
 using Xunit;
 using xUnitinvi.TestHelpers;
 
@@ -52,9 +48,46 @@ namespace xUnitinvi.ClientActions.AccountsClient
             // Assert
             Assert.Equal(result, expectedResult);
         }
-        
+
         // BLOCK
+        [Fact]
+        public async Task GetBlockedUserIds_ReturnsAllPages()
+        {
+            // arrange
+            var accountController = CreateAccountController();
+            var parameters = new GetBlockedUserIdsParameters();
+
+            var iterator = accountController.GetBlockedUserIds(parameters, A.Fake<ITwitterRequest>());
+            var iteratorTestRunner = new TwitterIdsIteratorTestRunner(iterator);
+
+            iteratorTestRunner.Arrange(A.CallTo(() => _fakeAccountQueryExecutor.GetBlockedUserIds(It.IsAny<IGetBlockedUserIdsParameters>(), It.IsAny<ITwitterRequest>())));
+
+            // act
+            await iteratorTestRunner.Act();
+            
+            // assert
+            await iteratorTestRunner.Assert();
+        }
         
+        [Fact]
+        public async Task GetBlockedUsers_ReturnsAllPages()
+        {
+            // arrange
+            var accountController = CreateAccountController();
+            var parameters = new GetBlockedUsersParameters();
+
+            var iterator = accountController.GetBlockedUsers(parameters, A.Fake<ITwitterRequest>());
+            var iteratorTestRunner = new TwitterUsersIteratorTestRunner(iterator);
+
+            iteratorTestRunner.Arrange(A.CallTo(() => _fakeAccountQueryExecutor.GetBlockedUsers(It.IsAny<IGetBlockedUsersParameters>(), It.IsAny<ITwitterRequest>())));
+
+            // act
+            await iteratorTestRunner.Act();
+            
+            // assert
+            await iteratorTestRunner.Assert();
+        }
+
         [Fact]
         public async Task BlockUser_ReturnsFromUserQueryExecutor()
         {
@@ -116,7 +149,7 @@ namespace xUnitinvi.ClientActions.AccountsClient
         }
 
         // FOLLOWERS
-        
+
         [Fact]
         public async Task FollowUser_ReturnsFromUserQueryExecutor()
         {
@@ -158,7 +191,7 @@ namespace xUnitinvi.ClientActions.AccountsClient
         }
 
         // ONGOING REQUESTS
-        
+
         [Fact]
         public async Task GetUserIdsRequestingFriendship_MoveToNextPage_ReturnsAllPages()
         {
@@ -166,47 +199,18 @@ namespace xUnitinvi.ClientActions.AccountsClient
             var accountController = CreateAccountController();
             var parameters = new GetUserIdsRequestingFriendshipParameters();
 
-            ITwitterResult<IIdsCursorQueryResultDTO>[] results =
-            {
-                new TwitterResult<IIdsCursorQueryResultDTO>(null)
-                {
-                    DataTransferObject = new IdsCursorQueryResultDTO
-                    {
-                        Ids = new long[] { 42, 43 },
-                        NextCursorStr = "cursor_to_page_2",
-                    },
-                    Response = new TwitterResponse()
-                },
-                new TwitterResult<IIdsCursorQueryResultDTO>(null)
-                {
-                    DataTransferObject = new IdsCursorQueryResultDTO
-                    {
-                        Ids = new long[] { 44, 45 },
-                        NextCursorStr = "0",
-                    },
-                    Response = new TwitterResponse()
-                }
-            };
+            var iterator = accountController.GetUserIdsRequestingFriendship(parameters, A.Fake<ITwitterRequest>());
+            var iteratorTestRunner = new TwitterIdsIteratorTestRunner(iterator);
 
-            A.CallTo(() => _fakeAccountQueryExecutor.GetUserIdsRequestingFriendship(It.IsAny<IGetUserIdsRequestingFriendshipParameters>(), It.IsAny<ITwitterRequest>()))
-                .ReturnsNextFromSequence(results);
-
-            var result = accountController.GetUserIdsRequestingFriendship(parameters, A.Fake<ITwitterRequest>());
+            iteratorTestRunner.Arrange(A.CallTo(() => _fakeAccountQueryExecutor.GetUserIdsRequestingFriendship(It.IsAny<IGetUserIdsRequestingFriendshipParameters>(), It.IsAny<ITwitterRequest>())));
 
             // act
-            var page1 = await result.MoveToNextPage();
-            var page2 = await result.MoveToNextPage();
+            await iteratorTestRunner.Act();
 
             // assert
-            Assert.Equal(page1.Content, results[0]);
-            Assert.False(page1.IsLastPage);
-
-            Assert.Equal(page2.Content, results[1]);
-            Assert.True(page2.IsLastPage);
-
-            await Assert.ThrowsAsync<TwitterIteratorAlreadyCompletedException>(() => result.MoveToNextPage());
+            await iteratorTestRunner.Assert();
         }
-        
+
         [Fact]
         public async Task GetUserIdsYouRequestedToFollow_MoveToNextPage_ReturnsAllPages()
         {
@@ -214,49 +218,20 @@ namespace xUnitinvi.ClientActions.AccountsClient
             var accountController = CreateAccountController();
             var parameters = new GetUserIdsYouRequestedToFollowParameters();
 
-            ITwitterResult<IIdsCursorQueryResultDTO>[] results =
-            {
-                new TwitterResult<IIdsCursorQueryResultDTO>(null)
-                {
-                    DataTransferObject = new IdsCursorQueryResultDTO
-                    {
-                        Ids = new long[] { 42, 43 },
-                        NextCursorStr = "cursor_to_page_2",
-                    },
-                    Response = new TwitterResponse()
-                },
-                new TwitterResult<IIdsCursorQueryResultDTO>(null)
-                {
-                    DataTransferObject = new IdsCursorQueryResultDTO
-                    {
-                        Ids = new long[] { 44, 45 },
-                        NextCursorStr = "0",
-                    },
-                    Response = new TwitterResponse()
-                }
-            };
+            var iterator = accountController.GetUserIdsYouRequestedToFollow(parameters, A.Fake<ITwitterRequest>());
+            var iteratorTestRunner = new TwitterIdsIteratorTestRunner(iterator);
 
-            A.CallTo(() => _fakeAccountQueryExecutor.GetUserIdsYouRequestedToFollow(It.IsAny<IGetUserIdsYouRequestedToFollowParameters>(), It.IsAny<ITwitterRequest>()))
-                .ReturnsNextFromSequence(results);
-
-            var result = accountController.GetUserIdsYouRequestedToFollow(parameters, A.Fake<ITwitterRequest>());
+            iteratorTestRunner.Arrange(A.CallTo(() => _fakeAccountQueryExecutor.GetUserIdsYouRequestedToFollow(It.IsAny<IGetUserIdsYouRequestedToFollowParameters>(), It.IsAny<ITwitterRequest>())));
 
             // act
-            var page1 = await result.MoveToNextPage();
-            var page2 = await result.MoveToNextPage();
-
+            await iteratorTestRunner.Act();
+            
             // assert
-            Assert.Equal(page1.Content, results[0]);
-            Assert.False(page1.IsLastPage);
-
-            Assert.Equal(page2.Content, results[1]);
-            Assert.True(page2.IsLastPage);
-
-            await Assert.ThrowsAsync<TwitterIteratorAlreadyCompletedException>(() => result.MoveToNextPage());
+            await iteratorTestRunner.Assert();
         }
 
         // FRIENDSHIPS
-        
+
         [Fact]
         public async Task UpdateRelationship_ReturnsFromUserQueryExecutor()
         {
@@ -275,7 +250,7 @@ namespace xUnitinvi.ClientActions.AccountsClient
             // Assert
             Assert.Equal(result, expectedResult);
         }
-        
+
         [Fact]
         public async Task GetRelationshipsWith_ReturnsFromUserQueryExecutor()
         {
@@ -293,6 +268,100 @@ namespace xUnitinvi.ClientActions.AccountsClient
 
             // Assert
             Assert.Equal(result, expectedResult);
+        }
+
+        // MUTE
+        
+        [Fact]
+        public async Task GetUserIdsWhoseRetweetsAreMuted_ReturnsFromUserQueryExecutor()
+        {
+            // arrange
+            var accountController = CreateAccountController();
+            var parameters = new GetUserIdsWhoseRetweetsAreMutedParameters();
+            var request = A.Fake<ITwitterRequest>();
+            var expectedResult = A.Fake<ITwitterResult<long[]>>();
+
+            A.CallTo(() => _fakeAccountQueryExecutor.GetUserIdsWhoseRetweetsAreMuted(parameters, request)).Returns(expectedResult);
+            
+            // act
+            var result = await accountController.GetUserIdsWhoseRetweetsAreMuted(parameters, request);
+
+            // assert
+            Assert.Same(result, expectedResult);
+        }
+        
+        [Fact]
+        public async Task GetMutedUserIds_ReturnsAllPages()
+        {
+            // arrange
+            var accountController = CreateAccountController();
+            var parameters = new GetMutedUserIdsParameters();
+
+            var iterator = accountController.GetMutedUserIds(parameters, A.Fake<ITwitterRequest>());
+            var testRunner = new TwitterIdsIteratorTestRunner(iterator);
+            
+            testRunner.Arrange(A.CallTo(() => _fakeAccountQueryExecutor.GetMutedUserIds(It.IsAny<IGetMutedUserIdsParameters>(), It.IsAny<ITwitterRequest>())));
+
+            // act
+            await testRunner.Act();
+
+            // assert
+            await testRunner.Assert();
+        }
+        
+        [Fact]
+        public async Task GetMutedUsers_ReturnsAllPages()
+        {
+            // arrange
+            var accountController = CreateAccountController();
+            var parameters = new GetMutedUsersParameters();
+
+            var iterator = accountController.GetMutedUsers(parameters, A.Fake<ITwitterRequest>());
+            var iteratorTestRunner = new TwitterUsersIteratorTestRunner(iterator);
+
+            iteratorTestRunner.Arrange(A.CallTo(() => _fakeAccountQueryExecutor.GetMutedUsers(It.IsAny<IGetMutedUsersParameters>(), It.IsAny<ITwitterRequest>())));
+
+            // act
+            await iteratorTestRunner.Act();
+            
+            // assert
+            await iteratorTestRunner.Assert();
+        }
+        
+        [Fact]
+        public async Task MuteUser_ReturnsFromUserQueryExecutor()
+        {
+            // arrange
+            var accountController = CreateAccountController();
+            var parameters = new MuteUserParameters(42);
+            var request = A.Fake<ITwitterRequest>();
+            var expectedResult = A.Fake<ITwitterResult<IUserDTO>>();
+
+            A.CallTo(() => _fakeAccountQueryExecutor.MuteUser(parameters, request)).Returns(expectedResult);
+            
+            // act
+            var result = await accountController.MuteUser(parameters, request);
+
+            // assert
+            Assert.Same(result, expectedResult);
+        }
+        
+        [Fact]
+        public async Task UnMuteUser_ReturnsFromUserQueryExecutor()
+        {
+            // arrange
+            var accountController = CreateAccountController();
+            var parameters = new UnMuteUserParameters(42);
+            var request = A.Fake<ITwitterRequest>();
+            var expectedResult = A.Fake<ITwitterResult<IUserDTO>>();
+
+            A.CallTo(() => _fakeAccountQueryExecutor.UnMuteUser(parameters, request)).Returns(expectedResult);
+            
+            // act
+            var result = await accountController.UnMuteUser(parameters, request);
+
+            // assert
+            Assert.Same(result, expectedResult);
         }
     }
 }

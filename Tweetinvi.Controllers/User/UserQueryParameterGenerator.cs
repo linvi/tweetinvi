@@ -25,19 +25,6 @@ namespace Tweetinvi.Controllers.User
             _userQueryValidator = userQueryValidator;
         }
 
-        public string GetAuthenticatedUserQuery(IGetAuthenticatedUserParameters parameters)
-        {
-            var query = new StringBuilder(Resources.User_GetCurrentUser);
-            parameters = parameters ?? new GetAuthenticatedUserParameters();
-
-            query.AddParameterToQuery("skip_status", parameters.SkipStatus);
-            query.AddParameterToQuery("include_entities", parameters.IncludeEntities);
-            query.AddParameterToQuery("include_email", parameters.IncludeEmail);
-            query.Append(_queryParameterGenerator.GenerateAdditionalRequestParameters(parameters.FormattedCustomQueryParameters));
-
-            return query.ToString();
-        }
-
         public string GenerateUserIdParameter(long? userId, string parameterName = "user_id")
         {
             if (userId == null)
