@@ -5,6 +5,7 @@ namespace Tweetinvi.Core.Client.Validators
 {
     public interface ITweetsClientParametersValidator
     {
+        void Validate(IGetTweetParameters parameters);
         void Validate(IPublishTweetParameters parameters);
         void Validate(IGetFavoriteTweetsParameters parameters);
     }
@@ -29,6 +30,11 @@ namespace Tweetinvi.Core.Client.Validators
         public void Initialize(ITwitterClient client)
         {
             _client = client;
+        }
+
+        public void Validate(IGetTweetParameters parameters)
+        {
+            _tweetsClientRequiredParametersValidator.Validate(parameters);
         }
 
         public void Validate(IPublishTweetParameters parameters)

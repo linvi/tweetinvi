@@ -171,7 +171,12 @@ namespace Tweetinvi.Core.Client.Validators
         {
             _accountSettingsClientParametersValidator.Validate(parameters);
         }
-        
+
+        public void Validate(IGetTweetParameters parameters)
+        {
+            _tweetsClientParametersValidator.Validate(parameters);
+        }
+
         public void Validate(IPublishTweetParameters parameters)
         {
             _tweetsClientParametersValidator.Validate(parameters);

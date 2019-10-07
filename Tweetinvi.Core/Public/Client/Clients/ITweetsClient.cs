@@ -14,11 +14,15 @@ namespace Tweetinvi.Client
         /// </summary>
         ITweetsClientParametersValidator ParametersValidator { get; }
         
+        /// <inheritdoc cref="GetTweet(IGetTweetParameters)" />
+        Task<ITweet> GetTweet(long? tweetId);
+        
         /// <summary>
         /// Get a tweet
+        /// <para>Read more : https://dev.twitter.com/en/docs/tweets/post-and-engage/api-reference/get-statuses-show-id </para>
         /// </summary>
-        /// <returns>The specified tweet</returns>
-        Task<ITweet> GetTweet(long? tweetId);
+        /// <returns>The tweet</returns>
+        Task<ITweet> GetTweet(IGetTweetParameters parameters);
 
         /// <summary>
         /// Get multiple tweets

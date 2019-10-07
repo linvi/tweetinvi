@@ -1,17 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Tweetinvi.Core.Client;
 using Tweetinvi.Core.Web;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
-using Tweetinvi.Models.Interfaces;
 
 namespace Tweetinvi.Core.Factories
 {
     public interface ITweetFactory
     {
-        Task<ITwitterResult<ITweetDTO, ITweet>> GetTweet(long tweetId, ITwitterRequest request);
         Task<ITwitterResult<ITweetDTO[], ITweet[]>> GetTweets(long[] tweetIds, ITwitterRequest request);
 
         ITweet CreateTweet(string text, TweetMode? tweetMode, ITwitterExecutionContext executionContext);
@@ -34,5 +31,6 @@ namespace Tweetinvi.Core.Factories
         IMention GenerateMentionFromDTO(ITweetDTO tweetDTO);
         IEnumerable<IMention> GenerateMentionsFromDTO(IEnumerable<ITweetDTO> tweetsDTO);
         IOEmbedTweet GenerateOEmbedTweetFromJson(string json);
+        ITweet GenerateTweetFromDTO(ITweetDTO tweetDTO, ITwitterExecutionContext executionContext);
     }
 }

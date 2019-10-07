@@ -29,19 +29,15 @@ namespace Tweetinvi.Client
 
         // Tweets
 
-        /// <summary>
-        /// Get a tweet
-        /// </summary>
-        /// <returns>The specified tweet</returns>
-        public async Task<ITweet> GetTweet(long? tweetId)
+        public Task<ITweet> GetTweet(long? tweetId)
         {
-            if (tweetId == null)
-            {
-                throw new ArgumentNullException(nameof(tweetId));
-            }
+            return GetTweet(new GetTweetParameters(tweetId));
+        }
 
-            var requestResult = await _tweetsRequester.GetTweet(tweetId.Value);
-            return requestResult?.Result;
+        public async Task<ITweet> GetTweet(IGetTweetParameters parameters)
+        {
+            var twitterResult = await _tweetsRequester.GetTweet(parameters);
+            return twitterResult?.Result;
         }
 
         /// <summary>

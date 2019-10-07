@@ -14,6 +14,13 @@ namespace Tweetinvi.Client.Requesters
     public interface ITweetsRequester
     {
         /// <summary>
+        /// Get a tweet
+        /// <para>Read more : https://dev.twitter.com/en/docs/tweets/post-and-engage/api-reference/get-statuses-show-id </para>
+        /// </summary>
+        /// <returns>TwitterResult containing specified tweet</returns>
+        Task<ITwitterResult<ITweetDTO, ITweet>> GetTweet(IGetTweetParameters parameters);
+        
+        /// <summary>
         /// Publish a tweet
         /// <para>Read more : https://dev.twitter.com/rest/reference/post/statuses/update </para>
         /// </summary>
@@ -27,13 +34,6 @@ namespace Tweetinvi.Client.Requesters
         /// <returns>Iterator over the list of tweets favorited by a user</returns>
         ITwitterPageIterator<ITwitterResult<ITweetDTO[]>, long?> GetFavoriteTweets(IGetFavoriteTweetsParameters parameters);
         
-        // Tweets
-        
-        /// <summary>
-        /// Get a tweet
-        /// </summary>
-        /// <returns>TwitterResult containing specified tweet</returns>
-        Task<ITwitterResult<ITweetDTO, ITweet>> GetTweet(long tweetId);
         
         /// <summary>
         /// Get multiple tweets
@@ -72,5 +72,6 @@ namespace Tweetinvi.Client.Requesters
         /// </summary>
         /// <returns>TwitterResult containing the success status of the request</returns>
         Task<ITwitterResult> DestroyRetweet(ITweetIdentifier retweetId);
+
     }
 }

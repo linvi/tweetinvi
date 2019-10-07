@@ -31,6 +31,15 @@ namespace Tweetinvi.Parameters
         ITweetIdentifier InReplyToTweet { get; set; }
 
         /// <summary>
+        /// In order for a URL to not be counted in the status body of an extended Tweet, provide a URL as a Tweet attachment.
+        /// This URL must be a Tweet permalink, or Direct Message deep link.
+        /// Arbitrary, non-Twitter URLs must remain in the status text.
+        /// URLs passed to the attachment_url parameter not matching either a Tweet permalink or
+        /// Direct Message deep link will fail at Tweet creation and cause an exception.
+        /// </summary>
+        string AttachmentTwitterUrl { get; set; }
+        
+        /// <summary>
         /// A <a href="https://dev.twitter.com/overview/api/places">place</a> in the world.
         /// </summary>
         string PlaceId { get; set; }
@@ -92,6 +101,23 @@ namespace Tweetinvi.Parameters
         /// Must be used with AutoPopulateReplyMetadata.
         /// </summary>
         IEnumerable<long> ExcludeReplyUserIds { get; set; }
+        
+        /// <summary>
+        /// When set to true, enables shortcode commands for sending Direct Messages as part of the status text to send a Direct Message to a user.
+        /// When set to false, disables this behavior and includes any leading characters in the status text that is posted
+        /// </summary>
+        bool? EnableDirectMessageCommands { get; set; }
+        
+        /// <summary>
+        /// When set to true, causes any status text that starts with shortcode commands to return an API error.
+        /// When set to false, allows shortcode commands to be sent in the status text and acted on by the API.
+        /// </summary>
+        bool? FailDirectMessageCommands { get; set; }
+        
+        /// <summary>
+        /// Associate an ads card with the Tweet using the card_uri value from any ads card response.
+        /// </summary>
+        string CardUri { get; set; }
     }
 
     /// <inheritdoc/>
@@ -155,6 +181,9 @@ namespace Tweetinvi.Parameters
         }
 
         /// <inheritdoc/>
+        public string AttachmentTwitterUrl { get; set; }
+
+        /// <inheritdoc/>
         public ITweet QuotedTweet { get; set; }
 
         /// <inheritdoc/>
@@ -186,5 +215,12 @@ namespace Tweetinvi.Parameters
         public bool? AutoPopulateReplyMetadata { get; set; }
         /// <inheritdoc/>
         public IEnumerable<long> ExcludeReplyUserIds { get; set; }
+
+        /// <inheritdoc/>
+        public bool? EnableDirectMessageCommands { get; set; }
+        /// <inheritdoc/>
+        public bool? FailDirectMessageCommands { get; set; }
+        /// <inheritdoc/>
+        public string CardUri { get; set; }
     }
 }

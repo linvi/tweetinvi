@@ -8,7 +8,6 @@ using Tweetinvi.Controllers.Shared;
 using Tweetinvi.Core;
 using Tweetinvi.Core.Client;
 using Tweetinvi.Core.Extensions;
-using Tweetinvi.Core.Helpers;
 using Tweetinvi.Core.QueryGenerators;
 using Tweetinvi.Core.QueryValidators;
 using Tweetinvi.Models;
@@ -20,41 +19,37 @@ namespace Tweetinvi.Controllers.Tweet
     public class TweetQueryGenerator : ITweetQueryGenerator
     {
         private readonly IQueryParameterGenerator _queryParameterGenerator;
-        private readonly IUserQueryValidator _userQueryValidator;
         private readonly IUserQueryParameterGenerator _userQueryParameterGenerator;
         private readonly ITweetQueryValidator _tweetQueryValidator;
         private readonly ITweetinviSettingsAccessor _tweetinviSettingsAccessor;
-        private readonly ITwitterStringFormatter _twitterStringFormatter;
 
         public TweetQueryGenerator(
             IQueryParameterGenerator queryParameterGenerator,
-            IUserQueryValidator userQueryValidator,
             IUserQueryParameterGenerator userQueryParameterGenerator, 
             ITweetQueryValidator tweetQueryValidator,
-            ITweetinviSettingsAccessor tweetinviSettingsAccessor,
-            ITwitterStringFormatter twitterStringFormatter)
+            ITweetinviSettingsAccessor tweetinviSettingsAccessor)
         {
             _queryParameterGenerator = queryParameterGenerator;
-            _userQueryValidator = userQueryValidator;
             _userQueryParameterGenerator = userQueryParameterGenerator;
             _tweetQueryValidator = tweetQueryValidator;
             _tweetinviSettingsAccessor = tweetinviSettingsAccessor;
-            _twitterStringFormatter = twitterStringFormatter;
-        }
-
-        private string CleanupString(string source)
-        {
-            return _twitterStringFormatter.TwitterEncode(source);
         }
 
         // Get Tweet
-        public string GetTweetQuery(long tweetId, ITweetinviSettings settings) 
+        public string GetTweetQuery(IGetTweetParameters parameters, TweetMode? tweetMode) 
         {
-            _tweetQueryValidator.ThrowIfTweetCannotBeUsed(tweetId);
+            var query = new StringBuilder(Resources.Tweet_Get);
+            
+            query.AddParameterToQuery("id", parameters.Tweet?.Id.ToString() ?? parameters.Tweet?.IdStr);
+            query.AddParameterToQuery("include_card_uri", parameters.IncludeCardUri);
+            query.AddParameterToQuery("include_entities", parameters.IncludeEntities);
+            query.AddParameterToQuery("include_ext_alt_text", parameters.IncludeExtAltText);
+            query.AddParameterToQuery("include_my_retweet", parameters.IncludeMyRetweet);
+            query.AddParameterToQuery("trim_user", parameters.TrimUser);
+            query.AddFormattedParameterToQuery(_queryParameterGenerator.GenerateTweetModeParameter(tweetMode));
 
-            var query = new StringBuilder(string.Format(Resources.Tweet_Get, tweetId));
-            query.AddFormattedParameterToQuery(_queryParameterGenerator.GenerateTweetModeParameter(settings.TweetMode));
-
+            query.AddFormattedParameterToQuery(parameters.FormattedCustomQueryParameters);
+            
             return query.ToString();
         }
 
@@ -82,57 +77,59 @@ namespace Tweetinvi.Controllers.Tweet
         }
 
         // Publish Tweet
-        public string GetPublishTweetQuery(IPublishTweetParameters queryParameters, TweetMode? tweetMode)
+        public string GetPublishTweetQuery(IPublishTweetParameters parameters, TweetMode? tweetMode)
         {
-            var text = queryParameters.Text;
-            var useExtendedMode = tweetMode == null || tweetMode == TweetMode.Extended;
+            var text = parameters.Text;
+            var useExtendedTweetMode = tweetMode == null || tweetMode == TweetMode.Extended;
 
-            var quotedTweetUrl = GetQuotedTweetUrl(queryParameters);
+            var quotedTweetUrl = GetQuotedTweetUrl(parameters);
+            var attachmentUrl = parameters.AttachmentTwitterUrl;
 
-            if (!useExtendedMode && quotedTweetUrl != null)
+            if (quotedTweetUrl != null)
             {
-                text = text.TrimEnd() + " " + quotedTweetUrl;
-            }
-
-            var query = new StringBuilder(string.Format(Resources.Tweet_Publish, CleanupString(text)));
-
-            if (queryParameters.InReplyToTweet != null)
-            {
-                query.AddParameterToQuery("in_reply_to_status_id", queryParameters.InReplyToTweet.Id);
-
-                // Extended Tweet prefix auto-population
-                query.AddParameterToQuery("auto_populate_reply_metadata", queryParameters.AutoPopulateReplyMetadata);
-                if (queryParameters.ExcludeReplyUserIds != null)
+                // if there is a quoted tweet we need to pass the url in the text or attachment url
+                // attachment_url is only available under tweetMode
+                if (useExtendedTweetMode && attachmentUrl == null)
                 {
-                    query.AddParameterToQuery("exclude_reply_user_ids", String.Join(",", queryParameters.ExcludeReplyUserIds));
+                    attachmentUrl = quotedTweetUrl;
+                }
+                else
+                {
+                    text = text.TrimEnd() + " " + quotedTweetUrl;
                 }
             }
-
-            query.AddParameterToQuery("possibly_sensitive", queryParameters.PossiblySensitive);
-
-            if (queryParameters.Coordinates != null)
+            
+            var query = new StringBuilder(Resources.Tweet_Publish);
+            
+            query.AddParameterToQuery("status", text);
+            query.AddParameterToQuery("auto_populate_reply_metadata", parameters.AutoPopulateReplyMetadata);
+            query.AddParameterToQuery("attachment_url", attachmentUrl);
+            query.AddParameterToQuery("card_uri", parameters.CardUri);
+            query.AddParameterToQuery("display_coordinates", parameters.DisplayExactCoordinates);
+            query.AddParameterToQuery("enable_dmcommands", parameters.EnableDirectMessageCommands);
+            
+            if (parameters.ExcludeReplyUserIds != null)
             {
-                query.AddParameterToQuery("lat", queryParameters.Coordinates.Latitude.ToString(CultureInfo.InvariantCulture));
-                query.AddParameterToQuery("long", queryParameters.Coordinates.Longitude.ToString(CultureInfo.InvariantCulture));
+                query.AddParameterToQuery("exclude_reply_user_ids", string.Join(",", parameters.ExcludeReplyUserIds));
             }
-
-            query.AddParameterToQuery("place_id", queryParameters.PlaceId);
-            query.AddParameterToQuery("display_coordinates", queryParameters.DisplayExactCoordinates);
-            query.AddParameterToQuery("trim_user", queryParameters.TrimUser);
-            query.AddParameterToQuery("tweet_mode", tweetMode?.ToString()?.ToLowerInvariant());
-
-            if (useExtendedMode && quotedTweetUrl != null)
+            
+            query.AddParameterToQuery("fail_dmcommands", parameters.FailDirectMessageCommands);
+            query.AddParameterToQuery("in_reply_to_status_id", parameters.InReplyToTweet?.Id);
+            query.AddParameterToQuery("lat", parameters.Coordinates?.Latitude.ToString(CultureInfo.InvariantCulture));
+            query.AddParameterToQuery("long", parameters.Coordinates?.Longitude.ToString(CultureInfo.InvariantCulture));
+            
+            if (parameters.MediaIds.Count > 0)
             {
-                query.AddParameterToQuery("attachment_url", quotedTweetUrl);
-            }
-
-            if (queryParameters.MediaIds.Count > 0)
-            {
-                var mediaIdsParameter = string.Join(",", queryParameters.MediaIds.Select(x => x.ToString(CultureInfo.InvariantCulture)));
+                var mediaIdsParameter = string.Join(",", parameters.MediaIds.Select(x => x.ToString(CultureInfo.InvariantCulture)));
                 query.AddParameterToQuery("media_ids", mediaIdsParameter);
             }
+            
+            query.AddParameterToQuery("place_id", parameters.PlaceId);
+            query.AddParameterToQuery("possibly_sensitive", parameters.PossiblySensitive);
+            query.AddParameterToQuery("trim_user", parameters.TrimUser);
+            query.AddParameterToQuery("tweet_mode", tweetMode?.ToString()?.ToLowerInvariant());
 
-            query.AddFormattedParameterToQuery(queryParameters.FormattedCustomQueryParameters);
+            query.AddFormattedParameterToQuery(parameters.FormattedCustomQueryParameters);
 
             return query.ToString();
         }
@@ -144,7 +141,7 @@ namespace Tweetinvi.Controllers.Tweet
                 return null;
             }
             
-            if (parameters?.QuotedTweet?.Id == null)
+            if (parameters.QuotedTweet?.Id == null)
             {
                 return null;
             }
@@ -186,8 +183,6 @@ namespace Tweetinvi.Controllers.Tweet
         
         public string GetFavoriteTweetsQuery(IGetFavoriteTweetsParameters parameters, TweetMode? tweetMode)
         {
-            _userQueryValidator.ThrowIfUserCannotBeIdentified(parameters.User);
-
             var userParameter = _userQueryParameterGenerator.GenerateIdOrScreenNameParameter(parameters.User);
             var query = new StringBuilder(Resources.User_GetFavourites + userParameter);
 

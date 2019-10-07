@@ -445,9 +445,9 @@ namespace Tweetinvi.Controllers.Properties
         public static string Tweet_GenerateOEmbed = "https://api.twitter.com/1.1/statuses/oembed.json?id={0}";
 
         /// <summary>
-        ///   Looks up a localized string similar to https://api.twitter.com/1.1/statuses/show.json?id={0}&amp;include_my_retweet=true.
+        ///   Looks up a localized string similar to https://api.twitter.com/1.1/statuses/show.json?.
         /// </summary>
-        public static string Tweet_Get = "https://api.twitter.com/1.1/statuses/show.json?id={0}&include_my_retweet=true";
+        public static string Tweet_Get = "https://api.twitter.com/1.1/statuses/show.json?";
 
         /// <summary>
         ///   Looks up a localized string similar to https://api.twitter.com/1.1/statuses/retweeters/ids.json.
@@ -460,9 +460,9 @@ namespace Tweetinvi.Controllers.Properties
         public static string Tweet_Lookup = "https://api.twitter.com/1.1/statuses/lookup.json?id={0}&include_my_retweet=true";
 
         /// <summary>
-        ///   Looks up a localized string similar to https://api.twitter.com/1.1/statuses/update.json?status={0}&amp;trim_user=true.
+        ///   Looks up a localized string similar to https://api.twitter.com/1.1/statuses/update.json?.
         /// </summary>
-        public static string Tweet_Publish = "https://api.twitter.com/1.1/statuses/update.json?status={0}";
+        public static string Tweet_Publish = "https://api.twitter.com/1.1/statuses/update.json?";
 
         /// <summary>
         ///   Looks up a localized string similar to https://api.twitter.com/1.1/statuses/update.json?status={0}&amp;in_reply_to_status_id={1}&amp;trim_user=true.

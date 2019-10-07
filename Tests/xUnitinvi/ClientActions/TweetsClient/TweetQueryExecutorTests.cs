@@ -17,19 +17,65 @@ namespace xUnitinvi.ClientActions.TweetsClient
         public TweetQueryExecutorTests()
         {
             _fakeBuilder = new FakeClassBuilder<TweetQueryExecutor>();
-            _fakeTweetQueryGenerator = _fakeBuilder.GetFake<ITweetQueryGenerator>();
-            _fakeTwitterAccessor = _fakeBuilder.GetFake<ITwitterAccessor>();
+            _fakeTweetQueryGenerator = _fakeBuilder.GetFake<ITweetQueryGenerator>().FakedObject;
+            _fakeTwitterAccessor = _fakeBuilder.GetFake<ITwitterAccessor>().FakedObject;
         }
 
         private readonly FakeClassBuilder<TweetQueryExecutor> _fakeBuilder;
-        private readonly Fake<ITweetQueryGenerator> _fakeTweetQueryGenerator;
-        private readonly Fake<ITwitterAccessor> _fakeTwitterAccessor;
+        private readonly ITweetQueryGenerator _fakeTweetQueryGenerator;
+        private readonly ITwitterAccessor _fakeTwitterAccessor;
 
         private TweetQueryExecutor CreateUserQueryExecutor()
         {
             return _fakeBuilder.GenerateClass();
         }
 
+        [Fact]
+        public async Task GetTweet_ReturnsFavoritedTweets()
+        {
+            // Arrange
+            var queryExecutor = CreateUserQueryExecutor();
+            var expectedQuery = TestHelper.GenerateString();
+
+            var parameters = new GetTweetParameters(42);
+            var request = A.Fake<ITwitterRequest>();
+            var expectedResult = A.Fake<ITwitterResult<ITweetDTO>>();
+
+            A.CallTo(() => _fakeTweetQueryGenerator.GetTweetQuery(parameters, It.IsAny<TweetMode?>())).Returns(expectedQuery);
+            A.CallTo(() => _fakeTwitterAccessor.ExecuteRequest<ITweetDTO>(request)).Returns(expectedResult);
+
+            // Act
+            var result = await queryExecutor.GetTweet(parameters, request);
+
+            // Assert
+            Assert.Equal(result, expectedResult);
+            Assert.Equal(request.Query.Url, expectedQuery);
+            Assert.Equal(HttpMethod.GET, request.Query.HttpMethod);
+        }
+        
+        [Fact]
+        public async Task PublishTweet_ReturnsFavoritedTweets()
+        {
+            // Arrange
+            var queryExecutor = CreateUserQueryExecutor();
+            var expectedQuery = TestHelper.GenerateString();
+
+            var parameters = new PublishTweetParameters("hello");
+            var request = A.Fake<ITwitterRequest>();
+            var expectedResult = A.Fake<ITwitterResult<ITweetDTO>>();
+
+            A.CallTo(() => _fakeTweetQueryGenerator.GetPublishTweetQuery(parameters, It.IsAny<TweetMode?>())).Returns(expectedQuery);
+            A.CallTo(() => _fakeTwitterAccessor.ExecuteRequest<ITweetDTO>(request)).Returns(expectedResult);
+
+            // Act
+            var result = await queryExecutor.PublishTweet(parameters, request);
+
+            // Assert
+            Assert.Equal(result, expectedResult);
+            Assert.Equal(request.Query.Url, expectedQuery);
+            Assert.Equal(HttpMethod.POST, request.Query.HttpMethod);
+        }
+        
         [Fact]
         public async Task GetFavoriteTweets_ReturnsFavoritedTweets()
         {
@@ -42,14 +88,15 @@ namespace xUnitinvi.ClientActions.TweetsClient
             var request = A.Fake<ITwitterRequest>();
             var expectedResult = A.Fake<ITwitterResult<ITweetDTO[]>>();
 
-            A.CallTo(() => _fakeTweetQueryGenerator.FakedObject.GetFavoriteTweetsQuery(parameters, TweetMode.Extended)).Returns(expectedQuery);
-            A.CallTo(() => _fakeTwitterAccessor.FakedObject.ExecuteRequest<ITweetDTO[]>(request)).Returns(expectedResult);
+            A.CallTo(() => _fakeTweetQueryGenerator.GetFavoriteTweetsQuery(parameters, It.IsAny<TweetMode?>())).Returns(expectedQuery);
+            A.CallTo(() => _fakeTwitterAccessor.ExecuteRequest<ITweetDTO[]>(request)).Returns(expectedResult);
 
             // Act
             var result = await queryExecutor.GetFavoriteTweets(parameters, request);
 
             // Assert
             Assert.Equal(result, expectedResult);
+            Assert.Equal(request.Query.Url, expectedQuery);
             Assert.Equal(HttpMethod.GET, request.Query.HttpMethod);
         }
     }

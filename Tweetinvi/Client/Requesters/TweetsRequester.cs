@@ -34,10 +34,13 @@ namespace Tweetinvi.Client.Requesters
         }
 
         // Tweets
-        public Task<ITwitterResult<ITweetDTO, ITweet>> GetTweet(long tweetId)
+        public async Task<ITwitterResult<ITweetDTO, ITweet>> GetTweet(IGetTweetParameters parameters)
         {
+            _tweetsClientRequiredParametersValidator.Validate(parameters);
+            
             var request = _twitterClient.CreateRequest();
-            return ExecuteRequest(() => _tweetFactory.GetTweet(tweetId, request), request);
+            var twitterResult = await ExecuteRequest(() => _tweetController.GetTweet(parameters, request), request);
+            return _twitterResultFactory.Create(twitterResult, dto => _tweetFactory.GenerateTweetFromDTO(dto, request.ExecutionContext));
         }
 
         public Task<ITwitterResult<ITweetDTO[], ITweet[]>> GetTweets(long[] tweetIds)

@@ -12,7 +12,6 @@ namespace Tweetinvi.Factories.Tweet
     public interface ITweetFactoryQueryExecutor
     {
         ITweetDTO CreateTweetDTO(string text);
-        Task<ITwitterResult<ITweetDTO>> GetTweetDTO(long tweetId, ITwitterRequest request);
         Task<ITwitterResult<ITweetDTO[]>> GetTweetDTOs(long[] tweetIds, ITwitterRequest request);
     }
 
@@ -30,13 +29,6 @@ namespace Tweetinvi.Factories.Tweet
             _tweetQueryGenerator = tweetQueryGenerator;
             _twitterAccessor = twitterAccessor;
             _tweetDTOUnityFactory = tweetDTOUnityFactory;
-        }
-
-        public async Task<ITwitterResult<ITweetDTO>> GetTweetDTO(long tweetId, ITwitterRequest request)
-        {
-            request.Query.Url = _tweetQueryGenerator.GetTweetQuery(tweetId, request.ExecutionContext);
-
-            return await _twitterAccessor.ExecuteRequest<ITweetDTO>(request);
         }
 
         public async Task<ITwitterResult<ITweetDTO[]>> GetTweetDTOs(long[] tweetIds, ITwitterRequest request)

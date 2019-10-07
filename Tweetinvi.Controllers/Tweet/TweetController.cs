@@ -34,7 +34,10 @@ namespace Tweetinvi.Controllers.Tweet
             _twitterResultFactory = twitterResultFactory;
         }
 
-        // Publish Tweet
+        public Task<ITwitterResult<ITweetDTO>> GetTweet(IGetTweetParameters parameters, ITwitterRequest request)
+        {
+            return _tweetQueryExecutor.GetTweet(parameters, request);
+        }
 
         public async Task<ITwitterResult<ITweetDTO>> PublishTweet(IPublishTweetParameters parameters, ITwitterRequest request)
         {

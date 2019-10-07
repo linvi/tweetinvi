@@ -45,14 +45,6 @@ namespace Tweetinvi.Factories.Tweet
         }
 
         // Get Tweet
-
-        public async Task<ITwitterResult<ITweetDTO, ITweet>> GetTweet(long tweetId, ITwitterRequest request)
-        {
-            var result = await _tweetDTOFactory.GetTweetDTO(tweetId, request);
-
-            return _twitterResultFactory.Create(result, dto => GenerateTweetFromDTO(dto, request.ExecutionContext.TweetMode, request.ExecutionContext));
-        }
-
         public async Task<ITwitterResult<ITweetDTO[], ITweet[]>> GetTweets(long[] tweetIds, ITwitterRequest request)
         {
             var result = await _tweetDTOFactory.GetTweetDTOs(tweetIds, request);
@@ -89,6 +81,24 @@ namespace Tweetinvi.Factories.Tweet
         }
 
         // Generate Tweet From DTO
+        public ITweet GenerateTweetFromDTO(ITweetDTO tweetDTO, ITwitterExecutionContext executionContext)
+        {
+            if (tweetDTO == null)
+            {
+                return null;
+            }
+
+            var context = executionContext ?? new TwitterExecutionContext();
+
+            var tweetDTOParameter = _tweetUnityFactory.GenerateParameterOverrideWrapper("tweetDTO", tweetDTO);
+            var tweetModeParameter = _tweetUnityFactory.GenerateParameterOverrideWrapper("tweetMode", executionContext?.TweetMode);
+            var twitterRequestFactoryParameter = _tweetUnityFactory.GenerateParameterOverrideWrapper("executionContext", context);
+
+            var tweet = _tweetUnityFactory.Create(tweetDTOParameter, tweetModeParameter, twitterRequestFactoryParameter);
+
+            return tweet;
+        }
+        
         public ITweet GenerateTweetFromDTO(ITweetDTO tweetDTO, TweetMode? tweetMode, ITwitterExecutionContext executionContext)
         {
             if (tweetDTO == null)

@@ -19,8 +19,57 @@ namespace xUnitinvi.ClientActions.TweetsClient
         public TweetControllerTests()
         {
             _fakeBuilder = new FakeClassBuilder<TweetController>();
-            _fakeTweetQueryExecutor = _fakeBuilder.GetFake<ITweetQueryExecutor>();
+            _fakeTweetQueryExecutor = _fakeBuilder.GetFake<ITweetQueryExecutor>().FakedObject;
+        }
 
+        private readonly FakeClassBuilder<TweetController> _fakeBuilder;
+        private readonly ITweetQueryExecutor _fakeTweetQueryExecutor;
+        private TwitterResult<ITweetDTO[]> _firstResult;
+        private TwitterResult<ITweetDTO[]> _secondResult;
+
+        private TweetController CreateTweetController()
+        {
+            return _fakeBuilder.GenerateClass();
+        }
+
+        [Fact]
+        public async Task GetTweet_ReturnsQueryExecutorResult()
+        {
+            // Arrange
+            var controller = CreateTweetController();
+            var parameters = new GetTweetParameters(42);
+            var request = A.Fake<ITwitterRequest>();
+            var expectedResult = A.Fake<ITwitterResult<ITweetDTO>>();
+
+            A.CallTo(() => _fakeTweetQueryExecutor.GetTweet(parameters, request)).Returns(expectedResult);
+
+            // Act
+            var result = await controller.GetTweet(parameters, request);
+
+            // Assert
+            Assert.Equal(result, expectedResult);
+        }
+        
+        [Fact]
+        public async Task PublishTweet_ReturnsQueryExecutorResult()
+        {
+            // Arrange
+            var controller = CreateTweetController();
+            var parameters = new PublishTweetParameters("hello");
+            var request = A.Fake<ITwitterRequest>();
+            var expectedResult = A.Fake<ITwitterResult<ITweetDTO>>();
+
+            A.CallTo(() => _fakeTweetQueryExecutor.PublishTweet(parameters, request)).Returns(expectedResult);
+
+            // Act
+            var result = await controller.PublishTweet(parameters, request);
+
+            // Assert
+            Assert.Equal(result, expectedResult);
+        }
+        
+        private void InitializeTweetsIterator()
+        {
             var page1UserDTOs = new ITweetDTO[]
             {
                 new TweetDTO { Id = 42 },
@@ -49,26 +98,17 @@ namespace xUnitinvi.ClientActions.TweetsClient
             A.CallTo(() => jsonConverter.DeserializeObject<ITweetDTO[]>(_firstResult.Response.Text, null)).Returns(page1UserDTOs);
             A.CallTo(() => jsonConverter.DeserializeObject<ITweetDTO[]>(_secondResult.Response.Text, null)).Returns(page2UserDTOs);
         }
-
-        private readonly FakeClassBuilder<TweetController> _fakeBuilder;
-        private readonly Fake<ITweetQueryExecutor> _fakeTweetQueryExecutor;
-        private readonly TwitterResult<ITweetDTO[]> _firstResult;
-        private readonly TwitterResult<ITweetDTO[]> _secondResult;
-
-        private TweetController CreateTweetController()
-        {
-            return _fakeBuilder.GenerateClass();
-        }
-
+        
         [Fact]
         public async Task GetFavoriteTweets_MoveToNextPage_ReturnsAllPages()
         {
+            InitializeTweetsIterator();
+            
             // arrange
             var parameters = new GetFavoriteTweetsParameters("username") { PageSize = 2 };
             var request = A.Fake<ITwitterRequest>();
 
-            _fakeTweetQueryExecutor
-                .CallsTo(x => x.GetFavoriteTweets(It.IsAny<IGetFavoriteTweetsParameters>(), It.IsAny<ITwitterRequest>()))
+            A.CallTo(() => _fakeTweetQueryExecutor.GetFavoriteTweets(It.IsAny<IGetFavoriteTweetsParameters>(), It.IsAny<ITwitterRequest>()))
                 .ReturnsNextFromSequence(_firstResult, _secondResult);
 
             var controller = CreateTweetController();
@@ -89,12 +129,13 @@ namespace xUnitinvi.ClientActions.TweetsClient
         [Fact]
         public async Task GetFavoriteTweets_MoveToNextPage_ThrowsIfCompleted()
         {
+            InitializeTweetsIterator();
+            
             // arrange
             var parameters = new GetFavoriteTweetsParameters("username") { PageSize = 2 };
             var request = A.Fake<ITwitterRequest>();
 
-            _fakeTweetQueryExecutor
-                .CallsTo(x => x.GetFavoriteTweets(It.IsAny<IGetFavoriteTweetsParameters>(), It.IsAny<ITwitterRequest>()))
+            A.CallTo(() => _fakeTweetQueryExecutor.GetFavoriteTweets(It.IsAny<IGetFavoriteTweetsParameters>(), It.IsAny<ITwitterRequest>()))
                 .ReturnsNextFromSequence(_firstResult, _secondResult);
 
             var controller = CreateTweetController();

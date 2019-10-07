@@ -13,5 +13,6 @@ namespace Tweetinvi.Core.QueryValidators
         void ThrowIfTweetCannotBeUsed(ITweetDTO tweet);
         void ThrowIfTweetCannotBeUsed(ITweetIdentifier tweet);
         void ThrowIfTweetCannotBeUsed(long? tweetId);
+        void ThrowIfTweetCannotBeUsed(ITweetIdentifier tweet, string parameterName);
     }
 }

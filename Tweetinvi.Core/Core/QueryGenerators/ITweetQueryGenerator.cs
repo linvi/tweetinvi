@@ -8,12 +8,20 @@ namespace Tweetinvi.Core.QueryGenerators
 {
     public interface ITweetQueryGenerator
     {
-        // Get Tweet
-        string GetTweetQuery(long tweetId, ITweetinviSettings settings);
+        string GetTweetQuery(IGetTweetParameters parameters, TweetMode? tweetMode);
+        string GetPublishTweetQuery(IPublishTweetParameters parameters, TweetMode? tweetMode);
+
+        string GetFavoriteTweetsQuery(IGetFavoriteTweetsParameters parameters, TweetMode? tweetMode);
+        
+        
+        
+        
+        
+        
+        
         string GetTweetsQuery(IEnumerable<long> tweetIds);
 
         // Publish Tweet
-        string GetPublishTweetQuery(IPublishTweetParameters queryParameters, TweetMode? tweetMode);
 
         // Publish Retweet
         string GetPublishRetweetQuery(ITweetIdentifier tweetId, TweetMode? tweetMode);
@@ -41,6 +49,6 @@ namespace Tweetinvi.Core.QueryGenerators
 
         string GetUnFavoriteTweetQuery(ITweetDTO tweetDTO);
         string GetUnFavoriteTweetQuery(long? tweetId);
-        string GetFavoriteTweetsQuery(IGetFavoriteTweetsParameters parameters, TweetMode? tweetMode);
+        
     }
 }

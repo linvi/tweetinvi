@@ -86,6 +86,19 @@ namespace Tweetinvi.Controllers.Tweet
                 throw new ArgumentNullException($"{nameof(tweet)}.{nameof(tweet.Id)}");
             }
         }
+        
+        public void ThrowIfTweetCannotBeUsed(ITweetIdentifier tweet, string parameterName)
+        {
+            if (tweet == null)
+            {
+                throw new ArgumentNullException(nameof(tweet));
+            }
+
+            if (tweet.Id == null || tweet.Id == TweetinviSettings.DEFAULT_ID)
+            {
+                throw new ArgumentNullException(parameterName);
+            }
+        }
 
         public bool IsTweetPublished(ITweetDTO tweet)
         {

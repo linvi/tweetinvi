@@ -13,9 +13,10 @@ namespace Tweetinvi.Controllers.Tweet
 {
     public interface ITweetQueryExecutor
     {
-        // Publish Tweet
-        Task<ITwitterResult<ITweetDTO>> PublishTweet(IPublishTweetParameters publishParameters, ITwitterRequest request);
-
+        Task<ITwitterResult<ITweetDTO>> GetTweet(IGetTweetParameters parameters, ITwitterRequest request);
+        Task<ITwitterResult<ITweetDTO>> PublishTweet(IPublishTweetParameters parameters, ITwitterRequest request);
+        
+        
         // Publish Retweet
         Task<ITwitterResult<ITweetDTO>> PublishRetweet(ITweetIdentifier tweetId, ITwitterRequest request);
 
@@ -57,15 +58,19 @@ namespace Tweetinvi.Controllers.Tweet
             _twitterAccessor = twitterAccessor;
         }
 
-        // Publish Tweet
-
-        public Task<ITwitterResult<ITweetDTO>> PublishTweet(IPublishTweetParameters publishParameters, ITwitterRequest request)
+        public Task<ITwitterResult<ITweetDTO>> GetTweet(IGetTweetParameters parameters, ITwitterRequest request)
         {
-            var query = _tweetQueryGenerator.GetPublishTweetQuery(publishParameters, request.ExecutionContext.TweetMode);
+            var query = _tweetQueryGenerator.GetTweetQuery(parameters, request.ExecutionContext.TweetMode);
+            request.Query.Url = query;
+            request.Query.HttpMethod = HttpMethod.GET;
+            return _twitterAccessor.ExecuteRequest<ITweetDTO>(request);
+        }
 
+        public Task<ITwitterResult<ITweetDTO>> PublishTweet(IPublishTweetParameters parameters, ITwitterRequest request)
+        {
+            var query = _tweetQueryGenerator.GetPublishTweetQuery(parameters, request.ExecutionContext.TweetMode);
             request.Query.Url = query;
             request.Query.HttpMethod = HttpMethod.POST;
-
             return _twitterAccessor.ExecuteRequest<ITweetDTO>(request);
         }
 
@@ -130,10 +135,8 @@ namespace Tweetinvi.Controllers.Tweet
         public Task<ITwitterResult<ITweetDTO[]>> GetFavoriteTweets(IGetFavoriteTweetsParameters parameters, ITwitterRequest request)
         {
             var query = _tweetQueryGenerator.GetFavoriteTweetsQuery(parameters, request.ExecutionContext.TweetMode);
-
             request.Query.Url = query;
             request.Query.HttpMethod = HttpMethod.GET;
-            
             return _twitterAccessor.ExecuteRequest<ITweetDTO[]>(request);
         }
         

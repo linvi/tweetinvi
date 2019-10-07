@@ -10,8 +10,11 @@ namespace Tweetinvi.Core.Controllers
 {
     public interface ITweetController
     {
-        // Publish Tweet
+        // TWEET
+        Task<ITwitterResult<ITweetDTO>> GetTweet(IGetTweetParameters parameters, ITwitterRequest request);
         Task<ITwitterResult<ITweetDTO>> PublishTweet(IPublishTweetParameters parameters, ITwitterRequest request);
+        
+        // FAVORITES
         ITwitterPageIterator<ITwitterResult<ITweetDTO[]>, long?> GetFavoriteTweets(IGetFavoriteTweetsParameters parameters, ITwitterRequest request);
 
 
@@ -51,6 +54,5 @@ namespace Tweetinvi.Core.Controllers
 
         // Update Published Tweet
         void UpdateTweetIfTweetSuccessfullyBeenPublished(ITweet sourceTweet, ITweetDTO publishedTweetDTO);
-        Task UploadMedias(IPublishTweetParameters parameters, ITwitterRequest request);
     }
 }
