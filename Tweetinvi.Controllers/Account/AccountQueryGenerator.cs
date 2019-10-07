@@ -1,10 +1,8 @@
-﻿using System;
-using System.Text;
+﻿using System.Text;
 using Tweetinvi.Controllers.Properties;
 using Tweetinvi.Controllers.Shared;
 using Tweetinvi.Core.Extensions;
 using Tweetinvi.Core.QueryGenerators;
-using Tweetinvi.Models;
 using Tweetinvi.Parameters;
 
 namespace Tweetinvi.Controllers.Account
@@ -40,16 +38,6 @@ namespace Tweetinvi.Controllers.Account
         string GetMutedUsersQuery(IGetMutedUsersParameters parameters);
         string GetMuteUserQuery(IMuteUserParameters parameters);
         string GetUnMuteUserQuery(IUnMuteUserParameters parameters);
-
-        
-        
-        
-        
-        // SUGGESTIONS
-        string GetSuggestedCategories(Language? language);
-        string GetUserSuggestionsQuery(string slug, Language? language);
-        string GetSuggestedUsersWithTheirLatestTweetQuery(string slug);
-        
     }
 
     public class AccountQueryGenerator : IAccountQueryGenerator
@@ -252,54 +240,6 @@ namespace Tweetinvi.Controllers.Account
             query.AddFormattedParameterToQuery(parameters.FormattedCustomQueryParameters);
 
             return query.ToString();
-        }
-
-        
-        
-        
-        
-        
-        
-        
-        
-        // SUGGESTIONS
-        public string GetSuggestedCategories(Language? language)
-        {
-            var languageParameter = _queryParameterGenerator.GenerateLanguageParameter(language);
-
-            return string.Format(Resources.Account_CategoriesSuggestions, languageParameter);
-        }
-
-        public string GetUserSuggestionsQuery(string slug, Language? language)
-        {
-            if (slug == null)
-            {
-                throw new ArgumentNullException("Slug cannot be null.");
-            }
-
-            if (slug == "")
-            {
-                throw new ArgumentException("Slug cannot be empty.");
-            }
-
-            var languageParameter = _queryParameterGenerator.GenerateLanguageParameter(language);
-
-            return string.Format(Resources.Account_UserSuggestions, slug, languageParameter);
-        }
-
-        public string GetSuggestedUsersWithTheirLatestTweetQuery(string slug)
-        {
-            if (slug == null)
-            {
-                throw new ArgumentNullException("Slug cannot be null.");
-            }
-
-            if (slug == "")
-            {
-                throw new ArgumentException("Slug cannot be empty.");
-            }
-
-            return string.Format(Resources.Account_MembersSuggestions, slug);
         }
     }
 }

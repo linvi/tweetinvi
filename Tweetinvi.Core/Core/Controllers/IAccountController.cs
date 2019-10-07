@@ -38,12 +38,7 @@ namespace Tweetinvi.Core.Controllers
         ITwitterPageIterator<ITwitterResult<IUserCursorQueryResultDTO>> GetMutedUsers(IGetMutedUsersParameters parameters, ITwitterRequest request);
         Task<ITwitterResult<IUserDTO>> MuteUser(IMuteUserParameters parameters, ITwitterRequest request);
         Task<ITwitterResult<IUserDTO>> UnMuteUser(IUnMuteUserParameters parameters, ITwitterRequest request);
-
-        // Suggestions
-        Task<IEnumerable<ICategorySuggestion>> GetSuggestedCategories(Language? language);
-        Task<IEnumerable<IUser>> GetSuggestedUsers(string slug, Language? language);
-        Task<IEnumerable<IUser>> GetSuggestedUsersWithTheirLatestTweet(string slug);
-        IAccountSettings GenerateAccountSettingsFromJson(string json);
         
+        IAccountSettings GenerateAccountSettingsFromJson(string json);
     }
 }

@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Tweetinvi.Core.Web;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
@@ -43,15 +41,11 @@ namespace Tweetinvi.Controllers.Account
 
         // MUTE
         Task<ITwitterResult<IIdsCursorQueryResultDTO>> GetMutedUserIds(IGetMutedUserIdsParameters parameters, ITwitterRequest request);
-        Task<ITwitterResult<IUserCursorQueryResultDTO>> GetMutedUsers(IGetMutedUsersParameters cursoredParameters, ITwitterRequest twitterRequest);
+        Task<ITwitterResult<IUserCursorQueryResultDTO>> GetMutedUsers(IGetMutedUsersParameters cursoredParameters, ITwitterRequest request);
 
         Task<ITwitterResult<IUserDTO>> MuteUser(IMuteUserParameters parameters, ITwitterRequest request);
         Task<ITwitterResult<IUserDTO>> UnMuteUser(IUnMuteUserParameters parameters, ITwitterRequest request);
-
-        // Suggestions
-        Task<IEnumerable<IUserDTO>> GetSuggestedUsers(string slug, Language? language);
-        Task<IEnumerable<ICategorySuggestion>> GetSuggestedCategories(Language? language);
-        Task<IEnumerable<IUserDTO>> GetSuggestedUsersWithTheirLatestTweet(string slug);
+        
         Task<ITwitterResult<IRelationshipDetailsDTO>> UpdateRelationship(IUpdateRelationshipParameters parameters, ITwitterRequest request);
         Task<ITwitterResult<long[]>> GetUserIdsWhoseRetweetsAreMuted(IGetUserIdsWhoseRetweetsAreMutedParameters parameters, ITwitterRequest request);
     }
@@ -216,39 +210,5 @@ namespace Tweetinvi.Controllers.Account
             request.Query.HttpMethod = HttpMethod.POST;
             return _twitterAccessor.ExecuteRequest<IUserDTO>(request);
         }
-
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        // SUGGESTIONS
-        public Task<IEnumerable<ICategorySuggestion>> GetSuggestedCategories(Language? language)
-        {
-            var query = _accountQueryGenerator.GetSuggestedCategories(language);
-            return _twitterAccessor.ExecuteGETQuery<IEnumerable<ICategorySuggestion>>(query);
-        }
-
-        public Task<IEnumerable<IUserDTO>> GetSuggestedUsers(string slug, Language? language)
-        {
-            var query = _accountQueryGenerator.GetUserSuggestionsQuery(slug, language);
-            return _twitterAccessor.ExecuteGETQueryWithPath<IEnumerable<IUserDTO>>(query, "users");
-        }
-
-        public Task<IEnumerable<IUserDTO>> GetSuggestedUsersWithTheirLatestTweet(string slug)
-        {
-            var query = _accountQueryGenerator.GetSuggestedUsersWithTheirLatestTweetQuery(slug);
-            return _twitterAccessor.ExecuteGETQuery<IEnumerable<IUserDTO>>(query);
-        }
-
     }
 }

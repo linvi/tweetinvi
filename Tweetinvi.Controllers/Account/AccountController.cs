@@ -209,28 +209,6 @@ namespace Tweetinvi.Controllers.Account
         {
             return _accountQueryExecutor.UnMuteUser(parameters, request);
         }
-
-
-        
-        
-        // Suggestions
-        public Task<IEnumerable<ICategorySuggestion>> GetSuggestedCategories(Language? language)
-        {
-            return _accountQueryExecutor.GetSuggestedCategories(language);
-        }
-
-        public async Task<IEnumerable<IUser>> GetSuggestedUsers(string slug, Language? language)
-        {
-            var userDTOs = await _accountQueryExecutor.GetSuggestedUsers(slug, language);
-            return _userFactory.GenerateUsersFromDTO(userDTOs, null);
-        }
-
-        public async Task<IEnumerable<IUser>> GetSuggestedUsersWithTheirLatestTweet(string slug)
-        {
-            var userDTOs = await _accountQueryExecutor.GetSuggestedUsersWithTheirLatestTweet(slug);
-            return _userFactory.GenerateUsersFromDTO(userDTOs, null);
-        }
-        
         
         public IAccountSettings GenerateAccountSettingsFromJson(string json)
         {

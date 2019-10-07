@@ -5,20 +5,10 @@ namespace Tweetinvi.Controllers.Properties
     public static class Resources
     {
         /// <summary>
-        ///   Looks up a localized string similar to https://api.twitter.com/1.1/users/suggestions.json?{0}.
-        /// </summary>
-        public static string Account_CategoriesSuggestions = "https://api.twitter.com/1.1/users/suggestions.json?{0}";
-
-        /// <summary>
         ///   Looks up a localized string similar to https://api.twitter.com/1.1/account/settings.json.
         /// </summary>
         public static string Account_GetSettings = "https://api.twitter.com/1.1/account/settings.json";
-
-        /// <summary>
-        ///   Looks up a localized string similar to https://api.twitter.com/1.1/users/suggestions/{0}/members.json.
-        /// </summary>
-        public static string Account_MembersSuggestions = "https://api.twitter.com/1.1/users/suggestions/{0}/members.json";
-
+    
         /// <summary>
         ///   Looks up a localized string similar to https://api.twitter.com/1.1/mutes/users/create.json?.
         /// </summary>
