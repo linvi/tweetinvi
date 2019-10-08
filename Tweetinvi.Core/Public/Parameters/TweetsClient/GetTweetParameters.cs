@@ -8,7 +8,7 @@ namespace Tweetinvi.Parameters
     public interface IGetTweetParameters : ICustomRequestParameters
     {
         /// <summary>
-        /// Tweet identifier
+        /// The identifier of the tweet you want to retrieve 
         /// </summary>
         ITweetIdentifier Tweet { get; set; }
         

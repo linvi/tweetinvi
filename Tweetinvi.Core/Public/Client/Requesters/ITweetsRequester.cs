@@ -22,10 +22,17 @@ namespace Tweetinvi.Client.Requesters
         
         /// <summary>
         /// Publish a tweet
-        /// <para>Read more : https://dev.twitter.com/rest/reference/post/statuses/update </para>
+        /// <para>Read more : https://developer.twitter.com/en/docs/tweets/post-and-engage/api-reference/get-statuses-show-id </para>
         /// </summary>
         /// <returns>TwitterResult containing the published tweet</returns>
         Task<ITwitterResult<ITweetDTO, ITweet>> PublishTweet(IPublishTweetParameters parameters);
+        
+        /// <summary>
+        /// Destroy a tweet
+        /// <para>Read more : https://dev.twitter.com/en/docs/tweets/post-and-engage/api-reference/post-statuses-destroy-id </para>
+        /// </summary>
+        /// <returns>TwitterResult containing the destroyed tweet</returns>
+        Task<ITwitterResult<ITweetDTO>> DestroyTweet(IDestroyTweetParameters parameters);
         
         /// <summary>
         /// Get favorite tweets of a user
@@ -41,18 +48,8 @@ namespace Tweetinvi.Client.Requesters
         /// <returns>TwitterResult containing multiple tweets</returns>
         Task<ITwitterResult<ITweetDTO[], ITweet[]>> GetTweets(long[] tweetIds);
         
-        /// <summary>
-        /// Destroying a tweet
-        /// </summary>
-        /// <returns>TwitterResult with the success status of the request</returns>
-        Task<ITwitterResult> DestroyTweet(long tweetId);
         
-        /// <summary>
-        /// Destroying a tweet
-        /// </summary>
-        /// <returns>TwitterResult with the success status of the request</returns>
-        Task<ITwitterResult> DestroyTweet(ITweetDTO tweet);
-
+        
         // Retweets
         
         /// <summary>

@@ -10,6 +10,8 @@ namespace Tweetinvi.Core.QueryGenerators
     {
         string GetTweetQuery(IGetTweetParameters parameters, TweetMode? tweetMode);
         string GetPublishTweetQuery(IPublishTweetParameters parameters, TweetMode? tweetMode);
+        string GetDestroyTweetQuery(IDestroyTweetParameters parameters, TweetMode? tweetMode);
+
 
         string GetFavoriteTweetsQuery(IGetFavoriteTweetsParameters parameters, TweetMode? tweetMode);
         
@@ -37,7 +39,6 @@ namespace Tweetinvi.Core.QueryGenerators
         string GetUnRetweetQuery(long? tweetId);
 
         // Destroy Tweet
-        string GetDestroyTweetQuery(long? tweetId);
 
         // Generate OembedTweet
         string GetGenerateOEmbedTweetQuery(ITweetDTO tweetDTO);

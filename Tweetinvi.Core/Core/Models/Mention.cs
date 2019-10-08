@@ -1,7 +1,4 @@
-﻿using Tweetinvi.Core;
-using Tweetinvi.Core.Client;
-using Tweetinvi.Core.Controllers;
-using Tweetinvi.Core.Factories;
+﻿using Tweetinvi.Core.Factories;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
 
@@ -11,19 +8,13 @@ namespace Tweetinvi.Logic
     {
         public Mention(
             ITweetDTO tweetDTO,
-            ITwitterExecutionContext executionContext,
-            ITweetController tweetController,
+            TweetMode? tweetMode,
             ITweetFactory tweetFactory,
-            IUserFactory userFactory,
-            ITweetinviSettingsAccessor tweetinviSettingsAccessor)
-
-                : base(tweetDTO, 
-                       executionContext.TweetMode,
-                       executionContext,
-                       tweetController,
-                       tweetFactory,
-                       userFactory,
-                       tweetinviSettingsAccessor)
+            IUserFactory userFactory)
+            : base(tweetDTO,
+                tweetMode,
+                tweetFactory,
+                userFactory)
         {
             // Default constructor inheriting from the default Tweet constructor
         }

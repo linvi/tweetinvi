@@ -2,14 +2,12 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Tweetinvi.Core;
-using Tweetinvi.Core.Client;
 using Tweetinvi.Core.Factories;
 using Tweetinvi.Core.Helpers;
 using Tweetinvi.Core.Injectinvi;
 using Tweetinvi.Core.Web;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
-using Tweetinvi.Models.Interfaces;
 
 namespace Tweetinvi.Factories.Tweet
 {
@@ -23,6 +21,7 @@ namespace Tweetinvi.Factories.Tweet
         private readonly IJsonObjectConverter _jsonObjectConverter;
         private readonly ITweetinviSettingsAccessor _tweetinviSettingsAccessor;
         private readonly ITwitterResultFactory _twitterResultFactory;
+        private readonly IUserFactory _userFactory;
 
         public TweetFactory(
             ITweetFactoryQueryExecutor tweetDTOFactory,
@@ -32,7 +31,8 @@ namespace Tweetinvi.Factories.Tweet
             IFactory<IOEmbedTweet> oembedTweetUnityFactory,
             IJsonObjectConverter jsonObjectConverter,
             ITweetinviSettingsAccessor tweetinviSettingsAccessor,
-            ITwitterResultFactory twitterResultFactory)
+            ITwitterResultFactory twitterResultFactory,
+            IUserFactory userFactory)
         {
             _tweetDTOFactory = tweetDTOFactory;
             _tweetUnityFactory = tweetUnityFactory;
@@ -42,34 +42,36 @@ namespace Tweetinvi.Factories.Tweet
             _jsonObjectConverter = jsonObjectConverter;
             _tweetinviSettingsAccessor = tweetinviSettingsAccessor;
             _twitterResultFactory = twitterResultFactory;
+            _userFactory = userFactory;
         }
 
         // Get Tweet
-        public async Task<ITwitterResult<ITweetDTO[], ITweet[]>> GetTweets(long[] tweetIds, ITwitterRequest request)
+        public async Task<ITwitterResult<ITweetDTO[], ITweet[]>> GetTweets(long[] tweetIds, ITwitterClient client)
         {
+            var request = client.CreateRequest();
             var result = await _tweetDTOFactory.GetTweetDTOs(tweetIds, request);
 
-            return _twitterResultFactory.Create(result, dtos => GenerateTweetsFromDTO(dtos, request.ExecutionContext.TweetMode, request.ExecutionContext).ToArray());
+            return _twitterResultFactory.Create(result, dtos => GenerateTweetsFromDTO(dtos, request.ExecutionContext.TweetMode, client).ToArray());
         }
 
         // Create Tweet
 
         public ITweet GenerateTweetFromJson(string json)
         {
-            return CreateTweet(json, null, new TwitterExecutionContext());
+            return CreateTweet(json, null, null);
         }
 
-        public ITweet CreateTweet(string text, TweetMode? tweetMode, ITwitterExecutionContext executionContext)
+        public ITweet CreateTweet(string text, TweetMode? tweetMode, ITwitterClient client)
         {
             var tweetDTO = _tweetDTOFactory.CreateTweetDTO(text);
 
             tweetMode = tweetMode ?? _tweetinviSettingsAccessor.CurrentThreadSettings.TweetMode;
 
-            return GenerateTweetFromDTO(tweetDTO, tweetMode, executionContext);
+            return GenerateTweetFromDTO(tweetDTO, tweetMode, client);
         }
 
         // Generate Tweet from Json
-        public ITweet GenerateTweetFromJson(string json, TweetMode? tweetMode, ITwitterExecutionContext executionContext)
+        public ITweet GenerateTweetFromJson(string json, TweetMode? tweetMode, ITwitterClient client)
         {
             var tweetDTO = _jsonObjectConverter.DeserializeObject<ITweetDTO>(json);
             if (tweetDTO == null || tweetDTO.Id == TweetinviSettings.DEFAULT_ID)
@@ -77,42 +79,21 @@ namespace Tweetinvi.Factories.Tweet
                 return null;
             }
 
-            return GenerateTweetFromDTO(tweetDTO, tweetMode, executionContext);
+            return GenerateTweetFromDTO(tweetDTO, tweetMode, client);
         }
 
         // Generate Tweet From DTO
-        public ITweet GenerateTweetFromDTO(ITweetDTO tweetDTO, ITwitterExecutionContext executionContext)
+        public ITweet GenerateTweetFromDTO(ITweetDTO tweetDTO, TweetMode? tweetMode, ITwitterClient client)
         {
             if (tweetDTO == null)
             {
                 return null;
             }
 
-            var context = executionContext ?? new TwitterExecutionContext();
-
-            var tweetDTOParameter = _tweetUnityFactory.GenerateParameterOverrideWrapper("tweetDTO", tweetDTO);
-            var tweetModeParameter = _tweetUnityFactory.GenerateParameterOverrideWrapper("tweetMode", executionContext?.TweetMode);
-            var twitterRequestFactoryParameter = _tweetUnityFactory.GenerateParameterOverrideWrapper("executionContext", context);
-
-            var tweet = _tweetUnityFactory.Create(tweetDTOParameter, tweetModeParameter, twitterRequestFactoryParameter);
-
-            return tweet;
-        }
-        
-        public ITweet GenerateTweetFromDTO(ITweetDTO tweetDTO, TweetMode? tweetMode, ITwitterExecutionContext executionContext)
-        {
-            if (tweetDTO == null)
+            var tweet = new Logic.Tweet(tweetDTO, tweetMode, this, _userFactory)
             {
-                return null;
-            }
-
-            var context = executionContext ?? new TwitterExecutionContext();
-
-            var tweetDTOParameter = _tweetUnityFactory.GenerateParameterOverrideWrapper("tweetDTO", tweetDTO);
-            var tweetModeParameter = _tweetUnityFactory.GenerateParameterOverrideWrapper("tweetMode", tweetMode ?? executionContext?.TweetMode ?? _tweetinviSettingsAccessor.CurrentThreadSettings.TweetMode);
-            var twitterRequestFactoryParameter = _tweetUnityFactory.GenerateParameterOverrideWrapper("executionContext", context);
-
-            var tweet = _tweetUnityFactory.Create(tweetDTOParameter, tweetModeParameter, twitterRequestFactoryParameter);
+                Client = client
+            };
 
             return tweet;
         }
@@ -130,7 +111,7 @@ namespace Tweetinvi.Factories.Tweet
             return tweet;
         }
 
-        public ITweet[] GenerateTweetsFromDTO(IEnumerable<ITweetDTO> tweetsDTO, TweetMode? tweetMode, ITwitterExecutionContext executionContext)
+        public ITweet[] GenerateTweetsFromDTO(IEnumerable<ITweetDTO> tweetsDTO, TweetMode? tweetMode, ITwitterClient client)
         {
             if (tweetsDTO == null)
             {
@@ -142,7 +123,7 @@ namespace Tweetinvi.Factories.Tweet
 
             for (int i = 0; i < tweetsDTOArray.Length; ++i)
             {
-                var tweet = GenerateTweetFromDTO(tweetsDTOArray[i], tweetMode, executionContext);
+                var tweet = GenerateTweetFromDTO(tweetsDTOArray[i], tweetMode, client);
 
                 if (tweet != null)
                 {

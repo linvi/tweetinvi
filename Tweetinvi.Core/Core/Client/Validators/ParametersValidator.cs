@@ -182,6 +182,11 @@ namespace Tweetinvi.Core.Client.Validators
             _tweetsClientParametersValidator.Validate(parameters);
         }
 
+        public void Validate(IDestroyTweetParameters parameters)
+        {
+            _tweetsClientParametersValidator.Validate(parameters);
+        }
+
         public void Validate(IGetFavoriteTweetsParameters parameters)
         {
             _tweetsClientParametersValidator.Validate(parameters);

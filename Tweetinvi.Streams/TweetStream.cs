@@ -8,7 +8,6 @@ using Tweetinvi.Core.Streaming;
 using Tweetinvi.Core.Wrappers;
 using Tweetinvi.Events;
 using Tweetinvi.Models;
-using Tweetinvi.Models.Interfaces;
 using Tweetinvi.Parameters;
 
 namespace Tweetinvi.Streams
@@ -51,7 +50,7 @@ namespace Tweetinvi.Streams
             {
                 this.Raise(JsonObjectReceived, new JsonObjectEventArgs(json));
 
-                var tweet = _tweetFactory.GenerateTweetFromJson(json, TweetMode, ExecutionContext);
+                var tweet = _tweetFactory.GenerateTweetFromJson(json, TweetMode, null);
                 if (tweet == null)
                 {
                     TryInvokeGlobalStreamMessages(json);

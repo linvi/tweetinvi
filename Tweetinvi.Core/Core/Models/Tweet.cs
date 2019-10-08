@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using Tweetinvi.Core;
-using Tweetinvi.Core.Client;
 using Tweetinvi.Core.Controllers;
 using Tweetinvi.Core.Core.Helpers;
 using Tweetinvi.Core.Factories;
@@ -22,7 +19,7 @@ namespace Tweetinvi.Logic
     {
         private ITweetDTO _tweetDTO;
 
-        private readonly ITwitterExecutionContext _executionContext;
+        public ITwitterClient Client { get; set; }
         private readonly ITweetController _tweetController;
         private readonly ITweetFactory _tweetFactory;
         private readonly IUserFactory _userFactory;
@@ -255,7 +252,7 @@ namespace Tweetinvi.Logic
             {
                 if (_retweetedTweet == null)
                 {
-                    _retweetedTweet = _tweetFactory.GenerateTweetFromDTO(_tweetDTO.RetweetedTweetDTO, TweetMode, _executionContext);
+                    _retweetedTweet = _tweetFactory.GenerateTweetFromDTO(_tweetDTO.RetweetedTweetDTO, Client.Config.TweetMode, Client);
                 }
 
                 return _retweetedTweet;
@@ -285,7 +282,7 @@ namespace Tweetinvi.Logic
             {
                 if (_quotedTweet == null)
                 {
-                    _quotedTweet = _tweetFactory.GenerateTweetFromDTO(_tweetDTO.QuotedTweetDTO, TweetMode, _executionContext);
+                    _quotedTweet = _tweetFactory.GenerateTweetFromDTO(_tweetDTO.QuotedTweetDTO, TweetMode, Client);
                 }
 
                 return _quotedTweet;
@@ -424,58 +421,42 @@ namespace Tweetinvi.Logic
         public Tweet(
             ITweetDTO tweetDTO,
             TweetMode? tweetMode,
-            ITwitterExecutionContext executionContext,
-            ITweetController tweetController,
             ITweetFactory tweetFactory,
-            IUserFactory userFactory,
-            ITweetinviSettingsAccessor tweetinviSettingsAccessor)
+            IUserFactory userFactory)
         {
-            _executionContext = executionContext;
-            _tweetController = tweetController;
             _tweetFactory = tweetFactory;
             _userFactory = userFactory;
 
             // IMPORTANT: POSITION MATTERS! Look line below!
-            TweetMode = tweetMode ?? tweetinviSettingsAccessor?.CurrentThreadSettings?.TweetMode ?? TweetMode.Extended;
+            TweetMode = tweetMode ?? TweetMode.Extended;
 
             // IMPORTANT: Make sure that the TweetDTO is set up after the TweetMode because it uses the TweetMode to initialize the Entities
             TweetDTO = tweetDTO;
         }
 
-        public async Task<ITweet> PublishRetweet()
+        public Task<ITweet> PublishRetweet()
         {
             ThrowIfTweetCannotBeUsed();
-
-            var request = _executionContext.RequestFactory();
-            var twitterResult = await _tweetController.PublishRetweet(this, request);
-
-            return twitterResult.Result;
+            return Client.Tweets.PublishRetweet(this);
         }
 
-        public async Task<List<ITweet>> GetRetweets()
+        public Task<List<ITweet>> GetRetweets()
         {
             ThrowIfTweetCannotBeUsed();
-
-            var request = _executionContext.RequestFactory();
-            var retweets = await _tweetController.GetRetweets(_tweetDTO, null, request);
-
-            return retweets.Result?.ToList();
+            throw new NotImplementedException("TODO IMPLEMENT WITH CLIENT");
         }
 
         public async Task<bool> UnRetweet()
         {
             ThrowIfTweetCannotBeUsed();
+            throw new NotImplementedException("TODO IMPLEMENT WITH CLIENT");
 
-            var request = _executionContext.RequestFactory();
-
-            var updatedTweet = await _tweetController.DestroyRetweet(this, request);
-
-            if (updatedTweet != null)
-            {
-                _tweetDTO.Retweeted = false;
-            }
-
-            return (await _tweetController.DestroyRetweet(this, request)) != null;
+//            if (updatedTweet != null)
+//            {
+//                _tweetDTO.Retweeted = false;
+//            }
+//
+//            return (await _tweetController.DestroyRetweet(this, request)) != null;
         }
 
         private void ThrowIfTweetCannotBeUsed()
@@ -489,7 +470,6 @@ namespace Tweetinvi.Logic
             {
                 throw new InvalidOperationException("Cannot execute the operation if the Tweet has been deleted.");
             }
-
         }
 
         public Task<IOEmbedTweet> GenerateOEmbedTweet()
@@ -498,14 +478,10 @@ namespace Tweetinvi.Logic
             return _tweetController.GenerateOEmbedTweet(_tweetDTO);
         }
 
-        public async Task<bool> Destroy()
+        public Task<bool> Destroy()
         {
             ThrowIfTweetCannotBeUsed();
-
-            var request = _executionContext.RequestFactory();
-            var result = await _tweetController.DestroyTweet(TweetDTO, request);
-
-            return result.Response?.IsSuccessStatusCode == true;
+            return Client.Tweets.DestroyTweet(this);
         }
 
         public async Task Favorite()
@@ -544,18 +520,5 @@ namespace Tweetinvi.Logic
 
             return result;
         }
-
-        #region ICloneable
-
-        /// <summary>
-        /// Copy a Tweet into a new one
-        /// </summary>
-        /// <returns></returns>
-        public object Clone()
-        {
-            return _tweetFactory.GenerateTweetFromDTO(_tweetDTO, TweetMode, _executionContext);
-        }
-
-        #endregion
     }
 }

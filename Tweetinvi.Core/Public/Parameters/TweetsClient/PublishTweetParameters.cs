@@ -6,7 +6,7 @@ using Tweetinvi.Models;
 namespace Tweetinvi.Parameters
 {
     /// <summary>
-    /// For more information visit : https://dev.twitter.com/rest/reference/post/statuses/update
+    /// For more information visit : https://dev.twitter.com/en/docs/tweets/post-and-engage/api-reference/get-statuses-show-id
     /// </summary>
     public interface IPublishTweetParameters : ICustomRequestParameters
     {
@@ -37,7 +37,7 @@ namespace Tweetinvi.Parameters
         /// URLs passed to the attachment_url parameter not matching either a Tweet permalink or
         /// Direct Message deep link will fail at Tweet creation and cause an exception.
         /// </summary>
-        string AttachmentTwitterUrl { get; set; }
+        string QuotedTweetUrl { get; set; }
         
         /// <summary>
         /// A <a href="https://dev.twitter.com/overview/api/places">place</a> in the world.
@@ -181,7 +181,7 @@ namespace Tweetinvi.Parameters
         }
 
         /// <inheritdoc/>
-        public string AttachmentTwitterUrl { get; set; }
+        public string QuotedTweetUrl { get; set; }
 
         /// <inheritdoc/>
         public ITweet QuotedTweet { get; set; }

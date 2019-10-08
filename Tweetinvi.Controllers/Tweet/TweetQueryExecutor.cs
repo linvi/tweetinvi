@@ -30,7 +30,7 @@ namespace Tweetinvi.Controllers.Tweet
         Task<IEnumerable<long>> GetRetweetersIds(ITweetIdentifier tweetIdentifier, int maxRetweetersToRetrieve);
 
         // Destroy Tweet
-        Task<ITwitterResult> DestroyTweet(long? tweetId, ITwitterRequest request);
+        Task<ITwitterResult<ITweetDTO>> DestroyTweet(IDestroyTweetParameters parameters, ITwitterRequest request);
 
         // Favorite Tweet
         Task<bool> FavoriteTweet(ITweetDTO tweet);
@@ -78,10 +78,8 @@ namespace Tweetinvi.Controllers.Tweet
         public Task<ITwitterResult<ITweetDTO>> PublishRetweet(ITweetIdentifier tweetId, ITwitterRequest request)
         {
             var query = _tweetQueryGenerator.GetPublishRetweetQuery(tweetId, request.ExecutionContext.TweetMode);
-
             request.Query.Url = query;
             request.Query.HttpMethod = HttpMethod.POST;
-
             return _twitterAccessor.ExecuteRequest<ITweetDTO>(request);
         }
         
@@ -89,10 +87,8 @@ namespace Tweetinvi.Controllers.Tweet
         public Task<ITwitterResult> DestroyRetweet(ITweetIdentifier retweet, ITwitterRequest request)
         {
             var query = _tweetQueryGenerator.GetUnRetweetQuery(retweet);
-
             request.Query.Url = query;
             request.Query.HttpMethod = HttpMethod.POST;
-
             return _twitterAccessor.ExecuteRequest(request);
         }
 
@@ -121,14 +117,12 @@ namespace Tweetinvi.Controllers.Tweet
         #endregion
 
         // Destroy Tweet
-        public Task<ITwitterResult> DestroyTweet(long?tweetId, ITwitterRequest request)
+        public Task<ITwitterResult<ITweetDTO>> DestroyTweet(IDestroyTweetParameters parameters, ITwitterRequest request)
         {
-            var query = _tweetQueryGenerator.GetDestroyTweetQuery(tweetId);
-
+            var query = _tweetQueryGenerator.GetDestroyTweetQuery(parameters, request.ExecutionContext.TweetMode);
             request.Query.Url = query;
             request.Query.HttpMethod = HttpMethod.POST;
-
-            return _twitterAccessor.ExecuteRequest(request);
+            return _twitterAccessor.ExecuteRequest<ITweetDTO>(request);
         }
 
         // Favourite Tweet

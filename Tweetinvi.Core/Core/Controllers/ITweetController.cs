@@ -13,6 +13,8 @@ namespace Tweetinvi.Core.Controllers
         // TWEET
         Task<ITwitterResult<ITweetDTO>> GetTweet(IGetTweetParameters parameters, ITwitterRequest request);
         Task<ITwitterResult<ITweetDTO>> PublishTweet(IPublishTweetParameters parameters, ITwitterRequest request);
+        Task<ITwitterResult<ITweetDTO>> DestroyTweet(IDestroyTweetParameters parameters, ITwitterRequest request);
+
         
         // FAVORITES
         ITwitterPageIterator<ITwitterResult<ITweetDTO[]>, long?> GetFavoriteTweets(IGetFavoriteTweetsParameters parameters, ITwitterRequest request);
@@ -22,21 +24,17 @@ namespace Tweetinvi.Core.Controllers
         bool CanBePublished(IPublishTweetParameters publishTweetParameters);
 
         // Retweets - Publish
-        Task<ITwitterResult<ITweetDTO, ITweet>> PublishRetweet(ITweetIdentifier tweetId1, ITwitterRequest request);
+        Task<ITwitterResult<ITweetDTO>> PublishRetweet(ITweetIdentifier tweetId1, ITwitterRequest request);
         
         // Retweets - Destroy
         Task<ITwitterResult> DestroyRetweet(ITweetIdentifier retweet, ITwitterRequest request);
 
         // Get Retweets
-        Task<ITwitterResult<ITweetDTO[], ITweet[]>> GetRetweets(ITweetIdentifier tweet, int? maxRetweetsToRetrieve, ITwitterRequest request);
+        Task<ITwitterResult<ITweetDTO[]>> GetRetweets(ITweetIdentifier tweet, int? maxRetweetsToRetrieve, ITwitterRequest request);
 
         // Get Retweeters
         Task<IEnumerable<long>> GetRetweetersIds(ITweetIdentifier tweet, int maxRetweetersToRetrieve = 100);
         Task<IEnumerable<long>> GetRetweetersIds(long tweetId, int maxRetweetersToRetrieve = 100);
-
-        // Destroy Tweet
-        Task<ITwitterResult> DestroyTweet(ITweetDTO tweet, ITwitterRequest request);
-        Task<ITwitterResult> DestroyTweet(long tweetId, ITwitterRequest request);
 
         // Generate OembedTweet
         Task<IOEmbedTweet> GenerateOEmbedTweet(ITweet tweet);

@@ -13,12 +13,10 @@ namespace Tweetinvi.Logic
 
         public TweetWithSearchMetadata(
             ITweetWithSearchMetadataDTO tweetDTO,
-            ITwitterExecutionContext executionContext,
-            ITweetController tweetController, 
+            TweetMode? tweetMode,
             ITweetFactory tweetFactory, 
-            IUserFactory userFactory,
-            ITweetinviSettingsAccessor tweetinviSettingsAccessor) 
-            : base(tweetDTO, null, executionContext, tweetController, tweetFactory, userFactory, tweetinviSettingsAccessor)
+            IUserFactory userFactory) 
+            : base(tweetDTO, tweetMode, tweetFactory, userFactory)
         {
             _tweetWithSearchMetadataDTO = tweetDTO;
         }

@@ -39,14 +39,14 @@ namespace Tweetinvi.Client.Requesters
             _tweetsClientRequiredParametersValidator.Validate(parameters);
             
             var request = _twitterClient.CreateRequest();
-            var twitterResult = await ExecuteRequest(() => _tweetController.GetTweet(parameters, request), request);
-            return _twitterResultFactory.Create(twitterResult, dto => _tweetFactory.GenerateTweetFromDTO(dto, request.ExecutionContext));
+            var twitterResult = await ExecuteRequest(() => _tweetController.GetTweet(parameters, request), request).ConfigureAwait(false);
+            return _twitterResultFactory.Create(twitterResult, dto => _tweetFactory.GenerateTweetFromDTO(dto, request.ExecutionContext.TweetMode, _twitterClient));
         }
 
         public Task<ITwitterResult<ITweetDTO[], ITweet[]>> GetTweets(long[] tweetIds)
         {
             var request = _twitterClient.CreateRequest();
-            return ExecuteRequest(() => _tweetFactory.GetTweets(tweetIds, request), request);
+            return ExecuteRequest(() => _tweetFactory.GetTweets(tweetIds, _twitterClient), request);
         }
 
         // Tweets - Publish
@@ -56,34 +56,30 @@ namespace Tweetinvi.Client.Requesters
             
             var request = _twitterClient.CreateRequest();
             var twitterResult = await ExecuteRequest(() => _tweetController.PublishTweet(parameters, request), request).ConfigureAwait(false);
-            return _twitterResultFactory.Create(twitterResult, tweetDTO => _tweetFactory.GenerateTweetFromDTO(tweetDTO, request.ExecutionContext.TweetMode, request.ExecutionContext));
+            return _twitterResultFactory.Create(twitterResult, tweetDTO => _tweetFactory.GenerateTweetFromDTO(tweetDTO, request.ExecutionContext.TweetMode, _twitterClient));
         }
 
         // Tweets - Destroy
-        public Task<ITwitterResult> DestroyTweet(long tweetId)
+        public Task<ITwitterResult<ITweetDTO>> DestroyTweet(IDestroyTweetParameters parameters)
         {
             var request = _twitterClient.CreateRequest();
-            return ExecuteRequest(() => _tweetController.DestroyTweet(tweetId, request), request);
-        }
-
-        public Task<ITwitterResult> DestroyTweet(ITweetDTO tweet)
-        {
-            var request = _twitterClient.CreateRequest();
-            return ExecuteRequest(() => _tweetController.DestroyTweet(tweet, request), request);
+            return ExecuteRequest(() => _tweetController.DestroyTweet(parameters, request), request);
         }
 
         // Retweets
-        public Task<ITwitterResult<ITweetDTO[], ITweet[]>> GetRetweets(ITweetIdentifier tweet, int? maxRetweetsToRetrieve)
+        public async Task<ITwitterResult<ITweetDTO[], ITweet[]>> GetRetweets(ITweetIdentifier tweet, int? maxRetweetsToRetrieve)
         {
             var request = _twitterClient.CreateRequest();
-            return ExecuteRequest(() => _tweetController.GetRetweets(tweet, maxRetweetsToRetrieve, request), request);
+            var retweetsDTO = await ExecuteRequest(() => _tweetController.GetRetweets(tweet, maxRetweetsToRetrieve, request), request).ConfigureAwait(false);
+            return _twitterResultFactory.Create(retweetsDTO, tweetDTOs => _tweetFactory.GenerateTweetsFromDTO(tweetDTOs, request.ExecutionContext.TweetMode, _twitterClient));
         }
 
         // Retweets - Publish
-        public Task<ITwitterResult<ITweetDTO, ITweet>> PublishRetweet(ITweetIdentifier tweet)
+        public async Task<ITwitterResult<ITweetDTO, ITweet>> PublishRetweet(ITweetIdentifier tweet)
         {
             var request = _twitterClient.CreateRequest();
-            return ExecuteRequest(() => _tweetController.PublishRetweet(tweet, request), request);
+            var twitterResult = await ExecuteRequest(() => _tweetController.PublishRetweet(tweet, request), request).ConfigureAwait(false);
+            return _twitterResultFactory.Create(twitterResult, tweetDTO => _tweetFactory.GenerateTweetFromDTO(tweetDTO, request.ExecutionContext.TweetMode, _twitterClient));
         }
 
         // Retweets - Destroy

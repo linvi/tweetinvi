@@ -100,7 +100,7 @@ namespace Tweetinvi.Streams
             {
                 RaiseJsonObjectReceived(json);
 
-                var tweet = _tweetFactory.GenerateTweetFromJson(json, TweetMode, ExecutionContext);
+                var tweet = _tweetFactory.GenerateTweetFromJson(json, TweetMode, null);
                 if (tweet == null)
                 {
                     TryInvokeGlobalStreamMessages(json);
@@ -155,7 +155,7 @@ namespace Tweetinvi.Streams
             {
                 RaiseJsonObjectReceived(json);
 
-                var tweet = _tweetFactory.GenerateTweetFromJson(json, TweetMode, ExecutionContext);
+                var tweet = _tweetFactory.GenerateTweetFromJson(json, TweetMode, null);
                 if (tweet == null)
                 {
                     TryInvokeGlobalStreamMessages(json);

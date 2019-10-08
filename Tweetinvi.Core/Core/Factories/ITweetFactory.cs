@@ -9,17 +9,17 @@ namespace Tweetinvi.Core.Factories
 {
     public interface ITweetFactory
     {
-        Task<ITwitterResult<ITweetDTO[], ITweet[]>> GetTweets(long[] tweetIds, ITwitterRequest request);
+        Task<ITwitterResult<ITweetDTO[], ITweet[]>> GetTweets(long[] tweetIds, ITwitterClient client);
 
-        ITweet CreateTweet(string text, TweetMode? tweetMode, ITwitterExecutionContext executionContext);
+        ITweet CreateTweet(string text, TweetMode? tweetMode, ITwitterClient client);
 
         // Generate Tweet From Json
         ITweet GenerateTweetFromJson(string json);
-        ITweet GenerateTweetFromJson(string json, TweetMode? tweetMode, ITwitterExecutionContext executionContext);
+        ITweet GenerateTweetFromJson(string json, TweetMode? tweetMode, ITwitterClient client);
 
         // Generate Tweet from DTO
-        ITweet GenerateTweetFromDTO(ITweetDTO tweetDTO, TweetMode? tweetMode, ITwitterExecutionContext executionContext);
-        ITweet[] GenerateTweetsFromDTO(IEnumerable<ITweetDTO> tweetsDTO, TweetMode? tweetMode, ITwitterExecutionContext executionContext);
+//        ITweet GenerateTweetFromDTO(ITweetDTO tweetDTO, TweetMode? tweetMode, ITwitterExecutionContext executionContext);
+        ITweet[] GenerateTweetsFromDTO(IEnumerable<ITweetDTO> tweetsDTO, TweetMode? tweetMode, ITwitterClient client);
 
         ITweetWithSearchMetadata GenerateTweetWithSearchMetadataFromDTO(ITweetWithSearchMetadataDTO tweetDTO);
         IEnumerable<ITweetWithSearchMetadata> GenerateTweetsWithSearchMetadataFromDTOs(IEnumerable<ITweetWithSearchMetadataDTO> tweetsDTO);
@@ -31,6 +31,6 @@ namespace Tweetinvi.Core.Factories
         IMention GenerateMentionFromDTO(ITweetDTO tweetDTO);
         IEnumerable<IMention> GenerateMentionsFromDTO(IEnumerable<ITweetDTO> tweetsDTO);
         IOEmbedTweet GenerateOEmbedTweetFromJson(string json);
-        ITweet GenerateTweetFromDTO(ITweetDTO tweetDTO, ITwitterExecutionContext executionContext);
+        ITweet GenerateTweetFromDTO(ITweetDTO tweetDTO, TweetMode? tweetMode, ITwitterClient client);
     }
 }

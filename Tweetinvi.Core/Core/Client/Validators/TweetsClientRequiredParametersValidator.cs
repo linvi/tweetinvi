@@ -1,5 +1,4 @@
 using System;
-using System.Text;
 using Tweetinvi.Core.QueryValidators;
 using Tweetinvi.Parameters;
 
@@ -48,6 +47,16 @@ namespace Tweetinvi.Core.Client.Validators
             {
                 _tweetQueryValidator.ThrowIfTweetCannotBeUsed(parameters.QuotedTweet);
             }
+        }
+
+        public void Validate(IDestroyTweetParameters parameters)
+        {
+            if (parameters == null)
+            {
+                throw new ArgumentNullException(nameof(parameters));
+            }
+            
+            _tweetQueryValidator.ThrowIfTweetCannotBeUsed(parameters.Tweet, $"${nameof(parameters)}.{nameof(parameters.Tweet)}");
         }
 
         public void Validate(IGetFavoriteTweetsParameters parameters)

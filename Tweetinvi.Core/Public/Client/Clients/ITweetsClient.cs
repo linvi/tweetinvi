@@ -1,5 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Tweetinvi.Core.Client.Validators;
+using Tweetinvi.Core.Iterators;
+using Tweetinvi.Core.Web;
 using Tweetinvi.Iterators;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
@@ -30,8 +32,6 @@ namespace Tweetinvi.Client
         /// <returns>The specified tweets</returns>
         Task<ITweet[]> GetTweets(long[] tweetIds);
 
-        #region Publish Tweet
-
         /// <inheritdoc cref="PublishTweet(IPublishTweetParameters)" />
         Task<ITweet> PublishTweet(string text);
 
@@ -42,25 +42,21 @@ namespace Tweetinvi.Client
         /// <returns>Returns the published tweet</returns>
         Task<ITweet> PublishTweet(IPublishTweetParameters parameters);
 
-        #endregion
-
-        /// <summary>
-        /// Remove a tweet from Twitter
-        /// </summary>
-        /// <returns>Operation's success</returns>
-        Task<bool> DestroyTweet(long tweetId);
-
-        /// <summary>
-        /// Remove a tweet from Twitter
-        /// </summary>
-        /// <returns>Operation's success</returns>
+        /// <inheritdoc cref="DestroyTweet(IDestroyTweetParameters)" />
+        Task<bool> DestroyTweet(long? tweetId);
+        /// <inheritdoc cref="DestroyTweet(IDestroyTweetParameters)" />
+        Task<bool> DestroyTweet(ITweetIdentifier tweet);
+        /// <inheritdoc cref="DestroyTweet(IDestroyTweetParameters)" />
+        Task<bool> DestroyTweet(ITweet tweet);
+        /// <inheritdoc cref="DestroyTweet(IDestroyTweetParameters)" />
         Task<bool> DestroyTweet(ITweetDTO tweet);
 
         /// <summary>
-        /// Remove a tweet from Twitter
+        /// Destroy a tweet
+        /// <para>Read more : https://dev.twitter.com/en/docs/tweets/post-and-engage/api-reference/post-statuses-destroy-id </para>
         /// </summary>
-        /// <returns>Operation's success</returns>
-        Task<bool> DestroyTweet(ITweet tweet);
+        /// <returns>Whether the tweet was successfully destroyed</returns>
+        Task<bool> DestroyTweet(IDestroyTweetParameters parameters);
 
         /// <summary>
         /// Get the retweets associated with a specific tweet 

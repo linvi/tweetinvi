@@ -8,7 +8,6 @@ using Tweetinvi.Core.Extensions;
 using Tweetinvi.Core.Factories;
 using Tweetinvi.Core.Iterators;
 using Tweetinvi.Core.Web;
-using Tweetinvi.Exceptions;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
 using Tweetinvi.Parameters;
@@ -20,18 +19,15 @@ namespace Tweetinvi.Controllers.Tweet
         private readonly ITweetQueryExecutor _tweetQueryExecutor;
         private readonly IUploadQueryExecutor _uploadQueryExecutor;
         private readonly ITweetFactory _tweetFactory;
-        private readonly ITwitterResultFactory _twitterResultFactory;
 
         public TweetController(
             ITweetQueryExecutor tweetQueryExecutor,
             IUploadQueryExecutor uploadQueryExecutor,
-            ITweetFactory tweetFactory,
-            ITwitterResultFactory twitterResultFactory)
+            ITweetFactory tweetFactory)
         {
             _tweetQueryExecutor = tweetQueryExecutor;
             _uploadQueryExecutor = uploadQueryExecutor;
             _tweetFactory = tweetFactory;
-            _twitterResultFactory = twitterResultFactory;
         }
 
         public Task<ITwitterResult<ITweetDTO>> GetTweet(IGetTweetParameters parameters, ITwitterRequest request)
@@ -111,31 +107,23 @@ namespace Tweetinvi.Controllers.Tweet
         }
 
         // Retweets - Publish
-        public async Task<ITwitterResult<ITweetDTO, ITweet>> PublishRetweet(ITweetIdentifier tweetId, ITwitterRequest request)
+        public Task<ITwitterResult<ITweetDTO>> PublishRetweet(ITweetIdentifier tweetId, ITwitterRequest request)
         {
-            var result = await _tweetQueryExecutor.PublishRetweet(tweetId, request);
-            return _twitterResultFactory.Create(result, tweetDTO => _tweetFactory.GenerateTweetFromDTO(tweetDTO, request.ExecutionContext.TweetMode, request.ExecutionContext));
+            return _tweetQueryExecutor.PublishRetweet(tweetId, request);
         }
 
         // Retweets - Destroy
 
-        public async Task<ITwitterResult> DestroyRetweet(ITweetIdentifier retweet, ITwitterRequest request)
+        public Task<ITwitterResult> DestroyRetweet(ITweetIdentifier retweet, ITwitterRequest request)
         {
-            var result = await _tweetQueryExecutor.DestroyRetweet(retweet, request);
-            return result;
+            return _tweetQueryExecutor.DestroyRetweet(retweet, request);
         }
 
         #region GetRetweets
 
-        public async Task<ITwitterResult<ITweetDTO[], ITweet[]>> GetRetweets(ITweetIdentifier tweetIdentifier, int? maxRetweetsToRetrieve, ITwitterRequest request)
+        public Task<ITwitterResult<ITweetDTO[]>> GetRetweets(ITweetIdentifier tweetIdentifier, int? maxRetweetsToRetrieve, ITwitterRequest request)
         {
-            var retweetsDTO = await _tweetQueryExecutor.GetRetweets(tweetIdentifier, maxRetweetsToRetrieve, request);
-            return _twitterResultFactory.Create(retweetsDTO, tweetDTOs => _tweetFactory.GenerateTweetsFromDTO(tweetDTOs, request.ExecutionContext.TweetMode, request.ExecutionContext));
-        }
-
-        public Task<ITwitterResult<ITweetDTO[], ITweet[]>> GetRetweets(long tweetId, int maxRetweetsToRetrieve, ITwitterRequest request)
-        {
-            return GetRetweets(new TweetIdentifier(tweetId), maxRetweetsToRetrieve, request);
+            return _tweetQueryExecutor.GetRetweets(tweetIdentifier, maxRetweetsToRetrieve, request);
         }
 
         #endregion
@@ -155,16 +143,9 @@ namespace Tweetinvi.Controllers.Tweet
         #endregion
 
         // Destroy Tweet
-        public async Task<ITwitterResult> DestroyTweet(ITweetDTO tweet, ITwitterRequest request)
+        public Task<ITwitterResult<ITweetDTO>> DestroyTweet(IDestroyTweetParameters parameters, ITwitterRequest request)
         {
-            var twitterResult = await _tweetQueryExecutor.DestroyTweet(tweet.Id, request);
-            tweet.IsTweetDestroyed = twitterResult.Response.IsSuccessStatusCode;
-            return twitterResult;
-        }
-
-        public Task<ITwitterResult> DestroyTweet(long tweetId, ITwitterRequest request)
-        {
-            return _tweetQueryExecutor.DestroyTweet(tweetId, request);
+            return _tweetQueryExecutor.DestroyTweet(parameters, request);
         }
 
         // Favorite Tweet
@@ -208,7 +189,7 @@ namespace Tweetinvi.Controllers.Tweet
             }
 
             // if the favourite operation failed the tweet should still be favourited if it previously was
-            tweetDTO.Favorited |= await _tweetQueryExecutor.FavoriteTweet(tweetDTO);
+            tweetDTO.Favorited |= await _tweetQueryExecutor.FavoriteTweet(tweetDTO).ConfigureAwait(false);
             return tweetDTO.Favorited;
         }
 
@@ -251,13 +232,13 @@ namespace Tweetinvi.Controllers.Tweet
 
         public async Task<IOEmbedTweet> GenerateOEmbedTweet(ITweetDTO tweetDTO)
         {
-            var oembedTweetDTO = await _tweetQueryExecutor.GenerateOEmbedTweet(tweetDTO);
+            var oembedTweetDTO = await _tweetQueryExecutor.GenerateOEmbedTweet(tweetDTO).ConfigureAwait(false);
             return _tweetFactory.GenerateOEmbedTweetFromDTO(oembedTweetDTO);
         }
 
         public async Task<IOEmbedTweet> GenerateOEmbedTweet(long tweetId)
         {
-            var oembedTweetDTO = await _tweetQueryExecutor.GenerateOEmbedTweet(tweetId);
+            var oembedTweetDTO = await _tweetQueryExecutor.GenerateOEmbedTweet(tweetId).ConfigureAwait(false);
             return _tweetFactory.GenerateOEmbedTweetFromDTO(oembedTweetDTO);
         }
 

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Tweetinvi.Client.Requesters;
 using Tweetinvi.Core.Client.Validators;
 using Tweetinvi.Core.Factories;
@@ -36,7 +35,7 @@ namespace Tweetinvi.Client
 
         public async Task<ITweet> GetTweet(IGetTweetParameters parameters)
         {
-            var twitterResult = await _tweetsRequester.GetTweet(parameters);
+            var twitterResult = await _tweetsRequester.GetTweet(parameters).ConfigureAwait(false);
             return twitterResult?.Result;
         }
 
@@ -46,7 +45,7 @@ namespace Tweetinvi.Client
         /// <returns>The specified tweets</returns>
         public async Task<ITweet[]> GetTweets(long[] tweetIds)
         {
-            var requestResult = await _tweetsRequester.GetTweets(tweetIds);
+            var requestResult = await _tweetsRequester.GetTweets(tweetIds).ConfigureAwait(false);
             return requestResult?.Result;
         }
 
@@ -59,39 +58,43 @@ namespace Tweetinvi.Client
 
         public async Task<ITweet> PublishTweet(IPublishTweetParameters parameters)
         {
-            var requestResult = await _tweetsRequester.PublishTweet(parameters);
+            var requestResult = await _tweetsRequester.PublishTweet(parameters).ConfigureAwait(false);
             return requestResult?.Result;
         }
 
         // Tweets - Destroy
 
-        /// <summary>
-        /// Remove a tweet from Twitter
-        /// </summary>
-        /// <returns>Operation's success</returns>
-        public async Task<bool> DestroyTweet(long tweetId)
+        public Task<bool> DestroyTweet(long? tweetId)
         {
-            var requestResult = await _tweetsRequester.DestroyTweet(tweetId);
-            return requestResult?.Response?.IsSuccessStatusCode == true;
+            return DestroyTweet(new DestroyTweetParameters(tweetId));
         }
 
-        /// <summary>
-        /// Remove a tweet from Twitter
-        /// </summary>
-        /// <returns>Operation's success</returns>
-        public async Task<bool> DestroyTweet(ITweetDTO tweet)
+        public Task<bool> DestroyTweet(ITweetIdentifier tweet)
         {
-            var requestResult = await _tweetsRequester.DestroyTweet(tweet);
-            return requestResult?.Response?.IsSuccessStatusCode == true;
+            return DestroyTweet(new DestroyTweetParameters(tweet));
         }
 
-        /// <summary>
-        /// Remove a tweet from Twitter
-        /// </summary>
-        /// <returns>Operation's success</returns>
         public Task<bool> DestroyTweet(ITweet tweet)
         {
-            return DestroyTweet(tweet?.TweetDTO);
+            return DestroyTweet(tweet.TweetDTO);
+        }
+        
+        public async Task<bool> DestroyTweet(ITweetDTO tweet)
+        {
+            var tweetDestroyed = await DestroyTweet(new DestroyTweetParameters(tweet)).ConfigureAwait(false);
+            
+            if (tweetDestroyed)
+            {
+                tweet.IsTweetDestroyed = true;
+            }
+
+            return tweetDestroyed;
+        }
+
+        public async Task<bool> DestroyTweet(IDestroyTweetParameters parameters)
+        {
+            var twitterResult = await _tweetsRequester.DestroyTweet(parameters).ConfigureAwait(false);
+            return twitterResult.Response.IsSuccessStatusCode;
         }
 
         // Retweets
@@ -201,13 +204,12 @@ namespace Tweetinvi.Client
         public ITwitterIterator<ITweet, long?> GetFavoriteTweets(IGetFavoriteTweetsParameters parameters)
         {
             var tweetMode = _client.Config.TweetMode;
-            var executionContext = _client.CreateTwitterExecutionContext();
 
             var favoriteTweetsIterator = _tweetsRequester.GetFavoriteTweets(parameters);
             return new TwitterIteratorProxy<ITwitterResult<ITweetDTO[]>, ITweet, long?>(favoriteTweetsIterator,
                 twitterResult =>
                 {
-                    return _tweetFactory.GenerateTweetsFromDTO(twitterResult.DataTransferObject, tweetMode, executionContext);
+                    return _tweetFactory.GenerateTweetsFromDTO(twitterResult.DataTransferObject, tweetMode, _client);
                 });
         }
 

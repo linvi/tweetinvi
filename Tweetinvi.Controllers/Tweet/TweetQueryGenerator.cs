@@ -83,7 +83,7 @@ namespace Tweetinvi.Controllers.Tweet
             var useExtendedTweetMode = tweetMode == null || tweetMode == TweetMode.Extended;
 
             var quotedTweetUrl = GetQuotedTweetUrl(parameters);
-            var attachmentUrl = parameters.AttachmentTwitterUrl;
+            var attachmentUrl = parameters.QuotedTweetUrl;
 
             if (quotedTweetUrl != null)
             {
@@ -192,7 +192,6 @@ namespace Tweetinvi.Controllers.Tweet
             query.AddParameterToQuery("count", parameters.PageSize);
 
             var tweetModeParameter = _queryParameterGenerator.GenerateTweetModeParameter(tweetMode);
-            
             query.AddFormattedParameterToQuery(tweetModeParameter);
             query.AddFormattedParameterToQuery(parameters.FormattedCustomQueryParameters);
 
@@ -233,14 +232,16 @@ namespace Tweetinvi.Controllers.Tweet
         }
 
         // Destroy Tweet
-        public string GetDestroyTweetQuery(long? tweetId)
+        public string GetDestroyTweetQuery(IDestroyTweetParameters parameters, TweetMode? tweetMode)
         {
-            _tweetQueryValidator.ThrowIfTweetCannotBeUsed(tweetId);
+            var query = new StringBuilder(string.Format(Resources.Tweet_Destroy, _queryParameterGenerator.GenerateTweetIdentifier(parameters.Tweet)));
 
-            var query = new StringBuilder(string.Format(Resources.Tweet_Destroy, tweetId));
+            query.AddParameterToQuery("trim_user", parameters.TrimUser);
 
-            query.AddFormattedParameterToQuery(_queryParameterGenerator.GenerateTweetModeParameter(_tweetinviSettingsAccessor.CurrentThreadSettings.TweetMode));
-
+            var tweetModeParameter = _queryParameterGenerator.GenerateTweetModeParameter(tweetMode);
+            query.AddFormattedParameterToQuery(tweetModeParameter);
+            query.AddFormattedParameterToQuery(parameters.FormattedCustomQueryParameters);
+            
             return query.ToString();
         }
 
