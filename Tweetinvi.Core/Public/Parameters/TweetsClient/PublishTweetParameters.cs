@@ -101,19 +101,7 @@ namespace Tweetinvi.Parameters
         /// Must be used with AutoPopulateReplyMetadata.
         /// </summary>
         IEnumerable<long> ExcludeReplyUserIds { get; set; }
-        
-        /// <summary>
-        /// When set to true, enables shortcode commands for sending Direct Messages as part of the status text to send a Direct Message to a user.
-        /// When set to false, disables this behavior and includes any leading characters in the status text that is posted
-        /// </summary>
-        bool? EnableDirectMessageCommands { get; set; }
-        
-        /// <summary>
-        /// When set to true, causes any status text that starts with shortcode commands to return an API error.
-        /// When set to false, allows shortcode commands to be sent in the status text and acted on by the API.
-        /// </summary>
-        bool? FailDirectMessageCommands { get; set; }
-        
+
         /// <summary>
         /// Associate an ads card with the Tweet using the card_uri value from any ads card response.
         /// </summary>
@@ -215,11 +203,6 @@ namespace Tweetinvi.Parameters
         public bool? AutoPopulateReplyMetadata { get; set; }
         /// <inheritdoc/>
         public IEnumerable<long> ExcludeReplyUserIds { get; set; }
-
-        /// <inheritdoc/>
-        public bool? EnableDirectMessageCommands { get; set; }
-        /// <inheritdoc/>
-        public bool? FailDirectMessageCommands { get; set; }
         /// <inheritdoc/>
         public string CardUri { get; set; }
     }

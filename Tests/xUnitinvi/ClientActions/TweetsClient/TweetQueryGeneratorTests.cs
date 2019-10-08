@@ -93,8 +93,6 @@ namespace xUnitinvi.ClientActions.TweetsClient
                 QuotedTweet = quotedTweet,
                 TrimUser = true,
                 CardUri = "cardUri",
-                EnableDirectMessageCommands = false,
-                FailDirectMessageCommands = false,
                 CustomQueryParameters = { new Tuple<string, string>("hello", "world") }
             };
 
@@ -104,9 +102,9 @@ namespace xUnitinvi.ClientActions.TweetsClient
             // Assert
             var url = "https://api.twitter.com/1.1/statuses/update.json?status=hello&auto_populate_reply_metadata=true&" +
                 $"attachment_url={Uri.EscapeDataString("https://twitter.com/quoted_author/status/48")}&" +
-                "card_uri=cardUri&display_coordinates=true&enable_dmcommands=false&exclude_reply_user_ids=45%2C50&" +
-                "fail_dmcommands=false&in_reply_to_status_id=46&lat=42&long=43&" +
-                "media_ids=44%2C51&place_id=place&possibly_sensitive=false&trim_user=true&tweet_mode=extended&hello=world";
+                "card_uri=cardUri&display_coordinates=true&exclude_reply_user_ids=45%2C50&" +
+                "in_reply_to_status_id=46&lat=42&long=43&media_ids=44%2C51&" +
+                "place_id=place&possibly_sensitive=false&trim_user=true&tweet_mode=extended&hello=world";
             Assert.Equal(result, url);
         }
 

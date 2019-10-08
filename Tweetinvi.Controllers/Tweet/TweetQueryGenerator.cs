@@ -106,14 +106,12 @@ namespace Tweetinvi.Controllers.Tweet
             query.AddParameterToQuery("attachment_url", attachmentUrl);
             query.AddParameterToQuery("card_uri", parameters.CardUri);
             query.AddParameterToQuery("display_coordinates", parameters.DisplayExactCoordinates);
-            query.AddParameterToQuery("enable_dmcommands", parameters.EnableDirectMessageCommands);
             
             if (parameters.ExcludeReplyUserIds != null)
             {
                 query.AddParameterToQuery("exclude_reply_user_ids", string.Join(",", parameters.ExcludeReplyUserIds));
             }
             
-            query.AddParameterToQuery("fail_dmcommands", parameters.FailDirectMessageCommands);
             query.AddParameterToQuery("in_reply_to_status_id", parameters.InReplyToTweet?.Id);
             query.AddParameterToQuery("lat", parameters.Coordinates?.Latitude.ToString(CultureInfo.InvariantCulture));
             query.AddParameterToQuery("long", parameters.Coordinates?.Longitude.ToString(CultureInfo.InvariantCulture));
@@ -127,7 +125,7 @@ namespace Tweetinvi.Controllers.Tweet
             query.AddParameterToQuery("place_id", parameters.PlaceId);
             query.AddParameterToQuery("possibly_sensitive", parameters.PossiblySensitive);
             query.AddParameterToQuery("trim_user", parameters.TrimUser);
-            query.AddParameterToQuery("tweet_mode", tweetMode?.ToString()?.ToLowerInvariant());
+            query.AddParameterToQuery("tweet_mode", tweetMode?.ToString().ToLowerInvariant());
 
             query.AddFormattedParameterToQuery(parameters.FormattedCustomQueryParameters);
 
