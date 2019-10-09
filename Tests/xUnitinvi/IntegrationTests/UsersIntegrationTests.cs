@@ -25,16 +25,21 @@ namespace xUnitinvi.IntegrationTests
             
             _logger.WriteLine(DateTime.Now.ToLongTimeString());
             
-            Client = new TwitterClient(IntegrationTestCredentials.NormalUserCredentials);
-            PrivateUserClient = new TwitterClient(IntegrationTestCredentials.ProtectedUserCredentials);
+            Client = new TwitterClient(IntegrationTestConfig.NormalUserCredentials);
+            PrivateUserClient = new TwitterClient(IntegrationTestConfig.ProtectedUserCredentials);
             
             TweetinviEvents.QueryBeforeExecute += (sender, args) => { _logger.WriteLine(args.Url); };
         }
 
-        //[Fact]
-        [Fact(Skip = "IntegrationTests")]
+        [Fact]
+//        [Fact(Skip = "IntegrationTests")]
         public async Task RunAllUserTests()
         {
+            if (!IntegrationTestConfig.ShouldRunIntegrationTests)
+            {
+                return;
+            }
+            
             _logger.WriteLine($"Starting {nameof(TestFollow)}");
             await TestFollow().ConfigureAwait(false);
             _logger.WriteLine($"{nameof(TestFollow)} succeeded");
@@ -49,15 +54,14 @@ namespace xUnitinvi.IntegrationTests
             _logger.WriteLine($"{nameof(TestWithPrivateUser)} succeeded");
         }
 
-        [Fact(Skip = "IntegrationTests")]
         private async Task TestFollow()
         {
             // act
-            var authenticatedUser = await Client.Account.GetAuthenticatedUser();
-            var tweetinviUser = await Client.Users.GetUser("tweetinviapi");
+            var tweetinviTestAuthenticated = await Client.Account.GetAuthenticatedUser();
+            var tweetinviTestUser = await Client.Users.GetUser("tweetinvitest");
 
             var followers = new List<IUser>();
-            var followersIterator = authenticatedUser.GetFollowers();
+            var followersIterator = tweetinviTestAuthenticated.GetFollowers();
 
             while (!followersIterator.Completed)
             {
@@ -65,36 +69,34 @@ namespace xUnitinvi.IntegrationTests
                 followers.AddRange(pageFollowers);
             }
 
-            var userToFollow = await Client.Users.GetUser("tweetinvitest");
+            var userToFollow = await Client.Users.GetUser("tweetinviapi");
 
-            var friendIdsIterator = Client.Users.GetFriendIds("tweetinviapi");
+            var friendIdsIterator = Client.Users.GetFriendIds("tweetinvitest");
             var friendIds = await friendIdsIterator.MoveToNextPage();
             var friendsBeforeAdd = await Client.Users.GetUsers(friendIds);
 
             await Client.Account.FollowUser(userToFollow);
 
-            var friendsAfterAdd = await authenticatedUser.GetFriends().MoveToNextPage();
+            var friendsAfterAdd = await tweetinviTestAuthenticated.GetFriends().MoveToNextPage();
             
             await Client.Account.UnFollowUser(userToFollow);
             
-            var friendsAfterRemove = await authenticatedUser.GetFriends().MoveToNextPage();
+            var friendsAfterRemove = await tweetinviTestAuthenticated.GetFriends().MoveToNextPage();
 
             // assert
-            Assert.Equal(1577389800, tweetinviUser.Id);
-            Assert.NotNull(authenticatedUser);
+            Assert.Equal(1693649419, tweetinviTestUser.Id);
+            Assert.NotNull(tweetinviTestAuthenticated);
 
-            Assert.NotEmpty(friendsBeforeAdd);
             Assert.Contains(friendsAfterAdd, friend => friend.Id == userToFollow.Id);
             Assert.DoesNotContain(friendsAfterRemove, friend => friend.Id == userToFollow.Id);
         }
 
-        [Fact(Skip = "IntegrationTests")]
         private async Task TestRelationships()
         {
             // act
             var authenticatedUser = await Client.Account.GetAuthenticatedUser();
 
-            var usernameToFollow = "tweetinvitest";
+            var usernameToFollow = "tweetinviapi";
             var userToFollow = await Client.Users.GetUser(usernameToFollow);
             
             await Client.Account.FollowUser(userToFollow);
@@ -129,7 +131,6 @@ namespace xUnitinvi.IntegrationTests
             Assert.Contains(retweetMutedUsers, x => x == userToFollow.Id);
         }
 
-        [Fact(Skip = "IntegrationTests")]
         private async Task TestWithPrivateUser()
         {
             var publicUser = await Client.Account.GetAuthenticatedUser();

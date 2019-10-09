@@ -107,7 +107,7 @@ namespace Tweetinvi.Core.Web
                 {
                     _initialized = true;
 
-                    var json = Response.Text;
+                    var json = Response?.Text;
                     var converters = Request.ExecutionContext.Converters;
 
                     _result = _jsonObjectConverter.DeserializeObject<DTO>(json, converters);

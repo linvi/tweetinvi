@@ -19,7 +19,7 @@ namespace xUnitinvi.IntegrationTests
         {
             _logger = logger;
             _logger.WriteLine(DateTime.Now.ToLongTimeString());
-            Client = new TwitterClient(IntegrationTestCredentials.ProtectedUserCredentials);
+            Client = new TwitterClient(IntegrationTestConfig.ProtectedUserCredentials);
             
             TweetinviEvents.QueryBeforeExecute += (sender, args) => { _logger.WriteLine(args.Url); };
         }
@@ -28,6 +28,11 @@ namespace xUnitinvi.IntegrationTests
         [Fact(Skip = "Integration Tests")]
         public async Task RunAllAccountSettings()
         {
+            if (!IntegrationTestConfig.ShouldRunIntegrationTests)
+            {
+                return;
+            }
+            
             _logger.WriteLine($"Starting {nameof(ChangeImagesTests)}");
             await ChangeImagesTests().ConfigureAwait(false);
             _logger.WriteLine($"{nameof(ChangeImagesTests)} succeeded");
@@ -41,8 +46,7 @@ namespace xUnitinvi.IntegrationTests
             _logger.WriteLine($"{nameof(AccountProfileTests)} succeeded");
         }
 
-        [Fact(Skip = "Integration Tests")]
-        public async Task ChangeImagesTests()
+        private async Task ChangeImagesTests()
         {
             // act
             var authenticatedUser = await Client.Account.GetAuthenticatedUser();
@@ -60,8 +64,7 @@ namespace xUnitinvi.IntegrationTests
             Assert.Null(userAfterRemovingBanner.ProfileBannerURL);
         }
 
-        [Fact(Skip = "Integration Tests")]
-        public async Task AccountProfileTests()
+        private async Task AccountProfileTests()
         {
             var initialProfile = await Client.Account.GetAuthenticatedUser();
 
@@ -109,9 +112,8 @@ namespace xUnitinvi.IntegrationTests
             Assert.NotEqual(initialProfile.ProfileLinkColor, newProfile.ProfileLinkColor);
             Assert.Equal(initialProfile.ProfileLinkColor, restoredProfile.ProfileLinkColor);
         }
-        
-        [Fact(Skip = "Integration Tests")]
-        public async Task AccountSettingsTests()
+
+        private async Task AccountSettingsTests()
         {
             var initialSettings = await Client.AccountSettings.GetAccountSettings();
 

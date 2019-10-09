@@ -114,6 +114,5 @@ namespace Tweetinvi.Client
         /// </summary>
         /// <returns>An iterator to list the favorite tweets</returns>
         ITwitterIterator<ITweet, long?> GetFavoriteTweets(IGetFavoriteTweetsParameters parameters);
-
     }
 }

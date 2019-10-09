@@ -1,7 +1,6 @@
 ﻿using System.IO;
 using System.Threading.Tasks;
 using Tweetinvi.Core.Controllers;
-using Tweetinvi.Core.Factories;
 using Tweetinvi.Core.Iterators;
 using Tweetinvi.Core.Web;
 using Tweetinvi.Models;
@@ -14,29 +13,20 @@ namespace Tweetinvi.Controllers.User
     public class UserController : IUserController
     {
         private readonly IUserQueryExecutor _userQueryExecutor;
-        private readonly IUserFactory _userFactory;
-        private readonly ITwitterResultFactory _twitterResultFactory;
 
-        public UserController(
-            IUserQueryExecutor userQueryExecutor,
-            IUserFactory userFactory,
-            ITwitterResultFactory twitterResultFactory)
+        public UserController(IUserQueryExecutor userQueryExecutor)
         {
             _userQueryExecutor = userQueryExecutor;
-            _userFactory = userFactory;
-            _twitterResultFactory = twitterResultFactory;
         }
 
-        public async Task<ITwitterResult<IUserDTO, IUser>> GetUser(IGetUserParameters parameters, ITwitterRequest request)
+        public Task<ITwitterResult<IUserDTO>> GetUser(IGetUserParameters parameters, ITwitterRequest request)
         {
-            var result = await _userQueryExecutor.GetUser(parameters, request);
-            return _twitterResultFactory.Create(result, userDTO => _userFactory.GenerateUserFromDTO(userDTO, null));
+            return _userQueryExecutor.GetUser(parameters, request);
         }
 
-        public async Task<ITwitterResult<IUserDTO[], IUser[]>> GetUsers(IGetUsersParameters parameters, ITwitterRequest request)
+        public Task<ITwitterResult<IUserDTO[]>> GetUsers(IGetUsersParameters parameters, ITwitterRequest request)
         {
-            var result = await _userQueryExecutor.GetUsers(parameters, request);
-            return _twitterResultFactory.Create(result, userDTO => _userFactory.GenerateUsersFromDTO(userDTO, null));
+            return _userQueryExecutor.GetUsers(parameters, request);
         }
 
         // Friend Ids

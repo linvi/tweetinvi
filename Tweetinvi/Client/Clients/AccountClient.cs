@@ -293,8 +293,11 @@ namespace Tweetinvi.Client
 
             foreach (var user in parameters.Users)
             {
-                var userRelationship = relationshipsWith.First(x => x.TargetId == user.Id || x.TargetScreenName == user.ScreenName);
-                userRelationshipState.AddOrUpdate(user, userRelationship);
+                var userRelationship = relationshipsWith.FirstOrDefault(x => x.TargetId == user.Id || x.TargetScreenName.ToLowerInvariant() == user.ScreenName.ToLowerInvariant());
+                if (userRelationship != null)
+                {
+                    userRelationshipState.AddOrUpdate(user, userRelationship);
+                }
             }
 
             return userRelationshipState;

@@ -22,17 +22,20 @@ namespace Tweetinvi.Client.Requesters
         private readonly IUserController _userController;
         private readonly ITwitterResultFactory _twitterResultFactory;
         private readonly IFriendshipFactory _friendshipFactory;
+        private readonly IUserFactory _userFactory;
         private readonly IUsersClientRequiredParametersValidator _validator;
 
         public UsersRequester(
             IUserController userController, 
             ITwitterResultFactory twitterResultFactory, 
             IFriendshipFactory friendshipFactory,
+            IUserFactory userFactory,
             IUsersClientRequiredParametersValidator validator)
         {
             _userController = userController;
             _twitterResultFactory = twitterResultFactory;
             _friendshipFactory = friendshipFactory;
+            _userFactory = userFactory;
             _validator = validator;
         }
 
@@ -41,15 +44,19 @@ namespace Tweetinvi.Client.Requesters
             _validator.Validate(parameters);
             
             var request = _twitterClient.CreateRequest();
-            var result = await ExecuteRequest(() => _userController.GetUser(parameters, request), request).ConfigureAwait(false);
-            var user = result.Result;
-
-            if (user != null)
+            var twitterResult = await ExecuteRequest(() => _userController.GetUser(parameters, request), request).ConfigureAwait(false);
+            
+            return _twitterResultFactory.Create(twitterResult, userDTO =>
             {
-                user.Client = _twitterClient;
-            }
+                var user = _userFactory.GenerateUserFromDTO(userDTO, null);
+                
+                if (user != null)
+                {
+                    user.Client = _twitterClient;
+                }
 
-            return result;
+                return user;
+            });
         }
 
         public async Task<ITwitterResult<IUserDTO[], IUser[]>> GetUsers(IGetUsersParameters parameters)
@@ -58,12 +65,13 @@ namespace Tweetinvi.Client.Requesters
             
             var request = _twitterClient.CreateRequest();
             var result = await ExecuteRequest(() => _userController.GetUsers(parameters, request), request).ConfigureAwait(false);
-
-            var users = result.Result;
-
-            users?.ForEach(x => x.Client = _twitterClient);
-
-            return result;
+            
+            return _twitterResultFactory.Create(result, userDTO =>
+            {
+                var users = _userFactory.GenerateUsersFromDTO(userDTO, null);
+                users?.ForEach(x => x.Client = _twitterClient);
+                return users;
+            });
         }
 
         public ITwitterPageIterator<ITwitterResult<IIdsCursorQueryResultDTO>> GetFriendIds(IGetFriendIdsParameters parameters)

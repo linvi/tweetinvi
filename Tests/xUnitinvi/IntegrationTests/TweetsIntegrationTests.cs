@@ -21,8 +21,8 @@ namespace xUnitinvi.IntegrationTests
             _logger = logger;
             _logger.WriteLine(DateTime.Now.ToLongTimeString());
 
-            PublicClient = new TwitterClient(IntegrationTestCredentials.NormalUserCredentials);
-            ProtectedClient = new TwitterClient(IntegrationTestCredentials.ProtectedUserCredentials);
+            PublicClient = new TwitterClient(IntegrationTestConfig.NormalUserCredentials);
+            ProtectedClient = new TwitterClient(IntegrationTestConfig.ProtectedUserCredentials);
 
             TweetinviEvents.QueryBeforeExecute += (sender, args) => { _logger.WriteLine(args.Url); };
         }
@@ -31,6 +31,11 @@ namespace xUnitinvi.IntegrationTests
         [Fact(Skip = "Integration Tests")]
         public async Task RunAllTweets()
         {
+            if (!IntegrationTestConfig.ShouldRunIntegrationTests)
+            {
+                return;
+            }
+            
             _logger.WriteLine($"Starting {nameof(CreateReadDelete)}");
             await CreateReadDelete().ConfigureAwait(false);
             _logger.WriteLine($"{nameof(CreateReadDelete)} succeeded");

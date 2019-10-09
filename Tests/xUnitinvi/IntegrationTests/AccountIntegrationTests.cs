@@ -20,8 +20,8 @@ namespace xUnitinvi.IntegrationTests
             
             _logger.WriteLine(DateTime.Now.ToLongTimeString());
             
-            Client = new TwitterClient(IntegrationTestCredentials.NormalUserCredentials);
-            PrivateUserClient = new TwitterClient(IntegrationTestCredentials.ProtectedUserCredentials);
+            Client = new TwitterClient(IntegrationTestConfig.NormalUserCredentials);
+            PrivateUserClient = new TwitterClient(IntegrationTestConfig.ProtectedUserCredentials);
             
             TweetinviEvents.QueryBeforeExecute += (sender, args) => { _logger.WriteLine(args.Url); };
         }
@@ -30,6 +30,11 @@ namespace xUnitinvi.IntegrationTests
         [Fact(Skip = "IntegrationTests")]
         public async Task RunAllAccountTests()
         {
+            if (!IntegrationTestConfig.ShouldRunIntegrationTests)
+            {
+                return;
+            }
+            
             _logger.WriteLine($"Starting {nameof(TestBlock)}");
             await TestBlock().ConfigureAwait(false);
             _logger.WriteLine($"{nameof(TestBlock)} succeeded");
@@ -39,7 +44,6 @@ namespace xUnitinvi.IntegrationTests
             _logger.WriteLine($"{nameof(TestMute)} succeeded");
         }
 
-        [Fact(Skip = "IntegrationTests")]
         private async Task TestBlock()
         {
             var userToFollow = await Client.Users.GetUser("tweetinvitest");
@@ -61,7 +65,6 @@ namespace xUnitinvi.IntegrationTests
             Assert.True(unblockSuccess);
         }
         
-        [Fact(Skip = "IntegrationTests")]
         private async Task TestMute()
         {
             var userToMute = await PrivateUserClient.Account.GetAuthenticatedUser();
