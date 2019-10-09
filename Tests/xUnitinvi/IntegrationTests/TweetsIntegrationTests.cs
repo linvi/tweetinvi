@@ -1,9 +1,6 @@
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Net.Http;
-using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Tweetinvi;
 using Tweetinvi.Models;
@@ -37,7 +34,12 @@ namespace xUnitinvi.IntegrationTests
             _logger.WriteLine($"Starting {nameof(CreateReadDelete)}");
             await CreateReadDelete().ConfigureAwait(false);
             _logger.WriteLine($"{nameof(CreateReadDelete)} succeeded");
+
+            _logger.WriteLine($"Starting {nameof(Retweets)}");
+            await Retweets().ConfigureAwait(false);
+            _logger.WriteLine($"{nameof(Retweets)} succeeded");
         }
+
 
         private async Task CreateReadDelete()
         {
@@ -116,6 +118,24 @@ namespace xUnitinvi.IntegrationTests
             Assert.True(replyTweetDestroy);
             Assert.True(fullTweetDestroy);
             Assert.True(withMediaDestroy);
+        }
+
+        private async Task Retweets()
+        {
+            var tweetId = 979753598446948353;
+            
+            var sourceTweet = await ProtectedClient.Tweets.GetTweet(tweetId);
+            var retweet = await ProtectedClient.Tweets.PublishRetweet(sourceTweet);
+            var sourceRetweets = await ProtectedClient.Tweets.GetRetweets(sourceTweet);
+            var tweetAfterRetweet = await ProtectedClient.Tweets.GetTweet(tweetId);
+            await ProtectedClient.Tweets.DestroyRetweet(retweet);
+            var tweetAfterDestroy = await ProtectedClient.Tweets.GetTweet(tweetId);
+            
+            // assert
+            Assert.Equal(tweetAfterRetweet.RetweetCount, sourceTweet.RetweetCount + 1);
+            Assert.Equal(retweet.RetweetedTweet.Id, tweetId);
+            Assert.Contains(retweet.Id, sourceRetweets.Select(x => x.Id));
+            Assert.Equal(tweetAfterDestroy.RetweetCount, sourceTweet.RetweetCount);
         }
     }
 }

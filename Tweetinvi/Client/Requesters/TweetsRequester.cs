@@ -83,18 +83,22 @@ namespace Tweetinvi.Client.Requesters
         }
 
         // Retweets - Publish
-        public async Task<ITwitterResult<ITweetDTO, ITweet>> PublishRetweet(ITweetIdentifier tweet)
+        public async Task<ITwitterResult<ITweetDTO, ITweet>> PublishRetweet(IPublishRetweetParameters parameters)
         {
+            _tweetsClientRequiredParametersValidator.Validate(parameters);
+            
             var request = _twitterClient.CreateRequest();
-            var twitterResult = await ExecuteRequest(() => _tweetController.PublishRetweet(tweet, request), request).ConfigureAwait(false);
+            var twitterResult = await ExecuteRequest(() => _tweetController.PublishRetweet(parameters, request), request).ConfigureAwait(false);
             return _twitterResultFactory.Create(twitterResult, tweetDTO => _tweetFactory.GenerateTweetFromDTO(tweetDTO, request.ExecutionContext.TweetMode, _twitterClient));
         }
 
         // Retweets - Destroy
-        public Task<ITwitterResult> DestroyRetweet(ITweetIdentifier retweetId)
+        public Task<ITwitterResult<ITweetDTO>> DestroyRetweet(IDestroyRetweetParameters parameters)
         {
+            _tweetsClientRequiredParametersValidator.Validate(parameters);
+            
             var request = _twitterClient.CreateRequest();
-            return ExecuteRequest(() => _tweetController.DestroyRetweet(retweetId, request), request);
+            return ExecuteRequest(() => _tweetController.DestroyRetweet(parameters, request), request);
         }
 
         public ITwitterPageIterator<ITwitterResult<ITweetDTO[]>, long?> GetFavoriteTweets(IGetFavoriteTweetsParameters parameters)

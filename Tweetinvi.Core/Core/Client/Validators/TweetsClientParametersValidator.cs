@@ -9,8 +9,12 @@ namespace Tweetinvi.Core.Client.Validators
         void Validate(IGetTweetsParameters parameters);
         void Validate(IPublishTweetParameters parameters);
         void Validate(IDestroyTweetParameters parameters);
+        
         void Validate(IGetFavoriteTweetsParameters parameters);
+        
         void Validate(IGetRetweetsParameters parameters);
+        void Validate(IPublishRetweetParameters parameters);
+        void Validate(IDestroyRetweetParameters parameters);
     }
     
     public interface IInternalTweetsClientParametersValidator : ITweetsClientParametersValidator
@@ -75,6 +79,16 @@ namespace Tweetinvi.Core.Client.Validators
             {
                 throw new TwitterArgumentLimitException($"{nameof(parameters)}.{nameof(parameters.PageSize)}", maxPageSize, nameof(Limits.TWEETS_GET_RETWEETS_MAX_SIZE), "page size");
             }
+        }
+
+        public void Validate(IPublishRetweetParameters parameters)
+        {
+            _tweetsClientRequiredParametersValidator.Validate(parameters);
+        }
+
+        public void Validate(IDestroyRetweetParameters parameters)
+        {
+            _tweetsClientRequiredParametersValidator.Validate(parameters);
         }
     }
 }

@@ -4,7 +4,6 @@ using FakeItEasy;
 using Tweetinvi;
 using Tweetinvi.Controllers.Shared;
 using Tweetinvi.Controllers.Tweet;
-using Tweetinvi.Core.Helpers;
 using Tweetinvi.Core.Injectinvi;
 using Tweetinvi.Core.QueryGenerators;
 using Tweetinvi.Models;
@@ -149,6 +148,44 @@ namespace xUnitinvi.ClientActions.TweetsClient
 
             // Assert
             Assert.Equal(result, $"https://api.twitter.com/1.1/statuses/retweets/42.json?count=12&trim_user=true&tweet_mode=extended&hello=world");
+        }
+        
+        [Fact]
+        public void GetPublishRetweetQuery_ReturnsExpectedQuery()
+        {
+            // Arrange
+            var queryGenerator = CreateUserQueryGenerator();
+
+            var parameters = new PublishRetweetParameters(42)
+            {
+                TrimUser = true,
+                CustomQueryParameters = { new Tuple<string, string>("hello", "world") }
+            };
+
+            // Act
+            var result = queryGenerator.GetPublishRetweetQuery(parameters, TweetMode.Extended);
+
+            // Assert
+            Assert.Equal(result, $"https://api.twitter.com/1.1/statuses/retweet/42.json?trim_user=true&tweet_mode=extended&hello=world");
+        }
+        
+        [Fact]
+        public void GetDestroyRetweetQuery_ReturnsExpectedQuery()
+        {
+            // Arrange
+            var queryGenerator = CreateUserQueryGenerator();
+
+            var parameters = new DestroyRetweetParameters(42)
+            {
+                TrimUser = true,
+                CustomQueryParameters = { new Tuple<string, string>("hello", "world") }
+            };
+
+            // Act
+            var result = queryGenerator.GetDestroyRetweetQuery(parameters, TweetMode.Extended);
+
+            // Assert
+            Assert.Equal(result, $"https://api.twitter.com/1.1/statuses/unretweet/42.json?trim_user=true&tweet_mode=extended&hello=world");
         }
     }
 }

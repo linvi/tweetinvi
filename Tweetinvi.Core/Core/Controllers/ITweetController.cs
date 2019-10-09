@@ -25,10 +25,10 @@ namespace Tweetinvi.Core.Controllers
         bool CanBePublished(IPublishTweetParameters publishTweetParameters);
 
         // Retweets - Publish
-        Task<ITwitterResult<ITweetDTO>> PublishRetweet(ITweetIdentifier tweetId1, ITwitterRequest request);
+        Task<ITwitterResult<ITweetDTO>> PublishRetweet(IPublishRetweetParameters parameters, ITwitterRequest request);
         
         // Retweets - Destroy
-        Task<ITwitterResult> DestroyRetweet(ITweetIdentifier retweet, ITwitterRequest request);
+        Task<ITwitterResult<ITweetDTO>> DestroyRetweet(IDestroyRetweetParameters parameters, ITwitterRequest request);
 
         // Get Retweets
         Task<ITwitterResult<ITweetDTO[]>> GetRetweets(IGetRetweetsParameters parameters, ITwitterRequest request);

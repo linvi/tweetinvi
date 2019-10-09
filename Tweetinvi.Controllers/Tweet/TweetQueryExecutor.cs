@@ -19,10 +19,10 @@ namespace Tweetinvi.Controllers.Tweet
         
         
         // Publish Retweet
-        Task<ITwitterResult<ITweetDTO>> PublishRetweet(ITweetIdentifier tweetId, ITwitterRequest request);
+        Task<ITwitterResult<ITweetDTO>> PublishRetweet(IPublishRetweetParameters parameters, ITwitterRequest request);
 
         // UnRetweet
-        Task<ITwitterResult> DestroyRetweet(ITweetIdentifier retweet, ITwitterRequest request);
+        Task<ITwitterResult<ITweetDTO>> DestroyRetweet(IDestroyRetweetParameters parameters, ITwitterRequest request);
 
         // Get Retweets
         Task<ITwitterResult<ITweetDTO[]>> GetRetweets(IGetRetweetsParameters parameters, ITwitterRequest request);
@@ -84,25 +84,6 @@ namespace Tweetinvi.Controllers.Tweet
         }
 
         // Publish Retweet
-        public Task<ITwitterResult<ITweetDTO>> PublishRetweet(ITweetIdentifier tweetId, ITwitterRequest request)
-        {
-            var query = _tweetQueryGenerator.GetPublishRetweetQuery(tweetId, request.ExecutionContext.TweetMode);
-            request.Query.Url = query;
-            request.Query.HttpMethod = HttpMethod.POST;
-            return _twitterAccessor.ExecuteRequest<ITweetDTO>(request);
-        }
-        
-        // Publish UnRetweet
-        public Task<ITwitterResult> DestroyRetweet(ITweetIdentifier retweet, ITwitterRequest request)
-        {
-            var query = _tweetQueryGenerator.GetUnRetweetQuery(retweet);
-            request.Query.Url = query;
-            request.Query.HttpMethod = HttpMethod.POST;
-            return _twitterAccessor.ExecuteRequest(request);
-        }
-
-        #region Get Retweets
-
         public Task<ITwitterResult<ITweetDTO[]>> GetRetweets(IGetRetweetsParameters parameters, ITwitterRequest request)
         {
             var query = _tweetQueryGenerator.GetRetweetsQuery(parameters, request.ExecutionContext.TweetMode);
@@ -110,8 +91,23 @@ namespace Tweetinvi.Controllers.Tweet
             request.Query.HttpMethod = HttpMethod.GET;
             return _twitterAccessor.ExecuteRequest<ITweetDTO[]>(request);
         }
-
-        #endregion
+        
+        public Task<ITwitterResult<ITweetDTO>> PublishRetweet(IPublishRetweetParameters parameters, ITwitterRequest request)
+        {
+            var query = _tweetQueryGenerator.GetPublishRetweetQuery(parameters, request.ExecutionContext.TweetMode);
+            request.Query.Url = query;
+            request.Query.HttpMethod = HttpMethod.POST;
+            return _twitterAccessor.ExecuteRequest<ITweetDTO>(request);
+        }
+        
+        // Publish UnRetweet
+        public Task<ITwitterResult<ITweetDTO>> DestroyRetweet(IDestroyRetweetParameters parameters, ITwitterRequest request)
+        {
+            var query = _tweetQueryGenerator.GetDestroyRetweetQuery(parameters, request.ExecutionContext.TweetMode);
+            request.Query.Url = query;
+            request.Query.HttpMethod = HttpMethod.POST;
+            return _twitterAccessor.ExecuteRequest<ITweetDTO>(request);
+        }
 
         #region Get Retweeters IDs
 

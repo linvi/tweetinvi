@@ -126,47 +126,36 @@ namespace Tweetinvi.Client
             return requestResult?.Result;
         }
 
-        // Retweets - Publish
-
-        /// <summary>
-        /// Publish a retweet 
-        /// </summary>
-        /// <returns>The retweet</returns>
-        public async Task<ITweet> PublishRetweet(long tweetId)
+        public Task<ITweet> PublishRetweet(long? tweetId)
         {
-            var requestResult = await _tweetsRequester.PublishRetweet(new TweetIdentifier(tweetId)).ConfigureAwait(false);
+            return PublishRetweet(new PublishRetweetParameters(tweetId));
+        }
+
+        public Task<ITweet> PublishRetweet(ITweetIdentifier tweet)
+        {
+            return PublishRetweet(new PublishRetweetParameters(tweet));
+        }
+        
+        public async Task<ITweet> PublishRetweet(IPublishRetweetParameters parameters)
+        {
+            var requestResult = await _tweetsRequester.PublishRetweet(parameters).ConfigureAwait(false);
             return requestResult?.Result;
         }
 
-        /// <summary>
-        /// Publish a retweet 
-        /// </summary>
-        /// <returns>The retweet</returns>
-        public async Task<ITweet> PublishRetweet(ITweetIdentifier tweet)
+        public Task<bool> DestroyRetweet(long? retweetId)
         {
-            var requestResult = await _tweetsRequester.PublishRetweet(tweet).ConfigureAwait(false);
-            return requestResult?.Result;
+            return DestroyRetweet(new DestroyRetweetParameters(retweetId));
+        }
+        
+        public Task<bool> DestroyRetweet(ITweetIdentifier retweet)
+        {
+            return DestroyRetweet(new DestroyRetweetParameters(retweet));
         }
 
-        // Retweets - Destroy
-
-        /// <summary>
-        /// Destroy a retweet
-        /// </summary>
-        /// <returns>Whether the operation was a success</returns>
-        public async Task<bool> UnRetweet(ITweetIdentifier retweet)
+        public async Task<bool> DestroyRetweet(IDestroyRetweetParameters parameters)
         {
-            var requestResult = await _tweetsRequester.DestroyRetweet(retweet).ConfigureAwait(false);
+            var requestResult = await _tweetsRequester.DestroyRetweet(parameters).ConfigureAwait(false);
             return requestResult?.Response?.IsSuccessStatusCode == true;
-        }
-
-        /// <summary>
-        /// Destroy a retweet
-        /// </summary>
-        /// <returns>Whether the operation was a success</returns>
-        public Task<bool> UnRetweet(long retweetId)
-        {
-            return UnRetweet(new TweetIdentifier(retweetId));
         }
 
         #region Favourite Tweets

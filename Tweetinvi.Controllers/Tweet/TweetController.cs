@@ -112,16 +112,16 @@ namespace Tweetinvi.Controllers.Tweet
         }
 
         // Retweets - Publish
-        public Task<ITwitterResult<ITweetDTO>> PublishRetweet(ITweetIdentifier tweetId, ITwitterRequest request)
+        public Task<ITwitterResult<ITweetDTO>> PublishRetweet(IPublishRetweetParameters parameters, ITwitterRequest request)
         {
-            return _tweetQueryExecutor.PublishRetweet(tweetId, request);
+            return _tweetQueryExecutor.PublishRetweet(parameters, request);
         }
 
         // Retweets - Destroy
 
-        public Task<ITwitterResult> DestroyRetweet(ITweetIdentifier retweet, ITwitterRequest request)
+        public Task<ITwitterResult<ITweetDTO>> DestroyRetweet(IDestroyRetweetParameters parameters, ITwitterRequest request)
         {
-            return _tweetQueryExecutor.DestroyRetweet(retweet, request);
+            return _tweetQueryExecutor.DestroyRetweet(parameters, request);
         }
 
         #region GetRetweets

@@ -41,7 +41,6 @@ namespace Tweetinvi.Client.Requesters
         /// <returns>Iterator over the list of tweets favorited by a user</returns>
         ITwitterPageIterator<ITwitterResult<ITweetDTO[]>, long?> GetFavoriteTweets(IGetFavoriteTweetsParameters parameters);
         
-        
         /// <summary>
         /// Get multiple tweets
         /// <para>Read more : https://dev.twitter.com/en/docs/tweets/post-and-engage/api-reference/get-statuses-lookup </para>
@@ -57,16 +56,18 @@ namespace Tweetinvi.Client.Requesters
         Task<ITwitterResult<ITweetDTO[], ITweet[]>> GetRetweets(IGetRetweetsParameters parameters);
 
         /// <summary>
-        /// Publish a retweet 
+        /// Publish a retweet
+        /// <para>Read more : https://dev.twitter.com/en/docs/tweets/post-and-engage/api-reference/post-statuses-retweet-id </para>
         /// </summary>
         /// <returns>TwitterResult containing the published retweet</returns>
-        Task<ITwitterResult<ITweetDTO, ITweet>> PublishRetweet(ITweetIdentifier tweet);
+        Task<ITwitterResult<ITweetDTO, ITweet>> PublishRetweet(IPublishRetweetParameters parameters);
         
         /// <summary>
         /// Destroy a retweet
+        /// <para>Read more : https://dev.twitter.com/en/docs/tweets/post-and-engage/api-reference/post-statuses-unretweet-id </para>
         /// </summary>
         /// <returns>TwitterResult containing the success status of the request</returns>
-        Task<ITwitterResult> DestroyRetweet(ITweetIdentifier retweetId);
+        Task<ITwitterResult<ITweetDTO>> DestroyRetweet(IDestroyRetweetParameters parameters);
 
     }
 }

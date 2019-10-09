@@ -77,32 +77,29 @@ namespace Tweetinvi.Client
         /// <returns>Retweets</returns>
         Task<ITweet[]> GetRetweets(IGetRetweetsParameters parameters);
 
-
-        
-
-        /// <summary>
-        /// Publish a retweet 
-        /// </summary>
-        /// <returns>The retweet</returns>
-        Task<ITweet> PublishRetweet(long tweetId);
-
-        /// <summary>
-        /// Publish a retweet 
-        /// </summary>
-        /// <returns>The retweet</returns>
+        /// <inheritdoc cref="PublishRetweet(IPublishRetweetParameters)" />
+        Task<ITweet> PublishRetweet(long? tweetId);
+        /// <inheritdoc cref="PublishRetweet(IPublishRetweetParameters)" />
         Task<ITweet> PublishRetweet(ITweetIdentifier tweet);
+        
+        /// <summary>
+        /// Publish a retweet
+        /// <para>Read more : https://dev.twitter.com/en/docs/tweets/post-and-engage/api-reference/post-statuses-retweet-id </para>
+        /// </summary>
+        /// <returns>The retweet</returns>
+        Task<ITweet> PublishRetweet(IPublishRetweetParameters parameters);
 
+        /// <inheritdoc cref="DestroyRetweet(IDestroyRetweetParameters)" />
+        Task<bool> DestroyRetweet(long? retweetId);
+        /// <inheritdoc cref="DestroyRetweet(IDestroyRetweetParameters)" />
+        Task<bool> DestroyRetweet(ITweetIdentifier retweet);
+        
         /// <summary>
         /// Destroy a retweet
+        /// <para>Read more : https://dev.twitter.com/en/docs/tweets/post-and-engage/api-reference/post-statuses-unretweet-id </para>
         /// </summary>
-        /// <returns>Whether the operation was a success</returns>
-        Task<bool> UnRetweet(ITweetIdentifier retweet);
-
-        /// <summary>
-        /// Destroy a retweet
-        /// </summary>
-        /// <returns>Whether the operation was a success</returns>
-        Task<bool> UnRetweet(long retweetId);
+        /// <returns>Whether the retweet was successfully destroyed</returns>
+        Task<bool> DestroyRetweet(IDestroyRetweetParameters parameters);
 
         /// <inheritdoc cref="GetFavoriteTweets(IGetFavoriteTweetsParameters)" />
         ITwitterIterator<ITweet, long?> GetFavoriteTweets(long? userId);

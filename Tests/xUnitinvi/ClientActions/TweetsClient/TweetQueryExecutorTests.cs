@@ -121,5 +121,51 @@ namespace xUnitinvi.ClientActions.TweetsClient
             Assert.Equal(request.Query.Url, expectedQuery);
             Assert.Equal(HttpMethod.GET, request.Query.HttpMethod);
         }
+        
+        [Fact]
+        public async Task PublishRetweet_ReturnsFavoritedTweets()
+        {
+            // Arrange
+            var queryExecutor = CreateUserQueryExecutor();
+            var expectedQuery = TestHelper.GenerateString();
+
+            var parameters = new PublishRetweetParameters(42);
+            var request = A.Fake<ITwitterRequest>();
+            var expectedResult = A.Fake<ITwitterResult<ITweetDTO>>();
+
+            A.CallTo(() => _fakeTweetQueryGenerator.GetPublishRetweetQuery(parameters, It.IsAny<TweetMode?>())).Returns(expectedQuery);
+            A.CallTo(() => _fakeTwitterAccessor.ExecuteRequest<ITweetDTO>(request)).Returns(expectedResult);
+
+            // Act
+            var result = await queryExecutor.PublishRetweet(parameters, request);
+
+            // Assert
+            Assert.Equal(result, expectedResult);
+            Assert.Equal(request.Query.Url, expectedQuery);
+            Assert.Equal(HttpMethod.POST, request.Query.HttpMethod);
+        }
+        
+        [Fact]
+        public async Task DestroyRetweet_ReturnsFavoritedTweets()
+        {
+            // Arrange
+            var queryExecutor = CreateUserQueryExecutor();
+            var expectedQuery = TestHelper.GenerateString();
+
+            var parameters = new DestroyRetweetParameters(42);
+            var request = A.Fake<ITwitterRequest>();
+            var expectedResult = A.Fake<ITwitterResult<ITweetDTO>>();
+
+            A.CallTo(() => _fakeTweetQueryGenerator.GetDestroyRetweetQuery(parameters, It.IsAny<TweetMode?>())).Returns(expectedQuery);
+            A.CallTo(() => _fakeTwitterAccessor.ExecuteRequest<ITweetDTO>(request)).Returns(expectedResult);
+
+            // Act
+            var result = await queryExecutor.DestroyRetweet(parameters, request);
+
+            // Assert
+            Assert.Equal(result, expectedResult);
+            Assert.Equal(request.Query.Url, expectedQuery);
+            Assert.Equal(HttpMethod.POST, request.Query.HttpMethod);
+        }
     }
 }

@@ -165,5 +165,41 @@ namespace xUnitinvi.ClientActions.TweetsClient
             // Assert
             Assert.Equal(result, expectedResult);
         }
+        
+        [Fact]
+        public async Task PublishRetweet_ReturnsQueryExecutorResult()
+        {
+            // Arrange
+            var controller = CreateTweetController();
+            var parameters = new PublishRetweetParameters(42);
+            var request = A.Fake<ITwitterRequest>();
+            var expectedResult = A.Fake<ITwitterResult<ITweetDTO>>();
+
+            A.CallTo(() => _fakeTweetQueryExecutor.PublishRetweet(parameters, request)).Returns(expectedResult);
+
+            // Act
+            var result = await controller.PublishRetweet(parameters, request);
+
+            // Assert
+            Assert.Equal(result, expectedResult);
+        }
+        
+        [Fact]
+        public async Task DestroyRetweet_ReturnsQueryExecutorResult()
+        {
+            // Arrange
+            var controller = CreateTweetController();
+            var parameters = new DestroyRetweetParameters(42);
+            var request = A.Fake<ITwitterRequest>();
+            var expectedResult = A.Fake<ITwitterResult<ITweetDTO>>();
+
+            A.CallTo(() => _fakeTweetQueryExecutor.DestroyRetweet(parameters, request)).Returns(expectedResult);
+
+            // Act
+            var result = await controller.DestroyRetweet(parameters, request);
+
+            // Assert
+            Assert.Equal(result, expectedResult);
+        }
     }
 }
