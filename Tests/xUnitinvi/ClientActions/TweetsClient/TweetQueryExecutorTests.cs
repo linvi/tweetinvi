@@ -81,10 +81,9 @@ namespace xUnitinvi.ClientActions.TweetsClient
         {
             // Arrange
             var queryExecutor = CreateUserQueryExecutor();
-            var userDTO = A.Fake<IUserDTO>();
             var expectedQuery = TestHelper.GenerateString();
 
-            var parameters = new GetFavoriteTweetsParameters(userDTO);
+            var parameters = new GetFavoriteTweetsParameters(42);
             var request = A.Fake<ITwitterRequest>();
             var expectedResult = A.Fake<ITwitterResult<ITweetDTO[]>>();
 
@@ -93,6 +92,29 @@ namespace xUnitinvi.ClientActions.TweetsClient
 
             // Act
             var result = await queryExecutor.GetFavoriteTweets(parameters, request);
+
+            // Assert
+            Assert.Equal(result, expectedResult);
+            Assert.Equal(request.Query.Url, expectedQuery);
+            Assert.Equal(HttpMethod.GET, request.Query.HttpMethod);
+        }
+        
+        [Fact]
+        public async Task GetRetweets_ReturnsFavoritedTweets()
+        {
+            // Arrange
+            var queryExecutor = CreateUserQueryExecutor();
+            var expectedQuery = TestHelper.GenerateString();
+
+            var parameters = new GetRetweetsParameters(42);
+            var request = A.Fake<ITwitterRequest>();
+            var expectedResult = A.Fake<ITwitterResult<ITweetDTO[]>>();
+
+            A.CallTo(() => _fakeTweetQueryGenerator.GetRetweetsQuery(parameters, It.IsAny<TweetMode?>())).Returns(expectedQuery);
+            A.CallTo(() => _fakeTwitterAccessor.ExecuteRequest<ITweetDTO[]>(request)).Returns(expectedResult);
+
+            // Act
+            var result = await queryExecutor.GetRetweets(parameters, request);
 
             // Assert
             Assert.Equal(result, expectedResult);

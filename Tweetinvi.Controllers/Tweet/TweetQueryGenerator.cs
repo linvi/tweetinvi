@@ -6,7 +6,6 @@ using System.Text;
 using Tweetinvi.Controllers.Properties;
 using Tweetinvi.Controllers.Shared;
 using Tweetinvi.Core;
-using Tweetinvi.Core.Client;
 using Tweetinvi.Core.Extensions;
 using Tweetinvi.Core.QueryGenerators;
 using Tweetinvi.Core.QueryValidators;
@@ -66,6 +65,37 @@ namespace Tweetinvi.Controllers.Tweet
             query.AddParameterToQuery("include_ext_alt_text", parameters.IncludeExtAltText);
             query.AddParameterToQuery("trim_user", parameters.TrimUser);
 
+            query.AddFormattedParameterToQuery(_queryParameterGenerator.GenerateTweetModeParameter(tweetMode));
+            query.AddFormattedParameterToQuery(parameters.FormattedCustomQueryParameters);
+
+            return query.ToString();
+        }
+        
+        public string GetFavoriteTweetsQuery(IGetFavoriteTweetsParameters parameters, TweetMode? tweetMode)
+        {
+            var userParameter = _userQueryParameterGenerator.GenerateIdOrScreenNameParameter(parameters.User);
+            var query = new StringBuilder(Resources.User_GetFavourites + userParameter);
+
+            query.AddParameterToQuery("include_entities", parameters.IncludeEntities);
+            query.AddParameterToQuery("since_id", parameters.SinceId);
+            query.AddParameterToQuery("max_id", parameters.MaxId);
+            query.AddParameterToQuery("count", parameters.PageSize);
+
+            var tweetModeParameter = _queryParameterGenerator.GenerateTweetModeParameter(tweetMode);
+            query.AddFormattedParameterToQuery(tweetModeParameter);
+            query.AddFormattedParameterToQuery(parameters.FormattedCustomQueryParameters);
+
+            return query.ToString();
+        }
+        
+        public string GetRetweetsQuery(IGetRetweetsParameters parameters, TweetMode? tweetMode)
+        {
+            var tweetIdentifierValue = parameters.Tweet.Id?.ToString() ?? parameters.Tweet.IdStr;
+            var query = new StringBuilder(string.Format(Resources.Tweet_Retweet_GetRetweets, tweetIdentifierValue));
+            
+            query.AddParameterToQuery("count", parameters.PageSize);
+            query.AddParameterToQuery("trim_user", parameters.TrimUser);
+            
             query.AddFormattedParameterToQuery(_queryParameterGenerator.GenerateTweetModeParameter(tweetMode));
             query.AddFormattedParameterToQuery(parameters.FormattedCustomQueryParameters);
 
@@ -179,41 +209,7 @@ namespace Tweetinvi.Controllers.Tweet
 
         // Get Retweets
 
-        public string GetRetweetsQuery(ITweetIdentifier tweetId, int? maxRetweetsToRetrieve, ITwitterExecutionContext executionContext)
-        {
-            _tweetQueryValidator.ThrowIfTweetCannotBeUsed(tweetId);
-
-            maxRetweetsToRetrieve = maxRetweetsToRetrieve ?? executionContext.Limits.TWEETS_GET_RETWEETS_MAX_SIZE;
-
-            if (maxRetweetsToRetrieve > executionContext.Limits.TWEETS_GET_RETWEETS_MAX_SIZE)
-            {
-                throw new ArgumentException(nameof(maxRetweetsToRetrieve), $"Cannot be bigger than {executionContext.Limits.TWEETS_GET_RETWEETS_MAX_SIZE}");
-            }
-
-            var query = new StringBuilder(string.Format(Resources.Tweet_Retweet_GetRetweets, _queryParameterGenerator.GenerateTweetIdentifier(tweetId)));
-
-            query.AddParameterToQuery("count", maxRetweetsToRetrieve);
-            query.AddFormattedParameterToQuery(_queryParameterGenerator.GenerateTweetModeParameter(executionContext.TweetMode));
-
-            return query.ToString();
-        }
-
-        public string GetFavoriteTweetsQuery(IGetFavoriteTweetsParameters parameters, TweetMode? tweetMode)
-        {
-            var userParameter = _userQueryParameterGenerator.GenerateIdOrScreenNameParameter(parameters.User);
-            var query = new StringBuilder(Resources.User_GetFavourites + userParameter);
-
-            query.AddParameterToQuery("include_entities", parameters.IncludeEntities);
-            query.AddParameterToQuery("since_id", parameters.SinceId);
-            query.AddParameterToQuery("max_id", parameters.MaxId);
-            query.AddParameterToQuery("count", parameters.PageSize);
-
-            var tweetModeParameter = _queryParameterGenerator.GenerateTweetModeParameter(tweetMode);
-            query.AddFormattedParameterToQuery(tweetModeParameter);
-            query.AddFormattedParameterToQuery(parameters.FormattedCustomQueryParameters);
-
-            return query.ToString();
-        }
+        
 
         #region Get Retweeter Ids
 

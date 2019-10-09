@@ -196,7 +196,12 @@ namespace Tweetinvi.Core.Client.Validators
         {
             _tweetsClientParametersValidator.Validate(parameters);
         }
-        
+
+        public void Validate(IGetRetweetsParameters parameters)
+        {
+            _tweetsClientParametersValidator.Validate(parameters);
+        }
+
         public void Validate(IUploadParameters parameters)
         {
             _uploadClientParametersValidator.Validate(parameters);

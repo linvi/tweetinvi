@@ -15,6 +15,8 @@ namespace Tweetinvi.Core.QueryGenerators
 
 
         string GetFavoriteTweetsQuery(IGetFavoriteTweetsParameters parameters, TweetMode? tweetMode);
+        string GetRetweetsQuery(IGetRetweetsParameters parameters, TweetMode? tweetMode);
+
         
         
         
@@ -26,8 +28,6 @@ namespace Tweetinvi.Core.QueryGenerators
         // Publish Retweet
         string GetPublishRetweetQuery(ITweetIdentifier tweetId, TweetMode? tweetMode);
 
-        // Get Retweets
-        string GetRetweetsQuery(ITweetIdentifier tweetId, int? maxRetweetsToRetrieve, ITwitterExecutionContext executionContext);
 
         // Get Retweeters
         string GetRetweeterIdsQuery(ITweetIdentifier tweet, int maxRetweetersToRetrieve);
@@ -48,6 +48,6 @@ namespace Tweetinvi.Core.QueryGenerators
 
         string GetUnFavoriteTweetQuery(ITweetDTO tweetDTO);
         string GetUnFavoriteTweetQuery(long? tweetId);
-        
+
     }
 }

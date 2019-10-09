@@ -147,5 +147,23 @@ namespace xUnitinvi.ClientActions.TweetsClient
             // act
             await Assert.ThrowsAsync<TwitterIteratorAlreadyCompletedException>(() => friendIdsIterator.MoveToNextPage());
         }
+        
+        [Fact]
+        public async Task GetRetweets_ReturnsQueryExecutorResult()
+        {
+            // Arrange
+            var controller = CreateTweetController();
+            var parameters = new GetRetweetsParameters(42);
+            var request = A.Fake<ITwitterRequest>();
+            var expectedResult = A.Fake<ITwitterResult<ITweetDTO[]>>();
+
+            A.CallTo(() => _fakeTweetQueryExecutor.GetRetweets(parameters, request)).Returns(expectedResult);
+
+            // Act
+            var result = await controller.GetRetweets(parameters, request);
+
+            // Assert
+            Assert.Equal(result, expectedResult);
+        }
     }
 }

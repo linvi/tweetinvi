@@ -110,45 +110,19 @@ namespace Tweetinvi.Client
 
         // Retweets
 
-        /// <summary>
-        /// Get the retweets associated with a specific tweet 
-        /// </summary>
-        /// <returns>Retweets</returns>
-        public async Task<ITweet[]> GetRetweets(long tweetId)
+        public Task<ITweet[]> GetRetweets(long? tweetId)
         {
-            var tweetIdentifier = new TweetIdentifier(tweetId);
-            var requestResult = await _tweetsRequester.GetRetweets(tweetIdentifier, null).ConfigureAwait(false);
-            return requestResult?.Result;
+            return GetRetweets(new GetRetweetsParameters(tweetId));
         }
 
-        /// <summary>
-        /// Get the retweets associated with a specific tweet 
-        /// </summary>
-        /// <returns>Retweets</returns>
-        public async Task<ITweet[]> GetRetweets(long tweetId, int maxNumberOfTweetsToRetrieve)
+        public Task<ITweet[]> GetRetweets(ITweetIdentifier tweet)
         {
-            var tweetIdentifier = new TweetIdentifier(tweetId);
-            var requestResult = await _tweetsRequester.GetRetweets(tweetIdentifier, null).ConfigureAwait(false);
-            return requestResult?.Result;
+            return GetRetweets(new GetRetweetsParameters(tweet));
         }
 
-        /// <summary>
-        /// Get the retweets associated with a specific tweet 
-        /// </summary>
-        /// <returns>Retweets</returns>
-        public async Task<ITweet[]> GetRetweets(ITweetIdentifier tweet)
+        public async Task<ITweet[]> GetRetweets(IGetRetweetsParameters parameters)
         {
-            var requestResult = await _tweetsRequester.GetRetweets(tweet, null).ConfigureAwait(false);
-            return requestResult?.Result;
-        }
-
-        /// <summary>
-        /// Get the retweets associated with a specific tweet 
-        /// </summary>
-        /// <returns>Retweets</returns>
-        public async Task<ITweet[]> GetRetweets(ITweetIdentifier tweet, int maxNumberOfTweetsToRetrieve)
-        {
-            var requestResult = await _tweetsRequester.GetRetweets(tweet, maxNumberOfTweetsToRetrieve).ConfigureAwait(false);
+            var requestResult = await _tweetsRequester.GetRetweets(parameters).ConfigureAwait(false);
             return requestResult?.Result;
         }
 

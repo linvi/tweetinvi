@@ -66,15 +66,19 @@ namespace Tweetinvi.Client.Requesters
         // Tweets - Destroy
         public Task<ITwitterResult<ITweetDTO>> DestroyTweet(IDestroyTweetParameters parameters)
         {
+            _tweetsClientRequiredParametersValidator.Validate(parameters);
+            
             var request = _twitterClient.CreateRequest();
             return ExecuteRequest(() => _tweetController.DestroyTweet(parameters, request), request);
         }
 
         // Retweets
-        public async Task<ITwitterResult<ITweetDTO[], ITweet[]>> GetRetweets(ITweetIdentifier tweet, int? maxRetweetsToRetrieve)
+        public async Task<ITwitterResult<ITweetDTO[], ITweet[]>> GetRetweets(IGetRetweetsParameters parameters)
         {
+            _tweetsClientRequiredParametersValidator.Validate(parameters);
+            
             var request = _twitterClient.CreateRequest();
-            var retweetsDTO = await ExecuteRequest(() => _tweetController.GetRetweets(tweet, maxRetweetsToRetrieve, request), request).ConfigureAwait(false);
+            var retweetsDTO = await ExecuteRequest(() => _tweetController.GetRetweets(parameters, request), request).ConfigureAwait(false);
             return _twitterResultFactory.Create(retweetsDTO, tweetDTOs => _tweetFactory.GenerateTweetsFromDTO(tweetDTOs, request.ExecutionContext.TweetMode, _twitterClient));
         }
 

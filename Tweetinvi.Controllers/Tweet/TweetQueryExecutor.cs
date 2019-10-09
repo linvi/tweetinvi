@@ -25,7 +25,7 @@ namespace Tweetinvi.Controllers.Tweet
         Task<ITwitterResult> DestroyRetweet(ITweetIdentifier retweet, ITwitterRequest request);
 
         // Get Retweets
-        Task<ITwitterResult<ITweetDTO[]>> GetRetweets(ITweetIdentifier tweetIdentifier, int? maxRetweetsToRetrieve, ITwitterRequest request);
+        Task<ITwitterResult<ITweetDTO[]>> GetRetweets(IGetRetweetsParameters parameters, ITwitterRequest request);
 
         //Get Retweeters Ids
         Task<IEnumerable<long>> GetRetweetersIds(ITweetIdentifier tweetIdentifier, int maxRetweetersToRetrieve);
@@ -103,13 +103,11 @@ namespace Tweetinvi.Controllers.Tweet
 
         #region Get Retweets
 
-        public Task<ITwitterResult<ITweetDTO[]>> GetRetweets(ITweetIdentifier tweetIdentifier, int? maxRetweetsToRetrieve, ITwitterRequest request)
+        public Task<ITwitterResult<ITweetDTO[]>> GetRetweets(IGetRetweetsParameters parameters, ITwitterRequest request)
         {
-            var query = _tweetQueryGenerator.GetRetweetsQuery(tweetIdentifier, maxRetweetsToRetrieve, request.ExecutionContext);
-
+            var query = _tweetQueryGenerator.GetRetweetsQuery(parameters, request.ExecutionContext.TweetMode);
             request.Query.Url = query;
             request.Query.HttpMethod = HttpMethod.GET;
-
             return _twitterAccessor.ExecuteRequest<ITweetDTO[]>(request);
         }
 

@@ -126,9 +126,9 @@ namespace Tweetinvi.Controllers.Tweet
 
         #region GetRetweets
 
-        public Task<ITwitterResult<ITweetDTO[]>> GetRetweets(ITweetIdentifier tweetIdentifier, int? maxRetweetsToRetrieve, ITwitterRequest request)
+        public Task<ITwitterResult<ITweetDTO[]>> GetRetweets(IGetRetweetsParameters parameters, ITwitterRequest request)
         {
-            return _tweetQueryExecutor.GetRetweets(tweetIdentifier, maxRetweetsToRetrieve, request);
+            return _tweetQueryExecutor.GetRetweets(parameters, request);
         }
 
         #endregion

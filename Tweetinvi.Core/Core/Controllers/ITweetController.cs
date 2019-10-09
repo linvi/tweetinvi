@@ -31,7 +31,7 @@ namespace Tweetinvi.Core.Controllers
         Task<ITwitterResult> DestroyRetweet(ITweetIdentifier retweet, ITwitterRequest request);
 
         // Get Retweets
-        Task<ITwitterResult<ITweetDTO[]>> GetRetweets(ITweetIdentifier tweet, int? maxRetweetsToRetrieve, ITwitterRequest request);
+        Task<ITwitterResult<ITweetDTO[]>> GetRetweets(IGetRetweetsParameters parameters, ITwitterRequest request);
 
         // Get Retweeters
         Task<IEnumerable<long>> GetRetweetersIds(ITweetIdentifier tweet, int maxRetweetersToRetrieve = 100);

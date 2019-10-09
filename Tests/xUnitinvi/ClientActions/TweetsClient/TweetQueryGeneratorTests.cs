@@ -130,5 +130,25 @@ namespace xUnitinvi.ClientActions.TweetsClient
             // Assert
             Assert.Equal(result, $"https://api.twitter.com/1.1/favorites/list.json?user_id=42&include_entities=true&since_id=43&max_id=42&count=12&tweet_mode=extended&hello=world");
         }
+        
+        [Fact]
+        public void GetRetweetsQuery_ReturnsExpectedQuery()
+        {
+            // Arrange
+            var queryGenerator = CreateUserQueryGenerator();
+
+            var parameters = new GetRetweetsParameters(42)
+            {
+                TrimUser = true,
+                PageSize = 12,
+                CustomQueryParameters = { new Tuple<string, string>("hello", "world") }
+            };
+
+            // Act
+            var result = queryGenerator.GetRetweetsQuery(parameters, TweetMode.Extended);
+
+            // Assert
+            Assert.Equal(result, $"https://api.twitter.com/1.1/statuses/retweets/42.json?count=12&trim_user=true&tweet_mode=extended&hello=world");
+        }
     }
 }

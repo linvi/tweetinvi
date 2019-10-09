@@ -49,15 +49,12 @@ namespace Tweetinvi.Client.Requesters
         /// <returns>TwitterResult containing requested tweets</returns>
         Task<ITwitterResult<ITweetDTO[], ITweet[]>> GetTweets(IGetTweetsParameters parameters);
         
-        
-        
-        // Retweets
-        
         /// <summary>
-        /// Get the retweets associated with a specific tweet
+        /// Get the retweets associated with a specific tweet 
+        /// <para>Read more : https://dev.twitter.com/en/docs/tweets/post-and-engage/api-reference/get-statuses-retweets-id </para>
         /// </summary>
         /// <returns>TwitterResult containing the retweets</returns>
-        Task<ITwitterResult<ITweetDTO[], ITweet[]>> GetRetweets(ITweetIdentifier tweet, int? maxRetweetsToRetrieve);
+        Task<ITwitterResult<ITweetDTO[], ITweet[]>> GetRetweets(IGetRetweetsParameters parameters);
 
         /// <summary>
         /// Publish a retweet 

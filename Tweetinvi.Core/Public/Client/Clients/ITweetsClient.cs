@@ -1,7 +1,5 @@
 ﻿using System.Threading.Tasks;
 using Tweetinvi.Core.Client.Validators;
-using Tweetinvi.Core.Iterators;
-using Tweetinvi.Core.Web;
 using Tweetinvi.Iterators;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
@@ -66,29 +64,21 @@ namespace Tweetinvi.Client
         /// <returns>Whether the tweet was successfully destroyed</returns>
         Task<bool> DestroyTweet(IDestroyTweetParameters parameters);
 
-        /// <summary>
-        /// Get the retweets associated with a specific tweet 
-        /// </summary>
-        /// <returns>Retweets</returns>
-        Task<ITweet[]> GetRetweets(long tweetId);
+        /// <inheritdoc cref="GetRetweets(IGetRetweetsParameters)" />
+        Task<ITweet[]> GetRetweets(long? tweetId);
 
-        /// <summary>
-        /// Get the retweets associated with a specific tweet 
-        /// </summary>
-        /// <returns>Retweets</returns>
-        Task<ITweet[]> GetRetweets(long tweetId, int maxNumberOfTweetsToRetrieve);
-
-        /// <summary>
-        /// Get the retweets associated with a specific tweet 
-        /// </summary>
-        /// <returns>Retweets</returns>
+        /// <inheritdoc cref="GetRetweets(IGetRetweetsParameters)" />
         Task<ITweet[]> GetRetweets(ITweetIdentifier tweet);
-
+        
         /// <summary>
         /// Get the retweets associated with a specific tweet 
+        /// <para>Read more : https://dev.twitter.com/en/docs/tweets/post-and-engage/api-reference/get-statuses-retweets-id </para>
         /// </summary>
         /// <returns>Retweets</returns>
-        Task<ITweet[]> GetRetweets(ITweetIdentifier tweet, int maxNumberOfTweetsToRetrieve);
+        Task<ITweet[]> GetRetweets(IGetRetweetsParameters parameters);
+
+
+        
 
         /// <summary>
         /// Publish a retweet 
@@ -127,5 +117,6 @@ namespace Tweetinvi.Client
         /// </summary>
         /// <returns>An iterator to list the favorite tweets</returns>
         ITwitterIterator<ITweet, long?> GetFavoriteTweets(IGetFavoriteTweetsParameters parameters);
+
     }
 }

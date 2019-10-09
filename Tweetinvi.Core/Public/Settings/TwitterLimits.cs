@@ -73,22 +73,22 @@ namespace Tweetinvi
         public short ACCOUNT_GET_BLOCKED_USER_MAX_PAGE_SIZE { get; set; } = 5000;
 
         /// <summary>
-        /// Maximum numbers of tweets that can be retrieved in 1 request
-        /// <para>https://dev.twitter.com/en/docs/tweets/post-and-engage/api-reference/get-statuses-lookup</para>
+        /// Maximum numbers of favorites that can be retrieved in 1 request
+        /// <para>https://dev.twitter.com/en/docs/tweets/post-and-engage/api-reference/get-favorites-list</para>
         /// </summary>
-        public short TWEETS_GET_TWEETS_REQUEST_MAX_SIZE { get; set; } = 100;
-
+        public short TWEETS_GET_FAVORITE_TWEETS_MAX_SIZE { get; set; } = 200;
+        
         /// <summary>
         /// Maximum numbers of retweets that can be retrieved in 1 request
         /// <para>https://dev.twitter.com/en/docs/tweets/post-and-engage/api-reference/get-statuses-retweets-id</para>
         /// </summary>
         public short TWEETS_GET_RETWEETS_MAX_SIZE { get; set; } = 100;
-
+        
         /// <summary>
-        /// Maximum numbers of favorites that can be retrieved in 1 request
-        /// <para>https://dev.twitter.com/en/docs/tweets/post-and-engage/api-reference/get-favorites-list</para>
+        /// Maximum numbers of tweets that can be retrieved in 1 request
+        /// <para>https://dev.twitter.com/en/docs/tweets/post-and-engage/api-reference/get-statuses-lookup</para>
         /// </summary>
-        public short TWEETS_GET_FAVORITE_TWEETS_MAX_SIZE { get; set; } = 200;
+        public short TWEETS_GET_TWEETS_REQUEST_MAX_SIZE { get; set; } = 100;
 
         /// <summary>
         /// Maximum numbers of users that can be retrieved in 1 request
