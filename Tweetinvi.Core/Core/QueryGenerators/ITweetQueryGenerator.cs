@@ -9,6 +9,7 @@ namespace Tweetinvi.Core.QueryGenerators
     public interface ITweetQueryGenerator
     {
         string GetTweetQuery(IGetTweetParameters parameters, TweetMode? tweetMode);
+        string GetTweetsQuery(IGetTweetsParameters parameters, TweetMode? tweetMode);
         string GetPublishTweetQuery(IPublishTweetParameters parameters, TweetMode? tweetMode);
         string GetDestroyTweetQuery(IDestroyTweetParameters parameters, TweetMode? tweetMode);
 
@@ -21,9 +22,6 @@ namespace Tweetinvi.Core.QueryGenerators
         
         
         
-        string GetTweetsQuery(IEnumerable<long> tweetIds);
-
-        // Publish Tweet
 
         // Publish Retweet
         string GetPublishRetweetQuery(ITweetIdentifier tweetId, TweetMode? tweetMode);

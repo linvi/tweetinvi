@@ -263,7 +263,7 @@ namespace Tweetinvi.Streams.Helpers
                     {
                         isMatching = matchingKeywords.Contains(_tracksKeywordsArray[i][j]) ||
                                      matchingKeywords.Contains(string.Format("#{0}", _tracksKeywordsArray[i][j])) ||
-                                     matchingKeywords.Contains(string.Format("${0}", _tracksKeywordsArray[i][j]));
+                                     matchingKeywords.Contains(string.Format("{0}", _tracksKeywordsArray[i][j]));
                     }
                     else
                     {

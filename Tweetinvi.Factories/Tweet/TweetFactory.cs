@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Tweetinvi.Core;
 using Tweetinvi.Core.Factories;
 using Tweetinvi.Core.Helpers;
@@ -14,13 +13,11 @@ namespace Tweetinvi.Factories.Tweet
     public class TweetFactory : ITweetFactory
     {
         private readonly ITweetFactoryQueryExecutor _tweetDTOFactory;
-        private readonly IFactory<ITweet> _tweetUnityFactory;
         private readonly IFactory<ITweetWithSearchMetadata> _tweetWithSearchMetadataFactory;
         private readonly IFactory<IMention> _mentionUnityFactory;
         private readonly IFactory<IOEmbedTweet> _oembedTweetUnityFactory;
         private readonly IJsonObjectConverter _jsonObjectConverter;
         private readonly ITweetinviSettingsAccessor _tweetinviSettingsAccessor;
-        private readonly ITwitterResultFactory _twitterResultFactory;
         private readonly IUserFactory _userFactory;
 
         public TweetFactory(
@@ -35,23 +32,12 @@ namespace Tweetinvi.Factories.Tweet
             IUserFactory userFactory)
         {
             _tweetDTOFactory = tweetDTOFactory;
-            _tweetUnityFactory = tweetUnityFactory;
             _tweetWithSearchMetadataFactory = tweetWithSearchMetadataFactory;
             _mentionUnityFactory = mentionFactory;
             _oembedTweetUnityFactory = oembedTweetUnityFactory;
             _jsonObjectConverter = jsonObjectConverter;
             _tweetinviSettingsAccessor = tweetinviSettingsAccessor;
-            _twitterResultFactory = twitterResultFactory;
             _userFactory = userFactory;
-        }
-
-        // Get Tweet
-        public async Task<ITwitterResult<ITweetDTO[], ITweet[]>> GetTweets(long[] tweetIds, ITwitterClient client)
-        {
-            var request = client.CreateRequest();
-            var result = await _tweetDTOFactory.GetTweetDTOs(tweetIds, request);
-
-            return _twitterResultFactory.Create(result, dtos => GenerateTweetsFromDTO(dtos, request.ExecutionContext.TweetMode, client).ToArray());
         }
 
         // Create Tweet

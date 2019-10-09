@@ -455,9 +455,9 @@ namespace Tweetinvi.Controllers.Properties
         public static string Tweet_GetRetweeters = "https://api.twitter.com/1.1/statuses/retweeters/ids.json";
 
         /// <summary>
-        ///   Looks up a localized string similar to https://api.twitter.com/1.1/statuses/lookup.json?id={0}&amp;include_my_retweet=true.
+        ///   Looks up a localized string similar to https://api.twitter.com/1.1/statuses/lookup.json?.
         /// </summary>
-        public static string Tweet_Lookup = "https://api.twitter.com/1.1/statuses/lookup.json?id={0}&include_my_retweet=true";
+        public static string Tweet_Lookup = "https://api.twitter.com/1.1/statuses/lookup.json?";
 
         /// <summary>
         ///   Looks up a localized string similar to https://api.twitter.com/1.1/statuses/update.json?.

@@ -25,7 +25,7 @@ namespace Tweetinvi.Controllers.Tweet
 
         public TweetQueryGenerator(
             IQueryParameterGenerator queryParameterGenerator,
-            IUserQueryParameterGenerator userQueryParameterGenerator, 
+            IUserQueryParameterGenerator userQueryParameterGenerator,
             ITweetQueryValidator tweetQueryValidator,
             ITweetinviSettingsAccessor tweetinviSettingsAccessor)
         {
@@ -36,20 +36,39 @@ namespace Tweetinvi.Controllers.Tweet
         }
 
         // Get Tweet
-        public string GetTweetQuery(IGetTweetParameters parameters, TweetMode? tweetMode) 
+        public string GetTweetQuery(IGetTweetParameters parameters, TweetMode? tweetMode)
         {
             var query = new StringBuilder(Resources.Tweet_Get);
-            
+
             query.AddParameterToQuery("id", parameters.Tweet?.Id.ToString() ?? parameters.Tweet?.IdStr);
             query.AddParameterToQuery("include_card_uri", parameters.IncludeCardUri);
             query.AddParameterToQuery("include_entities", parameters.IncludeEntities);
             query.AddParameterToQuery("include_ext_alt_text", parameters.IncludeExtAltText);
             query.AddParameterToQuery("include_my_retweet", parameters.IncludeMyRetweet);
             query.AddParameterToQuery("trim_user", parameters.TrimUser);
-            query.AddFormattedParameterToQuery(_queryParameterGenerator.GenerateTweetModeParameter(tweetMode));
 
+            query.AddFormattedParameterToQuery(_queryParameterGenerator.GenerateTweetModeParameter(tweetMode));
             query.AddFormattedParameterToQuery(parameters.FormattedCustomQueryParameters);
-            
+
+            return query.ToString();
+        }
+
+        public string GetTweetsQuery(IGetTweetsParameters parameters, TweetMode? tweetMode)
+        {
+            var query = new StringBuilder(Resources.Tweet_Lookup);
+
+            var validTweetIdentifiers = parameters.Tweets.Where(x => x?.Id != null || !string.IsNullOrEmpty(x?.IdStr));
+            var tweetIds = validTweetIdentifiers.Select(x => x.Id?.ToString() ?? x.IdStr);
+
+            query.AddParameterToQuery("id", string.Join(",", tweetIds));
+            query.AddParameterToQuery("include_card_uri", parameters.IncludeCardUri);
+            query.AddParameterToQuery("include_entities", parameters.IncludeEntities);
+            query.AddParameterToQuery("include_ext_alt_text", parameters.IncludeExtAltText);
+            query.AddParameterToQuery("trim_user", parameters.TrimUser);
+
+            query.AddFormattedParameterToQuery(_queryParameterGenerator.GenerateTweetModeParameter(tweetMode));
+            query.AddFormattedParameterToQuery(parameters.FormattedCustomQueryParameters);
+
             return query.ToString();
         }
 
@@ -98,30 +117,30 @@ namespace Tweetinvi.Controllers.Tweet
                     text = text.TrimEnd() + " " + quotedTweetUrl;
                 }
             }
-            
+
             var query = new StringBuilder(Resources.Tweet_Publish);
-            
+
             query.AddParameterToQuery("status", text);
             query.AddParameterToQuery("auto_populate_reply_metadata", parameters.AutoPopulateReplyMetadata);
             query.AddParameterToQuery("attachment_url", attachmentUrl);
             query.AddParameterToQuery("card_uri", parameters.CardUri);
             query.AddParameterToQuery("display_coordinates", parameters.DisplayExactCoordinates);
-            
+
             if (parameters.ExcludeReplyUserIds != null)
             {
                 query.AddParameterToQuery("exclude_reply_user_ids", string.Join(",", parameters.ExcludeReplyUserIds));
             }
-            
+
             query.AddParameterToQuery("in_reply_to_status_id", parameters.InReplyToTweet?.Id);
             query.AddParameterToQuery("lat", parameters.Coordinates?.Latitude.ToString(CultureInfo.InvariantCulture));
             query.AddParameterToQuery("long", parameters.Coordinates?.Longitude.ToString(CultureInfo.InvariantCulture));
-            
+
             if (parameters.MediaIds.Count > 0)
             {
                 var mediaIdsParameter = string.Join(",", parameters.MediaIds.Select(x => x.ToString(CultureInfo.InvariantCulture)));
                 query.AddParameterToQuery("media_ids", mediaIdsParameter);
             }
-            
+
             query.AddParameterToQuery("place_id", parameters.PlaceId);
             query.AddParameterToQuery("possibly_sensitive", parameters.PossiblySensitive);
             query.AddParameterToQuery("trim_user", parameters.TrimUser);
@@ -138,7 +157,7 @@ namespace Tweetinvi.Controllers.Tweet
             {
                 return null;
             }
-            
+
             if (parameters.QuotedTweet?.Id == null)
             {
                 return null;
@@ -178,7 +197,7 @@ namespace Tweetinvi.Controllers.Tweet
 
             return query.ToString();
         }
-        
+
         public string GetFavoriteTweetsQuery(IGetFavoriteTweetsParameters parameters, TweetMode? tweetMode)
         {
             var userParameter = _userQueryParameterGenerator.GenerateIdOrScreenNameParameter(parameters.User);
@@ -239,7 +258,7 @@ namespace Tweetinvi.Controllers.Tweet
             var tweetModeParameter = _queryParameterGenerator.GenerateTweetModeParameter(tweetMode);
             query.AddFormattedParameterToQuery(tweetModeParameter);
             query.AddFormattedParameterToQuery(parameters.FormattedCustomQueryParameters);
-            
+
             return query.ToString();
         }
 

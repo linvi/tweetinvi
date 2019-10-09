@@ -29,7 +29,7 @@ namespace Tweetinvi.Logic.TwitterEntities
 
         public override string ToString()
         {
-            return $"${Text}";
+            return $"{Text}";
         }
     }
 }

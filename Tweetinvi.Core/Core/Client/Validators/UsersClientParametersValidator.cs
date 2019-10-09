@@ -49,7 +49,7 @@ namespace Tweetinvi.Core.Client.Validators
             var maxSize = Limits.USERS_GET_USERS_MAX_SIZE;
             if (parameters.Users.Length > maxSize)
             {
-                throw new TwitterArgumentLimitException($"${nameof(parameters)}.{nameof(parameters.Users)}", maxSize, nameof(Limits.USERS_GET_USERS_MAX_SIZE), "users");
+                throw new TwitterArgumentLimitException($"{nameof(parameters)}.{nameof(parameters.Users)}", maxSize, nameof(Limits.USERS_GET_USERS_MAX_SIZE), "users");
             }
         }
 
@@ -60,7 +60,7 @@ namespace Tweetinvi.Core.Client.Validators
             var maxPageSize = Limits.USERS_GET_FOLLOWER_IDS_PAGE_MAX_SIZE;
             if (parameters.PageSize > maxPageSize)
             {
-                throw new TwitterArgumentLimitException($"${nameof(parameters)}.{nameof(parameters.PageSize)}", maxPageSize, nameof(Limits.USERS_GET_FOLLOWER_IDS_PAGE_MAX_SIZE), "page size");
+                throw new TwitterArgumentLimitException($"{nameof(parameters)}.{nameof(parameters.PageSize)}", maxPageSize, nameof(Limits.USERS_GET_FOLLOWER_IDS_PAGE_MAX_SIZE), "page size");
             }
         }
 
@@ -73,7 +73,7 @@ namespace Tweetinvi.Core.Client.Validators
             var maxUserPerPage = Limits.USERS_GET_USERS_MAX_SIZE;
             if (parameters.GetUsersPageSize > maxUserPerPage)
             {
-                throw new TwitterArgumentLimitException($"${nameof(parameters)}.{nameof(parameters.GetUsersPageSize)}", maxUserPerPage, nameof(Limits.USERS_GET_USERS_MAX_SIZE), "user ids");
+                throw new TwitterArgumentLimitException($"{nameof(parameters)}.{nameof(parameters.GetUsersPageSize)}", maxUserPerPage, nameof(Limits.USERS_GET_USERS_MAX_SIZE), "user ids");
             }
         }
 
@@ -84,7 +84,7 @@ namespace Tweetinvi.Core.Client.Validators
             var maxPageSize = Limits.USERS_GET_FRIEND_IDS_PAGE_MAX_SIZE;
             if (parameters.PageSize > maxPageSize)
             {
-                throw new TwitterArgumentLimitException($"${nameof(parameters)}.{nameof(parameters.PageSize)}", maxPageSize, nameof(Limits.USERS_GET_FRIEND_IDS_PAGE_MAX_SIZE), "page size");
+                throw new TwitterArgumentLimitException($"{nameof(parameters)}.{nameof(parameters.PageSize)}", maxPageSize, nameof(Limits.USERS_GET_FRIEND_IDS_PAGE_MAX_SIZE), "page size");
             }
         }
 
@@ -97,7 +97,7 @@ namespace Tweetinvi.Core.Client.Validators
             var maxUserPerPage = Limits.USERS_GET_USERS_MAX_SIZE;
             if (parameters.GetUsersPageSize > maxUserPerPage)
             {
-                throw new TwitterArgumentLimitException($"${nameof(parameters)}.{nameof(parameters.GetUsersPageSize)}", maxUserPerPage, nameof(Limits.USERS_GET_USERS_MAX_SIZE), "user ids");
+                throw new TwitterArgumentLimitException($"{nameof(parameters)}.{nameof(parameters.GetUsersPageSize)}", maxUserPerPage, nameof(Limits.USERS_GET_USERS_MAX_SIZE), "user ids");
             }
         }
 

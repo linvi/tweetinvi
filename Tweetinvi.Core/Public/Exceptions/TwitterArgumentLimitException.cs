@@ -10,7 +10,7 @@ namespace Tweetinvi.Exceptions
         
         public TwitterArgumentLimitException(string argument, int limit, string limitType, string limitValueType)
         {
-            Message = $"Argument {argument} was over the limit of ${limit} ${limitValueType}";
+            Message = $"Argument {argument} was over the limit of {limit} {limitValueType}";
             ParamName = argument;
             LimitType = limitType;
         }

@@ -35,6 +35,11 @@ namespace Tweetinvi.Controllers.Tweet
             return _tweetQueryExecutor.GetTweet(parameters, request);
         }
 
+        public Task<ITwitterResult<ITweetDTO[]>> GetTweets(IGetTweetsParameters parameters, ITwitterRequest request)
+        {
+            return _tweetQueryExecutor.GetTweets(parameters, request);
+        }
+
         public async Task<ITwitterResult<ITweetDTO>> PublishTweet(IPublishTweetParameters parameters, ITwitterRequest request)
         {
             await UploadMedias(parameters, request).ConfigureAwait(false);

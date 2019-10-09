@@ -169,7 +169,7 @@ namespace Tweetinvi.Client
             var maxPageSize = parameters.GetUsersPageSize;
             if (maxPageSize > _client.Config.Limits.USERS_GET_USERS_MAX_SIZE)
             {
-                throw new TwitterArgumentLimitException($"${nameof(parameters)}.{nameof(parameters.GetUsersPageSize)}", maxPageSize, nameof(_client.Config.Limits.USERS_GET_USERS_MAX_SIZE), "page size");
+                throw new TwitterArgumentLimitException($"{nameof(parameters)}.{nameof(parameters.GetUsersPageSize)}", maxPageSize, nameof(_client.Config.Limits.USERS_GET_USERS_MAX_SIZE), "page size");
             }
 
             return _multiLevelCursorIteratorFactory.CreateUserMultiLevelIterator(_client, friendsPageIterator, maxPageSize);
@@ -210,7 +210,7 @@ namespace Tweetinvi.Client
             var maxPageSize = parameters.GetUsersPageSize;
             if (maxPageSize > _client.Config.Limits.USERS_GET_USERS_MAX_SIZE)
             {
-                throw new TwitterArgumentLimitException($"${nameof(parameters)}.{nameof(parameters.GetUsersPageSize)}", maxPageSize, nameof(_client.Config.Limits.USERS_GET_USERS_MAX_SIZE), "page size");
+                throw new TwitterArgumentLimitException($"{nameof(parameters)}.{nameof(parameters.GetUsersPageSize)}", maxPageSize, nameof(_client.Config.Limits.USERS_GET_USERS_MAX_SIZE), "page size");
             }
 
             return _multiLevelCursorIteratorFactory.CreateUserMultiLevelIterator(_client, followerPageIterator, maxPageSize);

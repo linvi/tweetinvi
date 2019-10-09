@@ -39,13 +39,24 @@ namespace Tweetinvi.Client
             return twitterResult?.Result;
         }
 
-        /// <summary>
-        /// Get multiple tweets
-        /// </summary>
-        /// <returns>The specified tweets</returns>
-        public async Task<ITweet[]> GetTweets(long[] tweetIds)
+        public Task<ITweet[]> GetTweets(long[] tweetIds)
         {
-            var requestResult = await _tweetsRequester.GetTweets(tweetIds).ConfigureAwait(false);
+            return GetTweets(new GetTweetsParameters(tweetIds));
+        }
+        
+        public Task<ITweet[]> GetTweets(long?[] tweetIds)
+        {
+            return GetTweets(new GetTweetsParameters(tweetIds));
+        }
+
+        public Task<ITweet[]> GetTweets(ITweetIdentifier[] tweets)
+        {
+            return GetTweets(new GetTweetsParameters(tweets));
+        }
+
+        public async Task<ITweet[]> GetTweets(IGetTweetsParameters parameters)
+        {
+            var requestResult = await _tweetsRequester.GetTweets(parameters).ConfigureAwait(false);
             return requestResult?.Result;
         }
 

@@ -44,9 +44,10 @@ namespace Tweetinvi.Client.Requesters
         
         /// <summary>
         /// Get multiple tweets
+        /// <para>Read more : https://dev.twitter.com/en/docs/tweets/post-and-engage/api-reference/get-statuses-lookup </para>
         /// </summary>
-        /// <returns>TwitterResult containing multiple tweets</returns>
-        Task<ITwitterResult<ITweetDTO[], ITweet[]>> GetTweets(long[] tweetIds);
+        /// <returns>TwitterResult containing requested tweets</returns>
+        Task<ITwitterResult<ITweetDTO[], ITweet[]>> GetTweets(IGetTweetsParameters parameters);
         
         
         

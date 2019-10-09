@@ -14,6 +14,7 @@ namespace Tweetinvi.Controllers.Tweet
     public interface ITweetQueryExecutor
     {
         Task<ITwitterResult<ITweetDTO>> GetTweet(IGetTweetParameters parameters, ITwitterRequest request);
+        Task<ITwitterResult<ITweetDTO[]>> GetTweets(IGetTweetsParameters parameters, ITwitterRequest request);
         Task<ITwitterResult<ITweetDTO>> PublishTweet(IPublishTweetParameters parameters, ITwitterRequest request);
         
         
@@ -64,6 +65,14 @@ namespace Tweetinvi.Controllers.Tweet
             request.Query.Url = query;
             request.Query.HttpMethod = HttpMethod.GET;
             return _twitterAccessor.ExecuteRequest<ITweetDTO>(request);
+        }
+
+        public Task<ITwitterResult<ITweetDTO[]>> GetTweets(IGetTweetsParameters parameters, ITwitterRequest request)
+        {
+            var query = _tweetQueryGenerator.GetTweetsQuery(parameters, request.ExecutionContext.TweetMode);
+            request.Query.Url = query;
+            request.Query.HttpMethod = HttpMethod.GET;
+            return _twitterAccessor.ExecuteRequest<ITweetDTO[]>(request);
         }
 
         public Task<ITwitterResult<ITweetDTO>> PublishTweet(IPublishTweetParameters parameters, ITwitterRequest request)

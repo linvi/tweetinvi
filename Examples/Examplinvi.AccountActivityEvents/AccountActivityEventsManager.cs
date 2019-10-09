@@ -89,17 +89,17 @@ namespace Examplinvi.AccountActivityEvents
         // Tweet events
         private void TweetCreated(object sender, AccountActivityTweetCreatedEventArgs e)
         {
-            Console.WriteLine($"Tweet has been created:\n${e.Tweet}");
+            Console.WriteLine($"Tweet has been created:\n{e.Tweet}");
         }
 
         private void TweetDeleted(object sender, AccountActivityTweetDeletedEventArgs e)
         {
-            Console.WriteLine($"Tweet ${e.TweetId} has been deleted at ${e.EventDate}");
+            Console.WriteLine($"Tweet {e.TweetId} has been deleted at {e.EventDate}");
         }
 
         private void TweetFavourited(object sender, AccountActivityTweetFavouritedEventArgs e)
         {
-            Console.WriteLine($"Tweet has been favourited by ${e.FavouritedBy}:\n${e.Tweet}");
+            Console.WriteLine($"Tweet has been favourited by {e.FavouritedBy}:\n{e.Tweet}");
         }
 
       

@@ -47,7 +47,7 @@ namespace Tweetinvi.Core.Client.Validators
             
             if (!parameters.DisplayLanguage.IsADisplayLanguage())
             {
-                throw new ArgumentException("As of 2019-10-06 this language is not supported by Twitter", $"{nameof(parameters)}.${nameof(parameters.DisplayLanguage)}");
+                throw new ArgumentException("As of 2019-10-06 this language is not supported by Twitter", $"{nameof(parameters)}.{nameof(parameters.DisplayLanguage)}");
             }
         }
 

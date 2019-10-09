@@ -6,6 +6,7 @@ namespace Tweetinvi.Core.Client.Validators
     public interface ITweetsClientParametersValidator
     {
         void Validate(IGetTweetParameters parameters);
+        void Validate(IGetTweetsParameters parameters);
         void Validate(IPublishTweetParameters parameters);
         void Validate(IDestroyTweetParameters parameters);
         void Validate(IGetFavoriteTweetsParameters parameters);
@@ -38,6 +39,11 @@ namespace Tweetinvi.Core.Client.Validators
             _tweetsClientRequiredParametersValidator.Validate(parameters);
         }
 
+        public void Validate(IGetTweetsParameters parameters)
+        {
+            _tweetsClientRequiredParametersValidator.Validate(parameters);
+        }
+
         public void Validate(IPublishTweetParameters parameters)
         {
             _tweetsClientRequiredParametersValidator.Validate(parameters);
@@ -55,7 +61,7 @@ namespace Tweetinvi.Core.Client.Validators
             var maxPageSize = parameters.PageSize;
             if (maxPageSize > Limits.TWEETS_GET_FAVORITE_TWEETS_MAX_SIZE)
             {
-                throw new TwitterArgumentLimitException($"${nameof(parameters)}.{nameof(parameters.PageSize)}", maxPageSize, nameof(Limits.TWEETS_GET_FAVORITE_TWEETS_MAX_SIZE), "page size");
+                throw new TwitterArgumentLimitException($"{nameof(parameters)}.{nameof(parameters.PageSize)}", maxPageSize, nameof(Limits.TWEETS_GET_FAVORITE_TWEETS_MAX_SIZE), "page size");
             }
         }
     }

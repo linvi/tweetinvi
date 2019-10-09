@@ -9,8 +9,6 @@ namespace Tweetinvi.Core.Factories
 {
     public interface ITweetFactory
     {
-        Task<ITwitterResult<ITweetDTO[], ITweet[]>> GetTweets(long[] tweetIds, ITwitterClient client);
-
         ITweet CreateTweet(string text, TweetMode? tweetMode, ITwitterClient client);
 
         // Generate Tweet From Json

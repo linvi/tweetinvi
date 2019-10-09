@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Net.Http;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
@@ -33,12 +34,12 @@ namespace xUnitinvi.IntegrationTests
         [Fact(Skip = "Integration Tests")]
         public async Task RunAllTweets()
         {
-            _logger.WriteLine($"Starting {nameof(RunPublishAndDestroy)}");
-            await RunPublishAndDestroy().ConfigureAwait(false);
-            _logger.WriteLine($"{nameof(RunPublishAndDestroy)} succeeded");
+            _logger.WriteLine($"Starting {nameof(CreateReadDelete)}");
+            await CreateReadDelete().ConfigureAwait(false);
+            _logger.WriteLine($"{nameof(CreateReadDelete)} succeeded");
         }
 
-        private async Task RunPublishAndDestroy()
+        private async Task CreateReadDelete()
         {
             var sourceTweet = await ProtectedClient.Tweets.GetTweet(979753598446948353);
 
@@ -73,6 +74,17 @@ namespace xUnitinvi.IntegrationTests
                 PossiblySensitive = true,
             });
 
+            var allTweetIdentifiers = new ITweetIdentifier[]
+            {
+                quotingTweet1,
+                quotingTweet2,
+                replyTweet,
+                fullTweet,
+                tweetWithMedia
+            };
+
+            var allTweets = await ProtectedClient.Tweets.GetTweets(allTweetIdentifiers);
+
             var quotingTweet1DestroySuccess = await ProtectedClient.Tweets.DestroyTweet(quotingTweet1);
             var quotingTweet2DestroySuccess = await ProtectedClient.Tweets.DestroyTweet(quotingTweet2);
             var replyTweetDestroy = await ProtectedClient.Tweets.DestroyTweet(replyTweet);
@@ -93,9 +105,11 @@ namespace xUnitinvi.IntegrationTests
             Assert.Single(fullTweet.Entities.Hashtags);
             Assert.Equal("https://github.com/linvi/tweetinvi", fullTweet.Urls[0].ExpandedURL);
             Assert.Single(fullTweet.Entities.Urls);
-            
+
             Assert.Single(tweetWithMedia.Media);
             Assert.True(tweetWithMedia.PossiblySensitive);
+
+            Assert.True(allTweetIdentifiers.Select(x => x.Id).All(shouldItem => allTweets.Any(isItem => isItem.Id == shouldItem)));
 
             Assert.True(quotingTweet1DestroySuccess);
             Assert.True(quotingTweet2DestroySuccess);

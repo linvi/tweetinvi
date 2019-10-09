@@ -1,10 +1,6 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
-using Tweetinvi.Core.Injectinvi;
+﻿using Tweetinvi.Core.Injectinvi;
 using Tweetinvi.Core.QueryGenerators;
 using Tweetinvi.Core.Web;
-using Tweetinvi.Exceptions;
-using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
 
 namespace Tweetinvi.Factories.Tweet
@@ -12,7 +8,6 @@ namespace Tweetinvi.Factories.Tweet
     public interface ITweetFactoryQueryExecutor
     {
         ITweetDTO CreateTweetDTO(string text);
-        Task<ITwitterResult<ITweetDTO[]>> GetTweetDTOs(long[] tweetIds, ITwitterRequest request);
     }
 
     public class TweetFactoryQueryExecutor : ITweetFactoryQueryExecutor
@@ -29,24 +24,6 @@ namespace Tweetinvi.Factories.Tweet
             _tweetQueryGenerator = tweetQueryGenerator;
             _twitterAccessor = twitterAccessor;
             _tweetDTOUnityFactory = tweetDTOUnityFactory;
-        }
-
-        public async Task<ITwitterResult<ITweetDTO[]>> GetTweetDTOs(long[] tweetIds, ITwitterRequest request)
-        {
-            var limits = request.ExecutionContext.Limits;
-            var maxSize = limits.TWEETS_GET_TWEETS_REQUEST_MAX_SIZE;
-            if (tweetIds.Length > maxSize)
-            {
-                throw new TwitterArgumentLimitException(nameof(tweetIds), maxSize, nameof(limits.TWEETS_GET_TWEETS_REQUEST_MAX_SIZE), "ids");
-            }
-
-            var tweetIdsArray = tweetIds.Distinct().ToArray();
-
-            request.Query.Url = _tweetQueryGenerator.GetTweetsQuery(tweetIdsArray);
-
-            var result = await _twitterAccessor.ExecuteRequest<ITweetDTO[]>(request);
-
-            return result;
         }
 
         public ITweetDTO CreateTweetDTO(string text)

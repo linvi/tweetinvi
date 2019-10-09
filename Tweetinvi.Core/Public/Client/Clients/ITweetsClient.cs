@@ -26,11 +26,19 @@ namespace Tweetinvi.Client
         /// <returns>The tweet</returns>
         Task<ITweet> GetTweet(IGetTweetParameters parameters);
 
+        /// <inheritdoc cref="GetTweets(IGetTweetsParameters)" />
+        Task<ITweet[]> GetTweets(long[] tweetIds);
+        /// <inheritdoc cref="GetTweets(IGetTweetsParameters)" />
+        Task<ITweet[]> GetTweets(long?[] tweetIds);
+        /// <inheritdoc cref="GetTweets(IGetTweetsParameters)" />
+        Task<ITweet[]> GetTweets(ITweetIdentifier[] tweets);
+        
         /// <summary>
         /// Get multiple tweets
+        /// <para>Read more : https://dev.twitter.com/en/docs/tweets/post-and-engage/api-reference/get-statuses-lookup </para>
         /// </summary>
-        /// <returns>The specified tweets</returns>
-        Task<ITweet[]> GetTweets(long[] tweetIds);
+        /// <returns>Requested tweets</returns>
+        Task<ITweet[]> GetTweets(IGetTweetsParameters parameters);
 
         /// <inheritdoc cref="PublishTweet(IPublishTweetParameters)" />
         Task<ITweet> PublishTweet(string text);
@@ -106,13 +114,10 @@ namespace Tweetinvi.Client
         /// <returns>Whether the operation was a success</returns>
         Task<bool> UnRetweet(long retweetId);
 
-
         /// <inheritdoc cref="GetFavoriteTweets(IGetFavoriteTweetsParameters)" />
         ITwitterIterator<ITweet, long?> GetFavoriteTweets(long? userId);
-
         /// <inheritdoc cref="GetFavoriteTweets(IGetFavoriteTweetsParameters)" />
         ITwitterIterator<ITweet, long?> GetFavoriteTweets(string username);
-
         /// <inheritdoc cref="GetFavoriteTweets(IGetFavoriteTweetsParameters)" />
         ITwitterIterator<ITweet, long?> GetFavoriteTweets(IUserIdentifier user);
 

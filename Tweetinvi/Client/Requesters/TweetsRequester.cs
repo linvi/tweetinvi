@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Threading.Tasks;
 using Tweetinvi.Core.Client.Validators;
 using Tweetinvi.Core.Controllers;
 using Tweetinvi.Core.Factories;
@@ -43,10 +44,13 @@ namespace Tweetinvi.Client.Requesters
             return _twitterResultFactory.Create(twitterResult, dto => _tweetFactory.GenerateTweetFromDTO(dto, request.ExecutionContext.TweetMode, _twitterClient));
         }
 
-        public Task<ITwitterResult<ITweetDTO[], ITweet[]>> GetTweets(long[] tweetIds)
+        public async Task<ITwitterResult<ITweetDTO[], ITweet[]>> GetTweets(IGetTweetsParameters parameters)
         {
+            _tweetsClientRequiredParametersValidator.Validate(parameters);
+            
             var request = _twitterClient.CreateRequest();
-            return ExecuteRequest(() => _tweetFactory.GetTweets(tweetIds, _twitterClient), request);
+            var twitterResult = await ExecuteRequest(() => _tweetController.GetTweets(parameters, request), request).ConfigureAwait(false);
+            return _twitterResultFactory.Create(twitterResult, dtos => _tweetFactory.GenerateTweetsFromDTO(dtos, request.ExecutionContext.TweetMode, _twitterClient).ToArray());
         }
 
         // Tweets - Publish
