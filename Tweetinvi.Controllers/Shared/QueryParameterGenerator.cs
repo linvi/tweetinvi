@@ -1,16 +1,18 @@
-﻿using Tweetinvi.Controllers.Properties;
+﻿using System.Text;
+using Tweetinvi.Controllers.Properties;
 using Tweetinvi.Core.Extensions;
 using Tweetinvi.Models;
+using Tweetinvi.Parameters;
 
 namespace Tweetinvi.Controllers.Shared
 {
     public interface IQueryParameterGenerator
     {
         string GenerateCountParameter(int count);
-        string GenerateTrimUserParameter(bool trimUser);
+        string GenerateTrimUserParameter(bool? trimUser);
         string GenerateSinceIdParameter(long? sinceId);
         string GenerateMaxIdParameter(long? maxId);
-        string GenerateIncludeEntitiesParameter(bool includeEntities);
+        string GenerateIncludeEntitiesParameter(bool? includeEntities);
         string GenerateSkipStatusParameter(bool skipStatus);
         string GeneratePageNumberParameter(int? pageNumber);
         string GenerateIncludeRetweetsParameter(bool includeRetweets);
@@ -20,6 +22,7 @@ namespace Tweetinvi.Controllers.Shared
         string GenerateTweetIdentifier(ITweetIdentifier tweetId);
 
         string GenerateAdditionalRequestParameters(string additionalParameters, bool existingParameters = true);
+        void AddMinMaxQueryParameters(StringBuilder query, IMinMaxQueryParameters parameters);
     }
 
     public class QueryParameterGenerator : IQueryParameterGenerator
@@ -34,8 +37,13 @@ namespace Tweetinvi.Controllers.Shared
             return string.Format(Resources.QueryParameter_Count, count);
         }
 
-        public string GenerateTrimUserParameter(bool trimUser)
+        public string GenerateTrimUserParameter(bool? trimUser)
         {
+            if (trimUser == null)
+            {
+                return string.Empty;
+            }
+            
             return string.Format(Resources.QueryParameter_TrimUser, trimUser);
         }
 
@@ -59,8 +67,13 @@ namespace Tweetinvi.Controllers.Shared
             return string.Format(Resources.QueryParameter_MaxId, maxId);
         }
 
-        public string GenerateIncludeEntitiesParameter(bool includeEntities)
+        public string GenerateIncludeEntitiesParameter(bool? includeEntities)
         {
+            if (includeEntities == null)
+            {
+                return string.Empty;
+            }
+            
             return string.Format(Resources.QueryParameter_IncludeEntities, includeEntities);
         }
 
@@ -129,6 +142,13 @@ namespace Tweetinvi.Controllers.Shared
             }
 
             return $"{(existingParameters ? "&" : "?")}{additionalParameters}";
+        }
+
+        public void AddMinMaxQueryParameters(StringBuilder query, IMinMaxQueryParameters parameters)
+        {
+            query.AddParameterToQuery("count", parameters.PageSize);
+            query.AddParameterToQuery("since_id", parameters.SinceId);
+            query.AddParameterToQuery("max_id", parameters.MaxId);
         }
     }
 }

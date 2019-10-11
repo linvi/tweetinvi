@@ -1,12 +1,10 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using System.Threading.Tasks;
 using FakeItEasy;
 using Tweetinvi.Controllers.User;
 using Tweetinvi.Core.Web;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
-using Tweetinvi.Models.DTO.QueryDTO;
 using Tweetinvi.Parameters;
 using Xunit;
 using xUnitinvi.TestHelpers;
@@ -19,12 +17,10 @@ namespace xUnitinvi.ClientActions.UsersClient
         {
             _fakeBuilder = new FakeClassBuilder<UserController>();
             _fakeUserQueryExecutor = _fakeBuilder.GetFake<IUserQueryExecutor>().FakedObject;
-            _fakeTwitterResultFactory = _fakeBuilder.GetFake<ITwitterResultFactory>().FakedObject;
         }
 
         private readonly FakeClassBuilder<UserController> _fakeBuilder;
         private readonly IUserQueryExecutor _fakeUserQueryExecutor;
-        private readonly ITwitterResultFactory _fakeTwitterResultFactory;
 
         private UserController CreateUserController()
         {
@@ -38,11 +34,9 @@ namespace xUnitinvi.ClientActions.UsersClient
             var controller = CreateUserController();
 
             var parameters = new GetUserParameters("username");
-            var userDTOTwitterResult = A.Fake<ITwitterResult<IUserDTO>>();
-            var expectedResult = A.Fake<ITwitterResult<IUserDTO, IUser>>();
+            var expectedResult = A.Fake<ITwitterResult<IUserDTO>>();
 
-            A.CallTo(() => _fakeUserQueryExecutor.GetUser(parameters, A<ITwitterRequest>.Ignored)).Returns(userDTOTwitterResult);
-            A.CallTo(() => _fakeTwitterResultFactory.Create(userDTOTwitterResult, It.IsAny<Func<IUserDTO, IUser>>())).Returns(expectedResult);
+            A.CallTo(() => _fakeUserQueryExecutor.GetUser(parameters, A<ITwitterRequest>.Ignored)).Returns(expectedResult);
 
             // Act
             var twitterResultUser = await controller.GetUser(parameters, A.Fake<ITwitterRequest>());
@@ -58,11 +52,9 @@ namespace xUnitinvi.ClientActions.UsersClient
             var controller = CreateUserController();
 
             var parameters = new GetUsersParameters(new [] { "username" });
-            var userDTOTwitterResult = A.Fake<ITwitterResult<IUserDTO[]>>();
-            var expectedResult = A.Fake<ITwitterResult<IUserDTO[], IUser[]>>();
+            var expectedResult = A.Fake<ITwitterResult<IUserDTO[]>>();
 
-            A.CallTo(() => _fakeUserQueryExecutor.GetUsers(parameters, A<ITwitterRequest>.Ignored)).Returns(userDTOTwitterResult);
-            A.CallTo(() => _fakeTwitterResultFactory.Create(userDTOTwitterResult, It.IsAny<Func<IUserDTO[], IUser[]>>())).Returns(expectedResult);
+            A.CallTo(() => _fakeUserQueryExecutor.GetUsers(parameters, A<ITwitterRequest>.Ignored)).Returns(expectedResult);
 
             // Act
             var twitterResultUser = await controller.GetUsers(parameters, A.Fake<ITwitterRequest>());

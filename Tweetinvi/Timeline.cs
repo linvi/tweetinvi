@@ -35,7 +35,7 @@ namespace Tweetinvi
         private static IFactory<IHomeTimelineParameters> _homeTimelineParameterFactory;
         private static IFactory<IUserTimelineParameters> _userTimelineParameterFactory;
         private static IFactory<IMentionsTimelineParameters> _mentionsTimelineParameterFactory;
-        private static IFactory<IRetweetsOfMeTimelineParameters> _retweetsOfMeTimelineParameterFactory;
+        private static IFactory<IGetRetweetsOfMeTimelineParameters> _retweetsOfMeTimelineParameterFactory;
 
         static Timeline()
         {
@@ -48,7 +48,7 @@ namespace Tweetinvi
             _homeTimelineParameterFactory = TweetinviContainer.Resolve<IFactory<IHomeTimelineParameters>>();
             _userTimelineParameterFactory = TweetinviContainer.Resolve<IFactory<IUserTimelineParameters>>();
             _mentionsTimelineParameterFactory = TweetinviContainer.Resolve<IFactory<IMentionsTimelineParameters>>();
-            _retweetsOfMeTimelineParameterFactory = TweetinviContainer.Resolve<IFactory<IRetweetsOfMeTimelineParameters>>();
+            _retweetsOfMeTimelineParameterFactory = TweetinviContainer.Resolve<IFactory<IGetRetweetsOfMeTimelineParameters>>();
         }
 
         // Parameter generator
@@ -80,7 +80,7 @@ namespace Tweetinvi
         /// <summary>
         /// Parameters available to refine the results from the Retweets of Me Timeline
         /// </summary>
-        public static IRetweetsOfMeTimelineParameters CreateRetweetsOfMeTimelineParameters()
+        public static IGetRetweetsOfMeTimelineParameters CreateRetweetsOfMeTimelineParameters()
         {
             return _retweetsOfMeTimelineParameterFactory.Create();
         }
@@ -169,16 +169,6 @@ namespace Tweetinvi
         public static Task<IEnumerable<IMention>> GetMentionsTimeline(IMentionsTimelineParameters mentionsTimelineParameters)
         {
             return TimelineController.GetMentionsTimeline(mentionsTimelineParameters);
-        }
-
-        // Retweets of Me Timeline
-
-        /// <summary>
-        /// Get the tweets visible on your retweets of me Timeline
-        /// </summary>
-        public static Task<IEnumerable<ITweet>> GetRetweetsOfMeTimeline(IRetweetsOfMeTimelineParameters parameters = null)
-        {
-            return TimelineController.GetRetweetsOfMeTimeline(parameters);
         }
     }
 }

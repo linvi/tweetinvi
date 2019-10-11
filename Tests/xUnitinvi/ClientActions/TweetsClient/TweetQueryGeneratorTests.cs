@@ -127,7 +127,8 @@ namespace xUnitinvi.ClientActions.TweetsClient
             var result = queryGenerator.GetFavoriteTweetsQuery(parameters, TweetMode.Extended);
 
             // Assert
-            Assert.Equal(result, $"https://api.twitter.com/1.1/favorites/list.json?user_id=42&include_entities=true&since_id=43&max_id=42&count=12&tweet_mode=extended&hello=world");
+            Assert.Equal(result, $"https://api.twitter.com/1.1/favorites/list.json?user_id=42&include_entities=true" +
+                                 $"&count=12&since_id=43&max_id=42&tweet_mode=extended&hello=world");
         }
         
         [Fact]

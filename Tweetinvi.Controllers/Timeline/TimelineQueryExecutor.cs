@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Tweetinvi.Core.Parameters;
 using Tweetinvi.Core.Web;
+using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
 using Tweetinvi.Parameters;
 
@@ -19,7 +20,7 @@ namespace Tweetinvi.Controllers.Timeline
         Task<IEnumerable<ITweetDTO>> GetMentionsTimeline(IMentionsTimelineParameters timelineParameters);
 
         // Retweets Of Me Timeline
-        Task<IEnumerable<ITweetDTO>> GetRetweetsOfMeTimeline(IRetweetsOfMeTimelineParameters timelineParameters);
+        Task<ITwitterResult<ITweetDTO[]>> GetRetweetsOfMeTimeline(IGetRetweetsOfMeTimelineParameters timelineParameters, ITwitterRequest request);
     }
 
     public class TimelineQueryExecutor : ITimelineQueryExecutor
@@ -57,10 +58,12 @@ namespace Tweetinvi.Controllers.Timeline
         }
 
         // Retweets of Me Timeline
-        public Task<IEnumerable<ITweetDTO>> GetRetweetsOfMeTimeline(IRetweetsOfMeTimelineParameters timelineParameters)
+        public Task<ITwitterResult<ITweetDTO[]>> GetRetweetsOfMeTimeline(IGetRetweetsOfMeTimelineParameters timelineParameters, ITwitterRequest request)
         {
-            string query = _timelineQueryGenerator.GetRetweetsOfMeTimelineQuery(timelineParameters);
-            return _twitterAccessor.ExecuteGETQuery<IEnumerable<ITweetDTO>>(query);
+            var query = _timelineQueryGenerator.GetRetweetsOfMeTimelineQuery(timelineParameters, request.ExecutionContext.TweetMode);
+            request.Query.Url = query;
+            request.Query.HttpMethod = HttpMethod.GET;
+            return _twitterAccessor.ExecuteRequest<ITweetDTO[]>(request);
         }
     }
 }

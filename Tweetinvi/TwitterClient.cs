@@ -1,6 +1,7 @@
 ﻿using Tweetinvi.Client;
 using Tweetinvi.Core.Client;
 using Tweetinvi.Core.Client.Validators;
+using Tweetinvi.Exceptions;
 using Tweetinvi.Models;
 
 // ReSharper disable once CheckNamespace
@@ -26,6 +27,7 @@ namespace Tweetinvi
 
             Account = new AccountClient(this);
             AccountSettings = new AccountSettingsClient(this);
+            Timeline = new TimelineClient(this);
             Tweets = new TweetsClient(this);
             Upload = new UploadClient(this);
             Users = new UsersClient(this);
@@ -33,6 +35,7 @@ namespace Tweetinvi
 
         public IAccountClient Account { get; }
         public IAccountSettingsClient AccountSettings { get; }
+        public ITimelineClient Timeline { get; set; }
         public ITweetsClient Tweets { get; }
         public IUploadClient Upload { get; }
         public IUsersClient Users { get; }

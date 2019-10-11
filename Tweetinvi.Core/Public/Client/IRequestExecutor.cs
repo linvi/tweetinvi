@@ -6,6 +6,7 @@ namespace Tweetinvi.Client
     {
         IAccountRequester Account { get; }
         IAccountSettingsRequester AccountSettings { get; }
+        ITimelineRequester Timeline { get; }
         ITweetsRequester Tweets { get; }
         IUploadRequester Upload { get; }
         IUsersRequester Users { get; }

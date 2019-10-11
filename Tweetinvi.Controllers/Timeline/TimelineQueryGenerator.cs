@@ -23,7 +23,7 @@ namespace Tweetinvi.Controllers.Timeline
         string GetMentionsTimelineQuery(IMentionsTimelineParameters mentionsTimelineParameters);
 
         // Retweets of Me Timeline
-        string GetRetweetsOfMeTimelineQuery(IRetweetsOfMeTimelineParameters retweetsOfMeTimelineParameters);
+        string GetRetweetsOfMeTimelineQuery(IGetRetweetsOfMeTimelineParameters parameters, TweetMode? tweetMode);
     }
 
     public class TimelineQueryGenerator : ITimelineQueryGenerator
@@ -115,21 +115,32 @@ namespace Tweetinvi.Controllers.Timeline
         }
         
         // Retweets of Me Timeline
-        public string GetRetweetsOfMeTimelineQuery(IRetweetsOfMeTimelineParameters retweetsOfMeTimelineParameters)
+        public string GetRetweetsOfMeTimelineQuery(IGetRetweetsOfMeTimelineParameters parameters, TweetMode? tweetMode)
         {
-            var includeUserEntitiesParameter = _timelineQueryParameterGenerator.GenerateIncludeUserEntitiesParameter(retweetsOfMeTimelineParameters.IncludeUserEntities);
-            var timelineRequestParameter = GenerateTimelineRequestParameter(retweetsOfMeTimelineParameters);
-            var requestParameters = string.Format("{0}{1}", timelineRequestParameter, includeUserEntitiesParameter);
+            var query = new StringBuilder(Resources.Timeline_GetRetweetsOfMeTimeline);
+            
+            AddTimelineParameters(query, parameters);
+            query.AddParameterToQuery("include_user_entities", parameters.IncludeUserEntities);
+            
+            query.AddParameterToQuery("tweet_mode", tweetMode?.ToString().ToLowerInvariant());
+            query.AddFormattedParameterToQuery(parameters.FormattedCustomQueryParameters);
                
-            return string.Format(Resources.Timeline_GetRetweetsOfMeTimeline, requestParameters);
+            return query.ToString();
         }
 
+        private void AddTimelineParameters(StringBuilder query, ITimelineRequestParameters parameters)
+        {
+            _queryParameterGenerator.AddMinMaxQueryParameters(query, parameters);
+            query.AddParameterToQuery("include_entities", parameters.IncludeEntities);
+            query.AddParameterToQuery("trim_user", parameters.TrimUser);
+        }
+        
         // Base Timeline Query Generator
         private string GenerateTimelineRequestParameter(ITimelineRequestParameters timelineRequestParameters)
         {
             var requestParameter = new StringBuilder();
 
-            requestParameter.Append(_queryParameterGenerator.GenerateCountParameter(timelineRequestParameters.MaximumNumberOfTweetsToRetrieve));
+            requestParameter.Append(_queryParameterGenerator.GenerateCountParameter(timelineRequestParameters.PageSize));
             requestParameter.Append(_queryParameterGenerator.GenerateTrimUserParameter(timelineRequestParameters.TrimUser));
             requestParameter.Append(_queryParameterGenerator.GenerateSinceIdParameter(timelineRequestParameters.SinceId));
             requestParameter.Append(_queryParameterGenerator.GenerateMaxIdParameter(timelineRequestParameters.MaxId));

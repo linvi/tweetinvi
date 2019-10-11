@@ -299,12 +299,12 @@ namespace Tweetinvi.Models
         /// <summary>
         /// Get the retweets of the current tweet
         /// </summary>
-        Task<List<ITweet>> GetRetweets();
+        Task<ITweet[]> GetRetweets();
 
         /// <summary>
         /// Remove your retweet.
         /// </summary>
-        Task<bool> UnRetweet();
+        Task<bool> DestroyRetweet();
 
         /// <summary>
         /// Delete a tweet from Twitter

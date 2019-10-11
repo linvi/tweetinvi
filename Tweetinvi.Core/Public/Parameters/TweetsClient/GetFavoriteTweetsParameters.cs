@@ -5,7 +5,7 @@ namespace Tweetinvi.Parameters
     /// <summary>
     /// For more information visit : https://dev.twitter.com/en/docs/tweets/post-and-engage/api-reference/get-favorites-list
     /// </summary>
-    public interface IGetFavoriteTweetsParameters : IMaxAndMinBaseQueryParameters
+    public interface IGetFavoriteTweetsParameters : IMinMaxQueryParameters
     {
         /// <summary>
         /// The user from whom you want to get his favorite tweets
@@ -19,7 +19,7 @@ namespace Tweetinvi.Parameters
     }
 
     /// <inheritdoc cref="IGetFavoriteTweetsParameters" />
-    public class GetFavoriteTweetsParameters : MaxAndMinBaseQueryParameters, IGetFavoriteTweetsParameters
+    public class GetFavoriteTweetsParameters : MinMaxQueryParameters, IGetFavoriteTweetsParameters
     {
         public GetFavoriteTweetsParameters(string username) : this(new UserIdentifier(username))
         {

@@ -30,7 +30,7 @@
     {
         public UserTimelineParameters()
         {
-            MaximumNumberOfTweetsToRetrieve = TweetinviConsts.TIMELINE_USER_COUNT;
+            PageSize = TweetinviConsts.TIMELINE_USER_COUNT;
 
             IncludeRTS = true;
             IncludeContributorDetails = false;

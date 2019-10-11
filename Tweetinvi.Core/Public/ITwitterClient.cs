@@ -19,6 +19,11 @@ namespace Tweetinvi
         IAccountSettingsClient AccountSettings { get; }
         
         /// <summary>
+        /// Client to execute all actions related timelines
+        /// </summary>
+        ITimelineClient Timeline { get; }
+        
+        /// <summary>
         /// Client to execute all actions related with tweets
         /// </summary>
         ITweetsClient Tweets { get; }

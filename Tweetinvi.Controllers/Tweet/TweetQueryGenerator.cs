@@ -3,7 +3,6 @@ using System.Linq;
 using System.Text;
 using Tweetinvi.Controllers.Properties;
 using Tweetinvi.Controllers.Shared;
-using Tweetinvi.Core;
 using Tweetinvi.Core.Extensions;
 using Tweetinvi.Core.QueryGenerators;
 using Tweetinvi.Core.QueryValidators;
@@ -18,18 +17,15 @@ namespace Tweetinvi.Controllers.Tweet
         private readonly IQueryParameterGenerator _queryParameterGenerator;
         private readonly IUserQueryParameterGenerator _userQueryParameterGenerator;
         private readonly ITweetQueryValidator _tweetQueryValidator;
-        private readonly ITweetinviSettingsAccessor _tweetinviSettingsAccessor;
 
         public TweetQueryGenerator(
             IQueryParameterGenerator queryParameterGenerator,
             IUserQueryParameterGenerator userQueryParameterGenerator,
-            ITweetQueryValidator tweetQueryValidator,
-            ITweetinviSettingsAccessor tweetinviSettingsAccessor)
+            ITweetQueryValidator tweetQueryValidator)
         {
             _queryParameterGenerator = queryParameterGenerator;
             _userQueryParameterGenerator = userQueryParameterGenerator;
             _tweetQueryValidator = tweetQueryValidator;
-            _tweetinviSettingsAccessor = tweetinviSettingsAccessor;
         }
 
         // Get Tweet
@@ -159,9 +155,7 @@ namespace Tweetinvi.Controllers.Tweet
             var query = new StringBuilder(Resources.User_GetFavourites + userParameter);
 
             query.AddParameterToQuery("include_entities", parameters.IncludeEntities);
-            query.AddParameterToQuery("since_id", parameters.SinceId);
-            query.AddParameterToQuery("max_id", parameters.MaxId);
-            query.AddParameterToQuery("count", parameters.PageSize);
+            _queryParameterGenerator.AddMinMaxQueryParameters(query, parameters);
 
             var tweetModeParameter = _queryParameterGenerator.GenerateTweetModeParameter(tweetMode);
             query.AddFormattedParameterToQuery(tweetModeParameter);

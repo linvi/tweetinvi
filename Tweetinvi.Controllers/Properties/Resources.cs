@@ -385,9 +385,9 @@ namespace Tweetinvi.Controllers.Properties
         public static string Timeline_GetMentionsTimeline = "https://api.twitter.com/1.1/statuses/mentions_timeline.json?{0}";
 
         /// <summary>
-        ///   Looks up a localized string similar to https://api.twitter.com/1.1/statuses/retweets_of_me.json?{0}.
+        ///   Looks up a localized string similar to https://api.twitter.com/1.1/statuses/retweets_of_me.json?.
         /// </summary>
-        public static string Timeline_GetRetweetsOfMeTimeline = "https://api.twitter.com/1.1/statuses/retweets_of_me.json?{0}";
+        public static string Timeline_GetRetweetsOfMeTimeline = "https://api.twitter.com/1.1/statuses/retweets_of_me.json?";
 
         /// <summary>
         ///   Looks up a localized string similar to https://api.twitter.com/1.1/statuses/user_timeline.json?{0}.

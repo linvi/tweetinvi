@@ -13,7 +13,7 @@
     {
         public MentionsTimelineParameters()
         {
-            MaximumNumberOfTweetsToRetrieve = TweetinviConsts.TIMELINE_MENTIONS_COUNT;
+            PageSize = TweetinviConsts.TIMELINE_MENTIONS_COUNT;
         }
 
         public bool IncludeContributorDetails { get; set; }

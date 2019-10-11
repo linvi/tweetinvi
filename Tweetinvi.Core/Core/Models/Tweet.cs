@@ -440,23 +440,16 @@ namespace Tweetinvi.Logic
             return Client.Tweets.PublishRetweet(this);
         }
 
-        public Task<List<ITweet>> GetRetweets()
+        public Task<ITweet[]> GetRetweets()
         {
             ThrowIfTweetCannotBeUsed();
-            throw new NotImplementedException("TODO IMPLEMENT WITH CLIENT");
+            return Client.Tweets.GetRetweets(this);
         }
 
-        public async Task<bool> UnRetweet()
+        public Task<bool> DestroyRetweet()
         {
             ThrowIfTweetCannotBeUsed();
-            throw new NotImplementedException("TODO IMPLEMENT WITH CLIENT");
-
-//            if (updatedTweet != null)
-//            {
-//                _tweetDTO.Retweeted = false;
-//            }
-//
-//            return (await _tweetController.DestroyRetweet(this, request)) != null;
+            return Client.Tweets.DestroyTweet(this);
         }
 
         private void ThrowIfTweetCannotBeUsed()

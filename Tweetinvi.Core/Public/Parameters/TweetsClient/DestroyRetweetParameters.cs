@@ -3,7 +3,7 @@ using Tweetinvi.Models;
 namespace Tweetinvi.Parameters
 {
     /// <summary>
-    /// For more information visit : 
+    /// For more information visit : https://dev.twitter.com/en/docs/tweets/post-and-engage/api-reference/post-statuses-unretweet-id
     /// </summary>
     public interface IDestroyRetweetParameters : ICustomRequestParameters
     {

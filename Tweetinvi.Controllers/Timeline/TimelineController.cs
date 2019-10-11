@@ -2,8 +2,11 @@
 using System.Threading.Tasks;
 using Tweetinvi.Core.Controllers;
 using Tweetinvi.Core.Factories;
+using Tweetinvi.Core.Iterators;
 using Tweetinvi.Core.Parameters;
+using Tweetinvi.Core.Web;
 using Tweetinvi.Models;
+using Tweetinvi.Models.DTO;
 using Tweetinvi.Parameters;
 
 namespace Tweetinvi.Controllers.Timeline
@@ -13,17 +16,20 @@ namespace Tweetinvi.Controllers.Timeline
         private readonly ITweetFactory _tweetFactory;
         private readonly ITimelineQueryExecutor _timelineQueryExecutor;
         private readonly IUserFactory _userFactory;
+        private readonly IPageCursorIteratorFactories _pageCursorIteratorFactories;
         private readonly ITimelineQueryParameterGenerator _timelineQueryParameterGenerator;
 
         public TimelineController(
             ITweetFactory tweetFactory,
             ITimelineQueryExecutor timelineQueryExecutor,
             IUserFactory userFactory,
+            IPageCursorIteratorFactories pageCursorIteratorFactories,
             ITimelineQueryParameterGenerator timelineQueryParameterGenerator)
         {
             _tweetFactory = tweetFactory;
             _timelineQueryExecutor = timelineQueryExecutor;
             _userFactory = userFactory;
+            _pageCursorIteratorFactories = pageCursorIteratorFactories;
             _timelineQueryParameterGenerator = timelineQueryParameterGenerator;
         }
 
@@ -31,7 +37,7 @@ namespace Tweetinvi.Controllers.Timeline
         public Task<IEnumerable<ITweet>> GetHomeTimeline(int maximumNumberOfTweetsToRetrieve)
         {
             var timelineRequestParameter = _timelineQueryParameterGenerator.CreateHomeTimelineParameters();
-            timelineRequestParameter.MaximumNumberOfTweetsToRetrieve = maximumNumberOfTweetsToRetrieve;
+            timelineRequestParameter.PageSize = maximumNumberOfTweetsToRetrieve;
 
             return GetHomeTimeline(timelineRequestParameter);
         }
@@ -63,7 +69,7 @@ namespace Tweetinvi.Controllers.Timeline
         public Task<IEnumerable<ITweet>> GetUserTimeline(IUserIdentifier user, int maximumNumberOfTweets = 40)
         {
             var requestParameters = _timelineQueryParameterGenerator.CreateUserTimelineParameters();
-            requestParameters.MaximumNumberOfTweetsToRetrieve = maximumNumberOfTweets;
+            requestParameters.PageSize = maximumNumberOfTweets;
 
             return GetUserTimeline(user, requestParameters);
         }
@@ -100,7 +106,7 @@ namespace Tweetinvi.Controllers.Timeline
         public Task<IEnumerable<IMention>> GetMentionsTimeline(int maximumNumberOfTweets = 40)
         {
             var timelineRequestParameter = _timelineQueryParameterGenerator.CreateMentionsTimelineParameters();
-            timelineRequestParameter.MaximumNumberOfTweetsToRetrieve = maximumNumberOfTweets;
+            timelineRequestParameter.PageSize = maximumNumberOfTweets;
 
             return GetMentionsTimeline(timelineRequestParameter);
         }
@@ -117,15 +123,17 @@ namespace Tweetinvi.Controllers.Timeline
         }
 
         // Retweets Of Me Timeline
-        public async Task<IEnumerable<ITweet>> GetRetweetsOfMeTimeline(IRetweetsOfMeTimelineParameters parameters)
+        public ITwitterPageIterator<ITwitterResult<ITweetDTO[]>, long?> GetRetweetsOfMeTimeline(IGetRetweetsOfMeTimelineParameters parameters, ITwitterRequest request)
         {
-            if (parameters == null)
+            return _pageCursorIteratorFactories.Create(parameters, cursor =>
             {
-                parameters = _timelineQueryParameterGenerator.CreateRetweetsOfMeTimelineParameters();
-            }
+                var cursoredParameters = new GetRetweetsOfMeTimelineParameters(parameters)
+                {
+                    MaxId = cursor
+                };
 
-            var timelineDTO = await _timelineQueryExecutor.GetRetweetsOfMeTimeline(parameters);
-            return _tweetFactory.GenerateTweetsFromDTO(timelineDTO, null, null);
+                return _timelineQueryExecutor.GetRetweetsOfMeTimeline(cursoredParameters, new TwitterRequest(request));
+            });
         }
     }
 }

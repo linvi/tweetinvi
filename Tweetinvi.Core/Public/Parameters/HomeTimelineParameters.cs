@@ -23,7 +23,7 @@
     {
         public HomeTimelineParameters()
         {
-            MaximumNumberOfTweetsToRetrieve = TweetinviConsts.TIMELINE_HOME_COUNT;
+            PageSize = TweetinviConsts.TIMELINE_HOME_COUNT;
           
             IncludeContributorDetails = false;
             ExcludeReplies = false;

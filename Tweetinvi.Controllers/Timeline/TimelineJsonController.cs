@@ -47,7 +47,7 @@ namespace Tweetinvi.Controllers.Timeline
         public Task<string> GetHomeTimeline(int maximumNumberOfTweetsToRetrieve)
         {
             var timelineRequestParameter = _timelineQueryParameterGenerator.CreateHomeTimelineParameters();
-            timelineRequestParameter.MaximumNumberOfTweetsToRetrieve = maximumNumberOfTweetsToRetrieve;
+            timelineRequestParameter.PageSize = maximumNumberOfTweetsToRetrieve;
             return GetHomeTimeline(timelineRequestParameter);
         }
 
@@ -61,7 +61,7 @@ namespace Tweetinvi.Controllers.Timeline
         public Task<string> GetUserTimeline(IUserIdentifier user, int maximumNumberOfTweets = 40)
         {
             var requestParameters = _timelineQueryParameterGenerator.CreateUserTimelineParameters();
-            requestParameters.MaximumNumberOfTweetsToRetrieve = maximumNumberOfTweets;
+            requestParameters.PageSize = maximumNumberOfTweets;
 
             return GetUserTimeline(user, requestParameters);
         }
@@ -100,7 +100,7 @@ namespace Tweetinvi.Controllers.Timeline
         public Task<string> GetMentionsTimeline(int maximumNumberOfTweets = 40)
         {
             var requestParameters = _timelineQueryParameterGenerator.CreateMentionsTimelineParameters();
-            requestParameters.MaximumNumberOfTweetsToRetrieve = maximumNumberOfTweets;
+            requestParameters.PageSize = maximumNumberOfTweets;
 
             return GetMentionsTimeline(requestParameters);
         }

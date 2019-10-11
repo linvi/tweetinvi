@@ -19,15 +19,18 @@ namespace Tweetinvi.Controllers.Tweet
         private readonly ITweetQueryExecutor _tweetQueryExecutor;
         private readonly IUploadQueryExecutor _uploadQueryExecutor;
         private readonly ITweetFactory _tweetFactory;
+        private readonly IPageCursorIteratorFactories _pageCursorIteratorFactories;
 
         public TweetController(
             ITweetQueryExecutor tweetQueryExecutor,
             IUploadQueryExecutor uploadQueryExecutor,
-            ITweetFactory tweetFactory)
+            ITweetFactory tweetFactory,
+            IPageCursorIteratorFactories pageCursorIteratorFactories)
         {
             _tweetQueryExecutor = tweetQueryExecutor;
             _uploadQueryExecutor = uploadQueryExecutor;
             _tweetFactory = tweetFactory;
+            _pageCursorIteratorFactories = pageCursorIteratorFactories;
         }
 
         public Task<ITwitterResult<ITweetDTO>> GetTweet(IGetTweetParameters parameters, ITwitterRequest request)
@@ -156,24 +159,15 @@ namespace Tweetinvi.Controllers.Tweet
         // Favorite Tweet
         public ITwitterPageIterator<ITwitterResult<ITweetDTO[]>, long?> GetFavoriteTweets(IGetFavoriteTweetsParameters parameters, ITwitterRequest request)
         {
-            var twitterCursorResult = new TwitterPageIterator<ITwitterResult<ITweetDTO[]>, long?>(
-                parameters.MaxId,
-                cursor =>
+            return _pageCursorIteratorFactories.Create(parameters, cursor =>
+            {
+                var cursoredParameters = new GetFavoriteTweetsParameters(parameters)
                 {
-                    var cursoredParameters = new GetFavoriteTweetsParameters(parameters)
-                    {
-                        MaxId = cursor
-                    };
+                    MaxId = cursor
+                };
 
-                    return _tweetQueryExecutor.GetFavoriteTweets(cursoredParameters, new TwitterRequest(request));
-                },
-                page =>
-                {
-                    return page.DataTransferObject.Min(x => x.Id);
-                },
-                page => page.DataTransferObject.Length < parameters.PageSize);
-
-            return twitterCursorResult;
+                return _tweetQueryExecutor.GetFavoriteTweets(cursoredParameters, new TwitterRequest(request));
+            });
         }
         
         public Task<bool> FavoriteTweet(ITweet tweet)

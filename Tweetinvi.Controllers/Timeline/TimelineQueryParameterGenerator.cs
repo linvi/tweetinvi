@@ -16,7 +16,7 @@ namespace Tweetinvi.Controllers.Timeline
         IHomeTimelineParameters CreateHomeTimelineParameters();
         IUserTimelineParameters CreateUserTimelineParameters();
         IMentionsTimelineParameters CreateMentionsTimelineParameters();
-        IRetweetsOfMeTimelineParameters CreateRetweetsOfMeTimelineParameters();
+        IGetRetweetsOfMeTimelineParameters CreateRetweetsOfMeTimelineParameters();
 
         IUserTimelineQueryParameters CreateUserTimelineQueryParameters(
             IUserIdentifier user,
@@ -27,14 +27,14 @@ namespace Tweetinvi.Controllers.Timeline
     {
         private readonly IFactory<IHomeTimelineParameters> _homeTimelineRequestParameterFactory;
         private readonly IFactory<IMentionsTimelineParameters> _mentionsTimelineRequestParameterFactory;
-        private readonly IFactory<IRetweetsOfMeTimelineParameters> _retweetsOfMeTimelineRequestParameterFactory;
+        private readonly IFactory<IGetRetweetsOfMeTimelineParameters> _retweetsOfMeTimelineRequestParameterFactory;
         private readonly IFactory<IUserTimelineParameters> _userTimelineRequestParameterFactory;
         private readonly IFactory<IUserTimelineQueryParameters> _userTimelineRequestQueryParameterFactory;
 
         public TimelineQueryParameterGenerator(
             IFactory<IHomeTimelineParameters> homeTimelineRequestParameterFactory,
             IFactory<IMentionsTimelineParameters> mentionsTimelineRequestParameterFactory,
-            IFactory<IRetweetsOfMeTimelineParameters> retweetsOfMeTimelineRequestParameterFactory,
+            IFactory<IGetRetweetsOfMeTimelineParameters> retweetsOfMeTimelineRequestParameterFactory,
             IFactory<IUserTimelineParameters> userTimelineRequestParameterFactory, 
             IFactory<IUserTimelineQueryParameters> userTimelineRequestQueryParameterFactory)
         {
@@ -81,7 +81,7 @@ namespace Tweetinvi.Controllers.Timeline
             return _mentionsTimelineRequestParameterFactory.Create();
         }
 
-        public IRetweetsOfMeTimelineParameters CreateRetweetsOfMeTimelineParameters()
+        public IGetRetweetsOfMeTimelineParameters CreateRetweetsOfMeTimelineParameters()
         {
             return _retweetsOfMeTimelineRequestParameterFactory.Create();
         }

@@ -1,6 +1,6 @@
 namespace Tweetinvi.Parameters
 {
-    public interface IMaxAndMinBaseQueryParameters : ICustomRequestParameters
+    public interface IMinMaxQueryParameters : ICustomRequestParameters
     { 
         /// <summary>
         /// The maximum number of objects to return
@@ -18,13 +18,13 @@ namespace Tweetinvi.Parameters
         long? MaxId { get; set; }
     }
     
-    public class MaxAndMinBaseQueryParameters : CustomRequestParameters, IMaxAndMinBaseQueryParameters
+    public class MinMaxQueryParameters : CustomRequestParameters, IMinMaxQueryParameters
     {
-        public MaxAndMinBaseQueryParameters()
+        protected MinMaxQueryParameters()
         {
         }
 
-        public MaxAndMinBaseQueryParameters(IMaxAndMinBaseQueryParameters source) : base(source)
+        protected MinMaxQueryParameters(IMinMaxQueryParameters source) : base(source)
         {
             if (source == null)
             {
@@ -36,8 +36,11 @@ namespace Tweetinvi.Parameters
             MaxId = source.MaxId;
         }
 
+        /// <inheritdoc/>
         public int PageSize { get; set; }
+        /// <inheritdoc/>
         public long? SinceId { get; set; }
+        /// <inheritdoc/>
         public long? MaxId { get; set; }
     }
 }
