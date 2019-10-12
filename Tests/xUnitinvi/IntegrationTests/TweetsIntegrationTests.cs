@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -27,15 +28,14 @@ namespace xUnitinvi.IntegrationTests
             TweetinviEvents.QueryBeforeExecute += (sender, args) => { _logger.WriteLine(args.Url); };
         }
 
-//        [Fact]
-        [Fact(Skip = "Integration Tests")]
+        [Fact]
         public async Task RunAllTweets()
         {
             if (!IntegrationTestConfig.ShouldRunIntegrationTests)
             {
                 return;
             }
-            
+
             _logger.WriteLine($"Starting {nameof(CreateReadDelete)}");
             await CreateReadDelete().ConfigureAwait(false);
             _logger.WriteLine($"{nameof(CreateReadDelete)} succeeded");
@@ -128,18 +128,29 @@ namespace xUnitinvi.IntegrationTests
         private async Task Retweets()
         {
             var tweetId = 979753598446948353;
-            
+
             var sourceTweet = await ProtectedClient.Tweets.GetTweet(tweetId);
             var retweet = await ProtectedClient.Tweets.PublishRetweet(sourceTweet);
             var sourceRetweets = await ProtectedClient.Tweets.GetRetweets(sourceTweet);
             var tweetAfterRetweet = await ProtectedClient.Tweets.GetTweet(tweetId);
+
+            var allRetweeterIdsBefore = new List<long>();
+
+            var retweeterIdsBeforeIterator = ProtectedClient.Tweets.GetRetweeterIdsIterator(tweetId);
+            while (!retweeterIdsBeforeIterator.Completed)
+            {
+                allRetweeterIdsBefore.AddRange(await retweeterIdsBeforeIterator.MoveToNextPage());
+            }
+
             await ProtectedClient.Tweets.DestroyRetweet(retweet);
             var tweetAfterDestroy = await ProtectedClient.Tweets.GetTweet(tweetId);
-            
+
             // assert
             Assert.Equal(tweetAfterRetweet.RetweetCount, sourceTweet.RetweetCount + 1);
             Assert.Equal(retweet.RetweetedTweet.Id, tweetId);
+            Assert.NotNull(retweet.CreatedBy.Id);
             Assert.Contains(retweet.Id, sourceRetweets.Select(x => x.Id));
+            Assert.Contains(retweet.CreatedBy.Id.Value, allRetweeterIdsBefore);
             Assert.Equal(tweetAfterDestroy.RetweetCount, sourceTweet.RetweetCount);
         }
     }

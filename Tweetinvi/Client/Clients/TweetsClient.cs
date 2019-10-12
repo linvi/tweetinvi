@@ -7,6 +7,7 @@ using Tweetinvi.Core.Web;
 using Tweetinvi.Iterators;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
+using Tweetinvi.Models.DTO.QueryDTO;
 using Tweetinvi.Parameters;
 
 namespace Tweetinvi.Client
@@ -156,6 +157,22 @@ namespace Tweetinvi.Client
         {
             var requestResult = await _tweetsRequester.DestroyRetweet(parameters).ConfigureAwait(false);
             return requestResult?.Response?.IsSuccessStatusCode == true;
+        }
+
+        public ITwitterIterator<long> GetRetweeterIdsIterator(long? tweetId)
+        {
+            return GetRetweeterIdsIterator(new GetRetweeterIdsParameters(tweetId));
+        }
+
+        public ITwitterIterator<long> GetRetweeterIdsIterator(ITweetIdentifier tweet)
+        {
+            return GetRetweeterIdsIterator(new GetRetweeterIdsParameters(tweet));
+        }
+
+        public ITwitterIterator<long> GetRetweeterIdsIterator(IGetRetweeterIdsParameters parameters)
+        {
+            var twitterResultIterator = _tweetsRequester.GetRetweeterIds(parameters);
+            return new TwitterIteratorProxy<ITwitterResult<IIdsCursorQueryResultDTO>, long>(twitterResultIterator, dto => dto.DataTransferObject.Ids);
         }
 
         #region Favourite Tweets

@@ -100,6 +100,18 @@ namespace Tweetinvi.Client
         /// </summary>
         /// <returns>Whether the retweet was successfully destroyed</returns>
         Task<bool> DestroyRetweet(IDestroyRetweetParameters parameters);
+        
+        /// <inheritdoc cref="GetRetweeterIdsIterator(IGetRetweeterIdsParameters)" />
+        ITwitterIterator<long> GetRetweeterIdsIterator(long? tweetId);
+        /// <inheritdoc cref="GetRetweeterIdsIterator(IGetRetweeterIdsParameters)" />
+        ITwitterIterator<long> GetRetweeterIdsIterator(ITweetIdentifier tweet);
+        
+        /// <summary>
+        /// Get the ids of the users who retweeted a specific tweet
+        /// <para> Read more : https://dev.twitter.com/en/docs/tweets/post-and-engage/api-reference/get-statuses-retweeters-ids </para>
+        /// </summary>
+        /// <returns>An iterator to list the retweeter ids</returns>
+        ITwitterIterator<long> GetRetweeterIdsIterator(IGetRetweeterIdsParameters parameters);
 
         /// <inheritdoc cref="GetFavoriteTweets(IGetFavoriteTweetsParameters)" />
         ITwitterIterator<ITweet, long?> GetFavoriteTweets(long? userId);

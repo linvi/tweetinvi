@@ -188,5 +188,25 @@ namespace xUnitinvi.ClientActions.TweetsClient
             // Assert
             Assert.Equal(result, $"https://api.twitter.com/1.1/statuses/unretweet/42.json?trim_user=true&tweet_mode=extended&hello=world");
         }
+        
+        [Fact]
+        public void GetRetweeterIdsParameters_ReturnsExpectedQuery()
+        {
+            // Arrange
+            var queryGenerator = CreateUserQueryGenerator();
+
+            var parameters = new GetRetweeterIdsParameters(42)
+            {
+                Cursor = "43",
+                PageSize = 44,
+                CustomQueryParameters = { new Tuple<string, string>("hello", "world") }
+            };
+
+            // Act
+            var result = queryGenerator.GetRetweeterIdsQuery(parameters);
+
+            // Assert
+            Assert.Equal(result, $"https://api.twitter.com/1.1/statuses/retweeters/ids.json?id=42&cursor=43&count=44&hello=world");
+        }
     }
 }

@@ -2,10 +2,12 @@
 using FakeItEasy;
 using Tweetinvi;
 using Tweetinvi.Controllers.Tweet;
+using Tweetinvi.Core.Iterators;
 using Tweetinvi.Core.QueryGenerators;
 using Tweetinvi.Core.Web;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
+using Tweetinvi.Models.DTO.QueryDTO;
 using Tweetinvi.Parameters;
 using Xunit;
 using xUnitinvi.TestHelpers;
@@ -52,7 +54,7 @@ namespace xUnitinvi.ClientActions.TweetsClient
             Assert.Equal(request.Query.Url, expectedQuery);
             Assert.Equal(HttpMethod.GET, request.Query.HttpMethod);
         }
-        
+
         [Fact]
         public async Task PublishTweet_ReturnsFavoritedTweets()
         {
@@ -75,7 +77,7 @@ namespace xUnitinvi.ClientActions.TweetsClient
             Assert.Equal(request.Query.Url, expectedQuery);
             Assert.Equal(HttpMethod.POST, request.Query.HttpMethod);
         }
-        
+
         [Fact]
         public async Task GetFavoriteTweets_ReturnsFavoritedTweets()
         {
@@ -98,7 +100,7 @@ namespace xUnitinvi.ClientActions.TweetsClient
             Assert.Equal(request.Query.Url, expectedQuery);
             Assert.Equal(HttpMethod.GET, request.Query.HttpMethod);
         }
-        
+
         [Fact]
         public async Task GetRetweets_ReturnsFavoritedTweets()
         {
@@ -121,7 +123,7 @@ namespace xUnitinvi.ClientActions.TweetsClient
             Assert.Equal(request.Query.Url, expectedQuery);
             Assert.Equal(HttpMethod.GET, request.Query.HttpMethod);
         }
-        
+
         [Fact]
         public async Task PublishRetweet_ReturnsFavoritedTweets()
         {
@@ -144,7 +146,7 @@ namespace xUnitinvi.ClientActions.TweetsClient
             Assert.Equal(request.Query.Url, expectedQuery);
             Assert.Equal(HttpMethod.POST, request.Query.HttpMethod);
         }
-        
+
         [Fact]
         public async Task DestroyRetweet_ReturnsFavoritedTweets()
         {
@@ -166,6 +168,29 @@ namespace xUnitinvi.ClientActions.TweetsClient
             Assert.Equal(result, expectedResult);
             Assert.Equal(request.Query.Url, expectedQuery);
             Assert.Equal(HttpMethod.POST, request.Query.HttpMethod);
+        }
+
+        [Fact]
+        public async Task GetRetweeterIds_ReturnsUserIds()
+        {
+            // Arrange
+            var queryExecutor = CreateUserQueryExecutor();
+            var expectedQuery = TestHelper.GenerateString();
+
+            var parameters = new GetRetweeterIdsParameters(42);
+            var request = A.Fake<ITwitterRequest>();
+            var expectedResult = A.Fake<ITwitterResult<IIdsCursorQueryResultDTO>>();
+
+            A.CallTo(() => _fakeTweetQueryGenerator.GetRetweeterIdsQuery(parameters)).Returns(expectedQuery);
+            A.CallTo(() => _fakeTwitterAccessor.ExecuteRequest<IIdsCursorQueryResultDTO>(request)).Returns(expectedResult);
+
+            // Act
+            var result = await queryExecutor.GetRetweeterIds(parameters, request);
+
+            // Assert
+            Assert.Equal(result, expectedResult);
+            Assert.Equal(request.Query.Url, expectedQuery);
+            Assert.Equal(HttpMethod.GET, request.Query.HttpMethod);
         }
     }
 }

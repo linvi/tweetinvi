@@ -3,6 +3,7 @@ using Tweetinvi.Core.Iterators;
 using Tweetinvi.Core.Web;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
+using Tweetinvi.Models.DTO.QueryDTO;
 using Tweetinvi.Parameters;
 
 namespace Tweetinvi.Client.Requesters
@@ -63,11 +64,17 @@ namespace Tweetinvi.Client.Requesters
         Task<ITwitterResult<ITweetDTO, ITweet>> PublishRetweet(IPublishRetweetParameters parameters);
         
         /// <summary>
+        /// Get the ids of the users who retweeted a specific tweet
+        /// <para> Read more : https://dev.twitter.com/en/docs/tweets/post-and-engage/api-reference/get-statuses-retweeters-ids </para>
+        /// </summary>
+        /// <returns>TwitterCursorResult to iterate over all the user's friends</returns>
+        ITwitterPageIterator<ITwitterResult<IIdsCursorQueryResultDTO>> GetRetweeterIds(IGetRetweeterIdsParameters parameters);
+        
+        /// <summary>
         /// Destroy a retweet
         /// <para>Read more : https://dev.twitter.com/en/docs/tweets/post-and-engage/api-reference/post-statuses-unretweet-id </para>
         /// </summary>
         /// <returns>TwitterResult containing the success status of the request</returns>
         Task<ITwitterResult<ITweetDTO>> DestroyRetweet(IDestroyRetweetParameters parameters);
-
     }
 }

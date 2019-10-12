@@ -6,6 +6,7 @@ using Tweetinvi.Core.Iterators;
 using Tweetinvi.Core.Web;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
+using Tweetinvi.Models.DTO.QueryDTO;
 using Tweetinvi.Parameters;
 using Xunit;
 using xUnitinvi.TestHelpers;
@@ -136,6 +137,24 @@ namespace xUnitinvi.ClientActions.TweetsClient
 
             // Assert
             Assert.Equal(result, expectedResult);
+        }
+        
+        [Fact]
+        public void GetRetweeterIds_ReturnsFromPageCursorIteratorFactories()
+        {
+            // arrange
+            var parameters = new GetRetweeterIdsParameters(42);
+            var request = A.Fake<ITwitterRequest>();
+            var expectedResult = A.Fake<ITwitterPageIterator<ITwitterResult<IIdsCursorQueryResultDTO>>>();
+
+            A.CallTo(() => _fakePageCursorIteratorFactories.Create(parameters, It.IsAny<Func<string, Task<ITwitterResult<IIdsCursorQueryResultDTO>>>>()))
+                .Returns(expectedResult);
+
+            var controller = CreateTweetController();
+            var iterator = controller.GetRetweeterIds(parameters, request);
+
+            // assert
+            Assert.Equal(iterator, expectedResult);
         }
     }
 }

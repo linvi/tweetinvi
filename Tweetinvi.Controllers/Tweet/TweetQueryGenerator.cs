@@ -204,14 +204,15 @@ namespace Tweetinvi.Controllers.Tweet
             return query.ToString();
         }
 
-        public string GetRetweeterIdsQuery(ITweetIdentifier tweetIdentifier, int maxRetweetersToRetrieve = 100)
+        public string GetRetweeterIdsQuery(IGetRetweeterIdsParameters parameters)
         {
-            _tweetQueryValidator.ThrowIfTweetCannotBeUsed(tweetIdentifier);
+            var query = new StringBuilder(Resources.Tweet_GetRetweeters);
 
-            var query = new StringBuilder(string.Format(Resources.Tweet_GetRetweeters, tweetIdentifier.Id));
-
-            query.AddParameterToQuery("id", tweetIdentifier.Id);
-            query.AddParameterToQuery("count", maxRetweetersToRetrieve);
+            query.AddParameterToQuery("id", parameters.Tweet.Id?.ToString() ?? parameters.Tweet.IdStr);
+            query.AddParameterToQuery("cursor", parameters.Cursor);
+            query.AddParameterToQuery("count", parameters.PageSize);
+            
+            query.AddFormattedParameterToQuery(parameters.FormattedCustomQueryParameters);
 
             return query.ToString();
         }

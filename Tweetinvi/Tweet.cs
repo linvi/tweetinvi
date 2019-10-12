@@ -92,24 +92,6 @@ namespace Tweetinvi
             return TweetController.CanBePublished(parameters);
         }
 
-        // Get Retweeters Ids
-
-        /// <summary>
-        /// Get the retweeter Ids who tweeted a specific tweet
-        /// </summary>
-        public static Task<IEnumerable<long>> GetRetweetersIds(long tweetId, int maxRetweetersToRetrieve = 100)
-        {
-            return TweetController.GetRetweetersIds(tweetId, maxRetweetersToRetrieve);
-        }
-
-        /// <summary>
-        /// Get the retweeter Ids who tweeted a specific tweet
-        /// </summary>
-        public static Task<IEnumerable<long>> GetRetweetersIds(ITweetIdentifier tweetIdentifier, int maxRetweetersToRetrieve = 100)
-        {
-            return TweetController.GetRetweetersIds(tweetIdentifier, maxRetweetersToRetrieve);
-        }
-
         // Favorite Tweet
 
         /// <summary>

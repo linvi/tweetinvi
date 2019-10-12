@@ -5,8 +5,10 @@ using Tweetinvi.Core.Controllers;
 using Tweetinvi.Core.Factories;
 using Tweetinvi.Core.Iterators;
 using Tweetinvi.Core.Web;
+using Tweetinvi.Credentials.QueryJsonConverters;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
+using Tweetinvi.Models.DTO.QueryDTO;
 using Tweetinvi.Parameters;
 
 namespace Tweetinvi.Client.Requesters
@@ -99,6 +101,15 @@ namespace Tweetinvi.Client.Requesters
             
             var request = _twitterClient.CreateRequest();
             return ExecuteRequest(() => _tweetController.DestroyRetweet(parameters, request), request);
+        }
+        
+        public ITwitterPageIterator<ITwitterResult<IIdsCursorQueryResultDTO>> GetRetweeterIds(IGetRetweeterIdsParameters parameters)
+        {
+            _tweetsClientRequiredParametersValidator.Validate(parameters);
+            
+            var request = _twitterClient.CreateRequest();
+            request.ExecutionContext.Converters = JsonQueryConverterRepository.Converters;
+            return _tweetController.GetRetweeterIds(parameters, request);
         }
 
         public ITwitterPageIterator<ITwitterResult<ITweetDTO[]>, long?> GetFavoriteTweets(IGetFavoriteTweetsParameters parameters)

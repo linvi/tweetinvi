@@ -42,10 +42,10 @@ namespace xUnitinvi.ClientActions.TimelineClient
                 .Returns(expectedResult);
 
             var controller = CreateTimelineController();
-            var friendIdsIterator = controller.GetRetweetsOfMeTimeline(parameters, request);
+            var iterator = controller.GetRetweetsOfMeTimeline(parameters, request);
 
             // assert
-            Assert.Equal(friendIdsIterator, expectedResult);
+            Assert.Equal(iterator, expectedResult);
         }
     }
 }

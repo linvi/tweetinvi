@@ -91,6 +91,12 @@ namespace Tweetinvi
         public short TWEETS_GET_RETWEETS_MAX_SIZE { get; set; } = 100;
         
         /// <summary>
+        /// Maximum numbers of retweeter ids that can be retrieved in 1 request
+        /// <para>https://dev.twitter.com/en/docs/tweets/post-and-engage/api-reference/get-statuses-retweeters-ids</para>
+        /// </summary>
+        public short TWEETS_GET_RETWEETER_IDS_MAX_PAGE_SIZE { get; set; } = 100;
+        
+        /// <summary>
         /// Maximum numbers of tweets that can be retrieved in 1 request
         /// <para>https://dev.twitter.com/en/docs/tweets/post-and-engage/api-reference/get-statuses-lookup</para>
         /// </summary>
@@ -137,6 +143,7 @@ namespace Tweetinvi
             
             TWEETS_GET_FAVORITE_TWEETS_MAX_SIZE = source.TWEETS_GET_FAVORITE_TWEETS_MAX_SIZE;
             TWEETS_GET_RETWEETS_MAX_SIZE = source.TWEETS_GET_RETWEETS_MAX_SIZE;
+            TWEETS_GET_RETWEETER_IDS_MAX_PAGE_SIZE = source.TWEETS_GET_RETWEETER_IDS_MAX_PAGE_SIZE;
             TWEETS_GET_TWEETS_REQUEST_MAX_SIZE = source.TWEETS_GET_TWEETS_REQUEST_MAX_SIZE;
 
             USERS_GET_USERS_MAX_SIZE = source.USERS_GET_USERS_MAX_SIZE;

@@ -1,5 +1,4 @@
-﻿using Tweetinvi.Models;
-using Tweetinvi.Models.DTO;
+﻿using Tweetinvi.Models.DTO;
 using Tweetinvi.Parameters;
 
 namespace Tweetinvi.Core.QueryGenerators
@@ -17,6 +16,7 @@ namespace Tweetinvi.Core.QueryGenerators
         string GetRetweetsQuery(IGetRetweetsParameters parameters, TweetMode? tweetMode);
         string GetPublishRetweetQuery(IPublishRetweetParameters parameters, TweetMode? tweetMode);
         string GetDestroyRetweetQuery(IDestroyRetweetParameters parameters, TweetMode? tweetMode);
+        string GetRetweeterIdsQuery(IGetRetweeterIdsParameters parameters);
         
         
         
@@ -25,7 +25,6 @@ namespace Tweetinvi.Core.QueryGenerators
         
 
         // Get Retweeters
-        string GetRetweeterIdsQuery(ITweetIdentifier tweet, int maxRetweetersToRetrieve);
 
 
         // Generate OembedTweet

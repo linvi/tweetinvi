@@ -33,7 +33,6 @@ namespace Tweetinvi.Controllers.User
         public ITwitterPageIterator<ITwitterResult<IIdsCursorQueryResultDTO>> GetFriendIds(IGetFriendIdsParameters parameters, ITwitterRequest request)
         {
             var twitterCursorResult = new TwitterPageIterator<ITwitterResult<IIdsCursorQueryResultDTO>>(
-                // ReSharper disable once PossibleNullReferenceException
                 parameters.Cursor,
                 cursor =>
                 {

@@ -10,6 +10,7 @@ using Tweetinvi.Core.Iterators;
 using Tweetinvi.Core.Web;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
+using Tweetinvi.Models.DTO.QueryDTO;
 using Tweetinvi.Parameters;
 
 namespace Tweetinvi.Controllers.Tweet
@@ -75,7 +76,7 @@ namespace Tweetinvi.Controllers.Tweet
 
             if (publishTweetParameters.QuotedTweet != null)
             {
-                textLength = StringExtension.EstimateTweetLength(text.TrimEnd()) + 
+                textLength = StringExtension.EstimateTweetLength(text.TrimEnd()) +
                              1 + // for the space that needs to be added before the link to quoted tweet.
                              TweetinviConsts.MEDIA_CONTENT_SIZE;
 #pragma warning restore 618
@@ -136,19 +137,18 @@ namespace Tweetinvi.Controllers.Tweet
 
         #endregion
 
-        #region Get Retweeters Ids
-
-        public Task<IEnumerable<long>> GetRetweetersIds(long tweetId, int maxRetweetersToRetrieve = 100)
+        public ITwitterPageIterator<ITwitterResult<IIdsCursorQueryResultDTO>> GetRetweeterIds(IGetRetweeterIdsParameters parameters, ITwitterRequest request)
         {
-            return _tweetQueryExecutor.GetRetweetersIds(new TweetIdentifier(tweetId), maxRetweetersToRetrieve);
-        }
+            return _pageCursorIteratorFactories.Create(parameters, cursor =>
+            {
+                var cursoredParameters = new GetRetweeterIdsParameters(parameters)
+                {
+                    Cursor = cursor
+                };
 
-        public Task<IEnumerable<long>> GetRetweetersIds(ITweetIdentifier tweetIdentifier, int maxRetweetersToRetrieve = 100)
-        {
-            return _tweetQueryExecutor.GetRetweetersIds(tweetIdentifier, maxRetweetersToRetrieve);
+                return _tweetQueryExecutor.GetRetweeterIds(cursoredParameters, new TwitterRequest(request));
+            });
         }
-
-        #endregion
 
         // Destroy Tweet
         public Task<ITwitterResult<ITweetDTO>> DestroyTweet(IDestroyTweetParameters parameters, ITwitterRequest request)
@@ -169,7 +169,7 @@ namespace Tweetinvi.Controllers.Tweet
                 return _tweetQueryExecutor.GetFavoriteTweets(cursoredParameters, new TwitterRequest(request));
             });
         }
-        
+
         public Task<bool> FavoriteTweet(ITweet tweet)
         {
             if (tweet == null)
