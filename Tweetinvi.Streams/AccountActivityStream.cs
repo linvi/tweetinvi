@@ -228,13 +228,13 @@ namespace Tweetinvi.Streams
         private void TryRaiseMessageEvent(string eventName, JObject jsonObjectEvent)
         {
             var messageEventDTOs = jsonObjectEvent[eventName].ToObject<EventDTO[]>();
-            var apps = jsonObjectEvent["apps"].ToObject<Dictionary<string, App>>();
+            var apps = jsonObjectEvent["apps"]?.ToObject<Dictionary<string, App>>();
 
             messageEventDTOs.ForEach(messageEventDTO =>
             {
                 App app = null;
 
-                if (messageEventDTO.MessageCreate.SourceAppId != null)
+                if (messageEventDTO.MessageCreate.SourceAppId != null && apps != null)
                 {
                     apps.TryGetValue(messageEventDTO.MessageCreate.SourceAppId.ToString(), out app);
                 }
