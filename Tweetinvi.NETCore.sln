@@ -25,8 +25,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Examplinvi.NETStandard", "E
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Examples", "Examples", "{BF17EF93-A82C-43D8-813C-0DBBC53A8A80}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Testinvi", "Testinvi\Testinvi.csproj", "{BBD2D87F-E83B-4FE7-B4C7-3DAF61472D30}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Examplinvi.ASP.NET.Core", "Examplinvi.ASP.NET.Core\Examplinvi.ASP.NET.Core.csproj", "{F37A48F5-39DA-4FA2-8175-2EF291BC1202}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Examplinvi.NETStandard-2.0", "Examplinvi.NETStandard-2.0\Examplinvi.NETStandard-2.0.csproj", "{D3239412-8AA7-45E2-9BDE-BE82A3E50A67}"
