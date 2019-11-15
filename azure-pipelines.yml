@@ -10,7 +10,7 @@ pool:
   vmImage: 'windows-latest'
 
 variables:
-  solution: '/Tweetinvi.NETCore.sln'
+  solution: './Tweetinvi.NETCore.sln'
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
 
@@ -20,13 +20,6 @@ steps:
 - task: NuGetCommand@2
   inputs:
     restoreSolution: '$(solution)'
-
-- task: NuGetCommand@2
-  inputs:
-    command: 'restore'
-    restoreSolution: '$(solution)'
-    feedsToUse: 'select'
-    vstsFeed: '13b6a601-c306-4263-8ce3-16e2f135d5f0'
 
 - task: DotNetCoreCLI@2
   inputs:
