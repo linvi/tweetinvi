@@ -25,3 +25,12 @@ steps:
     inputs:
       command: "build"
       projects: "$(solution)"
+
+  - task: VSTest@2
+    inputs:
+      testSelector: 'testAssemblies'
+      testAssemblyVer2: |
+        **\xUnitinvi.dll
+        !**\*TestAdapter.dll
+        !**\obj\**
+      searchFolder: '$(System.DefaultWorkingDirectory)'
