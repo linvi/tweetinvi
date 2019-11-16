@@ -5,6 +5,7 @@
 
 trigger:
   - master
+  - AsyncClient
 
 pool:
   vmImage: "windows-latest"
@@ -16,21 +17,27 @@ variables:
 
 steps:
   - task: NuGetToolInstaller@1
+    displayName: Installing nuget
 
   - task: NuGetCommand@2
+    displayName: dotnet restore
     inputs:
       restoreSolution: "$(solution)"
 
   - task: DotNetCoreCLI@2
+    displayName: Build solution
     inputs:
       command: "build"
       projects: "$(solution)"
 
-  - task: VSTest@2
+  - task: DotNetCoreCLI@2
+    displayName: Run Tests
     inputs:
-      testSelector: 'testAssemblies'
-      testAssemblyVer2: |
-        **\xUnitinvi.dll
-        !**\*TestAdapter.dll
-        !**\obj\**
-      searchFolder: '$(System.DefaultWorkingDirectory)'
+      command: test
+      arguments: $(solution) /p:CollectCoverage=true /p:CoverletOutputFormat="cobertura" /p:CoverletOutput=../lcov
+
+  - task: PublishCodeCoverageResults@1
+    displayName: "Publish code coverage"
+    inputs:
+      codeCoverageTool: Cobertura
+      summaryFileLocation: $(Build.SourcesDirectory)/Tests/lcov.cobertura.xml

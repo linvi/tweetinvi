@@ -3,6 +3,10 @@
 /Developer Tools/TweetinviAPI/lib
 /Developer Tools/tweetinvi.certificate.p12
 /Examplinvi.Web/App_Data
+
+coverage.json
+lcov.cobertura.xml
+
 *.zip
 /Examplinvi.UniversalApp/Examplinvi.UniversalApp.nuget.targets
 /Developer Tools/OpenSSL
