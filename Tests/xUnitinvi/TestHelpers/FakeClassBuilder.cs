@@ -13,9 +13,11 @@ namespace xUnitinvi.TestHelpers
     {
         private readonly IContainer _container;
         private readonly ContainerBuilder _containerBuilder;
+        private readonly FakeRepository _fakeRepository;
 
         public FakeClassBuilder(params string[] parametersToIgnore)
         {
+            _fakeRepository = new FakeRepository();
             _containerBuilder = new ContainerBuilder();
             InitializeContainer(parametersToIgnore);
             _container = _containerBuilder.Build();
@@ -40,7 +42,7 @@ namespace xUnitinvi.TestHelpers
                     var fakeObjectProperty = parameterFakeType.GetProperty("FakedObject", t, new Type[0]);
                     var fakeInstance = Activator.CreateInstance(parameterFakeType);
                     var objectInstance = fakeObjectProperty.GetValue(fakeInstance, null);
-                    FakeRepository.RegisterFake(fakeInstance, objectInstance);
+                    _fakeRepository.RegisterFake(fakeInstance, objectInstance);
 
                     _containerBuilder.RegisterInstance(objectInstance).As(t).ExternallyOwned();
                 }
@@ -65,7 +67,7 @@ namespace xUnitinvi.TestHelpers
         public Fake<T1> GetFake<T1>() where T1 : class
         {
             var fakeObject = _container.Resolve<T1>();
-            return FakeRepository.GetFake(fakeObject);
+            return _fakeRepository.GetFake(fakeObject);
         }
 
         public T GenerateClass(params IConstructorNamedParameter[] parameters)
