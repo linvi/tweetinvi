@@ -1,13 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using FakeItEasy;
 using Tweetinvi;
 using Tweetinvi.Controllers.Shared;
 using Tweetinvi.Controllers.Timeline;
-using Tweetinvi.Controllers.Tweet;
 using Tweetinvi.Core.Injectinvi;
 using Tweetinvi.Core.QueryGenerators;
-using Tweetinvi.Models;
 using Tweetinvi.Parameters;
 using Xunit;
 using xUnitinvi.TestHelpers;

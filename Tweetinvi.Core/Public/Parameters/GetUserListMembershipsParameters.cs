@@ -1,6 +1,4 @@
-﻿using Tweetinvi.Core.Public.Parameters;
-
-namespace Tweetinvi.Parameters
+﻿namespace Tweetinvi.Parameters
 {
     /// <summary>
     /// For more description visit : https://developer.twitter.com/en/docs/accounts-and-users/create-manage-lists/api-reference/get-lists-memberships

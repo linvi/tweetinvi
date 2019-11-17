@@ -43,6 +43,7 @@ steps:
       summaryFileLocation: $(Build.SourcesDirectory)/Tests/lcov.cobertura.xml
 
   - task: ResharperCli@2
+    continueOnError: true
     inputs:
       solutionOrProjectPath: "$(solution)"
       additionalArguments: "/disable-settings-layers:SolutionPersonal --properties:Configuration=$(buildConfiguration)"

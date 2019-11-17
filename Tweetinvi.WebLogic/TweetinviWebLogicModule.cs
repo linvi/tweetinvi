@@ -1,6 +1,5 @@
 ﻿using Tweetinvi.Core.Helpers;
 using Tweetinvi.Core.Injectinvi;
-using Tweetinvi.Core.Public.Parameters;
 using Tweetinvi.Core.Web;
 using Tweetinvi.Models;
 using Tweetinvi.Parameters;

@@ -1,7 +1,6 @@
 ﻿using Tweetinvi.Client;
 using Tweetinvi.Core.Client;
 using Tweetinvi.Core.Client.Validators;
-using Tweetinvi.Exceptions;
 using Tweetinvi.Models;
 
 // ReSharper disable once CheckNamespace

@@ -1,4 +1,3 @@
-using Tweetinvi.Exceptions;
 using Tweetinvi.Parameters;
 
 namespace Tweetinvi.Core.Client.Validators

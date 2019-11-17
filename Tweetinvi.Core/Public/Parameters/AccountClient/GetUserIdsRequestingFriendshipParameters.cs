@@ -1,5 +1,3 @@
-using Autofac;
-
 namespace Tweetinvi.Parameters
 {
     /// <summary>

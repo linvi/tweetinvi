@@ -1,6 +1,4 @@
-﻿using Newtonsoft.Json;
-using Tweetinvi.Logic.JsonConverters;
-using Tweetinvi.Models;
+﻿using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
 
 namespace Tweetinvi.Logic.QueryParameters

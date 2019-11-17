@@ -1,8 +1,5 @@
-﻿using System;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Tweetinvi;
-using Tweetinvi.Core.Extensions;
 using Tweetinvi.Core.Public.Models.Authentication;
 using Tweetinvi.Core.Public.Models.Interfaces.DTO.Webhooks;
 using Tweetinvi.Models;

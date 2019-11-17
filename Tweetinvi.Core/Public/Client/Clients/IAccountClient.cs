@@ -1,10 +1,7 @@
 using System.Threading.Tasks;
 using Tweetinvi.Core.Client.Validators;
-using Tweetinvi.Core.Iterators;
-using Tweetinvi.Core.Web;
 using Tweetinvi.Iterators;
 using Tweetinvi.Models;
-using Tweetinvi.Models.DTO.QueryDTO;
 using Tweetinvi.Parameters;
 
 namespace Tweetinvi.Client

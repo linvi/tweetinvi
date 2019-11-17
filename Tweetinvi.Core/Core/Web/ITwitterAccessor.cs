@@ -4,13 +4,10 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using Tweetinvi.Core.Helpers;
 using Tweetinvi.Core.Models;
 using Tweetinvi.Core.Public.Models.Authentication;
-using Tweetinvi.Core.Public.Parameters;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO.QueryDTO;
-using Tweetinvi.Models.Interfaces;
 using Tweetinvi.Parameters;
 using HttpMethod = Tweetinvi.Models.HttpMethod;
 

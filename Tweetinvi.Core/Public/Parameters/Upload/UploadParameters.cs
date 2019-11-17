@@ -1,6 +1,4 @@
-﻿using Tweetinvi.Core.Public.Parameters;
-
-namespace Tweetinvi.Parameters
+﻿namespace Tweetinvi.Parameters
 {
     /// <summary>
     /// For more description visit : https://dev.twitter.com/rest/media/uploading-media

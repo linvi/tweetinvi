@@ -1,7 +1,4 @@
-﻿using Tweetinvi.Core;
-using Tweetinvi.Core.Client;
-using Tweetinvi.Core.Controllers;
-using Tweetinvi.Core.Factories;
+﻿using Tweetinvi.Core.Factories;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
 

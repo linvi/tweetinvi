@@ -5,7 +5,6 @@ using Tweetinvi.Core.Controllers;
 using Tweetinvi.Core.Core.Parameters;
 using Tweetinvi.Core.Factories;
 using Tweetinvi.Core.Parameters;
-using Tweetinvi.Core.Public.Parameters;
 using Tweetinvi.Core.QueryGenerators;
 using Tweetinvi.Logic.QueryParameters;
 using Tweetinvi.Models;

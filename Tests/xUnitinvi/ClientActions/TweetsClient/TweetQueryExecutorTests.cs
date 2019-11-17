@@ -2,7 +2,6 @@
 using FakeItEasy;
 using Tweetinvi;
 using Tweetinvi.Controllers.Tweet;
-using Tweetinvi.Core.Iterators;
 using Tweetinvi.Core.QueryGenerators;
 using Tweetinvi.Core.Web;
 using Tweetinvi.Models;

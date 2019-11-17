@@ -1,5 +1,4 @@
 using System;
-using System.Text;
 using Tweetinvi.Core.QueryValidators;
 using Tweetinvi.Parameters;
 
