@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using Tweetinvi.Core.Injectinvi;
-using Tweetinvi.WebhooksShared;
+using Tweetinvi.Modules;
 
 namespace Tweetinvi
 {

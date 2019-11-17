@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Internal;
-using Tweetinvi.WebhooksShared.Core.Logic;
+using Tweetinvi.Core.Logic;
 
 namespace Tweetinvi.AspNet
 {

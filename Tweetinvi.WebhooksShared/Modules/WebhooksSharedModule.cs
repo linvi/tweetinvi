@@ -1,8 +1,7 @@
-﻿using Tweetinvi.AspNet;
-using Tweetinvi.Core.Injectinvi;
+﻿using Tweetinvi.Core.Injectinvi;
 using Tweetinvi.Core.Logic;
 
-namespace Tweetinvi.WebhooksShared
+namespace Tweetinvi.Modules
 {
     public class WebhooksSharedModule : ITweetinviModule
     {

@@ -14,16 +14,14 @@ namespace xUnitinvi.IntegrationTests
     public class TweetsIntegrationTests
     {
         private readonly ITestOutputHelper _logger;
-        private readonly ITwitterClient PublicClient;
-        private readonly ITwitterClient ProtectedClient;
+        private readonly ITwitterClient _protectedClient;
 
         public TweetsIntegrationTests(ITestOutputHelper logger)
         {
             _logger = logger;
             _logger.WriteLine(DateTime.Now.ToLongTimeString());
 
-            PublicClient = new TwitterClient(IntegrationTestConfig.TweetinviTestCredentials);
-            ProtectedClient = new TwitterClient(IntegrationTestConfig.ProtectedUserCredentials);
+            _protectedClient = new TwitterClient(IntegrationTestConfig.ProtectedUserCredentials);
 
             TweetinviEvents.QueryBeforeExecute += (sender, args) => { _logger.WriteLine(args.Url); };
         }
@@ -48,25 +46,25 @@ namespace xUnitinvi.IntegrationTests
 
         private async Task CreateReadDelete()
         {
-            var sourceTweet = await ProtectedClient.Tweets.GetTweet(979753598446948353);
+            var sourceTweet = await _protectedClient.Tweets.GetTweet(979753598446948353);
 
-            var quotingTweet1 = await ProtectedClient.Tweets.PublishTweet(new PublishTweetParameters("tweetinvi 3.0!")
+            var quotingTweet1 = await _protectedClient.Tweets.PublishTweet(new PublishTweetParameters("tweetinvi 3.0!")
             {
                 QuotedTweetUrl = "https://twitter.com/TweetinviApi/status/979753598446948353",
             });
 
-            var quotingTweet2 = await ProtectedClient.Tweets.PublishTweet(new PublishTweetParameters("Tweetinvi 3 v2!")
+            var quotingTweet2 = await _protectedClient.Tweets.PublishTweet(new PublishTweetParameters("Tweetinvi 3 v2!")
             {
                 QuotedTweet = sourceTweet
             });
 
-            var replyTweet = await ProtectedClient.Tweets.PublishTweet(new PublishTweetParameters("Tweetinvi 3 v2!")
+            var replyTweet = await _protectedClient.Tweets.PublishTweet(new PublishTweetParameters("Tweetinvi 3 v2!")
             {
                 InReplyToTweetId = sourceTweet.Id,
                 AutoPopulateReplyMetadata = true
             });
 
-            var fullTweet = await ProtectedClient.Tweets.PublishTweet(new PublishTweetParameters("#tweetinvi and https://github.com/linvi/tweetinvi Full Tweet!")
+            var fullTweet = await _protectedClient.Tweets.PublishTweet(new PublishTweetParameters("#tweetinvi and https://github.com/linvi/tweetinvi Full Tweet!")
             {
                 Coordinates = new Coordinates(37.7821120598956, -122.400612831116),
                 DisplayExactCoordinates = true,
@@ -75,7 +73,7 @@ namespace xUnitinvi.IntegrationTests
             });
 
             var tweetinviLogoBinary = File.ReadAllBytes("./tweetinvi-logo-purple.png");
-            var tweetWithMedia = await ProtectedClient.Tweets.PublishTweet(new PublishTweetParameters("tweet with media")
+            var tweetWithMedia = await _protectedClient.Tweets.PublishTweet(new PublishTweetParameters("tweet with media")
             {
                 MediaBinaries = { tweetinviLogoBinary },
                 PossiblySensitive = true,
@@ -90,13 +88,13 @@ namespace xUnitinvi.IntegrationTests
                 tweetWithMedia
             };
 
-            var allTweets = await ProtectedClient.Tweets.GetTweets(allTweetIdentifiers);
+            var allTweets = await _protectedClient.Tweets.GetTweets(allTweetIdentifiers);
 
-            var quotingTweet1DestroySuccess = await ProtectedClient.Tweets.DestroyTweet(quotingTweet1);
-            var quotingTweet2DestroySuccess = await ProtectedClient.Tweets.DestroyTweet(quotingTweet2);
-            var replyTweetDestroy = await ProtectedClient.Tweets.DestroyTweet(replyTweet);
-            var fullTweetDestroy = await ProtectedClient.Tweets.DestroyTweet(fullTweet);
-            var withMediaDestroy = await ProtectedClient.Tweets.DestroyTweet(tweetWithMedia);
+            var quotingTweet1DestroySuccess = await _protectedClient.Tweets.DestroyTweet(quotingTweet1);
+            var quotingTweet2DestroySuccess = await _protectedClient.Tweets.DestroyTweet(quotingTweet2);
+            var replyTweetDestroy = await _protectedClient.Tweets.DestroyTweet(replyTweet);
+            var fullTweetDestroy = await _protectedClient.Tweets.DestroyTweet(fullTweet);
+            var withMediaDestroy = await _protectedClient.Tweets.DestroyTweet(tweetWithMedia);
 
             // ASSERT
             Assert.Equal(979753598446948353, quotingTweet1.QuotedStatusId);
@@ -129,21 +127,21 @@ namespace xUnitinvi.IntegrationTests
         {
             var tweetId = 979753598446948353;
 
-            var sourceTweet = await ProtectedClient.Tweets.GetTweet(tweetId);
-            var retweet = await ProtectedClient.Tweets.PublishRetweet(sourceTweet);
-            var sourceRetweets = await ProtectedClient.Tweets.GetRetweets(sourceTweet);
-            var tweetAfterRetweet = await ProtectedClient.Tweets.GetTweet(tweetId);
+            var sourceTweet = await _protectedClient.Tweets.GetTweet(tweetId);
+            var retweet = await _protectedClient.Tweets.PublishRetweet(sourceTweet);
+            var sourceRetweets = await _protectedClient.Tweets.GetRetweets(sourceTweet);
+            var tweetAfterRetweet = await _protectedClient.Tweets.GetTweet(tweetId);
 
             var allRetweeterIdsBefore = new List<long>();
 
-            var retweeterIdsBeforeIterator = ProtectedClient.Tweets.GetRetweeterIdsIterator(tweetId);
+            var retweeterIdsBeforeIterator = _protectedClient.Tweets.GetRetweeterIdsIterator(tweetId);
             while (!retweeterIdsBeforeIterator.Completed)
             {
                 allRetweeterIdsBefore.AddRange(await retweeterIdsBeforeIterator.MoveToNextPage());
             }
 
-            await ProtectedClient.Tweets.DestroyRetweet(retweet);
-            var tweetAfterDestroy = await ProtectedClient.Tweets.GetTweet(tweetId);
+            await _protectedClient.Tweets.DestroyRetweet(retweet);
+            var tweetAfterDestroy = await _protectedClient.Tweets.GetTweet(tweetId);
 
             // assert
             Assert.Equal(tweetAfterRetweet.RetweetCount, sourceTweet.RetweetCount + 1);

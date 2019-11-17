@@ -13,13 +13,13 @@ namespace xUnitinvi.IntegrationTests
     public class AccountSettingsIntegrationTests
     {
         private readonly ITestOutputHelper _logger;
-        private readonly ITwitterClient Client;
+        private readonly ITwitterClient _client;
 
         public AccountSettingsIntegrationTests(ITestOutputHelper logger)
         {
             _logger = logger;
             _logger.WriteLine(DateTime.Now.ToLongTimeString());
-            Client = new TwitterClient(IntegrationTestConfig.ProtectedUserCredentials);
+            _client = new TwitterClient(IntegrationTestConfig.ProtectedUserCredentials);
             
             TweetinviEvents.QueryBeforeExecute += (sender, args) => { _logger.WriteLine(args.Url); };
         }
@@ -49,14 +49,14 @@ namespace xUnitinvi.IntegrationTests
         private async Task ChangeImagesTests()
         {
             // act
-            var authenticatedUser = await Client.Account.GetAuthenticatedUser();
+            var authenticatedUser = await _client.Account.GetAuthenticatedUser();
             var profile = File.ReadAllBytes("./tweetinvi-logo-purple.png");
             var banner = File.ReadAllBytes("./banner.jpg");
-            await Client.AccountSettings.UpdateProfileImage(profile);
-            await Client.AccountSettings.UpdateProfileBanner(banner);
-            var userAfterAddingBanner = await Client.Users.GetUser(authenticatedUser);
-            await Client.AccountSettings.RemoveProfileBanner();
-            var userAfterRemovingBanner = await Client.Users.GetUser(authenticatedUser);
+            await _client.AccountSettings.UpdateProfileImage(profile);
+            await _client.AccountSettings.UpdateProfileBanner(banner);
+            var userAfterAddingBanner = await _client.Users.GetUser(authenticatedUser);
+            await _client.AccountSettings.RemoveProfileBanner();
+            var userAfterRemovingBanner = await _client.Users.GetUser(authenticatedUser);
 
             // assert
             Assert.NotEqual(authenticatedUser.ProfileImageUrl, userAfterAddingBanner.ProfileImageUrl);
@@ -66,7 +66,7 @@ namespace xUnitinvi.IntegrationTests
 
         private async Task AccountProfileTests()
         {
-            var initialProfile = await Client.Account.GetAuthenticatedUser();
+            var initialProfile = await _client.Account.GetAuthenticatedUser();
 
             // act
             var updatedProfileParameters = new UpdateProfileParameters
@@ -78,7 +78,7 @@ namespace xUnitinvi.IntegrationTests
                 ProfileLinkColor = "F542B9"
             };
 
-            var newProfile = await Client.AccountSettings.UpdateProfile(updatedProfileParameters);
+            var newProfile = await _client.AccountSettings.UpdateProfile(updatedProfileParameters);
             
             var restoredProfileParameters = new UpdateProfileParameters
             {
@@ -89,7 +89,7 @@ namespace xUnitinvi.IntegrationTests
                 ProfileLinkColor = initialProfile.ProfileLinkColor
             };
 
-            var restoredProfile = await Client.AccountSettings.UpdateProfile(restoredProfileParameters);
+            var restoredProfile = await _client.AccountSettings.UpdateProfile(restoredProfileParameters);
             
             // assert
             Assert.Equal($"{initialProfile.Name}_42", newProfile.Name);
@@ -115,7 +115,7 @@ namespace xUnitinvi.IntegrationTests
 
         private async Task AccountSettingsTests()
         {
-            var initialSettings = await Client.AccountSettings.GetAccountSettings();
+            var initialSettings = await _client.AccountSettings.GetAccountSettings();
 
             var newSettings = new UpdateAccountSettingsParameters
             {
@@ -127,9 +127,9 @@ namespace xUnitinvi.IntegrationTests
                 TrendLocationWoeid = 580778
             };
 
-            var updatedSettings = await Client.AccountSettings.UpdateAccountSettings(newSettings);
+            var updatedSettings = await _client.AccountSettings.UpdateAccountSettings(newSettings);
 
-            var recoveredSettings = await Client.AccountSettings.UpdateAccountSettings(new UpdateAccountSettingsParameters
+            var recoveredSettings = await _client.AccountSettings.UpdateAccountSettings(new UpdateAccountSettingsParameters
             {
                 DisplayLanguage = initialSettings.Language,
                 TimeZone = initialSettings.TimeZone.TzinfoName,

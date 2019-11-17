@@ -17,12 +17,10 @@ namespace xUnitinvi.ClientActions.TimelineClient
         public TimelineControllerTests()
         {
             _fakeBuilder = new FakeClassBuilder<TimelineController>();
-            _fakeTimelineQueryExecutor = _fakeBuilder.GetFake<ITimelineQueryExecutor>().FakedObject;
             _fakePageCursorIteratorFactories = _fakeBuilder.GetFake<IPageCursorIteratorFactories>().FakedObject;
         }
 
         private readonly FakeClassBuilder<TimelineController> _fakeBuilder;
-        private readonly ITimelineQueryExecutor _fakeTimelineQueryExecutor;
         private readonly IPageCursorIteratorFactories _fakePageCursorIteratorFactories;
 
         private TimelineController CreateTimelineController()
@@ -34,7 +32,7 @@ namespace xUnitinvi.ClientActions.TimelineClient
         public void GetRetweetsOfMeTimeline_ReturnsFromPageCursorIteratorFactories()
         {
             // arrange
-            var parameters = new GetRetweetsOfMeTimelineParameters() { PageSize = 2 };
+            var parameters = new GetRetweetsOfMeTimelineParameters { PageSize = 2 };
             var request = A.Fake<ITwitterRequest>();
             var expectedResult = A.Fake<ITwitterPageIterator<ITwitterResult<ITweetDTO[]>, long?>>();
 

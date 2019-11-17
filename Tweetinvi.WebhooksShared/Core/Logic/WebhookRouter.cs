@@ -2,10 +2,8 @@
 using Tweetinvi.Core.Public.Streaming.Webhooks;
 using Tweetinvi.Models;
 using Tweetinvi.Models.Webhooks;
-using Tweetinvi.Core.Logic;
-using Tweetinvi.WebhooksShared.Core.Logic;
 
-namespace Tweetinvi.AspNet
+namespace Tweetinvi.Core.Logic
 {
     public interface IWebhookRouter
     {

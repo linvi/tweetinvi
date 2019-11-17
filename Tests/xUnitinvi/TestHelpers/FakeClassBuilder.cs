@@ -41,6 +41,12 @@ namespace xUnitinvi.TestHelpers
                     var parameterFakeType = fakeType.MakeGenericType(t);
                     var fakeObjectProperty = parameterFakeType.GetProperty("FakedObject", t, new Type[0]);
                     var fakeInstance = Activator.CreateInstance(parameterFakeType);
+
+                    if (fakeObjectProperty == null)
+                    {
+                        throw new Exception($"Could not create a FakeObject for type {t.FullName}");
+                    }
+                    
                     var objectInstance = fakeObjectProperty.GetValue(fakeInstance, null);
                     _fakeRepository.RegisterFake(fakeInstance, objectInstance);
 
@@ -55,7 +61,7 @@ namespace xUnitinvi.TestHelpers
             _containerBuilder.RegisterType<T>();
         }
 
-        private ConstructorInfo GetInjectionConstructor()
+        private static ConstructorInfo GetInjectionConstructor()
         {
             var constructors = typeof(T).GetConstructors();
             return constructors.FirstOrDefault();

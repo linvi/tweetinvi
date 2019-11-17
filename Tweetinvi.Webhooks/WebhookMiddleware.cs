@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
+using Tweetinvi.Core.Logic;
 using Tweetinvi.Models;
 
 namespace Tweetinvi.AspNet

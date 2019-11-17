@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Tweetinvi.WebhooksShared.Core.Logic
+namespace Tweetinvi.Core.Logic
 {
     public interface IWebhooksRequestInfoRetriever
     {

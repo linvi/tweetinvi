@@ -6,13 +6,12 @@ using System.Security.Cryptography;
 using Tweetinvi.Core.Models;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
-using Tweetinvi.WebhooksShared.Core.Logic;
 
 namespace Tweetinvi.Core.Logic
 {
     public interface IWebhooksHelper
     {
-        CRCResponseTokenInfo CreateCRCResponseToken(string message, string secret);
+        CrcResponseTokenInfo CreateCRCResponseToken(string message, string secret);
         IEnumerable<IWebhookDTO> GetWebhooksMatching(IWebhooksRequestInfoRetriever request, IWebhookConfiguration configuration);
         bool IsCrcChallenge(IWebhooksRequestInfoRetriever request);
         bool IsRequestManagedByTweetinvi(IWebhooksRequestInfoRetriever request, IWebhookConfiguration configuration);
@@ -69,7 +68,7 @@ namespace Tweetinvi.Core.Logic
             return crcToken.Any();
         }
 
-        public CRCResponseTokenInfo CreateCRCResponseToken(string message, string secret)
+        public CrcResponseTokenInfo CreateCRCResponseToken(string message, string secret)
         {
             var encoding = new System.Text.ASCIIEncoding();
             byte[] keyByte = encoding.GetBytes(secret);
@@ -87,7 +86,7 @@ namespace Tweetinvi.Core.Logic
 
                 var crcResponseJson = JsonConvert.SerializeObject(response);
 
-                return new CRCResponseTokenInfo()
+                return new CrcResponseTokenInfo()
                 {
                    Json = crcResponseJson,
                    CrcResponseToken = crcResponseToken

@@ -17,7 +17,7 @@ namespace Tweetinvi.Models
 
     public class RegistrableWebhookEnvironment : IRegistrableWebhookEnvironment
     {
-        private List<IWebhookDTO> _webhooks;
+        private readonly List<IWebhookDTO> _webhooks;
 
         public RegistrableWebhookEnvironment()
         {
@@ -32,10 +32,7 @@ namespace Tweetinvi.Models
 
         public string Name { get; set; }
 
-        public IWebhookDTO[] Webhooks
-        {
-            get { return _webhooks.ToArray(); }
-        }
+        public IWebhookDTO[] Webhooks => _webhooks.ToArray();
 
         public IConsumerCredentials Credentials { get; set; }
 

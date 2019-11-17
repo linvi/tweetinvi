@@ -27,7 +27,7 @@ namespace xUnitinvi.IntegrationTests
         }
         
 //        [Fact]
-        [Fact(Skip = "IntegrationTests")]
+        [Fact(Skip = "This is an integration test")]
         public async Task RunAllAccountTests()
         {
             if (!IntegrationTestConfig.ShouldRunIntegrationTests)

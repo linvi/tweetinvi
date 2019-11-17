@@ -1,10 +1,8 @@
 ﻿using System.Threading.Tasks;
 using Tweetinvi.Core.Extensions;
 using Tweetinvi.Models;
-using Tweetinvi.Core.Logic;
-using Tweetinvi.WebhooksShared.Core.Logic;
 
-namespace Tweetinvi.AspNet
+namespace Tweetinvi.Core.Logic
 {
     public interface IWebhooksRoutes
     {
@@ -38,7 +36,7 @@ namespace Tweetinvi.AspNet
         {
             var crcResponseInfo = _webhooksHelper.CreateCRCResponseToken(crcToken, credentials.ConsumerSecret);
 
-            await requestHandler.WriteInResponseAsync(crcResponseInfo.Json, crcResponseInfo.ContenType);
+            await requestHandler.WriteInResponseAsync(crcResponseInfo.Json, crcResponseInfo.ContentType);
         } 
     }
 }

@@ -154,7 +154,7 @@ namespace xUnitinvi.ClientActions.UsersClient
             var url = TestHelper.GenerateString();
             var request = A.Fake<ITwitterRequest>();
 
-            var parameter = new GetProfileImageParameters("url");
+            var parameter = new GetProfileImageParameters("some url");
 
             A.CallTo(() => _fakeUserQueryGenerator.DownloadProfileImageURL(parameter)).Returns(url);
             A.CallTo(() => _fakeWebHelper.GetResponseStreamAsync(request)).Returns(stream);

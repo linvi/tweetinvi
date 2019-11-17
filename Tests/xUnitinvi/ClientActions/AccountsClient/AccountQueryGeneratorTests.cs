@@ -1,11 +1,9 @@
 ﻿using System;
-using FakeItEasy;
 using Tweetinvi;
 using Tweetinvi.Controllers.Account;
 using Tweetinvi.Controllers.Shared;
 using Tweetinvi.Core.Injectinvi;
 using Tweetinvi.Core.QueryGenerators;
-using Tweetinvi.Core.QueryValidators;
 using Tweetinvi.Models;
 using Tweetinvi.Parameters;
 using Xunit;
@@ -21,7 +19,6 @@ namespace xUnitinvi.ClientActions.AccountsClient
         }
 
         private readonly FakeClassBuilder<AccountQueryGenerator> _fakeBuilder;
-        private readonly Fake<IUserQueryValidator> _fakeUserQueryValidator;
 
         private AccountQueryGenerator CreateAccountQueryGenerator()
         {
