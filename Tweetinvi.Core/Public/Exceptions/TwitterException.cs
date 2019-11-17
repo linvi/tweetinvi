@@ -56,22 +56,21 @@ namespace Tweetinvi.Exceptions
     {
         public const int DEFAULT_STATUS_CODE = -1;
 
-        public virtual WebException WebException { get; protected set; }
-        public virtual string URL { get; set; }
-        public virtual int StatusCode { get; protected set; }
+        public virtual WebException WebException { get; }
+        public virtual string URL { get; }
+        public virtual int StatusCode { get; }
         public virtual string TwitterDescription { get; protected set; }
-        public virtual DateTime CreationDate { get; protected set; }
-        public virtual IEnumerable<ITwitterExceptionInfo> TwitterExceptionInfos { get; protected set; }
-        public virtual ITwitterQuery TwitterQuery { get; protected set; }
-        public virtual ITwitterRequest Request { get; protected set; }
-
+        public virtual DateTime CreationDate { get; }
+        public virtual IEnumerable<ITwitterExceptionInfo> TwitterExceptionInfos { get; }
+        public virtual ITwitterQuery TwitterQuery { get; }
+        public virtual ITwitterRequest Request { get; }
 
         protected TwitterException(ITwitterRequest request, string message) : base(message)
         {
             Request = request;
             CreationDate = DateTime.Now;
-            URL = Request.Query.Url;
-            TwitterQuery = Request.Query;
+            URL = request.Query.Url;
+            TwitterQuery = request.Query;
         }
 
         private TwitterException(ITwitterRequest request) : this(request, $"{request.Query.Url} request failed.")
