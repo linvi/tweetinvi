@@ -1,5 +1,5 @@
 Param(
-    $v = '4.0.2', # Version number
+    $v = '4.0.3', # Version number
     $m = 'Release', # Visual Studio Build Mode
     [Switch]$dnr, # Do Not Rebuild 
     [Switch]$h, # Help
@@ -149,7 +149,7 @@ if (!$uv.IsPresent) {
     }
 
     # Move dll into temporary folder
-    Get-ChildItem -LiteralPath $netCoreExamplinviBin -filter *.dll  | % { Copy-Item $_.fullname $netCoreTemp }
+    Get-ChildItem -LiteralPath $netCoreExamplinviBin -filter *.dll | % { Copy-Item $_.fullname $netCoreTemp }
 
     cp $env:USERPROFILE\.nuget\packages\Newtonsoft.Json\10.0.2\lib\netstandard1.0\Newtonsoft.Json.dll $netCoreTemp
     cp $env:USERPROFILE\.nuget\packages\Autofac\4.6.0\lib\netstandard1.1\Autofac.dll $netCoreTemp

@@ -89,10 +89,10 @@ lib/portable-net45+wp80+win8+wpa81+dnxcore50
 cd Tweetinvi
 
 dotnet build -c Release -f netstandard1.4
-cp bin/Release/netstandard1.4/ ../Developer\ Tools/TweetinviAPI/lib/
+cp -r bin/Release/netstandard1.4/ ../Developer\ Tools/TweetinviAPI/lib/
 
 dotnet build -c Release -f netstandard2.0
-cp bin/Release/netstandard2.0/ ../Developer\ Tools/TweetinviAPI/lib/
+cp -r bin/Release/netstandard2.0/ ../Developer\ Tools/TweetinviAPI/lib/
 
 cd ../Developer\ Tools/TweetinviAPI/
 ../nuget.exe pack
