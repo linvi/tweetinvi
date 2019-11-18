@@ -14,7 +14,7 @@ namespace Tweetinvi.WebLogic
     {
         private readonly Action<ITwitterQuery, HttpRequestMessage> _action;
         private readonly Func<ITwitterQuery, HttpRequestMessage, string> _func;
-        protected readonly IOAuthWebRequestGenerator _webRequestGenerator;
+        protected IOAuthWebRequestGenerator WebRequestGenerator { get; }
 
         private ITwitterQuery _twitterQuery;
 
@@ -23,17 +23,15 @@ namespace Tweetinvi.WebLogic
             UseCookies = false;
             UseDefaultCredentials = false;
 
-            _webRequestGenerator = TweetinviCoreModule.TweetinviContainer.Resolve<IOAuthWebRequestGenerator>();
+            WebRequestGenerator = TweetinviCoreModule.TweetinviContainer.Resolve<IOAuthWebRequestGenerator>();
         }
 
-        public TwitterClientHandler(Action<ITwitterQuery, HttpRequestMessage> action)
-            : this()
+        public TwitterClientHandler(Action<ITwitterQuery, HttpRequestMessage> action) : this()
         {
             _action = action;
         }
 
-        public TwitterClientHandler(Func<ITwitterQuery, HttpRequestMessage, string> func)
-            : this()
+        public TwitterClientHandler(Func<ITwitterQuery, HttpRequestMessage, string> func) : this()
         {
             _func = func;
         }
@@ -93,10 +91,7 @@ namespace Tweetinvi.WebLogic
 
         protected virtual async Task<HttpResponseMessage> SendAsync(ITwitterQuery twitterQuery, HttpRequestMessage request, CancellationToken cancellationToken)
         {
-            if (_action != null)
-            {
-                _action(twitterQuery, request);
-            }
+            _action?.Invoke(twitterQuery, request);
 
             if (twitterQuery.AuthorizationHeader == null)
             {
@@ -106,7 +101,7 @@ namespace Tweetinvi.WebLogic
                 }
                 else
                 {
-                    await _webRequestGenerator.SetTwitterQueryAuthorizationHeader(twitterQuery).ConfigureAwait(false);
+                    await WebRequestGenerator.SetTwitterQueryAuthorizationHeader(twitterQuery).ConfigureAwait(false);
                 }
             }
 

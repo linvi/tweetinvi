@@ -30,9 +30,7 @@ namespace xUnitinvi.IntegrationTests
         public async Task RunAllTweets()
         {
             if (!IntegrationTestConfig.ShouldRunIntegrationTests)
-            {
                 return;
-            }
 
             _logger.WriteLine($"Starting {nameof(CreateReadDelete)}");
             await CreateReadDelete().ConfigureAwait(false);
@@ -43,9 +41,12 @@ namespace xUnitinvi.IntegrationTests
             _logger.WriteLine($"{nameof(Retweets)} succeeded");
         }
 
-
-        private async Task CreateReadDelete()
+        [Fact]
+        public async Task CreateReadDelete()
         {
+            if (!IntegrationTestConfig.ShouldRunIntegrationTests)
+                return;
+
             var sourceTweet = await _protectedClient.Tweets.GetTweet(979753598446948353);
 
             var quotingTweet1 = await _protectedClient.Tweets.PublishTweet(new PublishTweetParameters("tweetinvi 3.0!")
@@ -75,7 +76,7 @@ namespace xUnitinvi.IntegrationTests
             var tweetinviLogoBinary = File.ReadAllBytes("./tweetinvi-logo-purple.png");
             var tweetWithMedia = await _protectedClient.Tweets.PublishTweet(new PublishTweetParameters("tweet with media")
             {
-                MediaBinaries = { tweetinviLogoBinary },
+                MediaBinaries = {tweetinviLogoBinary},
                 PossiblySensitive = true,
             });
 
@@ -123,9 +124,13 @@ namespace xUnitinvi.IntegrationTests
             Assert.True(withMediaDestroy);
         }
 
-        private async Task Retweets()
+        [Fact]
+        public async Task Retweets()
         {
-            var tweetId = 979753598446948353;
+            if (!IntegrationTestConfig.ShouldRunIntegrationTests)
+                return;
+
+            const long tweetId = 979753598446948353;
 
             var sourceTweet = await _protectedClient.Tweets.GetTweet(tweetId);
             var retweet = await _protectedClient.Tweets.PublishRetweet(sourceTweet);

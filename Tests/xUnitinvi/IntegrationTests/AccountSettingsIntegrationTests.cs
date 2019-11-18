@@ -20,34 +20,35 @@ namespace xUnitinvi.IntegrationTests
             _logger = logger;
             _logger.WriteLine(DateTime.Now.ToLongTimeString());
             _client = new TwitterClient(IntegrationTestConfig.ProtectedUserCredentials);
-            
+
             TweetinviEvents.QueryBeforeExecute += (sender, args) => { _logger.WriteLine(args.Url); };
         }
 
-//        [Fact]
-        [Fact(Skip = "Integration Tests")]
+        [Fact]
         public async Task RunAllAccountSettings()
         {
             if (!IntegrationTestConfig.ShouldRunIntegrationTests)
-            {
                 return;
-            }
-            
+
             _logger.WriteLine($"Starting {nameof(ChangeImagesTests)}");
             await ChangeImagesTests().ConfigureAwait(false);
             _logger.WriteLine($"{nameof(ChangeImagesTests)} succeeded");
-            
+
             _logger.WriteLine($"Starting {nameof(AccountSettingsTests)}");
             await AccountSettingsTests().ConfigureAwait(false);
             _logger.WriteLine($"{nameof(AccountSettingsTests)} succeeded");
-            
+
             _logger.WriteLine($"Starting {nameof(AccountProfileTests)}");
             await AccountProfileTests().ConfigureAwait(false);
             _logger.WriteLine($"{nameof(AccountProfileTests)} succeeded");
         }
 
-        private async Task ChangeImagesTests()
+        [Fact]
+        public async Task ChangeImagesTests()
         {
+            if (!IntegrationTestConfig.ShouldRunIntegrationTests)
+                return;
+
             // act
             var authenticatedUser = await _client.Account.GetAuthenticatedUser();
             var profile = File.ReadAllBytes("./tweetinvi-logo-purple.png");
@@ -64,8 +65,12 @@ namespace xUnitinvi.IntegrationTests
             Assert.Null(userAfterRemovingBanner.ProfileBannerURL);
         }
 
-        private async Task AccountProfileTests()
+        [Fact]
+        public async Task AccountProfileTests()
         {
+            if (!IntegrationTestConfig.ShouldRunIntegrationTests)
+                return;
+
             var initialProfile = await _client.Account.GetAuthenticatedUser();
 
             // act
@@ -79,7 +84,7 @@ namespace xUnitinvi.IntegrationTests
             };
 
             var newProfile = await _client.AccountSettings.UpdateProfile(updatedProfileParameters);
-            
+
             var restoredProfileParameters = new UpdateProfileParameters
             {
                 Name = initialProfile.Name,
@@ -90,31 +95,35 @@ namespace xUnitinvi.IntegrationTests
             };
 
             var restoredProfile = await _client.AccountSettings.UpdateProfile(restoredProfileParameters);
-            
+
             // assert
             Assert.Equal($"{initialProfile.Name}_42", newProfile.Name);
             Assert.NotEqual(initialProfile.Name, newProfile.Name);
             Assert.Equal(initialProfile.Name, restoredProfile.Name);
-            
+
             Assert.Equal("new_desc", newProfile.Description);
             Assert.NotEqual(initialProfile.Description, updatedProfileParameters.Description);
             Assert.Equal(initialProfile.Description, newProfile.Description);
-            
+
             Assert.Equal("new_loc", newProfile.Location);
             Assert.NotEqual(initialProfile.Location, newProfile.Location);
             Assert.Equal(initialProfile.Location, restoredProfile.Location);
-            
+
             Assert.Equal("new_url", newProfile.Url);
             Assert.NotEqual(initialProfile.Url, newProfile.Url);
             Assert.Equal(initialProfile.Url, restoredProfile.Url);
-            
+
             Assert.Equal("blue", newProfile.ProfileLinkColor);
             Assert.NotEqual(initialProfile.ProfileLinkColor, newProfile.ProfileLinkColor);
             Assert.Equal(initialProfile.ProfileLinkColor, restoredProfile.ProfileLinkColor);
         }
 
-        private async Task AccountSettingsTests()
+        [Fact]
+        public async Task AccountSettingsTests()
         {
+            if (!IntegrationTestConfig.ShouldRunIntegrationTests)
+                return;
+
             var initialSettings = await _client.AccountSettings.GetAccountSettings();
 
             var newSettings = new UpdateAccountSettingsParameters

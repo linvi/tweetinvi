@@ -21,8 +21,8 @@ namespace Tweetinvi.Credentials.AuthHttpHandlers
 
         protected override Task<HttpResponseMessage> SendAsync(ITwitterQuery twitterQuery, HttpRequestMessage request, CancellationToken cancellationToken)
         {
-            var headers = _webRequestGenerator.GenerateApplicationParameters(twitterQuery.TwitterCredentials, _authenticationToken, new[] { _queryParameter });
-            twitterQuery.AuthorizationHeader = _webRequestGenerator.GenerateAuthorizationHeader(request.RequestUri, request.Method.ToTweetinviHttpMethod(), headers);
+            var headers = WebRequestGenerator.GenerateApplicationParameters(twitterQuery.TwitterCredentials, _authenticationToken, new[] { _queryParameter });
+            twitterQuery.AuthorizationHeader = WebRequestGenerator.GenerateAuthorizationHeader(request.RequestUri, request.Method.ToTweetinviHttpMethod(), headers);
 
             return base.SendAsync(request, cancellationToken, twitterQuery.AuthorizationHeader);
         }

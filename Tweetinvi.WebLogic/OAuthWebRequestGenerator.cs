@@ -36,100 +36,76 @@ namespace Tweetinvi.WebLogic
             IEnumerable<IOAuthQueryParameter> queryParameters,
             Dictionary<string, string> urlParameters)
         {
-            List<KeyValuePair<string, string>> signatureParameters = urlParameters.OrderBy(x => x.Key).ToList();
+            var oAuthQueryParameters = queryParameters.ToArray();
+            var signatureParameters = GetSignatureParameters(oAuthQueryParameters, urlParameters);
+            var formattedUrlParameters = CreateFormattedUrlParameters(signatureParameters);
+            var oAuthRequest = CreateOAuthRequest(uri, httpMethod, formattedUrlParameters);
+            var oAuthSecretKey = CreateOAuthSecretKey(oAuthQueryParameters);
 
-            #region Store the paramaters that will be used
+            var hmacsha1Generator = new HMACSHA1Generator();
+            return StringFormater.UrlEncode(Convert.ToBase64String(hmacsha1Generator.ComputeHash(oAuthRequest, oAuthSecretKey, Encoding.UTF8)));
+        }
 
-            // Add all the parameters that are required to generate a signature
-            var oAuthQueryParameters = queryParameters as IList<IOAuthQueryParameter> ?? queryParameters.ToList();
-            foreach (var header in (from h in oAuthQueryParameters
-                                    where h.RequiredForSignature
-                                    orderby h.Key
-                                    select h))
+        private static IEnumerable<KeyValuePair<string, string>> GetSignatureParameters(IEnumerable<IOAuthQueryParameter> queryParameters, Dictionary<string, string> urlParameters)
+        {
+            var signatureParameters = urlParameters.OrderBy(x => x.Key).ToList();
+            var queryParametersRequiredForSignature = queryParameters.Where(x => x.RequiredForSignature);
+
+            queryParametersRequiredForSignature.ForEach(x =>
             {
-                signatureParameters.Add(new KeyValuePair<string, string>(header.Key, header.Value));
-            }
+                signatureParameters.Add(new KeyValuePair<string, string>(x.Key, x.Value));
+            });
 
-            #endregion
+            return signatureParameters;
+        }
 
-            #region Generate OAuthRequest Parameters
+        private static string CreateFormattedUrlParameters(IEnumerable<KeyValuePair<string, string>> signatureParameters)
+        {
+            var orderedParameters = signatureParameters.OrderBy(x => x.Key);
+            return string.Join("&", orderedParameters.Select(x => $"{x.Key}={x.Value}"));
+        }
 
-            StringBuilder urlParametersFormatted = new StringBuilder();
-            foreach (KeyValuePair<string, string> param in (from p in signatureParameters orderby p.Key select p))
-            {
-                if (urlParametersFormatted.Length > 0)
-                {
-                    urlParametersFormatted.Append("&");
-                }
+        private static string CreateOAuthSecretKey(IEnumerable<IOAuthQueryParameter> oAuthQueryParameters)
+        {
+            var oAuthSecretKeyHeaders = oAuthQueryParameters.Where(x => x.IsPartOfOAuthSecretKey)
+                .OrderBy(x => x.Key)
+                .Select(x => StringFormater.UrlEncode(x.Value));
 
-                urlParametersFormatted.Append($"{param.Key}={param.Value}");
-            }
+            return string.Join("&", oAuthSecretKeyHeaders);
+        }
 
-            #endregion
+        private static string CreateOAuthRequest(Uri uri, HttpMethod httpMethod, string urlParametersFormatted)
+        {
+            var url = uri.Query == "" ? uri.AbsoluteUri : uri.AbsoluteUri.Replace(uri.Query, "");
+            var encodedUrl = StringFormater.UrlEncode(url);
+            var encodedParameters = StringFormater.UrlEncode(urlParametersFormatted);
 
-            #region Generate OAuthRequest
-
-            string url = uri.Query == "" ? uri.AbsoluteUri : uri.AbsoluteUri.Replace(uri.Query, "");
-
-            string oAuthRequest = string.Format("{0}&{1}&{2}",
-                httpMethod,
-                StringFormater.UrlEncode(url),
-                StringFormater.UrlEncode(urlParametersFormatted.ToString()));
-
-            #endregion
-
-            #region Generate OAuthSecretKey
-            // Generate OAuthSecret that is required to generate a signature
-            IEnumerable<IOAuthQueryParameter> oAuthSecretKeyHeaders = from h in oAuthQueryParameters
-                                                                      where h.IsPartOfOAuthSecretKey
-                                                                      orderby h.Key
-                                                                      select h;
-            string oAuthSecretkey = "";
-
-            for (int i = 0; i < oAuthSecretKeyHeaders.Count(); ++i)
-            {
-                oAuthSecretkey += string.Format("{0}{1}",
-                    StringFormater.UrlEncode(oAuthSecretKeyHeaders.ElementAt(i).Value),
-                    (i == oAuthSecretKeyHeaders.Count() - 1) ? "" : "&");
-            }
-
-            #endregion
-
-            // Create and return signature
-
-            HMACSHA1Generator hmacsha1Generator = new HMACSHA1Generator();
-            return StringFormater.UrlEncode(Convert.ToBase64String(hmacsha1Generator.ComputeHash(oAuthRequest, oAuthSecretkey, Encoding.UTF8)));
+            return $"{httpMethod}&{encodedUrl}&{encodedParameters}";
         }
 
         private string GenerateHeader(
             Uri uri,
             HttpMethod httpMethod,
-            List<IOAuthQueryParameter> queryParameters,
+            ICollection<IOAuthQueryParameter> queryParameters,
             Dictionary<string, string> urlParameters)
         {
-            string signature = GenerateSignature(uri, httpMethod, queryParameters, urlParameters);
-
-            IOAuthQueryParameter oAuthSignature = new OAuthQueryParameter("oauth_signature", signature, false, false, false);
+            var signature = GenerateSignature(uri, httpMethod, queryParameters, urlParameters);
+            var oAuthSignature = new OAuthQueryParameter("oauth_signature", signature, false, false, false);
             queryParameters.Add(oAuthSignature);
 
-            StringBuilder header = new StringBuilder("OAuth ");
+            var parametersFormattedForHeader = CreateParametersFormattedForHeader(queryParameters);
+            var headerSignature = $"oauth_signature=\"{signature}\"";
 
-            foreach (var param in (from p in queryParameters
-                                   where p.RequiredForHeader
-                                   orderby p.Key
-                                   select p))
-            {
-                if (header.Length > 6)
-                {
-                    header.Append(",");
-                }
+            return $"OAuth {parametersFormattedForHeader},{headerSignature}";
+        }
 
-                header.Append(string.Format("{0}=\"{1}\"", param.Key, param.Value));
-            }
+        private static string CreateParametersFormattedForHeader(ICollection<IOAuthQueryParameter> queryParameters)
+        {
+            var parametersForHeader = queryParameters.Where(x => x.RequiredForHeader)
+                .OrderBy(x => x.Key)
+                .Select(param => $"{param.Key}=\"{param.Value}\"");
 
-            header.AppendFormat(",oauth_signature=\"{0}\"", signature);
-
-            return header.ToString();
+            return string.Join(",", parametersForHeader);
         }
 
         /// <summary>
@@ -140,12 +116,12 @@ namespace Tweetinvi.WebLogic
         /// This result will be the header of the WebRequest.</returns>
         private List<IOAuthQueryParameter> GenerateAdditionalHeaderParameters(IEnumerable<IOAuthQueryParameter> queryParameters)
         {
-            List<IOAuthQueryParameter> result = queryParameters.ToList();
+            var result = queryParameters.ToList();
 
             var dateTime = _tweetinviSettingsAccessor.CurrentThreadSettings.GetUtcDateTime();
-            TimeSpan ts = dateTime - new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
-            string oauthTimestamp = Convert.ToInt64(ts.TotalSeconds).ToString(CultureInfo.InvariantCulture);
-            string oauthNonce = new Random().Next(123400, 9999999).ToString(CultureInfo.InvariantCulture);
+            var ts = dateTime - new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
+            var oauthTimestamp = Convert.ToInt64(ts.TotalSeconds).ToString(CultureInfo.InvariantCulture);
+            var oauthNonce = new Random().Next(123400, 9999999).ToString(CultureInfo.InvariantCulture);
 
             // Required information
             result.Add(new OAuthQueryParameter("oauth_nonce", oauthNonce, true, true, false));
@@ -253,10 +229,7 @@ namespace Tweetinvi.WebLogic
                 var query = await queryContent.ReadAsStringAsync().ConfigureAwait(false);
                 var additionalParameters = _webHelper.GetQueryParameters(query);
 
-                additionalParameters.ForEach(x =>
-                {
-                    urlParameters.Add(x.Key, x.Value);
-                });
+                additionalParameters.ForEach(x => { urlParameters.Add(x.Key, x.Value); });
             }
 
             return GenerateHeader(uri, httpMethod, queryParameters, urlParameters);
@@ -273,7 +246,7 @@ namespace Tweetinvi.WebLogic
 
                 if (twitterQuery.HttpContent != null && twitterQuery.IsHttpContentPartOfQueryParams)
                 {
-                    twitterQuery.AuthorizationHeader = await GenerateAuthorizationHeader(uri, twitterQuery.HttpContent, twitterQuery.HttpMethod, credentialsParameters);
+                    twitterQuery.AuthorizationHeader = await GenerateAuthorizationHeader(uri, twitterQuery.HttpContent, twitterQuery.HttpMethod, credentialsParameters).ConfigureAwait(false);
                 }
                 else
                 {

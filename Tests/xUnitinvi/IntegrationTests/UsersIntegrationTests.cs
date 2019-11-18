@@ -17,8 +17,8 @@ namespace xUnitinvi.IntegrationTests
     public class UserIntegrationTests
     {
         private readonly ITestOutputHelper _logger;
-        private ITwitterClient Client { get; }
-        private ITwitterClient PrivateUserClient { get; }
+        private readonly ITwitterClient _client;
+        private readonly ITwitterClient _privateUserClient;
 
         public UserIntegrationTests(ITestOutputHelper logger)
         {
@@ -26,20 +26,17 @@ namespace xUnitinvi.IntegrationTests
 
             _logger.WriteLine(DateTime.Now.ToLongTimeString());
 
-            Client = new TwitterClient(IntegrationTestConfig.TweetinviTestCredentials);
-            PrivateUserClient = new TwitterClient(IntegrationTestConfig.ProtectedUserCredentials);
+            _client = new TwitterClient(IntegrationTestConfig.TweetinviTestCredentials);
+            _privateUserClient = new TwitterClient(IntegrationTestConfig.ProtectedUserCredentials);
 
             TweetinviEvents.QueryBeforeExecute += (sender, args) => { _logger.WriteLine(args.Url); };
         }
 
         [Fact]
-//        [Fact(Skip = "IntegrationTests")]
         public async Task RunAllUserTests()
         {
             if (!IntegrationTestConfig.ShouldRunIntegrationTests)
-            {
                 return;
-            }
 
             _logger.WriteLine($"Starting {nameof(TestFollow)}");
             await TestFollow().ConfigureAwait(false);
@@ -49,17 +46,20 @@ namespace xUnitinvi.IntegrationTests
             await TestRelationships().ConfigureAwait(false);
             _logger.WriteLine($"{nameof(TestRelationships)} succeeded");
 
-
             _logger.WriteLine($"Starting {nameof(TestWithPrivateUser)}");
             await TestWithPrivateUser().ConfigureAwait(false);
             _logger.WriteLine($"{nameof(TestWithPrivateUser)} succeeded");
         }
 
-        private async Task TestFollow()
+        [Fact]
+        public async Task TestFollow()
         {
+            if (!IntegrationTestConfig.ShouldRunIntegrationTests)
+                return;
+
             // act
-            var tweetinviTestAuthenticated = await Client.Account.GetAuthenticatedUser();
-            var tweetinviTestUser = await Client.Users.GetUser("tweetinvitest");
+            var tweetinviTestAuthenticated = await _client.Account.GetAuthenticatedUser();
+            var tweetinviTestUser = await _client.Users.GetUser("tweetinvitest");
 
             var followers = new List<IUser>();
             var followersIterator = tweetinviTestAuthenticated.GetFollowers();
@@ -70,21 +70,21 @@ namespace xUnitinvi.IntegrationTests
                 followers.AddRange(pageFollowers);
             }
 
-            var userToFollow = await Client.Users.GetUser("tweetinviapi");
+            var userToFollow = await _client.Users.GetUser("tweetinviapi");
 
-            var friendIdsIterator = Client.Users.GetFriendIds("tweetinvitest");
+            var friendIdsIterator = _client.Users.GetFriendIds("tweetinvitest");
             var friendIds = await friendIdsIterator.MoveToNextPage();
 
             if (userToFollow.Id != null && friendIds.Contains(userToFollow.Id.Value))
             {
-                await Client.Account.UnFollowUser(userToFollow);
+                await _client.Account.UnFollowUser(userToFollow);
             }
 
-            await Client.Account.FollowUser(userToFollow);
+            await _client.Account.FollowUser(userToFollow);
 
             var friendsAfterAdd = await tweetinviTestAuthenticated.GetFriends().MoveToNextPage();
 
-            await Client.Account.UnFollowUser(userToFollow);
+            await _client.Account.UnFollowUser(userToFollow);
 
             var friendsAfterRemove = await tweetinviTestAuthenticated.GetFriends().MoveToNextPage();
 
@@ -96,32 +96,36 @@ namespace xUnitinvi.IntegrationTests
             Assert.DoesNotContain(friendsAfterRemove, friend => friend.Id == userToFollow.Id);
         }
 
-        private async Task TestRelationships()
+        [Fact]
+        public async Task TestRelationships()
         {
+            if (!IntegrationTestConfig.ShouldRunIntegrationTests)
+                return;
+
             // act
-            var authenticatedUser = await Client.Account.GetAuthenticatedUser();
+            var authenticatedUser = await _client.Account.GetAuthenticatedUser();
 
             var usernameToFollow = "tweetinviapi";
-            var userToFollow = await Client.Users.GetUser(usernameToFollow);
+            var userToFollow = await _client.Users.GetUser(usernameToFollow);
 
-            await Client.Account.FollowUser(userToFollow);
+            await _client.Account.FollowUser(userToFollow);
 
             var relationshipAfterAdd = await authenticatedUser.GetRelationshipWith(userToFollow);
-            var relationshipStateAfterAdd = await Client.Account.GetRelationshipsWith(new IUserIdentifier[] { userToFollow });
+            var relationshipStateAfterAdd = await _client.Account.GetRelationshipsWith(new IUserIdentifier[] {userToFollow});
 
-            await Client.Account.UpdateRelationship(new UpdateRelationshipParameters(userToFollow)
+            await _client.Account.UpdateRelationship(new UpdateRelationshipParameters(userToFollow)
             {
                 EnableRetweets = false,
                 EnableDeviceNotifications = true
             });
 
-            var retweetMutedUsers = await Client.Account.GetUserIdsWhoseRetweetsAreMuted();
-            var relationshipAfterUpdate = await Client.Users.GetRelationshipBetween(authenticatedUser, userToFollow);
+            var retweetMutedUsers = await _client.Account.GetUserIdsWhoseRetweetsAreMuted();
+            var relationshipAfterUpdate = await _client.Users.GetRelationshipBetween(authenticatedUser, userToFollow);
 
-            await Client.Account.UnFollowUser(userToFollow);
+            await _client.Account.UnFollowUser(userToFollow);
 
-            var relationshipAfterRemove = await Client.Users.GetRelationshipBetween(authenticatedUser, userToFollow);
-            var relationshipStateAfterRemove = await Client.Account.GetRelationshipsWith(new[] { usernameToFollow });
+            var relationshipAfterRemove = await _client.Users.GetRelationshipBetween(authenticatedUser, userToFollow);
+            var relationshipStateAfterRemove = await _client.Account.GetRelationshipsWith(new[] {usernameToFollow});
 
             // assert
             Assert.False(relationshipAfterAdd.NotificationsEnabled);
@@ -136,18 +140,21 @@ namespace xUnitinvi.IntegrationTests
             Assert.Contains(retweetMutedUsers, x => x == userToFollow.Id);
         }
 
-        private async Task TestWithPrivateUser()
+        [Fact]
+        public async Task TestWithPrivateUser()
         {
-            var publicUser = await Client.Account.GetAuthenticatedUser();
-            var privateUser = await PrivateUserClient.Account.GetAuthenticatedUser();
+            if (!IntegrationTestConfig.ShouldRunIntegrationTests) { return; }
+
+            var publicUser = await _client.Account.GetAuthenticatedUser();
+            var privateUser = await _privateUserClient.Account.GetAuthenticatedUser();
 
             // act
-            await Client.Account.FollowUser(privateUser);
+            await _client.Account.FollowUser(privateUser);
 
-            var sentRequestsIterator = Client.Account.GetUsersYouRequestedToFollow();
+            var sentRequestsIterator = _client.Account.GetUsersYouRequestedToFollow();
             var sentRequestUsers = await sentRequestsIterator.MoveToNextPage();
 
-            var receivedRequestsIterator = PrivateUserClient.Account.GetUsersRequestingFriendship();
+            var receivedRequestsIterator = _privateUserClient.Account.GetUsersRequestingFriendship();
             var receivedRequestUsers = await receivedRequestsIterator.MoveToNextPage();
 
             // delete ongoing request

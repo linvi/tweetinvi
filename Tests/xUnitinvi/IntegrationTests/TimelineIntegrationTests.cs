@@ -14,8 +14,8 @@ namespace xUnitinvi.IntegrationTests
     public class TimelineIntegrationTests
     {
         private readonly ITestOutputHelper _logger;
-        private ITwitterClient TweetinviApiClient { get; }
-        private ITwitterClient TweetinviTestClient { get; }
+        private readonly ITwitterClient _tweetinviApiClient;
+        private readonly ITwitterClient _tweetinviTestClient;
 
         public TimelineIntegrationTests(ITestOutputHelper logger)
         {
@@ -23,35 +23,36 @@ namespace xUnitinvi.IntegrationTests
 
             _logger.WriteLine(DateTime.Now.ToLongTimeString());
 
-            TweetinviApiClient = new TwitterClient(IntegrationTestConfig.TweetinviApiCredentials);
-            TweetinviTestClient = new TwitterClient(IntegrationTestConfig.TweetinviTestCredentials);
+            _tweetinviApiClient = new TwitterClient(IntegrationTestConfig.TweetinviApiCredentials);
+            _tweetinviTestClient = new TwitterClient(IntegrationTestConfig.TweetinviTestCredentials);
 
             TweetinviEvents.QueryBeforeExecute += (sender, args) => { _logger.WriteLine(args.Url); };
         }
 
         [Fact]
-//        [Fact(Skip = "IntegrationTests")]
         public async Task RunAllAccountTests()
         {
             if (!IntegrationTestConfig.ShouldRunIntegrationTests)
-            {
                 return;
-            }
 
             _logger.WriteLine($"Starting {nameof(RetweetsOfMeTimeline)}");
             await RetweetsOfMeTimeline().ConfigureAwait(false);
             _logger.WriteLine($"{nameof(RetweetsOfMeTimeline)} succeeded");
         }
 
-        private async Task RetweetsOfMeTimeline()
+        [Fact]
+        public async Task RetweetsOfMeTimeline()
         {
-            var tweet1 = await TweetinviTestClient.Tweets.PublishTweet("tweet 1!");
-            var tweet2 = await TweetinviTestClient.Tweets.PublishTweet("tweet 2");
+            if (!IntegrationTestConfig.ShouldRunIntegrationTests)
+                return;
 
-            await TweetinviApiClient.Tweets.PublishRetweet(tweet1);
-            await TweetinviApiClient.Tweets.PublishRetweet(tweet2);
+            var tweet1 = await _tweetinviTestClient.Tweets.PublishTweet("tweet 1!");
+            var tweet2 = await _tweetinviTestClient.Tweets.PublishTweet("tweet 2");
 
-            var iterator = TweetinviTestClient.Timeline.GetRetweetsOfMeTimelineIterator(new GetRetweetsOfMeTimelineParameters
+            await _tweetinviApiClient.Tweets.PublishRetweet(tweet1);
+            await _tweetinviApiClient.Tweets.PublishRetweet(tweet2);
+
+            var iterator = _tweetinviTestClient.Timeline.GetRetweetsOfMeTimelineIterator(new GetRetweetsOfMeTimelineParameters
             {
                 PageSize = 1,
                 SinceId = tweet1.Id - 1

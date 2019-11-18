@@ -26,11 +26,11 @@ namespace Tweetinvi.WebLogic
         {
             return GetQueryParameters(uri.Query);
         }
-        
+
         public Dictionary<string, string> GetQueryParameters(string queryUrl)
         {
             var uriParameters = new Dictionary<string, string>();
-            
+
             if (!string.IsNullOrEmpty(queryUrl))
             {
                 foreach (Match variable in Regex.Matches(queryUrl, @"(?<varName>[^&?=]+)=(?<value>[^&?=]*)"))
@@ -38,7 +38,7 @@ namespace Tweetinvi.WebLogic
                     uriParameters.Add(variable.Groups["varName"].Value, variable.Groups["value"].Value);
                 }
             }
-            
+
             return uriParameters;
         }
 
@@ -49,15 +49,12 @@ namespace Tweetinvi.WebLogic
                 return null;
             }
 
-            Uri uri;
-            if (Uri.TryCreate(url, UriKind.Absolute, out uri))
+            if (Uri.TryCreate(url, UriKind.Absolute, out var uri))
             {
                 return GetBaseURL(uri);
             }
-            else
-            {
-                return null;
-            }
+
+            return null;
         }
 
         public string GetBaseURL(Uri uri)

@@ -11,78 +11,83 @@ namespace xUnitinvi.IntegrationTests
     public class AccountIntegrationTests
     {
         private readonly ITestOutputHelper _logger;
-        private ITwitterClient Client { get; }
-        private ITwitterClient PrivateUserClient { get; }
-        
+        private readonly ITwitterClient _client;
+        private readonly ITwitterClient _privateUserClient;
+
         public AccountIntegrationTests(ITestOutputHelper logger)
         {
             _logger = logger;
-            
+
             _logger.WriteLine(DateTime.Now.ToLongTimeString());
-            
-            Client = new TwitterClient(IntegrationTestConfig.TweetinviTestCredentials);
-            PrivateUserClient = new TwitterClient(IntegrationTestConfig.ProtectedUserCredentials);
-            
+
+            _client = new TwitterClient(IntegrationTestConfig.TweetinviTestCredentials);
+            _privateUserClient = new TwitterClient(IntegrationTestConfig.ProtectedUserCredentials);
+
             TweetinviEvents.QueryBeforeExecute += (sender, args) => { _logger.WriteLine(args.Url); };
         }
-        
-//        [Fact]
-        [Fact(Skip = "This is an integration test")]
+
+        [Fact]
         public async Task RunAllAccountTests()
         {
             if (!IntegrationTestConfig.ShouldRunIntegrationTests)
-            {
                 return;
-            }
-            
+
             _logger.WriteLine($"Starting {nameof(TestBlock)}");
             await TestBlock().ConfigureAwait(false);
             _logger.WriteLine($"{nameof(TestBlock)} succeeded");
-            
+
             _logger.WriteLine($"Starting {nameof(TestMute)}");
             await TestMute().ConfigureAwait(false);
             _logger.WriteLine($"{nameof(TestMute)} succeeded");
         }
 
-        private async Task TestBlock()
+        [Fact]
+        public async Task TestBlock()
         {
-            var userToFollow = await Client.Users.GetUser("tweetinvitest");
-            
+            if (!IntegrationTestConfig.ShouldRunIntegrationTests)
+                return;
+
+            var userToFollow = await _client.Users.GetUser("tweetinvitest");
+
             // act
             var blockSuccess = await userToFollow.BlockUser();
 
-            var blockedUserIdsIterator = Client.Account.GetBlockedUserIds();
+            var blockedUserIdsIterator = _client.Account.GetBlockedUserIds();
             var blockedUsersFromIdsIterator = await blockedUserIdsIterator.MoveToNextPage();
-            var blockedUsersIterator = Client.Account.GetBlockedUsers();
+            var blockedUsersIterator = _client.Account.GetBlockedUsers();
             var blockedUsers = await blockedUsersIterator.MoveToNextPage();
 
             var unblockSuccess = await userToFollow.UnBlockUser();
-            
+
             // assert
             Assert.True(blockSuccess);
             Assert.Contains(blockedUsersFromIdsIterator, id => id == userToFollow.Id);
             Assert.Contains(blockedUsers, user => user.Id == userToFollow.Id);
             Assert.True(unblockSuccess);
         }
-        
-        private async Task TestMute()
+
+        [Fact]
+        public async Task TestMute()
         {
-            var userToMute = await PrivateUserClient.Account.GetAuthenticatedUser();
-            
+            if (!IntegrationTestConfig.ShouldRunIntegrationTests)
+                return;
+
+            var userToMute = await _privateUserClient.Account.GetAuthenticatedUser();
+
             // act
-            var mutedUserIdsIterator = Client.Account.GetMutedUserIds();
+            var mutedUserIdsIterator = _client.Account.GetMutedUserIds();
             var initialMutedUserIds = await mutedUserIdsIterator.MoveToNextPage();
 
-            await Client.Account.MuteUser(userToMute);
-            var newMutedUserIdsIterator = Client.Account.GetMutedUserIds();
+            await _client.Account.MuteUser(userToMute);
+            var newMutedUserIdsIterator = _client.Account.GetMutedUserIds();
             var newMutedUserIds = await newMutedUserIdsIterator.MoveToNextPage();
-            var newMutedUsersIterator = Client.Account.GetMutedUsers();
+            var newMutedUsersIterator = _client.Account.GetMutedUsers();
             var newMutedUsers = await newMutedUsersIterator.MoveToNextPage();
-            await Client.Account.UnMuteUser(userToMute);
-            
-            var restoredMutedUserIdsIterator = Client.Account.GetMutedUserIds();
+            await _client.Account.UnMuteUser(userToMute);
+
+            var restoredMutedUserIdsIterator = _client.Account.GetMutedUserIds();
             var restoredMutedUserIds = await restoredMutedUserIdsIterator.MoveToNextPage();
-            
+
             // assert
             Assert.True(newMutedUsers.Select(x => x.Id).OfType<long>().ContainsSameObjectsAs(newMutedUserIds));
             Assert.True(restoredMutedUserIds.Select(x => x).ContainsSameObjectsAs(initialMutedUserIds));
