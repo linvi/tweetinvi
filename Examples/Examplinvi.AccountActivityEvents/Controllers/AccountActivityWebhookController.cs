@@ -4,7 +4,7 @@ using Tweetinvi;
 using Tweetinvi.Core.Public.Models.Interfaces.DTO.Webhooks;
 using Tweetinvi.Models;
 
-namespace Examplinvi.AccountActivityEvents
+namespace Examplinvi.AccountActivityEvents.Controllers
 {
     public class AccountActivityWebhooksController
     {

@@ -38,10 +38,10 @@ namespace Tweetinvi.Core.Logic
 
             if (isCrcChallenge)
             {
-                return await _webhooksRoutes.TryToReplyToCRCChallenge(requestHandler, configuration.ConsumerOnlyCredentials);
+                return await _webhooksRoutes.TryToReplyToCrcChallenge(requestHandler, configuration.ConsumerOnlyCredentials);
             }
 
-            var jsonBody = await requestHandler.GetJsonFromBody();
+            var jsonBody = await requestHandler.GetJsonFromBody().ConfigureAwait(false);
 
             _webhookDispatcher.WebhookMessageReceived(new WebhookMessage(jsonBody));
 

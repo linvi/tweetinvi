@@ -11,7 +11,7 @@ namespace Tweetinvi.Core.Logic
 {
     public interface IWebhooksHelper
     {
-        CrcResponseTokenInfo CreateCRCResponseToken(string message, string secret);
+        CrcResponseTokenInfo CreateCrcResponseToken(string message, string secret);
         IEnumerable<IWebhookDTO> GetWebhooksMatching(IWebhooksRequestInfoRetriever request, IWebhookConfiguration configuration);
         bool IsCrcChallenge(IWebhooksRequestInfoRetriever request);
         bool IsRequestManagedByTweetinvi(IWebhooksRequestInfoRetriever request, IWebhookConfiguration configuration);
@@ -68,15 +68,15 @@ namespace Tweetinvi.Core.Logic
             return crcToken.Any();
         }
 
-        public CrcResponseTokenInfo CreateCRCResponseToken(string message, string secret)
+        public CrcResponseTokenInfo CreateCrcResponseToken(string message, string secret)
         {
             var encoding = new System.Text.ASCIIEncoding();
-            byte[] keyByte = encoding.GetBytes(secret);
-            byte[] messageBytes = encoding.GetBytes(message);
+            var keyBytes = encoding.GetBytes(secret);
+            var messageBytes = encoding.GetBytes(message);
 
-            using (var hmacsha256 = new HMACSHA256(keyByte))
+            using (var hmacsha256 = new HMACSHA256(keyBytes))
             {
-                byte[] hashmessage = hmacsha256.ComputeHash(messageBytes);
+                var hashmessage = hmacsha256.ComputeHash(messageBytes);
                 var crcResponseToken = Convert.ToBase64String(hashmessage);
 
                 var response = new
@@ -86,7 +86,7 @@ namespace Tweetinvi.Core.Logic
 
                 var crcResponseJson = JsonConvert.SerializeObject(response);
 
-                return new CrcResponseTokenInfo()
+                return new CrcResponseTokenInfo
                 {
                    Json = crcResponseJson,
                    CrcResponseToken = crcResponseToken

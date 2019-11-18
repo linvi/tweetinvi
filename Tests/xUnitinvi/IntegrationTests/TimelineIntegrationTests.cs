@@ -16,19 +16,19 @@ namespace xUnitinvi.IntegrationTests
         private readonly ITestOutputHelper _logger;
         private ITwitterClient TweetinviApiClient { get; }
         private ITwitterClient TweetinviTestClient { get; }
-        
+
         public TimelineIntegrationTests(ITestOutputHelper logger)
         {
             _logger = logger;
-            
+
             _logger.WriteLine(DateTime.Now.ToLongTimeString());
-            
+
             TweetinviApiClient = new TwitterClient(IntegrationTestConfig.TweetinviApiCredentials);
             TweetinviTestClient = new TwitterClient(IntegrationTestConfig.TweetinviTestCredentials);
-            
+
             TweetinviEvents.QueryBeforeExecute += (sender, args) => { _logger.WriteLine(args.Url); };
         }
-        
+
         [Fact]
 //        [Fact(Skip = "IntegrationTests")]
         public async Task RunAllAccountTests()
@@ -37,7 +37,7 @@ namespace xUnitinvi.IntegrationTests
             {
                 return;
             }
-            
+
             _logger.WriteLine($"Starting {nameof(RetweetsOfMeTimeline)}");
             await RetweetsOfMeTimeline().ConfigureAwait(false);
             _logger.WriteLine($"{nameof(RetweetsOfMeTimeline)} succeeded");
@@ -48,8 +48,8 @@ namespace xUnitinvi.IntegrationTests
             var tweet1 = await TweetinviTestClient.Tweets.PublishTweet("tweet 1!");
             var tweet2 = await TweetinviTestClient.Tweets.PublishTweet("tweet 2");
 
-            var retweet1 = await TweetinviApiClient.Tweets.PublishRetweet(tweet1);
-            var retweet2 = await TweetinviApiClient.Tweets.PublishRetweet(tweet2);
+            await TweetinviApiClient.Tweets.PublishRetweet(tweet1);
+            await TweetinviApiClient.Tweets.PublishRetweet(tweet2);
 
             var iterator = TweetinviTestClient.Timeline.GetRetweetsOfMeTimelineIterator(new GetRetweetsOfMeTimelineParameters
             {
@@ -61,14 +61,14 @@ namespace xUnitinvi.IntegrationTests
             while (!iterator.Completed)
             {
                 var retweetsPage = await iterator.MoveToNextPage();
-                retweets.AddRange(retweetsPage);   
+                retweets.AddRange(retweetsPage);
             }
 
             await tweet1.Destroy();
             await tweet2.Destroy();
-            
+
             // assert
-            Assert.True(retweets.Select(x => x.Id).ContainsSameObjectsAs(new long?[] { tweet1.Id, tweet2.Id }));
+            Assert.True(retweets.Select(x => x.Id).ContainsSameObjectsAs(new[] { tweet1.Id, tweet2.Id }));
         }
     }
 }

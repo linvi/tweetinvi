@@ -209,7 +209,7 @@ namespace xUnitinvi.ClientActions.AccountsClient
             // Assert
             Assert.Equal(result, $"https://api.twitter.com/1.1/friendships/incoming.json?cursor=start_cursor&count=42&hello=world");
         }
-        
+
         [Fact]
         public void GetUserIdsYouRequestedToFollowQuery_ReturnsExpectedQuery()
         {
@@ -250,13 +250,13 @@ namespace xUnitinvi.ClientActions.AccountsClient
             // Assert
             Assert.Equal(result, $"https://api.twitter.com/1.1/friendships/update.json?user_id=42&device=true&retweets=true&hello=world");
         }
-        
+
         [Fact]
         public void GetRelationshipsWithQuery_ReturnsExpectedQuery()
         {
             // Arrange
             var queryGenerator = CreateAccountQueryGenerator();
-            
+
             var users = new IUserIdentifier[]
             {
                 new UserIdentifier(42),
@@ -276,9 +276,9 @@ namespace xUnitinvi.ClientActions.AccountsClient
             // Assert
             Assert.Equal(result, $"https://api.twitter.com/1.1/friendships/lookup.json?user_id=42%2C43&screen_name=tweetinviapi%2Ctweetinvitest&hello=world");
         }
-        
+
         // MUTE
-        
+
         [Fact]
         public void GetUserIdsWhoseRetweetsAreMutedQuery_ReturnsExpectedQuery()
         {
@@ -296,7 +296,7 @@ namespace xUnitinvi.ClientActions.AccountsClient
             // Assert
             Assert.Equal(result, $"https://api.twitter.com/1.1/friendships/no_retweets/ids.json?hello=world");
         }
-        
+
         [Fact]
         public void GetMutedUserIdsQuery_ReturnsExpectedQuery()
         {
@@ -316,7 +316,7 @@ namespace xUnitinvi.ClientActions.AccountsClient
             // Assert
             Assert.Equal(result, $"https://api.twitter.com/1.1/mutes/users/ids.json?cursor=42&count=43&hello=world");
         }
-        
+
         [Fact]
         public void GetMutedUsersQuery_ReturnsExpectedQuery()
         {
@@ -338,7 +338,7 @@ namespace xUnitinvi.ClientActions.AccountsClient
             // Assert
             Assert.Equal(result, $"https://api.twitter.com/1.1/mutes/users/list.json?cursor=42&count=43&include_entities=true&skip_status=false&hello=world");
         }
-        
+
         [Fact]
         public void GetMuteUserQuery_ReturnsExpectedQuery()
         {
@@ -356,7 +356,7 @@ namespace xUnitinvi.ClientActions.AccountsClient
             // Assert
             Assert.Equal(result, $"https://api.twitter.com/1.1/mutes/users/create.json?user_id=42&hello=world");
         }
-        
+
         [Fact]
         public void GetUnMuteUserQuery_ReturnsExpectedQuery()
         {

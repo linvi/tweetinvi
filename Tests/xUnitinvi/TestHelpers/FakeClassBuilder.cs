@@ -46,7 +46,7 @@ namespace xUnitinvi.TestHelpers
                     {
                         throw new Exception($"Could not create a FakeObject for type {t.FullName}");
                     }
-                    
+
                     var objectInstance = fakeObjectProperty.GetValue(fakeInstance, null);
                     _fakeRepository.RegisterFake(fakeInstance, objectInstance);
 

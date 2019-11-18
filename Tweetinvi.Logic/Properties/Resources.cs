@@ -1,7 +1,10 @@
 ﻿using Tweetinvi.Core.Helpers;
 
 namespace Tweetinvi.Logic.Properties
-{
+{ 
+    // ReSharper disable InconsistentNaming
+#pragma warning disable 414
+
     internal static class Resources
     {
         /// <summary>
@@ -94,4 +97,5 @@ namespace Tweetinvi.Logic.Properties
             return ResourcesHelper.GetResourceByType(typeof(Resources), resourceName);
         }
     }
+#pragma warning restore 414
 }

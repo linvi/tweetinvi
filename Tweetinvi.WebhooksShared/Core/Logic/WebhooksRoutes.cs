@@ -6,7 +6,7 @@ namespace Tweetinvi.Core.Logic
 {
     public interface IWebhooksRoutes
     {
-        Task<bool> TryToReplyToCRCChallenge(IWebhooksRequestHandler requestHandler, IConsumerCredentials credentials);
+        Task<bool> TryToReplyToCrcChallenge(IWebhooksRequestHandler requestHandler, IConsumerCredentials credentials);
     }
 
     public class WebhooksRoutes : IWebhooksRoutes
@@ -18,25 +18,26 @@ namespace Tweetinvi.Core.Logic
             _webhooksHelper = webhooksHelper;
         }
 
-        public async Task<bool> TryToReplyToCRCChallenge(IWebhooksRequestHandler requestHandler, IConsumerCredentials credentials)
+        public async Task<bool> TryToReplyToCrcChallenge(IWebhooksRequestHandler requestHandler, IConsumerCredentials credentials)
         {
             var crcToken = requestHandler.GetQuery()["crc_token"];
 
-            if (!crcToken.IsNullOrEmpty())
+            if (crcToken.IsNullOrEmpty())
             {
-                await ReplyToCRCChallengeRequest(crcToken[0], requestHandler, credentials);
-
-                return true;
+                return false;
             }
 
-            return false;
+            await ReplyToCrcChallengeRequest(crcToken[0], requestHandler, credentials).ConfigureAwait(false);
+
+            return true;
+
         }
 
-        private async Task ReplyToCRCChallengeRequest(string crcToken, IWebhooksRequestHandler requestHandler, IConsumerCredentials credentials)
+        private async Task ReplyToCrcChallengeRequest(string crcToken, IWebhooksRequestHandler requestHandler, IConsumerCredentials credentials)
         {
-            var crcResponseInfo = _webhooksHelper.CreateCRCResponseToken(crcToken, credentials.ConsumerSecret);
+            var crcResponseInfo = _webhooksHelper.CreateCrcResponseToken(crcToken, credentials.ConsumerSecret);
 
-            await requestHandler.WriteInResponseAsync(crcResponseInfo.Json, crcResponseInfo.ContentType);
-        } 
+            await requestHandler.WriteInResponseAsync(crcResponseInfo.Json, crcResponseInfo.ContentType).ConfigureAwait(false);
+        }
     }
 }

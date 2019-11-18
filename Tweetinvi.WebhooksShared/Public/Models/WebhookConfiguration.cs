@@ -22,7 +22,7 @@ namespace Tweetinvi.Models
 
     public class WebhookConfiguration : IWebhookConfiguration
     {
-        private List<IRegistrableWebhookEnvironment> _webhookEnvironments;
+        private readonly List<IRegistrableWebhookEnvironment> _webhookEnvironments;
 
         public WebhookConfiguration()
         {
@@ -39,15 +39,9 @@ namespace Tweetinvi.Models
 
         public IConsumerOnlyCredentials ConsumerOnlyCredentials { get; }
 
-        public IRegistrableWebhookEnvironment[] RegisteredWebhookEnvironments
-        {
-            get { return _webhookEnvironments.ToArray(); }
-        }
+        public IRegistrableWebhookEnvironment[] RegisteredWebhookEnvironments => _webhookEnvironments.ToArray();
 
-        public IAccountActivityStream[] RegisteredActivityStreams
-        {
-            get { return WebhookDispatcher.SubscribedAccountActivityStreams; }
-        }
+        public IAccountActivityStream[] RegisteredActivityStreams => WebhookDispatcher.SubscribedAccountActivityStreams;
 
         public void AddWebhookEnvironment(IRegistrableWebhookEnvironment environment)
         {

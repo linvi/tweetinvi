@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Tweetinvi;
 using Tweetinvi.Models;
@@ -18,16 +19,16 @@ namespace xUnitinvi.IntegrationTests
         private readonly ITestOutputHelper _logger;
         private ITwitterClient Client { get; }
         private ITwitterClient PrivateUserClient { get; }
-        
+
         public UserIntegrationTests(ITestOutputHelper logger)
         {
             _logger = logger;
-            
+
             _logger.WriteLine(DateTime.Now.ToLongTimeString());
-            
+
             Client = new TwitterClient(IntegrationTestConfig.TweetinviTestCredentials);
             PrivateUserClient = new TwitterClient(IntegrationTestConfig.ProtectedUserCredentials);
-            
+
             TweetinviEvents.QueryBeforeExecute += (sender, args) => { _logger.WriteLine(args.Url); };
         }
 
@@ -39,16 +40,16 @@ namespace xUnitinvi.IntegrationTests
             {
                 return;
             }
-            
+
             _logger.WriteLine($"Starting {nameof(TestFollow)}");
             await TestFollow().ConfigureAwait(false);
             _logger.WriteLine($"{nameof(TestFollow)} succeeded");
-            
+
             _logger.WriteLine($"Starting {nameof(TestRelationships)}");
             await TestRelationships().ConfigureAwait(false);
             _logger.WriteLine($"{nameof(TestRelationships)} succeeded");
-            
-            
+
+
             _logger.WriteLine($"Starting {nameof(TestWithPrivateUser)}");
             await TestWithPrivateUser().ConfigureAwait(false);
             _logger.WriteLine($"{nameof(TestWithPrivateUser)} succeeded");
@@ -73,14 +74,18 @@ namespace xUnitinvi.IntegrationTests
 
             var friendIdsIterator = Client.Users.GetFriendIds("tweetinvitest");
             var friendIds = await friendIdsIterator.MoveToNextPage();
-            var friendsBeforeAdd = await Client.Users.GetUsers(friendIds);
+
+            if (userToFollow.Id != null && friendIds.Contains(userToFollow.Id.Value))
+            {
+                await Client.Account.UnFollowUser(userToFollow);
+            }
 
             await Client.Account.FollowUser(userToFollow);
 
             var friendsAfterAdd = await tweetinviTestAuthenticated.GetFriends().MoveToNextPage();
-            
+
             await Client.Account.UnFollowUser(userToFollow);
-            
+
             var friendsAfterRemove = await tweetinviTestAuthenticated.GetFriends().MoveToNextPage();
 
             // assert
@@ -98,7 +103,7 @@ namespace xUnitinvi.IntegrationTests
 
             var usernameToFollow = "tweetinviapi";
             var userToFollow = await Client.Users.GetUser(usernameToFollow);
-            
+
             await Client.Account.FollowUser(userToFollow);
 
             var relationshipAfterAdd = await authenticatedUser.GetRelationshipWith(userToFollow);
@@ -114,14 +119,14 @@ namespace xUnitinvi.IntegrationTests
             var relationshipAfterUpdate = await Client.Users.GetRelationshipBetween(authenticatedUser, userToFollow);
 
             await Client.Account.UnFollowUser(userToFollow);
-            
+
             var relationshipAfterRemove = await Client.Users.GetRelationshipBetween(authenticatedUser, userToFollow);
             var relationshipStateAfterRemove = await Client.Account.GetRelationshipsWith(new[] { usernameToFollow });
-            
+
             // assert
             Assert.False(relationshipAfterAdd.NotificationsEnabled);
             Assert.True(relationshipAfterUpdate.NotificationsEnabled);
-            
+
             Assert.True(relationshipAfterAdd.Following);
             Assert.False(relationshipAfterRemove.Following);
 
@@ -138,7 +143,7 @@ namespace xUnitinvi.IntegrationTests
 
             // act
             await Client.Account.FollowUser(privateUser);
-            
+
             var sentRequestsIterator = Client.Account.GetUsersYouRequestedToFollow();
             var sentRequestUsers = await sentRequestsIterator.MoveToNextPage();
 
@@ -147,7 +152,7 @@ namespace xUnitinvi.IntegrationTests
 
             // delete ongoing request
 //            await publicUserClient.Account.UnFollowUser(privateUser);
-//            
+//
 //            var afterUnfollowSentRequestsIterator = publicUserClient.Account.GetUsersYouRequestedToFollow();
 //            var afterUnfollowSentRequestUsers = await afterUnfollowSentRequestsIterator.MoveToNextPage();
 //
@@ -157,7 +162,7 @@ namespace xUnitinvi.IntegrationTests
             // assert
             Assert.Contains(sentRequestUsers, user => user.Id == privateUser.Id);
             Assert.Contains(receivedRequestUsers, user => user.Id == publicUser.Id);
-            
+
 //            Assert.DoesNotContain(afterUnfollowSentRequestUsers, user => user.Id == privateUser.Id);
 //            Assert.DoesNotContain(afterUnfollowReceivedRequestUsers, user => user.Id == publicUser.Id);
         }

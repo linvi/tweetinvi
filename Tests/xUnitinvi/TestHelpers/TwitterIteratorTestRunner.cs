@@ -20,7 +20,7 @@ namespace xUnitinvi.TestHelpers
         {
             _iterator = iterator;
         }
-        
+
         public TwitterIteratorTestRunner(
             ITwitterPageIterator<ITwitterResult<TDTO>, TCursor> iterator,
             ITwitterResult<TDTO>[] results)
@@ -45,7 +45,7 @@ namespace xUnitinvi.TestHelpers
 
             callToQueryExecutor.ReturnsNextFromSequence(_expectedResults);
         }
-        
+
         public async Task Act()
         {
             if (_iterator.NextCursor != null)
@@ -56,21 +56,21 @@ namespace xUnitinvi.TestHelpers
             while (!_iterator.Completed)
             {
                 var page = await _iterator.MoveToNextPage();
-                _resultPages.Add(page);        
+                _resultPages.Add(page);
             }
         }
-        
+
         public async Task Assert()
         {
             Xunit.Assert.Equal(_resultPages.Count, _expectedResults.Length);
-            
+
             for (var i = 0; i < _expectedResults.Length - 1; ++i)
             {
                 var page = _resultPages[i];
                 Xunit.Assert.Equal(page.Content, _expectedResults[i]);
-                Xunit.Assert.False(page.IsLastPage);    
+                Xunit.Assert.False(page.IsLastPage);
             }
-            
+
             var lastPage = _resultPages[_resultPages.Count - 1];
             Xunit.Assert.Equal(lastPage.Content, _expectedResults[_expectedResults.Length - 1]);
             Xunit.Assert.True(lastPage.IsLastPage);

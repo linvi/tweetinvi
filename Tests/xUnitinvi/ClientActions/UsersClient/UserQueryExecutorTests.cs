@@ -34,7 +34,7 @@ namespace xUnitinvi.ClientActions.UsersClient
         {
             return _fakeBuilder.GenerateClass();
         }
-        
+
         [Fact]
         public async Task GetUser_ReturnsUserDTO()
         {
@@ -44,7 +44,7 @@ namespace xUnitinvi.ClientActions.UsersClient
             var url = TestHelper.GenerateString();
             var parameter = new GetUserParameters(42);
             var expectedResult = A.Fake<ITwitterResult<IUserDTO>>();
-            
+
             A.CallTo(() => _fakeUserQueryGenerator.GetUserQuery(parameter, It.IsAny<TweetMode?>())).Returns(url);
             A.CallTo(() => _fakeTwitterAccessor.ExecuteRequest<IUserDTO>(request)).Returns(expectedResult);
 
@@ -56,7 +56,7 @@ namespace xUnitinvi.ClientActions.UsersClient
             Assert.Equal(request.Query.Url, url);
             Assert.Equal(HttpMethod.GET, request.Query.HttpMethod);
         }
-        
+
         [Fact]
         public async Task GetUsers_ReturnsUserDTO()
         {
@@ -66,7 +66,7 @@ namespace xUnitinvi.ClientActions.UsersClient
             var url = TestHelper.GenerateString();
             var parameter = new GetUsersParameters(new long[] { 42 });
             var expectedResult = A.Fake<ITwitterResult<IUserDTO[]>>();
-            
+
             A.CallTo(() => _fakeUserQueryGenerator.GetUsersQuery(parameter, It.IsAny<TweetMode?>())).Returns(url);
             A.CallTo(() => _fakeTwitterAccessor.ExecuteRequest<IUserDTO[]>(request)).Returns(expectedResult);
 
@@ -78,7 +78,7 @@ namespace xUnitinvi.ClientActions.UsersClient
             Assert.Equal(request.Query.Url, url);
             Assert.Equal(HttpMethod.GET, request.Query.HttpMethod);
         }
-        
+
         [Fact]
         public async Task GetFollowerIds_ReturnsUserDTO()
         {
@@ -88,7 +88,7 @@ namespace xUnitinvi.ClientActions.UsersClient
             var url = TestHelper.GenerateString();
             var parameter = new GetFollowerIdsParameters(42);
             var expectedResult = A.Fake<ITwitterResult<IIdsCursorQueryResultDTO>>();
-            
+
             A.CallTo(() => _fakeUserQueryGenerator.GetFollowerIdsQuery(parameter)).Returns(url);
             A.CallTo(() => _fakeTwitterAccessor.ExecuteRequest<IIdsCursorQueryResultDTO>(request)).Returns(expectedResult);
 
@@ -100,7 +100,7 @@ namespace xUnitinvi.ClientActions.UsersClient
             Assert.Equal(request.Query.Url, url);
             Assert.Equal(HttpMethod.GET, request.Query.HttpMethod);
         }
-        
+
         [Fact]
         public async Task GetFriendIds_ReturnsUserDTO()
         {
@@ -110,7 +110,7 @@ namespace xUnitinvi.ClientActions.UsersClient
             var url = TestHelper.GenerateString();
             var parameter = new GetFriendsParameters(42);
             var expectedResult = A.Fake<ITwitterResult<IIdsCursorQueryResultDTO>>();
-            
+
             A.CallTo(() => _fakeUserQueryGenerator.GetFriendIdsQuery(parameter)).Returns(url);
             A.CallTo(() => _fakeTwitterAccessor.ExecuteRequest<IIdsCursorQueryResultDTO>(request)).Returns(expectedResult);
 

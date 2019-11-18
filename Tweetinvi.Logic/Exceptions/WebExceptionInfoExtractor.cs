@@ -36,7 +36,7 @@ namespace Tweetinvi.Logic.Exceptions
 
         public string GetStatusCodeDescription(int statusCode)
         {
-            return Resources.GetResourceByName(string.Format("ExceptionDescription_{0}", statusCode));
+            return Resources.GetResourceByName($"ExceptionDescription_{statusCode}");
         }
 
         public IEnumerable<ITwitterExceptionInfo> GetTwitterExceptionInfo(WebException wex)

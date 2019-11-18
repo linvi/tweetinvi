@@ -5,15 +5,11 @@ namespace Tweetinvi.Exceptions
 {
     public class TwitterInvalidCredentialsException : Exception
     {
-#pragma warning disable 108,114
-        public string Message { get; set; }
-#pragma warning restore 108,114
 
         public IConsumerCredentials Credentials { get; set; }
 
-        public TwitterInvalidCredentialsException(string message)
+        public TwitterInvalidCredentialsException(string message): base(message)
         {
-            Message = message;
         }
 
         public TwitterInvalidCredentialsException(IConsumerCredentials credentials) 
