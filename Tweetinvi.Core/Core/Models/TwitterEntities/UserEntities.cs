@@ -2,7 +2,7 @@
 using Tweetinvi.Core.JsonConverters;
 using Tweetinvi.Models.Entities;
 
-namespace Tweetinvi.Logic.TwitterEntities
+namespace Tweetinvi.Core.Models.TwitterEntities
 {
     public class UserEntities : IUserEntities
     {

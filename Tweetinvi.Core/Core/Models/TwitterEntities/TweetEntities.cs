@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Tweetinvi.Logic.TwitterEntities;
 using Tweetinvi.Models.DTO;
 using Tweetinvi.Models.Entities;
 
-namespace Tweetinvi.Logic.TwitterEntities
+namespace Tweetinvi.Core.Models.TwitterEntities
 {
     internal class TweetEntities : ITweetEntities
     {

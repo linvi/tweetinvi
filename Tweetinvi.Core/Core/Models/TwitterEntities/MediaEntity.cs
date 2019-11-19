@@ -5,7 +5,7 @@ using Tweetinvi.Core.JsonConverters;
 using Tweetinvi.Models.Entities;
 using Tweetinvi.Models.Entities.ExtendedEntities;
 
-namespace Tweetinvi.Logic.TwitterEntities
+namespace Tweetinvi.Core.Models.TwitterEntities
 {
     /// <summary>
     /// Object storing information related with a Media on Twitter

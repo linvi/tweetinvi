@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 using Tweetinvi.Core.Extensions;
 using Tweetinvi.Models.Entities;
 
-namespace Tweetinvi.Logic.TwitterEntities
+namespace Tweetinvi.Core.Models.TwitterEntities
 {
     /// <summary>
     /// Object storing information related with an user mention on Twitter

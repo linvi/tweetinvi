@@ -4,6 +4,7 @@ using Tweetinvi.Core.Injectinvi;
 using Tweetinvi.Core.JsonConverters;
 using Tweetinvi.Core.Models;
 using Tweetinvi.Core.Models.Properties;
+using Tweetinvi.Core.Models.TwitterEntities;
 using Tweetinvi.Core.Parameters;
 using Tweetinvi.Core.Wrappers;
 using Tweetinvi.Exceptions;

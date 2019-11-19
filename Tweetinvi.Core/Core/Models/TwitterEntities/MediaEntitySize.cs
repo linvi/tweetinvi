@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using Tweetinvi.Models.Entities;
 
-namespace Tweetinvi.Logic.TwitterEntities
+namespace Tweetinvi.Core.Models.TwitterEntities
 {
     /// <summary>
     /// Object storing information related with media size on Twitter

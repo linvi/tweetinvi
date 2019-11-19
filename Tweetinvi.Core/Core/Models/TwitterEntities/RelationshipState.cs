@@ -1,7 +1,7 @@
 ﻿using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
 
-namespace Tweetinvi.Logic.TwitterEntities
+namespace Tweetinvi.Core.Models.TwitterEntities
 {
     public class RelationshipState : IRelationshipState
     {

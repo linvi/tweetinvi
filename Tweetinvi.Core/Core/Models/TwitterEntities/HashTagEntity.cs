@@ -2,7 +2,7 @@
 using Tweetinvi.Core.Extensions;
 using Tweetinvi.Models.Entities;
 
-namespace Tweetinvi.Logic.TwitterEntities
+namespace Tweetinvi.Core.Models.TwitterEntities
 {
     /// <summary>
     /// A hashtag is a keyword prefixed by # and representing a category of tweet
@@ -18,7 +18,7 @@ namespace Tweetinvi.Logic.TwitterEntities
 
         public bool Equals(IHashtagEntity other)
         {
-            if (Text != other.Text)
+            if (other == null || Text != other.Text)
             {
                 return false;
             }

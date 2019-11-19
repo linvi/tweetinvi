@@ -3,6 +3,7 @@ using System.Linq;
 using Tweetinvi.Core.Factories;
 using Tweetinvi.Core.Helpers;
 using Tweetinvi.Core.Injectinvi;
+using Tweetinvi.Core.Models.TwitterEntities;
 using Tweetinvi.Logic.TwitterEntities;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;

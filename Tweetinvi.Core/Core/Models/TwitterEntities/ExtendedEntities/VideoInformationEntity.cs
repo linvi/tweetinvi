@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using Tweetinvi.Models.Entities.ExtendedEntities;
 
-namespace Tweetinvi.Logic.TwitterEntities.ExtendedEntities
+namespace Tweetinvi.Core.Models.TwitterEntities.ExtendedEntities
 {
     public class VideoInformationEntity : IVideoInformationEntity
     {
