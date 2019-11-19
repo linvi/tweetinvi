@@ -1,5 +1,6 @@
 ﻿using Tweetinvi.Core.Helpers;
 
+// ReSharper disable InconsistentNaming
 namespace Tweetinvi.Credentials.Properties
 {
     internal static class Resources

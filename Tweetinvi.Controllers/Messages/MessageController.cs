@@ -7,7 +7,6 @@ using Tweetinvi.Core.Factories;
 using Tweetinvi.Core.Injectinvi;
 using Tweetinvi.Core.Models;
 using Tweetinvi.Models;
-using Tweetinvi.Models.DTO;
 using Tweetinvi.Models.DTO.Events;
 using Tweetinvi.Parameters;
 

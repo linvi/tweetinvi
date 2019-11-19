@@ -20,7 +20,7 @@ namespace Tweetinvi.Core.Models
         [JsonProperty("reset")]
         public long Reset
         {
-            get { return _reset; }
+            get => _reset;
             set
             {
                 _reset = value;
@@ -56,10 +56,7 @@ namespace Tweetinvi.Core.Models
         /// Duration in milliseconds after which the endpoint rate limit will be reset.
         /// </summary>
         [JsonIgnore]
-        public double ResetDateTimeInMilliseconds
-        {
-            get { return ResetDateTimeInSeconds * 1000; }
-        }
+        public double ResetDateTimeInMilliseconds => ResetDateTimeInSeconds * 1000;
 
         /// <summary>
         /// DateTime when the endpoint rate limit will be reset.
@@ -71,7 +68,7 @@ namespace Tweetinvi.Core.Models
 
         public override string ToString()
         {
-            return string.Format("{0}/{1} (Reset in  {2} seconds)", Remaining, Limit, ResetDateTimeInSeconds);
+            return $"{Remaining}/{Limit} (Reset in {ResetDateTimeInSeconds} seconds)";
         }
     }
 }

@@ -5,7 +5,6 @@ using Tweetinvi.Core.Extensions;
 using Tweetinvi.Core.Helpers;
 using Tweetinvi.Core.Web;
 using Tweetinvi.Models;
-using Tweetinvi.Models.DTO;
 using Tweetinvi.Models.DTO.Webhooks;
 
 namespace Tweetinvi.Controllers.Webhooks

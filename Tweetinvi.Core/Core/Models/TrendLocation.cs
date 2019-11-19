@@ -56,7 +56,6 @@ namespace Tweetinvi.Core.Models
         }
 
         [JsonProperty("placeType")]
-        // ReSharper disable once InconsistentNaming
         private PlaceTypeDTO _placeTypeDTO { get; set; }
     }
 }

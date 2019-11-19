@@ -74,7 +74,7 @@ namespace Tweetinvi.Factories.Tweet
                 return null;
             }
 
-            var tweet = new Logic.Tweet(tweetDTO, tweetMode, this, _userFactory)
+            var tweet = new Core.Models.Tweet(tweetDTO, tweetMode, this, _userFactory)
             {
                 Client = client
             };

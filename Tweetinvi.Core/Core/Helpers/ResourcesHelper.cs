@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+// ReSharper disable once RedundantUsingDirective -- dotnet cannot compile
 using System.Reflection;
 
 namespace Tweetinvi.Core.Helpers
@@ -17,21 +18,17 @@ namespace Tweetinvi.Core.Helpers
         {
             var fields = type.GetFields().ToDictionary(x => x.Name);
 
-            FieldInfo fieldInfo;
-            if (fields.TryGetValue(resourceName, out fieldInfo))
+            if (fields.TryGetValue(resourceName, out var fieldInfo))
             {
                 var value = fieldInfo.GetValue(source);
-
                 return value as string;
             }
 
             var properties = type.GetProperties().ToDictionary(x => x.Name);
 
-            PropertyInfo propertyInfo;
-            if (properties.TryGetValue(resourceName, out propertyInfo))
+            if (properties.TryGetValue(resourceName, out var propertyInfo))
             {
                 var value = propertyInfo.GetValue(source, new object[0]);
-
                 return value as string;
             }
 

@@ -1,7 +1,6 @@
 ﻿using System;
 using Newtonsoft.Json;
 using Tweetinvi.Core.JsonConverters;
-using Tweetinvi.Models.DTO;
 using Tweetinvi.Models.DTO.Webhooks;
 
 namespace Tweetinvi.Logic.DTO

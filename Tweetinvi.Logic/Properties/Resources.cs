@@ -1,8 +1,8 @@
 ﻿using Tweetinvi.Core.Helpers;
 
+// ReSharper disable InconsistentNaming
 namespace Tweetinvi.Logic.Properties
 { 
-    // ReSharper disable InconsistentNaming
 #pragma warning disable 414
 
     internal static class Resources

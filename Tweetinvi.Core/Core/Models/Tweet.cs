@@ -5,12 +5,11 @@ using Tweetinvi.Core.Controllers;
 using Tweetinvi.Core.Core.Helpers;
 using Tweetinvi.Core.Factories;
 using Tweetinvi.Core.Models.TwitterEntities;
-using Tweetinvi.Logic.TwitterEntities;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
 using Tweetinvi.Models.Entities;
 
-namespace Tweetinvi.Logic
+namespace Tweetinvi.Core.Models
 {
     /// <summary>
     /// Class representing a Tweet
@@ -247,6 +246,7 @@ namespace Tweetinvi.Logic
         }
 
         private ITweet _retweetedTweet;
+
         public ITweet RetweetedTweet
         {
             get
@@ -277,6 +277,7 @@ namespace Tweetinvi.Logic
         }
 
         private ITweet _quotedTweet;
+
         public ITweet QuotedTweet
         {
             get
@@ -406,6 +407,7 @@ namespace Tweetinvi.Logic
         }
 
         private readonly DateTime _tweetLocalCreationDate = DateTime.Now;
+
         public DateTime TweetLocalCreationDate
         {
             get { return _tweetLocalCreationDate; }
@@ -505,14 +507,17 @@ namespace Tweetinvi.Logic
 
         public bool Equals(ITweet other)
         {
+            if (other == null)
+            {
+                return false;
+            }
+            
             // Equals is currently used to compare only if 2 tweets are the same
             // We do not look for the tweet version (DateTime)
 
-            bool result = _tweetDTO.Equals(other.TweetDTO) &&
-                          IsTweetPublished == other.IsTweetPublished &&
-                          IsTweetDestroyed == other.IsTweetDestroyed;
-
-            return result;
+            return _tweetDTO.Equals(other.TweetDTO) &&
+                   IsTweetPublished == other.IsTweetPublished &&
+                   IsTweetDestroyed == other.IsTweetDestroyed;
         }
     }
 }

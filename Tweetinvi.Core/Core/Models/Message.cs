@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Tweetinvi.Core.Controllers;
 using Tweetinvi.Models;
-using Tweetinvi.Models.DTO;
 using Tweetinvi.Models.DTO.Events;
 using Tweetinvi.Models.Entities;
 

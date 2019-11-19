@@ -2,7 +2,6 @@
 using Tweetinvi.Core.Core.Helpers;
 using Tweetinvi.Core.QueryValidators;
 using Tweetinvi.Models;
-using Tweetinvi.Models.DTO;
 using Tweetinvi.Models.DTO.Events;
 using Tweetinvi.Parameters;
 

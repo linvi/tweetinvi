@@ -9,7 +9,6 @@ using Tweetinvi.Core.Helpers;
 using Tweetinvi.Core.Models.Properties;
 using Tweetinvi.Core.Wrappers;
 using Tweetinvi.Events;
-using Tweetinvi.Logic.Model;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
 using Tweetinvi.Models.Webhooks;
