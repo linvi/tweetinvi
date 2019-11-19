@@ -6,6 +6,7 @@ using Tweetinvi.Core.Events;
 using Tweetinvi.Core.Extensions;
 using Tweetinvi.Core.Factories;
 using Tweetinvi.Core.Helpers;
+using Tweetinvi.Core.Models.Properties;
 using Tweetinvi.Core.Wrappers;
 using Tweetinvi.Events;
 using Tweetinvi.Logic.Model;

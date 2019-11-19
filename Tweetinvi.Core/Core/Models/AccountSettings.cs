@@ -1,7 +1,7 @@
 ﻿using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
 
-namespace Tweetinvi.Logic.Model
+namespace Tweetinvi.Core.Models
 {
     public class AccountSettings : IAccountSettings
     {

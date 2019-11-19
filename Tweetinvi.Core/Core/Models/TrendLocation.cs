@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using Tweetinvi.Models;
 
-namespace Tweetinvi.Logic.Model
+namespace Tweetinvi.Core.Models
 {
     public class TrendLocation : ITrendLocation
     {
@@ -56,6 +56,7 @@ namespace Tweetinvi.Logic.Model
         }
 
         [JsonProperty("placeType")]
+        // ReSharper disable once InconsistentNaming
         private PlaceTypeDTO _placeTypeDTO { get; set; }
     }
 }

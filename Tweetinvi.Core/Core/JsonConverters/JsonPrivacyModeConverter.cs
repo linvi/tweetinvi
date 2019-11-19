@@ -2,7 +2,7 @@
 using Newtonsoft.Json;
 using Tweetinvi.Models;
 
-namespace Tweetinvi.Logic.JsonConverters
+namespace Tweetinvi.Core.JsonConverters
 {
     public class JsonPrivacyModeConverter : JsonConverter
     {

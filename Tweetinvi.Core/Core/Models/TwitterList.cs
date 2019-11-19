@@ -7,7 +7,7 @@ using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
 using Tweetinvi.Parameters;
 
-namespace Tweetinvi.Logic
+namespace Tweetinvi.Core.Models
 {
     public class TwitterList : ITwitterList
     {
@@ -28,7 +28,7 @@ namespace Tweetinvi.Logic
 
         public ITwitterListDTO TwitterListDTO
         {
-            get { return _twitterListDTO; }
+            get => _twitterListDTO;
             set
             {
                 _twitterListDTO = value;
@@ -36,81 +36,21 @@ namespace Tweetinvi.Logic
             }
         }
 
-        public long Id
-        {
-            get { return _twitterListDTO.Id; }
-        }
-
-        public string IdStr
-        {
-            get { return _twitterListDTO.IdStr; }
-        }
-
-        public string Slug
-        {
-            get { return _twitterListDTO.Slug; }
-        }
-
-        public long? OwnerId
-        {
-            get { return _twitterListDTO.OwnerId; }
-        }
-
-        public string OwnerScreenName
-        {
-            get { return _twitterListDTO.OwnerScreenName; }
-        }
-
-        public string Name
-        {
-            get { return _twitterListDTO.Name; }
-        }
-
-        public string FullName
-        {
-            get { return _twitterListDTO.FullName; }
-        }
-
-        public IUser Owner
-        {
-            get { return _owner; }
-        }
-
-        public DateTime CreatedAt
-        {
-            get { return _twitterListDTO.CreatedAt; }
-        }
-
-        public string Uri
-        {
-            get { return _twitterListDTO.Uri; }
-
-        }
-
-        public string Description
-        {
-            get { return _twitterListDTO.Description; }
-        }
-
-        public bool Following
-        {
-            get { return _twitterListDTO.Following; }
-        }
-
-        public PrivacyMode PrivacyMode
-        {
-            get { return _twitterListDTO.PrivacyMode; }
-        }
-
-        public int MemberCount
-        {
-            get { return _twitterListDTO.MemberCount; }
-        }
-
-        public int SubscriberCount
-        {
-            get { return _twitterListDTO.SubscriberCount; }
-        }
+        public long Id => _twitterListDTO.Id;
+        public string IdStr => _twitterListDTO.IdStr;
+        public string Slug => _twitterListDTO.Slug;
+        public long? OwnerId => _twitterListDTO.OwnerId;
+        public string OwnerScreenName => _twitterListDTO.OwnerScreenName;
+        public string Name => _twitterListDTO.Name;
+        public string FullName => _twitterListDTO.FullName;
+        public IUser Owner => _owner;
+        public DateTime CreatedAt => _twitterListDTO.CreatedAt;
+        public string Uri => _twitterListDTO.Uri;
+        public string Description => _twitterListDTO.Description;
+        public bool Following => _twitterListDTO.Following;
+        public PrivacyMode PrivacyMode => _twitterListDTO.PrivacyMode;
+        public int MemberCount => _twitterListDTO.MemberCount;
+        public int SubscriberCount => _twitterListDTO.SubscriberCount;
 
         public Task<IEnumerable<ITweet>> GetTweets(IGetTweetsFromListParameters getTweetsFromListParameters = null)
         {

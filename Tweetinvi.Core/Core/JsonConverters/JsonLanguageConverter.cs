@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 using Tweetinvi.Core.Extensions;
 using Tweetinvi.Models;
 
-namespace Tweetinvi.Logic.JsonConverters
+namespace Tweetinvi.Core.JsonConverters
 {
     public class JsonLanguageConverter : JsonConverter
     {

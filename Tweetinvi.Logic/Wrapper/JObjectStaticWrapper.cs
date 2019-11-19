@@ -1,8 +1,8 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Tweetinvi.Core.Extensions;
+using Tweetinvi.Core.JsonConverters;
 using Tweetinvi.Core.Wrappers;
-using Tweetinvi.Logic.JsonConverters;
 
 namespace Tweetinvi.Logic.Wrapper
 {

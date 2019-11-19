@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using Tweetinvi.Core.Exceptions;
 
-namespace Tweetinvi.Logic.Exceptions
+namespace Tweetinvi.Core.Models.Properties
 {
     public class TwitterExceptionInfo : ITwitterExceptionInfo
     {

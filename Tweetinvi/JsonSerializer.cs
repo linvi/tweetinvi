@@ -7,7 +7,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Tweetinvi.Core.Controllers;
 using Tweetinvi.Core.Factories;
-using Tweetinvi.Logic.JsonConverters;
+using Tweetinvi.Core.JsonConverters;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
 

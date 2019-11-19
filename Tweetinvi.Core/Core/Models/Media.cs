@@ -1,13 +1,13 @@
 ﻿using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
 
-namespace Tweetinvi.Core.Models.Properties
+namespace Tweetinvi.Core.Models
 {
     public class Media : IMedia
     {
         // Parameter used to indicate that the media is in the process
         // of being uploaded, but has not yet completed. This give developers
-        // the ability to use chunked uploads from multiple computers in parrallel
+        // the ability to use chunked uploads from multiple computers in parallel
         private long? _existingMediaId;
 
         public string Name { get; set; }

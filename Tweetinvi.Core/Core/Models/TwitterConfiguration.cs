@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 using Tweetinvi.Models.DTO;
 using Tweetinvi.Models.Entities;
 
-namespace Tweetinvi.Logic.Model
+namespace Tweetinvi.Core.Models
 {
     public class TwitterConfiguration : ITwitterConfiguration
     {

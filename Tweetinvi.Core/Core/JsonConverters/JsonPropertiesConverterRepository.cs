@@ -7,7 +7,6 @@ using Tweetinvi.Core.Models;
 using Tweetinvi.Core.Models.Properties;
 using Tweetinvi.Core.Upload;
 using Tweetinvi.Logic.DTO;
-using Tweetinvi.Logic.Exceptions;
 using Tweetinvi.Logic.Model;
 using Tweetinvi.Logic.TwitterEntities;
 using Tweetinvi.Logic.TwitterEntities.ExtendedEntities;
@@ -18,7 +17,7 @@ using Tweetinvi.Models.DTO.Webhooks;
 using Tweetinvi.Models.Entities;
 using Tweetinvi.Models.Entities.ExtendedEntities;
 
-namespace Tweetinvi.Logic.JsonConverters
+namespace Tweetinvi.Core.JsonConverters
 {
     /// <summary>
     /// Repository of converters used to transform json into a collection of T

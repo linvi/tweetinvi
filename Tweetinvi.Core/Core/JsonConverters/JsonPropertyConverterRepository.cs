@@ -16,8 +16,9 @@ using Tweetinvi.Models.DTO.Events;
 using Tweetinvi.Models.DTO.Webhooks;
 using Tweetinvi.Models.Entities;
 using Tweetinvi.Models.Entities.ExtendedEntities;
+using TimeZone = Tweetinvi.Core.Models.Properties.TimeZone;
 
-namespace Tweetinvi.Logic.JsonConverters
+namespace Tweetinvi.Core.JsonConverters
 {
     /// <summary>
     /// Repository of converters used to transform json into a specific type T.
@@ -89,7 +90,7 @@ namespace Tweetinvi.Logic.JsonConverters
             var relationshipStateConverter = new JsonInterfaceToObjectConverter<IRelationshipStateDTO, RelationshipStateDTO>();
             var accountSettingsConverter = new JsonInterfaceToObjectConverter<IAccountSettingsDTO, AccountSettingsDTO>();
             var geoConverter = new JsonInterfaceToObjectConverter<IGeo, Geo>();
-            var timezoneConverter = new JsonInterfaceToObjectConverter<ITimeZone, Tweetinvi.Logic.Model.TimeZone>();
+            var timezoneConverter = new JsonInterfaceToObjectConverter<ITimeZone, TimeZone>();
             var trendLocationConverter = new JsonInterfaceToObjectConverter<ITrendLocation, TrendLocation>();
             var placeConverter = new JsonInterfaceToObjectConverter<IPlace, Place>();
             var trendConverter = new JsonInterfaceToObjectConverter<ITrend, Trend>();

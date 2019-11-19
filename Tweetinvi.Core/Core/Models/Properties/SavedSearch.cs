@@ -2,7 +2,7 @@
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
 
-namespace Tweetinvi.Logic.Model
+namespace Tweetinvi.Core.Models.Properties
 {
     public class SavedSearch : ISavedSearch
     {
@@ -15,35 +15,26 @@ namespace Tweetinvi.Logic.Model
 
         public ISavedSearchDTO SavedSearchDTO
         {
-            get { return _savedSearchDTO; }
-            set { _savedSearchDTO = value; }
+            get => _savedSearchDTO;
+            set => _savedSearchDTO = value;
         }
 
-        public long Id
-        {
-            get { return _savedSearchDTO.Id; }
-        }
+        public long Id => _savedSearchDTO.Id;
 
-        public string IdStr
-        {
-            get { return _savedSearchDTO.IdStr; }
-        }
+        public string IdStr => _savedSearchDTO.IdStr;
 
         public string Name
         {
-            get { return _savedSearchDTO.Name; }
-            set { _savedSearchDTO.Name = value; }
+            get => _savedSearchDTO.Name;
+            set => _savedSearchDTO.Name = value;
         }
 
         public string Query
         {
-            get { return _savedSearchDTO.Query; }
-            set { _savedSearchDTO.Query = value; }
+            get => _savedSearchDTO.Query;
+            set => _savedSearchDTO.Query = value;
         }
 
-        public DateTime CreatedAt
-        {
-            get { return _savedSearchDTO.CreatedAt; }
-        }
+        public DateTime CreatedAt => _savedSearchDTO.CreatedAt;
     }
 }

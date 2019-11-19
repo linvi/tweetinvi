@@ -3,7 +3,7 @@ using Tweetinvi.Core.Extensions;
 using Tweetinvi.Core.Helpers;
 using Tweetinvi.Core.Wrappers;
 
-namespace Tweetinvi.Logic.JsonConverters
+namespace Tweetinvi.Core.JsonConverters
 {
     public class JsonObjectConverter : IJsonObjectConverter
     {

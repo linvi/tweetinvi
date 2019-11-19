@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Newtonsoft.Json;
 using Tweetinvi.Core.Extensions;
-using Tweetinvi.Logic.JsonConverters;
+using Tweetinvi.Core.JsonConverters;
 using Tweetinvi.Models.Entities;
 using Tweetinvi.Models.Entities.ExtendedEntities;
 

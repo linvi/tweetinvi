@@ -2,7 +2,7 @@
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
 
-namespace Tweetinvi.Logic.Model
+namespace Tweetinvi.Core.Models.Properties
 {
     public class SearchQueryResult : ISearchQueryResult
     {

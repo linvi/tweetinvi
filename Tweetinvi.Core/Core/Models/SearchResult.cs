@@ -2,7 +2,7 @@
 using System.Linq;
 using Tweetinvi.Models;
 
-namespace Tweetinvi.Logic.Model
+namespace Tweetinvi.Core.Models
 {
     public class SearchResult : ISearchResult
     {

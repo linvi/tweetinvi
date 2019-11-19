@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Newtonsoft.Json;
+using Tweetinvi.Core.Models.Properties;
 using Tweetinvi.Logic.DTO;
 using Tweetinvi.Logic.Model;
 

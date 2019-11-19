@@ -1,7 +1,7 @@
 ﻿using System;
 using Tweetinvi.Core.Injectinvi;
+using Tweetinvi.Core.JsonConverters;
 using Tweetinvi.Events;
-using Tweetinvi.Logic.JsonConverters;
 
 namespace Tweetinvi.Injectinvi
 {

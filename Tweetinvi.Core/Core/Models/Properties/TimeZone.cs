@@ -1,8 +1,8 @@
 ﻿using Newtonsoft.Json;
-using Tweetinvi.Logic.JsonConverters;
+using Tweetinvi.Core.JsonConverters;
 using Tweetinvi.Models;
 
-namespace Tweetinvi.Logic.Model
+namespace Tweetinvi.Core.Models.Properties
 {
     public class TimeZone : ITimeZone
     {

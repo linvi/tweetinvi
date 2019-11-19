@@ -1,4 +1,4 @@
-﻿namespace Tweetinvi.Core.Models
+﻿namespace Tweetinvi.Core.Models.Properties
 {
     public class FailedAsyncOperation<T> : AsyncOperation<T>
     {

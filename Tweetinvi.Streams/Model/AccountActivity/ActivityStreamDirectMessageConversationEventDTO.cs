@@ -1,6 +1,6 @@
 ﻿using System;
 using Newtonsoft.Json;
-using Tweetinvi.Logic.JsonConverters;
+using Tweetinvi.Core.JsonConverters;
 
 namespace Tweetinvi.Streams.Model.AccountActivity
 {

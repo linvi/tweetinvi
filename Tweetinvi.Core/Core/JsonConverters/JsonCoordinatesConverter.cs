@@ -4,7 +4,7 @@ using Newtonsoft.Json;
 using Tweetinvi.Logic.DTO;
 using Tweetinvi.Models;
 
-namespace Tweetinvi.Logic.JsonConverters
+namespace Tweetinvi.Core.JsonConverters
 {
     public class JsonCoordinatesConverter : JsonConverter
     {

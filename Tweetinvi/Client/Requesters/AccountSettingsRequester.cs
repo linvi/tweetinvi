@@ -2,6 +2,8 @@ using System.Threading.Tasks;
 using Tweetinvi.Controllers.AccountSettings;
 using Tweetinvi.Core.Client.Validators;
 using Tweetinvi.Core.Factories;
+using Tweetinvi.Core.Models;
+using Tweetinvi.Core.Models.Properties;
 using Tweetinvi.Core.Web;
 using Tweetinvi.Logic.Model;
 using Tweetinvi.Models;

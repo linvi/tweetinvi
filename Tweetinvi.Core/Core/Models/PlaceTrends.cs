@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
-using Tweetinvi.Logic.JsonConverters;
+using Tweetinvi.Core.JsonConverters;
 using Tweetinvi.Models;
 
-namespace Tweetinvi.Core.Models.Properties
+namespace Tweetinvi.Core.Models
 {
     public class PlaceTrends : IPlaceTrends
     {

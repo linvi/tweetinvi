@@ -5,7 +5,7 @@ using System.Reflection;
 using Newtonsoft.Json;
 using Tweetinvi.Core.Attributes;
 
-namespace Tweetinvi.Logic.JsonConverters
+namespace Tweetinvi.Core.JsonConverters
 {
     /// <summary>
     /// A JSON converter that (de)serializes an enum to a string using a JsonEnumStringAttribute above each value.

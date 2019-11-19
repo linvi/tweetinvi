@@ -1,6 +1,7 @@
 ﻿using Tweetinvi.Core.Exceptions;
 using Tweetinvi.Core.Helpers;
 using Tweetinvi.Core.Injectinvi;
+using Tweetinvi.Core.JsonConverters;
 using Tweetinvi.Core.Models;
 using Tweetinvi.Core.Models.Properties;
 using Tweetinvi.Core.Parameters;
@@ -9,7 +10,6 @@ using Tweetinvi.Exceptions;
 using Tweetinvi.Logic.DTO;
 using Tweetinvi.Logic.Exceptions;
 using Tweetinvi.Logic.Helpers;
-using Tweetinvi.Logic.JsonConverters;
 using Tweetinvi.Logic.Model;
 using Tweetinvi.Logic.QueryParameters;
 using Tweetinvi.Logic.TwitterEntities;
@@ -41,7 +41,6 @@ namespace Tweetinvi.Logic
         {
             container.RegisterType<IMedia, Media>();
             container.RegisterType<ISearchQueryResult, SearchQueryResult>();
-            container.RegisterGeneric(typeof(IResultsWithCursor<>), typeof(ResultsWithCursor<>));
         }
 
         // Initialize Models that are Twitter objects

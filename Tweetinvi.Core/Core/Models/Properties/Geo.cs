@@ -4,7 +4,7 @@ using Newtonsoft.Json;
 using Tweetinvi.Core.Extensions;
 using Tweetinvi.Models;
 
-namespace Tweetinvi.Logic.Model
+namespace Tweetinvi.Core.Models.Properties
 {
     /// <summary>
     /// Geographic information of a location

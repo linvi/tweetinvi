@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using Tweetinvi.Models;
 
-namespace Tweetinvi.Logic.Model
+namespace Tweetinvi.Core.Models.Properties
 {
     public class QuickReplyOption : IQuickReplyOption
     {
