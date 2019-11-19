@@ -96,7 +96,7 @@ namespace Tweetinvi
         // TO JSON
         public static string ToJson<T>(this T obj) where T : class
         {
-            return ToJson(obj, (IJsonSerializer)null);
+            return ToJson(obj, null);
         }
 
         public static string ToJson<T1, T2>(this T1 obj, Func<T1, T2> getSerializableObject) where T1 : class where T2 : class
@@ -175,7 +175,7 @@ namespace Tweetinvi
 
         public static T ConvertJsonTo<T>(this string json) where T : class
         {
-            return ConvertJsonTo<T>(json, (IJsonSerializer)null);
+            return ConvertJsonTo<T>(json, null);
         }
 
         public static T1 ConvertJsonTo<T1, T2>(this string json, Func<string, T2> deserialize) where T1 : class where T2 : class

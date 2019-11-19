@@ -30,25 +30,25 @@ namespace Tweetinvi.Client.Requesters
         
         public Task<IChunkUploadResult> UploadBinary(IUploadParameters parameters)
         {
-            var request = _twitterClient.CreateRequest();
+            var request = TwitterClient.CreateRequest();
             return _uploadQueryExecutor.UploadBinary(parameters, request);
         }
 
         public Task<ITwitterResult> AddMediaMetadata(IAddMediaMetadataParameters parameters)
         {
-            var request = _twitterClient.CreateRequest();
+            var request = TwitterClient.CreateRequest();
             return _uploadQueryExecutor.AddMediaMetadata(parameters, request);
         }
 
         public Task<ITwitterResult<IUploadedMediaInfo>> GetVideoProcessingStatus(IMedia media)
         {
-            var request = _twitterClient.CreateRequest();
+            var request = TwitterClient.CreateRequest();
             return _uploadMediaStatusQueryExecutor.GetMediaStatus(media, request);
         }
 
         public Task WaitForMediaProcessingToGetAllMetadata(IMedia media)
         {
-            var request = _twitterClient.CreateRequest();
+            var request = TwitterClient.CreateRequest();
             return _uploadHelper.WaitForMediaProcessingToGetAllMetadata(media, request);
         }
     }

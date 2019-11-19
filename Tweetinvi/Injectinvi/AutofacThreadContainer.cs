@@ -38,7 +38,7 @@ namespace Tweetinvi.Injectinvi
             throw new NotImplementedException();
         }
 
-        public void RegisterInstance(Type T, object value)
+        public void RegisterInstance(Type targetType, object value)
         {
             throw new NotImplementedException();
         }

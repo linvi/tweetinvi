@@ -39,14 +39,14 @@ namespace Tweetinvi.Client.Requesters
         {
             _validator.Validate(parameters);
             
-            var request = _twitterClient.CreateRequest();
+            var request = TwitterClient.CreateRequest();
             var result = await ExecuteRequest(() => _accountController.GetAuthenticatedUser(parameters, request), request).ConfigureAwait(false);
 
             var user = result.Result;
 
             if (user != null)
             {
-                user.Client = _twitterClient;
+                user.Client = TwitterClient;
             }
 
             return result;
@@ -57,7 +57,7 @@ namespace Tweetinvi.Client.Requesters
         {
             _validator.Validate(parameters);
             
-            var request = _twitterClient.CreateRequest();
+            var request = TwitterClient.CreateRequest();
             return ExecuteRequest(() => _accountController.FollowUser(parameters, request), request);
         }
         
@@ -65,7 +65,7 @@ namespace Tweetinvi.Client.Requesters
         {
             _validator.Validate(parameters);
             
-            var request = _twitterClient.CreateRequest();
+            var request = TwitterClient.CreateRequest();
             var result = await ExecuteRequest(() => _accountController.UpdateRelationship(parameters, request), request).ConfigureAwait(false);
             
             return _twitterResultFactory.Create(result, _friendshipFactory.GenerateRelationshipFromRelationshipDTO);
@@ -75,7 +75,7 @@ namespace Tweetinvi.Client.Requesters
         {
             _validator.Validate(parameters);
             
-            var request = _twitterClient.CreateRequest();
+            var request = TwitterClient.CreateRequest();
             return ExecuteRequest(() => _accountController.UnFollowUser(parameters, request), request);
         }
 
@@ -83,7 +83,7 @@ namespace Tweetinvi.Client.Requesters
         {
             _validator.Validate(parameters);
             
-            var request = _twitterClient.CreateRequest();
+            var request = TwitterClient.CreateRequest();
             request.ExecutionContext.Converters = JsonQueryConverterRepository.Converters;
             return _accountController.GetUserIdsRequestingFriendship(parameters, request);
         }
@@ -92,7 +92,7 @@ namespace Tweetinvi.Client.Requesters
         {
             _validator.Validate(parameters);
             
-            var request = _twitterClient.CreateRequest();
+            var request = TwitterClient.CreateRequest();
             request.ExecutionContext.Converters = JsonQueryConverterRepository.Converters;
             return _accountController.GetUserIdsYouRequestedToFollow(parameters, request);
         }
@@ -102,7 +102,7 @@ namespace Tweetinvi.Client.Requesters
         {
             _validator.Validate(parameters);
             
-            var request = _twitterClient.CreateRequest();
+            var request = TwitterClient.CreateRequest();
             return ExecuteRequest(() => _accountController.BlockUser(parameters, request), request);
         }
 
@@ -110,7 +110,7 @@ namespace Tweetinvi.Client.Requesters
         {
             _validator.Validate(parameters);
             
-            var request = _twitterClient.CreateRequest();
+            var request = TwitterClient.CreateRequest();
             return ExecuteRequest(() => _accountController.UnblockUser(parameters, request), request);
         }
 
@@ -118,7 +118,7 @@ namespace Tweetinvi.Client.Requesters
         {
             _validator.Validate(parameters);
             
-            var request = _twitterClient.CreateRequest();
+            var request = TwitterClient.CreateRequest();
             return ExecuteRequest(() => _accountController.ReportUserForSpam(parameters, request), request);
         }
 
@@ -126,7 +126,7 @@ namespace Tweetinvi.Client.Requesters
         {
             _validator.Validate(parameters);
             
-            var request = _twitterClient.CreateRequest();
+            var request = TwitterClient.CreateRequest();
             request.ExecutionContext.Converters = JsonQueryConverterRepository.Converters;
             return _accountController.GetBlockedUserIds(parameters, request);
         }
@@ -135,7 +135,7 @@ namespace Tweetinvi.Client.Requesters
         {
             _validator.Validate(parameters);
             
-            var request = _twitterClient.CreateRequest();
+            var request = TwitterClient.CreateRequest();
             request.ExecutionContext.Converters = JsonQueryConverterRepository.Converters;
             return _accountController.GetBlockedUsers(parameters, request);
         }
@@ -145,7 +145,7 @@ namespace Tweetinvi.Client.Requesters
         {
             _validator.Validate(parameters);
             
-            var request = _twitterClient.CreateRequest();
+            var request = TwitterClient.CreateRequest();
             var twitterResult = await _accountController.GetRelationshipsWith(parameters, request).ConfigureAwait(false);
 
             return _twitterResultFactory.Create(twitterResult, _friendshipFactory.GenerateRelationshipStatesFromRelationshipStatesDTO);
@@ -156,7 +156,7 @@ namespace Tweetinvi.Client.Requesters
         {
             _validator.Validate(parameters);
             
-            var request = _twitterClient.CreateRequest();
+            var request = TwitterClient.CreateRequest();
             return _accountController.GetUserIdsWhoseRetweetsAreMuted(parameters, request);
         }
 
@@ -164,7 +164,7 @@ namespace Tweetinvi.Client.Requesters
         {
             _validator.Validate(parameters);
             
-            var request = _twitterClient.CreateRequest();
+            var request = TwitterClient.CreateRequest();
             request.ExecutionContext.Converters = JsonQueryConverterRepository.Converters;
             return _accountController.GetMutedUserIds(parameters, request);
         }
@@ -173,7 +173,7 @@ namespace Tweetinvi.Client.Requesters
         {
             _validator.Validate(parameters);
             
-            var request = _twitterClient.CreateRequest();
+            var request = TwitterClient.CreateRequest();
             request.ExecutionContext.Converters = JsonQueryConverterRepository.Converters;
             return _accountController.GetMutedUsers(parameters, request);
         }
@@ -181,14 +181,14 @@ namespace Tweetinvi.Client.Requesters
         public Task<ITwitterResult<IUserDTO>> MuteUser(IMuteUserParameters parameters)
         {
             _validator.Validate(parameters);
-            var request = _twitterClient.CreateRequest();
+            var request = TwitterClient.CreateRequest();
             return _accountController.MuteUser(parameters, request);
         }
 
         public Task<ITwitterResult<IUserDTO>> UnMuteUser(IUnMuteUserParameters parameters)
         {
             _validator.Validate(parameters);
-            var request = _twitterClient.CreateRequest();
+            var request = TwitterClient.CreateRequest();
             return _accountController.UnMuteUser(parameters, request);
         }
     }

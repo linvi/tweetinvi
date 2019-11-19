@@ -11,16 +11,16 @@ namespace Tweetinvi.Client
 
     public abstract class BaseRequester : IBaseRequester
     {
-        protected ITwitterClient _twitterClient;
+        protected ITwitterClient TwitterClient { get; private set; }
 
         public void Initialize(ITwitterClient client)
         {
-            if (_twitterClient != null)
+            if (TwitterClient != null)
             {
                 throw new InvalidOperationException("createRequest cannot be changed");
             }
 
-            _twitterClient = client;
+            TwitterClient = client;
         }
 
         protected async Task<T> ExecuteRequest<T>(Func<Task<T>> action, ITwitterRequest request) where T : class

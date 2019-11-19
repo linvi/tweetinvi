@@ -41,18 +41,18 @@ namespace Tweetinvi.Client.Requesters
         {
             _tweetsClientRequiredParametersValidator.Validate(parameters);
             
-            var request = _twitterClient.CreateRequest();
+            var request = TwitterClient.CreateRequest();
             var twitterResult = await ExecuteRequest(() => _tweetController.GetTweet(parameters, request), request).ConfigureAwait(false);
-            return _twitterResultFactory.Create(twitterResult, dto => _tweetFactory.GenerateTweetFromDTO(dto, request.ExecutionContext.TweetMode, _twitterClient));
+            return _twitterResultFactory.Create(twitterResult, dto => _tweetFactory.GenerateTweetFromDTO(dto, request.ExecutionContext.TweetMode, TwitterClient));
         }
 
         public async Task<ITwitterResult<ITweetDTO[], ITweet[]>> GetTweets(IGetTweetsParameters parameters)
         {
             _tweetsClientRequiredParametersValidator.Validate(parameters);
             
-            var request = _twitterClient.CreateRequest();
+            var request = TwitterClient.CreateRequest();
             var twitterResult = await ExecuteRequest(() => _tweetController.GetTweets(parameters, request), request).ConfigureAwait(false);
-            return _twitterResultFactory.Create(twitterResult, dtos => _tweetFactory.GenerateTweetsFromDTO(dtos, request.ExecutionContext.TweetMode, _twitterClient).ToArray());
+            return _twitterResultFactory.Create(twitterResult, dtos => _tweetFactory.GenerateTweetsFromDTO(dtos, request.ExecutionContext.TweetMode, TwitterClient).ToArray());
         }
 
         // Tweets - Publish
@@ -60,9 +60,9 @@ namespace Tweetinvi.Client.Requesters
         {
             _tweetsClientRequiredParametersValidator.Validate(parameters);
             
-            var request = _twitterClient.CreateRequest();
+            var request = TwitterClient.CreateRequest();
             var twitterResult = await ExecuteRequest(() => _tweetController.PublishTweet(parameters, request), request).ConfigureAwait(false);
-            return _twitterResultFactory.Create(twitterResult, tweetDTO => _tweetFactory.GenerateTweetFromDTO(tweetDTO, request.ExecutionContext.TweetMode, _twitterClient));
+            return _twitterResultFactory.Create(twitterResult, tweetDTO => _tweetFactory.GenerateTweetFromDTO(tweetDTO, request.ExecutionContext.TweetMode, TwitterClient));
         }
 
         // Tweets - Destroy
@@ -70,7 +70,7 @@ namespace Tweetinvi.Client.Requesters
         {
             _tweetsClientRequiredParametersValidator.Validate(parameters);
             
-            var request = _twitterClient.CreateRequest();
+            var request = TwitterClient.CreateRequest();
             return ExecuteRequest(() => _tweetController.DestroyTweet(parameters, request), request);
         }
 
@@ -79,9 +79,9 @@ namespace Tweetinvi.Client.Requesters
         {
             _tweetsClientRequiredParametersValidator.Validate(parameters);
             
-            var request = _twitterClient.CreateRequest();
+            var request = TwitterClient.CreateRequest();
             var retweetsDTO = await ExecuteRequest(() => _tweetController.GetRetweets(parameters, request), request).ConfigureAwait(false);
-            return _twitterResultFactory.Create(retweetsDTO, tweetDTOs => _tweetFactory.GenerateTweetsFromDTO(tweetDTOs, request.ExecutionContext.TweetMode, _twitterClient));
+            return _twitterResultFactory.Create(retweetsDTO, tweetDTOs => _tweetFactory.GenerateTweetsFromDTO(tweetDTOs, request.ExecutionContext.TweetMode, TwitterClient));
         }
 
         // Retweets - Publish
@@ -89,9 +89,9 @@ namespace Tweetinvi.Client.Requesters
         {
             _tweetsClientRequiredParametersValidator.Validate(parameters);
             
-            var request = _twitterClient.CreateRequest();
+            var request = TwitterClient.CreateRequest();
             var twitterResult = await ExecuteRequest(() => _tweetController.PublishRetweet(parameters, request), request).ConfigureAwait(false);
-            return _twitterResultFactory.Create(twitterResult, tweetDTO => _tweetFactory.GenerateTweetFromDTO(tweetDTO, request.ExecutionContext.TweetMode, _twitterClient));
+            return _twitterResultFactory.Create(twitterResult, tweetDTO => _tweetFactory.GenerateTweetFromDTO(tweetDTO, request.ExecutionContext.TweetMode, TwitterClient));
         }
 
         // Retweets - Destroy
@@ -99,7 +99,7 @@ namespace Tweetinvi.Client.Requesters
         {
             _tweetsClientRequiredParametersValidator.Validate(parameters);
             
-            var request = _twitterClient.CreateRequest();
+            var request = TwitterClient.CreateRequest();
             return ExecuteRequest(() => _tweetController.DestroyRetweet(parameters, request), request);
         }
         
@@ -107,7 +107,7 @@ namespace Tweetinvi.Client.Requesters
         {
             _tweetsClientRequiredParametersValidator.Validate(parameters);
             
-            var request = _twitterClient.CreateRequest();
+            var request = TwitterClient.CreateRequest();
             request.ExecutionContext.Converters = JsonQueryConverterRepository.Converters;
             return _tweetController.GetRetweeterIds(parameters, request);
         }
@@ -116,7 +116,7 @@ namespace Tweetinvi.Client.Requesters
         {
             _tweetsClientRequiredParametersValidator.Validate(parameters);
             
-            var request = _twitterClient.CreateRequest();
+            var request = TwitterClient.CreateRequest();
             return _tweetController.GetFavoriteTweets(parameters, request);
         }
     }

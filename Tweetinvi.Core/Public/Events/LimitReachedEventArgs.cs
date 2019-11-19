@@ -9,6 +9,6 @@ namespace Tweetinvi.Events
             NumberOfTweetsNotReceived = numberOfTweetsNotReceived;
         }
 
-        public int NumberOfTweetsNotReceived { get; private set; }
+        public int NumberOfTweetsNotReceived { get; }
     }
 }

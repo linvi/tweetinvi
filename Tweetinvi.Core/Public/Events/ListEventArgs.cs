@@ -10,7 +10,7 @@ namespace Tweetinvi.Events
             List = list;
         }
 
-        public ITwitterList List { get; private set; }
+        public ITwitterList List { get; }
     }
 
     public class ListUserUpdatedEventArgs : ListEventArgs
@@ -21,6 +21,6 @@ namespace Tweetinvi.Events
             User = user;
         }
 
-        public IUser User { get; private set; }
+        public IUser User { get; }
     }
 }

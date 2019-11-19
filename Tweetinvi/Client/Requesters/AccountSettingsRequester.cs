@@ -13,7 +13,7 @@ namespace Tweetinvi.Client.Requesters
     public interface IInternalAccountSettingsRequester : IAccountSettingsRequester, IBaseRequester
     {
     }
-    
+
     public class AccountSettingsRequester : BaseRequester, IInternalAccountSettingsRequester
     {
         private readonly IUserFactory _userFactory;
@@ -36,8 +36,8 @@ namespace Tweetinvi.Client.Requesters
         public async Task<ITwitterResult<IAccountSettingsDTO, IAccountSettings>> GetAccountSettings(IGetAccountSettingsParameters parameters)
         {
             _validator.Validate(parameters);
-            
-            var request = _twitterClient.CreateRequest();
+
+            var request = TwitterClient.CreateRequest();
             var twitterResult = await _accountSettingsController.GetAccountSettings(parameters, request).ConfigureAwait(false);
             return _twitterResultFactory.Create<IAccountSettingsDTO, IAccountSettings>(twitterResult, dto => new AccountSettings(dto));
         }
@@ -45,24 +45,24 @@ namespace Tweetinvi.Client.Requesters
         public async Task<ITwitterResult<IAccountSettingsDTO, IAccountSettings>> UpdateAccountSettings(IUpdateAccountSettingsParameters parameters)
         {
             _validator.Validate(parameters);
-            
-            var request = _twitterClient.CreateRequest();
+
+            var request = TwitterClient.CreateRequest();
             var twitterResult = await _accountSettingsController.UpdateAccountSettings(parameters, request).ConfigureAwait(false);
             return _twitterResultFactory.Create<IAccountSettingsDTO, IAccountSettings>(twitterResult, dto => new AccountSettings(dto));
         }
-        
+
         public async Task<ITwitterResult<IUserDTO, IAuthenticatedUser>> UpdateProfile(IUpdateProfileParameters parameters)
         {
             _validator.Validate(parameters);
-            
-            var request = _twitterClient.CreateRequest();
+
+            var request = TwitterClient.CreateRequest();
             var twitterResult = await _accountSettingsController.UpdateProfile(parameters, request).ConfigureAwait(false);
-            return _twitterResultFactory.Create<IUserDTO, IAuthenticatedUser>(twitterResult, dto =>
+            return _twitterResultFactory.Create(twitterResult, dto =>
             {
                 var user = _userFactory.GenerateAuthenticatedUserFromDTO(dto);
                 if (user != null)
                 {
-                    user.Client = _twitterClient;
+                    user.Client = TwitterClient;
                 }
                 return user;
             });
@@ -71,24 +71,24 @@ namespace Tweetinvi.Client.Requesters
         public Task<ITwitterResult<IUserDTO>> UpdateProfileImage(IUpdateProfileImageParameters parameters)
         {
             _validator.Validate(parameters);
-            
-            var request = _twitterClient.CreateRequest();
+
+            var request = TwitterClient.CreateRequest();
             return _accountSettingsController.UpdateProfileImage(parameters, request);
         }
 
         public Task<ITwitterResult> UpdateProfileBanner(IUpdateProfileBannerParameters parameters)
         {
             _validator.Validate(parameters);
-            
-            var request = _twitterClient.CreateRequest();
+
+            var request = TwitterClient.CreateRequest();
             return _accountSettingsController.UpdateProfileBanner(parameters, request);
         }
 
         public Task<ITwitterResult> RemoveProfileBanner(IRemoveProfileBannerParameters parameters)
         {
             _validator.Validate(parameters);
-            
-            var request = _twitterClient.CreateRequest();
+
+            var request = TwitterClient.CreateRequest();
             return _accountSettingsController.RemoveProfileBanner(parameters, request);
         }
     }

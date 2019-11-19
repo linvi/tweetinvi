@@ -9,6 +9,6 @@ namespace Tweetinvi.Events
             Json = json;
         }
 
-        public string Json { get; private set; }
+        public string Json { get; }
     }
 }

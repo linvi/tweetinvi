@@ -43,7 +43,7 @@ namespace Tweetinvi.Client.Requesters
         {
             _validator.Validate(parameters);
             
-            var request = _twitterClient.CreateRequest();
+            var request = TwitterClient.CreateRequest();
             var twitterResult = await ExecuteRequest(() => _userController.GetUser(parameters, request), request).ConfigureAwait(false);
             
             return _twitterResultFactory.Create(twitterResult, userDTO =>
@@ -52,7 +52,7 @@ namespace Tweetinvi.Client.Requesters
                 
                 if (user != null)
                 {
-                    user.Client = _twitterClient;
+                    user.Client = TwitterClient;
                 }
 
                 return user;
@@ -63,13 +63,13 @@ namespace Tweetinvi.Client.Requesters
         {
             _validator.Validate(parameters);
             
-            var request = _twitterClient.CreateRequest();
+            var request = TwitterClient.CreateRequest();
             var result = await ExecuteRequest(() => _userController.GetUsers(parameters, request), request).ConfigureAwait(false);
             
             return _twitterResultFactory.Create(result, userDTO =>
             {
                 var users = _userFactory.GenerateUsersFromDTO(userDTO, null);
-                users?.ForEach(x => x.Client = _twitterClient);
+                users?.ForEach(x => x.Client = TwitterClient);
                 return users;
             });
         }
@@ -78,7 +78,7 @@ namespace Tweetinvi.Client.Requesters
         {
             _validator.Validate(parameters);
             
-            var request = _twitterClient.CreateRequest();
+            var request = TwitterClient.CreateRequest();
             request.ExecutionContext.Converters = JsonQueryConverterRepository.Converters;
             return _userController.GetFriendIds(parameters, request);
         }
@@ -87,7 +87,7 @@ namespace Tweetinvi.Client.Requesters
         {
             _validator.Validate(parameters);
             
-            var request = _twitterClient.CreateRequest();
+            var request = TwitterClient.CreateRequest();
             request.ExecutionContext.Converters = JsonQueryConverterRepository.Converters;
             return _userController.GetFollowerIds(parameters, request);
         }
@@ -96,7 +96,7 @@ namespace Tweetinvi.Client.Requesters
         {
             _validator.Validate(parameters);
             
-            var request = _twitterClient.CreateRequest();
+            var request = TwitterClient.CreateRequest();
             var result = await ExecuteRequest(() => _userController.GetRelationshipBetween(parameters, request), request).ConfigureAwait(false);
 
             return _twitterResultFactory.Create(result, _friendshipFactory.GenerateRelationshipFromRelationshipDTO);
@@ -106,7 +106,7 @@ namespace Tweetinvi.Client.Requesters
         {
             _validator.Validate(parameters);
             
-            var request = _twitterClient.CreateRequest();
+            var request = TwitterClient.CreateRequest();
             return _userController.GetProfileImageStream(parameters, request);
         }
     }

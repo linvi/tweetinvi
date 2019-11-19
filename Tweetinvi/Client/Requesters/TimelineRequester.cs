@@ -28,7 +28,7 @@ namespace Tweetinvi.Client.Requesters
         {
             _validator.Validate(parameters);
             
-            var request = _twitterClient.CreateRequest();
+            var request = TwitterClient.CreateRequest();
             return _timelineController.GetRetweetsOfMeTimeline(parameters, request);
         }
     }

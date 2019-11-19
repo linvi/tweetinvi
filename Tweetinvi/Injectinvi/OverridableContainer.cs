@@ -38,9 +38,9 @@ namespace Tweetinvi.Injectinvi
             _container.RegisterGeneric(sourceType, targetType, registrationLifetime);
         }
 
-        public void RegisterInstance(Type T, object value)
+        public void RegisterInstance(Type targetType, object value)
         {
-            _container.RegisterInstance(T, value);
+            _container.RegisterInstance(targetType, value);
         }
 
         public T Resolve<T>(params IConstructorNamedParameter[] parameters)
