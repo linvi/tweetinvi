@@ -40,7 +40,7 @@ namespace Tweetinvi.Parameters
 
         public GetProfileImageParameters(IGetProfileImageParameters parameters) : base(parameters)
         {
-            ImageSize = ImageSize.normal;
+            ImageSize = ImageSize.Normal;
 
             if (parameters == null) return;
 

@@ -1,4 +1,4 @@
-﻿namespace Tweetinvi.Core.Public.Models.Enum
+﻿namespace Tweetinvi.Models
 {
     /// <summary>
     /// List of known media categories. This list might not be complete.

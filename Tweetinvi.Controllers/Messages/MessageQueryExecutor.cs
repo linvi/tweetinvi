@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Tweetinvi.Core.Web;
 using Tweetinvi.Models.DTO;
+using Tweetinvi.Models.DTO.Events;
 using Tweetinvi.Parameters;
 
 namespace Tweetinvi.Controllers.Messages

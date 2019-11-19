@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Tweetinvi.Controllers.Properties;
 using Tweetinvi.Core.Injectinvi;
-using Tweetinvi.Core.Public.Models.Enum;
 using Tweetinvi.Core.Public.Parameters.Enum;
 using Tweetinvi.Core.Upload;
 using Tweetinvi.Core.Web;

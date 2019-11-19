@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Tweetinvi.Core.Public.Models.Interfaces.DTO.Webhooks;
 using Tweetinvi.Models.DTO;
+using Tweetinvi.Models.DTO.Webhooks;
 
 namespace Tweetinvi.Models
 {

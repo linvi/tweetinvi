@@ -6,6 +6,7 @@ using System.Security.Cryptography;
 using Tweetinvi.Core.Models;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
+using Tweetinvi.Models.DTO.Webhooks;
 
 namespace Tweetinvi.Core.Logic
 {

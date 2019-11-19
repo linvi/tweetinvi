@@ -1,8 +1,8 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
 using Tweetinvi;
-using Tweetinvi.Core.Public.Models.Interfaces.DTO.Webhooks;
 using Tweetinvi.Models;
+using Tweetinvi.Models.DTO.Webhooks;
 
 namespace Examplinvi.AccountActivityEvents.Controllers
 {

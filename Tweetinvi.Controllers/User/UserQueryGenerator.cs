@@ -106,7 +106,7 @@ namespace Tweetinvi.Controllers.User
                 throw new ArgumentException("ImageUrl cannot be null or empty", nameof(parameters));
             }
 
-            var query = new StringBuilder(parameters.ImageUrl.Replace("_normal", $"_{parameters.ImageSize}"));
+            var query = new StringBuilder(parameters.ImageUrl.Replace("_normal", $"_{parameters.ImageSize.ToString().ToLowerInvariant()}"));
 
             query.AddFormattedParameterToQuery(parameters.FormattedCustomQueryParameters);
 

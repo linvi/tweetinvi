@@ -335,7 +335,7 @@ namespace Tweetinvi.Logic
         {
             return Client.Users.GetRelationshipBetween(this, user);
         }
-        
+
         public Task<IRelationshipDetails> GetRelationshipWith(long? userId)
         {
             return Client.Users.GetRelationshipBetween(this, userId);
@@ -394,7 +394,7 @@ namespace Tweetinvi.Logic
         // Stream Profile Image
         public Task<Stream> GetProfileImageStream()
         {
-            return GetProfileImageStream(ImageSize.normal);
+            return GetProfileImageStream(ImageSize.Normal);
         }
 
         public Task<Stream> GetProfileImageStream(ImageSize imageSize)

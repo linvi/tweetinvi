@@ -15,8 +15,8 @@
     {
         public UploadVideoParameters(byte[] binary) : base(binary)
         {
-            MediaType = Core.Public.Models.Enum.MediaType.VideoMp4;
-            MediaCategory = Core.Public.Models.Enum.MediaCategory.Video;
+            MediaType = Models.MediaType.VideoMp4;
+            MediaCategory = Models.MediaCategory.Video;
         }
     }
 }

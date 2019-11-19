@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using Tweetinvi.Models.DTO;
 
-namespace Tweetinvi.Logic.DTO
+namespace Tweetinvi.Core.DTO
 {
     public class TweetFromSearchMetadata : ITweetFromSearchMetadata
     {
@@ -9,6 +9,6 @@ namespace Tweetinvi.Logic.DTO
         public string ResultType { get; private set; }
 
         [JsonProperty("iso_language_code")]
-        public string ISOLanguageCode { get; private set; }
+        public string IsoLanguageCode { get; private set; }
     }
 }

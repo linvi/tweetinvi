@@ -1,6 +1,4 @@
-﻿using Tweetinvi.Public.Models.Enum;
-
-namespace Tweetinvi.Models.DTO
+﻿namespace Tweetinvi.Models.DTO
 {
     public interface IUploadProcessingInfo
     {

@@ -1,4 +1,4 @@
-﻿namespace Tweetinvi.Core.Public.Models.Enum
+﻿namespace Tweetinvi.Models
 {
     /// <summary>
     /// Type of media that you want to upload

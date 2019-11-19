@@ -200,6 +200,7 @@ namespace Tweetinvi.Models
         [Language(new [] { "Zhuang", "Chuang" }, "za")] Zhuang,
         [Language("Zulu", "zu")] Zulu,
 
+        // ReSharper disable once InconsistentNaming
         [Language("Not Referenced", "un")] UN_NotReferenced
     }
 }

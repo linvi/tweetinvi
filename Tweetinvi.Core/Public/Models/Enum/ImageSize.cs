@@ -5,8 +5,8 @@
     /// </summary>
     public enum ImageSize
     {
-        normal,
-        bigger,
-        mini,
+        Normal,
+        Bigger,
+        Mini,
     }
 }

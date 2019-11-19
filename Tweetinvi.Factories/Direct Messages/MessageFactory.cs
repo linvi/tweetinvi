@@ -6,6 +6,7 @@ using Tweetinvi.Core.Helpers;
 using Tweetinvi.Core.Injectinvi;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
+using Tweetinvi.Models.DTO.Events;
 
 namespace Tweetinvi.Factories
 {

@@ -131,7 +131,7 @@ namespace xUnitinvi.ClientActions.UsersClient
             // Arrange
             var parameters = new GetProfileImageParameters("https://url_normal.jpg")
             {
-                ImageSize = ImageSize.bigger,
+                ImageSize = ImageSize.Bigger,
                 CustomQueryParameters = { new Tuple<string, string>("hello", "world") }
             };
 

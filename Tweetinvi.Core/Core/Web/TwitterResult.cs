@@ -7,18 +7,18 @@ namespace Tweetinvi.Core.Web
     public interface ITwitterResultFactory
     {
         ITwitterResult Create(ITwitterRequest request, ITwitterResponse response);
-        ITwitterResult<DTO> Create<DTO>(ITwitterRequest request, ITwitterResponse response) where DTO : class;
+        ITwitterResult<TDTO> Create<TDTO>(ITwitterRequest request, ITwitterResponse response) where TDTO : class;
 
-        ITwitterResult<DTO, Model> Create<DTO, Model>(
-            ITwitterRequest request, 
+        ITwitterResult<TDTO, TModel> Create<TDTO, TModel>(
+            ITwitterRequest request,
             ITwitterResponse response,
-            Func<DTO, Model> convert) 
-            where DTO : class 
-            where  Model : class;
+            Func<TDTO, TModel> convert)
+            where TDTO : class
+            where TModel : class;
 
-        ITwitterResult<DTO, Model> Create<DTO, Model>(ITwitterResult<DTO> result, Func<DTO, Model> convert)
-            where DTO : class
-            where Model : class;
+        ITwitterResult<TDTO, TModel> Create<TDTO, TModel>(ITwitterResult<TDTO> result, Func<TDTO, TModel> convert)
+            where TDTO : class
+            where TModel : class;
     }
 
     public class TwitterResultFactory : ITwitterResultFactory
@@ -48,16 +48,17 @@ namespace Tweetinvi.Core.Web
             };
         }
 
-        public ITwitterResult<DTO, Model> Create<DTO, Model>(ITwitterRequest request, ITwitterResponse response, Func<DTO, Model> convert) where DTO : class where Model : class
+        public ITwitterResult<TDTO, TModel> Create<TDTO, TModel>(ITwitterRequest request, ITwitterResponse response, Func<TDTO, TModel> convert)
+            where TDTO : class where TModel : class
         {
-            return new TwitterResult<DTO, Model>(_jsonObjectConverter, convert)
+            return new TwitterResult<TDTO, TModel>(_jsonObjectConverter, convert)
             {
                 Response = response,
                 Request = request
             };
         }
 
-        public ITwitterResult<DTO, Model> Create<DTO, Model>(ITwitterResult<DTO> result, Func<DTO, Model> convert) where DTO : class where Model : class
+        public ITwitterResult<TDTO, TModel> Create<TDTO, TModel>(ITwitterResult<TDTO> result, Func<TDTO, TModel> convert) where TDTO : class where TModel : class
         {
             return Create(result.Request, result.Response, convert);
         }
@@ -75,7 +76,7 @@ namespace Tweetinvi.Core.Web
         TDTO DataTransferObject { get; }
     }
 
-    public interface ITwitterResult<DTO, TModel> : ITwitterResult<DTO>
+    public interface ITwitterResult<out TDTO, out TModel> : ITwitterResult<TDTO>
     {
         TModel Result { get; }
     }
@@ -87,19 +88,19 @@ namespace Tweetinvi.Core.Web
         public string Json => Response?.Text;
     }
 
-    public class TwitterResult<DTO> : TwitterResult, ITwitterResult<DTO> where DTO : class
+    public class TwitterResult<TDTO> : TwitterResult, ITwitterResult<TDTO> where TDTO : class
     {
         private readonly IJsonObjectConverter _jsonObjectConverter;
 
         private bool _initialized;
-        private DTO _result;
+        private TDTO _result;
 
         public TwitterResult(IJsonObjectConverter jsonObjectConverter)
         {
             _jsonObjectConverter = jsonObjectConverter;
         }
 
-        public DTO DataTransferObject
+        public TDTO DataTransferObject
         {
             get
             {
@@ -110,7 +111,7 @@ namespace Tweetinvi.Core.Web
                     var json = Response?.Text;
                     var converters = Request.ExecutionContext.Converters;
 
-                    _result = _jsonObjectConverter.DeserializeObject<DTO>(json, converters);
+                    _result = _jsonObjectConverter.DeserializeObject<TDTO>(json, converters);
                 }
 
                 return _result;
@@ -123,22 +124,20 @@ namespace Tweetinvi.Core.Web
         }
     }
 
-    public class TwitterResult<DTO, Model> : TwitterResult<DTO>, ITwitterResult<DTO, Model>
-        where DTO : class 
-        where Model : class
+    public class TwitterResult<TDTO, TModel> : TwitterResult<TDTO>, ITwitterResult<TDTO, TModel>
+        where TDTO : class
+        where TModel : class
     {
-        private readonly Func<DTO, Model> _convert;
-        private Model _result;
+        private readonly Func<TDTO, TModel> _convert;
+        private TModel _result;
 
-        public TwitterResult(
-            IJsonObjectConverter jsonObjectConverter,
-            Func<DTO, Model> convert) 
+        public TwitterResult(IJsonObjectConverter jsonObjectConverter, Func<TDTO, TModel> convert)
             : base(jsonObjectConverter)
         {
             _convert = convert;
         }
 
-        public Model Result
+        public TModel Result
         {
             get
             {

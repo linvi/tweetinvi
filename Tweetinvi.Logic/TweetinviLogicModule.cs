@@ -16,6 +16,7 @@ using Tweetinvi.Logic.TwitterEntities;
 using Tweetinvi.Logic.Wrapper;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
+using Tweetinvi.Models.DTO.Events;
 using Tweetinvi.Models.Entities;
 
 namespace Tweetinvi.Logic

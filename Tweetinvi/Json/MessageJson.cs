@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Tweetinvi.Controllers.Messages;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
+using Tweetinvi.Models.DTO.Events;
 using Tweetinvi.Parameters;
 
 namespace Tweetinvi.Json

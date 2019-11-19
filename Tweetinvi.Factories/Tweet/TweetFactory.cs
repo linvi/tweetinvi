@@ -4,7 +4,7 @@ using Tweetinvi.Core;
 using Tweetinvi.Core.Factories;
 using Tweetinvi.Core.Helpers;
 using Tweetinvi.Core.Injectinvi;
-using Tweetinvi.Core.Web;
+using Tweetinvi.Logic.DTO;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
 
@@ -12,7 +12,6 @@ namespace Tweetinvi.Factories.Tweet
 {
     public class TweetFactory : ITweetFactory
     {
-        private readonly ITweetFactoryQueryExecutor _tweetDTOFactory;
         private readonly IFactory<ITweetWithSearchMetadata> _tweetWithSearchMetadataFactory;
         private readonly IFactory<IMention> _mentionUnityFactory;
         private readonly IFactory<IOEmbedTweet> _oembedTweetUnityFactory;
@@ -21,17 +20,13 @@ namespace Tweetinvi.Factories.Tweet
         private readonly IUserFactory _userFactory;
 
         public TweetFactory(
-            ITweetFactoryQueryExecutor tweetDTOFactory,
-            IFactory<ITweet> tweetUnityFactory,
             IFactory<ITweetWithSearchMetadata> tweetWithSearchMetadataFactory,
             IFactory<IMention> mentionFactory,
             IFactory<IOEmbedTweet> oembedTweetUnityFactory,
             IJsonObjectConverter jsonObjectConverter,
             ITweetinviSettingsAccessor tweetinviSettingsAccessor,
-            ITwitterResultFactory twitterResultFactory,
             IUserFactory userFactory)
         {
-            _tweetDTOFactory = tweetDTOFactory;
             _tweetWithSearchMetadataFactory = tweetWithSearchMetadataFactory;
             _mentionUnityFactory = mentionFactory;
             _oembedTweetUnityFactory = oembedTweetUnityFactory;
@@ -49,7 +44,10 @@ namespace Tweetinvi.Factories.Tweet
 
         public ITweet CreateTweet(string text, TweetMode? tweetMode, ITwitterClient client)
         {
-            var tweetDTO = _tweetDTOFactory.CreateTweetDTO(text);
+            var tweetDTO = new TweetDTO
+            {
+                Text = text
+            };
 
             tweetMode = tweetMode ?? _tweetinviSettingsAccessor.CurrentThreadSettings.TweetMode;
 

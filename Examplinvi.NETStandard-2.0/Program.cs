@@ -2,7 +2,7 @@
 using Tweetinvi;
 using Tweetinvi.Core.Extensions;
 using Tweetinvi.Core.Public.Models.Authentication;
-using Tweetinvi.Core.Public.Models.Interfaces.DTO.Webhooks;
+using Tweetinvi.Models.DTO.Webhooks;
 
 namespace Examplinvi.NETStandard_2._0
 {
@@ -18,7 +18,7 @@ namespace Examplinvi.NETStandard_2._0
                 };
 
                 IWebhookEnvironmentDTO[] webhookEnvironments = Webhooks.GetAllWebhookEnvironmentsAsync(consumerOnlyCredentials).Result;
-                
+
                 webhookEnvironments.ForEach(env =>
                 {
                     Console.WriteLine(env.Name);

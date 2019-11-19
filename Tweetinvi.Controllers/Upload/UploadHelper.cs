@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using Tweetinvi.Controllers.Properties;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
-using Tweetinvi.Public.Models.Enum;
 
 namespace Tweetinvi.Controllers.Upload
 {

@@ -1,7 +1,4 @@
-﻿using Tweetinvi.Models;
-using Tweetinvi.Models.DTO;
-
-namespace Tweetinvi.Core.Public.Models.Interfaces.DTO.Webhooks
+﻿namespace Tweetinvi.Models.DTO.Webhooks
 {
     public interface IWebhookEnvironmentDTO
     {

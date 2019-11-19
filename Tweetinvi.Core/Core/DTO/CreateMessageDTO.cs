@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using Tweetinvi.Logic.JsonConverters;
 using Tweetinvi.Models.DTO;
+using Tweetinvi.Models.DTO.Events;
 
 namespace Tweetinvi.Logic.DTO
 {

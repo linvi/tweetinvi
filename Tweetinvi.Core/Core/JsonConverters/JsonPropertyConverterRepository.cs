@@ -2,15 +2,17 @@
 using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json;
+using Tweetinvi.Core.DTO;
 using Tweetinvi.Core.Helpers;
 using Tweetinvi.Core.Models;
-using Tweetinvi.Core.Public.Models.Interfaces.DTO.Webhooks;
 using Tweetinvi.Logic.DTO;
 using Tweetinvi.Logic.Model;
 using Tweetinvi.Logic.TwitterEntities;
 using Tweetinvi.Logic.TwitterEntities.ExtendedEntities;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
+using Tweetinvi.Models.DTO.Events;
+using Tweetinvi.Models.DTO.Webhooks;
 using Tweetinvi.Models.Entities;
 using Tweetinvi.Models.Entities.ExtendedEntities;
 

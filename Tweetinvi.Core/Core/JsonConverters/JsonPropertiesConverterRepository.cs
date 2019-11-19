@@ -4,7 +4,6 @@ using Newtonsoft.Json;
 using Tweetinvi.Core.Exceptions;
 using Tweetinvi.Core.Extensions;
 using Tweetinvi.Core.Models;
-using Tweetinvi.Core.Public.Models.Interfaces.DTO.Webhooks;
 using Tweetinvi.Core.Upload;
 using Tweetinvi.Logic.DTO;
 using Tweetinvi.Logic.Exceptions;
@@ -13,6 +12,8 @@ using Tweetinvi.Logic.TwitterEntities;
 using Tweetinvi.Logic.TwitterEntities.ExtendedEntities;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
+using Tweetinvi.Models.DTO.Events;
+using Tweetinvi.Models.DTO.Webhooks;
 using Tweetinvi.Models.Entities;
 using Tweetinvi.Models.Entities.ExtendedEntities;
 

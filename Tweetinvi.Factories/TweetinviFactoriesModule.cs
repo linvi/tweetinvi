@@ -18,10 +18,7 @@ namespace Tweetinvi.Factories
         public void Initialize(ITweetinviContainer container)
         {
             container.RegisterType<ISearchResultFactory, SearchResultFactory>(RegistrationLifetime.InstancePerApplication);
-
             container.RegisterType<ITweetFactory, TweetFactory>(RegistrationLifetime.InstancePerThread);
-            container.RegisterType<ITweetFactoryQueryExecutor, TweetFactoryQueryExecutor>(RegistrationLifetime.InstancePerThread);
-
             container.RegisterType<IUserFactory, UserFactory>(RegistrationLifetime.InstancePerThread);
             container.RegisterType<IUserFactoryQueryExecutor, UserFactoryQueryExecutor>(RegistrationLifetime.InstancePerThread);
 

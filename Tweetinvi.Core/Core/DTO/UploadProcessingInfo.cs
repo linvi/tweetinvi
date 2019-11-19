@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
+using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
-using Tweetinvi.Public.Models.Enum;
 
 namespace Tweetinvi.Logic.DTO
 {

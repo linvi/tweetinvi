@@ -3,6 +3,6 @@
     public interface ITweetFromSearchMetadata
     {
         string ResultType { get; }
-        string ISOLanguageCode { get; }
+        string IsoLanguageCode { get; }
     }
 }

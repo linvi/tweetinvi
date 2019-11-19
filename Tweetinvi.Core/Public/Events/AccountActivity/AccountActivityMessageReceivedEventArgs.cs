@@ -31,8 +31,6 @@ namespace Tweetinvi.Events
             InResultOf = GetInResultOf();
         }
 
-     
-
         private MessageReceivedInResultOf GetInResultOf()
         {
             if (Message.RecipientId == AccountUserId)

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using Tweetinvi.Core.Public.Models.Enum;
 using Tweetinvi.Events;
+using Tweetinvi.Models;
 
 namespace Tweetinvi.Parameters
 {
@@ -97,9 +97,9 @@ namespace Tweetinvi.Parameters
                 switch (QueryMediaType)
                 {
                     case "media":
-                        return Core.Public.Models.Enum.MediaType.Media;
+                        return Models.MediaType.Media;
                     case "video/mp4":
-                        return Core.Public.Models.Enum.MediaType.VideoMp4;
+                        return Models.MediaType.VideoMp4;
                     default:
                         return null;
                 }
@@ -108,7 +108,7 @@ namespace Tweetinvi.Parameters
             {
                 switch (value)
                 {
-                    case Core.Public.Models.Enum.MediaType.VideoMp4:
+                    case Models.MediaType.VideoMp4:
                         QueryMediaType = "video/mp4";
                         break;
                     default:
@@ -128,17 +128,17 @@ namespace Tweetinvi.Parameters
                 switch (QueryMediaCategory)
                 {
                     case "tweet_video":
-                        return Core.Public.Models.Enum.MediaCategory.Video;
+                        return Models.MediaCategory.Video;
                     case "tweet_gif":
-                        return Core.Public.Models.Enum.MediaCategory.Gif;
+                        return Models.MediaCategory.Gif;
                     case "tweet_image":
-                        return Core.Public.Models.Enum.MediaCategory.Image;
+                        return Models.MediaCategory.Image;
                     case "dm_image":
-                        return Core.Public.Models.Enum.MediaCategory.DmImage;
+                        return Models.MediaCategory.DmImage;
                     case "dm_gif":
-                        return Core.Public.Models.Enum.MediaCategory.DmGif;
+                        return Models.MediaCategory.DmGif;
                     case "dm_video":
-                        return Core.Public.Models.Enum.MediaCategory.DmVideo;
+                        return Models.MediaCategory.DmVideo;
                     default:
                         return null;
                 }
@@ -147,22 +147,22 @@ namespace Tweetinvi.Parameters
             {
                 switch (value)
                 {
-                    case Core.Public.Models.Enum.MediaCategory.Video:
+                    case Models.MediaCategory.Video:
                         QueryMediaCategory = "tweet_video";
                         break;
-                    case Core.Public.Models.Enum.MediaCategory.Gif:
+                    case Models.MediaCategory.Gif:
                         QueryMediaCategory = "tweet_gif";
                         break;
-                    case Core.Public.Models.Enum.MediaCategory.Image:
+                    case Models.MediaCategory.Image:
                         QueryMediaCategory = "tweet_image";
                         break;
-                    case Core.Public.Models.Enum.MediaCategory.DmImage:
+                    case Models.MediaCategory.DmImage:
                         QueryMediaCategory = "dm_image";
                         break;
-                    case Core.Public.Models.Enum.MediaCategory.DmGif:
+                    case Models.MediaCategory.DmGif:
                         QueryMediaCategory = "dm_gif";
                         break;
-                    case Core.Public.Models.Enum.MediaCategory.DmVideo:
+                    case Models.MediaCategory.DmVideo:
                         QueryMediaCategory = "dm_video";
                         break;
                     default:

@@ -1,4 +1,6 @@
-﻿namespace Tweetinvi.Models.DTO
+﻿using Tweetinvi.Models.DTO.Events;
+
+namespace Tweetinvi.Models.DTO
 {
     /// <summary>
     /// DTO for encapsulating an MessageEvent and an App together for storage.

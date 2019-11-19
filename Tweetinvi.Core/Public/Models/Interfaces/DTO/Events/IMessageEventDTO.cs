@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Tweetinvi.Models.DTO
+namespace Tweetinvi.Models.DTO.Events
 {
     public interface IMessageEventDTO
     {

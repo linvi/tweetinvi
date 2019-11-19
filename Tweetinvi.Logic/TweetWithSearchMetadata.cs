@@ -11,16 +11,13 @@ namespace Tweetinvi.Logic
         public TweetWithSearchMetadata(
             ITweetWithSearchMetadataDTO tweetDTO,
             TweetMode? tweetMode,
-            ITweetFactory tweetFactory, 
-            IUserFactory userFactory) 
+            ITweetFactory tweetFactory,
+            IUserFactory userFactory)
             : base(tweetDTO, tweetMode, tweetFactory, userFactory)
         {
             _tweetWithSearchMetadataDTO = tweetDTO;
         }
 
-        public ITweetFromSearchMetadata SearchMetadata
-        {
-            get { return _tweetWithSearchMetadataDTO.TweetFromSearchMetadata; }
-        }
+        public ITweetFromSearchMetadata SearchMetadata => _tweetWithSearchMetadataDTO.TweetFromSearchMetadata;
     }
 }

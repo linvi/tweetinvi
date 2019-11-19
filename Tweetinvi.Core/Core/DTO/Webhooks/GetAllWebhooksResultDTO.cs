@@ -1,4 +1,4 @@
-﻿using Tweetinvi.Core.Public.Models.Interfaces.DTO.Webhooks;
+﻿using Tweetinvi.Models.DTO.Webhooks;
 
 namespace Tweetinvi.Logic.DTO
 {

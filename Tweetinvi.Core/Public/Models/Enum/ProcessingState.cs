@@ -1,4 +1,4 @@
-﻿namespace Tweetinvi.Public.Models.Enum
+﻿namespace Tweetinvi.Models
 {
     public enum ProcessingState
     {
