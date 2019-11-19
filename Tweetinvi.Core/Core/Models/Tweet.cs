@@ -412,7 +412,7 @@ namespace Tweetinvi.Logic
 
         public List<ITweet> Retweets { get; set; }
 
-        public TweetMode TweetMode { get; private set; }
+        public TweetMode TweetMode { get; }
 
         #endregion
 

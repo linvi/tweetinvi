@@ -14,7 +14,7 @@ namespace Tweetinvi.Logic.QueryParameters
             Parameters = parameters;
         }
 
-        public IUserIdentifier UserIdentifier { get; private set; }
-        public IUserTimelineParameters Parameters { get; private set; }
+        public IUserIdentifier UserIdentifier { get; }
+        public IUserTimelineParameters Parameters { get; }
     }
 }

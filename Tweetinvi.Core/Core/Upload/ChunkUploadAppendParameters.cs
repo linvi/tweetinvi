@@ -26,9 +26,9 @@ namespace Tweetinvi.Core.Upload
             CustomRequestParameters = new CustomRequestParameters();
         }
 
-        public byte[] Binary { get; private set; }
-        public string MediaType { get; private set; }
-        public TimeSpan? Timeout { get; private set; }
+        public byte[] Binary { get; }
+        public string MediaType { get; }
+        public TimeSpan? Timeout { get; }
         public int? SegmentIndex { get; set; }
         public long? MediaId { get; set; }
         public Action<IMediaUploadProgressChangedEventArgs> UploadProgressChanged { get; set; }

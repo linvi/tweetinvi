@@ -21,12 +21,12 @@ namespace Tweetinvi.Events
         /// <summary>
         /// Result returned by Twitter.
         /// </summary>
-        public string HttpContent { get; private set; }
+        public string HttpContent { get; }
 
         /// <summary>
         /// Headers returned by Twitter.
         /// </summary>
-        public Dictionary<string, IEnumerable<string>> HttpHeaders { get; private set; }
+        public Dictionary<string, IEnumerable<string>> HttpHeaders { get; }
 
         /// <summary>
         /// Exact DateTime whent the request completed.

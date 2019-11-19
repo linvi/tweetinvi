@@ -10,6 +10,6 @@ namespace Tweetinvi.Events
             TweetinviContainer = container;
         }
 
-        public ITweetinviContainer TweetinviContainer { get; private set; }
+        public ITweetinviContainer TweetinviContainer { get; }
     }
 }

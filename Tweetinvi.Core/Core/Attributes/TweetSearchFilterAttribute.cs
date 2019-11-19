@@ -9,6 +9,6 @@ namespace Tweetinvi.Core.Attributes
             FilterName = filterName;
         }
 
-        public string FilterName { get; private set; }
+        public string FilterName { get; }
     }
 }

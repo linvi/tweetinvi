@@ -16,8 +16,8 @@ namespace Tweetinvi.Logic.Model
             SearchMetadata = searchMetadata;
         }
 
-        public IEnumerable<ITweetWithSearchMetadata> AllTweetsFromQuery { get; private set; }
-        public IEnumerable<ITweetWithSearchMetadata> FilteredTweets { get; private set; }
-        public ISearchMetadata SearchMetadata { get; private set; }
+        public IEnumerable<ITweetWithSearchMetadata> AllTweetsFromQuery { get; }
+        public IEnumerable<ITweetWithSearchMetadata> FilteredTweets { get; }
+        public ISearchMetadata SearchMetadata { get; }
     }
 }

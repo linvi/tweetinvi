@@ -10,6 +10,6 @@ namespace Tweetinvi.Events
             DisconnectMessage = disconnectMessage;
         }
 
-        public IDisconnectMessage DisconnectMessage { get; private set; }
+        public IDisconnectMessage DisconnectMessage { get; }
     }
 }

@@ -7,12 +7,8 @@ namespace Tweetinvi.Core.Attributes
 
     public class WindowsTimeZoneAttribute : Attribute
     {
-        // ReSharper disable MemberCanBePrivate.Global
-        // ReSharper disable UnusedAutoPropertyAccessor.Global
-        public string WindowsId { get; private set; }
-        public string TZinfo { get; private set; }
-        // ReSharper restore UnusedAutoPropertyAccessor.Global
-        // ReSharper restore MemberCanBePrivate.Global
+        public string WindowsId { get; }
+        public string TZinfo { get; }
 
         public WindowsTimeZoneAttribute(string windowsId, string tzinfo)
         {

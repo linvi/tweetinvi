@@ -10,6 +10,6 @@ namespace Tweetinvi.Events
             Message = message;
         }
 
-        public IMessage Message { get; private set; }
+        public IMessage Message { get; }
     }
 }

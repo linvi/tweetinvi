@@ -27,8 +27,8 @@ namespace Tweetinvi.Core.Helpers
             Mentions = mentions.ToArray();
         }
 
-        public string Content { get; private set; }
-        public string Prefix { get; private set; }
-        public string[] Mentions { get; private set; }
+        public string Content { get; }
+        public string Prefix { get; }
+        public string[] Mentions { get; }
     }
 }

@@ -28,7 +28,7 @@ namespace Tweetinvi.Core.Attributes
             IsRegex = isRegex;
         }
 
-        public string EndpointURL { get; private set; }
-        public bool IsRegex { get; private set; }
+        public string EndpointURL { get; }
+        public bool IsRegex { get; }
     }
 }

@@ -16,12 +16,12 @@ namespace Tweetinvi.Core.Models
             OtherEndpointRateLimits = new Dictionary<TwitterEndpointAttribute, IEndpointRateLimit>();
         }
 
-        public DateTime CreatedAt { get; private set; }
+        public DateTime CreatedAt { get; }
 
         public string RateLimitContext { get; set; }
         public bool IsApplicationOnlyCredentials { get; set; }
 
-        public Dictionary<TwitterEndpointAttribute, IEndpointRateLimit> OtherEndpointRateLimits { get; private set; }
+        public Dictionary<TwitterEndpointAttribute, IEndpointRateLimit> OtherEndpointRateLimits { get; }
 
         #region Account
 

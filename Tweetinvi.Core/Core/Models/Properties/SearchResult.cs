@@ -13,8 +13,8 @@ namespace Tweetinvi.Logic.Model
             NumberOfQueriesUsedToCompleteTheSearch = searchQueryQueryResults.Length;
         }
 
-        public int NumberOfQueriesUsedToCompleteTheSearch { get; private set; }
-        public IEnumerable<ITweetWithSearchMetadata> Tweets { get; private set; }
-        public IEnumerable<ISearchQueryResult> SearchQueryResults { get; private set; }
+        public int NumberOfQueriesUsedToCompleteTheSearch { get; }
+        public IEnumerable<ITweetWithSearchMetadata> Tweets { get; }
+        public IEnumerable<ISearchQueryResult> SearchQueryResults { get; }
     }
 }

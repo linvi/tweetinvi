@@ -31,8 +31,8 @@
             Owner = owner;
         }
 
-        public long Id { get; private set; }
-        public string Slug { get; private set; }
+        public long Id { get; }
+        public string Slug { get; }
 
         public long? OwnerId
         {
@@ -44,6 +44,6 @@
             get { return Owner.ScreenName; }
         }
 
-        public IUserIdentifier Owner { get; private set; }
+        public IUserIdentifier Owner { get; }
     }
 }

@@ -10,27 +10,27 @@ namespace Tweetinvi.Core.Attributes
         /// <summary>
         /// Name of the language in English.
         /// </summary>
-        public string Name { get; private set; }
+        public string Name { get; }
 
         /// <summary>
         /// Language names also reference by the code.
         /// </summary>
-        public string[] Names { get; private set; }
+        public string[] Names { get; }
 
         /// <summary>
         /// Primary language code.
         /// </summary>
-        public string Code { get; private set; }
+        public string Code { get; }
 
         /// <summary>
         /// All available language codes.
         /// </summary>
-        public string[] Codes { get; private set; }
+        public string[] Codes { get; }
 
         /// <summary>
         /// Does Twitter represent this language with different codes.
         /// </summary>
-        public bool HasMultipleCodes { get; private set; }
+        public bool HasMultipleCodes { get; }
 
         public LanguageAttribute(string name, params string[] codes)
         {

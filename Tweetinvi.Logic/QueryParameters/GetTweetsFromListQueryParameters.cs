@@ -12,7 +12,7 @@ namespace Tweetinvi.Logic.QueryParameters
             Parameters = parameters;
         }
 
-        public ITwitterListIdentifier TwitterListIdentifier { get; private set; }
-        public IGetTweetsFromListParameters Parameters { get; private set; }
+        public ITwitterListIdentifier TwitterListIdentifier { get; }
+        public IGetTweetsFromListParameters Parameters { get; }
     }
 }

@@ -10,7 +10,7 @@ namespace Tweetinvi.Events
             WarningMessage = warningMessage;
         }
 
-        public IWarningMessageTooManyFollowers WarningMessage { get; private set; }
+        public IWarningMessageTooManyFollowers WarningMessage { get; }
     }
 
     public class WarningFallingBehindEventArgs : EventArgs
@@ -20,6 +20,6 @@ namespace Tweetinvi.Events
             WarningMessage = warningMessage;
         }
 
-        public IWarningMessageFallingBehind WarningMessage { get; private set; }
+        public IWarningMessageFallingBehind WarningMessage { get; }
     }
 }

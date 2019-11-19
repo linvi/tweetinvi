@@ -46,7 +46,7 @@ namespace Tweetinvi.Controllers.Upload
             set => _media.Id = value;
         }
 
-        public Dictionary<long, byte[]> UploadedSegments { get; private set; }
+        public Dictionary<long, byte[]> UploadedSegments { get; }
         public int NextSegmentIndex { get; set; }
 
         public async Task<bool> Init(IChunkUploadInitParameters initParameters, ITwitterRequest request)

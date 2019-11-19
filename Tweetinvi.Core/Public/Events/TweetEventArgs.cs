@@ -12,9 +12,9 @@ namespace Tweetinvi.Events
             Tweet = tweet;
             Json = json;
         }
-
-        public ITweet Tweet { get; private set; }
-        public string Json { get; private set; }
+        
+        public ITweet Tweet { get; }
+        public string Json { get; }
     }
 
     public class TweetReceivedEventArgs : TweetEventArgs
@@ -49,7 +49,7 @@ namespace Tweetinvi.Events
             TweetLocationRemovedInfo = tweetLocationRemovedInfo;
         }
 
-        public ITweetLocationRemovedInfo TweetLocationRemovedInfo { get; private set; }
+        public ITweetLocationRemovedInfo TweetLocationRemovedInfo { get; }
     }
 
     public class TweetWitheldEventArgs : EventArgs
@@ -59,6 +59,6 @@ namespace Tweetinvi.Events
             TweetWitheldInfo = tweetWitheldInfo;
         }
 
-        public ITweetWitheldInfo TweetWitheldInfo { get; private set; }
+        public ITweetWitheldInfo TweetWitheldInfo { get; }
     }
 }
