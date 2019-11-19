@@ -1,6 +1,4 @@
-﻿using Tweetinvi.Models;
-
-namespace Tweetinvi.Core.Public.Models.Authentication
+﻿namespace Tweetinvi.Models
 {
     public interface IConsumerOnlyCredentials : IConsumerCredentials
     {

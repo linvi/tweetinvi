@@ -2,7 +2,6 @@
 using Tweetinvi.Core;
 using Tweetinvi.Core.Client;
 using Tweetinvi.Models;
-using Tweetinvi.Models.Interfaces;
 
 namespace Tweetinvi.Factories
 {

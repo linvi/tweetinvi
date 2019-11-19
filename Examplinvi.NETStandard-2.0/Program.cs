@@ -1,7 +1,7 @@
 ﻿using System;
 using Tweetinvi;
 using Tweetinvi.Core.Extensions;
-using Tweetinvi.Core.Public.Models.Authentication;
+using Tweetinvi.Models;
 using Tweetinvi.Models.DTO.Webhooks;
 
 namespace Examplinvi.NETStandard_2._0

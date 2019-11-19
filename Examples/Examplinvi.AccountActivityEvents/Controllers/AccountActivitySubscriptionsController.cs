@@ -1,6 +1,5 @@
 ﻿using System.Threading.Tasks;
 using Tweetinvi;
-using Tweetinvi.Core.Public.Models.Authentication;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO.Webhooks;
 

@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Tweetinvi.Core.Models;
-using Tweetinvi.Core.Public.Models.Authentication;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO.QueryDTO;
 using Tweetinvi.Parameters;

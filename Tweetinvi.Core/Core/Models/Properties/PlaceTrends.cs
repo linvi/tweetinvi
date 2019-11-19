@@ -4,7 +4,7 @@ using Newtonsoft.Json;
 using Tweetinvi.Logic.JsonConverters;
 using Tweetinvi.Models;
 
-namespace Tweetinvi.Logic.Model
+namespace Tweetinvi.Core.Models.Properties
 {
     public class PlaceTrends : IPlaceTrends
     {
@@ -17,7 +17,7 @@ namespace Tweetinvi.Logic.Model
         public DateTime CreatedAt { get; set; }
 
         [JsonProperty("locations")]
-        public List<IWoeIdLocation> woeIdLocations { get; set; }
+        public List<IWoeIdLocation> WoeIdLocations { get; set; }
 
         [JsonProperty("trends")]
         public List<ITrend> Trends { get; set; }

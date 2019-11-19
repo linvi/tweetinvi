@@ -9,7 +9,6 @@ using Tweetinvi.Factories.Search;
 using Tweetinvi.Factories.Tweet;
 using Tweetinvi.Factories.User;
 using Tweetinvi.Models;
-using Tweetinvi.Models.Interfaces;
 
 namespace Tweetinvi.Factories
 {

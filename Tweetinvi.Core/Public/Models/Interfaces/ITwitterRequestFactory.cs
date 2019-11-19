@@ -1,4 +1,4 @@
-﻿namespace Tweetinvi.Models.Interfaces
+﻿namespace Tweetinvi.Models
 {
     public interface ITwitterRequestFactory
     {

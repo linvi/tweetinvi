@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Tweetinvi.Models.DTO;
 using Tweetinvi.Models.DTO.Events;
 using Tweetinvi.Models.Entities;
 
@@ -64,7 +63,7 @@ namespace Tweetinvi.Models
         long? InitiatedViaTweetId { get; }
 
         /// <summary>
-        /// The ID of the Welcome Message immediatley preceding the conversation if one was used.
+        /// The ID of the Welcome Message immediately preceding the conversation if one was used.
         /// </summary>
         long? InitiatedViaWelcomeMessageId { get; }
 

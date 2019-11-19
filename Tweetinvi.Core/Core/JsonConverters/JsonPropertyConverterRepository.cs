@@ -5,6 +5,7 @@ using Newtonsoft.Json;
 using Tweetinvi.Core.DTO;
 using Tweetinvi.Core.Helpers;
 using Tweetinvi.Core.Models;
+using Tweetinvi.Core.Models.Properties;
 using Tweetinvi.Logic.DTO;
 using Tweetinvi.Logic.Model;
 using Tweetinvi.Logic.TwitterEntities;

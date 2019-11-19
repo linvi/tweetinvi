@@ -122,6 +122,7 @@ namespace Tweetinvi.Models
         /// <summary>
         /// URL of the user 400x400 profile image
         /// </summary>
+        // ReSharper disable once InconsistentNaming
         string ProfileImageUrl400x400 { get; }
 
         /// <summary>

@@ -14,7 +14,7 @@ namespace Tweetinvi.Parameters
         IUserIdentifier User { get; set; }
     }
 
-    /// <inheritdoc />
+    /// <inheritdoc cref="IBlockUserParameters" />
     public class BlockUserParameters : CustomRequestParameters, IBlockUserParameters
     {
         public BlockUserParameters(IUserIdentifier userIdentifier)

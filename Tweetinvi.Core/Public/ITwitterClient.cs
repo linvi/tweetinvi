@@ -1,5 +1,4 @@
 ﻿using Tweetinvi.Client;
-using Tweetinvi.Client.Requesters;
 using Tweetinvi.Core.Client;
 using Tweetinvi.Core.Client.Validators;
 using Tweetinvi.Models;

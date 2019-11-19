@@ -7,7 +7,7 @@ namespace Tweetinvi.Models
     {
         DateTime AsOf { get; set; }
         DateTime CreatedAt { get; set; }
-        List<IWoeIdLocation> woeIdLocations { get; set; }
+        List<IWoeIdLocation> WoeIdLocations { get; set; }
         List<ITrend> Trends { get; set; }
     }
 }

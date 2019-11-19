@@ -4,6 +4,7 @@ using Newtonsoft.Json;
 using Tweetinvi.Core.Exceptions;
 using Tweetinvi.Core.Extensions;
 using Tweetinvi.Core.Models;
+using Tweetinvi.Core.Models.Properties;
 using Tweetinvi.Core.Upload;
 using Tweetinvi.Logic.DTO;
 using Tweetinvi.Logic.Exceptions;
