@@ -1,8 +1,8 @@
 ﻿using Tweetinvi.Core.Injectinvi;
-using Tweetinvi.Core.Public.Streaming.Webhooks;
 using Tweetinvi.Core.Streaming;
 using Tweetinvi.Streaming;
 using Tweetinvi.Streaming.Events;
+using Tweetinvi.Streaming.Webhooks;
 using Tweetinvi.Streams.Helpers;
 using Tweetinvi.Streams.Model;
 using Tweetinvi.Streams.Webhooks;

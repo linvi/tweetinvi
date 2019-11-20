@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Tweetinvi.Core;
+using Tweetinvi.Core.DTO;
 using Tweetinvi.Core.Factories;
 using Tweetinvi.Core.Helpers;
 using Tweetinvi.Core.Injectinvi;
-using Tweetinvi.Logic.DTO;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
 

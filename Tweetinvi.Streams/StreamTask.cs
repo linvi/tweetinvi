@@ -12,6 +12,7 @@ using Tweetinvi.Core.Helpers;
 using Tweetinvi.Events;
 using Tweetinvi.Exceptions;
 using Tweetinvi.Models;
+using Tweetinvi.Streaming;
 using HttpMethod = System.Net.Http.HttpMethod;
 
 namespace Tweetinvi.Streams

@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using Tweetinvi.Models.DTO;
 
-namespace Tweetinvi.Logic.DTO
+namespace Tweetinvi.Core.DTO
 {
     public class UploadedImageDetailsDTO : IUploadedImageDetails
     {

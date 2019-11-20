@@ -4,7 +4,7 @@ using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
 using Tweetinvi.Models.DTO.Events;
 
-namespace Tweetinvi.Logic.DTO
+namespace Tweetinvi.Core.DTO
 {
     public class GetMessagesDTO : IGetMessagesDTO
     {

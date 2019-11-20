@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 using Tweetinvi.Core.JsonConverters;
 using Tweetinvi.Models.DTO.Webhooks;
 
-namespace Tweetinvi.Logic.DTO
+namespace Tweetinvi.Core.DTO.Webhooks
 {
     public class WebhookDTO : IWebhookDTO
     {

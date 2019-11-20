@@ -1,4 +1,4 @@
-using Tweetinvi.Core.Public.Parameters.Enum;
+using Tweetinvi.Parameters.Enum;
 
 namespace Tweetinvi.Events
 {

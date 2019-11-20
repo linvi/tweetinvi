@@ -95,18 +95,18 @@ namespace Tweetinvi.Injectinvi
             return new AutofacThreadContainer(_container);
         }
 
-        public virtual void RegisterType<T, U>(RegistrationLifetime registrationLifetime = RegistrationLifetime.InstancePerResolve) where U : T
+        public virtual void RegisterType<TRegistered, TTo>(RegistrationLifetime registrationLifetime = RegistrationLifetime.InstancePerResolve) where TTo : TRegistered
         {
             switch (registrationLifetime)
             {
                 case RegistrationLifetime.InstancePerResolve:
-                    _containerBuilder.RegisterType<U>().As<T>();
+                    _containerBuilder.RegisterType<TTo>().As<TRegistered>();
                     return;
                 case RegistrationLifetime.InstancePerThread:
-                    _containerBuilder.RegisterType<U>().As<T>().InstancePerLifetimeScope();
+                    _containerBuilder.RegisterType<TTo>().As<TRegistered>().InstancePerLifetimeScope();
                     return;
                 case RegistrationLifetime.InstancePerApplication:
-                    _containerBuilder.RegisterType<U>().As<T>().SingleInstance();
+                    _containerBuilder.RegisterType<TTo>().As<TRegistered>().SingleInstance();
                     return;
             }
         }

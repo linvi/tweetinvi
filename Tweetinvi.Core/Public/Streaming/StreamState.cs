@@ -1,4 +1,4 @@
-﻿namespace Tweetinvi.Models
+﻿namespace Tweetinvi.Streaming
 {
     /// <summary>
     /// Enumeration listing how the Stream is supposed to behave

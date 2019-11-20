@@ -27,6 +27,7 @@ namespace Examplinvi.NETStandard_2._0
 
         }
 
+        // ReSharper disable once UnusedMember.Local
         static void StartServer()
         {
             Plugins.Add<WebhooksPlugin>();

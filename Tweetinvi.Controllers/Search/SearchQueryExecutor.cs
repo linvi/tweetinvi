@@ -7,6 +7,7 @@ using Tweetinvi.Core.Extensions;
 using Tweetinvi.Core.Web;
 using Tweetinvi.Models.DTO;
 using Tweetinvi.Parameters;
+using Tweetinvi.Parameters.Enum;
 
 namespace Tweetinvi.Controllers.Search
 {
@@ -148,29 +149,29 @@ namespace Tweetinvi.Controllers.Search
             foreach (var searchResultsDTO in searchResultsDTOs)
             {
                 var tweetDTOs = searchResultsDTO.TweetDTOs;
-                IEnumerable<ITweetWithSearchMetadataDTO> matchingTweetDTOS = null;
+                IEnumerable<ITweetWithSearchMetadataDTO> matchingTweetDTOs = null;
 
                 if (searchTweetsParameters.TweetSearchType == TweetSearchType.OriginalTweetsOnly)
                 {
-                    matchingTweetDTOS = tweetDTOs.Where(x => x.RetweetedTweetDTO == null).ToArray();
+                    matchingTweetDTOs = tweetDTOs.Where(x => x.RetweetedTweetDTO == null).ToArray();
                 }
 
                 if (searchTweetsParameters.TweetSearchType == TweetSearchType.RetweetsOnly)
                 {
-                    matchingTweetDTOS = tweetDTOs.Where(x => x.RetweetedTweetDTO != null).ToArray();
+                    matchingTweetDTOs = tweetDTOs.Where(x => x.RetweetedTweetDTO != null).ToArray();
                 }
 
                 if (searchTweetsParameters.TweetSearchType == TweetSearchType.All)
                 {
-                    matchingTweetDTOS = tweetDTOs;
+                    matchingTweetDTOs = tweetDTOs;
                 }
 
-                if (matchingTweetDTOS != null && searchTweetsParameters.FilterTweetsNotContainingGeoInformation)
+                if (matchingTweetDTOs != null && searchTweetsParameters.FilterTweetsNotContainingGeoInformation)
                 {
-                    matchingTweetDTOS = matchingTweetDTOS.Where(x => x.Coordinates != null || x.Place != null);
+                    matchingTweetDTOs = matchingTweetDTOs.Where(x => x.Coordinates != null || x.Place != null);
                 }
 
-                searchResultsDTO.MatchingTweetDTOs = matchingTweetDTOS?.ToArray();
+                searchResultsDTO.MatchingTweetDTOs = matchingTweetDTOs?.ToArray();
             }
         }
 
@@ -198,18 +199,18 @@ namespace Tweetinvi.Controllers.Search
             return repliesDTO;
         }
 
-        private IEnumerable<ITweetDTO> GetRecursiveReplies(List<ITweetDTO> searchTweets, long sourceId)
+        private IEnumerable<ITweetDTO> GetRecursiveReplies(IReadOnlyCollection<ITweetDTO> searchTweets, long sourceId)
         {
             var directReplies = searchTweets.Where(x => x.InReplyToStatusId == sourceId).ToList();
-            List<ITweetDTO> results = directReplies.ToList();
-
-            var recursiveReplies = searchTweets.Where(x => directReplies.Select(r => r.Id as long?).Contains(x.InReplyToStatusId));
+            var results = directReplies.ToList();
+            var recursiveReplies = searchTweets.Where(x => directReplies.Select(r => r.Id).Contains(x.InReplyToStatusId)).ToArray();
+            
             results.AddRange(recursiveReplies);
 
             while (recursiveReplies.Any())
             {
                 var repliesFromPreviousLevel = recursiveReplies;
-                recursiveReplies = searchTweets.Where(x => repliesFromPreviousLevel.Select(r => r.Id as long?).Contains(x.InReplyToStatusId));
+                recursiveReplies = searchTweets.Where(x => repliesFromPreviousLevel.Select(r => r.Id).Contains(x.InReplyToStatusId)).ToArray();
                 results.AddRange(recursiveReplies);
             }
 
@@ -231,17 +232,17 @@ namespace Tweetinvi.Controllers.Search
         {
             if (searchUsersParameters == null)
             {
-                throw new ArgumentNullException("Search parameters cannot be null.");
+                throw new ArgumentNullException(nameof(searchUsersParameters));
             }
 
             if (searchUsersParameters.SearchQuery == null)
             {
-                throw new ArgumentNullException("Search query cannot be null.");
+                throw new ArgumentNullException(nameof(searchUsersParameters));
             }
 
             if (searchUsersParameters.SearchQuery == string.Empty)
             {
-                throw new ArgumentException("Search query cannot be empty.");
+                throw new ArgumentException("Search query cannot be empty.", nameof(searchUsersParameters));
             }
 
             var maximumNumberOfResults = Math.Min(searchUsersParameters.MaximumNumberOfResults, 1000);
@@ -271,12 +272,17 @@ namespace Tweetinvi.Controllers.Search
                 query = _searchQueryGenerator.GetSearchUsersQuery(searchParameter);
                 currentResult = await _twitterAccessor.ExecuteGETQuery<List<IUserDTO>>(query);
 
-                bool searchIsComplete = currentResult == null;
+                var searchIsComplete = currentResult == null;
 
                 if (!searchIsComplete)
                 {
                     foreach (var userDTO in currentResult)
                     {
+                        if (userDTO?.Id == null)
+                        {
+                            continue;
+                        }
+
                         if (result.ContainsKey(userDTO.Id))
                         {
                             searchIsComplete = true;

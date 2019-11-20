@@ -25,18 +25,18 @@ namespace Tweetinvi
             where T1 : class
             where T2 : class
         {
-            private readonly Func<T1, T2> _getSerializableObject;
+            private readonly Func<T1, T2> _internalGetSerializableObject;
             private readonly Func<string, T1> _deserializer;
 
-            public InternalJsonSerializer(Func<T1, T2> getSerializableObject, Func<string, T1> deserializer)
+            public InternalJsonSerializer(Func<T1, T2> internalGetSerializableObject, Func<string, T1> deserializer)
             {
-                _getSerializableObject = getSerializableObject;
+                _internalGetSerializableObject = internalGetSerializableObject;
                 _deserializer = deserializer;
             }
 
             public object GetSerializableObject(object source)
             {
-                return _getSerializableObject(source as T1);
+                return _internalGetSerializableObject(source as T1);
             }
 
             public object GetDeserializedObject(string json)
@@ -45,25 +45,10 @@ namespace Tweetinvi
             }
         }
 
-        private static MethodInfo _jsonConvert;
         private static readonly Dictionary<Type, IJsonSerializer> _getSerializableObject;
 
         static JsonSerializer()
         {
-            _jsonConvert = typeof(JsonConvert)
-                         .GetMethods()
-                         .Where(m => m.Name == "DeserializeObject")
-                         .Select(m => new
-                         {
-                             Method = m,
-                             Params = m.GetParameters(),
-                             Args = m.GetGenericArguments()
-                         })
-                         .Where(x => x.Args.Length == 1 &&
-                                     x.Params.Length == 2)
-                         .Select(x => x.Method)
-                         .First();
-
             var tweetFactory = TweetinviContainer.Resolve<ITweetFactory>();
             var userFactory = TweetinviContainer.Resolve<IUserFactory>();
             var messageFactory = TweetinviContainer.Resolve<IMessageFactory>();
@@ -118,24 +103,15 @@ namespace Tweetinvi
 
             var isGenericType = type.GetTypeInfo().IsGenericType;
 
-            if (obj is IEnumerable && isGenericType)
+            if (obj is IEnumerable enumerable && isGenericType)
             {
-                Type genericType = null;
 
-                if (isGenericType)
-                {
-                    genericType = type.GetGenericArguments()[0];
-                }
-                else if (typeof(Array).IsAssignableFrom(type))
-                {
-                    genericType = type.GetElementType();
-                }
+                 var genericType = type.GetGenericArguments()[0];
 
                 serializer = serializer ?? GetSerializerFromNonCollectionType(genericType);
 
                 if (serializer != null)
                 {
-                    var enumerable = (IEnumerable)obj;
                     var list = new List<object>();
 
                     foreach (var o in enumerable)
@@ -244,37 +220,6 @@ namespace Tweetinvi
                     ex
                 );
             }
-        }
-
-
-        private static IJsonSerializer GetSerializer(Type type)
-        {
-            var serializer = GetSerializerFromNonCollectionType(type);
-
-            if (serializer != null)
-            {
-                return serializer;
-            }
-
-            if (typeof(IEnumerable).IsAssignableFrom(type))
-            {
-                Type genericType = null;
-                if (type.GetTypeInfo(). IsGenericType)
-                {
-                    genericType = type.GetGenericArguments()[0];
-                }
-                else if (typeof(Array).IsAssignableFrom(type))
-                {
-                    genericType = type.GetElementType();
-                }
-
-                if (genericType != null)
-                {
-                    return GetSerializerFromNonCollectionType(genericType);
-                }
-            }
-
-            return null;
         }
 
         private static IJsonSerializer GetSerializerFromNonCollectionType(Type type)

@@ -101,7 +101,8 @@ namespace Tweetinvi.Core.Web
             where T1 : class, IBaseCursorQueryDTO<T>;
 
         // Consumer Credentials Query
-        Task<ITwitterResponse> ExecuteQuery(string query, HttpMethod method, IConsumerOnlyCredentials credentials, HttpContent httpContent = null);
+        Task<ITwitterResponse> ExecuteQuery(string query, HttpMethod method, IConsumerOnlyCredentials credentials);
+        Task<ITwitterResponse> ExecuteQuery(string query, HttpMethod method, IConsumerOnlyCredentials credentials, HttpContent httpContent);
         Task<T> ExecuteQuery<T>(string query, HttpMethod method, IConsumerOnlyCredentials credentials, HttpContent httpContent = null) where T : class;
         Task<ITwitterResult> ExecuteRequest(ITwitterRequest request);
         Task<ITwitterResult<T>> ExecuteRequest<T>(ITwitterRequest request) where T : class;

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Reflection;
 
-namespace Tweetinvi.Core.Core.Helpers
+namespace Tweetinvi.Core.Helpers
 {
     public static class EnumHelpers
     {

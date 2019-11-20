@@ -46,4 +46,4 @@ steps:
     continueOnError: true
     inputs:
       solutionOrProjectPath: "$(solution)"
-      additionalArguments: "/disable-settings-layers:SolutionPersonal --properties:Configuration=$(buildConfiguration)"
+      additionalArguments: "--disable-settings-layers=SolutionPersonal --properties:Configuration=$(buildConfiguration) --profile=$(solution).DotSettings"

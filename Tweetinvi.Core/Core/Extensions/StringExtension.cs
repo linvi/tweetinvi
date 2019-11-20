@@ -2,7 +2,6 @@
 using System.Globalization;
 using System.Text;
 using System.Text.RegularExpressions;
-using Tweetinvi.Core.Core.Helpers;
 using Tweetinvi.Core.Helpers;
 using Tweetinvi.Models;
 

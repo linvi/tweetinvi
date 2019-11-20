@@ -23,7 +23,7 @@ namespace Tweetinvi.Controllers.SavedSearch
         {
             if (savedSearch == null)
             {
-                throw new ArgumentNullException("SavedSearch cannot be null.");
+                throw new ArgumentNullException(nameof(savedSearch));
             }
 
             return GetDestroySavedSearchQuery(savedSearch.Id);

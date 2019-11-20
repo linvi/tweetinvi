@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Newtonsoft.Json;
+using Tweetinvi.Core.DTO;
 using Tweetinvi.Core.Models.Properties;
-using Tweetinvi.Logic.DTO;
 
 namespace Tweetinvi.Streams.Model.AccountActivity
 {

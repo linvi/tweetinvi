@@ -1,6 +1,7 @@
 ﻿using System;
 using Tweetinvi.Models;
 using Tweetinvi.Parameters;
+using Tweetinvi.Parameters.Enum;
 
 namespace Tweetinvi.Controllers.Search
 {
@@ -22,7 +23,7 @@ namespace Tweetinvi.Controllers.Search
         {
             if (searchTweetsParameters == null)
             {
-                throw new ArgumentNullException("Search parameters cannot be null");
+                throw new ArgumentNullException(nameof(searchTweetsParameters));
             }
 
             if (!IsAtLeasOneRequiredCriteriaSet(searchTweetsParameters))

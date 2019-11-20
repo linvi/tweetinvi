@@ -1,4 +1,4 @@
-﻿namespace Tweetinvi.Core.Public.Parameters.Enum
+﻿namespace Tweetinvi.Parameters.Enum
 {
     public enum UploadProgressState
     {

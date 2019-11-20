@@ -3,15 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
-using Tweetinvi.Core.Public.Parameters.Enum;
+using Tweetinvi.Core.DTO;
 using Tweetinvi.Core.QueryGenerators;
 using Tweetinvi.Core.Upload;
 using Tweetinvi.Core.Web;
 using Tweetinvi.Events;
-using Tweetinvi.Logic.DTO;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
 using Tweetinvi.Parameters;
+using Tweetinvi.Parameters.Enum;
 
 namespace Tweetinvi.Controllers.Upload
 {

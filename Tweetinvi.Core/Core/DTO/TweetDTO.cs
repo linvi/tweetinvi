@@ -6,7 +6,7 @@ using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
 using Tweetinvi.Models.Entities;
 
-namespace Tweetinvi.Logic.DTO
+namespace Tweetinvi.Core.DTO
 {
     public class TweetDTO : ITweetDTO
     {

@@ -28,7 +28,7 @@ namespace Tweetinvi.Injectinvi
             throw new NotImplementedException();
         }
 
-        public void RegisterType<T, U>(RegistrationLifetime registrationLifetime) where U : T
+        public void RegisterType<TRegistered, TTo>(RegistrationLifetime registrationLifetime) where TTo : TRegistered
         {
             throw new NotImplementedException();
         }

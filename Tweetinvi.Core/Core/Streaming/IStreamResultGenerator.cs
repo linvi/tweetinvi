@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Tweetinvi.Events;
 using Tweetinvi.Models;
+using Tweetinvi.Streaming;
 using Tweetinvi.Streaming.Events;
 
 namespace Tweetinvi.Core.Streaming

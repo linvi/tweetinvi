@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using Tweetinvi.Models.DTO.Webhooks;
 
-namespace Tweetinvi.Logic.DTO
+namespace Tweetinvi.Core.DTO.Webhooks
 {
     public class GetWebhookSubscriptionsCountResultDTO : IGetWebhookSubscriptionsCountResultDTO
     {

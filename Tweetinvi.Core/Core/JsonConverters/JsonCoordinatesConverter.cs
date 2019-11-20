@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
-using Tweetinvi.Logic.DTO;
+using Tweetinvi.Core.DTO;
 using Tweetinvi.Models;
 
 namespace Tweetinvi.Core.JsonConverters

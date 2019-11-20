@@ -1,4 +1,4 @@
-﻿using Tweetinvi.Core.Core.Parameters;
+﻿using Tweetinvi.Core.Parameters;
 using Tweetinvi.Models;
 using Tweetinvi.Parameters;
 

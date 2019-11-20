@@ -1,7 +1,7 @@
 ﻿using System;
 using Tweetinvi.Core.Attributes;
 
-namespace Tweetinvi.Parameters
+namespace Tweetinvi.Parameters.Enum
 {
     /// <summary>
     /// List of filters that can be used to retrieve tweets.

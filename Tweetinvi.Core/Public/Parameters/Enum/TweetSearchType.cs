@@ -1,4 +1,4 @@
-﻿namespace Tweetinvi.Parameters
+﻿namespace Tweetinvi.Parameters.Enum
 {
     /// <summary>
     /// List of filters to detect whether the tweet is new.

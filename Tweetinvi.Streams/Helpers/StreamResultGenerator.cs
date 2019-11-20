@@ -6,6 +6,7 @@ using Tweetinvi.Core.Streaming;
 using Tweetinvi.Events;
 using Tweetinvi.Exceptions;
 using Tweetinvi.Models;
+using Tweetinvi.Streaming;
 using Tweetinvi.Streaming.Events;
 using Tweetinvi.Streams.Model;
 using Tweetinvi.Streams.Properties;

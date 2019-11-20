@@ -1,5 +1,5 @@
 ﻿using System;
-using Tweetinvi.Core.Core.Helpers;
+using Tweetinvi.Core.Helpers;
 using Tweetinvi.Core.QueryValidators;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO.Events;
@@ -95,7 +95,7 @@ namespace Tweetinvi.Controllers.Messages
         {
             if (messageEvent == null)
             {
-                throw new ArgumentNullException("Message parameters cannot be null.");
+                throw new ArgumentNullException(nameof(messageEvent));
             }
 
             if (messageEvent.Type != EventType.MessageCreate)
@@ -105,7 +105,7 @@ namespace Tweetinvi.Controllers.Messages
 
             if (messageEvent.MessageCreate.IsDestroyed)
             {
-                throw new ArgumentException("Message already destroyed.");
+                throw new ArgumentException("Message already destroyed.", nameof(messageEvent));
             }
         }
 

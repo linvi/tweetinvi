@@ -56,7 +56,7 @@ namespace Tweetinvi.Controllers.Timeline
             var homeTimelineRequestQueryParameter = GenerateHomeTimelineParameters(timelineParameters);
             var includeContributorDetailsQueryParameter = GenerateIncludeContributorsDetailsParameter(timelineParameters.IncludeContributorDetails);
             var timelineRequestQueryParameter = GenerateTimelineRequestParameter(timelineParameters);
-            var requestParameters = string.Format("{0}{1}{2}", homeTimelineRequestQueryParameter, includeContributorDetailsQueryParameter, timelineRequestQueryParameter);
+            var requestParameters = $"{homeTimelineRequestQueryParameter}{includeContributorDetailsQueryParameter}{timelineRequestQueryParameter}";
             return string.Format(Resources.Timeline_GetHomeTimeline, requestParameters);
         }
 
@@ -70,7 +70,7 @@ namespace Tweetinvi.Controllers.Timeline
         {
             if (userTimelineQueryParameters == null)
             {
-                throw new ArgumentNullException("Timeline Query parameter cannot be null");
+                throw new ArgumentNullException(nameof(userTimelineQueryParameters));
             }
 
             var queryParameters = userTimelineQueryParameters.Parameters;
@@ -78,7 +78,7 @@ namespace Tweetinvi.Controllers.Timeline
 
             if (queryParameters == null)
             {
-                throw new ArgumentNullException("Timeline request parameter cannot be null");
+                throw new ArgumentNullException(nameof(queryParameters));
             }
 
             _userQueryValidator.ThrowIfUserCannotBeIdentified(user);
@@ -86,7 +86,7 @@ namespace Tweetinvi.Controllers.Timeline
             var userTimelineRequestParameter = GenerateUserTimelineRequestParameters(userTimelineQueryParameters);
             var includeContributorDetailsQueryParameter = GenerateIncludeContributorsDetailsParameter(queryParameters.IncludeContributorDetails);
             var timelineRequestParameter = GenerateTimelineRequestParameter(queryParameters);
-            var requestParameters = string.Format("{0}{1}{2}", userTimelineRequestParameter, includeContributorDetailsQueryParameter, timelineRequestParameter);
+            var requestParameters = $"{userTimelineRequestParameter}{includeContributorDetailsQueryParameter}{timelineRequestParameter}";
 
             return string.Format(Resources.Timeline_GetUserTimeline, requestParameters);
         }
@@ -109,7 +109,7 @@ namespace Tweetinvi.Controllers.Timeline
         {
             var includeContributorDetailsQueryParameter = GenerateIncludeContributorsDetailsParameter(mentionsTimelineParameters.IncludeContributorDetails);
             var timelineRequestParameter = GenerateTimelineRequestParameter(mentionsTimelineParameters);
-            var requestParameters = string.Format("{0}{1}", includeContributorDetailsQueryParameter, timelineRequestParameter);
+            var requestParameters = $"{includeContributorDetailsQueryParameter}{timelineRequestParameter}";
 
             return string.Format(Resources.Timeline_GetMentionsTimeline, requestParameters);
         }

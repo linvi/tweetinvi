@@ -430,7 +430,7 @@ namespace Tweetinvi.Credentials
 
         public async Task<IEnumerable<T>> ExecuteCursorGETQuery<T, T1>(
                 string baseQuery,
-                int maxObjectToRetrieve = Int32.MaxValue,
+                int maxObjectToRetrieve = int.MaxValue,
                 string cursor = null)
             where T1 : class, IBaseCursorQueryDTO<T>
         {
@@ -578,6 +578,11 @@ namespace Tweetinvi.Credentials
             HttpContent httpContent)
         {
             return await ExecuteQuery(query, method, new TwitterCredentials(credentials), httpContent);
+        }
+
+        public Task<ITwitterResponse> ExecuteQuery(string query, HttpMethod method, IConsumerOnlyCredentials credentials)
+        {
+            return ExecuteQuery(query, method, credentials, null);
         }
 
         public async Task<T> ExecuteQuery<T>(

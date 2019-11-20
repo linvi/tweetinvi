@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Tweetinvi.Core.Core.Parameters;
 using Tweetinvi.Core.Extensions;
 using Tweetinvi.Core.Parameters;
 using Tweetinvi.Core.Web;

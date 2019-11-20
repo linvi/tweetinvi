@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Tweetinvi.Core.Client;
 using Tweetinvi.Events;
 using Tweetinvi.Models;
+using Tweetinvi.Streaming;
 using Tweetinvi.Streaming.Parameters;
 
 namespace Tweetinvi.Core.Streaming

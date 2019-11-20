@@ -1,7 +1,7 @@
 ﻿using System.Globalization;
 using System.Text;
 
-namespace Tweetinvi.Core.Core.Helpers
+namespace Tweetinvi.Core.Helpers
 {
     public static class UnicodeHelper
     {

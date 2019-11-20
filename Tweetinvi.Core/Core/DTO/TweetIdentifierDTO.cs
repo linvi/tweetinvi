@@ -2,7 +2,7 @@
 using Tweetinvi.Core.JsonConverters;
 using Tweetinvi.Models;
 
-namespace Tweetinvi.Logic.DTO
+namespace Tweetinvi.Core.DTO
 {
     public class TweetIdentifierDTO : ITweetIdentifier
     {

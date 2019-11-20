@@ -1,5 +1,5 @@
 ﻿using Newtonsoft.Json;
-using Tweetinvi.Logic.DTO;
+using Tweetinvi.Core.DTO.Events;
 
 namespace Tweetinvi.Streams.Model.AccountActivity
 {

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Tweetinvi.Logic.TwitterEntities;
+using Tweetinvi.Core.DTO;
 using Tweetinvi.Models.DTO;
 using Tweetinvi.Models.Entities;
 

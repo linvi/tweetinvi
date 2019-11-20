@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 using Tweetinvi.Core.JsonConverters;
 using Tweetinvi.Models.DTO;
 
-namespace Tweetinvi.Logic.DTO
+namespace Tweetinvi.Core.DTO
 {
     public class UploadedMediaInfo : IUploadedMediaInfo
     {

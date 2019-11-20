@@ -1,9 +1,8 @@
 ﻿using Tweetinvi.Core.Factories;
-using Tweetinvi.Core.Models;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
 
-namespace Tweetinvi.Logic
+namespace Tweetinvi.Core.Models
 {
     public class Mention : Tweet, IMention
     {

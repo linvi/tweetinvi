@@ -119,9 +119,6 @@ namespace Tweetinvi
         /// Authorization Id used to store the credentials before a redirect.
         /// This can be retrieved from the callback request 'authorization_id' parameter.
         /// </param>
-        /// <param name="authContext">
-        /// If this parameter is set, the authorizationId will be used only if this object misses some required information.
-        /// </param>
         public static Task<ITwitterCredentials> CreateCredentialsFromVerifierCode(string verifierCode, string authorizationId)
         {
             var authToken = CreateCrentialsFromId(authorizationId, null);
@@ -137,8 +134,7 @@ namespace Tweetinvi
         /// If this parameter is set, the credentials information will be extracted from it, 
         /// otherwise, Tweetinvi will attempt to access the credentials associated with the 'authorization_id' parameter.
         /// </param>
-        public static Task<ITwitterCredentials> CreateCredentialsFromCallbackURL(string callbackURL,
-            IAuthenticationContext authContext = null)
+        public static Task<ITwitterCredentials> CreateCredentialsFromCallbackURL(string callbackURL, IAuthenticationContext authContext = null)
         {
             string verifierCode = _webTokenFactory.GetVerifierCodeFromCallbackURL(callbackURL);
             var credentialsId = callbackURL.GetURLParameter("authorization_id");

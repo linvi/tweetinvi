@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
-using Tweetinvi.Core.Core.Helpers;
 using Tweetinvi.Core.Extensions;
+using Tweetinvi.Core.Helpers;
 using Tweetinvi.Core.Streaming;
 
 namespace Tweetinvi.Streams.Helpers

@@ -22,7 +22,7 @@ namespace Tweetinvi.Controllers.Geo
         {
             if (coordinates == null)
             {
-                throw new ArgumentNullException("Coordinates cannot be null.");
+                throw new ArgumentNullException(nameof(coordinates));
             }
 
             string latitudeValue = coordinates.Latitude.ToString(CultureInfo.InvariantCulture);
@@ -110,12 +110,12 @@ namespace Tweetinvi.Controllers.Geo
         {
             if (placeId == null)
             {
-                throw new ArgumentNullException("PlaceId cannot be null.");
+                throw new ArgumentNullException(nameof(placeId));
             }
 
             if (placeId == "")
             {
-                throw new ArgumentNullException("PlaceId cannot be empty.");
+                throw new ArgumentException("Cannot be empty", nameof(placeId));
             }
 
             return string.Format(Resources.Geo_GetPlaceFromId, placeId);

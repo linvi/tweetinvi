@@ -1,5 +1,6 @@
 ﻿using System;
 using Tweetinvi.Models;
+using Tweetinvi.Parameters.Enum;
 
 namespace Tweetinvi.Parameters
 {

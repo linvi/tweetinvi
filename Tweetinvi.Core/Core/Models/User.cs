@@ -10,7 +10,7 @@ using Tweetinvi.Models.DTO;
 using Tweetinvi.Models.Entities;
 using Tweetinvi.Parameters;
 
-namespace Tweetinvi.Logic
+namespace Tweetinvi.Core.Models
 {
     /// <summary>
     /// Tweetinvi User.

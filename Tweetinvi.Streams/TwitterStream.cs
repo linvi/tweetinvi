@@ -12,6 +12,7 @@ using Tweetinvi.Core.Wrappers;
 using Tweetinvi.Events;
 using Tweetinvi.Models;
 using Tweetinvi.Parameters;
+using Tweetinvi.Streaming;
 using Tweetinvi.Streaming.Parameters;
 using Tweetinvi.Streams.Model;
 

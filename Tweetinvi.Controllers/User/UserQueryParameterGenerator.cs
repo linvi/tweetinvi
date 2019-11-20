@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Tweetinvi.Controllers.Shared;
 using Tweetinvi.Core.Extensions;
 using Tweetinvi.Core.QueryGenerators;
 using Tweetinvi.Core.QueryValidators;
@@ -12,14 +11,10 @@ namespace Tweetinvi.Controllers.User
 {
     public class UserQueryParameterGenerator : IUserQueryParameterGenerator
     {
-        private readonly IQueryParameterGenerator _queryParameterGenerator;
         private readonly IUserQueryValidator _userQueryValidator;
 
-        public UserQueryParameterGenerator(
-            IQueryParameterGenerator queryParameterGenerator,
-            IUserQueryValidator userQueryValidator)
+        public UserQueryParameterGenerator(IUserQueryValidator userQueryValidator)
         {
-            _queryParameterGenerator = queryParameterGenerator;
             _userQueryValidator = userQueryValidator;
         }
 

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Text;
 using Tweetinvi.Controllers.Properties;
-using Tweetinvi.Controllers.Shared;
 using Tweetinvi.Core.Extensions;
 using Tweetinvi.Models;
 
@@ -17,13 +16,6 @@ namespace Tweetinvi.Controllers.Trends
 
     public class TrendsQueryGenerator : ITrendsQueryGenerator
     {
-        private readonly IQueryParameterGenerator _queryParameterGenerator;
-
-        public TrendsQueryGenerator(IQueryParameterGenerator queryParameterGenerator)
-        {
-            _queryParameterGenerator = queryParameterGenerator;
-        }
-
         public string GetPlaceTrendsAtQuery(long woeid)
         {
             return string.Format(Resources.Trends_GetTrendsFromWoeId, woeid);

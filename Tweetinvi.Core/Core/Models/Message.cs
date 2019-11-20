@@ -6,7 +6,7 @@ using Tweetinvi.Models;
 using Tweetinvi.Models.DTO.Events;
 using Tweetinvi.Models.Entities;
 
-namespace Tweetinvi.Logic
+namespace Tweetinvi.Core.Models
 {
     /// <summary>
     /// Message that can be sent privately between Twitter users

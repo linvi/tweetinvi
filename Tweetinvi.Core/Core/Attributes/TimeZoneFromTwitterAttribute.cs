@@ -2,9 +2,9 @@
 
 namespace Tweetinvi.Core.Attributes
 {
-    // ReSharper disable UnusedMember.Global
     public class TimeZoneFromTwitterAttribute : Attribute
     {
+        // ReSharper disable once InconsistentNaming
         public string TZinfo { get; }
         public string DisplayValue { get; }
 

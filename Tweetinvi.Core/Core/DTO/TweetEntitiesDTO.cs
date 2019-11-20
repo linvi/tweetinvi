@@ -1,6 +1,6 @@
 ﻿using Tweetinvi.Models.Entities;
 
-namespace Tweetinvi.Logic.TwitterEntities
+namespace Tweetinvi.Core.DTO
 {
     /// <summary>
     /// Class storing multiple types of TweetEntities

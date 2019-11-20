@@ -1,6 +1,7 @@
 ﻿using Tweetinvi.Core.Attributes;
 using Tweetinvi.Parameters;
 using System.Reflection;
+using Tweetinvi.Parameters.Enum;
 
 namespace Tweetinvi.Core.Extensions
 {

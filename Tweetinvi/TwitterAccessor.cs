@@ -215,7 +215,7 @@ namespace Tweetinvi
 
         public static Task<ITwitterResponse> ExecuteConsumerQuery(string query, HttpMethod method, IConsumerOnlyCredentials credentials)
         {
-            return Accessor.ExecuteQuery(query, method, credentials, null);
+            return Accessor.ExecuteQuery(query, method, credentials);
         }
 
         // Sign

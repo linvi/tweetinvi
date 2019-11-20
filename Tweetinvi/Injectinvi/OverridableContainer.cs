@@ -25,12 +25,12 @@ namespace Tweetinvi.Injectinvi
             throw new InvalidOperationException();
         }
 
-        public void RegisterType<T, U>(RegistrationLifetime registrationLifetime = RegistrationLifetime.InstancePerResolve) where U : T
+        public void RegisterType<TRegistered, TTo>(RegistrationLifetime registrationLifetime = RegistrationLifetime.InstancePerResolve) where TTo : TRegistered
         {
-            _container.RegisterType<T, U>(registrationLifetime);
+            _container.RegisterType<TRegistered, TTo>(registrationLifetime);
 
-            JsonPropertyConverterRepository.TryOverride<T, U>();
-            JsonPropertiesConverterRepository.TryOverride<T, U>();
+            JsonPropertyConverterRepository.TryOverride<TRegistered, TTo>();
+            JsonPropertiesConverterRepository.TryOverride<TRegistered, TTo>();
         }
 
         public void RegisterGeneric(Type sourceType, Type targetType, RegistrationLifetime registrationLifetime = RegistrationLifetime.InstancePerResolve)

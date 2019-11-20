@@ -2,7 +2,7 @@
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
 
-namespace Tweetinvi.Logic.DTO
+namespace Tweetinvi.Core.DTO
 {
     public class UploadProcessingInfo : IUploadProcessingInfo
     {

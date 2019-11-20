@@ -45,7 +45,6 @@ namespace Tweetinvi
 
         /// <summary>
         /// Get a place information from place identifier.
-        /// <see cref="https://dev.twitter.com/rest/reference/get/geo/id/%3Aplace_id">Learn More</see>
         /// </summary>
         public static Task<IPlace> GetPlaceFromId(string placeId)
         {

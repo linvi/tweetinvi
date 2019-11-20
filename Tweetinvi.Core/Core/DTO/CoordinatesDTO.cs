@@ -2,7 +2,7 @@
 using Newtonsoft.Json;
 using Tweetinvi.Models;
 
-namespace Tweetinvi.Logic.DTO
+namespace Tweetinvi.Core.DTO
 {
     /// <summary>
     /// Coordinates of a geographical location

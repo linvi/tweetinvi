@@ -33,7 +33,7 @@ namespace Tweetinvi.Controllers.Webhooks
         public async Task<IWebhookEnvironmentDTO[]> GetAllWebhooksAsync(IConsumerOnlyCredentials consumerCredentials)
         {
             var query = "https://api.twitter.com/1.1/account_activity/all/webhooks.json";
-            var result = await _twitterAccessor.ExecuteQuery<IGetAllWebhooksResultDTO>(query, HttpMethod.GET, consumerCredentials, null);
+            var result = await _twitterAccessor.ExecuteQuery<IGetAllWebhooksResultDTO>(query, HttpMethod.GET, consumerCredentials);
 
             result?.Environments?.ForEach(environment =>
             {

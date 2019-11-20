@@ -1,7 +1,7 @@
 ﻿using Tweetinvi.Models;
 using Tweetinvi.Parameters;
 
-namespace Tweetinvi.Core.Core.Parameters
+namespace Tweetinvi.Core.Parameters
 {
     /// <summary>
     /// https://developer.twitter.com/en/docs/accounts-and-users/create-manage-lists/api-reference/get-lists-memberships

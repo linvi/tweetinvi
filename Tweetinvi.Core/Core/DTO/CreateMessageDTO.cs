@@ -3,7 +3,7 @@ using Tweetinvi.Core.JsonConverters;
 using Tweetinvi.Models.DTO;
 using Tweetinvi.Models.DTO.Events;
 
-namespace Tweetinvi.Logic.DTO
+namespace Tweetinvi.Core.DTO
 {
     public class CreateMessageDTO : ICreateMessageDTO
     {
