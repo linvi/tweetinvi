@@ -6,6 +6,8 @@
     <Copyright>Tweetinvi 2018</Copyright>
     <SignAssembly>false</SignAssembly>
     <AssemblyOriginatorKeyFile>../tweetinvi.snk</AssemblyOriginatorKeyFile>
+    <AssemblyName>Tweetinvi.AspNet</AssemblyName>
+    <RootNamespace>Tweetinvi.AspNet</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

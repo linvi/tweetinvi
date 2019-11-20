@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Tweetinvi.Core.Exceptions;
 using Tweetinvi.Core.Extensions;
 using Tweetinvi.Core.Factories;
 using Tweetinvi.Core.Helpers;
@@ -20,6 +19,7 @@ namespace Tweetinvi.Streams
 {
     public class FilteredStream : TrackedStream, IFilteredStream
     {
+        protected IStreamTrackManager<ITweet> StreamTrackManager { get; }
         private readonly IFilterStreamTweetMatcherFactory _filterStreamTweetMatcherFactory;
         private readonly ITwitterQueryFactory _twitterQueryFactory;
 
@@ -53,10 +53,8 @@ namespace Tweetinvi.Streams
             IJObjectStaticWrapper jObjectStaticWrapper,
             IStreamResultGenerator streamResultGenerator,
             ITweetFactory tweetFactory,
-            ISynchronousInvoker synchronousInvoker,
             ICustomRequestParameters customRequestParameters,
-            ITwitterQueryFactory twitterQueryFactory,
-            ISingleAggregateExceptionThrower singleAggregateExceptionThrower)
+            ITwitterQueryFactory twitterQueryFactory)
 
             : base(
                 streamTrackManager,
@@ -64,11 +62,10 @@ namespace Tweetinvi.Streams
                 jObjectStaticWrapper,
                 streamResultGenerator,
                 tweetFactory,
-                synchronousInvoker,
                 customRequestParameters,
-                twitterQueryFactory,
-                singleAggregateExceptionThrower)
+                twitterQueryFactory)
         {
+            StreamTrackManager = streamTrackManager;
             _filterStreamTweetMatcherFactory = filterStreamTweetMatcherFactory;
             _twitterQueryFactory = twitterQueryFactory;
 
@@ -80,7 +77,7 @@ namespace Tweetinvi.Streams
 
         public async Task StartStreamMatchingAnyCondition()
         {
-            _filterStreamTweetMatcher = _filterStreamTweetMatcherFactory.Create(_streamTrackManager, _locations, _followingUserIds);
+            _filterStreamTweetMatcher = _filterStreamTweetMatcherFactory.Create(StreamTrackManager, _locations, _followingUserIds);
 
             Func<ITwitterRequest> generateWebRequest = () =>
             {
@@ -137,7 +134,7 @@ namespace Tweetinvi.Streams
 
         public async Task StartStreamMatchingAllConditions()
         {
-            _filterStreamTweetMatcher = _filterStreamTweetMatcherFactory.Create(_streamTrackManager, _locations, _followingUserIds);
+            _filterStreamTweetMatcher = _filterStreamTweetMatcherFactory.Create(StreamTrackManager, _locations, _followingUserIds);
 
             Func<ITwitterRequest> generateTwitterRequest = () =>
             {

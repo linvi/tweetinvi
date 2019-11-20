@@ -21,10 +21,10 @@ namespace Tweetinvi.Core.Extensions
 
         public static bool ContainsSameObjectsAs<T>(this IEnumerable<T> collection, IEnumerable<T> collection2)
         {
-            return collection.Count() == collection2.Count() && collection.Except(collection2).IsEmpty();
+            return ContainsSameObjectsAs(collection.ToArray(), collection2.ToArray());
         }
 
-        public static bool ContainsSameObjectsAs<T>(this T[] collection, T[] collection2, bool enforceOrder = false) where T : IEquatable<T>
+        public static bool ContainsSameObjectsAs<T>(this T[] collection, T[] collection2, bool enforceOrder = false)
         {
             // Small optimization compared to the IEnumerable version
 
@@ -37,18 +37,16 @@ namespace Tweetinvi.Core.Extensions
             {
                 return collection.Except(collection2).IsEmpty();
             }
-            else
-            {
-                for (int i = 0; i < collection.Length; ++i)
-                {
-                    if (!collection[i].Equals(collection2[i]))
-                    {
-                        return false;
-                    }
-                }
 
-                return true;
+            for (int i = 0; i < collection.Length; ++i)
+            {
+                if (!collection[i].Equals(collection2[i]))
+                {
+                    return false;
+                }
             }
+
+            return true;
         }
 
         public static bool ContainsSameObjectsAs<T>(this IList<T> collection, IList<T> collection2, bool enforceOrder = false) where T : IEquatable<T>
@@ -91,7 +89,7 @@ namespace Tweetinvi.Core.Extensions
         {
             if (source == null)
             {
-                throw new ArgumentNullException("The source parameter cannot be null.");
+                throw new ArgumentNullException(nameof(source));
             }
 
             TSource result = null;
@@ -122,16 +120,15 @@ namespace Tweetinvi.Core.Extensions
         {
             if (source == null)
             {
-                throw new ArgumentNullException("The source parameter cannot be null.");
+                throw new ArgumentNullException(nameof(source));
             }
 
-            var list = source as IList<TSource>;
-            if (list != null)
+            if (source is IList<TSource> list)
             {
                 switch (list.Count)
                 {
                     case 0:
-                        return default(TSource);
+                        return default;
                     case 1:
                         return list[0];
                 }
@@ -141,14 +138,19 @@ namespace Tweetinvi.Core.Extensions
                 using (IEnumerator<TSource> enumerator = source.GetEnumerator())
                 {
                     if (!enumerator.MoveNext())
-                        return default(TSource);
+                    {
+                        return default;
+                    }
+
                     TSource current = enumerator.Current;
                     if (!enumerator.MoveNext())
+                    {
                         return current;
+                    }
                 }
             }
 
-            return default(TSource);
+            return default;
         }
 
         public static IEnumerable<TSource> Distinct<TSource>(this IEnumerable<TSource> source, Func<TSource, TSource, bool> areTheSame) where TSource : class

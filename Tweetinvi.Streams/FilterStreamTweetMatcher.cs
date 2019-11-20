@@ -114,9 +114,9 @@ namespace Tweetinvi.Streams
                 matchOn.HasFlag(MatchOn.AllEntities) ||
                 matchOn.HasFlag(MatchOn.URLEntities))
             {
-                var expandedURLs = tweet.Entities.Urls.Select(x => x.ExpandedURL);
-                expandedURLs = expandedURLs.Union(tweet.Entities.Medias.Select(x => x.ExpandedURL));
-                expandedURLs.ForEach(x =>
+                var expandedUrls = tweet.Entities.Urls.Select(x => x.ExpandedURL);
+                expandedUrls = expandedUrls.Union(tweet.Entities.Medias.Select(x => x.ExpandedURL));
+                expandedUrls.ForEach(x =>
                 {
                     var tracksMatchingExpandedURL = _streamTrackManager.GetMatchingTracksAndActions(x);
                     tracksMatchingExpandedURL.ForEach(t => { matchingTrackAndActions.TryAdd(t.Item1, t.Item2); });
@@ -126,9 +126,9 @@ namespace Tweetinvi.Streams
                     }
                 });
 
-                var displayedURLs = tweet.Entities.Urls.Select(x => x.DisplayedURL);
-                displayedURLs = displayedURLs.Union(tweet.Entities.Medias.Select(x => x.DisplayURL));
-                displayedURLs.ForEach(x =>
+                var displayedUrls = tweet.Entities.Urls.Select(x => x.DisplayedURL);
+                displayedUrls = displayedUrls.Union(tweet.Entities.Medias.Select(x => x.DisplayURL));
+                displayedUrls.ForEach(x =>
                 {
                     var tracksMatchingDisplayedURL = _streamTrackManager.GetMatchingTracksAndActions(x);
                     tracksMatchingDisplayedURL.ForEach(t => { matchingTrackAndActions.TryAdd(t.Item1, t.Item2); });
@@ -140,9 +140,9 @@ namespace Tweetinvi.Streams
 
                 if (tweet.QuotedTweet != null)
                 {
-                    var quotedTweetExpandedURLs = tweet.QuotedTweet.Entities.Urls.Select(x => x.ExpandedURL);
-                    quotedTweetExpandedURLs = quotedTweetExpandedURLs.Union(tweet.QuotedTweet.Entities.Medias.Select(x => x.ExpandedURL));
-                    quotedTweetExpandedURLs.ForEach(x =>
+                    var quotedTweetExpandedUrls = tweet.QuotedTweet.Entities.Urls.Select(x => x.ExpandedURL);
+                    quotedTweetExpandedUrls = quotedTweetExpandedUrls.Union(tweet.QuotedTweet.Entities.Medias.Select(x => x.ExpandedURL));
+                    quotedTweetExpandedUrls.ForEach(x =>
                     {
                         var tracksMatchingExpandedURL = _streamTrackManager.GetMatchingTracksAndActions(x);
                         tracksMatchingExpandedURL.ForEach(t => { matchingQuotedTrackAndActions.TryAdd(t.Item1, t.Item2); });
@@ -152,9 +152,9 @@ namespace Tweetinvi.Streams
                         }
                     });
 
-                    var quotedTweetDisplayedURLs = tweet.QuotedTweet.Entities.Urls.Select(x => x.DisplayedURL);
-                    quotedTweetDisplayedURLs = quotedTweetDisplayedURLs.Union(tweet.QuotedTweet.Entities.Medias.Select(x => x.DisplayURL));
-                    quotedTweetDisplayedURLs.ForEach(x =>
+                    var quotedTweetDisplayedUrls = tweet.QuotedTweet.Entities.Urls.Select(x => x.DisplayedURL);
+                    quotedTweetDisplayedUrls = quotedTweetDisplayedUrls.Union(tweet.QuotedTweet.Entities.Medias.Select(x => x.DisplayURL));
+                    quotedTweetDisplayedUrls.ForEach(x =>
                     {
                         var tracksMatchingDisplayedURL = _streamTrackManager.GetMatchingTracksAndActions(x);
                         tracksMatchingDisplayedURL.ForEach(t => { matchingQuotedTrackAndActions.TryAdd(t.Item1, t.Item2); });
@@ -331,20 +331,18 @@ namespace Tweetinvi.Streams
             }
 
             var place = tweet.Place;
-            if (place != null)
+            var boundingBox = place?.BoundingBox;
+
+            if (boundingBox != null)
             {
-                var boundingBox = place.BoundingBox;
-                if (boundingBox != null)
-                {
-                    var placeCoordinates = boundingBox.Coordinates;
-                    return GetMatchedLocations(placeCoordinates);
-                }
+                var placeCoordinates = boundingBox.Coordinates;
+                return GetMatchedLocations(placeCoordinates.ToArray());
             }
 
             return new List<KeyValuePair<ILocation, Action<ITweet>>>();
         }
 
-        private IEnumerable<KeyValuePair<ILocation, Action<ITweet>>> GetMatchedLocations(IEnumerable<ICoordinates> coordinates)
+        private IEnumerable<KeyValuePair<ILocation, Action<ITweet>>> GetMatchedLocations(ICoordinates[] coordinates)
         {
             var top = coordinates.Max(x => x.Latitude);
             var left = coordinates.Min(x => x.Longitude);

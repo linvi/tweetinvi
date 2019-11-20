@@ -42,9 +42,13 @@ namespace Tweetinvi.Streams.Helpers
         {
             get
             {
-                if (_currentStreamTask != null)
+                lock (_lockStream)
                 {
-                    return _currentStreamTask.StreamState;
+                    if (_currentStreamTask != null)
+                    {
+
+                        return _currentStreamTask.StreamState;
+                    }
                 }
 
                 return StreamState.Stop;
@@ -80,7 +84,7 @@ namespace Tweetinvi.Streams.Helpers
 
                 var processObjectParameter = _streamTaskFactory.GenerateParameterOverrideWrapper("processObject", processObject);
                 var generateWebRequestParameter = _streamTaskFactory.GenerateParameterOverrideWrapper("generateTwitterRequest", generateTwitterRequest);
-                
+
                 streamTask = _streamTaskFactory.Create(processObjectParameter, generateWebRequestParameter);
 
                 _currentStreamTask = streamTask;
@@ -132,17 +136,17 @@ namespace Tweetinvi.Streams.Helpers
 
         public void ResumeStream()
         {
-            if (_currentStreamTask != null)
+            lock (_lockStream)
             {
-                _currentStreamTask.Resume();
+                _currentStreamTask?.Resume();
             }
         }
 
         public void PauseStream()
         {
-            if (_currentStreamTask != null)
+            lock (_lockStream)
             {
-                _currentStreamTask.Pause();
+                _currentStreamTask?.Pause();
             }
         }
 

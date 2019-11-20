@@ -101,13 +101,15 @@ namespace Tweetinvi.Core.Models
 
         public bool Equals(IMessage other)
         {
-            bool result = 
-                Id == other.Id && 
+            if (other == null)
+            {
+                return false;
+            }
+
+            return Id == other.Id &&
                 Text == other.Text &&
                 SenderId == other.SenderId &&
                 RecipientId == other.RecipientId;
-
-            return result;
         }
 
         public override string ToString()

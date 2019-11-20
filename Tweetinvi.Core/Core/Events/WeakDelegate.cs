@@ -54,7 +54,7 @@ namespace Tweetinvi.Core.Events
 
         internal void Invoke(params object[] args)
         {
-            Delegate handler = (Delegate)(object)GetDelegateInternal();
+            var handler = GetDelegateInternal();
             handler.DynamicInvoke(args);
         }
     }

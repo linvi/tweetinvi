@@ -27,7 +27,8 @@ namespace Tweetinvi.Core.Helpers
             string str = string.Empty;
             foreach (char ch in unicodeText)
             {
-                int num = (int)ch;
+                int num = ch;
+
                 switch (num)
                 {
                     case 38:
@@ -49,14 +50,15 @@ namespace Tweetinvi.Core.Helpers
                         }
                         break;
                     default:
-                        str = (int)ch < 32 || (int)ch > 126 ? str + ("&#" + num.ToString((IFormatProvider)NumberFormatInfo.InvariantInfo) + ";") : str + (object)ch;
+                        str = ch < 32 || ch > 126 ? $"{str}&#{num.ToString(NumberFormatInfo.InvariantInfo)};" : $"{str}{ch}";
                         break;
                 }
             }
 
             return str;
         }
-
+        
+        // ReSharper disable RedundantDelegateCreation
         public string HtmlDecode(string encodedText)
         {
             return _entityResolver.Replace(encodedText, new MatchEvaluator(ResolveEntityAngleAmp));
@@ -65,9 +67,13 @@ namespace Tweetinvi.Core.Helpers
         public string HtmlDecode(string encodedText, bool encodeTagsToo)
         {
             if (encodeTagsToo)
+            {
                 return _entityResolver.Replace(encodedText, new MatchEvaluator(ResolveEntityAngleAmp));
+            }
+
             return _entityResolver.Replace(encodedText, new MatchEvaluator(ResolveEntityNotAngleAmp));
         }
+        // ReSharper restore RedundantDelegateCreation
 
         private string ResolveEntityNotAngleAmp(Match matchToProcess)
         {
@@ -108,11 +114,13 @@ namespace Tweetinvi.Core.Helpers
             char[] chArray = hexstr.ToCharArray();
             for (int index = chArray.Length - 1; index >= 0; --index)
             {
-                if ((int)chArray[index] >= 48 && (int)chArray[index] <= 57)
-                    num += ((int)chArray[index] - 48) * (int)Math.Pow(16.0, (double)(chArray.Length - 1 - index));
-                else if ((int)chArray[index] >= 65 && (int)chArray[index] <= 70)
+                if (chArray[index] >= 48 && chArray[index] <= 57)
                 {
-                    num += ((int)chArray[index] - 55) * (int)Math.Pow(16.0, (double)(chArray.Length - 1 - index));
+                    num += (chArray[index] - 48) * (int)Math.Pow(16, (chArray.Length - 1 - index));
+                }
+                else if (chArray[index] >= 65 && chArray[index] <= 70)
+                {
+                    num += (chArray[index] - 55) * (int)Math.Pow(16, (chArray.Length - 1 - index));
                 }
                 else
                 {
@@ -870,7 +878,7 @@ namespace Tweetinvi.Core.Helpers
                     str = Convert.ToChar(376).ToString();
                     break;
                 case "yuml":
-                    str = Convert.ToChar((int)byte.MaxValue).ToString();
+                    str = Convert.ToChar(byte.MaxValue).ToString();
                     break;
                 case "zeta":
                     str = Convert.ToChar(950).ToString();

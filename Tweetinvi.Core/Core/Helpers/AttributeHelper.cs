@@ -48,13 +48,9 @@ namespace Tweetinvi.Core.Helpers
 
         public IEnumerable<T1> GetPropertyAttributes<T1, T2, T3>(Expression<Func<T3>> propertyExpression) where T1 : Attribute
         {
-            if (propertyExpression == null)
-            {
-                return null;
-            }
-
-            var body = propertyExpression.Body as MemberExpression;
-            if (body == null || body.Member == null)
+            var body = propertyExpression?.Body as MemberExpression;
+            
+            if (body?.Member == null)
             {
                 return null;
             }

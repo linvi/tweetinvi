@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Tweetinvi.Core.Events;
-using Tweetinvi.Core.Exceptions;
 using Tweetinvi.Core.Factories;
 using Tweetinvi.Core.Helpers;
 using Tweetinvi.Core.Streaming;
@@ -23,8 +22,8 @@ namespace Tweetinvi.Streams
         public event EventHandler<MatchedTweetReceivedEventArgs> MatchingTweetReceived;
         public event EventHandler<TweetEventArgs> NonMatchingTweetReceived;
 
-        protected readonly IStreamTrackManager<ITweet> _streamTrackManager;
-        protected readonly ITweetFactory _tweetFactory;
+        private readonly IStreamTrackManager<ITweet> _streamTrackManager;
+        protected ITweetFactory _tweetFactory { get; }
 
         private readonly ITwitterQueryFactory _twitterQueryFactory;
 
@@ -36,10 +35,8 @@ namespace Tweetinvi.Streams
             IJObjectStaticWrapper jObjectStaticWrapper,
             IStreamResultGenerator streamResultGenerator,
             ITweetFactory tweetFactory,
-            ISynchronousInvoker synchronousInvoker,
             ICustomRequestParameters customRequestParameters,
-            ITwitterQueryFactory twitterQueryFactory,
-            ISingleAggregateExceptionThrower singleAggregateExceptionThrower)
+            ITwitterQueryFactory twitterQueryFactory)
 
             : base(streamResultGenerator, jsonObjectConverter, jObjectStaticWrapper, customRequestParameters)
         {

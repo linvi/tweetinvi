@@ -27,7 +27,7 @@ namespace Tweetinvi.Core.Models.TwitterEntities
 
         public bool Equals(IUserMentionEntity other)
         {
-            if (!Id.HasValue || !other.Id.HasValue)
+            if (other == null || !Id.HasValue || !other.Id.HasValue)
             {
                 return false;
             }
@@ -39,7 +39,7 @@ namespace Tweetinvi.Core.Models.TwitterEntities
 
             if (Indices == null || other.Indices == null)
             {
-                return Indices == other.Indices;
+                return Equals(Indices, other.Indices);
             }
 
             return Indices.ContainsSameObjectsAs(other.Indices, true);

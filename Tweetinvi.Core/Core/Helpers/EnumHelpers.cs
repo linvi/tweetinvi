@@ -19,7 +19,7 @@ namespace Tweetinvi.Core.Helpers
             where TEnum : struct
             where TAttr : Attribute
         {
-            if (TryGetValueWhereAttribute<TEnum, TAttr>(attributePredicate, out TEnum val))
+            if (TryGetValueWhereAttribute(attributePredicate, out TEnum val))
             {
                 return val;
             }

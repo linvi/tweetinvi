@@ -56,14 +56,14 @@ namespace Tweetinvi.Exceptions
     {
         public const int DEFAULT_STATUS_CODE = -1;
 
-        public virtual WebException WebException { get; }
-        public virtual string URL { get; }
-        public virtual int StatusCode { get; }
-        public virtual string TwitterDescription { get; protected set; }
-        public virtual DateTime CreationDate { get; }
-        public virtual IEnumerable<ITwitterExceptionInfo> TwitterExceptionInfos { get; }
-        public virtual ITwitterQuery TwitterQuery { get; }
-        public virtual ITwitterRequest Request { get; }
+        public WebException WebException { get; protected set; }
+        public string URL { get; }
+        public int StatusCode { get; protected set; }
+        public string TwitterDescription { get; protected set; }
+        public DateTime CreationDate { get; }
+        public IEnumerable<ITwitterExceptionInfo> TwitterExceptionInfos { get; protected set; }
+        public ITwitterQuery TwitterQuery { get; }
+        public ITwitterRequest Request { get; }
 
         protected TwitterException(ITwitterRequest request, string message) : base(message)
         {

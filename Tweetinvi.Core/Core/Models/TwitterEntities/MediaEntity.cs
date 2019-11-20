@@ -48,7 +48,7 @@ namespace Tweetinvi.Core.Models.TwitterEntities
 
         public bool Equals(IMediaEntity other)
         {
-            if (Id == null || Id != other.Id)
+            if (Id == null || other == null || Id != other.Id)
             {
                 return false;
             }

@@ -8,23 +8,23 @@ namespace Tweetinvi.Core.JsonConverters
         Type InterfaceType { get; }
     }
 
-    public class JsonInterfaceToObjectConverter<T, U> : JsonConverter, IJsonInterfaceToObjectConverter
-        where U : T
+    public class JsonInterfaceToObjectConverter<TInterface, TTo> : JsonConverter, IJsonInterfaceToObjectConverter
+        where TTo : TInterface
     {
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
-            return serializer.Deserialize<U>(reader);
+            return serializer.Deserialize<TTo>(reader);
         }
 
         public override bool CanConvert(Type objectType)
         {
-            var canConvert = objectType == typeof (T);
+            var canConvert = objectType == typeof (TInterface);
             return canConvert;
         }
 
         public Type InterfaceType
         {
-            get { return typeof (T); }
+            get { return typeof (TInterface); }
         }
 
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)

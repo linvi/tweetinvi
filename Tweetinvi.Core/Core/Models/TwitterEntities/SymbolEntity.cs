@@ -14,6 +14,11 @@ namespace Tweetinvi.Core.Models.TwitterEntities
 
         public bool Equals(ISymbolEntity other)
         {
+            if (other == null)
+            {
+                return false;
+            }
+
             if (Text != other.Text)
             {
                 return false;

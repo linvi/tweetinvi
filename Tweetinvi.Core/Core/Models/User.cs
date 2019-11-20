@@ -20,19 +20,15 @@ namespace Tweetinvi.Core.Models
         private const string REGEX_PROFILE_IMAGE_SIZE = "_[^\\W_]+(?=(?:\\.[a-zA-Z0-9_]+$))";
         public ITwitterClient Client { get; set; }
 
-        protected IUserDTO _userDTO;
+        // ReSharper disable once InconsistentNaming
         protected readonly ITimelineController _timelineController;
         private readonly ITwitterListController _twitterListController;
 
-        public IUserDTO UserDTO
-        {
-            get { return _userDTO; }
-            set { _userDTO = value; }
-        }
+        public IUserDTO UserDTO { get; set; }
 
         public IUserIdentifier UserIdentifier
         {
-            get { return _userDTO; }
+            get { return UserDTO; }
         }
 
         #region Public Attributes
@@ -44,95 +40,95 @@ namespace Tweetinvi.Core.Models
 
         public long? Id
         {
-            get { return _userDTO?.Id; }
+            get { return UserDTO?.Id; }
             set { throw new InvalidOperationException("Cannot set the Id of a user"); }
         }
 
         public string IdStr
         {
-            get { return _userDTO?.IdStr; }
+            get { return UserDTO?.IdStr; }
             set { throw new InvalidOperationException("Cannot set the Id of a user"); }
         }
 
         public string ScreenName
         {
-            get { return _userDTO?.ScreenName; }
+            get { return UserDTO?.ScreenName; }
             set { throw new InvalidOperationException("Cannot set the ScreenName of a user"); }
         }
 
         public string Name
         {
-            get { return _userDTO.Name; }
+            get { return UserDTO.Name; }
         }
 
         public string Description
         {
-            get { return _userDTO.Description; }
+            get { return UserDTO.Description; }
         }
 
         public ITweetDTO Status
         {
-            get { return _userDTO.Status; }
+            get { return UserDTO.Status; }
         }
 
         public DateTime CreatedAt
         {
-            get { return _userDTO.CreatedAt; }
+            get { return UserDTO.CreatedAt; }
         }
 
         public string Location
         {
-            get { return _userDTO.Location; }
+            get { return UserDTO.Location; }
         }
 
         public bool GeoEnabled
         {
-            get { return _userDTO.GeoEnabled; }
+            get { return UserDTO.GeoEnabled; }
         }
 
         public string Url
         {
-            get { return _userDTO.Url; }
+            get { return UserDTO.Url; }
         }
 
         public int StatusesCount
         {
-            get { return _userDTO.StatusesCount; }
+            get { return UserDTO.StatusesCount; }
         }
 
         public int FollowersCount
         {
-            get { return _userDTO.FollowersCount; }
+            get { return UserDTO.FollowersCount; }
         }
 
         public int FriendsCount
         {
-            get { return _userDTO.FriendsCount; }
+            get { return UserDTO.FriendsCount; }
         }
 
         public bool Following
         {
-            get { return _userDTO.Following; }
+            get { return UserDTO.Following; }
         }
 
         public bool Protected
         {
-            get { return _userDTO.Protected; }
+            get { return UserDTO.Protected; }
         }
 
         public bool Verified
         {
-            get { return _userDTO.Verified; }
+            get { return UserDTO.Verified; }
         }
 
         public IUserEntities Entities
         {
-            get { return _userDTO.Entities; }
+            get { return UserDTO.Entities; }
         }
 
         public string ProfileImageUrl
         {
-            get { return _userDTO.ProfileImageUrl; }
+            get { return UserDTO.ProfileImageUrl; }
         }
 
         public string ProfileImageUrlFullSize
@@ -165,118 +161,118 @@ namespace Tweetinvi.Core.Models
 
         public string ProfileImageUrlHttps
         {
-            get { return _userDTO.ProfileImageUrlHttps; }
+            get { return UserDTO.ProfileImageUrlHttps; }
         }
 
         public bool FollowRequestSent
         {
-            get { return _userDTO.FollowRequestSent; }
+            get { return UserDTO.FollowRequestSent; }
         }
 
         public bool DefaultProfile
         {
-            get { return _userDTO.DefaultProfile; }
+            get { return UserDTO.DefaultProfile; }
         }
 
         public bool DefaultProfileImage
         {
-            get { return _userDTO.DefaultProfileImage; }
+            get { return UserDTO.DefaultProfileImage; }
         }
 
         public int FavouritesCount
         {
-            get { return _userDTO.FavoritesCount ?? 0; }
+            get { return UserDTO.FavoritesCount ?? 0; }
         }
 
         public int ListedCount
         {
-            get { return _userDTO.ListedCount ?? 0; }
+            get { return UserDTO.ListedCount ?? 0; }
         }
 
         public string ProfileSidebarFillColor
         {
-            get { return _userDTO.ProfileSidebarFillColor; }
+            get { return UserDTO.ProfileSidebarFillColor; }
         }
 
         public string ProfileSidebarBorderColor
         {
-            get { return _userDTO.ProfileSidebarBorderColor; }
+            get { return UserDTO.ProfileSidebarBorderColor; }
         }
 
         public bool ProfileBackgroundTile
         {
-            get { return _userDTO.ProfileBackgroundTile; }
+            get { return UserDTO.ProfileBackgroundTile; }
         }
 
         public string ProfileBackgroundColor
         {
-            get { return _userDTO.ProfileBackgroundColor; }
+            get { return UserDTO.ProfileBackgroundColor; }
         }
 
         public string ProfileBackgroundImageUrl
         {
-            get { return _userDTO.ProfileBackgroundImageUrl; }
+            get { return UserDTO.ProfileBackgroundImageUrl; }
         }
 
         public string ProfileBackgroundImageUrlHttps
         {
-            get { return _userDTO.ProfileBackgroundImageUrlHttps; }
+            get { return UserDTO.ProfileBackgroundImageUrlHttps; }
         }
 
         public string ProfileBannerURL
         {
-            get { return _userDTO.ProfileBannerURL; }
+            get { return UserDTO.ProfileBannerURL; }
         }
 
         public string ProfileTextColor
         {
-            get { return _userDTO.ProfileTextColor; }
+            get { return UserDTO.ProfileTextColor; }
         }
 
         public string ProfileLinkColor
         {
-            get { return _userDTO.ProfileLinkColor; }
+            get { return UserDTO.ProfileLinkColor; }
         }
 
         public bool ProfileUseBackgroundImage
         {
-            get { return _userDTO.ProfileUseBackgroundImage; }
+            get { return UserDTO.ProfileUseBackgroundImage; }
         }
 
         public bool IsTranslator
         {
-            get { return _userDTO.IsTranslator; }
+            get { return UserDTO.IsTranslator; }
         }
 
         public bool ContributorsEnabled
         {
-            get { return _userDTO.ContributorsEnabled; }
+            get { return UserDTO.ContributorsEnabled; }
         }
 
         public int? UtcOffset
         {
-            get { return _userDTO.UtcOffset; }
+            get { return UserDTO.UtcOffset; }
         }
 
         public string TimeZone
         {
-            get { return _userDTO.TimeZone; }
+            get { return UserDTO.TimeZone; }
         }
 
         public IEnumerable<string> WithheldInCountries
         {
-            get { return _userDTO.WithheldInCountries; }
+            get { return UserDTO.WithheldInCountries; }
         }
 
         public string WithheldScope
         {
-            get { return _userDTO.WithheldScope; }
+            get { return UserDTO.WithheldScope; }
         }
 
         [Obsolete("Twitter's documentation states that this property is deprecated")]
         public bool Notifications
         {
-            get { return _userDTO.Notifications; }
+            get { return UserDTO.Notifications; }
         }
 
         #endregion
@@ -303,7 +299,7 @@ namespace Tweetinvi.Core.Models
             ITimelineController timelineController,
             ITwitterListController twitterListController)
         {
-            _userDTO = userDTO;
+            UserDTO = userDTO;
             _timelineController = timelineController;
             _twitterListController = twitterListController;
         }
@@ -421,12 +417,17 @@ namespace Tweetinvi.Core.Models
 
         public bool Equals(IUser other)
         {
+            if (other == null)
+            {
+                return false;
+            }
+
             return Id == other.Id || ScreenName == other.ScreenName;
         }
 
         public override string ToString()
         {
-            return _userDTO?.Name ?? "Undefined";
+            return UserDTO?.Name ?? "Undefined";
         }
     }
 }

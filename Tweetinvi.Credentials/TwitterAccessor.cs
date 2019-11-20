@@ -147,12 +147,6 @@ namespace Tweetinvi.Credentials
             return _jObjectStaticWrapper.GetJobjectFromJson(jsonResponse);
         }
 
-        public async Task<JObject> ExecuteDELETEQuery(string query)
-        {
-            string jsonResponse = await ExecuteQueryReturningContent(query, HttpMethod.DELETE);
-            return _jObjectStaticWrapper.GetJobjectFromJson(jsonResponse);
-        }
-
         // Get specific type of object from path
         public async Task<T> ExecuteGETQueryWithPath<T>(string query, params string[] paths) where T : class
         {
@@ -163,12 +157,6 @@ namespace Tweetinvi.Credentials
         public async Task<T> ExecutePOSTQueryWithPath<T>(string query, params string[] paths) where T : class
         {
             var jObject = await ExecutePOSTQuery(query);
-            return GetResultFromPath<T>(jObject, paths);
-        }
-
-        public async Task<T> ExecuteDELETEQueryWithPath<T>(string query, params string[] paths) where T : class
-        {
-            var jObject = await ExecuteDELETEQuery(query);
             return GetResultFromPath<T>(jObject, paths);
         }
 
@@ -197,71 +185,10 @@ namespace Tweetinvi.Credentials
             return _jsonObjectConverter.DeserializeObject<T>(jsonResponse, converters);
         }
 
-        public async Task<T> ExecuteDELETEQuery<T>(string query, JsonConverter[] converters = null) where T : class
+        private async Task<T> ExecuteDELETEQuery<T>(string query, JsonConverter[] converters = null) where T : class
         {
             string jsonResponse = await ExecuteQueryReturningContent(query, HttpMethod.DELETE);
             return _jsonObjectConverter.DeserializeObject<T>(jsonResponse, converters);
-        }
-
-        // Try Execute
-        public async Task<bool> TryExecuteGETQuery(string query, JsonConverter[] converters = null)
-        {
-            try
-            {
-                // Call ExecuteQuery so that we get the string response rather than a JObject, allowing us to differentiate
-                //  between the empty string (successful request with no response) and null (error)
-                string strResponse = await ExecuteQueryReturningContent(query, HttpMethod.GET);
-                return strResponse != null;
-            }
-            catch (TwitterException)
-            {
-                if (!_exceptionHandler.SwallowWebExceptions)
-                {
-                    throw;
-                }
-
-                return false;
-            }
-        }
-
-        public async Task<bool> TryExecutePOSTQuery(string query, JsonConverter[] converters = null)
-        {
-            try
-            {
-                // Call ExecuteQuery so that we get the string response rather than a JObject, allowing us to differentiate
-                //  between the empty string (successful request with no response) and null (error)
-                string strResponse = await ExecuteQueryReturningContent(query, HttpMethod.POST);
-                return strResponse != null;
-            }
-            catch (TwitterException)
-            {
-                if (!_exceptionHandler.SwallowWebExceptions)
-                {
-                    throw;
-                }
-
-                return false;
-            }
-        }
-
-        public async Task<bool> TryExecuteDELETEQuery(string query, JsonConverter[] converters = null)
-        {
-            try
-            {
-                // Call ExecuteQuery so that we get the string response rather than a JObject, allowing us to differentiate
-                //  between the empty string (successful request with no response) and null (error)
-                string strResponse = await ExecuteQueryReturningContent(query, HttpMethod.DELETE);
-                return strResponse != null;
-            }
-            catch (TwitterException)
-            {
-                if (!_exceptionHandler.SwallowWebExceptions)
-                {
-                    throw;
-                }
-
-                return false;
-            }
         }
 
         // Try Execute<T>

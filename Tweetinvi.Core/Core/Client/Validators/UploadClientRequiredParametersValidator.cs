@@ -9,10 +9,6 @@ namespace Tweetinvi.Core.Client.Validators
 
     public class UploadClientRequiredParametersValidator : IUploadClientRequiredParametersValidator
     {
-        public UploadClientRequiredParametersValidator()
-        {
-        }
-
         public void Validate(IUploadParameters parameters)
         {
             if (parameters == null)

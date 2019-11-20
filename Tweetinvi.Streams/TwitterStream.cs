@@ -20,7 +20,7 @@ namespace Tweetinvi.Streams
 {
     public abstract class TwitterStream : ITwitterStream
     {
-        protected readonly IStreamResultGenerator _streamResultGenerator;
+        protected IStreamResultGenerator _streamResultGenerator { get; }
         private readonly IJsonObjectConverter _jsonObjectConverter;
         private readonly IJObjectStaticWrapper _jObjectWrapper;
         private readonly ICustomRequestParameters _customRequestParameters;

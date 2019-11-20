@@ -14,38 +14,26 @@ namespace Tweetinvi.Streams.Helpers
     /// </summary>
     public class StreamTrackManager<T> : IStreamTrackManager<T>
     {
-        protected bool _refreshTracking;
-        protected readonly int _maxTracks;
+        private bool _refreshTracking;
 
         // Stores the entire track
 
         private readonly Dictionary<string, Action<T>> _tracks;
-        public Dictionary<string, Action<T>> Tracks
-        {
-            get { return _tracks; }
-        }
+        public Dictionary<string, Action<T>> Tracks => _tracks;
 
         // Stores the keywords included in a track
-        protected readonly List<string[]> _tracksKeywords;
+        private readonly List<string[]> _tracksKeywords;
 
-        public int TracksCount
-        {
-            get { return _tracks.Count; }
-        }
+        public int TracksCount => _tracks.Count;
+        public int MaxTracks { get; }
 
-        public int MaxTracks
-        {
-            get { return _maxTracks; }
-        }
-
-        public StreamTrackManager()
-            : this(Int32.MaxValue)
+        public StreamTrackManager() : this(int.MaxValue)
         {
         }
 
         public StreamTrackManager(int maxTrack)
         {
-            _maxTracks = maxTrack;
+            MaxTracks = maxTrack;
 
             _tracks = new Dictionary<string, Action<T>>();
             _tracksKeywords = new List<string[]>();

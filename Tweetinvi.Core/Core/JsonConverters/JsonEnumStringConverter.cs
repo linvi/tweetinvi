@@ -12,8 +12,8 @@ namespace Tweetinvi.Core.JsonConverters
     /// </summary>
     public class JsonEnumStringConverter<T> : JsonConverter where T : struct // TODO - Replace struct with Enum when supported by all IDEs
     {
-        private readonly Dictionary<string, List<T>> readCache = new Dictionary<string, List<T>>();
-        private readonly Dictionary<T, string> writeCache = new Dictionary<T, string>();
+        private readonly Dictionary<string, List<T>> _readCache = new Dictionary<string, List<T>>();
+        private readonly Dictionary<T, string> _writeCache = new Dictionary<T, string>();
 
         public JsonEnumStringConverter()
         { 
@@ -28,14 +28,14 @@ namespace Tweetinvi.Core.JsonConverters
                     var enumVal = (T) field.GetValue(null);
 
                     // Store them in the read cache
-                    if (!readCache.ContainsKey(strVal))
+                    if (!_readCache.ContainsKey(strVal))
                     {
-                        readCache[strVal] = new List<T>();
+                        _readCache[strVal] = new List<T>();
                     }
-                    readCache[strVal].Add(enumVal);
+                    _readCache[strVal].Add(enumVal);
 
                     // Store them in the write cache
-                    writeCache[enumVal] = strVal;
+                    _writeCache[enumVal] = strVal;
                 }
             }
         }
@@ -49,7 +49,7 @@ namespace Tweetinvi.Core.JsonConverters
             }
 
             var enumVal = (T) value;
-            var strVal = writeCache[enumVal];
+            var strVal = _writeCache[enumVal];
             writer.WriteValue(strVal);
         }
 
@@ -57,7 +57,7 @@ namespace Tweetinvi.Core.JsonConverters
         {
             var strVal = (string) reader.Value;
 
-            return readCache[strVal].FirstOrDefault();
+            return _readCache[strVal].FirstOrDefault();
         }
 
         public override bool CanConvert(Type objectType)

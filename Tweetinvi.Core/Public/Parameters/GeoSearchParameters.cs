@@ -36,9 +36,9 @@ namespace Tweetinvi.Parameters
         string Query { get; set; }
 
         /// <summary>
-        /// An IP address. Used when attempting to fix geolocation based off of the user’s IP address.
+        /// An Ip address. Used when attempting to fix geolocation based off of the user’s Ip address.
         /// </summary>
-        string IP { get; set; }
+        string Ip { get; set; }
 
         /// <summary>
         /// This is the minimal granularity of place types to return.
@@ -90,7 +90,7 @@ namespace Tweetinvi.Parameters
 
         public ICoordinates Coordinates { get; set; }
         public string Query { get; set; }
-        public string IP { get; set; }
+        public string Ip { get; set; }
         public Granularity Granularity { get; set; }
         public int? Accuracy { get; set; }
         public int? MaximumNumberOfResults { get; set; }

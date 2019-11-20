@@ -2,12 +2,12 @@
 using Tweetinvi.Core.Injectinvi;
 using Tweetinvi.Modules;
 
-namespace Tweetinvi
+namespace Tweetinvi.AspNet
 {
     public class WebhooksPlugin : ITweetinviModule
     {
         public static ITweetinviContainer Container { get; private set; }
-        private List<ITweetinviModule> _moduleCatalog;
+        private readonly List<ITweetinviModule> _moduleCatalog;
 
         public WebhooksPlugin()
         {

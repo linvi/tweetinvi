@@ -77,7 +77,13 @@ namespace Tweetinvi.Core.Events
 
         protected List<WeakDelegate<TEventHandler>> Handlers
         {
-            get { return _handlers; }
+            get
+            {
+                lock (_syncRoot)
+                {
+                    return _handlers;
+                }
+            }
         }
     }
 }

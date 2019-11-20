@@ -12,7 +12,7 @@ namespace Tweetinvi.Core.Extensions
         public static string GetLanguageCode(this Language language)
         {
             var field = language.GetType().GetField(language.ToString());
-            var descriptionAttribute = (LanguageAttribute)CustomAttributeExtensions.GetCustomAttribute(field, typeof(LanguageAttribute));
+            var descriptionAttribute = (LanguageAttribute)field.GetCustomAttribute(typeof(LanguageAttribute));
 
             return descriptionAttribute != null ? descriptionAttribute.Code : language.ToString();
         }
@@ -20,15 +20,20 @@ namespace Tweetinvi.Core.Extensions
         public static string GetLanguageCode(this LanguageFilter language)
         {
             var field = language.GetType().GetField(language.ToString());
-            var descriptionAttribute = (LanguageAttribute)CustomAttributeExtensions.GetCustomAttribute(field, typeof(LanguageAttribute));
+            var descriptionAttribute = (LanguageAttribute)field.GetCustomAttribute(typeof(LanguageAttribute));
 
             return descriptionAttribute != null ? descriptionAttribute.Code : language.ToString();
         }
 
         public static string GetLanguageCode(this LanguageFilter? language)
         {
+            if (language == null)
+            {
+                return null;
+            }
+
             var field = language.GetType().GetField(language.ToString());
-            var descriptionAttribute = (LanguageAttribute)CustomAttributeExtensions.GetCustomAttribute(field, typeof(LanguageAttribute));
+            var descriptionAttribute = (LanguageAttribute)field.GetCustomAttribute(typeof(LanguageAttribute));
             return descriptionAttribute != null ? descriptionAttribute.Code : language.ToString();
         }
 
@@ -72,7 +77,7 @@ namespace Tweetinvi.Core.Extensions
 
         private static bool IsValidDescriptionField(string descriptionValue, FieldInfo field)
         {
-            var descriptionAttribute = CustomAttributeExtensions.GetCustomAttribute(field, typeof(LanguageAttribute));
+            var descriptionAttribute = field.GetCustomAttribute(typeof(LanguageAttribute));
 
             if (descriptionAttribute == null)
             {

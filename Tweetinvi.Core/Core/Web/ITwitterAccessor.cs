@@ -18,7 +18,6 @@ namespace Tweetinvi.Core.Web
         // Get Json
         Task<string> ExecuteGETQueryReturningJson(string query);
         Task<string> ExecutePOSTQueryReturningJson(string query);
-        Task<string> ExecuteDELETEQueryReturningJson(string query);
 
         // Try Execute<Json>
         Task<AsyncOperation<string>> TryExecuteGETQuery(string query);
@@ -28,34 +27,20 @@ namespace Tweetinvi.Core.Web
         // Get unknown type of objects
         Task<JObject> ExecuteGETQuery(string query);
         Task<JObject> ExecutePOSTQuery(string query);
-        Task<JObject> ExecuteDELETEQuery(string query);
 
         // Get specific type of object from path
         Task<T> ExecuteGETQueryWithPath<T>(string query, params string[] paths) where T : class;
         Task<T> ExecutePOSTQueryWithPath<T>(string query, params string[] paths) where T : class;
-        Task<T> ExecuteDELETEQueryWithPath<T>(string query, params string[] paths) where T : class;
 
         // Get specific type of object
         Task<T> ExecuteGETQuery<T>(string query, JsonConverter[] converters = null) where T : class;
         Task<T> ExecutePOSTQuery<T>(string query, JsonConverter[] converters = null) where T : class;
-        Task<T> ExecuteDELETEQuery<T>(string query, JsonConverter[] converters = null) where T : class;
 
         // Try Execute
-        Task<bool> TryExecuteGETQuery(string query, JsonConverter[] converters = null);
-        Task<bool> TryExecutePOSTQuery(string query, JsonConverter[] converters = null);
-        Task<bool> TryExecuteDELETEQuery(string query, JsonConverter[] converters = null);
 
         // Try Get Result
         Task<AsyncOperation<T>> TryExecuteGETQuery<T>(string query, JsonConverter[] converters = null) where T : class;
         Task<AsyncOperation<T>> TryExecutePOSTQuery<T>(string query, JsonConverter[] converters = null) where T : class;
-        Task<AsyncOperation<T>> TryExecuteDELETEQuery<T>(string query, JsonConverter[] converters = null) where T : class;
-
-        // Multipart Query
-
-        /// <summary>
-        /// Starts a multipart HttpWebRequest required by Twitter to upload binaries
-        /// </summary>
-        Task<AsyncOperation<string>> TryExecuteMultipartQuery(ITwitterRequest request);
 
         // Cursor Query
         Task<IEnumerable<string>> ExecuteJsonCursorGETQuery<T>(

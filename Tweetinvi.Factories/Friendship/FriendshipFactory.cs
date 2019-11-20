@@ -17,7 +17,6 @@ namespace Tweetinvi.Factories.Friendship
 
         public FriendshipFactory(
             IFactory<IRelationshipDetails> unityRelationshipFactory,
-            IFactory<IRelationshipState> unityRelationshipStateFactory,
             IJsonObjectConverter jsonObjectConverter)
         {
             _unityRelationshipFactory = unityRelationshipFactory;

@@ -23,9 +23,16 @@ namespace Tweetinvi.Core.Models.TwitterEntities
 
         public bool Equals(IUrlEntity other)
         {
-            if (URL != other.URL ||
-                ExpandedURL != other.ExpandedURL ||
-                DisplayedURL != other.DisplayedURL)
+            if (other == null)
+            {
+                return false;
+            }
+
+            var areUrlDifferent = URL != other.URL ||
+                                  ExpandedURL != other.ExpandedURL ||
+                                  DisplayedURL != other.DisplayedURL;
+
+            if (areUrlDifferent)
             {
                 return false;
             }

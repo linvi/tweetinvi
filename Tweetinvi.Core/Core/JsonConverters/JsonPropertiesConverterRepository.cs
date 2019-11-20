@@ -125,15 +125,15 @@ namespace Tweetinvi.Core.JsonConverters
             Converters = converters.ToArray();
         }
 
-        public static void TryOverride<T, U>() where U : T
+        public static void TryOverride<TInterface, TTo>() where TTo : TInterface
         {
-            var converter = Converters.OfType<IJsonInterfaceToObjectConverter>().JustOneOrDefault(x => x.InterfaceType == typeof (T));
+            var converter = Converters.OfType<IJsonInterfaceToObjectConverter>().JustOneOrDefault(x => x.InterfaceType == typeof (TInterface));
 
             if (converter != null)
             {
                 var converters = Converters.ToList();
                 converters.Remove((JsonConverter)converter);
-                converters.Add(new JsonInterfaceToObjectConverter<T, U>());
+                converters.Add(new JsonInterfaceToObjectConverter<TInterface, TTo>());
                 Converters = converters.ToArray();
             }
         }

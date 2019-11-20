@@ -16,18 +16,14 @@ namespace Tweetinvi.Core.Client.Validators
     public class UploadClientParametersValidator : IInternalUploadClientParametersValidator
     {
         private readonly IUploadClientRequiredParametersValidator _uploadClientRequiredParametersValidator;
-        private ITwitterClient _client;
 
         public UploadClientParametersValidator(IUploadClientRequiredParametersValidator uploadClientRequiredParametersValidator)
         {
             _uploadClientRequiredParametersValidator = uploadClientRequiredParametersValidator;
         }
 
-        private TwitterLimits Limits => _client.Config.Limits;
-
         public void Initialize(ITwitterClient client)
         {
-            _client = client;
         }
 
         public void Validate(IUploadParameters parameters)

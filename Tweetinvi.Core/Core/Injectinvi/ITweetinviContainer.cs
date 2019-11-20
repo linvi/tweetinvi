@@ -10,7 +10,7 @@ namespace Tweetinvi.Core.Injectinvi
         
         void Initialize();
 
-        void RegisterType<T, U>(RegistrationLifetime registrationLifetime = RegistrationLifetime.InstancePerResolve) where U : T;
+        void RegisterType<TRegistered, TTo>(RegistrationLifetime registrationLifetime = RegistrationLifetime.InstancePerResolve) where TTo : TRegistered;
         void RegisterGeneric(Type sourceType, Type targetType, RegistrationLifetime registrationLifetime = RegistrationLifetime.InstancePerResolve);
         void RegisterInstance(Type targetType, object value);
 

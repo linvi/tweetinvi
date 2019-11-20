@@ -20,7 +20,10 @@ namespace Tweetinvi.Core.Models
         private ITweetDTO _tweetDTO;
 
         public ITwitterClient Client { get; set; }
+#pragma warning disable 649
+        // TODO : REMOVE AS SOON AS Client has migrated all the methods of TweetController
         private readonly ITweetController _tweetController;
+#pragma warning restore 649
         private readonly ITweetFactory _tweetFactory;
         private readonly IUserFactory _userFactory;
 

@@ -221,15 +221,15 @@ namespace Tweetinvi.Core.JsonConverters
             JsonConverters.Add(typeof(IGetWebhookSubscriptionsCountResultDTO), getWebhookSubscriptionsCountResultDTOConverter);
         }
 
-        public static void TryOverride<T, U>() where U : T
+        public static void TryOverride<TInterface, TTo>() where TTo : TInterface
         {
             var jsonInterfaceToObjectConverter = JsonConverters.Where(x => x.Value is IJsonInterfaceToObjectConverter);
-            var matchingConverter = jsonInterfaceToObjectConverter.Where(x => ((IJsonInterfaceToObjectConverter)x.Value).InterfaceType == typeof(T)).ToArray();
+            var matchingConverter = jsonInterfaceToObjectConverter.Where(x => ((IJsonInterfaceToObjectConverter)x.Value).InterfaceType == typeof(TInterface)).ToArray();
 
             if (matchingConverter.Length == 1)
             {
-                JsonConverters.Remove(typeof(T));
-                JsonConverters.Add(typeof(T), new JsonInterfaceToObjectConverter<T, U>());
+                JsonConverters.Remove(typeof(TInterface));
+                JsonConverters.Add(typeof(TInterface), new JsonInterfaceToObjectConverter<TInterface, TTo>());
             }
         }
 

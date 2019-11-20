@@ -69,7 +69,7 @@ namespace xUnitinvi.IntegrationTests
             await tweet2.Destroy();
 
             // assert
-            Assert.True(retweets.Select(x => x.Id).ContainsSameObjectsAs(new[] { tweet1.Id, tweet2.Id }));
+            Assert.True(retweets.Select(x => x.Id).ToArray().ContainsSameObjectsAs(new[] { tweet1.Id, tweet2.Id }));
         }
     }
 }

@@ -113,16 +113,6 @@ namespace Tweetinvi.Core.Extensions
             return length;
         }
 
-        /// <summary>
-        /// Clean a string so that it can be used in a URL and
-        /// sent to Twitter
-        /// </summary>
-        /// <returns>Cleaned string</returns>
-        public static string CleanStringForMySQL(this string s)
-        {
-            return s != null ? (s.HTMLDecode().MySQLClean().ReplaceNonPrintableCharacters('\\')) : null;
-        }
-
         public static bool IsMatchingJsonFormat(this string json)
         {
             return !string.IsNullOrEmpty(json) && json.Length >= 2 && ((json[0] == '{' && json[json.Length - 1] == '}') || (json[0] == '[' && json[json.Length - 1] == ']'));
@@ -173,23 +163,6 @@ namespace Tweetinvi.Core.Extensions
             }
 
             return result.ToString();
-        }
-
-        /// <summary>
-        /// Clean the string so that it can be used as 
-        /// a parameter of a MySql query
-        /// </summary>
-        /// <param name="s">String to be updated</param>
-        /// <returns>String that can be used within MySql</returns>
-        public static string MySQLClean(this string s)
-        {
-            if (s == null)
-            {
-                return null;
-            }
-
-            StringBuilder result = new StringBuilder(s);
-            return Regex.Replace(result.Replace("\\", "\\\\").ToString(), "['′ˈ]", "\\'");
         }
 
         /// <summary>

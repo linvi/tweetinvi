@@ -14,17 +14,12 @@ namespace Tweetinvi.Core.Client.Validators
     
     public class TimelineClientParametersValidator : IInternalTimelineClientParametersValidator
     {
-        
-        private ITwitterClient _client;
-        
         public void Initialize(ITwitterClient client)
         {
-            _client = client;
         }
 
         public void Validate(IGetRetweetsOfMeTimelineParameters parameters)
         {
-            throw new System.NotImplementedException();
         }
     }
 }

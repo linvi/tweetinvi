@@ -42,7 +42,7 @@ namespace Tweetinvi.Core.Models
             Credentials = _credentialsAccessor.CurrentThreadCredentials;
         }
 
-        public string Email => _userDTO.Email;
+        public string Email => UserDTO.Email;
 
         public void SetCredentials(ITwitterCredentials credentials)
         {
@@ -53,7 +53,6 @@ namespace Tweetinvi.Core.Models
         public IEnumerable<IMessage> LatestDirectMessages { get; set; }
         public IEnumerable<IMention> LatestMentionsTimeline { get; set; }
         public IEnumerable<ITweet> LatestHomeTimeline { get; set; }
-
         public IEnumerable<ISuggestedUserList> SuggestedUserList { get; set; }
 
         public T ExecuteAuthenticatedUserOperation<T>(Func<T> operation)

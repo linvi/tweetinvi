@@ -34,17 +34,17 @@ namespace Tweetinvi.Controllers.Geo
         public string GetSearchGeoQuery(IGeoSearchParameters parameters)
         {
             if (string.IsNullOrEmpty(parameters.Query) &&
-                string.IsNullOrEmpty(parameters.IP) &&
+                string.IsNullOrEmpty(parameters.Ip) &&
                 parameters.Coordinates == null &&
                 parameters.Attributes.IsNullOrEmpty())
             {
-                throw new ArgumentException("You must provide valid coordinates, IP address, query, or attributes.");
+                throw new ArgumentException("You must provide valid coordinates, Ip address, query, or attributes.");
             }
 
             var query = new StringBuilder(Resources.Geo_SearchGeo);
 
             query.AddParameterToQuery("query", parameters.Query);
-            query.AddParameterToQuery("ip", parameters.IP);
+            query.AddParameterToQuery("ip", parameters.Ip);
 
             if (parameters.Coordinates != null)
             {

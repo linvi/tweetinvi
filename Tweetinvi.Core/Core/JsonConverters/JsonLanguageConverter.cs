@@ -9,14 +9,12 @@ namespace Tweetinvi.Core.JsonConverters
     {
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
-            int parsed;
-
-            if (reader.Value == null && objectType == typeof(Language?))
+            if (reader.Value == null)
             {
                 return null;
             }
 
-            if (int.TryParse(reader.Value.ToString(), out parsed))
+            if (int.TryParse(reader.Value.ToString(), out var parsed))
             {
                 return LanguageExtension.GetLangFromDescription(parsed);
             }
