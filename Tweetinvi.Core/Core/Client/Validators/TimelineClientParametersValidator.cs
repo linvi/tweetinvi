@@ -6,6 +6,7 @@ namespace Tweetinvi.Core.Client.Validators
     public interface ITimelineClientParametersValidator
     {
         void Validate(IGetHomeTimelineParameters parameters);
+        void Validate(IGetUserTimelineParameters parameters);
         void Validate(IGetRetweetsOfMeTimelineParameters parameters);
     }
 
@@ -34,11 +35,21 @@ namespace Tweetinvi.Core.Client.Validators
         {
             _timelineClientRequiredParametersValidator.Validate(parameters);
 
-
-            var maxPageSize = Limits.TIMELINE_GET_HOME_PAGE_MAX_PAGE_SIZE;
+            var maxPageSize = Limits.TIMELINE_HOME_PAGE_MAX_PAGE_SIZE;
             if (parameters.PageSize > maxPageSize)
             {
-                throw new TwitterArgumentLimitException($"{nameof(parameters)}.{nameof(parameters.PageSize)}", maxPageSize, nameof(Limits.TIMELINE_GET_HOME_PAGE_MAX_PAGE_SIZE), "page size");
+                throw new TwitterArgumentLimitException($"{nameof(parameters)}.{nameof(parameters.PageSize)}", maxPageSize, nameof(Limits.TIMELINE_HOME_PAGE_MAX_PAGE_SIZE), "page size");
+            }
+        }
+
+        public void Validate(IGetUserTimelineParameters parameters)
+        {
+            _timelineClientRequiredParametersValidator.Validate(parameters);
+
+            var maxPageSize = Limits.TIMELINE_USER_PAGE_MAX_PAGE_SIZE;
+            if (parameters.PageSize > maxPageSize)
+            {
+                throw new TwitterArgumentLimitException($"{nameof(parameters)}.{nameof(parameters.PageSize)}", maxPageSize, nameof(Limits.TIMELINE_USER_PAGE_MAX_PAGE_SIZE), "page size");
             }
         }
 

@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Tweetinvi.Iterators;
 using Tweetinvi.Models.DTO;
 using Tweetinvi.Models.Entities;
-using Tweetinvi.Parameters;
+using Tweetinvi.Client;
 
 namespace Tweetinvi.Models
 {
@@ -338,15 +338,8 @@ namespace Tweetinvi.Models
         
         // Timeline
 
-        /// <summary>
-        /// Get the tweets published by the user.
-        /// </summary>
-        Task<IEnumerable<ITweet>> GetUserTimeline(int maximumNumberOfTweets = 40);
-
-        /// <summary>
-        /// Get the tweets published by the user.
-        /// </summary>
-        Task<IEnumerable<ITweet>> GetUserTimeline(IUserTimelineParameters timelineParameters);
+        /// <inheritdoc cref="ITimelineClient.GetUserTimelineIterator(IUserIdentifier)"/>
+        ITwitterIterator<ITweet, long?> GetUserTimelineIterator();
 
         // Get Favorites
 

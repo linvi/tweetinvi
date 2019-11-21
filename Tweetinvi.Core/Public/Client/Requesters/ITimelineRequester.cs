@@ -12,6 +12,13 @@ namespace Tweetinvi.Client.Requesters
     public interface ITimelineRequester
     {
         /// <summary>
+        /// Returns a collection of the most recent Tweets posted by the user indicated by the screen_name or user_id parameters.
+        /// </summary>
+        /// <para>Read more : https://developer.twitter.com/en/docs/tweets/timelines/api-reference/get-statuses-user_timeline </para>
+        /// <returns>An iterator to list a user's timeline</returns>
+        ITwitterPageIterator<ITwitterResult<ITweetDTO[]>, long?> GetUserTimelineIterator(IGetUserTimelineParameters parameters);
+        
+        /// <summary>
         /// Returns a collection of the most recent Tweets and Retweets posted by the authenticating user and the users they follow.
         /// The home timeline is central to how most users interact with the Twitter service.
         /// 
@@ -29,5 +36,6 @@ namespace Tweetinvi.Client.Requesters
         /// </summary>
         /// <returns>An iterator to list the accounts tweet that got retweeted</returns>
         ITwitterPageIterator<ITwitterResult<ITweetDTO[]>, long?> GetRetweetsOfMeTimelineIterator(IGetRetweetsOfMeTimelineParameters parameters);
+
     }
 }

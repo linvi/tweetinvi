@@ -9,7 +9,7 @@ namespace Tweetinvi.Parameters
     public interface IFollowUserParameters : ICustomRequestParameters
     {
         /// <summary>
-        /// User that you want to follow
+        /// User that want to follow
         /// </summary>
         IUserIdentifier User { get; set; }
 

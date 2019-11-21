@@ -39,7 +39,7 @@ namespace Tweetinvi.Controllers.Timeline
         {
             return _pageCursorIteratorFactories.Create(parameters, cursor =>
             {
-                var cursoredParameters = new GetGetHomeTimelineParameters(parameters)
+                var cursoredParameters = new GetHomeTimelineParameters(parameters)
                 {
                     MaxId = cursor
                 };
@@ -47,54 +47,18 @@ namespace Tweetinvi.Controllers.Timeline
                 return _timelineQueryExecutor.GetHomeTimeline(cursoredParameters, new TwitterRequest(request));
             });
         }
-
-        // User Timeline
-        public Task<IEnumerable<ITweet>> GetUserTimeline(long userId, int maximumNumberOfTweets = 40)
+        
+        public ITwitterPageIterator<ITwitterResult<ITweetDTO[]>, long?> GetUserTimelineIterator(IGetUserTimelineParameters parameters, ITwitterRequest request)
         {
-            var user = _userFactory.GenerateUserIdentifierFromId(userId);
-            return GetUserTimeline(user, maximumNumberOfTweets);
-        }
-
-        public Task<IEnumerable<ITweet>> GetUserTimeline(string userScreenName, int maximumNumberOfTweets = 40)
-        {
-            var user = _userFactory.GenerateUserIdentifierFromScreenName(userScreenName);
-            return GetUserTimeline(user, maximumNumberOfTweets);
-        }
-
-        public Task<IEnumerable<ITweet>> GetUserTimeline(IUserIdentifier user, int maximumNumberOfTweets = 40)
-        {
-            var requestParameters = _timelineQueryParameterGenerator.CreateUserTimelineParameters();
-            requestParameters.PageSize = maximumNumberOfTweets;
-
-            return GetUserTimeline(user, requestParameters);
-        }
-
-        public Task<IEnumerable<ITweet>> GetUserTimeline(long userId, IUserTimelineParameters parameters)
-        {
-            return GetUserTimeline(new UserIdentifier(userId), parameters);
-        }
-
-        public Task<IEnumerable<ITweet>> GetUserTimeline(string userScreenName, IUserTimelineParameters parameters)
-        {
-            return GetUserTimeline(new UserIdentifier(userScreenName), parameters);
-        }
-
-        public Task<IEnumerable<ITweet>> GetUserTimeline(IUserIdentifier user, IUserTimelineParameters parameters)
-        {
-            if (parameters == null)
+            return _pageCursorIteratorFactories.Create(parameters, cursor =>
             {
-                parameters = _timelineQueryParameterGenerator.CreateUserTimelineParameters();
-            }
+                var cursoredParameters = new GetUserTimelineParameters(parameters)
+                {
+                    MaxId = cursor
+                };
 
-            var queryParameters = _timelineQueryParameterGenerator.CreateUserTimelineQueryParameters(user, parameters);
-            return GetUserTimeline(queryParameters);
-        }
-
-        private async Task<IEnumerable<ITweet>> GetUserTimeline(IUserTimelineQueryParameters queryParameters)
-        {
-            var tweetsDTO = await _timelineQueryExecutor.GetUserTimeline(queryParameters);
-
-            return _tweetFactory.GenerateTweetsFromDTO(tweetsDTO, null, null);
+                return _timelineQueryExecutor.GetUserTimeline(cursoredParameters, new TwitterRequest(request));
+            });
         }
 
         // Mention Timeline

@@ -11,10 +11,10 @@ namespace Tweetinvi.Controllers.Timeline
     public interface ITimelineQueryExecutor
     {
         // Home Timeline
-        Task<ITwitterResult<ITweetDTO[]>> GetHomeTimeline(IGetHomeTimelineParameters timelineParameters, ITwitterRequest request);
+        Task<ITwitterResult<ITweetDTO[]>> GetHomeTimeline(IGetHomeTimelineParameters parameters, ITwitterRequest request);
 
         // User Timeline
-        Task<IEnumerable<ITweetDTO>> GetUserTimeline(IUserTimelineQueryParameters timelineParameters);
+        Task<ITwitterResult<ITweetDTO[]>> GetUserTimeline(IGetUserTimelineParameters parameters, ITwitterRequest request);
 
         // Mention Timeline
         Task<IEnumerable<ITweetDTO>> GetMentionsTimeline(IMentionsTimelineParameters timelineParameters);
@@ -37,19 +37,20 @@ namespace Tweetinvi.Controllers.Timeline
         }
 
         // Home Timeline
-        public Task<ITwitterResult<ITweetDTO[]>> GetHomeTimeline(IGetHomeTimelineParameters timelineParameters, ITwitterRequest request)
+        public Task<ITwitterResult<ITweetDTO[]>> GetHomeTimeline(IGetHomeTimelineParameters parameters, ITwitterRequest request)
         {
-            var query = _timelineQueryGenerator.GetHomeTimelineQuery(timelineParameters, request.ExecutionContext.TweetMode);
+            var query = _timelineQueryGenerator.GetHomeTimelineQuery(parameters, request.ExecutionContext.TweetMode);
             request.Query.Url = query;
             request.Query.HttpMethod = HttpMethod.GET;
             return _twitterAccessor.ExecuteRequest<ITweetDTO[]>(request);
         }
 
-        // User Timeline
-        public Task<IEnumerable<ITweetDTO>> GetUserTimeline(IUserTimelineQueryParameters timelineParameters)
+        public Task<ITwitterResult<ITweetDTO[]>> GetUserTimeline(IGetUserTimelineParameters parameters, ITwitterRequest request)
         {
-            string query = _timelineQueryGenerator.GetUserTimelineQuery(timelineParameters);
-            return _twitterAccessor.ExecuteGETQuery<IEnumerable<ITweetDTO>>(query);
+            var query = _timelineQueryGenerator.GetUserTimelineQuery(parameters, request.ExecutionContext.TweetMode);
+            request.Query.Url = query;
+            request.Query.HttpMethod = HttpMethod.GET;
+            return _twitterAccessor.ExecuteRequest<ITweetDTO[]>(request);
         }
 
         // Mention Timeline

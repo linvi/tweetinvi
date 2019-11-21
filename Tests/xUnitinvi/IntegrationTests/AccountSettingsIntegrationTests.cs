@@ -19,7 +19,7 @@ namespace xUnitinvi.IntegrationTests
         {
             _logger = logger;
             _logger.WriteLine(DateTime.Now.ToLongTimeString());
-            _client = new TwitterClient(IntegrationTestConfig.ProtectedUserCredentials);
+            _client = new TwitterClient(IntegrationTestConfig.ProtectedUser.Credentials);
 
             TweetinviEvents.QueryBeforeExecute += (sender, args) => { _logger.WriteLine(args.Url); };
         }

@@ -1,7 +1,5 @@
 ﻿using Tweetinvi.Controllers.Properties;
 using Tweetinvi.Core.Injectinvi;
-using Tweetinvi.Core.Parameters;
-using Tweetinvi.Models;
 using Tweetinvi.Parameters;
 
 namespace Tweetinvi.Controllers.Timeline
@@ -13,14 +11,8 @@ namespace Tweetinvi.Controllers.Timeline
         string GenerateIncludeRTSParameter(bool includeRTS);
         string GenerateIncludeUserEntitiesParameter(bool includeUserEntities);
 
-        IGetHomeTimelineParameters CreateHomeTimelineParameters();
-        IUserTimelineParameters CreateUserTimelineParameters();
         IMentionsTimelineParameters CreateMentionsTimelineParameters();
         IGetRetweetsOfMeTimelineParameters CreateRetweetsOfMeTimelineParameters();
-
-        IUserTimelineQueryParameters CreateUserTimelineQueryParameters(
-            IUserIdentifier user,
-            IUserTimelineParameters userTimelineParameters);
     }
 
     public class TimelineQueryParameterGenerator : ITimelineQueryParameterGenerator
@@ -28,21 +20,15 @@ namespace Tweetinvi.Controllers.Timeline
         private readonly IFactory<IGetHomeTimelineParameters> _homeTimelineRequestParameterFactory;
         private readonly IFactory<IMentionsTimelineParameters> _mentionsTimelineRequestParameterFactory;
         private readonly IFactory<IGetRetweetsOfMeTimelineParameters> _retweetsOfMeTimelineRequestParameterFactory;
-        private readonly IFactory<IUserTimelineParameters> _userTimelineRequestParameterFactory;
-        private readonly IFactory<IUserTimelineQueryParameters> _userTimelineRequestQueryParameterFactory;
 
         public TimelineQueryParameterGenerator(
             IFactory<IGetHomeTimelineParameters> homeTimelineRequestParameterFactory,
             IFactory<IMentionsTimelineParameters> mentionsTimelineRequestParameterFactory,
-            IFactory<IGetRetweetsOfMeTimelineParameters> retweetsOfMeTimelineRequestParameterFactory,
-            IFactory<IUserTimelineParameters> userTimelineRequestParameterFactory, 
-            IFactory<IUserTimelineQueryParameters> userTimelineRequestQueryParameterFactory)
+            IFactory<IGetRetweetsOfMeTimelineParameters> retweetsOfMeTimelineRequestParameterFactory)
         {
             _homeTimelineRequestParameterFactory = homeTimelineRequestParameterFactory;
             _mentionsTimelineRequestParameterFactory = mentionsTimelineRequestParameterFactory;
             _retweetsOfMeTimelineRequestParameterFactory = retweetsOfMeTimelineRequestParameterFactory;
-            _userTimelineRequestParameterFactory = userTimelineRequestParameterFactory;
-            _userTimelineRequestQueryParameterFactory = userTimelineRequestQueryParameterFactory;
         }
 
         public string GenerateExcludeRepliesParameter(bool excludeReplies)
@@ -66,15 +52,6 @@ namespace Tweetinvi.Controllers.Timeline
         }
 
         // User Parameters
-        public IGetHomeTimelineParameters CreateHomeTimelineParameters()
-        {
-            return _homeTimelineRequestParameterFactory.Create();
-        }
-
-        public IUserTimelineParameters CreateUserTimelineParameters()
-        {
-            return _userTimelineRequestParameterFactory.Create();
-        }
 
         public IMentionsTimelineParameters CreateMentionsTimelineParameters()
         {
@@ -84,15 +61,6 @@ namespace Tweetinvi.Controllers.Timeline
         public IGetRetweetsOfMeTimelineParameters CreateRetweetsOfMeTimelineParameters()
         {
             return _retweetsOfMeTimelineRequestParameterFactory.Create();
-        }
-
-        // Query Parameters
-        public IUserTimelineQueryParameters CreateUserTimelineQueryParameters(IUserIdentifier user, IUserTimelineParameters userTimelineParameters)
-        {
-            var userParameter = TweetinviFactory.CreateConstructorParameter("user", user);
-            var queryParameters = TweetinviFactory.CreateConstructorParameter("parameters", userTimelineParameters);
-
-            return _userTimelineRequestQueryParameterFactory.Create(userParameter, queryParameters);
         }
     }
 }

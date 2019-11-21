@@ -23,8 +23,8 @@ namespace xUnitinvi.IntegrationTests
 
             _logger.WriteLine(DateTime.Now.ToLongTimeString());
 
-            _tweetinviApiClient = new TwitterClient(IntegrationTestConfig.TweetinviApiCredentials);
-            _tweetinviTestClient = new TwitterClient(IntegrationTestConfig.TweetinviTestCredentials);
+            _tweetinviApiClient = new TwitterClient(IntegrationTestConfig.TweetinviApi.Credentials);
+            _tweetinviTestClient = new TwitterClient(IntegrationTestConfig.TweetinviTest.Credentials);
 
             TweetinviEvents.QueryBeforeExecute += (sender, args) => { _logger.WriteLine(args.Url); };
         }
@@ -38,6 +38,10 @@ namespace xUnitinvi.IntegrationTests
             _logger.WriteLine($"Starting {nameof(HomeTimeLine)}");
             await HomeTimeLine().ConfigureAwait(false);
             _logger.WriteLine($"{nameof(HomeTimeLine)} succeeded");
+
+            _logger.WriteLine($"Starting {nameof(UserTimeline)}");
+            await UserTimeline().ConfigureAwait(false);
+            _logger.WriteLine($"{nameof(UserTimeline)} succeeded");
 
             _logger.WriteLine($"Starting {nameof(RetweetsOfMeTimeline)}");
             await RetweetsOfMeTimeline().ConfigureAwait(false);
@@ -64,7 +68,7 @@ namespace xUnitinvi.IntegrationTests
             // act
             var tweet1 = await _tweetinviTestClient.Tweets.PublishTweet("tweet 1!");
 
-            var iterator = _tweetinviApiClient.Timeline.GetHomeTimelineIterator(new GetGetHomeTimelineParameters
+            var iterator = _tweetinviApiClient.Timeline.GetHomeTimelineIterator(new GetHomeTimelineParameters
             {
                 PageSize = 5,
             });
@@ -78,6 +82,30 @@ namespace xUnitinvi.IntegrationTests
             {
                 await _tweetinviApiClient.Account.UnFollowUser(testUser);
             }
+
+            // assert
+            Assert.True(page1.Select(x => x.Id).Contains(tweet1.Id) || page2.Select(x => x.Id).Contains(tweet1.Id));
+        }
+
+        [Fact]
+        public async Task UserTimeline()
+        {
+            if (!IntegrationTestConfig.ShouldRunIntegrationTests)
+                return;
+
+            // act
+            var tweet1 = await _tweetinviTestClient.Tweets.PublishTweet("tweet 1!");
+            var tweetinviTest = IntegrationTestConfig.TweetinviTest.AccountId;
+
+            var iterator = _tweetinviApiClient.Timeline.GetUserTimelineIterator(new GetUserTimelineParameters(tweetinviTest)
+            {
+                PageSize = 5,
+            });
+
+            var page1 = await iterator.MoveToNextPage();
+            var page2 = await iterator.MoveToNextPage();
+
+            await tweet1.Destroy();
 
             // assert
             Assert.True(page1.Select(x => x.Id).Contains(tweet1.Id) || page2.Select(x => x.Id).Contains(tweet1.Id));

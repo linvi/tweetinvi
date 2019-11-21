@@ -13,6 +13,22 @@ namespace Tweetinvi.Client
         /// </summary>
         ITimelineClientParametersValidator ParametersValidator { get; }
 
+        /// <inheritdoc cref="GetUserTimelineIterator(IGetUserTimelineParameters)" />
+        ITwitterIterator<ITweet, long?> GetUserTimelineIterator(long? userId);
+        
+        /// <inheritdoc cref="GetUserTimelineIterator(IGetUserTimelineParameters)" />
+        ITwitterIterator<ITweet, long?> GetUserTimelineIterator(string username);
+        
+        /// <inheritdoc cref="GetUserTimelineIterator(IGetUserTimelineParameters)" />
+        ITwitterIterator<ITweet, long?> GetUserTimelineIterator(IUserIdentifier user);
+        
+        /// <summary>
+        /// Returns a collection of the most recent Tweets posted by the user indicated by the screen_name or user_id parameters.
+        /// </summary>
+        /// <para>Read more : https://developer.twitter.com/en/docs/tweets/timelines/api-reference/get-statuses-user_timeline </para>
+        /// <returns>An iterator to list a user's timeline</returns>
+        ITwitterIterator<ITweet, long?> GetUserTimelineIterator(IGetUserTimelineParameters parameters);
+        
         /// <inheritdoc cref="GetHomeTimelineIterator(IGetHomeTimelineParameters)" />
         ITwitterIterator<ITweet, long?> GetHomeTimelineIterator();
         

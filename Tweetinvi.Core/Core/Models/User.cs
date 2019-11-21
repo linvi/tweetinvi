@@ -343,14 +343,9 @@ namespace Tweetinvi.Core.Models
         }
 
         // Timeline
-        public Task<IEnumerable<ITweet>> GetUserTimeline(int maximumNumberOfTweets = 40)
+        public ITwitterIterator<ITweet, long?> GetUserTimelineIterator()
         {
-            return _timelineController.GetUserTimeline(this, maximumNumberOfTweets);
-        }
-
-        public Task<IEnumerable<ITweet>> GetUserTimeline(IUserTimelineParameters timelineParameters)
-        {
-            return _timelineController.GetUserTimeline(this, timelineParameters);
+            return Client.Timeline.GetUserTimelineIterator(this);
         }
 
         // Favorites

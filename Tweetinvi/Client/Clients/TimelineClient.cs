@@ -26,10 +26,36 @@ namespace Tweetinvi.Client
         }
 
         public ITimelineClientParametersValidator ParametersValidator => _client.ParametersValidator;
+        public ITwitterIterator<ITweet, long?> GetUserTimelineIterator(long? userId)
+        {
+            return GetUserTimelineIterator(new GetUserTimelineParameters(userId));
+        }
+
+        public ITwitterIterator<ITweet, long?> GetUserTimelineIterator(string username)
+        {
+            return GetUserTimelineIterator(new GetUserTimelineParameters(username));
+        }
+
+        public ITwitterIterator<ITweet, long?> GetUserTimelineIterator(IUserIdentifier user)
+        {
+            return GetUserTimelineIterator(new GetUserTimelineParameters(user));
+        }
+
+        public ITwitterIterator<ITweet, long?> GetUserTimelineIterator(IGetUserTimelineParameters parameters)
+        {
+            var tweetMode = _client.Config.TweetMode;
+            var pageIterator = _timelineRequester.GetUserTimelineIterator(parameters);
+
+            return new TwitterIteratorProxy<ITwitterResult<ITweetDTO[]>, ITweet, long?>(pageIterator,
+                twitterResult =>
+                {
+                    return _tweetFactory.GenerateTweetsFromDTO(twitterResult.DataTransferObject, tweetMode, _client);
+                });
+        }
 
         public ITwitterIterator<ITweet, long?> GetHomeTimelineIterator()
         {
-            return GetHomeTimelineIterator(new GetGetHomeTimelineParameters());
+            return GetHomeTimelineIterator(new GetHomeTimelineParameters());
         }
 
         public ITwitterIterator<ITweet, long?> GetHomeTimelineIterator(IGetHomeTimelineParameters parameters)
@@ -64,8 +90,8 @@ namespace Tweetinvi.Client
         public ITwitterIterator<ITweet, long?> GetRetweetsOfMeTimelineIterator(IGetRetweetsOfMeTimelineParameters parameters)
         {
             var tweetMode = _client.Config.TweetMode;
-
             var pageIterator = _timelineRequester.GetRetweetsOfMeTimelineIterator(parameters);
+
             return new TwitterIteratorProxy<ITwitterResult<ITweetDTO[]>, ITweet, long?>(pageIterator,
                 twitterResult =>
                 {

@@ -33,7 +33,6 @@ namespace Tweetinvi
         }
 
         private static IFactory<IGetHomeTimelineParameters> _homeTimelineParameterFactory;
-        private static IFactory<IUserTimelineParameters> _userTimelineParameterFactory;
         private static IFactory<IMentionsTimelineParameters> _mentionsTimelineParameterFactory;
         private static IFactory<IGetRetweetsOfMeTimelineParameters> _retweetsOfMeTimelineParameterFactory;
 
@@ -46,7 +45,6 @@ namespace Tweetinvi
         {
             _timelineController = TweetinviContainer.Resolve<ITimelineController>();
             _homeTimelineParameterFactory = TweetinviContainer.Resolve<IFactory<IGetHomeTimelineParameters>>();
-            _userTimelineParameterFactory = TweetinviContainer.Resolve<IFactory<IUserTimelineParameters>>();
             _mentionsTimelineParameterFactory = TweetinviContainer.Resolve<IFactory<IMentionsTimelineParameters>>();
             _retweetsOfMeTimelineParameterFactory = TweetinviContainer.Resolve<IFactory<IGetRetweetsOfMeTimelineParameters>>();
         }
@@ -59,14 +57,6 @@ namespace Tweetinvi
         public static IGetHomeTimelineParameters CreateHomeTimelineParameter()
         {
             return _homeTimelineParameterFactory.Create();
-        }
-
-        /// <summary>
-        /// Parameters available to refine the results from a User Timeline
-        /// </summary>
-        public static IUserTimelineParameters CreateUserTimelineParameter()
-        {
-            return _userTimelineParameterFactory.Create();
         }
 
         /// <summary>
@@ -83,56 +73,6 @@ namespace Tweetinvi
         public static IGetRetweetsOfMeTimelineParameters CreateRetweetsOfMeTimelineParameters()
         {
             return _retweetsOfMeTimelineParameterFactory.Create();
-        }
-
-        // User Timeline
-
-        /// <summary>
-        /// Get the tweets visible on the specified user Timeline
-        /// </summary>
-        public static Task<IEnumerable<ITweet>> GetUserTimeline(IUserIdentifier user, int maximumTweets = 40)
-        {
-            return TimelineController.GetUserTimeline(user, maximumTweets);
-        }
-
-        /// <summary>
-        /// Get the tweets visible on the specified user Timeline
-        /// </summary>
-        public static Task<IEnumerable<ITweet>> GetUserTimeline(long userId, int maximumTweets = 40)
-        {
-            return TimelineController.GetUserTimeline(userId, maximumTweets);
-        }
-
-        /// <summary>
-        /// Get the tweets visible on the specified user Timeline
-        /// </summary>
-        public static Task<IEnumerable<ITweet>> GetUserTimeline(string userScreenName, int maximumTweets = 40)
-        {
-            return TimelineController.GetUserTimeline(userScreenName, maximumTweets);
-        }
-
-        /// <summary>
-        /// Get the tweets visible on the specified user Timeline
-        /// </summary>
-        public static Task<IEnumerable<ITweet>> GetUserTimeline(long userId, IUserTimelineParameters userTimelineParameters)
-        {
-            return TimelineController.GetUserTimeline(userId, userTimelineParameters);
-        }
-
-        /// <summary>
-        /// Get the tweets visible on the specified user Timeline
-        /// </summary>
-        public static Task<IEnumerable<ITweet>> GetUserTimeline(string userScreenName, IUserTimelineParameters userTimelineParameters)
-        {
-            return TimelineController.GetUserTimeline(userScreenName, userTimelineParameters);
-        }
-
-        /// <summary>
-        /// Get the tweets visible on the specified user Timeline
-        /// </summary>
-        public static Task<IEnumerable<ITweet>> GetUserTimeline(IUserIdentifier user, IUserTimelineParameters userTimelineParameters)
-        {
-            return TimelineController.GetUserTimeline(user, userTimelineParameters);
         }
 
         // Mention Timeline

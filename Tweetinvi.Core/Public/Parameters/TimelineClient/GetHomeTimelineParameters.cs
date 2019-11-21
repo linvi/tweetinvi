@@ -18,18 +18,18 @@
     }
 
     /// <inheritdoc />
-    public class GetGetHomeTimelineParameters : TimelineRequestParameters, IGetHomeTimelineParameters
+    public class GetHomeTimelineParameters : TimelineRequestParameters, IGetHomeTimelineParameters
     {
-        public GetGetHomeTimelineParameters()
+        public GetHomeTimelineParameters()
         {
-            PageSize = TwitterLimits.DEFAULTS.TIMELINE_GET_HOME_PAGE_MAX_PAGE_SIZE;
+            PageSize = TwitterLimits.DEFAULTS.TIMELINE_HOME_PAGE_MAX_PAGE_SIZE;
         }
 
-        public GetGetHomeTimelineParameters(IGetHomeTimelineParameters source): base(source)
+        public GetHomeTimelineParameters(IGetHomeTimelineParameters source): base(source)
         {
             if (source == null)
             {
-                PageSize = TwitterLimits.DEFAULTS.TIMELINE_GET_HOME_PAGE_MAX_PAGE_SIZE;
+                PageSize = TwitterLimits.DEFAULTS.TIMELINE_HOME_PAGE_MAX_PAGE_SIZE;
                 return;
             }
 

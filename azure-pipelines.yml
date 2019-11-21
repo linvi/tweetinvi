@@ -46,4 +46,5 @@ steps:
     continueOnError: true
     inputs:
       solutionOrProjectPath: "$(solution)"
-      additionalArguments: "--disable-settings-layers=SolutionPersonal --properties:Configuration=$(buildConfiguration) --profile=$(solution).DotSettings"
+      additionalArguments: "--disable-settings-layers=SolutionPersonal --properties:Configuration=$(buildConfiguration) --profile=$(solution).DotSettings --project=Tweetinvi --project=Tweetinvi.Controllers --project=Tweetinvi.Core --project=Tweetinvi.Credentials --project=Tw
+eetinvi.Factories --project=Tweetinvi.Logic --project=Tweetinvi.Streams --project=Tweetinvi.Webhooks --project=Tweetinvi.WebhooksShared --project=Tweetinvi.WebLogic"

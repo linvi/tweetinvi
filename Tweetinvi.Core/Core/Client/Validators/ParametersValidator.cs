@@ -182,6 +182,11 @@ namespace Tweetinvi.Core.Client.Validators
             _timelineClientParametersValidator.Validate(parameters);
         }
 
+        public void Validate(IGetUserTimelineParameters parameters)
+        {
+            _timelineClientParametersValidator.Validate(parameters);
+        }
+
         public void Validate(IGetRetweetsOfMeTimelineParameters parameters)
         {
             _timelineClientParametersValidator.Validate(parameters);

@@ -32,7 +32,7 @@ namespace xUnitinvi.ClientActions.TimelineClient
             // Arrange
             var queryGenerator = CreateTimelineQueryGenerator();
 
-            var parameters = new GetGetHomeTimelineParameters
+            var parameters = new GetHomeTimelineParameters
             {
                 IncludeEntities = true,
                 TrimUser = true,
@@ -50,6 +50,33 @@ namespace xUnitinvi.ClientActions.TimelineClient
             // Assert
             Assert.Equal(result, $"https://api.twitter.com/1.1/statuses/home_timeline.json?count=44&since_id=43&max_id=42" +
                                  $"&include_entities=true&trim_user=true&contributor_details=true&exclude_replies=true&tweet_mode=extended&hello=world");
+        }
+
+        [Fact]
+        public void GetUserTimelineQuery_ReturnsExpectedQuery()
+        {
+            // Arrange
+            var queryGenerator = CreateTimelineQueryGenerator();
+
+            var parameters = new GetUserTimelineParameters("linvi")
+            {
+                IncludeEntities = true,
+                TrimUser = true,
+                IncludeContributorDetails = true,
+                IncludeRetweets = true,
+                ExcludeReplies = true,
+                MaxId = 42,
+                SinceId = 43,
+                PageSize = 44,
+                CustomQueryParameters = { new Tuple<string, string>("hello", "world") }
+            };
+
+            // Act
+            var result = queryGenerator.GetUserTimelineQuery(parameters, TweetMode.Extended);
+
+            // Assert
+            Assert.Equal(result, $"https://api.twitter.com/1.1/statuses/user_timeline.json?screen_name=linvi&count=44&since_id=43&max_id=42" +
+                                 $"&include_entities=true&trim_user=true&contributor_details=true&exclude_replies=true&include_rts=true&tweet_mode=extended&hello=world");
         }
 
         [Fact]

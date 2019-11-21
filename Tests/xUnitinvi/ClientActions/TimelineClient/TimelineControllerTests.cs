@@ -32,7 +32,7 @@ namespace xUnitinvi.ClientActions.TimelineClient
         public void GetHomeTimelineIterator_ReturnsFromPageCursorIteratorFactories()
         {
             // arrange
-            var parameters = new GetGetHomeTimelineParameters { PageSize = 2 };
+            var parameters = new GetHomeTimelineParameters { PageSize = 2 };
             var request = A.Fake<ITwitterRequest>();
             var expectedResult = A.Fake<ITwitterPageIterator<ITwitterResult<ITweetDTO[]>, long?>>();
 
@@ -41,6 +41,24 @@ namespace xUnitinvi.ClientActions.TimelineClient
 
             var controller = CreateTimelineController();
             var iterator = controller.GetHomeTimelineIterator(parameters, request);
+
+            // assert
+            Assert.Equal(iterator, expectedResult);
+        }
+
+        [Fact]
+        public void GetUserTimelineIterator_ReturnsFromPageCursorIteratorFactories()
+        {
+            // arrange
+            var parameters = new GetUserTimelineParameters("linvi") { PageSize = 2 };
+            var request = A.Fake<ITwitterRequest>();
+            var expectedResult = A.Fake<ITwitterPageIterator<ITwitterResult<ITweetDTO[]>, long?>>();
+
+            A.CallTo(() => _fakePageCursorIteratorFactories.Create(parameters, It.IsAny<Func<long?, Task<ITwitterResult<ITweetDTO[]>>>>()))
+                .Returns(expectedResult);
+
+            var controller = CreateTimelineController();
+            var iterator = controller.GetUserTimelineIterator(parameters, request);
 
             // assert
             Assert.Equal(iterator, expectedResult);

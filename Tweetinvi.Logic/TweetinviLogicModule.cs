@@ -108,7 +108,6 @@ namespace Tweetinvi.Logic
         {
             container.RegisterType<ITwitterListUpdateQueryParameters, TwitterListUpdateQueryParameters>();
             container.RegisterType<IGetTweetsFromListQueryParameters, GetTweetsFromListQueryParameters>();
-            container.RegisterType<IUserTimelineQueryParameters, UserTimelineQueryParameters>();
         }
 
         private void InitializeWrappers(ITweetinviContainer container)
@@ -120,7 +119,7 @@ namespace Tweetinvi.Logic
         private void InitializeExceptionHandler(ITweetinviContainer container)
         {
             container.RegisterType<IExceptionHandler, ExceptionHandler>(RegistrationLifetime.InstancePerThread);
-            container.RegisterType<IWebExceptionInfoExtractor, WebExceptionInfoExtractor>(RegistrationLifetime.InstancePerApplication);          
+            container.RegisterType<IWebExceptionInfoExtractor, WebExceptionInfoExtractor>(RegistrationLifetime.InstancePerApplication);
             container.RegisterType<ITwitterTimeoutException, TwitterTimeoutException>();
             container.RegisterType<ITwitterExceptionInfo, TwitterExceptionInfo>();
         }

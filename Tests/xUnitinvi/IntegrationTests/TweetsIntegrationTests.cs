@@ -21,7 +21,7 @@ namespace xUnitinvi.IntegrationTests
             _logger = logger;
             _logger.WriteLine(DateTime.Now.ToLongTimeString());
 
-            _protectedClient = new TwitterClient(IntegrationTestConfig.ProtectedUserCredentials);
+            _protectedClient = new TwitterClient(IntegrationTestConfig.ProtectedUser.Credentials);
 
             TweetinviEvents.QueryBeforeExecute += (sender, args) => { _logger.WriteLine(args.Url); };
         }

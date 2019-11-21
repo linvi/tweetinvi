@@ -36,7 +36,7 @@ namespace xUnitinvi.ClientActions.TimelineClient
             var queryExecutor = CreateTimelineQueryExecutor();
             var expectedQuery = TestHelper.GenerateString();
 
-            var parameters = new GetGetHomeTimelineParameters();
+            var parameters = new GetHomeTimelineParameters();
             var request = A.Fake<ITwitterRequest>();
             var expectedResult = A.Fake<ITwitterResult<ITweetDTO[]>>();
 
@@ -45,6 +45,29 @@ namespace xUnitinvi.ClientActions.TimelineClient
 
             // Act
             var result = await queryExecutor.GetHomeTimeline(parameters, request);
+
+            // Assert
+            Assert.Equal(result, expectedResult);
+            Assert.Equal(request.Query.Url, expectedQuery);
+            Assert.Equal(HttpMethod.GET, request.Query.HttpMethod);
+        }
+
+        [Fact]
+        public async Task GetUserTimelineQuery_ReturnsTweets()
+        {
+            // Arrange
+            var queryExecutor = CreateTimelineQueryExecutor();
+            var expectedQuery = TestHelper.GenerateString();
+
+            var parameters = new GetUserTimelineParameters("linvi");
+            var request = A.Fake<ITwitterRequest>();
+            var expectedResult = A.Fake<ITwitterResult<ITweetDTO[]>>();
+
+            A.CallTo(() => _fakeTimelineQueryGenerator.GetUserTimelineQuery(parameters, It.IsAny<TweetMode?>())).Returns(expectedQuery);
+            A.CallTo(() => _fakeTwitterAccessor.ExecuteRequest<ITweetDTO[]>(request)).Returns(expectedResult);
+
+            // Act
+            var result = await queryExecutor.GetUserTimeline(parameters, request);
 
             // Assert
             Assert.Equal(result, expectedResult);

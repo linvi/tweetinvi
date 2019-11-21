@@ -9,7 +9,7 @@ namespace Tweetinvi.Controllers.Properties
         ///   Looks up a localized string similar to https://api.twitter.com/1.1/account/settings.json.
         /// </summary>
         public static string Account_GetSettings = "https://api.twitter.com/1.1/account/settings.json";
-    
+
         /// <summary>
         ///   Looks up a localized string similar to https://api.twitter.com/1.1/mutes/users/create.json?.
         /// </summary>
@@ -24,7 +24,7 @@ namespace Tweetinvi.Controllers.Properties
         ///   Looks up a localized string similar to https://api.twitter.com/1.1/mutes/users/ids.json?.
         /// </summary>
         public static string Account_Mute_GetUserIds = "https://api.twitter.com/1.1/mutes/users/ids.json?";
-        
+
         /// <summary>
         ///   Looks up a localized string similar to https://api.twitter.com/1.1/mutes/users/ids.json?.
         /// </summary>
@@ -391,9 +391,9 @@ namespace Tweetinvi.Controllers.Properties
         public static string Timeline_GetRetweetsOfMeTimeline = "https://api.twitter.com/1.1/statuses/retweets_of_me.json?";
 
         /// <summary>
-        ///   Looks up a localized string similar to https://api.twitter.com/1.1/statuses/user_timeline.json?{0}.
+        ///   Looks up a localized string similar to https://api.twitter.com/1.1/statuses/user_timeline.json?.
         /// </summary>
-        public static string Timeline_GetUserTimeline = "https://api.twitter.com/1.1/statuses/user_timeline.json?{0}";
+        public static string Timeline_GetUserTimeline = "https://api.twitter.com/1.1/statuses/user_timeline.json?";
 
         /// <summary>
         ///   Looks up a localized string similar to &amp;exclude_replies={0}.

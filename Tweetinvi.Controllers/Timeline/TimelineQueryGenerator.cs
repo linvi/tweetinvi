@@ -1,23 +1,17 @@
-﻿using System;
-using System.Text;
+﻿using System.Text;
 using Tweetinvi.Controllers.Properties;
 using Tweetinvi.Controllers.Shared;
 using Tweetinvi.Core;
 using Tweetinvi.Core.Extensions;
-using Tweetinvi.Core.Parameters;
 using Tweetinvi.Core.QueryGenerators;
-using Tweetinvi.Core.QueryValidators;
 using Tweetinvi.Parameters;
 
 namespace Tweetinvi.Controllers.Timeline
 {
     public interface ITimelineQueryGenerator
     {
-        // Home Timeline
         string GetHomeTimelineQuery(IGetHomeTimelineParameters parameters, TweetMode? tweetMode);
-
-        // User Timeline
-        string GetUserTimelineQuery(IUserTimelineQueryParameters userTimelineQueryParameters);
+        string GetUserTimelineQuery(IGetUserTimelineParameters parameters, TweetMode? tweetMode);
 
         // Mention Timeline
         string GetMentionsTimelineQuery(IMentionsTimelineParameters mentionsTimelineParameters);
@@ -29,20 +23,17 @@ namespace Tweetinvi.Controllers.Timeline
     public class TimelineQueryGenerator : ITimelineQueryGenerator
     {
         private readonly IUserQueryParameterGenerator _userQueryParameterGenerator;
-        private readonly IUserQueryValidator _userQueryValidator;
         private readonly IQueryParameterGenerator _queryParameterGenerator;
         private readonly ITimelineQueryParameterGenerator _timelineQueryParameterGenerator;
         private readonly ITweetinviSettingsAccessor _tweetinviSettingsAccessor;
 
         public TimelineQueryGenerator(
-            IUserQueryParameterGenerator userQueryGenerator,
-            IUserQueryValidator userQueryValidator,
+            IUserQueryParameterGenerator userQueryParameterGenerator,
             IQueryParameterGenerator queryParameterGenerator,
             ITimelineQueryParameterGenerator timelineQueryParameterGenerator,
             ITweetinviSettingsAccessor tweetinviSettingsAccessor)
         {
-            _userQueryParameterGenerator = userQueryGenerator;
-            _userQueryValidator = userQueryValidator;
+            _userQueryParameterGenerator = userQueryParameterGenerator;
             _queryParameterGenerator = queryParameterGenerator;
             _timelineQueryParameterGenerator = timelineQueryParameterGenerator;
             _tweetinviSettingsAccessor = tweetinviSettingsAccessor;
@@ -52,54 +43,33 @@ namespace Tweetinvi.Controllers.Timeline
         public string GetHomeTimelineQuery(IGetHomeTimelineParameters parameters, TweetMode? tweetMode)
         {
             var query = new StringBuilder(Resources.Timeline_GetHomeTimeline);
-            
+
             AddTimelineParameters(query, parameters);
-            
+
             query.AddParameterToQuery("contributor_details", parameters.IncludeContributorDetails);
             query.AddParameterToQuery("exclude_replies", parameters.ExcludeReplies);
             query.AddParameterToQuery("tweet_mode", tweetMode?.ToString().ToLowerInvariant());
             query.AddFormattedParameterToQuery(parameters.FormattedCustomQueryParameters);
-               
+
             return query.ToString();
         }
 
         // User Timeline
-        public string GetUserTimelineQuery(IUserTimelineQueryParameters userTimelineQueryParameters)
+        public string GetUserTimelineQuery(IGetUserTimelineParameters parameters, TweetMode? tweetMode)
         {
-            if (userTimelineQueryParameters == null)
-            {
-                throw new ArgumentNullException(nameof(userTimelineQueryParameters));
-            }
+            var query = new StringBuilder(Resources.Timeline_GetUserTimeline);
 
-            var queryParameters = userTimelineQueryParameters.Parameters;
-            var user = userTimelineQueryParameters.UserIdentifier;
+            query.AddFormattedParameterToQuery(_userQueryParameterGenerator.GenerateIdOrScreenNameParameter(parameters.User));
 
-            if (queryParameters == null)
-            {
-                throw new ArgumentNullException(nameof(queryParameters));
-            }
+            AddTimelineParameters(query, parameters);
 
-            _userQueryValidator.ThrowIfUserCannotBeIdentified(user);
+            query.AddParameterToQuery("contributor_details", parameters.IncludeContributorDetails);
+            query.AddParameterToQuery("exclude_replies", parameters.ExcludeReplies);
+            query.AddParameterToQuery("include_rts", parameters.IncludeRetweets);
+            query.AddParameterToQuery("tweet_mode", tweetMode?.ToString().ToLowerInvariant());
+            query.AddFormattedParameterToQuery(parameters.FormattedCustomQueryParameters);
 
-            var userTimelineRequestParameter = GenerateUserTimelineRequestParameters(userTimelineQueryParameters);
-            var includeContributorDetailsQueryParameter = GenerateIncludeContributorsDetailsParameter(queryParameters.IncludeContributorDetails);
-            var timelineRequestParameter = GenerateTimelineRequestParameter(queryParameters);
-            var requestParameters = $"{userTimelineRequestParameter}{includeContributorDetailsQueryParameter}{timelineRequestParameter}";
-
-            return string.Format(Resources.Timeline_GetUserTimeline, requestParameters);
-        }
-
-        private string GenerateUserTimelineRequestParameters(IUserTimelineQueryParameters timelineQueryParameters)
-        {
-            var queryParameters = timelineQueryParameters.Parameters;
-
-            var requestParameter = new StringBuilder();
-
-            requestParameter.Append(_userQueryParameterGenerator.GenerateIdOrScreenNameParameter(timelineQueryParameters.UserIdentifier));
-            requestParameter.Append(_timelineQueryParameterGenerator.GenerateIncludeRTSParameter(queryParameters.IncludeRTS));
-            requestParameter.Append(_timelineQueryParameterGenerator.GenerateExcludeRepliesParameter(queryParameters.ExcludeReplies));
-
-            return requestParameter.ToString();
+            return query.ToString();
         }
 
         // Mentions Timeline
@@ -111,18 +81,18 @@ namespace Tweetinvi.Controllers.Timeline
 
             return string.Format(Resources.Timeline_GetMentionsTimeline, requestParameters);
         }
-        
+
         // Retweets of Me Timeline
         public string GetRetweetsOfMeTimelineQuery(IGetRetweetsOfMeTimelineParameters parameters, TweetMode? tweetMode)
         {
             var query = new StringBuilder(Resources.Timeline_GetRetweetsOfMeTimeline);
-            
+
             AddTimelineParameters(query, parameters);
             query.AddParameterToQuery("include_user_entities", parameters.IncludeUserEntities);
-            
+
             query.AddParameterToQuery("tweet_mode", tweetMode?.ToString().ToLowerInvariant());
             query.AddFormattedParameterToQuery(parameters.FormattedCustomQueryParameters);
-               
+
             return query.ToString();
         }
 
@@ -132,7 +102,7 @@ namespace Tweetinvi.Controllers.Timeline
             query.AddParameterToQuery("include_entities", parameters.IncludeEntities);
             query.AddParameterToQuery("trim_user", parameters.TrimUser);
         }
-        
+
         // Base Timeline Query Generator
         private string GenerateTimelineRequestParameter(ITimelineRequestParameters timelineRequestParameters)
         {

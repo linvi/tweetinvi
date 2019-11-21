@@ -5,9 +5,29 @@ namespace xUnitinvi.IntegrationTests
     public static class IntegrationTestConfig
     {
         public static readonly bool ShouldRunIntegrationTests = false;
-        
-        public static readonly ITwitterCredentials TweetinviApiCredentials = new TwitterCredentials();
-        public static readonly ITwitterCredentials TweetinviTestCredentials = new TwitterCredentials();
-        public static readonly ITwitterCredentials ProtectedUserCredentials = new TwitterCredentials();
+
+        public static readonly IntegrationTestAccount TweetinviApi = new IntegrationTestAccount
+        {
+            Credentials = new TwitterCredentials("", "", "",    ""),
+            AccountId = "tweetinviapi"
+        };
+
+        public static readonly IntegrationTestAccount TweetinviTest = new IntegrationTestAccount
+        {
+            Credentials = new TwitterCredentials("", "", "",    ""),
+            AccountId = "tweetinvitest"
+        };
+
+        public static readonly IntegrationTestAccount ProtectedUser = new IntegrationTestAccount
+        {
+            Credentials = new TwitterCredentials("", "", "",    ""),
+            AccountId = "artwolkt"
+        };
+    }
+
+    public class IntegrationTestAccount
+    {
+        public ITwitterCredentials Credentials { get; set; }
+        public string AccountId { get; set; }
     }
 }
