@@ -74,6 +74,12 @@ namespace Tweetinvi
 
         /// <summary>
         /// Maximum numbers of tweets to retrieve in 1 request
+        /// <para>https://developer.twitter.com/en/docs/tweets/timelines/api-reference/get-statuses-home_timeline</para>
+        /// </summary>
+        public short TIMELINE_GET_HOME_PAGE_MAX_PAGE_SIZE { get; set; } = 200;
+        
+        /// <summary>
+        /// Maximum numbers of tweets to retrieve in 1 request
         /// <para>https://dev.twitter.com/en/docs/tweets/post-and-engage/api-reference/get-statuses-retweets_of_me</para>
         /// </summary>
         public short TIMELINE_RETWEETS_OF_ME_MAX_PAGE_SIZE { get; set; } = 100;

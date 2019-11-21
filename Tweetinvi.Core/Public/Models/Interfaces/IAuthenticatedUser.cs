@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Tweetinvi.Core.Models;
 using Tweetinvi.Iterators;
 using Tweetinvi.Parameters;
+using Tweetinvi.Client;
 
 namespace Tweetinvi.Models
 {
@@ -86,15 +87,11 @@ namespace Tweetinvi.Models
         /// </summary>
         IEnumerable<ITweet> LatestHomeTimeline { get; set; }
 
-        /// <summary>
-        /// Get the latest tweets of the authenticated user Home timeline.
-        /// </summary>
-        Task<IEnumerable<ITweet>> GetHomeTimeline(int maximumNumberOfTweets = 40);
+        /// <inheritdoc cref="ITimelineClient.GetHomeTimelineIterator()"/>
+        ITwitterIterator<ITweet, long?> GetHomeTimeline();
 
-        /// <summary>
-        /// Get the latest tweets of the authenticated user Home timeline.
-        /// </summary>
-        Task<IEnumerable<ITweet>> GetHomeTimeline(IHomeTimelineParameters timelineRequestParameters);
+        /// <inheritdoc cref="ITimelineClient.GetHomeTimelineIterator(IGetHomeTimelineParameters)"/>
+        ITwitterIterator<ITweet, long?> GetHomeTimeline(IGetHomeTimelineParameters parameters);
 
         /// <summary>
         /// List of tweets as displayed on the Mentions timeline.

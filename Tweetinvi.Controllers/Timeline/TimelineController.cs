@@ -34,23 +34,18 @@ namespace Tweetinvi.Controllers.Timeline
         }
 
         // Home Timeline
-        public Task<IEnumerable<ITweet>> GetHomeTimeline(int maximumNumberOfTweetsToRetrieve)
+        
+        public ITwitterPageIterator<ITwitterResult<ITweetDTO[]>, long?> GetHomeTimelineIterator(IGetHomeTimelineParameters parameters, ITwitterRequest request)
         {
-            var timelineRequestParameter = _timelineQueryParameterGenerator.CreateHomeTimelineParameters();
-            timelineRequestParameter.PageSize = maximumNumberOfTweetsToRetrieve;
-
-            return GetHomeTimeline(timelineRequestParameter);
-        }
-
-        public async Task<IEnumerable<ITweet>> GetHomeTimeline(IHomeTimelineParameters parameters)
-        {
-            if (parameters == null)
+            return _pageCursorIteratorFactories.Create(parameters, cursor =>
             {
-                parameters = _timelineQueryParameterGenerator.CreateHomeTimelineParameters();
-            }
+                var cursoredParameters = new GetGetHomeTimelineParameters(parameters)
+                {
+                    MaxId = cursor
+                };
 
-            var timelineDTO = await _timelineQueryExecutor.GetHomeTimeline(parameters);
-            return _tweetFactory.GenerateTweetsFromDTO(timelineDTO, null, null);
+                return _timelineQueryExecutor.GetHomeTimeline(cursoredParameters, new TwitterRequest(request));
+            });
         }
 
         // User Timeline
@@ -123,7 +118,7 @@ namespace Tweetinvi.Controllers.Timeline
         }
 
         // Retweets Of Me Timeline
-        public ITwitterPageIterator<ITwitterResult<ITweetDTO[]>, long?> GetRetweetsOfMeTimeline(IGetRetweetsOfMeTimelineParameters parameters, ITwitterRequest request)
+        public ITwitterPageIterator<ITwitterResult<ITweetDTO[]>, long?> GetRetweetsOfMeTimelineIterator(IGetRetweetsOfMeTimelineParameters parameters, ITwitterRequest request)
         {
             return _pageCursorIteratorFactories.Create(parameters, cursor =>
             {

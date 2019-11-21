@@ -24,8 +24,25 @@ namespace Tweetinvi.Client
             _timelineRequester = _client.RequestExecutor.Timeline;
             _tweetFactory = TweetinviContainer.Resolve<ITweetFactory>();
         }
-        
+
         public ITimelineClientParametersValidator ParametersValidator => _client.ParametersValidator;
+
+        public ITwitterIterator<ITweet, long?> GetHomeTimelineIterator()
+        {
+            return GetHomeTimelineIterator(new GetGetHomeTimelineParameters());
+        }
+
+        public ITwitterIterator<ITweet, long?> GetHomeTimelineIterator(IGetHomeTimelineParameters parameters)
+        {
+            var tweetMode = _client.Config.TweetMode;
+
+            var pageIterator = _timelineRequester.GetHomeTimelineIterator(parameters);
+            return new TwitterIteratorProxy<ITwitterResult<ITweetDTO[]>, ITweet, long?>(pageIterator,
+                twitterResult =>
+                {
+                    return _tweetFactory.GenerateTweetsFromDTO(twitterResult.DataTransferObject, tweetMode, _client);
+                });
+        }
 
         public Task<ITweet[]> GetRetweetsOfMeTimeline()
         {
@@ -48,13 +65,12 @@ namespace Tweetinvi.Client
         {
             var tweetMode = _client.Config.TweetMode;
 
-            var pageIterator = _timelineRequester.GetRetweetsOfMeTimeline(parameters);
+            var pageIterator = _timelineRequester.GetRetweetsOfMeTimelineIterator(parameters);
             return new TwitterIteratorProxy<ITwitterResult<ITweetDTO[]>, ITweet, long?>(pageIterator,
                 twitterResult =>
                 {
                     return _tweetFactory.GenerateTweetsFromDTO(twitterResult.DataTransferObject, tweetMode, _client);
                 });
         }
-
     }
 }

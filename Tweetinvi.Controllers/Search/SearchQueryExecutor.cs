@@ -199,7 +199,7 @@ namespace Tweetinvi.Controllers.Search
             return repliesDTO;
         }
 
-        private IEnumerable<ITweetDTO> GetRecursiveReplies(IReadOnlyCollection<ITweetDTO> searchTweets, long sourceId)
+        private static IEnumerable<ITweetDTO> GetRecursiveReplies(IReadOnlyCollection<ITweetDTO> searchTweets, long sourceId)
         {
             var directReplies = searchTweets.Where(x => x.InReplyToStatusId == sourceId).ToList();
             var results = directReplies.ToList();

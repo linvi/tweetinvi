@@ -24,11 +24,11 @@ namespace Tweetinvi.Core.JsonConverters
             return _jsonConvertWrapper.SerializeObject(o, converters);
         }
 
-        public T DeserializeObject<T>(string json, JsonConverter[] converters = null) where T : class
+        public T DeserializeObject<T>(string json, JsonConverter[] converters = null) 
         {
             if (!json.IsMatchingJsonFormat())
             {
-                return default(T);
+                return default;
             }
 
             if (converters == null)

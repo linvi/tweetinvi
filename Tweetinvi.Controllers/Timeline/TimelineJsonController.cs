@@ -9,10 +9,6 @@ namespace Tweetinvi.Controllers.Timeline
 {
     public interface ITimelineJsonController
     {
-        // Home Timeline
-        Task<string> GetHomeTimeline(int maximumNumberOfTweetsToRetrieve);
-        Task<string> GetHomeTimeline(IHomeTimelineParameters timelineParameters);
-
         // User Timeline
         Task<string> GetUserTimeline(IUserIdentifier user, int maximumNumberOfTweets = 40);
         Task<string> GetUserTimeline(long userId, int maximumNumberOfTweets = 40);
@@ -41,20 +37,6 @@ namespace Tweetinvi.Controllers.Timeline
             _twitterAccessor = twitterAccessor;
             _userFactory = userFactory;
             _timelineQueryParameterGenerator = timelineQueryParameterGenerator;
-        }
-
-        // Home Timeline
-        public Task<string> GetHomeTimeline(int maximumNumberOfTweetsToRetrieve)
-        {
-            var timelineRequestParameter = _timelineQueryParameterGenerator.CreateHomeTimelineParameters();
-            timelineRequestParameter.PageSize = maximumNumberOfTweetsToRetrieve;
-            return GetHomeTimeline(timelineRequestParameter);
-        }
-
-        public Task<string> GetHomeTimeline(IHomeTimelineParameters timelineParameters)
-        {
-            string query = _timelineQueryGenerator.GetHomeTimelineQuery(timelineParameters);
-            return _twitterAccessor.ExecuteGETQueryReturningJson(query);
         }
 
         // User Timeline

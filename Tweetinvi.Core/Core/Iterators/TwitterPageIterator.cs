@@ -1,5 +1,6 @@
 using System;
 using System.Threading.Tasks;
+using Tweetinvi.Core.Web;
 using Tweetinvi.Exceptions;
 
 namespace Tweetinvi.Core.Iterators
@@ -15,14 +16,19 @@ namespace Tweetinvi.Core.Iterators
     {
     }
 
-    public class TwitterPageIterator<TPage> : TwitterPageIterator<TPage, string>, ITwitterPageIterator<TPage>
+    public class TwitterPageIterator<TPage> : TwitterPageIterator<TPage, string>, ITwitterPageIterator<TPage> where TPage : ITwitterResult
     {
-        public TwitterPageIterator(string initialCursor, Func<string, Task<TPage>> getNextPage, Func<TPage, string> extractNextCursor, Func<TPage, bool> isCompleted) : base(initialCursor, getNextPage, extractNextCursor, isCompleted)
+        public TwitterPageIterator(
+            string initialCursor,
+            Func<string, Task<TPage>> getNextPage,
+            Func<TPage, string> extractNextCursor,
+            Func<TPage, bool> isCompleted)
+            : base(initialCursor, getNextPage, extractNextCursor, isCompleted)
         {
         }
     }
-    
-    public class TwitterPageIterator<TPage, TCursor> : ITwitterPageIterator<TPage, TCursor>
+
+    public class TwitterPageIterator<TPage, TCursor> : ITwitterPageIterator<TPage, TCursor> where TPage : ITwitterResult
     {
         private readonly Func<TCursor, Task<TPage>> _getNextPage;
         private readonly Func<TPage, TCursor> _extractNextCursor;
@@ -35,7 +41,7 @@ namespace Tweetinvi.Core.Iterators
             Func<TPage, bool> isCompleted)
         {
             NextCursor = initialCursor;
-            
+
             _getNextPage = getNextPage;
             _extractNextCursor = extractNextCursor;
             _isCompleted = isCompleted;
@@ -50,7 +56,7 @@ namespace Tweetinvi.Core.Iterators
             {
                 throw new TwitterIteratorAlreadyCompletedException();
             }
-            
+
             var page = await _getNextPage(NextCursor).ConfigureAwait(false);
             NextCursor = _extractNextCursor(page);
             Completed = _isCompleted(page);

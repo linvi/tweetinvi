@@ -8,6 +8,6 @@ namespace Tweetinvi.Core.Helpers
     public interface IJsonObjectConverter
     {
         string SerializeObject(object o, JsonConverter[] converters = null);
-        T DeserializeObject<T>(string json, JsonConverter[] converters = null) where T : class;
+        T DeserializeObject<T>(string json, JsonConverter[] converters = null);
     }
 }

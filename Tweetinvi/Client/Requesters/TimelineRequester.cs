@@ -23,13 +23,21 @@ namespace Tweetinvi.Client.Requesters
             _timelineController = timelineController;
             _validator = validator;
         }
-        
-        public ITwitterPageIterator<ITwitterResult<ITweetDTO[]>, long?> GetRetweetsOfMeTimeline(IGetRetweetsOfMeTimelineParameters parameters)
+
+        public ITwitterPageIterator<ITwitterResult<ITweetDTO[]>, long?> GetHomeTimelineIterator(IGetHomeTimelineParameters parameters)
         {
             _validator.Validate(parameters);
             
             var request = TwitterClient.CreateRequest();
-            return _timelineController.GetRetweetsOfMeTimeline(parameters, request);
+            return _timelineController.GetHomeTimelineIterator(parameters, request);
+        }
+
+        public ITwitterPageIterator<ITwitterResult<ITweetDTO[]>, long?> GetRetweetsOfMeTimelineIterator(IGetRetweetsOfMeTimelineParameters parameters)
+        {
+            _validator.Validate(parameters);
+            
+            var request = TwitterClient.CreateRequest();
+            return _timelineController.GetRetweetsOfMeTimelineIterator(parameters, request);
         }
     }
 }

@@ -2,7 +2,6 @@
 using System.Threading.Tasks;
 using Tweetinvi.Controllers.Timeline;
 using Tweetinvi.Models;
-using Tweetinvi.Parameters;
 
 namespace Tweetinvi.Json
 {
@@ -31,17 +30,6 @@ namespace Tweetinvi.Json
         private static void Initialize()
         {
             _timelineJsonController = TweetinviContainer.Resolve<ITimelineJsonController>();
-        }
-
-        // Home Timeline
-        public static Task<string> GetHomeTimeline(int maximumTweets = 40)
-        {
-            return TimelineJsonController.GetHomeTimeline(maximumTweets);
-        }
-
-        public static Task<string> GetHomeTimeline(IHomeTimelineParameters timelineParameters)
-        {
-            return TimelineJsonController.GetHomeTimeline(timelineParameters);
         }
 
         // User Timeline

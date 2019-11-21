@@ -13,7 +13,7 @@ namespace Tweetinvi.Controllers.Timeline
         string GenerateIncludeRTSParameter(bool includeRTS);
         string GenerateIncludeUserEntitiesParameter(bool includeUserEntities);
 
-        IHomeTimelineParameters CreateHomeTimelineParameters();
+        IGetHomeTimelineParameters CreateHomeTimelineParameters();
         IUserTimelineParameters CreateUserTimelineParameters();
         IMentionsTimelineParameters CreateMentionsTimelineParameters();
         IGetRetweetsOfMeTimelineParameters CreateRetweetsOfMeTimelineParameters();
@@ -25,14 +25,14 @@ namespace Tweetinvi.Controllers.Timeline
 
     public class TimelineQueryParameterGenerator : ITimelineQueryParameterGenerator
     {
-        private readonly IFactory<IHomeTimelineParameters> _homeTimelineRequestParameterFactory;
+        private readonly IFactory<IGetHomeTimelineParameters> _homeTimelineRequestParameterFactory;
         private readonly IFactory<IMentionsTimelineParameters> _mentionsTimelineRequestParameterFactory;
         private readonly IFactory<IGetRetweetsOfMeTimelineParameters> _retweetsOfMeTimelineRequestParameterFactory;
         private readonly IFactory<IUserTimelineParameters> _userTimelineRequestParameterFactory;
         private readonly IFactory<IUserTimelineQueryParameters> _userTimelineRequestQueryParameterFactory;
 
         public TimelineQueryParameterGenerator(
-            IFactory<IHomeTimelineParameters> homeTimelineRequestParameterFactory,
+            IFactory<IGetHomeTimelineParameters> homeTimelineRequestParameterFactory,
             IFactory<IMentionsTimelineParameters> mentionsTimelineRequestParameterFactory,
             IFactory<IGetRetweetsOfMeTimelineParameters> retweetsOfMeTimelineRequestParameterFactory,
             IFactory<IUserTimelineParameters> userTimelineRequestParameterFactory, 
@@ -66,7 +66,7 @@ namespace Tweetinvi.Controllers.Timeline
         }
 
         // User Parameters
-        public IHomeTimelineParameters CreateHomeTimelineParameters()
+        public IGetHomeTimelineParameters CreateHomeTimelineParameters()
         {
             return _homeTimelineRequestParameterFactory.Create();
         }

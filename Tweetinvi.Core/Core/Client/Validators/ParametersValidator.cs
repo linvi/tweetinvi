@@ -46,6 +46,7 @@ namespace Tweetinvi.Core.Client.Validators
         {
             _accountClientParametersValidator.Initialize(client);
             _accountSettingsClientParametersValidator.Initialize(client);
+            _timelineClientParametersValidator.Initialize(client);
             _tweetsClientParametersValidator.Initialize(client);
             _uploadClientParametersValidator.Initialize(client);
             _usersClientParametersValidator.Initialize(client);
@@ -175,7 +176,12 @@ namespace Tweetinvi.Core.Client.Validators
         {
             _accountSettingsClientParametersValidator.Validate(parameters);
         }
-        
+
+        public void Validate(IGetHomeTimelineParameters parameters)
+        {
+            _timelineClientParametersValidator.Validate(parameters);
+        }
+
         public void Validate(IGetRetweetsOfMeTimelineParameters parameters)
         {
             _timelineClientParametersValidator.Validate(parameters);

@@ -14,7 +14,7 @@ namespace Tweetinvi.Controllers.Timeline
     public interface ITimelineQueryGenerator
     {
         // Home Timeline
-        string GetHomeTimelineQuery(IHomeTimelineParameters timelineParameters);
+        string GetHomeTimelineQuery(IGetHomeTimelineParameters parameters, TweetMode? tweetMode);
 
         // User Timeline
         string GetUserTimelineQuery(IUserTimelineQueryParameters userTimelineQueryParameters);
@@ -48,21 +48,19 @@ namespace Tweetinvi.Controllers.Timeline
             _tweetinviSettingsAccessor = tweetinviSettingsAccessor;
         }
 
-        // Helper
-
         // Home Timeline
-        public string GetHomeTimelineQuery(IHomeTimelineParameters timelineParameters)
+        public string GetHomeTimelineQuery(IGetHomeTimelineParameters parameters, TweetMode? tweetMode)
         {
-            var homeTimelineRequestQueryParameter = GenerateHomeTimelineParameters(timelineParameters);
-            var includeContributorDetailsQueryParameter = GenerateIncludeContributorsDetailsParameter(timelineParameters.IncludeContributorDetails);
-            var timelineRequestQueryParameter = GenerateTimelineRequestParameter(timelineParameters);
-            var requestParameters = $"{homeTimelineRequestQueryParameter}{includeContributorDetailsQueryParameter}{timelineRequestQueryParameter}";
-            return string.Format(Resources.Timeline_GetHomeTimeline, requestParameters);
-        }
-
-        private string GenerateHomeTimelineParameters(IHomeTimelineParameters timelineParameters)
-        {
-            return _timelineQueryParameterGenerator.GenerateExcludeRepliesParameter(timelineParameters.ExcludeReplies);
+            var query = new StringBuilder(Resources.Timeline_GetHomeTimeline);
+            
+            AddTimelineParameters(query, parameters);
+            
+            query.AddParameterToQuery("contributor_details", parameters.IncludeContributorDetails);
+            query.AddParameterToQuery("exclude_replies", parameters.ExcludeReplies);
+            query.AddParameterToQuery("tweet_mode", tweetMode?.ToString().ToLowerInvariant());
+            query.AddFormattedParameterToQuery(parameters.FormattedCustomQueryParameters);
+               
+            return query.ToString();
         }
 
         // User Timeline

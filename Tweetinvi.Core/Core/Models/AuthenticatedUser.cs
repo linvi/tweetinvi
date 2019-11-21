@@ -82,14 +82,14 @@ namespace Tweetinvi.Core.Models
         }
 
         // Home Timeline
-        public Task<IEnumerable<ITweet>> GetHomeTimeline(int maximumNumberOfTweets = 40)
+        public ITwitterIterator<ITweet, long?> GetHomeTimeline()
         {
-            return ExecuteAuthenticatedUserOperation(() => _timelineController.GetHomeTimeline(maximumNumberOfTweets));
+            return Client.Timeline.GetHomeTimelineIterator();
         }
 
-        public Task<IEnumerable<ITweet>> GetHomeTimeline(IHomeTimelineParameters timelineRequestParameters)
+        public ITwitterIterator<ITweet, long?> GetHomeTimeline(IGetHomeTimelineParameters parameters)
         {
-            return ExecuteAuthenticatedUserOperation(() => _timelineController.GetHomeTimeline(timelineRequestParameters));
+            return Client.Timeline.GetHomeTimelineIterator(parameters);
         }
 
         // Mentions Timeline

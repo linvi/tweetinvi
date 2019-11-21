@@ -30,6 +30,29 @@ namespace xUnitinvi.ClientActions.TimelineClient
         }
 
         [Fact]
+        public async Task GetHomeTimelineQuery_ReturnsTweets()
+        {
+            // Arrange
+            var queryExecutor = CreateTimelineQueryExecutor();
+            var expectedQuery = TestHelper.GenerateString();
+
+            var parameters = new GetGetHomeTimelineParameters();
+            var request = A.Fake<ITwitterRequest>();
+            var expectedResult = A.Fake<ITwitterResult<ITweetDTO[]>>();
+
+            A.CallTo(() => _fakeTimelineQueryGenerator.GetHomeTimelineQuery(parameters, It.IsAny<TweetMode?>())).Returns(expectedQuery);
+            A.CallTo(() => _fakeTwitterAccessor.ExecuteRequest<ITweetDTO[]>(request)).Returns(expectedResult);
+
+            // Act
+            var result = await queryExecutor.GetHomeTimeline(parameters, request);
+
+            // Assert
+            Assert.Equal(result, expectedResult);
+            Assert.Equal(request.Query.Url, expectedQuery);
+            Assert.Equal(HttpMethod.GET, request.Query.HttpMethod);
+        }
+
+        [Fact]
         public async Task GetRetweetsOfMeTimelineQuery_ReturnsTweets()
         {
             // Arrange

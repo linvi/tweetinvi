@@ -32,7 +32,7 @@ namespace Tweetinvi
             }
         }
 
-        private static IFactory<IHomeTimelineParameters> _homeTimelineParameterFactory;
+        private static IFactory<IGetHomeTimelineParameters> _homeTimelineParameterFactory;
         private static IFactory<IUserTimelineParameters> _userTimelineParameterFactory;
         private static IFactory<IMentionsTimelineParameters> _mentionsTimelineParameterFactory;
         private static IFactory<IGetRetweetsOfMeTimelineParameters> _retweetsOfMeTimelineParameterFactory;
@@ -45,7 +45,7 @@ namespace Tweetinvi
         private static void Initialize()
         {
             _timelineController = TweetinviContainer.Resolve<ITimelineController>();
-            _homeTimelineParameterFactory = TweetinviContainer.Resolve<IFactory<IHomeTimelineParameters>>();
+            _homeTimelineParameterFactory = TweetinviContainer.Resolve<IFactory<IGetHomeTimelineParameters>>();
             _userTimelineParameterFactory = TweetinviContainer.Resolve<IFactory<IUserTimelineParameters>>();
             _mentionsTimelineParameterFactory = TweetinviContainer.Resolve<IFactory<IMentionsTimelineParameters>>();
             _retweetsOfMeTimelineParameterFactory = TweetinviContainer.Resolve<IFactory<IGetRetweetsOfMeTimelineParameters>>();
@@ -56,7 +56,7 @@ namespace Tweetinvi
         /// <summary>
         /// Parameters available to refine the results from the Home Timeline
         /// </summary>
-        public static IHomeTimelineParameters CreateHomeTimelineParameter()
+        public static IGetHomeTimelineParameters CreateHomeTimelineParameter()
         {
             return _homeTimelineParameterFactory.Create();
         }
@@ -83,24 +83,6 @@ namespace Tweetinvi
         public static IGetRetweetsOfMeTimelineParameters CreateRetweetsOfMeTimelineParameters()
         {
             return _retweetsOfMeTimelineParameterFactory.Create();
-        }
-
-        // Home Timeline
-
-        /// <summary>
-        /// Get the tweets visible on the authenticated user timeline.
-        /// </summary>
-        public static Task<IEnumerable<ITweet>> GetHomeTimeline(int maximumTweets = 40)
-        {
-            return TimelineController.GetHomeTimeline(maximumTweets);
-        }
-
-        /// <summary>
-        /// Get the tweets visible on the authenticated user timeline.
-        /// </summary>
-        public static Task<IEnumerable<ITweet>> GetHomeTimeline(IHomeTimelineParameters homeTimelineParameters)
-        {
-            return TimelineController.GetHomeTimeline(homeTimelineParameters);
         }
 
         // User Timeline

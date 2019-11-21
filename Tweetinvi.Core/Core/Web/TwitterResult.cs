@@ -88,7 +88,7 @@ namespace Tweetinvi.Core.Web
         public string Json => Response?.Text;
     }
 
-    public class TwitterResult<TDTO> : TwitterResult, ITwitterResult<TDTO> where TDTO : class
+    public class TwitterResult<TDTO> : TwitterResult, ITwitterResult<TDTO>
     {
         private readonly IJsonObjectConverter _jsonObjectConverter;
 

@@ -35,9 +35,52 @@ namespace xUnitinvi.IntegrationTests
             if (!IntegrationTestConfig.ShouldRunIntegrationTests)
                 return;
 
+            _logger.WriteLine($"Starting {nameof(HomeTimeLine)}");
+            await HomeTimeLine().ConfigureAwait(false);
+            _logger.WriteLine($"{nameof(HomeTimeLine)} succeeded");
+
             _logger.WriteLine($"Starting {nameof(RetweetsOfMeTimeline)}");
             await RetweetsOfMeTimeline().ConfigureAwait(false);
             _logger.WriteLine($"{nameof(RetweetsOfMeTimeline)} succeeded");
+        }
+
+        [Fact]
+        public async Task HomeTimeLine()
+        {
+            if (!IntegrationTestConfig.ShouldRunIntegrationTests)
+                return;
+
+            // arrange
+            var testUser = await _tweetinviTestClient.Account.GetAuthenticatedUser();
+            var tweetinviUser = await _tweetinviApiClient.Account.GetAuthenticatedUser();
+            var friendsBeforeAdd = await _tweetinviApiClient.Users.GetFriendIds(tweetinviUser).MoveToNextPage();
+            var alreadyFollowing = friendsBeforeAdd.Contains(testUser.Id.Value);
+
+            if (!alreadyFollowing)
+            {
+                await _tweetinviApiClient.Account.FollowUser(testUser);
+            }
+
+            // act
+            var tweet1 = await _tweetinviTestClient.Tweets.PublishTweet("tweet 1!");
+
+            var iterator = _tweetinviApiClient.Timeline.GetHomeTimelineIterator(new GetGetHomeTimelineParameters
+            {
+                PageSize = 5,
+            });
+
+            var page1 = await iterator.MoveToNextPage();
+            var page2 = await iterator.MoveToNextPage();
+
+            await tweet1.Destroy();
+
+            if (!alreadyFollowing)
+            {
+                await _tweetinviApiClient.Account.UnFollowUser(testUser);
+            }
+
+            // assert
+            Assert.True(page1.Select(x => x.Id).Contains(tweet1.Id) || page2.Select(x => x.Id).Contains(tweet1.Id));
         }
 
         [Fact]

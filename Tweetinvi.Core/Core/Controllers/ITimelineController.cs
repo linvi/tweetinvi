@@ -11,8 +11,7 @@ namespace Tweetinvi.Core.Controllers
     public interface ITimelineController
     {
         // Home Timeline
-        Task<IEnumerable<ITweet>> GetHomeTimeline(int maximumNumberOfTweetsToRetrieve);
-        Task<IEnumerable<ITweet>> GetHomeTimeline(IHomeTimelineParameters timelineParameters);
+        ITwitterPageIterator<ITwitterResult<ITweetDTO[]>, long?> GetHomeTimelineIterator(IGetHomeTimelineParameters parameters, ITwitterRequest request);
 
         // User Timeline
         Task<IEnumerable<ITweet>> GetUserTimeline(IUserIdentifier user, int maximumNumberOfTweets = 40);
@@ -28,6 +27,6 @@ namespace Tweetinvi.Core.Controllers
         Task<IEnumerable<IMention>> GetMentionsTimeline(IMentionsTimelineParameters mentionsTimelineParameters);
 
         // Retweets Of Me Timeline
-        ITwitterPageIterator<ITwitterResult<ITweetDTO[]>, long?> GetRetweetsOfMeTimeline(IGetRetweetsOfMeTimelineParameters parameters, ITwitterRequest request);
+        ITwitterPageIterator<ITwitterResult<ITweetDTO[]>, long?> GetRetweetsOfMeTimelineIterator(IGetRetweetsOfMeTimelineParameters parameters, ITwitterRequest request);
     }
 }

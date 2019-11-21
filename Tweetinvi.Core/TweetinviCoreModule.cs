@@ -78,7 +78,7 @@ namespace Tweetinvi.Core.Injectinvi
             container.RegisterType<IPublishTweetParameters, PublishTweetParameters>();
 
             // Timeline
-            container.RegisterType<IHomeTimelineParameters, HomeTimelineParameters>();
+            container.RegisterType<IGetHomeTimelineParameters, GetGetHomeTimelineParameters>();
             container.RegisterType<IUserTimelineParameters, UserTimelineParameters>();
             container.RegisterType<IMentionsTimelineParameters, MentionsTimelineParameters>();
             container.RegisterType<IGetRetweetsOfMeTimelineParameters, GetRetweetsOfMeTimelineParameters>();

@@ -11,7 +11,7 @@ namespace Tweetinvi.Controllers.Timeline
     public interface ITimelineQueryExecutor
     {
         // Home Timeline
-        Task<IEnumerable<ITweetDTO>> GetHomeTimeline(IHomeTimelineParameters timelineParameters);
+        Task<ITwitterResult<ITweetDTO[]>> GetHomeTimeline(IGetHomeTimelineParameters timelineParameters, ITwitterRequest request);
 
         // User Timeline
         Task<IEnumerable<ITweetDTO>> GetUserTimeline(IUserTimelineQueryParameters timelineParameters);
@@ -37,10 +37,12 @@ namespace Tweetinvi.Controllers.Timeline
         }
 
         // Home Timeline
-        public Task<IEnumerable<ITweetDTO>> GetHomeTimeline(IHomeTimelineParameters timelineParameters)
+        public Task<ITwitterResult<ITweetDTO[]>> GetHomeTimeline(IGetHomeTimelineParameters timelineParameters, ITwitterRequest request)
         {
-            string query = _timelineQueryGenerator.GetHomeTimelineQuery(timelineParameters);
-            return _twitterAccessor.ExecuteGETQuery<IEnumerable<ITweetDTO>>(query);
+            var query = _timelineQueryGenerator.GetHomeTimelineQuery(timelineParameters, request.ExecutionContext.TweetMode);
+            request.Query.Url = query;
+            request.Query.HttpMethod = HttpMethod.GET;
+            return _twitterAccessor.ExecuteRequest<ITweetDTO[]>(request);
         }
 
         // User Timeline

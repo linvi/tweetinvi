@@ -1,26 +1,23 @@
+using Tweetinvi.Core.Web;
+
 namespace Tweetinvi.Core.Iterators
 {
-    public interface ITwitterIteratorPageResult<out TPageContent, out TCursor>
+    public interface ITwitterIteratorPageResult<out TPageContent, out TCursor> : IIteratorPageResult<TPageContent, TCursor>
     {
-        TPageContent Content { get; }
-        TCursor NextCursor { get; }
-        bool IsLastPage { get; }
+        string Json { get; }
     }
     
-    public class TwitterIteratorPageResult<TPageContent, TCursor> : ITwitterIteratorPageResult<TPageContent, TCursor>
+    public class TwitterIteratorPageResult<TPageContent, TCursor> : IteratorPageResult<TPageContent, TCursor>, ITwitterIteratorPageResult<TPageContent, TCursor> 
+        where TPageContent : ITwitterResult
     {
         public TwitterIteratorPageResult(
             TPageContent content,
             TCursor nextCursor,
-            bool isLastPage)
+            bool isLastPage) : base(content, nextCursor, isLastPage)
         {
-            Content = content;
-            NextCursor = nextCursor;
-            IsLastPage = isLastPage;
+            Json = content.Json;
         }
-        
-        public TPageContent Content { get; }
-        public TCursor NextCursor { get; }
-        public bool IsLastPage { get; }
+
+        public string Json { get; }
     }
 }

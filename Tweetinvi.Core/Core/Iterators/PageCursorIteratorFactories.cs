@@ -12,7 +12,6 @@ namespace Tweetinvi.Core.Iterators
     {
         ITwitterPageIterator<ITwitterResult<T[]>, long?> Create<T>(IMinMaxQueryParameters parameters, Func<long?, Task<ITwitterResult<T[]>>> getNext) where T : ITwitterIdentifier;
         ITwitterPageIterator<ITwitterResult<T>> Create<T>(ICursorQueryParameters parameters, Func<string, Task<ITwitterResult<T>>> getNext) where T : IBaseCursorQueryDTO;
-        
     }
     
     public class PageCursorIteratorFactories : IPageCursorIteratorFactories
