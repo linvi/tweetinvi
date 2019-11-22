@@ -7,6 +7,7 @@ namespace Tweetinvi.Core.Client.Validators
     {
         void Validate(IGetHomeTimelineParameters parameters);
         void Validate(IGetUserTimelineParameters parameters);
+        void Validate(IGetMentionsTimelineParameters parameters);
         void Validate(IGetRetweetsOfMeTimelineParameters parameters);
     }
 
@@ -14,7 +15,7 @@ namespace Tweetinvi.Core.Client.Validators
     {
         void Initialize(ITwitterClient client);
     }
-    
+
     public class TimelineClientParametersValidator : IInternalTimelineClientParametersValidator
     {
         private readonly ITimelineClientRequiredParametersValidator _timelineClientRequiredParametersValidator;
@@ -23,12 +24,12 @@ namespace Tweetinvi.Core.Client.Validators
         {
             _timelineClientRequiredParametersValidator = timelineClientRequiredParametersValidator;
         }
-        
+
         public void Initialize(ITwitterClient client)
         {
             _client = client;
         }
-        
+
         private TwitterLimits Limits => _client.Config.Limits;
 
         public void Validate(IGetHomeTimelineParameters parameters)
@@ -53,10 +54,21 @@ namespace Tweetinvi.Core.Client.Validators
             }
         }
 
+        public void Validate(IGetMentionsTimelineParameters parameters)
+        {
+            _timelineClientRequiredParametersValidator.Validate(parameters);
+
+            var maxPageSize = Limits.TIMELINE_MENTIONS_PAGE_MAX_PAGE_SIZE;
+            if (parameters.PageSize > maxPageSize)
+            {
+                throw new TwitterArgumentLimitException($"{nameof(parameters)}.{nameof(parameters.PageSize)}", maxPageSize, nameof(Limits.TIMELINE_MENTIONS_PAGE_MAX_PAGE_SIZE), "page size");
+            }
+        }
+
         public void Validate(IGetRetweetsOfMeTimelineParameters parameters)
         {
             _timelineClientRequiredParametersValidator.Validate(parameters);
-            
+
             var maxPageSize = Limits.TIMELINE_RETWEETS_OF_ME_MAX_PAGE_SIZE;
             if (parameters.PageSize > maxPageSize)
             {

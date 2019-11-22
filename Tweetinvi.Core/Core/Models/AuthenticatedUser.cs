@@ -27,12 +27,11 @@ namespace Tweetinvi.Core.Models
         public AuthenticatedUser(
             IUserDTO userDTO,
             ICredentialsAccessor credentialsAccessor,
-            ITimelineController timelineController,
             IMessageController messageController,
             ITwitterListController twitterListController,
             ISavedSearchController savedSearchController)
 
-            : base(userDTO, timelineController, twitterListController)
+            : base(userDTO, twitterListController)
         {
             _credentialsAccessor = credentialsAccessor;
             _messageController = messageController;
@@ -50,10 +49,6 @@ namespace Tweetinvi.Core.Models
         }
 
         public ITwitterCredentials Credentials { get; set; }
-        public IEnumerable<IMessage> LatestDirectMessages { get; set; }
-        public IEnumerable<IMention> LatestMentionsTimeline { get; set; }
-        public IEnumerable<ITweet> LatestHomeTimeline { get; set; }
-        public IEnumerable<ISuggestedUserList> SuggestedUserList { get; set; }
 
         public T ExecuteAuthenticatedUserOperation<T>(Func<T> operation)
         {
@@ -82,20 +77,24 @@ namespace Tweetinvi.Core.Models
         }
 
         // Home Timeline
-        public ITwitterIterator<ITweet, long?> GetHomeTimeline()
+        public ITwitterIterator<ITweet, long?> GetHomeTimelineIterator()
         {
             return Client.Timeline.GetHomeTimelineIterator();
         }
 
-        public ITwitterIterator<ITweet, long?> GetHomeTimeline(IGetHomeTimelineParameters parameters)
+        public ITwitterIterator<ITweet, long?> GetHomeTimelineIterator(IGetHomeTimelineParameters parameters)
         {
             return Client.Timeline.GetHomeTimelineIterator(parameters);
         }
 
-        // Mentions Timeline
-        public Task<IEnumerable<IMention>> GetMentionsTimeline(int maximumNumberOfMentions = 40)
+        public ITwitterIterator<ITweet, long?> GetMentionsTimelineIterator()
         {
-            return ExecuteAuthenticatedUserOperation(() => _timelineController.GetMentionsTimeline(maximumNumberOfMentions));
+            return Client.Timeline.GetMentionsTimelineIterator();
+        }
+
+        public ITwitterIterator<ITweet, long?> GetMentionsTimelineIterator(IGetMentionsTimelineParameters parameters)
+        {
+            return Client.Timeline.GetMentionsTimelineIterator();
         }
 
         // Friendships

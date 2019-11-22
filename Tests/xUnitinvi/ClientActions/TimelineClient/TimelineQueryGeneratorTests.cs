@@ -53,6 +53,31 @@ namespace xUnitinvi.ClientActions.TimelineClient
         }
 
         [Fact]
+        public void GetMentionsTimelineQuery_ReturnsExpectedQuery()
+        {
+            // Arrange
+            var queryGenerator = CreateTimelineQueryGenerator();
+
+            var parameters = new GetMentionsTimelineParameters
+            {
+                IncludeEntities = true,
+                TrimUser = true,
+                IncludeContributorDetails = true,
+                MaxId = 42,
+                SinceId = 43,
+                PageSize = 44,
+                CustomQueryParameters = { new Tuple<string, string>("hello", "world") }
+            };
+
+            // Act
+            var result = queryGenerator.GetMentionsTimelineQuery(parameters, TweetMode.Extended);
+
+            // Assert
+            Assert.Equal(result, $"https://api.twitter.com/1.1/statuses/mentions_timeline.json?count=44&since_id=43&max_id=42" +
+                                 $"&include_entities=true&trim_user=true&contributor_details=true&tweet_mode=extended&hello=world");
+        }
+
+        [Fact]
         public void GetUserTimelineQuery_ReturnsExpectedQuery()
         {
             // Arrange

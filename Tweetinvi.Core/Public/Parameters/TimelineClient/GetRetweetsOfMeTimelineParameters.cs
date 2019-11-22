@@ -21,7 +21,13 @@
 
         public GetRetweetsOfMeTimelineParameters(IGetRetweetsOfMeTimelineParameters source) : base(source)
         {
-            IncludeUserEntities = source?.IncludeUserEntities;
+            if (source == null)
+            {
+                PageSize = TwitterLimits.DEFAULTS.TIMELINE_RETWEETS_OF_ME_MAX_PAGE_SIZE;
+                return;
+            }
+
+            IncludeUserEntities = source.IncludeUserEntities;
         }
 
         /// <inheritdoc/>

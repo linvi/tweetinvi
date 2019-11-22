@@ -79,7 +79,7 @@ namespace Tweetinvi.Core.Injectinvi
 
             // Timeline
             container.RegisterType<IGetHomeTimelineParameters, GetHomeTimelineParameters>();
-            container.RegisterType<IMentionsTimelineParameters, MentionsTimelineParameters>();
+            container.RegisterType<IGetMentionsTimelineParameters, GetMentionsTimelineParameters>();
             container.RegisterType<IGetRetweetsOfMeTimelineParameters, GetRetweetsOfMeTimelineParameters>();
 
             // Message

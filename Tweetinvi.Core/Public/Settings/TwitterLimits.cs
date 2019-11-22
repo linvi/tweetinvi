@@ -77,37 +77,43 @@ namespace Tweetinvi
         /// <para>https://developer.twitter.com/en/docs/tweets/timelines/api-reference/get-statuses-home_timeline</para>
         /// </summary>
         public short TIMELINE_HOME_PAGE_MAX_PAGE_SIZE { get; set; } = 200;
-        
+
+        /// <summary>
+        /// Maximum numbers of tweets to retrieve in 1 request
+        /// <para>https://developer.twitter.com/en/docs/tweets/timelines/api-reference/get-statuses-mentions_timeline</para>
+        /// </summary>
+        public short TIMELINE_MENTIONS_PAGE_MAX_PAGE_SIZE { get; set; } = 200;
+
         /// <summary>
         /// Maximum numbers of tweets to retrieve in 1 request
         /// <para>https://dev.twitter.com/en/docs/tweets/post-and-engage/api-reference/get-statuses-retweets_of_me</para>
         /// </summary>
         public short TIMELINE_RETWEETS_OF_ME_MAX_PAGE_SIZE { get; set; } = 100;
-        
+
         /// <summary>
         /// Maximum numbers of tweets to retrieve in 1 request
         /// <para>https://developer.twitter.com/en/docs/tweets/timelines/api-reference/get-statuses-user_timeline</para>
         /// </summary>
         public short TIMELINE_USER_PAGE_MAX_PAGE_SIZE { get; set; } = 200;
-        
+
         /// <summary>
         /// Maximum numbers of favorites that can be retrieved in 1 request
         /// <para>https://dev.twitter.com/en/docs/tweets/post-and-engage/api-reference/get-favorites-list</para>
         /// </summary>
         public short TWEETS_GET_FAVORITE_TWEETS_MAX_SIZE { get; set; } = 200;
-        
+
         /// <summary>
         /// Maximum numbers of retweets that can be retrieved in 1 request
         /// <para>https://dev.twitter.com/en/docs/tweets/post-and-engage/api-reference/get-statuses-retweets-id</para>
         /// </summary>
         public short TWEETS_GET_RETWEETS_MAX_SIZE { get; set; } = 100;
-        
+
         /// <summary>
         /// Maximum numbers of retweeter ids that can be retrieved in 1 request
         /// <para>https://dev.twitter.com/en/docs/tweets/post-and-engage/api-reference/get-statuses-retweeters-ids</para>
         /// </summary>
         public short TWEETS_GET_RETWEETER_IDS_MAX_PAGE_SIZE { get; set; } = 100;
-        
+
         /// <summary>
         /// Maximum numbers of tweets that can be retrieved in 1 request
         /// <para>https://dev.twitter.com/en/docs/tweets/post-and-engage/api-reference/get-statuses-lookup</para>
@@ -152,7 +158,7 @@ namespace Tweetinvi
             ACCOUNT_SETTINGS_PROFILE_DESCRIPTION_MAX_LENGTH = source.ACCOUNT_SETTINGS_PROFILE_DESCRIPTION_MAX_LENGTH;
 
             TIMELINE_RETWEETS_OF_ME_MAX_PAGE_SIZE = source.TIMELINE_RETWEETS_OF_ME_MAX_PAGE_SIZE;
-            
+
             TWEETS_GET_FAVORITE_TWEETS_MAX_SIZE = source.TWEETS_GET_FAVORITE_TWEETS_MAX_SIZE;
             TWEETS_GET_RETWEETS_MAX_SIZE = source.TWEETS_GET_RETWEETS_MAX_SIZE;
             TWEETS_GET_RETWEETER_IDS_MAX_PAGE_SIZE = source.TWEETS_GET_RETWEETER_IDS_MAX_PAGE_SIZE;

@@ -21,7 +21,6 @@ namespace Tweetinvi.Core.Models
         public ITwitterClient Client { get; set; }
 
         // ReSharper disable once InconsistentNaming
-        protected readonly ITimelineController _timelineController;
         private readonly ITwitterListController _twitterListController;
 
         public IUserDTO UserDTO { get; set; }
@@ -294,13 +293,9 @@ namespace Tweetinvi.Core.Models
 
         #endregion
 
-        public User(
-            IUserDTO userDTO,
-            ITimelineController timelineController,
-            ITwitterListController twitterListController)
+        public User(IUserDTO userDTO, ITwitterListController twitterListController)
         {
             UserDTO = userDTO;
-            _timelineController = timelineController;
             _twitterListController = twitterListController;
         }
 

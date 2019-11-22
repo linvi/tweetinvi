@@ -2,7 +2,7 @@ using Tweetinvi.Parameters;
 
 namespace Tweetinvi.Core.Client.Validators
 {
-    public interface IParametersValidator : 
+    public interface IParametersValidator :
         IAccountClientParametersValidator,
         IAccountSettingsClientParametersValidator,
         ITimelineClientParametersValidator,
@@ -11,12 +11,12 @@ namespace Tweetinvi.Core.Client.Validators
         IUsersClientParametersValidator
     {
     }
-    
+
     public interface IInternalParametersValidator : IParametersValidator
     {
         void Initialize(ITwitterClient client);
     }
-    
+
     public class ParametersValidator : IInternalParametersValidator
     {
         private readonly IInternalAccountClientParametersValidator _accountClientParametersValidator;
@@ -41,7 +41,7 @@ namespace Tweetinvi.Core.Client.Validators
             _uploadClientParametersValidator = uploadClientParametersValidator;
             _usersClientParametersValidator = usersClientParametersValidator;
         }
-        
+
         public void Initialize(ITwitterClient client)
         {
             _accountClientParametersValidator.Initialize(client);
@@ -51,12 +51,12 @@ namespace Tweetinvi.Core.Client.Validators
             _uploadClientParametersValidator.Initialize(client);
             _usersClientParametersValidator.Initialize(client);
         }
-        
+
         public void Validate(IGetAuthenticatedUserParameters parameters)
         {
             _accountClientParametersValidator.Validate(parameters);
         }
-        
+
         public void Validate(IBlockUserParameters parameters)
         {
             _accountClientParametersValidator.Validate(parameters);
@@ -183,6 +183,11 @@ namespace Tweetinvi.Core.Client.Validators
         }
 
         public void Validate(IGetUserTimelineParameters parameters)
+        {
+            _timelineClientParametersValidator.Validate(parameters);
+        }
+
+        public void Validate(IGetMentionsTimelineParameters parameters)
         {
             _timelineClientParametersValidator.Validate(parameters);
         }

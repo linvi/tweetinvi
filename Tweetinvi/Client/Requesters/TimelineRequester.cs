@@ -10,7 +10,7 @@ namespace Tweetinvi.Client.Requesters
     public interface IInternalTimelineRequester : ITimelineRequester, IBaseRequester
     {
     }
-    
+
     public class TimelineRequester : BaseRequester, IInternalTimelineRequester
     {
         private readonly ITimelineController _timelineController;
@@ -34,7 +34,7 @@ namespace Tweetinvi.Client.Requesters
         public ITwitterPageIterator<ITwitterResult<ITweetDTO[]>, long?> GetHomeTimelineIterator(IGetHomeTimelineParameters parameters)
         {
             _validator.Validate(parameters);
-            
+
             var request = TwitterClient.CreateRequest();
             return _timelineController.GetHomeTimelineIterator(parameters, request);
         }
@@ -42,9 +42,17 @@ namespace Tweetinvi.Client.Requesters
         public ITwitterPageIterator<ITwitterResult<ITweetDTO[]>, long?> GetRetweetsOfMeTimelineIterator(IGetRetweetsOfMeTimelineParameters parameters)
         {
             _validator.Validate(parameters);
-            
+
             var request = TwitterClient.CreateRequest();
             return _timelineController.GetRetweetsOfMeTimelineIterator(parameters, request);
+        }
+
+        public ITwitterPageIterator<ITwitterResult<ITweetDTO[]>, long?> GetMentionsTimelineIterator(IGetMentionsTimelineParameters parameters)
+        {
+            _validator.Validate(parameters);
+
+            var request = TwitterClient.CreateRequest();
+            return _timelineController.GetMentionsTimelineIterator(parameters, request);
         }
     }
 }

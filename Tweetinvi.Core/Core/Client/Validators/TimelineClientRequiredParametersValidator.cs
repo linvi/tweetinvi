@@ -35,6 +35,14 @@ namespace Tweetinvi.Core.Client.Validators
             _userQueryValidator.ThrowIfUserCannotBeIdentified(parameters.User, $"{nameof(parameters)}.{nameof(parameters.User)}");
         }
 
+        public void Validate(IGetMentionsTimelineParameters parameters)
+        {
+            if (parameters == null)
+            {
+                throw new ArgumentNullException(nameof(parameters));
+            }
+        }
+
         public void Validate(IGetRetweetsOfMeTimelineParameters parameters)
         {
             if (parameters == null)

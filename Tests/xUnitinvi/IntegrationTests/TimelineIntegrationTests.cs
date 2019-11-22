@@ -112,6 +112,26 @@ namespace xUnitinvi.IntegrationTests
         }
 
         [Fact]
+        public async Task MentionsTimeline()
+        {
+            if (!IntegrationTestConfig.ShouldRunIntegrationTests)
+                return;
+
+            // act
+            var tweet1 = await _tweetinviTestClient.Tweets.PublishTweet("The new @tweetinviapi is the great!");
+
+            var iterator = _tweetinviApiClient.Timeline.GetMentionsTimelineIterator();
+
+            var page1 = await iterator.MoveToNextPage();
+
+            await tweet1.Destroy();
+
+            // assert
+            Assert.Contains(tweet1.Id, page1.Select(x => x.Id));
+        }
+
+
+        [Fact]
         public async Task RetweetsOfMeTimeline()
         {
             if (!IntegrationTestConfig.ShouldRunIntegrationTests)

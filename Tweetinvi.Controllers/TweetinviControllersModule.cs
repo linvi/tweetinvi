@@ -37,7 +37,7 @@ namespace Tweetinvi.Controllers
         {
             container.RegisterType<IAccountController, AccountController>(RegistrationLifetime.InstancePerThread);
             container.RegisterType<IAccountSettingsController, AccountSettingsController>(RegistrationLifetime.InstancePerApplication);
-            
+
             container.RegisterType<IGeoController, GeoController>(RegistrationLifetime.InstancePerThread);
             container.RegisterType<IHelpController, HelpController>(RegistrationLifetime.InstancePerThread);
             container.RegisterType<IMessageController, MessageController>(RegistrationLifetime.InstancePerThread);
@@ -60,7 +60,6 @@ namespace Tweetinvi.Controllers
             container.RegisterType<IHelpJsonController, HelpJsonController>(RegistrationLifetime.InstancePerThread);
             container.RegisterType<IMessageJsonController, MessageJsonController>(RegistrationLifetime.InstancePerThread);
             container.RegisterType<ISavedSearchJsonController, SavedSearchJsonController>(RegistrationLifetime.InstancePerThread);
-            container.RegisterType<ITimelineJsonController, TimelineJsonController>(RegistrationLifetime.InstancePerThread);
             container.RegisterType<ITrendsJsonController, TrendsJsonController>(RegistrationLifetime.InstancePerThread);
             container.RegisterType<ITwitterListJsonController, TwitterListJsonController>(RegistrationLifetime.InstancePerThread);
 
@@ -71,7 +70,7 @@ namespace Tweetinvi.Controllers
         {
             container.RegisterType<IAccountQueryExecutor, AccountQueryExecutor>();
             container.RegisterType<IAccountSettingsQueryExecutor, AccountSettingsQueryExecutor>();
-            
+
             container.RegisterType<IGeoQueryExecutor, GeoQueryExecutor>();
             container.RegisterType<IHelpQueryExecutor, HelpQueryExecutor>();
             container.RegisterType<IMessageQueryExecutor, MessageQueryExecutor>();
@@ -91,7 +90,7 @@ namespace Tweetinvi.Controllers
         {
             container.RegisterType<IAccountQueryGenerator, AccountQueryGenerator>(RegistrationLifetime.InstancePerApplication);
             container.RegisterType<IAccountSettingsQueryGenerator, AccountSettingsQueryGenerator>(RegistrationLifetime.InstancePerApplication);
-            
+
             container.RegisterType<IGeoQueryGenerator, GeoQueryGenerator>(RegistrationLifetime.InstancePerApplication);
             container.RegisterType<IHelpQueryGenerator, HelpQueryGenerator>(RegistrationLifetime.InstancePerApplication);
             container.RegisterType<IMessageQueryGenerator, MessageQueryGenerator>(RegistrationLifetime.InstancePerApplication);
@@ -107,7 +106,6 @@ namespace Tweetinvi.Controllers
             container.RegisterType<ITwitterListQueryParameterGenerator, TwittertListQueryParameterGenerator>(RegistrationLifetime.InstancePerApplication);
             container.RegisterType<IUserQueryParameterGenerator, UserQueryParameterGenerator>(RegistrationLifetime.InstancePerApplication);
             container.RegisterType<ISearchQueryParameterGenerator, SearchQueryParameterGenerator>(RegistrationLifetime.InstancePerApplication);
-            container.RegisterType<ITimelineQueryParameterGenerator, TimelineQueryParameterGenerator>(RegistrationLifetime.InstancePerApplication);
 
             container.RegisterType<IUploadQueryGenerator, UploadQueryGenerator>(RegistrationLifetime.InstancePerApplication);
         }

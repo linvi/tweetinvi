@@ -1,9 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using Tweetinvi.Core.Controllers;
-using Tweetinvi.Core.Factories;
+﻿using Tweetinvi.Core.Controllers;
 using Tweetinvi.Core.Iterators;
-using Tweetinvi.Core.Parameters;
 using Tweetinvi.Core.Web;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
@@ -13,28 +9,18 @@ namespace Tweetinvi.Controllers.Timeline
 {
     public class TimelineController : ITimelineController
     {
-        private readonly ITweetFactory _tweetFactory;
         private readonly ITimelineQueryExecutor _timelineQueryExecutor;
-        private readonly IUserFactory _userFactory;
         private readonly IPageCursorIteratorFactories _pageCursorIteratorFactories;
-        private readonly ITimelineQueryParameterGenerator _timelineQueryParameterGenerator;
 
-        public TimelineController(
-            ITweetFactory tweetFactory,
-            ITimelineQueryExecutor timelineQueryExecutor,
-            IUserFactory userFactory,
-            IPageCursorIteratorFactories pageCursorIteratorFactories,
-            ITimelineQueryParameterGenerator timelineQueryParameterGenerator)
+        public TimelineController(ITimelineQueryExecutor timelineQueryExecutor,
+            IPageCursorIteratorFactories pageCursorIteratorFactories)
         {
-            _tweetFactory = tweetFactory;
             _timelineQueryExecutor = timelineQueryExecutor;
-            _userFactory = userFactory;
             _pageCursorIteratorFactories = pageCursorIteratorFactories;
-            _timelineQueryParameterGenerator = timelineQueryParameterGenerator;
         }
 
         // Home Timeline
-        
+
         public ITwitterPageIterator<ITwitterResult<ITweetDTO[]>, long?> GetHomeTimelineIterator(IGetHomeTimelineParameters parameters, ITwitterRequest request)
         {
             return _pageCursorIteratorFactories.Create(parameters, cursor =>
@@ -47,7 +33,7 @@ namespace Tweetinvi.Controllers.Timeline
                 return _timelineQueryExecutor.GetHomeTimeline(cursoredParameters, new TwitterRequest(request));
             });
         }
-        
+
         public ITwitterPageIterator<ITwitterResult<ITweetDTO[]>, long?> GetUserTimelineIterator(IGetUserTimelineParameters parameters, ITwitterRequest request)
         {
             return _pageCursorIteratorFactories.Create(parameters, cursor =>
@@ -61,27 +47,19 @@ namespace Tweetinvi.Controllers.Timeline
             });
         }
 
-        // Mention Timeline
-        public Task<IEnumerable<IMention>> GetMentionsTimeline(int maximumNumberOfTweets = 40)
+        public ITwitterPageIterator<ITwitterResult<ITweetDTO[]>, long?> GetMentionsTimelineIterator(IGetMentionsTimelineParameters parameters, ITwitterRequest request)
         {
-            var timelineRequestParameter = _timelineQueryParameterGenerator.CreateMentionsTimelineParameters();
-            timelineRequestParameter.PageSize = maximumNumberOfTweets;
-
-            return GetMentionsTimeline(timelineRequestParameter);
-        }
-
-        public async Task<IEnumerable<IMention>> GetMentionsTimeline(IMentionsTimelineParameters parameters)
-        {
-            if (parameters == null)
+            return _pageCursorIteratorFactories.Create(parameters, cursor =>
             {
-                parameters = _timelineQueryParameterGenerator.CreateMentionsTimelineParameters();
-            }
+                var cursoredParameters = new GetMentionsTimelineParameters(parameters)
+                {
+                    MaxId = cursor
+                };
 
-            var timelineDTO = await _timelineQueryExecutor.GetMentionsTimeline(parameters);
-            return _tweetFactory.GenerateMentionsFromDTO(timelineDTO);
+                return _timelineQueryExecutor.GetMentionsTimeline(cursoredParameters, new TwitterRequest(request));
+            });
         }
 
-        // Retweets Of Me Timeline
         public ITwitterPageIterator<ITwitterResult<ITweetDTO[]>, long?> GetRetweetsOfMeTimelineIterator(IGetRetweetsOfMeTimelineParameters parameters, ITwitterRequest request)
         {
             return _pageCursorIteratorFactories.Create(parameters, cursor =>

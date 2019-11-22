@@ -54,13 +54,6 @@ namespace Tweetinvi.Models
 
         #endregion
 
-        // Direct Messages
-
-        /// <summary>
-        /// List of Messages sent of received
-        /// </summary>
-        IEnumerable<IMessage> LatestDirectMessages { get; }
-
         /// <summary>
         /// Get the list of direct messages sent or received by the user
         /// </summary>
@@ -82,28 +75,17 @@ namespace Tweetinvi.Models
 
         #region Timeline
 
-        /// <summary>
-        /// List of tweets as displayed on the Home timeline.
-        /// </summary>
-        IEnumerable<ITweet> LatestHomeTimeline { get; set; }
-
         /// <inheritdoc cref="ITimelineClient.GetHomeTimelineIterator()"/>
-        ITwitterIterator<ITweet, long?> GetHomeTimeline();
+        ITwitterIterator<ITweet, long?> GetHomeTimelineIterator();
 
         /// <inheritdoc cref="ITimelineClient.GetHomeTimelineIterator(IGetHomeTimelineParameters)"/>
-        ITwitterIterator<ITweet, long?> GetHomeTimeline(IGetHomeTimelineParameters parameters);
+        ITwitterIterator<ITweet, long?> GetHomeTimelineIterator(IGetHomeTimelineParameters parameters);
 
-        /// <summary>
-        /// List of tweets as displayed on the Mentions timeline.
-        /// </summary>
-        IEnumerable<IMention> LatestMentionsTimeline { get; set; }
+        /// <inheritdoc cref="ITimelineClient.GetMentionsTimelineIterator()"/>
+        ITwitterIterator<ITweet, long?> GetMentionsTimelineIterator();
 
-        /// <summary>
-        /// Get the latest tweets of the authenticated user Mentions timeline
-        /// </summary>
-        /// <param name="maximumNumberOfMentions">Number of tweets expected</param>
-        /// <returns>Tweets of the Mentions timeline of the connected user</returns>
-        Task<IEnumerable<IMention>> GetMentionsTimeline(int maximumNumberOfMentions = 40);
+        /// <inheritdoc cref="ITimelineClient.GetMentionsTimelineIterator(IGetMentionsTimelineParameters)"/>
+        ITwitterIterator<ITweet, long?> GetMentionsTimelineIterator(IGetMentionsTimelineParameters parameters);
 
         #endregion
 
@@ -113,14 +95,14 @@ namespace Tweetinvi.Models
         /// Modify the friendship between the authenticated user (source) and another user (target).
         /// </summary>
         Task<bool> UpdateRelationship(IUpdateRelationshipParameters parameters);
-        
+
         // Friends - Followers
 
         /// <summary>
         /// Get the user ids who requested to follow you.
         /// </summary>
         ITwitterIterator<long> GetUserIdsRequestingFriendship();
-        
+
         /// <summary>
         /// Get the users who requested to follow you.
         /// </summary>
@@ -130,7 +112,7 @@ namespace Tweetinvi.Models
         /// Get the user ids you've requested to follow.
         /// </summary>
         ITwitterIterator<long> GetUserIdsYouRequestedToFollow();
-        
+
         /// <summary>
         /// Get the users you've requested to follow.
         /// </summary>

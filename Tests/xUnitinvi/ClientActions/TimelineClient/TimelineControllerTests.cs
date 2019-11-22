@@ -47,6 +47,24 @@ namespace xUnitinvi.ClientActions.TimelineClient
         }
 
         [Fact]
+        public void GetMentionsTimelineIterator_ReturnsFromPageCursorIteratorFactories()
+        {
+            // arrange
+            var parameters = new GetMentionsTimelineParameters { PageSize = 2 };
+            var request = A.Fake<ITwitterRequest>();
+            var expectedResult = A.Fake<ITwitterPageIterator<ITwitterResult<ITweetDTO[]>, long?>>();
+
+            A.CallTo(() => _fakePageCursorIteratorFactories.Create(parameters, It.IsAny<Func<long?, Task<ITwitterResult<ITweetDTO[]>>>>()))
+                .Returns(expectedResult);
+
+            var controller = CreateTimelineController();
+            var iterator = controller.GetMentionsTimelineIterator(parameters, request);
+
+            // assert
+            Assert.Equal(iterator, expectedResult);
+        }
+
+        [Fact]
         public void GetUserTimelineIterator_ReturnsFromPageCursorIteratorFactories()
         {
             // arrange
