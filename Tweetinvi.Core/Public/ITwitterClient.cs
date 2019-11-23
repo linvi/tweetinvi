@@ -11,17 +11,17 @@ namespace Tweetinvi
         /// Client to execute all actions related the account associated with the clients' credentials
         /// </summary>
         IAccountClient Account { get; }
-        
+
         /// <summary>
         /// Client to execute all actions related the account associated with the clients' credentials
         /// </summary>
         IAccountSettingsClient AccountSettings { get; }
-        
+
         /// <summary>
         /// Client to execute all actions related timelines
         /// </summary>
         ITimelineClient Timeline { get; }
-        
+
         /// <summary>
         /// Client to execute all actions related with tweets
         /// </summary>
@@ -35,14 +35,14 @@ namespace Tweetinvi
         /// <summary>
         /// Client's credentials
         /// </summary>
-        ITwitterCredentials Credentials { get; }
-        
+        IReadOnlyTwitterCredentials Credentials { get; }
+
         /// <summary>
         /// Client's settings
         /// </summary>
         ITweetinviSettings Config { get; }
         IRequestExecutor RequestExecutor { get; }
-        
+
         /// <summary>
         /// Validate parameters to ensure that they meet the default criteria
         /// </summary>

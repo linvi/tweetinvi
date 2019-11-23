@@ -6,8 +6,10 @@ namespace Tweetinvi.Credentials.Models
     {
         public AuthenticationContext(IConsumerCredentials consumerCredentials)
         {
-            Token = new AuthenticationToken();
-            Token.ConsumerCredentials = consumerCredentials.Clone();
+            Token = new AuthenticationToken
+            {
+                ConsumerCredentials = new ConsumerCredentials(consumerCredentials)
+            };
         }
 
         public string AuthorizationURL { get; set; }

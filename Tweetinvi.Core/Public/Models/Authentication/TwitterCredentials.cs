@@ -3,22 +3,17 @@
     /// <summary>
     /// Defines a contract of 4 information to connect to an OAuth service
     /// </summary>
-    public interface ITwitterCredentials : IConsumerCredentials
+    public interface ITwitterCredentials : IReadOnlyTwitterCredentials
     {
         /// <summary>
         /// Key provided to the consumer to provide an authentication of the client
         /// </summary>
-        string AccessToken { get; set; }
+        new string AccessToken { get; set; }
 
         /// <summary>
         /// Secret Key provided to the consumer to provide an authentication of the client
         /// </summary>
-        string AccessTokenSecret { get; set; }
-
-        /// <summary>
-        /// Clone the current credentials.
-        /// </summary>
-        new ITwitterCredentials Clone();
+        new string AccessTokenSecret { get; set; }
 
         /// <summary>
         /// Are credentials correctly set up for user authentication.
@@ -34,7 +29,7 @@
     {
         public TwitterCredentials() : base(null, null) { }
 
-        public TwitterCredentials(string consumerKey, string consumerSecret) 
+        public TwitterCredentials(string consumerKey, string consumerSecret)
             : base(consumerKey, consumerSecret)
         {
         }
@@ -46,28 +41,24 @@
             AccessTokenSecret = accessTokenSecret;
         }
 
-        public TwitterCredentials(IConsumerCredentials credentials) : base("", "")
+        public TwitterCredentials(IReadOnlyTwitterCredentials source) : base(source)
         {
-            if (credentials != null)
+            if (source == null)
             {
-                ConsumerKey = credentials.ConsumerKey;
-                ConsumerSecret = credentials.ConsumerSecret;
-
-                ApplicationOnlyBearerToken = credentials.ApplicationOnlyBearerToken;
+                return;
             }
+
+            AccessToken = source.AccessToken;
+            AccessTokenSecret = source.AccessTokenSecret;
+            BearerToken = source.BearerToken;
+        }
+
+        public TwitterCredentials(IConsumerCredentials credentials) : base(credentials)
+        {
         }
 
         public string AccessToken { get; set; }
         public string AccessTokenSecret { get; set; }
-
-        public new ITwitterCredentials Clone()
-        {
-            var clone = new TwitterCredentials(ConsumerKey, ConsumerSecret, AccessToken, AccessTokenSecret);
-
-            CopyPropertiesToClone(clone);
-
-            return clone;
-        }
 
         public bool AreSetupForUserAuthentication()
         {

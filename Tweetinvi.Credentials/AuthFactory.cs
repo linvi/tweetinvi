@@ -17,7 +17,6 @@ namespace Tweetinvi.Credentials
 {
     public interface IAuthFactory
     {
-        Task<bool> InitializeApplicationBearer(ITwitterCredentials credentials);
 
         Task<ITwitterCredentials> GetCredentialsFromVerifierCode(string verifierCode, IAuthenticationToken authToken);
         Task<bool> InvalidateCredentials(ITwitterCredentials credentials);
@@ -119,53 +118,6 @@ namespace Tweetinvi.Credentials
             }
 
             return null;
-        }
-
-        public async Task<bool> InitializeApplicationBearer(ITwitterCredentials credentials)
-        {
-            if (credentials == null)
-            {
-                throw new TwitterNullCredentialsException();
-            }
-
-            if (string.IsNullOrEmpty(credentials.AccessToken) ||
-                string.IsNullOrEmpty(credentials.AccessTokenSecret))
-            {
-                try
-                {
-                    var twitterQuery = _twitterQueryFactory.Create("https://api.twitter.com/oauth2/token", HttpMethod.POST, credentials);
-
-                    var twitterRequest = new TwitterRequest
-                    {
-                        Query = twitterQuery,
-                        TwitterClientHandler = new BearerHttpHandler(),
-                        ExecutionContext = new TwitterExecutionContext
-                        {
-                            RateLimitTrackerMode = _settingsAccessor.RateLimitTrackerMode
-                        }
-                    };
-
-                    var response = await _twitterRequestHandler.ExecuteQuery(twitterRequest);
-                    var accessToken = Regex.Match(response.Text, "access_token\":\"(?<value>.*)\"").Groups["value"].Value;
-                    credentials.ApplicationOnlyBearerToken = accessToken;
-
-                    return true;
-                }
-                catch (TwitterException ex)
-                {
-                    if (_exceptionHandler.LogExceptions)
-                    {
-                        _exceptionHandler.AddTwitterException(ex);
-                    }
-
-                    if (!_exceptionHandler.SwallowWebExceptions)
-                    {
-                        throw;
-                    }
-                }
-            }
-
-            return false;
         }
 
         public async Task<bool> InvalidateCredentials(ITwitterCredentials credentials)

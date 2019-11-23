@@ -65,12 +65,23 @@ namespace xUnitinvi.IntegrationTests
                 await _tweetinviApiClient.Account.FollowUser(testUser);
             }
 
+            // act - pre-cleanup
+            var recentTweetIterators = _tweetinviApiClient.Timeline.GetHomeTimelineIterator();
+            var recentTweets = await recentTweetIterators.MoveToNextPage();
+            var tweetToDelete = recentTweets.FirstOrDefault(x => x.Text == "tweet 1!");
+
+            if (tweetToDelete != null)
+            {
+                await _tweetinviTestClient.Tweets.DestroyTweet(tweetToDelete);
+            }
+
             // act
+
             var tweet1 = await _tweetinviTestClient.Tweets.PublishTweet("tweet 1!");
 
             var iterator = _tweetinviApiClient.Timeline.GetHomeTimelineIterator(new GetHomeTimelineParameters
             {
-                PageSize = 5,
+                PageSize = 1,
             });
 
             var page1 = await iterator.MoveToNextPage();

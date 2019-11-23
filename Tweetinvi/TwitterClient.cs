@@ -8,7 +8,18 @@ namespace Tweetinvi
 {
     public class TwitterClient : ITwitterClient
     {
-        public ITwitterCredentials Credentials { get; }
+        private IReadOnlyTwitterCredentials _credentials;
+
+        /// <summary>
+        /// IMPORTANT NOTE: The setter is for convenience. It is strongly recommended to create a new TwitterClient instead.
+        /// As using this setter could result in unexpected concurrency between the time of set and the execution of previous
+        /// non awaited async operations.
+        /// </summary>
+        public IReadOnlyTwitterCredentials Credentials
+        {
+            get => _credentials;
+            set => _credentials = new ReadOnlyTwitterCredentials(value);
+        }
         public ITweetinviSettings Config { get; }
 
         public TwitterClient(ITwitterCredentials credentials)
@@ -25,6 +36,7 @@ namespace Tweetinvi
             ParametersValidator = parametersValidator;
 
             Account = new AccountClient(this);
+            Auth = new AuthClient(this);
             AccountSettings = new AccountSettingsClient(this);
             Timeline = new TimelineClient(this);
             Tweets = new TweetsClient(this);
@@ -33,8 +45,9 @@ namespace Tweetinvi
         }
 
         public IAccountClient Account { get; }
+        public IAuthClient Auth { get; }
         public IAccountSettingsClient AccountSettings { get; }
-        public ITimelineClient Timeline { get; set; }
+        public ITimelineClient Timeline { get; }
         public ITweetsClient Tweets { get; }
         public IUploadClient Upload { get; }
         public IUsersClient Users { get; }
@@ -60,7 +73,8 @@ namespace Tweetinvi
                 },
                 Query =
                 {
-                    TwitterCredentials = Credentials
+                    // we are cloning here to ensure that the context will never be modified regardless of concurrency
+                    TwitterCredentials = new TwitterCredentials(Credentials)
                 }
             };
 

@@ -1,26 +1,21 @@
 ﻿namespace Tweetinvi.Models
 {
-    public interface IConsumerCredentials
+    public interface IConsumerCredentials : IReadOnlyConsumerCredentials
     {
         /// <summary>
         /// Key identifying a specific consumer application
         /// </summary>
-        string ConsumerKey { get; set; }
+        new string ConsumerKey { get; set; }
 
         /// <summary>
         /// Secret Key identifying a specific consumer application
         /// </summary>
-        string ConsumerSecret { get; set; }
+        new string ConsumerSecret { get; set; }
 
         /// <summary>
         /// Token required for Application Only Authentication
         /// </summary>
-        string ApplicationOnlyBearerToken { get; set; }
-
-        /// <summary>
-        /// Clone the current credentials.
-        /// </summary>
-        IConsumerCredentials Clone();
+        new string BearerToken { get; set; }
 
         /// <summary>
         /// Are credentials correctly set up for application only authentication.
@@ -36,29 +31,27 @@
             ConsumerSecret = consumerSecret;
         }
 
+        public ConsumerCredentials(IReadOnlyConsumerCredentials source)
+        {
+            if (source == null)
+            {
+                return;
+            }
+
+            ConsumerKey = source.ConsumerKey;
+            ConsumerSecret = source.ConsumerSecret;
+            BearerToken = source.BearerToken;
+        }
+
         public string ConsumerKey { get; set; }
         public string ConsumerSecret { get; set; }
 
-        public string ApplicationOnlyBearerToken { get; set; }
-        
-        public IConsumerCredentials Clone()
-        {
-            var clone = new ConsumerCredentials(ConsumerKey, ConsumerSecret);
-
-            CopyPropertiesToClone(clone);
-
-            return clone;
-        }
+        public string BearerToken { get; set; }
 
         public bool AreSetupForApplicationAuthentication()
         {
             return !string.IsNullOrEmpty(ConsumerKey) &&
                    !string.IsNullOrEmpty(ConsumerSecret);
-        }
-
-        protected void CopyPropertiesToClone(IConsumerCredentials clone)
-        {
-            clone.ApplicationOnlyBearerToken = ApplicationOnlyBearerToken;
         }
     }
 }

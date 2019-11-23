@@ -1,7 +1,6 @@
 ﻿using System;
 using Tweetinvi.Core.Credentials;
 using Tweetinvi.Credentials;
-using Tweetinvi.Exceptions;
 using Tweetinvi.Models;
 
 namespace Tweetinvi
@@ -76,132 +75,11 @@ namespace Tweetinvi
         }
 
         /// <summary>
-        /// Let you create new TwitterCredentials
-        /// </summary>
-        public static ITwitterCredentials CreateCredentials(string consumerKey, string consumerSecret, string userAccessToken, string userAccessSecret)
-        {
-            return new TwitterCredentials(consumerKey, consumerSecret, userAccessToken, userAccessSecret);
-        }
-
-        /// <summary>
         /// Set the credentials of the running thread
         /// </summary>
         public static void SetCredentials(ITwitterCredentials credentials)
         {
             Credentials = credentials;
-        }
-
-        /// <summary>
-        /// Set the current thread credentials based on user account credentials
-        /// </summary>
-        public static ITwitterCredentials SetUserCredentials(string consumerKey, string consumerSecret, string userAccessToken, string userAccessSecret)
-        {
-            Credentials = new TwitterCredentials(consumerKey, consumerSecret, userAccessToken, userAccessSecret);
-
-            return Credentials;
-        }
-
-        /// <summary>
-        /// Set the current thread credentials based on application only credentials.
-        /// To execute http requests, application only credentials needs a bearer token.
-        /// Setting  the initializeBearerToken to true will initialize your credentials so that they are ready to be used.
-        /// </summary>
-        public static ITwitterCredentials SetApplicationOnlyCredentials(IConsumerOnlyCredentials consumerOnlyCredentials, bool initializeBearerToken = false)
-        {
-            Credentials = new TwitterCredentials(consumerOnlyCredentials.ConsumerKey, consumerOnlyCredentials.ConsumerSecret);
-            Credentials.ApplicationOnlyBearerToken = consumerOnlyCredentials.ApplicationOnlyBearerToken;
-
-            if (initializeBearerToken)
-            {
-                InitializeApplicationOnlyCredentials(Credentials);
-            }
-
-            return Credentials;
-        }
-
-        /// <summary>
-        /// Set the current thread credentials based on application only credentials.
-        /// To execute http requests, application only credentials needs a bearer token.
-        /// Setting  the initializeBearerToken to true will initialize your credentials so that they are ready to be used.
-        /// </summary>
-        public static ITwitterCredentials SetApplicationOnlyCredentials(string consumerKey, string consumerSecret, bool initializeBearerToken = false)
-        {
-            Credentials = new TwitterCredentials(consumerKey, consumerSecret);
-
-            if (initializeBearerToken)
-            {
-                InitializeApplicationOnlyCredentials(Credentials);
-            }
-
-            return Credentials;
-        }
-
-        /// <summary>
-        /// Set the current thread credentials based on application only credentials.
-        /// To execute http requests, application only credentials needs a bearer token.
-        /// </summary>
-        public static ITwitterCredentials SetApplicationOnlyCredentials(string consumerKey, string consumerSecret, string bearerToken)
-        {
-            Credentials = new TwitterCredentials(consumerKey, consumerSecret)
-            {
-                ApplicationOnlyBearerToken = bearerToken
-            };
-
-            return Credentials;
-        }
-
-        /// <summary>
-        /// Set the bearer token onto a set of credentials
-        /// </summary>
-        /// <param name="credentials">Credentials to update</param>
-        /// <param name="force">Set the bearer token even if it is not required for executing queries</param>
-        public static bool InitializeApplicationOnlyCredentials(ITwitterCredentials credentials = null, bool force = false)
-        {
-            credentials = credentials ?? CredentialsAccessor.CurrentThreadCredentials;
-
-            if (credentials == null)
-            {
-                throw new TwitterNullCredentialsException("Initialize Application Bearer needs to either have a" +
-                                                          " credentials parameter or have the thread credentials set up.");
-            }
-
-            var isBearerAlreadySet = !string.IsNullOrEmpty(credentials.ApplicationOnlyBearerToken);
-            var isBearerRequired = string.IsNullOrEmpty(credentials.AccessToken) || string.IsNullOrEmpty(credentials.AccessTokenSecret);
-
-            if (force || (isBearerRequired && !isBearerAlreadySet))
-            {
-                return AuthFactory.InitializeApplicationBearer(credentials).Result;
-            }
-
-            return true;
-        }
-
-        /// <summary>
-        /// Set the bearer token onto a set of credentials
-        /// </summary>
-        /// <param name="credentials">Credentials to update</param>
-        /// <param name="force">Set the bearer token even if it is not required for executing queries</param>
-        public static bool InitializeApplicationOnlyCredentials(IConsumerOnlyCredentials credentials = null, bool force = false)
-        {
-            if (credentials == null)
-            {
-                throw new TwitterNullCredentialsException("Initialize Application Bearer needs to either have a " +
-                                                          "credentials parameter or have the thread credentials set up.");
-            }
-
-            var isBearerAlreadySet = !string.IsNullOrEmpty(credentials.ApplicationOnlyBearerToken);
-
-            if (force || !isBearerAlreadySet)
-            {
-                var twitterCredentials = new TwitterCredentials(credentials);
-                var success = AuthFactory.InitializeApplicationBearer(twitterCredentials);
-
-                credentials.ApplicationOnlyBearerToken = twitterCredentials.ApplicationOnlyBearerToken;
-
-                return success.Result;
-            }
-
-            return true;
         }
 
         /// <summary>

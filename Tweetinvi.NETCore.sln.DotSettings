@@ -28,6 +28,7 @@
 	<s:String x:Key="/Default/Environment/InjectedLayers/FileInjectedLayer/=E1B715A4767219409B2CFB2BC644A4DE/RelativePath/@EntryValue">..\Tests\xUnitinvi\xUnitinvi.csproj.DotSettings</s:String>
 	<s:Boolean x:Key="/Default/Environment/InjectedLayers/InjectedLayerCustomization/=FileE1B715A4767219409B2CFB2BC644A4DE/@KeyIndexDefined">True</s:Boolean>
 	<s:Double x:Key="/Default/Environment/InjectedLayers/InjectedLayerCustomization/=FileE1B715A4767219409B2CFB2BC644A4DE/RelativePriority/@EntryValue">1</s:Double>
+	<s:Boolean x:Key="/Default/UserDictionary/Words/=Creds/@EntryIndexedValue">True</s:Boolean>
 
 	<s:Boolean x:Key="/Default/UserDictionary/Words/=Examplinvi/@EntryIndexedValue">True</s:Boolean>
 	<s:Boolean x:Key="/Default/UserDictionary/Words/=Favorited/@EntryIndexedValue">True</s:Boolean>

@@ -12,7 +12,7 @@ namespace Tweetinvi.Credentials.AuthHttpHandlers
         protected override Task<HttpResponseMessage> SendAsync(ITwitterQuery twitterQuery, HttpRequestMessage request, CancellationToken cancellationToken)
         {
             var credentials = twitterQuery.TwitterCredentials;
-            var accessToken = credentials.AccessToken ?? credentials.ApplicationOnlyBearerToken;
+            var accessToken = credentials.AccessToken ?? credentials.BearerToken;
             request.Content = new StringContent("access_token=" + accessToken, Encoding.UTF8, "application/x-www-form-urlencoded");
 
             if (credentials.AccessToken != null)

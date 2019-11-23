@@ -92,7 +92,7 @@ namespace Tweetinvi.Credentials.RateLimit
         private async Task<ICredentialsRateLimits> GetTokenRateLimitsFromTwitter(ITwitterCredentials credentials)
         {
             var isApplicationOnlyCreds = string.IsNullOrEmpty(credentials.AccessToken) || string.IsNullOrEmpty(credentials.AccessTokenSecret);
-            if (isApplicationOnlyCreds && string.IsNullOrEmpty(credentials.ApplicationOnlyBearerToken))
+            if (isApplicationOnlyCreds && string.IsNullOrEmpty(credentials.BearerToken))
             {
                 return null;
             }

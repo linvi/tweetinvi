@@ -20,7 +20,7 @@ namespace Tweetinvi.Credentials.AuthHttpHandlers
             return SendAsync(request, cancellationToken, authorizationHeader);
         }
 
-        public static string GetBearerTokenAuthorizationHeader(IConsumerCredentials credentials)
+        public static string GetBearerTokenAuthorizationHeader(IReadOnlyConsumerCredentials credentials)
         {
             string concatenatedCredentials = StringFormater.UrlEncode(credentials.ConsumerKey) + ":" + StringFormater.UrlEncode(credentials.ConsumerSecret);
 

@@ -21,14 +21,14 @@ namespace Tweetinvi.Core.Web
         /// Generate all the query parameters for an application connection.
         /// </summary>
         IEnumerable<IOAuthQueryParameter> GenerateApplicationParameters(
-            IConsumerCredentials temporaryCredentials, 
+            IReadOnlyConsumerCredentials temporaryCredentials,
             IAuthenticationToken authenticationToken = null,
             IEnumerable<IOAuthQueryParameter> additionalParameters = null);
 
         /// <summary>
         /// Generate the authentication parameters from Twitter credentials.
         /// </summary>
-        IEnumerable<IOAuthQueryParameter> GenerateParameters(ITwitterCredentials credentials, IEnumerable<IOAuthQueryParameter> additionalParameters = null);
+        IEnumerable<IOAuthQueryParameter> GenerateParameters(IReadOnlyTwitterCredentials credentials, IEnumerable<IOAuthQueryParameter> additionalParameters = null);
 
         /// <summary>
         /// Generate authorization headers for a query with the specified OAuth fields.
@@ -43,7 +43,7 @@ namespace Tweetinvi.Core.Web
         Task<string> GenerateAuthorizationHeader(
             Uri uri,
             HttpContent queryContent,
-            HttpMethod httpMethod, 
+            HttpMethod httpMethod,
             IEnumerable<IOAuthQueryParameter> parameters);
     }
 }

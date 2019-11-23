@@ -103,17 +103,17 @@ namespace xUnitinvi.IntegrationTests
 
             Assert.Equal("new_desc", newProfile.Description);
             Assert.NotEqual(initialProfile.Description, updatedProfileParameters.Description);
-            Assert.Equal(initialProfile.Description, newProfile.Description);
+            Assert.Equal(initialProfile.Description, restoredProfile.Description);
 
             Assert.Equal("new_loc", newProfile.Location);
             Assert.NotEqual(initialProfile.Location, newProfile.Location);
             Assert.Equal(initialProfile.Location, restoredProfile.Location);
 
-            Assert.Equal("new_url", newProfile.Url);
+            // cannot test url equality as twitter uses tiny url
             Assert.NotEqual(initialProfile.Url, newProfile.Url);
             Assert.Equal(initialProfile.Url, restoredProfile.Url);
 
-            Assert.Equal("blue", newProfile.ProfileLinkColor);
+            Assert.Equal("F542B9", newProfile.ProfileLinkColor);
             Assert.NotEqual(initialProfile.ProfileLinkColor, newProfile.ProfileLinkColor);
             Assert.Equal(initialProfile.ProfileLinkColor, restoredProfile.ProfileLinkColor);
         }

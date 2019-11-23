@@ -95,6 +95,10 @@ namespace Tweetinvi.Core.Web
         private bool _initialized;
         private TDTO _result;
 
+        public TwitterResult()
+        {
+        }
+
         public TwitterResult(IJsonObjectConverter jsonObjectConverter)
         {
             _jsonObjectConverter = jsonObjectConverter;

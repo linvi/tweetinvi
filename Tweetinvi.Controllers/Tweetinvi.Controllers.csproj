@@ -18,6 +18,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Tweetinvi.Core\Tweetinvi.Core.csproj" />
+    <ProjectReference Include="..\Tweetinvi.Credentials\Tweetinvi.Credentials.csproj" />
     <ProjectReference Include="..\Tweetinvi.Logic\Tweetinvi.Logic.csproj" />
   </ItemGroup>
 

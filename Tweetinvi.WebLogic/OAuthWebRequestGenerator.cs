@@ -134,7 +134,7 @@ namespace Tweetinvi.WebLogic
 
         #endregion
 
-        private IEnumerable<IOAuthQueryParameter> GenerateConsumerParameters(IConsumerCredentials consumerCredentials)
+        private static IEnumerable<IOAuthQueryParameter> GenerateConsumerParameters(IReadOnlyConsumerCredentials consumerCredentials)
         {
             var consumerHeaders = new List<IOAuthQueryParameter>();
 
@@ -151,7 +151,7 @@ namespace Tweetinvi.WebLogic
         }
 
         public IEnumerable<IOAuthQueryParameter> GenerateApplicationParameters(
-            IConsumerCredentials temporaryCredentials,
+            IReadOnlyConsumerCredentials temporaryCredentials,
             IAuthenticationToken authenticationToken = null,
             IEnumerable<IOAuthQueryParameter> additionalParameters = null)
         {
@@ -178,7 +178,7 @@ namespace Tweetinvi.WebLogic
             return headers;
         }
 
-        public IEnumerable<IOAuthQueryParameter> GenerateParameters(ITwitterCredentials credentials, IEnumerable<IOAuthQueryParameter> additionalParameters = null)
+        public IEnumerable<IOAuthQueryParameter> GenerateParameters(IReadOnlyTwitterCredentials credentials, IEnumerable<IOAuthQueryParameter> additionalParameters = null)
         {
             var headers = GenerateConsumerParameters(credentials).ToList();
 
@@ -255,7 +255,7 @@ namespace Tweetinvi.WebLogic
             }
             else
             {
-                twitterQuery.AuthorizationHeader = $"Bearer {credentials.ApplicationOnlyBearerToken}";
+                twitterQuery.AuthorizationHeader = $"Bearer {credentials.BearerToken}";
             }
 
             return twitterQuery.AuthorizationHeader;

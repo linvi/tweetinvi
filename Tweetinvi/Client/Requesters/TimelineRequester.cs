@@ -27,6 +27,7 @@ namespace Tweetinvi.Client.Requesters
         public ITwitterPageIterator<ITwitterResult<ITweetDTO[]>, long?> GetUserTimelineIterator(IGetUserTimelineParameters parameters)
         {
             _validator.Validate(parameters);
+
             var request = TwitterClient.CreateRequest();
             return _timelineController.GetUserTimelineIterator(parameters, request);
         }

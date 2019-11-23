@@ -6,13 +6,13 @@ namespace Tweetinvi.Exceptions
     public class TwitterInvalidCredentialsException : Exception
     {
 
-        public IConsumerCredentials Credentials { get; }
+        public IReadOnlyConsumerCredentials Credentials { get; }
 
         public TwitterInvalidCredentialsException(string message): base(message)
         {
         }
 
-        public TwitterInvalidCredentialsException(IConsumerCredentials credentials)
+        public TwitterInvalidCredentialsException(IReadOnlyConsumerCredentials credentials)
             : base("The consumer key and consumer secret must be defined!")
         {
             Credentials = credentials;

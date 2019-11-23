@@ -15,7 +15,7 @@ namespace Examplinvi.NETStandard_2._0
             {
                 var consumerOnlyCredentials = new ConsumerOnlyCredentials("CONSUMER_TOKEN", "CONSUMER_SECRET")
                 {
-                    ApplicationOnlyBearerToken = "BEARER_TOKEN"
+                    BearerToken = "BEARER_TOKEN"
                 };
 
                 IWebhookEnvironmentDTO[] webhookEnvironments = Webhooks.GetAllWebhookEnvironmentsAsync(consumerOnlyCredentials).Result;

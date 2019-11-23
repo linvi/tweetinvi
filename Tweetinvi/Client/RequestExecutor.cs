@@ -10,6 +10,7 @@ namespace Tweetinvi.Client
     public class RequestExecutor : IInternalRequestExecutor
     {
         private readonly IInternalAccountRequester _accountRequester;
+        private readonly IInternalAuthRequester _authRequester;
         private readonly IInternalAccountSettingsRequester _accountSettingsRequester;
         private readonly IInternalTimelineRequester _timelineRequester;
         private readonly IInternalTweetsRequester _tweetsRequester;
@@ -19,9 +20,10 @@ namespace Tweetinvi.Client
         public RequestExecutor()
         {
         }
-        
+
         public RequestExecutor(
             IInternalAccountRequester accountRequester,
+            IInternalAuthRequester authRequester,
             IInternalAccountSettingsRequester accountSettingsRequester,
             IInternalTimelineRequester timelineRequester,
             IInternalTweetsRequester tweetsRequester,
@@ -29,6 +31,7 @@ namespace Tweetinvi.Client
             IInternalUsersRequester usersRequester)
         {
             _accountRequester = accountRequester;
+            _authRequester = authRequester;
             _accountSettingsRequester = accountSettingsRequester;
             _timelineRequester = timelineRequester;
             _tweetsRequester = tweetsRequester;
@@ -39,6 +42,7 @@ namespace Tweetinvi.Client
         public void Initialize(TwitterClient client)
         {
             _accountRequester.Initialize(client);
+            _authRequester.Initialize(client);
             _accountSettingsRequester.Initialize(client);
             _timelineRequester.Initialize(client);
             _tweetsRequester.Initialize(client);
@@ -47,6 +51,7 @@ namespace Tweetinvi.Client
         }
 
         public IAccountRequester Account => _accountRequester;
+        public IAuthRequester Auth => _authRequester;
         public IAccountSettingsRequester AccountSettings => _accountSettingsRequester;
         public ITimelineRequester Timeline => _timelineRequester;
         public ITweetsRequester Tweets => _tweetsRequester;

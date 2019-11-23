@@ -1,5 +1,6 @@
 ﻿using Tweetinvi.Controllers.Account;
 using Tweetinvi.Controllers.AccountSettings;
+using Tweetinvi.Controllers.Auth;
 using Tweetinvi.Controllers.Geo;
 using Tweetinvi.Controllers.Help;
 using Tweetinvi.Controllers.Messages;
@@ -35,41 +36,43 @@ namespace Tweetinvi.Controllers
 
         private void InitializeControllers(ITweetinviContainer container)
         {
-            container.RegisterType<IAccountController, AccountController>(RegistrationLifetime.InstancePerThread);
+            container.RegisterType<IAccountController, AccountController>(RegistrationLifetime.InstancePerApplication);
+            container.RegisterType<IAuthController, AuthController>();
             container.RegisterType<IAccountSettingsController, AccountSettingsController>(RegistrationLifetime.InstancePerApplication);
 
-            container.RegisterType<IGeoController, GeoController>(RegistrationLifetime.InstancePerThread);
-            container.RegisterType<IHelpController, HelpController>(RegistrationLifetime.InstancePerThread);
-            container.RegisterType<IMessageController, MessageController>(RegistrationLifetime.InstancePerThread);
-            container.RegisterType<ISavedSearchController, SavedSearchController>(RegistrationLifetime.InstancePerThread);
-            container.RegisterType<ITimelineController, TimelineController>(RegistrationLifetime.InstancePerThread);
-            container.RegisterType<ITrendsController, TrendsController>(RegistrationLifetime.InstancePerThread);
-            container.RegisterType<ITweetController, TweetController>(RegistrationLifetime.InstancePerThread);
-            container.RegisterType<IUserController, UserController>(RegistrationLifetime.InstancePerThread);
-            container.RegisterType<ITwitterListController, TwitterListController>(RegistrationLifetime.InstancePerThread);
+            container.RegisterType<IGeoController, GeoController>(RegistrationLifetime.InstancePerApplication);
+            container.RegisterType<IHelpController, HelpController>(RegistrationLifetime.InstancePerApplication);
+            container.RegisterType<IMessageController, MessageController>(RegistrationLifetime.InstancePerApplication);
+            container.RegisterType<ISavedSearchController, SavedSearchController>(RegistrationLifetime.InstancePerApplication);
+            container.RegisterType<ITimelineController, TimelineController>(RegistrationLifetime.InstancePerApplication);
+            container.RegisterType<ITrendsController, TrendsController>(RegistrationLifetime.InstancePerApplication);
+            container.RegisterType<ITweetController, TweetController>(RegistrationLifetime.InstancePerApplication);
+            container.RegisterType<IUserController, UserController>(RegistrationLifetime.InstancePerApplication);
+            container.RegisterType<ITwitterListController, TwitterListController>(RegistrationLifetime.InstancePerApplication);
 
-            container.RegisterType<ISearchController, SearchController>(RegistrationLifetime.InstancePerThread);
-            container.RegisterType<IWebhookController, WebhookController>(RegistrationLifetime.InstancePerThread);
+            container.RegisterType<ISearchController, SearchController>(RegistrationLifetime.InstancePerApplication);
+            container.RegisterType<IWebhookController, WebhookController>(RegistrationLifetime.InstancePerApplication);
 
             container.RegisterType<IChunkedUploader, ChunkedUploader>();
         }
 
         private void InitializeJsonControllers(ITweetinviContainer container)
         {
-            container.RegisterType<IGeoJsonController, GeoJsonController>(RegistrationLifetime.InstancePerThread);
-            container.RegisterType<IHelpJsonController, HelpJsonController>(RegistrationLifetime.InstancePerThread);
-            container.RegisterType<IMessageJsonController, MessageJsonController>(RegistrationLifetime.InstancePerThread);
-            container.RegisterType<ISavedSearchJsonController, SavedSearchJsonController>(RegistrationLifetime.InstancePerThread);
-            container.RegisterType<ITrendsJsonController, TrendsJsonController>(RegistrationLifetime.InstancePerThread);
-            container.RegisterType<ITwitterListJsonController, TwitterListJsonController>(RegistrationLifetime.InstancePerThread);
+            container.RegisterType<IGeoJsonController, GeoJsonController>(RegistrationLifetime.InstancePerApplication);
+            container.RegisterType<IHelpJsonController, HelpJsonController>(RegistrationLifetime.InstancePerApplication);
+            container.RegisterType<IMessageJsonController, MessageJsonController>(RegistrationLifetime.InstancePerApplication);
+            container.RegisterType<ISavedSearchJsonController, SavedSearchJsonController>(RegistrationLifetime.InstancePerApplication);
+            container.RegisterType<ITrendsJsonController, TrendsJsonController>(RegistrationLifetime.InstancePerApplication);
+            container.RegisterType<ITwitterListJsonController, TwitterListJsonController>(RegistrationLifetime.InstancePerApplication);
 
-            container.RegisterType<ISearchJsonController, SearchJsonController>(RegistrationLifetime.InstancePerThread);
+            container.RegisterType<ISearchJsonController, SearchJsonController>(RegistrationLifetime.InstancePerApplication);
         }
 
         private void InitializeQueryExecutors(ITweetinviContainer container)
         {
             container.RegisterType<IAccountQueryExecutor, AccountQueryExecutor>();
             container.RegisterType<IAccountSettingsQueryExecutor, AccountSettingsQueryExecutor>();
+            container.RegisterType<IAuthQueryExecutor, AuthQueryExecutor>();
 
             container.RegisterType<IGeoQueryExecutor, GeoQueryExecutor>();
             container.RegisterType<IHelpQueryExecutor, HelpQueryExecutor>();
@@ -90,6 +93,7 @@ namespace Tweetinvi.Controllers
         {
             container.RegisterType<IAccountQueryGenerator, AccountQueryGenerator>(RegistrationLifetime.InstancePerApplication);
             container.RegisterType<IAccountSettingsQueryGenerator, AccountSettingsQueryGenerator>(RegistrationLifetime.InstancePerApplication);
+            container.RegisterType<IAuthQueryGenerator, AuthQueryGenerator>(RegistrationLifetime.InstancePerApplication);
 
             container.RegisterType<IGeoQueryGenerator, GeoQueryGenerator>(RegistrationLifetime.InstancePerApplication);
             container.RegisterType<IHelpQueryGenerator, HelpQueryGenerator>(RegistrationLifetime.InstancePerApplication);

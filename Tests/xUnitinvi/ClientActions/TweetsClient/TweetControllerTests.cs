@@ -48,7 +48,7 @@ namespace xUnitinvi.ClientActions.TweetsClient
             // Assert
             Assert.Equal(result, expectedResult);
         }
-        
+
         [Fact]
         public async Task PublishTweet_ReturnsQueryExecutorResult()
         {
@@ -66,7 +66,7 @@ namespace xUnitinvi.ClientActions.TweetsClient
             // Assert
             Assert.Equal(result, expectedResult);
         }
-        
+
         [Fact]
         public void GetFavoriteTweets_ReturnsFromPageCursorIteratorFactories()
         {
@@ -84,7 +84,7 @@ namespace xUnitinvi.ClientActions.TweetsClient
             // assert
             Assert.Equal(friendIdsIterator, expectedResult);
         }
-        
+
         [Fact]
         public async Task GetRetweets_ReturnsQueryExecutorResult()
         {
@@ -102,7 +102,7 @@ namespace xUnitinvi.ClientActions.TweetsClient
             // Assert
             Assert.Equal(result, expectedResult);
         }
-        
+
         [Fact]
         public async Task PublishRetweet_ReturnsQueryExecutorResult()
         {
@@ -120,7 +120,7 @@ namespace xUnitinvi.ClientActions.TweetsClient
             // Assert
             Assert.Equal(result, expectedResult);
         }
-        
+
         [Fact]
         public async Task DestroyRetweet_ReturnsQueryExecutorResult()
         {
@@ -138,7 +138,7 @@ namespace xUnitinvi.ClientActions.TweetsClient
             // Assert
             Assert.Equal(result, expectedResult);
         }
-        
+
         [Fact]
         public void GetRetweeterIds_ReturnsFromPageCursorIteratorFactories()
         {

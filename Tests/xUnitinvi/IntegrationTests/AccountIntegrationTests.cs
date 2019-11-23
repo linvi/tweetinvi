@@ -47,7 +47,7 @@ namespace xUnitinvi.IntegrationTests
             if (!IntegrationTestConfig.ShouldRunIntegrationTests)
                 return;
 
-            var userToFollow = await _client.Users.GetUser("tweetinvitest");
+            var userToFollow = await _client.Users.GetUser(IntegrationTestConfig.ProtectedUser.AccountId);
 
             // act
             var blockSuccess = await userToFollow.BlockUser();
