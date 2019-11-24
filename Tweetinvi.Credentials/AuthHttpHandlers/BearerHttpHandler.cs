@@ -12,6 +12,10 @@ namespace Tweetinvi.Credentials.AuthHttpHandlers
 {
     public class BearerHttpHandler : TwitterClientHandler
     {
+        public BearerHttpHandler(IOAuthWebRequestGenerator oAuthWebRequestGenerator) : base(oAuthWebRequestGenerator)
+        {
+        }
+
         protected override Task<HttpResponseMessage> SendAsync(ITwitterQuery twitterQuery, HttpRequestMessage request, CancellationToken cancellationToken)
         {
             var authorizationHeader = GetBearerTokenAuthorizationHeader(twitterQuery.TwitterCredentials);
@@ -29,14 +33,6 @@ namespace Tweetinvi.Credentials.AuthHttpHandlers
             string base64Credentials = Convert.ToBase64String(credBytes);
 
             return "Basic " + base64Credentials;
-        }
-
-        public override ITwitterClientHandler Clone(ITwitterQuery query)
-        {
-            return new BearerHttpHandler
-            {
-                TwitterQuery = query
-            };
         }
     }
 }

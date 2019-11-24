@@ -5,7 +5,6 @@ using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
-using Tweetinvi.Core;
 using Tweetinvi.Core.Extensions;
 using Tweetinvi.Core.Helpers;
 using Tweetinvi.Core.Web;
@@ -15,17 +14,44 @@ using HttpMethod = Tweetinvi.Models.HttpMethod;
 
 namespace Tweetinvi.WebLogic
 {
+    public interface IOAuthWebRequestGeneratorFactory
+    {
+        IOAuthWebRequestGenerator Create();
+        IOAuthWebRequestGenerator Create(ITwitterRequest request);
+    }
+
+    public class OAuthWebRequestGeneratorFactory : IOAuthWebRequestGeneratorFactory
+    {
+        private readonly IWebHelper _webHelper;
+
+        public OAuthWebRequestGeneratorFactory(IWebHelper webHelper)
+        {
+            _webHelper = webHelper;
+        }
+
+        public IOAuthWebRequestGenerator Create()
+        {
+            return new OAuthWebRequestGenerator(_webHelper, () =>
+            {
+                return DateTime.UtcNow;
+            });
+        }
+
+        public IOAuthWebRequestGenerator Create(ITwitterRequest request)
+        {
+            return new OAuthWebRequestGenerator(_webHelper, request.ExecutionContext.GetUtcDateTime);
+        }
+    }
+
     public class OAuthWebRequestGenerator : IOAuthWebRequestGenerator
     {
         private readonly IWebHelper _webHelper;
-        private readonly ITweetinviSettingsAccessor _tweetinviSettingsAccessor;
+        private readonly Func<DateTime> _getUtcDateTime;
 
-        public OAuthWebRequestGenerator(
-            IWebHelper webHelper,
-            ITweetinviSettingsAccessor tweetinviSettingsAccessor)
+        public OAuthWebRequestGenerator(IWebHelper webHelper, Func<DateTime> getUtcDateTime)
         {
             _webHelper = webHelper;
-            _tweetinviSettingsAccessor = tweetinviSettingsAccessor;
+            _getUtcDateTime = getUtcDateTime;
         }
 
         #region Algorithms
@@ -51,10 +77,7 @@ namespace Tweetinvi.WebLogic
             var signatureParameters = urlParameters.OrderBy(x => x.Key).ToList();
             var queryParametersRequiredForSignature = queryParameters.Where(x => x.RequiredForSignature);
 
-            queryParametersRequiredForSignature.ForEach(x =>
-            {
-                signatureParameters.Add(new KeyValuePair<string, string>(x.Key, x.Value));
-            });
+            queryParametersRequiredForSignature.ForEach(x => { signatureParameters.Add(new KeyValuePair<string, string>(x.Key, x.Value)); });
 
             return signatureParameters;
         }
@@ -118,7 +141,7 @@ namespace Tweetinvi.WebLogic
         {
             var result = queryParameters.ToList();
 
-            var dateTime = _tweetinviSettingsAccessor.CurrentThreadSettings.GetUtcDateTime();
+            var dateTime = _getUtcDateTime();
             var ts = dateTime - new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
             var oauthTimestamp = Convert.ToInt64(ts.TotalSeconds).ToString(CultureInfo.InvariantCulture);
             var oauthNonce = new Random().Next(123400, 9999999).ToString(CultureInfo.InvariantCulture);

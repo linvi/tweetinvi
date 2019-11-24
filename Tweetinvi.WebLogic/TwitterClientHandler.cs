@@ -4,7 +4,6 @@ using System.Net.Http.Headers;
 using System.Threading;
 using System.Threading.Tasks;
 using Tweetinvi.Core.Extensions;
-using Tweetinvi.Core.Injectinvi;
 using Tweetinvi.Core.Web;
 using Tweetinvi.Models;
 
@@ -18,20 +17,20 @@ namespace Tweetinvi.WebLogic
 
         private ITwitterQuery _twitterQuery;
 
-        public TwitterClientHandler()
+        public TwitterClientHandler(IOAuthWebRequestGenerator oAuthWebRequestGenerator)
         {
             UseCookies = false;
             UseDefaultCredentials = false;
 
-            WebRequestGenerator = TweetinviCoreModule.TweetinviContainer.Resolve<IOAuthWebRequestGenerator>();
+            WebRequestGenerator = oAuthWebRequestGenerator;
         }
 
-        public TwitterClientHandler(Action<ITwitterQuery, HttpRequestMessage> action) : this()
+        public TwitterClientHandler(IOAuthWebRequestGenerator oAuthWebRequestGenerator, Action<ITwitterQuery, HttpRequestMessage> action) : this(oAuthWebRequestGenerator)
         {
             _action = action;
         }
 
-        public TwitterClientHandler(Func<ITwitterQuery, HttpRequestMessage, string> func) : this()
+        public TwitterClientHandler(IOAuthWebRequestGenerator oAuthWebRequestGenerator, Func<ITwitterQuery, HttpRequestMessage, string> func) : this(oAuthWebRequestGenerator)
         {
             _func = func;
         }
@@ -58,30 +57,6 @@ namespace Tweetinvi.WebLogic
                     UseProxy = false;
                 }
             }
-        }
-
-        public virtual ITwitterClientHandler Clone(ITwitterQuery query)
-        {
-            if (_action != null)
-            {
-                return new TwitterClientHandler(_action)
-                {
-                    TwitterQuery = query
-                };
-            }
-
-            if (_func != null)
-            {
-                return new TwitterClientHandler(_func)
-                {
-                    TwitterQuery = query
-                };
-            }
-
-            return new TwitterClientHandler()
-            {
-                TwitterQuery = query
-            };
         }
 
         protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)

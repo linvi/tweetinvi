@@ -5,7 +5,6 @@ using Newtonsoft.Json.Linq;
 using Tweetinvi.Core;
 using Tweetinvi.Core.Client;
 using Tweetinvi.Core.Exceptions;
-using Tweetinvi.Core.Web;
 using Tweetinvi.Core.Wrappers;
 using Tweetinvi.Credentials.AuthHttpHandlers;
 using Tweetinvi.Credentials.Properties;
@@ -26,7 +25,7 @@ namespace Tweetinvi.Credentials
     {
         private readonly IExceptionHandler _exceptionHandler;
         private readonly ITwitterRequestHandler _twitterRequestHandler;
-        private readonly IOAuthWebRequestGenerator _oAuthWebRequestGenerator;
+        private readonly IOAuthWebRequestGeneratorFactory _oAuthWebRequestGeneratorFactory;
         private readonly IJObjectStaticWrapper _jObjectStaticWrapper;
         private readonly ITwitterQueryFactory _twitterQueryFactory;
         private readonly ITweetinviSettingsAccessor _settingsAccessor;
@@ -34,14 +33,14 @@ namespace Tweetinvi.Credentials
         public AuthFactory(
             IExceptionHandler exceptionHandler,
             ITwitterRequestHandler twitterRequestHandler,
-            IOAuthWebRequestGenerator oAuthWebRequestGenerator,
+            IOAuthWebRequestGeneratorFactory oAuthWebRequestGeneratorFactory,
             IJObjectStaticWrapper jObjectStaticWrapper,
             ITwitterQueryFactory twitterQueryFactory,
             ITweetinviSettingsAccessor settingsAccessor)
         {
             _exceptionHandler = exceptionHandler;
             _twitterRequestHandler = twitterRequestHandler;
-            _oAuthWebRequestGenerator = oAuthWebRequestGenerator;
+            _oAuthWebRequestGeneratorFactory = oAuthWebRequestGeneratorFactory;
             _jObjectStaticWrapper = jObjectStaticWrapper;
             _twitterQueryFactory = twitterQueryFactory;
             _settingsAccessor = settingsAccessor;
@@ -64,10 +63,11 @@ namespace Tweetinvi.Credentials
                         "it means that authentication has failed!");
                 }
 
-                var callbackParameter = _oAuthWebRequestGenerator.GenerateParameter("oauth_verifier", verifierCode, true,
+                var oAuthWebRequestGenerator = _oAuthWebRequestGeneratorFactory.Create();
+                var callbackParameter = oAuthWebRequestGenerator.GenerateParameter("oauth_verifier", verifierCode, true,
                     true, false);
 
-                var authHandler = new AuthHttpHandler(callbackParameter, authToken);
+                var authHandler = new AuthHttpHandler(callbackParameter, authToken, oAuthWebRequestGenerator);
 
                 var consumerCredentials = new TwitterCredentials(authToken.ConsumerCredentials);
                 var twitterQuery = _twitterQueryFactory.Create(Resources.OAuthRequestAccessToken, HttpMethod.POST, consumerCredentials);
@@ -125,11 +125,12 @@ namespace Tweetinvi.Credentials
             var url = "https://api.twitter.com/oauth2/invalidate_token";
 
             var twitterQuery = _twitterQueryFactory.Create(url, HttpMethod.POST, credentials);
+            var oAuthWebRequestGenerator = _oAuthWebRequestGeneratorFactory.Create();
 
             var twitterRequest = new TwitterRequest
             {
                 Query = twitterQuery,
-                TwitterClientHandler = new InvalidateTokenHttpHandler(),
+                TwitterClientHandler = new InvalidateTokenHttpHandler(oAuthWebRequestGenerator),
                 ExecutionContext = new TwitterExecutionContext
                 {
                     RateLimitTrackerMode = _settingsAccessor.RateLimitTrackerMode

@@ -13,7 +13,7 @@ namespace Tweetinvi.Credentials.AuthHttpHandlers
         private readonly IOAuthQueryParameter _queryParameter;
         private readonly IAuthenticationToken _authenticationToken;
 
-        public AuthHttpHandler(IOAuthQueryParameter queryParameter, IAuthenticationToken authenticationToken)
+        public AuthHttpHandler(IOAuthQueryParameter queryParameter, IAuthenticationToken authenticationToken, IOAuthWebRequestGenerator oAuthWebRequestGenerator) : base(oAuthWebRequestGenerator)
         {
             _queryParameter = queryParameter;
             _authenticationToken = authenticationToken;

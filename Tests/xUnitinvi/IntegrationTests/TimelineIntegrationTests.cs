@@ -76,9 +76,9 @@ namespace xUnitinvi.IntegrationTests
             }
 
             // act
-
             var tweet1 = await _tweetinviTestClient.Tweets.PublishTweet("tweet 1!");
 
+            await Task.Delay(1500).ConfigureAwait(false); // time required for timeline to be generated
             var iterator = _tweetinviApiClient.Timeline.GetHomeTimelineIterator(new GetHomeTimelineParameters
             {
                 PageSize = 1,

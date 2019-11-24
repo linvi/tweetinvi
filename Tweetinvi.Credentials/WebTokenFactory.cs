@@ -5,7 +5,6 @@ using Tweetinvi.Core.Client;
 using Tweetinvi.Core.Credentials;
 using Tweetinvi.Core.Exceptions;
 using Tweetinvi.Core.Extensions;
-using Tweetinvi.Core.Web;
 using Tweetinvi.Credentials.AuthHttpHandlers;
 using Tweetinvi.Credentials.Models;
 using Tweetinvi.Credentials.Properties;
@@ -18,7 +17,7 @@ namespace Tweetinvi.Credentials
     public class WebTokenFactory : IWebTokenFactory
     {
         private readonly IExceptionHandler _exceptionHandler;
-        private readonly IOAuthWebRequestGenerator _oAuthWebRequestGenerator;
+        private readonly IOAuthWebRequestGeneratorFactory _oAuthWebRequestGeneratorFactory;
         private readonly ICredentialsStore _credentialsStore;
         private readonly ITwitterRequestHandler _twitterRequestHandler;
         private readonly ITwitterQueryFactory _twitterQueryFactory;
@@ -26,14 +25,14 @@ namespace Tweetinvi.Credentials
 
         public WebTokenFactory(
             IExceptionHandler exceptionHandler,
-            IOAuthWebRequestGenerator oAuthWebRequestGenerator,
+            IOAuthWebRequestGeneratorFactory oAuthWebRequestGeneratorFactory,
             ICredentialsStore credentialsStore,
             ITwitterRequestHandler twitterRequestHandler,
             ITwitterQueryFactory twitterQueryFactory,
             ITweetinviSettingsAccessor settingsAccessor)
         {
             _exceptionHandler = exceptionHandler;
-            _oAuthWebRequestGenerator = oAuthWebRequestGenerator;
+            _oAuthWebRequestGeneratorFactory = oAuthWebRequestGeneratorFactory;
             _credentialsStore = credentialsStore;
             _twitterRequestHandler = twitterRequestHandler;
             _twitterQueryFactory = twitterQueryFactory;
@@ -59,9 +58,10 @@ namespace Tweetinvi.Credentials
                     callbackURL = callbackURL.AddParameterToQuery(Resources.RedirectRequest_CredsParamId, credsIdentifier);
                 }
 
-                var callbackParameter = _oAuthWebRequestGenerator.GenerateParameter("oauth_callback", callbackURL, true, true, false);
+                var oAuthWebRequestGenerator = _oAuthWebRequestGeneratorFactory.Create();
+                var callbackParameter = oAuthWebRequestGenerator.GenerateParameter("oauth_callback", callbackURL, true, true, false);
 
-                var authHandler = new AuthHttpHandler(callbackParameter, authContext.Token);
+                var authHandler = new AuthHttpHandler(callbackParameter, authContext.Token, oAuthWebRequestGenerator);
                 var consumerCredentials = new TwitterCredentials(appCredentials);
                 var twitterQuery = _twitterQueryFactory.Create(Resources.OAuthRequestToken, HttpMethod.POST, consumerCredentials);
 
@@ -140,11 +140,12 @@ namespace Tweetinvi.Credentials
 
         public async Task<ITwitterCredentials> GenerateToken(IAuthenticationToken authToken)
         {
-            var callbackParameter = _oAuthWebRequestGenerator.GenerateParameter("oauth_verifier", authToken.VerifierCode, true, true, false);
+            var oAuthWebRequestGenerator = _oAuthWebRequestGeneratorFactory.Create();
+            var callbackParameter = oAuthWebRequestGenerator.GenerateParameter("oauth_verifier", authToken.VerifierCode, true, true, false);
 
             try
             {
-                var authHandler = new AuthHttpHandler(callbackParameter, authToken);
+                var authHandler = new AuthHttpHandler(callbackParameter, authToken, oAuthWebRequestGenerator);
                 var consumerCredentials = new TwitterCredentials(authToken.ConsumerCredentials);
 
                 var twitterQuery = _twitterQueryFactory.Create(Resources.OAuthRequestAccessToken, HttpMethod.POST, consumerCredentials);
@@ -168,11 +169,13 @@ namespace Tweetinvi.Credentials
 
                 Match responseInformation = Regex.Match(response.Text, "oauth_token=(?<oauth_token>(?:\\w|\\-)*)&oauth_token_secret=(?<oauth_token_secret>(?:\\w)*)&user_id=(?<user_id>(?:\\d)*)&screen_name=(?<screen_name>(?:\\w)*)");
 
-                var credentials = new TwitterCredentials();
-                credentials.AccessToken = responseInformation.Groups["oauth_token"].Value;
-                credentials.AccessTokenSecret = responseInformation.Groups["oauth_token_secret"].Value;
-                credentials.ConsumerKey = authToken.ConsumerKey;
-                credentials.ConsumerSecret = authToken.ConsumerSecret;
+                var credentials = new TwitterCredentials
+                {
+                    AccessToken = responseInformation.Groups["oauth_token"].Value,
+                    AccessTokenSecret = responseInformation.Groups["oauth_token_secret"].Value,
+                    ConsumerKey = authToken.ConsumerKey,
+                    ConsumerSecret = authToken.ConsumerSecret
+                };
 
                 return credentials;
             }

@@ -21,7 +21,7 @@ namespace Tweetinvi.WebLogic
             container.RegisterType<IUploadVideoParameters, UploadVideoParameters>();
 
             container.RegisterType<IOAuthQueryParameter, OAuthQueryParameter>();
-            container.RegisterType<IOAuthWebRequestGenerator, OAuthWebRequestGenerator>();
+            container.RegisterType<IOAuthWebRequestGeneratorFactory, OAuthWebRequestGeneratorFactory>();
 
             container.RegisterType<IWebHelper, WebHelper>(RegistrationLifetime.InstancePerApplication);
             container.RegisterType<IHttpClientWebHelper, HttpClientWebHelper>();
