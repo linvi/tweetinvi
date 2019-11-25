@@ -4,6 +4,9 @@ using System.Text;
 
 namespace Tweetinvi.Parameters
 {
+    /// <summary>
+    /// Allow developers to enhance default requests with additional query parameters
+    /// </summary>
     public interface ICustomRequestParameters
     {
         /// <summary>
@@ -35,7 +38,7 @@ namespace Tweetinvi.Parameters
         {
             _customQueryParameters = new List<Tuple<string, string>>();
         }
-        
+
         public CustomRequestParameters(ICustomRequestParameters parameters)
         {
             if (parameters?.CustomQueryParameters == null)
@@ -43,7 +46,7 @@ namespace Tweetinvi.Parameters
                 _customQueryParameters = new List<Tuple<string, string>>();
                 return;
             }
-            
+
             _customQueryParameters = parameters.CustomQueryParameters;
         }
 

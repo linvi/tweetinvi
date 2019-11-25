@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using Tweetinvi.Core.Credentials;
 using Tweetinvi.Core.Extensions;
@@ -19,38 +18,11 @@ namespace Tweetinvi
         private static readonly IWebTokenFactory _webTokenFactory;
         private static readonly ICredentialsStore _credentialsStore;
 
-        /// <summary>
-        /// Static objet storing the credentials for Callbacks Authentication
-        /// </summary>
-        public static Dictionary<string, IAuthenticationContext> CallbackAuthenticationContextStore
-        {
-            get { return _credentialsStore.CallbackAuthenticationContextStore; }
-        }
-
         static AuthFlow()
         {
             _authFactory = TweetinviContainer.Resolve<IAuthFactory>();
             _webTokenFactory = TweetinviContainer.Resolve<IWebTokenFactory>();
             _credentialsStore = TweetinviContainer.Resolve<ICredentialsStore>();
-        }
-
-        // ##############   Step 1 - Authorization URL   ###############
-
-        public static Task<IAuthenticationContext> InitAuthentication(IConsumerCredentials appCredentials,
-            string callbackURL = null)
-        {
-            return _webTokenFactory.InitAuthenticationProcess(appCredentials, callbackURL, Guid.NewGuid().ToString());
-        }
-
-        /// <summary>
-        /// Return an authentication context object containing an url that will let the user authenticate on twitter.
-        /// If the callback url is null, the user will be redirected to PIN CODE authentication.
-        /// If the callback url is defined, the user will be redirected to CALLBACK authentication.
-        /// </summary>
-        public static Task<IAuthenticationContext> InitAuthentication(IConsumerCredentials appCredentials, string callbackURL,
-            string authenticationIdentifier)
-        {
-            return _webTokenFactory.InitAuthenticationProcess(appCredentials, callbackURL, authenticationIdentifier);
         }
 
         // ##############   Step 2 - Get the token from URL or pin code   ###############
@@ -78,7 +50,7 @@ namespace Tweetinvi
 
         /// <summary>
         /// Get the credentials from a PIN CODE/OAUTH VERIFIER provided by twitter.com to the user.
-        /// 
+        ///
         /// This method generates the credentials from the ConsumerCredentials used to get the Authentication URL.
         /// </summary>
         /// <param name="verifierCode">
@@ -108,7 +80,7 @@ namespace Tweetinvi
 
         /// <summary>
         /// Get the credentials from a PIN CODE/OAUTH VERIFIER provided by twitter.com to the user.
-        /// 
+        ///
         /// This method generates the credentials from the ConsumerCredentials used to get the Authentication URL.
         /// </summary>
         /// <param name="verifierCode">
@@ -131,7 +103,7 @@ namespace Tweetinvi
         /// </summary>
         /// <param name="callbackURL">Provide the entire URL (including the params) of the received callback request.</param>
         /// <param name="authContext">
-        /// If this parameter is set, the credentials information will be extracted from it, 
+        /// If this parameter is set, the credentials information will be extracted from it,
         /// otherwise, Tweetinvi will attempt to access the credentials associated with the 'authorization_id' parameter.
         /// </param>
         public static Task<ITwitterCredentials> CreateCredentialsFromCallbackURL(string callbackURL, IAuthenticationContext authContext = null)

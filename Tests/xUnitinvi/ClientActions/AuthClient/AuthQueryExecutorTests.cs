@@ -43,7 +43,7 @@ namespace xUnitinvi.ClientActions.AuthClient
             var oAuthWebRequestGenerator = A.Fake<IOAuthWebRequestGenerator>();
 
             A.CallTo(() => _fakeAuthQueryGenerator.GetCreateBearerTokenQuery()).Returns(url);
-            A.CallTo(() => _fakeTwitterAccessor.ExecuteRequest<CreateTokenResponseDTO>(A<ITwitterRequest>.Ignored)).Returns(expectedResult);
+            A.CallTo(() => _fakeTwitterAccessor.ExecuteRequest<CreateTokenResponseDTO>(request)).Returns(expectedResult);
             A.CallTo(() => _fakeOAuthWebRequestGeneratorFactory.Create(request)).Returns(oAuthWebRequestGenerator);
 
             // Act
@@ -54,6 +54,35 @@ namespace xUnitinvi.ClientActions.AuthClient
             Assert.Equal(request.Query.Url, url);
             Assert.Equal(HttpMethod.POST, request.Query.HttpMethod);
             Assert.True(request.TwitterClientHandler is BearerHttpHandler);
+        }
+
+        [Fact]
+        public async Task StartAuthProcess_ReturnsFromTwitterAccessor()
+        {
+            // Arrange
+            var queryExecutor = CreateAuthQueryExecutor();
+
+            var url = TestHelper.GenerateString();
+            var request = A.Fake<ITwitterRequest>();
+            var expectedResult = A.Fake<ITwitterResult<CreateTokenResponseDTO>>();
+            var oAuthQueryParams = A.Fake<IOAuthQueryParameter>();
+            var parameters = A.Fake<StartAuthProcessInternalParameters>();
+
+            var oAuthWebRequestGenerator = A.Fake<IOAuthWebRequestGenerator>();
+            A.CallTo(() => oAuthWebRequestGenerator.GenerateParameter("oauth_callback", It.IsAny<string>(), true, true, false)).Returns(oAuthQueryParams);
+
+            A.CallTo(() => _fakeAuthQueryGenerator.GetRequestTokenQuery(parameters)).Returns(url);
+            A.CallTo(() => _fakeTwitterAccessor.ExecuteRequest(request)).Returns(expectedResult);
+            A.CallTo(() => _fakeOAuthWebRequestGeneratorFactory.Create(request)).Returns(oAuthWebRequestGenerator);
+
+            // Act
+            var result = await queryExecutor.StartAuthProcess(parameters, request);
+
+            // Assert
+            Assert.Equal(result, expectedResult);
+            Assert.Equal(request.Query.Url, url);
+            Assert.Equal(HttpMethod.POST, request.Query.HttpMethod);
+            Assert.True(request.TwitterClientHandler is AuthHttpHandler);
         }
     }
 }

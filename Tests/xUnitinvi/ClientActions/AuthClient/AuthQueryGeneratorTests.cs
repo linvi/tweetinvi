@@ -1,4 +1,5 @@
 using Tweetinvi.Controllers.Auth;
+using Tweetinvi.Parameters.Auth;
 using Xunit;
 
 namespace xUnitinvi.ClientActions.AuthClient
@@ -22,6 +23,23 @@ namespace xUnitinvi.ClientActions.AuthClient
 
             // assert
             Assert.Equal(result, $"https://api.twitter.com/oauth2/token");
+        }
+
+        [Fact]
+        public void StartAuthProcess_ReturnsExpectedQuery()
+        {
+            // arrange
+            var queryGenerator = CreateQueryGenerator();
+            var parameters = new StartUrlAuthProcessParameters("url")
+            {
+                AuthAccessType = AuthAccessType.Read
+            };
+
+            // act
+            var result = queryGenerator.GetRequestTokenQuery(parameters);
+
+            // assert
+            Assert.Equal(result, $"https://api.twitter.com/oauth/request_token?x_auth_access_type=read");
         }
     }
 }

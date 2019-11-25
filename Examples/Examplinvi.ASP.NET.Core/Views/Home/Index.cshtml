@@ -1,0 +1,39 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+<div class="jumbotron">
+    <p class="lead">This project is a 'tutorial' showing how to use Tweetinvi with an ASP.NET web project.</p>
+    <p>
+        <a href="https://github.com/linvi/tweetinvi" class="btn btn-primary btn-lg">Tweetinvi on Github &raquo;</a>
+        <a href="https://www.nuget.org/packages/TweetinviAPI/" class="btn btn-primary btn-lg">Tweetinvi Package on Nuget &raquo;</a>
+    </p>
+</div>
+
+<div class="row">
+    <div class="col-md-4">
+        <h2>Authenticate a User with Twitter</h2>
+        <p>
+            Tweetinvi allow developers to authenticate Twitter users using URL redirection.
+            This process uses 2 steps that can be found on the HomeController. The methods are <b>TwitterAuth</b> and <b>ValidateTwitterAuth</b>.
+        </p>
+        <p>
+            <a class="btn btn-default" href="/Home/TwitterAuth">Try it &raquo;</a>
+        </p>
+    </div>
+    <div class="col-md-4">
+        <h2>Tweet</h2>
+        <p>Learn how to publish tweets, view them on Twitter and delete them! </p>
+        <a class="btn btn-default" href="/Tweet">Try it &raquo;</a>
+    </div>
+    <div class="col-md-4">
+        <h2>Stream with ASP.NET</h2>
+        <p>Soon you will be able to access examples to access streams from a Website. </p>
+        <p><a class="btn btn-default disabled">Try it &raquo;</a></p>
+    </div>
+    <div class="col-md-4">
+        <h2>Timeline</h2>
+        <p>Display a specific user timeline,</p>
+        <p><a class="btn btn-default disabled">Try it &raquo;</a></p>
+    </div>
+</div>

@@ -1,5 +1,6 @@
 using System;
 using Tweetinvi.Models;
+using Tweetinvi.Parameters.Auth;
 
 namespace Tweetinvi.Core.Client.Validators
 {
@@ -21,6 +22,19 @@ namespace Tweetinvi.Core.Client.Validators
             if (string.IsNullOrEmpty(credentials?.ConsumerSecret))
             {
                 throw new ArgumentException("Cannot be null or empty", $"{nameof(credentials)}{nameof(credentials.ConsumerSecret)}");
+            }
+        }
+
+        public void Validate(IStartAuthProcessParameters parameters)
+        {
+            if (parameters == null)
+            {
+                throw new ArgumentNullException(nameof(parameters));
+            }
+
+            if (parameters.AuthorizationId == string.Empty)
+            {
+                throw new ArgumentException("Cannot be empty", $"{nameof(parameters)}{nameof(parameters.AuthorizationId)}");
             }
         }
     }

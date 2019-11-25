@@ -4,7 +4,7 @@ namespace Tweetinvi.Credentials.Models
 {
     public class AuthenticationContext : IAuthenticationContext
     {
-        public AuthenticationContext(IConsumerCredentials consumerCredentials)
+        public AuthenticationContext(IReadOnlyConsumerCredentials consumerCredentials)
         {
             Token = new AuthenticationToken
             {

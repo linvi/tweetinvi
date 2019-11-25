@@ -3,6 +3,8 @@ using Tweetinvi.Core.Client.Validators;
 using Tweetinvi.Core.Controllers;
 using Tweetinvi.Core.DTO;
 using Tweetinvi.Core.Web;
+using Tweetinvi.Models;
+using Tweetinvi.Parameters.Auth;
 
 namespace Tweetinvi.Client.Requesters
 {
@@ -26,10 +28,16 @@ namespace Tweetinvi.Client.Requesters
         public Task<ITwitterResult<CreateTokenResponseDTO>> CreateBearerToken()
         {
             var request = TwitterClient.CreateRequest();
-
             _validator.ValidateCreateBearerToken(request);
 
-            return _authController.CreateBearerToken(request);
+            return ExecuteRequest(() => _authController.CreateBearerToken(request), request);
         }
+
+        public Task<ITwitterResult<IAuthenticationContext>> StartAuthProcess(IStartAuthProcessParameters parameters)
+        {
+            var request = TwitterClient.CreateRequest();
+            return ExecuteRequest(() => _authController.StartAuthProcess(parameters, request), request);
+        }
+
     }
 }

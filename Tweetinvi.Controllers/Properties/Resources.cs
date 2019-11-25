@@ -561,9 +561,39 @@ namespace Tweetinvi.Controllers.Properties
         public static string Exception_Upload_Status_NotUploaded = "Upload STATUS can only be retrieved for uploaded media. The FINALIZE query must be invoked.";
 
         /// <summary>
-        ///   Looks up a localized string similar to Upload STATUS can only be invoked on uploads with processing metadata. Set the `media_category` to `tweet_video` to solve this isue.
+        ///   Looks up a localized string similar to Upload STATUS can only be invoked on uploads with processing metadata. Set the `media_category` to `tweet_video` to solve this issue.
         /// </summary>
-        public static string Exception_Upload_Status_No_ProcessingInfo = "Upload STATUS can only be invoked on uploads with processing metadata. Set the `media_category` to `tweet_video` to solve this isue.";
+        public static string Exception_Upload_Status_No_ProcessingInfo = "Upload STATUS can only be invoked on uploads with processing metadata. Set the `media_category` to `tweet_video` to solve this issue.";
+
+        /// <summary>
+        ///   Looks up a localized string similar to oob.
+        /// </summary>
+        public static string Auth_PinCodeUrl = "oob";
+
+        /// <summary>
+        ///   Looks up a localized string similar to authorization_id.
+        /// </summary>
+        public static string Auth_ProcessIdKey = "authorization_id";
+
+        /// <summary>
+        ///   Looks up a localized string similar to https://api.twitter.com/oauth/request_token.
+        /// </summary>
+        public static string Auth_CreateBearerToken = "https://api.twitter.com/oauth2/token";
+
+        /// <summary>
+        ///   Looks up a localized string similar to https://api.twitter.com/oauth/request_token.
+        /// </summary>
+        public static string Auth_RequestToken = "https://api.twitter.com/oauth/request_token";
+
+        /// <summary>
+        ///   Looks up a localized string similar to https://api.twitter.com/oauth/authorize.
+        /// </summary>
+        public static string Auth_AuthorizeBaseUrl = "https://api.twitter.com/oauth/authorize";
+
+        /// <summary>
+        ///   Looks up a localized string similar to oauth_token=(?<oauth_token>(?:\\w|\\-)*)&oauth_token_secret=(?<oauth_token_secret>(?:\\w)*)&oauth_callback_confirmed=(?<oauth_callback_confirmed>(?:\\w)*).
+        /// </summary>
+        public static string Auth_RequestTokenParserRegex = "oauth_token=(?<oauth_token>(?:\\w|\\-)*)&oauth_token_secret=(?<oauth_token_secret>(?:\\w)*)&oauth_callback_confirmed=(?<oauth_callback_confirmed>(?:\\w)*)";
 
         public static string GetResourceByName(string resourceName)
         {

@@ -4,9 +4,7 @@ using Tweetinvi.Core;
 using Tweetinvi.Core.Client;
 using Tweetinvi.Core.Credentials;
 using Tweetinvi.Core.Exceptions;
-using Tweetinvi.Core.Extensions;
 using Tweetinvi.Credentials.AuthHttpHandlers;
-using Tweetinvi.Credentials.Models;
 using Tweetinvi.Credentials.Properties;
 using Tweetinvi.Exceptions;
 using Tweetinvi.Models;
@@ -18,7 +16,6 @@ namespace Tweetinvi.Credentials
     {
         private readonly IExceptionHandler _exceptionHandler;
         private readonly IOAuthWebRequestGeneratorFactory _oAuthWebRequestGeneratorFactory;
-        private readonly ICredentialsStore _credentialsStore;
         private readonly ITwitterRequestHandler _twitterRequestHandler;
         private readonly ITwitterQueryFactory _twitterQueryFactory;
         private readonly ITweetinviSettingsAccessor _settingsAccessor;
@@ -26,83 +23,17 @@ namespace Tweetinvi.Credentials
         public WebTokenFactory(
             IExceptionHandler exceptionHandler,
             IOAuthWebRequestGeneratorFactory oAuthWebRequestGeneratorFactory,
-            ICredentialsStore credentialsStore,
             ITwitterRequestHandler twitterRequestHandler,
             ITwitterQueryFactory twitterQueryFactory,
             ITweetinviSettingsAccessor settingsAccessor)
         {
             _exceptionHandler = exceptionHandler;
             _oAuthWebRequestGeneratorFactory = oAuthWebRequestGeneratorFactory;
-            _credentialsStore = credentialsStore;
             _twitterRequestHandler = twitterRequestHandler;
             _twitterQueryFactory = twitterQueryFactory;
             _settingsAccessor = settingsAccessor;
         }
 
-        // Step 1 - Generate Authorization URL
-
-        public async Task<IAuthenticationContext> InitAuthenticationProcess(IConsumerCredentials appCredentials, string callbackURL, string credsIdentifier)
-        {
-            try
-            {
-                var authContext = new AuthenticationContext(appCredentials);
-                var token = authContext.Token;
-
-                if (string.IsNullOrEmpty(callbackURL))
-                {
-                    callbackURL = Resources.OAuth_PINCode_CallbackURL;
-                }
-                else if (credsIdentifier != null)
-                {
-                    _credentialsStore.CallbackAuthenticationContextStore.Add(credsIdentifier, authContext);
-                    callbackURL = callbackURL.AddParameterToQuery(Resources.RedirectRequest_CredsParamId, credsIdentifier);
-                }
-
-                var oAuthWebRequestGenerator = _oAuthWebRequestGeneratorFactory.Create();
-                var callbackParameter = oAuthWebRequestGenerator.GenerateParameter("oauth_callback", callbackURL, true, true, false);
-
-                var authHandler = new AuthHttpHandler(callbackParameter, authContext.Token, oAuthWebRequestGenerator);
-                var consumerCredentials = new TwitterCredentials(appCredentials);
-                var twitterQuery = _twitterQueryFactory.Create(Resources.OAuthRequestToken, HttpMethod.POST, consumerCredentials);
-
-                var twitterRequest = new TwitterRequest
-                {
-                    Query = twitterQuery,
-                    TwitterClientHandler = authHandler,
-                    ExecutionContext = new TwitterExecutionContext
-                    {
-                        RateLimitTrackerMode = _settingsAccessor.RateLimitTrackerMode
-                    }
-                };
-
-                var requestTokenResponse = await _twitterRequestHandler.ExecuteQuery(twitterRequest);
-
-                if (!string.IsNullOrEmpty(requestTokenResponse.Text) && requestTokenResponse.Text != Resources.OAuthRequestToken)
-                {
-                    Match tokenInformation = Regex.Match(requestTokenResponse.Text, Resources.OAuthTokenRequestRegex);
-
-                    bool callbackConfirmed;
-                    if (!bool.TryParse(tokenInformation.Groups["oauth_callback_confirmed"].Value, out callbackConfirmed) || !callbackConfirmed)
-                    {
-                        return null;
-                    }
-
-                    token.AuthorizationKey = tokenInformation.Groups["oauth_token"].Value;
-                    token.AuthorizationSecret = tokenInformation.Groups["oauth_token_secret"].Value;
-
-                    authContext.AuthorizationURL = string.Format("{0}?oauth_token={1}", Resources.OAuthRequestAuthorize, token.AuthorizationKey);
-                    authContext.Token.AuthorizationUniqueIdentifier = credsIdentifier;
-
-                    return authContext;
-                }
-            }
-            catch (TwitterException ex)
-            {
-                LogExceptionOrThrow(ex);
-            }
-
-            return null;
-        }
 
         // Step 2 - Generate Credentials
         public string GetVerifierCodeFromCallbackURL(string callbackURL)

@@ -26,11 +26,9 @@ namespace Tweetinvi.Credentials.AuthHttpHandlers
 
         public static string GetBearerTokenAuthorizationHeader(IReadOnlyConsumerCredentials credentials)
         {
-            string concatenatedCredentials = StringFormater.UrlEncode(credentials.ConsumerKey) + ":" + StringFormater.UrlEncode(credentials.ConsumerSecret);
-
-            byte[] credBytes = Encoding.UTF8.GetBytes(concatenatedCredentials);
-
-            string base64Credentials = Convert.ToBase64String(credBytes);
+            var concatenatedCredentials = StringFormater.UrlEncode(credentials.ConsumerKey) + ":" + StringFormater.UrlEncode(credentials.ConsumerSecret);
+            var credBytes = Encoding.UTF8.GetBytes(concatenatedCredentials);
+            var base64Credentials = Convert.ToBase64String(credBytes);
 
             return "Basic " + base64Credentials;
         }

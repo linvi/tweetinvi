@@ -1,6 +1,7 @@
 using System.Threading.Tasks;
 using Tweetinvi.Client.Requesters;
 using Tweetinvi.Models;
+using Tweetinvi.Parameters.Auth;
 
 namespace Tweetinvi.Client
 {
@@ -29,6 +30,22 @@ namespace Tweetinvi.Client
             {
                 BearerToken = bearerToken
             };
+        }
+
+        public Task<IAuthenticationContext> StartAuthProcess()
+        {
+            return StartAuthProcess(new StartPinAuthProcessParameters());
+        }
+
+        public Task<IAuthenticationContext> StartAuthProcess(string redirectUrl)
+        {
+            return StartAuthProcess(new StartUrlAuthProcessParameters(redirectUrl));
+        }
+
+        public async Task<IAuthenticationContext> StartAuthProcess(IStartAuthProcessParameters parameters)
+        {
+            var twitterResult = await _authRequester.StartAuthProcess(parameters).ConfigureAwait(false);
+            return twitterResult?.DataTransferObject;
         }
     }
 }

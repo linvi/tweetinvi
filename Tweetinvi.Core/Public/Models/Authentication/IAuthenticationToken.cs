@@ -16,13 +16,13 @@
 
         /// <summary>
         /// Key required for user authentication.
-        /// This key needs to be saved when using url redirect authenthentication
+        /// This key needs to be saved when getting the result of url redirect authentication
         /// </summary>
         string AuthorizationKey { get; set; }
 
         /// <summary>
-        /// Key required for user authentication
-        /// This key needs to be saved when using url redirect authenthentication
+        /// Secret required for user authentication
+        /// This secret needs to be saved when getting the result of url redirect authentication
         /// </summary>
         string AuthorizationSecret { get; set; }
 
@@ -36,6 +36,6 @@
         /// Property used by Tweetinvi or yourself to track the IAuthenticationContext
         /// when the callback url is received.
         /// </summary>
-        string AuthorizationUniqueIdentifier { get; set; }
+        string AuthorizationId { get; set; }
     }
 }

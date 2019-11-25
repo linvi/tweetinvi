@@ -1,5 +1,6 @@
 using Tweetinvi.Models;
 using Tweetinvi.Parameters;
+using Tweetinvi.Parameters.Auth;
 
 namespace Tweetinvi.Core.Client.Validators
 {
@@ -183,6 +184,16 @@ namespace Tweetinvi.Core.Client.Validators
             _accountSettingsClientParametersValidator.Validate(parameters);
         }
 
+        public void ValidateCreateBearerToken(ITwitterRequest request)
+        {
+            _authClientParametersValidator.ValidateCreateBearerToken(request);
+        }
+
+        public void Validate(IStartAuthProcessParameters parameters)
+        {
+            _authClientParametersValidator.Validate(parameters);
+        }
+
         public void Validate(IGetHomeTimelineParameters parameters)
         {
             _timelineClientParametersValidator.Validate(parameters);
@@ -296,11 +307,6 @@ namespace Tweetinvi.Core.Client.Validators
         public void Validate(IGetProfileImageParameters parameters)
         {
             _usersClientParametersValidator.Validate(parameters);
-        }
-
-        public void ValidateCreateBearerToken(ITwitterRequest request)
-        {
-            _authClientParametersValidator.ValidateCreateBearerToken(request);
         }
     }
 }
