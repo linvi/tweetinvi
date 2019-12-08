@@ -5,11 +5,11 @@ namespace Tweetinvi.Controllers.Auth
 {
     public class RequestAuthUrlInternalParameters : RequestUrlAuthUrlParameters
     {
-        public IAuthenticationRequestToken AuthRequestToken { get; }
+        public IAuthenticationRequest AuthRequest { get; }
 
-        public RequestAuthUrlInternalParameters(IRequestAuthUrlParameters parameters, IAuthenticationRequestToken authRequestToken) : base(parameters)
+        public RequestAuthUrlInternalParameters(IRequestAuthUrlParameters parameters, IAuthenticationRequest authRequest) : base(parameters)
         {
-            AuthRequestToken = authRequestToken;
+            AuthRequest = authRequest;
         }
     }
 }

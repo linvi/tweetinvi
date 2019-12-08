@@ -76,12 +76,12 @@ namespace xUnitinvi.IntegrationTests
 
             // act
             var authenticationClient = new TwitterClient(IntegrationTestConfig.TweetinviTest.Credentials);
-            var authenticationContext = await authenticationClient.Auth.RequestAuthenticationUrl().ConfigureAwait(false);
-            var authUrl = authenticationContext.AuthorizationURL;
+            var authenticationRequest = await authenticationClient.Auth.RequestAuthenticationUrl().ConfigureAwait(false);
+            var authUrl = authenticationRequest.AuthorizationURL;
 
             // ask the user for the pin code
-            var pinCode = await ExtractPinCodeFromTwitterAuthPage(authUrl).ConfigureAwait(false);
-            var userCredentials = await authenticationClient.Auth.RequestCredentials(pinCode, authenticationContext).ConfigureAwait(false);
+            var verifierCode = await ExtractPinCodeFromTwitterAuthPage(authUrl).ConfigureAwait(false);
+            var userCredentials = await authenticationClient.Auth.RequestCredentialsFromVerifierCode(verifierCode, authenticationRequest).ConfigureAwait(false);
             var authenticatedClient = new TwitterClient(userCredentials);
             var authenticatedUser = await authenticatedClient.Account.GetAuthenticatedUser().ConfigureAwait(false);
 
@@ -138,22 +138,22 @@ namespace xUnitinvi.IntegrationTests
             Assert.Equal(authenticatedUser.ScreenName, IntegrationTestConfig.ProtectedUser.AccountId);
         }
 
-        private async Task<TwitterClient> GetAuthenticatedTwitterClientViaRedirect(ITwitterClient client, IAuthenticationRequestToken authRequestToken)
+        private async Task<TwitterClient> GetAuthenticatedTwitterClientViaRedirect(ITwitterClient client, IAuthenticationRequest authRequest)
         {
             var expectAuthRequestTask = AExtensions.HttpRequest(new AssertHttpRequestConfig(_logger.WriteLine))
                 .OnPort(8042)
                 .WithATimeoutOf(TimeSpan.FromSeconds(30))
-                .Matching(request => { return request.Url.AbsoluteUri.Contains(authRequestToken.AuthorizationKey); })
+                .Matching(request => { return request.Url.AbsoluteUri.Contains(authRequest.AuthorizationKey); })
                 .MustHaveHappened();
 
-            await AuthenticateWithRedirectUrlOnTwitterAuthPage(authRequestToken.AuthorizationURL, authRequestToken.AuthorizationKey).ConfigureAwait(false);
+            await AuthenticateWithRedirectUrlOnTwitterAuthPage(authRequest.AuthorizationURL, authRequest.AuthorizationKey).ConfigureAwait(false);
 
-            var authRequest = await expectAuthRequestTask.ConfigureAwait(false);
+            var authHttpRequest = await expectAuthRequestTask.ConfigureAwait(false);
 
             // Ask the user to enter the pin code given by Twitter
-            var callbackUrl = authRequest.Url.AbsoluteUri;
+            var callbackUrl = authHttpRequest.Url.AbsoluteUri;
 
-            var userCredentials = await client.Auth.RequestCredentialsFromCallbackUrl(callbackUrl, authRequestToken).ConfigureAwait(false);
+            var userCredentials = await client.Auth.RequestCredentialsFromCallbackUrl(callbackUrl, authRequest).ConfigureAwait(false);
             var authenticatedClient = new TwitterClient(userCredentials);
             return authenticatedClient;
         }

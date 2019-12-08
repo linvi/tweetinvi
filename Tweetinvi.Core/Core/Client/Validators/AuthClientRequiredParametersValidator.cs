@@ -31,11 +31,6 @@ namespace Tweetinvi.Core.Client.Validators
             {
                 throw new ArgumentNullException(nameof(parameters));
             }
-
-            if (parameters.RequestId == string.Empty)
-            {
-                throw new ArgumentException("Cannot be empty", $"{nameof(parameters)}{nameof(parameters.RequestId)}");
-            }
         }
 
         public void Validate(IRequestCredentialsParameters parameters)
@@ -50,19 +45,19 @@ namespace Tweetinvi.Core.Client.Validators
                 throw new ArgumentNullException($"{nameof(parameters)}{nameof(parameters.VerifierCode)}", "If you received a null verifier code, the authentication failed");
             }
 
-            if (parameters.AuthRequestToken == null)
+            if (parameters.AuthRequest == null)
             {
-                throw new ArgumentNullException($"{nameof(parameters)}{nameof(parameters.AuthRequestToken)}");
+                throw new ArgumentNullException($"{nameof(parameters)}{nameof(parameters.AuthRequest)}");
             }
 
-            if (string.IsNullOrEmpty(parameters.AuthRequestToken.ConsumerKey))
+            if (string.IsNullOrEmpty(parameters.AuthRequest.ConsumerKey))
             {
-                throw new ArgumentNullException($"{nameof(parameters)}{nameof(parameters.AuthRequestToken)}{nameof(parameters.AuthRequestToken.ConsumerKey)}");
+                throw new ArgumentNullException($"{nameof(parameters)}{nameof(parameters.AuthRequest)}{nameof(parameters.AuthRequest.ConsumerKey)}");
             }
 
-            if (string.IsNullOrEmpty(parameters.AuthRequestToken.ConsumerSecret))
+            if (string.IsNullOrEmpty(parameters.AuthRequest.ConsumerSecret))
             {
-                throw new ArgumentNullException($"{nameof(parameters)}{nameof(parameters.AuthRequestToken)}{nameof(parameters.AuthRequestToken.ConsumerSecret)}");
+                throw new ArgumentNullException($"{nameof(parameters)}{nameof(parameters.AuthRequest)}{nameof(parameters.AuthRequest.ConsumerSecret)}");
             }
         }
     }

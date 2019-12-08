@@ -9,7 +9,7 @@ namespace Tweetinvi.Core.Controllers
     public interface IAuthController
     {
         Task<ITwitterResult<CreateTokenResponseDTO>> CreateBearerToken(ITwitterRequest request);
-        Task<ITwitterResult<IAuthenticationRequestToken>> RequestAuthUrl(IRequestAuthUrlParameters parameters, ITwitterRequest request);
+        Task<ITwitterResult<IAuthenticationRequest>> RequestAuthUrl(IRequestAuthUrlParameters parameters, ITwitterRequest request);
         Task<ITwitterResult<ITwitterCredentials>> RequestCredentials(IRequestCredentialsParameters parameters, ITwitterRequest request);
     }
 }

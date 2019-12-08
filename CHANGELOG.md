@@ -40,13 +40,12 @@ As a result, changing a `TwitterClient` credentials will only be possible by cre
 
 ## Authentication Flow
 
-`IAuthenticationTokenProvider` is a new interface that let developers customize how Tweetinvi retrieves the AuthenticationToken.
-  * `CallbackTokenIdParameterName` query parameter added to the callback url.
-  * `ExtractTokenIdFromCallbackUrl` method extracting a token from a callback url.
-  * `GenerateAuthTokenId` generates an identifier that will be used by `GetAuthenticationTokenFromId`
-  * `GetAuthenticationTokenFromId` retrieves an AuthenticationToken from its unique identifier
-  * `AddAuthenticationToken` defines how to add a token into your store
-  * `RemoveAuthenticationToken` defines how to remove a token from your store.
+`IAuthenticationRequestStore` is a new interface that guides developers through the authentication flow of redirection urls. A default in-memory solution is provided but developers are free to implement their own.
+  * `AppendAuthenticationRequestIdToCallbackUrl` append an authenticationRequestId to a url
+  * `ExtractAuthenticationRequestIdFromCallbackUrl` logic to extract an authenticationRequestId from a callback url
+  * `GetAuthenticationRequestFromId` returns the AuthenticationRequest from its identifier
+  * `AddAuthenticationToken` stores the AuthenticationRequest information
+  * `RemoveAuthenticationToken` removes an AuthenticationRequest from the store
 
 A default implementation `new AuthenticationTokenProvider` is an implementation that allow you to make the `AuthenticationToken` accessible from an in-memory store.
 
@@ -67,14 +66,16 @@ A default implementation `new AuthenticationTokenProvider` is an implementation 
 
 **`AuthFlow.InitAuthentication`** was moved to `TwitterClient.Auth.RequestAuthenticationUrl`
 
+`RequestAuthenticationUrl` returns an `AuthenticationRequest` which contains the url to redirected the user and authorization information to proceed with the request of credentials.
+
 ``` c#
 // Tweetinvi 4.0
 Auth.SetCredentials(new TwitterCredentials("consumer_key", "consumer_secret"));
-var authenticationContext = AuthFlow.InitAuthentication(applicationCredentials);
+var authenticationRequest = AuthFlow.InitAuthentication(applicationCredentials);
 
 // Tweetinvi 5.0
 var appClient = new TwitterClient(new TwitterCredentials("consumer_key", "consumer_secret"));
-var authenticationContext = await authenticationClient.Auth.RequestAuthenticationUrl();
+var authenticationRequest = await authenticationClient.Auth.RequestAuthenticationUrl();
 ```
 
 **`AuthFlow.CreateCredentialsFromVerifierCode` moved to `TwitterClient.Auth.RequestCredentials`**

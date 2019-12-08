@@ -16,7 +16,5 @@ namespace Tweetinvi.Parameters.Auth
         public string RequestId { get; set; }
         /// <inheritdoc/>
         public AuthAccessType? AuthAccessType { get; set; }
-        /// <inheritdoc/>
-        public IAuthenticationTokenProvider AuthenticationTokenProvider => null;
     }
 }

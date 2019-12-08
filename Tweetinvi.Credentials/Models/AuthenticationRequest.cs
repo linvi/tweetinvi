@@ -2,13 +2,13 @@
 
 namespace Tweetinvi.Credentials.Models
 {
-    public class AuthenticationRequestToken : IAuthenticationRequestToken
+    public class AuthenticationRequest : IAuthenticationRequest
     {
-        public AuthenticationRequestToken()
+        public AuthenticationRequest()
         {
         }
 
-        public AuthenticationRequestToken(IReadOnlyConsumerCredentialsWithoutBearer consumerCredentials)
+        public AuthenticationRequest(IReadOnlyConsumerCredentialsWithoutBearer consumerCredentials)
         {
             ConsumerKey = consumerCredentials?.ConsumerKey;
             ConsumerSecret = consumerCredentials?.ConsumerSecret;

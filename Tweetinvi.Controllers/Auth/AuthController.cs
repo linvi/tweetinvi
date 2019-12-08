@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using Tweetinvi.Controllers.Properties;
 using Tweetinvi.Core.Controllers;
 using Tweetinvi.Core.DTO;
-using Tweetinvi.Core.Extensions;
 using Tweetinvi.Core.Web;
 using Tweetinvi.Credentials.Models;
 using Tweetinvi.Exceptions;
@@ -30,28 +29,15 @@ namespace Tweetinvi.Controllers.Auth
             return _authQueryExecutor.CreateBearerToken(request);
         }
 
-        public async Task<ITwitterResult<IAuthenticationRequestToken>> RequestAuthUrl(IRequestAuthUrlParameters parameters, ITwitterRequest request)
+        public async Task<ITwitterResult<IAuthenticationRequest>> RequestAuthUrl(IRequestAuthUrlParameters parameters, ITwitterRequest request)
         {
-            var authToken = new AuthenticationRequestToken(request.Query.TwitterCredentials)
-            {
-                Id = parameters.RequestId
-            };
+            var authToken = new AuthenticationRequest(request.Query.TwitterCredentials);
 
             var authProcessParams = new RequestAuthUrlInternalParameters(parameters, authToken);
 
             if (string.IsNullOrEmpty(parameters.CallbackUrl))
             {
                 authProcessParams.CallbackUrl = Resources.Auth_PinCodeUrl;
-            }
-            else if (parameters.RequestId != null)
-            {
-                var tweetinviTokenParameterName = parameters.AuthenticationTokenProvider?.CallbackTokenIdParameterName() ?? Resources.Auth_ProcessIdKey;
-                authProcessParams.CallbackUrl = authProcessParams.CallbackUrl.AddParameterToQuery(tweetinviTokenParameterName, parameters.RequestId);
-
-                if (parameters.AuthenticationTokenProvider != null)
-                {
-                    await parameters.AuthenticationTokenProvider.AddAuthenticationToken(authToken);
-                }
             }
 
             var requestTokenResponse = await _authQueryExecutor.RequestAuthUrl(authProcessParams, request).ConfigureAwait(false);
@@ -72,7 +58,7 @@ namespace Tweetinvi.Controllers.Auth
             authToken.AuthorizationSecret = tokenInformation.Groups["oauth_token_secret"].Value;
             authToken.AuthorizationURL = $"{Resources.Auth_AuthorizeBaseUrl}?oauth_token={authToken.AuthorizationKey}";
 
-            return new TwitterResult<IAuthenticationRequestToken>
+            return new TwitterResult<IAuthenticationRequest>
             {
                 Request = requestTokenResponse.Request,
                 Response = requestTokenResponse.Response,
@@ -92,8 +78,8 @@ namespace Tweetinvi.Controllers.Auth
             }
 
             var credentials = new TwitterCredentials(
-                parameters.AuthRequestToken.ConsumerKey,
-                parameters.AuthRequestToken.ConsumerSecret,
+                parameters.AuthRequest.ConsumerKey,
+                parameters.AuthRequest.ConsumerSecret,
                 responseInformation.Groups["oauth_token"].Value,
                 responseInformation.Groups["oauth_token_secret"].Value);
 

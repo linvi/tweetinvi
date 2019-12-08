@@ -1,5 +1,4 @@
 using System.Threading.Tasks;
-using Tweetinvi.Auth;
 using Tweetinvi.Client.Requesters;
 using Tweetinvi.Models;
 using Tweetinvi.Parameters.Auth;
@@ -33,41 +32,20 @@ namespace Tweetinvi.Client
             };
         }
 
-        public Task<IAuthenticationRequestToken> RequestAuthenticationUrl()
+        public Task<IAuthenticationRequest> RequestAuthenticationUrl()
         {
             return RequestAuthenticationUrl(new RequestPinAuthUrlParameters());
         }
 
-        public Task<IAuthenticationRequestToken> RequestAuthenticationUrl(string redirectUrl)
+        public Task<IAuthenticationRequest> RequestAuthenticationUrl(string callbackUrl)
         {
-            return RequestAuthenticationUrl(new RequestUrlAuthUrlParameters(redirectUrl));
+            return RequestAuthenticationUrl(new RequestUrlAuthUrlParameters(callbackUrl));
         }
 
-        public Task<IAuthenticationRequestToken> RequestAuthenticationUrl(string redirectUrl, IAuthenticationTokenProvider authenticationTokenProvider)
-        {
-            return RequestAuthenticationUrl(new RequestUrlAuthUrlParameters(redirectUrl, authenticationTokenProvider));
-        }
-
-        public async Task<IAuthenticationRequestToken> RequestAuthenticationUrl(IRequestAuthUrlParameters parameters)
+        public async Task<IAuthenticationRequest> RequestAuthenticationUrl(IRequestAuthUrlParameters parameters)
         {
             var twitterResult = await _authRequester.RequestAuthUrl(parameters).ConfigureAwait(false);
             return twitterResult?.DataTransferObject;
-        }
-
-        public async Task<ITwitterCredentials> RequestCredentialsFromCallbackUrl(string callbackUrl, IAuthenticationTokenProvider authenticationTokenProvider)
-        {
-            var requestParameters = await RequestCredentialsParameters.FromCallbackUrl(callbackUrl, authenticationTokenProvider).ConfigureAwait(false);
-            return await RequestCredentials(requestParameters).ConfigureAwait(false);
-        }
-
-        public Task<ITwitterCredentials> RequestCredentialsFromCallbackUrl(string callbackUrl, IAuthenticationRequestToken authenticationRequestToken)
-        {
-            return RequestCredentials(RequestCredentialsParameters.FromCallbackUrl(callbackUrl, authenticationRequestToken));
-        }
-
-        public Task<ITwitterCredentials> RequestCredentials(string verifierCode, IAuthenticationRequestToken authenticationRequestToken)
-        {
-            return RequestCredentials(new RequestCredentialsParameters(verifierCode, authenticationRequestToken));
         }
 
         public async Task<ITwitterCredentials> RequestCredentials(IRequestCredentialsParameters parameters)
@@ -76,6 +54,14 @@ namespace Tweetinvi.Client
             return twitterResult?.DataTransferObject;
         }
 
+        public Task<ITwitterCredentials> RequestCredentialsFromVerifierCode(string verifierCode, IAuthenticationRequest authenticationRequest)
+        {
+            return RequestCredentials(new RequestCredentialsParameters(verifierCode, authenticationRequest));
+        }
 
+        public Task<ITwitterCredentials> RequestCredentialsFromCallbackUrl(string callbackUrl, IAuthenticationRequest authenticationRequest)
+        {
+            return RequestCredentials(RequestCredentialsParameters.FromCallbackUrl(callbackUrl, authenticationRequest));
+        }
     }
 }

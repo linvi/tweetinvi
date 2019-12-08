@@ -175,18 +175,18 @@ namespace Tweetinvi.WebLogic
 
         public IEnumerable<IOAuthQueryParameter> GenerateApplicationParameters(
             IReadOnlyConsumerCredentials temporaryCredentials,
-            IAuthenticationRequestToken authRequestToken = null,
+            IAuthenticationRequest authRequest = null,
             IEnumerable<IOAuthQueryParameter> additionalParameters = null)
         {
             var headers = GenerateConsumerParameters(temporaryCredentials).ToList();
 
             // Add Header for authenticated connection to a Twitter Application
-            if (authRequestToken != null &&
-                !string.IsNullOrEmpty(authRequestToken.AuthorizationKey) &&
-                !string.IsNullOrEmpty(authRequestToken.AuthorizationSecret))
+            if (authRequest != null &&
+                !string.IsNullOrEmpty(authRequest.AuthorizationKey) &&
+                !string.IsNullOrEmpty(authRequest.AuthorizationSecret))
             {
-                headers.Add(new OAuthQueryParameter("oauth_token", StringFormater.UrlEncode(authRequestToken.AuthorizationKey), true, true, false));
-                headers.Add(new OAuthQueryParameter("oauth_token_secret", StringFormater.UrlEncode(authRequestToken.AuthorizationSecret), false, false, true));
+                headers.Add(new OAuthQueryParameter("oauth_token", StringFormater.UrlEncode(authRequest.AuthorizationKey), true, true, false));
+                headers.Add(new OAuthQueryParameter("oauth_token_secret", StringFormater.UrlEncode(authRequest.AuthorizationSecret), false, false, true));
             }
             else
             {

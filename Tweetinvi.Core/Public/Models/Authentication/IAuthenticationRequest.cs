@@ -1,13 +1,7 @@
 ﻿namespace Tweetinvi.Models
 {
-    public interface IAuthenticationRequestToken : IReadOnlyConsumerCredentialsWithoutBearer
+    public interface IAuthenticationRequest : IReadOnlyConsumerCredentialsWithoutBearer
     {
-        /// <summary>
-        /// Property used by Tweetinvi or yourself to track the IAuthenticationContext
-        /// when the callback url is received.
-        /// </summary>
-        string Id { get; set; }
-
         /// <summary>
         /// Key required for user authentication.
         /// This key needs to be saved when getting the result of url redirect authentication

@@ -17,7 +17,7 @@ namespace Tweetinvi.Credentials
     public interface IAuthFactory
     {
 
-        Task<ITwitterCredentials> GetCredentialsFromVerifierCode(string verifierCode, IAuthenticationRequestToken authRequestToken);
+        Task<ITwitterCredentials> GetCredentialsFromVerifierCode(string verifierCode, IAuthenticationRequest authRequest);
         Task<bool> InvalidateCredentials(ITwitterCredentials credentials);
     }
 
@@ -47,13 +47,13 @@ namespace Tweetinvi.Credentials
         }
 
         // Step 2 - Generate User Credentials
-        public async Task<ITwitterCredentials> GetCredentialsFromVerifierCode(string verifierCode, IAuthenticationRequestToken authRequestToken)
+        public async Task<ITwitterCredentials> GetCredentialsFromVerifierCode(string verifierCode, IAuthenticationRequest authRequest)
         {
             try
             {
-                if (authRequestToken == null)
+                if (authRequest == null)
                 {
-                    throw new ArgumentNullException(nameof(authRequestToken), "Authentication Token cannot be null.");
+                    throw new ArgumentNullException(nameof(authRequest), "Authentication Token cannot be null.");
                 }
 
                 if (verifierCode == null)
@@ -67,9 +67,9 @@ namespace Tweetinvi.Credentials
                 var callbackParameter = oAuthWebRequestGenerator.GenerateParameter("oauth_verifier", verifierCode, true,
                     true, false);
 
-                var authHandler = new AuthHttpHandler(callbackParameter, authRequestToken, oAuthWebRequestGenerator);
+                var authHandler = new AuthHttpHandler(callbackParameter, authRequest, oAuthWebRequestGenerator);
 
-                var consumerCredentials = new TwitterCredentials(authRequestToken.ConsumerKey, authRequestToken.ConsumerSecret);
+                var consumerCredentials = new TwitterCredentials(authRequest.ConsumerKey, authRequest.ConsumerSecret);
                 var twitterQuery = _twitterQueryFactory.Create(Resources.OAuthRequestAccessToken, HttpMethod.POST, consumerCredentials);
 
                 var twitterRequest = new TwitterRequest
@@ -97,8 +97,8 @@ namespace Tweetinvi.Credentials
                 }
 
                 var credentials = new TwitterCredentials(
-                    authRequestToken.ConsumerKey,
-                    authRequestToken.ConsumerSecret,
+                    authRequest.ConsumerKey,
+                    authRequest.ConsumerSecret,
                     responseInformation.Groups["oauth_token"].Value,
                     responseInformation.Groups["oauth_token_secret"].Value);
 

@@ -23,19 +23,19 @@ namespace Tweetinvi.Client.Requesters
         /// </summary>
         /// <para> https://developer.twitter.com/en/docs/basics/authentication/api-reference/request_token </para>
         /// <returns>An AuthenticationContext containing both the url to redirect to and an AuthenticationToken</returns>
-        Task<ITwitterResult<IAuthenticationRequestToken>> RequestAuthUrl(IRequestAuthUrlParameters parameters);
+        Task<ITwitterResult<IAuthenticationRequest>> RequestAuthUrl(IRequestAuthUrlParameters parameters);
 
         /// <summary>
         /// Request credentials with a verifierCode
         /// </summary>
-        /// <para> https://developer.twitter.com/en/docs/basics/authentication/api-reference/request_token </para>
+        /// <para> https://developer.twitter.com/en/docs/basics/authentication/api-reference/token </para>
         /// <returns>The requested user credentials</returns>
         Task<ITwitterResult<ITwitterCredentials>> RequestCredentialsFromPinCode(IRequestCredentialsParameters parameters);
 
         /// <summary>
         /// Request credentials with a callback url
         /// </summary>
-        /// <para> https://developer.twitter.com/en/docs/basics/authentication/api-reference/request_token </para>
+        /// <para> https://developer.twitter.com/en/docs/basics/authentication/api-reference/token </para>
         /// <returns>The requested user credentials</returns>
         Task<ITwitterResult<ITwitterCredentials>> RequestCredentialsFromCallbackUrl(IRequestCredentialsParameters parameters);
     }

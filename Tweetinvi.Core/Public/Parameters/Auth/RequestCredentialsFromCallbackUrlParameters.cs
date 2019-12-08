@@ -12,12 +12,12 @@ namespace Tweetinvi.Parameters.Auth
         /// <summary>
         /// Token returned by the AuthenticationContext when
         /// </summary>
-        IAuthenticationRequestToken AuthRequestToken { get; set; }
+        IAuthenticationRequest AuthRequest { get; set; }
     }
 
     public class RequestCredentialsFromCallbackUrlParameters : IRequestCredentialsFromCallbackUrlParameters
     {
         public string CallbackUrl { get; set; }
-        public IAuthenticationRequestToken AuthRequestToken { get; set; }
+        public IAuthenticationRequest AuthRequest { get; set; }
     }
 }

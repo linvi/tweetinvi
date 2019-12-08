@@ -47,7 +47,7 @@ namespace Tweetinvi.Controllers.Auth
 
             request.Query.Url = _queryGenerator.GetRequestAuthUrlQuery(parameters);
             request.Query.HttpMethod = HttpMethod.POST;
-            request.TwitterClientHandler = new AuthHttpHandler(callbackParameter, parameters.AuthRequestToken, oAuthWebRequestGenerator);
+            request.TwitterClientHandler = new AuthHttpHandler(callbackParameter, parameters.AuthRequest, oAuthWebRequestGenerator);
 
             return _twitterAccessor.ExecuteRequest(request);
         }
@@ -59,8 +59,8 @@ namespace Tweetinvi.Controllers.Auth
 
             request.Query.Url = _queryGenerator.GetRequestCredentialsQuery(parameters);
             request.Query.HttpMethod = HttpMethod.POST;
-            request.Query.TwitterCredentials = new TwitterCredentials(parameters.AuthRequestToken.ConsumerKey, parameters.AuthRequestToken.ConsumerSecret);
-            request.TwitterClientHandler = new AuthHttpHandler(callbackParameter, parameters.AuthRequestToken, oAuthWebRequestGenerator);
+            request.Query.TwitterCredentials = new TwitterCredentials(parameters.AuthRequest.ConsumerKey, parameters.AuthRequest.ConsumerSecret);
+            request.TwitterClientHandler = new AuthHttpHandler(callbackParameter, parameters.AuthRequest, oAuthWebRequestGenerator);
 
             return _twitterAccessor.ExecuteRequest(request);
         }
