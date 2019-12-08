@@ -66,17 +66,17 @@ namespace xUnitinvi.ClientActions.AuthClient
             var request = A.Fake<ITwitterRequest>();
             var expectedResult = A.Fake<ITwitterResult<CreateTokenResponseDTO>>();
             var oAuthQueryParams = A.Fake<IOAuthQueryParameter>();
-            var parameters = A.Fake<StartAuthProcessInternalParameters>();
+            var parameters = A.Fake<RequestAuthUrlInternalParameters>();
 
             var oAuthWebRequestGenerator = A.Fake<IOAuthWebRequestGenerator>();
             A.CallTo(() => oAuthWebRequestGenerator.GenerateParameter("oauth_callback", It.IsAny<string>(), true, true, false)).Returns(oAuthQueryParams);
 
-            A.CallTo(() => _fakeAuthQueryGenerator.GetRequestTokenQuery(parameters)).Returns(url);
+            A.CallTo(() => _fakeAuthQueryGenerator.GetRequestAuthUrlQuery(parameters)).Returns(url);
             A.CallTo(() => _fakeTwitterAccessor.ExecuteRequest(request)).Returns(expectedResult);
             A.CallTo(() => _fakeOAuthWebRequestGeneratorFactory.Create(request)).Returns(oAuthWebRequestGenerator);
 
             // Act
-            var result = await queryExecutor.StartAuthProcess(parameters, request);
+            var result = await queryExecutor.RequestAuthUrl(parameters, request);
 
             // Assert
             Assert.Equal(result, expectedResult);

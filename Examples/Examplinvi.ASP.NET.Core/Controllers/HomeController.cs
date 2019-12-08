@@ -1,13 +1,20 @@
 ﻿using System.Diagnostics;
+using System.Threading.Tasks;
 using Examplinvi.ASP.NET.Core.Models;
 using Microsoft.AspNetCore.Mvc;
 using Tweetinvi;
-using Tweetinvi.Models;
+using Tweetinvi.Parameters.Auth;
+using Tweetinvi.Auth;
 
 namespace Examplinvi.ASP.NET.Core.Controllers
 {
     public class HomeController : Controller
     {
+        /// <summary>
+        /// NOTE PLEASE CHANGE THE IMPLEMENTATION OF IAuthenticationTokenProvider to match your needs
+        /// </summary>
+        private static readonly IAuthenticationTokenProvider _myAuthProvider = new AuthenticationTokenProvider();
+
         public IActionResult Index()
         {
             return View();
@@ -18,30 +25,32 @@ namespace Examplinvi.ASP.NET.Core.Controllers
             return View();
         }
 
-        public ActionResult TwitterAuth()
+        private static ITwitterClient GetAppClient()
         {
-            var myCreds = MyCredentials.GenerateCredentials();
-            var appCreds = new TwitterCredentials(myCreds.ConsumerKey, myCreds.ConsumerSecret);
-            var appClient = new TwitterClient(appCreds);
+            var appCreds = MyCredentials.GenerateAppCreds();
+            return new TwitterClient(appCreds);
+        }
+
+        public async Task<ActionResult> TwitterAuth()
+        {
+            var appClient = GetAppClient();
             var redirectURL = "https://" + Request.Host.Value + "/Home/ValidateTwitterAuth";
-            var authenticationContext = appClient.Auth.StartAuthProcess(redirectURL).Result;
+            var authenticationContext = await appClient.Auth.RequestAuthenticationUrl(redirectURL, _myAuthProvider);
 
             return new RedirectResult(authenticationContext.AuthorizationURL);
         }
 
-        public ActionResult ValidateTwitterAuth()
+        public async Task<ActionResult> ValidateTwitterAuth()
         {
-            if (Request.Query.ContainsKey("oauth_verifier") && Request.Query.ContainsKey("authorization_id"))
-            {
-                var verifierCode = Request.Query["oauth_verifier"];
-                var authorizationId = Request.Query["authorization_id"];
+            var appClient = GetAppClient();
 
-                var userCreds = AuthFlow.CreateCredentialsFromVerifierCode(verifierCode, authorizationId).Result;
-                var client = new TwitterClient(userCreds);
-                var user = client.Account.GetAuthenticatedUser().Result;
+            var requestParameters = await RequestCredentialsParameters.FromCallbackUrl(Request.QueryString.Value, _myAuthProvider);
+            var userCreds = await appClient.Auth.RequestCredentials(requestParameters);
 
-                ViewBag.User = user;
-            }
+            var userClient = new TwitterClient(userCreds);
+            var user = await userClient.Account.GetAuthenticatedUser();
+
+            ViewBag.User = user;
 
             return View();
         }

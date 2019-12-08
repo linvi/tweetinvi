@@ -25,16 +25,44 @@ namespace Tweetinvi.Core.Client.Validators
             }
         }
 
-        public void Validate(IStartAuthProcessParameters parameters)
+        public void Validate(IRequestAuthUrlParameters parameters)
         {
             if (parameters == null)
             {
                 throw new ArgumentNullException(nameof(parameters));
             }
 
-            if (parameters.AuthorizationId == string.Empty)
+            if (parameters.RequestId == string.Empty)
             {
-                throw new ArgumentException("Cannot be empty", $"{nameof(parameters)}{nameof(parameters.AuthorizationId)}");
+                throw new ArgumentException("Cannot be empty", $"{nameof(parameters)}{nameof(parameters.RequestId)}");
+            }
+        }
+
+        public void Validate(IRequestCredentialsParameters parameters)
+        {
+            if (parameters == null)
+            {
+                throw new ArgumentNullException(nameof(parameters));
+            }
+
+            if (string.IsNullOrEmpty(parameters.VerifierCode))
+            {
+                throw new ArgumentNullException($"{nameof(parameters)}{nameof(parameters.VerifierCode)}", "If you received a null verifier code, the authentication failed");
+            }
+
+            if (parameters.AuthToken == null)
+            {
+                throw new ArgumentNullException($"{nameof(parameters)}{nameof(parameters.AuthToken)}");
+            }
+
+            if (string.IsNullOrEmpty(parameters.AuthToken.ConsumerKey))
+            {
+                throw new ArgumentNullException($"{nameof(parameters)}{nameof(parameters.AuthToken)}{nameof(parameters.AuthToken.ConsumerKey)}");
+            }
+
+            if (string.IsNullOrEmpty(parameters.AuthToken.ConsumerSecret))
+            {
+                throw new ArgumentNullException($"{nameof(parameters)}{nameof(parameters.AuthToken)}{nameof(parameters.AuthToken.ConsumerSecret)}");
             }
         }
     }

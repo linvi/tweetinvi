@@ -69,7 +69,7 @@ namespace Tweetinvi.Credentials
 
                 var authHandler = new AuthHttpHandler(callbackParameter, authToken, oAuthWebRequestGenerator);
 
-                var consumerCredentials = new TwitterCredentials(authToken.ConsumerCredentials);
+                var consumerCredentials = new TwitterCredentials(authToken.ConsumerKey, authToken.ConsumerSecret);
                 var twitterQuery = _twitterQueryFactory.Create(Resources.OAuthRequestAccessToken, HttpMethod.POST, consumerCredentials);
 
                 var twitterRequest = new TwitterRequest

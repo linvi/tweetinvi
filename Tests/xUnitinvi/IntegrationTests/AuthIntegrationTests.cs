@@ -44,6 +44,10 @@ namespace xUnitinvi.IntegrationTests
             _logger.WriteLine($"Starting {nameof(AuthenticateWithRedirectUrl)}");
             await AuthenticateWithRedirectUrl().ConfigureAwait(false);
             _logger.WriteLine($"{nameof(AuthenticateWithRedirectUrl)} succeeded");
+
+            _logger.WriteLine($"Starting {nameof(AuthenticateWithReadOnlyPermissions)}");
+            await AuthenticateWithReadOnlyPermissions().ConfigureAwait(false);
+            _logger.WriteLine($"{nameof(AuthenticateWithReadOnlyPermissions)} succeeded");
         }
 
         [Fact]
@@ -72,13 +76,12 @@ namespace xUnitinvi.IntegrationTests
 
             // act
             var authenticationClient = new TwitterClient(IntegrationTestConfig.TweetinviTest.Credentials);
-            var authenticationContext = await authenticationClient.Auth.StartAuthProcess().ConfigureAwait(false);
+            var authenticationContext = await authenticationClient.Auth.RequestAuthenticationUrl().ConfigureAwait(false);
             var authUrl = authenticationContext.AuthorizationURL;
 
             // ask the user for the pin code
             var pinCode = await ExtractPinCodeFromTwitterAuthPage(authUrl).ConfigureAwait(false);
-
-            var userCredentials = await AuthFlow.CreateCredentialsFromVerifierCode(pinCode, authenticationContext).ConfigureAwait(false);
+            var userCredentials = await authenticationClient.Auth.RequestCredentials(pinCode, authenticationContext).ConfigureAwait(false);
             var authenticatedClient = new TwitterClient(userCredentials);
             var authenticatedUser = await authenticatedClient.Account.GetAuthenticatedUser().ConfigureAwait(false);
 
@@ -95,12 +98,12 @@ namespace xUnitinvi.IntegrationTests
             var client = new TwitterClient(IntegrationTestConfig.TweetinviApi.Credentials);
 
             // The url used below has to be set in apps.twitter.com -> Callback Url
-            var authContext = await client.Auth.StartAuthProcess(new StartUrlAuthProcessParameters("http://localhost:8042")
+            var authContext = await client.Auth.RequestAuthenticationUrl(new RequestUrlAuthUrlParameters("http://localhost:8042")
             {
                 AuthAccessType = AuthAccessType.ReadWrite
             });
 
-            var authenticatedClient = await GetAuthenticatedTwitterClientViaRedirect(authContext);
+            var authenticatedClient = await GetAuthenticatedTwitterClientViaRedirect(client, authContext);
 
             // assert
             var authenticatedUser = await authenticatedClient.Account.GetAuthenticatedUser().ConfigureAwait(false);
@@ -112,7 +115,6 @@ namespace xUnitinvi.IntegrationTests
             Assert.Equal(authenticatedUser.ScreenName, IntegrationTestConfig.ProtectedUser.AccountId);
         }
 
-
         [Fact]
         public async Task AuthenticateWithReadOnlyPermissions()
         {
@@ -122,12 +124,12 @@ namespace xUnitinvi.IntegrationTests
             var client = new TwitterClient(IntegrationTestConfig.TweetinviApi.Credentials);
 
             // The url used below has to be set in apps.twitter.com -> Callback Url
-            var authContext = await client.Auth.StartAuthProcess(new StartUrlAuthProcessParameters("http://localhost:8042")
+            var authContext = await client.Auth.RequestAuthenticationUrl(new RequestUrlAuthUrlParameters("http://localhost:8042")
             {
                 AuthAccessType = AuthAccessType.Read
             });
 
-            var authenticatedClient = await GetAuthenticatedTwitterClientViaRedirect(authContext);
+            var authenticatedClient = await GetAuthenticatedTwitterClientViaRedirect(client, authContext).ConfigureAwait(false);
             var authenticatedUser = await authenticatedClient.Account.GetAuthenticatedUser().ConfigureAwait(false);
 
             // assert
@@ -136,7 +138,7 @@ namespace xUnitinvi.IntegrationTests
             Assert.Equal(authenticatedUser.ScreenName, IntegrationTestConfig.ProtectedUser.AccountId);
         }
 
-        private async Task<TwitterClient> GetAuthenticatedTwitterClientViaRedirect(IAuthenticationContext authContext)
+        private async Task<TwitterClient> GetAuthenticatedTwitterClientViaRedirect(ITwitterClient client, IAuthenticationContext authContext)
         {
             var expectAuthRequestTask = AExtensions.HttpRequest(new AssertHttpRequestConfig(_logger.WriteLine))
                 .OnPort(8042)
@@ -150,8 +152,8 @@ namespace xUnitinvi.IntegrationTests
 
             // Ask the user to enter the pin code given by Twitter
             var callbackUrl = authRequest.Url.AbsoluteUri;
-            // With this pin code it is now possible to get the credentials back from Twitter
-            var userCredentials = await AuthFlow.CreateCredentialsFromCallbackURL(callbackUrl, authContext).ConfigureAwait(false);
+
+            var userCredentials = await client.Auth.RequestCredentialsFromCallbackUrl(callbackUrl, authContext);
             var authenticatedClient = new TwitterClient(userCredentials);
             return authenticatedClient;
         }

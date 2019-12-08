@@ -23,6 +23,11 @@ namespace Tweetinvi.Client
             TwitterClient = client;
         }
 
+        public ITwitterRequest CreateRequest()
+        {
+            return TwitterClient.CreateRequest();
+        }
+
         protected async Task<T> ExecuteRequest<T>(Func<Task<T>> action, ITwitterRequest request) where T : class
         {
             try

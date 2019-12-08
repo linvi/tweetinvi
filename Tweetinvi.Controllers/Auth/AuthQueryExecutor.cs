@@ -3,6 +3,7 @@ using Tweetinvi.Core.DTO;
 using Tweetinvi.Core.Web;
 using Tweetinvi.Credentials.AuthHttpHandlers;
 using Tweetinvi.Models;
+using Tweetinvi.Parameters.Auth;
 using Tweetinvi.WebLogic;
 
 namespace Tweetinvi.Controllers.Auth
@@ -10,7 +11,8 @@ namespace Tweetinvi.Controllers.Auth
     public interface IAuthQueryExecutor
     {
         Task<ITwitterResult<CreateTokenResponseDTO>> CreateBearerToken(ITwitterRequest request);
-        Task<ITwitterResult> StartAuthProcess(StartAuthProcessInternalParameters parameters, ITwitterRequest request);
+        Task<ITwitterResult> RequestAuthUrl(RequestAuthUrlInternalParameters parameters, ITwitterRequest request);
+        Task<ITwitterResult> RequestCredentials(IRequestCredentialsParameters parameters, ITwitterRequest request);
     }
 
     public class AuthQueryExecutor : IAuthQueryExecutor
@@ -38,15 +40,28 @@ namespace Tweetinvi.Controllers.Auth
             return _twitterAccessor.ExecuteRequest<CreateTokenResponseDTO>(request);
         }
 
-        public Task<ITwitterResult> StartAuthProcess(StartAuthProcessInternalParameters parameters, ITwitterRequest request)
+        public Task<ITwitterResult> RequestAuthUrl(RequestAuthUrlInternalParameters parameters, ITwitterRequest request)
         {
             var oAuthWebRequestGenerator = _oAuthWebRequestGeneratorFactory.Create();
             var callbackParameter = oAuthWebRequestGenerator.GenerateParameter("oauth_callback", parameters.CallbackUrl, true, true, false);
-            var authHandler = new AuthHttpHandler(callbackParameter, parameters.AuthenticationToken, oAuthWebRequestGenerator);
 
-            request.Query.Url = _queryGenerator.GetRequestTokenQuery(parameters);
+            request.Query.Url = _queryGenerator.GetRequestAuthUrlQuery(parameters);
             request.Query.HttpMethod = HttpMethod.POST;
-            request.TwitterClientHandler = authHandler;
+            request.TwitterClientHandler = new AuthHttpHandler(callbackParameter, parameters.AuthenticationToken, oAuthWebRequestGenerator);;
+
+            return _twitterAccessor.ExecuteRequest(request);
+        }
+
+        public Task<ITwitterResult> RequestCredentials(IRequestCredentialsParameters parameters, ITwitterRequest request)
+        {
+            var oAuthWebRequestGenerator = _oAuthWebRequestGeneratorFactory.Create();
+            var callbackParameter = oAuthWebRequestGenerator.GenerateParameter("oauth_verifier", parameters.VerifierCode, true, true, false);
+
+            request.Query.Url = _queryGenerator.GetRequestCredentialsQuery(parameters);
+            request.Query.HttpMethod = HttpMethod.POST;
+            request.Query.TwitterCredentials = new TwitterCredentials(parameters.AuthToken.ConsumerKey, parameters.AuthToken.ConsumerSecret);
+            request.TwitterClientHandler = new AuthHttpHandler(callbackParameter, parameters.AuthToken, oAuthWebRequestGenerator);
+
             return _twitterAccessor.ExecuteRequest(request);
         }
     }

@@ -1,10 +1,10 @@
-using System;
+using Tweetinvi.Core.Web;
 
 namespace Tweetinvi.Exceptions
 {
-    public class TwitterAuthException : Exception
+    public class TwitterAuthException : TwitterResponseException
     {
-        public TwitterAuthException(string message) : base(message)
+        public TwitterAuthException(ITwitterResult twitterResult, string message) : base(twitterResult, message)
         {
         }
     }

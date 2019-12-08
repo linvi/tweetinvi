@@ -30,13 +30,13 @@ namespace xUnitinvi.ClientActions.AuthClient
         {
             // arrange
             var queryGenerator = CreateQueryGenerator();
-            var parameters = new StartUrlAuthProcessParameters("url")
+            var parameters = new RequestUrlAuthUrlParameters("url")
             {
                 AuthAccessType = AuthAccessType.Read
             };
 
             // act
-            var result = queryGenerator.GetRequestTokenQuery(parameters);
+            var result = queryGenerator.GetRequestAuthUrlQuery(parameters);
 
             // assert
             Assert.Equal(result, $"https://api.twitter.com/oauth/request_token?x_auth_access_type=read");

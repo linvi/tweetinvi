@@ -3,11 +3,11 @@ using Tweetinvi.Parameters.Auth;
 
 namespace Tweetinvi.Controllers.Auth
 {
-    public class StartAuthProcessInternalParameters : StartUrlAuthProcessParameters
+    public class RequestAuthUrlInternalParameters : RequestUrlAuthUrlParameters
     {
         public IAuthenticationToken AuthenticationToken { get; }
 
-        public StartAuthProcessInternalParameters(IStartAuthProcessParameters parameters, IAuthenticationToken authenticationToken) : base(parameters)
+        public RequestAuthUrlInternalParameters(IRequestAuthUrlParameters parameters, IAuthenticationToken authenticationToken) : base(parameters)
         {
             AuthenticationToken = authenticationToken;
         }

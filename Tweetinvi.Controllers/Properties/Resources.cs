@@ -586,6 +586,11 @@ namespace Tweetinvi.Controllers.Properties
         public static string Auth_RequestToken = "https://api.twitter.com/oauth/request_token";
 
         /// <summary>
+        ///   Looks up a localized string similar to https://api.twitter.com/oauth/access_token.
+        /// </summary>
+        public static string Auth_RequestAccessToken = "https://api.twitter.com/oauth/access_token";
+
+        /// <summary>
         ///   Looks up a localized string similar to https://api.twitter.com/oauth/authorize.
         /// </summary>
         public static string Auth_AuthorizeBaseUrl = "https://api.twitter.com/oauth/authorize";
@@ -594,6 +599,11 @@ namespace Tweetinvi.Controllers.Properties
         ///   Looks up a localized string similar to oauth_token=(?<oauth_token>(?:\\w|\\-)*)&oauth_token_secret=(?<oauth_token_secret>(?:\\w)*)&oauth_callback_confirmed=(?<oauth_callback_confirmed>(?:\\w)*).
         /// </summary>
         public static string Auth_RequestTokenParserRegex = "oauth_token=(?<oauth_token>(?:\\w|\\-)*)&oauth_token_secret=(?<oauth_token_secret>(?:\\w)*)&oauth_callback_confirmed=(?<oauth_callback_confirmed>(?:\\w)*)";
+
+        /// <summary>
+        ///   Looks up a localized string similar to oauth_token=(?<oauth_token>(?:\\w|\\-)*)&oauth_token_secret=(?<oauth_token_secret>(?:\\w)*)&user_id=(?<user_id>(?:\\d)*)&screen_name=(?<screen_name>(?:\\w)*)
+        /// </summary>
+        public static string Auth_RequestAccessTokenRegex = "oauth_token=(?<oauth_token>(?:\\w|\\-)*)&oauth_token_secret=(?<oauth_token_secret>(?:\\w)*)&user_id=(?<user_id>(?:\\d)*)&screen_name=(?<screen_name>(?:\\w)*)";
 
         public static string GetResourceByName(string resourceName)
         {

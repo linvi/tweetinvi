@@ -27,17 +27,34 @@ namespace Tweetinvi.Client.Requesters
 
         public Task<ITwitterResult<CreateTokenResponseDTO>> CreateBearerToken()
         {
-            var request = TwitterClient.CreateRequest();
+            var request = CreateRequest();
             _validator.ValidateCreateBearerToken(request);
 
             return ExecuteRequest(() => _authController.CreateBearerToken(request), request);
         }
 
-        public Task<ITwitterResult<IAuthenticationContext>> StartAuthProcess(IStartAuthProcessParameters parameters)
+        public Task<ITwitterResult<IAuthenticationContext>> RequestAuthUrl(IRequestAuthUrlParameters parameters)
         {
-            var request = TwitterClient.CreateRequest();
-            return ExecuteRequest(() => _authController.StartAuthProcess(parameters, request), request);
+            _validator.Validate(parameters);
+
+            var request = CreateRequest();
+            return ExecuteRequest(() => _authController.RequestAuthUrl(parameters, request), request);
         }
 
+        public Task<ITwitterResult<ITwitterCredentials>> RequestCredentialsFromPinCode(IRequestCredentialsParameters parameters)
+        {
+            _validator.Validate(parameters);
+
+            var request = TwitterClient.CreateRequest();
+            return ExecuteRequest(() => _authController.RequestCredentials(parameters, request), request);
+        }
+
+        public Task<ITwitterResult<ITwitterCredentials>> RequestCredentialsFromCallbackUrl(IRequestCredentialsParameters parameters)
+        {
+            _validator.Validate(parameters);
+
+            var request = TwitterClient.CreateRequest();
+            return ExecuteRequest(() => _authController.RequestCredentials(parameters, request), request);
+        }
     }
 }

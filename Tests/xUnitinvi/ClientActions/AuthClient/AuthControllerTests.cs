@@ -7,7 +7,6 @@ using Tweetinvi.Exceptions;
 using Tweetinvi.Models;
 using Tweetinvi.Parameters.Auth;
 using Xunit;
-using Xunit.Sdk;
 using xUnitinvi.TestHelpers;
 
 namespace xUnitinvi.ClientActions.AuthClient
@@ -52,14 +51,14 @@ namespace xUnitinvi.ClientActions.AuthClient
             var controller = CreateAuthController();
             var request = A.Fake<ITwitterRequest>();
             var expectedResult = A.Fake<ITwitterResult>();
-            var parameters = A.Fake<IStartAuthProcessParameters>();
+            var parameters = A.Fake<IRequestAuthUrlParameters>();
             var response = "oauth_token=MY_TOKEN&oauth_token_secret=MY_SECRET&oauth_callback_confirmed=true";
 
-            A.CallTo(() => _fakeAuthQueryExecutor.StartAuthProcess(It.IsAny<StartAuthProcessInternalParameters>(), request)).Returns(expectedResult);
+            A.CallTo(() => _fakeAuthQueryExecutor.RequestAuthUrl(It.IsAny<RequestAuthUrlInternalParameters>(), request)).Returns(expectedResult);
             A.CallTo(() => expectedResult.Json).Returns(response);
 
             // Act
-            var result = await controller.StartAuthProcess(parameters, request);
+            var result = await controller.RequestAuthUrl(parameters, request);
 
             // Assert
             Assert.Equal("MY_TOKEN", result.DataTransferObject.Token.AuthorizationKey);
@@ -73,18 +72,18 @@ namespace xUnitinvi.ClientActions.AuthClient
             var controller = CreateAuthController();
             var request = A.Fake<ITwitterRequest>();
             var expectedResult = A.Fake<ITwitterResult>();
-            var parameters = new StartUrlAuthProcessParameters("my_url")
+            var parameters = new RequestUrlAuthUrlParameters("my_url")
             {
-                AuthorizationId = null
+                RequestId = null
             };
             var response = "oauth_token=MY_TOKEN&oauth_token_secret=MY_SECRET&oauth_callback_confirmed=true";
 
-            A.CallTo(() => _fakeAuthQueryExecutor.StartAuthProcess(A<StartAuthProcessInternalParameters>.That.Matches(x => x.CallbackUrl == "my_url"), request))
+            A.CallTo(() => _fakeAuthQueryExecutor.RequestAuthUrl(A<RequestAuthUrlInternalParameters>.That.Matches(x => x.CallbackUrl == "my_url"), request))
                 .Returns(expectedResult);
             A.CallTo(() => expectedResult.Json).Returns(response);
 
             // Act
-            var result = await controller.StartAuthProcess(parameters, request);
+            var result = await controller.RequestAuthUrl(parameters, request);
 
             // Assert
             Assert.Equal("MY_TOKEN", result.DataTransferObject.Token.AuthorizationKey);
@@ -98,18 +97,18 @@ namespace xUnitinvi.ClientActions.AuthClient
             var controller = CreateAuthController();
             var request = A.Fake<ITwitterRequest>();
             var expectedResult = A.Fake<ITwitterResult>();
-            var parameters = new StartUrlAuthProcessParameters("my_url")
+            var parameters = new RequestUrlAuthUrlParameters("my_url")
             {
-                AuthorizationId = "my_auth_id"
+                RequestId = "my_auth_id"
             };
             var response = "oauth_token=MY_TOKEN&oauth_token_secret=MY_SECRET&oauth_callback_confirmed=true";
 
-            A.CallTo(() => _fakeAuthQueryExecutor.StartAuthProcess(A<StartAuthProcessInternalParameters>.That.Matches(x => x.CallbackUrl == "my_url?authorization_id=my_auth_id"), request))
+            A.CallTo(() => _fakeAuthQueryExecutor.RequestAuthUrl(A<RequestAuthUrlInternalParameters>.That.Matches(x => x.CallbackUrl == "my_url?authorization_id=my_auth_id"), request))
                 .Returns(expectedResult);
             A.CallTo(() => expectedResult.Json).Returns(response);
 
             // Act
-            var result = await controller.StartAuthProcess(parameters, request);
+            var result = await controller.RequestAuthUrl(parameters, request);
 
             // Assert
             Assert.Equal("MY_TOKEN", result.DataTransferObject.Token.AuthorizationKey);
@@ -123,18 +122,18 @@ namespace xUnitinvi.ClientActions.AuthClient
             var controller = CreateAuthController();
             var request = A.Fake<ITwitterRequest>();
             var expectedResult = A.Fake<ITwitterResult>();
-            var parameters = new StartUrlAuthProcessParameters("my_url")
+            var parameters = new RequestUrlAuthUrlParameters("my_url")
             {
-                AuthorizationId = "my_auth_id"
+                RequestId = "my_auth_id"
             };
             var response = "oauth_token=MY_TOKEN&oauth_token_secret=MY_SECRET&oauth_callback_confirmed=false";
 
-            A.CallTo(() => _fakeAuthQueryExecutor.StartAuthProcess(A<StartAuthProcessInternalParameters>.That.Matches(x => x.CallbackUrl == "my_url?authorization_id=my_auth_id"), request))
+            A.CallTo(() => _fakeAuthQueryExecutor.RequestAuthUrl(A<RequestAuthUrlInternalParameters>.That.Matches(x => x.CallbackUrl == "my_url?authorization_id=my_auth_id"), request))
                 .Returns(expectedResult);
             A.CallTo(() => expectedResult.Json).Returns(response);
 
             // Act
-            await Assert.ThrowsAsync<TwitterAuthAbortedException>(() => controller.StartAuthProcess(parameters, request));
+            await Assert.ThrowsAsync<TwitterAuthAbortedException>(() => controller.RequestAuthUrl(parameters, request));
         }
 
         [Fact]
@@ -144,19 +143,19 @@ namespace xUnitinvi.ClientActions.AuthClient
             var controller = CreateAuthController();
             var request = A.Fake<ITwitterRequest>();
             var expectedResult = A.Fake<ITwitterResult>();
-            var parameters = new StartUrlAuthProcessParameters("my_url")
+            var parameters = new RequestUrlAuthUrlParameters("my_url")
             {
-                AuthorizationId = "my_auth_id"
+                RequestId = "my_auth_id"
             };
 
             var response = "";
 
-            A.CallTo(() => _fakeAuthQueryExecutor.StartAuthProcess(A<StartAuthProcessInternalParameters>.That.Matches(x => x.CallbackUrl == "my_url?authorization_id=my_auth_id"), request))
+            A.CallTo(() => _fakeAuthQueryExecutor.RequestAuthUrl(A<RequestAuthUrlInternalParameters>.That.Matches(x => x.CallbackUrl == "my_url?authorization_id=my_auth_id"), request))
                 .Returns(expectedResult);
             A.CallTo(() => expectedResult.Json).Returns(response);
 
             // Act
-            await Assert.ThrowsAsync<TwitterAuthException>(() => controller.StartAuthProcess(parameters, request));
+            await Assert.ThrowsAsync<TwitterAuthException>(() => controller.RequestAuthUrl(parameters, request));
         }
     }
 }

@@ -53,7 +53,7 @@
             BearerToken = source.BearerToken;
         }
 
-        public TwitterCredentials(IConsumerCredentials credentials) : base(credentials)
+        public TwitterCredentials(IReadOnlyConsumerCredentials credentials) : base(credentials)
         {
         }
 

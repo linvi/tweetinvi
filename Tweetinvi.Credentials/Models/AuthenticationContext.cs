@@ -6,10 +6,7 @@ namespace Tweetinvi.Credentials.Models
     {
         public AuthenticationContext(IReadOnlyConsumerCredentials consumerCredentials)
         {
-            Token = new AuthenticationToken
-            {
-                ConsumerCredentials = new ConsumerCredentials(consumerCredentials)
-            };
+            Token = new AuthenticationToken(consumerCredentials);
         }
 
         public string AuthorizationURL { get; set; }

@@ -3,12 +3,12 @@ namespace Tweetinvi.Models
     public interface IReadOnlyTwitterCredentials : IReadOnlyConsumerCredentials
     {
         /// <summary>
-        /// Key provided to the consumer to provide an authentication of the client
+        /// AccessToken granting access to user's specific account
         /// </summary>
         string AccessToken { get; }
 
         /// <summary>
-        /// Secret Key provided to the consumer to provide an authentication of the client
+        /// AccessTokenSecret granting access to user's specific account
         /// </summary>
         string AccessTokenSecret { get; }
     }

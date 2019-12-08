@@ -7,7 +7,9 @@ namespace Tweetinvi.Core.Client.Validators
     public interface IAuthClientParametersValidator
     {
         void ValidateCreateBearerToken(ITwitterRequest request);
-        void Validate(IStartAuthProcessParameters parameters);
+        void Validate(IRequestAuthUrlParameters parameters);
+
+        void Validate(IRequestCredentialsParameters parameters);
     }
 
     public interface IInternalAuthClientParametersValidator : IAuthClientParametersValidator
@@ -34,7 +36,7 @@ namespace Tweetinvi.Core.Client.Validators
             _authClientRequiredParametersValidator.ValidateCreateBearerToken(request);
         }
 
-        public void Validate(IStartAuthProcessParameters parameters)
+        public void Validate(IRequestAuthUrlParameters parameters)
         {
             _authClientRequiredParametersValidator.Validate(parameters);
 
@@ -45,6 +47,11 @@ namespace Tweetinvi.Core.Client.Validators
                     throw new ArgumentException("Invalid format, must be absolute uri or have a value of 'oob'", $"{nameof(parameters)}{nameof(parameters.CallbackUrl)}");
                 }
             }
+        }
+
+        public void Validate(IRequestCredentialsParameters parameters)
+        {
+            _authClientRequiredParametersValidator.Validate(parameters);
         }
     }
 }

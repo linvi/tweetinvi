@@ -112,14 +112,6 @@ namespace Tweetinvi
         /// <summary>
         /// Wait for the rate limits to be available. This should be used before executing a query
         /// </summary>
-        public static void AwaitForQueryRateLimit(string query)
-        {
-            AwaitForQueryRateLimit(query, Auth.Credentials);
-        }
-
-        /// <summary>
-        /// Wait for the rate limits to be available. This should be used before executing a query
-        /// </summary>
         public static void AwaitForQueryRateLimit(string query, ITwitterCredentials credentials)
         {
             RateLimitAwaiter.WaitForCredentialsRateLimit(query, credentials);
@@ -131,14 +123,6 @@ namespace Tweetinvi
         public static void AwaitForQueryRateLimit(IEndpointRateLimit endpointRateLimit)
         {
             RateLimitAwaiter.WaitForCredentialsRateLimit(endpointRateLimit);
-        }
-
-        /// <summary>
-        /// Get the rate limits information for an url
-        /// </summary>
-        public static Task<IEndpointRateLimit> GetQueryRateLimit(string query)
-        {
-            return RateLimitCacheManager.GetQueryRateLimit(query, Auth.Credentials);
         }
 
         /// <summary>
@@ -158,11 +142,11 @@ namespace Tweetinvi
             if (!useRateLimitCache)
             {
                 credentialsRateLimits = await HelpController.GetCurrentCredentialsRateLimits();
-                RateLimitCacheManager.UpdateCredentialsRateLimits(Auth.Credentials, credentialsRateLimits);
+                RateLimitCacheManager.UpdateCredentialsRateLimits(AuthTemp.Credentials, credentialsRateLimits);
             }
             else
             {
-                credentialsRateLimits = await RateLimitCacheManager.GetCredentialsRateLimits(Auth.Credentials);
+                credentialsRateLimits = await RateLimitCacheManager.GetCredentialsRateLimits(AuthTemp.Credentials);
             }
 
             return credentialsRateLimits;

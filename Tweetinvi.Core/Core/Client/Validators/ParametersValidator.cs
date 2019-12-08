@@ -189,7 +189,12 @@ namespace Tweetinvi.Core.Client.Validators
             _authClientParametersValidator.ValidateCreateBearerToken(request);
         }
 
-        public void Validate(IStartAuthProcessParameters parameters)
+        public void Validate(IRequestAuthUrlParameters parameters)
+        {
+            _authClientParametersValidator.Validate(parameters);
+        }
+
+        public void Validate(IRequestCredentialsParameters parameters)
         {
             _authClientParametersValidator.Validate(parameters);
         }

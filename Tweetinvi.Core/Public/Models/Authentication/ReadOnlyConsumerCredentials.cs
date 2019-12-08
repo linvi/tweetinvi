@@ -1,9 +1,23 @@
 namespace Tweetinvi.Models
 {
-    public interface IReadOnlyConsumerCredentials
+    public interface IReadOnlyConsumerCredentialsWithoutBearer
     {
+        /// <summary>
+        /// ConsumerKey identifying a unique application
+        /// </summary>
         string ConsumerKey { get; }
+
+        /// <summary>
+        /// ConsumerSecret identifying a unique application
+        /// </summary>
         string ConsumerSecret { get; }
+    }
+
+    public interface IReadOnlyConsumerCredentials : IReadOnlyConsumerCredentialsWithoutBearer
+    {
+        /// <summary>
+        /// Bearer token used to make API requests on an application's own behalf.
+        /// </summary>
         string BearerToken { get; }
     }
 

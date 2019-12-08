@@ -13,7 +13,7 @@ namespace Tweetinvi.Core.Client
     {
         public TwitterExecutionContext()
         {
-            RequestFactory = () => throw new InvalidOperationException($"You cannot run contextual operations without defining configuring the {nameof(RequestFactory)} of the ExecutionContext");
+            RequestFactory = () => throw new InvalidOperationException($"You cannot run contextual operations without configuring the {nameof(RequestFactory)} of the ExecutionContext");
         }
 
         public Func<ITwitterRequest> RequestFactory { get; set; }

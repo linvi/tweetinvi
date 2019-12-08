@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
@@ -30,24 +31,42 @@ namespace Examplinvi.ASP.NET.Core.Controllers
             var fileBytes = GetByteArrayFromFile(file);
             var client = new TwitterClient(_credentials);
 
-            var media = await client.Upload.UploadBinary(fileBytes);
-            var publishedTweet = await client.Tweets.PublishTweet(new PublishTweetParameters(tweet)
+            try
             {
-                Medias = { media }
-            });
+                var publishTweetParameters = new PublishTweetParameters(tweet);
 
-            var routeValueParameters = new Dictionary<string, object>
+                if (fileBytes != null)
+                {
+                    var media = await client.Upload.UploadBinary(fileBytes);
+                    publishTweetParameters.Medias.Add(media);
+                }
+
+                var publishedTweet = await client.Tweets.PublishTweet(publishTweetParameters);
+                var routeValueParameters = new Dictionary<string, object>
+                {
+                    { "id", publishedTweet?.Id },
+                    { "author", publishedTweet?.CreatedBy.ScreenName },
+                    { "actionPerformed", "Publish" },
+                    { "success", publishedTweet != null }
+                };
+
+                return RedirectToAction("TweetPublished", routeValueParameters);
+            }
+            catch (Exception)
             {
-                { "id", publishedTweet?.Id },
-                { "author", publishedTweet?.CreatedBy.ScreenName },
-                { "actionPerformed", "Publish" },
-                { "success", publishedTweet != null }
-            };
+                var routeValueParameters = new Dictionary<string, object>
+                {
+                    { "id", null },
+                    { "author", null },
+                    { "actionPerformed", "Publish" },
+                    { "success", false }
+                };
 
-            return RedirectToAction("TweetPublished", routeValueParameters);
+                return RedirectToAction("TweetPublished", routeValueParameters);
+            }
         }
 
-        private byte[] GetByteArrayFromFile(IFormFile file)
+        private static byte[] GetByteArrayFromFile(IFormFile file)
         {
             if (file == null || file.Length == 0)
             {
@@ -68,26 +87,36 @@ namespace Examplinvi.ASP.NET.Core.Controllers
             return View();
         }
 
-        public ActionResult DeleteTweet(long id)
+        public async Task<ActionResult> DeleteTweet(long id)
         {
             var client = new TwitterClient(_credentials);
 
-            var success = Auth.ExecuteOperationWithCredentials(_credentials, () =>
+            try
             {
-                var tweet = client.Tweets.GetTweet(id).Result;
-                if (tweet != null)
+                var tweet = await client.Tweets.GetTweet(id);
+                var success = await tweet.Destroy();
+
+                var routeValueParameters = new Dictionary<string, object>
                 {
-                    return tweet.Destroy().Result;
-                }
+                    { "id", id },
+                    { "author", tweet.CreatedBy.ScreenName },
+                    { "actionPerformed", "Delete" },
+                    { "success", success }
+                };
 
-                return false;
-            });
+                return RedirectToAction("TweetPublished", routeValueParameters);
+            }
+            catch (Exception)
+            {
+                var routeValueParameters = new Dictionary<string, object>
+                {
+                    { "id", id },
+                    { "actionPerformed", "Delete" },
+                    { "success", false }
+                };
 
-            var routeValueParameters = new Dictionary<string, object>();
-            routeValueParameters.Add("id", id);
-            routeValueParameters.Add("actionPerformed", "Delete");
-            routeValueParameters.Add("success", success);
-            return RedirectToAction("TweetPublished", routeValueParameters);
+                return RedirectToAction("TweetPublished", routeValueParameters);
+            }
         }
     }
 }

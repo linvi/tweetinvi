@@ -29,7 +29,7 @@ namespace Tweetinvi.Core.Extensions
             @"(?:(?:\w|\d)+)" +                                        // Get all the letters
             @"(?:(?:\p{P}|=)+)" +                                      // Followed by at least 1 or multiple punctuation (twitter behavior)
             @")*(?:(?:\w|\d)+))" +                                     // And the end should be a literal char
-            @"(?<lastChar>[/?])?";                                     // Or a '/'                               
+            @"(?<lastChar>[/?])?";                                     // Or a '/'
 
 
         // FOR COPY WITHIN REGEX EDITOR - KEEP Sync!
@@ -46,7 +46,7 @@ namespace Tweetinvi.Core.Extensions
         // (?:(?:\w|\d)+)
         // (?:(?:\p{P}|=)+)
         // )*(?:(?:\w|\d)+))
-        // (?<lastChar>[/?])?     
+        // (?<lastChar>[/?])?
 
 
         // Create on demand
@@ -101,7 +101,7 @@ namespace Tweetinvi.Core.Extensions
 
                 var isHttps = link.Groups["isSecured"].Value == "s";
                 var linkSize = isHttps ? TweetinviConsts.HTTPS_LINK_SIZE : TweetinviConsts.HTTP_LINK_SIZE;
-                
+
                 length = length - link.Value.Length + linkSize;
             }
 
@@ -121,8 +121,6 @@ namespace Tweetinvi.Core.Extensions
         /// <summary>
         /// Decode a string formatted to be used within a url
         /// </summary>
-        /// <param name="s"></param>
-        /// <returns></returns>
         public static string HTMLDecode(this string s)
         {
             return _httpUtility.HtmlDecode(s);
@@ -135,7 +133,13 @@ namespace Tweetinvi.Core.Extensions
                 return null;
             }
 
-            Match urlInformation = Regex.Match(url, parameterName + "=(?<parameter_value>[^&]*)");
+            var urlInformation = Regex.Match(url, $"{parameterName}=(?<parameter_value>[^&]*)");
+
+            if (!urlInformation.Success)
+            {
+                return null;
+            }
+
             return urlInformation.Groups["parameter_value"].Value;
         }
 
@@ -195,7 +199,7 @@ namespace Tweetinvi.Core.Extensions
                    CleanForRegexGroupName(keywordPattern), CleanForRegex(keywordPattern)));
             }
 
-            // Check the first group to analyze the result of the Regex : 
+            // Check the first group to analyze the result of the Regex :
             // MatchCollection matches = Regex.Matches(input, pattern, RegexOptions.IgnoreCase);
             // GroupCollection groups = matches[0].Groups;
 

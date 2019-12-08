@@ -8,17 +8,18 @@ namespace Tweetinvi.Controllers.Auth
     public interface IAuthQueryGenerator
     {
         string GetCreateBearerTokenQuery();
-        string GetRequestTokenQuery(IStartAuthProcessParameters parameters);
+        string GetRequestAuthUrlQuery(IRequestAuthUrlParameters parameters);
+        string GetRequestCredentialsQuery(IRequestCredentialsParameters parameters);
     }
 
     public class AuthQueryGenerator : IAuthQueryGenerator
     {
         public string GetCreateBearerTokenQuery()
         {
-            return "https://api.twitter.com/oauth2/token";
+            return Resources.Auth_CreateBearerToken;
         }
 
-        public string GetRequestTokenQuery(IStartAuthProcessParameters parameters)
+        public string GetRequestAuthUrlQuery(IRequestAuthUrlParameters parameters)
         {
             var query = new StringBuilder(Resources.Auth_RequestToken);
 
@@ -29,6 +30,11 @@ namespace Tweetinvi.Controllers.Auth
             }
 
             return query.ToString();
+        }
+
+        public string GetRequestCredentialsQuery(IRequestCredentialsParameters parameters)
+        {
+            return Resources.Auth_RequestAccessToken;
         }
     }
 }

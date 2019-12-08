@@ -17,13 +17,26 @@ namespace Tweetinvi.Client.Requesters
         /// <returns>The bearer token to use for application only authentication</returns>
         Task<ITwitterResult<CreateTokenResponseDTO>> CreateBearerToken();
 
-
         /// <summary>
         /// Initiates the authentication process for a user.
         /// The AuthenticationContext returned contains a url to authenticate on twitter.
         /// </summary>
         /// <para> https://developer.twitter.com/en/docs/basics/authentication/api-reference/request_token </para>
         /// <returns>An AuthenticationContext containing both the url to redirect to and an AuthenticationToken</returns>
-        Task<ITwitterResult<IAuthenticationContext>> StartAuthProcess(IStartAuthProcessParameters parameters);
+        Task<ITwitterResult<IAuthenticationContext>> RequestAuthUrl(IRequestAuthUrlParameters parameters);
+
+        /// <summary>
+        /// Request credentials with a verifierCode
+        /// </summary>
+        /// <para> https://developer.twitter.com/en/docs/basics/authentication/api-reference/request_token </para>
+        /// <returns>The requested user credentials</returns>
+        Task<ITwitterResult<ITwitterCredentials>> RequestCredentialsFromPinCode(IRequestCredentialsParameters parameters);
+
+        /// <summary>
+        /// Request credentials with a callback url
+        /// </summary>
+        /// <para> https://developer.twitter.com/en/docs/basics/authentication/api-reference/request_token </para>
+        /// <returns>The requested user credentials</returns>
+        Task<ITwitterResult<ITwitterCredentials>> RequestCredentialsFromCallbackUrl(IRequestCredentialsParameters parameters);
     }
 }

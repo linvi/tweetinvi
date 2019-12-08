@@ -4,13 +4,22 @@ namespace Tweetinvi.Credentials.Models
 {
     public class AuthenticationToken : IAuthenticationToken
     {
-        public IConsumerCredentials ConsumerCredentials { get; set; }
-        public string ConsumerKey { get { return ConsumerCredentials.ConsumerKey; } }
-        public string ConsumerSecret { get { return ConsumerCredentials.ConsumerSecret; } }
+        public AuthenticationToken()
+        {
+        }
+
+        public AuthenticationToken(IReadOnlyConsumerCredentialsWithoutBearer consumerCredentials)
+        {
+            ConsumerKey = consumerCredentials?.ConsumerKey;
+            ConsumerSecret = consumerCredentials?.ConsumerSecret;
+        }
+
+        public string ConsumerKey { get; set; }
+        public string ConsumerSecret { get; set; }
         public string AuthorizationKey { get; set; }
         public string AuthorizationSecret { get; set; }
 
         public string VerifierCode { get; set; }
-        public string AuthorizationId { get; set; }
+        public string Id { get; set; }
     }
 }
