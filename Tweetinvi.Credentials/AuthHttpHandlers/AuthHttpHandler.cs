@@ -11,17 +11,17 @@ namespace Tweetinvi.Credentials.AuthHttpHandlers
     public class AuthHttpHandler : TwitterClientHandler
     {
         private readonly IOAuthQueryParameter _queryParameter;
-        private readonly IAuthenticationToken _authenticationToken;
+        private readonly IAuthenticationRequestToken _authRequestToken;
 
-        public AuthHttpHandler(IOAuthQueryParameter queryParameter, IAuthenticationToken authenticationToken, IOAuthWebRequestGenerator oAuthWebRequestGenerator) : base(oAuthWebRequestGenerator)
+        public AuthHttpHandler(IOAuthQueryParameter queryParameter, IAuthenticationRequestToken authRequestToken, IOAuthWebRequestGenerator oAuthWebRequestGenerator) : base(oAuthWebRequestGenerator)
         {
             _queryParameter = queryParameter;
-            _authenticationToken = authenticationToken;
+            _authRequestToken = authRequestToken;
         }
 
         protected override Task<HttpResponseMessage> SendAsync(ITwitterQuery twitterQuery, HttpRequestMessage request, CancellationToken cancellationToken)
         {
-            var headers = WebRequestGenerator.GenerateApplicationParameters(twitterQuery.TwitterCredentials, _authenticationToken, new[] { _queryParameter });
+            var headers = WebRequestGenerator.GenerateApplicationParameters(twitterQuery.TwitterCredentials, _authRequestToken, new[] { _queryParameter });
             twitterQuery.AuthorizationHeader = WebRequestGenerator.GenerateAuthorizationHeader(request.RequestUri, request.Method.ToTweetinviHttpMethod(), headers);
 
             return base.SendAsync(request, cancellationToken, twitterQuery.AuthorizationHeader);

@@ -18,7 +18,6 @@ namespace Tweetinvi.Credentials
             container.RegisterType<IAuthenticationTokenProvider, AuthenticationTokenProvider>(RegistrationLifetime.InstancePerApplication);
 
             container.RegisterType<IAuthFactory, AuthFactory>();
-            container.RegisterType<IWebTokenFactory, WebTokenFactory>();
             container.RegisterType<ICursorQueryHelper, CursorQueryHelper>();
 
             RegisterRateLimitHandler(container);

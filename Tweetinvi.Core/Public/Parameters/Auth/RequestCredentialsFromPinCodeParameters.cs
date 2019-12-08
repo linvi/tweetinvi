@@ -12,13 +12,13 @@ namespace Tweetinvi.Parameters.Auth
         /// <summary>
         /// Token returned by the AuthenticationContext when
         /// </summary>
-        IAuthenticationToken AuthToken { get; set; }
+        IAuthenticationRequestToken AuthRequestToken { get; set; }
     }
 
     public class RequestCredentialsFromPinCodeParameters : IRequestCredentialsFromPinCodeParameters
     {
 
         public string PinCode { get; set; }
-        public IAuthenticationToken AuthToken { get; set; }
+        public IAuthenticationRequestToken AuthRequestToken { get; set; }
     }
 }

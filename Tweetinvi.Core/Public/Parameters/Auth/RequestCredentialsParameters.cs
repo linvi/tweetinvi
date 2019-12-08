@@ -20,7 +20,7 @@ namespace Tweetinvi.Parameters.Auth
         /// <summary>
         /// Token returned by the AuthenticationContext when
         /// </summary>
-        IAuthenticationToken AuthToken { get; set; }
+        IAuthenticationRequestToken AuthRequestToken { get; set; }
     }
 
     public class RequestCredentialsParameters : IRequestCredentialsParameters
@@ -28,22 +28,12 @@ namespace Tweetinvi.Parameters.Auth
         /// <summary>
         /// Regex used to extract oAuthVerifier and oAuthToken from callback url
         /// </summary>
-        // ReSharper disable once FieldCanBeMadeReadOnly.Global
-        public static Regex AuthExtractOAuthVerifierFromCallbackUrlRegex = new Regex("(?:\\?|%3f|&|%26)oauth_token(?:=|%3d)(?<oauth_token>(?:\\w|\\-)*)(?:&|%26)oauth_verifier(?:=|%3d)(?<oauth_verifier>(?:\\w|\\-)*)");
+        // ReSharper disable once MemberCanBePrivate.Global
+        public static Regex AuthExtractOAuthVerifierFromCallbackUrlRegex { get; set; } = new Regex("(?:\\?|%3f|&|%26)oauth_token(?:=|%3d)(?<oauth_token>(?:\\w|\\-)*)(?:&|%26)oauth_verifier(?:=|%3d)(?<oauth_verifier>(?:\\w|\\-)*)");
 
-        public static IRequestCredentialsParameters FromPinCode(string pinCode, IAuthenticationContext authContext)
+        public static IRequestCredentialsParameters FromPinCode(string pinCode, IAuthenticationRequestToken authRequestToken)
         {
-            return new RequestCredentialsParameters(pinCode, authContext);
-        }
-
-        public static IRequestCredentialsParameters FromPinCode(string pinCode, IAuthenticationToken authToken)
-        {
-            return new RequestCredentialsParameters(pinCode, authToken);
-        }
-
-        public static IRequestCredentialsParameters FromCallbackUrl(string callbackUrl, IAuthenticationContext authContext)
-        {
-            return RequestCredentialsParameters.FromCallbackUrl(callbackUrl, authContext?.Token);
+            return new RequestCredentialsParameters(pinCode, authRequestToken);
         }
 
         /// <summary>
@@ -74,26 +64,20 @@ namespace Tweetinvi.Parameters.Auth
             return new RequestCredentialsParameters(oAuthVerifier, authToken);
         }
 
-        public static IRequestCredentialsParameters FromCallbackUrl(string callbackUrl, IAuthenticationToken authToken)
+        public static IRequestCredentialsParameters FromCallbackUrl(string callbackUrl, IAuthenticationRequestToken authRequestToken)
         {
             var urlInformation = AuthExtractOAuthVerifierFromCallbackUrlRegex.Match(callbackUrl);
             var oAuthVerifier = urlInformation.Groups["oauth_verifier"].Value;
-            return new RequestCredentialsParameters(oAuthVerifier, authToken);
+            return new RequestCredentialsParameters(oAuthVerifier, authRequestToken);
         }
 
-        public RequestCredentialsParameters(string verifierCode, IAuthenticationToken authenticationToken)
+        public RequestCredentialsParameters(string verifierCode, IAuthenticationRequestToken authenticationRequestToken)
         {
             VerifierCode = verifierCode;
-            AuthToken = authenticationToken;
-        }
-
-        public RequestCredentialsParameters(string verifierCode, IAuthenticationContext authenticationContext)
-        {
-            VerifierCode = verifierCode;
-            AuthToken = authenticationContext?.Token;
+            AuthRequestToken = authenticationRequestToken;
         }
 
         public string VerifierCode { get; set; }
-        public IAuthenticationToken AuthToken { get; set; }
+        public IAuthenticationRequestToken AuthRequestToken { get; set; }
     }
 }

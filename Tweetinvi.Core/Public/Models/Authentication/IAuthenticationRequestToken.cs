@@ -1,6 +1,6 @@
 ﻿namespace Tweetinvi.Models
 {
-    public interface IAuthenticationToken : IReadOnlyConsumerCredentialsWithoutBearer
+    public interface IAuthenticationRequestToken : IReadOnlyConsumerCredentialsWithoutBearer
     {
         /// <summary>
         /// Property used by Tweetinvi or yourself to track the IAuthenticationContext
@@ -25,5 +25,10 @@
         /// If this value is changed manually it will overridden by Tweetinvi.
         /// </summary>
         string VerifierCode { get; set; }
+
+        /// <summary>
+        /// URL directing the user to Twitter authentication page for your application.
+        /// </summary>
+        string AuthorizationURL { get; set; }
     }
 }

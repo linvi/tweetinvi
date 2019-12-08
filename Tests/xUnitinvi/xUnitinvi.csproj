@@ -38,6 +38,7 @@
     <Content Include="banner.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <None Remove="coverage.json" />
   </ItemGroup>
 
 </Project>

@@ -22,7 +22,7 @@ namespace Tweetinvi.Core.Web
         /// </summary>
         IEnumerable<IOAuthQueryParameter> GenerateApplicationParameters(
             IReadOnlyConsumerCredentials temporaryCredentials,
-            IAuthenticationToken authenticationToken = null,
+            IAuthenticationRequestToken authRequestToken = null,
             IEnumerable<IOAuthQueryParameter> additionalParameters = null);
 
         /// <summary>

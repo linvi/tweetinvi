@@ -34,13 +34,13 @@ namespace Tweetinvi.Client
         /// </summary>
         /// <para> https://developer.twitter.com/en/docs/basics/authentication/api-reference/request_token </para>
         /// <returns>An AuthenticationContext containing both the url to redirect to and an AuthenticationToken</returns>
-        Task<IAuthenticationContext> RequestAuthenticationUrl();
+        Task<IAuthenticationRequestToken> RequestAuthenticationUrl();
 
         /// <inheritdoc cref="RequestAuthenticationUrl" />
-        Task<IAuthenticationContext> RequestAuthenticationUrl(string redirectUrl);
+        Task<IAuthenticationRequestToken> RequestAuthenticationUrl(string redirectUrl);
 
         /// <inheritdoc cref="RequestAuthenticationUrl" />
-        Task<IAuthenticationContext> RequestAuthenticationUrl(string redirectUrl, IAuthenticationTokenProvider authenticationTokenProvider);
+        Task<IAuthenticationRequestToken> RequestAuthenticationUrl(string redirectUrl, IAuthenticationTokenProvider authenticationTokenProvider);
 
         /// <summary>
         /// Initiates the authentication process for a user.
@@ -48,7 +48,7 @@ namespace Tweetinvi.Client
         /// </summary>
         /// <para> https://developer.twitter.com/en/docs/basics/authentication/api-reference/request_token </para>
         /// <returns>An AuthenticationContext containing both the url to redirect to and an AuthenticationToken</returns>
-        Task<IAuthenticationContext> RequestAuthenticationUrl(IRequestAuthUrlParameters parameters);
+        Task<IAuthenticationRequestToken> RequestAuthenticationUrl(IRequestAuthUrlParameters parameters);
 
         /// <summary>
         /// Request credentials from an AuthenticationTokenProvider.
@@ -60,28 +60,16 @@ namespace Tweetinvi.Client
         Task<ITwitterCredentials> RequestCredentialsFromCallbackUrl(string callbackUrl, IAuthenticationTokenProvider authenticationTokenProvider);
 
         /// <summary>
-        /// Request credentials from an AuthenticationContext.
-        /// This is assuming that the callback url contains the expected parameter,
-        /// and that the AuthenticationTokenProvider has access to the returned token id.
-        /// </summary>
-        /// <para> https://developer.twitter.com/en/docs/basics/authentication/api-reference/request_token </para>
-        /// <returns>The requested user credentials</returns>
-        Task<ITwitterCredentials> RequestCredentialsFromCallbackUrl(string callbackUrl, IAuthenticationContext authenticationContext);
-
-        /// <summary>
         /// Request credentials from an AuthenticationToken.
         /// This is assuming that the callback url contains the expected parameter,
         /// and that the AuthenticationTokenProvider has access to the returned token id.
         /// </summary>
         /// <para> https://developer.twitter.com/en/docs/basics/authentication/api-reference/request_token </para>
         /// <returns>The requested user credentials</returns>
-        Task<ITwitterCredentials> RequestCredentialsFromCallbackUrl(string callbackUrl, IAuthenticationToken authenticationToken);
+        Task<ITwitterCredentials> RequestCredentialsFromCallbackUrl(string callbackUrl, IAuthenticationRequestToken authenticationRequestToken);
 
         /// <inheritdoc cref="RequestCredentials(IRequestCredentialsParameters)"/>
-        Task<ITwitterCredentials> RequestCredentials(string verifierCode, IAuthenticationContext authenticationContext);
-
-        /// <inheritdoc cref="RequestCredentials(IRequestCredentialsParameters)"/>
-        Task<ITwitterCredentials> RequestCredentials(string verifierCode, IAuthenticationToken authenticationToken);
+        Task<ITwitterCredentials> RequestCredentials(string verifierCode, IAuthenticationRequestToken authenticationRequestToken);
 
         /// <summary>
         /// Request credentials with a verifierCode

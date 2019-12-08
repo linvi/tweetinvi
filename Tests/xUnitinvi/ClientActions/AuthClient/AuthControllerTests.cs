@@ -61,8 +61,8 @@ namespace xUnitinvi.ClientActions.AuthClient
             var result = await controller.RequestAuthUrl(parameters, request);
 
             // Assert
-            Assert.Equal("MY_TOKEN", result.DataTransferObject.Token.AuthorizationKey);
-            Assert.Equal("MY_SECRET", result.DataTransferObject.Token.AuthorizationSecret);
+            Assert.Equal("MY_TOKEN", result.DataTransferObject.AuthorizationKey);
+            Assert.Equal("MY_SECRET", result.DataTransferObject.AuthorizationSecret);
         }
 
         [Fact]
@@ -86,8 +86,8 @@ namespace xUnitinvi.ClientActions.AuthClient
             var result = await controller.RequestAuthUrl(parameters, request);
 
             // Assert
-            Assert.Equal("MY_TOKEN", result.DataTransferObject.Token.AuthorizationKey);
-            Assert.Equal("MY_SECRET", result.DataTransferObject.Token.AuthorizationSecret);
+            Assert.Equal("MY_TOKEN", result.DataTransferObject.AuthorizationKey);
+            Assert.Equal("MY_SECRET", result.DataTransferObject.AuthorizationSecret);
         }
 
         [Fact]
@@ -111,8 +111,8 @@ namespace xUnitinvi.ClientActions.AuthClient
             var result = await controller.RequestAuthUrl(parameters, request);
 
             // Assert
-            Assert.Equal("MY_TOKEN", result.DataTransferObject.Token.AuthorizationKey);
-            Assert.Equal("MY_SECRET", result.DataTransferObject.Token.AuthorizationSecret);
+            Assert.Equal("MY_TOKEN", result.DataTransferObject.AuthorizationKey);
+            Assert.Equal("MY_SECRET", result.DataTransferObject.AuthorizationSecret);
         }
 
         [Fact]

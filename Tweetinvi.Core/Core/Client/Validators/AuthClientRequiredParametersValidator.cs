@@ -50,19 +50,19 @@ namespace Tweetinvi.Core.Client.Validators
                 throw new ArgumentNullException($"{nameof(parameters)}{nameof(parameters.VerifierCode)}", "If you received a null verifier code, the authentication failed");
             }
 
-            if (parameters.AuthToken == null)
+            if (parameters.AuthRequestToken == null)
             {
-                throw new ArgumentNullException($"{nameof(parameters)}{nameof(parameters.AuthToken)}");
+                throw new ArgumentNullException($"{nameof(parameters)}{nameof(parameters.AuthRequestToken)}");
             }
 
-            if (string.IsNullOrEmpty(parameters.AuthToken.ConsumerKey))
+            if (string.IsNullOrEmpty(parameters.AuthRequestToken.ConsumerKey))
             {
-                throw new ArgumentNullException($"{nameof(parameters)}{nameof(parameters.AuthToken)}{nameof(parameters.AuthToken.ConsumerKey)}");
+                throw new ArgumentNullException($"{nameof(parameters)}{nameof(parameters.AuthRequestToken)}{nameof(parameters.AuthRequestToken.ConsumerKey)}");
             }
 
-            if (string.IsNullOrEmpty(parameters.AuthToken.ConsumerSecret))
+            if (string.IsNullOrEmpty(parameters.AuthRequestToken.ConsumerSecret))
             {
-                throw new ArgumentNullException($"{nameof(parameters)}{nameof(parameters.AuthToken)}{nameof(parameters.AuthToken.ConsumerSecret)}");
+                throw new ArgumentNullException($"{nameof(parameters)}{nameof(parameters.AuthRequestToken)}{nameof(parameters.AuthRequestToken.ConsumerSecret)}");
             }
         }
     }
