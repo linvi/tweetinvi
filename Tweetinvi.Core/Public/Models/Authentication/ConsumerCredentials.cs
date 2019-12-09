@@ -1,4 +1,6 @@
-﻿namespace Tweetinvi.Models
+﻿using Tweetinvi.Core.Helpers;
+
+namespace Tweetinvi.Models
 {
     public interface IConsumerCredentials : IReadOnlyConsumerCredentials
     {
@@ -52,6 +54,16 @@
         {
             return !string.IsNullOrEmpty(ConsumerKey) &&
                    !string.IsNullOrEmpty(ConsumerSecret);
+        }
+
+        public override bool Equals(object obj)
+        {
+            return GetHashCode() == obj?.GetHashCode();
+        }
+
+        public override int GetHashCode()
+        {
+            return CredentialsHashCodeGenerator.CreateHash(this).GetHashCode();
         }
     }
 }

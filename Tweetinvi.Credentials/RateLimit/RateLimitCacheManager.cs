@@ -40,7 +40,7 @@ namespace Tweetinvi.Credentials.RateLimit
 
         public async Task<IEndpointRateLimit> GetOrCreateQueryRateLimit(string query, ITwitterCredentials credentials)
         {
-            var rateLimits = _rateLimitCache.GetCredentialsRateLimits(credentials);
+            var rateLimits = await _rateLimitCache.GetCredentialsRateLimits(credentials).ConfigureAwait(false);
             var queryRateLimit = _rateLimitHelper.GetEndpointRateLimitFromQuery(query, rateLimits, true);
 
             if (rateLimits == null || DoesQueryNeedsToRefreshTheCacheInformation(queryRateLimit))
@@ -54,7 +54,7 @@ namespace Tweetinvi.Credentials.RateLimit
 
         public async Task<IEndpointRateLimit> GetQueryRateLimit(string query, ITwitterCredentials credentials)
         {
-            var rateLimits = _rateLimitCache.GetCredentialsRateLimits(credentials);
+            var rateLimits = await _rateLimitCache.GetCredentialsRateLimits(credentials).ConfigureAwait(false);
             var queryRateLimit = _rateLimitHelper.GetEndpointRateLimitFromQuery(query, rateLimits, false);
 
             if (rateLimits == null || DoesQueryNeedsToRefreshTheCacheInformation(queryRateLimit))
@@ -68,7 +68,7 @@ namespace Tweetinvi.Credentials.RateLimit
 
         public async Task<ICredentialsRateLimits> GetCredentialsRateLimits(ITwitterCredentials credentials)
         {
-            var rateLimits = _rateLimitCache.GetCredentialsRateLimits(credentials);
+            var rateLimits = await _rateLimitCache.GetCredentialsRateLimits(credentials).ConfigureAwait(false);
             if (rateLimits == null)
             {
                 rateLimits = await RefreshCredentialsRateLimits(credentials).ConfigureAwait(false);
@@ -85,8 +85,8 @@ namespace Tweetinvi.Credentials.RateLimit
         private async Task<ICredentialsRateLimits> RefreshCredentialsRateLimits(ITwitterCredentials credentials)
         {
             var tokenRateLimits = await GetTokenRateLimitsFromTwitter(credentials).ConfigureAwait(false);
-            _rateLimitCache.RefreshEntry(credentials, tokenRateLimits);
-            return _rateLimitCache.GetCredentialsRateLimits(credentials);
+            await _rateLimitCache.RefreshEntry(credentials, tokenRateLimits).ConfigureAwait(false);
+            return await _rateLimitCache.GetCredentialsRateLimits(credentials).ConfigureAwait(false);
         }
 
         private async Task<ICredentialsRateLimits> GetTokenRateLimitsFromTwitter(ITwitterCredentials credentials)

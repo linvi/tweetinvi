@@ -1,3 +1,5 @@
+using Tweetinvi.Core.Helpers;
+
 namespace Tweetinvi.Models
 {
     public interface IReadOnlyConsumerCredentialsWithoutBearer
@@ -46,5 +48,15 @@ namespace Tweetinvi.Models
         public string ConsumerKey { get; }
         public string ConsumerSecret { get; }
         public string BearerToken { get; }
+
+        public override bool Equals(object obj)
+        {
+            return GetHashCode() == obj?.GetHashCode();
+        }
+
+        public override int GetHashCode()
+        {
+            return CredentialsHashCodeGenerator.CreateHash(this).GetHashCode();
+        }
     }
 }

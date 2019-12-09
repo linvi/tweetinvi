@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Tweetinvi.Core.Extensions;
 using Tweetinvi.Core.RateLimit;
 using Tweetinvi.Models;
@@ -12,17 +13,17 @@ namespace Tweetinvi.Credentials.RateLimit
     /// </summary>
     public class RateLimitCache : IRateLimitCache
     {
-        private readonly Dictionary<ITwitterCredentials, ICredentialsRateLimits> _credentialsRateLimits;
+        private readonly Dictionary<IReadOnlyTwitterCredentials, ICredentialsRateLimits> _credentialsRateLimits;
 
         private readonly object _lockRefresh = new Object();
         private readonly object _lockCredentialsRateLimitsDictionary = new object();
 
         public RateLimitCache()
         {
-            _credentialsRateLimits = new Dictionary<ITwitterCredentials, ICredentialsRateLimits>();
+            _credentialsRateLimits = new Dictionary<IReadOnlyTwitterCredentials, ICredentialsRateLimits>();
         }
 
-        public void Clear(ITwitterCredentials credentials)
+        public Task Clear(IReadOnlyTwitterCredentials credentials)
         {
             // We want to lock both the refresh dictionary access so that we ensure the dictionary
             // is not cleared during a refresh or when it is being accessed
@@ -35,10 +36,12 @@ namespace Tweetinvi.Credentials.RateLimit
                         _credentialsRateLimits.Remove(credentials);
                     }
                 }
+
+                return Task.CompletedTask;
             }
         }
 
-        public void ClearAll()
+        public Task ClearAll()
         {
             // We want to lock both the refresh dictionary access so that we ensure the dictionary
             // is not cleared during a refresh or when it is being accessed
@@ -48,40 +51,42 @@ namespace Tweetinvi.Credentials.RateLimit
                 {
                     _credentialsRateLimits.Clear();
                 }
+
+                return Task.CompletedTask;
             }
         }
 
-        public ICredentialsRateLimits GetCredentialsRateLimits(ITwitterCredentials credentials)
+        public Task<ICredentialsRateLimits> GetCredentialsRateLimits(IReadOnlyTwitterCredentials credentials)
         {
             lock (_lockCredentialsRateLimitsDictionary)
             {
-                ICredentialsRateLimits credentialsRateLimits;
-                if (credentials != null && _credentialsRateLimits.TryGetValue(credentials, out credentialsRateLimits))
+                if (credentials != null && _credentialsRateLimits.TryGetValue(credentials, out var credentialsRateLimits))
                 {
-                    return credentialsRateLimits;
+                    return Task.FromResult(credentialsRateLimits);
                 }
 
-                return null;
+                return Task.FromResult<ICredentialsRateLimits>(null);
             }
         }
 
-        public void RefreshEntry(ITwitterCredentials credentials, ICredentialsRateLimits newCredentialsRateLimits)
+        public Task RefreshEntry(IReadOnlyTwitterCredentials credentials, ICredentialsRateLimits newCredentialsRateLimits)
         {
             lock (_lockCredentialsRateLimitsDictionary)
             {
                 if (newCredentialsRateLimits == null)
                 {
-                    return;
+                    return Task.CompletedTask;
                 }
 
-                ICredentialsRateLimits currentRateLimits;
-                if (_credentialsRateLimits.TryGetValue(credentials, out currentRateLimits))
+                if (_credentialsRateLimits.TryGetValue(credentials, out var currentRateLimits))
                 {
                     var existingCustomEndpoints = currentRateLimits.OtherEndpointRateLimits;
                     existingCustomEndpoints.ForEach(x => newCredentialsRateLimits.OtherEndpointRateLimits.AddOrUpdate(x));
                 }
 
                 _credentialsRateLimits.AddOrUpdate(credentials, newCredentialsRateLimits);
+
+                return Task.CompletedTask;
             }
         }
     }

@@ -1,4 +1,5 @@
-﻿using Tweetinvi.Models;
+﻿using System.Threading.Tasks;
+using Tweetinvi.Models;
 
 namespace Tweetinvi.Core.RateLimit
 {
@@ -11,21 +12,21 @@ namespace Tweetinvi.Core.RateLimit
         /// <summary>
         /// Clear the rate limits entry associated with a specific set of credentials.
         /// </summary>
-        void Clear(ITwitterCredentials credentials);
+        Task Clear(IReadOnlyTwitterCredentials credentials);
 
         /// <summary>
         /// Clear all the rate limit entries from the cache.
         /// </summary>
-        void ClearAll();
+        Task ClearAll();
 
         /// <summary>
         /// Manually set a rate limit entry for a specific set of credentials.
         /// </summary>
-        void RefreshEntry(ITwitterCredentials credentials, ICredentialsRateLimits newCredentialsRateLimits);
+        Task RefreshEntry(IReadOnlyTwitterCredentials credentials, ICredentialsRateLimits newCredentialsRateLimits);
 
         /// <summary>
         /// Return the rate limits entry for a set of credentials.
         /// </summary>
-        ICredentialsRateLimits GetCredentialsRateLimits(ITwitterCredentials credentials);
+        Task<ICredentialsRateLimits> GetCredentialsRateLimits(IReadOnlyTwitterCredentials credentials);
     }
 }
