@@ -13,9 +13,10 @@ namespace Tweetinvi.Client.Requesters
         /// Bearer token allows to make API requests on an application's own behalf, without a user context.
         /// This is called Application-only authentication.
         /// </summary>
+        /// <param name="parameters"></param>
         /// <para> https://developer.twitter.com/en/docs/basics/authentication/api-reference/token </para>
         /// <returns>The bearer token to use for application only authentication</returns>
-        Task<ITwitterResult<CreateTokenResponseDTO>> CreateBearerToken();
+        Task<ITwitterResult<CreateTokenResponseDTO>> CreateBearerToken(ICreateBearerTokenParameters parameters);
 
         /// <summary>
         /// Initiates the authentication process for a user.
@@ -30,13 +31,20 @@ namespace Tweetinvi.Client.Requesters
         /// </summary>
         /// <para> https://developer.twitter.com/en/docs/basics/authentication/api-reference/token </para>
         /// <returns>The requested user credentials</returns>
-        Task<ITwitterResult<ITwitterCredentials>> RequestCredentialsFromPinCode(IRequestCredentialsParameters parameters);
+        Task<ITwitterResult<ITwitterCredentials>> RequestAuthUrl(IRequestCredentialsParameters parameters);
 
         /// <summary>
-        /// Request credentials with a callback url
+        /// Invalidate bearer token
         /// </summary>
-        /// <para> https://developer.twitter.com/en/docs/basics/authentication/api-reference/token </para>
-        /// <returns>The requested user credentials</returns>
-        Task<ITwitterResult<ITwitterCredentials>> RequestCredentialsFromCallbackUrl(IRequestCredentialsParameters parameters);
+        /// <para> https://developer.twitter.com/en/docs/basics/authentication/api-reference/invalidate_bearer_token </para>
+        /// <returns>Request result</returns>
+        Task<ITwitterResult> InvalidateBearerToken(IInvalidateBearerTokenParameters parameters);
+
+        /// <summary>
+        /// Invalidate access token
+        /// </summary>
+        /// <para> https://developer.twitter.com/en/docs/basics/authentication/api-reference/invalidate_access_token </para>
+        /// <returns>Request result</returns>
+        Task<ITwitterResult> InvalidateAccessToken(IInvalidateAccessTokenParameters parameters);
     }
 }

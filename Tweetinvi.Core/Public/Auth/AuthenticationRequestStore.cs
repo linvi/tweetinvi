@@ -76,9 +76,9 @@ namespace Tweetinvi.Auth
             return Task.CompletedTask;
         }
 
-        public virtual Task RemoveAuthenticationToken(string requestId)
+        public virtual Task RemoveAuthenticationToken(string authenticationRequestId)
         {
-            _store.TryRemove(requestId, out _);
+            _store.TryRemove(authenticationRequestId, out _);
             return Task.CompletedTask;
         }
     }

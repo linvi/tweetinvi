@@ -1,5 +1,6 @@
 ﻿using Tweetinvi.Core.Helpers;
 
+// ReSharper disable InvalidXmlDocComment
 // ReSharper disable InconsistentNaming
 namespace Tweetinvi.Controllers.Properties
 {
@@ -596,14 +597,19 @@ namespace Tweetinvi.Controllers.Properties
         public static string Auth_AuthorizeBaseUrl = "https://api.twitter.com/oauth/authorize";
 
         /// <summary>
+        ///   Looks up a localized string similar to https://api.twitter.com/oauth2/invalidate_token.
+        /// </summary>
+        public static string Auth_InvalidateBearerToken = "https://api.twitter.com/oauth2/invalidate_token";
+
+        /// <summary>
+        ///   Looks up a localized string similar to https://api.twitter.com/1.1/oauth/invalidate_token.
+        /// </summary>
+        public static string Auth_InvalidateAccessToken = "https://api.twitter.com/1.1/oauth/invalidate_token";
+
+        /// <summary>
         ///   Looks up a localized string similar to oauth_token=(?<oauth_token>(?:\\w|\\-)*)&oauth_token_secret=(?<oauth_token_secret>(?:\\w)*)&oauth_callback_confirmed=(?<oauth_callback_confirmed>(?:\\w)*).
         /// </summary>
         public static string Auth_RequestTokenParserRegex = "oauth_token=(?<oauth_token>(?:\\w|\\-)*)&oauth_token_secret=(?<oauth_token_secret>(?:\\w)*)&oauth_callback_confirmed=(?<oauth_callback_confirmed>(?:\\w)*)";
-
-        /// <summary>
-        ///   Looks up a localized string similar to oauth_token=(?<oauth_token>(?:\\w|\\-)*)&oauth_token_secret=(?<oauth_token_secret>(?:\\w)*)&user_id=(?<user_id>(?:\\d)*)&screen_name=(?<screen_name>(?:\\w)*)
-        /// </summary>
-        public static string Auth_RequestAccessTokenRegex = "oauth_token=(?<oauth_token>(?:\\w|\\-)*)&oauth_token_secret=(?<oauth_token_secret>(?:\\w)*)&user_id=(?<user_id>(?:\\d)*)&screen_name=(?<screen_name>(?:\\w)*)";
 
         public static string GetResourceByName(string resourceName)
         {

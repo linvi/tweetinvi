@@ -6,10 +6,11 @@ namespace Tweetinvi.Core.Client.Validators
 {
     public interface IAuthClientParametersValidator
     {
-        void ValidateCreateBearerToken(ITwitterRequest request);
+        void Validate(ICreateBearerTokenParameters parameters, ITwitterRequest request);
         void Validate(IRequestAuthUrlParameters parameters);
-
         void Validate(IRequestCredentialsParameters parameters);
+        void Validate(IInvalidateAccessTokenParameters parameters, ITwitterRequest request);
+        void Validate(IInvalidateBearerTokenParameters parameters, ITwitterRequest request);
     }
 
     public interface IInternalAuthClientParametersValidator : IAuthClientParametersValidator
@@ -31,9 +32,9 @@ namespace Tweetinvi.Core.Client.Validators
             // currently no need to use the client
         }
 
-        public void ValidateCreateBearerToken(ITwitterRequest request)
+        public void Validate(ICreateBearerTokenParameters parameters, ITwitterRequest request)
         {
-            _authClientRequiredParametersValidator.ValidateCreateBearerToken(request);
+            _authClientRequiredParametersValidator.Validate(parameters, request);
         }
 
         public void Validate(IRequestAuthUrlParameters parameters)
@@ -52,6 +53,16 @@ namespace Tweetinvi.Core.Client.Validators
         public void Validate(IRequestCredentialsParameters parameters)
         {
             _authClientRequiredParametersValidator.Validate(parameters);
+        }
+
+        public void Validate(IInvalidateBearerTokenParameters parameters, ITwitterRequest request)
+        {
+            _authClientRequiredParametersValidator.Validate(parameters, request);
+        }
+
+        public void Validate(IInvalidateAccessTokenParameters parameters, ITwitterRequest request)
+        {
+            _authClientRequiredParametersValidator.Validate(parameters, request);
         }
     }
 }

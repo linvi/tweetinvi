@@ -9,7 +9,7 @@ namespace Tweetinvi.Parameters.Auth
     /// <summary>
     /// For more information visit : https://developer.twitter.com/en/docs/basics/authentication/api-reference/access_token
     /// </summary>
-    public interface IRequestCredentialsParameters
+    public interface IRequestCredentialsParameters : ICustomRequestParameters
     {
         /// <summary>
         /// The verification code returned by Twitter also known as oauth_verifier
@@ -22,7 +22,7 @@ namespace Tweetinvi.Parameters.Auth
         IAuthenticationRequest AuthRequest { get; set; }
     }
 
-    public class RequestCredentialsParameters : IRequestCredentialsParameters
+    public class RequestCredentialsParameters : CustomRequestParameters, IRequestCredentialsParameters
     {
         /// <summary>
         /// Generate request credentials parameters to authenticate with pinCode

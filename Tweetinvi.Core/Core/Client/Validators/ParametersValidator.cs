@@ -184,9 +184,9 @@ namespace Tweetinvi.Core.Client.Validators
             _accountSettingsClientParametersValidator.Validate(parameters);
         }
 
-        public void ValidateCreateBearerToken(ITwitterRequest request)
+        public void Validate(ICreateBearerTokenParameters parameters, ITwitterRequest request)
         {
-            _authClientParametersValidator.ValidateCreateBearerToken(request);
+            _authClientParametersValidator.Validate(parameters, request);
         }
 
         public void Validate(IRequestAuthUrlParameters parameters)
@@ -197,6 +197,16 @@ namespace Tweetinvi.Core.Client.Validators
         public void Validate(IRequestCredentialsParameters parameters)
         {
             _authClientParametersValidator.Validate(parameters);
+        }
+
+        public void Validate(IInvalidateAccessTokenParameters parameters, ITwitterRequest request)
+        {
+            _authClientParametersValidator.Validate(parameters, request);
+        }
+
+        public void Validate(IInvalidateBearerTokenParameters parameters, ITwitterRequest request)
+        {
+            _authClientParametersValidator.Validate(parameters, request);
         }
 
         public void Validate(IGetHomeTimelineParameters parameters)

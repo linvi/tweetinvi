@@ -16,9 +16,14 @@ namespace Tweetinvi.Client
             _authRequester = client.RequestExecutor.Auth;
         }
 
-        public async Task<string> CreateBearerToken()
+        public Task<string> CreateBearerToken()
         {
-            var twitterResult = await _authRequester.CreateBearerToken().ConfigureAwait(false);
+            return CreateBearerToken(new CreateBearerTokenParameters());
+        }
+
+        public async Task<string> CreateBearerToken(ICreateBearerTokenParameters parameters)
+        {
+            var twitterResult = await _authRequester.CreateBearerToken(parameters).ConfigureAwait(false);
             return twitterResult?.DataTransferObject.AccessToken;
         }
 
@@ -50,7 +55,7 @@ namespace Tweetinvi.Client
 
         public async Task<ITwitterCredentials> RequestCredentials(IRequestCredentialsParameters parameters)
         {
-            var twitterResult = await _authRequester.RequestCredentialsFromPinCode(parameters).ConfigureAwait(false);
+            var twitterResult = await _authRequester.RequestAuthUrl(parameters).ConfigureAwait(false);
             return twitterResult?.DataTransferObject;
         }
 
@@ -62,6 +67,26 @@ namespace Tweetinvi.Client
         public Task<ITwitterCredentials> RequestCredentialsFromCallbackUrl(string callbackUrl, IAuthenticationRequest authenticationRequest)
         {
             return RequestCredentials(RequestCredentialsParameters.FromCallbackUrl(callbackUrl, authenticationRequest));
+        }
+
+        public Task InvalidateBearerToken()
+        {
+            return InvalidateBearerToken(new InvalidateBearerTokenParameters());
+        }
+
+        public Task InvalidateBearerToken(IInvalidateBearerTokenParameters parameters)
+        {
+            return _authRequester.InvalidateBearerToken(parameters);
+        }
+
+        public Task InvalidateAccessToken()
+        {
+            return InvalidateAccessToken(new InvalidateAccessTokenParameters());
+        }
+
+        public Task InvalidateAccessToken(IInvalidateAccessTokenParameters parameters)
+        {
+            return _authRequester.InvalidateAccessToken(parameters);
         }
     }
 }

@@ -48,6 +48,14 @@ namespace xUnitinvi.IntegrationTests
             _logger.WriteLine($"Starting {nameof(AuthenticateWithReadOnlyPermissions)}");
             await AuthenticateWithReadOnlyPermissions().ConfigureAwait(false);
             _logger.WriteLine($"{nameof(AuthenticateWithReadOnlyPermissions)} succeeded");
+
+            _logger.WriteLine($"Starting {nameof(InvalidateBearerToken)}");
+            await InvalidateBearerToken().ConfigureAwait(false);
+            _logger.WriteLine($"{nameof(InvalidateBearerToken)} succeeded");
+
+            _logger.WriteLine($"Starting {nameof(InvalidateAccessToken)}");
+            await InvalidateAccessToken().ConfigureAwait(false);
+            _logger.WriteLine($"{nameof(InvalidateAccessToken)} succeeded");
         }
 
         [Fact]
@@ -66,6 +74,52 @@ namespace xUnitinvi.IntegrationTests
 
             // assert
             Assert.Matches("Tweetinvi 3.0", tweet.Text);
+        }
+
+        [Fact]
+        public async Task InvalidateBearerToken()
+        {
+            if (!IntegrationTestConfig.ShouldRunIntegrationTests)
+                return;
+
+            var accountCreds = IntegrationTestConfig.TweetinviTest.Credentials;
+            var consumerCreds = new TwitterCredentials(accountCreds.ConsumerKey, accountCreds.ConsumerSecret);
+            var client = new TwitterClient(consumerCreds);
+            await client.Auth.InitializeClientBearerToken();
+            var accountUser = await client.Users.GetUser(IntegrationTestConfig.TweetinviTest.AccountId);
+
+            // act
+            await client.Auth.InvalidateBearerToken();
+
+            // assert
+            Assert.Equal(accountUser.ScreenName, IntegrationTestConfig.TweetinviTest.AccountId);
+            await Assert.ThrowsAsync<TwitterException>(() => client.Users.GetUser(IntegrationTestConfig.TweetinviTest.AccountId));
+        }
+
+        [Fact]
+        public async Task InvalidateAccessToken()
+        {
+            if (!IntegrationTestConfig.ShouldRunIntegrationTests)
+                return;
+
+            var authenticationClient = new TwitterClient(IntegrationTestConfig.TweetinviTest.Credentials);
+            var authenticationRequest = await authenticationClient.Auth.RequestAuthenticationUrl().ConfigureAwait(false);
+            var authUrl = authenticationRequest.AuthorizationURL;
+
+            // ask the user for the pin code
+            var verifierCode = await ExtractPinCodeFromTwitterAuthPage(authUrl).ConfigureAwait(false);
+            var userCredentials = await authenticationClient.Auth.RequestCredentialsFromVerifierCode(verifierCode, authenticationRequest).ConfigureAwait(false);
+
+            var client = new TwitterClient(userCredentials);
+            var accountUser = await client.Account.GetAuthenticatedUser();
+
+            // act
+            await Task.Delay(TimeSpan.FromSeconds(3)); // giving time to Twitter to process the new credentials
+            await client.Auth.InvalidateAccessToken();
+
+            // assert
+            Assert.Equal(accountUser.ScreenName, IntegrationTestConfig.ProtectedUser.AccountId);
+            await Assert.ThrowsAsync<TwitterException>(() => client.Account.GetAuthenticatedUser());
         }
 
         [Fact]
@@ -199,7 +253,7 @@ namespace xUnitinvi.IntegrationTests
             webDriver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(1);
             webDriver.Url = authUrl;
 
-            new WebDriverWait(webDriver, TimeSpan.FromSeconds(10)).Until(d => ((IJavaScriptExecutor) d).ExecuteScript("return document.readyState").Equals("complete"));
+            new WebDriverWait(webDriver, TimeSpan.FromSeconds(10)).Until(d => ((IJavaScriptExecutor)d).ExecuteScript("return document.readyState").Equals("complete"));
 
             var usernameTextField = webDriver.FindElementById("username_or_email");
             usernameTextField.SendKeys(IntegrationTestConfig.ProtectedUser.AccountId);
@@ -211,7 +265,7 @@ namespace xUnitinvi.IntegrationTests
             passwordTextField.Submit();
 
             _logger.WriteLine($"{DateTime.Now.ToLongTimeString()} - authentication credentials submitted");
-            new WebDriverWait(webDriver, TimeSpan.FromSeconds(10)).Until(d => ((IJavaScriptExecutor) d).ExecuteScript("return document.readyState").Equals("complete"));
+            new WebDriverWait(webDriver, TimeSpan.FromSeconds(10)).Until(d => ((IJavaScriptExecutor)d).ExecuteScript("return document.readyState").Equals("complete"));
             _logger.WriteLine($"{DateTime.Now.ToLongTimeString()} - authentication successfully moved to next page");
 
             var emailTextFields = webDriver.FindElementsByClassName("js-username-field");
@@ -223,7 +277,7 @@ namespace xUnitinvi.IntegrationTests
                 emailTextFields[0].SendKeys(Environment.GetEnvironmentVariable("TWEETINVI_EMAIL"));
                 secondPasswordTextField.SendKeys(Environment.GetEnvironmentVariable("TWEETINVI_PASS"));
                 secondPasswordTextField.Submit();
-                new WebDriverWait(webDriver, TimeSpan.FromSeconds(10)).Until(d => ((IJavaScriptExecutor) d).ExecuteScript("return document.readyState").Equals("complete"));
+                new WebDriverWait(webDriver, TimeSpan.FromSeconds(10)).Until(d => ((IJavaScriptExecutor)d).ExecuteScript("return document.readyState").Equals("complete"));
             }
 
             _logger.WriteLine($"{DateTime.Now.ToLongTimeString()} - authentication completed");

@@ -1,5 +1,4 @@
-﻿using Tweetinvi.Auth;
-using Tweetinvi.Core.Credentials;
+﻿using Tweetinvi.Core.Credentials;
 using Tweetinvi.Core.Injectinvi;
 using Tweetinvi.Core.RateLimit;
 using Tweetinvi.Core.Web;
@@ -16,7 +15,6 @@ namespace Tweetinvi.Credentials
             container.RegisterType<ITwitterAccessor, TwitterAccessor>(RegistrationLifetime.InstancePerThread);
             container.RegisterType<ICredentialsAccessor, CredentialsAccessor>(RegistrationLifetime.InstancePerApplication);
 
-            container.RegisterType<IAuthFactory, AuthFactory>();
             container.RegisterType<ICursorQueryHelper, CursorQueryHelper>();
 
             RegisterRateLimitHandler(container);

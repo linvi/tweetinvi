@@ -1,5 +1,3 @@
-using Tweetinvi.Auth;
-
 namespace Tweetinvi.Parameters.Auth
 {
     /// <inheritdoc/>

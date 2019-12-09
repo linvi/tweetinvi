@@ -30,20 +30,7 @@ namespace Tweetinvi
             }
         }
 
-        [ThreadStatic]
-        private static IAuthFactory _authFactoryForCurrentThread;
-        private static IAuthFactory AuthFactory
-        {
-            get
-            {
-                if (_authFactoryForCurrentThread == null)
-                {
-                    Initialize();
-                }
 
-                return _authFactoryForCurrentThread;
-            }
-        }
 
         static AuthTemp()
         {
@@ -53,7 +40,6 @@ namespace Tweetinvi
         private static void Initialize()
         {
             _credentialsAccessor = TweetinviContainer.Resolve<ICredentialsAccessor>();
-            _authFactoryForCurrentThread = TweetinviContainer.Resolve<IAuthFactory>();
         }
 
         /// <summary>
@@ -80,14 +66,6 @@ namespace Tweetinvi
         public static void SetCredentials(ITwitterCredentials credentials)
         {
             Credentials = credentials;
-        }
-
-        /// <summary>
-        /// Invalidate application only credentials so that they can no longer be used to access Twitter.
-        /// </summary>
-        public static bool InvalidateCredentials(ITwitterCredentials credentials = null)
-        {
-            return AuthFactory.InvalidateCredentials(credentials ?? CredentialsAccessor.CurrentThreadCredentials).Result;
         }
 
         /// <summary>

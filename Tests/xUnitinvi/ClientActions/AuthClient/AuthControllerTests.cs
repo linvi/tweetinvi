@@ -3,6 +3,7 @@ using FakeItEasy;
 using Tweetinvi.Controllers.Auth;
 using Tweetinvi.Core.DTO;
 using Tweetinvi.Core.Web;
+using Tweetinvi.Credentials.Models;
 using Tweetinvi.Exceptions;
 using Tweetinvi.Models;
 using Tweetinvi.Parameters.Auth;
@@ -34,18 +35,19 @@ namespace xUnitinvi.ClientActions.AuthClient
             var controller = CreateAuthController();
             var request = A.Fake<ITwitterRequest>();
             var expectedResult = A.Fake<ITwitterResult<CreateTokenResponseDTO>>();
+            var parameters = A.Fake<ICreateBearerTokenParameters>();
 
-            A.CallTo(() => _fakeAuthQueryExecutor.CreateBearerToken(request)).Returns(expectedResult);
+            A.CallTo(() => _fakeAuthQueryExecutor.CreateBearerToken(parameters, request)).Returns(expectedResult);
 
             // Act
-            var result = await controller.CreateBearerToken(request);
+            var result = await controller.CreateBearerToken(parameters, request);
 
             // Assert
             Assert.Equal(result, expectedResult);
         }
 
         [Fact]
-        public async Task StartAuthProcess_PinCode_ReturnsFromRequestExecutor()
+        public async Task RequestAuthUrl_PinCode_ReturnsFromRequestExecutor()
         {
             // Arrange
             var controller = CreateAuthController();
@@ -66,7 +68,7 @@ namespace xUnitinvi.ClientActions.AuthClient
         }
 
         [Fact]
-        public async Task StartAuthProcess_WithRedirectUrl_ReturnsFromRequestExecutor()
+        public async Task RequestAuthUrl_WithRedirectUrl_ReturnsFromRequestExecutor()
         {
             // Arrange
             var controller = CreateAuthController();
@@ -88,7 +90,7 @@ namespace xUnitinvi.ClientActions.AuthClient
         }
 
         [Fact]
-        public async Task StartAuthProcess_WithNonConfirmedCallback_ShouldThrowAsAborted()
+        public async Task RequestAuthUrl_WithNonConfirmedCallback_ShouldThrowAsAborted()
         {
             // Arrange
             var controller = CreateAuthController();
@@ -106,7 +108,7 @@ namespace xUnitinvi.ClientActions.AuthClient
         }
 
         [Fact]
-        public async Task StartAuthProcess_WithoutResponse_ShouldThrowAuthException()
+        public async Task RequestAuthUrl_WithoutResponse_ShouldThrowAuthException()
         {
             // Arrange
             var controller = CreateAuthController();
@@ -122,6 +124,92 @@ namespace xUnitinvi.ClientActions.AuthClient
 
             // Act
             await Assert.ThrowsAsync<TwitterAuthException>(() => controller.RequestAuthUrl(parameters, request));
+        }
+
+        [Fact]
+        public async Task RequestCredentials_ParsesTheTwitterResultAndReturnsCredentials()
+        {
+            // Arrange
+            var controller = CreateAuthController();
+            var request = A.Fake<ITwitterRequest>();
+            var expectedResult = A.Fake<ITwitterResult>();
+            var parameters = new RequestCredentialsParameters("verifier_code", new AuthenticationRequest
+            {
+                ConsumerKey = "consumer_key",
+                ConsumerSecret = "consumer_secret"
+            });
+
+            var response = "oauth_token=access_token&oauth_token_secret=access_secret";
+
+            A.CallTo(() => _fakeAuthQueryExecutor.RequestCredentials(parameters, request)).Returns(expectedResult);
+            A.CallTo(() => expectedResult.Json).Returns(response);
+
+            // Act
+            var result = await controller.RequestCredentials(parameters, request);
+
+            // Assert
+            Assert.Equal(result.DataTransferObject.AccessToken, $"access_token");
+            Assert.Equal(result.DataTransferObject.AccessTokenSecret, $"access_secret");
+            Assert.Equal(result.DataTransferObject.ConsumerKey, $"consumer_key");
+            Assert.Equal(result.DataTransferObject.ConsumerSecret, $"consumer_secret");
+        }
+
+        [Fact]
+        public async Task RequestCredentials_ThrowsWhenCredentialsAreMissingInResult()
+        {
+            // Arrange
+            var controller = CreateAuthController();
+            var request = A.Fake<ITwitterRequest>();
+            var expectedResult = A.Fake<ITwitterResult>();
+            var parameters = new RequestCredentialsParameters("verifier_code", new AuthenticationRequest
+            {
+                ConsumerKey = "consumer_key",
+                ConsumerSecret = "consumer_secret"
+            });
+
+            var response = "oauth_token=access_token"; // missing secret
+
+            A.CallTo(() => _fakeAuthQueryExecutor.RequestCredentials(parameters, request)).Returns(expectedResult);
+            A.CallTo(() => expectedResult.Json).Returns(response);
+
+            // Act
+            await Assert.ThrowsAsync<TwitterAuthException>(() => controller.RequestCredentials(parameters, request));
+        }
+
+        [Fact]
+        public async Task InvalidateBearerToken_ReturnsFromQueryExecutor()
+        {
+            // Arrange
+            var controller = CreateAuthController();
+            var request = A.Fake<ITwitterRequest>();
+            var expectedResult = A.Fake<ITwitterResult>();
+            var parameters = new InvalidateBearerTokenParameters();
+
+            A.CallTo(() => _fakeAuthQueryExecutor.InvalidateBearerToken(parameters, request)).Returns(expectedResult);
+
+            // Act
+            var result = await controller.InvalidateBearerToken(parameters, request);
+
+            // Assert
+            Assert.Equal(result, expectedResult);
+        }
+
+        [Fact]
+        public async Task InvalidateAccessToken_ReturnsFromQueryExecutor()
+        {
+            // Arrange
+            var controller = CreateAuthController();
+            var request = A.Fake<ITwitterRequest>();
+            var expectedResult = A.Fake<ITwitterResult>();
+            var parameters = new InvalidateAccessTokenParameters();
+
+            A.CallTo(() => _fakeAuthQueryExecutor.InvalidateAccessToken(parameters, request)).Returns(expectedResult);
+
+            // Act
+            var result = await controller.InvalidateAccessToken(parameters, request);
+
+            // Assert
+            Assert.Equal(result, expectedResult);
         }
     }
 }
