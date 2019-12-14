@@ -10,7 +10,7 @@ namespace Tweetinvi
     /// </summary>
     public static class TweetinviContainer
     {
-        private static readonly ITweetinviContainer _container;
+        public static readonly ITweetinviContainer Container;
 
         /// <summary>
         /// Event raised before the registration completes so that you can override registered classes.
@@ -20,8 +20,8 @@ namespace Tweetinvi
 
         static TweetinviContainer()
         {
-            _container = new AutofacContainer();
-            _container.BeforeRegistrationCompletes += ContainerOnBeforeRegistrationCompletes;
+            Container = new AutofacContainer();
+            Container.BeforeRegistrationCompletes += ContainerOnBeforeRegistrationCompletes;
         }
 
         private static void ContainerOnBeforeRegistrationCompletes(object sender, TweetinviContainerEventArgs args)
@@ -32,20 +32,25 @@ namespace Tweetinvi
                 handlers.Invoke(sender, args);
             }
 
-            _container.BeforeRegistrationCompletes -= ContainerOnBeforeRegistrationCompletes;
+            Container.BeforeRegistrationCompletes -= ContainerOnBeforeRegistrationCompletes;
         }
+
+        private static readonly object _resolveLock = new object();
 
         /// <summary>
         /// Allow you to retrieve any class used by Tweetinvi by specifying its interface.
         /// </summary>
         public static T Resolve<T>()
         {
-            if (!_container.IsInitialized)
+            lock (_resolveLock)
             {
-                _container.Initialize();
-            }
+                if (!Container.IsInitialized)
+                {
+                    Container.Initialize();
+                }
 
-            return _container.Resolve<T>();
+                return Container.ThreadResolve<T>();
+            }
         }
     }
 }

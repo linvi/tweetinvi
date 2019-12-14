@@ -30,7 +30,7 @@ namespace Tweetinvi.Core.Client.Validators
             _client = client;
         }
 
-        private TwitterLimits Limits => _client.Config.Limits;
+        private TwitterLimits Limits => _client.ClientSettings.Limits;
 
         public void Validate(IGetHomeTimelineParameters parameters)
         {

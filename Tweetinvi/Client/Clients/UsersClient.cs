@@ -22,9 +22,11 @@ namespace Tweetinvi.Client
 
         public UsersClient(TwitterClient client)
         {
+            var clientContext = client.CreateTwitterExecutionContext();
+
             _client = client;
             _usersRequester = client.RequestExecutor.Users;
-            _multiLevelCursorIteratorFactory = TweetinviContainer.Resolve<IMultiLevelCursorIteratorFactory>();
+            _multiLevelCursorIteratorFactory = clientContext.Container.Resolve<IMultiLevelCursorIteratorFactory>();
         }
 
         public IUsersClientParametersValidator ParametersValidator => _client.ParametersValidator;
@@ -172,9 +174,9 @@ namespace Tweetinvi.Client
             var friendsPageIterator = _usersRequester.GetFriendIds(parameters);
 
             var maxPageSize = parameters.GetUsersPageSize;
-            if (maxPageSize > _client.Config.Limits.USERS_GET_USERS_MAX_SIZE)
+            if (maxPageSize > _client.ClientSettings.Limits.USERS_GET_USERS_MAX_SIZE)
             {
-                throw new TwitterArgumentLimitException($"{nameof(parameters)}.{nameof(parameters.GetUsersPageSize)}", maxPageSize, nameof(_client.Config.Limits.USERS_GET_USERS_MAX_SIZE),
+                throw new TwitterArgumentLimitException($"{nameof(parameters)}.{nameof(parameters.GetUsersPageSize)}", maxPageSize, nameof(_client.ClientSettings.Limits.USERS_GET_USERS_MAX_SIZE),
                     "page size");
             }
 
@@ -214,9 +216,9 @@ namespace Tweetinvi.Client
             var followerPageIterator = _usersRequester.GetFollowerIds(parameters);
 
             var maxPageSize = parameters.GetUsersPageSize;
-            if (maxPageSize > _client.Config.Limits.USERS_GET_USERS_MAX_SIZE)
+            if (maxPageSize > _client.ClientSettings.Limits.USERS_GET_USERS_MAX_SIZE)
             {
-                throw new TwitterArgumentLimitException($"{nameof(parameters)}.{nameof(parameters.GetUsersPageSize)}", maxPageSize, nameof(_client.Config.Limits.USERS_GET_USERS_MAX_SIZE),
+                throw new TwitterArgumentLimitException($"{nameof(parameters)}.{nameof(parameters.GetUsersPageSize)}", maxPageSize, nameof(_client.ClientSettings.Limits.USERS_GET_USERS_MAX_SIZE),
                     "page size");
             }
 

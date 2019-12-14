@@ -45,6 +45,11 @@ namespace Tweetinvi.Injectinvi
 
         public T Resolve<T>(params IConstructorNamedParameter[] parameters)
         {
+            throw new NotImplementedException();
+        }
+
+        public T ThreadResolve<T>(params IConstructorNamedParameter[] parameters)
+        {
             return _container.Resolve<T>(parameters.Select(p => new NamedParameter(p.Name, p.Value)));
         }
     }

@@ -1,4 +1,5 @@
 ﻿using System;
+using Tweetinvi.Core.Injectinvi;
 using Tweetinvi.Core.RateLimit;
 using Tweetinvi.Models;
 
@@ -8,6 +9,7 @@ namespace Tweetinvi.Core.Client
     {
         Func<ITwitterRequest> RequestFactory { get; set; }
         IRateLimitCacheManager RateLimitCacheManager { get; set; }
+        ITweetinviContainer Container { get; set; }
         new ITwitterExecutionContext Clone();
     }
 
@@ -20,6 +22,7 @@ namespace Tweetinvi.Core.Client
 
         public Func<ITwitterRequest> RequestFactory { get; set; }
         public IRateLimitCacheManager RateLimitCacheManager { get; set; }
+        public ITweetinviContainer Container { get; set; }
         public new ITwitterExecutionContext Clone()
         {
             var clone = new TwitterExecutionContext

@@ -25,12 +25,14 @@ namespace Tweetinvi.Client
             _client = client;
             _accountRequester = client.RequestExecutor.Account;
 
-            _userFactory = TweetinviContainer.Resolve<IUserFactory>();
-            _multiLevelCursorIteratorFactory = TweetinviContainer.Resolve<IMultiLevelCursorIteratorFactory>();
+            var clientContext = _client.CreateTwitterExecutionContext();
+
+            _userFactory = clientContext.Container.Resolve<IUserFactory>();
+            _multiLevelCursorIteratorFactory = clientContext.Container.Resolve<IMultiLevelCursorIteratorFactory>();
         }
 
         public IAccountClientParametersValidator ParametersValidator => _client.ParametersValidator;
-        
+
         #region Authenticated User
 
         public Task<IAuthenticatedUser> GetAuthenticatedUser()
@@ -45,7 +47,7 @@ namespace Tweetinvi.Client
         }
 
         #endregion
-        
+
         #region Block / Unblock
 
         public Task<bool> BlockUser(long? userId)
@@ -73,7 +75,7 @@ namespace Tweetinvi.Client
         {
             return UnblockUser(new UnblockUserParameters(userId));
         }
-        
+
         public Task<bool> UnblockUser(string username)
         {
             return UnblockUser(new UnblockUserParameters(username));
@@ -150,7 +152,7 @@ namespace Tweetinvi.Client
         {
             return FollowUser(new FollowUserParameters(username));
         }
-        
+
         public Task<bool> FollowUser(IUserIdentifier user)
         {
             return FollowUser(new FollowUserParameters(user));
@@ -194,14 +196,14 @@ namespace Tweetinvi.Client
         }
 
         #endregion
-        
+
         #region Pending Followers Requests
 
         public ITwitterIterator<long> GetUserIdsRequestingFriendship()
         {
             return GetUserIdsRequestingFriendship(new GetUserIdsRequestingFriendshipParameters());
         }
-        
+
         public ITwitterIterator<long> GetUserIdsRequestingFriendship(IGetUserIdsRequestingFriendshipParameters parameters)
         {
             var iterator = _accountRequester.GetUserIdsRequestingFriendship(parameters);
@@ -212,17 +214,17 @@ namespace Tweetinvi.Client
         {
             return GetUsersRequestingFriendship(new GetUsersRequestingFriendshipParameters());
         }
-        
+
         public IMultiLevelCursorIterator<long, IUser> GetUsersRequestingFriendship(IGetUsersRequestingFriendshipParameters parameters)
         {
             var iterator = _accountRequester.GetUserIdsRequestingFriendship(parameters);
 
             var maxPageSize = parameters.GetUsersPageSize;
-            if (maxPageSize > _client.Config.Limits.USERS_GET_USERS_MAX_SIZE)
+            if (maxPageSize > _client.ClientSettings.Limits.USERS_GET_USERS_MAX_SIZE)
             {
-                throw new TwitterArgumentLimitException($"{nameof(parameters)}.{nameof(parameters.GetUsersPageSize)}", maxPageSize, nameof(_client.Config.Limits.USERS_GET_USERS_MAX_SIZE), "page size");
+                throw new TwitterArgumentLimitException($"{nameof(parameters)}.{nameof(parameters.GetUsersPageSize)}", maxPageSize, nameof(_client.ClientSettings.Limits.USERS_GET_USERS_MAX_SIZE), "page size");
             }
-            
+
             return _multiLevelCursorIteratorFactory.CreateUserMultiLevelIterator(_client, iterator, maxPageSize);
         }
 
@@ -236,7 +238,7 @@ namespace Tweetinvi.Client
             var iterator = _accountRequester.GetUserIdsYouRequestedToFollow(parameters);
             return new TwitterIteratorProxy<ITwitterResult<IIdsCursorQueryResultDTO>, long>(iterator, dto => dto.DataTransferObject.Ids);
         }
-        
+
         public IMultiLevelCursorIterator<long, IUser> GetUsersYouRequestedToFollow()
         {
             return GetUsersYouRequestedToFollow(new GetUsersYouRequestedToFollowParameters());
@@ -247,14 +249,14 @@ namespace Tweetinvi.Client
             var iterator = _accountRequester.GetUserIdsYouRequestedToFollow(parameters);
 
             var maxPageSize = parameters.GetUsersPageSize;
-            if (maxPageSize > _client.Config.Limits.USERS_GET_USERS_MAX_SIZE)
+            if (maxPageSize > _client.ClientSettings.Limits.USERS_GET_USERS_MAX_SIZE)
             {
-                throw new TwitterArgumentLimitException($"{nameof(parameters)}.{nameof(parameters.GetUsersPageSize)}", maxPageSize, nameof(_client.Config.Limits.USERS_GET_USERS_MAX_SIZE), "page size");
+                throw new TwitterArgumentLimitException($"{nameof(parameters)}.{nameof(parameters.GetUsersPageSize)}", maxPageSize, nameof(_client.ClientSettings.Limits.USERS_GET_USERS_MAX_SIZE), "page size");
             }
-            
+
             return _multiLevelCursorIteratorFactory.CreateUserMultiLevelIterator(_client, iterator, maxPageSize);
         }
-        
+
         #endregion
 
         #region Relationships With
@@ -311,7 +313,7 @@ namespace Tweetinvi.Client
         {
             return GetUserIdsWhoseRetweetsAreMuted(new GetUserIdsWhoseRetweetsAreMutedParameters());
         }
-        
+
         public async Task<long[]> GetUserIdsWhoseRetweetsAreMuted(IGetUserIdsWhoseRetweetsAreMutedParameters parameters)
         {
             var twitterResult = await _accountRequester.GetUserIdsWhoseRetweetsAreMuted(parameters).ConfigureAwait(false);

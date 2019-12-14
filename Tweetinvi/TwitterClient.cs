@@ -1,8 +1,8 @@
 ﻿using Tweetinvi.Client;
 using Tweetinvi.Core.Client;
 using Tweetinvi.Core.Client.Validators;
+using Tweetinvi.Core.Injectinvi;
 using Tweetinvi.Core.RateLimit;
-using Tweetinvi.Credentials.RateLimit;
 using Tweetinvi.Models;
 
 // ReSharper disable once CheckNamespace
@@ -11,12 +11,15 @@ namespace Tweetinvi
     public class TwitterClientParameters
     {
         public IRateLimitCache RateLimitCache { get; set; }
+        public ITweetinviContainer Container { get; set; }
+        public ITweetinviSettings Settings { get; set; }
     }
 
     public class TwitterClient : ITwitterClient
     {
         private IReadOnlyTwitterCredentials _credentials;
-        private IRateLimitCacheManager _rateLimitCacheManager;
+        private readonly IRateLimitCacheManager _rateLimitCacheManager;
+        private readonly ITweetinviContainer _tweetinviContainer;
 
         /// <summary>
         /// IMPORTANT NOTE: The setter is for convenience. It is strongly recommended to create a new TwitterClient instead.
@@ -29,7 +32,7 @@ namespace Tweetinvi
             set => _credentials = new ReadOnlyTwitterCredentials(value);
         }
 
-        public ITweetinviSettings Config { get; }
+        public ITweetinviSettings ClientSettings { get; }
 
         public TwitterClient(IReadOnlyTwitterCredentials credentials) : this(credentials, new TwitterClientParameters())
         {
@@ -38,17 +41,19 @@ namespace Tweetinvi
         public TwitterClient(IReadOnlyTwitterCredentials credentials, TwitterClientParameters parameters)
         {
             Credentials = credentials;
-            Config = new TweetinviSettings();
+            ClientSettings = parameters?.Settings ?? new TweetinviSettings();
 
-            var requestExecutor = TweetinviContainer.Resolve<IInternalRequestExecutor>();
+            _tweetinviContainer = parameters?.Container ?? TweetinviContainer.Container;
+
+            var requestExecutor = _tweetinviContainer.Resolve<IInternalRequestExecutor>();
             requestExecutor.Initialize(this);
             RequestExecutor = requestExecutor;
 
-            var parametersValidator = TweetinviContainer.Resolve<IInternalParametersValidator>();
+            var parametersValidator = _tweetinviContainer.Resolve<IInternalParametersValidator>();
             parametersValidator.Initialize(this);
             ParametersValidator = parametersValidator;
 
-            _rateLimitCacheManager = TweetinviContainer.Resolve<IRateLimitCacheManager>();
+            _rateLimitCacheManager = _tweetinviContainer.Resolve<IRateLimitCacheManager>();
             if (parameters?.RateLimitCache != null)
             {
                 _rateLimitCacheManager.RateLimitCache = parameters.RateLimitCache;
@@ -75,7 +80,6 @@ namespace Tweetinvi
         public IUploadClient Upload { get; }
         public IUsersClient Users { get; }
 
-
         public IParametersValidator ParametersValidator { get; }
         public IRequestExecutor RequestExecutor { get; }
 
@@ -83,7 +87,9 @@ namespace Tweetinvi
         {
             return new TwitterExecutionContext
             {
-                RequestFactory = CreateRequest
+                RequestFactory = CreateRequest,
+                RateLimitCacheManager = _rateLimitCacheManager,
+                Container = _tweetinviContainer
             };
         }
 
@@ -91,11 +97,7 @@ namespace Tweetinvi
         {
             var request = new TwitterRequest
             {
-                ExecutionContext = new TwitterExecutionContext
-                {
-                    RequestFactory = CreateRequest,
-                    RateLimitCacheManager = _rateLimitCacheManager
-                },
+                ExecutionContext = CreateTwitterExecutionContext(),
                 Query =
                 {
                     // we are cloning here to ensure that the context will never be modified regardless of concurrency
@@ -103,7 +105,7 @@ namespace Tweetinvi
                 }
             };
 
-            request.ExecutionContext.InitialiseFrom(Config);
+            request.ExecutionContext.InitialiseFrom(ClientSettings);
 
             return request;
         }

@@ -45,7 +45,7 @@ namespace Tweetinvi
         /// <summary>
         /// Client's settings
         /// </summary>
-        ITweetinviSettings Config { get; }
+        ITweetinviSettings ClientSettings { get; }
 
         /// <summary>
         /// Execute Request and receive request results

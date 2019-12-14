@@ -25,7 +25,7 @@
 
         public T Create(params IConstructorNamedParameter[] parameters)
         {
-            return _container.Resolve<T>(parameters);
+            return _container.ThreadResolve<T>(parameters);
         }
 
         public IConstructorNamedParameter GenerateParameterOverrideWrapper(string parameterName, object parameterValue)

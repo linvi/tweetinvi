@@ -20,11 +20,13 @@ namespace Tweetinvi.Client
 
         public TweetsClient(TwitterClient client)
         {
+            var clientContext = client.CreateTwitterExecutionContext();
+
             _client = client;
             _tweetsRequester = client.RequestExecutor.Tweets;
-            _tweetFactory = TweetinviContainer.Resolve<ITweetFactory>();
+            _tweetFactory = clientContext.Container.Resolve<ITweetFactory>();
         }
-        
+
         public ITweetsClientParametersValidator ParametersValidator => _client.ParametersValidator;
 
         // Tweets
@@ -44,7 +46,7 @@ namespace Tweetinvi.Client
         {
             return GetTweets(new GetTweetsParameters(tweetIds));
         }
-        
+
         public Task<ITweet[]> GetTweets(long?[] tweetIds)
         {
             return GetTweets(new GetTweetsParameters(tweetIds));
@@ -90,11 +92,11 @@ namespace Tweetinvi.Client
         {
             return DestroyTweet(tweet.TweetDTO);
         }
-        
+
         public async Task<bool> DestroyTweet(ITweetDTO tweet)
         {
             var tweetDestroyed = await DestroyTweet(new DestroyTweetParameters(tweet)).ConfigureAwait(false);
-            
+
             if (tweetDestroyed)
             {
                 tweet.IsTweetDestroyed = true;
@@ -136,7 +138,7 @@ namespace Tweetinvi.Client
         {
             return PublishRetweet(new PublishRetweetParameters(tweet));
         }
-        
+
         public async Task<ITweet> PublishRetweet(IPublishRetweetParameters parameters)
         {
             var requestResult = await _tweetsRequester.PublishRetweet(parameters).ConfigureAwait(false);
@@ -147,7 +149,7 @@ namespace Tweetinvi.Client
         {
             return DestroyRetweet(new DestroyRetweetParameters(retweetId));
         }
-        
+
         public Task<bool> DestroyRetweet(ITweetIdentifier retweet)
         {
             return DestroyRetweet(new DestroyRetweetParameters(retweet));
@@ -194,7 +196,7 @@ namespace Tweetinvi.Client
 
         public ITwitterIterator<ITweet, long?> GetFavoriteTweets(IGetFavoriteTweetsParameters parameters)
         {
-            var tweetMode = _client.Config.TweetMode;
+            var tweetMode = _client.ClientSettings.TweetMode;
 
             var favoriteTweetsIterator = _tweetsRequester.GetFavoriteTweets(parameters);
             return new TwitterIteratorProxy<ITwitterResult<ITweetDTO[]>, ITweet, long?>(favoriteTweetsIterator,

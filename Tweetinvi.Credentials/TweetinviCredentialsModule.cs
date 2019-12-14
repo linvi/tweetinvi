@@ -12,7 +12,7 @@ namespace Tweetinvi.Credentials
     {
         public void Initialize(ITweetinviContainer container)
         {
-            container.RegisterType<ITwitterAccessor, TwitterAccessor>(RegistrationLifetime.InstancePerThread);
+            container.RegisterType<ITwitterAccessor, TwitterAccessor>(RegistrationLifetime.InstancePerApplication);
             container.RegisterType<ICredentialsAccessor, CredentialsAccessor>(RegistrationLifetime.InstancePerApplication);
 
             container.RegisterType<ICursorQueryHelper, CursorQueryHelper>();

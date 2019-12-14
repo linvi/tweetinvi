@@ -256,7 +256,7 @@ namespace Tweetinvi.Core.Models
             {
                 if (_retweetedTweet == null)
                 {
-                    _retweetedTweet = _tweetFactory.GenerateTweetFromDTO(_tweetDTO.RetweetedTweetDTO, Client.Config.TweetMode, Client);
+                    _retweetedTweet = _tweetFactory.GenerateTweetFromDTO(_tweetDTO.RetweetedTweetDTO, Client.ClientSettings.TweetMode, Client);
                 }
 
                 return _retweetedTweet;

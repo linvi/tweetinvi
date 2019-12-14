@@ -30,7 +30,7 @@ namespace Tweetinvi.Core.Client.Validators
             _usersClientRequiredParametersValidator = usersClientRequiredParametersValidator;
         }
 
-        private TwitterLimits Limits => _client.Config.Limits;
+        private TwitterLimits Limits => _client.ClientSettings.Limits;
 
         public void Initialize(ITwitterClient client)
         {

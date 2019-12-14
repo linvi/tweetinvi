@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Autofac;
 using Tweetinvi.Controllers;
 using Tweetinvi.Core.Events;
@@ -19,7 +20,8 @@ namespace Tweetinvi.Injectinvi
 
     public class AutofacContainer : IAutofacContainer
     {
-        private static IContainer _container;
+        private static IContainer _staticContainer;
+        private IContainer _container;
         private ContainerBuilder _containerBuilder;
         private List<ITweetinviModule> _moduleCatalog;
 
@@ -38,24 +40,15 @@ namespace Tweetinvi.Injectinvi
             }
         }
 
-        public bool IsInitialized
-        {
-            get { return _container != null; }
-        }
+        public bool IsInitialized => _staticContainer != null;
 
         public event EventHandler<TweetinviContainerEventArgs> BeforeRegistrationCompletes;
-
 
         private readonly object _lock = new object();
         public void Initialize()
         {
             lock (_lock)
             {
-                if (_container != null)
-                {
-                    return;
-                }
-
                 _containerBuilder = new ContainerBuilder();
                 _moduleCatalog = new List<ITweetinviModule>();
 
@@ -65,7 +58,8 @@ namespace Tweetinvi.Injectinvi
                 var overridableContainer = new OverridableContainer(this);
                 this.Raise(BeforeRegistrationCompletes, new TweetinviContainerEventArgs(overridableContainer));
 
-                _container = _containerBuilder.Build();
+                _staticContainer = _containerBuilder.Build();
+                _container = _staticContainer;
             }
         }
 
@@ -78,7 +72,7 @@ namespace Tweetinvi.Injectinvi
             _moduleCatalog.Add(new TweetinviFactoriesModule());
             _moduleCatalog.Add(new TweetinviLogicModule());
             _moduleCatalog.Add(new TweetinviWebLogicModule());
-            
+
             _moduleCatalog.Add(new StreaminviModule());
         }
 
@@ -92,7 +86,7 @@ namespace Tweetinvi.Injectinvi
 
         private static ITweetinviContainer GetThreadContainer()
         {
-            return new AutofacThreadContainer(_container);
+            return new AutofacThreadContainer(_staticContainer);
         }
 
         public virtual void RegisterType<TRegistered, TTo>(RegistrationLifetime registrationLifetime = RegistrationLifetime.InstancePerResolve) where TTo : TRegistered
@@ -134,7 +128,12 @@ namespace Tweetinvi.Injectinvi
 
         public T Resolve<T>(params IConstructorNamedParameter[] parameters)
         {
-            return ThreadContainer.Resolve<T>(parameters);
+            return _container.Resolve<T>(parameters.Select(p => new NamedParameter(p.Name, p.Value)));
+        }
+
+        public T ThreadResolve<T>(params IConstructorNamedParameter[] parameters)
+        {
+            return ThreadContainer.ThreadResolve<T>(parameters);
         }
     }
 }

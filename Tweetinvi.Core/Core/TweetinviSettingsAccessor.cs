@@ -52,7 +52,7 @@ namespace Tweetinvi.Core
 
         public TweetinviSettingsAccessor()
         {
-            var threadSettings = TweetinviCoreModule.TweetinviContainer.Resolve<ITweetinviSettings>();
+            var threadSettings = TweetinviCoreModule.TweetinviContainer.ThreadResolve<ITweetinviSettings>();
             threadSettings.HttpRequestTimeout = 10000;
             threadSettings.UploadTimeout = 60000;
             threadSettings.RateLimitWaitFudgeMs = 5000;
@@ -86,7 +86,7 @@ namespace Tweetinvi.Core
 
         private void InitialiseSettings()
         {
-            _currentThreadSettings = TweetinviCoreModule.TweetinviContainer.Resolve<ITweetinviSettings>();
+            _currentThreadSettings = TweetinviCoreModule.TweetinviContainer.ThreadResolve<ITweetinviSettings>();
             _currentThreadSettings.InitialiseFrom(StaticTweetinviSettings);
         }
 

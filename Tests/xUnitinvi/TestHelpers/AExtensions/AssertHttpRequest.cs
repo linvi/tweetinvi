@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace xUnitinvi.TestHelpers
 {
-    public static class AExtensions
+    public static partial class AExtensions
     {
         public static AssertHttpRequest HttpRequest()
         {

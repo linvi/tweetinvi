@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Linq;
+using Autofac;
 using Tweetinvi.Core.Injectinvi;
 using Tweetinvi.Core.JsonConverters;
 using Tweetinvi.Events;
@@ -46,6 +48,11 @@ namespace Tweetinvi.Injectinvi
         public T Resolve<T>(params IConstructorNamedParameter[] parameters)
         {
             return _container.Resolve<T>(parameters);
+        }
+
+        public T ThreadResolve<T>(params IConstructorNamedParameter[] parameters)
+        {
+            return _container.ThreadResolve<T>(parameters);
         }
     }
 }

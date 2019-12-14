@@ -20,9 +20,11 @@ namespace Tweetinvi.Client
 
         public TimelineClient(TwitterClient client)
         {
+            var clientContext = client.CreateTwitterExecutionContext();
+
             _client = client;
             _timelineRequester = _client.RequestExecutor.Timeline;
-            _tweetFactory = TweetinviContainer.Resolve<ITweetFactory>();
+            _tweetFactory = clientContext.Container.Resolve<ITweetFactory>();
         }
 
         public ITimelineClientParametersValidator ParametersValidator => _client.ParametersValidator;
@@ -44,7 +46,7 @@ namespace Tweetinvi.Client
 
         public ITwitterIterator<ITweet, long?> GetUserTimelineIterator(IGetUserTimelineParameters parameters)
         {
-            var tweetMode = _client.Config.TweetMode;
+            var tweetMode = _client.ClientSettings.TweetMode;
             var pageIterator = _timelineRequester.GetUserTimelineIterator(parameters);
 
             return new TwitterIteratorProxy<ITwitterResult<ITweetDTO[]>, ITweet, long?>(pageIterator,
@@ -61,7 +63,7 @@ namespace Tweetinvi.Client
 
         public ITwitterIterator<ITweet, long?> GetHomeTimelineIterator(IGetHomeTimelineParameters parameters)
         {
-            var tweetMode = _client.Config.TweetMode;
+            var tweetMode = _client.ClientSettings.TweetMode;
 
             var pageIterator = _timelineRequester.GetHomeTimelineIterator(parameters);
             return new TwitterIteratorProxy<ITwitterResult<ITweetDTO[]>, ITweet, long?>(pageIterator,
@@ -78,7 +80,7 @@ namespace Tweetinvi.Client
 
         public ITwitterIterator<ITweet, long?> GetMentionsTimelineIterator(IGetMentionsTimelineParameters parameters)
         {
-            var tweetMode = _client.Config.TweetMode;
+            var tweetMode = _client.ClientSettings.TweetMode;
 
             var pageIterator = _timelineRequester.GetMentionsTimelineIterator(parameters);
             return new TwitterIteratorProxy<ITwitterResult<ITweetDTO[]>, ITweet, long?>(pageIterator,
@@ -108,7 +110,7 @@ namespace Tweetinvi.Client
 
         public ITwitterIterator<ITweet, long?> GetRetweetsOfMeTimelineIterator(IGetRetweetsOfMeTimelineParameters parameters)
         {
-            var tweetMode = _client.Config.TweetMode;
+            var tweetMode = _client.ClientSettings.TweetMode;
             var pageIterator = _timelineRequester.GetRetweetsOfMeTimelineIterator(parameters);
 
             return new TwitterIteratorProxy<ITwitterResult<ITweetDTO[]>, ITweet, long?>(pageIterator,
