@@ -1,14 +1,22 @@
 ﻿using Tweetinvi.Client;
 using Tweetinvi.Core.Client;
 using Tweetinvi.Core.Client.Validators;
+using Tweetinvi.Core.RateLimit;
+using Tweetinvi.Credentials.RateLimit;
 using Tweetinvi.Models;
 
 // ReSharper disable once CheckNamespace
 namespace Tweetinvi
 {
+    public class TwitterClientParameters
+    {
+        public IRateLimitCache RateLimitCache { get; set; }
+    }
+
     public class TwitterClient : ITwitterClient
     {
         private IReadOnlyTwitterCredentials _credentials;
+        private IRateLimitCacheManager _rateLimitCacheManager;
 
         /// <summary>
         /// IMPORTANT NOTE: The setter is for convenience. It is strongly recommended to create a new TwitterClient instead.
@@ -20,9 +28,14 @@ namespace Tweetinvi
             get => _credentials;
             set => _credentials = new ReadOnlyTwitterCredentials(value);
         }
+
         public ITweetinviSettings Config { get; }
 
-        public TwitterClient(ITwitterCredentials credentials)
+        public TwitterClient(IReadOnlyTwitterCredentials credentials) : this(credentials, new TwitterClientParameters())
+        {
+        }
+
+        public TwitterClient(IReadOnlyTwitterCredentials credentials, TwitterClientParameters parameters)
         {
             Credentials = credentials;
             Config = new TweetinviSettings();
@@ -35,22 +48,33 @@ namespace Tweetinvi
             parametersValidator.Initialize(this);
             ParametersValidator = parametersValidator;
 
+            _rateLimitCacheManager = TweetinviContainer.Resolve<IRateLimitCacheManager>();
+            if (parameters?.RateLimitCache != null)
+            {
+                _rateLimitCacheManager.RateLimitCache = parameters.RateLimitCache;
+            }
+
             Account = new AccountClient(this);
             Auth = new AuthClient(this);
             AccountSettings = new AccountSettingsClient(this);
+            RateLimits = new RateLimitsClient(this, _rateLimitCacheManager);
             Timeline = new TimelineClient(this);
             Tweets = new TweetsClient(this);
             Upload = new UploadClient(this);
             Users = new UsersClient(this);
+
+            _rateLimitCacheManager.RateLimitsClient = RateLimits;
         }
 
         public IAccountClient Account { get; }
         public IAuthClient Auth { get; }
         public IAccountSettingsClient AccountSettings { get; }
+        public IRateLimitsClient RateLimits { get; }
         public ITimelineClient Timeline { get; }
         public ITweetsClient Tweets { get; }
         public IUploadClient Upload { get; }
         public IUsersClient Users { get; }
+
 
         public IParametersValidator ParametersValidator { get; }
         public IRequestExecutor RequestExecutor { get; }
@@ -69,7 +93,8 @@ namespace Tweetinvi
             {
                 ExecutionContext = new TwitterExecutionContext
                 {
-                    RequestFactory = CreateRequest
+                    RequestFactory = CreateRequest,
+                    RateLimitCacheManager = _rateLimitCacheManager
                 },
                 Query =
                 {

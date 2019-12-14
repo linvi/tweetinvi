@@ -142,7 +142,7 @@ namespace Tweetinvi
             if (!useRateLimitCache)
             {
                 credentialsRateLimits = await HelpController.GetCurrentCredentialsRateLimits();
-                RateLimitCacheManager.UpdateCredentialsRateLimits(AuthTemp.Credentials, credentialsRateLimits);
+                await RateLimitCacheManager.UpdateCredentialsRateLimits(AuthTemp.Credentials, credentialsRateLimits);
             }
             else
             {

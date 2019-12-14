@@ -4,11 +4,13 @@ using Tweetinvi.Core.QueryGenerators;
 using Tweetinvi.Core.Web;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
+using Tweetinvi.Parameters.HelpClient;
 
 namespace Tweetinvi.Controllers.Help
 {
     public interface IHelpQueryExecutor
     {
+        Task<ITwitterResult<ICredentialsRateLimits>> GetRateLimits(IGetRateLimitsParameters parameters, ITwitterRequest request);
         Task<ICredentialsRateLimits> GetCurrentCredentialsRateLimits();
         Task<ICredentialsRateLimits> GetCredentialsRateLimits(ITwitterCredentials credentials);
         Task<string> GetTwitterPrivacyPolicy();
@@ -30,6 +32,13 @@ namespace Tweetinvi.Controllers.Help
             _helpQueryGenerator = helpQueryGenerator;
             _twitterAccessor = twitterAccessor;
             _credentialsAccessor = credentialsAccessor;
+        }
+
+        public Task<ITwitterResult<ICredentialsRateLimits>> GetRateLimits(IGetRateLimitsParameters parameters, ITwitterRequest request)
+        {
+            request.Query.Url = _helpQueryGenerator.GetRateLimitsQuery(parameters);
+            request.Query.HttpMethod = HttpMethod.GET;
+            return _twitterAccessor.ExecuteRequest<ICredentialsRateLimits>(request);
         }
 
         public Task<ICredentialsRateLimits> GetCurrentCredentialsRateLimits()

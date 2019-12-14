@@ -1,6 +1,8 @@
 ﻿using System.Threading.Tasks;
+using Tweetinvi.Core.Web;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
+using Tweetinvi.Parameters.HelpClient;
 
 namespace Tweetinvi.Core.Controllers
 {
@@ -12,5 +14,6 @@ namespace Tweetinvi.Core.Controllers
 
         Task<ITwitterConfiguration> GetTwitterConfiguration();
         Task<string> GetTermsOfService();
+        Task<ITwitterResult<ICredentialsRateLimits>> GetRateLimits(IGetRateLimitsParameters parameters, ITwitterRequest request);
     }
 }
