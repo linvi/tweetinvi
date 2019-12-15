@@ -62,7 +62,7 @@ namespace Tweetinvi
             var credentialsAtInvokeTime = CredentialsAccessor.CurrentThreadCredentials;
 
             // We are cloning to avoid changes to the settings before the async operation starts
-            var sourceThreadSettingsClone = TweetinviConfig.CurrentThreadSettings.Clone();
+            var sourceThreadSettingsClone = new TweetinviSettings(TweetinviConfig.CurrentThreadSettings);
 
             // The lambda expression will store 'credentialsAtInvokeTime' within a generated class
             // In order to keep the reference to the credentials at the time of invocation
@@ -95,7 +95,7 @@ namespace Tweetinvi
             var credentialsAtInvokeTime = CredentialsAccessor.CurrentThreadCredentials;
 
             // We are cloning to avoid changes to the settings before the async operation starts
-            var sourceThreadSettingsClone = TweetinviConfig.CurrentThreadSettings.Clone();
+            var sourceThreadSettingsClone = new TweetinviSettings(TweetinviConfig.CurrentThreadSettings);
 
             // The lambda expression will store 'credentialsAtInvokeTime' within a generated class
             // In order to keep the reference to the credentials at the time of invocation

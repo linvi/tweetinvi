@@ -10,6 +10,12 @@ namespace Tweetinvi
 {
     public class TwitterClientParameters
     {
+        public TwitterClientParameters()
+        {
+            Container = TweetinviContainer.Container;
+            Settings = new TweetinviSettings();
+        }
+
         public IRateLimitCache RateLimitCache { get; set; }
         public ITweetinviContainer Container { get; set; }
         public ITweetinviSettings Settings { get; set; }

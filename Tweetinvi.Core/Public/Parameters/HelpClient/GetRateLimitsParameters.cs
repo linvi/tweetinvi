@@ -31,12 +31,35 @@ namespace Tweetinvi.Parameters.HelpClient
         /// This parameter is not a parameter applied to the Twitter Api request.
         /// </summary>
         RateLimitsSource From { get; set; }
+
+        /// <summary>
+        /// Defines how the requests will be tracked
+        /// </summary>
+        RateLimitTrackerMode? TrackerMode { get; set; }
     }
 
     /// <inheritdoc/>
     public class GetRateLimitsParameters : CustomRequestParameters, IGetRateLimitsParameters
     {
+        public GetRateLimitsParameters()
+        {
+        }
+
+        public GetRateLimitsParameters(IGetRateLimitsParameters source)
+        {
+            if (source == null)
+            {
+                return;
+            }
+
+            From = source.From;
+            TrackerMode = source.TrackerMode;
+        }
+
         /// <inheritdoc/>
         public RateLimitsSource From { get; set; }
+
+        /// <inheritdoc/>
+        public RateLimitTrackerMode? TrackerMode { get; set; }
     }
 }

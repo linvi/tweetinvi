@@ -29,6 +29,11 @@ namespace Tweetinvi.Client.Requesters
             var request = CreateRequest();
             _validator.Validate(parameters);
 
+            if (parameters.TrackerMode != null)
+            {
+                request.ExecutionContext.RateLimitTrackerMode = parameters.TrackerMode.Value;
+            }
+
             return ExecuteRequest(() => _helpController.GetRateLimits(parameters, request), request);
         }
     }

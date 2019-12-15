@@ -66,7 +66,7 @@ namespace Tweetinvi
         /// <summary>
         /// How much additional time to wait than should be strictly necessary for a new batch of Twitter rate limits
         /// to be available. Required to account for timing discrepancies both within Twitter's servers and between
-        /// Twitter and us. 
+        /// Twitter and us.
         /// </summary>
         int RateLimitWaitFudgeMs { get; set; }
 
@@ -98,11 +98,6 @@ namespace Tweetinvi
         ErrorHandlerType ErrorHandlerType { get; set; }
 
         /// <summary>
-        /// Clone settings.
-        /// </summary>
-        ITweetinviSettings Clone();
-
-        /// <summary>
         /// Initialize a setting from another one.
         /// </summary>
         void InitialiseFrom(ITweetinviSettings other);
@@ -128,25 +123,26 @@ namespace Tweetinvi
             Limits = new TwitterLimits();
         }
 
-        public JsonConverter[] Converters { get; set; }
-
-        public ITweetinviSettings Clone()
+        public TweetinviSettings(ITweetinviSettings source) : this()
         {
-            var clone = new TweetinviSettings();
+            if (source == null)
+            {
+                return;
+            }
 
-            clone.ProxyConfig = ProxyConfig == null || ProxyConfig.Address == null ? null : new ProxyConfig(ProxyConfig);
-            clone.HttpRequestTimeout = HttpRequestTimeout;
-            clone.UploadTimeout = UploadTimeout;
-            clone.RateLimitTrackerMode = RateLimitTrackerMode;
-            clone.RateLimitWaitFudgeMs = RateLimitWaitFudgeMs;
-            clone.TweetMode = TweetMode;
-            clone.GetUtcDateTime = GetUtcDateTime;
-            clone.Converters = Converters;
-            clone.Limits = new TwitterLimits(Limits);
-            clone.ErrorHandlerType = ErrorHandlerType;
-
-            return clone;
+            ProxyConfig = source.ProxyConfig == null || source.ProxyConfig.Address == null ? null : new ProxyConfig(source.ProxyConfig);;
+            HttpRequestTimeout = source.HttpRequestTimeout;
+            UploadTimeout = source.UploadTimeout;
+            RateLimitTrackerMode = source.RateLimitTrackerMode;
+            RateLimitWaitFudgeMs = source.RateLimitWaitFudgeMs;
+            TweetMode = source.TweetMode;
+            GetUtcDateTime = source.GetUtcDateTime;
+            Converters = source.Converters;
+            Limits = new TwitterLimits(source.Limits);
+            ErrorHandlerType = source.ErrorHandlerType;
         }
+
+        public JsonConverter[] Converters { get; set; }
 
         public void InitialiseFrom(ITweetinviSettings other)
         {

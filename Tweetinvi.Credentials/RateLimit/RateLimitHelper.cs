@@ -53,7 +53,7 @@ namespace Tweetinvi.Credentials.RateLimit
             }
 
             // Other endpoint rate limits do not yet exist.
-            // Therfore we create a new one and return it.
+            // Therefore we create a new one and return it.
             var attribute = new TwitterEndpointAttribute(queryBaseURL);
             var endpointRateLimit = new EndpointRateLimit
             {

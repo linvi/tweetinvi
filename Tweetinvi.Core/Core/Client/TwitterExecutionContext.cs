@@ -10,7 +10,6 @@ namespace Tweetinvi.Core.Client
         Func<ITwitterRequest> RequestFactory { get; set; }
         IRateLimitCacheManager RateLimitCacheManager { get; set; }
         ITweetinviContainer Container { get; set; }
-        new ITwitterExecutionContext Clone();
     }
 
     public class TwitterExecutionContext : TweetinviSettings, ITwitterExecutionContext
@@ -20,19 +19,15 @@ namespace Tweetinvi.Core.Client
             RequestFactory = () => throw new InvalidOperationException($"You cannot run contextual operations without configuring the {nameof(RequestFactory)} of the ExecutionContext");
         }
 
+        public TwitterExecutionContext(ITwitterExecutionContext context) : base(context)
+        {
+            RequestFactory = context.RequestFactory;
+            RateLimitCacheManager = context.RateLimitCacheManager;
+            Container = context.Container;
+        }
+
         public Func<ITwitterRequest> RequestFactory { get; set; }
         public IRateLimitCacheManager RateLimitCacheManager { get; set; }
         public ITweetinviContainer Container { get; set; }
-        public new ITwitterExecutionContext Clone()
-        {
-            var clone = new TwitterExecutionContext
-            {
-                RequestFactory = RequestFactory
-            };
-
-            clone.InitialiseFrom(this);
-
-            return clone;
-        }
     }
 }

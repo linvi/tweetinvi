@@ -1,5 +1,4 @@
 ﻿using System;
-using Tweetinvi.Core.Injectinvi;
 
 namespace Tweetinvi.Core
 {
@@ -41,7 +40,7 @@ namespace Tweetinvi.Core
         /// <summary>
         /// How much additional time to wait than should be strictly necessary for a new batch of Twitter rate limits
         /// to be available. Required to account for timing discrepancies both within Twitter's servers and between
-        /// Twitter and us. 
+        /// Twitter and us.
         /// </summary>
         int RateLimitWaitFudgeMs { get; set; }
     }
@@ -52,10 +51,12 @@ namespace Tweetinvi.Core
 
         public TweetinviSettingsAccessor()
         {
-            var threadSettings = TweetinviCoreModule.TweetinviContainer.ThreadResolve<ITweetinviSettings>();
-            threadSettings.HttpRequestTimeout = 10000;
-            threadSettings.UploadTimeout = 60000;
-            threadSettings.RateLimitWaitFudgeMs = 5000;
+            var threadSettings = new TweetinviSettings
+            {
+                HttpRequestTimeout = 10000,
+                UploadTimeout = 60000,
+                RateLimitWaitFudgeMs = 5000
+            };
 
             CurrentThreadSettings = threadSettings;
         }
@@ -79,14 +80,14 @@ namespace Tweetinvi.Core
 
                 if (!HasTheApplicationSettingsBeenInitialized() && _currentThreadSettings != null)
                 {
-                    StaticTweetinviSettings = value.Clone();
+                    StaticTweetinviSettings = new TweetinviSettings(value);
                 }
             }
         }
 
         private void InitialiseSettings()
         {
-            _currentThreadSettings = TweetinviCoreModule.TweetinviContainer.ThreadResolve<ITweetinviSettings>();
+            _currentThreadSettings = new TweetinviSettings();
             _currentThreadSettings.InitialiseFrom(StaticTweetinviSettings);
         }
 

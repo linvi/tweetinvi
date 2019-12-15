@@ -2,34 +2,33 @@
 using System.Linq;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Tweetinvi.Core.Credentials;
 using Tweetinvi.Core.RateLimit;
 using Tweetinvi.Models;
+using Tweetinvi.Parameters.HelpClient;
 
 namespace Tweetinvi.Credentials.RateLimit
 {
+    public class RateLimitUpdaterFactory : IRateLimitUpdaterFactory
+    {
+        public IRateLimitUpdater Create(IRateLimitCacheManager rateLimitCacheManager)
+        {
+            return new RateLimitUpdater(rateLimitCacheManager);
+        }
+    }
+
     public class RateLimitUpdater : IRateLimitUpdater
     {
         private readonly IRateLimitCacheManager _rateLimitCacheManager;
-        private readonly ICredentialsAccessor _credentialsAccessor;
 
-        public RateLimitUpdater(
-            IRateLimitCacheManager rateLimitCacheManager,
-            ICredentialsAccessor credentialsAccessor)
+        public RateLimitUpdater(IRateLimitCacheManager rateLimitCacheManager)
         {
             _rateLimitCacheManager = rateLimitCacheManager;
-            _credentialsAccessor = credentialsAccessor;
-        }
-
-        public async Task QueryExecuted(string query, int numberOfRequests = 1)
-        {
-            var currentCredentials = _credentialsAccessor.CurrentThreadCredentials;
-            await QueryExecuted(query, currentCredentials, numberOfRequests);
         }
 
         public async Task QueryExecuted(string query, ITwitterCredentials credentials, int numberOfRequests = 1)
         {
-            var rateLimit = await _rateLimitCacheManager.GetQueryRateLimit(query, credentials);
+            var getRateLimitsFromCacheParameters = new GetEndpointRateLimitsParameters(query, RateLimitsSource.CacheOnly);
+            var rateLimit = await _rateLimitCacheManager.GetQueryRateLimit(getRateLimitsFromCacheParameters, credentials).ConfigureAwait(false);
 
             if (rateLimit != null)
             {
@@ -42,7 +41,7 @@ namespace Tweetinvi.Credentials.RateLimit
         {
             if (rateLimitHeaders != null && rateLimitHeaders.Count > 0)
             {
-                var rateLimit = await _rateLimitCacheManager.GetOrCreateQueryRateLimit(query, credentials);
+                var rateLimit = await _rateLimitCacheManager.GetQueryRateLimit(new GetEndpointRateLimitsParameters(query), credentials).ConfigureAwait(false);
 
                 // If the user runs out of RateLimit requests
                 if (rateLimit == null)
@@ -86,11 +85,10 @@ namespace Tweetinvi.Credentials.RateLimit
             }
         }
 
-        public async Task ClearRateLimitsForQuery(string query)
+        public async Task ClearRateLimitsForQuery(string query, IReadOnlyTwitterCredentials credentials)
         {
-            var currentCredentials = _credentialsAccessor.CurrentThreadCredentials;
 
-            var rateLimit = await _rateLimitCacheManager.GetQueryRateLimit(query, currentCredentials);
+            var rateLimit = await _rateLimitCacheManager.GetQueryRateLimit(new GetEndpointRateLimitsParameters(query, RateLimitsSource.CacheOnly), credentials).ConfigureAwait(false);
             if (rateLimit != null)
             {
                 rateLimit.Remaining = 0;

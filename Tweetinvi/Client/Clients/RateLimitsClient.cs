@@ -11,13 +11,17 @@ namespace Tweetinvi.Client
     {
         private readonly TwitterClient _client;
         private readonly IRateLimitCacheManager _rateLimitCacheManager;
+        private readonly IRateLimitHelper _rateLimitHelper;
         private readonly IHelpRequester _helpRequester;
 
         public RateLimitsClient(TwitterClient client, IRateLimitCacheManager rateLimitCacheManager)
         {
+            var executionContext = client.CreateTwitterExecutionContext();
+
             _client = client;
             _helpRequester = client.RequestExecutor.Help;
             _rateLimitCacheManager = rateLimitCacheManager;
+            _rateLimitHelper = executionContext.Container.Resolve<IRateLimitHelper>();
         }
 
         public async Task InitializeRateLimitsManager()
@@ -55,6 +59,24 @@ namespace Tweetinvi.Client
                 default:
                     throw new ArgumentException(nameof(parameters.From));
             }
+        }
+
+        public Task<IEndpointRateLimit> GetEndpointRateLimit(string url)
+        {
+            return GetEndpointRateLimit(new GetEndpointRateLimitsParameters(url));
+        }
+
+        public Task<IEndpointRateLimit> GetEndpointRateLimit(string url, RateLimitsSource from)
+        {
+            return GetEndpointRateLimit(new GetEndpointRateLimitsParameters(url)
+            {
+                From = from
+            });
+        }
+
+        public Task<IEndpointRateLimit> GetEndpointRateLimit(IGetEndpointRateLimitsParameters parameters)
+        {
+            return _rateLimitCacheManager.GetQueryRateLimit(parameters, _client.Credentials);
         }
     }
 }

@@ -7,6 +7,7 @@ using Tweetinvi.Core.Helpers;
 using Tweetinvi.Core.RateLimit;
 using Tweetinvi.Events;
 using Tweetinvi.Models;
+using Tweetinvi.Parameters.HelpClient;
 
 namespace Tweetinvi.Credentials.RateLimit
 {
@@ -46,7 +47,13 @@ namespace Tweetinvi.Credentials.RateLimit
 
         public async Task WaitForCredentialsRateLimit(string query, ITwitterCredentials credentials)
         {
-            var queryRateLimit = await _rateLimitCacheManager.GetQueryRateLimit(query, credentials);
+            var queryRateLimit = await _rateLimitCacheManager.GetQueryRateLimit(new GetEndpointRateLimitsParameters(query, RateLimitsSource.CacheOnly), credentials);
+
+            if (queryRateLimit == null)
+            {
+                return;
+            }
+
             var timeToWait = GetTimeToWaitFromQueryRateLimit(queryRateLimit);
 
             if (timeToWait > 0)
@@ -73,7 +80,7 @@ namespace Tweetinvi.Credentials.RateLimit
 
         public async Task<int> TimeToWaitBeforeTwitterRequest(string query, ITwitterCredentials credentials)
         {
-            var queryRateLimits = await _rateLimitCacheManager.GetQueryRateLimit(query, credentials);
+            var queryRateLimits = await _rateLimitCacheManager.GetQueryRateLimit(new GetEndpointRateLimitsParameters(query), credentials);
 
             return GetTimeToWaitFromQueryRateLimit(queryRateLimits);
         }

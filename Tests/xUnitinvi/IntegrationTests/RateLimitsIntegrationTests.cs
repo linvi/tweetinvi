@@ -59,6 +59,42 @@ namespace xUnitinvi.IntegrationTests
         }
 
         [Fact]
+        public async Task GetEndpointRateLimit()
+        {
+            TwitterAccessorStub twitterAccessorStub = null;
+
+            var container = new AutofacContainer();
+            container.BeforeRegistrationCompletes += (sender, args) =>
+            {
+                var twitterAccessor = TweetinviContainer.Resolve<ITwitterAccessor>();
+                twitterAccessorStub = new TwitterAccessorStub(twitterAccessor);
+
+                args.TweetinviContainer.RegisterInstance(typeof(ITwitterAccessor), twitterAccessorStub);
+            };
+            container.Initialize();
+
+            var client = new TwitterClient(IntegrationTestConfig.TweetinviTest.Credentials, new TwitterClientParameters
+            {
+                Container = container
+            });
+
+            client.ClientSettings.RateLimitTrackerMode = RateLimitTrackerMode.TrackOnly;
+
+            // act
+            var firstApplicationRateLimits = await client.RateLimits.GetEndpointRateLimit("https://api.twitter.com/1.1/statuses/home_timeline.json", RateLimitsSource.TwitterApiOnly);
+            var rateLimits = await client.RateLimits.GetEndpointRateLimit("https://api.twitter.com/1.1/statuses/home_timeline.json");
+            await client.Timeline.GetHomeTimelineIterator().MoveToNextPage();
+            var fromCacheLimits = await client.RateLimits.GetEndpointRateLimit("https://api.twitter.com/1.1/statuses/home_timeline.json");
+
+            // assert
+            A.CallTo(() => twitterAccessorStub.FakedObject.ExecuteRequest<ICredentialsRateLimits>(It.IsAny<ITwitterRequest>()))
+                .MustHaveHappenedTwiceExactly();
+
+            Assert.Equal(firstApplicationRateLimits.Remaining, fromCacheLimits.Remaining + 1);
+            Assert.Same(rateLimits, fromCacheLimits);
+        }
+
+        [Fact]
         public async Task GetRateLimits_FromCacheOnly_GetResultsFromCache()
         {
             var fakeRateLimitCache = A.Fake<IRateLimitCache>();

@@ -24,10 +24,10 @@ namespace Tweetinvi
             {
                 return;
             }
-            
+
             Query = new TwitterQuery(source.Query);
             TwitterClientHandler = source.TwitterClientHandler;
-            ExecutionContext = source.ExecutionContext.Clone();
+            ExecutionContext = new TwitterExecutionContext(source.ExecutionContext);
         }
 
         public ITwitterQuery Query

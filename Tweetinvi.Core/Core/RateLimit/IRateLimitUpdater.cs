@@ -4,16 +4,16 @@ using Tweetinvi.Models;
 
 namespace Tweetinvi.Core.RateLimit
 {
+    public interface IRateLimitUpdaterFactory
+    {
+        IRateLimitUpdater Create(IRateLimitCacheManager rateLimitCacheManager);
+    }
+
     /// <summary>
     /// Update the rate limit cached information.
     /// </summary>
     public interface IRateLimitUpdater
     {
-        /// <summary>
-        /// Inform the updater a specific query has been executed.
-        /// </summary>
-        Task QueryExecuted(string query, int numberOfRequests = 1);
-
         /// <summary>
         /// Inform the updater a specific query has been executed with a specific set of credentials.
         /// </summary>
@@ -27,6 +27,6 @@ namespace Tweetinvi.Core.RateLimit
         /// <summary>
         /// Inform that you want to query rate limits to be set to 0.
         /// </summary>
-        Task ClearRateLimitsForQuery(string query);
+        Task ClearRateLimitsForQuery(string query, IReadOnlyTwitterCredentials credentials);
     }
 }
