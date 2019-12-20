@@ -17,29 +17,29 @@ namespace Tweetinvi.Factories
         public void Initialize(ITweetinviContainer container)
         {
             container.RegisterType<ISearchResultFactory, SearchResultFactory>(RegistrationLifetime.InstancePerApplication);
-            container.RegisterType<ITweetFactory, TweetFactory>(RegistrationLifetime.InstancePerThread);
-            container.RegisterType<IUserFactory, UserFactory>(RegistrationLifetime.InstancePerThread);
-            container.RegisterType<IUserFactoryQueryExecutor, UserFactoryQueryExecutor>(RegistrationLifetime.InstancePerThread);
+            container.RegisterType<ITweetFactory, TweetFactory>(RegistrationLifetime.InstancePerApplication);
+            container.RegisterType<IUserFactory, UserFactory>(RegistrationLifetime.InstancePerApplication);
+            container.RegisterType<IUserFactoryQueryExecutor, UserFactoryQueryExecutor>(RegistrationLifetime.InstancePerApplication);
 
-            container.RegisterType<IFriendshipFactory, FriendshipFactory>(RegistrationLifetime.InstancePerThread);
+            container.RegisterType<IFriendshipFactory, FriendshipFactory>(RegistrationLifetime.InstancePerApplication);
 
-            container.RegisterType<IMessageFactory, MessageFactory>(RegistrationLifetime.InstancePerThread);
-            container.RegisterType<IMessageFactoryQueryExecutor, MessageFactoryQueryExecutor>(RegistrationLifetime.InstancePerThread);
+            container.RegisterType<IMessageFactory, MessageFactory>(RegistrationLifetime.InstancePerApplication);
+            container.RegisterType<IMessageFactoryQueryExecutor, MessageFactoryQueryExecutor>(RegistrationLifetime.InstancePerApplication);
 
             container.RegisterType<ITwitterListIdentifierFactory, TwitterListIdentifierFactory>(RegistrationLifetime.InstancePerApplication);
-            container.RegisterType<ITwitterListFactory, TwitterListFactory>(RegistrationLifetime.InstancePerThread);
-            container.RegisterType<ITwitterListFactoryQueryExecutor, TwitterListFactoryQueryExecutor>(RegistrationLifetime.InstancePerThread);
-            container.RegisterType<ITwitterListFactoryQueryGenerator, TwitterListFactoryQueryGenerator>(RegistrationLifetime.InstancePerThread);
+            container.RegisterType<ITwitterListFactory, TwitterListFactory>(RegistrationLifetime.InstancePerApplication);
+            container.RegisterType<ITwitterListFactoryQueryExecutor, TwitterListFactoryQueryExecutor>(RegistrationLifetime.InstancePerApplication);
+            container.RegisterType<ITwitterListFactoryQueryGenerator, TwitterListFactoryQueryGenerator>(RegistrationLifetime.InstancePerApplication);
 
-            container.RegisterType<IGeoFactory, GeoFactory>(RegistrationLifetime.InstancePerThread);
+            container.RegisterType<IGeoFactory, GeoFactory>(RegistrationLifetime.InstancePerApplication);
 
-            container.RegisterType<ISavedSearchFactory, SavedSearchFactory>(RegistrationLifetime.InstancePerThread);
-            container.RegisterType<ISavedSearchJsonFactory, SavedSearchJsonFactory>(RegistrationLifetime.InstancePerThread);
-            container.RegisterType<ISavedSearchQueryExecutor, SavedSearchFactoryQueryExecutor>(RegistrationLifetime.InstancePerThread);
-            container.RegisterType<ISavedSearchQueryGenerator, SavedSearchFactoryQueryGenerator>(RegistrationLifetime.InstancePerThread);
+            container.RegisterType<ISavedSearchFactory, SavedSearchFactory>(RegistrationLifetime.InstancePerApplication);
+            container.RegisterType<ISavedSearchJsonFactory, SavedSearchJsonFactory>(RegistrationLifetime.InstancePerApplication);
+            container.RegisterType<ISavedSearchQueryExecutor, SavedSearchFactoryQueryExecutor>(RegistrationLifetime.InstancePerApplication);
+            container.RegisterType<ISavedSearchQueryGenerator, SavedSearchFactoryQueryGenerator>(RegistrationLifetime.InstancePerApplication);
 
             // This is instance per thread as we have a CredentialsAccessor that is an instance per thread.
-            container.RegisterType<ITwitterQueryFactory, TwitterQueryFactory>(RegistrationLifetime.InstancePerThread);
+            container.RegisterType<ITwitterQueryFactory, TwitterQueryFactory>(RegistrationLifetime.InstancePerApplication);
 
             container.RegisterType<ITwitterRequestFactory, TwitterRequestFactory>(RegistrationLifetime.InstancePerApplication);
             container.RegisterType<ITwitterResultFactory, TwitterResultFactory>(RegistrationLifetime.InstancePerApplication);

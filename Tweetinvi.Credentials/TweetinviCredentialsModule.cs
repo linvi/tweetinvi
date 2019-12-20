@@ -22,9 +22,9 @@ namespace Tweetinvi.Credentials
 
         private void RegisterRateLimitHandler(ITweetinviContainer container)
         {
-            container.RegisterType<IRateLimitAwaiter, RateLimitAwaiter>(RegistrationLifetime.InstancePerThread);
+            container.RegisterType<IRateLimitAwaiter, RateLimitAwaiter>(RegistrationLifetime.InstancePerApplication);
             container.RegisterType<IRateLimitCache, RateLimitCache>(RegistrationLifetime.InstancePerApplication);
-            container.RegisterType<IRateLimitCacheManager, RateLimitCacheManager>(RegistrationLifetime.InstancePerThread);
+            container.RegisterType<IRateLimitCacheManager, RateLimitCacheManager>(RegistrationLifetime.InstancePerApplication);
             container.RegisterType<IRateLimitHelper, RateLimitHelper>(RegistrationLifetime.InstancePerApplication);
 
             container.RegisterType<IRateLimitUpdaterFactory, RateLimitUpdaterFactory>(RegistrationLifetime.InstancePerApplication);

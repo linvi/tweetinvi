@@ -1,4 +1,3 @@
-using System;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -7,46 +6,24 @@ using Tweetinvi.Models;
 using Tweetinvi.Parameters;
 using Xunit;
 using Xunit.Abstractions;
+using xUnitinvi.TestHelpers;
 
-namespace xUnitinvi.IntegrationTests
+namespace xUnitinvi.EndToEnd
 {
-    public class AccountSettingsIntegrationTests
+    [Collection("EndToEndTests")]
+    public class AccountSettingsEndToEndTests : TweetinviTest
     {
-        private readonly ITestOutputHelper _logger;
         private readonly ITwitterClient _client;
 
-        public AccountSettingsIntegrationTests(ITestOutputHelper logger)
+        public AccountSettingsEndToEndTests(ITestOutputHelper logger) : base(logger)
         {
-            _logger = logger;
-            _logger.WriteLine(DateTime.Now.ToLongTimeString());
-            _client = new TwitterClient(IntegrationTestConfig.ProtectedUser.Credentials);
-
-            TweetinviEvents.QueryBeforeExecute += (sender, args) => { _logger.WriteLine(args.Url); };
-        }
-
-        [Fact]
-        public async Task RunAllAccountSettings()
-        {
-            if (!IntegrationTestConfig.ShouldRunIntegrationTests)
-                return;
-
-            _logger.WriteLine($"Starting {nameof(ChangeImagesTests)}");
-            await ChangeImagesTests().ConfigureAwait(false);
-            _logger.WriteLine($"{nameof(ChangeImagesTests)} succeeded");
-
-            _logger.WriteLine($"Starting {nameof(AccountSettingsTests)}");
-            await AccountSettingsTests().ConfigureAwait(false);
-            _logger.WriteLine($"{nameof(AccountSettingsTests)} succeeded");
-
-            _logger.WriteLine($"Starting {nameof(AccountProfileTests)}");
-            await AccountProfileTests().ConfigureAwait(false);
-            _logger.WriteLine($"{nameof(AccountProfileTests)} succeeded");
+            _client = new TwitterClient(EndToEndTestConfig.ProtectedUser.Credentials);
         }
 
         [Fact]
         public async Task ChangeImagesTests()
         {
-            if (!IntegrationTestConfig.ShouldRunIntegrationTests)
+            if (!EndToEndTestConfig.ShouldRunEndToEndTests)
                 return;
 
             // act
@@ -68,7 +45,7 @@ namespace xUnitinvi.IntegrationTests
         [Fact]
         public async Task AccountProfileTests()
         {
-            if (!IntegrationTestConfig.ShouldRunIntegrationTests)
+            if (!EndToEndTestConfig.ShouldRunEndToEndTests)
                 return;
 
             var initialProfile = await _client.Account.GetAuthenticatedUser();
@@ -121,7 +98,7 @@ namespace xUnitinvi.IntegrationTests
         [Fact]
         public async Task AccountSettingsTests()
         {
-            if (!IntegrationTestConfig.ShouldRunIntegrationTests)
+            if (!EndToEndTestConfig.ShouldRunEndToEndTests)
                 return;
 
             var initialSettings = await _client.AccountSettings.GetAccountSettings();

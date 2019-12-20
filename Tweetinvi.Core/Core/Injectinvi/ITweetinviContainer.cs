@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using Autofac;
 using Tweetinvi.Events;
 
 namespace Tweetinvi.Core.Injectinvi
@@ -6,6 +8,7 @@ namespace Tweetinvi.Core.Injectinvi
     public interface ITweetinviContainer
     {
         bool IsInitialized { get; }
+        List<Action<ContainerBuilder>> RegistrationActions { get; }
         event EventHandler<TweetinviContainerEventArgs> BeforeRegistrationCompletes;
 
         void Initialize();
@@ -14,7 +17,6 @@ namespace Tweetinvi.Core.Injectinvi
         void RegisterGeneric(Type sourceType, Type targetType, RegistrationLifetime registrationLifetime = RegistrationLifetime.InstancePerResolve);
         void RegisterInstance(Type targetType, object value);
 
-        T ThreadResolve<T>(params IConstructorNamedParameter[] parameters);
         T Resolve<T>(params IConstructorNamedParameter[] parameters);
     }
 }

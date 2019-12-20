@@ -12,52 +12,10 @@ namespace Tweetinvi
     /// </summary>
     public static class RateLimit
     {
-        [ThreadStatic]
-        private static IHelpController _helpController;
-        public static IHelpController HelpController
-        {
-            get
-            {
-                if (_helpController == null)
-                {
-                    Initialize();
-                }
+        public static IHelpController HelpController { get; private set; }
 
-                return _helpController;
-            }
-        }
-
-        [ThreadStatic]
-        private static IRateLimitCacheManager _rateLimitCacheManager;
-
-        private static IRateLimitCacheManager RateLimitCacheManager
-        {
-            get
-            {
-                if (_rateLimitCacheManager == null)
-                {
-                    Initialize();
-                }
-
-                return _rateLimitCacheManager;
-            }
-        }
-
-        [ThreadStatic]
-        private static IRateLimitAwaiter _rateLimitAwaiter;
-
-        private static IRateLimitAwaiter RateLimitAwaiter
-        {
-            get
-            {
-                if (_rateLimitAwaiter == null)
-                {
-                    Initialize();
-                }
-
-                return _rateLimitAwaiter;
-            }
-        }
+        private static IRateLimitCacheManager RateLimitCacheManager { get; set; }
+        private static IRateLimitAwaiter RateLimitAwaiter { get; set; }
 
         private static readonly IRateLimitCache _rateLimitCache;
 
@@ -70,9 +28,9 @@ namespace Tweetinvi
 
         static void Initialize()
         {
-            _helpController = TweetinviContainer.Resolve<IHelpController>();
-            _rateLimitCacheManager = TweetinviContainer.Resolve<IRateLimitCacheManager>();
-            _rateLimitAwaiter = TweetinviContainer.Resolve<IRateLimitAwaiter>();
+            HelpController = TweetinviContainer.Resolve<IHelpController>();
+            RateLimitCacheManager = TweetinviContainer.Resolve<IRateLimitCacheManager>();
+            RateLimitAwaiter = TweetinviContainer.Resolve<IRateLimitAwaiter>();
         }
 
         /// <summary>

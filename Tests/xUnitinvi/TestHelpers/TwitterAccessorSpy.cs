@@ -14,11 +14,11 @@ using HttpMethod = Tweetinvi.Models.HttpMethod;
 
 namespace xUnitinvi.TestHelpers
 {
-    public class TwitterAccessorStub : Fake<ITwitterAccessor>, ITwitterAccessor
+    public class TwitterAccessorSpy : Fake<ITwitterAccessor>, ITwitterAccessor
     {
         private readonly ITwitterAccessor _twitterAccessor;
 
-        public TwitterAccessorStub(ITwitterAccessor twitterAccessor)
+        public TwitterAccessorSpy(ITwitterAccessor twitterAccessor)
         {
             _twitterAccessor = twitterAccessor;
         }

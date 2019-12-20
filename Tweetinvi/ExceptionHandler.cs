@@ -15,32 +15,18 @@ namespace Tweetinvi
     /// </summary>
     public static class ExceptionHandler
     {
-        [ThreadStatic]
-        private static IExceptionHandler _exceptionHandler;
-
         /// <summary>
         /// Current Thread ExceptionHandler
         /// </summary>
-        public static IExceptionHandler CurrentThreadExceptionHandler
-        {
-            get
-            {
-                if (_exceptionHandler == null)
-                {
-                    Initialise();
-                }
-
-                return _exceptionHandler;
-            }
-        }
+        public static IExceptionHandler GlobalExceptionHandler { get; private set; }
 
         /// <summary>
         /// Notify that a WebException has been received and that the ExceptionHandler is going to process it.
         /// </summary>
         public static event EventHandler<GenericEventArgs<ITwitterException>> WebExceptionReceived
         {
-            add { CurrentThreadExceptionHandler.WebExceptionReceived += value; }
-            remove { CurrentThreadExceptionHandler.WebExceptionReceived -= value; }
+            add { GlobalExceptionHandler.WebExceptionReceived += value; }
+            remove { GlobalExceptionHandler.WebExceptionReceived -= value; }
         }
 
         static ExceptionHandler()
@@ -50,7 +36,7 @@ namespace Tweetinvi
 
         private static void Initialise()
         {
-            _exceptionHandler = TweetinviContainer.Resolve<IExceptionHandler>();
+            GlobalExceptionHandler = TweetinviContainer.Resolve<IExceptionHandler>();
         }
 
         /// <summary>
@@ -58,8 +44,8 @@ namespace Tweetinvi
         /// </summary>
         public static bool SwallowWebExceptions
         {
-            get { return CurrentThreadExceptionHandler.SwallowWebExceptions; }
-            set { CurrentThreadExceptionHandler.SwallowWebExceptions = value; }
+            get { return GlobalExceptionHandler.SwallowWebExceptions; }
+            set { GlobalExceptionHandler.SwallowWebExceptions = value; }
         }
 
         /// <summary>
@@ -67,8 +53,8 @@ namespace Tweetinvi
         /// </summary>
         public static bool LogExceptions
         {
-            get { return CurrentThreadExceptionHandler.LogExceptions; }
-            set { CurrentThreadExceptionHandler.LogExceptions = value; }
+            get { return GlobalExceptionHandler.LogExceptions; }
+            set { GlobalExceptionHandler.LogExceptions = value; }
         }
 
         /// <summary>
@@ -76,7 +62,7 @@ namespace Tweetinvi
         /// </summary>
         public static IEnumerable<ITwitterException> GetExceptions()
         {
-            return CurrentThreadExceptionHandler.ExceptionInfos;
+            return GlobalExceptionHandler.ExceptionInfos;
         }
 
         /// <summary>
@@ -84,7 +70,7 @@ namespace Tweetinvi
         /// </summary>
         public static ITwitterException GetLastException()
         {
-            return CurrentThreadExceptionHandler.ExceptionInfos.LastOrDefault();
+            return GlobalExceptionHandler.ExceptionInfos.LastOrDefault();
         }
 
         /// <summary>
@@ -92,7 +78,7 @@ namespace Tweetinvi
         /// </summary>
         public static TwitterException AddWebException(WebException webException, ITwitterRequest request)
         {
-            return CurrentThreadExceptionHandler.AddWebException(webException, request);
+            return GlobalExceptionHandler.AddWebException(webException, request);
         }
 
         /// <summary>
@@ -100,7 +86,7 @@ namespace Tweetinvi
         /// </summary>
         public static void AddTwitterException(ITwitterException twitterException)
         {
-            CurrentThreadExceptionHandler.AddTwitterException(twitterException);
+            GlobalExceptionHandler.AddTwitterException(twitterException);
         }
 
         /// <summary>
@@ -108,7 +94,7 @@ namespace Tweetinvi
         /// </summary>
         public static void ClearLoggedExceptions()
         {
-            CurrentThreadExceptionHandler.ClearLoggedExceptions();
+            GlobalExceptionHandler.ClearLoggedExceptions();
         }
 
         /// <summary>
@@ -116,7 +102,7 @@ namespace Tweetinvi
         /// </summary>
         public static ITwitterException GenerateTwitterException(WebException webException, ITwitterRequest request)
         {
-            return CurrentThreadExceptionHandler.GenerateTwitterException(webException, request);
+            return GlobalExceptionHandler.GenerateTwitterException(webException, request);
         }
 
         /// <summary>
@@ -125,7 +111,7 @@ namespace Tweetinvi
         public static string GetLifetimeExceptionDetails()
         {
             StringBuilder strBuilder = new StringBuilder();
-            foreach (var twitterException in CurrentThreadExceptionHandler.ExceptionInfos)
+            foreach (var twitterException in GlobalExceptionHandler.ExceptionInfos)
             {
                 strBuilder.Append(twitterException);
                 strBuilder.Append("---");

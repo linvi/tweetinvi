@@ -13,58 +13,22 @@ using Xunit;
 using Xunit.Abstractions;
 using xUnitinvi.TestHelpers;
 
-namespace xUnitinvi.IntegrationTests
+namespace xUnitinvi.EndToEnd
 {
-    public class AuthIntegrationTests
+    [Collection("EndToEndTests")]
+    public class AuthEndToEndTests : TweetinviTest
     {
-        private readonly ITestOutputHelper _logger;
-
-        public AuthIntegrationTests(ITestOutputHelper logger)
+        public AuthEndToEndTests(ITestOutputHelper logger) : base(logger)
         {
-            _logger = logger;
-            _logger.WriteLine(DateTime.Now.ToLongTimeString());
-
-            TweetinviEvents.QueryBeforeExecute += (sender, args) => { _logger.WriteLine(args.Url); };
-        }
-
-        [Fact]
-        public async Task RunAllAuthTests()
-        {
-            if (!IntegrationTestConfig.ShouldRunIntegrationTests)
-                return;
-
-            _logger.WriteLine($"Starting {nameof(BearerToken)}");
-            await BearerToken().ConfigureAwait(false);
-            _logger.WriteLine($"{nameof(BearerToken)} succeeded");
-
-            _logger.WriteLine($"Starting {nameof(AuthenticateWithPinCode)}");
-            await AuthenticateWithPinCode().ConfigureAwait(false);
-            _logger.WriteLine($"{nameof(AuthenticateWithPinCode)} succeeded");
-
-            _logger.WriteLine($"Starting {nameof(AuthenticateWithRedirectUrl)}");
-            await AuthenticateWithRedirectUrl().ConfigureAwait(false);
-            _logger.WriteLine($"{nameof(AuthenticateWithRedirectUrl)} succeeded");
-
-            _logger.WriteLine($"Starting {nameof(AuthenticateWithReadOnlyPermissions)}");
-            await AuthenticateWithReadOnlyPermissions().ConfigureAwait(false);
-            _logger.WriteLine($"{nameof(AuthenticateWithReadOnlyPermissions)} succeeded");
-
-            _logger.WriteLine($"Starting {nameof(InvalidateBearerToken)}");
-            await InvalidateBearerToken().ConfigureAwait(false);
-            _logger.WriteLine($"{nameof(InvalidateBearerToken)} succeeded");
-
-            _logger.WriteLine($"Starting {nameof(InvalidateAccessToken)}");
-            await InvalidateAccessToken().ConfigureAwait(false);
-            _logger.WriteLine($"{nameof(InvalidateAccessToken)} succeeded");
         }
 
         [Fact]
         public async Task BearerToken()
         {
-            if (!IntegrationTestConfig.ShouldRunIntegrationTests)
+            if (!EndToEndTestConfig.ShouldRunEndToEndTests)
                 return;
 
-            var testCreds = IntegrationTestConfig.TweetinviTest.Credentials;
+            var testCreds = EndToEndTestConfig.TweetinviTest.Credentials;
             var appCreds = new TwitterCredentials(testCreds.ConsumerKey, testCreds.ConsumerSecret);
 
             var appClient = new TwitterClient(appCreds);
@@ -79,30 +43,30 @@ namespace xUnitinvi.IntegrationTests
         [Fact]
         public async Task InvalidateBearerToken()
         {
-            if (!IntegrationTestConfig.ShouldRunIntegrationTests)
+            if (!EndToEndTestConfig.ShouldRunEndToEndTests)
                 return;
 
-            var accountCreds = IntegrationTestConfig.TweetinviTest.Credentials;
+            var accountCreds = EndToEndTestConfig.TweetinviTest.Credentials;
             var consumerCreds = new TwitterCredentials(accountCreds.ConsumerKey, accountCreds.ConsumerSecret);
             var client = new TwitterClient(consumerCreds);
             await client.Auth.InitializeClientBearerToken();
-            var accountUser = await client.Users.GetUser(IntegrationTestConfig.TweetinviTest.AccountId);
+            var accountUser = await client.Users.GetUser(EndToEndTestConfig.TweetinviTest.AccountId);
 
             // act
             await client.Auth.InvalidateBearerToken();
 
             // assert
-            Assert.Equal(accountUser.ScreenName, IntegrationTestConfig.TweetinviTest.AccountId);
-            await Assert.ThrowsAsync<TwitterException>(() => client.Users.GetUser(IntegrationTestConfig.TweetinviTest.AccountId));
+            Assert.Equal(accountUser.ScreenName, EndToEndTestConfig.TweetinviTest.AccountId);
+            await Assert.ThrowsAsync<TwitterException>(() => client.Users.GetUser(EndToEndTestConfig.TweetinviTest.AccountId));
         }
 
         [Fact]
         public async Task InvalidateAccessToken()
         {
-            if (!IntegrationTestConfig.ShouldRunIntegrationTests)
+            if (!EndToEndTestConfig.ShouldRunEndToEndTests)
                 return;
 
-            var authenticationClient = new TwitterClient(IntegrationTestConfig.TweetinviTest.Credentials);
+            var authenticationClient = new TwitterClient(EndToEndTestConfig.TweetinviTest.Credentials);
             var authenticationRequest = await authenticationClient.Auth.RequestAuthenticationUrl().ConfigureAwait(false);
             var authUrl = authenticationRequest.AuthorizationURL;
 
@@ -118,18 +82,18 @@ namespace xUnitinvi.IntegrationTests
             await client.Auth.InvalidateAccessToken();
 
             // assert
-            Assert.Equal(accountUser.ScreenName, IntegrationTestConfig.ProtectedUser.AccountId);
+            Assert.Equal(accountUser.ScreenName, EndToEndTestConfig.ProtectedUser.AccountId);
             await Assert.ThrowsAsync<TwitterException>(() => client.Account.GetAuthenticatedUser());
         }
 
         [Fact]
         public async Task AuthenticateWithPinCode()
         {
-            if (!IntegrationTestConfig.ShouldRunIntegrationTests)
+            if (!EndToEndTestConfig.ShouldRunEndToEndTests)
                 return;
 
             // act
-            var authenticationClient = new TwitterClient(IntegrationTestConfig.TweetinviTest.Credentials);
+            var authenticationClient = new TwitterClient(EndToEndTestConfig.TweetinviTest.Credentials);
             var authenticationRequest = await authenticationClient.Auth.RequestAuthenticationUrl().ConfigureAwait(false);
             var authUrl = authenticationRequest.AuthorizationURL;
 
@@ -140,16 +104,16 @@ namespace xUnitinvi.IntegrationTests
             var authenticatedUser = await authenticatedClient.Account.GetAuthenticatedUser().ConfigureAwait(false);
 
             // assert
-            Assert.Equal(authenticatedUser.ScreenName, IntegrationTestConfig.ProtectedUser.AccountId);
+            Assert.Equal(authenticatedUser.ScreenName, EndToEndTestConfig.ProtectedUser.AccountId);
         }
 
         [Fact]
         public async Task AuthenticateWithRedirectUrl()
         {
-            if (!IntegrationTestConfig.ShouldRunIntegrationTests)
+            if (!EndToEndTestConfig.ShouldRunEndToEndTests)
                 return;
 
-            var client = new TwitterClient(IntegrationTestConfig.TweetinviApi.Credentials);
+            var client = new TwitterClient(EndToEndTestConfig.TweetinviApi.Credentials);
 
             // The url used below has to be set in apps.twitter.com -> Callback Url
             var authContext = await client.Auth.RequestAuthenticationUrl(new RequestUrlAuthUrlParameters("http://localhost:8042")
@@ -166,16 +130,16 @@ namespace xUnitinvi.IntegrationTests
             var tweet = await authenticatedClient.Tweets.PublishTweet("random tweet").ConfigureAwait(false);
             await tweet.Destroy().ConfigureAwait(false);
 
-            Assert.Equal(authenticatedUser.ScreenName, IntegrationTestConfig.ProtectedUser.AccountId);
+            Assert.Equal(authenticatedUser.ScreenName, EndToEndTestConfig.ProtectedUser.AccountId);
         }
 
         [Fact]
         public async Task AuthenticateWithReadOnlyPermissions()
         {
-            if (!IntegrationTestConfig.ShouldRunIntegrationTests)
+            if (!EndToEndTestConfig.ShouldRunEndToEndTests)
                 return;
 
-            var client = new TwitterClient(IntegrationTestConfig.TweetinviApi.Credentials);
+            var client = new TwitterClient(EndToEndTestConfig.TweetinviApi.Credentials);
 
             // The url used below has to be set in apps.twitter.com -> Callback Url
             var authContext = await client.Auth.RequestAuthenticationUrl(new RequestUrlAuthUrlParameters("http://localhost:8042")
@@ -189,7 +153,7 @@ namespace xUnitinvi.IntegrationTests
             // assert
             await Assert.ThrowsAsync<TwitterException>(() => authenticatedClient.Tweets.PublishTweet("random tweet"));
 
-            Assert.Equal(authenticatedUser.ScreenName, IntegrationTestConfig.ProtectedUser.AccountId);
+            Assert.Equal(authenticatedUser.ScreenName, EndToEndTestConfig.ProtectedUser.AccountId);
         }
 
         private async Task<TwitterClient> GetAuthenticatedTwitterClientViaRedirect(ITwitterClient client, IAuthenticationRequest authRequest)
@@ -253,10 +217,10 @@ namespace xUnitinvi.IntegrationTests
             webDriver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(1);
             webDriver.Url = authUrl;
 
-            new WebDriverWait(webDriver, TimeSpan.FromSeconds(10)).Until(d => ((IJavaScriptExecutor)d).ExecuteScript("return document.readyState").Equals("complete"));
+            new WebDriverWait(webDriver, TimeSpan.FromSeconds(10)).Until(d => ((IJavaScriptExecutor) d).ExecuteScript("return document.readyState").Equals("complete"));
 
             var usernameTextField = webDriver.FindElementById("username_or_email");
-            usernameTextField.SendKeys(IntegrationTestConfig.ProtectedUser.AccountId);
+            usernameTextField.SendKeys(EndToEndTestConfig.ProtectedUser.AccountId);
 
             // ReSharper disable once CC0021
             var passwordTextField = webDriver.FindElementById("password");
@@ -265,7 +229,7 @@ namespace xUnitinvi.IntegrationTests
             passwordTextField.Submit();
 
             _logger.WriteLine($"{DateTime.Now.ToLongTimeString()} - authentication credentials submitted");
-            new WebDriverWait(webDriver, TimeSpan.FromSeconds(10)).Until(d => ((IJavaScriptExecutor)d).ExecuteScript("return document.readyState").Equals("complete"));
+            new WebDriverWait(webDriver, TimeSpan.FromSeconds(10)).Until(d => ((IJavaScriptExecutor) d).ExecuteScript("return document.readyState").Equals("complete"));
             _logger.WriteLine($"{DateTime.Now.ToLongTimeString()} - authentication successfully moved to next page");
 
             var emailTextFields = webDriver.FindElementsByClassName("js-username-field");
@@ -277,7 +241,7 @@ namespace xUnitinvi.IntegrationTests
                 emailTextFields[0].SendKeys(Environment.GetEnvironmentVariable("TWEETINVI_EMAIL"));
                 secondPasswordTextField.SendKeys(Environment.GetEnvironmentVariable("TWEETINVI_PASS"));
                 secondPasswordTextField.Submit();
-                new WebDriverWait(webDriver, TimeSpan.FromSeconds(10)).Until(d => ((IJavaScriptExecutor)d).ExecuteScript("return document.readyState").Equals("complete"));
+                new WebDriverWait(webDriver, TimeSpan.FromSeconds(10)).Until(d => ((IJavaScriptExecutor) d).ExecuteScript("return document.readyState").Equals("complete"));
             }
 
             _logger.WriteLine($"{DateTime.Now.ToLongTimeString()} - authentication completed");

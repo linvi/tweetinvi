@@ -8,43 +8,24 @@ using Tweetinvi.Models;
 using Tweetinvi.Parameters;
 using Xunit;
 using Xunit.Abstractions;
+using xUnitinvi.TestHelpers;
 
-namespace xUnitinvi.IntegrationTests
+namespace xUnitinvi.EndToEnd
 {
-    public class TweetsIntegrationTests
+    [Collection("EndToEndTests")]
+    public class TweetsEndToEndTests : TweetinviTest
     {
-        private readonly ITestOutputHelper _logger;
         private readonly ITwitterClient _protectedClient;
 
-        public TweetsIntegrationTests(ITestOutputHelper logger)
+        public TweetsEndToEndTests(ITestOutputHelper logger) : base(logger)
         {
-            _logger = logger;
-            _logger.WriteLine(DateTime.Now.ToLongTimeString());
-
-            _protectedClient = new TwitterClient(IntegrationTestConfig.ProtectedUser.Credentials);
-
-            TweetinviEvents.QueryBeforeExecute += (sender, args) => { _logger.WriteLine(args.Url); };
-        }
-
-        [Fact]
-        public async Task RunAllTweets()
-        {
-            if (!IntegrationTestConfig.ShouldRunIntegrationTests)
-                return;
-
-            _logger.WriteLine($"Starting {nameof(CreateReadDelete)}");
-            await CreateReadDelete().ConfigureAwait(false);
-            _logger.WriteLine($"{nameof(CreateReadDelete)} succeeded");
-
-            _logger.WriteLine($"Starting {nameof(Retweets)}");
-            await Retweets().ConfigureAwait(false);
-            _logger.WriteLine($"{nameof(Retweets)} succeeded");
+            _protectedClient = new TwitterClient(EndToEndTestConfig.ProtectedUser.Credentials);
         }
 
         [Fact]
         public async Task CreateReadDelete()
         {
-            if (!IntegrationTestConfig.ShouldRunIntegrationTests)
+            if (!EndToEndTestConfig.ShouldRunEndToEndTests)
                 return;
 
             var sourceTweet = await _protectedClient.Tweets.GetTweet(979753598446948353);
@@ -127,7 +108,7 @@ namespace xUnitinvi.IntegrationTests
         [Fact]
         public async Task Retweets()
         {
-            if (!IntegrationTestConfig.ShouldRunIntegrationTests)
+            if (!EndToEndTestConfig.ShouldRunEndToEndTests)
                 return;
 
             const long tweetId = 979753598446948353;

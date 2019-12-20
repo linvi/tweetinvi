@@ -1,8 +1,12 @@
-﻿using Tweetinvi.Client;
+﻿using System;
+using System.Collections.Immutable;
+using Tweetinvi.Client;
 using Tweetinvi.Core.Client;
 using Tweetinvi.Core.Client.Validators;
 using Tweetinvi.Core.Injectinvi;
 using Tweetinvi.Core.RateLimit;
+using Tweetinvi.Core.Web;
+using Tweetinvi.Injectinvi;
 using Tweetinvi.Models;
 
 // ReSharper disable once CheckNamespace
@@ -12,7 +16,6 @@ namespace Tweetinvi
     {
         public TwitterClientParameters()
         {
-            Container = TweetinviContainer.Container;
             Settings = new TweetinviSettings();
         }
 
@@ -49,7 +52,29 @@ namespace Tweetinvi
             Credentials = credentials;
             ClientSettings = parameters?.Settings ?? new TweetinviSettings();
 
-            _tweetinviContainer = parameters?.Container ?? TweetinviContainer.Container;
+            if (parameters?.Container == null)
+            {
+                if (!TweetinviContainer.Container.IsInitialized)
+                {
+                    TweetinviContainer.Container.Initialize();
+                }
+            }
+            else
+            {
+                if (!parameters.Container.IsInitialized)
+                {
+                    throw new InvalidOperationException("Cannot create a client with a non initialized container!");
+                }
+            }
+
+            _tweetinviContainer = new Injectinvi.TweetinviContainer(parameters?.Container ?? TweetinviContainer.Container);
+
+            if (parameters?.RateLimitCache != null)
+            {
+                _tweetinviContainer.RegisterInstance(typeof(IRateLimitCache), parameters.RateLimitCache);
+            }
+
+            _tweetinviContainer.Initialize();
 
             var requestExecutor = _tweetinviContainer.Resolve<IInternalRequestExecutor>();
             requestExecutor.Initialize(this);
@@ -60,10 +85,6 @@ namespace Tweetinvi
             ParametersValidator = parametersValidator;
 
             _rateLimitCacheManager = _tweetinviContainer.Resolve<IRateLimitCacheManager>();
-            if (parameters?.RateLimitCache != null)
-            {
-                _rateLimitCacheManager.RateLimitCache = parameters.RateLimitCache;
-            }
 
             Account = new AccountClient(this);
             Auth = new AuthClient(this);

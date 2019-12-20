@@ -11,26 +11,10 @@ namespace Tweetinvi
     /// </summary>
     public class AuthTemp
     {
-        [ThreadStatic]
-        private static ICredentialsAccessor _credentialsAccessor;
-
         /// <summary>
         /// Object responsible to retrieve the current thread credentials.
         /// </summary>
-        public static ICredentialsAccessor CredentialsAccessor
-        {
-            get
-            {
-                if (_credentialsAccessor == null)
-                {
-                    Initialize();
-                }
-
-                return _credentialsAccessor;
-            }
-        }
-
-
+        public static ICredentialsAccessor CredentialsAccessor { get; private set; }
 
         static AuthTemp()
         {
@@ -39,7 +23,7 @@ namespace Tweetinvi
 
         private static void Initialize()
         {
-            _credentialsAccessor = TweetinviContainer.Resolve<ICredentialsAccessor>();
+            CredentialsAccessor = TweetinviContainer.Resolve<ICredentialsAccessor>();
         }
 
         /// <summary>

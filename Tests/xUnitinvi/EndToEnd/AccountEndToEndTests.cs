@@ -1,53 +1,32 @@
-using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Tweetinvi;
 using Tweetinvi.Core.Extensions;
 using Xunit;
 using Xunit.Abstractions;
+using xUnitinvi.TestHelpers;
 
-namespace xUnitinvi.IntegrationTests
+namespace xUnitinvi.EndToEnd
 {
-    public class AccountIntegrationTests
+    [Collection("EndToEndTests")]
+    public class AccountEndToEndTests : TweetinviTest
     {
-        private readonly ITestOutputHelper _logger;
         private readonly ITwitterClient _client;
         private readonly ITwitterClient _privateUserClient;
 
-        public AccountIntegrationTests(ITestOutputHelper logger)
+        public AccountEndToEndTests(ITestOutputHelper logger) : base(logger)
         {
-            _logger = logger;
-
-            _logger.WriteLine(DateTime.Now.ToLongTimeString());
-
-            _client = new TwitterClient(IntegrationTestConfig.TweetinviTest.Credentials);
-            _privateUserClient = new TwitterClient(IntegrationTestConfig.ProtectedUser.Credentials);
-
-            TweetinviEvents.QueryBeforeExecute += (sender, args) => { _logger.WriteLine(args.Url); };
-        }
-
-        [Fact]
-        public async Task RunAllAccountTests()
-        {
-            if (!IntegrationTestConfig.ShouldRunIntegrationTests)
-                return;
-
-            _logger.WriteLine($"Starting {nameof(TestBlock)}");
-            await TestBlock().ConfigureAwait(false);
-            _logger.WriteLine($"{nameof(TestBlock)} succeeded");
-
-            _logger.WriteLine($"Starting {nameof(TestMute)}");
-            await TestMute().ConfigureAwait(false);
-            _logger.WriteLine($"{nameof(TestMute)} succeeded");
+            _client = new TwitterClient(EndToEndTestConfig.TweetinviTest.Credentials);
+            _privateUserClient = new TwitterClient(EndToEndTestConfig.ProtectedUser.Credentials);
         }
 
         [Fact]
         public async Task TestBlock()
         {
-            if (!IntegrationTestConfig.ShouldRunIntegrationTests)
+            if (!EndToEndTestConfig.ShouldRunEndToEndTests)
                 return;
 
-            var userToFollow = await _client.Users.GetUser(IntegrationTestConfig.ProtectedUser.AccountId);
+            var userToFollow = await _client.Users.GetUser(EndToEndTestConfig.ProtectedUser.AccountId);
 
             // act
             var blockSuccess = await userToFollow.BlockUser();
@@ -69,7 +48,7 @@ namespace xUnitinvi.IntegrationTests
         [Fact]
         public async Task TestMute()
         {
-            if (!IntegrationTestConfig.ShouldRunIntegrationTests)
+            if (!EndToEndTestConfig.ShouldRunEndToEndTests)
                 return;
 
             var userToMute = await _privateUserClient.Account.GetAuthenticatedUser();

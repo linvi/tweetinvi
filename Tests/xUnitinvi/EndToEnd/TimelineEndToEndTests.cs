@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -8,50 +7,28 @@ using Tweetinvi.Models;
 using Tweetinvi.Parameters;
 using Xunit;
 using Xunit.Abstractions;
+using xUnitinvi.TestHelpers;
 
-namespace xUnitinvi.IntegrationTests
+namespace xUnitinvi.EndToEnd
 {
-    public class TimelineIntegrationTests
+    [Collection("EndToEndTests")]
+    public class TimelineEndToEndTests : TweetinviTest
     {
-        private readonly ITestOutputHelper _logger;
         private readonly ITwitterClient _tweetinviApiClient;
         private readonly ITwitterClient _tweetinviTestClient;
 
-        public TimelineIntegrationTests(ITestOutputHelper logger)
+        public TimelineEndToEndTests(ITestOutputHelper logger) : base(logger)
         {
-            _logger = logger;
-
-            _logger.WriteLine(DateTime.Now.ToLongTimeString());
-
-            _tweetinviApiClient = new TwitterClient(IntegrationTestConfig.TweetinviApi.Credentials);
-            _tweetinviTestClient = new TwitterClient(IntegrationTestConfig.TweetinviTest.Credentials);
-
-            TweetinviEvents.QueryBeforeExecute += (sender, args) => { _logger.WriteLine(args.Url); };
+            _tweetinviApiClient = new TwitterClient(EndToEndTestConfig.TweetinviApi.Credentials);
+            _tweetinviTestClient = new TwitterClient(EndToEndTestConfig.TweetinviTest.Credentials);
         }
 
         [Fact]
-        public async Task RunAllAccountTests()
-        {
-            if (!IntegrationTestConfig.ShouldRunIntegrationTests)
-                return;
 
-            _logger.WriteLine($"Starting {nameof(HomeTimeLine)}");
-            await HomeTimeLine().ConfigureAwait(false);
-            _logger.WriteLine($"{nameof(HomeTimeLine)} succeeded");
 
-            _logger.WriteLine($"Starting {nameof(UserTimeline)}");
-            await UserTimeline().ConfigureAwait(false);
-            _logger.WriteLine($"{nameof(UserTimeline)} succeeded");
-
-            _logger.WriteLine($"Starting {nameof(RetweetsOfMeTimeline)}");
-            await RetweetsOfMeTimeline().ConfigureAwait(false);
-            _logger.WriteLine($"{nameof(RetweetsOfMeTimeline)} succeeded");
-        }
-
-        [Fact]
         public async Task HomeTimeLine()
         {
-            if (!IntegrationTestConfig.ShouldRunIntegrationTests)
+            if (!EndToEndTestConfig.ShouldRunEndToEndTests)
                 return;
 
             // arrange
@@ -66,6 +43,8 @@ namespace xUnitinvi.IntegrationTests
             }
 
             // act - pre-cleanup
+
+            await Task.Delay(1000).ConfigureAwait(false); // time required for timeline to be generated
             var recentTweetIterators = _tweetinviApiClient.Timeline.GetHomeTimelineIterator();
             var recentTweets = await recentTweetIterators.MoveToNextPage();
             var tweetToDelete = recentTweets.FirstOrDefault(x => x.Text == "tweet 1!");
@@ -78,7 +57,7 @@ namespace xUnitinvi.IntegrationTests
             // act
             var tweet1 = await _tweetinviTestClient.Tweets.PublishTweet("tweet 1!");
 
-            await Task.Delay(1500).ConfigureAwait(false); // time required for timeline to be generated
+            await Task.Delay(2000).ConfigureAwait(false); // time required for timeline to be generated
             var iterator = _tweetinviApiClient.Timeline.GetHomeTimelineIterator(new GetHomeTimelineParameters
             {
                 PageSize = 1,
@@ -101,12 +80,12 @@ namespace xUnitinvi.IntegrationTests
         [Fact]
         public async Task UserTimeline()
         {
-            if (!IntegrationTestConfig.ShouldRunIntegrationTests)
+            if (!EndToEndTestConfig.ShouldRunEndToEndTests)
                 return;
 
             // act
             var tweet1 = await _tweetinviTestClient.Tweets.PublishTweet("tweet 1!");
-            var tweetinviTest = IntegrationTestConfig.TweetinviTest.AccountId;
+            var tweetinviTest = EndToEndTestConfig.TweetinviTest.AccountId;
 
             var iterator = _tweetinviApiClient.Timeline.GetUserTimelineIterator(new GetUserTimelineParameters(tweetinviTest)
             {
@@ -125,7 +104,7 @@ namespace xUnitinvi.IntegrationTests
         [Fact]
         public async Task MentionsTimeline()
         {
-            if (!IntegrationTestConfig.ShouldRunIntegrationTests)
+            if (!EndToEndTestConfig.ShouldRunEndToEndTests)
                 return;
 
             // act
@@ -145,7 +124,7 @@ namespace xUnitinvi.IntegrationTests
         [Fact]
         public async Task RetweetsOfMeTimeline()
         {
-            if (!IntegrationTestConfig.ShouldRunIntegrationTests)
+            if (!EndToEndTestConfig.ShouldRunEndToEndTests)
                 return;
 
             var tweet1 = await _tweetinviTestClient.Tweets.PublishTweet("tweet 1!");

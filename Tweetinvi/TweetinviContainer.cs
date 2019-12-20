@@ -1,7 +1,6 @@
 ﻿using System;
 using Tweetinvi.Core.Injectinvi;
 using Tweetinvi.Events;
-using Tweetinvi.Injectinvi;
 
 namespace Tweetinvi
 {
@@ -20,7 +19,7 @@ namespace Tweetinvi
 
         static TweetinviContainer()
         {
-            Container = new AutofacContainer();
+            Container = new Injectinvi.TweetinviContainer();
             Container.BeforeRegistrationCompletes += ContainerOnBeforeRegistrationCompletes;
         }
 
@@ -49,7 +48,7 @@ namespace Tweetinvi
                     Container.Initialize();
                 }
 
-                return Container.ThreadResolve<T>();
+                return Container.Resolve<T>();
             }
         }
     }

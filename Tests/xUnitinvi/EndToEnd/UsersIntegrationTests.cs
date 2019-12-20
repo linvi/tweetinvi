@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Tweetinvi;
@@ -7,54 +6,30 @@ using Tweetinvi.Models;
 using Tweetinvi.Parameters;
 using Xunit;
 using Xunit.Abstractions;
+using xUnitinvi.TestHelpers;
 
-namespace xUnitinvi.IntegrationTests
+namespace xUnitinvi.EndToEnd
 {
     // VERY IMPORTANT NOTE !!!
     // THESE TESTS CANNOT BE RUN IN PARALLEL AS SOME OPERATIONS CAN AFFECT THE STATES IN TWITTER
     // RunIntegrationTests() run each of them one after another
 
-    public class UserIntegrationTests
+    [Collection("EndToEndTests")]
+    public class UserEndToEndTests : TweetinviTest
     {
-        private readonly ITestOutputHelper _logger;
         private readonly ITwitterClient _client;
         private readonly ITwitterClient _privateUserClient;
 
-        public UserIntegrationTests(ITestOutputHelper logger)
+        public UserEndToEndTests(ITestOutputHelper logger) : base(logger)
         {
-            _logger = logger;
-
-            _logger.WriteLine(DateTime.Now.ToLongTimeString());
-
-            _client = new TwitterClient(IntegrationTestConfig.TweetinviTest.Credentials);
-            _privateUserClient = new TwitterClient(IntegrationTestConfig.ProtectedUser.Credentials);
-
-            TweetinviEvents.QueryBeforeExecute += (sender, args) => { _logger.WriteLine(args.Url); };
-        }
-
-        [Fact]
-        public async Task RunAllUserTests()
-        {
-            if (!IntegrationTestConfig.ShouldRunIntegrationTests)
-                return;
-
-            _logger.WriteLine($"Starting {nameof(TestFollow)}");
-            await TestFollow().ConfigureAwait(false);
-            _logger.WriteLine($"{nameof(TestFollow)} succeeded");
-
-            _logger.WriteLine($"Starting {nameof(TestRelationships)}");
-            await TestRelationships().ConfigureAwait(false);
-            _logger.WriteLine($"{nameof(TestRelationships)} succeeded");
-
-            _logger.WriteLine($"Starting {nameof(TestWithPrivateUser)}");
-            await TestWithPrivateUser().ConfigureAwait(false);
-            _logger.WriteLine($"{nameof(TestWithPrivateUser)} succeeded");
+            _client = new TwitterClient(EndToEndTestConfig.TweetinviTest.Credentials);
+            _privateUserClient = new TwitterClient(EndToEndTestConfig.ProtectedUser.Credentials);
         }
 
         [Fact]
         public async Task TestFollow()
         {
-            if (!IntegrationTestConfig.ShouldRunIntegrationTests)
+            if (!EndToEndTestConfig.ShouldRunEndToEndTests)
                 return;
 
             // act
@@ -99,7 +74,7 @@ namespace xUnitinvi.IntegrationTests
         [Fact]
         public async Task TestRelationships()
         {
-            if (!IntegrationTestConfig.ShouldRunIntegrationTests)
+            if (!EndToEndTestConfig.ShouldRunEndToEndTests)
                 return;
 
             // act
@@ -143,7 +118,7 @@ namespace xUnitinvi.IntegrationTests
         [Fact]
         public async Task TestWithPrivateUser()
         {
-            if (!IntegrationTestConfig.ShouldRunIntegrationTests) { return; }
+            if (!EndToEndTestConfig.ShouldRunEndToEndTests) { return; }
 
             var publicUser = await _client.Account.GetAuthenticatedUser();
             var privateUser = await _privateUserClient.Account.GetAuthenticatedUser();

@@ -3,7 +3,6 @@
     public enum RegistrationLifetime
     {
         InstancePerResolve = 0,
-        InstancePerThread = 1,
-        InstancePerApplication = 2
+        InstancePerApplication = 1
     }
 }

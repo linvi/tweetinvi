@@ -10,7 +10,7 @@ namespace Tweetinvi.WebLogic
     {
         public void Initialize(ITweetinviContainer container)
         {
-            container.RegisterType<IWebRequestExecutor, WebRequestExecutor>(RegistrationLifetime.InstancePerThread);
+            container.RegisterType<IWebRequestExecutor, WebRequestExecutor>(RegistrationLifetime.InstancePerApplication);
             container.RegisterType<ITwitterRequestHandler, TwitterRequestHandler>();
 
             container.RegisterType<IConsumerCredentials, ConsumerCredentials>();
