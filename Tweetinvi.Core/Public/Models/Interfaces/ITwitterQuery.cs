@@ -45,7 +45,7 @@ namespace Tweetinvi.Models
         IOAuthQueryParameter[] QueryParameters { get; set; }
 
         /// <summary>
-        /// RateLimit for the specific query. These can be null if the query url, 
+        /// RateLimit for the specific query. These can be null if the query url,
         /// could not be matched with any documented RateLimit field.
         /// </summary>
         IEndpointRateLimit QueryRateLimit { get; set; }
@@ -61,9 +61,8 @@ namespace Tweetinvi.Models
         DateTime? DateWhenCredentialsWillHaveTheRequiredRateLimits { get; set; }
 
         /// <summary>
-        /// Time to wait in milliseconds after which the required 
-        /// Rate Limits will be available to execute the query.
+        /// Time to wait before executing the query to ensure that we have not reached the RateLimits.
         /// </summary>
-        int? TimeToWaitBeforeExecutingTheQueryInMilliSeconds { get; }
+        TimeSpan? TimeToWaitBeforeExecutingTheQuery { get; }
     }
 }

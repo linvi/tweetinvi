@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Tweetinvi.Core;
-using Tweetinvi.Core.Credentials;
+using Tweetinvi.Core.Client;
 using Tweetinvi.Core.Events;
 using Tweetinvi.Core.Helpers;
 using Tweetinvi.Core.RateLimit;
@@ -13,86 +12,72 @@ namespace Tweetinvi.Credentials.RateLimit
 {
     public class RateLimitAwaiter : IRateLimitAwaiter
     {
-        private readonly ICredentialsAccessor _credentialsAccessor;
         private readonly IRateLimitCacheManager _rateLimitCacheManager;
-        private readonly IThreadHelper _threadHelper;
+        private readonly ITaskDelayer _taskDelayer;
         private readonly IWeakEvent<EventHandler<QueryAwaitingEventArgs>> _queryAwaitingForRateLimitWeakEvent;
-        private readonly ITweetinviSettingsAccessor _settingsAccessor;
 
         public RateLimitAwaiter(
-            ICredentialsAccessor credentialsAccessor,
             IRateLimitCacheManager rateLimitCacheManager,
-            IThreadHelper threadHelper,
-            IWeakEvent<EventHandler<QueryAwaitingEventArgs>> queryAwaitingForRateLimitWeakEvent,
-            ITweetinviSettingsAccessor settingsAccessor)
+            ITaskDelayer taskDelayer,
+            IWeakEvent<EventHandler<QueryAwaitingEventArgs>> queryAwaitingForRateLimitWeakEvent)
         {
-            _credentialsAccessor = credentialsAccessor;
             _rateLimitCacheManager = rateLimitCacheManager;
-            _threadHelper = threadHelper;
+            _taskDelayer = taskDelayer;
             _queryAwaitingForRateLimitWeakEvent = queryAwaitingForRateLimitWeakEvent;
-            _settingsAccessor = settingsAccessor;
         }
 
         public event EventHandler<QueryAwaitingEventArgs> QueryAwaitingForRateLimit
         {
-            add { _queryAwaitingForRateLimitWeakEvent.AddHandler(value); }
-            remove { _queryAwaitingForRateLimitWeakEvent.RemoveHandler(value); }
+            add => _queryAwaitingForRateLimitWeakEvent.AddHandler(value);
+            remove => _queryAwaitingForRateLimitWeakEvent.RemoveHandler(value);
         }
 
-        public Task WaitForCurrentCredentialsRateLimit(string query)
+        public Task WaitForCredentialsRateLimit(ITwitterRequest request)
         {
-            var credentials = _credentialsAccessor.CurrentThreadCredentials;
-            return WaitForCredentialsRateLimit(query, credentials);
+            return WaitForCredentialsRateLimit(request.Query.Url, request.Query.TwitterCredentials, request.ExecutionContext);
         }
 
-        public async Task WaitForCredentialsRateLimit(string query, ITwitterCredentials credentials)
+        public async Task WaitForCredentialsRateLimit(string query, IReadOnlyTwitterCredentials credentials, ITwitterExecutionContext executionContext)
         {
-            var queryRateLimit = await _rateLimitCacheManager.GetQueryRateLimit(new GetEndpointRateLimitsParameters(query, RateLimitsSource.CacheOnly), credentials);
-
+            var queryRateLimit = await _rateLimitCacheManager.GetQueryRateLimit(new GetEndpointRateLimitsParameters(query, RateLimitsSource.CacheOnly), credentials).ConfigureAwait(false);
             if (queryRateLimit == null)
             {
                 return;
             }
 
-            var timeToWait = GetTimeToWaitFromQueryRateLimit(queryRateLimit);
-
-            if (timeToWait > 0)
+            var timeToWait = GetTimeToWaitFromQueryRateLimit(queryRateLimit, executionContext);
+            if (timeToWait > TimeSpan.Zero)
             {
                 _queryAwaitingForRateLimitWeakEvent.Raise(this, new QueryAwaitingEventArgs(query, queryRateLimit, credentials));
-                _threadHelper.Sleep(timeToWait);
+                await _taskDelayer.Delay(timeToWait).ConfigureAwait(false);
             }
         }
 
-        public void WaitForCredentialsRateLimit(IEndpointRateLimit endpointRateLimit)
+        public async Task WaitForCredentialsRateLimit(IEndpointRateLimit queryRateLimit, IReadOnlyTwitterCredentials credentials, ITwitterExecutionContext executionContext)
         {
-            var timeToWait = GetTimeToWaitFromQueryRateLimit(endpointRateLimit);
-
-            Wait(timeToWait);
-        }
-
-        public void Wait(int timeToWait)
-        {
-            if (timeToWait > 0)
+            var timeToWait = GetTimeToWaitFromQueryRateLimit(queryRateLimit, executionContext);
+            if (timeToWait > TimeSpan.Zero)
             {
-                _threadHelper.Sleep(timeToWait);
+                _queryAwaitingForRateLimitWeakEvent.Raise(this, new QueryAwaitingEventArgs(null, queryRateLimit, credentials));
+                await _taskDelayer.Delay(timeToWait).ConfigureAwait(false);
             }
         }
 
-        public async Task<int> TimeToWaitBeforeTwitterRequest(string query, ITwitterCredentials credentials)
+        public async Task<TimeSpan> TimeToWaitBeforeTwitterRequest(string query, IReadOnlyTwitterCredentials credentials, ITwitterExecutionContext twitterExecutionContext)
         {
-            var queryRateLimits = await _rateLimitCacheManager.GetQueryRateLimit(new GetEndpointRateLimitsParameters(query), credentials);
-
-            return GetTimeToWaitFromQueryRateLimit(queryRateLimits);
+            var queryRateLimits = await _rateLimitCacheManager.GetQueryRateLimit(new GetEndpointRateLimitsParameters(query), credentials).ConfigureAwait(false);
+            return GetTimeToWaitFromQueryRateLimit(queryRateLimits, twitterExecutionContext);
         }
 
-        public int GetTimeToWaitFromQueryRateLimit(IEndpointRateLimit queryRateLimit)
+        public TimeSpan GetTimeToWaitFromQueryRateLimit(IEndpointRateLimit queryRateLimit, ITwitterExecutionContext executionContext)
         {
             if (queryRateLimit == null || queryRateLimit.Remaining > 0)
             {
-                return 0;
+                return TimeSpan.Zero;
             }
 
-            return (int)Math.Ceiling(queryRateLimit.ResetDateTimeInMilliseconds) + _settingsAccessor.RateLimitWaitFudgeMs;
+            var timeToWaitInMs = (int) Math.Ceiling(queryRateLimit.ResetDateTimeInMilliseconds) + executionContext.RateLimitWaitFudgeMs;
+            return TimeSpan.FromMilliseconds(timeToWaitInMs);
         }
     }
 }

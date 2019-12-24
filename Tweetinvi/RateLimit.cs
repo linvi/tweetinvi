@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Threading.Tasks;
 using Tweetinvi.Core.Controllers;
 using Tweetinvi.Core.RateLimit;
 using Tweetinvi.Events;
@@ -66,23 +65,5 @@ namespace Tweetinvi
         {
             _rateLimitCache.Clear(credentials);
         }
-
-        /// <summary>
-        /// Wait for the rate limits to be available. This should be used before executing a query
-        /// </summary>
-        public static void AwaitForQueryRateLimit(string query, ITwitterCredentials credentials)
-        {
-            RateLimitAwaiter.WaitForCredentialsRateLimit(query, credentials);
-        }
-
-        /// <summary>
-        /// Wait for the rate limits to be available. This should be used before executing a query
-        /// </summary>
-        public static void AwaitForQueryRateLimit(IEndpointRateLimit endpointRateLimit)
-        {
-            RateLimitAwaiter.WaitForCredentialsRateLimit(endpointRateLimit);
-        }
-
-
     }
 }

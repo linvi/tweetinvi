@@ -41,7 +41,7 @@ namespace Tweetinvi.Credentials.RateLimit
             }
 
             // In the other endpoint rate limits
-            var matchingKeyPair =  rateLimits.OtherEndpointRateLimits.FirstOrDefault(x => IsEndpointURLMatchingQueryURL(queryBaseURL, x.Key));
+            var matchingKeyPair = rateLimits.OtherEndpointRateLimits.FirstOrDefault(x => IsEndpointURLMatchingQueryURL(queryBaseURL, x.Key));
             if (!matchingKeyPair.Equals(default(KeyValuePair<TwitterEndpointAttribute, IEndpointRateLimit>)))
             {
                 return matchingKeyPair.Value;

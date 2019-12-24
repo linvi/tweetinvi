@@ -1,8 +1,9 @@
+using System;
 using System.Threading.Tasks;
 using FakeItEasy;
 using Tweetinvi;
+using Tweetinvi.Core.Helpers;
 using Tweetinvi.Core.Web;
-using Tweetinvi.Injectinvi;
 using Tweetinvi.Models;
 using Tweetinvi.Parameters.HelpClient;
 using Xunit;
@@ -12,7 +13,8 @@ using TweetinviContainer = Tweetinvi.Injectinvi.TweetinviContainer;
 
 namespace xUnitinvi.EndToEnd
 {
-    [Collection("EndToEndTests")]
+    [Collection("EndToEndTests"), TestPriority(1)]
+    [TestCaseOrderer()]
     public class RateLimitsEndToEndTests : TweetinviTest
     {
         public RateLimitsEndToEndTests(ITestOutputHelper logger) : base(logger)
@@ -20,6 +22,12 @@ namespace xUnitinvi.EndToEnd
         }
 
         [Fact]
+        public void Salut()
+        {
+
+        }
+
+//        [Fact]
         public async Task GetRateLimits()
         {
             if (!EndToEndTestConfig.ShouldRunEndToEndTests)
@@ -55,7 +63,7 @@ namespace xUnitinvi.EndToEnd
             Assert.Same(rateLimits, fromCacheLimits);
         }
 
-        [Fact]
+//        [Fact]
         public async Task GetEndpointRateLimit()
         {
             if (!EndToEndTestConfig.ShouldRunEndToEndTests)
@@ -63,20 +71,18 @@ namespace xUnitinvi.EndToEnd
 
             TwitterAccessorSpy twitterAccessorSpy = null;
 
-            var container = new TweetinviContainer();
-            container.BeforeRegistrationCompletes += (sender, args) =>
+            var parameters = new TwitterClientParameters();
+
+            parameters.BeforeRegistrationCompletes += (sender, args) =>
             {
-                var twitterAccessor = Tweetinvi.TweetinviContainer.Resolve<ITwitterAccessor>();
+                var container = args.TweetinviContainer;
+                var twitterAccessor = args.TweetinviContainer.Resolve<ITwitterAccessor>();
                 twitterAccessorSpy = new TwitterAccessorSpy(twitterAccessor);
 
                 container.RegisterInstance(typeof(ITwitterAccessor), twitterAccessorSpy);
             };
-            container.Initialize();
 
-            var client = new TwitterClient(EndToEndTestConfig.TweetinviTest.Credentials, new TwitterClientParameters
-            {
-                Container = container
-            });
+            var client = new TwitterClient(EndToEndTestConfig.TweetinviTest.Credentials, parameters);
 
             client.ClientSettings.RateLimitTrackerMode = RateLimitTrackerMode.TrackOnly;
 
@@ -92,6 +98,57 @@ namespace xUnitinvi.EndToEnd
 
             Assert.Equal(firstApplicationRateLimits.Remaining, fromCacheLimits.Remaining + 1);
             Assert.Same(rateLimits, fromCacheLimits);
+        }
+
+//        [Fact]
+        public async Task RateLimitAwaiter()
+        {
+            if (!EndToEndTestConfig.ShouldRunEndToEndTests)
+                return;
+
+            var taskDelayer = A.Fake<ITaskDelayer>();
+
+            var container = new TweetinviContainer();
+            container.BeforeRegistrationCompletes += (sender, args) =>
+            {
+                container.RegisterInstance(typeof(ITaskDelayer), taskDelayer);
+            };
+            container.Initialize();
+
+            var client = new TwitterClient(EndToEndTestConfig.TweetinviTest.Credentials, new TwitterClientParameters
+            {
+                Container = container
+            });
+
+            client.ClientSettings.RateLimitTrackerMode = RateLimitTrackerMode.TrackAndAwait;
+
+            // act
+            var rateLimits = await client.RateLimits.GetEndpointRateLimit("https://api.twitter.com/1.1/statuses/home_timeline.json").ConfigureAwait(false);
+            var rateLimitsRemaining = rateLimits.Remaining;
+            for (var i = 0; i < rateLimitsRemaining; ++i)
+            {
+                var timelineIterator = client.Timeline.GetHomeTimelineIterator();
+                await timelineIterator.MoveToNextPage().ConfigureAwait(false);
+            }
+
+            A.CallTo(() => taskDelayer.Delay(It.IsAny<TimeSpan>())).MustNotHaveHappened();
+
+            try
+            {
+                var timelineIterator = client.Timeline.GetHomeTimelineIterator();
+                await timelineIterator.MoveToNextPage().ConfigureAwait(false);
+            }
+            // ReSharper disable once CC0004
+            catch (Exception e)
+            {
+                // assert
+
+                // we expect to throw as we are mocking the task delayer
+                A.CallTo(() => taskDelayer.Delay(It.IsAny<TimeSpan>())).MustHaveHappened();
+                return;
+            }
+
+            throw new InvalidOperationException("Should have failed ealier");
         }
     }
 }

@@ -22,24 +22,27 @@ namespace Tweetinvi.WebLogic
     {
         private readonly ITweetinviEvents _tweetinviEvents;
         private readonly IRateLimitAwaiter _rateLimitAwaiter;
+        private readonly IRateLimitCacheManager _rateLimitCacheManager;
         private readonly IRateLimitUpdaterFactory _rateLimitUpdaterFactory;
         private readonly IWebRequestExecutor _webRequestExecutor;
 
         public TwitterRequestHandler(
             ITweetinviEvents tweetinviEvents,
             IRateLimitAwaiter rateLimitAwaiter,
+            IRateLimitCacheManager rateLimitCacheManager,
             IRateLimitUpdaterFactory rateLimitUpdaterFactory,
             IWebRequestExecutor webRequestExecutor)
         {
             _tweetinviEvents = tweetinviEvents;
             _rateLimitAwaiter = rateLimitAwaiter;
+            _rateLimitCacheManager = rateLimitCacheManager;
             _rateLimitUpdaterFactory = rateLimitUpdaterFactory;
             _webRequestExecutor = webRequestExecutor;
         }
 
         public async Task<ITwitterResponse> ExecuteQuery(ITwitterRequest request)
         {
-            var rateLimitUpdater = _rateLimitUpdaterFactory.Create(request.ExecutionContext.RateLimitCacheManager);
+            var rateLimitUpdater = _rateLimitUpdaterFactory.Create(_rateLimitCacheManager);
 
             await PrepareTwitterRequest(request).ConfigureAwait(false);
 
@@ -83,55 +86,50 @@ namespace Tweetinvi.WebLogic
         public async Task PrepareTwitterRequest(ITwitterRequest request)
         {
             var twitterQuery = request.Query;
-            twitterQuery.Url = CleanupQueryURL(twitterQuery.Url); // TODO : THIS LOGIC SHOULD HAPPEN BEFORE ARRIVING HERE
+            twitterQuery.Url = CleanupQueryUrl(twitterQuery.Url); // TODO : THIS LOGIC SHOULD HAPPEN BEFORE ARRIVING HERE
 
             var rateLimitTrackerMode = request.ExecutionContext.RateLimitTrackerMode;
-
-            if (rateLimitTrackerMode == RateLimitTrackerMode.TrackOnly ||
-                rateLimitTrackerMode == RateLimitTrackerMode.TrackAndAwait)
+            if (rateLimitTrackerMode == RateLimitTrackerMode.None)
             {
-                // Use the RateLimitCacheManager instead of RateLimitHelper to get the queryRateLimits to ensure the cache is up to date!
-                var credentialRateLimits = await request.ExecutionContext.RateLimitCacheManager.GetCredentialsRateLimits(twitterQuery.TwitterCredentials).ConfigureAwait(false);
-
-                IEndpointRateLimit queryRateLimit = null;
-
-                // If we were not able to retrieve the credentials few ms before there is no reason why it would work now.
-                if (credentialRateLimits != null)
-                {
-                    var getEndpointRateLimitsFromCache = new GetEndpointRateLimitsParameters(twitterQuery.Url, RateLimitsSource.CacheOnly);
-                    queryRateLimit = await request.ExecutionContext.RateLimitCacheManager.GetQueryRateLimit(getEndpointRateLimitsFromCache, twitterQuery.TwitterCredentials).ConfigureAwait(false);
-                }
-
-                var timeToWait = _rateLimitAwaiter.GetTimeToWaitFromQueryRateLimit(queryRateLimit);
-
-                twitterQuery.CredentialsRateLimits = credentialRateLimits;
-                twitterQuery.QueryRateLimit = queryRateLimit;
-                twitterQuery.DateWhenCredentialsWillHaveTheRequiredRateLimits = DateTime.UtcNow.AddMilliseconds(timeToWait);
+                return;
             }
+
+            // Use the RateLimitCacheManager instead of RateLimitHelper to get the queryRateLimits to ensure the cache is up to date!
+            var credentialRateLimits = await _rateLimitCacheManager.GetCredentialsRateLimits(twitterQuery.TwitterCredentials).ConfigureAwait(false);
+
+            IEndpointRateLimit queryRateLimit = null;
+
+            // If we were not able to retrieve the credentials few ms before there is no reason why it would work now.
+            if (credentialRateLimits != null)
+            {
+                var getEndpointRateLimitsFromCache = new GetEndpointRateLimitsParameters(twitterQuery.Url, RateLimitsSource.CacheOnly);
+                queryRateLimit = await _rateLimitCacheManager.GetQueryRateLimit(getEndpointRateLimitsFromCache, twitterQuery.TwitterCredentials).ConfigureAwait(false);
+            }
+
+            var timeToWait = _rateLimitAwaiter.GetTimeToWaitFromQueryRateLimit(queryRateLimit, request.ExecutionContext);
+
+            twitterQuery.CredentialsRateLimits = credentialRateLimits;
+            twitterQuery.QueryRateLimit = queryRateLimit;
+            twitterQuery.DateWhenCredentialsWillHaveTheRequiredRateLimits = DateTime.UtcNow.Add(timeToWait);
         }
 
         private async Task WaitBeforeExecutingQuery(ITwitterRequest twitterRequest)
         {
             var twitterQuery = twitterRequest.Query;
-
             if (twitterQuery.DateWhenCredentialsWillHaveTheRequiredRateLimits == null)
             {
                 return;
             }
 
-            if (twitterRequest.ExecutionContext.RateLimitTrackerMode != RateLimitTrackerMode.TrackAndAwait)
+            if (twitterRequest.ExecutionContext.RateLimitTrackerMode == RateLimitTrackerMode.TrackAndAwait)
             {
-                return;
+                await _rateLimitAwaiter.WaitForCredentialsRateLimit(twitterRequest).ConfigureAwait(false);
             }
-
-            var timeToWait = (int)twitterQuery.DateWhenCredentialsWillHaveTheRequiredRateLimits?.Subtract(DateTime.UtcNow).TotalMilliseconds;
-
-            await Task.Delay(timeToWait).ConfigureAwait(false);
         }
 
         #region Helper Methods
 
-        private string CleanupQueryURL(string query)
+        private static string CleanupQueryUrl(string query)
         {
             var index = query.IndexOf("?", StringComparison.OrdinalIgnoreCase);
             if (index > 0)
@@ -152,9 +150,9 @@ namespace Tweetinvi.WebLogic
         }
 
         private void QueryCompleted(
-        ITwitterRequest request,
-        ITwitterResponse twitterResponse,
-        IRateLimitUpdater rateLimitUpdater)
+            ITwitterRequest request,
+            ITwitterResponse twitterResponse,
+            IRateLimitUpdater rateLimitUpdater)
         {
             if (request.ExecutionContext.RateLimitTrackerMode != RateLimitTrackerMode.None)
             {

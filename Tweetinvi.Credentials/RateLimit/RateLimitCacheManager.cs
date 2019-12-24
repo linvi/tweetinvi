@@ -11,8 +11,7 @@ namespace Tweetinvi.Credentials.RateLimit
     public class RateLimitCacheManager : IRateLimitCacheManager
     {
         private readonly IRateLimitHelper _rateLimitHelper;
-
-        private IRateLimitCache _rateLimitCache;
+        private readonly IRateLimitCache _rateLimitCache;
         public RateLimitCacheManager(
             IRateLimitCache rateLimitCache,
             IRateLimitHelper rateLimitHelper)
@@ -21,12 +20,7 @@ namespace Tweetinvi.Credentials.RateLimit
             _rateLimitHelper = rateLimitHelper;
         }
 
-        public virtual IRateLimitCache RateLimitCache
-        {
-            get => _rateLimitCache;
-            set => _rateLimitCache = value;
-        }
-
+        public virtual IRateLimitCache RateLimitCache => _rateLimitCache;
         public virtual IRateLimitsClient RateLimitsClient { get; set; }
 
         public virtual async Task<IEndpointRateLimit> GetQueryRateLimit(IGetEndpointRateLimitsParameters parameters, IReadOnlyTwitterCredentials credentials)

@@ -24,8 +24,12 @@ namespace xUnitinvi.EndToEnd
         }
 
         [Fact]
+        public void Salut2()
+        {
 
+        }
 
+//        [Fact]
         public async Task HomeTimeLine()
         {
             if (!EndToEndTestConfig.ShouldRunEndToEndTests)
@@ -77,7 +81,7 @@ namespace xUnitinvi.EndToEnd
             Assert.True(page1.Select(x => x.Id).Contains(tweet1.Id) || page2.Select(x => x.Id).Contains(tweet1.Id));
         }
 
-        [Fact]
+//        [Fact]
         public async Task UserTimeline()
         {
             if (!EndToEndTestConfig.ShouldRunEndToEndTests)
@@ -101,7 +105,7 @@ namespace xUnitinvi.EndToEnd
             Assert.True(page1.Select(x => x.Id).Contains(tweet1.Id) || page2.Select(x => x.Id).Contains(tweet1.Id));
         }
 
-        [Fact]
+//        [Fact]
         public async Task MentionsTimeline()
         {
             if (!EndToEndTestConfig.ShouldRunEndToEndTests)
@@ -121,7 +125,7 @@ namespace xUnitinvi.EndToEnd
         }
 
 
-        [Fact]
+//        [Fact]
         public async Task RetweetsOfMeTimeline()
         {
             if (!EndToEndTestConfig.ShouldRunEndToEndTests)
