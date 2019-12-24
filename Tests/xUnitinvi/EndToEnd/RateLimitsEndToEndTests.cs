@@ -2,17 +2,17 @@ using System.Threading.Tasks;
 using FakeItEasy;
 using Tweetinvi;
 using Tweetinvi.Core.Web;
-using Tweetinvi.Injectinvi;
 using Tweetinvi.Models;
 using Tweetinvi.Parameters.HelpClient;
 using Xunit;
 using Xunit.Abstractions;
+using Xunit.Extensions.Ordering;
 using xUnitinvi.TestHelpers;
 using TweetinviContainer = Tweetinvi.Injectinvi.TweetinviContainer;
 
 namespace xUnitinvi.EndToEnd
 {
-    [Collection("EndToEndTests")]
+    [Collection("EndToEndTests"), Order(10)]
     public class RateLimitsEndToEndTests : TweetinviTest
     {
         public RateLimitsEndToEndTests(ITestOutputHelper logger) : base(logger)

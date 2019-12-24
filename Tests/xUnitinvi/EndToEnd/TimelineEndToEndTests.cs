@@ -24,8 +24,6 @@ namespace xUnitinvi.EndToEnd
         }
 
         [Fact]
-
-
         public async Task HomeTimeLine()
         {
             if (!EndToEndTestConfig.ShouldRunEndToEndTests)
