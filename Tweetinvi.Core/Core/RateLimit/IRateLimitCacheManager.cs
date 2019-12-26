@@ -10,7 +10,7 @@ namespace Tweetinvi.Core.RateLimit
     /// </summary>
     public interface IRateLimitCacheManager
     {
-        IRateLimitCache RateLimitCache { get; set; }
+        IRateLimitCache RateLimitCache { get; }
         IRateLimitsClient RateLimitsClient { get; set; }
 
         /// <summary>

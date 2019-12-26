@@ -115,7 +115,7 @@ namespace xUnitinvi.EndToEnd
 
             var sourceTweet = await _protectedClient.Tweets.GetTweet(tweetId);
             var retweet = await _protectedClient.Tweets.PublishRetweet(sourceTweet);
-            await Task.Delay(50).ConfigureAwait(false); // for Twitter to sync
+            await Task.Delay(1000).ConfigureAwait(false); // for Twitter to sync
             var sourceRetweets = await _protectedClient.Tweets.GetRetweets(sourceTweet);
             var tweetAfterRetweet = await _protectedClient.Tweets.GetTweet(tweetId);
 

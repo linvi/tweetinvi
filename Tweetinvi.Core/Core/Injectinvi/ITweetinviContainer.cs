@@ -16,7 +16,7 @@ namespace Tweetinvi.Core.Injectinvi
         void RegisterType<TRegistered, TTo>(RegistrationLifetime registrationLifetime = RegistrationLifetime.InstancePerResolve) where TTo : TRegistered;
         void RegisterGeneric(Type sourceType, Type targetType, RegistrationLifetime registrationLifetime = RegistrationLifetime.InstancePerResolve);
         void RegisterInstance(Type targetType, object value);
-
+        void RegisterDecorator<TDecorator, TDecorated>() where TDecorator : TDecorated;
         T Resolve<T>(params IConstructorNamedParameter[] parameters);
     }
 }

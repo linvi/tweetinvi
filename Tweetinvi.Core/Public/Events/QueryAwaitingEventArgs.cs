@@ -7,23 +7,22 @@ namespace Tweetinvi.Events
     {
         private readonly string _query;
         private readonly IEndpointRateLimit _queryRateLimit;
-        private readonly ITwitterCredentials _twitterCredentials;
+        private readonly IReadOnlyTwitterCredentials _twitterCredentials;
 
         public QueryAwaitingEventArgs(
             string query,
             IEndpointRateLimit queryRateLimit,
-            ITwitterCredentials twitterCredentials)
+            IReadOnlyTwitterCredentials twitterCredentials)
         {
             _query = query;
             _queryRateLimit = queryRateLimit;
             _twitterCredentials = twitterCredentials;
         }
 
-        public string Query { get { return _query; } }
-        public IEndpointRateLimit QueryRateLimit { get { return _queryRateLimit; } }
-        public ITwitterCredentials Credentials { get { return _twitterCredentials; } }
-
-        public DateTime ResetDateTime { get { return _queryRateLimit.ResetDateTime; } }
-        public int ResetInMilliseconds { get { return ((int)_queryRateLimit.ResetDateTimeInMilliseconds); } }
+        public string Query => _query;
+        public IEndpointRateLimit QueryRateLimit => _queryRateLimit;
+        public IReadOnlyTwitterCredentials Credentials => _twitterCredentials;
+        public DateTime ResetDateTime => _queryRateLimit.ResetDateTime;
+        public int ResetInMilliseconds => (int)_queryRateLimit.ResetDateTimeInMilliseconds;
     }
 }

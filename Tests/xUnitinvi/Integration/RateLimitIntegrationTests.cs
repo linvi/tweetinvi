@@ -1,9 +1,14 @@
+using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using FakeItEasy;
 using Tweetinvi;
+using Tweetinvi.Core.Helpers;
+using Tweetinvi.Core.Models;
 using Tweetinvi.Core.RateLimit;
 using Tweetinvi.Core.Web;
 using Tweetinvi.Models;
+using Tweetinvi.Models.DTO;
 using Tweetinvi.Parameters.HelpClient;
 using Xunit;
 using Xunit.Abstractions;
@@ -50,7 +55,8 @@ namespace xUnitinvi.Integration
             container.BeforeRegistrationCompletes += (sender, args) => { container.RegisterInstance(typeof(ITwitterAccessor), twitterAccessor); };
             container.Initialize();
 
-            var client = new TwitterClient(EndToEndTestConfig.TweetinviTest.Credentials, new TwitterClientParameters
+            var fakeCredentials = new TwitterCredentials("consumerKey", "consumerSecret", "accessToken", "accessTokenSecret");
+            var client = new TwitterClient(fakeCredentials, new TwitterClientParameters
             {
                 Container = container
             });

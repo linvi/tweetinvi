@@ -21,7 +21,7 @@ namespace Tweetinvi.Injectinvi
         private readonly ContainerBuilder _containerBuilder;
         private readonly List<ITweetinviModule> _moduleCatalog;
 
-        public List<Action<ContainerBuilder>> RegistrationActions { get; private set; }
+        public List<Action<ContainerBuilder>> RegistrationActions { get; }
 
         private bool _isInitialized;
 
@@ -181,6 +181,22 @@ namespace Tweetinvi.Injectinvi
             }
 
             var registrationAction = new Action<ContainerBuilder>(builder => { builder.RegisterInstance(value).As(targetType).ExternallyOwned(); });
+
+            registrationAction(_containerBuilder);
+            RegistrationActions.Add(registrationAction);
+        }
+
+        public void RegisterDecorator<TDecorator, TDecorated>() where TDecorator : TDecorated
+        {
+            if (IsInitialized)
+            {
+                throw new InvalidOperationException("Cannot update container after it was already initialized");
+            }
+
+            var registrationAction = new Action<ContainerBuilder>(builder =>
+            {
+                builder.RegisterDecorator<TDecorator, TDecorated>();
+            });
 
             registrationAction(_containerBuilder);
             RegistrationActions.Add(registrationAction);

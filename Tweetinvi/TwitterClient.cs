@@ -1,12 +1,11 @@
 ﻿using System;
-using System.Collections.Immutable;
 using Tweetinvi.Client;
 using Tweetinvi.Core.Client;
 using Tweetinvi.Core.Client.Validators;
+using Tweetinvi.Core.Events;
 using Tweetinvi.Core.Injectinvi;
 using Tweetinvi.Core.RateLimit;
-using Tweetinvi.Core.Web;
-using Tweetinvi.Injectinvi;
+using Tweetinvi.Events;
 using Tweetinvi.Models;
 
 // ReSharper disable once CheckNamespace
@@ -22,12 +21,17 @@ namespace Tweetinvi
         public IRateLimitCache RateLimitCache { get; set; }
         public ITweetinviContainer Container { get; set; }
         public ITweetinviSettings Settings { get; set; }
+        public event EventHandler<TweetinviContainerEventArgs> BeforeRegistrationCompletes;
+
+        public void RaiseBeforeRegistrationCompletes(TweetinviContainerEventArgs args)
+        {
+            args.TweetinviContainer.Raise(BeforeRegistrationCompletes, args);
+        }
     }
 
-    public class TwitterClient : ITwitterClient
+    public class TwitterClient : ITwitterClient, IDisposable
     {
         private IReadOnlyTwitterCredentials _credentials;
-        private readonly IRateLimitCacheManager _rateLimitCacheManager;
         private readonly ITweetinviContainer _tweetinviContainer;
 
         /// <summary>
@@ -74,7 +78,14 @@ namespace Tweetinvi
                 _tweetinviContainer.RegisterInstance(typeof(IRateLimitCache), parameters.RateLimitCache);
             }
 
+            void BeforeRegistrationDelegate(object sender, TweetinviContainerEventArgs args)
+            {
+                parameters?.RaiseBeforeRegistrationCompletes(args);
+            };
+
+            _tweetinviContainer.BeforeRegistrationCompletes += BeforeRegistrationDelegate;
             _tweetinviContainer.Initialize();
+            _tweetinviContainer.BeforeRegistrationCompletes -= BeforeRegistrationDelegate;
 
             var requestExecutor = _tweetinviContainer.Resolve<IInternalRequestExecutor>();
             requestExecutor.Initialize(this);
@@ -84,18 +95,18 @@ namespace Tweetinvi
             parametersValidator.Initialize(this);
             ParametersValidator = parametersValidator;
 
-            _rateLimitCacheManager = _tweetinviContainer.Resolve<IRateLimitCacheManager>();
 
             Account = new AccountClient(this);
             Auth = new AuthClient(this);
             AccountSettings = new AccountSettingsClient(this);
-            RateLimits = new RateLimitsClient(this, _rateLimitCacheManager);
+            RateLimits = new RateLimitsClient(this);
             Timeline = new TimelineClient(this);
             Tweets = new TweetsClient(this);
             Upload = new UploadClient(this);
             Users = new UsersClient(this);
 
-            _rateLimitCacheManager.RateLimitsClient = RateLimits;
+            var rateLimitCacheManager = _tweetinviContainer.Resolve<IRateLimitCacheManager>();
+            rateLimitCacheManager.RateLimitsClient = RateLimits;
         }
 
         public IAccountClient Account { get; }
@@ -115,7 +126,6 @@ namespace Tweetinvi
             return new TwitterExecutionContext
             {
                 RequestFactory = CreateRequest,
-                RateLimitCacheManager = _rateLimitCacheManager,
                 Container = _tweetinviContainer
             };
         }
@@ -135,6 +145,10 @@ namespace Tweetinvi
             request.ExecutionContext.InitialiseFrom(ClientSettings);
 
             return request;
+        }
+
+        public void Dispose()
+        {
         }
     }
 }

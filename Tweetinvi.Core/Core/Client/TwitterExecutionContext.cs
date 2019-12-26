@@ -8,7 +8,6 @@ namespace Tweetinvi.Core.Client
     public interface ITwitterExecutionContext : ITweetinviSettings
     {
         Func<ITwitterRequest> RequestFactory { get; set; }
-        IRateLimitCacheManager RateLimitCacheManager { get; set; }
         ITweetinviContainer Container { get; set; }
     }
 
@@ -22,12 +21,10 @@ namespace Tweetinvi.Core.Client
         public TwitterExecutionContext(ITwitterExecutionContext context) : base(context)
         {
             RequestFactory = context.RequestFactory;
-            RateLimitCacheManager = context.RateLimitCacheManager;
             Container = context.Container;
         }
 
         public Func<ITwitterRequest> RequestFactory { get; set; }
-        public IRateLimitCacheManager RateLimitCacheManager { get; set; }
         public ITweetinviContainer Container { get; set; }
     }
 }

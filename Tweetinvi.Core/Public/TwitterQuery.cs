@@ -72,19 +72,20 @@ namespace Tweetinvi
         public IEndpointRateLimit QueryRateLimit { get; set; }
         public ICredentialsRateLimits CredentialsRateLimits { get; set; }
         public DateTime? DateWhenCredentialsWillHaveTheRequiredRateLimits { get; set; }
-        public int? TimeToWaitBeforeExecutingTheQueryInMilliSeconds
+        public TimeSpan? TimeToWaitBeforeExecutingTheQuery
         {
             get
             {
-                if (DateWhenCredentialsWillHaveTheRequiredRateLimits == null)
+                var diff = DateWhenCredentialsWillHaveTheRequiredRateLimits?.Subtract(DateTime.Now);
+                if (diff == null)
                 {
                     return null;
                 }
 
-                var timeToWait = DateWhenCredentialsWillHaveTheRequiredRateLimits.Value.Subtract(DateTime.Now).TotalMilliseconds;
-                return (int)Math.Max(0, timeToWait);
+                return diff > TimeSpan.Zero ? diff : TimeSpan.Zero;
             }
         }
+
         public override string ToString()
         {
             return Url;

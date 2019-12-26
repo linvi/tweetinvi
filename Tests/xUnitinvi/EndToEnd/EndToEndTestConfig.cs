@@ -5,6 +5,7 @@ namespace xUnitinvi.EndToEnd
     public static class EndToEndTestConfig
     {
         public static readonly bool ShouldRunEndToEndTests = false;
+        public static readonly bool ShouldRunRateLimitHungryTests = false;
 
         public static readonly IntegrationTestAccount TweetinviApi = new IntegrationTestAccount
         {

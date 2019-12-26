@@ -5,9 +5,9 @@ namespace Tweetinvi.Events
 {
     public class TweetinviContainerEventArgs : EventArgs
     {
-        public TweetinviContainerEventArgs(ITweetinviContainer container)
+        public TweetinviContainerEventArgs(ITweetinviContainer tweetinviContainer)
         {
-            TweetinviContainer = container;
+            TweetinviContainer = tweetinviContainer;
         }
 
         public ITweetinviContainer TweetinviContainer { get; }

@@ -66,8 +66,8 @@ namespace Tweetinvi.Core.Models
         public IEndpointRateLimit FavoritesListLimit => _resources.FavoritesRateLimits["/favorites/list"];
 
         // Feedback
-        public IEndpointRateLimit FeedbackShowLimit => _resources.FeedbacksRateLimits["/feedback/show/:id"];
-        public IEndpointRateLimit FeedbackEventsLimit => _resources.FeedbacksRateLimits["/feedback/events"];
+        public IEndpointRateLimit FeedbackShowLimit => _resources.FeedbackRateLimits["/feedback/show/:id"];
+        public IEndpointRateLimit FeedbackEventsLimit => _resources.FeedbackRateLimits["/feedback/events"];
 
 
         // Followers
@@ -179,7 +179,7 @@ namespace Tweetinvi.Core.Models
             [JsonProperty("device")] public Dictionary<string, IEndpointRateLimit> DeviceRateLimits { get; set; }
             [JsonProperty("direct_messages")] public Dictionary<string, IEndpointRateLimit> DirectMessagesRateLimits { get; set; }
             [JsonProperty("favorites")] public Dictionary<string, IEndpointRateLimit> FavoritesRateLimits { get; set; }
-            [JsonProperty("feedback")] public Dictionary<string, IEndpointRateLimit> FeedbacksRateLimits { get; set; }
+            [JsonProperty("feedback")] public Dictionary<string, IEndpointRateLimit> FeedbackRateLimits { get; set; }
             [JsonProperty("followers")] public Dictionary<string, IEndpointRateLimit> FollowersRateLimits { get; set; }
             [JsonProperty("friends")] public Dictionary<string, IEndpointRateLimit> FriendsRateLimits { get; set; }
             [JsonProperty("friendships")] public Dictionary<string, IEndpointRateLimit> FriendshipsRateLimits { get; set; }

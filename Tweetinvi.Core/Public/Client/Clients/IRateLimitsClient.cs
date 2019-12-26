@@ -37,5 +37,12 @@ namespace Tweetinvi.Client
         /// <returns>The endpoint's rate limits, or null if the endpoint is not support by Tweetinvi</returns>
         Task<IEndpointRateLimit> GetEndpointRateLimit(IGetEndpointRateLimitsParameters parameters);
 
+        /// <inheritdoc cref="WaitForQueryRateLimit(IEndpointRateLimit)" />
+        Task WaitForQueryRateLimit(string url);
+
+        /// <summary>
+        /// Wait for new requests to a specific endpoint become available
+        /// </summary>
+        Task WaitForQueryRateLimit(IEndpointRateLimit endpointRateLimit);
     }
 }

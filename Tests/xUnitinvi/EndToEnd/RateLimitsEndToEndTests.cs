@@ -1,6 +1,10 @@
+using System;
 using System.Threading.Tasks;
+using Autofac;
 using FakeItEasy;
 using Tweetinvi;
+using Tweetinvi.Controllers.Properties;
+using Tweetinvi.Core.Helpers;
 using Tweetinvi.Core.Web;
 using Tweetinvi.Models;
 using Tweetinvi.Parameters.HelpClient;
@@ -61,23 +65,16 @@ namespace xUnitinvi.EndToEnd
             if (!EndToEndTestConfig.ShouldRunEndToEndTests)
                 return;
 
-            TwitterAccessorSpy twitterAccessorSpy = null;
+            var parameters = new TwitterClientParameters();
 
-            var container = new TweetinviContainer();
-            container.BeforeRegistrationCompletes += (sender, args) =>
+            parameters.BeforeRegistrationCompletes += (sender, args) =>
             {
-                var twitterAccessor = Tweetinvi.TweetinviContainer.Resolve<ITwitterAccessor>();
-                twitterAccessorSpy = new TwitterAccessorSpy(twitterAccessor);
-
-                container.RegisterInstance(typeof(ITwitterAccessor), twitterAccessorSpy);
+                args.TweetinviContainer.RegisterDecorator<TwitterAccessorSpy, ITwitterAccessor>();
             };
-            container.Initialize();
 
-            var client = new TwitterClient(EndToEndTestConfig.TweetinviTest.Credentials, new TwitterClientParameters
-            {
-                Container = container
-            });
+            var client = new TwitterClient(EndToEndTestConfig.TweetinviTest.Credentials, parameters);
 
+            var twitterAccessorSpy = client.CreateTwitterExecutionContext().Container.Resolve<ITwitterAccessor>() as TwitterAccessorSpy;
             client.ClientSettings.RateLimitTrackerMode = RateLimitTrackerMode.TrackOnly;
 
             // act
@@ -92,6 +89,62 @@ namespace xUnitinvi.EndToEnd
 
             Assert.Equal(firstApplicationRateLimits.Remaining, fromCacheLimits.Remaining + 1);
             Assert.Same(rateLimits, fromCacheLimits);
+        }
+
+        [Fact, Order(10)]
+        public async Task RateLimitAwaiter()
+        {
+            if (!EndToEndTestConfig.ShouldRunEndToEndTests || !EndToEndTestConfig.ShouldRunRateLimitHungryTests)
+                return;
+
+            var taskDelayer = A.Fake<ITaskDelayer>();
+
+            var container = new TweetinviContainer();
+            container.BeforeRegistrationCompletes += (sender, args) =>
+            {
+                container.RegisterInstance(typeof(ITaskDelayer), taskDelayer);
+            };
+            container.Initialize();
+
+            var client = new TwitterClient(EndToEndTestConfig.TweetinviTest.Credentials, new TwitterClientParameters
+            {
+                Container = container
+            });
+
+            client.ClientSettings.RateLimitTrackerMode = RateLimitTrackerMode.TrackAndAwait;
+
+            // act
+            var rateLimits = await client.RateLimits.GetEndpointRateLimit(Resources.Timeline_GetHomeTimeline).ConfigureAwait(false);
+            var rateLimitsRemaining = rateLimits.Remaining;
+
+            await client.RateLimits.WaitForQueryRateLimit(Resources.Timeline_GetHomeTimeline);
+
+            for (var i = 0; i < rateLimitsRemaining; ++i)
+            {
+                var timelineIterator = client.Timeline.GetHomeTimelineIterator();
+                await timelineIterator.MoveToNextPage().ConfigureAwait(false);
+            }
+
+            A.CallTo(() => taskDelayer.Delay(It.IsAny<TimeSpan>())).MustNotHaveHappened();
+
+            await client.RateLimits.WaitForQueryRateLimit(Resources.Timeline_GetHomeTimeline);
+            A.CallTo(() => taskDelayer.Delay(It.IsAny<TimeSpan>())).MustHaveHappenedOnceExactly();
+
+            try
+            {
+                var timelineIterator = client.Timeline.GetHomeTimelineIterator();
+                await timelineIterator.MoveToNextPage().ConfigureAwait(false);
+            }
+            // ReSharper disable once CC0004
+            catch (Exception)
+            {
+                // assert
+                // we expect to throw as we are mocking the task delayer
+                A.CallTo(() => taskDelayer.Delay(It.IsAny<TimeSpan>())).MustHaveHappenedTwiceExactly();
+                return;
+            }
+
+            throw new InvalidOperationException("Should have failed ealier");
         }
     }
 }

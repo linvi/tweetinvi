@@ -11,17 +11,17 @@ namespace Tweetinvi.Client
     {
         private readonly TwitterClient _client;
         private readonly IRateLimitCacheManager _rateLimitCacheManager;
-        private readonly IRateLimitHelper _rateLimitHelper;
+        private readonly IRateLimitAwaiter _rateLimitAwaiter;
         private readonly IHelpRequester _helpRequester;
 
-        public RateLimitsClient(TwitterClient client, IRateLimitCacheManager rateLimitCacheManager)
+        public RateLimitsClient(TwitterClient client)
         {
             var executionContext = client.CreateTwitterExecutionContext();
 
             _client = client;
             _helpRequester = client.RequestExecutor.Help;
-            _rateLimitCacheManager = rateLimitCacheManager;
-            _rateLimitHelper = executionContext.Container.Resolve<IRateLimitHelper>();
+            _rateLimitCacheManager = executionContext.Container.Resolve<IRateLimitCacheManager>();
+            _rateLimitAwaiter = executionContext.Container.Resolve<IRateLimitAwaiter>();
         }
 
         public async Task InitializeRateLimitsManager()
@@ -77,6 +77,16 @@ namespace Tweetinvi.Client
         public Task<IEndpointRateLimit> GetEndpointRateLimit(IGetEndpointRateLimitsParameters parameters)
         {
             return _rateLimitCacheManager.GetQueryRateLimit(parameters, _client.Credentials);
+        }
+
+        public Task WaitForQueryRateLimit(string url)
+        {
+            return _rateLimitAwaiter.WaitForCredentialsRateLimit(url, _client.Credentials, _client.CreateTwitterExecutionContext());
+        }
+
+        public Task WaitForQueryRateLimit(IEndpointRateLimit endpointRateLimit)
+        {
+            return _rateLimitAwaiter.WaitForCredentialsRateLimit(endpointRateLimit, _client.Credentials, _client.CreateTwitterExecutionContext());
         }
     }
 }

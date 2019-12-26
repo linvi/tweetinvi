@@ -40,6 +40,6 @@ namespace Tweetinvi.Events
         /// Recommended time to wait before executing such a query,
         /// in order to ensure that the twitter limitations won't be retuning an error.
         /// </summary>
-        public int? TimeToWaitBeforeExecutingTheQueryInMilliSeconds => TwitterQuery.TimeToWaitBeforeExecutingTheQueryInMilliSeconds;
+        public TimeSpan? TimeToWaitBeforeExecutingTheQuery => TwitterQuery.TimeToWaitBeforeExecutingTheQuery;
     }
 }
