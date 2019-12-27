@@ -88,5 +88,20 @@ namespace Tweetinvi.Client
         {
             return _rateLimitAwaiter.WaitForCredentialsRateLimit(endpointRateLimit, _client.Credentials, _client.CreateTwitterExecutionContext());
         }
+
+        public Task ClearRateLimitCache(IReadOnlyTwitterCredentials credentials)
+        {
+            return _rateLimitCacheManager.RateLimitCache.Clear(credentials);
+        }
+
+        public Task ClearRateLimitCache()
+        {
+            return _rateLimitCacheManager.RateLimitCache.Clear(_client.Credentials);
+        }
+
+        public Task ClearAllRateLimitCache()
+        {
+            return _rateLimitCacheManager.RateLimitCache.ClearAll();
+        }
     }
 }

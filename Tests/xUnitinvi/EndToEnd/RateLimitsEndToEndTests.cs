@@ -1,6 +1,5 @@
 using System;
 using System.Threading.Tasks;
-using Autofac;
 using FakeItEasy;
 using Tweetinvi;
 using Tweetinvi.Controllers.Properties;
@@ -89,6 +88,13 @@ namespace xUnitinvi.EndToEnd
 
             Assert.Equal(firstApplicationRateLimits.Remaining, fromCacheLimits.Remaining + 1);
             Assert.Same(rateLimits, fromCacheLimits);
+
+            // act
+            await client.RateLimits.ClearRateLimitCache();
+            await client.RateLimits.GetEndpointRateLimit("https://api.twitter.com/1.1/statuses/home_timeline.json");
+
+            A.CallTo(() => twitterAccessorSpy.FakedObject.ExecuteRequest<ICredentialsRateLimits>(It.IsAny<ITwitterRequest>()))
+                .MustHaveHappened(3, Times.Exactly);
         }
 
         [Fact, Order(10)]
@@ -113,7 +119,7 @@ namespace xUnitinvi.EndToEnd
 
             client.ClientSettings.RateLimitTrackerMode = RateLimitTrackerMode.TrackAndAwait;
 
-            // act
+            // act - assert
             var rateLimits = await client.RateLimits.GetEndpointRateLimit(Resources.Timeline_GetHomeTimeline).ConfigureAwait(false);
             var rateLimitsRemaining = rateLimits.Remaining;
 
@@ -138,7 +144,6 @@ namespace xUnitinvi.EndToEnd
             // ReSharper disable once CC0004
             catch (Exception)
             {
-                // assert
                 // we expect to throw as we are mocking the task delayer
                 A.CallTo(() => taskDelayer.Delay(It.IsAny<TimeSpan>())).MustHaveHappenedTwiceExactly();
                 return;

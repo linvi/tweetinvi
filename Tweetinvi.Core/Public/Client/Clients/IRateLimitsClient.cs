@@ -4,6 +4,12 @@ using Tweetinvi.Parameters.HelpClient;
 
 namespace Tweetinvi.Client
 {
+    public enum CredentialsToClear
+    {
+        Client,
+        All
+    }
+
     public interface IRateLimitsClient
     {
         /// <summary>
@@ -44,5 +50,20 @@ namespace Tweetinvi.Client
         /// Wait for new requests to a specific endpoint become available
         /// </summary>
         Task WaitForQueryRateLimit(IEndpointRateLimit endpointRateLimit);
+
+        /// <summary>
+        /// Clear the rate limits cached for a specific set of credentials
+        /// </summary>
+        Task ClearRateLimitCache(IReadOnlyTwitterCredentials credentials);
+
+        /// <summary>
+        /// Clear the rate limits cached for the client's credentials
+        /// </summary>
+        Task ClearRateLimitCache();
+
+        /// <summary>
+        /// Clear the rate limits of all the credentials
+        /// </summary>
+        Task ClearAllRateLimitCache();
     }
 }
