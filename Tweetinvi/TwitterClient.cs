@@ -34,6 +34,9 @@ namespace Tweetinvi
         private IReadOnlyTwitterCredentials _credentials;
         private readonly ITweetinviContainer _tweetinviContainer;
 
+        private readonly ITwitterClientEvents _twitterClientEvents;
+        private readonly ITweetinviEvents _tweetinviEvents;
+
         /// <summary>
         /// IMPORTANT NOTE: The setter is for convenience. It is strongly recommended to create a new TwitterClient instead.
         /// As using this setter could result in unexpected concurrency between the time of set and the execution of previous
@@ -87,6 +90,8 @@ namespace Tweetinvi
             _tweetinviContainer.Initialize();
             _tweetinviContainer.BeforeRegistrationCompletes -= BeforeRegistrationDelegate;
 
+            _tweetinviEvents = _tweetinviContainer.Resolve<ITweetinviEvents>();
+
             var requestExecutor = _tweetinviContainer.Resolve<IInternalRequestExecutor>();
             requestExecutor.Initialize(this);
             RequestExecutor = requestExecutor;
@@ -94,7 +99,6 @@ namespace Tweetinvi
             var parametersValidator = _tweetinviContainer.Resolve<IInternalParametersValidator>();
             parametersValidator.Initialize(this);
             ParametersValidator = parametersValidator;
-
 
             Account = new AccountClient(this);
             Auth = new AuthClient(this);
@@ -104,6 +108,11 @@ namespace Tweetinvi
             Tweets = new TweetsClient(this);
             Upload = new UploadClient(this);
             Users = new UsersClient(this);
+
+            _twitterClientEvents = _tweetinviContainer.Resolve<ITwitterClientEvents>();
+            Events.QueryBeforeExecute += EventsOnQueryBeforeExecute;
+            Events.QueryBeforeExecuteAfterRateLimitAwait += EventsOnQueryBeforeExecuteAfterRateLimitAwait;
+            Events.QueryAfterExecute += EventsOnQueryAfterExecute;
 
             var rateLimitCacheManager = _tweetinviContainer.Resolve<IRateLimitCacheManager>();
             rateLimitCacheManager.RateLimitsClient = RateLimits;
@@ -117,6 +126,7 @@ namespace Tweetinvi
         public ITweetsClient Tweets { get; }
         public IUploadClient Upload { get; }
         public IUsersClient Users { get; }
+        public IExternalClientEvents Events => _twitterClientEvents;
 
         public IParametersValidator ParametersValidator { get; }
         public IRequestExecutor RequestExecutor { get; }
@@ -126,7 +136,8 @@ namespace Tweetinvi
             return new TwitterExecutionContext
             {
                 RequestFactory = CreateRequest,
-                Container = _tweetinviContainer
+                Container = _tweetinviContainer,
+                Events = _twitterClientEvents
             };
         }
 
@@ -147,8 +158,27 @@ namespace Tweetinvi
             return request;
         }
 
+        private void EventsOnQueryBeforeExecute(object sender, QueryBeforeExecuteEventArgs e)
+        {
+            _tweetinviEvents.RaiseBeforeQueryExecute(e);
+        }
+
+
+        private void EventsOnQueryBeforeExecuteAfterRateLimitAwait(object sender, QueryBeforeExecuteEventArgs e)
+        {
+            _tweetinviEvents.RaiseBeforeExecuteAfterRateLimitAwait(e);
+        }
+
+        private void EventsOnQueryAfterExecute(object sender, QueryAfterExecuteEventArgs e)
+        {
+            _tweetinviEvents.RaiseAfterQueryExecuted(e);
+        }
+
         public void Dispose()
         {
+            Events.QueryBeforeExecute -= EventsOnQueryBeforeExecute;
+            Events.QueryBeforeExecuteAfterRateLimitAwait -= EventsOnQueryBeforeExecuteAfterRateLimitAwait;
+            Events.QueryAfterExecute -= EventsOnQueryAfterExecute;
         }
     }
 }

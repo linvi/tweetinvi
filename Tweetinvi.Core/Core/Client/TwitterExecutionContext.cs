@@ -1,6 +1,6 @@
 ﻿using System;
+using Tweetinvi.Core.Events;
 using Tweetinvi.Core.Injectinvi;
-using Tweetinvi.Core.RateLimit;
 using Tweetinvi.Models;
 
 namespace Tweetinvi.Core.Client
@@ -9,6 +9,7 @@ namespace Tweetinvi.Core.Client
     {
         Func<ITwitterRequest> RequestFactory { get; set; }
         ITweetinviContainer Container { get; set; }
+        ITwitterClientEvents Events { get; }
     }
 
     public class TwitterExecutionContext : TweetinviSettings, ITwitterExecutionContext
@@ -22,9 +23,11 @@ namespace Tweetinvi.Core.Client
         {
             RequestFactory = context.RequestFactory;
             Container = context.Container;
+            Events = context.Events;
         }
 
         public Func<ITwitterRequest> RequestFactory { get; set; }
         public ITweetinviContainer Container { get; set; }
+        public ITwitterClientEvents Events { get; set; }
     }
 }

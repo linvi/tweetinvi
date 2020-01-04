@@ -3,19 +3,29 @@ using Tweetinvi.Events;
 
 namespace Tweetinvi.Core.Events
 {
-    public interface ITweetinviEvents
+    public interface ITweetinviEvents : ITwitterClientEvents
+    {
+    }
+
+    public class TweetinviEvents : TwitterClientEvents, ITweetinviEvents
+    {
+    }
+
+    public interface IExternalClientEvents
     {
         event EventHandler<QueryBeforeExecuteEventArgs> QueryBeforeExecute;
-        void RaiseBeforeQueryExecute(QueryBeforeExecuteEventArgs queryExecutedEventArgs);
-
         event EventHandler<QueryBeforeExecuteEventArgs> QueryBeforeExecuteAfterRateLimitAwait;
-        void RaiseBeforeExecuteAfterRateLimitAwait(QueryBeforeExecuteEventArgs queryExecutedEventArgs);
-
         event EventHandler<QueryAfterExecuteEventArgs> QueryAfterExecute;
+    }
+
+    public interface ITwitterClientEvents : IExternalClientEvents
+    {
+        void RaiseBeforeQueryExecute(QueryBeforeExecuteEventArgs queryExecutedEventArgs);
+        void RaiseBeforeExecuteAfterRateLimitAwait(QueryBeforeExecuteEventArgs queryExecutedEventArgs);
         void RaiseAfterQueryExecuted(QueryAfterExecuteEventArgs queryAfterExecuteEventArgs);
     }
 
-    public class InternalTweetinviEvents : ITweetinviEvents
+    public class TwitterClientEvents : ITwitterClientEvents
     {
         public event EventHandler<QueryBeforeExecuteEventArgs> QueryBeforeExecute;
         public void RaiseBeforeQueryExecute(QueryBeforeExecuteEventArgs queryAfterExecuteEventArgs)
