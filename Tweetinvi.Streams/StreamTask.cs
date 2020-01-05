@@ -171,8 +171,8 @@ namespace Tweetinvi.Streams
 
             request.Query.Timeout = TimeSpan.FromMilliseconds(Timeout.Infinite);
 
-            var queryBeforeExecuteEventArgs = new QueryBeforeExecuteEventArgs(request.Query);
-            _tweetinviEvents.RaiseBeforeQueryExecute(queryBeforeExecuteEventArgs);
+            var queryBeforeExecuteEventArgs = new BeforeExecutingRequestEventArgs(request.Query);
+            _tweetinviEvents.RaiseBeforeWaitingForQueryRateLimits(queryBeforeExecuteEventArgs);
 
             if (queryBeforeExecuteEventArgs.Cancel)
             {
@@ -308,7 +308,7 @@ namespace Tweetinvi.Streams
                 HandleWebException(webException);
 
                 // Even though the user has asked to specifically handle WebException,
-                // We need to inform him that something has gone wrong. 
+                // We need to inform him that something has gone wrong.
                 // Therefore the connection needs to be stopped with the appropriate information.
                 return false;
             }

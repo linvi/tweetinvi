@@ -42,8 +42,8 @@ namespace Tweetinvi.WebLogic
 
             await PrepareTwitterRequest(request).ConfigureAwait(false);
 
-            var beforeQueryExecuteEventArgs = new QueryBeforeExecuteEventArgs(request.Query);
-            request.ExecutionContext.Events.RaiseBeforeQueryExecute(beforeQueryExecuteEventArgs);
+            var beforeQueryExecuteEventArgs = new BeforeExecutingRequestEventArgs(request.Query);
+            request.ExecutionContext.Events.RaiseBeforeWaitingForQueryRateLimits(beforeQueryExecuteEventArgs);
 
             if (beforeQueryExecuteEventArgs.Cancel)
             {
@@ -52,7 +52,7 @@ namespace Tweetinvi.WebLogic
 
             await WaitBeforeExecutingQuery(request).ConfigureAwait(false);
 
-            request.ExecutionContext.Events.RaiseBeforeExecuteAfterRateLimitAwait(beforeQueryExecuteEventArgs);
+            request.ExecutionContext.Events.RaiseBeforeExecutingQuery(beforeQueryExecuteEventArgs);
 
             try
             {
@@ -157,7 +157,7 @@ namespace Tweetinvi.WebLogic
                 rateLimitUpdater.QueryExecuted(request.Query.Url, request.Query.TwitterCredentials, rateLimitHeaders);
             }
 
-            request.ExecutionContext.Events.RaiseAfterQueryExecuted(new QueryAfterExecuteEventArgs(request.Query, twitterResponse.Text, twitterResponse.Headers));
+            request.ExecutionContext.Events.RaiseAfterExecutingQuery(new AfterExecutingQueryEventArgs(request.Query, twitterResponse.Text, twitterResponse.Headers));
         }
 
         private void HandleException(
@@ -171,7 +171,7 @@ namespace Tweetinvi.WebLogic
                 rateLimitUpdater.ClearRateLimitsForQuery(request.Query.Url, request.Query.TwitterCredentials);
             }
 
-            request.ExecutionContext.Events.RaiseAfterQueryExecuted(new QueryAfterExecuteExceptionEventArgs(request.Query, exception));
+            request.ExecutionContext.Events.RaiseAfterExecutingQuery(new AfterExecutingQueryExceptionEventArgs(request.Query, exception));
         }
 
         #endregion

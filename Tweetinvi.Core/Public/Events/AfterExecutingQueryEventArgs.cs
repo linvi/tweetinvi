@@ -5,10 +5,10 @@ using Tweetinvi.Models;
 
 namespace Tweetinvi.Events
 {
-    public class QueryAfterExecuteEventArgs : QueryExecutionEventArgs
+    public class AfterExecutingQueryEventArgs : QueryExecutionEventArgs
     {
-        public QueryAfterExecuteEventArgs(
-            ITwitterQuery twitterQuery, 
+        public AfterExecutingQueryEventArgs(
+            ITwitterQuery twitterQuery,
             string httpContent,
             Dictionary<string, IEnumerable<string>> httpHeaders)
             : base(twitterQuery)
@@ -29,12 +29,12 @@ namespace Tweetinvi.Events
         public Dictionary<string, IEnumerable<string>> HttpHeaders { get; }
 
         /// <summary>
-        /// Exact DateTime whent the request completed.
+        /// Exact DateTime when the request completed.
         /// </summary>
         public DateTime CompletedDateTime { get; set; }
 
         /// <summary>
-        /// Whether the request has been successfull.
+        /// Whether the request has been successful.
         /// </summary>
         public bool Success { get { return HttpContent != null; } }
 

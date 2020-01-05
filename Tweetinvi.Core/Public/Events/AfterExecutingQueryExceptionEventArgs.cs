@@ -3,9 +3,9 @@ using Tweetinvi.Models;
 
 namespace Tweetinvi.Events
 {
-    public class QueryAfterExecuteExceptionEventArgs : QueryAfterExecuteEventArgs
+    public class AfterExecutingQueryExceptionEventArgs : AfterExecutingQueryEventArgs
     {
-        public QueryAfterExecuteExceptionEventArgs(
+        public AfterExecutingQueryExceptionEventArgs(
             ITwitterQuery twitterQuery, 
             TwitterException exception) 
             : base(twitterQuery, null, null)

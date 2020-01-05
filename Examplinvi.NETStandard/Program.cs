@@ -15,7 +15,7 @@ namespace Examplinvi.NETStandard
 
         static async Task Run()
         {
-            TweetinviEvents.QueryBeforeExecute += (sender, args) =>
+            TweetinviEvents.BeforeWaitingForRequestRateLimits += (sender, args) =>
             {
                 Console.WriteLine(args.Url);
             };

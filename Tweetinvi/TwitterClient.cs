@@ -110,9 +110,9 @@ namespace Tweetinvi
             Users = new UsersClient(this);
 
             _twitterClientEvents = _tweetinviContainer.Resolve<ITwitterClientEvents>();
-            Events.QueryBeforeExecute += EventsOnQueryBeforeExecute;
-            Events.QueryBeforeExecuteAfterRateLimitAwait += EventsOnQueryBeforeExecuteAfterRateLimitAwait;
-            Events.QueryAfterExecute += EventsOnQueryAfterExecute;
+            Events.BeforeWaitingForRequestRateLimits += EventsOnBeforeWaitingForRequestRateLimits;
+            Events.BeforeExecutingRequest += EventsOnBeforeExecutingRequest;
+            Events.AfterExecutingRequest += EventsOnAfterExecutingRequest;
 
             var rateLimitCacheManager = _tweetinviContainer.Resolve<IRateLimitCacheManager>();
             rateLimitCacheManager.RateLimitsClient = RateLimits;
@@ -158,27 +158,27 @@ namespace Tweetinvi
             return request;
         }
 
-        private void EventsOnQueryBeforeExecute(object sender, QueryBeforeExecuteEventArgs e)
+        private void EventsOnBeforeWaitingForRequestRateLimits(object sender, BeforeExecutingRequestEventArgs e)
         {
-            _tweetinviEvents.RaiseBeforeQueryExecute(e);
+            _tweetinviEvents.RaiseBeforeWaitingForQueryRateLimits(e);
         }
 
 
-        private void EventsOnQueryBeforeExecuteAfterRateLimitAwait(object sender, QueryBeforeExecuteEventArgs e)
+        private void EventsOnBeforeExecutingRequest(object sender, BeforeExecutingRequestEventArgs e)
         {
-            _tweetinviEvents.RaiseBeforeExecuteAfterRateLimitAwait(e);
+            _tweetinviEvents.RaiseBeforeExecutingQuery(e);
         }
 
-        private void EventsOnQueryAfterExecute(object sender, QueryAfterExecuteEventArgs e)
+        private void EventsOnAfterExecutingRequest(object sender, AfterExecutingQueryEventArgs e)
         {
-            _tweetinviEvents.RaiseAfterQueryExecuted(e);
+            _tweetinviEvents.RaiseAfterExecutingQuery(e);
         }
 
         public void Dispose()
         {
-            Events.QueryBeforeExecute -= EventsOnQueryBeforeExecute;
-            Events.QueryBeforeExecuteAfterRateLimitAwait -= EventsOnQueryBeforeExecuteAfterRateLimitAwait;
-            Events.QueryAfterExecute -= EventsOnQueryAfterExecute;
+            Events.BeforeWaitingForRequestRateLimits -= EventsOnBeforeWaitingForRequestRateLimits;
+            Events.BeforeExecutingRequest -= EventsOnBeforeExecutingRequest;
+            Events.AfterExecutingRequest -= EventsOnAfterExecutingRequest;
         }
     }
 }

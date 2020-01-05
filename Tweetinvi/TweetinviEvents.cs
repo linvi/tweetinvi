@@ -16,33 +16,26 @@ namespace Tweetinvi
             _tweetinviEvents = TweetinviContainer.Resolve<ITweetinviEvents>();
         }
 
-        /// <summary>
-        /// Before an operation executes and the RateLimits are checked, this event will let you log, modify, cancel a query.
-        /// In addition it is the perfect location to handle the RateLimits
-        /// </summary>
-        public static event EventHandler<QueryBeforeExecuteEventArgs> QueryBeforeExecute
+        /// <inheritdoc cref="IExternalClientEvents.BeforeWaitingForRequestRateLimits" />
+        public static event EventHandler<BeforeExecutingRequestEventArgs> BeforeWaitingForRequestRateLimits
         {
-            add => _tweetinviEvents.QueryBeforeExecute += value;
-            remove => _tweetinviEvents.QueryBeforeExecute -= value;
+            add => _tweetinviEvents.BeforeWaitingForRequestRateLimits += value;
+            remove => _tweetinviEvents.BeforeWaitingForRequestRateLimits -= value;
         }
 
-        /// <summary>
-        /// Before an operation executes, this event will let you log, modify, cancel a query.
-        /// This event is better than QueryBeforeExecute for logging as it is happening just before the query is being executed.
-        /// </summary>
-        public static event EventHandler<QueryBeforeExecuteEventArgs> QueryBeforeExecuteAfterRateLimitAwait
+
+        /// <inheritdoc cref="IExternalClientEvents.BeforeExecutingRequest" />
+        public static event EventHandler<BeforeExecutingRequestEventArgs> BeforeExecutingRequest
         {
-            add => _tweetinviEvents.QueryBeforeExecuteAfterRateLimitAwait += value;
-            remove => _tweetinviEvents.QueryBeforeExecuteAfterRateLimitAwait -= value;
+            add => _tweetinviEvents.BeforeExecutingRequest += value;
+            remove => _tweetinviEvents.BeforeExecutingRequest -= value;
         }
 
-        /// <summary>
-        /// After an operation executes and the RateLimits are checked, this event will let you log a query and check the result/exception.
-        /// </summary>
-        public static event EventHandler<QueryAfterExecuteEventArgs> QueryAfterExecute
+        /// <inheritdoc cref="IExternalClientEvents.AfterExecutingRequest" />
+        public static event EventHandler<AfterExecutingQueryEventArgs> AfterExecutingRequest
         {
-            add => _tweetinviEvents.QueryAfterExecute += value;
-            remove => _tweetinviEvents.QueryAfterExecute -= value;
+            add => _tweetinviEvents.AfterExecutingRequest += value;
+            remove => _tweetinviEvents.AfterExecutingRequest -= value;
         }
     }
 }

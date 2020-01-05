@@ -13,17 +13,17 @@ namespace xUnitinvi.TestHelpers
         {
             _logger = logger;
             _logger.WriteLine(DateTime.Now.ToLongTimeString());
-            TweetinviEvents.QueryBeforeExecute += TweetinviEventsOnQueryBeforeExecute;
+            TweetinviEvents.BeforeWaitingForRequestRateLimits += TweetinviEventsOnBeforeWaitingForRequestRateLimits;
         }
 
-        private void TweetinviEventsOnQueryBeforeExecute(object sender, QueryBeforeExecuteEventArgs args)
+        private void TweetinviEventsOnBeforeWaitingForRequestRateLimits(object sender, BeforeExecutingRequestEventArgs args)
         {
             _logger.WriteLine(args.Url);
         }
 
         public void Dispose()
         {
-            TweetinviEvents.QueryBeforeExecute -= TweetinviEventsOnQueryBeforeExecute;
+            TweetinviEvents.BeforeWaitingForRequestRateLimits -= TweetinviEventsOnBeforeWaitingForRequestRateLimits;
             GC.SuppressFinalize(this);
         }
     }
