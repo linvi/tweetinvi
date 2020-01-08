@@ -36,18 +36,17 @@ namespace Tweetinvi.Client
             return UploadBinary(parameters);
         }
 
-        public Task<bool> AddMediaMetadata(IMediaMetadata metadata)
+        public Task AddMediaMetadata(IMediaMetadata metadata)
         {
             return AddMediaMetadata(new AddMediaMetadataParameters(metadata.MediaId)
             {
                 AltText = metadata.AltText
             });
         }
-        
-        public async Task<bool> AddMediaMetadata(IAddMediaMetadataParameters parameters)
+
+        public async Task AddMediaMetadata(IAddMediaMetadataParameters parameters)
         {
-            var twitterResult = await _uploadRequester.AddMediaMetadata(parameters).ConfigureAwait(false);
-            return twitterResult.Response.IsSuccessStatusCode;
+            await _uploadRequester.AddMediaMetadata(parameters).ConfigureAwait(false);
         }
 
         public async Task<IUploadedMediaInfo> GetVideoProcessingStatus(IMedia media)

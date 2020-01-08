@@ -33,14 +33,13 @@ namespace Tweetinvi.Client
         Task<IMedia> UploadVideo(IUploadVideoParameters parameters);
 
         /// <inheritdoc cref="AddMediaMetadata(IAddMediaMetadataParameters)" />
-        Task<bool> AddMediaMetadata(IMediaMetadata metadata);
-        
+        Task AddMediaMetadata(IMediaMetadata metadata);
+
         /// <summary>
         /// Add metadata to an uploaded media
         /// <para>Read more : https://dev.twitter.com/en/docs/media/upload-media/api-reference/post-media-metadata-create</para>
         /// </summary>
-        /// <returns>Whether the operation was a success</returns>
-        Task<bool> AddMediaMetadata(IAddMediaMetadataParameters parameters);
+        Task AddMediaMetadata(IAddMediaMetadataParameters parameters);
 
         /// <summary>
         /// Get a video processing status
@@ -48,7 +47,7 @@ namespace Tweetinvi.Client
         /// </summary>
         /// <returns>Current status of the video processing</returns>
         Task<IUploadedMediaInfo> GetVideoProcessingStatus(IMedia media);
-        
+
         /// <summary>
         /// Wait for the upload of a media has completed
         /// <para>Read more : https://dev.twitter.com/en/docs/media/upload-media/api-reference/get-media-upload-status</para>
