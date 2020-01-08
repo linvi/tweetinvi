@@ -16,14 +16,14 @@ namespace Tweetinvi.Client
             _client = client;
             _accountRequester = client.RequestExecutor.AccountSettings;
         }
-        
+
         public IAccountSettingsClientParametersValidator ParametersValidator => _client.ParametersValidator;
 
         public Task<IAccountSettings> GetAccountSettings()
         {
             return GetAccountSettings(new GetAccountSettingsParameters());
         }
-        
+
         public async Task<IAccountSettings> GetAccountSettings(IGetAccountSettingsParameters parameters)
         {
             var twitterResult = await _accountRequester.GetAccountSettings(parameters).ConfigureAwait(false);
@@ -35,43 +35,41 @@ namespace Tweetinvi.Client
             var twitterResult = await _accountRequester.UpdateAccountSettings(parameters).ConfigureAwait(false);
             return twitterResult.Result;
         }
-        
+
         public async Task<IAuthenticatedUser> UpdateProfile(IUpdateProfileParameters parameters)
         {
             var twitterResult = await _accountRequester.UpdateProfile(parameters).ConfigureAwait(false);
             return twitterResult.Result;
         }
 
-        public Task<bool> UpdateProfileImage(byte[] binary)
+        public Task UpdateProfileImage(byte[] binary)
         {
             return UpdateProfileImage(new UpdateProfileImageParameters(binary));
         }
 
-        public async Task<bool> UpdateProfileImage(IUpdateProfileImageParameters parameters)
+        public async Task UpdateProfileImage(IUpdateProfileImageParameters parameters)
         {
-            return (await _accountRequester.UpdateProfileImage(parameters).ConfigureAwait(false)).Response.IsSuccessStatusCode;
+            await _accountRequester.UpdateProfileImage(parameters).ConfigureAwait(false);
         }
-        
-        public Task<bool> UpdateProfileBanner(byte[] binary)
+
+        public Task UpdateProfileBanner(byte[] binary)
         {
             return UpdateProfileBanner(new UpdateProfileBannerParameters(binary));
         }
 
-        public async Task<bool> UpdateProfileBanner(IUpdateProfileBannerParameters parameters)
+        public async Task UpdateProfileBanner(IUpdateProfileBannerParameters parameters)
         {
-            var twitterResult = await _accountRequester.UpdateProfileBanner(parameters).ConfigureAwait(false);
-            return twitterResult.Response.IsSuccessStatusCode;
+            await _accountRequester.UpdateProfileBanner(parameters).ConfigureAwait(false);
         }
 
-        public Task<bool> RemoveProfileBanner()
+        public Task RemoveProfileBanner()
         {
             return RemoveProfileBanner(new RemoveProfileBannerParameters());
         }
 
-        public async Task<bool> RemoveProfileBanner(IRemoveProfileBannerParameters parameters)
+        public async Task RemoveProfileBanner(IRemoveProfileBannerParameters parameters)
         {
-            var twitterResult = await _accountRequester.RemoveProfileBanner(parameters).ConfigureAwait(false);
-            return twitterResult.Response.IsSuccessStatusCode;
+            await _accountRequester.RemoveProfileBanner(parameters).ConfigureAwait(false);
         }
     }
 }

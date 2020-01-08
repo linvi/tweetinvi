@@ -115,42 +115,6 @@ namespace Tweetinvi
             return Accessor.ExecutePOSTQuery<T>(query);
         }
 
-        /// <summary>
-        /// Try to execute a GET query an return an object of type T as well as if the query has succeeded
-        /// </summary>
-        public static async Task<bool> TryExecuteGETQuery<T>(string query) where T : class
-        {
-            var asyncOperation = await Accessor.TryExecuteGETQuery<T>(query);
-
-            return asyncOperation.Success;
-        }
-
-        /// <summary>
-        /// Try to execute a POST query an return an object of type T as well as if the query has succeeded
-        /// </summary>
-        public static async Task<bool> TryExecutePOSTQuery<T>(string query) where T : class
-        {
-            var asyncOperation = await Accessor.TryExecutePOSTQuery<T>(query);
-
-            return asyncOperation.Success;
-        }
-
-        /// <summary>
-        /// Try to execute a GET query an return whether the query has succeeded
-        /// </summary>
-        public static async Task<bool> TryExecuteGETQuery(string query)
-        {
-            return (await Accessor.TryExecuteGETQuery(query)).Success;
-        }
-
-        /// <summary>
-        /// Try to execute a POST query an return whether the query has succeeded.
-        /// </summary>
-        public static async Task<bool> TryExecutePOSTQuery(string query)
-        {
-            return (await Accessor.TryExecutePOSTQuery(query)).Success;
-        }
-
         // MultiPart Query
 
         /// <summary>
@@ -187,12 +151,6 @@ namespace Tweetinvi
             where T1 : class, IBaseCursorQueryDTO<T>
         {
             return Accessor.ExecuteCursorGETQuery<T, T1>(baseQuery, maxObjectToRetrieve, cursor);
-        }
-
-        // POST HTTP Content
-        public static Task<bool> TryPOSTJsonContent(string url, string json)
-        {
-            return Accessor.TryPOSTJsonContent(url, json);
         }
 
         // Base call

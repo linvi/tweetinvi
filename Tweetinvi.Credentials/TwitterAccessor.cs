@@ -373,20 +373,6 @@ namespace Tweetinvi.Credentials
             return null;
         }
 
-        // POST Http Content
-        public async Task<bool> TryPOSTJsonContent(string url, string json)
-        {
-            try
-            {
-                await ExecuteQuery(url, HttpMethod.POST, (ITwitterCredentials) null, new StringContent(json));
-                return true;
-            }
-            catch (TwitterException)
-            {
-                return false;
-            }
-        }
-
         private async Task<string> ExecuteQueryReturningContent(string query, HttpMethod method, HttpContent httpContent = null, bool forceThrow = false)
         {
             try

@@ -12,7 +12,7 @@ using HttpMethod = Tweetinvi.Models.HttpMethod;
 
 namespace Tweetinvi.Core.Web
 {
-   
+
     public interface ITwitterAccessor
     {
         // Get Json
@@ -61,8 +61,6 @@ namespace Tweetinvi.Core.Web
             string cursor = null)
             where T1 : class, IBaseCursorQueryDTO<T>;
 
-        // Http Content
-        Task<bool> TryPOSTJsonContent(string url, string json);
 
         // POST JSON body & get JSON response
         Task<T> ExecutePOSTQueryJsonBody<T>(string query, object reqBody, JsonConverter[] converters = null) where T : class;
