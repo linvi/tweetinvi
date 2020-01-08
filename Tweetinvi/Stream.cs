@@ -62,7 +62,8 @@ namespace Tweetinvi
         /// </summary>
         public static IFilteredStream CreateFilteredStream(ITwitterCredentials credentials, TweetMode tweetMode)
         {
-            return GetConfiguredStream(_filteredStreamUnityFactory.Create(), credentials, tweetMode);
+            var customRequestParameters = _sampleStreamUnityFactory.GenerateParameterOverrideWrapper("customRequestParameters", new CustomRequestParameters());
+            return GetConfiguredStream(_filteredStreamUnityFactory.Create(customRequestParameters), credentials, tweetMode);
         }
 
         private static T GetConfiguredStream<T>(T stream, ITwitterCredentials credentials, TweetMode tweetMode) where T : ITwitterStream

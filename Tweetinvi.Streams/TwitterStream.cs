@@ -158,7 +158,7 @@ namespace Tweetinvi.Streams
         {
             if (_filteredLanguages.Any())
             {
-                var languages = string.Join(Uri.EscapeDataString(", "), _filteredLanguages.Select(x => x.ToLowerInvariant()));
+                var languages = string.Join(", ", _filteredLanguages.Select(x => x.ToLowerInvariant()));
                 queryBuilder.AddParameterToQuery("language", languages);
             }
 
