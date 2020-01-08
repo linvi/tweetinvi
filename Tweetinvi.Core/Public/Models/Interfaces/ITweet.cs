@@ -304,12 +304,12 @@ namespace Tweetinvi.Models
         /// <summary>
         /// Remove your retweet.
         /// </summary>
-        Task<bool> DestroyRetweet();
+        Task DestroyRetweet();
 
         /// <summary>
         /// Delete a tweet from Twitter
         /// </summary>
-        Task<bool> Destroy();
+        Task Destroy();
 
         /// <summary>
         /// Generate an OEmbedTweet.

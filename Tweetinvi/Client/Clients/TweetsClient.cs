@@ -78,37 +78,30 @@ namespace Tweetinvi.Client
 
         // Tweets - Destroy
 
-        public Task<bool> DestroyTweet(long? tweetId)
+        public Task DestroyTweet(long? tweetId)
         {
             return DestroyTweet(new DestroyTweetParameters(tweetId));
         }
 
-        public Task<bool> DestroyTweet(ITweetIdentifier tweet)
+        public Task DestroyTweet(ITweetIdentifier tweet)
         {
             return DestroyTweet(new DestroyTweetParameters(tweet));
         }
 
-        public Task<bool> DestroyTweet(ITweet tweet)
+        public Task DestroyTweet(ITweet tweet)
         {
             return DestroyTweet(tweet.TweetDTO);
         }
 
-        public async Task<bool> DestroyTweet(ITweetDTO tweet)
+        public async Task DestroyTweet(ITweetDTO tweet)
         {
-            var tweetDestroyed = await DestroyTweet(new DestroyTweetParameters(tweet)).ConfigureAwait(false);
-
-            if (tweetDestroyed)
-            {
-                tweet.IsTweetDestroyed = true;
-            }
-
-            return tweetDestroyed;
+            await DestroyTweet(new DestroyTweetParameters(tweet)).ConfigureAwait(false);
+            tweet.IsTweetDestroyed = true;
         }
 
-        public async Task<bool> DestroyTweet(IDestroyTweetParameters parameters)
+        public async Task DestroyTweet(IDestroyTweetParameters parameters)
         {
-            var twitterResult = await _tweetsRequester.DestroyTweet(parameters).ConfigureAwait(false);
-            return twitterResult.Response.IsSuccessStatusCode;
+            await _tweetsRequester.DestroyTweet(parameters).ConfigureAwait(false);
         }
 
         // Retweets
@@ -145,20 +138,19 @@ namespace Tweetinvi.Client
             return requestResult?.Result;
         }
 
-        public Task<bool> DestroyRetweet(long? retweetId)
+        public Task DestroyRetweet(long? retweetId)
         {
             return DestroyRetweet(new DestroyRetweetParameters(retweetId));
         }
 
-        public Task<bool> DestroyRetweet(ITweetIdentifier retweet)
+        public Task DestroyRetweet(ITweetIdentifier retweet)
         {
             return DestroyRetweet(new DestroyRetweetParameters(retweet));
         }
 
-        public async Task<bool> DestroyRetweet(IDestroyRetweetParameters parameters)
+        public async Task DestroyRetweet(IDestroyRetweetParameters parameters)
         {
-            var requestResult = await _tweetsRequester.DestroyRetweet(parameters).ConfigureAwait(false);
-            return requestResult?.Response?.IsSuccessStatusCode == true;
+            await _tweetsRequester.DestroyRetweet(parameters).ConfigureAwait(false);
         }
 
         public ITwitterIterator<long> GetRetweeterIdsIterator(long? tweetId)

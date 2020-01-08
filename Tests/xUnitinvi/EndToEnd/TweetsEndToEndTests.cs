@@ -72,11 +72,11 @@ namespace xUnitinvi.EndToEnd
 
             var allTweets = await _protectedClient.Tweets.GetTweets(allTweetIdentifiers);
 
-            var quotingTweet1DestroySuccess = await _protectedClient.Tweets.DestroyTweet(quotingTweet1);
-            var quotingTweet2DestroySuccess = await _protectedClient.Tweets.DestroyTweet(quotingTweet2);
-            var replyTweetDestroy = await _protectedClient.Tweets.DestroyTweet(replyTweet);
-            var fullTweetDestroy = await _protectedClient.Tweets.DestroyTweet(fullTweet);
-            var withMediaDestroy = await _protectedClient.Tweets.DestroyTweet(tweetWithMedia);
+            await _protectedClient.Tweets.DestroyTweet(quotingTweet1);
+            await _protectedClient.Tweets.DestroyTweet(quotingTweet2);
+            await _protectedClient.Tweets.DestroyTweet(replyTweet);
+            await _protectedClient.Tweets.DestroyTweet(fullTweet);
+            await _protectedClient.Tweets.DestroyTweet(tweetWithMedia);
 
             // ASSERT
             Assert.Equal(979753598446948353, quotingTweet1.QuotedStatusId);
@@ -97,12 +97,6 @@ namespace xUnitinvi.EndToEnd
             Assert.True(tweetWithMedia.PossiblySensitive);
 
             Assert.True(allTweetIdentifiers.Select(x => x.Id).All(shouldItem => allTweets.Any(isItem => isItem.Id == shouldItem)));
-
-            Assert.True(quotingTweet1DestroySuccess);
-            Assert.True(quotingTweet2DestroySuccess);
-            Assert.True(replyTweetDestroy);
-            Assert.True(fullTweetDestroy);
-            Assert.True(withMediaDestroy);
         }
 
         [Fact]

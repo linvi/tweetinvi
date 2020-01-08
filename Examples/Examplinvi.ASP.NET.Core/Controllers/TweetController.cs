@@ -94,15 +94,22 @@ namespace Examplinvi.ASP.NET.Core.Controllers
             try
             {
                 var tweet = await client.Tweets.GetTweet(id);
-                var success = await tweet.Destroy();
-
                 var routeValueParameters = new Dictionary<string, object>
                 {
                     { "id", id },
                     { "author", tweet.CreatedBy.ScreenName },
                     { "actionPerformed", "Delete" },
-                    { "success", success }
+                    { "success", "true" }
                 };
+
+                try
+                {
+                    await tweet.Destroy();
+                }
+                catch (Exception e)
+                {
+                    routeValueParameters["success"] = "false";
+                }
 
                 return RedirectToAction("TweetPublished", routeValueParameters);
             }

@@ -13,10 +13,10 @@ namespace Tweetinvi.Client
         /// Validate all the TweetsClient parameters
         /// </summary>
         ITweetsClientParametersValidator ParametersValidator { get; }
-        
+
         /// <inheritdoc cref="GetTweet(IGetTweetParameters)" />
         Task<ITweet> GetTweet(long? tweetId);
-        
+
         /// <summary>
         /// Get a tweet
         /// <para>Read more : https://dev.twitter.com/en/docs/tweets/post-and-engage/api-reference/get-statuses-show-id </para>
@@ -30,7 +30,7 @@ namespace Tweetinvi.Client
         Task<ITweet[]> GetTweets(long?[] tweetIds);
         /// <inheritdoc cref="GetTweets(IGetTweetsParameters)" />
         Task<ITweet[]> GetTweets(ITweetIdentifier[] tweets);
-        
+
         /// <summary>
         /// Get multiple tweets
         /// <para>Read more : https://dev.twitter.com/en/docs/tweets/post-and-engage/api-reference/get-statuses-lookup </para>
@@ -49,29 +49,28 @@ namespace Tweetinvi.Client
         Task<ITweet> PublishTweet(IPublishTweetParameters parameters);
 
         /// <inheritdoc cref="DestroyTweet(IDestroyTweetParameters)" />
-        Task<bool> DestroyTweet(long? tweetId);
+        Task DestroyTweet(long? tweetId);
         /// <inheritdoc cref="DestroyTweet(IDestroyTweetParameters)" />
-        Task<bool> DestroyTweet(ITweetIdentifier tweet);
+        Task DestroyTweet(ITweetIdentifier tweet);
         /// <inheritdoc cref="DestroyTweet(IDestroyTweetParameters)" />
-        Task<bool> DestroyTweet(ITweet tweet);
+        Task DestroyTweet(ITweet tweet);
         /// <inheritdoc cref="DestroyTweet(IDestroyTweetParameters)" />
-        Task<bool> DestroyTweet(ITweetDTO tweet);
+        Task DestroyTweet(ITweetDTO tweet);
 
         /// <summary>
         /// Destroy a tweet
         /// <para>Read more : https://dev.twitter.com/en/docs/tweets/post-and-engage/api-reference/post-statuses-destroy-id </para>
         /// </summary>
-        /// <returns>Whether the tweet was successfully destroyed</returns>
-        Task<bool> DestroyTweet(IDestroyTweetParameters parameters);
+        Task DestroyTweet(IDestroyTweetParameters parameters);
 
         /// <inheritdoc cref="GetRetweets(IGetRetweetsParameters)" />
         Task<ITweet[]> GetRetweets(long? tweetId);
 
         /// <inheritdoc cref="GetRetweets(IGetRetweetsParameters)" />
         Task<ITweet[]> GetRetweets(ITweetIdentifier tweet);
-        
+
         /// <summary>
-        /// Get the retweets associated with a specific tweet 
+        /// Get the retweets associated with a specific tweet
         /// <para>Read more : https://dev.twitter.com/en/docs/tweets/post-and-engage/api-reference/get-statuses-retweets-id </para>
         /// </summary>
         /// <returns>Retweets</returns>
@@ -81,7 +80,7 @@ namespace Tweetinvi.Client
         Task<ITweet> PublishRetweet(long? tweetId);
         /// <inheritdoc cref="PublishRetweet(IPublishRetweetParameters)" />
         Task<ITweet> PublishRetweet(ITweetIdentifier tweet);
-        
+
         /// <summary>
         /// Publish a retweet
         /// <para>Read more : https://dev.twitter.com/en/docs/tweets/post-and-engage/api-reference/post-statuses-retweet-id </para>
@@ -90,22 +89,21 @@ namespace Tweetinvi.Client
         Task<ITweet> PublishRetweet(IPublishRetweetParameters parameters);
 
         /// <inheritdoc cref="DestroyRetweet(IDestroyRetweetParameters)" />
-        Task<bool> DestroyRetweet(long? retweetId);
+        Task DestroyRetweet(long? retweetId);
         /// <inheritdoc cref="DestroyRetweet(IDestroyRetweetParameters)" />
-        Task<bool> DestroyRetweet(ITweetIdentifier retweet);
-        
+        Task DestroyRetweet(ITweetIdentifier retweet);
+
         /// <summary>
         /// Destroy a retweet
         /// <para>Read more : https://dev.twitter.com/en/docs/tweets/post-and-engage/api-reference/post-statuses-unretweet-id </para>
         /// </summary>
-        /// <returns>Whether the retweet was successfully destroyed</returns>
-        Task<bool> DestroyRetweet(IDestroyRetweetParameters parameters);
-        
+        Task DestroyRetweet(IDestroyRetweetParameters parameters);
+
         /// <inheritdoc cref="GetRetweeterIdsIterator(IGetRetweeterIdsParameters)" />
         ITwitterIterator<long> GetRetweeterIdsIterator(long? tweetId);
         /// <inheritdoc cref="GetRetweeterIdsIterator(IGetRetweeterIdsParameters)" />
         ITwitterIterator<long> GetRetweeterIdsIterator(ITweetIdentifier tweet);
-        
+
         /// <summary>
         /// Get the ids of the users who retweeted a specific tweet
         /// <para> Read more : https://dev.twitter.com/en/docs/tweets/post-and-engage/api-reference/get-statuses-retweeters-ids </para>

@@ -452,7 +452,7 @@ namespace Tweetinvi.Core.Models
             return Client.Tweets.GetRetweets(this);
         }
 
-        public Task<bool> DestroyRetweet()
+        public Task DestroyRetweet()
         {
             ThrowIfTweetCannotBeUsed();
             return Client.Tweets.DestroyTweet(this);
@@ -477,7 +477,7 @@ namespace Tweetinvi.Core.Models
             return _tweetController.GenerateOEmbedTweet(_tweetDTO);
         }
 
-        public Task<bool> Destroy()
+        public Task Destroy()
         {
             ThrowIfTweetCannotBeUsed();
             return Client.Tweets.DestroyTweet(this);
@@ -514,7 +514,7 @@ namespace Tweetinvi.Core.Models
             {
                 return false;
             }
-            
+
             // Equals is currently used to compare only if 2 tweets are the same
             // We do not look for the tweet version (DateTime)
 
