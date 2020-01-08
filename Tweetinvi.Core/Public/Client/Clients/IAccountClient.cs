@@ -15,7 +15,7 @@ namespace Tweetinvi.Client
         /// Validate all the AccountClient parameters
         /// </summary>
         IAccountClientParametersValidator ParametersValidator { get; }
-        
+
         #region AuthenticatedUser
 
         /// <inheritdoc cref="GetAuthenticatedUser(IGetAuthenticatedUserParameters)" />
@@ -33,52 +33,49 @@ namespace Tweetinvi.Client
         #region Block / Unblock
 
         /// <inheritdoc cref="BlockUser(IBlockUserParameters)" />
-        Task<bool> BlockUser(long? userId);
+        Task BlockUser(long? userId);
 
         /// <inheritdoc cref="BlockUser(IBlockUserParameters)" />
-        Task<bool> BlockUser(string username);
+        Task BlockUser(string username);
 
         /// <inheritdoc cref="BlockUser(IBlockUserParameters)" />
-        Task<bool> BlockUser(IUserIdentifier user);
+        Task BlockUser(IUserIdentifier user);
 
         /// <summary>
         /// Block a user from the client's account
         /// <para>Read more : https://dev.twitter.com/en/docs/accounts-and-users/mute-block-report-users/api-reference/post-blocks-create </para>
         /// </summary>
-        /// <returns>Whether the block operation was successful</returns>
-        Task<bool> BlockUser(IBlockUserParameters parameters);
+        Task BlockUser(IBlockUserParameters parameters);
 
         /// <inheritdoc cref="UnblockUser(IUnblockUserParameters)" />
-        Task<bool> UnblockUser(long? userId);
+        Task UnblockUser(long? userId);
 
         /// <inheritdoc cref="UnblockUser(IUnblockUserParameters)" />
-        Task<bool> UnblockUser(string username);
+        Task UnblockUser(string username);
 
         /// <inheritdoc cref="UnblockUser(IUnblockUserParameters)" />
-        Task<bool> UnBlockUser(IUserIdentifier user);
+        Task UnBlockUser(IUserIdentifier user);
 
         /// <summary>
         /// Unblock a user from the client's account
         /// <para>Read more : https://dev.twitter.com/en/docs/accounts-and-users/mute-block-report-users/api-reference/post-blocks-destroy </para>
         /// </summary>
-        /// <returns>Whether the unblock operation was successful</returns>
-        Task<bool> UnblockUser(IUnblockUserParameters parameters);
+        Task UnblockUser(IUnblockUserParameters parameters);
 
         /// <inheritdoc cref="ReportUserForSpam(IReportUserForSpamParameters)" />
-        Task<bool> ReportUserForSpam(long? userId);
+        Task ReportUserForSpam(long? userId);
 
         /// <inheritdoc cref="ReportUserForSpam(IReportUserForSpamParameters)" />
-        Task<bool> ReportUserForSpam(string username);
+        Task ReportUserForSpam(string username);
 
         /// <inheritdoc cref="ReportUserForSpam(IReportUserForSpamParameters)" />
-        Task<bool> ReportUserForSpam(IUserIdentifier user);
+        Task ReportUserForSpam(IUserIdentifier user);
 
         /// <summary>
         /// Report a user for spam
         /// <para>Read more : https://dev.twitter.com/en/docs/accounts-and-users/mute-block-report-users/api-reference/post-users-report_spam </para>
         /// </summary>
-        /// <returns>Whether the report was successful</returns>
-        Task<bool> ReportUserForSpam(IReportUserForSpamParameters parameters);
+        Task ReportUserForSpam(IReportUserForSpamParameters parameters);
 
         /// <inheritdoc cref="GetBlockedUserIds(IGetBlockedUserIdsParameters)" />
         ITwitterIterator<long> GetBlockedUserIds();
@@ -105,36 +102,34 @@ namespace Tweetinvi.Client
         #region Follow / Unfollow
 
         /// <inheritdoc cref="FollowUser(IFollowUserParameters)" />
-        Task<bool> FollowUser(long userId);
+        Task FollowUser(long userId);
 
         /// <inheritdoc cref="FollowUser(IFollowUserParameters)" />
-        Task<bool> FollowUser(string username);
+        Task FollowUser(string username);
 
         /// <inheritdoc cref="FollowUser(IFollowUserParameters)" />
-        Task<bool> FollowUser(IUserIdentifier user);
+        Task FollowUser(IUserIdentifier user);
 
         /// <summary>
         /// Follow a user
         /// <para>Read more : https://dev.twitter.com/en/docs/accounts-and-users/follow-search-get-users/api-reference/post-friendships-create </para>
         /// </summary>
-        /// <returns>Whether the follow operation was successful</returns>
-        Task<bool> FollowUser(IFollowUserParameters parameters);
+        Task FollowUser(IFollowUserParameters parameters);
 
         /// <inheritdoc cref="UnFollowUser(IUnFollowUserParameters)" />
-        Task<bool> UnFollowUser(long userId);
+        Task UnFollowUser(long userId);
 
         /// <inheritdoc cref="UnFollowUser(IUnFollowUserParameters)" />
-        Task<bool> UnFollowUser(string username);
+        Task UnFollowUser(string username);
 
         /// <inheritdoc cref="UnFollowUser(IUnFollowUserParameters)" />
-        Task<bool> UnFollowUser(IUserIdentifier user);
+        Task UnFollowUser(IUserIdentifier user);
 
         /// <summary>
         /// Stops following a user
         /// <para>Read more : https://dev.twitter.com/en/docs/accounts-and-users/follow-search-get-users/api-reference/post-friendships-destroy </para>
         /// </summary>
-        /// <returns>Whether the unfollow operation was successful</returns>
-        Task<bool> UnFollowUser(IUnFollowUserParameters parameters);
+        Task UnFollowUser(IUnFollowUserParameters parameters);
 
         #endregion
 
@@ -142,7 +137,7 @@ namespace Tweetinvi.Client
 
         /// <inheritdoc cref="GetUserIdsRequestingFriendship(IGetUserIdsRequestingFriendshipParameters)" />
         ITwitterIterator<long> GetUserIdsRequestingFriendship();
-        
+
         /// <summary>
         /// Get the pending follower ids requests for protected accounts.
         /// <para>Read more : https://developer.twitter.com/en/docs/accounts-and-users/follow-search-get-users/api-reference/get-friendships-incoming </para>
@@ -150,7 +145,7 @@ namespace Tweetinvi.Client
         /// </summary>
         /// <returns>An iterator to list the user ids who requested to follow the client's account</returns>
         ITwitterIterator<long> GetUserIdsRequestingFriendship(IGetUserIdsRequestingFriendshipParameters parameters);
-        
+
         /// <inheritdoc cref="GetUsersRequestingFriendship(IGetUsersRequestingFriendshipParameters)" />
         IMultiLevelCursorIterator<long, IUser> GetUsersRequestingFriendship();
 
@@ -161,10 +156,10 @@ namespace Tweetinvi.Client
         /// </summary>
         /// <returns>An iterator to list the users who requested to follow the client's account</returns>
         IMultiLevelCursorIterator<long, IUser> GetUsersRequestingFriendship(IGetUsersRequestingFriendshipParameters parameters);
-        
+
         /// <inheritdoc cref="GetUserIdsYouRequestedToFollow(IGetUserIdsYouRequestedToFollowParameters)" />
         ITwitterIterator<long> GetUserIdsYouRequestedToFollow();
-        
+
         /// <summary>
         /// Get the pending follower ids requests that you have requested.
         /// <para>Read more : https://dev.twitter.com/en/docs/accounts-and-users/follow-search-get-users/api-reference/get-friendships-outgoing </para>
@@ -175,7 +170,7 @@ namespace Tweetinvi.Client
 
         /// <inheritdoc cref="GetUsersYouRequestedToFollow(IGetUsersYouRequestedToFollowParameters)" />
         IMultiLevelCursorIterator<long, IUser> GetUsersYouRequestedToFollow();
-        
+
         /// <summary>
         /// Get the pending follower ids requests that you have requested.
         /// <para>Read more : https://dev.twitter.com/en/docs/accounts-and-users/follow-search-get-users/api-reference/get-friendships-outgoing </para>
@@ -183,17 +178,17 @@ namespace Tweetinvi.Client
         /// </summary>
         /// <returns>An iterator to list the users the client's account requested to follow</returns>
         IMultiLevelCursorIterator<long, IUser> GetUsersYouRequestedToFollow(IGetUsersYouRequestedToFollowParameters parameters);
-        
+
         #endregion
 
         #region Relationship
-        
+
         /// <summary>
         /// Modify the relationship between the authenticated user (source) and another user (target).
         /// <para>Read more : https://dev.twitter.com/en/docs/accounts-and-users/follow-search-get-users/api-reference/post-friendships-update </para>
         /// </summary>
         /// <returns>Returns whether the update operation was successful.</returns>
-        Task<bool> UpdateRelationship(IUpdateRelationshipParameters parameters);
+        Task UpdateRelationship(IUpdateRelationshipParameters parameters);
 
         /// <inheritdoc cref="GetRelationshipsWith(IGetRelationshipsWithParameters)" />
         Task<IUserDictionary<IRelationshipState>> GetRelationshipsWith(long[] userIds);
@@ -217,27 +212,27 @@ namespace Tweetinvi.Client
 
         /// <inheritdoc cref="GetUserIdsWhoseRetweetsAreMuted(IGetUserIdsWhoseRetweetsAreMutedParameters)" />
         Task<long[]> GetUserIdsWhoseRetweetsAreMuted();
-        
+
         /// <summary>
         /// Get the user ids for whom the retweets are muted
         /// <para>Read more : https://dev.twitter.com/en/docs/accounts-and-users/follow-search-get-users/api-reference/get-friendships-no_retweets-ids </para>
         /// </summary>
         /// <returns>Returns a list of user ids for whom the retweets are muted</returns>
         Task<long[]> GetUserIdsWhoseRetweetsAreMuted(IGetUserIdsWhoseRetweetsAreMutedParameters parameters);
-        
+
         /// <inheritdoc cref="GetMutedUserIds(IGetMutedUserIdsParameters)" />
         ITwitterIterator<long> GetMutedUserIds();
-        
+
         /// <summary>
         /// Get the muted user ids.
         /// <para>Read more : https://dev.twitter.com/en/docs/accounts-and-users/mute-block-report-users/api-reference/get-mutes-users-ids </para>
         /// </summary>
         /// <returns>An iterator to list the user ids muted by the client's account</returns>
         ITwitterIterator<long> GetMutedUserIds(IGetMutedUserIdsParameters parameters);
-        
+
         /// <inheritdoc cref="GetMutedUsers(IGetMutedUsersParameters)" />
         ITwitterIterator<IUser> GetMutedUsers();
-        
+
         /// <summary>
         /// Get the muted user ids.
         /// <para>Read more : https://dev.twitter.com/en/docs/accounts-and-users/mute-block-report-users/api-reference/get-mutes-users-list </para>
@@ -246,31 +241,29 @@ namespace Tweetinvi.Client
         ITwitterIterator<IUser> GetMutedUsers(IGetMutedUsersParameters parameters);
 
         /// <inheritdoc cref="MuteUser(IMuteUserParameters)" />
-        Task<bool> MuteUser(long? userId);
+        Task MuteUser(long? userId);
         /// <inheritdoc cref="MuteUser(IMuteUserParameters)" />
-        Task<bool> MuteUser(string username);
+        Task MuteUser(string username);
         /// <inheritdoc cref="MuteUser(IMuteUserParameters)" />
-        Task<bool> MuteUser(IUserIdentifier user);
-        
+        Task MuteUser(IUserIdentifier user);
+
         /// <summary>
         /// Mute a user
         /// <para>Read more : https://dev.twitter.com/en/docs/accounts-and-users/mute-block-report-users/api-reference/post-mutes-users-create </para>
         /// </summary>
-        /// <returns>Whether the user was successfully muted</returns>
-        Task<bool> MuteUser(IMuteUserParameters parameters);
-        
+        Task MuteUser(IMuteUserParameters parameters);
+
         /// <inheritdoc cref="UnMuteUser(IUnMuteUserParameters)" />
-        Task<bool> UnMuteUser(long? userId);
+        Task UnMuteUser(long? userId);
         /// <inheritdoc cref="UnMuteUser(IUnMuteUserParameters)" />
-        Task<bool> UnMuteUser(string username);
+        Task UnMuteUser(string username);
         /// <inheritdoc cref="UnMuteUser(IUnMuteUserParameters)" />
-        Task<bool> UnMuteUser(IUserIdentifier user);
-        
+        Task UnMuteUser(IUserIdentifier user);
+
         /// <summary>
         /// Remove the mute of a user
         /// <para>Read more : https://dev.twitter.com/en/docs/accounts-and-users/mute-block-report-users/api-reference/post-mutes-users-destroy </para>
         /// </summary>
-        /// <returns>Whether the user is no longer muted</returns>
-        Task<bool> UnMuteUser(IUnMuteUserParameters parameters);
+        Task UnMuteUser(IUnMuteUserParameters parameters);
     }
 }

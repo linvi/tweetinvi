@@ -94,7 +94,7 @@ namespace Tweetinvi.Models
         /// <summary>
         /// Modify the friendship between the authenticated user (source) and another user (target).
         /// </summary>
-        Task<bool> UpdateRelationship(IUpdateRelationshipParameters parameters);
+        Task UpdateRelationship(IUpdateRelationshipParameters parameters);
 
         // Friends - Followers
 
@@ -119,34 +119,34 @@ namespace Tweetinvi.Models
         IMultiLevelCursorIterator<long, IUser> GetUsersYouRequestedToFollow();
 
         /// <summary>
-        /// Folow a specific user.
+        /// Follow a specific user.
         /// </summary>
-        Task<bool> FollowUser(IUserIdentifier user);
+        Task FollowUser(IUserIdentifier user);
 
         /// <summary>
-        /// Folow a specific user.
+        /// Follow a specific user.
         /// </summary>
-        Task<bool> FollowUser(long userId);
+        Task FollowUser(long userId);
 
         /// <summary>
-        /// Folow a specific user.
+        /// Follow a specific user.
         /// </summary>
-        Task<bool> FollowUser(string screenName);
-
-        /// <summary>
-        /// Unfollow a specific user.
-        /// </summary>
-        Task<bool> UnFollowUser(IUserIdentifier user);
+        Task FollowUser(string screenName);
 
         /// <summary>
         /// Unfollow a specific user.
         /// </summary>
-        Task<bool> UnFollowUser(long userId);
+        Task UnFollowUser(IUserIdentifier user);
 
         /// <summary>
         /// Unfollow a specific user.
         /// </summary>
-        Task<bool> UnFollowUser(string username);
+        Task UnFollowUser(long userId);
+
+        /// <summary>
+        /// Unfollow a specific user.
+        /// </summary>
+        Task UnFollowUser(string username);
 
         // Saved Searches
 
@@ -160,34 +160,34 @@ namespace Tweetinvi.Models
         /// <summary>
         /// Block a specific user.
         /// </summary>
-        Task<bool> BlockUser(IUserIdentifier user);
+        Task BlockUser(IUserIdentifier user);
 
         /// <summary>
         /// Block a specific user.
         /// </summary>
-        Task<bool> BlockUser(long? userId);
+        Task BlockUser(long? userId);
 
         /// <summary>
         /// Block a specific user.
         /// </summary>
-        Task<bool> BlockUser(string username);
+        Task BlockUser(string username);
 
         // Unblock
 
         /// <summary>
         /// Unblock a specific user.
         /// </summary>
-        Task<bool> UnBlockUser(IUserIdentifier user);
+        Task UnBlockUser(IUserIdentifier user);
 
         /// <summary>
         /// Unblock a specific user.
         /// </summary>
-        Task<bool> UnBlockUser(long userId);
+        Task UnBlockUser(long userId);
 
         /// <summary>
         /// Unblock a specific user.
         /// </summary>
-        Task<bool> UnBlockUser(string username);
+        Task UnBlockUser(string username);
 
         /// <summary>
         /// Get the ids of the user you blocked.
@@ -204,17 +204,17 @@ namespace Tweetinvi.Models
         /// <summary>
         /// Report a specific user for being a spammer.
         /// </summary>
-        Task<bool> ReportUserForSpam(IUserIdentifier user);
+        Task ReportUserForSpam(IUserIdentifier user);
 
         /// <summary>
         /// Report a specific user for being a spammer.
         /// </summary>
-        Task<bool> ReportUserForSpam(long? userId);
+        Task ReportUserForSpam(long? userId);
 
         /// <summary>
         /// Report a specific user for being a spammer.
         /// </summary>
-        Task<bool> ReportUserForSpam(string userName);
+        Task ReportUserForSpam(string userName);
 
         // Mute
 
@@ -231,32 +231,32 @@ namespace Tweetinvi.Models
         /// <summary>
         /// Mute a specific user.
         /// </summary>
-        Task<bool> MuteUser(IUserIdentifier user);
+        Task MuteUser(IUserIdentifier user);
 
         /// <summary>
         /// Mute a specific user.
         /// </summary>
-        Task<bool> MuteUser(long? userId);
+        Task MuteUser(long? userId);
 
         /// <summary>
         /// Mute a specific user.
         /// </summary>
-        Task<bool> MuteUser(string username);
+        Task MuteUser(string username);
 
         /// <summary>
         /// Unmute a specific user.
         /// </summary>
-        Task<bool> UnMuteUser(IUserIdentifier user);
+        Task UnMuteUser(IUserIdentifier user);
 
         /// <summary>
         /// Unmute a specific user.
         /// </summary>
-        Task<bool> UnMuteUser(long userId);
+        Task UnMuteUser(long userId);
 
         /// <summary>
         /// Unmute a specific user.
         /// </summary>
-        Task<bool> UnMuteUser(string username);
+        Task UnMuteUser(string username);
 
         #region List
 

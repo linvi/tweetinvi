@@ -41,7 +41,7 @@ namespace xUnitinvi.TwitterObjects
             _authenticatedUser = _fakeBuilder.GenerateClass();
             _authenticatedUser.Client = _twitterClient.FakedObject;
         }
-        
+
         // BLOCK
 
         [Fact]
@@ -49,60 +49,52 @@ namespace xUnitinvi.TwitterObjects
         {
             // Arrange
             var user = A.Fake<IUserIdentifier>();
-            _accountClient.CallsTo(x => x.BlockUser(user)).Returns(true);
 
             // Act
-            var result = await _authenticatedUser.BlockUser(user);
+            await _authenticatedUser.BlockUser(user);
 
             // Assert
-            Assert.True(result);
             _accountClient.CallsTo(x => x.BlockUser(user)).MustHaveHappened();
         }
-        
+
         [Fact]
         public async Task UnblockUser_ReturnsAccountClientTask()
         {
             // Arrange
             var user = A.Fake<IUserIdentifier>();
-            _accountClient.CallsTo(x => x.UnBlockUser(user)).Returns(true);
 
             // Act
-            var result = await _authenticatedUser.UnBlockUser(user);
+            await _authenticatedUser.UnBlockUser(user);
 
             // Assert
-            Assert.True(result);
             _accountClient.CallsTo(x => x.UnBlockUser(user)).MustHaveHappened();
         }
-        
+
         [Fact]
         public async Task ReportUserForSpam_ReturnsAccountClientTask()
         {
             // Arrange
             var user = A.Fake<IUserIdentifier>();
-            _accountClient.CallsTo(x => x.ReportUserForSpam(user)).Returns(true);
 
             // Act
-            var result = await _authenticatedUser.ReportUserForSpam(user);
+            await _authenticatedUser.ReportUserForSpam(user);
 
             // Assert
-            Assert.True(result);
             _accountClient.CallsTo(x => x.ReportUserForSpam(user)).MustHaveHappened();
         }
-        
+
         // FOLLOWERS
-        
+
         [Fact]
         public async Task FollowUser_ReturnsAccountClientTask()
         {
             // Arrange
             var user = A.Fake<IUserIdentifier>();
-            _accountClient.CallsTo(x => x.FollowUser(user)).Returns(true);
 
             // Act
-            var result = await _authenticatedUser.FollowUser(user);
+            await _authenticatedUser.FollowUser(user);
 
             // Assert
-            Assert.True(result);
             _accountClient.CallsTo(x => x.FollowUser(user)).MustHaveHappened();
         }
 
@@ -111,18 +103,16 @@ namespace xUnitinvi.TwitterObjects
         {
             // Arrange
             var user = A.Fake<IUserIdentifier>();
-            _accountClient.CallsTo(x => x.UnFollowUser(user)).Returns(true);
 
             // Act
-            var result = await _authenticatedUser.UnFollowUser(user);
+            await _authenticatedUser.UnFollowUser(user);
 
             // Assert
-            Assert.True(result);
             _accountClient.CallsTo(x => x.UnFollowUser(user)).MustHaveHappened();
         }
-        
+
         // TWEETS
-        
+
         [Fact]
         public async Task PublishTweetText_UsesTweetsClient()
         {

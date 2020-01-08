@@ -50,67 +50,64 @@ namespace Tweetinvi.Client
 
         #region Block / Unblock
 
-        public Task<bool> BlockUser(long? userId)
+        public Task BlockUser(long? userId)
         {
             return BlockUser(new BlockUserParameters(userId));
         }
 
-        public Task<bool> BlockUser(string username)
+        public Task BlockUser(string username)
         {
             return BlockUser(new BlockUserParameters(username));
         }
 
-        public Task<bool> BlockUser(IUserIdentifier user)
+        public Task BlockUser(IUserIdentifier user)
         {
             return BlockUser(new BlockUserParameters(user));
         }
 
-        public async Task<bool> BlockUser(IBlockUserParameters parameters)
+        public async Task BlockUser(IBlockUserParameters parameters)
         {
-            var requestResult = await _accountRequester.BlockUser(parameters).ConfigureAwait(false);
-            return requestResult?.DataTransferObject != null;
+            await _accountRequester.BlockUser(parameters).ConfigureAwait(false);
         }
 
-        public Task<bool> UnblockUser(long? userId)
+        public Task UnblockUser(long? userId)
         {
             return UnblockUser(new UnblockUserParameters(userId));
         }
 
-        public Task<bool> UnblockUser(string username)
+        public Task UnblockUser(string username)
         {
             return UnblockUser(new UnblockUserParameters(username));
         }
 
-        public Task<bool> UnBlockUser(IUserIdentifier user)
+        public Task UnBlockUser(IUserIdentifier user)
         {
             return UnblockUser(new UnblockUserParameters(user));
         }
 
-        public async Task<bool> UnblockUser(IUnblockUserParameters parameters)
+        public async Task UnblockUser(IUnblockUserParameters parameters)
         {
-            var requestResult = await _accountRequester.UnblockUser(parameters).ConfigureAwait(false);
-            return requestResult?.DataTransferObject != null;
+            await _accountRequester.UnblockUser(parameters).ConfigureAwait(false);
         }
 
-        public Task<bool> ReportUserForSpam(long? userId)
+        public Task ReportUserForSpam(long? userId)
         {
             return ReportUserForSpam(new ReportUserForSpamParameters(userId));
         }
 
-        public Task<bool> ReportUserForSpam(string username)
+        public Task ReportUserForSpam(string username)
         {
             return ReportUserForSpam(new ReportUserForSpamParameters(username));
         }
 
-        public Task<bool> ReportUserForSpam(IUserIdentifier user)
+        public Task ReportUserForSpam(IUserIdentifier user)
         {
             return ReportUserForSpam(new ReportUserForSpamParameters(user));
         }
 
-        public async Task<bool> ReportUserForSpam(IReportUserForSpamParameters parameters)
+        public async Task ReportUserForSpam(IReportUserForSpamParameters parameters)
         {
-            var requestResult = await _accountRequester.ReportUserForSpam(parameters).ConfigureAwait(false);
-            return requestResult?.DataTransferObject != null;
+            await _accountRequester.ReportUserForSpam(parameters).ConfigureAwait(false);
         }
 
         public ITwitterIterator<long> GetBlockedUserIds()
@@ -143,56 +140,53 @@ namespace Tweetinvi.Client
 
         #region Follow / Unfollow
 
-        public Task<bool> FollowUser(long userId)
+        public Task FollowUser(long userId)
         {
             return FollowUser(new FollowUserParameters(userId));
         }
 
-        public Task<bool> FollowUser(string username)
+        public Task FollowUser(string username)
         {
             return FollowUser(new FollowUserParameters(username));
         }
 
-        public Task<bool> FollowUser(IUserIdentifier user)
+        public Task FollowUser(IUserIdentifier user)
         {
             return FollowUser(new FollowUserParameters(user));
         }
 
-        public async Task<bool> FollowUser(IFollowUserParameters parameters)
+        public async Task FollowUser(IFollowUserParameters parameters)
         {
-            var requestResult = await _accountRequester.FollowUser(parameters).ConfigureAwait(false);
-            return requestResult?.DataTransferObject != null;
+            await _accountRequester.FollowUser(parameters).ConfigureAwait(false);
         }
 
-        public Task<bool> UnFollowUser(long userId)
+        public Task UnFollowUser(long userId)
         {
             return UnFollowUser(new UnFollowUserParameters(userId));
         }
 
-        public Task<bool> UnFollowUser(string username)
+        public Task UnFollowUser(string username)
         {
             return UnFollowUser(new UnFollowUserParameters(username));
         }
 
-        public Task<bool> UnFollowUser(IUserIdentifier user)
+        public Task UnFollowUser(IUserIdentifier user)
         {
             return UnFollowUser(new UnFollowUserParameters(user));
         }
 
-        public async Task<bool> UnFollowUser(IUnFollowUserParameters parameters)
+        public async Task UnFollowUser(IUnFollowUserParameters parameters)
         {
-            var requestResult = await _accountRequester.UnFollowUser(parameters).ConfigureAwait(false);
-            return requestResult?.DataTransferObject != null;
+            await _accountRequester.UnFollowUser(parameters).ConfigureAwait(false);
         }
 
         #endregion
 
         #region Update Friendship
 
-        public async Task<bool> UpdateRelationship(IUpdateRelationshipParameters parameters)
+        public async Task UpdateRelationship(IUpdateRelationshipParameters parameters)
         {
-            var requestResult = await _accountRequester.UpdateRelationship(parameters).ConfigureAwait(false);
-            return requestResult?.Result != null;
+            await _accountRequester.UpdateRelationship(parameters).ConfigureAwait(false);
         }
 
         #endregion
@@ -346,46 +340,44 @@ namespace Tweetinvi.Client
             });
         }
 
-        public Task<bool> MuteUser(long? userId)
+        public Task MuteUser(long? userId)
         {
             return MuteUser(new MuteUserParameters(userId));
         }
 
-        public Task<bool> MuteUser(string username)
+        public Task MuteUser(string username)
         {
             return MuteUser(new MuteUserParameters(username));
         }
 
-        public Task<bool> MuteUser(IUserIdentifier user)
+        public Task MuteUser(IUserIdentifier user)
         {
             return MuteUser(new MuteUserParameters(user));
         }
 
-        public async Task<bool> MuteUser(IMuteUserParameters parameters)
+        public async Task MuteUser(IMuteUserParameters parameters)
         {
-            var twitterResult = await _accountRequester.MuteUser(parameters);
-            return twitterResult.Response.IsSuccessStatusCode;
+            await _accountRequester.MuteUser(parameters).ConfigureAwait(false);
         }
 
-        public Task<bool> UnMuteUser(long? userId)
+        public Task UnMuteUser(long? userId)
         {
             return UnMuteUser(new UnMuteUserParameters(userId));
         }
 
-        public Task<bool> UnMuteUser(string username)
+        public Task UnMuteUser(string username)
         {
             return UnMuteUser(new UnMuteUserParameters(username));
         }
 
-        public Task<bool> UnMuteUser(IUserIdentifier user)
+        public Task UnMuteUser(IUserIdentifier user)
         {
             return UnMuteUser(new UnMuteUserParameters(user));
         }
 
-        public async Task<bool> UnMuteUser(IUnMuteUserParameters parameters)
+        public async Task UnMuteUser(IUnMuteUserParameters parameters)
         {
-            var twitterResult = await _accountRequester.UnMuteUser(parameters);
-            return twitterResult.Response.IsSuccessStatusCode;
+            await _accountRequester.UnMuteUser(parameters).ConfigureAwait(false);
         }
 
         #endregion

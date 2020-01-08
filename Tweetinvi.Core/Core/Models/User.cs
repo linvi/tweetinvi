@@ -361,18 +361,18 @@ namespace Tweetinvi.Core.Models
         }
 
         // Block User
-        public virtual Task<bool> BlockUser()
+        public virtual Task BlockUser()
         {
             return Client.Account.BlockUser(this);
         }
 
-        public virtual Task<bool> UnBlockUser()
+        public virtual Task UnBlockUser()
         {
             return Client.Account.UnBlockUser(this);
         }
 
         // Spam
-        public virtual Task<bool> ReportUserForSpam()
+        public virtual Task ReportUserForSpam()
         {
             return Client.Account.ReportUserForSpam(this);
         }

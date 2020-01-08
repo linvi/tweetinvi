@@ -29,20 +29,18 @@ namespace xUnitinvi.EndToEnd
             var userToFollow = await _client.Users.GetUser(EndToEndTestConfig.ProtectedUser.AccountId);
 
             // act
-            var blockSuccess = await userToFollow.BlockUser();
+            await userToFollow.BlockUser();
 
             var blockedUserIdsIterator = _client.Account.GetBlockedUserIds();
             var blockedUsersFromIdsIterator = await blockedUserIdsIterator.MoveToNextPage();
             var blockedUsersIterator = _client.Account.GetBlockedUsers();
             var blockedUsers = await blockedUsersIterator.MoveToNextPage();
 
-            var unblockSuccess = await userToFollow.UnBlockUser();
+            await userToFollow.UnBlockUser();
 
             // assert
-            Assert.True(blockSuccess);
             Assert.Contains(blockedUsersFromIdsIterator, id => id == userToFollow.Id);
             Assert.Contains(blockedUsers, user => user.Id == userToFollow.Id);
-            Assert.True(unblockSuccess);
         }
 
         [Fact]

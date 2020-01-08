@@ -98,7 +98,7 @@ namespace Tweetinvi.Core.Models
         }
 
         // Friendships
-        public Task<bool> UpdateRelationship(IUpdateRelationshipParameters parameters)
+        public Task UpdateRelationship(IUpdateRelationshipParameters parameters)
         {
             return Client.Account.UpdateRelationship(parameters);
         }
@@ -126,32 +126,32 @@ namespace Tweetinvi.Core.Models
 
 
         // Follow
-        public Task<bool> FollowUser(IUserIdentifier user)
+        public Task FollowUser(IUserIdentifier user)
         {
             return Client.Account.FollowUser(user);
         }
 
-        public Task<bool> FollowUser(long userId)
+        public Task FollowUser(long userId)
         {
             return Client.Account.FollowUser(userId);
         }
 
-        public Task<bool> FollowUser(string username)
+        public Task FollowUser(string username)
         {
             return Client.Account.FollowUser(username);
         }
 
-        public Task<bool> UnFollowUser(IUserIdentifier user)
+        public Task UnFollowUser(IUserIdentifier user)
         {
             return Client.Account.UnFollowUser(user);
         }
 
-        public Task<bool> UnFollowUser(long userId)
+        public Task UnFollowUser(long userId)
         {
             return Client.Account.UnFollowUser(userId);
         }
 
-        public Task<bool> UnFollowUser(string username)
+        public Task UnFollowUser(string username)
         {
             return Client.Account.UnFollowUser(username);
         }
@@ -162,43 +162,43 @@ namespace Tweetinvi.Core.Models
         }
 
         // Block
-        public override Task<bool> BlockUser()
+        public override Task BlockUser()
         {
             throw new InvalidOperationException("You cannot block yourself...");
         }
 
-        public Task<bool> BlockUser(IUserIdentifier user)
+        public Task BlockUser(IUserIdentifier user)
         {
             return Client.Account.BlockUser(user);
         }
 
-        public Task<bool> BlockUser(long? userId)
+        public Task BlockUser(long? userId)
         {
             return Client.Account.BlockUser(userId);
         }
 
-        public Task<bool> BlockUser(string username)
+        public Task BlockUser(string username)
         {
             return Client.Account.BlockUser(username);
         }
 
         // Unblock
-        public override Task<bool> UnBlockUser()
+        public override Task UnBlockUser()
         {
             throw new InvalidOperationException("You cannot unblock yourself...");
         }
 
-        public Task<bool> UnBlockUser(IUserIdentifier user)
+        public Task UnBlockUser(IUserIdentifier user)
         {
             return Client.Account.UnBlockUser(user);
         }
 
-        public Task<bool> UnBlockUser(long userId)
+        public Task UnBlockUser(long userId)
         {
             return Client.Account.UnblockUser(userId);
         }
 
-        public Task<bool> UnBlockUser(string username)
+        public Task UnBlockUser(string username)
         {
             return Client.Account.UnblockUser(username);
         }
@@ -215,22 +215,22 @@ namespace Tweetinvi.Core.Models
         }
 
         // Spam
-        public override Task<bool> ReportUserForSpam()
+        public override Task ReportUserForSpam()
         {
             throw new InvalidOperationException("You cannot report yourself for spam...");
         }
 
-        public Task<bool> ReportUserForSpam(IUserIdentifier user)
+        public Task ReportUserForSpam(IUserIdentifier user)
         {
             return Client.Account.ReportUserForSpam(user);
         }
 
-        public Task<bool> ReportUserForSpam(string username)
+        public Task ReportUserForSpam(string username)
         {
             return Client.Account.ReportUserForSpam(username);
         }
 
-        public Task<bool> ReportUserForSpam(long? userId)
+        public Task ReportUserForSpam(long? userId)
         {
             return Client.Account.ReportUserForSpam(userId);
         }
@@ -331,32 +331,32 @@ namespace Tweetinvi.Core.Models
             return Client.Account.GetMutedUsers();
         }
 
-        public Task<bool> MuteUser(IUserIdentifier user)
+        public Task MuteUser(IUserIdentifier user)
         {
             return Client.Account.MuteUser(user);
         }
 
-        public Task<bool> MuteUser(long? userId)
+        public Task MuteUser(long? userId)
         {
             return Client.Account.MuteUser(userId);
         }
 
-        public Task<bool> MuteUser(string username)
+        public Task MuteUser(string username)
         {
             return Client.Account.MuteUser(username);
         }
 
-        public Task<bool> UnMuteUser(IUserIdentifier user)
+        public Task UnMuteUser(IUserIdentifier user)
         {
             return Client.Account.UnMuteUser(user);
         }
 
-        public Task<bool> UnMuteUser(long userId)
+        public Task UnMuteUser(long userId)
         {
             return Client.Account.UnMuteUser(userId);
         }
 
-        public Task<bool> UnMuteUser(string username)
+        public Task UnMuteUser(string username)
         {
             return Client.Account.UnMuteUser(username);
         }

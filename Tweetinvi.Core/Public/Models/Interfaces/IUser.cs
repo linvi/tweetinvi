@@ -365,19 +365,19 @@ namespace Tweetinvi.Models
         /// <summary>
         /// Make the authenticated user block the user.
         /// </summary>
-        Task<bool> BlockUser();
+        Task BlockUser();
 
         /// <summary>
         /// Make the authenticated user unblock the user.
         /// </summary>
-        Task<bool> UnBlockUser();
+        Task UnBlockUser();
 
         // Spam
 
         /// <summary>
         /// Report the user for spam.
         /// </summary>
-        Task<bool> ReportUserForSpam();
+        Task ReportUserForSpam();
 
         // Stream Profile Image
 
