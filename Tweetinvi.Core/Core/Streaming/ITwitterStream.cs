@@ -29,7 +29,7 @@ namespace Tweetinvi.Core.Streaming
         /// The stream has been stopped. This can be due to an exception.
         /// You can verify this with the exception infos provided in the event args.
         /// </summary>
-        event EventHandler<StreamExceptionEventArgs> StreamStopped;
+        event EventHandler<StreamStoppedEventArgs> StreamStopped;
 
         /// <summary>
         /// A keep-alive message has been received.

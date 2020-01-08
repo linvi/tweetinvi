@@ -118,7 +118,6 @@ namespace Tweetinvi.Logic
 
         private void InitializeExceptionHandler(ITweetinviContainer container)
         {
-            container.RegisterType<IExceptionHandler, ExceptionHandler>(RegistrationLifetime.InstancePerApplication);
             container.RegisterType<IWebExceptionInfoExtractor, WebExceptionInfoExtractor>(RegistrationLifetime.InstancePerApplication);
             container.RegisterType<ITwitterTimeoutException, TwitterTimeoutException>();
             container.RegisterType<ITwitterExceptionInfo, TwitterExceptionInfo>();

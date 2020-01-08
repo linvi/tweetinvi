@@ -57,7 +57,7 @@ namespace xUnitinvi.ClientActions.AccountsClient
             var accountController = CreateAccountController();
             var parameters = new GetBlockedUserIdsParameters();
 
-            var iterator = accountController.GetBlockedUserIds(parameters, A.Fake<ITwitterRequest>());
+            var iterator = accountController.GetBlockedUserIdsIterator(parameters, A.Fake<ITwitterRequest>());
             var iteratorTestRunner = new TwitterIdsIteratorTestRunner(iterator);
 
             iteratorTestRunner.Arrange(A.CallTo(() => _fakeAccountQueryExecutor.GetBlockedUserIds(It.IsAny<IGetBlockedUserIdsParameters>(), It.IsAny<ITwitterRequest>())));
@@ -76,7 +76,7 @@ namespace xUnitinvi.ClientActions.AccountsClient
             var accountController = CreateAccountController();
             var parameters = new GetBlockedUsersParameters();
 
-            var iterator = accountController.GetBlockedUsers(parameters, A.Fake<ITwitterRequest>());
+            var iterator = accountController.GetBlockedUsersIterator(parameters, A.Fake<ITwitterRequest>());
             var iteratorTestRunner = new TwitterUsersIteratorTestRunner(iterator);
 
             iteratorTestRunner.Arrange(A.CallTo(() => _fakeAccountQueryExecutor.GetBlockedUsers(It.IsAny<IGetBlockedUsersParameters>(), It.IsAny<ITwitterRequest>())));
@@ -199,7 +199,7 @@ namespace xUnitinvi.ClientActions.AccountsClient
             var accountController = CreateAccountController();
             var parameters = new GetUserIdsRequestingFriendshipParameters();
 
-            var iterator = accountController.GetUserIdsRequestingFriendship(parameters, A.Fake<ITwitterRequest>());
+            var iterator = accountController.GetUserIdsRequestingFriendshipIterator(parameters, A.Fake<ITwitterRequest>());
             var iteratorTestRunner = new TwitterIdsIteratorTestRunner(iterator);
 
             iteratorTestRunner.Arrange(A.CallTo(() => _fakeAccountQueryExecutor.GetUserIdsRequestingFriendship(It.IsAny<IGetUserIdsRequestingFriendshipParameters>(), It.IsAny<ITwitterRequest>())));
@@ -218,7 +218,7 @@ namespace xUnitinvi.ClientActions.AccountsClient
             var accountController = CreateAccountController();
             var parameters = new GetUserIdsYouRequestedToFollowParameters();
 
-            var iterator = accountController.GetUserIdsYouRequestedToFollow(parameters, A.Fake<ITwitterRequest>());
+            var iterator = accountController.GetUserIdsYouRequestedToFollowIterator(parameters, A.Fake<ITwitterRequest>());
             var iteratorTestRunner = new TwitterIdsIteratorTestRunner(iterator);
 
             iteratorTestRunner.Arrange(A.CallTo(() => _fakeAccountQueryExecutor.GetUserIdsYouRequestedToFollow(It.IsAny<IGetUserIdsYouRequestedToFollowParameters>(), It.IsAny<ITwitterRequest>())));
@@ -297,7 +297,7 @@ namespace xUnitinvi.ClientActions.AccountsClient
             var accountController = CreateAccountController();
             var parameters = new GetMutedUserIdsParameters();
 
-            var iterator = accountController.GetMutedUserIds(parameters, A.Fake<ITwitterRequest>());
+            var iterator = accountController.GetMutedUserIdsIterator(parameters, A.Fake<ITwitterRequest>());
             var testRunner = new TwitterIdsIteratorTestRunner(iterator);
             
             testRunner.Arrange(A.CallTo(() => _fakeAccountQueryExecutor.GetMutedUserIds(It.IsAny<IGetMutedUserIdsParameters>(), It.IsAny<ITwitterRequest>())));
@@ -316,7 +316,7 @@ namespace xUnitinvi.ClientActions.AccountsClient
             var accountController = CreateAccountController();
             var parameters = new GetMutedUsersParameters();
 
-            var iterator = accountController.GetMutedUsers(parameters, A.Fake<ITwitterRequest>());
+            var iterator = accountController.GetMutedUsersIterator(parameters, A.Fake<ITwitterRequest>());
             var iteratorTestRunner = new TwitterUsersIteratorTestRunner(iterator);
 
             iteratorTestRunner.Arrange(A.CallTo(() => _fakeAccountQueryExecutor.GetMutedUsers(It.IsAny<IGetMutedUsersParameters>(), It.IsAny<ITwitterRequest>())));

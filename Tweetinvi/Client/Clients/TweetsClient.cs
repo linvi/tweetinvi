@@ -173,7 +173,7 @@ namespace Tweetinvi.Client
 
         public ITwitterIterator<long> GetRetweeterIdsIterator(IGetRetweeterIdsParameters parameters)
         {
-            var twitterResultIterator = _tweetsRequester.GetRetweeterIds(parameters);
+            var twitterResultIterator = _tweetsRequester.GetRetweeterIdsIterator(parameters);
             return new TwitterIteratorProxy<ITwitterResult<IIdsCursorQueryResultDTO>, long>(twitterResultIterator, dto => dto.DataTransferObject.Ids);
         }
 

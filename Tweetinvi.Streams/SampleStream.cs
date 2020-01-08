@@ -31,7 +31,7 @@ namespace Tweetinvi.Streams
 
         public async Task StartStream()
         {
-            await StartStream(Resources.Stream_Sample);
+            await StartStream(Resources.Stream_Sample).ConfigureAwait(false);
         }
     }
 }

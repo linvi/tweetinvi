@@ -70,7 +70,7 @@ namespace xUnitinvi.ClientActions.UsersClient
             var controller = CreateUserController();
             var parameters = new GetFollowerIdsParameters("username");
 
-            var iterator = controller.GetFollowerIds(parameters, A.Fake<ITwitterRequest>());
+            var iterator = controller.GetFollowerIdsIterator(parameters, A.Fake<ITwitterRequest>());
             var iteratorTestRunner = new TwitterIdsIteratorTestRunner(iterator);
             
             iteratorTestRunner.Arrange(A.CallTo(() => _fakeUserQueryExecutor.GetFollowerIds(A<IGetFollowerIdsParameters>.Ignored, A<ITwitterRequest>.Ignored)));
@@ -86,7 +86,7 @@ namespace xUnitinvi.ClientActions.UsersClient
 
             var parameters = new GetFriendIdsParameters("username");
 
-            var iterator = controller.GetFriendIds(parameters, A.Fake<ITwitterRequest>());
+            var iterator = controller.GetFriendIdsIterator(parameters, A.Fake<ITwitterRequest>());
             var iteratorTestRunner = new TwitterIdsIteratorTestRunner(iterator);
 
             iteratorTestRunner.Arrange(A.CallTo(() => _fakeUserQueryExecutor.GetFriendIds(A<IGetFriendIdsParameters>.Ignored, A<ITwitterRequest>.Ignored)));

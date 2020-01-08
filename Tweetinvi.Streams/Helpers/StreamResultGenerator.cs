@@ -21,7 +21,7 @@ namespace Tweetinvi.Streams.Helpers
         public event EventHandler StreamStarted;
         public event EventHandler StreamResumed;
         public event EventHandler StreamPaused;
-        public event EventHandler<StreamExceptionEventArgs> StreamStopped;
+        public event EventHandler<StreamStoppedEventArgs> StreamStopped;
         public event EventHandler KeepAliveReceived;
 
         private IStreamTask _currentStreamTask;
@@ -46,7 +46,6 @@ namespace Tweetinvi.Streams.Helpers
                 {
                     if (_currentStreamTask != null)
                     {
-
                         return _currentStreamTask.StreamState;
                     }
                 }
@@ -63,7 +62,7 @@ namespace Tweetinvi.Streams.Helpers
                 return true;
             };
 
-            await StartStreamAsync(processValidObject, generateTwitterRequest);
+            await StartStreamAsync(processValidObject, generateTwitterRequest).ConfigureAwait(false);
         }
 
         public async Task StartStreamAsync(Func<string, bool> processObject, Func<ITwitterRequest> generateTwitterRequest)
@@ -93,10 +92,7 @@ namespace Tweetinvi.Streams.Helpers
                 _currentStreamTask.KeepAliveReceived += KeepAliveReceived;
             }
 
-            await Task.Run(() =>
-            {
-                streamTask.Start();
-            }).ConfigureAwait(false);
+            await streamTask.Start().ConfigureAwait(false);
         }
 
         private void StreamTaskStarted(object sender, EventArgs eventArgs)
@@ -104,9 +100,9 @@ namespace Tweetinvi.Streams.Helpers
             this.Raise(StreamStarted);
         }
 
-        private void StreamTaskStateChanged(object sender, GenericEventArgs<StreamState> args)
+        private void StreamTaskStateChanged(object sender, StreamTaskStateChangedEventArgs args)
         {
-            var streamState = args.Value;
+            var streamState = args.State;
             switch (streamState)
             {
                 case StreamState.Running:
@@ -116,20 +112,9 @@ namespace Tweetinvi.Streams.Helpers
                     this.Raise(StreamPaused);
                     break;
                 case StreamState.Stop:
-                    StreamExceptionEventArgs streamExceptionEventArgs;
+                    var streamStoppedEventArgs = new StreamStoppedEventArgs(args.Exception);
 
-                    var streamTask = _currentStreamTask;
-
-                    if (streamTask != null)
-                    {
-                        streamExceptionEventArgs = new StreamExceptionEventArgs(streamTask.LastException);
-                    }
-                    else
-                    {
-                        streamExceptionEventArgs = new StreamExceptionEventArgs(null);
-                    }
-
-                    this.Raise(StreamStopped, streamExceptionEventArgs);
+                    this.Raise(StreamStopped, streamStoppedEventArgs);
                     break;
             }
         }
@@ -159,7 +144,7 @@ namespace Tweetinvi.Streams.Helpers
             }
         }
 
-        public void StopStream(Exception exception, IDisconnectMessage disconnectMessage = null)
+        public void StopStream(Exception exception, IDisconnectMessage disconnectMessage)
         {
             lock (_lockStream)
             {
@@ -176,13 +161,13 @@ namespace Tweetinvi.Streams.Helpers
                         };
                     }
 
-                    var streamExceptionEventArgs = new StreamExceptionEventArgs(exception, disconnectMessage);
+                    var streamExceptionEventArgs = new StreamStoppedEventArgs(exception, disconnectMessage);
                     this.Raise(StreamStopped, streamExceptionEventArgs);
                 }
             }
         }
 
-        private StreamExceptionEventArgs StopStreamAndUnsubscribeFromEvents()
+        private StreamStoppedEventArgs StopStreamAndUnsubscribeFromEvents()
         {
             var streamTask = _currentStreamTask;
             if (streamTask != null)
@@ -197,10 +182,10 @@ namespace Tweetinvi.Streams.Helpers
                     _currentStreamTask = null;
                 }
 
-                return new StreamExceptionEventArgs(streamTask.LastException);
+                return new StreamStoppedEventArgs();
             }
 
-            return new StreamExceptionEventArgs(null);
+            return new StreamStoppedEventArgs(null);
         }
     }
 }

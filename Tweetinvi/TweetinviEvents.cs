@@ -1,5 +1,6 @@
 ﻿using System;
 using Tweetinvi.Core.Events;
+using Tweetinvi.Core.Exceptions;
 using Tweetinvi.Events;
 
 namespace Tweetinvi
@@ -36,6 +37,13 @@ namespace Tweetinvi
         {
             add => _tweetinviEvents.AfterExecutingRequest += value;
             remove => _tweetinviEvents.AfterExecutingRequest -= value;
+        }
+
+        /// <inheritdoc cref="IExternalClientEvents.OnTwitterException" />
+        public static event EventHandler<ITwitterException> OnTwitterException
+        {
+            add => _tweetinviEvents.OnTwitterException += value;
+            remove => _tweetinviEvents.OnTwitterException -= value;
         }
     }
 }

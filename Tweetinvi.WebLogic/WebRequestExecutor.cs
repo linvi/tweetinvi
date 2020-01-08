@@ -5,7 +5,6 @@ using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
-using Tweetinvi.Core.Exceptions;
 using Tweetinvi.Core.Helpers;
 using Tweetinvi.Core.Injectinvi;
 using Tweetinvi.Core.Web;
@@ -19,16 +18,16 @@ namespace Tweetinvi.WebLogic
     /// </summary>
     public class WebRequestExecutor : IWebRequestExecutor
     {
-        private readonly IExceptionHandler _exceptionHandler;
+        private readonly ITwitterExceptionFactory _twitterExceptionFactory;
         private readonly IHttpClientWebHelper _httpClientWebHelper;
         private readonly IFactory<ITwitterResponse> _webRequestResultFactory;
 
         public WebRequestExecutor(
-            IExceptionHandler exceptionHandler,
+            ITwitterExceptionFactory twitterExceptionFactory,
             IHttpClientWebHelper httpClientWebHelper,
             IFactory<ITwitterResponse> webRequestResultFactory)
         {
-            _exceptionHandler = exceptionHandler;
+            _twitterExceptionFactory = twitterExceptionFactory;
             _httpClientWebHelper = httpClientWebHelper;
             _webRequestResultFactory = webRequestResultFactory;
         }
@@ -48,7 +47,7 @@ namespace Tweetinvi.WebLogic
 
                     if (!result.IsSuccessStatusCode)
                     {
-                        throw _exceptionHandler.TryLogFailedWebRequestResult(result, request);
+                        throw _twitterExceptionFactory.Create(result, request);
                     }
 
                     var stream = result.ResultStream;
@@ -175,19 +174,12 @@ namespace Tweetinvi.WebLogic
 
                 if (webException != null)
                 {
-                    throw _exceptionHandler.TryLogWebException(webException, request);
+                    throw _twitterExceptionFactory.Create(webException, request);
                 }
 
                 if (taskCanceledException != null)
                 {
-                    var twitterTimeoutException = new TwitterTimeoutException(request);
-
-                    if (_exceptionHandler.LogExceptions)
-                    {
-                        _exceptionHandler.AddTwitterException(twitterTimeoutException);
-                    }
-
-                    throw twitterTimeoutException;
+                    throw new TwitterTimeoutException(request);
                 }
 
                 throw;

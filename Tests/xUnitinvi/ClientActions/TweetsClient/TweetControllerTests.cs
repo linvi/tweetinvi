@@ -79,7 +79,7 @@ namespace xUnitinvi.ClientActions.TweetsClient
                 .Returns(expectedResult);
 
             var controller = CreateTweetController();
-            var friendIdsIterator = controller.GetFavoriteTweets(parameters, request);
+            var friendIdsIterator = controller.GetFavoriteTweetsIterator(parameters, request);
 
             // assert
             Assert.Equal(friendIdsIterator, expectedResult);
@@ -151,7 +151,7 @@ namespace xUnitinvi.ClientActions.TweetsClient
                 .Returns(expectedResult);
 
             var controller = CreateTweetController();
-            var iterator = controller.GetRetweeterIds(parameters, request);
+            var iterator = controller.GetRetweeterIdsIterator(parameters, request);
 
             // assert
             Assert.Equal(iterator, expectedResult);

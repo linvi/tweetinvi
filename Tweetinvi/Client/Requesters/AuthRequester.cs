@@ -36,17 +36,13 @@ namespace Tweetinvi.Client.Requesters
         public Task<ITwitterResult<IAuthenticationRequest>> RequestAuthUrl(IRequestAuthUrlParameters parameters)
         {
             _validator.Validate(parameters);
-
-            var request = CreateRequest();
-            return ExecuteRequest(() => _authController.RequestAuthUrl(parameters, request), request);
+            return ExecuteRequest(request => _authController.RequestAuthUrl(parameters, request));
         }
 
         public Task<ITwitterResult<ITwitterCredentials>> RequestAuthUrl(IRequestCredentialsParameters parameters)
         {
             _validator.Validate(parameters);
-
-            var request = CreateRequest();
-            return ExecuteRequest(() => _authController.RequestCredentials(parameters, request), request);
+            return ExecuteRequest(request => _authController.RequestCredentials(parameters, request));
         }
 
         public Task<ITwitterResult> InvalidateBearerToken(IInvalidateBearerTokenParameters parameters)

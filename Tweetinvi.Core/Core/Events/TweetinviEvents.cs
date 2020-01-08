@@ -1,4 +1,5 @@
 ﻿using System;
+using Tweetinvi.Core.Exceptions;
 using Tweetinvi.Events;
 
 namespace Tweetinvi.Core.Events
@@ -31,6 +32,11 @@ namespace Tweetinvi.Core.Events
         /// Event raised after a request has been performed, this event will let you log the query and check the result/exception.
         /// </summary>
         event EventHandler<AfterExecutingQueryEventArgs> AfterExecutingRequest;
+
+        /// <summary>
+        /// Event raised when an exception is returned by the TwitterApi service
+        /// </summary>
+        event EventHandler<ITwitterException> OnTwitterException;
     }
 
     public interface ITwitterClientEvents : IExternalClientEvents
@@ -38,6 +44,7 @@ namespace Tweetinvi.Core.Events
         void RaiseBeforeWaitingForQueryRateLimits(BeforeExecutingRequestEventArgs beforeExecutingRequestExecutedEventArgs);
         void RaiseBeforeExecutingQuery(BeforeExecutingRequestEventArgs beforeExecutingRequestExecutedEventArgs);
         void RaiseAfterExecutingQuery(AfterExecutingQueryEventArgs afterExecutingQueryEventArgs);
+        void RaiseOnTwitterException(ITwitterException exception);
     }
 
     public class TwitterClientEvents : ITwitterClientEvents
@@ -58,6 +65,12 @@ namespace Tweetinvi.Core.Events
         public void RaiseAfterExecutingQuery(AfterExecutingQueryEventArgs afterExecutingQueryEventArgs)
         {
             this.Raise(AfterExecutingRequest, afterExecutingQueryEventArgs);
+        }
+
+        public event EventHandler<ITwitterException> OnTwitterException;
+        public void RaiseOnTwitterException(ITwitterException exception)
+        {
+            this.Raise(OnTwitterException, exception);
         }
     }
 }

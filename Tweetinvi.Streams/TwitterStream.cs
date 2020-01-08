@@ -105,7 +105,7 @@ namespace Tweetinvi.Streams
             add { _streamResultGenerator.StreamPaused += value; }
             remove { _streamResultGenerator.StreamPaused -= value; }
         }
-        public event EventHandler<StreamExceptionEventArgs> StreamStopped
+        public event EventHandler<StreamStoppedEventArgs> StreamStopped
         {
             add { _streamResultGenerator.StreamStopped += value; }
             remove { _streamResultGenerator.StreamStopped -= value; }
@@ -150,7 +150,7 @@ namespace Tweetinvi.Streams
 
         protected void StopStream(Exception ex)
         {
-            _streamResultGenerator.StopStream(ex);
+            _streamResultGenerator.StopStream(ex, null);
         }
 
         // Parameters

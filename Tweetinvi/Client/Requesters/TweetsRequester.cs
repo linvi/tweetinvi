@@ -37,87 +37,94 @@ namespace Tweetinvi.Client.Requesters
         }
 
         // Tweets
-        public async Task<ITwitterResult<ITweetDTO, ITweet>> GetTweet(IGetTweetParameters parameters)
+        public Task<ITwitterResult<ITweetDTO, ITweet>> GetTweet(IGetTweetParameters parameters)
         {
             _tweetsClientRequiredParametersValidator.Validate(parameters);
-            
-            var request = TwitterClient.CreateRequest();
-            var twitterResult = await ExecuteRequest(() => _tweetController.GetTweet(parameters, request), request).ConfigureAwait(false);
-            return _twitterResultFactory.Create(twitterResult, dto => _tweetFactory.GenerateTweetFromDTO(dto, request.ExecutionContext.TweetMode, TwitterClient));
+
+            return ExecuteRequest(async request =>
+            {
+                var twitterResult = await _tweetController.GetTweet(parameters, request).ConfigureAwait(false);
+                return _twitterResultFactory.Create(twitterResult, dto => _tweetFactory.GenerateTweetFromDTO(dto, request.ExecutionContext.TweetMode, TwitterClient));
+            });
         }
 
-        public async Task<ITwitterResult<ITweetDTO[], ITweet[]>> GetTweets(IGetTweetsParameters parameters)
+        public Task<ITwitterResult<ITweetDTO[], ITweet[]>> GetTweets(IGetTweetsParameters parameters)
         {
             _tweetsClientRequiredParametersValidator.Validate(parameters);
-            
-            var request = TwitterClient.CreateRequest();
-            var twitterResult = await ExecuteRequest(() => _tweetController.GetTweets(parameters, request), request).ConfigureAwait(false);
-            return _twitterResultFactory.Create(twitterResult, dtos => _tweetFactory.GenerateTweetsFromDTO(dtos, request.ExecutionContext.TweetMode, TwitterClient).ToArray());
+
+            return ExecuteRequest(async request =>
+            {
+                var twitterResult = await _tweetController.GetTweets(parameters, request).ConfigureAwait(false);
+                return _twitterResultFactory.Create(twitterResult, dtos => _tweetFactory.GenerateTweetsFromDTO(dtos, request.ExecutionContext.TweetMode, TwitterClient).ToArray());
+            });
         }
 
         // Tweets - Publish
-        public async Task<ITwitterResult<ITweetDTO, ITweet>> PublishTweet(IPublishTweetParameters parameters)
+        public Task<ITwitterResult<ITweetDTO, ITweet>> PublishTweet(IPublishTweetParameters parameters)
         {
             _tweetsClientRequiredParametersValidator.Validate(parameters);
-            
-            var request = TwitterClient.CreateRequest();
-            var twitterResult = await ExecuteRequest(() => _tweetController.PublishTweet(parameters, request), request).ConfigureAwait(false);
-            return _twitterResultFactory.Create(twitterResult, tweetDTO => _tweetFactory.GenerateTweetFromDTO(tweetDTO, request.ExecutionContext.TweetMode, TwitterClient));
+
+            return ExecuteRequest(async request =>
+            {
+                var twitterResult = await _tweetController.PublishTweet(parameters, request).ConfigureAwait(false);
+                return _twitterResultFactory.Create(twitterResult, tweetDTO => _tweetFactory.GenerateTweetFromDTO(tweetDTO, request.ExecutionContext.TweetMode, TwitterClient));
+            });
         }
 
         // Tweets - Destroy
         public Task<ITwitterResult<ITweetDTO>> DestroyTweet(IDestroyTweetParameters parameters)
         {
             _tweetsClientRequiredParametersValidator.Validate(parameters);
-            
-            var request = TwitterClient.CreateRequest();
-            return ExecuteRequest(() => _tweetController.DestroyTweet(parameters, request), request);
+            return ExecuteRequest(request => _tweetController.DestroyTweet(parameters, request));
         }
 
         // Retweets
-        public async Task<ITwitterResult<ITweetDTO[], ITweet[]>> GetRetweets(IGetRetweetsParameters parameters)
+        public Task<ITwitterResult<ITweetDTO[], ITweet[]>> GetRetweets(IGetRetweetsParameters parameters)
         {
             _tweetsClientRequiredParametersValidator.Validate(parameters);
-            
-            var request = TwitterClient.CreateRequest();
-            var retweetsDTO = await ExecuteRequest(() => _tweetController.GetRetweets(parameters, request), request).ConfigureAwait(false);
-            return _twitterResultFactory.Create(retweetsDTO, tweetDTOs => _tweetFactory.GenerateTweetsFromDTO(tweetDTOs, request.ExecutionContext.TweetMode, TwitterClient));
+
+            return ExecuteRequest(async request =>
+            {
+                var retweetsDTO = await _tweetController.GetRetweets(parameters, request).ConfigureAwait(false);
+                return _twitterResultFactory.Create(retweetsDTO, tweetDTOs => _tweetFactory.GenerateTweetsFromDTO(tweetDTOs, request.ExecutionContext.TweetMode, TwitterClient));
+            });
         }
 
         // Retweets - Publish
-        public async Task<ITwitterResult<ITweetDTO, ITweet>> PublishRetweet(IPublishRetweetParameters parameters)
+        public Task<ITwitterResult<ITweetDTO, ITweet>> PublishRetweet(IPublishRetweetParameters parameters)
         {
             _tweetsClientRequiredParametersValidator.Validate(parameters);
-            
-            var request = TwitterClient.CreateRequest();
-            var twitterResult = await ExecuteRequest(() => _tweetController.PublishRetweet(parameters, request), request).ConfigureAwait(false);
-            return _twitterResultFactory.Create(twitterResult, tweetDTO => _tweetFactory.GenerateTweetFromDTO(tweetDTO, request.ExecutionContext.TweetMode, TwitterClient));
+
+            return ExecuteRequest(async request =>
+            {
+                var twitterResult = await _tweetController.PublishRetweet(parameters, request).ConfigureAwait(false);
+                return _twitterResultFactory.Create(twitterResult, tweetDTO => _tweetFactory.GenerateTweetFromDTO(tweetDTO, request.ExecutionContext.TweetMode, TwitterClient));
+            });
         }
 
         // Retweets - Destroy
         public Task<ITwitterResult<ITweetDTO>> DestroyRetweet(IDestroyRetweetParameters parameters)
         {
             _tweetsClientRequiredParametersValidator.Validate(parameters);
-            
-            var request = TwitterClient.CreateRequest();
-            return ExecuteRequest(() => _tweetController.DestroyRetweet(parameters, request), request);
+
+            return ExecuteRequest(request => _tweetController.DestroyRetweet(parameters, request));
         }
-        
-        public ITwitterPageIterator<ITwitterResult<IIdsCursorQueryResultDTO>> GetRetweeterIds(IGetRetweeterIdsParameters parameters)
+
+        public ITwitterPageIterator<ITwitterResult<IIdsCursorQueryResultDTO>> GetRetweeterIdsIterator(IGetRetweeterIdsParameters parameters)
         {
             _tweetsClientRequiredParametersValidator.Validate(parameters);
-            
+
             var request = TwitterClient.CreateRequest();
             request.ExecutionContext.Converters = JsonQueryConverterRepository.Converters;
-            return _tweetController.GetRetweeterIds(parameters, request);
+            return _tweetController.GetRetweeterIdsIterator(parameters, request);
         }
 
         public ITwitterPageIterator<ITwitterResult<ITweetDTO[]>, long?> GetFavoriteTweets(IGetFavoriteTweetsParameters parameters)
         {
             _tweetsClientRequiredParametersValidator.Validate(parameters);
-            
+
             var request = TwitterClient.CreateRequest();
-            return _tweetController.GetFavoriteTweets(parameters, request);
+            return _tweetController.GetFavoriteTweetsIterator(parameters, request);
         }
     }
 }

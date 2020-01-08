@@ -24,8 +24,8 @@ namespace Tweetinvi.Client.Requesters
         private readonly IAccountClientRequiredParametersValidator _validator;
 
         public AccountRequester(
-            IAccountController accountController, 
-            ITwitterResultFactory twitterResultFactory, 
+            IAccountController accountController,
+            ITwitterResultFactory twitterResultFactory,
             IFriendshipFactory friendshipFactory,
             IAccountClientRequiredParametersValidator validator)
         {
@@ -34,11 +34,11 @@ namespace Tweetinvi.Client.Requesters
             _friendshipFactory = friendshipFactory;
             _validator = validator;
         }
-        
+
         public async Task<ITwitterResult<IUserDTO, IAuthenticatedUser>> GetAuthenticatedUser(IGetAuthenticatedUserParameters parameters)
         {
             _validator.Validate(parameters);
-            
+
             var request = TwitterClient.CreateRequest();
             var result = await ExecuteRequest(() => _accountController.GetAuthenticatedUser(parameters, request), request).ConfigureAwait(false);
 
@@ -56,140 +56,128 @@ namespace Tweetinvi.Client.Requesters
         public Task<ITwitterResult<IUserDTO>> FollowUser(IFollowUserParameters parameters)
         {
             _validator.Validate(parameters);
-            
-            var request = TwitterClient.CreateRequest();
-            return ExecuteRequest(() => _accountController.FollowUser(parameters, request), request);
+            return ExecuteRequest(request => _accountController.FollowUser(parameters, request));
         }
-        
-        public async Task<ITwitterResult<IRelationshipDetailsDTO, IRelationshipDetails>> UpdateRelationship(IUpdateRelationshipParameters parameters)
+
+        public Task<ITwitterResult<IRelationshipDetailsDTO, IRelationshipDetails>> UpdateRelationship(IUpdateRelationshipParameters parameters)
         {
             _validator.Validate(parameters);
-            
-            var request = TwitterClient.CreateRequest();
-            var result = await ExecuteRequest(() => _accountController.UpdateRelationship(parameters, request), request).ConfigureAwait(false);
-            
-            return _twitterResultFactory.Create(result, _friendshipFactory.GenerateRelationshipFromRelationshipDTO);
+
+            return ExecuteRequest(async request =>
+            {
+                var result = await _accountController.UpdateRelationship(parameters, request).ConfigureAwait(false);
+                return _twitterResultFactory.Create(result, _friendshipFactory.GenerateRelationshipFromRelationshipDTO);
+            });
         }
 
         public Task<ITwitterResult<IUserDTO>> UnFollowUser(IUnFollowUserParameters parameters)
         {
             _validator.Validate(parameters);
-            
-            var request = TwitterClient.CreateRequest();
-            return ExecuteRequest(() => _accountController.UnFollowUser(parameters, request), request);
+            return ExecuteRequest(request => _accountController.UnFollowUser(parameters, request));
         }
 
-        public ITwitterPageIterator<ITwitterResult<IIdsCursorQueryResultDTO>> GetUserIdsRequestingFriendship(IGetUserIdsRequestingFriendshipParameters parameters)
+        public ITwitterPageIterator<ITwitterResult<IIdsCursorQueryResultDTO>> GetUserIdsRequestingFriendshipIterator(IGetUserIdsRequestingFriendshipParameters parameters)
         {
             _validator.Validate(parameters);
-            
+
             var request = TwitterClient.CreateRequest();
             request.ExecutionContext.Converters = JsonQueryConverterRepository.Converters;
-            return _accountController.GetUserIdsRequestingFriendship(parameters, request);
+            return _accountController.GetUserIdsRequestingFriendshipIterator(parameters, request);
         }
-        
-        public ITwitterPageIterator<ITwitterResult<IIdsCursorQueryResultDTO>> GetUserIdsYouRequestedToFollow(IGetUserIdsYouRequestedToFollowParameters parameters)
+
+        public ITwitterPageIterator<ITwitterResult<IIdsCursorQueryResultDTO>> GetUserIdsYouRequestedToFollowIterator(IGetUserIdsYouRequestedToFollowParameters parameters)
         {
             _validator.Validate(parameters);
-            
+
             var request = TwitterClient.CreateRequest();
             request.ExecutionContext.Converters = JsonQueryConverterRepository.Converters;
-            return _accountController.GetUserIdsYouRequestedToFollow(parameters, request);
+            return _accountController.GetUserIdsYouRequestedToFollowIterator(parameters, request);
         }
 
         // BLOCK
         public Task<ITwitterResult<IUserDTO>> BlockUser(IBlockUserParameters parameters)
         {
             _validator.Validate(parameters);
-            
-            var request = TwitterClient.CreateRequest();
-            return ExecuteRequest(() => _accountController.BlockUser(parameters, request), request);
+            return ExecuteRequest(request => _accountController.BlockUser(parameters, request));
         }
 
         public Task<ITwitterResult<IUserDTO>> UnblockUser(IUnblockUserParameters parameters)
         {
             _validator.Validate(parameters);
-            
-            var request = TwitterClient.CreateRequest();
-            return ExecuteRequest(() => _accountController.UnblockUser(parameters, request), request);
+            return ExecuteRequest(request => _accountController.UnblockUser(parameters, request));
         }
 
         public Task<ITwitterResult<IUserDTO>> ReportUserForSpam(IReportUserForSpamParameters parameters)
         {
             _validator.Validate(parameters);
-            
-            var request = TwitterClient.CreateRequest();
-            return ExecuteRequest(() => _accountController.ReportUserForSpam(parameters, request), request);
+            return ExecuteRequest(request => _accountController.ReportUserForSpam(parameters, request));
         }
 
-        public ITwitterPageIterator<ITwitterResult<IIdsCursorQueryResultDTO>> GetBlockedUserIds(IGetBlockedUserIdsParameters parameters)
+        public ITwitterPageIterator<ITwitterResult<IIdsCursorQueryResultDTO>> GetBlockedUserIdsIterator(IGetBlockedUserIdsParameters parameters)
         {
             _validator.Validate(parameters);
-            
+
             var request = TwitterClient.CreateRequest();
             request.ExecutionContext.Converters = JsonQueryConverterRepository.Converters;
-            return _accountController.GetBlockedUserIds(parameters, request);
+            return _accountController.GetBlockedUserIdsIterator(parameters, request);
         }
 
-        public ITwitterPageIterator<ITwitterResult<IUserCursorQueryResultDTO>> GetBlockedUsers(IGetBlockedUsersParameters parameters)
+        public ITwitterPageIterator<ITwitterResult<IUserCursorQueryResultDTO>> GetBlockedUsersIterator(IGetBlockedUsersParameters parameters)
         {
             _validator.Validate(parameters);
-            
+
             var request = TwitterClient.CreateRequest();
             request.ExecutionContext.Converters = JsonQueryConverterRepository.Converters;
-            return _accountController.GetBlockedUsers(parameters, request);
+            return _accountController.GetBlockedUsersIterator(parameters, request);
         }
 
         // FRIENDSHIPS
-        public async Task<ITwitterResult<IRelationshipStateDTO[], IRelationshipState[]>> GetRelationshipsWith(IGetRelationshipsWithParameters parameters)
+        public Task<ITwitterResult<IRelationshipStateDTO[], IRelationshipState[]>> GetRelationshipsWith(IGetRelationshipsWithParameters parameters)
         {
             _validator.Validate(parameters);
-            
-            var request = TwitterClient.CreateRequest();
-            var twitterResult = await _accountController.GetRelationshipsWith(parameters, request).ConfigureAwait(false);
 
-            return _twitterResultFactory.Create(twitterResult, _friendshipFactory.GenerateRelationshipStatesFromRelationshipStatesDTO);
+            return ExecuteRequest(async request =>
+            {
+                var twitterResult = await _accountController.GetRelationshipsWith(parameters, request).ConfigureAwait(false);
+                return _twitterResultFactory.Create(twitterResult, _friendshipFactory.GenerateRelationshipStatesFromRelationshipStatesDTO);
+            });
         }
-        
+
         // MUTE
         public Task<ITwitterResult<long[]>> GetUserIdsWhoseRetweetsAreMuted(IGetUserIdsWhoseRetweetsAreMutedParameters parameters)
         {
             _validator.Validate(parameters);
-            
-            var request = TwitterClient.CreateRequest();
-            return _accountController.GetUserIdsWhoseRetweetsAreMuted(parameters, request);
+            return ExecuteRequest(request => _accountController.GetUserIdsWhoseRetweetsAreMuted(parameters, request));
         }
 
-        public ITwitterPageIterator<ITwitterResult<IIdsCursorQueryResultDTO>> GetMutedUserIds(IGetMutedUserIdsParameters parameters)
+        public ITwitterPageIterator<ITwitterResult<IIdsCursorQueryResultDTO>> GetMutedUserIdsIterator(IGetMutedUserIdsParameters parameters)
         {
             _validator.Validate(parameters);
-            
+
             var request = TwitterClient.CreateRequest();
             request.ExecutionContext.Converters = JsonQueryConverterRepository.Converters;
-            return _accountController.GetMutedUserIds(parameters, request);
+            return _accountController.GetMutedUserIdsIterator(parameters, request);
         }
 
-        public ITwitterPageIterator<ITwitterResult<IUserCursorQueryResultDTO>> GetMutedUsers(IGetMutedUsersParameters parameters)
+        public ITwitterPageIterator<ITwitterResult<IUserCursorQueryResultDTO>> GetMutedUsersIterator(IGetMutedUsersParameters parameters)
         {
             _validator.Validate(parameters);
-            
+
             var request = TwitterClient.CreateRequest();
             request.ExecutionContext.Converters = JsonQueryConverterRepository.Converters;
-            return _accountController.GetMutedUsers(parameters, request);
+            return _accountController.GetMutedUsersIterator(parameters, request);
         }
 
         public Task<ITwitterResult<IUserDTO>> MuteUser(IMuteUserParameters parameters)
         {
             _validator.Validate(parameters);
-            var request = TwitterClient.CreateRequest();
-            return _accountController.MuteUser(parameters, request);
+            return ExecuteRequest(request => _accountController.MuteUser(parameters, request));
         }
 
         public Task<ITwitterResult<IUserDTO>> UnMuteUser(IUnMuteUserParameters parameters)
         {
             _validator.Validate(parameters);
-            var request = TwitterClient.CreateRequest();
-            return _accountController.UnMuteUser(parameters, request);
+            return ExecuteRequest(request => _accountController.UnMuteUser(parameters, request));
         }
     }
 }

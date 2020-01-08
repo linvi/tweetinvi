@@ -137,7 +137,7 @@ namespace Tweetinvi.Controllers.Tweet
 
         #endregion
 
-        public ITwitterPageIterator<ITwitterResult<IIdsCursorQueryResultDTO>> GetRetweeterIds(IGetRetweeterIdsParameters parameters, ITwitterRequest request)
+        public ITwitterPageIterator<ITwitterResult<IIdsCursorQueryResultDTO>> GetRetweeterIdsIterator(IGetRetweeterIdsParameters parameters, ITwitterRequest request)
         {
             return _pageCursorIteratorFactories.Create(parameters, cursor =>
             {
@@ -157,7 +157,7 @@ namespace Tweetinvi.Controllers.Tweet
         }
 
         // Favorite Tweet
-        public ITwitterPageIterator<ITwitterResult<ITweetDTO[]>, long?> GetFavoriteTweets(IGetFavoriteTweetsParameters parameters, ITwitterRequest request)
+        public ITwitterPageIterator<ITwitterResult<ITweetDTO[]>, long?> GetFavoriteTweetsIterator(IGetFavoriteTweetsParameters parameters, ITwitterRequest request)
         {
             return _pageCursorIteratorFactories.Create(parameters, cursor =>
             {

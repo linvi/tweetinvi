@@ -3,6 +3,7 @@ using Tweetinvi.Client;
 using Tweetinvi.Core.Client;
 using Tweetinvi.Core.Client.Validators;
 using Tweetinvi.Core.Events;
+using Tweetinvi.Core.Exceptions;
 using Tweetinvi.Core.Injectinvi;
 using Tweetinvi.Core.RateLimit;
 using Tweetinvi.Events;
@@ -113,6 +114,7 @@ namespace Tweetinvi
             Events.BeforeWaitingForRequestRateLimits += EventsOnBeforeWaitingForRequestRateLimits;
             Events.BeforeExecutingRequest += EventsOnBeforeExecutingRequest;
             Events.AfterExecutingRequest += EventsOnAfterExecutingRequest;
+            Events.OnTwitterException += EventsOnOnTwitterException;
 
             var rateLimitCacheManager = _tweetinviContainer.Resolve<IRateLimitCacheManager>();
             rateLimitCacheManager.RateLimitsClient = RateLimits;
@@ -163,7 +165,6 @@ namespace Tweetinvi
             _tweetinviEvents.RaiseBeforeWaitingForQueryRateLimits(e);
         }
 
-
         private void EventsOnBeforeExecutingRequest(object sender, BeforeExecutingRequestEventArgs e)
         {
             _tweetinviEvents.RaiseBeforeExecutingQuery(e);
@@ -174,11 +175,17 @@ namespace Tweetinvi
             _tweetinviEvents.RaiseAfterExecutingQuery(e);
         }
 
+        private void EventsOnOnTwitterException(object sender, ITwitterException e)
+        {
+            _tweetinviEvents.RaiseOnTwitterException(e);
+        }
+
         public void Dispose()
         {
             Events.BeforeWaitingForRequestRateLimits -= EventsOnBeforeWaitingForRequestRateLimits;
             Events.BeforeExecutingRequest -= EventsOnBeforeExecutingRequest;
             Events.AfterExecutingRequest -= EventsOnAfterExecutingRequest;
+            Events.OnTwitterException -= EventsOnOnTwitterException;
         }
     }
 }

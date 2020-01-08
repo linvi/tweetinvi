@@ -26,15 +26,17 @@ namespace Tweetinvi.Client.Requesters
 
         public Task<ITwitterResult<ICredentialsRateLimits>> GetRateLimits(IGetRateLimitsParameters parameters)
         {
-            var request = CreateRequest();
             _validator.Validate(parameters);
 
-            if (parameters.TrackerMode != null)
+            return ExecuteRequest(request =>
             {
-                request.ExecutionContext.RateLimitTrackerMode = parameters.TrackerMode.Value;
-            }
+                if (parameters.TrackerMode != null)
+                {
+                    request.ExecutionContext.RateLimitTrackerMode = parameters.TrackerMode.Value;
+                }
 
-            return ExecuteRequest(() => _helpController.GetRateLimits(parameters, request), request);
+                return _helpController.GetRateLimits(parameters, request);
+            });
         }
     }
 }

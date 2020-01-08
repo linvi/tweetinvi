@@ -14,13 +14,11 @@ namespace Tweetinvi.Core.Events
         }
 
         public static void Raise<T>(this object o, EventHandler<T> handler, T arg)
-            where T : EventArgs
         {
             handler?.Invoke(o, arg);
         }
 
         public static void Raise<T>(this object o, object sender, EventHandler<T> handler, T arg)
-            where T : EventArgs
         {
             handler?.Invoke(sender, arg);
         }

@@ -11,7 +11,7 @@ namespace Tweetinvi.Client.Requesters
     public interface IInternalUploadRequester : IUploadRequester, IBaseRequester
     {
     }
-    
+
     public class UploadRequester : BaseRequester, IInternalUploadRequester
     {
         private readonly IUploadQueryExecutor _uploadQueryExecutor;
@@ -27,29 +27,25 @@ namespace Tweetinvi.Client.Requesters
             _uploadMediaStatusQueryExecutor = uploadMediaStatusQueryExecutor;
             _uploadHelper = uploadHelper;
         }
-        
+
         public Task<IChunkUploadResult> UploadBinary(IUploadParameters parameters)
         {
-            var request = TwitterClient.CreateRequest();
-            return _uploadQueryExecutor.UploadBinary(parameters, request);
+            return ExecuteRequest(request => _uploadQueryExecutor.UploadBinary(parameters, request));
         }
 
         public Task<ITwitterResult> AddMediaMetadata(IAddMediaMetadataParameters parameters)
         {
-            var request = TwitterClient.CreateRequest();
-            return _uploadQueryExecutor.AddMediaMetadata(parameters, request);
+            return ExecuteRequest(request => _uploadQueryExecutor.AddMediaMetadata(parameters, request));
         }
 
         public Task<ITwitterResult<IUploadedMediaInfo>> GetVideoProcessingStatus(IMedia media)
         {
-            var request = TwitterClient.CreateRequest();
-            return _uploadMediaStatusQueryExecutor.GetMediaStatus(media, request);
+            return ExecuteRequest(request => _uploadMediaStatusQueryExecutor.GetMediaStatus(media, request));
         }
 
         public Task WaitForMediaProcessingToGetAllMetadata(IMedia media)
         {
-            var request = TwitterClient.CreateRequest();
-            return _uploadHelper.WaitForMediaProcessingToGetAllMetadata(media, request);
+            return ExecuteRequest(request => _uploadHelper.WaitForMediaProcessingToGetAllMetadata(media, request));
         }
     }
 }

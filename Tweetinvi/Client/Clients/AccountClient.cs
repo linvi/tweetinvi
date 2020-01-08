@@ -120,7 +120,7 @@ namespace Tweetinvi.Client
 
         public ITwitterIterator<long> GetBlockedUserIds(IGetBlockedUserIdsParameters parameters)
         {
-            var twitterCursorResult = _accountRequester.GetBlockedUserIds(parameters);
+            var twitterCursorResult = _accountRequester.GetBlockedUserIdsIterator(parameters);
             return new TwitterIteratorProxy<ITwitterResult<IIdsCursorQueryResultDTO>, long>(twitterCursorResult, dto => dto.DataTransferObject.Ids);
         }
 
@@ -131,7 +131,7 @@ namespace Tweetinvi.Client
 
         public ITwitterIterator<IUser> GetBlockedUsers(IGetBlockedUsersParameters parameters)
         {
-            var twitterCursorResult = _accountRequester.GetBlockedUsers(parameters);
+            var twitterCursorResult = _accountRequester.GetBlockedUsersIterator(parameters);
             return new TwitterIteratorProxy<ITwitterResult<IUserCursorQueryResultDTO>, IUser>(twitterCursorResult, pageResult =>
             {
                 var userDTOs = pageResult.DataTransferObject.Users;
@@ -206,7 +206,7 @@ namespace Tweetinvi.Client
 
         public ITwitterIterator<long> GetUserIdsRequestingFriendship(IGetUserIdsRequestingFriendshipParameters parameters)
         {
-            var iterator = _accountRequester.GetUserIdsRequestingFriendship(parameters);
+            var iterator = _accountRequester.GetUserIdsRequestingFriendshipIterator(parameters);
             return new TwitterIteratorProxy<ITwitterResult<IIdsCursorQueryResultDTO>, long>(iterator, dto => dto.DataTransferObject.Ids);
         }
 
@@ -217,7 +217,7 @@ namespace Tweetinvi.Client
 
         public IMultiLevelCursorIterator<long, IUser> GetUsersRequestingFriendship(IGetUsersRequestingFriendshipParameters parameters)
         {
-            var iterator = _accountRequester.GetUserIdsRequestingFriendship(parameters);
+            var iterator = _accountRequester.GetUserIdsRequestingFriendshipIterator(parameters);
 
             var maxPageSize = parameters.GetUsersPageSize;
             if (maxPageSize > _client.ClientSettings.Limits.USERS_GET_USERS_MAX_SIZE)
@@ -235,7 +235,7 @@ namespace Tweetinvi.Client
 
         public ITwitterIterator<long> GetUserIdsYouRequestedToFollow(IGetUserIdsYouRequestedToFollowParameters parameters)
         {
-            var iterator = _accountRequester.GetUserIdsYouRequestedToFollow(parameters);
+            var iterator = _accountRequester.GetUserIdsYouRequestedToFollowIterator(parameters);
             return new TwitterIteratorProxy<ITwitterResult<IIdsCursorQueryResultDTO>, long>(iterator, dto => dto.DataTransferObject.Ids);
         }
 
@@ -246,7 +246,7 @@ namespace Tweetinvi.Client
 
         public IMultiLevelCursorIterator<long, IUser> GetUsersYouRequestedToFollow(IGetUsersYouRequestedToFollowParameters parameters)
         {
-            var iterator = _accountRequester.GetUserIdsYouRequestedToFollow(parameters);
+            var iterator = _accountRequester.GetUserIdsYouRequestedToFollowIterator(parameters);
 
             var maxPageSize = parameters.GetUsersPageSize;
             if (maxPageSize > _client.ClientSettings.Limits.USERS_GET_USERS_MAX_SIZE)
@@ -327,7 +327,7 @@ namespace Tweetinvi.Client
 
         public ITwitterIterator<long> GetMutedUserIds(IGetMutedUserIdsParameters parameters)
         {
-            var iterator = _accountRequester.GetMutedUserIds(parameters);
+            var iterator = _accountRequester.GetMutedUserIdsIterator(parameters);
             return new TwitterIteratorProxy<ITwitterResult<IIdsCursorQueryResultDTO>, long>(iterator, dto => dto.DataTransferObject.Ids);
         }
 
@@ -338,7 +338,7 @@ namespace Tweetinvi.Client
 
         public ITwitterIterator<IUser> GetMutedUsers(IGetMutedUsersParameters parameters)
         {
-            var iterator = _accountRequester.GetMutedUsers(parameters);
+            var iterator = _accountRequester.GetMutedUsersIterator(parameters);
             return new TwitterIteratorProxy<ITwitterResult<IUserCursorQueryResultDTO>, IUser>(iterator, pageResult =>
             {
                 var userDTOs = pageResult.DataTransferObject.Users;

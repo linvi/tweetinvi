@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Tweetinvi.Core.Events;
+using Tweetinvi.Exceptions;
 using Tweetinvi.Models;
 
 namespace Tweetinvi.Client
@@ -12,6 +14,7 @@ namespace Tweetinvi.Client
     public abstract class BaseRequester : IBaseRequester
     {
         protected ITwitterClient TwitterClient { get; private set; }
+        private ITwitterClientEvents _twitterClientEvents;
 
         public void Initialize(ITwitterClient client)
         {
@@ -21,11 +24,54 @@ namespace Tweetinvi.Client
             }
 
             TwitterClient = client;
+
+            _twitterClientEvents = client.CreateTwitterExecutionContext().Container.Resolve<ITwitterClientEvents>();
         }
 
         public ITwitterRequest CreateRequest()
         {
             return TwitterClient.CreateRequest();
+        }
+
+        protected async Task ExecuteRequest(Func<Task> action, ITwitterRequest request)
+        {
+            try
+            {
+                await action().ConfigureAwait(false);
+            }
+            catch (TwitterException ex)
+            {
+                _twitterClientEvents.RaiseOnTwitterException(ex);
+                throw;
+            }
+        }
+
+        protected async Task ExecuteRequest(Func<ITwitterRequest, Task> action)
+        {
+            try
+            {
+                var request = TwitterClient.CreateRequest();
+                await action(request).ConfigureAwait(false);
+            }
+            catch (TwitterException ex)
+            {
+                _twitterClientEvents.RaiseOnTwitterException(ex);
+                throw;
+            }
+        }
+
+        protected async Task<T> ExecuteRequest<T>(Func<ITwitterRequest, Task<T>> action) where T : class
+        {
+            try
+            {
+                var request = TwitterClient.CreateRequest();
+                return await action(request).ConfigureAwait(false);
+            }
+            catch (TwitterException ex)
+            {
+                _twitterClientEvents.RaiseOnTwitterException(ex);
+                throw;
+            }
         }
 
         protected async Task<T> ExecuteRequest<T>(Func<Task<T>> action, ITwitterRequest request) where T : class
@@ -34,13 +80,9 @@ namespace Tweetinvi.Client
             {
                 return await action().ConfigureAwait(false);
             }
-            catch (Exception)
+            catch (TwitterException ex)
             {
-                if (request.ExecutionContext.ErrorHandlerType == ErrorHandlerType.ReturnNull)
-                {
-                    return null;
-                }
-
+                _twitterClientEvents.RaiseOnTwitterException(ex);
                 throw;
             }
         }

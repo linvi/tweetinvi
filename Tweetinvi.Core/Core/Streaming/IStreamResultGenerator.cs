@@ -31,7 +31,7 @@ namespace Tweetinvi.Core.Streaming
         /// The stream has stopped. This can be due by an exception.
         /// If it is the case the event args will contain the exception details.
         /// </summary>
-        event EventHandler<StreamExceptionEventArgs> StreamStopped;
+        event EventHandler<StreamStoppedEventArgs> StreamStopped;
 
         /// <summary>
         /// A keep-alive message has been received.
@@ -74,6 +74,6 @@ namespace Tweetinvi.Core.Streaming
         /// <summary>
         /// Stop a stream an define which exception made it fail
         /// </summary>
-        void StopStream(Exception exception, IDisconnectMessage disconnectMessage = null);
+        void StopStream(Exception exception, IDisconnectMessage disconnectMessage);
     }
 }

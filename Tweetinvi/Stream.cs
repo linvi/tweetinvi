@@ -4,7 +4,9 @@ using Tweetinvi.Core.Credentials;
 using Tweetinvi.Core.Injectinvi;
 using Tweetinvi.Core.Streaming;
 using Tweetinvi.Models;
+using Tweetinvi.Parameters;
 using Tweetinvi.Streaming;
+using Tweetinvi.Streams;
 
 namespace Tweetinvi
 {
@@ -19,36 +21,6 @@ namespace Tweetinvi
         private static readonly IFactory<IFilteredStream> _filteredStreamUnityFactory;
         private static readonly IFactory<IAccountActivityStream> _accountActivityStreamFactory;
 
-        [ThreadStatic]
-        private static ICredentialsAccessor _credentialsAccessor;
-        private static ICredentialsAccessor ThreadCredentialsAccessor
-        {
-            get
-            {
-                if (_credentialsAccessor == null)
-                {
-                    _credentialsAccessor = TweetinviContainer.Resolve<ICredentialsAccessor>();
-                }
-
-                return _credentialsAccessor;
-            }
-        }
-
-        [ThreadStatic]
-        private static ITweetinviSettingsAccessor _threadSettingsAccessor;
-        private static ITweetinviSettingsAccessor ThreadSettingsAccessor
-        {
-            get
-            {
-                if (_threadSettingsAccessor == null)
-                {
-                    _threadSettingsAccessor = TweetinviContainer.Resolve<ITweetinviSettingsAccessor>();
-                }
-
-                return _threadSettingsAccessor;
-            }
-        }
-
         static Stream()
         {
             _tweetStreamUnityFactory = TweetinviContainer.Resolve<IFactory<ITweetStream>>();
@@ -61,7 +33,7 @@ namespace Tweetinvi
         /// <summary>
         /// Create a stream that receive tweets
         /// </summary>
-        public static ITweetStream CreateTweetStream(ITwitterCredentials credentials = null, TweetMode? tweetMode = null)
+        public static ITweetStream CreateTweetStream(ITwitterCredentials credentials, TweetMode tweetMode)
         {
             return GetConfiguredStream(_tweetStreamUnityFactory.Create(), credentials, tweetMode);
         }
@@ -69,7 +41,7 @@ namespace Tweetinvi
         /// <summary>
         /// Create a stream that receive tweets. In addition this stream allow you to filter the results received.
         /// </summary>
-        public static ITrackedStream CreateTrackedStream(ITwitterCredentials credentials = null, TweetMode? tweetMode = null)
+        public static ITrackedStream CreateTrackedStream(ITwitterCredentials credentials, TweetMode tweetMode)
         {
             return GetConfiguredStream(_trackedStreamUnityFactory.Create(), credentials, tweetMode);
         }
@@ -78,24 +50,25 @@ namespace Tweetinvi
         /// Create a stream notifying that a random tweets has been created.
         /// https://dev.twitter.com/streaming/reference/get/statuses/sample
         /// </summary>
-        public static ISampleStream CreateSampleStream(ITwitterCredentials credentials = null, TweetMode? tweetMode = null)
+        public static ISampleStream CreateSampleStream(ITwitterCredentials credentials, TweetMode tweetMode)
         {
-            return GetConfiguredStream(_sampleStreamUnityFactory.Create(), credentials, tweetMode);
+            var customRequestParameters = _sampleStreamUnityFactory.GenerateParameterOverrideWrapper("customRequestParameters", new CustomRequestParameters());
+            return GetConfiguredStream(_sampleStreamUnityFactory.Create(customRequestParameters), credentials, tweetMode);
         }
 
         /// <summary>
         /// Create a stream notifying the client when a tweet matching the specified criteria is created.
         /// https://dev.twitter.com/streaming/reference/post/statuses/filter
         /// </summary>
-        public static IFilteredStream CreateFilteredStream(ITwitterCredentials credentials = null, TweetMode? tweetMode = null)
+        public static IFilteredStream CreateFilteredStream(ITwitterCredentials credentials, TweetMode tweetMode)
         {
             return GetConfiguredStream(_filteredStreamUnityFactory.Create(), credentials, tweetMode);
         }
 
-        private static T GetConfiguredStream<T>(T stream, ITwitterCredentials credentials, TweetMode? tweetMode) where T : ITwitterStream
+        private static T GetConfiguredStream<T>(T stream, ITwitterCredentials credentials, TweetMode tweetMode) where T : ITwitterStream
         {
-            stream.Credentials = credentials ?? ThreadCredentialsAccessor.CurrentThreadCredentials;
-            stream.TweetMode = tweetMode ?? ThreadSettingsAccessor.CurrentThreadSettings.TweetMode ?? TweetMode.Extended;
+            stream.Credentials = credentials;
+            stream.TweetMode = tweetMode;
 
             return stream;
         }

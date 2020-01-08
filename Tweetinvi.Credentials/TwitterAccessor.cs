@@ -8,7 +8,6 @@ using Newtonsoft.Json.Linq;
 using Tweetinvi.Core;
 using Tweetinvi.Core.Client;
 using Tweetinvi.Core.Credentials;
-using Tweetinvi.Core.Exceptions;
 using Tweetinvi.Core.Helpers;
 using Tweetinvi.Core.Models.Properties;
 using Tweetinvi.Core.Web;
@@ -27,7 +26,6 @@ namespace Tweetinvi.Credentials
     {
         private readonly IJObjectStaticWrapper _jObjectStaticWrapper;
         private readonly IJsonObjectConverter _jsonObjectConverter;
-        private readonly IExceptionHandler _exceptionHandler;
         private readonly ICursorQueryHelper _cursorQueryHelper;
         private readonly ITwitterRequestHandler _twitterRequestHandler;
         private readonly ITwitterQueryFactory _twitterQueryFactory;
@@ -38,7 +36,6 @@ namespace Tweetinvi.Credentials
         public TwitterAccessor(
             IJObjectStaticWrapper jObjectStaticWrapper,
             IJsonObjectConverter jsonObjectConverter,
-            IExceptionHandler exceptionHandler,
             ICursorQueryHelper cursorQueryHelper,
             ITwitterRequestHandler twitterRequestHandler,
             ITwitterQueryFactory twitterQueryFactory,
@@ -48,7 +45,6 @@ namespace Tweetinvi.Credentials
         {
             _jObjectStaticWrapper = jObjectStaticWrapper;
             _jsonObjectConverter = jsonObjectConverter;
-            _exceptionHandler = exceptionHandler;
             _cursorQueryHelper = cursorQueryHelper;
             _twitterRequestHandler = twitterRequestHandler;
             _twitterQueryFactory = twitterQueryFactory;
@@ -89,11 +85,6 @@ namespace Tweetinvi.Credentials
             }
             catch (TwitterException)
             {
-                if (!_exceptionHandler.SwallowWebExceptions)
-                {
-                    throw;
-                }
-
                 return new FailedAsyncOperation<string>();
             }
         }
@@ -207,11 +198,6 @@ namespace Tweetinvi.Credentials
             }
             catch (TwitterException)
             {
-                if (!_exceptionHandler.SwallowWebExceptions)
-                {
-                    throw;
-                }
-
                 return new FailedAsyncOperation<T>();
             }
         }
@@ -231,11 +217,6 @@ namespace Tweetinvi.Credentials
             }
             catch (TwitterException)
             {
-                if (!_exceptionHandler.SwallowWebExceptions)
-                {
-                    throw;
-                }
-
                 return new FailedAsyncOperation<T>();
             }
         }
@@ -255,20 +236,15 @@ namespace Tweetinvi.Credentials
             }
             catch (TwitterException)
             {
-                if (!_exceptionHandler.SwallowWebExceptions)
-                {
-                    throw;
-                }
-
                 return new FailedAsyncOperation<T>();
             }
         }
 
         // Cursor Query
         public async Task<IEnumerable<string>> ExecuteJsonCursorGETQuery<T>(
-                string baseQuery,
-                int maxObjectToRetrieve = Int32.MaxValue,
-                string cursor = null)
+            string baseQuery,
+            int maxObjectToRetrieve = Int32.MaxValue,
+            string cursor = null)
             where T : class, IBaseCursorQueryDTO
         {
             int nbOfObjectsProcessed = 0;
@@ -299,9 +275,9 @@ namespace Tweetinvi.Credentials
         }
 
         public async Task<IEnumerable<T>> ExecuteCursorGETCursorQueryResult<T>(
-                string baseQuery,
-                int maxObjectToRetrieve = Int32.MaxValue,
-                string cursor = null)
+            string baseQuery,
+            int maxObjectToRetrieve = Int32.MaxValue,
+            string cursor = null)
             where T : class, IBaseCursorQueryDTO
         {
             int nbOfObjectsProcessed = 0;
@@ -356,9 +332,9 @@ namespace Tweetinvi.Credentials
         }
 
         public async Task<IEnumerable<T>> ExecuteCursorGETQuery<T, T1>(
-                string baseQuery,
-                int maxObjectToRetrieve = int.MaxValue,
-                string cursor = null)
+            string baseQuery,
+            int maxObjectToRetrieve = int.MaxValue,
+            string cursor = null)
             where T1 : class, IBaseCursorQueryDTO<T>
         {
             var cursorQueryResult = await ExecuteCursorGETCursorQueryResult<T1>(baseQuery, maxObjectToRetrieve, cursor);
@@ -402,7 +378,7 @@ namespace Tweetinvi.Credentials
         {
             try
             {
-                await ExecuteQuery(url, HttpMethod.POST, (ITwitterCredentials)null, new StringContent(json));
+                await ExecuteQuery(url, HttpMethod.POST, (ITwitterCredentials) null, new StringContent(json));
                 return true;
             }
             catch (TwitterException)
@@ -415,17 +391,16 @@ namespace Tweetinvi.Credentials
         {
             try
             {
-                var webRequestResult = await ExecuteQuery(query, method, (ITwitterCredentials)null, httpContent);
+                var webRequestResult = await ExecuteQuery(query, method, (ITwitterCredentials) null, httpContent);
                 return webRequestResult.Text;
             }
-            catch (TwitterException ex)
+            catch (TwitterException)
             {
                 if (forceThrow)
                 {
                     throw;
                 }
 
-                HandleQueryException(ex);
                 return null;
             }
         }
@@ -536,8 +511,6 @@ namespace Tweetinvi.Credentials
             }
             catch (TwitterException ex)
             {
-                HandleQueryException(ex);
-
                 return new FailedAsyncOperation<string>();
             }
         }
@@ -567,51 +540,33 @@ namespace Tweetinvi.Credentials
                 throw new ArgumentNullException(nameof(url), "Url cannot be null.");
             }
 
-            try
-            {
-                var credentials = _credentialsAccessor.CurrentThreadCredentials;
+            var credentials = _credentialsAccessor.CurrentThreadCredentials;
 
-                if (credentials == null)
+            if (credentials == null)
+            {
+                throw new TwitterNullCredentialsException();
+            }
+
+            var twitterQuery = _twitterQueryFactory.Create(url, HttpMethod.GET, credentials);
+
+            var twitterRequest = new TwitterRequest
+            {
+                Query = twitterQuery,
+
+                ExecutionContext = new TwitterExecutionContext
                 {
-                    throw new TwitterNullCredentialsException();
+                    RateLimitTrackerMode = _settingsAccessor.RateLimitTrackerMode
                 }
+            };
 
-                var twitterQuery = _twitterQueryFactory.Create(url, HttpMethod.GET, credentials);
+            var response = await _twitterRequestHandler.ExecuteQuery(twitterRequest);
 
-                var twitterRequest = new TwitterRequest
-                {
-                    Query = twitterQuery,
-
-                    ExecutionContext = new TwitterExecutionContext
-                    {
-                        RateLimitTrackerMode = _settingsAccessor.RateLimitTrackerMode
-                    }
-                };
-
-                var response = await _twitterRequestHandler.ExecuteQuery(twitterRequest);
-
-                if (response.IsSuccessStatusCode)
-                {
-                    return response.Binary;
-                }
-
-                return null;
-            }
-            catch (TwitterException ex)
+            if (response.IsSuccessStatusCode)
             {
-                HandleQueryException(ex);
-                return null;
-            }
-        }
-
-        private void HandleQueryException(TwitterException ex)
-        {
-            if (_exceptionHandler.SwallowWebExceptions)
-            {
-                return;
+                return response.Binary;
             }
 
-            throw ex;
+            return null;
         }
 
         // Sign

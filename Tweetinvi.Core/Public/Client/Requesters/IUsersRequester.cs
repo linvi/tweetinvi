@@ -30,13 +30,13 @@ namespace Tweetinvi.Client.Requesters
         /// Get friend ids from a specific user
         /// </summary>
         /// <returns>TwitterCursorResult to iterate over all the user's friends</returns>
-        ITwitterPageIterator<ITwitterResult<IIdsCursorQueryResultDTO>> GetFriendIds(IGetFriendIdsParameters parameters);
+        ITwitterPageIterator<ITwitterResult<IIdsCursorQueryResultDTO>> GetFriendIdsIterator(IGetFriendIdsParameters parameters);
 
         /// <summary>
         /// Get friend ids from a specific user
         /// </summary>
         /// <returns>TwitterCursorResult to iterate over all the user's friends</returns>
-        ITwitterPageIterator<ITwitterResult<IIdsCursorQueryResultDTO>> GetFollowerIds(IGetFollowerIdsParameters parameters);
+        ITwitterPageIterator<ITwitterResult<IIdsCursorQueryResultDTO>> GetFollowerIdsIterator(IGetFollowerIdsParameters parameters);
 
         /// <summary>
         /// Get relationship information between 2 users.

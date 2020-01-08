@@ -68,7 +68,7 @@ namespace Tweetinvi.Client.Requesters
         /// <para> Read more : https://dev.twitter.com/en/docs/tweets/post-and-engage/api-reference/get-statuses-retweeters-ids </para>
         /// </summary>
         /// <returns>TwitterCursorResult to iterate over all the user's friends</returns>
-        ITwitterPageIterator<ITwitterResult<IIdsCursorQueryResultDTO>> GetRetweeterIds(IGetRetweeterIdsParameters parameters);
+        ITwitterPageIterator<ITwitterResult<IIdsCursorQueryResultDTO>> GetRetweeterIdsIterator(IGetRetweeterIdsParameters parameters);
         
         /// <summary>
         /// Destroy a retweet

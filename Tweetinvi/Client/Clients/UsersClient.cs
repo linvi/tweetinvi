@@ -165,13 +165,13 @@ namespace Tweetinvi.Client
 
         public ITwitterIterator<long> GetFriendIds(IGetFriendIdsParameters parameters)
         {
-            var twitterResultIterator = _usersRequester.GetFriendIds(parameters);
+            var twitterResultIterator = _usersRequester.GetFriendIdsIterator(parameters);
             return new TwitterIteratorProxy<ITwitterResult<IIdsCursorQueryResultDTO>, long>(twitterResultIterator, dto => dto.DataTransferObject.Ids);
         }
 
         public IMultiLevelCursorIterator<long, IUser> GetFriends(IGetFriendsParameters parameters)
         {
-            var friendsPageIterator = _usersRequester.GetFriendIds(parameters);
+            var friendsPageIterator = _usersRequester.GetFriendIdsIterator(parameters);
 
             var maxPageSize = parameters.GetUsersPageSize;
             if (maxPageSize > _client.ClientSettings.Limits.USERS_GET_USERS_MAX_SIZE)
@@ -207,13 +207,13 @@ namespace Tweetinvi.Client
 
         public ITwitterIterator<long> GetFollowerIds(IGetFollowerIdsParameters parameters)
         {
-            var followerIdsPageIterator = _usersRequester.GetFollowerIds(parameters);
+            var followerIdsPageIterator = _usersRequester.GetFollowerIdsIterator(parameters);
             return new TwitterIteratorProxy<ITwitterResult<IIdsCursorQueryResultDTO>, long>(followerIdsPageIterator, dto => dto.DataTransferObject.Ids);
         }
 
         public IMultiLevelCursorIterator<long, IUser> GetFollowers(IGetFollowersParameters parameters)
         {
-            var followerPageIterator = _usersRequester.GetFollowerIds(parameters);
+            var followerPageIterator = _usersRequester.GetFollowerIdsIterator(parameters);
 
             var maxPageSize = parameters.GetUsersPageSize;
             if (maxPageSize > _client.ClientSettings.Limits.USERS_GET_USERS_MAX_SIZE)
