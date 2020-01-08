@@ -91,7 +91,12 @@ namespace xUnitinvi.EndToEnd
             });
 
             var page1 = await iterator.MoveToNextPage();
-            var page2 = await iterator.MoveToNextPage();
+
+            IEnumerable<ITweet> page2 = new ITweet[] { };
+            if (!iterator.Completed)
+            {
+                page2 = await iterator.MoveToNextPage();
+            }
 
             await tweet1.Destroy();
 
