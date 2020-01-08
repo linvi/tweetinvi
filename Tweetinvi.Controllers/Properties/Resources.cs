@@ -432,14 +432,14 @@ namespace Tweetinvi.Controllers.Properties
         public static string Tweet_Destroy = "https://api.twitter.com/1.1/statuses/destroy/{0}.json";
 
         /// <summary>
-        ///   Looks up a localized string similar to https://api.twitter.com/1.1/favorites/create.json?id={0}.
+        ///   Looks up a localized string similar to https://api.twitter.com/1.1/favorites/create.json?.
         /// </summary>
-        public static string Tweet_Favorite_Create = "https://api.twitter.com/1.1/favorites/create.json?id={0}";
+        public static string Tweet_Favorite_Create = "https://api.twitter.com/1.1/favorites/create.json?";
 
         /// <summary>
-        ///   Looks up a localized string similar to https://api.twitter.com/1.1/favorites/destroy.json?id={0}.
+        ///   Looks up a localized string similar to https://api.twitter.com/1.1/favorites/destroy.json?.
         /// </summary>
-        public static string Tweet_Favorite_Destroy = "https://api.twitter.com/1.1/favorites/destroy.json?id={0}";
+        public static string Tweet_Favorite_Destroy = "https://api.twitter.com/1.1/favorites/destroy.json?";
 
         /// <summary>
         ///   Looks up a localized string similar to https://api.twitter.com/1.1/statuses/oembed.json?id={0}.

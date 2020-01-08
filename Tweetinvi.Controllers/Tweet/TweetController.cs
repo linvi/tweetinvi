@@ -170,52 +170,14 @@ namespace Tweetinvi.Controllers.Tweet
             });
         }
 
-        public Task<bool> FavoriteTweet(ITweet tweet)
+        public Task<ITwitterResult<ITweetDTO>> FavoriteTweet(IFavoriteTweetParameters parameters, ITwitterRequest request)
         {
-            if (tweet == null)
-            {
-                throw new ArgumentException("Tweet cannot be null!");
-            }
-
-            return FavoriteTweet(tweet.TweetDTO);
+            return _tweetQueryExecutor.FavoriteTweet(parameters, request);
         }
 
-        public async Task<bool> FavoriteTweet(ITweetDTO tweetDTO)
+        public Task<ITwitterResult<ITweetDTO>> UnFavoriteTweet(IUnFavoriteTweetParameters parameters, ITwitterRequest request)
         {
-            if (tweetDTO == null)
-            {
-                return false;
-            }
-
-            // if the favourite operation failed the tweet should still be favourited if it previously was
-            tweetDTO.Favorited |= await _tweetQueryExecutor.FavoriteTweet(tweetDTO).ConfigureAwait(false);
-            return tweetDTO.Favorited;
-        }
-
-        public Task<bool> FavoriteTweet(long tweetId)
-        {
-            return _tweetQueryExecutor.FavoriteTweet(tweetId);
-        }
-
-        // UnFavorite
-        public Task<bool> UnFavoriteTweet(ITweet tweet)
-        {
-            if (tweet == null)
-            {
-                throw new ArgumentException("Tweet cannot be null!");
-            }
-
-            return UnFavoriteTweet(tweet.TweetDTO);
-        }
-
-        public Task<bool> UnFavoriteTweet(ITweetDTO tweetDTO)
-        {
-            return _tweetQueryExecutor.UnFavoriteTweet(tweetDTO);
-        }
-
-        public Task<bool> UnFavoriteTweet(long tweetId)
-        {
-            return _tweetQueryExecutor.UnFavoriteTweet(tweetId);
+            return _tweetQueryExecutor.UnFavoriteTweet(parameters, request);
         }
 
         // Generate OembedTweet

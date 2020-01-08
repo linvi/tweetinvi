@@ -8,10 +8,10 @@ namespace Tweetinvi.Parameters
     public interface IGetFavoriteTweetsParameters : IMinMaxQueryParameters
     {
         /// <summary>
-        /// The user from whom you want to get his favorite tweets
+        /// The user from whom you want to get the favorite tweets
         /// </summary>
         IUserIdentifier User { get; set; }
-        
+
         /// <summary>
         /// Include the tweet entities
         /// </summary>
@@ -49,7 +49,7 @@ namespace Tweetinvi.Parameters
 
         /// <inheritdoc/>
         public IUserIdentifier User { get; set; }
-        
+
         /// <inheritdoc/>
         public bool? IncludeEntities { get; set; }
     }

@@ -42,13 +42,8 @@ namespace Tweetinvi.Core.Controllers
         Task<IOEmbedTweet> GenerateOEmbedTweet(long tweetId);
 
         // Favorite Tweet
-        Task<bool> FavoriteTweet(ITweet tweet);
-        Task<bool> FavoriteTweet(ITweetDTO tweetDTO);
-        Task<bool> FavoriteTweet(long tweetId);
-
-        Task<bool> UnFavoriteTweet(ITweet tweet);
-        Task<bool> UnFavoriteTweet(ITweetDTO tweetDTO);
-        Task<bool> UnFavoriteTweet(long tweetId);
+        Task<ITwitterResult<ITweetDTO>> FavoriteTweet(IFavoriteTweetParameters parameters, ITwitterRequest request);
+        Task<ITwitterResult<ITweetDTO>> UnFavoriteTweet(IUnFavoriteTweetParameters parameters, ITwitterRequest request);
 
         // Update Published Tweet
         void UpdateTweetIfTweetSuccessfullyBeenPublished(ITweet sourceTweet, ITweetDTO publishedTweetDTO);

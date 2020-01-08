@@ -16,10 +16,12 @@ namespace xUnitinvi.EndToEnd
     public class TweetsEndToEndTests : TweetinviTest
     {
         private readonly ITwitterClient _protectedClient;
+        private readonly ITwitterClient _tweetinviTestClient;
 
         public TweetsEndToEndTests(ITestOutputHelper logger) : base(logger)
         {
             _protectedClient = new TwitterClient(EndToEndTestConfig.ProtectedUser.Credentials);
+            _tweetinviTestClient = new TwitterClient(EndToEndTestConfig.TweetinviTest.Credentials);
         }
 
         [Fact]
@@ -131,6 +133,33 @@ namespace xUnitinvi.EndToEnd
             Assert.Contains(retweet.Id, sourceRetweets.Select(x => x.Id));
             Assert.Contains(retweet.CreatedBy.Id.Value, allRetweeterIdsBefore);
             Assert.Equal(tweetAfterDestroy.RetweetCount, sourceTweet.RetweetCount);
+        }
+
+        [Fact]
+        public async Task Favorite()
+        {
+            if (!EndToEndTestConfig.ShouldRunEndToEndTests)
+                return;
+
+            var tweet = await _tweetinviTestClient.Tweets.PublishTweet(Guid.NewGuid().ToString()).ConfigureAwait(false);
+            var favoritedAtStart = tweet.Favorited;
+
+            await _tweetinviTestClient.Tweets.FavoriteTweet(tweet);
+            var tweetAfterFavoriteCall = await _tweetinviTestClient.Tweets.GetTweet(tweet.Id).ConfigureAwait(false);
+            var inMemoryTweetFavoriteStateAfterFavoriteCall = tweet.Favorited;
+
+            await _tweetinviTestClient.Tweets.UnFavoriteTweet(tweet);
+            var tweetAfterUnFavoriteCall = await _tweetinviTestClient.Tweets.GetTweet(tweet.Id).ConfigureAwait(false);
+            var inMemoryTweetFavoriteStateAfterUnFavoriteCall = tweet.Favorited;
+
+            await _tweetinviTestClient.Tweets.DestroyTweet(tweet).ConfigureAwait(false);
+
+            // Assert
+            Assert.False(favoritedAtStart);
+            Assert.True(tweetAfterFavoriteCall.Favorited);
+            Assert.True(inMemoryTweetFavoriteStateAfterFavoriteCall);
+            Assert.False(tweetAfterUnFavoriteCall.Favorited);
+            Assert.False(inMemoryTweetFavoriteStateAfterUnFavoriteCall);
         }
     }
 }

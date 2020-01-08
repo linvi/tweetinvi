@@ -52,7 +52,7 @@ namespace xUnitinvi.ClientActions.TweetsClient
             Assert.Equal(result,
                 $"https://api.twitter.com/1.1/statuses/show.json?id=42&include_card_uri=true&include_entities=true&include_ext_alt_text=true&include_my_retweet=true&trim_user=true&tweet_mode=extended&hello=world");
         }
-        
+
         [Fact]
         public void SimplePublishTweetQuery_ReturnsExpectedQuery()
         {
@@ -130,7 +130,7 @@ namespace xUnitinvi.ClientActions.TweetsClient
             Assert.Equal(result, $"https://api.twitter.com/1.1/favorites/list.json?user_id=42&include_entities=true" +
                                  $"&count=12&since_id=43&max_id=42&tweet_mode=extended&hello=world");
         }
-        
+
         [Fact]
         public void GetRetweetsQuery_ReturnsExpectedQuery()
         {
@@ -150,7 +150,7 @@ namespace xUnitinvi.ClientActions.TweetsClient
             // Assert
             Assert.Equal(result, $"https://api.twitter.com/1.1/statuses/retweets/42.json?count=12&trim_user=true&tweet_mode=extended&hello=world");
         }
-        
+
         [Fact]
         public void GetPublishRetweetQuery_ReturnsExpectedQuery()
         {
@@ -169,7 +169,7 @@ namespace xUnitinvi.ClientActions.TweetsClient
             // Assert
             Assert.Equal(result, $"https://api.twitter.com/1.1/statuses/retweet/42.json?trim_user=true&tweet_mode=extended&hello=world");
         }
-        
+
         [Fact]
         public void GetDestroyRetweetQuery_ReturnsExpectedQuery()
         {
@@ -188,9 +188,9 @@ namespace xUnitinvi.ClientActions.TweetsClient
             // Assert
             Assert.Equal(result, $"https://api.twitter.com/1.1/statuses/unretweet/42.json?trim_user=true&tweet_mode=extended&hello=world");
         }
-        
+
         [Fact]
-        public void GetRetweeterIdsParameters_ReturnsExpectedQuery()
+        public void GetRetweeterIdsQuery_ReturnsExpectedQuery()
         {
             // Arrange
             var queryGenerator = CreateUserQueryGenerator();
@@ -207,6 +207,44 @@ namespace xUnitinvi.ClientActions.TweetsClient
 
             // Assert
             Assert.Equal(result, $"https://api.twitter.com/1.1/statuses/retweeters/ids.json?id=42&cursor=43&count=44&hello=world");
+        }
+
+        [Fact]
+        public void GetCreateFavoriteTweetQuery_ReturnsExpectedQuery()
+        {
+            // Arrange
+            var queryGenerator = CreateUserQueryGenerator();
+
+            var parameters = new FavoriteTweetParameters(42)
+            {
+                IncludeEntities = true,
+                CustomQueryParameters = { new Tuple<string, string>("hello", "world") }
+            };
+
+            // Act
+            var result = queryGenerator.GetCreateFavoriteTweetQuery(parameters);
+
+            // Assert
+            Assert.Equal(result, $"https://api.twitter.com/1.1/favorites/create.json?id=42&include_entities=true&hello=world");
+        }
+
+        [Fact]
+        public void GetUnFavoriteTweetQuery_ReturnsExpectedQuery()
+        {
+            // Arrange
+            var queryGenerator = CreateUserQueryGenerator();
+
+            var parameters = new UnFavoriteTweetParameters(42)
+            {
+                IncludeEntities = true,
+                CustomQueryParameters = { new Tuple<string, string>("hello", "world") }
+            };
+
+            // Act
+            var result = queryGenerator.GetUnFavoriteTweetQuery(parameters);
+
+            // Assert
+            Assert.Equal(result, $"https://api.twitter.com/1.1/favorites/destroy.json?id=42&include_entities=true&hello=world");
         }
     }
 }

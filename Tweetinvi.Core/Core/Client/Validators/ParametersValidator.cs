@@ -285,6 +285,16 @@ namespace Tweetinvi.Core.Client.Validators
             _tweetsClientParametersValidator.Validate(parameters);
         }
 
+        public void Validate(IFavoriteTweetParameters parameters)
+        {
+            _tweetsClientParametersValidator.Validate(parameters);
+        }
+
+        public void Validate(IUnFavoriteTweetParameters parameters)
+        {
+            _tweetsClientParametersValidator.Validate(parameters);
+        }
+
         public void Validate(IUploadParameters parameters)
         {
             _uploadClientParametersValidator.Validate(parameters);

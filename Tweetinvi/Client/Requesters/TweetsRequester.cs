@@ -126,5 +126,17 @@ namespace Tweetinvi.Client.Requesters
             var request = TwitterClient.CreateRequest();
             return _tweetController.GetFavoriteTweetsIterator(parameters, request);
         }
+
+        public Task<ITwitterResult<ITweetDTO>> FavoriteTweet(IFavoriteTweetParameters parameters)
+        {
+            _tweetsClientRequiredParametersValidator.Validate(parameters);
+            return ExecuteRequest(request => _tweetController.FavoriteTweet(parameters, request));
+        }
+
+        public Task<ITwitterResult<ITweetDTO>> UnFavoriteTweet(IUnFavoriteTweetParameters parameters)
+        {
+            _tweetsClientRequiredParametersValidator.Validate(parameters);
+            return ExecuteRequest(request => _tweetController.UnFavoriteTweet(parameters, request));
+        }
     }
 }

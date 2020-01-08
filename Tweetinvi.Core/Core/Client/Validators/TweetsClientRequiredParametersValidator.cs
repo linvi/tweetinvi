@@ -15,7 +15,7 @@ namespace Tweetinvi.Core.Client.Validators
         private readonly ITweetQueryValidator _tweetQueryValidator;
 
         public TweetsClientRequiredParametersValidator(
-            IUserQueryValidator userQueryValidator, 
+            IUserQueryValidator userQueryValidator,
             ITweetQueryValidator tweetQueryValidator)
         {
             _userQueryValidator = userQueryValidator;
@@ -28,7 +28,7 @@ namespace Tweetinvi.Core.Client.Validators
             {
                 throw new ArgumentNullException(nameof(parameters));
             }
-            
+
             _tweetQueryValidator.ThrowIfTweetCannotBeUsed(parameters.Tweet, $"{nameof(parameters)}.{nameof(parameters.Tweet)}");
         }
 
@@ -48,7 +48,7 @@ namespace Tweetinvi.Core.Client.Validators
             {
                 throw new ArgumentException("You need at least 1 tweet id", $"{nameof(parameters)}.{nameof(parameters.Tweets)}");
             }
-            
+
             var validTweetIdentifiers = parameters.Tweets.Where(x => x?.Id != null || !string.IsNullOrEmpty(x?.IdStr));
 
             if (!validTweetIdentifiers.Any())
@@ -81,7 +81,7 @@ namespace Tweetinvi.Core.Client.Validators
             {
                 throw new ArgumentNullException(nameof(parameters));
             }
-            
+
             _tweetQueryValidator.ThrowIfTweetCannotBeUsed(parameters.Tweet, $"{nameof(parameters)}.{nameof(parameters.Tweet)}");
         }
 
@@ -91,7 +91,7 @@ namespace Tweetinvi.Core.Client.Validators
             {
                 throw new ArgumentNullException(nameof(parameters));
             }
-            
+
             _userQueryValidator.ThrowIfUserCannotBeIdentified(parameters.User, $"{nameof(parameters)}.{nameof(parameters.User)}");
         }
 
@@ -101,7 +101,7 @@ namespace Tweetinvi.Core.Client.Validators
             {
                 throw new ArgumentNullException(nameof(parameters));
             }
-            
+
             _tweetQueryValidator.ThrowIfTweetCannotBeUsed(parameters.Tweet, $"{nameof(parameters)}.{nameof(parameters.Tweet)}");
         }
 
@@ -111,7 +111,7 @@ namespace Tweetinvi.Core.Client.Validators
             {
                 throw new ArgumentNullException(nameof(parameters));
             }
-            
+
             _tweetQueryValidator.ThrowIfTweetCannotBeUsed(parameters.Tweet, $"{nameof(parameters)}.{nameof(parameters.Tweet)}");
         }
 
@@ -121,7 +121,7 @@ namespace Tweetinvi.Core.Client.Validators
             {
                 throw new ArgumentNullException(nameof(parameters));
             }
-            
+
             _tweetQueryValidator.ThrowIfTweetCannotBeUsed(parameters.Tweet, $"{nameof(parameters)}.{nameof(parameters.Tweet)}");
         }
 
@@ -131,6 +131,26 @@ namespace Tweetinvi.Core.Client.Validators
             {
                 throw new ArgumentNullException(nameof(parameters));
             }
+        }
+
+        public void Validate(IFavoriteTweetParameters parameters)
+        {
+            if (parameters == null)
+            {
+                throw new ArgumentNullException(nameof(parameters));
+            }
+
+            _tweetQueryValidator.ThrowIfTweetCannotBeUsed(parameters.Tweet, $"{nameof(parameters)}.{nameof(parameters.Tweet)}");
+        }
+
+        public void Validate(IUnFavoriteTweetParameters parameters)
+        {
+            if (parameters == null)
+            {
+                throw new ArgumentNullException(nameof(parameters));
+            }
+
+            _tweetQueryValidator.ThrowIfTweetCannotBeUsed(parameters.Tweet, $"{nameof(parameters)}.{nameof(parameters.Tweet)}");
         }
     }
 }

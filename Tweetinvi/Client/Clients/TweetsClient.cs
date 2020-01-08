@@ -1,9 +1,11 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Threading.Tasks;
 using Tweetinvi.Client.Requesters;
 using Tweetinvi.Core.Client.Validators;
 using Tweetinvi.Core.Factories;
 using Tweetinvi.Core.Iterators;
 using Tweetinvi.Core.Web;
+using Tweetinvi.Exceptions;
 using Tweetinvi.Iterators;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
@@ -196,6 +198,72 @@ namespace Tweetinvi.Client
                 {
                     return _tweetFactory.GenerateTweetsFromDTO(twitterResult.DataTransferObject, tweetMode, _client);
                 });
+        }
+
+        public Task FavoriteTweet(long? tweetId)
+        {
+            return FavoriteTweet(new FavoriteTweetParameters(tweetId));
+        }
+
+        public Task FavoriteTweet(ITweetIdentifier tweet)
+        {
+            return FavoriteTweet(new FavoriteTweetParameters(tweet));
+        }
+
+        public Task FavoriteTweet(ITweet tweet)
+        {
+            return FavoriteTweet(tweet.TweetDTO);
+        }
+
+        public async Task FavoriteTweet(ITweetDTO tweet)
+        {
+            try
+            {
+                await FavoriteTweet(new FavoriteTweetParameters(tweet)).ConfigureAwait(false);
+                tweet.Favorited = true;
+            }
+            catch (TwitterException ex)
+            {
+                var tweetWasAlreadyFavorited = ex.TwitterExceptionInfos != null && ex.TwitterExceptionInfos.Any() && ex.TwitterExceptionInfos.First().Code == 139;
+                if (tweetWasAlreadyFavorited)
+                {
+                    tweet.Favorited = true;
+                    return;
+                }
+
+                throw;
+            }
+        }
+
+        public async Task FavoriteTweet(IFavoriteTweetParameters parameters)
+        {
+            await _tweetsRequester.FavoriteTweet(parameters).ConfigureAwait(false);
+        }
+
+        public Task UnFavoriteTweet(long? tweetId)
+        {
+            return UnFavoriteTweet(new UnFavoriteTweetParameters(tweetId));
+        }
+
+        public Task UnFavoriteTweet(ITweetIdentifier tweet)
+        {
+            return UnFavoriteTweet(new UnFavoriteTweetParameters(tweet));
+        }
+
+        public Task UnFavoriteTweet(ITweet tweet)
+        {
+            return UnFavoriteTweet(tweet.TweetDTO);
+        }
+
+        public async Task UnFavoriteTweet(ITweetDTO tweet)
+        {
+            await UnFavoriteTweet(new UnFavoriteTweetParameters(tweet)).ConfigureAwait(false);
+            tweet.Favorited = false;
+        }
+
+        public async Task UnFavoriteTweet(IUnFavoriteTweetParameters parameters)
+        {
+            await _tweetsRequester.UnFavoriteTweet(parameters).ConfigureAwait(false);
         }
 
         #endregion

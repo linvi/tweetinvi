@@ -124,5 +124,35 @@ namespace Tweetinvi.Client
         /// </summary>
         /// <returns>An iterator to list the favorite tweets</returns>
         ITwitterIterator<ITweet, long?> GetFavoriteTweets(IGetFavoriteTweetsParameters parameters);
+
+        /// <inheritdoc cref="FavoriteTweet(IFavoriteTweetParameters)" />
+        Task FavoriteTweet(long? tweetId);
+        /// <inheritdoc cref="FavoriteTweet(IFavoriteTweetParameters)" />
+        Task FavoriteTweet(ITweetIdentifier tweet);
+        /// <inheritdoc cref="FavoriteTweet(IFavoriteTweetParameters)" />
+        Task FavoriteTweet(ITweet tweet);
+        /// <inheritdoc cref="FavoriteTweet(IFavoriteTweetParameters)" />
+        Task FavoriteTweet(ITweetDTO tweet);
+
+        /// <summary>
+        /// Favorite a tweet
+        /// </summary>
+        /// <para>Read more : https://developer.twitter.com/en/docs/tweets/post-and-engage/api-reference/post-favorites-create </para>
+        Task FavoriteTweet(IFavoriteTweetParameters parameters);
+
+        /// <inheritdoc cref="UnFavoriteTweet(IUnFavoriteTweetParameters)" />
+        Task UnFavoriteTweet(long? tweetId);
+        /// <inheritdoc cref="UnFavoriteTweet(IUnFavoriteTweetParameters)" />
+        Task UnFavoriteTweet(ITweetIdentifier tweet);
+        /// <inheritdoc cref="UnFavoriteTweet(IUnFavoriteTweetParameters)" />
+        Task UnFavoriteTweet(ITweet tweet);
+        /// <inheritdoc cref="UnFavoriteTweet(IUnFavoriteTweetParameters)" />
+        Task UnFavoriteTweet(ITweetDTO tweet);
+
+        /// <summary>
+        /// Remove the favorite of a tweet
+        /// </summary>
+        /// <para>Read more : https://developer.twitter.com/en/docs/tweets/post-and-engage/api-reference/post-favorites-destroy </para>
+        Task UnFavoriteTweet(IUnFavoriteTweetParameters parameters);
     }
 }

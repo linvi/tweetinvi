@@ -1,8 +1,6 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Tweetinvi.Core.QueryGenerators;
 using Tweetinvi.Core.Web;
-using Tweetinvi.Exceptions;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
 using Tweetinvi.Models.DTO.QueryDTO;
@@ -15,8 +13,8 @@ namespace Tweetinvi.Controllers.Tweet
         Task<ITwitterResult<ITweetDTO>> GetTweet(IGetTweetParameters parameters, ITwitterRequest request);
         Task<ITwitterResult<ITweetDTO[]>> GetTweets(IGetTweetsParameters parameters, ITwitterRequest request);
         Task<ITwitterResult<ITweetDTO>> PublishTweet(IPublishTweetParameters parameters, ITwitterRequest request);
-        
-        
+
+
         // Publish Retweet
         Task<ITwitterResult<ITweetDTO>> PublishRetweet(IPublishRetweetParameters parameters, ITwitterRequest request);
 
@@ -33,11 +31,9 @@ namespace Tweetinvi.Controllers.Tweet
         Task<ITwitterResult<ITweetDTO>> DestroyTweet(IDestroyTweetParameters parameters, ITwitterRequest request);
 
         // Favorite Tweet
-        Task<bool> FavoriteTweet(ITweetDTO tweet);
-        Task<bool> FavoriteTweet(long? tweetId);
+        Task<ITwitterResult<ITweetDTO>> FavoriteTweet(IFavoriteTweetParameters parameters, ITwitterRequest request);
 
-        Task<bool> UnFavoriteTweet(ITweetDTO tweet);
-        Task<bool> UnFavoriteTweet(long? tweetId);
+        Task<ITwitterResult<ITweetDTO>> UnFavoriteTweet(IUnFavoriteTweetParameters parameters, ITwitterRequest request);
 
         // Generate OEmbedTweet
         Task<IOEmbedTweetDTO> GenerateOEmbedTweet(ITweetDTO tweetDTO);
@@ -90,7 +86,7 @@ namespace Tweetinvi.Controllers.Tweet
             request.Query.HttpMethod = HttpMethod.GET;
             return _twitterAccessor.ExecuteRequest<ITweetDTO[]>(request);
         }
-        
+
         public Task<ITwitterResult<ITweetDTO>> PublishRetweet(IPublishRetweetParameters parameters, ITwitterRequest request)
         {
             var query = _tweetQueryGenerator.GetPublishRetweetQuery(parameters, request.ExecutionContext.TweetMode);
@@ -98,7 +94,7 @@ namespace Tweetinvi.Controllers.Tweet
             request.Query.HttpMethod = HttpMethod.POST;
             return _twitterAccessor.ExecuteRequest<ITweetDTO>(request);
         }
-        
+
         // Publish UnRetweet
         public Task<ITwitterResult<ITweetDTO>> DestroyRetweet(IDestroyRetweetParameters parameters, ITwitterRequest request)
         {
@@ -137,57 +133,45 @@ namespace Tweetinvi.Controllers.Tweet
             request.Query.HttpMethod = HttpMethod.GET;
             return _twitterAccessor.ExecuteRequest<ITweetDTO[]>(request);
         }
-        
-        public Task<bool> FavoriteTweet(ITweetDTO tweet)
+
+        public Task<ITwitterResult<ITweetDTO>> FavoriteTweet(IFavoriteTweetParameters parameters, ITwitterRequest request)
         {
-            string query = _tweetQueryGenerator.GetFavoriteTweetQuery(tweet);
-            return ExecuteFavoriteQuery(query);
+            var query = _tweetQueryGenerator.GetCreateFavoriteTweetQuery(parameters);
+            request.Query.Url = query;
+            request.Query.HttpMethod = HttpMethod.POST;
+            return _twitterAccessor.ExecuteRequest<ITweetDTO>(request);
         }
 
-        public Task<bool> FavoriteTweet(long? tweetId)
+//        private async Task<ITwitterResult> ExecuteFavoriteQuery(string query)
+//        {
+//            // We need the try catch here as we need to know whether if the operation has failed and why it did!
+//            try
+//            {
+//                var jsonObject = await _twitterAccessor.ExecutePOSTQuery(query);
+//                return jsonObject != null;
+//            }
+//            catch (TwitterException ex)
+//            {
+//                // In this case the tweet has already been favourited.
+//                // Therefore we consider that the operation has been successfull.
+//                if (ex.TwitterExceptionInfos != null && ex.TwitterExceptionInfos.Any() && ex.TwitterExceptionInfos.First().Code == 139)
+//                {
+//                    return false;
+//                }
+//
+//                // If the failure was caused by an error that is different from the one informing
+//                // that a tweet has already been favourited, then throw the exception because
+//                // we are currently not swallowing exceptions as it would have been done in the TwitterAccessor.
+//                throw;
+//            }
+//        }
+
+        public Task<ITwitterResult<ITweetDTO>> UnFavoriteTweet(IUnFavoriteTweetParameters parameters, ITwitterRequest request)
         {
-            string query = _tweetQueryGenerator.GetFavoriteTweetQuery(tweetId);
-            return ExecuteFavoriteQuery(query);
-        }
-
-        private async Task<bool> ExecuteFavoriteQuery(string query)
-        {
-            // We need the try catch here as we need to know whether if the operation has failed and why it did!
-            try
-            {
-                var jsonObject = await _twitterAccessor.ExecutePOSTQuery(query);
-                return jsonObject != null;
-            }
-            catch (TwitterException ex)
-            {
-                // In this case the tweet has already been favourited.
-                // Therefore we consider that the operation has been successfull.
-                if (ex.TwitterExceptionInfos != null && ex.TwitterExceptionInfos.Any() && ex.TwitterExceptionInfos.First().Code == 139)
-                {
-                    return false;
-                }
-
-                // If the failure was caused by an error that is different from the one informing
-                // that a tweet has already been favourited, then throw the exception because
-                // we are currently not swallowing exceptions as it would have been done in the TwitterAccessor.
-                throw;
-            }
-        }
-
-        public async Task<bool> UnFavoriteTweet(ITweetDTO tweet)
-        {
-            string query = _tweetQueryGenerator.GetUnFavoriteTweetQuery(tweet);
-            var asyncOperation = await _twitterAccessor.TryExecutePOSTQuery(query);
-
-            return asyncOperation.Success;
-        }
-
-        public async Task<bool> UnFavoriteTweet(long? tweetId)
-        {
-            string query = _tweetQueryGenerator.GetUnFavoriteTweetQuery(tweetId);
-            var asyncOperation = await _twitterAccessor.TryExecutePOSTQuery(query);
-
-            return asyncOperation.Success;
+            var query = _tweetQueryGenerator.GetUnFavoriteTweetQuery(parameters);
+            request.Query.Url = query;
+            request.Query.HttpMethod = HttpMethod.POST;
+            return _twitterAccessor.ExecuteRequest<ITweetDTO>(request);
         }
 
         // Generate OEmbed Tweet

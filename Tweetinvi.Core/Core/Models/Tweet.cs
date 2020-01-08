@@ -483,24 +483,14 @@ namespace Tweetinvi.Core.Models
             return Client.Tweets.DestroyTweet(this);
         }
 
-        public async Task Favorite()
+        public Task Favorite()
         {
-            ThrowIfTweetCannotBeUsed();
-
-            if (await _tweetController.FavoriteTweet(_tweetDTO))
-            {
-                _tweetDTO.Favorited = true;
-            }
+            return Client.Tweets.FavoriteTweet(this);
         }
 
-        public async Task UnFavorite()
+        public Task UnFavorite()
         {
-            ThrowIfTweetCannotBeUsed();
-
-            if (await _tweetController.UnFavoriteTweet(_tweetDTO))
-            {
-                _tweetDTO.Favorited = false;
-            }
+            return Client.Tweets.UnFavoriteTweet(this);
         }
 
         public override string ToString()

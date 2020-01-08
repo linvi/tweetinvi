@@ -9,20 +9,23 @@ namespace Tweetinvi.Core.Client.Validators
         void Validate(IGetTweetsParameters parameters);
         void Validate(IPublishTweetParameters parameters);
         void Validate(IDestroyTweetParameters parameters);
-        
+
         void Validate(IGetFavoriteTweetsParameters parameters);
-        
+
         void Validate(IGetRetweetsParameters parameters);
         void Validate(IPublishRetweetParameters parameters);
         void Validate(IDestroyRetweetParameters parameters);
         void Validate(IGetRetweeterIdsParameters parameters);
+
+        void Validate(IFavoriteTweetParameters parameters);
+        void Validate(IUnFavoriteTweetParameters parameters);
     }
-    
+
     public interface IInternalTweetsClientParametersValidator : ITweetsClientParametersValidator
     {
         void Initialize(ITwitterClient client);
     }
-    
+
     public class TweetsClientParametersValidator : IInternalTweetsClientParametersValidator
     {
         private readonly ITweetsClientRequiredParametersValidator _tweetsClientRequiredParametersValidator;
@@ -63,7 +66,7 @@ namespace Tweetinvi.Core.Client.Validators
         public void Validate(IGetFavoriteTweetsParameters parameters)
         {
             _tweetsClientRequiredParametersValidator.Validate(parameters);
-            
+
             var maxPageSize = parameters.PageSize;
             if (maxPageSize > Limits.TWEETS_GET_FAVORITE_TWEETS_MAX_SIZE)
             {
@@ -74,7 +77,7 @@ namespace Tweetinvi.Core.Client.Validators
         public void Validate(IGetRetweetsParameters parameters)
         {
             _tweetsClientRequiredParametersValidator.Validate(parameters);
-            
+
             var maxPageSize = parameters.PageSize;
             if (maxPageSize > Limits.TWEETS_GET_RETWEETS_MAX_SIZE)
             {
@@ -95,12 +98,22 @@ namespace Tweetinvi.Core.Client.Validators
         public void Validate(IGetRetweeterIdsParameters parameters)
         {
             _tweetsClientRequiredParametersValidator.Validate(parameters);
-            
+
             var maxPageSize = parameters.PageSize;
             if (maxPageSize > Limits.TWEETS_GET_RETWEETER_IDS_MAX_PAGE_SIZE)
             {
                 throw new TwitterArgumentLimitException($"{nameof(parameters)}.{nameof(parameters.PageSize)}", maxPageSize, nameof(Limits.TWEETS_GET_RETWEETS_MAX_SIZE), "page size");
             }
+        }
+
+        public void Validate(IFavoriteTweetParameters parameters)
+        {
+            _tweetsClientRequiredParametersValidator.Validate(parameters);
+        }
+
+        public void Validate(IUnFavoriteTweetParameters parameters)
+        {
+            _tweetsClientRequiredParametersValidator.Validate(parameters);
         }
     }
 }

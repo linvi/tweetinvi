@@ -92,42 +92,6 @@ namespace Tweetinvi
             return TweetController.CanBePublished(parameters);
         }
 
-        // Favorite Tweet
-
-        /// <summary>
-        /// Favorite a specific tweet
-        /// </summary>
-        public static Task<bool> FavoriteTweet(ITweet tweet)
-        {
-            return TweetController.FavoriteTweet(tweet);
-        }
-
-        /// <summary>
-        /// Favorite a specific tweet
-        /// </summary>
-        public static Task<bool> FavoriteTweet(long tweetId)
-        {
-            return TweetController.FavoriteTweet(tweetId);
-        }
-
-        // UnFavorite Tweet
-
-        /// <summary>
-        /// UnFavorite a specific tweet
-        /// </summary>
-        public static Task<bool> UnFavoriteTweet(ITweet tweet)
-        {
-            return TweetController.UnFavoriteTweet(tweet);
-        }
-
-        /// <summary>
-        /// UnFavorite a specific tweet
-        /// </summary>
-        public static Task<bool> UnFavoriteTweet(long tweetId)
-        {
-            return TweetController.UnFavoriteTweet(tweetId);
-        }
-
         // Generate OEmbedTweet
 
         /// <summary>

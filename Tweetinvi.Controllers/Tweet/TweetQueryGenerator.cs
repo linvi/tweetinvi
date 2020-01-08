@@ -134,7 +134,7 @@ namespace Tweetinvi.Controllers.Tweet
 
             return $"https://twitter.com/{parameters.QuotedTweet.CreatedBy.ScreenName}/status/{parameters.QuotedTweet.Id.Value.ToString(CultureInfo.InvariantCulture)}";
         }
-        
+
         public string GetDestroyTweetQuery(IDestroyTweetParameters parameters, TweetMode? tweetMode)
         {
             var query = new StringBuilder(string.Format(Resources.Tweet_Destroy, _queryParameterGenerator.GenerateTweetIdentifier(parameters.Tweet)));
@@ -147,7 +147,7 @@ namespace Tweetinvi.Controllers.Tweet
 
             return query.ToString();
         }
-        
+
         public string GetFavoriteTweetsQuery(IGetFavoriteTweetsParameters parameters, TweetMode? tweetMode)
         {
             var userParameter = _userQueryParameterGenerator.GenerateIdOrScreenNameParameter(parameters.User);
@@ -162,15 +162,15 @@ namespace Tweetinvi.Controllers.Tweet
 
             return query.ToString();
         }
-        
+
         public string GetRetweetsQuery(IGetRetweetsParameters parameters, TweetMode? tweetMode)
         {
             var tweetIdentifierValue = parameters.Tweet.Id?.ToString() ?? parameters.Tweet.IdStr;
             var query = new StringBuilder(string.Format(Resources.Tweet_Retweet_GetRetweets, tweetIdentifierValue));
-            
+
             query.AddParameterToQuery("count", parameters.PageSize);
             query.AddParameterToQuery("trim_user", parameters.TrimUser);
-            
+
             query.AddFormattedParameterToQuery(_queryParameterGenerator.GenerateTweetModeParameter(tweetMode));
             query.AddFormattedParameterToQuery(parameters.FormattedCustomQueryParameters);
 
@@ -181,9 +181,9 @@ namespace Tweetinvi.Controllers.Tweet
         {
             var tweetIdentifierValue = parameters.Tweet.Id?.ToString() ?? parameters.Tweet.IdStr;
             var query = new StringBuilder(string.Format(Resources.Tweet_Retweet_Publish, tweetIdentifierValue));
-            
+
             query.AddParameterToQuery("trim_user", parameters.TrimUser);
-            
+
             query.AddFormattedParameterToQuery(_queryParameterGenerator.GenerateTweetModeParameter(tweetMode));
             query.AddFormattedParameterToQuery(parameters.FormattedCustomQueryParameters);
 
@@ -194,9 +194,9 @@ namespace Tweetinvi.Controllers.Tweet
         {
             var tweetIdentifierValue = parameters.Tweet.Id?.ToString() ?? parameters.Tweet.IdStr;
             var query = new StringBuilder(string.Format(Resources.Tweet_DestroyRetweet, tweetIdentifierValue));
-            
+
             query.AddParameterToQuery("trim_user", parameters.TrimUser);
-            
+
             query.AddFormattedParameterToQuery(_queryParameterGenerator.GenerateTweetModeParameter(tweetMode));
             query.AddFormattedParameterToQuery(parameters.FormattedCustomQueryParameters);
 
@@ -210,36 +210,35 @@ namespace Tweetinvi.Controllers.Tweet
             query.AddParameterToQuery("id", parameters.Tweet.Id?.ToString() ?? parameters.Tweet.IdStr);
             query.AddParameterToQuery("cursor", parameters.Cursor);
             query.AddParameterToQuery("count", parameters.PageSize);
-            
+
             query.AddFormattedParameterToQuery(parameters.FormattedCustomQueryParameters);
 
             return query.ToString();
         }
 
-        // Favorite Tweet
-        public string GetFavoriteTweetQuery(ITweetDTO tweetDTO)
+        // Favorites
+        public string GetCreateFavoriteTweetQuery(IFavoriteTweetParameters parameters)
         {
-            _tweetQueryValidator.ThrowIfTweetCannotBeUsed(tweetDTO);
-            return GetFavoriteTweetQuery(tweetDTO.Id);
+            var tweetIdentifierValue = parameters.Tweet.Id?.ToString() ?? parameters.Tweet.IdStr;
+            var query = new StringBuilder(Resources.Tweet_Favorite_Create);
+
+            query.AddParameterToQuery("id", tweetIdentifierValue);
+            query.AddParameterToQuery("include_entities", parameters.IncludeEntities);
+            query.AddFormattedParameterToQuery(parameters.FormattedCustomQueryParameters);
+
+            return query.ToString();
         }
 
-        public string GetFavoriteTweetQuery(long? tweetId)
+        public string GetUnFavoriteTweetQuery(IUnFavoriteTweetParameters parameters)
         {
-            _tweetQueryValidator.ThrowIfTweetCannotBeUsed(tweetId);
-            return string.Format(Resources.Tweet_Favorite_Create, tweetId);
-        }
+            var tweetIdentifierValue = parameters.Tweet.Id?.ToString() ?? parameters.Tweet.IdStr;
+            var query = new StringBuilder(Resources.Tweet_Favorite_Destroy);
 
-        // Unfavourite Tweet
-        public string GetUnFavoriteTweetQuery(ITweetDTO tweetDTO)
-        {
-            _tweetQueryValidator.ThrowIfTweetCannotBeUsed(tweetDTO);
-            return GetUnFavoriteTweetQuery(tweetDTO.Id);
-        }
+            query.AddParameterToQuery("id", tweetIdentifierValue);
+            query.AddParameterToQuery("include_entities", parameters.IncludeEntities);
+            query.AddFormattedParameterToQuery(parameters.FormattedCustomQueryParameters);
 
-        public string GetUnFavoriteTweetQuery(long? tweetId)
-        {
-            _tweetQueryValidator.ThrowIfTweetCannotBeUsed(tweetId);
-            return string.Format(Resources.Tweet_Favorite_Destroy, tweetId);
+            return query.ToString();
         }
 
         // OEmbed Tweet
