@@ -12,6 +12,7 @@ namespace Tweetinvi.Client
         private readonly IInternalAccountRequester _accountRequester;
         private readonly IInternalAuthRequester _authRequester;
         private readonly IInternalAccountSettingsRequester _accountSettingsRequester;
+        private readonly IInternalExecuteRequester _executeRequester;
         private readonly IInternalHelpRequester _helpRequester;
         private readonly IInternalTimelineRequester _timelineRequester;
         private readonly IInternalTweetsRequester _tweetsRequester;
@@ -26,6 +27,7 @@ namespace Tweetinvi.Client
             IInternalAccountRequester accountRequester,
             IInternalAuthRequester authRequester,
             IInternalAccountSettingsRequester accountSettingsRequester,
+            IInternalExecuteRequester executeRequester,
             IInternalHelpRequester helpRequester,
             IInternalTimelineRequester timelineRequester,
             IInternalTweetsRequester tweetsRequester,
@@ -35,6 +37,7 @@ namespace Tweetinvi.Client
             _accountRequester = accountRequester;
             _authRequester = authRequester;
             _accountSettingsRequester = accountSettingsRequester;
+            _executeRequester = executeRequester;
             _helpRequester = helpRequester;
             _timelineRequester = timelineRequester;
             _tweetsRequester = tweetsRequester;
@@ -47,6 +50,7 @@ namespace Tweetinvi.Client
             _accountRequester.Initialize(client);
             _authRequester.Initialize(client);
             _accountSettingsRequester.Initialize(client);
+            _executeRequester.Initialize(client);
             _helpRequester.Initialize(client);
             _timelineRequester.Initialize(client);
             _tweetsRequester.Initialize(client);
@@ -57,6 +61,7 @@ namespace Tweetinvi.Client
         public IAccountRequester Account => _accountRequester;
         public IAuthRequester Auth => _authRequester;
         public IAccountSettingsRequester AccountSettings => _accountSettingsRequester;
+        public IExecuteRequester Execute => _executeRequester;
         public IHelpRequester Help => _helpRequester;
         public ITimelineRequester Timeline => _timelineRequester;
         public ITweetsRequester Tweets => _tweetsRequester;

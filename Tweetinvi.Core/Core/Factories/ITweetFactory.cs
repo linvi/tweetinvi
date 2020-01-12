@@ -13,7 +13,6 @@ namespace Tweetinvi.Core.Factories
         ITweet GenerateTweetFromJson(string json, TweetMode? tweetMode, ITwitterClient client);
 
         // Generate Tweet from DTO
-//        ITweet GenerateTweetFromDTO(ITweetDTO tweetDTO, TweetMode? tweetMode, ITwitterExecutionContext executionContext);
         ITweet[] GenerateTweetsFromDTO(IEnumerable<ITweetDTO> tweetsDTO, TweetMode? tweetMode, ITwitterClient client);
 
         ITweetWithSearchMetadata GenerateTweetWithSearchMetadataFromDTO(ITweetWithSearchMetadataDTO tweetDTO);

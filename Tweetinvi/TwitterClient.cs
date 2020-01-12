@@ -1,5 +1,6 @@
 ﻿using System;
 using Tweetinvi.Client;
+using Tweetinvi.Client.Requesters;
 using Tweetinvi.Core.Client;
 using Tweetinvi.Core.Client.Validators;
 using Tweetinvi.Core.Events;
@@ -104,6 +105,7 @@ namespace Tweetinvi
             Account = new AccountClient(this);
             Auth = new AuthClient(this);
             AccountSettings = new AccountSettingsClient(this);
+            Execute = new ExecuteClient(this);
             RateLimits = new RateLimitsClient(this);
             Timeline = new TimelineClient(this);
             Tweets = new TweetsClient(this);
@@ -120,17 +122,29 @@ namespace Tweetinvi
             rateLimitCacheManager.RateLimitsClient = RateLimits;
         }
 
+        /// <inheritdoc/>
         public IAccountClient Account { get; }
+        /// <inheritdoc/>
         public IAuthClient Auth { get; }
+        /// <inheritdoc/>
         public IAccountSettingsClient AccountSettings { get; }
+        /// <inheritdoc/>
+        public IExecuteClient Execute { get; }
+        /// <inheritdoc/>
         public IRateLimitsClient RateLimits { get; }
+        /// <inheritdoc/>
         public ITimelineClient Timeline { get; }
+        /// <inheritdoc/>
         public ITweetsClient Tweets { get; }
+        /// <inheritdoc/>
         public IUploadClient Upload { get; }
+        /// <inheritdoc/>
         public IUsersClient Users { get; }
+        /// <inheritdoc/>
         public IExternalClientEvents Events => _twitterClientEvents;
-
+        /// <inheritdoc/>
         public IParametersValidator ParametersValidator { get; }
+        /// <inheritdoc/>
         public IRequestExecutor RequestExecutor { get; }
 
         public ITwitterExecutionContext CreateTwitterExecutionContext()

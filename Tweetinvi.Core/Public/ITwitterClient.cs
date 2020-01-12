@@ -1,6 +1,7 @@
 ﻿using Tweetinvi.Client;
 using Tweetinvi.Core.Client;
 using Tweetinvi.Core.Client.Validators;
+using Tweetinvi.Core.Events;
 using Tweetinvi.Models;
 
 namespace Tweetinvi
@@ -21,6 +22,16 @@ namespace Tweetinvi
         /// Client to execute all actions related with authentication
         /// </summary>
         IAuthClient Auth { get; }
+
+        /// <summary>
+        /// Client to execute custom requests
+        /// </summary>
+        IExecuteClient Execute { get; }
+
+        /// <summary>
+        /// Client to execute all actions related with rate limits
+        /// </summary>
+        IRateLimitsClient RateLimits { get; }
 
         /// <summary>
         /// Client to execute all actions related with timelines
@@ -56,6 +67,11 @@ namespace Tweetinvi
         /// Validate parameters to ensure that they meet the default criteria
         /// </summary>
         IParametersValidator ParametersValidator { get; }
+
+        /// <summary>
+        /// Listen to events raised by actions performed by the client
+        /// </summary>
+        IExternalClientEvents Events { get; }
 
         /// <summary>
         /// Creates skeleton request representing a request from the client
