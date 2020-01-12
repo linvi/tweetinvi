@@ -180,38 +180,9 @@ namespace Tweetinvi.Controllers.Tweet
             return _tweetQueryExecutor.UnFavoriteTweet(parameters, request);
         }
 
-        // Generate OembedTweet
-        public Task<IOEmbedTweet> GenerateOEmbedTweet(ITweet tweet)
+        public Task<ITwitterResult<IOEmbedTweetDTO>> GetOEmbedTweet(IGetOEmbedTweetParameters parameters, ITwitterRequest request)
         {
-            if (tweet == null)
-            {
-                throw new ArgumentException("Tweet cannot be null!");
-            }
-
-            return GenerateOEmbedTweet(tweet.TweetDTO);
-        }
-
-        public async Task<IOEmbedTweet> GenerateOEmbedTweet(ITweetDTO tweetDTO)
-        {
-            var oembedTweetDTO = await _tweetQueryExecutor.GenerateOEmbedTweet(tweetDTO).ConfigureAwait(false);
-            return _tweetFactory.GenerateOEmbedTweetFromDTO(oembedTweetDTO);
-        }
-
-        public async Task<IOEmbedTweet> GenerateOEmbedTweet(long tweetId)
-        {
-            var oembedTweetDTO = await _tweetQueryExecutor.GenerateOEmbedTweet(tweetId).ConfigureAwait(false);
-            return _tweetFactory.GenerateOEmbedTweetFromDTO(oembedTweetDTO);
-        }
-
-        // Update Tweet
-        public void UpdateTweetIfTweetSuccessfullyBeenPublished(ITweet sourceTweet, ITweetDTO publishedTweetDTO)
-        {
-            if (sourceTweet != null &&
-                publishedTweetDTO != null &&
-                publishedTweetDTO.IsTweetPublished)
-            {
-                sourceTweet.TweetDTO = publishedTweetDTO;
-            }
+            return _tweetQueryExecutor.GetOEmbedTweet(parameters, request);
         }
     }
 }

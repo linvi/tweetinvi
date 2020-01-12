@@ -34,11 +34,9 @@ namespace Tweetinvi.Controllers.Tweet
         Task<ITwitterResult<ITweetDTO>> FavoriteTweet(IFavoriteTweetParameters parameters, ITwitterRequest request);
 
         Task<ITwitterResult<ITweetDTO>> UnFavoriteTweet(IUnFavoriteTweetParameters parameters, ITwitterRequest request);
-
-        // Generate OEmbedTweet
-        Task<IOEmbedTweetDTO> GenerateOEmbedTweet(ITweetDTO tweetDTO);
-        Task<IOEmbedTweetDTO> GenerateOEmbedTweet(long tweetId);
         Task<ITwitterResult<ITweetDTO[]>> GetFavoriteTweets(IGetFavoriteTweetsParameters parameters, ITwitterRequest request);
+
+        Task<ITwitterResult<IOEmbedTweetDTO>> GetOEmbedTweet(IGetOEmbedTweetParameters parameters, ITwitterRequest request);
     }
 
     public class TweetQueryExecutor : ITweetQueryExecutor
@@ -134,6 +132,14 @@ namespace Tweetinvi.Controllers.Tweet
             return _twitterAccessor.ExecuteRequest<ITweetDTO[]>(request);
         }
 
+        public Task<ITwitterResult<IOEmbedTweetDTO>> GetOEmbedTweet(IGetOEmbedTweetParameters parameters, ITwitterRequest request)
+        {
+            var query = _tweetQueryGenerator.GetOEmbedTweetQuery(parameters);
+            request.Query.Url = query;
+            request.Query.HttpMethod = HttpMethod.GET;
+            return _twitterAccessor.ExecuteRequest<IOEmbedTweetDTO>(request);
+        }
+
         public Task<ITwitterResult<ITweetDTO>> FavoriteTweet(IFavoriteTweetParameters parameters, ITwitterRequest request)
         {
             var query = _tweetQueryGenerator.GetCreateFavoriteTweetQuery(parameters);
@@ -172,19 +178,6 @@ namespace Tweetinvi.Controllers.Tweet
             request.Query.Url = query;
             request.Query.HttpMethod = HttpMethod.POST;
             return _twitterAccessor.ExecuteRequest<ITweetDTO>(request);
-        }
-
-        // Generate OEmbed Tweet
-        public Task<IOEmbedTweetDTO> GenerateOEmbedTweet(ITweetDTO tweet)
-        {
-            string query = _tweetQueryGenerator.GetGenerateOEmbedTweetQuery(tweet);
-            return _twitterAccessor.ExecuteGETQuery<IOEmbedTweetDTO>(query);
-        }
-
-        public Task<IOEmbedTweetDTO> GenerateOEmbedTweet(long tweetId)
-        {
-            string query = _tweetQueryGenerator.GetGenerateOEmbedTweetQuery(tweetId);
-            return _twitterAccessor.ExecuteGETQuery<IOEmbedTweetDTO>(query);
         }
     }
 }

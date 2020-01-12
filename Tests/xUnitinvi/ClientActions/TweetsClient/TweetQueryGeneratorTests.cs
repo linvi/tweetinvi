@@ -246,5 +246,37 @@ namespace xUnitinvi.ClientActions.TweetsClient
             // Assert
             Assert.Equal(result, $"https://api.twitter.com/1.1/favorites/destroy.json?id=42&include_entities=true&hello=world");
         }
+
+        [Fact]
+        public void GetOEmbedTweetQuery_ReturnsExpectedQuery()
+        {
+            // Arrange
+            var queryGenerator = CreateUserQueryGenerator();
+
+            var parameters = new GetOEmbedTweetParameters(42)
+            {
+                Alignment = OEmbedTweetAlignment.Right,
+                Language = Language.French,
+                Theme = OEmbedTweetTheme.Dark,
+                HideMedia = true,
+                HideThread = true,
+                LinkColor = "my_color",
+                MaxWidth = 500,
+                OmitScript = true,
+                RelatedUsernames = new [] { "tweetinvi", "tweetinvitest" },
+                WidgetType = OEmbedTweetWidgetType.Video,
+                EnablePersonalisationAndSuggestions = true,
+                CustomQueryParameters = { new Tuple<string, string>("hello", "world") }
+            };
+
+            // Act
+            var result = queryGenerator.GetOEmbedTweetQuery(parameters);
+
+            // Assert
+            Assert.Equal(result, $"https://api.twitter.com/1.1/statuses/oembed.json?id=42" +
+                                 $"&maxwidth=500&hide_media=true&hide_thread=true&omit_script=true&align=right" +
+                                 $"&related=tweetinvi%2Ctweetinvitest&lang=fr&theme=dark&link_color=my_color" +
+                                 $"&widget_type=video&dnt=true&hello=world");
+        }
     }
 }

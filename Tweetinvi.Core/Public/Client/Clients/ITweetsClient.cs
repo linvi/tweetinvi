@@ -154,5 +154,18 @@ namespace Tweetinvi.Client
         /// </summary>
         /// <para>Read more : https://developer.twitter.com/en/docs/tweets/post-and-engage/api-reference/post-favorites-destroy </para>
         Task UnFavoriteTweet(IUnFavoriteTweetParameters parameters);
+
+        /// <inheritdoc cref="GetOEmbedTweet(IGetOEmbedTweetParameters)" />
+        Task<IOEmbedTweet> GetOEmbedTweet(ITweetIdentifier tweet);
+
+        /// <inheritdoc cref="GetOEmbedTweet(IGetOEmbedTweetParameters)" />
+        Task<IOEmbedTweet> GetOEmbedTweet(long? tweetId);
+
+        /// <summary>
+        /// Get an oembed tweet
+        /// </summary>
+        /// <para>Read more : https://developer.twitter.com/en/docs/tweets/post-and-engage/api-reference/get-statuses-oembed </para>
+        /// <returns>The generated oembed tweet</returns>
+        Task<IOEmbedTweet> GetOEmbedTweet(IGetOEmbedTweetParameters parameters);
     }
 }

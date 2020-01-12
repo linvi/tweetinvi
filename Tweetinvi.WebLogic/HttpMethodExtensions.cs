@@ -1,7 +1,7 @@
 ﻿using System;
 using Tweetinvi.Models;
 
-namespace Tweetinvi.WebLogic.Utils
+namespace Tweetinvi.WebLogic
 {
     public static class HttpMethodExtensions
     {

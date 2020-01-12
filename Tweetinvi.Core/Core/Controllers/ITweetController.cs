@@ -36,17 +36,10 @@ namespace Tweetinvi.Core.Controllers
         // Get Retweeters
         ITwitterPageIterator<ITwitterResult<IIdsCursorQueryResultDTO>> GetRetweeterIdsIterator(IGetRetweeterIdsParameters parameters, ITwitterRequest request);
 
-        // Generate OembedTweet
-        Task<IOEmbedTweet> GenerateOEmbedTweet(ITweet tweet);
-        Task<IOEmbedTweet> GenerateOEmbedTweet(ITweetDTO tweetDTO);
-        Task<IOEmbedTweet> GenerateOEmbedTweet(long tweetId);
-
         // Favorite Tweet
         Task<ITwitterResult<ITweetDTO>> FavoriteTweet(IFavoriteTweetParameters parameters, ITwitterRequest request);
         Task<ITwitterResult<ITweetDTO>> UnFavoriteTweet(IUnFavoriteTweetParameters parameters, ITwitterRequest request);
-
-        // Update Published Tweet
-        void UpdateTweetIfTweetSuccessfullyBeenPublished(ITweet sourceTweet, ITweetDTO publishedTweetDTO);
+        Task<ITwitterResult<IOEmbedTweetDTO>> GetOEmbedTweet(IGetOEmbedTweetParameters parameters, ITwitterRequest request);
 
     }
 }

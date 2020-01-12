@@ -23,6 +23,8 @@ namespace Tweetinvi.Controllers.Shared
 
         string GenerateAdditionalRequestParameters(string additionalParameters, bool existingParameters = true);
         void AddMinMaxQueryParameters(StringBuilder query, IMinMaxQueryParameters parameters);
+        string GenerateOEmbedAlignmentParameter(OEmbedTweetAlignment? alignment);
+        string GenerateOEmbedThemeParameter(OEmbedTweetTheme? theme);
     }
 
     public class QueryParameterGenerator : IQueryParameterGenerator
@@ -43,7 +45,7 @@ namespace Tweetinvi.Controllers.Shared
             {
                 return string.Empty;
             }
-            
+
             return string.Format(Resources.QueryParameter_TrimUser, trimUser);
         }
 
@@ -73,7 +75,7 @@ namespace Tweetinvi.Controllers.Shared
             {
                 return string.Empty;
             }
-            
+
             return string.Format(Resources.QueryParameter_IncludeEntities, includeEntities);
         }
 
@@ -105,7 +107,7 @@ namespace Tweetinvi.Controllers.Shared
                 var languageCode = language.Value.GetLanguageCode();
                 if (!string.IsNullOrEmpty(languageCode))
                 {
-                    languageParameter = string.Format("lang={0}", languageCode);
+                    languageParameter = $"lang={languageCode}";
                 }
             }
 
@@ -149,6 +151,46 @@ namespace Tweetinvi.Controllers.Shared
             query.AddParameterToQuery("count", parameters.PageSize);
             query.AddParameterToQuery("since_id", parameters.SinceId);
             query.AddParameterToQuery("max_id", parameters.MaxId);
+        }
+
+        public string GenerateOEmbedAlignmentParameter(OEmbedTweetAlignment? alignment)
+        {
+            if (alignment == null)
+            {
+                return null;
+            }
+
+            switch (alignment)
+            {
+                case OEmbedTweetAlignment.None:
+                    return "none";
+                case OEmbedTweetAlignment.Left:
+                    return "left";
+                case OEmbedTweetAlignment.Center:
+                    return "center";
+                case OEmbedTweetAlignment.Right:
+                    return "right";
+                default:
+                    return null;
+            }
+        }
+
+        public string GenerateOEmbedThemeParameter(OEmbedTweetTheme? theme)
+        {
+            if (theme == null)
+            {
+                return null;
+            }
+
+            switch (theme)
+            {
+                case OEmbedTweetTheme.Light:
+                    return "light";
+                case OEmbedTweetTheme.Dark:
+                    return "dark";
+                default:
+                    return null;
+            }
         }
     }
 }

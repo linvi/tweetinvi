@@ -5,8 +5,6 @@ using Tweetinvi.Controllers.Properties;
 using Tweetinvi.Controllers.Shared;
 using Tweetinvi.Core.Extensions;
 using Tweetinvi.Core.QueryGenerators;
-using Tweetinvi.Core.QueryValidators;
-using Tweetinvi.Models.DTO;
 using Tweetinvi.Parameters;
 
 namespace Tweetinvi.Controllers.Tweet
@@ -15,16 +13,13 @@ namespace Tweetinvi.Controllers.Tweet
     {
         private readonly IQueryParameterGenerator _queryParameterGenerator;
         private readonly IUserQueryParameterGenerator _userQueryParameterGenerator;
-        private readonly ITweetQueryValidator _tweetQueryValidator;
 
         public TweetQueryGenerator(
             IQueryParameterGenerator queryParameterGenerator,
-            IUserQueryParameterGenerator userQueryParameterGenerator,
-            ITweetQueryValidator tweetQueryValidator)
+            IUserQueryParameterGenerator userQueryParameterGenerator)
         {
             _queryParameterGenerator = queryParameterGenerator;
             _userQueryParameterGenerator = userQueryParameterGenerator;
-            _tweetQueryValidator = tweetQueryValidator;
         }
 
         // Get Tweet
@@ -241,17 +236,27 @@ namespace Tweetinvi.Controllers.Tweet
             return query.ToString();
         }
 
-        // OEmbed Tweet
-        public string GetGenerateOEmbedTweetQuery(ITweetDTO tweetDTO)
+        public string GetOEmbedTweetQuery(IGetOEmbedTweetParameters parameters)
         {
-            _tweetQueryValidator.ThrowIfTweetCannotBeUsed(tweetDTO);
-            return GetGenerateOEmbedTweetQuery(tweetDTO.Id);
-        }
+            var tweetIdentifierValue = parameters.Tweet.Id?.ToString() ?? parameters.Tweet.IdStr;
+            var query = new StringBuilder(Resources.Tweet_GenerateOEmbed);
 
-        public string GetGenerateOEmbedTweetQuery(long? tweetId)
-        {
-            _tweetQueryValidator.ThrowIfTweetCannotBeUsed(tweetId);
-            return string.Format(Resources.Tweet_GenerateOEmbed, tweetId);
+            query.AddParameterToQuery("id", tweetIdentifierValue);
+            query.AddParameterToQuery("maxwidth", parameters.MaxWidth);
+            query.AddParameterToQuery("hide_media", parameters.HideMedia);
+            query.AddParameterToQuery("hide_thread", parameters.HideThread);
+            query.AddParameterToQuery("omit_script", parameters.OmitScript);
+            query.AddParameterToQuery("align", _queryParameterGenerator.GenerateOEmbedAlignmentParameter(parameters.Alignment));
+            query.AddParameterToQuery("related", string.Join(",", parameters.RelatedUsernames ?? new string[0]));
+            query.AddFormattedParameterToQuery(_queryParameterGenerator.GenerateLanguageParameter(parameters.Language));
+            query.AddParameterToQuery("theme", _queryParameterGenerator.GenerateOEmbedThemeParameter(parameters.Theme));
+            query.AddParameterToQuery("link_color", parameters.LinkColor);
+            query.AddParameterToQuery("widget_type", parameters.WidgetType);
+            query.AddParameterToQuery("dnt", parameters.EnablePersonalisationAndSuggestions);
+
+            query.AddFormattedParameterToQuery(parameters.FormattedCustomQueryParameters);
+
+            return query.ToString();
         }
     }
 }

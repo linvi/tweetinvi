@@ -20,11 +20,6 @@ namespace Tweetinvi.Core.QueryGenerators
         string GetCreateFavoriteTweetQuery(IFavoriteTweetParameters parameters);
         string GetUnFavoriteTweetQuery(IUnFavoriteTweetParameters parameters);
 
-
-
-
-        // Generate OembedTweet
-        string GetGenerateOEmbedTweetQuery(ITweetDTO tweetDTO);
-        string GetGenerateOEmbedTweetQuery(long? tweetId);
+        string GetOEmbedTweetQuery(IGetOEmbedTweetParameters parameters);
     }
 }

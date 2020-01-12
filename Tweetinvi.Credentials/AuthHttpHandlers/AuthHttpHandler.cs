@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using Tweetinvi.Core.Web;
 using Tweetinvi.Models;
 using Tweetinvi.WebLogic;
-using Tweetinvi.WebLogic.Utils;
 
 namespace Tweetinvi.Credentials.AuthHttpHandlers
 {

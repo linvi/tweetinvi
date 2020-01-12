@@ -474,7 +474,7 @@ namespace Tweetinvi.Core.Models
         public Task<IOEmbedTweet> GenerateOEmbedTweet()
         {
             ThrowIfTweetCannotBeUsed();
-            return _tweetController.GenerateOEmbedTweet(_tweetDTO);
+            return Client.Tweets.GetOEmbedTweet(this);
         }
 
         public Task Destroy()

@@ -123,7 +123,7 @@ namespace xUnitinvi.EndToEnd
                 allRetweeterIdsBefore.AddRange(await retweeterIdsBeforeIterator.MoveToNextPage());
             }
 
-            await _protectedClient.Tweets.DestroyRetweet(retweet);
+            await _protectedClient.Tweets.DestroyRetweet(retweet).ConfigureAwait(false);
             var tweetAfterDestroy = await _protectedClient.Tweets.GetTweet(tweetId);
 
             // assert
@@ -144,7 +144,7 @@ namespace xUnitinvi.EndToEnd
             var tweet = await _tweetinviTestClient.Tweets.PublishTweet(Guid.NewGuid().ToString()).ConfigureAwait(false);
             var favoritedAtStart = tweet.Favorited;
 
-            await _tweetinviTestClient.Tweets.FavoriteTweet(tweet);
+            await _tweetinviTestClient.Tweets.FavoriteTweet(tweet).ConfigureAwait(false);
             var tweetAfterFavoriteCall = await _tweetinviTestClient.Tweets.GetTweet(tweet.Id).ConfigureAwait(false);
             var inMemoryTweetFavoriteStateAfterFavoriteCall = tweet.Favorited;
 
@@ -160,6 +160,22 @@ namespace xUnitinvi.EndToEnd
             Assert.True(inMemoryTweetFavoriteStateAfterFavoriteCall);
             Assert.False(tweetAfterUnFavoriteCall.Favorited);
             Assert.False(inMemoryTweetFavoriteStateAfterUnFavoriteCall);
+        }
+
+        [Fact]
+        public async Task OEmbedTweets()
+        {
+            if (!EndToEndTestConfig.ShouldRunEndToEndTests)
+                return;
+
+            var tweet = await _tweetinviTestClient.Tweets.PublishTweet(Guid.NewGuid().ToString()).ConfigureAwait(false);
+            var oEmbedTweet = await _tweetinviTestClient.Tweets.GetOEmbedTweet(tweet).ConfigureAwait(false);
+
+            await tweet.Destroy();
+
+            // Assert
+            Assert.Contains(tweet.CreatedBy.ScreenName, oEmbedTweet.HTML);
+            Assert.Contains(tweet.Text, oEmbedTweet.HTML);
         }
     }
 }

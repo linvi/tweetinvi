@@ -90,5 +90,12 @@ namespace Tweetinvi.Client.Requesters
         /// <para>Read more : https://developer.twitter.com/en/docs/tweets/post-and-engage/api-reference/post-favorites-destroy </para>
         /// <returns>TwitterResult containing the no longer favorited tweet</returns>
         Task<ITwitterResult<ITweetDTO>> UnFavoriteTweet(IUnFavoriteTweetParameters parameters);
+
+        /// <summary>
+        /// Get an oembed tweet
+        /// </summary>
+        /// <para>Read more : https://developer.twitter.com/en/docs/tweets/post-and-engage/api-reference/get-statuses-oembed </para>
+        /// <returns>TwitterResult containing the oembed tweet</returns>
+        Task<ITwitterResult<IOEmbedTweetDTO>> GetOEmbedTweet(IGetOEmbedTweetParameters parameters);
     }
 }

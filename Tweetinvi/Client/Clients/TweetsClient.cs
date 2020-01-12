@@ -266,6 +266,22 @@ namespace Tweetinvi.Client
             await _tweetsRequester.UnFavoriteTweet(parameters).ConfigureAwait(false);
         }
 
+        public Task<IOEmbedTweet> GetOEmbedTweet(ITweetIdentifier tweet)
+        {
+            return GetOEmbedTweet(new GetOEmbedTweetParameters(tweet));
+        }
+
+        public Task<IOEmbedTweet> GetOEmbedTweet(long? tweetId)
+        {
+            return GetOEmbedTweet(new GetOEmbedTweetParameters(tweetId));
+        }
+
+        public async Task<IOEmbedTweet> GetOEmbedTweet(IGetOEmbedTweetParameters parameters)
+        {
+            var twitterResult = await _tweetsRequester.GetOEmbedTweet(parameters).ConfigureAwait(false);
+            return _tweetFactory.GenerateOEmbedTweetFromDTO(twitterResult?.DataTransferObject);
+        }
+
         #endregion
     }
 }

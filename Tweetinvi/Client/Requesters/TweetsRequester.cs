@@ -138,5 +138,11 @@ namespace Tweetinvi.Client.Requesters
             _tweetsClientRequiredParametersValidator.Validate(parameters);
             return ExecuteRequest(request => _tweetController.UnFavoriteTweet(parameters, request));
         }
+
+        public Task<ITwitterResult<IOEmbedTweetDTO>> GetOEmbedTweet(IGetOEmbedTweetParameters parameters)
+        {
+            _tweetsClientRequiredParametersValidator.Validate(parameters);
+            return ExecuteRequest(request => _tweetController.GetOEmbedTweet(parameters, request));
+        }
     }
 }
