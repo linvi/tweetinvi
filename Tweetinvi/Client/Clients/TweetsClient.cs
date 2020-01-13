@@ -2,7 +2,6 @@
 using System.Threading.Tasks;
 using Tweetinvi.Client.Requesters;
 using Tweetinvi.Core.Client.Validators;
-using Tweetinvi.Core.Factories;
 using Tweetinvi.Core.Iterators;
 using Tweetinvi.Core.Web;
 using Tweetinvi.Exceptions;
@@ -16,17 +15,13 @@ namespace Tweetinvi.Client
 {
     public class TweetsClient : ITweetsClient
     {
-        private readonly TwitterClient _client;
+        private readonly ITwitterClient _client;
         private readonly ITweetsRequester _tweetsRequester;
-        private readonly ITweetFactory _tweetFactory;
 
-        public TweetsClient(TwitterClient client)
+        public TweetsClient(ITwitterClient client)
         {
-            var clientContext = client.CreateTwitterExecutionContext();
-
             _client = client;
             _tweetsRequester = client.RequestExecutor.Tweets;
-            _tweetFactory = clientContext.Container.Resolve<ITweetFactory>();
         }
 
         public ITweetsClientParametersValidator ParametersValidator => _client.ParametersValidator;
@@ -190,13 +185,11 @@ namespace Tweetinvi.Client
 
         public ITwitterIterator<ITweet, long?> GetFavoriteTweets(IGetFavoriteTweetsParameters parameters)
         {
-            var tweetMode = _client.ClientSettings.TweetMode;
-
             var favoriteTweetsIterator = _tweetsRequester.GetFavoriteTweets(parameters);
             return new TwitterIteratorProxy<ITwitterResult<ITweetDTO[]>, ITweet, long?>(favoriteTweetsIterator,
                 twitterResult =>
                 {
-                    return _tweetFactory.GenerateTweetsFromDTO(twitterResult.DataTransferObject, tweetMode, _client);
+                    return twitterResult.DataTransferObject.Select(x => _client.Factories.CreateTweet(x)).ToArray();
                 });
         }
 
@@ -279,7 +272,7 @@ namespace Tweetinvi.Client
         public async Task<IOEmbedTweet> GetOEmbedTweet(IGetOEmbedTweetParameters parameters)
         {
             var twitterResult = await _tweetsRequester.GetOEmbedTweet(parameters).ConfigureAwait(false);
-            return _tweetFactory.GenerateOEmbedTweetFromDTO(twitterResult?.DataTransferObject);
+            return _client.Factories.CreateOEmbedTweet(twitterResult?.DataTransferObject);
         }
 
         #endregion

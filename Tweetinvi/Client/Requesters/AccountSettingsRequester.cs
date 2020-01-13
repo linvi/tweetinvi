@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using Tweetinvi.Client.Tools;
 using Tweetinvi.Controllers.AccountSettings;
 using Tweetinvi.Core.Client.Validators;
 using Tweetinvi.Core.Factories;
@@ -16,18 +17,18 @@ namespace Tweetinvi.Client.Requesters
 
     public class AccountSettingsRequester : BaseRequester, IInternalAccountSettingsRequester
     {
-        private readonly IUserFactory _userFactory;
+        private readonly ITwitterClientFactories _factories;
         private readonly IAccountSettingsController _accountSettingsController;
         private readonly ITwitterResultFactory _twitterResultFactory;
         private readonly IAccountSettingsClientRequiredParametersValidator _validator;
 
         public AccountSettingsRequester(
-            IUserFactory userFactory,
+            ITwitterClientFactories factories,
             IAccountSettingsController accountSettingsController,
             ITwitterResultFactory twitterResultFactory,
             IAccountSettingsClientRequiredParametersValidator validator)
         {
-            _userFactory = userFactory;
+            _factories = factories;
             _accountSettingsController = accountSettingsController;
             _twitterResultFactory = twitterResultFactory;
             _validator = validator;
@@ -63,11 +64,7 @@ namespace Tweetinvi.Client.Requesters
                 var twitterResult = await _accountSettingsController.UpdateProfile(parameters, request).ConfigureAwait(false);
                 return _twitterResultFactory.Create(twitterResult, dto =>
                 {
-                    var user = _userFactory.GenerateAuthenticatedUserFromDTO(dto);
-                    if (user != null)
-                    {
-                        user.Client = TwitterClient;
-                    }
+                    var user = _factories.CreateAuthenticatedUser(dto);
                     return user;
                 });
             });

@@ -9,12 +9,8 @@ namespace Tweetinvi.Core.Models
         public Mention(
             ITweetDTO tweetDTO,
             TweetMode? tweetMode,
-            ITweetFactory tweetFactory,
-            IUserFactory userFactory)
-            : base(tweetDTO,
-                tweetMode,
-                tweetFactory,
-                userFactory)
+            ITwitterClient client)
+            : base(tweetDTO, tweetMode, client)
         {
             // Default constructor inheriting from the default Tweet constructor
         }

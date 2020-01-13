@@ -1,11 +1,8 @@
 ﻿using Tweetinvi.Core.Factories;
 using Tweetinvi.Core.Injectinvi;
 using Tweetinvi.Core.Web;
-using Tweetinvi.Factories.Friendship;
-using Tweetinvi.Factories.Geo;
 using Tweetinvi.Factories.Lists;
 using Tweetinvi.Factories.SavedSearch;
-using Tweetinvi.Factories.Search;
 using Tweetinvi.Factories.Tweet;
 using Tweetinvi.Factories.User;
 using Tweetinvi.Models;
@@ -16,12 +13,8 @@ namespace Tweetinvi.Factories
     {
         public void Initialize(ITweetinviContainer container)
         {
-            container.RegisterType<ISearchResultFactory, SearchResultFactory>(RegistrationLifetime.InstancePerApplication);
             container.RegisterType<ITweetFactory, TweetFactory>(RegistrationLifetime.InstancePerApplication);
             container.RegisterType<IUserFactory, UserFactory>(RegistrationLifetime.InstancePerApplication);
-            container.RegisterType<IUserFactoryQueryExecutor, UserFactoryQueryExecutor>(RegistrationLifetime.InstancePerApplication);
-
-            container.RegisterType<IFriendshipFactory, FriendshipFactory>(RegistrationLifetime.InstancePerApplication);
 
             container.RegisterType<IMessageFactory, MessageFactory>(RegistrationLifetime.InstancePerApplication);
             container.RegisterType<IMessageFactoryQueryExecutor, MessageFactoryQueryExecutor>(RegistrationLifetime.InstancePerApplication);
@@ -30,8 +23,6 @@ namespace Tweetinvi.Factories
             container.RegisterType<ITwitterListFactory, TwitterListFactory>(RegistrationLifetime.InstancePerApplication);
             container.RegisterType<ITwitterListFactoryQueryExecutor, TwitterListFactoryQueryExecutor>(RegistrationLifetime.InstancePerApplication);
             container.RegisterType<ITwitterListFactoryQueryGenerator, TwitterListFactoryQueryGenerator>(RegistrationLifetime.InstancePerApplication);
-
-            container.RegisterType<IGeoFactory, GeoFactory>(RegistrationLifetime.InstancePerApplication);
 
             container.RegisterType<ISavedSearchFactory, SavedSearchFactory>(RegistrationLifetime.InstancePerApplication);
             container.RegisterType<ISavedSearchJsonFactory, SavedSearchJsonFactory>(RegistrationLifetime.InstancePerApplication);

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Text;
 using System.Threading.Tasks;
+using Tweetinvi.Client.Tools;
 using Tweetinvi.Core.Events;
 using Tweetinvi.Core.Factories;
 using Tweetinvi.Core.Helpers;
@@ -14,7 +15,7 @@ namespace Tweetinvi.Streams
 {
     public class TweetStream : TwitterStream, ITweetStream
     {
-        private readonly ITweetFactory _tweetFactory;
+        private readonly ITwitterClientFactories _factories;
         private readonly ITwitterQueryFactory _twitterQueryFactory;
 
         public event EventHandler<TweetReceivedEventArgs> TweetReceived;
@@ -24,12 +25,12 @@ namespace Tweetinvi.Streams
             IStreamResultGenerator streamResultGenerator,
             IJsonObjectConverter jsonObjectConverter,
             IJObjectStaticWrapper jObjectStaticWrapper,
-            ITweetFactory tweetFactory,
+            ITwitterClientFactories factories,
             ICustomRequestParameters customRequestParameters,
             ITwitterQueryFactory twitterQueryFactory)
             : base(streamResultGenerator, jsonObjectConverter, jObjectStaticWrapper, customRequestParameters)
         {
-            _tweetFactory = tweetFactory;
+            _factories = factories;
             _twitterQueryFactory = twitterQueryFactory;
         }
 
@@ -50,7 +51,7 @@ namespace Tweetinvi.Streams
             {
                 this.Raise(JsonObjectReceived, new JsonObjectEventArgs(json));
 
-                var tweet = _tweetFactory.GenerateTweetFromJson(json, TweetMode, null);
+                var tweet = _factories.CreateTweet(json);
                 if (tweet == null)
                 {
                     TryInvokeGlobalStreamMessages(json);

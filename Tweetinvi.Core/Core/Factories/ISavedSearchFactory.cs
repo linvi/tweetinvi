@@ -9,8 +9,5 @@ namespace Tweetinvi.Core.Factories
     {
         Task<ISavedSearch> CreateSavedSearch(string searchQuery);
         Task<ISavedSearch> GetSavedSearch(long searchId);
-        ISavedSearch GenerateSavedSearchFromDTO(ISavedSearchDTO savedSearchDTO);
-        IEnumerable<ISavedSearch> GenerateSavedSearchesFromDTOs(IEnumerable<ISavedSearchDTO> savedSearchDTO);
-        ISavedSearch GenerateSavedSearchFromJson(string json);
     }
 }

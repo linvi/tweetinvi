@@ -16,7 +16,7 @@ namespace Tweetinvi.Models
     public interface IUser : IUserIdentifier, IEquatable<IUser>
     {
         /// <summary>
-        /// Client used to perform all actions on Twitter
+        /// Client used by the instance to perform any request to Twitter
         /// </summary>
         ITwitterClient Client { get; set; }
 
@@ -53,12 +53,12 @@ namespace Tweetinvi.Models
         DateTime CreatedAt { get; }
 
         /// <summary>
-        /// The user-defined location for this account’s profile. 
+        /// The user-defined location for this account’s profile.
         /// </summary>
         string Location { get; }
 
         /// <summary>
-        /// When true, indicates that the user has enabled the possibility of geotagging their Tweets. 
+        /// When true, indicates that the user has enabled the possibility of geotagging their Tweets.
         /// This field must be true for the current user to attach geographic data.
         /// </summary>
         bool GeoEnabled { get; }
@@ -131,7 +131,7 @@ namespace Tweetinvi.Models
         string ProfileImageUrlHttps { get; }
 
         /// <summary>
-        /// When true, indicates that the authenticating user has issued a follow request 
+        /// When true, indicates that the authenticating user has issued a follow request
         /// to this protected user account.
         /// </summary>
         bool FollowRequestSent { get; }
@@ -187,8 +187,8 @@ namespace Tweetinvi.Models
         string ProfileBackgroundImageUrlHttps { get; }
 
         /// <summary>
-        /// URL pointing to the standard web representation of the user’s uploaded profile banner. 
-        /// By adding a final path element of the URL, you can obtain different image sizes 
+        /// URL pointing to the standard web representation of the user’s uploaded profile banner.
+        /// By adding a final path element of the URL, you can obtain different image sizes
         /// optimized for specific displays.
         /// </summary>
         string ProfileBannerURL { get; }
@@ -270,7 +270,7 @@ namespace Tweetinvi.Models
         List<IUser> Contributors { get; set; }
 
         /// <summary>
-        /// Property allowing the developers to store the user accounts 
+        /// Property allowing the developers to store the user accounts
         /// the current user is contributing to.
         /// </summary>
         List<IUser> Contributees { get; set; }
@@ -291,7 +291,7 @@ namespace Tweetinvi.Models
         List<ITweet> FriendsRetweets { get; set; }
 
         /// <summary>
-        /// Property allowing the developers to store tweets created by the user 
+        /// Property allowing the developers to store tweets created by the user
         /// that have been retweeted by followers.
         /// </summary>
         List<ITweet> TweetsRetweetedByFollowers { get; set; }
@@ -335,7 +335,7 @@ namespace Tweetinvi.Models
         /// Get the relationship between the authenticated user (source) and another user (target).
         /// </summary>
         Task<IRelationshipDetails> GetRelationshipWith(string username);
-        
+
         // Timeline
 
         /// <inheritdoc cref="ITimelineClient.GetUserTimelineIterator(IUserIdentifier)"/>

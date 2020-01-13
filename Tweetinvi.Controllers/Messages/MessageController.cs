@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Tweetinvi.Client.Tools;
 using Tweetinvi.Core.Controllers;
-using Tweetinvi.Core.Factories;
 using Tweetinvi.Core.Injectinvi;
 using Tweetinvi.Core.Models;
 using Tweetinvi.Models;
@@ -15,16 +15,16 @@ namespace Tweetinvi.Controllers.Messages
     public class MessageController : IMessageController
     {
         private readonly IMessageQueryExecutor _messageQueryExecutor;
-        private readonly IMessageFactory _messageFactory;
+        private readonly ITwitterClientFactories _factories;
         private readonly IFactory<IGetMessagesParameters> _getMessagesParametersFactory;
 
         public MessageController(
             IMessageQueryExecutor messageQueryExecutor,
-            IMessageFactory messageFactory,
+            ITwitterClientFactories factories,
             IFactory<IGetMessagesParameters> getMessagesParametersFactory)
         {
             _messageQueryExecutor = messageQueryExecutor;
-            _messageFactory = messageFactory;
+            _factories = factories;
             _getMessagesParametersFactory = getMessagesParametersFactory;
         }
 
@@ -64,7 +64,7 @@ namespace Tweetinvi.Controllers.Messages
 
                 cursorResult.Cursor = cursor;
 
-                var messages = _messageFactory.GenerateMessageFromGetMessagesDTO(result);
+                var messages = _factories.CreateMessages(result);
 
                 // If there are more messages still available to be fetched from Twitter
                 if (!string.IsNullOrEmpty(cursor))
@@ -92,7 +92,7 @@ namespace Tweetinvi.Controllers.Messages
             if (getMessagesDTO != null)
             {
                 cursorResult.Cursor = getMessagesDTO.NextCursor;
-                cursorResult.Result = _messageFactory.GenerateMessageFromGetMessagesDTO(getMessagesDTO);
+                cursorResult.Result = _factories.CreateMessages(getMessagesDTO);
             }
 
             return cursorResult;
@@ -113,7 +113,7 @@ namespace Tweetinvi.Controllers.Messages
             }
 
             var publishedMessageDTO = await _messageQueryExecutor.PublishMessage(parameters);
-            return _messageFactory.GenerateMessageFromCreateMessageDTO(publishedMessageDTO);
+            return _factories.CreateMessage(publishedMessageDTO);
         }
 
         // Destroy Message

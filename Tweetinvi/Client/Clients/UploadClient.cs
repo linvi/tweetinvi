@@ -10,7 +10,7 @@ namespace Tweetinvi.Client
     {
         private readonly IUploadRequester _uploadRequester;
 
-        public UploadClient(TwitterClient client)
+        public UploadClient(ITwitterClient client)
         {
             _uploadRequester = client.RequestExecutor.Upload;
         }

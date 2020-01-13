@@ -8,10 +8,10 @@ namespace Tweetinvi.Client
 {
     public class AccountSettingsClient : IAccountSettingsClient
     {
-        private readonly TwitterClient _client;
+        private readonly ITwitterClient _client;
         private readonly IAccountSettingsRequester _accountRequester;
 
-        public AccountSettingsClient(TwitterClient client)
+        public AccountSettingsClient(ITwitterClient client)
         {
             _client = client;
             _accountRequester = client.RequestExecutor.AccountSettings;

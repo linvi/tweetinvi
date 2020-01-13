@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Tweetinvi.Client.Tools;
 using Tweetinvi.Core.Controllers;
 using Tweetinvi.Core.Factories;
 using Tweetinvi.Core.Parameters;
@@ -15,6 +16,7 @@ namespace Tweetinvi.Controllers.TwitterLists
     {
         private readonly ITweetFactory _tweetFactory;
         private readonly IUserFactory _userFactory;
+        private readonly ITwitterClientFactories _factories;
         private readonly ITwitterListQueryExecutor _twitterListQueryExecutor;
         private readonly ITwitterListFactory _twitterListsFactory;
         private readonly ITwitterListQueryParameterGenerator _twitterListQueryParameterGenerator;
@@ -23,6 +25,7 @@ namespace Tweetinvi.Controllers.TwitterLists
         public TwitterListController(
             ITweetFactory tweetFactory,
             IUserFactory userFactory,
+            ITwitterClientFactories factories,
             ITwitterListQueryExecutor twitterListQueryExecutor,
             ITwitterListFactory twitterListsFactory,
             ITwitterListQueryParameterGenerator twitterListQueryParameterGenerator,
@@ -30,6 +33,7 @@ namespace Tweetinvi.Controllers.TwitterLists
         {
             _tweetFactory = tweetFactory;
             _userFactory = userFactory;
+            _factories = factories;
             _twitterListQueryExecutor = twitterListQueryExecutor;
             _twitterListsFactory = twitterListsFactory;
             _twitterListQueryParameterGenerator = twitterListQueryParameterGenerator;
@@ -61,21 +65,19 @@ namespace Tweetinvi.Controllers.TwitterLists
         #region Owned Lists
         public Task<IEnumerable<ITwitterList>> GetUserOwnedLists(long userId, int maximumNumberOfListsToRetrieve)
         {
-            var user = new UserIdentifier(userId);
-            return GetUserOwnedLists(user, maximumNumberOfListsToRetrieve);
+            return GetUserOwnedLists(new UserIdentifier(userId), maximumNumberOfListsToRetrieve);
         }
 
         public Task<IEnumerable<ITwitterList>> GetUserOwnedLists(string userScreenName, int maximumNumberOfListsToRetrieve)
         {
-            var user = new UserIdentifier(userScreenName);
-            return GetUserOwnedLists(user, maximumNumberOfListsToRetrieve);
+            return GetUserOwnedLists(new UserIdentifier(userScreenName), maximumNumberOfListsToRetrieve);
         }
 
         public async Task<IEnumerable<ITwitterList>> GetUserOwnedLists(IUserIdentifier user, int maximumNumberOfListsToRetrieve)
         {
             var listDTOs = await _twitterListQueryExecutor.GetUserOwnedLists(user, maximumNumberOfListsToRetrieve);
             return _twitterListsFactory.CreateListsFromDTOs(listDTOs);
-        } 
+        }
         #endregion
 
         #region Update List
@@ -112,8 +114,8 @@ namespace Tweetinvi.Controllers.TwitterLists
         private async Task<ITwitterList> UpdateList(ITwitterListUpdateQueryParameters parameters)
         {
             var listDTO = await _twitterListQueryExecutor.UpdateList(parameters);
-            return _twitterListsFactory.CreateListFromDTO(listDTO);
-        } 
+            return _factories.CreateTwitterList(listDTO);
+        }
         #endregion
 
         #region Destroy List
@@ -144,7 +146,7 @@ namespace Tweetinvi.Controllers.TwitterLists
         public Task<bool> DestroyList(ITwitterListIdentifier list)
         {
             return _twitterListQueryExecutor.DestroyList(list);
-        } 
+        }
         #endregion
 
         #region Get Tweets from List
@@ -182,7 +184,7 @@ namespace Tweetinvi.Controllers.TwitterLists
         {
             var tweetsDTO = await _twitterListQueryExecutor.GetTweetsFromList(queryParameters);
             return _tweetFactory.GenerateTweetsFromDTO(tweetsDTO, null, null);
-        } 
+        }
         #endregion
 
         #region Get List Members
@@ -214,7 +216,7 @@ namespace Tweetinvi.Controllers.TwitterLists
         {
             var usersDTO = await _twitterListQueryExecutor.GetMembersOfList(list, maximumNumberOfUsersToRetrieve);
             return _userFactory.GenerateUsersFromDTO(usersDTO, null);
-        } 
+        }
         #endregion
 
         #region Add Member To List
@@ -293,14 +295,12 @@ namespace Tweetinvi.Controllers.TwitterLists
 
         public Task<bool> AddMemberToList(ITwitterListIdentifier list, long newUserId)
         {
-            var user = _userFactory.GenerateUserIdentifierFromId(newUserId);
-            return AddMemberToList(list, user);
+            return AddMemberToList(list, new UserIdentifier(newUserId));
         }
 
         public Task<bool> AddMemberToList(ITwitterListIdentifier list, string newUserName)
         {
-            var user = _userFactory.GenerateUserIdentifierFromScreenName(newUserName);
-            return AddMemberToList(list, user);
+            return AddMemberToList(list, new UserIdentifier(newUserName));
         }
 
         public Task<bool> AddMemberToList(ITwitterListIdentifier list, IUserIdentifier newUser)
@@ -386,20 +386,20 @@ namespace Tweetinvi.Controllers.TwitterLists
 
         public Task<MultiRequestsResult> AddMultipleMembersToList(ITwitterListIdentifier list, IEnumerable<long> newUserIds)
         {
-            var users = newUserIds.Select(userId => _userFactory.GenerateUserIdentifierFromId(userId));
+            var users = newUserIds.Select(userId => new UserIdentifier(userId));
             return AddMultipleMembersToList(list, users);
         }
 
         public Task<MultiRequestsResult> AddMultipleMembersToList(ITwitterListIdentifier list, IEnumerable<string> newUserScreenNames)
         {
-            var users = newUserScreenNames.Select(screenName => _userFactory.GenerateUserIdentifierFromScreenName(screenName));
+            var users = newUserScreenNames.Select(screenName => new UserIdentifier(screenName));
             return AddMultipleMembersToList(list, users);
         }
 
         public Task<MultiRequestsResult> AddMultipleMembersToList(ITwitterListIdentifier list, IEnumerable<IUserIdentifier> newUserIdentifiers)
         {
             return _twitterListQueryExecutor.AddMultipleMembersToList(list, newUserIdentifiers);
-        } 
+        }
         #endregion
 
         #region Remove Member From List
@@ -478,16 +478,14 @@ namespace Tweetinvi.Controllers.TwitterLists
 
         public Task<bool> RemoveMemberFromList(ITwitterListIdentifier list, long newUserId)
         {
-            var user = _userFactory.GenerateUserIdentifierFromId(newUserId);
-            return RemoveMemberFromList(list, user);
+            return RemoveMemberFromList(list, new UserIdentifier(newUserId));
         }
 
         public Task<bool> RemoveMemberFromList(ITwitterListIdentifier list, string newUserName)
         {
-            var user = _userFactory.GenerateUserIdentifierFromScreenName(newUserName);
-            return RemoveMemberFromList(list, user);
+            return RemoveMemberFromList(list, new UserIdentifier(newUserName));
         }
-        
+
         public Task<bool> RemoveMemberFromList(ITwitterListIdentifier list, IUserIdentifier newUser)
         {
             return _twitterListQueryExecutor.RemoveMemberFromList(list, newUser);
@@ -569,13 +567,13 @@ namespace Tweetinvi.Controllers.TwitterLists
 
         public Task<MultiRequestsResult> RemoveMultipleMembersFromList(ITwitterListIdentifier list, IEnumerable<long> userIds)
         {
-            var users = userIds.Select(userId => _userFactory.GenerateUserIdentifierFromId(userId));
+            var users = userIds.Select(userId => new UserIdentifier(userId));
             return RemoveMultipleMembersFromList(list, users);
         }
 
         public Task<MultiRequestsResult> RemoveMultipleMembersFromList(ITwitterListIdentifier list, IEnumerable<string> userScreenNames)
         {
-            var users = userScreenNames.Select(screenName => _userFactory.GenerateUserIdentifierFromScreenName(screenName));
+            var users = userScreenNames.Select(screenName => new UserIdentifier(screenName));
             return RemoveMultipleMembersFromList(list, users);
         }
 
@@ -589,21 +587,19 @@ namespace Tweetinvi.Controllers.TwitterLists
         #region GetUserSubscribedLists
         public Task<IEnumerable<ITwitterList>> GetUserSubscribedLists(long userId, int maxNumberOfListsToRetrieve)
         {
-            var user = _userFactory.GenerateUserIdentifierFromId(userId);
-            return GetUserSubscribedLists(user, maxNumberOfListsToRetrieve);
+            return GetUserSubscribedLists(new UserIdentifier(userId), maxNumberOfListsToRetrieve);
         }
 
         public Task<IEnumerable<ITwitterList>> GetUserSubscribedLists(string userName, int maxNumberOfListsToRetrieve)
         {
-            var user = _userFactory.GenerateUserIdentifierFromScreenName(userName);
-            return GetUserSubscribedLists(user, maxNumberOfListsToRetrieve);
+            return GetUserSubscribedLists(new UserIdentifier(userName), maxNumberOfListsToRetrieve);
         }
 
         public async Task<IEnumerable<ITwitterList>> GetUserSubscribedLists(IUserIdentifier user, int maxNumberOfListsToRetrieve)
         {
             var listDTOs = await _twitterListQueryExecutor.GetUserSubscribedLists(user, maxNumberOfListsToRetrieve);
             return _twitterListsFactory.CreateListsFromDTOs(listDTOs);
-        } 
+        }
         #endregion
 
         #region Check Membership
@@ -681,14 +677,12 @@ namespace Tweetinvi.Controllers.TwitterLists
 
         public Task<bool> CheckIfUserIsAListMember(ITwitterListIdentifier listIdentifier, long userId)
         {
-            var user = _userFactory.GenerateUserIdentifierFromId(userId);
-            return CheckIfUserIsAListMember(listIdentifier, user);
+            return CheckIfUserIsAListMember(listIdentifier, new UserIdentifier(userId));
         }
 
         public Task<bool> CheckIfUserIsAListMember(ITwitterListIdentifier listIdentifier, string userScreenName)
         {
-            var user = _userFactory.GenerateUserIdentifierFromScreenName(userScreenName);
-            return CheckIfUserIsAListMember(listIdentifier, user);
+            return CheckIfUserIsAListMember(listIdentifier, new UserIdentifier(userScreenName));
         }
 
         public Task<bool> CheckIfUserIsAListMember(ITwitterListIdentifier listIdentifier, IUserIdentifier user)
@@ -790,7 +784,7 @@ namespace Tweetinvi.Controllers.TwitterLists
         public Task<bool> UnSubscribeAuthenticatedUserFromList(ITwitterListIdentifier list)
         {
             return _twitterListQueryExecutor.UnSubscribeAuthenticatedUserFromList(list);
-        } 
+        }
         #endregion
 
         #region CheckIfUserIsAListSubscriber
@@ -868,14 +862,12 @@ namespace Tweetinvi.Controllers.TwitterLists
 
         public Task<bool> CheckIfUserIsAListSubscriber(ITwitterListIdentifier listIdentifier, long userId)
         {
-            var user = _userFactory.GenerateUserIdentifierFromId(userId);
-            return CheckIfUserIsAListSubscriber(listIdentifier, user);
+            return CheckIfUserIsAListSubscriber(listIdentifier, new UserIdentifier(userId));
         }
 
         public Task<bool> CheckIfUserIsAListSubscriber(ITwitterListIdentifier listIdentifier, string userScreenName)
         {
-            var user = _userFactory.GenerateUserIdentifierFromScreenName(userScreenName);
-            return CheckIfUserIsAListSubscriber(listIdentifier, user);
+            return CheckIfUserIsAListSubscriber(listIdentifier, new UserIdentifier(userScreenName));
         }
 
         public Task<bool> CheckIfUserIsAListSubscriber(ITwitterListIdentifier listIdentifier, IUserIdentifier user)

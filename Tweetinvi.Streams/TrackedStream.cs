@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Tweetinvi.Client.Tools;
 using Tweetinvi.Core.Events;
-using Tweetinvi.Core.Factories;
 using Tweetinvi.Core.Helpers;
 using Tweetinvi.Core.Streaming;
 using Tweetinvi.Core.Wrappers;
@@ -23,8 +23,7 @@ namespace Tweetinvi.Streams
         public event EventHandler<TweetEventArgs> NonMatchingTweetReceived;
 
         private readonly IStreamTrackManager<ITweet> _streamTrackManager;
-        protected ITweetFactory _tweetFactory { get; }
-
+        private readonly ITwitterClientFactories _factories;
         private readonly ITwitterQueryFactory _twitterQueryFactory;
 
         public override event EventHandler<JsonObjectEventArgs> JsonObjectReceived;
@@ -34,14 +33,14 @@ namespace Tweetinvi.Streams
             IJsonObjectConverter jsonObjectConverter,
             IJObjectStaticWrapper jObjectStaticWrapper,
             IStreamResultGenerator streamResultGenerator,
-            ITweetFactory tweetFactory,
+            ITwitterClientFactories factories,
             ICustomRequestParameters customRequestParameters,
             ITwitterQueryFactory twitterQueryFactory)
 
             : base(streamResultGenerator, jsonObjectConverter, jObjectStaticWrapper, customRequestParameters)
         {
             _streamTrackManager = streamTrackManager;
-            _tweetFactory = tweetFactory;
+            _factories = factories;
             _twitterQueryFactory = twitterQueryFactory;
         }
 
@@ -62,7 +61,7 @@ namespace Tweetinvi.Streams
             {
                 RaiseJsonObjectReceived(json);
 
-                var tweet = _tweetFactory.GenerateTweetFromJson(json, TweetMode, null);
+                var tweet = _factories.CreateTweet(json);
                 if (tweet == null)
                 {
                     TryInvokeGlobalStreamMessages(json);

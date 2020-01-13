@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Tweetinvi.Core.Controllers;
-using Tweetinvi.Core.Factories;
 using Tweetinvi.Core.Helpers;
 using Tweetinvi.Core.Models.TwitterEntities;
 using Tweetinvi.Models;
@@ -18,14 +16,7 @@ namespace Tweetinvi.Core.Models
     public class Tweet : ITweet
     {
         private ITweetDTO _tweetDTO;
-
         public ITwitterClient Client { get; set; }
-#pragma warning disable 649
-        // TODO : REMOVE AS SOON AS Client has migrated all the methods of TweetController
-        private readonly ITweetController _tweetController;
-#pragma warning restore 649
-        private readonly ITweetFactory _tweetFactory;
-        private readonly IUserFactory _userFactory;
 
         #region Public Attributes
 
@@ -34,7 +25,7 @@ namespace Tweetinvi.Core.Models
 
         private void DTOUpdated()
         {
-            _createdBy = _tweetDTO == null ? null : _userFactory.GenerateUserFromDTO(_tweetDTO.CreatedBy, null);
+            _createdBy = _tweetDTO == null ? null : Client.Factories.CreateUser(_tweetDTO.CreatedBy);
             _entities = _tweetDTO == null ? null : new TweetEntities(_tweetDTO, TweetMode);
         }
 
@@ -256,7 +247,7 @@ namespace Tweetinvi.Core.Models
             {
                 if (_retweetedTweet == null)
                 {
-                    _retweetedTweet = _tweetFactory.GenerateTweetFromDTO(_tweetDTO.RetweetedTweetDTO, Client.ClientSettings.TweetMode, Client);
+                    _retweetedTweet = Client.Factories.CreateTweet(_tweetDTO.RetweetedTweetDTO);
                 }
 
                 return _retweetedTweet;
@@ -287,7 +278,7 @@ namespace Tweetinvi.Core.Models
             {
                 if (_quotedTweet == null)
                 {
-                    _quotedTweet = _tweetFactory.GenerateTweetFromDTO(_tweetDTO.QuotedTweetDTO, TweetMode, Client);
+                    _quotedTweet = Client.Factories.CreateTweet(_tweetDTO.QuotedTweetDTO);
                 }
 
                 return _quotedTweet;
@@ -424,14 +415,9 @@ namespace Tweetinvi.Core.Models
 
         #endregion
 
-        public Tweet(
-            ITweetDTO tweetDTO,
-            TweetMode? tweetMode,
-            ITweetFactory tweetFactory,
-            IUserFactory userFactory)
+        public Tweet(ITweetDTO tweetDTO, TweetMode? tweetMode, ITwitterClient client)
         {
-            _tweetFactory = tweetFactory;
-            _userFactory = userFactory;
+            Client = client;
 
             // IMPORTANT: POSITION MATTERS! Look line below!
             TweetMode = tweetMode ?? TweetMode.Extended;

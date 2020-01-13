@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Tweetinvi.Core.Models;
 using Tweetinvi.Iterators;
@@ -22,23 +21,7 @@ namespace Tweetinvi.Models
         /// <summary>
         /// Credentials used to authenticate this user.
         /// </summary>
-        ITwitterCredentials Credentials { get; set; }
-
-        /// <summary>
-        /// Set the credentials of the user.
-        /// </summary>
-        /// <param name="credentials"></param>
-        void SetCredentials(ITwitterCredentials credentials);
-
-        /// <summary>
-        /// Execute an operation with the context of this authenticated user.
-        /// </summary>
-        T ExecuteAuthenticatedUserOperation<T>(Func<T> operation);
-
-        /// <summary>
-        /// Execute an operation with the context of this authenticated user.
-        /// </summary>
-        void ExecuteAuthenticatedUserOperation(Action operation);
+        IReadOnlyTwitterCredentials Credentials { get; }
 
         #region Tweets
 

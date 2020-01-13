@@ -35,7 +35,9 @@ namespace Tweetinvi
         /// </summary>
         public static ITweetStream CreateTweetStream(ITwitterCredentials credentials, TweetMode tweetMode)
         {
-            return GetConfiguredStream(_tweetStreamUnityFactory.Create(), credentials, tweetMode);
+            var client = new TwitterClient(credentials);
+            var factories = _sampleStreamUnityFactory.GenerateParameterOverrideWrapper("factories", client.Factories);
+            return GetConfiguredStream(_tweetStreamUnityFactory.Create(factories), credentials, tweetMode);
         }
 
         /// <summary>
@@ -43,7 +45,9 @@ namespace Tweetinvi
         /// </summary>
         public static ITrackedStream CreateTrackedStream(ITwitterCredentials credentials, TweetMode tweetMode)
         {
-            return GetConfiguredStream(_trackedStreamUnityFactory.Create(), credentials, tweetMode);
+            var client = new TwitterClient(credentials);
+            var factories = _sampleStreamUnityFactory.GenerateParameterOverrideWrapper("factories", client.Factories);
+            return GetConfiguredStream(_trackedStreamUnityFactory.Create(factories), credentials, tweetMode);
         }
 
         /// <summary>
@@ -53,7 +57,9 @@ namespace Tweetinvi
         public static ISampleStream CreateSampleStream(ITwitterCredentials credentials, TweetMode tweetMode)
         {
             var customRequestParameters = _sampleStreamUnityFactory.GenerateParameterOverrideWrapper("customRequestParameters", new CustomRequestParameters());
-            return GetConfiguredStream(_sampleStreamUnityFactory.Create(customRequestParameters), credentials, tweetMode);
+            var client = new TwitterClient(credentials);
+            var factories = _sampleStreamUnityFactory.GenerateParameterOverrideWrapper("factories", client.Factories);
+            return GetConfiguredStream(_sampleStreamUnityFactory.Create(customRequestParameters, factories), credentials, tweetMode);
         }
 
         /// <summary>
@@ -63,7 +69,9 @@ namespace Tweetinvi
         public static IFilteredStream CreateFilteredStream(ITwitterCredentials credentials, TweetMode tweetMode)
         {
             var customRequestParameters = _sampleStreamUnityFactory.GenerateParameterOverrideWrapper("customRequestParameters", new CustomRequestParameters());
-            return GetConfiguredStream(_filteredStreamUnityFactory.Create(customRequestParameters), credentials, tweetMode);
+            var client = new TwitterClient(credentials);
+            var factories = _sampleStreamUnityFactory.GenerateParameterOverrideWrapper("factories", client.Factories);
+            return GetConfiguredStream(_filteredStreamUnityFactory.Create(customRequestParameters, factories), credentials, tweetMode);
         }
 
         private static T GetConfiguredStream<T>(T stream, ITwitterCredentials credentials, TweetMode tweetMode) where T : ITwitterStream
@@ -79,7 +87,9 @@ namespace Tweetinvi
         /// </summary>
         public static IAccountActivityStream CreateAccountActivityStream(long accountUserId)
         {
-            var stream = _accountActivityStreamFactory.Create();
+            var client = new TwitterClient(null);
+            var factories = _sampleStreamUnityFactory.GenerateParameterOverrideWrapper("factories", client.Factories);
+            var stream = _accountActivityStreamFactory.Create(factories);
 
             stream.AccountUserId = accountUserId;
 

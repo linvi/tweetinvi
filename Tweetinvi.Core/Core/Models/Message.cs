@@ -14,22 +14,19 @@ namespace Tweetinvi.Core.Models
     public class Message : IMessage
     {
         private readonly IMessageController _messageController;
-
         private IApp _app;
         private bool _mergedMediaIntoEntities;
 
-        public Message(
-            IMessageController messageController,
-            IMessageEventDTO messageEventDTO,
-            IApp app)
+        public Message(IMessageEventDTO messageEventDTO, IApp app, ITwitterClient client)
         {
-            _messageController = messageController;
             MessageEventDTO = messageEventDTO;
+            Client = client;
             _app = app;
         }
 
         // Properties
         public IMessageEventDTO MessageEventDTO { get; }
+        public ITwitterClient Client { get; }
 
         public IApp App
         {

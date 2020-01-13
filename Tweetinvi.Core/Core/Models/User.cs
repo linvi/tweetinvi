@@ -293,10 +293,11 @@ namespace Tweetinvi.Core.Models
 
         #endregion
 
-        public User(IUserDTO userDTO, ITwitterListController twitterListController)
+        public User(IUserDTO userDTO, ITwitterClient client)
         {
             UserDTO = userDTO;
-            _twitterListController = twitterListController;
+            Client = client;
+            _twitterListController = client.CreateTwitterExecutionContext().Container.Resolve<ITwitterListController>();
         }
 
         // Friends

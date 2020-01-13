@@ -12,6 +12,11 @@ namespace Tweetinvi.Models
     public interface IMessage : IEquatable<IMessage>
     {
         /// <summary>
+        /// Client used by the instance to perform any request to Twitter
+        /// </summary>
+        ITwitterClient Client { get; }
+
+        /// <summary>
         /// Underlying DTO representing this message (as an event).
         /// </summary>
         IMessageEventDTO MessageEventDTO { get; }
@@ -76,6 +81,7 @@ namespace Tweetinvi.Models
         /// Media that was attached to the message.
         /// </summary>
         IMediaEntity AttachedMedia { get; }
+
 
         /// <summary>
         /// Destroy the message.

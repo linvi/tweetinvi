@@ -12,6 +12,11 @@ namespace Tweetinvi.Models
     /// </summary>
     public interface ITweet : ITweetIdentifier, IEquatable<ITweet>
     {
+        /// <summary>
+        /// Client used by the instance to perform any request to Twitter
+        /// </summary>
+        ITwitterClient Client { get; set; }
+
         #region Twitter API Properties
 
         /// <summary>
@@ -272,8 +277,6 @@ namespace Tweetinvi.Models
         /// URL of the tweet on twitter.com
         /// </summary>
         string Url { get; }
-
-        
 
         #endregion
 

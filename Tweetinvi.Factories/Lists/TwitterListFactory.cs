@@ -1,9 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Tweetinvi.Client.Tools;
 using Tweetinvi.Core.Factories;
-using Tweetinvi.Core.Helpers;
-using Tweetinvi.Core.Injectinvi;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
 
@@ -12,19 +11,16 @@ namespace Tweetinvi.Factories.Lists
     public class TwitterListFactory : ITwitterListFactory
     {
         private readonly ITwitterListFactoryQueryExecutor _twitterListFactoryQueryExecutor;
-        private readonly IFactory<ITwitterList> _twitterListFactory;
-        private readonly IJsonObjectConverter _jsonObjectConverter;
+        private readonly ITwitterClientFactories _factories;
         private readonly ITwitterListIdentifierFactory _twitterListIdentifierFactory;
 
         public TwitterListFactory(
             ITwitterListFactoryQueryExecutor twitterListFactoryQueryExecutor,
-            IFactory<ITwitterList> twitterListFactory,
-            IJsonObjectConverter jsonObjectConverter,
+            ITwitterClientFactories factories,
             ITwitterListIdentifierFactory twitterListIdentifierFactory)
         {
             _twitterListFactoryQueryExecutor = twitterListFactoryQueryExecutor;
-            _twitterListFactory = twitterListFactory;
-            _jsonObjectConverter = jsonObjectConverter;
+            _factories = factories;
             _twitterListIdentifierFactory = twitterListIdentifierFactory;
         }
 
@@ -32,7 +28,7 @@ namespace Tweetinvi.Factories.Lists
         public async Task<ITwitterList> CreateList(string name, PrivacyMode privacyMode, string description)
         {
             var listDTO = await _twitterListFactoryQueryExecutor.CreateList(name, privacyMode, description);
-            return CreateListFromDTO(listDTO);
+            return _factories.CreateTwitterList(listDTO);
         }
 
         // Get Existing
@@ -68,20 +64,10 @@ namespace Tweetinvi.Factories.Lists
             }
 
             var listDTO = await _twitterListFactoryQueryExecutor.GetExistingList(identifier);
-            return CreateListFromDTO(listDTO);
+            return _factories.CreateTwitterList(listDTO);
         }
 
         // Generate List from DTO
-        public ITwitterList CreateListFromDTO(ITwitterListDTO twitterListDTO)
-        {
-            if (twitterListDTO == null)
-            {
-                return null;
-            }
-
-            var parameterOverride = _twitterListFactory.GenerateParameterOverrideWrapper("twitterListDTO", twitterListDTO);
-            return _twitterListFactory.Create(parameterOverride);
-        }
 
         public IEnumerable<ITwitterList> CreateListsFromDTOs(IEnumerable<ITwitterListDTO> listDTOs)
         {
@@ -90,13 +76,8 @@ namespace Tweetinvi.Factories.Lists
                 return null;
             }
 
-            return listDTOs.Select(CreateListFromDTO).ToArray();
+            return listDTOs.Select(_factories.CreateTwitterList).ToArray();
         }
 
-        public ITwitterList GenerateListFromJson(string json)
-        {
-            var listDTO = _jsonObjectConverter.DeserializeObject<ITwitterListDTO>(json);
-            return CreateListFromDTO(listDTO);
-        }
     }
 }

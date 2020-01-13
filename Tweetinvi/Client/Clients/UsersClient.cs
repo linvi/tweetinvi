@@ -16,17 +16,15 @@ namespace Tweetinvi.Client
 {
     public class UsersClient : IUsersClient
     {
-        private readonly TwitterClient _client;
+        private readonly ITwitterClient _client;
         private readonly IUsersRequester _usersRequester;
         private readonly IMultiLevelCursorIteratorFactory _multiLevelCursorIteratorFactory;
 
-        public UsersClient(TwitterClient client)
+        public UsersClient(ITwitterClient client, IMultiLevelCursorIteratorFactory multiLevelCursorIteratorFactory)
         {
-            var clientContext = client.CreateTwitterExecutionContext();
-
             _client = client;
             _usersRequester = client.RequestExecutor.Users;
-            _multiLevelCursorIteratorFactory = clientContext.Container.Resolve<IMultiLevelCursorIteratorFactory>();
+            _multiLevelCursorIteratorFactory = multiLevelCursorIteratorFactory;
         }
 
         public IUsersClientParametersValidator ParametersValidator => _client.ParametersValidator;

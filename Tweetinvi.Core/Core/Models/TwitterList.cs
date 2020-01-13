@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Tweetinvi.Core.Controllers;
-using Tweetinvi.Core.Factories;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
 using Tweetinvi.Parameters;
@@ -11,19 +10,14 @@ namespace Tweetinvi.Core.Models
 {
     public class TwitterList : ITwitterList
     {
-        private readonly IUserFactory _userFactory;
         private readonly ITwitterListController _twitterListController;
         private ITwitterListDTO _twitterListDTO;
         private IUser _owner;
 
-        public TwitterList(
-            IUserFactory userFactory,
-            ITwitterListController twitterListController,
-            ITwitterListDTO twitterListDTO)
+        public TwitterList(ITwitterListDTO twitterListDTO, ITwitterClient client)
         {
-            _userFactory = userFactory;
-            _twitterListController = twitterListController;
             TwitterListDTO = twitterListDTO;
+            Client = client;
         }
 
         public ITwitterListDTO TwitterListDTO
@@ -35,6 +29,8 @@ namespace Tweetinvi.Core.Models
                 UpdateOwner();
             }
         }
+
+        public ITwitterClient Client { get; }
 
         public long Id => _twitterListDTO.Id;
         public string IdStr => _twitterListDTO.IdStr;
@@ -168,7 +164,7 @@ namespace Tweetinvi.Core.Models
             return _twitterListController.UnSubscribeAuthenticatedUserFromList(this);
         }
 
-        
+
         public Task<bool> CheckUserSubscription(long userId)
         {
             return _twitterListController.CheckIfUserIsAListSubscriber(this, userId);
@@ -207,7 +203,7 @@ namespace Tweetinvi.Core.Models
         {
             if (_twitterListDTO != null)
             {
-                _owner = _userFactory.GenerateUserFromDTO(_twitterListDTO.Owner, null);
+                _owner = Client.Factories.CreateUser(_twitterListDTO.Owner);
             }
         }
     }

@@ -15,9 +15,6 @@ namespace Tweetinvi.Core.Factories
         Task<ITwitterList> GetExistingList(string slug, long userId);
         Task<ITwitterList> GetExistingList(string slug, string userScreenName);
 
-        ITwitterList CreateListFromDTO(ITwitterListDTO twitterListDTO);
         IEnumerable<ITwitterList> CreateListsFromDTOs(IEnumerable<ITwitterListDTO> listDTOs);
-        
-        ITwitterList GenerateListFromJson(string json);
     }
 }

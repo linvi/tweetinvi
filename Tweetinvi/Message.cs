@@ -5,7 +5,6 @@ using Tweetinvi.Core.Controllers;
 using Tweetinvi.Core.Factories;
 using Tweetinvi.Core.Models;
 using Tweetinvi.Models;
-using Tweetinvi.Models.DTO;
 using Tweetinvi.Models.DTO.Events;
 using Tweetinvi.Parameters;
 
@@ -152,33 +151,6 @@ namespace Tweetinvi
         public static Task<bool> DestroyMessage(long messageId)
         {
             return MessageController.DestroyMessage(messageId);
-        }
-
-        // Generate message from DTO
-        public static IMessage GenerateMessageFromEventWithAppDTO(IMessageEventWithAppDTO messageEventWithAppDTO)
-        {
-            return MessageFactory.GenerateMessageFromEventWithAppDTO(messageEventWithAppDTO);
-        }
-
-        public static IEnumerable<IMessage> GenerateMessagesFromEventWithAppDTOs(
-            IEnumerable<IMessageEventWithAppDTO> eventWithAppDTOs)
-        {
-            return MessageFactory.GenerateMessagesFromEventWithAppDTOs(eventWithAppDTOs);
-        }
-
-        public static string ToJson(IMessage message)
-        {
-            return message.ToJson();
-        }
-
-        public static string ToJson(IMessageEventWithAppDTO messageEventWithAppDTO)
-        {
-            return messageEventWithAppDTO.ToJson();
-        }
-
-        public static IMessage FromJson(string json)
-        {
-            return MessageFactory.GenerateMessageFromJson(json);
         }
     }
 }

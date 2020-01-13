@@ -1,5 +1,4 @@
-﻿using Tweetinvi.Core.Factories;
-using Tweetinvi.Core.Models;
+﻿using Tweetinvi.Core.Models;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
 
@@ -7,14 +6,10 @@ namespace Tweetinvi.Logic
 {
     public class TweetWithSearchMetadata : Tweet, ITweetWithSearchMetadata
     {
-        private ITweetWithSearchMetadataDTO _tweetWithSearchMetadataDTO;
+        private readonly ITweetWithSearchMetadataDTO _tweetWithSearchMetadataDTO;
 
-        public TweetWithSearchMetadata(
-            ITweetWithSearchMetadataDTO tweetDTO,
-            TweetMode? tweetMode,
-            ITweetFactory tweetFactory,
-            IUserFactory userFactory)
-            : base(tweetDTO, tweetMode, tweetFactory, userFactory)
+        public TweetWithSearchMetadata(ITweetWithSearchMetadataDTO tweetDTO, TweetMode? tweetMode, ITwitterClient client)
+            : base(tweetDTO, tweetMode, client)
         {
             _tweetWithSearchMetadataDTO = tweetDTO;
         }

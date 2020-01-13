@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
+using Tweetinvi.Client.Tools;
 using Tweetinvi.Core.Controllers;
-using Tweetinvi.Core.Factories;
 using Tweetinvi.Models;
 
 namespace Tweetinvi.Controllers.SavedSearch
@@ -9,20 +10,20 @@ namespace Tweetinvi.Controllers.SavedSearch
     public class SavedSearchController : ISavedSearchController
     {
         private readonly ISavedSearchQueryExecutor _savedSearchQueryExecutor;
-        private readonly ISavedSearchFactory _savedSearchFactory;
+        private readonly ITwitterClientFactories _factories;
 
         public SavedSearchController(
             ISavedSearchQueryExecutor savedSearchQueryExecutor,
-            ISavedSearchFactory savedSearchFactory)
+            ITwitterClientFactories factories)
         {
             _savedSearchQueryExecutor = savedSearchQueryExecutor;
-            _savedSearchFactory = savedSearchFactory;
+            _factories = factories;
         }
 
         public async Task<IEnumerable<ISavedSearch>> GetSavedSearches()
         {
             var savedSearchesDTO = await _savedSearchQueryExecutor.GetSavedSearches();
-            return _savedSearchFactory.GenerateSavedSearchesFromDTOs(savedSearchesDTO);
+            return savedSearchesDTO?.Select(_factories.CreateSavedSearch);
         }
 
         public Task<bool> DestroySavedSearch(ISavedSearch savedSearch)

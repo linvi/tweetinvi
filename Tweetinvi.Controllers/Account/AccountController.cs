@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using Tweetinvi.Client.Tools;
 using Tweetinvi.Core.Controllers;
 using Tweetinvi.Core.Factories;
 using Tweetinvi.Core.Helpers;
@@ -16,6 +17,7 @@ namespace Tweetinvi.Controllers.Account
     {
         private readonly IAccountQueryExecutor _accountQueryExecutor;
         private readonly IUserFactory _userFactory;
+        private readonly ITwitterClientFactories _factories;
         private readonly IFactory<IAccountSettings> _accountSettingsUnityFactory;
         private readonly IJsonObjectConverter _jsonObjectConverter;
         private readonly ITwitterResultFactory _twitterResultFactory;
@@ -23,12 +25,14 @@ namespace Tweetinvi.Controllers.Account
         public AccountController(
             IAccountQueryExecutor accountQueryExecutor,
             IUserFactory userFactory,
+            ITwitterClientFactories factories,
             IFactory<IAccountSettings> accountSettingsUnityFactory,
             IJsonObjectConverter jsonObjectConverter,
             ITwitterResultFactory twitterResultFactory)
         {
             _accountQueryExecutor = accountQueryExecutor;
             _userFactory = userFactory;
+            _factories = factories;
             _accountSettingsUnityFactory = accountSettingsUnityFactory;
             _jsonObjectConverter = jsonObjectConverter;
             _twitterResultFactory = twitterResultFactory;
@@ -37,7 +41,7 @@ namespace Tweetinvi.Controllers.Account
         public async Task<ITwitterResult<IUserDTO, IAuthenticatedUser>> GetAuthenticatedUser(IGetAuthenticatedUserParameters parameters, ITwitterRequest request)
         {
             var result = await _accountQueryExecutor.GetAuthenticatedUser(parameters, request).ConfigureAwait(false);
-            return _twitterResultFactory.Create(result, userDTO => _userFactory.GenerateAuthenticatedUserFromDTO(userDTO));
+            return _twitterResultFactory.Create(result, userDTO => _factories.CreateAuthenticatedUser(userDTO));
         }
 
         // FOLLOW/UNFOLLOW

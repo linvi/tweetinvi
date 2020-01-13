@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Tweetinvi.Core.Controllers;
-using Tweetinvi.Core.Credentials;
 using Tweetinvi.Iterators;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
@@ -17,64 +16,21 @@ namespace Tweetinvi.Core.Models
     /// </summary>
     public class AuthenticatedUser : User, IAuthenticatedUser
     {
-        private readonly ICredentialsAccessor _credentialsAccessor;
         private readonly IMessageController _messageController;
         private readonly ITwitterListController _twitterListController;
         private readonly ISavedSearchController _savedSearchController;
 
-        private ITwitterCredentials _savedCredentials;
-
-        public AuthenticatedUser(
-            IUserDTO userDTO,
-            ICredentialsAccessor credentialsAccessor,
-            IMessageController messageController,
-            ITwitterListController twitterListController,
-            ISavedSearchController savedSearchController)
-
-            : base(userDTO, twitterListController)
+        public AuthenticatedUser(IUserDTO userDTO, ITwitterClient client) : base(userDTO, client)
         {
-            _credentialsAccessor = credentialsAccessor;
-            _messageController = messageController;
-            _twitterListController = twitterListController;
-            _savedSearchController = savedSearchController;
-
-            Credentials = _credentialsAccessor.CurrentThreadCredentials;
+            var executionContext = client.CreateTwitterExecutionContext();
+            _messageController = executionContext.Container.Resolve<IMessageController>();
+            _savedSearchController = executionContext.Container.Resolve<ISavedSearchController>();
+            _twitterListController = executionContext.Container.Resolve<ITwitterListController>();
         }
 
         public string Email => UserDTO.Email;
 
-        public void SetCredentials(ITwitterCredentials credentials)
-        {
-            Credentials = credentials;
-        }
-
-        public ITwitterCredentials Credentials { get; set; }
-
-        public T ExecuteAuthenticatedUserOperation<T>(Func<T> operation)
-        {
-            StartAuthenticatedUserOperation();
-            var result = operation();
-            CompletedAuthenticatedUserOperation();
-            return result;
-        }
-
-        public void ExecuteAuthenticatedUserOperation(Action operation)
-        {
-            StartAuthenticatedUserOperation();
-            operation();
-            CompletedAuthenticatedUserOperation();
-        }
-
-        private void StartAuthenticatedUserOperation()
-        {
-            _savedCredentials = _credentialsAccessor.CurrentThreadCredentials;
-            _credentialsAccessor.CurrentThreadCredentials = Credentials;
-        }
-
-        private void CompletedAuthenticatedUserOperation()
-        {
-            _credentialsAccessor.CurrentThreadCredentials = _savedCredentials;
-        }
+        public IReadOnlyTwitterCredentials Credentials => Client.Credentials;
 
         // Home Timeline
         public ITwitterIterator<ITweet, long?> GetHomeTimelineIterator()
@@ -158,7 +114,7 @@ namespace Tweetinvi.Core.Models
 
         public Task<IEnumerable<ISavedSearch>> GetSavedSearches()
         {
-            return ExecuteAuthenticatedUserOperation(() => _savedSearchController.GetSavedSearches());
+            return _savedSearchController.GetSavedSearches();
         }
 
         // Block
@@ -244,12 +200,12 @@ namespace Tweetinvi.Core.Models
 
         public Task<AsyncCursorResult<IEnumerable<IMessage>>> GetLatestMessagesWithCursor(int count)
         {
-            return ExecuteAuthenticatedUserOperation(() => _messageController.GetLatestMessages(count));
+            return _messageController.GetLatestMessages(count);
         }
 
         public Task<IMessage> PublishMessage(IPublishMessageParameters publishMessageParameters)
         {
-            return ExecuteAuthenticatedUserOperation(() => _messageController.PublishMessage(publishMessageParameters));
+            return _messageController.PublishMessage(publishMessageParameters);
         }
 
         // Tweet
@@ -272,52 +228,52 @@ namespace Tweetinvi.Core.Models
         // Twitter Lists
         public Task<bool> SubscribeToList(ITwitterListIdentifier list)
         {
-            return ExecuteAuthenticatedUserOperation(() => _twitterListController.SubscribeAuthenticatedUserToList(list));
+            return _twitterListController.SubscribeAuthenticatedUserToList(list);
         }
 
         public Task<bool> SubscribeToList(long listId)
         {
-            return ExecuteAuthenticatedUserOperation(() => _twitterListController.SubscribeAuthenticatedUserToList(listId));
+            return _twitterListController.SubscribeAuthenticatedUserToList(listId);
         }
 
         public Task<bool> SubscribeToList(string slug, long ownerId)
         {
-            return ExecuteAuthenticatedUserOperation(() => _twitterListController.SubscribeAuthenticatedUserToList(slug, ownerId));
+            return _twitterListController.SubscribeAuthenticatedUserToList(slug, ownerId);
         }
 
         public Task<bool> SubscribeToList(string slug, string ownerScreenName)
         {
-            return ExecuteAuthenticatedUserOperation(() => _twitterListController.SubscribeAuthenticatedUserToList(slug, ownerScreenName));
+            return _twitterListController.SubscribeAuthenticatedUserToList(slug, ownerScreenName);
         }
 
         public Task<bool> SubscribeToList(string slug, IUserIdentifier owner)
         {
-            return ExecuteAuthenticatedUserOperation(() => _twitterListController.SubscribeAuthenticatedUserToList(slug, owner));
+            return _twitterListController.SubscribeAuthenticatedUserToList(slug, owner);
         }
 
         public Task<bool> UnSubscribeFromList(ITwitterListIdentifier list)
         {
-            return ExecuteAuthenticatedUserOperation(() => _twitterListController.UnSubscribeAuthenticatedUserFromList(list));
+            return _twitterListController.UnSubscribeAuthenticatedUserFromList(list);
         }
 
         public Task<bool> UnSubscribeFromList(long listId)
         {
-            return ExecuteAuthenticatedUserOperation(() => _twitterListController.UnSubscribeAuthenticatedUserFromList(listId));
+            return _twitterListController.UnSubscribeAuthenticatedUserFromList(listId);
         }
 
         public Task<bool> UnSubscribeFromList(string slug, long ownerId)
         {
-            return ExecuteAuthenticatedUserOperation(() => _twitterListController.UnSubscribeAuthenticatedUserFromList(slug, ownerId));
+            return _twitterListController.UnSubscribeAuthenticatedUserFromList(slug, ownerId);
         }
 
         public Task<bool> UnSubscribeFromList(string slug, string ownerScreenName)
         {
-            return ExecuteAuthenticatedUserOperation(() => _twitterListController.UnSubscribeAuthenticatedUserFromList(slug, ownerScreenName));
+            return _twitterListController.UnSubscribeAuthenticatedUserFromList(slug, ownerScreenName);
         }
 
         public Task<bool> UnSubscribeFromList(string slug, IUserIdentifier owner)
         {
-            return ExecuteAuthenticatedUserOperation(() => _twitterListController.UnSubscribeAuthenticatedUserFromList(slug, owner));
+            return _twitterListController.UnSubscribeAuthenticatedUserFromList(slug, owner);
         }
 
         // Mute

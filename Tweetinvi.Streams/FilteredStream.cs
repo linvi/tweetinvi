@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Tweetinvi.Client.Tools;
 using Tweetinvi.Core.Extensions;
 using Tweetinvi.Core.Factories;
 using Tweetinvi.Core.Helpers;
@@ -21,6 +22,7 @@ namespace Tweetinvi.Streams
     {
         protected IStreamTrackManager<ITweet> StreamTrackManager { get; }
         private readonly IFilterStreamTweetMatcherFactory _filterStreamTweetMatcherFactory;
+        private readonly ITwitterClientFactories _factories;
         private readonly ITwitterQueryFactory _twitterQueryFactory;
 
         // Const
@@ -52,7 +54,7 @@ namespace Tweetinvi.Streams
             IJsonObjectConverter jsonObjectConverter,
             IJObjectStaticWrapper jObjectStaticWrapper,
             IStreamResultGenerator streamResultGenerator,
-            ITweetFactory tweetFactory,
+            ITwitterClientFactories factories,
             ICustomRequestParameters customRequestParameters,
             ITwitterQueryFactory twitterQueryFactory)
 
@@ -61,12 +63,13 @@ namespace Tweetinvi.Streams
                 jsonObjectConverter,
                 jObjectStaticWrapper,
                 streamResultGenerator,
-                tweetFactory,
+                factories,
                 customRequestParameters,
                 twitterQueryFactory)
         {
             StreamTrackManager = streamTrackManager;
             _filterStreamTweetMatcherFactory = filterStreamTweetMatcherFactory;
+            _factories = factories;
             _twitterQueryFactory = twitterQueryFactory;
 
             _followingUserIds = new Dictionary<long?, Action<ITweet>>();
@@ -96,7 +99,7 @@ namespace Tweetinvi.Streams
             {
                 RaiseJsonObjectReceived(json);
 
-                var tweet = _tweetFactory.GenerateTweetFromJson(json, TweetMode, null);
+                var tweet = _factories.CreateTweet(json);
                 if (tweet == null)
                 {
                     TryInvokeGlobalStreamMessages(json);
@@ -151,7 +154,7 @@ namespace Tweetinvi.Streams
             {
                 RaiseJsonObjectReceived(json);
 
-                var tweet = _tweetFactory.GenerateTweetFromJson(json, TweetMode, null);
+                var tweet = _factories.CreateTweet(json);
                 if (tweet == null)
                 {
                     TryInvokeGlobalStreamMessages(json);

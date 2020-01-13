@@ -1,6 +1,6 @@
 ﻿using System;
 using Tweetinvi.Client;
-using Tweetinvi.Client.Requesters;
+using Tweetinvi.Client.Tools;
 using Tweetinvi.Core.Client;
 using Tweetinvi.Core.Client.Validators;
 using Tweetinvi.Core.Events;
@@ -83,6 +83,9 @@ namespace Tweetinvi
                 _tweetinviContainer.RegisterInstance(typeof(IRateLimitCache), parameters.RateLimitCache);
             }
 
+            _tweetinviContainer.RegisterInstance(typeof(TwitterClient), this);
+            _tweetinviContainer.RegisterInstance(typeof(ITwitterClient), this);
+
             void BeforeRegistrationDelegate(object sender, TweetinviContainerEventArgs args)
             {
                 parameters?.RaiseBeforeRegistrationCompletes(args);
@@ -102,21 +105,24 @@ namespace Tweetinvi
             parametersValidator.Initialize(this);
             ParametersValidator = parametersValidator;
 
-            Account = new AccountClient(this);
-            Auth = new AuthClient(this);
-            AccountSettings = new AccountSettingsClient(this);
-            Execute = new ExecuteClient(this);
-            RateLimits = new RateLimitsClient(this);
-            Timeline = new TimelineClient(this);
-            Tweets = new TweetsClient(this);
-            Upload = new UploadClient(this);
-            Users = new UsersClient(this);
+            Account = _tweetinviContainer.Resolve<IAccountClient>();
+            Auth = _tweetinviContainer.Resolve<IAuthClient>();
+            AccountSettings = _tweetinviContainer.Resolve<IAccountSettingsClient>();
+            Execute = _tweetinviContainer.Resolve<IExecuteClient>();
+            RateLimits = _tweetinviContainer.Resolve<IRateLimitsClient>();
+            Timeline = _tweetinviContainer.Resolve<ITimelineClient>();
+            Tweets = _tweetinviContainer.Resolve<ITweetsClient>();
+            Upload = _tweetinviContainer.Resolve<IUploadClient>();
+            Users = _tweetinviContainer.Resolve<IUsersClient>();
 
             _twitterClientEvents = _tweetinviContainer.Resolve<ITwitterClientEvents>();
             Events.BeforeWaitingForRequestRateLimits += EventsOnBeforeWaitingForRequestRateLimits;
             Events.BeforeExecutingRequest += EventsOnBeforeExecutingRequest;
             Events.AfterExecutingRequest += EventsOnAfterExecutingRequest;
             Events.OnTwitterException += EventsOnOnTwitterException;
+
+            Factories = _tweetinviContainer.Resolve<ITwitterClientFactories>();
+            Json = _tweetinviContainer.Resolve<ITwitterClientJson>();
 
             var rateLimitCacheManager = _tweetinviContainer.Resolve<IRateLimitCacheManager>();
             rateLimitCacheManager.RateLimitsClient = RateLimits;
@@ -142,6 +148,11 @@ namespace Tweetinvi
         public IUsersClient Users { get; }
         /// <inheritdoc/>
         public IExternalClientEvents Events => _twitterClientEvents;
+        /// <inheritdoc/>
+        public ITwitterClientFactories Factories { get; }
+        /// <inheritdoc/>
+        public ITwitterClientJson Json { get; }
+
         /// <inheritdoc/>
         public IParametersValidator ParametersValidator { get; }
         /// <inheritdoc/>

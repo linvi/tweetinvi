@@ -5,6 +5,7 @@ using System.Linq;
 using System.Reflection;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Tweetinvi.Client.Tools;
 using Tweetinvi.Core.Controllers;
 using Tweetinvi.Core.Factories;
 using Tweetinvi.Core.JsonConverters;
@@ -49,32 +50,29 @@ namespace Tweetinvi
 
         static JsonSerializer()
         {
-            var tweetFactory = TweetinviContainer.Resolve<ITweetFactory>();
-            var userFactory = TweetinviContainer.Resolve<IUserFactory>();
+            var factories = TweetinviContainer.Resolve<ITwitterClientFactories>();
             var messageFactory = TweetinviContainer.Resolve<IMessageFactory>();
             var twitterListFactory = TweetinviContainer.Resolve<ITwitterListFactory>();
-            var savedSearchFactory = TweetinviContainer.Resolve<ISavedSearchFactory>();
             var accountSettingsFactory = TweetinviContainer.Resolve<IAccountController>();
-            var friendshipFactory = TweetinviContainer.Resolve<IFriendshipFactory>();
 
             _getSerializableObject = new Dictionary<Type, IJsonSerializer>();
 
             // ReSharper disable RedundantTypeArgumentsOfMethod
-            Map<ITweet, ITweetDTO>(u => u.TweetDTO, tweetFactory.GenerateTweetFromJson);
-            Map<IUser, IUserDTO>(u => u.UserDTO, userFactory.GenerateUserFromJson);
+            Map<ITweet, ITweetDTO>(u => u.TweetDTO, factories.CreateTweet);
+            Map<IUser, IUserDTO>(u => u.UserDTO, factories.CreateUser);
             Map<IMessage, IMessageEventWithAppDTO>(m =>
             {
                 var eventWithApp = TweetinviContainer.Resolve<IMessageEventWithAppDTO>();
                 eventWithApp.MessageEvent = m.MessageEventDTO;
                 eventWithApp.App = m.App;
                 return eventWithApp;
-            }, messageFactory.GenerateMessageFromJson);
-            Map<ITwitterList, ITwitterListDTO>(l => l.TwitterListDTO, twitterListFactory.GenerateListFromJson);
-            Map<ISavedSearch, ISavedSearchDTO>(s => s.SavedSearchDTO, savedSearchFactory.GenerateSavedSearchFromJson);
+            }, factories.CreateMessage);
+            Map<ITwitterList, ITwitterListDTO>(l => l.TwitterListDTO, factories.CreateTwitterList);
+            Map<ISavedSearch, ISavedSearchDTO>(s => s.SavedSearchDTO, factories.CreateSavedSearch);
             Map<IAccountSettings, IAccountSettingsDTO>(s => s.AccountSettingsDTO, accountSettingsFactory.GenerateAccountSettingsFromJson);
-            Map<IOEmbedTweet, IOEmbedTweetDTO>(t => t.OembedTweetDTO, tweetFactory.GenerateOEmbedTweetFromJson);
-            Map<IRelationshipDetails, IRelationshipDetailsDTO>(r => r.RelationshipDetailsDTO, friendshipFactory.GenerateFriendshipDetailsFromJson);
-            Map<IRelationshipState, IRelationshipStateDTO>(r => r.RelationshipStateDTO, friendshipFactory.GenerateFriendshipStateFromJson);
+            Map<IOEmbedTweet, IOEmbedTweetDTO>(t => t.OembedTweetDTO, factories.CreateOEmbedTweet);
+            Map<IRelationshipDetails, IRelationshipDetailsDTO>(r => r.RelationshipDetailsDTO, factories.CreateRelationshipDetails);
+            Map<IRelationshipState, IRelationshipStateDTO>(r => r.RelationshipStateDTO, factories.CreateRelationshipState);
             // ReSharper restore RedundantTypeArgumentsOfMethod
         }
 

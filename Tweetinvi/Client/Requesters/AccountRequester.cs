@@ -1,7 +1,8 @@
+using System.Linq;
 using System.Threading.Tasks;
+using Tweetinvi.Client.Tools;
 using Tweetinvi.Core.Client.Validators;
 using Tweetinvi.Core.Controllers;
-using Tweetinvi.Core.Factories;
 using Tweetinvi.Core.Iterators;
 using Tweetinvi.Core.Web;
 using Tweetinvi.Credentials.QueryJsonConverters;
@@ -19,19 +20,19 @@ namespace Tweetinvi.Client.Requesters
     public class AccountRequester : BaseRequester, IInternalAccountRequester
     {
         private readonly IAccountController _accountController;
+        private readonly ITwitterClientFactories _factories;
         private readonly ITwitterResultFactory _twitterResultFactory;
-        private readonly IFriendshipFactory _friendshipFactory;
         private readonly IAccountClientRequiredParametersValidator _validator;
 
         public AccountRequester(
             IAccountController accountController,
+            ITwitterClientFactories factories,
             ITwitterResultFactory twitterResultFactory,
-            IFriendshipFactory friendshipFactory,
             IAccountClientRequiredParametersValidator validator)
         {
             _accountController = accountController;
+            _factories = factories;
             _twitterResultFactory = twitterResultFactory;
-            _friendshipFactory = friendshipFactory;
             _validator = validator;
         }
 
@@ -66,7 +67,7 @@ namespace Tweetinvi.Client.Requesters
             return ExecuteRequest(async request =>
             {
                 var result = await _accountController.UpdateRelationship(parameters, request).ConfigureAwait(false);
-                return _twitterResultFactory.Create(result, _friendshipFactory.GenerateRelationshipFromRelationshipDTO);
+                return _twitterResultFactory.Create(result, _factories.CreateRelationshipDetails);
             });
         }
 
@@ -139,7 +140,7 @@ namespace Tweetinvi.Client.Requesters
             return ExecuteRequest(async request =>
             {
                 var twitterResult = await _accountController.GetRelationshipsWith(parameters, request).ConfigureAwait(false);
-                return _twitterResultFactory.Create(twitterResult, _friendshipFactory.GenerateRelationshipStatesFromRelationshipStatesDTO);
+                return _twitterResultFactory.Create(twitterResult, dtos => dtos?.Select(x => _factories.CreateRelationshipState(x)).ToArray());
             });
         }
 

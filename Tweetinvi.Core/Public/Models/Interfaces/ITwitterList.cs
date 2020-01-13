@@ -63,6 +63,11 @@ namespace Tweetinvi.Models
         int SubscriberCount { get; }
 
         /// <summary>
+        /// Client used by the instance to perform any request to Twitter
+        /// </summary>
+        ITwitterClient Client { get; }
+
+        /// <summary>
         /// Get the tweets from this list.
         /// </summary>
         Task<IEnumerable<ITweet>> GetTweets(IGetTweetsFromListParameters getTweetsFromListParameters = null);
@@ -141,7 +146,7 @@ namespace Tweetinvi.Models
         /// Test if a user is a member of the list.
         /// </summary>
         Task<bool> CheckUserMembership(string userScreenName);
-        
+
         /// <summary>
         /// Test if a user is a member of the list.
         /// </summary>

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json.Linq;
+using Tweetinvi.Client.Tools;
 using Tweetinvi.Core.Events;
 using Tweetinvi.Core.Extensions;
 using Tweetinvi.Core.Factories;
@@ -22,8 +23,7 @@ namespace Tweetinvi.Streams
     {
         private readonly IJObjectStaticWrapper _jObjectWrapper;
         private readonly IJsonObjectConverter _jsonObjectConverter;
-        private readonly ITweetFactory _tweetFactory;
-        private readonly IUserFactory _userFactory;
+        private readonly ITwitterClientFactories _factories;
         private readonly IMessageFactory _messageFactory;
 
         private readonly Dictionary<string, Action<string, JObject>> _events;
@@ -31,14 +31,12 @@ namespace Tweetinvi.Streams
         public AccountActivityStream(
             IJObjectStaticWrapper jObjectWrapper,
             IJsonObjectConverter jsonObjectConverter,
-            ITweetFactory tweetFactory,
-            IUserFactory userFactory,
+            ITwitterClientFactories factories,
             IMessageFactory messageFactory)
         {
             _jObjectWrapper = jObjectWrapper;
             _jsonObjectConverter = jsonObjectConverter;
-            _tweetFactory = tweetFactory;
-            _userFactory = userFactory;
+            _factories = factories;
             _messageFactory = messageFactory;
             _events = new Dictionary<string, Action<string, JObject>>();
 
@@ -57,7 +55,7 @@ namespace Tweetinvi.Streams
             _events.Add("block_events", TryRaiseUserBlockedEvents);
             _events.Add("mute_events", TryRaiseUserMutedEvents);
 
-            // App 
+            // App
             _events.Add("user_event", TryRaiseUserEvent);
 
             // Messages
@@ -143,7 +141,7 @@ namespace Tweetinvi.Streams
 
             tweetDTOs.ForEach(tweetDTO =>
             {
-                var tweet = _tweetFactory.GenerateTweetFromDTO(tweetDTO, null, null);
+                var tweet = _factories.CreateTweet(tweetDTO);
 
                 var accountActivityEvent = new AccountActivityEvent<ITweet>(tweet)
                 {
@@ -199,8 +197,8 @@ namespace Tweetinvi.Streams
 
             favouriteEventDTOs.ForEach(favouriteEventDTO =>
             {
-                var tweet = _tweetFactory.GenerateTweetFromDTO(favouriteEventDTO.FavouritedTweet, null, null);
-                var user = _userFactory.GenerateUserFromDTO(favouriteEventDTO.User, null);
+                var tweet = _factories.CreateTweet(favouriteEventDTO.FavouritedTweet);
+                var user = _factories.CreateUser(favouriteEventDTO.User);
 
                 var accountActivityEvent = new AccountActivityEvent<Tuple<ITweet, IUser>>(new Tuple<ITweet, IUser>(tweet, user))
                 {
@@ -228,8 +226,8 @@ namespace Tweetinvi.Streams
 
             followedUsersEvents.ForEach(followedUsersEvent =>
             {
-                var sourceUser = _userFactory.GenerateUserFromDTO(followedUsersEvent.Source, null);
-                var targetUser = _userFactory.GenerateUserFromDTO(followedUsersEvent.Target, null);
+                var sourceUser = _factories.CreateUser(followedUsersEvent.Source);
+                var targetUser = _factories.CreateUser(followedUsersEvent.Target);
 
                 var timestamp = long.Parse(followedUsersEvent.CreatedTimestamp);
                 var dateOffset = DateTimeOffset.FromUnixTimeMilliseconds(timestamp);
@@ -278,8 +276,8 @@ namespace Tweetinvi.Streams
 
             blockedEventInfos.ForEach(blockedEventInfo =>
             {
-                var sourceUser = _userFactory.GenerateUserFromDTO(blockedEventInfo.Source, null);
-                var targetUser = _userFactory.GenerateUserFromDTO(blockedEventInfo.Target, null);
+                var sourceUser = _factories.CreateUser(blockedEventInfo.Source);
+                var targetUser = _factories.CreateUser(blockedEventInfo.Target);
 
                 var timestamp = long.Parse(blockedEventInfo.CreatedTimestamp);
                 var dateOffset = DateTimeOffset.FromUnixTimeMilliseconds(timestamp);
@@ -328,8 +326,8 @@ namespace Tweetinvi.Streams
 
             mutedEventInfos.ForEach(mutedEventInfo =>
             {
-                var sourceUser = _userFactory.GenerateUserFromDTO(mutedEventInfo.Source, null);
-                var targetUser = _userFactory.GenerateUserFromDTO(mutedEventInfo.Target, null);
+                var sourceUser = _factories.CreateUser(mutedEventInfo.Source);
+                var targetUser = _factories.CreateUser(mutedEventInfo.Target);
 
                 var timestamp = long.Parse(mutedEventInfo.CreatedTimestamp);
                 var dateOffset = DateTimeOffset.FromUnixTimeMilliseconds(timestamp);
@@ -420,10 +418,10 @@ namespace Tweetinvi.Streams
                 eventInfo.UsersById.TryGetValue(messageEventDTO.MessageCreate.SenderId.ToString(), out var senderDTO);
                 eventInfo.UsersById.TryGetValue(messageEventDTO.MessageCreate.Target.RecipientId.ToString(), out var recipientDTO);
 
-                var sender = _userFactory.GenerateUserFromDTO(senderDTO, null);
-                var recipient = _userFactory.GenerateUserFromDTO(recipientDTO, null);
+                var sender = _factories.CreateUser(senderDTO);
+                var recipient = _factories.CreateUser(recipientDTO);
 
-                var message = _messageFactory.GenerateMessageFromEventDTO(messageEventDTO, app);
+                var message = _factories.CreateMessage(messageEventDTO, app);
 
                 var accountActivityEvent = new AccountActivityEvent<IMessage>(message)
                 {
@@ -476,8 +474,8 @@ namespace Tweetinvi.Streams
                 events.UsersById.TryGetValue(typingEvent.SenderId.ToString(), out var senderDTO);
                 events.UsersById.TryGetValue(typingEvent.Target.RecipientId.ToString(), out var recipientDTO);
 
-                var sender = _userFactory.GenerateUserFromDTO(senderDTO, null);
-                var recipient = _userFactory.GenerateUserFromDTO(recipientDTO, null);
+                var sender = _factories.CreateUser(senderDTO);
+                var recipient = _factories.CreateUser(recipientDTO);
 
                 var eventArgs = new AccountActivityUserIsTypingMessageEventArgs(activityEvent, sender, recipient);
 
@@ -507,8 +505,8 @@ namespace Tweetinvi.Streams
                 events.UsersById.TryGetValue(messageConversationReadEvent.SenderId.ToString(), out var senderDTO);
                 events.UsersById.TryGetValue(messageConversationReadEvent.Target.RecipientId.ToString(), out var recipientDTO);
 
-                var sender = _userFactory.GenerateUserFromDTO(senderDTO, null);
-                var recipient = _userFactory.GenerateUserFromDTO(recipientDTO, null);
+                var sender = _factories.CreateUser(senderDTO);
+                var recipient = _factories.CreateUser(recipientDTO);
 
                 var eventArgs = new AccountActivityUserReadMessageConversationEventArgs(activityEvent, sender, recipient, messageConversationReadEvent.LastReadEventId);
 

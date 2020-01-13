@@ -1,4 +1,5 @@
 ﻿using Tweetinvi.Client;
+using Tweetinvi.Client.Tools;
 using Tweetinvi.Core.Client;
 using Tweetinvi.Core.Client.Validators;
 using Tweetinvi.Core.Events;
@@ -49,9 +50,10 @@ namespace Tweetinvi
         IUsersClient Users { get; }
 
         /// <summary>
-        /// Client's credentials
+        /// Execute Request and receive request results
         /// </summary>
-        IReadOnlyTwitterCredentials Credentials { get; }
+        IRequestExecutor RequestExecutor { get; }
+
 
         /// <summary>
         /// Client's settings
@@ -59,19 +61,30 @@ namespace Tweetinvi
         ITweetinviSettings ClientSettings { get; }
 
         /// <summary>
-        /// Execute Request and receive request results
+        /// Client's credentials
         /// </summary>
-        IRequestExecutor RequestExecutor { get; }
+        IReadOnlyTwitterCredentials Credentials { get; }
+
+        /// <summary>
+        /// Listen to events raised by actions performed by the client
+        /// </summary>
+        IExternalClientEvents Events { get; }
+
+        /// <summary>
+        /// Simple way to construct tweetinvi objects
+        /// </summary>
+        ITwitterClientFactories Factories { get; }
+
+        /// <summary>
+        /// Help you perform json operations with Tweetinvi objects
+        /// </summary>
+        ITwitterClientJson Json { get; }
 
         /// <summary>
         /// Validate parameters to ensure that they meet the default criteria
         /// </summary>
         IParametersValidator ParametersValidator { get; }
 
-        /// <summary>
-        /// Listen to events raised by actions performed by the client
-        /// </summary>
-        IExternalClientEvents Events { get; }
 
         /// <summary>
         /// Creates skeleton request representing a request from the client

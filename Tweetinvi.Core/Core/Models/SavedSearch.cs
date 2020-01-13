@@ -2,7 +2,7 @@
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
 
-namespace Tweetinvi.Core.Models.Properties
+namespace Tweetinvi.Core.Models
 {
     public class SavedSearch : ISavedSearch
     {

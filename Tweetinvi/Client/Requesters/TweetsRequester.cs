@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
+using Tweetinvi.Client.Tools;
 using Tweetinvi.Core.Client.Validators;
 using Tweetinvi.Core.Controllers;
 using Tweetinvi.Core.Factories;
@@ -20,17 +21,20 @@ namespace Tweetinvi.Client.Requesters
     public class TweetsRequester : BaseRequester, IInternalTweetsRequester
     {
         private readonly ITweetFactory _tweetFactory;
+        private readonly ITwitterClientFactories _factories;
         private readonly ITweetController _tweetController;
         private readonly ITwitterResultFactory _twitterResultFactory;
         private readonly ITweetsClientRequiredParametersValidator _tweetsClientRequiredParametersValidator;
 
         public TweetsRequester(
             ITweetFactory tweetFactory,
+            ITwitterClientFactories factories,
             ITweetController tweetController,
             ITwitterResultFactory twitterResultFactory,
             ITweetsClientRequiredParametersValidator tweetsClientRequiredParametersValidator)
         {
             _tweetFactory = tweetFactory;
+            _factories = factories;
             _tweetController = tweetController;
             _twitterResultFactory = twitterResultFactory;
             _tweetsClientRequiredParametersValidator = tweetsClientRequiredParametersValidator;
@@ -44,7 +48,7 @@ namespace Tweetinvi.Client.Requesters
             return ExecuteRequest(async request =>
             {
                 var twitterResult = await _tweetController.GetTweet(parameters, request).ConfigureAwait(false);
-                return _twitterResultFactory.Create(twitterResult, dto => _tweetFactory.GenerateTweetFromDTO(dto, request.ExecutionContext.TweetMode, TwitterClient));
+                return _twitterResultFactory.Create(twitterResult, dto => _factories.CreateTweet(dto));
             });
         }
 
@@ -67,7 +71,7 @@ namespace Tweetinvi.Client.Requesters
             return ExecuteRequest(async request =>
             {
                 var twitterResult = await _tweetController.PublishTweet(parameters, request).ConfigureAwait(false);
-                return _twitterResultFactory.Create(twitterResult, tweetDTO => _tweetFactory.GenerateTweetFromDTO(tweetDTO, request.ExecutionContext.TweetMode, TwitterClient));
+                return _twitterResultFactory.Create(twitterResult, tweetDTO => _factories.CreateTweet(tweetDTO));
             });
         }
 
@@ -98,7 +102,7 @@ namespace Tweetinvi.Client.Requesters
             return ExecuteRequest(async request =>
             {
                 var twitterResult = await _tweetController.PublishRetweet(parameters, request).ConfigureAwait(false);
-                return _twitterResultFactory.Create(twitterResult, tweetDTO => _tweetFactory.GenerateTweetFromDTO(tweetDTO, request.ExecutionContext.TweetMode, TwitterClient));
+                return _twitterResultFactory.Create(twitterResult, tweetDTO => _factories.CreateTweet(tweetDTO));
             });
         }
 

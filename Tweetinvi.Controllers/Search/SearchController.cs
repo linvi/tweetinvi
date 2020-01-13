@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Tweetinvi.Client.Tools;
 using Tweetinvi.Core.Factories;
 using Tweetinvi.Models;
 using Tweetinvi.Parameters;
@@ -26,18 +27,18 @@ namespace Tweetinvi.Controllers.Search
     public class SearchController : ISearchController
     {
         private readonly ISearchQueryExecutor _searchQueryExecutor;
-        private readonly ISearchResultFactory _searchResultFactory;
+        private readonly ITwitterClientFactories _factories;
         private readonly ITweetFactory _tweetFactory;
         private readonly IUserFactory _userFactory;
 
         public SearchController(
-            ISearchQueryExecutor searchQueryExecutor, 
-            ISearchResultFactory searchResultFactory,
+            ISearchQueryExecutor searchQueryExecutor,
+            ITwitterClientFactories factories,
             ITweetFactory tweetFactory,
             IUserFactory userFactory)
         {
             _searchQueryExecutor = searchQueryExecutor;
-            _searchResultFactory = searchResultFactory;
+            _factories = factories;
             _tweetFactory = tweetFactory;
             _userFactory = userFactory;
         }
@@ -57,13 +58,13 @@ namespace Tweetinvi.Controllers.Search
         public async Task<ISearchResult> SearchTweetsWithMetadata(string searchQuery)
         {
             var searchResultsDTO = await _searchQueryExecutor.SearchTweetsWithMetadata(searchQuery);
-            return _searchResultFactory.Create(new [] { searchResultsDTO });
+            return _factories.CreateSearchResult(new [] { searchResultsDTO });
         }
 
         public async Task<ISearchResult> SearchTweetsWithMetadata(ISearchTweetsParameters searchTweetsParameters)
         {
             var searchResultsDTO = (await _searchQueryExecutor.SearchTweetsWithMetadata(searchTweetsParameters)).ToArray();
-            return _searchResultFactory.Create(searchResultsDTO);
+            return _factories.CreateSearchResult(searchResultsDTO);
         }
 
         public Task<IEnumerable<ITweet>> SearchDirectRepliesTo(ITweet tweet)

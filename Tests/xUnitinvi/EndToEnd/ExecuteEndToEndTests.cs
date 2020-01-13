@@ -20,21 +20,26 @@ namespace xUnitinvi.EndToEnd
             var testCreds = EndToEndTestConfig.TweetinviTest.Credentials;
             var client = new TwitterClient(testCreds);
 
-            await client.Execute.Request(request =>
+            var twitterResult = await client.Execute.Request(request =>
             {
                 request.Query.Url = "https://api.twitter.com/1.1/account/verify_credentials.json";
                 request.Query.HttpMethod = HttpMethod.GET;
             });
 
+            var userFromJson = client.Json.DeserializeObject<IUserDTO>(twitterResult.Json);
 
-            var userDTO = await client.Execute.Request<IUserDTO>(request =>
+            var userTwitterResult = await client.Execute.Request<IUserDTO>(request =>
             {
                 request.Query.Url = "https://api.twitter.com/1.1/account/verify_credentials.json";
                 request.Query.HttpMethod = HttpMethod.GET;
             });
+
+            var user = client.Factories.CreateUser(userTwitterResult.DataTransferObject);
 
             // assert
-            Assert.Equal(userDTO.DataTransferObject.ScreenName, EndToEndTestConfig.TweetinviTest.AccountId);
+            Assert.Equal(userFromJson.ScreenName, EndToEndTestConfig.TweetinviTest.AccountId);
+            Assert.Equal(userTwitterResult.DataTransferObject.ScreenName, EndToEndTestConfig.TweetinviTest.AccountId);
+            Assert.Equal(user.ScreenName, EndToEndTestConfig.TweetinviTest.AccountId);
         }
     }
 }

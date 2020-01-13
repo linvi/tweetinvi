@@ -1,5 +1,5 @@
 ﻿using System.Threading.Tasks;
-using Tweetinvi.Core.Factories;
+using Tweetinvi.Client.Tools;
 using Tweetinvi.Core.Helpers;
 using Tweetinvi.Core.Streaming;
 using Tweetinvi.Core.Wrappers;
@@ -16,14 +16,14 @@ namespace Tweetinvi.Streams
             IStreamResultGenerator streamResultGenerator,
             IJsonObjectConverter jsonObjectConverter,
             IJObjectStaticWrapper jObjectStaticWrapper,
-            ITweetFactory tweetFactory,
+            ITwitterClientFactories factories,
             ICustomRequestParameters customRequestParameters,
             ITwitterQueryFactory twitterQueryFactory)
             : base(
             streamResultGenerator,
             jsonObjectConverter,
             jObjectStaticWrapper,
-            tweetFactory,
+            factories,
             customRequestParameters,
             twitterQueryFactory)
         {

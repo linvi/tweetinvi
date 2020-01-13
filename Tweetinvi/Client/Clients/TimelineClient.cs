@@ -14,17 +14,15 @@ namespace Tweetinvi.Client
 {
     public class TimelineClient : ITimelineClient
     {
-        private readonly TwitterClient _client;
+        private readonly ITwitterClient _client;
         private readonly ITweetFactory _tweetFactory;
         private readonly ITimelineRequester _timelineRequester;
 
-        public TimelineClient(TwitterClient client)
+        public TimelineClient(ITwitterClient client, ITweetFactory tweetFactory)
         {
-            var clientContext = client.CreateTwitterExecutionContext();
-
             _client = client;
             _timelineRequester = _client.RequestExecutor.Timeline;
-            _tweetFactory = clientContext.Container.Resolve<ITweetFactory>();
+            _tweetFactory = tweetFactory;
         }
 
         public ITimelineClientParametersValidator ParametersValidator => _client.ParametersValidator;
