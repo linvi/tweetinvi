@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Tweetinvi.Core.Events;
-using Tweetinvi.Core.Injectinvi;
 using Tweetinvi.Core.Streaming;
 using Tweetinvi.Events;
 using Tweetinvi.Exceptions;
@@ -25,10 +24,10 @@ namespace Tweetinvi.Streams.Helpers
         public event EventHandler KeepAliveReceived;
 
         private IStreamTask _currentStreamTask;
-        private readonly IFactory<IStreamTask> _streamTaskFactory;
+        private readonly IStreamTaskFactory _streamTaskFactory;
         private readonly object _lockStream = new object();
 
-        public StreamResultGenerator(IFactory<IStreamTask> streamTaskFactory)
+        public StreamResultGenerator(IStreamTaskFactory streamTaskFactory)
         {
             _streamTaskFactory = streamTaskFactory;
         }
@@ -54,18 +53,18 @@ namespace Tweetinvi.Streams.Helpers
             }
         }
 
-        public async Task StartStreamAsync(Action<string> processObject, Func<ITwitterRequest> generateTwitterRequest)
+        public async Task StartStream(Action<string> onJsonReceivedCallback, Func<ITwitterRequest> createTwitterRequest)
         {
-            Func<string, bool> processValidObject = json =>
+            bool onJsonReceivedValidateCallback(string json)
             {
-                processObject(json);
+                onJsonReceivedCallback(json);
                 return true;
-            };
+            }
 
-            await StartStreamAsync(processValidObject, generateTwitterRequest).ConfigureAwait(false);
+            await StartStream(onJsonReceivedValidateCallback, createTwitterRequest).ConfigureAwait(false);
         }
 
-        public async Task StartStreamAsync(Func<string, bool> processObject, Func<ITwitterRequest> generateTwitterRequest)
+        public async Task StartStream(Func<string, bool> onJsonReceivedCallback, Func<ITwitterRequest> createTwitterRequest)
         {
             IStreamTask streamTask;
 
@@ -76,15 +75,12 @@ namespace Tweetinvi.Streams.Helpers
                     throw new OperationCanceledException(Resources.Stream_IllegalMultipleStreams);
                 }
 
-                if (processObject == null)
+                if (onJsonReceivedCallback == null)
                 {
                     throw new NullReferenceException(Resources.Stream_ObjectDelegateIsNull);
                 }
 
-                var processObjectParameter = _streamTaskFactory.GenerateParameterOverrideWrapper("processObject", processObject);
-                var generateWebRequestParameter = _streamTaskFactory.GenerateParameterOverrideWrapper("generateTwitterRequest", generateTwitterRequest);
-
-                streamTask = _streamTaskFactory.Create(processObjectParameter, generateWebRequestParameter);
+                streamTask = _streamTaskFactory.Create(onJsonReceivedCallback, createTwitterRequest);
 
                 _currentStreamTask = streamTask;
                 _currentStreamTask.StreamStarted += StreamTaskStarted;

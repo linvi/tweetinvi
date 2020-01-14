@@ -23,6 +23,8 @@ namespace Tweetinvi.Injectinvi
 
         public List<Action<ContainerBuilder>> RegistrationActions { get; }
 
+        public ITwitterClient AssociatedClient { get; set; }
+
         private bool _isInitialized;
 
         public bool IsInitialized

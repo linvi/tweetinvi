@@ -1,6 +1,4 @@
-﻿using System.Runtime.InteropServices;
-using Autofac.Features.ResolveAnything;
-using Tweetinvi.Client;
+﻿using Tweetinvi.Client;
 using Tweetinvi.Client.Requesters;
 using Tweetinvi.Client.Tools;
 using Tweetinvi.Core.Injectinvi;
@@ -28,6 +26,8 @@ namespace Tweetinvi
 
             container.RegisterType<IRateLimitsClient, RateLimitsClient>(RegistrationLifetime.InstancePerApplication);
             container.RegisterType<IInternalHelpRequester, HelpRequester>(RegistrationLifetime.InstancePerApplication);
+
+            container.RegisterType<IStreamClient, StreamClient>(RegistrationLifetime.InstancePerApplication);
 
             container.RegisterType<ITimelineClient, TimelineClient>(RegistrationLifetime.InstancePerApplication);
             container.RegisterType<IInternalTimelineRequester, TimelineRequester>(RegistrationLifetime.InstancePerApplication);

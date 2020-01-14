@@ -33,6 +33,7 @@ namespace Tweetinvi.Streams
             container.RegisterGeneric(typeof(IStreamTrackManager<>), typeof(StreamTrackManager<>));
 
             container.RegisterType<IWebhookDispatcher, WebhookDispatcher>(RegistrationLifetime.InstancePerApplication);
+            container.RegisterType<IStreamTaskFactory, StreamTaskFactory>(RegistrationLifetime.InstancePerApplication);
         }
     }
 }

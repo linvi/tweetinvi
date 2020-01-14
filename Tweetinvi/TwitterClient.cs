@@ -77,6 +77,7 @@ namespace Tweetinvi
             }
 
             _tweetinviContainer = new Injectinvi.TweetinviContainer(parameters?.Container ?? TweetinviContainer.Container);
+            _tweetinviContainer.RegisterInstance(typeof(ITweetinviContainer), _tweetinviContainer);
 
             if (parameters?.RateLimitCache != null)
             {
@@ -110,10 +111,13 @@ namespace Tweetinvi
             AccountSettings = _tweetinviContainer.Resolve<IAccountSettingsClient>();
             Execute = _tweetinviContainer.Resolve<IExecuteClient>();
             RateLimits = _tweetinviContainer.Resolve<IRateLimitsClient>();
+            Streams = _tweetinviContainer.Resolve<IStreamClient>();
             Timeline = _tweetinviContainer.Resolve<ITimelineClient>();
             Tweets = _tweetinviContainer.Resolve<ITweetsClient>();
             Upload = _tweetinviContainer.Resolve<IUploadClient>();
             Users = _tweetinviContainer.Resolve<IUsersClient>();
+
+            _tweetinviContainer.AssociatedClient = this;
 
             _twitterClientEvents = _tweetinviContainer.Resolve<ITwitterClientEvents>();
             Events.BeforeWaitingForRequestRateLimits += EventsOnBeforeWaitingForRequestRateLimits;
@@ -138,6 +142,8 @@ namespace Tweetinvi
         public IExecuteClient Execute { get; }
         /// <inheritdoc/>
         public IRateLimitsClient RateLimits { get; }
+        /// <inheritdoc/>
+        public IStreamClient Streams { get; }
         /// <inheritdoc/>
         public ITimelineClient Timeline { get; }
         /// <inheritdoc/>

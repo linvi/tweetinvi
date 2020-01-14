@@ -16,6 +16,33 @@ using HttpMethod = System.Net.Http.HttpMethod;
 
 namespace Tweetinvi.Streams
 {
+    public interface IStreamTaskFactory
+    {
+        IStreamTask Create(Func<string, bool> onJsonReceivedCallback, Func<ITwitterRequest> createTwitterRequest);
+    }
+
+    public class StreamTaskFactory : IStreamTaskFactory
+    {
+        private readonly ITweetinviEvents _tweetinviEvents;
+        private readonly ITwitterExceptionFactory _twitterExceptionFactory;
+        private readonly IHttpClientWebHelper _httpClientWebHelper;
+
+        public StreamTaskFactory(
+            ITweetinviEvents tweetinviEvents,
+            ITwitterExceptionFactory twitterExceptionFactory,
+            IHttpClientWebHelper httpClientWebHelper)
+        {
+            _tweetinviEvents = tweetinviEvents;
+            _twitterExceptionFactory = twitterExceptionFactory;
+            _httpClientWebHelper = httpClientWebHelper;
+        }
+
+        public IStreamTask Create(Func<string, bool> onJsonReceivedCallback, Func<ITwitterRequest> createTwitterRequest)
+        {
+            return new StreamTask(onJsonReceivedCallback, createTwitterRequest, _tweetinviEvents, _twitterExceptionFactory, _httpClientWebHelper);
+        }
+    }
+
     public class StreamTaskStateChangedEventArgs
     {
         public StreamTaskStateChangedEventArgs(StreamState state)
@@ -51,8 +78,8 @@ namespace Tweetinvi.Streams
         private const int STREAM_DISCONNECTED_DELAY = 90000;
         private const int STREAM_RESUME_DELAY = 1000;
 
-        private readonly Func<string, bool> _processObject;
-        private readonly Func<ITwitterRequest> _generateTwitterRequest;
+        private readonly Func<string, bool> _onJsonReceivedCallback;
+        private readonly Func<ITwitterRequest> _createTwitterRequest;
         private readonly ITweetinviEvents _tweetinviEvents;
         private readonly ITwitterExceptionFactory _twitterExceptionFactory;
         private readonly IHttpClientWebHelper _httpClientWebHelper;
@@ -65,14 +92,14 @@ namespace Tweetinvi.Streams
         private int _currentResponseHttpStatusCode = -1;
 
         public StreamTask(
-            Func<string, bool> processObject,
-            Func<ITwitterRequest> generateTwitterRequest,
+            Func<string, bool> onJsonReceivedCallback,
+            Func<ITwitterRequest> createTwitterRequest,
             ITweetinviEvents tweetinviEvents,
             ITwitterExceptionFactory twitterExceptionFactory,
             IHttpClientWebHelper httpClientWebHelper)
         {
-            _processObject = processObject;
-            _generateTwitterRequest = generateTwitterRequest;
+            _onJsonReceivedCallback = onJsonReceivedCallback;
+            _createTwitterRequest = createTwitterRequest;
             _tweetinviEvents = tweetinviEvents;
             _twitterExceptionFactory = twitterExceptionFactory;
             _httpClientWebHelper = httpClientWebHelper;
@@ -91,7 +118,7 @@ namespace Tweetinvi.Streams
             this.Raise(StreamStarted);
             SetStreamState(StreamState.Running, null);
 
-            _twitterRequest = _generateTwitterRequest();
+            _twitterRequest = _createTwitterRequest();
 
             if (_twitterRequest.Query.TwitterCredentials == null)
             {
@@ -154,7 +181,7 @@ namespace Tweetinvi.Streams
 
                     numberOfRepeatedFailures = 0;
 
-                    if (StreamState == StreamState.Running && !_processObject(json))
+                    if (StreamState == StreamState.Running && !_onJsonReceivedCallback(json))
                     {
                         SetStreamState(StreamState.Stop, null);
                         break;

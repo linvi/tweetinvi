@@ -47,14 +47,14 @@ namespace Tweetinvi.Core.Streaming
         /// <summary>
         /// Start extracting objects from the stream
         /// </summary>
-        Task StartStreamAsync(Action<string> processObject, Func<ITwitterRequest> generateTwitterRequest);
+        Task StartStream(Action<string> onJsonReceivedCallback, Func<ITwitterRequest> createTwitterRequest);
 
         /// <summary>
         /// Start extracting objects from the stream
         /// </summary>
-        /// <param name="processTweet">Method to call foreach object</param>
-        /// <param name="generateTwitterRequest">Func to generate a request</param>
-        Task StartStreamAsync(Func<string, bool> processTweet, Func<ITwitterRequest> generateTwitterRequest);
+        /// <param name="onJsonReceivedCallback">Method to call foreach object</param>
+        /// <param name="createTwitterRequest">Func to generate a request</param>
+        Task StartStream(Func<string, bool> onJsonReceivedCallback, Func<ITwitterRequest> createTwitterRequest);
 
         /// <summary>
         /// Run the stream

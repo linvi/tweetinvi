@@ -9,6 +9,7 @@ namespace Tweetinvi.Core.Injectinvi
     {
         bool IsInitialized { get; }
         List<Action<ContainerBuilder>> RegistrationActions { get; }
+        ITwitterClient AssociatedClient { get; set; }
         event EventHandler<TweetinviContainerEventArgs> BeforeRegistrationCompletes;
 
         void Initialize();

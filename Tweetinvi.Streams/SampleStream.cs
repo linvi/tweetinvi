@@ -13,6 +13,7 @@ namespace Tweetinvi.Streams
     public class SampleStream : TweetStream, ISampleStream
     {
         public SampleStream(
+            ITwitterClient twitterClient,
             IStreamResultGenerator streamResultGenerator,
             IJsonObjectConverter jsonObjectConverter,
             IJObjectStaticWrapper jObjectStaticWrapper,
@@ -20,12 +21,12 @@ namespace Tweetinvi.Streams
             ICustomRequestParameters customRequestParameters,
             ITwitterQueryFactory twitterQueryFactory)
             : base(
-            streamResultGenerator,
-            jsonObjectConverter,
-            jObjectStaticWrapper,
-            factories,
-            customRequestParameters,
-            twitterQueryFactory)
+                twitterClient,
+                streamResultGenerator,
+                jsonObjectConverter,
+                jObjectStaticWrapper,
+                factories,
+                customRequestParameters)
         {
         }
 

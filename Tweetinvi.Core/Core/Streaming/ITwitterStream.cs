@@ -49,7 +49,7 @@ namespace Tweetinvi.Core.Streaming
 
         /// <summary>
         /// The stream has been disconnected. This is different from being stopped
-        /// as it is the Twitter stream endpoint that let you know that they are disconnecting 
+        /// as it is the Twitter stream endpoint that let you know that they are disconnecting
         /// you from any reason available in the event args.
         /// </summary>
         event EventHandler<DisconnectedEventArgs> DisconnectMessageReceived;
@@ -75,7 +75,7 @@ namespace Tweetinvi.Core.Streaming
         /// <summary>
         /// Inform the user that the stream is not read fast enough and that if this continues,
         /// the stream will be disconnected when the buffered queue is full.
-        /// 
+        ///
         /// The StallWarning parameter needs to be set to true for this event to be raised.
         /// </summary>
         event EventHandler<WarningFallingBehindEventArgs> WarningFallingBehindDetected;
@@ -91,14 +91,9 @@ namespace Tweetinvi.Core.Streaming
         event EventHandler<JsonObjectEventArgs> JsonObjectReceived;
 
         /// <summary>
-        /// Credentials that the stream will use. This can only be modified when the stream is stopped.
-        /// </summary>
-        ITwitterCredentials Credentials { get; set; }
-
-        /// <summary>
         /// Decide whether to use Extended or Compat mode
         /// </summary>
-        TweetMode TweetMode { get; set; }
+        TweetMode? TweetMode { get; set; }
 
         /// <summary>
         /// Get the current state of the stream

@@ -22,6 +22,7 @@ namespace Tweetinvi.Streams
         public event EventHandler<MatchedTweetReceivedEventArgs> MatchingTweetReceived;
         public event EventHandler<TweetEventArgs> NonMatchingTweetReceived;
 
+        private readonly ITwitterClient _client;
         private readonly IStreamTrackManager<ITweet> _streamTrackManager;
         private readonly ITwitterClientFactories _factories;
         private readonly ITwitterQueryFactory _twitterQueryFactory;
@@ -29,6 +30,7 @@ namespace Tweetinvi.Streams
         public override event EventHandler<JsonObjectEventArgs> JsonObjectReceived;
 
         public TrackedStream(
+            ITwitterClient client,
             IStreamTrackManager<ITweet> streamTrackManager,
             IJsonObjectConverter jsonObjectConverter,
             IJObjectStaticWrapper jObjectStaticWrapper,
@@ -39,6 +41,7 @@ namespace Tweetinvi.Streams
 
             : base(streamResultGenerator, jsonObjectConverter, jObjectStaticWrapper, customRequestParameters)
         {
+            _client = client;
             _streamTrackManager = streamTrackManager;
             _factories = factories;
             _twitterQueryFactory = twitterQueryFactory;
@@ -46,35 +49,33 @@ namespace Tweetinvi.Streams
 
         public async Task StartStreamAsync(string url)
         {
-            Func<ITwitterRequest> generateTwitterRequest = delegate
+            ITwitterRequest createTwitterRequest()
             {
                 var queryBuilder = new StringBuilder(url);
                 AddBaseParametersToQuery(queryBuilder);
 
-                return new TwitterRequest
-                {
-                    Query = _twitterQueryFactory.Create(queryBuilder.ToString(), HttpMethod.GET, Credentials)
-                };
-            };
+                var request = _client.CreateRequest();
+                request.Query.Url = queryBuilder.ToString();
+                request.Query.HttpMethod = HttpMethod.GET;
+                return request;
+            }
 
-            Action<string> generateTweetDelegate = json =>
+            void onJsonReceived(string json)
             {
                 RaiseJsonObjectReceived(json);
 
-                var tweet = _factories.CreateTweet(json);
-                if (tweet == null)
+                if (IsEvent(json))
                 {
                     TryInvokeGlobalStreamMessages(json);
                     return;
                 }
 
+                var tweet = _factories.CreateTweet(json);
+
                 var detectedTracksAndActions = _streamTrackManager.GetMatchingTracksAndActions(tweet.FullText);
                 var detectedTracks = detectedTracksAndActions.Select(x => x.Item1);
 
-                var eventArgs = new MatchedTweetReceivedEventArgs(tweet, json)
-                {
-                    MatchingTracks = detectedTracks.ToArray(),
-                };
+                var eventArgs = new MatchedTweetReceivedEventArgs(tweet, json) { MatchingTracks = detectedTracks.ToArray(), };
 
                 if (detectedTracksAndActions.Any())
                 {
@@ -88,9 +89,9 @@ namespace Tweetinvi.Streams
                     RaiseTweetReceived(eventArgs);
                     RaiseNonMatchingTweetReceived(new TweetEventArgs(tweet, json));
                 }
-            };
+            }
 
-            await _streamResultGenerator.StartStreamAsync(generateTweetDelegate, generateTwitterRequest);
+            await _streamResultGenerator.StartStream(onJsonReceived, createTwitterRequest);
         }
 
         protected void RaiseJsonObjectReceived(string json)

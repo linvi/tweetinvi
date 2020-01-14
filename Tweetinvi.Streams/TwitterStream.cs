@@ -49,25 +49,11 @@ namespace Tweetinvi.Streams
 
         public ITwitterExecutionContext ExecutionContext { get; set; }
 
-        private ITwitterCredentials _credentials;
-        public ITwitterCredentials Credentials
-        {
-            get { return _credentials; }
-            set
-            {
-                if (StreamState != StreamState.Stop)
-                {
-                    throw new InvalidOperationException("Credentials cannot be changed while the stream is running.");
-                }
+        private TweetMode? _tweetMode;
 
-                _credentials = value;
-            }
-        }
-
-        private TweetMode _tweetMode;
-        public TweetMode TweetMode
+        public TweetMode? TweetMode
         {
-            get { return _tweetMode; }
+            get => _tweetMode;
             set
             {
                 if (StreamState != StreamState.Stop)
@@ -92,28 +78,32 @@ namespace Tweetinvi.Streams
 
         public event EventHandler StreamStarted
         {
-            add { _streamResultGenerator.StreamStarted += value; }
-            remove { _streamResultGenerator.StreamStarted -= value; }
+            add => _streamResultGenerator.StreamStarted += value;
+            remove => _streamResultGenerator.StreamStarted -= value;
         }
+
         public event EventHandler StreamResumed
         {
-            add { _streamResultGenerator.StreamResumed += value; }
-            remove { _streamResultGenerator.StreamResumed -= value; }
+            add => _streamResultGenerator.StreamResumed += value;
+            remove => _streamResultGenerator.StreamResumed -= value;
         }
+
         public event EventHandler StreamPaused
         {
-            add { _streamResultGenerator.StreamPaused += value; }
-            remove { _streamResultGenerator.StreamPaused -= value; }
+            add => _streamResultGenerator.StreamPaused += value;
+            remove => _streamResultGenerator.StreamPaused -= value;
         }
+
         public event EventHandler<StreamStoppedEventArgs> StreamStopped
         {
-            add { _streamResultGenerator.StreamStopped += value; }
-            remove { _streamResultGenerator.StreamStopped -= value; }
+            add => _streamResultGenerator.StreamStopped += value;
+            remove => _streamResultGenerator.StreamStopped -= value;
         }
+
         public event EventHandler KeepAliveReceived
         {
-            add { _streamResultGenerator.KeepAliveReceived += value; }
-            remove { _streamResultGenerator.KeepAliveReceived -= value; }
+            add => _streamResultGenerator.KeepAliveReceived += value;
+            remove => _streamResultGenerator.KeepAliveReceived -= value;
         }
 
         public event EventHandler<TweetDeletedEventArgs> TweetDeleted;
@@ -128,10 +118,7 @@ namespace Tweetinvi.Streams
         public abstract event EventHandler<JsonObjectEventArgs> JsonObjectReceived;
 
         // Stream State
-        public StreamState StreamState
-        {
-            get { return _streamResultGenerator.StreamState; }
-        }
+        public StreamState StreamState => _streamResultGenerator.StreamState;
 
         public void ResumeStream()
         {
@@ -154,7 +141,7 @@ namespace Tweetinvi.Streams
         }
 
         // Parameters
-        protected virtual void AddBaseParametersToQuery(StringBuilder queryBuilder)
+        protected void AddBaseParametersToQuery(StringBuilder queryBuilder)
         {
             if (_filteredLanguages.Any())
             {
@@ -172,18 +159,11 @@ namespace Tweetinvi.Streams
                 queryBuilder.AddParameterToQuery("filter_level", FilterLevel.ToString().ToLowerInvariant());
             }
 
-            if (!string.IsNullOrEmpty(_customRequestParameters.FormattedCustomQueryParameters))
-            {
-                queryBuilder.Append(string.Format("&{0}", _customRequestParameters.FormattedCustomQueryParameters));
-            }
-
-            if (TweetMode == TweetMode.Extended)
-            {
-                queryBuilder.AddParameterToQuery("tweet_mode", "extended");
-            }
+            queryBuilder.AddParameterToQuery("tweet_mode", TweetMode.ToString().ToLowerInvariant());
+            queryBuilder.AddFormattedParameterToQuery(_customRequestParameters.FormattedCustomQueryParameters);
         }
 
-        public string[] FilteredLanguages { get { return _filteredLanguages.ToArray(); } }
+        public string[] FilteredLanguages => _filteredLanguages.ToArray();
 
         public void AddTweetLanguageFilter(string language)
         {
@@ -219,8 +199,8 @@ namespace Tweetinvi.Streams
 
         #region Custom Query Parameters
 
-        public List<Tuple<string, string>> CustomQueryParameters { get { return _customRequestParameters.CustomQueryParameters; } }
-        public string FormattedCustomQueryParameters { get { return _customRequestParameters.FormattedCustomQueryParameters; } }
+        public List<Tuple<string, string>> CustomQueryParameters => _customRequestParameters.CustomQueryParameters;
+        public string FormattedCustomQueryParameters => _customRequestParameters.FormattedCustomQueryParameters;
 
         public void AddCustomQueryParameter(string name, string value)
         {
@@ -256,6 +236,19 @@ namespace Tweetinvi.Streams
                 var unmanagedMessageEventArgs = new UnsupportedEventReceivedEventArgs(json);
                 this.Raise(UnmanagedEventReceived, unmanagedMessageEventArgs);
             }
+        }
+
+        protected bool IsEvent(string json)
+        {
+            if (string.IsNullOrEmpty(json))
+            {
+                return false;
+            }
+
+            var jsonObject = _jObjectWrapper.GetJobjectFromJson(json);
+            var jsonRootChildren = jsonObject.Children().ToArray();
+
+            return jsonRootChildren.Length <= 1;
         }
 
         private void TryRaiseTweetDeleted(JToken jToken)
