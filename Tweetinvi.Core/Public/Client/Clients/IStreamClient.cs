@@ -6,38 +6,38 @@ namespace Tweetinvi.Client
 {
     public interface IStreamClient
     {
-        /// <inheritdoc cref="CreateSampleStream(ICustomRequestParameters)"/>
+        /// <inheritdoc cref="CreateSampleStream(ICreateSampleStreamParameters)"/>
         ISampleStream CreateSampleStream();
 
         /// <summary>
         /// Create a stream notifying that a random tweets has been created.
         /// https://dev.twitter.com/streaming/reference/get/statuses/sample
         /// </summary>
-        ISampleStream CreateSampleStream(ICustomRequestParameters parameters);
+        ISampleStream CreateSampleStream(ICreateSampleStreamParameters parameters);
 
-        /// <inheritdoc cref="CreateFilteredStream(ICustomRequestParameters)"/>
+        /// <inheritdoc cref="CreateFilteredStream(ICreateFilteredStreamParameters)"/>
         IFilteredStream CreateFilteredStream();
 
         /// <summary>
         /// Create a stream notifying the client when a tweet matching the specified criteria is created.
         /// https://dev.twitter.com/streaming/reference/post/statuses/filter
         /// </summary>
-        IFilteredStream CreateFilteredStream(ICustomRequestParameters parameters);
+        IFilteredStream CreateFilteredStream(ICreateFilteredStreamParameters parameters);
 
-        /// <inheritdoc cref="CreateTweetStream(ICustomRequestParameters)"/>
+        /// <inheritdoc cref="CreateTweetStream(ICreateTweetStreamParameters)"/>
         ITweetStream CreateTweetStream();
 
         /// <summary>
         /// Create a stream that receive tweets
         /// </summary>
-        ITweetStream CreateTweetStream(ICustomRequestParameters parameters);
+        ITweetStream CreateTweetStream(ICreateTweetStreamParameters parameters);
 
-        /// <inheritdoc cref="CreateTrackedStream(ICustomRequestParameters)"/>
+        /// <inheritdoc cref="CreateTrackedStream(ICreateTrackedStreamParameters)"/>
         ITrackedStream CreateTrackedStream();
 
         /// <summary>
         /// Create a stream that receive tweets. In addition this stream allow you to filter the results received.
         /// </summary>
-        ITrackedStream CreateTrackedStream(ICustomRequestParameters parameters);
+        ITrackedStream CreateTrackedStream(ICreateTrackedStreamParameters parameters);
     }
 }

@@ -25,7 +25,6 @@ namespace Tweetinvi.Streams
         private readonly ITwitterClient _client;
         private readonly IStreamTrackManager<ITweet> _streamTrackManager;
         private readonly ITwitterClientFactories _factories;
-        private readonly ITwitterQueryFactory _twitterQueryFactory;
 
         public override event EventHandler<JsonObjectEventArgs> JsonObjectReceived;
 
@@ -36,15 +35,13 @@ namespace Tweetinvi.Streams
             IJObjectStaticWrapper jObjectStaticWrapper,
             IStreamResultGenerator streamResultGenerator,
             ITwitterClientFactories factories,
-            ICustomRequestParameters customRequestParameters,
-            ITwitterQueryFactory twitterQueryFactory)
+            ICreateTrackedStreamParameters createTrackedStreamParameters)
 
-            : base(streamResultGenerator, jsonObjectConverter, jObjectStaticWrapper, customRequestParameters)
+            : base(streamResultGenerator, jsonObjectConverter, jObjectStaticWrapper, createTrackedStreamParameters)
         {
             _client = client;
             _streamTrackManager = streamTrackManager;
             _factories = factories;
-            _twitterQueryFactory = twitterQueryFactory;
         }
 
         public async Task StartStreamAsync(string url)

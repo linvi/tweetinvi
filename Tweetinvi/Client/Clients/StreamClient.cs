@@ -29,12 +29,12 @@ namespace Tweetinvi.Client
 
         public ISampleStream CreateSampleStream()
         {
-            return CreateSampleStream(new CustomRequestParameters());
+            return CreateSampleStream(new CreateSampleStreamParameters());
         }
 
-        public ISampleStream CreateSampleStream(ICustomRequestParameters parameters)
+        public ISampleStream CreateSampleStream(ICreateSampleStreamParameters parameters)
         {
-            var customRequestParameters = _sampleStreamFactory.GenerateParameterOverrideWrapper("customRequestParameters", parameters ?? new CursorQueryParameters());
+            var customRequestParameters = _sampleStreamFactory.GenerateParameterOverrideWrapper("createSampleStreamParameters", parameters ?? new CreateSampleStreamParameters());
             var stream = _sampleStreamFactory.Create(customRequestParameters);
             stream.TweetMode = _client.ClientSettings.TweetMode;
             return stream;
@@ -42,12 +42,12 @@ namespace Tweetinvi.Client
 
         public IFilteredStream CreateFilteredStream()
         {
-            return CreateFilteredStream(new CustomRequestParameters());
+            return CreateFilteredStream(new CreateFilteredStreamParameters());
         }
 
-        public IFilteredStream CreateFilteredStream(ICustomRequestParameters parameters)
+        public IFilteredStream CreateFilteredStream(ICreateFilteredStreamParameters parameters)
         {
-            var customRequestParameters = _sampleStreamFactory.GenerateParameterOverrideWrapper("customRequestParameters", parameters ?? new CursorQueryParameters());
+            var customRequestParameters = _sampleStreamFactory.GenerateParameterOverrideWrapper("createFilteredStreamParameters", parameters ?? new CreateFilteredStreamParameters());
             var stream = _filteredStreamFactory.Create(customRequestParameters);
             stream.TweetMode = _client.ClientSettings.TweetMode;
             return stream;
@@ -55,12 +55,12 @@ namespace Tweetinvi.Client
 
         public ITweetStream CreateTweetStream()
         {
-            return CreateTweetStream(new CustomRequestParameters());
+            return CreateTweetStream(new CreateTweetStreamParameters());
         }
 
-        public ITweetStream CreateTweetStream(ICustomRequestParameters parameters)
+        public ITweetStream CreateTweetStream(ICreateTweetStreamParameters parameters)
         {
-            var customRequestParameters = _tweetStreamFactory.GenerateParameterOverrideWrapper("customRequestParameters", parameters ?? new CursorQueryParameters());
+            var customRequestParameters = _tweetStreamFactory.GenerateParameterOverrideWrapper("createTweetStreamParameters", parameters ?? new CreateTweetStreamParameters());
             var stream = _tweetStreamFactory.Create(customRequestParameters);
             stream.TweetMode = _client.ClientSettings.TweetMode;
             return stream;
@@ -68,12 +68,12 @@ namespace Tweetinvi.Client
 
         public ITrackedStream CreateTrackedStream()
         {
-            return CreateTrackedStream(new CustomRequestParameters());
+            return CreateTrackedStream(new CreateTrackedStreamParameters());
         }
 
-        public ITrackedStream CreateTrackedStream(ICustomRequestParameters parameters)
+        public ITrackedStream CreateTrackedStream(ICreateTrackedStreamParameters parameters)
         {
-            var customRequestParameters = _trackedStreamFactory.GenerateParameterOverrideWrapper("customRequestParameters", parameters ?? new CursorQueryParameters());
+            var customRequestParameters = _trackedStreamFactory.GenerateParameterOverrideWrapper("createTrackedStreamParameters", parameters ?? new CreateTrackedStreamParameters());
             var stream = _trackedStreamFactory.Create(customRequestParameters);
             stream.TweetMode = _client.ClientSettings.TweetMode;
             return stream;

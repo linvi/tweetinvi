@@ -26,8 +26,8 @@ namespace Tweetinvi.Streams
             IJsonObjectConverter jsonObjectConverter,
             IJObjectStaticWrapper jObjectStaticWrapper,
             ITwitterClientFactories factories,
-            ICustomRequestParameters customRequestParameters)
-            : base(streamResultGenerator, jsonObjectConverter, jObjectStaticWrapper, customRequestParameters)
+            ICreateTweetStreamParameters createTweetStreamParameters)
+            : base(streamResultGenerator, jsonObjectConverter, jObjectStaticWrapper, createTweetStreamParameters)
         {
             _client = client;
             _factories = factories;

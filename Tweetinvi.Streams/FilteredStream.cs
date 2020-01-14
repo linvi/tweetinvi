@@ -48,16 +48,14 @@ namespace Tweetinvi.Streams
             IJObjectStaticWrapper jObjectStaticWrapper,
             IStreamResultGenerator streamResultGenerator,
             ITwitterClientFactories factories,
-            ICustomRequestParameters customRequestParameters,
-            ITwitterQueryFactory twitterQueryFactory)
+            ICreateFilteredStreamParameters createFilteredStreamParameters)
 
             : base(client, streamTrackManager,
                 jsonObjectConverter,
                 jObjectStaticWrapper,
                 streamResultGenerator,
                 factories,
-                customRequestParameters,
-                twitterQueryFactory)
+                createFilteredStreamParameters)
         {
             StreamTrackManager = streamTrackManager;
             _client = client;
