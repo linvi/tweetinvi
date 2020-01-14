@@ -268,7 +268,7 @@ namespace Tweetinvi.Credentials
                 previousCursor = cursorResult.PreviousCursorStr;
                 nextCursor = cursorResult.NextCursorStr;
 
-                result.Add(cursorResult.RawJson);
+                result.Add(cursorResult.RawResult);
             }
 
             return result;
@@ -364,7 +364,7 @@ namespace Tweetinvi.Credentials
 
                 if (storeJson)
                 {
-                    dtoResult.RawJson = json;
+                    dtoResult.RawResult = json;
                 }
 
                 return dtoResult;

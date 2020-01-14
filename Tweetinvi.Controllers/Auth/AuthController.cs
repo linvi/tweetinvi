@@ -41,12 +41,12 @@ namespace Tweetinvi.Controllers.Auth
 
             var requestTokenResponse = await _authQueryExecutor.RequestAuthUrl(authProcessParams, request).ConfigureAwait(false);
 
-            if (string.IsNullOrEmpty(requestTokenResponse.Json) || requestTokenResponse.Json == Resources.Auth_RequestToken)
+            if (string.IsNullOrEmpty(requestTokenResponse.RawResult) || requestTokenResponse.RawResult == Resources.Auth_RequestToken)
             {
                 throw new TwitterAuthException(requestTokenResponse, "Invalid authentication response");
             }
 
-            var tokenInformation = _parseRequestUrlResponseRegex.Match(requestTokenResponse.Json);
+            var tokenInformation = _parseRequestUrlResponseRegex.Match(requestTokenResponse.RawResult);
 
             if (!bool.TryParse(tokenInformation.Groups["oauth_callback_confirmed"].Value, out var callbackConfirmed) || !callbackConfirmed)
             {
@@ -69,8 +69,8 @@ namespace Tweetinvi.Controllers.Auth
         {
             var twitterResult = await _authQueryExecutor.RequestCredentials(parameters, request).ConfigureAwait(false);
 
-            var oAuthToken = twitterResult.Json.GetURLParameter("oauth_token");
-            var oAuthTokenSecret = twitterResult.Json.GetURLParameter("oauth_token_secret");
+            var oAuthToken = twitterResult.RawResult.GetURLParameter("oauth_token");
+            var oAuthTokenSecret = twitterResult.RawResult.GetURLParameter("oauth_token_secret");
 
             if (oAuthToken == null || oAuthTokenSecret == null)
             {

@@ -68,7 +68,7 @@ namespace Tweetinvi.Core.Web
     {
         ITwitterResponse Response { get; set; }
         ITwitterRequest Request { get; set; }
-        string Json { get; }
+        string RawResult { get; }
     }
 
     public interface ITwitterResult<out TDTO> : ITwitterResult
@@ -85,7 +85,7 @@ namespace Tweetinvi.Core.Web
     {
         public ITwitterResponse Response { get; set; }
         public ITwitterRequest Request { get; set; }
-        public string Json => Response?.Text;
+        public string RawResult => Response?.Text;
     }
 
     public class TwitterResult<TDTO> : TwitterResult, ITwitterResult<TDTO>

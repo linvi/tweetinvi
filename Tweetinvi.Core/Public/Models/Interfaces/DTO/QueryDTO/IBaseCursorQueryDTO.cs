@@ -10,7 +10,7 @@ namespace Tweetinvi.Models.DTO.QueryDTO
         string PreviousCursorStr { get; set; }
         string NextCursorStr { get; set; }
 
-        string RawJson { get; set; }
+        string RawResult { get; set; }
 
         int GetNumberOfObjectRetrieved();
     }

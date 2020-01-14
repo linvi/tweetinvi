@@ -19,7 +19,7 @@ namespace Tweetinvi.Core.DTO.Cursor
         public string NextCursorStr { get; set; }
 
         [JsonIgnore]
-        public string RawJson { get; set; }
+        public string RawResult { get; set; }
 
         [JsonIgnore]
         public IEnumerable<T> Results { get; set; }

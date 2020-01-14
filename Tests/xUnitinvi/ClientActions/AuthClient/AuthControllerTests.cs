@@ -57,7 +57,7 @@ namespace xUnitinvi.ClientActions.AuthClient
             var response = "oauth_token=MY_TOKEN&oauth_token_secret=MY_SECRET&oauth_callback_confirmed=true";
 
             A.CallTo(() => _fakeAuthQueryExecutor.RequestAuthUrl(It.IsAny<RequestAuthUrlInternalParameters>(), request)).Returns(expectedResult);
-            A.CallTo(() => expectedResult.Json).Returns(response);
+            A.CallTo(() => expectedResult.RawResult).Returns(response);
 
             // Act
             var result = await controller.RequestAuthUrl(parameters, request);
@@ -79,7 +79,7 @@ namespace xUnitinvi.ClientActions.AuthClient
 
             A.CallTo(() => _fakeAuthQueryExecutor.RequestAuthUrl(A<RequestAuthUrlInternalParameters>.That.Matches(x => x.CallbackUrl == "my_url"), request))
                 .Returns(expectedResult);
-            A.CallTo(() => expectedResult.Json).Returns(response);
+            A.CallTo(() => expectedResult.RawResult).Returns(response);
 
             // Act
             var result = await controller.RequestAuthUrl(parameters, request);
@@ -101,7 +101,7 @@ namespace xUnitinvi.ClientActions.AuthClient
 
             A.CallTo(() => _fakeAuthQueryExecutor.RequestAuthUrl(A<RequestAuthUrlInternalParameters>.That.Matches(x => x.CallbackUrl == "my_url"), request))
                 .Returns(expectedResult);
-            A.CallTo(() => expectedResult.Json).Returns(response);
+            A.CallTo(() => expectedResult.RawResult).Returns(response);
 
             // Act
             await Assert.ThrowsAsync<TwitterAuthAbortedException>(() => controller.RequestAuthUrl(parameters, request));
@@ -120,7 +120,7 @@ namespace xUnitinvi.ClientActions.AuthClient
 
             A.CallTo(() => _fakeAuthQueryExecutor.RequestAuthUrl(A<RequestAuthUrlInternalParameters>.That.Matches(x => x.CallbackUrl == "my_url"), request))
                 .Returns(expectedResult);
-            A.CallTo(() => expectedResult.Json).Returns(response);
+            A.CallTo(() => expectedResult.RawResult).Returns(response);
 
             // Act
             await Assert.ThrowsAsync<TwitterAuthException>(() => controller.RequestAuthUrl(parameters, request));
@@ -142,7 +142,7 @@ namespace xUnitinvi.ClientActions.AuthClient
             var response = "oauth_token=access_token&oauth_token_secret=access_secret";
 
             A.CallTo(() => _fakeAuthQueryExecutor.RequestCredentials(parameters, request)).Returns(expectedResult);
-            A.CallTo(() => expectedResult.Json).Returns(response);
+            A.CallTo(() => expectedResult.RawResult).Returns(response);
 
             // Act
             var result = await controller.RequestCredentials(parameters, request);
@@ -170,7 +170,7 @@ namespace xUnitinvi.ClientActions.AuthClient
             var response = "oauth_token=access_token"; // missing secret
 
             A.CallTo(() => _fakeAuthQueryExecutor.RequestCredentials(parameters, request)).Returns(expectedResult);
-            A.CallTo(() => expectedResult.Json).Returns(response);
+            A.CallTo(() => expectedResult.RawResult).Returns(response);
 
             // Act
             await Assert.ThrowsAsync<TwitterAuthException>(() => controller.RequestCredentials(parameters, request));
