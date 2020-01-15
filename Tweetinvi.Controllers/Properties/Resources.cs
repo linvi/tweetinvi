@@ -137,14 +137,9 @@ namespace Tweetinvi.Controllers.Properties
         public static string Help_GetTwitterConfiguration = "https://api.twitter.com/1.1/help/configuration.json";
 
         /// <summary>
-        ///   Looks up a localized string similar to https://api.twitter.com/1.1/help/tos.json.
+        ///   Looks up a localized string similar to https://api.twitter.com/1.1/help/languages.json.
         /// </summary>
-        public static string Help_GetTermsOfService = "https://api.twitter.com/1.1/help/tos.json";
-
-        /// <summary>
-        ///   Looks up a localized string similar to https://api.twitter.com/1.1/help/privacy.json.
-        /// </summary>
-        public static string Help_GetTwitterPrivacyPolicy = "https://api.twitter.com/1.1/help/privacy.json";
+        public static string Help_GetSupportedLanguages = "https://api.twitter.com/1.1/help/languages.json";
 
         /// <summary>
         ///   Looks up a localized string similar to https://api.twitter.com/1.1/lists/members/show.json?{0}&amp;{1}&amp;skip_status=true.

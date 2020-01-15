@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using Tweetinvi.Core.Models;
 using Tweetinvi.Core.QueryGenerators;
 using Tweetinvi.Core.Web;
 using Tweetinvi.Models;
@@ -11,6 +12,7 @@ namespace Tweetinvi.Controllers.Help
     {
         Task<ITwitterResult<ICredentialsRateLimits>> GetRateLimits(IGetRateLimitsParameters parameters, ITwitterRequest request);
         Task<ITwitterResult<ITwitterConfiguration>> GetTwitterConfiguration(IGetTwitterConfigurationParameters parameters, ITwitterRequest request);
+        Task<ITwitterResult<SupportedLanguage[]>> GetSupportedLanguages(IGetSupportedLanguagesParameters parameters, ITwitterRequest request);
     }
 
     public class HelpQueryExecutor : IHelpQueryExecutor
@@ -36,6 +38,13 @@ namespace Tweetinvi.Controllers.Help
             request.Query.Url = _helpQueryGenerator.GetTwitterConfigurationQuery(parameters);
             request.Query.HttpMethod = HttpMethod.GET;
             return _twitterAccessor.ExecuteRequest<ITwitterConfiguration>(request);
+        }
+
+        public Task<ITwitterResult<SupportedLanguage[]>> GetSupportedLanguages(IGetSupportedLanguagesParameters parameters, ITwitterRequest request)
+        {
+            request.Query.Url = _helpQueryGenerator.GetSupportedLanguagesQuery(parameters);
+            request.Query.HttpMethod = HttpMethod.GET;
+            return _twitterAccessor.ExecuteRequest<SupportedLanguage[]>(request);
         }
     }
 }

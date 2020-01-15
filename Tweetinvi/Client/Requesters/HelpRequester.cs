@@ -1,6 +1,7 @@
 using System.Threading.Tasks;
 using Tweetinvi.Core.Client.Validators;
 using Tweetinvi.Core.Controllers;
+using Tweetinvi.Core.Models;
 using Tweetinvi.Core.Web;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
@@ -45,6 +46,13 @@ namespace Tweetinvi.Client.Requesters
             _validator.Validate(parameters);
 
             return ExecuteRequest(request => _helpController.GetTwitterConfiguration(parameters, request));
+        }
+
+        public Task<ITwitterResult<SupportedLanguage[]>> GetSupportedLanguages(IGetSupportedLanguagesParameters parameters)
+        {
+            _validator.Validate(parameters);
+
+            return ExecuteRequest(request => _helpController.GetSupportedLanguages(parameters, request));
         }
     }
 }

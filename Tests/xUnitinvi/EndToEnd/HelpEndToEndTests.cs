@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Threading.Tasks;
 using Xunit;
 using Xunit.Abstractions;
@@ -18,6 +19,14 @@ namespace xUnitinvi.EndToEnd
             var twitterConfiguration = await _tweetinviTestClient.Help.GetTwitterConfiguration();
 
             Assert.True(twitterConfiguration.PhotoSizeLimit > 0);
+        }
+
+        [Fact]
+        public async Task GetSupportedLanguages()
+        {
+            var supportedLanguages = await _tweetinviTestClient.Help.GetSupportedLanguages();
+
+            Assert.Contains(supportedLanguages, x => x.Name == "French");
         }
     }
 }

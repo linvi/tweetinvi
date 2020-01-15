@@ -6,5 +6,6 @@ namespace Tweetinvi.Core.QueryGenerators
     {
         string GetRateLimitsQuery(IGetRateLimitsParameters parameters);
         string GetTwitterConfigurationQuery(IGetTwitterConfigurationParameters parameters);
+        string GetSupportedLanguagesQuery(IGetSupportedLanguagesParameters parameters);
     }
 }

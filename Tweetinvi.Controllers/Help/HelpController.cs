@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Tweetinvi.Core.Controllers;
+using Tweetinvi.Core.Models;
 using Tweetinvi.Core.Web;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
@@ -24,6 +25,11 @@ namespace Tweetinvi.Controllers.Help
         public Task<ITwitterResult<ITwitterConfiguration>> GetTwitterConfiguration(IGetTwitterConfigurationParameters parameters, ITwitterRequest request)
         {
             return _helpQueryExecutor.GetTwitterConfiguration(parameters, request);
+        }
+
+        public Task<ITwitterResult<SupportedLanguage[]>> GetSupportedLanguages(IGetSupportedLanguagesParameters parameters, ITwitterRequest request)
+        {
+            return _helpQueryExecutor.GetSupportedLanguages(parameters, request);
         }
     }
 }

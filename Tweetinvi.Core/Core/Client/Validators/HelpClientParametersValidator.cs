@@ -7,6 +7,7 @@ namespace Tweetinvi.Core.Client.Validators
     {
         void Validate(IGetRateLimitsParameters parameters);
         void Validate(IGetTwitterConfigurationParameters parameters);
+        void Validate(IGetSupportedLanguagesParameters parameters);
     }
 
     public interface IInternalHelpClientParametersValidator : IHelpClientParametersValidator
@@ -33,6 +34,11 @@ namespace Tweetinvi.Core.Client.Validators
         }
 
         public void Validate(IGetTwitterConfigurationParameters parameters)
+        {
+            _helpClientRequiredParametersValidator.Validate(parameters);
+        }
+
+        public void Validate(IGetSupportedLanguagesParameters parameters)
         {
             _helpClientRequiredParametersValidator.Validate(parameters);
         }

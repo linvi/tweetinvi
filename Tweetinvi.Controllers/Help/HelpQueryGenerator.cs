@@ -21,5 +21,12 @@ namespace Tweetinvi.Controllers.Help
             query.AddFormattedParameterToQuery(parameters.FormattedCustomQueryParameters);
             return query.ToString();
         }
+
+        public string GetSupportedLanguagesQuery(IGetSupportedLanguagesParameters parameters)
+        {
+            var query = new StringBuilder(Resources.Help_GetSupportedLanguages);
+            query.AddFormattedParameterToQuery(parameters.FormattedCustomQueryParameters);
+            return query.ToString();
+        }
     }
 }

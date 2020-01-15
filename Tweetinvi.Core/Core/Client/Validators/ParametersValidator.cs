@@ -224,6 +224,11 @@ namespace Tweetinvi.Core.Client.Validators
             _helpClientParametersValidator.Validate(parameters);
         }
 
+        public void Validate(IGetSupportedLanguagesParameters parameters)
+        {
+            _helpClientParametersValidator.Validate(parameters);
+        }
+
         public void Validate(IGetHomeTimelineParameters parameters)
         {
             _timelineClientParametersValidator.Validate(parameters);
