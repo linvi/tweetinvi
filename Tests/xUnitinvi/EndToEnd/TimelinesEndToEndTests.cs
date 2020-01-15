@@ -12,15 +12,10 @@ using xUnitinvi.TestHelpers;
 namespace xUnitinvi.EndToEnd
 {
     [Collection("EndToEndTests")]
-    public class TimelineEndToEndTests : TweetinviTest
+    public class TimelinesEndToEndTests : TweetinviTest
     {
-        private readonly ITwitterClient _tweetinviApiClient;
-        private readonly ITwitterClient _tweetinviTestClient;
-
-        public TimelineEndToEndTests(ITestOutputHelper logger) : base(logger)
+        public TimelinesEndToEndTests(ITestOutputHelper logger) : base(logger)
         {
-            _tweetinviApiClient = new TwitterClient(EndToEndTestConfig.TweetinviApi.Credentials);
-            _tweetinviTestClient = new TwitterClient(EndToEndTestConfig.TweetinviTest.Credentials);
         }
 
         [Fact]
@@ -31,19 +26,19 @@ namespace xUnitinvi.EndToEnd
 
             // arrange
             var testUser = await _tweetinviTestClient.Account.GetAuthenticatedUser();
-            var tweetinviUser = await _tweetinviApiClient.Account.GetAuthenticatedUser();
-            var friendsBeforeAdd = await _tweetinviApiClient.Users.GetFriendIds(tweetinviUser).MoveToNextPage();
+            var tweetinviUser = await _tweetinviClient.Account.GetAuthenticatedUser();
+            var friendsBeforeAdd = await _tweetinviClient.Users.GetFriendIds(tweetinviUser).MoveToNextPage();
             var alreadyFollowing = friendsBeforeAdd.Contains(testUser.Id.Value);
 
             if (!alreadyFollowing)
             {
-                await _tweetinviApiClient.Account.FollowUser(testUser);
+                await _tweetinviClient.Account.FollowUser(testUser);
             }
 
             // act - pre-cleanup
 
             await Task.Delay(1000).ConfigureAwait(false); // time required for timeline to be generated
-            var recentTweetIterators = _tweetinviApiClient.Timeline.GetHomeTimelineIterator();
+            var recentTweetIterators = _tweetinviClient.Timelines.GetHomeTimelineIterator();
             var recentTweets = await recentTweetIterators.MoveToNextPage();
             var tweetToDelete = recentTweets.FirstOrDefault(x => x.Text == "tweet 1!");
 
@@ -56,7 +51,7 @@ namespace xUnitinvi.EndToEnd
             var tweet1 = await _tweetinviTestClient.Tweets.PublishTweet("tweet 1!");
 
             await Task.Delay(2000).ConfigureAwait(false); // time required for timeline to be generated
-            var iterator = _tweetinviApiClient.Timeline.GetHomeTimelineIterator(new GetHomeTimelineParameters
+            var iterator = _tweetinviClient.Timelines.GetHomeTimelineIterator(new GetHomeTimelineParameters
             {
                 PageSize = 1,
             });
@@ -68,7 +63,7 @@ namespace xUnitinvi.EndToEnd
 
             if (!alreadyFollowing)
             {
-                await _tweetinviApiClient.Account.UnFollowUser(testUser);
+                await _tweetinviClient.Account.UnFollowUser(testUser);
             }
 
             // assert
@@ -85,7 +80,7 @@ namespace xUnitinvi.EndToEnd
             var tweet1 = await _tweetinviTestClient.Tweets.PublishTweet("tweet 1!");
             var tweetinviTest = EndToEndTestConfig.TweetinviTest.AccountId;
 
-            var iterator = _tweetinviApiClient.Timeline.GetUserTimelineIterator(new GetUserTimelineParameters(tweetinviTest)
+            var iterator = _tweetinviClient.Timelines.GetUserTimelineIterator(new GetUserTimelineParameters(tweetinviTest)
             {
                 PageSize = 5,
             });
@@ -113,7 +108,7 @@ namespace xUnitinvi.EndToEnd
             // act
             var tweet1 = await _tweetinviTestClient.Tweets.PublishTweet("The new @tweetinviapi is the great!");
 
-            var iterator = _tweetinviApiClient.Timeline.GetMentionsTimelineIterator();
+            var iterator = _tweetinviClient.Timelines.GetMentionsTimelineIterator();
 
             var page1 = await iterator.MoveToNextPage();
 
@@ -133,10 +128,10 @@ namespace xUnitinvi.EndToEnd
             var tweet1 = await _tweetinviTestClient.Tweets.PublishTweet("tweet 1!");
             var tweet2 = await _tweetinviTestClient.Tweets.PublishTweet("tweet 2");
 
-            await _tweetinviApiClient.Tweets.PublishRetweet(tweet1);
-            await _tweetinviApiClient.Tweets.PublishRetweet(tweet2);
+            await _tweetinviClient.Tweets.PublishRetweet(tweet1);
+            await _tweetinviClient.Tweets.PublishRetweet(tweet2);
 
-            var iterator = _tweetinviTestClient.Timeline.GetRetweetsOfMeTimelineIterator(new GetRetweetsOfMeTimelineParameters
+            var iterator = _tweetinviTestClient.Timelines.GetRetweetsOfMeTimelineIterator(new GetRetweetsOfMeTimelineParameters
             {
                 PageSize = 1,
                 SinceId = tweet1.Id - 1

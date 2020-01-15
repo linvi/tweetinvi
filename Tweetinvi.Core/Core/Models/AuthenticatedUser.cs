@@ -35,22 +35,22 @@ namespace Tweetinvi.Core.Models
         // Home Timeline
         public ITwitterIterator<ITweet, long?> GetHomeTimelineIterator()
         {
-            return Client.Timeline.GetHomeTimelineIterator();
+            return Client.Timelines.GetHomeTimelineIterator();
         }
 
         public ITwitterIterator<ITweet, long?> GetHomeTimelineIterator(IGetHomeTimelineParameters parameters)
         {
-            return Client.Timeline.GetHomeTimelineIterator(parameters);
+            return Client.Timelines.GetHomeTimelineIterator(parameters);
         }
 
         public ITwitterIterator<ITweet, long?> GetMentionsTimelineIterator()
         {
-            return Client.Timeline.GetMentionsTimelineIterator();
+            return Client.Timelines.GetMentionsTimelineIterator();
         }
 
         public ITwitterIterator<ITweet, long?> GetMentionsTimelineIterator(IGetMentionsTimelineParameters parameters)
         {
-            return Client.Timeline.GetMentionsTimelineIterator();
+            return Client.Timelines.GetMentionsTimelineIterator();
         }
 
         // Friendships

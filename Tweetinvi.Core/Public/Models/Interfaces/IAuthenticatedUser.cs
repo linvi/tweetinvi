@@ -58,16 +58,16 @@ namespace Tweetinvi.Models
 
         #region Timeline
 
-        /// <inheritdoc cref="ITimelineClient.GetHomeTimelineIterator()"/>
+        /// <inheritdoc cref="ITimelinesClient.GetHomeTimelineIterator()"/>
         ITwitterIterator<ITweet, long?> GetHomeTimelineIterator();
 
-        /// <inheritdoc cref="ITimelineClient.GetHomeTimelineIterator(IGetHomeTimelineParameters)"/>
+        /// <inheritdoc cref="ITimelinesClient.GetHomeTimelineIterator(IGetHomeTimelineParameters)"/>
         ITwitterIterator<ITweet, long?> GetHomeTimelineIterator(IGetHomeTimelineParameters parameters);
 
-        /// <inheritdoc cref="ITimelineClient.GetMentionsTimelineIterator()"/>
+        /// <inheritdoc cref="ITimelinesClient.GetMentionsTimelineIterator()"/>
         ITwitterIterator<ITweet, long?> GetMentionsTimelineIterator();
 
-        /// <inheritdoc cref="ITimelineClient.GetMentionsTimelineIterator(IGetMentionsTimelineParameters)"/>
+        /// <inheritdoc cref="ITimelinesClient.GetMentionsTimelineIterator(IGetMentionsTimelineParameters)"/>
         ITwitterIterator<ITweet, long?> GetMentionsTimelineIterator(IGetMentionsTimelineParameters parameters);
 
         #endregion

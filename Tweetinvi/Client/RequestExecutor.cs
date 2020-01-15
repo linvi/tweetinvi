@@ -14,7 +14,7 @@ namespace Tweetinvi.Client
         private readonly IInternalAccountSettingsRequester _accountSettingsRequester;
         private readonly IInternalExecuteRequester _executeRequester;
         private readonly IInternalHelpRequester _helpRequester;
-        private readonly IInternalTimelineRequester _timelineRequester;
+        private readonly IInternalTimelinesRequester _timelinesRequester;
         private readonly IInternalTweetsRequester _tweetsRequester;
         private readonly IInternalUploadRequester _uploadRequester;
         private readonly IInternalUsersRequester _usersRequester;
@@ -29,7 +29,7 @@ namespace Tweetinvi.Client
             IInternalAccountSettingsRequester accountSettingsRequester,
             IInternalExecuteRequester executeRequester,
             IInternalHelpRequester helpRequester,
-            IInternalTimelineRequester timelineRequester,
+            IInternalTimelinesRequester timelinesRequester,
             IInternalTweetsRequester tweetsRequester,
             IInternalUploadRequester uploadRequester,
             IInternalUsersRequester usersRequester)
@@ -39,7 +39,7 @@ namespace Tweetinvi.Client
             _accountSettingsRequester = accountSettingsRequester;
             _executeRequester = executeRequester;
             _helpRequester = helpRequester;
-            _timelineRequester = timelineRequester;
+            _timelinesRequester = timelinesRequester;
             _tweetsRequester = tweetsRequester;
             _uploadRequester = uploadRequester;
             _usersRequester = usersRequester;
@@ -52,7 +52,7 @@ namespace Tweetinvi.Client
             _accountSettingsRequester.Initialize(client);
             _executeRequester.Initialize(client);
             _helpRequester.Initialize(client);
-            _timelineRequester.Initialize(client);
+            _timelinesRequester.Initialize(client);
             _tweetsRequester.Initialize(client);
             _uploadRequester.Initialize(client);
             _usersRequester.Initialize(client);
@@ -63,7 +63,7 @@ namespace Tweetinvi.Client
         public IAccountSettingsRequester AccountSettings => _accountSettingsRequester;
         public IExecuteRequester Execute => _executeRequester;
         public IHelpRequester Help => _helpRequester;
-        public ITimelineRequester Timeline => _timelineRequester;
+        public ITimelinesRequester Timelines => _timelinesRequester;
         public ITweetsRequester Tweets => _tweetsRequester;
         public IUploadRequester Upload => _uploadRequester;
         public IUsersRequester Users => _usersRequester;

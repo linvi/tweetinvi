@@ -9,7 +9,7 @@ namespace Tweetinvi.Client.Requesters
     /// A client providing all the actions relative to timelines.
     /// The results from this client contain additional metadata.
     /// </summary>
-    public interface ITimelineRequester
+    public interface ITimelinesRequester
     {
         /// <summary>
         /// Returns a collection of the most recent Tweets posted by the user indicated by the screen_name or user_id parameters.

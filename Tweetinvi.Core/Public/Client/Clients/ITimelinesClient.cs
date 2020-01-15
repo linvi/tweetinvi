@@ -6,7 +6,7 @@ using Tweetinvi.Parameters;
 
 namespace Tweetinvi.Client
 {
-    public interface ITimelineClient
+    public interface ITimelinesClient
     {
         /// <summary>
         /// Validate all the TimelineClient parameters

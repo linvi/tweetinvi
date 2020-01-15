@@ -28,10 +28,10 @@ namespace Tweetinvi
             container.RegisterType<IHelpClient, HelpClient>(RegistrationLifetime.InstancePerApplication);
             container.RegisterType<IInternalHelpRequester, HelpRequester>(RegistrationLifetime.InstancePerApplication);
 
-            container.RegisterType<IStreamClient, StreamClient>(RegistrationLifetime.InstancePerApplication);
+            container.RegisterType<IStreamsClient, StreamsClient>(RegistrationLifetime.InstancePerApplication);
 
-            container.RegisterType<ITimelineClient, TimelineClient>(RegistrationLifetime.InstancePerApplication);
-            container.RegisterType<IInternalTimelineRequester, TimelineRequester>(RegistrationLifetime.InstancePerApplication);
+            container.RegisterType<ITimelinesClient, TimelinesClient>(RegistrationLifetime.InstancePerApplication);
+            container.RegisterType<IInternalTimelinesRequester, TimelinesRequester>(RegistrationLifetime.InstancePerApplication);
 
             container.RegisterType<ITweetsClient, TweetsClient>(RegistrationLifetime.InstancePerApplication);
             container.RegisterType<IInternalTweetsRequester, TweetsRequester>(RegistrationLifetime.InstancePerApplication);

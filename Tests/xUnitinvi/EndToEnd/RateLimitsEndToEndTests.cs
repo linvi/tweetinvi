@@ -79,7 +79,7 @@ namespace xUnitinvi.EndToEnd
             // act
             var firstApplicationRateLimits = await client.RateLimits.GetEndpointRateLimit("https://api.twitter.com/1.1/statuses/home_timeline.json", RateLimitsSource.TwitterApiOnly);
             var rateLimits = await client.RateLimits.GetEndpointRateLimit("https://api.twitter.com/1.1/statuses/home_timeline.json");
-            await client.Timeline.GetHomeTimelineIterator().MoveToNextPage();
+            await client.Timelines.GetHomeTimelineIterator().MoveToNextPage();
             var fromCacheLimits = await client.RateLimits.GetEndpointRateLimit("https://api.twitter.com/1.1/statuses/home_timeline.json");
 
             // assert
@@ -127,7 +127,7 @@ namespace xUnitinvi.EndToEnd
 
             for (var i = 0; i < rateLimitsRemaining; ++i)
             {
-                var timelineIterator = client.Timeline.GetHomeTimelineIterator();
+                var timelineIterator = client.Timelines.GetHomeTimelineIterator();
                 await timelineIterator.MoveToNextPage().ConfigureAwait(false);
             }
 
@@ -138,7 +138,7 @@ namespace xUnitinvi.EndToEnd
 
             try
             {
-                var timelineIterator = client.Timeline.GetHomeTimelineIterator();
+                var timelineIterator = client.Timelines.GetHomeTimelineIterator();
                 await timelineIterator.MoveToNextPage().ConfigureAwait(false);
             }
             // ReSharper disable once CC0004

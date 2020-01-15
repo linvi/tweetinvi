@@ -4,7 +4,7 @@ using Tweetinvi.Streaming;
 
 namespace Tweetinvi.Client
 {
-    public interface IStreamClient
+    public interface IStreamsClient
     {
         /// <inheritdoc cref="CreateSampleStream(ICreateSampleStreamParameters)"/>
         ISampleStream CreateSampleStream();

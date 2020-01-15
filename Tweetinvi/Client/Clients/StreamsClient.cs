@@ -5,7 +5,7 @@ using Tweetinvi.Streaming;
 
 namespace Tweetinvi.Client
 {
-    public class StreamClient : IStreamClient
+    public class StreamsClient : IStreamsClient
     {
         private readonly ITwitterClient _client;
         private readonly IFactory<ISampleStream> _sampleStreamFactory;
@@ -13,7 +13,7 @@ namespace Tweetinvi.Client
         private readonly IFactory<ITrackedStream> _trackedStreamFactory;
         private readonly IFactory<ITweetStream> _tweetStreamFactory;
 
-        public StreamClient(
+        public StreamsClient(
             ITwitterClient client,
             IFactory<ISampleStream> sampleStreamFactory,
             IFactory<IFilteredStream> filteredStreamFactory,

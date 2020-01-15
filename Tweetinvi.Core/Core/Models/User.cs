@@ -341,7 +341,7 @@ namespace Tweetinvi.Core.Models
         // Timeline
         public ITwitterIterator<ITweet, long?> GetUserTimelineIterator()
         {
-            return Client.Timeline.GetUserTimelineIterator(this);
+            return Client.Timelines.GetUserTimelineIterator(this);
         }
 
         // Favorites

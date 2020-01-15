@@ -7,16 +7,16 @@ using Tweetinvi.Parameters;
 
 namespace Tweetinvi.Client.Requesters
 {
-    public interface IInternalTimelineRequester : ITimelineRequester, IBaseRequester
+    public interface IInternalTimelinesRequester : ITimelinesRequester, IBaseRequester
     {
     }
 
-    public class TimelineRequester : BaseRequester, IInternalTimelineRequester
+    public class TimelinesRequester : BaseRequester, IInternalTimelinesRequester
     {
         private readonly ITimelineController _timelineController;
         private readonly ITimelineClientRequiredParametersValidator _validator;
 
-        public TimelineRequester(
+        public TimelinesRequester(
             ITimelineController timelineController,
             ITimelineClientRequiredParametersValidator validator)
         {

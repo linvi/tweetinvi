@@ -42,7 +42,7 @@ namespace Tweetinvi
         /// <summary>
         /// Client to execute all actions related with timelines
         /// </summary>
-        ITimelineClient Timeline { get; }
+        ITimelinesClient Timelines { get; }
 
         /// <summary>
         /// Client to execute all actions related with tweets

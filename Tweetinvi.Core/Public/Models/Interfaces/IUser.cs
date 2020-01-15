@@ -338,7 +338,7 @@ namespace Tweetinvi.Models
 
         // Timeline
 
-        /// <inheritdoc cref="ITimelineClient.GetUserTimelineIterator(IUserIdentifier)"/>
+        /// <inheritdoc cref="ITimelinesClient.GetUserTimelineIterator(IUserIdentifier)"/>
         ITwitterIterator<ITweet, long?> GetUserTimelineIterator();
 
         // Get Favorites
