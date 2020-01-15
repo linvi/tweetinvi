@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Tweetinvi.Client;
 using Tweetinvi.Models;
-using Tweetinvi.Parameters.HelpClient;
+using Tweetinvi.Parameters;
 
 namespace Tweetinvi.Core.RateLimit
 {

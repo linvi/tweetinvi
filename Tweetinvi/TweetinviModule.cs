@@ -25,6 +25,7 @@ namespace Tweetinvi
             container.RegisterType<IInternalExecuteRequester, ExecuteRequester>(RegistrationLifetime.InstancePerApplication);
 
             container.RegisterType<IRateLimitsClient, RateLimitsClient>(RegistrationLifetime.InstancePerApplication);
+            container.RegisterType<IHelpClient, HelpClient>(RegistrationLifetime.InstancePerApplication);
             container.RegisterType<IInternalHelpRequester, HelpRequester>(RegistrationLifetime.InstancePerApplication);
 
             container.RegisterType<IStreamClient, StreamClient>(RegistrationLifetime.InstancePerApplication);

@@ -30,6 +30,11 @@ namespace Tweetinvi
         IExecuteClient Execute { get; }
 
         /// <summary>
+        /// Client to execute all actions from the help path
+        /// </summary>
+        IHelpClient Help { get; }
+
+        /// <summary>
         /// Client to execute all actions related with rate limits
         /// </summary>
         IRateLimitsClient RateLimits { get; }

@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using Tweetinvi.Client.Requesters;
 using Tweetinvi.Core.RateLimit;
 using Tweetinvi.Models;
-using Tweetinvi.Parameters.HelpClient;
+using Tweetinvi.Parameters;
 
 namespace Tweetinvi.Client
 {

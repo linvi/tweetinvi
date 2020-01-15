@@ -1,4 +1,4 @@
-namespace Tweetinvi.Parameters.HelpClient
+namespace Tweetinvi.Parameters
 {
     public enum RateLimitsSource
     {

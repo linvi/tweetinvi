@@ -2,7 +2,7 @@
 using Tweetinvi.Controllers.Properties;
 using Tweetinvi.Core.Extensions;
 using Tweetinvi.Core.QueryGenerators;
-using Tweetinvi.Parameters.HelpClient;
+using Tweetinvi.Parameters;
 
 namespace Tweetinvi.Controllers.Help
 {
@@ -15,24 +15,11 @@ namespace Tweetinvi.Controllers.Help
             return query.ToString();
         }
 
-        public string GetCredentialsLimitsQuery()
+        public string GetTwitterConfigurationQuery(IGetTwitterConfigurationParameters parameters)
         {
-            return Resources.Help_GetRateLimit;
-        }
-
-        public string GetTwitterPrivacyPolicyQuery()
-        {
-            return Resources.Help_GetTwitterPrivacyPolicy;
-        }
-
-        public string GetTwitterConfigurationQuery()
-        {
-            return Resources.Help_GetTwitterConfiguration;
-        }
-
-        public string GetTermsOfServiceQuery()
-        {
-            return Resources.Help_GetTermsOfService;
+            var query = new StringBuilder(Resources.Help_GetTwitterConfiguration);
+            query.AddFormattedParameterToQuery(parameters.FormattedCustomQueryParameters);
+            return query.ToString();
         }
     }
 }

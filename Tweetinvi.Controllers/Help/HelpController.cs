@@ -3,7 +3,7 @@ using Tweetinvi.Core.Controllers;
 using Tweetinvi.Core.Web;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
-using Tweetinvi.Parameters.HelpClient;
+using Tweetinvi.Parameters;
 
 namespace Tweetinvi.Controllers.Help
 {
@@ -21,29 +21,9 @@ namespace Tweetinvi.Controllers.Help
             return _helpQueryExecutor.GetRateLimits(parameters, request);
         }
 
-        public Task<ICredentialsRateLimits> GetCurrentCredentialsRateLimits()
+        public Task<ITwitterResult<ITwitterConfiguration>> GetTwitterConfiguration(IGetTwitterConfigurationParameters parameters, ITwitterRequest request)
         {
-            return _helpQueryExecutor.GetCurrentCredentialsRateLimits();
-        }
-
-        public Task<ICredentialsRateLimits> GetCredentialsRateLimits(ITwitterCredentials credentials)
-        {
-            return _helpQueryExecutor.GetCredentialsRateLimits(credentials);
-        }
-
-        public Task<string> GetTwitterPrivacyPolicy()
-        {
-            return _helpQueryExecutor.GetTwitterPrivacyPolicy();
-        }
-
-        public Task<ITwitterConfiguration> GetTwitterConfiguration()
-        {
-            return _helpQueryExecutor.GetTwitterConfiguration();
-        }
-
-        public Task<string> GetTermsOfService()
-        {
-            return _helpQueryExecutor.GetTermsOfService();
+            return _helpQueryExecutor.GetTwitterConfiguration(parameters, request);
         }
     }
 }

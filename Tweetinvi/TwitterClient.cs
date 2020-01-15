@@ -110,6 +110,7 @@ namespace Tweetinvi
             Auth = _tweetinviContainer.Resolve<IAuthClient>();
             AccountSettings = _tweetinviContainer.Resolve<IAccountSettingsClient>();
             Execute = _tweetinviContainer.Resolve<IExecuteClient>();
+            Help = _tweetinviContainer.Resolve<IHelpClient>();
             RateLimits = _tweetinviContainer.Resolve<IRateLimitsClient>();
             Streams = _tweetinviContainer.Resolve<IStreamClient>();
             Timeline = _tweetinviContainer.Resolve<ITimelineClient>();
@@ -140,6 +141,8 @@ namespace Tweetinvi
         public IAccountSettingsClient AccountSettings { get; }
         /// <inheritdoc/>
         public IExecuteClient Execute { get; }
+        /// <inheritdoc/>
+        public IHelpClient Help { get; }
         /// <inheritdoc/>
         public IRateLimitsClient RateLimits { get; }
         /// <inheritdoc/>

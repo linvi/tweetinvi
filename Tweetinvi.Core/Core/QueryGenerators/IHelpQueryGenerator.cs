@@ -1,13 +1,10 @@
-﻿using Tweetinvi.Parameters.HelpClient;
+﻿using Tweetinvi.Parameters;
 
 namespace Tweetinvi.Core.QueryGenerators
 {
     public interface IHelpQueryGenerator
     {
         string GetRateLimitsQuery(IGetRateLimitsParameters parameters);
-        string GetCredentialsLimitsQuery();
-        string GetTwitterPrivacyPolicyQuery();
-        string GetTwitterConfigurationQuery();
-        string GetTermsOfServiceQuery();
+        string GetTwitterConfigurationQuery(IGetTwitterConfigurationParameters parameters);
     }
 }

@@ -3,7 +3,8 @@ using Tweetinvi.Core.Client.Validators;
 using Tweetinvi.Core.Controllers;
 using Tweetinvi.Core.Web;
 using Tweetinvi.Models;
-using Tweetinvi.Parameters.HelpClient;
+using Tweetinvi.Models.DTO;
+using Tweetinvi.Parameters;
 
 namespace Tweetinvi.Client.Requesters
 {
@@ -37,6 +38,13 @@ namespace Tweetinvi.Client.Requesters
 
                 return _helpController.GetRateLimits(parameters, request);
             });
+        }
+
+        public Task<ITwitterResult<ITwitterConfiguration>> GetTwitterConfiguration(IGetTwitterConfigurationParameters parameters)
+        {
+            _validator.Validate(parameters);
+
+            return ExecuteRequest(request => _helpController.GetTwitterConfiguration(parameters, request));
         }
     }
 }

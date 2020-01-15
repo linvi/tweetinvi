@@ -8,6 +8,7 @@ using xUnitinvi.TestHelpers;
 
 namespace xUnitinvi.EndToEnd
 {
+    [Collection("EndToEndTests")]
     public class ExecuteEndToEndTests : TweetinviTest
     {
         public ExecuteEndToEndTests(ITestOutputHelper logger) : base(logger)

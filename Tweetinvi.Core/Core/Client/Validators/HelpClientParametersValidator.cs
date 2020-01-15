@@ -1,11 +1,12 @@
 using Tweetinvi.Models;
-using Tweetinvi.Parameters.HelpClient;
+using Tweetinvi.Parameters;
 
 namespace Tweetinvi.Core.Client.Validators
 {
     public interface IHelpClientParametersValidator
     {
         void Validate(IGetRateLimitsParameters parameters);
+        void Validate(IGetTwitterConfigurationParameters parameters);
     }
 
     public interface IInternalHelpClientParametersValidator : IHelpClientParametersValidator
@@ -27,6 +28,11 @@ namespace Tweetinvi.Core.Client.Validators
         }
 
         public void Validate(IGetRateLimitsParameters parameters)
+        {
+            _helpClientRequiredParametersValidator.Validate(parameters);
+        }
+
+        public void Validate(IGetTwitterConfigurationParameters parameters)
         {
             _helpClientRequiredParametersValidator.Validate(parameters);
         }

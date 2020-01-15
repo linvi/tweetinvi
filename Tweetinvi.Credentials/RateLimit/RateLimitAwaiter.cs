@@ -6,7 +6,7 @@ using Tweetinvi.Core.Helpers;
 using Tweetinvi.Core.RateLimit;
 using Tweetinvi.Events;
 using Tweetinvi.Models;
-using Tweetinvi.Parameters.HelpClient;
+using Tweetinvi.Parameters;
 
 namespace Tweetinvi.Credentials.RateLimit
 {

@@ -9,7 +9,7 @@ using Tweetinvi.Core.RateLimit;
 using Tweetinvi.Core.Web;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
-using Tweetinvi.Parameters.HelpClient;
+using Tweetinvi.Parameters;
 using Xunit;
 using Xunit.Abstractions;
 using xUnitinvi.EndToEnd;

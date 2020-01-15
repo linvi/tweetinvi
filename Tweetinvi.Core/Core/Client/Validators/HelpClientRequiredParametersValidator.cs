@@ -1,5 +1,5 @@
 using System;
-using Tweetinvi.Parameters.HelpClient;
+using Tweetinvi.Parameters;
 
 namespace Tweetinvi.Core.Client.Validators
 {
@@ -10,6 +10,14 @@ namespace Tweetinvi.Core.Client.Validators
     public class HelpClientRequiredParametersValidator : IHelpClientRequiredParametersValidator
     {
         public void Validate(IGetRateLimitsParameters parameters)
+        {
+            if (parameters == null)
+            {
+                throw new ArgumentNullException(nameof(parameters));
+            }
+        }
+
+        public void Validate(IGetTwitterConfigurationParameters parameters)
         {
             if (parameters == null)
             {

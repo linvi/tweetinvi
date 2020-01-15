@@ -1,4 +1,4 @@
-namespace Tweetinvi.Parameters.HelpClient
+namespace Tweetinvi.Parameters
 {
     /// <summary>
     /// For more information read : https://developer.twitter.com/en/docs/developer-utilities/rate-limit-status/api-reference/get-application-rate_limit_status

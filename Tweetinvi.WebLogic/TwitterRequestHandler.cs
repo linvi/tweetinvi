@@ -6,7 +6,7 @@ using Tweetinvi.Core.Web;
 using Tweetinvi.Events;
 using Tweetinvi.Exceptions;
 using Tweetinvi.Models;
-using Tweetinvi.Parameters.HelpClient;
+using Tweetinvi.Parameters;
 
 namespace Tweetinvi.WebLogic
 {
