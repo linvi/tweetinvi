@@ -25,7 +25,7 @@ namespace Examplinvi.NETStandard
 
             var authenticatedUser = await client.Account.GetAuthenticatedUser();
 
-            var iterator = client.Timeline.GetUserTimelineIterator(new GetUserTimelineParameters(authenticatedUser)
+            var iterator = client.Timelines.GetUserTimelineIterator(new GetUserTimelineParameters(authenticatedUser)
             {
                 PageSize = 5,
             });
