@@ -24,13 +24,6 @@ namespace Tweetinvi.Factories.Lists
             _twitterListIdentifierFactory = twitterListIdentifierFactory;
         }
 
-        // Create List
-        public async Task<ITwitterList> CreateList(string name, PrivacyMode privacyMode, string description)
-        {
-            var listDTO = await _twitterListFactoryQueryExecutor.CreateList(name, privacyMode, description);
-            return _factories.CreateTwitterList(listDTO);
-        }
-
         // Get Existing
         public Task<ITwitterList> GetExistingList(long listId)
         {

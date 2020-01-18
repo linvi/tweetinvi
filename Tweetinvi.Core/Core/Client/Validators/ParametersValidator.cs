@@ -1,6 +1,7 @@
 using Tweetinvi.Models;
 using Tweetinvi.Parameters;
 using Tweetinvi.Parameters.Auth;
+using Tweetinvi.Parameters.ListsClient;
 
 namespace Tweetinvi.Core.Client.Validators
 {
@@ -9,6 +10,7 @@ namespace Tweetinvi.Core.Client.Validators
         IAccountSettingsClientParametersValidator,
         IAuthClientParametersValidator,
         IHelpClientParametersValidator,
+        ITwitterListsClientParametersValidator,
         ITimelineClientParametersValidator,
         ITweetsClientParametersValidator,
         IUploadClientParametersValidator,
@@ -22,6 +24,7 @@ namespace Tweetinvi.Core.Client.Validators
         private readonly IAccountSettingsClientParametersValidator _accountSettingsClientParametersValidator;
         private readonly IAuthClientParametersValidator _authClientParametersValidator;
         private readonly IHelpClientParametersValidator _helpClientParametersValidator;
+        private readonly ITwitterListsClientParametersValidator _twitterListsClientParametersValidator;
         private readonly ITimelineClientParametersValidator _timelineClientParametersValidator;
         private readonly ITweetsClientParametersValidator _tweetsClientParametersValidator;
         private readonly IUploadClientParametersValidator _uploadClientParametersValidator;
@@ -32,6 +35,7 @@ namespace Tweetinvi.Core.Client.Validators
             IAccountSettingsClientParametersValidator accountSettingsClientParametersValidator,
             IAuthClientParametersValidator authClientParametersValidator,
             IHelpClientParametersValidator helpClientParametersValidator,
+            ITwitterListsClientParametersValidator twitterListsClientParametersValidator,
             ITimelineClientParametersValidator timelineClientParametersValidator,
             ITweetsClientParametersValidator tweetsClientParametersValidator,
             IUploadClientParametersValidator uploadClientParametersValidator,
@@ -41,6 +45,7 @@ namespace Tweetinvi.Core.Client.Validators
             _accountSettingsClientParametersValidator = accountSettingsClientParametersValidator;
             _authClientParametersValidator = authClientParametersValidator;
             _helpClientParametersValidator = helpClientParametersValidator;
+            _twitterListsClientParametersValidator = twitterListsClientParametersValidator;
             _timelineClientParametersValidator = timelineClientParametersValidator;
             _tweetsClientParametersValidator = tweetsClientParametersValidator;
             _uploadClientParametersValidator = uploadClientParametersValidator;
@@ -210,6 +215,11 @@ namespace Tweetinvi.Core.Client.Validators
         public void Validate(IGetSupportedLanguagesParameters parameters)
         {
             _helpClientParametersValidator.Validate(parameters);
+        }
+
+        public void Validate(ICreateTwitterListParameters parameters)
+        {
+            _twitterListsClientParametersValidator.Validate(parameters);
         }
 
         public void Validate(IGetHomeTimelineParameters parameters)

@@ -8,17 +8,25 @@ using Tweetinvi.Core.Web;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
 using Tweetinvi.Models.DTO.QueryDTO;
+using Tweetinvi.Parameters.ListsClient;
 
 namespace Tweetinvi.Controllers.TwitterLists
 {
     public interface ITwitterListQueryExecutor
     {
+        Task<ITwitterResult<ITwitterListDTO>> CreateTwitterList(ICreateTwitterListParameters createTwitterListParameters, ITwitterRequest request);
+
+
+
+
+
+
         Task<IEnumerable<ITwitterListDTO>> GetUserSubscribedLists(IUserIdentifier user, bool getOwnedListsFirst);
 
         Task<ITwitterListDTO> UpdateList(ITwitterListUpdateQueryParameters parameters);
         Task<bool> DestroyList(ITwitterListIdentifier identifier);
         Task<IEnumerable<ITweetDTO>> GetTweetsFromList(IGetTweetsFromListQueryParameters queryParameters);
-        
+
         // Members
         Task<IEnumerable<IUserDTO>> GetMembersOfList(ITwitterListIdentifier identifier, int maxNumberOfUsersToRetrieve);
         Task<bool> AddMemberToList(ITwitterListIdentifier listIdentifier, IUserIdentifier user);
@@ -28,7 +36,7 @@ namespace Tweetinvi.Controllers.TwitterLists
         Task<MultiRequestsResult> RemoveMultipleMembersFromList(ITwitterListIdentifier listIdentifier,
             IEnumerable<IUserIdentifier> users);
         Task<bool> CheckIfUserIsAListMember(ITwitterListIdentifier listIdentifier, IUserIdentifier user);
-        
+
         // Subscribers
         Task<IEnumerable<ITwitterListDTO>> GetUserSubscribedLists(IUserIdentifier user,
             int maximumNumberOfListsToRetrieve);
@@ -43,6 +51,7 @@ namespace Tweetinvi.Controllers.TwitterLists
         // User memberships
         Task<IEnumerable<ITwitterListDTO>> GetUserListMemberships(
             IGetUserListMembershipsQueryParameters queryParameters);
+
     }
 
     public class TwitterListQueryExecutor : ITwitterListQueryExecutor
@@ -56,7 +65,20 @@ namespace Tweetinvi.Controllers.TwitterLists
             _twitterAccessor = twitterAccessor;
         }
 
+        public Task<ITwitterResult<ITwitterListDTO>> CreateTwitterList(ICreateTwitterListParameters createTwitterListParameters, ITwitterRequest request)
+        {
+            request.Query.Url = _listsQueryGenerator.GetCreateTwitterListQuery(createTwitterListParameters);
+            request.Query.HttpMethod = HttpMethod.POST;
+            return _twitterAccessor.ExecuteRequest<ITwitterListDTO>(request);
+        }
+
+
+
+
+
+
         // User
+
         public Task<IEnumerable<ITwitterListDTO>> GetUserSubscribedLists(IUserIdentifier user, bool getOwnedListsFirst)
         {
             var query = _listsQueryGenerator.GetUserSubscribedListsQuery(user, getOwnedListsFirst);

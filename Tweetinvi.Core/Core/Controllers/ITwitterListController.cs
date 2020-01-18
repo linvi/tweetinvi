@@ -1,8 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Tweetinvi.Core.Parameters;
+using Tweetinvi.Core.Web;
 using Tweetinvi.Models;
+using Tweetinvi.Models.DTO;
 using Tweetinvi.Parameters;
+using Tweetinvi.Parameters.ListsClient;
 
 namespace Tweetinvi.Core.Controllers
 {
@@ -133,11 +136,11 @@ namespace Tweetinvi.Core.Controllers
         Task<bool> CheckIfUserIsAListMember(long listId, long userId);
         Task<bool> CheckIfUserIsAListMember(long listId, string userScreenName);
         Task<bool> CheckIfUserIsAListMember(long listId, IUserIdentifier user);
-        
+
         Task<bool> CheckIfUserIsAListMember(string slug, long ownerId, long userId);
         Task<bool> CheckIfUserIsAListMember(string slug, long ownerId, string userScreenName);
         Task<bool> CheckIfUserIsAListMember(string slug, long ownerId, IUserIdentifier user);
-        
+
         Task<bool> CheckIfUserIsAListMember(string slug, string ownerScreenName, long userId);
         Task<bool> CheckIfUserIsAListMember(string slug, string ownerScreenName, string userScreenName);
         Task<bool> CheckIfUserIsAListMember(string slug, string ownerScreenName, IUserIdentifier user);
@@ -196,5 +199,6 @@ namespace Tweetinvi.Core.Controllers
         Task<bool> CheckIfUserIsAListSubscriber(ITwitterListIdentifier listIdentifier, long userId);
         Task<bool> CheckIfUserIsAListSubscriber(ITwitterListIdentifier listIdentifier, string userScreenName);
         Task<bool> CheckIfUserIsAListSubscriber(ITwitterListIdentifier listIdentifier, IUserIdentifier user);
+        Task<ITwitterResult<ITwitterListDTO>> CreateTwitterList(ICreateTwitterListParameters parameters, ITwitterRequest request);
     }
 }

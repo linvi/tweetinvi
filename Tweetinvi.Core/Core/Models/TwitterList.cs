@@ -16,8 +16,12 @@ namespace Tweetinvi.Core.Models
 
         public TwitterList(ITwitterListDTO twitterListDTO, ITwitterClient client)
         {
-            TwitterListDTO = twitterListDTO;
+            // ! order is important, client should be at the top so that `UpdateOwner`
+            // can use the client factories to create the owner user.
             Client = client;
+
+            _twitterListDTO = twitterListDTO;
+            UpdateOwner();
         }
 
         public ITwitterListDTO TwitterListDTO

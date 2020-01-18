@@ -142,6 +142,11 @@ namespace Tweetinvi.Controllers.Properties
         public static string Help_GetSupportedLanguages = "https://api.twitter.com/1.1/help/languages.json";
 
         /// <summary>
+        ///   Looks up a localized string similar to https://api.twitter.com/1.1/lists/create.json?.
+        /// </summary>
+        public static string List_Create = "https://api.twitter.com/1.1/lists/create.json?";
+
+        /// <summary>
         ///   Looks up a localized string similar to https://api.twitter.com/1.1/lists/members/show.json?{0}&amp;{1}&amp;skip_status=true.
         /// </summary>
         public static string List_CheckMembership = "https://api.twitter.com/1.1/lists/members/show.json?{0}&{1}&skip_status=true";

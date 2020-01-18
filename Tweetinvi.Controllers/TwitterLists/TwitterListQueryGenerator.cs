@@ -8,11 +8,16 @@ using Tweetinvi.Core.Parameters;
 using Tweetinvi.Core.QueryGenerators;
 using Tweetinvi.Core.QueryValidators;
 using Tweetinvi.Models;
+using Tweetinvi.Parameters.ListsClient;
 
 namespace Tweetinvi.Controllers.TwitterLists
 {
     public interface ITwitterListQueryGenerator
     {
+        string GetCreateTwitterListQuery(ICreateTwitterListParameters parameters);
+
+
+
         string GetUserSubscribedListsQuery(IUserIdentifier user, bool getOwnedListsFirst);
 
         string GetUsersOwnedListQuery(IUserIdentifier user, int maximumNumberOfListsToRetrieve);
@@ -63,6 +68,19 @@ namespace Tweetinvi.Controllers.TwitterLists
         }
 
         // User Lists
+        public string GetCreateTwitterListQuery(ICreateTwitterListParameters parameters)
+        {
+            var query = new StringBuilder(Resources.List_Create);
+
+            query.AddParameterToQuery("name", parameters.Name);
+            query.AddParameterToQuery("mode", parameters.PrivacyMode?.ToString()?.ToLowerInvariant());
+            query.AddParameterToQuery("description", parameters.Description);
+
+            query.AddFormattedParameterToQuery(parameters.FormattedCustomQueryParameters);
+
+            return query.ToString();
+        }
+
         public string GetUserSubscribedListsQuery(IUserIdentifier user, bool getOwnedListsFirst)
         {
             _userQueryValidator.ThrowIfUserCannotBeIdentified(user);
@@ -110,7 +128,7 @@ namespace Tweetinvi.Controllers.TwitterLists
             queryBuilder.AddParameterToQuery("mode", parameters.Parameters.PrivacyMode.ToString().ToLowerInvariant());
             queryBuilder.AddParameterToQuery("description", parameters.Parameters.Description);
             queryBuilder.AddParameterToQuery("name", parameters.Parameters.Name);
-            
+
             return queryBuilder.ToString();
         }
 

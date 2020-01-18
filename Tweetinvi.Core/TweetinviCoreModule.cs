@@ -91,33 +91,36 @@ namespace Tweetinvi.Core.Injectinvi
             container.RegisterType<IChunkUploadAppendParameters, ChunkUploadAppendParameters>();
         }
 
-        private void InitializeParametersValidators(ITweetinviContainer container)
+        private static void InitializeParametersValidators(ITweetinviContainer container)
         {
-            container.RegisterType<IParametersValidator, ParametersValidator>();
+            container.RegisterType<IParametersValidator, ParametersValidator>(RegistrationLifetime.InstancePerApplication);
 
-            container.RegisterType<IAccountClientParametersValidator, AccountClientParametersValidator>();
-            container.RegisterType<IAccountClientRequiredParametersValidator, AccountClientRequiredParametersValidator>();
+            container.RegisterType<IAccountClientParametersValidator, AccountClientParametersValidator>(RegistrationLifetime.InstancePerApplication);
+            container.RegisterType<IAccountClientRequiredParametersValidator, AccountClientRequiredParametersValidator>(RegistrationLifetime.InstancePerApplication);
 
-            container.RegisterType<IAuthClientParametersValidator, AuthClientParametersValidator>();
-            container.RegisterType<IAuthClientRequiredParametersValidator, AuthClientRequiredParametersValidator>();
+            container.RegisterType<IAuthClientParametersValidator, AuthClientParametersValidator>(RegistrationLifetime.InstancePerApplication);
+            container.RegisterType<IAuthClientRequiredParametersValidator, AuthClientRequiredParametersValidator>(RegistrationLifetime.InstancePerApplication);
 
-            container.RegisterType<IAccountSettingsClientParametersValidator, AccountSettingsClientParametersValidator>();
-            container.RegisterType<IAccountSettingsClientRequiredParametersValidator, AccountSettingsClientRequiredParametersValidator>();
+            container.RegisterType<IAccountSettingsClientParametersValidator, AccountSettingsClientParametersValidator>(RegistrationLifetime.InstancePerApplication);
+            container.RegisterType<IAccountSettingsClientRequiredParametersValidator, AccountSettingsClientRequiredParametersValidator>(RegistrationLifetime.InstancePerApplication);
 
-            container.RegisterType<IHelpClientParametersValidator, HelpClientParametersValidator>();
-            container.RegisterType<IHelpClientRequiredParametersValidator, HelpClientRequiredParametersValidator>();
+            container.RegisterType<IHelpClientParametersValidator, HelpClientParametersValidator>(RegistrationLifetime.InstancePerApplication);
+            container.RegisterType<IHelpClientRequiredParametersValidator, HelpClientRequiredParametersValidator>(RegistrationLifetime.InstancePerApplication);
 
-            container.RegisterType<ITimelineClientParametersValidator, TimelineClientParametersValidator>();
-            container.RegisterType<ITimelineClientRequiredParametersValidator, TimelineClientRequiredParametersValidator>();
+            container.RegisterType<ITwitterListsClientParametersValidator, TwitterListsClientParametersValidator>(RegistrationLifetime.InstancePerApplication);
+            container.RegisterType<ITwitterListsClientRequiredParametersValidator, TwitterListsClientRequiredParametersValidator>(RegistrationLifetime.InstancePerApplication);
 
-            container.RegisterType<ITweetsClientParametersValidator, TweetsClientParametersValidator>();
-            container.RegisterType<ITweetsClientRequiredParametersValidator, TweetsClientRequiredParametersValidator>();
+            container.RegisterType<ITimelineClientParametersValidator, TimelineClientParametersValidator>(RegistrationLifetime.InstancePerApplication);
+            container.RegisterType<ITimelineClientRequiredParametersValidator, TimelineClientRequiredParametersValidator>(RegistrationLifetime.InstancePerApplication);
 
-            container.RegisterType<IUploadClientParametersValidator, UploadClientParametersValidator>();
-            container.RegisterType<IUploadClientRequiredParametersValidator, UploadClientRequiredParametersValidator>();
+            container.RegisterType<ITweetsClientParametersValidator, TweetsClientParametersValidator>(RegistrationLifetime.InstancePerApplication);
+            container.RegisterType<ITweetsClientRequiredParametersValidator, TweetsClientRequiredParametersValidator>(RegistrationLifetime.InstancePerApplication);
 
-            container.RegisterType<IUsersClientParametersValidator, UsersClientParametersValidator>();
-            container.RegisterType<IUsersClientRequiredParametersValidator, UsersClientRequiredParametersValidator>();
+            container.RegisterType<IUploadClientParametersValidator, UploadClientParametersValidator>(RegistrationLifetime.InstancePerApplication);
+            container.RegisterType<IUploadClientRequiredParametersValidator, UploadClientRequiredParametersValidator>(RegistrationLifetime.InstancePerApplication);
+
+            container.RegisterType<IUsersClientParametersValidator, UsersClientParametersValidator>(RegistrationLifetime.InstancePerApplication);
+            container.RegisterType<IUsersClientRequiredParametersValidator, UsersClientRequiredParametersValidator>(RegistrationLifetime.InstancePerApplication);
         }
     }
 }

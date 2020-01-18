@@ -16,6 +16,15 @@ namespace Tweetinvi.Client
         protected ITwitterClient TwitterClient { get; private set; }
         private ITwitterClientEvents _twitterClientEvents;
 
+        public BaseRequester()
+        {
+        }
+
+        public BaseRequester(ITwitterClient client)
+        {
+            Initialize(client);
+        }
+
         public void Initialize(ITwitterClient client)
         {
             if (TwitterClient != null)

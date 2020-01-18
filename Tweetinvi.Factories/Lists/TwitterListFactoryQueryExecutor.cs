@@ -7,7 +7,6 @@ namespace Tweetinvi.Factories.Lists
 {
     public interface ITwitterListFactoryQueryExecutor
     {
-        Task<ITwitterListDTO> CreateList(string name, PrivacyMode privacyMode, string description);
         Task<ITwitterListDTO> GetExistingList(ITwitterListIdentifier identifier);
     }
 
@@ -22,12 +21,6 @@ namespace Tweetinvi.Factories.Lists
         {
             _twitterListFactoryQueryGenerator = twitterListFactoryQueryGenerator;
             _twitterAccessor = twitterAccessor;
-        }
-
-        public Task<ITwitterListDTO> CreateList(string name, PrivacyMode privacyMode, string description)
-        {
-            var query = _twitterListFactoryQueryGenerator.GetCreateListQuery(name, privacyMode, description);
-            return _twitterAccessor.ExecutePOSTQuery<ITwitterListDTO>(query);
         }
 
         // Get existing list

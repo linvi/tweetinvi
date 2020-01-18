@@ -1,5 +1,4 @@
-﻿using Tweetinvi.Core.Extensions;
-using Tweetinvi.Core.QueryGenerators;
+﻿using Tweetinvi.Core.QueryGenerators;
 using Tweetinvi.Core.QueryValidators;
 using Tweetinvi.Factories.Properties;
 using Tweetinvi.Models;
@@ -8,7 +7,6 @@ namespace Tweetinvi.Factories.Lists
 {
     public interface ITwitterListFactoryQueryGenerator
     {
-        string GetCreateListQuery(string name, PrivacyMode privacyMode, string description);
         string GetListByIdQuery(ITwitterListIdentifier twitterListIdentifier);
     }
 
@@ -23,15 +21,6 @@ namespace Tweetinvi.Factories.Lists
         {
             _listsQueryValidator = listsQueryValidator;
             _listQueryParameterGenerator = listQueryParameterGenerator;
-        }
-
-        public string GetCreateListQuery(string name, PrivacyMode privacyMode, string description)
-        {
-            var baseQuery = string.Format(Resources.List_Create, name, privacyMode.ToString().ToLower());
-
-            baseQuery = baseQuery.AddParameterToQuery("description", description);
-
-            return baseQuery;
         }
 
         public string GetListByIdQuery(ITwitterListIdentifier twitterListIdentifier)

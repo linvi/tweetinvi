@@ -6,11 +6,6 @@ namespace Tweetinvi.Factories.Properties
     internal static class Resources
     {
         /// <summary>
-        ///   Looks up a localized string similar to https://api.twitter.com/1.1/lists/create.json?name={0}&amp;mode={1}.
-        /// </summary>
-        public static string List_Create = "https://api.twitter.com/1.1/lists/create.json?name={0}&mode={1}";
-
-        /// <summary>
         ///   Looks up a localized string similar to https://api.twitter.com/1.1/lists/show.json?{0}.
         /// </summary>
         public static string List_GetExistingList = "https://api.twitter.com/1.1/lists/show.json?{0}";

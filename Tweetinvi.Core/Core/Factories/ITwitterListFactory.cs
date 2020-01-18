@@ -7,8 +7,6 @@ namespace Tweetinvi.Core.Factories
 {
     public interface ITwitterListFactory
     {
-        Task<ITwitterList> CreateList(string name, PrivacyMode privacyMode, string description);
-
         Task<ITwitterList> GetExistingList(ITwitterListIdentifier listIdentifier);
         Task<ITwitterList> GetExistingList(long listId);
         Task<ITwitterList> GetExistingList(string slug, IUserIdentifier user);

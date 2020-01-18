@@ -8,7 +8,7 @@ using Tweetinvi.Parameters;
 using Xunit;
 using xUnitinvi.TestHelpers;
 
-namespace xUnitinvi.ClientActions.TimelineClient
+namespace xUnitinvi.ClientActions.TimelinesClient
 {
     public class TimelineQueryGeneratorTests
     {

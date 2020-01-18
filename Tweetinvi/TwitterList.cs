@@ -133,16 +133,6 @@ namespace Tweetinvi
             return TwitterListController.GetUserOwnedLists(user, maximumNumberOfListsToRetrieve);
         }
 
-        // Create List
-
-        /// <summary>
-        /// Create a list
-        /// </summary>
-        public static Task<ITwitterList> CreateList(string name, PrivacyMode privacyMode, string description = null)
-        {
-            return TwitterListFactory.CreateList(name, privacyMode, description);
-        }
-
         // Update List
 
         /// <summary>

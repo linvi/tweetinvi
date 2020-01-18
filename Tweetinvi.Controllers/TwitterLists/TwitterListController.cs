@@ -6,9 +6,12 @@ using Tweetinvi.Core.Controllers;
 using Tweetinvi.Core.Factories;
 using Tweetinvi.Core.Parameters;
 using Tweetinvi.Core.QueryGenerators;
+using Tweetinvi.Core.Web;
 using Tweetinvi.Logic.QueryParameters;
 using Tweetinvi.Models;
+using Tweetinvi.Models.DTO;
 using Tweetinvi.Parameters;
+using Tweetinvi.Parameters.ListsClient;
 
 namespace Tweetinvi.Controllers.TwitterLists
 {
@@ -39,6 +42,12 @@ namespace Tweetinvi.Controllers.TwitterLists
             _twitterListQueryParameterGenerator = twitterListQueryParameterGenerator;
             _twitterListIdentifierFactory = twitterListIdentifierFactory;
         }
+
+        public Task<ITwitterResult<ITwitterListDTO>> CreateTwitterList(ICreateTwitterListParameters parameters, ITwitterRequest request)
+        {
+            return _twitterListQueryExecutor.CreateTwitterList(parameters, request);
+        }
+
 
         #region Get User Lists
 
@@ -874,6 +883,9 @@ namespace Tweetinvi.Controllers.TwitterLists
         {
             return _twitterListQueryExecutor.CheckIfUserIsAListSubscriber(listIdentifier, user);
         }
+
+
+
         #endregion
 
         public Task<IEnumerable<ITwitterList>> GetUserListsMemberships(IUserIdentifier userIdentifier, IGetUserListMembershipsParameters parameters)
