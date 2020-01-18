@@ -119,11 +119,6 @@ namespace xUnitinvi.TestHelpers
             throw new NotImplementedException();
         }
 
-        public Task<bool> TryPOSTJsonContent(string url, string json)
-        {
-            throw new NotImplementedException();
-        }
-
         public Task<T> ExecutePOSTQueryJsonBody<T>(string query, object reqBody, JsonConverter[] converters = null) where T : class
         {
             throw new NotImplementedException();

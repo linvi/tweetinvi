@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using Tweetinvi;
 using Tweetinvi.Models;
 using Tweetinvi.Parameters;
 using Xunit;
@@ -15,13 +14,8 @@ namespace xUnitinvi.EndToEnd
     [Collection("EndToEndTests")]
     public class TweetsEndToEndTests : TweetinviTest
     {
-        private readonly ITwitterClient _protectedClient;
-        private readonly ITwitterClient _tweetinviTestClient;
-
         public TweetsEndToEndTests(ITestOutputHelper logger) : base(logger)
         {
-            _protectedClient = new TwitterClient(EndToEndTestConfig.ProtectedUser.Credentials);
-            _tweetinviTestClient = new TwitterClient(EndToEndTestConfig.TweetinviTest.Credentials);
         }
 
         [Fact]

@@ -495,7 +495,7 @@ namespace Tweetinvi.Credentials
                     Result = response.Text
                 };
             }
-            catch (TwitterException ex)
+            catch (TwitterException)
             {
                 return new FailedAsyncOperation<string>();
             }

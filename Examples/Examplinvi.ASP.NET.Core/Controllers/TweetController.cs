@@ -106,7 +106,7 @@ namespace Examplinvi.ASP.NET.Core.Controllers
                 {
                     await tweet.Destroy();
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
                     routeValueParameters["success"] = "false";
                 }
