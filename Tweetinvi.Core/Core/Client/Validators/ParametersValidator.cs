@@ -16,31 +16,26 @@ namespace Tweetinvi.Core.Client.Validators
     {
     }
 
-    public interface IInternalParametersValidator : IParametersValidator
+    public class ParametersValidator : IParametersValidator
     {
-        void Initialize(ITwitterClient client);
-    }
-
-    public class ParametersValidator : IInternalParametersValidator
-    {
-        private readonly IInternalAccountClientParametersValidator _accountClientParametersValidator;
-        private readonly IInternalAccountSettingsClientParametersValidator _accountSettingsClientParametersValidator;
-        private readonly IInternalAuthClientParametersValidator _authClientParametersValidator;
-        private readonly IInternalHelpClientParametersValidator _helpClientParametersValidator;
-        private readonly IInternalTimelineClientParametersValidator _timelineClientParametersValidator;
-        private readonly IInternalTweetsClientParametersValidator _tweetsClientParametersValidator;
-        private readonly IInternalUploadClientParametersValidator _uploadClientParametersValidator;
-        private readonly IInternalUsersClientParametersValidator _usersClientParametersValidator;
+        private readonly IAccountClientParametersValidator _accountClientParametersValidator;
+        private readonly IAccountSettingsClientParametersValidator _accountSettingsClientParametersValidator;
+        private readonly IAuthClientParametersValidator _authClientParametersValidator;
+        private readonly IHelpClientParametersValidator _helpClientParametersValidator;
+        private readonly ITimelineClientParametersValidator _timelineClientParametersValidator;
+        private readonly ITweetsClientParametersValidator _tweetsClientParametersValidator;
+        private readonly IUploadClientParametersValidator _uploadClientParametersValidator;
+        private readonly IUsersClientParametersValidator _usersClientParametersValidator;
 
         public ParametersValidator(
-            IInternalAccountClientParametersValidator accountClientParametersValidator,
-            IInternalAccountSettingsClientParametersValidator accountSettingsClientParametersValidator,
-            IInternalAuthClientParametersValidator authClientParametersValidator,
-            IInternalHelpClientParametersValidator helpClientParametersValidator,
-            IInternalTimelineClientParametersValidator timelineClientParametersValidator,
-            IInternalTweetsClientParametersValidator tweetsClientParametersValidator,
-            IInternalUploadClientParametersValidator uploadClientParametersValidator,
-            IInternalUsersClientParametersValidator usersClientParametersValidator)
+            IAccountClientParametersValidator accountClientParametersValidator,
+            IAccountSettingsClientParametersValidator accountSettingsClientParametersValidator,
+            IAuthClientParametersValidator authClientParametersValidator,
+            IHelpClientParametersValidator helpClientParametersValidator,
+            ITimelineClientParametersValidator timelineClientParametersValidator,
+            ITweetsClientParametersValidator tweetsClientParametersValidator,
+            IUploadClientParametersValidator uploadClientParametersValidator,
+            IUsersClientParametersValidator usersClientParametersValidator)
         {
             _accountClientParametersValidator = accountClientParametersValidator;
             _accountSettingsClientParametersValidator = accountSettingsClientParametersValidator;
@@ -50,18 +45,6 @@ namespace Tweetinvi.Core.Client.Validators
             _tweetsClientParametersValidator = tweetsClientParametersValidator;
             _uploadClientParametersValidator = uploadClientParametersValidator;
             _usersClientParametersValidator = usersClientParametersValidator;
-        }
-
-        public void Initialize(ITwitterClient client)
-        {
-            _accountClientParametersValidator.Initialize(client);
-            _accountSettingsClientParametersValidator.Initialize(client);
-            _authClientParametersValidator.Initialize(client);
-            _helpClientParametersValidator.Initialize(client);
-            _timelineClientParametersValidator.Initialize(client);
-            _tweetsClientParametersValidator.Initialize(client);
-            _uploadClientParametersValidator.Initialize(client);
-            _usersClientParametersValidator.Initialize(client);
         }
 
         public void Validate(IGetAuthenticatedUserParameters parameters)

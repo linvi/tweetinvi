@@ -7,23 +7,14 @@ namespace Tweetinvi.Core.Client.Validators
         void Validate(IUploadParameters parameters);
         void Validate(IAddMediaMetadataParameters parameters);
     }
-    
-    public interface IInternalUploadClientParametersValidator : IUploadClientParametersValidator
-    {
-        void Initialize(ITwitterClient client);
-    }
-    
-    public class UploadClientParametersValidator : IInternalUploadClientParametersValidator
+
+    public class UploadClientParametersValidator : IUploadClientParametersValidator
     {
         private readonly IUploadClientRequiredParametersValidator _uploadClientRequiredParametersValidator;
 
         public UploadClientParametersValidator(IUploadClientRequiredParametersValidator uploadClientRequiredParametersValidator)
         {
             _uploadClientRequiredParametersValidator = uploadClientRequiredParametersValidator;
-        }
-
-        public void Initialize(ITwitterClient client)
-        {
         }
 
         public void Validate(IUploadParameters parameters)

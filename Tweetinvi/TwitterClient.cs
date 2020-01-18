@@ -102,8 +102,7 @@ namespace Tweetinvi
             requestExecutor.Initialize(this);
             RequestExecutor = requestExecutor;
 
-            var parametersValidator = _tweetinviContainer.Resolve<IInternalParametersValidator>();
-            parametersValidator.Initialize(this);
+            var parametersValidator = _tweetinviContainer.Resolve<IParametersValidator>();
             ParametersValidator = parametersValidator;
 
             Account = _tweetinviContainer.Resolve<IAccountClient>();

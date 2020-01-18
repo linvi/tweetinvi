@@ -11,23 +11,14 @@ namespace Tweetinvi.Core.Client.Validators
         void Validate(IGetRetweetsOfMeTimelineParameters parameters);
     }
 
-    public interface IInternalTimelineClientParametersValidator : ITimelineClientParametersValidator
-    {
-        void Initialize(ITwitterClient client);
-    }
-
-    public class TimelineClientParametersValidator : IInternalTimelineClientParametersValidator
+    public class TimelineClientParametersValidator : ITimelineClientParametersValidator
     {
         private readonly ITimelineClientRequiredParametersValidator _timelineClientRequiredParametersValidator;
-        private ITwitterClient _client;
-        public TimelineClientParametersValidator(ITimelineClientRequiredParametersValidator timelineClientRequiredParametersValidator)
-        {
-            _timelineClientRequiredParametersValidator = timelineClientRequiredParametersValidator;
-        }
-
-        public void Initialize(ITwitterClient client)
+        private readonly ITwitterClient _client;
+        public TimelineClientParametersValidator(ITwitterClient client, ITimelineClientRequiredParametersValidator timelineClientRequiredParametersValidator)
         {
             _client = client;
+            _timelineClientRequiredParametersValidator = timelineClientRequiredParametersValidator;
         }
 
         private TwitterLimits Limits => _client.ClientSettings.Limits;

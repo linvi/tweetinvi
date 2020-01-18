@@ -14,26 +14,17 @@ namespace Tweetinvi.Core.Client.Validators
         void Validate(IRemoveProfileBannerParameters parameters);
     }
 
-    public interface IInternalAccountSettingsClientParametersValidator : IAccountSettingsClientParametersValidator
-    {
-        void Initialize(ITwitterClient client);
-    }
-
-    public class AccountSettingsClientParametersValidator : IInternalAccountSettingsClientParametersValidator
+    public class AccountSettingsClientParametersValidator : IAccountSettingsClientParametersValidator
     {
         private readonly IAccountSettingsClientRequiredParametersValidator _accountSettingsClientRequiredParametersValidator;
-        private ITwitterClient _client;
+        private readonly ITwitterClient _client;
 
-        public AccountSettingsClientParametersValidator(IAccountSettingsClientRequiredParametersValidator accountSettingsClientRequiredParametersValidator)
-        {
-            _accountSettingsClientRequiredParametersValidator = accountSettingsClientRequiredParametersValidator;
-        }
-        
-        public void Initialize(ITwitterClient client)
+        public AccountSettingsClientParametersValidator(ITwitterClient client, IAccountSettingsClientRequiredParametersValidator accountSettingsClientRequiredParametersValidator)
         {
             _client = client;
+            _accountSettingsClientRequiredParametersValidator = accountSettingsClientRequiredParametersValidator;
         }
-        
+
         private TwitterLimits Limits => _client.ClientSettings.Limits;
 
         public void Validate(IGetAccountSettingsParameters parameters)
@@ -44,7 +35,7 @@ namespace Tweetinvi.Core.Client.Validators
         public void Validate(IUpdateAccountSettingsParameters parameters)
         {
             _accountSettingsClientRequiredParametersValidator.Validate(parameters);
-            
+
             if (!parameters.DisplayLanguage.IsADisplayLanguage())
             {
                 throw new ArgumentException("As of 2019-10-06 this language is not supported by Twitter", $"{nameof(parameters)}.{nameof(parameters.DisplayLanguage)}");
@@ -75,7 +66,7 @@ namespace Tweetinvi.Core.Client.Validators
         {
             _accountSettingsClientRequiredParametersValidator.Validate(parameters);
         }
-        
+
         // ReSharper disable once ParameterOnlyUsedForPreconditionCheck.Local
         private static void ThrowIfParameterSizeIsInvalid(string value, string parameterName, int maxSize)
         {

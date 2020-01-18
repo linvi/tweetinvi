@@ -93,30 +93,30 @@ namespace Tweetinvi.Core.Injectinvi
 
         private void InitializeParametersValidators(ITweetinviContainer container)
         {
-            container.RegisterType<IInternalParametersValidator, ParametersValidator>();
+            container.RegisterType<IParametersValidator, ParametersValidator>();
 
-            container.RegisterType<IInternalAccountClientParametersValidator, AccountClientParametersValidator>();
+            container.RegisterType<IAccountClientParametersValidator, AccountClientParametersValidator>();
             container.RegisterType<IAccountClientRequiredParametersValidator, AccountClientRequiredParametersValidator>();
 
-            container.RegisterType<IInternalAuthClientParametersValidator, AuthClientParametersValidator>();
+            container.RegisterType<IAuthClientParametersValidator, AuthClientParametersValidator>();
             container.RegisterType<IAuthClientRequiredParametersValidator, AuthClientRequiredParametersValidator>();
 
-            container.RegisterType<IInternalAccountSettingsClientParametersValidator, AccountSettingsClientParametersValidator>();
+            container.RegisterType<IAccountSettingsClientParametersValidator, AccountSettingsClientParametersValidator>();
             container.RegisterType<IAccountSettingsClientRequiredParametersValidator, AccountSettingsClientRequiredParametersValidator>();
 
-            container.RegisterType<IInternalHelpClientParametersValidator, HelpClientParametersValidator>();
+            container.RegisterType<IHelpClientParametersValidator, HelpClientParametersValidator>();
             container.RegisterType<IHelpClientRequiredParametersValidator, HelpClientRequiredParametersValidator>();
 
-            container.RegisterType<IInternalTimelineClientParametersValidator, TimelineClientParametersValidator>();
+            container.RegisterType<ITimelineClientParametersValidator, TimelineClientParametersValidator>();
             container.RegisterType<ITimelineClientRequiredParametersValidator, TimelineClientRequiredParametersValidator>();
 
-            container.RegisterType<IInternalTweetsClientParametersValidator, TweetsClientParametersValidator>();
+            container.RegisterType<ITweetsClientParametersValidator, TweetsClientParametersValidator>();
             container.RegisterType<ITweetsClientRequiredParametersValidator, TweetsClientRequiredParametersValidator>();
 
-            container.RegisterType<IInternalUploadClientParametersValidator, UploadClientParametersValidator>();
+            container.RegisterType<IUploadClientParametersValidator, UploadClientParametersValidator>();
             container.RegisterType<IUploadClientRequiredParametersValidator, UploadClientRequiredParametersValidator>();
 
-            container.RegisterType<IInternalUsersClientParametersValidator, UsersClientParametersValidator>();
+            container.RegisterType<IUsersClientParametersValidator, UsersClientParametersValidator>();
             container.RegisterType<IUsersClientRequiredParametersValidator, UsersClientRequiredParametersValidator>();
         }
     }

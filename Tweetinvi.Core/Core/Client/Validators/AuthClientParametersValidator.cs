@@ -12,24 +12,13 @@ namespace Tweetinvi.Core.Client.Validators
         void Validate(IInvalidateAccessTokenParameters parameters, ITwitterRequest request);
         void Validate(IInvalidateBearerTokenParameters parameters, ITwitterRequest request);
     }
-
-    public interface IInternalAuthClientParametersValidator : IAuthClientParametersValidator
-    {
-        void Initialize(ITwitterClient client);
-    }
-
-    public class AuthClientParametersValidator : IInternalAuthClientParametersValidator
+    public class AuthClientParametersValidator : IAuthClientParametersValidator
     {
         private readonly IAuthClientRequiredParametersValidator _authClientRequiredParametersValidator;
 
         public AuthClientParametersValidator(IAuthClientRequiredParametersValidator authClientRequiredParametersValidator)
         {
             _authClientRequiredParametersValidator = authClientRequiredParametersValidator;
-        }
-
-        public void Initialize(ITwitterClient client)
-        {
-            // currently no need to use the client
         }
 
         public void Validate(ICreateBearerTokenParameters parameters, ITwitterRequest request)

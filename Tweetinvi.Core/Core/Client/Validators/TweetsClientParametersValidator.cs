@@ -22,27 +22,18 @@ namespace Tweetinvi.Core.Client.Validators
         void Validate(IGetOEmbedTweetParameters parameters);
     }
 
-    public interface IInternalTweetsClientParametersValidator : ITweetsClientParametersValidator
-    {
-        void Initialize(ITwitterClient client);
-    }
-
-    public class TweetsClientParametersValidator : IInternalTweetsClientParametersValidator
+    public class TweetsClientParametersValidator : ITweetsClientParametersValidator
     {
         private readonly ITweetsClientRequiredParametersValidator _tweetsClientRequiredParametersValidator;
-        private ITwitterClient _client;
+        private readonly ITwitterClient _client;
 
-        public TweetsClientParametersValidator(ITweetsClientRequiredParametersValidator tweetsClientRequiredParametersValidator)
+        public TweetsClientParametersValidator(ITwitterClient client, ITweetsClientRequiredParametersValidator tweetsClientRequiredParametersValidator)
         {
+            _client = client;
             _tweetsClientRequiredParametersValidator = tweetsClientRequiredParametersValidator;
         }
 
         private TwitterLimits Limits => _client.ClientSettings.Limits;
-
-        public void Initialize(ITwitterClient client)
-        {
-            _client = client;
-        }
 
         public void Validate(IGetTweetParameters parameters)
         {

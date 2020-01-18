@@ -19,7 +19,7 @@ namespace Tweetinvi.Core.Client.Validators
         void Validate(IGetUsersYouRequestedToFollowParameters parameters);
         void Validate(IUpdateRelationshipParameters parameters);
         void Validate(IGetRelationshipsWithParameters parameters);
-        
+
         //  MUTE
         void Validate(IGetUserIdsWhoseRetweetsAreMutedParameters parameters);
         void Validate(IGetMutedUserIdsParameters parameters);
@@ -27,29 +27,20 @@ namespace Tweetinvi.Core.Client.Validators
         void Validate(IMuteUserParameters parameters);
         void Validate(IUnMuteUserParameters parameters);
     }
-    
-    public interface IInternalAccountClientParametersValidator : IAccountClientParametersValidator
-    {
-        void Initialize(ITwitterClient client);
-    }
-    
-    public class AccountClientParametersValidator : IInternalAccountClientParametersValidator
+
+    public class AccountClientParametersValidator : IAccountClientParametersValidator
     {
         private readonly IAccountClientRequiredParametersValidator _accountClientRequiredParametersValidator;
-        private ITwitterClient _client;
+        private readonly ITwitterClient _client;
 
-        public AccountClientParametersValidator(IAccountClientRequiredParametersValidator accountClientRequiredParametersValidator)
-        {
-            _accountClientRequiredParametersValidator = accountClientRequiredParametersValidator;
-        }
-        
-        public void Initialize(ITwitterClient client)
+        public AccountClientParametersValidator(ITwitterClient client, IAccountClientRequiredParametersValidator accountClientRequiredParametersValidator)
         {
             _client = client;
+            _accountClientRequiredParametersValidator = accountClientRequiredParametersValidator;
         }
-        
+
         private TwitterLimits Limits => _client.ClientSettings.Limits;
-        
+
         public void Validate(IGetAuthenticatedUserParameters parameters)
         {
             _accountClientRequiredParametersValidator.Validate(parameters);
@@ -73,7 +64,7 @@ namespace Tweetinvi.Core.Client.Validators
         public void Validate(IGetBlockedUserIdsParameters parameters)
         {
             _accountClientRequiredParametersValidator.Validate(parameters);
-            
+
             var maxPageSize = Limits.ACCOUNT_GET_BLOCKED_USER_IDS_MAX_PAGE_SIZE;
             if (parameters.PageSize > maxPageSize)
             {
@@ -84,7 +75,7 @@ namespace Tweetinvi.Core.Client.Validators
         public void Validate(IGetBlockedUsersParameters parameters)
         {
             _accountClientRequiredParametersValidator.Validate(parameters);
-            
+
             var maxPageSize = Limits.ACCOUNT_GET_BLOCKED_USER_MAX_PAGE_SIZE;
             if (parameters.PageSize > maxPageSize)
             {
@@ -105,7 +96,7 @@ namespace Tweetinvi.Core.Client.Validators
         public void Validate(IGetUserIdsRequestingFriendshipParameters parameters)
         {
             _accountClientRequiredParametersValidator.Validate(parameters);
-            
+
             var maxPageSize = Limits.ACCOUNT_GET_USER_IDS_REQUESTING_FRIENDSHIP_MAX_PAGE_SIZE;
             if (parameters.PageSize > maxPageSize)
             {
@@ -116,7 +107,7 @@ namespace Tweetinvi.Core.Client.Validators
         public void Validate(IGetUsersRequestingFriendshipParameters parameters)
         {
             Validate(parameters as IGetUserIdsRequestingFriendshipParameters);
-            
+
             var maxSize = Limits.USERS_GET_USERS_MAX_SIZE;
             if (parameters.GetUsersPageSize > maxSize)
             {
@@ -127,7 +118,7 @@ namespace Tweetinvi.Core.Client.Validators
         public void Validate(IGetUserIdsYouRequestedToFollowParameters parameters)
         {
             _accountClientRequiredParametersValidator.Validate(parameters);
-            
+
             var maxPageSize = Limits.ACCOUNT_GET_REQUESTED_USER_IDS_TO_FOLLOW_MAX_PAGE_SIZE;
             if (parameters.PageSize > maxPageSize)
             {
@@ -138,7 +129,7 @@ namespace Tweetinvi.Core.Client.Validators
         public void Validate(IGetUsersYouRequestedToFollowParameters parameters)
         {
             Validate(parameters as IGetUserIdsYouRequestedToFollowParameters);
-            
+
             var maxSize = Limits.USERS_GET_USERS_MAX_SIZE;
             if (parameters.GetUsersPageSize > maxSize)
             {
@@ -154,7 +145,7 @@ namespace Tweetinvi.Core.Client.Validators
         public void Validate(IGetRelationshipsWithParameters parameters)
         {
             _accountClientRequiredParametersValidator.Validate(parameters);
-            
+
             var maxUsers = Limits.ACCOUNT_GET_RELATIONSHIPS_WITH_MAX_SIZE;
             if (parameters.Users.Length > maxUsers)
             {
@@ -170,7 +161,7 @@ namespace Tweetinvi.Core.Client.Validators
         public void Validate(IGetMutedUserIdsParameters parameters)
         {
             _accountClientRequiredParametersValidator.Validate(parameters);
-            
+
             var maxPageSize = Limits.ACCOUNT_GET_MUTED_USER_IDS_MAX_PAGE_SIZE;
             if (parameters.PageSize > maxPageSize)
             {
@@ -181,7 +172,7 @@ namespace Tweetinvi.Core.Client.Validators
         public void Validate(IGetMutedUsersParameters parameters)
         {
             _accountClientRequiredParametersValidator.Validate(parameters);
-            
+
             var maxPageSize = Limits.ACCOUNT_GET_MUTED_USERS_MAX_PAGE_SIZE;
             if (parameters.PageSize > maxPageSize)
             {

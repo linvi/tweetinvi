@@ -14,13 +14,8 @@ namespace Tweetinvi.Core.Client.Validators
         void Validate(IGetRelationshipBetweenParameters parameters);
         void Validate(IGetProfileImageParameters parameters);
     }
-    
-    public interface IInternalUsersClientParametersValidator : IUsersClientParametersValidator
-    {
-        void Initialize(ITwitterClient client);
-    }
-    
-    public class UsersClientParametersValidator : IInternalUsersClientParametersValidator
+
+    public class UsersClientParametersValidator : IUsersClientParametersValidator
     {
         private readonly IUsersClientRequiredParametersValidator _usersClientRequiredParametersValidator;
         private ITwitterClient _client;
@@ -32,11 +27,6 @@ namespace Tweetinvi.Core.Client.Validators
 
         private TwitterLimits Limits => _client.ClientSettings.Limits;
 
-        public void Initialize(ITwitterClient client)
-        {
-            _client = client;
-        }
-
         public void Validate(IGetUserParameters parameters)
         {
             _usersClientRequiredParametersValidator.Validate(parameters);
@@ -45,7 +35,7 @@ namespace Tweetinvi.Core.Client.Validators
         public void Validate(IGetUsersParameters parameters)
         {
             _usersClientRequiredParametersValidator.Validate(parameters);
-            
+
             var maxSize = Limits.USERS_GET_USERS_MAX_SIZE;
             if (parameters.Users.Length > maxSize)
             {
@@ -56,7 +46,7 @@ namespace Tweetinvi.Core.Client.Validators
         public void Validate(IGetFollowerIdsParameters parameters)
         {
             _usersClientRequiredParametersValidator.Validate(parameters);
-            
+
             var maxPageSize = Limits.USERS_GET_FOLLOWER_IDS_PAGE_MAX_SIZE;
             if (parameters.PageSize > maxPageSize)
             {
@@ -67,9 +57,9 @@ namespace Tweetinvi.Core.Client.Validators
         public void Validate(IGetFollowersParameters parameters)
         {
             _usersClientRequiredParametersValidator.Validate(parameters);
-            
+
             Validate(parameters as IGetFollowerIdsParameters);
-            
+
             var maxUserPerPage = Limits.USERS_GET_USERS_MAX_SIZE;
             if (parameters.GetUsersPageSize > maxUserPerPage)
             {
@@ -80,7 +70,7 @@ namespace Tweetinvi.Core.Client.Validators
         public void Validate(IGetFriendIdsParameters parameters)
         {
             _usersClientRequiredParametersValidator.Validate(parameters);
-            
+
             var maxPageSize = Limits.USERS_GET_FRIEND_IDS_PAGE_MAX_SIZE;
             if (parameters.PageSize > maxPageSize)
             {
@@ -91,7 +81,7 @@ namespace Tweetinvi.Core.Client.Validators
         public void Validate(IGetFriendsParameters parameters)
         {
             _usersClientRequiredParametersValidator.Validate(parameters);
-            
+
             Validate(parameters as IGetFriendIdsParameters);
 
             var maxUserPerPage = Limits.USERS_GET_USERS_MAX_SIZE;
