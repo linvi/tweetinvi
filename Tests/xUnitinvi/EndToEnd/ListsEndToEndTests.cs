@@ -17,6 +17,9 @@ namespace xUnitinvi.EndToEnd
         [Fact]
         public async Task CRUD()
         {
+            if (!EndToEndTestConfig.ShouldRunEndToEndTests)
+                return;
+
             // act
             var privateList = await _tweetinviTestClient.Lists.CreateList(new CreateTwitterListParameters("private-endToEnd-Tests")
             {

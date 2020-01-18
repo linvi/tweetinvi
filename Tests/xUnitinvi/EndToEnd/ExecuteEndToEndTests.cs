@@ -18,6 +18,9 @@ namespace xUnitinvi.EndToEnd
         [Fact]
         public async Task ExecuteRequestReturningTwitterResult()
         {
+            if (!EndToEndTestConfig.ShouldRunEndToEndTests)
+                return;
+
             var testCreds = EndToEndTestConfig.TweetinviTest.Credentials;
             var client = new TwitterClient(testCreds);
 
