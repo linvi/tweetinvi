@@ -2,6 +2,7 @@ using System.Threading.Tasks;
 using Tweetinvi.Client.Tools;
 using Tweetinvi.Core.Client.Validators;
 using Tweetinvi.Core.Controllers;
+using Tweetinvi.Core.Events;
 using Tweetinvi.Core.Web;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
@@ -18,10 +19,12 @@ namespace Tweetinvi.Client.Requesters
 
         public TwitterListsRequester(
             ITwitterClient client,
+            ITwitterClientEvents clientEvents,
             ITwitterResultFactory twitterResultFactory,
             ITwitterClientFactories factories,
             ITwitterListController twitterListController,
-            ITwitterListsClientRequiredParametersValidator twitterListsClientRequiredParametersValidator) : base(client)
+            ITwitterListsClientRequiredParametersValidator twitterListsClientRequiredParametersValidator)
+            : base(client, clientEvents)
         {
             _twitterResultFactory = twitterResultFactory;
             _factories = factories;

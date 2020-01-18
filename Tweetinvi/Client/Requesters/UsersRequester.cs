@@ -2,6 +2,7 @@
 using Tweetinvi.Client.Tools;
 using Tweetinvi.Core.Client.Validators;
 using Tweetinvi.Core.Controllers;
+using Tweetinvi.Core.Events;
 using Tweetinvi.Core.Extensions;
 using Tweetinvi.Core.Factories;
 using Tweetinvi.Core.Iterators;
@@ -14,11 +15,7 @@ using Tweetinvi.Parameters;
 
 namespace Tweetinvi.Client.Requesters
 {
-    public interface IInternalUsersRequester : IUsersRequester, IBaseRequester
-    {
-    }
-
-    public class UsersRequester : BaseRequester, IInternalUsersRequester
+    public class UsersRequester : BaseRequester, IUsersRequester
     {
         private readonly IUserController _userController;
         private readonly ITwitterClientFactories _factories;
@@ -27,11 +24,14 @@ namespace Tweetinvi.Client.Requesters
         private readonly IUsersClientRequiredParametersValidator _validator;
 
         public UsersRequester(
+            ITwitterClient client,
+            ITwitterClientEvents clientEvents,
             IUserController userController,
             ITwitterClientFactories factories,
             ITwitterResultFactory twitterResultFactory,
             IUserFactory userFactory,
             IUsersClientRequiredParametersValidator validator)
+        : base(client, clientEvents)
         {
             _userController = userController;
             _factories = factories;

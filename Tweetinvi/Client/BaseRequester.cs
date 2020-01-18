@@ -8,33 +8,17 @@ namespace Tweetinvi.Client
 {
     public interface IBaseRequester
     {
-        void Initialize(ITwitterClient client);
     }
 
     public abstract class BaseRequester : IBaseRequester
     {
         protected ITwitterClient TwitterClient { get; private set; }
-        private ITwitterClientEvents _twitterClientEvents;
+        private readonly ITwitterClientEvents _twitterClientEvents;
 
-        public BaseRequester()
+        protected BaseRequester(ITwitterClient client, ITwitterClientEvents twitterClientEvents)
         {
-        }
-
-        public BaseRequester(ITwitterClient client)
-        {
-            Initialize(client);
-        }
-
-        public void Initialize(ITwitterClient client)
-        {
-            if (TwitterClient != null)
-            {
-                throw new InvalidOperationException("createRequest cannot be changed");
-            }
-
+            _twitterClientEvents = twitterClientEvents;
             TwitterClient = client;
-
-            _twitterClientEvents = client.CreateTwitterExecutionContext().Container.Resolve<ITwitterClientEvents>();
         }
 
         public ITwitterRequest CreateRequest()

@@ -13,5 +13,6 @@ namespace Tweetinvi.Client
         ITweetsRequester Tweets { get; }
         IUploadRequester Upload { get; }
         IUsersRequester Users { get; }
+        ITwitterListsRequester Lists { get; }
     }
 }

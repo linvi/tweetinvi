@@ -1,6 +1,7 @@
 using System.Threading.Tasks;
 using Tweetinvi.Core.Client.Validators;
 using Tweetinvi.Core.Controllers;
+using Tweetinvi.Core.Events;
 using Tweetinvi.Core.Models;
 using Tweetinvi.Core.Web;
 using Tweetinvi.Models;
@@ -9,18 +10,17 @@ using Tweetinvi.Parameters;
 
 namespace Tweetinvi.Client.Requesters
 {
-    public interface IInternalHelpRequester : IHelpRequester, IBaseRequester
-    {
-    }
-
-    public class HelpRequester : BaseRequester, IInternalHelpRequester
+    public class HelpRequester : BaseRequester, IHelpRequester
     {
         private readonly IHelpController _helpController;
         private readonly IHelpClientRequiredParametersValidator _validator;
 
         public HelpRequester(
+            ITwitterClient client,
+            ITwitterClientEvents clientEvents,
             IHelpController helpController,
             IHelpClientRequiredParametersValidator validator)
+        : base(client, clientEvents)
         {
             _helpController = helpController;
             _validator = validator;

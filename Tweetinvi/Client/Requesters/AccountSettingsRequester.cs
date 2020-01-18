@@ -2,7 +2,7 @@ using System.Threading.Tasks;
 using Tweetinvi.Client.Tools;
 using Tweetinvi.Controllers.AccountSettings;
 using Tweetinvi.Core.Client.Validators;
-using Tweetinvi.Core.Factories;
+using Tweetinvi.Core.Events;
 using Tweetinvi.Core.Models;
 using Tweetinvi.Core.Web;
 using Tweetinvi.Models;
@@ -11,11 +11,7 @@ using Tweetinvi.Parameters;
 
 namespace Tweetinvi.Client.Requesters
 {
-    public interface IInternalAccountSettingsRequester : IAccountSettingsRequester, IBaseRequester
-    {
-    }
-
-    public class AccountSettingsRequester : BaseRequester, IInternalAccountSettingsRequester
+    public class AccountSettingsRequester : BaseRequester, IAccountSettingsRequester
     {
         private readonly ITwitterClientFactories _factories;
         private readonly IAccountSettingsController _accountSettingsController;
@@ -23,10 +19,13 @@ namespace Tweetinvi.Client.Requesters
         private readonly IAccountSettingsClientRequiredParametersValidator _validator;
 
         public AccountSettingsRequester(
+            ITwitterClient client,
+            ITwitterClientEvents clientEvents,
             ITwitterClientFactories factories,
             IAccountSettingsController accountSettingsController,
             ITwitterResultFactory twitterResultFactory,
             IAccountSettingsClientRequiredParametersValidator validator)
+        : base(client, clientEvents)
         {
             _factories = factories;
             _accountSettingsController = accountSettingsController;

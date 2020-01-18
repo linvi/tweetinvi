@@ -98,8 +98,7 @@ namespace Tweetinvi
 
             _tweetinviEvents = _tweetinviContainer.Resolve<ITweetinviEvents>();
 
-            var requestExecutor = _tweetinviContainer.Resolve<IInternalRequestExecutor>();
-            requestExecutor.Initialize(this);
+            var requestExecutor = _tweetinviContainer.Resolve<IRequestExecutor>();
             RequestExecutor = requestExecutor;
 
             var parametersValidator = _tweetinviContainer.Resolve<IParametersValidator>();

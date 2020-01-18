@@ -1,19 +1,20 @@
 using System;
 using System.Threading.Tasks;
+using Tweetinvi.Core.Events;
 using Tweetinvi.Core.Web;
 using Tweetinvi.Models;
 
 namespace Tweetinvi.Client.Requesters
 {
-    public interface IInternalExecuteRequester : IExecuteRequester, IBaseRequester
-    {
-    }
-
-    public class ExecuteRequester : BaseRequester, IInternalExecuteRequester
+    public class ExecuteRequester : BaseRequester, IExecuteRequester
     {
         private readonly ITwitterAccessor _accessor;
 
-        public ExecuteRequester(ITwitterAccessor accessor)
+        public ExecuteRequester(
+            ITwitterClient client,
+            ITwitterClientEvents clientEvents,
+            ITwitterAccessor accessor)
+        : base(client, clientEvents)
         {
             _accessor = accessor;
         }

@@ -2,60 +2,41 @@
 
 namespace Tweetinvi.Client
 {
-    public interface IInternalRequestExecutor : IRequestExecutor
+    public class RequestExecutor : IRequestExecutor
     {
-        void Initialize(TwitterClient client);
-    }
-
-    public class RequestExecutor : IInternalRequestExecutor
-    {
-        private readonly IInternalAccountRequester _accountRequester;
-        private readonly IInternalAuthRequester _authRequester;
-        private readonly IInternalAccountSettingsRequester _accountSettingsRequester;
-        private readonly IInternalExecuteRequester _executeRequester;
-        private readonly IInternalHelpRequester _helpRequester;
-        private readonly IInternalTimelinesRequester _timelinesRequester;
-        private readonly IInternalTweetsRequester _tweetsRequester;
-        private readonly IInternalUploadRequester _uploadRequester;
-        private readonly IInternalUsersRequester _usersRequester;
-
-        public RequestExecutor()
-        {
-        }
+        private readonly IAccountRequester _accountRequester;
+        private readonly IAuthRequester _authRequester;
+        private readonly IAccountSettingsRequester _accountSettingsRequester;
+        private readonly IExecuteRequester _executeRequester;
+        private readonly IHelpRequester _helpRequester;
+        private readonly ITwitterListsRequester _listsRequester;
+        private readonly ITimelinesRequester _timelinesRequester;
+        private readonly ITweetsRequester _tweetsRequester;
+        private readonly IUploadRequester _uploadRequester;
+        private readonly IUsersRequester _usersRequester;
 
         public RequestExecutor(
-            IInternalAccountRequester accountRequester,
-            IInternalAuthRequester authRequester,
-            IInternalAccountSettingsRequester accountSettingsRequester,
-            IInternalExecuteRequester executeRequester,
-            IInternalHelpRequester helpRequester,
-            IInternalTimelinesRequester timelinesRequester,
-            IInternalTweetsRequester tweetsRequester,
-            IInternalUploadRequester uploadRequester,
-            IInternalUsersRequester usersRequester)
+            IAccountRequester accountRequester,
+            IAuthRequester authRequester,
+            IAccountSettingsRequester accountSettingsRequester,
+            IExecuteRequester executeRequester,
+            IHelpRequester helpRequester,
+            ITwitterListsRequester listsRequester,
+            ITimelinesRequester timelinesRequester,
+            ITweetsRequester tweetsRequester,
+            IUploadRequester uploadRequester,
+            IUsersRequester usersRequester)
         {
             _accountRequester = accountRequester;
             _authRequester = authRequester;
             _accountSettingsRequester = accountSettingsRequester;
             _executeRequester = executeRequester;
             _helpRequester = helpRequester;
+            _listsRequester = listsRequester;
             _timelinesRequester = timelinesRequester;
             _tweetsRequester = tweetsRequester;
             _uploadRequester = uploadRequester;
             _usersRequester = usersRequester;
-        }
-
-        public void Initialize(TwitterClient client)
-        {
-            _accountRequester.Initialize(client);
-            _authRequester.Initialize(client);
-            _accountSettingsRequester.Initialize(client);
-            _executeRequester.Initialize(client);
-            _helpRequester.Initialize(client);
-            _timelinesRequester.Initialize(client);
-            _tweetsRequester.Initialize(client);
-            _uploadRequester.Initialize(client);
-            _usersRequester.Initialize(client);
         }
 
         public IAccountRequester Account => _accountRequester;
@@ -63,6 +44,7 @@ namespace Tweetinvi.Client
         public IAccountSettingsRequester AccountSettings => _accountSettingsRequester;
         public IExecuteRequester Execute => _executeRequester;
         public IHelpRequester Help => _helpRequester;
+        public ITwitterListsRequester Lists => _listsRequester;
         public ITimelinesRequester Timelines => _timelinesRequester;
         public ITweetsRequester Tweets => _tweetsRequester;
         public IUploadRequester Upload => _uploadRequester;

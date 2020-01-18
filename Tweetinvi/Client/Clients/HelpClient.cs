@@ -10,7 +10,7 @@ namespace Tweetinvi.Client
     {
         private readonly IHelpRequester _helpRequester;
 
-        public HelpClient(IInternalHelpRequester helpRequester)
+        public HelpClient(IHelpRequester helpRequester)
         {
             _helpRequester = helpRequester;
         }

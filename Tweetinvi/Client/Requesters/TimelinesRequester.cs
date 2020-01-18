@@ -1,5 +1,6 @@
 using Tweetinvi.Core.Client.Validators;
 using Tweetinvi.Core.Controllers;
+using Tweetinvi.Core.Events;
 using Tweetinvi.Core.Iterators;
 using Tweetinvi.Core.Web;
 using Tweetinvi.Models.DTO;
@@ -7,18 +8,17 @@ using Tweetinvi.Parameters;
 
 namespace Tweetinvi.Client.Requesters
 {
-    public interface IInternalTimelinesRequester : ITimelinesRequester, IBaseRequester
-    {
-    }
-
-    public class TimelinesRequester : BaseRequester, IInternalTimelinesRequester
+    public class TimelinesRequester : BaseRequester, ITimelinesRequester
     {
         private readonly ITimelineController _timelineController;
         private readonly ITimelineClientRequiredParametersValidator _validator;
 
         public TimelinesRequester(
+            ITwitterClient client,
+            ITwitterClientEvents clientEvents,
             ITimelineController timelineController,
             ITimelineClientRequiredParametersValidator validator)
+        : base(client, clientEvents)
         {
             _timelineController = timelineController;
             _validator = validator;
