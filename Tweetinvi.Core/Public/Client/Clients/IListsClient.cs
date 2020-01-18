@@ -6,10 +6,10 @@ namespace Tweetinvi.Client
 {
     public interface IListsClient
     {
-        /// <inheritdoc cref="CreateList(ICreateTwitterListParameters)"/>
+        /// <inheritdoc cref="CreateList(ICreateListParameters)"/>
         Task<ITwitterList> CreateList(string name);
 
-        /// <inheritdoc cref="CreateList(ICreateTwitterListParameters)"/>
+        /// <inheritdoc cref="CreateList(ICreateListParameters)"/>
         Task<ITwitterList> CreateList(string name, PrivacyMode privacyMode);
 
         /// <summary>
@@ -17,6 +17,6 @@ namespace Tweetinvi.Client
         /// </summary>
         /// <para> https://developer.twitter.com/en/docs/accounts-and-users/create-manage-lists/api-reference/post-lists-create </para>
         /// <returns>Twitter supported languages</returns>
-        Task<ITwitterList> CreateList(ICreateTwitterListParameters parameters);
+        Task<ITwitterList> CreateList(ICreateListParameters parameters);
     }
 }

@@ -27,7 +27,7 @@ namespace xUnitinvi.ClientActions.ListsClient
             // arrange
             var queryGenerator = CreateTwitterListQueryGenerator();
 
-            var parameters = new CreateTwitterListParameters("list_name")
+            var parameters = new CreateListParameters("list_name")
             {
                 Description = "list_desc",
                 PrivacyMode = PrivacyMode.Private,

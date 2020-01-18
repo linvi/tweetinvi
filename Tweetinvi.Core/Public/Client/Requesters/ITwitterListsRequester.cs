@@ -8,6 +8,6 @@ namespace Tweetinvi.Client.Requesters
 {
     public interface ITwitterListsRequester
     {
-        Task<ITwitterResult<ITwitterListDTO, ITwitterList>> CreateList(ICreateTwitterListParameters parameters);
+        Task<ITwitterResult<ITwitterListDTO, ITwitterList>> CreateList(ICreateListParameters parameters);
     }
 }

@@ -16,18 +16,18 @@ namespace Tweetinvi.Client
 
         public Task<ITwitterList> CreateList(string name)
         {
-            return CreateList(new CreateTwitterListParameters(name));
+            return CreateList(new CreateListParameters(name));
         }
 
         public Task<ITwitterList> CreateList(string name, PrivacyMode privacyMode)
         {
-            return CreateList(new CreateTwitterListParameters(name)
+            return CreateList(new CreateListParameters(name)
             {
                 PrivacyMode = privacyMode
             });
         }
 
-        public async Task<ITwitterList> CreateList(ICreateTwitterListParameters parameters)
+        public async Task<ITwitterList> CreateList(ICreateListParameters parameters)
         {
             var twitterResult = await _twitterListsRequester.CreateList(parameters).ConfigureAwait(false);
             return twitterResult?.Result;

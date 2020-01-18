@@ -9,7 +9,7 @@ namespace Tweetinvi.Core.Client.Validators
 
     public class TwitterListsClientRequiredParametersValidator : ITwitterListsClientRequiredParametersValidator
     {
-        public void Validate(ICreateTwitterListParameters parameters)
+        public void Validate(ICreateListParameters parameters)
         {
             if (parameters == null)
             {

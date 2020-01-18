@@ -14,7 +14,7 @@ namespace Tweetinvi.Controllers.TwitterLists
 {
     public interface ITwitterListQueryExecutor
     {
-        Task<ITwitterResult<ITwitterListDTO>> CreateTwitterList(ICreateTwitterListParameters createTwitterListParameters, ITwitterRequest request);
+        Task<ITwitterResult<ITwitterListDTO>> CreateTwitterList(ICreateListParameters parameters, ITwitterRequest request);
 
 
 
@@ -65,9 +65,9 @@ namespace Tweetinvi.Controllers.TwitterLists
             _twitterAccessor = twitterAccessor;
         }
 
-        public Task<ITwitterResult<ITwitterListDTO>> CreateTwitterList(ICreateTwitterListParameters createTwitterListParameters, ITwitterRequest request)
+        public Task<ITwitterResult<ITwitterListDTO>> CreateTwitterList(ICreateListParameters parameters, ITwitterRequest request)
         {
-            request.Query.Url = _listsQueryGenerator.GetCreateTwitterListQuery(createTwitterListParameters);
+            request.Query.Url = _listsQueryGenerator.GetCreateTwitterListQuery(parameters);
             request.Query.HttpMethod = HttpMethod.POST;
             return _twitterAccessor.ExecuteRequest<ITwitterListDTO>(request);
         }

@@ -6,7 +6,7 @@ namespace Tweetinvi.Parameters.ListsClient
     /// For more information visit : https://developer.twitter.com/en/docs/accounts-and-users/create-manage-lists/api-reference/post-lists-create
     /// </summary>
     /// <inheritdoc />
-    public interface ICreateTwitterListParameters : ICustomRequestParameters
+    public interface ICreateListParameters : ICustomRequestParameters
     {
         /// <summary>
         /// The name for the list. A list's name must start with a letter and can consist only of
@@ -27,9 +27,9 @@ namespace Tweetinvi.Parameters.ListsClient
     }
 
     /// <inheritdoc />
-    public class CreateTwitterListParameters : CustomRequestParameters, ICreateTwitterListParameters
+    public class CreateListParameters : CustomRequestParameters, ICreateListParameters
     {
-        public CreateTwitterListParameters(string name)
+        public CreateListParameters(string name)
         {
             Name = name;
         }

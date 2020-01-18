@@ -43,7 +43,7 @@ namespace Tweetinvi.Controllers.TwitterLists
             _twitterListIdentifierFactory = twitterListIdentifierFactory;
         }
 
-        public Task<ITwitterResult<ITwitterListDTO>> CreateTwitterList(ICreateTwitterListParameters parameters, ITwitterRequest request)
+        public Task<ITwitterResult<ITwitterListDTO>> CreateTwitterList(ICreateListParameters parameters, ITwitterRequest request)
         {
             return _twitterListQueryExecutor.CreateTwitterList(parameters, request);
         }

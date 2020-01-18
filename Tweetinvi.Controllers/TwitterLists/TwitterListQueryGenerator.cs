@@ -14,7 +14,7 @@ namespace Tweetinvi.Controllers.TwitterLists
 {
     public interface ITwitterListQueryGenerator
     {
-        string GetCreateTwitterListQuery(ICreateTwitterListParameters parameters);
+        string GetCreateTwitterListQuery(ICreateListParameters parameters);
 
 
 
@@ -68,7 +68,7 @@ namespace Tweetinvi.Controllers.TwitterLists
         }
 
         // User Lists
-        public string GetCreateTwitterListQuery(ICreateTwitterListParameters parameters)
+        public string GetCreateTwitterListQuery(ICreateListParameters parameters)
         {
             var query = new StringBuilder(Resources.List_Create);
 

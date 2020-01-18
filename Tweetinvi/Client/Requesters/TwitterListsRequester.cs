@@ -29,7 +29,7 @@ namespace Tweetinvi.Client.Requesters
             _twitterListsClientRequiredParametersValidator = twitterListsClientRequiredParametersValidator;
         }
 
-        public Task<ITwitterResult<ITwitterListDTO, ITwitterList>> CreateList(ICreateTwitterListParameters parameters)
+        public Task<ITwitterResult<ITwitterListDTO, ITwitterList>> CreateList(ICreateListParameters parameters)
         {
             _twitterListsClientRequiredParametersValidator.Validate(parameters);
             return ExecuteRequest(async request =>

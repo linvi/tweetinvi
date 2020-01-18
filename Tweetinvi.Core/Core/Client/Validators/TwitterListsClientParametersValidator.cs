@@ -5,7 +5,7 @@ namespace Tweetinvi.Core.Client.Validators
 {
     public interface ITwitterListsClientParametersValidator
     {
-        void Validate(ICreateTwitterListParameters parameters);
+        void Validate(ICreateListParameters parameters);
     }
 
     public class TwitterListsClientParametersValidator : ITwitterListsClientParametersValidator
@@ -23,7 +23,7 @@ namespace Tweetinvi.Core.Client.Validators
 
         private TwitterLimits Limits => _client.ClientSettings.Limits;
 
-        public void Validate(ICreateTwitterListParameters parameters)
+        public void Validate(ICreateListParameters parameters)
         {
             _twitterListsClientRequiredParametersValidator.Validate(parameters);
 

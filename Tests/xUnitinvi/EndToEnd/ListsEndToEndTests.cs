@@ -21,7 +21,7 @@ namespace xUnitinvi.EndToEnd
                 return;
 
             // act
-            var privateList = await _tweetinviTestClient.Lists.CreateList(new CreateTwitterListParameters("private-endToEnd-Tests")
+            var privateList = await _tweetinviTestClient.Lists.CreateList(new CreateListParameters("private-endToEnd-Tests")
             {
                 PrivacyMode = PrivacyMode.Private,
                 Description = "private-desc"
