@@ -16,6 +16,9 @@ namespace xUnitinvi.EndToEnd
         [Fact]
         public async Task GetTwitterConfiguration()
         {
+            if (!EndToEndTestConfig.ShouldRunEndToEndTests)
+                return;
+
             var twitterConfiguration = await _tweetinviTestClient.Help.GetTwitterConfiguration();
 
             Assert.True(twitterConfiguration.PhotoSizeLimit > 0);
@@ -24,6 +27,9 @@ namespace xUnitinvi.EndToEnd
         [Fact]
         public async Task GetSupportedLanguages()
         {
+            if (!EndToEndTestConfig.ShouldRunEndToEndTests)
+                return;
+
             var supportedLanguages = await _tweetinviTestClient.Help.GetSupportedLanguages();
 
             Assert.Contains(supportedLanguages, x => x.Name == "French");

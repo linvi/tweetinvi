@@ -18,6 +18,9 @@ namespace xUnitinvi.EndToEnd
         [Fact]
         public async Task SampleStream()
         {
+            if (!EndToEndTestConfig.ShouldRunEndToEndTests)
+                return;
+
             var stream = _tweetinviTestClient.Streams.CreateSampleStream();
             ITweet tweet = null;
             StreamStoppedEventArgs streamStoppedEventArgs = null;
@@ -62,6 +65,9 @@ namespace xUnitinvi.EndToEnd
         [Fact]
         public async Task FilteredStream()
         {
+            if (!EndToEndTestConfig.ShouldRunEndToEndTests)
+                return;
+
             var stream = _tweetinviTestClient.Streams.CreateFilteredStream();
             stream.AddTrack("twitter");
 
@@ -108,6 +114,9 @@ namespace xUnitinvi.EndToEnd
         [Fact]
         public async Task TweetStream()
         {
+            if (!EndToEndTestConfig.ShouldRunEndToEndTests)
+                return;
+
             var stream = _tweetinviTestClient.Streams.CreateTweetStream();
 
             ITweet tweet = null;
@@ -152,6 +161,9 @@ namespace xUnitinvi.EndToEnd
         [Fact]
         public async Task TrackedStream()
         {
+            if (!EndToEndTestConfig.ShouldRunEndToEndTests)
+                return;
+
             var stream = _tweetinviTestClient.Streams.CreateTrackedStream();
             stream.AddTrack("twitter");
 
