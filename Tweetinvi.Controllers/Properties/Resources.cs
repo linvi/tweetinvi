@@ -147,6 +147,16 @@ namespace Tweetinvi.Controllers.Properties
         public static string List_Create = "https://api.twitter.com/1.1/lists/create.json?";
 
         /// <summary>
+        ///   Looks up a localized string similar to https://api.twitter.com/1.1/lists/show.json?.
+        /// </summary>
+        public static string List_Get = "https://api.twitter.com/1.1/lists/show.json?";
+
+        /// <summary>
+        ///   Looks up a localized string similar to https://api.twitter.com/1.1/lists/destroy.json?.
+        /// </summary>
+        public static string List_Destroy = "https://api.twitter.com/1.1/lists/destroy.json?";
+
+        /// <summary>
         ///   Looks up a localized string similar to https://api.twitter.com/1.1/lists/members/show.json?{0}&amp;{1}&amp;skip_status=true.
         /// </summary>
         public static string List_CheckMembership = "https://api.twitter.com/1.1/lists/members/show.json?{0}&{1}&skip_status=true";
@@ -160,16 +170,6 @@ namespace Tweetinvi.Controllers.Properties
         ///   Looks up a localized string similar to https://api.twitter.com/1.1/lists/members/create_all.json.
         /// </summary>
         public static string List_CreateMembers = "https://api.twitter.com/1.1/lists/members/create_all.json";
-
-        /// <summary>
-        ///   Looks up a localized string similar to &amp;description={0}.
-        /// </summary>
-        public static string List_DescriptionParameter = "&description={0}";
-
-        /// <summary>
-        ///   Looks up a localized string similar to https://api.twitter.com/1.1/lists/destroy.json?{0}.
-        /// </summary>
-        public static string List_Destroy = "https://api.twitter.com/1.1/lists/destroy.json?{0}";
 
         /// <summary>
         ///   Looks up a localized string similar to https://api.twitter.com/1.1/lists/members/destroy.json?{0}&amp;{1}.
@@ -195,11 +195,6 @@ namespace Tweetinvi.Controllers.Properties
         ///   Looks up a localized string similar to https://api.twitter.com/1.1/lists/list.json?{0}&amp;reverse={1}.
         /// </summary>
         public static string List_GetUserLists = "https://api.twitter.com/1.1/lists/list.json?{0}&reverse={1}";
-
-        /// <summary>
-        ///   Looks up a localized string similar to &amp;list_id={0}.
-        /// </summary>
-        public static string List_ListIdParameter = "&list_id={0}";
 
         /// <summary>
         ///   Looks up a localized string similar to https://api.twitter.com/1.1/lists/members.json?{0}&amp;count={1}.

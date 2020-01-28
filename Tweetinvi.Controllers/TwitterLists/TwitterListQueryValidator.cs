@@ -39,12 +39,12 @@ namespace Tweetinvi.Controllers.TwitterLists
                 return false;
             }
 
-            if (twitterListIdentifier.Id != TweetinviSettings.DEFAULT_ID)
+            if (twitterListIdentifier.Id != null && twitterListIdentifier.Id != TweetinviSettings.DEFAULT_ID)
             {
                 return true;
             }
 
-            bool isOwnerIdentifierValid = IsOwnerIdValid(twitterListIdentifier.OwnerId) || IsOwnerScreenNameValid(twitterListIdentifier.OwnerScreenName);
+            var isOwnerIdentifierValid = IsOwnerIdValid(twitterListIdentifier.OwnerId) || IsOwnerScreenNameValid(twitterListIdentifier.OwnerScreenName);
             return IsSlugValid(twitterListIdentifier.Slug) && isOwnerIdentifierValid;
         }
 

@@ -20,9 +20,6 @@ namespace Tweetinvi.Factories
             container.RegisterType<IMessageFactoryQueryExecutor, MessageFactoryQueryExecutor>(RegistrationLifetime.InstancePerApplication);
 
             container.RegisterType<ITwitterListIdentifierFactory, TwitterListIdentifierFactory>(RegistrationLifetime.InstancePerApplication);
-            container.RegisterType<ITwitterListFactory, TwitterListFactory>(RegistrationLifetime.InstancePerApplication);
-            container.RegisterType<ITwitterListFactoryQueryExecutor, TwitterListFactoryQueryExecutor>(RegistrationLifetime.InstancePerApplication);
-            container.RegisterType<ITwitterListFactoryQueryGenerator, TwitterListFactoryQueryGenerator>(RegistrationLifetime.InstancePerApplication);
 
             container.RegisterType<ISavedSearchFactory, SavedSearchFactory>(RegistrationLifetime.InstancePerApplication);
             container.RegisterType<ISavedSearchJsonFactory, SavedSearchJsonFactory>(RegistrationLifetime.InstancePerApplication);

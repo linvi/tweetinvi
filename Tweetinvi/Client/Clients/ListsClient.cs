@@ -32,5 +32,36 @@ namespace Tweetinvi.Client
             var twitterResult = await _twitterListsRequester.CreateList(parameters).ConfigureAwait(false);
             return twitterResult?.Result;
         }
+
+        public Task<ITwitterList> GetList(long? listId)
+        {
+            return GetList(new GetListParameters(listId));
+        }
+
+        public Task<ITwitterList> GetList(ITwitterListIdentifier listId)
+        {
+            return GetList(new GetListParameters(listId));
+        }
+
+        public async Task<ITwitterList> GetList(IGetListParameters parameters)
+        {
+            var twitterResult = await _twitterListsRequester.GetList(parameters).ConfigureAwait(false);
+            return twitterResult?.Result;
+        }
+
+        public Task DestroyList(long? listId)
+        {
+            return DestroyList(new DestroyListParameters(listId));
+        }
+
+        public Task DestroyList(ITwitterListIdentifier listId)
+        {
+            return DestroyList(new DestroyListParameters(listId));
+        }
+
+        public async Task DestroyList(IDestroyListParameters parameters)
+        {
+            await _twitterListsRequester.DestroyList(parameters).ConfigureAwait(false);
+        }
     }
 }

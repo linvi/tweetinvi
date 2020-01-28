@@ -1,4 +1,5 @@
-﻿using Tweetinvi.Core.Parameters;
+﻿using System.Text;
+using Tweetinvi.Core.Parameters;
 using Tweetinvi.Models;
 using Tweetinvi.Parameters;
 
@@ -20,5 +21,7 @@ namespace Tweetinvi.Core.QueryGenerators
         ITwitterListUpdateQueryParameters CreateTwitterListUpdateQueryParameters(
             ITwitterListIdentifier listIdentifier,
             ITwitterListUpdateParameters listUpdateParameters);
+
+        void AppendListIdentifierParameter(StringBuilder query, ITwitterListIdentifier listIdentifier);
     }
 }

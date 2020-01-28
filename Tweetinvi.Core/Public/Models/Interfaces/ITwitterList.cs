@@ -190,6 +190,6 @@ namespace Tweetinvi.Models
         /// <summary>
         /// Destroy the list.
         /// </summary>
-        Task<bool> Destroy();
+        Task Destroy();
     }
 }

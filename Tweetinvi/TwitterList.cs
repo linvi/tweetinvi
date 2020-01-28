@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Tweetinvi.Core.Controllers;
-using Tweetinvi.Core.Factories;
 using Tweetinvi.Core.Parameters;
 using Tweetinvi.Core.QueryGenerators;
 using Tweetinvi.Models;
@@ -15,21 +14,6 @@ namespace Tweetinvi
     /// </summary>
     public static class TwitterList
     {
-        [ThreadStatic]
-        private static ITwitterListFactory _twitterListFactory;
-        public static ITwitterListFactory TwitterListFactory
-        {
-            get
-            {
-                if (_twitterListFactory == null)
-                {
-                    Initialize();
-                }
-
-                return _twitterListFactory;
-            }
-        }
-
         [ThreadStatic]
         private static ITwitterListController _twitterListController;
         public static ITwitterListController TwitterListController
@@ -61,50 +45,7 @@ namespace Tweetinvi
 
         private static void Initialize()
         {
-            _twitterListFactory = TweetinviContainer.Resolve<ITwitterListFactory>();
             _twitterListController = TweetinviContainer.Resolve<ITwitterListController>();
-        }
-
-        // Get Existing List
-
-        /// <summary>
-        /// Get an existing List
-        /// </summary>
-        public static Task<ITwitterList> GetExistingList(ITwitterListIdentifier twitterListIdentifier)
-        {
-            return TwitterListFactory.GetExistingList(twitterListIdentifier);
-        }
-
-        /// <summary>
-        /// Get an existing List
-        /// </summary>
-        public static Task<ITwitterList> GetExistingList(long listId)
-        {
-            return TwitterListFactory.GetExistingList(listId);
-        }
-
-        /// <summary>
-        /// Get an existing List
-        /// </summary>
-        public static Task<ITwitterList> GetExistingList(string slug, IUserIdentifier user)
-        {
-            return TwitterListFactory.GetExistingList(slug, user);
-        }
-
-        /// <summary>
-        /// Get an existing List
-        /// </summary>
-        public static Task<ITwitterList> GetExistingList(string slug, long userId)
-        {
-            return TwitterListFactory.GetExistingList(slug, userId);
-        }
-
-        /// <summary>
-        /// Get an existing List
-        /// </summary>
-        public static Task<ITwitterList> GetExistingList(string slug, string userScreenName)
-        {
-            return TwitterListFactory.GetExistingList(slug, userScreenName);
         }
 
         // Owner Lists
@@ -173,48 +114,6 @@ namespace Tweetinvi
         public static Task<ITwitterList> UpdateList(string slug, string ownerScreenName, ITwitterListUpdateParameters parameters)
         {
             return TwitterListController.UpdateList(slug, ownerScreenName, parameters);
-        }
-
-        // Destroy List
-
-        /// <summary>
-        /// Destroy a list
-        /// </summary>
-        public static Task<bool> DestroyList(ITwitterListIdentifier list)
-        {
-            return TwitterListController.DestroyList(list);
-        }
-
-        /// <summary>
-        /// Destroy a list
-        /// </summary>
-        public static Task<bool> DestroyList(long listId)
-        {
-            return TwitterListController.DestroyList(listId);
-        }
-
-        /// <summary>
-        /// Destroy a list
-        /// </summary>
-        public static Task<bool> DestroyList(string slug, IUserIdentifier owner)
-        {
-            return TwitterListController.DestroyList(slug, owner);
-        }
-
-        /// <summary>
-        /// Destroy a list
-        /// </summary>
-        public static Task<bool> DestroyList(string slug, long ownerId)
-        {
-            return TwitterListController.DestroyList(slug, ownerId);
-        }
-
-        /// <summary>
-        /// Destroy a list
-        /// </summary>
-        public static Task<bool> DestroyList(string slug, string ownerScreenName)
-        {
-            return TwitterListController.DestroyList(slug, ownerScreenName);
         }
 
         // Get Tweets from List

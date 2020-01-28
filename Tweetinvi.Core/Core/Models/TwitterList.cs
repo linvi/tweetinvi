@@ -36,7 +36,7 @@ namespace Tweetinvi.Core.Models
 
         public ITwitterClient Client { get; }
 
-        public long Id => _twitterListDTO.Id;
+        public long? Id => _twitterListDTO.Id;
         public string IdStr => _twitterListDTO.IdStr;
         public string Slug => _twitterListDTO.Slug;
         public long? OwnerId => _twitterListDTO.OwnerId;
@@ -198,9 +198,9 @@ namespace Tweetinvi.Core.Models
             return false;
         }
 
-        public Task<bool> Destroy()
+        public Task Destroy()
         {
-            return _twitterListController.DestroyList(_twitterListDTO);
+            return Client.Lists.DestroyList(this);
         }
 
         private void UpdateOwner()

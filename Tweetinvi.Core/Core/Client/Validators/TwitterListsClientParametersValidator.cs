@@ -6,6 +6,8 @@ namespace Tweetinvi.Core.Client.Validators
     public interface ITwitterListsClientParametersValidator
     {
         void Validate(ICreateListParameters parameters);
+        void Validate(IDestroyListParameters parameters);
+        void Validate(IGetListParameters parameters);
     }
 
     public class TwitterListsClientParametersValidator : ITwitterListsClientParametersValidator
@@ -32,6 +34,16 @@ namespace Tweetinvi.Core.Client.Validators
             {
                 throw new TwitterArgumentLimitException($"{nameof(parameters)}.{nameof(parameters.Name)}", maxNameSize, nameof(Limits.LISTS_CREATE_NAME_MAX_SIZE), "characters");
             }
+        }
+
+        public void Validate(IDestroyListParameters parameters)
+        {
+            _twitterListsClientRequiredParametersValidator.Validate(parameters);
+        }
+
+        public void Validate(IGetListParameters parameters)
+        {
+            _twitterListsClientRequiredParametersValidator.Validate(parameters);
         }
     }
 }

@@ -21,7 +21,6 @@ namespace Tweetinvi.Controllers.TwitterLists
         private readonly IUserFactory _userFactory;
         private readonly ITwitterClientFactories _factories;
         private readonly ITwitterListQueryExecutor _twitterListQueryExecutor;
-        private readonly ITwitterListFactory _twitterListsFactory;
         private readonly ITwitterListQueryParameterGenerator _twitterListQueryParameterGenerator;
         private readonly ITwitterListIdentifierFactory _twitterListIdentifierFactory;
 
@@ -30,7 +29,6 @@ namespace Tweetinvi.Controllers.TwitterLists
             IUserFactory userFactory,
             ITwitterClientFactories factories,
             ITwitterListQueryExecutor twitterListQueryExecutor,
-            ITwitterListFactory twitterListsFactory,
             ITwitterListQueryParameterGenerator twitterListQueryParameterGenerator,
             ITwitterListIdentifierFactory twitterListIdentifierFactory)
         {
@@ -38,14 +36,23 @@ namespace Tweetinvi.Controllers.TwitterLists
             _userFactory = userFactory;
             _factories = factories;
             _twitterListQueryExecutor = twitterListQueryExecutor;
-            _twitterListsFactory = twitterListsFactory;
             _twitterListQueryParameterGenerator = twitterListQueryParameterGenerator;
             _twitterListIdentifierFactory = twitterListIdentifierFactory;
         }
 
-        public Task<ITwitterResult<ITwitterListDTO>> CreateTwitterList(ICreateListParameters parameters, ITwitterRequest request)
+        public Task<ITwitterResult<ITwitterListDTO>> CreateList(ICreateListParameters parameters, ITwitterRequest request)
         {
-            return _twitterListQueryExecutor.CreateTwitterList(parameters, request);
+            return _twitterListQueryExecutor.CreateList(parameters, request);
+        }
+
+        public Task<ITwitterResult<ITwitterListDTO>> GetList(IGetListParameters parameters, ITwitterRequest request)
+        {
+            return _twitterListQueryExecutor.GetList(parameters, request);
+        }
+
+        Task<ITwitterResult<ITwitterListDTO>> ITwitterListController.DestroyList(IDestroyListParameters parameters, ITwitterRequest request)
+        {
+            return _twitterListQueryExecutor.DestroyList(parameters, request);
         }
 
 
@@ -54,19 +61,19 @@ namespace Tweetinvi.Controllers.TwitterLists
         public async Task<IEnumerable<ITwitterList>> GetUserSubscribedLists(IUserIdentifier user, bool getOwnedListsFirst)
         {
             var listDTOs = await _twitterListQueryExecutor.GetUserSubscribedLists(user, getOwnedListsFirst);
-            return _twitterListsFactory.CreateListsFromDTOs(listDTOs);
+            return null;
         }
 
         public async Task<IEnumerable<ITwitterList>> GetUserSubscribedLists(long userId, bool getOwnedListsFirst)
         {
             var listDTOs = await _twitterListQueryExecutor.GetUserSubscribedLists(new UserIdentifier(userId), getOwnedListsFirst);
-            return _twitterListsFactory.CreateListsFromDTOs(listDTOs);
+            return null;
         }
 
         public async Task<IEnumerable<ITwitterList>> GetUserSubscribedLists(string userScreenName, bool getOwnedListsFirst)
         {
             var listDTOs = await _twitterListQueryExecutor.GetUserSubscribedLists(new UserIdentifier(userScreenName), getOwnedListsFirst);
-            return _twitterListsFactory.CreateListsFromDTOs(listDTOs);
+            return null;
         }
 
         #endregion
@@ -85,7 +92,7 @@ namespace Tweetinvi.Controllers.TwitterLists
         public async Task<IEnumerable<ITwitterList>> GetUserOwnedLists(IUserIdentifier user, int maximumNumberOfListsToRetrieve)
         {
             var listDTOs = await _twitterListQueryExecutor.GetUserOwnedLists(user, maximumNumberOfListsToRetrieve);
-            return _twitterListsFactory.CreateListsFromDTOs(listDTOs);
+            return null;
         }
         #endregion
 
@@ -124,37 +131,6 @@ namespace Tweetinvi.Controllers.TwitterLists
         {
             var listDTO = await _twitterListQueryExecutor.UpdateList(parameters);
             return _factories.CreateTwitterList(listDTO);
-        }
-        #endregion
-
-        #region Destroy List
-        public Task<bool> DestroyList(long listId)
-        {
-            var listIdentifier = _twitterListIdentifierFactory.Create(listId);
-            return DestroyList(listIdentifier);
-        }
-
-        public Task<bool> DestroyList(string slug, IUserIdentifier owner)
-        {
-            var identifier = _twitterListIdentifierFactory.Create(slug, owner);
-            return DestroyList(identifier);
-        }
-
-        public Task<bool> DestroyList(string slug, string ownerScreenName)
-        {
-            var identifier = _twitterListIdentifierFactory.Create(slug, ownerScreenName);
-            return DestroyList(identifier);
-        }
-
-        public Task<bool> DestroyList(string slug, long ownerId)
-        {
-            var identifier = _twitterListIdentifierFactory.Create(slug, ownerId);
-            return DestroyList(identifier);
-        }
-
-        public Task<bool> DestroyList(ITwitterListIdentifier list)
-        {
-            return _twitterListQueryExecutor.DestroyList(list);
         }
         #endregion
 
@@ -607,7 +583,7 @@ namespace Tweetinvi.Controllers.TwitterLists
         public async Task<IEnumerable<ITwitterList>> GetUserSubscribedLists(IUserIdentifier user, int maxNumberOfListsToRetrieve)
         {
             var listDTOs = await _twitterListQueryExecutor.GetUserSubscribedLists(user, maxNumberOfListsToRetrieve);
-            return _twitterListsFactory.CreateListsFromDTOs(listDTOs);
+            return null;
         }
         #endregion
 
@@ -903,7 +879,7 @@ namespace Tweetinvi.Controllers.TwitterLists
         public async Task<IEnumerable<ITwitterList>> GetUserListsMemberships(IGetUserListMembershipsQueryParameters parameters)
         {
             var twitterListDtos = await _twitterListQueryExecutor.GetUserListMemberships(parameters);
-            return _twitterListsFactory.CreateListsFromDTOs(twitterListDtos);
+            return null;
         }
     }
 }

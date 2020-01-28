@@ -11,6 +11,12 @@ namespace Tweetinvi.Core.Controllers
 {
     public interface ITwitterListController
     {
+        Task<ITwitterResult<ITwitterListDTO>> CreateList(ICreateListParameters parameters, ITwitterRequest request);
+        Task<ITwitterResult<ITwitterListDTO>> GetList(IGetListParameters parameters, ITwitterRequest request);
+        Task<ITwitterResult<ITwitterListDTO>> DestroyList(IDestroyListParameters parameters, ITwitterRequest request);
+
+
+
         Task<IEnumerable<ITwitterList>> GetUserSubscribedLists(IUserIdentifier user, bool getOwnedListsFirst);
         Task<IEnumerable<ITwitterList>> GetUserSubscribedLists(long userId, bool getOwnedListsFirst);
         Task<IEnumerable<ITwitterList>> GetUserSubscribedLists(string userScreenName, bool getOwnedListsFirst);
@@ -25,11 +31,6 @@ namespace Tweetinvi.Core.Controllers
         Task<ITwitterList> UpdateList(string slug, string ownerScreenName, ITwitterListUpdateParameters parameters);
         Task<ITwitterList> UpdateList(ITwitterListIdentifier list, ITwitterListUpdateParameters parameters);
 
-        Task<bool> DestroyList(long listId);
-        Task<bool> DestroyList(string slug, IUserIdentifier owner);
-        Task<bool> DestroyList(string slug, string ownerScreenName);
-        Task<bool> DestroyList(string slug, long ownerId);
-        Task<bool> DestroyList(ITwitterListIdentifier list);
 
         Task<IEnumerable<ITweet>> GetTweetsFromList(long listId);
         Task<IEnumerable<ITweet>> GetTweetsFromList(string slug, IUserIdentifier owner);
@@ -199,6 +200,5 @@ namespace Tweetinvi.Core.Controllers
         Task<bool> CheckIfUserIsAListSubscriber(ITwitterListIdentifier listIdentifier, long userId);
         Task<bool> CheckIfUserIsAListSubscriber(ITwitterListIdentifier listIdentifier, string userScreenName);
         Task<bool> CheckIfUserIsAListSubscriber(ITwitterListIdentifier listIdentifier, IUserIdentifier user);
-        Task<ITwitterResult<ITwitterListDTO>> CreateTwitterList(ICreateListParameters parameters, ITwitterRequest request);
     }
 }

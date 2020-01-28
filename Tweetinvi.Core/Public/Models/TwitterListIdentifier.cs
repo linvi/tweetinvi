@@ -4,11 +4,10 @@
     {
         private TwitterListIdentifier()
         {
-            Id = TweetinviSettings.DEFAULT_ID;
-            Owner = new UserIdentifier(TweetinviSettings.DEFAULT_ID);
+            Owner = new UserIdentifier();
         }
 
-        public TwitterListIdentifier(long listId) : this()
+        public TwitterListIdentifier(long? listId) : this()
         {
             Id = listId;
         }
@@ -31,18 +30,11 @@
             Owner = owner;
         }
 
-        public long Id { get; }
+        public long? Id { get; }
         public string Slug { get; }
 
-        public long? OwnerId
-        {
-            get { return Owner.Id; }
-        }
-
-        public string OwnerScreenName
-        {
-            get { return Owner.ScreenName; }
-        }
+        public long? OwnerId => Owner?.Id;
+        public string OwnerScreenName => Owner?.ScreenName;
 
         public IUserIdentifier Owner { get; }
     }

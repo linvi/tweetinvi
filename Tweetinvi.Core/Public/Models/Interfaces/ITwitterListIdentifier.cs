@@ -8,10 +8,10 @@
         /// <summary>
         /// Id of the list.
         /// </summary>
-        long Id { get; }
+        long? Id { get; }
 
         /// <summary>
-        /// The short name of list or a category. 
+        /// The short name of list or a category.
         /// An owner id needs to be provided in addition to indentify the list.
         /// </summary>
         string Slug { get; }

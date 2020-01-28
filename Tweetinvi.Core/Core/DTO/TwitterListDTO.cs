@@ -15,7 +15,7 @@ namespace Tweetinvi.Core.DTO
 
         [JsonProperty("id")]
         [JsonConverter(typeof(JsonPropertyConverterRepository))]
-        public long Id { get; set; }
+        public long? Id { get; set; }
 
         [JsonProperty("id_str")]
         public string IdStr { get; set; }

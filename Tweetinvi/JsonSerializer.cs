@@ -51,8 +51,6 @@ namespace Tweetinvi
         static JsonSerializer()
         {
             var factories = TweetinviContainer.Resolve<ITwitterClientFactories>();
-            var messageFactory = TweetinviContainer.Resolve<IMessageFactory>();
-            var twitterListFactory = TweetinviContainer.Resolve<ITwitterListFactory>();
             var accountSettingsFactory = TweetinviContainer.Resolve<IAccountController>();
 
             _getSerializableObject = new Dictionary<Type, IJsonSerializer>();

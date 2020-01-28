@@ -14,7 +14,13 @@ namespace Tweetinvi.Controllers.TwitterLists
 {
     public interface ITwitterListQueryGenerator
     {
-        string GetCreateTwitterListQuery(ICreateListParameters parameters);
+        string GetCreateListQuery(ICreateListParameters parameters);
+        string GetListQuery(IGetListParameters parameters);
+        string GetDestroyListQuery(IDestroyListParameters parameters);
+
+
+
+
 
 
 
@@ -23,7 +29,6 @@ namespace Tweetinvi.Controllers.TwitterLists
         string GetUsersOwnedListQuery(IUserIdentifier user, int maximumNumberOfListsToRetrieve);
 
         string GetUpdateListQuery(ITwitterListUpdateQueryParameters parameters);
-        string GetDestroyListQuery(ITwitterListIdentifier identifier);
         string GetTweetsFromListQuery(IGetTweetsFromListQueryParameters queryParameters);
 
         string GetMembersFromListQuery(ITwitterListIdentifier listIdentifier, int maximumNumberOfMembers);
@@ -68,7 +73,7 @@ namespace Tweetinvi.Controllers.TwitterLists
         }
 
         // User Lists
-        public string GetCreateTwitterListQuery(ICreateListParameters parameters)
+        public string GetCreateListQuery(ICreateListParameters parameters)
         {
             var query = new StringBuilder(Resources.List_Create);
 
@@ -76,6 +81,26 @@ namespace Tweetinvi.Controllers.TwitterLists
             query.AddParameterToQuery("mode", parameters.PrivacyMode?.ToString()?.ToLowerInvariant());
             query.AddParameterToQuery("description", parameters.Description);
 
+            query.AddFormattedParameterToQuery(parameters.FormattedCustomQueryParameters);
+
+            return query.ToString();
+        }
+
+        public string GetListQuery(IGetListParameters parameters)
+        {
+            var query = new StringBuilder(Resources.List_Get);
+
+            _twitterListQueryParameterGenerator.AppendListIdentifierParameter(query, parameters.Id);
+            query.AddFormattedParameterToQuery(parameters.FormattedCustomQueryParameters);
+
+            return query.ToString();
+        }
+
+        public string GetDestroyListQuery(IDestroyListParameters parameters)
+        {
+            var query = new StringBuilder(Resources.List_Destroy);
+
+            _twitterListQueryParameterGenerator.AppendListIdentifierParameter(query, parameters.Id);
             query.AddFormattedParameterToQuery(parameters.FormattedCustomQueryParameters);
 
             return query.ToString();
@@ -130,14 +155,6 @@ namespace Tweetinvi.Controllers.TwitterLists
             queryBuilder.AddParameterToQuery("name", parameters.Parameters.Name);
 
             return queryBuilder.ToString();
-        }
-
-        public string GetDestroyListQuery(ITwitterListIdentifier identifier)
-        {
-            _listsQueryValidator.ThrowIfListIdentifierIsNotValid(identifier);
-
-            var identifierParameter = _twitterListQueryParameterGenerator.GenerateIdentifierParameter(identifier);
-            return string.Format(Resources.List_Destroy, identifierParameter);
         }
 
         public string GetTweetsFromListQuery(IGetTweetsFromListQueryParameters getTweetsFromListQueryParameters)

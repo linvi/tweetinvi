@@ -106,7 +106,7 @@ namespace Tweetinvi.Controllers
             container.RegisterType<ITwitterListQueryGenerator, TwitterListQueryGenerator>(RegistrationLifetime.InstancePerApplication);
 
             container.RegisterType<IQueryParameterGenerator, QueryParameterGenerator>(RegistrationLifetime.InstancePerApplication);
-            container.RegisterType<ITwitterListQueryParameterGenerator, TwittertListQueryParameterGenerator>(RegistrationLifetime.InstancePerApplication);
+            container.RegisterType<ITwitterListQueryParameterGenerator, TwitterListQueryParameterGenerator>(RegistrationLifetime.InstancePerApplication);
             container.RegisterType<IUserQueryParameterGenerator, UserQueryParameterGenerator>(RegistrationLifetime.InstancePerApplication);
             container.RegisterType<ISearchQueryParameterGenerator, SearchQueryParameterGenerator>(RegistrationLifetime.InstancePerApplication);
 
