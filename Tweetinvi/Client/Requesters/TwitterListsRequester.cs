@@ -52,6 +52,16 @@ namespace Tweetinvi.Client.Requesters
             });
         }
 
+        public Task<ITwitterResult<ITwitterListDTO, ITwitterList>> UpdateList(IUpdateListParameters parameters)
+        {
+            _twitterListsClientRequiredParametersValidator.Validate(parameters);
+            return ExecuteRequest(async request =>
+            {
+                var twitterResult = await _twitterListController.UpdateList(parameters, request).ConfigureAwait(false);
+                return _twitterResultFactory.Create(twitterResult, dto => _factories.CreateTwitterList(dto));
+            });
+        }
+
         public Task<ITwitterResult<ITwitterListDTO>> DestroyList(IDestroyListParameters parameters)
         {
             _twitterListsClientRequiredParametersValidator.Validate(parameters);

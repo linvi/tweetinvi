@@ -23,6 +23,13 @@ namespace Tweetinvi.Client.Requesters
         Task<ITwitterResult<ITwitterListDTO, ITwitterList>> GetList(IGetListParameters parameters);
 
         /// <summary>
+        /// Update information of a Twitter list
+        /// </summary>
+        /// <para> https://developer.twitter.com/en/docs/accounts-and-users/create-manage-lists/api-reference/post-lists-update </para>
+        /// <returns>TwitterResult containing the updated list</returns>
+        Task<ITwitterResult<ITwitterListDTO, ITwitterList>> UpdateList(IUpdateListParameters parameters);
+
+        /// <summary>
         /// Destroy a list from Twitter
         /// </summary>
         /// <para> https://developer.twitter.com/en/docs/accounts-and-users/create-manage-lists/api-reference/post-lists-destroy </para>

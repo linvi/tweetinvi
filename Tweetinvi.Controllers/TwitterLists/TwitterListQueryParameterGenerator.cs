@@ -17,7 +17,6 @@ namespace Tweetinvi.Controllers.TwitterLists
         private readonly IUserQueryParameterGenerator _userQueryParameterGenerator;
 
         private readonly IFactory<ITwitterListUpdateParameters> _updateTwitterListParametersFactory;
-        private readonly IFactory<ITwitterListUpdateQueryParameters> _updateTwitterListQueryParametersFactory;
         private readonly IFactory<IGetTweetsFromListParameters> _getTweetsFromListParametersFactory;
         private readonly IFactory<IGetTweetsFromListQueryParameters> _tweetsFromListQueryParametersFactory;
 
@@ -25,14 +24,12 @@ namespace Tweetinvi.Controllers.TwitterLists
             IUserQueryValidator userQueryValidator,
             IUserQueryParameterGenerator userQueryParameterGenerator,
             IFactory<ITwitterListUpdateParameters> updateTwitterListParametersFactory,
-            IFactory<ITwitterListUpdateQueryParameters> updateTwitterListQueryParametersFactory,
             IFactory<IGetTweetsFromListParameters> getTweetsFromListParametersFactory,
             IFactory<IGetTweetsFromListQueryParameters> tweetsFromListQueryParametersFactory)
         {
             _userQueryValidator = userQueryValidator;
             _userQueryParameterGenerator = userQueryParameterGenerator;
             _updateTwitterListParametersFactory = updateTwitterListParametersFactory;
-            _updateTwitterListQueryParametersFactory = updateTwitterListQueryParametersFactory;
             _getTweetsFromListParametersFactory = getTweetsFromListParametersFactory;
             _tweetsFromListQueryParametersFactory = tweetsFromListQueryParametersFactory;
         }
@@ -99,16 +96,6 @@ namespace Tweetinvi.Controllers.TwitterLists
         public ITwitterListUpdateParameters CreateUpdateListParameters()
         {
             return _updateTwitterListParametersFactory.Create();
-        }
-
-        public ITwitterListUpdateQueryParameters CreateTwitterListUpdateQueryParameters(
-            ITwitterListIdentifier listIdentifier,
-            ITwitterListUpdateParameters listUpdateParameters)
-        {
-            var identifierParameter = TweetinviFactory.CreateConstructorParameter("listIdentifier", listIdentifier);
-            var queryParameter = TweetinviFactory.CreateConstructorParameter("parameters", listUpdateParameters);
-
-            return _updateTwitterListQueryParametersFactory.Create(identifierParameter, queryParameter);
         }
     }
 }

@@ -106,7 +106,6 @@ namespace Tweetinvi.Logic
 
         private void InitializeQueryParameters(ITweetinviContainer container)
         {
-            container.RegisterType<ITwitterListUpdateQueryParameters, TwitterListUpdateQueryParameters>();
             container.RegisterType<IGetTweetsFromListQueryParameters, GetTweetsFromListQueryParameters>();
         }
 

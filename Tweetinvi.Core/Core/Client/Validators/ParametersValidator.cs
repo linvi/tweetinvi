@@ -222,12 +222,17 @@ namespace Tweetinvi.Core.Client.Validators
             _twitterListsClientParametersValidator.Validate(parameters);
         }
 
-        public void Validate(IDestroyListParameters parameters)
+        public void Validate(IGetListParameters parameters)
         {
             _twitterListsClientParametersValidator.Validate(parameters);
         }
 
-        public void Validate(IGetListParameters parameters)
+        public void Validate(IUpdateListParameters parameters)
+        {
+            _twitterListsClientParametersValidator.Validate(parameters);
+        }
+
+        public void Validate(IDestroyListParameters parameters)
         {
             _twitterListsClientParametersValidator.Validate(parameters);
         }

@@ -83,6 +83,48 @@ namespace xUnitinvi.ClientActions.ListsClient
         }
 
         [Fact]
+        public void GetUpdateListQuery_ReturnsExpectedQuery()
+        {
+            // arrange
+            var queryGenerator = CreateTwitterListQueryGenerator();
+
+            var parameters = new UpdateListParameters(42)
+            {
+                Name = "myName",
+                Description = "desc",
+                PrivacyMode = PrivacyMode.Public,
+                CustomQueryParameters = { new Tuple<string, string>("hello", "world") }
+            };
+
+            // Act
+            var result = queryGenerator.GetUpdateListQuery(parameters);
+
+            // Assert
+            Assert.Equal(result, "https://api.twitter.com/1.1/lists/update.json?list_id=42&name=myName&mode=public&description=desc&hello=world");
+        }
+
+        [Fact]
+        public void GetUpdateListQuery_WithSlug_ReturnsExpectedQuery()
+        {
+            // arrange
+            var queryGenerator = CreateTwitterListQueryGenerator();
+
+            var parameters = new UpdateListParameters(new TwitterListIdentifier("myslug", "username"))
+            {
+                Name = "myName",
+                Description = "desc",
+                PrivacyMode = PrivacyMode.Private,
+                CustomQueryParameters = { new Tuple<string, string>("hello", "world") }
+            };
+
+            // Act
+            var result = queryGenerator.GetUpdateListQuery(parameters);
+
+            // Assert
+            Assert.Equal(result, "https://api.twitter.com/1.1/lists/update.json?slug=myslug&owner_screen_name=username&name=myName&mode=private&description=desc&hello=world");
+        }
+
+        [Fact]
         public void GetDestroyListQuery_ReturnsExpectedQuery()
         {
             // arrange

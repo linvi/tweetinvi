@@ -19,7 +19,6 @@ namespace Tweetinvi.Controllers.TwitterLists
     {
         private readonly ITweetFactory _tweetFactory;
         private readonly IUserFactory _userFactory;
-        private readonly ITwitterClientFactories _factories;
         private readonly ITwitterListQueryExecutor _twitterListQueryExecutor;
         private readonly ITwitterListQueryParameterGenerator _twitterListQueryParameterGenerator;
         private readonly ITwitterListIdentifierFactory _twitterListIdentifierFactory;
@@ -27,14 +26,12 @@ namespace Tweetinvi.Controllers.TwitterLists
         public TwitterListController(
             ITweetFactory tweetFactory,
             IUserFactory userFactory,
-            ITwitterClientFactories factories,
             ITwitterListQueryExecutor twitterListQueryExecutor,
             ITwitterListQueryParameterGenerator twitterListQueryParameterGenerator,
             ITwitterListIdentifierFactory twitterListIdentifierFactory)
         {
             _tweetFactory = tweetFactory;
             _userFactory = userFactory;
-            _factories = factories;
             _twitterListQueryExecutor = twitterListQueryExecutor;
             _twitterListQueryParameterGenerator = twitterListQueryParameterGenerator;
             _twitterListIdentifierFactory = twitterListIdentifierFactory;
@@ -48,6 +45,11 @@ namespace Tweetinvi.Controllers.TwitterLists
         public Task<ITwitterResult<ITwitterListDTO>> GetList(IGetListParameters parameters, ITwitterRequest request)
         {
             return _twitterListQueryExecutor.GetList(parameters, request);
+        }
+
+        public Task<ITwitterResult<ITwitterListDTO>> UpdateList(IUpdateListParameters parameters, ITwitterRequest request)
+        {
+            return _twitterListQueryExecutor.UpdateList(parameters, request);
         }
 
         Task<ITwitterResult<ITwitterListDTO>> ITwitterListController.DestroyList(IDestroyListParameters parameters, ITwitterRequest request)
@@ -93,44 +95,6 @@ namespace Tweetinvi.Controllers.TwitterLists
         {
             var listDTOs = await _twitterListQueryExecutor.GetUserOwnedLists(user, maximumNumberOfListsToRetrieve);
             return null;
-        }
-        #endregion
-
-        #region Update List
-        public Task<ITwitterList> UpdateList(long listId, ITwitterListUpdateParameters parameters)
-        {
-            var identifier = _twitterListIdentifierFactory.Create(listId);
-            return UpdateList(identifier, parameters);
-        }
-
-        public Task<ITwitterList> UpdateList(string slug, IUserIdentifier owner, ITwitterListUpdateParameters parameters)
-        {
-            var identifier = _twitterListIdentifierFactory.Create(slug, owner);
-            return UpdateList(identifier, parameters);
-        }
-
-        public Task<ITwitterList> UpdateList(string slug, long ownerId, ITwitterListUpdateParameters parameters)
-        {
-            var identifier = _twitterListIdentifierFactory.Create(slug, ownerId);
-            return UpdateList(identifier, parameters);
-        }
-
-        public Task<ITwitterList> UpdateList(string slug, string ownerScreenName, ITwitterListUpdateParameters parameters)
-        {
-            var identifier = _twitterListIdentifierFactory.Create(slug, ownerScreenName);
-            return UpdateList(identifier, parameters);
-        }
-
-        public Task<ITwitterList> UpdateList(ITwitterListIdentifier list, ITwitterListUpdateParameters parameters)
-        {
-            var queryParameters = _twitterListQueryParameterGenerator.CreateTwitterListUpdateQueryParameters(list, parameters);
-            return UpdateList(queryParameters);
-        }
-
-        private async Task<ITwitterList> UpdateList(ITwitterListUpdateQueryParameters parameters)
-        {
-            var listDTO = await _twitterListQueryExecutor.UpdateList(parameters);
-            return _factories.CreateTwitterList(listDTO);
         }
         #endregion
 

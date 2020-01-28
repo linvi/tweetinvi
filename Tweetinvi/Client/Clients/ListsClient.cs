@@ -38,6 +38,11 @@ namespace Tweetinvi.Client
             return GetList(new GetListParameters(listId));
         }
 
+        public Task<ITwitterList> GetList(string slug, IUserIdentifier user)
+        {
+            return GetList(new GetListParameters(slug, user));
+        }
+
         public Task<ITwitterList> GetList(ITwitterListIdentifier listId)
         {
             return GetList(new GetListParameters(listId));
@@ -49,9 +54,20 @@ namespace Tweetinvi.Client
             return twitterResult?.Result;
         }
 
+        public async Task<ITwitterList> UpdateList(IUpdateListParameters parameters)
+        {
+            var twitterResult = await _twitterListsRequester.UpdateList(parameters).ConfigureAwait(false);
+            return twitterResult?.Result;
+        }
+
         public Task DestroyList(long? listId)
         {
             return DestroyList(new DestroyListParameters(listId));
+        }
+
+        public Task DestroyList(string slug, IUserIdentifier user)
+        {
+            return DestroyList(new DestroyListParameters(slug, user));
         }
 
         public Task DestroyList(ITwitterListIdentifier listId)

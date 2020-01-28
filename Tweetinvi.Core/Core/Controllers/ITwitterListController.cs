@@ -13,6 +13,7 @@ namespace Tweetinvi.Core.Controllers
     {
         Task<ITwitterResult<ITwitterListDTO>> CreateList(ICreateListParameters parameters, ITwitterRequest request);
         Task<ITwitterResult<ITwitterListDTO>> GetList(IGetListParameters parameters, ITwitterRequest request);
+        Task<ITwitterResult<ITwitterListDTO>> UpdateList(IUpdateListParameters parameters, ITwitterRequest request);
         Task<ITwitterResult<ITwitterListDTO>> DestroyList(IDestroyListParameters parameters, ITwitterRequest request);
 
 
@@ -24,13 +25,6 @@ namespace Tweetinvi.Core.Controllers
         Task<IEnumerable<ITwitterList>> GetUserOwnedLists(long userId, int maximumNumberOfListsToRetrieve);
         Task<IEnumerable<ITwitterList>> GetUserOwnedLists(string userScreenName, int maximumNumberOfListsToRetrieve);
         Task<IEnumerable<ITwitterList>> GetUserOwnedLists(IUserIdentifier user, int maximumNumberOfListsToRetrieve);
-
-        Task<ITwitterList> UpdateList(long listId, ITwitterListUpdateParameters parameters);
-        Task<ITwitterList> UpdateList(string slug, IUserIdentifier owner, ITwitterListUpdateParameters parameters);
-        Task<ITwitterList> UpdateList(string slug, long ownerId, ITwitterListUpdateParameters parameters);
-        Task<ITwitterList> UpdateList(string slug, string ownerScreenName, ITwitterListUpdateParameters parameters);
-        Task<ITwitterList> UpdateList(ITwitterListIdentifier list, ITwitterListUpdateParameters parameters);
-
 
         Task<IEnumerable<ITweet>> GetTweetsFromList(long listId);
         Task<IEnumerable<ITweet>> GetTweetsFromList(string slug, IUserIdentifier owner);
@@ -200,5 +194,5 @@ namespace Tweetinvi.Core.Controllers
         Task<bool> CheckIfUserIsAListSubscriber(ITwitterListIdentifier listIdentifier, long userId);
         Task<bool> CheckIfUserIsAListSubscriber(ITwitterListIdentifier listIdentifier, string userScreenName);
         Task<bool> CheckIfUserIsAListSubscriber(ITwitterListIdentifier listIdentifier, IUserIdentifier user);
-    }
+     }
 }

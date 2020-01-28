@@ -8,7 +8,7 @@ namespace Tweetinvi.Core.QueryGenerators
     public interface ITwitterListQueryParameterGenerator
     {
         string GenerateIdentifierParameter(ITwitterListIdentifier twitterListIdentifier);
-        
+
         // User Parameters
         IGetTweetsFromListParameters CreateTweetsFromListParameters();
         ITwitterListUpdateParameters CreateUpdateListParameters();
@@ -17,10 +17,6 @@ namespace Tweetinvi.Core.QueryGenerators
         IGetTweetsFromListQueryParameters CreateTweetsFromListQueryParameters(
             ITwitterListIdentifier listIdentifier,
             IGetTweetsFromListParameters getTweetsFromListParameters);
-
-        ITwitterListUpdateQueryParameters CreateTwitterListUpdateQueryParameters(
-            ITwitterListIdentifier listIdentifier,
-            ITwitterListUpdateParameters listUpdateParameters);
 
         void AppendListIdentifierParameter(StringBuilder query, ITwitterListIdentifier listIdentifier);
     }

@@ -16,6 +16,7 @@ namespace Tweetinvi.Controllers.TwitterLists
     {
         Task<ITwitterResult<ITwitterListDTO>> CreateList(ICreateListParameters parameters, ITwitterRequest request);
         Task<ITwitterResult<ITwitterListDTO>> GetList(IGetListParameters parameters, ITwitterRequest request);
+        Task<ITwitterResult<ITwitterListDTO>> UpdateList(IUpdateListParameters parameters, ITwitterRequest request);
         Task<ITwitterResult<ITwitterListDTO>> DestroyList(IDestroyListParameters parameters, ITwitterRequest request);
 
 
@@ -23,7 +24,6 @@ namespace Tweetinvi.Controllers.TwitterLists
 
         Task<IEnumerable<ITwitterListDTO>> GetUserSubscribedLists(IUserIdentifier user, bool getOwnedListsFirst);
 
-        Task<ITwitterListDTO> UpdateList(ITwitterListUpdateQueryParameters parameters);
         Task<IEnumerable<ITweetDTO>> GetTweetsFromList(IGetTweetsFromListQueryParameters queryParameters);
 
         // Members
@@ -78,6 +78,13 @@ namespace Tweetinvi.Controllers.TwitterLists
             return _twitterAccessor.ExecuteRequest<ITwitterListDTO>(request);
         }
 
+        public Task<ITwitterResult<ITwitterListDTO>> UpdateList(IUpdateListParameters parameters, ITwitterRequest request)
+        {
+            request.Query.Url = _listsQueryGenerator.GetUpdateListQuery(parameters);
+            request.Query.HttpMethod = HttpMethod.POST;
+            return _twitterAccessor.ExecuteRequest<ITwitterListDTO>(request);
+        }
+
         public Task<ITwitterResult<ITwitterListDTO>> DestroyList(IDestroyListParameters parameters, ITwitterRequest request)
         {
             request.Query.Url = _listsQueryGenerator.GetDestroyListQuery(parameters);
@@ -107,13 +114,6 @@ namespace Tweetinvi.Controllers.TwitterLists
             var parameters = queryParameters.Parameters;
             var query = _listsQueryGenerator.GetUserListMembershipsQuery(queryParameters);
             return _twitterAccessor.ExecuteCursorGETQuery<ITwitterListDTO, ITwitterListCursorQueryResultDTO>(query, parameters);
-        }
-
-       // Update List
-        public Task<ITwitterListDTO> UpdateList(ITwitterListUpdateQueryParameters parameters)
-        {
-            string query = _listsQueryGenerator.GetUpdateListQuery(parameters);
-            return _twitterAccessor.ExecutePOSTQuery<ITwitterListDTO>(query);
         }
 
         // Get Tweets from list

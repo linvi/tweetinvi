@@ -8,12 +8,15 @@ namespace Tweetinvi.Parameters.ListsClient
     /// <inheritdoc />
     public interface IGetListParameters : IListParameters
     {
-
     }
 
     public class GetListParameters : ListParameters, IGetListParameters
     {
         public GetListParameters(long? listId) : this(new TwitterListIdentifier(listId))
+        {
+        }
+
+        public GetListParameters(string slug, IUserIdentifier userId) : this(new TwitterListIdentifier(slug, userId))
         {
         }
 

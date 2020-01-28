@@ -17,6 +17,10 @@ namespace Tweetinvi.Parameters.ListsClient
         {
         }
 
+        public DestroyListParameters(string slug, IUserIdentifier userId) : this(new TwitterListIdentifier(slug, userId))
+        {
+        }
+
         public DestroyListParameters(ITwitterListIdentifier listId) : base(listId)
         {
         }

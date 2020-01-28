@@ -74,48 +74,6 @@ namespace Tweetinvi
             return TwitterListController.GetUserOwnedLists(user, maximumNumberOfListsToRetrieve);
         }
 
-        // Update List
-
-        /// <summary>
-        /// Update a list
-        /// </summary>
-        public static Task<ITwitterList> UpdateList(ITwitterListIdentifier twitterListIdentifier, ITwitterListUpdateParameters parameters)
-        {
-            return TwitterListController.UpdateList(twitterListIdentifier, parameters);
-        }
-
-        /// <summary>
-        /// Update a list
-        /// </summary>
-        public static Task<ITwitterList> UpdateList(long listId, ITwitterListUpdateParameters parameters)
-        {
-            return TwitterListController.UpdateList(listId, parameters);
-        }
-
-        /// <summary>
-        /// Update a list
-        /// </summary>
-        public static Task<ITwitterList> UpdateList(string slug, IUserIdentifier ownerIdentifier, ITwitterListUpdateParameters parameters)
-        {
-            return TwitterListController.UpdateList(slug, ownerIdentifier, parameters);
-        }
-
-        /// <summary>
-        /// Update a list
-        /// </summary>
-        public static Task<ITwitterList> UpdateList(string slug, long ownerId, ITwitterListUpdateParameters parameters)
-        {
-            return TwitterListController.UpdateList(slug, ownerId, parameters);
-        }
-
-        /// <summary>
-        /// Update a list
-        /// </summary>
-        public static Task<ITwitterList> UpdateList(string slug, string ownerScreenName, ITwitterListUpdateParameters parameters)
-        {
-            return TwitterListController.UpdateList(slug, ownerScreenName, parameters);
-        }
-
         // Get Tweets from List
 
         /// <summary>

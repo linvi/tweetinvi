@@ -152,6 +152,11 @@ namespace Tweetinvi.Controllers.Properties
         public static string List_Get = "https://api.twitter.com/1.1/lists/show.json?";
 
         /// <summary>
+        ///   Looks up a localized string similar to https://api.twitter.com/1.1/lists/update.json?.
+        /// </summary>
+        public static string List_Update = "https://api.twitter.com/1.1/lists/update.json";
+
+        /// <summary>
         ///   Looks up a localized string similar to https://api.twitter.com/1.1/lists/destroy.json?.
         /// </summary>
         public static string List_Destroy = "https://api.twitter.com/1.1/lists/destroy.json?";
@@ -202,11 +207,6 @@ namespace Tweetinvi.Controllers.Properties
         public static string List_Members = "https://api.twitter.com/1.1/lists/members.json?{0}&count={1}";
 
         /// <summary>
-        ///   Looks up a localized string similar to &amp;name={0}.
-        /// </summary>
-        public static string List_NameParameter = "&name={0}";
-
-        /// <summary>
         ///   Looks up a localized string similar to &amp;owner_id={0}.
         /// </summary>
         public static string List_OwnerIdParameter = "&owner_id={0}";
@@ -227,11 +227,6 @@ namespace Tweetinvi.Controllers.Properties
         public static string List_Ownership = "https://api.twitter.com/1.1/lists/ownerships.json?{0}&count={1}";
 
         /// <summary>
-        ///   Looks up a localized string similar to &amp;mode={0}.
-        /// </summary>
-        public static string List_PrivacyModeParameter = "&mode={0}";
-
-        /// <summary>
         ///   Looks up a localized string similar to &amp;slug={0}.
         /// </summary>
         public static string List_SlugParameter = "&slug={0}";
@@ -245,11 +240,6 @@ namespace Tweetinvi.Controllers.Properties
         ///   Looks up a localized string similar to https://api.twitter.com/1.1/lists/subscribers/destroy.json?{0}.
         /// </summary>
         public static string List_UnSubscribe = "https://api.twitter.com/1.1/lists/subscribers/destroy.json?{0}";
-
-        /// <summary>
-        ///   Looks up a localized string similar to https://api.twitter.com/1.1/lists/update.json?{0}.
-        /// </summary>
-        public static string List_Update = "https://api.twitter.com/1.1/lists/update.json";
 
         /// <summary>
         ///   Looks up a localized string similar to https://api.twitter.com/1.1/lists/subscriptions.json?{0}&amp;count={1}.

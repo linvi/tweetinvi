@@ -6,7 +6,6 @@ namespace Tweetinvi.Core.Client.Validators
 {
     public interface ITwitterListsClientRequiredParametersValidator : ITwitterListsClientParametersValidator
     {
-
     }
 
     public class TwitterListsClientRequiredParametersValidator : ITwitterListsClientRequiredParametersValidator
@@ -31,6 +30,26 @@ namespace Tweetinvi.Core.Client.Validators
             }
         }
 
+        public void Validate(IGetListParameters parameters)
+        {
+            if (parameters == null)
+            {
+                throw new ArgumentNullException(nameof(parameters));
+            }
+
+            _twitterListQueryValidator.ThrowIfListIdentifierIsNotValid(parameters.Id);
+        }
+
+        public void Validate(IUpdateListParameters parameters)
+        {
+            if (parameters == null)
+            {
+                throw new ArgumentNullException(nameof(parameters));
+            }
+
+            _twitterListQueryValidator.ThrowIfListIdentifierIsNotValid(parameters.Id);
+        }
+
         public void Validate(IDestroyListParameters parameters)
         {
             if (parameters == null)
@@ -41,14 +60,6 @@ namespace Tweetinvi.Core.Client.Validators
             _twitterListQueryValidator.ThrowIfListIdentifierIsNotValid(parameters.Id);
         }
 
-        public void Validate(IGetListParameters parameters)
-        {
-            if (parameters == null)
-            {
-                throw new ArgumentNullException(nameof(parameters));
-            }
 
-            _twitterListQueryValidator.ThrowIfListIdentifierIsNotValid(parameters.Id);
-        }
     }
 }

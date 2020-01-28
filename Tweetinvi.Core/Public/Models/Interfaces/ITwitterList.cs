@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Tweetinvi.Models.DTO;
 using Tweetinvi.Parameters;
+using Tweetinvi.Parameters.ListsClient;
 
 namespace Tweetinvi.Models
 {
@@ -185,7 +186,7 @@ namespace Tweetinvi.Models
         /// <summary>
         /// Update the list.
         /// </summary>
-        Task<bool> Update(ITwitterListUpdateParameters parameters);
+        Task Update(IListMetadataParameters parameters);
 
         /// <summary>
         /// Destroy the list.

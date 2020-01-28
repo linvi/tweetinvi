@@ -5,6 +5,7 @@ using Tweetinvi.Core.Controllers;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
 using Tweetinvi.Parameters;
+using Tweetinvi.Parameters.ListsClient;
 
 namespace Tweetinvi.Core.Models
 {
@@ -184,18 +185,21 @@ namespace Tweetinvi.Core.Models
             return _twitterListController.CheckIfUserIsAListSubscriber(this, user);
         }
 
-
-        public async Task<bool> Update(ITwitterListUpdateParameters parameters)
+        public async Task Update(IListMetadataParameters parameters)
         {
-            var updateList = await _twitterListController.UpdateList(this, parameters);
+            var updateListParams = new UpdateListParameters(this)
+            {
+                Name = parameters?.Name,
+                Description = parameters?.Description,
+                PrivacyMode = parameters?.PrivacyMode
+            };
+
+            var updateList = await Client.Lists.UpdateList(updateListParams).ConfigureAwait(false);
 
             if (updateList != null)
             {
                 _twitterListDTO = updateList.TwitterListDTO;
-                return true;
             }
-
-            return false;
         }
 
         public Task Destroy()

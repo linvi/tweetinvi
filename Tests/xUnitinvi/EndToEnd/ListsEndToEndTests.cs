@@ -27,24 +27,48 @@ namespace xUnitinvi.EndToEnd
                 Description = "private-desc"
             });
 
-            var publicList = await _tweetinviTestClient.Lists.CreateList("public-endToEnd-Tests", PrivacyMode.Public);
-            var retrievedPrivateList = await _tweetinviTestClient.Lists.GetList(privateList.Id);
-            var retrievedPublicList = await _tweetinviClient.Lists.GetList(new TwitterListIdentifier(publicList.Slug, publicList.Owner));
+            await Task.Delay(1000);
+            var updatedPrivateList = await _tweetinviTestClient.Lists.UpdateList(new UpdateListParameters(privateList)
+            {
+                Name = "new-private-name",
+                Description = "hello"
+            });
 
+            await Task.Delay(1000);
+            var retrievedPrivateList = await _tweetinviTestClient.Lists.GetList(privateList.Id);
+
+            var listFirstCreatedAsPublic = await _tweetinviTestClient.Lists.CreateList("public-endToEnd-Tests", PrivacyMode.Public);
+
+            await Task.Delay(1000);
+            var listBeforeGoingPrivate = await _tweetinviClient.Lists.GetList(new TwitterListIdentifier(listFirstCreatedAsPublic.Slug, listFirstCreatedAsPublic.Owner));
+
+            await Task.Delay(1000);
+            await listFirstCreatedAsPublic.Update(new ListMetadataParameters
+            {
+                PrivacyMode = PrivacyMode.Private
+            });
+
+            // cleanup
             await retrievedPrivateList.Destroy();
-            await _tweetinviTestClient.Lists.DestroyList(retrievedPublicList);
+            await _tweetinviTestClient.Lists.DestroyList(listFirstCreatedAsPublic);
 
             // assert
             Assert.Equal(privateList.Name, "private-endToEnd-Tests");
             Assert.Equal(privateList.Description, "private-desc");
             Assert.Equal(privateList.PrivacyMode, PrivacyMode.Private);
 
+            Assert.Equal(updatedPrivateList.Id, privateList.Id);
+            Assert.Equal(updatedPrivateList.Description, "hello");
 
-            Assert.Equal(publicList.Name, "public-endToEnd-Tests");
-            Assert.Equal(publicList.PrivacyMode, PrivacyMode.Public);
+            Assert.Equal(retrievedPrivateList.Name, "new-private-name");
+            Assert.Equal(retrievedPrivateList.Description, "hello");
 
-            Assert.Equal(retrievedPrivateList.Name, "private-endToEnd-Tests");
-            Assert.Equal(retrievedPublicList.Name, "public-endToEnd-Tests");
+            Assert.Equal(listBeforeGoingPrivate.PrivacyMode, PrivacyMode.Public);
+
+            Assert.Equal(listFirstCreatedAsPublic.Name, "public-endToEnd-Tests");
+            Assert.Equal(listFirstCreatedAsPublic.PrivacyMode, PrivacyMode.Private);
+
+            Assert.Equal(listBeforeGoingPrivate.Name, "public-endToEnd-Tests");
         }
     }
 }

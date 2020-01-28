@@ -6,8 +6,9 @@ namespace Tweetinvi.Core.Client.Validators
     public interface ITwitterListsClientParametersValidator
     {
         void Validate(ICreateListParameters parameters);
-        void Validate(IDestroyListParameters parameters);
         void Validate(IGetListParameters parameters);
+        void Validate(IUpdateListParameters parameters);
+        void Validate(IDestroyListParameters parameters);
     }
 
     public class TwitterListsClientParametersValidator : ITwitterListsClientParametersValidator
@@ -36,12 +37,17 @@ namespace Tweetinvi.Core.Client.Validators
             }
         }
 
-        public void Validate(IDestroyListParameters parameters)
+        public void Validate(IGetListParameters parameters)
         {
             _twitterListsClientRequiredParametersValidator.Validate(parameters);
         }
 
-        public void Validate(IGetListParameters parameters)
+        public void Validate(IUpdateListParameters parameters)
+        {
+            _twitterListsClientRequiredParametersValidator.Validate(parameters);
+        }
+
+        public void Validate(IDestroyListParameters parameters)
         {
             _twitterListsClientRequiredParametersValidator.Validate(parameters);
         }

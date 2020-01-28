@@ -23,6 +23,9 @@ namespace Tweetinvi.Client
         Task<ITwitterList> GetList(long? listId);
 
         /// <inheritdoc cref="GetList(IGetListParameters)"/>
+        Task<ITwitterList> GetList(string slug, IUserIdentifier user);
+
+        /// <inheritdoc cref="GetList(IGetListParameters)"/>
         Task<ITwitterList> GetList(ITwitterListIdentifier listId);
 
         /// <summary>
@@ -32,10 +35,20 @@ namespace Tweetinvi.Client
         /// <returns>List requested</returns>
         Task<ITwitterList> GetList(IGetListParameters parameters);
 
-        /// <inheritdoc cref="GetList(IGetListParameters)"/>
+        /// <summary>
+        /// Update information of a Twitter list
+        /// </summary>
+        /// <para> https://developer.twitter.com/en/docs/accounts-and-users/create-manage-lists/api-reference/post-lists-update </para>
+        /// <returns>Updated list</returns>
+        Task<ITwitterList> UpdateList(IUpdateListParameters parameters);
+
+        /// <inheritdoc cref="DestroyList(IDestroyListParameters)"/>
         Task DestroyList(long? listId);
 
-        /// <inheritdoc cref="GetList(IGetListParameters)"/>
+        /// <inheritdoc cref="DestroyList(IDestroyListParameters)"/>
+        Task DestroyList(string slug, IUserIdentifier user);
+
+        /// <inheritdoc cref="DestroyList(IDestroyListParameters)"/>
         Task DestroyList(ITwitterListIdentifier listId);
 
         /// <summary>
