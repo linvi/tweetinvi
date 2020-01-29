@@ -54,6 +54,32 @@ namespace Tweetinvi.Client
             return twitterResult?.Result;
         }
 
+        public Task<ITwitterList[]> GetUserLists()
+        {
+            return GetUserLists(new GetUserListsParameters());
+        }
+
+        public Task<ITwitterList[]> GetUserLists(long? userId)
+        {
+            return GetUserLists(new GetUserListsParameters(userId));
+        }
+
+        public Task<ITwitterList[]> GetUserLists(string username)
+        {
+            return GetUserLists(new GetUserListsParameters(username));
+        }
+
+        public Task<ITwitterList[]> GetUserLists(IUserIdentifier user)
+        {
+            return GetUserLists(new GetUserListsParameters(user));
+        }
+
+        public async Task<ITwitterList[]> GetUserLists(IGetUserListsParameters parameters)
+        {
+            var twitterResult = await _twitterListsRequester.GetUserLists(parameters).ConfigureAwait(false);
+            return twitterResult?.Result;
+        }
+
         public async Task<ITwitterList> UpdateList(IUpdateListParameters parameters)
         {
             var twitterResult = await _twitterListsRequester.UpdateList(parameters).ConfigureAwait(false);

@@ -40,6 +40,14 @@ namespace Tweetinvi.Core.Client.Validators
             _twitterListQueryValidator.ThrowIfListIdentifierIsNotValid(parameters.Id);
         }
 
+        public void Validate(IGetUserListsParameters parameters)
+        {
+            if (parameters == null)
+            {
+                throw new ArgumentNullException(nameof(parameters));
+            }
+        }
+
         public void Validate(IUpdateListParameters parameters)
         {
             if (parameters == null)

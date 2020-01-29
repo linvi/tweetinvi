@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Tweetinvi.Client.Tools;
 using Tweetinvi.Core.Controllers;
 using Tweetinvi.Core.Factories;
 using Tweetinvi.Core.Parameters;
@@ -45,6 +44,11 @@ namespace Tweetinvi.Controllers.TwitterLists
         public Task<ITwitterResult<ITwitterListDTO>> GetList(IGetListParameters parameters, ITwitterRequest request)
         {
             return _twitterListQueryExecutor.GetList(parameters, request);
+        }
+
+        public Task<ITwitterResult<ITwitterListDTO[]>> GetUserLists(IGetUserListsParameters parameters, ITwitterRequest request)
+        {
+            return _twitterListQueryExecutor.GetUserLists(parameters, request);
         }
 
         public Task<ITwitterResult<ITwitterListDTO>> UpdateList(IUpdateListParameters parameters, ITwitterRequest request)

@@ -48,7 +48,10 @@ namespace Tweetinvi.Controllers.User
             string idParameterName = "user_id",
             string screenNameParameterName = "screen_name")
         {
-            _userQueryValidator.ThrowIfUserCannotBeIdentified(user);
+            if (user == null)
+            {
+                return null;
+            }
 
             if (_userQueryValidator.IsUserIdValid(user.Id))
             {

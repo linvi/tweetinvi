@@ -36,6 +36,27 @@ namespace Tweetinvi.Client
         Task<ITwitterList> GetList(IGetListParameters parameters);
 
         /// <summary>
+        /// Get lists owned by the current account
+        /// </summary>
+        /// <para> https://developer.twitter.com/en/docs/accounts-and-users/create-manage-lists/api-reference/get-lists-list </para>
+        /// <returns>Account user's lists</returns>
+        Task<ITwitterList[]> GetUserLists();
+
+        /// <inheritdoc cref="GetUserLists(IGetUserListsParameters)"/>
+        Task<ITwitterList[]> GetUserLists(long? userId);
+        /// <inheritdoc cref="GetUserLists(IGetUserListsParameters)"/>
+        Task<ITwitterList[]> GetUserLists(string username);
+        /// <inheritdoc cref="GetUserLists(IGetUserListsParameters)"/>
+        Task<ITwitterList[]> GetUserLists(IUserIdentifier user);
+
+        /// <summary>
+        /// Get a user's lists
+        /// </summary>
+        /// <para> https://developer.twitter.com/en/docs/accounts-and-users/create-manage-lists/api-reference/get-lists-list </para>
+        /// <returns>User's lists</returns>
+        Task<ITwitterList[]> GetUserLists(IGetUserListsParameters parameters);
+
+        /// <summary>
         /// Update information of a Twitter list
         /// </summary>
         /// <para> https://developer.twitter.com/en/docs/accounts-and-users/create-manage-lists/api-reference/post-lists-update </para>

@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Threading.Tasks;
 using Tweetinvi.Client.Tools;
 using Tweetinvi.Core.Client.Validators;
@@ -49,6 +50,16 @@ namespace Tweetinvi.Client.Requesters
             {
                 var twitterResult = await _twitterListController.GetList(parameters, request).ConfigureAwait(false);
                 return _twitterResultFactory.Create(twitterResult, dto => _factories.CreateTwitterList(dto));
+            });
+        }
+
+        public Task<ITwitterResult<ITwitterListDTO[], ITwitterList[]>> GetUserLists(IGetUserListsParameters parameters)
+        {
+            _twitterListsClientRequiredParametersValidator.Validate(parameters);
+            return ExecuteRequest(async request =>
+            {
+                var twitterResult = await _twitterListController.GetUserLists(parameters, request).ConfigureAwait(false);
+                return _twitterResultFactory.Create(twitterResult, dtos => dtos.Select(dto => _factories.CreateTwitterList(dto)).ToArray());
             });
         }
 

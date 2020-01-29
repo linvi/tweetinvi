@@ -227,6 +227,11 @@ namespace Tweetinvi.Core.Client.Validators
             _twitterListsClientParametersValidator.Validate(parameters);
         }
 
+        public void Validate(IGetUserListsParameters parameters)
+        {
+            _twitterListsClientParametersValidator.Validate(parameters);
+        }
+
         public void Validate(IUpdateListParameters parameters)
         {
             _twitterListsClientParametersValidator.Validate(parameters);

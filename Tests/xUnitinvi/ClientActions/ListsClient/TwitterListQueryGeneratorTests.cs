@@ -83,6 +83,26 @@ namespace xUnitinvi.ClientActions.ListsClient
         }
 
         [Fact]
+        public void GetUserListsQuery_ReturnsExpectedQuery()
+        {
+            // arrange
+            var queryGenerator = CreateTwitterListQueryGenerator();
+
+            var parameters = new GetUserListsParameters
+            {
+                User = new UserIdentifier(42),
+                Reverse = true,
+                CustomQueryParameters = { new Tuple<string, string>("hello", "world") }
+            };
+
+            // Act
+            var result = queryGenerator.GetUserListsQuery(parameters);
+
+            // Assert
+            Assert.Equal(result, "https://api.twitter.com/1.1/lists/list.json?user_id=42&reverse=true&hello=world");
+        }
+
+        [Fact]
         public void GetUpdateListQuery_ReturnsExpectedQuery()
         {
             // arrange

@@ -152,6 +152,11 @@ namespace Tweetinvi.Controllers.Properties
         public static string List_Get = "https://api.twitter.com/1.1/lists/show.json?";
 
         /// <summary>
+        ///   Looks up a localized string similar to https://api.twitter.com/1.1/lists/list.json?.
+        /// </summary>
+        public static string List_GetUserLists = "https://api.twitter.com/1.1/lists/list.json?";
+
+        /// <summary>
         ///   Looks up a localized string similar to https://api.twitter.com/1.1/lists/update.json?.
         /// </summary>
         public static string List_Update = "https://api.twitter.com/1.1/lists/update.json";
@@ -195,11 +200,6 @@ namespace Tweetinvi.Controllers.Properties
         ///   Looks up a localized string similar to https://api.twitter.com/1.1/lists/statuses.json?{0}.
         /// </summary>
         public static string List_GetTweetsFromList = "https://api.twitter.com/1.1/lists/statuses.json?{0}";
-
-        /// <summary>
-        ///   Looks up a localized string similar to https://api.twitter.com/1.1/lists/list.json?{0}&amp;reverse={1}.
-        /// </summary>
-        public static string List_GetUserLists = "https://api.twitter.com/1.1/lists/list.json?{0}&reverse={1}";
 
         /// <summary>
         ///   Looks up a localized string similar to https://api.twitter.com/1.1/lists/members.json?{0}&amp;count={1}.
