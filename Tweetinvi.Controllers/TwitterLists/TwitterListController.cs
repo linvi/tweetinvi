@@ -3,12 +3,14 @@ using System.Linq;
 using System.Threading.Tasks;
 using Tweetinvi.Core.Controllers;
 using Tweetinvi.Core.Factories;
+using Tweetinvi.Core.Iterators;
 using Tweetinvi.Core.Parameters;
 using Tweetinvi.Core.QueryGenerators;
 using Tweetinvi.Core.Web;
 using Tweetinvi.Logic.QueryParameters;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
+using Tweetinvi.Models.DTO.QueryDTO;
 using Tweetinvi.Parameters;
 using Tweetinvi.Parameters.ListsClient;
 
@@ -60,6 +62,35 @@ namespace Tweetinvi.Controllers.TwitterLists
         {
             return _twitterListQueryExecutor.DestroyList(parameters, request);
         }
+
+        public Task<ITwitterResult<ITwitterListDTO>> AddMemberToList(IAddMemberToListParameters parameters, ITwitterRequest request)
+        {
+            return _twitterListQueryExecutor.AddMemberToList(parameters, request);
+        }
+
+        public ITwitterPageIterator<ITwitterResult<IUserCursorQueryResultDTO>> GetMembersOfListIterator(IGetMembersOfListParameters parameters, ITwitterRequest request)
+        {
+            var twitterCursorResult = new TwitterPageIterator<ITwitterResult<IUserCursorQueryResultDTO>>(
+                parameters.Cursor,
+                cursor =>
+                {
+                    var cursoredParameters = new GetMembersOfListParameters(parameters)
+                    {
+                        Cursor = cursor
+                    };
+
+                    return _twitterListQueryExecutor.GetMembersOfList(cursoredParameters, new TwitterRequest(request));
+                },
+                page => page.DataTransferObject.NextCursorStr,
+                page => page.DataTransferObject.NextCursorStr == "0");
+
+            return twitterCursorResult;
+        }
+
+
+
+
+
 
 
         #region Get User Lists
@@ -138,129 +169,6 @@ namespace Tweetinvi.Controllers.TwitterLists
             var tweetsDTO = await _twitterListQueryExecutor.GetTweetsFromList(queryParameters);
             return _tweetFactory.GenerateTweetsFromDTO(tweetsDTO, null, null);
         }
-        #endregion
-
-        #region Get List Members
-        public Task<IEnumerable<IUser>> GetListMembers(long listId, int maximumNumberOfUsersToRetrieve = 100)
-        {
-            var identifier = _twitterListIdentifierFactory.Create(listId);
-            return GetListMembers(identifier, maximumNumberOfUsersToRetrieve);
-        }
-
-        public Task<IEnumerable<IUser>> GetListMembers(string slug, IUserIdentifier owner, int maximumNumberOfUsersToRetrieve = 100)
-        {
-            var identifier = _twitterListIdentifierFactory.Create(slug, owner);
-            return GetListMembers(identifier, maximumNumberOfUsersToRetrieve);
-        }
-
-        public Task<IEnumerable<IUser>> GetListMembers(string slug, string ownerScreenName, int maximumNumberOfUsersToRetrieve = 100)
-        {
-            var identifier = _twitterListIdentifierFactory.Create(slug, ownerScreenName);
-            return GetListMembers(identifier, maximumNumberOfUsersToRetrieve);
-        }
-
-        public Task<IEnumerable<IUser>> GetListMembers(string slug, long ownerId, int maximumNumberOfUsersToRetrieve = 100)
-        {
-            var identifier = _twitterListIdentifierFactory.Create(slug, ownerId);
-            return GetListMembers(identifier, maximumNumberOfUsersToRetrieve);
-        }
-
-        public async Task<IEnumerable<IUser>> GetListMembers(ITwitterListIdentifier list, int maximumNumberOfUsersToRetrieve = 100)
-        {
-            var usersDTO = await _twitterListQueryExecutor.GetMembersOfList(list, maximumNumberOfUsersToRetrieve);
-            return _userFactory.GenerateUsersFromDTO(usersDTO, null);
-        }
-        #endregion
-
-        #region Add Member To List
-
-        public Task<bool> AddMemberToList(long listId, long newUserId)
-        {
-            var identifier = _twitterListIdentifierFactory.Create(listId);
-            return AddMemberToList(identifier, newUserId);
-        }
-
-        public Task<bool> AddMemberToList(long listId, string newUserName)
-        {
-            var identifier = _twitterListIdentifierFactory.Create(listId);
-            return AddMemberToList(identifier, newUserName);
-        }
-
-        public Task<bool> AddMemberToList(long listId, IUserIdentifier newUser)
-        {
-            var identifier = _twitterListIdentifierFactory.Create(listId);
-            return AddMemberToList(identifier, newUser);
-        }
-
-        public Task<bool> AddMemberToList(string slug, long ownerId, long newUserId)
-        {
-            var identifier = _twitterListIdentifierFactory.Create(slug, ownerId);
-            return AddMemberToList(identifier, newUserId);
-        }
-
-        public Task<bool> AddMemberToList(string slug, long ownerId, string newUserName)
-        {
-            var identifier = _twitterListIdentifierFactory.Create(slug, ownerId);
-            return AddMemberToList(identifier, newUserName);
-        }
-
-        public Task<bool> AddMemberToList(string slug, long ownerId, IUserIdentifier newUser)
-        {
-            var identifier = _twitterListIdentifierFactory.Create(slug, ownerId);
-            return AddMemberToList(identifier, newUser);
-        }
-
-        public Task<bool> AddMemberToList(string slug, string ownerScreenName, long newUserId)
-        {
-            var identifier = _twitterListIdentifierFactory.Create(slug, ownerScreenName);
-            return AddMemberToList(identifier, newUserId);
-        }
-
-        public Task<bool> AddMemberToList(string slug, string ownerScreenName, string newUserName)
-        {
-            var identifier = _twitterListIdentifierFactory.Create(slug, ownerScreenName);
-            return AddMemberToList(identifier, newUserName);
-        }
-
-        public Task<bool> AddMemberToList(string slug, string ownerScreenName, IUserIdentifier newUser)
-        {
-            var identifier = _twitterListIdentifierFactory.Create(slug, ownerScreenName);
-            return AddMemberToList(identifier, newUser);
-        }
-
-        public Task<bool> AddMemberToList(string slug, IUserIdentifier owner, long newUserId)
-        {
-            var identifier = _twitterListIdentifierFactory.Create(slug, owner);
-            return AddMemberToList(identifier, newUserId);
-        }
-
-        public Task<bool> AddMemberToList(string slug, IUserIdentifier owner, string newUserName)
-        {
-            var identifier = _twitterListIdentifierFactory.Create(slug, owner);
-            return AddMemberToList(identifier, newUserName);
-        }
-
-        public Task<bool> AddMemberToList(string slug, IUserIdentifier owner, IUserIdentifier newUser)
-        {
-            var identifier = _twitterListIdentifierFactory.Create(slug, owner);
-            return AddMemberToList(identifier, newUser);
-        }
-
-        public Task<bool> AddMemberToList(ITwitterListIdentifier list, long newUserId)
-        {
-            return AddMemberToList(list, new UserIdentifier(newUserId));
-        }
-
-        public Task<bool> AddMemberToList(ITwitterListIdentifier list, string newUserName)
-        {
-            return AddMemberToList(list, new UserIdentifier(newUserName));
-        }
-
-        public Task<bool> AddMemberToList(ITwitterListIdentifier list, IUserIdentifier newUser)
-        {
-            return _twitterListQueryExecutor.AddMemberToList(list, newUser);
-        }
-
         #endregion
 
         #region Add Multiple Members to List

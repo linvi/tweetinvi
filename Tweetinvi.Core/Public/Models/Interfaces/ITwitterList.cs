@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Tweetinvi.Iterators;
 using Tweetinvi.Models.DTO;
 using Tweetinvi.Parameters;
 using Tweetinvi.Parameters.ListsClient;
@@ -76,22 +77,22 @@ namespace Tweetinvi.Models
         /// <summary>
         /// Get the members of this list.
         /// </summary>
-        Task<IEnumerable<IUser>> GetMembers(int maximumNumberOfUsersToRetrieve = 100);
+        ITwitterIterator<IUser> GetMembersIterator();
 
         /// <summary>
         /// Add a member to this list. You must be the owner of the list to do so.
         /// </summary>
-        Task<bool> AddMember(long userId);
+        Task AddMember(long? userId);
 
         /// <summary>
         /// Add a member to this list. You must be the owner of the list to do so.
         /// </summary>
-        Task<bool> AddMember(string userScreenName);
+        Task AddMember(string username);
 
         /// <summary>
         /// Add a member to this list. You must be the owner of the list to do so.
         /// </summary>
-        Task<bool> AddMember(IUserIdentifier user);
+        Task AddMember(IUserIdentifier user);
 
         /// <summary>
         /// Add a list of members to this list. You must be the owner of the list to do so.

@@ -179,5 +179,43 @@ namespace xUnitinvi.ClientActions.ListsClient
             // Assert
             Assert.Equal(result, "https://api.twitter.com/1.1/lists/destroy.json?slug=myslug&owner_screen_name=username&hello=world");
         }
+
+        [Fact]
+        public void GetAddMemberToListQuery_ReturnsExpectedQuery()
+        {
+            // arrange
+            var queryGenerator = CreateTwitterListQueryGenerator();
+
+            var parameters = new AddMemberToListParameters(new TwitterListIdentifier(33), 42)
+            {
+                CustomQueryParameters = { new Tuple<string, string>("hello", "world") }
+            };
+
+            // Act
+            var result = queryGenerator.GetAddMemberToListQuery(parameters);
+
+            // Assert
+            Assert.Equal(result, "https://api.twitter.com/1.1/lists/members/create.json?list_id=33&user_id=42&hello=world");
+        }
+
+        [Fact]
+        public void GetMembersOfListQuery_ReturnsExpectedQuery()
+        {
+            // arrange
+            var queryGenerator = CreateTwitterListQueryGenerator();
+
+            var parameters = new GetMembersOfListParameters(42)
+            {
+                Cursor = "my_cursor",
+                PageSize = 2,
+                CustomQueryParameters = { new Tuple<string, string>("hello", "world") }
+            };
+
+            // Act
+            var result = queryGenerator.GetMembersOfListQuery(parameters);
+
+            // Assert
+            Assert.Equal(result, "https://api.twitter.com/1.1/lists/members.json?list_id=42&cursor=my_cursor&count=2&hello=world");
+        }
     }
 }

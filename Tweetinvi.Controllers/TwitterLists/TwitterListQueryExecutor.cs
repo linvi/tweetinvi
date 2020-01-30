@@ -14,12 +14,16 @@ namespace Tweetinvi.Controllers.TwitterLists
 {
     public interface ITwitterListQueryExecutor
     {
+        // list
         Task<ITwitterResult<ITwitterListDTO>> CreateList(ICreateListParameters parameters, ITwitterRequest request);
         Task<ITwitterResult<ITwitterListDTO>> GetList(IGetListParameters parameters, ITwitterRequest request);
         Task<ITwitterResult<ITwitterListDTO[]>> GetUserLists(IGetUserListsParameters parameters, ITwitterRequest request);
         Task<ITwitterResult<ITwitterListDTO>> UpdateList(IUpdateListParameters parameters, ITwitterRequest request);
         Task<ITwitterResult<ITwitterListDTO>> DestroyList(IDestroyListParameters parameters, ITwitterRequest request);
 
+        // list members
+        Task<ITwitterResult<ITwitterListDTO>> AddMemberToList(IAddMemberToListParameters parameters, ITwitterRequest request);
+        Task<ITwitterResult<IUserCursorQueryResultDTO>> GetMembersOfList(IGetMembersOfListParameters parameters, ITwitterRequest request);
 
 
 
@@ -28,8 +32,6 @@ namespace Tweetinvi.Controllers.TwitterLists
         Task<IEnumerable<ITweetDTO>> GetTweetsFromList(IGetTweetsFromListQueryParameters queryParameters);
 
         // Members
-        Task<IEnumerable<IUserDTO>> GetMembersOfList(ITwitterListIdentifier identifier, int maxNumberOfUsersToRetrieve);
-        Task<bool> AddMemberToList(ITwitterListIdentifier listIdentifier, IUserIdentifier user);
         Task<MultiRequestsResult> AddMultipleMembersToList(ITwitterListIdentifier listIdentifier,
             IEnumerable<IUserIdentifier> users);
         Task<bool> RemoveMemberFromList(ITwitterListIdentifier listIdentifier, IUserIdentifier user);
@@ -100,6 +102,20 @@ namespace Tweetinvi.Controllers.TwitterLists
             return _twitterAccessor.ExecuteRequest<ITwitterListDTO>(request);
         }
 
+        public Task<ITwitterResult<ITwitterListDTO>> AddMemberToList(IAddMemberToListParameters parameters, ITwitterRequest request)
+        {
+            request.Query.Url = _listsQueryGenerator.GetAddMemberToListQuery(parameters);
+            request.Query.HttpMethod = HttpMethod.POST;
+            return _twitterAccessor.ExecuteRequest<ITwitterListDTO>(request);
+        }
+
+        public Task<ITwitterResult<IUserCursorQueryResultDTO>> GetMembersOfList(IGetMembersOfListParameters parameters, ITwitterRequest request)
+        {
+            request.Query.Url = _listsQueryGenerator.GetMembersOfListQuery(parameters);
+            request.Query.HttpMethod = HttpMethod.GET;
+            return _twitterAccessor.ExecuteRequest<IUserCursorQueryResultDTO>(request);
+        }
+
 
         // User
 
@@ -133,20 +149,7 @@ namespace Tweetinvi.Controllers.TwitterLists
         }
 
         // Members
-        public Task<IEnumerable<IUserDTO>> GetMembersOfList(ITwitterListIdentifier identifier, int maxNumberOfUsersToRetrieve)
-        {
-            string baseQuery = _listsQueryGenerator.GetMembersFromListQuery(identifier, Math.Min(maxNumberOfUsersToRetrieve, 5000));
-            return _twitterAccessor.ExecuteCursorGETQuery<IUserDTO, IUserCursorQueryResultDTO>(baseQuery, maxNumberOfUsersToRetrieve);
-        }
 
-        // Add Member
-        public async Task<bool> AddMemberToList(ITwitterListIdentifier listIdentifier, IUserIdentifier user)
-        {
-            var query = _listsQueryGenerator.GetAddMemberToListQuery(listIdentifier, user);
-            var asyncOperation = await _twitterAccessor.TryExecutePOSTQuery(query);
-
-            return asyncOperation.Success;
-        }
 
         public async Task<MultiRequestsResult> AddMultipleMembersToList(ITwitterListIdentifier listIdentifier, IEnumerable<IUserIdentifier> users)
         {

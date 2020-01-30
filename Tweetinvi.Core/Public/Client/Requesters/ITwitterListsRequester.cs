@@ -1,7 +1,10 @@
 using System.Threading.Tasks;
+using Tweetinvi.Core.Iterators;
 using Tweetinvi.Core.Web;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
+using Tweetinvi.Models.DTO.QueryDTO;
+using Tweetinvi.Parameters;
 using Tweetinvi.Parameters.ListsClient;
 
 namespace Tweetinvi.Client.Requesters
@@ -42,5 +45,22 @@ namespace Tweetinvi.Client.Requesters
         /// <para> https://developer.twitter.com/en/docs/accounts-and-users/create-manage-lists/api-reference/post-lists-destroy </para>
         /// <returns>TwitterResult containing the destroyed list</returns>
         Task<ITwitterResult<ITwitterListDTO>> DestroyList(IDestroyListParameters parameters);
+
+
+        // MEMBERS
+
+        /// <summary>
+        /// Add a member to a twitter list
+        /// </summary>
+        /// <para> https://developer.twitter.com/en/docs/accounts-and-users/create-manage-lists/api-reference/post-lists-members-create </para>
+        /// <returns>TwitterResult</returns>
+        Task<ITwitterResult<ITwitterListDTO, ITwitterList>> AddMemberToList(IAddMemberToListParameters parameters);
+
+        /// <summary>
+        /// Get the members of the specified list.
+        /// <para>Read more : https://developer.twitter.com/en/docs/accounts-and-users/create-manage-lists/api-reference/get-lists-members </para>
+        /// </summary>
+        /// <returns>An iterator to list the users members of the list</returns>
+        ITwitterPageIterator<ITwitterResult<IUserCursorQueryResultDTO>> GetMembersOfListIterator(IGetMembersOfListParameters parameters);
     }
 }

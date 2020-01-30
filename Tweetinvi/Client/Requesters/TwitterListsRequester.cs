@@ -4,9 +4,12 @@ using Tweetinvi.Client.Tools;
 using Tweetinvi.Core.Client.Validators;
 using Tweetinvi.Core.Controllers;
 using Tweetinvi.Core.Events;
+using Tweetinvi.Core.Iterators;
 using Tweetinvi.Core.Web;
+using Tweetinvi.Credentials.QueryJsonConverters;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
+using Tweetinvi.Models.DTO.QueryDTO;
 using Tweetinvi.Parameters.ListsClient;
 
 namespace Tweetinvi.Client.Requesters
@@ -16,7 +19,7 @@ namespace Tweetinvi.Client.Requesters
         private readonly ITwitterResultFactory _twitterResultFactory;
         private readonly ITwitterClientFactories _factories;
         private readonly ITwitterListController _twitterListController;
-        private readonly ITwitterListsClientRequiredParametersValidator _twitterListsClientRequiredParametersValidator;
+        private readonly ITwitterListsClientRequiredParametersValidator _validator;
 
         public TwitterListsRequester(
             ITwitterClient client,
@@ -24,18 +27,18 @@ namespace Tweetinvi.Client.Requesters
             ITwitterResultFactory twitterResultFactory,
             ITwitterClientFactories factories,
             ITwitterListController twitterListController,
-            ITwitterListsClientRequiredParametersValidator twitterListsClientRequiredParametersValidator)
+            ITwitterListsClientRequiredParametersValidator validator)
             : base(client, clientEvents)
         {
             _twitterResultFactory = twitterResultFactory;
             _factories = factories;
             _twitterListController = twitterListController;
-            _twitterListsClientRequiredParametersValidator = twitterListsClientRequiredParametersValidator;
+            _validator = validator;
         }
 
         public Task<ITwitterResult<ITwitterListDTO, ITwitterList>> CreateList(ICreateListParameters parameters)
         {
-            _twitterListsClientRequiredParametersValidator.Validate(parameters);
+            _validator.Validate(parameters);
             return ExecuteRequest(async request =>
             {
                 var twitterResult = await _twitterListController.CreateList(parameters, request).ConfigureAwait(false);
@@ -45,7 +48,7 @@ namespace Tweetinvi.Client.Requesters
 
         public Task<ITwitterResult<ITwitterListDTO, ITwitterList>> GetList(IGetListParameters parameters)
         {
-            _twitterListsClientRequiredParametersValidator.Validate(parameters);
+            _validator.Validate(parameters);
             return ExecuteRequest(async request =>
             {
                 var twitterResult = await _twitterListController.GetList(parameters, request).ConfigureAwait(false);
@@ -55,7 +58,7 @@ namespace Tweetinvi.Client.Requesters
 
         public Task<ITwitterResult<ITwitterListDTO[], ITwitterList[]>> GetUserLists(IGetUserListsParameters parameters)
         {
-            _twitterListsClientRequiredParametersValidator.Validate(parameters);
+            _validator.Validate(parameters);
             return ExecuteRequest(async request =>
             {
                 var twitterResult = await _twitterListController.GetUserLists(parameters, request).ConfigureAwait(false);
@@ -65,7 +68,7 @@ namespace Tweetinvi.Client.Requesters
 
         public Task<ITwitterResult<ITwitterListDTO, ITwitterList>> UpdateList(IUpdateListParameters parameters)
         {
-            _twitterListsClientRequiredParametersValidator.Validate(parameters);
+            _validator.Validate(parameters);
             return ExecuteRequest(async request =>
             {
                 var twitterResult = await _twitterListController.UpdateList(parameters, request).ConfigureAwait(false);
@@ -75,8 +78,27 @@ namespace Tweetinvi.Client.Requesters
 
         public Task<ITwitterResult<ITwitterListDTO>> DestroyList(IDestroyListParameters parameters)
         {
-            _twitterListsClientRequiredParametersValidator.Validate(parameters);
+            _validator.Validate(parameters);
             return ExecuteRequest(request => _twitterListController.DestroyList(parameters, request));
+        }
+
+        public Task<ITwitterResult<ITwitterListDTO, ITwitterList>> AddMemberToList(IAddMemberToListParameters parameters)
+        {
+            _validator.Validate(parameters);
+            return ExecuteRequest(async request =>
+            {
+                var twitterResult = await _twitterListController.AddMemberToList(parameters, request).ConfigureAwait(false);
+                return _twitterResultFactory.Create(twitterResult, dto => _factories.CreateTwitterList(dto));
+            });
+        }
+
+        public ITwitterPageIterator<ITwitterResult<IUserCursorQueryResultDTO>> GetMembersOfListIterator(IGetMembersOfListParameters parameters)
+        {
+            _validator.Validate(parameters);
+
+            var request = TwitterClient.CreateRequest();
+            request.ExecutionContext.Converters = JsonQueryConverterRepository.Converters;
+            return _twitterListController.GetMembersOfListIterator(parameters, request);
         }
     }
 }

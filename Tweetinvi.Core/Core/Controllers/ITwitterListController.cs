@@ -1,9 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using Tweetinvi.Core.Iterators;
 using Tweetinvi.Core.Parameters;
 using Tweetinvi.Core.Web;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
+using Tweetinvi.Models.DTO.QueryDTO;
 using Tweetinvi.Parameters;
 using Tweetinvi.Parameters.ListsClient;
 
@@ -11,11 +13,20 @@ namespace Tweetinvi.Core.Controllers
 {
     public interface ITwitterListController
     {
+        // list
         Task<ITwitterResult<ITwitterListDTO>> CreateList(ICreateListParameters parameters, ITwitterRequest request);
         Task<ITwitterResult<ITwitterListDTO>> GetList(IGetListParameters parameters, ITwitterRequest request);
         Task<ITwitterResult<ITwitterListDTO[]>> GetUserLists(IGetUserListsParameters parameters, ITwitterRequest request);
         Task<ITwitterResult<ITwitterListDTO>> UpdateList(IUpdateListParameters parameters, ITwitterRequest request);
         Task<ITwitterResult<ITwitterListDTO>> DestroyList(IDestroyListParameters parameters, ITwitterRequest request);
+
+        // members
+        Task<ITwitterResult<ITwitterListDTO>> AddMemberToList(IAddMemberToListParameters parameters, ITwitterRequest request);
+        ITwitterPageIterator<ITwitterResult<IUserCursorQueryResultDTO>> GetMembersOfListIterator(IGetMembersOfListParameters parameters, ITwitterRequest request);
+
+
+
+
 
 
 
@@ -32,34 +43,6 @@ namespace Tweetinvi.Core.Controllers
         Task<IEnumerable<ITweet>> GetTweetsFromList(string slug, string ownerScreenName);
         Task<IEnumerable<ITweet>> GetTweetsFromList(string slug, long ownerId);
         Task<IEnumerable<ITweet>> GetTweetsFromList(ITwitterListIdentifier list, IGetTweetsFromListParameters parameters = null);
-
-        // Get List Members
-        Task<IEnumerable<IUser>> GetListMembers(long listId, int maximumNumberOfUsersToRetrieve = 100);
-        Task<IEnumerable<IUser>> GetListMembers(string slug, IUserIdentifier owner, int maximumNumberOfUsersToRetrieve = 100);
-        Task<IEnumerable<IUser>> GetListMembers(string slug, string ownerScreenName, int maximumNumberOfUsersToRetrieve = 100);
-        Task<IEnumerable<IUser>> GetListMembers(string slug, long ownerId, int maximumNumberOfUsersToRetrieve = 100);
-        Task<IEnumerable<IUser>> GetListMembers(ITwitterListIdentifier list, int maximumNumberOfUsersToRetrieve = 100);
-
-        // Add member to list
-        Task<bool> AddMemberToList(long listId, long newUserId);
-        Task<bool> AddMemberToList(long listId, string newUserName);
-        Task<bool> AddMemberToList(long listId, IUserIdentifier newUser);
-
-        Task<bool> AddMemberToList(string slug, long ownerId, long newUserId);
-        Task<bool> AddMemberToList(string slug, long ownerId, string newUserName);
-        Task<bool> AddMemberToList(string slug, long ownerId, IUserIdentifier newUser);
-
-        Task<bool> AddMemberToList(string slug, string ownerScreenName, long newUserId);
-        Task<bool> AddMemberToList(string slug, string ownerScreenName, string newUserName);
-        Task<bool> AddMemberToList(string slug, string ownerScreenName, IUserIdentifier newUser);
-
-        Task<bool> AddMemberToList(string slug, IUserIdentifier owner, long newUserId);
-        Task<bool> AddMemberToList(string slug, IUserIdentifier owner, string newUserName);
-        Task<bool> AddMemberToList(string slug, IUserIdentifier owner, IUserIdentifier newUser);
-
-        Task<bool> AddMemberToList(ITwitterListIdentifier list, long newUserId);
-        Task<bool> AddMemberToList(ITwitterListIdentifier list, string newUserName);
-        Task<bool> AddMemberToList(ITwitterListIdentifier list, IUserIdentifier newUser);
 
         // Add Multiple Members to List
         Task<MultiRequestsResult> AddMultipleMembersToList(long listId, IEnumerable<long> userIds);
@@ -195,5 +178,5 @@ namespace Tweetinvi.Core.Controllers
         Task<bool> CheckIfUserIsAListSubscriber(ITwitterListIdentifier listIdentifier, long userId);
         Task<bool> CheckIfUserIsAListSubscriber(ITwitterListIdentifier listIdentifier, string userScreenName);
         Task<bool> CheckIfUserIsAListSubscriber(ITwitterListIdentifier listIdentifier, IUserIdentifier user);
-     }
+    }
 }

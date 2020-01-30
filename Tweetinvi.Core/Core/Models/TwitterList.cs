@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Tweetinvi.Core.Controllers;
+using Tweetinvi.Iterators;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
 using Tweetinvi.Parameters;
@@ -59,25 +60,24 @@ namespace Tweetinvi.Core.Models
         }
 
         // Members
-        public Task<IEnumerable<IUser>> GetMembers(int maximumNumberOfUsersToRetrieve = 100)
+        public ITwitterIterator<IUser> GetMembersIterator()
         {
-            return _twitterListController.GetListMembers(_twitterListDTO, maximumNumberOfUsersToRetrieve);
+            return Client.Lists.GetMembersOfListIterator(new GetMembersOfListParameters(this));
         }
 
-
-        public Task<bool> AddMember(long userId)
+        public Task AddMember(long? userId)
         {
-            return _twitterListController.AddMemberToList(this, userId);
+            return Client.Lists.AddMemberToList(this, userId);
         }
 
-        public Task<bool> AddMember(string userScreenName)
+        public Task AddMember(string username)
         {
-            return _twitterListController.AddMemberToList(this, userScreenName);
+            return Client.Lists.AddMemberToList(this, username);
         }
 
-        public Task<bool> AddMember(IUserIdentifier user)
+        public Task AddMember(IUserIdentifier user)
         {
-            return _twitterListController.AddMemberToList(this, user);
+            return Client.Lists.AddMemberToList(this, user);
         }
 
         public Task<MultiRequestsResult> AddMultipleMembers(IEnumerable<long> userIds)

@@ -1,4 +1,4 @@
-using System.Linq;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Tweetinvi.Models;
 using Tweetinvi.Parameters.ListsClient;
@@ -16,7 +16,7 @@ namespace xUnitinvi.EndToEnd
         }
 
         [Fact]
-        public async Task CRUD()
+        public async Task List_CRUD()
         {
             if (!EndToEndTestConfig.ShouldRunEndToEndTests)
                 return;
@@ -28,24 +28,23 @@ namespace xUnitinvi.EndToEnd
                 Description = "private-desc"
             });
 
-            await Task.Delay(1000);
+            await Task.Delay(500);
             var updatedPrivateList = await _tweetinviTestClient.Lists.UpdateList(new UpdateListParameters(privateList)
             {
                 Name = "new-private-name",
                 Description = "hello"
             });
 
-            await Task.Delay(1000);
+            await Task.Delay(500);
             var retrievedPrivateList = await _tweetinviTestClient.Lists.GetList(privateList.Id);
 
             var listFirstCreatedAsPublic = await _tweetinviTestClient.Lists.CreateList("public-endToEnd-Tests", PrivacyMode.Public);
-
-            await Task.Delay(1000);
+            await Task.Delay(500);
             var publicListBeforeGoingPrivate = await _tweetinviClient.Lists.GetList(new TwitterListIdentifier(listFirstCreatedAsPublic.Slug, listFirstCreatedAsPublic.Owner));
 
             var allLists = await _tweetinviTestClient.Lists.GetUserLists();
 
-            await Task.Delay(1000);
+            await Task.Delay(500);
             await listFirstCreatedAsPublic.Update(new ListMetadataParameters
             {
                 PrivacyMode = PrivacyMode.Private
@@ -75,6 +74,37 @@ namespace xUnitinvi.EndToEnd
 
             Assert.Contains(allLists, list => { return list.Id == privateList.Id; });
             Assert.Contains(allLists, list => { return list.Id == publicListBeforeGoingPrivate.Id; });
+        }
+
+        [Fact]
+        public async Task Members()
+        {
+            if (!EndToEndTestConfig.ShouldRunEndToEndTests)
+                return;
+
+            var publicList = await _tweetinviTestClient.Lists.CreateList("members-test-list", PrivacyMode.Public);
+            await Task.Delay(500);
+
+            await publicList.AddMember(EndToEndTestConfig.TweetinviApi.AccountId);
+            await _tweetinviTestClient.Lists.AddMemberToList(publicList, EndToEndTestConfig.TweetinviTest.AccountId);
+
+            var membersIterator = _tweetinviTestClient.Lists.GetMembersOfListIterator(new GetMembersOfListParameters(publicList)
+            {
+                PageSize = 1
+            });
+
+            var publicListMembers = new List<IUser>();
+            while (!membersIterator.Completed)
+            {
+                publicListMembers.AddRange(await membersIterator.MoveToNextPage());
+            }
+
+            await publicList.Destroy();
+
+            // assert
+            Assert.Contains(publicListMembers, members => { return members.ScreenName.ToLower() == EndToEndTestConfig.TweetinviApi.AccountId; });
+            Assert.Contains(publicListMembers, members => { return members.ScreenName.ToLower() == EndToEndTestConfig.TweetinviTest.AccountId; });
+
         }
     }
 }

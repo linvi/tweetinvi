@@ -14,26 +14,28 @@ namespace Tweetinvi.Controllers.TwitterLists
 {
     public interface ITwitterListQueryGenerator
     {
+        // list
         string GetCreateListQuery(ICreateListParameters parameters);
         string GetListQuery(IGetListParameters parameters);
         string GetUserListsQuery(IGetUserListsParameters parameters);
         string GetUpdateListQuery(IUpdateListParameters parameters);
         string GetDestroyListQuery(IDestroyListParameters parameters);
 
+        // members
+        string GetAddMemberToListQuery(IAddMemberToListParameters parameters);
+        string GetMembersOfListQuery(IGetMembersOfListParameters parameters);
 
 
 
 
 
-
+        // old
         string GetUserSubscribedListsQuery(IUserIdentifier user, bool getOwnedListsFirst);
 
         string GetUsersOwnedListQuery(IUserIdentifier user, int maximumNumberOfListsToRetrieve);
 
         string GetTweetsFromListQuery(IGetTweetsFromListQueryParameters queryParameters);
 
-        string GetMembersFromListQuery(ITwitterListIdentifier listIdentifier, int maximumNumberOfMembers);
-        string GetAddMemberToListQuery(ITwitterListIdentifier listIdentifier, IUserIdentifier user);
         string GetAddMultipleMembersToListQuery(ITwitterListIdentifier listIdentifier, IEnumerable<IUserIdentifier> users);
         string GetRemoveMemberFromListQuery(ITwitterListIdentifier listIdentifier, IUserIdentifier user);
         string GetRemoveMultipleMembersFromListQuery(ITwitterListIdentifier listIdentifier, IEnumerable<IUserIdentifier> users);
@@ -96,7 +98,7 @@ namespace Tweetinvi.Controllers.TwitterLists
         {
             var query = new StringBuilder(Resources.List_Get);
 
-            _twitterListQueryParameterGenerator.AppendListIdentifierParameter(query, parameters.Id);
+            _twitterListQueryParameterGenerator.AppendListIdentifierParameter(query, parameters.List);
             query.AddFormattedParameterToQuery(parameters.FormattedCustomQueryParameters);
 
             return query.ToString();
@@ -118,7 +120,7 @@ namespace Tweetinvi.Controllers.TwitterLists
         {
             var query = new StringBuilder(Resources.List_Update);
 
-            _twitterListQueryParameterGenerator.AppendListIdentifierParameter(query, parameters.Id);
+            _twitterListQueryParameterGenerator.AppendListIdentifierParameter(query, parameters.List);
 
             AppendListMetadataToQuery(parameters, query);
             query.AddFormattedParameterToQuery(parameters.FormattedCustomQueryParameters);
@@ -130,7 +132,33 @@ namespace Tweetinvi.Controllers.TwitterLists
         {
             var query = new StringBuilder(Resources.List_Destroy);
 
-            _twitterListQueryParameterGenerator.AppendListIdentifierParameter(query, parameters.Id);
+            _twitterListQueryParameterGenerator.AppendListIdentifierParameter(query, parameters.List);
+            query.AddFormattedParameterToQuery(parameters.FormattedCustomQueryParameters);
+
+            return query.ToString();
+        }
+
+        public string GetAddMemberToListQuery(IAddMemberToListParameters parameters)
+        {
+            var query = new StringBuilder(Resources.List_Members_Create);
+
+            _twitterListQueryParameterGenerator.AppendListIdentifierParameter(query, parameters.List);
+            query.AddFormattedParameterToQuery(_userQueryParameterGenerator.GenerateIdOrScreenNameParameter(parameters.User));
+
+            query.AddFormattedParameterToQuery(parameters.FormattedCustomQueryParameters);
+
+            return query.ToString();
+        }
+
+        public string GetMembersOfListQuery(IGetMembersOfListParameters parameters)
+        {
+            var query = new StringBuilder(Resources.List_Members_List);
+
+            _twitterListQueryParameterGenerator.AppendListIdentifierParameter(query, parameters.List);
+
+            query.AddParameterToQuery("cursor", parameters.Cursor);
+            query.AddParameterToQuery("count", parameters.PageSize);
+
             query.AddFormattedParameterToQuery(parameters.FormattedCustomQueryParameters);
 
             return query.ToString();
@@ -196,26 +224,6 @@ namespace Tweetinvi.Controllers.TwitterLists
             queryParameters.AddFormattedParameterToParametersList(_queryParameterGenerator.GenerateTweetModeParameter(_tweetinviSettingsAccessor.CurrentThreadSettings.TweetMode));
 
             return string.Format(Resources.List_GetTweetsFromList, queryParameters);
-        }
-
-        // Members
-        public string GetMembersFromListQuery(ITwitterListIdentifier listIdentifier, int maximumNumberOfMembers)
-        {
-            _listsQueryValidator.ThrowIfListIdentifierIsNotValid(listIdentifier);
-
-            var identifierParameter = _twitterListQueryParameterGenerator.GenerateIdentifierParameter(listIdentifier);
-            return string.Format(Resources.List_Members, identifierParameter, maximumNumberOfMembers);
-        }
-
-        public string GetAddMemberToListQuery(ITwitterListIdentifier listIdentifier, IUserIdentifier user)
-        {
-            _userQueryValidator.ThrowIfUserCannotBeIdentified(user);
-            _listsQueryValidator.ThrowIfListIdentifierIsNotValid(listIdentifier);
-
-            var listIdentifierParameter = _twitterListQueryParameterGenerator.GenerateIdentifierParameter(listIdentifier);
-            var userParameter = _userQueryParameterGenerator.GenerateIdOrScreenNameParameter(user);
-
-            return string.Format(Resources.List_CreateMember, listIdentifierParameter, userParameter);
         }
 
         public string GetAddMultipleMembersToListQuery(ITwitterListIdentifier listIdentifier, IEnumerable<IUserIdentifier> users)

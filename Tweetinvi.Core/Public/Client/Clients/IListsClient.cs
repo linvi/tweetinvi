@@ -1,5 +1,9 @@
 using System.Threading.Tasks;
+using Tweetinvi.Core.Iterators;
+using Tweetinvi.Core.Web;
+using Tweetinvi.Iterators;
 using Tweetinvi.Models;
+using Tweetinvi.Models.DTO.QueryDTO;
 using Tweetinvi.Parameters.ListsClient;
 
 namespace Tweetinvi.Client
@@ -77,5 +81,30 @@ namespace Tweetinvi.Client
         /// </summary>
         /// <para> https://developer.twitter.com/en/docs/accounts-and-users/create-manage-lists/api-reference/post-lists-destroy </para>
         Task DestroyList(IDestroyListParameters parameters);
+
+        /// <inheritdoc cref="AddMemberToList(IAddMemberToListParameters)"/>
+        Task AddMemberToList(long? listId, long? userId);
+        /// <inheritdoc cref="AddMemberToList(IAddMemberToListParameters)"/>
+        Task AddMemberToList(ITwitterListIdentifier list, long? userId);
+        /// <inheritdoc cref="AddMemberToList(IAddMemberToListParameters)"/>
+        Task AddMemberToList(ITwitterListIdentifier list, string username);
+        /// <inheritdoc cref="AddMemberToList(IAddMemberToListParameters)"/>
+        Task AddMemberToList(ITwitterListIdentifier list, IUserIdentifier user);
+
+        /// <summary>
+        /// Add a member to a twitter list
+        /// </summary>
+        /// <para> https://developer.twitter.com/en/docs/accounts-and-users/create-manage-lists/api-reference/post-lists-members-create </para>
+        Task AddMemberToList(IAddMemberToListParameters parameters);
+
+        /// <inheritdoc cref="GetMembersOfListIterator(IGetMembersOfListParameters)"/>
+        ITwitterIterator<IUser> GetMembersOfListIterator(ITwitterListIdentifier list);
+
+        /// <summary>
+        /// Get the members of the specified list.
+        /// <para>Read more : https://developer.twitter.com/en/docs/accounts-and-users/create-manage-lists/api-reference/get-lists-members </para>
+        /// </summary>
+        /// <returns>An iterator to list the users members of the list</returns>
+        ITwitterIterator<IUser> GetMembersOfListIterator(IGetMembersOfListParameters parameters);
     }
 }

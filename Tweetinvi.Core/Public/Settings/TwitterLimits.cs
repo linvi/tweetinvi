@@ -79,6 +79,12 @@ namespace Tweetinvi
         public short LISTS_CREATE_NAME_MAX_SIZE { get; set; } = 25;
 
         /// <summary>
+        /// Maximum numbers of users that can be retrieved in 1 request
+        /// <para>https://developer.twitter.com/en/docs/accounts-and-users/create-manage-lists/api-reference/get-lists-members</para>
+        /// </summary>
+        public short LISTS_GET_MEMBERS_MAX_SIZE { get; set; } = 5000;
+
+        /// <summary>
         /// Maximum numbers of tweets to retrieve in 1 request
         /// <para>https://developer.twitter.com/en/docs/tweets/timelines/api-reference/get-statuses-home_timeline</para>
         /// </summary>

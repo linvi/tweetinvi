@@ -15,24 +15,24 @@ namespace Tweetinvi.Parameters.ListsClient
     {
         public UpdateListParameters(IUpdateListParameters parameters) : base(parameters)
         {
-            Id = parameters?.Id;
+            List = parameters?.List;
         }
 
         public UpdateListParameters(long? listId)
         {
-            Id = new TwitterListIdentifier(listId);
+            List = new TwitterListIdentifier(listId);
         }
 
         public UpdateListParameters(string slug, IUserIdentifier userId)
         {
-            Id = new TwitterListIdentifier(slug, userId);
+            List = new TwitterListIdentifier(slug, userId);
         }
 
         public UpdateListParameters(ITwitterListIdentifier listId)
         {
-            Id = listId;
+            List = listId;
         }
 
-        public ITwitterListIdentifier Id { get; set; }
+        public ITwitterListIdentifier List { get; set; }
     }
 }

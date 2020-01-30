@@ -20,7 +20,7 @@ namespace Tweetinvi.Parameters.ListsClient
         {
         }
 
-        public GetListParameters(ITwitterListIdentifier listId) : base(listId)
+        public GetListParameters(ITwitterListIdentifier list) : base(list)
         {
         }
     }
