@@ -179,24 +179,24 @@ namespace Tweetinvi.Controllers.Properties
 
 
         /// <summary>
-        ///   Looks up a localized string similar to https://api.twitter.com/1.1/lists/members/show.json?{0}&amp;{1}&amp;skip_status=true.
+        ///   Looks up a localized string similar to https://api.twitter.com/1.1/lists/members/show.json?.
         /// </summary>
-        public static string List_CheckMembership = "https://api.twitter.com/1.1/lists/members/show.json?{0}&{1}&skip_status=true";
+        public static string List_CheckMembership = "https://api.twitter.com/1.1/lists/members/show.json?";
 
         /// <summary>
-        ///   Looks up a localized string similar to https://api.twitter.com/1.1/lists/members/create_all.json.
+        ///   Looks up a localized string similar to https://api.twitter.com/1.1/lists/members/create_all.json?.
         /// </summary>
-        public static string List_CreateMembers = "https://api.twitter.com/1.1/lists/members/create_all.json";
+        public static string List_CreateMembers = "https://api.twitter.com/1.1/lists/members/create_all.json?";
 
         /// <summary>
-        ///   Looks up a localized string similar to https://api.twitter.com/1.1/lists/members/destroy.json?{0}&amp;{1}.
+        ///   Looks up a localized string similar to https://api.twitter.com/1.1/lists/members/destroy.json?.
         /// </summary>
-        public static string List_DestroyMember = "https://api.twitter.com/1.1/lists/members/destroy.json?{0}&{1}";
+        public static string List_DestroyMember = "https://api.twitter.com/1.1/lists/members/destroy.json?";
 
         /// <summary>
-        ///   Looks up a localized string similar to https://api.twitter.com/1.1/lists/members/destroy_all.json.
+        ///   Looks up a localized string similar to https://api.twitter.com/1.1/lists/members/destroy_all.json?.
         /// </summary>
-        public static string List_DestroyMembers = "https://api.twitter.com/1.1/lists/members/destroy_all.json";
+        public static string List_DestroyMembers = "https://api.twitter.com/1.1/lists/members/destroy_all.json?";
 
         /// <summary>
         ///   Looks up a localized string similar to https://api.twitter.com/1.1/lists/subscribers.json?{0}&amp;count={1}.
@@ -221,14 +221,14 @@ namespace Tweetinvi.Controllers.Properties
         public static string List_OwnerScreenNameParameter = "&owner_screen_name={0}";
 
         /// <summary>
-        /// Looks up a localized string similar to https://api.twitter.com/1.1/lists/memberships.json?{0}.
+        /// Looks up a localized string similar to https://api.twitter.com/1.1/lists/memberships.json?.
         /// </summary>
-        public static string List_GetUserMemberships = "https://api.twitter.com/1.1/lists/memberships.json?{0}";
+        public static string List_GetUserMemberships = "https://api.twitter.com/1.1/lists/memberships.json?";
 
         /// <summary>
-        ///   Looks up a localized string similar to https://api.twitter.com/1.1/lists/ownerships.json?{0}&amp;count={1}.
+        ///   Looks up a localized string similar to https://api.twitter.com/1.1/lists/ownerships.json?.
         /// </summary>
-        public static string List_Ownership = "https://api.twitter.com/1.1/lists/ownerships.json?{0}&count={1}";
+        public static string List_OwnedByUser = "https://api.twitter.com/1.1/lists/ownerships.json?";
 
         /// <summary>
         ///   Looks up a localized string similar to &amp;slug={0}.

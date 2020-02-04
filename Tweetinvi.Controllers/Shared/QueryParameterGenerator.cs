@@ -8,6 +8,8 @@ namespace Tweetinvi.Controllers.Shared
 {
     public interface IQueryParameterGenerator
     {
+        void AppendCursorParameters(StringBuilder query, ICursorQueryParameters parameters);
+
         string GenerateCountParameter(int count);
         string GenerateTrimUserParameter(bool? trimUser);
         string GenerateSinceIdParameter(long? sinceId);
@@ -29,6 +31,12 @@ namespace Tweetinvi.Controllers.Shared
 
     public class QueryParameterGenerator : IQueryParameterGenerator
     {
+        public void AppendCursorParameters(StringBuilder query, ICursorQueryParameters parameters)
+        {
+            query.AddParameterToQuery("cursor", parameters.Cursor);
+            query.AddParameterToQuery("count", parameters.PageSize);
+        }
+
         public string GenerateCountParameter(int count)
         {
             if (count == -1)

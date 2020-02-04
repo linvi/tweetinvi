@@ -10,25 +10,25 @@ namespace Tweetinvi.Controllers.Account
     public interface IAccountQueryGenerator
     {
         string GetAuthenticatedUserQuery(IGetAuthenticatedUserParameters parameters, TweetMode? tweetMode);
-        
+
         // BLOCK
         string GetBlockUserQuery(IBlockUserParameters parameters);
         string GetUnblockUserQuery(IUnblockUserParameters parameters);
         string GetReportUserForSpamQuery(IReportUserForSpamParameters parameters);
         string GetBlockedUserIdsQuery(IGetBlockedUserIdsParameters parameters);
         string GetBlockedUsersQuery(IGetBlockedUsersParameters parameters);
-        
+
         // FOLLOWERS
         string GetFollowUserQuery(IFollowUserParameters parameters);
         string GetUnFollowUserQuery(IUnFollowUserParameters parameters);
-        
+
         // RELATIONSHIPS
         string GetUpdateRelationshipQuery(IUpdateRelationshipParameters parameters);
-        
+
         // ONGOING REQUESTS
         string GetUserIdsRequestingFriendshipQuery(IGetUserIdsRequestingFriendshipParameters parameters);
         string GetUserIdsYouRequestedToFollowQuery(IGetUserIdsYouRequestedToFollowParameters parameters);
-        
+
         // FRIENDSHIPS
         string GetRelationshipsWithQuery(IGetRelationshipsWithParameters parameters);
 
@@ -66,12 +66,12 @@ namespace Tweetinvi.Controllers.Account
 
             return query.ToString();
         }
-        
+
         // BLOCK
         public string GetBlockUserQuery(IBlockUserParameters parameters)
         {
             var query = new StringBuilder(Resources.User_Block_Create);
-            
+
             query.AddFormattedParameterToQuery(_userQueryParameterGenerator.GenerateIdOrScreenNameParameter(parameters.User));
             query.AddFormattedParameterToQuery(parameters.FormattedCustomQueryParameters);
 
@@ -103,8 +103,7 @@ namespace Tweetinvi.Controllers.Account
         {
             var query = new StringBuilder(Resources.User_Block_List_Ids);
 
-            query.AddParameterToQuery("cursor", parameters.Cursor);
-            query.AddParameterToQuery("count", parameters.PageSize);
+            _queryParameterGenerator.AppendCursorParameters(query, parameters);
             query.AddFormattedParameterToQuery(parameters.FormattedCustomQueryParameters);
 
             return query.ToString();
@@ -114,15 +113,14 @@ namespace Tweetinvi.Controllers.Account
         {
             var query = new StringBuilder(Resources.User_Block_List);
 
-            query.AddParameterToQuery("cursor", parameters.Cursor);
-            query.AddParameterToQuery("count", parameters.PageSize);
+            _queryParameterGenerator.AppendCursorParameters(query, parameters);
             query.AddParameterToQuery("include_entities", parameters.IncludeEntities);
             query.AddParameterToQuery("skip_status",  parameters.SkipStatus);
             query.AddFormattedParameterToQuery(parameters.FormattedCustomQueryParameters);
 
             return query.ToString();
         }
-        
+
         // FOLLOWERS
         public string GetFollowUserQuery(IFollowUserParameters parameters)
         {
@@ -134,7 +132,7 @@ namespace Tweetinvi.Controllers.Account
 
             return query.ToString();
         }
-        
+
         public string GetUpdateRelationshipQuery(IUpdateRelationshipParameters parameters)
         {
             var query = new StringBuilder(Resources.Friendship_Update);
@@ -156,13 +154,12 @@ namespace Tweetinvi.Controllers.Account
 
             return query.ToString();
         }
-        
+
         public string GetUserIdsRequestingFriendshipQuery(IGetUserIdsRequestingFriendshipParameters parameters)
         {
             var query = new StringBuilder(Resources.Friendship_GetIncomingIds);
-            
-            query.AddParameterToQuery("cursor", parameters.Cursor);
-            query.AddParameterToQuery("count", parameters.PageSize);
+
+            _queryParameterGenerator.AppendCursorParameters(query, parameters);
             query.AddFormattedParameterToQuery(parameters.FormattedCustomQueryParameters);
 
             return query.ToString();
@@ -171,9 +168,8 @@ namespace Tweetinvi.Controllers.Account
         public string GetUserIdsYouRequestedToFollowQuery(IGetUserIdsYouRequestedToFollowParameters parameters)
         {
             var query = new StringBuilder(Resources.Friendship_GetOutgoingIds);
-            
-            query.AddParameterToQuery("cursor", parameters.Cursor);
-            query.AddParameterToQuery("count", parameters.PageSize);
+
+            _queryParameterGenerator.AppendCursorParameters(query, parameters);
             query.AddFormattedParameterToQuery(parameters.FormattedCustomQueryParameters);
 
             return query.ToString();
@@ -196,13 +192,12 @@ namespace Tweetinvi.Controllers.Account
             query.AddFormattedParameterToQuery(parameters.FormattedCustomQueryParameters);
             return query.ToString();
         }
-        
+
         public string GetMutedUserIdsQuery(IGetMutedUserIdsParameters parameters)
         {
             var query = new StringBuilder(Resources.Account_Mute_GetUserIds);
-            
-            query.AddParameterToQuery("cursor", parameters.Cursor);
-            query.AddParameterToQuery("count", parameters.PageSize);
+
+            _queryParameterGenerator.AppendCursorParameters(query, parameters);
             query.AddFormattedParameterToQuery(parameters.FormattedCustomQueryParameters);
 
             return query.ToString();
@@ -211,12 +206,11 @@ namespace Tweetinvi.Controllers.Account
         public string GetMutedUsersQuery(IGetMutedUsersParameters parameters)
         {
             var query = new StringBuilder(Resources.Account_Mute_GetUsers);
-            
-            query.AddParameterToQuery("cursor", parameters.Cursor);
-            query.AddParameterToQuery("count", parameters.PageSize);
+
+            _queryParameterGenerator.AppendCursorParameters(query, parameters);
             query.AddParameterToQuery("include_entities", parameters.IncludeEntities);
             query.AddParameterToQuery("skip_status", parameters.SkipStatus);
-            
+
             query.AddFormattedParameterToQuery(parameters.FormattedCustomQueryParameters);
 
             return query.ToString();
@@ -225,7 +219,7 @@ namespace Tweetinvi.Controllers.Account
         public string GetMuteUserQuery(IMuteUserParameters parameters)
         {
             var query = new StringBuilder(Resources.Account_Mute_Create);
-            
+
             query.AddFormattedParameterToQuery(_userQueryParameterGenerator.GenerateIdOrScreenNameParameter(parameters.User));
             query.AddFormattedParameterToQuery(parameters.FormattedCustomQueryParameters);
 
@@ -235,7 +229,7 @@ namespace Tweetinvi.Controllers.Account
         public string GetUnMuteUserQuery(IUnMuteUserParameters parameters)
         {
             var query = new StringBuilder(Resources.Account_Mute_Destroy);
-            
+
             query.AddFormattedParameterToQuery(_userQueryParameterGenerator.GenerateIdOrScreenNameParameter(parameters.User));
             query.AddFormattedParameterToQuery(parameters.FormattedCustomQueryParameters);
 

@@ -76,6 +76,16 @@ namespace Tweetinvi.Controllers.User
             return GenerateListOfUserIds(users.Select(x => x.Id).ToArray());
         }
 
+        public void AppendUser(StringBuilder query, IUserIdentifier user)
+        {
+            query.AddFormattedParameterToQuery(GenerateIdOrScreenNameParameter(user));
+        }
+
+        public void AppendUsers(StringBuilder query, IEnumerable<IUserIdentifier> users)
+        {
+            query.AddFormattedParameterToQuery(GenerateListOfUserIdentifiersParameter(users));
+        }
+
 
         public string GenerateListOfScreenNameParameter(string[] screenNames)
         {

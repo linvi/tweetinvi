@@ -203,8 +203,7 @@ namespace Tweetinvi.Controllers.Tweet
             var query = new StringBuilder(Resources.Tweet_GetRetweeters);
 
             query.AddParameterToQuery("id", parameters.Tweet.Id?.ToString() ?? parameters.Tweet.IdStr);
-            query.AddParameterToQuery("cursor", parameters.Cursor);
-            query.AddParameterToQuery("count", parameters.PageSize);
+            _queryParameterGenerator.AppendCursorParameters(query, parameters);
 
             query.AddFormattedParameterToQuery(parameters.FormattedCustomQueryParameters);
 

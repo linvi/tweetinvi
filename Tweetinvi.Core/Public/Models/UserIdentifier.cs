@@ -41,5 +41,16 @@ namespace Tweetinvi.Models
 
             return Id?.ToString() ?? IdStr;
         }
+
+        public static implicit operator UserIdentifier (long? userId)
+        {
+            return new UserIdentifier(userId);
+        }
+
+        public static implicit operator UserIdentifier (string username)
+        {
+            return new UserIdentifier(username);
+        }
+
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Text;
 using Tweetinvi.Models;
 
 namespace Tweetinvi.Core.QueryGenerators
@@ -15,5 +16,8 @@ namespace Tweetinvi.Core.QueryGenerators
         string GenerateListOfScreenNameParameter(string[] usernames);
         string GenerateUserNamesParameter(IUserIdentifier[] users);
         string GenerateUserIdsParameter(IUserIdentifier[] users);
+
+        void AppendUser(StringBuilder query, IUserIdentifier user);
+        void AppendUsers(StringBuilder query, IEnumerable<IUserIdentifier> users);
     }
 }
