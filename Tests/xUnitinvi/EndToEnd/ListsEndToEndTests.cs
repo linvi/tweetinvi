@@ -42,7 +42,8 @@ namespace xUnitinvi.EndToEnd
             await Task.Delay(500);
             var publicListBeforeGoingPrivate = await _tweetinviClient.Lists.GetList(new TwitterListIdentifier(listFirstCreatedAsPublic.Slug, listFirstCreatedAsPublic.Owner));
 
-            var allLists = await _tweetinviTestClient.Lists.GetUserLists();
+            var listsSubscribedByTweetinviTest = await _tweetinviTestClient.Lists.GetListsSubscribedByAccount();
+            var listsOwnedByTweetinviTest = await _tweetinviClient.Lists.GetListsOwnedByUserIterator(EndToEndTestConfig.TweetinviTest.AccountId).MoveToNextPage();
 
             await Task.Delay(500);
             await listFirstCreatedAsPublic.Update(new ListMetadataParameters
@@ -51,6 +52,8 @@ namespace xUnitinvi.EndToEnd
             });
 
             // cleanup
+            await Task.Delay(500);
+
             await retrievedPrivateList.Destroy();
             await _tweetinviTestClient.Lists.DestroyList(listFirstCreatedAsPublic);
 
@@ -72,8 +75,9 @@ namespace xUnitinvi.EndToEnd
 
             Assert.Equal(publicListBeforeGoingPrivate.Name, "public-endToEnd-Tests");
 
-            Assert.Contains(allLists, list => { return list.Id == privateList.Id; });
-            Assert.Contains(allLists, list => { return list.Id == publicListBeforeGoingPrivate.Id; });
+            Assert.Contains(listsSubscribedByTweetinviTest, list => { return list.Id == privateList.Id; });
+            Assert.Contains(listsSubscribedByTweetinviTest, list => { return list.Id == publicListBeforeGoingPrivate.Id; });
+            Assert.Contains(listsOwnedByTweetinviTest, list => { return list.Id == publicListBeforeGoingPrivate.Id; });
         }
 
         [Fact]

@@ -48,32 +48,6 @@ namespace Tweetinvi
             _twitterListController = TweetinviContainer.Resolve<ITwitterListController>();
         }
 
-        // Owner Lists
-
-        /// <summary>
-        /// Get the authenticated user's lists
-        /// </summary>
-        public static Task<IEnumerable<ITwitterList>> GetUserOwnedLists(long userId, int maximumNumberOfListsToRetrieve = TweetinviConsts.LIST_OWNED_COUNT)
-        {
-            return TwitterListController.GetUserOwnedLists(userId, maximumNumberOfListsToRetrieve);
-        }
-
-        /// <summary>
-        /// Get the authenticated user's lists
-        /// </summary>
-        public static Task<IEnumerable<ITwitterList>> GetUserOwnedLists(string userScreenName, int maximumNumberOfListsToRetrieve = TweetinviConsts.LIST_OWNED_COUNT)
-        {
-            return TwitterListController.GetUserOwnedLists(userScreenName, maximumNumberOfListsToRetrieve);
-        }
-
-        /// <summary>
-        /// Get the authenticated user's lists
-        /// </summary>
-        public static Task<IEnumerable<ITwitterList>> GetUserOwnedLists(IUserIdentifier user, int maximumNumberOfListsToRetrieve = TweetinviConsts.LIST_OWNED_COUNT)
-        {
-            return TwitterListController.GetUserOwnedLists(user, maximumNumberOfListsToRetrieve);
-        }
-
         // Get Tweets from List
 
         /// <summary>

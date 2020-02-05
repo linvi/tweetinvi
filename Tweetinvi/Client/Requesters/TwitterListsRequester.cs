@@ -56,12 +56,12 @@ namespace Tweetinvi.Client.Requesters
             });
         }
 
-        public Task<ITwitterResult<ITwitterListDTO[], ITwitterList[]>> GetUserLists(IGetUserListsParameters parameters)
+        public Task<ITwitterResult<ITwitterListDTO[], ITwitterList[]>> GetListsSubscribedByUser(IGetListsSubscribedByUserParameters parameters)
         {
             _validator.Validate(parameters);
             return ExecuteRequest(async request =>
             {
-                var twitterResult = await _twitterListController.GetUserLists(parameters, request).ConfigureAwait(false);
+                var twitterResult = await _twitterListController.GetListsSubscribedByUser(parameters, request).ConfigureAwait(false);
                 return _twitterResultFactory.Create(twitterResult, dtos => dtos.Select(dto => _factories.CreateTwitterList(dto)).ToArray());
             });
         }
@@ -80,6 +80,15 @@ namespace Tweetinvi.Client.Requesters
         {
             _validator.Validate(parameters);
             return ExecuteRequest(request => _twitterListController.DestroyList(parameters, request));
+        }
+
+        public ITwitterPageIterator<ITwitterResult<ITwitterListCursorQueryResultDTO>> GetListsOwnedByUserIterator(IGetListsOwnedByUserParameters parameters)
+        {
+            _validator.Validate(parameters);
+
+            var request = TwitterClient.CreateRequest();
+            request.ExecutionContext.Converters = JsonQueryConverterRepository.Converters;
+            return _twitterListController.GetListsOwnedByUserIterator(parameters, request);
         }
 
         public Task<ITwitterResult<ITwitterListDTO, ITwitterList>> AddMemberToList(IAddMemberToListParameters parameters)

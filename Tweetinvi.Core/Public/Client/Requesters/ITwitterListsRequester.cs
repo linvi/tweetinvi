@@ -30,7 +30,7 @@ namespace Tweetinvi.Client.Requesters
         /// </summary>
         /// <para> https://developer.twitter.com/en/docs/accounts-and-users/create-manage-lists/api-reference/get-lists-list </para>
         /// <returns>TwitterResult containing the user's lists</returns>
-        Task<ITwitterResult<ITwitterListDTO[], ITwitterList[]>> GetUserLists(IGetUserListsParameters parameters);
+        Task<ITwitterResult<ITwitterListDTO[], ITwitterList[]>> GetListsSubscribedByUser(IGetListsSubscribedByUserParameters parameters);
 
         /// <summary>
         /// Update information of a Twitter list
@@ -46,6 +46,12 @@ namespace Tweetinvi.Client.Requesters
         /// <returns>TwitterResult containing the destroyed list</returns>
         Task<ITwitterResult<ITwitterListDTO>> DestroyList(IDestroyListParameters parameters);
 
+        /// <summary>
+        /// Get the lists owned by a user or an account
+        /// </summary>
+        /// <para> https://developer.twitter.com/en/docs/accounts-and-users/create-manage-lists/api-reference/get-lists-ownerships </para>
+        /// <returns>An iterator over the lists owned by the user or account</returns>
+        ITwitterPageIterator<ITwitterResult<ITwitterListCursorQueryResultDTO>> GetListsOwnedByUserIterator(IGetListsOwnedByUserParameters parameters);
 
         // MEMBERS
 
@@ -62,5 +68,7 @@ namespace Tweetinvi.Client.Requesters
         /// </summary>
         /// <returns>An iterator to list the users members of the list</returns>
         ITwitterPageIterator<ITwitterResult<IUserCursorQueryResultDTO>> GetMembersOfListIterator(IGetMembersOfListParameters parameters);
+
+
     }
 }

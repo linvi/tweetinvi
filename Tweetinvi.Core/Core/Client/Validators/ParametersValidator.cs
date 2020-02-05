@@ -227,7 +227,7 @@ namespace Tweetinvi.Core.Client.Validators
             _twitterListsClientParametersValidator.Validate(parameters);
         }
 
-        public void Validate(IGetUserListsParameters parameters)
+        public void Validate(IGetListsSubscribedByUserParameters parameters)
         {
             _twitterListsClientParametersValidator.Validate(parameters);
         }
@@ -238,6 +238,11 @@ namespace Tweetinvi.Core.Client.Validators
         }
 
         public void Validate(IDestroyListParameters parameters)
+        {
+            _twitterListsClientParametersValidator.Validate(parameters);
+        }
+
+        public void Validate(IGetListsOwnedByUserParameters parameters)
         {
             _twitterListsClientParametersValidator.Validate(parameters);
         }

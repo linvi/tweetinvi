@@ -16,7 +16,7 @@ namespace Tweetinvi.Controllers.TwitterLists
         // list
         string GetCreateListQuery(ICreateListParameters parameters);
         string GetListQuery(IGetListParameters parameters);
-        string GetUserListsQuery(IGetUserListsParameters parameters);
+        string GetListsSubscribedByUserQuery(IGetListsSubscribedByUserParameters parameters);
         string GetUpdateListQuery(IUpdateListParameters parameters);
         string GetDestroyListQuery(IDestroyListParameters parameters);
         string GetListsOwnedByUserQuery(IGetListsOwnedByUserParameters parameters);
@@ -102,7 +102,7 @@ namespace Tweetinvi.Controllers.TwitterLists
             return query.ToString();
         }
 
-        public string GetUserListsQuery(IGetUserListsParameters parameters)
+        public string GetListsSubscribedByUserQuery(IGetListsSubscribedByUserParameters parameters)
         {
             var query = new StringBuilder(Resources.List_GetUserLists);
 

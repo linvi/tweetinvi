@@ -44,7 +44,7 @@ namespace Tweetinvi.Core.Client.Validators
             _twitterListQueryValidator.ThrowIfListIdentifierIsNotValid(parameters.List);
         }
 
-        public void Validate(IGetUserListsParameters parameters)
+        public void Validate(IGetListsSubscribedByUserParameters parameters)
         {
             if (parameters == null)
             {
@@ -70,6 +70,16 @@ namespace Tweetinvi.Core.Client.Validators
             }
 
             _twitterListQueryValidator.ThrowIfListIdentifierIsNotValid(parameters.List);
+        }
+
+        public void Validate(IGetListsOwnedByUserParameters parameters)
+        {
+            if (parameters == null)
+            {
+                throw new ArgumentNullException(nameof(parameters));
+            }
+
+            _userQueryValidator.ThrowIfUserCannotBeIdentified(parameters.User);
         }
 
         public void Validate(IAddMemberToListParameters parameters)

@@ -48,9 +48,9 @@ namespace Tweetinvi.Controllers.TwitterLists
             return _twitterListQueryExecutor.GetList(parameters, request);
         }
 
-        public Task<ITwitterResult<ITwitterListDTO[]>> GetUserLists(IGetUserListsParameters parameters, ITwitterRequest request)
+        public Task<ITwitterResult<ITwitterListDTO[]>> GetListsSubscribedByUser(IGetListsSubscribedByUserParameters parameters, ITwitterRequest request)
         {
-            return _twitterListQueryExecutor.GetUserLists(parameters, request);
+            return _twitterListQueryExecutor.GetListsSubscribedByUser(parameters, request);
         }
 
         public Task<ITwitterResult<ITwitterListDTO>> UpdateList(IUpdateListParameters parameters, ITwitterRequest request)
@@ -61,6 +61,25 @@ namespace Tweetinvi.Controllers.TwitterLists
         Task<ITwitterResult<ITwitterListDTO>> ITwitterListController.DestroyList(IDestroyListParameters parameters, ITwitterRequest request)
         {
             return _twitterListQueryExecutor.DestroyList(parameters, request);
+        }
+
+        public ITwitterPageIterator<ITwitterResult<ITwitterListCursorQueryResultDTO>> GetListsOwnedByUserIterator(IGetListsOwnedByUserParameters parameters, ITwitterRequest request)
+        {
+            var twitterCursorResult = new TwitterPageIterator<ITwitterResult<ITwitterListCursorQueryResultDTO>>(
+                parameters.Cursor,
+                cursor =>
+                {
+                    var cursoredParameters = new GetListsOwnedByAccountByUserParameters(parameters)
+                    {
+                        Cursor = cursor
+                    };
+
+                    return _twitterListQueryExecutor.GetListsOwnedByUser(cursoredParameters, new TwitterRequest(request));
+                },
+                page => page.DataTransferObject.NextCursorStr,
+                page => page.DataTransferObject.NextCursorStr == "0");
+
+            return twitterCursorResult;
         }
 
         public Task<ITwitterResult<ITwitterListDTO>> AddMemberToList(IAddMemberToListParameters parameters, ITwitterRequest request)
@@ -113,24 +132,6 @@ namespace Tweetinvi.Controllers.TwitterLists
             return null;
         }
 
-        #endregion
-
-        #region Owned Lists
-        public Task<IEnumerable<ITwitterList>> GetUserOwnedLists(long userId, int maximumNumberOfListsToRetrieve)
-        {
-            return GetUserOwnedLists(new UserIdentifier(userId), maximumNumberOfListsToRetrieve);
-        }
-
-        public Task<IEnumerable<ITwitterList>> GetUserOwnedLists(string userScreenName, int maximumNumberOfListsToRetrieve)
-        {
-            return GetUserOwnedLists(new UserIdentifier(userScreenName), maximumNumberOfListsToRetrieve);
-        }
-
-        public async Task<IEnumerable<ITwitterList>> GetUserOwnedLists(IUserIdentifier user, int maximumNumberOfListsToRetrieve)
-        {
-            var listDTOs = await _twitterListQueryExecutor.GetUserOwnedLists(user, maximumNumberOfListsToRetrieve);
-            return null;
-        }
         #endregion
 
         #region Get Tweets from List

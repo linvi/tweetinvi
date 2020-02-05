@@ -39,26 +39,29 @@ namespace Tweetinvi.Client
         /// <returns>List requested</returns>
         Task<ITwitterList> GetList(IGetListParameters parameters);
 
+        /// <inheritdoc cref="GetListsSubscribedByAccount(IGetListsSubscribedByAccountParameters)"/>
+        Task<ITwitterList[]> GetListsSubscribedByAccount();
+
         /// <summary>
-        /// Get lists owned by the current account
+        /// Get lists subscribed by the current account
         /// </summary>
         /// <para> https://developer.twitter.com/en/docs/accounts-and-users/create-manage-lists/api-reference/get-lists-list </para>
         /// <returns>Account user's lists</returns>
-        Task<ITwitterList[]> GetUserLists();
+        Task<ITwitterList[]> GetListsSubscribedByAccount(IGetListsSubscribedByAccountParameters parameters);
 
-        /// <inheritdoc cref="GetUserLists(IGetUserListsParameters)"/>
-        Task<ITwitterList[]> GetUserLists(long? userId);
-        /// <inheritdoc cref="GetUserLists(IGetUserListsParameters)"/>
-        Task<ITwitterList[]> GetUserLists(string username);
-        /// <inheritdoc cref="GetUserLists(IGetUserListsParameters)"/>
-        Task<ITwitterList[]> GetUserLists(IUserIdentifier user);
+        /// <inheritdoc cref="GetListsSubscribedByUser(IGetListsSubscribedByUserParameters)"/>
+        Task<ITwitterList[]> GetListsSubscribedByUser(long? userId);
+        /// <inheritdoc cref="GetListsSubscribedByUser(IGetListsSubscribedByUserParameters)"/>
+        Task<ITwitterList[]> GetListsSubscribedByUser(string username);
+        /// <inheritdoc cref="GetListsSubscribedByUser(IGetListsSubscribedByUserParameters)"/>
+        Task<ITwitterList[]> GetListsSubscribedByUser(IUserIdentifier user);
 
         /// <summary>
-        /// Get a user's lists
+        /// Get lists subscribed by a specific user
         /// </summary>
         /// <para> https://developer.twitter.com/en/docs/accounts-and-users/create-manage-lists/api-reference/get-lists-list </para>
         /// <returns>User's lists</returns>
-        Task<ITwitterList[]> GetUserLists(IGetUserListsParameters parameters);
+        Task<ITwitterList[]> GetListsSubscribedByUser(IGetListsSubscribedByUserParameters parameters);
 
         /// <summary>
         /// Update information of a Twitter list
@@ -81,6 +84,30 @@ namespace Tweetinvi.Client
         /// </summary>
         /// <para> https://developer.twitter.com/en/docs/accounts-and-users/create-manage-lists/api-reference/post-lists-destroy </para>
         Task DestroyList(IDestroyListParameters parameters);
+
+        /// <inheritdoc cref="GetListsOwnedByAccountIterator(IGetListsOwnedByAccountParameters)"/>
+        ITwitterIterator<ITwitterList> GetListsOwnedByAccountIterator();
+
+        /// <summary>
+        /// Get the lists owned by the account
+        /// </summary>
+        /// <para> https://developer.twitter.com/en/docs/accounts-and-users/create-manage-lists/api-reference/get-lists-ownerships </para>
+        /// <returns>An iterator over the lists owned by the account</returns>
+        ITwitterIterator<ITwitterList> GetListsOwnedByAccountIterator(IGetListsOwnedByAccountParameters parameters);
+
+        /// <inheritdoc cref="GetListsOwnedByUserIterator(IGetListsOwnedByUserParameters)"/>
+        ITwitterIterator<ITwitterList> GetListsOwnedByUserIterator(long? userId);
+        /// <inheritdoc cref="GetListsOwnedByUserIterator(IGetListsOwnedByUserParameters)"/>
+        ITwitterIterator<ITwitterList> GetListsOwnedByUserIterator(string username);
+        /// <inheritdoc cref="GetListsOwnedByUserIterator(IGetListsOwnedByUserParameters)"/>
+        ITwitterIterator<ITwitterList> GetListsOwnedByUserIterator(IUser user);
+
+        /// <summary>
+        /// Get the lists owned by a user
+        /// </summary>
+        /// <para> https://developer.twitter.com/en/docs/accounts-and-users/create-manage-lists/api-reference/get-lists-ownerships </para>
+        /// <returns>An iterator over the lists owned by the user</returns>
+        ITwitterIterator<ITwitterList> GetListsOwnedByUserIterator(IGetListsOwnedByUserParameters parameters);
 
         /// <inheritdoc cref="AddMemberToList(IAddMemberToListParameters)"/>
         Task AddMemberToList(long? listId, long? userId);
@@ -106,5 +133,6 @@ namespace Tweetinvi.Client
         /// </summary>
         /// <returns>An iterator to list the users members of the list</returns>
         ITwitterIterator<IUser> GetMembersOfListIterator(IGetMembersOfListParameters parameters);
+
     }
 }

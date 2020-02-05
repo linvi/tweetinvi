@@ -9,6 +9,7 @@ using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
 using Tweetinvi.Models.Entities;
 using Tweetinvi.Parameters;
+using Tweetinvi.Parameters.ListsClient;
 
 namespace Tweetinvi.Core.Models
 {
@@ -356,9 +357,9 @@ namespace Tweetinvi.Core.Models
             return _twitterListController.GetUserSubscribedLists(this, maximumNumberOfListsToRetrieve);
         }
 
-        public Task<IEnumerable<ITwitterList>> GetOwnedLists(int maximumNumberOfListsToRetrieve = TweetinviConsts.LIST_OWNED_COUNT)
+        public ITwitterIterator<ITwitterList> GetOwnedListsIterator()
         {
-            return _twitterListController.GetUserOwnedLists(this, maximumNumberOfListsToRetrieve);
+            return Client.Lists.GetListsOwnedByUserIterator(new GetListsOwnedByAccountByUserParameters(this));
         }
 
         // Block User

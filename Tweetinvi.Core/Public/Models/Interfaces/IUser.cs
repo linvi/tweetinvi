@@ -353,7 +353,7 @@ namespace Tweetinvi.Models
         /// <summary>
         /// Get the lists owned by the user.
         /// </summary>
-        Task<IEnumerable<ITwitterList>> GetOwnedLists(int maximumNumberOfListsToRetrieve);
+        ITwitterIterator<ITwitterList> GetOwnedListsIterator();
 
         /// <summary>
         /// Get the lists the user has subscribed to.

@@ -85,20 +85,19 @@ namespace xUnitinvi.ClientActions.ListsClient
         }
 
         [Fact]
-        public void GetUserListsQuery_ReturnsExpectedQuery()
+        public void GetListsSubscribedByUserQuery_ReturnsExpectedQuery()
         {
             // arrange
             var queryGenerator = CreateTwitterListQueryGenerator();
 
-            var parameters = new GetUserListsParameters
+            var parameters = new GetListsSubscribedByUserParameters(42)
             {
-                User = new UserIdentifier(42),
                 Reverse = true,
                 CustomQueryParameters = { new Tuple<string, string>("hello", "world") }
             };
 
             // Act
-            var result = queryGenerator.GetUserListsQuery(parameters);
+            var result = queryGenerator.GetListsSubscribedByUserQuery(parameters);
 
             // Assert
             Assert.Equal(result, "https://api.twitter.com/1.1/lists/list.json?user_id=42&reverse=true&hello=world");
@@ -188,7 +187,7 @@ namespace xUnitinvi.ClientActions.ListsClient
             // arrange
             var queryGenerator = CreateTwitterListQueryGenerator();
 
-            var parameters = new GetListsOwnedByUserParameters(42)
+            var parameters = new GetListsOwnedByAccountByUserParameters(42)
             {
                 Cursor = "my_cursor",
                 PageSize = 2,

@@ -1,5 +1,7 @@
+using System.Linq;
 using System.Threading.Tasks;
 using Tweetinvi.Client.Requesters;
+using Tweetinvi.Client.Tools;
 using Tweetinvi.Core.Factories;
 using Tweetinvi.Core.Iterators;
 using Tweetinvi.Core.Web;
@@ -13,13 +15,16 @@ namespace Tweetinvi.Client
     public class ListsClient : IListsClient
     {
         private readonly ITwitterListsRequester _twitterListsRequester;
+        private readonly ITwitterClientFactories _clientFactories;
         private readonly IUserFactory _userFactory;
 
         public ListsClient(
             ITwitterListsRequester twitterListsRequester,
+            ITwitterClientFactories clientFactories,
             IUserFactory userFactory)
         {
             _twitterListsRequester = twitterListsRequester;
+            _clientFactories = clientFactories;
             _userFactory = userFactory;
         }
 
@@ -63,29 +68,34 @@ namespace Tweetinvi.Client
             return twitterResult?.Result;
         }
 
-        public Task<ITwitterList[]> GetUserLists()
+        public Task<ITwitterList[]> GetListsSubscribedByAccount()
         {
-            return GetUserLists(new GetUserListsParameters());
+            return GetListsSubscribedByAccount(new GetListsSubscribedByAccountParameters());
         }
 
-        public Task<ITwitterList[]> GetUserLists(long? userId)
+        public Task<ITwitterList[]> GetListsSubscribedByAccount(IGetListsSubscribedByAccountParameters parameters)
         {
-            return GetUserLists(new GetUserListsParameters(userId));
+            return GetListsSubscribedByUser(new GetListsSubscribedByUserParameters(parameters));
         }
 
-        public Task<ITwitterList[]> GetUserLists(string username)
+        public Task<ITwitterList[]> GetListsSubscribedByUser(long? userId)
         {
-            return GetUserLists(new GetUserListsParameters(username));
+            return GetListsSubscribedByUser(new GetListsSubscribedByUserParameters(userId));
         }
 
-        public Task<ITwitterList[]> GetUserLists(IUserIdentifier user)
+        public Task<ITwitterList[]> GetListsSubscribedByUser(string username)
         {
-            return GetUserLists(new GetUserListsParameters(user));
+            return GetListsSubscribedByUser(new GetListsSubscribedByUserParameters(username));
         }
 
-        public async Task<ITwitterList[]> GetUserLists(IGetUserListsParameters parameters)
+        public Task<ITwitterList[]> GetListsSubscribedByUser(IUserIdentifier user)
         {
-            var twitterResult = await _twitterListsRequester.GetUserLists(parameters).ConfigureAwait(false);
+            return GetListsSubscribedByUser(new GetListsSubscribedByUserParameters(user));
+        }
+
+        public async Task<ITwitterList[]> GetListsSubscribedByUser(IGetListsSubscribedByUserParameters parameters)
+        {
+            var twitterResult = await _twitterListsRequester.GetListsSubscribedByUser(parameters).ConfigureAwait(false);
             return twitterResult?.Result;
         }
 
@@ -113,6 +123,41 @@ namespace Tweetinvi.Client
         public async Task DestroyList(IDestroyListParameters parameters)
         {
             await _twitterListsRequester.DestroyList(parameters).ConfigureAwait(false);
+        }
+
+        public ITwitterIterator<ITwitterList> GetListsOwnedByAccountIterator()
+        {
+            return GetListsOwnedByAccountIterator(new GetListsOwnedByAccountParameters());
+        }
+
+        public ITwitterIterator<ITwitterList> GetListsOwnedByAccountIterator(IGetListsOwnedByAccountParameters parameters)
+        {
+            return GetListsOwnedByUserIterator(new GetListsOwnedByAccountByUserParameters(parameters));
+        }
+
+        public ITwitterIterator<ITwitterList> GetListsOwnedByUserIterator(long? userId)
+        {
+            return GetListsOwnedByUserIterator(new GetListsOwnedByAccountByUserParameters(userId));
+        }
+
+        public ITwitterIterator<ITwitterList> GetListsOwnedByUserIterator(string username)
+        {
+            return GetListsOwnedByUserIterator(new GetListsOwnedByAccountByUserParameters(username));
+        }
+
+        public ITwitterIterator<ITwitterList> GetListsOwnedByUserIterator(IUser user)
+        {
+            return GetListsOwnedByUserIterator(new GetListsOwnedByAccountByUserParameters(user));
+        }
+
+        public ITwitterIterator<ITwitterList> GetListsOwnedByUserIterator(IGetListsOwnedByUserParameters parameters)
+        {
+            var iterator = _twitterListsRequester.GetListsOwnedByUserIterator(parameters);
+            return new TwitterIteratorProxy<ITwitterResult<ITwitterListCursorQueryResultDTO>, ITwitterList>(iterator, pageResult =>
+            {
+                var listDtos = pageResult.DataTransferObject.TwitterLists;
+                return listDtos?.Select(dto => _clientFactories.CreateTwitterList(dto)).ToArray();
+            });
         }
 
         public Task AddMemberToList(long? listId, long? userId)
