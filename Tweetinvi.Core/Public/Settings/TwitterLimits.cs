@@ -88,6 +88,12 @@ namespace Tweetinvi
         /// Maximum numbers of lists that can be retrieved in 1 request
         /// <para>https://developer.twitter.com/en/docs/accounts-and-users/create-manage-lists/api-reference/get-lists-memberships</para>
         /// </summary>
+        public short LISTS_GET_USER_MEMBERSHIPS_LISTS_MAX_SIZE { get; set; } = 1000;
+
+        /// <summary>
+        /// Maximum numbers of lists that can be retrieved in 1 request
+        /// <para>https://developer.twitter.com/en/docs/accounts-and-users/create-manage-lists/api-reference/get-lists-memberships</para>
+        /// </summary>
         public short LISTS_GET_USER_MEMBERSHIPS_MAX_SIZE { get; set; } = 1000;
 
         /// <summary>

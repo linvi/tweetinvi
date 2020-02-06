@@ -185,6 +185,46 @@ namespace Tweetinvi.Client
             await _twitterListsRequester.AddMemberToList(parameters).ConfigureAwait(false);
         }
 
+        public ITwitterIterator<ITwitterList> GetListsAccountIsMemberOfIterator()
+        {
+            return GetListsAccountIsMemberOfIterator(new GetListsAccountIsMemberOfParameters());
+        }
+
+        public ITwitterIterator<ITwitterList> GetListsAccountIsMemberOfIterator(IGetListsAccountIsMemberOfParameters parameters)
+        {
+            return GetListsAUserIsMemberOfIterator(new GetListsAUserIsMemberOfParameters(parameters));
+        }
+
+        public ITwitterIterator<ITwitterList> GetListsAUserIsMemberOfIterator(long? userId)
+        {
+            return GetListsAUserIsMemberOfIterator(new GetListsAUserIsMemberOfParameters(userId));
+        }
+
+        public ITwitterIterator<ITwitterList> GetListsAUserIsMemberOfIterator(string username)
+        {
+            return GetListsAUserIsMemberOfIterator(new GetListsAUserIsMemberOfParameters(username));
+        }
+
+        public ITwitterIterator<ITwitterList> GetListsAUserIsMemberOfIterator(IUserIdentifier user)
+        {
+            return GetListsAUserIsMemberOfIterator(new GetListsAUserIsMemberOfParameters(user));
+        }
+
+        public ITwitterIterator<ITwitterList> GetListsAUserIsMemberOfIterator(IGetListsAUserIsMemberOfParameters parameters)
+        {
+            var iterator = _twitterListsRequester.GetListsAUserIsMemberOfIterator(parameters);
+            return new TwitterIteratorProxy<ITwitterResult<ITwitterListCursorQueryResultDTO>, ITwitterList>(iterator, pageResult =>
+            {
+                var listDtos = pageResult.DataTransferObject.TwitterLists;
+                return listDtos?.Select(dto => _clientFactories.CreateTwitterList(dto)).ToArray();
+            });
+        }
+
+        public ITwitterIterator<IUser> GetMembersOfListIterator(long? listId)
+        {
+            return GetMembersOfListIterator(new GetMembersOfListParameters(listId));
+        }
+
         public ITwitterIterator<IUser> GetMembersOfListIterator(ITwitterListIdentifier list)
         {
             return GetMembersOfListIterator(new GetMembersOfListParameters(list));

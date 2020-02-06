@@ -23,6 +23,7 @@ namespace Tweetinvi.Core.Controllers
 
         // members
         Task<ITwitterResult<ITwitterListDTO>> AddMemberToList(IAddMemberToListParameters parameters, ITwitterRequest request);
+        ITwitterPageIterator<ITwitterResult<ITwitterListCursorQueryResultDTO>> GetListsAUserIsMemberOfIterator(IGetListsAUserIsMemberOfParameters parameters, ITwitterRequest request);
         ITwitterPageIterator<ITwitterResult<IUserCursorQueryResultDTO>> GetMembersOfListIterator(IGetMembersOfListParameters parameters, ITwitterRequest request);
 
 
@@ -31,9 +32,6 @@ namespace Tweetinvi.Core.Controllers
 
 
 
-        Task<IEnumerable<ITwitterList>> GetUserSubscribedLists(IUserIdentifier user, bool getOwnedListsFirst);
-        Task<IEnumerable<ITwitterList>> GetUserSubscribedLists(long userId, bool getOwnedListsFirst);
-        Task<IEnumerable<ITwitterList>> GetUserSubscribedLists(string userScreenName, bool getOwnedListsFirst);
 
         Task<IEnumerable<ITweet>> GetTweetsFromList(long listId);
         Task<IEnumerable<ITweet>> GetTweetsFromList(string slug, IUserIdentifier owner);
@@ -61,10 +59,6 @@ namespace Tweetinvi.Core.Controllers
         Task<MultiRequestsResult> AddMultipleMembersToList(ITwitterListIdentifier list, IEnumerable<long> userIds);
         Task<MultiRequestsResult> AddMultipleMembersToList(ITwitterListIdentifier list, IEnumerable<string> userScreenNames);
         Task<MultiRequestsResult> AddMultipleMembersToList(ITwitterListIdentifier list, IEnumerable<IUserIdentifier> users);
-
-        // Get List Memberships
-        Task<IEnumerable<ITwitterList>> GetUserListsMemberships(IUserIdentifier userIdentifier, IGetUserListMembershipsParameters parameters);
-        Task<IEnumerable<ITwitterList>> GetUserListsMemberships(IGetUserListMembershipsQueryParameters parameters);
 
         // Remove Member from List
         Task<bool> RemoveMemberFromList(long listId, long newUserId);

@@ -124,6 +124,32 @@ namespace Tweetinvi.Client
         /// <para> https://developer.twitter.com/en/docs/accounts-and-users/create-manage-lists/api-reference/post-lists-members-create </para>
         Task AddMemberToList(IAddMemberToListParameters parameters);
 
+        /// <inheritdoc cref="GetListsAccountIsMemberOfIterator(IGetListsAccountIsMemberOfParameters)"/>
+        ITwitterIterator<ITwitterList> GetListsAccountIsMemberOfIterator();
+
+        /// <summary>
+        /// Get an iterator to retrieve all the lists the account is member of
+        /// <para>Read more : https://developer.twitter.com/en/docs/accounts-and-users/create-manage-lists/api-reference/get-lists-memberships </para>
+        /// </summary>
+        /// <returns>An iterator to retrieve all the lists the account is member of</returns>
+        ITwitterIterator<ITwitterList> GetListsAccountIsMemberOfIterator(IGetListsAccountIsMemberOfParameters parameters);
+
+        /// <inheritdoc cref="GetListsAUserIsMemberOfIterator(IGetListsAUserIsMemberOfParameters)"/>
+        ITwitterIterator<ITwitterList> GetListsAUserIsMemberOfIterator(long? userId);
+        /// <inheritdoc cref="GetListsAUserIsMemberOfIterator(IGetListsAUserIsMemberOfParameters)"/>
+        ITwitterIterator<ITwitterList> GetListsAUserIsMemberOfIterator(string username);
+        /// <inheritdoc cref="GetListsAUserIsMemberOfIterator(IGetListsAUserIsMemberOfParameters)"/>
+        ITwitterIterator<ITwitterList> GetListsAUserIsMemberOfIterator(IUserIdentifier user);
+
+        /// <summary>
+        /// Get an iterator to retrieve all the lists a user is member of
+        /// <para>Read more : https://developer.twitter.com/en/docs/accounts-and-users/create-manage-lists/api-reference/get-lists-memberships </para>
+        /// </summary>
+        /// <returns>An iterator to retrieve all the lists a user is member of</returns>
+        ITwitterIterator<ITwitterList> GetListsAUserIsMemberOfIterator(IGetListsAUserIsMemberOfParameters parameters);
+
+        /// <inheritdoc cref="GetMembersOfListIterator(IGetMembersOfListParameters)"/>
+        ITwitterIterator<IUser> GetMembersOfListIterator(long? listId);
         /// <inheritdoc cref="GetMembersOfListIterator(IGetMembersOfListParameters)"/>
         ITwitterIterator<IUser> GetMembersOfListIterator(ITwitterListIdentifier list);
 

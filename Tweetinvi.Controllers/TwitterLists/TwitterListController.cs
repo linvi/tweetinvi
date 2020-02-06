@@ -87,6 +87,25 @@ namespace Tweetinvi.Controllers.TwitterLists
             return _twitterListQueryExecutor.AddMemberToList(parameters, request);
         }
 
+        public ITwitterPageIterator<ITwitterResult<ITwitterListCursorQueryResultDTO>> GetListsAUserIsMemberOfIterator(IGetListsAUserIsMemberOfParameters parameters, ITwitterRequest request)
+        {
+            var twitterCursorResult = new TwitterPageIterator<ITwitterResult<ITwitterListCursorQueryResultDTO>>(
+                parameters.Cursor,
+                cursor =>
+                {
+                    var cursoredParameters = new GetListsAUserIsMemberOfParameters(parameters)
+                    {
+                        Cursor = cursor
+                    };
+
+                    return _twitterListQueryExecutor.GetListsAUserIsMemberOf(cursoredParameters, new TwitterRequest(request));
+                },
+                page => page.DataTransferObject.NextCursorStr,
+                page => page.DataTransferObject.NextCursorStr == "0");
+
+            return twitterCursorResult;
+        }
+
         public ITwitterPageIterator<ITwitterResult<IUserCursorQueryResultDTO>> GetMembersOfListIterator(IGetMembersOfListParameters parameters, ITwitterRequest request)
         {
             var twitterCursorResult = new TwitterPageIterator<ITwitterResult<IUserCursorQueryResultDTO>>(
@@ -111,28 +130,6 @@ namespace Tweetinvi.Controllers.TwitterLists
 
 
 
-
-        #region Get User Lists
-
-        public async Task<IEnumerable<ITwitterList>> GetUserSubscribedLists(IUserIdentifier user, bool getOwnedListsFirst)
-        {
-            var listDTOs = await _twitterListQueryExecutor.GetUserSubscribedLists(user, getOwnedListsFirst);
-            return null;
-        }
-
-        public async Task<IEnumerable<ITwitterList>> GetUserSubscribedLists(long userId, bool getOwnedListsFirst)
-        {
-            var listDTOs = await _twitterListQueryExecutor.GetUserSubscribedLists(new UserIdentifier(userId), getOwnedListsFirst);
-            return null;
-        }
-
-        public async Task<IEnumerable<ITwitterList>> GetUserSubscribedLists(string userScreenName, bool getOwnedListsFirst)
-        {
-            var listDTOs = await _twitterListQueryExecutor.GetUserSubscribedLists(new UserIdentifier(userScreenName), getOwnedListsFirst);
-            return null;
-        }
-
-        #endregion
 
         #region Get Tweets from List
         public Task<IEnumerable<ITweet>> GetTweetsFromList(long listId)
@@ -740,23 +737,5 @@ namespace Tweetinvi.Controllers.TwitterLists
 
 
         #endregion
-
-        public Task<IEnumerable<ITwitterList>> GetUserListsMemberships(IUserIdentifier userIdentifier, IGetUserListMembershipsParameters parameters)
-        {
-            var queryParameters = new GetUserListMembershipsQueryParameters(userIdentifier);
-
-            if (parameters != null)
-            {
-                queryParameters.Parameters = parameters;
-            }
-
-            return GetUserListsMemberships(queryParameters);
-        }
-
-        public async Task<IEnumerable<ITwitterList>> GetUserListsMemberships(IGetUserListMembershipsQueryParameters parameters)
-        {
-            var twitterListDtos = await _twitterListQueryExecutor.GetUserListMemberships(parameters);
-            return null;
-        }
     }
 }

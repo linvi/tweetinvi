@@ -93,6 +93,16 @@ namespace Tweetinvi.Core.Client.Validators
             _userQueryValidator.ThrowIfUserCannotBeIdentified(parameters.User);
         }
 
+        public void Validate(IGetListsAUserIsMemberOfParameters parameters)
+        {
+            if (parameters == null)
+            {
+                throw new ArgumentNullException(nameof(parameters));
+            }
+
+            _userQueryValidator.ThrowIfUserCannotBeIdentified(parameters.User);
+        }
+
         public void Validate(IGetMembersOfListParameters parameters)
         {
             if (parameters == null)

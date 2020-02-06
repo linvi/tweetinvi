@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Tweetinvi.Models;
 using Tweetinvi.Parameters.ListsClient;
@@ -43,7 +44,7 @@ namespace xUnitinvi.EndToEnd
             var publicListBeforeGoingPrivate = await _tweetinviClient.Lists.GetList(new TwitterListIdentifier(listFirstCreatedAsPublic.Slug, listFirstCreatedAsPublic.Owner));
 
             var listsSubscribedByTweetinviTest = await _tweetinviTestClient.Lists.GetListsSubscribedByAccount();
-            var listsOwnedByTweetinviTest = await _tweetinviClient.Lists.GetListsOwnedByUserIterator(EndToEndTestConfig.TweetinviTest.AccountId).MoveToNextPage();
+            var listsOwnedByTweetinviTest = await _tweetinviClient.Lists.GetListsOwnedByUserIterator(EndToEndTestConfig.TweetinviTest).MoveToNextPage();
 
             await Task.Delay(500);
             await listFirstCreatedAsPublic.Update(new ListMetadataParameters
@@ -89,8 +90,8 @@ namespace xUnitinvi.EndToEnd
             var publicList = await _tweetinviTestClient.Lists.CreateList("members-test-list", PrivacyMode.Public);
             await Task.Delay(500);
 
-            await publicList.AddMember(EndToEndTestConfig.TweetinviApi.AccountId);
-            await _tweetinviTestClient.Lists.AddMemberToList(publicList, EndToEndTestConfig.TweetinviTest.AccountId);
+            await publicList.AddMember(EndToEndTestConfig.TweetinviApi);
+            await _tweetinviTestClient.Lists.AddMemberToList(publicList, EndToEndTestConfig.TweetinviTest);
 
             var membersIterator = _tweetinviTestClient.Lists.GetMembersOfListIterator(new GetMembersOfListParameters(publicList)
             {
@@ -103,11 +104,15 @@ namespace xUnitinvi.EndToEnd
                 publicListMembers.AddRange(await membersIterator.MoveToNextPage());
             }
 
+            var listsTweetinviTestIsMemberOfIterator = _tweetinviClient.Lists.GetListsAUserIsMemberOfIterator(EndToEndTestConfig.TweetinviTest);
+            var listsTweetinviTestIsMemberOf = (await listsTweetinviTestIsMemberOfIterator.MoveToNextPage()).ToArray();
+
             await publicList.Destroy();
 
             // assert
-            Assert.Contains(publicListMembers, members => { return members.ScreenName.ToLower() == EndToEndTestConfig.TweetinviApi.AccountId; });
-            Assert.Contains(publicListMembers, members => { return members.ScreenName.ToLower() == EndToEndTestConfig.TweetinviTest.AccountId; });
+            Assert.Contains(publicListMembers, members => { return members.ScreenName.ToLower() == EndToEndTestConfig.TweetinviApi; });
+            Assert.Contains(publicListMembers, members => { return members.ScreenName.ToLower() == EndToEndTestConfig.TweetinviTest; });
+            Assert.Contains(listsTweetinviTestIsMemberOf, lists => { return lists.Id == publicList.Id; });
 
         }
     }

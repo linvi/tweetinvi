@@ -22,6 +22,7 @@ namespace Tweetinvi.Controllers.TwitterLists
 
         // list members
         Task<ITwitterResult<ITwitterListDTO>> AddMemberToList(IAddMemberToListParameters parameters, ITwitterRequest request);
+        Task<ITwitterResult<ITwitterListCursorQueryResultDTO>> GetListsAUserIsMemberOf(IGetListsAUserIsMemberOfParameters parameters, ITwitterRequest request);
         Task<ITwitterResult<IUserCursorQueryResultDTO>> GetMembersOfList(IGetMembersOfListParameters parameters, ITwitterRequest request);
 
 
@@ -32,8 +33,6 @@ namespace Tweetinvi.Controllers.TwitterLists
 
 
         // OLD
-
-        Task<IEnumerable<ITwitterListDTO>> GetUserSubscribedLists(IUserIdentifier user, bool getOwnedListsFirst);
 
         Task<IEnumerable<ITweetDTO>> GetTweetsFromList(IGetTweetsFromListQueryParameters queryParameters);
 
@@ -54,10 +53,6 @@ namespace Tweetinvi.Controllers.TwitterLists
         Task<bool> SubscribeAuthenticatedUserToList(ITwitterListIdentifier listIdentifier);
         Task<bool> UnSubscribeAuthenticatedUserFromList(ITwitterListIdentifier listIdentifier);
         Task<bool> CheckIfUserIsAListSubscriber(ITwitterListIdentifier listIdentifier, IUserIdentifier user);
-
-        // User memberships
-        Task<IEnumerable<ITwitterListDTO>> GetUserListMemberships(
-            IGetUserListMembershipsQueryParameters queryParameters);
 
     }
 
@@ -121,6 +116,14 @@ namespace Tweetinvi.Controllers.TwitterLists
             return _twitterAccessor.ExecuteRequest<ITwitterListDTO>(request);
         }
 
+        public Task<ITwitterResult<ITwitterListCursorQueryResultDTO>> GetListsAUserIsMemberOf(IGetListsAUserIsMemberOfParameters parameters, ITwitterRequest request)
+        {
+            request.Query.Url = _listsQueryGenerator.GetListsAUserIsMemberOfQuery(parameters);
+            request.Query.HttpMethod = HttpMethod.GET;
+            return _twitterAccessor.ExecuteRequest<ITwitterListCursorQueryResultDTO>(request);
+        }
+
+
         public Task<ITwitterResult<IUserCursorQueryResultDTO>> GetMembersOfList(IGetMembersOfListParameters parameters, ITwitterRequest request)
         {
             request.Query.Url = _listsQueryGenerator.GetMembersOfListQuery(parameters);
@@ -137,22 +140,6 @@ namespace Tweetinvi.Controllers.TwitterLists
             return _twitterAccessor.ExecuteGETQuery<IEnumerable<ITwitterListDTO>>(query);
         }
 
-
-        // Owned Lists
-
-        // Memberships
-        public Task<IEnumerable<ITwitterListDTO>> GetUserOwnedLists(IUserIdentifier user, int maximumNumberOfListsToRetrieve)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<IEnumerable<ITwitterListDTO>> GetUserListMemberships(IGetUserListMembershipsQueryParameters queryParameters)
-        {
-            throw new NotImplementedException();
-            // var parameters = queryParameters.Parameters;
-            // var query = _listsQueryGenerator.GetUserListMembershipsQuery(queryParameters);
-            // return _twitterAccessor.ExecuteCursorGETQuery<ITwitterListDTO, ITwitterListCursorQueryResultDTO>(query, parameters);
-        }
 
         // Get Tweets from list
         public Task<IEnumerable<ITweetDTO>> GetTweetsFromList(IGetTweetsFromListQueryParameters queryParameters)

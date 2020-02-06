@@ -457,28 +457,6 @@ namespace Tweetinvi
             return TwitterListController.RemoveMultipleMembersFromList(list, usersToRemove);
         }
 
-        // Get Memberships
-
-        public static Task<IEnumerable<ITwitterList>> GetUserListMemberships(string username, IGetUserListMembershipsParameters parameters = null)
-        {
-            return TwitterListController.GetUserListsMemberships(new UserIdentifier(username), parameters);
-        }
-
-        public static Task<IEnumerable<ITwitterList>> GetUserListMemberships(long userId, IGetUserListMembershipsParameters parameters = null)
-        {
-            return TwitterListController.GetUserListsMemberships(new UserIdentifier(userId), parameters);
-        }
-
-        public static Task<IEnumerable<ITwitterList>> GetUserListMemberships(IUserIdentifier userIdentifier, IGetUserListMembershipsParameters parameters = null)
-        {
-            return TwitterListController.GetUserListsMemberships(userIdentifier, parameters);
-        }
-
-        public static Task<IEnumerable<ITwitterList>> GetUserListMemberships(IGetUserListMembershipsQueryParameters parameters)
-        {
-            return TwitterListController.GetUserListsMemberships(parameters);
-        }
-
         // Check Membership
 
         /// <summary>

@@ -101,6 +101,15 @@ namespace Tweetinvi.Client.Requesters
             });
         }
 
+        public ITwitterPageIterator<ITwitterResult<ITwitterListCursorQueryResultDTO>> GetListsAUserIsMemberOfIterator(IGetListsAUserIsMemberOfParameters parameters)
+        {
+            _validator.Validate(parameters);
+
+            var request = TwitterClient.CreateRequest();
+            request.ExecutionContext.Converters = JsonQueryConverterRepository.Converters;
+            return _twitterListController.GetListsAUserIsMemberOfIterator(parameters, request);
+        }
+
         public ITwitterPageIterator<ITwitterResult<IUserCursorQueryResultDTO>> GetMembersOfListIterator(IGetMembersOfListParameters parameters)
         {
             _validator.Validate(parameters);

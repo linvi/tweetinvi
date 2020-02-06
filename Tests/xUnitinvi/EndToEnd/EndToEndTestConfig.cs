@@ -30,5 +30,10 @@ namespace xUnitinvi.EndToEnd
     {
         public ITwitterCredentials Credentials { get; set; }
         public string AccountId { get; set; }
+
+        public static implicit operator string (IntegrationTestAccount account)
+        {
+            return account.AccountId;
+        }
     }
 }

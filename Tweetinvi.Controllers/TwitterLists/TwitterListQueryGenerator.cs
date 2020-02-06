@@ -23,9 +23,9 @@ namespace Tweetinvi.Controllers.TwitterLists
 
         // members
         string GetAddMemberToListQuery(IAddMemberToListParameters parameters);
-        string GetAddMembersQueryQuery(IAddMembersToListParameters parameters);
+        string GetAddMembersQuery(IAddMembersToListParameters parameters);
         string GetCheckIfUserIsMemberOfListQuery(ICheckIfUserIsMemberOfListParameters parameters);
-        string GetListsUserIsMemberOfQuery(IGetListsUserIsMemberOfParameters parameters);
+        string GetListsAUserIsMemberOfQuery(IGetListsAUserIsMemberOfParameters parameters);
         string GetMembersOfListQuery(IGetMembersOfListParameters parameters);
         string GetRemoveMemberFromListParameter(IRemoveMemberFromListParameters parameters);
         string GetRemoveMembersFromListParameters(IRemoveMembersFromListParameters parameters);
@@ -160,7 +160,7 @@ namespace Tweetinvi.Controllers.TwitterLists
             return query.ToString();
         }
 
-        public string GetAddMembersQueryQuery(IAddMembersToListParameters parameters)
+        public string GetAddMembersQuery(IAddMembersToListParameters parameters)
         {
             var query = new StringBuilder(Resources.List_CreateMembers);
 
@@ -186,7 +186,7 @@ namespace Tweetinvi.Controllers.TwitterLists
             return query.ToString();
         }
 
-        public string GetListsUserIsMemberOfQuery(IGetListsUserIsMemberOfParameters parameters)
+        public string GetListsAUserIsMemberOfQuery(IGetListsAUserIsMemberOfParameters parameters)
         {
             var query = new StringBuilder(Resources.List_GetUserMemberships);
 

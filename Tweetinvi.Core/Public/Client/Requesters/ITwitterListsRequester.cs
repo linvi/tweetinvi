@@ -63,6 +63,13 @@ namespace Tweetinvi.Client.Requesters
         Task<ITwitterResult<ITwitterListDTO, ITwitterList>> AddMemberToList(IAddMemberToListParameters parameters);
 
         /// <summary>
+        /// Get the lists a user is a member of
+        /// </summary>
+        /// <para> https://developer.twitter.com/en/docs/accounts-and-users/create-manage-lists/api-reference/get-lists-memberships </para>
+        /// <returns>An iterator over the lists a user is a member of</returns>
+        ITwitterPageIterator<ITwitterResult<ITwitterListCursorQueryResultDTO>> GetListsAUserIsMemberOfIterator(IGetListsAUserIsMemberOfParameters parameters);
+
+        /// <summary>
         /// Get the members of the specified list.
         /// <para>Read more : https://developer.twitter.com/en/docs/accounts-and-users/create-manage-lists/api-reference/get-lists-members </para>
         /// </summary>

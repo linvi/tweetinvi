@@ -242,7 +242,7 @@ namespace xUnitinvi.ClientActions.ListsClient
         }
 
         [Fact]
-        public void GetAddMembersToListQueryQuery_ReturnsExpectedQuery()
+        public void GetAddMembersToListQuery_ReturnsExpectedQuery()
         {
             // arrange
             var queryGenerator = CreateTwitterListQueryGenerator();
@@ -253,7 +253,7 @@ namespace xUnitinvi.ClientActions.ListsClient
             };
 
             // Act
-            var result = queryGenerator.GetAddMembersQueryQuery(parameters);
+            var result = queryGenerator.GetAddMembersQuery(parameters);
 
             // Assert
             Assert.Equal(result, "https://api.twitter.com/1.1/lists/members/create_all.json?list_id=42&user_id=5%2C6&hello=world");
@@ -285,7 +285,7 @@ namespace xUnitinvi.ClientActions.ListsClient
             // arrange
             var queryGenerator = CreateTwitterListQueryGenerator();
 
-            var parameters = new GetListsUserIsMemberOfParameters(42)
+            var parameters = new GetListsAUserIsMemberOfParameters(42)
             {
                 Cursor = "my_cursor",
                 PageSize = 2,
@@ -294,7 +294,7 @@ namespace xUnitinvi.ClientActions.ListsClient
             };
 
             // Act
-            var result = queryGenerator.GetListsUserIsMemberOfQuery(parameters);
+            var result = queryGenerator.GetListsAUserIsMemberOfQuery(parameters);
 
             // Assert
             Assert.Equal(result, "https://api.twitter.com/1.1/lists/memberships.json?user_id=42&cursor=my_cursor&count=2&filter_to_owned_lists=false&hello=world");
