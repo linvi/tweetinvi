@@ -10,7 +10,7 @@ using Tweetinvi.Credentials.QueryJsonConverters;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
 using Tweetinvi.Models.DTO.QueryDTO;
-using Tweetinvi.Parameters.ListsClient;
+using Tweetinvi.Parameters;
 
 namespace Tweetinvi.Client.Requesters
 {
@@ -101,6 +101,16 @@ namespace Tweetinvi.Client.Requesters
             });
         }
 
+        public Task<ITwitterResult<ITwitterListDTO, ITwitterList>> AddMembersToList(IAddMembersToListParameters parameters)
+        {
+            _validator.Validate(parameters);
+            return ExecuteRequest(async request =>
+            {
+                var twitterResult = await _twitterListController.AddMembersToList(parameters, request).ConfigureAwait(false);
+                return _twitterResultFactory.Create(twitterResult, dto => _factories.CreateTwitterList(dto));
+            });
+        }
+
         public ITwitterPageIterator<ITwitterResult<ITwitterListCursorQueryResultDTO>> GetListsAUserIsMemberOfIterator(IGetListsAUserIsMemberOfParameters parameters)
         {
             _validator.Validate(parameters);
@@ -119,13 +129,13 @@ namespace Tweetinvi.Client.Requesters
             return _twitterListController.GetMembersOfListIterator(parameters, request);
         }
 
-        public Task<ITwitterResult<ITwitterListDTO, bool>> CheckIfUserIsAListMember(ICheckIfUserIsMemberOfListParameters parameters)
+        public Task<ITwitterResult<ITwitterListDTO, ITwitterList>> CheckIfUserIsAListMember(ICheckIfUserIsMemberOfListParameters parameters)
         {
             _validator.Validate(parameters);
             return ExecuteRequest(async request =>
             {
-                var result = await _twitterListController.CheckIfUserIsAListMember(parameters, request).ConfigureAwait(false);
-                return _twitterResultFactory.Create(result, dto => result.Response.StatusCode == 109);
+                var twitterResult = await _twitterListController.CheckIfUserIsAListMember(parameters, request).ConfigureAwait(false);
+                return _twitterResultFactory.Create(twitterResult, dto => _factories.CreateTwitterList(dto));
             });
         }
 
@@ -135,6 +145,16 @@ namespace Tweetinvi.Client.Requesters
             return ExecuteRequest(request =>
             {
                 return _twitterListController.RemoveMemberFromList(parameters, request);
+            });
+        }
+
+        public Task<ITwitterResult<ITwitterListDTO, ITwitterList>> RemoveMembersFromList(IRemoveMembersFromListParameters parameters)
+        {
+            _validator.Validate(parameters);
+            return ExecuteRequest(async request =>
+            {
+                var twitterResult = await _twitterListController.RemoveMembersFromList(parameters, request).ConfigureAwait(false);
+                return _twitterResultFactory.Create(twitterResult, dto => _factories.CreateTwitterList(dto));
             });
         }
     }

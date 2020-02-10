@@ -6,7 +6,7 @@ using Tweetinvi.Core.Web;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
 using Tweetinvi.Models.DTO.QueryDTO;
-using Tweetinvi.Parameters.ListsClient;
+using Tweetinvi.Parameters;
 
 namespace Tweetinvi.Controllers.TwitterLists
 {
@@ -22,10 +22,12 @@ namespace Tweetinvi.Controllers.TwitterLists
 
         // list members
         Task<ITwitterResult<ITwitterListDTO>> AddMemberToList(IAddMemberToListParameters parameters, ITwitterRequest request);
+        Task<ITwitterResult<ITwitterListDTO>> AddMembersToList(IAddMembersToListParameters parameters, ITwitterRequest request);
         Task<ITwitterResult<ITwitterListCursorQueryResultDTO>> GetListsAUserIsMemberOf(IGetListsAUserIsMemberOfParameters parameters, ITwitterRequest request);
         Task<ITwitterResult<IUserCursorQueryResultDTO>> GetMembersOfList(IGetMembersOfListParameters parameters, ITwitterRequest request);
         Task<ITwitterResult<ITwitterListDTO>> CheckIfUserIsAListMember(ICheckIfUserIsMemberOfListParameters parameters, ITwitterRequest request);
         Task<ITwitterResult<ITwitterListDTO>> RemoveMemberFromList(IRemoveMemberFromListParameters parameters, ITwitterRequest request);
+        Task<ITwitterResult<ITwitterListDTO>> RemoveMembersFromList(IRemoveMembersFromListParameters parameters, ITwitterRequest request);
 
 
 
@@ -36,12 +38,6 @@ namespace Tweetinvi.Controllers.TwitterLists
         // OLD
 
         Task<IEnumerable<ITweetDTO>> GetTweetsFromList(IGetTweetsFromListQueryParameters queryParameters);
-
-        // Members
-        Task<MultiRequestsResult> AddMultipleMembersToList(ITwitterListIdentifier listIdentifier,
-            IEnumerable<IUserIdentifier> users);
-        Task<MultiRequestsResult> RemoveMultipleMembersFromList(ITwitterListIdentifier listIdentifier,
-            IEnumerable<IUserIdentifier> users);
 
         // Subscribers
         Task<IEnumerable<ITwitterListDTO>> GetUserSubscribedLists(IUserIdentifier user,
@@ -115,6 +111,13 @@ namespace Tweetinvi.Controllers.TwitterLists
             return _twitterAccessor.ExecuteRequest<ITwitterListDTO>(request);
         }
 
+        public Task<ITwitterResult<ITwitterListDTO>> AddMembersToList(IAddMembersToListParameters parameters, ITwitterRequest request)
+        {
+            request.Query.Url = _listsQueryGenerator.GetAddMembersQuery(parameters);
+            request.Query.HttpMethod = HttpMethod.POST;
+            return _twitterAccessor.ExecuteRequest<ITwitterListDTO>(request);
+        }
+
         public Task<ITwitterResult<ITwitterListCursorQueryResultDTO>> GetListsAUserIsMemberOf(IGetListsAUserIsMemberOfParameters parameters, ITwitterRequest request)
         {
             request.Query.Url = _listsQueryGenerator.GetListsAUserIsMemberOfQuery(parameters);
@@ -144,9 +147,12 @@ namespace Tweetinvi.Controllers.TwitterLists
             return _twitterAccessor.ExecuteRequest<ITwitterListDTO>(request);
         }
 
-
-
-
+        public Task<ITwitterResult<ITwitterListDTO>> RemoveMembersFromList(IRemoveMembersFromListParameters parameters, ITwitterRequest request)
+        {
+            request.Query.Url = _listsQueryGenerator.GetRemoveMembersFromListParameters(parameters);
+            request.Query.HttpMethod = HttpMethod.POST;
+            return _twitterAccessor.ExecuteRequest<ITwitterListDTO>(request);
+        }
 
 
         // User
@@ -163,43 +169,6 @@ namespace Tweetinvi.Controllers.TwitterLists
         {
             string query = _listsQueryGenerator.GetTweetsFromListQuery(queryParameters);
             return _twitterAccessor.ExecuteGETQuery<IEnumerable<ITweetDTO>>(query);
-        }
-
-        public Task<MultiRequestsResult> AddMultipleMembersToList(ITwitterListIdentifier listIdentifier, IEnumerable<IUserIdentifier> users)
-        {
-            throw new NotImplementedException();
-        }
-
-
-
-        // Members
-
-
-
-
-        // Remove Members
-
-
-        public async Task<MultiRequestsResult> RemoveMultipleMembersFromList(ITwitterListIdentifier listIdentifier, IEnumerable<IUserIdentifier> users)
-        {
-            throw new NotImplementedException();
-
-            // var usersArray = IEnumerableExtension.GetDistinctUserIdentifiers(users);
-            //
-            // for (int i = 0; i < usersArray.Length; i += TweetinviConsts.LIST_ADD_OR_REMOVE_MULTIPLE_MEMBERS_MAX)
-            // {
-            //     var usersToAdd = usersArray.Skip(i).Take(TweetinviConsts.LIST_ADD_OR_REMOVE_MULTIPLE_MEMBERS_MAX).ToArray();
-            //     var query = _listsQueryGenerator.GetRemoveMultipleMembersFromListQuery(listIdentifier, usersToAdd);
-            //
-            //     var asyncOperation = await _twitterAccessor.TryExecutePOSTQuery(query);
-            //
-            //     if (!asyncOperation.Success)
-            //     {
-            //         return i > 0 ? MultiRequestsResult.Partial : MultiRequestsResult.Failure;
-            //     }
-            // }
-            //
-            // return MultiRequestsResult.Success;
         }
 
         // Subscribers

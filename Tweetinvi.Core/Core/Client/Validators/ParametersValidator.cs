@@ -1,7 +1,6 @@
 using Tweetinvi.Models;
 using Tweetinvi.Parameters;
 using Tweetinvi.Parameters.Auth;
-using Tweetinvi.Parameters.ListsClient;
 
 namespace Tweetinvi.Core.Client.Validators
 {
@@ -252,6 +251,11 @@ namespace Tweetinvi.Core.Client.Validators
             _twitterListsClientParametersValidator.Validate(parameters);
         }
 
+        public void Validate(IAddMembersToListParameters parameters)
+        {
+            _twitterListsClientParametersValidator.Validate(parameters);
+        }
+
         public void Validate(IGetListsAUserIsMemberOfParameters parameters)
         {
             _twitterListsClientParametersValidator.Validate(parameters);
@@ -268,6 +272,11 @@ namespace Tweetinvi.Core.Client.Validators
         }
 
         public void Validate(IRemoveMemberFromListParameters parameters)
+        {
+            _twitterListsClientParametersValidator.Validate(parameters);
+        }
+
+        public void Validate(IRemoveMembersFromListParameters parameters)
         {
             _twitterListsClientParametersValidator.Validate(parameters);
         }

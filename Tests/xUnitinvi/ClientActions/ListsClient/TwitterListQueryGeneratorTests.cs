@@ -5,7 +5,7 @@ using Tweetinvi.Controllers.TwitterLists;
 using Tweetinvi.Core.Injectinvi;
 using Tweetinvi.Core.QueryGenerators;
 using Tweetinvi.Models;
-using Tweetinvi.Parameters.ListsClient;
+using Tweetinvi.Parameters;
 using Xunit;
 using xUnitinvi.TestHelpers;
 

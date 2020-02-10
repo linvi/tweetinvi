@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Tweetinvi.Client.Requesters;
@@ -10,7 +11,7 @@ using Tweetinvi.Exceptions;
 using Tweetinvi.Iterators;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO.QueryDTO;
-using Tweetinvi.Parameters.ListsClient;
+using Tweetinvi.Parameters;
 
 namespace Tweetinvi.Client
 {
@@ -187,6 +188,41 @@ namespace Tweetinvi.Client
             await _twitterListsRequester.AddMemberToList(parameters).ConfigureAwait(false);
         }
 
+        public Task AddMembersToList(long? listId, IEnumerable<long?> userIds)
+        {
+            return AddMembersToList(new AddMembersToListParameters(listId, userIds));
+        }
+
+        public Task AddMembersToList(long? listId, IEnumerable<string> usernames)
+        {
+            return AddMembersToList(new AddMembersToListParameters(listId, usernames));
+        }
+
+        public Task AddMembersToList(long? listId, IEnumerable<IUserIdentifier> users)
+        {
+            return AddMembersToList(new AddMembersToListParameters(listId, users));
+        }
+
+        public Task AddMembersToList(ITwitterListIdentifier list, IEnumerable<long?> userIds)
+        {
+            return AddMembersToList(new AddMembersToListParameters(list, userIds));
+        }
+
+        public Task AddMembersToList(ITwitterListIdentifier list, IEnumerable<string> usernames)
+        {
+            return AddMembersToList(new AddMembersToListParameters(list, usernames));
+        }
+
+        public Task AddMembersToList(ITwitterListIdentifier list, IEnumerable<IUserIdentifier> users)
+        {
+            return AddMembersToList(new AddMembersToListParameters(list, users));
+        }
+
+        public async Task AddMembersToList(IAddMembersToListParameters parameters)
+        {
+            await _twitterListsRequester.AddMembersToList(parameters).ConfigureAwait(false);
+        }
+
         public ITwitterIterator<ITwitterList> GetListsAccountIsMemberOfIterator()
         {
             return GetListsAccountIsMemberOfIterator(new GetListsAccountIsMemberOfParameters());
@@ -276,8 +312,8 @@ namespace Tweetinvi.Client
         {
             try
             {
-                var result = await _twitterListsRequester.CheckIfUserIsAListMember(parameters).ConfigureAwait(false);
-                return result.Result;
+                await _twitterListsRequester.CheckIfUserIsAListMember(parameters).ConfigureAwait(false);
+                return true;
             }
             catch (TwitterException e)
             {
@@ -325,6 +361,41 @@ namespace Tweetinvi.Client
         public Task RemoveMemberFromList(IRemoveMemberFromListParameters parameters)
         {
             return _twitterListsRequester.RemoveMemberFromList(parameters);
+        }
+
+        public Task RemoveMembersFromList(long? listId, IEnumerable<long?> userIds)
+        {
+            return RemoveMembersFromList(new RemoveMembersFromListParameters(listId, userIds));
+        }
+
+        public Task RemoveMembersFromList(long? listId, IEnumerable<string> usernames)
+        {
+            return RemoveMembersFromList(new RemoveMembersFromListParameters(listId, usernames));
+        }
+
+        public Task RemoveMembersFromList(long? listId, IEnumerable<IUserIdentifier> users)
+        {
+            return RemoveMembersFromList(new RemoveMembersFromListParameters(listId, users));
+        }
+
+        public Task RemoveMembersFromList(ITwitterListIdentifier list, IEnumerable<long?> userIds)
+        {
+            return RemoveMembersFromList(new RemoveMembersFromListParameters(list, userIds));
+        }
+
+        public Task RemoveMembersFromList(ITwitterListIdentifier list, IEnumerable<string> usernames)
+        {
+            return RemoveMembersFromList(new RemoveMembersFromListParameters(list, usernames));
+        }
+
+        public Task RemoveMembersFromList(ITwitterListIdentifier list, IEnumerable<IUserIdentifier> users)
+        {
+            return RemoveMembersFromList(new RemoveMembersFromListParameters(list, users));
+        }
+
+        public async Task RemoveMembersFromList(IRemoveMembersFromListParameters parameters)
+        {
+            await _twitterListsRequester.RemoveMembersFromList(parameters).ConfigureAwait(false);
         }
     }
 }

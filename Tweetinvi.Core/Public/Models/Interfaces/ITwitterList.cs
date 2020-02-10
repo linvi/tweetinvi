@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using Tweetinvi.Iterators;
 using Tweetinvi.Models.DTO;
 using Tweetinvi.Parameters;
-using Tweetinvi.Parameters.ListsClient;
 
 namespace Tweetinvi.Models
 {
@@ -97,17 +96,17 @@ namespace Tweetinvi.Models
         /// <summary>
         /// Add a list of members to this list. You must be the owner of the list to do so.
         /// </summary>
-        Task<MultiRequestsResult> AddMultipleMembers(IEnumerable<long> userIds);
+        Task AddMembers(IEnumerable<long?> userIds);
 
         /// <summary>
         /// Add a list of members to this list. You must be the owner of the list to do so.
         /// </summary>
-        Task<MultiRequestsResult> AddMultipleMembers(IEnumerable<string> userScreenNames);
+        Task AddMembers(IEnumerable<string> userScreenNames);
 
         /// <summary>
         /// Add a list of members to this list. You must be the owner of the list to do so.
         /// </summary>
-        Task<MultiRequestsResult> AddMultipleMembers(IEnumerable<IUserIdentifier> users);
+        Task AddMembers(IEnumerable<IUserIdentifier> users);
 
         /// <summary>
         /// Remove a member from this list. You must be the owner of the list to do so.
@@ -127,17 +126,17 @@ namespace Tweetinvi.Models
         /// <summary>
         /// Remove a list of members from this list. You must be the owner of the list to do so.
         /// </summary>
-        Task<MultiRequestsResult> RemoveMultipleMembers(IEnumerable<long> userIds);
+        Task RemoveMembers(IEnumerable<long?> userIds);
 
         /// <summary>
         /// Remove a list of members from this list. You must be the owner of the list to do so.
         /// </summary>
-        Task<MultiRequestsResult> RemoveMultipleMembers(IEnumerable<string> userScreenNames);
+        Task RemoveMembers(IEnumerable<string> usernames);
 
         /// <summary>
         /// Remove a list of members from this list. You must be the owner of the list to do so.
         /// </summary>
-        Task<MultiRequestsResult> RemoveMultipleMembers(IEnumerable<IUserIdentifier> users);
+        Task RemoveMembers(IEnumerable<IUserIdentifier> users);
 
         /// <summary>
         /// Test if a user is a member of the list.

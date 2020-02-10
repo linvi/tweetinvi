@@ -91,6 +91,18 @@ namespace Tweetinvi
         public short LISTS_GET_USER_MEMBERSHIPS_LISTS_MAX_SIZE { get; set; } = 1000;
 
         /// <summary>
+        /// Maximum numbers of users that can be added to a list in 1 request
+        /// <para>https://developer.twitter.com/en/docs/accounts-and-users/create-manage-lists/api-reference/post-lists-members-create_all</para>
+        /// </summary>
+        public short LISTS_ADD_MEMBERS_MAX_USERS { get; set; } = 100;
+
+        /// <summary>
+        /// Maximum numbers of users that can be removed from a list in 1 request
+        /// <para>https://developer.twitter.com/en/docs/accounts-and-users/create-manage-lists/api-reference/post-lists-members-destroy_all</para>
+        /// </summary>
+        public short LISTS_REMOVE_MEMBERS_MAX_USERS { get; set; } = 100;
+
+        /// <summary>
         /// Maximum numbers of lists that can be retrieved in 1 request
         /// <para>https://developer.twitter.com/en/docs/accounts-and-users/create-manage-lists/api-reference/get-lists-memberships</para>
         /// </summary>
@@ -187,7 +199,19 @@ namespace Tweetinvi
             ACCOUNT_SETTINGS_PROFILE_WEBSITE_URL_MAX_LENGTH = source.ACCOUNT_SETTINGS_PROFILE_WEBSITE_URL_MAX_LENGTH;
             ACCOUNT_SETTINGS_PROFILE_DESCRIPTION_MAX_LENGTH = source.ACCOUNT_SETTINGS_PROFILE_DESCRIPTION_MAX_LENGTH;
 
+            LISTS_CREATE_NAME_MAX_SIZE = source.LISTS_CREATE_NAME_MAX_SIZE;
+            LISTS_GET_MEMBERS_MAX_SIZE = source.LISTS_GET_MEMBERS_MAX_SIZE;
+            LISTS_GET_USER_OWNED_LISTS_MAX_SIZE = source.LISTS_GET_USER_OWNED_LISTS_MAX_SIZE;
+            LISTS_GET_USER_MEMBERSHIPS_MAX_SIZE = source.LISTS_GET_USER_MEMBERSHIPS_MAX_SIZE;
+            LISTS_GET_USER_MEMBERSHIPS_LISTS_MAX_SIZE = source.LISTS_GET_USER_MEMBERSHIPS_LISTS_MAX_SIZE;
+
+            LISTS_ADD_MEMBERS_MAX_USERS = source.LISTS_ADD_MEMBERS_MAX_USERS;
+            LISTS_REMOVE_MEMBERS_MAX_USERS = source.LISTS_REMOVE_MEMBERS_MAX_USERS;
+
+            TIMELINE_HOME_PAGE_MAX_PAGE_SIZE = source.TIMELINE_HOME_PAGE_MAX_PAGE_SIZE;
+            TIMELINE_MENTIONS_PAGE_MAX_PAGE_SIZE = source.TIMELINE_MENTIONS_PAGE_MAX_PAGE_SIZE;
             TIMELINE_RETWEETS_OF_ME_MAX_PAGE_SIZE = source.TIMELINE_RETWEETS_OF_ME_MAX_PAGE_SIZE;
+            TIMELINE_USER_PAGE_MAX_PAGE_SIZE = source.TIMELINE_USER_PAGE_MAX_PAGE_SIZE;
 
             TWEETS_GET_FAVORITE_TWEETS_MAX_SIZE = source.TWEETS_GET_FAVORITE_TWEETS_MAX_SIZE;
             TWEETS_GET_RETWEETS_MAX_SIZE = source.TWEETS_GET_RETWEETS_MAX_SIZE;

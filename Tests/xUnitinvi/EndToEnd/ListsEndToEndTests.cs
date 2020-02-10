@@ -1,8 +1,9 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Tweetinvi.Models;
-using Tweetinvi.Parameters.ListsClient;
+using Tweetinvi.Parameters;
 using Xunit;
 using Xunit.Abstractions;
 using xUnitinvi.TestHelpers;
@@ -90,15 +91,14 @@ namespace xUnitinvi.EndToEnd
             var publicList = await _tweetinviTestClient.Lists.CreateList("members-test-list", PrivacyMode.Public);
             await Task.Delay(500);
 
-            var isTweetinviApiAMemberBeforeAdding = await _tweetinviTestClient.Lists.CheckIfUserIsMemberOfList(publicList, EndToEndTestConfig.TweetinviApi);
             await publicList.AddMember(EndToEndTestConfig.TweetinviApi);
-            await Task.Delay(500);
             var isTweetinviApiAMemberAfterAdding = await _tweetinviTestClient.Lists.CheckIfUserIsMemberOfList(publicList, EndToEndTestConfig.TweetinviApi);
             await _tweetinviTestClient.Lists.AddMemberToList(publicList, EndToEndTestConfig.TweetinviTest);
+            await _tweetinviTestClient.Lists.AddMembersToList(publicList, new[] { "bbc", "lemondefr" });
 
             var membersIterator = _tweetinviTestClient.Lists.GetMembersOfListIterator(new GetMembersOfListParameters(publicList)
             {
-                PageSize = 1
+                PageSize = 2
             });
 
             var publicListMembers = new List<IUser>();
@@ -113,15 +113,20 @@ namespace xUnitinvi.EndToEnd
             await _tweetinviTestClient.Lists.RemoveMemberFromList(publicList, EndToEndTestConfig.TweetinviApi);
             var isTweetinviApiAMemberAfterRemoving = await _tweetinviTestClient.Lists.CheckIfUserIsMemberOfList(publicList, EndToEndTestConfig.TweetinviApi);
 
-            await publicList.Destroy();
+            await _tweetinviTestClient.Lists.RemoveMembersFromList(publicList, new[] { "bbc", "lemondefr" });
+            var updatedList = await _tweetinviTestClient.Lists.GetList(publicList);
+
+            // await publicList.Destroy();
 
             // assert
-            Assert.Contains(publicListMembers, members => { return members.ScreenName.ToLower() == EndToEndTestConfig.TweetinviApi; });
-            Assert.Contains(publicListMembers, members => { return members.ScreenName.ToLower() == EndToEndTestConfig.TweetinviTest; });
-            Assert.Contains(listsTweetinviTestIsMemberOf, lists => { return lists.Id == publicList.Id; });
-            Assert.False(isTweetinviApiAMemberBeforeAdding);
+            Assert.Contains(publicListMembers, members => members.ScreenName.ToLower() == EndToEndTestConfig.TweetinviApi);
+            Assert.Contains(publicListMembers, members => members.ScreenName.ToLower() == EndToEndTestConfig.TweetinviTest);
+            Assert.Contains(publicListMembers, members => members.ScreenName.ToLower() == "bbc");
+            Assert.Contains(publicListMembers, members => members.ScreenName.ToLower() == "lemondefr");
+            Assert.Contains(listsTweetinviTestIsMemberOf, lists => lists.Id == publicList.Id);
             Assert.True(isTweetinviApiAMemberAfterAdding);
             Assert.False(isTweetinviApiAMemberAfterRemoving);
+            Assert.Equal(updatedList.MemberCount, 1);
         }
     }
 }

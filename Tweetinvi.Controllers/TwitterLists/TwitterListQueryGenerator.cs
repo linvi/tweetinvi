@@ -7,7 +7,7 @@ using Tweetinvi.Core.Parameters;
 using Tweetinvi.Core.QueryGenerators;
 using Tweetinvi.Core.QueryValidators;
 using Tweetinvi.Models;
-using Tweetinvi.Parameters.ListsClient;
+using Tweetinvi.Parameters;
 
 namespace Tweetinvi.Controllers.TwitterLists
 {

@@ -1,4 +1,4 @@
-namespace Tweetinvi.Parameters.ListsClient
+namespace Tweetinvi.Parameters
 {
     /// <summary>
     /// For more information visit : https://developer.twitter.com/en/docs/accounts-and-users/create-manage-lists/api-reference/post-lists-create

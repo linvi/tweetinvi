@@ -1,5 +1,6 @@
+using System;
 using Tweetinvi.Exceptions;
-using Tweetinvi.Parameters.ListsClient;
+using Tweetinvi.Parameters;
 
 namespace Tweetinvi.Core.Client.Validators
 {
@@ -14,10 +15,12 @@ namespace Tweetinvi.Core.Client.Validators
 
         // MEMBERS
         void Validate(IAddMemberToListParameters parameters);
+        void Validate(IAddMembersToListParameters parameters);
         void Validate(IGetListsAUserIsMemberOfParameters parameters);
         void Validate(IGetMembersOfListParameters parameters);
         void Validate(ICheckIfUserIsMemberOfListParameters parameters);
         void Validate(IRemoveMemberFromListParameters parameters);
+        void Validate(IRemoveMembersFromListParameters parameters);
     }
 
     public class TwitterListsClientParametersValidator : ITwitterListsClientParametersValidator
@@ -82,6 +85,22 @@ namespace Tweetinvi.Core.Client.Validators
             _twitterListsClientRequiredParametersValidator.Validate(parameters);
         }
 
+        public void Validate(IAddMembersToListParameters parameters)
+        {
+            _twitterListsClientRequiredParametersValidator.Validate(parameters);
+
+            if (parameters.Users.Count == 0)
+            {
+                throw new ArgumentOutOfRangeException($"{nameof(parameters)}.{nameof(parameters.Users)}", "You must have at least 1 user");
+            }
+
+            var maxUsers = TwitterLimits.DEFAULTS.LISTS_ADD_MEMBERS_MAX_USERS;
+            if (parameters.Users.Count > maxUsers)
+            {
+                throw new TwitterArgumentLimitException($"{nameof(parameters)}.{nameof(parameters.Users)}", maxUsers, nameof(Limits.LISTS_ADD_MEMBERS_MAX_USERS), "users");
+            }
+        }
+
         public void Validate(IGetListsAUserIsMemberOfParameters parameters)
         {
             _twitterListsClientRequiredParametersValidator.Validate(parameters);
@@ -112,6 +131,22 @@ namespace Tweetinvi.Core.Client.Validators
         public void Validate(IRemoveMemberFromListParameters parameters)
         {
             _twitterListsClientRequiredParametersValidator.Validate(parameters);
+        }
+
+        public void Validate(IRemoveMembersFromListParameters parameters)
+        {
+            _twitterListsClientRequiredParametersValidator.Validate(parameters);
+
+            if (parameters.Users.Count == 0)
+            {
+                throw new ArgumentOutOfRangeException($"{nameof(parameters)}.{nameof(parameters.Users)}", "You must have at least 1 user");
+            }
+
+            var maxUsers = TwitterLimits.DEFAULTS.LISTS_REMOVE_MEMBERS_MAX_USERS;
+            if (parameters.Users.Count > maxUsers)
+            {
+                throw new TwitterArgumentLimitException($"{nameof(parameters)}.{nameof(parameters.Users)}", maxUsers, nameof(Limits.LISTS_REMOVE_MEMBERS_MAX_USERS), "users");
+            }
         }
     }
 }

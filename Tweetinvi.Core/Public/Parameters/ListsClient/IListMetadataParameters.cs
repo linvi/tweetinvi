@@ -1,6 +1,6 @@
 using Tweetinvi.Models;
 
-namespace Tweetinvi.Parameters.ListsClient
+namespace Tweetinvi.Parameters
 {
     public interface IListMetadataParameters : ICustomRequestParameters
     {

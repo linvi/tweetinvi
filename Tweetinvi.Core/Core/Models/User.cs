@@ -9,7 +9,6 @@ using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
 using Tweetinvi.Models.Entities;
 using Tweetinvi.Parameters;
-using Tweetinvi.Parameters.ListsClient;
 
 namespace Tweetinvi.Core.Models
 {

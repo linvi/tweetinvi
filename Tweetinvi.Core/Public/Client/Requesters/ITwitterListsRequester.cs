@@ -5,7 +5,6 @@ using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
 using Tweetinvi.Models.DTO.QueryDTO;
 using Tweetinvi.Parameters;
-using Tweetinvi.Parameters.ListsClient;
 
 namespace Tweetinvi.Client.Requesters
 {
@@ -59,8 +58,15 @@ namespace Tweetinvi.Client.Requesters
         /// Add a member to a twitter list
         /// </summary>
         /// <para> https://developer.twitter.com/en/docs/accounts-and-users/create-manage-lists/api-reference/post-lists-members-create </para>
-        /// <returns>TwitterResult</returns>
+        /// <returns>TwitterResult containing the list</returns>
         Task<ITwitterResult<ITwitterListDTO, ITwitterList>> AddMemberToList(IAddMemberToListParameters parameters);
+
+        /// <summary>
+        /// Add multiple members to a list
+        /// <para>Read more : https://developer.twitter.com/en/docs/accounts-and-users/create-manage-lists/api-reference/post-lists-members-create_all </para>
+        /// </summary>
+        /// <returns>TwitterResult containing the list</returns>
+        Task<ITwitterResult<ITwitterListDTO, ITwitterList>> AddMembersToList(IAddMembersToListParameters parameters);
 
         /// <summary>
         /// Get the lists a user is a member of
@@ -81,8 +87,7 @@ namespace Tweetinvi.Client.Requesters
         /// <para>Read more : https://developer.twitter.com/en/docs/accounts-and-users/create-manage-lists/api-reference/get-lists-members-show </para>
         /// </summary>
         /// <returns>TwitterResult containing the list </returns>
-        Task<ITwitterResult<ITwitterListDTO, bool>> CheckIfUserIsAListMember(ICheckIfUserIsMemberOfListParameters parameters);
-
+        Task<ITwitterResult<ITwitterListDTO, ITwitterList>> CheckIfUserIsAListMember(ICheckIfUserIsMemberOfListParameters parameters);
 
         /// <summary>
         /// Remove a member from a list
@@ -90,5 +95,12 @@ namespace Tweetinvi.Client.Requesters
         /// </summary>
         /// <returns>TwitterResult containing the list </returns>
         Task<ITwitterResult<ITwitterListDTO>> RemoveMemberFromList(IRemoveMemberFromListParameters parameters);
+
+        /// <summary>
+        /// Remove multiple members from a list
+        /// <para>Read more : https://developer.twitter.com/en/docs/accounts-and-users/create-manage-lists/api-reference/post-lists-members-destroy_all </para>
+        /// </summary>
+        /// <returns>TwitterResult containing the list</returns>
+        Task<ITwitterResult<ITwitterListDTO, ITwitterList>> RemoveMembersFromList(IRemoveMembersFromListParameters parameters);
     }
 }

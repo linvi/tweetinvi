@@ -26,7 +26,7 @@ namespace xUnitinvi.TestHelpers
 
         private void TweetinviEventsOnBeforeWaitingForRequestRateLimits(object sender, BeforeExecutingRequestEventArgs args)
         {
-            _logger.WriteLine(args.Url);
+            _logger.WriteLine($"{args.TwitterQuery.HttpMethod.ToString()}  {args.Url}");
         }
 
         public void Dispose()

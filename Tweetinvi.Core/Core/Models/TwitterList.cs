@@ -6,7 +6,6 @@ using Tweetinvi.Iterators;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
 using Tweetinvi.Parameters;
-using Tweetinvi.Parameters.ListsClient;
 
 namespace Tweetinvi.Core.Models
 {
@@ -80,19 +79,19 @@ namespace Tweetinvi.Core.Models
             return Client.Lists.AddMemberToList(this, user);
         }
 
-        public Task<MultiRequestsResult> AddMultipleMembers(IEnumerable<long> userIds)
+        public Task AddMembers(IEnumerable<long?> userIds)
         {
-            return _twitterListController.AddMultipleMembersToList(this, userIds);
+            return Client.Lists.AddMembersToList(this, userIds);
         }
 
-        public Task<MultiRequestsResult> AddMultipleMembers(IEnumerable<string> userScreenNames)
+        public Task AddMembers(IEnumerable<string> usernames)
         {
-            return _twitterListController.AddMultipleMembersToList(this, userScreenNames);
+            return Client.Lists.AddMembersToList(this, usernames);
         }
 
-        public Task<MultiRequestsResult> AddMultipleMembers(IEnumerable<IUserIdentifier> users)
+        public Task AddMembers(IEnumerable<IUserIdentifier> users)
         {
-            return _twitterListController.AddMultipleMembersToList(this, users);
+            return Client.Lists.AddMembersToList(this, users);
         }
 
 
@@ -112,19 +111,19 @@ namespace Tweetinvi.Core.Models
         }
 
 
-        public Task<MultiRequestsResult> RemoveMultipleMembers(IEnumerable<long> userIds)
+        public Task RemoveMembers(IEnumerable<long?> userIds)
         {
-            return _twitterListController.RemoveMultipleMembersFromList(this, userIds);
+            return Client.Lists.RemoveMembersFromList(this, userIds);
         }
 
-        public Task<MultiRequestsResult> RemoveMultipleMembers(IEnumerable<string> userScreenNames)
+        public Task RemoveMembers(IEnumerable<string> usernames)
         {
-            return _twitterListController.RemoveMultipleMembersFromList(this, userScreenNames);
+            return Client.Lists.RemoveMembersFromList(this, usernames);
         }
 
-        public Task<MultiRequestsResult> RemoveMultipleMembers(IEnumerable<IUserIdentifier> users)
+        public Task RemoveMembers(IEnumerable<IUserIdentifier> users)
         {
-            return _twitterListController.RemoveMultipleMembersFromList(this, users);
+            return Client.Lists.RemoveMembersFromList(this, users);
         }
 
 

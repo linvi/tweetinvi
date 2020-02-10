@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Tweetinvi.Core.Controllers;
 using Tweetinvi.Core.Factories;
@@ -11,7 +10,6 @@ using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
 using Tweetinvi.Models.DTO.QueryDTO;
 using Tweetinvi.Parameters;
-using Tweetinvi.Parameters.ListsClient;
 
 namespace Tweetinvi.Controllers.TwitterLists
 {
@@ -86,6 +84,11 @@ namespace Tweetinvi.Controllers.TwitterLists
             return _twitterListQueryExecutor.AddMemberToList(parameters, request);
         }
 
+        public Task<ITwitterResult<ITwitterListDTO>> AddMembersToList(IAddMembersToListParameters parameters, ITwitterRequest request)
+        {
+            return _twitterListQueryExecutor.AddMembersToList(parameters, request);
+        }
+
         public ITwitterPageIterator<ITwitterResult<ITwitterListCursorQueryResultDTO>> GetListsAUserIsMemberOfIterator(IGetListsAUserIsMemberOfParameters parameters, ITwitterRequest request)
         {
             var twitterCursorResult = new TwitterPageIterator<ITwitterResult<ITwitterListCursorQueryResultDTO>>(
@@ -134,6 +137,11 @@ namespace Tweetinvi.Controllers.TwitterLists
             return _twitterListQueryExecutor.RemoveMemberFromList(parameters, request);
         }
 
+        public Task<ITwitterResult<ITwitterListDTO>> RemoveMembersFromList(IRemoveMembersFromListParameters parameters, ITwitterRequest request)
+        {
+            return _twitterListQueryExecutor.RemoveMembersFromList(parameters, request);
+        }
+
 
         #region Get Tweets from List
         public Task<IEnumerable<ITweet>> GetTweetsFromList(long listId)
@@ -171,193 +179,6 @@ namespace Tweetinvi.Controllers.TwitterLists
             var tweetsDTO = await _twitterListQueryExecutor.GetTweetsFromList(queryParameters);
             return _tweetFactory.GenerateTweetsFromDTO(tweetsDTO, null, null);
         }
-        #endregion
-
-        #region Add Multiple Members to List
-
-        public Task<MultiRequestsResult> AddMultipleMembersToList(long listId, IEnumerable<long> userIds)
-        {
-            var listIdentifier = _twitterListIdentifierFactory.Create(listId);
-            return AddMultipleMembersToList(listIdentifier, userIds);
-        }
-
-        public Task<MultiRequestsResult> AddMultipleMembersToList(long listId, IEnumerable<string> userScreenNames)
-        {
-            var listIdentifier = _twitterListIdentifierFactory.Create(listId);
-            return AddMultipleMembersToList(listIdentifier, userScreenNames);
-        }
-
-        public Task<MultiRequestsResult> AddMultipleMembersToList(long listId, IEnumerable<IUserIdentifier> users)
-        {
-            var listIdentifier = _twitterListIdentifierFactory.Create(listId);
-            return AddMultipleMembersToList(listIdentifier, users);
-        }
-
-        public Task<MultiRequestsResult> AddMultipleMembersToList(string slug, long ownerId, IEnumerable<long> userIds)
-        {
-            var listIdentifier = _twitterListIdentifierFactory.Create(slug, ownerId);
-            return AddMultipleMembersToList(listIdentifier, userIds);
-        }
-
-        public Task<MultiRequestsResult> AddMultipleMembersToList(string slug, long ownerId, IEnumerable<string> userScreenNames)
-        {
-            var listIdentifier = _twitterListIdentifierFactory.Create(slug, ownerId);
-            return AddMultipleMembersToList(listIdentifier, userScreenNames);
-        }
-
-        public Task<MultiRequestsResult> AddMultipleMembersToList(string slug, long ownerId, IEnumerable<IUserIdentifier> users)
-        {
-            var listIdentifier = _twitterListIdentifierFactory.Create(slug, ownerId);
-            return AddMultipleMembersToList(listIdentifier, users);
-        }
-
-        public Task<MultiRequestsResult> AddMultipleMembersToList(string slug, string ownerScreenName, IEnumerable<long> userIds)
-        {
-            var listIdentifier = _twitterListIdentifierFactory.Create(slug, ownerScreenName);
-            return AddMultipleMembersToList(listIdentifier, userIds);
-        }
-
-        public Task<MultiRequestsResult> AddMultipleMembersToList(string slug, string ownerScreenName, IEnumerable<string> userScreenNames)
-        {
-            var listIdentifier = _twitterListIdentifierFactory.Create(slug, ownerScreenName);
-            return AddMultipleMembersToList(listIdentifier, userScreenNames);
-        }
-
-        public Task<MultiRequestsResult> AddMultipleMembersToList(string slug, string ownerScreenName, IEnumerable<IUserIdentifier> users)
-        {
-            var listIdentifier = _twitterListIdentifierFactory.Create(slug, ownerScreenName);
-            return AddMultipleMembersToList(listIdentifier, users);
-        }
-
-        public Task<MultiRequestsResult> AddMultipleMembersToList(string slug, IUserIdentifier owner, IEnumerable<long> userIds)
-        {
-            var listIdentifier = _twitterListIdentifierFactory.Create(slug, owner);
-            return AddMultipleMembersToList(listIdentifier, userIds);
-        }
-
-        public Task<MultiRequestsResult> AddMultipleMembersToList(string slug, IUserIdentifier owner, IEnumerable<string> userScreenNames)
-        {
-            var listIdentifier = _twitterListIdentifierFactory.Create(slug, owner);
-            return AddMultipleMembersToList(listIdentifier, userScreenNames);
-        }
-
-        public Task<MultiRequestsResult> AddMultipleMembersToList(string slug, IUserIdentifier owner, IEnumerable<IUserIdentifier> users)
-        {
-            var listIdentifier = _twitterListIdentifierFactory.Create(slug, owner);
-            return AddMultipleMembersToList(listIdentifier, users);
-        }
-
-        public Task<MultiRequestsResult> AddMultipleMembersToList(ITwitterListIdentifier list, IEnumerable<long> newUserIds)
-        {
-            var users = newUserIds.Select(userId => new UserIdentifier(userId));
-            return AddMultipleMembersToList(list, users);
-        }
-
-        public Task<MultiRequestsResult> AddMultipleMembersToList(ITwitterListIdentifier list, IEnumerable<string> newUserScreenNames)
-        {
-            var users = newUserScreenNames.Select(screenName => new UserIdentifier(screenName));
-            return AddMultipleMembersToList(list, users);
-        }
-
-        public Task<MultiRequestsResult> AddMultipleMembersToList(ITwitterListIdentifier list, IEnumerable<IUserIdentifier> newUserIdentifiers)
-        {
-            return _twitterListQueryExecutor.AddMultipleMembersToList(list, newUserIdentifiers);
-        }
-        #endregion
-
-        #region Remove Member From List
-
-        // Multiple
-
-        public Task<MultiRequestsResult> RemoveMultipleMembersFromList(long listId, IEnumerable<long> userIds)
-        {
-            var listIdentifier = _twitterListIdentifierFactory.Create(listId);
-            return RemoveMultipleMembersFromList(listIdentifier, userIds);
-        }
-
-        public Task<MultiRequestsResult> RemoveMultipleMembersFromList(long listId, IEnumerable<string> userScreenNames)
-        {
-            var listIdentifier = _twitterListIdentifierFactory.Create(listId);
-            return RemoveMultipleMembersFromList(listIdentifier, userScreenNames);
-        }
-
-        public Task<MultiRequestsResult> RemoveMultipleMembersFromList(long listId, IEnumerable<IUserIdentifier> users)
-        {
-            var listIdentifier = _twitterListIdentifierFactory.Create(listId);
-            return RemoveMultipleMembersFromList(listIdentifier, users);
-        }
-
-        public Task<MultiRequestsResult> RemoveMultipleMembersFromList(string slug, long ownerId, IEnumerable<long> userIds)
-        {
-            var listIdentifier = _twitterListIdentifierFactory.Create(slug, ownerId);
-            return RemoveMultipleMembersFromList(listIdentifier, userIds);
-        }
-
-        public Task<MultiRequestsResult> RemoveMultipleMembersFromList(string slug, long ownerId, IEnumerable<string> userScreenNames)
-        {
-            var listIdentifier = _twitterListIdentifierFactory.Create(slug, ownerId);
-            return RemoveMultipleMembersFromList(listIdentifier, userScreenNames);
-        }
-
-        public Task<MultiRequestsResult> RemoveMultipleMembersFromList(string slug, long ownerId, IEnumerable<IUserIdentifier> users)
-        {
-            var listIdentifier = _twitterListIdentifierFactory.Create(slug, ownerId);
-            return RemoveMultipleMembersFromList(listIdentifier, users);
-        }
-
-        public Task<MultiRequestsResult> RemoveMultipleMembersFromList(string slug, string ownerScreenName, IEnumerable<long> userIds)
-        {
-            var listIdentifier = _twitterListIdentifierFactory.Create(slug, ownerScreenName);
-            return RemoveMultipleMembersFromList(listIdentifier, userIds);
-        }
-
-        public Task<MultiRequestsResult> RemoveMultipleMembersFromList(string slug, string ownerScreenName, IEnumerable<string> userScreenNames)
-        {
-            var listIdentifier = _twitterListIdentifierFactory.Create(slug, ownerScreenName);
-            return RemoveMultipleMembersFromList(listIdentifier, userScreenNames);
-        }
-
-        public Task<MultiRequestsResult> RemoveMultipleMembersFromList(string slug, string ownerScreenName, IEnumerable<IUserIdentifier> users)
-        {
-            var listIdentifier = _twitterListIdentifierFactory.Create(slug, ownerScreenName);
-            return RemoveMultipleMembersFromList(listIdentifier, users);
-        }
-
-        public Task<MultiRequestsResult> RemoveMultipleMembersFromList(string slug, IUserIdentifier owner, IEnumerable<long> userIds)
-        {
-            var listIdentifier = _twitterListIdentifierFactory.Create(slug, owner);
-            return RemoveMultipleMembersFromList(listIdentifier, userIds);
-        }
-
-        public Task<MultiRequestsResult> RemoveMultipleMembersFromList(string slug, IUserIdentifier owner, IEnumerable<string> userScreenNames)
-        {
-            var listIdentifier = _twitterListIdentifierFactory.Create(slug, owner);
-            return RemoveMultipleMembersFromList(listIdentifier, userScreenNames);
-        }
-
-        public Task<MultiRequestsResult> RemoveMultipleMembersFromList(string slug, IUserIdentifier owner, IEnumerable<IUserIdentifier> users)
-        {
-            var listIdentifier = _twitterListIdentifierFactory.Create(slug, owner);
-            return RemoveMultipleMembersFromList(listIdentifier, users);
-        }
-
-        public Task<MultiRequestsResult> RemoveMultipleMembersFromList(ITwitterListIdentifier list, IEnumerable<long> userIds)
-        {
-            var users = userIds.Select(userId => new UserIdentifier(userId));
-            return RemoveMultipleMembersFromList(list, users);
-        }
-
-        public Task<MultiRequestsResult> RemoveMultipleMembersFromList(ITwitterListIdentifier list, IEnumerable<string> userScreenNames)
-        {
-            var users = userScreenNames.Select(screenName => new UserIdentifier(screenName));
-            return RemoveMultipleMembersFromList(list, users);
-        }
-
-        public Task<MultiRequestsResult> RemoveMultipleMembersFromList(ITwitterListIdentifier list, IEnumerable<IUserIdentifier> users)
-        {
-            return _twitterListQueryExecutor.RemoveMultipleMembersFromList(list, users);
-        }
-
         #endregion
 
         #region GetUserSubscribedLists

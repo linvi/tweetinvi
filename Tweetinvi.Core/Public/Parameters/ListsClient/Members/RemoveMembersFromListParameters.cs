@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Tweetinvi.Models;
 
-namespace Tweetinvi.Parameters.ListsClient
+namespace Tweetinvi.Parameters
 {
     /// <summary>
     /// For more information visit : https://developer.twitter.com/en/docs/accounts-and-users/create-manage-lists/api-reference/post-lists-members-destroy_all

@@ -1,6 +1,7 @@
 using System;
 using Tweetinvi.Core.QueryValidators;
-using Tweetinvi.Parameters.ListsClient;
+using Tweetinvi.Exceptions;
+using Tweetinvi.Parameters;
 
 namespace Tweetinvi.Core.Client.Validators
 {
@@ -93,6 +94,16 @@ namespace Tweetinvi.Core.Client.Validators
             _userQueryValidator.ThrowIfUserCannotBeIdentified(parameters.User);
         }
 
+        public void Validate(IAddMembersToListParameters parameters)
+        {
+            if (parameters == null)
+            {
+                throw new ArgumentNullException(nameof(parameters));
+            }
+
+            _twitterListQueryValidator.ThrowIfListIdentifierIsNotValid(parameters.List);
+        }
+
         public void Validate(IGetListsAUserIsMemberOfParameters parameters)
         {
             if (parameters == null)
@@ -133,6 +144,16 @@ namespace Tweetinvi.Core.Client.Validators
 
             _twitterListQueryValidator.ThrowIfListIdentifierIsNotValid(parameters.List);
             _userQueryValidator.ThrowIfUserCannotBeIdentified(parameters.User);
+        }
+
+        public void Validate(IRemoveMembersFromListParameters parameters)
+        {
+            if (parameters == null)
+            {
+                throw new ArgumentNullException(nameof(parameters));
+            }
+
+            _twitterListQueryValidator.ThrowIfListIdentifierIsNotValid(parameters.List);
         }
     }
 }
