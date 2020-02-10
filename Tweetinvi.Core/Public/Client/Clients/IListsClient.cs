@@ -160,5 +160,44 @@ namespace Tweetinvi.Client
         /// <returns>An iterator to list the users members of the list</returns>
         ITwitterIterator<IUser> GetMembersOfListIterator(IGetMembersOfListParameters parameters);
 
+        /// <inheritdoc cref="CheckIfUserIsMemberOfList(ICheckIfUserIsMemberOfListParameters)"/>
+        Task<bool> CheckIfUserIsMemberOfList(long? listId, long? userId);
+        /// <inheritdoc cref="CheckIfUserIsMemberOfList(ICheckIfUserIsMemberOfListParameters)"/>
+        Task<bool> CheckIfUserIsMemberOfList(long? listId, string username);
+        /// <inheritdoc cref="CheckIfUserIsMemberOfList(ICheckIfUserIsMemberOfListParameters)"/>
+        Task<bool> CheckIfUserIsMemberOfList(long? listId, IUserIdentifier user);
+
+        /// <inheritdoc cref="CheckIfUserIsMemberOfList(ICheckIfUserIsMemberOfListParameters)"/>
+        Task<bool> CheckIfUserIsMemberOfList(ITwitterListIdentifier list, long? userId);
+        /// <inheritdoc cref="CheckIfUserIsMemberOfList(ICheckIfUserIsMemberOfListParameters)"/>
+        Task<bool> CheckIfUserIsMemberOfList(ITwitterListIdentifier list, string username);
+        /// <inheritdoc cref="CheckIfUserIsMemberOfList(ICheckIfUserIsMemberOfListParameters)"/>
+        Task<bool> CheckIfUserIsMemberOfList(ITwitterListIdentifier list, IUserIdentifier user);
+
+        /// <summary>
+        /// Check if a user is a member of a list
+        /// <para>Read more : https://developer.twitter.com/en/docs/accounts-and-users/create-manage-lists/api-reference/get-lists-members-show </para>
+        /// </summary>
+        /// <returns>Returns whether the user is a member of a list</returns>
+        Task<bool> CheckIfUserIsMemberOfList(ICheckIfUserIsMemberOfListParameters parameters);
+
+        /// <inheritdoc cref="RemoveMemberFromList(IRemoveMemberFromListParameters)"/>
+        Task RemoveMemberFromList(long? listId, long? userId);
+        /// <inheritdoc cref="RemoveMemberFromList(IRemoveMemberFromListParameters)"/>
+        Task RemoveMemberFromList(long? listId, string username);
+        /// <inheritdoc cref="RemoveMemberFromList(IRemoveMemberFromListParameters)"/>
+        Task RemoveMemberFromList(long? listId, IUserIdentifier user);
+        /// <inheritdoc cref="RemoveMemberFromList(IRemoveMemberFromListParameters)"/>
+        Task RemoveMemberFromList(ITwitterListIdentifier list, long? userId);
+        /// <inheritdoc cref="RemoveMemberFromList(IRemoveMemberFromListParameters)"/>
+        Task RemoveMemberFromList(ITwitterListIdentifier list, string username);
+        /// <inheritdoc cref="RemoveMemberFromList(IRemoveMemberFromListParameters)"/>
+        Task RemoveMemberFromList(ITwitterListIdentifier list, IUserIdentifier user);
+
+        /// <summary>
+        /// Remove a member from a list
+        /// <para>Read more : https://developer.twitter.com/en/docs/accounts-and-users/create-manage-lists/api-reference/post-lists-members-destroy </para>
+        /// </summary>
+        Task RemoveMemberFromList(IRemoveMemberFromListParameters parameters);
     }
 }

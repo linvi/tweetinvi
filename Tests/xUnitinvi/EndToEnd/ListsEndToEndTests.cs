@@ -90,7 +90,10 @@ namespace xUnitinvi.EndToEnd
             var publicList = await _tweetinviTestClient.Lists.CreateList("members-test-list", PrivacyMode.Public);
             await Task.Delay(500);
 
+            var isTweetinviApiAMemberBeforeAdding = await _tweetinviTestClient.Lists.CheckIfUserIsMemberOfList(publicList, EndToEndTestConfig.TweetinviApi);
             await publicList.AddMember(EndToEndTestConfig.TweetinviApi);
+            await Task.Delay(500);
+            var isTweetinviApiAMemberAfterAdding = await _tweetinviTestClient.Lists.CheckIfUserIsMemberOfList(publicList, EndToEndTestConfig.TweetinviApi);
             await _tweetinviTestClient.Lists.AddMemberToList(publicList, EndToEndTestConfig.TweetinviTest);
 
             var membersIterator = _tweetinviTestClient.Lists.GetMembersOfListIterator(new GetMembersOfListParameters(publicList)
@@ -107,13 +110,18 @@ namespace xUnitinvi.EndToEnd
             var listsTweetinviTestIsMemberOfIterator = _tweetinviClient.Lists.GetListsAUserIsMemberOfIterator(EndToEndTestConfig.TweetinviTest);
             var listsTweetinviTestIsMemberOf = (await listsTweetinviTestIsMemberOfIterator.MoveToNextPage()).ToArray();
 
+            await _tweetinviTestClient.Lists.RemoveMemberFromList(publicList, EndToEndTestConfig.TweetinviApi);
+            var isTweetinviApiAMemberAfterRemoving = await _tweetinviTestClient.Lists.CheckIfUserIsMemberOfList(publicList, EndToEndTestConfig.TweetinviApi);
+
             await publicList.Destroy();
 
             // assert
             Assert.Contains(publicListMembers, members => { return members.ScreenName.ToLower() == EndToEndTestConfig.TweetinviApi; });
             Assert.Contains(publicListMembers, members => { return members.ScreenName.ToLower() == EndToEndTestConfig.TweetinviTest; });
             Assert.Contains(listsTweetinviTestIsMemberOf, lists => { return lists.Id == publicList.Id; });
-
+            Assert.False(isTweetinviApiAMemberBeforeAdding);
+            Assert.True(isTweetinviApiAMemberAfterAdding);
+            Assert.False(isTweetinviApiAMemberAfterRemoving);
         }
     }
 }

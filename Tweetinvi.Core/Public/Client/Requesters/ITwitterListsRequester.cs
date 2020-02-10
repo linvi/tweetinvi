@@ -76,6 +76,19 @@ namespace Tweetinvi.Client.Requesters
         /// <returns>An iterator to list the users members of the list</returns>
         ITwitterPageIterator<ITwitterResult<IUserCursorQueryResultDTO>> GetMembersOfListIterator(IGetMembersOfListParameters parameters);
 
+        /// <summary>
+        /// Check if a user is a member of a list
+        /// <para>Read more : https://developer.twitter.com/en/docs/accounts-and-users/create-manage-lists/api-reference/get-lists-members-show </para>
+        /// </summary>
+        /// <returns>TwitterResult containing the list </returns>
+        Task<ITwitterResult<ITwitterListDTO, bool>> CheckIfUserIsAListMember(ICheckIfUserIsMemberOfListParameters parameters);
 
+
+        /// <summary>
+        /// Remove a member from a list
+        /// <para>Read more : https://developer.twitter.com/en/docs/accounts-and-users/create-manage-lists/api-reference/post-lists-members-destroy </para>
+        /// </summary>
+        /// <returns>TwitterResult containing the list </returns>
+        Task<ITwitterResult<ITwitterListDTO>> RemoveMemberFromList(IRemoveMemberFromListParameters parameters);
     }
 }

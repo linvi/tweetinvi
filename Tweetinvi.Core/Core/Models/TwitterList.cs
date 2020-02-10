@@ -98,17 +98,17 @@ namespace Tweetinvi.Core.Models
 
         public Task<bool> RemoveMember(long userId)
         {
-            return _twitterListController.RemoveMemberFromList(this, userId);
+            return Client.Lists.CheckIfUserIsMemberOfList(this, userId);
         }
 
-        public Task<bool> RemoveMember(string userScreenName)
+        public Task<bool> RemoveMember(string username)
         {
-            return _twitterListController.RemoveMemberFromList(this, userScreenName);
+            return Client.Lists.CheckIfUserIsMemberOfList(this, username);
         }
 
         public Task<bool> RemoveMember(IUserIdentifier user)
         {
-            return _twitterListController.RemoveMemberFromList(this, user);
+            return Client.Lists.CheckIfUserIsMemberOfList(this, user);
         }
 
 
@@ -130,17 +130,17 @@ namespace Tweetinvi.Core.Models
 
         public Task<bool> CheckUserMembership(long userId)
         {
-            return _twitterListController.CheckIfUserIsAListMember(this, userId);
+            return Client.Lists.CheckIfUserIsMemberOfList(this, userId);
         }
 
         public Task<bool> CheckUserMembership(string userScreenName)
         {
-            return _twitterListController.CheckIfUserIsAListMember(this, userScreenName);
+            return Client.Lists.CheckIfUserIsMemberOfList(this, userScreenName);
         }
 
         public Task<bool> CheckUserMembership(IUserIdentifier user)
         {
-            return _twitterListController.CheckIfUserIsAListMember(this, user);
+            return Client.Lists.CheckIfUserIsMemberOfList(this, user);
         }
 
         // Subscribers

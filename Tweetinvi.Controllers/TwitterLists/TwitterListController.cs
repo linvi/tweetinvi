@@ -7,7 +7,6 @@ using Tweetinvi.Core.Iterators;
 using Tweetinvi.Core.Parameters;
 using Tweetinvi.Core.QueryGenerators;
 using Tweetinvi.Core.Web;
-using Tweetinvi.Logic.QueryParameters;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
 using Tweetinvi.Models.DTO.QueryDTO;
@@ -125,10 +124,15 @@ namespace Tweetinvi.Controllers.TwitterLists
             return twitterCursorResult;
         }
 
+        public Task<ITwitterResult<ITwitterListDTO>> CheckIfUserIsAListMember(ICheckIfUserIsMemberOfListParameters parameters, ITwitterRequest request)
+        {
+            return _twitterListQueryExecutor.CheckIfUserIsAListMember(parameters, request);
+        }
 
-
-
-
+        public Task<ITwitterResult<ITwitterListDTO>> RemoveMemberFromList(IRemoveMemberFromListParameters parameters, ITwitterRequest request)
+        {
+            return _twitterListQueryExecutor.RemoveMemberFromList(parameters, request);
+        }
 
 
         #region Get Tweets from List
@@ -263,93 +267,6 @@ namespace Tweetinvi.Controllers.TwitterLists
 
         #region Remove Member From List
 
-        public Task<bool> RemoveMemberFromList(long listId, long newUserId)
-        {
-            var identifier = _twitterListIdentifierFactory.Create(listId);
-            return RemoveMemberFromList(identifier, newUserId);
-        }
-
-        public Task<bool> RemoveMemberFromList(long listId, string newUserName)
-        {
-            var identifier = _twitterListIdentifierFactory.Create(listId);
-            return RemoveMemberFromList(identifier, newUserName);
-        }
-
-        public Task<bool> RemoveMemberFromList(long listId, IUserIdentifier newUser)
-        {
-            var identifier = _twitterListIdentifierFactory.Create(listId);
-            return RemoveMemberFromList(identifier, newUser);
-        }
-
-        public Task<bool> RemoveMemberFromList(string slug, long ownerId, long newUserId)
-        {
-            var identifier = _twitterListIdentifierFactory.Create(slug, ownerId);
-            return RemoveMemberFromList(identifier, newUserId);
-        }
-
-        public Task<bool> RemoveMemberFromList(string slug, long ownerId, string newUserName)
-        {
-            var identifier = _twitterListIdentifierFactory.Create(slug, ownerId);
-            return RemoveMemberFromList(identifier, newUserName);
-        }
-
-        public Task<bool> RemoveMemberFromList(string slug, long ownerId, IUserIdentifier newUser)
-        {
-            var identifier = _twitterListIdentifierFactory.Create(slug, ownerId);
-            return RemoveMemberFromList(identifier, newUser);
-        }
-
-        public Task<bool> RemoveMemberFromList(string slug, string ownerScreenName, long newUserId)
-        {
-            var identifier = _twitterListIdentifierFactory.Create(slug, ownerScreenName);
-            return RemoveMemberFromList(identifier, newUserId);
-        }
-
-        public Task<bool> RemoveMemberFromList(string slug, string ownerScreenName, string newUserName)
-        {
-            var identifier = _twitterListIdentifierFactory.Create(slug, ownerScreenName);
-            return RemoveMemberFromList(identifier, newUserName);
-        }
-
-        public Task<bool> RemoveMemberFromList(string slug, string ownerScreenName, IUserIdentifier newUser)
-        {
-            var identifier = _twitterListIdentifierFactory.Create(slug, ownerScreenName);
-            return RemoveMemberFromList(identifier, newUser);
-        }
-
-        public Task<bool> RemoveMemberFromList(string slug, IUserIdentifier owner, long newUserId)
-        {
-            var identifier = _twitterListIdentifierFactory.Create(slug, owner);
-            return RemoveMemberFromList(identifier, newUserId);
-        }
-
-        public Task<bool> RemoveMemberFromList(string slug, IUserIdentifier owner, string newUserName)
-        {
-            var identifier = _twitterListIdentifierFactory.Create(slug, owner);
-            return RemoveMemberFromList(identifier, newUserName);
-        }
-
-        public Task<bool> RemoveMemberFromList(string slug, IUserIdentifier owner, IUserIdentifier newUser)
-        {
-            var identifier = _twitterListIdentifierFactory.Create(slug, owner);
-            return RemoveMemberFromList(identifier, newUser);
-        }
-
-        public Task<bool> RemoveMemberFromList(ITwitterListIdentifier list, long newUserId)
-        {
-            return RemoveMemberFromList(list, new UserIdentifier(newUserId));
-        }
-
-        public Task<bool> RemoveMemberFromList(ITwitterListIdentifier list, string newUserName)
-        {
-            return RemoveMemberFromList(list, new UserIdentifier(newUserName));
-        }
-
-        public Task<bool> RemoveMemberFromList(ITwitterListIdentifier list, IUserIdentifier newUser)
-        {
-            return _twitterListQueryExecutor.RemoveMemberFromList(list, newUser);
-        }
-
         // Multiple
 
         public Task<MultiRequestsResult> RemoveMultipleMembersFromList(long listId, IEnumerable<long> userIds)
@@ -458,95 +375,6 @@ namespace Tweetinvi.Controllers.TwitterLists
         {
             var listDTOs = await _twitterListQueryExecutor.GetUserSubscribedLists(user, maxNumberOfListsToRetrieve);
             return null;
-        }
-        #endregion
-
-        #region Check Membership
-        public Task<bool> CheckIfUserIsAListMember(long listId, long userId)
-        {
-            var listIdentifier = _twitterListIdentifierFactory.Create(listId);
-            return CheckIfUserIsAListMember(listIdentifier, userId);
-        }
-
-        public Task<bool> CheckIfUserIsAListMember(long listId, string userScreenName)
-        {
-            var listIdentifier = _twitterListIdentifierFactory.Create(listId);
-            return CheckIfUserIsAListMember(listIdentifier, userScreenName);
-        }
-
-        public Task<bool> CheckIfUserIsAListMember(long listId, IUserIdentifier user)
-        {
-            var listIdentifier = _twitterListIdentifierFactory.Create(listId);
-            return CheckIfUserIsAListMember(listIdentifier, user);
-        }
-
-        public Task<bool> CheckIfUserIsAListMember(string slug, long ownerId, long userId)
-        {
-            var listIdentifier = _twitterListIdentifierFactory.Create(slug, ownerId);
-            return CheckIfUserIsAListMember(listIdentifier, userId);
-        }
-
-        public Task<bool> CheckIfUserIsAListMember(string slug, long ownerId, string userScreenName)
-        {
-            var listIdentifier = _twitterListIdentifierFactory.Create(slug, ownerId);
-            return CheckIfUserIsAListMember(listIdentifier, userScreenName);
-        }
-
-        public Task<bool> CheckIfUserIsAListMember(string slug, long ownerId, IUserIdentifier user)
-        {
-            var listIdentifier = _twitterListIdentifierFactory.Create(slug, ownerId);
-            return CheckIfUserIsAListMember(listIdentifier, user);
-        }
-
-        public Task<bool> CheckIfUserIsAListMember(string slug, string ownerScreenName, long userId)
-        {
-            var listIdentifier = _twitterListIdentifierFactory.Create(slug, ownerScreenName);
-            return CheckIfUserIsAListMember(listIdentifier, userId);
-        }
-
-        public Task<bool> CheckIfUserIsAListMember(string slug, string ownerScreenName, string userScreenName)
-        {
-            var listIdentifier = _twitterListIdentifierFactory.Create(slug, ownerScreenName);
-            return CheckIfUserIsAListMember(listIdentifier, userScreenName);
-        }
-
-        public Task<bool> CheckIfUserIsAListMember(string slug, string ownerScreenName, IUserIdentifier user)
-        {
-            var listIdentifier = _twitterListIdentifierFactory.Create(slug, ownerScreenName);
-            return CheckIfUserIsAListMember(listIdentifier, user);
-        }
-
-        public Task<bool> CheckIfUserIsAListMember(string slug, IUserIdentifier owner, long userId)
-        {
-            var listIdentifier = _twitterListIdentifierFactory.Create(slug, owner);
-            return CheckIfUserIsAListMember(listIdentifier, userId);
-        }
-
-        public Task<bool> CheckIfUserIsAListMember(string slug, IUserIdentifier owner, string userScreenName)
-        {
-            var listIdentifier = _twitterListIdentifierFactory.Create(slug, owner);
-            return CheckIfUserIsAListMember(listIdentifier, userScreenName);
-        }
-
-        public Task<bool> CheckIfUserIsAListMember(string slug, IUserIdentifier owner, IUserIdentifier user)
-        {
-            var listIdentifier = _twitterListIdentifierFactory.Create(slug, owner);
-            return CheckIfUserIsAListMember(listIdentifier, user);
-        }
-
-        public Task<bool> CheckIfUserIsAListMember(ITwitterListIdentifier listIdentifier, long userId)
-        {
-            return CheckIfUserIsAListMember(listIdentifier, new UserIdentifier(userId));
-        }
-
-        public Task<bool> CheckIfUserIsAListMember(ITwitterListIdentifier listIdentifier, string userScreenName)
-        {
-            return CheckIfUserIsAListMember(listIdentifier, new UserIdentifier(userScreenName));
-        }
-
-        public Task<bool> CheckIfUserIsAListMember(ITwitterListIdentifier listIdentifier, IUserIdentifier user)
-        {
-            return _twitterListQueryExecutor.CheckIfUserIsAListMember(listIdentifier, user);
         }
         #endregion
 

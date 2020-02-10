@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Tweetinvi.Client.Requesters;
@@ -5,6 +6,7 @@ using Tweetinvi.Client.Tools;
 using Tweetinvi.Core.Factories;
 using Tweetinvi.Core.Iterators;
 using Tweetinvi.Core.Web;
+using Tweetinvi.Exceptions;
 using Tweetinvi.Iterators;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO.QueryDTO;
@@ -238,6 +240,91 @@ namespace Tweetinvi.Client
                 var userDTOs = pageResult.DataTransferObject.Users;
                 return _userFactory.GenerateUsersFromDTO(userDTOs, null);
             });
+        }
+
+        public Task<bool> CheckIfUserIsMemberOfList(long? listId, long? userId)
+        {
+            return CheckIfUserIsMemberOfList(new CheckIfUserIsMemberOfListParameters(listId, userId));
+        }
+
+        public Task<bool> CheckIfUserIsMemberOfList(long? listId, string username)
+        {
+            return CheckIfUserIsMemberOfList(new CheckIfUserIsMemberOfListParameters(listId, username));
+        }
+
+        public Task<bool> CheckIfUserIsMemberOfList(long? listId, IUserIdentifier user)
+        {
+            return CheckIfUserIsMemberOfList(new CheckIfUserIsMemberOfListParameters(listId, user));
+        }
+
+        public Task<bool> CheckIfUserIsMemberOfList(ITwitterListIdentifier list, long? userId)
+        {
+            return CheckIfUserIsMemberOfList(new CheckIfUserIsMemberOfListParameters(list, userId));
+        }
+
+        public Task<bool> CheckIfUserIsMemberOfList(ITwitterListIdentifier list, string username)
+        {
+            return CheckIfUserIsMemberOfList(new CheckIfUserIsMemberOfListParameters(list, username));
+        }
+
+        public Task<bool> CheckIfUserIsMemberOfList(ITwitterListIdentifier list, IUserIdentifier user)
+        {
+            return CheckIfUserIsMemberOfList(new CheckIfUserIsMemberOfListParameters(list, user));
+        }
+
+        public async Task<bool> CheckIfUserIsMemberOfList(ICheckIfUserIsMemberOfListParameters parameters)
+        {
+            try
+            {
+                var result = await _twitterListsRequester.CheckIfUserIsAListMember(parameters).ConfigureAwait(false);
+                return result.Result;
+            }
+            catch (TwitterException e)
+            {
+                if (e.StatusCode == 404)
+                {
+                    // This is a special case where the request actually throws expectedly
+                    // When a user is not a member of a list this operation returns a 404.
+                    return false;
+                }
+
+                throw;
+            }
+        }
+
+        public Task RemoveMemberFromList(long? listId, long? userId)
+        {
+            return RemoveMemberFromList(new RemoveMemberFromListParameters(listId, userId));
+        }
+
+        public Task RemoveMemberFromList(long? listId, string username)
+        {
+            return RemoveMemberFromList(new RemoveMemberFromListParameters(listId, username));
+        }
+
+        public Task RemoveMemberFromList(long? listId, IUserIdentifier user)
+        {
+            return RemoveMemberFromList(new RemoveMemberFromListParameters(listId, user));
+        }
+
+        public Task RemoveMemberFromList(ITwitterListIdentifier list, long? userId)
+        {
+            return RemoveMemberFromList(new RemoveMemberFromListParameters(list, userId));
+        }
+
+        public Task RemoveMemberFromList(ITwitterListIdentifier list, string username)
+        {
+            return RemoveMemberFromList(new RemoveMemberFromListParameters(list, username));
+        }
+
+        public Task RemoveMemberFromList(ITwitterListIdentifier list, IUserIdentifier user)
+        {
+            return RemoveMemberFromList(new RemoveMemberFromListParameters(list, user));
+        }
+
+        public Task RemoveMemberFromList(IRemoveMemberFromListParameters parameters)
+        {
+            return _twitterListsRequester.RemoveMemberFromList(parameters);
         }
     }
 }

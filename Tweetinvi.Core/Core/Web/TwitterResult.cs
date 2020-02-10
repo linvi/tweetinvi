@@ -13,12 +13,10 @@ namespace Tweetinvi.Core.Web
             ITwitterRequest request,
             ITwitterResponse response,
             Func<TDTO, TModel> convert)
-            where TDTO : class
-            where TModel : class;
+            where TDTO : class;
 
         ITwitterResult<TDTO, TModel> Create<TDTO, TModel>(ITwitterResult<TDTO> result, Func<TDTO, TModel> convert)
-            where TDTO : class
-            where TModel : class;
+            where TDTO : class;
     }
 
     public class TwitterResultFactory : ITwitterResultFactory
@@ -49,7 +47,7 @@ namespace Tweetinvi.Core.Web
         }
 
         public ITwitterResult<TDTO, TModel> Create<TDTO, TModel>(ITwitterRequest request, ITwitterResponse response, Func<TDTO, TModel> convert)
-            where TDTO : class where TModel : class
+            where TDTO : class
         {
             return new TwitterResult<TDTO, TModel>(_jsonObjectConverter, convert)
             {
@@ -58,7 +56,7 @@ namespace Tweetinvi.Core.Web
             };
         }
 
-        public ITwitterResult<TDTO, TModel> Create<TDTO, TModel>(ITwitterResult<TDTO> result, Func<TDTO, TModel> convert) where TDTO : class where TModel : class
+        public ITwitterResult<TDTO, TModel> Create<TDTO, TModel>(ITwitterResult<TDTO> result, Func<TDTO, TModel> convert) where TDTO : class
         {
             return Create(result.Request, result.Response, convert);
         }
@@ -128,9 +126,7 @@ namespace Tweetinvi.Core.Web
         }
     }
 
-    public class TwitterResult<TDTO, TModel> : TwitterResult<TDTO>, ITwitterResult<TDTO, TModel>
-        where TDTO : class
-        where TModel : class
+    public class TwitterResult<TDTO, TModel> : TwitterResult<TDTO>, ITwitterResult<TDTO, TModel> where TDTO : class
     {
         private readonly Func<TDTO, TModel> _convert;
         private TModel _result;
@@ -149,7 +145,7 @@ namespace Tweetinvi.Core.Web
 
                 if (dto == null)
                 {
-                    return null;
+                    return default;
                 }
 
                 if (_result == null)

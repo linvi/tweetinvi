@@ -118,5 +118,24 @@ namespace Tweetinvi.Client.Requesters
             request.ExecutionContext.Converters = JsonQueryConverterRepository.Converters;
             return _twitterListController.GetMembersOfListIterator(parameters, request);
         }
+
+        public Task<ITwitterResult<ITwitterListDTO, bool>> CheckIfUserIsAListMember(ICheckIfUserIsMemberOfListParameters parameters)
+        {
+            _validator.Validate(parameters);
+            return ExecuteRequest(async request =>
+            {
+                var result = await _twitterListController.CheckIfUserIsAListMember(parameters, request).ConfigureAwait(false);
+                return _twitterResultFactory.Create(result, dto => result.Response.StatusCode == 109);
+            });
+        }
+
+        public Task<ITwitterResult<ITwitterListDTO>> RemoveMemberFromList(IRemoveMemberFromListParameters parameters)
+        {
+            _validator.Validate(parameters);
+            return ExecuteRequest(request =>
+            {
+                return _twitterListController.RemoveMemberFromList(parameters, request);
+            });
+        }
     }
 }

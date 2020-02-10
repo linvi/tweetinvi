@@ -16,6 +16,8 @@ namespace Tweetinvi.Core.Client.Validators
         void Validate(IAddMemberToListParameters parameters);
         void Validate(IGetListsAUserIsMemberOfParameters parameters);
         void Validate(IGetMembersOfListParameters parameters);
+        void Validate(ICheckIfUserIsMemberOfListParameters parameters);
+        void Validate(IRemoveMemberFromListParameters parameters);
     }
 
     public class TwitterListsClientParametersValidator : ITwitterListsClientParametersValidator
@@ -100,6 +102,16 @@ namespace Tweetinvi.Core.Client.Validators
             {
                 throw new TwitterArgumentLimitException($"{nameof(parameters)}.{nameof(parameters.PageSize)}", maxPageSize, nameof(Limits.LISTS_GET_MEMBERS_MAX_SIZE), "page size");
             }
+        }
+
+        public void Validate(ICheckIfUserIsMemberOfListParameters parameters)
+        {
+            _twitterListsClientRequiredParametersValidator.Validate(parameters);
+        }
+
+        public void Validate(IRemoveMemberFromListParameters parameters)
+        {
+            _twitterListsClientRequiredParametersValidator.Validate(parameters);
         }
     }
 }

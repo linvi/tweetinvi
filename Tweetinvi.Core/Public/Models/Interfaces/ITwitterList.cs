@@ -117,7 +117,7 @@ namespace Tweetinvi.Models
         /// <summary>
         /// Remove a member from this list. You must be the owner of the list to do so.
         /// </summary>
-        Task<bool> RemoveMember(string userScreenName);
+        Task<bool> RemoveMember(string username);
 
         /// <summary>
         /// Remove a member from this list. You must be the owner of the list to do so.

@@ -26,7 +26,8 @@ namespace Tweetinvi.Core.Controllers
         ITwitterPageIterator<ITwitterResult<ITwitterListCursorQueryResultDTO>> GetListsAUserIsMemberOfIterator(IGetListsAUserIsMemberOfParameters parameters, ITwitterRequest request);
         ITwitterPageIterator<ITwitterResult<IUserCursorQueryResultDTO>> GetMembersOfListIterator(IGetMembersOfListParameters parameters, ITwitterRequest request);
 
-
+        Task<ITwitterResult<ITwitterListDTO>> CheckIfUserIsAListMember(ICheckIfUserIsMemberOfListParameters parameters, ITwitterRequest request);
+        Task<ITwitterResult<ITwitterListDTO>> RemoveMemberFromList(IRemoveMemberFromListParameters parameters, ITwitterRequest request);
 
 
 
@@ -60,27 +61,6 @@ namespace Tweetinvi.Core.Controllers
         Task<MultiRequestsResult> AddMultipleMembersToList(ITwitterListIdentifier list, IEnumerable<string> userScreenNames);
         Task<MultiRequestsResult> AddMultipleMembersToList(ITwitterListIdentifier list, IEnumerable<IUserIdentifier> users);
 
-        // Remove Member from List
-        Task<bool> RemoveMemberFromList(long listId, long newUserId);
-        Task<bool> RemoveMemberFromList(long listId, string newUserName);
-        Task<bool> RemoveMemberFromList(long listId, IUserIdentifier newUser);
-
-        Task<bool> RemoveMemberFromList(string slug, long ownerId, long newUserId);
-        Task<bool> RemoveMemberFromList(string slug, long ownerId, string newUserName);
-        Task<bool> RemoveMemberFromList(string slug, long ownerId, IUserIdentifier newUser);
-
-        Task<bool> RemoveMemberFromList(string slug, string ownerScreenName, long newUserId);
-        Task<bool> RemoveMemberFromList(string slug, string ownerScreenName, string newUserName);
-        Task<bool> RemoveMemberFromList(string slug, string ownerScreenName, IUserIdentifier newUser);
-
-        Task<bool> RemoveMemberFromList(string slug, IUserIdentifier owner, long newUserId);
-        Task<bool> RemoveMemberFromList(string slug, IUserIdentifier owner, string newUserName);
-        Task<bool> RemoveMemberFromList(string slug, IUserIdentifier owner, IUserIdentifier newUser);
-
-        Task<bool> RemoveMemberFromList(ITwitterListIdentifier list, long newUserId);
-        Task<bool> RemoveMemberFromList(ITwitterListIdentifier list, string newUserName);
-        Task<bool> RemoveMemberFromList(ITwitterListIdentifier list, IUserIdentifier newUser);
-
         // Remove Multiple Members
         Task<MultiRequestsResult> RemoveMultipleMembersFromList(long listId, IEnumerable<long> userIds);
         Task<MultiRequestsResult> RemoveMultipleMembersFromList(long listId, IEnumerable<string> userScreenNames);
@@ -101,27 +81,6 @@ namespace Tweetinvi.Core.Controllers
         Task<MultiRequestsResult> RemoveMultipleMembersFromList(ITwitterListIdentifier list, IEnumerable<long> userIds);
         Task<MultiRequestsResult> RemoveMultipleMembersFromList(ITwitterListIdentifier list, IEnumerable<string> userScreenNames);
         Task<MultiRequestsResult> RemoveMultipleMembersFromList(ITwitterListIdentifier list, IEnumerable<IUserIdentifier> users);
-
-        // Check Membership
-        Task<bool> CheckIfUserIsAListMember(long listId, long userId);
-        Task<bool> CheckIfUserIsAListMember(long listId, string userScreenName);
-        Task<bool> CheckIfUserIsAListMember(long listId, IUserIdentifier user);
-
-        Task<bool> CheckIfUserIsAListMember(string slug, long ownerId, long userId);
-        Task<bool> CheckIfUserIsAListMember(string slug, long ownerId, string userScreenName);
-        Task<bool> CheckIfUserIsAListMember(string slug, long ownerId, IUserIdentifier user);
-
-        Task<bool> CheckIfUserIsAListMember(string slug, string ownerScreenName, long userId);
-        Task<bool> CheckIfUserIsAListMember(string slug, string ownerScreenName, string userScreenName);
-        Task<bool> CheckIfUserIsAListMember(string slug, string ownerScreenName, IUserIdentifier user);
-
-        Task<bool> CheckIfUserIsAListMember(string slug, IUserIdentifier owner, long userId);
-        Task<bool> CheckIfUserIsAListMember(string slug, IUserIdentifier owner, string userScreenName);
-        Task<bool> CheckIfUserIsAListMember(string slug, IUserIdentifier owner, IUserIdentifier user);
-
-        Task<bool> CheckIfUserIsAListMember(ITwitterListIdentifier listIdentifier, long userId);
-        Task<bool> CheckIfUserIsAListMember(ITwitterListIdentifier listIdentifier, string userScreenName);
-        Task<bool> CheckIfUserIsAListMember(ITwitterListIdentifier listIdentifier, IUserIdentifier user);
 
         // Subscriptions
         Task<IEnumerable<ITwitterList>> GetUserSubscribedLists(long userId, int maxNumberOfListsToRetrieve);
