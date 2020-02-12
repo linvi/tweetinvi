@@ -3,8 +3,6 @@ using System.Threading.Tasks;
 using Tweetinvi.Core.Controllers;
 using Tweetinvi.Core.Factories;
 using Tweetinvi.Core.Iterators;
-using Tweetinvi.Core.Parameters;
-using Tweetinvi.Core.QueryGenerators;
 using Tweetinvi.Core.Web;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
@@ -15,24 +13,21 @@ namespace Tweetinvi.Controllers.TwitterLists
 {
     public class TwitterListController : ITwitterListController
     {
-        private readonly ITweetFactory _tweetFactory;
         private readonly IUserFactory _userFactory;
         private readonly ITwitterListQueryExecutor _twitterListQueryExecutor;
-        private readonly ITwitterListQueryParameterGenerator _twitterListQueryParameterGenerator;
         private readonly ITwitterListIdentifierFactory _twitterListIdentifierFactory;
+        private readonly IPageCursorIteratorFactories _pageCursorIteratorFactories;
 
         public TwitterListController(
-            ITweetFactory tweetFactory,
             IUserFactory userFactory,
             ITwitterListQueryExecutor twitterListQueryExecutor,
-            ITwitterListQueryParameterGenerator twitterListQueryParameterGenerator,
-            ITwitterListIdentifierFactory twitterListIdentifierFactory)
+            ITwitterListIdentifierFactory twitterListIdentifierFactory,
+            IPageCursorIteratorFactories pageCursorIteratorFactories)
         {
-            _tweetFactory = tweetFactory;
             _userFactory = userFactory;
             _twitterListQueryExecutor = twitterListQueryExecutor;
-            _twitterListQueryParameterGenerator = twitterListQueryParameterGenerator;
             _twitterListIdentifierFactory = twitterListIdentifierFactory;
+            _pageCursorIteratorFactories = pageCursorIteratorFactories;
         }
 
         public Task<ITwitterResult<ITwitterListDTO>> CreateList(ICreateListParameters parameters, ITwitterRequest request)
@@ -141,45 +136,6 @@ namespace Tweetinvi.Controllers.TwitterLists
         {
             return _twitterListQueryExecutor.RemoveMembersFromList(parameters, request);
         }
-
-
-        #region Get Tweets from List
-        public Task<IEnumerable<ITweet>> GetTweetsFromList(long listId)
-        {
-            var identifier = _twitterListIdentifierFactory.Create(listId);
-            return GetTweetsFromList(identifier);
-        }
-
-        public Task<IEnumerable<ITweet>> GetTweetsFromList(string slug, IUserIdentifier owner)
-        {
-            var identifier = _twitterListIdentifierFactory.Create(slug, owner);
-            return GetTweetsFromList(identifier);
-        }
-
-        public Task<IEnumerable<ITweet>> GetTweetsFromList(string slug, string ownerScreenName)
-        {
-            var identifier = _twitterListIdentifierFactory.Create(slug, ownerScreenName);
-            return GetTweetsFromList(identifier);
-        }
-
-        public Task<IEnumerable<ITweet>> GetTweetsFromList(string slug, long ownerId)
-        {
-            var identifier = _twitterListIdentifierFactory.Create(slug, ownerId);
-            return GetTweetsFromList(identifier);
-        }
-
-        public Task<IEnumerable<ITweet>> GetTweetsFromList(ITwitterListIdentifier list, IGetTweetsFromListParameters parameters = null)
-        {
-            var queryParameters = _twitterListQueryParameterGenerator.CreateTweetsFromListQueryParameters(list, parameters);
-            return GetTweetsFromList(queryParameters);
-        }
-
-        private async Task<IEnumerable<ITweet>> GetTweetsFromList(IGetTweetsFromListQueryParameters queryParameters)
-        {
-            var tweetsDTO = await _twitterListQueryExecutor.GetTweetsFromList(queryParameters);
-            return _tweetFactory.GenerateTweetsFromDTO(tweetsDTO, null, null);
-        }
-        #endregion
 
         #region GetUserSubscribedLists
         public Task<IEnumerable<ITwitterList>> GetUserSubscribedLists(long userId, int maxNumberOfListsToRetrieve)
@@ -383,8 +339,19 @@ namespace Tweetinvi.Controllers.TwitterLists
             return _twitterListQueryExecutor.CheckIfUserIsAListSubscriber(listIdentifier, user);
         }
 
-
-
         #endregion
+
+        public ITwitterPageIterator<ITwitterResult<ITweetDTO[]>, long?> GetTweetsFromListIterator(IGetTweetsFromListParameters parameters, ITwitterRequest request)
+        {
+            return _pageCursorIteratorFactories.Create(parameters, cursor =>
+            {
+                var cursoredParameters = new GetTweetsFromListParameters(parameters)
+                {
+                    MaxId = cursor
+                };
+
+                return _twitterListQueryExecutor.GetTweetsFromList(cursoredParameters, new TwitterRequest(request));
+            });
+        }
     }
 }

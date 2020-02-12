@@ -12,6 +12,5 @@ namespace Tweetinvi.Core.QueryValidators
         // Throw
         void ThrowIfListIdentifierIsNotValid(ITwitterListIdentifier twitterListIdentifier);
         void ThrowIfListUpdateParametersIsNotValid(ITwitterListUpdateParameters parameters);
-        void ThrowIfGetTweetsFromListQueryParametersIsNotValid(IGetTweetsFromListQueryParameters parameters);
     }
 }

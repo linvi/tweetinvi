@@ -116,7 +116,7 @@ namespace xUnitinvi.EndToEnd
             await _tweetinviTestClient.Lists.RemoveMembersFromList(publicList, new[] { "bbc", "lemondefr" });
             var updatedList = await _tweetinviTestClient.Lists.GetList(publicList);
 
-            // await publicList.Destroy();
+            await publicList.Destroy();
 
             // assert
             Assert.Contains(publicListMembers, members => members.ScreenName.ToLower() == EndToEndTestConfig.TweetinviApi);
@@ -127,6 +127,40 @@ namespace xUnitinvi.EndToEnd
             Assert.True(isTweetinviApiAMemberAfterAdding);
             Assert.False(isTweetinviApiAMemberAfterRemoving);
             Assert.Equal(updatedList.MemberCount, 1);
+        }
+
+        [Fact]
+        public async Task Tweets()
+        {
+            if (!EndToEndTestConfig.ShouldRunEndToEndTests)
+                return;
+
+            var publicList = await _protectedClient.Lists.CreateList("members-test-list", PrivacyMode.Public);
+
+            var tweet = await _tweetinviTestClient.Tweets.PublishTweet("Testing that members are working" + Guid.NewGuid());
+
+            await publicList.AddMember("tweetinvitest");
+            await Task.Delay(500); // give some time to twitter for timeline generation
+
+            // act
+            var getTweetsParameters = new GetTweetsFromListParameters(publicList)
+            {
+                PageSize = 2
+            };
+
+            var tweetsIterator = _protectedClient.Lists.GetTweetsFromList(getTweetsParameters);
+            var listTweetsPage1 = await tweetsIterator.MoveToNextPage();
+            getTweetsParameters.PageSize = 4;
+            var listTweetsPage2 = await tweetsIterator.MoveToNextPage();
+
+            await tweet.Destroy();
+            await publicList.Destroy();
+
+            // assert
+            Assert.Contains(listTweetsPage1, listTweet => listTweet.Id == tweet.Id);
+            Assert.Equal(listTweetsPage1.Count(), 2);
+            Assert.DoesNotContain(listTweetsPage2, listTweet => listTweet.Id == tweet.Id);
+            Assert.Equal(listTweetsPage2.Count(), 4);
         }
     }
 }

@@ -3,7 +3,6 @@ using Tweetinvi.Controllers.Properties;
 using Tweetinvi.Controllers.Shared;
 using Tweetinvi.Core;
 using Tweetinvi.Core.Extensions;
-using Tweetinvi.Core.Parameters;
 using Tweetinvi.Core.QueryGenerators;
 using Tweetinvi.Core.QueryValidators;
 using Tweetinvi.Models;
@@ -38,7 +37,7 @@ namespace Tweetinvi.Controllers.TwitterLists
         string GetUserSubscribedListsQuery(IUserIdentifier user, bool getOwnedListsFirst);
 
 
-        string GetTweetsFromListQuery(IGetTweetsFromListQueryParameters queryParameters);
+        string GetTweetsFromListQuery(IGetTweetsFromListParameters queryParameters);
 
         string GetUserSubscribedListsQuery(IUserIdentifier user, int maximumNumberOfListsToRetrieve);
 
@@ -235,10 +234,19 @@ namespace Tweetinvi.Controllers.TwitterLists
             return query.ToString();
         }
 
+        public string GetTweetsFromListQuery(IGetTweetsFromListParameters parameters)
+        {
+            var query = new StringBuilder(Resources.List_GetTweetsFromList);
 
+            _twitterListQueryParameterGenerator.AppendListIdentifierParameter(query, parameters.List);
+            _queryParameterGenerator.AddTimelineParameters(query, parameters);
+            _queryParameterGenerator.AddTweetModeParameter(query, parameters.TweetMode);
 
+            query.AddParameterToQuery("include_rts", parameters.IncludeRetweets);
+            query.AddFormattedParameterToQuery(parameters.FormattedCustomQueryParameters);
 
-
+            return query.ToString();
+        }
 
 
 
@@ -259,34 +267,7 @@ namespace Tweetinvi.Controllers.TwitterLists
         }
 
 
-        public string GetTweetsFromListQuery(IGetTweetsFromListQueryParameters getTweetsFromListQueryParameters)
-        {
-            _listsQueryValidator.ThrowIfGetTweetsFromListQueryParametersIsNotValid(getTweetsFromListQueryParameters);
 
-            var identifier = getTweetsFromListQueryParameters.TwitterListIdentifier;
-            var parameters = getTweetsFromListQueryParameters.Parameters;
-
-            StringBuilder queryParameters = new StringBuilder();
-
-            queryParameters.Append(_twitterListQueryParameterGenerator.GenerateIdentifierParameter(identifier));
-
-            if (parameters != null)
-            {
-                queryParameters.Append(_queryParameterGenerator.GenerateSinceIdParameter(parameters.SinceId));
-                queryParameters.Append(_queryParameterGenerator.GenerateMaxIdParameter(parameters.MaxId));
-                queryParameters.Append(_queryParameterGenerator.GenerateCountParameter(parameters.MaximumNumberOfTweetsToRetrieve));
-                queryParameters.Append(_queryParameterGenerator.GenerateIncludeEntitiesParameter(parameters.IncludeEntities));
-                queryParameters.Append(_queryParameterGenerator.GenerateIncludeRetweetsParameter(parameters.IncludeRetweets));
-            }
-            else
-            {
-                queryParameters.Append(_queryParameterGenerator.GenerateCountParameter(TweetinviConsts.LIST_GET_TWEETS_COUNT));
-            }
-
-            queryParameters.AddFormattedParameterToParametersList(_queryParameterGenerator.GenerateTweetModeParameter(_tweetinviSettingsAccessor.CurrentThreadSettings.TweetMode));
-
-            return string.Format(Resources.List_GetTweetsFromList, queryParameters);
-        }
 
         // Subscriptions
         public string GetUserSubscribedListsQuery(IUserIdentifier user, int maximumNumberOfListsToRetrieve)

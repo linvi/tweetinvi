@@ -204,9 +204,9 @@ namespace Tweetinvi.Controllers.Properties
         public static string List_GetSubscribers = "https://api.twitter.com/1.1/lists/subscribers.json?{0}&count={1}";
 
         /// <summary>
-        ///   Looks up a localized string similar to https://api.twitter.com/1.1/lists/statuses.json?{0}.
+        ///   Looks up a localized string similar to https://api.twitter.com/1.1/lists/statuses.json?.
         /// </summary>
-        public static string List_GetTweetsFromList = "https://api.twitter.com/1.1/lists/statuses.json?{0}";
+        public static string List_GetTweetsFromList = "https://api.twitter.com/1.1/lists/statuses.json?";
 
 
 

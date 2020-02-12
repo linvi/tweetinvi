@@ -1,10 +1,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Tweetinvi.Core.Iterators;
-using Tweetinvi.Core.Web;
 using Tweetinvi.Iterators;
 using Tweetinvi.Models;
-using Tweetinvi.Models.DTO.QueryDTO;
 using Tweetinvi.Parameters;
 
 namespace Tweetinvi.Client
@@ -109,6 +106,10 @@ namespace Tweetinvi.Client
         /// <para> https://developer.twitter.com/en/docs/accounts-and-users/create-manage-lists/api-reference/get-lists-ownerships </para>
         /// <returns>An iterator over the lists owned by the user</returns>
         ITwitterIterator<ITwitterList> GetListsOwnedByUserIterator(IGetListsOwnedByUserParameters parameters);
+
+        // ***********
+        // MEMBERSHIP
+        // ***********
 
         /// <inheritdoc cref="AddMemberToList(IAddMemberToListParameters)"/>
         Task AddMemberToList(long? listId, long? userId);
@@ -238,5 +239,21 @@ namespace Tweetinvi.Client
         /// <para>Read more : https://developer.twitter.com/en/docs/accounts-and-users/create-manage-lists/api-reference/post-lists-members-destroy_all </para>
         /// </summary>
         Task RemoveMembersFromList(IRemoveMembersFromListParameters parameters);
+
+        // ***********
+        // GET TWEETS
+        // ***********
+
+        /// <inheritdoc cref="GetTweetsFromList(IGetTweetsFromListParameters)" />
+        ITwitterIterator<ITweet, long?> GetTweetsFromList(long? listId);
+        /// <inheritdoc cref="GetTweetsFromList(IGetTweetsFromListParameters)" />
+        ITwitterIterator<ITweet, long?> GetTweetsFromList(ITwitterListIdentifier list);
+
+        /// <summary>
+        /// Returns the tweets authored by the members of the list.
+        /// <para>Read more : https://developer.twitter.com/en/docs/accounts-and-users/create-manage-lists/api-reference/get-lists-statuses </para>
+        /// </summary>
+        /// <returns>An iterator to get through the tweets of a list</returns>
+        ITwitterIterator<ITweet, long?> GetTweetsFromList(IGetTweetsFromListParameters parameters);
     }
 }

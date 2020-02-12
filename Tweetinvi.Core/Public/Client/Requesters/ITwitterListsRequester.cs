@@ -102,5 +102,15 @@ namespace Tweetinvi.Client.Requesters
         /// </summary>
         /// <returns>TwitterResult containing the list</returns>
         Task<ITwitterResult<ITwitterListDTO, ITwitterList>> RemoveMembersFromList(IRemoveMembersFromListParameters parameters);
+
+        // GET TWEETS
+
+        /// <summary>
+        /// Returns the tweets authored by the members of the list.
+        /// <para>Read more : https://developer.twitter.com/en/docs/accounts-and-users/create-manage-lists/api-reference/get-lists-statuses </para>
+        /// </summary>
+        /// <returns>An iterator to get through the tweets of a list</returns>
+        ITwitterPageIterator<ITwitterResult<ITweetDTO[]>, long?> GetTweetsFromListIterator(IGetTweetsFromListParameters parameters);
+
     }
 }

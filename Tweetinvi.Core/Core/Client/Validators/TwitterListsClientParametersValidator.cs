@@ -12,6 +12,7 @@ namespace Tweetinvi.Core.Client.Validators
         void Validate(IUpdateListParameters parameters);
         void Validate(IDestroyListParameters parameters);
         void Validate(IGetListsOwnedByUserParameters parameters);
+        void Validate(IGetTweetsFromListParameters parameters);
 
         // MEMBERS
         void Validate(IAddMemberToListParameters parameters);
@@ -77,6 +78,16 @@ namespace Tweetinvi.Core.Client.Validators
             if (parameters.PageSize > maxPageSize)
             {
                 throw new TwitterArgumentLimitException($"{nameof(parameters)}.{nameof(parameters.PageSize)}", maxPageSize, nameof(Limits.LISTS_GET_USER_OWNED_LISTS_MAX_SIZE), "page size");
+            }
+        }
+
+        public void Validate(IGetTweetsFromListParameters parameters)
+        {
+            _twitterListsClientRequiredParametersValidator.Validate(parameters);
+            var maxPageSize = Limits.LISTS_GET_TWEETS_MAX_PAGE_SIZE;
+            if (parameters.PageSize > maxPageSize)
+            {
+                throw new TwitterArgumentLimitException($"{nameof(parameters)}.{nameof(parameters.PageSize)}", maxPageSize, nameof(Limits.LISTS_GET_TWEETS_MAX_PAGE_SIZE), "page size");
             }
         }
 

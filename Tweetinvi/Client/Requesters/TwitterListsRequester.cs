@@ -157,5 +157,13 @@ namespace Tweetinvi.Client.Requesters
                 return _twitterResultFactory.Create(twitterResult, dto => _factories.CreateTwitterList(dto));
             });
         }
+
+        public ITwitterPageIterator<ITwitterResult<ITweetDTO[]>, long?> GetTweetsFromListIterator(IGetTweetsFromListParameters parameters)
+        {
+            _validator.Validate(parameters);
+
+            var request = TwitterClient.CreateRequest();
+            return _twitterListController.GetTweetsFromListIterator(parameters, request);
+        }
     }
 }

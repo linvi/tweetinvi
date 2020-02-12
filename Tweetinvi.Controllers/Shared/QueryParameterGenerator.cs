@@ -24,9 +24,12 @@ namespace Tweetinvi.Controllers.Shared
         string GenerateTweetIdentifier(ITweetIdentifier tweetId);
 
         string GenerateAdditionalRequestParameters(string additionalParameters, bool existingParameters = true);
-        void AddMinMaxQueryParameters(StringBuilder query, IMinMaxQueryParameters parameters);
         string GenerateOEmbedAlignmentParameter(OEmbedTweetAlignment? alignment);
         string GenerateOEmbedThemeParameter(OEmbedTweetTheme? theme);
+
+        void AddMinMaxQueryParameters(StringBuilder query, IMinMaxQueryParameters parameters);
+        void AddTimelineParameters(StringBuilder query, ITimelineRequestParameters parameters);
+        void AddTweetModeParameter(StringBuilder query, TweetMode? tweetMode);
     }
 
     public class QueryParameterGenerator : IQueryParameterGenerator
@@ -159,6 +162,18 @@ namespace Tweetinvi.Controllers.Shared
             query.AddParameterToQuery("count", parameters.PageSize);
             query.AddParameterToQuery("since_id", parameters.SinceId);
             query.AddParameterToQuery("max_id", parameters.MaxId);
+        }
+
+        public void AddTimelineParameters(StringBuilder query, ITimelineRequestParameters parameters)
+        {
+            AddMinMaxQueryParameters(query, parameters);
+            query.AddParameterToQuery("include_entities", parameters.IncludeEntities);
+            query.AddParameterToQuery("trim_user", parameters.TrimUser);
+        }
+
+        public void AddTweetModeParameter(StringBuilder query, TweetMode? tweetMode)
+        {
+            query.AddParameterToQuery("tweet_mode", tweetMode?.ToString()?.ToLowerInvariant());
         }
 
         public string GenerateOEmbedAlignmentParameter(OEmbedTweetAlignment? alignment)

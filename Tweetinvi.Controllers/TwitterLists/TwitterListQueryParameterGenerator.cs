@@ -18,20 +18,17 @@ namespace Tweetinvi.Controllers.TwitterLists
 
         private readonly IFactory<ITwitterListUpdateParameters> _updateTwitterListParametersFactory;
         private readonly IFactory<IGetTweetsFromListParameters> _getTweetsFromListParametersFactory;
-        private readonly IFactory<IGetTweetsFromListQueryParameters> _tweetsFromListQueryParametersFactory;
 
         public TwitterListQueryParameterGenerator(
             IUserQueryValidator userQueryValidator,
             IUserQueryParameterGenerator userQueryParameterGenerator,
             IFactory<ITwitterListUpdateParameters> updateTwitterListParametersFactory,
-            IFactory<IGetTweetsFromListParameters> getTweetsFromListParametersFactory,
-            IFactory<IGetTweetsFromListQueryParameters> tweetsFromListQueryParametersFactory)
+            IFactory<IGetTweetsFromListParameters> getTweetsFromListParametersFactory)
         {
             _userQueryValidator = userQueryValidator;
             _userQueryParameterGenerator = userQueryParameterGenerator;
             _updateTwitterListParametersFactory = updateTwitterListParametersFactory;
             _getTweetsFromListParametersFactory = getTweetsFromListParametersFactory;
-            _tweetsFromListQueryParametersFactory = tweetsFromListQueryParametersFactory;
         }
 
         public string GenerateIdentifierParameter(ITwitterListIdentifier twitterListIdentifier)
@@ -80,16 +77,6 @@ namespace Tweetinvi.Controllers.TwitterLists
         public IGetTweetsFromListParameters CreateTweetsFromListParameters()
         {
             return _getTweetsFromListParametersFactory.Create();
-        }
-
-        public IGetTweetsFromListQueryParameters CreateTweetsFromListQueryParameters(
-            ITwitterListIdentifier listIdentifier,
-            IGetTweetsFromListParameters getTweetsFromListParameters)
-        {
-            var identifierParameter = TweetinviFactory.CreateConstructorParameter("listIdentifier", listIdentifier);
-            var queryParameter = TweetinviFactory.CreateConstructorParameter("parameters", getTweetsFromListParameters);
-
-            return _tweetsFromListQueryParametersFactory.Create(identifierParameter, queryParameter);
         }
 
         // List Update

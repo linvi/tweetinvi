@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -10,6 +9,7 @@ using Tweetinvi.Core.Web;
 using Tweetinvi.Exceptions;
 using Tweetinvi.Iterators;
 using Tweetinvi.Models;
+using Tweetinvi.Models.DTO;
 using Tweetinvi.Models.DTO.QueryDTO;
 using Tweetinvi.Parameters;
 
@@ -20,15 +20,21 @@ namespace Tweetinvi.Client
         private readonly ITwitterListsRequester _twitterListsRequester;
         private readonly ITwitterClientFactories _clientFactories;
         private readonly IUserFactory _userFactory;
+        private readonly ITweetFactory _tweetFactory;
+        private readonly ITwitterClient _client;
 
         public ListsClient(
             ITwitterListsRequester twitterListsRequester,
             ITwitterClientFactories clientFactories,
-            IUserFactory userFactory)
+            IUserFactory userFactory,
+            ITweetFactory tweetFactory,
+            ITwitterClient client)
         {
             _twitterListsRequester = twitterListsRequester;
             _clientFactories = clientFactories;
             _userFactory = userFactory;
+            _tweetFactory = tweetFactory;
+            _client = client;
         }
 
         public Task<ITwitterList> CreateList(string name)
@@ -396,6 +402,31 @@ namespace Tweetinvi.Client
         public async Task RemoveMembersFromList(IRemoveMembersFromListParameters parameters)
         {
             await _twitterListsRequester.RemoveMembersFromList(parameters).ConfigureAwait(false);
+        }
+
+        // ***********
+        // GET TWEETS
+        // ***********
+
+        public ITwitterIterator<ITweet, long?> GetTweetsFromList(long? listId)
+        {
+            return GetTweetsFromList(new GetTweetsFromListParameters(listId));
+        }
+
+        public ITwitterIterator<ITweet, long?> GetTweetsFromList(ITwitterListIdentifier list)
+        {
+            return GetTweetsFromList(new GetTweetsFromListParameters(list));
+        }
+
+        public ITwitterIterator<ITweet, long?> GetTweetsFromList(IGetTweetsFromListParameters parameters)
+        {
+            var pageIterator = _twitterListsRequester.GetTweetsFromListIterator(parameters);
+            return new TwitterIteratorProxy<ITwitterResult<ITweetDTO[]>, ITweet, long?>(pageIterator,
+                twitterResult =>
+                {
+                    var tweetMode = parameters.TweetMode ?? _client.ClientSettings.TweetMode;
+                    return _tweetFactory.GenerateTweetsFromDTO(twitterResult.DataTransferObject, tweetMode, _client);
+                });
         }
     }
 }

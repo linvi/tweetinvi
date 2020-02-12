@@ -31,7 +31,6 @@ namespace Tweetinvi.Logic
             InitializeDTOs(container);
             InitializeHelpers(container);
             InitializeWrappers(container);
-            InitializeQueryParameters(container);
             InitializeExceptionHandler(container);
             InitializeSerialization(container);
         }
@@ -102,11 +101,6 @@ namespace Tweetinvi.Logic
         private void InitializeHelpers(ITweetinviContainer container)
         {
             container.RegisterType<ITwitterStringFormatter, TwitterStringFormatter>();
-        }
-
-        private void InitializeQueryParameters(ITweetinviContainer container)
-        {
-            container.RegisterType<IGetTweetsFromListQueryParameters, GetTweetsFromListQueryParameters>();
         }
 
         private void InitializeWrappers(ITweetinviContainer container)

@@ -37,7 +37,7 @@ namespace Tweetinvi.Controllers.Timeline
         {
             var query = new StringBuilder(Resources.Timeline_GetHomeTimeline);
 
-            AddTimelineParameters(query, parameters);
+            _queryParameterGenerator.AddTimelineParameters(query, parameters);
 
             query.AddParameterToQuery("contributor_details", parameters.IncludeContributorDetails);
             query.AddParameterToQuery("exclude_replies", parameters.ExcludeReplies);
@@ -54,7 +54,7 @@ namespace Tweetinvi.Controllers.Timeline
 
             query.AddFormattedParameterToQuery(_userQueryParameterGenerator.GenerateIdOrScreenNameParameter(parameters.User));
 
-            AddTimelineParameters(query, parameters);
+            _queryParameterGenerator.AddTimelineParameters(query, parameters);
 
             query.AddParameterToQuery("contributor_details", parameters.IncludeContributorDetails);
             query.AddParameterToQuery("exclude_replies", parameters.ExcludeReplies);
@@ -70,7 +70,7 @@ namespace Tweetinvi.Controllers.Timeline
         {
             var query = new StringBuilder(Resources.Timeline_GetMentionsTimeline);
 
-            AddTimelineParameters(query, parameters);
+            _queryParameterGenerator.AddTimelineParameters(query, parameters);
 
             query.AddParameterToQuery("contributor_details", parameters.IncludeContributorDetails);
             query.AddParameterToQuery("tweet_mode", tweetMode?.ToString().ToLowerInvariant());
@@ -84,7 +84,7 @@ namespace Tweetinvi.Controllers.Timeline
         {
             var query = new StringBuilder(Resources.Timeline_GetRetweetsOfMeTimeline);
 
-            AddTimelineParameters(query, parameters);
+            _queryParameterGenerator.AddTimelineParameters(query, parameters);
             query.AddParameterToQuery("include_user_entities", parameters.IncludeUserEntities);
 
             query.AddParameterToQuery("tweet_mode", tweetMode?.ToString().ToLowerInvariant());
@@ -93,11 +93,6 @@ namespace Tweetinvi.Controllers.Timeline
             return query.ToString();
         }
 
-        private void AddTimelineParameters(StringBuilder query, ITimelineRequestParameters parameters)
-        {
-            _queryParameterGenerator.AddMinMaxQueryParameters(query, parameters);
-            query.AddParameterToQuery("include_entities", parameters.IncludeEntities);
-            query.AddParameterToQuery("trim_user", parameters.TrimUser);
-        }
+
     }
 }

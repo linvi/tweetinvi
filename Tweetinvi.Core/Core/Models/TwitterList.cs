@@ -53,9 +53,9 @@ namespace Tweetinvi.Core.Models
         public int MemberCount => _twitterListDTO.MemberCount;
         public int SubscriberCount => _twitterListDTO.SubscriberCount;
 
-        public Task<IEnumerable<ITweet>> GetTweets(IGetTweetsFromListParameters getTweetsFromListParameters = null)
+        public ITwitterIterator<ITweet, long?> GetTweetsIterator()
         {
-            return _twitterListController.GetTweetsFromList(this, getTweetsFromListParameters);
+            return Client.Lists.GetTweetsFromList(this);
         }
 
         // Members

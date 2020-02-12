@@ -11,7 +11,7 @@ namespace Tweetinvi.Core.Controllers
 {
     public interface ITwitterListController
     {
-        // list
+        // LIST
         Task<ITwitterResult<ITwitterListDTO>> CreateList(ICreateListParameters parameters, ITwitterRequest request);
         Task<ITwitterResult<ITwitterListDTO>> GetList(IGetListParameters parameters, ITwitterRequest request);
         Task<ITwitterResult<ITwitterListDTO[]>> GetListsSubscribedByUser(IGetListsSubscribedByUserParameters parameters, ITwitterRequest request);
@@ -19,7 +19,7 @@ namespace Tweetinvi.Core.Controllers
         Task<ITwitterResult<ITwitterListDTO>> DestroyList(IDestroyListParameters parameters, ITwitterRequest request);
         ITwitterPageIterator<ITwitterResult<ITwitterListCursorQueryResultDTO>> GetListsOwnedByUserIterator(IGetListsOwnedByUserParameters parameters, ITwitterRequest request);
 
-        // members
+        // MEMBERS
         Task<ITwitterResult<ITwitterListDTO>> AddMemberToList(IAddMemberToListParameters parameters, ITwitterRequest request);
         Task<ITwitterResult<ITwitterListDTO>> AddMembersToList(IAddMembersToListParameters parameters, ITwitterRequest request);
         ITwitterPageIterator<ITwitterResult<ITwitterListCursorQueryResultDTO>> GetListsAUserIsMemberOfIterator(IGetListsAUserIsMemberOfParameters parameters, ITwitterRequest request);
@@ -29,16 +29,10 @@ namespace Tweetinvi.Core.Controllers
         Task<ITwitterResult<ITwitterListDTO>> RemoveMemberFromList(IRemoveMemberFromListParameters parameters, ITwitterRequest request);
         Task<ITwitterResult<ITwitterListDTO>> RemoveMembersFromList(IRemoveMembersFromListParameters parameters, ITwitterRequest request);
 
+        // SUBSCRIBERS
 
 
 
-
-
-        Task<IEnumerable<ITweet>> GetTweetsFromList(long listId);
-        Task<IEnumerable<ITweet>> GetTweetsFromList(string slug, IUserIdentifier owner);
-        Task<IEnumerable<ITweet>> GetTweetsFromList(string slug, string ownerScreenName);
-        Task<IEnumerable<ITweet>> GetTweetsFromList(string slug, long ownerId);
-        Task<IEnumerable<ITweet>> GetTweetsFromList(ITwitterListIdentifier list, IGetTweetsFromListParameters parameters = null);
 
         // Subscriptions
         Task<IEnumerable<ITwitterList>> GetUserSubscribedLists(long userId, int maxNumberOfListsToRetrieve);
@@ -86,5 +80,8 @@ namespace Tweetinvi.Core.Controllers
         Task<bool> CheckIfUserIsAListSubscriber(ITwitterListIdentifier listIdentifier, long userId);
         Task<bool> CheckIfUserIsAListSubscriber(ITwitterListIdentifier listIdentifier, string userScreenName);
         Task<bool> CheckIfUserIsAListSubscriber(ITwitterListIdentifier listIdentifier, IUserIdentifier user);
+
+        // GET TWEETS
+        ITwitterPageIterator<ITwitterResult<ITweetDTO[]>, long?> GetTweetsFromListIterator(IGetTweetsFromListParameters parameters, ITwitterRequest request);
     }
 }

@@ -47,48 +47,6 @@ namespace Tweetinvi
             _twitterListController = TweetinviContainer.Resolve<ITwitterListController>();
         }
 
-        // Get Tweets from List
-
-        /// <summary>
-        /// Get tweets displayed in a specific list
-        /// </summary>
-        public static Task<IEnumerable<ITweet>> GetTweetsFromList(long listId)
-        {
-            return TwitterListController.GetTweetsFromList(listId);
-        }
-
-        /// <summary>
-        /// Get tweets displayed in a specific list
-        /// </summary>
-        public static Task<IEnumerable<ITweet>> GetTweetsFromList(string slug, IUserIdentifier owner)
-        {
-            return TwitterListController.GetTweetsFromList(slug, owner);
-        }
-
-        /// <summary>
-        /// Get tweets displayed in a specific list
-        /// </summary>
-        public static Task<IEnumerable<ITweet>> GetTweetsFromList(string slug, string ownerScreenName)
-        {
-            return TwitterListController.GetTweetsFromList(slug, ownerScreenName);
-        }
-
-        /// <summary>
-        /// Get tweets displayed in a specific list
-        /// </summary>
-        public static Task<IEnumerable<ITweet>> GetTweetsFromList(string slug, long ownerId)
-        {
-            return TwitterListController.GetTweetsFromList(slug, ownerId);
-        }
-
-        /// <summary>
-        /// Get tweets displayed in a specific list
-        /// </summary>
-        public static Task<IEnumerable<ITweet>> GetTweetsFromList(ITwitterListIdentifier list, IGetTweetsFromListParameters parameters = null)
-        {
-            return TwitterListController.GetTweetsFromList(list, parameters);
-        }
-
         // GET User Subscription List
 
         /// <summary>

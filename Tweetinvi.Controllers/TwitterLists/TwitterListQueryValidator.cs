@@ -48,18 +48,6 @@ namespace Tweetinvi.Controllers.TwitterLists
             return IsSlugValid(twitterListIdentifier.Slug) && isOwnerIdentifierValid;
         }
 
-        public void ThrowIfGetTweetsFromListQueryParametersIsNotValid(IGetTweetsFromListQueryParameters parameters)
-        {
-            if (parameters == null)
-            {
-                throw new ArgumentNullException(nameof(parameters), $"{nameof(parameters)} cannot be null");
-            }
-
-            var identifier = parameters.TwitterListIdentifier;
-
-            ThrowIfListIdentifierIsNotValid(identifier);
-        }
-
         private static bool IsOwnerScreenNameValid(string ownerScreenName)
         {
             return !string.IsNullOrEmpty(ownerScreenName);

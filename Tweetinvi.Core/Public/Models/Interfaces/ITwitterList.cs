@@ -71,7 +71,7 @@ namespace Tweetinvi.Models
         /// <summary>
         /// Get the tweets from this list.
         /// </summary>
-        Task<IEnumerable<ITweet>> GetTweets(IGetTweetsFromListParameters getTweetsFromListParameters = null);
+        ITwitterIterator<ITweet, long?> GetTweetsIterator();
 
         /// <summary>
         /// Get the members of this list.
