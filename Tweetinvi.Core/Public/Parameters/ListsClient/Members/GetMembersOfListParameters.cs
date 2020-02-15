@@ -1,3 +1,4 @@
+using Tweetinvi.Core.Parameters;
 using Tweetinvi.Models;
 
 namespace Tweetinvi.Parameters
@@ -5,21 +6,19 @@ namespace Tweetinvi.Parameters
     /// <summary>
     /// For more information visit : https://developer.twitter.com/en/docs/accounts-and-users/create-manage-lists/api-reference/get-lists-members
     /// </summary>
-    /// <inheritdoc />
-    public interface IGetMembersOfListParameters : IListParameters, ICursorQueryParameters
+    public interface IGetMembersOfListParameters : IBaseGetUsersOfListParameters
     {
     }
 
     /// <inheritdoc />
-    public class GetMembersOfListParameters : CursorQueryParameters, IGetMembersOfListParameters
+    public class GetMembersOfListParameters : BaseGetUsersOfListParameters, IGetMembersOfListParameters
     {
         public GetMembersOfListParameters(long? listId) : this(new TwitterListIdentifier(listId))
         {
         }
 
-        public GetMembersOfListParameters(ITwitterListIdentifier list)
+        public GetMembersOfListParameters(ITwitterListIdentifier list) : base(list)
         {
-            List = list;
             PageSize = TwitterLimits.DEFAULTS.LISTS_GET_MEMBERS_MAX_SIZE;
         }
 
@@ -29,11 +28,6 @@ namespace Tweetinvi.Parameters
             {
                 PageSize = TwitterLimits.DEFAULTS.LISTS_GET_MEMBERS_MAX_SIZE;
             }
-
-            List = parameters?.List;
         }
-
-        /// <inheritdoc />
-        public ITwitterListIdentifier List { get; set; }
     }
 }

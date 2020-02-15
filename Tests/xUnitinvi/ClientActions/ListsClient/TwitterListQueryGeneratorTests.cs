@@ -231,6 +231,8 @@ namespace xUnitinvi.ClientActions.ListsClient
             {
                 Cursor = "my_cursor",
                 PageSize = 2,
+                IncludeEntities = true,
+                SkipStatus = false,
                 CustomQueryParameters = { new Tuple<string, string>("hello", "world") }
             };
 
@@ -238,7 +240,7 @@ namespace xUnitinvi.ClientActions.ListsClient
             var result = queryGenerator.GetMembersOfListQuery(parameters);
 
             // Assert
-            Assert.Equal(result, "https://api.twitter.com/1.1/lists/members.json?list_id=42&cursor=my_cursor&count=2&hello=world");
+            Assert.Equal(result, "https://api.twitter.com/1.1/lists/members.json?list_id=42&cursor=my_cursor&count=2&include_entities=true&skip_status=false&hello=world");
         }
 
         [Fact]

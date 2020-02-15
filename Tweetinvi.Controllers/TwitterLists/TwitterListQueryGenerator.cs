@@ -205,6 +205,9 @@ namespace Tweetinvi.Controllers.TwitterLists
             _twitterListQueryParameterGenerator.AppendListIdentifierParameter(query, parameters.List);
             _queryParameterGenerator.AppendCursorParameters(query, parameters);
 
+            query.AddParameterToQuery("include_entities", parameters.IncludeEntities);
+            query.AddParameterToQuery("skip_status", parameters.SkipStatus);
+
             query.AddFormattedParameterToQuery(parameters.FormattedCustomQueryParameters);
 
             return query.ToString();
