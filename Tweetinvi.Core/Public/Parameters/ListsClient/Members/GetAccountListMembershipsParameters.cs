@@ -4,7 +4,7 @@ namespace Tweetinvi.Parameters
     /// For more information visit : https://developer.twitter.com/en/docs/accounts-and-users/create-manage-lists/api-reference/get-lists-memberships
     /// </summary>
     /// <inheritdoc />
-    public interface IGetListsAccountIsMemberOfParameters : ICursorQueryParameters
+    public interface IGetAccountListMembershipsParameters : ICursorQueryParameters
     {
         /// <summary>
         /// When set to true the request will return only the lists the authenticating user owns,
@@ -14,18 +14,18 @@ namespace Tweetinvi.Parameters
     }
 
     /// <inheritdoc />
-    public class GetListsAccountIsMemberOfParameters : CursorQueryParameters, IGetListsAccountIsMemberOfParameters
+    public class GetAccountListMembershipsParameters : CursorQueryParameters, IGetAccountListMembershipsParameters
     {
-        public GetListsAccountIsMemberOfParameters()
+        public GetAccountListMembershipsParameters()
         {
-            PageSize = TwitterLimits.DEFAULTS.LISTS_GET_USER_MEMBERSHIPS_MAX_SIZE;
+            PageSize = TwitterLimits.DEFAULTS.LISTS_GET_USER_MEMBERSHIPS_MAX_PAGE_SIZE;
         }
 
-        public GetListsAccountIsMemberOfParameters(IGetListsAccountIsMemberOfParameters parameters) : base(parameters)
+        public GetAccountListMembershipsParameters(IGetAccountListMembershipsParameters parameters) : base(parameters)
         {
             if (parameters == null)
             {
-                PageSize = TwitterLimits.DEFAULTS.LISTS_GET_USER_MEMBERSHIPS_MAX_SIZE;
+                PageSize = TwitterLimits.DEFAULTS.LISTS_GET_USER_MEMBERSHIPS_MAX_PAGE_SIZE;
             }
 
             OnlyRetrieveAccountLists = parameters?.OnlyRetrieveAccountLists;

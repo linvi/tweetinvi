@@ -351,9 +351,9 @@ namespace Tweetinvi.Core.Models
         }
 
         // Lists
-        public Task<IEnumerable<ITwitterList>> GetSubscribedLists(int maximumNumberOfListsToRetrieve = TweetinviConsts.LIST_GET_USER_SUBSCRIPTIONS_COUNT)
+        public ITwitterIterator<ITwitterList> GetListSubscriptions()
         {
-            return _twitterListController.GetUserSubscribedLists(this, maximumNumberOfListsToRetrieve);
+            return Client.Lists.GetUserListSubscriptionsIterator(this);
         }
 
         public ITwitterIterator<ITwitterList> GetOwnedListsIterator()

@@ -3,7 +3,6 @@ using System.Text;
 using Tweetinvi.Controllers.Properties;
 using Tweetinvi.Core.Extensions;
 using Tweetinvi.Core.Injectinvi;
-using Tweetinvi.Core.Parameters;
 using Tweetinvi.Core.QueryGenerators;
 using Tweetinvi.Core.QueryValidators;
 using Tweetinvi.Models;
@@ -16,18 +15,15 @@ namespace Tweetinvi.Controllers.TwitterLists
         private readonly IUserQueryValidator _userQueryValidator;
         private readonly IUserQueryParameterGenerator _userQueryParameterGenerator;
 
-        private readonly IFactory<ITwitterListUpdateParameters> _updateTwitterListParametersFactory;
         private readonly IFactory<IGetTweetsFromListParameters> _getTweetsFromListParametersFactory;
 
         public TwitterListQueryParameterGenerator(
             IUserQueryValidator userQueryValidator,
             IUserQueryParameterGenerator userQueryParameterGenerator,
-            IFactory<ITwitterListUpdateParameters> updateTwitterListParametersFactory,
             IFactory<IGetTweetsFromListParameters> getTweetsFromListParametersFactory)
         {
             _userQueryValidator = userQueryValidator;
             _userQueryParameterGenerator = userQueryParameterGenerator;
-            _updateTwitterListParametersFactory = updateTwitterListParametersFactory;
             _getTweetsFromListParametersFactory = getTweetsFromListParametersFactory;
         }
 
@@ -50,7 +46,7 @@ namespace Tweetinvi.Controllers.TwitterLists
 
             var slugParameter = string.Format(Resources.List_SlugParameter, twitterListIdentifier.Slug);
 
-            return string.Format("{0}{1}", slugParameter, ownerIdentifier);
+            return $"{slugParameter}{ownerIdentifier}";
         }
 
         public void AppendListIdentifierParameter(StringBuilder query, ITwitterListIdentifier listIdentifier)
@@ -73,16 +69,15 @@ namespace Tweetinvi.Controllers.TwitterLists
             }
         }
 
+        public void AppendListIdentifierParameter(StringBuilder query, IListParameters parameters)
+        {
+            AppendListIdentifierParameter(query, parameters.List);
+        }
+
         // Tweets From List
         public IGetTweetsFromListParameters CreateTweetsFromListParameters()
         {
             return _getTweetsFromListParametersFactory.Create();
-        }
-
-        // List Update
-        public ITwitterListUpdateParameters CreateUpdateListParameters()
-        {
-            return _updateTwitterListParametersFactory.Create();
         }
     }
 }

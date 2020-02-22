@@ -17,11 +17,18 @@ namespace Tweetinvi.Core.Client.Validators
         // MEMBERS
         void Validate(IAddMemberToListParameters parameters);
         void Validate(IAddMembersToListParameters parameters);
-        void Validate(IGetListsAUserIsMemberOfParameters parameters);
+        void Validate(IGetUserListMembershipsParameters parameters);
         void Validate(IGetMembersOfListParameters parameters);
         void Validate(ICheckIfUserIsMemberOfListParameters parameters);
         void Validate(IRemoveMemberFromListParameters parameters);
         void Validate(IRemoveMembersFromListParameters parameters);
+
+        // SUBSCRIBERS
+        void Validate(ISubscribeToListParameters parameters);
+        void Validate(IUnsubscribeFromListParameters parameters);
+        void Validate(IGetListSubscribersParameters parameters);
+        void Validate(IGetUserListSubscriptionsParameters parameters);
+        void Validate(ICheckIfUserIsSubscriberOfListParameters parameters);
     }
 
     public class TwitterListsClientParametersValidator : ITwitterListsClientParametersValidator
@@ -112,14 +119,14 @@ namespace Tweetinvi.Core.Client.Validators
             }
         }
 
-        public void Validate(IGetListsAUserIsMemberOfParameters parameters)
+        public void Validate(IGetUserListMembershipsParameters parameters)
         {
             _twitterListsClientRequiredParametersValidator.Validate(parameters);
 
-            var maxPageSize = Limits.LISTS_GET_USER_MEMBERSHIPS_LISTS_MAX_SIZE;
+            var maxPageSize = Limits.LISTS_GET_USER_MEMBERSHIPS_MAX_PAGE_SIZE;
             if (parameters.PageSize > maxPageSize)
             {
-                throw new TwitterArgumentLimitException($"{nameof(parameters)}.{nameof(parameters.PageSize)}", maxPageSize, nameof(Limits.LISTS_GET_USER_MEMBERSHIPS_LISTS_MAX_SIZE), "page size");
+                throw new TwitterArgumentLimitException($"{nameof(parameters)}.{nameof(parameters.PageSize)}", maxPageSize, nameof(Limits.LISTS_GET_USER_MEMBERSHIPS_MAX_PAGE_SIZE), "page size");
             }
         }
 
@@ -127,10 +134,10 @@ namespace Tweetinvi.Core.Client.Validators
         {
             _twitterListsClientRequiredParametersValidator.Validate(parameters);
 
-            var maxPageSize = Limits.LISTS_GET_MEMBERS_MAX_SIZE;
+            var maxPageSize = Limits.LISTS_GET_MEMBERS_MAX_PAGE_SIZE;
             if (parameters.PageSize > maxPageSize)
             {
-                throw new TwitterArgumentLimitException($"{nameof(parameters)}.{nameof(parameters.PageSize)}", maxPageSize, nameof(Limits.LISTS_GET_MEMBERS_MAX_SIZE), "page size");
+                throw new TwitterArgumentLimitException($"{nameof(parameters)}.{nameof(parameters.PageSize)}", maxPageSize, nameof(Limits.LISTS_GET_MEMBERS_MAX_PAGE_SIZE), "page size");
             }
         }
 
@@ -158,6 +165,43 @@ namespace Tweetinvi.Core.Client.Validators
             {
                 throw new TwitterArgumentLimitException($"{nameof(parameters)}.{nameof(parameters.Users)}", maxUsers, nameof(Limits.LISTS_REMOVE_MEMBERS_MAX_USERS), "users");
             }
+        }
+
+        public void Validate(ISubscribeToListParameters parameters)
+        {
+            _twitterListsClientRequiredParametersValidator.Validate(parameters);
+        }
+
+        public void Validate(IUnsubscribeFromListParameters parameters)
+        {
+            _twitterListsClientRequiredParametersValidator.Validate(parameters);
+        }
+
+        public void Validate(IGetListSubscribersParameters parameters)
+        {
+            _twitterListsClientRequiredParametersValidator.Validate(parameters);
+
+            var maxPageSize = Limits.LISTS_GET_SUBSCRIBERS_MAX_PAGE_SIZE;
+            if (parameters.PageSize > maxPageSize)
+            {
+                throw new TwitterArgumentLimitException($"{nameof(parameters)}.{nameof(parameters.PageSize)}", maxPageSize, nameof(Limits.LISTS_GET_SUBSCRIBERS_MAX_PAGE_SIZE), "page size");
+            }
+        }
+
+        public void Validate(IGetUserListSubscriptionsParameters parameters)
+        {
+            _twitterListsClientRequiredParametersValidator.Validate(parameters);
+
+            var maxPageSize = Limits.LISTS_GET_USER_SUBSCRIPTIONS_MAX_PAGE_SIZE;
+            if (parameters.PageSize > maxPageSize)
+            {
+                throw new TwitterArgumentLimitException($"{nameof(parameters)}.{nameof(parameters.PageSize)}", maxPageSize, nameof(Limits.LISTS_GET_USER_SUBSCRIPTIONS_MAX_PAGE_SIZE), "page size");
+            }
+        }
+
+        public void Validate(ICheckIfUserIsSubscriberOfListParameters parameters)
+        {
+            _twitterListsClientRequiredParametersValidator.Validate(parameters);
         }
     }
 }

@@ -12,7 +12,7 @@
             Id = listId;
         }
 
-        public TwitterListIdentifier(string slug, long ownerId) : this()
+        public TwitterListIdentifier(string slug, long? ownerId) : this()
         {
             Slug = slug;
             Owner = new UserIdentifier(ownerId);

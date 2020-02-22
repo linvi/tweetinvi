@@ -107,7 +107,7 @@ namespace xUnitinvi.EndToEnd
                 publicListMembers.AddRange(await membersIterator.MoveToNextPage());
             }
 
-            var listsTweetinviTestIsMemberOfIterator = _tweetinviClient.Lists.GetListsAUserIsMemberOfIterator(EndToEndTestConfig.TweetinviTest);
+            var listsTweetinviTestIsMemberOfIterator = _tweetinviClient.Lists.GetUserListMembershipsIterator(EndToEndTestConfig.TweetinviTest);
             var listsTweetinviTestIsMemberOf = (await listsTweetinviTestIsMemberOfIterator.MoveToNextPage()).ToArray();
 
             await _tweetinviTestClient.Lists.RemoveMemberFromList(publicList, EndToEndTestConfig.TweetinviApi);
@@ -130,6 +130,51 @@ namespace xUnitinvi.EndToEnd
         }
 
         [Fact]
+        public async Task Subscribers()
+        {
+            if (!EndToEndTestConfig.ShouldRunEndToEndTests)
+                return;
+
+            var publicList = await _tweetinviTestClient.Lists.CreateList("subscribers-test-list", PrivacyMode.Public);
+            await Task.Delay(500);
+
+            await _tweetinviClient.Lists.SubscribeToList(publicList);
+            await _protectedClient.Lists.SubscribeToList(publicList);
+            await _tweetinviTestClient.Lists.SubscribeToList(publicList);
+
+            var subscriberIterator = _tweetinviTestClient.Lists.GetListSubscribersIterator(new GetListSubscribersParameters(publicList)
+            {
+                PageSize = 2
+            });
+
+            var subscribers = new List<IUser>();
+            while (!subscriberIterator.Completed)
+            {
+                subscribers.AddRange(await subscriberIterator.MoveToNextPage());
+            }
+
+            var subscriptionsIterator = _tweetinviTestClient.Lists.GetUserListSubscriptionsIterator(EndToEndTestConfig.TweetinviApi);
+
+            var subscriptions = (await subscriptionsIterator.MoveToNextPage()).ToArray();
+
+            var bbcSubscriber = await _tweetinviTestClient.Lists.CheckIfUserIsSubscriberOfList(publicList, "bbc");
+            var tweetinviSubscriberBeforeRemove = await _tweetinviTestClient.Lists.CheckIfUserIsSubscriberOfList(publicList, EndToEndTestConfig.TweetinviApi);
+
+            await _tweetinviClient.Lists.UnsubscribeFromList(publicList);
+
+            var tweetinviSubscriberAfterRemove = await _tweetinviTestClient.Lists.CheckIfUserIsSubscriberOfList(publicList, EndToEndTestConfig.TweetinviApi);
+
+            await publicList.Destroy();
+
+            // assert
+            Assert.Equal(subscribers.Count, 3);
+            Assert.False(bbcSubscriber);
+            Assert.True(tweetinviSubscriberBeforeRemove);
+            Assert.False(tweetinviSubscriberAfterRemove);
+            Assert.Contains(subscriptions, list => list.Id == publicList.Id);
+        }
+
+        [Fact]
         public async Task Tweets()
         {
             if (!EndToEndTestConfig.ShouldRunEndToEndTests)
@@ -148,7 +193,7 @@ namespace xUnitinvi.EndToEnd
                 PageSize = 2
             };
 
-            var tweetsIterator = _protectedClient.Lists.GetTweetsFromList(getTweetsParameters);
+            var tweetsIterator = _protectedClient.Lists.GetTweetsFromListIterator(getTweetsParameters);
             var listTweetsPage1 = await tweetsIterator.MoveToNextPage();
             getTweetsParameters.PageSize = 4;
             var listTweetsPage2 = await tweetsIterator.MoveToNextPage();

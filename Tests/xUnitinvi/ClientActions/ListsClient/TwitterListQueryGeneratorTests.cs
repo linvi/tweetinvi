@@ -287,7 +287,7 @@ namespace xUnitinvi.ClientActions.ListsClient
             // arrange
             var queryGenerator = CreateTwitterListQueryGenerator();
 
-            var parameters = new GetListsAUserIsMemberOfParameters(42)
+            var parameters = new GetUserListMembershipsParameters(42)
             {
                 Cursor = "my_cursor",
                 PageSize = 2,
@@ -296,14 +296,14 @@ namespace xUnitinvi.ClientActions.ListsClient
             };
 
             // Act
-            var result = queryGenerator.GetListsAUserIsMemberOfQuery(parameters);
+            var result = queryGenerator.GetUserListMembershipsQuery(parameters);
 
             // Assert
             Assert.Equal(result, "https://api.twitter.com/1.1/lists/memberships.json?user_id=42&cursor=my_cursor&count=2&filter_to_owned_lists=false&hello=world");
         }
 
         [Fact]
-        public void GetRemoveMemberFromListParameter_ReturnsExpectedQuery()
+        public void GetRemoveMemberFromListQuery_ReturnsExpectedQuery()
         {
             // arrange
             var queryGenerator = CreateTwitterListQueryGenerator();
@@ -314,14 +314,14 @@ namespace xUnitinvi.ClientActions.ListsClient
             };
 
             // Act
-            var result = queryGenerator.GetRemoveMemberFromListParameter(parameters);
+            var result = queryGenerator.GetRemoveMemberFromListQuery(parameters);
 
             // Assert
             Assert.Equal(result, "https://api.twitter.com/1.1/lists/members/destroy.json?list_id=42&user_id=43&hello=world");
         }
 
         [Fact]
-        public void GetRemoveMembersFromListParameters_ReturnsExpectedQuery()
+        public void GetRemoveMembersFromListQuery_ReturnsExpectedQuery()
         {
             // arrange
             var queryGenerator = CreateTwitterListQueryGenerator();
@@ -334,10 +334,112 @@ namespace xUnitinvi.ClientActions.ListsClient
             parameters.Users.Add(new UserIdentifier("linvi"));
 
             // Act
-            var result = queryGenerator.GetRemoveMembersFromListParameters(parameters);
+            var result = queryGenerator.GetRemoveMembersFromListQuery(parameters);
 
             // Assert
             Assert.Equal(result, "https://api.twitter.com/1.1/lists/members/destroy_all.json?list_id=42&user_id=5%2C6&screen_name=linvi&hello=world");
+        }
+
+        // **************
+        // SUBSCRIPTIONS
+        // **************
+
+        [Fact]
+        public void GetSubscribeAccountToListQuery_ReturnsExpectedQuery()
+        {
+            // arrange
+            var queryGenerator = CreateTwitterListQueryGenerator();
+
+            var parameters = new SubscribeToListParameters(42)
+            {
+                CustomQueryParameters = { new Tuple<string, string>("hello", "world") }
+            };
+
+            // Act
+            var result = queryGenerator.GetSubscribeToListQuery(parameters);
+
+            // Assert
+            Assert.Equal(result, "https://api.twitter.com/1.1/lists/subscribers/create.json?list_id=42&hello=world");
+        }
+
+        [Fact]
+        public void GetListSubscribersQuery_ReturnsExpectedQuery()
+        {
+            // arrange
+            var queryGenerator = CreateTwitterListQueryGenerator();
+
+            var parameters = new GetListSubscribersParameters(42)
+            {
+                Cursor = "my_cursor",
+                PageSize = 45,
+                IncludeEntities = false,
+                SkipStatus = true,
+                CustomQueryParameters = { new Tuple<string, string>("hello", "world") }
+            };
+
+            // Act
+            var result = queryGenerator.GetListSubscribersQuery(parameters);
+
+            // Assert
+            Assert.Equal(result, "https://api.twitter.com/1.1/lists/subscribers.json?list_id=42&cursor=my_cursor&count=45&include_entities=false&skip_status=true&hello=world");
+        }
+
+        [Fact]
+        public void GetCheckIfUserIsSubscriberOfListQuery_ReturnsExpectedQuery()
+        {
+            // arrange
+            var queryGenerator = CreateTwitterListQueryGenerator();
+
+            var parameters = new CheckIfUserIsSubscriberOfListParameters(42, 43)
+            {
+                IncludeEntities = true,
+                SkipStatus = false,
+                CustomQueryParameters = { new Tuple<string, string>("hello", "world") }
+            };
+
+            // Act
+            var result = queryGenerator.GetCheckIfUserIsSubscriberOfListQuery(parameters);
+
+            // Assert
+            Assert.Equal(result, "https://api.twitter.com/1.1/lists/subscribers/show.json?list_id=42&user_id=43&include_entities=true&skip_status=false&hello=world");
+        }
+
+        [Fact]
+        public void GetUserListSubscriptionsQuery_ReturnsExpectedQuery()
+        {
+            // arrange
+            var queryGenerator = CreateTwitterListQueryGenerator();
+
+            var parameters = new GetUserListSubscriptionsParameters(42)
+            {
+                Cursor = "my_cursor",
+                PageSize = 51,
+                CustomQueryParameters = { new Tuple<string, string>("hello", "world") }
+            };
+
+            // Act
+            var result = queryGenerator.GetUserListSubscriptionsQuery(parameters);
+
+            // Assert
+            Assert.Equal(result, "https://api.twitter.com/1.1/lists/subscriptions.json?user_id=42&cursor=my_cursor&count=51&hello=world");
+        }
+
+        [Fact]
+        public void GetUnSubscribeUserFromListQuery_ReturnsExpectedQuery()
+        {
+            // arrange
+            var queryGenerator = CreateTwitterListQueryGenerator();
+
+            var parameters = new UnsubscribeFromListParameters(42)
+            {
+                CustomQueryParameters = { new Tuple<string, string>("hello", "world") }
+            };
+
+            // Act
+            var result = queryGenerator.GetUnsubscribeFromListQuery(parameters);
+
+            // Assert
+            Assert.Equal(result, "https://api.twitter.com/1.1/lists/subscribers/destroy.json?list_id=42&hello=world");
         }
     }
 }

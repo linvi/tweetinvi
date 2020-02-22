@@ -32,10 +32,15 @@ namespace Tweetinvi.Client.Tools
                 return null;
             }
 
-            return new Core.Models.TwitterList(twitterListDTO, _client);
+            return new TwitterList(twitterListDTO, _client);
         }
 
-       public IMessage CreateMessage(IMessageEventWithAppDTO messageEventWithAppDTO)
+        public ITwitterList[] CreateTwitterLists(IEnumerable<ITwitterListDTO> listDTOs)
+        {
+            return listDTOs?.Select(CreateTwitterList).ToArray();
+        }
+
+        public IMessage CreateMessage(IMessageEventWithAppDTO messageEventWithAppDTO)
         {
             return new Core.Models.Message(messageEventWithAppDTO.MessageEvent, messageEventWithAppDTO.App, _client);
         }

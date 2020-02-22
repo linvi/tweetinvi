@@ -261,7 +261,7 @@ namespace Tweetinvi.Core.Client.Validators
             _twitterListsClientParametersValidator.Validate(parameters);
         }
 
-        public void Validate(IGetListsAUserIsMemberOfParameters parameters)
+        public void Validate(IGetUserListMembershipsParameters parameters)
         {
             _twitterListsClientParametersValidator.Validate(parameters);
         }
@@ -282,6 +282,31 @@ namespace Tweetinvi.Core.Client.Validators
         }
 
         public void Validate(IRemoveMembersFromListParameters parameters)
+        {
+            _twitterListsClientParametersValidator.Validate(parameters);
+        }
+
+        public void Validate(ISubscribeToListParameters parameters)
+        {
+            _twitterListsClientParametersValidator.Validate(parameters);
+        }
+
+        public void Validate(IUnsubscribeFromListParameters parameters)
+        {
+            _twitterListsClientParametersValidator.Validate(parameters);
+        }
+
+        public void Validate(IGetListSubscribersParameters parameters)
+        {
+            _twitterListsClientParametersValidator.Validate(parameters);
+        }
+
+        public void Validate(IGetUserListSubscriptionsParameters parameters)
+        {
+            _twitterListsClientParametersValidator.Validate(parameters);
+        }
+
+        public void Validate(ICheckIfUserIsSubscriberOfListParameters parameters)
         {
             _twitterListsClientParametersValidator.Validate(parameters);
         }

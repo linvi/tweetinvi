@@ -10,6 +10,7 @@ namespace Tweetinvi.Client.Tools
         // LISTS
         ITwitterList CreateTwitterList(string json);
         ITwitterList CreateTwitterList(ITwitterListDTO twitterListDTO);
+        ITwitterList[] CreateTwitterLists(IEnumerable<ITwitterListDTO> listDTOs);
 
         // MESSAGE
         IMessage CreateMessage(string json);

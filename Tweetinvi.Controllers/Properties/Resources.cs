@@ -199,9 +199,9 @@ namespace Tweetinvi.Controllers.Properties
         public static string List_DestroyMembers = "https://api.twitter.com/1.1/lists/members/destroy_all.json?";
 
         /// <summary>
-        ///   Looks up a localized string similar to https://api.twitter.com/1.1/lists/subscribers.json?{0}&amp;count={1}.
+        ///   Looks up a localized string similar to https://api.twitter.com/1.1/lists/subscribers.json?.
         /// </summary>
-        public static string List_GetSubscribers = "https://api.twitter.com/1.1/lists/subscribers.json?{0}&count={1}";
+        public static string List_GetSubscribers = "https://api.twitter.com/1.1/lists/subscribers.json?";
 
         /// <summary>
         ///   Looks up a localized string similar to https://api.twitter.com/1.1/lists/statuses.json?.
@@ -236,22 +236,22 @@ namespace Tweetinvi.Controllers.Properties
         public static string List_SlugParameter = "&slug={0}";
 
         /// <summary>
-        ///   Looks up a localized string similar to https://api.twitter.com/1.1/lists/subscribers/create.json?{0}.
+        ///   Looks up a localized string similar to https://api.twitter.com/1.1/lists/subscribers/create.json?.
         /// </summary>
-        public static string List_Subscribe = "https://api.twitter.com/1.1/lists/subscribers/create.json?{0}";
+        public static string List_Subscribe = "https://api.twitter.com/1.1/lists/subscribers/create.json?";
 
         /// <summary>
-        ///   Looks up a localized string similar to https://api.twitter.com/1.1/lists/subscribers/destroy.json?{0}.
+        ///   Looks up a localized string similar to https://api.twitter.com/1.1/lists/subscribers/destroy.json?.
         /// </summary>
-        public static string List_UnSubscribe = "https://api.twitter.com/1.1/lists/subscribers/destroy.json?{0}";
+        public static string List_UnSubscribe = "https://api.twitter.com/1.1/lists/subscribers/destroy.json?";
 
         /// <summary>
-        ///   Looks up a localized string similar to https://api.twitter.com/1.1/lists/subscriptions.json?{0}&amp;count={1}.
+        ///   Looks up a localized string similar to https://api.twitter.com/1.1/lists/subscriptions.json?.
         /// </summary>
-        public static string List_UserSubscriptions = "https://api.twitter.com/1.1/lists/subscriptions.json?{0}&count={1}";
+        public static string List_UserSubscriptions = "https://api.twitter.com/1.1/lists/subscriptions.json?";
 
         /// <summary>
-        ///   Looks up a localized string similar to https://api.twitter.com/1.1/users/suggestions/{0}/members.json.
+        ///   Looks up a localized string similar tohttps://api.twitter.com/1.1/lists/subscribers/show.json.
         /// </summary>
         public static string List_CheckSubscriber = "https://api.twitter.com/1.1/lists/subscribers/show.json";
 

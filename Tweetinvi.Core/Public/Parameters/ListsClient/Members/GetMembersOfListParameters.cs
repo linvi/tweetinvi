@@ -19,14 +19,14 @@ namespace Tweetinvi.Parameters
 
         public GetMembersOfListParameters(ITwitterListIdentifier list) : base(list)
         {
-            PageSize = TwitterLimits.DEFAULTS.LISTS_GET_MEMBERS_MAX_SIZE;
+            PageSize = TwitterLimits.DEFAULTS.LISTS_GET_MEMBERS_MAX_PAGE_SIZE;
         }
 
         public GetMembersOfListParameters(IGetMembersOfListParameters parameters) : base(parameters)
         {
             if (parameters == null)
             {
-                PageSize = TwitterLimits.DEFAULTS.LISTS_GET_MEMBERS_MAX_SIZE;
+                PageSize = TwitterLimits.DEFAULTS.LISTS_GET_MEMBERS_MAX_PAGE_SIZE;
             }
         }
     }

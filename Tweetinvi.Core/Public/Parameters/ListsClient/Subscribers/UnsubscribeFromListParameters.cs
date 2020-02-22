@@ -1,15 +1,23 @@
-namespace Tweetinvi.Parameters.Subscribers
+using Tweetinvi.Models;
+
+namespace Tweetinvi.Parameters
 {
     /// <summary>
     /// For more information visit : https://developer.twitter.com/en/docs/accounts-and-users/create-manage-lists/api-reference/post-lists-subscribers-destroy
     /// </summary>
-    public interface IUnsubscribeFromListParameters : ICursorQueryParameters
+    public interface IUnsubscribeFromListParameters : IListParameters
     {
-
     }
 
-    public class UnsubscribeFromListParameters : CursorQueryParameters, IUnsubscribeFromListParameters
+    /// <inheritdoc />
+    public class UnsubscribeFromListParameters : ListParameters, IUnsubscribeFromListParameters
     {
+        public UnsubscribeFromListParameters(long? listId) : base(listId)
+        {
+        }
 
+        public UnsubscribeFromListParameters(ITwitterListIdentifier list) : base(list)
+        {
+        }
     }
 }

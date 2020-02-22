@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Tweetinvi.Core.Controllers;
 using Tweetinvi.Iterators;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
@@ -11,7 +10,6 @@ namespace Tweetinvi.Core.Models
 {
     public class TwitterList : ITwitterList
     {
-        private readonly ITwitterListController _twitterListController;
         private ITwitterListDTO _twitterListDTO;
         private IUser _owner;
 
@@ -55,7 +53,7 @@ namespace Tweetinvi.Core.Models
 
         public ITwitterIterator<ITweet, long?> GetTweetsIterator()
         {
-            return Client.Lists.GetTweetsFromList(this);
+            return Client.Lists.GetTweetsFromListIterator(this);
         }
 
         // Members
@@ -143,45 +141,34 @@ namespace Tweetinvi.Core.Models
         }
 
         // Subscribers
-        public Task<IEnumerable<IUser>> GetSubscribers(int maximumNumberOfUsersToRetrieve = 100)
+        public ITwitterIterator<IUser> GetSubscribersIterator()
         {
-            return _twitterListController.GetListSubscribers(this, maximumNumberOfUsersToRetrieve);
+            return Client.Lists.GetListSubscribersIterator(this);
         }
 
-        public Task<bool> SubscribeAuthenticatedUserToList(IAuthenticatedUser authenticatedUser = null)
+        public Task<ITwitterList> Subscribe()
         {
-            if (authenticatedUser != null)
-            {
-                return authenticatedUser.SubscribeToList(this);
-            }
-
-            return _twitterListController.SubscribeAuthenticatedUserToList(this);
+            return Client.Lists.SubscribeToList(this);
         }
 
-        public Task<bool> UnSubscribeAuthenticatedUserFromList(IAuthenticatedUser authenticatedUser = null)
+        public Task<ITwitterList> Unsubscribe()
         {
-            if (authenticatedUser != null)
-            {
-                return authenticatedUser.UnSubscribeFromList(this);
-            }
-
-            return _twitterListController.UnSubscribeAuthenticatedUserFromList(this);
+            return Client.Lists.UnsubscribeFromList(this);
         }
 
-
-        public Task<bool> CheckUserSubscription(long userId)
+        public Task<bool> CheckUserSubscription(long? userId)
         {
-            return _twitterListController.CheckIfUserIsAListSubscriber(this, userId);
+            return Client.Lists.CheckIfUserIsSubscriberOfList(this, userId);
         }
 
-        public Task<bool> CheckUserSubscription(string userScreenName)
+        public Task<bool> CheckUserSubscription(string username)
         {
-            return _twitterListController.CheckIfUserIsAListSubscriber(this, userScreenName);
+            return Client.Lists.CheckIfUserIsSubscriberOfList(this, username);
         }
 
         public Task<bool> CheckUserSubscription(IUserIdentifier user)
         {
-            return _twitterListController.CheckIfUserIsAListSubscriber(this, user);
+            return Client.Lists.CheckIfUserIsSubscriberOfList(this, user);
         }
 
         public async Task Update(IListMetadataParameters parameters)

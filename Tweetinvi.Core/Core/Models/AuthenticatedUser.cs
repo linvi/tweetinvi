@@ -17,7 +17,6 @@ namespace Tweetinvi.Core.Models
     public class AuthenticatedUser : User, IAuthenticatedUser
     {
         private readonly IMessageController _messageController;
-        private readonly ITwitterListController _twitterListController;
         private readonly ISavedSearchController _savedSearchController;
 
         public AuthenticatedUser(IUserDTO userDTO, ITwitterClient client) : base(userDTO, client)
@@ -25,7 +24,6 @@ namespace Tweetinvi.Core.Models
             var executionContext = client.CreateTwitterExecutionContext();
             _messageController = executionContext.Container.Resolve<IMessageController>();
             _savedSearchController = executionContext.Container.Resolve<ISavedSearchController>();
-            _twitterListController = executionContext.Container.Resolve<ITwitterListController>();
         }
 
         public string Email => UserDTO.Email;
@@ -226,54 +224,24 @@ namespace Tweetinvi.Core.Models
         }
 
         // Twitter Lists
-        public Task<bool> SubscribeToList(ITwitterListIdentifier list)
+        public Task<ITwitterList> SubscribeToList(ITwitterListIdentifier list)
         {
-            return _twitterListController.SubscribeAuthenticatedUserToList(list);
+            return Client.Lists.SubscribeToList(list);
         }
 
-        public Task<bool> SubscribeToList(long listId)
+        public Task<ITwitterList> SubscribeToList(long? listId)
         {
-            return _twitterListController.SubscribeAuthenticatedUserToList(listId);
+            return Client.Lists.SubscribeToList(listId);
         }
 
-        public Task<bool> SubscribeToList(string slug, long ownerId)
+        public Task<ITwitterList> UnSubscribeFromList(ITwitterListIdentifier list)
         {
-            return _twitterListController.SubscribeAuthenticatedUserToList(slug, ownerId);
+            return Client.Lists.UnsubscribeFromList(list);
         }
 
-        public Task<bool> SubscribeToList(string slug, string ownerScreenName)
+        public Task<ITwitterList> UnSubscribeFromList(long? listId)
         {
-            return _twitterListController.SubscribeAuthenticatedUserToList(slug, ownerScreenName);
-        }
-
-        public Task<bool> SubscribeToList(string slug, IUserIdentifier owner)
-        {
-            return _twitterListController.SubscribeAuthenticatedUserToList(slug, owner);
-        }
-
-        public Task<bool> UnSubscribeFromList(ITwitterListIdentifier list)
-        {
-            return _twitterListController.UnSubscribeAuthenticatedUserFromList(list);
-        }
-
-        public Task<bool> UnSubscribeFromList(long listId)
-        {
-            return _twitterListController.UnSubscribeAuthenticatedUserFromList(listId);
-        }
-
-        public Task<bool> UnSubscribeFromList(string slug, long ownerId)
-        {
-            return _twitterListController.UnSubscribeAuthenticatedUserFromList(slug, ownerId);
-        }
-
-        public Task<bool> UnSubscribeFromList(string slug, string ownerScreenName)
-        {
-            return _twitterListController.UnSubscribeAuthenticatedUserFromList(slug, ownerScreenName);
-        }
-
-        public Task<bool> UnSubscribeFromList(string slug, IUserIdentifier owner)
-        {
-            return _twitterListController.UnSubscribeAuthenticatedUserFromList(slug, owner);
+            return Client.Lists.UnsubscribeFromList(listId);
         }
 
         // Mute

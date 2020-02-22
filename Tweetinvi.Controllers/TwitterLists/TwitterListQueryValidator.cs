@@ -24,14 +24,6 @@ namespace Tweetinvi.Controllers.TwitterLists
             }
         }
 
-        public void ThrowIfListUpdateParametersIsNotValid(ITwitterListUpdateParameters parameters)
-        {
-            if (parameters == null)
-            {
-                throw new ArgumentNullException(nameof(parameters), $"{nameof(parameters)} cannot be null");
-            }
-        }
-
         public bool IsListIdentifierValid(ITwitterListIdentifier twitterListIdentifier)
         {
             if (twitterListIdentifier == null)

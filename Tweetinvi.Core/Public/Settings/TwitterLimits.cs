@@ -94,13 +94,7 @@ namespace Tweetinvi
         /// Maximum number of lists that can be retrieved in 1 request
         /// <para>https://developer.twitter.com/en/docs/accounts-and-users/create-manage-lists/api-reference/get-lists-memberships</para>
         /// </summary>
-        public short LISTS_GET_USER_MEMBERSHIPS_MAX_SIZE { get; set; } = 1000;
-
-        /// <summary>
-        /// Maximum number of lists that can be retrieved in 1 request
-        /// <para>https://developer.twitter.com/en/docs/accounts-and-users/create-manage-lists/api-reference/get-lists-memberships</para>
-        /// </summary>
-        public short LISTS_GET_USER_MEMBERSHIPS_LISTS_MAX_SIZE { get; set; } = 1000;
+        public short LISTS_GET_USER_MEMBERSHIPS_MAX_PAGE_SIZE { get; set; } = 1000;
 
         /// <summary>
         /// Maximum number of users that can be added to a list in 1 request
@@ -118,13 +112,19 @@ namespace Tweetinvi
         /// Maximum number of members that can be retrieved in 1 request
         /// <para>https://developer.twitter.com/en/docs/accounts-and-users/create-manage-lists/api-reference/get-lists-members</para>
         /// </summary>
-        public short LISTS_GET_MEMBERS_MAX_SIZE { get; set; } = 5000;
+        public short LISTS_GET_MEMBERS_MAX_PAGE_SIZE { get; set; } = 5000;
 
         /// <summary>
         /// Maximum number of subscribers that can be retrieved in 1 request
         /// <para>https://developer.twitter.com/en/docs/accounts-and-users/create-manage-lists/api-reference/get-lists-subscribers</para>
         /// </summary>
-        public short LISTS_GET_SUBSCRIBERS_MAX_SIZE { get; set; } = 5000;
+        public short LISTS_GET_SUBSCRIBERS_MAX_PAGE_SIZE { get; set; } = 5000;
+
+        /// <summary>
+        /// Maximum number of subscribers that can be retrieved in 1 request
+        /// <para>https://developer.twitter.com/en/docs/accounts-and-users/create-manage-lists/api-reference/get-lists-subscriptions</para>
+        /// </summary>
+        public short LISTS_GET_USER_SUBSCRIPTIONS_MAX_PAGE_SIZE { get; set; } = 1000;
 
         /// <summary>
         /// Maximum number of tweets to retrieve in 1 request
@@ -212,12 +212,11 @@ namespace Tweetinvi
             ACCOUNT_SETTINGS_PROFILE_DESCRIPTION_MAX_LENGTH = source.ACCOUNT_SETTINGS_PROFILE_DESCRIPTION_MAX_LENGTH;
 
             LISTS_CREATE_NAME_MAX_SIZE = source.LISTS_CREATE_NAME_MAX_SIZE;
-            LISTS_GET_MEMBERS_MAX_SIZE = source.LISTS_GET_MEMBERS_MAX_SIZE;
-            LISTS_GET_SUBSCRIBERS_MAX_SIZE = source.LISTS_GET_SUBSCRIBERS_MAX_SIZE;
+            LISTS_GET_MEMBERS_MAX_PAGE_SIZE = source.LISTS_GET_MEMBERS_MAX_PAGE_SIZE;
+            LISTS_GET_SUBSCRIBERS_MAX_PAGE_SIZE = source.LISTS_GET_SUBSCRIBERS_MAX_PAGE_SIZE;
             LISTS_GET_USER_OWNED_LISTS_MAX_SIZE = source.LISTS_GET_USER_OWNED_LISTS_MAX_SIZE;
             LISTS_GET_TWEETS_MAX_PAGE_SIZE = source.LISTS_GET_TWEETS_MAX_PAGE_SIZE;
-            LISTS_GET_USER_MEMBERSHIPS_MAX_SIZE = source.LISTS_GET_USER_MEMBERSHIPS_MAX_SIZE;
-            LISTS_GET_USER_MEMBERSHIPS_LISTS_MAX_SIZE = source.LISTS_GET_USER_MEMBERSHIPS_LISTS_MAX_SIZE;
+            LISTS_GET_USER_MEMBERSHIPS_MAX_PAGE_SIZE = source.LISTS_GET_USER_MEMBERSHIPS_MAX_PAGE_SIZE;
             LISTS_ADD_MEMBERS_MAX_USERS = source.LISTS_ADD_MEMBERS_MAX_USERS;
             LISTS_REMOVE_MEMBERS_MAX_USERS = source.LISTS_REMOVE_MEMBERS_MAX_USERS;
 

@@ -17,6 +17,7 @@ namespace Tweetinvi.Client.Requesters
 {
     public class UsersRequester : BaseRequester, IUsersRequester
     {
+        private readonly ITwitterClient _client;
         private readonly IUserController _userController;
         private readonly ITwitterClientFactories _factories;
         private readonly ITwitterResultFactory _twitterResultFactory;
@@ -33,6 +34,7 @@ namespace Tweetinvi.Client.Requesters
             IUsersClientRequiredParametersValidator validator)
         : base(client, clientEvents)
         {
+            _client = client;
             _userController = userController;
             _factories = factories;
             _twitterResultFactory = twitterResultFactory;
@@ -71,7 +73,7 @@ namespace Tweetinvi.Client.Requesters
 
                 return _twitterResultFactory.Create(twitterResult, userDTO =>
                 {
-                    var users = _userFactory.GenerateUsersFromDTO(userDTO, null);
+                    var users = _userFactory.GenerateUsersFromDTO(userDTO, _client);
                     users?.ForEach(x => x.Client = TwitterClient);
                     return users;
                 });

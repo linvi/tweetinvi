@@ -73,7 +73,7 @@ namespace Tweetinvi.Client.Requesters
         /// </summary>
         /// <para> https://developer.twitter.com/en/docs/accounts-and-users/create-manage-lists/api-reference/get-lists-memberships </para>
         /// <returns>An iterator over the lists a user is a member of</returns>
-        ITwitterPageIterator<ITwitterResult<ITwitterListCursorQueryResultDTO>> GetListsAUserIsMemberOfIterator(IGetListsAUserIsMemberOfParameters parameters);
+        ITwitterPageIterator<ITwitterResult<ITwitterListCursorQueryResultDTO>> GetUserListMembershipsIterator(IGetUserListMembershipsParameters parameters);
 
         /// <summary>
         /// Get the members of the specified list.
@@ -94,7 +94,7 @@ namespace Tweetinvi.Client.Requesters
         /// <para>Read more : https://developer.twitter.com/en/docs/accounts-and-users/create-manage-lists/api-reference/post-lists-members-destroy </para>
         /// </summary>
         /// <returns>TwitterResult containing the list </returns>
-        Task<ITwitterResult<ITwitterListDTO>> RemoveMemberFromList(IRemoveMemberFromListParameters parameters);
+        Task<ITwitterResult<ITwitterListDTO, ITwitterList>> RemoveMemberFromList(IRemoveMemberFromListParameters parameters);
 
         /// <summary>
         /// Remove multiple members from a list
@@ -102,6 +102,44 @@ namespace Tweetinvi.Client.Requesters
         /// </summary>
         /// <returns>TwitterResult containing the list</returns>
         Task<ITwitterResult<ITwitterListDTO, ITwitterList>> RemoveMembersFromList(IRemoveMembersFromListParameters parameters);
+
+        // SUBSCRIBER
+
+        /// <summary>
+        /// Subscribe the authenticated account to the specified list
+        /// <para>Read more : https://developer.twitter.com/en/docs/accounts-and-users/create-manage-lists/api-reference/post-lists-subscribers-create </para>
+        /// </summary>
+        /// <returns>Twitter result containing the latest version of the list</returns>
+        Task<ITwitterResult<ITwitterListDTO, ITwitterList>> SubscribeToList(ISubscribeToListParameters parameters);
+
+        /// <summary>
+        /// Unsubscribe the authenticated account from the specified list
+        /// <para>Read more : https://developer.twitter.com/en/docs/accounts-and-users/create-manage-lists/api-reference/post-lists-subscribers-destroy </para>
+        /// </summary>
+        /// <returns>Twitter result containing the latest version of the list</returns>
+        Task<ITwitterResult<ITwitterListDTO, ITwitterList>> UnsubscribeFromList(IUnsubscribeFromListParameters parameters);
+
+        /// <summary>
+        /// Returns the users subscribed to a list
+        /// <para>Read more : https://developer.twitter.com/en/docs/accounts-and-users/create-manage-lists/api-reference/get-lists-subscribers </para>
+        /// </summary>
+        /// <returns>An iterator to get through the subscribers of the list</returns>
+        ITwitterPageIterator<ITwitterResult<IUserCursorQueryResultDTO>> GetListSubscribersIterator(IGetListSubscribersParameters parameters);
+
+        /// <summary>
+        /// Returns the lists a user subscribed to
+        /// <para>Read more : https://developer.twitter.com/en/docs/accounts-and-users/create-manage-lists/api-reference/get-lists-subscriptions </para>
+        /// </summary>
+        /// <returns>An iterator the get though the lists a user subscribed to</returns>
+        ITwitterPageIterator<ITwitterResult<ITwitterListCursorQueryResultDTO>> GetUserListSubscriptionsIterator(IGetUserListSubscriptionsParameters parameters);
+
+        /// <summary>
+        /// Check if a user is a subscriber of a list
+        /// <para>Read more : https://developer.twitter.com/en/docs/accounts-and-users/create-manage-lists/api-reference/get-lists-subscribers-show </para>
+        /// </summary>
+        /// <exception cref="Tweetinvi.Exceptions.TwitterException">If the user is not subscribed</exception>
+        /// <returns>TwitterResult with the latest version of the list.</returns>
+        Task<ITwitterResult<ITwitterListDTO, ITwitterList>> CheckIfUserIsSubscriberOfList(ICheckIfUserIsSubscriberOfListParameters parameters);
 
         // GET TWEETS
 

@@ -1,6 +1,4 @@
-﻿using Tweetinvi.Core.Parameters;
-using Tweetinvi.Models;
-using Tweetinvi.Parameters;
+﻿using Tweetinvi.Models;
 
 namespace Tweetinvi.Core.QueryValidators
 {
@@ -11,6 +9,5 @@ namespace Tweetinvi.Core.QueryValidators
 
         // Throw
         void ThrowIfListIdentifierIsNotValid(ITwitterListIdentifier twitterListIdentifier);
-        void ThrowIfListUpdateParametersIsNotValid(ITwitterListUpdateParameters parameters);
     }
 }

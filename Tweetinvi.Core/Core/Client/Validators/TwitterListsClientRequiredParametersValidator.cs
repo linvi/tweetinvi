@@ -7,6 +7,7 @@ namespace Tweetinvi.Core.Client.Validators
 {
     public interface ITwitterListsClientRequiredParametersValidator : ITwitterListsClientParametersValidator
     {
+
     }
 
     public class TwitterListsClientRequiredParametersValidator : ITwitterListsClientRequiredParametersValidator
@@ -114,7 +115,7 @@ namespace Tweetinvi.Core.Client.Validators
             _twitterListQueryValidator.ThrowIfListIdentifierIsNotValid(parameters.List);
         }
 
-        public void Validate(IGetListsAUserIsMemberOfParameters parameters)
+        public void Validate(IGetUserListMembershipsParameters parameters)
         {
             if (parameters == null)
             {
@@ -164,6 +165,58 @@ namespace Tweetinvi.Core.Client.Validators
             }
 
             _twitterListQueryValidator.ThrowIfListIdentifierIsNotValid(parameters.List);
+        }
+
+        // SUBSCRIBERS
+        public void Validate(ISubscribeToListParameters parameters)
+        {
+            if (parameters == null)
+            {
+                throw new ArgumentNullException(nameof(parameters));
+            }
+
+            _twitterListQueryValidator.ThrowIfListIdentifierIsNotValid(parameters.List);
+        }
+
+        public void Validate(IUnsubscribeFromListParameters parameters)
+        {
+            if (parameters == null)
+            {
+                throw new ArgumentNullException(nameof(parameters));
+            }
+
+            _twitterListQueryValidator.ThrowIfListIdentifierIsNotValid(parameters.List);
+        }
+
+        public void Validate(IGetListSubscribersParameters parameters)
+        {
+            if (parameters == null)
+            {
+                throw new ArgumentNullException(nameof(parameters));
+            }
+
+            _twitterListQueryValidator.ThrowIfListIdentifierIsNotValid(parameters.List);
+        }
+
+        public void Validate(IGetUserListSubscriptionsParameters parameters)
+        {
+            if (parameters == null)
+            {
+                throw new ArgumentNullException(nameof(parameters));
+            }
+
+            _userQueryValidator.ThrowIfUserCannotBeIdentified(parameters.User);
+        }
+
+        public void Validate(ICheckIfUserIsSubscriberOfListParameters parameters)
+        {
+            if (parameters == null)
+            {
+                throw new ArgumentNullException(nameof(parameters));
+            }
+
+            _twitterListQueryValidator.ThrowIfListIdentifierIsNotValid(parameters.List);
+            _userQueryValidator.ThrowIfUserCannotBeIdentified(parameters.User);
         }
     }
 }

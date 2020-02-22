@@ -64,7 +64,6 @@ namespace Tweetinvi.Core.Injectinvi
             container.RegisterType<IGeoCode, GeoCode>();
 
             // Parameters
-            container.RegisterType<ITwitterListUpdateParameters, TwitterListUpdateParameters>();
             container.RegisterType<IGetTweetsFromListParameters, GetTweetsFromListParameters>();
 
             // Account

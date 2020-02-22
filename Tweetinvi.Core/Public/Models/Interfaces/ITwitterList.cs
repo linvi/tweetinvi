@@ -156,27 +156,27 @@ namespace Tweetinvi.Models
         /// <summary>
         /// Get the subscribers of the list.
         /// </summary>
-        Task<IEnumerable<IUser>> GetSubscribers(int maximumNumberOfUsersToRetrieve = 100);
+        ITwitterIterator<IUser> GetSubscribersIterator();
 
         /// <summary>
         /// Subscribe the authenticated user to the list.
         /// </summary>
-        Task<bool> SubscribeAuthenticatedUserToList(IAuthenticatedUser authenticatedUser = null);
+        Task<ITwitterList> Subscribe();
 
         /// <summary>
         /// Unsubscribe the authenticated user from the list.
         /// </summary>
-        Task<bool> UnSubscribeAuthenticatedUserFromList(IAuthenticatedUser authenticatedUser = null);
+        Task<ITwitterList> Unsubscribe();
 
         /// <summary>
         /// Check whether a user has subscribed to the list.
         /// </summary>
-        Task<bool> CheckUserSubscription(long userId);
+        Task<bool> CheckUserSubscription(long? userId);
 
         /// <summary>
         /// Check whether a user has subscribed to the list.
         /// </summary>
-        Task<bool> CheckUserSubscription(string userScreenName);
+        Task<bool> CheckUserSubscription(string username);
 
         /// <summary>
         /// Check whether a user has subscribed to the list.

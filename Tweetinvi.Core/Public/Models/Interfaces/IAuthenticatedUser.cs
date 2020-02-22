@@ -241,59 +241,25 @@ namespace Tweetinvi.Models
         /// </summary>
         Task UnMuteUser(string username);
 
-        #region List
+        /// <summary>
+        /// Subscribe the authenticated user to a list.
+        /// </summary>
+        Task<ITwitterList> SubscribeToList(ITwitterListIdentifier list);
 
         /// <summary>
         /// Subscribe the authenticated user to a list.
         /// </summary>
-        Task<bool> SubscribeToList(ITwitterListIdentifier list);
-
-        /// <summary>
-        /// Subscribe the authenticated user to a list.
-        /// </summary>
-        Task<bool> SubscribeToList(long listId);
-
-        /// <summary>
-        /// Subscribe the authenticated user to a list.
-        /// </summary>
-        Task<bool> SubscribeToList(string slug, long ownerId);
-
-        /// <summary>
-        /// Subscribe the authenticated user to a list.
-        /// </summary>
-        Task<bool> SubscribeToList(string slug, string ownerScreenName);
-
-        /// <summary>
-        /// Subscribe the authenticated user to a list.
-        /// </summary>
-        Task<bool> SubscribeToList(string slug, IUserIdentifier owner);
+        Task<ITwitterList> SubscribeToList(long? listId);
 
         /// <summary>
         /// Unsubscribe the authenticated user to a list.
         /// </summary>
-        Task<bool> UnSubscribeFromList(ITwitterListIdentifier list);
+        Task<ITwitterList> UnSubscribeFromList(ITwitterListIdentifier list);
 
         /// <summary>
         /// Unsubscribe the authenticated user to a list.
         /// </summary>
-        Task<bool> UnSubscribeFromList(long listId);
-
-        /// <summary>
-        /// Unsubscribe the authenticated user to a list.
-        /// </summary>
-        Task<bool> UnSubscribeFromList(string slug, long ownerId);
-
-        /// <summary>
-        /// Unsubscribe the authenticated user to a list.
-        /// </summary>
-        Task<bool> UnSubscribeFromList(string slug, string ownerScreenName);
-
-        /// <summary>
-        /// Unsubscribe the authenticated user to a list.
-        /// </summary>
-        Task<bool> UnSubscribeFromList(string slug, IUserIdentifier owner);
-
-        #endregion
+        Task<ITwitterList> UnSubscribeFromList(long? listId);
 
         /// <summary>
         /// Modify the authenticated account settings.
