@@ -6,6 +6,7 @@ using Tweetinvi;
 using Tweetinvi.AspNet;
 using Tweetinvi.Core.Events;
 using Tweetinvi.Core.Logic;
+using Tweetinvi.Exceptions;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO.Webhooks;
 using Xunit;
@@ -48,7 +49,7 @@ namespace xUnitinvi.EndToEnd
 
         public void Dispose()
         {
-            ((IDisposable)_server)?.Dispose();
+            ((IDisposable) _server)?.Dispose();
             GC.SuppressFinalize(this);
         }
     }
@@ -89,8 +90,15 @@ namespace xUnitinvi.EndToEnd
                 var consumerCreds = new ConsumerOnlyCredentials(EndToEndTestConfig.TweetinviApi.Credentials);
                 var configuration = new WebhookConfiguration(consumerCreds);
 
+                var shouldRespondToRequest = true;
                 server.OnRequest += async (sender, context) =>
                 {
+                    // ReSharper disable once AccessToModifiedClosure
+                    if (!shouldRespondToRequest)
+                    {
+                        return;
+                    }
+
                     var request = new WebhooksRequestHandlerForHttpServer(context);
 
                     if (router.IsRequestManagedByTweetinvi(request, configuration))
@@ -103,11 +111,30 @@ namespace xUnitinvi.EndToEnd
 
                 var newWebhook = await client.AccountActivity.RegisterAccountActivityWebhook("sandbox", webhookUrl);
 
+
+                try
+                {
+                    shouldRespondToRequest = false;
+                    await client.AccountActivity.TriggerAccountActivityCRC("sandbox", newWebhook.Id);
+                    throw new Exception("Should have failed");
+                }
+                catch (TwitterException)
+                {
+                }
+
+                var envWithDisabledWebhook = await client.AccountActivity.GetAccountActivityWebhookEnvironments();
+                var disabledWebhooks = envWithDisabledWebhook.SelectMany(x => x.Webhooks).ToArray();
+
+                shouldRespondToRequest = true;
+                await client.AccountActivity.TriggerAccountActivityCRC("sandbox", newWebhook.Id);
+
                 var newEnvironments = await client.AccountActivity.GetAccountActivityWebhookEnvironments();
-                var newWebhooks = newEnvironments.SelectMany(x => x.Webhooks);
+                var newWebhooks = newEnvironments.SelectMany(x => x.Webhooks).ToArray();
 
                 await RemoveAllExistingWebhooks(newEnvironments, client);
 
+                Assert.False(disabledWebhooks[0].Valid);
+                Assert.True(newWebhooks[0].Valid);
                 Assert.Contains(newWebhooks, webhook => webhook.Id == newWebhook.Id);
             }
         }

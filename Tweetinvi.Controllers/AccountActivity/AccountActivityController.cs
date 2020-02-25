@@ -49,12 +49,11 @@ namespace Tweetinvi.Controllers
             return _twitterAccessor.ExecuteRequest(request);
         }
 
-        public async Task<bool> ChallengeWebhookAsync(string webhookEnvironmentName, string webhookId, ITwitterCredentials credentials)
+        public Task<ITwitterResult> TriggerAccountActivityCRC(ITriggerAccountActivityCRCParameters parameters, ITwitterRequest request)
         {
-            var query = $"https://api.twitter.com/1.1/account_activity/all/{webhookEnvironmentName}/webhooks/{webhookId}.json";
-            var result = await _twitterAccessor.ExecuteQuery(query, HttpMethod.PUT, credentials);
-
-            return result.StatusCode != 214;
+            request.Query.Url = _webhooksQueryGenerator.GetTriggerAccountActivityCRCQuery(parameters);
+            request.Query.HttpMethod = HttpMethod.PUT;
+            return _twitterAccessor.ExecuteRequest(request);
         }
 
         public async Task<bool> SubscribeToAllAuthenticatedUserEventsAsync(string webhookEnvironmentName, ITwitterCredentials credentials)

@@ -27,5 +27,12 @@ namespace Tweetinvi.Client.Requesters
         /// </summary>
         /// <returns>Twitter Result</returns>
         Task<ITwitterResult> RemoveAccountActivityWebhook(IRemoveAccountActivityWebhookParameters parameters);
+
+        /// <summary>
+        /// Challenges a webhook and reenable it when it was disabled
+        /// <para>Read more : https://developer.twitter.com/en/docs/accounts-and-users/subscribe-account-activity/api-reference/aaa-premium#put-account-activity-all-env-name-webhooks-webhook-id </para>
+        /// </summary>
+        /// <returns>Twitter Result</returns>
+        Task<ITwitterResult> TriggerAccountActivityCRC(ITriggerAccountActivityCRCParameters parameters);
     }
 }

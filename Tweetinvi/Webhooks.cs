@@ -37,11 +37,6 @@ namespace Tweetinvi
             _accountActivityController = TweetinviContainer.Resolve<IAccountActivityController>();
         }
 
-        public static async Task<bool> ChallengeWebhookAsync(string webhookEnvironmentName, string webhookId, ITwitterCredentials credentials)
-        {
-            return await AccountActivityController.ChallengeWebhookAsync(webhookEnvironmentName, webhookId, credentials);
-        }
-
         public static async Task<bool> SubscribeToAccountActivityEventsAsync(string webhookEnvironmentName, ITwitterCredentials credentials)
         {
             return await AccountActivityController.SubscribeToAllAuthenticatedUserEventsAsync(webhookEnvironmentName, credentials);

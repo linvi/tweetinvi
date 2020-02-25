@@ -19,7 +19,17 @@ namespace Examplinvi.AccountActivityEvents.Controllers
         public async Task<bool> ChallengeWebhook(string environment, string webhookId, long userId)
         {
             var userCredentials = await AccountActivityCredentialsRetriever.GetUserCredentials(userId);
-            return await Webhooks.ChallengeWebhookAsync(environment, webhookId, userCredentials);
+            var client = new TwitterClient(userCredentials);
+
+            try
+            {
+                await client.AccountActivity.TriggerAccountActivityCRC(environment, webhookId);
+                return true;
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
         }
 
         public async Task<bool> RegisterWebhook(string environment, string url, long userId)

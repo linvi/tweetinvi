@@ -45,5 +45,15 @@ namespace Tweetinvi.Client
         {
             await _accountActivityRequester.RemoveAccountActivityWebhook(parameters).ConfigureAwait(false);
         }
+
+        public Task TriggerAccountActivityCRC(string environment, string webhookId)
+        {
+            return TriggerAccountActivityCRC(new TriggerAccountActivityCRCParameters(environment, webhookId));
+        }
+
+        public async Task TriggerAccountActivityCRC(ITriggerAccountActivityCRCParameters parameters)
+        {
+            await _accountActivityRequester.TriggerAccountActivityCRC(parameters).ConfigureAwait(false);
+        }
     }
 }

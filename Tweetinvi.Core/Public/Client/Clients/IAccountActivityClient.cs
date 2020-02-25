@@ -37,5 +37,14 @@ namespace Tweetinvi.Client
         /// <para>Read more : https://developer.twitter.com/en/docs/accounts-and-users/subscribe-account-activity/api-reference/aaa-premium#delete-account-activity-all-env-name-webhooks-webhook-id </para>
         /// </summary>
         Task RemoveAccountActivityWebhook(IRemoveAccountActivityWebhookParameters parameters);
+
+        /// <inheritdoc cref="TriggerAccountActivityCRC(ITriggerAccountActivityCRCParameters)" />
+        Task TriggerAccountActivityCRC(string environment, string webhookId);
+
+        /// <summary>
+        /// Challenges a webhook and reenable it when it was disabled
+        /// <para>Read more : https://developer.twitter.com/en/docs/accounts-and-users/subscribe-account-activity/api-reference/aaa-premium#put-account-activity-all-env-name-webhooks-webhook-id </para>
+        /// </summary>
+        Task TriggerAccountActivityCRC(ITriggerAccountActivityCRCParameters parameters);
     }
 }

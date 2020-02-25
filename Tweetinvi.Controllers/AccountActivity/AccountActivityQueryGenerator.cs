@@ -10,6 +10,7 @@ namespace Tweetinvi.Controllers
         string GetRegisterAccountActivityWebhookQuery(IRegisterAccountActivityWebhookParameters parameters);
         string GetAccountActivityWebhookEnvironmentsQuery(IGetAccountActivityWebhookEnvironmentsParameters parameters);
         string GetRemoveAccountActivityWebhookQuery(IRemoveAccountActivityWebhookParameters parameters);
+        string GetTriggerAccountActivityCRCQuery(ITriggerAccountActivityCRCParameters parameters);
     }
 
     public class WebhooksQueryGenerator : IWebhooksQueryGenerator
@@ -34,6 +35,15 @@ namespace Tweetinvi.Controllers
         }
 
         public string GetRemoveAccountActivityWebhookQuery(IRemoveAccountActivityWebhookParameters parameters)
+        {
+            var query = new StringBuilder($"{Resources.Webhooks_AccountActivity_All}/{parameters.Environment}/webhooks/{parameters.WebhookId}.json?");
+
+            query.AddFormattedParameterToQuery(parameters.FormattedCustomQueryParameters);
+
+            return query.ToString();
+        }
+
+        public string GetTriggerAccountActivityCRCQuery(ITriggerAccountActivityCRCParameters parameters)
         {
             var query = new StringBuilder($"{Resources.Webhooks_AccountActivity_All}/{parameters.Environment}/webhooks/{parameters.WebhookId}.json?");
 

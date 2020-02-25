@@ -42,5 +42,10 @@ namespace Tweetinvi.Client.Requesters
         {
             return ExecuteRequest(request => _accountActivityController.RemoveAccountActivityWebhook(parameters, request));
         }
+
+        public Task<ITwitterResult> TriggerAccountActivityCRC(ITriggerAccountActivityCRCParameters parameters)
+        {
+            return ExecuteRequest(request => _accountActivityController.TriggerAccountActivityCRC(parameters, request));
+        }
     }
 }
