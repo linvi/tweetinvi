@@ -21,10 +21,7 @@ namespace Tweetinvi
             var instance = ctor.Invoke(null);
             var module = (T)instance;
 
-            TweetinviContainer.BeforeRegistrationComplete += (sender, args) =>
-            {
-                module.Initialize(args.TweetinviContainer);
-            };
+            TweetinviContainer.AddModule(module);
         }
     }
 }

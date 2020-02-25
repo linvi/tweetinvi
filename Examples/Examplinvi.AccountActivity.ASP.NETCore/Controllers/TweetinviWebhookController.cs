@@ -2,8 +2,8 @@
 using Examplinvi.AccountActivityEvents;
 using Examplinvi.AccountActivityEvents.Controllers;
 using Microsoft.AspNetCore.Mvc;
-using Tweetinvi.Core.Public.Models.Interfaces.DTO.Webhooks;
 using Tweetinvi.Models;
+using Tweetinvi.Models.DTO.Webhooks;
 
 namespace Examplinvi.AccountActivity.ASP.NETCore.Controllers
 {

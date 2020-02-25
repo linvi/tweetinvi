@@ -2,7 +2,7 @@
 using Tweetinvi.Core.Injectinvi;
 using Tweetinvi.Modules;
 
-namespace Tweetinvi.AspNet
+namespace Tweetinvi
 {
     public class WebhooksPlugin : ITweetinviModule
     {

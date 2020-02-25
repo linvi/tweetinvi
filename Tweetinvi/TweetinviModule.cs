@@ -45,6 +45,9 @@ namespace Tweetinvi
             container.RegisterType<IUsersClient, UsersClient>(RegistrationLifetime.InstancePerApplication);
             container.RegisterType<IUsersRequester, UsersRequester>(RegistrationLifetime.InstancePerApplication);
 
+            container.RegisterType<IAccountActivityClient, AccountActivityClient>(RegistrationLifetime.InstancePerApplication);
+            container.RegisterType<IAccountActivityRequester, AccountActivityRequester>(RegistrationLifetime.InstancePerApplication);
+
             container.RegisterType<IRequestExecutor, RequestExecutor>(RegistrationLifetime.InstancePerApplication);
             container.RegisterType<ITwitterClientFactories, TwitterClientFactories>(RegistrationLifetime.InstancePerApplication);
             container.RegisterType<ITwitterClientJson, TwitterClientJson>(RegistrationLifetime.InstancePerApplication);

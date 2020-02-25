@@ -1,4 +1,5 @@
 ﻿using Tweetinvi.Core.Injectinvi;
+using Tweetinvi.Models;
 using Tweetinvi.Streaming;
 
 namespace Tweetinvi
@@ -20,7 +21,7 @@ namespace Tweetinvi
         /// </summary>
         public static IAccountActivityStream CreateAccountActivityStream(long accountUserId)
         {
-            var client = new TwitterClient(null);
+            var client = new TwitterClient(null as IReadOnlyTwitterCredentials);
             var factories = _accountActivityStreamFactory.GenerateParameterOverrideWrapper("factories", client.Factories);
             var stream = _accountActivityStreamFactory.Create(factories);
 

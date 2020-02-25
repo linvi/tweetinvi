@@ -9,21 +9,21 @@ namespace Tweetinvi
     public static class Webhooks
     {
         [ThreadStatic]
-        private static IWebhookController _webhookController;
+        private static IAccountActivityController _accountActivityController;
 
         /// <summary>
         /// Factory creating Users
         /// </summary>
-        public static IWebhookController WebhookController
+        public static IAccountActivityController AccountActivityController
         {
             get
             {
-                if (_webhookController == null)
+                if (_accountActivityController == null)
                 {
                     Initialize();
                 }
 
-                return _webhookController;
+                return _accountActivityController;
             }
         }
 
@@ -34,52 +34,37 @@ namespace Tweetinvi
 
         private static void Initialize()
         {
-            _webhookController = TweetinviContainer.Resolve<IWebhookController>();
-        }
-
-        public static async Task<IWebhookDTO> RegisterWebhookAsync(string webhookEnvironmentName, string url, ITwitterCredentials credentials)
-        {
-            return await WebhookController.RegisterWebhookAsync(webhookEnvironmentName, url, credentials);
-        }
-
-        public static async Task<IWebhookEnvironmentDTO[]> GetAllWebhookEnvironmentsAsync(IConsumerOnlyCredentials consumerCredentials)
-        {
-            return await WebhookController.GetAllWebhooksAsync(consumerCredentials);
+            _accountActivityController = TweetinviContainer.Resolve<IAccountActivityController>();
         }
 
         public static async Task<bool> ChallengeWebhookAsync(string webhookEnvironmentName, string webhookId, ITwitterCredentials credentials)
         {
-            return await WebhookController.ChallengeWebhookAsync(webhookEnvironmentName, webhookId, credentials);
+            return await AccountActivityController.ChallengeWebhookAsync(webhookEnvironmentName, webhookId, credentials);
         }
 
         public static async Task<bool> SubscribeToAccountActivityEventsAsync(string webhookEnvironmentName, ITwitterCredentials credentials)
         {
-            return await WebhookController.SubscribeToAllAuthenticatedUserEventsAsync(webhookEnvironmentName, credentials);
+            return await AccountActivityController.SubscribeToAllAuthenticatedUserEventsAsync(webhookEnvironmentName, credentials);
         }
 
         public static async Task<IGetWebhookSubscriptionsCountResultDTO> CountNumberOfSubscriptionsAsync(IConsumerOnlyCredentials consumerCredentials)
         {
-            return await WebhookController.CountNumberOfSubscriptionsAsync(consumerCredentials);
+            return await AccountActivityController.CountNumberOfSubscriptionsAsync(consumerCredentials);
         }
 
         public static async Task<bool> DoesAccountHaveASubscriptionAsync(string webhookEnvironmentName, ITwitterCredentials credentials)
         {
-            return await WebhookController.DoesAccountHaveASubscriptionAsync(webhookEnvironmentName, credentials);
+            return await AccountActivityController.DoesAccountHaveASubscriptionAsync(webhookEnvironmentName, credentials);
         }
 
         public static async Task<IWebhookSubscriptionListDTO> GetListOfSubscriptionsAsync(string webhookEnvironmentName, IConsumerOnlyCredentials credentials)
         {
-            return await WebhookController.GetListOfSubscriptionsAsync(webhookEnvironmentName, credentials);
-        }
-
-        public static async Task<bool> RemoveWebhookAsync(string webhookEnvironmentName, string webhookId, ITwitterCredentials credentials)
-        {
-            return await WebhookController.RemoveWebhookAsync(webhookEnvironmentName, webhookId, credentials);
+            return await AccountActivityController.GetListOfSubscriptionsAsync(webhookEnvironmentName, credentials);
         }
 
         public static async Task<bool> RemoveAllAccountSubscriptionsAsync(string webhookEnvironmentName, ITwitterCredentials credentials)
         {
-            return await WebhookController.RemoveAllAccountSubscriptionsAsync(webhookEnvironmentName, credentials);
+            return await AccountActivityController.RemoveAllAccountSubscriptionsAsync(webhookEnvironmentName, credentials);
         }
     }
 }

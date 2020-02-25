@@ -9,7 +9,7 @@ namespace Tweetinvi
     /// </summary>
     public static class TweetinviContainer
     {
-        public static readonly ITweetinviContainer Container;
+        public static ITweetinviContainer Container;
 
         /// <summary>
         /// Event raised before the registration completes so that you can override registered classes.
@@ -35,6 +35,18 @@ namespace Tweetinvi
         }
 
         private static readonly object _resolveLock = new object();
+
+        public static void AddModule(ITweetinviModule module)
+        {
+            lock (_resolveLock)
+            {
+                var updatedContainer = new Tweetinvi.Injectinvi.TweetinviContainer(Container);
+                module.Initialize(updatedContainer);
+                updatedContainer.Initialize();
+
+                Container = updatedContainer;
+            }
+        }
 
         /// <summary>
         /// Allow you to retrieve any class used by Tweetinvi by specifying its interface.

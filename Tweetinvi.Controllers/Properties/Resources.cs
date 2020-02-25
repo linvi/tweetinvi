@@ -600,6 +600,16 @@ namespace Tweetinvi.Controllers.Properties
         /// </summary>
         public static string Auth_RequestTokenParserRegex = "oauth_token=(?<oauth_token>(?:\\w|\\-)*)&oauth_token_secret=(?<oauth_token_secret>(?:\\w)*)&oauth_callback_confirmed=(?<oauth_callback_confirmed>(?:\\w)*)";
 
+        /// <summary>
+        ///   Looks up a localized string similar to https://api.twitter.com/1.1/account_activity/all.
+        /// </summary>
+        public static string Webhooks_AccountActivity_All = "https://api.twitter.com/1.1/account_activity/all";
+
+        /// <summary>
+        ///   Looks up a localized string similar to /webhooks.json?.
+        /// </summary>
+        public static string Webhooks_AccountActivity_GetAllWebhooks = "https://api.twitter.com/1.1/account_activity/all/webhooks.json";
+
         public static string GetResourceByName(string resourceName)
         {
             return ResourcesHelper.GetResourceByType(typeof(Resources), resourceName);

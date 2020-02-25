@@ -1,46 +1,52 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Tweetinvi.Core.Controllers;
-using Tweetinvi.Core.Extensions;
 using Tweetinvi.Core.Helpers;
 using Tweetinvi.Core.Web;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO.Webhooks;
+using Tweetinvi.Parameters;
 
-namespace Tweetinvi.Controllers.Webhooks
+namespace Tweetinvi.Controllers
 {
-    public class WebhookController : IWebhookController
+    public class AccountActivityController : IAccountActivityController
     {
         private readonly ITwitterAccessor _twitterAccessor;
+        private readonly IWebhooksQueryGenerator _webhooksQueryGenerator;
         private readonly IJsonObjectConverter _jsonObjectConverter;
 
-        public WebhookController(
+        public AccountActivityController(
             ITwitterAccessor twitterAccessor,
+            IWebhooksQueryGenerator webhooksQueryGenerator,
             IJsonObjectConverter jsonObjectConverter)
         {
             _twitterAccessor = twitterAccessor;
+            _webhooksQueryGenerator = webhooksQueryGenerator;
             _jsonObjectConverter = jsonObjectConverter;
         }
 
-        public Task<IWebhookDTO> RegisterWebhookAsync(string webhookEnvironmentName, string url, ITwitterCredentials credentials)
+        public Task<ITwitterResult<IWebhookDTO>> RegisterAccountActivityWebhook(IRegisterAccountActivityWebhookParameters parameters, ITwitterRequest request)
         {
-            var encodedUrl = Uri.EscapeDataString(url);
-
-            var query = $"https://api.twitter.com/1.1/account_activity/all/{webhookEnvironmentName}/webhooks.json?url={encodedUrl}";
-            return _twitterAccessor.ExecuteQuery<IWebhookDTO>(query, HttpMethod.POST, credentials, null);
+            request.Query.Url = _webhooksQueryGenerator.GetRegisterAccountActivityWebhookQuery(parameters);
+            request.Query.HttpMethod = HttpMethod.POST;
+            return _twitterAccessor.ExecuteRequest<IWebhookDTO>(request);
         }
 
-        public async Task<IWebhookEnvironmentDTO[]> GetAllWebhooksAsync(IConsumerOnlyCredentials consumerCredentials)
+        public Task<ITwitterResult<IGetAccountActivityWebhookEnvironmentsResultDTO>> GetAccountActivityWebhookEnvironments(IGetAccountActivityWebhookEnvironmentsParameters parameters, ITwitterRequest request)
         {
-            var query = "https://api.twitter.com/1.1/account_activity/all/webhooks.json";
-            var result = await _twitterAccessor.ExecuteQuery<IGetAllWebhooksResultDTO>(query, HttpMethod.GET, consumerCredentials);
+            var consumerCredentials = new ConsumerCredentials(request.Query.TwitterCredentials);
 
-            result?.Environments?.ForEach(environment =>
-            {
-                environment.ConsumerCredentials = consumerCredentials;
-            });
+            request.Query.Url = _webhooksQueryGenerator.GetAccountActivityWebhookEnvironmentsQuery(parameters);
+            request.Query.HttpMethod = HttpMethod.GET;
+            request.Query.TwitterCredentials = new TwitterCredentials(consumerCredentials);
 
-            return result?.Environments;
+            return _twitterAccessor.ExecuteRequest<IGetAccountActivityWebhookEnvironmentsResultDTO>(request);
+        }
+
+        public Task<ITwitterResult> RemoveAccountActivityWebhook(IRemoveAccountActivityWebhookParameters parameters, ITwitterRequest request)
+        {
+            request.Query.Url = _webhooksQueryGenerator.GetRemoveAccountActivityWebhookQuery(parameters);
+            request.Query.HttpMethod = HttpMethod.DELETE;
+            return _twitterAccessor.ExecuteRequest(request);
         }
 
         public async Task<bool> ChallengeWebhookAsync(string webhookEnvironmentName, string webhookId, ITwitterCredentials credentials)
@@ -95,15 +101,6 @@ namespace Tweetinvi.Controllers.Webhooks
             var subscriptions = _jsonObjectConverter.DeserializeObject<IWebhookSubscriptionListDTO>(result.Text);
 
             return subscriptions;
-        }
-
-        public async Task<bool> RemoveWebhookAsync(string webhookEnvironmentName, string webhookId, ITwitterCredentials credentials)
-        {
-            var query = $"https://api.twitter.com/1.1/account_activity/all/{webhookEnvironmentName}/webhooks/{webhookId}.json";
-
-            var result = await _twitterAccessor.ExecuteQuery(query, HttpMethod.DELETE, credentials);
-
-            return result.StatusCode == 204;
         }
 
         public async Task<bool> RemoveAllAccountSubscriptionsAsync(string webhookEnvironmentName, ITwitterCredentials credentials)

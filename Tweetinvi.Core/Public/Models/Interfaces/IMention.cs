@@ -5,13 +5,13 @@
     /// </summary>
     public interface IMention : ITweet
     {
-        // Notice that IMention inherits froms ITweet
+        // Notice that IMention inherits from ITweet
         #region IMention Properties
-        
+
         /// <summary>
         /// Mention annotation
         /// </summary>
-        string Annotations { get; set; } 
+        string Annotations { get; set; }
 
         #endregion
     }

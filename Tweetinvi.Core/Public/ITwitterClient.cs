@@ -60,6 +60,11 @@ namespace Tweetinvi
         IUsersClient Users { get; }
 
         /// <summary>
+        /// Client to execute all the actions related with webhooks
+        /// </summary>
+        IAccountActivityClient AccountActivity { get; }
+
+        /// <summary>
         /// Execute Request and receive request results
         /// </summary>
         IRequestExecutor RequestExecutor { get; }

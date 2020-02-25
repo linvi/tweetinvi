@@ -4,6 +4,5 @@
     {
         string Name { get; set; }
         IWebhookDTO[] Webhooks { get; set; }
-        IConsumerCredentials ConsumerCredentials { get; set; }
     }
 }

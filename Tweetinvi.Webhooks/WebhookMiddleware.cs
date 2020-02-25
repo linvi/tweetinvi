@@ -18,8 +18,8 @@ namespace Tweetinvi.AspNet
     public class WebhookMiddleware
     {
         private readonly RequestDelegate _next;
-        private IWebhookConfiguration _configuration;
-        private IWebhookRouter _router;
+        private readonly IWebhookConfiguration _configuration;
+        private readonly IWebhookRouter _router;
 
         public WebhookMiddleware(RequestDelegate next, IOptions<WebhookConfiguration> options)
         {

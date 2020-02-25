@@ -212,12 +212,12 @@ namespace Tweetinvi.Core.JsonConverters
         {
             var webhookDTOConverter = new JsonInterfaceToObjectConverter<IWebhookDTO, WebhookDTO>();
             var webhookEnvironmentDTOConverter = new JsonInterfaceToObjectConverter<IWebhookEnvironmentDTO, WebhookEnvironmentDTO>();
-            var getAllWebhooksResultDTOConverter = new JsonInterfaceToObjectConverter<IGetAllWebhooksResultDTO, GetAllWebhooksResultDTO>();
+            var getAllWebhooksResultDTOConverter = new JsonInterfaceToObjectConverter<IGetAccountActivityWebhookEnvironmentsResultDTO, GetAccountActivityWebhookEnvironmentsResultDTO>();
             var getWebhookSubscriptionsCountResultDTOConverter = new JsonInterfaceToObjectConverter<IGetWebhookSubscriptionsCountResultDTO, GetWebhookSubscriptionsCountResultDTO>();
 
             JsonConverters.Add(typeof(IWebhookDTO), webhookDTOConverter);
             JsonConverters.Add(typeof(IWebhookEnvironmentDTO), webhookEnvironmentDTOConverter);
-            JsonConverters.Add(typeof(IGetAllWebhooksResultDTO), getAllWebhooksResultDTOConverter);
+            JsonConverters.Add(typeof(IGetAccountActivityWebhookEnvironmentsResultDTO), getAllWebhooksResultDTOConverter);
             JsonConverters.Add(typeof(IGetWebhookSubscriptionsCountResultDTO), getWebhookSubscriptionsCountResultDTOConverter);
         }
 

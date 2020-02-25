@@ -10,5 +10,9 @@
         public ConsumerOnlyCredentials(string consumerKey, string consumerSecret) : base(consumerKey, consumerSecret)
         {
         }
+
+        public ConsumerOnlyCredentials(IReadOnlyTwitterCredentials creds) : base(creds.ConsumerKey, creds.ConsumerSecret)
+        {
+        }
     }
 }

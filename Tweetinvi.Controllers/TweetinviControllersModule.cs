@@ -13,7 +13,6 @@ using Tweetinvi.Controllers.Tweet;
 using Tweetinvi.Controllers.TwitterLists;
 using Tweetinvi.Controllers.Upload;
 using Tweetinvi.Controllers.User;
-using Tweetinvi.Controllers.Webhooks;
 using Tweetinvi.Core.Controllers;
 using Tweetinvi.Core.Injectinvi;
 using Tweetinvi.Core.QueryGenerators;
@@ -51,7 +50,7 @@ namespace Tweetinvi.Controllers
             container.RegisterType<ITwitterListController, TwitterListController>(RegistrationLifetime.InstancePerApplication);
 
             container.RegisterType<ISearchController, SearchController>(RegistrationLifetime.InstancePerApplication);
-            container.RegisterType<IWebhookController, WebhookController>(RegistrationLifetime.InstancePerApplication);
+            container.RegisterType<IAccountActivityController, AccountActivityController>(RegistrationLifetime.InstancePerApplication);
 
             container.RegisterType<IChunkedUploader, ChunkedUploader>();
         }
@@ -103,6 +102,7 @@ namespace Tweetinvi.Controllers
             container.RegisterType<IUserQueryGenerator, UserQueryGenerator>(RegistrationLifetime.InstancePerApplication);
             container.RegisterType<ISearchQueryGenerator, SearchQueryGenerator>(RegistrationLifetime.InstancePerApplication);
             container.RegisterType<ITwitterListQueryGenerator, TwitterListQueryGenerator>(RegistrationLifetime.InstancePerApplication);
+            container.RegisterType<IWebhooksQueryGenerator, WebhooksQueryGenerator>(RegistrationLifetime.InstancePerApplication);
 
             container.RegisterType<IQueryParameterGenerator, QueryParameterGenerator>(RegistrationLifetime.InstancePerApplication);
             container.RegisterType<ITwitterListQueryParameterGenerator, TwitterListQueryParameterGenerator>(RegistrationLifetime.InstancePerApplication);

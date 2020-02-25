@@ -6,9 +6,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Tweetinvi;
 using Tweetinvi.AspNet;
 using Tweetinvi.Core.Extensions;
-using Tweetinvi.Core.Public.Models.Authentication;
-using Tweetinvi.Core.Public.Models.Interfaces.DTO.Webhooks;
 using Tweetinvi.Models;
+using Tweetinvi.Models.DTO.Webhooks;
 
 namespace Examplinvi.AccountActivity.ASP.NETCore
 {
@@ -24,18 +23,20 @@ namespace Examplinvi.AccountActivity.ASP.NETCore
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public async Task Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             Plugins.Add<WebhooksPlugin>();
 
             var consumerOnlyCredentials = new ConsumerOnlyCredentials("CONSUMER_TOKEN", "CONSUMER_SECRET")
             {
-                ApplicationOnlyBearerToken = "BEARER_TOKEN"
+                BearerToken = "BEARER_TOKEN"
             };
 
-            if (consumerOnlyCredentials.ApplicationOnlyBearerToken == null)
+            var client = new TwitterClient(consumerOnlyCredentials);
+
+            if (consumerOnlyCredentials.BearerToken == null)
             {
-                Auth.InitializeApplicationOnlyCredentials(consumerOnlyCredentials);
+                await client.Auth.InitializeClientBearerToken();
             }
 
             WebhookServerInitialization(app, consumerOnlyCredentials);
@@ -58,7 +59,8 @@ namespace Examplinvi.AccountActivity.ASP.NETCore
 
         private static async Task RegisterAccountActivities(IConsumerOnlyCredentials consumerOnlyCredentials)
         {
-            var webhookEnvironments = await Webhooks.GetAllWebhookEnvironmentsAsync(consumerOnlyCredentials);
+            var client = new TwitterClient(consumerOnlyCredentials);
+            var webhookEnvironments = await client.AccountActivity.GetAccountActivityWebhookEnvironments();
 
             webhookEnvironments.ForEach(environment =>
             {
@@ -71,7 +73,7 @@ namespace Examplinvi.AccountActivity.ASP.NETCore
 
                 // If you want your server to be listening to all the already subscribed users
                 // Uncomment the line below.
-                
+
                 // await SubscribeToAllAccountActivities(consumerOnlyCredentials, environment);
             });
         }

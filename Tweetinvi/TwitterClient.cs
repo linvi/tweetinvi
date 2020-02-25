@@ -52,6 +52,14 @@ namespace Tweetinvi
 
         public ITweetinviSettings ClientSettings { get; }
 
+        public TwitterClient(IConsumerOnlyCredentials credentials) : this(credentials, new TwitterClientParameters())
+        {
+        }
+
+        public TwitterClient(IConsumerOnlyCredentials credentials, TwitterClientParameters parameters) : this(new TwitterCredentials(credentials), parameters)
+        {
+        }
+
         public TwitterClient(IReadOnlyTwitterCredentials credentials) : this(credentials, new TwitterClientParameters())
         {
         }
@@ -116,6 +124,7 @@ namespace Tweetinvi
             Tweets = _tweetinviContainer.Resolve<ITweetsClient>();
             Upload = _tweetinviContainer.Resolve<IUploadClient>();
             Users = _tweetinviContainer.Resolve<IUsersClient>();
+            AccountActivity = _tweetinviContainer.Resolve<IAccountActivityClient>();
 
             _tweetinviContainer.AssociatedClient = this;
 
@@ -156,6 +165,9 @@ namespace Tweetinvi
         public IUploadClient Upload { get; }
         /// <inheritdoc/>
         public IUsersClient Users { get; }
+        /// <inheritdoc/>
+        public IAccountActivityClient AccountActivity { get; }
+
         /// <inheritdoc/>
         public IExternalClientEvents Events => _twitterClientEvents;
         /// <inheritdoc/>

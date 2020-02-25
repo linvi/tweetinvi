@@ -10,10 +10,6 @@ using xUnitinvi.TestHelpers;
 
 namespace xUnitinvi.EndToEnd
 {
-    // VERY IMPORTANT NOTE !!!
-    // THESE TESTS CANNOT BE RUN IN PARALLEL AS SOME OPERATIONS CAN AFFECT THE STATES IN TWITTER
-    // RunIntegrationTests() run each of them one after another
-
     [Collection("EndToEndTests")]
     public class UserEndToEndTests : TweetinviTest
     {

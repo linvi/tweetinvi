@@ -110,7 +110,7 @@ namespace Tweetinvi.Core.JsonConverters
                 // Webhooks
                 new JsonInterfaceToObjectConverter<IWebhookDTO, WebhookDTO>(),
                 new JsonInterfaceToObjectConverter<IWebhookEnvironmentDTO, WebhookEnvironmentDTO>(),
-                new JsonInterfaceToObjectConverter<IGetAllWebhooksResultDTO, GetAllWebhooksResultDTO>(),
+                new JsonInterfaceToObjectConverter<IGetAccountActivityWebhookEnvironmentsResultDTO, GetAccountActivityWebhookEnvironmentsResultDTO>(),
                 new JsonInterfaceToObjectConverter<IGetWebhookSubscriptionsCountResultDTO, GetWebhookSubscriptionsCountResultDTO>(),
                 new JsonInterfaceToObjectConverter<IWebhookSubscriptionDTO, WebhookSubscriptionDTO>(),
                 new JsonInterfaceToObjectConverter<IWebhookSubscriptionListDTO, WebhookSubscriptionListDTO>(),

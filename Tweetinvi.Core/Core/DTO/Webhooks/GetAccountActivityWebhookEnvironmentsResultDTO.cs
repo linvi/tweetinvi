@@ -2,7 +2,7 @@
 
 namespace Tweetinvi.Core.DTO.Webhooks
 {
-    public class GetAllWebhooksResultDTO : IGetAllWebhooksResultDTO
+    public class GetAccountActivityWebhookEnvironmentsResultDTO : IGetAccountActivityWebhookEnvironmentsResultDTO
     {
         public IWebhookEnvironmentDTO[] Environments { get; set; }
     }

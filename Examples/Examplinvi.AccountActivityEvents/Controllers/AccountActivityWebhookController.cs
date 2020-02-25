@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Tweetinvi;
 using Tweetinvi.Models;
@@ -24,7 +25,8 @@ namespace Examplinvi.AccountActivityEvents.Controllers
         public async Task<bool> RegisterWebhook(string environment, string url, long userId)
         {
             var userCredentials = await AccountActivityCredentialsRetriever.GetUserCredentials(userId);
-            var result = await Webhooks.RegisterWebhookAsync(environment, url, userCredentials);
+            var client = new TwitterClient(userCredentials);
+            var result = await client.AccountActivity.RegisterAccountActivityWebhook(environment, url).ConfigureAwait(false);
 
             if (result == null)
             {
@@ -42,14 +44,23 @@ namespace Examplinvi.AccountActivityEvents.Controllers
         public async Task<bool> DeleteWebhook(string environment, string webhookId, long userId)
         {
             var userCredentials = await AccountActivityCredentialsRetriever.GetUserCredentials(userId);
-            var result = await Webhooks.RemoveWebhookAsync(environment, webhookId, userCredentials);
+            var client = new TwitterClient(userCredentials);
 
-            return result;
+            try
+            {
+                await client.AccountActivity.RemoveAccountActivityWebhook(environment, webhookId);
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
 
         public async Task<IWebhookEnvironmentDTO[]> GetWebhookEnvironments()
         {
-            var webhookEnvironments = await Webhooks.GetAllWebhookEnvironmentsAsync(_webhookConfiguration.ConsumerOnlyCredentials);
+            var client = new TwitterClient(_webhookConfiguration.ConsumerOnlyCredentials);
+            var webhookEnvironments = await client.AccountActivity.GetAccountActivityWebhookEnvironments();
             return webhookEnvironments;
         }
     }
