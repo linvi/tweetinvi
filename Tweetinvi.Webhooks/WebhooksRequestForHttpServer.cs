@@ -4,14 +4,15 @@ using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Tweetinvi.Core.Logic;
+using Tweetinvi.Models;
 
 namespace Tweetinvi.AspNet
 {
-    public class WebhooksRequestHandlerForHttpServer : IWebhooksRequestHandler
+    public class WebhooksRequestForHttpServer : IWebhooksRequest
     {
         private readonly HttpListenerContext _context;
 
-        public WebhooksRequestHandlerForHttpServer(HttpListenerContext context)
+        public WebhooksRequestForHttpServer(HttpListenerContext context)
         {
             _context = context;
         }
@@ -48,8 +49,14 @@ namespace Tweetinvi.AspNet
             return result;
         }
 
+        private string _body;
         public Task<string> GetJsonFromBody()
         {
+            if (_body != null)
+            {
+                return Task.FromResult(_body);
+            }
+
             if (!_context.Request.HasEntityBody)
             {
                 return Task.FromResult(null as string);
@@ -59,7 +66,8 @@ namespace Tweetinvi.AspNet
             {
                 using (var bodyReader = new StreamReader(bodyStream, _context.Request.ContentEncoding))
                 {
-                    return Task.FromResult(bodyReader.ReadToEnd());
+                    _body = bodyReader.ReadToEnd();
+                    return Task.FromResult(_body);
                 }
             }
         }

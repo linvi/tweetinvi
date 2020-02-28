@@ -4,25 +4,35 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Internal;
-using Tweetinvi.Core.Logic;
+using Tweetinvi.Models;
 
 namespace Tweetinvi.AspNet
 {
-    public class WebhooksRequestHandlerForAspNetCore : IWebhooksRequestHandler
+    public class WebhooksRequestForAspNetCore : IWebhooksRequest
     {
         private readonly HttpContext _context;
 
-        public WebhooksRequestHandlerForAspNetCore(HttpContext context)
+        public WebhooksRequestForAspNetCore(HttpContext context)
         {
             _context = context;
         }
-        
+
+        private string _body;
         public Task<string> GetJsonFromBody()
         {
-            _context.Request.EnableRewind();
-            var jsonBody = new StreamReader(_context.Request.Body).ReadToEnd();
+            if (_body == "")
+            {
+                return null;
+            }
 
-            return Task.FromResult(jsonBody);
+            if (_body != null)
+            {
+                return Task.FromResult(_body);
+            }
+
+            _context.Request.EnableRewind();
+            _body = new StreamReader(_context.Request.Body).ReadToEnd();
+            return Task.FromResult(_body);
         }
 
         public string GetPath()
