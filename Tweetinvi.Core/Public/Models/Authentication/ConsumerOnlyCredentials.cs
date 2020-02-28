@@ -11,7 +11,7 @@
         {
         }
 
-        public ConsumerOnlyCredentials(IReadOnlyTwitterCredentials creds) : base(creds.ConsumerKey, creds.ConsumerSecret)
+        public ConsumerOnlyCredentials(IReadOnlyTwitterCredentials creds) : base(creds)
         {
         }
     }

@@ -14,20 +14,14 @@ namespace Tweetinvi.Factories
     public class MessageFactory : IMessageFactory
     {
         private readonly IMessageFactoryQueryExecutor _messageFactoryQueryExecutor;
-        private readonly IFactory<IMessage> _messageFactory;
         private readonly ITwitterClientFactories _factories;
-        private readonly IJsonObjectConverter _jsonObjectConverter;
 
         public MessageFactory(
             IMessageFactoryQueryExecutor messageFactoryQueryExecutor,
-            IFactory<IMessage> messageFactory,
-            ITwitterClientFactories factories,
-            IJsonObjectConverter jsonObjectConverter)
+            ITwitterClientFactories factories)
         {
             _messageFactoryQueryExecutor = messageFactoryQueryExecutor;
-            _messageFactory = messageFactory;
             _factories = factories;
-            _jsonObjectConverter = jsonObjectConverter;
         }
 
         // Get existing message

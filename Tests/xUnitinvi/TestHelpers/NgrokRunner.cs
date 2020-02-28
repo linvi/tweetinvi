@@ -34,7 +34,7 @@ namespace xUnitinvi.TestHelpers
         {
             if (_url == null)
             {
-                await Task.Delay(3000); // delay for ngrok to initialize connection
+                await Task.Delay(2000); // delay for ngrok to initialize connection
 
                 using (var httpClient = new HttpClient())
                 {

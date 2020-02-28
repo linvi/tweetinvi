@@ -93,7 +93,7 @@ namespace xUnitinvi.EndToEnd
                 return;
 
             // act
-            var authenticationClient = new TwitterClient(EndToEndTestConfig.TweetinviTest.Credentials);
+            var authenticationClient = new TwitterClient(EndToEndTestConfig.TweetinviApi.Credentials);
             var authenticationRequest = await authenticationClient.Auth.RequestAuthenticationUrl().ConfigureAwait(false);
             var authUrl = authenticationRequest.AuthorizationURL;
 
