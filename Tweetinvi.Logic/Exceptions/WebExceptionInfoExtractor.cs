@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Net;
 using Tweetinvi.Core.Exceptions;
 using Tweetinvi.Core.Injectinvi;
@@ -43,13 +41,13 @@ namespace Tweetinvi.Logic.Exceptions
             return Resources.GetResourceByName($"ExceptionDescription_{statusCode}");
         }
 
-        public IEnumerable<ITwitterExceptionInfo> GetTwitterExceptionInfo(WebException wex)
+        public ITwitterExceptionInfo[] GetTwitterExceptionInfo(WebException wex)
         {
             var wexResponse = wex.Response as HttpWebResponse;
 
             if (wexResponse == null)
             {
-                return Enumerable.Empty<ITwitterExceptionInfo>();
+                return new ITwitterExceptionInfo[0];
             }
 
             try
@@ -58,10 +56,10 @@ namespace Tweetinvi.Logic.Exceptions
             }
             catch (WebException) { }
 
-            return Enumerable.Empty<ITwitterExceptionInfo>();
+            return new ITwitterExceptionInfo[0];
         }
 
-        private IEnumerable<ITwitterExceptionInfo> GetStreamInfo(HttpWebResponse wexResponse)
+        private ITwitterExceptionInfo[] GetStreamInfo(HttpWebResponse wexResponse)
         {
             using (var stream = wexResponse.GetResponseStream())
             {
@@ -69,7 +67,7 @@ namespace Tweetinvi.Logic.Exceptions
             }
         }
 
-        public IEnumerable<ITwitterExceptionInfo> GetTwitterExceptionInfosFromStream(Stream stream)
+        public ITwitterExceptionInfo[] GetTwitterExceptionInfosFromStream(Stream stream)
         {
             if (stream == null)
             {
@@ -83,7 +81,7 @@ namespace Tweetinvi.Logic.Exceptions
                 {
                     twitterExceptionInfo = reader.ReadToEnd();
                     var jObject = _jObjectStaticWrapper.GetJobjectFromJson(twitterExceptionInfo);
-                    return _jObjectStaticWrapper.ToObject<IEnumerable<ITwitterExceptionInfo>>(jObject["errors"]);
+                    return _jObjectStaticWrapper.ToObject<ITwitterExceptionInfo[]>(jObject["errors"]);
                 }
             }
             catch (Exception)

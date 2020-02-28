@@ -9,7 +9,7 @@ namespace Tweetinvi.Core.Exceptions
         int GetWebExceptionStatusNumber(WebException wex);
         int GetWebExceptionStatusNumber(WebException wex, int defaultStatusCode);
         string GetStatusCodeDescription(int statusCode);
-        IEnumerable<ITwitterExceptionInfo> GetTwitterExceptionInfo(WebException wex);
-        IEnumerable<ITwitterExceptionInfo> GetTwitterExceptionInfosFromStream(Stream stream);
+        ITwitterExceptionInfo[] GetTwitterExceptionInfo(WebException wex);
+        ITwitterExceptionInfo[] GetTwitterExceptionInfosFromStream(Stream stream);
     }
 }

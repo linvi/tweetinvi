@@ -13,7 +13,7 @@ namespace Tweetinvi.Core.Exceptions
         int StatusCode { get; }
         string TwitterDescription { get; }
         DateTime CreationDate { get; }
-        IEnumerable<ITwitterExceptionInfo> TwitterExceptionInfos { get; }
+        ITwitterExceptionInfo[] TwitterExceptionInfos { get; }
         ITwitterQuery TwitterQuery { get; }
     }
 }
