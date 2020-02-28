@@ -24,6 +24,12 @@ namespace xUnitinvi.EndToEnd
             Credentials = new TwitterCredentials("", "", "",    ""),
             AccountId = "artwolkt"
         };
+
+        public static readonly IntegrationTestAccount ProtectedUserAuthenticatedToTweetinviApi = new IntegrationTestAccount
+        {
+            Credentials = new TwitterCredentials("", "", "", ""),
+            AccountId = "artwolkt"
+        };
     }
 
     public class IntegrationTestAccount

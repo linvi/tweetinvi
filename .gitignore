@@ -3,6 +3,7 @@
 /Developer Tools/TweetinviAPI/lib
 /Developer Tools/tweetinvi.certificate.p12
 /Examplinvi.Web/App_Data
+*.blob
 
 coverage.json
 lcov.cobertura.xml
