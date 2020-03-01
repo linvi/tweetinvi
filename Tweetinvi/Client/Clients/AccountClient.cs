@@ -31,8 +31,6 @@ namespace Tweetinvi.Client
             _multiLevelCursorIteratorFactory = multiLevelCursorIteratorFactory;
         }
 
-        public IAccountClientParametersValidator ParametersValidator => _client.ParametersValidator;
-
         #region Authenticated User
 
         public Task<IAuthenticatedUser> GetAuthenticatedUser()

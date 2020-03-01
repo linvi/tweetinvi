@@ -5,7 +5,6 @@ using Tweetinvi.Parameters.Auth;
 namespace Tweetinvi.Core.Client.Validators
 {
     public interface IParametersValidator :
-        IAccountClientParametersValidator,
         IAccountSettingsClientParametersValidator,
         IAuthClientParametersValidator,
         IHelpClientParametersValidator,
@@ -19,7 +18,6 @@ namespace Tweetinvi.Core.Client.Validators
 
     public class ParametersValidator : IParametersValidator
     {
-        private readonly IAccountClientParametersValidator _accountClientParametersValidator;
         private readonly IAccountSettingsClientParametersValidator _accountSettingsClientParametersValidator;
         private readonly IAuthClientParametersValidator _authClientParametersValidator;
         private readonly IHelpClientParametersValidator _helpClientParametersValidator;
@@ -30,7 +28,6 @@ namespace Tweetinvi.Core.Client.Validators
         private readonly IUsersClientParametersValidator _usersClientParametersValidator;
 
         public ParametersValidator(
-            IAccountClientParametersValidator accountClientParametersValidator,
             IAccountSettingsClientParametersValidator accountSettingsClientParametersValidator,
             IAuthClientParametersValidator authClientParametersValidator,
             IHelpClientParametersValidator helpClientParametersValidator,
@@ -40,7 +37,6 @@ namespace Tweetinvi.Core.Client.Validators
             IUploadClientParametersValidator uploadClientParametersValidator,
             IUsersClientParametersValidator usersClientParametersValidator)
         {
-            _accountClientParametersValidator = accountClientParametersValidator;
             _accountSettingsClientParametersValidator = accountSettingsClientParametersValidator;
             _authClientParametersValidator = authClientParametersValidator;
             _helpClientParametersValidator = helpClientParametersValidator;
@@ -53,97 +49,97 @@ namespace Tweetinvi.Core.Client.Validators
 
         public void Validate(IGetAuthenticatedUserParameters parameters)
         {
-            _accountClientParametersValidator.Validate(parameters);
+            _usersClientParametersValidator.Validate(parameters);
         }
 
         public void Validate(IBlockUserParameters parameters)
         {
-            _accountClientParametersValidator.Validate(parameters);
+            _usersClientParametersValidator.Validate(parameters);
         }
 
         public void Validate(IUnblockUserParameters parameters)
         {
-            _accountClientParametersValidator.Validate(parameters);
+            _usersClientParametersValidator.Validate(parameters);
         }
 
         public void Validate(IReportUserForSpamParameters parameters)
         {
-            _accountClientParametersValidator.Validate(parameters);
+            _usersClientParametersValidator.Validate(parameters);
         }
 
         public void Validate(IGetBlockedUserIdsParameters parameters)
         {
-            _accountClientParametersValidator.Validate(parameters);
+            _usersClientParametersValidator.Validate(parameters);
         }
 
         public void Validate(IGetBlockedUsersParameters parameters)
         {
-            _accountClientParametersValidator.Validate(parameters);
+            _usersClientParametersValidator.Validate(parameters);
         }
 
         public void Validate(IFollowUserParameters parameters)
         {
-            _accountClientParametersValidator.Validate(parameters);
+            _usersClientParametersValidator.Validate(parameters);
         }
 
         public void Validate(IUnFollowUserParameters parameters)
         {
-            _accountClientParametersValidator.Validate(parameters);
+            _usersClientParametersValidator.Validate(parameters);
         }
 
         public void Validate(IGetUserIdsRequestingFriendshipParameters parameters)
         {
-            _accountClientParametersValidator.Validate(parameters);
+            _usersClientParametersValidator.Validate(parameters);
         }
 
         public void Validate(IGetUsersRequestingFriendshipParameters parameters)
         {
-            _accountClientParametersValidator.Validate(parameters);
+            _usersClientParametersValidator.Validate(parameters);
         }
 
         public void Validate(IGetUserIdsYouRequestedToFollowParameters parameters)
         {
-            _accountClientParametersValidator.Validate(parameters);
+            _usersClientParametersValidator.Validate(parameters);
         }
 
         public void Validate(IGetUsersYouRequestedToFollowParameters parameters)
         {
-            _accountClientParametersValidator.Validate(parameters);
+            _usersClientParametersValidator.Validate(parameters);
         }
 
         public void Validate(IUpdateRelationshipParameters parameters)
         {
-            _accountClientParametersValidator.Validate(parameters);
+            _usersClientParametersValidator.Validate(parameters);
         }
 
         public void Validate(IGetRelationshipsWithParameters parameters)
         {
-            _accountClientParametersValidator.Validate(parameters);
+            _usersClientParametersValidator.Validate(parameters);
         }
 
         public void Validate(IGetUserIdsWhoseRetweetsAreMutedParameters parameters)
         {
-            _accountClientParametersValidator.Validate(parameters);
+            _usersClientParametersValidator.Validate(parameters);
         }
 
         public void Validate(IGetMutedUserIdsParameters parameters)
         {
-            _accountClientParametersValidator.Validate(parameters);
+            _usersClientParametersValidator.Validate(parameters);
         }
 
         public void Validate(IGetMutedUsersParameters parameters)
         {
-            _accountClientParametersValidator.Validate(parameters);
+            _usersClientParametersValidator.Validate(parameters);
         }
 
         public void Validate(IMuteUserParameters parameters)
         {
-            _accountClientParametersValidator.Validate(parameters);
+            _usersClientParametersValidator.Validate(parameters);
         }
 
         public void Validate(IUnMuteUserParameters parameters)
         {
-            _accountClientParametersValidator.Validate(parameters);
+            _usersClientParametersValidator.Validate(parameters);
         }
 
         public void Validate(IGetAccountSettingsParameters parameters)

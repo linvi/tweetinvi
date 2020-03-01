@@ -11,11 +11,6 @@ namespace Tweetinvi.Client
     /// </summary>
     public interface IAccountClient
     {
-        /// <summary>
-        /// Validate all the AccountClient parameters
-        /// </summary>
-        IAccountClientParametersValidator ParametersValidator { get; }
-
         #region AuthenticatedUser
 
         /// <inheritdoc cref="GetAuthenticatedUser(IGetAuthenticatedUserParameters)" />

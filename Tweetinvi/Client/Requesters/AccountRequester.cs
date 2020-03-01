@@ -19,7 +19,7 @@ namespace Tweetinvi.Client.Requesters
         private readonly IAccountController _accountController;
         private readonly ITwitterClientFactories _factories;
         private readonly ITwitterResultFactory _twitterResultFactory;
-        private readonly IAccountClientRequiredParametersValidator _validator;
+        private readonly IUsersClientParametersValidator _validator;
 
         public AccountRequester(
             ITwitterClient client,
@@ -27,7 +27,7 @@ namespace Tweetinvi.Client.Requesters
             IAccountController accountController,
             ITwitterClientFactories factories,
             ITwitterResultFactory twitterResultFactory,
-            IAccountClientRequiredParametersValidator validator)
+            IUsersClientParametersValidator validator)
             : base(client, clientEvents)
         {
             _accountController = accountController;

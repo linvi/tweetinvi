@@ -94,9 +94,6 @@ namespace Tweetinvi.Core.Injectinvi
         {
             container.RegisterType<IParametersValidator, ParametersValidator>(RegistrationLifetime.InstancePerApplication);
 
-            container.RegisterType<IAccountClientParametersValidator, AccountClientParametersValidator>(RegistrationLifetime.InstancePerApplication);
-            container.RegisterType<IAccountClientRequiredParametersValidator, AccountClientRequiredParametersValidator>(RegistrationLifetime.InstancePerApplication);
-
             container.RegisterType<IAuthClientParametersValidator, AuthClientParametersValidator>(RegistrationLifetime.InstancePerApplication);
             container.RegisterType<IAuthClientRequiredParametersValidator, AuthClientRequiredParametersValidator>(RegistrationLifetime.InstancePerApplication);
 
