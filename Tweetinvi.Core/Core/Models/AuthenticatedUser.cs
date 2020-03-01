@@ -54,60 +54,60 @@ namespace Tweetinvi.Core.Models
         // Friendships
         public Task UpdateRelationship(IUpdateRelationshipParameters parameters)
         {
-            return Client.Account.UpdateRelationship(parameters);
+            return Client.Users.UpdateRelationship(parameters);
         }
 
         // Friends - Followers
         public ITwitterIterator<long> GetUserIdsRequestingFriendship()
         {
-            return Client.Account.GetUserIdsRequestingFriendship(new GetUserIdsRequestingFriendshipParameters());
+            return Client.Users.GetUserIdsRequestingFriendship(new GetUserIdsRequestingFriendshipParameters());
         }
 
         public IMultiLevelCursorIterator<long, IUser> GetUsersRequestingFriendship()
         {
-            return Client.Account.GetUsersRequestingFriendship(new GetUsersRequestingFriendshipParameters());
+            return Client.Users.GetUsersRequestingFriendship(new GetUsersRequestingFriendshipParameters());
         }
 
         public ITwitterIterator<long> GetUserIdsYouRequestedToFollow()
         {
-            return Client.Account.GetUserIdsYouRequestedToFollow();
+            return Client.Users.GetUserIdsYouRequestedToFollow();
         }
 
         public IMultiLevelCursorIterator<long, IUser> GetUsersYouRequestedToFollow()
         {
-            return Client.Account.GetUsersYouRequestedToFollow(new GetUsersYouRequestedToFollowParameters());
+            return Client.Users.GetUsersYouRequestedToFollow(new GetUsersYouRequestedToFollowParameters());
         }
 
 
         // Follow
         public Task FollowUser(IUserIdentifier user)
         {
-            return Client.Account.FollowUser(user);
+            return Client.Users.FollowUser(user);
         }
 
         public Task FollowUser(long userId)
         {
-            return Client.Account.FollowUser(userId);
+            return Client.Users.FollowUser(userId);
         }
 
         public Task FollowUser(string username)
         {
-            return Client.Account.FollowUser(username);
+            return Client.Users.FollowUser(username);
         }
 
         public Task UnFollowUser(IUserIdentifier user)
         {
-            return Client.Account.UnFollowUser(user);
+            return Client.Users.UnFollowUser(user);
         }
 
         public Task UnFollowUser(long userId)
         {
-            return Client.Account.UnFollowUser(userId);
+            return Client.Users.UnFollowUser(userId);
         }
 
         public Task UnFollowUser(string username)
         {
-            return Client.Account.UnFollowUser(username);
+            return Client.Users.UnFollowUser(username);
         }
 
         public Task<IEnumerable<ISavedSearch>> GetSavedSearches()
@@ -123,17 +123,17 @@ namespace Tweetinvi.Core.Models
 
         public Task BlockUser(IUserIdentifier user)
         {
-            return Client.Account.BlockUser(user);
+            return Client.Users.BlockUser(user);
         }
 
         public Task BlockUser(long? userId)
         {
-            return Client.Account.BlockUser(userId);
+            return Client.Users.BlockUser(userId);
         }
 
         public Task BlockUser(string username)
         {
-            return Client.Account.BlockUser(username);
+            return Client.Users.BlockUser(username);
         }
 
         // Unblock
@@ -144,28 +144,28 @@ namespace Tweetinvi.Core.Models
 
         public Task UnBlockUser(IUserIdentifier user)
         {
-            return Client.Account.UnBlockUser(user);
+            return Client.Users.UnBlockUser(user);
         }
 
         public Task UnBlockUser(long userId)
         {
-            return Client.Account.UnblockUser(userId);
+            return Client.Users.UnblockUser(userId);
         }
 
         public Task UnBlockUser(string username)
         {
-            return Client.Account.UnblockUser(username);
+            return Client.Users.UnblockUser(username);
         }
 
         // Get Blocked Users
         public ITwitterIterator<long> GetBlockedUserIds()
         {
-            return Client.Account.GetBlockedUserIds();
+            return Client.Users.GetBlockedUserIds();
         }
 
         public ITwitterIterator<IUser> GetBlockedUsers()
         {
-            return Client.Account.GetBlockedUsers();
+            return Client.Users.GetBlockedUsers();
         }
 
         // Spam
@@ -176,17 +176,17 @@ namespace Tweetinvi.Core.Models
 
         public Task ReportUserForSpam(IUserIdentifier user)
         {
-            return Client.Account.ReportUserForSpam(user);
+            return Client.Users.ReportUserForSpam(user);
         }
 
         public Task ReportUserForSpam(string username)
         {
-            return Client.Account.ReportUserForSpam(username);
+            return Client.Users.ReportUserForSpam(username);
         }
 
         public Task ReportUserForSpam(long? userId)
         {
-            return Client.Account.ReportUserForSpam(userId);
+            return Client.Users.ReportUserForSpam(userId);
         }
 
         // Direct Messages
@@ -247,42 +247,42 @@ namespace Tweetinvi.Core.Models
         // Mute
         public ITwitterIterator<long> GetMutedUserIds()
         {
-            return Client.Account.GetMutedUserIds();
+            return Client.Users.GetMutedUserIds();
         }
 
         public ITwitterIterator<IUser> GetMutedUsers()
         {
-            return Client.Account.GetMutedUsers();
+            return Client.Users.GetMutedUsers();
         }
 
         public Task MuteUser(IUserIdentifier user)
         {
-            return Client.Account.MuteUser(user);
+            return Client.Users.MuteUser(user);
         }
 
         public Task MuteUser(long? userId)
         {
-            return Client.Account.MuteUser(userId);
+            return Client.Users.MuteUser(userId);
         }
 
         public Task MuteUser(string username)
         {
-            return Client.Account.MuteUser(username);
+            return Client.Users.MuteUser(username);
         }
 
         public Task UnMuteUser(IUserIdentifier user)
         {
-            return Client.Account.UnMuteUser(user);
+            return Client.Users.UnMuteUser(user);
         }
 
         public Task UnMuteUser(long userId)
         {
-            return Client.Account.UnMuteUser(userId);
+            return Client.Users.UnMuteUser(userId);
         }
 
         public Task UnMuteUser(string username)
         {
-            return Client.Account.UnMuteUser(username);
+            return Client.Users.UnMuteUser(username);
         }
     }
 }

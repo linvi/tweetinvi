@@ -27,7 +27,7 @@ namespace xUnitinvi.EndToEnd
                 return;
 
             // act
-            var authenticatedUser = await _client.Account.GetAuthenticatedUser();
+            var authenticatedUser = await _client.Users.GetAuthenticatedUser();
             var profile = File.ReadAllBytes("./tweetinvi-logo-purple.png");
             var banner = File.ReadAllBytes("./banner.jpg");
             await _client.AccountSettings.UpdateProfileImage(profile);
@@ -48,7 +48,7 @@ namespace xUnitinvi.EndToEnd
             if (!EndToEndTestConfig.ShouldRunEndToEndTests)
                 return;
 
-            var initialProfile = await _client.Account.GetAuthenticatedUser();
+            var initialProfile = await _client.Users.GetAuthenticatedUser();
 
             // act
             var updatedProfileParameters = new UpdateProfileParameters

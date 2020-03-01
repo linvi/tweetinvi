@@ -28,7 +28,7 @@ namespace xUnitinvi.EndToEnd
                 return;
 
             var environment = "sandbox";
-            var timeoutBetweenOperations = TimeSpan.FromSeconds(4);
+            var timeoutBetweenOperations = TimeSpan.FromSeconds(5);
 
             await AccountActivityEndToEndTests.RunAccountActivityTest(async config =>
             {
@@ -42,7 +42,7 @@ namespace xUnitinvi.EndToEnd
                 // act
                 var userClient = new TwitterClient(EndToEndTestConfig.ProtectedUserAuthenticatedToTweetinviApi.Credentials);
 
-                var user = await userClient.Account.GetAuthenticatedUser();
+                var user = await userClient.Users.GetAuthenticatedUser();
                 var stream = accountActivityHandler.GetAccountActivityStream(user.Id, environment);
 
                 var state = new AccountActivtyEventsState();
@@ -60,19 +60,19 @@ namespace xUnitinvi.EndToEnd
                 await tweet.Destroy();
                 await Task.Delay(timeoutBetweenOperations);
 
-                await userClient.Account.FollowUser(EndToEndTestConfig.TweetinviTest);
+                await userClient.Users.FollowUser(EndToEndTestConfig.TweetinviTest);
                 await Task.Delay(timeoutBetweenOperations);
-                await userClient.Account.UnFollowUser(EndToEndTestConfig.TweetinviTest);
-                await Task.Delay(timeoutBetweenOperations);
-
-                await userClient.Account.MuteUser(EndToEndTestConfig.TweetinviTest);
-                await Task.Delay(timeoutBetweenOperations);
-                await userClient.Account.UnMuteUser(EndToEndTestConfig.TweetinviTest);
+                await userClient.Users.UnFollowUser(EndToEndTestConfig.TweetinviTest);
                 await Task.Delay(timeoutBetweenOperations);
 
-                await userClient.Account.BlockUser(EndToEndTestConfig.TweetinviTest);
+                await userClient.Users.MuteUser(EndToEndTestConfig.TweetinviTest);
                 await Task.Delay(timeoutBetweenOperations);
-                await userClient.Account.UnblockUser(EndToEndTestConfig.TweetinviTest);
+                await userClient.Users.UnMuteUser(EndToEndTestConfig.TweetinviTest);
+                await Task.Delay(timeoutBetweenOperations);
+
+                await userClient.Users.BlockUser(EndToEndTestConfig.TweetinviTest);
+                await Task.Delay(timeoutBetweenOperations);
+                await userClient.Users.UnblockUser(EndToEndTestConfig.TweetinviTest);
                 await Task.Delay(timeoutBetweenOperations);
 
                 // TODO - Require more test for messages... - was not possible to do as messages were not yet implemented

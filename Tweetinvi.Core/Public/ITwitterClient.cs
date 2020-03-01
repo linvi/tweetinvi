@@ -12,11 +12,6 @@ namespace Tweetinvi
         /// <summary>
         /// Client to execute all actions related with the account associated with the clients' credentials
         /// </summary>
-        IAccountClient Account { get; }
-
-        /// <summary>
-        /// Client to execute all actions related with the account associated with the clients' credentials
-        /// </summary>
         IAccountSettingsClient AccountSettings { get; }
 
         /// <summary>

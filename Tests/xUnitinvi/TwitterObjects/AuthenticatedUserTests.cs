@@ -21,7 +21,6 @@ namespace xUnitinvi.TwitterObjects
 
         private readonly FakeClassBuilder<AuthenticatedUser> _fakeBuilder;
         private Fake<ITwitterClient> _twitterClient;
-        private Fake<IAccountClient> _accountClient;
         private Fake<ITweetsClient> _tweetsClient;
         private Fake<IUsersClient> _usersClient;
 
@@ -30,11 +29,9 @@ namespace xUnitinvi.TwitterObjects
         private void InitData()
         {
             _twitterClient = new Fake<ITwitterClient>();
-            _accountClient = new Fake<IAccountClient>();
             _tweetsClient = new Fake<ITweetsClient>();
             _usersClient = new Fake<IUsersClient>();
 
-            _twitterClient.CallsTo(x => x.Account).Returns(_accountClient.FakedObject);
             _twitterClient.CallsTo(x => x.Tweets).Returns(_tweetsClient.FakedObject);
             _twitterClient.CallsTo(x => x.Users).Returns(_usersClient.FakedObject);
 
@@ -54,7 +51,7 @@ namespace xUnitinvi.TwitterObjects
             await _authenticatedUser.BlockUser(user);
 
             // Assert
-            _accountClient.CallsTo(x => x.BlockUser(user)).MustHaveHappened();
+            _usersClient.CallsTo(x => x.BlockUser(user)).MustHaveHappened();
         }
 
         [Fact]
@@ -67,7 +64,7 @@ namespace xUnitinvi.TwitterObjects
             await _authenticatedUser.UnBlockUser(user);
 
             // Assert
-            _accountClient.CallsTo(x => x.UnBlockUser(user)).MustHaveHappened();
+            _usersClient.CallsTo(x => x.UnBlockUser(user)).MustHaveHappened();
         }
 
         [Fact]
@@ -80,7 +77,7 @@ namespace xUnitinvi.TwitterObjects
             await _authenticatedUser.ReportUserForSpam(user);
 
             // Assert
-            _accountClient.CallsTo(x => x.ReportUserForSpam(user)).MustHaveHappened();
+            _usersClient.CallsTo(x => x.ReportUserForSpam(user)).MustHaveHappened();
         }
 
         // FOLLOWERS
@@ -95,7 +92,7 @@ namespace xUnitinvi.TwitterObjects
             await _authenticatedUser.FollowUser(user);
 
             // Assert
-            _accountClient.CallsTo(x => x.FollowUser(user)).MustHaveHappened();
+            _usersClient.CallsTo(x => x.FollowUser(user)).MustHaveHappened();
         }
 
         [Fact]
@@ -108,7 +105,7 @@ namespace xUnitinvi.TwitterObjects
             await _authenticatedUser.UnFollowUser(user);
 
             // Assert
-            _accountClient.CallsTo(x => x.UnFollowUser(user)).MustHaveHappened();
+            _usersClient.CallsTo(x => x.UnFollowUser(user)).MustHaveHappened();
         }
 
         // TWEETS

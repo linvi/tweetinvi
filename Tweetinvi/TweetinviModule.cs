@@ -12,8 +12,6 @@ namespace Tweetinvi
             // Register a singleton of the container, do not use InstancePerApplication
             container.RegisterInstance(typeof(ITweetinviContainer), container);
 
-            container.RegisterType<IAccountClient, AccountClient>(RegistrationLifetime.InstancePerApplication);
-
             container.RegisterType<IAuthClient, AuthClient>(RegistrationLifetime.InstancePerApplication);
             container.RegisterType<IAuthRequester, AuthRequester>(RegistrationLifetime.InstancePerApplication);
 

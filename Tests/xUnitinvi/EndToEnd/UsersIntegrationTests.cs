@@ -29,7 +29,7 @@ namespace xUnitinvi.EndToEnd
                 return;
 
             // act
-            var tweetinviTestAuthenticated = await _client.Account.GetAuthenticatedUser();
+            var tweetinviTestAuthenticated = await _client.Users.GetAuthenticatedUser();
             var tweetinviTestUser = await _client.Users.GetUser("tweetinvitest");
 
             var followers = new List<IUser>();
@@ -48,14 +48,14 @@ namespace xUnitinvi.EndToEnd
 
             if (userToFollow.Id != null && friendIds.Contains(userToFollow.Id.Value))
             {
-                await _client.Account.UnFollowUser(userToFollow);
+                await _client.Users.UnFollowUser(userToFollow);
             }
 
-            await _client.Account.FollowUser(userToFollow);
+            await _client.Users.FollowUser(userToFollow);
 
             var friendsAfterAdd = await tweetinviTestAuthenticated.GetFriends().MoveToNextPage();
 
-            await _client.Account.UnFollowUser(userToFollow);
+            await _client.Users.UnFollowUser(userToFollow);
 
             var friendsAfterRemove = await tweetinviTestAuthenticated.GetFriends().MoveToNextPage();
 
@@ -74,29 +74,29 @@ namespace xUnitinvi.EndToEnd
                 return;
 
             // act
-            var authenticatedUser = await _client.Account.GetAuthenticatedUser();
+            var authenticatedUser = await _client.Users.GetAuthenticatedUser();
 
             var usernameToFollow = "tweetinviapi";
             var userToFollow = await _client.Users.GetUser(usernameToFollow);
 
-            await _client.Account.FollowUser(userToFollow);
+            await _client.Users.FollowUser(userToFollow);
 
             var relationshipAfterAdd = await authenticatedUser.GetRelationshipWith(userToFollow);
-            var relationshipStateAfterAdd = await _client.Account.GetRelationshipsWith(new IUserIdentifier[] {userToFollow});
+            var relationshipStateAfterAdd = await _client.Users.GetRelationshipsWith(new IUserIdentifier[] {userToFollow});
 
-            await _client.Account.UpdateRelationship(new UpdateRelationshipParameters(userToFollow)
+            await _client.Users.UpdateRelationship(new UpdateRelationshipParameters(userToFollow)
             {
                 EnableRetweets = false,
                 EnableDeviceNotifications = true
             });
 
-            var retweetMutedUsers = await _client.Account.GetUserIdsWhoseRetweetsAreMuted();
+            var retweetMutedUsers = await _client.Users.GetUserIdsWhoseRetweetsAreMuted();
             var relationshipAfterUpdate = await _client.Users.GetRelationshipBetween(authenticatedUser, userToFollow);
 
-            await _client.Account.UnFollowUser(userToFollow);
+            await _client.Users.UnFollowUser(userToFollow);
 
             var relationshipAfterRemove = await _client.Users.GetRelationshipBetween(authenticatedUser, userToFollow);
-            var relationshipStateAfterRemove = await _client.Account.GetRelationshipsWith(new[] {usernameToFollow});
+            var relationshipStateAfterRemove = await _client.Users.GetRelationshipsWith(new[] {usernameToFollow});
 
             // assert
             Assert.False(relationshipAfterAdd.NotificationsEnabled);
@@ -116,16 +116,16 @@ namespace xUnitinvi.EndToEnd
         {
             if (!EndToEndTestConfig.ShouldRunEndToEndTests) { return; }
 
-            var publicUser = await _client.Account.GetAuthenticatedUser();
-            var privateUser = await _privateUserClient.Account.GetAuthenticatedUser();
+            var publicUser = await _client.Users.GetAuthenticatedUser();
+            var privateUser = await _privateUserClient.Users.GetAuthenticatedUser();
 
             // act
-            await _client.Account.FollowUser(privateUser);
+            await _client.Users.FollowUser(privateUser);
 
-            var sentRequestsIterator = _client.Account.GetUsersYouRequestedToFollow();
+            var sentRequestsIterator = _client.Users.GetUsersYouRequestedToFollow();
             var sentRequestUsers = await sentRequestsIterator.MoveToNextPage();
 
-            var receivedRequestsIterator = _privateUserClient.Account.GetUsersRequestingFriendship();
+            var receivedRequestsIterator = _privateUserClient.Users.GetUsersRequestingFriendship();
             var receivedRequestUsers = await receivedRequestsIterator.MoveToNextPage();
 
             // delete ongoing request

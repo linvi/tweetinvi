@@ -112,7 +112,6 @@ namespace Tweetinvi
             var parametersValidator = _tweetinviContainer.Resolve<IParametersValidator>();
             ParametersValidator = parametersValidator;
 
-            Account = _tweetinviContainer.Resolve<IAccountClient>();
             Auth = _tweetinviContainer.Resolve<IAuthClient>();
             AccountSettings = _tweetinviContainer.Resolve<IAccountSettingsClient>();
             Execute = _tweetinviContainer.Resolve<IExecuteClient>();
@@ -141,8 +140,6 @@ namespace Tweetinvi
             rateLimitCacheManager.RateLimitsClient = RateLimits;
         }
 
-        /// <inheritdoc/>
-        public IAccountClient Account { get; }
         /// <inheritdoc/>
         public IAuthClient Auth { get; }
         /// <inheritdoc/>

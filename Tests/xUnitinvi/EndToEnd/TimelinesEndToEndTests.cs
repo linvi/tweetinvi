@@ -25,14 +25,14 @@ namespace xUnitinvi.EndToEnd
                 return;
 
             // arrange
-            var testUser = await _tweetinviTestClient.Account.GetAuthenticatedUser();
-            var tweetinviUser = await _tweetinviClient.Account.GetAuthenticatedUser();
+            var testUser = await _tweetinviTestClient.Users.GetAuthenticatedUser();
+            var tweetinviUser = await _tweetinviClient.Users.GetAuthenticatedUser();
             var friendsBeforeAdd = await _tweetinviClient.Users.GetFriendIds(tweetinviUser).MoveToNextPage();
             var alreadyFollowing = friendsBeforeAdd.Contains(testUser.Id.Value);
 
             if (!alreadyFollowing)
             {
-                await _tweetinviClient.Account.FollowUser(testUser);
+                await _tweetinviClient.Users.FollowUser(testUser);
             }
 
             // act - pre-cleanup
@@ -63,7 +63,7 @@ namespace xUnitinvi.EndToEnd
 
             if (!alreadyFollowing)
             {
-                await _tweetinviClient.Account.UnFollowUser(testUser);
+                await _tweetinviClient.Users.UnFollowUser(testUser);
             }
 
             // assert

@@ -31,9 +31,9 @@ namespace xUnitinvi.EndToEnd
             // act
             await userToFollow.BlockUser();
 
-            var blockedUserIdsIterator = _client.Account.GetBlockedUserIds();
+            var blockedUserIdsIterator = _client.Users.GetBlockedUserIds();
             var blockedUsersFromIdsIterator = await blockedUserIdsIterator.MoveToNextPage();
-            var blockedUsersIterator = _client.Account.GetBlockedUsers();
+            var blockedUsersIterator = _client.Users.GetBlockedUsers();
             var blockedUsers = await blockedUsersIterator.MoveToNextPage();
 
             await userToFollow.UnBlockUser();
@@ -49,20 +49,20 @@ namespace xUnitinvi.EndToEnd
             if (!EndToEndTestConfig.ShouldRunEndToEndTests)
                 return;
 
-            var userToMute = await _privateUserClient.Account.GetAuthenticatedUser();
+            var userToMute = await _privateUserClient.Users.GetAuthenticatedUser();
 
             // act
-            var mutedUserIdsIterator = _client.Account.GetMutedUserIds();
+            var mutedUserIdsIterator = _client.Users.GetMutedUserIds();
             var initialMutedUserIds = await mutedUserIdsIterator.MoveToNextPage();
 
-            await _client.Account.MuteUser(userToMute);
-            var newMutedUserIdsIterator = _client.Account.GetMutedUserIds();
+            await _client.Users.MuteUser(userToMute);
+            var newMutedUserIdsIterator = _client.Users.GetMutedUserIds();
             var newMutedUserIds = await newMutedUserIdsIterator.MoveToNextPage();
-            var newMutedUsersIterator = _client.Account.GetMutedUsers();
+            var newMutedUsersIterator = _client.Users.GetMutedUsers();
             var newMutedUsers = await newMutedUsersIterator.MoveToNextPage();
-            await _client.Account.UnMuteUser(userToMute);
+            await _client.Users.UnMuteUser(userToMute);
 
-            var restoredMutedUserIdsIterator = _client.Account.GetMutedUserIds();
+            var restoredMutedUserIdsIterator = _client.Users.GetMutedUserIds();
             var restoredMutedUserIds = await restoredMutedUserIdsIterator.MoveToNextPage();
 
             // assert

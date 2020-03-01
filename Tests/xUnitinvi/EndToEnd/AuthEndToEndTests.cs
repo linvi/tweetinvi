@@ -75,7 +75,7 @@ namespace xUnitinvi.EndToEnd
             var userCredentials = await authenticationClient.Auth.RequestCredentialsFromVerifierCode(verifierCode, authenticationRequest).ConfigureAwait(false);
 
             var client = new TwitterClient(userCredentials);
-            var accountUser = await client.Account.GetAuthenticatedUser();
+            var accountUser = await client.Users.GetAuthenticatedUser();
 
             // act
             await Task.Delay(TimeSpan.FromSeconds(3)); // giving time to Twitter to process the new credentials
@@ -83,7 +83,7 @@ namespace xUnitinvi.EndToEnd
 
             // assert
             Assert.Equal(accountUser.ScreenName, EndToEndTestConfig.ProtectedUser.AccountId);
-            await Assert.ThrowsAsync<TwitterException>(() => client.Account.GetAuthenticatedUser());
+            await Assert.ThrowsAsync<TwitterException>(() => client.Users.GetAuthenticatedUser());
         }
 
         [Fact]
@@ -101,7 +101,7 @@ namespace xUnitinvi.EndToEnd
             var verifierCode = await ExtractPinCodeFromTwitterAuthPage(authUrl).ConfigureAwait(false);
             var userCredentials = await authenticationClient.Auth.RequestCredentialsFromVerifierCode(verifierCode, authenticationRequest).ConfigureAwait(false);
             var authenticatedClient = new TwitterClient(userCredentials);
-            var authenticatedUser = await authenticatedClient.Account.GetAuthenticatedUser().ConfigureAwait(false);
+            var authenticatedUser = await authenticatedClient.Users.GetAuthenticatedUser().ConfigureAwait(false);
 
             // assert
             Assert.Equal(authenticatedUser.ScreenName, EndToEndTestConfig.ProtectedUser.AccountId);
@@ -124,7 +124,7 @@ namespace xUnitinvi.EndToEnd
             var authenticatedClient = await GetAuthenticatedTwitterClientViaRedirect(client, authContext).ConfigureAwait(false);
 
             // assert
-            var authenticatedUser = await authenticatedClient.Account.GetAuthenticatedUser().ConfigureAwait(false);
+            var authenticatedUser = await authenticatedClient.Users.GetAuthenticatedUser().ConfigureAwait(false);
 
             // has write permissions
             var tweet = await authenticatedClient.Tweets.PublishTweet("random tweet").ConfigureAwait(false);
@@ -148,7 +148,7 @@ namespace xUnitinvi.EndToEnd
             });
 
             var authenticatedClient = await GetAuthenticatedTwitterClientViaRedirect(client, authContext).ConfigureAwait(false);
-            var authenticatedUser = await authenticatedClient.Account.GetAuthenticatedUser().ConfigureAwait(false);
+            var authenticatedUser = await authenticatedClient.Users.GetAuthenticatedUser().ConfigureAwait(false);
 
             // assert
             await Assert.ThrowsAsync<TwitterException>(() => authenticatedClient.Tweets.PublishTweet("random tweet"));

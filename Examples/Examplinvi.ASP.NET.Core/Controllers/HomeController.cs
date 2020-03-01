@@ -57,7 +57,7 @@ namespace Examplinvi.ASP.NET.Core.Controllers
             var userCreds = await appClient.Auth.RequestCredentials(requestParameters);
 
             var userClient = new TwitterClient(userCreds);
-            var user = await userClient.Account.GetAuthenticatedUser();
+            var user = await userClient.Users.GetAuthenticatedUser();
 
             ViewBag.User = user;
 

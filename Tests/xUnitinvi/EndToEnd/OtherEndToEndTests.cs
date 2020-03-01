@@ -35,7 +35,7 @@ namespace xUnitinvi.EndToEnd
 
             try
             {
-                await client.Account.GetAuthenticatedUser().ConfigureAwait(false);
+                await client.Users.GetAuthenticatedUser().ConfigureAwait(false);
             }
             catch (TwitterException e)
             {

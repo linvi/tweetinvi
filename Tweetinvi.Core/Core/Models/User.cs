@@ -364,18 +364,18 @@ namespace Tweetinvi.Core.Models
         // Block User
         public virtual Task BlockUser()
         {
-            return Client.Account.BlockUser(this);
+            return Client.Users.BlockUser(this);
         }
 
         public virtual Task UnBlockUser()
         {
-            return Client.Account.UnBlockUser(this);
+            return Client.Users.UnBlockUser(this);
         }
 
         // Spam
         public virtual Task ReportUserForSpam()
         {
-            return Client.Account.ReportUserForSpam(this);
+            return Client.Users.ReportUserForSpam(this);
         }
 
         // Stream Profile Image

@@ -211,6 +211,11 @@ namespace Tweetinvi.Client.Tools
             return new User(userDTO, _client);
         }
 
+        public IUser[] CreateUsers(IEnumerable<IUserDTO> usersDTO)
+        {
+            return usersDTO?.Select(CreateUser).ToArray();
+        }
+
         public IAuthenticatedUser CreateAuthenticatedUser(string json)
         {
             var tweetDTO = _client.Json.DeserializeObject<IUserDTO>(json);

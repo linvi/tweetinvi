@@ -46,6 +46,7 @@ namespace Tweetinvi.Client.Tools
         // USER
         IUser CreateUser(string json);
         IUser CreateUser(IUserDTO userDTO);
+        IUser[] CreateUsers(IEnumerable<IUserDTO> usersDTO);
         IAuthenticatedUser CreateAuthenticatedUser(string json);
         IAuthenticatedUser CreateAuthenticatedUser(IUserDTO userDTO);
         IAccountSettings GenerateAccountSettingsFromJson(string json);
