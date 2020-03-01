@@ -94,11 +94,14 @@ namespace Tweetinvi.Core.Injectinvi
         {
             container.RegisterType<IParametersValidator, ParametersValidator>(RegistrationLifetime.InstancePerApplication);
 
-            container.RegisterType<IAuthClientParametersValidator, AuthClientParametersValidator>(RegistrationLifetime.InstancePerApplication);
-            container.RegisterType<IAuthClientRequiredParametersValidator, AuthClientRequiredParametersValidator>(RegistrationLifetime.InstancePerApplication);
+            container.RegisterType<IAccountActivityClientParametersValidator, AccountActivityClientParametersValidator>(RegistrationLifetime.InstancePerApplication);
+            container.RegisterType<IAccountActivityClientRequiredParametersValidator, AccountActivityClientRequiredParametersValidator>(RegistrationLifetime.InstancePerApplication);
 
             container.RegisterType<IAccountSettingsClientParametersValidator, AccountSettingsClientParametersValidator>(RegistrationLifetime.InstancePerApplication);
             container.RegisterType<IAccountSettingsClientRequiredParametersValidator, AccountSettingsClientRequiredParametersValidator>(RegistrationLifetime.InstancePerApplication);
+
+            container.RegisterType<IAuthClientParametersValidator, AuthClientParametersValidator>(RegistrationLifetime.InstancePerApplication);
+            container.RegisterType<IAuthClientRequiredParametersValidator, AuthClientRequiredParametersValidator>(RegistrationLifetime.InstancePerApplication);
 
             container.RegisterType<IHelpClientParametersValidator, HelpClientParametersValidator>(RegistrationLifetime.InstancePerApplication);
             container.RegisterType<IHelpClientRequiredParametersValidator, HelpClientRequiredParametersValidator>(RegistrationLifetime.InstancePerApplication);

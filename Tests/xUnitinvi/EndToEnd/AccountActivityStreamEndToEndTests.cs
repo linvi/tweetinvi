@@ -91,6 +91,11 @@ namespace xUnitinvi.EndToEnd
                 // assert - cleanup
                 await AccountActivityEndToEndTests.CleanAllEnvironments(client);
 
+                stateBeforeUnsubscribe.EventsReceived.ForEach(eventReceived =>
+                {
+                    _logger.WriteLine(eventReceived);
+                });
+
                 Assert.Equal(stateBeforeUnsubscribe.EventsReceived.Count, 9);
 
                 Assert.Equal(state.TweetCreated.Count, 1);

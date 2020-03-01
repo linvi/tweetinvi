@@ -5,6 +5,7 @@ using Tweetinvi.Parameters.Auth;
 namespace Tweetinvi.Core.Client.Validators
 {
     public interface IParametersValidator :
+        IAccountActivityClientParametersValidator,
         IAccountSettingsClientParametersValidator,
         IAuthClientParametersValidator,
         IHelpClientParametersValidator,
@@ -18,6 +19,7 @@ namespace Tweetinvi.Core.Client.Validators
 
     public class ParametersValidator : IParametersValidator
     {
+        private readonly IAccountActivityClientParametersValidator _accountActivityClientParametersValidator;
         private readonly IAccountSettingsClientParametersValidator _accountSettingsClientParametersValidator;
         private readonly IAuthClientParametersValidator _authClientParametersValidator;
         private readonly IHelpClientParametersValidator _helpClientParametersValidator;
@@ -28,6 +30,7 @@ namespace Tweetinvi.Core.Client.Validators
         private readonly IUsersClientParametersValidator _usersClientParametersValidator;
 
         public ParametersValidator(
+            IAccountActivityClientParametersValidator accountActivityClientParametersValidator,
             IAccountSettingsClientParametersValidator accountSettingsClientParametersValidator,
             IAuthClientParametersValidator authClientParametersValidator,
             IHelpClientParametersValidator helpClientParametersValidator,
@@ -37,6 +40,7 @@ namespace Tweetinvi.Core.Client.Validators
             IUploadClientParametersValidator uploadClientParametersValidator,
             IUsersClientParametersValidator usersClientParametersValidator)
         {
+            _accountActivityClientParametersValidator = accountActivityClientParametersValidator;
             _accountSettingsClientParametersValidator = accountSettingsClientParametersValidator;
             _authClientParametersValidator = authClientParametersValidator;
             _helpClientParametersValidator = helpClientParametersValidator;
@@ -47,99 +51,54 @@ namespace Tweetinvi.Core.Client.Validators
             _usersClientParametersValidator = usersClientParametersValidator;
         }
 
-        public void Validate(IGetAuthenticatedUserParameters parameters)
+        public void Validate(ICreateAccountActivityWebhookParameters parameters)
         {
-            _usersClientParametersValidator.Validate(parameters);
+            _accountActivityClientParametersValidator.Validate(parameters);
         }
 
-        public void Validate(IBlockUserParameters parameters)
+        public void Validate(IGetAccountActivityWebhookEnvironmentsParameters parameters)
         {
-            _usersClientParametersValidator.Validate(parameters);
+            _accountActivityClientParametersValidator.Validate(parameters);
         }
 
-        public void Validate(IUnblockUserParameters parameters)
+        public void Validate(IGetAccountActivityEnvironmentWebhooksParameters parameters)
         {
-            _usersClientParametersValidator.Validate(parameters);
+            _accountActivityClientParametersValidator.Validate(parameters);
         }
 
-        public void Validate(IReportUserForSpamParameters parameters)
+        public void Validate(IDeleteAccountActivityWebhookParameters parameters)
         {
-            _usersClientParametersValidator.Validate(parameters);
+            _accountActivityClientParametersValidator.Validate(parameters);
         }
 
-        public void Validate(IGetBlockedUserIdsParameters parameters)
+        public void Validate(ITriggerAccountActivityWebhookCRCParameters parameters)
         {
-            _usersClientParametersValidator.Validate(parameters);
+            _accountActivityClientParametersValidator.Validate(parameters);
         }
 
-        public void Validate(IGetBlockedUsersParameters parameters)
+        public void Validate(ISubscribeToAccountActivityParameters parameters)
         {
-            _usersClientParametersValidator.Validate(parameters);
+            _accountActivityClientParametersValidator.Validate(parameters);
         }
 
-        public void Validate(IFollowUserParameters parameters)
+        public void Validate(ICountAccountActivitySubscriptionsParameters parameters)
         {
-            _usersClientParametersValidator.Validate(parameters);
+            _accountActivityClientParametersValidator.Validate(parameters);
         }
 
-        public void Validate(IUnFollowUserParameters parameters)
+        public void Validate(IIsAccountSubscribedToAccountActivityParameters parameters)
         {
-            _usersClientParametersValidator.Validate(parameters);
+            _accountActivityClientParametersValidator.Validate(parameters);
         }
 
-        public void Validate(IGetUserIdsRequestingFriendshipParameters parameters)
+        public void Validate(IGetAccountActivitySubscriptionsParameters parameters)
         {
-            _usersClientParametersValidator.Validate(parameters);
+            _accountActivityClientParametersValidator.Validate(parameters);
         }
 
-        public void Validate(IGetUsersRequestingFriendshipParameters parameters)
+        public void Validate(IUnsubscribeFromAccountActivityParameters parameters)
         {
-            _usersClientParametersValidator.Validate(parameters);
-        }
-
-        public void Validate(IGetUserIdsYouRequestedToFollowParameters parameters)
-        {
-            _usersClientParametersValidator.Validate(parameters);
-        }
-
-        public void Validate(IGetUsersYouRequestedToFollowParameters parameters)
-        {
-            _usersClientParametersValidator.Validate(parameters);
-        }
-
-        public void Validate(IUpdateRelationshipParameters parameters)
-        {
-            _usersClientParametersValidator.Validate(parameters);
-        }
-
-        public void Validate(IGetRelationshipsWithParameters parameters)
-        {
-            _usersClientParametersValidator.Validate(parameters);
-        }
-
-        public void Validate(IGetUserIdsWhoseRetweetsAreMutedParameters parameters)
-        {
-            _usersClientParametersValidator.Validate(parameters);
-        }
-
-        public void Validate(IGetMutedUserIdsParameters parameters)
-        {
-            _usersClientParametersValidator.Validate(parameters);
-        }
-
-        public void Validate(IGetMutedUsersParameters parameters)
-        {
-            _usersClientParametersValidator.Validate(parameters);
-        }
-
-        public void Validate(IMuteUserParameters parameters)
-        {
-            _usersClientParametersValidator.Validate(parameters);
-        }
-
-        public void Validate(IUnMuteUserParameters parameters)
-        {
-            _usersClientParametersValidator.Validate(parameters);
+            _accountActivityClientParametersValidator.Validate(parameters);
         }
 
         public void Validate(IGetAccountSettingsParameters parameters)
@@ -433,6 +392,101 @@ namespace Tweetinvi.Core.Client.Validators
         }
 
         public void Validate(IGetProfileImageParameters parameters)
+        {
+            _usersClientParametersValidator.Validate(parameters);
+        }
+
+        public void Validate(IGetAuthenticatedUserParameters parameters)
+        {
+            _usersClientParametersValidator.Validate(parameters);
+        }
+
+        public void Validate(IBlockUserParameters parameters)
+        {
+            _usersClientParametersValidator.Validate(parameters);
+        }
+
+        public void Validate(IUnblockUserParameters parameters)
+        {
+            _usersClientParametersValidator.Validate(parameters);
+        }
+
+        public void Validate(IReportUserForSpamParameters parameters)
+        {
+            _usersClientParametersValidator.Validate(parameters);
+        }
+
+        public void Validate(IGetBlockedUserIdsParameters parameters)
+        {
+            _usersClientParametersValidator.Validate(parameters);
+        }
+
+        public void Validate(IGetBlockedUsersParameters parameters)
+        {
+            _usersClientParametersValidator.Validate(parameters);
+        }
+
+        public void Validate(IFollowUserParameters parameters)
+        {
+            _usersClientParametersValidator.Validate(parameters);
+        }
+
+        public void Validate(IUnFollowUserParameters parameters)
+        {
+            _usersClientParametersValidator.Validate(parameters);
+        }
+
+        public void Validate(IGetUserIdsRequestingFriendshipParameters parameters)
+        {
+            _usersClientParametersValidator.Validate(parameters);
+        }
+
+        public void Validate(IGetUsersRequestingFriendshipParameters parameters)
+        {
+            _usersClientParametersValidator.Validate(parameters);
+        }
+
+        public void Validate(IGetUserIdsYouRequestedToFollowParameters parameters)
+        {
+            _usersClientParametersValidator.Validate(parameters);
+        }
+
+        public void Validate(IGetUsersYouRequestedToFollowParameters parameters)
+        {
+            _usersClientParametersValidator.Validate(parameters);
+        }
+
+        public void Validate(IUpdateRelationshipParameters parameters)
+        {
+            _usersClientParametersValidator.Validate(parameters);
+        }
+
+        public void Validate(IGetRelationshipsWithParameters parameters)
+        {
+            _usersClientParametersValidator.Validate(parameters);
+        }
+
+        public void Validate(IGetUserIdsWhoseRetweetsAreMutedParameters parameters)
+        {
+            _usersClientParametersValidator.Validate(parameters);
+        }
+
+        public void Validate(IGetMutedUserIdsParameters parameters)
+        {
+            _usersClientParametersValidator.Validate(parameters);
+        }
+
+        public void Validate(IGetMutedUsersParameters parameters)
+        {
+            _usersClientParametersValidator.Validate(parameters);
+        }
+
+        public void Validate(IMuteUserParameters parameters)
+        {
+            _usersClientParametersValidator.Validate(parameters);
+        }
+
+        public void Validate(IUnMuteUserParameters parameters)
         {
             _usersClientParametersValidator.Validate(parameters);
         }

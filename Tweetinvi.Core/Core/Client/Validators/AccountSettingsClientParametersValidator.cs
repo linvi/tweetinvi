@@ -29,7 +29,7 @@ namespace Tweetinvi.Core.Client.Validators
 
         public void Validate(IGetAccountSettingsParameters parameters)
         {
-            throw new NotImplementedException();
+            _accountSettingsClientRequiredParametersValidator.Validate(parameters);
         }
 
         public void Validate(IUpdateAccountSettingsParameters parameters)
