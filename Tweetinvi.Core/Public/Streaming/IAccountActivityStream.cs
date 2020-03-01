@@ -1,6 +1,6 @@
 ﻿using System;
 using Tweetinvi.Events;
-using Tweetinvi.Models.Webhooks;
+using Tweetinvi.Models;
 
 namespace Tweetinvi.Streaming
 {
@@ -99,7 +99,7 @@ namespace Tweetinvi.Streaming
         /// <summary>
         /// Reports that an event has been received
         /// </summary>
-        EventHandler<JsonObjectEventArgs> JsonObjectReceived { get; set; }
+        EventHandler<AccountActivityEvent> EventReceived { get; set; }
 
         /// <summary>
         /// Reports that an event that Tweetinvi does not understand has been received.

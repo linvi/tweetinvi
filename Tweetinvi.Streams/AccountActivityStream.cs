@@ -5,14 +5,12 @@ using Newtonsoft.Json.Linq;
 using Tweetinvi.Client.Tools;
 using Tweetinvi.Core.Events;
 using Tweetinvi.Core.Extensions;
-using Tweetinvi.Core.Factories;
 using Tweetinvi.Core.Helpers;
 using Tweetinvi.Core.Models.Properties;
 using Tweetinvi.Core.Wrappers;
 using Tweetinvi.Events;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
-using Tweetinvi.Models.Webhooks;
 using Tweetinvi.Streaming;
 using Tweetinvi.Streams.Model.AccountActivity;
 
@@ -24,20 +22,17 @@ namespace Tweetinvi.Streams
         private readonly IJObjectStaticWrapper _jObjectWrapper;
         private readonly IJsonObjectConverter _jsonObjectConverter;
         private readonly ITwitterClientFactories _factories;
-        private readonly IMessageFactory _messageFactory;
 
         private readonly Dictionary<string, Action<string, JObject>> _events;
 
         public AccountActivityStream(
             IJObjectStaticWrapper jObjectWrapper,
             IJsonObjectConverter jsonObjectConverter,
-            ITwitterClientFactories factories,
-            IMessageFactory messageFactory)
+            ITwitterClientFactories factories)
         {
             _jObjectWrapper = jObjectWrapper;
             _jsonObjectConverter = jsonObjectConverter;
             _factories = factories;
-            _messageFactory = messageFactory;
             _events = new Dictionary<string, Action<string, JObject>>();
 
             InitializeEvents();
@@ -90,7 +85,7 @@ namespace Tweetinvi.Streams
         // Others
         public EventHandler<UnsupportedEventReceivedEventArgs> UnsupportedEventReceived { get; set; }
         public EventHandler<EventKnownButNotSupportedReceivedEventArgs> EventKnownButNotFullySupportedReceived { get; set; }
-        public EventHandler<JsonObjectEventArgs> JsonObjectReceived { get; set; }
+        public EventHandler<AccountActivityEvent> EventReceived { get; set; }
         public EventHandler<UnexpectedExceptionThrownEventArgs> UnexpectedExceptionThrown { get;set;}
 
         public void WebhookMessageReceived(IWebhookMessage message)
@@ -114,7 +109,11 @@ namespace Tweetinvi.Streams
                     return;
                 }
 
-                this.Raise(JsonObjectReceived, new JsonObjectEventArgs(json));
+                this.Raise(EventReceived, new AccountActivityEvent
+                {
+                    Json = json,
+                    AccountUserId = AccountUserId
+                });
 
                 var eventName = key.Path;
                 if (_events.ContainsKey(eventName))

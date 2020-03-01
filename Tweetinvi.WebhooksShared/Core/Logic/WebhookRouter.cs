@@ -1,14 +1,13 @@
 ﻿using System.Threading.Tasks;
 using Tweetinvi.Models;
-using Tweetinvi.Models.Webhooks;
 using Tweetinvi.Streaming.Webhooks;
 
 namespace Tweetinvi.Core.Logic
 {
     public interface IWebhookRouter
     {
-        bool IsRequestManagedByTweetinvi(IWebhooksRequestHandler request, IWebhookConfiguration configuration);
-        Task<bool> TryRouteRequest(IWebhooksRequestHandler requestHandler, IWebhookConfiguration configuration);
+        Task<bool> IsRequestManagedByTweetinvi(IWebhooksRequest request);
+        Task<bool> TryRouteRequest(IWebhooksRequest request, IConsumerOnlyCredentials credentials);
     }
 
     public class WebhookRouter : IWebhookRouter
@@ -27,21 +26,20 @@ namespace Tweetinvi.Core.Logic
             _webhooksHelper = webhooksHelper;
         }
 
-        public bool IsRequestManagedByTweetinvi(IWebhooksRequestHandler request, IWebhookConfiguration configuration)
+        public Task<bool> IsRequestManagedByTweetinvi(IWebhooksRequest request)
         {
-            return _webhooksHelper.IsRequestManagedByTweetinvi(request, configuration);
+            return _webhooksHelper.IsRequestManagedByTweetinvi(request);
         }
 
-        public async Task<bool> TryRouteRequest(IWebhooksRequestHandler requestHandler, IWebhookConfiguration configuration)
+        public async Task<bool> TryRouteRequest(IWebhooksRequest request, IConsumerOnlyCredentials credentials)
         {
-            var isCrcChallenge = _webhooksHelper.IsCrcChallenge(requestHandler);
-
+            var isCrcChallenge = _webhooksHelper.IsCrcChallenge(request);
             if (isCrcChallenge)
             {
-                return await _webhooksRoutes.TryToReplyToCrcChallenge(requestHandler, configuration.ConsumerOnlyCredentials);
+                return await _webhooksRoutes.TryToReplyToCrcChallenge(request, credentials);
             }
 
-            var jsonBody = await requestHandler.GetJsonFromBody().ConfigureAwait(false);
+            var jsonBody = await request.GetJsonFromBody().ConfigureAwait(false);
 
             _webhookDispatcher.WebhookMessageReceived(new WebhookMessage(jsonBody));
 

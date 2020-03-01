@@ -13,7 +13,8 @@ namespace Examplinvi.AccountActivity.ASP.NETCore
 {
     public class Startup
     {
-        public static WebhookConfiguration WebhookConfiguration { get; set; }
+        public static IAccountActivityRequestHandler AccountActivityRequestHandler { get; set; }
+        public static ITwitterClient WebhookClient { get; set; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
@@ -23,7 +24,7 @@ namespace Examplinvi.AccountActivity.ASP.NETCore
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public async Task Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             Plugins.Add<WebhooksPlugin>();
 
@@ -32,15 +33,7 @@ namespace Examplinvi.AccountActivity.ASP.NETCore
                 BearerToken = "BEARER_TOKEN"
             };
 
-            var client = new TwitterClient(consumerOnlyCredentials);
-
-            if (consumerOnlyCredentials.BearerToken == null)
-            {
-                await client.Auth.InitializeClientBearerToken();
-            }
-
             WebhookServerInitialization(app, consumerOnlyCredentials);
-            RegisterAccountActivities(consumerOnlyCredentials).Wait();
 
             if (env.IsDevelopment())
             {
@@ -52,47 +45,15 @@ namespace Examplinvi.AccountActivity.ASP.NETCore
 
         private static void WebhookServerInitialization(IApplicationBuilder app, IConsumerOnlyCredentials consumerOnlyCredentials)
         {
-            WebhookConfiguration = new WebhookConfiguration(consumerOnlyCredentials);
-
-            app.UseTweetinviWebhooks(WebhookConfiguration);
-        }
-
-        private static async Task RegisterAccountActivities(IConsumerOnlyCredentials consumerOnlyCredentials)
-        {
-            var client = new TwitterClient(consumerOnlyCredentials);
-            var webhookEnvironments = await client.AccountActivity.GetAccountActivityWebhookEnvironments();
-
-            webhookEnvironments.ForEach(environment =>
+            var credentials = new TwitterCredentials("CONSUMER_TOKEN", "CONSUMER_SECRET", "ACCESS_TOKEN", "ACCESS_TOKEN_SECRET")
             {
-                var webhookEnvironment = new RegistrableWebhookEnvironment(environment)
-                {
-                    Credentials = consumerOnlyCredentials
-                };
+                BearerToken = "BEARER_TOKEN"
+            };
 
-                WebhookConfiguration.AddWebhookEnvironment(webhookEnvironment);
-
-                // If you want your server to be listening to all the already subscribed users
-                // Uncomment the line below.
-
-                // await SubscribeToAllAccountActivities(consumerOnlyCredentials, environment);
-            });
-        }
-
-        private static async Task SubscribeToAllAccountActivities(
-            IConsumerOnlyCredentials consumerOnlyCredentials,
-            IWebhookEnvironmentDTO environment)
-        {
-            // If you wish to subscribe to the different account activity events you can do the following
-            var subscriptions = await Webhooks.GetListOfSubscriptionsAsync(environment.Name, consumerOnlyCredentials);
-
-            subscriptions.Subscriptions.ForEach(subscription =>
-            {
-                var activityStream = Stream.CreateAccountActivityStream(subscription.UserId);
-
-                activityStream.JsonObjectReceived += (sender, args) => { Console.WriteLine("json received : " + args.Json); };
-
-                WebhookConfiguration.AddActivityStream(activityStream);
-            });
+            WebhookClient = new TwitterClient(credentials);
+            AccountActivityRequestHandler = WebhookClient.AccountActivity.CreateRequestHandler();
+            var config = new WebhookMiddlewareConfiguration(AccountActivityRequestHandler);
+            app.UseTweetinviWebhooks(config);
         }
     }
 }

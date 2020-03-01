@@ -1,5 +1,6 @@
 ﻿using Tweetinvi.Core.Injectinvi;
 using Tweetinvi.Core.Logic;
+using Tweetinvi.Models;
 
 namespace Tweetinvi.Modules
 {
@@ -9,7 +10,8 @@ namespace Tweetinvi.Modules
         {
             container.RegisterType<IWebhooksHelper, WebhooksHelper>(RegistrationLifetime.InstancePerApplication);
             container.RegisterType<IWebhooksRoutes, WebhooksRoutes>(RegistrationLifetime.InstancePerApplication);
-            container.RegisterType<IWebhookRouter, WebhookRouter>(RegistrationLifetime.InstancePerApplication);
+            container.RegisterType<IWebhookRouter, WebhookRouter>();
+            container.RegisterType<IAccountActivityRequestHandler, AccountActivityRequestHandler>();
         }
     }
 }

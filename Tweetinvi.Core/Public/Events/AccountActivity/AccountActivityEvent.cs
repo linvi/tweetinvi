@@ -4,6 +4,11 @@ namespace Tweetinvi.Events
 {
     public class AccountActivityEvent
     {
+        public AccountActivityEvent()
+        {
+            EventDate = new DateTime();
+        }
+
         public long AccountUserId { get; set; }
         public DateTime EventDate { get; set; }
         public string Json { get; set; }

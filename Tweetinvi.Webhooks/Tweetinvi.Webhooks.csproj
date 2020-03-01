@@ -1,13 +1,13 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.0</TargetFramework>
     <VersionPrefix>4.0.2</VersionPrefix>
     <Copyright>Tweetinvi 2018</Copyright>
     <SignAssembly>false</SignAssembly>
     <AssemblyOriginatorKeyFile>../tweetinvi.snk</AssemblyOriginatorKeyFile>
     <AssemblyName>Tweetinvi.AspNet</AssemblyName>
     <RootNamespace>Tweetinvi.AspNet</RootNamespace>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>

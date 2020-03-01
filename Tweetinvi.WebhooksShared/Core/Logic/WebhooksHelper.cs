@@ -1,51 +1,55 @@
 ﻿using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
+using System.Threading.Tasks;
 using Tweetinvi.Core.Models;
+using Tweetinvi.Core.Wrappers;
 using Tweetinvi.Models;
-using Tweetinvi.Models.DTO.Webhooks;
 
 namespace Tweetinvi.Core.Logic
 {
     public interface IWebhooksHelper
     {
         CrcResponseTokenInfo CreateCrcResponseToken(string message, string secret);
-        IEnumerable<IWebhookDTO> GetWebhooksMatching(IWebhooksRequestInfoRetriever request, IWebhookConfiguration configuration);
         bool IsCrcChallenge(IWebhooksRequestInfoRetriever request);
-        bool IsRequestManagedByTweetinvi(IWebhooksRequestInfoRetriever request, IWebhookConfiguration configuration);
+        Task<bool> IsRequestManagedByTweetinvi(IWebhooksRequest request);
     }
 
     public class WebhooksHelper : IWebhooksHelper
     {
-        public bool IsRequestManagedByTweetinvi(IWebhooksRequestInfoRetriever request, IWebhookConfiguration configuration)
+        private readonly IJObjectStaticWrapper _jObjectStaticWrapper;
+
+        public WebhooksHelper(IJObjectStaticWrapper jObjectStaticWrapper)
+        {
+            _jObjectStaticWrapper = jObjectStaticWrapper;
+        }
+
+        public async Task<bool> IsRequestManagedByTweetinvi(IWebhooksRequest request)
         {
             var isRequestComingFromTwitter = IsRequestComingFromTwitter(request);
-
             if (!isRequestComingFromTwitter)
             {
                 return false;
             }
 
-            var webhooks = GetWebhooksMatching(request, configuration);
-            var anyWebhookMatchingRequest = webhooks.Any();
+            var body = await request.GetJsonFromBody().ConfigureAwait(false);
 
-            var isCrc = IsCrcChallenge(request);
-
-            return anyWebhookMatchingRequest || isCrc;
-        }
-
-        public IEnumerable<IWebhookDTO> GetWebhooksMatching(IWebhooksRequestInfoRetriever request, IWebhookConfiguration configuration)
-        {
-            return configuration.RegisteredWebhookEnvironments.SelectMany(x => x.Webhooks).Where(webhook =>
+            if (body != null)
             {
-                var path = request.GetPath();
-                return webhook.Url.EndsWith(path);
-            });
+                var jsonObjectEvent = _jObjectStaticWrapper.GetJobjectFromJson(body);
+                var isAccountActivityRequest = jsonObjectEvent?.ContainsKey("for_user_id");
+
+                if (isAccountActivityRequest == true)
+                {
+                    return true;
+                }
+            }
+
+            return IsCrcChallenge(request);
         }
 
-        public bool IsRequestComingFromTwitter(IWebhooksRequestInfoRetriever request)
+        private static bool IsRequestComingFromTwitter(IWebhooksRequestInfoRetriever request)
         {
             if (!request.GetHeaders().ContainsKey("x-twitter-webhooks-signature"))
             {

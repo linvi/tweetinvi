@@ -18,7 +18,10 @@ namespace Tweetinvi.AspNet
         }
 
         private string _body;
-        public Task<string> GetJsonFromBody()
+
+#pragma warning disable 1998
+        public async Task<string> GetJsonFromBody()
+#pragma warning restore 1998
         {
             if (_body == "")
             {
@@ -27,12 +30,18 @@ namespace Tweetinvi.AspNet
 
             if (_body != null)
             {
-                return Task.FromResult(_body);
+                return _body;
             }
 
+#if NETCOREAPP_3
+            _context.Request.EnableBuffering();
+            _body = await new StreamReader(_context.Request.Body).ReadToEndAsync().ConfigureAwait(false);
+#else
             _context.Request.EnableRewind();
             _body = new StreamReader(_context.Request.Body).ReadToEnd();
-            return Task.FromResult(_body);
+#endif
+
+            return _body;
         }
 
         public string GetPath()

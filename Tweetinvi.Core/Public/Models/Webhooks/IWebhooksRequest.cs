@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Tweetinvi.Core.Logic
+namespace Tweetinvi.Models
 {
     public interface IWebhooksRequestInfoRetriever
     {
@@ -10,7 +10,7 @@ namespace Tweetinvi.Core.Logic
         IDictionary<string, string[]> GetHeaders();
     }
 
-    public interface IWebhooksRequestHandler : IWebhooksRequestInfoRetriever
+    public interface IWebhooksRequest : IWebhooksRequestInfoRetriever
     {
         Task<string> GetJsonFromBody();
         void SetResponseStatusCode(int statusCode);

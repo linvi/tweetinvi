@@ -1,77 +1,75 @@
 ﻿using System;
-using System.Linq;
 using System.Threading.Tasks;
 using Tweetinvi;
-using Tweetinvi.Models;
+using Tweetinvi.Exceptions;
 using Tweetinvi.Models.DTO.Webhooks;
 
 namespace Examplinvi.AccountActivityEvents.Controllers
 {
     public class AccountActivityWebhooksController
     {
-        private readonly IWebhookConfiguration _webhookConfiguration;
+        private readonly ITwitterClient _accountActivityClient;
 
-        public AccountActivityWebhooksController(IWebhookConfiguration webhookConfiguration)
+        public AccountActivityWebhooksController(ITwitterClient accountActivityClient)
         {
-            _webhookConfiguration = webhookConfiguration;
+            _accountActivityClient = accountActivityClient;
         }
 
-        public async Task<bool> ChallengeWebhook(string environment, string webhookId, long userId)
+        public async Task<bool> TriggerAccountActivityWebhookCRC(string environment, string webhookId, long userId)
         {
             var userCredentials = await AccountActivityCredentialsRetriever.GetUserCredentials(userId);
             var client = new TwitterClient(userCredentials);
 
             try
             {
-                await client.AccountActivity.TriggerAccountActivityCRC(environment, webhookId);
+                await _accountActivityClient.AccountActivity.TriggerAccountActivityWebhookCRC(environment, webhookId);
                 return true;
             }
-            catch (Exception e)
+            catch (TwitterException e)
             {
+                Console.WriteLine(e.ToString());
                 return false;
             }
         }
 
-        public async Task<bool> RegisterWebhook(string environment, string url, long userId)
+        public async Task<bool> CreateAccountActivityWebhook(string environment, string url)
         {
-            var userCredentials = await AccountActivityCredentialsRetriever.GetUserCredentials(userId);
-            var client = new TwitterClient(userCredentials);
-            var result = await client.AccountActivity.RegisterAccountActivityWebhook(environment, url).ConfigureAwait(false);
-
-            if (result == null)
-            {
-                return false;
-            }
-
-            // Register webhook in server
-            var webhookEnvironment = _webhookConfiguration.RegisteredWebhookEnvironments.FirstOrDefault(x => x.Name == environment);
-
-            webhookEnvironment?.AddWebhook(result);
-
-            return true;
-        }
-
-        public async Task<bool> DeleteWebhook(string environment, string webhookId, long userId)
-        {
-            var userCredentials = await AccountActivityCredentialsRetriever.GetUserCredentials(userId);
-            var client = new TwitterClient(userCredentials);
-
             try
             {
-                await client.AccountActivity.RemoveAccountActivityWebhook(environment, webhookId);
+                await _accountActivityClient.AccountActivity.CreateAccountActivityWebhook(environment, url);
                 return true;
             }
-            catch (Exception)
+            catch (TwitterException e)
             {
+                Console.WriteLine(e.ToString());
                 return false;
             }
         }
 
-        public async Task<IWebhookEnvironmentDTO[]> GetWebhookEnvironments()
+        public async Task<bool> DeleteAccountActivityWebhook(string environment, string webhookId)
         {
-            var client = new TwitterClient(_webhookConfiguration.ConsumerOnlyCredentials);
-            var webhookEnvironments = await client.AccountActivity.GetAccountActivityWebhookEnvironments();
+            try
+            {
+                await _accountActivityClient.AccountActivity.DeleteAccountActivityWebhook(environment, webhookId);
+                return true;
+            }
+            catch (TwitterException e)
+            {
+                Console.WriteLine(e.ToString());
+                return false;
+            }
+        }
+
+        public async Task<IWebhookEnvironmentDTO[]> GetAccountActivityWebhookEnvironments()
+        {
+            var webhookEnvironments = await _accountActivityClient.AccountActivity.GetAccountActivityWebhookEnvironments();
             return webhookEnvironments;
+        }
+
+        public async Task<string> CountAccountActivitySubscriptions()
+        {
+            var subscriptionsCount = await _accountActivityClient.AccountActivity.CountAccountActivitySubscriptions();
+            return $"{subscriptionsCount?.SubscriptionsCount}/{subscriptionsCount?.ProvisionedCount}";
         }
     }
 }

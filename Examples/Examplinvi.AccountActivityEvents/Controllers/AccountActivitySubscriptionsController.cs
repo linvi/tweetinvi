@@ -1,47 +1,61 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Tweetinvi;
-using Tweetinvi.Models;
+using Tweetinvi.Exceptions;
 using Tweetinvi.Models.DTO.Webhooks;
 
 namespace Examplinvi.AccountActivityEvents.Controllers
 {
     public class AccountActivitySubscriptionsController
     {
-        private readonly IWebhookConfiguration _webhookConfiguration;
+        private readonly ITwitterClient _accountActivityClient;
 
-        public AccountActivitySubscriptionsController(IWebhookConfiguration webhookConfiguration)
+        public AccountActivitySubscriptionsController(ITwitterClient accountActivityClient)
         {
-            _webhookConfiguration = webhookConfiguration;
+            _accountActivityClient = accountActivityClient;
         }
 
         public async Task<IWebhookSubscriptionDTO[]> GetWebhookSubscriptions(string environment)
         {
-            var webhookEnvironments = await Webhooks.GetListOfSubscriptionsAsync(environment, _webhookConfiguration.ConsumerOnlyCredentials);
+            var webhookEnvironments = await _accountActivityClient.AccountActivity.GetAccountActivitySubscriptions(environment);
             return webhookEnvironments.Subscriptions;
         }
 
-        public async Task<bool> SubscribeAccountToWebhook(string environment, long userId)
+        public async Task<bool> SubscribeToAccountActivity(string environment, long userId)
         {
             var userCredentials = await AccountActivityCredentialsRetriever.GetUserCredentials(userId);
-            var success = await Webhooks.SubscribeToAccountActivityEventsAsync(environment, userCredentials);
+            var client = new TwitterClient(userCredentials);
 
-            return success;
+            try
+            {
+                await client.AccountActivity.SubscribeToAccountActivity(environment);
+                return true;
+            }
+            catch (TwitterException e)
+            {
+                if (e.TwitterExceptionInfos[0].Code == 355)
+                {
+                    // user already subscribed
+                    return true;
+                }
+
+                Console.WriteLine(e.ToString());
+                return false;
+            }
         }
 
-        public async Task<bool> UnsubscribeAccountFromWebhooksEnvironment(string environment, long userId)
+        public async Task<bool> UnsubscribeFromAccountActivity(string environment, long userId)
         {
-            var userCredentials = await AccountActivityCredentialsRetriever.GetUserCredentials(userId);
-            var result = await Webhooks.RemoveAllAccountSubscriptionsAsync(environment, userCredentials);
-
-            return result;
+            try
+            {
+                await _accountActivityClient.AccountActivity.UnsubscribeFromAccountActivity(environment, userId);
+                return true;
+            }
+            catch (TwitterException e)
+            {
+                Console.WriteLine(e.ToString());
+                return false;
+            }
         }
-
-        public async Task<string> CountNumberOfWebhookSubscriptions(IConsumerOnlyCredentials credentials)
-        {
-            var result = await Webhooks.CountNumberOfSubscriptionsAsync(credentials);
-            return result?.SubscriptionsCountAll;
-        }
-
-
     }
 }

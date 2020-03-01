@@ -1,112 +1,38 @@
-﻿using System;
-using System.Linq;
-using System.Threading.Tasks;
-using Tweetinvi;
-using Tweetinvi.Core.Extensions;
+﻿using System.Threading.Tasks;
 using Tweetinvi.Models;
 
 namespace Examplinvi.AccountActivityEvents.Controllers
 {
     public class AccountActivityEventsController
     {
-        private readonly IWebhookConfiguration _webhookConfiguration;
+        private readonly IAccountActivityRequestHandler _requestHandler;
         private readonly AccountActivityEventsManager _accountActivityEventsManager;
 
-        public AccountActivityEventsController(IWebhookConfiguration webhookConfiguration)
+        public AccountActivityEventsController(IAccountActivityRequestHandler requestHandler)
         {
-            _webhookConfiguration = webhookConfiguration;
+            _requestHandler = requestHandler;
             _accountActivityEventsManager = new AccountActivityEventsManager();
         }
 
         // EVENT
-
-        public async Task<string> StartListeningToEventsForAllSubscribedAccounts(string environment)
+        public Task<string> SubscribeToEvents(string environment, long userId)
         {
-            // ReSharper disable once SimplifyLinqExpression
-            if (!_webhookConfiguration.RegisteredWebhookEnvironments.Any(x => x.Name == environment))
-            {
-                throw new InvalidOperationException("You attempted to listen to streams for an environment that was not registered");
-            }
-
-            var subscriptionInfos = await Webhooks.GetListOfSubscriptionsAsync(environment, _webhookConfiguration.ConsumerOnlyCredentials);
-            var subscriptions = subscriptionInfos.Subscriptions;
-
-            subscriptions.ForEach(subscription =>
-            {
-                var accountActivityStream = _webhookConfiguration.RegisteredActivityStreams.SingleOrDefault(x => x.AccountUserId.ToString() == subscription.UserId);
-                var isSubscriptionAlreadyWatched = accountActivityStream != null;
-
-                if (!isSubscriptionAlreadyWatched)
-                {
-                    accountActivityStream = Stream.CreateAccountActivityStream(subscription.UserId);
-                    _webhookConfiguration.AddActivityStream(accountActivityStream);
-                }
-
-                _accountActivityEventsManager.RegisterAccountActivityStream(accountActivityStream);
-            });
-
-
-            return $"SERVER IS NOW WATCHING EVENTS FOR ALL SUBSCRIPTIONS ON ENVIRONMENT : {environment}";
-        }
-
-        public async Task<string> StopAllAccountActivityStreams(string environment)
-        {
-            var subscriptionInfos = await Webhooks.GetListOfSubscriptionsAsync(environment, _webhookConfiguration.ConsumerOnlyCredentials);
-            var subscriptions = subscriptionInfos.Subscriptions;
-
-            var subscribedAccountUserIds = subscriptions.Select(x => x.UserId);
-
-            // BUG #842: a problem here is that if an account is subscribed to 2 different environments, then we will delete the listening of both subscriptions
-            // BUG #842: as we base the deletion on only the AccountUserId.
-            var accountActivityStreamsToStop = _webhookConfiguration.RegisteredActivityStreams.Where(x => subscribedAccountUserIds.Contains(x.AccountUserId.ToString()));
-
-            accountActivityStreamsToStop.ForEach(accountActivityStream =>
-            {
-                _accountActivityEventsManager.UnregisterAccountActivityStream(accountActivityStream);
-                _webhookConfiguration.RemoveActivityStream(accountActivityStream);
-            });
-
-            return $"SERVER HAS STOPPED WATCHING EVENTS FOR ALL SUBSCRIPTIONS ON ENVIRONMENT : {environment}";
-        }
-
-        public Task<string> SubscribeToAccountActivitiesEvents(string environment, long userId)
-        {
-            var webhookEnvironment = _webhookConfiguration.RegisteredWebhookEnvironments.FirstOrDefault(x => x.Name == environment);
-            var doesWebhookEnvironmentExist = webhookEnvironment != null;
-
-            if (doesWebhookEnvironmentExist)
-            {
-                return Task.FromResult("ENVIRONMENT_NOT_REGISTERED");
-            }
-
-            var activityStream = Stream.CreateAccountActivityStream(userId);
-            _webhookConfiguration.AddActivityStream(activityStream);
-
+            var activityStream = _requestHandler.GetAccountActivityStream(userId, environment);
             _accountActivityEventsManager.RegisterAccountActivityStream(activityStream);
-
-            return Task.FromResult("SUBSCRIBED_ON_SERVER");
+            return Task.FromResult(
+                $"User '{userId}' SUBSCRIBED!\n" +
+                "Now try to create a tweet `hello tweetinvi and webhooks` with this user.\n" +
+                "You will see in the logs of this app that a Tweet has been created!\n" +
+                "Many other marvelous await you, pleas check the `AccountActivityEventsManager.cs`\n" +
+                "NOTE: It may take 10 seconds for the subscription to become active on Twitter.");
         }
 
-        public Task<string> UnsubscribeFromAccountActivitiesEvents(string environment, string userId)
+        public Task<string> UnsubscribeFromEvents(string environment, long userId)
         {
-            var webhookEnvironment = _webhookConfiguration.RegisteredWebhookEnvironments.FirstOrDefault(x => x.Name == environment);
-            var doesWebhookEnvironmentExist = webhookEnvironment != null;
-
-            if (doesWebhookEnvironmentExist)
-            {
-                return Task.FromResult("ENVIRONMENT_NOT_REGISTERED");
-            }
-
-            var accountActivityWebhook = _webhookConfiguration.RegisteredActivityStreams.Where(x => x.AccountUserId.ToString() == userId);
-
-            accountActivityWebhook.ForEach(stream =>
-            {
-                _webhookConfiguration.RemoveActivityStream(stream);
-
-                _accountActivityEventsManager.UnregisterAccountActivityStream(stream);
-            });
-
-            return Task.FromResult("UNSUBSCRIBED");
+            var activityStream = _requestHandler.GetAccountActivityStream(userId, environment);
+            _accountActivityEventsManager.UnregisterAccountActivityStream(activityStream);
+            return Task.FromResult("user UNSUBSCRIBED :( \n" +
+                                   "You will no longer see any events for this user.");
         }
     }
 }

@@ -3,7 +3,7 @@
     public interface IGetWebhookSubscriptionsCountResultDTO
     {
         string AccountName { get; set; }
-        string SubscriptionsCountAll { get; set; }
-        string SubscriptionsCountDirectMessages { get; set; }
+        string SubscriptionsCount { get; set; }
+        string ProvisionedCount { get; set; }
     }
 }

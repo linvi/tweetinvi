@@ -3,7 +3,7 @@ namespace Tweetinvi.Parameters
     /// <summary>
     /// For more information visit : https://developer.twitter.com/en/docs/accounts-and-users/subscribe-account-activity/api-reference/aaa-premium#put-account-activity-all-env-name-webhooks-webhook-id
     /// </summary>
-    public interface ITriggerAccountActivityCRCParameters : ICustomRequestParameters
+    public interface ITriggerAccountActivityWebhookCRCParameters : ICustomRequestParameters
     {
         /// <summary>
         /// The environment in which the webhook is registered
@@ -17,9 +17,9 @@ namespace Tweetinvi.Parameters
     }
 
     /// <inheritdoc/>
-    public class TriggerAccountActivityCRCParameters : CustomRequestParameters, ITriggerAccountActivityCRCParameters
+    public class TriggerAccountActivityWebhookCRCParameters : CustomRequestParameters, ITriggerAccountActivityWebhookCRCParameters
     {
-        public TriggerAccountActivityCRCParameters(string environment, string webhookId)
+        public TriggerAccountActivityWebhookCRCParameters(string environment, string webhookId)
         {
             Environment = environment;
             WebhookId = webhookId;

@@ -9,34 +9,32 @@ namespace Tweetinvi.AspNet
 {
     public static class WebhookMiddlewareExtensions
     {
-        public static IApplicationBuilder UseTweetinviWebhooks(this IApplicationBuilder app, WebhookConfiguration configuration)
+        public static IApplicationBuilder UseTweetinviWebhooks(this IApplicationBuilder app, WebhookMiddlewareConfiguration configuration)
         {
-            return app.UseMiddleware<WebhookMiddleware>(Options.Create(configuration));
+            var config = configuration as InternalWebhookMiddlewareConfiguration;
+            return app.UseMiddleware<WebhookMiddleware>(Options.Create(config));
         }
     }
 
     public class WebhookMiddleware
     {
         private readonly RequestDelegate _next;
-        private readonly IWebhookConfiguration _configuration;
-        private readonly IWebhookRouter _router;
+        private readonly IAccountActivityRequestHandler _accountActivityHandler;
 
-        public WebhookMiddleware(RequestDelegate next, IOptions<WebhookConfiguration> options)
+        public WebhookMiddleware(RequestDelegate next, IOptions<InternalWebhookMiddlewareConfiguration> options)
         {
             _next = next;
-            _configuration = options.Value;
 
-            _router = WebhooksPlugin.Container.Resolve<IWebhookRouter>();
+            _accountActivityHandler = options.Value.RequestHandler;
         }
 
         public async Task Invoke(HttpContext context)
         {
-            var requestHandler = new WebhooksRequestHandlerForAspNetCore(context);
+            var request = new WebhooksRequestForAspNetCore(context);
 
-            if (_router.IsRequestManagedByTweetinvi(requestHandler, _configuration))
+            if (await _accountActivityHandler.IsRequestManagedByTweetinvi(request))
             {
-                var routeHandled = await _router.TryRouteRequest(requestHandler, _configuration);
-
+                var routeHandled = await _accountActivityHandler.TryRouteRequest(request);
                 if (routeHandled)
                 {
                     return;

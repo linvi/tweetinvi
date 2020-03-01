@@ -8,16 +8,18 @@ namespace Tweetinvi.Core.Controllers
 {
     public interface IAccountActivityController
     {
-
-        Task<ITwitterResult<IWebhookDTO>> RegisterAccountActivityWebhook(IRegisterAccountActivityWebhookParameters parameters, ITwitterRequest request);
+        Task<ITwitterResult<IWebhookDTO>> CreateAccountActivityWebhook(ICreateAccountActivityWebhookParameters parameters, ITwitterRequest request);
         Task<ITwitterResult<IGetAccountActivityWebhookEnvironmentsResultDTO>> GetAccountActivityWebhookEnvironments(IGetAccountActivityWebhookEnvironmentsParameters parameters, ITwitterRequest request);
-        Task<ITwitterResult> RemoveAccountActivityWebhook(IRemoveAccountActivityWebhookParameters parameters, ITwitterRequest request);
-        Task<ITwitterResult> TriggerAccountActivityCRC(ITriggerAccountActivityCRCParameters parameters, ITwitterRequest request);
+        Task<ITwitterResult<IWebhookDTO[]>> GetAccountActivityEnvironmentWebhooks(IGetAccountActivityEnvironmentWebhooksParameters parameters, ITwitterRequest request);
 
-        Task<bool> SubscribeToAllAuthenticatedUserEventsAsync(string webhookEnvironmentName, ITwitterCredentials credentials);
-        Task<IGetWebhookSubscriptionsCountResultDTO> CountNumberOfSubscriptionsAsync(IConsumerOnlyCredentials credentials);
-        Task<bool> DoesAccountHaveASubscriptionAsync(string webhookEnvironmentName, ITwitterCredentials credentials);
-        Task<IWebhookSubscriptionListDTO> GetListOfSubscriptionsAsync(string webhookEnvironmentName, IConsumerOnlyCredentials credentials);
-        Task<bool> RemoveAllAccountSubscriptionsAsync(string webhookEnvironmentName, ITwitterCredentials credentials);
+        Task<ITwitterResult> DeleteAccountActivityWebhook(IDeleteAccountActivityWebhookParameters parameters, ITwitterRequest request);
+        Task<ITwitterResult> TriggerAccountActivityWebhookCRC(ITriggerAccountActivityWebhookCRCParameters parameters, ITwitterRequest request);
+
+        Task<ITwitterResult<IWebhookSubscriptionListDTO>> GetAccountActivitySubscriptions(IGetAccountActivitySubscriptionsParameters parameters, ITwitterRequest request);
+        Task<ITwitterResult<IGetWebhookSubscriptionsCountResultDTO>> CountAccountActivitySubscriptions(ICountAccountActivitySubscriptionsParameters parameters, ITwitterRequest request);
+
+        Task<ITwitterResult> SubscribeToAccountActivity(ISubscribeToAccountActivityParameters parameters, ITwitterRequest request);
+        Task<ITwitterResult> IsAccountSubscribedToAccountActivity(IIsAccountSubscribedToAccountActivityParameters parameters, ITwitterRequest request);
+        Task<ITwitterResult> UnsubscribeFromAccountActivity(IUnsubscribeFromAccountActivityParameters parameters, ITwitterRequest request);
     }
 }

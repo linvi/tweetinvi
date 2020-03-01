@@ -1,4 +1,4 @@
-﻿namespace Tweetinvi.Models.Webhooks
+﻿namespace Tweetinvi.Models
 {
     public interface IWebhookMessage
     {

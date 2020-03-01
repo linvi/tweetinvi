@@ -7,9 +7,11 @@ namespace Tweetinvi.Core.DTO.Webhooks
     {
         [JsonProperty("account_name")]
         public string AccountName { get; set; }
-        [JsonProperty("subscriptions_count_all")]
-        public string SubscriptionsCountAll { get; set; }
-        [JsonProperty("subscriptions_count_direct_messages")]
-        public string SubscriptionsCountDirectMessages { get; set; }
+        [JsonProperty("subscriptions_count")]
+        public string SubscriptionsCount { get; set; }
+        [JsonProperty("provisioned_count")]
+        public string ProvisionedCount { get; set; }
     }
 }
+
+

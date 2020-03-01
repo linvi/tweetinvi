@@ -3,7 +3,7 @@ namespace Tweetinvi.Parameters
     /// <summary>
     /// For more information visit : https://developer.twitter.com/en/docs/accounts-and-users/subscribe-account-activity/api-reference/aaa-premium#post-account-activity-all-env-name-webhooks
     /// </summary>
-    public interface IRegisterAccountActivityWebhookParameters : ICustomRequestParameters
+    public interface ICreateAccountActivityWebhookParameters : ICustomRequestParameters
     {
         /// <summary>
         /// The environment used to register the webhook
@@ -17,9 +17,9 @@ namespace Tweetinvi.Parameters
     }
 
     /// <inheritdoc/>
-    public class RegisterAccountActivityWebhookParameters : CustomRequestParameters, IRegisterAccountActivityWebhookParameters
+    public class CreateAccountActivityWebhookParameters : CustomRequestParameters, ICreateAccountActivityWebhookParameters
     {
-        public RegisterAccountActivityWebhookParameters(string environment, string callbackUrl)
+        public CreateAccountActivityWebhookParameters(string environment, string callbackUrl)
         {
             Environment = environment;
             WebhookUrl = callbackUrl;

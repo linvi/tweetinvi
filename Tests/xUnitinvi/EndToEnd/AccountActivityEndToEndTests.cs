@@ -1,11 +1,8 @@
 using System;
 using System.Linq;
-using System.Net;
 using System.Threading.Tasks;
 using Tweetinvi;
 using Tweetinvi.AspNet;
-using Tweetinvi.Core.Events;
-using Tweetinvi.Core.Logic;
 using Tweetinvi.Exceptions;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO.Webhooks;
@@ -15,107 +12,40 @@ using xUnitinvi.TestHelpers;
 
 namespace xUnitinvi.EndToEnd
 {
-    public class TestingWebhookServer : IDisposable
+    public class RunAccountActivityTestConfig
     {
-        private readonly HttpListener _server;
-
-        public TestingWebhookServer(int port)
-        {
-            _server = new HttpListener();
-            _server.Prefixes.Add($"http://*:{port}/");
-        }
-
-        public void Start()
-        {
-            _server.Start();
-
-#pragma warning disable 4014
-            RunServer();
-#pragma warning restore 4014
-
-            Task.Delay(1000).Wait();
-        }
-
-        private async Task RunServer()
-        {
-            while (_server.IsListening)
-            {
-                var context = await _server.GetContextAsync();
-                this.Raise(OnRequest, context);
-            }
-        }
-
-        public EventHandler<HttpListenerContext> OnRequest;
-
-        public void Dispose()
-        {
-            ((IDisposable) _server)?.Dispose();
-            GC.SuppressFinalize(this);
-        }
+        public bool ShouldRespondToRequest { get; set; }
+        public ITwitterClient AccountActivityClient { get; set; }
+        public NgrokRunner Ngrok { get; set; }
+        public IAccountActivityRequestHandler AccountActivityRequestHandler { get; set; }
     }
 
     [Collection("EndToEndTests")]
-    public class WebhooksEndToEndTests : TweetinviTest
+    public class AccountActivityEndToEndTests : TweetinviTest
     {
-        public WebhooksEndToEndTests(ITestOutputHelper logger) : base(logger)
+        public AccountActivityEndToEndTests(ITestOutputHelper logger) : base(logger)
         {
         }
 
         [Fact]
-        public async Task Registration()
+        public async Task Registrations()
         {
             if (!EndToEndTestConfig.ShouldRunEndToEndTests)
                 return;
 
-            if (_tweetinviClient.Credentials.BearerToken == null)
+            await RunAccountActivityTest(async config =>
             {
-                await _tweetinviClient.Auth.InitializeClientBearerToken();
-            }
+                var client = config.AccountActivityClient;
+                var environment = "sandbox";
 
-            Plugins.Add<WebhooksPlugin>();
-
-            // cleanup
-            var client = new TwitterClient(EndToEndTestConfig.TweetinviApi.Credentials);
-            var environments = await client.AccountActivity.GetAccountActivityWebhookEnvironments();
-            await RemoveAllExistingWebhooks(environments, client);
-
-            using (var ngrok = new NgrokRunner())
-            using (var server = new TestingWebhookServer(8042))
-            {
-                ngrok.Start(8042);
-
-                var webhookUrl = await ngrok.GetUrl().ConfigureAwait(false);
-
-                var router = TweetinviContainer.Resolve<IWebhookRouter>();
-                var consumerCreds = new ConsumerOnlyCredentials(EndToEndTestConfig.TweetinviApi.Credentials);
-                var configuration = new WebhookConfiguration(consumerCreds);
-
-                var shouldRespondToRequest = true;
-                server.OnRequest += async (sender, context) =>
-                {
-                    // ReSharper disable once AccessToModifiedClosure
-                    if (!shouldRespondToRequest)
-                    {
-                        return;
-                    }
-
-                    var request = new WebhooksRequestHandlerForHttpServer(context);
-
-                    if (router.IsRequestManagedByTweetinvi(request, configuration))
-                    {
-                        await router.TryRouteRequest(request, configuration).ConfigureAwait(false);
-                    }
-                };
-
-                server.Start();
-
-                var newWebhook = await client.AccountActivity.RegisterAccountActivityWebhook("sandbox", webhookUrl);
-
+                // act
+                var webhookUrl = $"{await config.Ngrok.GetUrl()}";
+                var newWebhook = await client.AccountActivity.CreateAccountActivityWebhook(environment, webhookUrl);
 
                 try
                 {
-                    shouldRespondToRequest = false;
-                    await client.AccountActivity.TriggerAccountActivityCRC("sandbox", newWebhook.Id);
+                    config.ShouldRespondToRequest = false;
+                    await client.AccountActivity.TriggerAccountActivityWebhookCRC(environment, newWebhook.Id);
                     throw new Exception("Should have failed");
                 }
                 catch (TwitterException)
@@ -125,27 +55,140 @@ namespace xUnitinvi.EndToEnd
                 var envWithDisabledWebhook = await client.AccountActivity.GetAccountActivityWebhookEnvironments();
                 var disabledWebhooks = envWithDisabledWebhook.SelectMany(x => x.Webhooks).ToArray();
 
-                shouldRespondToRequest = true;
-                await client.AccountActivity.TriggerAccountActivityCRC("sandbox", newWebhook.Id);
+                config.ShouldRespondToRequest = true;
+                await client.AccountActivity.TriggerAccountActivityWebhookCRC(environment, newWebhook.Id);
 
                 var newEnvironments = await client.AccountActivity.GetAccountActivityWebhookEnvironments();
                 var newWebhooks = newEnvironments.SelectMany(x => x.Webhooks).ToArray();
+                var environmentWebhooks = await client.AccountActivity.GetAccountActivityEnvironmentWebhooks(environment);
 
-                await RemoveAllExistingWebhooks(newEnvironments, client);
+                // cleanup
+                await CleanAllEnvironments(client);
 
+                // assert
                 Assert.False(disabledWebhooks[0].Valid);
                 Assert.True(newWebhooks[0].Valid);
                 Assert.Contains(newWebhooks, webhook => webhook.Id == newWebhook.Id);
+                Assert.Contains(environmentWebhooks, webhook => webhook.Id == newWebhook.Id);
+
+            }, _tweetinviClient, _logger);
+        }
+
+        [Fact]
+        public async Task Subscriptions()
+        {
+            if (!EndToEndTestConfig.ShouldRunEndToEndTests)
+                return;
+
+            var environment = "sandbox";
+
+            await RunAccountActivityTest(async config =>
+            {
+                // arrange
+                var client = config.AccountActivityClient;
+
+                var webhookUrl = $"{await config.Ngrok.GetUrl()}?accountActivityEnvironment={environment}";
+                await client.AccountActivity.CreateAccountActivityWebhook(environment, webhookUrl);
+
+                var userClient = new TwitterClient(EndToEndTestConfig.ProtectedUserAuthenticatedToTweetinviApi.Credentials);
+
+                // act
+                await userClient.AccountActivity.SubscribeToAccountActivity(environment);
+
+                var countAfterSubscription = await client.AccountActivity.CountAccountActivitySubscriptions();
+                var subscriptions = await client.AccountActivity.GetAccountActivitySubscriptions(environment);
+
+                var isSubscriber1 = await userClient.AccountActivity.IsAccountSubscribedToAccountActivity(environment);
+                await client.AccountActivity.UnsubscribeFromAccountActivity(environment, EndToEndTestConfig.ProtectedUserAuthenticatedToTweetinviApi.UserId);
+                var isSubscriber2 = await userClient.AccountActivity.IsAccountSubscribedToAccountActivity(environment);
+
+                // cleanup
+                await CleanAllEnvironments(client);
+
+                // assert
+                Assert.Equal(countAfterSubscription.ProvisionedCount, "15");
+                Assert.Equal(countAfterSubscription.SubscriptionsCount, "1");
+                Assert.Equal(subscriptions.Subscriptions[0].UserId, EndToEndTestConfig.ProtectedUserAuthenticatedToTweetinviApi.UserId.ToString());
+                Assert.True(isSubscriber1);
+                Assert.False(isSubscriber2);
+            }, _tweetinviClient, _logger);
+        }
+
+        public static async Task RunAccountActivityTest(
+            Func<RunAccountActivityTestConfig, Task> runTests,
+            ITwitterClient tweetinviClient,
+            ITestOutputHelper logger)
+        {
+            if (tweetinviClient.Credentials.BearerToken == null)
+            {
+                await tweetinviClient.Auth.InitializeClientBearerToken();
+            }
+
+            Plugins.Add<WebhooksPlugin>();
+
+            try
+            {
+                var client = new TwitterClient(EndToEndTestConfig.TweetinviApi.Credentials);
+                await CleanAllEnvironments(client);
+
+                using (var ngrok = new NgrokRunner())
+                using (var server = new TestingWebhookServer(8042))
+                {
+                    ngrok.Start(8042);
+
+                    var accountActivityHandler = client.AccountActivity.CreateRequestHandler();
+
+                    var runTestConfig = new RunAccountActivityTestConfig
+                    {
+                        AccountActivityClient = client,
+                        ShouldRespondToRequest = true,
+                        Ngrok = ngrok,
+                        AccountActivityRequestHandler = accountActivityHandler
+                    };
+
+                    server.OnRequest += async (sender, context) =>
+                    {
+                        // ReSharper disable once AccessToModifiedClosure
+                        if (!runTestConfig.ShouldRespondToRequest)
+                        {
+                            return;
+                        }
+
+                        var webhookRequest = WebhookRequestFactory.Create(context);
+                        if (await accountActivityHandler.IsRequestManagedByTweetinvi(webhookRequest))
+                        {
+                            await accountActivityHandler.TryRouteRequest(webhookRequest).ConfigureAwait(false);
+                        }
+                    };
+
+                    server.Start();
+
+                    if (runTests != null)
+                    {
+                        await runTests(runTestConfig);
+                    }
+                }
+            }
+            catch (TwitterException e)
+            {
+                logger.WriteLine(e.ToString());
+                throw;
             }
         }
 
-        private static async Task RemoveAllExistingWebhooks(IWebhookEnvironmentDTO[] environments, TwitterClient client)
+        public static async Task CleanAllEnvironments(ITwitterClient client)
+        {
+            var environments = await client.AccountActivity.GetAccountActivityWebhookEnvironments();
+            await RemoveWebhooksFromEnvironment(environments, client);
+        }
+
+        private static async Task RemoveWebhooksFromEnvironment(IWebhookEnvironmentDTO[] environments, ITwitterClient client)
         {
             foreach (var environment in environments)
             {
                 foreach (var webhook in environment.Webhooks)
                 {
-                    await client.AccountActivity.RemoveAccountActivityWebhook(environment.Name, webhook.Id);
+                    await client.AccountActivity.DeleteAccountActivityWebhook(environment.Name, webhook.Id);
                 }
             }
         }

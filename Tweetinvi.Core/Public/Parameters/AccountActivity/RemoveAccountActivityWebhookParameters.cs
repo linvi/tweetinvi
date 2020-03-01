@@ -3,7 +3,7 @@ namespace Tweetinvi.Parameters
     /// <summary>
     /// For more information visit : https://developer.twitter.com/en/docs/accounts-and-users/subscribe-account-activity/api-reference/aaa-premium#delete-account-activity-all-env-name-webhooks-webhook-id
     /// </summary>
-    public interface IRemoveAccountActivityWebhookParameters : ICustomRequestParameters
+    public interface IDeleteAccountActivityWebhookParameters : ICustomRequestParameters
     {
         /// <summary>
         /// The environment in which the webhook is registered
@@ -17,9 +17,9 @@ namespace Tweetinvi.Parameters
     }
 
     /// <inheritdoc/>
-    public class RemoveAccountActivityWebhookParameters : CustomRequestParameters, IRemoveAccountActivityWebhookParameters
+    public class DeleteAccountActivityWebhookParameters : CustomRequestParameters, IDeleteAccountActivityWebhookParameters
     {
-        public RemoveAccountActivityWebhookParameters(string environment, string webhookId)
+        public DeleteAccountActivityWebhookParameters(string environment, string webhookId)
         {
             Environment = environment;
             WebhookId = webhookId;
