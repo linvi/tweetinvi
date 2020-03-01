@@ -51,7 +51,6 @@ namespace Tweetinvi
         static JsonSerializer()
         {
             var factories = TweetinviContainer.Resolve<ITwitterClientFactories>();
-            var accountSettingsFactory = TweetinviContainer.Resolve<IAccountController>();
 
             _getSerializableObject = new Dictionary<Type, IJsonSerializer>();
 
@@ -67,7 +66,6 @@ namespace Tweetinvi
             }, factories.CreateMessage);
             Map<ITwitterList, ITwitterListDTO>(l => l.TwitterListDTO, factories.CreateTwitterList);
             Map<ISavedSearch, ISavedSearchDTO>(s => s.SavedSearchDTO, factories.CreateSavedSearch);
-            Map<IAccountSettings, IAccountSettingsDTO>(s => s.AccountSettingsDTO, accountSettingsFactory.GenerateAccountSettingsFromJson);
             Map<IOEmbedTweet, IOEmbedTweetDTO>(t => t.OembedTweetDTO, factories.CreateOEmbedTweet);
             Map<IRelationshipDetails, IRelationshipDetailsDTO>(r => r.RelationshipDetailsDTO, factories.CreateRelationshipDetails);
             Map<IRelationshipState, IRelationshipStateDTO>(r => r.RelationshipStateDTO, factories.CreateRelationshipState);

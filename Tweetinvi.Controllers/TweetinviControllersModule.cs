@@ -1,5 +1,4 @@
-﻿using Tweetinvi.Controllers.Account;
-using Tweetinvi.Controllers.AccountSettings;
+﻿using Tweetinvi.Controllers.AccountSettings;
 using Tweetinvi.Controllers.Auth;
 using Tweetinvi.Controllers.Geo;
 using Tweetinvi.Controllers.Help;
@@ -35,7 +34,6 @@ namespace Tweetinvi.Controllers
 
         private void InitializeControllers(ITweetinviContainer container)
         {
-            container.RegisterType<IAccountController, AccountController>(RegistrationLifetime.InstancePerApplication);
             container.RegisterType<IAuthController, AuthController>();
             container.RegisterType<IAccountSettingsController, AccountSettingsController>(RegistrationLifetime.InstancePerApplication);
 
@@ -87,7 +85,6 @@ namespace Tweetinvi.Controllers
 
         private void InitializeQueryGenerators(ITweetinviContainer container)
         {
-            container.RegisterType<IAccountQueryGenerator, AccountQueryGenerator>(RegistrationLifetime.InstancePerApplication);
             container.RegisterType<IAccountSettingsQueryGenerator, AccountSettingsQueryGenerator>(RegistrationLifetime.InstancePerApplication);
             container.RegisterType<IAuthQueryGenerator, AuthQueryGenerator>(RegistrationLifetime.InstancePerApplication);
 

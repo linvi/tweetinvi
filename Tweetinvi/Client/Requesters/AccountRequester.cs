@@ -16,7 +16,7 @@ namespace Tweetinvi.Client.Requesters
 {
     public class AccountRequester : BaseRequester, IAccountRequester
     {
-        private readonly IAccountController _accountController;
+        private readonly IUserController _userController;
         private readonly ITwitterClientFactories _factories;
         private readonly ITwitterResultFactory _twitterResultFactory;
         private readonly IUsersClientParametersValidator _validator;
@@ -24,13 +24,13 @@ namespace Tweetinvi.Client.Requesters
         public AccountRequester(
             ITwitterClient client,
             ITwitterClientEvents clientEvents,
-            IAccountController accountController,
+            IUserController userController,
             ITwitterClientFactories factories,
             ITwitterResultFactory twitterResultFactory,
             IUsersClientParametersValidator validator)
             : base(client, clientEvents)
         {
-            _accountController = accountController;
+            _userController = userController;
             _factories = factories;
             _twitterResultFactory = twitterResultFactory;
             _validator = validator;
@@ -41,7 +41,7 @@ namespace Tweetinvi.Client.Requesters
             _validator.Validate(parameters);
 
             var request = TwitterClient.CreateRequest();
-            var result = await ExecuteRequest(() => _accountController.GetAuthenticatedUser(parameters, request), request).ConfigureAwait(false);
+            var result = await ExecuteRequest(() => _userController.GetAuthenticatedUser(parameters, request), request).ConfigureAwait(false);
 
             var user = result.Result;
 
@@ -57,7 +57,7 @@ namespace Tweetinvi.Client.Requesters
         public Task<ITwitterResult<IUserDTO>> FollowUser(IFollowUserParameters parameters)
         {
             _validator.Validate(parameters);
-            return ExecuteRequest(request => _accountController.FollowUser(parameters, request));
+            return ExecuteRequest(request => _userController.FollowUser(parameters, request));
         }
 
         public Task<ITwitterResult<IRelationshipDetailsDTO, IRelationshipDetails>> UpdateRelationship(IUpdateRelationshipParameters parameters)
@@ -66,7 +66,7 @@ namespace Tweetinvi.Client.Requesters
 
             return ExecuteRequest(async request =>
             {
-                var result = await _accountController.UpdateRelationship(parameters, request).ConfigureAwait(false);
+                var result = await _userController.UpdateRelationship(parameters, request).ConfigureAwait(false);
                 return _twitterResultFactory.Create(result, _factories.CreateRelationshipDetails);
             });
         }
@@ -74,7 +74,7 @@ namespace Tweetinvi.Client.Requesters
         public Task<ITwitterResult<IUserDTO>> UnFollowUser(IUnFollowUserParameters parameters)
         {
             _validator.Validate(parameters);
-            return ExecuteRequest(request => _accountController.UnFollowUser(parameters, request));
+            return ExecuteRequest(request => _userController.UnFollowUser(parameters, request));
         }
 
         public ITwitterPageIterator<ITwitterResult<IIdsCursorQueryResultDTO>> GetUserIdsRequestingFriendshipIterator(IGetUserIdsRequestingFriendshipParameters parameters)
@@ -83,7 +83,7 @@ namespace Tweetinvi.Client.Requesters
 
             var request = TwitterClient.CreateRequest();
             request.ExecutionContext.Converters = JsonQueryConverterRepository.Converters;
-            return _accountController.GetUserIdsRequestingFriendshipIterator(parameters, request);
+            return _userController.GetUserIdsRequestingFriendshipIterator(parameters, request);
         }
 
         public ITwitterPageIterator<ITwitterResult<IIdsCursorQueryResultDTO>> GetUserIdsYouRequestedToFollowIterator(IGetUserIdsYouRequestedToFollowParameters parameters)
@@ -92,26 +92,26 @@ namespace Tweetinvi.Client.Requesters
 
             var request = TwitterClient.CreateRequest();
             request.ExecutionContext.Converters = JsonQueryConverterRepository.Converters;
-            return _accountController.GetUserIdsYouRequestedToFollowIterator(parameters, request);
+            return _userController.GetUserIdsYouRequestedToFollowIterator(parameters, request);
         }
 
         // BLOCK
         public Task<ITwitterResult<IUserDTO>> BlockUser(IBlockUserParameters parameters)
         {
             _validator.Validate(parameters);
-            return ExecuteRequest(request => _accountController.BlockUser(parameters, request));
+            return ExecuteRequest(request => _userController.BlockUser(parameters, request));
         }
 
         public Task<ITwitterResult<IUserDTO>> UnblockUser(IUnblockUserParameters parameters)
         {
             _validator.Validate(parameters);
-            return ExecuteRequest(request => _accountController.UnblockUser(parameters, request));
+            return ExecuteRequest(request => _userController.UnblockUser(parameters, request));
         }
 
         public Task<ITwitterResult<IUserDTO>> ReportUserForSpam(IReportUserForSpamParameters parameters)
         {
             _validator.Validate(parameters);
-            return ExecuteRequest(request => _accountController.ReportUserForSpam(parameters, request));
+            return ExecuteRequest(request => _userController.ReportUserForSpam(parameters, request));
         }
 
         public ITwitterPageIterator<ITwitterResult<IIdsCursorQueryResultDTO>> GetBlockedUserIdsIterator(IGetBlockedUserIdsParameters parameters)
@@ -120,7 +120,7 @@ namespace Tweetinvi.Client.Requesters
 
             var request = TwitterClient.CreateRequest();
             request.ExecutionContext.Converters = JsonQueryConverterRepository.Converters;
-            return _accountController.GetBlockedUserIdsIterator(parameters, request);
+            return _userController.GetBlockedUserIdsIterator(parameters, request);
         }
 
         public ITwitterPageIterator<ITwitterResult<IUserCursorQueryResultDTO>> GetBlockedUsersIterator(IGetBlockedUsersParameters parameters)
@@ -129,7 +129,7 @@ namespace Tweetinvi.Client.Requesters
 
             var request = TwitterClient.CreateRequest();
             request.ExecutionContext.Converters = JsonQueryConverterRepository.Converters;
-            return _accountController.GetBlockedUsersIterator(parameters, request);
+            return _userController.GetBlockedUsersIterator(parameters, request);
         }
 
         // FRIENDSHIPS
@@ -139,7 +139,7 @@ namespace Tweetinvi.Client.Requesters
 
             return ExecuteRequest(async request =>
             {
-                var twitterResult = await _accountController.GetRelationshipsWith(parameters, request).ConfigureAwait(false);
+                var twitterResult = await _userController.GetRelationshipsWith(parameters, request).ConfigureAwait(false);
                 return _twitterResultFactory.Create(twitterResult, dtos => dtos?.Select(x => _factories.CreateRelationshipState(x)).ToArray());
             });
         }
@@ -148,7 +148,7 @@ namespace Tweetinvi.Client.Requesters
         public Task<ITwitterResult<long[]>> GetUserIdsWhoseRetweetsAreMuted(IGetUserIdsWhoseRetweetsAreMutedParameters parameters)
         {
             _validator.Validate(parameters);
-            return ExecuteRequest(request => _accountController.GetUserIdsWhoseRetweetsAreMuted(parameters, request));
+            return ExecuteRequest(request => _userController.GetUserIdsWhoseRetweetsAreMuted(parameters, request));
         }
 
         public ITwitterPageIterator<ITwitterResult<IIdsCursorQueryResultDTO>> GetMutedUserIdsIterator(IGetMutedUserIdsParameters parameters)
@@ -157,7 +157,7 @@ namespace Tweetinvi.Client.Requesters
 
             var request = TwitterClient.CreateRequest();
             request.ExecutionContext.Converters = JsonQueryConverterRepository.Converters;
-            return _accountController.GetMutedUserIdsIterator(parameters, request);
+            return _userController.GetMutedUserIdsIterator(parameters, request);
         }
 
         public ITwitterPageIterator<ITwitterResult<IUserCursorQueryResultDTO>> GetMutedUsersIterator(IGetMutedUsersParameters parameters)
@@ -166,19 +166,19 @@ namespace Tweetinvi.Client.Requesters
 
             var request = TwitterClient.CreateRequest();
             request.ExecutionContext.Converters = JsonQueryConverterRepository.Converters;
-            return _accountController.GetMutedUsersIterator(parameters, request);
+            return _userController.GetMutedUsersIterator(parameters, request);
         }
 
         public Task<ITwitterResult<IUserDTO>> MuteUser(IMuteUserParameters parameters)
         {
             _validator.Validate(parameters);
-            return ExecuteRequest(request => _accountController.MuteUser(parameters, request));
+            return ExecuteRequest(request => _userController.MuteUser(parameters, request));
         }
 
         public Task<ITwitterResult<IUserDTO>> UnMuteUser(IUnMuteUserParameters parameters)
         {
             _validator.Validate(parameters);
-            return ExecuteRequest(request => _accountController.UnMuteUser(parameters, request));
+            return ExecuteRequest(request => _userController.UnMuteUser(parameters, request));
         }
     }
 }

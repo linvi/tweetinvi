@@ -226,5 +226,17 @@ namespace Tweetinvi.Client.Tools
 
             return new AuthenticatedUser(userDTO, _client);
         }
+
+        public IAccountSettings GenerateAccountSettingsFromJson(string json)
+        {
+            var accountSettingsDTO = _client.Json.DeserializeObject<IAccountSettingsDTO>(json);
+
+            if (accountSettingsDTO == null)
+            {
+                return null;
+            }
+
+            return new AccountSettings(accountSettingsDTO);
+        }
     }
 }
