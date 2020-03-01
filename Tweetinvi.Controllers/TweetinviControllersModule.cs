@@ -67,7 +67,6 @@ namespace Tweetinvi.Controllers
 
         private void InitializeQueryExecutors(ITweetinviContainer container)
         {
-            container.RegisterType<IAccountQueryExecutor, AccountQueryExecutor>();
             container.RegisterType<IAccountSettingsQueryExecutor, AccountSettingsQueryExecutor>();
             container.RegisterType<IAuthQueryExecutor, AuthQueryExecutor>();
 

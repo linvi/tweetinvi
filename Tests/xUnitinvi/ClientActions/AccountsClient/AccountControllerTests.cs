@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using FakeItEasy;
 using Tweetinvi.Controllers.Account;
+using Tweetinvi.Controllers.User;
 using Tweetinvi.Core.Web;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
@@ -16,12 +17,12 @@ namespace xUnitinvi.ClientActions.AccountsClient
         public AccountControllerTests()
         {
             _fakeBuilder = new FakeClassBuilder<AccountController>();
-            _fakeAccountQueryExecutor = _fakeBuilder.GetFake<IAccountQueryExecutor>().FakedObject;
+            _fakeAccountQueryExecutor = _fakeBuilder.GetFake<IUserQueryExecutor>().FakedObject;
             _fakeTwitterResultFactory = _fakeBuilder.GetFake<ITwitterResultFactory>().FakedObject;
         }
 
         private readonly FakeClassBuilder<AccountController> _fakeBuilder;
-        private readonly IAccountQueryExecutor _fakeAccountQueryExecutor;
+        private readonly IUserQueryExecutor _fakeAccountQueryExecutor;
         private readonly ITwitterResultFactory _fakeTwitterResultFactory;
 
         private AccountController CreateAccountController()
@@ -64,11 +65,11 @@ namespace xUnitinvi.ClientActions.AccountsClient
 
             // act
             await iteratorTestRunner.Act();
-            
+
             // assert
             await iteratorTestRunner.Assert();
         }
-        
+
         [Fact]
         public async Task GetBlockedUsers_ReturnsAllPages()
         {
@@ -83,7 +84,7 @@ namespace xUnitinvi.ClientActions.AccountsClient
 
             // act
             await iteratorTestRunner.Act();
-            
+
             // assert
             await iteratorTestRunner.Assert();
         }
@@ -225,7 +226,7 @@ namespace xUnitinvi.ClientActions.AccountsClient
 
             // act
             await iteratorTestRunner.Act();
-            
+
             // assert
             await iteratorTestRunner.Assert();
         }
@@ -271,7 +272,7 @@ namespace xUnitinvi.ClientActions.AccountsClient
         }
 
         // MUTE
-        
+
         [Fact]
         public async Task GetUserIdsWhoseRetweetsAreMuted_ReturnsFromUserQueryExecutor()
         {
@@ -282,14 +283,14 @@ namespace xUnitinvi.ClientActions.AccountsClient
             var expectedResult = A.Fake<ITwitterResult<long[]>>();
 
             A.CallTo(() => _fakeAccountQueryExecutor.GetUserIdsWhoseRetweetsAreMuted(parameters, request)).Returns(expectedResult);
-            
+
             // act
             var result = await accountController.GetUserIdsWhoseRetweetsAreMuted(parameters, request);
 
             // assert
             Assert.Same(result, expectedResult);
         }
-        
+
         [Fact]
         public async Task GetMutedUserIds_ReturnsAllPages()
         {
@@ -299,7 +300,7 @@ namespace xUnitinvi.ClientActions.AccountsClient
 
             var iterator = accountController.GetMutedUserIdsIterator(parameters, A.Fake<ITwitterRequest>());
             var testRunner = new TwitterIdsIteratorTestRunner(iterator);
-            
+
             testRunner.Arrange(A.CallTo(() => _fakeAccountQueryExecutor.GetMutedUserIds(It.IsAny<IGetMutedUserIdsParameters>(), It.IsAny<ITwitterRequest>())));
 
             // act
@@ -308,7 +309,7 @@ namespace xUnitinvi.ClientActions.AccountsClient
             // assert
             await testRunner.Assert();
         }
-        
+
         [Fact]
         public async Task GetMutedUsers_ReturnsAllPages()
         {
@@ -323,11 +324,11 @@ namespace xUnitinvi.ClientActions.AccountsClient
 
             // act
             await iteratorTestRunner.Act();
-            
+
             // assert
             await iteratorTestRunner.Assert();
         }
-        
+
         [Fact]
         public async Task MuteUser_ReturnsFromUserQueryExecutor()
         {
@@ -338,14 +339,14 @@ namespace xUnitinvi.ClientActions.AccountsClient
             var expectedResult = A.Fake<ITwitterResult<IUserDTO>>();
 
             A.CallTo(() => _fakeAccountQueryExecutor.MuteUser(parameters, request)).Returns(expectedResult);
-            
+
             // act
             var result = await accountController.MuteUser(parameters, request);
 
             // assert
             Assert.Same(result, expectedResult);
         }
-        
+
         [Fact]
         public async Task UnMuteUser_ReturnsFromUserQueryExecutor()
         {
@@ -356,7 +357,7 @@ namespace xUnitinvi.ClientActions.AccountsClient
             var expectedResult = A.Fake<ITwitterResult<IUserDTO>>();
 
             A.CallTo(() => _fakeAccountQueryExecutor.UnMuteUser(parameters, request)).Returns(expectedResult);
-            
+
             // act
             var result = await accountController.UnMuteUser(parameters, request);
 
