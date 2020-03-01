@@ -2,6 +2,7 @@
 using FakeItEasy;
 using Tweetinvi;
 using Tweetinvi.Controllers.Account;
+using Tweetinvi.Core.QueryGenerators;
 using Tweetinvi.Core.Web;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
@@ -17,12 +18,12 @@ namespace xUnitinvi.ClientActions.AccountsClient
         public AccountQueryExecutorTests()
         {
             _fakeBuilder = new FakeClassBuilder<AccountQueryExecutor>();
-            _fakeAccountQueryGenerator = _fakeBuilder.GetFake<IAccountQueryGenerator>().FakedObject;
+            _fakeUserQueryGenerator = _fakeBuilder.GetFake<IUserQueryGenerator>().FakedObject;
             _fakeTwitterAccessor = _fakeBuilder.GetFake<ITwitterAccessor>().FakedObject;
         }
 
         private readonly FakeClassBuilder<AccountQueryExecutor> _fakeBuilder;
-        private readonly IAccountQueryGenerator _fakeAccountQueryGenerator;
+        private readonly IUserQueryGenerator _fakeUserQueryGenerator;
         private readonly ITwitterAccessor _fakeTwitterAccessor;
 
         private AccountQueryExecutor CreateAccountQueryExecutor()
@@ -43,7 +44,7 @@ namespace xUnitinvi.ClientActions.AccountsClient
 
             request.ExecutionContext.TweetMode = TweetMode.Extended;
 
-            A.CallTo(() => _fakeAccountQueryGenerator.GetAuthenticatedUserQuery(parameters, TweetMode.Extended)).Returns(url);
+            A.CallTo(() => _fakeUserQueryGenerator.GetAuthenticatedUserQuery(parameters, TweetMode.Extended)).Returns(url);
             A.CallTo(() => _fakeTwitterAccessor.ExecuteRequest<IUserDTO>(request)).Returns(expectedResult);
 
             // Act
@@ -54,7 +55,7 @@ namespace xUnitinvi.ClientActions.AccountsClient
             Assert.Equal(request.Query.Url, url);
             Assert.Equal(HttpMethod.GET, request.Query.HttpMethod);
         }
-        
+
         // BLOCK
         [Fact]
         public async Task BlockUser_ReturnsUserDTO()
@@ -68,7 +69,7 @@ namespace xUnitinvi.ClientActions.AccountsClient
             var request = A.Fake<ITwitterRequest>();
             var expectedResult = A.Fake<ITwitterResult<IUserDTO>>();
 
-            A.CallTo(() => _fakeAccountQueryGenerator.GetBlockUserQuery(parameters)).Returns(url);
+            A.CallTo(() => _fakeUserQueryGenerator.GetBlockUserQuery(parameters)).Returns(url);
             A.CallTo(() => _fakeTwitterAccessor.ExecuteRequest<IUserDTO>(request)).Returns(expectedResult);
 
             // Act
@@ -92,7 +93,7 @@ namespace xUnitinvi.ClientActions.AccountsClient
             var request = A.Fake<ITwitterRequest>();
             var expectedResult = A.Fake<ITwitterResult<IUserDTO>>();
 
-            A.CallTo(() => _fakeAccountQueryGenerator.GetUnblockUserQuery(parameters)).Returns(url);
+            A.CallTo(() => _fakeUserQueryGenerator.GetUnblockUserQuery(parameters)).Returns(url);
             A.CallTo(() => _fakeTwitterAccessor.ExecuteRequest<IUserDTO>(request)).Returns(expectedResult);
 
             // Act
@@ -103,7 +104,7 @@ namespace xUnitinvi.ClientActions.AccountsClient
             Assert.Equal(request.Query.Url, url);
             Assert.Equal(HttpMethod.POST, request.Query.HttpMethod);
         }
-        
+
         [Fact]
         public async Task ReportUserForSpam_ReturnsUserDTO()
         {
@@ -115,7 +116,7 @@ namespace xUnitinvi.ClientActions.AccountsClient
             var request = A.Fake<ITwitterRequest>();
             var expectedResult = A.Fake<ITwitterResult<IUserDTO>>();
 
-            A.CallTo(() => _fakeAccountQueryGenerator.GetReportUserForSpamQuery(parameters)).Returns(url);
+            A.CallTo(() => _fakeUserQueryGenerator.GetReportUserForSpamQuery(parameters)).Returns(url);
             A.CallTo(() => _fakeTwitterAccessor.ExecuteRequest<IUserDTO>(request)).Returns(expectedResult);
 
             // Act
@@ -126,7 +127,7 @@ namespace xUnitinvi.ClientActions.AccountsClient
             Assert.Equal(request.Query.Url, url);
             Assert.Equal(HttpMethod.POST, request.Query.HttpMethod);
         }
-        
+
         [Fact]
         public async Task GetBlockedUserIds_ReturnsUserIds()
         {
@@ -138,7 +139,7 @@ namespace xUnitinvi.ClientActions.AccountsClient
             var request = A.Fake<ITwitterRequest>();
             var expectedResult = A.Fake<ITwitterResult<IIdsCursorQueryResultDTO>>();
 
-            A.CallTo(() => _fakeAccountQueryGenerator.GetBlockedUserIdsQuery(parameters)).Returns(url);
+            A.CallTo(() => _fakeUserQueryGenerator.GetBlockedUserIdsQuery(parameters)).Returns(url);
             A.CallTo(() => _fakeTwitterAccessor.ExecuteRequest<IIdsCursorQueryResultDTO>(request)).Returns(expectedResult);
 
             // Act
@@ -149,7 +150,7 @@ namespace xUnitinvi.ClientActions.AccountsClient
             Assert.Equal(request.Query.Url, url);
             Assert.Equal(HttpMethod.GET, request.Query.HttpMethod);
         }
-        
+
         [Fact]
         public async Task GetBlockedUsers_ReturnsUserDTOs()
         {
@@ -161,7 +162,7 @@ namespace xUnitinvi.ClientActions.AccountsClient
             var request = A.Fake<ITwitterRequest>();
             var expectedResult = A.Fake<ITwitterResult<IUserCursorQueryResultDTO>>();
 
-            A.CallTo(() => _fakeAccountQueryGenerator.GetBlockedUsersQuery(parameters)).Returns(url);
+            A.CallTo(() => _fakeUserQueryGenerator.GetBlockedUsersQuery(parameters)).Returns(url);
             A.CallTo(() => _fakeTwitterAccessor.ExecuteRequest<IUserCursorQueryResultDTO>(request)).Returns(expectedResult);
 
             // Act
@@ -172,7 +173,7 @@ namespace xUnitinvi.ClientActions.AccountsClient
             Assert.Equal(request.Query.Url, url);
             Assert.Equal(HttpMethod.GET, request.Query.HttpMethod);
         }
-       
+
         // FOLLOWERS
         [Fact]
         public async Task FollowUser_ReturnsUserDTO()
@@ -186,7 +187,7 @@ namespace xUnitinvi.ClientActions.AccountsClient
             var request = A.Fake<ITwitterRequest>();
             var expectedResult = A.Fake<ITwitterResult<IUserDTO>>();
 
-            A.CallTo(() => _fakeAccountQueryGenerator.GetFollowUserQuery(parameters)).Returns(url);
+            A.CallTo(() => _fakeUserQueryGenerator.GetFollowUserQuery(parameters)).Returns(url);
             A.CallTo(() => _fakeTwitterAccessor.ExecuteRequest<IUserDTO>(request)).Returns(expectedResult);
 
             // Act
@@ -209,7 +210,7 @@ namespace xUnitinvi.ClientActions.AccountsClient
             var request = A.Fake<ITwitterRequest>();
             var expectedResult = A.Fake<ITwitterResult<IUserDTO>>();
 
-            A.CallTo(() => _fakeAccountQueryGenerator.GetUnFollowUserQuery(parameters)).Returns(url);
+            A.CallTo(() => _fakeUserQueryGenerator.GetUnFollowUserQuery(parameters)).Returns(url);
             A.CallTo(() => _fakeTwitterAccessor.ExecuteRequest<IUserDTO>(request)).Returns(expectedResult);
 
             // Act
@@ -232,7 +233,7 @@ namespace xUnitinvi.ClientActions.AccountsClient
             var request = A.Fake<ITwitterRequest>();
             var expectedResult = A.Fake<ITwitterResult<IIdsCursorQueryResultDTO>>();
 
-            A.CallTo(() => _fakeAccountQueryGenerator.GetUserIdsRequestingFriendshipQuery(parameters)).Returns(url);
+            A.CallTo(() => _fakeUserQueryGenerator.GetUserIdsRequestingFriendshipQuery(parameters)).Returns(url);
             A.CallTo(() => _fakeTwitterAccessor.ExecuteRequest<IIdsCursorQueryResultDTO>(request)).Returns(expectedResult);
 
             // Act
@@ -243,7 +244,7 @@ namespace xUnitinvi.ClientActions.AccountsClient
             Assert.Equal(request.Query.Url, url);
             Assert.Equal(HttpMethod.GET, request.Query.HttpMethod);
         }
-        
+
         [Fact]
         public async Task GetUserIdsYouRequestedToFollow_ReturnsPendingFollowers()
         {
@@ -255,7 +256,7 @@ namespace xUnitinvi.ClientActions.AccountsClient
             var request = A.Fake<ITwitterRequest>();
             var expectedResult = A.Fake<ITwitterResult<IIdsCursorQueryResultDTO>>();
 
-            A.CallTo(() => _fakeAccountQueryGenerator.GetUserIdsYouRequestedToFollowQuery(parameters)).Returns(url);
+            A.CallTo(() => _fakeUserQueryGenerator.GetUserIdsYouRequestedToFollowQuery(parameters)).Returns(url);
             A.CallTo(() => _fakeTwitterAccessor.ExecuteRequest<IIdsCursorQueryResultDTO>(request)).Returns(expectedResult);
 
             // Act
@@ -266,7 +267,7 @@ namespace xUnitinvi.ClientActions.AccountsClient
             Assert.Equal(request.Query.Url, url);
             Assert.Equal(HttpMethod.GET, request.Query.HttpMethod);
         }
-        
+
         [Fact]
         public async Task UpdateRelationship_ReturnsRelationships()
         {
@@ -278,7 +279,7 @@ namespace xUnitinvi.ClientActions.AccountsClient
             var request = A.Fake<ITwitterRequest>();
             var expectedResult = A.Fake<ITwitterResult<IRelationshipDetailsDTO>>();
 
-            A.CallTo(() => _fakeAccountQueryGenerator.GetUpdateRelationshipQuery(parameters)).Returns(url);
+            A.CallTo(() => _fakeUserQueryGenerator.GetUpdateRelationshipQuery(parameters)).Returns(url);
             A.CallTo(() => _fakeTwitterAccessor.ExecuteRequest<IRelationshipDetailsDTO>(request)).Returns(expectedResult);
 
             // Act
@@ -301,7 +302,7 @@ namespace xUnitinvi.ClientActions.AccountsClient
             var request = A.Fake<ITwitterRequest>();
             var expectedResult = A.Fake<ITwitterResult<IRelationshipStateDTO[]>>();
 
-            A.CallTo(() => _fakeAccountQueryGenerator.GetRelationshipsWithQuery(parameters)).Returns(url);
+            A.CallTo(() => _fakeUserQueryGenerator.GetRelationshipsWithQuery(parameters)).Returns(url);
             A.CallTo(() => _fakeTwitterAccessor.ExecuteRequest<IRelationshipStateDTO[]>(request)).Returns(expectedResult);
 
             // Act
@@ -312,7 +313,7 @@ namespace xUnitinvi.ClientActions.AccountsClient
             Assert.Equal(request.Query.Url, url);
             Assert.Equal(HttpMethod.GET, request.Query.HttpMethod);
         }
-        
+
         // MUTE
         [Fact]
         public async Task GetUserIdsWhoseRetweetsAreMuted_ReturnsUserIds()
@@ -325,7 +326,7 @@ namespace xUnitinvi.ClientActions.AccountsClient
             var request = A.Fake<ITwitterRequest>();
             var expectedResult = A.Fake<ITwitterResult<long[]>>();
 
-            A.CallTo(() => _fakeAccountQueryGenerator.GetUserIdsWhoseRetweetsAreMutedQuery(parameters)).Returns(url);
+            A.CallTo(() => _fakeUserQueryGenerator.GetUserIdsWhoseRetweetsAreMutedQuery(parameters)).Returns(url);
             A.CallTo(() => _fakeTwitterAccessor.ExecuteRequest<long[]>(request)).Returns(expectedResult);
 
             // Act
@@ -336,7 +337,7 @@ namespace xUnitinvi.ClientActions.AccountsClient
             Assert.Equal(request.Query.Url, url);
             Assert.Equal(HttpMethod.GET, request.Query.HttpMethod);
         }
-        
+
         [Fact]
         public async Task GetMutedUserIds_ReturnsUserIds()
         {
@@ -348,7 +349,7 @@ namespace xUnitinvi.ClientActions.AccountsClient
             var request = A.Fake<ITwitterRequest>();
             var expectedResult = A.Fake<ITwitterResult<IIdsCursorQueryResultDTO>>();
 
-            A.CallTo(() => _fakeAccountQueryGenerator.GetMutedUserIdsQuery(parameters)).Returns(url);
+            A.CallTo(() => _fakeUserQueryGenerator.GetMutedUserIdsQuery(parameters)).Returns(url);
             A.CallTo(() => _fakeTwitterAccessor.ExecuteRequest<IIdsCursorQueryResultDTO>(request)).Returns(expectedResult);
 
             // Act
@@ -359,7 +360,7 @@ namespace xUnitinvi.ClientActions.AccountsClient
             Assert.Equal(request.Query.Url, url);
             Assert.Equal(HttpMethod.GET, request.Query.HttpMethod);
         }
-        
+
         [Fact]
         public async Task GetMutedUsers_ReturnsUserDTOs()
         {
@@ -371,7 +372,7 @@ namespace xUnitinvi.ClientActions.AccountsClient
             var request = A.Fake<ITwitterRequest>();
             var expectedResult = A.Fake<ITwitterResult<IUserCursorQueryResultDTO>>();
 
-            A.CallTo(() => _fakeAccountQueryGenerator.GetMutedUsersQuery(parameters)).Returns(url);
+            A.CallTo(() => _fakeUserQueryGenerator.GetMutedUsersQuery(parameters)).Returns(url);
             A.CallTo(() => _fakeTwitterAccessor.ExecuteRequest<IUserCursorQueryResultDTO>(request)).Returns(expectedResult);
 
             // Act
@@ -382,7 +383,7 @@ namespace xUnitinvi.ClientActions.AccountsClient
             Assert.Equal(request.Query.Url, url);
             Assert.Equal(HttpMethod.GET, request.Query.HttpMethod);
         }
-        
+
         [Fact]
         public async Task MutedUser_ReturnsUserDTO()
         {
@@ -394,7 +395,7 @@ namespace xUnitinvi.ClientActions.AccountsClient
             var request = A.Fake<ITwitterRequest>();
             var expectedResult = A.Fake<ITwitterResult<IUserDTO>>();
 
-            A.CallTo(() => _fakeAccountQueryGenerator.GetMuteUserQuery(parameters)).Returns(url);
+            A.CallTo(() => _fakeUserQueryGenerator.GetMuteUserQuery(parameters)).Returns(url);
             A.CallTo(() => _fakeTwitterAccessor.ExecuteRequest<IUserDTO>(request)).Returns(expectedResult);
 
             // Act
@@ -405,7 +406,7 @@ namespace xUnitinvi.ClientActions.AccountsClient
             Assert.Equal(request.Query.Url, url);
             Assert.Equal(HttpMethod.POST, request.Query.HttpMethod);
         }
-        
+
         [Fact]
         public async Task UnMutedUser_ReturnsUserDTO()
         {
@@ -417,7 +418,7 @@ namespace xUnitinvi.ClientActions.AccountsClient
             var request = A.Fake<ITwitterRequest>();
             var expectedResult = A.Fake<ITwitterResult<IUserDTO>>();
 
-            A.CallTo(() => _fakeAccountQueryGenerator.GetUnMuteUserQuery(parameters)).Returns(url);
+            A.CallTo(() => _fakeUserQueryGenerator.GetUnMuteUserQuery(parameters)).Returns(url);
             A.CallTo(() => _fakeTwitterAccessor.ExecuteRequest<IUserDTO>(request)).Returns(expectedResult);
 
             // Act

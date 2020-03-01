@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using Tweetinvi.Core.QueryGenerators;
 using Tweetinvi.Core.Web;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
@@ -21,16 +22,16 @@ namespace Tweetinvi.Controllers.Account
         // FOLLOWERS
         Task<ITwitterResult<IUserDTO>> FollowUser(IFollowUserParameters parameters, ITwitterRequest request);
         Task<ITwitterResult<IUserDTO>> UnFollowUser(IUnFollowUserParameters parameters, ITwitterRequest request);
-        
+
         // ONGOING REQUESTS
         Task<ITwitterResult<IIdsCursorQueryResultDTO>> GetUserIdsRequestingFriendship(IGetUserIdsRequestingFriendshipParameters parameters, ITwitterRequest request);
         Task<ITwitterResult<IIdsCursorQueryResultDTO>> GetUserIdsYouRequestedToFollow(IGetUserIdsYouRequestedToFollowParameters parameters, ITwitterRequest request);
-        
+
         // FRIENDSHIPS
         Task<ITwitterResult<IRelationshipStateDTO[]>> GetRelationshipsWith(IGetRelationshipsWithParameters parameters, ITwitterRequest request);
-        
+
         // SETTINGS
-        
+
 
 
 
@@ -45,7 +46,7 @@ namespace Tweetinvi.Controllers.Account
 
         Task<ITwitterResult<IUserDTO>> MuteUser(IMuteUserParameters parameters, ITwitterRequest request);
         Task<ITwitterResult<IUserDTO>> UnMuteUser(IUnMuteUserParameters parameters, ITwitterRequest request);
-        
+
         Task<ITwitterResult<IRelationshipDetailsDTO>> UpdateRelationship(IUpdateRelationshipParameters parameters, ITwitterRequest request);
         Task<ITwitterResult<long[]>> GetUserIdsWhoseRetweetsAreMuted(IGetUserIdsWhoseRetweetsAreMutedParameters parameters, ITwitterRequest request);
     }
@@ -53,19 +54,19 @@ namespace Tweetinvi.Controllers.Account
     public class AccountQueryExecutor : IAccountQueryExecutor
     {
         private readonly ITwitterAccessor _twitterAccessor;
-        private readonly IAccountQueryGenerator _accountQueryGenerator;
+        private readonly IUserQueryGenerator _userQueryGenerator;
 
         public AccountQueryExecutor(
             ITwitterAccessor twitterAccessor,
-            IAccountQueryGenerator accountQueryGenerator)
+            IUserQueryGenerator userQueryGenerator)
         {
             _twitterAccessor = twitterAccessor;
-            _accountQueryGenerator = accountQueryGenerator;
+            _userQueryGenerator = userQueryGenerator;
         }
 
         public Task<ITwitterResult<IUserDTO>> GetAuthenticatedUser(IGetAuthenticatedUserParameters parameters, ITwitterRequest request)
         {
-            var query = _accountQueryGenerator.GetAuthenticatedUserQuery(parameters, request.ExecutionContext.TweetMode);
+            var query = _userQueryGenerator.GetAuthenticatedUserQuery(parameters, request.ExecutionContext.TweetMode);
 
             request.Query.Url = query;
             request.Query.HttpMethod = HttpMethod.GET;
@@ -76,7 +77,7 @@ namespace Tweetinvi.Controllers.Account
         // BLOCK
         public Task<ITwitterResult<IUserDTO>> BlockUser(IBlockUserParameters parameters, ITwitterRequest request)
         {
-            var query = _accountQueryGenerator.GetBlockUserQuery(parameters);
+            var query = _userQueryGenerator.GetBlockUserQuery(parameters);
 
             request.Query.Url = query;
             request.Query.HttpMethod = HttpMethod.POST;
@@ -86,7 +87,7 @@ namespace Tweetinvi.Controllers.Account
 
         public Task<ITwitterResult<IUserDTO>> UnblockUser(IUnblockUserParameters parameters, ITwitterRequest request)
         {
-            var query = _accountQueryGenerator.GetUnblockUserQuery(parameters);
+            var query = _userQueryGenerator.GetUnblockUserQuery(parameters);
 
             request.Query.Url = query;
             request.Query.HttpMethod = HttpMethod.POST;
@@ -96,7 +97,7 @@ namespace Tweetinvi.Controllers.Account
 
         public Task<ITwitterResult<IUserDTO>> ReportUserForSpam(IReportUserForSpamParameters parameters, ITwitterRequest request)
         {
-            var query = _accountQueryGenerator.GetReportUserForSpamQuery(parameters);
+            var query = _userQueryGenerator.GetReportUserForSpamQuery(parameters);
 
             request.Query.Url = query;
             request.Query.HttpMethod = HttpMethod.POST;
@@ -106,7 +107,7 @@ namespace Tweetinvi.Controllers.Account
 
         public Task<ITwitterResult<IIdsCursorQueryResultDTO>> GetBlockedUserIds(IGetBlockedUserIdsParameters parameters, ITwitterRequest request)
         {
-            var query = _accountQueryGenerator.GetBlockedUserIdsQuery(parameters);
+            var query = _userQueryGenerator.GetBlockedUserIdsQuery(parameters);
             request.Query.Url = query;
             request.Query.HttpMethod = HttpMethod.GET;
             return _twitterAccessor.ExecuteRequest<IIdsCursorQueryResultDTO>(request);
@@ -114,7 +115,7 @@ namespace Tweetinvi.Controllers.Account
 
         public Task<ITwitterResult<IUserCursorQueryResultDTO>> GetBlockedUsers(IGetBlockedUsersParameters parameters, ITwitterRequest request)
         {
-            var query = _accountQueryGenerator.GetBlockedUsersQuery(parameters);
+            var query = _userQueryGenerator.GetBlockedUsersQuery(parameters);
             request.Query.Url = query;
             request.Query.HttpMethod = HttpMethod.GET;
             return _twitterAccessor.ExecuteRequest<IUserCursorQueryResultDTO>(request);
@@ -123,15 +124,15 @@ namespace Tweetinvi.Controllers.Account
         // FOLLOWERS
         public Task<ITwitterResult<IUserDTO>> FollowUser(IFollowUserParameters parameters, ITwitterRequest request)
         {
-            var query = _accountQueryGenerator.GetFollowUserQuery(parameters);
+            var query = _userQueryGenerator.GetFollowUserQuery(parameters);
             request.Query.Url = query;
             request.Query.HttpMethod = HttpMethod.POST;
             return _twitterAccessor.ExecuteRequest<IUserDTO>(request);
         }
-        
+
         public Task<ITwitterResult<IRelationshipDetailsDTO>> UpdateRelationship(IUpdateRelationshipParameters parameters, ITwitterRequest request)
         {
-            var query = _accountQueryGenerator.GetUpdateRelationshipQuery(parameters);
+            var query = _userQueryGenerator.GetUpdateRelationshipQuery(parameters);
             request.Query.Url = query;
             request.Query.HttpMethod = HttpMethod.POST;
             return _twitterAccessor.ExecuteRequest<IRelationshipDetailsDTO>(request);
@@ -139,7 +140,7 @@ namespace Tweetinvi.Controllers.Account
 
         public Task<ITwitterResult<IUserDTO>> UnFollowUser(IUnFollowUserParameters parameters, ITwitterRequest request)
         {
-            var query = _accountQueryGenerator.GetUnFollowUserQuery(parameters);
+            var query = _userQueryGenerator.GetUnFollowUserQuery(parameters);
             request.Query.Url = query;
             request.Query.HttpMethod = HttpMethod.POST;
             return _twitterAccessor.ExecuteRequest<IUserDTO>(request);
@@ -147,7 +148,7 @@ namespace Tweetinvi.Controllers.Account
 
         public Task<ITwitterResult<IIdsCursorQueryResultDTO>> GetUserIdsRequestingFriendship(IGetUserIdsRequestingFriendshipParameters parameters, ITwitterRequest request)
         {
-            var query = _accountQueryGenerator.GetUserIdsRequestingFriendshipQuery(parameters);
+            var query = _userQueryGenerator.GetUserIdsRequestingFriendshipQuery(parameters);
             request.Query.Url = query;
             request.Query.HttpMethod = HttpMethod.GET;
             return _twitterAccessor.ExecuteRequest<IIdsCursorQueryResultDTO>(request);
@@ -155,7 +156,7 @@ namespace Tweetinvi.Controllers.Account
 
         public Task<ITwitterResult<IIdsCursorQueryResultDTO>> GetUserIdsYouRequestedToFollow(IGetUserIdsYouRequestedToFollowParameters parameters, ITwitterRequest request)
         {
-            var query = _accountQueryGenerator.GetUserIdsYouRequestedToFollowQuery(parameters);
+            var query = _userQueryGenerator.GetUserIdsYouRequestedToFollowQuery(parameters);
             request.Query.Url = query;
             request.Query.HttpMethod = HttpMethod.GET;
             return _twitterAccessor.ExecuteRequest<IIdsCursorQueryResultDTO>(request);
@@ -164,7 +165,7 @@ namespace Tweetinvi.Controllers.Account
         // FRIENDSHIPS
         public Task<ITwitterResult<IRelationshipStateDTO[]>> GetRelationshipsWith(IGetRelationshipsWithParameters parameters, ITwitterRequest request)
         {
-            var query = _accountQueryGenerator.GetRelationshipsWithQuery(parameters);
+            var query = _userQueryGenerator.GetRelationshipsWithQuery(parameters);
             request.Query.Url = query;
             request.Query.HttpMethod = HttpMethod.GET;
             return _twitterAccessor.ExecuteRequest<IRelationshipStateDTO[]>(request);
@@ -173,7 +174,7 @@ namespace Tweetinvi.Controllers.Account
         // MUTE
         public Task<ITwitterResult<long[]>> GetUserIdsWhoseRetweetsAreMuted(IGetUserIdsWhoseRetweetsAreMutedParameters parameters, ITwitterRequest request)
         {
-            var query = _accountQueryGenerator.GetUserIdsWhoseRetweetsAreMutedQuery(parameters);
+            var query = _userQueryGenerator.GetUserIdsWhoseRetweetsAreMutedQuery(parameters);
             request.Query.Url = query;
             request.Query.HttpMethod = HttpMethod.GET;
             return _twitterAccessor.ExecuteRequest<long[]>(request);
@@ -181,7 +182,7 @@ namespace Tweetinvi.Controllers.Account
 
         public Task<ITwitterResult<IIdsCursorQueryResultDTO>> GetMutedUserIds(IGetMutedUserIdsParameters parameters, ITwitterRequest request)
         {
-            var query = _accountQueryGenerator.GetMutedUserIdsQuery(parameters);
+            var query = _userQueryGenerator.GetMutedUserIdsQuery(parameters);
             request.Query.Url = query;
             request.Query.HttpMethod = HttpMethod.GET;
             return _twitterAccessor.ExecuteRequest<IIdsCursorQueryResultDTO>(request);
@@ -189,7 +190,7 @@ namespace Tweetinvi.Controllers.Account
 
         public Task<ITwitterResult<IUserCursorQueryResultDTO>> GetMutedUsers(IGetMutedUsersParameters parameters, ITwitterRequest request)
         {
-            var query = _accountQueryGenerator.GetMutedUsersQuery(parameters);
+            var query = _userQueryGenerator.GetMutedUsersQuery(parameters);
             request.Query.Url = query;
             request.Query.HttpMethod = HttpMethod.GET;
             return _twitterAccessor.ExecuteRequest<IUserCursorQueryResultDTO>(request);
@@ -197,7 +198,7 @@ namespace Tweetinvi.Controllers.Account
 
         public Task<ITwitterResult<IUserDTO>> MuteUser(IMuteUserParameters parameters, ITwitterRequest request)
         {
-            var query = _accountQueryGenerator.GetMuteUserQuery(parameters);
+            var query = _userQueryGenerator.GetMuteUserQuery(parameters);
             request.Query.Url = query;
             request.Query.HttpMethod = HttpMethod.POST;
             return _twitterAccessor.ExecuteRequest<IUserDTO>(request);
@@ -205,7 +206,7 @@ namespace Tweetinvi.Controllers.Account
 
         public Task<ITwitterResult<IUserDTO>> UnMuteUser(IUnMuteUserParameters parameters, ITwitterRequest request)
         {
-            var query = _accountQueryGenerator.GetUnMuteUserQuery(parameters);
+            var query = _userQueryGenerator.GetUnMuteUserQuery(parameters);
             request.Query.Url = query;
             request.Query.HttpMethod = HttpMethod.POST;
             return _twitterAccessor.ExecuteRequest<IUserDTO>(request);

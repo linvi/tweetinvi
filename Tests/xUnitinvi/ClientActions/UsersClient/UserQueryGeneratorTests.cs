@@ -28,6 +28,354 @@ namespace xUnitinvi.ClientActions.UsersClient
         }
 
         [Fact]
+        public void GetAuthenticatedUserQuery_ReturnsExpectedQuery()
+        {
+            // arrange
+            var queryGenerator = CreateUserQueryGenerator();
+            var parameters = new GetAuthenticatedUserParameters
+            {
+                IncludeEmail = true,
+                IncludeEntities = true,
+                SkipStatus = true,
+                CustomQueryParameters = { new Tuple<string, string>("hello", "world") }
+            };
+
+            // act
+            var result = queryGenerator.GetAuthenticatedUserQuery(parameters, TweetMode.Extended);
+
+            // assert
+            Assert.Equal(result, $"https://api.twitter.com/1.1/account/verify_credentials.json?skip_status=true&include_entities=true&include_email=true&tweet_mode=extended&hello=world");
+        }
+
+        // BLOCK
+
+        [Fact]
+        public void GetBlockedUserIdsQuery_ReturnsExpectedQuery()
+        {
+            // Arrange
+            var queryGenerator = CreateUserQueryGenerator();
+
+            var parameters = new GetBlockedUserIdsParameters
+            {
+                PageSize = 42,
+                Cursor = "cursor_id",
+                CustomQueryParameters = { new Tuple<string, string>("hello", "world") }
+            };
+
+            // Act
+            var result = queryGenerator.GetBlockedUserIdsQuery(parameters);
+
+            // Assert
+            Assert.Equal(result, $"https://api.twitter.com/1.1/blocks/ids.json?cursor=cursor_id&count=42&hello=world");
+        }
+
+        [Fact]
+        public void GetBlockedUsersQuery_ReturnsExpectedQuery()
+        {
+            // Arrange
+            var queryGenerator = CreateUserQueryGenerator();
+
+            var parameters = new GetBlockedUsersParameters
+            {
+                PageSize = 42,
+                Cursor = "cursor_id",
+                IncludeEntities = true,
+                SkipStatus = true,
+                CustomQueryParameters = { new Tuple<string, string>("hello", "world") }
+            };
+
+            // Act
+            var result = queryGenerator.GetBlockedUsersQuery(parameters);
+
+            // Assert
+            Assert.Equal(result, $"https://api.twitter.com/1.1/blocks/list.json?cursor=cursor_id&count=42&include_entities=true&skip_status=true&hello=world");
+        }
+
+        [Fact]
+        public void GetBlockUserQuery_ReturnsExpectedQuery()
+        {
+            // Arrange
+            var queryGenerator = CreateUserQueryGenerator();
+            var user = new UserIdentifier(42);
+
+            var parameters = new BlockUserParameters(user)
+            {
+                CustomQueryParameters = { new Tuple<string, string>("hello", "world") }
+            };
+
+            // Act
+            var result = queryGenerator.GetBlockUserQuery(parameters);
+
+            // Assert
+            Assert.Equal(result, $"https://api.twitter.com/1.1/blocks/create.json?user_id=42&hello=world");
+        }
+
+        [Fact]
+        public void GetFollowUserQuery_ReturnsExpectedQuery()
+        {
+            // Arrange
+            var queryGenerator = CreateUserQueryGenerator();
+            var user = new UserIdentifier(42);
+
+            var parameters = new FollowUserParameters(user)
+            {
+                EnableNotifications = true,
+                CustomQueryParameters = { new Tuple<string, string>("hello", "world") }
+            };
+
+            // Act
+            var result = queryGenerator.GetFollowUserQuery(parameters);
+
+            // Assert
+            Assert.Equal(result, $"https://api.twitter.com/1.1/friendships/create.json?user_id=42&follow=true&hello=world");
+        }
+
+        [Fact]
+        public void GetUnblockUserQuery_WithValidUserDTO_ReturnsExpectedQuery()
+        {
+            // Arrange
+            var queryGenerator = CreateUserQueryGenerator();
+            var user = new UserIdentifier(42);
+
+            var parameters = new UnblockUserParameters(user)
+            {
+                CustomQueryParameters = { new Tuple<string, string>("hello", "world") }
+            };
+
+            // Act
+            var result = queryGenerator.GetUnblockUserQuery(parameters);
+
+            // Assert
+            Assert.Equal(result, $"https://api.twitter.com/1.1/blocks/destroy.json?user_id=42&hello=world");
+        }
+
+        // FOLLOWERS
+
+        [Fact]
+        public void GetUnFollowUserQuery_ReturnsExpectedQuery()
+        {
+            // Arrange
+            var queryGenerator = CreateUserQueryGenerator();
+            var user = new UserIdentifier(42);
+
+            var parameters = new UnFollowUserParameters(user)
+            {
+                CustomQueryParameters = { new Tuple<string, string>("hello", "world") }
+            };
+
+            // Act
+            var result = queryGenerator.GetUnFollowUserQuery(parameters);
+
+            // Assert
+            Assert.Equal(result, $"https://api.twitter.com/1.1/friendships/destroy.json?user_id=42&hello=world");
+        }
+
+        [Fact]
+        public void ReportUserForSpamQuery_ReturnsExpectedQuery()
+        {
+            // Arrange
+            var queryGenerator = CreateUserQueryGenerator();
+            var user = new UserIdentifier(42);
+
+            var parameters = new ReportUserForSpamParameters(user)
+            {
+                PerformBlock = false,
+                CustomQueryParameters = { new Tuple<string, string>("hello", "world") }
+            };
+
+            // Act
+            var result = queryGenerator.GetReportUserForSpamQuery(parameters);
+
+            // Assert
+            Assert.Equal(result, $"https://api.twitter.com/1.1/users/report_spam.json?user_id=42&perform_block=false&hello=world");
+        }
+
+        [Fact]
+        public void GetUserIdsRequestingFriendshipQuery_ReturnsExpectedQuery()
+        {
+            // Arrange
+            var queryGenerator = CreateUserQueryGenerator();
+
+            var parameters = new GetUserIdsRequestingFriendshipParameters
+            {
+                PageSize = 42,
+                Cursor = "start_cursor",
+                CustomQueryParameters = { new Tuple<string, string>("hello", "world") }
+            };
+
+            // Act
+            var result = queryGenerator.GetUserIdsRequestingFriendshipQuery(parameters);
+
+            // Assert
+            Assert.Equal(result, $"https://api.twitter.com/1.1/friendships/incoming.json?cursor=start_cursor&count=42&hello=world");
+        }
+
+        [Fact]
+        public void GetUserIdsYouRequestedToFollowQuery_ReturnsExpectedQuery()
+        {
+            // Arrange
+            var queryGenerator = CreateUserQueryGenerator();
+
+            var parameters = new GetUserIdsYouRequestedToFollowParameters
+            {
+                PageSize = 42,
+                Cursor = "start_cursor",
+                CustomQueryParameters = { new Tuple<string, string>("hello", "world") }
+            };
+
+            // Act
+            var result = queryGenerator.GetUserIdsYouRequestedToFollowQuery(parameters);
+
+            // Assert
+            Assert.Equal(result, $"https://api.twitter.com/1.1/friendships/outgoing.json?cursor=start_cursor&count=42&hello=world");
+        }
+
+        // FRIENDSHIPS
+        [Fact]
+        public void GetUpdateRelationshipQuery_ReturnsExpectedQuery()
+        {
+            // Arrange
+            var queryGenerator = CreateUserQueryGenerator();
+
+            var parameters = new UpdateRelationshipParameters(42)
+            {
+                EnableRetweets = true,
+                EnableDeviceNotifications = true,
+                CustomQueryParameters = { new Tuple<string, string>("hello", "world") }
+            };
+
+            // Act
+            var result = queryGenerator.GetUpdateRelationshipQuery(parameters);
+
+            // Assert
+            Assert.Equal(result, $"https://api.twitter.com/1.1/friendships/update.json?user_id=42&device=true&retweets=true&hello=world");
+        }
+
+        [Fact]
+        public void GetRelationshipsWithQuery_ReturnsExpectedQuery()
+        {
+            // Arrange
+            var queryGenerator = CreateUserQueryGenerator();
+
+            var users = new IUserIdentifier[]
+            {
+                new UserIdentifier(42),
+                new UserIdentifier(43),
+                new UserIdentifier("tweetinviapi"),
+                new UserIdentifier("tweetinvitest"),
+            };
+
+            var parameters = new GetRelationshipsWithParameters(users)
+            {
+                CustomQueryParameters = { new Tuple<string, string>("hello", "world") }
+            };
+
+            // Act
+            var result = queryGenerator.GetRelationshipsWithQuery(parameters);
+
+            // Assert
+            Assert.Equal(result, $"https://api.twitter.com/1.1/friendships/lookup.json?user_id=42%2C43&screen_name=tweetinviapi%2Ctweetinvitest&hello=world");
+        }
+
+        // MUTE
+
+        [Fact]
+        public void GetUserIdsWhoseRetweetsAreMutedQuery_ReturnsExpectedQuery()
+        {
+            // Arrange
+            var queryGenerator = CreateUserQueryGenerator();
+
+            var parameters = new GetUserIdsWhoseRetweetsAreMutedParameters
+            {
+                CustomQueryParameters = { new Tuple<string, string>("hello", "world") }
+            };
+
+            // Act
+            var result = queryGenerator.GetUserIdsWhoseRetweetsAreMutedQuery(parameters);
+
+            // Assert
+            Assert.Equal(result, $"https://api.twitter.com/1.1/friendships/no_retweets/ids.json?hello=world");
+        }
+
+        [Fact]
+        public void GetMutedUserIdsQuery_ReturnsExpectedQuery()
+        {
+            // Arrange
+            var queryGenerator = CreateUserQueryGenerator();
+
+            var parameters = new GetMutedUserIdsParameters
+            {
+                Cursor = "42",
+                PageSize = 43,
+                CustomQueryParameters = { new Tuple<string, string>("hello", "world") }
+            };
+
+            // Act
+            var result = queryGenerator.GetMutedUserIdsQuery(parameters);
+
+            // Assert
+            Assert.Equal(result, $"https://api.twitter.com/1.1/mutes/users/ids.json?cursor=42&count=43&hello=world");
+        }
+
+        [Fact]
+        public void GetMutedUsersQuery_ReturnsExpectedQuery()
+        {
+            // Arrange
+            var queryGenerator = CreateUserQueryGenerator();
+
+            var parameters = new GetMutedUsersParameters
+            {
+                Cursor = "42",
+                PageSize = 43,
+                IncludeEntities = true,
+                SkipStatus = false,
+                CustomQueryParameters = { new Tuple<string, string>("hello", "world") }
+            };
+
+            // Act
+            var result = queryGenerator.GetMutedUsersQuery(parameters);
+
+            // Assert
+            Assert.Equal(result, $"https://api.twitter.com/1.1/mutes/users/list.json?cursor=42&count=43&include_entities=true&skip_status=false&hello=world");
+        }
+
+        [Fact]
+        public void GetMuteUserQuery_ReturnsExpectedQuery()
+        {
+            // Arrange
+            var queryGenerator = CreateUserQueryGenerator();
+
+            var parameters = new MuteUserParameters(42)
+            {
+                CustomQueryParameters = { new Tuple<string, string>("hello", "world") }
+            };
+
+            // Act
+            var result = queryGenerator.GetMuteUserQuery(parameters);
+
+            // Assert
+            Assert.Equal(result, $"https://api.twitter.com/1.1/mutes/users/create.json?user_id=42&hello=world");
+        }
+
+        [Fact]
+        public void GetUnMuteUserQuery_ReturnsExpectedQuery()
+        {
+            // Arrange
+            var queryGenerator = CreateUserQueryGenerator();
+
+            var parameters = new UnMuteUserParameters(42)
+            {
+                CustomQueryParameters = { new Tuple<string, string>("hello", "world") }
+            };
+
+            // Act
+            var result = queryGenerator.GetUnMuteUserQuery(parameters);
+
+            // Assert
+            Assert.Equal(result, $"https://api.twitter.com/1.1/mutes/users/destroy.json?user_id=42&hello=world");
+        }
+
+        [Fact]
         public void GetUserQuery_ReturnsExpectedQuery()
         {
             // Arrange
@@ -66,7 +414,7 @@ namespace xUnitinvi.ClientActions.UsersClient
             // Assert
             Assert.Equal(result, $"https://api.twitter.com/1.1/users/lookup.json?user_id=42%2C43&skip_status=true&include_entities=true&tweet_mode=extended&hello=world");
         }
-        
+
         [Fact]
         public void GetFriendIdsQuery_ReturnsExpectedQuery()
         {
@@ -86,7 +434,7 @@ namespace xUnitinvi.ClientActions.UsersClient
             // Assert
             Assert.Equal(result, $"https://api.twitter.com/1.1/friends/ids.json?user_id=42&cursor=cursor_id&count=43&hello=world");
         }
-        
+
         [Fact]
         public void GetFollowerIdsQuery_ReturnsExpectedQuery()
         {
