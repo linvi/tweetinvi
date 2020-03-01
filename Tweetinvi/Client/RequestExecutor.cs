@@ -4,7 +4,6 @@ namespace Tweetinvi.Client
 {
     public class RequestExecutor : IRequestExecutor
     {
-        private readonly IAccountRequester _accountRequester;
         private readonly IAuthRequester _authRequester;
         private readonly IAccountSettingsRequester _accountSettingsRequester;
         private readonly IExecuteRequester _executeRequester;
@@ -17,7 +16,6 @@ namespace Tweetinvi.Client
         private readonly IAccountActivityRequester _accountActivityRequester;
 
         public RequestExecutor(
-            IAccountRequester accountRequester,
             IAuthRequester authRequester,
             IAccountSettingsRequester accountSettingsRequester,
             IExecuteRequester executeRequester,
@@ -29,7 +27,6 @@ namespace Tweetinvi.Client
             IUsersRequester usersRequester,
             IAccountActivityRequester accountActivityRequester)
         {
-            _accountRequester = accountRequester;
             _authRequester = authRequester;
             _accountSettingsRequester = accountSettingsRequester;
             _executeRequester = executeRequester;
@@ -42,7 +39,6 @@ namespace Tweetinvi.Client
             _accountActivityRequester = accountActivityRequester;
         }
 
-        public IAccountRequester Account => _accountRequester;
         public IAuthRequester Auth => _authRequester;
         public IAccountSettingsRequester AccountSettings => _accountSettingsRequester;
         public IExecuteRequester Execute => _executeRequester;

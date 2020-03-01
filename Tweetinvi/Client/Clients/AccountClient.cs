@@ -1,7 +1,6 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Tweetinvi.Client.Requesters;
-using Tweetinvi.Core.Client.Validators;
 using Tweetinvi.Core.Factories;
 using Tweetinvi.Core.Iterators;
 using Tweetinvi.Core.Web;
@@ -16,18 +15,19 @@ namespace Tweetinvi.Client
     public class AccountClient : IAccountClient
     {
         private readonly ITwitterClient _client;
-        private readonly IAccountRequester _accountRequester;
+        private readonly IUsersRequester _usersRequester;
         private readonly IUserFactory _userFactory;
         private readonly IMultiLevelCursorIteratorFactory _multiLevelCursorIteratorFactory;
 
         public AccountClient(
             ITwitterClient client,
+            IUsersRequester usersRequester,
             IUserFactory userFactory,
             IMultiLevelCursorIteratorFactory multiLevelCursorIteratorFactory)
         {
             _client = client;
+            _usersRequester = usersRequester;
             _userFactory = userFactory;
-            _accountRequester = client.RequestExecutor.Account;
             _multiLevelCursorIteratorFactory = multiLevelCursorIteratorFactory;
         }
 
@@ -40,7 +40,7 @@ namespace Tweetinvi.Client
 
         public async Task<IAuthenticatedUser> GetAuthenticatedUser(IGetAuthenticatedUserParameters parameters)
         {
-            var requestResult = await _accountRequester.GetAuthenticatedUser(parameters).ConfigureAwait(false);
+            var requestResult = await _usersRequester.GetAuthenticatedUser(parameters).ConfigureAwait(false);
             return requestResult?.Result;
         }
 
@@ -65,7 +65,7 @@ namespace Tweetinvi.Client
 
         public async Task BlockUser(IBlockUserParameters parameters)
         {
-            await _accountRequester.BlockUser(parameters).ConfigureAwait(false);
+            await _usersRequester.BlockUser(parameters).ConfigureAwait(false);
         }
 
         public Task UnblockUser(long? userId)
@@ -85,7 +85,7 @@ namespace Tweetinvi.Client
 
         public async Task UnblockUser(IUnblockUserParameters parameters)
         {
-            await _accountRequester.UnblockUser(parameters).ConfigureAwait(false);
+            await _usersRequester.UnblockUser(parameters).ConfigureAwait(false);
         }
 
         public Task ReportUserForSpam(long? userId)
@@ -105,7 +105,7 @@ namespace Tweetinvi.Client
 
         public async Task ReportUserForSpam(IReportUserForSpamParameters parameters)
         {
-            await _accountRequester.ReportUserForSpam(parameters).ConfigureAwait(false);
+            await _usersRequester.ReportUserForSpam(parameters).ConfigureAwait(false);
         }
 
         public ITwitterIterator<long> GetBlockedUserIds()
@@ -115,7 +115,7 @@ namespace Tweetinvi.Client
 
         public ITwitterIterator<long> GetBlockedUserIds(IGetBlockedUserIdsParameters parameters)
         {
-            var twitterCursorResult = _accountRequester.GetBlockedUserIdsIterator(parameters);
+            var twitterCursorResult = _usersRequester.GetBlockedUserIdsIterator(parameters);
             return new TwitterIteratorProxy<ITwitterResult<IIdsCursorQueryResultDTO>, long>(twitterCursorResult, dto => dto.DataTransferObject.Ids);
         }
 
@@ -126,7 +126,7 @@ namespace Tweetinvi.Client
 
         public ITwitterIterator<IUser> GetBlockedUsers(IGetBlockedUsersParameters parameters)
         {
-            var twitterCursorResult = _accountRequester.GetBlockedUsersIterator(parameters);
+            var twitterCursorResult = _usersRequester.GetBlockedUsersIterator(parameters);
             return new TwitterIteratorProxy<ITwitterResult<IUserCursorQueryResultDTO>, IUser>(twitterCursorResult, pageResult =>
             {
                 var userDTOs = pageResult.DataTransferObject.Users;
@@ -155,7 +155,7 @@ namespace Tweetinvi.Client
 
         public async Task FollowUser(IFollowUserParameters parameters)
         {
-            await _accountRequester.FollowUser(parameters).ConfigureAwait(false);
+            await _usersRequester.FollowUser(parameters).ConfigureAwait(false);
         }
 
         public Task UnFollowUser(long userId)
@@ -175,7 +175,7 @@ namespace Tweetinvi.Client
 
         public async Task UnFollowUser(IUnFollowUserParameters parameters)
         {
-            await _accountRequester.UnFollowUser(parameters).ConfigureAwait(false);
+            await _usersRequester.UnFollowUser(parameters).ConfigureAwait(false);
         }
 
         #endregion
@@ -184,7 +184,7 @@ namespace Tweetinvi.Client
 
         public async Task UpdateRelationship(IUpdateRelationshipParameters parameters)
         {
-            await _accountRequester.UpdateRelationship(parameters).ConfigureAwait(false);
+            await _usersRequester.UpdateRelationship(parameters).ConfigureAwait(false);
         }
 
         #endregion
@@ -198,7 +198,7 @@ namespace Tweetinvi.Client
 
         public ITwitterIterator<long> GetUserIdsRequestingFriendship(IGetUserIdsRequestingFriendshipParameters parameters)
         {
-            var iterator = _accountRequester.GetUserIdsRequestingFriendshipIterator(parameters);
+            var iterator = _usersRequester.GetUserIdsRequestingFriendshipIterator(parameters);
             return new TwitterIteratorProxy<ITwitterResult<IIdsCursorQueryResultDTO>, long>(iterator, dto => dto.DataTransferObject.Ids);
         }
 
@@ -209,7 +209,7 @@ namespace Tweetinvi.Client
 
         public IMultiLevelCursorIterator<long, IUser> GetUsersRequestingFriendship(IGetUsersRequestingFriendshipParameters parameters)
         {
-            var iterator = _accountRequester.GetUserIdsRequestingFriendshipIterator(parameters);
+            var iterator = _usersRequester.GetUserIdsRequestingFriendshipIterator(parameters);
 
             var maxPageSize = parameters.GetUsersPageSize;
             if (maxPageSize > _client.ClientSettings.Limits.USERS_GET_USERS_MAX_SIZE)
@@ -227,7 +227,7 @@ namespace Tweetinvi.Client
 
         public ITwitterIterator<long> GetUserIdsYouRequestedToFollow(IGetUserIdsYouRequestedToFollowParameters parameters)
         {
-            var iterator = _accountRequester.GetUserIdsYouRequestedToFollowIterator(parameters);
+            var iterator = _usersRequester.GetUserIdsYouRequestedToFollowIterator(parameters);
             return new TwitterIteratorProxy<ITwitterResult<IIdsCursorQueryResultDTO>, long>(iterator, dto => dto.DataTransferObject.Ids);
         }
 
@@ -238,7 +238,7 @@ namespace Tweetinvi.Client
 
         public IMultiLevelCursorIterator<long, IUser> GetUsersYouRequestedToFollow(IGetUsersYouRequestedToFollowParameters parameters)
         {
-            var iterator = _accountRequester.GetUserIdsYouRequestedToFollowIterator(parameters);
+            var iterator = _usersRequester.GetUserIdsYouRequestedToFollowIterator(parameters);
 
             var maxPageSize = parameters.GetUsersPageSize;
             if (maxPageSize > _client.ClientSettings.Limits.USERS_GET_USERS_MAX_SIZE)
@@ -280,7 +280,7 @@ namespace Tweetinvi.Client
 
         public async Task<IUserDictionary<IRelationshipState>> GetRelationshipsWith(IGetRelationshipsWithParameters parameters)
         {
-            var twitterResult = await _accountRequester.GetRelationshipsWith(parameters).ConfigureAwait(false);
+            var twitterResult = await _usersRequester.GetRelationshipsWith(parameters).ConfigureAwait(false);
             var relationshipsWith = twitterResult.Result;
 
             var userRelationshipState = new UserDictionary<IRelationshipState>();
@@ -308,7 +308,7 @@ namespace Tweetinvi.Client
 
         public async Task<long[]> GetUserIdsWhoseRetweetsAreMuted(IGetUserIdsWhoseRetweetsAreMutedParameters parameters)
         {
-            var twitterResult = await _accountRequester.GetUserIdsWhoseRetweetsAreMuted(parameters).ConfigureAwait(false);
+            var twitterResult = await _usersRequester.GetUserIdsWhoseRetweetsAreMuted(parameters).ConfigureAwait(false);
             return twitterResult?.DataTransferObject;
         }
 
@@ -319,7 +319,7 @@ namespace Tweetinvi.Client
 
         public ITwitterIterator<long> GetMutedUserIds(IGetMutedUserIdsParameters parameters)
         {
-            var iterator = _accountRequester.GetMutedUserIdsIterator(parameters);
+            var iterator = _usersRequester.GetMutedUserIdsIterator(parameters);
             return new TwitterIteratorProxy<ITwitterResult<IIdsCursorQueryResultDTO>, long>(iterator, dto => dto.DataTransferObject.Ids);
         }
 
@@ -330,7 +330,7 @@ namespace Tweetinvi.Client
 
         public ITwitterIterator<IUser> GetMutedUsers(IGetMutedUsersParameters parameters)
         {
-            var iterator = _accountRequester.GetMutedUsersIterator(parameters);
+            var iterator = _usersRequester.GetMutedUsersIterator(parameters);
             return new TwitterIteratorProxy<ITwitterResult<IUserCursorQueryResultDTO>, IUser>(iterator, pageResult =>
             {
                 var userDTOs = pageResult.DataTransferObject.Users;
@@ -355,7 +355,7 @@ namespace Tweetinvi.Client
 
         public async Task MuteUser(IMuteUserParameters parameters)
         {
-            await _accountRequester.MuteUser(parameters).ConfigureAwait(false);
+            await _usersRequester.MuteUser(parameters).ConfigureAwait(false);
         }
 
         public Task UnMuteUser(long? userId)
@@ -375,7 +375,7 @@ namespace Tweetinvi.Client
 
         public async Task UnMuteUser(IUnMuteUserParameters parameters)
         {
-            await _accountRequester.UnMuteUser(parameters).ConfigureAwait(false);
+            await _usersRequester.UnMuteUser(parameters).ConfigureAwait(false);
         }
 
         #endregion

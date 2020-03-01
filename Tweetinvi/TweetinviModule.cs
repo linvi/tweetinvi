@@ -13,7 +13,6 @@ namespace Tweetinvi
             container.RegisterInstance(typeof(ITweetinviContainer), container);
 
             container.RegisterType<IAccountClient, AccountClient>(RegistrationLifetime.InstancePerApplication);
-            container.RegisterType<IAccountRequester, AccountRequester>(RegistrationLifetime.InstancePerApplication);
 
             container.RegisterType<IAuthClient, AuthClient>(RegistrationLifetime.InstancePerApplication);
             container.RegisterType<IAuthRequester, AuthRequester>(RegistrationLifetime.InstancePerApplication);
