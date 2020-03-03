@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Tweetinvi.Core.Web;
+using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
 using Tweetinvi.Models.DTO.Events;
 using Tweetinvi.Parameters;
@@ -12,23 +13,24 @@ namespace Tweetinvi.Controllers.Messages
         Task<IGetMessagesDTO> GetLatestMessages(IGetMessagesParameters queryParameters);
 
         // Publish Message
-        Task<ICreateMessageDTO> PublishMessage(IPublishMessageParameters parameters);
-
-        // Detroy Message
-        Task<bool> DestroyMessage(IMessageEventDTO messageDTO);
-        Task<bool> DestroyMessage(long messageId);
+        Task<ITwitterResult<ICreateMessageDTO>> PublishMessage(IPublishMessageParameters parameters, ITwitterRequest request);
+        Task<ITwitterResult> DestroyMessage(IDeleteMessageParameters parameters, ITwitterRequest request);
+        Task<ITwitterResult<IGetMessageDTO>> GetMessage(IGetMessageParameters parameters, ITwitterRequest request);
     }
 
     public class MessageQueryExecutor : IMessageQueryExecutor
     {
         private readonly ITwitterAccessor _twitterAccessor;
+        private readonly JsonContentFactory _jsonContentFactory;
         private readonly IMessageQueryGenerator _messageQueryGenerator;
 
         public MessageQueryExecutor(
             ITwitterAccessor twitterAccessor,
+            JsonContentFactory jsonContentFactory,
             IMessageQueryGenerator messageQueryGenerator)
         {
             _twitterAccessor = twitterAccessor;
+            _jsonContentFactory = jsonContentFactory;
             _messageQueryGenerator = messageQueryGenerator;
         }
 
@@ -40,29 +42,29 @@ namespace Tweetinvi.Controllers.Messages
         }
 
         // Publish Message
-        public Task<ICreateMessageDTO> PublishMessage(IPublishMessageParameters parameters)
+        public Task<ITwitterResult<ICreateMessageDTO>> PublishMessage(IPublishMessageParameters parameters, ITwitterRequest request)
         {
-            string query = _messageQueryGenerator.GetPublishMessageQuery(parameters);
-            var reqDTO = _messageQueryGenerator.GetPublishMessageBody(parameters);
+            var requestWithPayload = _messageQueryGenerator.GetPublishMessageQuery(parameters);
 
-            return _twitterAccessor.ExecutePOSTQueryJsonBody<ICreateMessageDTO>(query, reqDTO);
+            request.Query.Url = requestWithPayload.Url;
+            request.Query.HttpMethod = HttpMethod.POST;
+            request.Query.HttpContent = requestWithPayload.Content;
+
+            return _twitterAccessor.ExecuteRequest<ICreateMessageDTO>(request);
         }
 
-        // Destroy Message
-        public async Task<bool> DestroyMessage(IMessageEventDTO messageEventDTO)
+        public Task<ITwitterResult> DestroyMessage(IDeleteMessageParameters parameters, ITwitterRequest request)
         {
-            string query = _messageQueryGenerator.GetDestroyMessageQuery(messageEventDTO);
-            var operationResult = await _twitterAccessor.TryExecuteDELETEQuery(query);
-
-            return operationResult.Success;
+            request.Query.Url = _messageQueryGenerator.GetDestroyMessageQuery(parameters);
+            request.Query.HttpMethod = HttpMethod.DELETE;
+            return _twitterAccessor.ExecuteRequest(request);
         }
 
-        public async Task<bool> DestroyMessage(long messageId)
+        public Task<ITwitterResult<IGetMessageDTO>> GetMessage(IGetMessageParameters parameters, ITwitterRequest request)
         {
-            string query = _messageQueryGenerator.GetDestroyMessageQuery(messageId);
-            var operationResult = await _twitterAccessor.TryExecuteDELETEQuery(query);
-
-            return operationResult.Success;
+            request.Query.Url = _messageQueryGenerator.GetMessageQuery(parameters);
+            request.Query.HttpMethod = HttpMethod.GET;
+            return _twitterAccessor.ExecuteRequest<IGetMessageDTO>(request);
         }
     }
 }

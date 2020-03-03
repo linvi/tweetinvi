@@ -5,6 +5,7 @@ using Tweetinvi.Core.Exceptions;
 using Tweetinvi.Core.Helpers;
 using Tweetinvi.Core.Iterators;
 using Tweetinvi.Core.Upload;
+using Tweetinvi.Core.Web;
 using Tweetinvi.Exceptions;
 using Tweetinvi.Models;
 using Tweetinvi.Parameters;
@@ -43,6 +44,7 @@ namespace Tweetinvi.Core.Injectinvi
             container.RegisterType<ITwitterExceptionFactory, TwitterExceptionFactory>(RegistrationLifetime.InstancePerApplication);
             container.RegisterType<ITwitterException, TwitterException>();
             container.RegisterType<IPagedOperationsHelper, PagedOperationsHelper>(RegistrationLifetime.InstancePerApplication);
+            container.RegisterType<JsonContentFactory, JsonContentFactory>(RegistrationLifetime.InstancePerApplication);
 
             container.RegisterType<IMultiLevelCursorIteratorFactory, MultiLevelCursorIteratorFactory>(RegistrationLifetime.InstancePerApplication);
             container.RegisterType<IPageCursorIteratorFactories, PageCursorIteratorFactories>(RegistrationLifetime.InstancePerApplication);
@@ -108,6 +110,9 @@ namespace Tweetinvi.Core.Injectinvi
 
             container.RegisterType<ITwitterListsClientParametersValidator, TwitterListsClientParametersValidator>(RegistrationLifetime.InstancePerApplication);
             container.RegisterType<ITwitterListsClientRequiredParametersValidator, TwitterListsClientRequiredParametersValidator>(RegistrationLifetime.InstancePerApplication);
+
+            container.RegisterType<IMessagesClientParametersValidator, MessagesClientParametersValidator>(RegistrationLifetime.InstancePerApplication);
+            container.RegisterType<IMessagesClientRequiredParametersValidator, MessagesClientRequiredParametersValidator>(RegistrationLifetime.InstancePerApplication);
 
             container.RegisterType<ITimelineClientParametersValidator, TimelineClientParametersValidator>(RegistrationLifetime.InstancePerApplication);
             container.RegisterType<ITimelineClientRequiredParametersValidator, TimelineClientRequiredParametersValidator>(RegistrationLifetime.InstancePerApplication);

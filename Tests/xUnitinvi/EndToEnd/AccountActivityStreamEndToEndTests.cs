@@ -75,6 +75,12 @@ namespace xUnitinvi.EndToEnd
                 await userClient.Users.UnblockUser(EndToEndTestConfig.TweetinviTest);
                 await Task.Delay(timeoutBetweenOperations);
 
+                await Task.Delay(timeoutBetweenOperations);
+                await userClient.Messages.PublishMessage("hello from tweetinvi", EndToEndTestConfig.TweetinviTest.UserId);
+                await Task.Delay(timeoutBetweenOperations);
+                await _tweetinviTestClient.Messages.PublishMessage("Nice to hear from your!", EndToEndTestConfig.ProtectedUserAuthenticatedToTweetinviApi.UserId);
+                await Task.Delay(timeoutBetweenOperations);
+
                 // TODO - Require more test for messages... - was not possible to do as messages were not yet implemented
 
                 var stateBeforeUnsubscribe = state.Clone();
@@ -96,8 +102,6 @@ namespace xUnitinvi.EndToEnd
                     _logger.WriteLine(eventReceived);
                 });
 
-                Assert.Equal(stateBeforeUnsubscribe.EventsReceived.Count, 9);
-
                 Assert.Equal(state.TweetCreated.Count, 1);
                 Assert.Equal(state.TweetDeleted.Count, 1);
                 Assert.Equal(state.TweetFavourited.Count, 1);
@@ -111,8 +115,13 @@ namespace xUnitinvi.EndToEnd
                 Assert.Equal(state.UserMuted.Count, 1);
                 Assert.Equal(state.UserUnmuted.Count, 1);
 
-                Assert.Equal(state.MessageSent.Count, 0); // TODO CHANGE TO 1 when messages supported in 5.0
-                Assert.Equal(state.MessageReceived.Count, 0); // TODO CHANGE TO 1 when messages supported in 5.0
+                Assert.Equal(state.MessageSent.Count, 1);
+                Assert.Equal(state.MessageReceived.Count, 1);
+
+                Assert.Equal(state.UserReadMessage.Count, 0); // TODO CHANGE TO 1 when messages supported in 6.0
+                Assert.Equal(state.UserTypingMessage.Count, 0); // TODO CHANGE TO 1 when messages supported in 6.0
+
+                Assert.Equal(stateBeforeUnsubscribe.EventsReceived.Count, 11);
 
                 Assert.Equal(state.EventsReceived.Count, stateBeforeUnsubscribe.EventsReceived.Count);
             }, _tweetinviClient, _logger);
@@ -140,6 +149,9 @@ namespace xUnitinvi.EndToEnd
 
             stream.MessageReceived += (sender, args) => { state.MessageReceived.Add(args); };
             stream.MessageSent += (sender, args) => { state.MessageSent.Add(args); };
+
+            stream.UserIsTypingMessage += (sender, args) => { state.UserTypingMessage.Add(args); };
+            stream.UserReadMessage += (sender, args) => { state.UserReadMessage.Add(args); };
         }
 
         class AccountActivtyEventsState
@@ -158,6 +170,8 @@ namespace xUnitinvi.EndToEnd
 
             public List<AccountActivityMessageReceivedEventArgs> MessageReceived { get; set; } = new List<AccountActivityMessageReceivedEventArgs>();
             public List<AccountActivityMessageSentEventArgs> MessageSent { get; set; } = new List<AccountActivityMessageSentEventArgs>();
+            public List<AccountActivityUserIsTypingMessageEventArgs> UserTypingMessage { get; set; } = new List<AccountActivityUserIsTypingMessageEventArgs>();
+            public List<AccountActivityUserReadMessageConversationEventArgs> UserReadMessage { get; set; } = new List<AccountActivityUserReadMessageConversationEventArgs>();
 
             public AccountActivtyEventsState Clone()
             {

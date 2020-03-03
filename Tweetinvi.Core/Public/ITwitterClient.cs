@@ -35,6 +35,11 @@ namespace Tweetinvi
         IListsClient Lists { get; }
 
         /// <summary>
+        /// Client to execute all actions related with messages
+        /// </summary>
+        IMessageClient Messages { get; }
+
+        /// <summary>
         /// Client to execute all actions related with rate limits
         /// </summary>
         IRateLimitsClient RateLimits { get; }

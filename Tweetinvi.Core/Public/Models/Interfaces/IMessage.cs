@@ -73,6 +73,11 @@ namespace Tweetinvi.Models
         long? InitiatedViaWelcomeMessageId { get; }
 
         /// <summary>
+        /// The options available for the response
+        /// </summary>
+        IQuickReplyOption[] QuickReplyOptions { get; }
+
+        /// <summary>
         /// The Quick reply response that the user selected (if any), triggering this message.
         /// </summary>
         IQuickReplyResponse QuickReplyResponse { get; }
@@ -82,10 +87,9 @@ namespace Tweetinvi.Models
         /// </summary>
         IMediaEntity AttachedMedia { get; }
 
-
         /// <summary>
         /// Destroy the message.
         /// </summary>
-        Task<bool> Destroy();
+        Task Destroy();
     }
 }

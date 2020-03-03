@@ -7,6 +7,7 @@ namespace xUnitinvi.EndToEnd
         public static readonly bool ShouldRunEndToEndTests = true;
         public static readonly bool ShouldRunRateLimitHungryTests = true;
         public static readonly bool ShouldRunAccountActivityStreamTests = true; // very slow tests
+        public static readonly bool ShouldRunAuthTests = false;
 
         public static readonly IntegrationTestAccount TweetinviApi = new IntegrationTestAccount
         {

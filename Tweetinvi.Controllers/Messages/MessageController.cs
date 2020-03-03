@@ -6,7 +6,9 @@ using Tweetinvi.Client.Tools;
 using Tweetinvi.Core.Controllers;
 using Tweetinvi.Core.Injectinvi;
 using Tweetinvi.Core.Models;
+using Tweetinvi.Core.Web;
 using Tweetinvi.Models;
+using Tweetinvi.Models.DTO;
 using Tweetinvi.Models.DTO.Events;
 using Tweetinvi.Parameters;
 
@@ -98,49 +100,19 @@ namespace Tweetinvi.Controllers.Messages
             return cursorResult;
         }
 
-        // Publish Message
-        public Task<IMessage> PublishMessage(string text, long? recipientId)
+        public Task<ITwitterResult<ICreateMessageDTO>> PublishMessage(IPublishMessageParameters parameters, ITwitterRequest request)
         {
-            var queryParameters = new PublishMessageParameters(text, recipientId);
-            return PublishMessage(queryParameters);
+            return _messageQueryExecutor.PublishMessage(parameters, request);
         }
 
-        public async Task<IMessage> PublishMessage(IPublishMessageParameters parameters)
+        public Task<ITwitterResult> DestroyMessage(IDeleteMessageParameters parameters, ITwitterRequest request)
         {
-            if (parameters == null)
-            {
-                throw new ArgumentNullException(nameof(parameters), "Parameters cannot be null.");
-            }
-
-            var publishedMessageDTO = await _messageQueryExecutor.PublishMessage(parameters);
-            return _factories.CreateMessage(publishedMessageDTO);
+            return _messageQueryExecutor.DestroyMessage(parameters, request);
         }
 
-        // Destroy Message
-        public Task<bool> DestroyMessage(IMessage message)
+        public Task<ITwitterResult<IGetMessageDTO>> GetMessage(IGetMessageParameters parameters, ITwitterRequest request)
         {
-            if (message == null)
-            {
-                throw new ArgumentNullException(nameof(message), "Message cannot be null");
-            }
-
-            return DestroyMessage(message.MessageEventDTO);
-        }
-
-        public async Task<bool> DestroyMessage(IMessageEventDTO messageEventDTO)
-        {
-            if (messageEventDTO == null)
-            {
-                throw new ArgumentNullException(nameof(messageEventDTO));
-            }
-
-            messageEventDTO.MessageCreate.IsDestroyed = await _messageQueryExecutor.DestroyMessage(messageEventDTO);
-            return messageEventDTO.MessageCreate.IsDestroyed;
-        }
-
-        public Task<bool> DestroyMessage(long messageId)
-        {
-            return _messageQueryExecutor.DestroyMessage(messageId);
+            return _messageQueryExecutor.GetMessage(parameters, request);
         }
     }
 }

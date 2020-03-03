@@ -5,7 +5,6 @@ using Tweetinvi.Core.Controllers;
 using Tweetinvi.Core.Factories;
 using Tweetinvi.Core.Models;
 using Tweetinvi.Models;
-using Tweetinvi.Models.DTO.Events;
 using Tweetinvi.Parameters;
 
 namespace Tweetinvi
@@ -111,46 +110,6 @@ namespace Tweetinvi
         public static Task<AsyncCursorResult<IEnumerable<IMessage>>> GetLatestMessagesWithCursor(IGetMessagesParameters queryParameters)
         {
             return MessageController.GetLatestMessages(queryParameters);
-        }
-
-        /// <summary>
-        /// Publish a message
-        /// </summary>
-        public static Task<IMessage> PublishMessage(string text, long? recipientId)
-        {
-            return MessageController.PublishMessage(text, recipientId);
-        }
-
-        /// <summary>
-        /// Publish a message
-        /// </summary>
-        public static Task<IMessage> PublishMessage(IPublishMessageParameters parameters)
-        {
-            return MessageController.PublishMessage(parameters);
-        }
-
-        /// <summary>
-        /// Destroy a message
-        /// </summary>
-        public static Task<bool> DestroyMessage(IMessage message)
-        {
-            return MessageController.DestroyMessage(message);
-        }
-
-        /// <summary>
-        /// Destroy a message
-        /// </summary>
-        public static Task<bool> DestroyMessage(IMessageEventDTO messageEventDTO)
-        {
-            return MessageController.DestroyMessage(messageEventDTO);
-        }
-
-        /// <summary>
-        /// Destroy a message
-        /// </summary>
-        public static Task<bool> DestroyMessage(long messageId)
-        {
-            return MessageController.DestroyMessage(messageId);
         }
     }
 }

@@ -203,7 +203,7 @@ namespace Tweetinvi.Core.Models
 
         public Task<IMessage> PublishMessage(IPublishMessageParameters publishMessageParameters)
         {
-            return _messageController.PublishMessage(publishMessageParameters);
+            return Client.Messages.PublishMessage(publishMessageParameters);
         }
 
         // Tweet

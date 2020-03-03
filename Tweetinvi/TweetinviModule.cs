@@ -28,6 +28,9 @@ namespace Tweetinvi
             container.RegisterType<IListsClient, ListsClient>(RegistrationLifetime.InstancePerApplication);
             container.RegisterType<ITwitterListsRequester, TwitterListsRequester>(RegistrationLifetime.InstancePerApplication);
 
+            container.RegisterType<IMessageClient, MessageClient>(RegistrationLifetime.InstancePerApplication);
+            container.RegisterType<IMessageRequester, MessageRequester>(RegistrationLifetime.InstancePerApplication);
+
             container.RegisterType<IStreamsClient, StreamsClient>(RegistrationLifetime.InstancePerApplication);
 
             container.RegisterType<ITimelinesClient, TimelinesClient>(RegistrationLifetime.InstancePerApplication);

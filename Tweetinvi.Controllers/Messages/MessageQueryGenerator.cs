@@ -1,63 +1,50 @@
-﻿using System.Text;
+﻿using System.Net.Http;
+using System.Text;
 using Tweetinvi.Controllers.Properties;
 using Tweetinvi.Controllers.Shared;
+using Tweetinvi.Core.DTO;
+using Tweetinvi.Core.DTO.Events;
+using Tweetinvi.Core.Extensions;
 using Tweetinvi.Core.Injectinvi;
+using Tweetinvi.Core.Models.TwitterEntities;
+using Tweetinvi.Core.Web;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
-using Tweetinvi.Models.DTO.Events;
 using Tweetinvi.Models.Entities;
 using Tweetinvi.Parameters;
 
 namespace Tweetinvi.Controllers.Messages
 {
+    public class RequestWithPayload
+    {
+        public string Url { get; set; }
+        public HttpContent Content { get; set; }
+    }
+
     public interface IMessageQueryGenerator
     {
         // Get messages
         string GetLatestMessagesQuery(IGetMessagesParameters queryParameters);
 
         // Publish Message
-        string GetPublishMessageQuery(IPublishMessageParameters parameters);
-        ICreateMessageDTO GetPublishMessageBody(IPublishMessageParameters parameters);
-
-        // Detroy Message
-        string GetDestroyMessageQuery(IMessageEventDTO messageDTO);
-        string GetDestroyMessageQuery(long messageId);
+        RequestWithPayload GetPublishMessageQuery(IPublishMessageParameters parameters);
+        string GetDestroyMessageQuery(IDeleteMessageParameters parameters);
+        string GetMessageQuery(IGetMessageParameters parameters);
     }
 
     public class MessageQueryGenerator : IMessageQueryGenerator
     {
-        private readonly IMessageQueryValidator _messageQueryValidator;
+        private readonly JsonContentFactory _jsonContentFactory;
         private readonly IQueryParameterGenerator _queryParameterGenerator;
-        private readonly IFactory<ICreateMessageDTO> _createMessageDTOFactory;
-        private readonly IFactory<IMessageEventDTO> _eventDTOFactory;
-        private readonly IFactory<IMessageCreateDTO> _messageCreateDTOFactory;
-        private readonly IFactory<IMessageCreateTargetDTO> _messageCreateTargetDTOFactory;
-        private readonly IFactory<IMessageDataDTO> _messageDataDTOFactory;
-        private readonly IFactory<IAttachmentDTO> _attachmentDTOFactory;
-        private readonly IFactory<IMediaEntity> _mediaEntityFactory;
         private readonly IFactory<IQuickReplyDTO> _quickReplyDTOFactory;
 
         public MessageQueryGenerator(
-            IMessageQueryValidator messageQueryValidator,
+            JsonContentFactory jsonContentFactory,
             IQueryParameterGenerator queryParameterGenerator,
-            IFactory<ICreateMessageDTO> createMessageDTOFactory,
-            IFactory<IMessageEventDTO> eventDTOFactory,
-            IFactory<IMessageCreateDTO> messageCreateDTOFactory,
-            IFactory<IMessageCreateTargetDTO> messageCreateTargetDTOFactory,
-            IFactory<IMessageDataDTO> messageDataDTOFactory,
-            IFactory<IAttachmentDTO> attachmentDTOFactory,
-            IFactory<IMediaEntity> mediaEntityFactory,
             IFactory<IQuickReplyDTO> quickReplyDTOFactory)
         {
-            _messageQueryValidator = messageQueryValidator;
+            _jsonContentFactory = jsonContentFactory;
             _queryParameterGenerator = queryParameterGenerator;
-            _createMessageDTOFactory = createMessageDTOFactory;
-            _eventDTOFactory = eventDTOFactory;
-            _messageCreateDTOFactory = messageCreateDTOFactory;
-            _messageCreateTargetDTOFactory = messageCreateTargetDTOFactory;
-            _messageDataDTOFactory = messageDataDTOFactory;
-            _attachmentDTOFactory = attachmentDTOFactory;
-            _mediaEntityFactory = mediaEntityFactory;
             _quickReplyDTOFactory = quickReplyDTOFactory;
         }
 
@@ -72,58 +59,78 @@ namespace Tweetinvi.Controllers.Messages
         }
 
         // Publish Message
-        public string GetPublishMessageQuery(IPublishMessageParameters parameters)
+        public RequestWithPayload GetPublishMessageQuery(IPublishMessageParameters parameters)
         {
-            _messageQueryValidator.ThrowIfMessageCannotBePublished(parameters);
+            var query = new StringBuilder(Resources.Message_Create);
+            query.AddFormattedParameterToQuery(parameters.FormattedCustomQueryParameters);
 
-            var query = Resources.Message_NewMessage;
-            query += _queryParameterGenerator.GenerateAdditionalRequestParameters(parameters.FormattedCustomQueryParameters, false);
+            var content = _jsonContentFactory.Create(GetPublishMessageBody(parameters));
 
-            return query;
+            return new RequestWithPayload
+            {
+                Url = query.ToString(),
+                Content = content
+            };
         }
 
-        public ICreateMessageDTO GetPublishMessageBody(IPublishMessageParameters parameters)
+        public string GetDestroyMessageQuery(IDeleteMessageParameters parameters)
         {
-            ICreateMessageDTO createMessageDTO = _createMessageDTOFactory.Create();
-            createMessageDTO.MessageEvent = _eventDTOFactory.Create();
-            createMessageDTO.MessageEvent.Type = EventType.MessageCreate;
-            createMessageDTO.MessageEvent.MessageCreate = _messageCreateDTOFactory.Create();
-            createMessageDTO.MessageEvent.MessageCreate.Target = _messageCreateTargetDTOFactory.Create();
-            createMessageDTO.MessageEvent.MessageCreate.Target.RecipientId = parameters.RecipientId;
-            createMessageDTO.MessageEvent.MessageCreate.MessageData = _messageDataDTOFactory.Create();
-            createMessageDTO.MessageEvent.MessageCreate.MessageData.Text = parameters.Text;
+            var query = new StringBuilder(Resources.Message_Destroy);
+            query.AddParameterToQuery("id", parameters.MessageId);
+            query.AddFormattedParameterToQuery(parameters.FormattedCustomQueryParameters);
+            return query.ToString();
+        }
+
+        public string GetMessageQuery(IGetMessageParameters parameters)
+        {
+            var query = new StringBuilder(Resources.Message_Get);
+            query.AddParameterToQuery("id", parameters.MessageId);
+            query.AddFormattedParameterToQuery(parameters.FormattedCustomQueryParameters);
+            return query.ToString();
+        }
+
+        private ICreateMessageDTO GetPublishMessageBody(IPublishMessageParameters parameters)
+        {
+            var createMessageDTO = new CreateMessageDTO
+            {
+                MessageEvent = new MessageEventDTO
+                {
+                    Type = EventType.MessageCreate,
+                    MessageCreate = new MessageCreateDTO
+                    {
+                        Target = new MessageCreateTargetDTO
+                        {
+                            RecipientId = parameters.RecipientId
+                        },
+                        MessageData = new MessageDataDTO
+                        {
+                            Text = parameters.Text
+                        }
+                    },
+                }
+            };
 
             // If there is media attached, include it
             if (parameters.AttachmentMediaId != null)
             {
-                createMessageDTO.MessageEvent.MessageCreate.MessageData.Attachment = _attachmentDTOFactory.Create();
-                createMessageDTO.MessageEvent.MessageCreate.MessageData.Attachment.Type = AttachmentType.Media;
-                createMessageDTO.MessageEvent.MessageCreate.MessageData.Attachment.Media = _mediaEntityFactory.Create();
-                createMessageDTO.MessageEvent.MessageCreate.MessageData.Attachment.Media.Id = parameters.AttachmentMediaId;
+                createMessageDTO.MessageEvent.MessageCreate.MessageData.Attachment = new AttachmentDTO
+                {
+                    Type = AttachmentType.Media,
+                    Media = new MediaEntity { Id = parameters.AttachmentMediaId }
+                };
             }
 
             // If there are quick reply options, include them
             if (parameters.QuickReplyOptions != null && parameters.QuickReplyOptions.Length > 0)
             {
-                createMessageDTO.MessageEvent.MessageCreate.MessageData.QuickReply = _quickReplyDTOFactory.Create();
-                createMessageDTO.MessageEvent.MessageCreate.MessageData.QuickReply.Type = QuickReplyType.Options;
-                createMessageDTO.MessageEvent.MessageCreate.MessageData.QuickReply.Options = parameters.QuickReplyOptions;
+                createMessageDTO.MessageEvent.MessageCreate.MessageData.QuickReply = new QuickReplyDTO
+                {
+                    Type = QuickReplyType.Options,
+                    Options = parameters.QuickReplyOptions,
+                };
             }
 
             return createMessageDTO;
-        }
-
-        // Destroy Message
-        public string GetDestroyMessageQuery(IMessageEventDTO messageDTO)
-        {
-            _messageQueryValidator.ThrowIfMessageCannotBeDestroyed(messageDTO);
-            return GetDestroyMessageQuery(messageDTO.Id);
-        }
-
-        public string GetDestroyMessageQuery(long messageId)
-        {
-            _messageQueryValidator.ThrowIfMessageCannotBeDestroyed(messageId);
-            return string.Format(Resources.Message_DestroyMessage, messageId);
         }
     }
 }

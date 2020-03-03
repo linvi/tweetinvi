@@ -256,11 +256,6 @@ namespace Tweetinvi.Controllers.Properties
         public static string List_CheckSubscriber = "https://api.twitter.com/1.1/lists/subscribers/show.json";
 
         /// <summary>
-        ///   Looks up a localized string similar to https://api.twitter.com/1.1/direct_messages/events/destroy.json?id={0}.
-        /// </summary>
-        public static string Message_DestroyMessage = "https://api.twitter.com/1.1/direct_messages/events/destroy.json?id={0}";
-
-        /// <summary>
         ///   Looks up a localized string similar to https://api.twitter.com/1.1/direct_messages/events/list.json?count={0}.
         /// </summary>
         public static string Message_GetMessages = "https://api.twitter.com/1.1/direct_messages/events/list.json?count={0}";
@@ -268,7 +263,17 @@ namespace Tweetinvi.Controllers.Properties
         /// <summary>
         ///   Looks up a localized string similar to https://api.twitter.com/1.1/direct_messages/events/new.json.
         /// </summary>
-        public static string Message_NewMessage = "https://api.twitter.com/1.1/direct_messages/events/new.json";
+        public static string Message_Create = "https://api.twitter.com/1.1/direct_messages/events/new.json";
+
+        /// <summary>
+        ///   Looks up a localized string similar to https://api.twitter.com/1.1/direct_messages/show.json?.
+        /// </summary>
+        public static string Message_Get = "https://api.twitter.com/1.1/direct_messages/events/show.json?";
+
+        /// <summary>
+        ///   Looks up a localized string similar to https://api.twitter.com/1.1/direct_messages/events/destroy.json?.
+        /// </summary>
+        public static string Message_Destroy = "https://api.twitter.com/1.1/direct_messages/events/destroy.json?";
 
         /// <summary>
         ///   Looks up a localized string similar to &amp;count={0}.

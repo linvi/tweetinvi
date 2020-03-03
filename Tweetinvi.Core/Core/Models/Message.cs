@@ -78,7 +78,7 @@ namespace Tweetinvi.Core.Models
             }
         }
 
-        public string Text => MessageEventDTO.MessageCreate.MessageData.Text;
+        public string Text => MessageEventDTO.MessageCreate.MessageData?.Text;
 
         public bool IsDestroyed => MessageEventDTO.MessageCreate.IsDestroyed;
 
@@ -86,14 +86,15 @@ namespace Tweetinvi.Core.Models
 
         public long? InitiatedViaWelcomeMessageId => MessageEventDTO.InitiatedVia?.WelcomeMessageId;
 
-        public IQuickReplyResponse QuickReplyResponse => MessageEventDTO.MessageCreate.MessageData.QuickReplyResponse;
+        public IQuickReplyOption[] QuickReplyOptions => MessageEventDTO.MessageCreate.MessageData?.QuickReply?.Options;
+        public IQuickReplyResponse QuickReplyResponse => MessageEventDTO.MessageCreate.MessageData?.QuickReplyResponse;
 
-        public IMediaEntity AttachedMedia => MessageEventDTO.MessageCreate.MessageData.Attachment?.Media;
+        public IMediaEntity AttachedMedia => MessageEventDTO.MessageCreate.MessageData?.Attachment?.Media;
 
         // Destroy
-        public Task<bool> Destroy()
+        public Task Destroy()
         {
-            return _messageController.DestroyMessage(MessageEventDTO);
+            return Client.Messages.DestroyMessage(this);
         }
 
         public bool Equals(IMessage other)

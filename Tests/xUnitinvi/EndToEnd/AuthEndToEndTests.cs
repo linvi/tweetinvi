@@ -25,7 +25,7 @@ namespace xUnitinvi.EndToEnd
         [Fact]
         public async Task BearerToken()
         {
-            if (!EndToEndTestConfig.ShouldRunEndToEndTests)
+            if (!EndToEndTestConfig.ShouldRunEndToEndTests || !EndToEndTestConfig.ShouldRunAuthTests)
                 return;
 
             var testCreds = EndToEndTestConfig.TweetinviTest.Credentials;
@@ -43,7 +43,7 @@ namespace xUnitinvi.EndToEnd
         [Fact]
         public async Task InvalidateBearerToken()
         {
-            if (!EndToEndTestConfig.ShouldRunEndToEndTests)
+            if (!EndToEndTestConfig.ShouldRunEndToEndTests || !EndToEndTestConfig.ShouldRunAuthTests)
                 return;
 
             var accountCreds = EndToEndTestConfig.TweetinviTest.Credentials;
@@ -63,7 +63,7 @@ namespace xUnitinvi.EndToEnd
         [Fact]
         public async Task InvalidateAccessToken()
         {
-            if (!EndToEndTestConfig.ShouldRunEndToEndTests)
+            if (!EndToEndTestConfig.ShouldRunEndToEndTests || !EndToEndTestConfig.ShouldRunAuthTests)
                 return;
 
             var authenticationClient = new TwitterClient(EndToEndTestConfig.TweetinviTest.Credentials);
@@ -89,7 +89,7 @@ namespace xUnitinvi.EndToEnd
         [Fact]
         public async Task AuthenticateWithPinCode()
         {
-            if (!EndToEndTestConfig.ShouldRunEndToEndTests)
+            if (!EndToEndTestConfig.ShouldRunEndToEndTests || !EndToEndTestConfig.ShouldRunAuthTests)
                 return;
 
             // act
@@ -110,7 +110,7 @@ namespace xUnitinvi.EndToEnd
         [Fact]
         public async Task AuthenticateWithRedirectUrl()
         {
-            if (!EndToEndTestConfig.ShouldRunEndToEndTests)
+            if (!EndToEndTestConfig.ShouldRunEndToEndTests || !EndToEndTestConfig.ShouldRunAuthTests)
                 return;
 
             var client = new TwitterClient(EndToEndTestConfig.TweetinviApi.Credentials);
@@ -136,7 +136,7 @@ namespace xUnitinvi.EndToEnd
         [Fact]
         public async Task AuthenticateWithReadOnlyPermissions()
         {
-            if (!EndToEndTestConfig.ShouldRunEndToEndTests)
+            if (!EndToEndTestConfig.ShouldRunEndToEndTests || !EndToEndTestConfig.ShouldRunAuthTests)
                 return;
 
             var client = new TwitterClient(EndToEndTestConfig.TweetinviApi.Credentials);

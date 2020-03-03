@@ -7,7 +7,9 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Tweetinvi.Client.Tools;
 using Tweetinvi.Core.Controllers;
+using Tweetinvi.Core.DTO;
 using Tweetinvi.Core.Factories;
+using Tweetinvi.Core.Helpers;
 using Tweetinvi.Core.JsonConverters;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
@@ -71,6 +73,8 @@ namespace Tweetinvi
             Map<IRelationshipState, IRelationshipStateDTO>(r => r.RelationshipStateDTO, factories.CreateRelationshipState);
             // ReSharper restore RedundantTypeArgumentsOfMethod
         }
+
+
 
         // TO JSON
         public static string ToJson<T>(this T obj) where T : class

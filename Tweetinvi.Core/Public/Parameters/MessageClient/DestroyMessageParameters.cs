@@ -1,0 +1,32 @@
+using Tweetinvi.Models;
+
+namespace Tweetinvi.Parameters
+{
+    /// <summary>
+    /// For more information visit : https://developer.twitter.com/en/docs/direct-messages/sending-and-receiving/guides/direct-message-migration
+    /// </summary>
+    public interface IDeleteMessageParameters : ICustomRequestParameters
+    {
+        /// <summary>
+        /// Identifier of the message that you want to delete
+        /// </summary>
+        long MessageId { get; set; }
+    }
+
+    /// <inheritdoc/>
+    public class DestroyMessageParameters : CustomRequestParameters, IDeleteMessageParameters
+    {
+        public DestroyMessageParameters(long messageId)
+        {
+            MessageId = messageId;
+        }
+
+        public DestroyMessageParameters(IMessage message)
+        {
+            MessageId = message.Id;
+        }
+
+        /// <inheritdoc/>
+        public long MessageId { get; set; }
+    }
+}
