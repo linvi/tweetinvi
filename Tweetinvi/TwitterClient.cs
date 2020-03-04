@@ -4,7 +4,6 @@ using Tweetinvi.Client.Tools;
 using Tweetinvi.Core.Client;
 using Tweetinvi.Core.Client.Validators;
 using Tweetinvi.Core.Events;
-using Tweetinvi.Core.Exceptions;
 using Tweetinvi.Core.Injectinvi;
 using Tweetinvi.Core.RateLimit;
 using Tweetinvi.Events;
@@ -31,7 +30,7 @@ namespace Tweetinvi
         }
     }
 
-    public class TwitterClient : ITwitterClient, IDisposable
+    public class TwitterClient : ITwitterClient
     {
         private IReadOnlyTwitterCredentials _credentials;
         private readonly ITweetinviContainer _tweetinviContainer;
@@ -129,11 +128,6 @@ namespace Tweetinvi
             _tweetinviContainer.AssociatedClient = this;
 
             _twitterClientEvents = _tweetinviContainer.Resolve<ITwitterClientEvents>();
-            Events.BeforeWaitingForRequestRateLimits += EventsOnBeforeWaitingForRequestRateLimits;
-            Events.BeforeExecutingRequest += EventsOnBeforeExecutingRequest;
-            Events.AfterExecutingRequest += EventsOnAfterExecutingRequest;
-            Events.OnTwitterException += EventsOnOnTwitterException;
-
             Factories = _tweetinviContainer.Resolve<ITwitterClientFactories>();
             Json = _tweetinviContainer.Resolve<ITwitterClientJson>();
 
@@ -205,34 +199,6 @@ namespace Tweetinvi
             request.ExecutionContext.InitialiseFrom(ClientSettings);
 
             return request;
-        }
-
-        private void EventsOnBeforeWaitingForRequestRateLimits(object sender, BeforeExecutingRequestEventArgs e)
-        {
-            _tweetinviEvents.RaiseBeforeWaitingForQueryRateLimits(e);
-        }
-
-        private void EventsOnBeforeExecutingRequest(object sender, BeforeExecutingRequestEventArgs e)
-        {
-            _tweetinviEvents.RaiseBeforeExecutingQuery(e);
-        }
-
-        private void EventsOnAfterExecutingRequest(object sender, AfterExecutingQueryEventArgs e)
-        {
-            _tweetinviEvents.RaiseAfterExecutingQuery(e);
-        }
-
-        private void EventsOnOnTwitterException(object sender, ITwitterException e)
-        {
-            _tweetinviEvents.RaiseOnTwitterException(e);
-        }
-
-        public void Dispose()
-        {
-            Events.BeforeWaitingForRequestRateLimits -= EventsOnBeforeWaitingForRequestRateLimits;
-            Events.BeforeExecutingRequest -= EventsOnBeforeExecutingRequest;
-            Events.AfterExecutingRequest -= EventsOnAfterExecutingRequest;
-            Events.OnTwitterException -= EventsOnOnTwitterException;
         }
     }
 }

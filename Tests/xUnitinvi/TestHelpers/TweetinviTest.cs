@@ -17,11 +17,16 @@ namespace xUnitinvi.TestHelpers
         {
             _logger = logger;
             _logger.WriteLine(DateTime.Now.ToLongTimeString());
+
             TweetinviEvents.BeforeWaitingForRequestRateLimits += TweetinviEventsOnBeforeWaitingForRequestRateLimits;
 
             _tweetinviClient = new TwitterClient(EndToEndTestConfig.TweetinviApi.Credentials);
             _tweetinviTestClient = new TwitterClient(EndToEndTestConfig.TweetinviTest.Credentials);
             _protectedClient = new TwitterClient(EndToEndTestConfig.ProtectedUser.Credentials);
+
+            TweetinviEvents.SubscribeToClientEvents(_tweetinviClient);
+            TweetinviEvents.SubscribeToClientEvents(_tweetinviTestClient);
+            TweetinviEvents.SubscribeToClientEvents(_protectedClient);
         }
 
         private void TweetinviEventsOnBeforeWaitingForRequestRateLimits(object sender, BeforeExecutingRequestEventArgs args)

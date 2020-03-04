@@ -31,6 +31,7 @@ namespace xUnitinvi.EndToEnd
             var invalidCredentials = new TwitterCredentials("a", "b", "c", "d");
             var client = new TwitterClient(invalidCredentials);
 
+            TweetinviEvents.SubscribeToClientEvents(client);
             client.Events.OnTwitterException += (sender, exception) => { clientException = exception; };
 
             try

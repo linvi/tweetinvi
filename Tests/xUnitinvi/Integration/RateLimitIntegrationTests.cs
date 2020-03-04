@@ -26,20 +26,20 @@ namespace xUnitinvi.Integration
             var fakeRateLimitCache = A.Fake<IRateLimitCache>();
             var creds = A.Fake<ITwitterCredentials>();
             var expectedRateLimits = A.Fake<ICredentialsRateLimits>();
-            using (var client = new TwitterClient(creds, new TwitterClientParameters
+
+            var client = new TwitterClient(creds, new TwitterClientParameters
             {
                 RateLimitCache = fakeRateLimitCache
-            }))
-            {
-                A.CallTo(() => fakeRateLimitCache.GetCredentialsRateLimits(client.Credentials))
-                    .Returns(expectedRateLimits);
+            });
 
-                // act
-                var rateLimits = await client.RateLimits.GetRateLimits(RateLimitsSource.CacheOnly);
+            A.CallTo(() => fakeRateLimitCache.GetCredentialsRateLimits(client.Credentials))
+                .Returns(expectedRateLimits);
 
-                // arrange
-                Assert.Same(rateLimits, expectedRateLimits);
-            }
+            // act
+            var rateLimits = await client.RateLimits.GetRateLimits(RateLimitsSource.CacheOnly);
+
+            // arrange
+            Assert.Same(rateLimits, expectedRateLimits);
         }
 
         [Fact]
@@ -53,20 +53,18 @@ namespace xUnitinvi.Integration
             container.Initialize();
 
             var fakeCredentials = new TwitterCredentials("consumerKey", "consumerSecret", "accessToken", "accessTokenSecret");
-            using (var client = new TwitterClient(fakeCredentials, new TwitterClientParameters
+            var client = new TwitterClient(fakeCredentials, new TwitterClientParameters
             {
                 Container = container
-            }))
-            {
-                A.CallTo(() => twitterAccessor.ExecuteRequest<ICredentialsRateLimits>(It.IsAny<ITwitterRequest>()))
-                    .Returns(new TwitterResult<ICredentialsRateLimits> { DataTransferObject = expectedRateLimits });
+            });
+            A.CallTo(() => twitterAccessor.ExecuteRequest<ICredentialsRateLimits>(It.IsAny<ITwitterRequest>()))
+                .Returns(new TwitterResult<ICredentialsRateLimits> { DataTransferObject = expectedRateLimits });
 
-                // act
-                var rateLimits = await client.RateLimits.GetRateLimits(RateLimitsSource.TwitterApiOnly);
+            // act
+            var rateLimits = await client.RateLimits.GetRateLimits(RateLimitsSource.TwitterApiOnly);
 
-                // arrange
-                Assert.Same(rateLimits, expectedRateLimits);
-            }
+            // arrange
+            Assert.Same(rateLimits, expectedRateLimits);
         }
 
         [Fact]
@@ -78,40 +76,36 @@ namespace xUnitinvi.Integration
             var twitterAccessor = A.Fake<ITwitterAccessor>();
 
             var container = new TweetinviContainer();
-            container.BeforeRegistrationCompletes += (sender, args) =>
-            {
-                container.RegisterInstance(typeof(ITwitterAccessor), twitterAccessor);
-            };
+            container.BeforeRegistrationCompletes += (sender, args) => { container.RegisterInstance(typeof(ITwitterAccessor), twitterAccessor); };
             container.Initialize();
 
             var fakeCredentials = new TwitterCredentials("consumerKey", "consumerSecret", "accessToken", "accessTokenSecret");
-            using (var client = new TwitterClient(fakeCredentials, new TwitterClientParameters
+            var client = new TwitterClient(fakeCredentials, new TwitterClientParameters
             {
                 Container = container,
                 RateLimitCache = fakeRateLimitCache
-            }))
-            {
-                A.CallTo(() => fakeRateLimitCache.GetCredentialsRateLimits(client.Credentials)).Returns(Task.FromResult<ICredentialsRateLimits>(null));
-                A.CallTo(() => fakeRateLimitCache.RefreshEntry(client.Credentials, twitterApiRateLimits))
-                    .ReturnsLazily(() =>
-                    {
+            });
+
+            A.CallTo(() => fakeRateLimitCache.GetCredentialsRateLimits(client.Credentials)).Returns(Task.FromResult<ICredentialsRateLimits>(null));
+            A.CallTo(() => fakeRateLimitCache.RefreshEntry(client.Credentials, twitterApiRateLimits))
+                .ReturnsLazily(() =>
+                {
                     // we use sequence here as `RefreshCredentialsRateLimits` is calling GetCredentialsRateLimits right after having put it in the cache
                     A.CallTo(() => fakeRateLimitCache.GetCredentialsRateLimits(client.Credentials))
-                            .ReturnsNextFromSequence(twitterApiRateLimits, cacheRateLimits);
-                        return Task.CompletedTask;
-                    });
+                        .ReturnsNextFromSequence(twitterApiRateLimits, cacheRateLimits);
+                    return Task.CompletedTask;
+                });
 
-                A.CallTo(() => twitterAccessor.ExecuteRequest<ICredentialsRateLimits>(It.IsAny<ITwitterRequest>()))
-                    .Returns(new TwitterResult<ICredentialsRateLimits> { DataTransferObject = twitterApiRateLimits });
+            A.CallTo(() => twitterAccessor.ExecuteRequest<ICredentialsRateLimits>(It.IsAny<ITwitterRequest>()))
+                .Returns(new TwitterResult<ICredentialsRateLimits> { DataTransferObject = twitterApiRateLimits });
 
-                // act
-                var rateLimits = await client.RateLimits.GetRateLimits(RateLimitsSource.CacheOrTwitterApi);
-                var rateLimitsThatShouldComeCache = await client.RateLimits.GetRateLimits(RateLimitsSource.CacheOrTwitterApi);
+            // act
+            var rateLimits = await client.RateLimits.GetRateLimits(RateLimitsSource.CacheOrTwitterApi);
+            var rateLimitsThatShouldComeCache = await client.RateLimits.GetRateLimits(RateLimitsSource.CacheOrTwitterApi);
 
-                // arrange
-                Assert.Same(rateLimits, twitterApiRateLimits);
-                Assert.Same(rateLimitsThatShouldComeCache, cacheRateLimits);
-            }
+            // arrange
+            Assert.Same(rateLimits, twitterApiRateLimits);
+            Assert.Same(rateLimitsThatShouldComeCache, cacheRateLimits);
         }
     }
 }

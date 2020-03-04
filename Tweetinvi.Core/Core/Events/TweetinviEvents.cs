@@ -6,10 +6,27 @@ namespace Tweetinvi.Core.Events
 {
     public interface ITweetinviEvents : ITwitterClientEvents
     {
+        void SubscribeToClientEvents(ITwitterClient client);
+        void UnSubscribeFromClientEvents(ITwitterClient client);
     }
 
     public class TweetinviEvents : TwitterClientEvents, ITweetinviEvents
     {
+        public void SubscribeToClientEvents(ITwitterClient client)
+        {
+            client.Events.BeforeWaitingForRequestRateLimits += RaiseBeforeWaitingForQueryRateLimits;
+            client.Events.BeforeExecutingRequest += RaiseBeforeExecutingQuery;
+            client.Events.AfterExecutingRequest += RaiseAfterExecutingQuery;
+            client.Events.OnTwitterException += RaiseOnTwitterException;
+        }
+
+        public void UnSubscribeFromClientEvents(ITwitterClient client)
+        {
+            client.Events.BeforeWaitingForRequestRateLimits -= RaiseBeforeWaitingForQueryRateLimits;
+            client.Events.BeforeExecutingRequest -= RaiseBeforeExecutingQuery;
+            client.Events.AfterExecutingRequest -= RaiseAfterExecutingQuery;
+            client.Events.OnTwitterException -= RaiseOnTwitterException;
+        }
     }
 
     public interface IExternalClientEvents
@@ -50,24 +67,40 @@ namespace Tweetinvi.Core.Events
     public class TwitterClientEvents : ITwitterClientEvents
     {
         public event EventHandler<BeforeExecutingRequestEventArgs> BeforeWaitingForRequestRateLimits;
+        protected void RaiseBeforeWaitingForQueryRateLimits(object sender, BeforeExecutingRequestEventArgs beforeExecutingRequestAfterExecuteEventArgs)
+        {
+            BeforeWaitingForRequestRateLimits?.Invoke(sender, beforeExecutingRequestAfterExecuteEventArgs);
+        }
         public void RaiseBeforeWaitingForQueryRateLimits(BeforeExecutingRequestEventArgs beforeExecutingRequestAfterExecuteEventArgs)
         {
             this.Raise(BeforeWaitingForRequestRateLimits, beforeExecutingRequestAfterExecuteEventArgs);
         }
 
         public event EventHandler<BeforeExecutingRequestEventArgs> BeforeExecutingRequest;
+        protected void RaiseBeforeExecutingQuery(object sender, BeforeExecutingRequestEventArgs beforeExecutingRequestExecutedEventArgs)
+        {
+            BeforeExecutingRequest?.Invoke(sender, beforeExecutingRequestExecutedEventArgs);
+        }
         public void RaiseBeforeExecutingQuery(BeforeExecutingRequestEventArgs beforeExecutingRequestExecutedEventArgs)
         {
             this.Raise(BeforeExecutingRequest, beforeExecutingRequestExecutedEventArgs);
         }
 
         public event EventHandler<AfterExecutingQueryEventArgs> AfterExecutingRequest;
+        protected void RaiseAfterExecutingQuery(object sender, AfterExecutingQueryEventArgs afterExecutingQueryEventArgs)
+        {
+            AfterExecutingRequest?.Invoke(sender, afterExecutingQueryEventArgs);
+        }
         public void RaiseAfterExecutingQuery(AfterExecutingQueryEventArgs afterExecutingQueryEventArgs)
         {
             this.Raise(AfterExecutingRequest, afterExecutingQueryEventArgs);
         }
 
         public event EventHandler<ITwitterException> OnTwitterException;
+        protected void RaiseOnTwitterException(object sender, ITwitterException exception)
+        {
+            OnTwitterException?.Invoke(sender, exception);
+        }
         public void RaiseOnTwitterException(ITwitterException exception)
         {
             this.Raise(OnTwitterException, exception);

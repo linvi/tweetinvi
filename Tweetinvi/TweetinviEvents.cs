@@ -17,6 +17,16 @@ namespace Tweetinvi
             _tweetinviEvents = TweetinviContainer.Resolve<ITweetinviEvents>();
         }
 
+        public static void SubscribeToClientEvents(ITwitterClient client)
+        {
+            _tweetinviEvents.SubscribeToClientEvents(client);
+        }
+
+        public static void UnSubscribeFromClientEvents(ITwitterClient client)
+        {
+            _tweetinviEvents.UnSubscribeFromClientEvents(client);
+        }
+
         /// <inheritdoc cref="IExternalClientEvents.BeforeWaitingForRequestRateLimits" />
         public static event EventHandler<BeforeExecutingRequestEventArgs> BeforeWaitingForRequestRateLimits
         {
