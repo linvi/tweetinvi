@@ -1,4 +1,5 @@
 using Tweetinvi.Models;
+using Tweetinvi.Models.DTO.Events;
 
 namespace Tweetinvi.Parameters
 {
@@ -19,6 +20,11 @@ namespace Tweetinvi.Parameters
         public DestroyMessageParameters(long messageId)
         {
             MessageId = messageId;
+        }
+
+        public DestroyMessageParameters(IMessageEventDTO messageEvent)
+        {
+            MessageId = messageEvent.Id;
         }
 
         public DestroyMessageParameters(IMessage message)
