@@ -1,9 +1,8 @@
 ﻿using Newtonsoft.Json;
-using Tweetinvi.Core.DTO.Cursor;
 using Tweetinvi.Models.DTO;
 using Tweetinvi.Models.DTO.QueryDTO;
 
-namespace Tweetinvi.Credentials.QueryDTO
+namespace Tweetinvi.Core.DTO.Cursor
 {
     public class TwitterListCursorQueryResultDTO : BaseCursorQueryDTO<ITwitterListDTO>, ITwitterListCursorQueryResultDTO
     {
@@ -12,7 +11,7 @@ namespace Tweetinvi.Credentials.QueryDTO
         [JsonProperty("lists")]
         public ITwitterListDTO[] TwitterLists
         {
-            get { return _twitterLists ?? new ITwitterListDTO[0]; }
+            get => _twitterLists ?? new ITwitterListDTO[0];
             set
             {
                 _twitterLists = value;

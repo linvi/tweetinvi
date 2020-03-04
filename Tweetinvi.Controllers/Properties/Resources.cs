@@ -256,9 +256,9 @@ namespace Tweetinvi.Controllers.Properties
         public static string List_CheckSubscriber = "https://api.twitter.com/1.1/lists/subscribers/show.json";
 
         /// <summary>
-        ///   Looks up a localized string similar to https://api.twitter.com/1.1/direct_messages/events/list.json?count={0}.
+        ///   Looks up a localized string similar to https://api.twitter.com/1.1/direct_messages/events/list.json.
         /// </summary>
-        public static string Message_GetMessages = "https://api.twitter.com/1.1/direct_messages/events/list.json?count={0}";
+        public static string Message_GetMessages = "https://api.twitter.com/1.1/direct_messages/events/list.json";
 
         /// <summary>
         ///   Looks up a localized string similar to https://api.twitter.com/1.1/direct_messages/events/new.json.

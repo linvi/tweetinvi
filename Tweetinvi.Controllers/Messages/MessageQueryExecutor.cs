@@ -2,20 +2,18 @@
 using Tweetinvi.Core.Web;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
-using Tweetinvi.Models.DTO.Events;
+using Tweetinvi.Models.DTO.QueryDTO;
 using Tweetinvi.Parameters;
 
 namespace Tweetinvi.Controllers.Messages
 {
     public interface IMessageQueryExecutor
     {
-        // Get messages
-        Task<IGetMessagesDTO> GetLatestMessages(IGetMessagesParameters queryParameters);
-
         // Publish Message
         Task<ITwitterResult<ICreateMessageDTO>> PublishMessage(IPublishMessageParameters parameters, ITwitterRequest request);
         Task<ITwitterResult> DestroyMessage(IDeleteMessageParameters parameters, ITwitterRequest request);
         Task<ITwitterResult<IGetMessageDTO>> GetMessage(IGetMessageParameters parameters, ITwitterRequest request);
+        Task<ITwitterResult<IMessageCursorQueryResultDTO>> GetMessages(IGetMessagesParameters parameters, TwitterRequest request);
     }
 
     public class MessageQueryExecutor : IMessageQueryExecutor
@@ -34,14 +32,6 @@ namespace Tweetinvi.Controllers.Messages
             _messageQueryGenerator = messageQueryGenerator;
         }
 
-        // Get Messages
-        public Task<IGetMessagesDTO> GetLatestMessages(IGetMessagesParameters queryParameters)
-        {
-            string query = _messageQueryGenerator.GetLatestMessagesQuery(queryParameters);
-            return _twitterAccessor.ExecuteGETQuery<IGetMessagesDTO>(query);
-        }
-
-        // Publish Message
         public Task<ITwitterResult<ICreateMessageDTO>> PublishMessage(IPublishMessageParameters parameters, ITwitterRequest request)
         {
             var requestWithPayload = _messageQueryGenerator.GetPublishMessageQuery(parameters);
@@ -65,6 +55,13 @@ namespace Tweetinvi.Controllers.Messages
             request.Query.Url = _messageQueryGenerator.GetMessageQuery(parameters);
             request.Query.HttpMethod = HttpMethod.GET;
             return _twitterAccessor.ExecuteRequest<IGetMessageDTO>(request);
+        }
+
+        public Task<ITwitterResult<IMessageCursorQueryResultDTO>> GetMessages(IGetMessagesParameters parameters, TwitterRequest request)
+        {
+            request.Query.Url = _messageQueryGenerator.GetMessagesQuery(parameters);
+            request.Query.HttpMethod = HttpMethod.GET;
+            return _twitterAccessor.ExecuteRequest<IMessageCursorQueryResultDTO>(request);
         }
     }
 }

@@ -1,4 +1,5 @@
 using Tweetinvi.Core.DTO;
+using Tweetinvi.Core.DTO.Cursor;
 using Tweetinvi.Core.Iterators;
 using Tweetinvi.Core.Web;
 using Tweetinvi.Credentials.QueryDTO;

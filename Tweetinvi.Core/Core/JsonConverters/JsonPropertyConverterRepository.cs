@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json;
 using Tweetinvi.Core.DTO;
+using Tweetinvi.Core.DTO.Cursor;
 using Tweetinvi.Core.DTO.Events;
 using Tweetinvi.Core.DTO.Webhooks;
 using Tweetinvi.Core.Helpers;
@@ -120,7 +121,6 @@ namespace Tweetinvi.Core.JsonConverters
             var eventConverter = new JsonInterfaceToObjectConverter<IMessageEventDTO, MessageEventDTO>();
             var messageCreateConverter = new JsonInterfaceToObjectConverter<IMessageCreateDTO, MessageCreateDTO>();
             var getMessageConverter = new JsonInterfaceToObjectConverter<IGetMessageDTO, GetMessageDTO>();
-            var getMessagesConverter = new JsonInterfaceToObjectConverter<IGetMessagesDTO, GetMessagesDTO>();
             var createMessageConverter = new JsonInterfaceToObjectConverter<ICreateMessageDTO, CreateMessageDTO>();
             var attachmentConverter = new JsonInterfaceToObjectConverter<IAttachmentDTO, AttachmentDTO>();
             var messageEntitiesConverter = new JsonInterfaceToObjectConverter<IMessageEntities, MessageEntitiesDTO>();
@@ -135,7 +135,7 @@ namespace Tweetinvi.Core.JsonConverters
             JsonConverters.Add(typeof(IRelationshipDetailsDTO), relationshipConverter);
             JsonConverters.Add(typeof(IRelationshipStateDTO), relationshipStateConverter);
             JsonConverters.Add(typeof(IAccountSettingsDTO), accountSettingsConverter);
-            
+
             JsonConverters.Add(typeof(IGeo), geoConverter);
             JsonConverters.Add(typeof(ITimeZone), timezoneConverter);
             JsonConverters.Add(typeof(ITrendLocation), trendLocationConverter);
@@ -170,7 +170,6 @@ namespace Tweetinvi.Core.JsonConverters
             JsonConverters.Add(typeof(IMessageEventDTO), eventConverter);
             JsonConverters.Add(typeof(IMessageCreateDTO), messageCreateConverter);
             JsonConverters.Add(typeof(IGetMessageDTO), getMessageConverter);
-            JsonConverters.Add(typeof(IGetMessagesDTO), getMessagesConverter);
             JsonConverters.Add(typeof(ICreateMessageDTO), createMessageConverter);
             JsonConverters.Add(typeof(IAttachmentDTO), attachmentConverter);
             JsonConverters.Add(typeof(IMessageEntities), messageEntitiesConverter);

@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Tweetinvi.Core.Models;
 using Tweetinvi.Iterators;
 using Tweetinvi.Parameters;
 using Tweetinvi.Client;
@@ -38,18 +37,9 @@ namespace Tweetinvi.Models
         #endregion
 
         /// <summary>
-        /// Get the list of direct messages sent or received by the user
+        /// Get list of recent messages
         /// </summary>
-        /// <param name="count">Number of messages to request from the Twitter API. Actual amount returned may be less</param>
-        /// <returns>Collection of direct messages</returns>
-        Task<IEnumerable<IMessage>> GetLatestMessages(int count = TweetinviConsts.MESSAGE_GET_COUNT);
-
-        /// <summary>
-        /// Get the list of direct messages sent or received by the user
-        /// </summary>
-        /// <param name="count">Number of messages to request from the Twitter API. Actual amount returned may be less</param>
-        /// <returns>Collection of direct messages</returns>
-        Task<AsyncCursorResult<IEnumerable<IMessage>>> GetLatestMessagesWithCursor(int count = TweetinviConsts.MESSAGE_GET_COUNT);
+        ITwitterIterator<IMessage> GetLatestMessages();
 
         /// <summary>
         /// Publish a message.

@@ -50,7 +50,7 @@ namespace Tweetinvi.Core.JsonConverters
                 new JsonInterfaceToObjectConverter<IAccountSettingsDTO, AccountSettingsDTO>(),
                 new JsonInterfaceToObjectConverter<ILocation, Location>(),
                 new JsonInterfaceToObjectConverter<IPlace, Place>(),
-                
+
                 new JsonInterfaceToObjectConverter<IUrlEntity, UrlEntity>(),
                 new JsonInterfaceToObjectConverter<IHashtagEntity, HashtagEntity>(),
                 new JsonInterfaceToObjectConverter<IMediaEntity, MediaEntity>(),
@@ -68,18 +68,18 @@ namespace Tweetinvi.Core.JsonConverters
 
                 new JsonInterfaceToObjectConverter<IRelationshipDetails, RelationshipDetails>(),
                 new JsonInterfaceToObjectConverter<IRelationshipState, RelationshipState>(),
-                
+
                 new JsonInterfaceToObjectConverter<IPlaceTrends, PlaceTrends>(),
                 new JsonInterfaceToObjectConverter<ITrend, Trend>(),
                 new JsonInterfaceToObjectConverter<ITrendLocation, TrendLocation>(),
                 new JsonInterfaceToObjectConverter<IWoeIdLocation, WoeIdLocation>(),
-                
-                
+
+
                 new JsonInterfaceToObjectConverter<IEndpointRateLimit, EndpointRateLimit>(),
                 new JsonInterfaceToObjectConverter<ICredentialsRateLimits, CredentialsRateLimits>(),
                 new JsonInterfaceToObjectConverter<ISavedSearchDTO, SavedSearchDTO>(),
                 new JsonInterfaceToObjectConverter<ITwitterExceptionInfo, TwitterExceptionInfo>(),
-                
+
                 new JsonInterfaceToObjectConverter<ISearchResultsDTO, SearchResultsDTO>(),
                 new JsonInterfaceToObjectConverter<ITwitterConfiguration, TwitterConfiguration>(),
                 new JsonInterfaceToObjectConverter<ICategorySuggestion, CategorySuggestion>(),
@@ -100,11 +100,10 @@ namespace Tweetinvi.Core.JsonConverters
                 new JsonInterfaceToObjectConverter<IMessageEventDTO, MessageEventDTO>(),
                 new JsonInterfaceToObjectConverter<IMessageCreateDTO, MessageCreateDTO>(),
                 new JsonInterfaceToObjectConverter<IGetMessageDTO, GetMessageDTO>(),
-                new JsonInterfaceToObjectConverter<IGetMessagesDTO, GetMessagesDTO>(),
                 new JsonInterfaceToObjectConverter<ICreateMessageDTO, CreateMessageDTO>(),
                 new JsonInterfaceToObjectConverter<IAttachmentDTO, AttachmentDTO>(),
                 new JsonInterfaceToObjectConverter<IMessageEntities, MessageEntitiesDTO>(),
-                
+
                 new JsonInterfaceToObjectConverter<IUploadInitModel, UploadInitModel>(),
 
                 // Webhooks

@@ -127,6 +127,12 @@ namespace Tweetinvi
         public short LISTS_GET_USER_SUBSCRIPTIONS_MAX_PAGE_SIZE { get; set; } = 1000;
 
         /// <summary>
+        /// Maximum number of messages that can be retrieved in 1 request
+        /// <para>https://developer.twitter.com/en/docs/direct-messages/sending-and-receiving/api-reference/list-events</para>
+        /// </summary>
+        public short MESSAGES_GET_MAX_PAGE_SIZE { get; set; } = 50;
+
+        /// <summary>
         /// Maximum number of tweets to retrieve in 1 request
         /// <para>https://developer.twitter.com/en/docs/tweets/timelines/api-reference/get-statuses-home_timeline</para>
         /// </summary>
@@ -219,6 +225,8 @@ namespace Tweetinvi
             LISTS_GET_USER_MEMBERSHIPS_MAX_PAGE_SIZE = source.LISTS_GET_USER_MEMBERSHIPS_MAX_PAGE_SIZE;
             LISTS_ADD_MEMBERS_MAX_USERS = source.LISTS_ADD_MEMBERS_MAX_USERS;
             LISTS_REMOVE_MEMBERS_MAX_USERS = source.LISTS_REMOVE_MEMBERS_MAX_USERS;
+
+            MESSAGES_GET_MAX_PAGE_SIZE = source.MESSAGES_GET_MAX_PAGE_SIZE;
 
             TIMELINE_HOME_PAGE_MAX_PAGE_SIZE = source.TIMELINE_HOME_PAGE_MAX_PAGE_SIZE;
             TIMELINE_MENTIONS_PAGE_MAX_PAGE_SIZE = source.TIMELINE_MENTIONS_PAGE_MAX_PAGE_SIZE;

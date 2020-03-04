@@ -190,15 +190,9 @@ namespace Tweetinvi.Core.Models
         }
 
         // Direct Messages
-        public async Task<IEnumerable<IMessage>> GetLatestMessages(int count)
+        public ITwitterIterator<IMessage> GetLatestMessages()
         {
-            var asyncOperation = await GetLatestMessagesWithCursor(count);
-            return asyncOperation.Result;
-        }
-
-        public Task<AsyncCursorResult<IEnumerable<IMessage>>> GetLatestMessagesWithCursor(int count)
-        {
-            return _messageController.GetLatestMessages(count);
+            throw new NotImplementedException();
         }
 
         public Task<IMessage> PublishMessage(IPublishMessageParameters publishMessageParameters)

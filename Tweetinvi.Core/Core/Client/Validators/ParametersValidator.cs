@@ -190,6 +190,11 @@ namespace Tweetinvi.Core.Client.Validators
             _messagesClientParametersValidator.Validate(parameters);
         }
 
+        public void Validate(IGetMessagesParameters parameters)
+        {
+            _messagesClientParametersValidator.Validate(parameters);
+        }
+
         public void Validate(ICreateListParameters parameters)
         {
             _twitterListsClientParametersValidator.Validate(parameters);

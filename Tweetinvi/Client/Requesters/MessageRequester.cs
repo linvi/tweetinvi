@@ -2,9 +2,12 @@ using System.Threading.Tasks;
 using Tweetinvi.Core.Client.Validators;
 using Tweetinvi.Core.Controllers;
 using Tweetinvi.Core.Events;
+using Tweetinvi.Core.Iterators;
+using Tweetinvi.Core.JsonConverters;
 using Tweetinvi.Core.Web;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
+using Tweetinvi.Models.DTO.QueryDTO;
 using Tweetinvi.Parameters;
 
 namespace Tweetinvi.Client.Requesters
@@ -54,6 +57,15 @@ namespace Tweetinvi.Client.Requesters
                 var twitterResult = await _messageController.GetMessage(parameters, request);
                 return _twitterResultFactory.Create(twitterResult, dto => _client.Factories.CreateMessage(dto));
             });
+        }
+
+        public ITwitterPageIterator<ITwitterResult<IMessageCursorQueryResultDTO>> GetMessagesIterator(IGetMessagesParameters parameters)
+        {
+            _messagesClientParametersValidator.Validate(parameters);
+
+            var request = TwitterClient.CreateRequest();
+            request.ExecutionContext.Converters = JsonQueryConverterRepository.Converters;
+            return _messageController.GetMessagesIterator(parameters, request);
         }
     }
 }

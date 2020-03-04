@@ -67,7 +67,6 @@ namespace Tweetinvi.Controllers.User
         public ITwitterPageIterator<ITwitterResult<IIdsCursorQueryResultDTO>> GetFollowerIdsIterator(IGetFollowerIdsParameters parameters, ITwitterRequest request)
         {
             var twitterCursorResult = new TwitterPageIterator<ITwitterResult<IIdsCursorQueryResultDTO>>(
-                // ReSharper disable once PossibleNullReferenceException
                 parameters.Cursor,
                 cursor =>
                 {

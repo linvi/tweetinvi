@@ -19,7 +19,6 @@ namespace Tweetinvi.Client.Tools
         IMessage CreateMessage(IGetMessageDTO getMessageDTO);
         IMessage CreateMessage(ICreateMessageDTO createMessageDTO);
         IMessage CreateMessage(IMessageEventWithAppDTO messageEventWithAppDTO);
-        IMessage[] CreateMessages(IGetMessagesDTO getMessagesDTO);
         IMessage[] CreateMessages(IEnumerable<IMessageEventWithAppDTO> eventWithAppDTOs);
 
         // RELATIONSHIP

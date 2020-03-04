@@ -1,11 +1,9 @@
 ﻿using System.Linq;
 using Newtonsoft.Json;
 using Tweetinvi.Core.DTO.Cursor;
-using Tweetinvi.Core.JsonConverters;
-using Tweetinvi.Credentials.QueryDTO;
 using Tweetinvi.Models.DTO.QueryDTO;
 
-namespace Tweetinvi.Credentials.QueryJsonConverters
+namespace Tweetinvi.Core.JsonConverters
 {
     public static class JsonQueryConverterRepository
     {
@@ -22,6 +20,7 @@ namespace Tweetinvi.Credentials.QueryJsonConverters
             converters.AddRange(new JsonConverter[]
             {
                 new JsonInterfaceToObjectConverter<IIdsCursorQueryResultDTO, IdsCursorQueryResultDTO>(),
+                new JsonInterfaceToObjectConverter<IMessageCursorQueryResultDTO, MessageCursorQueryResultDTO>(),
                 new JsonInterfaceToObjectConverter<IUserCursorQueryResultDTO, UserCursorQueryResultDTO>(),
                 new JsonInterfaceToObjectConverter<ITwitterListCursorQueryResultDTO, TwitterListCursorQueryResultDTO>(),
             });

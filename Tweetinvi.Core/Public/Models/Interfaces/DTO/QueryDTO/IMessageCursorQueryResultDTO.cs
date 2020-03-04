@@ -1,11 +1,10 @@
 ﻿using System.Collections.Generic;
 using Tweetinvi.Models.DTO.Events;
 
-namespace Tweetinvi.Models.DTO
+namespace Tweetinvi.Models.DTO.QueryDTO
 {
-    public interface IGetMessagesDTO
+    public interface IMessageCursorQueryResultDTO : IBaseCursorQueryDTO<IMessageEventDTO>
     {
-        string NextCursor { get; set; }
         IMessageEventDTO[] MessageEvents { get; set; }
         Dictionary<long, IApp> Apps { get; set; }
     }

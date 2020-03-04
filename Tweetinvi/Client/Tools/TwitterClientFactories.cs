@@ -55,11 +55,6 @@ namespace Tweetinvi.Client.Tools
             return _buildMessage(getMessageDTO.MessageEvent, getMessageDTO.Apps);
         }
 
-        public IMessage[] CreateMessages(IGetMessagesDTO getMessagesDTO)
-        {
-            return getMessagesDTO?.MessageEvents?.Select(eventDTO => _buildMessage(eventDTO, getMessagesDTO.Apps)).ToArray();
-        }
-
         public IMessage CreateMessage(ICreateMessageDTO createMessageDTO)
         {
             return CreateMessage(createMessageDTO.MessageEvent);

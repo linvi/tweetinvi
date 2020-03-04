@@ -1,4 +1,5 @@
 ﻿using Tweetinvi.Core.DTO;
+using Tweetinvi.Core.DTO.Cursor;
 using Tweetinvi.Core.DTO.Events;
 using Tweetinvi.Core.Exceptions;
 using Tweetinvi.Core.Helpers;
@@ -91,7 +92,6 @@ namespace Tweetinvi.Logic
             container.RegisterType<IMessageEventDTO, MessageEventDTO>();
             container.RegisterType<IMessageCreateDTO, MessageCreateDTO>();
             container.RegisterType<IGetMessageDTO, GetMessageDTO>();
-            container.RegisterType<IGetMessagesDTO, GetMessagesDTO>();
             container.RegisterType<ICreateMessageDTO, CreateMessageDTO>();
             container.RegisterType<IAttachmentDTO, AttachmentDTO>();
             container.RegisterType<IMessageEntities, MessageEntitiesDTO>();

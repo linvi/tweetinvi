@@ -1,5 +1,7 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using Tweetinvi.Core.Models.Properties;
 using Tweetinvi.Exceptions;
@@ -26,13 +28,49 @@ namespace xUnitinvi.EndToEnd
 
             var messageTextIdentifier = $"hello from tweetinvi {Guid.NewGuid()}";
             var message = await _tweetinviClient.Messages.PublishMessage(messageTextIdentifier, EndToEndTestConfig.TweetinviTest.UserId);
-
             var publishedMessage = await _tweetinviClient.Messages.GetMessage(message.Id);
+            var responseMessage = await _tweetinviTestClient.Messages.PublishMessage($"you are soo nice {Guid.NewGuid()}", EndToEndTestConfig.TweetinviApi.UserId);
 
-            // messages have to be destroyed by both the sender and receiver
-            // for it to no longer exists.
-            await _tweetinviClient.Messages.DestroyMessage(message);
-            await _tweetinviTestClient.Messages.DestroyMessage(message);
+            // wait for twitter eventual consistency
+            await Task.Delay(TimeSpan.FromSeconds(70));
+
+            try
+            {
+                var messagesIterator = _tweetinviClient.Messages.GetMessagesIterator(new GetMessagesParameters
+                {
+                    PageSize = 1
+                });
+
+                var messages = new List<IMessage>();
+                var totalCursorRequestRun = 0;
+
+                // < 2 to handle empty results from twitter
+                // note - `messagesIterator.Completed` is never true as Twitter always provide cursor
+                while (messages.Count < 2 && !messagesIterator.Completed && totalCursorRequestRun < 5)
+                {
+                    ++totalCursorRequestRun; // prevent getting out of RateLimits when Twitter continuously returns no elements
+                    var page = (await messagesIterator.MoveToNextPage()).ToArray();
+                    _logger.WriteLine($"Received {page.Length} elements");
+                    messages.AddRange(page);
+                }
+
+                Assert.Equal(messages[0].Id, responseMessage.Id);
+                Assert.Equal(messages[1].Id, publishedMessage.Id);
+            }
+            catch (TwitterException e)
+            {
+                _logger.WriteLine(e.ToString());
+                throw;
+            }
+            finally
+            {
+                // messages have to be destroyed by both the sender and receiver
+                // for it to no longer exists.
+                await _tweetinviClient.Messages.DestroyMessage(message);
+                await _tweetinviTestClient.Messages.DestroyMessage(message);
+                await _tweetinviClient.Messages.DestroyMessage(responseMessage);
+                await _tweetinviTestClient.Messages.DestroyMessage(responseMessage);
+            }
 
             try
             {

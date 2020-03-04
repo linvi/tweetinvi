@@ -5,12 +5,10 @@ using Tweetinvi.Controllers.Shared;
 using Tweetinvi.Core.DTO;
 using Tweetinvi.Core.DTO.Events;
 using Tweetinvi.Core.Extensions;
-using Tweetinvi.Core.Injectinvi;
 using Tweetinvi.Core.Models.TwitterEntities;
 using Tweetinvi.Core.Web;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
-using Tweetinvi.Models.Entities;
 using Tweetinvi.Parameters;
 
 namespace Tweetinvi.Controllers.Messages
@@ -23,42 +21,25 @@ namespace Tweetinvi.Controllers.Messages
 
     public interface IMessageQueryGenerator
     {
-        // Get messages
-        string GetLatestMessagesQuery(IGetMessagesParameters queryParameters);
-
-        // Publish Message
         RequestWithPayload GetPublishMessageQuery(IPublishMessageParameters parameters);
         string GetDestroyMessageQuery(IDeleteMessageParameters parameters);
         string GetMessageQuery(IGetMessageParameters parameters);
+        string GetMessagesQuery(IGetMessagesParameters parameters);
     }
 
     public class MessageQueryGenerator : IMessageQueryGenerator
     {
         private readonly JsonContentFactory _jsonContentFactory;
         private readonly IQueryParameterGenerator _queryParameterGenerator;
-        private readonly IFactory<IQuickReplyDTO> _quickReplyDTOFactory;
 
         public MessageQueryGenerator(
             JsonContentFactory jsonContentFactory,
-            IQueryParameterGenerator queryParameterGenerator,
-            IFactory<IQuickReplyDTO> quickReplyDTOFactory)
+            IQueryParameterGenerator queryParameterGenerator)
         {
             _jsonContentFactory = jsonContentFactory;
             _queryParameterGenerator = queryParameterGenerator;
-            _quickReplyDTOFactory = quickReplyDTOFactory;
         }
 
-        // Get collection of messages
-        public string GetLatestMessagesQuery(IGetMessagesParameters queryParameters)
-        {
-            var query = new StringBuilder(string.Format(Resources.Message_GetMessages, queryParameters.Count));
-
-            query.Append(_queryParameterGenerator.GenerateCursorParameter(queryParameters.Cursor));
-
-            return query.ToString();
-        }
-
-        // Publish Message
         public RequestWithPayload GetPublishMessageQuery(IPublishMessageParameters parameters)
         {
             var query = new StringBuilder(Resources.Message_Create);
@@ -85,6 +66,14 @@ namespace Tweetinvi.Controllers.Messages
         {
             var query = new StringBuilder(Resources.Message_Get);
             query.AddParameterToQuery("id", parameters.MessageId);
+            query.AddFormattedParameterToQuery(parameters.FormattedCustomQueryParameters);
+            return query.ToString();
+        }
+
+        public string GetMessagesQuery(IGetMessagesParameters parameters)
+        {
+            var query = new StringBuilder(Resources.Message_GetMessages);
+            _queryParameterGenerator.AppendCursorParameters(query, parameters);
             query.AddFormattedParameterToQuery(parameters.FormattedCustomQueryParameters);
             return query.ToString();
         }
