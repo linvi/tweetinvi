@@ -96,6 +96,25 @@ namespace xUnitinvi.EndToEnd
         }
 
         [Fact]
+        public async Task PublishWithMediaId()
+        {
+            if (!EndToEndTestConfig.ShouldRunEndToEndTests)
+                return;
+
+            var tweetinviLogoBinary = File.ReadAllBytes("./tweetinvi-logo-purple.png");
+            var media = await _protectedClient.Upload.UploadBinary(tweetinviLogoBinary);
+            var tweetWithMedia = await _protectedClient.Tweets.PublishTweet(new PublishTweetParameters("tweet with media")
+            {
+                MediaIds = {media.Id.Value},
+                PossiblySensitive = true,
+            });
+
+            await _protectedClient.Tweets.DestroyTweet(tweetWithMedia);
+
+            Assert.Equal(tweetWithMedia.Media[0].Id, media.Id.Value);
+        }
+
+        [Fact]
         public async Task Retweets()
         {
             if (!EndToEndTestConfig.ShouldRunEndToEndTests)

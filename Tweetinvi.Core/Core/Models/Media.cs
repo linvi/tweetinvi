@@ -29,7 +29,7 @@ namespace Tweetinvi.Core.Models
 
                 return _existingMediaId;
             }
-            set { _existingMediaId = value; }
+            set => _existingMediaId = value;
         }
 
         public bool HasBeenUploaded { get { return UploadedMediaInfo != null; } }
