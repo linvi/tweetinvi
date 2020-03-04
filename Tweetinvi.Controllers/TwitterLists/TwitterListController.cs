@@ -14,18 +14,15 @@ namespace Tweetinvi.Controllers.TwitterLists
     {
         private readonly IUserFactory _userFactory;
         private readonly ITwitterListQueryExecutor _twitterListQueryExecutor;
-        private readonly ITwitterListIdentifierFactory _twitterListIdentifierFactory;
         private readonly IPageCursorIteratorFactories _pageCursorIteratorFactories;
 
         public TwitterListController(
             IUserFactory userFactory,
             ITwitterListQueryExecutor twitterListQueryExecutor,
-            ITwitterListIdentifierFactory twitterListIdentifierFactory,
             IPageCursorIteratorFactories pageCursorIteratorFactories)
         {
             _userFactory = userFactory;
             _twitterListQueryExecutor = twitterListQueryExecutor;
-            _twitterListIdentifierFactory = twitterListIdentifierFactory;
             _pageCursorIteratorFactories = pageCursorIteratorFactories;
         }
 

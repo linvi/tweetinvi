@@ -1,7 +1,6 @@
 ﻿using Tweetinvi.Core.Factories;
 using Tweetinvi.Core.Injectinvi;
 using Tweetinvi.Core.Web;
-using Tweetinvi.Factories.Lists;
 using Tweetinvi.Factories.SavedSearch;
 using Tweetinvi.Factories.Tweet;
 using Tweetinvi.Factories.User;
@@ -15,11 +14,6 @@ namespace Tweetinvi.Factories
         {
             container.RegisterType<ITweetFactory, TweetFactory>(RegistrationLifetime.InstancePerApplication);
             container.RegisterType<IUserFactory, UserFactory>(RegistrationLifetime.InstancePerApplication);
-
-            container.RegisterType<IMessageFactory, MessageFactory>(RegistrationLifetime.InstancePerApplication);
-            container.RegisterType<IMessageFactoryQueryExecutor, MessageFactoryQueryExecutor>(RegistrationLifetime.InstancePerApplication);
-
-            container.RegisterType<ITwitterListIdentifierFactory, TwitterListIdentifierFactory>(RegistrationLifetime.InstancePerApplication);
 
             container.RegisterType<ISavedSearchFactory, SavedSearchFactory>(RegistrationLifetime.InstancePerApplication);
             container.RegisterType<ISavedSearchJsonFactory, SavedSearchJsonFactory>(RegistrationLifetime.InstancePerApplication);
