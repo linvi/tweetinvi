@@ -1,6 +1,5 @@
 using Tweetinvi.Models;
 using Tweetinvi.Parameters;
-using Tweetinvi.Parameters.Auth;
 
 namespace Tweetinvi.Core.Client.Validators
 {

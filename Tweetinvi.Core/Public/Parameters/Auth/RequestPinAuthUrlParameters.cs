@@ -1,4 +1,4 @@
-namespace Tweetinvi.Parameters.Auth
+namespace Tweetinvi.Parameters
 {
     /// <inheritdoc/>
     public class RequestPinAuthUrlParameters : CustomRequestParameters, IRequestAuthUrlParameters
@@ -10,6 +10,11 @@ namespace Tweetinvi.Parameters.Auth
 
         /// <inheritdoc/>
         public string CallbackUrl { get; set; }
+        /// <inheritdoc/>
+        public bool? ForceLogin { get; set; }
+        /// <inheritdoc/>
+        public string ScreenName { get; set; }
+
         /// <inheritdoc/>
         public string RequestId { get; set; }
         /// <inheritdoc/>

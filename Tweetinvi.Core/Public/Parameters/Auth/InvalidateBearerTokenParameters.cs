@@ -1,4 +1,4 @@
-namespace Tweetinvi.Parameters.Auth
+namespace Tweetinvi.Parameters
 {
     /// <summary>
     /// For more information visit : https://developer.twitter.com/en/docs/basics/authentication/api-reference/invalidate_bearer_token

@@ -6,7 +6,7 @@ using Tweetinvi.Core.Web;
 using Tweetinvi.Credentials.Models;
 using Tweetinvi.Exceptions;
 using Tweetinvi.Models;
-using Tweetinvi.Parameters.Auth;
+using Tweetinvi.Parameters;
 using Xunit;
 using xUnitinvi.TestHelpers;
 

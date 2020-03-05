@@ -1,3 +1,4 @@
+using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Tweetinvi.Controllers.Properties;
@@ -8,7 +9,7 @@ using Tweetinvi.Core.Web;
 using Tweetinvi.Credentials.Models;
 using Tweetinvi.Exceptions;
 using Tweetinvi.Models;
-using Tweetinvi.Parameters.Auth;
+using Tweetinvi.Parameters;
 
 namespace Tweetinvi.Controllers.Auth
 {
@@ -55,7 +56,13 @@ namespace Tweetinvi.Controllers.Auth
 
             authToken.AuthorizationKey = tokenInformation.Groups["oauth_token"].Value;
             authToken.AuthorizationSecret = tokenInformation.Groups["oauth_token_secret"].Value;
-            authToken.AuthorizationURL = $"{Resources.Auth_AuthorizeBaseUrl}?oauth_token={authToken.AuthorizationKey}";
+
+            var authorizationUrl = new StringBuilder(Resources.Auth_AuthorizeBaseUrl);
+            authorizationUrl.AddParameterToQuery("oauth_token", authToken.AuthorizationKey);
+            authorizationUrl.AddParameterToQuery("force_login", parameters.ForceLogin);
+            authorizationUrl.AddParameterToQuery("screen_name", parameters.ScreenName);
+
+            authToken.AuthorizationURL = authorizationUrl.ToString();
 
             return new TwitterResult<IAuthenticationRequest>
             {

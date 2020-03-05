@@ -4,7 +4,7 @@ using Tweetinvi.Auth;
 using Tweetinvi.Core.Extensions;
 using Tweetinvi.Models;
 
-namespace Tweetinvi.Parameters.Auth
+namespace Tweetinvi.Parameters
 {
     /// <summary>
     /// For more information visit : https://developer.twitter.com/en/docs/basics/authentication/api-reference/access_token

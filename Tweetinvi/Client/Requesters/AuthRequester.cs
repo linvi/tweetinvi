@@ -5,7 +5,7 @@ using Tweetinvi.Core.DTO;
 using Tweetinvi.Core.Events;
 using Tweetinvi.Core.Web;
 using Tweetinvi.Models;
-using Tweetinvi.Parameters.Auth;
+using Tweetinvi.Parameters;
 
 namespace Tweetinvi.Client.Requesters
 {

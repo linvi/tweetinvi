@@ -1,6 +1,6 @@
 using Tweetinvi.Models;
 
-namespace Tweetinvi.Parameters.Auth
+namespace Tweetinvi.Parameters
 {
     public interface IRequestCredentialsFromPinCodeParameters
     {

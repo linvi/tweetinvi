@@ -4,8 +4,8 @@ using System.Threading.Tasks;
 using Examplinvi.ASP.NET.Core.Models;
 using Microsoft.AspNetCore.Mvc;
 using Tweetinvi;
-using Tweetinvi.Parameters.Auth;
 using Tweetinvi.Auth;
+using Tweetinvi.Parameters;
 
 namespace Examplinvi.ASP.NET.Core.Controllers
 {

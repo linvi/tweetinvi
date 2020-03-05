@@ -1,4 +1,4 @@
-namespace Tweetinvi.Parameters.Auth
+namespace Tweetinvi.Parameters
 {
     /// <summary>
     /// Type of permissions requested when authenticating a user

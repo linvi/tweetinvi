@@ -1,7 +1,7 @@
 using System.Threading.Tasks;
 using Tweetinvi.Client.Requesters;
 using Tweetinvi.Models;
-using Tweetinvi.Parameters.Auth;
+using Tweetinvi.Parameters;
 
 namespace Tweetinvi.Client
 {

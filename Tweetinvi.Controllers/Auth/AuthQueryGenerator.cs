@@ -1,7 +1,7 @@
 using System.Text;
 using Tweetinvi.Controllers.Properties;
 using Tweetinvi.Core.Extensions;
-using Tweetinvi.Parameters.Auth;
+using Tweetinvi.Parameters;
 
 namespace Tweetinvi.Controllers.Auth
 {

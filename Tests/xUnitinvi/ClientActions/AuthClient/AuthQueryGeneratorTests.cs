@@ -1,7 +1,7 @@
 using System;
 using Tweetinvi.Controllers.Auth;
 using Tweetinvi.Credentials.Models;
-using Tweetinvi.Parameters.Auth;
+using Tweetinvi.Parameters;
 using Xunit;
 
 namespace xUnitinvi.ClientActions.AuthClient

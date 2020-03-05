@@ -2,7 +2,7 @@ using System.Threading.Tasks;
 using Tweetinvi.Core.DTO;
 using Tweetinvi.Core.Web;
 using Tweetinvi.Models;
-using Tweetinvi.Parameters.Auth;
+using Tweetinvi.Parameters;
 
 namespace Tweetinvi.Core.Controllers
 {

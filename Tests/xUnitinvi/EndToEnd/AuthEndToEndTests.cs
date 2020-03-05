@@ -8,7 +8,7 @@ using OpenQA.Selenium.Support.UI;
 using Tweetinvi;
 using Tweetinvi.Exceptions;
 using Tweetinvi.Models;
-using Tweetinvi.Parameters.Auth;
+using Tweetinvi.Parameters;
 using Xunit;
 using Xunit.Abstractions;
 using xUnitinvi.TestHelpers;
@@ -105,6 +105,16 @@ namespace xUnitinvi.EndToEnd
 
             // assert
             Assert.Equal(authenticatedUser.ScreenName, EndToEndTestConfig.ProtectedUser.AccountId);
+
+            _logger.WriteLine("public static readonly IntegrationTestAccount ProtectedUserAuthenticatedToTweetinviApi = new IntegrationTestAccount\n" +
+            "{\n" +
+                "\t\t\t// Careful as these credentials will be refreshed by AuthEndToEndTests\n" +
+                "\t\t\t// Run AuthEndToEndTests.AuthenticateWithPinCode and copy past output to replace here\n" +
+                "Credentials = new TwitterCredentials(TweetinviApi.Credentials.ConsumerKey, TweetinviApi.Credentials.ConsumerSecret,\n" +
+                $"\"{userCredentials.AccessToken}\", \"{userCredentials.AccessTokenSecret}\"),\n" +
+                "AccountId = \"artwolkt\",\n" +
+                "UserId = 42290825\n" +
+            "};");
         }
 
         [Fact]

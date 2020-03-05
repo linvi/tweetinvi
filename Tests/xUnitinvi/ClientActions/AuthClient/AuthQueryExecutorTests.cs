@@ -5,7 +5,7 @@ using Tweetinvi.Core.DTO;
 using Tweetinvi.Core.Web;
 using Tweetinvi.Credentials.AuthHttpHandlers;
 using Tweetinvi.Models;
-using Tweetinvi.Parameters.Auth;
+using Tweetinvi.Parameters;
 using Tweetinvi.WebLogic;
 using Xunit;
 using xUnitinvi.TestHelpers;

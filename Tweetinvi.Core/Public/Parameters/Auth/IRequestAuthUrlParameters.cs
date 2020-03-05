@@ -1,4 +1,4 @@
-namespace Tweetinvi.Parameters.Auth
+namespace Tweetinvi.Parameters
 {
     /// <summary>
     /// For more information visit : https://developer.twitter.com/en/docs/basics/authentication/api-reference/request_token
@@ -10,6 +10,16 @@ namespace Tweetinvi.Parameters.Auth
         /// If not specified the user will not be redirected but will obtain a code to use to validate the authentications.
         /// </summary>
         string CallbackUrl { get; set; }
+
+        /// <summary>
+        /// Forces the user to enter their credentials to ensure the correct users account is authorized.
+        /// </summary>
+        bool? ForceLogin { get; set; }
+
+        /// <summary>
+        /// Prefill the username input box of the Twitter login screen with the given value.
+        /// </summary>
+        string ScreenName { get; set; }
 
         /// <summary>
         /// Overrides the access level an application requests to a users account. Supported values are read or write.
