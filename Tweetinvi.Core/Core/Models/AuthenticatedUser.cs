@@ -226,12 +226,12 @@ namespace Tweetinvi.Core.Models
             return Client.Lists.SubscribeToList(listId);
         }
 
-        public Task<ITwitterList> UnSubscribeFromList(ITwitterListIdentifier list)
+        public Task<ITwitterList> UnsubscribeFromList(ITwitterListIdentifier list)
         {
             return Client.Lists.UnsubscribeFromList(list);
         }
 
-        public Task<ITwitterList> UnSubscribeFromList(long? listId)
+        public Task<ITwitterList> UnsubscribeFromList(long? listId)
         {
             return Client.Lists.UnsubscribeFromList(listId);
         }

@@ -244,12 +244,12 @@ namespace Tweetinvi.Models
         /// <summary>
         /// Unsubscribe the authenticated user to a list.
         /// </summary>
-        Task<ITwitterList> UnSubscribeFromList(ITwitterListIdentifier list);
+        Task<ITwitterList> UnsubscribeFromList(ITwitterListIdentifier list);
 
         /// <summary>
         /// Unsubscribe the authenticated user to a list.
         /// </summary>
-        Task<ITwitterList> UnSubscribeFromList(long? listId);
+        Task<ITwitterList> UnsubscribeFromList(long? listId);
 
         /// <summary>
         /// Modify the authenticated account settings.

@@ -243,7 +243,7 @@ namespace Tweetinvi.Controllers.Properties
         /// <summary>
         ///   Looks up a localized string similar to https://api.twitter.com/1.1/lists/subscribers/destroy.json?.
         /// </summary>
-        public static string List_UnSubscribe = "https://api.twitter.com/1.1/lists/subscribers/destroy.json?";
+        public static string List_Unsubscribe = "https://api.twitter.com/1.1/lists/subscribers/destroy.json?";
 
         /// <summary>
         ///   Looks up a localized string similar to https://api.twitter.com/1.1/lists/subscriptions.json?.

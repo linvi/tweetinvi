@@ -273,7 +273,7 @@ namespace Tweetinvi.Controllers.TwitterLists
 
         public string GetUnsubscribeFromListQuery(IUnsubscribeFromListParameters parameters)
         {
-            var query = new StringBuilder(Resources.List_UnSubscribe);
+            var query = new StringBuilder(Resources.List_Unsubscribe);
 
             _twitterListQueryParameterGenerator.AppendListIdentifierParameter(query, parameters);
 

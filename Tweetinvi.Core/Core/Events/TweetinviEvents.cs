@@ -7,7 +7,7 @@ namespace Tweetinvi.Core.Events
     public interface ITweetinviEvents : ITwitterClientEvents
     {
         void SubscribeToClientEvents(ITwitterClient client);
-        void UnSubscribeFromClientEvents(ITwitterClient client);
+        void UnsubscribeFromClientEvents(ITwitterClient client);
     }
 
     public class TweetinviEvents : TwitterClientEvents, ITweetinviEvents
@@ -20,7 +20,7 @@ namespace Tweetinvi.Core.Events
             client.Events.OnTwitterException += RaiseOnTwitterException;
         }
 
-        public void UnSubscribeFromClientEvents(ITwitterClient client)
+        public void UnsubscribeFromClientEvents(ITwitterClient client)
         {
             client.Events.BeforeWaitingForRequestRateLimits -= RaiseBeforeWaitingForQueryRateLimits;
             client.Events.BeforeExecutingRequest -= RaiseBeforeExecutingQuery;

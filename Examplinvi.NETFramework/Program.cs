@@ -1254,7 +1254,7 @@ namespace Examplinvi.NETFramework
         public static void TwitterList_SubscribeOrUnsubscribeToList(long listId)
         {
             var hasSuccessfullySubscribed = TwitterList.SubscribeAuthenticatedUserToList(listId);
-            var hasUnsubscribed = TwitterList.UnSubscribeAuthenticatedUserToList(listId);
+            var hasUnsubscribed = TwitterList.UnsubscribeAuthenticatedUserToList(listId);
         }
 
         public static async Task TwitterList_CheckUserSubscription(long userId, long listId)

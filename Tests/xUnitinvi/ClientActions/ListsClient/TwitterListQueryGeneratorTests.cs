@@ -425,7 +425,7 @@ namespace xUnitinvi.ClientActions.ListsClient
         }
 
         [Fact]
-        public void GetUnSubscribeUserFromListQuery_ReturnsExpectedQuery()
+        public void GetUnsubscribeUserFromListQuery_ReturnsExpectedQuery()
         {
             // arrange
             var queryGenerator = CreateTwitterListQueryGenerator();

@@ -22,9 +22,9 @@ namespace Tweetinvi
             _tweetinviEvents.SubscribeToClientEvents(client);
         }
 
-        public static void UnSubscribeFromClientEvents(ITwitterClient client)
+        public static void UnsubscribeFromClientEvents(ITwitterClient client)
         {
-            _tweetinviEvents.UnSubscribeFromClientEvents(client);
+            _tweetinviEvents.UnsubscribeFromClientEvents(client);
         }
 
         /// <inheritdoc cref="IExternalClientEvents.BeforeWaitingForRequestRateLimits" />
