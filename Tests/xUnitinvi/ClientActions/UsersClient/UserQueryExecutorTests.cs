@@ -545,21 +545,21 @@ namespace xUnitinvi.ClientActions.UsersClient
         }
 
         [Fact]
-        public async Task UnMutedUser_ReturnsUserDTO()
+        public async Task UnmutedUser_ReturnsUserDTO()
         {
             // Arrange
             var queryExecutor = CreateUserQueryExecutor();
 
             var url = TestHelper.GenerateString();
-            var parameters = new UnMuteUserParameters(42);
+            var parameters = new UnmuteUserParameters(42);
             var request = A.Fake<ITwitterRequest>();
             var expectedResult = A.Fake<ITwitterResult<IUserDTO>>();
 
-            A.CallTo(() => _fakeUserQueryGenerator.GetUnMuteUserQuery(parameters)).Returns(url);
+            A.CallTo(() => _fakeUserQueryGenerator.GetUnmuteUserQuery(parameters)).Returns(url);
             A.CallTo(() => _fakeTwitterAccessor.ExecuteRequest<IUserDTO>(request)).Returns(expectedResult);
 
             // Act
-            var result = await queryExecutor.UnMuteUser(parameters, request);
+            var result = await queryExecutor.UnmuteUser(parameters, request);
 
             // Assert
             Assert.Equal(result, expectedResult);

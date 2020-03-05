@@ -240,7 +240,7 @@ namespace Tweetinvi.Client
 
         #endregion
 
-         #region Block / Unblock
+        #region Block / Unblock
 
         public Task BlockUser(long? userId)
         {
@@ -552,24 +552,24 @@ namespace Tweetinvi.Client
             await _usersRequester.MuteUser(parameters).ConfigureAwait(false);
         }
 
-        public Task UnMuteUser(long? userId)
+        public Task UnmuteUser(long? userId)
         {
-            return UnMuteUser(new UnMuteUserParameters(userId));
+            return UnmuteUser(new UnmuteUserParameters(userId));
         }
 
-        public Task UnMuteUser(string username)
+        public Task UnmuteUser(string username)
         {
-            return UnMuteUser(new UnMuteUserParameters(username));
+            return UnmuteUser(new UnmuteUserParameters(username));
         }
 
-        public Task UnMuteUser(IUserIdentifier user)
+        public Task UnmuteUser(IUserIdentifier user)
         {
-            return UnMuteUser(new UnMuteUserParameters(user));
+            return UnmuteUser(new UnmuteUserParameters(user));
         }
 
-        public async Task UnMuteUser(IUnMuteUserParameters parameters)
+        public async Task UnmuteUser(IUnmuteUserParameters parameters)
         {
-            await _usersRequester.UnMuteUser(parameters).ConfigureAwait(false);
+            await _usersRequester.UnmuteUser(parameters).ConfigureAwait(false);
         }
 
         #endregion

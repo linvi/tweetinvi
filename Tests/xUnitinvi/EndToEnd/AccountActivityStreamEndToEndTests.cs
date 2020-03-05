@@ -67,7 +67,7 @@ namespace xUnitinvi.EndToEnd
 
                 await userClient.Users.MuteUser(EndToEndTestConfig.TweetinviTest);
                 await Task.Delay(timeoutBetweenOperations);
-                await userClient.Users.UnMuteUser(EndToEndTestConfig.TweetinviTest);
+                await userClient.Users.UnmuteUser(EndToEndTestConfig.TweetinviTest);
                 await Task.Delay(timeoutBetweenOperations);
 
                 await userClient.Users.BlockUser(EndToEndTestConfig.TweetinviTest);

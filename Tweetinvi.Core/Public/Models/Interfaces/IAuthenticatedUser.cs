@@ -219,17 +219,17 @@ namespace Tweetinvi.Models
         /// <summary>
         /// Unmute a specific user.
         /// </summary>
-        Task UnMuteUser(IUserIdentifier user);
+        Task UnmuteUser(IUserIdentifier user);
 
         /// <summary>
         /// Unmute a specific user.
         /// </summary>
-        Task UnMuteUser(long userId);
+        Task UnmuteUser(long userId);
 
         /// <summary>
         /// Unmute a specific user.
         /// </summary>
-        Task UnMuteUser(string username);
+        Task UnmuteUser(string username);
 
         /// <summary>
         /// Subscribe the authenticated user to a list.

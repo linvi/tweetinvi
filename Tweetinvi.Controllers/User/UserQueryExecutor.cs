@@ -46,7 +46,7 @@ namespace Tweetinvi.Controllers.User
         Task<ITwitterResult<IUserCursorQueryResultDTO>> GetMutedUsers(IGetMutedUsersParameters cursoredParameters, ITwitterRequest request);
 
         Task<ITwitterResult<IUserDTO>> MuteUser(IMuteUserParameters parameters, ITwitterRequest request);
-        Task<ITwitterResult<IUserDTO>> UnMuteUser(IUnMuteUserParameters parameters, ITwitterRequest request);
+        Task<ITwitterResult<IUserDTO>> UnmuteUser(IUnmuteUserParameters parameters, ITwitterRequest request);
 
         Task<ITwitterResult<IRelationshipDetailsDTO>> UpdateRelationship(IUpdateRelationshipParameters parameters, ITwitterRequest request);
         Task<ITwitterResult<long[]>> GetUserIdsWhoseRetweetsAreMuted(IGetUserIdsWhoseRetweetsAreMutedParameters parameters, ITwitterRequest request);
@@ -283,9 +283,9 @@ namespace Tweetinvi.Controllers.User
             return _twitterAccessor.ExecuteRequest<IUserDTO>(request);
         }
 
-        public Task<ITwitterResult<IUserDTO>> UnMuteUser(IUnMuteUserParameters parameters, ITwitterRequest request)
+        public Task<ITwitterResult<IUserDTO>> UnmuteUser(IUnmuteUserParameters parameters, ITwitterRequest request)
         {
-            var query = _userQueryGenerator.GetUnMuteUserQuery(parameters);
+            var query = _userQueryGenerator.GetUnmuteUserQuery(parameters);
             request.Query.Url = query;
             request.Query.HttpMethod = HttpMethod.POST;
             return _twitterAccessor.ExecuteRequest<IUserDTO>(request);

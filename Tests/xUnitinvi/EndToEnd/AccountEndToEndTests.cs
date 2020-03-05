@@ -60,7 +60,7 @@ namespace xUnitinvi.EndToEnd
             var newMutedUserIds = await newMutedUserIdsIterator.MoveToNextPage();
             var newMutedUsersIterator = _client.Users.GetMutedUsers();
             var newMutedUsers = await newMutedUsersIterator.MoveToNextPage();
-            await _client.Users.UnMuteUser(userToMute);
+            await _client.Users.UnmuteUser(userToMute);
 
             var restoredMutedUserIdsIterator = _client.Users.GetMutedUserIds();
             var restoredMutedUserIds = await restoredMutedUserIdsIterator.MoveToNextPage();

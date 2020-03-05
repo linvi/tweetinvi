@@ -1361,7 +1361,7 @@ namespace Examplinvi.NETFramework
             Account.MuteUser("username");
 
             // Delete
-            Account.UnMuteUser("username");
+            Account.UnmuteUser("username");
         }
 
         public static async Task Friendship_GetMultipleRelationships()

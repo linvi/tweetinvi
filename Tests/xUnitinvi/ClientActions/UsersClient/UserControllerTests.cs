@@ -54,7 +54,7 @@ namespace xUnitinvi.ClientActions.UsersClient
             // Arrange
             var controller = CreateUserController();
 
-            var parameters = new GetUsersParameters(new [] { "username" });
+            var parameters = new GetUsersParameters(new[] { "username" });
             var expectedResult = A.Fake<ITwitterResult<IUserDTO[]>>();
 
             A.CallTo(() => _fakeUserQueryExecutor.GetUsers(parameters, A<ITwitterRequest>.Ignored)).Returns(expectedResult);
@@ -451,18 +451,18 @@ namespace xUnitinvi.ClientActions.UsersClient
         }
 
         [Fact]
-        public async Task UnMuteUser_ReturnsFromUserQueryExecutor()
+        public async Task UnmuteUser_ReturnsFromUserQueryExecutor()
         {
             // arrange
             var accountController = CreateUserController();
-            var parameters = new UnMuteUserParameters(42);
+            var parameters = new UnmuteUserParameters(42);
             var request = A.Fake<ITwitterRequest>();
             var expectedResult = A.Fake<ITwitterResult<IUserDTO>>();
 
-            A.CallTo(() => _fakeUserQueryExecutor.UnMuteUser(parameters, request)).Returns(expectedResult);
+            A.CallTo(() => _fakeUserQueryExecutor.UnmuteUser(parameters, request)).Returns(expectedResult);
 
             // act
-            var result = await accountController.UnMuteUser(parameters, request);
+            var result = await accountController.UnmuteUser(parameters, request);
 
             // assert
             Assert.Same(result, expectedResult);

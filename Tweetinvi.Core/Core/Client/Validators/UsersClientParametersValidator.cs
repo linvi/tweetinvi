@@ -38,7 +38,7 @@ namespace Tweetinvi.Core.Client.Validators
         void Validate(IGetMutedUserIdsParameters parameters);
         void Validate(IGetMutedUsersParameters parameters);
         void Validate(IMuteUserParameters parameters);
-        void Validate(IUnMuteUserParameters parameters);
+        void Validate(IUnmuteUserParameters parameters);
     }
 
     public class UsersClientParametersValidator : IUsersClientParametersValidator
@@ -276,7 +276,7 @@ namespace Tweetinvi.Core.Client.Validators
             _usersClientRequiredParametersValidator.Validate(parameters);
         }
 
-        public void Validate(IUnMuteUserParameters parameters)
+        public void Validate(IUnmuteUserParameters parameters)
         {
             _usersClientRequiredParametersValidator.Validate(parameters);
         }

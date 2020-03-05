@@ -368,18 +368,18 @@ namespace Tweetinvi.Client
         /// </summary>
         Task MuteUser(IMuteUserParameters parameters);
 
-        /// <inheritdoc cref="UnMuteUser(IUnMuteUserParameters)" />
-        Task UnMuteUser(long? userId);
-        /// <inheritdoc cref="UnMuteUser(IUnMuteUserParameters)" />
-        Task UnMuteUser(string username);
-        /// <inheritdoc cref="UnMuteUser(IUnMuteUserParameters)" />
-        Task UnMuteUser(IUserIdentifier user);
+        /// <inheritdoc cref="UnmuteUser(IUnmuteUserParameters)" />
+        Task UnmuteUser(long? userId);
+        /// <inheritdoc cref="UnmuteUser(IUnmuteUserParameters)" />
+        Task UnmuteUser(string username);
+        /// <inheritdoc cref="UnmuteUser(IUnmuteUserParameters)" />
+        Task UnmuteUser(IUserIdentifier user);
 
         /// <summary>
         /// Remove the mute of a user
         /// <para>Read more : https://dev.twitter.com/en/docs/accounts-and-users/mute-block-report-users/api-reference/post-mutes-users-destroy </para>
         /// </summary>
-        Task UnMuteUser(IUnMuteUserParameters parameters);
+        Task UnmuteUser(IUnmuteUserParameters parameters);
 
         #region Profile Image
 

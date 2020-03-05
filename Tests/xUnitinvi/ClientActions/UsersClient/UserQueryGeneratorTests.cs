@@ -358,18 +358,18 @@ namespace xUnitinvi.ClientActions.UsersClient
         }
 
         [Fact]
-        public void GetUnMuteUserQuery_ReturnsExpectedQuery()
+        public void GetUnmuteUserQuery_ReturnsExpectedQuery()
         {
             // Arrange
             var queryGenerator = CreateUserQueryGenerator();
 
-            var parameters = new UnMuteUserParameters(42)
+            var parameters = new UnmuteUserParameters(42)
             {
                 CustomQueryParameters = { new Tuple<string, string>("hello", "world") }
             };
 
             // Act
-            var result = queryGenerator.GetUnMuteUserQuery(parameters);
+            var result = queryGenerator.GetUnmuteUserQuery(parameters);
 
             // Assert
             Assert.Equal(result, $"https://api.twitter.com/1.1/mutes/users/destroy.json?user_id=42&hello=world");

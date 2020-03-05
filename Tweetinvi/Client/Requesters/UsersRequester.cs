@@ -249,10 +249,10 @@ namespace Tweetinvi.Client.Requesters
             return ExecuteRequest(request => _userController.MuteUser(parameters, request));
         }
 
-        public Task<ITwitterResult<IUserDTO>> UnMuteUser(IUnMuteUserParameters parameters)
+        public Task<ITwitterResult<IUserDTO>> UnmuteUser(IUnmuteUserParameters parameters)
         {
             _validator.Validate(parameters);
-            return ExecuteRequest(request => _userController.UnMuteUser(parameters, request));
+            return ExecuteRequest(request => _userController.UnmuteUser(parameters, request));
         }
 
         public Task<System.IO.Stream> GetProfileImageStream(IGetProfileImageParameters parameters)

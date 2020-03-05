@@ -46,7 +46,7 @@ namespace Tweetinvi.Core.Controllers
         ITwitterPageIterator<ITwitterResult<IIdsCursorQueryResultDTO>> GetMutedUserIdsIterator(IGetMutedUserIdsParameters parameters, ITwitterRequest request);
         ITwitterPageIterator<ITwitterResult<IUserCursorQueryResultDTO>> GetMutedUsersIterator(IGetMutedUsersParameters parameters, ITwitterRequest request);
         Task<ITwitterResult<IUserDTO>> MuteUser(IMuteUserParameters parameters, ITwitterRequest request);
-        Task<ITwitterResult<IUserDTO>> UnMuteUser(IUnMuteUserParameters parameters, ITwitterRequest request);
+        Task<ITwitterResult<IUserDTO>> UnmuteUser(IUnmuteUserParameters parameters, ITwitterRequest request);
 
         Task<Stream> GetProfileImageStream(IGetProfileImageParameters parameters, ITwitterRequest request);
     }

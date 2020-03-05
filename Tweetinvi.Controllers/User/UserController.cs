@@ -260,9 +260,9 @@ namespace Tweetinvi.Controllers.User
             return _userQueryExecutor.MuteUser(parameters, request);
         }
 
-        public Task<ITwitterResult<IUserDTO>> UnMuteUser(IUnMuteUserParameters parameters, ITwitterRequest request)
+        public Task<ITwitterResult<IUserDTO>> UnmuteUser(IUnmuteUserParameters parameters, ITwitterRequest request)
         {
-            return _userQueryExecutor.UnMuteUser(parameters, request);
+            return _userQueryExecutor.UnmuteUser(parameters, request);
         }
     }
 }

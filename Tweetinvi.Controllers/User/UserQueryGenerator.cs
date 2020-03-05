@@ -117,7 +117,7 @@ namespace Tweetinvi.Controllers.User
             return query.ToString();
         }
 
-         // BLOCK
+        // BLOCK
         public string GetBlockUserQuery(IBlockUserParameters parameters)
         {
             var query = new StringBuilder(Resources.User_Block_Create);
@@ -165,7 +165,7 @@ namespace Tweetinvi.Controllers.User
 
             _queryParameterGenerator.AppendCursorParameters(query, parameters);
             query.AddParameterToQuery("include_entities", parameters.IncludeEntities);
-            query.AddParameterToQuery("skip_status",  parameters.SkipStatus);
+            query.AddParameterToQuery("skip_status", parameters.SkipStatus);
             query.AddFormattedParameterToQuery(parameters.FormattedCustomQueryParameters);
 
             return query.ToString();
@@ -276,7 +276,7 @@ namespace Tweetinvi.Controllers.User
             return query.ToString();
         }
 
-        public string GetUnMuteUserQuery(IUnMuteUserParameters parameters)
+        public string GetUnmuteUserQuery(IUnmuteUserParameters parameters)
         {
             var query = new StringBuilder(Resources.Account_Mute_Destroy);
 

@@ -41,6 +41,6 @@ namespace Tweetinvi.Core.QueryGenerators
         string GetMutedUserIdsQuery(IGetMutedUserIdsParameters parameters);
         string GetMutedUsersQuery(IGetMutedUsersParameters parameters);
         string GetMuteUserQuery(IMuteUserParameters parameters);
-        string GetUnMuteUserQuery(IUnMuteUserParameters parameters);
+        string GetUnmuteUserQuery(IUnmuteUserParameters parameters);
     }
 }

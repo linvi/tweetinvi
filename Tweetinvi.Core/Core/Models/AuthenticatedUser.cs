@@ -262,19 +262,19 @@ namespace Tweetinvi.Core.Models
             return Client.Users.MuteUser(username);
         }
 
-        public Task UnMuteUser(IUserIdentifier user)
+        public Task UnmuteUser(IUserIdentifier user)
         {
-            return Client.Users.UnMuteUser(user);
+            return Client.Users.UnmuteUser(user);
         }
 
-        public Task UnMuteUser(long userId)
+        public Task UnmuteUser(long userId)
         {
-            return Client.Users.UnMuteUser(userId);
+            return Client.Users.UnmuteUser(userId);
         }
 
-        public Task UnMuteUser(string username)
+        public Task UnmuteUser(string username)
         {
-            return Client.Users.UnMuteUser(username);
+            return Client.Users.UnmuteUser(username);
         }
     }
 }

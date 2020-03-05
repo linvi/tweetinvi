@@ -169,7 +169,7 @@ namespace Tweetinvi.Client.Requesters
         /// <para>Read more : https://dev.twitter.com/en/docs/accounts-and-users/mute-block-report-users/api-reference/post-mutes-users-destroy </para>
         /// </summary>
         /// <returns>Twitter result containing the authenticated user</returns>
-        Task<ITwitterResult<IUserDTO>> UnMuteUser(IUnMuteUserParameters parameters);
+        Task<ITwitterResult<IUserDTO>> UnmuteUser(IUnmuteUserParameters parameters);
 
         /// <summary>
         /// Get the profile image of a user

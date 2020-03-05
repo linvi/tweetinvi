@@ -509,7 +509,7 @@ namespace Tweetinvi.Core.Client.Validators
             _usersClientParametersValidator.Validate(parameters);
         }
 
-        public void Validate(IUnMuteUserParameters parameters)
+        public void Validate(IUnmuteUserParameters parameters)
         {
             _usersClientParametersValidator.Validate(parameters);
         }
