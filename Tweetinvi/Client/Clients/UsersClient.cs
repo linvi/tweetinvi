@@ -272,7 +272,7 @@ namespace Tweetinvi.Client
             return UnblockUser(new UnblockUserParameters(username));
         }
 
-        public Task UnBlockUser(IUserIdentifier user)
+        public Task UnblockUser(IUserIdentifier user)
         {
             return UnblockUser(new UnblockUserParameters(user));
         }

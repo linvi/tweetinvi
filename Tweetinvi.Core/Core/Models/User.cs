@@ -367,9 +367,9 @@ namespace Tweetinvi.Core.Models
             return Client.Users.BlockUser(this);
         }
 
-        public virtual Task UnBlockUser()
+        public virtual Task UnblockUser()
         {
-            return Client.Users.UnBlockUser(this);
+            return Client.Users.UnblockUser(this);
         }
 
         // Spam

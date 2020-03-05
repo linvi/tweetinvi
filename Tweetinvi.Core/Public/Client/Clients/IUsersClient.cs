@@ -169,7 +169,7 @@ namespace Tweetinvi.Client
         Task UnblockUser(string username);
 
         /// <inheritdoc cref="UnblockUser(IUnblockUserParameters)" />
-        Task UnBlockUser(IUserIdentifier user);
+        Task UnblockUser(IUserIdentifier user);
 
         /// <summary>
         /// Unblock a user from the client's account

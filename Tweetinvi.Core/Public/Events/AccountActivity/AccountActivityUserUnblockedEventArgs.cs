@@ -6,13 +6,13 @@ namespace Tweetinvi.Events
     public enum UserUnblockedRaisedInResultOf
     {
         /// <summary>
-        /// This case should not happen and is here in case Twitter changes when they trigger the UnBlocked event.
+        /// This case should not happen and is here in case Twitter changes when they trigger the Unblocked event.
         /// If you happen to receive this mode, please report to Tweetinvi your case ideally with the associated json.
         /// </summary>
         Unknown = 0,
 
         /// <summary>
-        /// The account user has unblocked another user 
+        /// The account user has unblocked another user
         /// </summary>
         AccountUserUnblockingAnotherUser,
     }

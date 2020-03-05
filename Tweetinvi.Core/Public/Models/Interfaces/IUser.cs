@@ -370,7 +370,7 @@ namespace Tweetinvi.Models
         /// <summary>
         /// Make the authenticated user unblock the user.
         /// </summary>
-        Task UnBlockUser();
+        Task UnblockUser();
 
         // Spam
 

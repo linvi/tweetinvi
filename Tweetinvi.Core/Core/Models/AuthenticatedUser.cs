@@ -16,13 +16,11 @@ namespace Tweetinvi.Core.Models
     /// </summary>
     public class AuthenticatedUser : User, IAuthenticatedUser
     {
-        private readonly IMessageController _messageController;
         private readonly ISavedSearchController _savedSearchController;
 
         public AuthenticatedUser(IUserDTO userDTO, ITwitterClient client) : base(userDTO, client)
         {
             var executionContext = client.CreateTwitterExecutionContext();
-            _messageController = executionContext.Container.Resolve<IMessageController>();
             _savedSearchController = executionContext.Container.Resolve<ISavedSearchController>();
         }
 
@@ -137,22 +135,22 @@ namespace Tweetinvi.Core.Models
         }
 
         // Unblock
-        public override Task UnBlockUser()
+        public override Task UnblockUser()
         {
             throw new InvalidOperationException("You cannot unblock yourself...");
         }
 
-        public Task UnBlockUser(IUserIdentifier user)
+        public Task UnblockUser(IUserIdentifier user)
         {
-            return Client.Users.UnBlockUser(user);
+            return Client.Users.UnblockUser(user);
         }
 
-        public Task UnBlockUser(long userId)
+        public Task UnblockUser(long userId)
         {
             return Client.Users.UnblockUser(userId);
         }
 
-        public Task UnBlockUser(string username)
+        public Task UnblockUser(string username)
         {
             return Client.Users.UnblockUser(username);
         }

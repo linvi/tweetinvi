@@ -158,7 +158,7 @@ namespace Examplinvi.NETFramework
             await Examples.User_GetRelationshipBetween("tweetinvitest", Examples.USER_SCREEN_NAME_TO_TEST);
 
             await Examples.User_BlockUser(Examples.USER_SCREEN_NAME_TO_TEST);
-            await Examples.User_UnBlockUser(Examples.USER_SCREEN_NAME_TO_TEST);
+            await Examples.User_UnblockUser(Examples.USER_SCREEN_NAME_TO_TEST);
             await Examples.User_GetBlockedUsers();
 
             await Examples.User_DownloadProfileImage(Examples.USER_SCREEN_NAME_TO_TEST);
@@ -705,10 +705,10 @@ namespace Examplinvi.NETFramework
             }
         }
 
-        public static async Task User_UnBlockUser(string username)
+        public static async Task User_UnblockUser(string username)
         {
             var user = await Client.Users.GetUser(username);
-            await user.UnBlockUser();
+            await user.UnblockUser();
         }
 
         public static async Task User_GetBlockedUsers()

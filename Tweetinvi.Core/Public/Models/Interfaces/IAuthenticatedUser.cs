@@ -150,17 +150,17 @@ namespace Tweetinvi.Models
         /// <summary>
         /// Unblock a specific user.
         /// </summary>
-        Task UnBlockUser(IUserIdentifier user);
+        Task UnblockUser(IUserIdentifier user);
 
         /// <summary>
         /// Unblock a specific user.
         /// </summary>
-        Task UnBlockUser(long userId);
+        Task UnblockUser(long userId);
 
         /// <summary>
         /// Unblock a specific user.
         /// </summary>
-        Task UnBlockUser(string username);
+        Task UnblockUser(string username);
 
         /// <summary>
         /// Get the ids of the user you blocked.

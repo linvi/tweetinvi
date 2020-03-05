@@ -61,10 +61,10 @@ namespace xUnitinvi.TwitterObjects
             var user = A.Fake<IUserIdentifier>();
 
             // Act
-            await _authenticatedUser.UnBlockUser(user);
+            await _authenticatedUser.UnblockUser(user);
 
             // Assert
-            _usersClient.CallsTo(x => x.UnBlockUser(user)).MustHaveHappened();
+            _usersClient.CallsTo(x => x.UnblockUser(user)).MustHaveHappened();
         }
 
         [Fact]

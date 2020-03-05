@@ -36,7 +36,7 @@ namespace xUnitinvi.EndToEnd
             var blockedUsersIterator = _client.Users.GetBlockedUsers();
             var blockedUsers = await blockedUsersIterator.MoveToNextPage();
 
-            await userToFollow.UnBlockUser();
+            await userToFollow.UnblockUser();
 
             // assert
             Assert.Contains(blockedUsersFromIdsIterator, id => id == userToFollow.Id);
