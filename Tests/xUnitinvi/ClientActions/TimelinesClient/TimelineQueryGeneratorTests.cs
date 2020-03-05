@@ -36,7 +36,6 @@ namespace xUnitinvi.ClientActions.TimelinesClient
             {
                 IncludeEntities = true,
                 TrimUser = true,
-                IncludeContributorDetails = true,
                 ExcludeReplies = true,
                 MaxId = 42,
                 SinceId = 43,
@@ -49,7 +48,7 @@ namespace xUnitinvi.ClientActions.TimelinesClient
 
             // Assert
             Assert.Equal(result, $"https://api.twitter.com/1.1/statuses/home_timeline.json?count=44&since_id=43&max_id=42" +
-                                 $"&include_entities=true&trim_user=true&contributor_details=true&exclude_replies=true&tweet_mode=extended&hello=world");
+                                 $"&include_entities=true&trim_user=true&exclude_replies=true&tweet_mode=extended&hello=world");
         }
 
         [Fact]
@@ -74,7 +73,7 @@ namespace xUnitinvi.ClientActions.TimelinesClient
 
             // Assert
             Assert.Equal(result, $"https://api.twitter.com/1.1/statuses/mentions_timeline.json?count=44&since_id=43&max_id=42" +
-                                 $"&include_entities=true&trim_user=true&contributor_details=true&tweet_mode=extended&hello=world");
+                                 $"&include_entities=true&trim_user=true&tweet_mode=extended&hello=world");
         }
 
         [Fact]
@@ -101,7 +100,7 @@ namespace xUnitinvi.ClientActions.TimelinesClient
 
             // Assert
             Assert.Equal(result, $"https://api.twitter.com/1.1/statuses/user_timeline.json?screen_name=linvi&count=44&since_id=43&max_id=42" +
-                                 $"&include_entities=true&trim_user=true&contributor_details=true&exclude_replies=true&include_rts=true&tweet_mode=extended&hello=world");
+                                 $"&include_entities=true&trim_user=true&exclude_replies=true&include_rts=true&tweet_mode=extended&hello=world");
         }
 
         [Fact]

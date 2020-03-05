@@ -39,7 +39,6 @@ namespace Tweetinvi.Controllers.Timeline
 
             _queryParameterGenerator.AddTimelineParameters(query, parameters);
 
-            query.AddParameterToQuery("contributor_details", parameters.IncludeContributorDetails);
             query.AddParameterToQuery("exclude_replies", parameters.ExcludeReplies);
             query.AddParameterToQuery("tweet_mode", tweetMode?.ToString().ToLowerInvariant());
             query.AddFormattedParameterToQuery(parameters.FormattedCustomQueryParameters);
@@ -56,7 +55,6 @@ namespace Tweetinvi.Controllers.Timeline
 
             _queryParameterGenerator.AddTimelineParameters(query, parameters);
 
-            query.AddParameterToQuery("contributor_details", parameters.IncludeContributorDetails);
             query.AddParameterToQuery("exclude_replies", parameters.ExcludeReplies);
             query.AddParameterToQuery("include_rts", parameters.IncludeRetweets);
             query.AddParameterToQuery("tweet_mode", tweetMode?.ToString().ToLowerInvariant());
@@ -72,7 +70,6 @@ namespace Tweetinvi.Controllers.Timeline
 
             _queryParameterGenerator.AddTimelineParameters(query, parameters);
 
-            query.AddParameterToQuery("contributor_details", parameters.IncludeContributorDetails);
             query.AddParameterToQuery("tweet_mode", tweetMode?.ToString().ToLowerInvariant());
             query.AddFormattedParameterToQuery(parameters.FormattedCustomQueryParameters);
 

@@ -396,11 +396,6 @@ namespace Tweetinvi.Controllers.Properties
         public static string TimelineParameter_ExcludeReplies = "&exclude_replies={0}";
 
         /// <summary>
-        ///   Looks up a localized string similar to &amp;contributor_details={0}.
-        /// </summary>
-        public static string TimelineParameter_IncludeContributorDetails = "&contributor_details={0}";
-
-        /// <summary>
         ///   Looks up a localized string similar to &amp;include_user_entities={0}.
         /// </summary>
         public static string TimelineParameter_IncludeUserEntities = "&include_user_entities={0}";

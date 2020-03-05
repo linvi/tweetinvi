@@ -6,11 +6,6 @@
     /// <inheritdoc />
     public interface IGetMentionsTimelineParameters : ITimelineRequestParameters
     {
-        /// <summary>
-        /// Add details to the contributors who participated to the tweets.
-        /// https://dev.twitter.com/rest/reference/get/statuses/mentions_timeline
-        /// </summary>
-        bool IncludeContributorDetails { get; set; }
     }
 
     /// <inheritdoc />
@@ -26,10 +21,7 @@
             if (source == null)
             {
                 PageSize = TwitterLimits.DEFAULTS.TIMELINE_MENTIONS_PAGE_MAX_PAGE_SIZE;
-                return;
             }
-
-            IncludeContributorDetails = source.IncludeContributorDetails;
         }
 
         public bool IncludeContributorDetails { get; set; }
