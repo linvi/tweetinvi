@@ -356,7 +356,7 @@ namespace Testinvi.Tweetinvi.Streams
         }
 
         [TestMethod]
-        public void UnFollowedUserRaised()
+        public void UnfollowedUserRaised()
         {
             var activityStream = CreateAccountActivityStream();
 

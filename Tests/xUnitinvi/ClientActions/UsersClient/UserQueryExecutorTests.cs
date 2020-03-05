@@ -336,22 +336,22 @@ namespace xUnitinvi.ClientActions.UsersClient
             Assert.Equal(HttpMethod.POST, request.Query.HttpMethod);
         }
         [Fact]
-        public async Task UnFollowUser_ReturnsUserDTO()
+        public async Task UnfollowUser_ReturnsUserDTO()
         {
             // Arrange
             var queryExecutor = CreateUserQueryExecutor();
             var userDTO = A.Fake<IUserDTO>();
 
             var url = TestHelper.GenerateString();
-            var parameters = new UnFollowUserParameters(userDTO);
+            var parameters = new UnfollowUserParameters(userDTO);
             var request = A.Fake<ITwitterRequest>();
             var expectedResult = A.Fake<ITwitterResult<IUserDTO>>();
 
-            A.CallTo(() => _fakeUserQueryGenerator.GetUnFollowUserQuery(parameters)).Returns(url);
+            A.CallTo(() => _fakeUserQueryGenerator.GetUnfollowUserQuery(parameters)).Returns(url);
             A.CallTo(() => _fakeTwitterAccessor.ExecuteRequest<IUserDTO>(request)).Returns(expectedResult);
 
             // Act
-            var result = await queryExecutor.UnFollowUser(parameters, request);
+            var result = await queryExecutor.UnfollowUser(parameters, request);
 
             // Assert
             Assert.Equal(result, expectedResult);

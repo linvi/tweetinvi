@@ -175,7 +175,7 @@ namespace Examplinvi.NETFramework
             await Examples.AuthenticatedUser_GetIncomingRequests();
             await Examples.AuthenticatedUser_GetOutgoingRequests();
             await Examples.AuthenticatedUser_FollowUser(Examples.USER_SCREEN_NAME_TO_TEST);
-            await Examples.AuthenticatedUser_UnFollowUser(Examples.USER_SCREEN_NAME_TO_TEST);
+            await Examples.AuthenticatedUser_UnfollowUser(Examples.USER_SCREEN_NAME_TO_TEST);
             await Examples.AuthenticatedUser_UpdateFollowAuthorizationsForUser(Examples.USER_SCREEN_NAME_TO_TEST);
             await Examples.AuthenticatedUser_GetLatestMessages();
             await Examples.AuthenticatedUser_GetAccountSettings();
@@ -809,12 +809,12 @@ namespace Examplinvi.NETFramework
             }
         }
 
-        public static async Task AuthenticatedUser_UnFollowUser(string username)
+        public static async Task AuthenticatedUser_UnfollowUser(string username)
         {
             var authenticatedUser = await Client.Account.GetAuthenticatedUser();
             var userToFollow = await Client.Users.GetUser(username);
 
-            if (await authenticatedUser.UnFollowUser(userToFollow))
+            if (await authenticatedUser.UnfollowUser(userToFollow))
             {
                 Console.WriteLine("You are not following {0} anymore", userToFollow.Name);
             }

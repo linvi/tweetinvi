@@ -24,7 +24,7 @@ namespace Tweetinvi.Core.Controllers
 
         // FOLLOWERS
         Task<ITwitterResult<IUserDTO>> FollowUser(IFollowUserParameters parameters, ITwitterRequest request);
-        Task<ITwitterResult<IUserDTO>> UnFollowUser(IUnFollowUserParameters parameters, ITwitterRequest request);
+        Task<ITwitterResult<IUserDTO>> UnfollowUser(IUnfollowUserParameters parameters, ITwitterRequest request);
 
         // BLOCK
         Task<ITwitterResult<IUserDTO>> BlockUser(IBlockUserParameters parameters, ITwitterRequest request);

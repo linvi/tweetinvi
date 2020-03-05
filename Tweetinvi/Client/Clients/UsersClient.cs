@@ -352,24 +352,24 @@ namespace Tweetinvi.Client
             await _usersRequester.FollowUser(parameters).ConfigureAwait(false);
         }
 
-        public Task UnFollowUser(long userId)
+        public Task UnfollowUser(long userId)
         {
-            return UnFollowUser(new UnFollowUserParameters(userId));
+            return UnfollowUser(new UnfollowUserParameters(userId));
         }
 
-        public Task UnFollowUser(string username)
+        public Task UnfollowUser(string username)
         {
-            return UnFollowUser(new UnFollowUserParameters(username));
+            return UnfollowUser(new UnfollowUserParameters(username));
         }
 
-        public Task UnFollowUser(IUserIdentifier user)
+        public Task UnfollowUser(IUserIdentifier user)
         {
-            return UnFollowUser(new UnFollowUserParameters(user));
+            return UnfollowUser(new UnfollowUserParameters(user));
         }
 
-        public async Task UnFollowUser(IUnFollowUserParameters parameters)
+        public async Task UnfollowUser(IUnfollowUserParameters parameters)
         {
-            await _usersRequester.UnFollowUser(parameters).ConfigureAwait(false);
+            await _usersRequester.UnfollowUser(parameters).ConfigureAwait(false);
         }
 
         #endregion

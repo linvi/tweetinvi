@@ -145,10 +145,10 @@ namespace Tweetinvi.Client.Requesters
             });
         }
 
-        public Task<ITwitterResult<IUserDTO>> UnFollowUser(IUnFollowUserParameters parameters)
+        public Task<ITwitterResult<IUserDTO>> UnfollowUser(IUnfollowUserParameters parameters)
         {
             _validator.Validate(parameters);
-            return ExecuteRequest(request => _userController.UnFollowUser(parameters, request));
+            return ExecuteRequest(request => _userController.UnfollowUser(parameters, request));
         }
 
         public ITwitterPageIterator<ITwitterResult<IIdsCursorQueryResultDTO>> GetUserIdsRequestingFriendshipIterator(IGetUserIdsRequestingFriendshipParameters parameters)

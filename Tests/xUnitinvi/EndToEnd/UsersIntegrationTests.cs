@@ -48,14 +48,14 @@ namespace xUnitinvi.EndToEnd
 
             if (userToFollow.Id != null && friendIds.Contains(userToFollow.Id.Value))
             {
-                await _client.Users.UnFollowUser(userToFollow);
+                await _client.Users.UnfollowUser(userToFollow);
             }
 
             await _client.Users.FollowUser(userToFollow);
 
             var friendsAfterAdd = await tweetinviTestAuthenticated.GetFriends().MoveToNextPage();
 
-            await _client.Users.UnFollowUser(userToFollow);
+            await _client.Users.UnfollowUser(userToFollow);
 
             var friendsAfterRemove = await tweetinviTestAuthenticated.GetFriends().MoveToNextPage();
 
@@ -82,7 +82,7 @@ namespace xUnitinvi.EndToEnd
             await _client.Users.FollowUser(userToFollow);
 
             var relationshipAfterAdd = await authenticatedUser.GetRelationshipWith(userToFollow);
-            var relationshipStateAfterAdd = await _client.Users.GetRelationshipsWith(new IUserIdentifier[] {userToFollow});
+            var relationshipStateAfterAdd = await _client.Users.GetRelationshipsWith(new IUserIdentifier[] { userToFollow });
 
             await _client.Users.UpdateRelationship(new UpdateRelationshipParameters(userToFollow)
             {
@@ -93,10 +93,10 @@ namespace xUnitinvi.EndToEnd
             var retweetMutedUsers = await _client.Users.GetUserIdsWhoseRetweetsAreMuted();
             var relationshipAfterUpdate = await _client.Users.GetRelationshipBetween(authenticatedUser, userToFollow);
 
-            await _client.Users.UnFollowUser(userToFollow);
+            await _client.Users.UnfollowUser(userToFollow);
 
             var relationshipAfterRemove = await _client.Users.GetRelationshipBetween(authenticatedUser, userToFollow);
-            var relationshipStateAfterRemove = await _client.Users.GetRelationshipsWith(new[] {usernameToFollow});
+            var relationshipStateAfterRemove = await _client.Users.GetRelationshipsWith(new[] { usernameToFollow });
 
             // assert
             Assert.False(relationshipAfterAdd.NotificationsEnabled);
@@ -129,20 +129,20 @@ namespace xUnitinvi.EndToEnd
             var receivedRequestUsers = await receivedRequestsIterator.MoveToNextPage();
 
             // delete ongoing request
-//            await publicUserClient.Account.UnFollowUser(privateUser);
-//
-//            var afterUnfollowSentRequestsIterator = publicUserClient.Account.GetUsersYouRequestedToFollow();
-//            var afterUnfollowSentRequestUsers = await afterUnfollowSentRequestsIterator.MoveToNextPage();
-//
-//            var afterUnfollowReceivedRequestsIterator = privateUserClient.Account.GetUsersRequestingFriendship();
-//            var afterUnfollowReceivedRequestUsers = await afterUnfollowReceivedRequestsIterator.MoveToNextPage();
+            //            await publicUserClient.Account.UnfollowUser(privateUser);
+            //
+            //            var afterUnfollowSentRequestsIterator = publicUserClient.Account.GetUsersYouRequestedToFollow();
+            //            var afterUnfollowSentRequestUsers = await afterUnfollowSentRequestsIterator.MoveToNextPage();
+            //
+            //            var afterUnfollowReceivedRequestsIterator = privateUserClient.Account.GetUsersRequestingFriendship();
+            //            var afterUnfollowReceivedRequestUsers = await afterUnfollowReceivedRequestsIterator.MoveToNextPage();
 
             // assert
             Assert.Contains(sentRequestUsers, user => user.Id == privateUser.Id);
             Assert.Contains(receivedRequestUsers, user => user.Id == publicUser.Id);
 
-//            Assert.DoesNotContain(afterUnfollowSentRequestUsers, user => user.Id == privateUser.Id);
-//            Assert.DoesNotContain(afterUnfollowReceivedRequestUsers, user => user.Id == publicUser.Id);
+            //            Assert.DoesNotContain(afterUnfollowSentRequestUsers, user => user.Id == privateUser.Id);
+            //            Assert.DoesNotContain(afterUnfollowReceivedRequestUsers, user => user.Id == publicUser.Id);
         }
     }
 }

@@ -93,19 +93,19 @@ namespace Tweetinvi.Core.Models
             return Client.Users.FollowUser(username);
         }
 
-        public Task UnFollowUser(IUserIdentifier user)
+        public Task UnfollowUser(IUserIdentifier user)
         {
-            return Client.Users.UnFollowUser(user);
+            return Client.Users.UnfollowUser(user);
         }
 
-        public Task UnFollowUser(long userId)
+        public Task UnfollowUser(long userId)
         {
-            return Client.Users.UnFollowUser(userId);
+            return Client.Users.UnfollowUser(userId);
         }
 
-        public Task UnFollowUser(string username)
+        public Task UnfollowUser(string username)
         {
-            return Client.Users.UnFollowUser(username);
+            return Client.Users.UnfollowUser(username);
         }
 
         public Task<IEnumerable<ISavedSearch>> GetSavedSearches()

@@ -31,7 +31,7 @@ namespace Tweetinvi.Controllers.User
 
         // FOLLOWERS
         Task<ITwitterResult<IUserDTO>> FollowUser(IFollowUserParameters parameters, ITwitterRequest request);
-        Task<ITwitterResult<IUserDTO>> UnFollowUser(IUnFollowUserParameters parameters, ITwitterRequest request);
+        Task<ITwitterResult<IUserDTO>> UnfollowUser(IUnfollowUserParameters parameters, ITwitterRequest request);
 
         // ONGOING REQUESTS
         Task<ITwitterResult<IIdsCursorQueryResultDTO>> GetUserIdsRequestingFriendship(IGetUserIdsRequestingFriendshipParameters parameters, ITwitterRequest request);
@@ -217,9 +217,9 @@ namespace Tweetinvi.Controllers.User
             return _twitterAccessor.ExecuteRequest<IRelationshipDetailsDTO>(request);
         }
 
-        public Task<ITwitterResult<IUserDTO>> UnFollowUser(IUnFollowUserParameters parameters, ITwitterRequest request)
+        public Task<ITwitterResult<IUserDTO>> UnfollowUser(IUnfollowUserParameters parameters, ITwitterRequest request)
         {
-            var query = _userQueryGenerator.GetUnFollowUserQuery(parameters);
+            var query = _userQueryGenerator.GetUnfollowUserQuery(parameters);
             request.Query.Url = query;
             request.Query.HttpMethod = HttpMethod.POST;
             return _twitterAccessor.ExecuteRequest<IUserDTO>(request);

@@ -152,19 +152,19 @@ namespace xUnitinvi.ClientActions.UsersClient
         // FOLLOWERS
 
         [Fact]
-        public void GetUnFollowUserQuery_ReturnsExpectedQuery()
+        public void GetUnfollowUserQuery_ReturnsExpectedQuery()
         {
             // Arrange
             var queryGenerator = CreateUserQueryGenerator();
             var user = new UserIdentifier(42);
 
-            var parameters = new UnFollowUserParameters(user)
+            var parameters = new UnfollowUserParameters(user)
             {
                 CustomQueryParameters = { new Tuple<string, string>("hello", "world") }
             };
 
             // Act
-            var result = queryGenerator.GetUnFollowUserQuery(parameters);
+            var result = queryGenerator.GetUnfollowUserQuery(parameters);
 
             // Assert
             Assert.Equal(result, $"https://api.twitter.com/1.1/friendships/destroy.json?user_id=42&hello=world");

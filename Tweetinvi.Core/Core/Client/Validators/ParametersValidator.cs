@@ -454,7 +454,7 @@ namespace Tweetinvi.Core.Client.Validators
             _usersClientParametersValidator.Validate(parameters);
         }
 
-        public void Validate(IUnFollowUserParameters parameters)
+        public void Validate(IUnfollowUserParameters parameters)
         {
             _usersClientParametersValidator.Validate(parameters);
         }

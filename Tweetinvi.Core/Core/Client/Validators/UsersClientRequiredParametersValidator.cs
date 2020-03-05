@@ -164,7 +164,7 @@ namespace Tweetinvi.Core.Client.Validators
             _userQueryValidator.ThrowIfUserCannotBeIdentified(parameters.User, $"{nameof(parameters)}.{nameof(parameters.User)}");
         }
 
-        public void Validate(IUnFollowUserParameters parameters)
+        public void Validate(IUnfollowUserParameters parameters)
         {
             if (parameters == null)
             {

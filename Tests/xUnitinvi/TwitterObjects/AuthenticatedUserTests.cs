@@ -96,16 +96,16 @@ namespace xUnitinvi.TwitterObjects
         }
 
         [Fact]
-        public async Task UnFollowUser_ReturnsAccountClientTask()
+        public async Task UnfollowUser_ReturnsAccountClientTask()
         {
             // Arrange
             var user = A.Fake<IUserIdentifier>();
 
             // Act
-            await _authenticatedUser.UnFollowUser(user);
+            await _authenticatedUser.UnfollowUser(user);
 
             // Assert
-            _usersClient.CallsTo(x => x.UnFollowUser(user)).MustHaveHappened();
+            _usersClient.CallsTo(x => x.UnfollowUser(user)).MustHaveHappened();
         }
 
         // TWEETS

@@ -195,7 +195,7 @@ namespace Tweetinvi.Controllers.User
             return query.ToString();
         }
 
-        public string GetUnFollowUserQuery(IUnFollowUserParameters parameters)
+        public string GetUnfollowUserQuery(IUnfollowUserParameters parameters)
         {
             var query = new StringBuilder(Resources.Friendship_Destroy);
 

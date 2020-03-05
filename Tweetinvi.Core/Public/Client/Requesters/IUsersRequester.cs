@@ -107,7 +107,7 @@ namespace Tweetinvi.Client.Requesters
         /// <para>Read more : https://dev.twitter.com/en/docs/accounts-and-users/follow-search-get-users/api-reference/post-friendships-destroy </para>
         /// </summary>
         /// <returns>TwitterResult containing the user who is no longer followed</returns>
-        Task<ITwitterResult<IUserDTO>> UnFollowUser(IUnFollowUserParameters parameters);
+        Task<ITwitterResult<IUserDTO>> UnfollowUser(IUnfollowUserParameters parameters);
 
         // ONGOING REQUESTS
 

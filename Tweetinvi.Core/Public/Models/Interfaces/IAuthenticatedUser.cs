@@ -109,17 +109,17 @@ namespace Tweetinvi.Models
         /// <summary>
         /// Unfollow a specific user.
         /// </summary>
-        Task UnFollowUser(IUserIdentifier user);
+        Task UnfollowUser(IUserIdentifier user);
 
         /// <summary>
         /// Unfollow a specific user.
         /// </summary>
-        Task UnFollowUser(long userId);
+        Task UnfollowUser(long userId);
 
         /// <summary>
         /// Unfollow a specific user.
         /// </summary>
-        Task UnFollowUser(string username);
+        Task UnfollowUser(string username);
 
         // Saved Searches
 

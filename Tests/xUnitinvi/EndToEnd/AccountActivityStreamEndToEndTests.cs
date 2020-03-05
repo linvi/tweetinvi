@@ -62,7 +62,7 @@ namespace xUnitinvi.EndToEnd
 
                 await userClient.Users.FollowUser(EndToEndTestConfig.TweetinviTest);
                 await Task.Delay(timeoutBetweenOperations);
-                await userClient.Users.UnFollowUser(EndToEndTestConfig.TweetinviTest);
+                await userClient.Users.UnfollowUser(EndToEndTestConfig.TweetinviTest);
                 await Task.Delay(timeoutBetweenOperations);
 
                 await userClient.Users.MuteUser(EndToEndTestConfig.TweetinviTest);

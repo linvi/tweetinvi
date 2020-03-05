@@ -21,7 +21,7 @@ namespace Tweetinvi.Core.Client.Validators
         void Validate(IGetBlockedUserIdsParameters parameters);
         void Validate(IGetBlockedUsersParameters parameters);
         void Validate(IFollowUserParameters parameters);
-        void Validate(IUnFollowUserParameters parameters);
+        void Validate(IUnfollowUserParameters parameters);
         void Validate(IGetUserIdsRequestingFriendshipParameters parameters);
         void Validate(IGetUsersRequestingFriendshipParameters parameters);
         void Validate(IGetUserIdsYouRequestedToFollowParameters parameters);
@@ -177,7 +177,7 @@ namespace Tweetinvi.Core.Client.Validators
             _usersClientRequiredParametersValidator.Validate(parameters);
         }
 
-        public void Validate(IUnFollowUserParameters parameters)
+        public void Validate(IUnfollowUserParameters parameters)
         {
             _usersClientRequiredParametersValidator.Validate(parameters);
         }

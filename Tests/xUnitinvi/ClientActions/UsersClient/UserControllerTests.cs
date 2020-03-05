@@ -275,20 +275,20 @@ namespace xUnitinvi.ClientActions.UsersClient
         }
 
         [Fact]
-        public async Task UnFollowUser_ReturnsFromUserQueryExecutor()
+        public async Task UnfollowUser_ReturnsFromUserQueryExecutor()
         {
             // Arrange
             var controller = CreateUserController();
             var userDTO = A.Fake<IUserDTO>();
 
-            var followUserParameters = new UnFollowUserParameters(userDTO);
+            var followUserParameters = new UnfollowUserParameters(userDTO);
             var request = A.Fake<ITwitterRequest>();
             var expectedResult = A.Fake<ITwitterResult<IUserDTO>>();
 
-            A.CallTo(() => _fakeUserQueryExecutor.UnFollowUser(followUserParameters, request)).Returns(expectedResult);
+            A.CallTo(() => _fakeUserQueryExecutor.UnfollowUser(followUserParameters, request)).Returns(expectedResult);
 
             // Act
-            var result = await controller.UnFollowUser(followUserParameters, request);
+            var result = await controller.UnfollowUser(followUserParameters, request);
 
             // Assert
             Assert.Equal(result, expectedResult);

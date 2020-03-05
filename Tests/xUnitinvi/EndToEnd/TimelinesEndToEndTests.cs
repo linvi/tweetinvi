@@ -63,7 +63,7 @@ namespace xUnitinvi.EndToEnd
 
             if (!alreadyFollowing)
             {
-                await _tweetinviClient.Users.UnFollowUser(testUser);
+                await _tweetinviClient.Users.UnfollowUser(testUser);
             }
 
             // assert

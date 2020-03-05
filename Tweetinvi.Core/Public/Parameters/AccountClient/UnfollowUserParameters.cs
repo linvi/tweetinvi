@@ -6,7 +6,7 @@ namespace Tweetinvi.Parameters
     /// For more information visit : https://dev.twitter.com/en/docs/accounts-and-users/follow-search-get-users/api-reference/post-friendships-destroy
     /// </summary>
     /// <inheritdoc />
-    public interface IUnFollowUserParameters : ICustomRequestParameters
+    public interface IUnfollowUserParameters : ICustomRequestParameters
     {
         /// <summary>
         /// The user that you want to stop following
@@ -14,22 +14,22 @@ namespace Tweetinvi.Parameters
         IUserIdentifier User { get; set; }
     }
 
-    public class UnFollowUserParameters : CustomRequestParameters, IUnFollowUserParameters
+    public class UnfollowUserParameters : CustomRequestParameters, IUnfollowUserParameters
     {
-        public UnFollowUserParameters(string username) : this(new UserIdentifier(username))
+        public UnfollowUserParameters(string username) : this(new UserIdentifier(username))
         {
         }
 
-        public UnFollowUserParameters(long userId) : this(new UserIdentifier(userId))
+        public UnfollowUserParameters(long userId) : this(new UserIdentifier(userId))
         {
         }
 
-        public UnFollowUserParameters(IUserIdentifier userIdentifier)
+        public UnfollowUserParameters(IUserIdentifier userIdentifier)
         {
             User = userIdentifier;
         }
 
-        public UnFollowUserParameters(IUnFollowUserParameters parameters) : base(parameters)
+        public UnfollowUserParameters(IUnfollowUserParameters parameters) : base(parameters)
         {
             User = parameters?.User;
         }

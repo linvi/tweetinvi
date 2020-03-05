@@ -231,20 +231,20 @@ namespace Tweetinvi.Client
         /// </summary>
         Task FollowUser(IFollowUserParameters parameters);
 
-        /// <inheritdoc cref="UnFollowUser(IUnFollowUserParameters)" />
-        Task UnFollowUser(long userId);
+        /// <inheritdoc cref="UnfollowUser(IUnfollowUserParameters)" />
+        Task UnfollowUser(long userId);
 
-        /// <inheritdoc cref="UnFollowUser(IUnFollowUserParameters)" />
-        Task UnFollowUser(string username);
+        /// <inheritdoc cref="UnfollowUser(IUnfollowUserParameters)" />
+        Task UnfollowUser(string username);
 
-        /// <inheritdoc cref="UnFollowUser(IUnFollowUserParameters)" />
-        Task UnFollowUser(IUserIdentifier user);
+        /// <inheritdoc cref="UnfollowUser(IUnfollowUserParameters)" />
+        Task UnfollowUser(IUserIdentifier user);
 
         /// <summary>
         /// Stops following a user
         /// <para>Read more : https://dev.twitter.com/en/docs/accounts-and-users/follow-search-get-users/api-reference/post-friendships-destroy </para>
         /// </summary>
-        Task UnFollowUser(IUnFollowUserParameters parameters);
+        Task UnfollowUser(IUnfollowUserParameters parameters);
 
         #endregion
 

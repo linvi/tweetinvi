@@ -107,9 +107,9 @@ namespace Tweetinvi.Controllers.User
             return _userQueryExecutor.UpdateRelationship(parameters, request);
         }
 
-        public Task<ITwitterResult<IUserDTO>> UnFollowUser(IUnFollowUserParameters parameters, ITwitterRequest request)
+        public Task<ITwitterResult<IUserDTO>> UnfollowUser(IUnfollowUserParameters parameters, ITwitterRequest request)
         {
-            return _userQueryExecutor.UnFollowUser(parameters, request);
+            return _userQueryExecutor.UnfollowUser(parameters, request);
         }
 
         // FRIENDSHIP
