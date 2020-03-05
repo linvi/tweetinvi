@@ -37,25 +37,25 @@ namespace Testinvi.TweetinviControllers.TweetTests
         [TestMethod]
         public async Task PublishRetweet_Returns_TwitterResult()
         {
-           // Arrange
-           var controller = CreateTweetController();
-           var tweetId = new TweetIdentifier(TestHelper.GenerateRandomLong());
-           var requestResult = A.Fake<ITwitterResult<ITweetDTO>>();
-           var twitterResult = A.Fake<ITwitterResult<ITweetDTO, ITweet>>();
+            // Arrange
+            var controller = CreateTweetController();
+            var tweetId = new TweetIdentifier(TestHelper.GenerateRandomLong());
+            var requestResult = A.Fake<ITwitterResult<ITweetDTO>>();
+            var twitterResult = A.Fake<ITwitterResult<ITweetDTO, ITweet>>();
 
-           _fakeTweetQueryExecutor
-               .CallsTo(x => x.PublishRetweet(tweetId, It.IsAny<ITwitterRequest>()))
-               .ReturnsLazily(() => requestResult);
+            _fakeTweetQueryExecutor
+                .CallsTo(x => x.PublishRetweet(tweetId, It.IsAny<ITwitterRequest>()))
+                .ReturnsLazily(() => requestResult);
 
-           _fakeTwitterResultFactory
-               .CallsTo(x => x.Create(requestResult, A<Func<ITweetDTO, ITweet>>.Ignored))
-               .Returns(twitterResult);
+            _fakeTwitterResultFactory
+                .CallsTo(x => x.Create(requestResult, A<Func<ITweetDTO, ITweet>>.Ignored))
+                .Returns(twitterResult);
 
-           // Act
-           var result = await controller.PublishRetweet(tweetId, A.Fake<ITwitterRequest>());
+            // Act
+            var result = await controller.PublishRetweet(tweetId, A.Fake<ITwitterRequest>());
 
-           // Assert
-           Assert.AreEqual(result, twitterResult);
+            // Assert
+            Assert.AreEqual(result, twitterResult);
         }
 
         #endregion
@@ -153,7 +153,7 @@ namespace Testinvi.TweetinviControllers.TweetTests
             // Assert
             Assert.AreEqual(result, retweeterIds);
         }
-        
+
         #endregion
 
         #region Destroy Tweet
@@ -380,85 +380,85 @@ namespace Testinvi.TweetinviControllers.TweetTests
 
         #endregion
 
-        #region UnFavorite Tweet
+        #region Unfavorite Tweet
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentException))]
-        public async Task UnFavoriteTweet_WithNullTweet_ThrowsArgumentException()
+        public async Task UnfavoriteTweet_WithNullTweet_ThrowsArgumentException()
         {
             // Arrange
             var controller = CreateTweetController();
 
             // Act
-            await controller.UnFavoriteTweet((ITweet)null);
+            await controller.UnfavoriteTweet((ITweet)null);
         }
 
         [TestMethod]
-        public async Task UnFavoriteTweet_WithTweet_ReturnsQueryExecutorResult()
+        public async Task UnfavoriteTweet_WithTweet_ReturnsQueryExecutorResult()
         {
-            await VerifyUnFavoriteTweet_WithTweet_ReturnsQueryExecutorResult(false, false);
-            await VerifyUnFavoriteTweet_WithTweet_ReturnsQueryExecutorResult(false, true);
-            await VerifyUnFavoriteTweet_WithTweet_ReturnsQueryExecutorResult(true, false);
-            await VerifyUnFavoriteTweet_WithTweet_ReturnsQueryExecutorResult(true, true);
+            await VerifyUnfavoriteTweet_WithTweet_ReturnsQueryExecutorResult(false, false);
+            await VerifyUnfavoriteTweet_WithTweet_ReturnsQueryExecutorResult(false, true);
+            await VerifyUnfavoriteTweet_WithTweet_ReturnsQueryExecutorResult(true, false);
+            await VerifyUnfavoriteTweet_WithTweet_ReturnsQueryExecutorResult(true, true);
         }
 
-        private async Task VerifyUnFavoriteTweet_WithTweet_ReturnsQueryExecutorResult(bool doesTweetDTOExists, bool expectedResult)
+        private async Task VerifyUnfavoriteTweet_WithTweet_ReturnsQueryExecutorResult(bool doesTweetDTOExists, bool expectedResult)
         {
             // Arrange
             var controller = CreateTweetController();
             var tweetDTO = doesTweetDTOExists ? A.Fake<ITweetDTO>() : null;
             var tweet = GenerateTweet(tweetDTO);
 
-            _fakeTweetQueryExecutor.CallsTo(x => x.UnFavoriteTweet(tweetDTO)).Returns(expectedResult);
+            _fakeTweetQueryExecutor.CallsTo(x => x.UnfavoriteTweet(tweetDTO)).Returns(expectedResult);
 
             // Act
-            var result = await controller.UnFavoriteTweet(tweet);
+            var result = await controller.UnfavoriteTweet(tweet);
 
             // Assert
             Assert.AreEqual(result, expectedResult);
         }
 
         [TestMethod]
-        public async Task UnFavoriteTweet_WithTweetDTO_ReturnsQueryExecutorResult()
+        public async Task UnfavoriteTweet_WithTweetDTO_ReturnsQueryExecutorResult()
         {
-            await VerifyUnFavoriteTweet_WithTweetDTO_ReturnsQueryExecutorResult(false, false);
-            await VerifyUnFavoriteTweet_WithTweetDTO_ReturnsQueryExecutorResult(false, true);
-            await VerifyUnFavoriteTweet_WithTweetDTO_ReturnsQueryExecutorResult(true, false);
-            await VerifyUnFavoriteTweet_WithTweetDTO_ReturnsQueryExecutorResult(true, true);
+            await VerifyUnfavoriteTweet_WithTweetDTO_ReturnsQueryExecutorResult(false, false);
+            await VerifyUnfavoriteTweet_WithTweetDTO_ReturnsQueryExecutorResult(false, true);
+            await VerifyUnfavoriteTweet_WithTweetDTO_ReturnsQueryExecutorResult(true, false);
+            await VerifyUnfavoriteTweet_WithTweetDTO_ReturnsQueryExecutorResult(true, true);
         }
 
-        private async Task VerifyUnFavoriteTweet_WithTweetDTO_ReturnsQueryExecutorResult(bool tweetExists, bool expectedResult)
+        private async Task VerifyUnfavoriteTweet_WithTweetDTO_ReturnsQueryExecutorResult(bool tweetExists, bool expectedResult)
         {
             // Arrange
             var controller = CreateTweetController();
             var tweetDTO = tweetExists ? A.Fake<ITweetDTO>() : null;
 
-            _fakeTweetQueryExecutor.CallsTo(x => x.UnFavoriteTweet(tweetDTO)).Returns(expectedResult);
+            _fakeTweetQueryExecutor.CallsTo(x => x.UnfavoriteTweet(tweetDTO)).Returns(expectedResult);
 
             // Act
-            var result = await controller.UnFavoriteTweet(tweetDTO);
+            var result = await controller.UnfavoriteTweet(tweetDTO);
 
             // Assert
             Assert.AreEqual(result, expectedResult);
         }
 
         [TestMethod]
-        public async Task UnFavoriteTweet_WithTweetId_ReturnsQueryExecutorResult()
+        public async Task UnfavoriteTweet_WithTweetId_ReturnsQueryExecutorResult()
         {
-            await VerifyUnFavoriteTweet_WithTweetId_ReturnsQueryExecutorResult(false);
-            await VerifyUnFavoriteTweet_WithTweetId_ReturnsQueryExecutorResult(true);
+            await VerifyUnfavoriteTweet_WithTweetId_ReturnsQueryExecutorResult(false);
+            await VerifyUnfavoriteTweet_WithTweetId_ReturnsQueryExecutorResult(true);
         }
 
-        private async Task VerifyUnFavoriteTweet_WithTweetId_ReturnsQueryExecutorResult(bool expectedResult)
+        private async Task VerifyUnfavoriteTweet_WithTweetId_ReturnsQueryExecutorResult(bool expectedResult)
         {
             // Arrange
             var controller = CreateTweetController();
             var tweetId = TestHelper.GenerateRandomLong();
 
-            _fakeTweetQueryExecutor.CallsTo(x => x.UnFavoriteTweet(tweetId)).Returns(expectedResult);
+            _fakeTweetQueryExecutor.CallsTo(x => x.UnfavoriteTweet(tweetId)).Returns(expectedResult);
 
             // Act
-            var result = await controller.UnFavoriteTweet(tweetId);
+            var result = await controller.UnfavoriteTweet(tweetId);
 
             // Assert
             Assert.AreEqual(result, expectedResult);

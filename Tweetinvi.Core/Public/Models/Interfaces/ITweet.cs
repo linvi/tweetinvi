@@ -290,7 +290,7 @@ namespace Tweetinvi.Models
         /// <summary>
         /// Remove the tweet from favourites
         /// </summary>
-        Task UnFavorite();
+        Task Unfavorite();
 
         #endregion
 

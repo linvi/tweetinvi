@@ -137,10 +137,10 @@ namespace Tweetinvi.Client.Requesters
             return ExecuteRequest(request => _tweetController.FavoriteTweet(parameters, request));
         }
 
-        public Task<ITwitterResult<ITweetDTO>> UnFavoriteTweet(IUnFavoriteTweetParameters parameters)
+        public Task<ITwitterResult<ITweetDTO>> UnfavoriteTweet(IUnfavoriteTweetParameters parameters)
         {
             _tweetsClientRequiredParametersValidator.Validate(parameters);
-            return ExecuteRequest(request => _tweetController.UnFavoriteTweet(parameters, request));
+            return ExecuteRequest(request => _tweetController.UnfavoriteTweet(parameters, request));
         }
 
         public Task<ITwitterResult<IOEmbedTweetDTO>> GetOEmbedTweet(IGetOEmbedTweetParameters parameters)

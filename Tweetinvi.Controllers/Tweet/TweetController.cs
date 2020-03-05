@@ -175,9 +175,9 @@ namespace Tweetinvi.Controllers.Tweet
             return _tweetQueryExecutor.FavoriteTweet(parameters, request);
         }
 
-        public Task<ITwitterResult<ITweetDTO>> UnFavoriteTweet(IUnFavoriteTweetParameters parameters, ITwitterRequest request)
+        public Task<ITwitterResult<ITweetDTO>> UnfavoriteTweet(IUnfavoriteTweetParameters parameters, ITwitterRequest request)
         {
-            return _tweetQueryExecutor.UnFavoriteTweet(parameters, request);
+            return _tweetQueryExecutor.UnfavoriteTweet(parameters, request);
         }
 
         public Task<ITwitterResult<IOEmbedTweetDTO>> GetOEmbedTweet(IGetOEmbedTweetParameters parameters, ITwitterRequest request)

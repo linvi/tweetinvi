@@ -33,7 +33,7 @@ namespace Tweetinvi.Controllers.Tweet
         // Favorite Tweet
         Task<ITwitterResult<ITweetDTO>> FavoriteTweet(IFavoriteTweetParameters parameters, ITwitterRequest request);
 
-        Task<ITwitterResult<ITweetDTO>> UnFavoriteTweet(IUnFavoriteTweetParameters parameters, ITwitterRequest request);
+        Task<ITwitterResult<ITweetDTO>> UnfavoriteTweet(IUnfavoriteTweetParameters parameters, ITwitterRequest request);
         Task<ITwitterResult<ITweetDTO[]>> GetFavoriteTweets(IGetFavoriteTweetsParameters parameters, ITwitterRequest request);
 
         Task<ITwitterResult<IOEmbedTweetDTO>> GetOEmbedTweet(IGetOEmbedTweetParameters parameters, ITwitterRequest request);
@@ -148,33 +148,33 @@ namespace Tweetinvi.Controllers.Tweet
             return _twitterAccessor.ExecuteRequest<ITweetDTO>(request);
         }
 
-//        private async Task<ITwitterResult> ExecuteFavoriteQuery(string query)
-//        {
-//            // We need the try catch here as we need to know whether if the operation has failed and why it did!
-//            try
-//            {
-//                var jsonObject = await _twitterAccessor.ExecutePOSTQuery(query);
-//                return jsonObject != null;
-//            }
-//            catch (TwitterException ex)
-//            {
-//                // In this case the tweet has already been favourited.
-//                // Therefore we consider that the operation has been successfull.
-//                if (ex.TwitterExceptionInfos != null && ex.TwitterExceptionInfos.Any() && ex.TwitterExceptionInfos.First().Code == 139)
-//                {
-//                    return false;
-//                }
-//
-//                // If the failure was caused by an error that is different from the one informing
-//                // that a tweet has already been favourited, then throw the exception because
-//                // we are currently not swallowing exceptions as it would have been done in the TwitterAccessor.
-//                throw;
-//            }
-//        }
+        //        private async Task<ITwitterResult> ExecuteFavoriteQuery(string query)
+        //        {
+        //            // We need the try catch here as we need to know whether if the operation has failed and why it did!
+        //            try
+        //            {
+        //                var jsonObject = await _twitterAccessor.ExecutePOSTQuery(query);
+        //                return jsonObject != null;
+        //            }
+        //            catch (TwitterException ex)
+        //            {
+        //                // In this case the tweet has already been favourited.
+        //                // Therefore we consider that the operation has been successfull.
+        //                if (ex.TwitterExceptionInfos != null && ex.TwitterExceptionInfos.Any() && ex.TwitterExceptionInfos.First().Code == 139)
+        //                {
+        //                    return false;
+        //                }
+        //
+        //                // If the failure was caused by an error that is different from the one informing
+        //                // that a tweet has already been favourited, then throw the exception because
+        //                // we are currently not swallowing exceptions as it would have been done in the TwitterAccessor.
+        //                throw;
+        //            }
+        //        }
 
-        public Task<ITwitterResult<ITweetDTO>> UnFavoriteTweet(IUnFavoriteTweetParameters parameters, ITwitterRequest request)
+        public Task<ITwitterResult<ITweetDTO>> UnfavoriteTweet(IUnfavoriteTweetParameters parameters, ITwitterRequest request)
         {
-            var query = _tweetQueryGenerator.GetUnFavoriteTweetQuery(parameters);
+            var query = _tweetQueryGenerator.GetUnfavoriteTweetQuery(parameters);
             request.Query.Url = query;
             request.Query.HttpMethod = HttpMethod.POST;
             return _twitterAccessor.ExecuteRequest<ITweetDTO>(request);

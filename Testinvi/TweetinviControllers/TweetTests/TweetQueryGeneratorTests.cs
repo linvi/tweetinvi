@@ -335,44 +335,44 @@ namespace Testinvi.TweetinviControllers.TweetTests
 
         #endregion
 
-        #region GetUnFavoriteTweetQuery
+        #region GetUnfavoriteTweetQuery
 
         [TestMethod]
-        public void GetUnFavouriteTweetQuery_TweetPublished_ReturnsExpectedQuery()
+        public void GetUnfavoriteTweetQuery_TweetPublished_ReturnsExpectedQuery()
         {
             // Arrange
             var queryGenerator = CreateTweetQueryGenerator();
-            var tweetToUnFavouriteId = TestHelper.GenerateRandomLong();
-            var tweetToUnFavourite = A.Fake<ITweetDTO>();
-            tweetToUnFavourite.CallsTo(x => x.Id).Returns(tweetToUnFavouriteId);
+            var tweetToUnfavoriteId = TestHelper.GenerateRandomLong();
+            var tweetToUnfavorite = A.Fake<ITweetDTO>();
+            tweetToUnfavorite.CallsTo(x => x.Id).Returns(tweetToUnfavoriteId);
 
-            _fakeTweetQueryValidator.CallsTo(x => x.IsTweetPublished(tweetToUnFavourite)).Returns(true);
+            _fakeTweetQueryValidator.CallsTo(x => x.IsTweetPublished(tweetToUnfavorite)).Returns(true);
 
             // Act
-            var result = queryGenerator.GetUnFavoriteTweetQuery(tweetToUnFavourite);
+            var result = queryGenerator.GetUnfavoriteTweetQuery(tweetToUnfavorite);
 
             // Assert
-            var expectedResult = string.Format(Resources.Tweet_Favorite_Destroy, tweetToUnFavouriteId);
+            var expectedResult = string.Format(Resources.Tweet_Favorite_Destroy, tweetToUnfavoriteId);
             Assert.AreEqual(result, expectedResult);
 
-            _fakeTweetQueryValidator.CallsTo(x => x.ThrowIfTweetCannotBeUsed(tweetToUnFavourite)).MustHaveHappened();
+            _fakeTweetQueryValidator.CallsTo(x => x.ThrowIfTweetCannotBeUsed(tweetToUnfavorite)).MustHaveHappened();
         }
 
         [TestMethod]
-        public void GetUnFavouriteTweetQuery_WithTweetId_ReturnsExpectedQuery()
+        public void GetUnfavoriteTweetQuery_WithTweetId_ReturnsExpectedQuery()
         {
             // Arrange
             var queryGenerator = CreateTweetQueryGenerator();
-            var tweetToUnFavouriteId = TestHelper.GenerateRandomLong();
+            var tweetToUnfavoriteId = TestHelper.GenerateRandomLong();
 
             // Act
-            var result = queryGenerator.GetUnFavoriteTweetQuery(tweetToUnFavouriteId);
+            var result = queryGenerator.GetUnfavoriteTweetQuery(tweetToUnfavoriteId);
 
             // Assert
-            var expectedResult = string.Format(Resources.Tweet_Favorite_Destroy, tweetToUnFavouriteId);
+            var expectedResult = string.Format(Resources.Tweet_Favorite_Destroy, tweetToUnfavoriteId);
             Assert.AreEqual(result, expectedResult);
 
-            _fakeTweetQueryValidator.CallsTo(x => x.ThrowIfTweetCannotBeUsed(tweetToUnFavouriteId)).MustHaveHappened();
+            _fakeTweetQueryValidator.CallsTo(x => x.ThrowIfTweetCannotBeUsed(tweetToUnfavoriteId)).MustHaveHappened();
         }
 
         #endregion

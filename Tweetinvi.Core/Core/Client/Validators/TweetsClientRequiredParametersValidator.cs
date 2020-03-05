@@ -143,7 +143,7 @@ namespace Tweetinvi.Core.Client.Validators
             _tweetQueryValidator.ThrowIfTweetCannotBeUsed(parameters.Tweet, $"{nameof(parameters)}.{nameof(parameters.Tweet)}");
         }
 
-        public void Validate(IUnFavoriteTweetParameters parameters)
+        public void Validate(IUnfavoriteTweetParameters parameters)
         {
             if (parameters == null)
             {

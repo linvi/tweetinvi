@@ -18,7 +18,7 @@ namespace Tweetinvi.Core.Client.Validators
         void Validate(IGetRetweeterIdsParameters parameters);
 
         void Validate(IFavoriteTweetParameters parameters);
-        void Validate(IUnFavoriteTweetParameters parameters);
+        void Validate(IUnfavoriteTweetParameters parameters);
         void Validate(IGetOEmbedTweetParameters parameters);
     }
 
@@ -103,7 +103,7 @@ namespace Tweetinvi.Core.Client.Validators
             _tweetsClientRequiredParametersValidator.Validate(parameters);
         }
 
-        public void Validate(IUnFavoriteTweetParameters parameters)
+        public void Validate(IUnfavoriteTweetParameters parameters)
         {
             _tweetsClientRequiredParametersValidator.Validate(parameters);
         }

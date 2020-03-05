@@ -307,75 +307,75 @@ namespace Testinvi.TweetinviControllers.TweetTests
 
         #endregion
 
-        #region UnFavourite Tweet
+        #region Unfavorite Tweet
 
         [TestMethod]
-        public async Task UnFavouriteTweet_WithTweetDTOSucceed_ReturnsTrue()
+        public async Task UnfavoriteTweet_WithTweetDTOSucceed_ReturnsTrue()
         {
             // Arrange
             var queryExecutor = CreateTweetQueryExecutor();
             var tweetDTO = A.Fake<ITweetDTO>();
             var query = TestHelper.GenerateString();
 
-            _fakeTweetQueryGenerator.CallsTo(x => x.GetUnFavoriteTweetQuery(tweetDTO)).Returns(query);
+            _fakeTweetQueryGenerator.CallsTo(x => x.GetUnfavoriteTweetQuery(tweetDTO)).Returns(query);
             _fakeTwitterAccessor.ArrangeTryExecutePOSTQuery(query, true);
 
             // Act
-            var result = await queryExecutor.UnFavoriteTweet(tweetDTO);
+            var result = await queryExecutor.UnfavoriteTweet(tweetDTO);
 
             // Assert
             Assert.IsTrue(result);
         }
 
         [TestMethod]
-        public async Task UnFavouriteTweet_WithTweetDTOFailed_ReturnsFalse()
+        public async Task UnfavoriteTweet_WithTweetDTOFailed_ReturnsFalse()
         {
             // Arrange
             var queryExecutor = CreateTweetQueryExecutor();
             var tweetDTO = A.Fake<ITweetDTO>();
             var query = TestHelper.GenerateString();
 
-            _fakeTweetQueryGenerator.CallsTo(x => x.GetUnFavoriteTweetQuery(tweetDTO)).Returns(query);
+            _fakeTweetQueryGenerator.CallsTo(x => x.GetUnfavoriteTweetQuery(tweetDTO)).Returns(query);
             _fakeTwitterAccessor.ArrangeTryExecutePOSTQuery(query, false);
 
             // Act
-            var result = await queryExecutor.UnFavoriteTweet(tweetDTO);
+            var result = await queryExecutor.UnfavoriteTweet(tweetDTO);
 
             // Assert
             Assert.IsFalse(result);
         }
 
         [TestMethod]
-        public async Task UnFavouriteTweet_WithTweetIdSucceed_ReturnsTrue()
+        public async Task UnfavoriteTweet_WithTweetIdSucceed_ReturnsTrue()
         {
             // Arrange
             var queryExecutor = CreateTweetQueryExecutor();
             var tweetId = TestHelper.GenerateRandomLong();
             var query = TestHelper.GenerateString();
 
-            _fakeTweetQueryGenerator.CallsTo(x => x.GetUnFavoriteTweetQuery(tweetId)).Returns(query);
+            _fakeTweetQueryGenerator.CallsTo(x => x.GetUnfavoriteTweetQuery(tweetId)).Returns(query);
             _fakeTwitterAccessor.ArrangeTryExecutePOSTQuery(query, true);
 
             // Act
-            var result = await queryExecutor.UnFavoriteTweet(tweetId);
+            var result = await queryExecutor.UnfavoriteTweet(tweetId);
 
             // Assert
             Assert.IsTrue(result);
         }
 
         [TestMethod]
-        public async Task UnFavouriteTweet_WithTweetIdFailed_ReturnsFalse()
+        public async Task UnfavoriteTweet_WithTweetIdFailed_ReturnsFalse()
         {
             // Arrange
             var queryExecutor = CreateTweetQueryExecutor();
             var tweetId = TestHelper.GenerateRandomLong();
             var query = TestHelper.GenerateString();
 
-            _fakeTweetQueryGenerator.CallsTo(x => x.GetUnFavoriteTweetQuery(tweetId)).Returns(query);
+            _fakeTweetQueryGenerator.CallsTo(x => x.GetUnfavoriteTweetQuery(tweetId)).Returns(query);
             _fakeTwitterAccessor.ArrangeTryExecutePOSTQuery(query, false);
 
             // Act
-            var result = await queryExecutor.UnFavoriteTweet(tweetId);
+            var result = await queryExecutor.UnfavoriteTweet(tweetId);
 
             // Assert
             Assert.IsFalse(result);

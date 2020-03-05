@@ -53,7 +53,7 @@ namespace xUnitinvi.EndToEnd
             var tweetinviLogoBinary = File.ReadAllBytes("./tweetinvi-logo-purple.png");
             var tweetWithMedia = await _protectedClient.Tweets.PublishTweet(new PublishTweetParameters("tweet with media")
             {
-                MediaBinaries = {tweetinviLogoBinary},
+                MediaBinaries = { tweetinviLogoBinary },
                 PossiblySensitive = true,
             });
 
@@ -105,7 +105,7 @@ namespace xUnitinvi.EndToEnd
             var media = await _protectedClient.Upload.UploadBinary(tweetinviLogoBinary);
             var tweetWithMedia = await _protectedClient.Tweets.PublishTweet(new PublishTweetParameters("tweet with media")
             {
-                MediaIds = {media.Id.Value},
+                MediaIds = { media.Id.Value },
                 PossiblySensitive = true,
             });
 
@@ -161,9 +161,9 @@ namespace xUnitinvi.EndToEnd
             var tweetAfterFavoriteCall = await _tweetinviTestClient.Tweets.GetTweet(tweet.Id).ConfigureAwait(false);
             var inMemoryTweetFavoriteStateAfterFavoriteCall = tweet.Favorited;
 
-            await _tweetinviTestClient.Tweets.UnFavoriteTweet(tweet);
-            var tweetAfterUnFavoriteCall = await _tweetinviTestClient.Tweets.GetTweet(tweet.Id).ConfigureAwait(false);
-            var inMemoryTweetFavoriteStateAfterUnFavoriteCall = tweet.Favorited;
+            await _tweetinviTestClient.Tweets.UnfavoriteTweet(tweet);
+            var tweetAfterUnfavoriteCall = await _tweetinviTestClient.Tweets.GetTweet(tweet.Id).ConfigureAwait(false);
+            var inMemoryTweetFavoriteStateAfterUnfavoriteCall = tweet.Favorited;
 
             await _tweetinviTestClient.Tweets.DestroyTweet(tweet).ConfigureAwait(false);
 
@@ -171,8 +171,8 @@ namespace xUnitinvi.EndToEnd
             Assert.False(favoritedAtStart);
             Assert.True(tweetAfterFavoriteCall.Favorited);
             Assert.True(inMemoryTweetFavoriteStateAfterFavoriteCall);
-            Assert.False(tweetAfterUnFavoriteCall.Favorited);
-            Assert.False(inMemoryTweetFavoriteStateAfterUnFavoriteCall);
+            Assert.False(tweetAfterUnfavoriteCall.Favorited);
+            Assert.False(inMemoryTweetFavoriteStateAfterUnfavoriteCall);
         }
 
         [Fact]

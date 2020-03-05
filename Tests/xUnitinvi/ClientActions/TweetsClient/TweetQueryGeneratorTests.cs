@@ -229,19 +229,19 @@ namespace xUnitinvi.ClientActions.TweetsClient
         }
 
         [Fact]
-        public void GetUnFavoriteTweetQuery_ReturnsExpectedQuery()
+        public void GetUnfavoriteTweetQuery_ReturnsExpectedQuery()
         {
             // Arrange
             var queryGenerator = CreateUserQueryGenerator();
 
-            var parameters = new UnFavoriteTweetParameters(42)
+            var parameters = new UnfavoriteTweetParameters(42)
             {
                 IncludeEntities = true,
                 CustomQueryParameters = { new Tuple<string, string>("hello", "world") }
             };
 
             // Act
-            var result = queryGenerator.GetUnFavoriteTweetQuery(parameters);
+            var result = queryGenerator.GetUnfavoriteTweetQuery(parameters);
 
             // Assert
             Assert.Equal(result, $"https://api.twitter.com/1.1/favorites/destroy.json?id=42&include_entities=true&hello=world");
@@ -263,7 +263,7 @@ namespace xUnitinvi.ClientActions.TweetsClient
                 LinkColor = "my_color",
                 MaxWidth = 500,
                 OmitScript = true,
-                RelatedUsernames = new [] { "tweetinvi", "tweetinvitest" },
+                RelatedUsernames = new[] { "tweetinvi", "tweetinvitest" },
                 WidgetType = OEmbedTweetWidgetType.Video,
                 EnablePersonalisationAndSuggestions = true,
                 CustomQueryParameters = { new Tuple<string, string>("hello", "world") }

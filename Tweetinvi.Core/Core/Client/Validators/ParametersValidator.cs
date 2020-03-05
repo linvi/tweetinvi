@@ -359,7 +359,7 @@ namespace Tweetinvi.Core.Client.Validators
             _tweetsClientParametersValidator.Validate(parameters);
         }
 
-        public void Validate(IUnFavoriteTweetParameters parameters)
+        public void Validate(IUnfavoriteTweetParameters parameters)
         {
             _tweetsClientParametersValidator.Validate(parameters);
         }

@@ -223,7 +223,7 @@ namespace Tweetinvi.Controllers.Tweet
             return query.ToString();
         }
 
-        public string GetUnFavoriteTweetQuery(IUnFavoriteTweetParameters parameters)
+        public string GetUnfavoriteTweetQuery(IUnfavoriteTweetParameters parameters)
         {
             var tweetIdentifierValue = parameters.Tweet.Id?.ToString() ?? parameters.Tweet.IdStr;
             var query = new StringBuilder(Resources.Tweet_Favorite_Destroy);

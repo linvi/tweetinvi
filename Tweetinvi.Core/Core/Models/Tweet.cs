@@ -474,9 +474,9 @@ namespace Tweetinvi.Core.Models
             return Client.Tweets.FavoriteTweet(this);
         }
 
-        public Task UnFavorite()
+        public Task Unfavorite()
         {
-            return Client.Tweets.UnFavoriteTweet(this);
+            return Client.Tweets.UnfavoriteTweet(this);
         }
 
         public override string ToString()

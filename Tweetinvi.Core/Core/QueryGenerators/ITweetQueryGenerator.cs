@@ -18,7 +18,7 @@ namespace Tweetinvi.Core.QueryGenerators
         string GetRetweeterIdsQuery(IGetRetweeterIdsParameters parameters);
 
         string GetCreateFavoriteTweetQuery(IFavoriteTweetParameters parameters);
-        string GetUnFavoriteTweetQuery(IUnFavoriteTweetParameters parameters);
+        string GetUnfavoriteTweetQuery(IUnfavoriteTweetParameters parameters);
 
         string GetOEmbedTweetQuery(IGetOEmbedTweetParameters parameters);
     }

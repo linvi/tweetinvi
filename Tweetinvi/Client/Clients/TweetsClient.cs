@@ -233,30 +233,30 @@ namespace Tweetinvi.Client
             await _tweetsRequester.FavoriteTweet(parameters).ConfigureAwait(false);
         }
 
-        public Task UnFavoriteTweet(long? tweetId)
+        public Task UnfavoriteTweet(long? tweetId)
         {
-            return UnFavoriteTweet(new UnFavoriteTweetParameters(tweetId));
+            return UnfavoriteTweet(new UnfavoriteTweetParameters(tweetId));
         }
 
-        public Task UnFavoriteTweet(ITweetIdentifier tweet)
+        public Task UnfavoriteTweet(ITweetIdentifier tweet)
         {
-            return UnFavoriteTweet(new UnFavoriteTweetParameters(tweet));
+            return UnfavoriteTweet(new UnfavoriteTweetParameters(tweet));
         }
 
-        public Task UnFavoriteTweet(ITweet tweet)
+        public Task UnfavoriteTweet(ITweet tweet)
         {
-            return UnFavoriteTweet(tweet.TweetDTO);
+            return UnfavoriteTweet(tweet.TweetDTO);
         }
 
-        public async Task UnFavoriteTweet(ITweetDTO tweet)
+        public async Task UnfavoriteTweet(ITweetDTO tweet)
         {
-            await UnFavoriteTweet(new UnFavoriteTweetParameters(tweet)).ConfigureAwait(false);
+            await UnfavoriteTweet(new UnfavoriteTweetParameters(tweet)).ConfigureAwait(false);
             tweet.Favorited = false;
         }
 
-        public async Task UnFavoriteTweet(IUnFavoriteTweetParameters parameters)
+        public async Task UnfavoriteTweet(IUnfavoriteTweetParameters parameters)
         {
-            await _tweetsRequester.UnFavoriteTweet(parameters).ConfigureAwait(false);
+            await _tweetsRequester.UnfavoriteTweet(parameters).ConfigureAwait(false);
         }
 
         public Task<IOEmbedTweet> GetOEmbedTweet(ITweetIdentifier tweet)

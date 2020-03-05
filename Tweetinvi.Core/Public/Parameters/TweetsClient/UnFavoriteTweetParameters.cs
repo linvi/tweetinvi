@@ -6,7 +6,7 @@ namespace Tweetinvi.Parameters
     /// For more information visit : https://developer.twitter.com/en/docs/tweets/post-and-engage/api-reference/post-favorites-destroy
     /// </summary>
     /// <inheritdoc />
-    public interface IUnFavoriteTweetParameters : ICustomRequestParameters
+    public interface IUnfavoriteTweetParameters : ICustomRequestParameters
     {
         /// <summary>
         /// The identifier of the tweet you no longer want to be a favorite
@@ -19,14 +19,14 @@ namespace Tweetinvi.Parameters
         bool? IncludeEntities { get; set; }
     }
 
-    /// <inheritdoc cref="IUnFavoriteTweetParameters" />
-    public class UnFavoriteTweetParameters : CustomRequestParameters, IUnFavoriteTweetParameters
+    /// <inheritdoc cref="IUnfavoriteTweetParameters" />
+    public class UnfavoriteTweetParameters : CustomRequestParameters, IUnfavoriteTweetParameters
     {
-        public UnFavoriteTweetParameters(long? tweetId) : this(new TweetIdentifier(tweetId))
+        public UnfavoriteTweetParameters(long? tweetId) : this(new TweetIdentifier(tweetId))
         {
         }
 
-        public UnFavoriteTweetParameters(ITweetIdentifier tweet)
+        public UnfavoriteTweetParameters(ITweetIdentifier tweet)
         {
             Tweet = tweet;
         }

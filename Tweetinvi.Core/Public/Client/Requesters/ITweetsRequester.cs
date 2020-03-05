@@ -89,7 +89,7 @@ namespace Tweetinvi.Client.Requesters
         /// </summary>
         /// <para>Read more : https://developer.twitter.com/en/docs/tweets/post-and-engage/api-reference/post-favorites-destroy </para>
         /// <returns>TwitterResult containing the no longer favorited tweet</returns>
-        Task<ITwitterResult<ITweetDTO>> UnFavoriteTweet(IUnFavoriteTweetParameters parameters);
+        Task<ITwitterResult<ITweetDTO>> UnfavoriteTweet(IUnfavoriteTweetParameters parameters);
 
         /// <summary>
         /// Get an oembed tweet
