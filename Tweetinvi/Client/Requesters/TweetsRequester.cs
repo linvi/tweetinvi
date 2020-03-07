@@ -1,9 +1,7 @@
 ﻿using System.Threading.Tasks;
-using Tweetinvi.Client.Tools;
 using Tweetinvi.Core.Client.Validators;
 using Tweetinvi.Core.Controllers;
 using Tweetinvi.Core.Events;
-using Tweetinvi.Core.Factories;
 using Tweetinvi.Core.Iterators;
 using Tweetinvi.Core.JsonConverters;
 using Tweetinvi.Core.Web;
@@ -15,26 +13,17 @@ namespace Tweetinvi.Client.Requesters
 {
     public class TweetsRequester : BaseRequester, ITweetsRequester
     {
-        private readonly ITweetFactory _tweetFactory;
-        private readonly ITwitterClientFactories _factories;
         private readonly ITweetController _tweetController;
-        private readonly ITwitterResultFactory _twitterResultFactory;
         private readonly ITweetsClientRequiredParametersValidator _tweetsClientRequiredParametersValidator;
 
         public TweetsRequester(
             ITwitterClient client,
             ITwitterClientEvents clientEvents,
-            ITweetFactory tweetFactory,
-            ITwitterClientFactories factories,
             ITweetController tweetController,
-            ITwitterResultFactory twitterResultFactory,
             ITweetsClientRequiredParametersValidator tweetsClientRequiredParametersValidator)
         : base(client, clientEvents)
         {
-            _tweetFactory = tweetFactory;
-            _factories = factories;
             _tweetController = tweetController;
-            _twitterResultFactory = twitterResultFactory;
             _tweetsClientRequiredParametersValidator = tweetsClientRequiredParametersValidator;
         }
 

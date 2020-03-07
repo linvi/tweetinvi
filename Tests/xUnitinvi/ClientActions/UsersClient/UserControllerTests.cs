@@ -18,12 +18,10 @@ namespace xUnitinvi.ClientActions.UsersClient
         {
             _fakeBuilder = new FakeClassBuilder<UserController>();
             _fakeUserQueryExecutor = _fakeBuilder.GetFake<IUserQueryExecutor>().FakedObject;
-            _fakeTwitterResultFactory = _fakeBuilder.GetFake<ITwitterResultFactory>().FakedObject;
         }
 
         private readonly FakeClassBuilder<UserController> _fakeBuilder;
         private readonly IUserQueryExecutor _fakeUserQueryExecutor;
-        private readonly ITwitterResultFactory _fakeTwitterResultFactory;
 
         private UserController CreateUserController()
         {
@@ -141,16 +139,14 @@ namespace xUnitinvi.ClientActions.UsersClient
             var parameters = new GetAuthenticatedUserParameters();
             var request = A.Fake<ITwitterRequest>();
             var twitterResult = A.Fake<ITwitterResult<IUserDTO>>();
-            var expectedResult = A.Fake<ITwitterResult<IUserDTO, IAuthenticatedUser>>();
 
             A.CallTo(() => _fakeUserQueryExecutor.GetAuthenticatedUser(parameters, request)).Returns(twitterResult);
-            A.CallTo(() => _fakeTwitterResultFactory.Create(twitterResult, It.IsAny<Func<IUserDTO, IAuthenticatedUser>>())).Returns(expectedResult);
 
             // Act
             var result = await controller.GetAuthenticatedUser(parameters, request);
 
             // Assert
-            Assert.Equal(result, expectedResult);
+            Assert.Equal(result, twitterResult);
         }
 
         // BLOCK

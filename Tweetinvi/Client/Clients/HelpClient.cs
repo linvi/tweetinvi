@@ -33,7 +33,7 @@ namespace Tweetinvi.Client
 
         public async Task<SupportedLanguage[]> GetSupportedLanguages(IGetSupportedLanguagesParameters parameters)
         {
-            var twitterResult = await _helpRequester.GetSupportedLanguages(parameters);
+            var twitterResult = await _helpRequester.GetSupportedLanguages(parameters).ConfigureAwait(false);
             return twitterResult?.DataTransferObject;
         }
     }

@@ -108,7 +108,7 @@ namespace Tweetinvi.Client
         {
             try
             {
-                var twitterResult = await _accountActivityRequester.IsAccountSubscribedToAccountActivity(parameters);
+                var twitterResult = await _accountActivityRequester.IsAccountSubscribedToAccountActivity(parameters).ConfigureAwait(false);
                 return twitterResult.Response.StatusCode == 204;
             }
             catch (TwitterException)

@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Tweetinvi.Client.Requesters;
-using Tweetinvi.Client.Tools;
 using Tweetinvi.Core.Factories;
 using Tweetinvi.Core.Iterators;
 using Tweetinvi.Core.Web;
@@ -18,20 +17,17 @@ namespace Tweetinvi.Client
     public class ListsClient : IListsClient
     {
         private readonly ITwitterListsRequester _twitterListsRequester;
-        private readonly ITwitterClientFactories _clientFactories;
         private readonly IUserFactory _userFactory;
         private readonly ITweetFactory _tweetFactory;
         private readonly ITwitterClient _client;
 
         public ListsClient(
             ITwitterListsRequester twitterListsRequester,
-            ITwitterClientFactories clientFactories,
             IUserFactory userFactory,
             ITweetFactory tweetFactory,
             ITwitterClient client)
         {
             _twitterListsRequester = twitterListsRequester;
-            _clientFactories = clientFactories;
             _userFactory = userFactory;
             _tweetFactory = tweetFactory;
             _client = client;
@@ -165,7 +161,7 @@ namespace Tweetinvi.Client
             return new TwitterIteratorProxy<ITwitterResult<ITwitterListCursorQueryResultDTO>, ITwitterList>(iterator, pageResult =>
             {
                 var listDtos = pageResult.DataTransferObject.TwitterLists;
-                return listDtos?.Select(dto => _clientFactories.CreateTwitterList(dto)).ToArray();
+                return listDtos?.Select(dto => _client.Factories.CreateTwitterList(dto)).ToArray();
             });
         }
 
@@ -260,7 +256,7 @@ namespace Tweetinvi.Client
             return new TwitterIteratorProxy<ITwitterResult<ITwitterListCursorQueryResultDTO>, ITwitterList>(iterator, pageResult =>
             {
                 var listDtos = pageResult.DataTransferObject.TwitterLists;
-                return listDtos?.Select(dto => _clientFactories.CreateTwitterList(dto)).ToArray();
+                return listDtos?.Select(dto => _client.Factories.CreateTwitterList(dto)).ToArray();
             });
         }
 
@@ -486,7 +482,7 @@ namespace Tweetinvi.Client
             return new TwitterIteratorProxy<ITwitterResult<ITwitterListCursorQueryResultDTO>, ITwitterList>(pageIterator, pageResult =>
             {
                 var twitterListDtos = pageResult.DataTransferObject.TwitterLists;
-                return _clientFactories.CreateTwitterLists(twitterListDtos);
+                return _client.Factories.CreateTwitterLists(twitterListDtos);
             });
         }
 

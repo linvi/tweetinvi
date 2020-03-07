@@ -1,8 +1,6 @@
 ﻿using System.IO;
 using System.Threading.Tasks;
-using Tweetinvi.Client.Tools;
 using Tweetinvi.Core.Controllers;
-using Tweetinvi.Core.Helpers;
 using Tweetinvi.Core.Iterators;
 using Tweetinvi.Core.Web;
 using Tweetinvi.Models;
