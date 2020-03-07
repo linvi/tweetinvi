@@ -12,7 +12,7 @@ namespace Tweetinvi.Client
 
     public abstract class BaseRequester : IBaseRequester
     {
-        protected ITwitterClient TwitterClient { get; private set; }
+        protected ITwitterClient TwitterClient { get; }
         private readonly ITwitterClientEvents _twitterClientEvents;
 
         protected BaseRequester(ITwitterClient client, ITwitterClientEvents twitterClientEvents)

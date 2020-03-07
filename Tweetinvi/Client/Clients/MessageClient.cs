@@ -34,7 +34,7 @@ namespace Tweetinvi.Client
         public async Task<IMessage> PublishMessage(IPublishMessageParameters parameters)
         {
             var twitterResult = await _messageRequester.PublishMessage(parameters).ConfigureAwait(false);
-            return twitterResult?.Result;
+            return _client.Factories.CreateMessage(twitterResult?.DataTransferObject);
         }
 
         public Task<IMessage> GetMessage(long messageId)
@@ -45,7 +45,7 @@ namespace Tweetinvi.Client
         public async Task<IMessage> GetMessage(IGetMessageParameters parameters)
         {
             var twitterResult = await _messageRequester.GetMessage(parameters).ConfigureAwait(false);
-            return twitterResult?.Result;
+            return _client.Factories.CreateMessage(twitterResult?.DataTransferObject);
         }
 
         public ITwitterIterator<IMessage> GetMessagesIterator()

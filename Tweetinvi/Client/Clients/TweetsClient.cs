@@ -36,7 +36,7 @@ namespace Tweetinvi.Client
         public async Task<ITweet> GetTweet(IGetTweetParameters parameters)
         {
             var twitterResult = await _tweetsRequester.GetTweet(parameters).ConfigureAwait(false);
-            return twitterResult?.Result;
+            return _client.Factories.CreateTweet(twitterResult?.DataTransferObject);
         }
 
         public Task<ITweet[]> GetTweets(long[] tweetIds)
@@ -57,7 +57,7 @@ namespace Tweetinvi.Client
         public async Task<ITweet[]> GetTweets(IGetTweetsParameters parameters)
         {
             var requestResult = await _tweetsRequester.GetTweets(parameters).ConfigureAwait(false);
-            return requestResult?.Result;
+            return _client.Factories.CreateTweets(requestResult?.DataTransferObject);
         }
 
         // Tweets - Publish
@@ -70,7 +70,7 @@ namespace Tweetinvi.Client
         public async Task<ITweet> PublishTweet(IPublishTweetParameters parameters)
         {
             var requestResult = await _tweetsRequester.PublishTweet(parameters).ConfigureAwait(false);
-            return requestResult?.Result;
+            return _client.Factories.CreateTweet(requestResult?.DataTransferObject);
         }
 
         // Tweets - Destroy
@@ -116,7 +116,7 @@ namespace Tweetinvi.Client
         public async Task<ITweet[]> GetRetweets(IGetRetweetsParameters parameters)
         {
             var requestResult = await _tweetsRequester.GetRetweets(parameters).ConfigureAwait(false);
-            return requestResult?.Result;
+            return _client.Factories.CreateTweets(requestResult?.DataTransferObject);
         }
 
         public Task<ITweet> PublishRetweet(long? tweetId)
@@ -132,7 +132,7 @@ namespace Tweetinvi.Client
         public async Task<ITweet> PublishRetweet(IPublishRetweetParameters parameters)
         {
             var requestResult = await _tweetsRequester.PublishRetweet(parameters).ConfigureAwait(false);
-            return requestResult?.Result;
+            return _client.Factories.CreateTweet(requestResult?.DataTransferObject);
         }
 
         public Task DestroyRetweet(long? retweetId)

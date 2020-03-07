@@ -15,23 +15,15 @@ namespace Tweetinvi.Controllers.User
     public class UserController : IUserController
     {
         private readonly IUserQueryExecutor _userQueryExecutor;
-        private readonly ITwitterResultFactory _resultFactory;
-        private readonly ITwitterClientFactories _factories;
 
-        public UserController(
-            IUserQueryExecutor userQueryExecutor,
-            ITwitterResultFactory resultFactory,
-            ITwitterClientFactories factories)
+        public UserController(IUserQueryExecutor userQueryExecutor)
         {
             _userQueryExecutor = userQueryExecutor;
-            _resultFactory = resultFactory;
-            _factories = factories;
         }
 
-        public async Task<ITwitterResult<IUserDTO, IAuthenticatedUser>> GetAuthenticatedUser(IGetAuthenticatedUserParameters parameters, ITwitterRequest request)
+        public Task<ITwitterResult<IUserDTO>> GetAuthenticatedUser(IGetAuthenticatedUserParameters parameters, ITwitterRequest request)
         {
-            var result = await _userQueryExecutor.GetAuthenticatedUser(parameters, request).ConfigureAwait(false);
-            return _resultFactory.Create(result, userDTO => _factories.CreateAuthenticatedUser(userDTO));
+            return _userQueryExecutor.GetAuthenticatedUser(parameters, request);
         }
 
         public Task<ITwitterResult<IUserDTO>> GetUser(IGetUserParameters parameters, ITwitterRequest request)

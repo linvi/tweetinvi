@@ -15,28 +15,28 @@ namespace Tweetinvi.Client.Requesters
         /// </summary>
         /// <para> https://developer.twitter.com/en/docs/accounts-and-users/create-manage-lists/api-reference/post-lists-create </para>
         /// <returns>TwitterResult containing the created list</returns>
-        Task<ITwitterResult<ITwitterListDTO, ITwitterList>> CreateList(ICreateListParameters parameters);
+        Task<ITwitterResult<ITwitterListDTO>> CreateList(ICreateListParameters parameters);
 
         /// <summary>
         /// Get a specific list from Twitter
         /// </summary>
         /// <para> https://developer.twitter.com/en/docs/accounts-and-users/create-manage-lists/api-reference/get-lists-show </para>
         /// <returns>TwitterResult containing the list</returns>
-        Task<ITwitterResult<ITwitterListDTO, ITwitterList>> GetList(IGetListParameters parameters);
+        Task<ITwitterResult<ITwitterListDTO>> GetList(IGetListParameters parameters);
 
         /// <summary>
         /// Get a user's lists
         /// </summary>
         /// <para> https://developer.twitter.com/en/docs/accounts-and-users/create-manage-lists/api-reference/get-lists-list </para>
         /// <returns>TwitterResult containing the user's lists</returns>
-        Task<ITwitterResult<ITwitterListDTO[], ITwitterList[]>> GetListsSubscribedByUser(IGetListsSubscribedByUserParameters parameters);
+        Task<ITwitterResult<ITwitterListDTO[]>> GetListsSubscribedByUser(IGetListsSubscribedByUserParameters parameters);
 
         /// <summary>
         /// Update information of a Twitter list
         /// </summary>
         /// <para> https://developer.twitter.com/en/docs/accounts-and-users/create-manage-lists/api-reference/post-lists-update </para>
         /// <returns>TwitterResult containing the updated list</returns>
-        Task<ITwitterResult<ITwitterListDTO, ITwitterList>> UpdateList(IUpdateListParameters parameters);
+        Task<ITwitterResult<ITwitterListDTO>> UpdateList(IUpdateListParameters parameters);
 
         /// <summary>
         /// Destroy a list from Twitter
@@ -87,21 +87,21 @@ namespace Tweetinvi.Client.Requesters
         /// <para>Read more : https://developer.twitter.com/en/docs/accounts-and-users/create-manage-lists/api-reference/get-lists-members-show </para>
         /// </summary>
         /// <returns>TwitterResult containing the list </returns>
-        Task<ITwitterResult<ITwitterListDTO, ITwitterList>> CheckIfUserIsAListMember(ICheckIfUserIsMemberOfListParameters parameters);
+        Task<ITwitterResult<ITwitterListDTO>> CheckIfUserIsAListMember(ICheckIfUserIsMemberOfListParameters parameters);
 
         /// <summary>
         /// Remove a member from a list
         /// <para>Read more : https://developer.twitter.com/en/docs/accounts-and-users/create-manage-lists/api-reference/post-lists-members-destroy </para>
         /// </summary>
         /// <returns>TwitterResult containing the list </returns>
-        Task<ITwitterResult<ITwitterListDTO, ITwitterList>> RemoveMemberFromList(IRemoveMemberFromListParameters parameters);
+        Task<ITwitterResult<ITwitterListDTO>> RemoveMemberFromList(IRemoveMemberFromListParameters parameters);
 
         /// <summary>
         /// Remove multiple members from a list
         /// <para>Read more : https://developer.twitter.com/en/docs/accounts-and-users/create-manage-lists/api-reference/post-lists-members-destroy_all </para>
         /// </summary>
         /// <returns>TwitterResult containing the list</returns>
-        Task<ITwitterResult<ITwitterListDTO, ITwitterList>> RemoveMembersFromList(IRemoveMembersFromListParameters parameters);
+        Task<ITwitterResult<ITwitterListDTO>> RemoveMembersFromList(IRemoveMembersFromListParameters parameters);
 
         // SUBSCRIBER
 
@@ -110,14 +110,14 @@ namespace Tweetinvi.Client.Requesters
         /// <para>Read more : https://developer.twitter.com/en/docs/accounts-and-users/create-manage-lists/api-reference/post-lists-subscribers-create </para>
         /// </summary>
         /// <returns>Twitter result containing the latest version of the list</returns>
-        Task<ITwitterResult<ITwitterListDTO, ITwitterList>> SubscribeToList(ISubscribeToListParameters parameters);
+        Task<ITwitterResult<ITwitterListDTO>> SubscribeToList(ISubscribeToListParameters parameters);
 
         /// <summary>
         /// Unsubscribe the authenticated account from the specified list
         /// <para>Read more : https://developer.twitter.com/en/docs/accounts-and-users/create-manage-lists/api-reference/post-lists-subscribers-destroy </para>
         /// </summary>
         /// <returns>Twitter result containing the latest version of the list</returns>
-        Task<ITwitterResult<ITwitterListDTO, ITwitterList>> UnsubscribeFromList(IUnsubscribeFromListParameters parameters);
+        Task<ITwitterResult<ITwitterListDTO>> UnsubscribeFromList(IUnsubscribeFromListParameters parameters);
 
         /// <summary>
         /// Returns the users subscribed to a list
@@ -139,7 +139,7 @@ namespace Tweetinvi.Client.Requesters
         /// </summary>
         /// <exception cref="Tweetinvi.Exceptions.TwitterException">If the user is not subscribed</exception>
         /// <returns>TwitterResult with the latest version of the list.</returns>
-        Task<ITwitterResult<ITwitterListDTO, ITwitterList>> CheckIfUserIsSubscriberOfList(ICheckIfUserIsSubscriberOfListParameters parameters);
+        Task<ITwitterResult<ITwitterListDTO>> CheckIfUserIsSubscriberOfList(ICheckIfUserIsSubscriberOfListParameters parameters);
 
         // GET TWEETS
 

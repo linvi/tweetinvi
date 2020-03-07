@@ -15,7 +15,7 @@ namespace Tweetinvi.Client.Requesters
         /// </summary>
         /// <para> https://developer.twitter.com/en/docs/direct-messages/sending-and-receiving/api-reference/new-event </para>
         /// <returns>Twitter result containing the published message</returns>
-        Task<ITwitterResult<ICreateMessageDTO, IMessage>> PublishMessage(IPublishMessageParameters parameters);
+        Task<ITwitterResult<ICreateMessageDTO>> PublishMessage(IPublishMessageParameters parameters);
 
         /// <summary>
         /// Destroy a specific message
@@ -28,7 +28,7 @@ namespace Tweetinvi.Client.Requesters
         /// </summary>
         /// <para> https://developer.twitter.com/en/docs/direct-messages/sending-and-receiving/api-reference/get-event </para>
         /// <returns>Twitter result containing the requested message</returns>
-        Task<ITwitterResult<IGetMessageDTO, IMessage>> GetMessage(IGetMessageParameters parameters);
+        Task<ITwitterResult<IGetMessageDTO>> GetMessage(IGetMessageParameters parameters);
 
         /// <summary>
         /// Gets latest messages

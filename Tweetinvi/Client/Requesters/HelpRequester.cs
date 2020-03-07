@@ -44,14 +44,12 @@ namespace Tweetinvi.Client.Requesters
         public Task<ITwitterResult<ITwitterConfiguration>> GetTwitterConfiguration(IGetTwitterConfigurationParameters parameters)
         {
             _validator.Validate(parameters);
-
             return ExecuteRequest(request => _helpController.GetTwitterConfiguration(parameters, request));
         }
 
         public Task<ITwitterResult<SupportedLanguage[]>> GetSupportedLanguages(IGetSupportedLanguagesParameters parameters)
         {
             _validator.Validate(parameters);
-
             return ExecuteRequest(request => _helpController.GetSupportedLanguages(parameters, request));
         }
     }

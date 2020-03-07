@@ -3,6 +3,7 @@ using System.Linq;
 using Tweetinvi.Core.Models;
 using Tweetinvi.Core.Models.Properties;
 using Tweetinvi.Core.Models.TwitterEntities;
+using Tweetinvi.Core.Web;
 using Tweetinvi.Logic;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
@@ -17,6 +18,16 @@ namespace Tweetinvi.Client.Tools
         public TwitterClientFactories(ITwitterClient client)
         {
             _client = client;
+        }
+
+        public IAccountSettings CreateAccountSettings(IAccountSettingsDTO dto)
+        {
+            if (dto == null)
+            {
+                return null;
+            }
+
+            return new AccountSettings(dto);
         }
 
         public ITwitterList CreateTwitterList(string json)
@@ -42,7 +53,7 @@ namespace Tweetinvi.Client.Tools
 
         public IMessage CreateMessage(IMessageEventWithAppDTO messageEventWithAppDTO)
         {
-            return new Core.Models.Message(messageEventWithAppDTO.MessageEvent, messageEventWithAppDTO.App, _client);
+            return new Message(messageEventWithAppDTO.MessageEvent, messageEventWithAppDTO.App, _client);
         }
 
         public IMessage[] CreateMessages(IEnumerable<IMessageEventWithAppDTO> eventWithAppDTOs)
@@ -57,17 +68,27 @@ namespace Tweetinvi.Client.Tools
 
         public IMessage CreateMessage(ICreateMessageDTO createMessageDTO)
         {
-            return CreateMessage(createMessageDTO.MessageEvent);
+            return CreateMessage(createMessageDTO?.MessageEvent);
         }
 
         public IMessage CreateMessage(IMessageEventDTO messageEventDTO)
         {
-            return new Core.Models.Message(messageEventDTO, null, _client);
+            if (messageEventDTO == null)
+            {
+                return null;
+            }
+
+            return new Message(messageEventDTO, null, _client);
         }
 
         public IMessage CreateMessage(IMessageEventDTO messageEventDTO, IApp app)
         {
-            return new Core.Models.Message(messageEventDTO, app, _client);
+            if (messageEventDTO == null)
+            {
+                return null;
+            }
+
+            return new Message(messageEventDTO, app, _client);
         }
 
         public IMessage CreateMessage(string json)
@@ -98,7 +119,7 @@ namespace Tweetinvi.Client.Tools
                 apps.TryGetValue(messageEventDTO.MessageCreate.SourceAppId.Value, out app);
             }
 
-            return new Core.Models.Message(messageEventDTO, app, _client);
+            return new Message(messageEventDTO, app, _client);
         }
 
         public IRelationshipState CreateRelationshipState(string json)
@@ -110,6 +131,16 @@ namespace Tweetinvi.Client.Tools
         public IRelationshipState CreateRelationshipState(IRelationshipStateDTO relationshipStateDTO)
         {
             return relationshipStateDTO == null ? null : new RelationshipState(relationshipStateDTO);
+        }
+
+        public IRelationshipState[] CreateRelationshipStates(IRelationshipStateDTO[] relationshipStateDTOs)
+        {
+            if (relationshipStateDTOs == null)
+            {
+                return new IRelationshipState[0];
+            }
+
+            return relationshipStateDTOs?.Select(dto => _client.Factories.CreateRelationshipState(dto)).ToArray();
         }
 
         public IRelationshipDetails CreateRelationshipDetails(string json)
@@ -162,6 +193,11 @@ namespace Tweetinvi.Client.Tools
             }
 
             return new Tweet(tweetDTO, _client.ClientSettings.TweetMode, _client);
+        }
+
+        public ITweet[] CreateTweets(ITweetDTO[] tweetDTOs)
+        {
+            return tweetDTOs?.Select(x => CreateTweet(x)).ToArray();
         }
 
         public ITweetWithSearchMetadata CreateTweetWithSearchMetadata(ITweetWithSearchMetadataDTO tweetDTO)
@@ -227,7 +263,7 @@ namespace Tweetinvi.Client.Tools
             return new AuthenticatedUser(userDTO, _client);
         }
 
-        public IAccountSettings GenerateAccountSettingsFromJson(string json)
+        public IAccountSettings CreateAccountSettings(string json)
         {
             var accountSettingsDTO = _client.Json.DeserializeObject<IAccountSettingsDTO>(json);
 

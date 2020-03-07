@@ -19,19 +19,19 @@ namespace Tweetinvi.Client.Requesters
         /// <para>Read more : https://dev.twitter.com/rest/reference/get/account/verify_credentials </para>
         /// </summary>
         /// <returns>TwitterResult containing the client's authenticated user</returns>
-        Task<ITwitterResult<IUserDTO, IAuthenticatedUser>> GetAuthenticatedUser(IGetAuthenticatedUserParameters parameters);
+        Task<ITwitterResult<IUserDTO>> GetAuthenticatedUser(IGetAuthenticatedUserParameters parameters);
 
         /// <summary>
         /// Get a user
         /// </summary>
         /// <returns>TwitterResult containing a user</returns>
-        Task<ITwitterResult<IUserDTO, IUser>> GetUser(IGetUserParameters parameters);
+        Task<ITwitterResult<IUserDTO>> GetUser(IGetUserParameters parameters);
 
         /// <summary>
         /// Get multiple users
         /// </summary>
         /// <returns>TwitterResult containing a collection of users</returns>
-        Task<ITwitterResult<IUserDTO[], IUser[]>> GetUsers(IGetUsersParameters parameters);
+        Task<ITwitterResult<IUserDTO[]>> GetUsers(IGetUsersParameters parameters);
 
         /// <summary>
         /// Get friend ids from a specific user
@@ -49,7 +49,7 @@ namespace Tweetinvi.Client.Requesters
         /// Get relationship information between 2 users.
         /// </summary>
         /// <returns>Returns detailed information about the relationship between two arbitrary users</returns>
-        Task<ITwitterResult<IRelationshipDetailsDTO, IRelationshipDetails>> GetRelationshipBetween(IGetRelationshipBetweenParameters parameters);
+        Task<ITwitterResult<IRelationshipDetailsDTO>> GetRelationshipBetween(IGetRelationshipBetweenParameters parameters);
 
         /// <summary>
         /// Block a user from the client's account
@@ -100,7 +100,7 @@ namespace Tweetinvi.Client.Requesters
         /// <para>Read more : https://dev.twitter.com/en/docs/accounts-and-users/follow-search-get-users/api-reference/post-friendships-update </para>
         /// </summary>
         /// <returns>TwitterResult containing the updated relationship details</returns>
-        Task<ITwitterResult<IRelationshipDetailsDTO, IRelationshipDetails>> UpdateRelationship(IUpdateRelationshipParameters parameters);
+        Task<ITwitterResult<IRelationshipDetailsDTO>> UpdateRelationship(IUpdateRelationshipParameters parameters);
 
         /// <summary>
         /// Stops following a user
@@ -134,7 +134,7 @@ namespace Tweetinvi.Client.Requesters
         /// <para>Read more : https://dev.twitter.com/en/docs/accounts-and-users/follow-search-get-users/api-reference/get-friendships-lookup </para>
         /// </summary>
         /// <returns>TwitterResult containing the relationships between the authenticated user and multiple other users</returns>
-        Task<ITwitterResult<IRelationshipStateDTO[], IRelationshipState[]>> GetRelationshipsWith(IGetRelationshipsWithParameters parameters);
+        Task<ITwitterResult<IRelationshipStateDTO[]>> GetRelationshipsWith(IGetRelationshipsWithParameters parameters);
 
         /// <summary>
         /// Get the user ids for whom the retweets are muted

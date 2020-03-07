@@ -27,29 +27,19 @@ namespace Tweetinvi.Client.Requesters
         public Task<ITwitterResult<IWebhookDTO>> CreateAccountActivityWebhook(ICreateAccountActivityWebhookParameters parameters)
         {
             _validator.Validate(parameters);
-            return ExecuteRequest(async request =>
-            {
-                var result = await _accountActivityController.CreateAccountActivityWebhook(parameters, request).ConfigureAwait(false);
-                return result;
-            });
+            return ExecuteRequest(request => _accountActivityController.CreateAccountActivityWebhook(parameters, request));
         }
 
         public Task<ITwitterResult<IGetAccountActivityWebhookEnvironmentsResultDTO>> GetAccountActivityWebhookEnvironments(IGetAccountActivityWebhookEnvironmentsParameters parameters)
         {
             _validator.Validate(parameters);
-            return ExecuteRequest(request =>
-            {
-                return _accountActivityController.GetAccountActivityWebhookEnvironments(parameters, request);
-            });
+            return ExecuteRequest(request => _accountActivityController.GetAccountActivityWebhookEnvironments(parameters, request));
         }
 
         public Task<ITwitterResult<IWebhookDTO[]>> GetAccountActivityEnvironmentWebhooks(IGetAccountActivityEnvironmentWebhooksParameters parameters)
         {
             _validator.Validate(parameters);
-            return ExecuteRequest(request =>
-            {
-                return _accountActivityController.GetAccountActivityEnvironmentWebhooks(parameters, request);
-            });
+            return ExecuteRequest(request => _accountActivityController.GetAccountActivityEnvironmentWebhooks(parameters, request));
         }
 
         public Task<ITwitterResult> DeleteAccountActivityWebhook(IDeleteAccountActivityWebhookParameters parameters)

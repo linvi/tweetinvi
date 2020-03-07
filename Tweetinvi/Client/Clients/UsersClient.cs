@@ -39,7 +39,7 @@ namespace Tweetinvi.Client
         public async Task<IAuthenticatedUser> GetAuthenticatedUser(IGetAuthenticatedUserParameters parameters)
         {
             var requestResult = await _usersRequester.GetAuthenticatedUser(parameters).ConfigureAwait(false);
-            return requestResult?.Result;
+            return _client.Factories.CreateAuthenticatedUser(requestResult?.DataTransferObject);
         }
 
         #endregion
@@ -63,8 +63,8 @@ namespace Tweetinvi.Client
 
         public async Task<IUser> GetUser(IGetUserParameters parameters)
         {
-            var requestResult = await _usersRequester.GetUser(parameters);
-            return requestResult?.Result;
+            var requestResult = await _usersRequester.GetUser(parameters).ConfigureAwait(false);
+            return _client.Factories.CreateUser(requestResult?.DataTransferObject);
         }
 
         #endregion
@@ -96,7 +96,7 @@ namespace Tweetinvi.Client
             }
 
             var requestResult = await _usersRequester.GetUsers(parameters).ConfigureAwait(false);
-            return requestResult?.Result;
+            return _client.Factories.CreateUsers(requestResult?.DataTransferObject);
         }
 
         #endregion
@@ -150,8 +150,8 @@ namespace Tweetinvi.Client
 
         public async Task<IRelationshipDetails> GetRelationshipBetween(IGetRelationshipBetweenParameters parameters)
         {
-            var relationshipTwitterResult = await _usersRequester.GetRelationshipBetween(parameters);
-            return relationshipTwitterResult?.Result;
+            var relationshipTwitterResult = await _usersRequester.GetRelationshipBetween(parameters).ConfigureAwait(false);
+            return _client.Factories.CreateRelationshipDetails(relationshipTwitterResult?.DataTransferObject);
         }
 
         #endregion
@@ -475,7 +475,7 @@ namespace Tweetinvi.Client
         public async Task<IUserDictionary<IRelationshipState>> GetRelationshipsWith(IGetRelationshipsWithParameters parameters)
         {
             var twitterResult = await _usersRequester.GetRelationshipsWith(parameters).ConfigureAwait(false);
-            var relationshipsWith = twitterResult.Result;
+            var relationshipsWith = _client.Factories.CreateRelationshipStates(twitterResult?.DataTransferObject);
 
             var userRelationshipState = new UserDictionary<IRelationshipState>();
 

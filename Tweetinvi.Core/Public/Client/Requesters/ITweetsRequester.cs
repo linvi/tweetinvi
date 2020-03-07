@@ -19,14 +19,14 @@ namespace Tweetinvi.Client.Requesters
         /// <para>Read more : https://dev.twitter.com/en/docs/tweets/post-and-engage/api-reference/get-statuses-show-id </para>
         /// </summary>
         /// <returns>TwitterResult containing specified tweet</returns>
-        Task<ITwitterResult<ITweetDTO, ITweet>> GetTweet(IGetTweetParameters parameters);
+        Task<ITwitterResult<ITweetDTO>> GetTweet(IGetTweetParameters parameters);
 
         /// <summary>
         /// Publish a tweet
         /// <para>Read more : https://developer.twitter.com/en/docs/tweets/post-and-engage/api-reference/get-statuses-show-id </para>
         /// </summary>
         /// <returns>TwitterResult containing the published tweet</returns>
-        Task<ITwitterResult<ITweetDTO, ITweet>> PublishTweet(IPublishTweetParameters parameters);
+        Task<ITwitterResult<ITweetDTO>> PublishTweet(IPublishTweetParameters parameters);
 
         /// <summary>
         /// Destroy a tweet
@@ -47,21 +47,21 @@ namespace Tweetinvi.Client.Requesters
         /// <para>Read more : https://dev.twitter.com/en/docs/tweets/post-and-engage/api-reference/get-statuses-lookup </para>
         /// </summary>
         /// <returns>TwitterResult containing requested tweets</returns>
-        Task<ITwitterResult<ITweetDTO[], ITweet[]>> GetTweets(IGetTweetsParameters parameters);
+        Task<ITwitterResult<ITweetDTO[]>> GetTweets(IGetTweetsParameters parameters);
 
         /// <summary>
         /// Get the retweets associated with a specific tweet
         /// <para>Read more : https://dev.twitter.com/en/docs/tweets/post-and-engage/api-reference/get-statuses-retweets-id </para>
         /// </summary>
         /// <returns>TwitterResult containing the retweets</returns>
-        Task<ITwitterResult<ITweetDTO[], ITweet[]>> GetRetweets(IGetRetweetsParameters parameters);
+        Task<ITwitterResult<ITweetDTO[]>> GetRetweets(IGetRetweetsParameters parameters);
 
         /// <summary>
         /// Publish a retweet
         /// <para>Read more : https://dev.twitter.com/en/docs/tweets/post-and-engage/api-reference/post-statuses-retweet-id </para>
         /// </summary>
         /// <returns>TwitterResult containing the published retweet</returns>
-        Task<ITwitterResult<ITweetDTO, ITweet>> PublishRetweet(IPublishRetweetParameters parameters);
+        Task<ITwitterResult<ITweetDTO>> PublishRetweet(IPublishRetweetParameters parameters);
 
         /// <summary>
         /// Get the ids of the users who retweeted a specific tweet

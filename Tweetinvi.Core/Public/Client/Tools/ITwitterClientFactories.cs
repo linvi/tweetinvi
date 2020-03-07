@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Tweetinvi.Core.Web;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
 using Tweetinvi.Models.DTO.Events;
@@ -7,6 +8,10 @@ namespace Tweetinvi.Client.Tools
 {
     public interface ITwitterClientFactories
     {
+        // ACCOUNT SETTINGS
+        IAccountSettings CreateAccountSettings(string json);
+        IAccountSettings CreateAccountSettings(IAccountSettingsDTO dto);
+
         // LISTS
         ITwitterList CreateTwitterList(string json);
         ITwitterList CreateTwitterList(ITwitterListDTO twitterListDTO);
@@ -24,6 +29,7 @@ namespace Tweetinvi.Client.Tools
         // RELATIONSHIP
         IRelationshipState CreateRelationshipState(string json);
         IRelationshipState CreateRelationshipState(IRelationshipStateDTO relationshipStateDTO);
+        IRelationshipState[] CreateRelationshipStates(IRelationshipStateDTO[] relationshipStateDTOs);
         IRelationshipDetails CreateRelationshipDetails(string json);
         IRelationshipDetails CreateRelationshipDetails(IRelationshipDetailsDTO dto);
 
@@ -38,6 +44,7 @@ namespace Tweetinvi.Client.Tools
         // TWEET
         ITweet CreateTweet(string json);
         ITweet CreateTweet(ITweetDTO tweetDTO);
+        ITweet[] CreateTweets(ITweetDTO[] tweetDTOs);
         ITweetWithSearchMetadata CreateTweetWithSearchMetadata(ITweetWithSearchMetadataDTO tweetDTO);
         IOEmbedTweet CreateOEmbedTweet(string json);
         IOEmbedTweet CreateOEmbedTweet(IOEmbedTweetDTO oEmbedTweetDTO);
@@ -48,6 +55,5 @@ namespace Tweetinvi.Client.Tools
         IUser[] CreateUsers(IEnumerable<IUserDTO> usersDTO);
         IAuthenticatedUser CreateAuthenticatedUser(string json);
         IAuthenticatedUser CreateAuthenticatedUser(IUserDTO userDTO);
-        IAccountSettings GenerateAccountSettingsFromJson(string json);
     }
 }

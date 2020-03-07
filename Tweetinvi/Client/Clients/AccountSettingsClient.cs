@@ -27,19 +27,19 @@ namespace Tweetinvi.Client
         public async Task<IAccountSettings> GetAccountSettings(IGetAccountSettingsParameters parameters)
         {
             var twitterResult = await _accountRequester.GetAccountSettings(parameters).ConfigureAwait(false);
-            return twitterResult.Result;
+            return _client.Factories.CreateAccountSettings(twitterResult?.DataTransferObject);
         }
 
         public async Task<IAccountSettings> UpdateAccountSettings(IUpdateAccountSettingsParameters parameters)
         {
             var twitterResult = await _accountRequester.UpdateAccountSettings(parameters).ConfigureAwait(false);
-            return twitterResult.Result;
+            return _client.Factories.CreateAccountSettings(twitterResult?.DataTransferObject);
         }
 
         public async Task<IAuthenticatedUser> UpdateProfile(IUpdateProfileParameters parameters)
         {
             var twitterResult = await _accountRequester.UpdateProfile(parameters).ConfigureAwait(false);
-            return twitterResult.Result;
+            return _client.Factories.CreateAuthenticatedUser(twitterResult?.DataTransferObject);
         }
 
         public Task UpdateProfileImage(byte[] binary)
