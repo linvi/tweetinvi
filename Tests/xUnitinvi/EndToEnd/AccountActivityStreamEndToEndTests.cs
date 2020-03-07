@@ -1,9 +1,12 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Threading.Tasks;
 using Tweetinvi;
 using Tweetinvi.Events;
+using Tweetinvi.Parameters;
 using Tweetinvi.Streaming;
+using Tweetinvi.Streams.Model.AccountActivity;
 using Xunit;
 using Xunit.Abstractions;
 using xUnitinvi.TestHelpers;
@@ -76,7 +79,14 @@ namespace xUnitinvi.EndToEnd
                 await Task.Delay(timeoutBetweenOperations);
 
                 await Task.Delay(timeoutBetweenOperations);
-                await userClient.Messages.PublishMessage("hello from tweetinvi", EndToEndTestConfig.TweetinviTest.UserId);
+
+                var tweetinviLogoBinary = File.ReadAllBytes("./tweetinvi-logo-purple.png");
+                var media = await userClient.Upload.UploadBinary(tweetinviLogoBinary);
+                await userClient.Messages.PublishMessage(new PublishMessageParameters("hello from tweetinvi -> https://github.com/linvi/tweetinvi", EndToEndTestConfig.TweetinviTest.UserId)
+                {
+                    AttachmentMediaId = media.Id
+                });
+
                 await Task.Delay(timeoutBetweenOperations);
                 await _tweetinviTestClient.Messages.PublishMessage("Nice to hear from your!", EndToEndTestConfig.ProtectedUserAuthenticatedToTweetinviApi.UserId);
                 await Task.Delay(timeoutBetweenOperations);
@@ -97,10 +107,7 @@ namespace xUnitinvi.EndToEnd
                 // assert - cleanup
                 await AccountActivityEndToEndTests.CleanAllEnvironments(client);
 
-                stateBeforeUnsubscribe.EventsReceived.ForEach(eventReceived =>
-                {
-                    _logger.WriteLine(eventReceived);
-                });
+                stateBeforeUnsubscribe.EventsReceived.ForEach(eventReceived => { _logger.WriteLine(eventReceived); });
 
                 Assert.Equal(state.TweetCreated.Count, 1);
                 Assert.Equal(state.TweetDeleted.Count, 1);
@@ -121,6 +128,8 @@ namespace xUnitinvi.EndToEnd
                 Assert.Equal(state.UserReadMessage.Count, 0); // TODO CHANGE TO 1 when messages supported in 6.0
                 Assert.Equal(state.UserTypingMessage.Count, 0); // TODO CHANGE TO 1 when messages supported in 6.0
 
+                Assert.Equal(state.UnexpectedException.Count, 0);
+
                 Assert.Equal(stateBeforeUnsubscribe.EventsReceived.Count, 11);
 
                 Assert.Equal(state.EventsReceived.Count, stateBeforeUnsubscribe.EventsReceived.Count);
@@ -129,10 +138,7 @@ namespace xUnitinvi.EndToEnd
 
         private static void RegisterEvents(IAccountActivityStream stream, AccountActivtyEventsState state)
         {
-            stream.EventReceived += (sender, args) =>
-            {
-                state.EventsReceived.Add(args.Json);
-            };
+            stream.EventReceived += (sender, args) => { state.EventsReceived.Add(args.Json); };
 
             stream.TweetCreated += (sender, args) => { state.TweetCreated.Add(args); };
             stream.TweetDeleted += (sender, args) => { state.TweetDeleted.Add(args); };
@@ -152,6 +158,8 @@ namespace xUnitinvi.EndToEnd
 
             stream.UserIsTypingMessage += (sender, args) => { state.UserTypingMessage.Add(args); };
             stream.UserReadMessage += (sender, args) => { state.UserReadMessage.Add(args); };
+
+            stream.UnexpectedExceptionThrown += (sender, args) => { state.UnexpectedException.Add(args); };
         }
 
         class AccountActivtyEventsState
@@ -172,6 +180,7 @@ namespace xUnitinvi.EndToEnd
             public List<AccountActivityMessageSentEventArgs> MessageSent { get; set; } = new List<AccountActivityMessageSentEventArgs>();
             public List<AccountActivityUserIsTypingMessageEventArgs> UserTypingMessage { get; set; } = new List<AccountActivityUserIsTypingMessageEventArgs>();
             public List<AccountActivityUserReadMessageConversationEventArgs> UserReadMessage { get; set; } = new List<AccountActivityUserReadMessageConversationEventArgs>();
+            public List<UnexpectedExceptionThrownEventArgs> UnexpectedException { get; set; } = new List<UnexpectedExceptionThrownEventArgs>();
 
             public AccountActivtyEventsState Clone()
             {

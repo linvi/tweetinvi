@@ -403,7 +403,7 @@ namespace Tweetinvi.Streams
         private void TryRaiseMessageEvent(string eventName, JObject jsonObjectEvent)
         {
             var json = jsonObjectEvent.ToString();
-            var eventInfo = jsonObjectEvent.ToObject<AccountActivityMessageCreatedEventDTO>();
+            var eventInfo = _jsonObjectConverter.DeserializeObject<AccountActivityMessageCreatedEventDTO>(json);
 
             eventInfo.MessageEvents.ForEach(messageEventDTO =>
             {
