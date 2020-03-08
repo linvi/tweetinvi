@@ -11,13 +11,8 @@ namespace xUnitinvi.EndToEnd
     [Collection("EndToEndTests")]
     public class AccountEndToEndTests : TweetinviTest
     {
-        private readonly ITwitterClient _client;
-        private readonly ITwitterClient _privateUserClient;
-
         public AccountEndToEndTests(ITestOutputHelper logger) : base(logger)
         {
-            _client = new TwitterClient(EndToEndTestConfig.TweetinviTest.Credentials);
-            _privateUserClient = new TwitterClient(EndToEndTestConfig.ProtectedUser.Credentials);
         }
 
         [Fact]
@@ -26,14 +21,14 @@ namespace xUnitinvi.EndToEnd
             if (!EndToEndTestConfig.ShouldRunEndToEndTests)
                 return;
 
-            var userToFollow = await _client.Users.GetUser(EndToEndTestConfig.ProtectedUser.AccountId);
+            var userToFollow = await _tweetinviTestClient.Users.GetUser(EndToEndTestConfig.ProtectedUser.AccountId);
 
             // act
             await userToFollow.BlockUser();
 
-            var blockedUserIdsIterator = _client.Users.GetBlockedUserIds();
+            var blockedUserIdsIterator = _tweetinviTestClient.Users.GetBlockedUserIds();
             var blockedUsersFromIdsIterator = await blockedUserIdsIterator.MoveToNextPage();
-            var blockedUsersIterator = _client.Users.GetBlockedUsers();
+            var blockedUsersIterator = _tweetinviTestClient.Users.GetBlockedUsers();
             var blockedUsers = await blockedUsersIterator.MoveToNextPage();
 
             await userToFollow.UnblockUser();
@@ -49,20 +44,20 @@ namespace xUnitinvi.EndToEnd
             if (!EndToEndTestConfig.ShouldRunEndToEndTests)
                 return;
 
-            var userToMute = await _privateUserClient.Users.GetAuthenticatedUser();
+            var userToMute = await _protectedClient.Users.GetAuthenticatedUser();
 
             // act
-            var mutedUserIdsIterator = _client.Users.GetMutedUserIds();
+            var mutedUserIdsIterator = _tweetinviTestClient.Users.GetMutedUserIds();
             var initialMutedUserIds = await mutedUserIdsIterator.MoveToNextPage();
 
-            await _client.Users.MuteUser(userToMute);
-            var newMutedUserIdsIterator = _client.Users.GetMutedUserIds();
+            await _tweetinviTestClient.Users.MuteUser(userToMute);
+            var newMutedUserIdsIterator = _tweetinviTestClient.Users.GetMutedUserIds();
             var newMutedUserIds = await newMutedUserIdsIterator.MoveToNextPage();
-            var newMutedUsersIterator = _client.Users.GetMutedUsers();
+            var newMutedUsersIterator = _tweetinviTestClient.Users.GetMutedUsers();
             var newMutedUsers = await newMutedUsersIterator.MoveToNextPage();
-            await _client.Users.UnmuteUser(userToMute);
+            await _tweetinviTestClient.Users.UnmuteUser(userToMute);
 
-            var restoredMutedUserIdsIterator = _client.Users.GetMutedUserIds();
+            var restoredMutedUserIdsIterator = _tweetinviTestClient.Users.GetMutedUserIds();
             var restoredMutedUserIds = await restoredMutedUserIdsIterator.MoveToNextPage();
 
             // assert

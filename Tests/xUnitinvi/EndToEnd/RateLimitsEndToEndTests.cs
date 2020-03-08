@@ -45,6 +45,8 @@ namespace xUnitinvi.EndToEnd
                 Container = container
             });
 
+            TweetinviEvents.SubscribeToClientEvents(client);
+
             // act
             var firstApplicationRateLimits = await client.RateLimits.GetRateLimits(RateLimitsSource.TwitterApiOnly);
             var rateLimits = await client.RateLimits.GetRateLimits();
@@ -72,6 +74,7 @@ namespace xUnitinvi.EndToEnd
             };
 
             var client = new TwitterClient(EndToEndTestConfig.TweetinviTest.Credentials, parameters);
+            TweetinviEvents.SubscribeToClientEvents(client);
 
             var twitterAccessorSpy = client.CreateTwitterExecutionContext().Container.Resolve<ITwitterAccessor>() as TwitterAccessorSpy;
             client.ClientSettings.RateLimitTrackerMode = RateLimitTrackerMode.TrackOnly;
@@ -116,6 +119,7 @@ namespace xUnitinvi.EndToEnd
             {
                 Container = container
             });
+            TweetinviEvents.SubscribeToClientEvents(client);
 
             client.ClientSettings.RateLimitTrackerMode = RateLimitTrackerMode.TrackAndAwait;
 

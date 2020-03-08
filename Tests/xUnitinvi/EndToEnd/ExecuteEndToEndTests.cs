@@ -1,5 +1,4 @@
 using System.Threading.Tasks;
-using Tweetinvi;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
 using Xunit;
@@ -21,24 +20,21 @@ namespace xUnitinvi.EndToEnd
             if (!EndToEndTestConfig.ShouldRunEndToEndTests)
                 return;
 
-            var testCreds = EndToEndTestConfig.TweetinviTest.Credentials;
-            var client = new TwitterClient(testCreds);
-
-            var twitterResult = await client.Execute.Request(request =>
+            var twitterResult = await _tweetinviTestClient.Execute.Request(request =>
             {
                 request.Query.Url = "https://api.twitter.com/1.1/account/verify_credentials.json";
                 request.Query.HttpMethod = HttpMethod.GET;
             });
 
-            var userFromJson = client.Json.DeserializeObject<IUserDTO>(twitterResult.RawResult);
+            var userFromJson = _tweetinviTestClient.Json.DeserializeObject<IUserDTO>(twitterResult.RawResult);
 
-            var userTwitterResult = await client.Execute.Request<IUserDTO>(request =>
+            var userTwitterResult = await _tweetinviTestClient.Execute.Request<IUserDTO>(request =>
             {
                 request.Query.Url = "https://api.twitter.com/1.1/account/verify_credentials.json";
                 request.Query.HttpMethod = HttpMethod.GET;
             });
 
-            var user = client.Factories.CreateUser(userTwitterResult.DataTransferObject);
+            var user = _tweetinviTestClient.Factories.CreateUser(userTwitterResult.DataTransferObject);
 
             // assert
             Assert.Equal(userFromJson.ScreenName, EndToEndTestConfig.TweetinviTest.AccountId);

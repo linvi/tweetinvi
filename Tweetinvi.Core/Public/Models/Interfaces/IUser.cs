@@ -115,8 +115,13 @@ namespace Tweetinvi.Models
         /// <summary>
         /// URL pointing to the user’s avatar image.
         /// </summary>
-        [Obsolete("Twitter documentation states that this property is deprecated but they currently keep returning data.")]
+        [Obsolete("Twitter documentation states that this property is deprecated. You should use 'ProfileImageUrlHttps' instead.")]
         string ProfileImageUrl { get; }
+
+        /// <summary>
+        /// URL pointing to the user’s avatar image.
+        /// </summary>
+        string ProfileImageUrlHttps { get; }
 
         /// <summary>
         /// URL pointing to the user’s avatar image.
@@ -130,12 +135,6 @@ namespace Tweetinvi.Models
         [Obsolete("Twitter documentation states that this property is deprecated but they currently keep returning data.")]
         // ReSharper disable once InconsistentNaming
         string ProfileImageUrl400x400 { get; }
-
-        /// <summary>
-        /// URL pointing to the user’s avatar image.
-        /// </summary>
-        [Obsolete("Twitter documentation states that this property is deprecated")]
-        string ProfileImageUrlHttps { get; }
 
         /// <summary>
         /// When true, indicates that the authenticating user has issued a follow request

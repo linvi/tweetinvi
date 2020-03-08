@@ -1,7 +1,6 @@
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using Tweetinvi;
 using Tweetinvi.Models;
 using Tweetinvi.Parameters;
 using Xunit;
@@ -13,11 +12,8 @@ namespace xUnitinvi.EndToEnd
     [Collection("EndToEndTests")]
     public class AccountSettingsEndToEndTests : TweetinviTest
     {
-        private readonly ITwitterClient _client;
-
         public AccountSettingsEndToEndTests(ITestOutputHelper logger) : base(logger)
         {
-            _client = new TwitterClient(EndToEndTestConfig.ProtectedUser.Credentials);
         }
 
         [Fact]
@@ -27,17 +23,18 @@ namespace xUnitinvi.EndToEnd
                 return;
 
             // act
-            var authenticatedUser = await _client.Users.GetAuthenticatedUser();
+            var authenticatedUser = await _protectedClient.Users.GetAuthenticatedUser();
             var profile = File.ReadAllBytes("./tweetinvi-logo-purple.png");
             var banner = File.ReadAllBytes("./banner.jpg");
-            await _client.AccountSettings.UpdateProfileImage(profile);
-            await _client.AccountSettings.UpdateProfileBanner(banner);
-            var userAfterAddingBanner = await _client.Users.GetUser(authenticatedUser);
-            await _client.AccountSettings.RemoveProfileBanner();
-            var userAfterRemovingBanner = await _client.Users.GetUser(authenticatedUser);
+            await _protectedClient.AccountSettings.UpdateProfileImage(profile);
+            await _protectedClient.AccountSettings.UpdateProfileBanner(banner);
+            var userAfterAddingBanner = await _protectedClient.Users.GetUser(authenticatedUser);
+
+            await _protectedClient.AccountSettings.RemoveProfileBanner();
+            var userAfterRemovingBanner = await _protectedClient.Users.GetUser(authenticatedUser);
 
             // assert
-            Assert.NotEqual(authenticatedUser.ProfileImageUrl, userAfterAddingBanner.ProfileImageUrl);
+            Assert.NotEqual(authenticatedUser.ProfileImageUrlHttps, userAfterAddingBanner.ProfileImageUrlHttps);
             Assert.NotEqual(authenticatedUser.ProfileBannerURL, userAfterAddingBanner.ProfileBannerURL);
             Assert.Null(userAfterRemovingBanner.ProfileBannerURL);
         }
@@ -48,7 +45,7 @@ namespace xUnitinvi.EndToEnd
             if (!EndToEndTestConfig.ShouldRunEndToEndTests)
                 return;
 
-            var initialProfile = await _client.Users.GetAuthenticatedUser();
+            var initialProfile = await _protectedClient.Users.GetAuthenticatedUser();
 
             // act
             var updatedProfileParameters = new UpdateProfileParameters
@@ -60,7 +57,7 @@ namespace xUnitinvi.EndToEnd
                 ProfileLinkColor = "F542B9"
             };
 
-            var newProfile = await _client.AccountSettings.UpdateProfile(updatedProfileParameters);
+            var newProfile = await _protectedClient.AccountSettings.UpdateProfile(updatedProfileParameters);
 
             var restoredProfileParameters = new UpdateProfileParameters
             {
@@ -71,7 +68,7 @@ namespace xUnitinvi.EndToEnd
                 ProfileLinkColor = initialProfile.ProfileLinkColor
             };
 
-            var restoredProfile = await _client.AccountSettings.UpdateProfile(restoredProfileParameters);
+            var restoredProfile = await _protectedClient.AccountSettings.UpdateProfile(restoredProfileParameters);
 
             // assert
             Assert.Equal($"{initialProfile.Name}_42", newProfile.Name);
@@ -101,7 +98,7 @@ namespace xUnitinvi.EndToEnd
             if (!EndToEndTestConfig.ShouldRunEndToEndTests)
                 return;
 
-            var initialSettings = await _client.AccountSettings.GetAccountSettings();
+            var initialSettings = await _protectedClient.AccountSettings.GetAccountSettings();
 
             var newSettings = new UpdateAccountSettingsParameters
             {
@@ -113,9 +110,9 @@ namespace xUnitinvi.EndToEnd
                 TrendLocationWoeid = 580778
             };
 
-            var updatedSettings = await _client.AccountSettings.UpdateAccountSettings(newSettings);
+            var updatedSettings = await _protectedClient.AccountSettings.UpdateAccountSettings(newSettings);
 
-            var recoveredSettings = await _client.AccountSettings.UpdateAccountSettings(new UpdateAccountSettingsParameters
+            var recoveredSettings = await _protectedClient.AccountSettings.UpdateAccountSettings(new UpdateAccountSettingsParameters
             {
                 DisplayLanguage = initialSettings.Language,
                 TimeZone = initialSettings.TimeZone.TzinfoName,
