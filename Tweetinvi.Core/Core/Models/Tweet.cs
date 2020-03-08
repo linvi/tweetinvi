@@ -77,7 +77,7 @@ namespace Tweetinvi.Core.Models
 
                 return UnicodeHelper.SubstringByTextElements(_tweetDTO.FullText, contentStartIndex, contentEndIndex - contentStartIndex);
             }
-            set { _tweetDTO.Text = value; }
+            set => _tweetDTO.Text = value;
         }
 
         public string Prefix
@@ -114,130 +114,91 @@ namespace Tweetinvi.Core.Models
 
         public string FullText
         {
-            get { return _tweetDTO.ExtendedTweet?.FullText ?? _tweetDTO.FullText ?? _tweetDTO.Text; }
-            set { _tweetDTO.FullText = value; }
+            get => _tweetDTO.ExtendedTweet?.FullText ?? _tweetDTO.FullText ?? _tweetDTO.Text;
+            set => _tweetDTO.FullText = value;
         }
 
-        public int[] DisplayTextRange
-        {
-            get { return _tweetDTO.ExtendedTweet?.DisplayTextRange ?? _tweetDTO.DisplayTextRange; }
-        }
+        public int[] DisplayTextRange => _tweetDTO.ExtendedTweet?.DisplayTextRange ?? _tweetDTO.DisplayTextRange;
 
         public int[] SafeDisplayTextRange => DisplayTextRange ?? new[] { 0, FullText.Length };
 
         public IExtendedTweet ExtendedTweet
         {
-            get { return _tweetDTO.ExtendedTweet; }
-            set { _tweetDTO.ExtendedTweet = value; }
+            get => _tweetDTO.ExtendedTweet;
+            set => _tweetDTO.ExtendedTweet = value;
         }
 
-        public bool Favorited
-        {
-            get { return _tweetDTO.Favorited; }
-        }
+        public bool Favorited => _tweetDTO.Favorited;
 
-        public int FavoriteCount
-        {
-            get { return _tweetDTO.FavoriteCount ?? 0; }
-        }
+        public int FavoriteCount => _tweetDTO.FavoriteCount ?? 0;
 
         public ICoordinates Coordinates
         {
-            get { return _tweetDTO.Coordinates; }
-            set { _tweetDTO.Coordinates = value; }
+            get => _tweetDTO.Coordinates;
+            set => _tweetDTO.Coordinates = value;
         }
 
-        public ITweetEntities Entities
-        {
-            get { return _entities; }
-        }
+        public ITweetEntities Entities => _entities;
 
-        public IUser CreatedBy
-        {
-            get { return _createdBy; }
-        }
+        public IUser CreatedBy => _createdBy;
 
-        public ITweetIdentifier CurrentUserRetweetIdentifier
-        {
-            get { return _tweetDTO.CurrentUserRetweetIdentifier; }
-        }
+        public ITweetIdentifier CurrentUserRetweetIdentifier => _tweetDTO.CurrentUserRetweetIdentifier;
 
-        public DateTime CreatedAt
-        {
-            get { return _tweetDTO.CreatedAt; }
-        }
+        public DateTime CreatedAt => _tweetDTO.CreatedAt;
 
         public string Source
         {
-            get { return _tweetDTO.Source; }
-            set { _tweetDTO.Source = value; }
+            get => _tweetDTO.Source;
+            set => _tweetDTO.Source = value;
         }
 
-        public bool Truncated
-        {
-            get { return _tweetDTO.Truncated; }
-        }
+        public bool Truncated => _tweetDTO.Truncated;
 
         public int? ReplyCount
         {
-            get { return _tweetDTO.ReplyCount; }
-            set { _tweetDTO.QuoteCount = value; }
+            get => _tweetDTO.ReplyCount;
+            set => _tweetDTO.QuoteCount = value;
         }
 
         public long? InReplyToStatusId
         {
-            get { return _tweetDTO.InReplyToStatusId; }
-            set { _tweetDTO.InReplyToStatusId = value; }
+            get => _tweetDTO.InReplyToStatusId;
+            set => _tweetDTO.InReplyToStatusId = value;
         }
 
         public string InReplyToStatusIdStr
         {
-            get { return _tweetDTO.InReplyToStatusIdStr; }
-            set { _tweetDTO.InReplyToStatusIdStr = value; }
+            get => _tweetDTO.InReplyToStatusIdStr;
+            set => _tweetDTO.InReplyToStatusIdStr = value;
         }
 
         public long? InReplyToUserId
         {
-            get { return _tweetDTO.InReplyToUserId; }
-            set { _tweetDTO.InReplyToUserId = value; }
+            get => _tweetDTO.InReplyToUserId;
+            set => _tweetDTO.InReplyToUserId = value;
         }
 
         public string InReplyToUserIdStr
         {
-            get { return _tweetDTO.InReplyToUserIdStr; }
-            set { _tweetDTO.InReplyToUserIdStr = value; }
+            get => _tweetDTO.InReplyToUserIdStr;
+            set => _tweetDTO.InReplyToUserIdStr = value;
         }
 
         public string InReplyToScreenName
         {
-            get { return _tweetDTO.InReplyToScreenName; }
-            set { _tweetDTO.InReplyToScreenName = value; }
+            get => _tweetDTO.InReplyToScreenName;
+            set => _tweetDTO.InReplyToScreenName = value;
         }
 
-        public int[] ContributorsIds
-        {
-            get { return _tweetDTO.ContributorsIds; }
-        }
+        public int[] ContributorsIds => _tweetDTO.ContributorsIds;
 
-        public IEnumerable<long> Contributors
-        {
-            get { return _tweetDTO.Contributors; }
-        }
+        public IEnumerable<long> Contributors => _tweetDTO.Contributors;
 
-        public int RetweetCount
-        {
-            get { return _tweetDTO.RetweetCount; }
-        }
+        public int RetweetCount => _tweetDTO.RetweetCount;
 
-        public bool Retweeted
-        {
-            get { return _tweetDTO.Retweeted; }
-        }
+        public bool Retweeted => _tweetDTO.Retweeted;
 
-        public bool IsRetweet
-        {
-            get { return _tweetDTO.RetweetedTweetDTO != null; }
-        }
+        public bool IsRetweet => _tweetDTO.RetweetedTweetDTO != null;
 
         private ITweet _retweetedTweet;
 
@@ -256,19 +217,13 @@ namespace Tweetinvi.Core.Models
 
         public int? QuoteCount
         {
-            get { return _tweetDTO.QuoteCount; }
-            set { _tweetDTO.QuoteCount = value; }
+            get => _tweetDTO.QuoteCount;
+            set => _tweetDTO.QuoteCount = value;
         }
 
-        public long? QuotedStatusId
-        {
-            get { return _tweetDTO.QuotedStatusId; }
-        }
+        public long? QuotedStatusId => _tweetDTO.QuotedStatusId;
 
-        public string QuotedStatusIdStr
-        {
-            get { return _tweetDTO.QuotedStatusIdStr; }
-        }
+        public string QuotedStatusIdStr => _tweetDTO.QuotedStatusIdStr;
 
         private ITweet _quotedTweet;
 
@@ -285,45 +240,21 @@ namespace Tweetinvi.Core.Models
             }
         }
 
-        public bool PossiblySensitive
-        {
-            get { return _tweetDTO.PossiblySensitive; }
-        }
+        public bool PossiblySensitive => _tweetDTO.PossiblySensitive;
 
-        public Language? Language
-        {
-            get { return _tweetDTO.Language; }
-        }
+        public Language? Language => _tweetDTO.Language;
 
-        public IPlace Place
-        {
-            get { return _tweetDTO.Place; }
-        }
+        public IPlace Place => _tweetDTO.Place;
 
-        public Dictionary<string, object> Scopes
-        {
-            get { return _tweetDTO.Scopes; }
-        }
+        public Dictionary<string, object> Scopes => _tweetDTO.Scopes;
 
-        public string FilterLevel
-        {
-            get { return _tweetDTO.FilterLevel; }
-        }
+        public string FilterLevel => _tweetDTO.FilterLevel;
 
-        public bool WithheldCopyright
-        {
-            get { return _tweetDTO.WithheldCopyright; }
-        }
+        public bool WithheldCopyright => _tweetDTO.WithheldCopyright;
 
-        public IEnumerable<string> WithheldInCountries
-        {
-            get { return _tweetDTO.WithheldInCountries; }
-        }
+        public IEnumerable<string> WithheldInCountries => _tweetDTO.WithheldInCountries;
 
-        public string WithheldScope
-        {
-            get { return _tweetDTO.WithheldScope; }
-        }
+        public string WithheldScope => _tweetDTO.WithheldScope;
 
         #endregion
 
@@ -385,29 +316,11 @@ namespace Tweetinvi.Core.Models
 
         #region Tweetinvi API Attributes
 
-        public bool IsTweetPublished
-        {
-            get { return _tweetDTO.IsTweetPublished; }
-        }
+        public bool IsTweetPublished => _tweetDTO.IsTweetPublished;
 
-        public bool IsTweetDestroyed
-        {
-            get { return _tweetDTO.IsTweetDestroyed; }
-        }
+        public bool IsTweetDestroyed => _tweetDTO.IsTweetDestroyed;
 
-        public string Url
-        {
-            get { return string.Format("https://twitter.com/{0}/status/{1}", CreatedBy?.ScreenName, Id.ToString().ToLowerInvariant()); }
-        }
-
-        private readonly DateTime _tweetLocalCreationDate = DateTime.Now;
-
-        public DateTime TweetLocalCreationDate
-        {
-            get { return _tweetLocalCreationDate; }
-        }
-
-        public List<ITweet> Retweets { get; set; }
+        public string Url => $"https://twitter.com/{CreatedBy?.ScreenName}/status/{Id.ToString().ToLowerInvariant()}";
 
         public TweetMode TweetMode { get; }
 

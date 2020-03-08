@@ -11,16 +11,14 @@ namespace Tweetinvi.Models.DTO
         ITweetDTO Status { get; set; }
 
         string Description { get; set; }
-        
+
         DateTime CreatedAt { get; set; }
 
         string Location { get; set; }
 
-        bool GeoEnabled { get; set; }
+        bool? GeoEnabled { get; set; }
 
         string Url { get; set; }
-
-        Language? Language { get; set; }
 
         string Email { get; set; }
 
@@ -30,7 +28,7 @@ namespace Tweetinvi.Models.DTO
 
         int FriendsCount { get; set; }
 
-        bool Following { get; set; }
+        bool? Following { get; set; }
 
         bool Protected { get; set; }
 
@@ -38,13 +36,13 @@ namespace Tweetinvi.Models.DTO
 
         IUserEntities Entities { get; set; }
 
-        bool Notifications { get; set; }
+        bool? Notifications { get; set; }
 
         string ProfileImageUrl { get; set; }
 
         string ProfileImageUrlHttps { get; set; }
 
-        bool FollowRequestSent { get; set; }
+        bool? FollowRequestSent { get; set; }
 
         bool DefaultProfile { get; set; }
 
@@ -74,11 +72,11 @@ namespace Tweetinvi.Models.DTO
 
         bool ProfileUseBackgroundImage { get; set; }
 
-        bool IsTranslator { get; set; }
-
-        bool ContributorsEnabled { get; set; }
+        bool? IsTranslator { get; set; }
 
         int? UtcOffset { get; set; }
+
+        bool? ContributorsEnabled { get; set; }
 
         string TimeZone { get; set; }
 

@@ -58,10 +58,11 @@ namespace Tweetinvi.Models
         string Location { get; }
 
         /// <summary>
-        /// When true, indicates that the user has enabled the possibility of geotagging their Tweets.
+        /// When true, indicates that the user has enabled the possibility of geo tagging their Tweets.
         /// This field must be true for the current user to attach geographic data.
         /// </summary>
-        bool GeoEnabled { get; }
+        [Obsolete("Twitter documentation states that this property is deprecated but they currently keep returning data.")]
+        bool? GeoEnabled { get; }
 
         /// <summary>
         /// A URL provided by the user in association with their profile.
@@ -86,7 +87,8 @@ namespace Tweetinvi.Models
         /// <summary>
         /// When true, indicates that the authenticated user is following this user.
         /// </summary>
-        bool Following { get; }
+        [Obsolete("Twitter documentation states that this property is deprecated but they currently keep returning data.")]
+        bool? Following { get; }
 
         /// <summary>
         /// When true, indicates that this user has chosen to protect their Tweets.
@@ -107,34 +109,40 @@ namespace Tweetinvi.Models
         /// <summary>
         /// Indicates whether the authenticated user has chosen to receive this user’s tweets by SMS
         /// </summary>
-        bool Notifications { get; }
+        [Obsolete("Twitter documentation states that this property is deprecated but they currently keep returning data.")]
+        bool? Notifications { get; }
 
         /// <summary>
         /// URL pointing to the user’s avatar image.
         /// </summary>
+        [Obsolete("Twitter documentation states that this property is deprecated but they currently keep returning data.")]
         string ProfileImageUrl { get; }
 
         /// <summary>
         /// URL pointing to the user’s avatar image.
         /// </summary>
+        [Obsolete("Twitter documentation states that this property is deprecated but they currently keep returning data.")]
         string ProfileImageUrlFullSize { get; }
 
         /// <summary>
         /// URL of the user 400x400 profile image
         /// </summary>
+        [Obsolete("Twitter documentation states that this property is deprecated but they currently keep returning data.")]
         // ReSharper disable once InconsistentNaming
         string ProfileImageUrl400x400 { get; }
 
         /// <summary>
         /// URL pointing to the user’s avatar image.
         /// </summary>
+        [Obsolete("Twitter documentation states that this property is deprecated")]
         string ProfileImageUrlHttps { get; }
 
         /// <summary>
         /// When true, indicates that the authenticating user has issued a follow request
         /// to this protected user account.
         /// </summary>
-        bool FollowRequestSent { get; }
+        [Obsolete("Twitter documentation states that this property is deprecated but they currently keep returning data.")]
+        bool? FollowRequestSent { get; }
 
         /// <summary>
         /// Indicates whether the user is using Twitter default theme profile
@@ -159,31 +167,37 @@ namespace Tweetinvi.Models
         /// <summary>
         /// The hexadecimal color the user has chosen to display sidebar backgrounds with in their Twitter UI.
         /// </summary>
+        [Obsolete("Twitter documentation states that this property is deprecated but they currently keep returning data.")]
         string ProfileSidebarFillColor { get; }
 
         /// <summary>
         /// The hexadecimal color the user has chosen to display sidebar borders with in their Twitter UI.
         /// </summary>
+        [Obsolete("Twitter documentation states that this property is deprecated but they currently keep returning data.")]
         string ProfileSidebarBorderColor { get; }
 
         /// <summary>
         /// When true, indicates that the user’s profile_background_image_url should be tiled when displayed.
         /// </summary>
+        [Obsolete("Twitter documentation states that this property is deprecated but they currently keep returning data.")]
         bool ProfileBackgroundTile { get; }
 
         /// <summary>
         /// The hexadecimal color chosen by the user for their background.
         /// </summary>
+        [Obsolete("Twitter documentation states that this property is deprecated but they currently keep returning data.")]
         string ProfileBackgroundColor { get; }
 
         /// <summary>
         /// URL pointing to the background image the user has uploaded for their profile.
         /// </summary>
+        [Obsolete("Twitter documentation states that this property is deprecated but they currently keep returning data.")]
         string ProfileBackgroundImageUrl { get; }
 
         /// <summary>
         /// URL pointing to the background image the user has uploaded for their profile.
         /// </summary>
+        [Obsolete("Twitter documentation states that this property is deprecated but they currently keep returning data.")]
         string ProfileBackgroundImageUrlHttps { get; }
 
         /// <summary>
@@ -191,41 +205,49 @@ namespace Tweetinvi.Models
         /// By adding a final path element of the URL, you can obtain different image sizes
         /// optimized for specific displays.
         /// </summary>
+        [Obsolete("Twitter documentation states that this property is deprecated but they currently keep returning data.")]
         string ProfileBannerURL { get; }
 
         /// <summary>
         /// The hexadecimal color the user has chosen to display text with in their Twitter UI.
         /// </summary>
+        [Obsolete("Twitter documentation states that this property is deprecated but they currently keep returning data.")]
         string ProfileTextColor { get; }
 
         /// <summary>
         /// The hexadecimal color the user has chosen to display links with in their Twitter UI.
         /// </summary>
+        [Obsolete("Twitter documentation states that this property is deprecated but they currently keep returning data.")]
         string ProfileLinkColor { get; }
 
         /// <summary>
         /// When true, indicates the user wants their uploaded background image to be used.
         /// </summary>
+        [Obsolete("Twitter documentation states that this property is deprecated but they currently keep returning data.")]
         bool ProfileUseBackgroundImage { get; }
 
         /// <summary>
         /// When true, indicates that the user is a participant in Twitter’s translator community.
         /// </summary>
-        bool IsTranslator { get; }
+        [Obsolete("Twitter documentation states that this property is deprecated but they currently keep returning data.")]
+        bool? IsTranslator { get; }
 
         /// <summary>
         /// Indicates that the account has the contributor mode enabled
         /// </summary>
-        bool ContributorsEnabled { get; }
+        [Obsolete("Twitter documentation states that this property is deprecated but they currently keep returning data.")]
+        bool? ContributorsEnabled { get; }
 
         /// <summary>
         /// The offset from GMT/UTC in seconds.
         /// </summary>
+        [Obsolete("Twitter documentation states that this property is deprecated but they currently keep returning data.")]
         int? UtcOffset { get; }
 
         /// <summary>
         ///  A string describing the Time Zone this user declares themselves within.
         /// </summary>
+        [Obsolete("Twitter documentation states that this property is deprecated but they currently keep returning data.")]
         string TimeZone { get; }
 
         // The withheld properties are not always provided in the json result
@@ -239,62 +261,6 @@ namespace Tweetinvi.Models
         /// States whether the user or his tweets are being withheld in a specific country
         /// </summary>
         string WithheldScope { get; }
-
-        #endregion
-
-        #region Tweetinvi API Fields
-
-        /// <summary>
-        /// Property allowing the developers to store friend ids.
-        /// </summary>
-        List<long> FriendIds { get; set; }
-
-        /// <summary>
-        /// Property allowing the developers to store friends.
-        /// </summary>
-        List<IUser> Friends { get; set; }
-
-        /// <summary>
-        /// List of follower ids
-        /// </summary>
-        List<long> FollowerIds { get; set; }
-
-        /// <summary>
-        /// Property allowing the developers to store follower ids.
-        /// </summary>
-        List<IUser> Followers { get; set; }
-
-        /// <summary>
-        /// Property allowing the developers to store contributors.
-        /// </summary>
-        List<IUser> Contributors { get; set; }
-
-        /// <summary>
-        /// Property allowing the developers to store the user accounts
-        /// the current user is contributing to.
-        /// </summary>
-        List<IUser> Contributees { get; set; }
-
-        /// <summary>
-        /// Property allowing the developers to store contributors.
-        /// </summary>
-        List<ITweet> Timeline { get; set; }
-
-        /// <summary>
-        /// Property allowing the developers to store retweets.
-        /// </summary>
-        List<ITweet> Retweets { get; set; }
-
-        /// <summary>
-        /// Property allowing the developers to store retweets from friend.
-        /// </summary>
-        List<ITweet> FriendsRetweets { get; set; }
-
-        /// <summary>
-        /// Property allowing the developers to store tweets created by the user
-        /// that have been retweeted by followers.
-        /// </summary>
-        List<ITweet> TweetsRetweetedByFollowers { get; set; }
 
         #endregion
 
@@ -390,22 +356,5 @@ namespace Tweetinvi.Models
         /// Get a stream to get the profile image of this user.
         /// </summary>
         Task<Stream> GetProfileImageStream(ImageSize imageSize);
-
-        /// <summary>
-        /// Get the list of contributors to the account of the current user
-        /// Update the matching attribute of the current user if the parameter is true
-        /// Return the list of contributors
-        /// </summary>
-        /// <returns>The list of contributors to the account of the current user</returns>
-        IEnumerable<IUser> GetContributors(bool createContributorList = false);
-
-        /// <summary>
-        /// Get the list of accounts the current user is allowed to update
-        /// Update the matching attribute of the current user if the parameter is true
-        /// Return the list of contributees
-        /// </summary>
-        /// <returns>The list of accounts the current user is allowed to update</returns>
-        IEnumerable<IUser> GetContributees(bool createContributeeList = false);
-
     }
 }

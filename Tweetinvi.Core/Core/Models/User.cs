@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using Tweetinvi.Core.Controllers;
 using Tweetinvi.Iterators;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
@@ -19,16 +18,9 @@ namespace Tweetinvi.Core.Models
     {
         private const string REGEX_PROFILE_IMAGE_SIZE = "_[^\\W_]+(?=(?:\\.[a-zA-Z0-9_]+$))";
         public ITwitterClient Client { get; set; }
-
-        // ReSharper disable once InconsistentNaming
-        private readonly ITwitterListController _twitterListController;
-
         public IUserDTO UserDTO { get; set; }
 
-        public IUserIdentifier UserIdentifier
-        {
-            get { return UserDTO; }
-        }
+        public IUserIdentifier UserIdentifier => UserDTO;
 
         #region Public Attributes
 
@@ -39,96 +31,51 @@ namespace Tweetinvi.Core.Models
 
         public long? Id
         {
-            get { return UserDTO?.Id; }
-            set { throw new InvalidOperationException("Cannot set the Id of a user"); }
+            get => UserDTO?.Id;
+            set => throw new InvalidOperationException("Cannot set the Id of a user");
         }
 
         public string IdStr
         {
-            get { return UserDTO?.IdStr; }
-            set { throw new InvalidOperationException("Cannot set the Id of a user"); }
+            get => UserDTO?.IdStr;
+            set => throw new InvalidOperationException("Cannot set the Id of a user");
         }
 
         public string ScreenName
         {
-            get { return UserDTO?.ScreenName; }
-            set { throw new InvalidOperationException("Cannot set the ScreenName of a user"); }
+            get => UserDTO?.ScreenName;
+            set => throw new InvalidOperationException("Cannot set the ScreenName of a user");
         }
 
-        public string Name
-        {
-            get { return UserDTO.Name; }
-        }
+        public string Name => UserDTO.Name;
 
-        public string Description
-        {
-            get { return UserDTO.Description; }
-        }
+        public string Description => UserDTO.Description;
 
-        public ITweetDTO Status
-        {
-            get { return UserDTO.Status; }
-        }
+        public ITweetDTO Status => UserDTO.Status;
 
-        public DateTime CreatedAt
-        {
-            get { return UserDTO.CreatedAt; }
-        }
+        public DateTime CreatedAt => UserDTO.CreatedAt;
 
-        public string Location
-        {
-            get { return UserDTO.Location; }
-        }
+        public string Location => UserDTO.Location;
 
-        public bool GeoEnabled
-        {
-            get { return UserDTO.GeoEnabled; }
-        }
+        public bool? GeoEnabled => UserDTO.GeoEnabled;
 
-        public string Url
-        {
-            get { return UserDTO.Url; }
-        }
+        public string Url => UserDTO.Url;
 
-        public int StatusesCount
-        {
-            get { return UserDTO.StatusesCount; }
-        }
+        public int StatusesCount => UserDTO.StatusesCount;
 
-        public int FollowersCount
-        {
-            get { return UserDTO.FollowersCount; }
-        }
+        public int FollowersCount => UserDTO.FollowersCount;
 
-        public int FriendsCount
-        {
-            get { return UserDTO.FriendsCount; }
-        }
+        public int FriendsCount => UserDTO.FriendsCount;
 
-        public bool Following
-        {
-            get { return UserDTO.Following; }
-        }
+        public bool? Following => UserDTO.Following;
 
-        public bool Protected
-        {
-            get { return UserDTO.Protected; }
-        }
+        public bool Protected => UserDTO.Protected;
 
-        public bool Verified
-        {
-            get { return UserDTO.Verified; }
-        }
+        public bool Verified => UserDTO.Verified;
 
-        public IUserEntities Entities
-        {
-            get { return UserDTO.Entities; }
-        }
+        public IUserEntities Entities => UserDTO.Entities;
 
-        public string ProfileImageUrl
-        {
-            get { return UserDTO.ProfileImageUrl; }
-        }
+        public string ProfileImageUrl => UserDTO.ProfileImageUrl;
 
         public string ProfileImageUrlFullSize
         {
@@ -158,136 +105,51 @@ namespace Tweetinvi.Core.Models
             }
         }
 
-        public string ProfileImageUrlHttps
-        {
-            get { return UserDTO.ProfileImageUrlHttps; }
-        }
+        public string ProfileImageUrlHttps => UserDTO.ProfileImageUrlHttps;
 
-        public bool FollowRequestSent
-        {
-            get { return UserDTO.FollowRequestSent; }
-        }
+        public bool? FollowRequestSent => UserDTO.FollowRequestSent;
 
-        public bool DefaultProfile
-        {
-            get { return UserDTO.DefaultProfile; }
-        }
+        public bool DefaultProfile => UserDTO.DefaultProfile;
 
-        public bool DefaultProfileImage
-        {
-            get { return UserDTO.DefaultProfileImage; }
-        }
+        public bool DefaultProfileImage => UserDTO.DefaultProfileImage;
 
-        public int FavouritesCount
-        {
-            get { return UserDTO.FavoritesCount ?? 0; }
-        }
+        public int FavouritesCount => UserDTO.FavoritesCount ?? 0;
 
-        public int ListedCount
-        {
-            get { return UserDTO.ListedCount ?? 0; }
-        }
+        public int ListedCount => UserDTO.ListedCount ?? 0;
 
-        public string ProfileSidebarFillColor
-        {
-            get { return UserDTO.ProfileSidebarFillColor; }
-        }
+        public string ProfileSidebarFillColor => UserDTO.ProfileSidebarFillColor;
 
-        public string ProfileSidebarBorderColor
-        {
-            get { return UserDTO.ProfileSidebarBorderColor; }
-        }
+        public string ProfileSidebarBorderColor => UserDTO.ProfileSidebarBorderColor;
 
-        public bool ProfileBackgroundTile
-        {
-            get { return UserDTO.ProfileBackgroundTile; }
-        }
+        public bool ProfileBackgroundTile => UserDTO.ProfileBackgroundTile;
 
-        public string ProfileBackgroundColor
-        {
-            get { return UserDTO.ProfileBackgroundColor; }
-        }
+        public string ProfileBackgroundColor => UserDTO.ProfileBackgroundColor;
 
-        public string ProfileBackgroundImageUrl
-        {
-            get { return UserDTO.ProfileBackgroundImageUrl; }
-        }
+        public string ProfileBackgroundImageUrl => UserDTO.ProfileBackgroundImageUrl;
 
-        public string ProfileBackgroundImageUrlHttps
-        {
-            get { return UserDTO.ProfileBackgroundImageUrlHttps; }
-        }
+        public string ProfileBackgroundImageUrlHttps => UserDTO.ProfileBackgroundImageUrlHttps;
 
-        public string ProfileBannerURL
-        {
-            get { return UserDTO.ProfileBannerURL; }
-        }
+        public string ProfileBannerURL => UserDTO.ProfileBannerURL;
 
-        public string ProfileTextColor
-        {
-            get { return UserDTO.ProfileTextColor; }
-        }
+        public string ProfileTextColor => UserDTO.ProfileTextColor;
 
-        public string ProfileLinkColor
-        {
-            get { return UserDTO.ProfileLinkColor; }
-        }
+        public string ProfileLinkColor => UserDTO.ProfileLinkColor;
 
-        public bool ProfileUseBackgroundImage
-        {
-            get { return UserDTO.ProfileUseBackgroundImage; }
-        }
+        public bool ProfileUseBackgroundImage => UserDTO.ProfileUseBackgroundImage;
 
-        public bool IsTranslator
-        {
-            get { return UserDTO.IsTranslator; }
-        }
+        public bool? IsTranslator => UserDTO.IsTranslator;
 
-        public bool ContributorsEnabled
-        {
-            get { return UserDTO.ContributorsEnabled; }
-        }
+        public bool? ContributorsEnabled => UserDTO.ContributorsEnabled;
 
-        public int? UtcOffset
-        {
-            get { return UserDTO.UtcOffset; }
-        }
+        public int? UtcOffset => UserDTO.UtcOffset;
 
-        public string TimeZone
-        {
-            get { return UserDTO.TimeZone; }
-        }
+        public string TimeZone => UserDTO.TimeZone;
 
-        public IEnumerable<string> WithheldInCountries
-        {
-            get { return UserDTO.WithheldInCountries; }
-        }
+        public IEnumerable<string> WithheldInCountries => UserDTO.WithheldInCountries;
 
-        public string WithheldScope
-        {
-            get { return UserDTO.WithheldScope; }
-        }
+        public string WithheldScope => UserDTO.WithheldScope;
 
-        [Obsolete("Twitter's documentation states that this property is deprecated")]
-        public bool Notifications
-        {
-            get { return UserDTO.Notifications; }
-        }
-
-        #endregion
-
-        #region Tweetinvi API Attributes
-
-        public List<long> FriendIds { get; set; }
-        public List<IUser> Friends { get; set; }
-        public List<long> FollowerIds { get; set; }
-        public List<IUser> Followers { get; set; }
-        public List<IUser> Contributors { get; set; }
-        public List<IUser> Contributees { get; set; }
-        public List<ITweet> Timeline { get; set; }
-        public List<ITweet> Retweets { get; set; }
-        public List<ITweet> FriendsRetweets { get; set; }
-        public List<ITweet> TweetsRetweetedByFollowers { get; set; }
+        public bool? Notifications => UserDTO.Notifications;
 
         #endregion
 
@@ -297,7 +159,6 @@ namespace Tweetinvi.Core.Models
         {
             UserDTO = userDTO;
             Client = client;
-            _twitterListController = client.CreateTwitterExecutionContext().Container.Resolve<ITwitterListController>();
         }
 
         // Friends
@@ -390,20 +251,6 @@ namespace Tweetinvi.Core.Models
             {
                 ImageSize = imageSize
             });
-        }
-
-        // Contributors
-        public IEnumerable<IUser> GetContributors(bool createContributorList = false)
-        {
-            // string query = Resources.User_GetContributors;
-            throw new NotImplementedException();
-        }
-
-        // Contributees
-        public IEnumerable<IUser> GetContributees(bool createContributeeList = false)
-        {
-            // string query = Resources.User_GetContributees;
-            throw new NotImplementedException();
         }
 
         public bool Equals(IUser other)

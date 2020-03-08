@@ -202,11 +202,6 @@ namespace Tweetinvi.Models
         ITweetDTO TweetDTO { get; set; }
 
         /// <summary>
-        /// Date when the Tweet has been created in the program
-        /// </summary>
-        DateTime TweetLocalCreationDate { get; }
-
-        /// <summary>
         /// Collection of hashtags associated with a Tweet
         /// </summary>
         List<IHashtagEntity> Hashtags { get; }
@@ -225,11 +220,6 @@ namespace Tweetinvi.Models
         /// Collection of tweets mentioning this tweet
         /// </summary>
         List<IUserMentionEntity> UserMentions { get; }
-
-        /// <summary>
-        /// Collection of tweets retweeting this tweet
-        /// </summary>
-        List<ITweet> Retweets { get; set; }
 
         /// <summary>
         /// Indicates whether the current tweet is a retweet of another tweet
@@ -277,6 +267,8 @@ namespace Tweetinvi.Models
         /// URL of the tweet on twitter.com
         /// </summary>
         string Url { get; }
+
+        TweetMode TweetMode { get; }
 
         #endregion
 

@@ -161,9 +161,6 @@ namespace Tweetinvi.Core.Models
         public IEndpointRateLimit UsersReportSpamLimit => _resources.UsersRateLimits["/users/report_spam"];
         public IEndpointRateLimit UsersSearchLimit => _resources.UsersRateLimits["/users/search"];
         public IEndpointRateLimit UsersShowIdLimit => _resources.UsersRateLimits["/users/show/:id"];
-        public IEndpointRateLimit UsersSuggestionsLimit => _resources.UsersRateLimits["/users/suggestions"];
-        public IEndpointRateLimit UsersSuggestionsSlugLimit => _resources.UsersRateLimits["/users/suggestions/:slug"];
-        public IEndpointRateLimit UsersSuggestionsSlugMembersLimit => _resources.UsersRateLimits["/users/suggestions/:slug/members"];
 
         [SuppressMessage("ReSharper", "CollectionNeverUpdated.Local")]
         [SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Local")]

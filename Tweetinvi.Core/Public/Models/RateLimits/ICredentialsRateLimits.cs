@@ -10,7 +10,7 @@ namespace Tweetinvi.Models
     /// </summary>
     public interface ICredentialsRateLimits
     {
-        // TODO LINVI : 
+        // TODO LINVI :
         // ADD https://dev.twitter.com/rest/reference/post/statuses/destroy/%3Aid
         // ADD https://api.twitter.com/1.1/statuses/update.json
         // ADD https://api.twitter.com/1.1/direct_messages/destroy.json
@@ -273,15 +273,5 @@ namespace Tweetinvi.Models
 
         [TwitterEndpoint("https://api.twitter.com/1.1/users/show.json")]
         IEndpointRateLimit UsersShowIdLimit { get; }
-
-        [TwitterEndpoint("https://api.twitter.com/1.1/users/suggestions.json")]
-        IEndpointRateLimit UsersSuggestionsLimit { get; }
-
-        [TwitterEndpoint("https://api.twitter.com/1.1/users/suggestions/[a-zA-Z0-9]+\\.json", true)]
-        IEndpointRateLimit UsersSuggestionsSlugLimit { get; }
-
-        [TwitterEndpoint("https://api.twitter.com/1.1/users/suggestions/[a-zA-Z0-9]+/members.json", true)]
-        IEndpointRateLimit UsersSuggestionsSlugMembersLimit { get; }
-
     }
 }

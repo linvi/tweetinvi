@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using Newtonsoft.Json;
 using Tweetinvi.Core.JsonConverters;
-using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
 using Tweetinvi.Models.Entities;
 
@@ -30,14 +29,10 @@ namespace Tweetinvi.Core.DTO
         public string Location { get; set; }
 
         [JsonProperty("geo_enabled")]
-        public bool GeoEnabled { get; set; }
+        public bool? GeoEnabled { get; set; }
 
         [JsonProperty("url")]
         public string Url { get; set; }
-
-        [JsonProperty("lang")]
-        [JsonConverter(typeof(JsonPropertyConverterRepository))]
-        public Language? Language { get; set; }
 
         [JsonProperty("email")]
         public string Email { get; set; }
@@ -52,8 +47,7 @@ namespace Tweetinvi.Core.DTO
         public int FriendsCount { get; set; }
 
         [JsonProperty("following")]
-        [JsonConverter(typeof(JsonPropertyConverterRepository))]
-        public bool Following { get; set; }
+        public bool? Following { get; set; }
 
         [JsonProperty("protected")]
         public bool Protected { get; set; }
@@ -66,8 +60,7 @@ namespace Tweetinvi.Core.DTO
         public IUserEntities Entities { get; set; }
 
         [JsonProperty("notifications")]
-        [JsonConverter(typeof(JsonPropertyConverterRepository))]
-        public bool Notifications { get; set; }
+        public bool? Notifications { get; set; }
 
         [JsonProperty("profile_image_url")]
         public string ProfileImageUrl { get; set; }
@@ -76,8 +69,7 @@ namespace Tweetinvi.Core.DTO
         public string ProfileImageUrlHttps { get; set; }
 
         [JsonProperty("follow_request_sent")]
-        [JsonConverter(typeof(JsonPropertyConverterRepository))]
-        public bool FollowRequestSent { get; set; }
+        public bool? FollowRequestSent { get; set; }
 
         [JsonProperty("default_profile")]
         public bool DefaultProfile { get; set; }
@@ -122,10 +114,10 @@ namespace Tweetinvi.Core.DTO
         public bool ProfileUseBackgroundImage { get; set; }
 
         [JsonProperty("is_translator")]
-        public bool IsTranslator { get; set; }
+        public bool? IsTranslator { get; set; }
 
         [JsonProperty("contributors_enabled")]
-        public bool ContributorsEnabled { get; set; }
+        public bool? ContributorsEnabled { get; set; }
 
         [JsonProperty("utc_offset")]
         public int? UtcOffset { get; set; }
