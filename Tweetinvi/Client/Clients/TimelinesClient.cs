@@ -2,7 +2,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Tweetinvi.Client.Requesters;
 using Tweetinvi.Core.Client.Validators;
-using Tweetinvi.Core.Factories;
 using Tweetinvi.Core.Iterators;
 using Tweetinvi.Core.Web;
 using Tweetinvi.Iterators;
@@ -15,14 +14,12 @@ namespace Tweetinvi.Client
     public class TimelinesClient : ITimelinesClient
     {
         private readonly ITwitterClient _client;
-        private readonly ITweetFactory _tweetFactory;
         private readonly ITimelinesRequester _timelinesRequester;
 
-        public TimelinesClient(ITwitterClient client, ITweetFactory tweetFactory)
+        public TimelinesClient(ITwitterClient client)
         {
             _client = client;
             _timelinesRequester = _client.RequestExecutor.Timelines;
-            _tweetFactory = tweetFactory;
         }
 
         public ITimelineClientParametersValidator ParametersValidator => _client.ParametersValidator;
@@ -44,14 +41,10 @@ namespace Tweetinvi.Client
 
         public ITwitterIterator<ITweet, long?> GetUserTimelineIterator(IGetUserTimelineParameters parameters)
         {
-            var tweetMode = _client.ClientSettings.TweetMode;
             var pageIterator = _timelinesRequester.GetUserTimelineIterator(parameters);
 
             return new TwitterIteratorProxy<ITwitterResult<ITweetDTO[]>, ITweet, long?>(pageIterator,
-                twitterResult =>
-                {
-                    return _tweetFactory.GenerateTweetsFromDTO(twitterResult.DataTransferObject, tweetMode, _client);
-                });
+                twitterResult => _client.Factories.CreateTweets(twitterResult?.DataTransferObject));
         }
 
         public ITwitterIterator<ITweet, long?> GetHomeTimelineIterator()
@@ -61,14 +54,9 @@ namespace Tweetinvi.Client
 
         public ITwitterIterator<ITweet, long?> GetHomeTimelineIterator(IGetHomeTimelineParameters parameters)
         {
-            var tweetMode = _client.ClientSettings.TweetMode;
-
             var pageIterator = _timelinesRequester.GetHomeTimelineIterator(parameters);
             return new TwitterIteratorProxy<ITwitterResult<ITweetDTO[]>, ITweet, long?>(pageIterator,
-                twitterResult =>
-                {
-                    return _tweetFactory.GenerateTweetsFromDTO(twitterResult.DataTransferObject, tweetMode, _client);
-                });
+                twitterResult => _client.Factories.CreateTweets(twitterResult?.DataTransferObject));
         }
 
         public ITwitterIterator<ITweet, long?> GetMentionsTimelineIterator()
@@ -78,14 +66,9 @@ namespace Tweetinvi.Client
 
         public ITwitterIterator<ITweet, long?> GetMentionsTimelineIterator(IGetMentionsTimelineParameters parameters)
         {
-            var tweetMode = _client.ClientSettings.TweetMode;
-
             var pageIterator = _timelinesRequester.GetMentionsTimelineIterator(parameters);
             return new TwitterIteratorProxy<ITwitterResult<ITweetDTO[]>, ITweet, long?>(pageIterator,
-                twitterResult =>
-                {
-                    return _tweetFactory.GenerateTweetsFromDTO(twitterResult.DataTransferObject, tweetMode, _client);
-                });
+                twitterResult => _client.Factories.CreateTweets(twitterResult?.DataTransferObject));
         }
 
 
@@ -108,14 +91,10 @@ namespace Tweetinvi.Client
 
         public ITwitterIterator<ITweet, long?> GetRetweetsOfMeTimelineIterator(IGetRetweetsOfMeTimelineParameters parameters)
         {
-            var tweetMode = _client.ClientSettings.TweetMode;
             var pageIterator = _timelinesRequester.GetRetweetsOfMeTimelineIterator(parameters);
 
             return new TwitterIteratorProxy<ITwitterResult<ITweetDTO[]>, ITweet, long?>(pageIterator,
-                twitterResult =>
-                {
-                    return _tweetFactory.GenerateTweetsFromDTO(twitterResult.DataTransferObject, tweetMode, _client);
-                });
+                twitterResult => _client.Factories.CreateTweets(twitterResult?.DataTransferObject));
         }
     }
 }

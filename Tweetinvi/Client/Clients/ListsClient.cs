@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Tweetinvi.Client.Requesters;
-using Tweetinvi.Core.Factories;
 using Tweetinvi.Core.Iterators;
 using Tweetinvi.Core.Web;
 using Tweetinvi.Exceptions;
@@ -17,19 +16,13 @@ namespace Tweetinvi.Client
     public class ListsClient : IListsClient
     {
         private readonly ITwitterListsRequester _twitterListsRequester;
-        private readonly IUserFactory _userFactory;
-        private readonly ITweetFactory _tweetFactory;
         private readonly ITwitterClient _client;
 
         public ListsClient(
             ITwitterListsRequester twitterListsRequester,
-            IUserFactory userFactory,
-            ITweetFactory tweetFactory,
             ITwitterClient client)
         {
             _twitterListsRequester = twitterListsRequester;
-            _userFactory = userFactory;
-            _tweetFactory = tweetFactory;
             _client = client;
         }
 
@@ -160,7 +153,7 @@ namespace Tweetinvi.Client
             var iterator = _twitterListsRequester.GetListsOwnedByUserIterator(parameters);
             return new TwitterIteratorProxy<ITwitterResult<ITwitterListCursorQueryResultDTO>, ITwitterList>(iterator, pageResult =>
             {
-                var listDtos = pageResult.DataTransferObject.TwitterLists;
+                var listDtos = pageResult?.DataTransferObject?.TwitterLists;
                 return listDtos?.Select(dto => _client.Factories.CreateTwitterList(dto)).ToArray();
             });
         }
@@ -275,8 +268,7 @@ namespace Tweetinvi.Client
             var iterator = _twitterListsRequester.GetMembersOfListIterator(parameters);
             return new TwitterIteratorProxy<ITwitterResult<IUserCursorQueryResultDTO>, IUser>(iterator, pageResult =>
             {
-                var userDTOs = pageResult.DataTransferObject.Users;
-                return _userFactory.GenerateUsersFromDTO(userDTOs, _client);
+                return _client.Factories.CreateUsers(pageResult?.DataTransferObject?.Users);
             });
         }
 
@@ -451,8 +443,7 @@ namespace Tweetinvi.Client
             var pageIterator = _twitterListsRequester.GetListSubscribersIterator(parameters);
             return new TwitterIteratorProxy<ITwitterResult<IUserCursorQueryResultDTO>, IUser>(pageIterator, pageResult =>
             {
-                var userDTOs = pageResult.DataTransferObject.Users;
-                return _userFactory.GenerateUsersFromDTO(userDTOs, _client);
+                return _client.Factories.CreateUsers(pageResult?.DataTransferObject?.Users);
             });
         }
 
@@ -554,11 +545,7 @@ namespace Tweetinvi.Client
         {
             var pageIterator = _twitterListsRequester.GetTweetsFromListIterator(parameters);
             return new TwitterIteratorProxy<ITwitterResult<ITweetDTO[]>, ITweet, long?>(pageIterator,
-                twitterResult =>
-                {
-                    var tweetMode = parameters.TweetMode ?? _client.ClientSettings.TweetMode;
-                    return _tweetFactory.GenerateTweetsFromDTO(twitterResult.DataTransferObject, tweetMode, _client);
-                });
+                twitterResult => _client.Factories.CreateTweets(twitterResult?.DataTransferObject));
         }
     }
 }
