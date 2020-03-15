@@ -41,8 +41,6 @@ namespace Tweetinvi.Client
         /// <inheritdoc cref="DestroyMessage(IDeleteMessageParameters)" />
         Task DestroyMessage(long messageId);
         /// <inheritdoc cref="DestroyMessage(IDeleteMessageParameters)" />
-        Task DestroyMessage(IMessageEventDTO messageEvent);
-        /// <inheritdoc cref="DestroyMessage(IDeleteMessageParameters)" />
         Task DestroyMessage(IMessage message);
 
         /// <summary>

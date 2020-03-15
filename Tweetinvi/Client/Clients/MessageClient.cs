@@ -7,7 +7,6 @@ using Tweetinvi.Core.Web;
 using Tweetinvi.Iterators;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
-using Tweetinvi.Models.DTO.Events;
 using Tweetinvi.Models.DTO.QueryDTO;
 using Tweetinvi.Parameters;
 
@@ -84,11 +83,6 @@ namespace Tweetinvi.Client
         public Task DestroyMessage(long messageId)
         {
             return DestroyMessage(new DestroyMessageParameters(messageId));
-        }
-
-        public Task DestroyMessage(IMessageEventDTO messageEvent)
-        {
-            return DestroyMessage(new DestroyMessageParameters(messageEvent));
         }
 
         public Task DestroyMessage(IMessage message)
