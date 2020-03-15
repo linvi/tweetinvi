@@ -48,4 +48,11 @@
     <None Remove="coverage.json" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Remove="Streams\FilteredStreamEvent.json" />
+    <Content Include="Streams\FilteredStreamEvent.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
 </Project>

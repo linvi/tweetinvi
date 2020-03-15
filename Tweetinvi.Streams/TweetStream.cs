@@ -18,7 +18,7 @@ namespace Tweetinvi.Streams
         private readonly ITwitterClientFactories _factories;
 
         public event EventHandler<TweetReceivedEventArgs> TweetReceived;
-        public override event EventHandler<JsonObjectEventArgs> JsonObjectReceived;
+        public override event EventHandler<StreamEventReceivedArgs> EventReceived;
 
         public TweetStream(
             ITwitterClient client,
@@ -48,7 +48,7 @@ namespace Tweetinvi.Streams
 
             void onTweetReceived(string json)
             {
-                this.Raise(JsonObjectReceived, new JsonObjectEventArgs(json));
+                this.Raise(EventReceived, new StreamEventReceivedArgs(json));
 
                 if (IsEvent(json))
                 {

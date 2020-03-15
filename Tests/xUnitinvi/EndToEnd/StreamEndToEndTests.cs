@@ -33,7 +33,7 @@ namespace xUnitinvi.EndToEnd
                 stream.StopStream();
             };
 
-            stream.JsonObjectReceived += (sender, args) => { _logger.WriteLine(args.Json); };
+            stream.EventReceived += (sender, args) => { _logger.WriteLine(args.Json); };
             stream.StreamStopped += (sender, args) => { streamStoppedEventArgs = args; };
 
             var runStreamTask = Task.Run(async () =>
@@ -82,7 +82,7 @@ namespace xUnitinvi.EndToEnd
                 stream.StopStream();
             };
 
-            stream.JsonObjectReceived += (sender, args) => { _logger.WriteLine(args.Json); };
+            stream.EventReceived += (sender, args) => { _logger.WriteLine(args.Json); };
             stream.StreamStopped += (sender, args) => { streamStoppedEventArgs = args; };
 
             var runStreamTask = Task.Run(async () =>
@@ -129,7 +129,7 @@ namespace xUnitinvi.EndToEnd
                 stream.StopStream();
             };
 
-            stream.JsonObjectReceived += (sender, args) => { _logger.WriteLine(args.Json); };
+            stream.EventReceived += (sender, args) => { _logger.WriteLine(args.Json); };
             stream.StreamStopped += (sender, args) => { streamStoppedEventArgs = args; };
 
             var runStreamTask = Task.Run(async () =>
@@ -178,7 +178,7 @@ namespace xUnitinvi.EndToEnd
                 stream.StopStream();
             };
 
-            stream.JsonObjectReceived += (sender, args) => { _logger.WriteLine(args.Json); };
+            stream.EventReceived += (sender, args) => { _logger.WriteLine(args.Json); };
             stream.StreamStopped += (sender, args) => { streamStoppedEventArgs = args; };
 
             var runStreamTask = Task.Run(async () =>

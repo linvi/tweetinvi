@@ -31,7 +31,7 @@ namespace xUnitinvi.EndToEnd
                 return;
 
             var environment = "sandbox";
-            var timeoutBetweenOperations = TimeSpan.FromSeconds(5);
+            var timeoutBetweenOperations = TimeSpan.FromSeconds(15);
 
             await AccountActivityEndToEndTests.RunAccountActivityTest(async config =>
             {

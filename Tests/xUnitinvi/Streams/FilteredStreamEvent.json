@@ -1,0 +1,261 @@
+{
+  "created_at": "Tue Jan 14 20:28:42 +0000 2020",
+  "id": 1217181769885200385,
+  "id_str": "1217181769885200385",
+  "text": "Il a raison de \u00c0 \u00e0 Z i see no lie",
+  "source": "\u003ca href=\"http:\/\/twitter.com\/download\/iphone\" rel=\"nofollow\"\u003eTwitter for iPhone\u003c\/a\u003e",
+  "truncated": false,
+  "in_reply_to_status_id": null,
+  "in_reply_to_status_id_str": null,
+  "in_reply_to_user_id": null,
+  "in_reply_to_user_id_str": null,
+  "in_reply_to_screen_name": null,
+  "user": {
+    "id": 1246758001,
+    "id_str": "1246758001",
+    "name": "supernova",
+    "screen_name": "nneleaa",
+    "location": "France",
+    "url": "https:\/\/www.instagram.com\/damasannelou\/",
+    "description": "Micah 7:9|\ud83c\uddec\ud83c\udde6",
+    "translator_type": "none",
+    "protected": false,
+    "verified": false,
+    "followers_count": 1079,
+    "friends_count": 715,
+    "listed_count": 2,
+    "favourites_count": 12894,
+    "statuses_count": 10390,
+    "created_at": "Wed Mar 06 18:48:27 +0000 2013",
+    "utc_offset": null,
+    "time_zone": null,
+    "geo_enabled": true,
+    "lang": null,
+    "contributors_enabled": false,
+    "is_translator": false,
+    "profile_background_color": "C0DEED",
+    "profile_background_image_url": "http:\/\/abs.twimg.com\/images\/themes\/theme1\/bg.png",
+    "profile_background_image_url_https": "https:\/\/abs.twimg.com\/images\/themes\/theme1\/bg.png",
+    "profile_background_tile": true,
+    "profile_link_color": "7FDBB6",
+    "profile_sidebar_border_color": "FFFFFF",
+    "profile_sidebar_fill_color": "DDEEF6",
+    "profile_text_color": "333333",
+    "profile_use_background_image": true,
+    "profile_image_url": "http:\/\/pbs.twimg.com\/profile_images\/1213587554257309697\/9ueFsRK3_normal.jpg",
+    "profile_image_url_https": "https:\/\/pbs.twimg.com\/profile_images\/1213587554257309697\/9ueFsRK3_normal.jpg",
+    "profile_banner_url": "https:\/\/pbs.twimg.com\/profile_banners\/1246758001\/1577295546",
+    "default_profile": false,
+    "default_profile_image": false,
+    "following": null,
+    "follow_request_sent": null,
+    "notifications": null
+  },
+  "geo": null,
+  "coordinates": null,
+  "place": null,
+  "contributors": null,
+  "quoted_status_id": 1216867520923172871,
+  "quoted_status_id_str": "1216867520923172871",
+  "quoted_status": {
+    "created_at": "Mon Jan 13 23:39:59 +0000 2020",
+    "id": 1216867520923172871,
+    "id_str": "1216867520923172871",
+    "text": "Il m\u00e9lange TOUT !! \ud83d\ude00\ud83d\ude00 https:\/\/t.co\/wipnVvZG2O",
+    "display_text_range": [
+      0,
+      21
+    ],
+    "source": "\u003ca href=\"http:\/\/twitter.com\/download\/iphone\" rel=\"nofollow\"\u003eTwitter for iPhone\u003c\/a\u003e",
+    "truncated": false,
+    "in_reply_to_status_id": null,
+    "in_reply_to_status_id_str": null,
+    "in_reply_to_user_id": null,
+    "in_reply_to_user_id_str": null,
+    "in_reply_to_screen_name": null,
+    "user": {
+      "id": 541385391,
+      "id_str": "541385391",
+      "name": "Reyes Moukila",
+      "screen_name": "RMoukila",
+      "location": "S\u00e9n\u00e9gal ",
+      "url": null,
+      "description": "Journaliste, Pr\u00e9sentateur. Serviteur du Christ. Club de C\u0153ur: Real Madrid \ud83c\uddec\ud83c\udde6",
+      "translator_type": "none",
+      "protected": false,
+      "verified": false,
+      "followers_count": 691,
+      "friends_count": 912,
+      "listed_count": 6,
+      "favourites_count": 17000,
+      "statuses_count": 14020,
+      "created_at": "Sat Mar 31 02:38:15 +0000 2012",
+      "utc_offset": null,
+      "time_zone": null,
+      "geo_enabled": true,
+      "lang": null,
+      "contributors_enabled": false,
+      "is_translator": false,
+      "profile_background_color": "000000",
+      "profile_background_image_url": "http:\/\/abs.twimg.com\/images\/themes\/theme1\/bg.png",
+      "profile_background_image_url_https": "https:\/\/abs.twimg.com\/images\/themes\/theme1\/bg.png",
+      "profile_background_tile": false,
+      "profile_link_color": "FF691F",
+      "profile_sidebar_border_color": "000000",
+      "profile_sidebar_fill_color": "000000",
+      "profile_text_color": "000000",
+      "profile_use_background_image": false,
+      "profile_image_url": "http:\/\/pbs.twimg.com\/profile_images\/1199633380666687488\/fDRd4jxl_normal.jpg",
+      "profile_image_url_https": "https:\/\/pbs.twimg.com\/profile_images\/1199633380666687488\/fDRd4jxl_normal.jpg",
+      "profile_banner_url": "https:\/\/pbs.twimg.com\/profile_banners\/541385391\/1575713086",
+      "default_profile": false,
+      "default_profile_image": false,
+      "following": null,
+      "follow_request_sent": null,
+      "notifications": null
+    },
+    "geo": null,
+    "coordinates": null,
+    "place": null,
+    "contributors": null,
+    "is_quote_status": false,
+    "quote_count": 7,
+    "reply_count": 4,
+    "retweet_count": 13,
+    "favorite_count": 47,
+    "entities": {
+      "hashtags": [],
+      "urls": [],
+      "user_mentions": [],
+      "symbols": [],
+      "media": [
+        {
+          "id": 1216867454401548288,
+          "id_str": "1216867454401548288",
+          "indices": [
+            22,
+            45
+          ],
+          "additional_media_info": {
+            "monetizable": false
+          },
+          "media_url": "http:\/\/pbs.twimg.com\/ext_tw_video_thumb\/1216867454401548288\/pu\/img\/m95is42CLo9PEUbZ.jpg",
+          "media_url_https": "https:\/\/pbs.twimg.com\/ext_tw_video_thumb\/1216867454401548288\/pu\/img\/m95is42CLo9PEUbZ.jpg",
+          "url": "https:\/\/t.co\/wipnVvZG2O",
+          "display_url": "pic.twitter.com\/wipnVvZG2O",
+          "expanded_url": "https:\/\/twitter.com\/RMoukila\/status\/1216867520923172871\/video\/1",
+          "type": "photo",
+          "sizes": {
+            "thumb": {
+              "w": 150,
+              "h": 150,
+              "resize": "crop"
+            },
+            "small": {
+              "w": 220,
+              "h": 400,
+              "resize": "fit"
+            },
+            "medium": {
+              "w": 220,
+              "h": 400,
+              "resize": "fit"
+            },
+            "large": {
+              "w": 220,
+              "h": 400,
+              "resize": "fit"
+            }
+          }
+        }
+      ]
+    },
+    "extended_entities": {
+      "media": [
+        {
+          "id": 1216867454401548288,
+          "id_str": "1216867454401548288",
+          "indices": [
+            22,
+            45
+          ],
+          "additional_media_info": {
+            "monetizable": false
+          },
+          "media_url": "http:\/\/pbs.twimg.com\/ext_tw_video_thumb\/1216867454401548288\/pu\/img\/m95is42CLo9PEUbZ.jpg",
+          "media_url_https": "https:\/\/pbs.twimg.com\/ext_tw_video_thumb\/1216867454401548288\/pu\/img\/m95is42CLo9PEUbZ.jpg",
+          "url": "https:\/\/t.co\/wipnVvZG2O",
+          "display_url": "pic.twitter.com\/wipnVvZG2O",
+          "expanded_url": "https:\/\/twitter.com\/RMoukila\/status\/1216867520923172871\/video\/1",
+          "type": "video",
+          "video_info": {
+            "aspect_ratio": [
+              11,
+              20
+            ],
+            "duration_millis": 83389,
+            "variants": [
+              {
+                "bitrate": 632000,
+                "content_type": "video\/mp4",
+                "url": "https:\/\/video.twimg.com\/ext_tw_video\/1216867454401548288\/pu\/vid\/220x400\/DdsXSmcQAChVdrQn.mp4?tag=10"
+              },
+              {
+                "content_type": "application\/x-mpegURL",
+                "url": "https:\/\/video.twimg.com\/ext_tw_video\/1216867454401548288\/pu\/pl\/dUhmgoQni0mPbgR-.m3u8?tag=10"
+              }
+            ]
+          },
+          "sizes": {
+            "thumb": {
+              "w": 150,
+              "h": 150,
+              "resize": "crop"
+            },
+            "small": {
+              "w": 220,
+              "h": 400,
+              "resize": "fit"
+            },
+            "medium": {
+              "w": 220,
+              "h": 400,
+              "resize": "fit"
+            },
+            "large": {
+              "w": 220,
+              "h": 400,
+              "resize": "fit"
+            }
+          }
+        }
+      ]
+    },
+    "favorited": false,
+    "retweeted": false,
+    "possibly_sensitive": false,
+    "filter_level": "low",
+    "lang": "fr"
+  },
+  "quoted_status_permalink": {
+    "url": "https:\/\/t.co\/iNfGjxfjH7",
+    "expanded": "https:\/\/twitter.com\/rmoukila\/status\/1216867520923172871",
+    "display": "twitter.com\/rmoukila\/statu\u2026"
+  },
+  "is_quote_status": true,
+  "quote_count": 0,
+  "reply_count": 0,
+  "retweet_count": 0,
+  "favorite_count": 0,
+  "entities": {
+    "hashtags": [],
+    "urls": [],
+    "user_mentions": [],
+    "symbols": []
+  },
+  "favorited": false,
+  "retweeted": false,
+  "filter_level": "low",
+  "lang": "fr",
+  "timestamp_ms": "1579033722741"
+}

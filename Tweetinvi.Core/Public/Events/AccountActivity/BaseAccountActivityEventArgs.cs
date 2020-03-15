@@ -2,7 +2,7 @@
 
 namespace Tweetinvi.Events
 {
-    public abstract class BaseAccountActivityEventArgs : EventArgs
+    public abstract class BaseAccountActivityEventArgs
     {
         protected BaseAccountActivityEventArgs(AccountActivityEvent activityEvent)
         {
@@ -10,7 +10,6 @@ namespace Tweetinvi.Events
             EventDate = activityEvent.EventDate;
             Json = activityEvent.Json;
         }
-
 
         /// <summary>
         /// The account user id for who the event has been raised

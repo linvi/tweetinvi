@@ -104,14 +104,14 @@ namespace Examplinvi.AccountActivityEvents
 
 
         // Message events
-        private void MessageSent(object sender, AccountActivityMessageSentEventArgs args)
+        private void MessageSent(object sender, AccountActivityMessageSentEventArgs e)
         {
-            Console.WriteLine($">>> Account user ({args.Message.SenderId}) has sent a message to {args.Message.RecipientId}");
+            Console.WriteLine($">>> Account user ({e.Message.SenderId}) has sent a message to {e.Message.RecipientId}");
         }
 
-        private void MessageReceived(object sender, AccountActivityMessageReceivedEventArgs args)
+        private void MessageReceived(object sender, AccountActivityMessageReceivedEventArgs e)
         {
-            Console.WriteLine($">>> Account user ({args.Message.SenderId}) has received a message from {args.Message.RecipientId}");
+            Console.WriteLine($">>> Account user ({e.Message.SenderId}) has received a message from {e.Message.RecipientId}");
         }
 
         private void UserIsTypingMessage(object sender, AccountActivityUserIsTypingMessageEventArgs e)

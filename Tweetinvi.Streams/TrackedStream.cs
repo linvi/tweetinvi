@@ -26,7 +26,7 @@ namespace Tweetinvi.Streams
         private readonly IStreamTrackManager<ITweet> _streamTrackManager;
         private readonly ITwitterClientFactories _factories;
 
-        public override event EventHandler<JsonObjectEventArgs> JsonObjectReceived;
+        public override event EventHandler<StreamEventReceivedArgs> EventReceived;
 
         public TrackedStream(
             ITwitterClient client,
@@ -93,23 +93,12 @@ namespace Tweetinvi.Streams
 
         protected void RaiseJsonObjectReceived(string json)
         {
-            this.Raise(JsonObjectReceived, new JsonObjectEventArgs(json));
+            this.Raise(EventReceived, new StreamEventReceivedArgs(json));
         }
 
-        public int TracksCount
-        {
-            get { return _streamTrackManager.TracksCount; }
-        }
-
-        public int MaxTracks
-        {
-            get { return _streamTrackManager.MaxTracks; }
-        }
-
-        public Dictionary<string, Action<ITweet>> Tracks
-        {
-            get { return _streamTrackManager.Tracks; }
-        }
+        public int TracksCount => _streamTrackManager.TracksCount;
+        public int MaxTracks => _streamTrackManager.MaxTracks;
+        public Dictionary<string, Action<ITweet>> Tracks => _streamTrackManager.Tracks;
 
         public void AddTrack(string track, Action<ITweet> trackReceived = null)
         {

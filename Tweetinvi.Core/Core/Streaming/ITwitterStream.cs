@@ -88,7 +88,7 @@ namespace Tweetinvi.Core.Streaming
         /// <summary>
         /// Informs that we have received some json from the Twitter stream.
         /// </summary>
-        event EventHandler<JsonObjectEventArgs> JsonObjectReceived;
+        event EventHandler<StreamEventReceivedArgs> EventReceived;
 
         /// <summary>
         /// Decide whether to use Extended or Compat mode

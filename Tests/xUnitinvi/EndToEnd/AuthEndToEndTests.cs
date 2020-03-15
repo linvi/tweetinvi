@@ -11,13 +11,19 @@ using Tweetinvi.Models;
 using Tweetinvi.Parameters;
 using Xunit;
 using Xunit.Abstractions;
+using Xunit.Extensions.Ordering;
 using xUnitinvi.TestHelpers;
 
 namespace xUnitinvi.EndToEnd
 {
-    [Collection("EndToEndTests")]
+    // The is the last collection to run as we do not want any of the access token/bearer to be invalidated
+    // before running the other tests
+    [Collection("EndToEndTests"), Order(11)]
     public class AuthEndToEndTests : TweetinviTest
     {
+        // Fact order is done in such a way that AuthenticateWithPinCode runs last
+        // So that we can get the new bearer credentials from its logs
+
         public AuthEndToEndTests(ITestOutputHelper logger) : base(logger)
         {
         }
@@ -86,7 +92,7 @@ namespace xUnitinvi.EndToEnd
             await Assert.ThrowsAsync<TwitterException>(() => client.Users.GetAuthenticatedUser());
         }
 
-        [Fact]
+        [Fact, Order(10)]
         public async Task AuthenticateWithPinCode()
         {
             if (!EndToEndTestConfig.ShouldRunEndToEndTests || !EndToEndTestConfig.ShouldRunAuthTests)

@@ -115,7 +115,7 @@ namespace Tweetinvi.Streams
         public event EventHandler<LimitReachedEventArgs> LimitReached;
         public event EventHandler<WarningFallingBehindEventArgs> WarningFallingBehindDetected;
         public event EventHandler<UnsupportedEventReceivedEventArgs> UnmanagedEventReceived;
-        public abstract event EventHandler<JsonObjectEventArgs> JsonObjectReceived;
+        public abstract event EventHandler<StreamEventReceivedArgs> EventReceived;
 
         // Stream State
         public StreamState StreamState => _streamResultGenerator.StreamState;

@@ -2,9 +2,9 @@
 
 namespace Tweetinvi.Events
 {
-    public class JsonObjectEventArgs : EventArgs
+    public class StreamEventReceivedArgs
     {
-        public JsonObjectEventArgs(string json)
+        public StreamEventReceivedArgs(string json)
         {
             Json = json;
         }
