@@ -249,7 +249,7 @@ namespace xUnitinvi.ClientActions.ListsClient
             // arrange
             var queryGenerator = CreateTwitterListQueryGenerator();
 
-            var parameters = new AddMembersToListParameters(42, new long?[] { 5, 6 })
+            var parameters = new AddMembersToListParameters(42, new long[] { 5, 6 })
             {
                 CustomQueryParameters = { new Tuple<string, string>("hello", "world") }
             };
@@ -326,7 +326,7 @@ namespace xUnitinvi.ClientActions.ListsClient
             // arrange
             var queryGenerator = CreateTwitterListQueryGenerator();
 
-            var parameters = new RemoveMembersFromListParameters(42, new long?[] { 5, 6 })
+            var parameters = new RemoveMembersFromListParameters(42, new long[] { 5, 6 })
             {
                 CustomQueryParameters = { new Tuple<string, string>("hello", "world") }
             };

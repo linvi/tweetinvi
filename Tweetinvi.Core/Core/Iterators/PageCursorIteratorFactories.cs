@@ -13,7 +13,7 @@ namespace Tweetinvi.Core.Iterators
         ITwitterPageIterator<ITwitterResult<T[]>, long?> Create<T>(IMinMaxQueryParameters parameters, Func<long?, Task<ITwitterResult<T[]>>> getNext) where T : ITwitterIdentifier;
         ITwitterPageIterator<ITwitterResult<T>> Create<T>(ICursorQueryParameters parameters, Func<string, Task<ITwitterResult<T>>> getNext) where T : IBaseCursorQueryDTO;
     }
-    
+
     public class PageCursorIteratorFactories : IPageCursorIteratorFactories
     {
         public ITwitterPageIterator<ITwitterResult<T[]>, long?> Create<T>(IMinMaxQueryParameters parameters, Func<long?, Task<ITwitterResult<T[]>>> getNext) where T : ITwitterIdentifier
@@ -23,13 +23,18 @@ namespace Tweetinvi.Core.Iterators
                 getNext,
                 page =>
                 {
-                    return page.DataTransferObject.Min(x => x.Id) - 1;
+                    if (page.DataTransferObject.Length == 0)
+                    {
+                        return null;
+                    }
+
+                    return page.DataTransferObject?.Min(x => x.Id) - 1;
                 },
                 page => page.DataTransferObject.Length < parameters.PageSize);
 
             return twitterCursorResult;
         }
-        
+
         public ITwitterPageIterator<ITwitterResult<T>> Create<T>(ICursorQueryParameters parameters, Func<string, Task<ITwitterResult<T>>> getNext) where T : IBaseCursorQueryDTO
         {
             var twitterCursorResult = new TwitterPageIterator<ITwitterResult<T>>(

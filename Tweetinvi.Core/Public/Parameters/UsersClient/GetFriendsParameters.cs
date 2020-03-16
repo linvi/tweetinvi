@@ -28,7 +28,7 @@ namespace Tweetinvi.Parameters
             GetUsersPageSize = TweetinviConsts.GET_USERS_MAX_PAGE_SIZE;
         }
 
-        public GetFriendsParameters(long? userId) : base(userId)
+        public GetFriendsParameters(long userId) : base(userId)
         {
             GetUsersPageSize = TweetinviConsts.GET_USERS_MAX_PAGE_SIZE;
         }

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Tweetinvi.Models;
 
@@ -38,7 +37,7 @@ namespace Tweetinvi.Parameters
         /// Direct Message deep link will fail at Tweet creation and cause an exception.
         /// </summary>
         string QuotedTweetUrl { get; set; }
-        
+
         /// <summary>
         /// A <a href="https://dev.twitter.com/overview/api/places">place</a> in the world.
         /// </summary>
@@ -75,8 +74,8 @@ namespace Tweetinvi.Parameters
         bool HasMedia { get; }
 
         /// <summary>
-        /// If you upload Tweet media that might be considered sensitive content such as 
-        /// nudity, violence, or medical procedures, you should set this value to true. 
+        /// If you upload Tweet media that might be considered sensitive content such as
+        /// nudity, violence, or medical procedures, you should set this value to true.
         /// </summary>
         bool? PossiblySensitive { get; set; }
 
@@ -111,8 +110,6 @@ namespace Tweetinvi.Parameters
     /// <inheritdoc/>
     public class PublishTweetParameters : CustomRequestParameters, IPublishTweetParameters
     {
-        private ITweetIdentifier _tweetIdentifier;
-
         public PublishTweetParameters()
         {
         }
@@ -154,19 +151,7 @@ namespace Tweetinvi.Parameters
         public string Text { get; set; }
 
         /// <inheritdoc/>
-        public ITweetIdentifier InReplyToTweet
-        {
-            get => _tweetIdentifier;
-            set
-            {
-                if (value != null && (value.Id == null || value.Id == TweetinviSettings.DEFAULT_ID))
-                {
-                    throw new InvalidOperationException("You cannot reply to a tweet that has not yet been published!");
-                }
-
-                _tweetIdentifier = value;
-            }
-        }
+        public ITweetIdentifier InReplyToTweet { get; set; }
 
         /// <inheritdoc/>
         public string QuotedTweetUrl { get; set; }

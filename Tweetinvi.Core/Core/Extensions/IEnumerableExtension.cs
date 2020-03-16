@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Tweetinvi.Models;
 
 namespace Tweetinvi.Core.Extensions
 {
@@ -85,7 +84,7 @@ namespace Tweetinvi.Core.Extensions
             return !collection.Any();
         }
 
-        public static TSource JustOneOrDefault<TSource>(this IEnumerable<TSource> source, Func<TSource, bool> isMatching) where TSource : class 
+        public static TSource JustOneOrDefault<TSource>(this IEnumerable<TSource> source, Func<TSource, bool> isMatching) where TSource : class
         {
             if (source == null)
             {
@@ -200,25 +199,6 @@ namespace Tweetinvi.Core.Extensions
             {
                 source.AddRange(newElements);
             }
-        }
-
-        public static IUserIdentifier[] GetDistinctUserIdentifiers(IEnumerable<IUserIdentifier> targetUserIdentifiers)
-        {
-            var distinctUserIdentifiers = targetUserIdentifiers.Distinct((identifier1, identifier2) =>
-            {
-                var isIdTheSame = identifier1.Id == identifier2.Id && identifier1.Id != TweetinviSettings.DEFAULT_ID;
-
-                if (string.IsNullOrEmpty(identifier1.ScreenName) || string.IsNullOrEmpty(identifier2.ScreenName))
-                {
-                    return isIdTheSame;
-                }
-
-                var isScreenNameTheSame = identifier1.ScreenName.ToLowerInvariant() == identifier2.ScreenName.ToLowerInvariant();
-
-                return isIdTheSame || isScreenNameTheSame;
-            }).ToArray();
-
-            return distinctUserIdentifiers;
         }
     }
 }

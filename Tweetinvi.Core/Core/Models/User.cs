@@ -29,9 +29,9 @@ namespace Tweetinvi.Core.Models
         // This region represents the information accessible from a Twitter API
         // when querying for a User
 
-        public long? Id
+        public long Id
         {
-            get => UserDTO?.Id;
+            get => UserDTO.Id;
             set => throw new InvalidOperationException("Cannot set the Id of a user");
         }
 
@@ -189,7 +189,7 @@ namespace Tweetinvi.Core.Models
             return Client.Users.GetRelationshipBetween(this, user);
         }
 
-        public Task<IRelationshipDetails> GetRelationshipWith(long? userId)
+        public Task<IRelationshipDetails> GetRelationshipWith(long userId)
         {
             return Client.Users.GetRelationshipBetween(this, userId);
         }

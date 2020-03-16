@@ -28,7 +28,7 @@ namespace xUnitinvi.EndToEnd
             var testUser = await _tweetinviTestClient.Users.GetAuthenticatedUser();
             var tweetinviUser = await _tweetinviClient.Users.GetAuthenticatedUser();
             var friendsBeforeAdd = await _tweetinviClient.Users.GetFriendIds(tweetinviUser).MoveToNextPage();
-            var alreadyFollowing = friendsBeforeAdd.Contains(testUser.Id.Value);
+            var alreadyFollowing = friendsBeforeAdd.Contains(testUser.Id);
 
             if (!alreadyFollowing)
             {

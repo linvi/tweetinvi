@@ -8,15 +8,6 @@ namespace Tweetinvi.Models
         {
         }
 
-        public UserIdentifier(long? userId) : this()
-        {
-            if (userId != null)
-            {
-                Id = userId;
-                IdStr = userId.Value.ToString(CultureInfo.InvariantCulture);
-            }
-        }
-
         public UserIdentifier(long userId) : this()
         {
             Id = userId;
@@ -28,7 +19,7 @@ namespace Tweetinvi.Models
             ScreenName = userScreenName;
         }
 
-        public long? Id { get; set; }
+        public long Id { get; set; }
         public string IdStr { get; set; }
         public string ScreenName { get; set; }
 
@@ -39,10 +30,15 @@ namespace Tweetinvi.Models
                 return ScreenName;
             }
 
-            return Id?.ToString() ?? IdStr;
+            if (!string.IsNullOrEmpty(IdStr))
+            {
+                return IdStr;
+            }
+
+            return Id.ToString();
         }
 
-        public static implicit operator UserIdentifier (long? userId)
+        public static implicit operator UserIdentifier (long userId)
         {
             return new UserIdentifier(userId);
         }

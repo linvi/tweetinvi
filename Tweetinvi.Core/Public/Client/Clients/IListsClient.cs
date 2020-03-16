@@ -48,7 +48,7 @@ namespace Tweetinvi.Client
         Task<ITwitterList[]> GetListsSubscribedByAccount(IGetListsSubscribedByAccountParameters parameters);
 
         /// <inheritdoc cref="GetListsSubscribedByUser(IGetListsSubscribedByUserParameters)"/>
-        Task<ITwitterList[]> GetListsSubscribedByUser(long? userId);
+        Task<ITwitterList[]> GetListsSubscribedByUser(long userId);
         /// <inheritdoc cref="GetListsSubscribedByUser(IGetListsSubscribedByUserParameters)"/>
         Task<ITwitterList[]> GetListsSubscribedByUser(string username);
         /// <inheritdoc cref="GetListsSubscribedByUser(IGetListsSubscribedByUserParameters)"/>
@@ -94,7 +94,7 @@ namespace Tweetinvi.Client
         ITwitterIterator<ITwitterList> GetListsOwnedByAccountIterator(IGetListsOwnedByAccountParameters parameters);
 
         /// <inheritdoc cref="GetListsOwnedByUserIterator(IGetListsOwnedByUserParameters)"/>
-        ITwitterIterator<ITwitterList> GetListsOwnedByUserIterator(long? userId);
+        ITwitterIterator<ITwitterList> GetListsOwnedByUserIterator(long userId);
         /// <inheritdoc cref="GetListsOwnedByUserIterator(IGetListsOwnedByUserParameters)"/>
         ITwitterIterator<ITwitterList> GetListsOwnedByUserIterator(string username);
         /// <inheritdoc cref="GetListsOwnedByUserIterator(IGetListsOwnedByUserParameters)"/>
@@ -112,9 +112,9 @@ namespace Tweetinvi.Client
         // ***********
 
         /// <inheritdoc cref="AddMemberToList(IAddMemberToListParameters)"/>
-        Task AddMemberToList(long? listId, long? userId);
+        Task AddMemberToList(long? listId, long userId);
         /// <inheritdoc cref="AddMemberToList(IAddMemberToListParameters)"/>
-        Task AddMemberToList(ITwitterListIdentifier list, long? userId);
+        Task AddMemberToList(ITwitterListIdentifier list, long userId);
         /// <inheritdoc cref="AddMemberToList(IAddMemberToListParameters)"/>
         Task AddMemberToList(ITwitterListIdentifier list, string username);
         /// <inheritdoc cref="AddMemberToList(IAddMemberToListParameters)"/>
@@ -127,13 +127,13 @@ namespace Tweetinvi.Client
         Task AddMemberToList(IAddMemberToListParameters parameters);
 
         /// <inheritdoc cref="AddMembersToList(IAddMembersToListParameters)"/>
-        Task AddMembersToList(long? listId, IEnumerable<long?> userIds);
+        Task AddMembersToList(long listId, IEnumerable<long> userIds);
         /// <inheritdoc cref="AddMembersToList(IAddMembersToListParameters)"/>
-        Task AddMembersToList(long? listId, IEnumerable<string> usernames);
+        Task AddMembersToList(long listId, IEnumerable<string> usernames);
         /// <inheritdoc cref="AddMembersToList(IAddMembersToListParameters)"/>
-        Task AddMembersToList(long? listId, IEnumerable<IUserIdentifier> users);
+        Task AddMembersToList(long listId, IEnumerable<IUserIdentifier> users);
         /// <inheritdoc cref="AddMembersToList(IAddMembersToListParameters)"/>
-        Task AddMembersToList(ITwitterListIdentifier list, IEnumerable<long?> userIds);
+        Task AddMembersToList(ITwitterListIdentifier list, IEnumerable<long> userIds);
         /// <inheritdoc cref="AddMembersToList(IAddMembersToListParameters)"/>
         Task AddMembersToList(ITwitterListIdentifier list, IEnumerable<string> usernames);
         /// <inheritdoc cref="AddMembersToList(IAddMembersToListParameters)"/>
@@ -156,7 +156,7 @@ namespace Tweetinvi.Client
         ITwitterIterator<ITwitterList> GetAccountListMembershipsIterator(IGetAccountListMembershipsParameters parameters);
 
         /// <inheritdoc cref="GetUserListMembershipsIterator(IGetUserListMembershipsParameters)"/>
-        ITwitterIterator<ITwitterList> GetUserListMembershipsIterator(long? userId);
+        ITwitterIterator<ITwitterList> GetUserListMembershipsIterator(long userId);
         /// <inheritdoc cref="GetUserListMembershipsIterator(IGetUserListMembershipsParameters)"/>
         ITwitterIterator<ITwitterList> GetUserListMembershipsIterator(string username);
         /// <inheritdoc cref="GetUserListMembershipsIterator(IGetUserListMembershipsParameters)"/>
@@ -182,14 +182,14 @@ namespace Tweetinvi.Client
         ITwitterIterator<IUser> GetMembersOfListIterator(IGetMembersOfListParameters parameters);
 
         /// <inheritdoc cref="CheckIfUserIsMemberOfList(ICheckIfUserIsMemberOfListParameters)"/>
-        Task<bool> CheckIfUserIsMemberOfList(long? listId, long? userId);
+        Task<bool> CheckIfUserIsMemberOfList(long? listId, long userId);
         /// <inheritdoc cref="CheckIfUserIsMemberOfList(ICheckIfUserIsMemberOfListParameters)"/>
         Task<bool> CheckIfUserIsMemberOfList(long? listId, string username);
         /// <inheritdoc cref="CheckIfUserIsMemberOfList(ICheckIfUserIsMemberOfListParameters)"/>
         Task<bool> CheckIfUserIsMemberOfList(long? listId, IUserIdentifier user);
 
         /// <inheritdoc cref="CheckIfUserIsMemberOfList(ICheckIfUserIsMemberOfListParameters)"/>
-        Task<bool> CheckIfUserIsMemberOfList(ITwitterListIdentifier list, long? userId);
+        Task<bool> CheckIfUserIsMemberOfList(ITwitterListIdentifier list, long userId);
         /// <inheritdoc cref="CheckIfUserIsMemberOfList(ICheckIfUserIsMemberOfListParameters)"/>
         Task<bool> CheckIfUserIsMemberOfList(ITwitterListIdentifier list, string username);
         /// <inheritdoc cref="CheckIfUserIsMemberOfList(ICheckIfUserIsMemberOfListParameters)"/>
@@ -203,13 +203,13 @@ namespace Tweetinvi.Client
         Task<bool> CheckIfUserIsMemberOfList(ICheckIfUserIsMemberOfListParameters parameters);
 
         /// <inheritdoc cref="RemoveMemberFromList(IRemoveMemberFromListParameters)"/>
-        Task RemoveMemberFromList(long? listId, long? userId);
+        Task RemoveMemberFromList(long? listId, long userId);
         /// <inheritdoc cref="RemoveMemberFromList(IRemoveMemberFromListParameters)"/>
         Task RemoveMemberFromList(long? listId, string username);
         /// <inheritdoc cref="RemoveMemberFromList(IRemoveMemberFromListParameters)"/>
         Task RemoveMemberFromList(long? listId, IUserIdentifier user);
         /// <inheritdoc cref="RemoveMemberFromList(IRemoveMemberFromListParameters)"/>
-        Task RemoveMemberFromList(ITwitterListIdentifier list, long? userId);
+        Task RemoveMemberFromList(ITwitterListIdentifier list, long userId);
         /// <inheritdoc cref="RemoveMemberFromList(IRemoveMemberFromListParameters)"/>
         Task RemoveMemberFromList(ITwitterListIdentifier list, string username);
         /// <inheritdoc cref="RemoveMemberFromList(IRemoveMemberFromListParameters)"/>
@@ -222,13 +222,13 @@ namespace Tweetinvi.Client
         Task RemoveMemberFromList(IRemoveMemberFromListParameters parameters);
 
         /// <inheritdoc cref="RemoveMembersFromList(IRemoveMembersFromListParameters)"/>
-        Task RemoveMembersFromList(long? listId, IEnumerable<long?> userIds);
+        Task RemoveMembersFromList(long listId, IEnumerable<long> userIds);
         /// <inheritdoc cref="RemoveMembersFromList(IRemoveMembersFromListParameters)"/>
-        Task RemoveMembersFromList(long? listId, IEnumerable<string> usernames);
+        Task RemoveMembersFromList(long listId, IEnumerable<string> usernames);
         /// <inheritdoc cref="RemoveMembersFromList(IRemoveMembersFromListParameters)"/>
-        Task RemoveMembersFromList(long? listId, IEnumerable<IUserIdentifier> users);
+        Task RemoveMembersFromList(long listId, IEnumerable<IUserIdentifier> users);
         /// <inheritdoc cref="RemoveMembersFromList(IRemoveMembersFromListParameters)"/>
-        Task RemoveMembersFromList(ITwitterListIdentifier list, IEnumerable<long?> userIds);
+        Task RemoveMembersFromList(ITwitterListIdentifier list, IEnumerable<long> userIds);
         /// <inheritdoc cref="RemoveMembersFromList(IRemoveMembersFromListParameters)"/>
         Task RemoveMembersFromList(ITwitterListIdentifier list, IEnumerable<string> usernames);
         /// <inheritdoc cref="RemoveMembersFromList(IRemoveMembersFromListParameters)"/>
@@ -288,7 +288,7 @@ namespace Tweetinvi.Client
         ITwitterIterator<ITwitterList> GetAccountListSubscriptionsIterator(IGetAccountListSubscriptionsParameters parameters);
 
         /// <inheritdoc cref="GetUserListSubscriptionsIterator(Tweetinvi.Parameters.IGetUserListSubscriptionsParameters)" />
-        ITwitterIterator<ITwitterList> GetUserListSubscriptionsIterator(long? userId);
+        ITwitterIterator<ITwitterList> GetUserListSubscriptionsIterator(long userId);
         /// <inheritdoc cref="GetUserListSubscriptionsIterator(Tweetinvi.Parameters.IGetUserListSubscriptionsParameters)" />
         ITwitterIterator<ITwitterList> GetUserListSubscriptionsIterator(string username);
         /// <inheritdoc cref="GetUserListSubscriptionsIterator(Tweetinvi.Parameters.IGetUserListSubscriptionsParameters)" />
@@ -302,13 +302,13 @@ namespace Tweetinvi.Client
         ITwitterIterator<ITwitterList> GetUserListSubscriptionsIterator(IGetUserListSubscriptionsParameters parameters);
 
         /// <inheritdoc cref="CheckIfUserIsSubscriberOfList(ICheckIfUserIsSubscriberOfListParameters)" />
-        Task<bool> CheckIfUserIsSubscriberOfList(long? listId, long? userId);
+        Task<bool> CheckIfUserIsSubscriberOfList(long? listId, long userId);
         /// <inheritdoc cref="CheckIfUserIsSubscriberOfList(ICheckIfUserIsSubscriberOfListParameters)" />
         Task<bool> CheckIfUserIsSubscriberOfList(long? listId, string username);
         /// <inheritdoc cref="CheckIfUserIsSubscriberOfList(ICheckIfUserIsSubscriberOfListParameters)" />
         Task<bool> CheckIfUserIsSubscriberOfList(long? listId, IUserIdentifier user);
         /// <inheritdoc cref="CheckIfUserIsSubscriberOfList(ICheckIfUserIsSubscriberOfListParameters)" />
-        Task<bool> CheckIfUserIsSubscriberOfList(ITwitterListIdentifier list, long? userId);
+        Task<bool> CheckIfUserIsSubscriberOfList(ITwitterListIdentifier list, long userId);
         /// <inheritdoc cref="CheckIfUserIsSubscriberOfList(ICheckIfUserIsSubscriberOfListParameters)" />
         Task<bool> CheckIfUserIsSubscriberOfList(ITwitterListIdentifier list, string username);
         /// <inheritdoc cref="CheckIfUserIsSubscriberOfList(ICheckIfUserIsSubscriberOfListParameters)" />

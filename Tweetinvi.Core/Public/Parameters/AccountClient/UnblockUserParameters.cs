@@ -10,24 +10,24 @@ namespace Tweetinvi.Parameters
     {
         /// <summary>
         /// User that you want to unblock
-        /// </summary>  
+        /// </summary>
         IUserIdentifier User { get; set; }
     }
 
     /// <inheritdoc />
     public class UnblockUserParameters : CustomRequestParameters, IUnblockUserParameters
     {
-        public UnblockUserParameters(IUserIdentifier userIdentifier)
-        {
-            User = userIdentifier;
-        }
-
         public UnblockUserParameters(string username) : this(new UserIdentifier(username))
         {
         }
 
-        public UnblockUserParameters(long? userId) : this(new UserIdentifier(userId))
+        public UnblockUserParameters(long userId) : this(new UserIdentifier(userId))
         {
+        }
+
+        public UnblockUserParameters(IUserIdentifier user)
+        {
+            User = user;
         }
 
         public UnblockUserParameters(IUnblockUserParameters source) : base(source)

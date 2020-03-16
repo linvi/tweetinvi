@@ -10,31 +10,31 @@ namespace Tweetinvi.Parameters
     {
         /// <summary>
         /// The user that you wish to block
-        /// </summary>   
+        /// </summary>
         IUserIdentifier User { get; set; }
     }
 
     /// <inheritdoc cref="IBlockUserParameters" />
     public class BlockUserParameters : CustomRequestParameters, IBlockUserParameters
     {
-        public BlockUserParameters(IUserIdentifier userIdentifier)
-        {
-            User = userIdentifier;
-        }
-        
         public BlockUserParameters(string username) : this(new UserIdentifier(username))
         {
         }
 
-        public BlockUserParameters(long? userId) : this(new UserIdentifier(userId))
+        public BlockUserParameters(long userId) : this(new UserIdentifier(userId))
         {
         }
-        
+
+        public BlockUserParameters(IUserIdentifier user)
+        {
+            User = user;
+        }
+
         public BlockUserParameters(IBlockUserParameters source) : base(source)
         {
             User = source?.User;
         }
-        
+
         /// <inheritdoc/>
         public IUserIdentifier User { get; set; }
     }

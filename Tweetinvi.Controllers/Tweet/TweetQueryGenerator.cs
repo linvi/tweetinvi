@@ -5,6 +5,7 @@ using Tweetinvi.Controllers.Properties;
 using Tweetinvi.Controllers.Shared;
 using Tweetinvi.Core.Extensions;
 using Tweetinvi.Core.QueryGenerators;
+using Tweetinvi.Models;
 using Tweetinvi.Parameters;
 
 namespace Tweetinvi.Controllers.Tweet
@@ -44,8 +45,8 @@ namespace Tweetinvi.Controllers.Tweet
         {
             var query = new StringBuilder(Resources.Tweet_Lookup);
 
-            var validTweetIdentifiers = parameters.Tweets.Where(x => x?.Id != null || !string.IsNullOrEmpty(x?.IdStr));
-            var tweetIds = validTweetIdentifiers.Select(x => x.Id?.ToString() ?? x.IdStr);
+            var validTweetIdentifiers = parameters.Tweets.Where(x => GetTweetId(x) != null);
+            var tweetIds = validTweetIdentifiers.Select(GetTweetId);
 
             query.AddParameterToQuery("id", string.Join(",", tweetIds));
             query.AddParameterToQuery("include_card_uri", parameters.IncludeCardUri);
@@ -95,7 +96,7 @@ namespace Tweetinvi.Controllers.Tweet
                 query.AddParameterToQuery("exclude_reply_user_ids", string.Join(",", parameters.ExcludeReplyUserIds));
             }
 
-            query.AddParameterToQuery("in_reply_to_status_id", parameters.InReplyToTweet?.Id);
+            query.AddParameterToQuery("in_reply_to_status_id", GetTweetId(parameters.InReplyToTweet));
             query.AddParameterToQuery("lat", parameters.Coordinates?.Latitude.ToString(CultureInfo.InvariantCulture));
             query.AddParameterToQuery("long", parameters.Coordinates?.Longitude.ToString(CultureInfo.InvariantCulture));
 
@@ -122,12 +123,8 @@ namespace Tweetinvi.Controllers.Tweet
                 return null;
             }
 
-            if (parameters.QuotedTweet?.Id == null)
-            {
-                return null;
-            }
-
-            return $"https://twitter.com/{parameters.QuotedTweet.CreatedBy.ScreenName}/status/{parameters.QuotedTweet.Id.Value.ToString(CultureInfo.InvariantCulture)}";
+            var quotedTweetId = GetTweetId(parameters.QuotedTweet);
+            return $"https://twitter.com/{parameters.QuotedTweet.CreatedBy.ScreenName}/status/{quotedTweetId}";
         }
 
         public string GetDestroyTweetQuery(IDestroyTweetParameters parameters, TweetMode? tweetMode)
@@ -160,8 +157,8 @@ namespace Tweetinvi.Controllers.Tweet
 
         public string GetRetweetsQuery(IGetRetweetsParameters parameters, TweetMode? tweetMode)
         {
-            var tweetIdentifierValue = parameters.Tweet.Id?.ToString() ?? parameters.Tweet.IdStr;
-            var query = new StringBuilder(string.Format(Resources.Tweet_Retweet_GetRetweets, tweetIdentifierValue));
+            var tweetId = GetTweetId(parameters.Tweet);
+            var query = new StringBuilder(string.Format(Resources.Tweet_Retweet_GetRetweets, tweetId));
 
             query.AddParameterToQuery("count", parameters.PageSize);
             query.AddParameterToQuery("trim_user", parameters.TrimUser);
@@ -174,8 +171,8 @@ namespace Tweetinvi.Controllers.Tweet
 
         public string GetPublishRetweetQuery(IPublishRetweetParameters parameters, TweetMode? tweetMode)
         {
-            var tweetIdentifierValue = parameters.Tweet.Id?.ToString() ?? parameters.Tweet.IdStr;
-            var query = new StringBuilder(string.Format(Resources.Tweet_Retweet_Publish, tweetIdentifierValue));
+            var tweetId = GetTweetId(parameters.Tweet);
+            var query = new StringBuilder(string.Format(Resources.Tweet_Retweet_Publish, tweetId));
 
             query.AddParameterToQuery("trim_user", parameters.TrimUser);
 
@@ -187,8 +184,8 @@ namespace Tweetinvi.Controllers.Tweet
 
         public string GetDestroyRetweetQuery(IDestroyRetweetParameters parameters, TweetMode? tweetMode)
         {
-            var tweetIdentifierValue = parameters.Tweet.Id?.ToString() ?? parameters.Tweet.IdStr;
-            var query = new StringBuilder(string.Format(Resources.Tweet_DestroyRetweet, tweetIdentifierValue));
+            var tweetId = GetTweetId(parameters.Tweet);
+            var query = new StringBuilder(string.Format(Resources.Tweet_DestroyRetweet, tweetId));
 
             query.AddParameterToQuery("trim_user", parameters.TrimUser);
 
@@ -202,7 +199,7 @@ namespace Tweetinvi.Controllers.Tweet
         {
             var query = new StringBuilder(Resources.Tweet_GetRetweeters);
 
-            query.AddParameterToQuery("id", parameters.Tweet.Id?.ToString() ?? parameters.Tweet.IdStr);
+            query.AddParameterToQuery("id", GetTweetId(parameters.Tweet));
             _queryParameterGenerator.AppendCursorParameters(query, parameters);
 
             query.AddFormattedParameterToQuery(parameters.FormattedCustomQueryParameters);
@@ -213,10 +210,9 @@ namespace Tweetinvi.Controllers.Tweet
         // Favorites
         public string GetCreateFavoriteTweetQuery(IFavoriteTweetParameters parameters)
         {
-            var tweetIdentifierValue = parameters.Tweet.Id?.ToString() ?? parameters.Tweet.IdStr;
             var query = new StringBuilder(Resources.Tweet_Favorite_Create);
 
-            query.AddParameterToQuery("id", tweetIdentifierValue);
+            query.AddParameterToQuery("id", GetTweetId(parameters.Tweet));
             query.AddParameterToQuery("include_entities", parameters.IncludeEntities);
             query.AddFormattedParameterToQuery(parameters.FormattedCustomQueryParameters);
 
@@ -225,10 +221,9 @@ namespace Tweetinvi.Controllers.Tweet
 
         public string GetUnfavoriteTweetQuery(IUnfavoriteTweetParameters parameters)
         {
-            var tweetIdentifierValue = parameters.Tweet.Id?.ToString() ?? parameters.Tweet.IdStr;
             var query = new StringBuilder(Resources.Tweet_Favorite_Destroy);
 
-            query.AddParameterToQuery("id", tweetIdentifierValue);
+            query.AddParameterToQuery("id", GetTweetId(parameters.Tweet));
             query.AddParameterToQuery("include_entities", parameters.IncludeEntities);
             query.AddFormattedParameterToQuery(parameters.FormattedCustomQueryParameters);
 
@@ -237,10 +232,9 @@ namespace Tweetinvi.Controllers.Tweet
 
         public string GetOEmbedTweetQuery(IGetOEmbedTweetParameters parameters)
         {
-            var tweetIdentifierValue = parameters.Tweet.Id?.ToString() ?? parameters.Tweet.IdStr;
             var query = new StringBuilder(Resources.Tweet_GenerateOEmbed);
 
-            query.AddParameterToQuery("id", tweetIdentifierValue);
+            query.AddParameterToQuery("id", GetTweetId(parameters.Tweet));
             query.AddParameterToQuery("maxwidth", parameters.MaxWidth);
             query.AddParameterToQuery("hide_media", parameters.HideMedia);
             query.AddParameterToQuery("hide_thread", parameters.HideThread);
@@ -257,5 +251,22 @@ namespace Tweetinvi.Controllers.Tweet
 
             return query.ToString();
         }
+
+        private string GetTweetId(ITweetIdentifier tweetIdentifier)
+        {
+            if (tweetIdentifier == null)
+            {
+                return null;
+            }
+
+            var tweetId = tweetIdentifier.IdStr;
+            if (string.IsNullOrEmpty(tweetId))
+            {
+                tweetId = tweetIdentifier.Id.ToString(CultureInfo.InvariantCulture);
+            }
+
+            return tweetId;
+        }
+
     }
 }

@@ -72,7 +72,7 @@ namespace Tweetinvi.Streams
         {
             _filterStreamTweetMatcher = _filterStreamTweetMatcherFactory.Create(StreamTrackManager, _locations, _followingUserIds);
 
-            ITwitterRequest createTwitterRequest()
+            ITwitterRequest CreateTwitterRequest()
             {
                 var queryBuilder = GenerateORFilterQuery();
                 AddBaseParametersToQuery(queryBuilder);
@@ -83,7 +83,7 @@ namespace Tweetinvi.Streams
                 return request;
             }
 
-            void onJsonReceived(string json)
+            void OnJsonReceived(string json)
             {
                 RaiseJsonObjectReceived(json);
 
@@ -121,14 +121,14 @@ namespace Tweetinvi.Streams
                 }
             }
 
-            await _streamResultGenerator.StartStream(onJsonReceived, createTwitterRequest);
+            await _streamResultGenerator.StartStream(OnJsonReceived, CreateTwitterRequest);
         }
 
         public async Task StartStreamMatchingAllConditions()
         {
             _filterStreamTweetMatcher = _filterStreamTweetMatcherFactory.Create(StreamTrackManager, _locations, _followingUserIds);
 
-            ITwitterRequest createTwitterRequest()
+            ITwitterRequest CreateTwitterRequest()
             {
                 var queryBuilder = GenerateANDFilterQuery();
                 AddBaseParametersToQuery(queryBuilder);
@@ -139,7 +139,7 @@ namespace Tweetinvi.Streams
                 return twitterRequest;
             }
 
-            void jsonReceived(string json)
+            void JsonReceived(string json)
             {
                 RaiseJsonObjectReceived(json);
 
@@ -173,7 +173,7 @@ namespace Tweetinvi.Streams
                 }
             }
 
-            await _streamResultGenerator.StartStream(jsonReceived, createTwitterRequest);
+            await _streamResultGenerator.StartStream(JsonReceived, CreateTwitterRequest);
         }
 
         public MatchOn CheckIfTweetMatchesStreamFilters(ITweet tweet)
@@ -183,7 +183,7 @@ namespace Tweetinvi.Streams
 
         private bool DoestTheTweetMatchAllConditions(ITweet tweet, string[] matchingTracks, ILocation[] matchingLocations, long[] matchingFollowers)
         {
-            if (tweet == null || tweet.CreatedBy.Id == TweetinviSettings.DEFAULT_ID)
+            if (tweet == null || tweet.CreatedBy.Id == default)
             {
                 return false;
             }
@@ -266,9 +266,9 @@ namespace Tweetinvi.Streams
 
         #region Follow
 
-        public void AddFollow(long? userId, Action<ITweet> userPublishedTweet = null)
+        public void AddFollow(long userId, Action<ITweet> userPublishedTweet = null)
         {
-            if (userId != null && _followingUserIds.Count < MAXIMUM_TRACKED_USER_ID_AUTHORIZED)
+            if (userId > 0 && _followingUserIds.Count < MAXIMUM_TRACKED_USER_ID_AUTHORIZED)
             {
                 _followingUserIds.Add(userId, userPublishedTweet);
             }
@@ -276,18 +276,15 @@ namespace Tweetinvi.Streams
 
         public void AddFollow(IUserIdentifier user, Action<ITweet> userPublishedTweet = null)
         {
-            if (user != null && user.Id != TweetinviSettings.DEFAULT_ID)
+            if (user != null && user.Id > 0)
             {
                 AddFollow(user.Id, userPublishedTweet);
             }
         }
 
-        public void RemoveFollow(long? userId)
+        public void RemoveFollow(long userId)
         {
-            if (userId != null)
-            {
-                _followingUserIds.Remove(userId);
-            }
+            _followingUserIds.Remove(userId);
         }
 
         public void RemoveFollow(IUserIdentifier user)
@@ -298,14 +295,9 @@ namespace Tweetinvi.Streams
             }
         }
 
-        public bool ContainsFollow(long? userId)
+        public bool ContainsFollow(long userId)
         {
-            if (userId != null)
-            {
-                return _followingUserIds.Keys.Contains(userId);
-            }
-
-            return false;
+            return _followingUserIds.Keys.Contains(userId);
         }
 
         public bool ContainsFollow(IUserIdentifier user)

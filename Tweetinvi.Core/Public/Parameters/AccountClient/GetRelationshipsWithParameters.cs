@@ -18,11 +18,6 @@ namespace Tweetinvi.Parameters
     /// <inheritdoc />
     public class GetRelationshipsWithParameters : CustomRequestParameters, IGetRelationshipsWithParameters
     {
-        public GetRelationshipsWithParameters(long?[] userIds)
-        {
-            Users = userIds.Select(x => new UserIdentifier(x)).Cast<IUserIdentifier>().ToArray();
-        }
-
         public GetRelationshipsWithParameters(long[] userIds)
         {
             Users = userIds.Select(x => new UserIdentifier(x)).Cast<IUserIdentifier>().ToArray();

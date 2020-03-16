@@ -23,11 +23,6 @@ namespace Tweetinvi.Parameters
         {
             Users = userIds.Select(userId => new UserIdentifier(userId) as IUserIdentifier).ToArray();
         }
-        
-        public GetUsersParameters(long?[] userIds)
-        {
-            Users = userIds.Select(userId => new UserIdentifier(userId) as IUserIdentifier).ToArray();
-        }
 
         public GetUsersParameters(string[] usernames)
         {

@@ -112,7 +112,7 @@ namespace Tweetinvi.Core.Client.Validators
                 throw new ArgumentOutOfRangeException($"{nameof(parameters)}.{nameof(parameters.Users)}", "You must have at least 1 user");
             }
 
-            var maxUsers = TwitterLimits.DEFAULTS.LISTS_ADD_MEMBERS_MAX_USERS;
+            var maxUsers = Limits.LISTS_ADD_MEMBERS_MAX_USERS;
             if (parameters.Users.Count > maxUsers)
             {
                 throw new TwitterArgumentLimitException($"{nameof(parameters)}.{nameof(parameters.Users)}", maxUsers, nameof(Limits.LISTS_ADD_MEMBERS_MAX_USERS), "users");
@@ -160,7 +160,7 @@ namespace Tweetinvi.Core.Client.Validators
                 throw new ArgumentOutOfRangeException($"{nameof(parameters)}.{nameof(parameters.Users)}", "You must have at least 1 user");
             }
 
-            var maxUsers = TwitterLimits.DEFAULTS.LISTS_REMOVE_MEMBERS_MAX_USERS;
+            var maxUsers = Limits.LISTS_REMOVE_MEMBERS_MAX_USERS;
             if (parameters.Users.Count > maxUsers)
             {
                 throw new TwitterArgumentLimitException($"{nameof(parameters)}.{nameof(parameters.Users)}", maxUsers, nameof(Limits.LISTS_REMOVE_MEMBERS_MAX_USERS), "users");

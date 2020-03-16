@@ -1,3 +1,7 @@
+using System;
+using System.Linq;
+using Tweetinvi.Core.Helpers;
+using Tweetinvi.Core.Models.Properties;
 using Tweetinvi.Exceptions;
 using Tweetinvi.Parameters;
 
@@ -29,6 +33,63 @@ namespace Tweetinvi.Core.Client.Validators
         public void Validate(IPublishMessageParameters parameters)
         {
             _messagesClientRequiredParametersValidator.Validate(parameters);
+
+            if (parameters.Text.UTF32Length() > Limits.MESSAGE_MAX_SIZE)
+            {
+                throw new TwitterArgumentLimitException($"{nameof(parameters)}.{nameof(parameters.Text)}",
+                    Limits.MESSAGE_MAX_SIZE,
+                    nameof(Limits.MESSAGE_MAX_SIZE),
+                    "characters");
+            }
+
+            if (parameters.QuickReplyOptions != null && parameters.QuickReplyOptions.Length > 0)
+            {
+                if (parameters.QuickReplyOptions.Length > Limits.MESSAGE_QUICK_REPLY_MAX_OPTIONS)
+                {
+                    throw new TwitterArgumentLimitException($"{nameof(parameters)}.{nameof(parameters.QuickReplyOptions)}",
+                        Limits.MESSAGE_QUICK_REPLY_MAX_OPTIONS,
+                        nameof(Limits.MESSAGE_QUICK_REPLY_MAX_OPTIONS),
+                        "options");
+                }
+
+                // If one option has a description, then they all must
+                //  https://developer.twitter.com/en/docs/direct-messages/quick-replies/api-reference/options
+                var numberOfOptionsWithDescription = parameters.QuickReplyOptions.Count(x => !string.IsNullOrEmpty(x.Description));
+                if (numberOfOptionsWithDescription > 0 && numberOfOptionsWithDescription != parameters.QuickReplyOptions.Length)
+                {
+                    throw new ArgumentException("If one Quick Reply Option has a description, then they all must", $"{nameof(parameters)}.{nameof(parameters.QuickReplyOptions)}");
+                }
+
+                if (numberOfOptionsWithDescription > 0 && parameters.QuickReplyOptions.Any(x => x.Description.UTF32Length() > Limits.MESSAGE_QUICK_REPLY_DESCRIPTION_MAX_LENGTH))
+                {
+                    throw new TwitterArgumentLimitException($"{nameof(parameters)}.{nameof(parameters.QuickReplyOptions)}.{nameof(QuickReplyOption.Description)}",
+                        Limits.MESSAGE_QUICK_REPLY_DESCRIPTION_MAX_LENGTH,
+                        nameof(Limits.MESSAGE_QUICK_REPLY_DESCRIPTION_MAX_LENGTH),
+                        "characters per quick option description");
+                }
+
+                if (parameters.QuickReplyOptions.Any(x => string.IsNullOrEmpty(x.Label)))
+                {
+                    throw new ArgumentException("Quick Reply Option Label is a required field",
+                    $"{nameof(parameters)}{nameof(parameters.QuickReplyOptions)}.{nameof(QuickReplyOption.Label)}");
+                }
+
+                if (parameters.QuickReplyOptions.Any(x => x.Label.UTF32Length() > Limits.MESSAGE_QUICK_REPLY_LABEL_MAX_LENGTH))
+                {
+                    throw new TwitterArgumentLimitException($"{nameof(parameters)}.{nameof(parameters.QuickReplyOptions)}.{nameof(QuickReplyOption.Label)}",
+                        Limits.MESSAGE_QUICK_REPLY_LABEL_MAX_LENGTH,
+                        nameof(Limits.MESSAGE_QUICK_REPLY_LABEL_MAX_LENGTH),
+                        "characters per quick option label");
+                }
+
+                if (parameters.QuickReplyOptions.Any(x => x.Metadata.UTF32Length() > Limits.MESSAGE_QUICK_REPLY_METADATA_MAX_LENGTH))
+                {
+                    throw new TwitterArgumentLimitException($"{nameof(parameters)}.{nameof(parameters.QuickReplyOptions)}",
+                        Limits.MESSAGE_QUICK_REPLY_METADATA_MAX_LENGTH,
+                        nameof(Limits.MESSAGE_QUICK_REPLY_METADATA_MAX_LENGTH),
+                        "characters per quick option metadata ");
+                }
+            }
         }
 
         public void Validate(IDeleteMessageParameters parameters)

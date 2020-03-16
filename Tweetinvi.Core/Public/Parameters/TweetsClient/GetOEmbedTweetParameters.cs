@@ -120,7 +120,7 @@ namespace Tweetinvi.Parameters
     /// <inheritdoc/>
     public class GetOEmbedTweetParameters : CustomRequestParameters, IGetOEmbedTweetParameters
     {
-        public GetOEmbedTweetParameters(long? tweetId) : this(new TweetIdentifier(tweetId))
+        public GetOEmbedTweetParameters(long tweetId) : this(new TweetIdentifier(tweetId))
         {
         }
 

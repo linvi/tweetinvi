@@ -182,17 +182,12 @@ namespace Tweetinvi.Controllers.Search
                 throw new ArgumentNullException(nameof(tweetDTO));
             }
 
-            if (tweetDTO.Id == null)
-            {
-                throw new ArgumentNullException($"{nameof(tweetDTO)}.{nameof(tweetDTO.Id)}");
-            }
-
-            var searchTweets = await SearchTweets(string.Format(tweetDTO.CreatedBy.ScreenName));
+            var searchTweets = await SearchTweets(tweetDTO.CreatedBy.ScreenName);
             var searchTweetsLists = searchTweets.ToList();
 
             if (recursiveReplies)
             {
-                return GetRecursiveReplies(searchTweetsLists, tweetDTO.Id.Value);
+                return GetRecursiveReplies(searchTweetsLists, tweetDTO.Id);
             }
 
             var repliesDTO = searchTweetsLists.Where(x => x.InReplyToStatusId == tweetDTO.Id);
@@ -201,16 +196,22 @@ namespace Tweetinvi.Controllers.Search
 
         private static IEnumerable<ITweetDTO> GetRecursiveReplies(IReadOnlyCollection<ITweetDTO> searchTweets, long sourceId)
         {
-            var directReplies = searchTweets.Where(x => x.InReplyToStatusId == sourceId).ToList();
+            var directReplies = searchTweets.Where(x => x.InReplyToStatusId == sourceId).ToArray();
             var results = directReplies.ToList();
-            var recursiveReplies = searchTweets.Where(x => directReplies.Select(r => r.Id).Contains(x.InReplyToStatusId)).ToArray();
-            
+            var recursiveReplies = searchTweets.Where(x =>
+            {
+                return x.InReplyToStatusId != null && directReplies.Select(r => r.Id).Contains(x.InReplyToStatusId.Value);
+            }).ToArray();
+
             results.AddRange(recursiveReplies);
 
             while (recursiveReplies.Any())
             {
                 var repliesFromPreviousLevel = recursiveReplies;
-                recursiveReplies = searchTweets.Where(x => repliesFromPreviousLevel.Select(r => r.Id).Contains(x.InReplyToStatusId)).ToArray();
+                recursiveReplies = searchTweets.Where(x =>
+                {
+                    return x.InReplyToStatusId != null && repliesFromPreviousLevel.Select(r => r.Id).Contains(x.InReplyToStatusId.Value);
+                }).ToArray();
                 results.AddRange(recursiveReplies);
             }
 

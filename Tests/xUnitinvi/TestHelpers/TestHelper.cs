@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
 using FakeItEasy;
-using Tweetinvi;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
 
@@ -15,23 +14,6 @@ namespace xUnitinvi.TestHelpers
             return Guid.NewGuid().ToString();
         }
 
-        public static long GenerateRandomLong()
-        {
-            var result = long.MaxValue - new Random().Next();
-
-            while (result == DefaultId())
-            {
-                result = long.MaxValue - new Random().Next();
-            }
-
-            return result;
-        }
-
-        public static int GenerateRandomInt()
-        {
-            return GenerateRandomInt(null);
-        }
-
         public static int GenerateRandomInt(int? maxValue)
         {
             if (maxValue == null)
@@ -41,17 +23,12 @@ namespace xUnitinvi.TestHelpers
 
             var result = Math.Min(new Random().Next(), maxValue.Value);
 
-            while (result == DefaultId())
+            while (result == 0)
             {
                 result = Math.Min(new Random().Next(), maxValue.Value);
             }
 
             return result;
-        }
-
-        public static long DefaultId()
-        {
-            return TweetinviSettings.DEFAULT_ID;
         }
 
         public static IUser GenerateUser(IUserDTO userDTO)

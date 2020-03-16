@@ -21,7 +21,7 @@ namespace Tweetinvi.Parameters
     /// <inheritdoc />
     public class FavoriteTweetParameters : CustomRequestParameters, IFavoriteTweetParameters
     {
-        public FavoriteTweetParameters(long? tweetId) : this(new TweetIdentifier(tweetId))
+        public FavoriteTweetParameters(long tweetId) : this(new TweetIdentifier(tweetId))
         {
         }
 

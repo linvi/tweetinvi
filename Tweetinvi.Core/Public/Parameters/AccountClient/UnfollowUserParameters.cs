@@ -24,9 +24,9 @@ namespace Tweetinvi.Parameters
         {
         }
 
-        public UnfollowUserParameters(IUserIdentifier userIdentifier)
+        public UnfollowUserParameters(IUserIdentifier user)
         {
-            User = userIdentifier;
+            User = user;
         }
 
         public UnfollowUserParameters(IUnfollowUserParameters parameters) : base(parameters)

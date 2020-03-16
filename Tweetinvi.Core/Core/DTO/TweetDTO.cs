@@ -10,36 +10,12 @@ namespace Tweetinvi.Core.DTO
 {
     public class TweetDTO : ITweetDTO
     {
-        private long? _id;
-
-        public TweetDTO()
-        {
-            _id = TweetinviSettings.DEFAULT_ID;
-        }
-
         [JsonProperty("id")]
         [JsonConverter(typeof(JsonPropertyConverterRepository))]
-        public long? Id
-        {
-            get { return _id; }
-            set
-            {
-                _id = value;
-                if (_id != TweetinviSettings.DEFAULT_ID)
-                {
-                    IsTweetPublished = true;
-                }
-            }
-        }
+        public long Id { get; set; }
 
         [JsonProperty("id_str")]
         public string IdStr { get; set; }
-
-        [JsonIgnore]
-        public bool IsTweetPublished { get; set; }
-
-        [JsonIgnore]
-        public bool IsTweetDestroyed { get; set; }
 
         [JsonProperty("text")]
         public string Text { get; set; }

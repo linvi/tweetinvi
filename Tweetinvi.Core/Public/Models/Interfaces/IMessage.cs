@@ -28,11 +28,6 @@ namespace Tweetinvi.Models
         IApp App { get; set; }
 
         /// <summary>
-        /// Informs if the message has been destroyed.
-        /// </summary>
-        bool IsDestroyed { get; }
-
-        /// <summary>
         /// Id of the Message.
         /// </summary>
         long Id { get; }

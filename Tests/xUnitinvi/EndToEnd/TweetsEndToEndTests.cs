@@ -124,7 +124,7 @@ namespace xUnitinvi.EndToEnd
 
             var sourceTweet = await _protectedClient.Tweets.GetTweet(tweetId);
             var retweet = await _protectedClient.Tweets.PublishRetweet(sourceTweet);
-            await Task.Delay(10000).ConfigureAwait(false); // for Twitter to sync
+            await Task.Delay(TimeSpan.FromSeconds(15)).ConfigureAwait(false); // for Twitter to sync
             var sourceRetweets = await _protectedClient.Tweets.GetRetweets(sourceTweet);
             var tweetAfterRetweet = await _protectedClient.Tweets.GetTweet(tweetId);
 
@@ -144,7 +144,7 @@ namespace xUnitinvi.EndToEnd
             Assert.Equal(retweet.RetweetedTweet.Id, tweetId);
             Assert.NotNull(retweet.CreatedBy.Id);
             Assert.Contains(retweet.Id, sourceRetweets.Select(x => x.Id));
-            Assert.Contains(retweet.CreatedBy.Id.Value, allRetweeterIdsBefore);
+            Assert.Contains(retweet.CreatedBy.Id, allRetweeterIdsBefore);
             Assert.Equal(tweetAfterDestroy.RetweetCount, sourceTweet.RetweetCount);
         }
 

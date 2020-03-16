@@ -15,7 +15,7 @@ namespace Tweetinvi.Client
         ITweetsClientParametersValidator ParametersValidator { get; }
 
         /// <inheritdoc cref="GetTweet(IGetTweetParameters)" />
-        Task<ITweet> GetTweet(long? tweetId);
+        Task<ITweet> GetTweet(long tweetId);
 
         /// <summary>
         /// Get a tweet
@@ -26,8 +26,6 @@ namespace Tweetinvi.Client
 
         /// <inheritdoc cref="GetTweets(IGetTweetsParameters)" />
         Task<ITweet[]> GetTweets(long[] tweetIds);
-        /// <inheritdoc cref="GetTweets(IGetTweetsParameters)" />
-        Task<ITweet[]> GetTweets(long?[] tweetIds);
         /// <inheritdoc cref="GetTweets(IGetTweetsParameters)" />
         Task<ITweet[]> GetTweets(ITweetIdentifier[] tweets);
 
@@ -49,7 +47,7 @@ namespace Tweetinvi.Client
         Task<ITweet> PublishTweet(IPublishTweetParameters parameters);
 
         /// <inheritdoc cref="DestroyTweet(IDestroyTweetParameters)" />
-        Task DestroyTweet(long? tweetId);
+        Task DestroyTweet(long tweetId);
         /// <inheritdoc cref="DestroyTweet(IDestroyTweetParameters)" />
         Task DestroyTweet(ITweetIdentifier tweet);
         /// <inheritdoc cref="DestroyTweet(IDestroyTweetParameters)" />
@@ -64,7 +62,7 @@ namespace Tweetinvi.Client
         Task DestroyTweet(IDestroyTweetParameters parameters);
 
         /// <inheritdoc cref="GetRetweets(IGetRetweetsParameters)" />
-        Task<ITweet[]> GetRetweets(long? tweetId);
+        Task<ITweet[]> GetRetweets(long tweetId);
 
         /// <inheritdoc cref="GetRetweets(IGetRetweetsParameters)" />
         Task<ITweet[]> GetRetweets(ITweetIdentifier tweet);
@@ -77,7 +75,7 @@ namespace Tweetinvi.Client
         Task<ITweet[]> GetRetweets(IGetRetweetsParameters parameters);
 
         /// <inheritdoc cref="PublishRetweet(IPublishRetweetParameters)" />
-        Task<ITweet> PublishRetweet(long? tweetId);
+        Task<ITweet> PublishRetweet(long tweetId);
         /// <inheritdoc cref="PublishRetweet(IPublishRetweetParameters)" />
         Task<ITweet> PublishRetweet(ITweetIdentifier tweet);
 
@@ -89,7 +87,7 @@ namespace Tweetinvi.Client
         Task<ITweet> PublishRetweet(IPublishRetweetParameters parameters);
 
         /// <inheritdoc cref="DestroyRetweet(IDestroyRetweetParameters)" />
-        Task DestroyRetweet(long? retweetId);
+        Task DestroyRetweet(long retweetId);
         /// <inheritdoc cref="DestroyRetweet(IDestroyRetweetParameters)" />
         Task DestroyRetweet(ITweetIdentifier retweet);
 
@@ -100,7 +98,7 @@ namespace Tweetinvi.Client
         Task DestroyRetweet(IDestroyRetweetParameters parameters);
 
         /// <inheritdoc cref="GetRetweeterIdsIterator(IGetRetweeterIdsParameters)" />
-        ITwitterIterator<long> GetRetweeterIdsIterator(long? tweetId);
+        ITwitterIterator<long> GetRetweeterIdsIterator(long tweetId);
         /// <inheritdoc cref="GetRetweeterIdsIterator(IGetRetweeterIdsParameters)" />
         ITwitterIterator<long> GetRetweeterIdsIterator(ITweetIdentifier tweet);
 
@@ -112,7 +110,7 @@ namespace Tweetinvi.Client
         ITwitterIterator<long> GetRetweeterIdsIterator(IGetRetweeterIdsParameters parameters);
 
         /// <inheritdoc cref="GetFavoriteTweets(IGetFavoriteTweetsParameters)" />
-        ITwitterIterator<ITweet, long?> GetFavoriteTweets(long? userId);
+        ITwitterIterator<ITweet, long?> GetFavoriteTweets(long userId);
         /// <inheritdoc cref="GetFavoriteTweets(IGetFavoriteTweetsParameters)" />
         ITwitterIterator<ITweet, long?> GetFavoriteTweets(string username);
         /// <inheritdoc cref="GetFavoriteTweets(IGetFavoriteTweetsParameters)" />
@@ -126,7 +124,7 @@ namespace Tweetinvi.Client
         ITwitterIterator<ITweet, long?> GetFavoriteTweets(IGetFavoriteTweetsParameters parameters);
 
         /// <inheritdoc cref="FavoriteTweet(IFavoriteTweetParameters)" />
-        Task FavoriteTweet(long? tweetId);
+        Task FavoriteTweet(long tweetId);
         /// <inheritdoc cref="FavoriteTweet(IFavoriteTweetParameters)" />
         Task FavoriteTweet(ITweetIdentifier tweet);
         /// <inheritdoc cref="FavoriteTweet(IFavoriteTweetParameters)" />
@@ -141,7 +139,7 @@ namespace Tweetinvi.Client
         Task FavoriteTweet(IFavoriteTweetParameters parameters);
 
         /// <inheritdoc cref="UnfavoriteTweet(IUnfavoriteTweetParameters)" />
-        Task UnfavoriteTweet(long? tweetId);
+        Task UnfavoriteTweet(long tweetId);
         /// <inheritdoc cref="UnfavoriteTweet(IUnfavoriteTweetParameters)" />
         Task UnfavoriteTweet(ITweetIdentifier tweet);
         /// <inheritdoc cref="UnfavoriteTweet(IUnfavoriteTweetParameters)" />
@@ -159,7 +157,7 @@ namespace Tweetinvi.Client
         Task<IOEmbedTweet> GetOEmbedTweet(ITweetIdentifier tweet);
 
         /// <inheritdoc cref="GetOEmbedTweet(IGetOEmbedTweetParameters)" />
-        Task<IOEmbedTweet> GetOEmbedTweet(long? tweetId);
+        Task<IOEmbedTweet> GetOEmbedTweet(long tweetId);
 
         /// <summary>
         /// Get an oembed tweet

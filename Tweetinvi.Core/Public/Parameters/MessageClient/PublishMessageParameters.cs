@@ -1,5 +1,4 @@
-﻿using System;
-using Tweetinvi.Models;
+﻿using Tweetinvi.Models;
 
 namespace Tweetinvi.Parameters
 {
@@ -32,20 +31,10 @@ namespace Tweetinvi.Parameters
     /// <inheritdoc/>
     public class PublishMessageParameters : CustomRequestParameters, IPublishMessageParameters
     {
-        public PublishMessageParameters(string text, long? recipientId)
+        public PublishMessageParameters(string text, long recipientId)
         {
-            if (string.IsNullOrEmpty(text))
-            {
-                throw new ArgumentNullException(nameof(text), "Message Text cannot be null or empty.");
-            }
-
-            if (recipientId == null)
-            {
-                throw new ArgumentNullException(nameof(text), "Recipient Text cannot be null or empty.");
-            }
-
             Text = text;
-            RecipientId = recipientId.Value;
+            RecipientId = recipientId;
         }
 
         public string Text { get; }

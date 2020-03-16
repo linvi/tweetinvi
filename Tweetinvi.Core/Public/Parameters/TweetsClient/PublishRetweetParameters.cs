@@ -11,17 +11,17 @@ namespace Tweetinvi.Parameters
         /// The tweet identifier you want to retweet
         /// </summary>
         ITweetIdentifier Tweet { get; set; }
-        
+
         /// <summary>
         /// Tweets author object will not be populated when set to true
         /// </summary>
         bool? TrimUser { get; set; }
     }
-    
+
     /// <inheritdoc/>
     public class PublishRetweetParameters : CustomRequestParameters, IPublishRetweetParameters
     {
-        public PublishRetweetParameters(long? tweetId)
+        public PublishRetweetParameters(long tweetId)
         {
             Tweet = new TweetIdentifier(tweetId);
         }
@@ -30,7 +30,7 @@ namespace Tweetinvi.Parameters
         {
             Tweet = tweet;
         }
-        
+
         /// <inheritdoc/>
         public ITweetIdentifier Tweet { get; set; }
         /// <inheritdoc/>

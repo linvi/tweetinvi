@@ -11,22 +11,22 @@ namespace Tweetinvi.Parameters
         /// User with whom you want to change the friendship
         /// </summary>
         IUserIdentifier User { get; set; }
-        
+
         /// <summary>
-        /// Enable/disable device notifications from the user. 	
+        /// Enable/disable device notifications from the user.
         /// </summary>
         bool? EnableRetweets { get; set; }
-        
+
         /// <summary>
         /// Enable/disable Retweets from the user.
         /// </summary>
         bool? EnableDeviceNotifications { get; set; }
     }
-    
+
     /// <inheritdoc />
     public class UpdateRelationshipParameters : CustomRequestParameters, IUpdateRelationshipParameters
     {
-        public UpdateRelationshipParameters(long? userId) : this(new UserIdentifier(userId))
+        public UpdateRelationshipParameters(long userId) : this(new UserIdentifier(userId))
         {
         }
 
@@ -38,14 +38,14 @@ namespace Tweetinvi.Parameters
         {
             User = user;
         }
-        
+
         public UpdateRelationshipParameters(IUpdateRelationshipParameters source) : base(source)
         {
             User = source?.User;
             EnableRetweets = source?.EnableRetweets;
             EnableDeviceNotifications = source?.EnableDeviceNotifications;
         }
-        
+
         /// <inheritdoc />
         public IUserIdentifier User { get; set; }
         /// <inheritdoc />

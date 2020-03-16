@@ -1,8 +1,6 @@
 ﻿using System;
-using Tweetinvi.Core.Parameters;
 using Tweetinvi.Core.QueryValidators;
 using Tweetinvi.Models;
-using Tweetinvi.Parameters;
 
 namespace Tweetinvi.Controllers.TwitterLists
 {
@@ -15,8 +13,8 @@ namespace Tweetinvi.Controllers.TwitterLists
                 throw new ArgumentNullException(nameof(twitterListIdentifier), $"{nameof(twitterListIdentifier)} cannot be null");
             }
 
-            var isIdValid = twitterListIdentifier.Id != TweetinviSettings.DEFAULT_ID;
-            var isSlugWithUsernameValid = twitterListIdentifier.Slug != null && (twitterListIdentifier.OwnerScreenName != null || twitterListIdentifier.OwnerId != TweetinviSettings.DEFAULT_ID);
+            var isIdValid = twitterListIdentifier.Id > 0;
+            var isSlugWithUsernameValid = twitterListIdentifier.Slug != null && (twitterListIdentifier.OwnerScreenName != null || twitterListIdentifier.OwnerId > 0);
 
             if (!isIdValid && !isSlugWithUsernameValid)
             {
@@ -31,7 +29,7 @@ namespace Tweetinvi.Controllers.TwitterLists
                 return false;
             }
 
-            if (twitterListIdentifier.Id != null && twitterListIdentifier.Id != TweetinviSettings.DEFAULT_ID)
+            if (twitterListIdentifier.Id != null && twitterListIdentifier.Id > 0)
             {
                 return true;
             }

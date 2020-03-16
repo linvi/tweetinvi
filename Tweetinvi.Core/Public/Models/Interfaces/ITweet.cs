@@ -254,16 +254,6 @@ namespace Tweetinvi.Models
         ITweet QuotedTweet { get; }
 
         /// <summary>
-        /// Inform us if this tweet has been published on Twitter
-        /// </summary>
-        bool IsTweetPublished { get; }
-
-        /// <summary>
-        /// Inform us if this tweet was destroyed
-        /// </summary>
-        bool IsTweetDestroyed { get; }
-
-        /// <summary>
         /// URL of the tweet on twitter.com
         /// </summary>
         string Url { get; }

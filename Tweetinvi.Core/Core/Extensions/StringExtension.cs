@@ -245,6 +245,11 @@ namespace Tweetinvi.Core.Extensions
                 return;
             }
 
+            if (parameter.StartsWith("?"))
+            {
+                parameter = parameter.Substring(1);
+            }
+
             var query = queryBuilder.ToString();
 
             if (query.Contains("?") && query[query.Length - 1] != '?' && query[query.Length - 1] != '&' && parameter[0] != '&')

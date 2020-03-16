@@ -128,7 +128,7 @@ namespace Tweetinvi.Client
             return twitterResult?.DataTransferObject;
         }
 
-        public Task UnsubscribeFromAccountActivity(string environment, long? userId)
+        public Task UnsubscribeFromAccountActivity(string environment, long userId)
         {
             return UnsubscribeFromAccountActivity(new UnsubscribeFromAccountActivityParameters(environment, userId));
         }

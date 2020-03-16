@@ -9,7 +9,7 @@ namespace Tweetinvi.Client
     public interface IMessageClient
     {
         /// <inheritdoc cref="PublishMessage(IPublishMessageParameters)" />
-        Task<IMessage> PublishMessage(string text, long? recipientId);
+        Task<IMessage> PublishMessage(string text, long recipientId);
 
         /// <summary>
         /// Publishes a private message

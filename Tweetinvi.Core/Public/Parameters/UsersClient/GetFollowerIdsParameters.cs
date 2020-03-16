@@ -17,24 +17,18 @@ namespace Tweetinvi.Parameters
     /// <inheritdoc />
     public class GetFollowerIdsParameters : CursorQueryParameters, IGetFollowerIdsParameters
     {
-        private GetFollowerIdsParameters()
+        public GetFollowerIdsParameters(string username) : this(new UserIdentifier(username))
+        {
+        }
+
+        public GetFollowerIdsParameters(long userId) : this(new UserIdentifier(userId))
+        {
+        }
+
+        public GetFollowerIdsParameters(IUserIdentifier user)
         {
             PageSize = TwitterLimits.DEFAULTS.USERS_GET_FOLLOWER_IDS_PAGE_MAX_SIZE;
-        }
-
-        public GetFollowerIdsParameters(IUserIdentifier userIdentifier) : this()
-        {
-            User = userIdentifier;
-        }
-
-        public GetFollowerIdsParameters(string username) : this()
-        {
-            User = new UserIdentifier(username);
-        }
-
-        public GetFollowerIdsParameters(long? userId) : this()
-        {
-            User = new UserIdentifier(userId);
+            User = user;
         }
 
         public GetFollowerIdsParameters(IGetFollowerIdsParameters parameters) : base(parameters)

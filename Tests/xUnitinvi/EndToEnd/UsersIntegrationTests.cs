@@ -40,7 +40,7 @@ namespace xUnitinvi.EndToEnd
             var friendIdsIterator = _tweetinviTestClient.Users.GetFriendIds("tweetinvitest");
             var friendIds = await friendIdsIterator.MoveToNextPage();
 
-            if (userToFollow.Id != null && friendIds.Contains(userToFollow.Id.Value))
+            if (friendIds.Contains(userToFollow.Id))
             {
                 await _tweetinviTestClient.Users.UnfollowUser(userToFollow);
             }

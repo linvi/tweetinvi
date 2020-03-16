@@ -62,7 +62,7 @@ namespace Tweetinvi.Core.Models
             return Client.Lists.GetMembersOfListIterator(new GetMembersOfListParameters(this));
         }
 
-        public Task AddMember(long? userId)
+        public Task AddMember(long userId)
         {
             return Client.Lists.AddMemberToList(this, userId);
         }
@@ -77,7 +77,7 @@ namespace Tweetinvi.Core.Models
             return Client.Lists.AddMemberToList(this, user);
         }
 
-        public Task AddMembers(IEnumerable<long?> userIds)
+        public Task AddMembers(IEnumerable<long> userIds)
         {
             return Client.Lists.AddMembersToList(this, userIds);
         }
@@ -111,7 +111,7 @@ namespace Tweetinvi.Core.Models
 
         public Task RemoveMembers(IEnumerable<long?> userIds)
         {
-            return Client.Lists.RemoveMembersFromList(this, userIds);
+            return Client.Lists.RemoveMembersFromList((ITwitterListIdentifier) this, (IEnumerable<long>) userIds);
         }
 
         public Task RemoveMembers(IEnumerable<string> usernames)
@@ -156,7 +156,7 @@ namespace Tweetinvi.Core.Models
             return Client.Lists.UnsubscribeFromList(this);
         }
 
-        public Task<bool> CheckUserSubscription(long? userId)
+        public Task<bool> CheckUserSubscription(long userId)
         {
             return Client.Lists.CheckIfUserIsSubscriberOfList(this, userId);
         }

@@ -17,26 +17,20 @@ namespace Tweetinvi.Parameters
     /// <inheritdoc />
     public class GetFriendIdsParameters : CursorQueryParameters, IGetFriendIdsParameters
     {
-        private GetFriendIdsParameters()
+        public GetFriendIdsParameters(IUserIdentifier userIdentifier)
         {
             PageSize = TwitterLimits.DEFAULTS.USERS_GET_FRIEND_IDS_PAGE_MAX_SIZE;
-        }
-
-        public GetFriendIdsParameters(IUserIdentifier userIdentifier) : this()
-        {
             User = userIdentifier;
         }
 
-        public GetFriendIdsParameters(string username) : this()
+        public GetFriendIdsParameters(string username) : this(new UserIdentifier(username))
         {
-            User = new UserIdentifier(username);
         }
 
-        public GetFriendIdsParameters(long? userId) : this()
+        public GetFriendIdsParameters(long userId) : this(new UserIdentifier(userId))
         {
-            User = new UserIdentifier(userId);
         }
-        
+
         public GetFriendIdsParameters(IGetFriendIdsParameters parameters) : base(parameters)
         {
             if (parameters == null)
@@ -44,7 +38,7 @@ namespace Tweetinvi.Parameters
                 PageSize = TwitterLimits.DEFAULTS.USERS_GET_FRIEND_IDS_PAGE_MAX_SIZE;
                 return;
             }
-            
+
             User = parameters.User;
         }
 

@@ -31,7 +31,7 @@ namespace Tweetinvi.Controllers.SavedSearch
 
         public string GetDestroySavedSearchQuery(long searchId)
         {
-            if (searchId == TweetinviSettings.DEFAULT_ID)
+            if (searchId <= 0)
             {
                 throw new ArgumentException("Search Id must be set.");
             }

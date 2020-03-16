@@ -25,7 +25,7 @@ namespace Tweetinvi.Client
             _messageRequester = messageRequester;
         }
 
-        public Task<IMessage> PublishMessage(string text, long? recipientId)
+        public Task<IMessage> PublishMessage(string text, long recipientId)
         {
             return PublishMessage(new PublishMessageParameters(text, recipientId));
         }

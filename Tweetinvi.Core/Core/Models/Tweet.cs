@@ -41,7 +41,7 @@ namespace Tweetinvi.Core.Models
 
         #region Twitter API Attributes
 
-        public long? Id
+        public long Id
         {
             get => _tweetDTO.Id;
             set => _tweetDTO.Id = value;
@@ -316,10 +316,6 @@ namespace Tweetinvi.Core.Models
 
         #region Tweetinvi API Attributes
 
-        public bool IsTweetPublished => _tweetDTO.IsTweetPublished;
-
-        public bool IsTweetDestroyed => _tweetDTO.IsTweetDestroyed;
-
         public string Url => $"https://twitter.com/{CreatedBy?.ScreenName}/status/{Id.ToString().ToLowerInvariant()}";
 
         public TweetMode TweetMode { get; }
@@ -341,44 +337,26 @@ namespace Tweetinvi.Core.Models
 
         public Task<ITweet> PublishRetweet()
         {
-            ThrowIfTweetCannotBeUsed();
             return Client.Tweets.PublishRetweet(this);
         }
 
         public Task<ITweet[]> GetRetweets()
         {
-            ThrowIfTweetCannotBeUsed();
             return Client.Tweets.GetRetweets(this);
         }
 
         public Task DestroyRetweet()
         {
-            ThrowIfTweetCannotBeUsed();
             return Client.Tweets.DestroyTweet(this);
-        }
-
-        private void ThrowIfTweetCannotBeUsed()
-        {
-            if (!IsTweetPublished)
-            {
-                throw new InvalidOperationException("Cannot execute the operation when the Tweet has not yet been published");
-            }
-
-            if (IsTweetDestroyed)
-            {
-                throw new InvalidOperationException("Cannot execute the operation if the Tweet has been deleted.");
-            }
         }
 
         public Task<IOEmbedTweet> GenerateOEmbedTweet()
         {
-            ThrowIfTweetCannotBeUsed();
             return Client.Tweets.GetOEmbedTweet(this);
         }
 
         public Task Destroy()
         {
-            ThrowIfTweetCannotBeUsed();
             return Client.Tweets.DestroyTweet(this);
         }
 
@@ -407,9 +385,7 @@ namespace Tweetinvi.Core.Models
             // Equals is currently used to compare only if 2 tweets are the same
             // We do not look for the tweet version (DateTime)
 
-            return _tweetDTO.Equals(other.TweetDTO) &&
-                   IsTweetPublished == other.IsTweetPublished &&
-                   IsTweetDestroyed == other.IsTweetDestroyed;
+            return _tweetDTO.Equals(other.TweetDTO);
         }
     }
 }

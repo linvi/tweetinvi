@@ -31,7 +31,7 @@ namespace Tweetinvi.Core.Helpers
                     substr.Append(textElements.GetTextElement());
                     substrElementCount++;
                 }
-                
+
                 ++i;
             }
 
@@ -56,6 +56,11 @@ namespace Tweetinvi.Core.Helpers
         /// </summary>
         public static int UTF32Length(this string str)
         {
+            if (str == null)
+            {
+                return 0;
+            }
+
             return new StringInfo(str).LengthInTextElements;
         }
     }

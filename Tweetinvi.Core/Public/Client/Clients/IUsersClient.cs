@@ -32,7 +32,7 @@ namespace Tweetinvi.Client
         #region Get User
 
         /// <inheritdoc cref="GetUser(IGetUserParameters)" />
-        Task<IUser> GetUser(long? userId);
+        Task<IUser> GetUser(long userId);
         /// <inheritdoc cref="GetUser(IGetUserParameters)" />
         Task<IUser> GetUser(string username);
         /// <inheritdoc cref="GetUser(IGetUserParameters)" />
@@ -93,7 +93,7 @@ namespace Tweetinvi.Client
         #region GetFollowerIds / Followers
 
         /// <inheritdoc cref="GetFollowerIds(IGetFollowerIdsParameters)" />
-        ITwitterIterator<long> GetFollowerIds(long? userId);
+        ITwitterIterator<long> GetFollowerIds(long userId);
         /// <inheritdoc cref="GetFollowerIds(IGetFollowerIdsParameters)" />
         ITwitterIterator<long> GetFollowerIds(string username);
         /// <inheritdoc cref="GetFollowerIds(IGetFollowerIdsParameters)" />
@@ -118,19 +118,19 @@ namespace Tweetinvi.Client
         #region Relationship between users
 
         /// <inheritdoc cref="GetRelationshipBetween(IGetRelationshipBetweenParameters)" />
-        Task<IRelationshipDetails> GetRelationshipBetween(long? sourceUserId, long? targetUserId);
+        Task<IRelationshipDetails> GetRelationshipBetween(long sourceUserId, long targetUserId);
         /// <inheritdoc cref="GetRelationshipBetween(IGetRelationshipBetweenParameters)" />
-        Task<IRelationshipDetails> GetRelationshipBetween(long? sourceUserId, string targetUsername);
+        Task<IRelationshipDetails> GetRelationshipBetween(long sourceUserId, string targetUsername);
         /// <inheritdoc cref="GetRelationshipBetween(IGetRelationshipBetweenParameters)" />
-        Task<IRelationshipDetails> GetRelationshipBetween(long? sourceUserId, IUserIdentifier targetUser);
+        Task<IRelationshipDetails> GetRelationshipBetween(long sourceUserId, IUserIdentifier targetUser);
         /// <inheritdoc cref="GetRelationshipBetween(IGetRelationshipBetweenParameters)" />
-        Task<IRelationshipDetails> GetRelationshipBetween(string sourceUsername, long? targetUserId);
+        Task<IRelationshipDetails> GetRelationshipBetween(string sourceUsername, long targetUserId);
         /// <inheritdoc cref="GetRelationshipBetween(IGetRelationshipBetweenParameters)" />
         Task<IRelationshipDetails> GetRelationshipBetween(string sourceUsername, string targetUsername);
         /// <inheritdoc cref="GetRelationshipBetween(IGetRelationshipBetweenParameters)" />
         Task<IRelationshipDetails> GetRelationshipBetween(string sourceUsername, IUserIdentifier targetUser);
         /// <inheritdoc cref="GetRelationshipBetween(IGetRelationshipBetweenParameters)" />
-        Task<IRelationshipDetails> GetRelationshipBetween(IUserIdentifier sourceUser, long? targetUserId);
+        Task<IRelationshipDetails> GetRelationshipBetween(IUserIdentifier sourceUser, long targetUserId);
         /// <inheritdoc cref="GetRelationshipBetween(IGetRelationshipBetweenParameters)" />
         Task<IRelationshipDetails> GetRelationshipBetween(IUserIdentifier sourceUser, string targetUsername);
         /// <inheritdoc cref="GetRelationshipBetween(IGetRelationshipBetweenParameters)" />
@@ -148,7 +148,7 @@ namespace Tweetinvi.Client
         #region Block / Unblock
 
         /// <inheritdoc cref="BlockUser(IBlockUserParameters)" />
-        Task BlockUser(long? userId);
+        Task BlockUser(long userId);
 
         /// <inheritdoc cref="BlockUser(IBlockUserParameters)" />
         Task BlockUser(string username);
@@ -163,7 +163,7 @@ namespace Tweetinvi.Client
         Task BlockUser(IBlockUserParameters parameters);
 
         /// <inheritdoc cref="UnblockUser(IUnblockUserParameters)" />
-        Task UnblockUser(long? userId);
+        Task UnblockUser(long userId);
 
         /// <inheritdoc cref="UnblockUser(IUnblockUserParameters)" />
         Task UnblockUser(string username);
@@ -178,7 +178,7 @@ namespace Tweetinvi.Client
         Task UnblockUser(IUnblockUserParameters parameters);
 
         /// <inheritdoc cref="ReportUserForSpam(IReportUserForSpamParameters)" />
-        Task ReportUserForSpam(long? userId);
+        Task ReportUserForSpam(long userId);
 
         /// <inheritdoc cref="ReportUserForSpam(IReportUserForSpamParameters)" />
         Task ReportUserForSpam(string username);
@@ -308,8 +308,6 @@ namespace Tweetinvi.Client
         /// <inheritdoc cref="GetRelationshipsWith(IGetRelationshipsWithParameters)" />
         Task<IUserDictionary<IRelationshipState>> GetRelationshipsWith(long[] userIds);
         /// <inheritdoc cref="GetRelationshipsWith(IGetRelationshipsWithParameters)" />
-        Task<IUserDictionary<IRelationshipState>> GetRelationshipsWith(long?[] userIds);
-        /// <inheritdoc cref="GetRelationshipsWith(IGetRelationshipsWithParameters)" />
         Task<IUserDictionary<IRelationshipState>> GetRelationshipsWith(string[] usernames);
         /// <inheritdoc cref="GetRelationshipsWith(IGetRelationshipsWithParameters)" />
         Task<IUserDictionary<IRelationshipState>> GetRelationshipsWith(IUserIdentifier[] users);
@@ -356,7 +354,7 @@ namespace Tweetinvi.Client
         ITwitterIterator<IUser> GetMutedUsers(IGetMutedUsersParameters parameters);
 
         /// <inheritdoc cref="MuteUser(IMuteUserParameters)" />
-        Task MuteUser(long? userId);
+        Task MuteUser(long userId);
         /// <inheritdoc cref="MuteUser(IMuteUserParameters)" />
         Task MuteUser(string username);
         /// <inheritdoc cref="MuteUser(IMuteUserParameters)" />
@@ -369,7 +367,7 @@ namespace Tweetinvi.Client
         Task MuteUser(IMuteUserParameters parameters);
 
         /// <inheritdoc cref="UnmuteUser(IUnmuteUserParameters)" />
-        Task UnmuteUser(long? userId);
+        Task UnmuteUser(long userId);
         /// <inheritdoc cref="UnmuteUser(IUnmuteUserParameters)" />
         Task UnmuteUser(string username);
         /// <inheritdoc cref="UnmuteUser(IUnmuteUserParameters)" />

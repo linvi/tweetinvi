@@ -15,14 +15,13 @@ namespace Tweetinvi.Parameters
 
     public class GetUserListSubscriptionsParameters : CursorQueryParameters, IGetUserListSubscriptionsParameters
     {
-        public GetUserListSubscriptionsParameters(long? userId) : this(new UserIdentifier(userId))
+        public GetUserListSubscriptionsParameters(long userId) : this(new UserIdentifier(userId))
         {
         }
 
         public GetUserListSubscriptionsParameters(string username) : this(new UserIdentifier(username))
         {
         }
-
         public GetUserListSubscriptionsParameters(IUserIdentifier user)
         {
             User = user;

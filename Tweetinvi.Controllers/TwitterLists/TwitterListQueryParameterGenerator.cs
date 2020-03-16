@@ -35,7 +35,7 @@ namespace Tweetinvi.Controllers.TwitterLists
             }
 
             string ownerIdentifier;
-            if (_userQueryValidator.IsUserIdValid(twitterListIdentifier.OwnerId))
+            if (twitterListIdentifier.OwnerId != null)
             {
                 ownerIdentifier = string.Format(Resources.List_OwnerIdParameter, twitterListIdentifier.OwnerId?.ToString(CultureInfo.InvariantCulture));
             }
@@ -51,10 +51,11 @@ namespace Tweetinvi.Controllers.TwitterLists
 
         public void AppendListIdentifierParameter(StringBuilder query, ITwitterListIdentifier listIdentifier)
         {
-            var owner = new UserIdentifier(listIdentifier.OwnerId)
+            var owner = new UserIdentifier(listIdentifier.OwnerScreenName);
+            if (listIdentifier.OwnerId != null)
             {
-                ScreenName = listIdentifier.OwnerScreenName
-            };
+                owner.Id = listIdentifier.OwnerId.Value;
+            }
 
             if (listIdentifier.Id != null)
             {

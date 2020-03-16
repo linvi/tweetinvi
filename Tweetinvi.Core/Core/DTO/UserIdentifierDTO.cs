@@ -6,20 +6,12 @@ namespace Tweetinvi.Core.DTO
 {
     public class UserIdentifierDTO : IUserIdentifier
     {
-        private long? _id;
+        private long _id;
 
         [JsonProperty("id")]
-        public long? Id
+        public long Id
         {
-            get
-            {
-                if (_id == null)
-                {
-                    _id = IdStr == null ? null : (long?)Int64.Parse(IdStr);
-                }
-
-                return _id;
-            }
+            get => _id;
             set
             {
                 _id = value;

@@ -20,7 +20,7 @@ namespace Tweetinvi.Parameters
         /// <inheritdoc />
         public IUserIdentifier User { get; set; }
 
-        public GetListsOwnedByAccountByUserParameters(long? userId) : this(new UserIdentifier(userId))
+        public GetListsOwnedByAccountByUserParameters(long userId) : this(new UserIdentifier(userId))
         {
         }
 

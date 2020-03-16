@@ -24,7 +24,7 @@ namespace Tweetinvi.Client
 
         public ITimelineClientParametersValidator ParametersValidator => _client.ParametersValidator;
 
-        public ITwitterIterator<ITweet, long?> GetUserTimelineIterator(long? userId)
+        public ITwitterIterator<ITweet, long?> GetUserTimelineIterator(long userId)
         {
             return GetUserTimelineIterator(new GetUserTimelineParameters(userId));
         }

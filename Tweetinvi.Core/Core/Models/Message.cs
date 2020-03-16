@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Tweetinvi.Core.Controllers;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO.Events;
 using Tweetinvi.Models.Entities;
@@ -13,7 +12,6 @@ namespace Tweetinvi.Core.Models
     /// </summary>
     public class Message : IMessage
     {
-        private readonly IMessageController _messageController;
         private IApp _app;
         private bool _mergedMediaIntoEntities;
 
@@ -79,16 +77,10 @@ namespace Tweetinvi.Core.Models
         }
 
         public string Text => MessageEventDTO.MessageCreate.MessageData?.Text;
-
-        public bool IsDestroyed => MessageEventDTO.MessageCreate.IsDestroyed;
-
         public long? InitiatedViaTweetId => MessageEventDTO.InitiatedVia?.TweetId;
-
         public long? InitiatedViaWelcomeMessageId => MessageEventDTO.InitiatedVia?.WelcomeMessageId;
-
         public IQuickReplyOption[] QuickReplyOptions => MessageEventDTO.MessageCreate.MessageData?.QuickReply?.Options;
         public IQuickReplyResponse QuickReplyResponse => MessageEventDTO.MessageCreate.MessageData?.QuickReplyResponse;
-
         public IMediaEntity AttachedMedia => MessageEventDTO.MessageCreate.MessageData?.Attachment?.Media;
 
         // Destroy

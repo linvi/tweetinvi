@@ -104,7 +104,7 @@ namespace Tweetinvi.Client
         Task<IWebhookSubscriptionListDTO> GetAccountActivitySubscriptions(IGetAccountActivitySubscriptionsParameters parameters);
 
         /// <inheritdoc cref="UnsubscribeFromAccountActivity(IUnsubscribeFromAccountActivityParameters)" />
-        Task UnsubscribeFromAccountActivity(string environment, long? userId);
+        Task UnsubscribeFromAccountActivity(string environment, long userId);
 
         /// <summary>
         /// Unsubscribe a user from account activity

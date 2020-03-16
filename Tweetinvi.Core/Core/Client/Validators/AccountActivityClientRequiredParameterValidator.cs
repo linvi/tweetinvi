@@ -143,9 +143,9 @@ namespace Tweetinvi.Core.Client.Validators
                 throw new ArgumentNullException($"{nameof(parameters)}.${nameof(parameters.Environment)}");
             }
 
-            if (parameters.UserId == null)
+            if (parameters.UserId <= 0)
             {
-                throw new ArgumentNullException($"{nameof(parameters)}.${nameof(parameters.UserId)}");
+                throw new ArgumentException($"{nameof(parameters)}.${nameof(parameters.UserId)}");
             }
         }
     }

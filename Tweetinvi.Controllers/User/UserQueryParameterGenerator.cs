@@ -1,34 +1,27 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using Tweetinvi.Core.Extensions;
 using Tweetinvi.Core.QueryGenerators;
-using Tweetinvi.Core.QueryValidators;
 using Tweetinvi.Models;
 
 namespace Tweetinvi.Controllers.User
 {
     public class UserQueryParameterGenerator : IUserQueryParameterGenerator
     {
-        private readonly IUserQueryValidator _userQueryValidator;
-
-        public UserQueryParameterGenerator(IUserQueryValidator userQueryValidator)
+        private string GenerateUserIdParameter(long userId, string parameterName = "user_id")
         {
-            _userQueryValidator = userQueryValidator;
-        }
-
-        public string GenerateUserIdParameter(long? userId, string parameterName = "user_id")
-        {
-            if (userId == null)
+            if (userId <= 0)
             {
                 return null;
             }
 
-            return $"{parameterName}={userId}";
+            return $"{parameterName}={userId.ToString(CultureInfo.InvariantCulture)}";
         }
 
-        public string GenerateUserIdParameter(string userId, string parameterName = "user_id")
+        private string GenerateUserIdParameter(string userId, string parameterName = "user_id")
         {
             if (userId == null)
             {
@@ -53,7 +46,7 @@ namespace Tweetinvi.Controllers.User
                 return null;
             }
 
-            if (_userQueryValidator.IsUserIdValid(user.Id))
+            if (user.Id > 0)
             {
                 return GenerateUserIdParameter(user.Id, idParameterName);
             }
@@ -66,16 +59,6 @@ namespace Tweetinvi.Controllers.User
             return GenerateScreenNameParameter(user.ScreenName, screenNameParameterName);
         }
 
-        public string GenerateUserNamesParameter(IUserIdentifier[] users)
-        {
-            return GenerateListOfScreenNameParameter(users.Select(x => x.ScreenName).ToArray());
-        }
-
-        public string GenerateUserIdsParameter(IUserIdentifier[] users)
-        {
-            return GenerateListOfUserIds(users.Select(x => x.Id).ToArray());
-        }
-
         public void AppendUser(StringBuilder query, IUserIdentifier user)
         {
             query.AddFormattedParameterToQuery(GenerateIdOrScreenNameParameter(user));
@@ -86,35 +69,9 @@ namespace Tweetinvi.Controllers.User
             query.AddFormattedParameterToQuery(GenerateListOfUserIdentifiersParameter(users));
         }
 
-
-        public string GenerateListOfScreenNameParameter(string[] screenNames)
+        private string GenerateCollectionParameter(string[] screenNames)
         {
-            if (screenNames == null || screenNames.Length == 0)
-            {
-                return null;
-            }
-
-            return string.Join("%2C", screenNames.Where(x => x != null));
-        }
-
-        public string GenerateListOfUserIds(IEnumerable<long?> ids)
-        {
-            return string.Join("%2C", ids.Where(x => x != null).Select(x => x.ToString()));
-        }
-
-        public string GenerateListOfIdsParameter(long?[] ids)
-        {
-            return GenerateListOfIdsParameter(ids.Where(x => x != null).Cast<long>().ToArray());
-        }
-
-        public string GenerateListOfIdsParameter(long[] ids)
-        {
-            if (ids == null || ids.Length == 0)
-            {
-                return null;
-            }
-
-            return string.Join("%2C", ids.Select(x => x.ToString()));
+            return string.Join(",", screenNames.Where(x => x != null));
         }
 
         public string GenerateListOfUserIdentifiersParameter(IEnumerable<IUserIdentifier> usersIdentifiers)
@@ -126,19 +83,23 @@ namespace Tweetinvi.Controllers.User
 
             var usersList = usersIdentifiers.ToArray();
 
-            if (usersList.Any(user => user.Id == TweetinviSettings.DEFAULT_ID && string.IsNullOrEmpty(user.ScreenName)))
+            if (usersList.Any(user => user.Id <= 0 && string.IsNullOrEmpty(user.IdStr) && string.IsNullOrEmpty(user.ScreenName)))
             {
                 throw new ArgumentException("At least 1 valid user identifier is required.");
             }
 
-            var userIds = new List<long?>();
+            var userIds = new List<string>();
             var usernames = new List<string>();
 
             usersList.ForEach(user =>
             {
-                if (user.Id != null && user.Id != TweetinviSettings.DEFAULT_ID)
+                if (user.Id > 0)
                 {
-                    userIds.Add(user.Id);
+                    userIds.Add(user.Id.ToString(CultureInfo.InvariantCulture));
+                }
+                else if (!string.IsNullOrEmpty(user.IdStr))
+                {
+                    userIds.Add(user.IdStr);
                 }
                 else if (user.ScreenName != null)
                 {
@@ -153,20 +114,8 @@ namespace Tweetinvi.Controllers.User
                 return null;
             }
 
-            if (userIds.Count > 0)
-            {
-                parameterBuilder.Append($"user_id={GenerateListOfIdsParameter(userIds.ToArray())}");
-
-                if (usernames.Count > 0)
-                {
-                    parameterBuilder.Append("&");
-                }
-            }
-
-            if (usernames.Count > 0)
-            {
-                parameterBuilder.Append($"screen_name={GenerateListOfScreenNameParameter(usernames.ToArray())}");
-            }
+            parameterBuilder.AddParameterToQuery("user_id", GenerateCollectionParameter(userIds.ToArray()));
+            parameterBuilder.AddParameterToQuery("screen_name", GenerateCollectionParameter(usernames.ToArray()));
 
             return parameterBuilder.ToString();
         }

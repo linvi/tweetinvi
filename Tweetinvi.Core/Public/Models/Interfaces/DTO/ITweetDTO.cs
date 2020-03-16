@@ -6,10 +6,6 @@ namespace Tweetinvi.Models.DTO
 {
     public interface  ITweetDTO : ITweetIdentifier
     {
-        bool IsTweetPublished { get; set; }
-
-        bool IsTweetDestroyed { get; set; }
-
         string Text { get; set; }
 
         string FullText { get; set; }

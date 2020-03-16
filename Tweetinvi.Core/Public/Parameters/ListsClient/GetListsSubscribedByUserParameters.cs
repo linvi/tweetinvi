@@ -18,7 +18,7 @@ namespace Tweetinvi.Parameters
     /// <inheritdoc />
     public class GetListsSubscribedByUserParameters : GetListsSubscribedByAccountParameters, IGetListsSubscribedByUserParameters
     {
-        public GetListsSubscribedByUserParameters(long? userId) : this(new UserIdentifier(userId))
+        public GetListsSubscribedByUserParameters(long userId) : this(new UserIdentifier(userId))
         {
         }
 

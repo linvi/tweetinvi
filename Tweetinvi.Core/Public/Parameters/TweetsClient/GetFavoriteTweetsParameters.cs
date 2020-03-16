@@ -25,7 +25,7 @@ namespace Tweetinvi.Parameters
         {
         }
 
-        public GetFavoriteTweetsParameters(long? userId) : this(new UserIdentifier(userId))
+        public GetFavoriteTweetsParameters(long userId) : this(new UserIdentifier(userId))
         {
         }
 

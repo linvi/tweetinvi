@@ -7,6 +7,6 @@ namespace Tweetinvi.Models
     {
         Task<bool> IsRequestManagedByTweetinvi(IWebhooksRequest request);
         Task<bool> TryRouteRequest(IWebhooksRequest request);
-        IAccountActivityStream GetAccountActivityStream(long? userId, string environment);
+        IAccountActivityStream GetAccountActivityStream(long userId, string environment);
     }
 }

@@ -109,7 +109,6 @@ namespace Tweetinvi.Controllers
 
         private void InitializeQueryValidators(ITweetinviContainer container)
         {
-            container.RegisterType<IMessageQueryValidator, MessageQueryValidator>(RegistrationLifetime.InstancePerApplication);
             container.RegisterType<ITweetQueryValidator, TweetQueryValidator>(RegistrationLifetime.InstancePerApplication);
             container.RegisterType<IUserQueryValidator, UserQueryValidator>(RegistrationLifetime.InstancePerApplication);
             container.RegisterType<ISearchQueryValidator, SearchQueryValidator>(RegistrationLifetime.InstancePerApplication);

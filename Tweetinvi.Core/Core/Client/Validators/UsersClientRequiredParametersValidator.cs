@@ -228,7 +228,7 @@ namespace Tweetinvi.Core.Client.Validators
                 throw new ArgumentNullException($"{nameof(parameters)}.{nameof(parameters.Users)}");
             }
 
-            if (parameters.Users.All(user => (user.Id == null || user.Id == TweetinviSettings.DEFAULT_ID) && string.IsNullOrEmpty(user.ScreenName)))
+            if (parameters.Users.All(user => user.Id <= 0 && string.IsNullOrEmpty(user.IdStr) && string.IsNullOrEmpty(user.ScreenName)))
             {
                 throw new ArgumentException("At least 1 valid user identifier is required.", $"{nameof(parameters)}.{nameof(parameters.Users)}");
             }

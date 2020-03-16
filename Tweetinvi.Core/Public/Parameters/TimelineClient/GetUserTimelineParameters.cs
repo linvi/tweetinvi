@@ -33,14 +33,14 @@ namespace Tweetinvi.Parameters
         {
         }
 
-        public GetUserTimelineParameters(long? userId) : this(new UserIdentifier(userId))
+        public GetUserTimelineParameters(long userId) : this(new UserIdentifier(userId))
         {
         }
 
-        public GetUserTimelineParameters(IUserIdentifier userIdentifier)
+        public GetUserTimelineParameters(IUserIdentifier user)
         {
             PageSize = TwitterLimits.DEFAULTS.TIMELINE_USER_PAGE_MAX_PAGE_SIZE;
-            User = userIdentifier;
+            User = user;
         }
 
         public GetUserTimelineParameters(IGetUserTimelineParameters source): base(source)

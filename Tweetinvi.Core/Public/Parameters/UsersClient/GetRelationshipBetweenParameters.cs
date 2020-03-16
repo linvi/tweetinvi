@@ -22,25 +22,25 @@ namespace Tweetinvi.Parameters
     /// <inheritdoc />
     public class GetRelationshipBetweenParameters : CustomRequestParameters, IGetRelationshipBetweenParameters
     {
-        public GetRelationshipBetweenParameters(long? sourceUser, long? targetUser)
+        public GetRelationshipBetweenParameters(long sourceUserId, long targetUser)
         {
-            SourceUser = new UserIdentifier(sourceUser);
+            SourceUser = new UserIdentifier(sourceUserId);
             TargetUser = new UserIdentifier(targetUser);
         }
 
-        public GetRelationshipBetweenParameters(long? sourceUser, string targetUser)
+        public GetRelationshipBetweenParameters(long sourceUserId, string targetUser)
         {
-            SourceUser = new UserIdentifier(sourceUser);
+            SourceUser = new UserIdentifier(sourceUserId);
             TargetUser = new UserIdentifier(targetUser);
         }
 
-        public GetRelationshipBetweenParameters(long? sourceUser, IUserIdentifier targetUser)
+        public GetRelationshipBetweenParameters(long sourceUserId, IUserIdentifier targetUser)
         {
-            SourceUser = new UserIdentifier(sourceUser);
+            SourceUser = new UserIdentifier(sourceUserId);
             TargetUser = targetUser;
         }
 
-        public GetRelationshipBetweenParameters(string sourceUser, long? targetUser)
+        public GetRelationshipBetweenParameters(string sourceUser, long targetUser)
         {
             SourceUser = new UserIdentifier(sourceUser);
             TargetUser = new UserIdentifier(targetUser);
@@ -58,7 +58,7 @@ namespace Tweetinvi.Parameters
             TargetUser = targetUser;
         }
 
-        public GetRelationshipBetweenParameters(IUserIdentifier sourceUser, long? targetUser)
+        public GetRelationshipBetweenParameters(IUserIdentifier sourceUser, long targetUser)
         {
             SourceUser = sourceUser;
             TargetUser = new UserIdentifier(targetUser);

@@ -46,7 +46,7 @@ namespace Tweetinvi.Client
 
         #region GetUser
 
-        public Task<IUser> GetUser(long? userId)
+        public Task<IUser> GetUser(long userId)
         {
             return GetUser(new UserIdentifier(userId));
         }
@@ -103,22 +103,22 @@ namespace Tweetinvi.Client
 
         #region Relationship Between Users
 
-        public Task<IRelationshipDetails> GetRelationshipBetween(long? sourceUserId, long? targetUserId)
+        public Task<IRelationshipDetails> GetRelationshipBetween(long sourceUserId, long targetUserId)
         {
             return GetRelationshipBetween(new GetRelationshipBetweenParameters(sourceUserId, targetUserId));
         }
 
-        public Task<IRelationshipDetails> GetRelationshipBetween(long? sourceUserId, string targetUsername)
+        public Task<IRelationshipDetails> GetRelationshipBetween(long sourceUserId, string targetUsername)
         {
             return GetRelationshipBetween(new GetRelationshipBetweenParameters(sourceUserId, targetUsername));
         }
 
-        public Task<IRelationshipDetails> GetRelationshipBetween(long? sourceUserId, IUserIdentifier targetUser)
+        public Task<IRelationshipDetails> GetRelationshipBetween(long sourceUserId, IUserIdentifier targetUser)
         {
             return GetRelationshipBetween(new GetRelationshipBetweenParameters(sourceUserId, targetUser));
         }
 
-        public Task<IRelationshipDetails> GetRelationshipBetween(string sourceUsername, long? targetUserId)
+        public Task<IRelationshipDetails> GetRelationshipBetween(string sourceUsername, long targetUserId)
         {
             return GetRelationshipBetween(new GetRelationshipBetweenParameters(sourceUsername, targetUserId));
         }
@@ -133,7 +133,7 @@ namespace Tweetinvi.Client
             return GetRelationshipBetween(new GetRelationshipBetweenParameters(sourceUsername, targetUser));
         }
 
-        public Task<IRelationshipDetails> GetRelationshipBetween(IUserIdentifier sourceUser, long? targetUserId)
+        public Task<IRelationshipDetails> GetRelationshipBetween(IUserIdentifier sourceUser, long targetUserId)
         {
             return GetRelationshipBetween(new GetRelationshipBetweenParameters(sourceUser, targetUserId));
         }
@@ -206,7 +206,7 @@ namespace Tweetinvi.Client
             return GetFollowerIds(parameters);
         }
 
-        public ITwitterIterator<long> GetFollowerIds(long? userId)
+        public ITwitterIterator<long> GetFollowerIds(long userId)
         {
             var parameters = new GetFollowerIdsParameters(userId);
             return GetFollowerIds(parameters);
@@ -242,7 +242,7 @@ namespace Tweetinvi.Client
 
         #region Block / Unblock
 
-        public Task BlockUser(long? userId)
+        public Task BlockUser(long userId)
         {
             return BlockUser(new BlockUserParameters(userId));
         }
@@ -262,7 +262,7 @@ namespace Tweetinvi.Client
             await _usersRequester.BlockUser(parameters).ConfigureAwait(false);
         }
 
-        public Task UnblockUser(long? userId)
+        public Task UnblockUser(long userId)
         {
             return UnblockUser(new UnblockUserParameters(userId));
         }
@@ -282,7 +282,7 @@ namespace Tweetinvi.Client
             await _usersRequester.UnblockUser(parameters).ConfigureAwait(false);
         }
 
-        public Task ReportUserForSpam(long? userId)
+        public Task ReportUserForSpam(long userId)
         {
             return ReportUserForSpam(new ReportUserForSpamParameters(userId));
         }
@@ -452,11 +452,6 @@ namespace Tweetinvi.Client
             return GetRelationshipsWith(new GetRelationshipsWithParameters(userIds));
         }
 
-        public Task<IUserDictionary<IRelationshipState>> GetRelationshipsWith(long?[] userIds)
-        {
-            return GetRelationshipsWith(new GetRelationshipsWithParameters(userIds));
-        }
-
         public Task<IUserDictionary<IRelationshipState>> GetRelationshipsWith(string[] usernames)
         {
             return GetRelationshipsWith(new GetRelationshipsWithParameters(usernames));
@@ -532,7 +527,7 @@ namespace Tweetinvi.Client
             });
         }
 
-        public Task MuteUser(long? userId)
+        public Task MuteUser(long userId)
         {
             return MuteUser(new MuteUserParameters(userId));
         }
@@ -552,7 +547,7 @@ namespace Tweetinvi.Client
             await _usersRequester.MuteUser(parameters).ConfigureAwait(false);
         }
 
-        public Task UnmuteUser(long? userId)
+        public Task UnmuteUser(long userId)
         {
             return UnmuteUser(new UnmuteUserParameters(userId));
         }

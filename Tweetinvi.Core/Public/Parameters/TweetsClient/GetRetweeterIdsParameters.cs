@@ -21,7 +21,7 @@ namespace Tweetinvi.Parameters
             PageSize = TwitterLimits.DEFAULTS.TWEETS_GET_RETWEETER_IDS_MAX_PAGE_SIZE;
         }
 
-        public GetRetweeterIdsParameters(long? tweetId) : this()
+        public GetRetweeterIdsParameters(long tweetId) : this()
         {
             Tweet = new TweetIdentifier(tweetId);
         }

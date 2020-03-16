@@ -18,17 +18,17 @@ namespace Tweetinvi.Parameters
     /// <inheritdoc />
     public class GetUserParameters : GetUsersOptionalParameters, IGetUserParameters
     {
-        public GetUserParameters(long? userId) : this(new UserIdentifier(userId))
+        public GetUserParameters(long userId) : this(new UserIdentifier(userId))
         {
         }
 
         public GetUserParameters(string username) : this(new UserIdentifier(username))
         {
         }
-        
-        public GetUserParameters(IUserIdentifier userIdentifier)
+
+        public GetUserParameters(IUserIdentifier user)
         {
-            User = userIdentifier;
+            User = user;
         }
 
         public GetUserParameters(IGetUserParameters source) : base(source)

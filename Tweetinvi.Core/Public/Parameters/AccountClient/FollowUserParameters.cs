@@ -26,13 +26,13 @@ namespace Tweetinvi.Parameters
         {
         }
 
-        public FollowUserParameters(long? userId) : this(new UserIdentifier(userId))
+        public FollowUserParameters(long userId) : this(new UserIdentifier(userId))
         {
         }
 
-        public FollowUserParameters(IUserIdentifier userIdentifier)
+        public FollowUserParameters(IUserIdentifier user)
         {
-            User = userIdentifier;
+            User = user;
         }
 
         public FollowUserParameters(IFollowUserParameters parameters) : base(parameters)

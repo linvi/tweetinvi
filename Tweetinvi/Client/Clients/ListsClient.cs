@@ -76,7 +76,7 @@ namespace Tweetinvi.Client
             return GetListsSubscribedByUser(new GetListsSubscribedByUserParameters(parameters));
         }
 
-        public Task<ITwitterList[]> GetListsSubscribedByUser(long? userId)
+        public Task<ITwitterList[]> GetListsSubscribedByUser(long userId)
         {
             return GetListsSubscribedByUser(new GetListsSubscribedByUserParameters(userId));
         }
@@ -133,7 +133,7 @@ namespace Tweetinvi.Client
             return GetListsOwnedByUserIterator(new GetListsOwnedByAccountByUserParameters(parameters));
         }
 
-        public ITwitterIterator<ITwitterList> GetListsOwnedByUserIterator(long? userId)
+        public ITwitterIterator<ITwitterList> GetListsOwnedByUserIterator(long userId)
         {
             return GetListsOwnedByUserIterator(new GetListsOwnedByAccountByUserParameters(userId));
         }
@@ -158,12 +158,12 @@ namespace Tweetinvi.Client
             });
         }
 
-        public Task AddMemberToList(long? listId, long? userId)
+        public Task AddMemberToList(long? listId, long userId)
         {
             return AddMemberToList(new TwitterListIdentifier(listId), userId);
         }
 
-        public Task AddMemberToList(ITwitterListIdentifier list, long? userId)
+        public Task AddMemberToList(ITwitterListIdentifier list, long userId)
         {
             return AddMemberToList(new AddMemberToListParameters(list, userId));
         }
@@ -183,22 +183,22 @@ namespace Tweetinvi.Client
             await _twitterListsRequester.AddMemberToList(parameters).ConfigureAwait(false);
         }
 
-        public Task AddMembersToList(long? listId, IEnumerable<long?> userIds)
+        public Task AddMembersToList(long listId, IEnumerable<long> userIds)
         {
             return AddMembersToList(new AddMembersToListParameters(listId, userIds));
         }
 
-        public Task AddMembersToList(long? listId, IEnumerable<string> usernames)
+        public Task AddMembersToList(long listId, IEnumerable<string> usernames)
         {
             return AddMembersToList(new AddMembersToListParameters(listId, usernames));
         }
 
-        public Task AddMembersToList(long? listId, IEnumerable<IUserIdentifier> users)
+        public Task AddMembersToList(long listId, IEnumerable<IUserIdentifier> users)
         {
             return AddMembersToList(new AddMembersToListParameters(listId, users));
         }
 
-        public Task AddMembersToList(ITwitterListIdentifier list, IEnumerable<long?> userIds)
+        public Task AddMembersToList(ITwitterListIdentifier list, IEnumerable<long> userIds)
         {
             return AddMembersToList(new AddMembersToListParameters(list, userIds));
         }
@@ -228,7 +228,7 @@ namespace Tweetinvi.Client
             return GetUserListMembershipsIterator(new GetUserListMembershipsParameters(parameters));
         }
 
-        public ITwitterIterator<ITwitterList> GetUserListMembershipsIterator(long? userId)
+        public ITwitterIterator<ITwitterList> GetUserListMembershipsIterator(long userId)
         {
             return GetUserListMembershipsIterator(new GetUserListMembershipsParameters(userId));
         }
@@ -272,7 +272,7 @@ namespace Tweetinvi.Client
             });
         }
 
-        public Task<bool> CheckIfUserIsMemberOfList(long? listId, long? userId)
+        public Task<bool> CheckIfUserIsMemberOfList(long? listId, long userId)
         {
             return CheckIfUserIsMemberOfList(new CheckIfUserIsMemberOfListParameters(listId, userId));
         }
@@ -287,7 +287,7 @@ namespace Tweetinvi.Client
             return CheckIfUserIsMemberOfList(new CheckIfUserIsMemberOfListParameters(listId, user));
         }
 
-        public Task<bool> CheckIfUserIsMemberOfList(ITwitterListIdentifier list, long? userId)
+        public Task<bool> CheckIfUserIsMemberOfList(ITwitterListIdentifier list, long userId)
         {
             return CheckIfUserIsMemberOfList(new CheckIfUserIsMemberOfListParameters(list, userId));
         }
@@ -322,7 +322,7 @@ namespace Tweetinvi.Client
             }
         }
 
-        public Task RemoveMemberFromList(long? listId, long? userId)
+        public Task RemoveMemberFromList(long? listId, long userId)
         {
             return RemoveMemberFromList(new RemoveMemberFromListParameters(listId, userId));
         }
@@ -337,7 +337,7 @@ namespace Tweetinvi.Client
             return RemoveMemberFromList(new RemoveMemberFromListParameters(listId, user));
         }
 
-        public Task RemoveMemberFromList(ITwitterListIdentifier list, long? userId)
+        public Task RemoveMemberFromList(ITwitterListIdentifier list, long userId)
         {
             return RemoveMemberFromList(new RemoveMemberFromListParameters(list, userId));
         }
@@ -357,22 +357,22 @@ namespace Tweetinvi.Client
             return _twitterListsRequester.RemoveMemberFromList(parameters);
         }
 
-        public Task RemoveMembersFromList(long? listId, IEnumerable<long?> userIds)
+        public Task RemoveMembersFromList(long listId, IEnumerable<long> userIds)
         {
             return RemoveMembersFromList(new RemoveMembersFromListParameters(listId, userIds));
         }
 
-        public Task RemoveMembersFromList(long? listId, IEnumerable<string> usernames)
+        public Task RemoveMembersFromList(long listId, IEnumerable<string> usernames)
         {
             return RemoveMembersFromList(new RemoveMembersFromListParameters(listId, usernames));
         }
 
-        public Task RemoveMembersFromList(long? listId, IEnumerable<IUserIdentifier> users)
+        public Task RemoveMembersFromList(long listId, IEnumerable<IUserIdentifier> users)
         {
             return RemoveMembersFromList(new RemoveMembersFromListParameters(listId, users));
         }
 
-        public Task RemoveMembersFromList(ITwitterListIdentifier list, IEnumerable<long?> userIds)
+        public Task RemoveMembersFromList(ITwitterListIdentifier list, IEnumerable<long> userIds)
         {
             return RemoveMembersFromList(new RemoveMembersFromListParameters(list, userIds));
         }
@@ -452,7 +452,7 @@ namespace Tweetinvi.Client
             return GetUserListSubscriptionsIterator(new GetUserListSubscriptionsParameters(parameters));
         }
 
-        public ITwitterIterator<ITwitterList> GetUserListSubscriptionsIterator(long? userId)
+        public ITwitterIterator<ITwitterList> GetUserListSubscriptionsIterator(long userId)
         {
             return GetUserListSubscriptionsIterator(new GetUserListSubscriptionsParameters(userId));
         }
@@ -477,7 +477,7 @@ namespace Tweetinvi.Client
             });
         }
 
-        Task<bool> IListsClient.CheckIfUserIsSubscriberOfList(long? listId, long? userId)
+        Task<bool> IListsClient.CheckIfUserIsSubscriberOfList(long? listId, long userId)
         {
             return CheckIfUserIsSubscriberOfList(new CheckIfUserIsSubscriberOfListParameters(listId, userId));
         }
@@ -492,7 +492,7 @@ namespace Tweetinvi.Client
             return CheckIfUserIsSubscriberOfList(new CheckIfUserIsSubscriberOfListParameters(listId, user));
         }
 
-        public Task<bool> CheckIfUserIsSubscriberOfList(ITwitterListIdentifier list, long? userId)
+        public Task<bool> CheckIfUserIsSubscriberOfList(ITwitterListIdentifier list, long userId)
         {
             return CheckIfUserIsSubscriberOfList(new CheckIfUserIsSubscriberOfListParameters(list, userId));
         }

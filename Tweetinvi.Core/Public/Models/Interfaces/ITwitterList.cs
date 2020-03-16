@@ -81,7 +81,7 @@ namespace Tweetinvi.Models
         /// <summary>
         /// Add a member to this list. You must be the owner of the list to do so.
         /// </summary>
-        Task AddMember(long? userId);
+        Task AddMember(long userId);
 
         /// <summary>
         /// Add a member to this list. You must be the owner of the list to do so.
@@ -96,7 +96,7 @@ namespace Tweetinvi.Models
         /// <summary>
         /// Add a list of members to this list. You must be the owner of the list to do so.
         /// </summary>
-        Task AddMembers(IEnumerable<long?> userIds);
+        Task AddMembers(IEnumerable<long> userIds);
 
         /// <summary>
         /// Add a list of members to this list. You must be the owner of the list to do so.
@@ -171,7 +171,7 @@ namespace Tweetinvi.Models
         /// <summary>
         /// Check whether a user has subscribed to the list.
         /// </summary>
-        Task<bool> CheckUserSubscription(long? userId);
+        Task<bool> CheckUserSubscription(long userId);
 
         /// <summary>
         /// Check whether a user has subscribed to the list.

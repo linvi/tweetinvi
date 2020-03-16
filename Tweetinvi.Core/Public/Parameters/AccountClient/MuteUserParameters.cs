@@ -12,18 +12,18 @@ namespace Tweetinvi.Parameters
         /// </summary>
         IUserIdentifier User { get; set; }
     }
-    
+
     /// <inheritdoc/>
     public class MuteUserParameters : CustomRequestParameters, IMuteUserParameters
     {
-        public MuteUserParameters(long? userId) : this(new UserIdentifier(userId))
+        public MuteUserParameters(long userId) : this(new UserIdentifier(userId))
         {
         }
-        
+
         public MuteUserParameters(string username) : this(new UserIdentifier(username))
         {
         }
-        
+
         public MuteUserParameters(IUserIdentifier user)
         {
             User = user;
@@ -33,7 +33,7 @@ namespace Tweetinvi.Parameters
         {
             User = source?.User;
         }
-        
+
         /// <inheritdoc/>
         public IUserIdentifier User { get; set; }
     }

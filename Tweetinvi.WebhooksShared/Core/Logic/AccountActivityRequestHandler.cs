@@ -41,22 +41,17 @@ namespace Tweetinvi.Core.Logic
         }
 
         private readonly Dictionary<long, IAccountActivityStream> _accountActivityStreams = new Dictionary<long, IAccountActivityStream>();
-        public IAccountActivityStream GetAccountActivityStream(long? userId, string environment)
+        public IAccountActivityStream GetAccountActivityStream(long userId, string environment)
         {
-            if (userId == null)
+            if (_accountActivityStreams.ContainsKey(userId))
             {
-                throw new ArgumentNullException(nameof(userId));
-            }
-
-            if (_accountActivityStreams.ContainsKey(userId.Value))
-            {
-                return _accountActivityStreams[userId.Value];
+                return _accountActivityStreams[userId];
             }
 
             var stream = _accountActivityStreamFactory.Create();
-            stream.AccountUserId = userId.Value;
+            stream.AccountUserId = userId;
 
-            _accountActivityStreams.Add(userId.Value, stream);
+            _accountActivityStreams.Add(userId, stream);
             _dispatcher.SubscribeAccountActivityStream(stream);
 
             return stream;

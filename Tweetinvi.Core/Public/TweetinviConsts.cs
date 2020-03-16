@@ -52,12 +52,6 @@
         public static int UPDATE_ACCOUNT_MAX_LOCATION_SIZE = 30;
         public static int UPDATE_ACCOUNT_MAX_DESCRIPTION_SIZE = 160;
 
-        // https://developer.twitter.com/en/docs/direct-messages/quick-replies/api-reference/options
-        public const int MESSAGE_QUICK_REPLY_MAX_OPTIONS = 20;
-        public const int MESSAGE_QUICK_REPLY_LABEL_MAX_LENGTH = 36;
-        public const int MESSAGE_QUICK_REPLY_DESCRIPTION_MAX_LENGTH = 72;
-        public const int MESSAGE_QUICK_REPLY_METADATA_MAX_LENGTH = 1000;
-
         // https://developer.twitter.com/en/docs/accounts-and-users/follow-search-get-users/api-reference/get-users-lookup
         public const int USERS_LOOKUP_MAX_PER_REQ = 100;
 

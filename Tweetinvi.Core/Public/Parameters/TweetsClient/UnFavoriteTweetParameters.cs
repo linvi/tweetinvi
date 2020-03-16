@@ -22,7 +22,7 @@ namespace Tweetinvi.Parameters
     /// <inheritdoc cref="IUnfavoriteTweetParameters" />
     public class UnfavoriteTweetParameters : CustomRequestParameters, IUnfavoriteTweetParameters
     {
-        public UnfavoriteTweetParameters(long? tweetId) : this(new TweetIdentifier(tweetId))
+        public UnfavoriteTweetParameters(long tweetId) : this(new TweetIdentifier(tweetId))
         {
         }
 

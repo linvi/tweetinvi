@@ -62,7 +62,7 @@ namespace Tweetinvi.Controllers.Shared
 
         public string GenerateSinceIdParameter(long? sinceId)
         {
-            if (sinceId == null || sinceId == TweetinviSettings.DEFAULT_ID)
+            if (sinceId == null || sinceId <= 0)
             {
                 return string.Empty;
             }
@@ -72,7 +72,7 @@ namespace Tweetinvi.Controllers.Shared
 
         public string GenerateMaxIdParameter(long? maxId)
         {
-            if (maxId == null || maxId == TweetinviSettings.DEFAULT_ID)
+            if (maxId == null || maxId <= 0)
             {
                 return string.Empty;
             }

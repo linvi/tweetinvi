@@ -8,11 +8,6 @@ namespace Tweetinvi.Core.DTO
 {
     public class TwitterListDTO : ITwitterListDTO
     {
-        public TwitterListDTO()
-        {
-            Id = TweetinviSettings.DEFAULT_ID;
-        }
-
         [JsonProperty("id")]
         [JsonConverter(typeof(JsonPropertyConverterRepository))]
         public long? Id { get; set; }
@@ -24,16 +19,10 @@ namespace Tweetinvi.Core.DTO
         public string Slug { get; set; }
 
         [JsonIgnore]
-        public long? OwnerId
-        {
-            get { return Owner?.Id; }
-        }
+        public long? OwnerId => Owner?.Id;
 
         [JsonIgnore]
-        public string OwnerScreenName
-        {
-            get { return Owner?.ScreenName; }
-        }
+        public string OwnerScreenName => Owner?.ScreenName;
 
         [JsonProperty("name")]
         public string Name { get; set; }

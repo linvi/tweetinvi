@@ -138,7 +138,7 @@ namespace Tweetinvi.Models
         /// <summary>
         /// Block a specific user.
         /// </summary>
-        Task BlockUser(long? userId);
+        Task BlockUser(long userId);
 
         /// <summary>
         /// Block a specific user.
@@ -182,7 +182,7 @@ namespace Tweetinvi.Models
         /// <summary>
         /// Report a specific user for being a spammer.
         /// </summary>
-        Task ReportUserForSpam(long? userId);
+        Task ReportUserForSpam(long userId);
 
         /// <summary>
         /// Report a specific user for being a spammer.
@@ -209,7 +209,7 @@ namespace Tweetinvi.Models
         /// <summary>
         /// Mute a specific user.
         /// </summary>
-        Task MuteUser(long? userId);
+        Task MuteUser(long userId);
 
         /// <summary>
         /// Mute a specific user.

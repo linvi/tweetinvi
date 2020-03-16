@@ -95,8 +95,6 @@ namespace Tweetinvi
 
     public class TweetinviSettings : ITweetinviSettings
     {
-        public const long DEFAULT_ID = -1;
-
         public IProxyConfig ProxyConfig { get; set; }
         public int HttpRequestTimeout { get; set; }
         public RateLimitTrackerMode RateLimitTrackerMode { get; set; }

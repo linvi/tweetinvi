@@ -6,9 +6,6 @@ namespace Tweetinvi.Core.DTO
 {
     public class MessageCreateDTO : IMessageCreateDTO
     {
-        // Tweetinvi fields
-        public bool IsDestroyed { get; set; }
-
         // Twitter fields
         [JsonProperty("target")]
         [JsonConverter(typeof(JsonPropertyConverterRepository))]

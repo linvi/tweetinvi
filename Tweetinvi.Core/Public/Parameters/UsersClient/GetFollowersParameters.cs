@@ -18,7 +18,7 @@ namespace Tweetinvi.Parameters
     /// <inheritdoc />
     public class GetFollowersParameters : GetFollowerIdsParameters, IGetFollowersParameters
     {
-        public GetFollowersParameters(IUserIdentifier userIdentifier) : base(userIdentifier)
+        public GetFollowersParameters(IUserIdentifier user) : base(user)
         {
             GetUsersPageSize = TweetinviConsts.GET_USERS_MAX_PAGE_SIZE;
         }
@@ -28,7 +28,7 @@ namespace Tweetinvi.Parameters
             GetUsersPageSize = TweetinviConsts.GET_USERS_MAX_PAGE_SIZE;
         }
 
-        public GetFollowersParameters(long? userId) : base(userId)
+        public GetFollowersParameters(long userId) : base(userId)
         {
             GetUsersPageSize = TweetinviConsts.GET_USERS_MAX_PAGE_SIZE;
         }
@@ -41,7 +41,7 @@ namespace Tweetinvi.Parameters
             {
                 return;
             }
-            
+
             SkipStatus = parameters.SkipStatus;
             IncludeEntities = parameters.IncludeEntities;
             GetUsersPageSize = parameters.GetUsersPageSize;

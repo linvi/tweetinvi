@@ -16,7 +16,7 @@ namespace Tweetinvi.Parameters
     /// <inheritdoc/>
     public class UnmuteUserParameters : CustomRequestParameters, IUnmuteUserParameters
     {
-        public UnmuteUserParameters(long? userId) : this(new UserIdentifier(userId))
+        public UnmuteUserParameters(long userId) : this(new UserIdentifier(userId))
         {
         }
 

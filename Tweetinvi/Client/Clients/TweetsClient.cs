@@ -28,7 +28,7 @@ namespace Tweetinvi.Client
 
         // Tweets
 
-        public Task<ITweet> GetTweet(long? tweetId)
+        public Task<ITweet> GetTweet(long tweetId)
         {
             return GetTweet(new GetTweetParameters(tweetId));
         }
@@ -40,11 +40,6 @@ namespace Tweetinvi.Client
         }
 
         public Task<ITweet[]> GetTweets(long[] tweetIds)
-        {
-            return GetTweets(new GetTweetsParameters(tweetIds));
-        }
-
-        public Task<ITweet[]> GetTweets(long?[] tweetIds)
         {
             return GetTweets(new GetTweetsParameters(tweetIds));
         }
@@ -75,7 +70,7 @@ namespace Tweetinvi.Client
 
         // Tweets - Destroy
 
-        public Task DestroyTweet(long? tweetId)
+        public Task DestroyTweet(long tweetId)
         {
             return DestroyTweet(new DestroyTweetParameters(tweetId));
         }
@@ -93,7 +88,6 @@ namespace Tweetinvi.Client
         public async Task DestroyTweet(ITweetDTO tweet)
         {
             await DestroyTweet(new DestroyTweetParameters(tweet)).ConfigureAwait(false);
-            tweet.IsTweetDestroyed = true;
         }
 
         public async Task DestroyTweet(IDestroyTweetParameters parameters)
@@ -103,7 +97,7 @@ namespace Tweetinvi.Client
 
         // Retweets
 
-        public Task<ITweet[]> GetRetweets(long? tweetId)
+        public Task<ITweet[]> GetRetweets(long tweetId)
         {
             return GetRetweets(new GetRetweetsParameters(tweetId));
         }
@@ -119,7 +113,7 @@ namespace Tweetinvi.Client
             return _client.Factories.CreateTweets(requestResult?.DataTransferObject);
         }
 
-        public Task<ITweet> PublishRetweet(long? tweetId)
+        public Task<ITweet> PublishRetweet(long tweetId)
         {
             return PublishRetweet(new PublishRetweetParameters(tweetId));
         }
@@ -135,7 +129,7 @@ namespace Tweetinvi.Client
             return _client.Factories.CreateTweet(requestResult?.DataTransferObject);
         }
 
-        public Task DestroyRetweet(long? retweetId)
+        public Task DestroyRetweet(long retweetId)
         {
             return DestroyRetweet(new DestroyRetweetParameters(retweetId));
         }
@@ -150,7 +144,7 @@ namespace Tweetinvi.Client
             await _tweetsRequester.DestroyRetweet(parameters).ConfigureAwait(false);
         }
 
-        public ITwitterIterator<long> GetRetweeterIdsIterator(long? tweetId)
+        public ITwitterIterator<long> GetRetweeterIdsIterator(long tweetId)
         {
             return GetRetweeterIdsIterator(new GetRetweeterIdsParameters(tweetId));
         }
@@ -168,7 +162,7 @@ namespace Tweetinvi.Client
 
         #region Favourite Tweets
 
-        public ITwitterIterator<ITweet, long?> GetFavoriteTweets(long? userId)
+        public ITwitterIterator<ITweet, long?> GetFavoriteTweets(long userId)
         {
             return GetFavoriteTweets(new GetFavoriteTweetsParameters(userId));
         }
@@ -193,7 +187,7 @@ namespace Tweetinvi.Client
                 });
         }
 
-        public Task FavoriteTweet(long? tweetId)
+        public Task FavoriteTweet(long tweetId)
         {
             return FavoriteTweet(new FavoriteTweetParameters(tweetId));
         }
@@ -233,7 +227,7 @@ namespace Tweetinvi.Client
             await _tweetsRequester.FavoriteTweet(parameters).ConfigureAwait(false);
         }
 
-        public Task UnfavoriteTweet(long? tweetId)
+        public Task UnfavoriteTweet(long tweetId)
         {
             return UnfavoriteTweet(new UnfavoriteTweetParameters(tweetId));
         }
@@ -264,7 +258,7 @@ namespace Tweetinvi.Client
             return GetOEmbedTweet(new GetOEmbedTweetParameters(tweet));
         }
 
-        public Task<IOEmbedTweet> GetOEmbedTweet(long? tweetId)
+        public Task<IOEmbedTweet> GetOEmbedTweet(long tweetId)
         {
             return GetOEmbedTweet(new GetOEmbedTweetParameters(tweetId));
         }

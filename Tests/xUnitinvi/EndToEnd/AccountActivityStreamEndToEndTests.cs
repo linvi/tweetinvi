@@ -6,7 +6,6 @@ using Tweetinvi;
 using Tweetinvi.Events;
 using Tweetinvi.Parameters;
 using Tweetinvi.Streaming;
-using Tweetinvi.Streams.Model.AccountActivity;
 using Xunit;
 using Xunit.Abstractions;
 using xUnitinvi.TestHelpers;
@@ -23,6 +22,7 @@ namespace xUnitinvi.EndToEnd
         // NOTE : Many Task.Delay can be found in the following test.
         // The reason is that Twitter requires quite a lot of time to propagate the event to the webhooks.
         // Without the delays between all the operations this would result in events not being received.
+        // Even with the currently high delay, there are still some errors happening due to time issues
 
         [Fact]
         public async Task Events()
@@ -76,8 +76,6 @@ namespace xUnitinvi.EndToEnd
                 await userClient.Users.BlockUser(EndToEndTestConfig.TweetinviTest);
                 await Task.Delay(timeoutBetweenOperations);
                 await userClient.Users.UnblockUser(EndToEndTestConfig.TweetinviTest);
-                await Task.Delay(timeoutBetweenOperations);
-
                 await Task.Delay(timeoutBetweenOperations);
 
                 var tweetinviLogoBinary = File.ReadAllBytes("./tweetinvi-logo-purple.png");

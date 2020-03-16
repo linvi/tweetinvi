@@ -124,7 +124,7 @@ namespace Tweetinvi.Core.Models
             return Client.Users.BlockUser(user);
         }
 
-        public Task BlockUser(long? userId)
+        public Task BlockUser(long userId)
         {
             return Client.Users.BlockUser(userId);
         }
@@ -182,7 +182,7 @@ namespace Tweetinvi.Core.Models
             return Client.Users.ReportUserForSpam(username);
         }
 
-        public Task ReportUserForSpam(long? userId)
+        public Task ReportUserForSpam(long userId)
         {
             return Client.Users.ReportUserForSpam(userId);
         }
@@ -252,7 +252,7 @@ namespace Tweetinvi.Core.Models
             return Client.Users.MuteUser(user);
         }
 
-        public Task MuteUser(long? userId)
+        public Task MuteUser(long userId)
         {
             return Client.Users.MuteUser(userId);
         }

@@ -13,13 +13,13 @@ namespace Tweetinvi.Parameters
         /// <summary>
         /// The user id that we want to unsubscribe
         /// </summary>
-        long? UserId { get; set; }
+        long UserId { get; set; }
     }
 
     /// <inheritdoc/>
     public class UnsubscribeFromAccountActivityParameters : CustomRequestParameters, IUnsubscribeFromAccountActivityParameters
     {
-        public UnsubscribeFromAccountActivityParameters(string environment, long? userId)
+        public UnsubscribeFromAccountActivityParameters(string environment, long userId)
         {
             Environment = environment;
             UserId = userId;
@@ -28,6 +28,6 @@ namespace Tweetinvi.Parameters
         /// <inheritdoc/>
         public string Environment { get; set; }
         /// <inheritdoc/>
-        public long? UserId { get; set; }
+        public long UserId { get; set; }
     }
 }

@@ -5,7 +5,7 @@ namespace Tweetinvi.Models
         /// <summary>
         /// Id
         /// </summary>
-        long? Id { get; set; }
+        long Id { get; set; }
 
         /// <summary>
         /// Id as a string

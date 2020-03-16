@@ -41,7 +41,7 @@ namespace Tweetinvi.Client
 
 
         /// <inheritdoc cref="GetUserTimelineIterator(IGetUserTimelineParameters)" />
-        ITwitterIterator<ITweet, long?> GetUserTimelineIterator(long? userId);
+        ITwitterIterator<ITweet, long?> GetUserTimelineIterator(long userId);
 
         /// <inheritdoc cref="GetUserTimelineIterator(IGetUserTimelineParameters)" />
         ITwitterIterator<ITweet, long?> GetUserTimelineIterator(string username);

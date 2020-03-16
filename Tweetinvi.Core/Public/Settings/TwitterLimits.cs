@@ -133,6 +133,36 @@ namespace Tweetinvi
         public short MESSAGES_GET_MAX_PAGE_SIZE { get; set; } = 50;
 
         /// <summary>
+        /// Maximum number characters in 1 message
+        /// <para>https://developer.twitter.com/en/docs/direct-messages/sending-and-receiving/api-reference/new-event</para>
+        /// </summary>
+        public short MESSAGE_MAX_SIZE { get; set; } = 10000;
+
+        /// <summary>
+        /// Maximum number of options offered in 1 message
+        /// <para>https://developer.twitter.com/en/docs/direct-messages/quick-replies/api-reference/options</para>
+        /// </summary>
+        public short MESSAGE_QUICK_REPLY_MAX_OPTIONS { get; set; } = 20;
+
+        /// <summary>
+        /// Maximum size of label per option
+        /// <para>https://developer.twitter.com/en/docs/direct-messages/quick-replies/api-reference/options</para>
+        /// </summary>
+        public int MESSAGE_QUICK_REPLY_LABEL_MAX_LENGTH = 36;
+
+        /// <summary>
+        /// Maximum size of description per option
+        /// <para>https://developer.twitter.com/en/docs/direct-messages/quick-replies/api-reference/options</para>
+        /// </summary>
+        public int MESSAGE_QUICK_REPLY_DESCRIPTION_MAX_LENGTH = 72;
+
+        /// <summary>
+        /// Maximum size of metadata per option
+        /// <para>https://developer.twitter.com/en/docs/direct-messages/quick-replies/api-reference/options</para>
+        /// </summary>
+        public int MESSAGE_QUICK_REPLY_METADATA_MAX_LENGTH = 1000;
+
+        /// <summary>
         /// Maximum number of tweets to retrieve in 1 request
         /// <para>https://developer.twitter.com/en/docs/tweets/timelines/api-reference/get-statuses-home_timeline</para>
         /// </summary>
@@ -227,6 +257,12 @@ namespace Tweetinvi
             LISTS_REMOVE_MEMBERS_MAX_USERS = source.LISTS_REMOVE_MEMBERS_MAX_USERS;
 
             MESSAGES_GET_MAX_PAGE_SIZE = source.MESSAGES_GET_MAX_PAGE_SIZE;
+
+            MESSAGE_MAX_SIZE = source.MESSAGE_MAX_SIZE;
+            MESSAGE_QUICK_REPLY_MAX_OPTIONS = source.MESSAGE_QUICK_REPLY_MAX_OPTIONS;
+            MESSAGE_QUICK_REPLY_LABEL_MAX_LENGTH = source.MESSAGE_QUICK_REPLY_LABEL_MAX_LENGTH;
+            MESSAGE_QUICK_REPLY_DESCRIPTION_MAX_LENGTH = source.MESSAGE_QUICK_REPLY_DESCRIPTION_MAX_LENGTH;
+            MESSAGE_QUICK_REPLY_METADATA_MAX_LENGTH = source.MESSAGE_QUICK_REPLY_METADATA_MAX_LENGTH;
 
             TIMELINE_HOME_PAGE_MAX_PAGE_SIZE = source.TIMELINE_HOME_PAGE_MAX_PAGE_SIZE;
             TIMELINE_MENTIONS_PAGE_MAX_PAGE_SIZE = source.TIMELINE_MENTIONS_PAGE_MAX_PAGE_SIZE;

@@ -8,28 +8,28 @@ namespace Tweetinvi.Parameters
     public interface IDestroyTweetParameters : ICustomRequestParameters
     {
         /// <summary>
-        /// The identifier of the tweet you want to destroy 
+        /// The identifier of the tweet you want to destroy
         /// </summary>
         ITweetIdentifier Tweet { get; set; }
-        
+
         /// <summary>
         /// If set to true, the creator property (IUser) will only contain the id.
         /// </summary>
         bool? TrimUser { get; set; }
     }
-    
+
     /// <inheritdoc/>
     public class DestroyTweetParameters : CustomRequestParameters, IDestroyTweetParameters
     {
-        public DestroyTweetParameters(long? tweetId) : this(new TweetIdentifier(tweetId))
+        public DestroyTweetParameters(long tweetId) : this(new TweetIdentifier(tweetId))
         {
         }
-        
+
         public DestroyTweetParameters(ITweetIdentifier tweet)
         {
             Tweet = tweet;
         }
-        
+
         /// <inheritdoc/>
         public ITweetIdentifier Tweet { get; set; }
         /// <inheritdoc/>

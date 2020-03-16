@@ -1,9 +1,9 @@
-﻿using System.Text;
+﻿using System.Linq;
+using System.Text;
 using Tweetinvi.Controllers.Properties;
 using Tweetinvi.Controllers.Shared;
 using Tweetinvi.Core.Extensions;
 using Tweetinvi.Core.QueryGenerators;
-using Tweetinvi.Core.QueryValidators;
 using Tweetinvi.Parameters;
 
 namespace Tweetinvi.Controllers.User
@@ -12,16 +12,13 @@ namespace Tweetinvi.Controllers.User
     {
         private readonly IUserQueryParameterGenerator _userQueryParameterGenerator;
         private readonly IQueryParameterGenerator _queryParameterGenerator;
-        private readonly IUserQueryValidator _userQueryValidator;
 
         public UserQueryGenerator(
             IUserQueryParameterGenerator userQueryParameterGenerator,
-            IQueryParameterGenerator queryParameterGenerator,
-            IUserQueryValidator userQueryValidator)
+            IQueryParameterGenerator queryParameterGenerator)
         {
             _userQueryParameterGenerator = userQueryParameterGenerator;
             _queryParameterGenerator = queryParameterGenerator;
-            _userQueryValidator = userQueryValidator;
         }
 
         public string GetAuthenticatedUserQuery(IGetAuthenticatedUserParameters parameters, TweetMode? tweetMode)
@@ -68,8 +65,6 @@ namespace Tweetinvi.Controllers.User
         // FOLLOWERS
         public string GetFriendIdsQuery(IGetFriendIdsParameters parameters)
         {
-            _userQueryValidator.ThrowIfUserCannotBeIdentified(parameters.User);
-
             var query = new StringBuilder(Resources.User_GetFriends);
 
             query.AddFormattedParameterToQuery(_userQueryParameterGenerator.GenerateIdOrScreenNameParameter(parameters.User));
@@ -81,8 +76,6 @@ namespace Tweetinvi.Controllers.User
 
         public string GetFollowerIdsQuery(IGetFollowerIdsParameters parameters)
         {
-            _userQueryValidator.ThrowIfUserCannotBeIdentified(parameters.User);
-
             var query = new StringBuilder(Resources.User_GetFollowers);
 
             query.AddFormattedParameterToQuery(_userQueryParameterGenerator.GenerateIdOrScreenNameParameter(parameters.User));
@@ -94,9 +87,6 @@ namespace Tweetinvi.Controllers.User
 
         public string GetRelationshipBetweenQuery(IGetRelationshipBetweenParameters parameters)
         {
-            _userQueryValidator.ThrowIfUserCannotBeIdentified(parameters.SourceUser);
-            _userQueryValidator.ThrowIfUserCannotBeIdentified(parameters.TargetUser);
-
             var sourceParameter = _userQueryParameterGenerator.GenerateIdOrScreenNameParameter(parameters.SourceUser, "source_id", "source_screen_name");
             var targetParameter = _userQueryParameterGenerator.GenerateIdOrScreenNameParameter(parameters.TargetUser, "target_id", "target_screen_name");
 
