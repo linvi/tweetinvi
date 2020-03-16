@@ -13,7 +13,7 @@ namespace Tweetinvi.Parameters
     /// <inheritdoc />
     public class GetMembersOfListParameters : BaseGetUsersOfListParameters, IGetMembersOfListParameters
     {
-        public GetMembersOfListParameters(long? listId) : this(new TwitterListIdentifier(listId))
+        public GetMembersOfListParameters(long listId) : this(new TwitterListIdentifier(listId))
         {
         }
 

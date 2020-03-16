@@ -24,12 +24,12 @@ namespace Tweetinvi.Parameters
         {
         }
 
-        public RemoveMembersFromListParameters(long? listId, IEnumerable<string> usernames)
+        public RemoveMembersFromListParameters(long listId, IEnumerable<string> usernames)
             : this(new TwitterListIdentifier(listId), usernames.Select(x => new UserIdentifier(x)))
         {
         }
 
-        public RemoveMembersFromListParameters(long? listId, IEnumerable<IUserIdentifier> users) : this(new TwitterListIdentifier(listId), users)
+        public RemoveMembersFromListParameters(long listId, IEnumerable<IUserIdentifier> users) : this(new TwitterListIdentifier(listId), users)
         {
         }
 

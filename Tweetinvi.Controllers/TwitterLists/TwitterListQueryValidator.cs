@@ -29,7 +29,7 @@ namespace Tweetinvi.Controllers.TwitterLists
                 return false;
             }
 
-            if (twitterListIdentifier.Id != null && twitterListIdentifier.Id > 0)
+            if (twitterListIdentifier.Id > 0)
             {
                 return true;
             }

@@ -8,7 +8,7 @@
         /// <summary>
         /// Id of the list.
         /// </summary>
-        long? Id { get; }
+        long Id { get; }
 
         /// <summary>
         /// The short name of list or a category.
@@ -20,7 +20,7 @@
         /// Id of the user owning the list.
         /// A slug needs to be provided in addition to the OwnerId for a list identifier to be valid.
         /// </summary>
-        long? OwnerId { get; }
+        long OwnerId { get; }
 
         /// <summary>
         /// Screen name of the user owning the list.

@@ -10,7 +10,7 @@ namespace Tweetinvi.Core.DTO
     {
         [JsonProperty("id")]
         [JsonConverter(typeof(JsonPropertyConverterRepository))]
-        public long? Id { get; set; }
+        public long Id { get; set; }
 
         [JsonProperty("id_str")]
         public string IdStr { get; set; }
@@ -19,7 +19,7 @@ namespace Tweetinvi.Core.DTO
         public string Slug { get; set; }
 
         [JsonIgnore]
-        public long? OwnerId => Owner?.Id;
+        public long OwnerId => Owner?.Id ?? 0;
 
         [JsonIgnore]
         public string OwnerScreenName => Owner?.ScreenName;

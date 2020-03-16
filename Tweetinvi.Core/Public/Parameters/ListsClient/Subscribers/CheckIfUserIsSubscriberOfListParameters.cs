@@ -27,15 +27,15 @@ namespace Tweetinvi.Parameters
     /// <inheritdoc />
     public class CheckIfUserIsSubscriberOfListParameters : ListParameters, ICheckIfUserIsSubscriberOfListParameters
     {
-        public CheckIfUserIsSubscriberOfListParameters(long? listId, long userId) : this(new TwitterListIdentifier(listId), new UserIdentifier(userId))
+        public CheckIfUserIsSubscriberOfListParameters(long listId, long userId) : this(new TwitterListIdentifier(listId), new UserIdentifier(userId))
         {
         }
 
-        public CheckIfUserIsSubscriberOfListParameters(long? listId, string username) : this(new TwitterListIdentifier(listId), new UserIdentifier(username))
+        public CheckIfUserIsSubscriberOfListParameters(long listId, string username) : this(new TwitterListIdentifier(listId), new UserIdentifier(username))
         {
         }
 
-        public CheckIfUserIsSubscriberOfListParameters(long? listId, IUserIdentifier user) : this(new TwitterListIdentifier(listId), user)
+        public CheckIfUserIsSubscriberOfListParameters(long listId, IUserIdentifier user) : this(new TwitterListIdentifier(listId), user)
         {
         }
 

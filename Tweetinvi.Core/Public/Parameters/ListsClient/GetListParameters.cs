@@ -12,7 +12,7 @@ namespace Tweetinvi.Parameters
 
     public class GetListParameters : ListParameters, IGetListParameters
     {
-        public GetListParameters(long? listId) : this(new TwitterListIdentifier(listId))
+        public GetListParameters(long listId) : this(new TwitterListIdentifier(listId))
         {
         }
 

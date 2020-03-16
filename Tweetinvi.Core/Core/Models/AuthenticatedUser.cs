@@ -221,7 +221,7 @@ namespace Tweetinvi.Core.Models
             return Client.Lists.SubscribeToList(list);
         }
 
-        public Task<ITwitterList> SubscribeToList(long? listId)
+        public Task<ITwitterList> SubscribeToList(long listId)
         {
             return Client.Lists.SubscribeToList(listId);
         }
@@ -231,7 +231,7 @@ namespace Tweetinvi.Core.Models
             return Client.Lists.UnsubscribeFromList(list);
         }
 
-        public Task<ITwitterList> UnsubscribeFromList(long? listId)
+        public Task<ITwitterList> UnsubscribeFromList(long listId)
         {
             return Client.Lists.UnsubscribeFromList(listId);
         }

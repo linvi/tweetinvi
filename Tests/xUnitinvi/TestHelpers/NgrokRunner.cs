@@ -51,6 +51,7 @@ namespace xUnitinvi.TestHelpers
         public void Dispose()
         {
             _process?.StandardInput.Close();
+            _process?.Kill();
             _process?.Dispose();
             GC.SuppressFinalize(this);
         }

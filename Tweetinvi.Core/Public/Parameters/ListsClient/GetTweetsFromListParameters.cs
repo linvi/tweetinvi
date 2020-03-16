@@ -24,7 +24,7 @@ namespace Tweetinvi.Parameters
     /// <inheritdoc />
     public class GetTweetsFromListParameters : TimelineRequestParameters, IGetTweetsFromListParameters
     {
-        public GetTweetsFromListParameters(long? listId) : this(new TwitterListIdentifier(listId))
+        public GetTweetsFromListParameters(long listId) : this(new TwitterListIdentifier(listId))
         {
         }
 

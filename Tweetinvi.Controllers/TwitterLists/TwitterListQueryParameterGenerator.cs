@@ -4,7 +4,6 @@ using Tweetinvi.Controllers.Properties;
 using Tweetinvi.Core.Extensions;
 using Tweetinvi.Core.Injectinvi;
 using Tweetinvi.Core.QueryGenerators;
-using Tweetinvi.Core.QueryValidators;
 using Tweetinvi.Models;
 using Tweetinvi.Parameters;
 
@@ -12,32 +11,29 @@ namespace Tweetinvi.Controllers.TwitterLists
 {
     public class TwitterListQueryParameterGenerator : ITwitterListQueryParameterGenerator
     {
-        private readonly IUserQueryValidator _userQueryValidator;
         private readonly IUserQueryParameterGenerator _userQueryParameterGenerator;
 
         private readonly IFactory<IGetTweetsFromListParameters> _getTweetsFromListParametersFactory;
 
         public TwitterListQueryParameterGenerator(
-            IUserQueryValidator userQueryValidator,
             IUserQueryParameterGenerator userQueryParameterGenerator,
             IFactory<IGetTweetsFromListParameters> getTweetsFromListParametersFactory)
         {
-            _userQueryValidator = userQueryValidator;
             _userQueryParameterGenerator = userQueryParameterGenerator;
             _getTweetsFromListParametersFactory = getTweetsFromListParametersFactory;
         }
 
         public string GenerateIdentifierParameter(ITwitterListIdentifier twitterListIdentifier)
         {
-            if (twitterListIdentifier.Id != null)
+            if (twitterListIdentifier.Id > 0)
             {
                 return $"list_id={twitterListIdentifier.Id}";
             }
 
             string ownerIdentifier;
-            if (twitterListIdentifier.OwnerId != null)
+            if (twitterListIdentifier.OwnerId > 0)
             {
-                ownerIdentifier = string.Format(Resources.List_OwnerIdParameter, twitterListIdentifier.OwnerId?.ToString(CultureInfo.InvariantCulture));
+                ownerIdentifier = string.Format(Resources.List_OwnerIdParameter, twitterListIdentifier.OwnerId.ToString(CultureInfo.InvariantCulture));
             }
             else
             {
@@ -52,12 +48,12 @@ namespace Tweetinvi.Controllers.TwitterLists
         public void AppendListIdentifierParameter(StringBuilder query, ITwitterListIdentifier listIdentifier)
         {
             var owner = new UserIdentifier(listIdentifier.OwnerScreenName);
-            if (listIdentifier.OwnerId != null)
+            if (listIdentifier.OwnerId > 0)
             {
-                owner.Id = listIdentifier.OwnerId.Value;
+                owner.Id = listIdentifier.OwnerId;
             }
 
-            if (listIdentifier.Id != null)
+            if (listIdentifier.Id > 0)
             {
                 query.AddParameterToQuery("list_id", listIdentifier.Id);
             }

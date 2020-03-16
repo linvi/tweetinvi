@@ -18,7 +18,7 @@ namespace Tweetinvi.Parameters
             List = parameters?.List;
         }
 
-        public UpdateListParameters(long? listId)
+        public UpdateListParameters(long listId)
         {
             List = new TwitterListIdentifier(listId);
         }

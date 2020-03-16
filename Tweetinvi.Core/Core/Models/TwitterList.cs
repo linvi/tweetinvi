@@ -35,10 +35,10 @@ namespace Tweetinvi.Core.Models
 
         public ITwitterClient Client { get; }
 
-        public long? Id => _twitterListDTO.Id;
+        public long Id => _twitterListDTO.Id;
         public string IdStr => _twitterListDTO.IdStr;
         public string Slug => _twitterListDTO.Slug;
-        public long? OwnerId => _twitterListDTO.OwnerId;
+        public long OwnerId => _twitterListDTO.OwnerId;
         public string OwnerScreenName => _twitterListDTO.OwnerScreenName;
         public string Name => _twitterListDTO.Name;
         public string FullName => _twitterListDTO.FullName;

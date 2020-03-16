@@ -11,7 +11,7 @@ namespace Tweetinvi.Parameters
 
     public class SubscribeToListParameters : ListParameters, ISubscribeToListParameters
     {
-        public SubscribeToListParameters(long? listId) : base(listId)
+        public SubscribeToListParameters(long listId) : base(listId)
         {
         }
 

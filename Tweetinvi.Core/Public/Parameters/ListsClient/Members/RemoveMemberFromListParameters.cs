@@ -17,15 +17,15 @@ namespace Tweetinvi.Parameters
     /// <inheritdoc />
     public class RemoveMemberFromListParameters : ListParameters, IRemoveMemberFromListParameters
     {
-        public RemoveMemberFromListParameters(long? listId, long userId) : this(new TwitterListIdentifier(listId), new UserIdentifier(userId))
+        public RemoveMemberFromListParameters(long listId, long userId) : this(new TwitterListIdentifier(listId), new UserIdentifier(userId))
         {
         }
 
-        public RemoveMemberFromListParameters(long? listId, string username) : this(new TwitterListIdentifier(listId), new UserIdentifier(username))
+        public RemoveMemberFromListParameters(long listId, string username) : this(new TwitterListIdentifier(listId), new UserIdentifier(username))
         {
         }
 
-        public RemoveMemberFromListParameters(long? listId, IUserIdentifier user) : this(new TwitterListIdentifier(listId), user)
+        public RemoveMemberFromListParameters(long listId, IUserIdentifier user) : this(new TwitterListIdentifier(listId), user)
         {
         }
 
