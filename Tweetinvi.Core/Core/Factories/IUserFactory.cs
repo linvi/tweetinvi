@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Threading.Tasks;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
 

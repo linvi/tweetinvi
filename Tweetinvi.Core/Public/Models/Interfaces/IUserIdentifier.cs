@@ -8,6 +8,6 @@
         /// <summary>
         /// User screen name
         /// </summary>
-        string ScreenName { get; set; }
+        string ScreenName { get; }
     }
 }

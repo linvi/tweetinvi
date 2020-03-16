@@ -1,6 +1,5 @@
 using System.Net;
 using Microsoft.AspNetCore.Http;
-using Tweetinvi.Core.Logic;
 using Tweetinvi.Models;
 
 namespace Tweetinvi.AspNet

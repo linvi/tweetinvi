@@ -1,6 +1,4 @@
 using Tweetinvi.Models;
-using Tweetinvi.Models.DTO;
-using Tweetinvi.Parameters;
 
 namespace Tweetinvi.Core.QueryValidators
 {

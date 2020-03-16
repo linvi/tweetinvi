@@ -1,13 +1,9 @@
-﻿using System;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Tweetinvi;
 using Tweetinvi.AspNet;
-using Tweetinvi.Core.Extensions;
 using Tweetinvi.Models;
-using Tweetinvi.Models.DTO.Webhooks;
 
 namespace Examplinvi.AccountActivity.ASP.NETCore
 {
@@ -26,14 +22,8 @@ namespace Examplinvi.AccountActivity.ASP.NETCore
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            Plugins.Add<WebhooksPlugin>();
 
-            var consumerOnlyCredentials = new ConsumerOnlyCredentials("CONSUMER_TOKEN", "CONSUMER_SECRET")
-            {
-                BearerToken = "BEARER_TOKEN"
-            };
-
-            WebhookServerInitialization(app, consumerOnlyCredentials);
+            WebhookServerInitialization(app);
 
             if (env.IsDevelopment())
             {
@@ -43,8 +33,10 @@ namespace Examplinvi.AccountActivity.ASP.NETCore
             app.UseMvc();
         }
 
-        private static void WebhookServerInitialization(IApplicationBuilder app, IConsumerOnlyCredentials consumerOnlyCredentials)
+        private static void WebhookServerInitialization(IApplicationBuilder app)
         {
+            Plugins.Add<WebhooksPlugin>();
+
             var credentials = new TwitterCredentials("CONSUMER_TOKEN", "CONSUMER_SECRET", "ACCESS_TOKEN", "ACCESS_TOKEN_SECRET")
             {
                 BearerToken = "BEARER_TOKEN"

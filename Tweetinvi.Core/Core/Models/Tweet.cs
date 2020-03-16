@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Threading.Tasks;
 using Tweetinvi.Core.Helpers;
 using Tweetinvi.Core.Models.TwitterEntities;
@@ -316,7 +317,7 @@ namespace Tweetinvi.Core.Models
 
         #region Tweetinvi API Attributes
 
-        public string Url => $"https://twitter.com/{CreatedBy?.ScreenName}/status/{Id.ToString().ToLowerInvariant()}";
+        public string Url => $"https://twitter.com/{CreatedBy?.ScreenName}/status/{Id.ToString(CultureInfo.InvariantCulture).ToLowerInvariant()}";
 
         public TweetMode TweetMode { get; }
 

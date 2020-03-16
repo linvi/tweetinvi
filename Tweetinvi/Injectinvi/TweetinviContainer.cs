@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using Autofac;
-using Autofac.Builder;
 using Tweetinvi.Controllers;
 using Tweetinvi.Core.Events;
 using Tweetinvi.Core.Injectinvi;

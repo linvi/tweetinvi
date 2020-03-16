@@ -1,4 +1,3 @@
-using System;
 using Tweetinvi;
 using Tweetinvi.Core.DTO.Cursor;
 using Xunit;

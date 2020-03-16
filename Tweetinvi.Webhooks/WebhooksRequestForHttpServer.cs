@@ -3,7 +3,6 @@ using System.IO;
 using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
-using Tweetinvi.Core.Logic;
 using Tweetinvi.Models;
 
 namespace Tweetinvi.AspNet

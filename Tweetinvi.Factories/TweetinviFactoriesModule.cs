@@ -16,14 +16,12 @@ namespace Tweetinvi.Factories
             container.RegisterType<IUserFactory, UserFactory>(RegistrationLifetime.InstancePerApplication);
 
             container.RegisterType<ISavedSearchFactory, SavedSearchFactory>(RegistrationLifetime.InstancePerApplication);
-            container.RegisterType<ISavedSearchJsonFactory, SavedSearchJsonFactory>(RegistrationLifetime.InstancePerApplication);
             container.RegisterType<ISavedSearchQueryExecutor, SavedSearchFactoryQueryExecutor>(RegistrationLifetime.InstancePerApplication);
             container.RegisterType<ISavedSearchQueryGenerator, SavedSearchFactoryQueryGenerator>(RegistrationLifetime.InstancePerApplication);
 
             // This is instance per thread as we have a CredentialsAccessor that is an instance per thread.
             container.RegisterType<ITwitterQueryFactory, TwitterQueryFactory>(RegistrationLifetime.InstancePerApplication);
 
-            container.RegisterType<ITwitterRequestFactory, TwitterRequestFactory>(RegistrationLifetime.InstancePerApplication);
             container.RegisterType<ITwitterResultFactory, TwitterResultFactory>(RegistrationLifetime.InstancePerApplication);
         }
     }

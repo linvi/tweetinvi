@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json;
 using Tweetinvi.Core.DTO;
-using Tweetinvi.Core.DTO.Cursor;
 using Tweetinvi.Core.DTO.Events;
 using Tweetinvi.Core.DTO.Webhooks;
 using Tweetinvi.Core.Helpers;

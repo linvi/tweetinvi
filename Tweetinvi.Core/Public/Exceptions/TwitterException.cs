@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Net;
 using Tweetinvi.Core.Exceptions;
 using Tweetinvi.Core.Web;

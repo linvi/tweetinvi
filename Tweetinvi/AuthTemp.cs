@@ -1,6 +1,5 @@
 ﻿using System;
 using Tweetinvi.Core.Credentials;
-using Tweetinvi.Credentials;
 using Tweetinvi.Models;
 
 namespace Tweetinvi

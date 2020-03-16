@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Tweetinvi.Events
+﻿namespace Tweetinvi.Events
 {
     public class StreamEventReceivedArgs
     {

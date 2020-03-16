@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using Tweetinvi.Core.Web;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
 using Tweetinvi.Models.DTO.Events;

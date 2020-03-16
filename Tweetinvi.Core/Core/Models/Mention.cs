@@ -1,5 +1,4 @@
-﻿using Tweetinvi.Core.Factories;
-using Tweetinvi.Models;
+﻿using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
 
 namespace Tweetinvi.Core.Models

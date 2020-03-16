@@ -15,11 +15,8 @@ namespace Examplinvi.AccountActivityEvents.Controllers
             _accountActivityClient = accountActivityClient;
         }
 
-        public async Task<bool> TriggerAccountActivityWebhookCRC(string environment, string webhookId, long userId)
+        public async Task<bool> TriggerAccountActivityWebhookCRC(string environment, string webhookId)
         {
-            var userCredentials = await AccountActivityCredentialsRetriever.GetUserCredentials(userId);
-            var client = new TwitterClient(userCredentials);
-
             try
             {
                 await _accountActivityClient.AccountActivity.TriggerAccountActivityWebhookCRC(environment, webhookId);

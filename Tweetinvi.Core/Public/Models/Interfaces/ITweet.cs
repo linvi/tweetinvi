@@ -27,7 +27,7 @@ namespace Tweetinvi.Models
         /// <summary>
         /// Formatted text of the tweet.
         /// </summary>
-        string Text { get; set; }
+        string Text { get; }
 
         /// <summary>
         /// Prefix of an extended tweet.
@@ -42,7 +42,7 @@ namespace Tweetinvi.Models
         /// <summary>
         /// Full text of an extended tweet.
         /// </summary>
-        string FullText { get; set; }
+        string FullText { get; }
 
         /// <summary>
         /// Content display text range for FullText.
@@ -59,17 +59,17 @@ namespace Tweetinvi.Models
         /// <summary>
         /// Extended Tweet details.
         /// </summary>
-        IExtendedTweet ExtendedTweet { get; set; }
+        IExtendedTweet ExtendedTweet { get; }
 
         /// <summary>
         /// Coordinates of the location from where the tweet has been sent
         /// </summary>
-        ICoordinates Coordinates { get; set; }
+        ICoordinates Coordinates { get; }
 
         /// <summary>
         /// source field
         /// </summary>
-        string Source { get; set; }
+        string Source { get; }
 
         /// <summary>
         /// Whether the tweet text was truncated because it was longer than 140 characters.
@@ -80,32 +80,32 @@ namespace Tweetinvi.Models
         /// Number of times this Tweet has been replied to
         /// This property is only available with the Premium and Enterprise tier products.
         /// </summary>
-        int? ReplyCount { get; set; }
+        int? ReplyCount { get; }
 
         /// <summary>
         /// In_reply_to_status_id
         /// </summary>
-        long? InReplyToStatusId { get; set; }
+        long? InReplyToStatusId { get; }
 
         /// <summary>
         /// In_reply_to_status_id_str
         /// </summary>
-        string InReplyToStatusIdStr { get; set; }
+        string InReplyToStatusIdStr { get; }
 
         /// <summary>
         /// In_reply_to_user_id
         /// </summary>
-        long? InReplyToUserId { get; set; }
+        long? InReplyToUserId { get; }
 
         /// <summary>
         /// In_reply_to_user_id_str
         /// </summary>
-        string InReplyToUserIdStr { get; set; }
+        string InReplyToUserIdStr { get; }
 
         /// <summary>
         /// In_reply_to_screen_name
         /// </summary>
-        string InReplyToScreenName { get; set; }
+        string InReplyToScreenName { get; }
 
         /// <summary>
         /// User who created the Tweet
@@ -199,7 +199,7 @@ namespace Tweetinvi.Models
         /// <summary>
         /// Property used to store the data received from Twitter
         /// </summary>
-        ITweetDTO TweetDTO { get; set; }
+        ITweetDTO TweetDTO { get; }
 
         /// <summary>
         /// Collection of hashtags associated with a Tweet
@@ -236,7 +236,7 @@ namespace Tweetinvi.Models
         /// Indicates approximately how many times this Tweet has been quoted by Twitter users.
         /// This property is only available with the Premium and Enterprise tier products.
         /// </summary>
-        int? QuoteCount { get; set; }
+        int? QuoteCount { get; }
 
         /// <summary>
         /// Tweet Id that was retweeted with a quote

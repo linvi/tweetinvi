@@ -1,4 +1,3 @@
-using Tweetinvi.Models;
 using Tweetinvi.Parameters;
 
 namespace Tweetinvi.Core.Client.Validators

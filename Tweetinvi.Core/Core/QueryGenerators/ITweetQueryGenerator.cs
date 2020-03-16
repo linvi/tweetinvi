@@ -1,5 +1,4 @@
-﻿using Tweetinvi.Models.DTO;
-using Tweetinvi.Parameters;
+﻿using Tweetinvi.Parameters;
 
 namespace Tweetinvi.Core.QueryGenerators
 {

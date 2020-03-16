@@ -25,7 +25,6 @@ namespace Tweetinvi.Controllers
         public void Initialize(ITweetinviContainer container)
         {
             InitializeControllers(container);
-            InitializeJsonControllers(container);
             InitializeQueryExecutors(container);
             InitializeQueryGenerators(container);
             InitializeQueryValidators(container);
@@ -51,15 +50,6 @@ namespace Tweetinvi.Controllers
             container.RegisterType<IAccountActivityController, AccountActivityController>(RegistrationLifetime.InstancePerApplication);
 
             container.RegisterType<IChunkedUploader, ChunkedUploader>();
-        }
-
-        private void InitializeJsonControllers(ITweetinviContainer container)
-        {
-            container.RegisterType<IGeoJsonController, GeoJsonController>(RegistrationLifetime.InstancePerApplication);
-            container.RegisterType<ISavedSearchJsonController, SavedSearchJsonController>(RegistrationLifetime.InstancePerApplication);
-            container.RegisterType<ITrendsJsonController, TrendsJsonController>(RegistrationLifetime.InstancePerApplication);
-
-            container.RegisterType<ISearchJsonController, SearchJsonController>(RegistrationLifetime.InstancePerApplication);
         }
 
         private void InitializeQueryExecutors(ITweetinviContainer container)

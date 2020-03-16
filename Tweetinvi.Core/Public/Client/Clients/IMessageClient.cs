@@ -1,7 +1,6 @@
 using System.Threading.Tasks;
 using Tweetinvi.Iterators;
 using Tweetinvi.Models;
-using Tweetinvi.Models.DTO.Events;
 using Tweetinvi.Parameters;
 
 namespace Tweetinvi.Client

@@ -2,9 +2,7 @@
 using Tweetinvi.Core.Injectinvi;
 using Tweetinvi.Core.RateLimit;
 using Tweetinvi.Core.Web;
-using Tweetinvi.Credentials.QueryDTO;
 using Tweetinvi.Credentials.RateLimit;
-using Tweetinvi.Models.DTO.QueryDTO;
 
 namespace Tweetinvi.Credentials
 {
@@ -14,8 +12,6 @@ namespace Tweetinvi.Credentials
         {
             container.RegisterType<ITwitterAccessor, TwitterAccessor>(RegistrationLifetime.InstancePerApplication);
             container.RegisterType<ICredentialsAccessor, CredentialsAccessor>(RegistrationLifetime.InstancePerApplication);
-
-            container.RegisterType<ICursorQueryHelper, CursorQueryHelper>();
 
             RegisterRateLimitHandler(container);
         }

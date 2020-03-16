@@ -1,5 +1,4 @@
 ﻿using Tweetinvi.Core.DTO;
-using Tweetinvi.Core.DTO.Cursor;
 using Tweetinvi.Core.DTO.Events;
 using Tweetinvi.Core.Exceptions;
 using Tweetinvi.Core.Helpers;
@@ -8,12 +7,10 @@ using Tweetinvi.Core.JsonConverters;
 using Tweetinvi.Core.Models;
 using Tweetinvi.Core.Models.Properties;
 using Tweetinvi.Core.Models.TwitterEntities;
-using Tweetinvi.Core.Parameters;
 using Tweetinvi.Core.Wrappers;
 using Tweetinvi.Exceptions;
 using Tweetinvi.Logic.Exceptions;
 using Tweetinvi.Logic.Helpers;
-using Tweetinvi.Logic.QueryParameters;
 using Tweetinvi.Logic.Wrapper;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;

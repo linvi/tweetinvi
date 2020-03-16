@@ -2,7 +2,6 @@ using Tweetinvi.Core.DTO;
 using Tweetinvi.Core.DTO.Cursor;
 using Tweetinvi.Core.Iterators;
 using Tweetinvi.Core.Web;
-using Tweetinvi.Credentials.QueryDTO;
 using Tweetinvi.Models.DTO;
 using Tweetinvi.Models.DTO.QueryDTO;
 using Tweetinvi.WebLogic;
