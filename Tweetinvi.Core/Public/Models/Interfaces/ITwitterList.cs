@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Tweetinvi.Iterators;
 using Tweetinvi.Models.DTO;
 using Tweetinvi.Parameters;
+// ReSharper disable UnusedMember.Global
 
 namespace Tweetinvi.Models
 {
@@ -126,7 +127,7 @@ namespace Tweetinvi.Models
         /// <summary>
         /// Remove a list of members from this list. You must be the owner of the list to do so.
         /// </summary>
-        Task RemoveMembers(IEnumerable<long?> userIds);
+        Task RemoveMembers(IEnumerable<long> userIds);
 
         /// <summary>
         /// Remove a list of members from this list. You must be the owner of the list to do so.

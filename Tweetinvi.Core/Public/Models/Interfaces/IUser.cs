@@ -6,6 +6,7 @@ using Tweetinvi.Iterators;
 using Tweetinvi.Models.DTO;
 using Tweetinvi.Models.Entities;
 using Tweetinvi.Client;
+// ReSharper disable UnusedMember.Global
 
 namespace Tweetinvi.Models
 {
@@ -24,11 +25,6 @@ namespace Tweetinvi.Models
         /// Property used to store the twitter properties
         /// </summary>
         IUserDTO UserDTO { get; set; }
-
-        /// <summary>
-        /// User identifier containing Id and ScreenName
-        /// </summary>
-        IUserIdentifier UserIdentifier { get; }
 
         #region Twitter API Fields
 

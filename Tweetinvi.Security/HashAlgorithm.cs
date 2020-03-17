@@ -46,15 +46,9 @@ namespace Tweetinvi.Security
             _disposed = false;
         }
 
-        public virtual bool CanTransformMultipleBlocks
-        {
-            get { return true; }
-        }
+        public virtual bool CanTransformMultipleBlocks => true;
 
-        public virtual bool CanReuseTransform
-        {
-            get { return true; }
-        }
+        public virtual bool CanReuseTransform => true;
 
         public void Clear()
         {
@@ -141,10 +135,7 @@ namespace Tweetinvi.Security
 
         protected abstract byte[] HashFinal();
 
-        public virtual int HashSize
-        {
-            get { return _hashSizeValue; }
-        }
+        public virtual int HashSize => _hashSizeValue;
 
         public abstract void Initialize();
 
@@ -153,15 +144,9 @@ namespace Tweetinvi.Security
             _disposed = true;
         }
 
-        public virtual int InputBlockSize
-        {
-            get { return 1; }
-        }
+        public virtual int InputBlockSize => 1;
 
-        public virtual int OutputBlockSize
-        {
-            get { return 1; }
-        }
+        public virtual int OutputBlockSize => 1;
 
 #if NET_4_0
 		public void Dispose ()

@@ -30,8 +30,8 @@ namespace Tweetinvi
         /// </summary>
         public static ITwitterCredentials ApplicationCredentials
         {
-            get { return CredentialsAccessor.ApplicationCredentials; }
-            set { CredentialsAccessor.ApplicationCredentials = value; }
+            get => CredentialsAccessor.ApplicationCredentials;
+            set => CredentialsAccessor.ApplicationCredentials = value;
         }
 
         /// <summary>
@@ -39,8 +39,8 @@ namespace Tweetinvi
         /// </summary>
         public static ITwitterCredentials Credentials
         {
-            get { return CredentialsAccessor.CurrentThreadCredentials; }
-            set { CredentialsAccessor.CurrentThreadCredentials = value; }
+            get => CredentialsAccessor.CurrentThreadCredentials;
+            set => CredentialsAccessor.CurrentThreadCredentials = value;
         }
 
         /// <summary>

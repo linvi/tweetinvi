@@ -35,7 +35,7 @@ namespace Tweetinvi.Core.DTO
         [JsonProperty("connections")]
         public List<string> Connections
         {
-            get { return _connections; }
+            get => _connections;
             set
             {
                 _connections = value;

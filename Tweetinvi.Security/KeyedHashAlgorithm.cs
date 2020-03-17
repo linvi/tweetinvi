@@ -11,10 +11,7 @@ namespace Tweetinvi.Security
 
         public virtual byte[] Key
         {
-            get
-            {
-                return (byte[])_keyValue.Clone();
-            }
+            get => (byte[])_keyValue.Clone();
             set
             {
                 if (_state == 0)

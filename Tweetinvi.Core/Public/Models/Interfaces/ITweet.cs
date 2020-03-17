@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Tweetinvi.Models.DTO;
 using Tweetinvi.Models.Entities;
+// ReSharper disable UnusedMember.Global
 
 namespace Tweetinvi.Models
 {

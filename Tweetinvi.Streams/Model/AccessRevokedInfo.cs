@@ -9,28 +9,16 @@ namespace Tweetinvi.Streams.Model
         public string Token { get; private set; }
 
         [JsonIgnore]
-        public long ApplicationId
-        {
-            get { return _accessRevokedClientApplication.Id; }
-        }
+        public long ApplicationId => _accessRevokedClientApplication.Id;
 
         [JsonIgnore]
-        public string ApplicationURL
-        {
-            get { return _accessRevokedClientApplication.URL; }
-        }
+        public string ApplicationURL => _accessRevokedClientApplication.URL;
 
         [JsonIgnore]
-        public string ApplicationConsumerKey
-        {
-            get { return _accessRevokedClientApplication.ConsumerKey; }
-        }
+        public string ApplicationConsumerKey => _accessRevokedClientApplication.ConsumerKey;
 
         [JsonIgnore]
-        public string ApplicationName
-        {
-            get { return _accessRevokedClientApplication.Name; }
-        }
+        public string ApplicationName => _accessRevokedClientApplication.Name;
 
         // ReSharper disable once UnassignedField.Compiler
 #pragma warning disable 649

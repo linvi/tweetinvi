@@ -37,7 +37,7 @@ namespace Tweetinvi.WebLogic
 
         public ITwitterQuery TwitterQuery
         {
-            get { return _twitterQuery; }
+            get => _twitterQuery;
             set
             {
                 _twitterQuery = value;

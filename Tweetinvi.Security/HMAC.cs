@@ -49,13 +49,13 @@ namespace Tweetinvi.Security
         // properties
         protected int BlockSizeValue
         {
-            get { return _blockSizeValue; }
-            set { _blockSizeValue = value; }
+            get => _blockSizeValue;
+            set => _blockSizeValue = value;
         }
 
         public string HashName
         {
-            get { return _hashName; }
+            get => _hashName;
             set
             {
                 _hashName = value;
@@ -65,7 +65,7 @@ namespace Tweetinvi.Security
 
         public override byte[] Key
         {
-            get { return (byte[])base.Key.Clone(); }
+            get => (byte[])base.Key.Clone();
             set
             {
                 if ((value != null) && (value.Length > BlockSizeValue))

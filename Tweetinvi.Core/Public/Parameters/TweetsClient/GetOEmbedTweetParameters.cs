@@ -69,7 +69,7 @@ namespace Tweetinvi.Parameters
         bool? HideThread { get; set; }
 
         /// <summary>
-        /// When set to true the <script> responsible for loading widgets.js will not be returned.
+        /// When set to true the script responsible for loading widgets.js will not be returned.
         /// Your webpages should include their own reference to widgets.js
         /// for use across all Twitter widgets including Embedded Tweets.
         /// </summary>

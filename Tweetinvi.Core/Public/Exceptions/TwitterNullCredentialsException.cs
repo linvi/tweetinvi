@@ -10,9 +10,6 @@
         {
         }
 
-        public string Description
-        {
-            get { return "Before performing any query please set the credentials : Auth.SetUserCredentials(\"CONSUMER_KEY\", \"CONSUMER_SECRET\", \"ACCESS_TOKEN\", \"ACCESS_TOKEN_SECRET\");";  }
-        }
+        public string Description => "Before performing any query please set the credentials : Auth.SetUserCredentials(\"CONSUMER_KEY\", \"CONSUMER_SECRET\", \"ACCESS_TOKEN\", \"ACCESS_TOKEN_SECRET\");";
     }
 }

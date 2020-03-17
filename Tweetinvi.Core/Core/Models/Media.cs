@@ -32,7 +32,7 @@ namespace Tweetinvi.Core.Models
             set => _existingMediaId = value;
         }
 
-        public bool HasBeenUploaded { get { return UploadedMediaInfo != null; } }
+        public bool HasBeenUploaded => UploadedMediaInfo != null;
 
         public bool IsReadyToBeUsed
         {

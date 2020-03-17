@@ -17,17 +17,11 @@ namespace Tweetinvi
         /// <summary>
         /// Default settings used when creating a new Thread
         /// </summary>
-        public static ITweetinviSettings ApplicationSettings
-        {
-            get { return _currentSettingsAccessor.ApplicationSettings; }
-        }
+        public static ITweetinviSettings ApplicationSettings => _currentSettingsAccessor.ApplicationSettings;
 
         /// <summary>
         /// Current Thread settings
         /// </summary>
-        public static ITweetinviSettings CurrentThreadSettings
-        {
-            get { return _currentSettingsAccessor.CurrentThreadSettings; }
-        }
+        public static ITweetinviSettings CurrentThreadSettings => _currentSettingsAccessor.CurrentThreadSettings;
     }
 }

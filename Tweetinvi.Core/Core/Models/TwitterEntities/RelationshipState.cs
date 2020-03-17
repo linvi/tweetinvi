@@ -12,44 +12,20 @@ namespace Tweetinvi.Core.Models.TwitterEntities
             RelationshipStateDTO = relationshipStateDTO;
         }
 
-        public long TargetId
-        {
-            get { return RelationshipStateDTO.TargetUserId; }
-        }
+        public long TargetId => RelationshipStateDTO.TargetUserId;
 
-        public string TargetIdStr
-        {
-            get { return RelationshipStateDTO.TargetUserIdStr; }
-        }
+        public string TargetIdStr => RelationshipStateDTO.TargetUserIdStr;
 
-        public string TargetName
-        {
-            get { return RelationshipStateDTO.TargetUserName; }
-        }
+        public string TargetName => RelationshipStateDTO.TargetUserName;
 
-        public string TargetScreenName
-        {
-            get { return RelationshipStateDTO.TargetUserScreenName; }
-        }
+        public string TargetScreenName => RelationshipStateDTO.TargetUserScreenName;
 
-        public bool Following
-        {
-            get { return RelationshipStateDTO.Following; }
-        }
+        public bool Following => RelationshipStateDTO.Following;
 
-        public bool FollowedBy
-        {
-            get { return RelationshipStateDTO.FollowedBy; }
-        }
+        public bool FollowedBy => RelationshipStateDTO.FollowedBy;
 
-        public bool FollowingRequested
-        {
-            get { return RelationshipStateDTO.FollowingRequested; }
-        }
+        public bool FollowingRequested => RelationshipStateDTO.FollowingRequested;
 
-        public bool FollowingRequestReceived
-        {
-            get { return RelationshipStateDTO.FollowingRequestReceived; }
-        }
+        public bool FollowingRequestReceived => RelationshipStateDTO.FollowingRequestReceived;
     }
 }

@@ -19,16 +19,13 @@ namespace Tweetinvi.Controllers.Messages
     public class MessageQueryExecutor : IMessageQueryExecutor
     {
         private readonly ITwitterAccessor _twitterAccessor;
-        private readonly JsonContentFactory _jsonContentFactory;
         private readonly IMessageQueryGenerator _messageQueryGenerator;
 
         public MessageQueryExecutor(
             ITwitterAccessor twitterAccessor,
-            JsonContentFactory jsonContentFactory,
             IMessageQueryGenerator messageQueryGenerator)
         {
             _twitterAccessor = twitterAccessor;
-            _jsonContentFactory = jsonContentFactory;
             _messageQueryGenerator = messageQueryGenerator;
         }
 

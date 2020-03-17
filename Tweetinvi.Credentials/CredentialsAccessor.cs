@@ -15,7 +15,7 @@ namespace Tweetinvi.Credentials
 
         public ITwitterCredentials ApplicationCredentials
         {
-            get { return StaticApplicationCredentials; }
+            get => StaticApplicationCredentials;
             set
             {
                 StaticApplicationCredentials = value;

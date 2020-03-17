@@ -117,7 +117,7 @@ namespace Tweetinvi
                 return;
             }
 
-            ProxyConfig = source.ProxyConfig == null || source.ProxyConfig.Address == null ? null : new ProxyConfig(source.ProxyConfig);;
+            ProxyConfig = source.ProxyConfig == null || source.ProxyConfig.Address == null ? null : new ProxyConfig(source.ProxyConfig);
             HttpRequestTimeout = source.HttpRequestTimeout;
             UploadTimeout = source.UploadTimeout;
             RateLimitTrackerMode = source.RateLimitTrackerMode;

@@ -32,10 +32,7 @@ namespace Tweetinvi.Streams.Helpers
             _streamTaskFactory = streamTaskFactory;
         }
 
-        private bool IsRunning
-        {
-            get { return StreamState == StreamState.Running || StreamState == StreamState.Pause; }
-        }
+        private bool IsRunning => StreamState == StreamState.Running || StreamState == StreamState.Pause;
 
         public StreamState StreamState
         {

@@ -109,9 +109,9 @@ namespace Tweetinvi.Core.Models
         }
 
 
-        public Task RemoveMembers(IEnumerable<long?> userIds)
+        public Task RemoveMembers(IEnumerable<long> userIds)
         {
-            return Client.Lists.RemoveMembersFromList((ITwitterListIdentifier) this, (IEnumerable<long>) userIds);
+            return Client.Lists.RemoveMembersFromList(this, userIds);
         }
 
         public Task RemoveMembers(IEnumerable<string> usernames)

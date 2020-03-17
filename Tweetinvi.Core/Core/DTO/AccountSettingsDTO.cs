@@ -74,20 +74,20 @@ namespace Tweetinvi.Core.DTO
 
         public bool SleepTimeEnabled
         {
-            get { return _sleepTime.Enabled; }
-            set { _sleepTime.Enabled = value; }
+            get => _sleepTime.Enabled;
+            set => _sleepTime.Enabled = value;
         }
 
         public int SleepTimeStartHour
         {
-            get { return _sleepTime.StartTime; }
-            set { _sleepTime.StartTime = value; }
+            get => _sleepTime.StartTime;
+            set => _sleepTime.StartTime = value;
         }
 
         public int SleepTimeEndHour
         {
-            get { return _sleepTime.EndTime; }
-            set { _sleepTime.EndTime = value; }
+            get => _sleepTime.EndTime;
+            set => _sleepTime.EndTime = value;
         }
         
         [JsonProperty("translator_type")]

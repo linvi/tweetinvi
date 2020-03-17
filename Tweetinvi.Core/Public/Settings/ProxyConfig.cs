@@ -39,7 +39,7 @@ namespace Tweetinvi
 
         public ICredentials Credentials
         {
-            get { return _networkCredentials; }
+            get => _networkCredentials;
             set
             {
                 var isCompatibleWithTweetinvi = value == null || value is NetworkCredential;
@@ -52,10 +52,7 @@ namespace Tweetinvi
             }
         }
 
-        public Uri Address
-        {
-            get { return _proxyAddress; }
-        }
+        public Uri Address => _proxyAddress;
 
         public Uri GetProxy(Uri destination)
         {

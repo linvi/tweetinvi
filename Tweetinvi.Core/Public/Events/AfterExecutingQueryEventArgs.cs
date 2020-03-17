@@ -36,7 +36,7 @@ namespace Tweetinvi.Events
         /// <summary>
         /// Whether the request has been successful.
         /// </summary>
-        public bool Success { get { return HttpContent != null; } }
+        public bool Success => HttpContent != null;
 
         /// <summary>
         /// Exception Raised by Twitter

@@ -20,8 +20,6 @@ namespace Tweetinvi.Core.Models
         public ITwitterClient Client { get; set; }
         public IUserDTO UserDTO { get; set; }
 
-        public IUserIdentifier UserIdentifier => UserDTO;
-
         #region Public Attributes
 
         #region Twitter API Attributes

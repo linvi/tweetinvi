@@ -60,7 +60,7 @@ namespace xUnitinvi.EndToEnd
             var restoredMutedUserIds = await restoredMutedUserIdsIterator.MoveToNextPage();
 
             // assert
-            Assert.True(newMutedUsers.Select(x => x.Id).OfType<long>().ContainsSameObjectsAs(newMutedUserIds));
+            Assert.True(newMutedUsers.Select(x => x.Id).ContainsSameObjectsAs(newMutedUserIds));
             Assert.True(restoredMutedUserIds.Select(x => x).ContainsSameObjectsAs(initialMutedUserIds));
         }
     }

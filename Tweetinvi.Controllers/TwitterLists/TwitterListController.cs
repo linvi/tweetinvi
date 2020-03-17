@@ -1,6 +1,5 @@
 ﻿using System.Threading.Tasks;
 using Tweetinvi.Core.Controllers;
-using Tweetinvi.Core.Factories;
 using Tweetinvi.Core.Iterators;
 using Tweetinvi.Core.Web;
 using Tweetinvi.Models;
@@ -12,16 +11,13 @@ namespace Tweetinvi.Controllers.TwitterLists
 {
     public class TwitterListController : ITwitterListController
     {
-        private readonly IUserFactory _userFactory;
         private readonly ITwitterListQueryExecutor _twitterListQueryExecutor;
         private readonly IPageCursorIteratorFactories _pageCursorIteratorFactories;
 
         public TwitterListController(
-            IUserFactory userFactory,
             ITwitterListQueryExecutor twitterListQueryExecutor,
             IPageCursorIteratorFactories pageCursorIteratorFactories)
         {
-            _userFactory = userFactory;
             _twitterListQueryExecutor = twitterListQueryExecutor;
             _pageCursorIteratorFactories = pageCursorIteratorFactories;
         }

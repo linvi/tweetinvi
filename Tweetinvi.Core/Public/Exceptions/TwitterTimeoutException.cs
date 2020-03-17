@@ -15,7 +15,7 @@ namespace Tweetinvi.Exceptions
             TwitterDescription = $"Twitter was not able to perform your query within the Timeout limit of {request.Query.Timeout.TotalMilliseconds} ms.";
             WebException = null;
             StatusCode = 408;
-            TwitterExceptionInfos = new ITwitterExceptionInfo[0];;
+            TwitterExceptionInfos = new ITwitterExceptionInfo[0];
         }
     }
 }

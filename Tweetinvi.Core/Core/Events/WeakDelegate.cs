@@ -35,10 +35,7 @@ namespace Tweetinvi.Core.Events
             }
         }
 
-        public bool IsAlive
-        {
-            get { return _targetReference == null || _targetReference.IsAlive; }
-        }
+        public bool IsAlive => _targetReference == null || _targetReference.IsAlive;
 
         #region IEquatable<TDelegate> Members
 

@@ -4,7 +4,7 @@ using Tweetinvi.Models.DTO;
 namespace Tweetinvi.Parameters
 {
     /// <summary>
-    /// Parameters to download an profile image from Twitter. 
+    /// Parameters to download an profile image from Twitter.
     /// </summary>
     /// <inheritdoc />
     public interface IGetProfileImageParameters : ICustomRequestParameters
@@ -13,7 +13,7 @@ namespace Tweetinvi.Parameters
         /// Url of the profile image
         /// </summary>
         string ImageUrl { get; set; }
-        
+
         /// <summary>
         /// Size of the image
         /// </summary>
@@ -30,12 +30,12 @@ namespace Tweetinvi.Parameters
 
         public GetProfileImageParameters(IUserDTO user)
         {
-            ImageUrl = string.IsNullOrEmpty(user.ProfileImageUrlHttps) ? user.ProfileImageUrl : user.ProfileImageUrlHttps;
+            ImageUrl = user.ProfileImageUrlHttps;
         }
 
         public GetProfileImageParameters(IUser user)
         {
-            ImageUrl = string.IsNullOrEmpty(user.ProfileImageUrlHttps) ? user.ProfileImageUrl : user.ProfileImageUrlHttps;
+            ImageUrl = user.ProfileImageUrlHttps;
         }
 
         public GetProfileImageParameters(IGetProfileImageParameters parameters) : base(parameters)

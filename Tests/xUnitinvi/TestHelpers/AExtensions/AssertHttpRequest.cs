@@ -74,8 +74,8 @@ namespace xUnitinvi.TestHelpers
                             var isValidRequest = _isExpectedRequest?.Invoke(request) ?? default;
 
                             context.Response.StatusCode = 200;
-                            const string matchedResponse = "SUCCESS => This request matches the validation criteria";
-                            const string notMatchedResponse = "NOT_MATCH => This request does not match the validation criteria";
+                            var matchedResponse = "SUCCESS => This request matches the validation criteria";
+                            var notMatchedResponse = "NOT_MATCH => This request does not match the validation criteria";
 
                             var rawResponse = "HttpExpect => " + (isValidRequest ? matchedResponse : notMatchedResponse);
                             _log?.Invoke(rawResponse);

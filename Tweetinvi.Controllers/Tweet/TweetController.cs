@@ -19,18 +19,15 @@ namespace Tweetinvi.Controllers.Tweet
     {
         private readonly ITweetQueryExecutor _tweetQueryExecutor;
         private readonly IUploadQueryExecutor _uploadQueryExecutor;
-        private readonly ITweetFactory _tweetFactory;
         private readonly IPageCursorIteratorFactories _pageCursorIteratorFactories;
 
         public TweetController(
             ITweetQueryExecutor tweetQueryExecutor,
             IUploadQueryExecutor uploadQueryExecutor,
-            ITweetFactory tweetFactory,
             IPageCursorIteratorFactories pageCursorIteratorFactories)
         {
             _tweetQueryExecutor = tweetQueryExecutor;
             _uploadQueryExecutor = uploadQueryExecutor;
-            _tweetFactory = tweetFactory;
             _pageCursorIteratorFactories = pageCursorIteratorFactories;
         }
 

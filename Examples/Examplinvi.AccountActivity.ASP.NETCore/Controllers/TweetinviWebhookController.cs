@@ -32,7 +32,7 @@ namespace Examplinvi.AccountActivity.ASP.NETCore.Controllers
 
 
         [HttpPost("TriggerAccountActivityWebhookCRC")]
-        public async Task<bool> TriggerAccountActivityWebhookCRC(string environment, string webhookId, long userId)
+        public async Task<bool> TriggerAccountActivityWebhookCRC(string environment, string webhookId)
         {
             return await _accountActivityWebhooksController.TriggerAccountActivityWebhookCRC(environment, webhookId);
         }

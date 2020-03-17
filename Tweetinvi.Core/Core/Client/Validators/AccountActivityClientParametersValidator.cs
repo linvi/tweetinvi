@@ -18,12 +18,10 @@ namespace Tweetinvi.Core.Client.Validators
 
     public class AccountActivityClientParametersValidator : IAccountActivityClientParametersValidator
     {
-        private readonly ITwitterClient _client;
         private readonly IAccountActivityClientRequiredParametersValidator _activityClientRequiredParametersValidator;
 
-        public AccountActivityClientParametersValidator(ITwitterClient client, IAccountActivityClientRequiredParametersValidator activityClientRequiredParametersValidator)
+        public AccountActivityClientParametersValidator(IAccountActivityClientRequiredParametersValidator activityClientRequiredParametersValidator)
         {
-            _client = client;
             _activityClientRequiredParametersValidator = activityClientRequiredParametersValidator;
         }
 

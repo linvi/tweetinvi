@@ -93,7 +93,7 @@ namespace Tweetinvi.Core
 
         public ITweetinviSettings ApplicationSettings
         {
-            get { return StaticTweetinviSettings; }
+            get => StaticTweetinviSettings;
             set
             {
                 StaticTweetinviSettings = value;
@@ -112,26 +112,26 @@ namespace Tweetinvi.Core
 
         public IProxyConfig ProxyConfig
         {
-            get { return CurrentThreadSettings.ProxyConfig; }
-            set { CurrentThreadSettings.ProxyConfig = value; }
+            get => CurrentThreadSettings.ProxyConfig;
+            set => CurrentThreadSettings.ProxyConfig = value;
         }
 
         public int HttpRequestTimeout
         {
-            get { return CurrentThreadSettings.HttpRequestTimeout; }
-            set { CurrentThreadSettings.HttpRequestTimeout = value; }
+            get => CurrentThreadSettings.HttpRequestTimeout;
+            set => CurrentThreadSettings.HttpRequestTimeout = value;
         }
 
         public int UploadTimeout
         {
-            get { return CurrentThreadSettings.UploadTimeout; }
-            set { CurrentThreadSettings.UploadTimeout = value; }
+            get => CurrentThreadSettings.UploadTimeout;
+            set => CurrentThreadSettings.UploadTimeout = value;
         }
 
         public RateLimitTrackerMode RateLimitTrackerMode
         {
-            get { return CurrentThreadSettings.RateLimitTrackerMode; }
-            set { CurrentThreadSettings.RateLimitTrackerMode = value; }
+            get => CurrentThreadSettings.RateLimitTrackerMode;
+            set => CurrentThreadSettings.RateLimitTrackerMode = value;
         }
 
         public int RateLimitWaitFudgeMs

@@ -10,7 +10,7 @@ namespace Tweetinvi.Core.DTO.Cursor
         [JsonProperty("ids")]
         public long[] Ids
         {
-            get { return _ids ?? new long[0]; }
+            get => _ids ?? new long[0];
             set
             {
                 _ids = value;

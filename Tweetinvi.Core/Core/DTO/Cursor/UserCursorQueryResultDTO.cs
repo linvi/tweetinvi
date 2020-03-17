@@ -11,7 +11,7 @@ namespace Tweetinvi.Core.DTO.Cursor
         [JsonProperty("users")]
         public IUserDTO[] Users
         {
-            get { return _users ?? new IUserDTO[0]; }
+            get => _users ?? new IUserDTO[0];
             set
             {
                 _users = value;

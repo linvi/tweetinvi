@@ -63,7 +63,7 @@ namespace Tweetinvi.Core.DTO
         public int CheckAfterInSeconds { get; set; }
 
         [JsonIgnore]
-        public int CheckAfterInMilliseconds { get { return CheckAfterInSeconds * 1000; } }
+        public int CheckAfterInMilliseconds => CheckAfterInSeconds * 1000;
 
         [JsonProperty("progress_percent")]
         public int ProgressPercentage { get; set; }

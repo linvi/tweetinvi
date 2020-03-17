@@ -6,6 +6,7 @@ using Tweetinvi.Parameters;
 using Xunit;
 using Xunit.Abstractions;
 using xUnitinvi.TestHelpers;
+#pragma warning disable 618
 
 namespace xUnitinvi.EndToEnd
 {

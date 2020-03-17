@@ -22,10 +22,7 @@ namespace Tweetinvi.Core.JsonConverters
             return canConvert;
         }
 
-        public Type InterfaceType
-        {
-            get { return typeof (TInterface); }
-        }
+        public Type InterfaceType => typeof (TInterface);
 
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {

@@ -34,9 +34,7 @@ namespace Tweetinvi
     {
         private IReadOnlyTwitterCredentials _credentials;
         private readonly ITweetinviContainer _tweetinviContainer;
-
         private readonly ITwitterClientEvents _twitterClientEvents;
-        private readonly ITweetinviEvents _tweetinviEvents;
 
         /// <summary>
         /// IMPORTANT NOTE: The setter is for convenience. It is strongly recommended to create a new TwitterClient instead.
@@ -97,13 +95,11 @@ namespace Tweetinvi
             void BeforeRegistrationDelegate(object sender, TweetinviContainerEventArgs args)
             {
                 parameters?.RaiseBeforeRegistrationCompletes(args);
-            };
+            }
 
             _tweetinviContainer.BeforeRegistrationCompletes += BeforeRegistrationDelegate;
             _tweetinviContainer.Initialize();
             _tweetinviContainer.BeforeRegistrationCompletes -= BeforeRegistrationDelegate;
-
-            _tweetinviEvents = _tweetinviContainer.Resolve<ITweetinviEvents>();
 
             var requestExecutor = _tweetinviContainer.Resolve<IRequestExecutor>();
             RequestExecutor = requestExecutor;

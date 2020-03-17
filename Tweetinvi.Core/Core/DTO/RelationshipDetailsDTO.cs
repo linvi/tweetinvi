@@ -9,117 +9,57 @@ namespace Tweetinvi.Core.DTO
         [JsonProperty("relationship")]
         private TwitterRelationshipDTO _relationship { get; set; }
 
-        private SourceRelationshipDTO _sourceAccessor
-        {
-            get { return _relationship.Source; }
-        }
+        private SourceRelationshipDTO _sourceAccessor => _relationship.Source;
 
-        private TargetRelationshipDTO _targetAccessor
-        {
-            get { return _relationship.Target; }
-        }
+        private TargetRelationshipDTO _targetAccessor => _relationship.Target;
 
-        public long SourceId
-        {
-            get { return _sourceAccessor.SourceId; }
-        }
+        public long SourceId => _sourceAccessor.SourceId;
 
-        public string SourceIdStr
-        {
-            get { return _sourceAccessor.SourceIdStr; }
-        }
+        public string SourceIdStr => _sourceAccessor.SourceIdStr;
 
-        public string SourceScreenName
-        {
-            get { return _sourceAccessor.SourceScreenName; }
-        }
+        public string SourceScreenName => _sourceAccessor.SourceScreenName;
 
-        public long TargetId
-        {
-            get { return _targetAccessor.TargetId; }
-        }
+        public long TargetId => _targetAccessor.TargetId;
 
-        public string TargetIdStr
-        {
-            get { return _targetAccessor.TargetIdStr; }
-        }
+        public string TargetIdStr => _targetAccessor.TargetIdStr;
 
-        public string TargetScreenName
-        {
-            get { return _targetAccessor.TargetScreenName; }
-        }
+        public string TargetScreenName => _targetAccessor.TargetScreenName;
 
         [JsonIgnore]
-        public bool Following
-        {
-            get { return _sourceAccessor.Following; }
-        }
+        public bool Following => _sourceAccessor.Following;
 
         [JsonIgnore]
-        public bool FollowedBy
-        {
-            get { return _sourceAccessor.FollowedBy; }
-        }
+        public bool FollowedBy => _sourceAccessor.FollowedBy;
 
         [JsonIgnore]
-        public bool FollowingReceived
-        {
-            get { return _sourceAccessor.FollowingReceived; }
-        }
+        public bool FollowingReceived => _sourceAccessor.FollowingReceived;
 
         [JsonIgnore]
-        public bool FollowingRequested
-        {
-            get { return _sourceAccessor.FollowingRequested; }
-        }
+        public bool FollowingRequested => _sourceAccessor.FollowingRequested;
 
         [JsonIgnore]
-        public bool NotificationsEnabled
-        {
-            get { return _sourceAccessor.NotificationsEnabled; }
-        }
+        public bool NotificationsEnabled => _sourceAccessor.NotificationsEnabled;
 
         [JsonIgnore]
-        public bool CanSendDirectMessage
-        {
-            get { return _sourceAccessor.CanSendDirectMessage; }
-        }
+        public bool CanSendDirectMessage => _sourceAccessor.CanSendDirectMessage;
 
         [JsonIgnore]
-        public bool Blocking
-        {
-            get { return _sourceAccessor.Blocking; }
-        }
+        public bool Blocking => _sourceAccessor.Blocking;
 
         [JsonIgnore]
-        public bool BlockedBy
-        {
-            get { return _sourceAccessor.BlockedBy; }
-        }
+        public bool BlockedBy => _sourceAccessor.BlockedBy;
 
         [JsonIgnore]
-        public bool Muting
-        {
-            get { return _sourceAccessor.Muting; }
-        }
+        public bool Muting => _sourceAccessor.Muting;
 
         [JsonIgnore]
-        public bool WantRetweets
-        {
-            get { return _sourceAccessor.WantRetweets; }
-        }
+        public bool WantRetweets => _sourceAccessor.WantRetweets;
 
         [JsonIgnore]
-        public bool AllReplies
-        {
-            get { return _sourceAccessor.AllReplies; }
-        }
+        public bool AllReplies => _sourceAccessor.AllReplies;
 
         [JsonIgnore]
-        public bool MarkedSpam
-        {
-            get { return _sourceAccessor.MarkedSpam; }
-        }
+        public bool MarkedSpam => _sourceAccessor.MarkedSpam;
 
         // ReSharper disable UnusedAutoPropertyAccessor.Local
         // ReSharper disable ClassNeverInstantiated.Local

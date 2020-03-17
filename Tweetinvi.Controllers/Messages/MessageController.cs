@@ -1,7 +1,5 @@
 ﻿using System.Threading.Tasks;
-using Tweetinvi.Client.Tools;
 using Tweetinvi.Core.Controllers;
-using Tweetinvi.Core.Injectinvi;
 using Tweetinvi.Core.Iterators;
 using Tweetinvi.Core.Web;
 using Tweetinvi.Models;
@@ -14,20 +12,10 @@ namespace Tweetinvi.Controllers.Messages
     public class MessageController : IMessageController
     {
         private readonly IMessageQueryExecutor _messageQueryExecutor;
-        private readonly ITwitterClientFactories _factories;
-        private readonly IFactory<IGetMessagesParameters> _getMessagesParametersFactory;
-        private readonly IPageCursorIteratorFactories _pageCursorIteratorFactories;
 
-        public MessageController(
-            IMessageQueryExecutor messageQueryExecutor,
-            ITwitterClientFactories factories,
-            IFactory<IGetMessagesParameters> getMessagesParametersFactory,
-            IPageCursorIteratorFactories pageCursorIteratorFactories)
+        public MessageController(IMessageQueryExecutor messageQueryExecutor)
         {
             _messageQueryExecutor = messageQueryExecutor;
-            _factories = factories;
-            _getMessagesParametersFactory = getMessagesParametersFactory;
-            _pageCursorIteratorFactories = pageCursorIteratorFactories;
         }
 
         public Task<ITwitterResult<ICreateMessageDTO>> PublishMessage(IPublishMessageParameters parameters, ITwitterRequest request)
