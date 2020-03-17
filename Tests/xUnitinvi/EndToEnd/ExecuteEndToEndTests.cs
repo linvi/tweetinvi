@@ -26,7 +26,7 @@ namespace xUnitinvi.EndToEnd
                 request.Query.HttpMethod = HttpMethod.GET;
             });
 
-            var userFromJson = _tweetinviTestClient.Json.DeserializeObject<IUserDTO>(twitterResult.RawResult);
+            var userFromJson = _tweetinviTestClient.Json.Deserialize<IUserDTO>(twitterResult.RawResult);
 
             var userTwitterResult = await _tweetinviTestClient.Execute.Request<IUserDTO>(request =>
             {

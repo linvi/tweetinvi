@@ -1,0 +1,208 @@
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
+using Newtonsoft.Json.Linq;
+using Tweetinvi.Core.DTO;
+using Tweetinvi.Core.Helpers;
+using Tweetinvi.Models;
+using Tweetinvi.Models.DTO;
+
+namespace Tweetinvi.Core.Json
+{
+    public interface ITweetinviJsonConverter
+    {
+        string ToJson<T>(T obj) where T : class;
+        T ConvertJsonTo<T>(string json) where T : class;
+    }
+
+    public class TweetinviJsonConverter : ITweetinviJsonConverter
+    {
+        private readonly IJsonObjectConverter _jsonObjectConverter;
+        private readonly Dictionary<Type, IJsonConverter> _serializers;
+
+        public TweetinviJsonConverter(ITwitterClient client, IJsonObjectConverter jsonObjectConverter)
+        {
+            _jsonObjectConverter = jsonObjectConverter;
+            var factories = client.Factories;
+
+            _serializers = new Dictionary<Type, IJsonConverter>();
+
+            // ReSharper disable RedundantTypeArgumentsOfMethod
+            Map<ITweet, ITweetDTO>(tweet => tweet.TweetDTO, factories.CreateTweet);
+            Map<IUser, IUserDTO>(user => user.UserDTO, factories.CreateUser);
+            Map<IAuthenticatedUser, IUserDTO>(user => user.UserDTO, factories.CreateAuthenticatedUser);
+            Map<IMessage, IMessageEventWithAppDTO>(message =>
+            {
+                return new MessageEventWithAppDTO
+                {
+                    MessageEvent = message.MessageEventDTO,
+                    App = message.App
+                };
+            }, factories.CreateMessage);
+            Map<ITwitterList, ITwitterListDTO>(list => list.TwitterListDTO, factories.CreateTwitterList);
+            Map<ISavedSearch, ISavedSearchDTO>(savedSearch => savedSearch.SavedSearchDTO, factories.CreateSavedSearch);
+            Map<IOEmbedTweet, IOEmbedTweetDTO>(oEmbedTweet => oEmbedTweet.OembedTweetDTO, factories.CreateOEmbedTweet);
+            Map<IRelationshipDetails, IRelationshipDetailsDTO>(relationshipDetails => relationshipDetails.RelationshipDetailsDTO, factories.CreateRelationshipDetails);
+            Map<IRelationshipState, IRelationshipStateDTO>(r => r.RelationshipStateDTO, factories.CreateRelationshipState);
+            // ReSharper restore RedundantTypeArgumentsOfMethod
+        }
+
+        // TO JSON
+        public string ToJson<T>(T obj) where T : class
+        {
+            return ToJson(obj, null);
+        }
+
+        public string ToJson<T1, T2>(T1 obj, Func<T1, T2> getSerializableObject) where T1 : class where T2 : class
+        {
+            var serializer = new JsonTypeConverter<T1, T2>(getSerializableObject, null);
+            return ToJson(obj, serializer);
+        }
+
+        private string ToJson<T>(T obj, IJsonConverter converter)
+        {
+            var type = typeof(T);
+            object toSerialize = obj;
+
+            if (obj is IEnumerable enumerable)
+            {
+                var genericType = type.GetElementType() ?? type.GetGenericArguments()[0];
+
+                converter ??= GetSerializerFromNonCollectionType(genericType);
+
+                if (converter != null)
+                {
+                    var list = new List<object>();
+
+                    foreach (var o in enumerable)
+                    {
+                        list.Add(converter.GetObjectToSerialize(o));
+                    }
+
+                    toSerialize = list;
+                }
+            }
+
+            if (converter == null)
+            {
+                converter = GetSerializerFromNonCollectionType(type);
+
+                if (converter != null)
+                {
+                    toSerialize = converter.GetObjectToSerialize(obj);
+                }
+            }
+
+            try
+            {
+                return _jsonObjectConverter.SerializeObject(toSerialize);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(
+                    "The type provided is probably not compatible with Tweetinvi Json serializer." +
+                    "If you think class should be serializable by default please report on github.com/linvi/tweetinvi.",
+                    ex
+                );
+            }
+        }
+
+        public T ConvertJsonTo<T>(string json) where T : class
+        {
+            return ConvertJsonTo<T>(json, null);
+        }
+
+        private T ConvertJsonTo<T>(string json, IJsonConverter converter) where T : class
+        {
+            var type = typeof(T);
+
+            try
+            {
+                if (typeof(IEnumerable).IsAssignableFrom(type))
+                {
+                    Type genericType = null;
+
+                    if (type.GetTypeInfo().IsGenericType)
+                    {
+                        genericType = type.GetGenericArguments()[0];
+                    }
+                    else if (typeof(Array).IsAssignableFrom(type))
+                    {
+                        genericType = type.GetElementType();
+                    }
+
+                    converter ??= GetSerializerFromNonCollectionType(genericType);
+                    if (genericType != null && converter != null)
+                    {
+                        var list = (IList)Activator.CreateInstance(typeof(List<>).MakeGenericType(genericType));
+
+                        JArray jsonArray = JArray.Parse(json);
+
+                        foreach (var elt in jsonArray)
+                        {
+                            var eltJson = elt.ToString();
+                            list.Add(converter.Deserialize(eltJson));
+                        }
+
+                        if (typeof(Array).IsAssignableFrom(type))
+                        {
+                            var array = Array.CreateInstance(genericType, list.Count);
+                            list.CopyTo(array, 0);
+                            return array as T;
+                        }
+
+                        return list as T;
+                    }
+                }
+
+                converter ??= GetSerializerFromNonCollectionType(type);
+
+                if (converter != null)
+                {
+                    return converter.Deserialize(json) as T;
+                }
+
+                return _jsonObjectConverter.DeserializeObject<T>(json);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(
+                    "The type provided is probably not compatible with Tweetinvi Json serializer." +
+                    "If you think class should be deserializable by default please report on github.com/linvi/tweetinvi.",
+                    ex
+                );
+            }
+        }
+
+        private IJsonConverter GetSerializerFromNonCollectionType(Type type)
+        {
+            // Test interfaces
+            if (_serializers.ContainsKey(type))
+            {
+                return _serializers[type];
+            }
+
+            // Test concrete classes from mapped interfaces
+            if (_serializers.Keys.Any(x => x.IsAssignableFrom(type)))
+            {
+                return _serializers.FirstOrDefault(x => x.Key.IsAssignableFrom(type)).Value;
+            }
+
+            return null;
+        }
+
+        private void Map<T1, T2>(Func<T1, T2> getDto, Func<string, T1> deserialize) where T1 : class where T2 : class
+        {
+            if (_serializers.ContainsKey(typeof(T1)))
+            {
+                _serializers[typeof(T1)] = new JsonTypeConverter<T1, T2>(getDto, deserialize);
+            }
+            else
+            {
+                _serializers.Add(typeof(T1), new JsonTypeConverter<T1, T2>(getDto, deserialize));
+            }
+        }
+    }
+}

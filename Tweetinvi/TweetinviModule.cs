@@ -50,7 +50,8 @@ namespace Tweetinvi
 
             container.RegisterType<IRequestExecutor, RequestExecutor>(RegistrationLifetime.InstancePerApplication);
             container.RegisterType<ITwitterClientFactories, TwitterClientFactories>(RegistrationLifetime.InstancePerApplication);
-            container.RegisterType<ITwitterClientJson, TwitterClientJson>(RegistrationLifetime.InstancePerApplication);
+
+            container.RegisterType<IJsonClient, JsonClient>(RegistrationLifetime.InstancePerApplication);
         }
     }
 }

@@ -93,7 +93,7 @@ namespace Tweetinvi
         /// <summary>
         /// Help you perform json operations with Tweetinvi objects
         /// </summary>
-        ITwitterClientJson Json { get; }
+        IJsonClient Json { get; }
 
         /// <summary>
         /// Validate parameters to ensure that they meet the default criteria

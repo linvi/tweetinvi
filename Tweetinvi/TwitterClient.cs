@@ -125,7 +125,7 @@ namespace Tweetinvi
 
             _twitterClientEvents = _tweetinviContainer.Resolve<ITwitterClientEvents>();
             Factories = _tweetinviContainer.Resolve<ITwitterClientFactories>();
-            Json = _tweetinviContainer.Resolve<ITwitterClientJson>();
+            Json = _tweetinviContainer.Resolve<IJsonClient>();
 
             var rateLimitCacheManager = _tweetinviContainer.Resolve<IRateLimitCacheManager>();
             rateLimitCacheManager.RateLimitsClient = RateLimits;
@@ -163,7 +163,7 @@ namespace Tweetinvi
         /// <inheritdoc/>
         public ITwitterClientFactories Factories { get; }
         /// <inheritdoc/>
-        public ITwitterClientJson Json { get; }
+        public IJsonClient Json { get; }
 
         /// <inheritdoc/>
         public IParametersValidator ParametersValidator { get; }
