@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using Tweetinvi.Core.DTO;
 using Tweetinvi.Core.Models;
 using Tweetinvi.Core.QueryGenerators;
 using Tweetinvi.Core.Web;
@@ -10,7 +11,7 @@ namespace Tweetinvi.Controllers.Help
 {
     public interface IHelpQueryExecutor
     {
-        Task<ITwitterResult<ICredentialsRateLimits>> GetRateLimits(IGetRateLimitsParameters parameters, ITwitterRequest request);
+        Task<ITwitterResult<CredentialsRateLimitsDTO>> GetRateLimits(IGetRateLimitsParameters parameters, ITwitterRequest request);
         Task<ITwitterResult<ITwitterConfiguration>> GetTwitterConfiguration(IGetTwitterConfigurationParameters parameters, ITwitterRequest request);
         Task<ITwitterResult<SupportedLanguage[]>> GetSupportedLanguages(IGetSupportedLanguagesParameters parameters, ITwitterRequest request);
     }
@@ -26,11 +27,11 @@ namespace Tweetinvi.Controllers.Help
             _twitterAccessor = twitterAccessor;
         }
 
-        public Task<ITwitterResult<ICredentialsRateLimits>> GetRateLimits(IGetRateLimitsParameters parameters, ITwitterRequest request)
+        public Task<ITwitterResult<CredentialsRateLimitsDTO>> GetRateLimits(IGetRateLimitsParameters parameters, ITwitterRequest request)
         {
             request.Query.Url = _helpQueryGenerator.GetRateLimitsQuery(parameters);
             request.Query.HttpMethod = HttpMethod.GET;
-            return _twitterAccessor.ExecuteRequest<ICredentialsRateLimits>(request);
+            return _twitterAccessor.ExecuteRequest<CredentialsRateLimitsDTO>(request);
         }
 
         public Task<ITwitterResult<ITwitterConfiguration>> GetTwitterConfiguration(IGetTwitterConfigurationParameters parameters, ITwitterRequest request)

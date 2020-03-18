@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Tweetinvi.Core.DTO;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
 using Tweetinvi.Models.DTO.Events;
@@ -56,5 +57,16 @@ namespace Tweetinvi.Client.Tools
         IUser[] CreateUsers(IEnumerable<IUserDTO> usersDTO);
         IAuthenticatedUser CreateAuthenticatedUser(string json);
         IAuthenticatedUser CreateAuthenticatedUser(IUserDTO userDTO);
+
+        // HELP
+        ITwitterConfiguration CreateTwitterConfiguration(string json);
+
+        // RATE LIMITS
+        ICredentialsRateLimits CreateRateLimits(string json);
+        ICredentialsRateLimits CreateRateLimits(CredentialsRateLimitsDTO dto);
+
+        // CREDENTIALS
+        ITwitterCredentials CreateTwitterCredentials(string json);
+        IConsumerCredentials CreateConsumerCredentials(string json);
     }
 }

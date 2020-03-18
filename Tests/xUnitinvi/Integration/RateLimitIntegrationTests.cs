@@ -1,6 +1,8 @@
 using System.Threading.Tasks;
 using FakeItEasy;
 using Tweetinvi;
+using Tweetinvi.Core.DTO;
+using Tweetinvi.Core.Models;
 using Tweetinvi.Core.RateLimit;
 using Tweetinvi.Core.Web;
 using Tweetinvi.Models;
@@ -45,7 +47,7 @@ namespace xUnitinvi.Integration
         [Fact]
         public async Task GetRateLimits_FromTwitterApiOnly_GetsResultFromTwitterAccessor()
         {
-            var expectedRateLimits = A.Fake<ICredentialsRateLimits>();
+            var expectedRateLimits = A.Fake<CredentialsRateLimitsDTO>();
             var twitterAccessor = A.Fake<ITwitterAccessor>();
 
             var container = new TweetinviContainer();
@@ -57,23 +59,25 @@ namespace xUnitinvi.Integration
             {
                 Container = container
             });
-            A.CallTo(() => twitterAccessor.ExecuteRequest<ICredentialsRateLimits>(It.IsAny<ITwitterRequest>()))
-                .Returns(new TwitterResult<ICredentialsRateLimits> { DataTransferObject = expectedRateLimits });
+            A.CallTo(() => twitterAccessor.ExecuteRequest<CredentialsRateLimitsDTO>(It.IsAny<ITwitterRequest>()))
+                .Returns(new TwitterResult<CredentialsRateLimitsDTO> { DataTransferObject = expectedRateLimits });
 
             // act
             var rateLimits = await client.RateLimits.GetRateLimits(RateLimitsSource.TwitterApiOnly);
 
             // arrange
-            Assert.Same(rateLimits, expectedRateLimits);
+            Assert.Same(rateLimits.CredentialsRateLimitsDTO, expectedRateLimits);
         }
 
         [Fact]
         public async Task GetRateLimits_FromCacheOrTwitterApi_GetsFirstFromTwitterApiThenFromCache()
         {
             var fakeRateLimitCache = A.Fake<IRateLimitCache>();
-            var twitterApiRateLimits = A.Fake<ICredentialsRateLimits>();
+            var twitterApiRateLimitsDTO = A.Fake<CredentialsRateLimitsDTO>();
+            var twitterApiRateLimits = new CredentialsRateLimits(twitterApiRateLimitsDTO);
             var cacheRateLimits = A.Fake<ICredentialsRateLimits>();
             var twitterAccessor = A.Fake<ITwitterAccessor>();
+
 
             var container = new TweetinviContainer();
             container.BeforeRegistrationCompletes += (sender, args) => { container.RegisterInstance(typeof(ITwitterAccessor), twitterAccessor); };
@@ -87,7 +91,7 @@ namespace xUnitinvi.Integration
             });
 
             A.CallTo(() => fakeRateLimitCache.GetCredentialsRateLimits(client.Credentials)).Returns(Task.FromResult<ICredentialsRateLimits>(null));
-            A.CallTo(() => fakeRateLimitCache.RefreshEntry(client.Credentials, twitterApiRateLimits))
+            A.CallTo(() => fakeRateLimitCache.RefreshEntry(client.Credentials, A<ICredentialsRateLimits>.That.Matches(x => x.CredentialsRateLimitsDTO == twitterApiRateLimitsDTO)))
                 .ReturnsLazily(() =>
                 {
                     // we use sequence here as `RefreshCredentialsRateLimits` is calling GetCredentialsRateLimits right after having put it in the cache
@@ -96,15 +100,15 @@ namespace xUnitinvi.Integration
                     return Task.CompletedTask;
                 });
 
-            A.CallTo(() => twitterAccessor.ExecuteRequest<ICredentialsRateLimits>(It.IsAny<ITwitterRequest>()))
-                .Returns(new TwitterResult<ICredentialsRateLimits> { DataTransferObject = twitterApiRateLimits });
+            A.CallTo(() => twitterAccessor.ExecuteRequest<CredentialsRateLimitsDTO>(It.IsAny<ITwitterRequest>()))
+                .Returns(new TwitterResult<CredentialsRateLimitsDTO> { DataTransferObject = twitterApiRateLimitsDTO });
 
             // act
             var rateLimits = await client.RateLimits.GetRateLimits(RateLimitsSource.CacheOrTwitterApi);
             var rateLimitsThatShouldComeCache = await client.RateLimits.GetRateLimits(RateLimitsSource.CacheOrTwitterApi);
 
             // arrange
-            Assert.Same(rateLimits, twitterApiRateLimits);
+            Assert.Same(rateLimits.CredentialsRateLimitsDTO, twitterApiRateLimitsDTO);
             Assert.Same(rateLimitsThatShouldComeCache, cacheRateLimits);
         }
     }

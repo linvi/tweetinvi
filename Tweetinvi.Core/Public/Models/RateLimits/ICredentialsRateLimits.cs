@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using Tweetinvi.Core.Attributes;
+using Tweetinvi.Core.DTO;
+using Tweetinvi.Core.Models;
 
 namespace Tweetinvi.Models
 {
@@ -21,7 +23,8 @@ namespace Tweetinvi.Models
 
         DateTime CreatedAt { get; }
         string RateLimitContext { get; }
-        bool IsApplicationOnlyCredentials { get; set; }
+        bool IsApplicationOnlyCredentials { get; }
+        CredentialsRateLimitsDTO CredentialsRateLimitsDTO { get; }
 
         // ALL OTHERS that are retrieved from the headers
         Dictionary<TwitterEndpointAttribute, IEndpointRateLimit> OtherEndpointRateLimits { get; }

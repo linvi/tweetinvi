@@ -5,8 +5,8 @@ using System.Linq;
 using System.Reflection;
 using Newtonsoft.Json.Linq;
 using Tweetinvi.Core.DTO;
-using Tweetinvi.Core.DTO.Events;
 using Tweetinvi.Core.Helpers;
+using Tweetinvi.Core.Models;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
 using Tweetinvi.Models.DTO.Events;
@@ -39,6 +39,7 @@ namespace Tweetinvi.Core.Json
             Map<ITweet, ITweetDTO>(tweet => tweet.TweetDTO, factories.CreateTweet);
             Map<IUser, IUserDTO>(user => user.UserDTO, factories.CreateUser);
             Map<IAuthenticatedUser, IUserDTO>(user => user.UserDTO, factories.CreateAuthenticatedUser);
+            Map<IAccountSettings, IAccountSettingsDTO>(accountSettings => accountSettings.AccountSettingsDTO, factories.CreateAccountSettings);
             Map<IMessage, IMessageEventDTO>(message => message.MessageEventDTO, factories.CreateMessage);
             Map<IMessage, IMessageEventWithAppDTO>(message =>
             {
@@ -49,6 +50,14 @@ namespace Tweetinvi.Core.Json
                 };
             }, factories.CreateMessageFromMessageEventWithApp);
             Map<ITwitterList, ITwitterListDTO>(list => list.TwitterListDTO, factories.CreateTwitterList);
+
+            Map<ITwitterCredentials, ITwitterCredentials>(credentials => credentials, factories.CreateTwitterCredentials);
+            Map<ITwitterCredentials, IConsumerCredentials>(credentials => new ConsumerCredentials(credentials), factories.CreateTwitterCredentials);
+            Map<IConsumerCredentials, IConsumerCredentials>(credentials => credentials, factories.CreateConsumerCredentials);
+            Map<IConsumerCredentials, ITwitterCredentials>(credentials => new TwitterCredentials(credentials), factories.CreateConsumerCredentials);
+
+            Map<ICredentialsRateLimits, CredentialsRateLimitsDTO>(rateLimits => rateLimits.CredentialsRateLimitsDTO, factories.CreateRateLimits);
+            Map<ITwitterConfiguration, ITwitterConfiguration>(config => config, factories.CreateTwitterConfiguration);
             Map<ISavedSearch, ISavedSearchDTO>(savedSearch => savedSearch.SavedSearchDTO, factories.CreateSavedSearch);
             Map<IOEmbedTweet, IOEmbedTweetDTO>(oEmbedTweet => oEmbedTweet.OembedTweetDTO, factories.CreateOEmbedTweet);
             Map<IRelationshipDetails, IRelationshipDetailsDTO>(relationshipDetails => relationshipDetails.RelationshipDetailsDTO, factories.CreateRelationshipDetails);
@@ -126,6 +135,19 @@ namespace Tweetinvi.Core.Json
             return ConvertJsonTo<T>(json, null);
         }
 
+        public TTo ConvertJsonTo<TFrom, TTo>(string json) where TFrom : class where TTo : class
+        {
+            if (_serializers.TryGetValue(typeof(TFrom), out var serializersByType))
+            {
+                if (serializersByType.TryGetValue(typeof(TTo), out var serializer))
+                {
+                    return ConvertJsonTo<TTo>(json, serializer);
+                }
+            }
+
+            return ConvertJsonTo<TTo>(json, null);
+        }
+
         private T ConvertJsonTo<T>(string json, IJsonConverter converter) where T : class
         {
             var type = typeof(T);
@@ -169,7 +191,7 @@ namespace Tweetinvi.Core.Json
                     }
                 }
 
-                converter ??= GetSerializerFromNonCollectionType(type);
+                    converter ??= GetSerializerFromNonCollectionType(type);
 
                 if (converter != null)
                 {

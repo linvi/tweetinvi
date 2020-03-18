@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using Tweetinvi.Core.DTO;
 using Tweetinvi.Core.Helpers;
 using Tweetinvi.Core.Models;
 using Tweetinvi.Core.Models.Properties;
@@ -269,6 +270,37 @@ namespace Tweetinvi.Client.Tools
             }
 
             return new AuthenticatedUser(userDTO, _client);
+        }
+
+        public ITwitterConfiguration CreateTwitterConfiguration(string json)
+        {
+            return _jsonObjectConverter.Deserialize<ITwitterConfiguration>(json);
+        }
+
+        public ICredentialsRateLimits CreateRateLimits(string json)
+        {
+            var dto = _jsonObjectConverter.Deserialize<CredentialsRateLimitsDTO>(json);
+            return CreateRateLimits(dto);
+        }
+
+        public ICredentialsRateLimits CreateRateLimits(CredentialsRateLimitsDTO dto)
+        {
+            if (dto == null)
+            {
+                return null;
+            }
+
+            return new CredentialsRateLimits(dto);
+        }
+
+        public ITwitterCredentials CreateTwitterCredentials(string json)
+        {
+            return _jsonObjectConverter.Deserialize<TwitterCredentials>(json);
+        }
+
+        public IConsumerCredentials CreateConsumerCredentials(string json)
+        {
+            return _jsonObjectConverter.Deserialize<ConsumerCredentials>(json);
         }
 
         public IAccountSettings CreateAccountSettings(string json)

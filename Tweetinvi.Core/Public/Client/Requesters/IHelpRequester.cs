@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using Tweetinvi.Core.DTO;
 using Tweetinvi.Core.Models;
 using Tweetinvi.Core.Web;
 using Tweetinvi.Models;
@@ -14,7 +15,7 @@ namespace Tweetinvi.Client.Requesters
         /// </summary>
         /// <para> Read more : https://developer.twitter.com/en/docs/developer-utilities/rate-limit-status/api-reference/get-application-rate_limit_status </para>
         /// <returns>The twitter response containing the client's rate limits</returns>
-        Task<ITwitterResult<ICredentialsRateLimits>> GetRateLimits(IGetRateLimitsParameters parameters);
+        Task<ITwitterResult<CredentialsRateLimitsDTO>> GetRateLimits(IGetRateLimitsParameters parameters);
 
         /// <summary>
         /// Get the Twitter API configuration

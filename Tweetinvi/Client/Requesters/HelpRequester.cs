@@ -1,6 +1,7 @@
 using System.Threading.Tasks;
 using Tweetinvi.Core.Client.Validators;
 using Tweetinvi.Core.Controllers;
+using Tweetinvi.Core.DTO;
 using Tweetinvi.Core.Events;
 using Tweetinvi.Core.Models;
 using Tweetinvi.Core.Web;
@@ -26,7 +27,7 @@ namespace Tweetinvi.Client.Requesters
             _validator = validator;
         }
 
-        public Task<ITwitterResult<ICredentialsRateLimits>> GetRateLimits(IGetRateLimitsParameters parameters)
+        public Task<ITwitterResult<CredentialsRateLimitsDTO>> GetRateLimits(IGetRateLimitsParameters parameters)
         {
             _validator.Validate(parameters);
 

@@ -219,15 +219,19 @@ namespace Tweetinvi.Core.JsonConverters
             JsonConverters.Add(typeof(IGetWebhookSubscriptionsCountResultDTO), getWebhookSubscriptionsCountResultDTOConverter);
         }
 
+        private static readonly object _convertersLocker = new object();
         public static void TryOverride<TInterface, TTo>() where TTo : TInterface
         {
-            var jsonInterfaceToObjectConverter = JsonConverters.Where(x => x.Value is IJsonInterfaceToObjectConverter);
-            var matchingConverter = jsonInterfaceToObjectConverter.Where(x => ((IJsonInterfaceToObjectConverter)x.Value).InterfaceType == typeof(TInterface)).ToArray();
-
-            if (matchingConverter.Length == 1)
+            lock (_convertersLocker)
             {
-                JsonConverters.Remove(typeof(TInterface));
-                JsonConverters.Add(typeof(TInterface), new JsonInterfaceToObjectConverter<TInterface, TTo>());
+                var jsonInterfaceToObjectConverter = JsonConverters.Where(x => x.Value is IJsonInterfaceToObjectConverter);
+                var matchingConverter = jsonInterfaceToObjectConverter.Where(x => ((IJsonInterfaceToObjectConverter)x.Value).InterfaceType == typeof(TInterface)).ToArray();
+
+                if (matchingConverter.Length == 1)
+                {
+                    JsonConverters.Remove(typeof(TInterface));
+                    JsonConverters.Add(typeof(TInterface), new JsonInterfaceToObjectConverter<TInterface, TTo>());
+                }
             }
         }
 
@@ -238,7 +242,10 @@ namespace Tweetinvi.Core.JsonConverters
 
         public JsonConverter GetTypeConverter(Type objectType)
         {
-            return JsonConverters[objectType];
+            lock (_convertersLocker)
+            {
+                return JsonConverters[objectType];
+            }
         }
 
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
@@ -248,7 +255,10 @@ namespace Tweetinvi.Core.JsonConverters
 
         public override bool CanConvert(Type objectType)
         {
-            return JsonConverters.ContainsKey(objectType);
+            lock (_convertersLocker)
+            {
+                return JsonConverters.ContainsKey(objectType);
+            }
         }
 
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)

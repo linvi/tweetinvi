@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using FakeItEasy;
 using Tweetinvi;
 using Tweetinvi.Controllers.Properties;
+using Tweetinvi.Core.DTO;
 using Tweetinvi.Core.Helpers;
 using Tweetinvi.Core.Web;
 using Tweetinvi.Models;
@@ -53,7 +54,7 @@ namespace xUnitinvi.EndToEnd
             var fromCacheLimits = await client.RateLimits.GetRateLimits();
 
             // assert
-            A.CallTo(() => twitterAccessorSpy.FakedObject.ExecuteRequest<ICredentialsRateLimits>(It.IsAny<ITwitterRequest>()))
+            A.CallTo(() => twitterAccessorSpy.FakedObject.ExecuteRequest<CredentialsRateLimitsDTO>(It.IsAny<ITwitterRequest>()))
                 .MustHaveHappenedTwiceExactly();
 
             Assert.Equal(firstApplicationRateLimits.ApplicationRateLimitStatusLimit.Remaining, rateLimits.ApplicationRateLimitStatusLimit.Remaining + 1);
@@ -86,7 +87,7 @@ namespace xUnitinvi.EndToEnd
             var fromCacheLimits = await client.RateLimits.GetEndpointRateLimit("https://api.twitter.com/1.1/statuses/home_timeline.json");
 
             // assert
-            A.CallTo(() => twitterAccessorSpy.FakedObject.ExecuteRequest<ICredentialsRateLimits>(It.IsAny<ITwitterRequest>()))
+            A.CallTo(() => twitterAccessorSpy.FakedObject.ExecuteRequest<CredentialsRateLimitsDTO>(It.IsAny<ITwitterRequest>()))
                 .MustHaveHappenedTwiceExactly();
 
             Assert.Equal(firstApplicationRateLimits.Remaining, fromCacheLimits.Remaining + 1);
@@ -96,7 +97,7 @@ namespace xUnitinvi.EndToEnd
             await client.RateLimits.ClearRateLimitCache();
             await client.RateLimits.GetEndpointRateLimit("https://api.twitter.com/1.1/statuses/home_timeline.json");
 
-            A.CallTo(() => twitterAccessorSpy.FakedObject.ExecuteRequest<ICredentialsRateLimits>(It.IsAny<ITwitterRequest>()))
+            A.CallTo(() => twitterAccessorSpy.FakedObject.ExecuteRequest<CredentialsRateLimitsDTO>(It.IsAny<ITwitterRequest>()))
                 .MustHaveHappened(3, Times.Exactly);
         }
 

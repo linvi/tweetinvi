@@ -27,6 +27,8 @@ namespace Tweetinvi.Models
 
     public class ConsumerCredentials : IConsumerCredentials
     {
+        public ConsumerCredentials() { }
+
         public ConsumerCredentials(string consumerKey, string consumerSecret)
         {
             ConsumerKey = consumerKey;

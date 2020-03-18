@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Tweetinvi.Core.Controllers;
+using Tweetinvi.Core.DTO;
 using Tweetinvi.Core.Models;
 using Tweetinvi.Core.Web;
 using Tweetinvi.Models;
@@ -17,7 +18,7 @@ namespace Tweetinvi.Controllers.Help
             _helpQueryExecutor = helpQueryExecutor;
         }
 
-        public Task<ITwitterResult<ICredentialsRateLimits>> GetRateLimits(IGetRateLimitsParameters parameters, ITwitterRequest request)
+        public Task<ITwitterResult<CredentialsRateLimitsDTO>> GetRateLimits(IGetRateLimitsParameters parameters, ITwitterRequest request)
         {
             return _helpQueryExecutor.GetRateLimits(parameters, request);
         }
