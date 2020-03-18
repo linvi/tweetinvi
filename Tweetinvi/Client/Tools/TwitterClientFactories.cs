@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using Tweetinvi.Core.Helpers;
 using Tweetinvi.Core.Models;
 using Tweetinvi.Core.Models.Properties;
 using Tweetinvi.Core.Models.TwitterEntities;
@@ -13,10 +14,12 @@ namespace Tweetinvi.Client.Tools
     public class TwitterClientFactories : ITwitterClientFactories
     {
         private readonly ITwitterClient _client;
+        private IJsonObjectConverter _jsonObjectConverter;
 
-        public TwitterClientFactories(ITwitterClient client)
+        public TwitterClientFactories(ITwitterClient client, IJsonObjectConverter jsonObjectConverter)
         {
             _client = client;
+            _jsonObjectConverter = jsonObjectConverter;
         }
 
         public IAccountSettings CreateAccountSettings(IAccountSettingsDTO dto)
@@ -31,7 +34,7 @@ namespace Tweetinvi.Client.Tools
 
         public ITwitterList CreateTwitterList(string json)
         {
-            var listDTO = _client.Json.Deserialize<ITwitterListDTO>(json);
+            var listDTO = _jsonObjectConverter.Deserialize<ITwitterListDTO>(json);
             return CreateTwitterList(listDTO);
         }
 
@@ -92,7 +95,13 @@ namespace Tweetinvi.Client.Tools
 
         public IMessage CreateMessage(string json)
         {
-            var eventWithAppDTO = _client.Json.Deserialize<IMessageEventWithAppDTO>(json);
+            var eventWithAppDTO = _jsonObjectConverter.Deserialize<IMessageEventDTO>(json);
+            return CreateMessage(eventWithAppDTO);
+        }
+
+        public IMessage CreateMessageFromMessageEventWithApp(string json)
+        {
+            var eventWithAppDTO = _jsonObjectConverter.Deserialize<IMessageEventWithAppDTO>(json);
 
             if (eventWithAppDTO.MessageEvent == null)
             {
@@ -123,7 +132,7 @@ namespace Tweetinvi.Client.Tools
 
         public IRelationshipState CreateRelationshipState(string json)
         {
-            var dto = _client.Json.Deserialize<IRelationshipStateDTO>(json);
+            var dto = _jsonObjectConverter.Deserialize<IRelationshipStateDTO>(json);
             return CreateRelationshipState(dto);
         }
 
@@ -144,7 +153,7 @@ namespace Tweetinvi.Client.Tools
 
         public IRelationshipDetails CreateRelationshipDetails(string json)
         {
-            var dto = _client.Json.Deserialize<IRelationshipDetailsDTO>(json);
+            var dto = _jsonObjectConverter.Deserialize<IRelationshipDetailsDTO>(json);
             return CreateRelationshipDetails(dto);
         }
 
@@ -155,7 +164,7 @@ namespace Tweetinvi.Client.Tools
 
         public ISavedSearch CreateSavedSearch(string json)
         {
-            var dto = _client.Json.Deserialize<ISavedSearchDTO>(json);
+            var dto = _jsonObjectConverter.Deserialize<ISavedSearchDTO>(json);
             return CreateSavedSearch(dto);
         }
 
@@ -180,7 +189,7 @@ namespace Tweetinvi.Client.Tools
 
         public ITweet CreateTweet(string json)
         {
-            var tweetDTO = _client.Json.Deserialize<ITweetDTO>(json);
+            var tweetDTO = _jsonObjectConverter.Deserialize<ITweetDTO>(json);
             return CreateTweet(tweetDTO);
         }
 
@@ -211,7 +220,7 @@ namespace Tweetinvi.Client.Tools
 
         public IOEmbedTweet CreateOEmbedTweet(string json)
         {
-            var dto = _client.Json.Deserialize<IOEmbedTweetDTO>(json);
+            var dto = _jsonObjectConverter.Deserialize<IOEmbedTweetDTO>(json);
             return CreateOEmbedTweet(dto);
         }
 
@@ -227,7 +236,7 @@ namespace Tweetinvi.Client.Tools
 
         public IUser CreateUser(string json)
         {
-            var tweetDTO = _client.Json.Deserialize<IUserDTO>(json);
+            var tweetDTO = _jsonObjectConverter.Deserialize<IUserDTO>(json);
             return CreateUser(tweetDTO);
         }
 
@@ -248,7 +257,7 @@ namespace Tweetinvi.Client.Tools
 
         public IAuthenticatedUser CreateAuthenticatedUser(string json)
         {
-            var tweetDTO = _client.Json.Deserialize<IUserDTO>(json);
+            var tweetDTO = _jsonObjectConverter.Deserialize<IUserDTO>(json);
             return CreateAuthenticatedUser(tweetDTO);
         }
 
@@ -264,7 +273,7 @@ namespace Tweetinvi.Client.Tools
 
         public IAccountSettings CreateAccountSettings(string json)
         {
-            var accountSettingsDTO = _client.Json.Deserialize<IAccountSettingsDTO>(json);
+            var accountSettingsDTO = _jsonObjectConverter.Deserialize<IAccountSettingsDTO>(json);
 
             if (accountSettingsDTO == null)
             {

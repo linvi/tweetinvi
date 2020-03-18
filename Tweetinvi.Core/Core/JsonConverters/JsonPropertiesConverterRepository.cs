@@ -99,6 +99,7 @@ namespace Tweetinvi.Core.JsonConverters
                 new JsonInterfaceToObjectConverter<IMessageCreateTargetDTO, MessageCreateTargetDTO>(),
                 new JsonInterfaceToObjectConverter<IMessageEventDTO, MessageEventDTO>(),
                 new JsonInterfaceToObjectConverter<IMessageCreateDTO, MessageCreateDTO>(),
+                new JsonInterfaceToObjectConverter<IMessageEventWithAppDTO, MessageEventWithAppDTO>(),
                 new JsonInterfaceToObjectConverter<IGetMessageDTO, GetMessageDTO>(),
                 new JsonInterfaceToObjectConverter<ICreateMessageDTO, CreateMessageDTO>(),
                 new JsonInterfaceToObjectConverter<IAttachmentDTO, AttachmentDTO>(),

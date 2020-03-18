@@ -113,7 +113,7 @@ namespace Tweetinvi.Core.Web
                     var json = Response?.Text;
                     var converters = Request.ExecutionContext.Converters;
 
-                    _result = _jsonObjectConverter.DeserializeObject<TDTO>(json, converters);
+                    _result = _jsonObjectConverter.Deserialize<TDTO>(json, converters);
                 }
 
                 return _result;

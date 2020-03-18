@@ -128,13 +128,13 @@ namespace Tweetinvi.Credentials
         public async Task<T> ExecuteGETQuery<T>(string query, JsonConverter[] converters = null) where T : class
         {
             string jsonResponse = await ExecuteQueryReturningContent(query, HttpMethod.GET);
-            return _jsonObjectConverter.DeserializeObject<T>(jsonResponse, converters);
+            return _jsonObjectConverter.Deserialize<T>(jsonResponse, converters);
         }
 
         public async Task<T> ExecutePOSTQuery<T>(string query, JsonConverter[] converters = null) where T : class
         {
             string jsonResponse = await ExecuteQueryReturningContent(query, HttpMethod.POST);
-            return _jsonObjectConverter.DeserializeObject<T>(jsonResponse, converters);
+            return _jsonObjectConverter.Deserialize<T>(jsonResponse, converters);
         }
 
         private async Task<IEnumerable<T>> ExecuteCursorGETCursorQueryResult<T>(
@@ -205,7 +205,7 @@ namespace Tweetinvi.Credentials
             if (request.Success)
             {
                 var json = request.Result;
-                var dtoResult = _jsonObjectConverter.DeserializeObject<T>(json, JsonQueryConverterRepository.Converters);
+                var dtoResult = _jsonObjectConverter.Deserialize<T>(json, JsonQueryConverterRepository.Converters);
 
                 if (storeJson)
                 {
@@ -244,7 +244,7 @@ namespace Tweetinvi.Credentials
         {
             var webRequestResult = await ExecuteQuery(query, method, credentials, httpContent);
             var jsonResponse = webRequestResult.Text;
-            var deserializedObject = _jsonObjectConverter.DeserializeObject<T>(jsonResponse);
+            var deserializedObject = _jsonObjectConverter.Deserialize<T>(jsonResponse);
             return deserializedObject;
         }
 
@@ -345,12 +345,12 @@ namespace Tweetinvi.Credentials
         public async Task<T> ExecutePOSTQueryJsonBody<T>(string query, object reqBody, JsonConverter[] converters = null) where T : class
         {
             string jsonResponse = await ExecutePOSTQueryJsonBody(query, reqBody, converters);
-            return _jsonObjectConverter.DeserializeObject<T>(jsonResponse, converters);
+            return _jsonObjectConverter.Deserialize<T>(jsonResponse, converters);
         }
 
         public Task<string> ExecutePOSTQueryJsonBody(string query, object reqBody, JsonConverter[] converters = null)
         {
-            string jsonBody = _jsonObjectConverter.SerializeObject(reqBody, converters);
+            string jsonBody = _jsonObjectConverter.Serialize(reqBody, converters);
 
             return ExecuteQueryReturningContent(
                 query,

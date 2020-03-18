@@ -7,7 +7,7 @@ namespace Tweetinvi.Core.Helpers
     /// </summary>
     public interface IJsonObjectConverter
     {
-        string SerializeObject(object o, JsonConverter[] converters = null);
-        T DeserializeObject<T>(string json, JsonConverter[] converters = null);
+        string Serialize(object o, JsonConverter[] converters = null);
+        T Deserialize<T>(string json, JsonConverter[] converters = null);
     }
 }

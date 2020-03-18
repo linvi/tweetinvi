@@ -5,34 +5,41 @@ using System.Linq;
 using System.Reflection;
 using Newtonsoft.Json.Linq;
 using Tweetinvi.Core.DTO;
+using Tweetinvi.Core.DTO.Events;
 using Tweetinvi.Core.Helpers;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
+using Tweetinvi.Models.DTO.Events;
 
 namespace Tweetinvi.Core.Json
 {
     public interface ITweetinviJsonConverter
     {
-        string ToJson<T>(T obj) where T : class;
-        T ConvertJsonTo<T>(string json) where T : class;
+        string ToJson<TFrom>(TFrom obj) where TFrom : class;
+        string ToJson<TFrom, TTo>(TFrom obj) where TFrom : class where TTo : class;
+
+        TTo ConvertJsonTo<TTo>(string json) where TTo : class;
     }
 
     public class TweetinviJsonConverter : ITweetinviJsonConverter
     {
         private readonly IJsonObjectConverter _jsonObjectConverter;
-        private readonly Dictionary<Type, IJsonConverter> _serializers;
+        private readonly Dictionary<Type, IJsonConverter> _defaultSerializers;
+        private readonly Dictionary<Type, Dictionary<Type, IJsonConverter>> _serializers;
 
         public TweetinviJsonConverter(ITwitterClient client, IJsonObjectConverter jsonObjectConverter)
         {
             _jsonObjectConverter = jsonObjectConverter;
             var factories = client.Factories;
 
-            _serializers = new Dictionary<Type, IJsonConverter>();
+            _defaultSerializers = new Dictionary<Type, IJsonConverter>();
+            _serializers = new Dictionary<Type, Dictionary<Type, IJsonConverter>>();
 
             // ReSharper disable RedundantTypeArgumentsOfMethod
             Map<ITweet, ITweetDTO>(tweet => tweet.TweetDTO, factories.CreateTweet);
             Map<IUser, IUserDTO>(user => user.UserDTO, factories.CreateUser);
             Map<IAuthenticatedUser, IUserDTO>(user => user.UserDTO, factories.CreateAuthenticatedUser);
+            Map<IMessage, IMessageEventDTO>(message => message.MessageEventDTO, factories.CreateMessage);
             Map<IMessage, IMessageEventWithAppDTO>(message =>
             {
                 return new MessageEventWithAppDTO
@@ -40,7 +47,7 @@ namespace Tweetinvi.Core.Json
                     MessageEvent = message.MessageEventDTO,
                     App = message.App
                 };
-            }, factories.CreateMessage);
+            }, factories.CreateMessageFromMessageEventWithApp);
             Map<ITwitterList, ITwitterListDTO>(list => list.TwitterListDTO, factories.CreateTwitterList);
             Map<ISavedSearch, ISavedSearchDTO>(savedSearch => savedSearch.SavedSearchDTO, factories.CreateSavedSearch);
             Map<IOEmbedTweet, IOEmbedTweetDTO>(oEmbedTweet => oEmbedTweet.OembedTweetDTO, factories.CreateOEmbedTweet);
@@ -55,10 +62,17 @@ namespace Tweetinvi.Core.Json
             return ToJson(obj, null);
         }
 
-        public string ToJson<T1, T2>(T1 obj, Func<T1, T2> getSerializableObject) where T1 : class where T2 : class
+        public string ToJson<T1, T2>(T1 obj) where T1 : class where T2 : class
         {
-            var serializer = new JsonTypeConverter<T1, T2>(getSerializableObject, null);
-            return ToJson(obj, serializer);
+            if (_serializers.TryGetValue(typeof(T1), out var serializersByType))
+            {
+                if (serializersByType.TryGetValue(typeof(T2), out var serializer))
+                {
+                    return ToJson(obj, serializer);
+                }
+            }
+
+            return ToJson(obj, null);
         }
 
         private string ToJson<T>(T obj, IJsonConverter converter)
@@ -84,11 +98,9 @@ namespace Tweetinvi.Core.Json
                     toSerialize = list;
                 }
             }
-
-            if (converter == null)
+            else
             {
-                converter = GetSerializerFromNonCollectionType(type);
-
+                converter ??= GetSerializerFromNonCollectionType(type);
                 if (converter != null)
                 {
                     toSerialize = converter.GetObjectToSerialize(obj);
@@ -97,7 +109,7 @@ namespace Tweetinvi.Core.Json
 
             try
             {
-                return _jsonObjectConverter.SerializeObject(toSerialize);
+                return _jsonObjectConverter.Serialize(toSerialize);
             }
             catch (Exception ex)
             {
@@ -164,7 +176,7 @@ namespace Tweetinvi.Core.Json
                     return converter.Deserialize(json) as T;
                 }
 
-                return _jsonObjectConverter.DeserializeObject<T>(json);
+                return _jsonObjectConverter.Deserialize<T>(json);
             }
             catch (Exception ex)
             {
@@ -179,15 +191,15 @@ namespace Tweetinvi.Core.Json
         private IJsonConverter GetSerializerFromNonCollectionType(Type type)
         {
             // Test interfaces
-            if (_serializers.ContainsKey(type))
+            if (_defaultSerializers.ContainsKey(type))
             {
-                return _serializers[type];
+                return _defaultSerializers[type];
             }
 
             // Test concrete classes from mapped interfaces
-            if (_serializers.Keys.Any(x => x.IsAssignableFrom(type)))
+            if (_defaultSerializers.Keys.Any(x => x.IsAssignableFrom(type)))
             {
-                return _serializers.FirstOrDefault(x => x.Key.IsAssignableFrom(type)).Value;
+                return _defaultSerializers.FirstOrDefault(x => x.Key.IsAssignableFrom(type)).Value;
             }
 
             return null;
@@ -195,14 +207,19 @@ namespace Tweetinvi.Core.Json
 
         private void Map<T1, T2>(Func<T1, T2> getDto, Func<string, T1> deserialize) where T1 : class where T2 : class
         {
-            if (_serializers.ContainsKey(typeof(T1)))
+            var jsonTypeConverter = new JsonTypeConverter<T1, T2>(getDto, deserialize);
+
+            if (!_defaultSerializers.ContainsKey(typeof(T1)))
             {
-                _serializers[typeof(T1)] = new JsonTypeConverter<T1, T2>(getDto, deserialize);
+                _defaultSerializers.Add(typeof(T1), jsonTypeConverter);
             }
-            else
+
+            if (!_serializers.ContainsKey(typeof(T1)))
             {
-                _serializers.Add(typeof(T1), new JsonTypeConverter<T1, T2>(getDto, deserialize));
+                _serializers.Add(typeof(T1), new Dictionary<Type, IJsonConverter>());
             }
+
+            _serializers[typeof(T1)].Add(typeof(T2), jsonTypeConverter);
         }
     }
 }

@@ -259,7 +259,7 @@ namespace Tweetinvi.Streams
                 return;
             }
 
-            var deletedTweetInfo = _jsonObjectConverter.DeserializeObject<TweetDeletedInfo>(jToken.ToString());
+            var deletedTweetInfo = _jsonObjectConverter.Deserialize<TweetDeletedInfo>(jToken.ToString());
             var deletedTweetEventArgs = new TweetDeletedEventArgs()
             {
                 TweetId = deletedTweetInfo.Id,
@@ -271,14 +271,14 @@ namespace Tweetinvi.Streams
 
         private void TryRaiseTweetLocationRemoved(JToken jToken)
         {
-            var tweetLocationDeleted = _jsonObjectConverter.DeserializeObject<TweetLocationRemovedInfo>(jToken.ToString());
+            var tweetLocationDeleted = _jsonObjectConverter.Deserialize<TweetLocationRemovedInfo>(jToken.ToString());
             var tweetLocationDeletedEventArgs = new TweetLocationDeletedEventArgs(tweetLocationDeleted);
             this.Raise(TweetLocationInfoRemoved, tweetLocationDeletedEventArgs);
         }
 
         private void TryRaiseDisconnectMessageReceived(JToken jToken)
         {
-            var disconnectMessage = _jsonObjectConverter.DeserializeObject<DisconnectMessage>(jToken.ToString());
+            var disconnectMessage = _jsonObjectConverter.Deserialize<DisconnectMessage>(jToken.ToString());
             var disconnectMessageEventArgs = new DisconnectedEventArgs(disconnectMessage);
             this.Raise(DisconnectMessageReceived, disconnectMessageEventArgs);
             _streamResultGenerator.StopStream(null, disconnectMessage);
@@ -292,14 +292,14 @@ namespace Tweetinvi.Streams
 
         private void TryRaiseTweetWitheld(JToken jToken)
         {
-            var info = _jsonObjectConverter.DeserializeObject<TweetWitheldInfo>(jToken.ToString());
+            var info = _jsonObjectConverter.Deserialize<TweetWitheldInfo>(jToken.ToString());
             var eventArgs = new TweetWitheldEventArgs(info);
             this.Raise(TweetWitheld, eventArgs);
         }
 
         private void TryRaiseUserWitheld(JToken jToken)
         {
-            var info = _jsonObjectConverter.DeserializeObject<UserWitheldInfo>(jToken.ToString());
+            var info = _jsonObjectConverter.Deserialize<UserWitheldInfo>(jToken.ToString());
             var eventArgs = new UserWitheldEventArgs(info);
             this.Raise(UserWitheld, eventArgs);
         }
@@ -313,7 +313,7 @@ namespace Tweetinvi.Streams
         {
             if (jsonWarning["percent_full"] != null)
             {
-                var warningMessage = _jsonObjectConverter.DeserializeObject<WarningMessageFallingBehind>(jsonWarning.ToString());
+                var warningMessage = _jsonObjectConverter.Deserialize<WarningMessageFallingBehind>(jsonWarning.ToString());
                 this.Raise(WarningFallingBehindDetected, new WarningFallingBehindEventArgs(warningMessage));
             }
         }

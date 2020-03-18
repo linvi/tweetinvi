@@ -14,7 +14,7 @@ namespace Tweetinvi.Core.JsonConverters
             _jsonConvertWrapper = jsonConvertWrapper;
         }
 
-        public string SerializeObject(object o, JsonConverter[] converters = null)
+        public string Serialize(object o, JsonConverter[] converters = null)
         {
             if (converters == null)
             {
@@ -24,7 +24,7 @@ namespace Tweetinvi.Core.JsonConverters
             return _jsonConvertWrapper.SerializeObject(o, converters);
         }
 
-        public T DeserializeObject<T>(string json, JsonConverter[] converters = null) 
+        public T Deserialize<T>(string json, JsonConverter[] converters = null)
         {
             if (!json.IsMatchingJsonFormat())
             {

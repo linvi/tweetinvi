@@ -136,7 +136,7 @@ namespace Tweetinvi.Streams
             var json = jsonObjectEvent.ToString();
             var tweetCreatedEvent = jsonObjectEvent[eventName];
             var tweetCreatedEventJson = tweetCreatedEvent.ToString();
-            var tweetDTOs = _jsonObjectConverter.DeserializeObject<ITweetDTO[]>(tweetCreatedEventJson);
+            var tweetDTOs = _jsonObjectConverter.Deserialize<ITweetDTO[]>(tweetCreatedEventJson);
 
             tweetDTOs.ForEach(tweetDTO =>
             {
@@ -192,7 +192,7 @@ namespace Tweetinvi.Streams
             var json = jsonObjectEvent.ToString();
             var favouriteTweetEvent = jsonObjectEvent[eventName];
             var favouritedTweetEventJson = favouriteTweetEvent.ToString();
-            var favouriteEventDTOs = _jsonObjectConverter.DeserializeObject<AccountActivityFavouriteEventDTO[]>(favouritedTweetEventJson);
+            var favouriteEventDTOs = _jsonObjectConverter.Deserialize<AccountActivityFavouriteEventDTO[]>(favouritedTweetEventJson);
 
             favouriteEventDTOs.ForEach(favouriteEventDTO =>
             {
@@ -403,7 +403,7 @@ namespace Tweetinvi.Streams
         private void TryRaiseMessageEvent(string eventName, JObject jsonObjectEvent)
         {
             var json = jsonObjectEvent.ToString();
-            var eventInfo = _jsonObjectConverter.DeserializeObject<AccountActivityMessageCreatedEventDTO>(json);
+            var eventInfo = _jsonObjectConverter.Deserialize<AccountActivityMessageCreatedEventDTO>(json);
 
             eventInfo.MessageEvents.ForEach(messageEventDTO =>
             {
@@ -459,7 +459,7 @@ namespace Tweetinvi.Streams
         private void TryRaiseIndicateUserIsTypingMessage(string eventName, JObject jsonObjectEvent)
         {
             var json = jsonObjectEvent.ToString();
-            var events = _jsonObjectConverter.DeserializeObject<AccountActivityUserIsTypingMessageDTO>(json);
+            var events = _jsonObjectConverter.Deserialize<AccountActivityUserIsTypingMessageDTO>(json);
 
             events.TypingEvents.ForEach(typingEvent =>
             {
@@ -490,7 +490,7 @@ namespace Tweetinvi.Streams
         private void TryRaiseMessageReadEvent(string eventName, JObject jsonObjectEvent)
         {
             var json = jsonObjectEvent.ToString();
-            var events = _jsonObjectConverter.DeserializeObject<AccountActivityUserReadMessageConversationDTO>(json);
+            var events = _jsonObjectConverter.Deserialize<AccountActivityUserReadMessageConversationDTO>(json);
 
             events.MessageConversationReadEvents.ForEach(messageConversationReadEvent =>
             {
@@ -526,7 +526,7 @@ namespace Tweetinvi.Streams
 
         private AccountActivityUserToUserEventDTO[] ExtractUserToUserEventDTOs(string userToUserEventJson)
         {
-            var userToUserEventDTO = _jsonObjectConverter.DeserializeObject<AccountActivityUserToUserEventDTO[]>(userToUserEventJson);
+            var userToUserEventDTO = _jsonObjectConverter.Deserialize<AccountActivityUserToUserEventDTO[]>(userToUserEventJson);
             return userToUserEventDTO;
         }
     }

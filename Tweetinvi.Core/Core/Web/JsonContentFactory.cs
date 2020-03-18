@@ -21,7 +21,7 @@ namespace Tweetinvi.Core.Web
 
         public StringContent Create<T>(T content, JsonConverter[] converters)
         {
-            var jsonBody = _jsonObjectConverter.SerializeObject(content, converters);
+            var jsonBody = _jsonObjectConverter.Serialize(content, converters);
             return new StringContent(jsonBody, Encoding.UTF8, "application/json");
         }
     }

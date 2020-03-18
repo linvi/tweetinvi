@@ -115,7 +115,7 @@ namespace xUnitinvi.EndToEnd
             _logger.WriteLine("public static readonly IntegrationTestAccount ProtectedUserAuthenticatedToTweetinviApi = new IntegrationTestAccount\n" +
             "{\n" +
                 "\t\t\t// Careful as these credentials will be refreshed by AuthEndToEndTests\n" +
-                "\t\t\t// Run AuthEndToEndTests.AuthenticateWithPinCode and copy past output to replace here\n" +
+                "\t\t\t// Run AuthEndToEndTests.AuthenticateWithPinCode and copy paste output to replace here\n" +
                 "Credentials = new TwitterCredentials(TweetinviApi.Credentials.ConsumerKey, TweetinviApi.Credentials.ConsumerSecret,\n" +
                 $"\"{userCredentials.AccessToken}\", \"{userCredentials.AccessTokenSecret}\"),\n" +
                 "AccountId = \"artwolkt\",\n" +

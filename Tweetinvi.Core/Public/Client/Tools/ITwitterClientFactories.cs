@@ -17,7 +17,9 @@ namespace Tweetinvi.Client.Tools
         ITwitterList[] CreateTwitterLists(IEnumerable<ITwitterListDTO> listDTOs);
 
         // MESSAGE
+        IMessage CreateMessageFromMessageEventWithApp(string json);
         IMessage CreateMessage(string json);
+
         IMessage CreateMessage(IMessageEventDTO messageEventDTO);
         IMessage CreateMessage(IMessageEventDTO messageEventDTO, IApp app);
         IMessage CreateMessage(IGetMessageDTO getMessageDTO);

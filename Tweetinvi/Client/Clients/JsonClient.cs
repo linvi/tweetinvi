@@ -1,4 +1,3 @@
-using Tweetinvi.Client.Tools;
 using Tweetinvi.Core.Json;
 
 namespace Tweetinvi.Client
@@ -15,6 +14,11 @@ namespace Tweetinvi.Client
         public string Serialize<T>(T obj) where T : class
         {
             return _tweetinviJsonConverter.ToJson(obj);
+        }
+
+        public string Serialize<TFrom, TTo>(TFrom obj) where TFrom : class where TTo : class
+        {
+            return _tweetinviJsonConverter.ToJson<TFrom, TTo>(obj);
         }
 
         public T Deserialize<T>(string json) where T : class

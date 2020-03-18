@@ -1,8 +1,9 @@
-namespace Tweetinvi.Client.Tools
+namespace Tweetinvi.Client
 {
     public interface IJsonClient
     {
-        string Serialize<T>(T obj) where T : class;
-        T Deserialize<T>(string json) where T : class;
+        string Serialize<TFrom>(TFrom obj) where TFrom : class;
+        string Serialize<TFrom, TTo>(TFrom obj) where TFrom : class where TTo : class;
+        TTo Deserialize<TTo>(string json) where TTo : class;
     }
 }
