@@ -6,7 +6,6 @@ using System.Reflection;
 using Newtonsoft.Json.Linq;
 using Tweetinvi.Core.DTO;
 using Tweetinvi.Core.Helpers;
-using Tweetinvi.Core.Models;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
 using Tweetinvi.Models.DTO.Events;
@@ -55,6 +54,9 @@ namespace Tweetinvi.Core.Json
             Map<ITwitterCredentials, IConsumerCredentials>(credentials => new ConsumerCredentials(credentials), factories.CreateTwitterCredentials);
             Map<IConsumerCredentials, IConsumerCredentials>(credentials => credentials, factories.CreateConsumerCredentials);
             Map<IConsumerCredentials, ITwitterCredentials>(credentials => new TwitterCredentials(credentials), factories.CreateConsumerCredentials);
+
+            Map<IMedia, IMedia>(media => media, factories.CreateMedia);
+            Map<IUploadedMediaInfo, IUploadedMediaInfo>(mediaInfo => mediaInfo, factories.CreateUploadedMediaInfo);
 
             Map<ICredentialsRateLimits, CredentialsRateLimitsDTO>(rateLimits => rateLimits.CredentialsRateLimitsDTO, factories.CreateRateLimits);
             Map<ITwitterConfiguration, ITwitterConfiguration>(config => config, factories.CreateTwitterConfiguration);

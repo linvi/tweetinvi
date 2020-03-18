@@ -303,6 +303,16 @@ namespace Tweetinvi.Client.Tools
             return _jsonObjectConverter.Deserialize<ConsumerCredentials>(json);
         }
 
+        public IMedia CreateMedia(string json)
+        {
+            return _jsonObjectConverter.Deserialize<Media>(json);
+        }
+
+        public IUploadedMediaInfo CreateUploadedMediaInfo(string json)
+        {
+            return _jsonObjectConverter.Deserialize<IUploadedMediaInfo>(json);
+        }
+
         public IAccountSettings CreateAccountSettings(string json)
         {
             var accountSettingsDTO = _jsonObjectConverter.Deserialize<IAccountSettingsDTO>(json);

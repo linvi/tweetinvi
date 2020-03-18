@@ -1,4 +1,5 @@
-﻿using Tweetinvi.Models;
+﻿using Newtonsoft.Json;
+using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
 
 namespace Tweetinvi.Core.Models
@@ -11,6 +12,8 @@ namespace Tweetinvi.Core.Models
         private long? _existingMediaId;
 
         public string Name { get; set; }
+
+        [JsonIgnore]
         public byte[] Data { get; set; }
         public string ContentType { get; set; }
 

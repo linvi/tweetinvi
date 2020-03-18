@@ -1,5 +1,5 @@
 using System;
-using System.Linq;
+using System.IO;
 using System.Threading.Tasks;
 using Tweetinvi.Core.Models;
 using Tweetinvi.Models;
@@ -149,6 +149,26 @@ namespace xUnitinvi.EndToEnd
         }
 
         [Fact]
+        public async Task Media()
+        {
+            if (!EndToEndTestConfig.ShouldRunEndToEndTests)
+                return;
+
+            var tweetinviLogoBinary = File.ReadAllBytes("./tweetinvi-logo-purple.png");
+            var media = await _tweetinviClient.Upload.UploadBinary(tweetinviLogoBinary);
+
+            TestSerializer<IMedia, IMedia>(media, deserializedMedia =>
+            {
+                Assert.Equal(media.UploadedMediaInfo.MediaId, deserializedMedia.UploadedMediaInfo.MediaId);
+            });
+
+            TestSerializer<IUploadedMediaInfo, IUploadedMediaInfo>(media.UploadedMediaInfo, uploadedMediaInfo =>
+            {
+                Assert.Equal(media.UploadedMediaInfo.MediaId, uploadedMediaInfo.MediaId);
+            });
+        }
+
+        [Fact]
         public void Credentials()
         {
             if (!EndToEndTestConfig.ShouldRunEndToEndTests)
@@ -210,6 +230,20 @@ namespace xUnitinvi.EndToEnd
             TestSerializer<ITwitterConfiguration, ITwitterConfiguration>(config, deserializedConfig =>
             {
                 Assert.Equal(config.ShortURLLength, deserializedConfig.ShortURLLength);
+            });
+        }
+
+        [Fact]
+        public async Task SupportedLanguage()
+        {
+            if (!EndToEndTestConfig.ShouldRunEndToEndTests)
+                return;
+
+            var language = (await _tweetinviClient.Help.GetSupportedLanguages())[0];
+
+            TestSerializer<SupportedLanguage, SupportedLanguage>(language, deserializedLanguage =>
+            {
+                Assert.Equal(language.Status, deserializedLanguage.Status);
             });
         }
     }

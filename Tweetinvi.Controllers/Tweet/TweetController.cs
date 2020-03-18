@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using Tweetinvi.Controllers.Upload;
 using Tweetinvi.Core.Controllers;
 using Tweetinvi.Core.Extensions;
-using Tweetinvi.Core.Factories;
 using Tweetinvi.Core.Iterators;
 using Tweetinvi.Core.Web;
 using Tweetinvi.Models;
@@ -87,7 +86,7 @@ namespace Tweetinvi.Controllers.Tweet
             return textLength;
         }
 
-        public async Task UploadMedias(IPublishTweetParameters parameters, ITwitterRequest request)
+        private async Task UploadMedias(IPublishTweetParameters parameters, ITwitterRequest request)
         {
             if (parameters.Medias.Any(x => !x.HasBeenUploaded))
             {

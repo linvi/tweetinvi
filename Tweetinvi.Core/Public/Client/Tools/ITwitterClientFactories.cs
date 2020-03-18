@@ -68,5 +68,9 @@ namespace Tweetinvi.Client.Tools
         // CREDENTIALS
         ITwitterCredentials CreateTwitterCredentials(string json);
         IConsumerCredentials CreateConsumerCredentials(string json);
+
+        // MEDIA
+        IMedia CreateMedia(string json);
+        IUploadedMediaInfo CreateUploadedMediaInfo(string json);
     }
 }
