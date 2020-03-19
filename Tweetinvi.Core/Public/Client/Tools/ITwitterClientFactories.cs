@@ -40,14 +40,13 @@ namespace Tweetinvi.Client.Tools
         ISavedSearch CreateSavedSearch(ISavedSearchDTO savedSearchDTO);
 
         // SEARCH
-        ISearchResult CreateSearchResult(ISearchResultsDTO[] searchResultsDTO);
-        ISearchQueryResult CreateSearchQueryResult(ISearchResultsDTO searchResultsDTO);
+        ISearchResults CreateSearchResult(ISearchResultsDTO searchResultsDTO);
 
         // TWEET
         ITweet CreateTweet(string json);
         ITweet CreateTweet(ITweetDTO tweetDTO);
-        ITweet[] CreateTweets(ITweetDTO[] tweetDTOs);
-        ITweetWithSearchMetadata CreateTweetWithSearchMetadata(ITweetWithSearchMetadataDTO tweetDTO);
+        ITweet[] CreateTweets(IEnumerable<ITweetDTO> tweetDTOs);
+        ITweetWithSearchMetadata CreateTweetWithSearchMetadata(ITweetWithSearchMetadataDTO tweetWithSearchMetadataDTO);
         IOEmbedTweet CreateOEmbedTweet(string json);
         IOEmbedTweet CreateOEmbedTweet(IOEmbedTweetDTO oEmbedTweetDTO);
 
@@ -72,5 +71,8 @@ namespace Tweetinvi.Client.Tools
         // MEDIA
         IMedia CreateMedia(string json);
         IUploadedMediaInfo CreateUploadedMediaInfo(string json);
+
+        // SEARCH
+        ISearchResults CreateSearchResult(string json);
     }
 }

@@ -4,7 +4,9 @@ using Tweetinvi;
 using Tweetinvi.Core.Injectinvi;
 using Tweetinvi.Controllers.Messages;
 using Tweetinvi.Core.DTO;
+using Tweetinvi.Core.DTO.Cursor;
 using Tweetinvi.Core.Web;
+using Tweetinvi.Models;
 using Tweetinvi.Parameters;
 using Xunit;
 using xUnitinvi.TestHelpers;
@@ -59,12 +61,12 @@ namespace xUnitinvi.ClientActions.MessagesClient
             // act
             var result = queryGenerator.GetPublishMessageQuery(parameters);
             var content = await result.Content.ReadAsStringAsync();
-            var r = SuperJson.DeserializeObject<CreateMessageDTO>(content);
+            var body = new TwitterClient(new TwitterCredentials()).Json.Deserialize<CreateMessageDTO>(content);
 
             // assert
             Assert.Equal(result.Url, "https://api.twitter.com/1.1/direct_messages/events/new.json?hello=world");
-            Assert.Equal(r.MessageEvent.MessageCreate.MessageData.Text, "plop");
-            Assert.Equal(r.MessageEvent.MessageCreate.Target.RecipientId, 42);
+            Assert.Equal(body.MessageEvent.MessageCreate.MessageData.Text, "plop");
+            Assert.Equal(body.MessageEvent.MessageCreate.Target.RecipientId, 42);
         }
 
         [Fact]
@@ -82,13 +84,13 @@ namespace xUnitinvi.ClientActions.MessagesClient
             // act
             var result = queryGenerator.GetPublishMessageQuery(parameters);
             var content = await result.Content.ReadAsStringAsync();
-            var r = SuperJson.DeserializeObject<CreateMessageDTO>(content);
+            var body = new TwitterClient(new TwitterCredentials()).Json.Deserialize<CreateMessageDTO>(content);
 
             // assert
             Assert.Equal(result.Url, "https://api.twitter.com/1.1/direct_messages/events/new.json?hello=world");
-            Assert.Equal(r.MessageEvent.MessageCreate.MessageData.Text, "plop");
-            Assert.Equal(r.MessageEvent.MessageCreate.Target.RecipientId, 42);
-            Assert.Equal(r.MessageEvent.MessageCreate.MessageData.Attachment.Media.Id, 967);
+            Assert.Equal(body.MessageEvent.MessageCreate.MessageData.Text, "plop");
+            Assert.Equal(body.MessageEvent.MessageCreate.Target.RecipientId, 42);
+            Assert.Equal(body.MessageEvent.MessageCreate.MessageData.Attachment.Media.Id, 967);
         }
 
         [Fact]

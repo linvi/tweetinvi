@@ -45,6 +45,11 @@ namespace Tweetinvi
         IRateLimitsClient RateLimits { get; }
 
         /// <summary>
+        /// Client to execute all actions related with search
+        /// </summary>
+        ISearchClient Search { get; }
+
+        /// <summary>
         /// Client to execute all actions related with timelines
         /// </summary>
         ITimelinesClient Timelines { get; }
@@ -67,7 +72,7 @@ namespace Tweetinvi
         /// <summary>
         /// Execute Request and receive request results
         /// </summary>
-        IRequestExecutor RequestExecutor { get; }
+        IRawExecutors Raw { get; }
 
 
         /// <summary>

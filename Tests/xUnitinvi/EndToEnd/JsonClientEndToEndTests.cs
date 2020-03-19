@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using Tweetinvi.Core.Models;
 using Tweetinvi.Models;
@@ -165,6 +166,22 @@ namespace xUnitinvi.EndToEnd
             TestSerializer<IUploadedMediaInfo, IUploadedMediaInfo>(media.UploadedMediaInfo, uploadedMediaInfo =>
             {
                 Assert.Equal(media.UploadedMediaInfo.MediaId, uploadedMediaInfo.MediaId);
+            });
+        }
+
+        [Fact]
+        public async Task SearchTweetWithMetadata()
+        {
+            if (!EndToEndTestConfig.ShouldRunEndToEndTests)
+                return;
+
+            var searchResults = await _tweetinviClient.Search.SearchTweetsWithMetadata("hello");
+
+            TestSerializer<ISearchResults, ISearchResults>(searchResults, deserializedSearchResult =>
+            {
+                Assert.Contains(
+                searchResults.Tweets.Select(x => x.Id),
+                tweetId => deserializedSearchResult.Tweets.Any(tweet => tweet.Id == tweetId));
             });
         }
 

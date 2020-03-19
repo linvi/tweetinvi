@@ -4,12 +4,6 @@ using Tweetinvi.Parameters;
 
 namespace Tweetinvi.Client
 {
-    public enum CredentialsToClear
-    {
-        Client,
-        All
-    }
-
     public interface IRateLimitsClient
     {
         /// <summary>

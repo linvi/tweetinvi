@@ -164,6 +164,12 @@ namespace Tweetinvi
 
         /// <summary>
         /// Maximum number of tweets to retrieve in 1 request
+        /// <para>https://developer.twitter.com/en/docs/tweets/search/api-reference/get-search-tweets</para>
+        /// </summary>
+        public int SEARCH_MAX_PAGE_SIZE = 100;
+
+        /// <summary>
+        /// Maximum number of tweets to retrieve in 1 request
         /// <para>https://developer.twitter.com/en/docs/tweets/timelines/api-reference/get-statuses-home_timeline</para>
         /// </summary>
         public short TIMELINE_HOME_PAGE_MAX_PAGE_SIZE { get; set; } = 200;
@@ -263,6 +269,8 @@ namespace Tweetinvi
             MESSAGE_QUICK_REPLY_LABEL_MAX_LENGTH = source.MESSAGE_QUICK_REPLY_LABEL_MAX_LENGTH;
             MESSAGE_QUICK_REPLY_DESCRIPTION_MAX_LENGTH = source.MESSAGE_QUICK_REPLY_DESCRIPTION_MAX_LENGTH;
             MESSAGE_QUICK_REPLY_METADATA_MAX_LENGTH = source.MESSAGE_QUICK_REPLY_METADATA_MAX_LENGTH;
+
+            SEARCH_MAX_PAGE_SIZE = source.SEARCH_MAX_PAGE_SIZE;
 
             TIMELINE_HOME_PAGE_MAX_PAGE_SIZE = source.TIMELINE_HOME_PAGE_MAX_PAGE_SIZE;
             TIMELINE_MENTIONS_PAGE_MAX_PAGE_SIZE = source.TIMELINE_MENTIONS_PAGE_MAX_PAGE_SIZE;

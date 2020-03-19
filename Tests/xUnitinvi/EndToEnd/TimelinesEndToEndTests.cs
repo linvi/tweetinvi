@@ -107,7 +107,7 @@ namespace xUnitinvi.EndToEnd
 
             // act
             var tweet1 = await _tweetinviTestClient.Tweets.PublishTweet("The new @tweetinviapi is the great!");
-            await Task.Delay(TimeSpan.FromSeconds(10));
+            await Task.Delay(TimeSpan.FromSeconds(15));
 
             var iterator = _tweetinviClient.Timelines.GetMentionsTimelineIterator();
 

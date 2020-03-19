@@ -13,7 +13,7 @@ namespace Tweetinvi.Client
         public AuthClient(TwitterClient client)
         {
             _client = client;
-            _authRequester = client.RequestExecutor.Auth;
+            _authRequester = client.Raw.Auth;
         }
 
         public Task<string> CreateBearerToken()

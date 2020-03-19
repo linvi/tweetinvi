@@ -37,7 +37,7 @@ namespace Tweetinvi.Logic
         private void InitializeTweetinviModels(ITweetinviContainer container)
         {
             container.RegisterType<IMedia, Media>();
-            container.RegisterType<ISearchQueryResult, SearchQueryResult>();
+            container.RegisterType<ISearchResults, SearchResults>();
         }
 
         // Initialize Models that are Twitter objects

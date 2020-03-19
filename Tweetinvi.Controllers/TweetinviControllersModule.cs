@@ -101,14 +101,12 @@ namespace Tweetinvi.Controllers
         {
             container.RegisterType<ITweetQueryValidator, TweetQueryValidator>(RegistrationLifetime.InstancePerApplication);
             container.RegisterType<IUserQueryValidator, UserQueryValidator>(RegistrationLifetime.InstancePerApplication);
-            container.RegisterType<ISearchQueryValidator, SearchQueryValidator>(RegistrationLifetime.InstancePerApplication);
             container.RegisterType<ITwitterListQueryValidator, TwitterListQueryValidator>(RegistrationLifetime.InstancePerApplication);
         }
 
         private void InitializeHelpers(ITweetinviContainer container)
         {
             container.RegisterType<ITweetHelper, TweetHelper>();
-            container.RegisterType<ISearchQueryHelper, SearchQueryHelper>();
             container.RegisterType<IUploadHelper, UploadHelper>(RegistrationLifetime.InstancePerApplication);
         }
     }

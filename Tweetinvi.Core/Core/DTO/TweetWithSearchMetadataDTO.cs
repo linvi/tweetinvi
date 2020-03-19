@@ -8,6 +8,6 @@ namespace Tweetinvi.Core.DTO
     {
         [JsonProperty("metadata")]
         [JsonConverter(typeof(JsonPropertyConverterRepository))]
-        public ITweetFromSearchMetadata TweetFromSearchMetadata { get; private set; }
+        public ITweetFromSearchMetadata TweetFromSearchMetadata { get; set; }
     }
 }

@@ -26,7 +26,7 @@ namespace Tweetinvi
                 {
                     Initialize();
                 }
-                
+
                 return _searchController;
             }
         }
@@ -43,40 +43,6 @@ namespace Tweetinvi
         private static void Initialize()
         {
             _searchController = TweetinviContainer.Resolve<ISearchController>();
-        }
-
-        // TWEET
-
-        /// <summary>
-        /// Search tweets based on the provided search query
-        /// </summary>
-        public static Task<IEnumerable<ITweet>> SearchTweets(string searchQuery)
-        {
-            return SearchController.SearchTweets(searchQuery);
-        }
-
-        /// <summary>
-        /// Search tweets based on multiple parameters
-        /// </summary>
-        public static Task<IEnumerable<ITweet>> SearchTweets(ISearchTweetsParameters searchTweetsParameters)
-        {
-            return SearchController.SearchTweets(searchTweetsParameters);
-        }
-
-        /// <summary>
-        /// Search tweets with some additional metadata information
-        /// </summary>
-        public static Task<ISearchResult> SearchTweetsWithMetadata(string searchQuery)
-        {
-            return SearchController.SearchTweetsWithMetadata(searchQuery);
-        }
-
-        /// <summary>
-        /// Search tweets with some additional metadata information
-        /// </summary>
-        public static Task<ISearchResult> SearchTweetsWithMetadata(ISearchTweetsParameters searchTweetsParameters)
-        {
-            return SearchController.SearchTweetsWithMetadata(searchTweetsParameters);
         }
 
         /// <summary>
@@ -124,7 +90,7 @@ namespace Tweetinvi
         /// </summary>
         public static ISearchTweetsParameters CreateTweetSearchParameter(double latitude, double longitude, int radius, DistanceMeasure measure)
         {
-            return SearchQueryParameterGenerator.CreateSearchTweetParameter(latitude, longitude, radius, measure);   
+            return SearchQueryParameterGenerator.CreateSearchTweetParameter(latitude, longitude, radius, measure);
         }
 
         // USER

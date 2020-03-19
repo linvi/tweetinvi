@@ -31,6 +31,9 @@ namespace Tweetinvi
             container.RegisterType<IMessageClient, MessageClient>(RegistrationLifetime.InstancePerApplication);
             container.RegisterType<IMessageRequester, MessageRequester>(RegistrationLifetime.InstancePerApplication);
 
+            container.RegisterType<ISearchClient, SearchClient>(RegistrationLifetime.InstancePerApplication);
+            container.RegisterType<ISearchRequester, SearchRequester>(RegistrationLifetime.InstancePerApplication);
+
             container.RegisterType<IStreamsClient, StreamsClient>(RegistrationLifetime.InstancePerApplication);
 
             container.RegisterType<ITimelinesClient, TimelinesClient>(RegistrationLifetime.InstancePerApplication);
@@ -48,7 +51,7 @@ namespace Tweetinvi
             container.RegisterType<IAccountActivityClient, AccountActivityClient>(RegistrationLifetime.InstancePerApplication);
             container.RegisterType<IAccountActivityRequester, AccountActivityRequester>(RegistrationLifetime.InstancePerApplication);
 
-            container.RegisterType<IRequestExecutor, RequestExecutor>(RegistrationLifetime.InstancePerApplication);
+            container.RegisterType<IRawExecutors, RawExecutors>(RegistrationLifetime.InstancePerApplication);
             container.RegisterType<ITwitterClientFactories, TwitterClientFactories>(RegistrationLifetime.InstancePerApplication);
 
             container.RegisterType<IJsonClient, JsonClient>(RegistrationLifetime.InstancePerApplication);

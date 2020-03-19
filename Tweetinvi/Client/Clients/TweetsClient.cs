@@ -21,7 +21,7 @@ namespace Tweetinvi.Client
         public TweetsClient(ITwitterClient client)
         {
             _client = client;
-            _tweetsRequester = client.RequestExecutor.Tweets;
+            _tweetsRequester = client.Raw.Tweets;
         }
 
         public ITweetsClientParametersValidator ParametersValidator => _client.ParametersValidator;

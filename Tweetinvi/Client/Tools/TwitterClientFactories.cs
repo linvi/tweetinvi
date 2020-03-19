@@ -149,7 +149,7 @@ namespace Tweetinvi.Client.Tools
                 return new IRelationshipState[0];
             }
 
-            return relationshipStateDTOs?.Select(dto => _client.Factories.CreateRelationshipState(dto)).ToArray();
+            return relationshipStateDTOs.Select(dto => _client.Factories.CreateRelationshipState(dto)).ToArray();
         }
 
         public IRelationshipDetails CreateRelationshipDetails(string json)
@@ -174,18 +174,10 @@ namespace Tweetinvi.Client.Tools
             return savedSearchDTO == null ? null : new Core.Models.SavedSearch(savedSearchDTO);
         }
 
-        public ISearchResult CreateSearchResult(ISearchResultsDTO[] searchResultsDTO)
-        {
-            var searchResults = searchResultsDTO?.Select(CreateSearchQueryResult).ToArray();
-            return new SearchResult(searchResults);
-        }
-
-        public ISearchQueryResult CreateSearchQueryResult(ISearchResultsDTO searchResultsDTO)
+        public ISearchResults CreateSearchResult(ISearchResultsDTO searchResultsDTO)
         {
             var tweets = searchResultsDTO?.TweetDTOs?.Select(CreateTweetWithSearchMetadata);
-            var matchingTweets = searchResultsDTO?.MatchingTweetDTOs?.Select(CreateTweetWithSearchMetadata);
-
-            return new SearchQueryResult(tweets, matchingTweets, searchResultsDTO?.SearchMetadata);
+            return new SearchResults(tweets, searchResultsDTO?.SearchMetadata);
         }
 
         public ITweet CreateTweet(string json)
@@ -204,19 +196,19 @@ namespace Tweetinvi.Client.Tools
             return new Tweet(tweetDTO, _client.ClientSettings.TweetMode, _client);
         }
 
-        public ITweet[] CreateTweets(ITweetDTO[] tweetDTOs)
+        public ITweet[] CreateTweets(IEnumerable<ITweetDTO> tweetDTOs)
         {
             return tweetDTOs?.Select(x => CreateTweet(x)).ToArray();
         }
 
-        public ITweetWithSearchMetadata CreateTweetWithSearchMetadata(ITweetWithSearchMetadataDTO tweetDTO)
+        public ITweetWithSearchMetadata CreateTweetWithSearchMetadata(ITweetWithSearchMetadataDTO tweetWithSearchMetadataDTO)
         {
-            if (tweetDTO == null)
+            if (tweetWithSearchMetadataDTO == null)
             {
                 return null;
             }
 
-            return new TweetWithSearchMetadata(tweetDTO, _client.ClientSettings.TweetMode, _client);
+            return new TweetWithSearchMetadata(tweetWithSearchMetadataDTO, _client.ClientSettings.TweetMode, _client);
         }
 
         public IOEmbedTweet CreateOEmbedTweet(string json)
@@ -311,6 +303,12 @@ namespace Tweetinvi.Client.Tools
         public IUploadedMediaInfo CreateUploadedMediaInfo(string json)
         {
             return _jsonObjectConverter.Deserialize<IUploadedMediaInfo>(json);
+        }
+
+        public ISearchResults CreateSearchResult(string json)
+        {
+            var searchResultDto = _jsonObjectConverter.Deserialize<SearchResultsDTO>(json);
+            return CreateSearchResult(searchResultDto);
         }
 
         public IAccountSettings CreateAccountSettings(string json)

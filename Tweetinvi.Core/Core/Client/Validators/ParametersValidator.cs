@@ -9,6 +9,7 @@ namespace Tweetinvi.Core.Client.Validators
         IAuthClientParametersValidator,
         IHelpClientParametersValidator,
         IMessagesClientParametersValidator,
+        ISearchClientParametersValidator,
         ITwitterListsClientParametersValidator,
         ITimelineClientParametersValidator,
         ITweetsClientParametersValidator,
@@ -24,6 +25,7 @@ namespace Tweetinvi.Core.Client.Validators
         private readonly IAuthClientParametersValidator _authClientParametersValidator;
         private readonly IHelpClientParametersValidator _helpClientParametersValidator;
         private readonly IMessagesClientParametersValidator _messagesClientParametersValidator;
+        private readonly ISearchClientParametersValidator _searchClientParametersValidator;
         private readonly ITwitterListsClientParametersValidator _twitterListsClientParametersValidator;
         private readonly ITimelineClientParametersValidator _timelineClientParametersValidator;
         private readonly ITweetsClientParametersValidator _tweetsClientParametersValidator;
@@ -36,6 +38,7 @@ namespace Tweetinvi.Core.Client.Validators
             IAuthClientParametersValidator authClientParametersValidator,
             IHelpClientParametersValidator helpClientParametersValidator,
             IMessagesClientParametersValidator messagesClientParametersValidator,
+            ISearchClientParametersValidator searchClientParametersValidator,
             ITwitterListsClientParametersValidator twitterListsClientParametersValidator,
             ITimelineClientParametersValidator timelineClientParametersValidator,
             ITweetsClientParametersValidator tweetsClientParametersValidator,
@@ -47,6 +50,7 @@ namespace Tweetinvi.Core.Client.Validators
             _authClientParametersValidator = authClientParametersValidator;
             _helpClientParametersValidator = helpClientParametersValidator;
             _messagesClientParametersValidator = messagesClientParametersValidator;
+            _searchClientParametersValidator = searchClientParametersValidator;
             _twitterListsClientParametersValidator = twitterListsClientParametersValidator;
             _timelineClientParametersValidator = timelineClientParametersValidator;
             _tweetsClientParametersValidator = tweetsClientParametersValidator;
@@ -287,6 +291,11 @@ namespace Tweetinvi.Core.Client.Validators
         public void Validate(ICheckIfUserIsSubscriberOfListParameters parameters)
         {
             _twitterListsClientParametersValidator.Validate(parameters);
+        }
+
+        public void Validate(ISearchTweetsParameters parameters)
+        {
+            _searchClientParametersValidator.Validate(parameters);
         }
 
         public void Validate(IGetHomeTimelineParameters parameters)

@@ -19,7 +19,7 @@ namespace Tweetinvi.Client
         public TimelinesClient(ITwitterClient client)
         {
             _client = client;
-            _timelinesRequester = _client.RequestExecutor.Timelines;
+            _timelinesRequester = _client.Raw.Timelines;
         }
 
         public ITimelineClientParametersValidator ParametersValidator => _client.ParametersValidator;

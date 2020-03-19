@@ -116,6 +116,9 @@ namespace Tweetinvi.Core.Injectinvi
             container.RegisterType<IMessagesClientParametersValidator, MessagesClientParametersValidator>(RegistrationLifetime.InstancePerApplication);
             container.RegisterType<IMessagesClientRequiredParametersValidator, MessagesClientRequiredParametersValidator>(RegistrationLifetime.InstancePerApplication);
 
+            container.RegisterType<ISearchClientParametersValidator, SearchClientParametersValidator>(RegistrationLifetime.InstancePerApplication);
+            container.RegisterType<ISearchClientRequiredParametersValidator, SearchClientRequiredParametersValidator>(RegistrationLifetime.InstancePerApplication);
+
             container.RegisterType<ITimelineClientParametersValidator, TimelineClientParametersValidator>(RegistrationLifetime.InstancePerApplication);
             container.RegisterType<ITimelineClientRequiredParametersValidator, TimelineClientRequiredParametersValidator>(RegistrationLifetime.InstancePerApplication);
 

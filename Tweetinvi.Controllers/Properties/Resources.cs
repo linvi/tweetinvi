@@ -203,8 +203,6 @@ namespace Tweetinvi.Controllers.Properties
         /// </summary>
         public static string List_GetTweetsFromList = "https://api.twitter.com/1.1/lists/statuses.json?";
 
-
-
         /// <summary>
         ///   Looks up a localized string similar to &amp;owner_id={0}.
         /// </summary>
@@ -341,31 +339,6 @@ namespace Tweetinvi.Controllers.Properties
         public static string SearchParameter_GeoCode = "{0},{1},{2}{3}";
 
         /// <summary>
-        ///   Looks up a localized string similar to &amp;lang={0}.
-        /// </summary>
-        public static string SearchParameter_Lang = "&lang={0}";
-
-        /// <summary>
-        ///   Looks up a localized string similar to &amp;locale={0}.
-        /// </summary>
-        public static string SearchParameter_Locale = "&locale={0}";
-
-        /// <summary>
-        ///   Looks up a localized string similar to &amp;result_type={0}.
-        /// </summary>
-        public static string SearchParameter_ResultType = "&result_type={0}";
-
-        /// <summary>
-        ///   Looks up a localized string similar to &amp;since={0}.
-        /// </summary>
-        public static string SearchParameter_Since = "&since={0}";
-
-        /// <summary>
-        ///   Looks up a localized string similar to &amp;until={0}.
-        /// </summary>
-        public static string SearchParameter_Until = "&until={0}";
-
-        /// <summary>
         ///   Looks up a localized string similar to https://api.twitter.com/1.1/statuses/home_timeline.json?.
         /// </summary>
         public static string Timeline_GetHomeTimeline = "https://api.twitter.com/1.1/statuses/home_timeline.json?";
@@ -384,16 +357,6 @@ namespace Tweetinvi.Controllers.Properties
         ///   Looks up a localized string similar to https://api.twitter.com/1.1/statuses/user_timeline.json?.
         /// </summary>
         public static string Timeline_GetUserTimeline = "https://api.twitter.com/1.1/statuses/user_timeline.json?";
-
-        /// <summary>
-        ///   Looks up a localized string similar to &amp;exclude_replies={0}.
-        /// </summary>
-        public static string TimelineParameter_ExcludeReplies = "&exclude_replies={0}";
-
-        /// <summary>
-        ///   Looks up a localized string similar to &amp;include_user_entities={0}.
-        /// </summary>
-        public static string TimelineParameter_IncludeUserEntities = "&include_user_entities={0}";
 
         /// <summary>
         ///   Looks up a localized string similar to https://api.twitter.com/1.1/trends/place.json?id={0}.
@@ -449,21 +412,6 @@ namespace Tweetinvi.Controllers.Properties
         ///   Looks up a localized string similar to https://api.twitter.com/1.1/statuses/update.json?.
         /// </summary>
         public static string Tweet_Publish = "https://api.twitter.com/1.1/statuses/update.json?";
-
-        /// <summary>
-        ///   Looks up a localized string similar to https://api.twitter.com/1.1/statuses/update.json?status={0}&amp;in_reply_to_status_id={1}&amp;trim_user=true.
-        /// </summary>
-        public static string Tweet_PublishInReplyTo = "https://api.twitter.com/1.1/statuses/update.json?status={0}&in_reply_to_status_id={1}&trim_user=true";
-
-        /// <summary>
-        ///   Looks up a localized string similar to https://api.twitter.com/1.1/statuses/update_with_media.json?status={0}&amp;trim_user=true.
-        /// </summary>
-        public static string Tweet_PublishWithMedia = "https://api.twitter.com/1.1/statuses/update_with_media.json?status={0}&trim_user=true";
-
-        /// <summary>
-        ///   Looks up a localized string similar to https://api.twitter.com/1.1/statuses/update_with_media.json?status={0}&amp;in_reply_to_status_id={1}.
-        /// </summary>
-        public static string Tweet_PublishWithMediaInReplyTo = "https://api.twitter.com/1.1/statuses/update_with_media.json?status={0}&in_reply_to_status_id={1}";
 
         /// <summary>
         ///   Looks up a localized string similar to https://api.twitter.com/1.1/statuses/retweets/{0}.json.

@@ -1,85 +1,58 @@
-﻿﻿using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
 using Tweetinvi.Controllers.Properties;
 using Tweetinvi.Controllers.Shared;
-﻿using Tweetinvi.Core;
-﻿using Tweetinvi.Core.Extensions;
-﻿using Tweetinvi.Parameters;
- using Tweetinvi.Parameters.Enum;
+using Tweetinvi.Core.Extensions;
+using Tweetinvi.Parameters;
+using Tweetinvi.Parameters.Enum;
 
- namespace Tweetinvi.Controllers.Search
+namespace Tweetinvi.Controllers.Search
 {
     public interface ISearchQueryGenerator
     {
-        string GetSearchTweetsQuery(string query);
-        string GetSearchTweetsQuery(ISearchTweetsParameters searchTweetsParameters);
+        string GetSearchTweetsQuery(ISearchTweetsParameters parameters);
 
         string GetSearchUsersQuery(ISearchUsersParameters searchUsersParameters);
     }
 
     public class SearchQueryGenerator : ISearchQueryGenerator
     {
-        private readonly ISearchQueryValidator _searchQueryValidator;
         private readonly IQueryParameterGenerator _queryParameterGenerator;
-        private readonly ITweetinviSettingsAccessor _tweetinviSettingsAccessor;
         private readonly ISearchQueryParameterGenerator _searchQueryParameterGenerator;
 
         public SearchQueryGenerator(
-            ISearchQueryValidator searchQueryValidator,
             IQueryParameterGenerator queryParameterGenerator,
-            ITweetinviSettingsAccessor tweetinviSettingsAccessor,
             ISearchQueryParameterGenerator searchQueryParameterGenerator)
         {
-            _searchQueryValidator = searchQueryValidator;
             _queryParameterGenerator = queryParameterGenerator;
-            _tweetinviSettingsAccessor = tweetinviSettingsAccessor;
             _searchQueryParameterGenerator = searchQueryParameterGenerator;
         }
 
-        public string GetSearchTweetsQuery(string query)
+        public string GetSearchTweetsQuery(ISearchTweetsParameters parameters)
         {
-            var searchParameter = _searchQueryParameterGenerator.CreateSearchTweetParameter(query);
-            return GetSearchTweetsQuery(searchParameter);
-        }
-
-        public string GetSearchTweetsQuery(ISearchTweetsParameters searchTweetsParameters)
-        {
-            if (searchTweetsParameters == null)
-            {
-                throw new ArgumentNullException(nameof(searchTweetsParameters));
-            }
-
-            var searchQuery = GetQuery(searchTweetsParameters.SearchQuery, searchTweetsParameters.Filters);
-
-            _searchQueryValidator.ThrowIfSearchParametersIsNotValid(searchTweetsParameters);
-
             var query = new StringBuilder(Resources.Search_SearchTweets);
 
-            query.AddParameterToQuery("q", searchQuery);
-            query.AddParameterToQuery("geocode", _searchQueryParameterGenerator.GenerateGeoCodeParameter(searchTweetsParameters.GeoCode));
+            query.AddParameterToQuery("q", GenerateQueryParameter(parameters.Query, parameters.Filters));
+            query.AddParameterToQuery("geocode", _searchQueryParameterGenerator.GenerateGeoCodeParameter(parameters.GeoCode));
 
-            query.Append(_searchQueryParameterGenerator.GenerateSearchTypeParameter(searchTweetsParameters.SearchType));
+            query.AddParameterToQuery("lang", parameters.Lang?.GetLanguageCode());
+            query.AddParameterToQuery("locale", parameters.Locale);
+            query.AddParameterToQuery("result_type", parameters.SearchType?.ToString().ToLowerInvariant());
 
-            query.Append(_queryParameterGenerator.GenerateSinceIdParameter(searchTweetsParameters.SinceId));
-            query.Append(_queryParameterGenerator.GenerateMaxIdParameter(searchTweetsParameters.MaxId));
-            query.Append(_queryParameterGenerator.GenerateCountParameter(searchTweetsParameters.MaximumNumberOfResults));
+            _queryParameterGenerator.AddMinMaxQueryParameters(query, parameters);
 
-            query.Append(_searchQueryParameterGenerator.GenerateLangParameter(searchTweetsParameters.Lang));
-            query.Append(_searchQueryParameterGenerator.GenerateLocaleParameter(searchTweetsParameters.Locale));
-            query.Append(_searchQueryParameterGenerator.GenerateSinceParameter(searchTweetsParameters.Since));
-            query.Append(_searchQueryParameterGenerator.GenerateUntilParameter(searchTweetsParameters.Until));
-
-            query.AddFormattedParameterToQuery(_queryParameterGenerator.GenerateTweetModeParameter(_tweetinviSettingsAccessor.CurrentThreadSettings.TweetMode));
-            query.Append(_queryParameterGenerator.GenerateAdditionalRequestParameters(searchTweetsParameters.FormattedCustomQueryParameters));
+            query.AddFormattedParameterToQuery(_searchQueryParameterGenerator.GenerateSinceParameter(parameters.Since));
+            query.AddFormattedParameterToQuery(_searchQueryParameterGenerator.GenerateUntilParameter(parameters.Until));
+            query.AddParameterToQuery("include_entities", parameters.IncludeEntities);
+            query.AddFormattedParameterToQuery(_queryParameterGenerator.GenerateTweetModeParameter(parameters.TweetMode));
+            query.AddFormattedParameterToQuery(parameters.FormattedCustomQueryParameters);
 
             return query.ToString();
         }
 
-        private string GetQuery(string query, TweetSearchFilters tweetSearchFilters)
+        private string GenerateQueryParameter(string query, TweetSearchFilters tweetSearchFilters)
         {
-            query = _searchQueryParameterGenerator.GenerateSearchQueryParameter(query);
-
             if (tweetSearchFilters == TweetSearchFilters.None)
             {
                 return query;
@@ -110,14 +83,14 @@ using Tweetinvi.Controllers.Shared;
 
         public string GetSearchUsersQuery(ISearchUsersParameters searchUsersParameters)
         {
-            if (!_searchQueryValidator.IsSearchQueryValid(searchUsersParameters.SearchQuery))
-            {
-                throw new ArgumentException("Search query is not valid.");
-            }
+            // if (!_searchQueryValidator.IsSearchQueryValid(searchUsersParameters.SearchQuery))
+            // {
+            //     throw new ArgumentException("Search query is not valid.");
+            // }
 
             var queryBuilder = new StringBuilder(Resources.Search_SearchUsers);
 
-            queryBuilder.AddParameterToQuery("q", _searchQueryParameterGenerator.GenerateSearchQueryParameter(searchUsersParameters.SearchQuery));
+            queryBuilder.AddParameterToQuery("q", searchUsersParameters.Query);
             queryBuilder.AddParameterToQuery("page", searchUsersParameters.Page);
             queryBuilder.Append(_queryParameterGenerator.GenerateCountParameter(searchUsersParameters.MaximumNumberOfResults));
             queryBuilder.Append(_queryParameterGenerator.GenerateIncludeEntitiesParameter(searchUsersParameters.IncludeEntities));

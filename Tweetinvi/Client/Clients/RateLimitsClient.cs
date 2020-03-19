@@ -1,7 +1,6 @@
 using System;
 using System.Threading.Tasks;
 using Tweetinvi.Client.Requesters;
-using Tweetinvi.Core.Models;
 using Tweetinvi.Core.RateLimit;
 using Tweetinvi.Models;
 using Tweetinvi.Parameters;
@@ -10,17 +9,17 @@ namespace Tweetinvi.Client
 {
     public class RateLimitsClient : IRateLimitsClient
     {
-        private readonly TwitterClient _client;
+        private readonly ITwitterClient _client;
         private readonly IRateLimitCacheManager _rateLimitCacheManager;
         private readonly IRateLimitAwaiter _rateLimitAwaiter;
         private readonly IHelpRequester _helpRequester;
 
-        public RateLimitsClient(TwitterClient client)
+        public RateLimitsClient(ITwitterClient client)
         {
             var executionContext = client.CreateTwitterExecutionContext();
 
             _client = client;
-            _helpRequester = client.RequestExecutor.Help;
+            _helpRequester = client.Raw.Help;
             _rateLimitCacheManager = executionContext.Container.Resolve<IRateLimitCacheManager>();
             _rateLimitAwaiter = executionContext.Container.Resolve<IRateLimitAwaiter>();
         }

@@ -14,7 +14,7 @@ namespace Tweetinvi.Client
         public AccountSettingsClient(ITwitterClient client)
         {
             _client = client;
-            _accountRequester = client.RequestExecutor.AccountSettings;
+            _accountRequester = client.Raw.AccountSettings;
         }
 
         public IAccountSettingsClientParametersValidator ParametersValidator => _client.ParametersValidator;

@@ -20,6 +20,18 @@
             DistanceMeasure = distanceMeasure;
         }
 
+        public GeoCode(IGeoCode source)
+        {
+            if (source == null)
+            {
+                return;
+            }
+
+            Coordinates = new Coordinates(source.Coordinates.Latitude, source.Coordinates.Longitude);
+            Radius = source.Radius;
+            DistanceMeasure = source.DistanceMeasure;
+        }
+
         public ICoordinates Coordinates { get; set; }
         public double Radius { get; set; }
         public DistanceMeasure DistanceMeasure { get; set; }

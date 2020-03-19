@@ -12,7 +12,7 @@ namespace Tweetinvi.Client
 
         public UploadClient(ITwitterClient client)
         {
-            _uploadRequester = client.RequestExecutor.Upload;
+            _uploadRequester = client.Raw.Upload;
         }
 
         public Task<IMedia> UploadBinary(byte[] binary)

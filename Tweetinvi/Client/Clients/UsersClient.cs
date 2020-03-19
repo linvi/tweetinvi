@@ -23,7 +23,7 @@ namespace Tweetinvi.Client
         public UsersClient(ITwitterClient client, IMultiLevelCursorIteratorFactory multiLevelCursorIteratorFactory)
         {
             _client = client;
-            _usersRequester = client.RequestExecutor.Users;
+            _usersRequester = client.Raw.Users;
             _multiLevelCursorIteratorFactory = multiLevelCursorIteratorFactory;
         }
 

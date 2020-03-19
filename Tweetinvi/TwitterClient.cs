@@ -101,8 +101,8 @@ namespace Tweetinvi
             _tweetinviContainer.Initialize();
             _tweetinviContainer.BeforeRegistrationCompletes -= BeforeRegistrationDelegate;
 
-            var requestExecutor = _tweetinviContainer.Resolve<IRequestExecutor>();
-            RequestExecutor = requestExecutor;
+            var requestExecutor = _tweetinviContainer.Resolve<IRawExecutors>();
+            Raw = requestExecutor;
 
             var parametersValidator = _tweetinviContainer.Resolve<IParametersValidator>();
             ParametersValidator = parametersValidator;
@@ -114,6 +114,7 @@ namespace Tweetinvi
             Lists = _tweetinviContainer.Resolve<IListsClient>();
             Messages = _tweetinviContainer.Resolve<IMessageClient>();
             RateLimits = _tweetinviContainer.Resolve<IRateLimitsClient>();
+            Search = _tweetinviContainer.Resolve<ISearchClient>();
             Streams = _tweetinviContainer.Resolve<IStreamsClient>();
             Timelines = _tweetinviContainer.Resolve<ITimelinesClient>();
             Tweets = _tweetinviContainer.Resolve<ITweetsClient>();
@@ -146,6 +147,8 @@ namespace Tweetinvi
         /// <inheritdoc/>
         public IRateLimitsClient RateLimits { get; }
         /// <inheritdoc/>
+        public ISearchClient Search { get; }
+        /// <inheritdoc/>
         public IStreamsClient Streams { get; }
         /// <inheritdoc/>
         public ITimelinesClient Timelines { get; }
@@ -168,7 +171,7 @@ namespace Tweetinvi
         /// <inheritdoc/>
         public IParametersValidator ParametersValidator { get; }
         /// <inheritdoc/>
-        public IRequestExecutor RequestExecutor { get; }
+        public IRawExecutors Raw { get; }
 
         public ITwitterExecutionContext CreateTwitterExecutionContext()
         {

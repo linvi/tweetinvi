@@ -5,17 +5,18 @@ using Tweetinvi.Parameters.Enum;
 namespace Tweetinvi.Parameters
 {
     /// <summary>
-    /// https://dev.twitter.com/rest/reference/get/search/tweets
+    /// For more information read : https://developer.twitter.com/en/docs/tweets/search/api-reference/get-search-tweets
+    /// <para>Learn more about query here : https://developer.twitter.com/en/docs/tweets/search/guides/standard-operators</para>
     /// </summary>
-    public interface ISearchTweetsParameters : ICustomRequestParameters
+    public interface ISearchTweetsParameters : IMinMaxQueryParameters
     {
         /// <summary>
         /// Query to search tweets.
         /// </summary>
-        string SearchQuery { get; set; }
+        string Query { get; set; }
 
         /// <summary>
-        /// Specify the language of the query you are sending (only ja is currently effective). 
+        /// Specify the language of the query you are sending (only ja is currently effective).
         /// This is intended for language-specific consumers and the default should work in the majority of cases.
         /// </summary>
         string Locale { get; set; }
@@ -36,34 +37,14 @@ namespace Tweetinvi.Parameters
         SearchResultType? SearchType { get; set; }
 
         /// <summary>
-        /// Maximum number of tweets the search will return.
-        /// </summary>
-        int MaximumNumberOfResults { get; set; }
-
-        /// <summary>
         /// Search will only return tweets published after this date.
         /// </summary>
-        DateTime Since { get; set; }
+        DateTime? Since { get; set; }
 
         /// <summary>
         /// Search will only return tweets published before this date.
         /// </summary>
-        DateTime Until { get; set; }
-
-        /// <summary>
-        /// Returns tweets with an ID greater than the specified value.
-        /// </summary>
-        long SinceId { get; set; }
-
-        /// <summary>
-        /// Returns tweets with an ID lower than the specified value.
-        /// </summary>
-        long MaxId { get; set; }
-
-        /// <summary>
-        /// Filter to distinguish retweets from new tweets.
-        /// </summary>
-        TweetSearchType TweetSearchType { get; set; }
+        DateTime? Until { get; set; }
 
         /// <summary>
         /// Filters tweets based on metadata.
@@ -81,33 +62,30 @@ namespace Tweetinvi.Parameters
         void SetGeoCode(double latitude, double longitude, double radius, DistanceMeasure measure);
 
         /// <summary>
-        /// Ensure that tweets returned by Twitter search returns tweet with geo information.
-        /// This is necessary for people who wants to make sure that the Tweet was posted from the location requested.
-        /// To learn more : https://github.com/linvi/tweetinvi/issues/333
+        /// Include tweet entities.
         /// </summary>
-        bool FilterTweetsNotContainingGeoInformation { get; set; }
+        bool? IncludeEntities { get; set; }
+
+        /// <summary>
+        /// Define whether you want to use the Tweet extended or compatibility mode
+        /// </summary>
+        TweetMode? TweetMode { get; set; }
     }
 
     /// <summary>
     /// https://dev.twitter.com/rest/reference/get/search/tweets
     /// </summary>
-    public class SearchTweetsParameters : CustomRequestParameters, ISearchTweetsParameters
+    public class SearchTweetsParameters : MinMaxQueryParameters, ISearchTweetsParameters
     {
         private SearchTweetsParameters()
         {
-            MaximumNumberOfResults = TweetinviConsts.SEARCH_TWEETS_COUNT;
-            
-            SinceId = -1;
-            MaxId = -1;
-
-            TweetSearchType = TweetSearchType.All;
             Filters = TweetSearchFilters.None;
-            FilterTweetsNotContainingGeoInformation = false;
+            PageSize = TwitterLimits.DEFAULTS.SEARCH_MAX_PAGE_SIZE;
         }
 
         public SearchTweetsParameters(string searchQuery) : this()
         {
-            SearchQuery = searchQuery;
+            Query = searchQuery;
         }
 
         public SearchTweetsParameters(IGeoCode geoCode) : this()
@@ -125,21 +103,35 @@ namespace Tweetinvi.Parameters
             GeoCode = new GeoCode(latitude, longitude, radius, measure);
         }
 
-        public string SearchQuery { get; set; }
+        public SearchTweetsParameters(ISearchTweetsParameters source) : base(source)
+        {
+            if (source == null)
+            {
+                return;
+            }
+
+            Query = source.Query;
+            Locale = source.Locale;
+            Lang = source.Lang;
+            GeoCode = new GeoCode(source.GeoCode);
+            SearchType = source.SearchType;
+            Since = source.Since;
+            Until = source.Until;
+            Filters = source.Filters;
+            IncludeEntities = source.IncludeEntities;
+            TweetMode = source.TweetMode;
+        }
+
+        public string Query { get; set; }
         public string Locale { get; set; }
-        public int MaximumNumberOfResults { get; set; }
 
         public LanguageFilter? Lang { get; set; }
         public IGeoCode GeoCode { get; set; }
         public SearchResultType? SearchType { get; set; }
 
-        public DateTime Since { get; set; }
-        public DateTime Until { get; set; }
+        public DateTime? Since { get; set; }
+        public DateTime? Until { get; set; }
 
-        public long SinceId { get; set; }
-        public long MaxId { get; set; }
-
-        public TweetSearchType TweetSearchType { get; set; }
         public TweetSearchFilters Filters { get; set; }
 
         public void SetGeoCode(ICoordinates coordinates, double radius, DistanceMeasure measure)
@@ -152,6 +144,8 @@ namespace Tweetinvi.Parameters
             GeoCode = new GeoCode(latitude, longitude, radius, measure);
         }
 
-        public bool FilterTweetsNotContainingGeoInformation { get; set; }
+        public bool? IncludeEntities { get; set; }
+
+        public TweetMode? TweetMode { get; set; }
     }
 }

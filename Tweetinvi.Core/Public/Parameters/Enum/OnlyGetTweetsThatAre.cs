@@ -3,10 +3,9 @@
     /// <summary>
     /// List of filters to detect whether the tweet is new.
     /// </summary>
-    public enum TweetSearchType
+    public enum OnlyGetTweetsThatAre
     {
-        All,
-        OriginalTweetsOnly,
-        RetweetsOnly,
+        OriginalTweets,
+        Retweets,
     }
 }

@@ -58,6 +58,20 @@ namespace Tweetinvi.Core.Json
             Map<IMedia, IMedia>(media => media, factories.CreateMedia);
             Map<IUploadedMediaInfo, IUploadedMediaInfo>(mediaInfo => mediaInfo, factories.CreateUploadedMediaInfo);
 
+            Map<ISearchResults, SearchResultsDTO>(result =>
+            {
+                return new SearchResultsDTO
+                {
+                    TweetDTOs = result.Tweets.Select(tweetWithSearchMetadata =>
+                    {
+                        var tweetDTOJson = _jsonObjectConverter.Serialize(tweetWithSearchMetadata.TweetDTO);
+                        var tweetWithSearchMetadataDTO = _jsonObjectConverter.Deserialize<TweetWithSearchMetadataDTO>(tweetDTOJson);
+                        tweetWithSearchMetadataDTO.TweetFromSearchMetadata = tweetWithSearchMetadata.SearchMetadata;
+                        return tweetWithSearchMetadataDTO;
+                    }).ToArray(),
+                    SearchMetadata = result.SearchMetadata
+                };
+            }, factories.CreateSearchResult);
             Map<ICredentialsRateLimits, CredentialsRateLimitsDTO>(rateLimits => rateLimits.CredentialsRateLimitsDTO, factories.CreateRateLimits);
             Map<ITwitterConfiguration, ITwitterConfiguration>(config => config, factories.CreateTwitterConfiguration);
             Map<ISavedSearch, ISavedSearchDTO>(savedSearch => savedSearch.SavedSearchDTO, factories.CreateSavedSearch);

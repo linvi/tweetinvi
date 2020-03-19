@@ -8,7 +8,7 @@
         /// <summary>
         /// Query to search for people.
         /// </summary>
-        string SearchQuery { get; set; }
+        string Query { get; set; }
 
         /// <summary>
         /// Search result page to retrieve.
@@ -35,12 +35,12 @@
         public SearchUsersParameters(string query)
         {
             MaximumNumberOfResults = TweetinviConsts.SEARCH_USERS_COUNT;
-            SearchQuery = query;
+            Query = query;
             IncludeEntities = true;
             Page = 0;
         }
 
-        public string SearchQuery { get; set; }
+        public string Query { get; set; }
 
         public int Page { get; set; }
 

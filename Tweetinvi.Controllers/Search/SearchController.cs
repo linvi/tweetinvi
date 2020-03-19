@@ -3,19 +3,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Tweetinvi.Client.Tools;
+using Tweetinvi.Core.DTO;
 using Tweetinvi.Core.Factories;
+using Tweetinvi.Core.Iterators;
+using Tweetinvi.Core.Web;
 using Tweetinvi.Models;
+using Tweetinvi.Models.DTO;
 using Tweetinvi.Parameters;
 
 namespace Tweetinvi.Controllers.Search
 {
     public interface ISearchController
     {
-        Task<IEnumerable<ITweet>> SearchTweets(string searchQuery);
-        Task<IEnumerable<ITweet>> SearchTweets(ISearchTweetsParameters searchTweetsParameters);
-
-        Task<ISearchResult> SearchTweetsWithMetadata(string searchQuery);
-        Task<ISearchResult> SearchTweetsWithMetadata(ISearchTweetsParameters searchTweetsParameters);
+        ITwitterPageIterator<ITwitterResult<ISearchResultsDTO>, long?> SearchTweets(ISearchTweetsParameters parameters, ITwitterRequest request);
 
         Task<IEnumerable<ITweet>> SearchDirectRepliesTo(ITweet tweet);
         Task<IEnumerable<ITweet>> SearchRepliesTo(ITweet tweet, bool recursiveReplies);
@@ -28,43 +28,47 @@ namespace Tweetinvi.Controllers.Search
     {
         private readonly ISearchQueryExecutor _searchQueryExecutor;
         private readonly ITwitterClientFactories _factories;
+        private readonly IPageCursorIteratorFactories _pageCursorIteratorFactories;
         private readonly ITweetFactory _tweetFactory;
         private readonly IUserFactory _userFactory;
 
         public SearchController(
             ISearchQueryExecutor searchQueryExecutor,
             ITwitterClientFactories factories,
+            IPageCursorIteratorFactories pageCursorIteratorFactories,
             ITweetFactory tweetFactory,
             IUserFactory userFactory)
         {
             _searchQueryExecutor = searchQueryExecutor;
             _factories = factories;
+            _pageCursorIteratorFactories = pageCursorIteratorFactories;
             _tweetFactory = tweetFactory;
             _userFactory = userFactory;
         }
 
-        public async Task<IEnumerable<ITweet>> SearchTweets(string searchQuery)
+        public ITwitterPageIterator<ITwitterResult<ISearchResultsDTO>, long?> SearchTweets(ISearchTweetsParameters parameters, ITwitterRequest request)
         {
-            var tweetsDTO = await _searchQueryExecutor.SearchTweets(searchQuery);
-            return _tweetFactory.GenerateTweetsFromDTO(tweetsDTO, null, null);
-        }
+            return new TwitterPageIterator<ITwitterResult<ISearchResultsDTO>, long?>(
+                parameters.MaxId,
+                cursor =>
+                {
+                    var cursoredParameters = new SearchTweetsParameters(parameters)
+                    {
+                        MaxId = cursor
+                    };
 
-        public async Task<IEnumerable<ITweet>> SearchTweets(ISearchTweetsParameters searchTweetsParameters)
-        {
-            var tweetsDTO = await _searchQueryExecutor.SearchTweets(searchTweetsParameters);
-            return _tweetFactory.GenerateTweetsFromDTO(tweetsDTO, null, null);
-        }
+                    return _searchQueryExecutor.SearchTweets(cursoredParameters, new TwitterRequest(request));
+                },
+                page =>
+                {
+                    if (page?.DataTransferObject?.SearchMetadata?.NextResults == null)
+                    {
+                        return null;
+                    }
 
-        public async Task<ISearchResult> SearchTweetsWithMetadata(string searchQuery)
-        {
-            var searchResultsDTO = await _searchQueryExecutor.SearchTweetsWithMetadata(searchQuery);
-            return _factories.CreateSearchResult(new [] { searchResultsDTO });
-        }
-
-        public async Task<ISearchResult> SearchTweetsWithMetadata(ISearchTweetsParameters searchTweetsParameters)
-        {
-            var searchResultsDTO = (await _searchQueryExecutor.SearchTweetsWithMetadata(searchTweetsParameters)).ToArray();
-            return _factories.CreateSearchResult(searchResultsDTO);
+                    return page.DataTransferObject.SearchMetadata.MaxId;
+                },
+                page => page?.DataTransferObject?.SearchMetadata?.NextResults == null);
         }
 
         public Task<IEnumerable<ITweet>> SearchDirectRepliesTo(ITweet tweet)
