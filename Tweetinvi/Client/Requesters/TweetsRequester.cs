@@ -83,7 +83,7 @@ namespace Tweetinvi.Client.Requesters
             return _tweetController.GetRetweeterIdsIterator(parameters, request);
         }
 
-        public ITwitterPageIterator<ITwitterResult<ITweetDTO[]>, long?> GetFavoriteTweets(IGetFavoriteTweetsParameters parameters)
+        public ITwitterPageIterator<ITwitterResult<ITweetDTO[]>, long?> GetFavoriteTweetsIterator(IGetFavoriteTweetsParameters parameters)
         {
             _tweetsClientRequiredParametersValidator.Validate(parameters);
             var request = TwitterClient.CreateRequest();

@@ -162,23 +162,23 @@ namespace Tweetinvi.Core.Models
         // Friends
         public virtual ITwitterIterator<long> GetFriendIds()
         {
-            return Client?.Users.GetFriendIds(new GetFriendIdsParameters(this));
+            return Client?.Users.GetFriendIdsIterator(new GetFriendIdsParameters(this));
         }
 
         public virtual IMultiLevelCursorIterator<long, IUser> GetFriends()
         {
-            return Client?.Users.GetFriends(new GetFriendsParameters(this));
+            return Client?.Users.GetFriendsIterator(new GetFriendsParameters(this));
         }
 
         // Followers
         public virtual ITwitterIterator<long> GetFollowerIds()
         {
-            return Client?.Users.GetFollowerIds(new GetFollowerIdsParameters(this));
+            return Client?.Users.GetFollowerIdsIterator(new GetFollowerIdsParameters(this));
         }
 
         public virtual IMultiLevelCursorIterator<long, IUser> GetFollowers()
         {
-            return Client?.Users.GetFollowers(new GetFollowersParameters(this));
+            return Client?.Users.GetFollowersIterator(new GetFollowersParameters(this));
         }
 
         // Relationship
@@ -206,7 +206,7 @@ namespace Tweetinvi.Core.Models
         // Favorites
         public virtual ITwitterIterator<ITweet, long?> GetFavoriteTweets()
         {
-            return Client.Tweets.GetFavoriteTweets(this);
+            return Client.Tweets.GetFavoriteTweetsIterator(this);
         }
 
         // Lists

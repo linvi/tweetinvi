@@ -25,9 +25,9 @@ namespace xUnitinvi.EndToEnd
             // act
             await userToFollow.BlockUser();
 
-            var blockedUserIdsIterator = _tweetinviTestClient.Users.GetBlockedUserIds();
+            var blockedUserIdsIterator = _tweetinviTestClient.Users.GetBlockedUserIdsIterator();
             var blockedUsersFromIdsIterator = await blockedUserIdsIterator.MoveToNextPage();
-            var blockedUsersIterator = _tweetinviTestClient.Users.GetBlockedUsers();
+            var blockedUsersIterator = _tweetinviTestClient.Users.GetBlockedUsersIterator();
             var blockedUsers = await blockedUsersIterator.MoveToNextPage();
 
             await userToFollow.UnblockUser();
@@ -46,17 +46,17 @@ namespace xUnitinvi.EndToEnd
             var userToMute = await _protectedClient.Users.GetAuthenticatedUser();
 
             // act
-            var mutedUserIdsIterator = _tweetinviTestClient.Users.GetMutedUserIds();
+            var mutedUserIdsIterator = _tweetinviTestClient.Users.GetMutedUserIdsIterator();
             var initialMutedUserIds = await mutedUserIdsIterator.MoveToNextPage();
 
             await _tweetinviTestClient.Users.MuteUser(userToMute);
-            var newMutedUserIdsIterator = _tweetinviTestClient.Users.GetMutedUserIds();
+            var newMutedUserIdsIterator = _tweetinviTestClient.Users.GetMutedUserIdsIterator();
             var newMutedUserIds = await newMutedUserIdsIterator.MoveToNextPage();
-            var newMutedUsersIterator = _tweetinviTestClient.Users.GetMutedUsers();
+            var newMutedUsersIterator = _tweetinviTestClient.Users.GetMutedUsersIterator();
             var newMutedUsers = await newMutedUsersIterator.MoveToNextPage();
             await _tweetinviTestClient.Users.UnmuteUser(userToMute);
 
-            var restoredMutedUserIdsIterator = _tweetinviTestClient.Users.GetMutedUserIds();
+            var restoredMutedUserIdsIterator = _tweetinviTestClient.Users.GetMutedUserIdsIterator();
             var restoredMutedUserIds = await restoredMutedUserIdsIterator.MoveToNextPage();
 
             // assert

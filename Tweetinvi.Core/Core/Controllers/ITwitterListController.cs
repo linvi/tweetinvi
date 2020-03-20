@@ -31,8 +31,8 @@ namespace Tweetinvi.Core.Controllers
         // SUBSCRIBERS
         Task<ITwitterResult<ITwitterListDTO>> SubscribeToList(ISubscribeToListParameters parameters, ITwitterRequest request);
         Task<ITwitterResult<ITwitterListDTO>> UnsubscribeFromList(IUnsubscribeFromListParameters parameters, ITwitterRequest request);
-        ITwitterPageIterator<ITwitterResult<IUserCursorQueryResultDTO>> GetListSubscribers(IGetListSubscribersParameters parameters, ITwitterRequest request);
-        ITwitterPageIterator<ITwitterResult<ITwitterListCursorQueryResultDTO>> GetUserListSubscriptions(IGetUserListSubscriptionsParameters parameters, ITwitterRequest request);
+        ITwitterPageIterator<ITwitterResult<IUserCursorQueryResultDTO>> GetListSubscribersIterator(IGetListSubscribersParameters parameters, ITwitterRequest request);
+        ITwitterPageIterator<ITwitterResult<ITwitterListCursorQueryResultDTO>> GetUserListSubscriptionsIterator(IGetUserListSubscriptionsParameters parameters, ITwitterRequest request);
         Task<ITwitterResult<ITwitterListDTO>> CheckIfUserIsSubscriberOfList(ICheckIfUserIsSubscriberOfListParameters parameters, ITwitterRequest request);
 
         // GET TWEETS

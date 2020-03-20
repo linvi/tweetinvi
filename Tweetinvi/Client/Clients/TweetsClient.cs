@@ -162,24 +162,24 @@ namespace Tweetinvi.Client
 
         #region Favourite Tweets
 
-        public ITwitterIterator<ITweet, long?> GetFavoriteTweets(long userId)
+        public ITwitterIterator<ITweet, long?> GetFavoriteTweetsIterator(long userId)
         {
-            return GetFavoriteTweets(new GetFavoriteTweetsParameters(userId));
+            return GetFavoriteTweetsIterator(new GetFavoriteTweetsParameters(userId));
         }
 
-        public ITwitterIterator<ITweet, long?> GetFavoriteTweets(string username)
+        public ITwitterIterator<ITweet, long?> GetFavoriteTweetsIterator(string username)
         {
-            return GetFavoriteTweets(new GetFavoriteTweetsParameters(username));
+            return GetFavoriteTweetsIterator(new GetFavoriteTweetsParameters(username));
         }
 
-        public ITwitterIterator<ITweet, long?> GetFavoriteTweets(IUserIdentifier user)
+        public ITwitterIterator<ITweet, long?> GetFavoriteTweetsIterator(IUserIdentifier user)
         {
-            return GetFavoriteTweets(new GetFavoriteTweetsParameters(user));
+            return GetFavoriteTweetsIterator(new GetFavoriteTweetsParameters(user));
         }
 
-        public ITwitterIterator<ITweet, long?> GetFavoriteTweets(IGetFavoriteTweetsParameters parameters)
+        public ITwitterIterator<ITweet, long?> GetFavoriteTweetsIterator(IGetFavoriteTweetsParameters parameters)
         {
-            var favoriteTweetsIterator = _tweetsRequester.GetFavoriteTweets(parameters);
+            var favoriteTweetsIterator = _tweetsRequester.GetFavoriteTweetsIterator(parameters);
             return new TwitterIteratorProxy<ITwitterResult<ITweetDTO[]>, ITweet, long?>(favoriteTweetsIterator,
                 twitterResult =>
                 {

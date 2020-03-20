@@ -37,7 +37,7 @@ namespace xUnitinvi.EndToEnd
 
             var userToFollow = await _tweetinviTestClient.Users.GetUser("tweetinviapi");
 
-            var friendIdsIterator = _tweetinviTestClient.Users.GetFriendIds("tweetinvitest");
+            var friendIdsIterator = _tweetinviTestClient.Users.GetFriendIdsIterator("tweetinvitest");
             var friendIds = await friendIdsIterator.MoveToNextPage();
 
             if (friendIds.Contains(userToFollow.Id))
@@ -116,10 +116,10 @@ namespace xUnitinvi.EndToEnd
             // act
             await _tweetinviTestClient.Users.FollowUser(privateUser);
 
-            var sentRequestsIterator = _tweetinviTestClient.Users.GetUsersYouRequestedToFollow();
+            var sentRequestsIterator = _tweetinviTestClient.Users.GetUsersYouRequestedToFollowIterator();
             var sentRequestUsers = await sentRequestsIterator.MoveToNextPage();
 
-            var receivedRequestsIterator = _protectedClient.Users.GetUsersRequestingFriendship();
+            var receivedRequestsIterator = _protectedClient.Users.GetUsersRequestingFriendshipIterator();
             var receivedRequestUsers = await receivedRequestsIterator.MoveToNextPage();
 
             // delete ongoing request

@@ -121,7 +121,7 @@ namespace Tweetinvi.Controllers.TwitterLists
             return _twitterListQueryExecutor.UnsubscribeFromList(parameters, request);
         }
 
-        public ITwitterPageIterator<ITwitterResult<IUserCursorQueryResultDTO>> GetListSubscribers(IGetListSubscribersParameters parameters, ITwitterRequest request)
+        public ITwitterPageIterator<ITwitterResult<IUserCursorQueryResultDTO>> GetListSubscribersIterator(IGetListSubscribersParameters parameters, ITwitterRequest request)
         {
             return _pageCursorIteratorFactories.Create(parameters, cursor =>
             {
@@ -134,7 +134,7 @@ namespace Tweetinvi.Controllers.TwitterLists
             });
         }
 
-        public ITwitterPageIterator<ITwitterResult<ITwitterListCursorQueryResultDTO>> GetUserListSubscriptions(IGetUserListSubscriptionsParameters parameters, ITwitterRequest request)
+        public ITwitterPageIterator<ITwitterResult<ITwitterListCursorQueryResultDTO>> GetUserListSubscriptionsIterator(IGetUserListSubscriptionsParameters parameters, ITwitterRequest request)
         {
             return _pageCursorIteratorFactories.Create(parameters, cursor =>
             {

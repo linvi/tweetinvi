@@ -148,7 +148,7 @@ namespace Tweetinvi.Client.Requesters
 
             var request = TwitterClient.CreateRequest();
             request.ExecutionContext.Converters = JsonQueryConverterRepository.Converters;
-            return _twitterListController.GetListSubscribers(parameters, request);
+            return _twitterListController.GetListSubscribersIterator(parameters, request);
 
         }
 
@@ -158,7 +158,7 @@ namespace Tweetinvi.Client.Requesters
 
             var request = TwitterClient.CreateRequest();
             request.ExecutionContext.Converters = JsonQueryConverterRepository.Converters;
-            return _twitterListController.GetUserListSubscriptions(parameters, request);
+            return _twitterListController.GetUserListSubscriptionsIterator(parameters, request);
         }
 
         public Task<ITwitterResult<ITwitterListDTO>> CheckIfUserIsSubscriberOfList(ICheckIfUserIsSubscriberOfListParameters parameters)
