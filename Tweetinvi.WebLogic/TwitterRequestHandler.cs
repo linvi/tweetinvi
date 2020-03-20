@@ -166,7 +166,8 @@ namespace Tweetinvi.WebLogic
             IRateLimitUpdater rateLimitUpdater)
         {
             var statusCode = exception.StatusCode;
-            if (request.ExecutionContext.RateLimitTrackerMode != RateLimitTrackerMode.None && statusCode == TweetinviConsts.STATUS_CODE_TOO_MANY_REQUEST)
+            const int tooManyRequestStatusCode = 429;
+            if (request.ExecutionContext.RateLimitTrackerMode != RateLimitTrackerMode.None && statusCode == tooManyRequestStatusCode)
             {
                 rateLimitUpdater.ClearRateLimitsForQuery(request.Query.Url, request.Query.TwitterCredentials);
             }

@@ -20,22 +20,20 @@ namespace Tweetinvi.Parameters
     {
         public GetFriendsParameters(IUserIdentifier userIdentifier) : base(userIdentifier)
         {
-            GetUsersPageSize = TweetinviConsts.GET_USERS_MAX_PAGE_SIZE;
+            GetUsersPageSize = TwitterLimits.DEFAULTS.USERS_GET_USERS_MAX_SIZE;
         }
 
-        public GetFriendsParameters(string username) : base(username)
+        public GetFriendsParameters(string username) : this(new UserIdentifier(username))
         {
-            GetUsersPageSize = TweetinviConsts.GET_USERS_MAX_PAGE_SIZE;
         }
 
-        public GetFriendsParameters(long userId) : base(userId)
+        public GetFriendsParameters(long userId) : this(new UserIdentifier(userId))
         {
-            GetUsersPageSize = TweetinviConsts.GET_USERS_MAX_PAGE_SIZE;
         }
 
         public GetFriendsParameters(IGetFriendsParameters parameters) : base(parameters)
         {
-            GetUsersPageSize = TweetinviConsts.GET_USERS_MAX_PAGE_SIZE;
+            GetUsersPageSize = TwitterLimits.DEFAULTS.USERS_GET_USERS_MAX_SIZE;
 
             if (parameters == null)
             {
