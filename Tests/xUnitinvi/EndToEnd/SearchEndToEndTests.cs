@@ -47,6 +47,9 @@ namespace xUnitinvi.EndToEnd
         [Fact]
         public async Task SearchWithFilters()
         {
+            if (!EndToEndTestConfig.ShouldRunEndToEndTests)
+                return;
+
             var searchWithMetadata = await _tweetinviClient.Search.SearchTweetsWithMetadata(new SearchTweetsParameters("hello")
             {
                 Filters = TweetSearchFilters.Safe
@@ -59,6 +62,9 @@ namespace xUnitinvi.EndToEnd
         [Fact]
         public async Task SearchTweetsWithMetadata()
         {
+            if (!EndToEndTestConfig.ShouldRunEndToEndTests)
+                return;
+
             var searchWithMetadata = await _tweetinviClient.Search.SearchTweetsWithMetadata("hello");
 
             // assert
@@ -68,6 +74,9 @@ namespace xUnitinvi.EndToEnd
         [Fact]
         public async Task SearchUsers()
         {
+            if (!EndToEndTestConfig.ShouldRunEndToEndTests)
+                return;
+
             var users = await _tweetinviClient.Search.SearchUsers("bob");
             var searchUsersIterator = _tweetinviClient.Search.GetSearchUsersIterator(new SearchUsersParameters("bob")
             {
