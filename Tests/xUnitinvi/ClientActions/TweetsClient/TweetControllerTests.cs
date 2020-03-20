@@ -71,7 +71,7 @@ namespace xUnitinvi.ClientActions.TweetsClient
         public void GetFavoriteTweets_ReturnsFromPageCursorIteratorFactories()
         {
             // arrange
-            var parameters = new GetFavoriteTweetsParameters("username") { PageSize = 2 };
+            var parameters = new GetUserFavoriteTweetsParameters("username") { PageSize = 2 };
             var request = A.Fake<ITwitterRequest>();
             var expectedResult = A.Fake<ITwitterPageIterator<ITwitterResult<ITweetDTO[]>, long?>>();
 

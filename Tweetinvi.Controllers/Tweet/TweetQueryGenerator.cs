@@ -140,7 +140,7 @@ namespace Tweetinvi.Controllers.Tweet
             return query.ToString();
         }
 
-        public string GetFavoriteTweetsQuery(IGetFavoriteTweetsParameters parameters, TweetMode? tweetMode)
+        public string GetFavoriteTweetsQuery(IGetUserFavoriteTweetsParameters parameters, TweetMode? tweetMode)
         {
             var userParameter = _userQueryParameterGenerator.GenerateIdOrScreenNameParameter(parameters.User);
             var query = new StringBuilder(Resources.User_GetFavourites + userParameter);

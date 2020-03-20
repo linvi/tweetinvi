@@ -37,18 +37,29 @@ namespace xUnitinvi.EndToEnd
 
             var userToFollow = await _tweetinviTestClient.Users.GetUser("tweetinviapi");
 
+            await _tweetinviTestClient.Users.GetFriendIds("tweetinvitest");
+            await _tweetinviTestClient.Users.GetFriends("tweetinvitest");
+
             var friendIdsIterator = _tweetinviTestClient.Users.GetFriendIdsIterator("tweetinvitest");
             var friendIds = await friendIdsIterator.MoveToNextPage();
-
             if (friendIds.Contains(userToFollow.Id))
             {
                 await _tweetinviTestClient.Users.UnfollowUser(userToFollow);
             }
 
+            var followerIdsIterator = _tweetinviTestClient.Users.GetFollowerIdsIterator(userToFollow);
+            var followerIds = await followerIdsIterator.MoveToNextPage();
+            if (followerIds.Contains(EndToEndTestConfig.TweetinviTest.UserId))
+            {
+                await _tweetinviTestClient.Users.UnfollowUser(userToFollow);
+            }
+
+            // act
             await _tweetinviTestClient.Users.FollowUser(userToFollow);
 
             var friendsAfterAdd = await tweetinviTestAuthenticated.GetFriends().MoveToNextPage();
-
+            await _tweetinviTestClient.Users.GetFollowerIds(userToFollow);
+            var newFollowers = await _tweetinviTestClient.Users.GetFollowers(userToFollow);
             await _tweetinviTestClient.Users.UnfollowUser(userToFollow);
 
             var friendsAfterRemove = await tweetinviTestAuthenticated.GetFriends().MoveToNextPage();
@@ -59,6 +70,7 @@ namespace xUnitinvi.EndToEnd
 
             Assert.Contains(friendsAfterAdd, friend => friend.Id == userToFollow.Id);
             Assert.DoesNotContain(friendsAfterRemove, friend => friend.Id == userToFollow.Id);
+            Assert.Contains(newFollowers.Select(x => x.Name), username => username == EndToEndTestConfig.TweetinviTest.AccountId);
         }
 
         [Fact]

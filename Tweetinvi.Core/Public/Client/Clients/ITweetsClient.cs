@@ -97,6 +97,18 @@ namespace Tweetinvi.Client
         /// </summary>
         Task DestroyRetweet(IDestroyRetweetParameters parameters);
 
+        /// <inheritdoc cref="GetRetweeterIds(IGetRetweeterIdsParameters)" />
+        Task<long[]> GetRetweeterIds(long tweetId);
+        /// <inheritdoc cref="GetRetweeterIds(IGetRetweeterIdsParameters)" />
+        Task<long[]> GetRetweeterIds(ITweetIdentifier tweet);
+
+        /// <summary>
+        /// Get the ids of the users who retweeted a specific tweet
+        /// <para> Read more : https://dev.twitter.com/en/docs/tweets/post-and-engage/api-reference/get-statuses-retweeters-ids </para>
+        /// </summary>
+        /// <returns>List the retweeter ids</returns>
+        Task<long[]> GetRetweeterIds(IGetRetweeterIdsParameters parameters);
+
         /// <inheritdoc cref="GetRetweeterIdsIterator(IGetRetweeterIdsParameters)" />
         ITwitterIterator<long> GetRetweeterIdsIterator(long tweetId);
         /// <inheritdoc cref="GetRetweeterIdsIterator(IGetRetweeterIdsParameters)" />
@@ -109,19 +121,33 @@ namespace Tweetinvi.Client
         /// <returns>An iterator to list the retweeter ids</returns>
         ITwitterIterator<long> GetRetweeterIdsIterator(IGetRetweeterIdsParameters parameters);
 
-        /// <inheritdoc cref="GetFavoriteTweetsIterator(IGetFavoriteTweetsParameters)" />
-        ITwitterIterator<ITweet, long?> GetFavoriteTweetsIterator(long userId);
-        /// <inheritdoc cref="GetFavoriteTweetsIterator(IGetFavoriteTweetsParameters)" />
-        ITwitterIterator<ITweet, long?> GetFavoriteTweetsIterator(string username);
-        /// <inheritdoc cref="GetFavoriteTweetsIterator(IGetFavoriteTweetsParameters)" />
-        ITwitterIterator<ITweet, long?> GetFavoriteTweetsIterator(IUserIdentifier user);
+        /// <inheritdoc cref="GetUserFavoriteTweets(IGetUserFavoriteTweetsParameters)" />
+        Task<ITweet[]> GetUserFavoriteTweets(long userId);
+        /// <inheritdoc cref="GetUserFavoriteTweets(IGetUserFavoriteTweetsParameters)" />
+        Task<ITweet[]> GetUserFavoriteTweets(string username);
+        /// <inheritdoc cref="GetUserFavoriteTweets(IGetUserFavoriteTweetsParameters)" />
+        Task<ITweet[]> GetUserFavoriteTweets(IUserIdentifier user);
+
+        /// <summary>
+        /// Get favorite tweets of a user
+        /// <para>Read more : https://dev.twitter.com/en/docs/tweets/post-and-engage/api-reference/get-favorites-list </para>
+        /// </summary>
+        /// <returns>List the favorite tweets</returns>
+        Task<ITweet[]> GetUserFavoriteTweets(IGetUserFavoriteTweetsParameters parameters);
+
+        /// <inheritdoc cref="GetUserFavoriteTweetsIterator(IGetUserFavoriteTweetsParameters)" />
+        ITwitterIterator<ITweet, long?> GetUserFavoriteTweetsIterator(long userId);
+        /// <inheritdoc cref="GetUserFavoriteTweetsIterator(IGetUserFavoriteTweetsParameters)" />
+        ITwitterIterator<ITweet, long?> GetUserFavoriteTweetsIterator(string username);
+        /// <inheritdoc cref="GetUserFavoriteTweetsIterator(IGetUserFavoriteTweetsParameters)" />
+        ITwitterIterator<ITweet, long?> GetUserFavoriteTweetsIterator(IUserIdentifier user);
 
         /// <summary>
         /// Get favorite tweets of a user
         /// <para>Read more : https://dev.twitter.com/en/docs/tweets/post-and-engage/api-reference/get-favorites-list </para>
         /// </summary>
         /// <returns>An iterator to list the favorite tweets</returns>
-        ITwitterIterator<ITweet, long?> GetFavoriteTweetsIterator(IGetFavoriteTweetsParameters parameters);
+        ITwitterIterator<ITweet, long?> GetUserFavoriteTweetsIterator(IGetUserFavoriteTweetsParameters parameters);
 
         /// <inheritdoc cref="FavoriteTweet(IFavoriteTweetParameters)" />
         Task FavoriteTweet(long tweetId);

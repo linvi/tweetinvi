@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Tweetinvi.Core.Client.Validators;
 using Tweetinvi.Core.DTO;
 using Tweetinvi.Core.Iterators;
 using Tweetinvi.Core.Web;
@@ -20,6 +21,8 @@ namespace Tweetinvi.Client
         {
             _client = client;
         }
+
+        public ISearchClientParametersValidator ParametersValidator => _client.ParametersValidator;
 
         public Task<ITweet[]> SearchTweets(string query)
         {

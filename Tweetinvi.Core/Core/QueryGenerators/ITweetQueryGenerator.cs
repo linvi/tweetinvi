@@ -9,7 +9,7 @@ namespace Tweetinvi.Core.QueryGenerators
         string GetPublishTweetQuery(IPublishTweetParameters parameters, TweetMode? tweetMode);
         string GetDestroyTweetQuery(IDestroyTweetParameters parameters, TweetMode? tweetMode);
 
-        string GetFavoriteTweetsQuery(IGetFavoriteTweetsParameters parameters, TweetMode? tweetMode);
+        string GetFavoriteTweetsQuery(IGetUserFavoriteTweetsParameters parameters, TweetMode? tweetMode);
 
         string GetRetweetsQuery(IGetRetweetsParameters parameters, TweetMode? tweetMode);
         string GetPublishRetweetQuery(IPublishRetweetParameters parameters, TweetMode? tweetMode);

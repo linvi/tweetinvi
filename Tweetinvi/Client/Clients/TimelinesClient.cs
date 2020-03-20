@@ -23,6 +23,49 @@ namespace Tweetinvi.Client
         }
 
         public ITimelineClientParametersValidator ParametersValidator => _client.ParametersValidator;
+        public Task<ITweet[]> GetHomeTimeline()
+        {
+            return GetHomeTimeline(new GetHomeTimelineParameters());
+        }
+
+        public async Task<ITweet[]> GetHomeTimeline(IGetHomeTimelineParameters parameters)
+        {
+            var iterator = GetHomeTimelineIterator(parameters);
+            return (await iterator.MoveToNextPage().ConfigureAwait(false)).ToArray();
+        }
+
+        public ITwitterIterator<ITweet, long?> GetHomeTimelineIterator()
+        {
+            return GetHomeTimelineIterator(new GetHomeTimelineParameters());
+        }
+
+        public ITwitterIterator<ITweet, long?> GetHomeTimelineIterator(IGetHomeTimelineParameters parameters)
+        {
+            var pageIterator = _timelinesRequester.GetHomeTimelineIterator(parameters);
+            return new TwitterIteratorProxy<ITwitterResult<ITweetDTO[]>, ITweet, long?>(pageIterator,
+                twitterResult => _client.Factories.CreateTweets(twitterResult?.DataTransferObject));
+        }
+
+        public Task<ITweet[]> GetUserTimeline(long userId)
+        {
+            return GetUserTimeline(new GetUserTimelineParameters(userId));
+        }
+
+        public Task<ITweet[]> GetUserTimeline(string username)
+        {
+            return GetUserTimeline(new GetUserTimelineParameters(username));
+        }
+
+        public Task<ITweet[]> GetUserTimeline(IUserIdentifier user)
+        {
+            return GetUserTimeline(new GetUserTimelineParameters(user));
+        }
+
+        public async Task<ITweet[]> GetUserTimeline(IGetUserTimelineParameters parameters)
+        {
+            var iterator = GetUserTimelineIterator(parameters);
+            return (await iterator.MoveToNextPage().ConfigureAwait(false)).ToArray();
+        }
 
         public ITwitterIterator<ITweet, long?> GetUserTimelineIterator(long userId)
         {
@@ -47,16 +90,15 @@ namespace Tweetinvi.Client
                 twitterResult => _client.Factories.CreateTweets(twitterResult?.DataTransferObject));
         }
 
-        public ITwitterIterator<ITweet, long?> GetHomeTimelineIterator()
+        public Task<ITweet[]> GetMentionsTimeline()
         {
-            return GetHomeTimelineIterator(new GetHomeTimelineParameters());
+            return GetMentionsTimeline(new GetMentionsTimelineParameters());
         }
 
-        public ITwitterIterator<ITweet, long?> GetHomeTimelineIterator(IGetHomeTimelineParameters parameters)
+        public async Task<ITweet[]> GetMentionsTimeline(IGetMentionsTimelineParameters parameters)
         {
-            var pageIterator = _timelinesRequester.GetHomeTimelineIterator(parameters);
-            return new TwitterIteratorProxy<ITwitterResult<ITweetDTO[]>, ITweet, long?>(pageIterator,
-                twitterResult => _client.Factories.CreateTweets(twitterResult?.DataTransferObject));
+            var iterator = GetMentionsTimelineIterator(parameters);
+            return (await iterator.MoveToNextPage().ConfigureAwait(false)).ToArray();
         }
 
         public ITwitterIterator<ITweet, long?> GetMentionsTimelineIterator()
@@ -70,7 +112,6 @@ namespace Tweetinvi.Client
             return new TwitterIteratorProxy<ITwitterResult<ITweetDTO[]>, ITweet, long?>(pageIterator,
                 twitterResult => _client.Factories.CreateTweets(twitterResult?.DataTransferObject));
         }
-
 
         public Task<ITweet[]> GetRetweetsOfMeTimeline()
         {

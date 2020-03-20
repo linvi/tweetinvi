@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using Tweetinvi.Core.Client.Validators;
 using Tweetinvi.Iterators;
 using Tweetinvi.Models;
 using Tweetinvi.Parameters;
@@ -8,6 +9,8 @@ namespace Tweetinvi.Client
 {
     public interface ISearchClient
     {
+        ISearchClientParametersValidator ParametersValidator { get; }
+
         /// <inheritdoc cref="SearchTweets(ISearchTweetsParameters)"/>
         Task<ITweet[]> SearchTweets(string query);
 

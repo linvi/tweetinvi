@@ -25,6 +25,9 @@ namespace xUnitinvi.EndToEnd
             // act
             await userToFollow.BlockUser();
 
+            await _tweetinviTestClient.Users.GetBlockedUserIds();
+            await _tweetinviTestClient.Users.GetBlockedUsers();
+
             var blockedUserIdsIterator = _tweetinviTestClient.Users.GetBlockedUserIdsIterator();
             var blockedUsersFromIdsIterator = await blockedUserIdsIterator.MoveToNextPage();
             var blockedUsersIterator = _tweetinviTestClient.Users.GetBlockedUsersIterator();
@@ -50,6 +53,10 @@ namespace xUnitinvi.EndToEnd
             var initialMutedUserIds = await mutedUserIdsIterator.MoveToNextPage();
 
             await _tweetinviTestClient.Users.MuteUser(userToMute);
+
+            await _tweetinviTestClient.Users.GetMutedUserIds();
+            await _tweetinviTestClient.Users.GetMutedUsers();
+
             var newMutedUserIdsIterator = _tweetinviTestClient.Users.GetMutedUserIdsIterator();
             var newMutedUserIds = await newMutedUserIdsIterator.MoveToNextPage();
             var newMutedUsersIterator = _tweetinviTestClient.Users.GetMutedUsersIterator();

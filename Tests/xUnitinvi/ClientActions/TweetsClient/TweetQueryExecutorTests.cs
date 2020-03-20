@@ -84,7 +84,7 @@ namespace xUnitinvi.ClientActions.TweetsClient
             var queryExecutor = CreateUserQueryExecutor();
             var expectedQuery = TestHelper.GenerateString();
 
-            var parameters = new GetFavoriteTweetsParameters(42);
+            var parameters = new GetUserFavoriteTweetsParameters(42);
             var request = A.Fake<ITwitterRequest>();
             var expectedResult = A.Fake<ITwitterResult<ITweetDTO[]>>();
 

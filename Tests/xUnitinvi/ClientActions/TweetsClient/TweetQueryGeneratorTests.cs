@@ -114,7 +114,7 @@ namespace xUnitinvi.ClientActions.TweetsClient
             var queryGenerator = CreateUserQueryGenerator();
             var user = new UserIdentifier(42);
 
-            var parameters = new GetFavoriteTweetsParameters(user)
+            var parameters = new GetUserFavoriteTweetsParameters(user)
             {
                 IncludeEntities = true,
                 MaxId = 42,

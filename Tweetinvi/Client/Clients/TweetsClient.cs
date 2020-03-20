@@ -144,6 +144,22 @@ namespace Tweetinvi.Client
             await _tweetsRequester.DestroyRetweet(parameters).ConfigureAwait(false);
         }
 
+        public Task<long[]> GetRetweeterIds(long tweetId)
+        {
+            return GetRetweeterIds(new GetRetweeterIdsParameters(tweetId));
+        }
+
+        public Task<long[]> GetRetweeterIds(ITweetIdentifier tweet)
+        {
+            return GetRetweeterIds(new GetRetweeterIdsParameters(tweet));
+        }
+
+        public async Task<long[]> GetRetweeterIds(IGetRetweeterIdsParameters parameters)
+        {
+            var iterator = GetRetweeterIdsIterator(parameters);
+            return (await iterator.MoveToNextPage().ConfigureAwait(false)).ToArray();
+        }
+
         public ITwitterIterator<long> GetRetweeterIdsIterator(long tweetId)
         {
             return GetRetweeterIdsIterator(new GetRetweeterIdsParameters(tweetId));
@@ -160,26 +176,47 @@ namespace Tweetinvi.Client
             return new TwitterIteratorProxy<ITwitterResult<IIdsCursorQueryResultDTO>, long>(twitterResultIterator, dto => dto.DataTransferObject.Ids);
         }
 
+        public Task<ITweet[]> GetUserFavoriteTweets(long userId)
+        {
+            return GetUserFavoriteTweets(new GetUserFavoriteTweetsParameters(userId));
+        }
+
+        public Task<ITweet[]> GetUserFavoriteTweets(string username)
+        {
+            return GetUserFavoriteTweets(new GetUserFavoriteTweetsParameters(username));
+        }
+
+        public Task<ITweet[]> GetUserFavoriteTweets(IUserIdentifier user)
+        {
+            return GetUserFavoriteTweets(new GetUserFavoriteTweetsParameters(user));
+        }
+
+        public async Task<ITweet[]> GetUserFavoriteTweets(IGetUserFavoriteTweetsParameters parameters)
+        {
+            var iterator = GetUserFavoriteTweetsIterator(parameters);
+            return (await iterator.MoveToNextPage().ConfigureAwait(false)).ToArray();
+        }
+
         #region Favourite Tweets
 
-        public ITwitterIterator<ITweet, long?> GetFavoriteTweetsIterator(long userId)
+        public ITwitterIterator<ITweet, long?> GetUserFavoriteTweetsIterator(long userId)
         {
-            return GetFavoriteTweetsIterator(new GetFavoriteTweetsParameters(userId));
+            return GetUserFavoriteTweetsIterator(new GetUserFavoriteTweetsParameters(userId));
         }
 
-        public ITwitterIterator<ITweet, long?> GetFavoriteTweetsIterator(string username)
+        public ITwitterIterator<ITweet, long?> GetUserFavoriteTweetsIterator(string username)
         {
-            return GetFavoriteTweetsIterator(new GetFavoriteTweetsParameters(username));
+            return GetUserFavoriteTweetsIterator(new GetUserFavoriteTweetsParameters(username));
         }
 
-        public ITwitterIterator<ITweet, long?> GetFavoriteTweetsIterator(IUserIdentifier user)
+        public ITwitterIterator<ITweet, long?> GetUserFavoriteTweetsIterator(IUserIdentifier user)
         {
-            return GetFavoriteTweetsIterator(new GetFavoriteTweetsParameters(user));
+            return GetUserFavoriteTweetsIterator(new GetUserFavoriteTweetsParameters(user));
         }
 
-        public ITwitterIterator<ITweet, long?> GetFavoriteTweetsIterator(IGetFavoriteTweetsParameters parameters)
+        public ITwitterIterator<ITweet, long?> GetUserFavoriteTweetsIterator(IGetUserFavoriteTweetsParameters parameters)
         {
-            var favoriteTweetsIterator = _tweetsRequester.GetFavoriteTweetsIterator(parameters);
+            var favoriteTweetsIterator = _tweetsRequester.GetUserFavoriteTweetsIterator(parameters);
             return new TwitterIteratorProxy<ITwitterResult<ITweetDTO[]>, ITweet, long?>(favoriteTweetsIterator,
                 twitterResult =>
                 {

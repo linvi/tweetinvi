@@ -47,6 +47,8 @@ namespace xUnitinvi.EndToEnd
             var publicListBeforeGoingPrivate = await _tweetinviClient.Lists.GetList(new TwitterListIdentifier(listFirstCreatedAsPublic.Slug, listFirstCreatedAsPublic.Owner));
 
             var listsSubscribedByTweetinviTest = await _tweetinviTestClient.Lists.GetListsSubscribedByAccount();
+
+            await _tweetinviClient.Lists.GetListsOwnedByUser(EndToEndTestConfig.TweetinviTest);
             var listsOwnedByTweetinviTest = await _tweetinviClient.Lists.GetListsOwnedByUserIterator(EndToEndTestConfig.TweetinviTest).MoveToNextPage();
 
             await Task.Delay(_twitterEventualConsistencyDelay);
@@ -98,6 +100,7 @@ namespace xUnitinvi.EndToEnd
             await _tweetinviTestClient.Lists.AddMemberToList(publicList, EndToEndTestConfig.TweetinviTest);
             await _tweetinviTestClient.Lists.AddMembersToList(publicList, new[] { "bbc", "lemondefr" });
 
+            await _tweetinviClient.Lists.GetMembersOfList(new GetMembersOfListParameters(publicList));
             var membersIterator = _tweetinviTestClient.Lists.GetMembersOfListIterator(new GetMembersOfListParameters(publicList)
             {
                 PageSize = 2
@@ -109,6 +112,7 @@ namespace xUnitinvi.EndToEnd
                 publicListMembers.AddRange(await membersIterator.MoveToNextPage());
             }
 
+            await _tweetinviClient.Lists.GetUserListMemberships(EndToEndTestConfig.TweetinviTest);
             var listsTweetinviTestIsMemberOfIterator = _tweetinviClient.Lists.GetUserListMembershipsIterator(EndToEndTestConfig.TweetinviTest);
             var listsTweetinviTestIsMemberOf = (await listsTweetinviTestIsMemberOfIterator.MoveToNextPage()).ToArray();
 
@@ -144,6 +148,7 @@ namespace xUnitinvi.EndToEnd
             await _protectedClient.Lists.SubscribeToList(publicList);
             await _tweetinviTestClient.Lists.SubscribeToList(publicList);
 
+            await _tweetinviClient.Lists.GetListSubscribers(publicList);
             var subscriberIterator = _tweetinviTestClient.Lists.GetListSubscribersIterator(new GetListSubscribersParameters(publicList)
             {
                 PageSize = 2
@@ -155,8 +160,8 @@ namespace xUnitinvi.EndToEnd
                 subscribers.AddRange(await subscriberIterator.MoveToNextPage());
             }
 
+            await _tweetinviClient.Lists.GetUserListSubscriptions(EndToEndTestConfig.TweetinviApi);
             var subscriptionsIterator = _tweetinviTestClient.Lists.GetUserListSubscriptionsIterator(EndToEndTestConfig.TweetinviApi);
-
             var subscriptions = (await subscriptionsIterator.MoveToNextPage()).ToArray();
 
             var bbcSubscriber = await _tweetinviTestClient.Lists.CheckIfUserIsSubscriberOfList(publicList, "bbc");
@@ -195,6 +200,7 @@ namespace xUnitinvi.EndToEnd
                 PageSize = 2
             };
 
+            await _protectedClient.Lists.GetTweetsFromList(getTweetsParameters);
             var tweetsIterator = _protectedClient.Lists.GetTweetsFromListIterator(getTweetsParameters);
             var listTweetsPage1 = await tweetsIterator.MoveToNextPage();
             getTweetsParameters.PageSize = 4;

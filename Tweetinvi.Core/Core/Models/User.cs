@@ -206,7 +206,7 @@ namespace Tweetinvi.Core.Models
         // Favorites
         public virtual ITwitterIterator<ITweet, long?> GetFavoriteTweets()
         {
-            return Client.Tweets.GetFavoriteTweetsIterator(this);
+            return Client.Tweets.GetUserFavoriteTweetsIterator(this);
         }
 
         // Lists

@@ -34,7 +34,7 @@ namespace Tweetinvi.Controllers.Tweet
         Task<ITwitterResult<ITweetDTO>> FavoriteTweet(IFavoriteTweetParameters parameters, ITwitterRequest request);
 
         Task<ITwitterResult<ITweetDTO>> UnfavoriteTweet(IUnfavoriteTweetParameters parameters, ITwitterRequest request);
-        Task<ITwitterResult<ITweetDTO[]>> GetFavoriteTweets(IGetFavoriteTweetsParameters parameters, ITwitterRequest request);
+        Task<ITwitterResult<ITweetDTO[]>> GetFavoriteTweets(IGetUserFavoriteTweetsParameters parameters, ITwitterRequest request);
 
         Task<ITwitterResult<IOEmbedTweetDTO>> GetOEmbedTweet(IGetOEmbedTweetParameters parameters, ITwitterRequest request);
     }
@@ -124,7 +124,7 @@ namespace Tweetinvi.Controllers.Tweet
         }
 
         // Favourite Tweet
-        public Task<ITwitterResult<ITweetDTO[]>> GetFavoriteTweets(IGetFavoriteTweetsParameters parameters, ITwitterRequest request)
+        public Task<ITwitterResult<ITweetDTO[]>> GetFavoriteTweets(IGetUserFavoriteTweetsParameters parameters, ITwitterRequest request)
         {
             var query = _tweetQueryGenerator.GetFavoriteTweetsQuery(parameters, request.ExecutionContext.TweetMode);
             request.Query.Url = query;

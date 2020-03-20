@@ -39,7 +39,7 @@ namespace Tweetinvi.Client.Requesters
         /// <para>Read more : https://dev.twitter.com/en/docs/tweets/post-and-engage/api-reference/get-favorites-list </para>
         /// </summary>
         /// <returns>Iterator over the list of tweets favorited by a user</returns>
-        ITwitterPageIterator<ITwitterResult<ITweetDTO[]>, long?> GetFavoriteTweetsIterator(IGetFavoriteTweetsParameters parameters);
+        ITwitterPageIterator<ITwitterResult<ITweetDTO[]>, long?> GetUserFavoriteTweetsIterator(IGetUserFavoriteTweetsParameters parameters);
 
         /// <summary>
         /// Get multiple tweets

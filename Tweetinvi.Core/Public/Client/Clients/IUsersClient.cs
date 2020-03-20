@@ -67,11 +67,25 @@ namespace Tweetinvi.Client
 
         #region GetFriendIds / Friends
 
-        /// <inheritdoc cref="GetFriendIdsIterator(Tweetinvi.Parameters.IGetFriendIdsParameters)" />
+        /// <inheritdoc cref="GetFriendIds(IGetFriendIdsParameters)" />
+        Task<long[]> GetFriendIds(string username);
+        /// <inheritdoc cref="GetFriendIds(IGetFriendIdsParameters)" />
+        Task<long[]> GetFriendIds(long userId);
+        /// <inheritdoc cref="GetFriendIds(IGetFriendIdsParameters)" />
+        Task<long[]> GetFriendIds(IUserIdentifier user);
+
+        /// <summary>
+        /// Get friend ids from a specific user
+        /// <para>Read more : https://dev.twitter.com/en/docs/accounts-and-users/follow-search-get-users/api-reference/get-friends-ids </para>
+        /// </summary>
+        /// <returns>List a user's friend ids</returns>
+        Task<long[]> GetFriendIds(IGetFriendIdsParameters parameters);
+
+        /// <inheritdoc cref="GetFriendIdsIterator(IGetFriendIdsParameters)" />
         ITwitterIterator<long> GetFriendIdsIterator(string username);
-        /// <inheritdoc cref="GetFriendIdsIterator(Tweetinvi.Parameters.IGetFriendIdsParameters)" />
+        /// <inheritdoc cref="GetFriendIdsIterator(IGetFriendIdsParameters)" />
         ITwitterIterator<long> GetFriendIdsIterator(long userId);
-        /// <inheritdoc cref="GetFriendIdsIterator(Tweetinvi.Parameters.IGetFriendIdsParameters)" />
+        /// <inheritdoc cref="GetFriendIdsIterator(IGetFriendIdsParameters)" />
         ITwitterIterator<long> GetFriendIdsIterator(IUserIdentifier userIdentifier);
 
         /// <summary>
@@ -80,6 +94,20 @@ namespace Tweetinvi.Client
         /// </summary>
         /// <returns>An iterator to list a user's friend ids</returns>
         ITwitterIterator<long> GetFriendIdsIterator(IGetFriendIdsParameters parameters);
+
+        /// <inheritdoc cref="GetFriends(IGetFriendsParameters)" />
+        Task<IUser[]> GetFriends(long userId);
+        /// <inheritdoc cref="GetFriends(IGetFriendsParameters)" />
+        Task<IUser[]> GetFriends(string username);
+        /// <inheritdoc cref="GetFriends(IGetFriendsParameters)" />
+        Task<IUser[]> GetFriends(IUserIdentifier user);
+
+        /// <summary>
+        /// Get friends from a specific user
+        /// <para>Read more : https://dev.twitter.com/en/docs/accounts-and-users/follow-search-get-users/api-reference/get-friends-ids </para>
+        /// </summary>
+        /// <returns>List of a user's friends</returns>
+        Task<IUser[]> GetFriends(IGetFriendsParameters parameters);
 
         /// <summary>
         /// Get friends from a specific user
@@ -92,11 +120,25 @@ namespace Tweetinvi.Client
 
         #region GetFollowerIds / Followers
 
-        /// <inheritdoc cref="GetFollowerIdsIterator(Tweetinvi.Parameters.IGetFollowerIdsParameters)" />
+        /// <inheritdoc cref="GetFollowerIds(IGetFollowerIdsParameters)" />
+        Task<long[]> GetFollowerIds(long userId);
+        /// <inheritdoc cref="GetFollowerIds(IGetFollowerIdsParameters)" />
+        Task<long[]> GetFollowerIds(string username);
+        /// <inheritdoc cref="GetFollowerIds(IGetFollowerIdsParameters)" />
+        Task<long[]> GetFollowerIds(IUserIdentifier user);
+
+        /// <summary>
+        /// Get the follower ids from a specific user
+        /// <para>Read more : https://dev.twitter.com/en/docs/accounts-and-users/follow-search-get-users/api-reference/get-followers-ids </para>
+        /// </summary>
+        /// <returns>List of a user's follower ids</returns>
+        Task<long[]> GetFollowerIds(IGetFollowerIdsParameters parameters);
+
+        /// <inheritdoc cref="GetFollowerIdsIterator(IGetFollowerIdsParameters)" />
         ITwitterIterator<long> GetFollowerIdsIterator(long userId);
-        /// <inheritdoc cref="GetFollowerIdsIterator(Tweetinvi.Parameters.IGetFollowerIdsParameters)" />
+        /// <inheritdoc cref="GetFollowerIdsIterator(IGetFollowerIdsParameters)" />
         ITwitterIterator<long> GetFollowerIdsIterator(string username);
-        /// <inheritdoc cref="GetFollowerIdsIterator(Tweetinvi.Parameters.IGetFollowerIdsParameters)" />
+        /// <inheritdoc cref="GetFollowerIdsIterator(IGetFollowerIdsParameters)" />
         ITwitterIterator<long> GetFollowerIdsIterator(IUserIdentifier userIdentifier);
 
         /// <summary>
@@ -105,6 +147,20 @@ namespace Tweetinvi.Client
         /// </summary>
         /// <returns>An iterator to list a user's follower ids'</returns>
         ITwitterIterator<long> GetFollowerIdsIterator(IGetFollowerIdsParameters parameters);
+
+        /// <inheritdoc cref="GetFollowers(IGetFollowersParameters)" />
+        Task<IUser[]> GetFollowers(long userId);
+        /// <inheritdoc cref="GetFollowers(IGetFollowersParameters)" />
+        Task<IUser[]> GetFollowers(string username);
+        /// <inheritdoc cref="GetFollowers(IGetFollowersParameters)" />
+        Task<IUser[]> GetFollowers(IUserIdentifier user);
+
+        /// <summary>
+        /// Get the followers from a specific user
+        /// <para>Read more : https://dev.twitter.com/en/docs/accounts-and-users/follow-search-get-users/api-reference/get-followers-ids </para>
+        /// </summary>
+        /// <returns>List of a user's followers</returns>
+        Task<IUser[]> GetFollowers(IGetFollowersParameters parameters);
 
         /// <summary>
         /// Get the followers from a specific user
@@ -192,7 +248,17 @@ namespace Tweetinvi.Client
         /// </summary>
         Task ReportUserForSpam(IReportUserForSpamParameters parameters);
 
-        /// <inheritdoc cref="GetBlockedUserIdsIterator(Tweetinvi.Parameters.IGetBlockedUserIdsParameters)" />
+        /// <inheritdoc cref="GetBlockedUserIds(IGetBlockedUserIdsParameters)" />
+        Task<long[]> GetBlockedUserIds();
+
+        /// <summary>
+        /// Get the user ids blocked by the client's account
+        /// <para>Read more : https://dev.twitter.com/en/docs/accounts-and-users/mute-block-report-users/api-reference/get-blocks-ids </para>
+        /// </summary>
+        /// <returns>List of the blocked user ids</returns>
+        Task<long[]> GetBlockedUserIds(IGetBlockedUserIdsParameters parameters);
+
+        /// <inheritdoc cref="GetBlockedUserIdsIterator(IGetBlockedUserIdsParameters)" />
         ITwitterIterator<long> GetBlockedUserIdsIterator();
 
         /// <summary>
@@ -202,7 +268,17 @@ namespace Tweetinvi.Client
         /// <returns>An iterator to list the blocked users</returns>
         ITwitterIterator<long> GetBlockedUserIdsIterator(IGetBlockedUserIdsParameters parameters);
 
-        /// <inheritdoc cref="GetBlockedUsersIterator" />
+        /// <inheritdoc cref="GetBlockedUsers(IGetBlockedUsersParameters)" />
+        Task<IUser[]> GetBlockedUsers();
+
+        /// <summary>
+        /// Get the users blocked by the client's account
+        /// <para>Read more : https://dev.twitter.com/en/docs/accounts-and-users/mute-block-report-users/api-reference/get-blocks-ids </para>
+        /// </summary>
+        /// <returns>List of blocked users</returns>
+        Task<IUser[]> GetBlockedUsers(IGetBlockedUsersParameters parameters);
+
+        /// <inheritdoc cref="GetBlockedUsersIterator(IGetBlockedUsersParameters)" />
         ITwitterIterator<IUser> GetBlockedUsersIterator();
 
         /// <summary>
@@ -250,7 +326,18 @@ namespace Tweetinvi.Client
 
         #region Follower Requests
 
-        /// <inheritdoc cref="GetUserIdsRequestingFriendshipIterator(Tweetinvi.Parameters.IGetUserIdsRequestingFriendshipParameters)" />
+        /// <inheritdoc cref="GetUserIdsRequestingFriendship(IGetUserIdsRequestingFriendshipParameters)" />
+        Task<long[]> GetUserIdsRequestingFriendship();
+
+        /// <summary>
+        /// Get the pending follower ids requests for protected accounts.
+        /// <para>Read more : https://developer.twitter.com/en/docs/accounts-and-users/follow-search-get-users/api-reference/get-friendships-incoming </para>
+        /// <para>Protected accounts : https://help.twitter.com/en/safety-and-security/public-and-protected-tweets </para>
+        /// </summary>
+        /// <returns>List the user ids who requested to follow the client's account</returns>
+        Task<long[]> GetUserIdsRequestingFriendship(IGetUserIdsRequestingFriendshipParameters parameters);
+
+        /// <inheritdoc cref="GetUserIdsRequestingFriendshipIterator(IGetUserIdsRequestingFriendshipParameters)" />
         ITwitterIterator<long> GetUserIdsRequestingFriendshipIterator();
 
         /// <summary>
@@ -261,7 +348,18 @@ namespace Tweetinvi.Client
         /// <returns>An iterator to list the user ids who requested to follow the client's account</returns>
         ITwitterIterator<long> GetUserIdsRequestingFriendshipIterator(IGetUserIdsRequestingFriendshipParameters parameters);
 
-        /// <inheritdoc cref="GetUsersRequestingFriendshipIterator(Tweetinvi.Parameters.IGetUsersRequestingFriendshipParameters)" />
+        /// <inheritdoc cref="GetUsersRequestingFriendship(IGetUsersRequestingFriendshipParameters)" />
+        Task<IUser[]> GetUsersRequestingFriendship();
+
+        /// <summary>
+        /// Get the pending follower requests for protected accounts.
+        /// <para>Read more : https://developer.twitter.com/en/docs/accounts-and-users/follow-search-get-users/api-reference/get-friendships-incoming </para>
+        /// <para>Protected accounts : https://help.twitter.com/en/safety-and-security/public-and-protected-tweets </para>
+        /// </summary>
+        /// <returns>List the users who requested to follow the client's account</returns>
+        Task<IUser[]> GetUsersRequestingFriendship(IGetUsersRequestingFriendshipParameters parameters);
+
+        /// <inheritdoc cref="GetUsersRequestingFriendshipIterator(IGetUsersRequestingFriendshipParameters)" />
         IMultiLevelCursorIterator<long, IUser> GetUsersRequestingFriendshipIterator();
 
         /// <summary>
@@ -272,7 +370,18 @@ namespace Tweetinvi.Client
         /// <returns>An iterator to list the users who requested to follow the client's account</returns>
         IMultiLevelCursorIterator<long, IUser> GetUsersRequestingFriendshipIterator(IGetUsersRequestingFriendshipParameters parameters);
 
-        /// <inheritdoc cref="GetUserIdsYouRequestedToFollowIterator" />
+        /// <inheritdoc cref="GetUserIdsYouRequestedToFollow(IGetUserIdsYouRequestedToFollowParameters)" />
+        Task<long[]> GetUserIdsYouRequestedToFollow();
+
+        /// <summary>
+        /// Get the pending follower ids requests that you have requested.
+        /// <para>Read more : https://dev.twitter.com/en/docs/accounts-and-users/follow-search-get-users/api-reference/get-friendships-outgoing </para>
+        /// <para>Protected accounts : https://help.twitter.com/en/safety-and-security/public-and-protected-tweets</para>
+        /// </summary>
+        /// <returns>List the user ids the client's account requested to follow</returns>
+        Task<long[]> GetUserIdsYouRequestedToFollow(IGetUserIdsYouRequestedToFollowParameters parameters);
+
+        /// <inheritdoc cref="GetUserIdsYouRequestedToFollowIterator(IGetUserIdsYouRequestedToFollowParameters)" />
         ITwitterIterator<long> GetUserIdsYouRequestedToFollowIterator();
 
         /// <summary>
@@ -283,7 +392,18 @@ namespace Tweetinvi.Client
         /// <returns>An iterator to list the user ids the client's account requested to follow</returns>
         ITwitterIterator<long> GetUserIdsYouRequestedToFollowIterator(IGetUserIdsYouRequestedToFollowParameters parameters);
 
-        /// <inheritdoc cref="GetUsersYouRequestedToFollowIterator(Tweetinvi.Parameters.IGetUsersYouRequestedToFollowParameters)" />
+        /// <inheritdoc cref="GetUsersYouRequestedToFollow(IGetUsersYouRequestedToFollowParameters)" />
+        Task<IUser[]> GetUsersYouRequestedToFollow();
+
+        /// <summary>
+        /// Get the pending follower ids requests that you have requested.
+        /// <para>Read more : https://dev.twitter.com/en/docs/accounts-and-users/follow-search-get-users/api-reference/get-friendships-outgoing </para>
+        /// <para>Protected accounts : https://help.twitter.com/en/safety-and-security/public-and-protected-tweets</para>
+        /// </summary>
+        /// <returns>List the users the client's account requested to follow</returns>
+        Task<IUser[]> GetUsersYouRequestedToFollow(IGetUsersYouRequestedToFollowParameters parameters);
+
+        /// <inheritdoc cref="GetUsersYouRequestedToFollowIterator(IGetUsersYouRequestedToFollowParameters)" />
         IMultiLevelCursorIterator<long, IUser> GetUsersYouRequestedToFollowIterator();
 
         /// <summary>
@@ -323,6 +443,8 @@ namespace Tweetinvi.Client
 
         #endregion
 
+        #region Muted
+
         /// <inheritdoc cref="GetUserIdsWhoseRetweetsAreMuted(IGetUserIdsWhoseRetweetsAreMutedParameters)" />
         Task<long[]> GetUserIdsWhoseRetweetsAreMuted();
 
@@ -333,7 +455,17 @@ namespace Tweetinvi.Client
         /// <returns>Returns a list of user ids for whom the retweets are muted</returns>
         Task<long[]> GetUserIdsWhoseRetweetsAreMuted(IGetUserIdsWhoseRetweetsAreMutedParameters parameters);
 
-        /// <inheritdoc cref="GetMutedUserIdsIterator(Tweetinvi.Parameters.IGetMutedUserIdsParameters)" />
+        /// <inheritdoc cref="GetMutedUserIds(IGetMutedUserIdsParameters)" />
+        Task<long[]> GetMutedUserIds();
+
+        /// <summary>
+        /// Get the muted user ids.
+        /// <para>Read more : https://dev.twitter.com/en/docs/accounts-and-users/mute-block-report-users/api-reference/get-mutes-users-ids </para>
+        /// </summary>
+        /// <returns>List of the user ids muted by the client's account</returns>
+        Task<long[]> GetMutedUserIds(IGetMutedUserIdsParameters parameters);
+
+        /// <inheritdoc cref="GetMutedUserIdsIterator(IGetMutedUserIdsParameters)" />
         ITwitterIterator<long> GetMutedUserIdsIterator();
 
         /// <summary>
@@ -343,7 +475,17 @@ namespace Tweetinvi.Client
         /// <returns>An iterator to list the user ids muted by the client's account</returns>
         ITwitterIterator<long> GetMutedUserIdsIterator(IGetMutedUserIdsParameters parameters);
 
-        /// <inheritdoc cref="GetMutedUsersIterator(Tweetinvi.Parameters.IGetMutedUsersParameters)" />
+        /// <inheritdoc cref="GetMutedUsers(IGetMutedUsersParameters)" />
+        Task<IUser[]> GetMutedUsers();
+
+        /// <summary>
+        /// Get the muted user ids.
+        /// <para>Read more : https://dev.twitter.com/en/docs/accounts-and-users/mute-block-report-users/api-reference/get-mutes-users-list </para>
+        /// </summary>
+        /// <returns>List of the users muted by the client's account</returns>
+        Task<IUser[]> GetMutedUsers(IGetMutedUsersParameters parameters);
+
+        /// <inheritdoc cref="GetMutedUsersIterator(IGetMutedUsersParameters)" />
         ITwitterIterator<IUser> GetMutedUsersIterator();
 
         /// <summary>
@@ -378,6 +520,8 @@ namespace Tweetinvi.Client
         /// <para>Read more : https://dev.twitter.com/en/docs/accounts-and-users/mute-block-report-users/api-reference/post-mutes-users-destroy </para>
         /// </summary>
         Task UnmuteUser(IUnmuteUserParameters parameters);
+
+        #endregion
 
         #region Profile Image
 

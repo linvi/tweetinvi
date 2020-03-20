@@ -18,7 +18,7 @@ namespace Tweetinvi.Core.Controllers
 
 
         // FAVORITES
-        ITwitterPageIterator<ITwitterResult<ITweetDTO[]>, long?> GetFavoriteTweetsIterator(IGetFavoriteTweetsParameters parameters, ITwitterRequest request);
+        ITwitterPageIterator<ITwitterResult<ITweetDTO[]>, long?> GetFavoriteTweetsIterator(IGetUserFavoriteTweetsParameters parameters, ITwitterRequest request);
 
 
         bool CanBePublished(string text);

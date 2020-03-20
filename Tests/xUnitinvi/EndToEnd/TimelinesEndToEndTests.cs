@@ -51,6 +51,8 @@ namespace xUnitinvi.EndToEnd
             var tweet1 = await _tweetinviTestClient.Tweets.PublishTweet("tweet 1!");
 
             await Task.Delay(2000).ConfigureAwait(false); // time required for timeline to be generated
+
+            await _tweetinviClient.Timelines.GetHomeTimeline();
             var iterator = _tweetinviClient.Timelines.GetHomeTimelineIterator(new GetHomeTimelineParameters
             {
                 PageSize = 1,
@@ -80,6 +82,7 @@ namespace xUnitinvi.EndToEnd
             var tweet1 = await _tweetinviTestClient.Tweets.PublishTweet("tweet 1!");
             var tweetinviTest = EndToEndTestConfig.TweetinviTest.AccountId;
 
+            await _tweetinviClient.Timelines.GetUserTimeline(tweetinviTest);
             var iterator = _tweetinviClient.Timelines.GetUserTimelineIterator(new GetUserTimelineParameters(tweetinviTest)
             {
                 PageSize = 5,
@@ -106,9 +109,10 @@ namespace xUnitinvi.EndToEnd
                 return;
 
             // act
-            var tweet1 = await _tweetinviTestClient.Tweets.PublishTweet("The new @tweetinviapi is the great!");
-            await Task.Delay(TimeSpan.FromSeconds(120));
+            var tweet1 = await _tweetinviTestClient.Tweets.PublishTweet($"Hello @{EndToEndTestConfig.TweetinviApi.AccountId}!");
+            await Task.Delay(TimeSpan.FromSeconds(25));
 
+            await _tweetinviClient.Timelines.GetMentionsTimeline();
             var iterator = _tweetinviClient.Timelines.GetMentionsTimelineIterator();
 
             var page1 = await iterator.MoveToNextPage();
@@ -118,7 +122,6 @@ namespace xUnitinvi.EndToEnd
             // assert
             Assert.Contains(tweet1.Id, page1.Select(x => x.Id));
         }
-
 
         [Fact]
         public async Task RetweetsOfMeTimeline()
@@ -132,6 +135,7 @@ namespace xUnitinvi.EndToEnd
             await _tweetinviClient.Tweets.PublishRetweet(tweet1);
             await _tweetinviClient.Tweets.PublishRetweet(tweet2);
 
+            await _tweetinviClient.Timelines.GetRetweetsOfMeTimeline();
             var iterator = _tweetinviTestClient.Timelines.GetRetweetsOfMeTimelineIterator(new GetRetweetsOfMeTimelineParameters
             {
                 PageSize = 1,

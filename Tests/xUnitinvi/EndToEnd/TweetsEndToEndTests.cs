@@ -130,6 +130,7 @@ namespace xUnitinvi.EndToEnd
 
             var allRetweeterIdsBefore = new List<long>();
 
+            await _protectedClient.Tweets.GetRetweeterIds(tweetId);
             var retweeterIdsBeforeIterator = _protectedClient.Tweets.GetRetweeterIdsIterator(tweetId);
             while (!retweeterIdsBeforeIterator.Completed)
             {
@@ -142,7 +143,6 @@ namespace xUnitinvi.EndToEnd
             // assert
             Assert.Equal(tweetAfterRetweet.RetweetCount, sourceTweet.RetweetCount + 1);
             Assert.Equal(retweet.RetweetedTweet.Id, tweetId);
-            Assert.NotNull(retweet.CreatedBy.Id);
             Assert.Contains(retweet.Id, sourceRetweets.Select(x => x.Id));
             Assert.Contains(retweet.CreatedBy.Id, allRetweeterIdsBefore);
             Assert.Equal(tweetAfterDestroy.RetweetCount, sourceTweet.RetweetCount);
@@ -160,6 +160,8 @@ namespace xUnitinvi.EndToEnd
             await _tweetinviTestClient.Tweets.FavoriteTweet(tweet).ConfigureAwait(false);
             var tweetAfterFavoriteCall = await _tweetinviTestClient.Tweets.GetTweet(tweet.Id).ConfigureAwait(false);
             var inMemoryTweetFavoriteStateAfterFavoriteCall = tweet.Favorited;
+
+            await _tweetinviTestClient.Tweets.GetUserFavoriteTweets(EndToEndTestConfig.TweetinviTest);
 
             await _tweetinviTestClient.Tweets.UnfavoriteTweet(tweet);
             var tweetAfterUnfavoriteCall = await _tweetinviTestClient.Tweets.GetTweet(tweet.Id).ConfigureAwait(false);

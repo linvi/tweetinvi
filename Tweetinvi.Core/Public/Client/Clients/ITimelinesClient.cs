@@ -13,6 +13,20 @@ namespace Tweetinvi.Client
         /// </summary>
         ITimelineClientParametersValidator ParametersValidator { get; }
 
+        /// <inheritdoc cref="GetHomeTimeline(IGetHomeTimelineParameters)" />
+        Task<ITweet[]> GetHomeTimeline();
+
+        /// <summary>
+        /// Returns a collection of the most recent Tweets and Retweets posted by the authenticated user and the users they follow.
+        /// The home timeline is central to how most users interact with the Twitter service.
+        ///
+        /// Up to 800 Tweets are obtainable on the home timeline.
+        /// It is more volatile for users that follow many users or follow users who Tweet frequently.
+        /// </summary>
+        /// <para>Read more : https://developer.twitter.com/en/docs/tweets/timelines/api-reference/get-statuses-home_timeline </para>
+        /// <returns>List the of tweets displayed on the authenticated user's home page</returns>
+        Task<ITweet[]> GetHomeTimeline(IGetHomeTimelineParameters parameters);
+
         /// <inheritdoc cref="GetHomeTimelineIterator(IGetHomeTimelineParameters)" />
         ITwitterIterator<ITweet, long?> GetHomeTimelineIterator();
 
@@ -28,6 +42,17 @@ namespace Tweetinvi.Client
         ITwitterIterator<ITweet, long?> GetHomeTimelineIterator(IGetHomeTimelineParameters parameters);
 
 
+        /// <inheritdoc cref="GetMentionsTimeline(IGetMentionsTimelineParameters)" />
+        Task<ITweet[]> GetMentionsTimeline();
+
+        /// <summary>
+        /// Returns the most recent mentions (Tweets containing a users's @screen_name) for the authenticated user.
+        /// The timeline returned is the equivalent of the one seen when you view your mentions on twitter.com.
+        /// </summary>
+        /// <para>Read more : https://developer.twitter.com/en/docs/tweets/timelines/api-reference/get-statuses-mentions_timeline </para>
+        /// <returns>List the of tweets mentioning the authenticated user</returns>
+        Task<ITweet[]> GetMentionsTimeline(IGetMentionsTimelineParameters parameters);
+
         /// <inheritdoc cref="GetMentionsTimelineIterator(IGetMentionsTimelineParameters)" />
         ITwitterIterator<ITweet, long?> GetMentionsTimelineIterator();
 
@@ -36,9 +61,25 @@ namespace Tweetinvi.Client
         /// The timeline returned is the equivalent of the one seen when you view your mentions on twitter.com.
         /// </summary>
         /// <para>Read more : https://developer.twitter.com/en/docs/tweets/timelines/api-reference/get-statuses-mentions_timeline </para>
-        /// <returns>An iterator to list the of tweets mentioning the authenticated user's</returns>
+        /// <returns>An iterator to list the of tweets mentioning the authenticated user</returns>
         ITwitterIterator<ITweet, long?> GetMentionsTimelineIterator(IGetMentionsTimelineParameters parameters);
 
+
+        /// <inheritdoc cref="GetUserTimeline(IGetUserTimelineParameters)" />
+        Task<ITweet[]> GetUserTimeline(long userId);
+
+        /// <inheritdoc cref="GetUserTimeline(IGetUserTimelineParameters)" />
+        Task<ITweet[]> GetUserTimeline(string username);
+
+        /// <inheritdoc cref="GetUserTimeline(IGetUserTimelineParameters)" />
+        Task<ITweet[]> GetUserTimeline(IUserIdentifier user);
+
+        /// <summary>
+        /// Returns a collection of the most recent Tweets posted by the user indicated by the screen_name or user_id parameters.
+        /// </summary>
+        /// <para>Read more : https://developer.twitter.com/en/docs/tweets/timelines/api-reference/get-statuses-user_timeline </para>
+        /// <returns>Tweets visible in the user's timeline</returns>
+        Task<ITweet[]> GetUserTimeline(IGetUserTimelineParameters parameters);
 
         /// <inheritdoc cref="GetUserTimelineIterator(IGetUserTimelineParameters)" />
         ITwitterIterator<ITweet, long?> GetUserTimelineIterator(long userId);
@@ -53,9 +94,8 @@ namespace Tweetinvi.Client
         /// Returns a collection of the most recent Tweets posted by the user indicated by the screen_name or user_id parameters.
         /// </summary>
         /// <para>Read more : https://developer.twitter.com/en/docs/tweets/timelines/api-reference/get-statuses-user_timeline </para>
-        /// <returns>An iterator to list a user's timeline</returns>
+        /// <returns>An iterator to list tweets visible in the user's timeline</returns>
         ITwitterIterator<ITweet, long?> GetUserTimelineIterator(IGetUserTimelineParameters parameters);
-
 
 
         /// <inheritdoc cref="GetRetweetsOfMeTimeline(IGetRetweetsOfMeTimelineParameters)" />

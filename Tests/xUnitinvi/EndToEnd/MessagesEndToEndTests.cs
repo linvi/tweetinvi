@@ -36,6 +36,7 @@ namespace xUnitinvi.EndToEnd
 
             try
             {
+                await _tweetinviClient.Messages.GetMessages();
                 var messagesIterator = _tweetinviClient.Messages.GetMessagesIterator(new GetMessagesParameters
                 {
                     PageSize = 1
