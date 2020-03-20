@@ -80,7 +80,7 @@ namespace Tweetinvi.Parameters
         private SearchTweetsParameters()
         {
             Filters = TweetSearchFilters.None;
-            PageSize = TwitterLimits.DEFAULTS.SEARCH_MAX_PAGE_SIZE;
+            PageSize = TwitterLimits.DEFAULTS.SEARCH_TWEETS_MAX_PAGE_SIZE;
         }
 
         public SearchTweetsParameters(string searchQuery) : this()
@@ -107,6 +107,8 @@ namespace Tweetinvi.Parameters
         {
             if (source == null)
             {
+                Filters = TweetSearchFilters.None;
+                PageSize = TwitterLimits.DEFAULTS.SEARCH_TWEETS_MAX_PAGE_SIZE;
                 return;
             }
 

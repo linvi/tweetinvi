@@ -13,7 +13,7 @@ namespace Tweetinvi.Controllers.Search
     {
         string GetSearchTweetsQuery(ISearchTweetsParameters parameters);
 
-        string GetSearchUsersQuery(ISearchUsersParameters searchUsersParameters);
+        string GetSearchUsersQuery(ISearchUsersParameters parameters);
     }
 
     public class SearchQueryGenerator : ISearchQueryGenerator
@@ -81,21 +81,18 @@ namespace Tweetinvi.Controllers.Search
             }
         }
 
-        public string GetSearchUsersQuery(ISearchUsersParameters searchUsersParameters)
+        public string GetSearchUsersQuery(ISearchUsersParameters parameters)
         {
-            // if (!_searchQueryValidator.IsSearchQueryValid(searchUsersParameters.SearchQuery))
-            // {
-            //     throw new ArgumentException("Search query is not valid.");
-            // }
+            var query = new StringBuilder(Resources.Search_SearchUsers);
 
-            var queryBuilder = new StringBuilder(Resources.Search_SearchUsers);
+            query.AddParameterToQuery("q", parameters.Query);
+            query.AddParameterToQuery("page", parameters.Page);
+            query.AddParameterToQuery("count", parameters.PageSize);
+            query.AddParameterToQuery("include_entities", parameters.IncludeEntities);
 
-            queryBuilder.AddParameterToQuery("q", searchUsersParameters.Query);
-            queryBuilder.AddParameterToQuery("page", searchUsersParameters.Page);
-            queryBuilder.Append(_queryParameterGenerator.GenerateCountParameter(searchUsersParameters.MaximumNumberOfResults));
-            queryBuilder.Append(_queryParameterGenerator.GenerateIncludeEntitiesParameter(searchUsersParameters.IncludeEntities));
+            query.AddFormattedParameterToQuery(parameters.FormattedCustomQueryParameters);
 
-            return queryBuilder.ToString();
+            return query.ToString();
         }
     }
 }

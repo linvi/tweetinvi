@@ -1,23 +1,23 @@
 namespace Tweetinvi.Parameters
 {
     public interface IMinMaxQueryParameters : ICustomRequestParameters
-    { 
+    {
         /// <summary>
         /// The maximum number of objects to return
         /// </summary>
         int PageSize { get; set; }
-        
+
         /// <summary>
         /// Minimum id that can be returned by the query (start from)
         /// </summary>
         long? SinceId { get; set; }
-        
+
         /// <summary>
         /// Maximum id that can be returned by the query (ends at)
         /// </summary>
         long? MaxId { get; set; }
     }
-    
+
     public class MinMaxQueryParameters : CustomRequestParameters, IMinMaxQueryParameters
     {
         protected MinMaxQueryParameters()

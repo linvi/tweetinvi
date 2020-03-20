@@ -1,10 +1,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Tweetinvi.Core.DTO;
 using Tweetinvi.Core.Iterators;
 using Tweetinvi.Core.Web;
 using Tweetinvi.Iterators;
-using Tweetinvi.Logic;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
 using Tweetinvi.Parameters;
@@ -81,6 +81,29 @@ namespace Tweetinvi.Client
             }
 
             return matchingTweets?.ToArray();
+        }
+
+        public Task<IUser[]> SearchUsers(string query)
+        {
+            return SearchUsers(new SearchUsersParameters(query));
+        }
+
+        public async Task<IUser[]> SearchUsers(ISearchUsersParameters parameters)
+        {
+            var pageIterator = GetSearchUsersIterator(parameters);
+            return (await pageIterator.MoveToNextPage().ConfigureAwait(false)).ToArray();
+        }
+
+        public ITwitterIterator<IUser, int?> GetSearchUsersIterator(string query)
+        {
+            return GetSearchUsersIterator(new SearchUsersParameters(query));
+        }
+
+        public ITwitterIterator<IUser, int?> GetSearchUsersIterator(ISearchUsersParameters parameters)
+        {
+            var pageIterator = _client.Raw.Search.GetSearchUsersIterator(parameters);
+            return new TwitterIteratorProxy<ITwitterResult<UserDTO[]>, IUser, int?>(pageIterator,
+                twitterResult => _client.Factories.CreateUsers(twitterResult?.DataTransferObject));
         }
     }
 }

@@ -76,5 +76,24 @@ namespace xUnitinvi.ClientActions.Search
                               "&lang=fr&locale=ja&result_type=mixed&count=50&since_id=1043&max_id=1042" +
                               "&since=2000-01-11&until=2020-03-19&include_entities=true&tweet_mode=extended&hello=world");
         }
+
+        [Fact]
+        public void SearchUsers_ReturnsExpectedQuery()
+        {
+            // arrange
+            var parameters = new SearchUsersParameters("plop")
+            {
+                Page = 42,
+                PageSize = 50,
+                IncludeEntities = true,
+                CustomQueryParameters = { new Tuple<string, string>("hello", "world") }
+            };
+
+            // act
+            var url = _searchQueryGenerator.GetSearchUsersQuery(parameters);
+
+            // assert
+            Assert.Equal(url, "https://api.twitter.com/1.1/users/search.json?q=plop&page=42&count=50&include_entities=true&hello=world");
+        }
     }
 }

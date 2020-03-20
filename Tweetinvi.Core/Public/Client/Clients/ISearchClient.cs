@@ -49,5 +49,26 @@ namespace Tweetinvi.Client
         /// <param name="tweetsMustContainGeoInformation">Whether or not the tweet should contain geo information</param>
         /// <returns>Filtered set of tweets</returns>
         ITweet[] FilterTweets(ITweet[] tweets, OnlyGetTweetsThatAre? filter, bool tweetsMustContainGeoInformation);
+
+        /// <inheritdoc cref="SearchUsers(ISearchUsersParameters)"/>
+        Task<IUser[]> SearchUsers(string query);
+
+        /// <summary>
+        /// Search for tweets
+        /// </summary>
+        /// <para> Read more : https://developer.twitter.com/en/docs/accounts-and-users/follow-search-get-users/api-reference/get-users-search </para>
+        /// <returns>Users matching the search</returns>
+        Task<IUser[]> SearchUsers(ISearchUsersParameters parameters);
+
+        /// <inheritdoc cref="GetSearchUsersIterator(ISearchUsersParameters)"/>
+        ITwitterIterator<IUser, int?> GetSearchUsersIterator(string query);
+
+        /// <summary>
+        /// Search for users
+        /// </summary>
+        /// <para> Read more : https://developer.twitter.com/en/docs/accounts-and-users/follow-search-get-users/api-reference/get-users-search </para>
+        /// <returns>Iterator over the search results</returns>
+        ITwitterIterator<IUser, int?> GetSearchUsersIterator(ISearchUsersParameters parameters);
+
     }
 }

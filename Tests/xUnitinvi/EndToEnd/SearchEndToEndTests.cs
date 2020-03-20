@@ -38,11 +38,7 @@ namespace xUnitinvi.EndToEnd
                 DistanceMeasure = DistanceMeasure.Kilometers
             });
 
-            var searchWithMetadata = await _tweetinviClient.Search.SearchTweetsWithMetadata("hello");
-
-
             // assert
-
             Assert.True(tweets.Length > 0);
             Assert.True(geoSearchTweets.Length > 0);
             Assert.Contains(tweets.Select(x => x.Id), x => result2.Any(tweet => tweet.Id == x));
@@ -67,6 +63,25 @@ namespace xUnitinvi.EndToEnd
 
             // assert
             Assert.True(searchWithMetadata.Tweets.Length > 0);
+        }
+
+        [Fact]
+        public async Task SearchUsers()
+        {
+            var users = await _tweetinviClient.Search.SearchUsers("bob");
+            var searchUsersIterator = _tweetinviClient.Search.GetSearchUsersIterator(new SearchUsersParameters("bob")
+            {
+                PageSize = 10
+            });
+
+            var result1 = (await searchUsersIterator.MoveToNextPage()).ToArray();
+            var result2 = (await searchUsersIterator.MoveToNextPage()).ToArray();
+
+            // assert
+            Assert.True(users.Length > 0);
+            Assert.Equal(searchUsersIterator.NextCursor, 2);
+            Assert.Contains(users.Select(x => x.Id), x => result1.Any(tweet => tweet.Id == x));
+            Assert.Contains(users.Select(x => x.Id), x => result2.Any(tweet => tweet.Id == x));
         }
     }
 }

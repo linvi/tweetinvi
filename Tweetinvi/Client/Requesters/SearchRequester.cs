@@ -1,5 +1,6 @@
 using Tweetinvi.Controllers.Search;
 using Tweetinvi.Core.Client.Validators;
+using Tweetinvi.Core.DTO;
 using Tweetinvi.Core.Events;
 using Tweetinvi.Core.Iterators;
 using Tweetinvi.Core.Web;
@@ -29,7 +30,15 @@ namespace Tweetinvi.Client.Requesters
             _validator.Validate(parameters);
 
             var request = TwitterClient.CreateRequest();
-            return _searchController.SearchTweets(parameters, request);
+            return _searchController.GetSearchTweetsIterator(parameters, request);
+        }
+
+        public ITwitterPageIterator<ITwitterResult<UserDTO[]>, int?> GetSearchUsersIterator(ISearchUsersParameters parameters)
+        {
+            _validator.Validate(parameters);
+
+            var request = TwitterClient.CreateRequest();
+            return _searchController.GetSearchUsersIterator(parameters, request);
         }
     }
 }

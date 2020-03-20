@@ -27,7 +27,7 @@
         public CursorQueryParameters(ICursorQueryParameters parameters) : base(parameters)
         {
             if (parameters == null) { return; }
-            
+
             Cursor = parameters.Cursor;
             PageSize = parameters.PageSize;
         }
