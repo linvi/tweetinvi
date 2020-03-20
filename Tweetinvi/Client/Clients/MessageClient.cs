@@ -47,6 +47,17 @@ namespace Tweetinvi.Client
             return _client.Factories.CreateMessage(twitterResult?.DataTransferObject);
         }
 
+        public Task<IMessage[]> GetMessages()
+        {
+            return GetMessages(new GetMessagesParameters());
+        }
+
+        public async Task<IMessage[]> GetMessages(IGetMessagesParameters parameters)
+        {
+            var iterator = GetMessagesIterator(parameters);
+            return (await iterator.MoveToNextPage().ConfigureAwait(false)).ToArray();
+        }
+
         public ITwitterIterator<IMessage> GetMessagesIterator()
         {
             return GetMessagesIterator(new GetMessagesParameters());

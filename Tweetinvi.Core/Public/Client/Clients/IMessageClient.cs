@@ -27,6 +27,16 @@ namespace Tweetinvi.Client
         /// <returns>Requested message</returns>
         Task<IMessage> GetMessage(IGetMessageParameters parameters);
 
+        /// <inheritdoc cref="GetMessages(IGetMessagesParameters)" />
+        Task<IMessage[]> GetMessages();
+
+        /// <summary>
+        /// Gets latest messages
+        /// </summary>
+        /// <para> https://developer.twitter.com/en/docs/direct-messages/sending-and-receiving/api-reference/list-events </para>
+        /// <returns>List the recent messages of the user</returns>
+        Task<IMessage[]> GetMessages(IGetMessagesParameters parameters);
+
         /// <inheritdoc cref="GetMessagesIterator(IGetMessagesParameters)" />
         ITwitterIterator<IMessage> GetMessagesIterator();
 
