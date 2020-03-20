@@ -123,6 +123,17 @@ namespace Tweetinvi.Client
             await _twitterListsRequester.DestroyList(parameters).ConfigureAwait(false);
         }
 
+        public Task<ITwitterList[]> GetListsOwnedByAccount()
+        {
+            return GetListsOwnedByAccount(new GetListsOwnedByAccountParameters());
+        }
+
+        public async Task<ITwitterList[]> GetListsOwnedByAccount(IGetListsOwnedByAccountParameters parameters)
+        {
+            var iterator = GetListsOwnedByAccountIterator(parameters);
+            return (await iterator.MoveToNextPage().ConfigureAwait(false)).ToArray();
+        }
+
         public ITwitterIterator<ITwitterList> GetListsOwnedByAccountIterator()
         {
             return GetListsOwnedByAccountIterator(new GetListsOwnedByAccountParameters());
@@ -131,6 +142,27 @@ namespace Tweetinvi.Client
         public ITwitterIterator<ITwitterList> GetListsOwnedByAccountIterator(IGetListsOwnedByAccountParameters parameters)
         {
             return GetListsOwnedByUserIterator(new GetListsOwnedByAccountByUserParameters(parameters));
+        }
+
+        public Task<ITwitterList[]> GetListsOwnedByUser(long userId)
+        {
+            return GetListsOwnedByUser(new GetListsOwnedByAccountByUserParameters(userId));
+        }
+
+        public Task<ITwitterList[]> GetListsOwnedByUser(string username)
+        {
+            return GetListsOwnedByUser(new GetListsOwnedByAccountByUserParameters(username));
+        }
+
+        public Task<ITwitterList[]> GetListsOwnedByUser(IUser user)
+        {
+            return GetListsOwnedByUser(new GetListsOwnedByAccountByUserParameters(user));
+        }
+
+        public async Task<ITwitterList[]> GetListsOwnedByUser(IGetListsOwnedByUserParameters parameters)
+        {
+            var iterator = GetListsOwnedByUserIterator(parameters);
+            return (await iterator.MoveToNextPage().ConfigureAwait(false)).ToArray();
         }
 
         public ITwitterIterator<ITwitterList> GetListsOwnedByUserIterator(long userId)
@@ -218,6 +250,17 @@ namespace Tweetinvi.Client
             await _twitterListsRequester.AddMembersToList(parameters).ConfigureAwait(false);
         }
 
+        public Task<ITwitterList[]> GetAccountListMemberships()
+        {
+            return GetAccountListMemberships(new GetAccountListMembershipsParameters());
+        }
+
+        public async Task<ITwitterList[]> GetAccountListMemberships(IGetAccountListMembershipsParameters parameters)
+        {
+            var iterator = GetAccountListMembershipsIterator(parameters);
+            return (await iterator.MoveToNextPage().ConfigureAwait(false)).ToArray();
+        }
+
         public ITwitterIterator<ITwitterList> GetAccountListMembershipsIterator()
         {
             return GetAccountListMembershipsIterator(new GetAccountListMembershipsParameters());
@@ -226,6 +269,27 @@ namespace Tweetinvi.Client
         public ITwitterIterator<ITwitterList> GetAccountListMembershipsIterator(IGetAccountListMembershipsParameters parameters)
         {
             return GetUserListMembershipsIterator(new GetUserListMembershipsParameters(parameters));
+        }
+
+        public Task<ITwitterList[]> GetUserListMemberships(long userId)
+        {
+            return GetUserListMemberships(new GetUserListMembershipsParameters(userId));
+        }
+
+        public Task<ITwitterList[]> GetUserListMemberships(string username)
+        {
+            return GetUserListMemberships(new GetUserListMembershipsParameters(username));
+        }
+
+        public Task<ITwitterList[]> GetUserListMemberships(IUserIdentifier user)
+        {
+            return GetUserListMemberships(new GetUserListMembershipsParameters(user));
+        }
+
+        public async Task<ITwitterList[]> GetUserListMemberships(IGetUserListMembershipsParameters parameters)
+        {
+            var iterator = GetUserListMembershipsIterator(parameters);
+            return (await iterator.MoveToNextPage().ConfigureAwait(false)).ToArray();
         }
 
         public ITwitterIterator<ITwitterList> GetUserListMembershipsIterator(long userId)
@@ -251,6 +315,22 @@ namespace Tweetinvi.Client
                 var listDtos = pageResult.DataTransferObject.TwitterLists;
                 return listDtos?.Select(dto => _client.Factories.CreateTwitterList(dto)).ToArray();
             });
+        }
+
+        public Task<IUser[]> GetMembersOfList(long listId)
+        {
+            return GetMembersOfList(new GetMembersOfListParameters(listId));
+        }
+
+        public Task<IUser[]> GetMembersOfList(ITwitterListIdentifier list)
+        {
+            return GetMembersOfList(new GetMembersOfListParameters(list));
+        }
+
+        public async Task<IUser[]> GetMembersOfList(IGetMembersOfListParameters parameters)
+        {
+            var iterator = GetMembersOfListIterator(parameters);
+            return (await iterator.MoveToNextPage().ConfigureAwait(false)).ToArray();
         }
 
         public ITwitterIterator<IUser> GetMembersOfListIterator(long listId)
@@ -428,6 +508,22 @@ namespace Tweetinvi.Client
             return _client.Factories.CreateTwitterList(twitterResult?.DataTransferObject);
         }
 
+        public Task<IUser[]> GetListSubscribers(long listId)
+        {
+            return GetListSubscribers(new GetListSubscribersParameters(listId));
+        }
+
+        public Task<IUser[]> GetListSubscribers(ITwitterListIdentifier list)
+        {
+            return GetListSubscribers(new GetListSubscribersParameters(list));
+        }
+
+        public async Task<IUser[]> GetListSubscribers(IGetListSubscribersParameters parameters)
+        {
+            var iterator = GetListSubscribersIterator(parameters);
+            return (await iterator.MoveToNextPage().ConfigureAwait(false)).ToArray();
+        }
+
         public ITwitterIterator<IUser> GetListSubscribersIterator(long listId)
         {
             return GetListSubscribersIterator(new GetListSubscribersParameters(listId));
@@ -450,6 +546,27 @@ namespace Tweetinvi.Client
         public ITwitterIterator<ITwitterList> GetAccountListSubscriptionsIterator(IGetAccountListSubscriptionsParameters parameters)
         {
             return GetUserListSubscriptionsIterator(new GetUserListSubscriptionsParameters(parameters));
+        }
+
+        public Task<ITwitterList[]> GetUserListSubscriptions(long userId)
+        {
+            return GetUserListSubscriptions(new GetUserListSubscriptionsParameters(userId));
+        }
+
+        public Task<ITwitterList[]> GetUserListSubscriptions(string username)
+        {
+            return GetUserListSubscriptions(new GetUserListSubscriptionsParameters(username));
+        }
+
+        public Task<ITwitterList[]> GetUserListSubscriptions(IUserIdentifier user)
+        {
+            return GetUserListSubscriptions(new GetUserListSubscriptionsParameters(user));
+        }
+
+        public async Task<ITwitterList[]> GetUserListSubscriptions(IGetUserListSubscriptionsParameters parameters)
+        {
+            var iterator = GetUserListSubscriptionsIterator(parameters);
+            return (await iterator.MoveToNextPage().ConfigureAwait(false)).ToArray();
         }
 
         public ITwitterIterator<ITwitterList> GetUserListSubscriptionsIterator(long userId)
@@ -530,6 +647,22 @@ namespace Tweetinvi.Client
         // ***********
         // GET TWEETS
         // ***********
+
+        public Task<ITweet[]> GetTweetsFromList(long listId)
+        {
+            return GetTweetsFromList(new GetTweetsFromListParameters(listId));
+        }
+
+        public Task<ITweet[]> GetTweetsFromList(ITwitterListIdentifier list)
+        {
+            return GetTweetsFromList(new GetTweetsFromListParameters(list));
+        }
+
+        public async Task<ITweet[]> GetTweetsFromList(IGetTweetsFromListParameters parameters)
+        {
+            var iterator = GetTweetsFromListIterator(parameters);
+            return (await iterator.MoveToNextPage().ConfigureAwait(false)).ToArray();
+        }
 
         public ITwitterIterator<ITweet, long?> GetTweetsFromListIterator(long listId)
         {

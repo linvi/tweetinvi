@@ -83,6 +83,16 @@ namespace Tweetinvi.Client
         /// <para> https://developer.twitter.com/en/docs/accounts-and-users/create-manage-lists/api-reference/post-lists-destroy </para>
         Task DestroyList(IDestroyListParameters parameters);
 
+        /// <inheritdoc cref="GetListsOwnedByAccount(IGetListsOwnedByAccountParameters)"/>
+        Task<ITwitterList[]> GetListsOwnedByAccount();
+
+        /// <summary>
+        /// Get the lists owned by the account
+        /// </summary>
+        /// <para> https://developer.twitter.com/en/docs/accounts-and-users/create-manage-lists/api-reference/get-lists-ownerships </para>
+        /// <returns>Lists owned by the account</returns>
+        Task<ITwitterList[]> GetListsOwnedByAccount(IGetListsOwnedByAccountParameters parameters);
+
         /// <inheritdoc cref="GetListsOwnedByAccountIterator(IGetListsOwnedByAccountParameters)"/>
         ITwitterIterator<ITwitterList> GetListsOwnedByAccountIterator();
 
@@ -92,6 +102,20 @@ namespace Tweetinvi.Client
         /// <para> https://developer.twitter.com/en/docs/accounts-and-users/create-manage-lists/api-reference/get-lists-ownerships </para>
         /// <returns>An iterator over the lists owned by the account</returns>
         ITwitterIterator<ITwitterList> GetListsOwnedByAccountIterator(IGetListsOwnedByAccountParameters parameters);
+
+        /// <inheritdoc cref="GetListsOwnedByUser(IGetListsOwnedByUserParameters)"/>
+        Task<ITwitterList[]> GetListsOwnedByUser(long userId);
+        /// <inheritdoc cref="GetListsOwnedByUser(IGetListsOwnedByUserParameters)"/>
+        Task<ITwitterList[]> GetListsOwnedByUser(string username);
+        /// <inheritdoc cref="GetListsOwnedByUser(IGetListsOwnedByUserParameters)"/>
+        Task<ITwitterList[]> GetListsOwnedByUser(IUser user);
+
+        /// <summary>
+        /// Get the lists owned by a user
+        /// </summary>
+        /// <para> https://developer.twitter.com/en/docs/accounts-and-users/create-manage-lists/api-reference/get-lists-ownerships </para>
+        /// <returns>Lists owned by a user</returns>
+        Task<ITwitterList[]> GetListsOwnedByUser(IGetListsOwnedByUserParameters parameters);
 
         /// <inheritdoc cref="GetListsOwnedByUserIterator(IGetListsOwnedByUserParameters)"/>
         ITwitterIterator<ITwitterList> GetListsOwnedByUserIterator(long userId);
@@ -145,7 +169,17 @@ namespace Tweetinvi.Client
         /// </summary>
         Task AddMembersToList(IAddMembersToListParameters parameters);
 
-        /// <inheritdoc cref="GetAccountListMembershipsIterator(Tweetinvi.Parameters.IGetAccountListMembershipsParameters)"/>
+        /// <inheritdoc cref="GetAccountListMemberships(IGetAccountListMembershipsParameters)"/>
+        Task<ITwitterList[]> GetAccountListMemberships();
+
+        /// <summary>
+        /// Get the lists the account is member of
+        /// <para>Read more : https://developer.twitter.com/en/docs/accounts-and-users/create-manage-lists/api-reference/get-lists-memberships </para>
+        /// </summary>
+        /// <returns>Lists the account is member of</returns>
+        Task<ITwitterList[]> GetAccountListMemberships(IGetAccountListMembershipsParameters parameters);
+
+        /// <inheritdoc cref="GetAccountListMembershipsIterator(IGetAccountListMembershipsParameters)"/>
         ITwitterIterator<ITwitterList> GetAccountListMembershipsIterator();
 
         /// <summary>
@@ -154,6 +188,20 @@ namespace Tweetinvi.Client
         /// </summary>
         /// <returns>An iterator to retrieve all the lists the account is member of</returns>
         ITwitterIterator<ITwitterList> GetAccountListMembershipsIterator(IGetAccountListMembershipsParameters parameters);
+
+        /// <inheritdoc cref="GetUserListMemberships(IGetUserListMembershipsParameters)"/>
+        Task<ITwitterList[]> GetUserListMemberships(long userId);
+        /// <inheritdoc cref="GetUserListMemberships(IGetUserListMembershipsParameters)"/>
+        Task<ITwitterList[]> GetUserListMemberships(string username);
+        /// <inheritdoc cref="GetUserListMemberships(IGetUserListMembershipsParameters)"/>
+        Task<ITwitterList[]> GetUserListMemberships(IUserIdentifier user);
+
+        /// <summary>
+        /// Get an iterator to retrieve all the lists a user is member of
+        /// <para>Read more : https://developer.twitter.com/en/docs/accounts-and-users/create-manage-lists/api-reference/get-lists-memberships </para>
+        /// </summary>
+        /// <returns>Lists a user is member of</returns>
+        Task<ITwitterList[]> GetUserListMemberships(IGetUserListMembershipsParameters parameters);
 
         /// <inheritdoc cref="GetUserListMembershipsIterator(IGetUserListMembershipsParameters)"/>
         ITwitterIterator<ITwitterList> GetUserListMembershipsIterator(long userId);
@@ -168,6 +216,18 @@ namespace Tweetinvi.Client
         /// </summary>
         /// <returns>An iterator to retrieve all the lists a user is member of</returns>
         ITwitterIterator<ITwitterList> GetUserListMembershipsIterator(IGetUserListMembershipsParameters parameters);
+
+        /// <inheritdoc cref="GetMembersOfList(IGetMembersOfListParameters)"/>
+        Task<IUser[]> GetMembersOfList(long listId);
+        /// <inheritdoc cref="GetMembersOfList(IGetMembersOfListParameters)"/>
+        Task<IUser[]> GetMembersOfList(ITwitterListIdentifier list);
+
+        /// <summary>
+        /// Get the members of the specified list.
+        /// <para>Read more : https://developer.twitter.com/en/docs/accounts-and-users/create-manage-lists/api-reference/get-lists-members </para>
+        /// </summary>
+        /// <returns>Members of the list</returns>
+        Task<IUser[]> GetMembersOfList(IGetMembersOfListParameters parameters);
 
         /// <inheritdoc cref="GetMembersOfListIterator(IGetMembersOfListParameters)"/>
         ITwitterIterator<IUser> GetMembersOfListIterator(long listId);
@@ -268,6 +328,18 @@ namespace Tweetinvi.Client
         /// <returns>The latest version of the list</returns>
         Task<ITwitterList> UnsubscribeFromList(IUnsubscribeFromListParameters parameters);
 
+        /// <inheritdoc cref="GetListSubscribers(ITwitterListIdentifier)" />
+        Task<IUser[]> GetListSubscribers(long listId);
+        /// <inheritdoc cref="GetListSubscribers(ITwitterListIdentifier)" />
+        Task<IUser[]> GetListSubscribers(ITwitterListIdentifier list);
+
+        /// <summary>
+        /// Returns the users subscribed to a list
+        /// <para>Read more : https://developer.twitter.com/en/docs/accounts-and-users/create-manage-lists/api-reference/get-lists-subscribers </para>
+        /// </summary>
+        /// <returns>Subscribers of the list</returns>
+        Task<IUser[]> GetListSubscribers(IGetListSubscribersParameters parameters);
+
         /// <inheritdoc cref="GetListSubscribersIterator(ITwitterListIdentifier)" />
         ITwitterIterator<IUser> GetListSubscribersIterator(long listId);
         /// <inheritdoc cref="GetListSubscribersIterator(ITwitterListIdentifier)" />
@@ -287,11 +359,25 @@ namespace Tweetinvi.Client
         /// <returns>An iterator the get though the lists the account subscribed to</returns>
         ITwitterIterator<ITwitterList> GetAccountListSubscriptionsIterator(IGetAccountListSubscriptionsParameters parameters);
 
-        /// <inheritdoc cref="GetUserListSubscriptionsIterator(Tweetinvi.Parameters.IGetUserListSubscriptionsParameters)" />
+        /// <inheritdoc cref="GetUserListSubscriptions(IGetUserListSubscriptionsParameters)" />
+        Task<ITwitterList[]> GetUserListSubscriptions(long userId);
+        /// <inheritdoc cref="GetUserListSubscriptions(IGetUserListSubscriptionsParameters)" />
+        Task<ITwitterList[]> GetUserListSubscriptions(string username);
+        /// <inheritdoc cref="GetUserListSubscriptions(IGetUserListSubscriptionsParameters)" />
+        Task<ITwitterList[]> GetUserListSubscriptions(IUserIdentifier user);
+
+        /// <summary>
+        /// Returns the lists a user subscribed to
+        /// <para>Read more : https://developer.twitter.com/en/docs/accounts-and-users/create-manage-lists/api-reference/get-lists-subscriptions </para>
+        /// </summary>
+        /// <returns>Lists a user subscribed to</returns>
+        Task<ITwitterList[]> GetUserListSubscriptions(IGetUserListSubscriptionsParameters parameters);
+
+        /// <inheritdoc cref="GetUserListSubscriptionsIterator(IGetUserListSubscriptionsParameters)" />
         ITwitterIterator<ITwitterList> GetUserListSubscriptionsIterator(long userId);
-        /// <inheritdoc cref="GetUserListSubscriptionsIterator(Tweetinvi.Parameters.IGetUserListSubscriptionsParameters)" />
+        /// <inheritdoc cref="GetUserListSubscriptionsIterator(IGetUserListSubscriptionsParameters)" />
         ITwitterIterator<ITwitterList> GetUserListSubscriptionsIterator(string username);
-        /// <inheritdoc cref="GetUserListSubscriptionsIterator(Tweetinvi.Parameters.IGetUserListSubscriptionsParameters)" />
+        /// <inheritdoc cref="GetUserListSubscriptionsIterator(IGetUserListSubscriptionsParameters)" />
         ITwitterIterator<ITwitterList> GetUserListSubscriptionsIterator(IUserIdentifier user);
 
         /// <summary>
@@ -324,6 +410,18 @@ namespace Tweetinvi.Client
         // ***********
         // TWEETS
         // ***********
+
+        /// <inheritdoc cref="GetTweetsFromList(IGetTweetsFromListParameters)" />
+        Task<ITweet[]> GetTweetsFromList(long listId);
+        /// <inheritdoc cref="GetTweetsFromList(IGetTweetsFromListParameters)" />
+        Task<ITweet[]> GetTweetsFromList(ITwitterListIdentifier list);
+
+        /// <summary>
+        /// Returns the tweets authored by the members of the list.
+        /// <para>Read more : https://developer.twitter.com/en/docs/accounts-and-users/create-manage-lists/api-reference/get-lists-statuses </para>
+        /// </summary>
+        /// <returns>Tweets of a list</returns>
+        Task<ITweet[]> GetTweetsFromList(IGetTweetsFromListParameters parameters);
 
         /// <inheritdoc cref="GetTweetsFromListIterator(IGetTweetsFromListParameters)" />
         ITwitterIterator<ITweet, long?> GetTweetsFromListIterator(long listId);

@@ -58,22 +58,22 @@ namespace Tweetinvi.Core.Models
         // Friends - Followers
         public ITwitterIterator<long> GetUserIdsRequestingFriendship()
         {
-            return Client.Users.GetUserIdsRequestingFriendship(new GetUserIdsRequestingFriendshipParameters());
+            return Client.Users.GetUserIdsRequestingFriendshipIterator(new GetUserIdsRequestingFriendshipParameters());
         }
 
         public IMultiLevelCursorIterator<long, IUser> GetUsersRequestingFriendship()
         {
-            return Client.Users.GetUsersRequestingFriendship(new GetUsersRequestingFriendshipParameters());
+            return Client.Users.GetUsersRequestingFriendshipIterator(new GetUsersRequestingFriendshipParameters());
         }
 
         public ITwitterIterator<long> GetUserIdsYouRequestedToFollow()
         {
-            return Client.Users.GetUserIdsYouRequestedToFollow();
+            return Client.Users.GetUserIdsYouRequestedToFollowIterator();
         }
 
         public IMultiLevelCursorIterator<long, IUser> GetUsersYouRequestedToFollow()
         {
-            return Client.Users.GetUsersYouRequestedToFollow(new GetUsersYouRequestedToFollowParameters());
+            return Client.Users.GetUsersYouRequestedToFollowIterator(new GetUsersYouRequestedToFollowParameters());
         }
 
 
@@ -158,12 +158,12 @@ namespace Tweetinvi.Core.Models
         // Get Blocked Users
         public ITwitterIterator<long> GetBlockedUserIds()
         {
-            return Client.Users.GetBlockedUserIds();
+            return Client.Users.GetBlockedUserIdsIterator();
         }
 
         public ITwitterIterator<IUser> GetBlockedUsers()
         {
-            return Client.Users.GetBlockedUsers();
+            return Client.Users.GetBlockedUsersIterator();
         }
 
         // Spam
@@ -239,12 +239,12 @@ namespace Tweetinvi.Core.Models
         // Mute
         public ITwitterIterator<long> GetMutedUserIds()
         {
-            return Client.Users.GetMutedUserIds();
+            return Client.Users.GetMutedUserIdsIterator();
         }
 
         public ITwitterIterator<IUser> GetMutedUsers()
         {
-            return Client.Users.GetMutedUsers();
+            return Client.Users.GetMutedUsersIterator();
         }
 
         public Task MuteUser(IUserIdentifier user)
