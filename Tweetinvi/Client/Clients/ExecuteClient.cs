@@ -15,14 +15,24 @@ namespace Tweetinvi.Client
             _executeRequester = client.Raw.Execute;
         }
 
-        public Task<ITwitterResult<T>> Request<T>(Action<ITwitterRequest> configureRequest) where T : class
+        public Task<ITwitterResult<T>> AdvanceRequest<T>(Action<ITwitterRequest> configureRequest) where T : class
         {
             return _executeRequester.Request<T>(configureRequest);
         }
 
-        public Task<ITwitterResult> Request(Action<ITwitterRequest> configureRequest)
+        public Task<ITwitterResult> AdvanceRequest(Action<ITwitterRequest> configureRequest)
         {
             return _executeRequester.Request(configureRequest);
+        }
+
+        public Task<ITwitterResult<T>> Request<T>(Action<ITwitterQuery> configureQuery) where T : class
+        {
+            return _executeRequester.Request<T>(configureQuery);
+        }
+
+        public Task<ITwitterResult> Request(Action<ITwitterQuery> configureQuery)
+        {
+            return _executeRequester.Request(configureQuery);
         }
     }
 }

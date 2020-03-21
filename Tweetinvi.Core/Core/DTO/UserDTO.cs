@@ -63,10 +63,10 @@ namespace Tweetinvi.Core.DTO
         public bool? Notifications { get; set; }
 
         [JsonProperty("profile_image_url")]
-        public string ProfileImageUrl { get; set; }
+        public string ProfileImageUrlHttp { get; set; }
 
         [JsonProperty("profile_image_url_https")]
-        public string ProfileImageUrlHttps { get; set; }
+        public string ProfileImageUrl { get; set; }
 
         [JsonProperty("follow_request_sent")]
         public bool? FollowRequestSent { get; set; }

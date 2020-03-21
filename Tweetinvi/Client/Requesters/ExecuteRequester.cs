@@ -36,5 +36,23 @@ namespace Tweetinvi.Client.Requesters
                 return _accessor.ExecuteRequest(request);
             });
         }
+
+        public Task<ITwitterResult<T>> Request<T>(Action<ITwitterQuery> configureRequest) where T : class
+        {
+            return ExecuteRequest(request =>
+            {
+                configureRequest(request.Query);
+                return _accessor.ExecuteRequest<T>(request);
+            });
+        }
+
+        public Task<ITwitterResult> Request(Action<ITwitterQuery> configureRequest)
+        {
+            return ExecuteRequest(request =>
+            {
+                configureRequest(request.Query);
+                return _accessor.ExecuteRequest(request);
+            });
+        }
     }
 }

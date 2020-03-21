@@ -30,12 +30,12 @@ namespace Tweetinvi.Parameters
 
         public GetProfileImageParameters(IUserDTO user)
         {
-            ImageUrl = user.ProfileImageUrlHttps;
+            ImageUrl = user.ProfileImageUrl;
         }
 
         public GetProfileImageParameters(IUser user)
         {
-            ImageUrl = user.ProfileImageUrlHttps;
+            ImageUrl = user.ProfileImageUrl;
         }
 
         public GetProfileImageParameters(IGetProfileImageParameters parameters) : base(parameters)

@@ -103,8 +103,6 @@ namespace Tweetinvi.Core.Models
             }
         }
 
-        public string ProfileImageUrlHttps => UserDTO.ProfileImageUrlHttps;
-
         public bool? FollowRequestSent => UserDTO.FollowRequestSent;
 
         public bool DefaultProfile => UserDTO.DefaultProfile;

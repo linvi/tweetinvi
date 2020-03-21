@@ -22,16 +22,16 @@ namespace xUnitinvi.EndToEnd
 
             var twitterResult = await _tweetinviTestClient.Execute.Request(request =>
             {
-                request.Query.Url = "https://api.twitter.com/1.1/account/verify_credentials.json";
-                request.Query.HttpMethod = HttpMethod.GET;
+                request.Url = "https://api.twitter.com/1.1/account/verify_credentials.json";
+                request.HttpMethod = HttpMethod.GET;
             });
 
             var userFromJson = _tweetinviTestClient.Json.Deserialize<IUserDTO>(twitterResult.RawResult);
 
             var userTwitterResult = await _tweetinviTestClient.Execute.Request<IUserDTO>(request =>
             {
-                request.Query.Url = "https://api.twitter.com/1.1/account/verify_credentials.json";
-                request.Query.HttpMethod = HttpMethod.GET;
+                request.Url = "https://api.twitter.com/1.1/account/verify_credentials.json";
+                request.HttpMethod = HttpMethod.GET;
             });
 
             var user = _tweetinviTestClient.Factories.CreateUser(userTwitterResult.DataTransferObject);

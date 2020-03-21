@@ -7,7 +7,9 @@ namespace Tweetinvi.Client
 {
     public interface IExecuteClient
     {
-        Task<ITwitterResult<T>> Request<T>(Action<ITwitterRequest> configureRequest) where T : class;
-        Task<ITwitterResult> Request(Action<ITwitterRequest> configureRequest);
+        Task<ITwitterResult<T>> AdvanceRequest<T>(Action<ITwitterRequest> configureRequest) where T : class;
+        Task<ITwitterResult> AdvanceRequest(Action<ITwitterRequest> configureRequest);
+        Task<ITwitterResult<T>> Request<T>(Action<ITwitterQuery> configureQuery) where T : class;
+        Task<ITwitterResult> Request(Action<ITwitterQuery> configureQuery);
     }
 }

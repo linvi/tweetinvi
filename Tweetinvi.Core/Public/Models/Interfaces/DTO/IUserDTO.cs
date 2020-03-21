@@ -38,9 +38,9 @@ namespace Tweetinvi.Models.DTO
 
         bool? Notifications { get; set; }
 
-        string ProfileImageUrl { get; set; }
+        string ProfileImageUrlHttp { get; set; }
 
-        string ProfileImageUrlHttps { get; set; }
+        string ProfileImageUrl { get; set; }
 
         bool? FollowRequestSent { get; set; }
 

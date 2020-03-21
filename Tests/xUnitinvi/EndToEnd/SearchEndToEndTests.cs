@@ -104,6 +104,7 @@ namespace xUnitinvi.EndToEnd
             var savedSearch = await _tweetinviTestClient.Search.GetSavedSearch(createdSavedSearch.Id);
             var savedSearchesDuring = await _tweetinviTestClient.Search.ListSavedSearches();
             var deletedSavedSearch = await _tweetinviTestClient.Search.DestroySavedSearch(savedSearch);
+            await Task.Delay(1000);
             var savedSearchesAfter = await _tweetinviTestClient.Search.ListSavedSearches();
 
             // assert

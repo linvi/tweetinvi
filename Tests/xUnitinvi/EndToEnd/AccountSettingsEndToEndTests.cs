@@ -35,7 +35,7 @@ namespace xUnitinvi.EndToEnd
             var userAfterRemovingBanner = await _protectedClient.Users.GetUser(authenticatedUser);
 
             // assert
-            Assert.NotEqual(authenticatedUser.ProfileImageUrlHttps, userAfterAddingBanner.ProfileImageUrlHttps);
+            Assert.NotEqual(authenticatedUser.ProfileImageUrl, userAfterAddingBanner.ProfileImageUrl);
             Assert.NotEqual(authenticatedUser.ProfileBannerURL, userAfterAddingBanner.ProfileBannerURL);
             Assert.Null(userAfterRemovingBanner.ProfileBannerURL);
         }
