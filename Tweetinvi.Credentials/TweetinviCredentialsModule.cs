@@ -3,6 +3,7 @@ using Tweetinvi.Core.Injectinvi;
 using Tweetinvi.Core.RateLimit;
 using Tweetinvi.Core.Web;
 using Tweetinvi.Credentials.RateLimit;
+using Tweetinvi.Models;
 
 namespace Tweetinvi.Credentials
 {
@@ -24,6 +25,7 @@ namespace Tweetinvi.Credentials
             container.RegisterType<IRateLimitHelper, RateLimitHelper>(RegistrationLifetime.InstancePerApplication);
 
             container.RegisterType<IRateLimitUpdaterFactory, RateLimitUpdaterFactory>(RegistrationLifetime.InstancePerApplication);
+            container.RegisterType<ITwitterQueryFactory, TwitterQueryFactory>(RegistrationLifetime.InstancePerApplication);
         }
     }
 }

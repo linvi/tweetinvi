@@ -29,5 +29,52 @@ namespace Tweetinvi.Core.Client.Validators
                 throw new ArgumentNullException($"{nameof(parameters)}.{nameof(parameters.Query)}");
             }
         }
+
+        public void Validate(ICreateSavedSearchParameters parameters)
+        {
+            if (parameters == null)
+            {
+                throw new ArgumentNullException(nameof(parameters));
+            }
+
+            if (string.IsNullOrEmpty(parameters.Query))
+            {
+                throw new ArgumentException($"{nameof(parameters)}.{nameof(parameters.Query)}");
+            }
+        }
+
+        public void Validate(IGetSavedSearchParameters parameters)
+        {
+            if (parameters == null)
+            {
+                throw new ArgumentNullException(nameof(parameters));
+            }
+
+            if (parameters.SavedSearchId <= 0)
+            {
+                throw new ArgumentNullException($"{nameof(parameters)}.{nameof(parameters.SavedSearchId)}");
+            }
+        }
+
+        public void Validate(IListSavedSearchesParameters parameters)
+        {
+            if (parameters == null)
+            {
+                throw new ArgumentNullException(nameof(parameters));
+            }
+        }
+
+        public void Validate(IDestroySavedSearchParameters parameters)
+        {
+            if (parameters == null)
+            {
+                throw new ArgumentNullException(nameof(parameters));
+            }
+
+            if (parameters.SavedSearchId <= 0)
+            {
+                throw new ArgumentNullException($"{nameof(parameters)}.{nameof(parameters.SavedSearchId)}");
+            }
+        }
     }
 }

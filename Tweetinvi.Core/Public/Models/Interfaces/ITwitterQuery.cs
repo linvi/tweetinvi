@@ -11,11 +11,6 @@ namespace Tweetinvi.Models
         /// <summary>
         /// Create a twitter query.
         /// </summary>
-        ITwitterQuery Create(string queryURL, HttpMethod httpMethod = HttpMethod.GET, bool withThreadCredentials = false);
-
-        /// <summary>
-        /// Create a twitter query.
-        /// </summary>
         ITwitterQuery Create(string queryURL, HttpMethod httpMethod, ITwitterCredentials twitterCredentials);
     }
 

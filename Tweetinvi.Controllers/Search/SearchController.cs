@@ -1,4 +1,5 @@
-﻿using Tweetinvi.Core.DTO;
+﻿using System.Threading.Tasks;
+using Tweetinvi.Core.DTO;
 using Tweetinvi.Core.Iterators;
 using Tweetinvi.Core.Web;
 using Tweetinvi.Models;
@@ -11,6 +12,10 @@ namespace Tweetinvi.Controllers.Search
     {
         ITwitterPageIterator<ITwitterResult<ISearchResultsDTO>, long?> GetSearchTweetsIterator(ISearchTweetsParameters parameters, ITwitterRequest request);
         ITwitterPageIterator<ITwitterResult<UserDTO[]>, int?> GetSearchUsersIterator(ISearchUsersParameters parameters, ITwitterRequest request);
+        Task<ITwitterResult<SavedSearchDTO>> CreateSavedSearch(ICreateSavedSearchParameters parameters, ITwitterRequest request);
+        Task<ITwitterResult<SavedSearchDTO>> GetSavedSearch(IGetSavedSearchParameters parameters, ITwitterRequest request);
+        Task<ITwitterResult<SavedSearchDTO[]>> ListSavedSearches(IListSavedSearchesParameters parameters, ITwitterRequest request);
+        Task<ITwitterResult<SavedSearchDTO>> DestroySavedSearch(IDestroySavedSearchParameters parameters, ITwitterRequest request);
     }
 
     public class SearchController : ISearchController
@@ -71,6 +76,26 @@ namespace Tweetinvi.Controllers.Search
                     return ++pageNumber;
                 },
                 page => page.DataTransferObject.Length == 0);
+        }
+
+        public Task<ITwitterResult<SavedSearchDTO>> CreateSavedSearch(ICreateSavedSearchParameters parameters, ITwitterRequest request)
+        {
+            return _searchQueryExecutor.CreateSavedSearch(parameters, request);
+        }
+
+        public Task<ITwitterResult<SavedSearchDTO>> GetSavedSearch(IGetSavedSearchParameters parameters, ITwitterRequest request)
+        {
+            return _searchQueryExecutor.GetSavedSearch(parameters, request);
+        }
+
+        public Task<ITwitterResult<SavedSearchDTO[]>> ListSavedSearches(IListSavedSearchesParameters parameters, ITwitterRequest request)
+        {
+            return _searchQueryExecutor.ListSavedSearches(parameters, request);
+        }
+
+        public Task<ITwitterResult<SavedSearchDTO>> DestroySavedSearch(IDestroySavedSearchParameters parameters, ITwitterRequest request)
+        {
+            return _searchQueryExecutor.DestroySavedSearch(parameters, request);
         }
     }
 }

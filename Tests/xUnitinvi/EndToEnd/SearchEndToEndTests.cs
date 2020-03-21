@@ -92,5 +92,25 @@ namespace xUnitinvi.EndToEnd
             Assert.Contains(users.Select(x => x.Id), x => result1.Any(tweet => tweet.Id == x));
             Assert.Contains(users.Select(x => x.Id), x => result2.Any(tweet => tweet.Id == x));
         }
+
+        [Fact]
+        public async Task SavedSearch()
+        {
+            if (!EndToEndTestConfig.ShouldRunEndToEndTests)
+                return;
+
+            var savedSearchesBefore = await _tweetinviTestClient.Search.ListSavedSearches();
+            var createdSavedSearch = await _tweetinviTestClient.Search.CreateSavedSearch("tweetinvi");
+            var savedSearch = await _tweetinviTestClient.Search.GetSavedSearch(createdSavedSearch.Id);
+            var savedSearchesDuring = await _tweetinviTestClient.Search.ListSavedSearches();
+            var deletedSavedSearch = await _tweetinviTestClient.Search.DestroySavedSearch(savedSearch);
+            var savedSearchesAfter = await _tweetinviTestClient.Search.ListSavedSearches();
+
+            // assert
+            Assert.Equal(savedSearchesDuring.Length, savedSearchesBefore.Length + 1);
+            Assert.Equal(savedSearchesAfter.Length, savedSearchesBefore.Length);
+            Assert.Equal(createdSavedSearch.Query, savedSearch.Query);
+            Assert.Equal(createdSavedSearch.Query, deletedSavedSearch.Query);
+        }
     }
 }

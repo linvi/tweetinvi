@@ -303,6 +303,26 @@ namespace Tweetinvi.Core.Client.Validators
             _searchClientParametersValidator.Validate(parameters);
         }
 
+        public void Validate(ICreateSavedSearchParameters parameters)
+        {
+            _searchClientParametersValidator.Validate(parameters);
+        }
+
+        public void Validate(IGetSavedSearchParameters parameters)
+        {
+            _searchClientParametersValidator.Validate(parameters);
+        }
+
+        public void Validate(IListSavedSearchesParameters parameters)
+        {
+            _searchClientParametersValidator.Validate(parameters);
+        }
+
+        public void Validate(IDestroySavedSearchParameters parameters)
+        {
+            throw new System.NotImplementedException();
+        }
+
         public void Validate(IGetHomeTimelineParameters parameters)
         {
             _timelineClientParametersValidator.Validate(parameters);

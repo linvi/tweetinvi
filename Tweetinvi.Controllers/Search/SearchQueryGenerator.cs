@@ -14,6 +14,10 @@ namespace Tweetinvi.Controllers.Search
         string GetSearchTweetsQuery(ISearchTweetsParameters parameters);
 
         string GetSearchUsersQuery(ISearchUsersParameters parameters);
+        string GetCreateSavedSearchQuery(ICreateSavedSearchParameters parameters);
+        string GetSavedSearchQuery(IGetSavedSearchParameters parameters);
+        string GetListSavedSearchQuery(IListSavedSearchesParameters parameters);
+        string GetDestroySavedSearchQuery(IDestroySavedSearchParameters parameters);
     }
 
     public class SearchQueryGenerator : ISearchQueryGenerator
@@ -89,6 +93,43 @@ namespace Tweetinvi.Controllers.Search
             query.AddParameterToQuery("page", parameters.Page);
             query.AddParameterToQuery("count", parameters.PageSize);
             query.AddParameterToQuery("include_entities", parameters.IncludeEntities);
+
+            query.AddFormattedParameterToQuery(parameters.FormattedCustomQueryParameters);
+
+            return query.ToString();
+        }
+
+        public string GetCreateSavedSearchQuery(ICreateSavedSearchParameters parameters)
+        {
+            var query = new StringBuilder(Resources.SavedSearch_Create);
+
+            query.AddParameterToQuery("query", parameters.Query);
+            query.AddFormattedParameterToQuery(parameters.FormattedCustomQueryParameters);
+
+            return query.ToString();
+        }
+
+        public string GetSavedSearchQuery(IGetSavedSearchParameters parameters)
+        {
+            var query = new StringBuilder(string.Format(Resources.SavedSearch_Get, parameters.SavedSearchId));
+
+            query.AddFormattedParameterToQuery(parameters.FormattedCustomQueryParameters);
+
+            return query.ToString();
+        }
+
+        public string GetListSavedSearchQuery(IListSavedSearchesParameters parameters)
+        {
+            var query = new StringBuilder(Resources.SavedSearches_List);
+
+            query.AddFormattedParameterToQuery(parameters.FormattedCustomQueryParameters);
+
+            return query.ToString();
+        }
+
+        public string GetDestroySavedSearchQuery(IDestroySavedSearchParameters parameters)
+        {
+            var query = new StringBuilder(string.Format(Resources.SavedSearch_Destroy, parameters.SavedSearchId));
 
             query.AddFormattedParameterToQuery(parameters.FormattedCustomQueryParameters);
 

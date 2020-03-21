@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using Tweetinvi.Controllers.Search;
 using Tweetinvi.Core.Client.Validators;
 using Tweetinvi.Core.DTO;
@@ -39,6 +40,30 @@ namespace Tweetinvi.Client.Requesters
 
             var request = TwitterClient.CreateRequest();
             return _searchController.GetSearchUsersIterator(parameters, request);
+        }
+
+        public Task<ITwitterResult<SavedSearchDTO>> CreateSavedSearch(ICreateSavedSearchParameters parameters)
+        {
+            _validator.Validate(parameters);
+            return ExecuteRequest(request => _searchController.CreateSavedSearch(parameters, request));
+        }
+
+        public Task<ITwitterResult<SavedSearchDTO>> GetSavedSearch(IGetSavedSearchParameters parameters)
+        {
+            _validator.Validate(parameters);
+            return ExecuteRequest(request => _searchController.GetSavedSearch(parameters, request));
+        }
+
+        public Task<ITwitterResult<SavedSearchDTO[]>> ListSavedSearches(IListSavedSearchesParameters parameters)
+        {
+            _validator.Validate(parameters);
+            return ExecuteRequest(request => _searchController.ListSavedSearches(parameters, request));
+        }
+
+        public Task<ITwitterResult<SavedSearchDTO>> DestroySavedSearch(IDestroySavedSearchParameters parameters)
+        {
+            _validator.Validate(parameters);
+            return ExecuteRequest(request => _searchController.DestroySavedSearch(parameters, request));
         }
     }
 }

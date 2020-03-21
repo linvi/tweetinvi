@@ -108,5 +108,54 @@ namespace Tweetinvi.Client
             return new TwitterIteratorProxy<ITwitterResult<UserDTO[]>, IUser, int?>(pageIterator,
                 twitterResult => _client.Factories.CreateUsers(twitterResult?.DataTransferObject));
         }
+
+        public Task<ISavedSearch> CreateSavedSearch(string query)
+        {
+            return CreateSavedSearch(new CreateSavedSearchParameters(query));
+        }
+
+        public async Task<ISavedSearch> CreateSavedSearch(ICreateSavedSearchParameters parameters)
+        {
+            var twitterResult = await _client.Raw.Search.CreateSavedSearch(parameters).ConfigureAwait(false);
+            return _client.Factories.CreateSavedSearch(twitterResult?.DataTransferObject);
+        }
+
+        public Task<ISavedSearch> GetSavedSearch(long savedSearchId)
+        {
+            return GetSavedSearch(new GetSavedSearchParameters(savedSearchId));
+        }
+
+        public async Task<ISavedSearch> GetSavedSearch(IGetSavedSearchParameters parameters)
+        {
+            var twitterResult = await _client.Raw.Search.GetSavedSearch(parameters).ConfigureAwait(false);
+            return _client.Factories.CreateSavedSearch(twitterResult?.DataTransferObject);
+        }
+
+        public Task<ISavedSearch[]> ListSavedSearches()
+        {
+            return ListSavedSearches(new ListSavedSearchesParameters());
+        }
+
+        public async Task<ISavedSearch[]> ListSavedSearches(IListSavedSearchesParameters parameters)
+        {
+            var twitterResult = await _client.Raw.Search.ListSavedSearches(parameters).ConfigureAwait(false);
+            return twitterResult?.DataTransferObject?.Select(_client.Factories.CreateSavedSearch).ToArray();
+        }
+
+        public Task<ISavedSearch> DestroySavedSearch(long savedSearchId)
+        {
+            return DestroySavedSearch(new DestroySavedSearchParameters(savedSearchId));
+        }
+
+        public Task<ISavedSearch> DestroySavedSearch(ISavedSearch savedSearch)
+        {
+            return DestroySavedSearch(new DestroySavedSearchParameters(savedSearch));
+        }
+
+        public async Task<ISavedSearch> DestroySavedSearch(IDestroySavedSearchParameters parameters)
+        {
+            var twitterResult = await _client.Raw.Search.DestroySavedSearch(parameters).ConfigureAwait(false);
+            return _client.Factories.CreateSavedSearch(twitterResult?.DataTransferObject);
+        }
     }
 }

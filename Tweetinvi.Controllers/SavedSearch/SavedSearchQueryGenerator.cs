@@ -16,7 +16,7 @@ namespace Tweetinvi.Controllers.SavedSearch
     {
         public string GetSavedSearchesQuery()
         {
-            return Resources.SavedSearches_GetList;
+            return Resources.SavedSearches_List;
         }
 
         public string GetDestroySavedSearchQuery(ISavedSearch savedSearch)

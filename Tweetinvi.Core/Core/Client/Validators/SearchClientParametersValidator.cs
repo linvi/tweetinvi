@@ -10,6 +10,10 @@ namespace Tweetinvi.Core.Client.Validators
     {
         void Validate(ISearchTweetsParameters parameters);
         void Validate(ISearchUsersParameters parameters);
+        void Validate(ICreateSavedSearchParameters parameters);
+        void Validate(IGetSavedSearchParameters parameters);
+        void Validate(IListSavedSearchesParameters parameters);
+        void Validate(IDestroySavedSearchParameters parameters);
     }
 
     public class SearchClientParametersValidator : ISearchClientParametersValidator
@@ -56,6 +60,26 @@ namespace Tweetinvi.Core.Client.Validators
             {
                 throw new TwitterArgumentLimitException($"{nameof(parameters)}.{nameof(parameters.PageSize)}", maxPageSize, nameof(_client.ClientSettings.Limits.SEARCH_USERS_MAX_PAGE_SIZE), "page size");
             }
+        }
+
+        public void Validate(ICreateSavedSearchParameters parameters)
+        {
+            _searchClientRequiredParametersValidator.Validate(parameters);
+        }
+
+        public void Validate(IGetSavedSearchParameters parameters)
+        {
+            _searchClientRequiredParametersValidator.Validate(parameters);
+        }
+
+        public void Validate(IListSavedSearchesParameters parameters)
+        {
+            _searchClientRequiredParametersValidator.Validate(parameters);
+        }
+
+        public void Validate(IDestroySavedSearchParameters parameters)
+        {
+            _searchClientRequiredParametersValidator.Validate(parameters);
         }
 
         private bool IsSearchQueryValid(string searchQuery)

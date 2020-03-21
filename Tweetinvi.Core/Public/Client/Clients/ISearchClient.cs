@@ -73,5 +73,47 @@ namespace Tweetinvi.Client
         /// <returns>Iterator over the search results</returns>
         ITwitterIterator<IUser, int?> GetSearchUsersIterator(ISearchUsersParameters parameters);
 
+        /// <inheritdoc cref="CreateSavedSearch(ICreateSavedSearchParameters)"/>
+        Task<ISavedSearch> CreateSavedSearch(string query);
+
+        /// <summary>
+        /// Create a saved search
+        /// </summary>
+        /// <para> Read more : https://developer.twitter.com/en/docs/accounts-and-users/manage-account-settings/api-reference/post-saved_searches-create </para>
+        /// <returns>Created saved search</returns>
+        Task<ISavedSearch> CreateSavedSearch(ICreateSavedSearchParameters parameters);
+
+        /// <inheritdoc cref="GetSavedSearch(IGetSavedSearchParameters)"/>
+        Task<ISavedSearch> GetSavedSearch(long savedSearchId);
+
+        /// <summary>
+        /// Get an existing saved search
+        /// </summary>
+        /// <para> Read more : https://developer.twitter.com/en/docs/accounts-and-users/manage-account-settings/api-reference/get-saved_searches-show-id </para>
+        /// <returns>Requested saved search</returns>
+        Task<ISavedSearch> GetSavedSearch(IGetSavedSearchParameters parameters);
+
+        /// <inheritdoc cref="ListSavedSearches(Tweetinvi.Parameters.IListSavedSearchesParameters)"/>
+        Task<ISavedSearch[]> ListSavedSearches();
+
+        /// <summary>
+        /// List account's saved searches
+        /// </summary>
+        /// <para> Read more : https://developer.twitter.com/en/docs/accounts-and-users/manage-account-settings/api-reference/get-saved_searches-list </para>
+        /// <returns>Account's saved searches</returns>
+        Task<ISavedSearch[]> ListSavedSearches(IListSavedSearchesParameters parameters);
+
+        /// <inheritdoc cref="DestroySavedSearch(IDestroySavedSearchParameters)"/>
+        Task<ISavedSearch> DestroySavedSearch(long savedSearchId);
+
+        /// <inheritdoc cref="DestroySavedSearch(IDestroySavedSearchParameters)"/>
+        Task<ISavedSearch> DestroySavedSearch(ISavedSearch savedSearch);
+
+        /// <summary>
+        /// Destroys a saved search
+        /// </summary>
+        /// <para> Read more : https://developer.twitter.com/en/docs/accounts-and-users/manage-account-settings/api-reference/post-saved_searches-destroy-id </para>
+        /// <returns>Deleted search</returns>
+        Task<ISavedSearch> DestroySavedSearch(IDestroySavedSearchParameters parameters);
     }
 }

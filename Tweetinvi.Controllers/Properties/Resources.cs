@@ -313,6 +313,16 @@ namespace Tweetinvi.Controllers.Properties
         /// </summary>
         public static string QueryParameter_Cursor = "&cursor={0}";
 
+         /// <summary>
+        ///   Looks up a localized string similar to https://api.twitter.com/1.1/saved_searches/create.json?.
+        /// </summary>
+        public static string SavedSearch_Create = "https://api.twitter.com/1.1/saved_searches/create.json?";
+
+        /// <summary>
+        ///   Looks up a localized string similar to https://api.twitter.com/1.1/saved_searches/show/{0}.json.
+        /// </summary>
+        public static string SavedSearch_Get = "https://api.twitter.com/1.1/saved_searches/show/{0}.json";
+
         /// <summary>
         ///   Looks up a localized string similar to https://api.twitter.com/1.1/saved_searches/destroy/{0}.json.
         /// </summary>
@@ -321,7 +331,7 @@ namespace Tweetinvi.Controllers.Properties
         /// <summary>
         ///   Looks up a localized string similar to https://api.twitter.com/1.1/saved_searches/list.json.
         /// </summary>
-        public static string SavedSearches_GetList = "https://api.twitter.com/1.1/saved_searches/list.json";
+        public static string SavedSearches_List = "https://api.twitter.com/1.1/saved_searches/list.json";
 
         /// <summary>
         ///   Looks up a localized string similar to https://api.twitter.com/1.1/search/tweets.json.

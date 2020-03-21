@@ -8,7 +8,6 @@ using Tweetinvi.Core.Injectinvi;
 using Tweetinvi.Core.JsonConverters;
 using Tweetinvi.Credentials;
 using Tweetinvi.Events;
-using Tweetinvi.Factories;
 using Tweetinvi.Logic;
 using Tweetinvi.Streams;
 using Tweetinvi.WebLogic;
@@ -106,7 +105,6 @@ namespace Tweetinvi.Injectinvi
             _moduleCatalog.Add(new TweetinviControllersModule());
             _moduleCatalog.Add(new TweetinviCoreModule(this));
             _moduleCatalog.Add(new TweetinviCredentialsModule());
-            _moduleCatalog.Add(new TweetinviFactoriesModule());
             _moduleCatalog.Add(new TweetinviLogicModule());
             _moduleCatalog.Add(new TweetinviWebLogicModule());
 
