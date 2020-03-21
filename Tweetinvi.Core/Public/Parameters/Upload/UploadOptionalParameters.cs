@@ -47,7 +47,7 @@ namespace Tweetinvi.Parameters
 
         /// <summary>
         /// When an upload completes Twitter takes few seconds to process the media
-        /// and confirm that it is a media that can be used on the platform. 
+        /// and confirm that it is a media that can be used on the platform.
         /// With WaitForTwitterProcessing enabled, Tweetinvi will wait for Twitter
         /// to confirm that the media has been successfully processed.
         /// </summary>
@@ -80,7 +80,7 @@ namespace Tweetinvi.Parameters
         public UploadOptionalParameters()
         {
             QueryMediaType = "media";
-            MaxChunkSize = TweetinviConsts.UPLOAD_MAX_CHUNK_SIZE;
+            MaxChunkSize = TwitterLimits.DEFAULTS.UPLOAD_MAX_CHUNK_SIZE;
             AdditionalOwnerIds = new List<long>();
             WaitForTwitterProcessing = true;
 

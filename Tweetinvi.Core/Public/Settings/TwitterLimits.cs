@@ -223,6 +223,21 @@ namespace Tweetinvi
         public short TWEETS_GET_TWEETS_REQUEST_MAX_SIZE { get; set; } = 100;
 
         /// <summary>
+        /// Max size of an image
+        /// </summary>
+        public int UPLOAD_MAX_IMAGE_SIZE = 5 * 1024 * 1024;
+
+        /// <summary>
+        /// Max size of a video
+        /// </summary>
+        public int UPLOAD_MAX_VIDEO_SIZE = 15 * 1024 * 1024;
+
+        /// <summary>
+        /// Max size of an upload chunk
+        /// </summary>
+        public int UPLOAD_MAX_CHUNK_SIZE = 4 * 1024 * 1024;
+
+        /// <summary>
         /// Maximum number of users that can be retrieved in 1 request
         /// <para>https://dev.twitter.com/en/docs/accounts-and-users/follow-search-get-users/api-reference/get-users-lookup</para>
         /// </summary>
@@ -288,6 +303,10 @@ namespace Tweetinvi
             TWEETS_GET_RETWEETS_MAX_SIZE = source.TWEETS_GET_RETWEETS_MAX_SIZE;
             TWEETS_GET_RETWEETER_IDS_MAX_PAGE_SIZE = source.TWEETS_GET_RETWEETER_IDS_MAX_PAGE_SIZE;
             TWEETS_GET_TWEETS_REQUEST_MAX_SIZE = source.TWEETS_GET_TWEETS_REQUEST_MAX_SIZE;
+
+            UPLOAD_MAX_CHUNK_SIZE = source.UPLOAD_MAX_CHUNK_SIZE;
+            UPLOAD_MAX_IMAGE_SIZE = source.UPLOAD_MAX_IMAGE_SIZE;
+            UPLOAD_MAX_VIDEO_SIZE = source.UPLOAD_MAX_VIDEO_SIZE;
 
             USERS_GET_USERS_MAX_SIZE = source.USERS_GET_USERS_MAX_SIZE;
             USERS_GET_FOLLOWER_IDS_PAGE_MAX_SIZE = source.USERS_GET_FOLLOWER_IDS_PAGE_MAX_SIZE;
