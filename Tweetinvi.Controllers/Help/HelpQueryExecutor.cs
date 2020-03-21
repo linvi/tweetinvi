@@ -14,6 +14,9 @@ namespace Tweetinvi.Controllers.Help
         Task<ITwitterResult<CredentialsRateLimitsDTO>> GetRateLimits(IGetRateLimitsParameters parameters, ITwitterRequest request);
         Task<ITwitterResult<ITwitterConfiguration>> GetTwitterConfiguration(IGetTwitterConfigurationParameters parameters, ITwitterRequest request);
         Task<ITwitterResult<SupportedLanguage[]>> GetSupportedLanguages(IGetSupportedLanguagesParameters parameters, ITwitterRequest request);
+        Task<ITwitterResult<IPlace>> GetPlace(IGetPlaceParameters parameters, ITwitterRequest request);
+        Task<ITwitterResult<SearchGeoSearchResultDTO>> SearchGeo(IGeoSearchParameters parameters, ITwitterRequest request);
+        Task<ITwitterResult<SearchGeoSearchResultDTO>> SearchGeoReverse(IGeoSearchReverseParameters parameters, ITwitterRequest request);
     }
 
     public class HelpQueryExecutor : IHelpQueryExecutor
@@ -46,6 +49,27 @@ namespace Tweetinvi.Controllers.Help
             request.Query.Url = _helpQueryGenerator.GetSupportedLanguagesQuery(parameters);
             request.Query.HttpMethod = HttpMethod.GET;
             return _twitterAccessor.ExecuteRequest<SupportedLanguage[]>(request);
+        }
+
+        public Task<ITwitterResult<IPlace>> GetPlace(IGetPlaceParameters parameters, ITwitterRequest request)
+        {
+            request.Query.Url = _helpQueryGenerator.GetPlaceQuery(parameters);
+            request.Query.HttpMethod = HttpMethod.GET;
+            return _twitterAccessor.ExecuteRequest<IPlace>(request);
+        }
+
+        public Task<ITwitterResult<SearchGeoSearchResultDTO>> SearchGeo(IGeoSearchParameters parameters, ITwitterRequest request)
+        {
+            request.Query.Url = _helpQueryGenerator.GetSearchGeoQuery(parameters);
+            request.Query.HttpMethod = HttpMethod.GET;
+            return _twitterAccessor.ExecuteRequest<SearchGeoSearchResultDTO>(request);
+        }
+
+        public Task<ITwitterResult<SearchGeoSearchResultDTO>> SearchGeoReverse(IGeoSearchReverseParameters parameters, ITwitterRequest request)
+        {
+            request.Query.Url = _helpQueryGenerator.GetSearchGeoReverseQuery(parameters);
+            request.Query.HttpMethod = HttpMethod.GET;
+            return _twitterAccessor.ExecuteRequest<SearchGeoSearchResultDTO>(request);
         }
     }
 }

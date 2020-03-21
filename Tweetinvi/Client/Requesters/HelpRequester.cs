@@ -53,5 +53,23 @@ namespace Tweetinvi.Client.Requesters
             _validator.Validate(parameters);
             return ExecuteRequest(request => _helpController.GetSupportedLanguages(parameters, request));
         }
+
+        public Task<ITwitterResult<IPlace>> GetPlace(IGetPlaceParameters parameters)
+        {
+            _validator.Validate(parameters);
+            return ExecuteRequest(request => _helpController.GetPlace(parameters, request));
+        }
+
+        public Task<ITwitterResult<SearchGeoSearchResultDTO>> SearchGeo(IGeoSearchParameters parameters)
+        {
+            _validator.Validate(parameters);
+            return ExecuteRequest(request => _helpController.SearchGeo(parameters, request));
+        }
+
+        public Task<ITwitterResult<SearchGeoSearchResultDTO>> SearchGeoReverse(IGeoSearchReverseParameters parameters)
+        {
+            _validator.Validate(parameters);
+            return ExecuteRequest(request => _helpController.SearchGeoReverse(parameters, request));
+        }
     }
 }

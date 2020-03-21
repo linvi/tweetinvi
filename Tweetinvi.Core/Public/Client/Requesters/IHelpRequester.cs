@@ -25,5 +25,9 @@ namespace Tweetinvi.Client.Requesters
         Task<ITwitterResult<ITwitterConfiguration>> GetTwitterConfiguration(IGetTwitterConfigurationParameters parameters);
 
         Task<ITwitterResult<SupportedLanguage[]>> GetSupportedLanguages(IGetSupportedLanguagesParameters parameters);
+
+        Task<ITwitterResult<IPlace>> GetPlace(IGetPlaceParameters parameters);
+        Task<ITwitterResult<SearchGeoSearchResultDTO>> SearchGeo(IGeoSearchParameters parameters);
+        Task<ITwitterResult<SearchGeoSearchResultDTO>> SearchGeoReverse(IGeoSearchReverseParameters parameters);
     }
 }

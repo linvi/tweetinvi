@@ -3,7 +3,7 @@
 namespace Tweetinvi.Parameters
 {
     /// <summary>
-    /// https://dev.twitter.com/rest/reference/get/geo/reverse_geocode
+    /// For more information read : https://developer.twitter.com/en/docs/geo/places-near-location/api-reference/get-geo-reverse_geocode
     /// </summary>
     public interface IGeoSearchReverseParameters : ICustomRequestParameters
     {
@@ -18,7 +18,7 @@ namespace Tweetinvi.Parameters
         Granularity Granularity { get; set; }
 
         /// <summary>
-        /// A hint on the “region” in which to search. If a number, then this is a radius in meters, 
+        /// A hint on the “region” in which to search. If a number, then this is a radius in meters,
         /// but it can also take a string that is suffixed with ft to specify feet.
         /// </summary>
         int? Accuracy { get; set; }
@@ -39,6 +39,11 @@ namespace Tweetinvi.Parameters
     /// </summary>
     public class GeoSearchReverseParameters : CustomRequestParameters, IGeoSearchReverseParameters
     {
+        public GeoSearchReverseParameters(ICoordinates coordinates)
+        {
+            Coordinates = coordinates;
+        }
+
         public ICoordinates Coordinates { get; set; }
         public Granularity Granularity { get; set; }
         public int? Accuracy { get; set; }

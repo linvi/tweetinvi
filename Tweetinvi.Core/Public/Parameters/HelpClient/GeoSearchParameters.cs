@@ -21,7 +21,7 @@ namespace Tweetinvi.Parameters
     }
 
     /// <summary>
-    /// https://dev.twitter.com/rest/reference/get/geo/search
+    /// For more information read : https://developer.twitter.com/en/docs/geo/places-near-location/api-reference/get-geo-search
     /// </summary>
     public interface IGeoSearchParameters : ICustomRequestParameters
     {
@@ -46,18 +46,18 @@ namespace Tweetinvi.Parameters
         Granularity Granularity { get; set; }
 
         /// <summary>
-        /// A hint on the “region” in which to search. If a number, then this is a radius in meters, 
+        /// A hint on the “region” in which to search. If a number, then this is a radius in meters,
         /// but it can also take a string that is suffixed with ft to specify feet.
         /// </summary>
         int? Accuracy { get; set; }
-        
+
         /// <summary>
         /// Maximum number of places to return.
         /// </summary>
         int? MaximumNumberOfResults { get; set; }
 
         /// <summary>
-        /// This is the place_id which you would like to restrict the search results to. 
+        /// This is the place_id which you would like to restrict the search results to.
         /// Setting this value means only places within the given place_id will be found.
         /// </summary>
         string ContainedWithin { get; set; }

@@ -1,6 +1,5 @@
 ﻿using Tweetinvi.Controllers.AccountSettings;
 using Tweetinvi.Controllers.Auth;
-using Tweetinvi.Controllers.Geo;
 using Tweetinvi.Controllers.Help;
 using Tweetinvi.Controllers.Messages;
 using Tweetinvi.Controllers.SavedSearch;
@@ -36,7 +35,6 @@ namespace Tweetinvi.Controllers
             container.RegisterType<IAuthController, AuthController>();
             container.RegisterType<IAccountSettingsController, AccountSettingsController>(RegistrationLifetime.InstancePerApplication);
 
-            container.RegisterType<IGeoController, GeoController>(RegistrationLifetime.InstancePerApplication);
             container.RegisterType<IHelpController, HelpController>(RegistrationLifetime.InstancePerApplication);
             container.RegisterType<IMessageController, MessageController>(RegistrationLifetime.InstancePerApplication);
             container.RegisterType<ISavedSearchController, SavedSearchController>(RegistrationLifetime.InstancePerApplication);
@@ -57,7 +55,6 @@ namespace Tweetinvi.Controllers
             container.RegisterType<IAccountSettingsQueryExecutor, AccountSettingsQueryExecutor>();
             container.RegisterType<IAuthQueryExecutor, AuthQueryExecutor>();
 
-            container.RegisterType<IGeoQueryExecutor, GeoQueryExecutor>();
             container.RegisterType<IHelpQueryExecutor, HelpQueryExecutor>();
             container.RegisterType<IMessageQueryExecutor, MessageQueryExecutor>();
             container.RegisterType<ISavedSearchQueryExecutor, SavedSearchQueryExecutor>();
@@ -77,7 +74,6 @@ namespace Tweetinvi.Controllers
             container.RegisterType<IAccountSettingsQueryGenerator, AccountSettingsQueryGenerator>(RegistrationLifetime.InstancePerApplication);
             container.RegisterType<IAuthQueryGenerator, AuthQueryGenerator>(RegistrationLifetime.InstancePerApplication);
 
-            container.RegisterType<IGeoQueryGenerator, GeoQueryGenerator>(RegistrationLifetime.InstancePerApplication);
             container.RegisterType<IHelpQueryGenerator, HelpQueryGenerator>(RegistrationLifetime.InstancePerApplication);
             container.RegisterType<IMessageQueryGenerator, MessageQueryGenerator>(RegistrationLifetime.InstancePerApplication);
             container.RegisterType<ISavedSearchQueryGenerator, SavedSearchQueryGenerator>(RegistrationLifetime.InstancePerApplication);

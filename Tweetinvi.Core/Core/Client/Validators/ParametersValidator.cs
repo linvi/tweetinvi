@@ -178,6 +178,21 @@ namespace Tweetinvi.Core.Client.Validators
             _helpClientParametersValidator.Validate(parameters);
         }
 
+        public void Validate(IGetPlaceParameters parameters)
+        {
+            _helpClientParametersValidator.Validate(parameters);
+        }
+
+        public void Validate(IGeoSearchParameters parameters)
+        {
+            _helpClientParametersValidator.Validate(parameters);
+        }
+
+        public void Validate(IGeoSearchReverseParameters parameters)
+        {
+            _helpClientParametersValidator.Validate(parameters);
+        }
+
         public void Validate(IPublishMessageParameters parameters)
         {
             _messagesClientParametersValidator.Validate(parameters);

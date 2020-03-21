@@ -278,5 +278,19 @@ namespace xUnitinvi.EndToEnd
                 Assert.Equal(language.Status, deserializedLanguage.Status);
             });
         }
+
+        [Fact]
+        public async Task Place()
+        {
+            if (!EndToEndTestConfig.ShouldRunEndToEndTests)
+                return;
+
+            var place = await _tweetinviTestClient.Help.GetPlace("df51dec6f4ee2b2c");
+
+            TestSerializer<IPlace, IPlace>(place, deserializedLanguage =>
+            {
+                Assert.Equal(place.PlaceType, place.PlaceType);
+            });
+        }
     }
 }

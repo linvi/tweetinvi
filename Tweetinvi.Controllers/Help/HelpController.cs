@@ -32,5 +32,20 @@ namespace Tweetinvi.Controllers.Help
         {
             return _helpQueryExecutor.GetSupportedLanguages(parameters, request);
         }
+
+        public Task<ITwitterResult<IPlace>> GetPlace(IGetPlaceParameters parameters, ITwitterRequest request)
+        {
+            return _helpQueryExecutor.GetPlace(parameters, request);
+        }
+
+        public Task<ITwitterResult<SearchGeoSearchResultDTO>> SearchGeo(IGeoSearchParameters parameters, ITwitterRequest request)
+        {
+            return _helpQueryExecutor.SearchGeo(parameters, request);
+        }
+
+        public Task<ITwitterResult<SearchGeoSearchResultDTO>> SearchGeoReverse(IGeoSearchReverseParameters parameters, ITwitterRequest request)
+        {
+            return _helpQueryExecutor.SearchGeoReverse(parameters, request);
+        }
     }
 }

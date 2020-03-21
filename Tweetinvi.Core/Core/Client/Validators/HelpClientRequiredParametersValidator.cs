@@ -32,5 +32,39 @@ namespace Tweetinvi.Core.Client.Validators
                 throw new ArgumentNullException(nameof(parameters));
             }
         }
+
+        public void Validate(IGetPlaceParameters parameters)
+        {
+            if (parameters == null)
+            {
+                throw new ArgumentNullException(nameof(parameters));
+            }
+
+            if (string.IsNullOrEmpty(parameters.PlaceId))
+            {
+                throw new ArgumentException($"{nameof(parameters)}.{nameof(parameters.PlaceId)}");
+            }
+        }
+
+        public void Validate(IGeoSearchParameters parameters)
+        {
+            if (parameters == null)
+            {
+                throw new ArgumentNullException(nameof(parameters));
+            }
+        }
+
+        public void Validate(IGeoSearchReverseParameters parameters)
+        {
+            if (parameters == null)
+            {
+                throw new ArgumentNullException(nameof(parameters));
+            }
+
+            if (parameters.Coordinates == null)
+            {
+                throw new ArgumentNullException($"{nameof(parameters)}.{nameof(parameters.Coordinates)}");
+            }
+        }
     }
 }
