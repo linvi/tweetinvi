@@ -186,6 +186,21 @@ namespace xUnitinvi.EndToEnd
         }
 
         [Fact]
+        public async Task SavedSearch()
+        {
+            if (!EndToEndTestConfig.ShouldRunEndToEndTests)
+                return;
+
+            var savedSearch = await _tweetinviTestClient.Search.CreateSavedSearch("sandwiches");
+            await _tweetinviTestClient.Search.DestroySavedSearch(savedSearch);
+
+            TestSerializer<ISavedSearch, ISavedSearch>(savedSearch, deserializedSavedSearch =>
+            {
+                Assert.Equal(savedSearch.Query, deserializedSavedSearch.Query);
+            });
+        }
+
+        [Fact]
         public void Credentials()
         {
             if (!EndToEndTestConfig.ShouldRunEndToEndTests)
