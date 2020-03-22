@@ -3,7 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
-#if NETCOREAPP2_0
+#if NETCOREAPP2_1
 using Microsoft.AspNetCore.Http.Internal;
 #endif
 using Tweetinvi.Models;
@@ -35,7 +35,7 @@ namespace Tweetinvi.AspNet
                 return _body;
             }
 
-#if NETCOREAPP2_0
+#if NETCOREAPP2_1
             _context.Request.EnableRewind();
             _body = new StreamReader(_context.Request.Body).ReadToEnd();
 #else
