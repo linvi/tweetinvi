@@ -6,7 +6,7 @@ using Tweetinvi;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO.Webhooks;
 
-namespace Examplinvi.AccountActivity.ASP.NETCore.Controllers
+namespace Examplinvi.AccountActivity.ASP.NETCore._3._0.Controllers
 {
     [Route("tweetinvi/")]
     public class TweetinviWebhookController : Controller
@@ -33,7 +33,6 @@ namespace Examplinvi.AccountActivity.ASP.NETCore.Controllers
             await AccountActivityCredentialsRetriever.SetUserCredentials(user.Id, credentials);
             return $"User {user.Id} registered!";
         }
-
 
         [HttpPost("TriggerAccountActivityWebhookCRC")]
         public async Task<bool> TriggerAccountActivityWebhookCRC(string environment, string webhookId)
