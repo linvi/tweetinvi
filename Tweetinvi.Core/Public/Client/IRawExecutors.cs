@@ -7,10 +7,10 @@ namespace Tweetinvi.Client
         IAccountActivityRequester AccountActivity { get; }
         IAccountSettingsRequester AccountSettings { get; }
         IAuthRequester Auth { get; }
-        IExecuteRequester Execute { get; }
         IHelpRequester Help { get; }
         ISearchRequester Search { get; }
         ITimelinesRequester Timelines { get; }
+        ITrendsRequester Trends { get; }
         ITweetsRequester Tweets { get; }
         ITwitterListsRequester Lists { get; }
         IUploadRequester Upload { get; }

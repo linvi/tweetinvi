@@ -1,6 +1,8 @@
 ﻿using System.Threading.Tasks;
 using Tweetinvi.Core.Controllers;
+using Tweetinvi.Core.Web;
 using Tweetinvi.Models;
+using Tweetinvi.Parameters.TrendsClient;
 
 namespace Tweetinvi.Controllers.Trends
 {
@@ -13,29 +15,20 @@ namespace Tweetinvi.Controllers.Trends
             _trendsQueryExecutor = trendsQueryExecutor;
         }
 
-        public Task<IPlaceTrends> GetPlaceTrendsAt(long woeid)
+
+        public Task<ITwitterResult<IGetTrendsAtResult[]>> GetPlaceTrendsAt(IGetTrendsAtParameters parameters, ITwitterRequest request)
         {
-            return _trendsQueryExecutor.GetPlaceTrendsAt(woeid);
+            return _trendsQueryExecutor.GetPlaceTrendsAt(parameters, request);
         }
 
-        public Task<IPlaceTrends> GetPlaceTrendsAt(IWoeIdLocation woeIdLocation)
+        public Task<ITwitterResult<ITrendLocation[]>> GetTrendLocations(IGetTrendsLocationParameters parameters, ITwitterRequest request)
         {
-            return _trendsQueryExecutor.GetPlaceTrendsAt(woeIdLocation);
+            return _trendsQueryExecutor.GetTrendLocations(parameters, request);
         }
 
-        public Task<ITrendLocation[]> GetAvailableTrendLocations()
+        public Task<ITwitterResult<ITrendLocation[]>> GetTrendsLocationCloseTo(IGetTrendsLocationCloseToParameters parameters, ITwitterRequest request)
         {
-            return _trendsQueryExecutor.GetAvailableTrendLocations();
-        }
-
-        public Task<ITrendLocation[]> GetClosestTrendLocations(double latitude, double longitude)
-        {
-            return GetClosestTrendLocations(new Coordinates(latitude, longitude));
-        }
-
-        public Task<ITrendLocation[]> GetClosestTrendLocations(ICoordinates coordinates)
-        {
-            return _trendsQueryExecutor.GetClosestTrendLocations(coordinates);
+            return _trendsQueryExecutor.GetTrendsLocationCloseTo(parameters, request);
         }
     }
 }

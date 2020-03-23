@@ -1,5 +1,6 @@
 using Tweetinvi.Models;
 using Tweetinvi.Parameters;
+using Tweetinvi.Parameters.TrendsClient;
 
 namespace Tweetinvi.Core.Client.Validators
 {
@@ -12,6 +13,7 @@ namespace Tweetinvi.Core.Client.Validators
         ISearchClientParametersValidator,
         ITwitterListsClientParametersValidator,
         ITimelineClientParametersValidator,
+        ITrendsClientParametersValidator,
         ITweetsClientParametersValidator,
         IUploadClientParametersValidator,
         IUsersClientParametersValidator
@@ -27,6 +29,7 @@ namespace Tweetinvi.Core.Client.Validators
         private readonly IMessagesClientParametersValidator _messagesClientParametersValidator;
         private readonly ISearchClientParametersValidator _searchClientParametersValidator;
         private readonly ITwitterListsClientParametersValidator _twitterListsClientParametersValidator;
+        private readonly ITrendsClientParametersValidator _trendsClientParametersValidator;
         private readonly ITimelineClientParametersValidator _timelineClientParametersValidator;
         private readonly ITweetsClientParametersValidator _tweetsClientParametersValidator;
         private readonly IUploadClientParametersValidator _uploadClientParametersValidator;
@@ -40,6 +43,7 @@ namespace Tweetinvi.Core.Client.Validators
             IMessagesClientParametersValidator messagesClientParametersValidator,
             ISearchClientParametersValidator searchClientParametersValidator,
             ITwitterListsClientParametersValidator twitterListsClientParametersValidator,
+            ITrendsClientParametersValidator trendsClientParametersValidator,
             ITimelineClientParametersValidator timelineClientParametersValidator,
             ITweetsClientParametersValidator tweetsClientParametersValidator,
             IUploadClientParametersValidator uploadClientParametersValidator,
@@ -52,6 +56,7 @@ namespace Tweetinvi.Core.Client.Validators
             _messagesClientParametersValidator = messagesClientParametersValidator;
             _searchClientParametersValidator = searchClientParametersValidator;
             _twitterListsClientParametersValidator = twitterListsClientParametersValidator;
+            _trendsClientParametersValidator = trendsClientParametersValidator;
             _timelineClientParametersValidator = timelineClientParametersValidator;
             _tweetsClientParametersValidator = tweetsClientParametersValidator;
             _uploadClientParametersValidator = uploadClientParametersValidator;
@@ -335,7 +340,7 @@ namespace Tweetinvi.Core.Client.Validators
 
         public void Validate(IDestroySavedSearchParameters parameters)
         {
-            throw new System.NotImplementedException();
+            _searchClientParametersValidator.Validate(parameters);
         }
 
         public void Validate(IGetHomeTimelineParameters parameters)
@@ -356,6 +361,21 @@ namespace Tweetinvi.Core.Client.Validators
         public void Validate(IGetRetweetsOfMeTimelineParameters parameters)
         {
             _timelineClientParametersValidator.Validate(parameters);
+        }
+
+        public void Validate(IGetTrendsLocationCloseToParameters parameters)
+        {
+            _trendsClientParametersValidator.Validate(parameters);
+        }
+
+        public void Validate(IGetTrendsAtParameters parameters)
+        {
+            _trendsClientParametersValidator.Validate(parameters);
+        }
+
+        public void Validate(IGetTrendsLocationParameters parameters)
+        {
+            _trendsClientParametersValidator.Validate(parameters);
         }
 
         public void Validate(IGetTweetParameters parameters)

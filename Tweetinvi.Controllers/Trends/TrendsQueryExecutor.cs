@@ -1,15 +1,15 @@
 ﻿using System.Threading.Tasks;
 using Tweetinvi.Core.Web;
 using Tweetinvi.Models;
+using Tweetinvi.Parameters.TrendsClient;
 
 namespace Tweetinvi.Controllers.Trends
 {
     public interface ITrendsQueryExecutor
     {
-        Task<IPlaceTrends> GetPlaceTrendsAt(long woeid);
-        Task<IPlaceTrends> GetPlaceTrendsAt(IWoeIdLocation woeIdLocation);
-        Task<ITrendLocation[]> GetAvailableTrendLocations();
-        Task<ITrendLocation[]> GetClosestTrendLocations(ICoordinates coordinates);
+        Task<ITwitterResult<IGetTrendsAtResult[]>> GetPlaceTrendsAt(IGetTrendsAtParameters parameters, ITwitterRequest request);
+        Task<ITwitterResult<ITrendLocation[]>> GetTrendLocations(IGetTrendsLocationParameters parameters, ITwitterRequest request);
+        Task<ITwitterResult<ITrendLocation[]>> GetTrendsLocationCloseTo(IGetTrendsLocationCloseToParameters parameters, ITwitterRequest request);
     }
 
     public class TrendsQueryExecutor : ITrendsQueryExecutor
@@ -25,32 +25,25 @@ namespace Tweetinvi.Controllers.Trends
             _twitterAccessor = twitterAccessor;
         }
 
-        public async Task<IPlaceTrends> GetPlaceTrendsAt(long woeid)
+        public Task<ITwitterResult<IGetTrendsAtResult[]>> GetPlaceTrendsAt(IGetTrendsAtParameters parameters, ITwitterRequest request)
         {
-            string query = _trendsQueryGenerator.GetPlaceTrendsAtQuery(woeid);
-            var placeTrends = await _twitterAccessor.ExecuteGETQuery<IPlaceTrends[]>(query);
-
-            return placeTrends?[0];
+            request.Query.Url = _trendsQueryGenerator.GetTrendsAtQuery(parameters);
+            request.Query.HttpMethod = HttpMethod.GET;
+            return _twitterAccessor.ExecuteRequest<IGetTrendsAtResult[]>(request);
         }
 
-        public async Task<IPlaceTrends> GetPlaceTrendsAt(IWoeIdLocation woeIdLocation)
+        public Task<ITwitterResult<ITrendLocation[]>> GetTrendLocations(IGetTrendsLocationParameters parameters, ITwitterRequest request)
         {
-            string query = _trendsQueryGenerator.GetPlaceTrendsAtQuery(woeIdLocation);
-            var placeTrends = await _twitterAccessor.ExecuteGETQuery<IPlaceTrends[]>(query);
-
-            return placeTrends?[0];
+            request.Query.Url = _trendsQueryGenerator.GetTrendsLocationQuery(parameters);
+            request.Query.HttpMethod = HttpMethod.GET;
+            return _twitterAccessor.ExecuteRequest<ITrendLocation[]>(request);
         }
 
-        public Task<ITrendLocation[]> GetAvailableTrendLocations()
+        public Task<ITwitterResult<ITrendLocation[]>> GetTrendsLocationCloseTo(IGetTrendsLocationCloseToParameters parameters, ITwitterRequest request)
         {
-            var query = _trendsQueryGenerator.GetAvailableTrendLocationsQuery();
-            return _twitterAccessor.ExecuteGETQuery<ITrendLocation[]>(query);
-        }
-
-        public Task<ITrendLocation[]> GetClosestTrendLocations(ICoordinates coordinates)
-        {
-            var query = _trendsQueryGenerator.GetClosestTrendLocationsQuery(coordinates);
-            return _twitterAccessor.ExecuteGETQuery<ITrendLocation[]>(query);
+            request.Query.Url = _trendsQueryGenerator.GetTrendsLocationCloseToQuery(parameters);
+            request.Query.HttpMethod = HttpMethod.GET;
+            return _twitterAccessor.ExecuteRequest<ITrendLocation[]>(request);
         }
     }
 }

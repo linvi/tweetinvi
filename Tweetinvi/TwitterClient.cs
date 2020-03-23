@@ -117,6 +117,7 @@ namespace Tweetinvi
             Search = _tweetinviContainer.Resolve<ISearchClient>();
             Streams = _tweetinviContainer.Resolve<IStreamsClient>();
             Timelines = _tweetinviContainer.Resolve<ITimelinesClient>();
+            Trends = _tweetinviContainer.Resolve<ITrendsClient>();
             Tweets = _tweetinviContainer.Resolve<ITweetsClient>();
             Upload = _tweetinviContainer.Resolve<IUploadClient>();
             Users = _tweetinviContainer.Resolve<IUsersClient>();
@@ -152,6 +153,8 @@ namespace Tweetinvi
         public IStreamsClient Streams { get; }
         /// <inheritdoc/>
         public ITimelinesClient Timelines { get; }
+        /// <inheritdoc/>
+        public ITrendsClient Trends { get; }
         /// <inheritdoc/>
         public ITweetsClient Tweets { get; }
         /// <inheritdoc/>

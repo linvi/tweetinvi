@@ -94,7 +94,7 @@ namespace Tweetinvi.Core.JsonConverters
             var trendLocationConverter = new JsonInterfaceToObjectConverter<ITrendLocation, TrendLocation>();
             var placeConverter = new JsonInterfaceToObjectConverter<IPlace, Place>();
             var trendConverter = new JsonInterfaceToObjectConverter<ITrend, Trend>();
-            var placeTrendsConverter = new JsonInterfaceToObjectConverter<IPlaceTrends, PlaceTrends>();
+            var placeTrendsConverter = new JsonInterfaceToObjectConverter<IGetTrendsAtResult, GetTrendsAtResult>();
             var woeIdLocationConverter = new JsonInterfaceToObjectConverter<IWoeIdLocation, WoeIdLocation>();
             var endpointRateLimitConverter = new JsonInterfaceToObjectConverter<IEndpointRateLimit, EndpointRateLimit>();
             var credentialsRateLimitsConverter = new JsonInterfaceToObjectConverter<ICredentialsRateLimits, CredentialsRateLimits>();
@@ -142,7 +142,7 @@ namespace Tweetinvi.Core.JsonConverters
             JsonConverters.Add(typeof(IWoeIdLocation), woeIdLocationConverter);
 
             JsonConverters.Add(typeof(ITrend), trendConverter);
-            JsonConverters.Add(typeof(IPlaceTrends), placeTrendsConverter);
+            JsonConverters.Add(typeof(IGetTrendsAtResult), placeTrendsConverter);
 
             JsonConverters.Add(typeof(IEndpointRateLimit), endpointRateLimitConverter);
             JsonConverters.Add(typeof(ICredentialsRateLimits), credentialsRateLimitsConverter);

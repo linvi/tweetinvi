@@ -369,9 +369,9 @@ namespace Tweetinvi.Controllers.Properties
         public static string Timeline_GetUserTimeline = "https://api.twitter.com/1.1/statuses/user_timeline.json?";
 
         /// <summary>
-        ///   Looks up a localized string similar to https://api.twitter.com/1.1/trends/place.json?id={0}.
+        ///   Looks up a localized string similar to https://api.twitter.com/1.1/trends/place.json?.
         /// </summary>
-        public static string Trends_GetTrendsFromWoeId = "https://api.twitter.com/1.1/trends/place.json?id={0}";
+        public static string Trends_GetTrendsFromWoeId = "https://api.twitter.com/1.1/trends/place.json?";
 
         /// <summary>
         ///   Looks up a localized string similar to https://api.twitter.com/1.1/trends/available.json.
@@ -381,7 +381,7 @@ namespace Tweetinvi.Controllers.Properties
         /// <summary>
         ///   Looks up a localized string similar to https://api.twitter.com/1.1/trends/closest.json.
         /// </summary>
-        public static string Trends_GetClosestTrendsLocations = "https://api.twitter.com/1.1/trends/closest.json";
+        public static string Trends_GetTrendsLocationCloseTo = "https://api.twitter.com/1.1/trends/closest.json";
 
         /// <summary>
         ///   Looks up a localized string similar to https://api.twitter.com/1.1/statuses/destroy/{0}.json.

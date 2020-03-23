@@ -10,9 +10,9 @@ namespace Tweetinvi.Client
     {
         private readonly IExecuteRequester _executeRequester;
 
-        public ExecuteClient(ITwitterClient client)
+        public ExecuteClient(IExecuteRequester executeRequester)
         {
-            _executeRequester = client.Raw.Execute;
+            _executeRequester = executeRequester;
         }
 
         public Task<ITwitterResult<T>> AdvanceRequest<T>(Action<ITwitterRequest> configureRequest) where T : class

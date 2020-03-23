@@ -55,6 +55,11 @@ namespace Tweetinvi
         ITimelinesClient Timelines { get; }
 
         /// <summary>
+        /// Client to execute all actions related with trends
+        /// </summary>
+        ITrendsClient Trends { get; }
+
+        /// <summary>
         /// Client to execute all actions related with tweets
         /// </summary>
         ITweetsClient Tweets { get; }

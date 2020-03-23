@@ -39,6 +39,9 @@ namespace Tweetinvi
             container.RegisterType<ITimelinesClient, TimelinesClient>(RegistrationLifetime.InstancePerApplication);
             container.RegisterType<ITimelinesRequester, TimelinesRequester>(RegistrationLifetime.InstancePerApplication);
 
+            container.RegisterType<ITrendsClient, TrendsClient>(RegistrationLifetime.InstancePerApplication);
+            container.RegisterType<ITrendsRequester, TrendsRequester>(RegistrationLifetime.InstancePerApplication);
+
             container.RegisterType<ITweetsClient, TweetsClient>(RegistrationLifetime.InstancePerApplication);
             container.RegisterType<ITweetsRequester, TweetsRequester>(RegistrationLifetime.InstancePerApplication);
 

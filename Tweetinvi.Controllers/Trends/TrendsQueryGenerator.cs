@@ -1,47 +1,48 @@
-﻿using System;
-using System.Text;
+﻿using System.Text;
 using Tweetinvi.Controllers.Properties;
 using Tweetinvi.Core.Extensions;
-using Tweetinvi.Models;
+using Tweetinvi.Parameters.TrendsClient;
 
 namespace Tweetinvi.Controllers.Trends
 {
     public interface ITrendsQueryGenerator
     {
-        string GetPlaceTrendsAtQuery(long woeid);
-        string GetPlaceTrendsAtQuery(IWoeIdLocation woeIdLocation);
-        string GetAvailableTrendLocationsQuery();
-        string GetClosestTrendLocationsQuery(ICoordinates coordinates);
+        string GetTrendsAtQuery(IGetTrendsAtParameters parameters);
+        string GetTrendsLocationQuery(IGetTrendsLocationParameters parameters);
+        string GetTrendsLocationCloseToQuery(IGetTrendsLocationCloseToParameters parameters);
     }
 
     public class TrendsQueryGenerator : ITrendsQueryGenerator
     {
-        public string GetPlaceTrendsAtQuery(long woeid)
+        public string GetTrendsAtQuery(IGetTrendsAtParameters parameters)
         {
-            return string.Format(Resources.Trends_GetTrendsFromWoeId, woeid);
-        }
+            var query = new StringBuilder(Resources.Trends_GetTrendsFromWoeId);
+            query.AddParameterToQuery("id", parameters.Woeid);
 
-        public string GetPlaceTrendsAtQuery(IWoeIdLocation woeIdLocation)
-        {
-            if (woeIdLocation == null)
+            if (parameters.Exclude != null && parameters.Exclude != GetTrendsExclude.Nothing)
             {
-                throw new ArgumentException("WoeId cannot be null");
+                query.AddParameterToQuery("exclude", parameters.Exclude.ToString().ToLowerInvariant());
             }
 
-            return GetPlaceTrendsAtQuery(woeIdLocation.WoeId);
+            query.AddFormattedParameterToQuery(parameters.FormattedCustomQueryParameters);
+            return query.ToString();
         }
 
-        public string GetAvailableTrendLocationsQuery()
+        public string GetTrendsLocationQuery(IGetTrendsLocationParameters parameters)
         {
-            return Resources.Trends_GetAvailableTrendsLocations;
+            var query = new StringBuilder(Resources.Trends_GetAvailableTrendsLocations);
+            query.AddFormattedParameterToQuery(parameters.FormattedCustomQueryParameters);
+            return query.ToString();
         }
 
-        public string GetClosestTrendLocationsQuery(ICoordinates coordinates)
+        public string GetTrendsLocationCloseToQuery(IGetTrendsLocationCloseToParameters parameters)
         {
-            var query = new StringBuilder(Resources.Trends_GetClosestTrendsLocations);
+            var coordinates = parameters.Coordinates;
+            var query = new StringBuilder(Resources.Trends_GetTrendsLocationCloseTo);
 
             query.AddParameterToQuery("lat", coordinates.Latitude);
             query.AddParameterToQuery("long", coordinates.Longitude);
+            query.AddFormattedParameterToQuery(parameters.FormattedCustomQueryParameters);
 
             return query.ToString();
         }

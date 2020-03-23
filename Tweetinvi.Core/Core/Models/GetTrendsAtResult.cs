@@ -1,12 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using Newtonsoft.Json;
 using Tweetinvi.Core.JsonConverters;
 using Tweetinvi.Models;
 
 namespace Tweetinvi.Core.Models
 {
-    public class PlaceTrends : IPlaceTrends
+    public class GetTrendsAtResult : IGetTrendsAtResult
     {
         [JsonProperty("as_of")]
         [JsonConverter(typeof(JsonPropertyConverterRepository))]
@@ -17,9 +16,9 @@ namespace Tweetinvi.Core.Models
         public DateTime CreatedAt { get; set; }
 
         [JsonProperty("locations")]
-        public List<IWoeIdLocation> WoeIdLocations { get; set; }
+        public IWoeIdLocation[] WoeIdLocations { get; set; }
 
         [JsonProperty("trends")]
-        public List<ITrend> Trends { get; set; }
+        public ITrend[] Trends { get; set; }
     }
 }

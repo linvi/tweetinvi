@@ -69,7 +69,7 @@ namespace Tweetinvi.Core.JsonConverters
                 new JsonInterfaceToObjectConverter<IRelationshipDetails, RelationshipDetails>(),
                 new JsonInterfaceToObjectConverter<IRelationshipState, RelationshipState>(),
 
-                new JsonInterfaceToObjectConverter<IPlaceTrends, PlaceTrends>(),
+                new JsonInterfaceToObjectConverter<IGetTrendsAtResult, GetTrendsAtResult>(),
                 new JsonInterfaceToObjectConverter<ITrend, Trend>(),
                 new JsonInterfaceToObjectConverter<ITrendLocation, TrendLocation>(),
                 new JsonInterfaceToObjectConverter<IWoeIdLocation, WoeIdLocation>(),
