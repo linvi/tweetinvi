@@ -287,9 +287,29 @@ namespace xUnitinvi.EndToEnd
 
             var place = await _tweetinviTestClient.Help.GetPlace("df51dec6f4ee2b2c");
 
-            TestSerializer<IPlace, IPlace>(place, deserializedLanguage =>
+            TestSerializer<IPlace, IPlace>(place, deserializedPlace =>
             {
-                Assert.Equal(place.PlaceType, place.PlaceType);
+                Assert.Equal(place.PlaceType, deserializedPlace.PlaceType);
+            });
+        }
+
+        [Fact]
+        public async Task Trends()
+        {
+            if (!EndToEndTestConfig.ShouldRunEndToEndTests)
+                return;
+
+            var trendsResult = await _tweetinviTestClient.Trends.GetPlaceTrendsAt(1);
+            var trendsLocations = await _tweetinviTestClient.Trends.GetTrendLocations();
+
+            TestSerializer<IGetTrendsAtResult, IGetTrendsAtResult>(trendsResult, deserializedTrendsResult =>
+            {
+                Assert.Equal(trendsResult.Trends.Length, deserializedTrendsResult.Trends.Length);
+            });
+
+            TestSerializer<ITrendLocation, ITrendLocation>(trendsLocations[0], deserializedTrendLocations =>
+            {
+                Assert.Equal(trendsLocations[0].Country, deserializedTrendLocations.Country);
             });
         }
     }
