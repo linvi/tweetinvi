@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFrameworks>netstandard1.4;netstandard2.0</TargetFrameworks>
@@ -25,7 +25,6 @@
     <ProjectReference Include="..\Tweetinvi.Controllers\Tweetinvi.Controllers.csproj" />
     <ProjectReference Include="..\Tweetinvi.Core\Tweetinvi.Core.csproj" />
     <ProjectReference Include="..\Tweetinvi.Credentials\Tweetinvi.Credentials.csproj" />
-    <ProjectReference Include="..\Tweetinvi.Factories\Tweetinvi.Factories.csproj" />
     <ProjectReference Include="..\Tweetinvi.Streams\Tweetinvi.Streams.csproj" />
   </ItemGroup>
 

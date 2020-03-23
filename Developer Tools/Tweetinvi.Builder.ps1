@@ -52,7 +52,6 @@ $tweetinviSecurity = 'Tweetinvi.Security'
 $tweetinviControllers = 'Tweetinvi.Controllers'
 $tweetinviCore = 'Tweetinvi.Core'
 $tweetinviCredentials = 'Tweetinvi.Credentials'
-$tweetinviFactories = 'Tweetinvi.Factories'
 $tweetinviLogic = 'Tweetinvi.Logic'
 $tweetinviWebLogic = 'Tweetinvi.WebLogic'
 $tweetinviStreams = 'Tweetinvi.Streams'
@@ -73,7 +72,6 @@ $projects =
     $tweetinviControllers,
     $tweetinviCore,
     $tweetinviCredentials,
-    $tweetinviFactories,
     $tweetinviLogic,
     $tweetinviWebLogic,
     $tweetinviStreams,
@@ -149,7 +147,7 @@ if (!$uv.IsPresent) {
     }
 
     # Move dll into temporary folder
-    Get-ChildItem -LiteralPath $netCoreExamplinviBin -filter *.dll  | % { Copy-Item $_.fullname $netCoreTemp }
+    Get-ChildItem -LiteralPath $netCoreExamplinviBin -filter *.dll | % { Copy-Item $_.fullname $netCoreTemp }
 
     cp $env:USERPROFILE\.nuget\packages\Newtonsoft.Json\10.0.2\lib\netstandard1.0\Newtonsoft.Json.dll $netCoreTemp
     cp $env:USERPROFILE\.nuget\packages\Autofac\4.6.0\lib\netstandard1.1\Autofac.dll $netCoreTemp

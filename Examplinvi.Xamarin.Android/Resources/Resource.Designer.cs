@@ -44,8 +44,8 @@ namespace Examplinvi.Xamarin.Android
 		public partial class Drawable
 		{
 			
-			// aapt resource value: 0x7f020000
-			public const int Icon = 2130837504;
+			// aapt resource value: 0x7F010000
+			public const int Icon = 2130771968;
 			
 			static Drawable()
 			{
@@ -60,20 +60,20 @@ namespace Examplinvi.Xamarin.Android
 		public partial class Id
 		{
 			
-			// aapt resource value: 0x7f050000
-			public const int CreatedByTextView = 2131034112;
+			// aapt resource value: 0x7F020000
+			public const int CreatedByTextView = 2130837504;
 			
-			// aapt resource value: 0x7f050002
-			public const int Status = 2131034114;
+			// aapt resource value: 0x7F020001
+			public const int Status = 2130837505;
 			
-			// aapt resource value: 0x7f050004
-			public const int Timeline = 2131034116;
+			// aapt resource value: 0x7F020002
+			public const int Timeline = 2130837506;
 			
-			// aapt resource value: 0x7f050003
-			public const int TimelineButton = 2131034115;
+			// aapt resource value: 0x7F020003
+			public const int TimelineButton = 2130837507;
 			
-			// aapt resource value: 0x7f050001
-			public const int TweetTextView = 2131034113;
+			// aapt resource value: 0x7F020004
+			public const int TweetTextView = 2130837508;
 			
 			static Id()
 			{
@@ -88,10 +88,10 @@ namespace Examplinvi.Xamarin.Android
 		public partial class Layout
 		{
 			
-			// aapt resource value: 0x7f030000
+			// aapt resource value: 0x7F030000
 			public const int ListViewDataTemplate = 2130903040;
 			
-			// aapt resource value: 0x7f030001
+			// aapt resource value: 0x7F030001
 			public const int Main = 2130903041;
 			
 			static Layout()
@@ -107,11 +107,11 @@ namespace Examplinvi.Xamarin.Android
 		public partial class String
 		{
 			
-			// aapt resource value: 0x7f040001
-			public const int ApplicationName = 2130968577;
+			// aapt resource value: 0x7F040000
+			public const int ApplicationName = 2130968576;
 			
-			// aapt resource value: 0x7f040000
-			public const int Hello = 2130968576;
+			// aapt resource value: 0x7F040001
+			public const int Hello = 2130968577;
 			
 			static String()
 			{

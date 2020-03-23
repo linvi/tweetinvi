@@ -1,10 +1,11 @@
-﻿using Android.App;
+using Android.App;
 using Android.OS;
 using Android.Widget;
 using Examplinvi.Xamarin.Android.Resources;
 using System.Collections.Generic;
 using Tweetinvi;
 using Tweetinvi.Models;
+using Tweetinvi.Parameters;
 
 namespace Examplinvi.Xamarin.Android
 {
@@ -21,7 +22,8 @@ namespace Examplinvi.Xamarin.Android
             Auth.SetCredentials(creds);
 
             var client = new TwitterClient(creds);
-            var authenticatedUser = client.Account.GetAuthenticatedUser().Result;
+
+            var authenticatedUser = client.Users.GetAuthenticatedUser().Result;
 
             TextView status = FindViewById<TextView>(Resource.Id.Status);
             status.Text = string.Format("Welcome {0}", authenticatedUser.ToString());
@@ -35,13 +37,17 @@ namespace Examplinvi.Xamarin.Android
             Button button = FindViewById<Button>(Resource.Id.TimelineButton);
             button.Click += delegate
             {
-                var tweets = Timeline.GetHomeTimeline(20).Result;
+                var tweetIterators = client.Timelines.GetHomeTimelineIterator(new GetHomeTimelineParameters()
+                {
+                    PageSize = 20
+                });
 
                 timelineListAdapter.Clear();
 
+                var tweets = tweetIterators.MoveToNextPage().Result;
                 foreach (var tweet in tweets)
                 {
-                    timelineListAdapter.Add(new TweetItem()
+                    timelineListAdapter.Add(new TweetItem
                     {
                         Id = tweet.Id,
                         Text = tweet.Text,

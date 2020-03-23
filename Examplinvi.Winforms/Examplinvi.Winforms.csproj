@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="14.0" DefaultTargets="Build" 
+  xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -172,10 +173,6 @@
     <ProjectReference Include="..\Tweetinvi.Credentials\Tweetinvi.Credentials.csproj">
       <Project>{d68ed488-4970-4301-bf3c-d56c1e6b9b31}</Project>
       <Name>Tweetinvi.Credentials</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Tweetinvi.Factories\Tweetinvi.Factories.csproj">
-      <Project>{eb88f1d0-3530-4dd4-bdad-9e51b7493beb}</Project>
-      <Name>Tweetinvi.Factories</Name>
     </ProjectReference>
     <ProjectReference Include="..\Tweetinvi.Logic\Tweetinvi.Logic.csproj">
       <Project>{b4c1deda-5769-4aeb-831c-7e1b4371bb13}</Project>

@@ -7,27 +7,48 @@
     <AssemblyOriginatorKeyFile>../tweetinvi.snk</AssemblyOriginatorKeyFile>
     <AssemblyName>Tweetinvi.AspNet</AssemblyName>
     <RootNamespace>Tweetinvi.AspNet</RootNamespace>
-    <TargetFrameworks>netcoreapp3.1;netcoreapp2.1</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0;netcoreapp2.1;netcoreapp3.1</TargetFrameworks>
   </PropertyGroup>
 
-  <ItemGroup>
-    <Compile Remove="AspNet\**" />
-    <EmbeddedResource Remove="AspNet\**" />
-    <None Remove="AspNet\**" />
+  <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard2.0' ">
+    <PackageReference Include="Microsoft.AspNetCore.WebUtilities" Version="2.2.0" />
+    <PackageReference Include="System.Net.Http" Version="4.3.4" />
+
+    <Content Remove="NetCore\**" />
+    <Compile Remove="NetCore\**" />
+    <EmbeddedResource Remove="NetCore\**" />
+    <None Remove="NetCore\**" />
+
   </ItemGroup>
 
-  <ItemGroup Condition=" '$(TargetFramework)' ==  'netcoreapp2.1' ">
+  <ItemGroup Condition=" '$(TargetFramework)' == 'netcoreapp2.1' ">
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.9" />
+
+    <Content Remove="NetFramework\**" />
+    <Compile Remove="NetFramework\**" />
+    <EmbeddedResource Remove="NetFramework\**" />
+    <None Remove="NetFramework\**" />
+
   </ItemGroup>
 
-  <ItemGroup Condition=" '$(TargetFramework)' ==  'netcoreapp3.1' ">
+  <ItemGroup Condition=" '$(TargetFramework)' == 'netcoreapp3.1' ">
     <PackageReference Include="Microsoft.AspNetCore.App" Version="2.2.8" />
+
+    <Content Remove="NetFramework\**" />
+    <Compile Remove="NetFramework\**" />
+    <EmbeddedResource Remove="NetFramework\**" />
+    <None Remove="NetFramework\**" />
+
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Tweetinvi.Core\Tweetinvi.Core.csproj" />
     <ProjectReference Include="..\Tweetinvi.WebhooksShared\Tweetinvi.WebhooksShared.csproj" />
     <ProjectReference Include="..\Tweetinvi\Tweetinvi.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Tweetinvi.Webhooks.csproj.DotSettings" />
   </ItemGroup>
 
 </Project>

@@ -23,7 +23,6 @@ namespace Examplinvi.AccountActivity.ASP.NETCore.Controllers
         }
 
         // WEBHOOK - Prepare and configure webhook
-
         [HttpPost("SetUserCredentials")]
         public async Task<string> SetUserCredentials([FromBody]TwitterCredentials credentials)
         {
