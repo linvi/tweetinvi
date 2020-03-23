@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
-using Tweetinvi.Core.Controllers;
 using Tweetinvi.Iterators;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
@@ -16,12 +14,8 @@ namespace Tweetinvi.Core.Models
     /// </summary>
     public class AuthenticatedUser : User, IAuthenticatedUser
     {
-        private readonly ISavedSearchController _savedSearchController;
-
         public AuthenticatedUser(IUserDTO userDTO, ITwitterClient client) : base(userDTO, client)
         {
-            var executionContext = client.CreateTwitterExecutionContext();
-            _savedSearchController = executionContext.Container.Resolve<ISavedSearchController>();
         }
 
         public string Email => UserDTO.Email;
@@ -108,9 +102,9 @@ namespace Tweetinvi.Core.Models
             return Client.Users.UnfollowUser(username);
         }
 
-        public Task<IEnumerable<ISavedSearch>> GetSavedSearches()
+        public Task<ISavedSearch[]> ListSavedSearches()
         {
-            return _savedSearchController.GetSavedSearches();
+            return Client.Search.ListSavedSearches();
         }
 
         // Block

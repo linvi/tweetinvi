@@ -2,7 +2,6 @@
 using Tweetinvi.Controllers.Auth;
 using Tweetinvi.Controllers.Help;
 using Tweetinvi.Controllers.Messages;
-using Tweetinvi.Controllers.SavedSearch;
 using Tweetinvi.Controllers.Search;
 using Tweetinvi.Controllers.Shared;
 using Tweetinvi.Controllers.Timeline;
@@ -37,7 +36,6 @@ namespace Tweetinvi.Controllers
 
             container.RegisterType<IHelpController, HelpController>(RegistrationLifetime.InstancePerApplication);
             container.RegisterType<IMessageController, MessageController>(RegistrationLifetime.InstancePerApplication);
-            container.RegisterType<ISavedSearchController, SavedSearchController>(RegistrationLifetime.InstancePerApplication);
             container.RegisterType<ITimelineController, TimelineController>(RegistrationLifetime.InstancePerApplication);
             container.RegisterType<ITrendsController, TrendsController>(RegistrationLifetime.InstancePerApplication);
             container.RegisterType<ITweetController, TweetController>(RegistrationLifetime.InstancePerApplication);
@@ -57,7 +55,6 @@ namespace Tweetinvi.Controllers
 
             container.RegisterType<IHelpQueryExecutor, HelpQueryExecutor>();
             container.RegisterType<IMessageQueryExecutor, MessageQueryExecutor>();
-            container.RegisterType<ISavedSearchQueryExecutor, SavedSearchQueryExecutor>();
             container.RegisterType<ITimelineQueryExecutor, TimelineQueryExecutor>();
             container.RegisterType<ITrendsQueryExecutor, TrendsQueryExecutor>();
             container.RegisterType<ITweetQueryExecutor, TweetQueryExecutor>();
@@ -76,7 +73,6 @@ namespace Tweetinvi.Controllers
 
             container.RegisterType<IHelpQueryGenerator, HelpQueryGenerator>(RegistrationLifetime.InstancePerApplication);
             container.RegisterType<IMessageQueryGenerator, MessageQueryGenerator>(RegistrationLifetime.InstancePerApplication);
-            container.RegisterType<ISavedSearchQueryGenerator, SavedSearchQueryGenerator>(RegistrationLifetime.InstancePerApplication);
             container.RegisterType<ITimelineQueryGenerator, TimelineQueryGenerator>(RegistrationLifetime.InstancePerApplication);
             container.RegisterType<ITrendsQueryGenerator, TrendsQueryGenerator>(RegistrationLifetime.InstancePerApplication);
             container.RegisterType<ITweetQueryGenerator, TweetQueryGenerator>(RegistrationLifetime.InstancePerApplication);

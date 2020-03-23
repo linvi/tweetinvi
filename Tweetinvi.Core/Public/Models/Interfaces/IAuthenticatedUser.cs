@@ -126,7 +126,7 @@ namespace Tweetinvi.Models
         /// <summary>
         /// Get the authenticated user saved searches.
         /// </summary>
-        Task<IEnumerable<ISavedSearch>> GetSavedSearches();
+        Task<ISavedSearch[]> ListSavedSearches();
 
         // Block
 
