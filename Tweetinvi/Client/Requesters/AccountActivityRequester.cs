@@ -3,6 +3,7 @@ using Tweetinvi.Core.Client.Validators;
 using Tweetinvi.Core.Controllers;
 using Tweetinvi.Core.Events;
 using Tweetinvi.Core.Web;
+using Tweetinvi.Models;
 using Tweetinvi.Models.DTO.Webhooks;
 using Tweetinvi.Parameters;
 
@@ -60,7 +61,7 @@ namespace Tweetinvi.Client.Requesters
             return ExecuteRequest(request => _accountActivityController.SubscribeToAccountActivity(parameters, request));
         }
 
-        public Task<ITwitterResult<IGetWebhookSubscriptionsCountResultDTO>> CountAccountActivitySubscriptions(ICountAccountActivitySubscriptionsParameters parameters)
+        public Task<ITwitterResult<IWebhookSubscriptionsCount>> CountAccountActivitySubscriptions(ICountAccountActivitySubscriptionsParameters parameters)
         {
             _validator.Validate(parameters);
             return ExecuteRequest(request => _accountActivityController.CountAccountActivitySubscriptions(parameters, request));
@@ -72,7 +73,7 @@ namespace Tweetinvi.Client.Requesters
             return ExecuteRequest(request => _accountActivityController.IsAccountSubscribedToAccountActivity(parameters, request));
         }
 
-        public Task<ITwitterResult<IWebhookSubscriptionListDTO>> GetAccountActivitySubscriptions(IGetAccountActivitySubscriptionsParameters parameters)
+        public Task<ITwitterResult<IWebhookEnvironmentSubscriptionsDTO>> GetAccountActivitySubscriptions(IGetAccountActivitySubscriptionsParameters parameters)
         {
             _validator.Validate(parameters);
             return ExecuteRequest(request => _accountActivityController.GetAccountActivitySubscriptions(parameters, request));

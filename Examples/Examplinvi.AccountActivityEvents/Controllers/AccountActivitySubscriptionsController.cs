@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Tweetinvi;
 using Tweetinvi.Exceptions;
+using Tweetinvi.Models;
 using Tweetinvi.Models.DTO.Webhooks;
 
 namespace Examplinvi.AccountActivityEvents.Controllers
@@ -15,7 +16,7 @@ namespace Examplinvi.AccountActivityEvents.Controllers
             _accountActivityClient = accountActivityClient;
         }
 
-        public async Task<IWebhookSubscriptionDTO[]> GetWebhookSubscriptions(string environment)
+        public async Task<IWebhookSubscription[]> GetWebhookSubscriptions(string environment)
         {
             var webhookEnvironments = await _accountActivityClient.AccountActivity.GetAccountActivitySubscriptions(environment);
             return webhookEnvironments.Subscriptions;

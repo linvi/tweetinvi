@@ -9,7 +9,7 @@ namespace Tweetinvi.Core.DTO.Webhooks
         public string UserId { get; set; }
     }
 
-    public class WebhookSubscriptionListDTO : IWebhookSubscriptionListDTO
+    public class WebhookEnvironmentSubscriptionsDTO : IWebhookEnvironmentSubscriptionsDTO
     {
         public string Environment { get; set; }
 

@@ -312,5 +312,31 @@ namespace xUnitinvi.EndToEnd
                 Assert.Equal(trendsLocations[0].Country, deserializedTrendLocations.Country);
             });
         }
+
+        [Fact]
+        public async Task Webhooks()
+        {
+            if (!EndToEndTestConfig.ShouldRunEndToEndTests)
+                return;
+
+            var environments = await _tweetinviClient.AccountActivity.GetAccountActivityWebhookEnvironments();
+            var count = await _tweetinviClient.AccountActivity.CountAccountActivitySubscriptions();
+            var subscriptions = await _tweetinviClient.AccountActivity.GetAccountActivitySubscriptions(environments[0].Name);
+
+            TestSerializer<IWebhookEnvironment, IWebhookEnvironment>(environments[0], deserializedEnvironment =>
+            {
+                Assert.Equal(environments[0].Name, deserializedEnvironment.Name);
+            });
+
+            TestSerializer<IWebhookSubscriptionsCount, IWebhookSubscriptionsCount>(count, deserializedCount =>
+            {
+                Assert.Equal(count.AccountName, deserializedCount.AccountName);
+            });
+
+            TestSerializer<IWebhookEnvironmentSubscriptions, IWebhookEnvironmentSubscriptions>(subscriptions, deserializedSubscriptions =>
+            {
+                Assert.Equal(subscriptions.ApplicationId, deserializedSubscriptions.ApplicationId);
+            });
+        }
     }
 }

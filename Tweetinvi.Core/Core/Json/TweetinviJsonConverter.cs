@@ -9,6 +9,7 @@ using Tweetinvi.Core.Helpers;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
 using Tweetinvi.Models.DTO.Events;
+using Tweetinvi.Models.DTO.Webhooks;
 
 namespace Tweetinvi.Core.Json
 {
@@ -78,6 +79,9 @@ namespace Tweetinvi.Core.Json
             Map<IOEmbedTweet, IOEmbedTweetDTO>(oEmbedTweet => oEmbedTweet.OembedTweetDTO, factories.CreateOEmbedTweet);
             Map<IRelationshipDetails, IRelationshipDetailsDTO>(relationshipDetails => relationshipDetails.RelationshipDetailsDTO, factories.CreateRelationshipDetails);
             Map<IRelationshipState, IRelationshipStateDTO>(r => r.RelationshipStateDTO, factories.CreateRelationshipState);
+            Map<IWebhook, IWebhookDTO>(env => env.WebhookDTO, factories.CreateWebhook);
+            Map<IWebhookEnvironment, IWebhookEnvironmentDTO>(env => env.WebhookEnvironmentDTO, factories.CreateWebhookEnvironment);
+            Map<IWebhookEnvironmentSubscriptions, IWebhookEnvironmentSubscriptionsDTO>(env => env.WebhookEnvironmentSubscriptionsDTO, factories.CreateWebhookEnvironmentSubscriptions);
             // ReSharper restore RedundantTypeArgumentsOfMethod
         }
 

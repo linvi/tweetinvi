@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Examplinvi.AccountActivityEvents;
 using Examplinvi.AccountActivityEvents.Controllers;
 using Microsoft.AspNetCore.Mvc;
@@ -53,9 +55,9 @@ namespace Examplinvi.AccountActivity.ASP.NETCore._3._0.Controllers
         }
 
         [HttpGet("GetWebhookEnvironments")]
-        public async Task<IWebhookEnvironmentDTO[]> GetWebhookEnvironments()
+        public async Task<IEnumerable<IWebhookEnvironmentDTO>> GetWebhookEnvironments()
         {
-            return await _accountActivityWebhooksController.GetAccountActivityWebhookEnvironments();
+            return (await _accountActivityWebhooksController.GetAccountActivityWebhookEnvironments()).Select(x => x.WebhookEnvironmentDTO);
         }
 
         [HttpGet("CountAccountActivitySubscriptions")]
@@ -67,7 +69,7 @@ namespace Examplinvi.AccountActivity.ASP.NETCore._3._0.Controllers
         // SUBSCRIPTIONS - Subscribe / Unsubscribe user from webhook
 
         [HttpGet("GetWebhookSubscriptions")]
-        public async Task<IWebhookSubscriptionDTO[]> GetWebhookSubscriptions(string environment)
+        public async Task<IWebhookSubscription[]> GetWebhookSubscriptions(string environment)
         {
             return await _accountActivitySubscriptionsController.GetWebhookSubscriptions(environment);
         }

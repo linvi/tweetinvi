@@ -1,6 +1,6 @@
-﻿namespace Tweetinvi.Models.DTO.Webhooks
+﻿namespace Tweetinvi.Models
 {
-    public interface IGetWebhookSubscriptionsCountResultDTO
+    public interface IWebhookSubscriptionsCount
     {
         string AccountName { get; set; }
         string SubscriptionsCount { get; set; }

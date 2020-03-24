@@ -1,9 +1,10 @@
 ﻿using Newtonsoft.Json;
+using Tweetinvi.Models;
 using Tweetinvi.Models.DTO.Webhooks;
 
 namespace Tweetinvi.Core.DTO.Webhooks
 {
-    public class GetWebhookSubscriptionsCountResultDTO : IGetWebhookSubscriptionsCountResultDTO
+    public class WebhookSubscriptionsCountDTO : IWebhookSubscriptionsCount
     {
         [JsonProperty("account_name")]
         public string AccountName { get; set; }

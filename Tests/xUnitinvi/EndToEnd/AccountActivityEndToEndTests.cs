@@ -182,7 +182,7 @@ namespace xUnitinvi.EndToEnd
             await RemoveWebhooksFromEnvironment(environments, client);
         }
 
-        private static async Task RemoveWebhooksFromEnvironment(IWebhookEnvironmentDTO[] environments, ITwitterClient client)
+        private static async Task RemoveWebhooksFromEnvironment(IWebhookEnvironment[] environments, ITwitterClient client)
         {
             foreach (var environment in environments)
             {

@@ -79,7 +79,7 @@ namespace Tweetinvi.Controllers
             return _twitterAccessor.ExecuteRequest(request);
         }
 
-        public Task<ITwitterResult<IGetWebhookSubscriptionsCountResultDTO>> CountAccountActivitySubscriptions(ICountAccountActivitySubscriptionsParameters parameters, ITwitterRequest request)
+        public Task<ITwitterResult<IWebhookSubscriptionsCount>> CountAccountActivitySubscriptions(ICountAccountActivitySubscriptionsParameters parameters, ITwitterRequest request)
         {
             var consumerCredentials = new ConsumerCredentials(request.Query.TwitterCredentials);
 
@@ -87,7 +87,7 @@ namespace Tweetinvi.Controllers
             request.Query.HttpMethod = HttpMethod.GET;
             request.Query.TwitterCredentials = new TwitterCredentials(consumerCredentials);
 
-            return _twitterAccessor.ExecuteRequest<IGetWebhookSubscriptionsCountResultDTO>(request);
+            return _twitterAccessor.ExecuteRequest<IWebhookSubscriptionsCount>(request);
         }
 
         public Task<ITwitterResult> IsAccountSubscribedToAccountActivity(IIsAccountSubscribedToAccountActivityParameters parameters, ITwitterRequest request)
@@ -97,7 +97,7 @@ namespace Tweetinvi.Controllers
             return _twitterAccessor.ExecuteRequest(request);
         }
 
-        public Task<ITwitterResult<IWebhookSubscriptionListDTO>> GetAccountActivitySubscriptions(IGetAccountActivitySubscriptionsParameters parameters, ITwitterRequest request)
+        public Task<ITwitterResult<IWebhookEnvironmentSubscriptionsDTO>> GetAccountActivitySubscriptions(IGetAccountActivitySubscriptionsParameters parameters, ITwitterRequest request)
         {
             var consumerCredentials = new ConsumerCredentials(request.Query.TwitterCredentials);
 
@@ -105,7 +105,7 @@ namespace Tweetinvi.Controllers
             request.Query.HttpMethod = HttpMethod.GET;
             request.Query.TwitterCredentials = new TwitterCredentials(consumerCredentials);
 
-            return _twitterAccessor.ExecuteRequest<IWebhookSubscriptionListDTO>(request);
+            return _twitterAccessor.ExecuteRequest<IWebhookEnvironmentSubscriptionsDTO>(request);
         }
     }
 }

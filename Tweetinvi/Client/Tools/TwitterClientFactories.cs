@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Tweetinvi.Core.DTO;
+using Tweetinvi.Core.DTO.Webhooks;
 using Tweetinvi.Core.Helpers;
 using Tweetinvi.Core.Models;
 using Tweetinvi.Core.Models.Properties;
@@ -9,6 +10,7 @@ using Tweetinvi.Logic;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
 using Tweetinvi.Models.DTO.Events;
+using Tweetinvi.Models.DTO.Webhooks;
 
 namespace Tweetinvi.Client.Tools
 {
@@ -262,6 +264,54 @@ namespace Tweetinvi.Client.Tools
             }
 
             return new AuthenticatedUser(userDTO, _client);
+        }
+
+        public IWebhook CreateWebhook(string json)
+        {
+            var dto = _jsonObjectConverter.Deserialize<WebhookDTO>(json);
+            return CreateWebhook(dto);
+        }
+
+        public IWebhook CreateWebhook(IWebhookDTO webhookDTO)
+        {
+            if (webhookDTO == null)
+            {
+                return null;
+            }
+
+            return new Webhook(webhookDTO);
+        }
+
+        public IWebhookEnvironment CreateWebhookEnvironment(string json)
+        {
+            var dto = _jsonObjectConverter.Deserialize<WebhookEnvironmentDTO>(json);
+            return CreateWebhookEnvironment(dto);
+        }
+
+        public IWebhookEnvironment CreateWebhookEnvironment(IWebhookEnvironmentDTO webhookEnvironmentDTO)
+        {
+            if (webhookEnvironmentDTO == null)
+            {
+                return null;
+            }
+
+            return new WebhookEnvironment(webhookEnvironmentDTO, _client);
+        }
+
+        public IWebhookEnvironmentSubscriptions CreateWebhookEnvironmentSubscriptions(string json)
+        {
+            var dto = _jsonObjectConverter.Deserialize<WebhookEnvironmentSubscriptionsDTO>(json);
+            return CreateWebhookEnvironmentSubscriptions(dto);
+        }
+
+        public IWebhookEnvironmentSubscriptions CreateWebhookEnvironmentSubscriptions(IWebhookEnvironmentSubscriptionsDTO webhookEnvironmentSubscriptionsDTO)
+        {
+            if (webhookEnvironmentSubscriptionsDTO == null)
+            {
+                return null;
+            }
+
+            return new WebhookEnvironmentSubscriptions(webhookEnvironmentSubscriptionsDTO, _client);
         }
 
         public ITwitterConfiguration CreateTwitterConfiguration(string json)

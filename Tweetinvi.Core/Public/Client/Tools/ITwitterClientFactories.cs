@@ -3,6 +3,7 @@ using Tweetinvi.Core.DTO;
 using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
 using Tweetinvi.Models.DTO.Events;
+using Tweetinvi.Models.DTO.Webhooks;
 
 namespace Tweetinvi.Client.Tools
 {
@@ -56,6 +57,16 @@ namespace Tweetinvi.Client.Tools
         IUser[] CreateUsers(IEnumerable<IUserDTO> usersDTO);
         IAuthenticatedUser CreateAuthenticatedUser(string json);
         IAuthenticatedUser CreateAuthenticatedUser(IUserDTO userDTO);
+
+        // WEBHOOKS
+        IWebhook CreateWebhook(string json);
+        IWebhook CreateWebhook(IWebhookDTO webhookDTO);
+
+        IWebhookEnvironment CreateWebhookEnvironment(string json);
+        IWebhookEnvironment CreateWebhookEnvironment(IWebhookEnvironmentDTO webhookEnvironmentDTO);
+
+        IWebhookEnvironmentSubscriptions CreateWebhookEnvironmentSubscriptions(string json);
+        IWebhookEnvironmentSubscriptions CreateWebhookEnvironmentSubscriptions(IWebhookEnvironmentSubscriptionsDTO webhookEnvironmentSubscriptionsDTO);
 
         // HELP
         ITwitterConfiguration CreateTwitterConfiguration(string json);

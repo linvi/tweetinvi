@@ -111,9 +111,9 @@ namespace Tweetinvi.Core.JsonConverters
                 new JsonInterfaceToObjectConverter<IWebhookDTO, WebhookDTO>(),
                 new JsonInterfaceToObjectConverter<IWebhookEnvironmentDTO, WebhookEnvironmentDTO>(),
                 new JsonInterfaceToObjectConverter<IGetAccountActivityWebhookEnvironmentsResultDTO, GetAccountActivityWebhookEnvironmentsResultDTO>(),
-                new JsonInterfaceToObjectConverter<IGetWebhookSubscriptionsCountResultDTO, GetWebhookSubscriptionsCountResultDTO>(),
+                new JsonInterfaceToObjectConverter<IWebhookSubscriptionsCount, WebhookSubscriptionsCountDTO>(),
                 new JsonInterfaceToObjectConverter<IWebhookSubscriptionDTO, WebhookSubscriptionDTO>(),
-                new JsonInterfaceToObjectConverter<IWebhookSubscriptionListDTO, WebhookSubscriptionListDTO>(),
+                new JsonInterfaceToObjectConverter<IWebhookEnvironmentSubscriptionsDTO, WebhookEnvironmentSubscriptionsDTO>(),
 
 
                 // Enums (that have JSON serialization implemented)

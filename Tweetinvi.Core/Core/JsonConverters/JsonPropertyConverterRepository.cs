@@ -211,12 +211,12 @@ namespace Tweetinvi.Core.JsonConverters
             var webhookDTOConverter = new JsonInterfaceToObjectConverter<IWebhookDTO, WebhookDTO>();
             var webhookEnvironmentDTOConverter = new JsonInterfaceToObjectConverter<IWebhookEnvironmentDTO, WebhookEnvironmentDTO>();
             var getAllWebhooksResultDTOConverter = new JsonInterfaceToObjectConverter<IGetAccountActivityWebhookEnvironmentsResultDTO, GetAccountActivityWebhookEnvironmentsResultDTO>();
-            var getWebhookSubscriptionsCountResultDTOConverter = new JsonInterfaceToObjectConverter<IGetWebhookSubscriptionsCountResultDTO, GetWebhookSubscriptionsCountResultDTO>();
+            var getWebhookSubscriptionsCountResultDTOConverter = new JsonInterfaceToObjectConverter<IWebhookSubscriptionsCount, WebhookSubscriptionsCountDTO>();
 
             JsonConverters.Add(typeof(IWebhookDTO), webhookDTOConverter);
             JsonConverters.Add(typeof(IWebhookEnvironmentDTO), webhookEnvironmentDTOConverter);
             JsonConverters.Add(typeof(IGetAccountActivityWebhookEnvironmentsResultDTO), getAllWebhooksResultDTOConverter);
-            JsonConverters.Add(typeof(IGetWebhookSubscriptionsCountResultDTO), getWebhookSubscriptionsCountResultDTOConverter);
+            JsonConverters.Add(typeof(IWebhookSubscriptionsCount), getWebhookSubscriptionsCountResultDTOConverter);
         }
 
         private static readonly object _convertersLocker = new object();

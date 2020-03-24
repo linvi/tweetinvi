@@ -17,34 +17,34 @@ namespace Tweetinvi.Client
         IAccountActivityRequestHandler CreateRequestHandler();
 
         /// <inheritdoc cref="CreateAccountActivityWebhook(ICreateAccountActivityWebhookParameters)" />
-        Task<IWebhookDTO> CreateAccountActivityWebhook(string environment, string webhookUrl);
+        Task<IWebhook> CreateAccountActivityWebhook(string environment, string webhookUrl);
 
         /// <summary>
         /// Registers a webhook URL for all event types. The URL will be validated via CRC request before saving.
         /// <para>Read more : https://developer.twitter.com/en/docs/accounts-and-users/subscribe-account-activity/api-reference/aaa-premium#post-account-activity-all-env-name-webhooks </para>
         /// </summary>
         /// <returns>The created webhook</returns>
-        Task<IWebhookDTO> CreateAccountActivityWebhook(ICreateAccountActivityWebhookParameters parameters);
+        Task<IWebhook> CreateAccountActivityWebhook(ICreateAccountActivityWebhookParameters parameters);
 
         /// <inheritdoc cref="GetAccountActivityWebhookEnvironments(IGetAccountActivityWebhookEnvironmentsParameters)" />
-        Task<IWebhookEnvironmentDTO[]> GetAccountActivityWebhookEnvironments();
+        Task<IWebhookEnvironment[]> GetAccountActivityWebhookEnvironments();
 
         /// <summary>
         /// Get the account activity webhook environments
         /// <para>Read more : https://developer.twitter.com/en/docs/accounts-and-users/subscribe-account-activity/api-reference/aaa-premium#get-account-activity-all-webhooks </para>
         /// </summary>
         /// <returns>The account activity environments and their associated webhooks</returns>
-        Task<IWebhookEnvironmentDTO[]> GetAccountActivityWebhookEnvironments(IGetAccountActivityWebhookEnvironmentsParameters parameters);
+        Task<IWebhookEnvironment[]> GetAccountActivityWebhookEnvironments(IGetAccountActivityWebhookEnvironmentsParameters parameters);
 
         /// <inheritdoc cref="GetAccountActivityEnvironmentWebhooks(IGetAccountActivityEnvironmentWebhooksParameters)" />
-        Task<IWebhookDTO[]> GetAccountActivityEnvironmentWebhooks(string environment);
+        Task<IWebhook[]> GetAccountActivityEnvironmentWebhooks(string environment);
 
         /// <summary>
         /// Returns the webhooks registered on a specific environment
         /// <para>Read more : https://developer.twitter.com/en/docs/accounts-and-users/subscribe-account-activity/api-reference/aaa-premium#get-account-activity-all-webhooks </para>
         /// </summary>
         /// <returns>The account activity registered webhooks of a specific environment</returns>
-        Task<IWebhookDTO[]> GetAccountActivityEnvironmentWebhooks(IGetAccountActivityEnvironmentWebhooksParameters parameters);
+        Task<IWebhook[]> GetAccountActivityEnvironmentWebhooks(IGetAccountActivityEnvironmentWebhooksParameters parameters);
 
         /// <inheritdoc cref="DeleteAccountActivityWebhook(IDeleteAccountActivityWebhookParameters)" />
         Task DeleteAccountActivityWebhook(string environment, string webhookId);
@@ -74,14 +74,14 @@ namespace Tweetinvi.Client
         Task SubscribeToAccountActivity(ISubscribeToAccountActivityParameters parameters);
 
         /// <inheritdoc cref="CountAccountActivitySubscriptions(ICountAccountActivitySubscriptionsParameters)" />
-        Task<IGetWebhookSubscriptionsCountResultDTO> CountAccountActivitySubscriptions();
+        Task<IWebhookSubscriptionsCount> CountAccountActivitySubscriptions();
 
         /// <summary>
         /// Returns the count of subscriptions that are currently active on your account for all activities.
         /// <para>Read more : https://developer.twitter.com/en/docs/accounts-and-users/subscribe-account-activity/api-reference/aaa-premium#get-account-activity-all-subscriptions-count </para>
         /// </summary>
         /// <returns>Count information</returns>
-        Task<IGetWebhookSubscriptionsCountResultDTO> CountAccountActivitySubscriptions(ICountAccountActivitySubscriptionsParameters parameters);
+        Task<IWebhookSubscriptionsCount> CountAccountActivitySubscriptions(ICountAccountActivitySubscriptionsParameters parameters);
 
         /// <inheritdoc cref="IsAccountSubscribedToAccountActivity(IIsAccountSubscribedToAccountActivityParameters)" />
         Task<bool> IsAccountSubscribedToAccountActivity(string environment);
@@ -94,14 +94,14 @@ namespace Tweetinvi.Client
         Task<bool> IsAccountSubscribedToAccountActivity(IIsAccountSubscribedToAccountActivityParameters parameters);
 
         /// <inheritdoc cref="GetAccountActivitySubscriptions(IGetAccountActivitySubscriptionsParameters)" />
-        Task<IWebhookSubscriptionListDTO> GetAccountActivitySubscriptions(string environment);
+        Task<IWebhookEnvironmentSubscriptions> GetAccountActivitySubscriptions(string environment);
 
         /// <summary>
         /// Get the account activity subscriptions
         /// <para>Read more : https://developer.twitter.com/en/docs/accounts-and-users/subscribe-account-activity/api-reference/aaa-premium#get-account-activity-all-env-name-subscriptions-list </para>
         /// </summary>
         /// <returns>User subscriptions to account activities</returns>
-        Task<IWebhookSubscriptionListDTO> GetAccountActivitySubscriptions(IGetAccountActivitySubscriptionsParameters parameters);
+        Task<IWebhookEnvironmentSubscriptions> GetAccountActivitySubscriptions(IGetAccountActivitySubscriptionsParameters parameters);
 
         /// <inheritdoc cref="UnsubscribeFromAccountActivity(IUnsubscribeFromAccountActivityParameters)" />
         Task UnsubscribeFromAccountActivity(string environment, long userId);

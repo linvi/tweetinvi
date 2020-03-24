@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using Tweetinvi;
 using Tweetinvi.Exceptions;
-using Tweetinvi.Models.DTO.Webhooks;
+using Tweetinvi.Models;
 
 namespace Examplinvi.AccountActivityEvents.Controllers
 {
@@ -57,7 +57,7 @@ namespace Examplinvi.AccountActivityEvents.Controllers
             }
         }
 
-        public async Task<IWebhookEnvironmentDTO[]> GetAccountActivityWebhookEnvironments()
+        public async Task<IWebhookEnvironment[]> GetAccountActivityWebhookEnvironments()
         {
             var webhookEnvironments = await _accountActivityClient.AccountActivity.GetAccountActivityWebhookEnvironments();
             return webhookEnvironments;
