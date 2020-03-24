@@ -72,12 +72,12 @@ namespace Tweetinvi.Models
         /// <summary>
         /// Get the tweets from this list.
         /// </summary>
-        ITwitterIterator<ITweet, long?> GetTweetsIterator();
+        Task<ITweet[]> GetTweets();
 
         /// <summary>
         /// Get the members of this list.
         /// </summary>
-        ITwitterIterator<IUser> GetMembersIterator();
+        Task<IUser[]> GetMembers();
 
         /// <summary>
         /// Add a member to this list. You must be the owner of the list to do so.
@@ -157,7 +157,7 @@ namespace Tweetinvi.Models
         /// <summary>
         /// Get the subscribers of the list.
         /// </summary>
-        ITwitterIterator<IUser> GetSubscribersIterator();
+        Task<IUser[]> GetSubscribers();
 
         /// <summary>
         /// Subscribe the authenticated user to the list.

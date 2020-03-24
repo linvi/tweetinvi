@@ -196,26 +196,26 @@ namespace Tweetinvi.Core.Models
         }
 
         // Timeline
-        public ITwitterIterator<ITweet, long?> GetUserTimelineIterator()
+        public Task<ITweet[]> GetUserTimeline()
         {
-            return Client.Timelines.GetUserTimelineIterator(this);
+            return Client.Timelines.GetUserTimeline(this);
         }
 
         // Favorites
-        public virtual ITwitterIterator<ITweet, long?> GetFavoriteTweets()
+        public virtual Task<ITweet[]> GetFavoriteTweets()
         {
-            return Client.Tweets.GetUserFavoriteTweetsIterator(this);
+            return Client.Tweets.GetUserFavoriteTweets(this);
         }
 
         // Lists
-        public ITwitterIterator<ITwitterList> GetListSubscriptions()
+        public Task<ITwitterList[]> GetListSubscriptions()
         {
-            return Client.Lists.GetUserListSubscriptionsIterator(this);
+            return Client.Lists.GetUserListSubscriptions(this);
         }
 
-        public ITwitterIterator<ITwitterList> GetOwnedListsIterator()
+        public Task<ITwitterList[]> GetOwnedLists()
         {
-            return Client.Lists.GetListsOwnedByUserIterator(new GetListsOwnedByAccountByUserParameters(this));
+            return Client.Lists.GetListsOwnedByUser(new GetListsOwnedByAccountByUserParameters(this));
         }
 
         // Block User

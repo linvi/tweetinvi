@@ -39,7 +39,7 @@ namespace Tweetinvi.Models
         /// <summary>
         /// Get list of recent messages
         /// </summary>
-        ITwitterIterator<IMessage> GetLatestMessages();
+        Task<IMessage[]> GetLatestMessages();
 
         /// <summary>
         /// Publish a message.
@@ -48,17 +48,11 @@ namespace Tweetinvi.Models
 
         #region Timeline
 
-        /// <inheritdoc cref="ITimelinesClient.GetHomeTimelineIterator()"/>
-        ITwitterIterator<ITweet, long?> GetHomeTimelineIterator();
+        /// <inheritdoc cref="ITimelinesClient.GetHomeTimeline()"/>
+        Task<ITweet[]> GetHomeTimeline();
 
-        /// <inheritdoc cref="ITimelinesClient.GetHomeTimelineIterator(IGetHomeTimelineParameters)"/>
-        ITwitterIterator<ITweet, long?> GetHomeTimelineIterator(IGetHomeTimelineParameters parameters);
-
-        /// <inheritdoc cref="ITimelinesClient.GetMentionsTimelineIterator()"/>
-        ITwitterIterator<ITweet, long?> GetMentionsTimelineIterator();
-
-        /// <inheritdoc cref="ITimelinesClient.GetMentionsTimelineIterator(IGetMentionsTimelineParameters)"/>
-        ITwitterIterator<ITweet, long?> GetMentionsTimelineIterator(IGetMentionsTimelineParameters parameters);
+        /// <inheritdoc cref="ITimelinesClient.GetMentionsTimeline()"/>
+        Task<ITweet[]> GetMentionsTimeline();
 
         #endregion
 
@@ -74,22 +68,22 @@ namespace Tweetinvi.Models
         /// <summary>
         /// Get the user ids who requested to follow you.
         /// </summary>
-        ITwitterIterator<long> GetUserIdsRequestingFriendship();
+        Task<long[]> GetUserIdsRequestingFriendship();
 
         /// <summary>
         /// Get the users who requested to follow you.
         /// </summary>
-        IMultiLevelCursorIterator<long, IUser> GetUsersRequestingFriendship();
+        Task<IUser[]> GetUsersRequestingFriendship();
 
         /// <summary>
         /// Get the user ids you've requested to follow.
         /// </summary>
-        ITwitterIterator<long> GetUserIdsYouRequestedToFollow();
+        Task<long[]> GetUserIdsYouRequestedToFollow();
 
         /// <summary>
         /// Get the users you've requested to follow.
         /// </summary>
-        IMultiLevelCursorIterator<long, IUser> GetUsersYouRequestedToFollow();
+        Task<IUser[]> GetUsersYouRequestedToFollow();
 
         /// <summary>
         /// Follow a specific user.
@@ -165,12 +159,12 @@ namespace Tweetinvi.Models
         /// <summary>
         /// Get the ids of the user you blocked.
         /// </summary>
-        ITwitterIterator<long> GetBlockedUserIds();
+        Task<long[]> GetBlockedUserIds();
 
         /// <summary>
         /// Retrieve the users blocked by the current user.
         /// </summary>
-        ITwitterIterator<IUser> GetBlockedUsers();
+        Task<IUser[]> GetBlockedUsers();
 
         // Spam
 
@@ -194,12 +188,12 @@ namespace Tweetinvi.Models
         /// <summary>
         /// Get a list of the users you've muted.
         /// </summary>
-        ITwitterIterator<long> GetMutedUserIds();
+        Task<long[]> GetMutedUserIds();
 
         /// <summary>
         /// Get a list of the users you've muted.
         /// </summary>
-        ITwitterIterator<IUser> GetMutedUsers();
+        Task<IUser[]> GetMutedUsers();
 
         /// <summary>
         /// Mute a specific user.

@@ -108,7 +108,7 @@ namespace Tweetinvi.Client
         /// <inheritdoc cref="GetListsOwnedByUser(IGetListsOwnedByUserParameters)"/>
         Task<ITwitterList[]> GetListsOwnedByUser(string username);
         /// <inheritdoc cref="GetListsOwnedByUser(IGetListsOwnedByUserParameters)"/>
-        Task<ITwitterList[]> GetListsOwnedByUser(IUser user);
+        Task<ITwitterList[]> GetListsOwnedByUser(IUserIdentifier user);
 
         /// <summary>
         /// Get the lists owned by a user

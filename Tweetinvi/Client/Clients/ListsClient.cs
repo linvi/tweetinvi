@@ -154,7 +154,7 @@ namespace Tweetinvi.Client
             return GetListsOwnedByUser(new GetListsOwnedByAccountByUserParameters(username));
         }
 
-        public Task<ITwitterList[]> GetListsOwnedByUser(IUser user)
+        public Task<ITwitterList[]> GetListsOwnedByUser(IUserIdentifier user)
         {
             return GetListsOwnedByUser(new GetListsOwnedByAccountByUserParameters(user));
         }

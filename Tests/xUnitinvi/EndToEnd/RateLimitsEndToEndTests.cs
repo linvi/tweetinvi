@@ -83,7 +83,7 @@ namespace xUnitinvi.EndToEnd
             // act
             var firstApplicationRateLimits = await client.RateLimits.GetEndpointRateLimit("https://api.twitter.com/1.1/statuses/home_timeline.json", RateLimitsSource.TwitterApiOnly);
             var rateLimits = await client.RateLimits.GetEndpointRateLimit("https://api.twitter.com/1.1/statuses/home_timeline.json");
-            await client.Timelines.GetHomeTimelineIterator().MoveToNextPage();
+            await client.Timelines.GetHomeTimeline();
             var fromCacheLimits = await client.RateLimits.GetEndpointRateLimit("https://api.twitter.com/1.1/statuses/home_timeline.json");
 
             // assert

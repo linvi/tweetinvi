@@ -51,15 +51,15 @@ namespace Tweetinvi.Core.Models
         public int MemberCount => _twitterListDTO.MemberCount;
         public int SubscriberCount => _twitterListDTO.SubscriberCount;
 
-        public ITwitterIterator<ITweet, long?> GetTweetsIterator()
+        public Task<ITweet[]> GetTweets()
         {
-            return Client.Lists.GetTweetsFromListIterator(this);
+            return Client.Lists.GetTweetsFromList(this);
         }
 
         // Members
-        public ITwitterIterator<IUser> GetMembersIterator()
+        public Task<IUser[]> GetMembers()
         {
-            return Client.Lists.GetMembersOfListIterator(new GetMembersOfListParameters(this));
+            return Client.Lists.GetMembersOfList(new GetMembersOfListParameters(this));
         }
 
         public Task AddMember(long userId)
@@ -141,9 +141,9 @@ namespace Tweetinvi.Core.Models
         }
 
         // Subscribers
-        public ITwitterIterator<IUser> GetSubscribersIterator()
+        public Task<IUser[]> GetSubscribers()
         {
-            return Client.Lists.GetListSubscribersIterator(this);
+            return Client.Lists.GetListSubscribers(this);
         }
 
         public Task<ITwitterList> Subscribe()

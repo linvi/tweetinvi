@@ -291,27 +291,21 @@ namespace Tweetinvi.Models
 
         // Timeline
 
-        /// <inheritdoc cref="ITimelinesClient.GetUserTimelineIterator(IUserIdentifier)"/>
-        ITwitterIterator<ITweet, long?> GetUserTimelineIterator();
+        /// <inheritdoc cref="ITimelinesClient.GetUserTimeline(IUserIdentifier)"/>
+        Task<ITweet[]> GetUserTimeline();
 
         // Get Favorites
 
-        /// <summary>
-        /// Get the tweets favourited by the user.
-        /// </summary>
-        ITwitterIterator<ITweet, long?> GetFavoriteTweets();
+        /// <inheritdoc cref="ITweetsClient.GetUserFavoriteTweets(IUserIdentifier)"/>
+        Task<ITweet[]> GetFavoriteTweets();
 
         // Lists
 
-        /// <summary>
-        /// Get the lists owned by the user.
-        /// </summary>
-        ITwitterIterator<ITwitterList> GetOwnedListsIterator();
+        /// <inheritdoc cref="IListsClient.GetListsOwnedByUser(IUserIdentifier)"/>
+        Task<ITwitterList[]> GetOwnedLists();
 
-        /// <summary>
-        /// Get the lists the user has subscribed to.
-        /// </summary>
-        ITwitterIterator<ITwitterList> GetListSubscriptions();
+        /// <inheritdoc cref="IListsClient.GetUserListSubscriptions(IUserIdentifier)"/>
+        Task<ITwitterList[]> GetListSubscriptions();
 
         // Block
 

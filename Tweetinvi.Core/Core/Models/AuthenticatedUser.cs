@@ -23,24 +23,14 @@ namespace Tweetinvi.Core.Models
         public IReadOnlyTwitterCredentials Credentials => Client.Credentials;
 
         // Home Timeline
-        public ITwitterIterator<ITweet, long?> GetHomeTimelineIterator()
+        public Task<ITweet[]> GetHomeTimeline()
         {
-            return Client.Timelines.GetHomeTimelineIterator();
+            return Client.Timelines.GetHomeTimeline();
         }
 
-        public ITwitterIterator<ITweet, long?> GetHomeTimelineIterator(IGetHomeTimelineParameters parameters)
+        public Task<ITweet[]> GetMentionsTimeline()
         {
-            return Client.Timelines.GetHomeTimelineIterator(parameters);
-        }
-
-        public ITwitterIterator<ITweet, long?> GetMentionsTimelineIterator()
-        {
-            return Client.Timelines.GetMentionsTimelineIterator();
-        }
-
-        public ITwitterIterator<ITweet, long?> GetMentionsTimelineIterator(IGetMentionsTimelineParameters parameters)
-        {
-            return Client.Timelines.GetMentionsTimelineIterator();
+            return Client.Timelines.GetMentionsTimeline();
         }
 
         // Friendships
@@ -50,24 +40,24 @@ namespace Tweetinvi.Core.Models
         }
 
         // Friends - Followers
-        public ITwitterIterator<long> GetUserIdsRequestingFriendship()
+        public Task<long[]> GetUserIdsRequestingFriendship()
         {
-            return Client.Users.GetUserIdsRequestingFriendshipIterator(new GetUserIdsRequestingFriendshipParameters());
+            return Client.Users.GetUserIdsRequestingFriendship(new GetUserIdsRequestingFriendshipParameters());
         }
 
-        public IMultiLevelCursorIterator<long, IUser> GetUsersRequestingFriendship()
+        public Task<IUser[]> GetUsersRequestingFriendship()
         {
-            return Client.Users.GetUsersRequestingFriendshipIterator(new GetUsersRequestingFriendshipParameters());
+            return Client.Users.GetUsersRequestingFriendship(new GetUsersRequestingFriendshipParameters());
         }
 
-        public ITwitterIterator<long> GetUserIdsYouRequestedToFollow()
+        public Task<long[]> GetUserIdsYouRequestedToFollow()
         {
-            return Client.Users.GetUserIdsYouRequestedToFollowIterator();
+            return Client.Users.GetUserIdsYouRequestedToFollow();
         }
 
-        public IMultiLevelCursorIterator<long, IUser> GetUsersYouRequestedToFollow()
+        public Task<IUser[]> GetUsersYouRequestedToFollow()
         {
-            return Client.Users.GetUsersYouRequestedToFollowIterator(new GetUsersYouRequestedToFollowParameters());
+            return Client.Users.GetUsersYouRequestedToFollow(new GetUsersYouRequestedToFollowParameters());
         }
 
 
@@ -150,14 +140,14 @@ namespace Tweetinvi.Core.Models
         }
 
         // Get Blocked Users
-        public ITwitterIterator<long> GetBlockedUserIds()
+        public Task<long[]> GetBlockedUserIds()
         {
-            return Client.Users.GetBlockedUserIdsIterator();
+            return Client.Users.GetBlockedUserIds();
         }
 
-        public ITwitterIterator<IUser> GetBlockedUsers()
+        public Task<IUser[]> GetBlockedUsers()
         {
-            return Client.Users.GetBlockedUsersIterator();
+            return Client.Users.GetBlockedUsers();
         }
 
         // Spam
@@ -182,9 +172,9 @@ namespace Tweetinvi.Core.Models
         }
 
         // Direct Messages
-        public ITwitterIterator<IMessage> GetLatestMessages()
+        public Task<IMessage[]> GetLatestMessages()
         {
-            throw new NotImplementedException();
+            return Client.Messages.GetMessages();
         }
 
         public Task<IMessage> PublishMessage(IPublishMessageParameters publishMessageParameters)
@@ -231,14 +221,14 @@ namespace Tweetinvi.Core.Models
         }
 
         // Mute
-        public ITwitterIterator<long> GetMutedUserIds()
+        public Task<long[]> GetMutedUserIds()
         {
-            return Client.Users.GetMutedUserIdsIterator();
+            return Client.Users.GetMutedUserIds();
         }
 
-        public ITwitterIterator<IUser> GetMutedUsers()
+        public Task<IUser[]> GetMutedUsers()
         {
-            return Client.Users.GetMutedUsersIterator();
+            return Client.Users.GetMutedUsers();
         }
 
         public Task MuteUser(IUserIdentifier user)
