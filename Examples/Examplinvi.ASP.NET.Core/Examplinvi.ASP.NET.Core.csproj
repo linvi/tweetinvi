@@ -18,14 +18,14 @@
 
 
     <ItemGroup>
-      <ProjectReference Include="..\..\Tweetinvi.Controllers\Tweetinvi.Controllers.csproj" />
-      <ProjectReference Include="..\..\Tweetinvi.Core\Tweetinvi.Core.csproj" />
-      <ProjectReference Include="..\..\Tweetinvi.Credentials\Tweetinvi.Credentials.csproj" />
-      <ProjectReference Include="..\..\Tweetinvi.Logic\Tweetinvi.Logic.csproj" />
-      <ProjectReference Include="..\..\Tweetinvi.Security\Tweetinvi.Security.csproj" />
-      <ProjectReference Include="..\..\Tweetinvi.Streams\Tweetinvi.Streams.csproj" />
-      <ProjectReference Include="..\..\Tweetinvi.WebLogic\Tweetinvi.WebLogic.csproj" />
-      <ProjectReference Include="..\..\Tweetinvi\Tweetinvi.csproj" />
+        <ProjectReference Include="..\..\src\Tweetinvi.Controllers\Tweetinvi.Controllers.csproj" />
+        <ProjectReference Include="..\..\src\Tweetinvi.Core\Tweetinvi.Core.csproj" />
+        <ProjectReference Include="..\..\src\Tweetinvi.Credentials\Tweetinvi.Credentials.csproj" />
+        <ProjectReference Include="..\..\src\Tweetinvi.Logic\Tweetinvi.Logic.csproj" />
+        <ProjectReference Include="..\..\src\Tweetinvi.Security\Tweetinvi.Security.csproj" />
+        <ProjectReference Include="..\..\src\Tweetinvi.Streams\Tweetinvi.Streams.csproj" />
+        <ProjectReference Include="..\..\src\Tweetinvi.WebLogic\Tweetinvi.WebLogic.csproj" />
+        <ProjectReference Include="..\..\src\Tweetinvi\Tweetinvi.csproj" />
     </ItemGroup>
 
 </Project>

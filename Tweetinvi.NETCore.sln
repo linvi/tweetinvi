@@ -3,39 +3,40 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27004.2005
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tweetinvi.Core", "Tweetinvi.Core\Tweetinvi.Core.csproj", "{9101F0E8-CFA4-49B5-8568-C3136A765AAF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tweetinvi.Core", "src\Tweetinvi.Core\Tweetinvi.Core.csproj", "{9101F0E8-CFA4-49B5-8568-C3136A765AAF}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tweetinvi.Security", "Tweetinvi.Security\Tweetinvi.Security.csproj", "{8EB2050F-48CE-446A-AE3D-651857A6EABF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tweetinvi.Security", "src\Tweetinvi.Security\Tweetinvi.Security.csproj", "{8EB2050F-48CE-446A-AE3D-651857A6EABF}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tweetinvi.Logic", "Tweetinvi.Logic\Tweetinvi.Logic.csproj", "{B4C1DEDA-5769-4AEB-831C-7E1B4371BB13}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tweetinvi.Logic", "src\Tweetinvi.Logic\Tweetinvi.Logic.csproj", "{B4C1DEDA-5769-4AEB-831C-7E1B4371BB13}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tweetinvi.Streams", "Tweetinvi.Streams\Tweetinvi.Streams.csproj", "{8C34703A-6E99-446D-9B15-03D96987174D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tweetinvi.Streams", "src\Tweetinvi.Streams\Tweetinvi.Streams.csproj", "{8C34703A-6E99-446D-9B15-03D96987174D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tweetinvi.WebLogic", "Tweetinvi.WebLogic\Tweetinvi.WebLogic.csproj", "{77830533-DB3C-42B5-8551-8B2335E501D4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tweetinvi.WebLogic", "src\Tweetinvi.WebLogic\Tweetinvi.WebLogic.csproj", "{77830533-DB3C-42B5-8551-8B2335E501D4}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tweetinvi.Credentials", "Tweetinvi.Credentials\Tweetinvi.Credentials.csproj", "{D68ED488-4970-4301-BF3C-D56C1E6B9B31}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tweetinvi.Credentials", "src\Tweetinvi.Credentials\Tweetinvi.Credentials.csproj", "{D68ED488-4970-4301-BF3C-D56C1E6B9B31}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tweetinvi.Controllers", "Tweetinvi.Controllers\Tweetinvi.Controllers.csproj", "{DB56C7C1-12FC-48C8-A79E-13B08E5E5B84}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tweetinvi.Controllers", "src\Tweetinvi.Controllers\Tweetinvi.Controllers.csproj", "{DB56C7C1-12FC-48C8-A79E-13B08E5E5B84}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tweetinvi", "Tweetinvi\Tweetinvi.csproj", "{5C207EEF-BD2E-47A0-8E35-591207240476}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tweetinvi", "src\Tweetinvi\Tweetinvi.csproj", "{5C207EEF-BD2E-47A0-8E35-591207240476}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Examplinvi.NETStandard", "Examplinvi.NETStandard\Examplinvi.NETStandard.csproj", "{1BF67ABB-5417-47DC-8C28-FF1DD7DC0B07}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tweetinvi.Webhooks", "src\Tweetinvi.Webhooks\Tweetinvi.Webhooks.csproj", "{E77AE04C-4ABA-49EC-9474-38FD844335C9}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Examples", "Examples", "{BF17EF93-A82C-43D8-813C-0DBBC53A8A80}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tweetinvi.WebhooksShared", "src\Tweetinvi.WebhooksShared\Tweetinvi.WebhooksShared.csproj", "{C7DA430B-6B60-4D29-9271-7A2B95A1986D}"
+EndProject
+
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Examples", "Examples\Examples", "{BF17EF93-A82C-43D8-813C-0DBBC53A8A80}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Examplinvi.NETStandard", "Examples\Examplinvi.NETStandard\Examplinvi.NETStandard.csproj", "{1BF67ABB-5417-47DC-8C28-FF1DD7DC0B07}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Examplinvi.ASP.NET.Core", "Examples\Examplinvi.ASP.NET.Core\Examplinvi.ASP.NET.Core.csproj", "{30E2B00B-95C1-4BEC-B82B-D243FECEDA06}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tweetinvi.Webhooks", "Tweetinvi.Webhooks\Tweetinvi.Webhooks.csproj", "{E77AE04C-4ABA-49EC-9474-38FD844335C9}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tweetinvi.WebhooksShared", "Tweetinvi.WebhooksShared\Tweetinvi.WebhooksShared.csproj", "{C7DA430B-6B60-4D29-9271-7A2B95A1986D}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Examplinvi.AccountActivityEvents", "Examples\Examplinvi.AccountActivityEvents\Examplinvi.AccountActivityEvents.csproj", "{4D3DAD15-7FF2-4856-BC7C-5D2FA76FDE9E}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "xUnitinvi", "Tests\xUnitinvi\xUnitinvi.csproj", "{CBD29D82-78F3-4837-8E46-95D3628514D7}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Examplinvi.AccountActivity.ASP.NETCore", "Examples\Examplinvi.AccountActivity.ASP.NETCore\Examplinvi.AccountActivity.ASP.NETCore.csproj", "{ED62F953-191C-47BF-9B5C-59916A37D2DF}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Examplinvi.AccountActivity.ASP.NETCore.3.0", "Examples\Examplinvi.AccountActivity.ASP.NETCore.3.0\Examplinvi.AccountActivity.ASP.NETCore.3.0.csproj", "{CAB04D52-8A0D-4F20-BF60-5B70491F4D26}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "xUnitinvi", "Tests\xUnitinvi\xUnitinvi.csproj", "{CBD29D82-78F3-4837-8E46-95D3628514D7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
