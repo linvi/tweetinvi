@@ -6,7 +6,7 @@
     }
 
 
-    public interface IWebhookSubscriptionListDTO
+    public interface IWebhookEnvironmentSubscriptionsDTO
     {
         string Environment { get; set; }
         string ApplicationId { get; set; }

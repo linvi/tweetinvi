@@ -31,7 +31,7 @@ namespace xUnitinvi.EndToEnd
                 return;
 
             var environment = "sandbox";
-            var timeoutBetweenOperations = TimeSpan.FromSeconds(20);
+            var timeoutBetweenOperations = TimeSpan.FromSeconds(25);
 
             await AccountActivityEndToEndTests.RunAccountActivityTest(async config =>
             {
@@ -53,7 +53,7 @@ namespace xUnitinvi.EndToEnd
                 RegisterEvents(stream, state);
 
                 await userClient.AccountActivity.SubscribeToAccountActivity(environment);
-                await Task.Delay(timeoutBetweenOperations); // long timeout as twitter does not start the webhook straight away
+                await Task.Delay(TimeSpan.FromSeconds(30)); // long timeout as twitter does not start the webhook straight away
 
                 var tweet = await userClient.Tweets.PublishTweet($"testing webhooks -> v1");
                 await Task.Delay(timeoutBetweenOperations);

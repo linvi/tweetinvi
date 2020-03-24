@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Threading.Tasks;
 using Tweetinvi.Client.Requesters;
 using Tweetinvi.Exceptions;
@@ -25,37 +26,37 @@ namespace Tweetinvi.Client
             return _client.CreateTwitterExecutionContext().Container.Resolve<IAccountActivityRequestHandler>();
         }
 
-        public Task<IWebhookDTO> CreateAccountActivityWebhook(string environment, string webhookUrl)
+        public Task<IWebhook> CreateAccountActivityWebhook(string environment, string webhookUrl)
         {
             return CreateAccountActivityWebhook(new CreateAccountActivityWebhookParameters(environment, webhookUrl));
         }
 
-        public async Task<IWebhookDTO> CreateAccountActivityWebhook(ICreateAccountActivityWebhookParameters parameters)
+        public async Task<IWebhook> CreateAccountActivityWebhook(ICreateAccountActivityWebhookParameters parameters)
         {
             var twitterResult = await _accountActivityRequester.CreateAccountActivityWebhook(parameters).ConfigureAwait(false);
-            return twitterResult?.DataTransferObject;
+            return _client.Factories.CreateWebhook(twitterResult?.DataTransferObject);
         }
 
-        public Task<IWebhookEnvironmentDTO[]> GetAccountActivityWebhookEnvironments()
+        public Task<IWebhookEnvironment[]> GetAccountActivityWebhookEnvironments()
         {
             return GetAccountActivityWebhookEnvironments(new GetAccountActivityWebhookEnvironmentsParameters());
         }
 
-        public async Task<IWebhookEnvironmentDTO[]> GetAccountActivityWebhookEnvironments(IGetAccountActivityWebhookEnvironmentsParameters parameters)
+        public async Task<IWebhookEnvironment[]> GetAccountActivityWebhookEnvironments(IGetAccountActivityWebhookEnvironmentsParameters parameters)
         {
             var twitterResult = await _accountActivityRequester.GetAccountActivityWebhookEnvironments(parameters).ConfigureAwait(false);
-            return twitterResult?.DataTransferObject?.Environments;
+            return twitterResult?.DataTransferObject?.Environments.Select(x => _client.Factories.CreateWebhookEnvironment(x)).ToArray();
         }
 
-        public Task<IWebhookDTO[]> GetAccountActivityEnvironmentWebhooks(string environment)
+        public Task<IWebhook[]> GetAccountActivityEnvironmentWebhooks(string environment)
         {
             return GetAccountActivityEnvironmentWebhooks(new GetAccountActivityEnvironmentWebhooksParameters(environment));
         }
 
-        public async Task<IWebhookDTO[]> GetAccountActivityEnvironmentWebhooks(IGetAccountActivityEnvironmentWebhooksParameters parameters)
+        public async Task<IWebhook[]> GetAccountActivityEnvironmentWebhooks(IGetAccountActivityEnvironmentWebhooksParameters parameters)
         {
             var twitterResult = await _accountActivityRequester.GetAccountActivityEnvironmentWebhooks(parameters).ConfigureAwait(false);
-            return twitterResult?.DataTransferObject;
+            return twitterResult?.DataTransferObject?.Select(x => _client.Factories.CreateWebhook(x)).ToArray();
         }
 
         public Task DeleteAccountActivityWebhook(string environment, string webhookId)
@@ -88,12 +89,12 @@ namespace Tweetinvi.Client
             await _accountActivityRequester.SubscribeToAccountActivity(parameters).ConfigureAwait(false);
         }
 
-        public Task<IGetWebhookSubscriptionsCountResultDTO> CountAccountActivitySubscriptions()
+        public Task<IWebhookSubscriptionsCount> CountAccountActivitySubscriptions()
         {
             return CountAccountActivitySubscriptions(new CountAccountActivitySubscriptionsParameters());
         }
 
-        public async Task<IGetWebhookSubscriptionsCountResultDTO> CountAccountActivitySubscriptions(ICountAccountActivitySubscriptionsParameters parameters)
+        public async Task<IWebhookSubscriptionsCount> CountAccountActivitySubscriptions(ICountAccountActivitySubscriptionsParameters parameters)
         {
             var twitterResult = await _accountActivityRequester.CountAccountActivitySubscriptions(parameters).ConfigureAwait(false);
             return twitterResult?.DataTransferObject;
@@ -117,15 +118,15 @@ namespace Tweetinvi.Client
             }
         }
 
-        public Task<IWebhookSubscriptionListDTO> GetAccountActivitySubscriptions(string environment)
+        public Task<IWebhookEnvironmentSubscriptions> GetAccountActivitySubscriptions(string environment)
         {
             return GetAccountActivitySubscriptions(new GetAccountActivitySubscriptionsParameters(environment));
         }
 
-        public async Task<IWebhookSubscriptionListDTO> GetAccountActivitySubscriptions(IGetAccountActivitySubscriptionsParameters parameters)
+        public async Task<IWebhookEnvironmentSubscriptions> GetAccountActivitySubscriptions(IGetAccountActivitySubscriptionsParameters parameters)
         {
             var twitterResult = await _accountActivityRequester.GetAccountActivitySubscriptions(parameters).ConfigureAwait(false);
-            return twitterResult?.DataTransferObject;
+            return _client.Factories.CreateWebhookEnvironmentSubscriptions(twitterResult?.DataTransferObject);
         }
 
         public Task UnsubscribeFromAccountActivity(string environment, long userId)

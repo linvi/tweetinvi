@@ -7,8 +7,8 @@ namespace xUnitinvi.EndToEnd
         // ReSharper disable ConvertToConstant.Global
         public static readonly bool ShouldRunEndToEndTests = false;
         public static readonly bool ShouldRunRateLimitHungryTests = false;
-        public static readonly bool ShouldRunAccountActivityStreamTests = false; // very slow tests
-        public static readonly bool ShouldRunAuthTests = false;
+        public static readonly bool ShouldRunAccountActivityStreamTests = true; // very slow tests
+        public static readonly bool ShouldRunAuthTests = true;
         // ReSharper restore ConvertToConstant.Global
 
         public static readonly IntegrationTestAccount TweetinviApi = new IntegrationTestAccount
