@@ -1,6 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" DefaultTargets="Build" 
-  xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="..\..\..\Tweetinvi\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\..\..\Tweetinvi\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -259,15 +258,15 @@
     <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Tweetinvi.Core\Tweetinvi.Core.csproj">
+    <ProjectReference Include="..\..\src\Tweetinvi.AspNet\Tweetinvi.AspNet.csproj">
+      <Project>{07dc80be-112b-4242-bcd8-51ce31c13722}</Project>
+      <Name>Tweetinvi.AspNet</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\src\Tweetinvi.Core\Tweetinvi.Core.csproj">
       <Project>{1af835d2-c7a8-4d91-9616-8acc91e7bfe2}</Project>
       <Name>Tweetinvi.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Tweetinvi.Webhooks\Tweetinvi.Webhooks.csproj">
-      <Project>{07dc80be-112b-4242-bcd8-51ce31c13722}</Project>
-      <Name>Tweetinvi.Webhooks</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Tweetinvi\Tweetinvi.csproj">
+    <ProjectReference Include="..\..\src\Tweetinvi\Tweetinvi.csproj">
       <Project>{f5d1bee1-7517-4cbd-aa8f-3599ad5c456b}</Project>
       <Name>Tweetinvi</Name>
     </ProjectReference>

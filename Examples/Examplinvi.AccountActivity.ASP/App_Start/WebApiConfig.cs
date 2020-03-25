@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Web.Http;
 using Tweetinvi;
 using Tweetinvi.AspNet;
+using Tweetinvi.AspNet.Public;
 using Tweetinvi.Models;
 
 namespace Examplinvi.AccountActivity.ASP
