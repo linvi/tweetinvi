@@ -58,7 +58,7 @@ namespace Examplinvi.AccountActivity.ASP.Controllers
 
         [HttpGet]
         [Route("GetWebhookEnvironments")]
-        public async Task<IWebhookEnvironmentDTO[]> GetWebhookEnvironments()
+        public async Task<IWebhookEnvironment[]> GetWebhookEnvironments()
         {
             return await _accountActivityWebhooksController.GetAccountActivityWebhookEnvironments();
         }
@@ -71,21 +71,21 @@ namespace Examplinvi.AccountActivity.ASP.Controllers
         {
             return await _accountActivityWebhooksController.CountAccountActivitySubscriptions();
         }
-        
+
         [HttpGet]
         [Route("GetWebhookSubscriptions")]
-        public async Task<IWebhookSubscriptionDTO[]> GetWebhookSubscriptions(string environment)
+        public async Task<IWebhookSubscription[]> GetWebhookSubscriptions(string environment)
         {
             return await _accountActivitySubscriptionsController.GetWebhookSubscriptions(environment);
         }
-        
+
         [HttpPost]
         [Route("SubscribeToAccountActivity")]
         public async Task<bool> SubscribeToAccountActivity(string environment, long userId)
         {
             return await _accountActivitySubscriptionsController.SubscribeToAccountActivity(environment, userId);
         }
-        
+
         [HttpPost]
         public async Task<bool> UnsubscribeFromAccountActivity(string environment, long userId)
         {
