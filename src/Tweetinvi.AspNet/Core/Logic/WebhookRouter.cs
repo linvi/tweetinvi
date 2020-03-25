@@ -36,14 +36,14 @@ namespace Tweetinvi.AspNet.Core.Logic
             var isCrcChallenge = _webhooksHelper.IsCrcChallenge(request);
             if (isCrcChallenge)
             {
-                return await _webhooksRoutes.TryToReplyToCrcChallenge(request, credentials);
+                return await _webhooksRoutes.TryToReplyToCrcChallenge(request, credentials).ConfigureAwait(false);
             }
 
             var jsonBody = await request.GetJsonFromBody().ConfigureAwait(false);
 
             _webhookDispatcher.WebhookMessageReceived(new WebhookMessage(jsonBody));
 
-            return await Task.FromResult(true);
+            return await Task.FromResult(true).ConfigureAwait(false);
         }
     }
 }

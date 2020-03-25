@@ -37,7 +37,7 @@ namespace xUnitinvi.EndToEnd
 
             // act - pre-cleanup
 
-            await Task.Delay(1000).ConfigureAwait(false); // time required for timeline to be generated
+            await Task.Delay(1000); // time required for timeline to be generated
             var recentTweetIterators = _tweetinviClient.Timelines.GetHomeTimelineIterator();
             var recentTweets = await recentTweetIterators.MoveToNextPage();
             var tweetToDelete = recentTweets.FirstOrDefault(x => x.Text == "tweet 1!");
@@ -50,7 +50,7 @@ namespace xUnitinvi.EndToEnd
             // act
             var tweet1 = await _tweetinviTestClient.Tweets.PublishTweet("tweet 1!");
 
-            await Task.Delay(2000).ConfigureAwait(false); // time required for timeline to be generated
+            await Task.Delay(2000); // time required for timeline to be generated
 
             await _tweetinviClient.Timelines.GetHomeTimeline();
             var iterator = _tweetinviClient.Timelines.GetHomeTimelineIterator(new GetHomeTimelineParameters

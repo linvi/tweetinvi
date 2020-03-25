@@ -157,7 +157,7 @@ namespace xUnitinvi.EndToEnd
                         var webhookRequest = WebhookRequestFactory.Create(context);
                         if (await accountActivityHandler.IsRequestManagedByTweetinvi(webhookRequest))
                         {
-                            await accountActivityHandler.TryRouteRequest(webhookRequest).ConfigureAwait(false);
+                            await accountActivityHandler.TryRouteRequest(webhookRequest);
                         }
                     };
 

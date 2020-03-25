@@ -121,7 +121,7 @@ namespace Tweetinvi.Streams
                 }
             }
 
-            await _streamResultGenerator.StartStream(OnJsonReceived, CreateTwitterRequest);
+            await _streamResultGenerator.StartStream(OnJsonReceived, CreateTwitterRequest).ConfigureAwait(false);
         }
 
         public async Task StartStreamMatchingAllConditions()
@@ -173,7 +173,7 @@ namespace Tweetinvi.Streams
                 }
             }
 
-            await _streamResultGenerator.StartStream(JsonReceived, CreateTwitterRequest);
+            await _streamResultGenerator.StartStream(JsonReceived, CreateTwitterRequest).ConfigureAwait(false);
         }
 
         public MatchOn CheckIfTweetMatchesStreamFilters(ITweet tweet)

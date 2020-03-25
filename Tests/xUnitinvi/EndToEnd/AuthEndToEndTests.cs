@@ -38,9 +38,9 @@ namespace xUnitinvi.EndToEnd
             var appCreds = new TwitterCredentials(testCreds.ConsumerKey, testCreds.ConsumerSecret);
 
             var appClient = new TwitterClient(appCreds);
-            await appClient.Auth.InitializeClientBearerToken().ConfigureAwait(false);
+            await appClient.Auth.InitializeClientBearerToken();
 
-            var tweet = await appClient.Tweets.GetTweet(979753598446948353).ConfigureAwait(false);
+            var tweet = await appClient.Tweets.GetTweet(979753598446948353);
 
             // assert
             Assert.Matches("Tweetinvi 3.0", tweet.Text);
@@ -73,12 +73,12 @@ namespace xUnitinvi.EndToEnd
                 return;
 
             var authenticationClient = new TwitterClient(EndToEndTestConfig.TweetinviTest.Credentials);
-            var authenticationRequest = await authenticationClient.Auth.RequestAuthenticationUrl().ConfigureAwait(false);
+            var authenticationRequest = await authenticationClient.Auth.RequestAuthenticationUrl();
             var authUrl = authenticationRequest.AuthorizationURL;
 
             // ask the user for the pin code
-            var verifierCode = await ExtractPinCodeFromTwitterAuthPage(authUrl).ConfigureAwait(false);
-            var userCredentials = await authenticationClient.Auth.RequestCredentialsFromVerifierCode(verifierCode, authenticationRequest).ConfigureAwait(false);
+            var verifierCode = await ExtractPinCodeFromTwitterAuthPage(authUrl);
+            var userCredentials = await authenticationClient.Auth.RequestCredentialsFromVerifierCode(verifierCode, authenticationRequest);
 
             var client = new TwitterClient(userCredentials);
             var accountUser = await client.Users.GetAuthenticatedUser();
@@ -100,14 +100,14 @@ namespace xUnitinvi.EndToEnd
 
             // act
             var authenticationClient = new TwitterClient(EndToEndTestConfig.TweetinviApi.Credentials);
-            var authenticationRequest = await authenticationClient.Auth.RequestAuthenticationUrl().ConfigureAwait(false);
+            var authenticationRequest = await authenticationClient.Auth.RequestAuthenticationUrl();
             var authUrl = authenticationRequest.AuthorizationURL;
 
             // ask the user for the pin code
-            var verifierCode = await ExtractPinCodeFromTwitterAuthPage(authUrl).ConfigureAwait(false);
-            var userCredentials = await authenticationClient.Auth.RequestCredentialsFromVerifierCode(verifierCode, authenticationRequest).ConfigureAwait(false);
+            var verifierCode = await ExtractPinCodeFromTwitterAuthPage(authUrl);
+            var userCredentials = await authenticationClient.Auth.RequestCredentialsFromVerifierCode(verifierCode, authenticationRequest);
             var authenticatedClient = new TwitterClient(userCredentials);
-            var authenticatedUser = await authenticatedClient.Users.GetAuthenticatedUser().ConfigureAwait(false);
+            var authenticatedUser = await authenticatedClient.Users.GetAuthenticatedUser();
 
             // assert
             Assert.Equal(authenticatedUser.ScreenName, EndToEndTestConfig.ProtectedUser.AccountId);
@@ -137,14 +137,14 @@ namespace xUnitinvi.EndToEnd
                 AuthAccessType = AuthAccessType.ReadWrite
             });
 
-            var authenticatedClient = await GetAuthenticatedTwitterClientViaRedirect(client, authContext).ConfigureAwait(false);
+            var authenticatedClient = await GetAuthenticatedTwitterClientViaRedirect(client, authContext);
 
             // assert
-            var authenticatedUser = await authenticatedClient.Users.GetAuthenticatedUser().ConfigureAwait(false);
+            var authenticatedUser = await authenticatedClient.Users.GetAuthenticatedUser();
 
             // has write permissions
-            var tweet = await authenticatedClient.Tweets.PublishTweet("random tweet").ConfigureAwait(false);
-            await tweet.Destroy().ConfigureAwait(false);
+            var tweet = await authenticatedClient.Tweets.PublishTweet("random tweet");
+            await tweet.Destroy();
 
             Assert.Equal(authenticatedUser.ScreenName, EndToEndTestConfig.ProtectedUser.AccountId);
         }
@@ -163,8 +163,8 @@ namespace xUnitinvi.EndToEnd
                 AuthAccessType = AuthAccessType.Read
             });
 
-            var authenticatedClient = await GetAuthenticatedTwitterClientViaRedirect(client, authContext).ConfigureAwait(false);
-            var authenticatedUser = await authenticatedClient.Users.GetAuthenticatedUser().ConfigureAwait(false);
+            var authenticatedClient = await GetAuthenticatedTwitterClientViaRedirect(client, authContext);
+            var authenticatedUser = await authenticatedClient.Users.GetAuthenticatedUser();
 
             // assert
             await Assert.ThrowsAsync<TwitterException>(() => authenticatedClient.Tweets.PublishTweet("random tweet"));
@@ -180,14 +180,14 @@ namespace xUnitinvi.EndToEnd
                 .Matching(request => { return request.Url.AbsoluteUri.Contains(authRequest.AuthorizationKey); })
                 .MustHaveHappened();
 
-            await AuthenticateWithRedirectUrlOnTwitterAuthPage(authRequest.AuthorizationURL, authRequest.AuthorizationKey).ConfigureAwait(false);
+            await AuthenticateWithRedirectUrlOnTwitterAuthPage(authRequest.AuthorizationURL, authRequest.AuthorizationKey);
 
-            var authHttpRequest = await expectAuthRequestTask.ConfigureAwait(false);
+            var authHttpRequest = await expectAuthRequestTask;
 
             // Ask the user to enter the pin code given by Twitter
             var callbackUrl = authHttpRequest.Url.AbsoluteUri;
 
-            var userCredentials = await client.Auth.RequestCredentialsFromCallbackUrl(callbackUrl, authRequest).ConfigureAwait(false);
+            var userCredentials = await client.Auth.RequestCredentialsFromCallbackUrl(callbackUrl, authRequest);
             var authenticatedClient = new TwitterClient(userCredentials);
             return authenticatedClient;
         }

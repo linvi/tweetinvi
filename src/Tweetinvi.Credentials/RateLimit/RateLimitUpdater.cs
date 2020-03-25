@@ -81,7 +81,7 @@ namespace Tweetinvi.Credentials.RateLimit
             }
             else
             {
-                await QueryExecuted(query, credentials);
+                await QueryExecuted(query, credentials).ConfigureAwait(false);
             }
         }
 

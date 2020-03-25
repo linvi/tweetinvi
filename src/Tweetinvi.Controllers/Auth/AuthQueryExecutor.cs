@@ -50,7 +50,6 @@ namespace Tweetinvi.Controllers.Auth
             request.Query.Url = _queryGenerator.GetRequestAuthUrlQuery(parameters);
             request.Query.HttpMethod = HttpMethod.POST;
             request.TwitterClientHandler = new AuthHttpHandler(callbackParameter, parameters.AuthRequest, oAuthWebRequestGenerator);
-
             return _twitterAccessor.ExecuteRequest(request);
         }
 
@@ -63,31 +62,24 @@ namespace Tweetinvi.Controllers.Auth
             request.Query.HttpMethod = HttpMethod.POST;
             request.Query.TwitterCredentials = new TwitterCredentials(parameters.AuthRequest.ConsumerKey, parameters.AuthRequest.ConsumerSecret);
             request.TwitterClientHandler = new AuthHttpHandler(callbackParameter, parameters.AuthRequest, oAuthWebRequestGenerator);
-
             return _twitterAccessor.ExecuteRequest(request);
         }
 
-        public async Task<ITwitterResult> InvalidateBearerToken(IInvalidateBearerTokenParameters parameters, ITwitterRequest request)
+        public Task<ITwitterResult> InvalidateBearerToken(IInvalidateBearerTokenParameters parameters, ITwitterRequest request)
         {
             var oAuthWebRequestGenerator = _oAuthWebRequestGeneratorFactory.Create();
 
             request.Query.Url = _queryGenerator.GetInvalidateBearerTokenQuery(parameters);
             request.Query.HttpMethod = HttpMethod.POST;
             request.TwitterClientHandler = new InvalidateTokenHttpHandler(oAuthWebRequestGenerator);
-
-            var result = await _twitterAccessor.ExecuteRequest(request);
-
-            return result;
+            return _twitterAccessor.ExecuteRequest(request);
         }
 
-        public async Task<ITwitterResult> InvalidateAccessToken(IInvalidateAccessTokenParameters parameters, ITwitterRequest request)
+        public Task<ITwitterResult> InvalidateAccessToken(IInvalidateAccessTokenParameters parameters, ITwitterRequest request)
         {
             request.Query.Url = _queryGenerator.GetInvalidateAccessTokenQuery(parameters);
             request.Query.HttpMethod = HttpMethod.POST;
-
-            var result = await _twitterAccessor.ExecuteRequest(request);
-
-            return result;
+            return _twitterAccessor.ExecuteRequest(request);
         }
     }
 }

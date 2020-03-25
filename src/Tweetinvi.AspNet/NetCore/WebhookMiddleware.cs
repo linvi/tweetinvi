@@ -30,10 +30,11 @@ namespace Tweetinvi.AspNet
         public async Task Invoke(HttpContext context)
         {
             var request = new WebhooksRequestForAspNetCore(context);
+            var isRequestManagedByTweetinvi = await _accountActivityHandler.IsRequestManagedByTweetinvi(request).ConfigureAwait(false);
 
-            if (await _accountActivityHandler.IsRequestManagedByTweetinvi(request))
+            if (isRequestManagedByTweetinvi)
             {
-                var routeHandled = await _accountActivityHandler.TryRouteRequest(request);
+                var routeHandled = await _accountActivityHandler.TryRouteRequest(request).ConfigureAwait(false);
                 if (routeHandled)
                 {
                     return;
@@ -41,7 +42,7 @@ namespace Tweetinvi.AspNet
             }
 
             // Continue to any other request supported by the website.
-            await _next(context);
+            await _next(context).ConfigureAwait(false);
         }
     }
 }

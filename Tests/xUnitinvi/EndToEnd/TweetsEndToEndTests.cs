@@ -124,7 +124,7 @@ namespace xUnitinvi.EndToEnd
 
             var sourceTweet = await _protectedClient.Tweets.GetTweet(tweetId);
             var retweet = await _protectedClient.Tweets.PublishRetweet(sourceTweet);
-            await Task.Delay(TimeSpan.FromSeconds(30)); // for Twitter to sync
+            await Task.Delay(TimeSpan.FromSeconds(35)); // for Twitter to sync
             var sourceRetweets = await _protectedClient.Tweets.GetRetweets(sourceTweet);
             var tweetAfterRetweet = await _protectedClient.Tweets.GetTweet(tweetId);
 
@@ -137,7 +137,7 @@ namespace xUnitinvi.EndToEnd
                 allRetweeterIdsBefore.AddRange(await retweeterIdsBeforeIterator.MoveToNextPage());
             }
 
-            await _protectedClient.Tweets.DestroyRetweet(retweet).ConfigureAwait(false);
+            await _protectedClient.Tweets.DestroyRetweet(retweet);
             var tweetAfterDestroy = await _protectedClient.Tweets.GetTweet(tweetId);
 
             // assert
@@ -154,20 +154,20 @@ namespace xUnitinvi.EndToEnd
             if (!EndToEndTestConfig.ShouldRunEndToEndTests)
                 return;
 
-            var tweet = await _tweetinviTestClient.Tweets.PublishTweet(Guid.NewGuid().ToString()).ConfigureAwait(false);
+            var tweet = await _tweetinviTestClient.Tweets.PublishTweet(Guid.NewGuid().ToString());
             var favoritedAtStart = tweet.Favorited;
 
-            await _tweetinviTestClient.Tweets.FavoriteTweet(tweet).ConfigureAwait(false);
-            var tweetAfterFavoriteCall = await _tweetinviTestClient.Tweets.GetTweet(tweet.Id).ConfigureAwait(false);
+            await _tweetinviTestClient.Tweets.FavoriteTweet(tweet);
+            var tweetAfterFavoriteCall = await _tweetinviTestClient.Tweets.GetTweet(tweet.Id);
             var inMemoryTweetFavoriteStateAfterFavoriteCall = tweet.Favorited;
 
             await _tweetinviTestClient.Tweets.GetUserFavoriteTweets(EndToEndTestConfig.TweetinviTest);
 
             await _tweetinviTestClient.Tweets.UnfavoriteTweet(tweet);
-            var tweetAfterUnfavoriteCall = await _tweetinviTestClient.Tweets.GetTweet(tweet.Id).ConfigureAwait(false);
+            var tweetAfterUnfavoriteCall = await _tweetinviTestClient.Tweets.GetTweet(tweet.Id);
             var inMemoryTweetFavoriteStateAfterUnfavoriteCall = tweet.Favorited;
 
-            await _tweetinviTestClient.Tweets.DestroyTweet(tweet).ConfigureAwait(false);
+            await _tweetinviTestClient.Tweets.DestroyTweet(tweet);
 
             // Assert
             Assert.False(favoritedAtStart);
@@ -183,8 +183,8 @@ namespace xUnitinvi.EndToEnd
             if (!EndToEndTestConfig.ShouldRunEndToEndTests)
                 return;
 
-            var tweet = await _tweetinviTestClient.Tweets.PublishTweet(Guid.NewGuid().ToString()).ConfigureAwait(false);
-            var oEmbedTweet = await _tweetinviTestClient.Tweets.GetOEmbedTweet(tweet).ConfigureAwait(false);
+            var tweet = await _tweetinviTestClient.Tweets.PublishTweet(Guid.NewGuid().ToString());
+            var oEmbedTweet = await _tweetinviTestClient.Tweets.GetOEmbedTweet(tweet);
 
             await tweet.Destroy();
 

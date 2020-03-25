@@ -125,7 +125,7 @@ namespace xUnitinvi.EndToEnd
             client.ClientSettings.RateLimitTrackerMode = RateLimitTrackerMode.TrackAndAwait;
 
             // act - assert
-            var rateLimits = await client.RateLimits.GetEndpointRateLimit(Resources.Timeline_GetHomeTimeline).ConfigureAwait(false);
+            var rateLimits = await client.RateLimits.GetEndpointRateLimit(Resources.Timeline_GetHomeTimeline);
             var rateLimitsRemaining = rateLimits.Remaining;
 
             await client.RateLimits.WaitForQueryRateLimit(Resources.Timeline_GetHomeTimeline);
@@ -133,7 +133,7 @@ namespace xUnitinvi.EndToEnd
             for (var i = 0; i < rateLimitsRemaining; ++i)
             {
                 var timelineIterator = client.Timelines.GetHomeTimelineIterator();
-                await timelineIterator.MoveToNextPage().ConfigureAwait(false);
+                await timelineIterator.MoveToNextPage();
             }
 
             A.CallTo(() => taskDelayer.Delay(It.IsAny<TimeSpan>())).MustNotHaveHappened();
@@ -144,7 +144,7 @@ namespace xUnitinvi.EndToEnd
             try
             {
                 var timelineIterator = client.Timelines.GetHomeTimelineIterator();
-                await timelineIterator.MoveToNextPage().ConfigureAwait(false);
+                await timelineIterator.MoveToNextPage();
             }
             // ReSharper disable once CC0004
             catch (Exception)

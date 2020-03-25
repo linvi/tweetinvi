@@ -35,27 +35,12 @@ namespace xUnitinvi.TestHelpers
             return FakedObject.ExecuteRequest<T>(request);
         }
 
-        public Task<AsyncOperation<string>> TryExecutePOSTQuery(string query)
+        public Task<byte[]> DownloadBinary(ITwitterRequest request)
         {
             throw new NotImplementedException();
         }
 
-        public Task<T> ExecuteGETQueryWithPath<T>(string query, params string[] paths) where T : class
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<T> ExecuteGETQuery<T>(string query, JsonConverter[] converters = null) where T : class
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<T> ExecutePOSTQuery<T>(string query, JsonConverter[] converters = null) where T : class
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<T> ExecuteQuery<T>(string query, HttpMethod method, IConsumerOnlyCredentials credentials, HttpContent httpContent = null) where T : class
+        public Task PrepareTwitterRequest(ITwitterRequest request)
         {
             throw new NotImplementedException();
         }

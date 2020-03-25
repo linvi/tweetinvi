@@ -51,7 +51,7 @@ namespace Tweetinvi.Core.Upload
 
                 TryComputeLength(out var size);
 
-                using (var contentStream = await _content.ReadAsStreamAsync())
+                using (var contentStream = await _content.ReadAsStreamAsync().ConfigureAwait(false))
                 {
                     while (true)
                     {
@@ -75,7 +75,7 @@ namespace Tweetinvi.Core.Upload
             TryComputeLength(out var length);
             return length;
         }
-        
+
         protected override bool TryComputeLength(out long length)
         {
             length = _content.Headers.ContentLength.GetValueOrDefault();

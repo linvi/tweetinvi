@@ -38,7 +38,7 @@ namespace xUnitinvi.TestHelpers
 
                 using (var httpClient = new HttpClient())
                 {
-                    var response = await httpClient.GetAsync("http://localhost:4040/api/tunnels").ConfigureAwait(false);
+                    var response = await httpClient.GetAsync("http://localhost:4040/api/tunnels");
                     var body = await response.Content.ReadAsStringAsync();
                     var match = Regex.Match(body, "\"public_url\":\"(?<url>https[^\"]*)");
                     _url = match.Groups["url"].Value;

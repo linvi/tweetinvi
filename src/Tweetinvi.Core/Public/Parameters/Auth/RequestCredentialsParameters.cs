@@ -42,13 +42,13 @@ namespace Tweetinvi.Parameters
         {
             var tokenId = authenticationRequestStore.ExtractAuthenticationRequestIdFromCallbackUrl(callbackUrl);
 
-            var authToken = await authenticationRequestStore.GetAuthenticationRequestFromId(tokenId);
+            var authToken = await authenticationRequestStore.GetAuthenticationRequestFromId(tokenId).ConfigureAwait(false);
             if (authToken == null)
             {
                 throw new Exception("Could not retrieve the authentication token");
             }
 
-            await authenticationRequestStore.RemoveAuthenticationToken(tokenId);
+            await authenticationRequestStore.RemoveAuthenticationToken(tokenId).ConfigureAwait(false);
 
             var oAuthVerifier = callbackUrl.GetURLParameter("oauth_verifier");
             if (oAuthVerifier == null)

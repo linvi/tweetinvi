@@ -120,6 +120,7 @@ namespace xUnitinvi.EndToEnd
             var isTweetinviApiAMemberAfterRemoving = await _tweetinviTestClient.Lists.CheckIfUserIsMemberOfList(publicList, EndToEndTestConfig.TweetinviApi);
 
             await _tweetinviTestClient.Lists.RemoveMembersFromList(publicList, new[] { "bbc", "lemondefr" });
+            await Task.Delay(_twitterEventualConsistencyDelay);
             var updatedList = await _tweetinviTestClient.Lists.GetList(publicList);
 
             await publicList.Destroy();

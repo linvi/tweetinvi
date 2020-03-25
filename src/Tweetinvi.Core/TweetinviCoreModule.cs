@@ -32,7 +32,6 @@ namespace Tweetinvi.Core.Injectinvi
             }
 
             container.RegisterGeneric(typeof(IFactory<>), typeof(Factory<>));
-            container.RegisterType<ITaskFactory, TaskFactory>();
             container.RegisterType<ISynchronousInvoker, SynchronousInvoker>();
             container.RegisterType<ITaskDelayer, TaskDelayer>(RegistrationLifetime.InstancePerApplication);
             container.RegisterType<ITweetinviSettingsAccessor, TweetinviSettingsAccessor>(RegistrationLifetime.InstancePerApplication);

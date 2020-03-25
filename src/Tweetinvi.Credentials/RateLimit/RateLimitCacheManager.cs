@@ -74,7 +74,7 @@ namespace Tweetinvi.Credentials.RateLimit
                 {
                     From = RateLimitsSource.TwitterApiOnly,
                     TrackerMode = RateLimitTrackerMode.None
-                });
+                }).ConfigureAwait(false);
             }
             catch (TwitterException)
             {

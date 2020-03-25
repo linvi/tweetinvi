@@ -26,7 +26,8 @@ namespace Tweetinvi.Client
 
         public async Task InitializeRateLimitsManager()
         {
-            if (await _rateLimitCacheManager.RateLimitCache.GetCredentialsRateLimits(_client.Credentials) == null)
+            var credentialsRateLimits = await _rateLimitCacheManager.RateLimitCache.GetCredentialsRateLimits(_client.Credentials).ConfigureAwait(false);
+            if (credentialsRateLimits == null)
             {
                 await _rateLimitCacheManager.RefreshCredentialsRateLimits(_client.Credentials).ConfigureAwait(false);
             }

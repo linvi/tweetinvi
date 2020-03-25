@@ -39,13 +39,13 @@ namespace xUnitinvi.EndToEnd
             var runStreamTask = Task.Run(async () =>
             {
                 _logger.WriteLine("Before starting stream");
-                await stream.StartStream().ConfigureAwait(false);
+                await stream.StartStream();
                 _logger.WriteLine("Stream completed");
             });
 
             var delayTask = Task.Delay(TimeSpan.FromSeconds(15));
 
-            var task = await Task.WhenAny(runStreamTask, delayTask).ConfigureAwait(false);
+            var task = await Task.WhenAny(runStreamTask, delayTask);
 
             if (task != runStreamTask)
             {
@@ -88,13 +88,13 @@ namespace xUnitinvi.EndToEnd
             var runStreamTask = Task.Run(async () =>
             {
                 _logger.WriteLine("Before starting stream");
-                await stream.StartStreamMatchingAllConditions().ConfigureAwait(false);
+                await stream.StartStreamMatchingAllConditions();
                 _logger.WriteLine("Stream completed");
             });
 
             var delayTask = Task.Delay(TimeSpan.FromSeconds(15));
 
-            var task = await Task.WhenAny(runStreamTask, delayTask).ConfigureAwait(false);
+            var task = await Task.WhenAny(runStreamTask, delayTask);
 
             if (task != runStreamTask)
             {
@@ -135,13 +135,13 @@ namespace xUnitinvi.EndToEnd
             var runStreamTask = Task.Run(async () =>
             {
                 _logger.WriteLine("Before starting stream");
-                await stream.StartStream("https://stream.twitter.com/1.1/statuses/sample.json").ConfigureAwait(false);
+                await stream.StartStream("https://stream.twitter.com/1.1/statuses/sample.json");
                 _logger.WriteLine("Stream completed");
             });
 
             var delayTask = Task.Delay(TimeSpan.FromSeconds(15));
 
-            var task = await Task.WhenAny(runStreamTask, delayTask).ConfigureAwait(false);
+            var task = await Task.WhenAny(runStreamTask, delayTask);
 
             if (task != runStreamTask)
             {
@@ -184,13 +184,13 @@ namespace xUnitinvi.EndToEnd
             var runStreamTask = Task.Run(async () =>
             {
                 _logger.WriteLine("Before starting stream");
-                await stream.StartStreamAsync("https://stream.twitter.com/1.1/statuses/filter.json?track=twitter").ConfigureAwait(false);
+                await stream.StartStreamAsync("https://stream.twitter.com/1.1/statuses/filter.json?track=twitter");
                 _logger.WriteLine("Stream completed");
             });
 
             var delayTask = Task.Delay(TimeSpan.FromSeconds(15));
 
-            var task = await Task.WhenAny(runStreamTask, delayTask).ConfigureAwait(false);
+            var task = await Task.WhenAny(runStreamTask, delayTask);
 
             if (task != runStreamTask)
             {
