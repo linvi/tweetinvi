@@ -34,5 +34,15 @@ namespace Tweetinvi.Client
         {
             return _executeRequester.Request(configureQuery);
         }
+
+        public Task<ITwitterRequest> PrepareTwitterRequest(Action<ITwitterQuery> configureQuery)
+        {
+            return _executeRequester.PrepareTwitterRequest(configureQuery);
+        }
+
+        public Task<ITwitterRequest> PrepareTwitterRequest(Action<ITwitterRequest> configureRequest)
+        {
+            return _executeRequester.PrepareTwitterRequest(configureRequest);
+        }
     }
 }

@@ -37,21 +37,41 @@ namespace Tweetinvi.Client.Requesters
             });
         }
 
-        public Task<ITwitterResult<T>> Request<T>(Action<ITwitterQuery> configureRequest) where T : class
+        public Task<ITwitterResult<T>> Request<T>(Action<ITwitterQuery> configureQuery) where T : class
         {
             return ExecuteRequest(request =>
             {
-                configureRequest(request.Query);
+                configureQuery(request.Query);
                 return _accessor.ExecuteRequest<T>(request);
             });
         }
 
-        public Task<ITwitterResult> Request(Action<ITwitterQuery> configureRequest)
+        public Task<ITwitterResult> Request(Action<ITwitterQuery> configureQuery)
         {
             return ExecuteRequest(request =>
             {
-                configureRequest(request.Query);
+                configureQuery(request.Query);
                 return _accessor.ExecuteRequest(request);
+            });
+        }
+
+        public Task<ITwitterRequest> PrepareTwitterRequest(Action<ITwitterQuery> configureQuery)
+        {
+            return ExecuteRequest(async request =>
+            {
+                configureQuery(request.Query);
+                await _accessor.PrepareTwitterRequest(request).ConfigureAwait(false);
+                return request;
+            });
+        }
+
+        public Task<ITwitterRequest> PrepareTwitterRequest(Action<ITwitterRequest> configureRequest)
+        {
+            return ExecuteRequest(async request =>
+            {
+                configureRequest(request);
+                await _accessor.PrepareTwitterRequest(request).ConfigureAwait(false);
+                return request;
             });
         }
     }

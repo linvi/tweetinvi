@@ -9,7 +9,11 @@ namespace Tweetinvi.Client
     {
         Task<ITwitterResult<T>> AdvanceRequest<T>(Action<ITwitterRequest> configureRequest) where T : class;
         Task<ITwitterResult> AdvanceRequest(Action<ITwitterRequest> configureRequest);
+
         Task<ITwitterResult<T>> Request<T>(Action<ITwitterQuery> configureQuery) where T : class;
         Task<ITwitterResult> Request(Action<ITwitterQuery> configureQuery);
+
+        Task<ITwitterRequest> PrepareTwitterRequest(Action<ITwitterQuery> configureQuery);
+        Task<ITwitterRequest> PrepareTwitterRequest(Action<ITwitterRequest> configureRequest);
     }
 }

@@ -28,18 +28,6 @@ namespace Tweetinvi.Credentials
             return _twitterResultFactory.Create<T>(request, response);
         }
 
-        // Download
-        public async Task<byte[]> DownloadBinary(ITwitterRequest request)
-        {
-            var response = await _twitterRequestHandler.ExecuteQuery(request).ConfigureAwait(false);
-            if (response.IsSuccessStatusCode)
-            {
-                return response.Binary;
-            }
-
-            return null;
-        }
-
         // Sign
         public Task PrepareTwitterRequest(ITwitterRequest request)
         {
