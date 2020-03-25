@@ -2,7 +2,6 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Tweetinvi.Core.Injectinvi;
-using Tweetinvi.Core.Logic;
 using Tweetinvi.Models;
 using Tweetinvi.Streaming.Webhooks;
 using Tweetinvi.Streams;

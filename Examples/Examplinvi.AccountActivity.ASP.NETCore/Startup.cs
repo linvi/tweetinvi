@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Tweetinvi;
 using Tweetinvi.AspNet;
+using Tweetinvi.AspNet.Public;
 using Tweetinvi.Models;
 
 namespace Examplinvi.AccountActivity.ASP.NETCore
@@ -37,11 +38,9 @@ namespace Examplinvi.AccountActivity.ASP.NETCore
         {
             Plugins.Add<WebhooksPlugin>();
 
-            var credentials = new TwitterCredentials("S7zdhisQjfVeyxev4upGaDS6P",
-                "hbgWl5XHWizuJbajBKq7xobhfW4aC3xAmz3xzaUL9NiBmrWG5t",
-                "1577389800-JOJC1C4OvOq0ky13N8c5IelvfByB86uJelNmEuc", "DUM0gksYSe9ak1odfv2z2X0pWd0QsMV5ieivi6YOWrce8")
+            var credentials = new TwitterCredentials("CONSUMER_TOKEN", "CONSUMER_SECRET", "ACCESS_TOKEN", "ACCESS_TOKEN_SECRET")
             {
-                BearerToken = "AAAAAAAAAAAAAAAAAAAAAFqqSQAAAAAABRtNASGJXtIVX1somRAmqhSj68o%3Dm3n0HLyG1OmZaFDsrLITnStpXHPU82RYr4HJAN1TdG9QpmEPky"
+                BearerToken = "BEARER_TOKEN"
             };
 
             WebhookClient = new TwitterClient(credentials);

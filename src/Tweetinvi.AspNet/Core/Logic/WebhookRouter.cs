@@ -2,7 +2,7 @@
 using Tweetinvi.Models;
 using Tweetinvi.Streaming.Webhooks;
 
-namespace Tweetinvi.Core.Logic
+namespace Tweetinvi.AspNet.Core.Logic
 {
     public interface IWebhookRouter
     {

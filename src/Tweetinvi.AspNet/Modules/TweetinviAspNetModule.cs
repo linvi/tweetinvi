@@ -1,10 +1,10 @@
-﻿using Tweetinvi.Core.Injectinvi;
-using Tweetinvi.Core.Logic;
+﻿using Tweetinvi.AspNet.Core.Logic;
+using Tweetinvi.Core.Injectinvi;
 using Tweetinvi.Models;
 
-namespace Tweetinvi.Modules
+namespace Tweetinvi.AspNet.Modules
 {
-    public class WebhooksSharedModule : ITweetinviModule
+    public class TweetinviAspNetModule : ITweetinviModule
     {
         public void Initialize(ITweetinviContainer container)
         {

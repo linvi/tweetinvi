@@ -17,9 +17,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tweetinvi.Security", "src\T
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tweetinvi.Streams", "src\Tweetinvi.Streams\Tweetinvi.Streams.csproj", "{5FFD016C-D903-480F-9EF1-F2E954B293F2}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tweetinvi.Webhooks", "src\Tweetinvi.AspNet\Tweetinvi.AspNet.csproj", "{07DC80BE-112B-4242-BCD8-51CE31C13722}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tweetinvi.WebhooksShared", "src\Tweetinvi.WebhooksShared\Tweetinvi.WebhooksShared.csproj", "{185672C7-BDE4-487E-8385-C5440E32B924}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tweetinvi.AspNet", "src\Tweetinvi.AspNet\Tweetinvi.AspNet.csproj", "{07DC80BE-112B-4242-BCD8-51CE31C13722}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tweetinvi.WebLogic", "src\Tweetinvi.WebLogic\Tweetinvi.WebLogic.csproj", "{E28C4C1F-05CD-4E56-8C70-987CAF7ACFBE}"
 EndProject

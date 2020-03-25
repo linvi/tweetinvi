@@ -51,10 +51,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Examplinvi.AccountActivity.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tweetinvi.Webhooks", "Tweetinvi.Webhooks\Tweetinvi.Webhooks.csproj", "{FB82351E-5720-462D-8562-EDFEFA3EFA03}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tweetinvi.WebhooksShared", "Tweetinvi.WebhooksShared\Tweetinvi.WebhooksShared.csproj", "{CDC51D9C-6560-44A9-9365-C51480876F8A}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tweetinvi.WebhooksForNETCore", "Tweetinvi.WebhooksForNETCore\Tweetinvi.WebhooksForNETCore.csproj", "{39A9C44A-3782-421E-B0A7-1B18ECCF2663}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Examplinvi.AccountActivityEvents", "Examples\Examplinvi.AccountActivityEvents\Examplinvi.AccountActivityEvents.csproj", "{1747257F-84A5-4555-9AFB-B0EB3D66A148}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{4B9B0DD0-EBF3-4A02-9F59-F12F0C8DE187}"

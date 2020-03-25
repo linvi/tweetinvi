@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
+using Tweetinvi.AspNet.Modules;
 using Tweetinvi.Core.Injectinvi;
-using Tweetinvi.Modules;
 
-namespace Tweetinvi
+namespace Tweetinvi.AspNet.Public
 {
     public class WebhooksPlugin : ITweetinviModule
     {
@@ -23,7 +23,7 @@ namespace Tweetinvi
 
         private void InitializeModules(ITweetinviContainer container)
         {
-            _moduleCatalog.Add(new WebhooksSharedModule());
+            _moduleCatalog.Add(new TweetinviAspNetModule());
 
             _moduleCatalog.ForEach(module =>
             {

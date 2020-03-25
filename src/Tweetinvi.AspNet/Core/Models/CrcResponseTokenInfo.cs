@@ -1,4 +1,4 @@
-﻿namespace Tweetinvi.Core.Models
+﻿namespace Tweetinvi.AspNet.Core.Models
 {
     public class CrcResponseTokenInfo
     {

@@ -6,7 +6,7 @@ using Tweetinvi.Streaming;
 using Tweetinvi.Streaming.Webhooks;
 using Tweetinvi.Streams;
 
-namespace Tweetinvi.Core.Logic
+namespace Tweetinvi.AspNet.Core.Logic
 {
     public class AccountActivityRequestHandler : IAccountActivityRequestHandler
     {

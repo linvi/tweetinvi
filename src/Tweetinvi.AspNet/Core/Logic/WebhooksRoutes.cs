@@ -2,7 +2,7 @@
 using Tweetinvi.Core.Extensions;
 using Tweetinvi.Models;
 
-namespace Tweetinvi.Core.Logic
+namespace Tweetinvi.AspNet.Core.Logic
 {
     public interface IWebhooksRoutes
     {

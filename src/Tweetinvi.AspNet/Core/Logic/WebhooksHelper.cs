@@ -1,13 +1,13 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Threading.Tasks;
-using Tweetinvi.Core.Models;
+using Newtonsoft.Json;
+using Tweetinvi.AspNet.Core.Models;
 using Tweetinvi.Core.Wrappers;
 using Tweetinvi.Models;
 
-namespace Tweetinvi.Core.Logic
+namespace Tweetinvi.AspNet.Core.Logic
 {
     public interface IWebhooksHelper
     {

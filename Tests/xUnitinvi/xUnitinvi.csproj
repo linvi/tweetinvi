@@ -32,7 +32,6 @@
   <ItemGroup>
     <ProjectReference Include="..\..\src\Tweetinvi.AspNet\Tweetinvi.AspNet.csproj" />
     <ProjectReference Include="..\..\src\Tweetinvi.Core\Tweetinvi.Core.csproj" />
-    <ProjectReference Include="..\..\src\Tweetinvi.WebhooksShared\Tweetinvi.WebhooksShared.csproj" />
     <ProjectReference Include="..\..\src\Tweetinvi\Tweetinvi.csproj" />
   </ItemGroup>
 
