@@ -47,19 +47,19 @@ namespace Examplinvi.AccountActivity.ASP.NETCore._3._0
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
-            var r= Assembly.GetExecutingAssembly()
+            var r = Assembly.GetExecutingAssembly()
                 .GetCustomAttributes(typeof(System.Runtime.Versioning.TargetFrameworkAttribute), false)
                 .SingleOrDefault();
-                Console.WriteLine(r);
+            Console.WriteLine(r);
         }
 
         private static void WebhookServerInitialization(IApplicationBuilder app)
         {
             Plugins.Add<WebhooksPlugin>();
 
-            var credentials = new TwitterCredentials("bXm1V8Nv8eGMStB8NTysH4i8J", "dLRAwipXIfb7v7bdhmDgovfCEBtHBq51oLgM08LUzG0yOemfXI", "1577389800-Ncrm3GYQIaWGdGSpWtzFnPYDZDdGI96ysHctf9v", "DlAGYw4Pd5dXcggopDybmR9v78jl1jCd72M5K8vgSnwad")
+            var credentials = new TwitterCredentials("CONSUMER_TOKEN", "CONSUMER_SECRET", "ACCESS_TOKEN", "ACCESS_TOKEN_SECRET")
             {
-                BearerToken = "AAAAAAAAAAAAAAAAAAAAAFqqSQAAAAAABRtNASGJXtIVX1somRAmqhSj68o%3Dm3n0HLyG1OmZaFDsrLITnStpXHPU82RYr4HJAN1TdG9QpmEPky"
+                BearerToken = "BEARER_TOKEN"
             };
 
             WebhookClient = new TwitterClient(credentials);
