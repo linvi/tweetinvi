@@ -105,6 +105,11 @@ namespace Tweetinvi.Parameters
         /// Associate an ads card with the Tweet using the card_uri value from any ads card response.
         /// </summary>
         string CardUri { get; set; }
+
+        /// <summary>
+        /// Decide whether to use Extended or Compat mode
+        /// </summary>
+        TweetMode? TweetMode { get; set; }
     }
 
     /// <inheritdoc/>
@@ -145,6 +150,7 @@ namespace Tweetinvi.Parameters
             TrimUser = source.TrimUser;
             AutoPopulateReplyMetadata = source.AutoPopulateReplyMetadata;
             ExcludeReplyUserIds = source.ExcludeReplyUserIds;
+            TweetMode = source.TweetMode;
         }
 
         /// <inheritdoc/>
@@ -190,5 +196,7 @@ namespace Tweetinvi.Parameters
         public IEnumerable<long> ExcludeReplyUserIds { get; set; }
         /// <inheritdoc/>
         public string CardUri { get; set; }
+        /// <inheritdoc/>
+        public TweetMode? TweetMode { get; set; }
     }
 }

@@ -20,34 +20,31 @@ namespace Tweetinvi.Controllers.User
             _queryParameterGenerator = queryParameterGenerator;
         }
 
-        public string GetAuthenticatedUserQuery(IGetAuthenticatedUserParameters parameters, TweetMode? tweetMode)
+        public string GetAuthenticatedUserQuery(IGetAuthenticatedUserParameters parameters)
         {
             var query = new StringBuilder(Resources.User_GetCurrentUser);
-            parameters = parameters ?? new GetAuthenticatedUserParameters();
 
             query.AddParameterToQuery("skip_status", parameters.SkipStatus);
             query.AddParameterToQuery("include_entities", parameters.IncludeEntities);
             query.AddParameterToQuery("include_email", parameters.IncludeEmail);
-            query.AddFormattedParameterToQuery(_queryParameterGenerator.GenerateTweetModeParameter(tweetMode));
             query.AddFormattedParameterToQuery(parameters.FormattedCustomQueryParameters);
 
             return query.ToString();
         }
 
-        public string GetUserQuery(IGetUserParameters parameters, TweetMode? tweetMode)
+        public string GetUserQuery(IGetUserParameters parameters)
         {
             var query = new StringBuilder(Resources.User_GetUser);
 
             query.AddFormattedParameterToQuery(_userQueryParameterGenerator.GenerateIdOrScreenNameParameter(parameters.User));
             query.AddParameterToQuery("skip_status", parameters.SkipStatus);
             query.AddParameterToQuery("include_entities", parameters.IncludeEntities);
-            query.AddFormattedParameterToQuery(_queryParameterGenerator.GenerateTweetModeParameter(tweetMode));
             query.AddFormattedParameterToQuery(parameters.FormattedCustomQueryParameters);
 
             return query.ToString();
         }
 
-        public string GetUsersQuery(IGetUsersParameters parameters, TweetMode? tweetMode)
+        public string GetUsersQuery(IGetUsersParameters parameters)
         {
             var userIdsParameter = _userQueryParameterGenerator.GenerateListOfUserIdentifiersParameter(parameters.Users);
             var query = new StringBuilder(Resources.User_GetUsers);
@@ -55,7 +52,6 @@ namespace Tweetinvi.Controllers.User
             query.AddFormattedParameterToQuery(userIdsParameter);
             query.AddParameterToQuery("skip_status", parameters.SkipStatus);
             query.AddParameterToQuery("include_entities", parameters.IncludeEntities);
-            query.AddFormattedParameterToQuery(_queryParameterGenerator.GenerateTweetModeParameter(tweetMode));
             query.AddFormattedParameterToQuery(parameters.FormattedCustomQueryParameters);
 
             return query.ToString();

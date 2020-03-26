@@ -16,6 +16,11 @@ namespace Tweetinvi.Parameters
         /// Tweets author object will not be populated when set to true
         /// </summary>
         bool? TrimUser { get; set; }
+
+        /// <summary>
+        /// Decide whether to use Extended or Compat mode
+        /// </summary>
+        TweetMode? TweetMode { get; set; }
     }
 
     /// <inheritdoc/>
@@ -35,5 +40,7 @@ namespace Tweetinvi.Parameters
         public ITweetIdentifier Tweet { get; set; }
         /// <inheritdoc/>
         public bool? TrimUser { get; set; }
+        /// <inheritdoc/>
+        public TweetMode? TweetMode { get; set; }
     }
 }

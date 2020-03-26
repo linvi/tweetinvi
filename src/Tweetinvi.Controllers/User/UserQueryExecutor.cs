@@ -72,7 +72,7 @@ namespace Tweetinvi.Controllers.User
 
         public Task<ITwitterResult<IUserDTO>> GetAuthenticatedUser(IGetAuthenticatedUserParameters parameters, ITwitterRequest request)
         {
-            var query = _userQueryGenerator.GetAuthenticatedUserQuery(parameters, request.ExecutionContext.TweetMode);
+            var query = _userQueryGenerator.GetAuthenticatedUserQuery(parameters);
 
             request.Query.Url = query;
             request.Query.HttpMethod = HttpMethod.GET;
@@ -82,7 +82,7 @@ namespace Tweetinvi.Controllers.User
 
         public Task<ITwitterResult<IUserDTO>> GetUser(IGetUserParameters parameters, ITwitterRequest request)
         {
-            var query = _userQueryGenerator.GetUserQuery(parameters, request.ExecutionContext.TweetMode);
+            var query = _userQueryGenerator.GetUserQuery(parameters);
 
             request.Query.Url = query;
             request.Query.HttpMethod = HttpMethod.GET;
@@ -104,7 +104,7 @@ namespace Tweetinvi.Controllers.User
                 return Task.FromResult(result);
             }
 
-            var query = _userQueryGenerator.GetUsersQuery(parameters, request.ExecutionContext.TweetMode);
+            var query = _userQueryGenerator.GetUsersQuery(parameters);
 
             request.Query.Url = query;
             request.Query.HttpMethod = HttpMethod.GET;

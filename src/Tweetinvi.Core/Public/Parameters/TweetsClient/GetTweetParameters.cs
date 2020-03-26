@@ -36,6 +36,11 @@ namespace Tweetinvi.Parameters
         /// Tweet's card uri will be included when set to true
         /// </summary>
         bool? IncludeCardUri { get; set; }
+
+        /// <summary>
+        /// Decide whether to use Extended or Compat mode
+        /// </summary>
+        TweetMode? TweetMode { get; set; }
     }
 
     /// <inheritdoc/>
@@ -63,5 +68,7 @@ namespace Tweetinvi.Parameters
         public bool? IncludeExtAltText { get; set; }
         /// <inheritdoc/>
         public bool? IncludeCardUri { get; set; }
+        /// <inheritdoc/>
+        public TweetMode? TweetMode { get; set; }
     }
 }

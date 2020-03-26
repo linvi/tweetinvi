@@ -41,10 +41,10 @@ namespace xUnitinvi.ClientActions.UsersClient
             };
 
             // act
-            var result = queryGenerator.GetAuthenticatedUserQuery(parameters, TweetMode.Extended);
+            var result = queryGenerator.GetAuthenticatedUserQuery(parameters);
 
             // assert
-            Assert.Equal(result, $"https://api.twitter.com/1.1/account/verify_credentials.json?skip_status=true&include_entities=true&include_email=true&tweet_mode=extended&hello=world");
+            Assert.Equal(result, $"https://api.twitter.com/1.1/account/verify_credentials.json?skip_status=true&include_entities=true&include_email=true&hello=world");
         }
 
         // BLOCK
@@ -389,10 +389,10 @@ namespace xUnitinvi.ClientActions.UsersClient
             var queryGenerator = CreateUserQueryGenerator();
 
             // Act
-            var result = queryGenerator.GetUserQuery(parameters, TweetMode.Extended);
+            var result = queryGenerator.GetUserQuery(parameters);
 
             // Assert
-            Assert.Equal(result, $"https://api.twitter.com/1.1/users/show.json?user_id=42&skip_status=true&include_entities=true&tweet_mode=extended&hello=world");
+            Assert.Equal(result, $"https://api.twitter.com/1.1/users/show.json?user_id=42&skip_status=true&include_entities=true&hello=world");
         }
 
         [Fact]
@@ -409,10 +409,10 @@ namespace xUnitinvi.ClientActions.UsersClient
             var queryGenerator = CreateUserQueryGenerator();
 
             // Act
-            var result = queryGenerator.GetUsersQuery(parameters, TweetMode.Extended);
+            var result = queryGenerator.GetUsersQuery(parameters);
 
             // Assert
-            Assert.Equal(result, $"https://api.twitter.com/1.1/users/lookup.json?user_id=42%2C43&skip_status=true&include_entities=true&tweet_mode=extended&hello=world");
+            Assert.Equal(result, $"https://api.twitter.com/1.1/users/lookup.json?user_id=42%2C43&skip_status=true&include_entities=true&hello=world");
         }
 
         [Fact]

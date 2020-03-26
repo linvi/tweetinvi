@@ -11,6 +11,11 @@
         /// Include tweet entities.
         /// </summary>
         bool? IncludeEntities { get; set; }
+
+        /// <summary>
+        /// Decide whether to use Extended or Compat mode
+        /// </summary>
+        TweetMode? TweetMode { get; set; }
     }
 
     public abstract class TimelineRequestParameters : MinMaxQueryParameters, ITimelineRequestParameters
@@ -18,16 +23,18 @@
         protected TimelineRequestParameters()
         {
         }
-        
+
         protected TimelineRequestParameters(ITimelineRequestParameters source) : base(source)
         {
             TrimUser = source?.TrimUser;
             IncludeEntities = source?.IncludeEntities;
         }
-        
+
         /// <inheritdoc/>
         public bool? TrimUser { get; set; }
         /// <inheritdoc/>
         public bool? IncludeEntities { get; set; }
+        /// <inheritdoc/>
+        public TweetMode? TweetMode { get; set; }
     }
 }

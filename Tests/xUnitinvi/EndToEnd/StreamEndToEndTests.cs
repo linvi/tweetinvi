@@ -164,7 +164,7 @@ namespace xUnitinvi.EndToEnd
             if (!EndToEndTestConfig.ShouldRunEndToEndTests)
                 return;
 
-            var stream = _tweetinviTestClient.Streams.CreateTrackedStream();
+            var stream = _tweetinviTestClient.Streams.CreateTrackedTweetStream();
             stream.AddTrack("twitter");
 
             ITweet tweet = null;

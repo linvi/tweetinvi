@@ -21,6 +21,11 @@ namespace Tweetinvi.Parameters
         /// Specifies the number of records to retrieve.
         /// </summary>
         int PageSize { get; set; }
+
+        /// <summary>
+        /// Decide whether to use Extended or Compat mode
+        /// </summary>
+        TweetMode? TweetMode { get; set; }
     }
 
     /// <inheritdoc/>
@@ -47,5 +52,7 @@ namespace Tweetinvi.Parameters
         public bool? TrimUser { get; set; }
         /// <inheritdoc/>
         public int PageSize { get; set; }
+        /// <inheritdoc/>
+        public TweetMode? TweetMode { get; set; }
     }
 }

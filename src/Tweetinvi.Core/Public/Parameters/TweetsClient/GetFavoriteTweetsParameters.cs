@@ -16,6 +16,11 @@ namespace Tweetinvi.Parameters
         /// Include the tweet entities
         /// </summary>
         bool? IncludeEntities { get; set; }
+
+        /// <summary>
+        /// Decide whether to use Extended or Compat mode
+        /// </summary>
+        TweetMode? TweetMode { get; set; }
     }
 
     /// <inheritdoc cref="IGetUserFavoriteTweetsParameters" />
@@ -49,8 +54,9 @@ namespace Tweetinvi.Parameters
 
         /// <inheritdoc/>
         public IUserIdentifier User { get; set; }
-
         /// <inheritdoc/>
         public bool? IncludeEntities { get; set; }
+        /// <inheritdoc/>
+        public TweetMode? TweetMode { get; set; }
     }
 }

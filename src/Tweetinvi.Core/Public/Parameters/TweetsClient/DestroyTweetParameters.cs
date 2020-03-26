@@ -16,6 +16,11 @@ namespace Tweetinvi.Parameters
         /// If set to true, the creator property (IUser) will only contain the id.
         /// </summary>
         bool? TrimUser { get; set; }
+
+        /// <summary>
+        /// Decide whether to use Extended or Compat mode
+        /// </summary>
+        TweetMode? TweetMode { get; set; }
     }
 
     /// <inheritdoc/>
@@ -34,5 +39,7 @@ namespace Tweetinvi.Parameters
         public ITweetIdentifier Tweet { get; set; }
         /// <inheritdoc/>
         public bool? TrimUser { get; set; }
+
+        public TweetMode? TweetMode { get; set; }
     }
 }

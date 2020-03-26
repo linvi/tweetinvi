@@ -17,7 +17,7 @@ namespace Tweetinvi.Client.Tools
     public class TwitterClientFactories : ITwitterClientFactories
     {
         private readonly ITwitterClient _client;
-        private IJsonObjectConverter _jsonObjectConverter;
+        private readonly IJsonObjectConverter _jsonObjectConverter;
 
         public TwitterClientFactories(ITwitterClient client, IJsonObjectConverter jsonObjectConverter)
         {
@@ -173,7 +173,7 @@ namespace Tweetinvi.Client.Tools
 
         public ISavedSearch CreateSavedSearch(ISavedSearchDTO savedSearchDTO)
         {
-            return savedSearchDTO == null ? null : new Core.Models.SavedSearch(savedSearchDTO);
+            return savedSearchDTO == null ? null : new SavedSearch(savedSearchDTO);
         }
 
         public ISearchResults CreateSearchResult(ISearchResultsDTO searchResultsDTO)
@@ -200,7 +200,7 @@ namespace Tweetinvi.Client.Tools
 
         public ITweet[] CreateTweets(IEnumerable<ITweetDTO> tweetDTOs)
         {
-            return tweetDTOs?.Select(x => CreateTweet(x)).ToArray();
+            return tweetDTOs?.Select(CreateTweet).ToArray();
         }
 
         public ITweetWithSearchMetadata CreateTweetWithSearchMetadata(ITweetWithSearchMetadataDTO tweetWithSearchMetadataDTO)

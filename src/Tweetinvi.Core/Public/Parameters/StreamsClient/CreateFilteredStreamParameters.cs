@@ -1,10 +1,10 @@
 namespace Tweetinvi.Parameters
 {
-    public interface ICreateFilteredStreamParameters : ICreateTrackedStreamParameters
+    public interface ICreateFilteredTweetStreamParameters : ICreateTrackedTweetStreamParameters
     {
     }
 
-    public class CreateFilteredStreamParameters : CreateTrackedStreamParameters, ICreateFilteredStreamParameters
+    public class CreateFilteredTweetStreamParameters : CreateTrackedTweetStreamParameters, ICreateFilteredTweetStreamParameters
     {
     }
 }

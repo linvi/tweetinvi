@@ -9,10 +9,15 @@ namespace Tweetinvi.Parameters
     public interface IGetAuthenticatedUserParameters : IGetUsersOptionalParameters
     {
         /// <summary>
-        /// Include the email of the user. This is only available if the application 
+        /// Include the email of the user. This is only available if the application
         /// has been verified and approved by Twitter.
         /// </summary>
         bool? IncludeEmail { get; set; }
+
+        /// <summary>
+        /// Decide whether to use Extended or Compat mode
+        /// </summary>
+        TweetMode? TweetMode { get; set; }
     }
 
     /// <inheritdoc />
@@ -30,5 +35,7 @@ namespace Tweetinvi.Parameters
 
         /// <inheritdoc/>
         public bool? IncludeEmail { get; set; }
+        /// <inheritdoc/>
+        public TweetMode? TweetMode { get; set; }
     }
 }

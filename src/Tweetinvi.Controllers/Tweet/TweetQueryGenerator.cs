@@ -24,7 +24,7 @@ namespace Tweetinvi.Controllers.Tweet
         }
 
         // Get Tweet
-        public string GetTweetQuery(IGetTweetParameters parameters, TweetMode? tweetMode)
+        public string GetTweetQuery(IGetTweetParameters parameters, TweetMode? requestTweetMode)
         {
             var query = new StringBuilder(Resources.Tweet_Get);
 
@@ -35,13 +35,13 @@ namespace Tweetinvi.Controllers.Tweet
             query.AddParameterToQuery("include_my_retweet", parameters.IncludeMyRetweet);
             query.AddParameterToQuery("trim_user", parameters.TrimUser);
 
-            query.AddFormattedParameterToQuery(_queryParameterGenerator.GenerateTweetModeParameter(tweetMode));
+            _queryParameterGenerator.AppendTweetModeParameter(query, parameters.TweetMode ?? requestTweetMode);
             query.AddFormattedParameterToQuery(parameters.FormattedCustomQueryParameters);
 
             return query.ToString();
         }
 
-        public string GetTweetsQuery(IGetTweetsParameters parameters, TweetMode? tweetMode)
+        public string GetTweetsQuery(IGetTweetsParameters parameters, TweetMode? requestTweetMode)
         {
             var query = new StringBuilder(Resources.Tweet_Lookup);
 
@@ -54,17 +54,17 @@ namespace Tweetinvi.Controllers.Tweet
             query.AddParameterToQuery("include_ext_alt_text", parameters.IncludeExtAltText);
             query.AddParameterToQuery("trim_user", parameters.TrimUser);
 
-            query.AddFormattedParameterToQuery(_queryParameterGenerator.GenerateTweetModeParameter(tweetMode));
+            _queryParameterGenerator.AppendTweetModeParameter(query, parameters.TweetMode ?? requestTweetMode);
             query.AddFormattedParameterToQuery(parameters.FormattedCustomQueryParameters);
 
             return query.ToString();
         }
 
         // Publish Tweet
-        public string GetPublishTweetQuery(IPublishTweetParameters parameters, TweetMode? tweetMode)
+        public string GetPublishTweetQuery(IPublishTweetParameters parameters, TweetMode? requestTweetMode)
         {
             var text = parameters.Text;
-            var useExtendedTweetMode = tweetMode == null || tweetMode == TweetMode.Extended;
+            var useExtendedTweetMode = requestTweetMode == null || requestTweetMode == TweetMode.Extended;
 
             var quotedTweetUrl = GetQuotedTweetUrl(parameters);
             var attachmentUrl = parameters.QuotedTweetUrl;
@@ -109,7 +109,8 @@ namespace Tweetinvi.Controllers.Tweet
             query.AddParameterToQuery("place_id", parameters.PlaceId);
             query.AddParameterToQuery("possibly_sensitive", parameters.PossiblySensitive);
             query.AddParameterToQuery("trim_user", parameters.TrimUser);
-            query.AddParameterToQuery("tweet_mode", tweetMode?.ToString().ToLowerInvariant());
+
+            _queryParameterGenerator.AppendTweetModeParameter(query, parameters.TweetMode ?? requestTweetMode);
 
             query.AddFormattedParameterToQuery(parameters.FormattedCustomQueryParameters);
 
@@ -127,20 +128,19 @@ namespace Tweetinvi.Controllers.Tweet
             return $"https://twitter.com/{parameters.QuotedTweet.CreatedBy.ScreenName}/status/{quotedTweetId}";
         }
 
-        public string GetDestroyTweetQuery(IDestroyTweetParameters parameters, TweetMode? tweetMode)
+        public string GetDestroyTweetQuery(IDestroyTweetParameters parameters, TweetMode? requestTweetMode)
         {
             var query = new StringBuilder(string.Format(Resources.Tweet_Destroy, _queryParameterGenerator.GenerateTweetIdentifier(parameters.Tweet)));
 
             query.AddParameterToQuery("trim_user", parameters.TrimUser);
 
-            var tweetModeParameter = _queryParameterGenerator.GenerateTweetModeParameter(tweetMode);
-            query.AddFormattedParameterToQuery(tweetModeParameter);
+            _queryParameterGenerator.AppendTweetModeParameter(query, parameters.TweetMode ?? requestTweetMode);
             query.AddFormattedParameterToQuery(parameters.FormattedCustomQueryParameters);
 
             return query.ToString();
         }
 
-        public string GetFavoriteTweetsQuery(IGetUserFavoriteTweetsParameters parameters, TweetMode? tweetMode)
+        public string GetFavoriteTweetsQuery(IGetUserFavoriteTweetsParameters parameters, TweetMode? requestTweetMode)
         {
             var userParameter = _userQueryParameterGenerator.GenerateIdOrScreenNameParameter(parameters.User);
             var query = new StringBuilder(Resources.User_GetFavourites + userParameter);
@@ -148,14 +148,13 @@ namespace Tweetinvi.Controllers.Tweet
             query.AddParameterToQuery("include_entities", parameters.IncludeEntities);
             _queryParameterGenerator.AddMinMaxQueryParameters(query, parameters);
 
-            var tweetModeParameter = _queryParameterGenerator.GenerateTweetModeParameter(tweetMode);
-            query.AddFormattedParameterToQuery(tweetModeParameter);
+            _queryParameterGenerator.AppendTweetModeParameter(query, parameters.TweetMode ?? requestTweetMode);
             query.AddFormattedParameterToQuery(parameters.FormattedCustomQueryParameters);
 
             return query.ToString();
         }
 
-        public string GetRetweetsQuery(IGetRetweetsParameters parameters, TweetMode? tweetMode)
+        public string GetRetweetsQuery(IGetRetweetsParameters parameters, TweetMode? requestTweetMode)
         {
             var tweetId = GetTweetId(parameters.Tweet);
             var query = new StringBuilder(string.Format(Resources.Tweet_Retweet_GetRetweets, tweetId));
@@ -163,33 +162,33 @@ namespace Tweetinvi.Controllers.Tweet
             query.AddParameterToQuery("count", parameters.PageSize);
             query.AddParameterToQuery("trim_user", parameters.TrimUser);
 
-            query.AddFormattedParameterToQuery(_queryParameterGenerator.GenerateTweetModeParameter(tweetMode));
+            _queryParameterGenerator.AppendTweetModeParameter(query, parameters.TweetMode ?? requestTweetMode);
             query.AddFormattedParameterToQuery(parameters.FormattedCustomQueryParameters);
 
             return query.ToString();
         }
 
-        public string GetPublishRetweetQuery(IPublishRetweetParameters parameters, TweetMode? tweetMode)
+        public string GetPublishRetweetQuery(IPublishRetweetParameters parameters, TweetMode? requestTweetMode)
         {
             var tweetId = GetTweetId(parameters.Tweet);
             var query = new StringBuilder(string.Format(Resources.Tweet_Retweet_Publish, tweetId));
 
             query.AddParameterToQuery("trim_user", parameters.TrimUser);
 
-            query.AddFormattedParameterToQuery(_queryParameterGenerator.GenerateTweetModeParameter(tweetMode));
+            _queryParameterGenerator.AppendTweetModeParameter(query, parameters.TweetMode ?? requestTweetMode);
             query.AddFormattedParameterToQuery(parameters.FormattedCustomQueryParameters);
 
             return query.ToString();
         }
 
-        public string GetDestroyRetweetQuery(IDestroyRetweetParameters parameters, TweetMode? tweetMode)
+        public string GetDestroyRetweetQuery(IDestroyRetweetParameters parameters, TweetMode? requestTweetMode)
         {
             var tweetId = GetTweetId(parameters.Tweet);
             var query = new StringBuilder(string.Format(Resources.Tweet_DestroyRetweet, tweetId));
 
             query.AddParameterToQuery("trim_user", parameters.TrimUser);
 
-            query.AddFormattedParameterToQuery(_queryParameterGenerator.GenerateTweetModeParameter(tweetMode));
+            _queryParameterGenerator.AppendTweetModeParameter(query, parameters.TweetMode ?? requestTweetMode);
             query.AddFormattedParameterToQuery(parameters.FormattedCustomQueryParameters);
 
             return query.ToString();

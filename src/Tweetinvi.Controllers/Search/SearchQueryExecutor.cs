@@ -30,7 +30,7 @@ namespace Tweetinvi.Controllers.Search
 
         public Task<ITwitterResult<ISearchResultsDTO>> SearchTweets(ISearchTweetsParameters parameters, ITwitterRequest request)
         {
-            request.Query.Url = _searchQueryGenerator.GetSearchTweetsQuery(parameters);
+            request.Query.Url = _searchQueryGenerator.GetSearchTweetsQuery(parameters, request.ExecutionContext.TweetMode);
             request.Query.HttpMethod = HttpMethod.GET;
             return _twitterAccessor.ExecuteRequest<ISearchResultsDTO>(request);
         }

@@ -1,10 +1,15 @@
 namespace Tweetinvi.Parameters
 {
-    public interface ICreateTrackedStreamParameters : ICustomRequestParameters
+    public interface ICreateTrackedTweetStreamParameters : ICustomRequestParameters
     {
+        /// <summary>
+        /// Decide whether to use Extended or Compat mode
+        /// </summary>
+        TweetMode? TweetMode { get; set; }
     }
 
-    public class CreateTrackedStreamParameters : CustomRequestParameters, ICreateTrackedStreamParameters
+    public class CreateTrackedTweetStreamParameters : CustomRequestParameters, ICreateTrackedTweetStreamParameters
     {
+        public TweetMode? TweetMode { get; set; }
     }
 }

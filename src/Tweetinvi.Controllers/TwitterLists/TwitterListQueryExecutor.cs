@@ -182,7 +182,7 @@ namespace Tweetinvi.Controllers.TwitterLists
 
         public Task<ITwitterResult<ITweetDTO[]>> GetTweetsFromList(IGetTweetsFromListParameters parameters, ITwitterRequest request)
         {
-            request.Query.Url = _listsQueryGenerator.GetTweetsFromListQuery(parameters);
+            request.Query.Url = _listsQueryGenerator.GetTweetsFromListQuery(parameters, request.ExecutionContext.TweetMode);
             request.Query.HttpMethod = HttpMethod.GET;
             return _twitterAccessor.ExecuteRequest<ITweetDTO[]>(request);
         }

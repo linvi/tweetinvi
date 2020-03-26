@@ -45,7 +45,7 @@ namespace xUnitinvi.ClientActions.UsersClient
             var parameter = new GetUserParameters(42);
             var expectedResult = A.Fake<ITwitterResult<IUserDTO>>();
 
-            A.CallTo(() => _fakeUserQueryGenerator.GetUserQuery(parameter, It.IsAny<TweetMode?>())).Returns(url);
+            A.CallTo(() => _fakeUserQueryGenerator.GetUserQuery(parameter)).Returns(url);
             A.CallTo(() => _fakeTwitterAccessor.ExecuteRequest<IUserDTO>(request)).Returns(expectedResult);
 
             // Act
@@ -67,7 +67,7 @@ namespace xUnitinvi.ClientActions.UsersClient
             var parameter = new GetUsersParameters(new long[] { 42 });
             var expectedResult = A.Fake<ITwitterResult<IUserDTO[]>>();
 
-            A.CallTo(() => _fakeUserQueryGenerator.GetUsersQuery(parameter, It.IsAny<TweetMode?>())).Returns(url);
+            A.CallTo(() => _fakeUserQueryGenerator.GetUsersQuery(parameter)).Returns(url);
             A.CallTo(() => _fakeTwitterAccessor.ExecuteRequest<IUserDTO[]>(request)).Returns(expectedResult);
 
             // Act
@@ -181,7 +181,7 @@ namespace xUnitinvi.ClientActions.UsersClient
 
             request.ExecutionContext.TweetMode = TweetMode.Extended;
 
-            A.CallTo(() => _fakeUserQueryGenerator.GetAuthenticatedUserQuery(parameters, TweetMode.Extended)).Returns(url);
+            A.CallTo(() => _fakeUserQueryGenerator.GetAuthenticatedUserQuery(parameters)).Returns(url);
             A.CallTo(() => _fakeTwitterAccessor.ExecuteRequest<IUserDTO>(request)).Returns(expectedResult);
 
             // Act

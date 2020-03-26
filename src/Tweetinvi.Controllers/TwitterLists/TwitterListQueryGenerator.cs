@@ -3,6 +3,7 @@ using Tweetinvi.Controllers.Properties;
 using Tweetinvi.Controllers.Shared;
 using Tweetinvi.Core.Extensions;
 using Tweetinvi.Core.QueryGenerators;
+using Tweetinvi.Models;
 using Tweetinvi.Parameters;
 
 namespace Tweetinvi.Controllers.TwitterLists
@@ -34,7 +35,7 @@ namespace Tweetinvi.Controllers.TwitterLists
         string GetUnsubscribeFromListQuery(IUnsubscribeFromListParameters parameters);
 
         // Tweets
-        string GetTweetsFromListQuery(IGetTweetsFromListParameters queryParameters);
+        string GetTweetsFromListQuery(IGetTweetsFromListParameters queryParameters, TweetMode? requestTweetMode);
     }
 
     public class TwitterListQueryGenerator : ITwitterListQueryGenerator
@@ -283,13 +284,12 @@ namespace Tweetinvi.Controllers.TwitterLists
         }
 
         // TWEETS
-        public string GetTweetsFromListQuery(IGetTweetsFromListParameters parameters)
+        public string GetTweetsFromListQuery(IGetTweetsFromListParameters parameters, TweetMode? requestTweetMode)
         {
             var query = new StringBuilder(Resources.List_GetTweetsFromList);
 
             _twitterListQueryParameterGenerator.AppendListIdentifierParameter(query, parameters.List);
-            _queryParameterGenerator.AddTimelineParameters(query, parameters);
-            _queryParameterGenerator.AddTweetModeParameter(query, parameters.TweetMode);
+            _queryParameterGenerator.AddTimelineParameters(query, parameters, requestTweetMode);
 
             query.AddParameterToQuery("include_rts", parameters.IncludeRetweets);
             query.AddFormattedParameterToQuery(parameters.FormattedCustomQueryParameters);

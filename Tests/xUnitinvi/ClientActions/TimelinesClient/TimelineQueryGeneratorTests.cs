@@ -48,7 +48,7 @@ namespace xUnitinvi.ClientActions.TimelinesClient
 
             // Assert
             Assert.Equal(result, $"https://api.twitter.com/1.1/statuses/home_timeline.json?count=44&since_id=43&max_id=42" +
-                                 $"&include_entities=true&trim_user=true&exclude_replies=true&tweet_mode=extended&hello=world");
+                                 $"&include_entities=true&trim_user=true&tweet_mode=extended&exclude_replies=true&hello=world");
         }
 
         [Fact]
@@ -100,7 +100,7 @@ namespace xUnitinvi.ClientActions.TimelinesClient
 
             // Assert
             Assert.Equal(result, $"https://api.twitter.com/1.1/statuses/user_timeline.json?screen_name=linvi&count=44&since_id=43&max_id=42" +
-                                 $"&include_entities=true&trim_user=true&exclude_replies=true&include_rts=true&tweet_mode=extended&hello=world");
+                                 $"&include_entities=true&trim_user=true&tweet_mode=extended&exclude_replies=true&include_rts=true&hello=world");
         }
 
         [Fact]
@@ -125,7 +125,7 @@ namespace xUnitinvi.ClientActions.TimelinesClient
 
             // Assert
             Assert.Equal(result, $"https://api.twitter.com/1.1/statuses/retweets_of_me.json?count=44&since_id=43&max_id=42" +
-                                 $"&include_entities=true&trim_user=true&include_user_entities=true&tweet_mode=extended&hello=world");
+                                 $"&include_entities=true&trim_user=true&tweet_mode=extended&include_user_entities=true&hello=world");
         }
     }
 }

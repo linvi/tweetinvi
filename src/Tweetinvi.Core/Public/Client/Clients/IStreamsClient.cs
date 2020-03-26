@@ -15,14 +15,14 @@ namespace Tweetinvi.Client
         /// </summary>
         ISampleStream CreateSampleStream(ICreateSampleStreamParameters parameters);
 
-        /// <inheritdoc cref="CreateFilteredStream(ICreateFilteredStreamParameters)"/>
+        /// <inheritdoc cref="CreateFilteredStream(ICreateFilteredTweetStreamParameters)"/>
         IFilteredStream CreateFilteredStream();
 
         /// <summary>
         /// Create a stream notifying the client when a tweet matching the specified criteria is created.
         /// https://dev.twitter.com/streaming/reference/post/statuses/filter
         /// </summary>
-        IFilteredStream CreateFilteredStream(ICreateFilteredStreamParameters parameters);
+        IFilteredStream CreateFilteredStream(ICreateFilteredTweetStreamParameters parameters);
 
         /// <inheritdoc cref="CreateTweetStream(ICreateTweetStreamParameters)"/>
         ITweetStream CreateTweetStream();
@@ -32,12 +32,12 @@ namespace Tweetinvi.Client
         /// </summary>
         ITweetStream CreateTweetStream(ICreateTweetStreamParameters parameters);
 
-        /// <inheritdoc cref="CreateTrackedStream(ICreateTrackedStreamParameters)"/>
-        ITrackedStream CreateTrackedStream();
+        /// <inheritdoc cref="CreateTrackedTweetStream(ICreateTrackedTweetStreamParameters)"/>
+        ITrackedStream CreateTrackedTweetStream();
 
         /// <summary>
         /// Create a stream that receive tweets. In addition this stream allow you to filter the results received.
         /// </summary>
-        ITrackedStream CreateTrackedStream(ICreateTrackedStreamParameters parameters);
+        ITrackedStream CreateTrackedTweetStream(ICreateTrackedTweetStreamParameters parameters);
     }
 }

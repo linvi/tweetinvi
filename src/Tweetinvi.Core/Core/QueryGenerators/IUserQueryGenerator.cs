@@ -4,10 +4,10 @@ namespace Tweetinvi.Core.QueryGenerators
 {
     public interface IUserQueryGenerator
     {
-        string GetAuthenticatedUserQuery(IGetAuthenticatedUserParameters parameters, TweetMode? tweetMode);
+        string GetAuthenticatedUserQuery(IGetAuthenticatedUserParameters parameters);
 
-        string GetUserQuery(IGetUserParameters parameters, TweetMode? tweetMode);
-        string GetUsersQuery(IGetUsersParameters parameters, TweetMode? tweetMode);
+        string GetUserQuery(IGetUserParameters parameters);
+        string GetUsersQuery(IGetUsersParameters parameters);
 
         string GetFriendIdsQuery(IGetFriendIdsParameters parameters);
         string GetFollowerIdsQuery(IGetFollowerIdsParameters parameters);
