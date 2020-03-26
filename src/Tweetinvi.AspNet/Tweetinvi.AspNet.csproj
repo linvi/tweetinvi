@@ -22,7 +22,8 @@
   </ItemGroup>
 
   <ItemGroup Condition=" '$(TargetFramework)' == 'netcoreapp2.1' ">
-    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.9" />
+    <PackageReference Include="Microsoft.AspNetCore.All" />
+    <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.1.1" />
 
     <Content Remove="NetFramework\**" />
     <Compile Remove="NetFramework\**" />
@@ -32,7 +33,7 @@
   </ItemGroup>
 
   <ItemGroup Condition=" '$(TargetFramework)' == 'netcoreapp3.1' ">
-    <PackageReference Include="Microsoft.AspNetCore.App" Version="2.2.8" />
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
 
     <Content Remove="NetFramework\**" />
     <Compile Remove="NetFramework\**" />
