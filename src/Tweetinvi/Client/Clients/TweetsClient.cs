@@ -51,6 +51,11 @@ namespace Tweetinvi.Client
 
         public async Task<ITweet[]> GetTweets(IGetTweetsParameters parameters)
         {
+            if (parameters.Tweets == null || parameters.Tweets.Length == 0)
+            {
+                return new ITweet[0];
+            }
+
             var requestResult = await _tweetsRequester.GetTweets(parameters).ConfigureAwait(false);
             return _client.Factories.CreateTweets(requestResult?.DataTransferObject);
         }

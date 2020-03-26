@@ -90,7 +90,7 @@ namespace Tweetinvi.Client
 
         public async Task<IUser[]> GetUsers(IGetUsersParameters parameters)
         {
-            if (parameters?.Users.Length == 0)
+            if (parameters.Users == null || parameters.Users.Length == 0)
             {
                 return new IUser[0];
             }
@@ -619,6 +619,11 @@ namespace Tweetinvi.Client
 
         public async Task<IUserDictionary<IRelationshipState>> GetRelationshipsWith(IGetRelationshipsWithParameters parameters)
         {
+            if (parameters.Users == null || parameters.Users.Length == 0)
+            {
+                return new UserDictionary<IRelationshipState>();
+            }
+
             var twitterResult = await _usersRequester.GetRelationshipsWith(parameters).ConfigureAwait(false);
             var relationshipsWith = _client.Factories.CreateRelationshipStates(twitterResult?.DataTransferObject);
 
