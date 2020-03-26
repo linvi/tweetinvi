@@ -4,17 +4,6 @@ using Tweetinvi.Core.Web;
 namespace Tweetinvi.Models
 {
     /// <summary>
-    /// Create a twitter query
-    /// </summary>
-    public interface ITwitterQueryFactory
-    {
-        /// <summary>
-        /// Create a twitter query.
-        /// </summary>
-        ITwitterQuery Create(string queryURL, HttpMethod httpMethod, ITwitterCredentials twitterCredentials);
-    }
-
-    /// <summary>
     /// All the information necessary for an http request to be executed.
     /// </summary>
     public interface ITwitterQuery : ITwitterRequestParameters
