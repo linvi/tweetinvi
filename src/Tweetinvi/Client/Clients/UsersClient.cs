@@ -228,8 +228,8 @@ namespace Tweetinvi.Client
         {
             var friendsPageIterator = _usersRequester.GetFriendIdsIterator(parameters);
 
-            var maxPageSize = parameters.GetUsersPageSize;
-            if (maxPageSize > _client.ClientSettings.Limits.USERS_GET_USERS_MAX_SIZE)
+            var maxPageSize = _client.ClientSettings.Limits.USERS_GET_USERS_MAX_SIZE;
+            if (parameters.GetUsersPageSize > maxPageSize)
             {
                 throw new TwitterArgumentLimitException($"{nameof(parameters)}.{nameof(parameters.GetUsersPageSize)}", maxPageSize, nameof(_client.ClientSettings.Limits.USERS_GET_USERS_MAX_SIZE),
                     "page size");
@@ -312,8 +312,8 @@ namespace Tweetinvi.Client
         {
             var followerPageIterator = _usersRequester.GetFollowerIdsIterator(parameters);
 
-            var maxPageSize = parameters.GetUsersPageSize;
-            if (maxPageSize > _client.ClientSettings.Limits.USERS_GET_USERS_MAX_SIZE)
+            var maxPageSize = _client.ClientSettings.Limits.USERS_GET_USERS_MAX_SIZE;
+            if (parameters.GetUsersPageSize > maxPageSize)
             {
                 throw new TwitterArgumentLimitException($"{nameof(parameters)}.{nameof(parameters.GetUsersPageSize)}", maxPageSize, nameof(_client.ClientSettings.Limits.USERS_GET_USERS_MAX_SIZE),
                     "page size");
@@ -533,8 +533,8 @@ namespace Tweetinvi.Client
         {
             var iterator = _usersRequester.GetUserIdsRequestingFriendshipIterator(parameters);
 
-            var maxPageSize = parameters.GetUsersPageSize;
-            if (maxPageSize > _client.ClientSettings.Limits.USERS_GET_USERS_MAX_SIZE)
+            var maxPageSize =_client.ClientSettings.Limits.USERS_GET_USERS_MAX_SIZE;
+            if (parameters.GetUsersPageSize > maxPageSize)
             {
                 throw new TwitterArgumentLimitException($"{nameof(parameters)}.{nameof(parameters.GetUsersPageSize)}", maxPageSize, nameof(_client.ClientSettings.Limits.USERS_GET_USERS_MAX_SIZE), "page size");
             }
@@ -584,8 +584,8 @@ namespace Tweetinvi.Client
         {
             var iterator = _usersRequester.GetUserIdsYouRequestedToFollowIterator(parameters);
 
-            var maxPageSize = parameters.GetUsersPageSize;
-            if (maxPageSize > _client.ClientSettings.Limits.USERS_GET_USERS_MAX_SIZE)
+            var maxPageSize = _client.ClientSettings.Limits.USERS_GET_USERS_MAX_SIZE;
+            if (parameters.GetUsersPageSize > maxPageSize)
             {
                 throw new TwitterArgumentLimitException($"{nameof(parameters)}.{nameof(parameters.GetUsersPageSize)}", maxPageSize, nameof(_client.ClientSettings.Limits.USERS_GET_USERS_MAX_SIZE), "page size");
             }

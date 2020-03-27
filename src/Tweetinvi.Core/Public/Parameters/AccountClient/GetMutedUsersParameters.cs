@@ -15,14 +15,14 @@ namespace Tweetinvi.Parameters
     {
         public GetMutedUsersParameters()
         {
-            PageSize = TwitterLimits.DEFAULTS.ACCOUNT_GET_MUTED_USER_IDS_MAX_PAGE_SIZE;
+            PageSize = TwitterLimits.DEFAULTS.ACCOUNT_GET_MUTED_USERS_MAX_PAGE_SIZE;
         }
 
         public GetMutedUsersParameters(IGetMutedUsersParameters source) : base(source)
         {
             if (source == null)
             {
-                PageSize = TwitterLimits.DEFAULTS.ACCOUNT_GET_MUTED_USER_IDS_MAX_PAGE_SIZE;
+                PageSize = TwitterLimits.DEFAULTS.ACCOUNT_GET_MUTED_USERS_MAX_PAGE_SIZE;
                 return;
             }
 
