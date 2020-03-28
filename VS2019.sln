@@ -35,6 +35,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Examplinvi.ASP.NET", "Examp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "xUnitinvi", "Tests\xUnitinvi\xUnitinvi.csproj", "{6D1E649C-123C-463B-A759-94F2619E1480}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Examplinvi.Console", "Examples\Examplinvi.Console\Examplinvi.Console.csproj", "{CE404F25-0BD1-4C95-B58D-C5D3014C5361}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -105,6 +107,10 @@ Global
 		{6D1E649C-123C-463B-A759-94F2619E1480}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6D1E649C-123C-463B-A759-94F2619E1480}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6D1E649C-123C-463B-A759-94F2619E1480}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CE404F25-0BD1-4C95-B58D-C5D3014C5361}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CE404F25-0BD1-4C95-B58D-C5D3014C5361}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CE404F25-0BD1-4C95-B58D-C5D3014C5361}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CE404F25-0BD1-4C95-B58D-C5D3014C5361}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -117,5 +123,6 @@ Global
 		{AF6B5057-F8E0-4D7B-BEF6-A10A696B1B3A} = {C242E17C-CDE3-4A13-84F9-2D119EDC5373}
 		{1D28682C-C259-4419-8160-2235FA25D355} = {C242E17C-CDE3-4A13-84F9-2D119EDC5373}
 		{EED8E96B-DE57-46B6-9F8A-FA4820B9EDC3} = {53D39A10-59EC-4D51-AFB0-E85D5499FFD8}
+		{CE404F25-0BD1-4C95-B58D-C5D3014C5361} = {53D39A10-59EC-4D51-AFB0-E85D5499FFD8}
 	EndGlobalSection
 EndGlobal

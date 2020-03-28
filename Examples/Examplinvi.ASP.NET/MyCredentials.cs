@@ -6,7 +6,7 @@ namespace Examplinvi.ASP.NET
     {
         public static IConsumerOnlyCredentials GetAppCredentials()
         {
-            return new ConsumerOnlyCredentials("S7zdhisQjfVeyxev4upGaDS6P","hbgWl5XHWizuJbajBKq7xobhfW4aC3xAmz3xzaUL9NiBmrWG5t");
+            return new ConsumerOnlyCredentials("CONSUMER_KEY","CONSUMER_SECRET");
         }
         
         public static ITwitterCredentials LastAuthenticatedCredentials { get; set; }
