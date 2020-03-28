@@ -60,6 +60,14 @@ namespace Tweetinvi
         public TwitterClient(IReadOnlyTwitterCredentials credentials) : this(credentials, new TwitterClientParameters())
         {
         }
+        
+        public TwitterClient(string consumerKey, string consumerSecret) : this(new ConsumerOnlyCredentials(consumerKey, consumerSecret), new TwitterClientParameters())
+        {
+        }
+        
+        public TwitterClient(string consumerKey, string consumerSecret, string accessToken, string accessSecret) : this(new TwitterCredentials(consumerKey, consumerSecret, accessToken, accessSecret), new TwitterClientParameters())
+        {
+        }
 
         public TwitterClient(IReadOnlyTwitterCredentials credentials, TwitterClientParameters parameters)
         {
