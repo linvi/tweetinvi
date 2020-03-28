@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using Tweetinvi.Client.Requesters;
 using Tweetinvi.Models;
@@ -46,6 +47,11 @@ namespace Tweetinvi.Client
         {
             return RequestAuthenticationUrl(new RequestUrlAuthUrlParameters(callbackUrl));
         }
+        
+        public Task<IAuthenticationRequest> RequestAuthenticationUrl(Uri callbackUri)
+        {
+            return RequestAuthenticationUrl(new RequestUrlAuthUrlParameters(callbackUri));
+        }
 
         public async Task<IAuthenticationRequest> RequestAuthenticationUrl(IRequestAuthUrlParameters parameters)
         {
@@ -55,7 +61,7 @@ namespace Tweetinvi.Client
 
         public async Task<ITwitterCredentials> RequestCredentials(IRequestCredentialsParameters parameters)
         {
-            var twitterResult = await _authRequester.RequestAuthUrl(parameters).ConfigureAwait(false);
+            var twitterResult = await _authRequester.RequestCredentials(parameters).ConfigureAwait(false);
             return twitterResult?.DataTransferObject;
         }
 
@@ -67,6 +73,11 @@ namespace Tweetinvi.Client
         public Task<ITwitterCredentials> RequestCredentialsFromCallbackUrl(string callbackUrl, IAuthenticationRequest authenticationRequest)
         {
             return RequestCredentials(RequestCredentialsParameters.FromCallbackUrl(callbackUrl, authenticationRequest));
+        }
+
+        public Task<ITwitterCredentials> RequestCredentialsFromCallbackUrl(Uri callbackUri, IAuthenticationRequest authenticationRequest)
+        {
+            return RequestCredentials(RequestCredentialsParameters.FromCallbackUrl(callbackUri, authenticationRequest));
         }
 
         public Task InvalidateBearerToken()

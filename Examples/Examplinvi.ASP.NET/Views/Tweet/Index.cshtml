@@ -1,0 +1,34 @@
+﻿<h2>Publish Tweet</h2>
+
+@if (ViewBag.Info != null)
+{
+    <div class="alert alert-warning" role="alert">
+        @Html.Raw(ViewBag.Info)
+    </div>
+}
+else
+{
+    <form action="Tweet/Publish" method="post" enctype="multipart/form-data" disabled="@ViewBag.">
+        <div class="form-group">
+            <label for="tweet">Tweet : </label>
+            <input type="text" class="form-control" name="tweet" id="tweet" value="I love @("@TweetinviAPI"). Check it out!"/>
+        </div>
+
+        <div class="form-group">
+            <div class="input-group">
+                <span class="input-group-btn">
+                    <span class="btn btn-primary btn-file">
+                        Add Media &hellip;
+                        <input type="file" name="file" id="file">
+                    </span>
+                </span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <input type="submit" class="btn btn-success" />
+        </div>
+    </form>
+}
+
+

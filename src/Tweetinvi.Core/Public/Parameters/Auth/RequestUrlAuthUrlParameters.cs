@@ -1,3 +1,5 @@
+using System;
+
 namespace Tweetinvi.Parameters
 {
     /// <inheritdoc/>
@@ -6,6 +8,11 @@ namespace Tweetinvi.Parameters
         public RequestUrlAuthUrlParameters(string url)
         {
             CallbackUrl = url;
+        }
+
+        public RequestUrlAuthUrlParameters(Uri uri)
+        {
+            CallbackUrl = uri.AbsoluteUri;
         }
 
         public RequestUrlAuthUrlParameters(IRequestAuthUrlParameters parameters) : base(parameters)

@@ -31,7 +31,7 @@ namespace Tweetinvi.Client.Requesters
         /// </summary>
         /// <para> https://developer.twitter.com/en/docs/basics/authentication/api-reference/token </para>
         /// <returns>The requested user credentials</returns>
-        Task<ITwitterResult<ITwitterCredentials>> RequestAuthUrl(IRequestCredentialsParameters parameters);
+        Task<ITwitterResult<ITwitterCredentials>> RequestCredentials(IRequestCredentialsParameters parameters);
 
         /// <summary>
         /// Invalidate bearer token

@@ -31,6 +31,18 @@ namespace Tweetinvi.Parameters
         {
             return new RequestCredentialsParameters(pinCode, authRequest);
         }
+        
+        /// <inheritdoc cref="FromCallbackUrl(string, IAuthenticationRequest)"/>
+        public static IRequestCredentialsParameters FromCallbackUrl(Uri callbackUri, IAuthenticationRequest authenticationRequestStore)
+        {
+            return FromCallbackUrl(callbackUri.AbsoluteUri, authenticationRequestStore);
+        }
+        
+        public static IRequestCredentialsParameters FromCallbackUrl(string callbackUrl, IAuthenticationRequest authRequest)
+        {
+            var oAuthVerifier = callbackUrl.GetURLParameter("oauth_verifier");
+            return new RequestCredentialsParameters(oAuthVerifier, authRequest);
+        }
 
         /// <summary>
         /// Generate the request credentials parameters from an AuthenticationTokenProvider
@@ -57,12 +69,6 @@ namespace Tweetinvi.Parameters
             }
 
             return new RequestCredentialsParameters(oAuthVerifier, authToken);
-        }
-
-        public static IRequestCredentialsParameters FromCallbackUrl(string callbackUrl, IAuthenticationRequest authRequest)
-        {
-            var oAuthVerifier = callbackUrl.GetURLParameter("oauth_verifier");
-            return new RequestCredentialsParameters(oAuthVerifier, authRequest);
         }
 
         public RequestCredentialsParameters(string verifierCode, IAuthenticationRequest authenticationRequest)

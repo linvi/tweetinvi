@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using Tweetinvi.Models;
 using Tweetinvi.Parameters;
@@ -40,6 +41,9 @@ namespace Tweetinvi.Client
         /// <inheritdoc cref="RequestAuthenticationUrl(IRequestAuthUrlParameters)" />
         Task<IAuthenticationRequest> RequestAuthenticationUrl(string callbackUrl);
 
+        /// <inheritdoc cref="RequestAuthenticationUrl(IRequestAuthUrlParameters)" />
+        Task<IAuthenticationRequest> RequestAuthenticationUrl(Uri callbackUri);
+
         /// <summary>
         /// Initiates the authentication process for a user.
         /// </summary>
@@ -57,6 +61,9 @@ namespace Tweetinvi.Client
         /// <returns>The requested user credentials</returns>
         Task<ITwitterCredentials> RequestCredentials(IRequestCredentialsParameters parameters);
 
+        /// <inheritdoc cref="RequestCredentialsFromCallbackUrl(Uri, IAuthenticationRequest)"/>
+        Task<ITwitterCredentials> RequestCredentialsFromCallbackUrl(string callbackUrl, IAuthenticationRequest authenticationRequest);
+        
         /// <summary>
         /// Request credentials from an AuthenticationRequest.
         /// This is assuming that the callback url contains the expected parameter,
@@ -64,7 +71,7 @@ namespace Tweetinvi.Client
         /// </summary>
         /// <para> https://developer.twitter.com/en/docs/basics/authentication/api-reference/token </para>
         /// <returns>The requested user credentials</returns>
-        Task<ITwitterCredentials> RequestCredentialsFromCallbackUrl(string callbackUrl, IAuthenticationRequest authenticationRequest);
+        Task<ITwitterCredentials> RequestCredentialsFromCallbackUrl(Uri callbackUri, IAuthenticationRequest authenticationRequest);
 
         /// <inheritdoc cref="InvalidateBearerToken(IInvalidateBearerTokenParameters)"/>
         Task InvalidateBearerToken();

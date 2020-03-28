@@ -1,0 +1,14 @@
+﻿@if (@ViewBag.User != null)
+{
+    <h2>Twitter Authentication Complete!</h2>
+    <p>Welcome <b>@ViewBag.User.Name</b>, you've successfully been authenticated via Twitter.</p>
+    
+    <div class="alert alert-success" role="alert">
+        <a href="/Tweet">Click to post a tweet</a>
+    </div>
+}
+else
+{
+    <h2>Authentication failed!</h2>
+    <p>Something went wrong during the authentication, please <a href="/Home/TwitterAuth">try again</a>!</p>
+}

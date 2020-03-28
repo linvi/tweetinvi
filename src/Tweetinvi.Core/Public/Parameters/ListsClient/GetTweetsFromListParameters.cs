@@ -14,11 +14,6 @@ namespace Tweetinvi.Parameters
         /// If the MaximumResultSet is set to 100, you will receive 80 tweets and not 100 even if there is more than 80 new tweets in the Timeline.
         /// </summary>
         bool? IncludeRetweets { get; set; }
-
-        /// <summary>
-        /// Define whether you want to use the Tweet extended or compatibility mode
-        /// </summary>
-        TweetMode? TweetMode { get; set; }
     }
 
     /// <inheritdoc />
@@ -52,8 +47,5 @@ namespace Tweetinvi.Parameters
 
         /// <inheritdoc />
         public bool? IncludeRetweets { get; set; }
-
-        /// <inheritdoc />
-        public TweetMode? TweetMode { get; set; }
     }
 }

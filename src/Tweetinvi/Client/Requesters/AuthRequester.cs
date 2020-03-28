@@ -40,7 +40,7 @@ namespace Tweetinvi.Client.Requesters
             return ExecuteRequest(request => _authController.RequestAuthUrl(parameters, request));
         }
 
-        public Task<ITwitterResult<ITwitterCredentials>> RequestAuthUrl(IRequestCredentialsParameters parameters)
+        public Task<ITwitterResult<ITwitterCredentials>> RequestCredentials(IRequestCredentialsParameters parameters)
         {
             _validator.Validate(parameters);
             return ExecuteRequest(request => _authController.RequestCredentials(parameters, request));
