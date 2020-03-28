@@ -28,13 +28,17 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Examplinvi.NETStandard", "E
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Examplinvi.ASP.NET.Core", "Examples\Examplinvi.ASP.NET.Core\Examplinvi.ASP.NET.Core.csproj", "{30E2B00B-95C1-4BEC-B82B-D243FECEDA06}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Examplinvi.AccountActivityEvents", "Examples\Examplinvi.AccountActivityEvents\Examplinvi.AccountActivityEvents.csproj", "{4D3DAD15-7FF2-4856-BC7C-5D2FA76FDE9E}"
+
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Examplinvi.AccountActivityEvents", "Examples - Account Activity\Examplinvi.AccountActivityEvents\Examplinvi.AccountActivityEvents.csproj", "{4D3DAD15-7FF2-4856-BC7C-5D2FA76FDE9E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Examplinvi.AccountActivity.ASP.NETCore", "Examples\Examplinvi.AccountActivity.ASP.NETCore\Examplinvi.AccountActivity.ASP.NETCore.csproj", "{ED62F953-191C-47BF-9B5C-59916A37D2DF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Examplinvi.AccountActivity.ASP.NETCore", "Examples - Account Activity\Examplinvi.AccountActivity.ASP.NETCore\Examplinvi.AccountActivity.ASP.NETCore.csproj", "{ED62F953-191C-47BF-9B5C-59916A37D2DF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Examplinvi.AccountActivity.ASP.NETCore.3.0", "Examples\Examplinvi.AccountActivity.ASP.NETCore.3.0\Examplinvi.AccountActivity.ASP.NETCore.3.0.csproj", "{CAB04D52-8A0D-4F20-BF60-5B70491F4D26}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Examplinvi.AccountActivity.ASP.NETCore.3.0", "Examples - Account Activity\Examplinvi.AccountActivity.ASP.NETCore.3.0\Examplinvi.AccountActivity.ASP.NETCore.3.0.csproj", "{CAB04D52-8A0D-4F20-BF60-5B70491F4D26}"
 EndProject
+
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "xUnitinvi", "Tests\xUnitinvi\xUnitinvi.csproj", "{CBD29D82-78F3-4837-8E46-95D3628514D7}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Examples - Account Activity", "Examples - Account Activity", "{4FC3E6CF-88D0-400B-ADA9-06586492E436}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -838,10 +842,10 @@ Global
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{1BF67ABB-5417-47DC-8C28-FF1DD7DC0B07} = {BF17EF93-A82C-43D8-813C-0DBBC53A8A80}
-		{4D3DAD15-7FF2-4856-BC7C-5D2FA76FDE9E} = {BF17EF93-A82C-43D8-813C-0DBBC53A8A80}
 		{30E2B00B-95C1-4BEC-B82B-D243FECEDA06} = {BF17EF93-A82C-43D8-813C-0DBBC53A8A80}
-		{ED62F953-191C-47BF-9B5C-59916A37D2DF} = {BF17EF93-A82C-43D8-813C-0DBBC53A8A80}
-		{CAB04D52-8A0D-4F20-BF60-5B70491F4D26} = {BF17EF93-A82C-43D8-813C-0DBBC53A8A80}
+		{ED62F953-191C-47BF-9B5C-59916A37D2DF} = {4FC3E6CF-88D0-400B-ADA9-06586492E436}
+		{CAB04D52-8A0D-4F20-BF60-5B70491F4D26} = {4FC3E6CF-88D0-400B-ADA9-06586492E436}
+		{4D3DAD15-7FF2-4856-BC7C-5D2FA76FDE9E} = {4FC3E6CF-88D0-400B-ADA9-06586492E436}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C6934D12-5188-46C0-B5C0-FAF01E50BE0E}

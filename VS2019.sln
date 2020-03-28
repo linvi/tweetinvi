@@ -21,11 +21,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tweetinvi.AspNet", "src\Twe
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tweetinvi.WebLogic", "src\Tweetinvi.WebLogic\Tweetinvi.WebLogic.csproj", "{E28C4C1F-05CD-4E56-8C70-987CAF7ACFBE}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Examplinvi.AccountActivity.ASP.NETCore", "Examples\Examplinvi.AccountActivity.ASP.NETCore\Examplinvi.AccountActivity.ASP.NETCore.csproj", "{AF6B5057-F8E0-4D7B-BEF6-A10A696B1B3A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Examplinvi.AccountActivity.ASP.NETCore", "Examples - Account Activity\Examplinvi.AccountActivity.ASP.NETCore\Examplinvi.AccountActivity.ASP.NETCore.csproj", "{AF6B5057-F8E0-4D7B-BEF6-A10A696B1B3A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Examplinvi.AccountActivityEvents", "Examples\Examplinvi.AccountActivityEvents\Examplinvi.AccountActivityEvents.csproj", "{1D28682C-C259-4419-8160-2235FA25D355}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Examplinvi.AccountActivityEvents", "Examples - Account Activity\Examplinvi.AccountActivityEvents\Examplinvi.AccountActivityEvents.csproj", "{1D28682C-C259-4419-8160-2235FA25D355}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Examplinvi.AccountActivity.ASP", "Examples\Examplinvi.AccountActivity.ASP\Examplinvi.AccountActivity.ASP.csproj", "{23314C51-0AAF-4FD2-B13B-26545043157A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Examplinvi.AccountActivity.ASP", "Examples - Account Activity\Examplinvi.AccountActivity.ASP\Examplinvi.AccountActivity.ASP.csproj", "{23314C51-0AAF-4FD2-B13B-26545043157A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Examples - Account Activity", "Examples - Account Activity", "{C242E17C-CDE3-4A13-84F9-2D119EDC5373}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -95,5 +97,10 @@ Global
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {2B3B802E-1D6D-43B1-BB8F-D5FE24439BDD}
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{23314C51-0AAF-4FD2-B13B-26545043157A} = {C242E17C-CDE3-4A13-84F9-2D119EDC5373}
+		{AF6B5057-F8E0-4D7B-BEF6-A10A696B1B3A} = {C242E17C-CDE3-4A13-84F9-2D119EDC5373}
+		{1D28682C-C259-4419-8160-2235FA25D355} = {C242E17C-CDE3-4A13-84F9-2D119EDC5373}
 	EndGlobalSection
 EndGlobal
