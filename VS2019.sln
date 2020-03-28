@@ -37,6 +37,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "xUnitinvi", "Tests\xUnitinv
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Examplinvi.Console", "Examples\Examplinvi.Console\Examplinvi.Console.csproj", "{CE404F25-0BD1-4C95-B58D-C5D3014C5361}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Examplinvi.UAP", "Examples\Examplinvi.UAP\Examplinvi.UAP.csproj", "{0890583B-4155-41D3-ACFF-9EF509EC3A50}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -111,6 +113,10 @@ Global
 		{CE404F25-0BD1-4C95-B58D-C5D3014C5361}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CE404F25-0BD1-4C95-B58D-C5D3014C5361}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CE404F25-0BD1-4C95-B58D-C5D3014C5361}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0890583B-4155-41D3-ACFF-9EF509EC3A50}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{0890583B-4155-41D3-ACFF-9EF509EC3A50}.Debug|Any CPU.Build.0 = Debug|x86
+		{0890583B-4155-41D3-ACFF-9EF509EC3A50}.Release|Any CPU.ActiveCfg = Release|x86
+		{0890583B-4155-41D3-ACFF-9EF509EC3A50}.Release|Any CPU.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -124,5 +130,6 @@ Global
 		{1D28682C-C259-4419-8160-2235FA25D355} = {C242E17C-CDE3-4A13-84F9-2D119EDC5373}
 		{EED8E96B-DE57-46B6-9F8A-FA4820B9EDC3} = {53D39A10-59EC-4D51-AFB0-E85D5499FFD8}
 		{CE404F25-0BD1-4C95-B58D-C5D3014C5361} = {53D39A10-59EC-4D51-AFB0-E85D5499FFD8}
+		{0890583B-4155-41D3-ACFF-9EF509EC3A50} = {53D39A10-59EC-4D51-AFB0-E85D5499FFD8}
 	EndGlobalSection
 EndGlobal

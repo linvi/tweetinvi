@@ -48,6 +48,11 @@ namespace Tweetinvi
         /// Client to execute all actions related with search
         /// </summary>
         ISearchClient Search { get; }
+        
+        /// <summary>
+        /// Client to create all type of streams
+        /// </summary>
+        IStreamsClient Streams { get; }
 
         /// <summary>
         /// Client to execute all actions related with timelines

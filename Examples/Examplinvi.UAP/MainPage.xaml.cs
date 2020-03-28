@@ -23,7 +23,6 @@ namespace Examplinvi.UAP
         private void OnLoaded(object sender, RoutedEventArgs routedEventArgs)
         {
             StreamVM.RunSampleStream();
-            //StreamVM.PublishTweet();
         }
     }
 }

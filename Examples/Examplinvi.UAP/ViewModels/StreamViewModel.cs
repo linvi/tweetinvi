@@ -2,8 +2,8 @@
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
-using Examplinvi.UniversalApp;
 using Tweetinvi;
+using Tweetinvi.Models;
 
 namespace Examplinvi.UAP.ViewModels
 {
@@ -36,24 +36,18 @@ namespace Examplinvi.UAP.ViewModels
             Authenticate();
         }
 
+        private ITwitterCredentials Credentials { get; set; } =new TwitterCredentials("CONSUMER_KEY", "CONSUMER_SECRET", "ACCESS_TOKEN", "ACCESS_TOKEN_SECRET");
         private async Task Authenticate()
         {
-            TwitterConfig.InitApp(); // Initializing credentials -> Auth.SetUserCredentials
-
-            if (Auth.Credentials == null ||
-                string.IsNullOrEmpty(Auth.Credentials.ConsumerKey) ||
-                string.IsNullOrEmpty(Auth.Credentials.ConsumerSecret) ||
-                string.IsNullOrEmpty(Auth.Credentials.AccessToken) ||
-                string.IsNullOrEmpty(Auth.Credentials.AccessTokenSecret) ||
-                Auth.Credentials.AccessToken == "ACCESS_TOKEN")
+            if (Credentials == null)
             {
                 Message = "Please enter your credentials in the StreamViewModel.cs file";
             }
             else
             {
-                _client = new TwitterClient(Auth.Credentials);
+                _client = new TwitterClient(Credentials);
 
-                var user = await _client.Account.GetAuthenticatedUser();
+                var user = await _client.Users.GetAuthenticatedUser();
                 Message = $"Hi '{user.Name}'. Welcome on board with Windows 10 Universal App!";                
             }
         }
@@ -69,7 +63,7 @@ namespace Examplinvi.UAP.ViewModels
         {
             var uiDispatcher = Windows.UI.Core.CoreWindow.GetForCurrentThread().Dispatcher;
 
-            var s = Stream.CreateSampleStream();
+            var s = _client.Streams.CreateSampleStream();
 
             var i = 0;
 
