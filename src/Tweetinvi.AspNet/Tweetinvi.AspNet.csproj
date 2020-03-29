@@ -2,12 +2,14 @@
 
   <PropertyGroup>
     <VersionPrefix>4.0.2</VersionPrefix>
-    <Copyright>Tweetinvi 2018</Copyright>
+    <Copyright>Tweetinvi 2020</Copyright>
     <SignAssembly>false</SignAssembly>
     <AssemblyOriginatorKeyFile>../tweetinvi.snk</AssemblyOriginatorKeyFile>
     <AssemblyName>Tweetinvi.AspNet</AssemblyName>
     <RootNamespace>Tweetinvi.AspNet</RootNamespace>
     <TargetFrameworks>netstandard2.0;netcoreapp2.1;netcoreapp3.1</TargetFrameworks>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <NoWarn>1591</NoWarn>
   </PropertyGroup>
 
   <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard2.0' ">

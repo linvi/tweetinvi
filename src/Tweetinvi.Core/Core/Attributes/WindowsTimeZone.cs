@@ -50,7 +50,7 @@ namespace Tweetinvi.Core.Attributes
         Baja_California,
 
         /// <summary>
-        /// (UTC-08:00) Pacific Time (US & Canada)
+        /// (UTC-08:00) Pacific Time (US &amp; Canada)
         /// </summary>
         [WindowsTimeZone("Pacific Standard Time", "America/Los_Angeles")]
         Pacific_Time_US_Canada,
@@ -68,7 +68,7 @@ namespace Tweetinvi.Core.Attributes
         Chihuahua_La_Paz_Mazatlan,
 
         /// <summary>
-        /// (UTC-07:00) Mountain Time (US & Canada)
+        /// (UTC-07:00) Mountain Time (US &amp; Canada)
         /// </summary>
         [WindowsTimeZone("Mountain Standard Time", null)]
         Mountain_Time_US_Canada,
@@ -80,7 +80,7 @@ namespace Tweetinvi.Core.Attributes
         Central_America,
 
         /// <summary>
-        /// (UTC-06:00) Central Time (US & Canada)
+        /// (UTC-06:00) Central Time (US &amp; Canada)
         /// </summary>
         [WindowsTimeZone("Central Standard Time", null)]
         Central_Time_US_Canada,
@@ -104,7 +104,7 @@ namespace Tweetinvi.Core.Attributes
         Bogota_Lima_Quito_Rio_Branco,
 
         /// <summary>
-        /// (UTC-05:00) Eastern Time (US & Canada)
+        /// (UTC-05:00) Eastern Time (US &amp; Canada)
         /// </summary>
         [WindowsTimeZone("Eastern Standard Time", null)]
         Eastern_Time_US_Canada,

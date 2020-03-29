@@ -549,7 +549,7 @@ namespace Tweetinvi.Controllers.Properties
         public static string Auth_InvalidateAccessToken = "https://api.twitter.com/1.1/oauth/invalidate_token";
 
         /// <summary>
-        ///   Looks up a localized string similar to oauth_token=(?<oauth_token>(?:\\w|\\-)*)&oauth_token_secret=(?<oauth_token_secret>(?:\\w)*)&oauth_callback_confirmed=(?<oauth_callback_confirmed>(?:\\w)*).
+        ///   Looks up a localized string that contains the regex for parsing the oauth_token
         /// </summary>
         public static string Auth_RequestTokenParserRegex = "oauth_token=(?<oauth_token>(?:\\w|\\-)*)&oauth_token_secret=(?<oauth_token_secret>(?:\\w)*)&oauth_callback_confirmed=(?<oauth_callback_confirmed>(?:\\w)*)";
 
