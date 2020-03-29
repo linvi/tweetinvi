@@ -15,11 +15,12 @@ namespace Examplinvi.WPF
         {
             InitializeComponent();
 
-            DataContext = this;
             StreamVM = new StreamViewModel();
             StreamVM.Authenticate();
 
             Loaded += OnLoaded;
+            
+            DataContext = this;
         }
 
         private void OnLoaded(object sender, RoutedEventArgs routedEventArgs)

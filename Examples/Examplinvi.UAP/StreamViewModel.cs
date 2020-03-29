@@ -1,53 +1,54 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Tweetinvi;
+using Tweetinvi.Models;
 
-namespace Examplinvi.WPF.ViewModels
+namespace Examplinvi.UAP
 {
     public class StreamViewModel : INotifyPropertyChanged
     {
         private ITwitterClient _client;
-        
+
         /// <summary>
         /// Informational message to the user.
         /// </summary>
         public string Message { get; private set; }
 
-        private string _streamingText;
+        private string streamingText;
 
         /// <summary>
         /// Tweets from the streaming API.
         /// </summary>
         public string StreamingText
         {
-            get { return _streamingText; }
+            get { return this.streamingText; }
             set
             {
-                _streamingText = value;
-                NotifyPropertyChanged(nameof(StreamingText));
+                this.streamingText = value;
+                NotifyPropertyChanged(nameof(this.StreamingText));
             }
         }
 
-        public async Task Authenticate()
+        public StreamViewModel()
         {
-            TwitterConfig.InitApp(); // Initializing credentials -> Auth.SetUserCredentials
+            Authenticate();
+        }
 
-            if (Auth.Credentials == null ||
-                string.IsNullOrEmpty(Auth.Credentials.ConsumerKey) ||
-                string.IsNullOrEmpty(Auth.Credentials.ConsumerSecret) ||
-                string.IsNullOrEmpty(Auth.Credentials.AccessToken) ||
-                string.IsNullOrEmpty(Auth.Credentials.AccessTokenSecret) ||
-                Auth.Credentials.AccessToken == "ACCESS_TOKEN")
+        private ITwitterCredentials Credentials { get; set; } = new TwitterCredentials("CONSUMER_TOKEN", "CONSUMER_SECRET", "ACCESS_TOKEN", "ACCESS_TOKEN_SECRET");
+        private async Task Authenticate()
+        {
+            if (Credentials == null)
             {
                 Message = "Please enter your credentials in the StreamViewModel.cs file";
             }
             else
             {
-                _client = new TwitterClient(Auth.Credentials);
+                _client = new TwitterClient(Credentials);
 
-                var user = await _client.Account.GetAuthenticatedUser();
-                Message = $"Hi '{user.Name}'. Welcome on board with WPF App!";
+                var user = await _client.Users.GetAuthenticatedUser();
+                Message = $"Hi '{user.Name}'. Welcome on board with Windows 10 Universal App!";                
             }
         }
 
@@ -60,11 +61,12 @@ namespace Examplinvi.WPF.ViewModels
 
         public void RunSampleStream()
         {
-            var s = Stream.CreateSampleStream();
+            var uiDispatcher = Windows.UI.Core.CoreWindow.GetForCurrentThread().Dispatcher;
 
+            var s = _client.Streams.CreateSampleStream();
             var i = 0;
 
-            s.TweetReceived += (o, args) =>
+            s.TweetReceived += async (o, args) =>
             {
                 _buffer += $"{args.Tweet.Text}\r\n";
 
@@ -74,7 +76,10 @@ namespace Examplinvi.WPF.ViewModels
                 {
                     i = 0;
 
-                    StreamingText = _buffer;
+                    await uiDispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
+                    {
+                        StreamingText = _buffer;
+                    });
 
                     _buffer = string.Empty;
                 }

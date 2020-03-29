@@ -1,11 +1,14 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Net;
 using System.Runtime.CompilerServices;
+using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Threading;
 using Tweetinvi;
 using Tweetinvi.Models;
 
-namespace Examplinvi.UAP.ViewModels
+namespace Examplinvi.WPF.ViewModels
 {
     public class StreamViewModel : INotifyPropertyChanged
     {
@@ -14,30 +17,36 @@ namespace Examplinvi.UAP.ViewModels
         /// <summary>
         /// Informational message to the user.
         /// </summary>
-        public string Message { get; private set; }
+        private string _message;
 
-        private string streamingText;
+        public string Message
+        {
+            get { return _message; }
+            set
+            {
+                _message = value;
+                NotifyPropertyChanged(nameof(Message));
+            }
+        }
+
+        private string _streamingText;
 
         /// <summary>
         /// Tweets from the streaming API.
         /// </summary>
         public string StreamingText
         {
-            get { return this.streamingText; }
+            get { return _streamingText; }
             set
             {
-                this.streamingText = value;
-                NotifyPropertyChanged(nameof(this.StreamingText));
+                _streamingText = value;
+                NotifyPropertyChanged(nameof(StreamingText));
             }
         }
 
-        public StreamViewModel()
-        {
-            Authenticate();
-        }
+        private ITwitterCredentials Credentials { get; set; } = new TwitterCredentials("CONSUMER_TOKEN", "CONSUMER_SECRET", "ACCESS_TOKEN", "ACCESS_TOKEN_SECRET");
 
-        private ITwitterCredentials Credentials { get; set; } =new TwitterCredentials("CONSUMER_KEY", "CONSUMER_SECRET", "ACCESS_TOKEN", "ACCESS_TOKEN_SECRET");
-        private async Task Authenticate()
+        public async Task Authenticate()
         {
             if (Credentials == null)
             {
@@ -48,7 +57,7 @@ namespace Examplinvi.UAP.ViewModels
                 _client = new TwitterClient(Credentials);
 
                 var user = await _client.Users.GetAuthenticatedUser();
-                Message = $"Hi '{user.Name}'. Welcome on board with Windows 10 Universal App!";                
+                Message = $"Hi '{user.Name}'. Welcome on board with Windows 10 Universal App!";
             }
         }
 
@@ -61,10 +70,7 @@ namespace Examplinvi.UAP.ViewModels
 
         public void RunSampleStream()
         {
-            var uiDispatcher = Windows.UI.Core.CoreWindow.GetForCurrentThread().Dispatcher;
-
             var s = _client.Streams.CreateSampleStream();
-
             var i = 0;
 
             s.TweetReceived += async (o, args) =>
@@ -77,11 +83,7 @@ namespace Examplinvi.UAP.ViewModels
                 {
                     i = 0;
 
-                    await uiDispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
-                    {
-                        StreamingText = _buffer;
-                    });
-
+                    StreamingText = _buffer;
                     _buffer = string.Empty;
                 }
             };
@@ -90,12 +92,14 @@ namespace Examplinvi.UAP.ViewModels
         }
 
         #region INotifyPropertyChanged Implementation
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+
         #endregion
     }
 }
