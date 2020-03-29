@@ -4,9 +4,24 @@ This is a very simple Android application that uses Tweetinvi to access the `Aut
 
 To start working on this project please open the file `MainActivity.cs` and simply enter your credentials at the line:
 
-`Auth.SetUserCredentials("CONSUMER_KEY", "CONSUMER_SECRET", "ACCESS_TOKEN", "ACCESS_TOKEN_SECRET");`
+`var creds = new TwitterCredentials("CONSUMER_KEY", "CONSUMER_SECRET", "ACCESS_TOKEN", "ACCESS_TOKEN_SECRET");`
 
 Remember that if you create a project from scracth with Android you need to Authorize your app to access internet.
+
+## Create APK
+
+Create a certificate : https://docs.microsoft.com/en-us/xamarin/android/deploy-test/signing/?tabs=windows
+
+* Right click Examplinvi.Android project.
+* Click `Archive to Publish`
+* Select your archive
+* Select Certificate
+* Publish Apk
+* Show Apk File
+* Install apk into virtual machine 
+* Run (app is slow to start - 20 secs of white page)
+
+![](PublishForAndroid.gif)
 
 ## Increase performances of the Android VM
 

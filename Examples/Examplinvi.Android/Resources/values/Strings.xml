@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Examplinvi.Android</string>
+    <string name="action_settings">Settings</string>
+    <string name="Hello">Hello World, Click Me!</string>
+</resources>

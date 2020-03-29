@@ -1,4 +1,4 @@
-﻿namespace Examplinvi.Xamarin.Android.Resources
+﻿namespace Examplinvi.Android
 {
     public class TweetItem
     {

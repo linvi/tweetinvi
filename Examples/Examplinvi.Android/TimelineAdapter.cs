@@ -1,16 +1,16 @@
-﻿using Android.App;
+﻿using System.Collections.Generic;
+using Android.App;
 using Android.Views;
 using Android.Widget;
-using System.Collections.Generic;
 
-namespace Examplinvi.Xamarin.Android.Resources
+namespace Examplinvi.Android
 {
     public class ViewHolder : Java.Lang.Object
     {
         public TextView TweetTxt { get; set; }
     }
-
-    public class TimelineAdapter : BaseAdapter
+    
+    public class TimelineAdapter : BaseAdapter, IListAdapter
     {
         private Activity Activity;
         private List<TweetItem> Tweets;

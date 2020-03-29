@@ -43,6 +43,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Examplinvi.Winforms", "Exam
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Examplinvi.WPF", "Examples\Examplinvi.WPF\Examplinvi.WPF.csproj", "{0F2DB26E-0D35-4C6F-9B50-5C8F53021A81}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Examplinvi.Android", "Examples\Examplinvi.Android\Examplinvi.Android.csproj", "{5C8D40B1-8566-443B-9FAD-BDE8DA63BE5D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -129,6 +131,10 @@ Global
 		{0F2DB26E-0D35-4C6F-9B50-5C8F53021A81}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0F2DB26E-0D35-4C6F-9B50-5C8F53021A81}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0F2DB26E-0D35-4C6F-9B50-5C8F53021A81}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5C8D40B1-8566-443B-9FAD-BDE8DA63BE5D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5C8D40B1-8566-443B-9FAD-BDE8DA63BE5D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5C8D40B1-8566-443B-9FAD-BDE8DA63BE5D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5C8D40B1-8566-443B-9FAD-BDE8DA63BE5D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -145,5 +151,6 @@ Global
 		{0890583B-4155-41D3-ACFF-9EF509EC3A50} = {53D39A10-59EC-4D51-AFB0-E85D5499FFD8}
 		{E5FDB0D5-FC31-4596-A18C-A82F09A18B9E} = {53D39A10-59EC-4D51-AFB0-E85D5499FFD8}
 		{0F2DB26E-0D35-4C6F-9B50-5C8F53021A81} = {53D39A10-59EC-4D51-AFB0-E85D5499FFD8}
+		{5C8D40B1-8566-443B-9FAD-BDE8DA63BE5D} = {53D39A10-59EC-4D51-AFB0-E85D5499FFD8}
 	EndGlobalSection
 EndGlobal

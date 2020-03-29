@@ -1,26 +1,25 @@
+﻿using System.Collections.Generic;
 using Android.App;
 using Android.OS;
+using Android.Support.V7.App;
+using Android.Runtime;
 using Android.Widget;
-using Examplinvi.Xamarin.Android.Resources;
-using System.Collections.Generic;
 using Tweetinvi;
 using Tweetinvi.Models;
 using Tweetinvi.Parameters;
 
-namespace Examplinvi.Xamarin.Android
+namespace Examplinvi.Android
 {
-    [Activity(Label = "Examplinvi.Xamarin.Android", MainLauncher = true, Icon = "@drawable/icon")]
-    public class MainActivity : Activity
+    [Activity(Label = "@string/app_name", Theme = "@style/AppTheme", MainLauncher = true)]
+    public class MainActivity : AppCompatActivity
     {
-        protected override void OnCreate(Bundle bundle)
+        protected override void OnCreate(Bundle savedInstanceState)
         {
-            base.OnCreate(bundle);
-
+            base.OnCreate(savedInstanceState);
+            // Set our view from the "main" layout resource
             SetContentView(Resource.Layout.Main);
-
+            
             var creds = new TwitterCredentials("CONSUMER_KEY", "CONSUMER_SECRET", "ACCESS_TOKEN", "ACCESS_TOKEN_SECRET");
-            Auth.SetCredentials(creds);
-
             var client = new TwitterClient(creds);
 
             var authenticatedUser = client.Users.GetAuthenticatedUser().Result;
@@ -62,4 +61,3 @@ namespace Examplinvi.Xamarin.Android
         }
     }
 }
-
