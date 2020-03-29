@@ -213,7 +213,7 @@ namespace Tweetinvi.Streams
                 return null;
             }
 
-            request.Query.Timeout = TimeSpan.FromMilliseconds(Timeout.Infinite);
+            request.Query.Timeout = Timeout.InfiniteTimeSpan;
 
             var queryBeforeExecuteEventArgs = new BeforeExecutingRequestEventArgs(request.Query);
             _tweetinviEvents.RaiseBeforeWaitingForQueryRateLimits(queryBeforeExecuteEventArgs);
@@ -250,16 +250,16 @@ namespace Tweetinvi.Streams
                 {
                     httpRequestMessage = new HttpRequestMessage(httpMethod, twitterQuery.Url);
                 }
-
+                
                 var response = await client.SendAsync(httpRequestMessage, HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false);
-                _currentResponseHttpStatusCode = (int) response.StatusCode;
                 var body = await response.Content.ReadAsStreamAsync().ConfigureAwait(false);
 
                 return new StreamReader(body, Encoding.GetEncoding("utf-8"));
             }
-            finally
+            catch (Exception)
             {
                 client?.Dispose();
+                throw;
             }
         }
 
