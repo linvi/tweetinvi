@@ -1,6 +1,6 @@
 ﻿using UIKit;
 
-namespace Examplinvi.Xamarin.iOS
+namespace Examplinvi.iOS
 {
     public class Application
     {

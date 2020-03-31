@@ -7,8 +7,9 @@
 using Foundation;
 using System;
 using System.CodeDom.Compiler;
+using UIKit;
 
-namespace Examplinvi.Xamarin.iOS
+namespace Examplinvi.iOS
 {
     [Register ("ViewController")]
     partial class ViewController

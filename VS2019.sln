@@ -45,6 +45,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Examplinvi.WPF", "Examples\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Examplinvi.Android", "Examples\Examplinvi.Android\Examplinvi.Android.csproj", "{5C8D40B1-8566-443B-9FAD-BDE8DA63BE5D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Examplinvi.iOS", "Examples\Examplinvi.iOS\Examplinvi.iOS.csproj", "{91A8B734-5BED-4563-AC09-9EB49B701A3F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -135,6 +137,10 @@ Global
 		{5C8D40B1-8566-443B-9FAD-BDE8DA63BE5D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5C8D40B1-8566-443B-9FAD-BDE8DA63BE5D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5C8D40B1-8566-443B-9FAD-BDE8DA63BE5D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{91A8B734-5BED-4563-AC09-9EB49B701A3F}.Debug|Any CPU.ActiveCfg = Debug|iPhoneSimulator
+		{91A8B734-5BED-4563-AC09-9EB49B701A3F}.Debug|Any CPU.Build.0 = Debug|iPhoneSimulator
+		{91A8B734-5BED-4563-AC09-9EB49B701A3F}.Release|Any CPU.ActiveCfg = Release|iPhoneSimulator
+		{91A8B734-5BED-4563-AC09-9EB49B701A3F}.Release|Any CPU.Build.0 = Release|iPhoneSimulator
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -152,5 +158,6 @@ Global
 		{E5FDB0D5-FC31-4596-A18C-A82F09A18B9E} = {53D39A10-59EC-4D51-AFB0-E85D5499FFD8}
 		{0F2DB26E-0D35-4C6F-9B50-5C8F53021A81} = {53D39A10-59EC-4D51-AFB0-E85D5499FFD8}
 		{5C8D40B1-8566-443B-9FAD-BDE8DA63BE5D} = {53D39A10-59EC-4D51-AFB0-E85D5499FFD8}
+		{91A8B734-5BED-4563-AC09-9EB49B701A3F} = {53D39A10-59EC-4D51-AFB0-E85D5499FFD8}
 	EndGlobalSection
 EndGlobal

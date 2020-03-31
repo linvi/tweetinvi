@@ -16,13 +16,13 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "Tweetinvi.Webhooks": {
+    "Examplinvi.AccountActivity.ASP.NETCore": {
       "commandName": "Project",
-      "launchUrl": "tweetinvi-webhooks",
+      "launchBrowser": true,
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
-      "applicationUrl": "http://localhost:80/"
+      "applicationUrl": "http://localhost:5000"
     }
   }
 }

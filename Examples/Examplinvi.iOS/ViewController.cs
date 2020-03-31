@@ -1,10 +1,10 @@
-﻿using System;
-using System.Linq;
+﻿using Foundation;
+using System;
 using Tweetinvi;
 using Tweetinvi.Models;
 using UIKit;
 
-namespace Examplinvi.Xamarin.iOS
+namespace Examplinvi.iOS
 {
     public partial class ViewController : UIViewController
     {
@@ -12,17 +12,16 @@ namespace Examplinvi.Xamarin.iOS
         {
         }
 
+        private ITwitterClient _client;
         public override void ViewDidLoad()
         {
             base.ViewDidLoad();
             // Perform any additional setup after loading the view, typically from a nib.
 
             var creds = new TwitterCredentials("CONSUMER_KEY", "CONSUMER_SECRET", "ACCESS_TOKEN", "ACCESS_TOKEN_SECRET");
-            Auth.SetCredentials(creds);
+            _client = new TwitterClient(creds);
 
-            var client = new TwitterClient(creds);
-
-            var authenticatedUser = client.Account.GetAuthenticatedUser().Result.ToString();
+            var authenticatedUser = _client.Users.GetAuthenticatedUser().Result.ToString();
 
             WelcomeText.Text = $"Welcome {authenticatedUser}";
             RefreshHomeTimeline();
@@ -33,9 +32,10 @@ namespace Examplinvi.Xamarin.iOS
             };
         }
 
+
         private void RefreshHomeTimeline()
         {
-            var tweets = Timeline.GetHomeTimeline(20).Result.ToArray();
+            var tweets = _client.Timelines.GetHomeTimeline().Result;
             var tableSource = new TweetTimelineTableViewSource(tweets);
 
             TimelineTableView.Source = tableSource;
