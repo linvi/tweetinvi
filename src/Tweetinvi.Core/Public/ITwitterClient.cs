@@ -68,6 +68,11 @@ namespace Tweetinvi
         /// Client to execute all actions related with tweets
         /// </summary>
         ITweetsClient Tweets { get; }
+        
+        /// <summary>
+        /// Client to execute all actions related with media upload
+        /// </summary>
+        IUploadClient Upload { get; }
 
         /// <summary>
         /// Client to execute all actions related with users

@@ -1,0 +1,62 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+  <metadata>
+    <id>TweetinviAPI</id>
+    <version>5.0.0</version>
+    <title>Tweetinvi</title>
+    <authors>Linvi</authors>
+    <owners>Linvi</owners>
+    <licenseUrl>https://github.com/linvi/tweetinvi/blob/master/LICENSE.md</licenseUrl>
+    <projectUrl>https://github.com/linvi/tweetinvi</projectUrl>
+    <iconUrl>https://raw.githubusercontent.com/linvi/tweetinvi/master/tweetinvi-logo-purple.png</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Debug files for Tweetinvi library.</description>
+    <summary>Twitter SDK for .NET Framework and .NETCore.</summary>
+    <releaseNotes>https://github.com/linvi/tweetinvi/releases/tag/5.0.0</releaseNotes>
+    <copyright>Tweetinvi 2020</copyright>
+    <language>en-US</language>
+    <tags>twitter c# rest stream api 1.1 .net netcore netstandard core</tags>
+
+    <packageTypes>
+      <packageType name="SymbolsPackage" />
+    </packageTypes>
+
+    <dependencies>
+      <group targetFramework=".NETStandard1.4">
+        <dependency id="Autofac" version="4.9.4" exclude="Build,Analyzers" />
+        <dependency id="Newtonsoft.Json" version="12.0.3" exclude="Build,Analyzers" />
+      </group>
+      <group targetFramework=".NETStandard2.0">
+        <dependency id="Autofac" version="4.9.4" exclude="Build,Analyzers" />
+        <dependency id="Newtonsoft.Json" version="12.0.3" exclude="Build,Analyzers" />
+      </group>
+    </dependencies>
+  </metadata>
+  <files>
+
+    <file src="lib\netstandard1.4\Tweetinvi.pdb" target="lib\netstandard1.4\Tweetinvi.pdb" />
+    <file src="lib\netstandard2.0\Tweetinvi.pdb" target="lib\netstandard2.0\Tweetinvi.pdb" />
+
+    <file src="lib\netstandard1.4\Tweetinvi.Controllers.pdb" target="lib\netstandard1.4\Tweetinvi.Controllers.pdb" />
+    <file src="lib\netstandard2.0\Tweetinvi.Controllers.pdb" target="lib\netstandard2.0\Tweetinvi.Controllers.pdb" />
+
+    <file src="lib\netstandard1.4\Tweetinvi.Core.pdb" target="lib\netstandard1.4\Tweetinvi.Core.pdb" />
+    <file src="lib\netstandard2.0\Tweetinvi.Core.pdb" target="lib\netstandard2.0\Tweetinvi.Core.pdb" />
+
+    <file src="lib\netstandard1.4\Tweetinvi.Credentials.pdb" target="lib\netstandard1.4\Tweetinvi.Credentials.pdb" />
+    <file src="lib\netstandard2.0\Tweetinvi.Credentials.pdb" target="lib\netstandard2.0\Tweetinvi.Credentials.pdb" />
+
+    <file src="lib\netstandard1.4\Tweetinvi.Logic.pdb" target="lib\netstandard1.4\Tweetinvi.Logic.pdb" />
+    <file src="lib\netstandard2.0\Tweetinvi.Logic.pdb" target="lib\netstandard2.0\Tweetinvi.Logic.pdb" />
+
+    <file src="lib\netstandard1.4\Tweetinvi.Security.pdb" target="lib\netstandard1.4\Tweetinvi.Security.pdb" />
+    <file src="lib\netstandard2.0\Tweetinvi.Security.pdb" target="lib\netstandard2.0\Tweetinvi.Security.pdb" />
+
+    <file src="lib\netstandard1.4\Tweetinvi.Streams.pdb" target="lib\netstandard1.4\Tweetinvi.Streams.pdb" />
+    <file src="lib\netstandard2.0\Tweetinvi.Streams.pdb" target="lib\netstandard2.0\Tweetinvi.Streams.pdb" />
+
+    <file src="lib\netstandard1.4\Tweetinvi.WebLogic.pdb" target="lib\netstandard1.4\Tweetinvi.WebLogic.pdb" />
+    <file src="lib\netstandard2.0\Tweetinvi.WebLogic.pdb" target="lib\netstandard2.0\Tweetinvi.WebLogic.pdb" />
+
+  </files>
+</package>
