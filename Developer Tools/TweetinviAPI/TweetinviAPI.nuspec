@@ -15,7 +15,7 @@
         <releaseNotes>https://github.com/linvi/tweetinvi/releases/tag/5.0.0</releaseNotes>
         <copyright>Tweetinvi 2020</copyright>
         <language>en-US</language>
-        <tags>twitter c# rest stream api 1.1 .net netcore netstandard core</tags>
+        <tags>twitter c# rest stream api 1.1 .net netcore netstandard core webhooks account_activity</tags>
         <dependencies>
             <group>
                 <dependency id="Autofac" version="4.9.4" />
