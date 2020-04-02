@@ -1,9 +1,14 @@
 ﻿using System;
-using Tweetinvi.Core.QueryValidators;
 using Tweetinvi.Models;
 
-namespace Tweetinvi.Controllers.User
+namespace Tweetinvi.Core.Client.Validators
 {
+    public interface IUserQueryValidator
+    {
+        void ThrowIfUserCannotBeIdentified(IUserIdentifier user);
+        void ThrowIfUserCannotBeIdentified(IUserIdentifier user, string parameterName);
+    }
+    
     public class UserQueryValidator : IUserQueryValidator
     {
         public void ThrowIfUserCannotBeIdentified(IUserIdentifier user)

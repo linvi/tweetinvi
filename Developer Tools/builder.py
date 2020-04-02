@@ -64,7 +64,7 @@ def clean_nuget_folder():
     if os.path.exists(cachePackagePath):
         rmtree(cachePackagePath)
 
-    cachePackagePath = 'C:/Users/linvi/.nuget/packages/tweetinviapi.aspnet/' + version
+    cachePackagePath = 'C:/Users/linvi/.nuget/packages/tweetinviapi.aspnetplugin/' + version
     if os.path.exists(cachePackagePath):
         rmtree(cachePackagePath)
 
