@@ -1,7 +1,6 @@
 using System.Web.Http;
 using Tweetinvi;
 using Tweetinvi.AspNet;
-using Tweetinvi.AspNet.Public;
 using Tweetinvi.Models;
 
 namespace Examplinvi.AccountActivity.ASP
@@ -16,7 +15,7 @@ namespace Examplinvi.AccountActivity.ASP
             // Web API routes
             config.MapHttpAttributeRoutes();
 
-            Plugins.Add<WebhooksPlugin>();
+            Plugins.Add<AspNetPlugin>();
 
             var credentials = new TwitterCredentials("CONSUMER_TOKEN", "CONSUMER_SECRET", "ACCESS_TOKEN", "ACCESS_TOKEN_SECRET")
             {

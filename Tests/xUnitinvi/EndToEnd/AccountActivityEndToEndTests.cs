@@ -3,7 +3,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Tweetinvi;
 using Tweetinvi.AspNet;
-using Tweetinvi.AspNet.Public;
 using Tweetinvi.Exceptions;
 using Tweetinvi.Models;
 using Xunit;
@@ -124,7 +123,7 @@ namespace xUnitinvi.EndToEnd
                 await tweetinviClient.Auth.InitializeClientBearerToken();
             }
 
-            Plugins.Add<WebhooksPlugin>();
+            Plugins.Add<AspNetPlugin>();
 
             try
             {

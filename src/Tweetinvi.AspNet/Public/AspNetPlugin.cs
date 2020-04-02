@@ -2,14 +2,14 @@
 using Tweetinvi.AspNet.Modules;
 using Tweetinvi.Core.Injectinvi;
 
-namespace Tweetinvi.AspNet.Public
+namespace Tweetinvi.AspNet
 {
-    public class WebhooksPlugin : ITweetinviModule
+    public class AspNetPlugin : ITweetinviModule
     {
         public static ITweetinviContainer Container { get; private set; }
         private readonly List<ITweetinviModule> _moduleCatalog;
 
-        public WebhooksPlugin()
+        public AspNetPlugin()
         {
             _moduleCatalog = new List<ITweetinviModule>();
         }

@@ -8,7 +8,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Tweetinvi;
 using Tweetinvi.AspNet;
-using Tweetinvi.AspNet.Public;
 using Tweetinvi.Models;
 
 namespace Examplinvi.AccountActivity.ASP.NETCore._3._0
@@ -56,7 +55,7 @@ namespace Examplinvi.AccountActivity.ASP.NETCore._3._0
 
         private static void WebhookServerInitialization(IApplicationBuilder app)
         {
-            Plugins.Add<WebhooksPlugin>();
+            Plugins.Add<AspNetPlugin>();
 
             var credentials = new TwitterCredentials("CONSUMER_TOKEN", "CONSUMER_SECRET", "ACCESS_TOKEN", "ACCESS_TOKEN_SECRET")
             {
