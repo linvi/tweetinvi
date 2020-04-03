@@ -118,8 +118,8 @@ namespace xUnitinvi.EndToEnd
                 "\t\t\t// Run AuthEndToEndTests.AuthenticateWithPinCode and copy paste output to replace here\n" +
                 "Credentials = new TwitterCredentials(TweetinviApi.Credentials.ConsumerKey, TweetinviApi.Credentials.ConsumerSecret,\n" +
                 $"\"{userCredentials.AccessToken}\", \"{userCredentials.AccessTokenSecret}\"),\n" +
-                "AccountId = \"artwolkt\",\n" +
-                "UserId = 42290825\n" +
+                $"AccountId = \"{authenticatedUser.ScreenName}\",\n" +
+                $"UserId = {authenticatedUser.Id}\n" +
             "};");
         }
 
@@ -248,12 +248,16 @@ namespace xUnitinvi.EndToEnd
             new WebDriverWait(webDriver, TimeSpan.FromSeconds(10)).Until(d => ((IJavaScriptExecutor) d).ExecuteScript("return document.readyState").Equals("complete"));
             _logger.WriteLine($"{DateTime.Now.ToLongTimeString()} - authentication successfully moved to next page");
 
+            Task.Delay(2000).Wait();
+
             var emailTextFields = webDriver.FindElementsByClassName("js-username-field");
+            // var emailTextFields = webDriver.FindElements(By.Name("session[username_or_email]"));
             var isTwitterPromptingForSecondAuthentication = emailTextFields.Count == 1;
 
             if (isTwitterPromptingForSecondAuthentication)
             {
                 var secondPasswordTextField = webDriver.FindElementByClassName("js-password-field");
+                // var secondPasswordTextField = webDriver.FindElement(By.Name("session[password]"));
                 emailTextFields[0].SendKeys(Environment.GetEnvironmentVariable("TWEETINVI_EMAIL"));
                 secondPasswordTextField.SendKeys(Environment.GetEnvironmentVariable("TWEETINVI_PASS"));
                 secondPasswordTextField.Submit();

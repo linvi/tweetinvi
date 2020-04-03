@@ -31,16 +31,20 @@ namespace xUnitinvi.EndToEnd
         public static readonly IntegrationTestAccount ProtectedUser = new IntegrationTestAccount
         {
             Credentials = new TwitterCredentials("", "", "", ""),
-            AccountId = "artwolkt",
-            UserId = 42290825
+            AccountId = "test_twit_42",
+            UserId = 1245855954975051776
         };
+
 
         public static readonly IntegrationTestAccount ProtectedUserAuthenticatedToTweetinviApi = new IntegrationTestAccount
         {
+            // Careful as these credentials will be refreshed by AuthEndToEndTests
+            // Run AuthEndToEndTests.AuthenticateWithPinCode and copy paste output to replace here
             Credentials = new TwitterCredentials("", "", "", ""),
-            AccountId = "artwolkt",
-            UserId = 42290825
+            AccountId = "test_twit_42",
+            UserId = 1245855954975051776
         };
+
     }
 
     public class IntegrationTestAccount
@@ -49,7 +53,7 @@ namespace xUnitinvi.EndToEnd
         public string AccountId { get; set; }
         public long UserId { get; set; }
 
-        public static implicit operator string (IntegrationTestAccount account)
+        public static implicit operator string(IntegrationTestAccount account)
         {
             return account.AccountId;
         }
