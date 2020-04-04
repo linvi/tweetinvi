@@ -120,7 +120,7 @@ namespace Tweetinvi
             Execute = _tweetinviContainer.Resolve<IExecuteClient>();
             Help = _tweetinviContainer.Resolve<IHelpClient>();
             Lists = _tweetinviContainer.Resolve<IListsClient>();
-            Messages = _tweetinviContainer.Resolve<IMessageClient>();
+            Messages = _tweetinviContainer.Resolve<IMessagesClient>();
             RateLimits = _tweetinviContainer.Resolve<IRateLimitsClient>();
             Search = _tweetinviContainer.Resolve<ISearchClient>();
             Streams = _tweetinviContainer.Resolve<IStreamsClient>();
@@ -152,7 +152,7 @@ namespace Tweetinvi
         /// <inheritdoc/>
         public IListsClient Lists { get; }
         /// <inheritdoc/>
-        public IMessageClient Messages { get; }
+        public IMessagesClient Messages { get; }
         /// <inheritdoc/>
         public IRateLimitsClient RateLimits { get; }
         /// <inheritdoc/>

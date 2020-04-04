@@ -5,7 +5,7 @@ using Tweetinvi.Parameters;
 
 namespace Tweetinvi.Client
 {
-    public interface IMessageClient
+    public interface IMessagesClient
     {
         /// <inheritdoc cref="PublishMessage(IPublishMessageParameters)" />
         Task<IMessage> PublishMessage(string text, long recipientId);

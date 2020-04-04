@@ -37,7 +37,7 @@ namespace Tweetinvi
         /// <summary>
         /// Client to execute all actions related with messages
         /// </summary>
-        IMessageClient Messages { get; }
+        IMessagesClient Messages { get; }
 
         /// <summary>
         /// Client to execute all actions related with rate limits
@@ -48,7 +48,7 @@ namespace Tweetinvi
         /// Client to execute all actions related with search
         /// </summary>
         ISearchClient Search { get; }
-        
+
         /// <summary>
         /// Client to create all type of streams
         /// </summary>
@@ -68,7 +68,7 @@ namespace Tweetinvi
         /// Client to execute all actions related with tweets
         /// </summary>
         ITweetsClient Tweets { get; }
-        
+
         /// <summary>
         /// Client to execute all actions related with media upload
         /// </summary>

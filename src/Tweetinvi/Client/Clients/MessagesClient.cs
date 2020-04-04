@@ -12,12 +12,12 @@ using Tweetinvi.Parameters;
 
 namespace Tweetinvi.Client
 {
-    public class MessageClient : IMessageClient
+    public class MessagesClient : IMessagesClient
     {
         private readonly ITwitterClient _client;
         private readonly IMessageRequester _messageRequester;
 
-        public MessageClient(
+        public MessagesClient(
             ITwitterClient client,
             IMessageRequester messageRequester)
         {
