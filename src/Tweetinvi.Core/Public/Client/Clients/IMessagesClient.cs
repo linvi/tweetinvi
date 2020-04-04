@@ -57,6 +57,5 @@ namespace Tweetinvi.Client
         /// </summary>
         /// <para> https://developer.twitter.com/en/docs/direct-messages/sending-and-receiving/guides/direct-message-migration </para>
         Task DestroyMessage(IDeleteMessageParameters parameters);
-
     }
 }

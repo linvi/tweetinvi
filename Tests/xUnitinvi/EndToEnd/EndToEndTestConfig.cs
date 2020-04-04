@@ -5,7 +5,7 @@ namespace xUnitinvi.EndToEnd
     public static class EndToEndTestConfig
     {
         // ReSharper disable ConvertToConstant.Global
-        public static readonly bool ShouldRunEndToEndTests = true;
+        public static readonly bool ShouldRunEndToEndTests = false;
         public static readonly bool ShouldRunRateLimitHungryTests = false;
         public static readonly bool ShouldRunAccountActivityStreamTests = false; // very slow tests
         public static readonly bool ShouldRunAuthTests = false;

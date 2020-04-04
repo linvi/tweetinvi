@@ -101,9 +101,9 @@ namespace Tweetinvi.Client
             return DestroyMessage(new DestroyMessageParameters(message));
         }
 
-        public async Task DestroyMessage(IDeleteMessageParameters parameters)
+        public Task DestroyMessage(IDeleteMessageParameters parameters)
         {
-            await _messageRequester.DestroyMessage(parameters).ConfigureAwait(false);
+            return _messageRequester.DestroyMessage(parameters);
         }
     }
 }

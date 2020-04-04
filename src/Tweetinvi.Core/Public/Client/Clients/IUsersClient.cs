@@ -204,49 +204,49 @@ namespace Tweetinvi.Client
         #region Block / Unblock
 
         /// <inheritdoc cref="BlockUser(IBlockUserParameters)" />
-        Task BlockUser(long userId);
+        Task<IUser> BlockUser(long userId);
 
         /// <inheritdoc cref="BlockUser(IBlockUserParameters)" />
-        Task BlockUser(string username);
+        Task<IUser> BlockUser(string username);
 
         /// <inheritdoc cref="BlockUser(IBlockUserParameters)" />
-        Task BlockUser(IUserIdentifier user);
+        Task<IUser> BlockUser(IUserIdentifier user);
 
         /// <summary>
         /// Block a user from the client's account
         /// <para>Read more : https://dev.twitter.com/en/docs/accounts-and-users/mute-block-report-users/api-reference/post-blocks-create </para>
         /// </summary>
-        Task BlockUser(IBlockUserParameters parameters);
+        Task<IUser> BlockUser(IBlockUserParameters parameters);
 
         /// <inheritdoc cref="UnblockUser(IUnblockUserParameters)" />
-        Task UnblockUser(long userId);
+        Task<IUser> UnblockUser(long userId);
 
         /// <inheritdoc cref="UnblockUser(IUnblockUserParameters)" />
-        Task UnblockUser(string username);
+        Task<IUser> UnblockUser(string username);
 
         /// <inheritdoc cref="UnblockUser(IUnblockUserParameters)" />
-        Task UnblockUser(IUserIdentifier user);
+        Task<IUser> UnblockUser(IUserIdentifier user);
 
         /// <summary>
         /// Unblock a user from the client's account
         /// <para>Read more : https://dev.twitter.com/en/docs/accounts-and-users/mute-block-report-users/api-reference/post-blocks-destroy </para>
         /// </summary>
-        Task UnblockUser(IUnblockUserParameters parameters);
+        Task<IUser> UnblockUser(IUnblockUserParameters parameters);
 
         /// <inheritdoc cref="ReportUserForSpam(IReportUserForSpamParameters)" />
-        Task ReportUserForSpam(long userId);
+        Task<IUser> ReportUserForSpam(long userId);
 
         /// <inheritdoc cref="ReportUserForSpam(IReportUserForSpamParameters)" />
-        Task ReportUserForSpam(string username);
+        Task<IUser> ReportUserForSpam(string username);
 
         /// <inheritdoc cref="ReportUserForSpam(IReportUserForSpamParameters)" />
-        Task ReportUserForSpam(IUserIdentifier user);
+        Task<IUser> ReportUserForSpam(IUserIdentifier user);
 
         /// <summary>
         /// Report a user for spam
         /// <para>Read more : https://dev.twitter.com/en/docs/accounts-and-users/mute-block-report-users/api-reference/post-users-report_spam </para>
         /// </summary>
-        Task ReportUserForSpam(IReportUserForSpamParameters parameters);
+        Task<IUser> ReportUserForSpam(IReportUserForSpamParameters parameters);
 
         /// <inheritdoc cref="GetBlockedUserIds(IGetBlockedUserIdsParameters)" />
         Task<long[]> GetBlockedUserIds();
@@ -293,34 +293,34 @@ namespace Tweetinvi.Client
         #region Follow / Unfollow
 
         /// <inheritdoc cref="FollowUser(IFollowUserParameters)" />
-        Task FollowUser(long userId);
+        Task<IUser> FollowUser(long userId);
 
         /// <inheritdoc cref="FollowUser(IFollowUserParameters)" />
-        Task FollowUser(string username);
+        Task<IUser> FollowUser(string username);
 
         /// <inheritdoc cref="FollowUser(IFollowUserParameters)" />
-        Task FollowUser(IUserIdentifier user);
+        Task<IUser> FollowUser(IUserIdentifier user);
 
         /// <summary>
         /// Follow a user
         /// <para>Read more : https://dev.twitter.com/en/docs/accounts-and-users/follow-search-get-users/api-reference/post-friendships-create </para>
         /// </summary>
-        Task FollowUser(IFollowUserParameters parameters);
+        Task<IUser> FollowUser(IFollowUserParameters parameters);
 
         /// <inheritdoc cref="UnfollowUser(IUnfollowUserParameters)" />
-        Task UnfollowUser(long userId);
+        Task<IUser> UnfollowUser(long userId);
 
         /// <inheritdoc cref="UnfollowUser(IUnfollowUserParameters)" />
-        Task UnfollowUser(string username);
+        Task<IUser> UnfollowUser(string username);
 
         /// <inheritdoc cref="UnfollowUser(IUnfollowUserParameters)" />
-        Task UnfollowUser(IUserIdentifier user);
+        Task<IUser> UnfollowUser(IUserIdentifier user);
 
         /// <summary>
         /// Stops following a user
         /// <para>Read more : https://dev.twitter.com/en/docs/accounts-and-users/follow-search-get-users/api-reference/post-friendships-destroy </para>
         /// </summary>
-        Task UnfollowUser(IUnfollowUserParameters parameters);
+        Task<IUser> UnfollowUser(IUnfollowUserParameters parameters);
 
         #endregion
 
@@ -496,30 +496,30 @@ namespace Tweetinvi.Client
         ITwitterIterator<IUser> GetMutedUsersIterator(IGetMutedUsersParameters parameters);
 
         /// <inheritdoc cref="MuteUser(IMuteUserParameters)" />
-        Task MuteUser(long userId);
+        Task<IUser> MuteUser(long userId);
         /// <inheritdoc cref="MuteUser(IMuteUserParameters)" />
-        Task MuteUser(string username);
+        Task<IUser> MuteUser(string username);
         /// <inheritdoc cref="MuteUser(IMuteUserParameters)" />
-        Task MuteUser(IUserIdentifier user);
+        Task<IUser> MuteUser(IUserIdentifier user);
 
         /// <summary>
         /// Mute a user
         /// <para>Read more : https://dev.twitter.com/en/docs/accounts-and-users/mute-block-report-users/api-reference/post-mutes-users-create </para>
         /// </summary>
-        Task MuteUser(IMuteUserParameters parameters);
+        Task<IUser> MuteUser(IMuteUserParameters parameters);
 
         /// <inheritdoc cref="UnmuteUser(IUnmuteUserParameters)" />
-        Task UnmuteUser(long userId);
+        Task<IUser> UnmuteUser(long userId);
         /// <inheritdoc cref="UnmuteUser(IUnmuteUserParameters)" />
-        Task UnmuteUser(string username);
+        Task<IUser> UnmuteUser(string username);
         /// <inheritdoc cref="UnmuteUser(IUnmuteUserParameters)" />
-        Task UnmuteUser(IUserIdentifier user);
+        Task<IUser> UnmuteUser(IUserIdentifier user);
 
         /// <summary>
         /// Remove the mute of a user
         /// <para>Read more : https://dev.twitter.com/en/docs/accounts-and-users/mute-block-report-users/api-reference/post-mutes-users-destroy </para>
         /// </summary>
-        Task UnmuteUser(IUnmuteUserParameters parameters);
+        Task<IUser> UnmuteUser(IUnmuteUserParameters parameters);
 
         #endregion
 
