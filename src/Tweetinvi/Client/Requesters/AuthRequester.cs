@@ -46,7 +46,7 @@ namespace Tweetinvi.Client.Requesters
             return ExecuteRequest(request => _authController.RequestCredentials(parameters, request));
         }
 
-        public Task<ITwitterResult> InvalidateBearerToken(IInvalidateBearerTokenParameters parameters)
+        public Task<ITwitterResult<InvalidateTokenResponse>> InvalidateBearerToken(IInvalidateBearerTokenParameters parameters)
         {
             return ExecuteRequest(request =>
             {
@@ -55,7 +55,7 @@ namespace Tweetinvi.Client.Requesters
             });
         }
 
-        public Task<ITwitterResult> InvalidateAccessToken(IInvalidateAccessTokenParameters parameters)
+        public Task<ITwitterResult<InvalidateTokenResponse>> InvalidateAccessToken(IInvalidateAccessTokenParameters parameters)
         {
             return ExecuteRequest(request =>
             {

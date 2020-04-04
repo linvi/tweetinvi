@@ -11,7 +11,7 @@ namespace Tweetinvi.Core.Controllers
         Task<ITwitterResult<CreateTokenResponseDTO>> CreateBearerToken(ICreateBearerTokenParameters parameters, ITwitterRequest request);
         Task<ITwitterResult<IAuthenticationRequest>> RequestAuthUrl(IRequestAuthUrlParameters parameters, ITwitterRequest request);
         Task<ITwitterResult<ITwitterCredentials>> RequestCredentials(IRequestCredentialsParameters parameters, ITwitterRequest request);
-        Task<ITwitterResult> InvalidateAccessToken(IInvalidateAccessTokenParameters parameters, ITwitterRequest request);
-        Task<ITwitterResult> InvalidateBearerToken(IInvalidateBearerTokenParameters parameters, ITwitterRequest request);
+        Task<ITwitterResult<InvalidateTokenResponse>> InvalidateAccessToken(IInvalidateAccessTokenParameters parameters, ITwitterRequest request);
+        Task<ITwitterResult<InvalidateTokenResponse>> InvalidateBearerToken(IInvalidateBearerTokenParameters parameters, ITwitterRequest request);
     }
 }

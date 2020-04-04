@@ -98,12 +98,12 @@ namespace Tweetinvi.Controllers.Auth
             };
         }
 
-        public Task<ITwitterResult> InvalidateBearerToken(IInvalidateBearerTokenParameters parameters, ITwitterRequest request)
+        public Task<ITwitterResult<InvalidateTokenResponse>> InvalidateBearerToken(IInvalidateBearerTokenParameters parameters, ITwitterRequest request)
         {
             return _authQueryExecutor.InvalidateBearerToken(parameters, request);
         }
 
-        public Task<ITwitterResult> InvalidateAccessToken(IInvalidateAccessTokenParameters parameters, ITwitterRequest request)
+        public Task<ITwitterResult<InvalidateTokenResponse>> InvalidateAccessToken(IInvalidateAccessTokenParameters parameters, ITwitterRequest request)
         {
             return _authQueryExecutor.InvalidateAccessToken(parameters, request);
         }

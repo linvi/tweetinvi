@@ -182,7 +182,7 @@ namespace xUnitinvi.ClientActions.AuthClient
             // Arrange
             var controller = CreateAuthController();
             var request = A.Fake<ITwitterRequest>();
-            var expectedResult = A.Fake<ITwitterResult>();
+            var expectedResult = A.Fake<ITwitterResult<InvalidateTokenResponse>>();
             var parameters = new InvalidateBearerTokenParameters();
 
             A.CallTo(() => _fakeAuthQueryExecutor.InvalidateBearerToken(parameters, request)).Returns(expectedResult);
@@ -200,7 +200,7 @@ namespace xUnitinvi.ClientActions.AuthClient
             // Arrange
             var controller = CreateAuthController();
             var request = A.Fake<ITwitterRequest>();
-            var expectedResult = A.Fake<ITwitterResult>();
+            var expectedResult = A.Fake<ITwitterResult<InvalidateTokenResponse>>();
             var parameters = new InvalidateAccessTokenParameters();
 
             A.CallTo(() => _fakeAuthQueryExecutor.InvalidateAccessToken(parameters, request)).Returns(expectedResult);

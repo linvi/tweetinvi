@@ -124,11 +124,11 @@ namespace xUnitinvi.ClientActions.AuthClient
 
             var url = TestHelper.GenerateString();
             var request = A.Fake<ITwitterRequest>();
-            var expectedResult = A.Fake<ITwitterResult>();
+            var expectedResult = A.Fake<ITwitterResult<InvalidateTokenResponse>>();
             var parameters = A.Fake<IInvalidateBearerTokenParameters>();
 
             A.CallTo(() => _fakeAuthQueryGenerator.GetInvalidateBearerTokenQuery(parameters)).Returns(url);
-            A.CallTo(() => _fakeTwitterAccessor.ExecuteRequest(request)).Returns(expectedResult);
+            A.CallTo(() => _fakeTwitterAccessor.ExecuteRequest<InvalidateTokenResponse>(request)).Returns(expectedResult);
 
             // Act
             var result = await queryExecutor.InvalidateBearerToken(parameters, request);
@@ -148,11 +148,11 @@ namespace xUnitinvi.ClientActions.AuthClient
 
             var url = TestHelper.GenerateString();
             var request = A.Fake<ITwitterRequest>();
-            var expectedResult = A.Fake<ITwitterResult>();
+            var expectedResult = A.Fake<ITwitterResult<InvalidateTokenResponse>>();
             var parameters = A.Fake<IInvalidateAccessTokenParameters>();
 
             A.CallTo(() => _fakeAuthQueryGenerator.GetInvalidateAccessTokenQuery(parameters)).Returns(url);
-            A.CallTo(() => _fakeTwitterAccessor.ExecuteRequest(request)).Returns(expectedResult);
+            A.CallTo(() => _fakeTwitterAccessor.ExecuteRequest<InvalidateTokenResponse>(request)).Returns(expectedResult);
 
             // Act
             var result = await queryExecutor.InvalidateAccessToken(parameters, request);

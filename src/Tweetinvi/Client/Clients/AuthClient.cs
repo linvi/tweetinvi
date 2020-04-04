@@ -47,7 +47,7 @@ namespace Tweetinvi.Client
         {
             return RequestAuthenticationUrl(new RequestUrlAuthUrlParameters(callbackUrl));
         }
-        
+
         public Task<IAuthenticationRequest> RequestAuthenticationUrl(Uri callbackUri)
         {
             return RequestAuthenticationUrl(new RequestUrlAuthUrlParameters(callbackUri));
@@ -80,24 +80,26 @@ namespace Tweetinvi.Client
             return RequestCredentials(RequestCredentialsParameters.FromCallbackUrl(callbackUri, authenticationRequest));
         }
 
-        public Task InvalidateBearerToken()
+        public Task<InvalidateTokenResponse> InvalidateBearerToken()
         {
             return InvalidateBearerToken(new InvalidateBearerTokenParameters());
         }
 
-        public Task InvalidateBearerToken(IInvalidateBearerTokenParameters parameters)
+        public async Task<InvalidateTokenResponse> InvalidateBearerToken(IInvalidateBearerTokenParameters parameters)
         {
-            return _authRequester.InvalidateBearerToken(parameters);
+            var twitterResult = await _authRequester.InvalidateBearerToken(parameters).ConfigureAwait(false);
+            return twitterResult?.DataTransferObject;
         }
 
-        public Task InvalidateAccessToken()
+        public Task<InvalidateTokenResponse> InvalidateAccessToken()
         {
             return InvalidateAccessToken(new InvalidateAccessTokenParameters());
         }
 
-        public Task InvalidateAccessToken(IInvalidateAccessTokenParameters parameters)
+        public async Task<InvalidateTokenResponse> InvalidateAccessToken(IInvalidateAccessTokenParameters parameters)
         {
-            return _authRequester.InvalidateAccessToken(parameters);
+            var twitterResult = await _authRequester.InvalidateAccessToken(parameters).ConfigureAwait(false);
+            return twitterResult?.DataTransferObject;
         }
     }
 }

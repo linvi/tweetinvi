@@ -38,13 +38,13 @@ namespace Tweetinvi.Client.Requesters
         /// </summary>
         /// <para> https://developer.twitter.com/en/docs/basics/authentication/api-reference/invalidate_bearer_token </para>
         /// <returns>Request result</returns>
-        Task<ITwitterResult> InvalidateBearerToken(IInvalidateBearerTokenParameters parameters);
+        Task<ITwitterResult<InvalidateTokenResponse>> InvalidateBearerToken(IInvalidateBearerTokenParameters parameters);
 
         /// <summary>
         /// Invalidate access token
         /// </summary>
         /// <para> https://developer.twitter.com/en/docs/basics/authentication/api-reference/invalidate_access_token </para>
         /// <returns>Request result</returns>
-        Task<ITwitterResult> InvalidateAccessToken(IInvalidateAccessTokenParameters parameters);
+        Task<ITwitterResult<InvalidateTokenResponse>> InvalidateAccessToken(IInvalidateAccessTokenParameters parameters);
     }
 }

@@ -42,14 +42,15 @@ namespace Tweetinvi.Client
             return _client.Factories.CreateAuthenticatedUser(twitterResult?.DataTransferObject);
         }
 
-        public Task UpdateProfileImage(byte[] binary)
+        public Task<IUser> UpdateProfileImage(byte[] binary)
         {
             return UpdateProfileImage(new UpdateProfileImageParameters(binary));
         }
 
-        public async Task UpdateProfileImage(IUpdateProfileImageParameters parameters)
+        public async Task<IUser> UpdateProfileImage(IUpdateProfileImageParameters parameters)
         {
-            await _accountRequester.UpdateProfileImage(parameters).ConfigureAwait(false);
+            var twitterResult = await _accountRequester.UpdateProfileImage(parameters).ConfigureAwait(false);
+            return _client.Factories.CreateUser(twitterResult?.DataTransferObject);
         }
 
         public Task UpdateProfileBanner(byte[] binary)
@@ -57,9 +58,9 @@ namespace Tweetinvi.Client
             return UpdateProfileBanner(new UpdateProfileBannerParameters(binary));
         }
 
-        public async Task UpdateProfileBanner(IUpdateProfileBannerParameters parameters)
+        public Task UpdateProfileBanner(IUpdateProfileBannerParameters parameters)
         {
-            await _accountRequester.UpdateProfileBanner(parameters).ConfigureAwait(false);
+            return _accountRequester.UpdateProfileBanner(parameters);
         }
 
         public Task RemoveProfileBanner()
@@ -67,9 +68,9 @@ namespace Tweetinvi.Client
             return RemoveProfileBanner(new RemoveProfileBannerParameters());
         }
 
-        public async Task RemoveProfileBanner(IRemoveProfileBannerParameters parameters)
+        public Task RemoveProfileBanner(IRemoveProfileBannerParameters parameters)
         {
-            await _accountRequester.RemoveProfileBanner(parameters).ConfigureAwait(false);
+            return _accountRequester.RemoveProfileBanner(parameters);
         }
     }
 }

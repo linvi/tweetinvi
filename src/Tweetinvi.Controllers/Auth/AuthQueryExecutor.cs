@@ -13,8 +13,8 @@ namespace Tweetinvi.Controllers.Auth
         Task<ITwitterResult<CreateTokenResponseDTO>> CreateBearerToken(ICreateBearerTokenParameters parameters, ITwitterRequest request);
         Task<ITwitterResult> RequestAuthUrl(RequestAuthUrlInternalParameters parameters, ITwitterRequest request);
         Task<ITwitterResult> RequestCredentials(IRequestCredentialsParameters parameters, ITwitterRequest request);
-        Task<ITwitterResult> InvalidateBearerToken(IInvalidateBearerTokenParameters parameters, ITwitterRequest request);
-        Task<ITwitterResult> InvalidateAccessToken(IInvalidateAccessTokenParameters parameters, ITwitterRequest request);
+        Task<ITwitterResult<InvalidateTokenResponse>> InvalidateBearerToken(IInvalidateBearerTokenParameters parameters, ITwitterRequest request);
+        Task<ITwitterResult<InvalidateTokenResponse>> InvalidateAccessToken(IInvalidateAccessTokenParameters parameters, ITwitterRequest request);
     }
 
     public class AuthQueryExecutor : IAuthQueryExecutor
@@ -65,21 +65,21 @@ namespace Tweetinvi.Controllers.Auth
             return _twitterAccessor.ExecuteRequest(request);
         }
 
-        public Task<ITwitterResult> InvalidateBearerToken(IInvalidateBearerTokenParameters parameters, ITwitterRequest request)
+        public Task<ITwitterResult<InvalidateTokenResponse>> InvalidateBearerToken(IInvalidateBearerTokenParameters parameters, ITwitterRequest request)
         {
             var oAuthWebRequestGenerator = _oAuthWebRequestGeneratorFactory.Create();
 
             request.Query.Url = _queryGenerator.GetInvalidateBearerTokenQuery(parameters);
             request.Query.HttpMethod = HttpMethod.POST;
             request.TwitterClientHandler = new InvalidateTokenHttpHandler(oAuthWebRequestGenerator);
-            return _twitterAccessor.ExecuteRequest(request);
+            return _twitterAccessor.ExecuteRequest<InvalidateTokenResponse>(request);
         }
 
-        public Task<ITwitterResult> InvalidateAccessToken(IInvalidateAccessTokenParameters parameters, ITwitterRequest request)
+        public Task<ITwitterResult<InvalidateTokenResponse>> InvalidateAccessToken(IInvalidateAccessTokenParameters parameters, ITwitterRequest request)
         {
             request.Query.Url = _queryGenerator.GetInvalidateAccessTokenQuery(parameters);
             request.Query.HttpMethod = HttpMethod.POST;
-            return _twitterAccessor.ExecuteRequest(request);
+            return _twitterAccessor.ExecuteRequest<InvalidateTokenResponse>(request);
         }
     }
 }

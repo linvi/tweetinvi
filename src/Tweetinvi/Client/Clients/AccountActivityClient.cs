@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using Tweetinvi.Client.Requesters;
 using Tweetinvi.Exceptions;
 using Tweetinvi.Models;
-using Tweetinvi.Models.DTO.Webhooks;
 using Tweetinvi.Parameters;
 
 namespace Tweetinvi.Client
@@ -64,9 +63,9 @@ namespace Tweetinvi.Client
             return DeleteAccountActivityWebhook(new DeleteAccountActivityWebhookParameters(environment, webhookId));
         }
 
-        public async Task DeleteAccountActivityWebhook(IDeleteAccountActivityWebhookParameters parameters)
+        public Task DeleteAccountActivityWebhook(IDeleteAccountActivityWebhookParameters parameters)
         {
-            await _accountActivityRequester.DeleteAccountActivityWebhook(parameters).ConfigureAwait(false);
+            return _accountActivityRequester.DeleteAccountActivityWebhook(parameters);
         }
 
         public Task TriggerAccountActivityWebhookCRC(string environment, string webhookId)
@@ -74,9 +73,9 @@ namespace Tweetinvi.Client
             return TriggerAccountActivityWebhookCRC(new TriggerAccountActivityWebhookCRCParameters(environment, webhookId));
         }
 
-        public async Task TriggerAccountActivityWebhookCRC(ITriggerAccountActivityWebhookCRCParameters parameters)
+        public Task TriggerAccountActivityWebhookCRC(ITriggerAccountActivityWebhookCRCParameters parameters)
         {
-            await _accountActivityRequester.TriggerAccountActivityWebhookCRC(parameters).ConfigureAwait(false);
+            return _accountActivityRequester.TriggerAccountActivityWebhookCRC(parameters);
         }
 
         public Task SubscribeToAccountActivity(string environment)
@@ -84,9 +83,9 @@ namespace Tweetinvi.Client
             return SubscribeToAccountActivity(new SubscribeToAccountActivityParameters(environment));
         }
 
-        public async Task SubscribeToAccountActivity(ISubscribeToAccountActivityParameters parameters)
+        public Task SubscribeToAccountActivity(ISubscribeToAccountActivityParameters parameters)
         {
-            await _accountActivityRequester.SubscribeToAccountActivity(parameters).ConfigureAwait(false);
+            return _accountActivityRequester.SubscribeToAccountActivity(parameters);
         }
 
         public Task<IWebhookSubscriptionsCount> CountAccountActivitySubscriptions()
@@ -134,9 +133,9 @@ namespace Tweetinvi.Client
             return UnsubscribeFromAccountActivity(new UnsubscribeFromAccountActivityParameters(environment, userId));
         }
 
-        public async Task UnsubscribeFromAccountActivity(IUnsubscribeFromAccountActivityParameters parameters)
+        public Task UnsubscribeFromAccountActivity(IUnsubscribeFromAccountActivityParameters parameters)
         {
-            await _accountActivityRequester.UnsubscribeFromAccountActivity(parameters).ConfigureAwait(false);
+            return _accountActivityRequester.UnsubscribeFromAccountActivity(parameters);
         }
     }
 }

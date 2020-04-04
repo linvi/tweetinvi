@@ -63,7 +63,7 @@ namespace Tweetinvi.Client
 
         /// <inheritdoc cref="RequestCredentialsFromCallbackUrl(Uri, IAuthenticationRequest)"/>
         Task<ITwitterCredentials> RequestCredentialsFromCallbackUrl(string callbackUrl, IAuthenticationRequest authenticationRequest);
-        
+
         /// <summary>
         /// Request credentials from an AuthenticationRequest.
         /// This is assuming that the callback url contains the expected parameter,
@@ -74,21 +74,21 @@ namespace Tweetinvi.Client
         Task<ITwitterCredentials> RequestCredentialsFromCallbackUrl(Uri callbackUri, IAuthenticationRequest authenticationRequest);
 
         /// <inheritdoc cref="InvalidateBearerToken(IInvalidateBearerTokenParameters)"/>
-        Task InvalidateBearerToken();
+        Task<InvalidateTokenResponse> InvalidateBearerToken();
 
         /// <summary>
         /// Invalidates a BearerToken
         /// </summary>
         /// <para> https://developer.twitter.com/en/docs/basics/authentication/api-reference/invalidate_bearer_token </para>
-        Task InvalidateBearerToken(IInvalidateBearerTokenParameters parameters);
+        Task<InvalidateTokenResponse> InvalidateBearerToken(IInvalidateBearerTokenParameters parameters);
 
         /// <inheritdoc cref="InvalidateAccessToken(IInvalidateAccessTokenParameters)" />
-        Task InvalidateAccessToken();
+        Task<InvalidateTokenResponse> InvalidateAccessToken();
 
         /// <summary>
         /// Invalidate an AccessToken
         /// </summary>
         /// <para> https://developer.twitter.com/en/docs/basics/authentication/api-reference/invalidate_access_token </para>
-        Task InvalidateAccessToken(IInvalidateAccessTokenParameters parameters);
+        Task<InvalidateTokenResponse> InvalidateAccessToken(IInvalidateAccessTokenParameters parameters);
     }
 }

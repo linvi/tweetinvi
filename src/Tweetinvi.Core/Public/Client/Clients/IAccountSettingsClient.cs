@@ -40,13 +40,13 @@ namespace Tweetinvi.Client
         Task<IAuthenticatedUser> UpdateProfile(IUpdateProfileParameters parameters);
 
         /// <inheritdoc cref="UpdateProfileImage(IUpdateProfileImageParameters)" />
-        Task UpdateProfileImage(byte[] binary);
+        Task<IUser> UpdateProfileImage(byte[] binary);
 
         /// <summary>
         /// Update the profile image of the account
         /// <para>Read more : https://dev.twitter.com/rest/reference/post/account/update_profile_image</para>
         /// </summary>
-        Task UpdateProfileImage(IUpdateProfileImageParameters parameters);
+        Task<IUser> UpdateProfileImage(IUpdateProfileImageParameters parameters);
 
         /// <inheritdoc cref="UpdateProfileBanner(IUpdateProfileBannerParameters)" />
         Task UpdateProfileBanner(byte[] binary);
