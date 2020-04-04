@@ -69,19 +69,19 @@ namespace Tweetinvi.Client
         Task<ITwitterList> UpdateList(IUpdateListParameters parameters);
 
         /// <inheritdoc cref="DestroyList(IDestroyListParameters)"/>
-        Task DestroyList(long listId);
+        Task<ITwitterList> DestroyList(long listId);
 
         /// <inheritdoc cref="DestroyList(IDestroyListParameters)"/>
-        Task DestroyList(string slug, IUserIdentifier user);
+        Task<ITwitterList> DestroyList(string slug, IUserIdentifier user);
 
         /// <inheritdoc cref="DestroyList(IDestroyListParameters)"/>
-        Task DestroyList(ITwitterListIdentifier listId);
+        Task<ITwitterList> DestroyList(ITwitterListIdentifier listId);
 
         /// <summary>
         /// Destroy a list from Twitter
         /// </summary>
         /// <para> https://developer.twitter.com/en/docs/accounts-and-users/create-manage-lists/api-reference/post-lists-destroy </para>
-        Task DestroyList(IDestroyListParameters parameters);
+        Task<ITwitterList> DestroyList(IDestroyListParameters parameters);
 
         /// <inheritdoc cref="GetListsOwnedByAccount(IGetListsOwnedByAccountParameters)"/>
         Task<ITwitterList[]> GetListsOwnedByAccount();
@@ -136,38 +136,38 @@ namespace Tweetinvi.Client
         // ***********
 
         /// <inheritdoc cref="AddMemberToList(IAddMemberToListParameters)"/>
-        Task AddMemberToList(long listId, long userId);
+        Task<ITwitterList> AddMemberToList(long listId, long userId);
         /// <inheritdoc cref="AddMemberToList(IAddMemberToListParameters)"/>
-        Task AddMemberToList(ITwitterListIdentifier list, long userId);
+        Task<ITwitterList> AddMemberToList(ITwitterListIdentifier list, long userId);
         /// <inheritdoc cref="AddMemberToList(IAddMemberToListParameters)"/>
-        Task AddMemberToList(ITwitterListIdentifier list, string username);
+        Task<ITwitterList> AddMemberToList(ITwitterListIdentifier list, string username);
         /// <inheritdoc cref="AddMemberToList(IAddMemberToListParameters)"/>
-        Task AddMemberToList(ITwitterListIdentifier list, IUserIdentifier user);
+        Task<ITwitterList> AddMemberToList(ITwitterListIdentifier list, IUserIdentifier user);
 
         /// <summary>
         /// Add a member to a twitter list
         /// </summary>
         /// <para> https://developer.twitter.com/en/docs/accounts-and-users/create-manage-lists/api-reference/post-lists-members-create </para>
-        Task AddMemberToList(IAddMemberToListParameters parameters);
+        Task<ITwitterList> AddMemberToList(IAddMemberToListParameters parameters);
 
         /// <inheritdoc cref="AddMembersToList(IAddMembersToListParameters)"/>
-        Task AddMembersToList(long listId, IEnumerable<long> userIds);
+        Task<ITwitterList> AddMembersToList(long listId, IEnumerable<long> userIds);
         /// <inheritdoc cref="AddMembersToList(IAddMembersToListParameters)"/>
-        Task AddMembersToList(long listId, IEnumerable<string> usernames);
+        Task<ITwitterList> AddMembersToList(long listId, IEnumerable<string> usernames);
         /// <inheritdoc cref="AddMembersToList(IAddMembersToListParameters)"/>
-        Task AddMembersToList(long listId, IEnumerable<IUserIdentifier> users);
+        Task<ITwitterList> AddMembersToList(long listId, IEnumerable<IUserIdentifier> users);
         /// <inheritdoc cref="AddMembersToList(IAddMembersToListParameters)"/>
-        Task AddMembersToList(ITwitterListIdentifier list, IEnumerable<long> userIds);
+        Task<ITwitterList> AddMembersToList(ITwitterListIdentifier list, IEnumerable<long> userIds);
         /// <inheritdoc cref="AddMembersToList(IAddMembersToListParameters)"/>
-        Task AddMembersToList(ITwitterListIdentifier list, IEnumerable<string> usernames);
+        Task<ITwitterList> AddMembersToList(ITwitterListIdentifier list, IEnumerable<string> usernames);
         /// <inheritdoc cref="AddMembersToList(IAddMembersToListParameters)"/>
-        Task AddMembersToList(ITwitterListIdentifier list, IEnumerable<IUserIdentifier> users);
+        Task<ITwitterList> AddMembersToList(ITwitterListIdentifier list, IEnumerable<IUserIdentifier> users);
 
         /// <summary>
         /// Add multiple members to a list
         /// <para>Read more : https://developer.twitter.com/en/docs/accounts-and-users/create-manage-lists/api-reference/post-lists-members-create_all </para>
         /// </summary>
-        Task AddMembersToList(IAddMembersToListParameters parameters);
+        Task<ITwitterList> AddMembersToList(IAddMembersToListParameters parameters);
 
         /// <inheritdoc cref="GetAccountListMemberships(IGetAccountListMembershipsParameters)"/>
         Task<ITwitterList[]> GetAccountListMemberships();
@@ -263,42 +263,42 @@ namespace Tweetinvi.Client
         Task<bool> CheckIfUserIsMemberOfList(ICheckIfUserIsMemberOfListParameters parameters);
 
         /// <inheritdoc cref="RemoveMemberFromList(IRemoveMemberFromListParameters)"/>
-        Task RemoveMemberFromList(long listId, long userId);
+        Task<ITwitterList> RemoveMemberFromList(long listId, long userId);
         /// <inheritdoc cref="RemoveMemberFromList(IRemoveMemberFromListParameters)"/>
-        Task RemoveMemberFromList(long listId, string username);
+        Task<ITwitterList> RemoveMemberFromList(long listId, string username);
         /// <inheritdoc cref="RemoveMemberFromList(IRemoveMemberFromListParameters)"/>
-        Task RemoveMemberFromList(long listId, IUserIdentifier user);
+        Task<ITwitterList> RemoveMemberFromList(long listId, IUserIdentifier user);
         /// <inheritdoc cref="RemoveMemberFromList(IRemoveMemberFromListParameters)"/>
-        Task RemoveMemberFromList(ITwitterListIdentifier list, long userId);
+        Task<ITwitterList> RemoveMemberFromList(ITwitterListIdentifier list, long userId);
         /// <inheritdoc cref="RemoveMemberFromList(IRemoveMemberFromListParameters)"/>
-        Task RemoveMemberFromList(ITwitterListIdentifier list, string username);
+        Task<ITwitterList> RemoveMemberFromList(ITwitterListIdentifier list, string username);
         /// <inheritdoc cref="RemoveMemberFromList(IRemoveMemberFromListParameters)"/>
-        Task RemoveMemberFromList(ITwitterListIdentifier list, IUserIdentifier user);
+        Task<ITwitterList> RemoveMemberFromList(ITwitterListIdentifier list, IUserIdentifier user);
 
         /// <summary>
         /// Remove a member from a list
         /// <para>Read more : https://developer.twitter.com/en/docs/accounts-and-users/create-manage-lists/api-reference/post-lists-members-destroy </para>
         /// </summary>
-        Task RemoveMemberFromList(IRemoveMemberFromListParameters parameters);
+        Task<ITwitterList> RemoveMemberFromList(IRemoveMemberFromListParameters parameters);
 
         /// <inheritdoc cref="RemoveMembersFromList(IRemoveMembersFromListParameters)"/>
-        Task RemoveMembersFromList(long listId, IEnumerable<long> userIds);
+        Task<ITwitterList> RemoveMembersFromList(long listId, IEnumerable<long> userIds);
         /// <inheritdoc cref="RemoveMembersFromList(IRemoveMembersFromListParameters)"/>
-        Task RemoveMembersFromList(long listId, IEnumerable<string> usernames);
+        Task<ITwitterList> RemoveMembersFromList(long listId, IEnumerable<string> usernames);
         /// <inheritdoc cref="RemoveMembersFromList(IRemoveMembersFromListParameters)"/>
-        Task RemoveMembersFromList(long listId, IEnumerable<IUserIdentifier> users);
+        Task<ITwitterList> RemoveMembersFromList(long listId, IEnumerable<IUserIdentifier> users);
         /// <inheritdoc cref="RemoveMembersFromList(IRemoveMembersFromListParameters)"/>
-        Task RemoveMembersFromList(ITwitterListIdentifier list, IEnumerable<long> userIds);
+        Task<ITwitterList> RemoveMembersFromList(ITwitterListIdentifier list, IEnumerable<long> userIds);
         /// <inheritdoc cref="RemoveMembersFromList(IRemoveMembersFromListParameters)"/>
-        Task RemoveMembersFromList(ITwitterListIdentifier list, IEnumerable<string> usernames);
+        Task<ITwitterList> RemoveMembersFromList(ITwitterListIdentifier list, IEnumerable<string> usernames);
         /// <inheritdoc cref="RemoveMembersFromList(IRemoveMembersFromListParameters)"/>
-        Task RemoveMembersFromList(ITwitterListIdentifier list, IEnumerable<IUserIdentifier> users);
+        Task<ITwitterList> RemoveMembersFromList(ITwitterListIdentifier list, IEnumerable<IUserIdentifier> users);
 
         /// <summary>
         /// Remove multiple members from a list
         /// <para>Read more : https://developer.twitter.com/en/docs/accounts-and-users/create-manage-lists/api-reference/post-lists-members-destroy_all </para>
         /// </summary>
-        Task RemoveMembersFromList(IRemoveMembersFromListParameters parameters);
+        Task<ITwitterList> RemoveMembersFromList(IRemoveMembersFromListParameters parameters);
 
         // ***********
         // SUBSCRIBERS

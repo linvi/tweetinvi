@@ -103,24 +103,25 @@ namespace Tweetinvi.Client
             return _client.Factories.CreateTwitterList(twitterResult?.DataTransferObject);
         }
 
-        public Task DestroyList(long listId)
+        public Task<ITwitterList> DestroyList(long listId)
         {
             return DestroyList(new DestroyListParameters(listId));
         }
 
-        public Task DestroyList(string slug, IUserIdentifier user)
+        public Task<ITwitterList> DestroyList(string slug, IUserIdentifier user)
         {
             return DestroyList(new DestroyListParameters(slug, user));
         }
 
-        public Task DestroyList(ITwitterListIdentifier listId)
+        public Task<ITwitterList> DestroyList(ITwitterListIdentifier list)
         {
-            return DestroyList(new DestroyListParameters(listId));
+            return DestroyList(new DestroyListParameters(list));
         }
 
-        public async Task DestroyList(IDestroyListParameters parameters)
+        public async Task<ITwitterList> DestroyList(IDestroyListParameters parameters)
         {
-            await _twitterListsRequester.DestroyList(parameters).ConfigureAwait(false);
+            var twitterResult = await _twitterListsRequester.DestroyList(parameters).ConfigureAwait(false);
+            return _client.Factories.CreateTwitterList(twitterResult?.DataTransferObject);
         }
 
         public Task<ITwitterList[]> GetListsOwnedByAccount()
@@ -190,64 +191,66 @@ namespace Tweetinvi.Client
             });
         }
 
-        public Task AddMemberToList(long listId, long userId)
+        public Task<ITwitterList> AddMemberToList(long listId, long userId)
         {
             return AddMemberToList(new TwitterListIdentifier(listId), userId);
         }
 
-        public Task AddMemberToList(ITwitterListIdentifier list, long userId)
+        public Task<ITwitterList> AddMemberToList(ITwitterListIdentifier list, long userId)
         {
             return AddMemberToList(new AddMemberToListParameters(list, userId));
         }
 
-        public Task AddMemberToList(ITwitterListIdentifier list, string username)
+        public Task<ITwitterList> AddMemberToList(ITwitterListIdentifier list, string username)
         {
             return AddMemberToList(new AddMemberToListParameters(list, username));
         }
 
-        public Task AddMemberToList(ITwitterListIdentifier list, IUserIdentifier user)
+        public Task<ITwitterList> AddMemberToList(ITwitterListIdentifier list, IUserIdentifier user)
         {
             return AddMemberToList(new AddMemberToListParameters(list, user));
         }
 
-        public async Task AddMemberToList(IAddMemberToListParameters parameters)
+        public async Task<ITwitterList> AddMemberToList(IAddMemberToListParameters parameters)
         {
-            await _twitterListsRequester.AddMemberToList(parameters).ConfigureAwait(false);
+            var twitterResult = await _twitterListsRequester.AddMemberToList(parameters).ConfigureAwait(false);
+            return twitterResult?.Result;
         }
 
-        public Task AddMembersToList(long listId, IEnumerable<long> userIds)
+        public Task<ITwitterList> AddMembersToList(long listId, IEnumerable<long> userIds)
         {
             return AddMembersToList(new AddMembersToListParameters(listId, userIds));
         }
 
-        public Task AddMembersToList(long listId, IEnumerable<string> usernames)
+        public Task<ITwitterList> AddMembersToList(long listId, IEnumerable<string> usernames)
         {
             return AddMembersToList(new AddMembersToListParameters(listId, usernames));
         }
 
-        public Task AddMembersToList(long listId, IEnumerable<IUserIdentifier> users)
+        public Task<ITwitterList> AddMembersToList(long listId, IEnumerable<IUserIdentifier> users)
         {
             return AddMembersToList(new AddMembersToListParameters(listId, users));
         }
 
-        public Task AddMembersToList(ITwitterListIdentifier list, IEnumerable<long> userIds)
+        public Task<ITwitterList> AddMembersToList(ITwitterListIdentifier list, IEnumerable<long> userIds)
         {
             return AddMembersToList(new AddMembersToListParameters(list, userIds));
         }
 
-        public Task AddMembersToList(ITwitterListIdentifier list, IEnumerable<string> usernames)
+        public Task<ITwitterList> AddMembersToList(ITwitterListIdentifier list, IEnumerable<string> usernames)
         {
             return AddMembersToList(new AddMembersToListParameters(list, usernames));
         }
 
-        public Task AddMembersToList(ITwitterListIdentifier list, IEnumerable<IUserIdentifier> users)
+        public Task<ITwitterList> AddMembersToList(ITwitterListIdentifier list, IEnumerable<IUserIdentifier> users)
         {
             return AddMembersToList(new AddMembersToListParameters(list, users));
         }
 
-        public async Task AddMembersToList(IAddMembersToListParameters parameters)
+        public async Task<ITwitterList> AddMembersToList(IAddMembersToListParameters parameters)
         {
-            await _twitterListsRequester.AddMembersToList(parameters).ConfigureAwait(false);
+            var twitterResult = await _twitterListsRequester.AddMembersToList(parameters).ConfigureAwait(false);
+            return twitterResult?.Result;
         }
 
         public Task<ITwitterList[]> GetAccountListMemberships()
@@ -402,74 +405,76 @@ namespace Tweetinvi.Client
             }
         }
 
-        public Task RemoveMemberFromList(long listId, long userId)
+        public Task<ITwitterList> RemoveMemberFromList(long listId, long userId)
         {
             return RemoveMemberFromList(new RemoveMemberFromListParameters(listId, userId));
         }
 
-        public Task RemoveMemberFromList(long listId, string username)
+        public Task<ITwitterList> RemoveMemberFromList(long listId, string username)
         {
             return RemoveMemberFromList(new RemoveMemberFromListParameters(listId, username));
         }
 
-        public Task RemoveMemberFromList(long listId, IUserIdentifier user)
+        public Task<ITwitterList> RemoveMemberFromList(long listId, IUserIdentifier user)
         {
             return RemoveMemberFromList(new RemoveMemberFromListParameters(listId, user));
         }
 
-        public Task RemoveMemberFromList(ITwitterListIdentifier list, long userId)
+        public Task<ITwitterList> RemoveMemberFromList(ITwitterListIdentifier list, long userId)
         {
             return RemoveMemberFromList(new RemoveMemberFromListParameters(list, userId));
         }
 
-        public Task RemoveMemberFromList(ITwitterListIdentifier list, string username)
+        public Task<ITwitterList> RemoveMemberFromList(ITwitterListIdentifier list, string username)
         {
             return RemoveMemberFromList(new RemoveMemberFromListParameters(list, username));
         }
 
-        public Task RemoveMemberFromList(ITwitterListIdentifier list, IUserIdentifier user)
+        public Task<ITwitterList> RemoveMemberFromList(ITwitterListIdentifier list, IUserIdentifier user)
         {
             return RemoveMemberFromList(new RemoveMemberFromListParameters(list, user));
         }
 
-        public Task RemoveMemberFromList(IRemoveMemberFromListParameters parameters)
+        public async Task<ITwitterList> RemoveMemberFromList(IRemoveMemberFromListParameters parameters)
         {
-            return _twitterListsRequester.RemoveMemberFromList(parameters);
+            var twitterResult = await _twitterListsRequester.RemoveMemberFromList(parameters).ConfigureAwait(false);
+            return _client.Factories.CreateTwitterList(twitterResult?.DataTransferObject);
         }
 
-        public Task RemoveMembersFromList(long listId, IEnumerable<long> userIds)
+        public Task<ITwitterList> RemoveMembersFromList(long listId, IEnumerable<long> userIds)
         {
             return RemoveMembersFromList(new RemoveMembersFromListParameters(listId, userIds));
         }
 
-        public Task RemoveMembersFromList(long listId, IEnumerable<string> usernames)
+        public Task<ITwitterList> RemoveMembersFromList(long listId, IEnumerable<string> usernames)
         {
             return RemoveMembersFromList(new RemoveMembersFromListParameters(listId, usernames));
         }
 
-        public Task RemoveMembersFromList(long listId, IEnumerable<IUserIdentifier> users)
+        public Task<ITwitterList> RemoveMembersFromList(long listId, IEnumerable<IUserIdentifier> users)
         {
             return RemoveMembersFromList(new RemoveMembersFromListParameters(listId, users));
         }
 
-        public Task RemoveMembersFromList(ITwitterListIdentifier list, IEnumerable<long> userIds)
+        public Task<ITwitterList> RemoveMembersFromList(ITwitterListIdentifier list, IEnumerable<long> userIds)
         {
             return RemoveMembersFromList(new RemoveMembersFromListParameters(list, userIds));
         }
 
-        public Task RemoveMembersFromList(ITwitterListIdentifier list, IEnumerable<string> usernames)
+        public Task<ITwitterList> RemoveMembersFromList(ITwitterListIdentifier list, IEnumerable<string> usernames)
         {
             return RemoveMembersFromList(new RemoveMembersFromListParameters(list, usernames));
         }
 
-        public Task RemoveMembersFromList(ITwitterListIdentifier list, IEnumerable<IUserIdentifier> users)
+        public Task<ITwitterList> RemoveMembersFromList(ITwitterListIdentifier list, IEnumerable<IUserIdentifier> users)
         {
             return RemoveMembersFromList(new RemoveMembersFromListParameters(list, users));
         }
 
-        public async Task RemoveMembersFromList(IRemoveMembersFromListParameters parameters)
+        public async Task<ITwitterList> RemoveMembersFromList(IRemoveMembersFromListParameters parameters)
         {
-            await _twitterListsRequester.RemoveMembersFromList(parameters).ConfigureAwait(false);
+            var twitterResult = await _twitterListsRequester.RemoveMembersFromList(parameters).ConfigureAwait(false);
+            return _client.Factories.CreateTwitterList(twitterResult?.DataTransferObject);
         }
 
         // ***********
