@@ -1,5 +1,5 @@
 Param(
-    $v = '4.0.2', # Version number
+    $v = '4.0.3', # Version number
     $m = 'Release', # Visual Studio Build Mode
     [Switch]$dnr, # Do Not Rebuild 
     [Switch]$h, # Help
@@ -52,6 +52,7 @@ $tweetinviSecurity = 'Tweetinvi.Security'
 $tweetinviControllers = 'Tweetinvi.Controllers'
 $tweetinviCore = 'Tweetinvi.Core'
 $tweetinviCredentials = 'Tweetinvi.Credentials'
+$tweetinviFactories = 'Tweetinvi.Factories'
 $tweetinviLogic = 'Tweetinvi.Logic'
 $tweetinviWebLogic = 'Tweetinvi.WebLogic'
 $tweetinviStreams = 'Tweetinvi.Streams'
@@ -72,6 +73,7 @@ $projects =
     $tweetinviControllers,
     $tweetinviCore,
     $tweetinviCredentials,
+    $tweetinviFactories,
     $tweetinviLogic,
     $tweetinviWebLogic,
     $tweetinviStreams,
