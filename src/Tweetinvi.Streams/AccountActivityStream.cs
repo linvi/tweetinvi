@@ -411,7 +411,7 @@ namespace Tweetinvi.Streams
 
                 if (messageEventDTO.MessageCreate.SourceAppId != null)
                 {
-                    eventInfo.Apps.TryGetValue(messageEventDTO.MessageCreate.SourceAppId.ToString(), out app);
+                    eventInfo.Apps?.TryGetValue(messageEventDTO.MessageCreate.SourceAppId.ToString(), out app);
                 }
 
                 eventInfo.UsersById.TryGetValue(messageEventDTO.MessageCreate.SenderId.ToString(), out var senderDTO);
