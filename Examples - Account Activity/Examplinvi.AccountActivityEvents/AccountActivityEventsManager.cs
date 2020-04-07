@@ -87,45 +87,45 @@ namespace Examplinvi.AccountActivityEvents
         }
 
         // Tweet events
-        private void TweetCreated(object sender, AccountActivityTweetCreatedEventArgs e)
+        private void TweetCreated(object sender, TweetCreatedEvent e)
         {
             Console.WriteLine($">>> Tweet has been created:\n{e.Tweet}");
         }
 
-        private void TweetDeleted(object sender, AccountActivityTweetDeletedEventArgs e)
+        private void TweetDeleted(object sender, TweetDeletedEvent e)
         {
             Console.WriteLine($">>> Tweet {e.TweetId} has been deleted at {e.EventDate}");
         }
 
-        private void TweetFavourited(object sender, AccountActivityTweetFavouritedEventArgs e)
+        private void TweetFavourited(object sender, TweetFavouritedEvent e)
         {
             Console.WriteLine($">>> Tweet has been favourited by {e.FavouritedBy}:\n{e.Tweet}");
         }
 
 
         // Message events
-        private void MessageSent(object sender, AccountActivityMessageSentEventArgs e)
+        private void MessageSent(object sender, MessageSentEvent e)
         {
             Console.WriteLine($">>> Account user ({e.Message.SenderId}) has sent a message to {e.Message.RecipientId}");
         }
 
-        private void MessageReceived(object sender, AccountActivityMessageReceivedEventArgs e)
+        private void MessageReceived(object sender, MessageReceivedEvent e)
         {
             Console.WriteLine($">>> Account user ({e.Message.SenderId}) has received a message from {e.Message.RecipientId}");
         }
 
-        private void UserIsTypingMessage(object sender, AccountActivityUserIsTypingMessageEventArgs e)
+        private void UserIsTypingMessage(object sender, UserIsTypingMessageEvent e)
         {
             Console.WriteLine($">>> User {e.TypingUser} is typing a message to {e.TypingTo}...");
         }
 
-        private void UserReadMessage(object sender, AccountActivityUserReadMessageConversationEventArgs e)
+        private void UserReadMessage(object sender, UserReadMessageConversationEvent e)
         {
             Console.WriteLine($">>> User {e.UserWhoReadTheMessageConversation} read the message of {e.UserWhoWroteTheMessage} at {e.EventDate}");
         }
 
         // User events
-        private void FollowedUser(object sender, AccountActivityUserFollowedEventArgs e)
+        private void FollowedUser(object sender, UserFollowedEvent e)
         {
             if (e.InResultOf == UserFollowedRaisedInResultOf.AccountUserFollowingAnotherUser)
             {
@@ -137,26 +137,26 @@ namespace Examplinvi.AccountActivityEvents
             }
         }
 
-        private void UnfollowedUser(object sender, AccountActivityUserUnfollowedEventArgs e)
+        private void UnfollowedUser(object sender, UserUnfollowedEvent e)
         {
             Console.WriteLine($">>> Account user ({e.UnfollowedBy.ScreenName}) is no longer following {e.UnfollowedUser.ScreenName}");
         }
 
-        private void UserBlocked(object sender, AccountActivityUserBlockedEventArgs e)
+        private void UserBlocked(object sender, UserBlockedEvent e)
         {
             Console.WriteLine($">>> Account user ({e.BlockedBy}) has blocked {e.BlockedUser}");
         }
-        private void UserUnblocked(object sender, AccountActivityUserUnblockedEventArgs e)
+        private void UserUnblocked(object sender, UserUnblockedEvent e)
         {
             Console.WriteLine($">>> Account user ({e.UnblockedBy}) has unblocked {e.UnblockedUser}");
         }
 
-        private void UserMuted(object sender, AccountActivityUserMutedEventArgs e)
+        private void UserMuted(object sender, UserMutedEvent e)
         {
-            Console.WriteLine($">>> Account user ({e.MutedBy}) has unmuted {e.MutedUser}");
+            Console.WriteLine($">>> Account user ({e.MutedBy}) has muted {e.MutedUser}");
         }
 
-        private void UserUnmuted(object sender, AccountActivityUserUnmutedEventArgs e)
+        private void UserUnmuted(object sender, UserUnmutedEvent e)
         {
             Console.WriteLine($">>> Account user ({e.UnmutedBy}) has unmuted {e.UnmutedUser}");
         }
@@ -168,7 +168,7 @@ namespace Examplinvi.AccountActivityEvents
             Console.WriteLine($"{args.Json}");
         }
 
-        private void UnmanagedEventReceived(object sender, UnsupportedEventReceivedEventArgs e)
+        private void UnmanagedEventReceived(object sender, UnsupportedMessageReceivedEvent e)
         {
             Console.WriteLine(">>> An event that Tweetinvi is not yet capable of analyzing has been received. Please open a github issue with this message: " + e.JsonMessageReceived);
         }

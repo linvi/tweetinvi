@@ -17,9 +17,9 @@
     /// <summary>
     /// Event information when a user revokes application permissions.
     /// </summary>
-    public class AccountActivityUserRevokedAppPermissionsEventArgs : BaseAccountActivityEventArgs<UserRevokedAppPermissionsInResultOf>
+    public class UserRevokedAppPermissionsEvent : BaseAccountActivityEventArgs<UserRevokedAppPermissionsInResultOf>
     {
-        public AccountActivityUserRevokedAppPermissionsEventArgs(
+        public UserRevokedAppPermissionsEvent(
             AccountActivityEvent activityEvent,
             long userId,
             long appId) : base(activityEvent)

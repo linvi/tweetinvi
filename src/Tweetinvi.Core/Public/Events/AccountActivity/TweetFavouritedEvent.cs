@@ -30,9 +30,9 @@ namespace Tweetinvi.Events
     /// <summary>
     /// Event information when a tweet is favourited.
     /// </summary>
-    public class AccountActivityTweetFavouritedEventArgs : BaseAccountActivityEventArgs<TweetFavouritedRaisedInResultOf>
+    public class TweetFavouritedEvent : BaseAccountActivityEventArgs<TweetFavouritedRaisedInResultOf>
     {
-        public AccountActivityTweetFavouritedEventArgs(AccountActivityEvent<Tuple<ITweet, IUser>> eventInfo) : base(eventInfo)
+        public TweetFavouritedEvent(AccountActivityEvent<Tuple<ITweet, IUser>> eventInfo) : base(eventInfo)
         {
             Tweet = eventInfo.Args.Item1;
             FavouritedBy = eventInfo.Args.Item2;

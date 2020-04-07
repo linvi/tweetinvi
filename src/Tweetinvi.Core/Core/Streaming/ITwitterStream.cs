@@ -40,7 +40,7 @@ namespace Tweetinvi.Core.Streaming
         /// <summary>
         /// A tweet has been deleted.
         /// </summary>
-        event EventHandler<TweetDeletedEventArgs> TweetDeleted;
+        event EventHandler<TweetDeletedEvent> TweetDeleted;
 
         /// <summary>
         /// The location information of a tweet has been deleted.
@@ -83,7 +83,7 @@ namespace Tweetinvi.Core.Streaming
         /// <summary>
         /// An event that is not handled by Tweetinvi have just been received!
         /// </summary>
-        event EventHandler<UnsupportedEventReceivedEventArgs> UnmanagedEventReceived;
+        event EventHandler<UnsupportedMessageReceivedEvent> UnmanagedEventReceived;
 
         /// <summary>
         /// Informs that we have received some json from the Twitter stream.

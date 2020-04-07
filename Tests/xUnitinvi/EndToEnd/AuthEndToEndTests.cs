@@ -112,15 +112,30 @@ namespace xUnitinvi.EndToEnd
             // assert
             Assert.Equal(authenticatedUser.ScreenName, EndToEndTestConfig.ProtectedUser.AccountId);
 
-            _logger.WriteLine("public static readonly IntegrationTestAccount ProtectedUserAuthenticatedToTweetinviApi = new IntegrationTestAccount\n" +
-            "{\n" +
-                "\t\t\t// Careful as these credentials will be refreshed by AuthEndToEndTests\n" +
-                "\t\t\t// Run AuthEndToEndTests.AuthenticateWithPinCode and copy paste output to replace here\n" +
-                "Credentials = new TwitterCredentials(TweetinviApi.Credentials.ConsumerKey, TweetinviApi.Credentials.ConsumerSecret,\n" +
-                $"\"{userCredentials.AccessToken}\", \"{userCredentials.AccessTokenSecret}\"),\n" +
-                $"AccountId = \"{authenticatedUser.ScreenName}\",\n" +
-                $"UserId = {authenticatedUser.Id}\n" +
-            "};");
+            if (authenticatedClient.Credentials.ConsumerKey == EndToEndTestConfig.TweetinviApi)
+            {
+                _logger.WriteLine("public static readonly IntegrationTestAccount ProtectedUserAuthenticatedToTweetinviApi = new IntegrationTestAccount\n" +
+                                  "{\n" +
+                                  "\t\t\t// Careful as these credentials will be refreshed by AuthEndToEndTests\n" +
+                                  "\t\t\t// Run AuthEndToEndTests.AuthenticateWithPinCode and copy paste output to replace here\n" +
+                                  $"Credentials = new TwitterCredentials(TweetinviApi.Credentials.ConsumerKey, " +
+                                  $"TweetinviApi.Credentials.ConsumerSecret,\n" +
+                                  $"\"{userCredentials.AccessToken}\", \"{userCredentials.AccessTokenSecret}\"),\n" +
+                                  $"AccountId = \"{authenticatedUser.ScreenName}\",\n" +
+                                  $"UserId = {authenticatedUser.Id}\n" +
+                                  "};");
+            }
+            else
+            {
+                _logger.WriteLine("public static readonly IntegrationTestAccount ProtectedUser = new IntegrationTestAccount\n" +
+                                  "{\n" +
+                                  $"Credentials = new TwitterCredentials(TweetinviTest.Credentials.ConsumerKey, " +
+                                  $"TweetinviTest.Credentials.ConsumerSecret,\n" +
+                                  $"\"{userCredentials.AccessToken}\", \"{userCredentials.AccessTokenSecret}\"),\n" +
+                                  $"AccountId = \"{authenticatedUser.ScreenName}\",\n" +
+                                  $"UserId = {authenticatedUser.Id}\n" +
+                                  "};");
+            }
         }
 
         [Fact]

@@ -163,22 +163,22 @@ namespace xUnitinvi.EndToEnd
         class AccountActivtyEventsState
         {
             public List<string> EventsReceived { get; set; } = new List<string>();
-            public List<AccountActivityTweetCreatedEventArgs> TweetCreated { get; set; } = new List<AccountActivityTweetCreatedEventArgs>();
-            public List<AccountActivityTweetDeletedEventArgs> TweetDeleted { get; set; } = new List<AccountActivityTweetDeletedEventArgs>();
-            public List<AccountActivityTweetFavouritedEventArgs> TweetFavourited { get; set; } = new List<AccountActivityTweetFavouritedEventArgs>();
+            public List<TweetCreatedEvent> TweetCreated { get; set; } = new List<TweetCreatedEvent>();
+            public List<TweetDeletedEvent> TweetDeleted { get; set; } = new List<TweetDeletedEvent>();
+            public List<TweetFavouritedEvent> TweetFavourited { get; set; } = new List<TweetFavouritedEvent>();
 
-            public List<AccountActivityUserFollowedEventArgs> UserFollowed { get; } = new List<AccountActivityUserFollowedEventArgs>();
-            public List<AccountActivityUserUnfollowedEventArgs> UserUnfollowed { get; set; } = new List<AccountActivityUserUnfollowedEventArgs>();
-            public List<AccountActivityUserBlockedEventArgs> UserBlocked { get; set; } = new List<AccountActivityUserBlockedEventArgs>();
-            public List<AccountActivityUserUnblockedEventArgs> UserUnblocked { get; set; } = new List<AccountActivityUserUnblockedEventArgs>();
-            public List<AccountActivityUserMutedEventArgs> UserMuted { get; set; } = new List<AccountActivityUserMutedEventArgs>();
-            public List<AccountActivityUserUnmutedEventArgs> UserUnmuted { get; set; } = new List<AccountActivityUserUnmutedEventArgs>();
+            public List<UserFollowedEvent> UserFollowed { get; } = new List<UserFollowedEvent>();
+            public List<UserUnfollowedEvent> UserUnfollowed { get; set; } = new List<UserUnfollowedEvent>();
+            public List<UserBlockedEvent> UserBlocked { get; set; } = new List<UserBlockedEvent>();
+            public List<UserUnblockedEvent> UserUnblocked { get; set; } = new List<UserUnblockedEvent>();
+            public List<UserMutedEvent> UserMuted { get; set; } = new List<UserMutedEvent>();
+            public List<UserUnmutedEvent> UserUnmuted { get; set; } = new List<UserUnmutedEvent>();
 
-            public List<AccountActivityMessageReceivedEventArgs> MessageReceived { get; set; } = new List<AccountActivityMessageReceivedEventArgs>();
-            public List<AccountActivityMessageSentEventArgs> MessageSent { get; set; } = new List<AccountActivityMessageSentEventArgs>();
-            public List<AccountActivityUserIsTypingMessageEventArgs> UserTypingMessage { get; set; } = new List<AccountActivityUserIsTypingMessageEventArgs>();
-            public List<AccountActivityUserReadMessageConversationEventArgs> UserReadMessage { get; set; } = new List<AccountActivityUserReadMessageConversationEventArgs>();
-            public List<UnexpectedExceptionThrownEventArgs> UnexpectedException { get; set; } = new List<UnexpectedExceptionThrownEventArgs>();
+            public List<MessageReceivedEvent> MessageReceived { get; set; } = new List<MessageReceivedEvent>();
+            public List<MessageSentEvent> MessageSent { get; set; } = new List<MessageSentEvent>();
+            public List<UserIsTypingMessageEvent> UserTypingMessage { get; set; } = new List<UserIsTypingMessageEvent>();
+            public List<UserReadMessageConversationEvent> UserReadMessage { get; set; } = new List<UserReadMessageConversationEvent>();
+            public List<UnexpectedExceptionThrownEvent> UnexpectedException { get; set; } = new List<UnexpectedExceptionThrownEvent>();
 
             public AccountActivtyEventsState Clone()
             {

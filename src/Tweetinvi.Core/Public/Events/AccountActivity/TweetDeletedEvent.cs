@@ -3,10 +3,9 @@
     public enum TweetDeletedRaisedInResultOf
     {
         /// <summary>
-        /// This case should not happen and is here in case Twitter changes when they trigger the TweetDeleted event.
-        /// If you happen to receive this mode, please report to Tweetinvi your case ideally with the associated json.
+        /// The tweet was deleted by another user
         /// </summary>
-        Unknown = 0,
+        AnotherPersonDeletedATweet = 0,
 
         /// <summary>
         /// The tweet was deleted by the account user.
@@ -17,9 +16,9 @@
     /// <summary>
     /// Event information when a tweet is deleted.
     /// </summary>
-    public class AccountActivityTweetDeletedEventArgs : BaseAccountActivityEventArgs<TweetDeletedRaisedInResultOf>
+    public class TweetDeletedEvent : BaseAccountActivityEventArgs<TweetDeletedRaisedInResultOf>
     {
-        public AccountActivityTweetDeletedEventArgs(AccountActivityEvent<long> activityEvent, long userId) : base(activityEvent)
+        public TweetDeletedEvent(AccountActivityEvent<long> activityEvent, long userId) : base(activityEvent)
         {
             TweetId = activityEvent.Args;
             UserId = userId;
@@ -44,7 +43,7 @@
                 return TweetDeletedRaisedInResultOf.AccountUserDeletingOneOfHisTweets;
             }
 
-            return TweetDeletedRaisedInResultOf.Unknown;
+            return TweetDeletedRaisedInResultOf.AnotherPersonDeletedATweet;
         }
     }
 }

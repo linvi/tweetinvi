@@ -12,7 +12,7 @@ namespace Tweetinvi.Events
         Unknown = 0,
 
         /// <summary>
-        /// The account user is no longer following another user 
+        /// The account user is no longer following another user
         /// </summary>
         AccountUserUnfollowingAnotherUser,
     }
@@ -20,9 +20,9 @@ namespace Tweetinvi.Events
     /// <summary>
     /// Event information when a user is unfollowed.
     /// </summary>
-    public class AccountActivityUserUnfollowedEventArgs : BaseAccountActivityEventArgs<UserUnfollowedRaisedInResultOf>
+    public class UserUnfollowedEvent : BaseAccountActivityEventArgs<UserUnfollowedRaisedInResultOf>
     {
-        public AccountActivityUserUnfollowedEventArgs(AccountActivityEvent<Tuple<IUser, IUser>> eventInfo) : base(eventInfo)
+        public UserUnfollowedEvent(AccountActivityEvent<Tuple<IUser, IUser>> eventInfo) : base(eventInfo)
         {
             UnfollowedBy = eventInfo.Args.Item1;
             UnfollowedUser = eventInfo.Args.Item2;

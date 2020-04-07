@@ -2,7 +2,7 @@
 
 namespace Tweetinvi.Events
 {
-    public enum MessageReceivedInResultOf
+    public enum MessageSentInResultOf
     {
         /// <summary>
         /// This case should not happen and is here in case Twitter changes when they trigger the MessageCreated event.
@@ -11,17 +11,17 @@ namespace Tweetinvi.Events
         Unknown = 0,
 
         /// <summary>
-        /// The account user received a message.
+        /// The account user sent a message.
         /// </summary>
-        AccountUserReceivingAMessage,
+        AccountUserSendingAMessage,
     }
 
     /// <summary>
     /// Event information when a message is published.
     /// </summary>
-    public class AccountActivityMessageReceivedEventArgs : BaseAccountActivityMessageEventArgs<MessageReceivedInResultOf>
+    public class MessageSentEvent : BaseAccountActivityMessageEventArgs<MessageSentInResultOf>
     {
-        public AccountActivityMessageReceivedEventArgs(
+        public MessageSentEvent(
             AccountActivityEvent activityEvent,
             IMessage message,
             IUser sender,
@@ -31,14 +31,14 @@ namespace Tweetinvi.Events
             InResultOf = GetInResultOf();
         }
 
-        private MessageReceivedInResultOf GetInResultOf()
+        private MessageSentInResultOf GetInResultOf()
         {
-            if (Message.RecipientId == AccountUserId)
+            if (Message.SenderId == AccountUserId)
             {
-                return MessageReceivedInResultOf.AccountUserReceivingAMessage;
+                return MessageSentInResultOf.AccountUserSendingAMessage;
             }
 
-            return MessageReceivedInResultOf.Unknown;
+            return MessageSentInResultOf.Unknown;
         }
     }
 }

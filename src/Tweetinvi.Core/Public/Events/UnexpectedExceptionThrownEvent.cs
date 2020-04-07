@@ -6,11 +6,11 @@ namespace Tweetinvi.Events
     /// An exception that could not be handled by Tweetinvi was thrown
     /// Please report such errors on github
     /// </summary>
-    public class UnexpectedExceptionThrownEventArgs : EventArgs
+    public class UnexpectedExceptionThrownEvent
     {
         public Exception Exception { get; }
 
-        public UnexpectedExceptionThrownEventArgs(Exception exception)
+        public UnexpectedExceptionThrownEvent(Exception exception)
         {
             Exception = exception;
         }

@@ -19,9 +19,9 @@ namespace Tweetinvi.Events
     /// <summary>
     /// Event information when a user is typing in a private message conversation.
     /// </summary>
-    public class AccountActivityUserIsTypingMessageEventArgs : BaseAccountActivityEventArgs<UserIsTypingMessageInResultOf>
+    public class UserIsTypingMessageEvent : BaseAccountActivityEventArgs<UserIsTypingMessageInResultOf>
     {
-        public AccountActivityUserIsTypingMessageEventArgs(
+        public UserIsTypingMessageEvent(
             AccountActivityEvent activityEvent,
             IUser typingUser,
             IUser typingTo)

@@ -106,7 +106,7 @@ namespace Tweetinvi.Streams
             remove => _streamResultGenerator.KeepAliveReceived -= value;
         }
 
-        public event EventHandler<TweetDeletedEventArgs> TweetDeleted;
+        public event EventHandler<TweetDeletedEvent> TweetDeleted;
         public event EventHandler<TweetLocationDeletedEventArgs> TweetLocationInfoRemoved;
         public event EventHandler<DisconnectedEventArgs> DisconnectMessageReceived;
         public event EventHandler<TweetWitheldEventArgs> TweetWitheld;
@@ -114,7 +114,7 @@ namespace Tweetinvi.Streams
 
         public event EventHandler<LimitReachedEventArgs> LimitReached;
         public event EventHandler<WarningFallingBehindEventArgs> WarningFallingBehindDetected;
-        public event EventHandler<UnsupportedEventReceivedEventArgs> UnmanagedEventReceived;
+        public event EventHandler<UnsupportedMessageReceivedEvent> UnmanagedEventReceived;
         public abstract event EventHandler<StreamEventReceivedArgs> EventReceived;
 
         // Stream State
@@ -233,7 +233,7 @@ namespace Tweetinvi.Streams
             }
             else
             {
-                var unmanagedMessageEventArgs = new UnsupportedEventReceivedEventArgs(json);
+                var unmanagedMessageEventArgs = new UnsupportedMessageReceivedEvent(json);
                 this.Raise(UnmanagedEventReceived, unmanagedMessageEventArgs);
             }
         }
@@ -260,11 +260,14 @@ namespace Tweetinvi.Streams
             }
 
             var deletedTweetInfo = _jsonObjectConverter.Deserialize<TweetDeletedInfo>(jToken.ToString());
-            var deletedTweetEventArgs = new TweetDeletedEventArgs()
+            var deletedTweetEventArgs = new TweetDeletedEvent(new AccountActivityEvent<long>(deletedTweetInfo.Id)
             {
-                TweetId = deletedTweetInfo.Id,
-                UserId = deletedTweetInfo.UserId
-            };
+            }, deletedTweetInfo.UserId);
+            // var deletedTweetEventArgs = new TweetDeletedEvent()
+            // {
+            //     TweetId = deletedTweetInfo.Id,
+            //     UserId = deletedTweetInfo.UserId
+            // };
 
             this.Raise(TweetDeleted, deletedTweetEventArgs);
         }

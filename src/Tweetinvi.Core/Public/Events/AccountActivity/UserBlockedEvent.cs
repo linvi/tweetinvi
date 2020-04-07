@@ -12,7 +12,7 @@ namespace Tweetinvi.Events
         Unknown = 0,
 
         /// <summary>
-        /// The account user has blocked another user 
+        /// The account user has blocked another user
         /// </summary>
         AccountUserBlockingAnotherUser,
     }
@@ -20,9 +20,9 @@ namespace Tweetinvi.Events
     /// <summary>
     /// Event information when a user is blocked.
     /// </summary>
-    public class AccountActivityUserBlockedEventArgs : BaseAccountActivityEventArgs<UserBlockedRaisedInResultOf>
+    public class UserBlockedEvent : BaseAccountActivityEventArgs<UserBlockedRaisedInResultOf>
     {
-        public AccountActivityUserBlockedEventArgs(AccountActivityEvent<Tuple<IUser, IUser>> eventInfo) : base(eventInfo)
+        public UserBlockedEvent(AccountActivityEvent<Tuple<IUser, IUser>> eventInfo) : base(eventInfo)
         {
             BlockedBy = eventInfo.Args.Item1;
             BlockedUser = eventInfo.Args.Item2;

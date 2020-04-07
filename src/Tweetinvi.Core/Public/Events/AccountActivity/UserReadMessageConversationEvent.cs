@@ -19,13 +19,13 @@ namespace Tweetinvi.Events
     /// <summary>
     /// Event information when a user reads a private message conversation.
     /// </summary>
-    public class AccountActivityUserReadMessageConversationEventArgs : BaseAccountActivityEventArgs<UserReadMessageConversationInResultOf>
+    public class UserReadMessageConversationEvent : BaseAccountActivityEventArgs<UserReadMessageConversationInResultOf>
     {
-        public AccountActivityUserReadMessageConversationEventArgs(
+        public UserReadMessageConversationEvent(
             AccountActivityEvent activityEvent,
             IUser userWhoReadTheMessageConversation,
             IUser userWhoWroteTheMessage,
-            string lastReadEventId) 
+            string lastReadEventId)
             : base(activityEvent)
         {
             UserWhoReadTheMessageConversation = userWhoReadTheMessageConversation;

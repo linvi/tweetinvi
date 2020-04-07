@@ -13,6 +13,7 @@ using Tweetinvi.Models;
 using Tweetinvi.Models.DTO;
 using Tweetinvi.Streaming;
 using Tweetinvi.Streams.Model.AccountActivity;
+using TweetDeletedEvent = Tweetinvi.Events.TweetDeletedEvent;
 
 namespace Tweetinvi.Streams
 {
@@ -62,31 +63,31 @@ namespace Tweetinvi.Streams
         public long AccountUserId { get; set; }
 
         // Tweets
-        public EventHandler<AccountActivityTweetCreatedEventArgs> TweetCreated { get; set; }
-        public EventHandler<AccountActivityTweetFavouritedEventArgs> TweetFavourited { get; set; }
-        public EventHandler<AccountActivityTweetDeletedEventArgs> TweetDeleted { get; set; }
+        public EventHandler<TweetCreatedEvent> TweetCreated { get; set; }
+        public EventHandler<TweetFavouritedEvent> TweetFavourited { get; set; }
+        public EventHandler<TweetDeletedEvent> TweetDeleted { get; set; }
 
         // User Events
-        public EventHandler<AccountActivityUserFollowedEventArgs> UserFollowed { get; set; }
-        public EventHandler<AccountActivityUserUnfollowedEventArgs> UserUnfollowed { get; set; }
+        public EventHandler<UserFollowedEvent> UserFollowed { get; set; }
+        public EventHandler<UserUnfollowedEvent> UserUnfollowed { get; set; }
 
-        public EventHandler<AccountActivityUserBlockedEventArgs> UserBlocked { get; set; }
-        public EventHandler<AccountActivityUserUnblockedEventArgs> UserUnblocked { get; set; }
-        public EventHandler<AccountActivityUserMutedEventArgs> UserMuted { get; set; }
-        public EventHandler<AccountActivityUserUnmutedEventArgs> UserUnmuted { get; set; }
-        public EventHandler<AccountActivityUserRevokedAppPermissionsEventArgs> UserRevokedAppPermissions { get; set; }
+        public EventHandler<UserBlockedEvent> UserBlocked { get; set; }
+        public EventHandler<UserUnblockedEvent> UserUnblocked { get; set; }
+        public EventHandler<UserMutedEvent> UserMuted { get; set; }
+        public EventHandler<UserUnmutedEvent> UserUnmuted { get; set; }
+        public EventHandler<UserRevokedAppPermissionsEvent> UserRevokedAppPermissions { get; set; }
 
         // Messages
-        public EventHandler<AccountActivityMessageReceivedEventArgs> MessageReceived { get; set; }
-        public EventHandler<AccountActivityMessageSentEventArgs> MessageSent { get; set; }
-        public EventHandler<AccountActivityUserIsTypingMessageEventArgs> UserIsTypingMessage { get; set; }
-        public EventHandler<AccountActivityUserReadMessageConversationEventArgs> UserReadMessage { get; set; }
+        public EventHandler<MessageReceivedEvent> MessageReceived { get; set; }
+        public EventHandler<MessageSentEvent> MessageSent { get; set; }
+        public EventHandler<UserIsTypingMessageEvent> UserIsTypingMessage { get; set; }
+        public EventHandler<UserReadMessageConversationEvent> UserReadMessage { get; set; }
 
         // Others
-        public EventHandler<UnsupportedEventReceivedEventArgs> UnsupportedEventReceived { get; set; }
-        public EventHandler<EventKnownButNotSupportedReceivedEventArgs> EventKnownButNotFullySupportedReceived { get; set; }
+        public EventHandler<UnsupportedMessageReceivedEvent> UnsupportedEventReceived { get; set; }
+        public EventHandler<EventKnownButNotSupported> EventKnownButNotFullySupportedReceived { get; set; }
         public EventHandler<AccountActivityEvent> EventReceived { get; set; }
-        public EventHandler<UnexpectedExceptionThrownEventArgs> UnexpectedExceptionThrown { get;set;}
+        public EventHandler<UnexpectedExceptionThrownEvent> UnexpectedExceptionThrown { get;set;}
 
         public void WebhookMessageReceived(IWebhookMessage message)
         {
@@ -122,12 +123,12 @@ namespace Tweetinvi.Streams
                 }
                 else
                 {
-                    this.Raise(UnsupportedEventReceived, new UnsupportedEventReceivedEventArgs(json));
+                    this.Raise(UnsupportedEventReceived, new UnsupportedMessageReceivedEvent(json));
                 }
             }
             catch (Exception e)
             {
-                this.Raise(UnexpectedExceptionThrown, new UnexpectedExceptionThrownEventArgs(e));
+                this.Raise(UnexpectedExceptionThrown, new UnexpectedExceptionThrownEvent(e));
             }
         }
 
@@ -149,12 +150,12 @@ namespace Tweetinvi.Streams
                     Json = json
                 };
 
-                var eventArgs = new AccountActivityTweetCreatedEventArgs(accountActivityEvent);
+                var eventArgs = new TweetCreatedEvent(accountActivityEvent);
                 this.Raise(TweetCreated, eventArgs);
 
                 if (eventArgs.InResultOf == TweetCreatedRaisedInResultOf.Unknown)
                 {
-                    this.Raise(EventKnownButNotFullySupportedReceived, new EventKnownButNotSupportedReceivedEventArgs(json, eventArgs));
+                    this.Raise(EventKnownButNotFullySupportedReceived, new EventKnownButNotSupported(json, eventArgs));
                 }
             });
         }
@@ -176,14 +177,9 @@ namespace Tweetinvi.Streams
                     Json = json
                 };
 
-                var eventArgs = new AccountActivityTweetDeletedEventArgs(accountActivityEvent, tweetDeletedEventDTO.Status.UserId);
+                var eventArgs = new TweetDeletedEvent(accountActivityEvent, tweetDeletedEventDTO.Status.UserId);
 
                 this.Raise(TweetDeleted, eventArgs);
-
-                if (eventArgs.InResultOf == TweetDeletedRaisedInResultOf.Unknown)
-                {
-                    this.Raise(EventKnownButNotFullySupportedReceived, new EventKnownButNotSupportedReceivedEventArgs(json, eventArgs));
-                }
             });
         }
 
@@ -206,13 +202,13 @@ namespace Tweetinvi.Streams
                     Json = json
                 };
 
-                var eventArgs = new AccountActivityTweetFavouritedEventArgs(accountActivityEvent);
+                var eventArgs = new TweetFavouritedEvent(accountActivityEvent);
 
                 this.Raise(TweetFavourited, eventArgs);
 
                 if (eventArgs.InResultOf == TweetFavouritedRaisedInResultOf.Unknown)
                 {
-                    this.Raise(EventKnownButNotFullySupportedReceived, new EventKnownButNotSupportedReceivedEventArgs(json, eventArgs));
+                    this.Raise(EventKnownButNotFullySupportedReceived, new EventKnownButNotSupported(json, eventArgs));
                 }
             });
         }
@@ -240,29 +236,29 @@ namespace Tweetinvi.Streams
 
                 if (followedUsersEvent.Type == "follow")
                 {
-                    var eventArgs = new AccountActivityUserFollowedEventArgs(accountActivityEvent);
+                    var eventArgs = new UserFollowedEvent(accountActivityEvent);
 
                     this.Raise(UserFollowed, eventArgs);
 
                     if (eventArgs.InResultOf == UserFollowedRaisedInResultOf.Unknown)
                     {
-                        this.Raise(EventKnownButNotFullySupportedReceived, new EventKnownButNotSupportedReceivedEventArgs(json, eventArgs));
+                        this.Raise(EventKnownButNotFullySupportedReceived, new EventKnownButNotSupported(json, eventArgs));
                     }
                 }
                 else if (followedUsersEvent.Type == "unfollow")
                 {
-                    var eventArgs = new AccountActivityUserUnfollowedEventArgs(accountActivityEvent);
+                    var eventArgs = new UserUnfollowedEvent(accountActivityEvent);
 
                     this.Raise(UserUnfollowed, eventArgs);
 
                     if (eventArgs.InResultOf == UserUnfollowedRaisedInResultOf.Unknown)
                     {
-                        this.Raise(EventKnownButNotFullySupportedReceived, new EventKnownButNotSupportedReceivedEventArgs(json, eventArgs));
+                        this.Raise(EventKnownButNotFullySupportedReceived, new EventKnownButNotSupported(json, eventArgs));
                     }
                 }
                 else
                 {
-                    this.Raise(UnsupportedEventReceived, new UnsupportedEventReceivedEventArgs(jsonObjectEvent.ToString()));
+                    this.Raise(UnsupportedEventReceived, new UnsupportedMessageReceivedEvent(jsonObjectEvent.ToString()));
                 }
             });
         }
@@ -290,29 +286,29 @@ namespace Tweetinvi.Streams
 
                 if (blockedEventInfo.Type == "block")
                 {
-                    var eventArgs = new AccountActivityUserBlockedEventArgs(accountActivityEvent);
+                    var eventArgs = new UserBlockedEvent(accountActivityEvent);
 
                     this.Raise(UserBlocked, eventArgs);
 
                     if (eventArgs.InResultOf == UserBlockedRaisedInResultOf.Unknown)
                     {
-                        this.Raise(EventKnownButNotFullySupportedReceived, new EventKnownButNotSupportedReceivedEventArgs(json, eventArgs));
+                        this.Raise(EventKnownButNotFullySupportedReceived, new EventKnownButNotSupported(json, eventArgs));
                     }
                 }
                 else if (blockedEventInfo.Type == "unblock")
                 {
-                    var eventArgs = new AccountActivityUserUnblockedEventArgs(accountActivityEvent);
+                    var eventArgs = new UserUnblockedEvent(accountActivityEvent);
 
                     this.Raise(UserUnblocked, eventArgs);
 
                     if (eventArgs.InResultOf == UserUnblockedRaisedInResultOf.Unknown)
                     {
-                        this.Raise(EventKnownButNotFullySupportedReceived, new EventKnownButNotSupportedReceivedEventArgs(json, eventArgs));
+                        this.Raise(EventKnownButNotFullySupportedReceived, new EventKnownButNotSupported(json, eventArgs));
                     }
                 }
                 else
                 {
-                    this.Raise(UnsupportedEventReceived, new UnsupportedEventReceivedEventArgs(json));
+                    this.Raise(UnsupportedEventReceived, new UnsupportedMessageReceivedEvent(json));
                 }
             });
         }
@@ -340,27 +336,27 @@ namespace Tweetinvi.Streams
 
                 if (mutedEventInfo.Type == "mute")
                 {
-                    var eventArgs = new AccountActivityUserMutedEventArgs(accountActivityEvent);
+                    var eventArgs = new UserMutedEvent(accountActivityEvent);
                     this.Raise(UserMuted, eventArgs);
 
                     if (eventArgs.InResultOf == UserMutedRaisedInResultOf.Unknown)
                     {
-                        this.Raise(EventKnownButNotFullySupportedReceived, new EventKnownButNotSupportedReceivedEventArgs(json, eventArgs));
+                        this.Raise(EventKnownButNotFullySupportedReceived, new EventKnownButNotSupported(json, eventArgs));
                     }
                 }
                 else if (mutedEventInfo.Type == "unmute")
                 {
-                    var eventArgs = new AccountActivityUserUnmutedEventArgs(accountActivityEvent);
+                    var eventArgs = new UserUnmutedEvent(accountActivityEvent);
                     this.Raise(UserUnmuted, eventArgs);
 
                     if (eventArgs.InResultOf == UserUnmutedRaisedInResultOf.Unknown)
                     {
-                        this.Raise(EventKnownButNotFullySupportedReceived, new EventKnownButNotSupportedReceivedEventArgs(json, eventArgs));
+                        this.Raise(EventKnownButNotFullySupportedReceived, new EventKnownButNotSupported(json, eventArgs));
                     }
                 }
                 else
                 {
-                    this.Raise(UnsupportedEventReceived, new UnsupportedEventReceivedEventArgs(jsonObjectEvent.ToString()));
+                    this.Raise(UnsupportedEventReceived, new UnsupportedMessageReceivedEvent(jsonObjectEvent.ToString()));
                 }
             });
         }
@@ -385,18 +381,18 @@ namespace Tweetinvi.Streams
                 var userId = userRevokedAppEventDTO.Source.UserId;
                 var appId = userRevokedAppEventDTO.Target.AppId;
 
-                var userRevokedAppEventArgs = new AccountActivityUserRevokedAppPermissionsEventArgs(accountActivityEvent, userId, appId);
+                var userRevokedAppEventArgs = new UserRevokedAppPermissionsEvent(accountActivityEvent, userId, appId);
 
                 this.Raise(UserRevokedAppPermissions, userRevokedAppEventArgs);
 
                 if (userRevokedAppEventArgs.InResultOf == UserRevokedAppPermissionsInResultOf.Unknown)
                 {
-                    this.Raise(EventKnownButNotFullySupportedReceived, new EventKnownButNotSupportedReceivedEventArgs(json, userRevokedAppEventArgs));
+                    this.Raise(EventKnownButNotFullySupportedReceived, new EventKnownButNotSupported(json, userRevokedAppEventArgs));
                 }
             }
             else
             {
-                this.Raise(UnsupportedEventReceived, new UnsupportedEventReceivedEventArgs(jsonObjectEvent.ToString()));
+                this.Raise(UnsupportedEventReceived, new UnsupportedMessageReceivedEvent(jsonObjectEvent.ToString()));
             }
         }
 
@@ -431,27 +427,27 @@ namespace Tweetinvi.Streams
 
                 if (message.SenderId == AccountUserId)
                 {
-                    var eventArgs = new AccountActivityMessageSentEventArgs(accountActivityEvent, message, sender, recipient, app);
+                    var eventArgs = new MessageSentEvent(accountActivityEvent, message, sender, recipient, app);
                     this.Raise(MessageSent, eventArgs);
 
                     if (eventArgs.InResultOf == MessageSentInResultOf.Unknown)
                     {
-                        this.Raise(EventKnownButNotFullySupportedReceived, new EventKnownButNotSupportedReceivedEventArgs(json, eventArgs));
+                        this.Raise(EventKnownButNotFullySupportedReceived, new EventKnownButNotSupported(json, eventArgs));
                     }
                 }
                 else if (message.RecipientId == AccountUserId)
                 {
-                    var eventArgs = new AccountActivityMessageReceivedEventArgs(accountActivityEvent, message, sender, recipient, app);
+                    var eventArgs = new MessageReceivedEvent(accountActivityEvent, message, sender, recipient, app);
                     this.Raise(MessageReceived, eventArgs);
 
                     if (eventArgs.InResultOf == MessageReceivedInResultOf.Unknown)
                     {
-                        this.Raise(EventKnownButNotFullySupportedReceived, new EventKnownButNotSupportedReceivedEventArgs(json, eventArgs));
+                        this.Raise(EventKnownButNotFullySupportedReceived, new EventKnownButNotSupported(json, eventArgs));
                     }
                 }
                 else
                 {
-                    this.Raise(UnsupportedEventReceived, new UnsupportedEventReceivedEventArgs(jsonObjectEvent.ToString()));
+                    this.Raise(UnsupportedEventReceived, new UnsupportedMessageReceivedEvent(jsonObjectEvent.ToString()));
                 }
             });
         }
@@ -476,13 +472,13 @@ namespace Tweetinvi.Streams
                 var sender = _factories.CreateUser(senderDTO);
                 var recipient = _factories.CreateUser(recipientDTO);
 
-                var eventArgs = new AccountActivityUserIsTypingMessageEventArgs(activityEvent, sender, recipient);
+                var eventArgs = new UserIsTypingMessageEvent(activityEvent, sender, recipient);
 
                 this.Raise(UserIsTypingMessage, eventArgs);
 
                 if (eventArgs.InResultOf == UserIsTypingMessageInResultOf.Unknown)
                 {
-                    this.Raise(EventKnownButNotFullySupportedReceived, new EventKnownButNotSupportedReceivedEventArgs(json, eventArgs));
+                    this.Raise(EventKnownButNotFullySupportedReceived, new EventKnownButNotSupported(json, eventArgs));
                 }
             });
         }
@@ -507,13 +503,13 @@ namespace Tweetinvi.Streams
                 var sender = _factories.CreateUser(senderDTO);
                 var recipient = _factories.CreateUser(recipientDTO);
 
-                var eventArgs = new AccountActivityUserReadMessageConversationEventArgs(activityEvent, sender, recipient, messageConversationReadEvent.LastReadEventId);
+                var eventArgs = new UserReadMessageConversationEvent(activityEvent, sender, recipient, messageConversationReadEvent.LastReadEventId);
 
                 this.Raise(UserReadMessage, eventArgs);
 
                 if (eventArgs.InResultOf == UserReadMessageConversationInResultOf.Unknown)
                 {
-                    this.Raise(EventKnownButNotFullySupportedReceived, new EventKnownButNotSupportedReceivedEventArgs(json, eventArgs));
+                    this.Raise(EventKnownButNotFullySupportedReceived, new EventKnownButNotSupported(json, eventArgs));
                 }
             });
         }

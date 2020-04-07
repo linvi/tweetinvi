@@ -20,49 +20,49 @@ namespace Tweetinvi.Streaming
         /// <summary>
         /// A Tweet has been been created.
         /// </summary>
-        EventHandler<AccountActivityTweetCreatedEventArgs> TweetCreated { get; set; }
+        EventHandler<TweetCreatedEvent> TweetCreated { get; set; }
 
         /// <summary>
         /// A Tweet has been deleted
         /// </summary>
-        EventHandler<AccountActivityTweetDeletedEventArgs> TweetDeleted { get; set; }
+        EventHandler<TweetDeletedEvent> TweetDeleted { get; set; }
 
         /// <summary>
         /// A Tweet has been favourited
         /// </summary>
-        EventHandler<AccountActivityTweetFavouritedEventArgs> TweetFavourited { get; set; }
+        EventHandler<TweetFavouritedEvent> TweetFavourited { get; set; }
 
         // User Events
 
         /// <summary>
         /// Account user is now following another user
         /// </summary>
-        EventHandler<AccountActivityUserFollowedEventArgs> UserFollowed { get; set; }
+        EventHandler<UserFollowedEvent> UserFollowed { get; set; }
 
         /// <summary>
         /// Account user has stopped following another user
         /// </summary>
-        EventHandler<AccountActivityUserUnfollowedEventArgs> UserUnfollowed { get; set; }
+        EventHandler<UserUnfollowedEvent> UserUnfollowed { get; set; }
 
         /// <summary>
         /// Account user has blocked another user
         /// </summary>
-        EventHandler<AccountActivityUserBlockedEventArgs> UserBlocked { get; set; }
+        EventHandler<UserBlockedEvent> UserBlocked { get; set; }
 
         /// <summary>
         /// Account user has unblocked another user
         /// </summary>
-        EventHandler<AccountActivityUserUnblockedEventArgs> UserUnblocked { get; set; }
+        EventHandler<UserUnblockedEvent> UserUnblocked { get; set; }
 
         /// <summary>
         /// Account user has muted another user
         /// </summary>
-        EventHandler<AccountActivityUserMutedEventArgs> UserMuted { get; set; }
+        EventHandler<UserMutedEvent> UserMuted { get; set; }
 
         /// <summary>
         /// Account user has unmuted another user
         /// </summary>
-        EventHandler<AccountActivityUserUnmutedEventArgs> UserUnmuted { get; set; }
+        EventHandler<UserUnmutedEvent> UserUnmuted { get; set; }
 
 
         // Messages
@@ -70,29 +70,29 @@ namespace Tweetinvi.Streaming
         /// <summary>
         /// Account user has received a message
         /// </summary>
-        EventHandler<AccountActivityMessageReceivedEventArgs> MessageReceived { get; set; }
+        EventHandler<MessageReceivedEvent> MessageReceived { get; set; }
 
         /// <summary>
         /// Account user has sent a message
         /// </summary>
-        EventHandler<AccountActivityMessageSentEventArgs> MessageSent { get; set; }
+        EventHandler<MessageSentEvent> MessageSent { get; set; }
 
         /// <summary>
         /// A user is typing in a conversation with the account user
         /// </summary>
-        EventHandler<AccountActivityUserIsTypingMessageEventArgs> UserIsTypingMessage { get; set; }
+        EventHandler<UserIsTypingMessageEvent> UserIsTypingMessage { get; set; }
 
         /// <summary>
         /// A user has read a message from the account user
         /// </summary>
-        EventHandler<AccountActivityUserReadMessageConversationEventArgs> UserReadMessage { get; set; }
+        EventHandler<UserReadMessageConversationEvent> UserReadMessage { get; set; }
 
         // Permissions
 
         /// <summary>
         /// Revoke events sent when the account user removes application authorization and subscription is automatically deleted.
         /// </summary>
-        EventHandler<AccountActivityUserRevokedAppPermissionsEventArgs> UserRevokedAppPermissions { get; set; }
+        EventHandler<UserRevokedAppPermissionsEvent> UserRevokedAppPermissions { get; set; }
 
         // Others
 
@@ -105,19 +105,19 @@ namespace Tweetinvi.Streaming
         /// Reports that an event that Tweetinvi does not understand has been received.
         /// Please report such event to us.
         /// </summary>
-        EventHandler<UnsupportedEventReceivedEventArgs> UnsupportedEventReceived { get; set; }
+        EventHandler<UnsupportedMessageReceivedEvent> UnsupportedEventReceived { get; set; }
 
 
         /// <summary>
         /// The type of event is known by Tweetinvi but we could not identify why the event was created.
         /// Please report such event to us.
         /// </summary>
-        EventHandler<EventKnownButNotSupportedReceivedEventArgs> EventKnownButNotFullySupportedReceived { get; set; }
+        EventHandler<EventKnownButNotSupported> EventKnownButNotFullySupportedReceived { get; set; }
 
         /// <summary>
         /// An unexpected error was thrown.
         /// </summary>
-        EventHandler<UnexpectedExceptionThrownEventArgs> UnexpectedExceptionThrown { get; set; }
+        EventHandler<UnexpectedExceptionThrownEvent> UnexpectedExceptionThrown { get; set; }
 
         /// <summary>
         /// For internal use : this is how we inform an account activity stream

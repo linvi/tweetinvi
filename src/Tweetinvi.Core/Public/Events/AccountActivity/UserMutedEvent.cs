@@ -12,7 +12,7 @@ namespace Tweetinvi.Events
         Unknown = 0,
 
         /// <summary>
-        /// The account user has muted another user 
+        /// The account user has muted another user
         /// </summary>
         AccountUserMutingAnotherUser,
     }
@@ -20,9 +20,9 @@ namespace Tweetinvi.Events
     /// <summary>
     /// Event information when a user is muted.
     /// </summary>
-    public class AccountActivityUserMutedEventArgs : BaseAccountActivityEventArgs<UserMutedRaisedInResultOf>
+    public class UserMutedEvent : BaseAccountActivityEventArgs<UserMutedRaisedInResultOf>
     {
-        public AccountActivityUserMutedEventArgs(AccountActivityEvent<Tuple<IUser, IUser>> eventInfo) : base(eventInfo)
+        public UserMutedEvent(AccountActivityEvent<Tuple<IUser, IUser>> eventInfo) : base(eventInfo)
         {
             MutedBy = eventInfo.Args.Item1;
             MutedUser = eventInfo.Args.Item2;

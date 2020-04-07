@@ -29,9 +29,9 @@ namespace Tweetinvi.Events
     /// <summary>
     /// Event information when a tweet is published.
     /// </summary>
-    public class AccountActivityTweetCreatedEventArgs : BaseAccountActivityEventArgs<TweetCreatedRaisedInResultOf>
+    public class TweetCreatedEvent : BaseAccountActivityEventArgs<TweetCreatedRaisedInResultOf>
     {
-        public AccountActivityTweetCreatedEventArgs(AccountActivityEvent<ITweet> eventInfo) : base(eventInfo)
+        public TweetCreatedEvent(AccountActivityEvent<ITweet> eventInfo) : base(eventInfo)
         {
             Tweet = eventInfo.Args;
 
@@ -54,7 +54,7 @@ namespace Tweetinvi.Events
             {
                 return TweetCreatedRaisedInResultOf.AnotherUserReplyingToAccountUser;
             }
-            
+
             if (Tweet.InReplyToUserId == AccountUserId)
             {
                 return TweetCreatedRaisedInResultOf.AnotherUserMentioningTheAccountUser;

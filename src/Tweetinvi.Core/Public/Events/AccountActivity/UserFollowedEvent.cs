@@ -12,7 +12,7 @@ namespace Tweetinvi.Events
         Unknown = 0,
 
         /// <summary>
-        /// The account user is now following another user 
+        /// The account user is now following another user
         /// </summary>
         AccountUserFollowingAnotherUser,
 
@@ -25,9 +25,9 @@ namespace Tweetinvi.Events
     /// <summary>
     /// Event information when a user is being followed.
     /// </summary>
-    public class AccountActivityUserFollowedEventArgs : BaseAccountActivityEventArgs<UserFollowedRaisedInResultOf>
+    public class UserFollowedEvent : BaseAccountActivityEventArgs<UserFollowedRaisedInResultOf>
     {
-        public AccountActivityUserFollowedEventArgs(AccountActivityEvent<Tuple<IUser, IUser>> eventInfo) : base(eventInfo)
+        public UserFollowedEvent(AccountActivityEvent<Tuple<IUser, IUser>> eventInfo) : base(eventInfo)
         {
             FollowedBy = eventInfo.Args.Item1;
             FollowedUser = eventInfo.Args.Item2;

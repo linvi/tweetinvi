@@ -12,7 +12,7 @@ namespace Tweetinvi.Events
         Unknown = 0,
 
         /// <summary>
-        /// The account user has Unmuted another user 
+        /// The account user has Unmuted another user
         /// </summary>
         AccountUserMutingAnotherUser,
     }
@@ -20,9 +20,9 @@ namespace Tweetinvi.Events
     /// <summary>
     /// Event information when a user is unmuted.
     /// </summary>
-    public class AccountActivityUserUnmutedEventArgs : BaseAccountActivityEventArgs<UserUnmutedRaisedInResultOf>
+    public class UserUnmutedEvent : BaseAccountActivityEventArgs<UserUnmutedRaisedInResultOf>
     {
-        public AccountActivityUserUnmutedEventArgs(AccountActivityEvent<Tuple<IUser, IUser>> eventInfo) : base(eventInfo)
+        public UserUnmutedEvent(AccountActivityEvent<Tuple<IUser, IUser>> eventInfo) : base(eventInfo)
         {
             UnmutedBy = eventInfo.Args.Item1;
             UnmutedUser = eventInfo.Args.Item2;
