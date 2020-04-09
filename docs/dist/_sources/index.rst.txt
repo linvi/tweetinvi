@@ -15,6 +15,7 @@ Guide
    :maxdepth: 2
 
    getting-started
+   authentication
    4.0-to-5.0
    license
    help

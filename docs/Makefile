@@ -16,6 +16,9 @@ github:
 	@make html 
 	@cp -a _build/html/. ./dist
 
+livehtml:
+	sphinx-autobuild -b html $(ALLSPHINXOPTS) $(BUILDDIR)/html
+
 .PHONY: help Makefile
 
 # Catch-all target: route all unknown targets to Sphinx using the new
