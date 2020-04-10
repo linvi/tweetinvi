@@ -2,6 +2,11 @@
 
 In this section we will create a simple console application that will print your username.
 
+## Pre requisites
+
+Before starting you need to have created an app on https://developer.twitter.com/en/apps.
+In the `Keys and tokens` section, create a pair of consumer and access keys.
+
 ## Create a new project
 
 ``` sh
@@ -20,24 +25,51 @@ Tweetinvi is available github and on [nuget](https://www.nuget.org/packages/Twee
 dotnet add package TweetinviAPI
 ```
 
-## Hello World!
+## Hello Twitter World!
 
-First we need to add the tweetinvi namespace:
+Now we just need to modify `Program.cs`
 
-``` c#
-using Tweetinvi;
-using Tweetinvi.Models;
-```
-
-Then lets create our client:
-
+First we create a client with your user's credentials (the ones from [apps.twitter.com](https://developer.twitter.com/en/apps)).
 
 ``` c#
-using Tweetinvi;
-using Tweetinvi.Models;
-
 var client = new TwitterClient("CONSUMER_KEY", "CONSUMER_SECRET", "ACCESS_TOKEN", "ACCESS_TOKEN_SECRET");
-var user = await client.Users.GetAuthenticatedUser();
-
-Console.WriteLine("You successfully authenticated with " + user);
 ```
+
+You can now get your user's information with the following line:
+
+``` c#
+var user = await client.Users.GetAuthenticatedUser();
+Console.WriteLine(user);
+```
+
+<details>
+<summary>Program.cs</summary>
+
+``` c#
+using System;
+using System.Threading.Tasks;
+
+// You need to add the tweetinvi namespace
+using Tweetinvi;
+
+namespace tweetinvi_hello_world
+{
+    class Program
+    {
+        static async Task Main(string[] args)
+        {
+            // we create a client with your user's credentials
+            var client = new TwitterClient("CONSUMER_KEY", "CONSUMER_SECRET", "ACCESS_TOKEN", "ACCESS_TOKEN_SECRET");
+
+            // request the user's information from Twitter API
+            var user = await client.Users.GetAuthenticatedUser();
+
+            Console.WriteLine("Hello " + user);
+        }
+    }
+}
+```
+
+</details>
+
+#### Congratulation and welcome to the world of Tweetinvi!

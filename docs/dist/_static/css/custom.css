@@ -1,3 +1,20 @@
 .wy-nav-content {
   max-width: 1050px !important;
 }
+
+details {
+  margin-bottom: 20px;
+  color: blue;
+}
+
+details * {
+  cursor: auto;
+}
+
+details summary {
+  cursor: pointer;
+  outline: none;
+  margin-bottom: 20px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+}

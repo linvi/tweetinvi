@@ -83,9 +83,13 @@
             
               <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Getting Started</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#pre-requisites">Pre requisites</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#create-a-new-project">Create a new project</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#install-tweetinvi">Install Tweetinvi</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#hello-world">Hello World!</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#hello-twitter-world">Hello Twitter World!</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#congratulation-and-welcome-to-the-world-of-tweetinvi">Congratulation and welcome to the world of Tweetinvi!</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="authentication.html">Authentication</a></li>
@@ -159,6 +163,11 @@
   <div class="section" id="getting-started">
 <h1>Getting Started<a class="headerlink" href="#getting-started" title="Permalink to this headline">¶</a></h1>
 <p>In this section we will create a simple console application that will print your username.</p>
+<div class="section" id="pre-requisites">
+<h2>Pre requisites<a class="headerlink" href="#pre-requisites" title="Permalink to this headline">¶</a></h2>
+<p>Before starting you need to have created an app on https://developer.twitter.com/en/apps.
+In the <code class="docutils literal notranslate"><span class="pre">Keys</span> <span class="pre">and</span> <span class="pre">tokens</span></code> section, create a pair of consumer and access keys.</p>
+</div>
 <div class="section" id="create-a-new-project">
 <h2>Create a new project<a class="headerlink" href="#create-a-new-project" title="Permalink to this headline">¶</a></h2>
 <div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="c1"># create a new directory for the hello world application</span>
@@ -176,22 +185,45 @@ dotnet new console
 </pre></div>
 </div>
 </div>
-<div class="section" id="hello-world">
-<h2>Hello World!<a class="headerlink" href="#hello-world" title="Permalink to this headline">¶</a></h2>
-<p>First we need to add the tweetinvi namespace:</p>
-<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="k">using</span> <span class="nn">Tweetinvi</span><span class="p">;</span>
-<span class="k">using</span> <span class="nn">Tweetinvi.Models</span><span class="p">;</span>
+<div class="section" id="hello-twitter-world">
+<h2>Hello Twitter World!<a class="headerlink" href="#hello-twitter-world" title="Permalink to this headline">¶</a></h2>
+<p>Now we just need to modify <code class="docutils literal notranslate"><span class="pre">Program.cs</span></code></p>
+<p>First we create a client with your user’s credentials (the ones from <a class="reference external" href="https://developer.twitter.com/en/apps">apps.twitter.com</a>).</p>
+<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="kt">var</span> <span class="n">client</span> <span class="p">=</span> <span class="k">new</span> <span class="n">TwitterClient</span><span class="p">(</span><span class="s">&quot;CONSUMER_KEY&quot;</span><span class="p">,</span> <span class="s">&quot;CONSUMER_SECRET&quot;</span><span class="p">,</span> <span class="s">&quot;ACCESS_TOKEN&quot;</span><span class="p">,</span> <span class="s">&quot;ACCESS_TOKEN_SECRET&quot;</span><span class="p">);</span>
 </pre></div>
 </div>
-<p>Then lets create our client:</p>
-<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="k">using</span> <span class="nn">Tweetinvi</span><span class="p">;</span>
-<span class="k">using</span> <span class="nn">Tweetinvi.Models</span><span class="p">;</span>
-
-<span class="kt">var</span> <span class="n">client</span> <span class="p">=</span> <span class="k">new</span> <span class="n">TwitterClient</span><span class="p">(</span><span class="s">&quot;CONSUMER_KEY&quot;</span><span class="p">,</span> <span class="s">&quot;CONSUMER_SECRET&quot;</span><span class="p">,</span> <span class="s">&quot;ACCESS_TOKEN&quot;</span><span class="p">,</span> <span class="s">&quot;ACCESS_TOKEN_SECRET&quot;</span><span class="p">);</span>
-<span class="kt">var</span> <span class="n">user</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Users</span><span class="p">.</span><span class="n">GetAuthenticatedUser</span><span class="p">();</span>
-
-<span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="s">&quot;You successfully authenticated with &quot;</span> <span class="p">+</span> <span class="n">user</span><span class="p">);</span>
+<p>You can now get your user’s information with the following line:</p>
+<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="kt">var</span> <span class="n">user</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Users</span><span class="p">.</span><span class="n">GetAuthenticatedUser</span><span class="p">();</span>
+<span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="n">user</span><span class="p">);</span>
 </pre></div>
+</div>
+<details>
+<summary>Program.cs</summary><div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="k">using</span> <span class="nn">System</span><span class="p">;</span>
+<span class="k">using</span> <span class="nn">System.Threading.Tasks</span><span class="p">;</span>
+
+<span class="c1">// You need to add the tweetinvi namespace</span>
+<span class="k">using</span> <span class="nn">Tweetinvi</span><span class="p">;</span>
+
+<span class="k">namespace</span> <span class="nn">tweetinvi_hello_world</span>
+<span class="p">{</span>
+    <span class="k">class</span> <span class="nc">Program</span>
+    <span class="p">{</span>
+        <span class="k">static</span> <span class="k">async</span> <span class="n">Task</span> <span class="nf">Main</span><span class="p">(</span><span class="kt">string</span><span class="p">[]</span> <span class="n">args</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="c1">// we create a client with your user&#39;s credentials</span>
+            <span class="kt">var</span> <span class="n">client</span> <span class="p">=</span> <span class="k">new</span> <span class="n">TwitterClient</span><span class="p">(</span><span class="s">&quot;CONSUMER_KEY&quot;</span><span class="p">,</span> <span class="s">&quot;CONSUMER_SECRET&quot;</span><span class="p">,</span> <span class="s">&quot;ACCESS_TOKEN&quot;</span><span class="p">,</span> <span class="s">&quot;ACCESS_TOKEN_SECRET&quot;</span><span class="p">);</span>
+
+            <span class="c1">// request the user&#39;s information from Twitter API</span>
+            <span class="kt">var</span> <span class="n">user</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Users</span><span class="p">.</span><span class="n">GetAuthenticatedUser</span><span class="p">();</span>
+
+            <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="s">&quot;Hello &quot;</span> <span class="p">+</span> <span class="n">user</span><span class="p">);</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</details><div class="section" id="congratulation-and-welcome-to-the-world-of-tweetinvi">
+<h3>Congratulation and welcome to the world of Tweetinvi!<a class="headerlink" href="#congratulation-and-welcome-to-the-world-of-tweetinvi" title="Permalink to this headline">¶</a></h3>
 </div>
 </div>
 </div>

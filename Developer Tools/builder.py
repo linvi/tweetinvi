@@ -5,7 +5,8 @@ from shutil import copyfile, rmtree
 from pathlib import Path
 
 version = '5.0.0'
-tweetinviProjects = os.listdir('../src/')
+srcFolders = os.listdir('../src/')
+tweetinviProjects = list(filter(lambda folder: "Tweetinvi" in folder, srcFolders))
 
 
 def replace(filepath, regex, with_content):
@@ -21,6 +22,11 @@ def remove_files_in(path):
     for f in files:
         os.remove(f)
 
+def createPath(path):
+    try:
+        os.makedirs(path)    
+    except FileExistsError:
+        print("Directory " , path ,  " already exists")  
 
 def update_version():
     nuspecVersionRegex = re.compile(r'<version>[0-9\.]*</version>')
@@ -75,6 +81,9 @@ def clean_nuget_folder():
     remove_files_in('./TweetinviAPI/lib/netstandard1.4')
     remove_files_in('./TweetinviAPI/lib/netstandard2.0')
 
+    createPath('./TweetinviAPI/lib/netstandard1.4')
+    createPath('./TweetinviAPI/lib/netstandard2.0')
+
     files = glob.glob('./TweetinviAPI-Symbols/*.snupkg')
     for f in files:
         os.remove(f)
@@ -82,62 +91,68 @@ def clean_nuget_folder():
     remove_files_in('./TweetinviAPI-Symbols/lib/netstandard1.4')
     remove_files_in('./TweetinviAPI-Symbols/lib/netstandard2.0')
 
+    createPath('./TweetinviAPI-Symbols/lib/netstandard1.4')
+    createPath('./TweetinviAPI-Symbols/lib/netstandard2.0')
+
     files = glob.glob('./TweetinviAspNet/*.nupkg')
     for f in files:
         os.remove(f)
 
-    remove_files_in('./TweetinviAspNet/lib/netstandard2.0')
+    createPath('./TweetinviAspNet/lib/netstandard2.0')
     remove_files_in('./TweetinviAspNet/lib/netcoreapp2.1')
     remove_files_in('./TweetinviAspNet/lib/netcoreapp3.1')
+
+    createPath('./TweetinviAspNet/lib/netstandard2.0')
+    createPath('./TweetinviAspNet/lib/netcoreapp2.1')
+    createPath('./TweetinviAspNet/lib/netcoreapp3.1')
+
+    
 
 
 def build_tweetinvi_nuget_package():
     print('Building nuget package...')
-    tweetinviBuildFiles = os.listdir(
-        '../src/Tweetinvi/bin/Release/netstandard2.0')
-    tweetinviDllFiles = list(
-        filter(re.compile(r'.*\.dll').search, tweetinviBuildFiles))
-    tweetinviXmlFiles = list(
-        filter(re.compile(r'.*\.xml').search, tweetinviBuildFiles))
+    tweetinviBuildFiles = os.listdir('../src/Tweetinvi/bin/release/netstandard2.0')
+    tweetinviDllFiles = list(filter(re.compile(r'.*\.dll').search, tweetinviBuildFiles))
+    tweetinviXmlFiles = list(filter(re.compile(r'.*\.xml').search, tweetinviBuildFiles))
+
+    
 
     for dll in tweetinviDllFiles:
-        copyfile('../src/Tweetinvi/bin/Release/netstandard1.4/' +
-                 dll, './TweetinviAPI/lib/netstandard1.4/' + dll)
-        copyfile('../src/Tweetinvi/bin/Release/netstandard2.0/' +
+        copyfile('../src/Tweetinvi/bin/release/netstandard1.4/' + dll, './TweetinviAPI/lib/netstandard1.4/' + dll)
+        copyfile('../src/Tweetinvi/bin/release/netstandard2.0/' +
                  dll, './TweetinviAPI/lib/netstandard2.0/' + dll)
 
     for xml in tweetinviXmlFiles:
-        copyfile('../src/Tweetinvi/bin/Release/netstandard1.4/' +
+        copyfile('../src/Tweetinvi/bin/release/netstandard1.4/' +
                  xml, './TweetinviAPI/lib/netstandard1.4/' + xml)
-        copyfile('../src/Tweetinvi/bin/Release/netstandard2.0/' +
+        copyfile('../src/Tweetinvi/bin/release/netstandard2.0/' +
                  xml, './TweetinviAPI/lib/netstandard2.0/' + xml)
 
-    os.system('cd TweetinviAPI && ..\\nuget.exe pack')
+    os.system('cd TweetinviAPI && nuget pack')
 
 
 def build_tweetinvi_nuget_symbols():
     print('building symbols package')
 
-    tweetinviBuildFiles = os.listdir(
-        '../src/Tweetinvi/bin/Release/netstandard2.0')
+    tweetinviBuildFiles = os.listdir('../src/Tweetinvi/bin/release/netstandard2.0')
     symbolsFilter = re.compile(r'.*\.pdb')
     tweetinviSymbolFiles = list(
         filter(symbolsFilter.search, tweetinviBuildFiles))
 
     for pdb in tweetinviSymbolFiles:
-        copyfile('../src/Tweetinvi/bin/Release/netstandard1.4/' + pdb,
+        copyfile('../src/Tweetinvi/bin/release/netstandard1.4/' + pdb,
                  './TweetinviAPI-Symbols/lib/netstandard1.4/' + pdb)
-        copyfile('../src/Tweetinvi/bin/Release/netstandard2.0/' + pdb,
+        copyfile('../src/Tweetinvi/bin/release/netstandard2.0/' + pdb,
                  './TweetinviAPI-Symbols/lib/netstandard2.0/' + pdb)
 
-    os.system('cd TweetinviAPI-Symbols && ..\\nuget.exe pack')
+    os.system('cd TweetinviAPI-Symbols && nuget pack')
     os.rename('./TweetinviAPI-Symbols/TweetinviAPI.' + version + '.nupkg',
               './TweetinviAPI-Symbols/TweetinviAPI.' + version + '.snupkg')
 
 
 def build_aspNet_nuget_package():
     def copy_aspnet_file(filepath):
-        copyfile('../src/Tweetinvi.AspNet/bin/Release/' +
+        copyfile('../src/Tweetinvi.AspNet/bin/release/' +
                  filepath, './TweetinviAspNet/lib/' + filepath)
 
     Path("./TweetinviAspNet/lib/netstandard2.0").mkdir(parents=True, exist_ok=True)
@@ -153,7 +168,7 @@ def build_aspNet_nuget_package():
     copy_aspnet_file('netcoreapp3.1/Tweetinvi.AspNet.dll')
     copy_aspnet_file('netcoreapp3.1/Tweetinvi.AspNet.xml')
 
-    os.system('cd TweetinviAspNet && ..\\nuget.exe pack')
+    os.system('cd TweetinviAspNet && nuget pack')
 
 
 update_version()
