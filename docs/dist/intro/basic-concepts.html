@@ -92,6 +92,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#timelines">Timelines</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#iterators">Iterators</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#search">Search</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#parameters">Parameters</a></li>
 </ul>
 </li>
 </ul>
@@ -220,10 +221,7 @@
 <div><p>Tweetinvi offers a simple approach to paging endpoints. This is called iterator.</p>
 </div></blockquote>
 <p>Find an example below with the user timeline iterator.</p>
-<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="kt">var</span> <span class="n">userTimelineIterator</span> <span class="p">=</span> <span class="n">client</span><span class="p">.</span><span class="n">Timelines</span><span class="p">.</span><span class="n">GetUserTimelineIterator</span><span class="p">(</span><span class="k">new</span> <span class="n">GetUserTimelineParameters</span><span class="p">(</span><span class="s">&quot;tweetinviapi&quot;</span><span class="p">)</span>
-<span class="p">{</span>
-    <span class="n">PageSize</span> <span class="p">=</span> <span class="m">20</span>
-<span class="p">});</span>
+<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="kt">var</span> <span class="n">userTimelineIterator</span> <span class="p">=</span> <span class="n">client</span><span class="p">.</span><span class="n">Timelines</span><span class="p">.</span><span class="n">GetUserTimelineIterator</span><span class="p">(</span><span class="s">&quot;tweetinviapi&quot;</span><span class="p">);</span>
 
 <span class="k">while</span> <span class="p">(!</span><span class="n">userTimelineIterator</span><span class="p">.</span><span class="n">Completed</span><span class="p">)</span>
 <span class="p">{</span>
@@ -242,6 +240,22 @@
 
 <span class="c1">// Search users</span>
 <span class="kt">var</span> <span class="n">users</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Search</span><span class="p">.</span><span class="n">SearchUsers</span><span class="p">(</span><span class="s">&quot;tweetinviapi&quot;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="parameters">
+<h2>Parameters<a class="headerlink" href="#parameters" title="Permalink to this headline">¶</a></h2>
+<p>Tweetinvi provide many overloads to support typical use cases.<br />All methods also provide an overload with a parameters class with more options.</p>
+<p>These parameters can be accessed in the namespace <code class="docutils literal notranslate"><span class="pre">using</span> <span class="pre">Tweetinvi.Parameters;</span></code>.</p>
+<p>Here is an example:</p>
+<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="c1">// simple search</span>
+<span class="kt">var</span> <span class="n">tweets</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Search</span><span class="p">.</span><span class="n">SearchTweets</span><span class="p">(</span><span class="s">&quot;hello&quot;</span><span class="p">);</span>
+
+<span class="c1">// complex search</span>
+<span class="kt">var</span> <span class="n">frenchTweets</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Search</span><span class="p">.</span><span class="n">SearchTweets</span><span class="p">(</span><span class="k">new</span> <span class="n">SearchTweetsParameters</span><span class="p">(</span><span class="s">&quot;hello&quot;</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">Lang</span> <span class="p">=</span> <span class="n">LanguageFilter</span><span class="p">.</span><span class="n">French</span>
+<span class="p">});</span>
 </pre></div>
 </div>
 </div>

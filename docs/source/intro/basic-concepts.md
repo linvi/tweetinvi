@@ -51,10 +51,7 @@ var userTimeline = await client.Timelines.GetUserTimeline("tweetinviapi");
 Find an example below with the user timeline iterator.
 
 ``` c#
-var userTimelineIterator = client.Timelines.GetUserTimelineIterator(new GetUserTimelineParameters("tweetinviapi")
-{
-    PageSize = 20
-});
+var userTimelineIterator = client.Timelines.GetUserTimelineIterator("tweetinviapi");
 
 while (!userTimelineIterator.Completed)
 {
@@ -73,4 +70,24 @@ var tweets = await client.Search.SearchTweets("hello");
 
 // Search users
 var users = await client.Search.SearchUsers("tweetinviapi");
+```
+
+## Parameters
+
+Tweetinvi provide many overloads to support typical use cases.\
+All methods also provide an overload with a parameters class with more options.
+
+These parameters can be accessed in the namespace `using Tweetinvi.Parameters;`.
+
+Here is an example:
+
+``` c#
+// simple search
+var tweets = await client.Search.SearchTweets("hello");
+
+// complex search
+var frenchTweets = await client.Search.SearchTweets(new SearchTweetsParameters("hello")
+{
+    Lang = LanguageFilter.French
+});
 ```
