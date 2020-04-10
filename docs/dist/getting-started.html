@@ -187,16 +187,21 @@ dotnet new console
 </div>
 <div class="section" id="hello-twitter-world">
 <h2>Hello Twitter World!<a class="headerlink" href="#hello-twitter-world" title="Permalink to this headline">¶</a></h2>
-<p>Now we just need to modify <code class="docutils literal notranslate"><span class="pre">Program.cs</span></code></p>
+<p>Now we just need to modify the <code class="docutils literal notranslate"><span class="pre">Main</span></code> function of <code class="docutils literal notranslate"><span class="pre">Program.cs</span></code></p>
 <p>First we create a client with your user’s credentials (the ones from <a class="reference external" href="https://developer.twitter.com/en/apps">apps.twitter.com</a>).</p>
-<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="kt">var</span> <span class="n">client</span> <span class="p">=</span> <span class="k">new</span> <span class="n">TwitterClient</span><span class="p">(</span><span class="s">&quot;CONSUMER_KEY&quot;</span><span class="p">,</span> <span class="s">&quot;CONSUMER_SECRET&quot;</span><span class="p">,</span> <span class="s">&quot;ACCESS_TOKEN&quot;</span><span class="p">,</span> <span class="s">&quot;ACCESS_TOKEN_SECRET&quot;</span><span class="p">);</span>
+<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="k">static</span> <span class="k">async</span> <span class="n">Task</span> <span class="nf">Main</span><span class="p">(</span><span class="kt">string</span><span class="p">[]</span> <span class="n">args</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="kt">var</span> <span class="n">client</span> <span class="p">=</span> <span class="k">new</span> <span class="n">TwitterClient</span><span class="p">(</span><span class="s">&quot;CONSUMER_KEY&quot;</span><span class="p">,</span> <span class="s">&quot;CONSUMER_SECRET&quot;</span><span class="p">,</span> <span class="s">&quot;ACCESS_TOKEN&quot;</span><span class="p">,</span> <span class="s">&quot;ACCESS_TOKEN_SECRET&quot;</span><span class="p">);</span>
+<span class="p">}</span>
 </pre></div>
 </div>
-<p>You can now get your user’s information with the following line:</p>
+<p>Now lets print your username!</p>
 <div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="kt">var</span> <span class="n">user</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Users</span><span class="p">.</span><span class="n">GetAuthenticatedUser</span><span class="p">();</span>
 <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="n">user</span><span class="p">);</span>
 </pre></div>
 </div>
+<div class="section" id="congratulation-and-welcome-to-the-world-of-tweetinvi">
+<h3>Congratulation and welcome to the world of Tweetinvi!<a class="headerlink" href="#congratulation-and-welcome-to-the-world-of-tweetinvi" title="Permalink to this headline">¶</a></h3>
 <details>
 <summary>Program.cs</summary><div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="k">using</span> <span class="nn">System</span><span class="p">;</span>
 <span class="k">using</span> <span class="nn">System.Threading.Tasks</span><span class="p">;</span>
@@ -222,9 +227,7 @@ dotnet new console
 <span class="p">}</span>
 </pre></div>
 </div>
-</details><div class="section" id="congratulation-and-welcome-to-the-world-of-tweetinvi">
-<h3>Congratulation and welcome to the world of Tweetinvi!<a class="headerlink" href="#congratulation-and-welcome-to-the-world-of-tweetinvi" title="Permalink to this headline">¶</a></h3>
-</div>
+</details></div>
 </div>
 </div>
 

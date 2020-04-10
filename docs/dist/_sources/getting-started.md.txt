@@ -27,20 +27,25 @@ dotnet add package TweetinviAPI
 
 ## Hello Twitter World!
 
-Now we just need to modify `Program.cs`
+Now we just need to modify the `Main` function of `Program.cs`
 
 First we create a client with your user's credentials (the ones from [apps.twitter.com](https://developer.twitter.com/en/apps)).
 
 ``` c#
-var client = new TwitterClient("CONSUMER_KEY", "CONSUMER_SECRET", "ACCESS_TOKEN", "ACCESS_TOKEN_SECRET");
+static async Task Main(string[] args)
+{
+    var client = new TwitterClient("CONSUMER_KEY", "CONSUMER_SECRET", "ACCESS_TOKEN", "ACCESS_TOKEN_SECRET");
+}
 ```
 
-You can now get your user's information with the following line:
+Now lets print your username!
 
 ``` c#
 var user = await client.Users.GetAuthenticatedUser();
 Console.WriteLine(user);
 ```
+
+#### Congratulation and welcome to the world of Tweetinvi!
 
 <details>
 <summary>Program.cs</summary>
@@ -71,5 +76,3 @@ namespace tweetinvi_hello_world
 ```
 
 </details>
-
-#### Congratulation and welcome to the world of Tweetinvi!
