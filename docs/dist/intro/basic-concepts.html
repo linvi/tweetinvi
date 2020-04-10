@@ -87,6 +87,11 @@
 <li class="toctree-l1"><a class="reference internal" href="credentials.html">Credentials in Twitter</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Basic Concepts</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#twitterclient">TwitterClient</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#users">Users</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#tweets">Tweets</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#timelines">Timelines</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#iterators">Iterators</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#search">Search</a></li>
 </ul>
 </li>
 </ul>
@@ -171,6 +176,74 @@
 <blockquote>
 <div><p>The TwitterClient let you perform operations from a specific set of credentials.</p>
 </div></blockquote>
+<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="c1">// Application client</span>
+<span class="kt">var</span> <span class="n">appClient</span> <span class="p">=</span> <span class="k">new</span> <span class="n">TwitterClient</span><span class="p">(</span><span class="s">&quot;CONSUMER_KEY&quot;</span><span class="p">,</span> <span class="s">&quot;CONSUMER_SECRET&quot;</span><span class="p">);</span>
+
+<span class="c1">// User client</span>
+<span class="kt">var</span> <span class="n">userClient</span> <span class="p">=</span> <span class="k">new</span> <span class="n">TwitterClient</span><span class="p">(</span><span class="s">&quot;CONSUMER_KEY&quot;</span><span class="p">,</span> <span class="s">&quot;CONSUMER_SECRET&quot;</span><span class="p">,</span> <span class="s">&quot;ACCESS_TOKEN&quot;</span><span class="p">,</span> <span class="s">&quot;ACCESS_TOKEN_SECRET&quot;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="users">
+<h2>Users<a class="headerlink" href="#users" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="c1">// Get the authenticated user</span>
+<span class="kt">var</span> <span class="n">authenticatedUser</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Users</span><span class="p">.</span><span class="n">GetAuthenticatedUser</span><span class="p">();</span>
+
+<span class="c1">// Get a specific user</span>
+<span class="kt">var</span> <span class="n">user</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Users</span><span class="p">.</span><span class="n">GetUser</span><span class="p">(</span><span class="s">&quot;tweetinviapi&quot;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="tweets">
+<h2>Tweets<a class="headerlink" href="#tweets" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="c1">// Publish a tweet</span>
+<span class="kt">var</span> <span class="n">publishedTweet</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Tweets</span><span class="p">.</span><span class="n">PublishTweet</span><span class="p">(</span><span class="s">&quot;Hello Tweetinvi!&quot;</span><span class="p">);</span>
+
+<span class="c1">// Get tweet by id</span>
+<span class="kt">var</span> <span class="n">tweet</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Tweets</span><span class="p">.</span><span class="n">GetTweet</span><span class="p">(</span><span class="n">publishedTweet</span><span class="p">.</span><span class="n">Id</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="timelines">
+<h2>Timelines<a class="headerlink" href="#timelines" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="c1">// Get the tweets available on the user&#39;s home page</span>
+<span class="kt">var</span> <span class="n">homeTimeline</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Timelines</span><span class="p">.</span><span class="n">GetHomeTimeline</span><span class="p">();</span>
+
+<span class="c1">// Get tweets from a specific user</span>
+<span class="kt">var</span> <span class="n">userTimeline</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Timelines</span><span class="p">.</span><span class="n">GetUserTimeline</span><span class="p">(</span><span class="s">&quot;tweetinviapi&quot;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="iterators">
+<h2>Iterators<a class="headerlink" href="#iterators" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><p>Tweetinvi offers a simple approach to paging endpoints. This is called iterator.</p>
+</div></blockquote>
+<p>Find an example below with the user timeline iterator.</p>
+<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="kt">var</span> <span class="n">userTimelineIterator</span> <span class="p">=</span> <span class="n">client</span><span class="p">.</span><span class="n">Timelines</span><span class="p">.</span><span class="n">GetUserTimelineIterator</span><span class="p">(</span><span class="k">new</span> <span class="n">GetUserTimelineParameters</span><span class="p">(</span><span class="s">&quot;tweetinviapi&quot;</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">PageSize</span> <span class="p">=</span> <span class="m">20</span>
+<span class="p">});</span>
+
+<span class="k">while</span> <span class="p">(!</span><span class="n">userTimelineIterator</span><span class="p">.</span><span class="n">Completed</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="kt">var</span> <span class="n">page</span> <span class="p">=</span> <span class="k">await</span> <span class="n">userTimelineIterator</span><span class="p">.</span><span class="n">MoveToNextPage</span><span class="p">();</span>
+    <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="s">&quot;Retrieved &quot;</span> <span class="p">+</span> <span class="n">page</span><span class="p">.</span><span class="n">Count</span><span class="p">()</span> <span class="p">+</span> <span class="s">&quot; tweets!&quot;</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="s">&quot;We have now retrieved all the tweets!&quot;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="search">
+<h2>Search<a class="headerlink" href="#search" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="c1">// Search tweets</span>
+<span class="kt">var</span> <span class="n">tweets</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Search</span><span class="p">.</span><span class="n">SearchTweets</span><span class="p">(</span><span class="s">&quot;hello&quot;</span><span class="p">);</span>
+
+<span class="c1">// Search users</span>
+<span class="kt">var</span> <span class="n">users</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Search</span><span class="p">.</span><span class="n">SearchUsers</span><span class="p">(</span><span class="s">&quot;tweetinviapi&quot;</span><span class="p">);</span>
+</pre></div>
+</div>
 </div>
 </div>
 

@@ -174,7 +174,7 @@
 <p>In this section we will create a simple console application that will print your username.</p>
 <div class="section" id="pre-requisites">
 <h2>Pre requisites<a class="headerlink" href="#pre-requisites" title="Permalink to this headline">¶</a></h2>
-<p>Before starting you need to have created an app on <a class="reference external" href="https://developer.twitter.com/en/apps">https://developer.twitter.com/en/apps</a>.<br />In the <code class="docutils literal notranslate"><span class="pre">Keys</span> <span class="pre">and</span> <span class="pre">tokens</span></code> section, create a pair of consumer and access keys.</p>
+<p>Before starting you will need a Twitter app and some credentials.<br /><a class="reference internal" href="credentials.html"><span class="doc">Follow these instructions</span></a> if you don’t already have some.</p>
 </div>
 <div class="section" id="create-a-new-project">
 <h2>Create a new project<a class="headerlink" href="#create-a-new-project" title="Permalink to this headline">¶</a></h2>
@@ -196,7 +196,6 @@ dotnet new console
 <div class="section" id="hello-twitter-world">
 <h2>Hello Twitter World!<a class="headerlink" href="#hello-twitter-world" title="Permalink to this headline">¶</a></h2>
 <p>Now we just need to modify the <code class="docutils literal notranslate"><span class="pre">Main</span></code> function of <code class="docutils literal notranslate"><span class="pre">Program.cs</span></code></p>
-<p>First we create a client with your user’s credentials (the ones from <a class="reference external" href="https://developer.twitter.com/en/apps">apps.twitter.com</a>).</p>
 <div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="k">static</span> <span class="k">async</span> <span class="n">Task</span> <span class="nf">Main</span><span class="p">(</span><span class="kt">string</span><span class="p">[]</span> <span class="n">args</span><span class="p">)</span>
 <span class="p">{</span>
     <span class="kt">var</span> <span class="n">client</span> <span class="p">=</span> <span class="k">new</span> <span class="n">TwitterClient</span><span class="p">(</span><span class="s">&quot;CONSUMER_KEY&quot;</span><span class="p">,</span> <span class="s">&quot;CONSUMER_SECRET&quot;</span><span class="p">,</span> <span class="s">&quot;ACCESS_TOKEN&quot;</span><span class="p">,</span> <span class="s">&quot;ACCESS_TOKEN_SECRET&quot;</span><span class="p">);</span>

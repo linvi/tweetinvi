@@ -13,6 +13,10 @@ Twitter offers 2 types of credentials:
 
 ## Create your first set of credentials
 
+<div class="warning">
+If you already have credentials skip this section
+</div>
+
 1. Create a new application on https://developer.twitter.com/en/apps/create
 2. Select the `Keys and Tokens` tab
 3. Click `Generate` next to the **Access token & access token secret**

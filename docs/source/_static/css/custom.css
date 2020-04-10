@@ -25,3 +25,7 @@ blockquote {
   padding: 0 1em;
   color: #5d646d;
 }
+
+.warning {
+  background-color: rgb(255, 253, 137);
+}

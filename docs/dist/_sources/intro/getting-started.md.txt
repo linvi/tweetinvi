@@ -4,8 +4,8 @@ In this section we will create a simple console application that will print your
 
 ## Pre requisites
 
-Before starting you need to have created an app on [https://developer.twitter.com/en/apps](https://developer.twitter.com/en/apps).  
-In the `Keys and tokens` section, create a pair of consumer and access keys.
+Before starting you will need a Twitter app and some credentials.\
+[Follow these instructions](./credentials) if you don't already have some.
 
 ## Create a new project
 
@@ -29,8 +29,6 @@ dotnet add package TweetinviAPI
 ## Hello Twitter World!
 
 Now we just need to modify the `Main` function of `Program.cs`
-
-First we create a client with your user's credentials (the ones from [apps.twitter.com](https://developer.twitter.com/en/apps)).
 
 ``` c#
 static async Task Main(string[] args)
