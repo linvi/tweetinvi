@@ -4,7 +4,7 @@ In this section we will create a simple console application that will print your
 
 ## Pre requisites
 
-Before starting you need to have created an app on https://developer.twitter.com/en/apps.
+Before starting you need to have created an app on [https://developer.twitter.com/en/apps](https://developer.twitter.com/en/apps).  
 In the `Keys and tokens` section, create a pair of consumer and access keys.
 
 ## Create a new project
@@ -45,7 +45,7 @@ var user = await client.Users.GetAuthenticatedUser();
 Console.WriteLine(user);
 ```
 
-#### Congratulation and welcome to the world of Tweetinvi!
+#### Congratulation you have finished this tutorial!
 
 <details>
 <summary>Program.cs</summary>

@@ -17,6 +17,10 @@ github:
 	@rm -rf ./dist
 	@cp -a _build/html/. ./dist
 
+commit:
+	@make github
+	@git add ./*
+
 livehtml:
 	sphinx-autobuild -b html $(ALLSPHINXOPTS) $(BUILDDIR)/html
 
