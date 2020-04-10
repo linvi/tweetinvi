@@ -37,7 +37,7 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Authentication" href="authentication.html" />
-    <link rel="prev" title="Welcome to Tweetinvi!" href="index.html" /> 
+    <link rel="prev" title="Tweetinvi 5.0" href="index.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -83,14 +83,15 @@
             
               <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Getting Started</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#installation">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#create-a-new-project">Create a new project</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#install-tweetinvi">Install Tweetinvi</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#hello-world">Hello World!</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="authentication.html">Authentication</a></li>
 <li class="toctree-l1"><a class="reference internal" href="4.0-to-5.0.html">Migrate from 4.0 to 5.0</a></li>
 <li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
-<li class="toctree-l1"><a class="reference internal" href="help.html">Need Help</a></li>
+<li class="toctree-l1"><a class="reference internal" href="help.html">Help and Feedback</a></li>
 </ul>
 
             
@@ -157,9 +158,21 @@
             
   <div class="section" id="getting-started">
 <h1>Getting Started<a class="headerlink" href="#getting-started" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="installation">
-<h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>Install-Package TweetinviAPI
+<p>In this section we will create a simple console application that will print your username.</p>
+<div class="section" id="create-a-new-project">
+<h2>Create a new project<a class="headerlink" href="#create-a-new-project" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="c1"># create a new directory for the hello world application</span>
+mkdir tweetinvi-hello-world <span class="o">&amp;&amp;</span> <span class="nb">cd</span> tweetinvi-hello-world
+
+<span class="c1"># initialize a console project</span>
+dotnet new console
+</pre></div>
+</div>
+</div>
+<div class="section" id="install-tweetinvi">
+<h2>Install Tweetinvi<a class="headerlink" href="#install-tweetinvi" title="Permalink to this headline">¶</a></h2>
+<p>Tweetinvi is available github and on <a class="reference external" href="https://www.nuget.org/packages/TweetinviAPI/">nuget</a>:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>dotnet add package TweetinviAPI
 </pre></div>
 </div>
 </div>
@@ -194,7 +207,7 @@
         <a href="authentication.html" class="btn btn-neutral float-right" title="Authentication" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="index.html" class="btn btn-neutral float-left" title="Welcome to Tweetinvi!" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="index.html" class="btn btn-neutral float-left" title="Tweetinvi 5.0" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

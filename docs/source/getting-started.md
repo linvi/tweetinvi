@@ -1,9 +1,23 @@
 # Getting Started
 
-## Installation
+In this section we will create a simple console application that will print your username.
+
+## Create a new project
 
 ``` sh
-Install-Package TweetinviAPI
+# create a new directory for the hello world application
+mkdir tweetinvi-hello-world && cd tweetinvi-hello-world
+
+# initialize a console project
+dotnet new console
+```
+
+## Install Tweetinvi
+
+Tweetinvi is available github and on [nuget](https://www.nuget.org/packages/TweetinviAPI/):
+
+``` sh
+dotnet add package TweetinviAPI
 ```
 
 ## Hello World!

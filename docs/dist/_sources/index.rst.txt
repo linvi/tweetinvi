@@ -1,18 +1,16 @@
-Welcome to Tweetinvi!
-=====================
+Tweetinvi 5.0
+=============
 
-Here is great content
-.::
+Tweetinvi is a .NET C# library to access the Twitter REST and STREAM APIs. 
+It is a .NETCore library that can be used for development on Windows, Xamarin Android and Xamarin iOS, Universal Apps...
 
-   print 'hello'
-   >> hello
+The goal of this library is to make life of developers as easy as possible.
 
-
-Guide
-^^^^^
+:doc:`Lets get started! <./getting-started>` 
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
+   :hidden:
 
    getting-started
    authentication
@@ -20,11 +18,3 @@ Guide
    license
    help
 
-
-
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`

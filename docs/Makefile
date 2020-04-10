@@ -14,6 +14,7 @@ help:
 
 github:
 	@make html 
+	@rm -rf ./dist
 	@cp -a _build/html/. ./dist
 
 livehtml:
