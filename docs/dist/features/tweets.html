@@ -91,12 +91,15 @@
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Tweets</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#create-read-delete">Create, Read, Delete</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#reply-to-a-tweet">Reply to a tweet</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#retweets">Retweets</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#replies">Replies</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#publish-with-media">Publish with Media</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#with-an-image">With an image</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#with-a-video">With a video</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="#favorites">Favorites</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#oembed-tweets">OEmbed Tweets</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="media.html">Media Upload</a></li>
@@ -183,7 +186,7 @@
 </pre></div>
 </div>
 <p>Tweets are not just text, here are <a class="reference external" href="https://developer.twitter.com/en/docs/tweets/post-and-engage/api-reference/post-statuses-update">various additional metadata</a> that you add to your tweets.</p>
-<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="kt">var</span> <span class="n">fullTweet</span> <span class="p">=</span> <span class="k">await</span> <span class="n">_protectedClient</span><span class="p">.</span><span class="n">Tweets</span><span class="p">.</span><span class="n">PublishTweet</span><span class="p">(</span><span class="k">new</span> <span class="n">PublishTweetParameters</span><span class="p">(</span><span class="s">&quot;A complex tweet from Tweetinvi&quot;</span><span class="p">)</span>
+<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="kt">var</span> <span class="n">fullTweet</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Tweets</span><span class="p">.</span><span class="n">PublishTweet</span><span class="p">(</span><span class="k">new</span> <span class="n">PublishTweetParameters</span><span class="p">(</span><span class="s">&quot;A complex tweet from Tweetinvi&quot;</span><span class="p">)</span>
 <span class="p">{</span>
     <span class="n">Coordinates</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Coordinates</span><span class="p">(</span><span class="m">37.7821120598956</span><span class="p">,</span> <span class="p">-</span><span class="m">122.400612831116</span><span class="p">),</span>
     <span class="n">DisplayExactCoordinates</span> <span class="p">=</span> <span class="k">true</span><span class="p">,</span>
@@ -194,11 +197,40 @@
 </pre></div>
 </div>
 </div>
-<div class="section" id="reply-to-a-tweet">
-<h2>Reply to a tweet<a class="headerlink" href="#reply-to-a-tweet" title="Permalink to this headline">¶</a></h2>
-<div class="warning">
-// TODO
-</div></div>
+<div class="section" id="retweets">
+<h2>Retweets<a class="headerlink" href="#retweets" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="c1">// publish a retweet</span>
+<span class="kt">var</span> <span class="n">retweet</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Tweets</span><span class="p">.</span><span class="n">PublishRetweet</span><span class="p">(</span><span class="n">tweet</span><span class="p">);</span>
+
+<span class="c1">// get retweeters</span>
+<span class="kt">var</span> <span class="n">retweeters</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Tweets</span><span class="p">.</span><span class="n">GetRetweeterIds</span><span class="p">();</span>
+<span class="c1">// or</span>
+<span class="kt">var</span> <span class="n">retweeterIdsIterator</span> <span class="p">=</span> <span class="n">client</span><span class="p">.</span><span class="n">Tweets</span><span class="p">.</span><span class="n">GetRetweeterIdsIterator</span><span class="p">(</span><span class="n">tweet</span><span class="p">);</span>
+<span class="k">while</span> <span class="p">(!</span><span class="n">retweeterIdsIterator</span><span class="p">.</span><span class="n">Completed</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="kt">var</span> <span class="n">retweeterIdsPage</span> <span class="p">=</span> <span class="k">await</span> <span class="n">retweeterIdsIterator</span><span class="p">.</span><span class="n">MoveToNextPage</span><span class="p">();</span>
+<span class="p">}</span>
+
+<span class="c1">// destroy the retweet</span>
+<span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Tweets</span><span class="p">.</span><span class="n">DestroyRetweet</span><span class="p">(</span><span class="n">retweet</span><span class="p">);</span>
+<span class="c1">// or </span>
+<span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Tweets</span><span class="p">.</span><span class="n">DestroyRetweet</span><span class="p">(</span><span class="n">retweet</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="replies">
+<h2>Replies<a class="headerlink" href="#replies" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="c1">// reply to a tweet</span>
+<span class="kt">var</span> <span class="n">reply</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Tweets</span><span class="p">.</span><span class="n">PublishTweet</span><span class="p">(</span><span class="k">new</span> <span class="n">PublishTweetParameters</span><span class="p">(</span><span class="s">&quot;here is a great reply&quot;</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">InReplyToTweet</span> <span class="p">=</span> <span class="n">tweet</span>
+<span class="p">});</span>
+
+<span class="c1">// remove the same way as you would delete a tweet</span>
+<span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Tweets</span><span class="p">.</span><span class="n">DestroyTweet</span><span class="p">(</span><span class="n">reply</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
 <div class="section" id="publish-with-media">
 <h2>Publish with Media<a class="headerlink" href="#publish-with-media" title="Permalink to this headline">¶</a></h2>
 <p>You can attach images, gif and videos that you uploaded to your tweets.</p>
@@ -219,15 +251,40 @@
 <h3>With a video<a class="headerlink" href="#with-a-video" title="Permalink to this headline">¶</a></h3>
 <div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="kt">var</span> <span class="n">videoBinary</span> <span class="p">=</span> <span class="n">File</span><span class="p">.</span><span class="n">ReadAllBytes</span><span class="p">(</span><span class="s">&quot;./video.mp4&quot;</span><span class="p">);</span>
 
-<span class="kt">var</span> <span class="n">uploadedVideo</span> <span class="p">=</span> <span class="k">await</span> <span class="n">_protectedClient</span><span class="p">.</span><span class="n">Upload</span><span class="p">.</span><span class="n">UploadVideo</span><span class="p">(</span><span class="n">tweetinviLogoBinary</span><span class="p">);</span>
-<span class="k">await</span> <span class="n">_protectedClient</span><span class="p">.</span><span class="n">Upload</span><span class="p">.</span><span class="n">WaitForMediaProcessingToGetAllMetadata</span><span class="p">(</span><span class="n">uploadedVideo</span><span class="p">);</span>
+<span class="kt">var</span> <span class="n">uploadedVideo</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Upload</span><span class="p">.</span><span class="n">UploadVideo</span><span class="p">(</span><span class="n">tweetinviLogoBinary</span><span class="p">);</span>
+<span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Upload</span><span class="p">.</span><span class="n">WaitForMediaProcessingToGetAllMetadata</span><span class="p">(</span><span class="n">uploadedVideo</span><span class="p">);</span>
 
-<span class="kt">var</span> <span class="n">tweetWithVideo</span> <span class="p">=</span> <span class="k">await</span> <span class="n">_protectedClient</span><span class="p">.</span><span class="n">Tweets</span><span class="p">.</span><span class="n">PublishTweet</span><span class="p">(</span><span class="k">new</span> <span class="n">PublishTweetParameters</span><span class="p">(</span><span class="s">&quot;tweet with media&quot;</span><span class="p">)</span>
+<span class="kt">var</span> <span class="n">tweetWithVideo</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Tweets</span><span class="p">.</span><span class="n">PublishTweet</span><span class="p">(</span><span class="k">new</span> <span class="n">PublishTweetParameters</span><span class="p">(</span><span class="s">&quot;tweet with media&quot;</span><span class="p">)</span>
 <span class="p">{</span>
     <span class="n">Medias</span> <span class="p">=</span> <span class="p">{</span> <span class="n">uploadedVideo</span> <span class="p">}</span>
 <span class="p">});</span>
 </pre></div>
 </div>
+</div>
+</div>
+<div class="section" id="favorites">
+<h2>Favorites<a class="headerlink" href="#favorites" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="c1">// favorite</span>
+<span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Tweets</span><span class="p">.</span><span class="n">FavoriteTweet</span><span class="p">(</span><span class="n">tweet</span><span class="p">);</span>
+<span class="c1">// remove</span>
+<span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Tweets</span><span class="p">.</span><span class="n">UnfavoriteTweet</span><span class="p">(</span><span class="n">tweet</span><span class="p">);</span>
+
+<span class="c1">// get user favourites</span>
+<span class="kt">var</span> <span class="n">favouritedTweets</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Tweets</span><span class="p">.</span><span class="n">GetUserFavoriteTweets</span><span class="p">(</span><span class="s">&quot;tweetinviapi&quot;</span><span class="p">);</span>
+<span class="c1">// or</span>
+<span class="kt">var</span> <span class="n">favoriteTweetsIterator</span> <span class="p">=</span> <span class="n">client</span><span class="p">.</span><span class="n">Tweets</span><span class="p">.</span><span class="n">GetUserFavoriteTweetsIterator</span><span class="p">(</span><span class="s">&quot;tweetinviapi&quot;</span><span class="p">);</span>
+<span class="k">while</span> <span class="p">(!</span><span class="n">favoriteTweetsIterator</span><span class="p">.</span><span class="n">Completed</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="kt">var</span> <span class="n">favoritesPage</span> <span class="p">=</span> <span class="k">await</span> <span class="n">favoriteTweetsIterator</span><span class="p">.</span><span class="n">MoveToNextPage</span><span class="p">();</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="oembed-tweets">
+<h2>OEmbed Tweets<a class="headerlink" href="#oembed-tweets" title="Permalink to this headline">¶</a></h2>
+<p>You can generate oembed tweets from Tweetinvi. If you want to learn more please read <a class="reference external" href="https://developer.twitter.com/en/docs/tweets/post-and-engage/api-reference/get-statuses-oembed">Twitter documentation</a>.</p>
+<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="kt">var</span> <span class="n">oEmbedTweet</span> <span class="p">=</span> <span class="k">await</span> <span class="n">_tweetinviTestClient</span><span class="p">.</span><span class="n">Tweets</span><span class="p">.</span><span class="n">GetOEmbedTweet</span><span class="p">(</span><span class="n">tweet</span><span class="p">);</span>
+</pre></div>
 </div>
 </div>
 </div>

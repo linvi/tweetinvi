@@ -1,5 +1,6 @@
 .wy-nav-content {
   max-width: 1050px !important;
+  min-height: 100vh;
 }
 
 details {

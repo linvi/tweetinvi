@@ -11,7 +11,7 @@ await client.Tweets.DestroyTweet(tweet);
 Tweets are not just text, here are [various additional metadata](https://developer.twitter.com/en/docs/tweets/post-and-engage/api-reference/post-statuses-update) that you add to your tweets.
 
 ``` c#
-var fullTweet = await _protectedClient.Tweets.PublishTweet(new PublishTweetParameters("A complex tweet from Tweetinvi")
+var fullTweet = await client.Tweets.PublishTweet(new PublishTweetParameters("A complex tweet from Tweetinvi")
 {
     Coordinates = new Coordinates(37.7821120598956, -122.400612831116),
     DisplayExactCoordinates = true,
@@ -21,11 +21,39 @@ var fullTweet = await _protectedClient.Tweets.PublishTweet(new PublishTweetParam
 });
 ```
 
-## Reply to a tweet
+## Retweets
 
-<div class="warning">
-// TODO
-</div>
+``` c#
+// publish a retweet
+var retweet = await client.Tweets.PublishRetweet(tweet);
+
+// get retweeters
+var retweeters = await client.Tweets.GetRetweeterIds();
+// or
+var retweeterIdsIterator = client.Tweets.GetRetweeterIdsIterator(tweet);
+while (!retweeterIdsIterator.Completed)
+{
+    var retweeterIdsPage = await retweeterIdsIterator.MoveToNextPage();
+}
+
+// destroy the retweet
+await client.Tweets.DestroyRetweet(retweet);
+// or 
+await client.Tweets.DestroyRetweet(retweet);
+```
+
+## Replies
+
+``` c#
+// reply to a tweet
+var reply = await client.Tweets.PublishTweet(new PublishTweetParameters("here is a great reply")
+{
+    InReplyToTweet = tweet
+});
+
+// remove the same way as you would delete a tweet
+await client.Tweets.DestroyTweet(reply);
+```
 
 ## Publish with Media
 
@@ -48,11 +76,37 @@ var tweetWithImage = await client.Tweets.PublishTweet(new PublishTweetParameters
 ``` c#
 var videoBinary = File.ReadAllBytes("./video.mp4");
 
-var uploadedVideo = await _protectedClient.Upload.UploadVideo(tweetinviLogoBinary);
-await _protectedClient.Upload.WaitForMediaProcessingToGetAllMetadata(uploadedVideo);
+var uploadedVideo = await client.Upload.UploadVideo(tweetinviLogoBinary);
+await client.Upload.WaitForMediaProcessingToGetAllMetadata(uploadedVideo);
 
-var tweetWithVideo = await _protectedClient.Tweets.PublishTweet(new PublishTweetParameters("tweet with media")
+var tweetWithVideo = await client.Tweets.PublishTweet(new PublishTweetParameters("tweet with media")
 {
     Medias = { uploadedVideo }
 });
+```
+
+## Favorites
+
+``` c#
+// favorite
+await client.Tweets.FavoriteTweet(tweet);
+// remove
+await client.Tweets.UnfavoriteTweet(tweet);
+
+// get user favourites
+var favouritedTweets = await client.Tweets.GetUserFavoriteTweets("tweetinviapi");
+// or
+var favoriteTweetsIterator = client.Tweets.GetUserFavoriteTweetsIterator("tweetinviapi");
+while (!favoriteTweetsIterator.Completed)
+{
+    var favoritesPage = await favoriteTweetsIterator.MoveToNextPage();
+}
+```
+
+## OEmbed Tweets
+
+You can generate oembed tweets from Tweetinvi. If you want to learn more please read [Twitter documentation](https://developer.twitter.com/en/docs/tweets/post-and-engage/api-reference/get-statuses-oembed).
+
+``` c#
+var oEmbedTweet = await _tweetinviTestClient.Tweets.GetOEmbedTweet(tweet);
 ```
