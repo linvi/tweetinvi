@@ -22,6 +22,8 @@ The goal of this library is to make life of developers as easy as possible.
    :hidden:
    :caption: Features
 
+   features/tweets
+   features/media
    features/authentication
    features/authentication-url-redirect
    features/authentication-pin-code

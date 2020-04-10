@@ -1,0 +1,284 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Tweets &mdash; Tweetinvi 5.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/custom.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Media Upload" href="media.html" />
+    <link rel="prev" title="Basic Concepts" href="../intro/basic-concepts.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Tweetinvi
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">First steps</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../intro/getting-started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../intro/credentials.html">Credentials in Twitter</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../intro/basic-concepts.html">Basic Concepts</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Features</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Tweets</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#create-read-delete">Create, Read, Delete</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#reply-to-a-tweet">Reply to a tweet</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#publish-with-media">Publish with Media</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#with-an-image">With an image</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#with-a-video">With a video</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="media.html">Media Upload</a></li>
+<li class="toctree-l1"><a class="reference internal" href="authentication.html">Authentication</a></li>
+<li class="toctree-l1"><a class="reference internal" href="authentication-url-redirect.html">Authentication - URL Redirect</a></li>
+<li class="toctree-l1"><a class="reference internal" href="authentication-pin-code.html">Authentication - PIN based</a></li>
+</ul>
+<p class="caption"><span class="caption-text">More</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../4.0-to-5.0.html">Migrate from 4.0 to 5.0</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../license.html">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../help.html">Help and Feedback</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Tweetinvi</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+      <li>Tweets</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/features/tweets.md.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="tweets">
+<h1>Tweets<a class="headerlink" href="#tweets" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="create-read-delete">
+<h2>Create, Read, Delete<a class="headerlink" href="#create-read-delete" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="kt">var</span> <span class="n">tweet</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Tweets</span><span class="p">.</span><span class="n">PublishTweet</span><span class="p">(</span><span class="s">&quot;My first tweet with Tweetinvi!&quot;</span><span class="p">);</span>
+<span class="kt">var</span> <span class="n">publishedTweet</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Tweets</span><span class="p">.</span><span class="n">GetTweet</span><span class="p">(</span><span class="n">tweet</span><span class="p">.</span><span class="n">Id</span><span class="p">);</span>
+<span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Tweets</span><span class="p">.</span><span class="n">DestroyTweet</span><span class="p">(</span><span class="n">tweet</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>Tweets are not just text, here are <a class="reference external" href="https://developer.twitter.com/en/docs/tweets/post-and-engage/api-reference/post-statuses-update">various additional metadata</a> that you add to your tweets.</p>
+<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="kt">var</span> <span class="n">fullTweet</span> <span class="p">=</span> <span class="k">await</span> <span class="n">_protectedClient</span><span class="p">.</span><span class="n">Tweets</span><span class="p">.</span><span class="n">PublishTweet</span><span class="p">(</span><span class="k">new</span> <span class="n">PublishTweetParameters</span><span class="p">(</span><span class="s">&quot;A complex tweet from Tweetinvi&quot;</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">Coordinates</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Coordinates</span><span class="p">(</span><span class="m">37.7821120598956</span><span class="p">,</span> <span class="p">-</span><span class="m">122.400612831116</span><span class="p">),</span>
+    <span class="n">DisplayExactCoordinates</span> <span class="p">=</span> <span class="k">true</span><span class="p">,</span>
+    <span class="n">TrimUser</span> <span class="p">=</span> <span class="k">true</span><span class="p">,</span>
+    <span class="n">PlaceId</span> <span class="p">=</span> <span class="s">&quot;3e8542a1e9f82870&quot;</span><span class="p">,</span>
+    <span class="n">PossiblySensitive</span> <span class="p">=</span> <span class="k">true</span><span class="p">,</span>
+<span class="p">});</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="reply-to-a-tweet">
+<h2>Reply to a tweet<a class="headerlink" href="#reply-to-a-tweet" title="Permalink to this headline">¶</a></h2>
+<div class="warning">
+// TODO
+</div></div>
+<div class="section" id="publish-with-media">
+<h2>Publish with Media<a class="headerlink" href="#publish-with-media" title="Permalink to this headline">¶</a></h2>
+<p>You can attach images, gif and videos that you uploaded to your tweets.</p>
+<blockquote>
+<div><p><a class="reference internal" href="media.html"><span class="doc">Learn more on media upload</span></a></p>
+</div></blockquote>
+<div class="section" id="with-an-image">
+<h3>With an image<a class="headerlink" href="#with-an-image" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="kt">var</span> <span class="n">tweetinviLogoBinary</span> <span class="p">=</span> <span class="n">File</span><span class="p">.</span><span class="n">ReadAllBytes</span><span class="p">(</span><span class="s">&quot;./tweetinvi-logo-purple.png&quot;</span><span class="p">);</span>
+<span class="kt">var</span> <span class="n">tweetWithImage</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Tweets</span><span class="p">.</span><span class="n">PublishTweet</span><span class="p">(</span><span class="k">new</span> <span class="n">PublishTweetParameters</span><span class="p">(</span><span class="s">&quot;Tweet with an image&quot;</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">MediaBinaries</span> <span class="p">=</span> <span class="p">{</span> <span class="n">tweetinviLogoBinary</span> <span class="p">}</span>
+<span class="p">});</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="with-a-video">
+<h3>With a video<a class="headerlink" href="#with-a-video" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="kt">var</span> <span class="n">videoBinary</span> <span class="p">=</span> <span class="n">File</span><span class="p">.</span><span class="n">ReadAllBytes</span><span class="p">(</span><span class="s">&quot;./video.mp4&quot;</span><span class="p">);</span>
+
+<span class="kt">var</span> <span class="n">uploadedVideo</span> <span class="p">=</span> <span class="k">await</span> <span class="n">_protectedClient</span><span class="p">.</span><span class="n">Upload</span><span class="p">.</span><span class="n">UploadVideo</span><span class="p">(</span><span class="n">tweetinviLogoBinary</span><span class="p">);</span>
+<span class="k">await</span> <span class="n">_protectedClient</span><span class="p">.</span><span class="n">Upload</span><span class="p">.</span><span class="n">WaitForMediaProcessingToGetAllMetadata</span><span class="p">(</span><span class="n">uploadedVideo</span><span class="p">);</span>
+
+<span class="kt">var</span> <span class="n">tweetWithVideo</span> <span class="p">=</span> <span class="k">await</span> <span class="n">_protectedClient</span><span class="p">.</span><span class="n">Tweets</span><span class="p">.</span><span class="n">PublishTweet</span><span class="p">(</span><span class="k">new</span> <span class="n">PublishTweetParameters</span><span class="p">(</span><span class="s">&quot;tweet with media&quot;</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">Medias</span> <span class="p">=</span> <span class="p">{</span> <span class="n">uploadedVideo</span> <span class="p">}</span>
+<span class="p">});</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="media.html" class="btn btn-neutral float-right" title="Media Upload" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="../intro/basic-concepts.html" class="btn btn-neutral float-left" title="Basic Concepts" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2020, linvi
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

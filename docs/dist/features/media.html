@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Credentials in Twitter &mdash; Tweetinvi 5.0 documentation</title>
+  <title>Media Upload &mdash; Tweetinvi 5.0 documentation</title>
   
 
   
@@ -36,8 +36,8 @@
   <link rel="stylesheet" href="../_static/css/custom.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Basic Concepts" href="basic-concepts.html" />
-    <link rel="prev" title="Getting Started" href="getting-started.html" /> 
+    <link rel="next" title="Authentication" href="authentication.html" />
+    <link rel="prev" title="Tweets" href="tweets.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -82,21 +82,18 @@
             
             
               <p class="caption"><span class="caption-text">First steps</span></p>
-<ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="getting-started.html">Getting Started</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Credentials in Twitter</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#create-your-first-set-of-credentials">Create your first set of credentials</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="basic-concepts.html">Basic Concepts</a></li>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../intro/getting-started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../intro/credentials.html">Credentials in Twitter</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../intro/basic-concepts.html">Basic Concepts</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Features</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="../features/tweets.html">Tweets</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../features/media.html">Media Upload</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../features/authentication.html">Authentication</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../features/authentication-url-redirect.html">Authentication - URL Redirect</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../features/authentication-pin-code.html">Authentication - PIN based</a></li>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="tweets.html">Tweets</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Media Upload</a></li>
+<li class="toctree-l1"><a class="reference internal" href="authentication.html">Authentication</a></li>
+<li class="toctree-l1"><a class="reference internal" href="authentication-url-redirect.html">Authentication - URL Redirect</a></li>
+<li class="toctree-l1"><a class="reference internal" href="authentication-pin-code.html">Authentication - PIN based</a></li>
 </ul>
 <p class="caption"><span class="caption-text">More</span></p>
 <ul>
@@ -148,13 +145,13 @@
     
       <li><a href="../index.html">Docs</a> &raquo;</li>
         
-      <li>Credentials in Twitter</li>
+      <li>Media Upload</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="../_sources/intro/credentials.md.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/features/media.md.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -167,37 +164,8 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="credentials-in-twitter">
-<h1>Credentials in Twitter<a class="headerlink" href="#credentials-in-twitter" title="Permalink to this headline">¶</a></h1>
-<p>Twitter offers 2 types of credentials:</p>
-<ul class="simple">
-<li><p><strong>Application Credentials</strong> that let you perform operations from an application perspective. It consists of:</p>
-<ul>
-<li><p><code class="docutils literal notranslate"><span class="pre">Required</span></code> CONSUMER_KEY</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">Required</span></code> CONSUMER_SECRET</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">Optional</span></code> BEARER_TOKEN (learn more <a class="reference external" href="https://developer.twitter.com/en/docs/basics/authentication/oauth-2-0">here</a>)</p></li>
-</ul>
-</li>
-<li><p><strong>User Credentials</strong> that let you perform operations from a user perspective. It consists of:</p>
-<ul>
-<li><p><code class="docutils literal notranslate"><span class="pre">Required</span></code> Application Credentials (without bearer token)</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">Required</span></code> ACCESS_TOKEN</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">Required</span></code> ACCESS_TOKEN_SECRET</p></li>
-</ul>
-</li>
-</ul>
-<div class="section" id="create-your-first-set-of-credentials">
-<h2>Create your first set of credentials<a class="headerlink" href="#create-your-first-set-of-credentials" title="Permalink to this headline">¶</a></h2>
-<div class="warning">
-If you already have credentials skip this section
-</div><ol class="simple">
-<li><p>Create a new application on https://developer.twitter.com/en/apps/create</p></li>
-<li><p>Select the <code class="docutils literal notranslate"><span class="pre">Keys</span> <span class="pre">and</span> <span class="pre">Tokens</span></code> tab</p></li>
-<li><p>Click <code class="docutils literal notranslate"><span class="pre">Generate</span></code> next to the <strong>Access token &amp; access token secret</strong></p></li>
-<li><p>Now you can find your application credentials as well as the additional credentials for authenticating as a user.</p></li>
-</ol>
-<div style="max-width:700px;"><p><img alt="../_images/credentials-twitter-page.png" src="../_images/credentials-twitter-page.png" /></p>
-</div></div>
+  <div class="section" id="media-upload">
+<h1>Media Upload<a class="headerlink" href="#media-upload" title="Permalink to this headline">¶</a></h1>
 </div>
 
 
@@ -208,10 +176,10 @@ If you already have credentials skip this section
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="basic-concepts.html" class="btn btn-neutral float-right" title="Basic Concepts" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="authentication.html" class="btn btn-neutral float-right" title="Authentication" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="getting-started.html" class="btn btn-neutral float-left" title="Getting Started" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="tweets.html" class="btn btn-neutral float-left" title="Tweets" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
