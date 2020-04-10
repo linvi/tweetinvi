@@ -18,3 +18,10 @@ details summary {
   -webkit-user-select: none;
   -moz-user-select: none;
 }
+
+blockquote {
+  margin-left: 0 !important;
+  border-left: .25em solid #dfe2e5;
+  padding: 0 1em;
+  color: #5d646d;
+}

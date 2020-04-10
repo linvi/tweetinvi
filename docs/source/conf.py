@@ -68,5 +68,5 @@ html_css_files = [
 def env_get_outdated(app, env, added, changed, removed):
     return ['index']
 
-def setup(app):
-    app.connect('env-get-outdated', env_get_outdated)
+# def setup(app):
+    # app.connect('env-get-outdated', env_get_outdated)

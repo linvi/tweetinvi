@@ -6,14 +6,29 @@ It is a .NETCore library that can be used for development on Windows, Xamarin An
 
 The goal of this library is to make life of developers as easy as possible.
 
-:doc:`Lets get started! <./getting-started>` 
+:doc:`Lets get started! <./intro/getting-started>` 
 
 .. toctree::
    :maxdepth: 1
    :hidden:
+   :caption: First steps
 
-   getting-started
+   intro/getting-started
+   intro/credentials
+   intro/basic-concepts
+
+.. toctree::
+   :maxdepth: 1
+   :hidden:
+   :caption: Authentication
+
    authentication
+
+.. toctree::
+   :maxdepth: 1
+   :hidden:
+   :caption: More
+
    4.0-to-5.0
    license
    help
