@@ -34,17 +34,16 @@ namespace Tweetinvi.Auth
         Task RemoveAuthenticationToken(string authenticationRequestId);
     }
 
-    // ReSharper disable once ClassWithVirtualMembersNeverInherited.Global
-    public class AuthenticationRequestStore : IAuthenticationRequestStore
+    public class LocalAuthenticationRequestStore : IAuthenticationRequestStore
     {
         private readonly ConcurrentDictionary<string, IAuthenticationRequest> _store;
 
-        public AuthenticationRequestStore()
+        public LocalAuthenticationRequestStore()
         {
             _store = new ConcurrentDictionary<string, IAuthenticationRequest>();
         }
 
-        public virtual string CallbackTokenIdParameterName { get; } = "tweetinvi_auth_request_id";
+        private string CallbackTokenIdParameterName { get; } = "tweetinvi_auth_request_id";
 
         public virtual string ExtractAuthenticationRequestIdFromCallbackUrl(string callbackUrl)
         {

@@ -14,7 +14,7 @@ namespace Examplinvi.ASP.NET.Core.Controllers
         /// <summary>
         /// NOTE PLEASE CHANGE THE IMPLEMENTATION OF IAuthenticationTokenProvider to match your needs
         /// </summary>
-        private static readonly IAuthenticationRequestStore _myAuthRequestStore = new AuthenticationRequestStore();
+        private static readonly IAuthenticationRequestStore _myAuthRequestStore = new LocalAuthenticationRequestStore();
 
         public IActionResult Index()
         {
@@ -37,7 +37,8 @@ namespace Examplinvi.ASP.NET.Core.Controllers
             var appClient = GetAppClient();
 
             var authRequestId = Guid.NewGuid().ToString();
-            var redirectURL = _myAuthRequestStore.AppendAuthenticationRequestIdToCallbackUrl($"https://{Request.Host.Value}/Home/ValidateTwitterAuth", authRequestId);
+            var redirectPath = $"{Request.Scheme}://{Request.Host.Value}/Home/ValidateTwitterAuth";
+            var redirectURL = _myAuthRequestStore.AppendAuthenticationRequestIdToCallbackUrl(redirectPath, authRequestId);
             var authenticationRequestToken = await appClient.Auth.RequestAuthenticationUrl(redirectURL);
             await _myAuthRequestStore.AddAuthenticationToken(authRequestId, authenticationRequestToken);
 
