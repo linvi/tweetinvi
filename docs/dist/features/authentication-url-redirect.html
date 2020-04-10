@@ -1,0 +1,291 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Authentication - URL Redirect &mdash; Tweetinvi 5.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/custom.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Authentication - PIN based" href="authentication-pin-code.html" />
+    <link rel="prev" title="Authentication" href="authentication.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Tweetinvi
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">First steps</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../intro/getting-started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../intro/credentials.html">Credentials in Twitter</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../intro/basic-concepts.html">Basic Concepts</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Features</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="authentication.html">Authentication</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Authentication - URL Redirect</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#the-flow">The flow</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#pre-requisites">Pre-requisites</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#authenticate-with-tweetinvi">Authenticate with Tweetinvi</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="authentication-pin-code.html">Authentication - PIN based</a></li>
+</ul>
+<p class="caption"><span class="caption-text">More</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../4.0-to-5.0.html">Migrate from 4.0 to 5.0</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../license.html">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../help.html">Help and Feedback</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Tweetinvi</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+      <li>Authentication - URL Redirect</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/features/authentication-url-redirect.md.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="authentication-url-redirect">
+<h1>Authentication - URL Redirect<a class="headerlink" href="#authentication-url-redirect" title="Permalink to this headline">¶</a></h1>
+<p><strong>URL redirect authentication</strong> is better suited for Web Application.<br />If you are writing a desktop application I suggest that you use the <a class="reference internal" href="authentication-pin-code.html"><span class="doc">PIN based authentication</span></a>.</p>
+<div class="section" id="the-flow">
+<h2>The flow<a class="headerlink" href="#the-flow" title="Permalink to this headline">¶</a></h2>
+<p>The Redirect URL authentication process requires some additional considerations if you use multiple servers.</p>
+<ol class="simple">
+<li><p>Request Twitter to provide a unique authentication URL and an associated request token.</p></li>
+<li><p>Request the user to navigate to this url (or redirect the user to this url).</p></li>
+<li><p>Twitter will ask the user to authenticate and authorize the app.</p></li>
+<li><p>If the user accepts, Twitter will redirect the user to your website with some authentication information as query parameters.</p></li>
+<li><p>Using these query parameters and the request token we can finally generate the credentials.</p></li>
+</ol>
+</div>
+<div class="section" id="pre-requisites">
+<h2>Pre-requisites<a class="headerlink" href="#pre-requisites" title="Permalink to this headline">¶</a></h2>
+<p>To use url redirection, you will need to allow your app to redirect to your hosted website.</p>
+<ul class="simple">
+<li><p>Go to you app at https://developer.twitter.com/en/apps/</p></li>
+<li><p>In the <code class="docutils literal notranslate"><span class="pre">App</span> <span class="pre">Details</span></code> tab, click <code class="docutils literal notranslate"><span class="pre">Edit</span></code></p></li>
+<li><p>Under <code class="docutils literal notranslate"><span class="pre">Callback</span> <span class="pre">URLs</span></code> add your url redirection -&gt; <code class="docutils literal notranslate"><span class="pre">http://localhost:8042/Home/ValidateTwitterAuth</span></code></p></li>
+</ul>
+</div>
+<div class="section" id="authenticate-with-tweetinvi">
+<h2>Authenticate with Tweetinvi<a class="headerlink" href="#authenticate-with-tweetinvi" title="Permalink to this headline">¶</a></h2>
+<p>The following example is for ASP.NETCore developers using MVC. We will separate the process in 2 routes:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">TwitterAuth</span></code> to initialize the authentication process.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ValidateTwitterAuth</span></code> a url that the user will be redirected to after having approved the application.</p></li>
+</ul>
+<p>During the <code class="docutils literal notranslate"><span class="pre">TwitterAuth</span></code> authentication initialization, Twitter will send us a token. This token will need to be used after the redirection.<br />We will need to store this token so that we can access these information from the <code class="docutils literal notranslate"><span class="pre">ValidateTwitterAuth</span></code>.<br />The <code class="docutils literal notranslate"><span class="pre">IAuthenticationRequestStore</span></code> interface provide a simple way of storing and accessing these information.\</p>
+<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="k">private</span> <span class="k">static</span> <span class="k">readonly</span> <span class="n">IAuthenticationRequestStore</span> <span class="n">_myAuthRequestStore</span> <span class="p">=</span> <span class="k">new</span> <span class="n">LocalAuthenticationRequestStore</span><span class="p">();</span>
+
+<span class="k">public</span> <span class="k">async</span> <span class="n">Task</span><span class="p">&lt;</span><span class="n">ActionResult</span><span class="p">&gt;</span> <span class="n">TwitterAuth</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="kt">var</span> <span class="n">appClient</span> <span class="p">=</span> <span class="k">new</span> <span class="n">TwitterClient</span><span class="p">(</span><span class="s">&quot;CONSUMER_KEY&quot;</span><span class="p">,</span> <span class="s">&quot;CONSUMER_SECRET&quot;</span><span class="p">);</span>
+    <span class="kt">var</span> <span class="n">authenticationRequestId</span> <span class="p">=</span> <span class="n">Guid</span><span class="p">.</span><span class="n">NewGuid</span><span class="p">().</span><span class="n">ToString</span><span class="p">();</span>
+    <span class="kt">var</span> <span class="n">redirectPath</span> <span class="p">=</span> <span class="n">Request</span><span class="p">.</span><span class="n">Scheme</span> <span class="p">+</span> <span class="s">&quot;://&quot;</span> <span class="p">+</span> <span class="n">Request</span><span class="p">.</span><span class="n">Host</span><span class="p">.</span><span class="n">Value</span> <span class="p">+</span> <span class="s">&quot;/Home/ValidateTwitterAuth&quot;</span><span class="p">;</span>
+
+    <span class="c1">// Add the user identifier as a query parameters that will be received by `ValidateTwitterAuth`</span>
+    <span class="kt">var</span> <span class="n">redirectURL</span> <span class="p">=</span> <span class="n">_myAuthRequestStore</span><span class="p">.</span><span class="n">AppendAuthenticationRequestIdToCallbackUrl</span><span class="p">(</span><span class="n">redirectPath</span><span class="p">,</span> <span class="n">authenticationRequestId</span><span class="p">);</span>
+    <span class="c1">// Initialize the authentication process</span>
+    <span class="kt">var</span> <span class="n">authenticationRequestToken</span> <span class="p">=</span> <span class="k">await</span> <span class="n">appClient</span><span class="p">.</span><span class="n">Auth</span><span class="p">.</span><span class="n">RequestAuthenticationUrl</span><span class="p">(</span><span class="n">redirectURL</span><span class="p">);</span>
+    <span class="c1">// Store the token information in the store</span>
+    <span class="k">await</span> <span class="n">_myAuthRequestStore</span><span class="p">.</span><span class="n">AddAuthenticationToken</span><span class="p">(</span><span class="n">authenticationRequestId</span><span class="p">,</span> <span class="n">authenticationRequestToken</span><span class="p">);</span>
+
+    <span class="c1">// Redirect the user to Twitter</span>
+    <span class="k">return</span> <span class="k">new</span> <span class="nf">RedirectResult</span><span class="p">(</span><span class="n">authenticationRequestToken</span><span class="p">.</span><span class="n">AuthorizationURL</span><span class="p">);</span>
+<span class="p">}</span>
+
+ <span class="k">public</span> <span class="k">async</span> <span class="n">Task</span><span class="p">&lt;</span><span class="n">ActionResult</span><span class="p">&gt;</span> <span class="n">ValidateTwitterAuth</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="kt">var</span> <span class="n">appClient</span> <span class="p">=</span> <span class="k">new</span> <span class="n">TwitterClient</span><span class="p">(</span><span class="s">&quot;CONSUMER_KEY&quot;</span><span class="p">,</span> <span class="s">&quot;CONSUMER_SECRET&quot;</span><span class="p">);</span>
+    
+    <span class="c1">// Extract the information from the redirection url</span>
+    <span class="kt">var</span> <span class="n">requestParameters</span> <span class="p">=</span> <span class="k">await</span> <span class="n">RequestCredentialsParameters</span><span class="p">.</span><span class="n">FromCallbackUrl</span><span class="p">(</span><span class="n">Request</span><span class="p">.</span><span class="n">QueryString</span><span class="p">.</span><span class="n">Value</span><span class="p">,</span> <span class="n">_myAuthRequestStore</span><span class="p">);</span>
+    <span class="c1">// Request Twitter to generate the credentials.</span>
+    <span class="kt">var</span> <span class="n">userCreds</span> <span class="p">=</span> <span class="k">await</span> <span class="n">appClient</span><span class="p">.</span><span class="n">Auth</span><span class="p">.</span><span class="n">RequestCredentials</span><span class="p">(</span><span class="n">requestParameters</span><span class="p">);</span>
+
+    <span class="c1">// Congratulations the user is now authenticated!</span>
+    <span class="kt">var</span> <span class="n">userClient</span> <span class="p">=</span> <span class="k">new</span> <span class="n">TwitterClient</span><span class="p">(</span><span class="n">userCreds</span><span class="p">);</span>
+    <span class="kt">var</span> <span class="n">user</span> <span class="p">=</span> <span class="k">await</span> <span class="n">userClient</span><span class="p">.</span><span class="n">Users</span><span class="p">.</span><span class="n">GetAuthenticatedUser</span><span class="p">();</span>
+
+    <span class="n">ViewBag</span><span class="p">.</span><span class="n">User</span> <span class="p">=</span> <span class="n">user</span><span class="p">;</span>
+
+    <span class="k">return</span> <span class="nf">View</span><span class="p">();</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="authentication-pin-code.html" class="btn btn-neutral float-right" title="Authentication - PIN based" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="authentication.html" class="btn btn-neutral float-left" title="Authentication" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2020, linvi
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

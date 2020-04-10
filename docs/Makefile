@@ -13,9 +13,9 @@ help:
 	@$(SPHINXBUILD) -M help "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O)
 
 github:
-	@make html 
-	@rm -rf ./dist
-	@cp -a _build/html/. ./dist
+	@rm -rf ./dist ./_build
+	@make html
+	@cp -a _build/html/ ./dist
 
 commit:
 	@make github

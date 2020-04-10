@@ -20,9 +20,11 @@ The goal of this library is to make life of developers as easy as possible.
 .. toctree::
    :maxdepth: 1
    :hidden:
-   :caption: Authentication
+   :caption: Features
 
-   authentication
+   features/authentication
+   features/authentication-url-redirect
+   features/authentication-pin-code
 
 .. toctree::
    :maxdepth: 1
