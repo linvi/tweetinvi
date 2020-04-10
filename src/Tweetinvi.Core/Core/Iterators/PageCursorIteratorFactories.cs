@@ -30,7 +30,15 @@ namespace Tweetinvi.Core.Iterators
 
                     return page.DataTransferObject?.Min(x => x.Id) - 1;
                 },
-                page => page.DataTransferObject.Length < parameters.PageSize);
+                page =>
+                {
+                    if (parameters.ContinueMinMaxCursor == ContinueMinMaxCursor.UntilPageSizeIsDifferentFromRequested)
+                    {
+                        return page.DataTransferObject.Length < parameters.PageSize;
+                    }
+
+                    return page.DataTransferObject.Length == 0;
+                });
 
             return twitterCursorResult;
         }
