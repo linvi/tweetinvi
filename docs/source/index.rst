@@ -23,7 +23,7 @@ The goal of this library is to make life of developers as easy as possible.
    :caption: Features
 
    features/tweets
-   features/media
+   features/upload-media
    features/authentication
    features/authentication-url-redirect
    features/authentication-pin-code
@@ -33,6 +33,7 @@ The goal of this library is to make life of developers as easy as possible.
    :hidden:
    :caption: More
 
+   more/extended-tweets
    4.0-to-5.0
    license
    help

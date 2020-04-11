@@ -36,7 +36,7 @@
   <link rel="stylesheet" href="../_static/css/custom.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Media Upload" href="media.html" />
+    <link rel="next" title="Media Upload" href="upload-media.html" />
     <link rel="prev" title="Basic Concepts" href="../intro/basic-concepts.html" /> 
 </head>
 
@@ -102,13 +102,14 @@
 <li class="toctree-l2"><a class="reference internal" href="#oembed-tweets">OEmbed Tweets</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="media.html">Media Upload</a></li>
+<li class="toctree-l1"><a class="reference internal" href="upload-media.html">Media Upload</a></li>
 <li class="toctree-l1"><a class="reference internal" href="authentication.html">Authentication</a></li>
 <li class="toctree-l1"><a class="reference internal" href="authentication-url-redirect.html">Authentication - URL Redirect</a></li>
 <li class="toctree-l1"><a class="reference internal" href="authentication-pin-code.html">Authentication - PIN based</a></li>
 </ul>
 <p class="caption"><span class="caption-text">More</span></p>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="../more/extended-tweets.html">Extended Tweets</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../4.0-to-5.0.html">Migrate from 4.0 to 5.0</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../license.html">License</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../help.html">Help and Feedback</a></li>
@@ -196,6 +197,9 @@
 <span class="p">});</span>
 </pre></div>
 </div>
+<blockquote>
+<div><p>Tweets are created by default with <code class="docutils literal notranslate"><span class="pre">tweet_mode</span></code> set to <code class="docutils literal notranslate"><span class="pre">extended</span></code>. You can change this in all parameters associated with tweets.<br /><a class="reference internal" href="../more/extended-tweets.html"><span class="doc">Learn more about extended mode</span></a></p>
+</div></blockquote>
 </div>
 <div class="section" id="retweets">
 <h2>Retweets<a class="headerlink" href="#retweets" title="Permalink to this headline">¶</a></h2>
@@ -235,14 +239,15 @@
 <h2>Publish with Media<a class="headerlink" href="#publish-with-media" title="Permalink to this headline">¶</a></h2>
 <p>You can attach images, gif and videos that you uploaded to your tweets.</p>
 <blockquote>
-<div><p><a class="reference internal" href="media.html"><span class="doc">Learn more on media upload</span></a></p>
+<div><p><a class="reference internal" href="upload-media.html"><span class="doc">Learn more on media upload</span></a></p>
 </div></blockquote>
 <div class="section" id="with-an-image">
 <h3>With an image<a class="headerlink" href="#with-an-image" title="Permalink to this headline">¶</a></h3>
 <div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="kt">var</span> <span class="n">tweetinviLogoBinary</span> <span class="p">=</span> <span class="n">File</span><span class="p">.</span><span class="n">ReadAllBytes</span><span class="p">(</span><span class="s">&quot;./tweetinvi-logo-purple.png&quot;</span><span class="p">);</span>
+<span class="kt">var</span> <span class="n">uploadedImage</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Upload</span><span class="p">.</span><span class="n">UploadImage</span><span class="p">(</span><span class="n">tweetinviLogoBinary</span><span class="p">);</span>
 <span class="kt">var</span> <span class="n">tweetWithImage</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Tweets</span><span class="p">.</span><span class="n">PublishTweet</span><span class="p">(</span><span class="k">new</span> <span class="n">PublishTweetParameters</span><span class="p">(</span><span class="s">&quot;Tweet with an image&quot;</span><span class="p">)</span>
 <span class="p">{</span>
-    <span class="n">MediaBinaries</span> <span class="p">=</span> <span class="p">{</span> <span class="n">tweetinviLogoBinary</span> <span class="p">}</span>
+    <span class="n">Medias</span> <span class="p">=</span> <span class="p">{</span> <span class="n">uploadedImage</span> <span class="p">}</span>
 <span class="p">});</span>
 </pre></div>
 </div>
@@ -250,8 +255,9 @@
 <div class="section" id="with-a-video">
 <h3>With a video<a class="headerlink" href="#with-a-video" title="Permalink to this headline">¶</a></h3>
 <div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="kt">var</span> <span class="n">videoBinary</span> <span class="p">=</span> <span class="n">File</span><span class="p">.</span><span class="n">ReadAllBytes</span><span class="p">(</span><span class="s">&quot;./video.mp4&quot;</span><span class="p">);</span>
+<span class="kt">var</span> <span class="n">uploadedVideo</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Upload</span><span class="p">.</span><span class="n">UploadVideo</span><span class="p">(</span><span class="n">videoBinary</span><span class="p">);</span>
 
-<span class="kt">var</span> <span class="n">uploadedVideo</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Upload</span><span class="p">.</span><span class="n">UploadVideo</span><span class="p">(</span><span class="n">tweetinviLogoBinary</span><span class="p">);</span>
+<span class="c1">// IMPORTANT: you need to wait for Twitter to process the video</span>
 <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Upload</span><span class="p">.</span><span class="n">WaitForMediaProcessingToGetAllMetadata</span><span class="p">(</span><span class="n">uploadedVideo</span><span class="p">);</span>
 
 <span class="kt">var</span> <span class="n">tweetWithVideo</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Tweets</span><span class="p">.</span><span class="n">PublishTweet</span><span class="p">(</span><span class="k">new</span> <span class="n">PublishTweetParameters</span><span class="p">(</span><span class="s">&quot;tweet with media&quot;</span><span class="p">)</span>
@@ -283,7 +289,7 @@
 <div class="section" id="oembed-tweets">
 <h2>OEmbed Tweets<a class="headerlink" href="#oembed-tweets" title="Permalink to this headline">¶</a></h2>
 <p>You can generate oembed tweets from Tweetinvi. If you want to learn more please read <a class="reference external" href="https://developer.twitter.com/en/docs/tweets/post-and-engage/api-reference/get-statuses-oembed">Twitter documentation</a>.</p>
-<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="kt">var</span> <span class="n">oEmbedTweet</span> <span class="p">=</span> <span class="k">await</span> <span class="n">_tweetinviTestClient</span><span class="p">.</span><span class="n">Tweets</span><span class="p">.</span><span class="n">GetOEmbedTweet</span><span class="p">(</span><span class="n">tweet</span><span class="p">);</span>
+<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="kt">var</span> <span class="n">oEmbedTweet</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Tweets</span><span class="p">.</span><span class="n">GetOEmbedTweet</span><span class="p">(</span><span class="n">tweet</span><span class="p">);</span>
 </pre></div>
 </div>
 </div>
@@ -297,7 +303,7 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="media.html" class="btn btn-neutral float-right" title="Media Upload" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="upload-media.html" class="btn btn-neutral float-right" title="Media Upload" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="../intro/basic-concepts.html" class="btn btn-neutral float-left" title="Basic Concepts" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>

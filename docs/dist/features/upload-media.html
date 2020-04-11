@@ -1,0 +1,302 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Media Upload &mdash; Tweetinvi 5.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/custom.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Authentication" href="authentication.html" />
+    <link rel="prev" title="Tweets" href="tweets.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Tweetinvi
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">First steps</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../intro/getting-started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../intro/credentials.html">Credentials in Twitter</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../intro/basic-concepts.html">Basic Concepts</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Features</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="tweets.html">Tweets</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Media Upload</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#images">Images</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#video">Video</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#video-processing-status">Video Processing Status</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#automatic-wait">Automatic wait</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#parameters">Parameters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#add-metadata">Add metadata</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="authentication.html">Authentication</a></li>
+<li class="toctree-l1"><a class="reference internal" href="authentication-url-redirect.html">Authentication - URL Redirect</a></li>
+<li class="toctree-l1"><a class="reference internal" href="authentication-pin-code.html">Authentication - PIN based</a></li>
+</ul>
+<p class="caption"><span class="caption-text">More</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../more/extended-tweets.html">Extended Tweets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../4.0-to-5.0.html">Migrate from 4.0 to 5.0</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../license.html">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../help.html">Help and Feedback</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Tweetinvi</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+      <li>Media Upload</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/features/upload-media.md.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="media-upload">
+<h1>Media Upload<a class="headerlink" href="#media-upload" title="Permalink to this headline">¶</a></h1>
+<p>Twitter allows developers to upload files on their servers so that they can be used in tweets. Twitter has a limited file format that they support:</p>
+<ul class="simple">
+<li><p><strong>Images</strong> : PNG, JPEG, WEBP - max size = 5MB</p></li>
+<li><p><strong>GIFs</strong> - max size = 15MB</p></li>
+<li><p><strong>Videos</strong> : MP4 - max size = 15MB</p></li>
+</ul>
+<p>If you want to learn more about the supported formats and video recommendations visit the <a class="reference external" href="https://developer.twitter.com/en/docs/media/upload-media/overview">Twitter upload documentation</a>.
+Restrictions to the media also apply, check this <a class="reference external" href="https://developer.twitter.com/en/docs/media/upload-media/uploading-media/media-best-practices">documentation for more information</a>.</p>
+<div class="section" id="images">
+<h2>Images<a class="headerlink" href="#images" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="kt">var</span> <span class="n">tweetinviLogoBinary</span> <span class="p">=</span> <span class="n">File</span><span class="p">.</span><span class="n">ReadAllBytes</span><span class="p">(</span><span class="s">&quot;./tweetinvi-logo-purple.png&quot;</span><span class="p">);</span>
+<span class="kt">var</span> <span class="n">uploadedImage</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Upload</span><span class="p">.</span><span class="n">UploadImage</span><span class="p">(</span><span class="n">tweetinviLogoBinary</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="video">
+<h2>Video<a class="headerlink" href="#video" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="kt">var</span> <span class="n">videoBinary</span> <span class="p">=</span> <span class="n">File</span><span class="p">.</span><span class="n">ReadAllBytes</span><span class="p">(</span><span class="s">&quot;./video.mp4&quot;</span><span class="p">);</span>
+<span class="kt">var</span> <span class="n">uploadedVideo</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Upload</span><span class="p">.</span><span class="n">UploadVideo</span><span class="p">(</span><span class="n">videoBinary</span><span class="p">);</span>
+</pre></div>
+</div>
+<div class="warning">
+Videos are different from images as they need to be processed by Twitter before becoming usable...
+</div><div class="section" id="video-processing-status">
+<h3>Video Processing Status<a class="headerlink" href="#video-processing-status" title="Permalink to this headline">¶</a></h3>
+<p>You can request the status of the video processing and do this until you receive <code class="docutils literal notranslate"><span class="pre">Succeeded</span></code> or <code class="docutils literal notranslate"><span class="pre">Failed</span></code>.</p>
+<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="kt">var</span> <span class="n">status</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Upload</span><span class="p">.</span><span class="n">GetVideoProcessingStatus</span><span class="p">(</span><span class="n">uploadedVideo</span><span class="p">);</span>
+<span class="c1">// processing state can be : Pending, InProgress, Succeeded, Failed</span>
+<span class="kt">var</span> <span class="n">processingCompleted</span> <span class="p">=</span> <span class="n">status</span><span class="p">.</span><span class="n">ProcessingInfo</span><span class="p">.</span><span class="n">ProcessingState</span> <span class="p">==</span> <span class="n">ProcessingState</span><span class="p">.</span><span class="n">Succeeded</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="automatic-wait">
+<h3>Automatic wait<a class="headerlink" href="#automatic-wait" title="Permalink to this headline">¶</a></h3>
+<p>If you only care about knowing when the video processing has completed you use <code class="docutils literal notranslate"><span class="pre">WaitForMediaProcessingToGetAllMetadata</span></code>.</p>
+<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Upload</span><span class="p">.</span><span class="n">WaitForMediaProcessingToGetAllMetadata</span><span class="p">(</span><span class="n">uploadedVideo</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="parameters">
+<h2>Parameters<a class="headerlink" href="#parameters" title="Permalink to this headline">¶</a></h2>
+<p>Tweetinvi includes various parameters to customize the experience and behaviour of upload.</p>
+<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="kt">var</span> <span class="n">uploadedVideo</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Upload</span><span class="p">.</span><span class="n">UploadBinaryParameters</span><span class="p">(</span><span class="k">new</span> <span class="n">UploadVideoParameters</span><span class="p">(</span><span class="n">binary</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="c1">// Defines a timeout after which the operation gets cancelled</span>
+    <span class="n">Timeout</span> <span class="p">=</span> <span class="n">TimeSpan</span><span class="p">.</span><span class="n">FromMinutes</span><span class="p">(</span><span class="m">1</span><span class="p">),</span>
+
+    <span class="c1">// Size of request sent to Twitter. Restrictions applies from twitter.</span>
+    <span class="n">MaxChunkSize</span> <span class="p">=</span> <span class="m">500</span><span class="p">,</span>
+
+    <span class="c1">// Event that informed the state of the upload</span>
+    <span class="n">UploadStateChanged</span> <span class="p">=</span> <span class="n">stateChange</span> <span class="p">=&gt;</span>
+    <span class="p">{</span>
+        <span class="n">_logger</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="s">&quot;Upload progress changed to &quot;</span> <span class="p">+</span> <span class="n">stateChange</span><span class="p">.</span><span class="n">Percentage</span> <span class="p">+</span> <span class="s">&quot;%&quot;</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">});</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="add-metadata">
+<h2>Add metadata<a class="headerlink" href="#add-metadata" title="Permalink to this headline">¶</a></h2>
+<p>Twitter let you <a class="reference external" href="https://developer.twitter.com/en/docs/media/upload-media/api-reference/post-media-metadata-create">add metadata</a> to media after they have been uploaded.</p>
+<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="kt">var</span> <span class="n">media</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Upload</span><span class="p">.</span><span class="n">UploadImage</span><span class="p">(</span><span class="s">&quot;../some/path&quot;</span><span class="p">);</span>
+<span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Upload</span><span class="p">.</span><span class="n">AddMediaMetadata</span><span class="p">(</span><span class="k">new</span> <span class="n">MediaMetadata</span><span class="p">(</span><span class="n">media</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">AltText</span> <span class="p">=</span> <span class="s">&quot;Hello&quot;</span><span class="p">,</span>
+<span class="p">});</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="authentication.html" class="btn btn-neutral float-right" title="Authentication" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="tweets.html" class="btn btn-neutral float-left" title="Tweets" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2020, linvi
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

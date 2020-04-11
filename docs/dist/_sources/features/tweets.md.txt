@@ -21,6 +21,9 @@ var fullTweet = await client.Tweets.PublishTweet(new PublishTweetParameters("A c
 });
 ```
 
+> Tweets are created by default with `tweet_mode` set to `extended`. You can change this in all parameters associated with tweets.\
+> [Learn more about extended mode](../more/extended-tweets)
+
 ## Retweets
 
 ``` c#
@@ -59,15 +62,16 @@ await client.Tweets.DestroyTweet(reply);
 
 You can attach images, gif and videos that you uploaded to your tweets.
 
-> [Learn more on media upload](./media)
+> [Learn more on media upload](./upload-media)
 
 ### With an image
 
 ``` c#
 var tweetinviLogoBinary = File.ReadAllBytes("./tweetinvi-logo-purple.png");
+var uploadedImage = await client.Upload.UploadImage(tweetinviLogoBinary);
 var tweetWithImage = await client.Tweets.PublishTweet(new PublishTweetParameters("Tweet with an image")
 {
-    MediaBinaries = { tweetinviLogoBinary }
+    Medias = { uploadedImage }
 });
 ```
 
@@ -75,8 +79,9 @@ var tweetWithImage = await client.Tweets.PublishTweet(new PublishTweetParameters
 
 ``` c#
 var videoBinary = File.ReadAllBytes("./video.mp4");
+var uploadedVideo = await client.Upload.UploadVideo(videoBinary);
 
-var uploadedVideo = await client.Upload.UploadVideo(tweetinviLogoBinary);
+// IMPORTANT: you need to wait for Twitter to process the video
 await client.Upload.WaitForMediaProcessingToGetAllMetadata(uploadedVideo);
 
 var tweetWithVideo = await client.Tweets.PublishTweet(new PublishTweetParameters("tweet with media")
@@ -108,5 +113,5 @@ while (!favoriteTweetsIterator.Completed)
 You can generate oembed tweets from Tweetinvi. If you want to learn more please read [Twitter documentation](https://developer.twitter.com/en/docs/tweets/post-and-engage/api-reference/get-statuses-oembed).
 
 ``` c#
-var oEmbedTweet = await _tweetinviTestClient.Tweets.GetOEmbedTweet(tweet);
+var oEmbedTweet = await client.Tweets.GetOEmbedTweet(tweet);
 ```
