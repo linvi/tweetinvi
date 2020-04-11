@@ -18,7 +18,7 @@ dotnet new console
 ```
 
 
-## Install Tweetinvi
+## Installation
 
 Tweetinvi is available github and on [nuget](https://www.nuget.org/packages/TweetinviAPI/):
 
