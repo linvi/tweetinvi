@@ -64,11 +64,6 @@ namespace Tweetinvi.Parameters
         List<IMedia> Medias { get; set; }
 
         /// <summary>
-        /// A list of media binaries that need to be uploaded and then displayed within the tweet.
-        /// </summary>
-        List<byte[]> MediaBinaries { get; set; }
-
-        /// <summary>
         /// Whether this Tweet will be published with any media attached
         /// </summary>
         bool HasMedia { get; }
@@ -142,7 +137,6 @@ namespace Tweetinvi.Parameters
 
             MediaIds = source.MediaIds?.ToList();
             Medias = source.Medias?.ToList();
-            MediaBinaries = source.MediaBinaries?.ToList();
             PlaceId = source.PlaceId;
             Coordinates = source.Coordinates;
             DisplayExactCoordinates = source.DisplayExactCoordinates;
@@ -177,9 +171,7 @@ namespace Tweetinvi.Parameters
         /// <inheritdoc/>
         public List<IMedia> Medias { get; set; } = new List<IMedia>();
         /// <inheritdoc/>
-        public List<byte[]> MediaBinaries { get; set; } = new List<byte[]>();
-        /// <inheritdoc/>
-        public bool HasMedia => MediaIds?.Count > 0 || Medias?.Count > 0 || MediaBinaries?.Count > 0;
+        public bool HasMedia => MediaIds?.Count > 0 || Medias?.Count > 0;
         /// <inheritdoc/>
         public string PlaceId { get; set; }
         /// <inheritdoc/>

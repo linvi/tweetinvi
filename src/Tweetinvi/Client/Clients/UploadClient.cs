@@ -17,13 +17,23 @@ namespace Tweetinvi.Client
 
         public Task<IMedia> UploadBinary(byte[] binary)
         {
-            return UploadBinary(new UploadParameters(binary));
+            return UploadBinary(new UploadBinaryParameters(binary));
         }
 
         public async Task<IMedia> UploadBinary(IUploadParameters parameters)
         {
             var chunkUploadResult = await _uploadRequester.UploadBinary(parameters).ConfigureAwait(false);
             return chunkUploadResult.Media;
+        }
+
+        public Task<IMedia> UploadImage(byte[] binary)
+        {
+            return UploadImage(new UploadImageParameters(binary));
+        }
+
+        public Task<IMedia> UploadImage(IUploadImageParameters parameters)
+        {
+            return UploadBinary(parameters);
         }
 
         public Task<IMedia> UploadVideo(byte[] binary)

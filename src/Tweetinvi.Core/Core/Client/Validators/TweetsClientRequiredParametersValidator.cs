@@ -69,6 +69,11 @@ namespace Tweetinvi.Core.Client.Validators
             {
                 ThrowIfTweetCannotBeUsed(parameters.QuotedTweet);
             }
+
+            if (parameters.Medias.Any(x => !x.HasBeenUploaded))
+            {
+                throw new ArgumentException("Some media were not uploaded", $"{nameof(parameters)}.{nameof(parameters.Medias)}");
+            }
         }
 
         public void Validate(IDestroyTweetParameters parameters)
@@ -158,7 +163,7 @@ namespace Tweetinvi.Core.Client.Validators
 
             ThrowIfTweetCannotBeUsed(parameters.Tweet, $"{nameof(parameters)}.{nameof(parameters.Tweet)}");
         }
-        
+
         public void ThrowIfTweetCannotBeUsed(ITweetIdentifier tweet)
         {
             ThrowIfTweetCannotBeUsed(tweet, $"{nameof(tweet)}.{nameof(tweet.Id)}");

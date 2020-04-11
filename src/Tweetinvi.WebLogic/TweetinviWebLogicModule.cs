@@ -16,7 +16,7 @@ namespace Tweetinvi.WebLogic
             container.RegisterType<IConsumerCredentials, ConsumerCredentials>();
             container.RegisterType<ITwitterCredentials, TwitterCredentials>();
 
-            container.RegisterType<IUploadParameters, UploadParameters>();
+            container.RegisterType<IUploadParameters, UploadBinaryParameters>();
             container.RegisterType<IUploadOptionalParameters, UploadOptionalParameters>();
             container.RegisterType<IUploadVideoParameters, UploadVideoParameters>();
 

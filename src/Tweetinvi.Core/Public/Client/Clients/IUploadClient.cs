@@ -16,8 +16,20 @@ namespace Tweetinvi.Client
         /// <para>APPEND : https://dev.twitter.com/en/docs/media/upload-media/api-reference/post-media-upload-append</para>
         /// <para>FINALIZE : https://dev.twitter.com/en/docs/media/upload-media/api-reference/post-media-upload-finalize</para>
         /// </summary>
-        /// <returns>Uploaded media information</returns>
+        /// <returns>Uploaded media</returns>
         Task<IMedia> UploadBinary(IUploadParameters parameters);
+
+        /// <inheritdoc cref="UploadImage(IUploadImageParameters)" />
+        Task<IMedia> UploadImage(byte[] binary);
+
+        /// <summary>
+        /// Upload an image to Twitter
+        /// </summary>
+        /// <para>INIT : https://dev.twitter.com/en/docs/media/upload-media/api-reference/post-media-upload-init</para>
+        /// <para>APPEND : https://dev.twitter.com/en/docs/media/upload-media/api-reference/post-media-upload-append</para>
+        /// <para>FINALIZE : https://dev.twitter.com/en/docs/media/upload-media/api-reference/post-media-upload-finalize</para>
+        /// <returns>Uploaded media</returns>
+        Task<IMedia> UploadImage(IUploadImageParameters parameters);
 
         /// <inheritdoc cref="UploadVideo(IUploadVideoParameters)" />
         Task<IMedia> UploadVideo(byte[] binary);
@@ -29,7 +41,7 @@ namespace Tweetinvi.Client
         /// <para>FINALIZE : https://dev.twitter.com/en/docs/media/upload-media/api-reference/post-media-upload-finalize</para>
         /// <para>STATUS : https://dev.twitter.com/en/docs/media/upload-media/api-reference/get-media-upload-status</para>
         /// </summary>
-        /// <returns>Uploaded media information</returns>
+        /// <returns>Uploaded media</returns>
         Task<IMedia> UploadVideo(IUploadVideoParameters parameters);
 
         /// <inheritdoc cref="AddMediaMetadata(IAddMediaMetadataParameters)" />

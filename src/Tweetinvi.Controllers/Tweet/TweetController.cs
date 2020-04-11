@@ -42,7 +42,7 @@ namespace Tweetinvi.Controllers.Tweet
 
         public async Task<ITwitterResult<ITweetDTO>> PublishTweet(IPublishTweetParameters parameters, ITwitterRequest request)
         {
-            await UploadMedias(parameters, request).ConfigureAwait(false);
+            parameters.MediaIds.AddRange(parameters.Medias.Select(x => x.UploadedMediaInfo.MediaId));
             return await _tweetQueryExecutor.PublishTweet(parameters, request).ConfigureAwait(false);
         }
 
@@ -84,31 +84,6 @@ namespace Tweetinvi.Controllers.Tweet
             }
 
             return textLength;
-        }
-
-        private async Task UploadMedias(IPublishTweetParameters parameters, ITwitterRequest request)
-        {
-            if (parameters.Medias.Any(x => !x.HasBeenUploaded))
-            {
-                throw new OperationCanceledException("The tweet cannot be published as some of the medias could not be published!");
-            }
-
-            parameters.MediaIds.AddRange(parameters.Medias.Select(x => x.UploadedMediaInfo.MediaId));
-
-            var uploadedMedias = new List<IMedia>();
-
-            foreach (var binary in parameters.MediaBinaries)
-            {
-                var uploadResult = await _uploadQueryExecutor.UploadBinary(new UploadParameters(binary), request).ConfigureAwait(false);
-                uploadedMedias.Add(uploadResult.Media);
-            }
-
-            if (uploadedMedias.Any(x => x == null || !x.HasBeenUploaded))
-            {
-                throw new OperationCanceledException("The tweet cannot be published as some of the binaries could not be published!");
-            }
-
-            parameters.MediaIds.AddRange(uploadedMedias.Select(x => x.UploadedMediaInfo.MediaId));
         }
 
         // Retweets - Publish

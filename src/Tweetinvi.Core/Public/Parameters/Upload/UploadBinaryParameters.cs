@@ -17,10 +17,10 @@
     /// <summary>
     /// https://dev.twitter.com/rest/media/uploading-media
     /// </summary>
-    public class UploadParameters : UploadOptionalParameters, IUploadParameters
+    public class UploadBinaryParameters : UploadOptionalParameters, IUploadParameters
     {
 
-        public UploadParameters(byte[] binary)
+        public UploadBinaryParameters(byte[] binary)
         {
             Binary = binary;
         }
