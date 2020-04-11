@@ -96,7 +96,19 @@
 <li class="toctree-l1"><a class="reference internal" href="authentication.html">Authentication</a></li>
 <li class="toctree-l1"><a class="reference internal" href="authentication-url-redirect.html">Authentication - URL Redirect</a></li>
 <li class="toctree-l1"><a class="reference internal" href="authentication-pin-code.html">Authentication - PIN based</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Iterators</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Iterators</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#iterator">Iterator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#iterator-page">Iterator page</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#example">Example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#restart-from-a-previous-cursor">Restart from a previous cursor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#flavour-of-iterators">Flavour of iterators</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#cursor-iterators">Cursor iterators</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#minmax-iterators">MinMax iterators</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#multi-levels-iterators">Multi-Levels iterators</a></li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 <p class="caption"><span class="caption-text">More</span></p>
 <ul>
@@ -170,6 +182,138 @@
             
   <div class="section" id="iterators">
 <h1>Iterators<a class="headerlink" href="#iterators" title="Permalink to this headline">¶</a></h1>
+<p>Twitter API has multiple endpoints that exposes pages api. The implementation might differ from endpoint to endpoint.<br />Tweetinvi hides this complexity to you via <code class="docutils literal notranslate"><span class="pre">iterators</span></code>.</p>
+<div class="section" id="iterator">
+<h2>Iterator<a class="headerlink" href="#iterator" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><p>Iterators let you request multiple pages until no more items are available.</p>
+</div></blockquote>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">MoveToNextPage()</span></code> request twitter for the next page of results</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">NextCursor</span></code> is updated after each call to <code class="docutils literal notranslate"><span class="pre">MoveToNextPage</span></code>. It can be used to start a new request at this position.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Completed</span></code> is updated after each call to <code class="docutils literal notranslate"><span class="pre">MoveToNextPage</span></code>. It is marked as true when no more results are available.</p></li>
+</ul>
+</div>
+<div class="section" id="iterator-page">
+<h2>Iterator page<a class="headerlink" href="#iterator-page" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><p>Pages are enumerators and contain elements returned by a single request.</p>
+</div></blockquote>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">ToArray()</span></code> returns the content of the page.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">NextCursor</span></code> contains the next cursor to use for following requests.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">IsLastPage</span></code> informs whether the page was the last one that could be reached.</p></li>
+</ul>
+</div>
+<div class="section" id="example">
+<h2>Example<a class="headerlink" href="#example" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="kt">var</span> <span class="n">timelineTweets</span> <span class="p">=</span> <span class="k">new</span> <span class="n">List</span><span class="p">&lt;</span><span class="n">ITweet</span><span class="p">&gt;();</span>
+<span class="kt">var</span> <span class="n">timelineIterator</span> <span class="p">=</span> <span class="n">client</span><span class="p">.</span><span class="n">Timelines</span><span class="p">.</span><span class="n">GetHomeTimelineIterator</span><span class="p">();</span>
+
+<span class="k">while</span> <span class="p">(!</span><span class="n">timelineIterator</span><span class="p">.</span><span class="n">Completed</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="kt">var</span> <span class="n">page</span> <span class="p">=</span> <span class="k">await</span> <span class="n">timelineIterator</span><span class="p">.</span><span class="n">MoveToNextPage</span><span class="p">();</span> 
+    <span class="n">timelineTweets</span><span class="p">.</span><span class="n">AddRange</span><span class="p">(</span><span class="n">page</span><span class="p">.</span><span class="n">ToArray</span><span class="p">());</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="restart-from-a-previous-cursor">
+<h2>Restart from a previous cursor<a class="headerlink" href="#restart-from-a-previous-cursor" title="Permalink to this headline">¶</a></h2>
+<p>As mentioned you can restart from a previous cursor state.</p>
+<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="kt">var</span> <span class="n">firstFriendIdsIterator</span> <span class="p">=</span> <span class="n">client</span><span class="p">.</span><span class="n">Users</span><span class="p">.</span><span class="n">GetFollowerIdsIterator</span><span class="p">(</span><span class="k">new</span> <span class="n">GetFollowerIdsParameters</span><span class="p">(</span><span class="s">&quot;tweetinvi&quot;</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">PageSize</span> <span class="p">=</span> <span class="m">50</span>
+<span class="p">});</span>
+<span class="kt">var</span> <span class="n">firstPage</span> <span class="p">=</span> <span class="k">await</span> <span class="n">firstFriendIdsIterator</span><span class="p">.</span><span class="n">MoveToNextPage</span><span class="p">();</span>
+</pre></div>
+</div>
+<p>After having retrieved a first page, we can now request a new one from the previous cursor.</p>
+<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="kt">var</span> <span class="n">friendIdsIterator</span> <span class="p">=</span> <span class="n">client</span><span class="p">.</span><span class="n">Users</span><span class="p">.</span><span class="n">GetFollowerIdsIterator</span><span class="p">(</span><span class="k">new</span> <span class="n">GetFollowerIdsParameters</span><span class="p">(</span><span class="s">&quot;tweetinvi&quot;</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">Cursor</span> <span class="p">=</span> <span class="n">firstFriendIdsIterator</span><span class="p">.</span><span class="n">NextCursor</span><span class="p">,</span>
+    <span class="c1">// or Cursor = firstPage.NextCursor</span>
+<span class="p">});</span>
+<span class="kt">var</span> <span class="n">secondPage</span> <span class="p">=</span> <span class="k">await</span> <span class="n">friendIdsIterator</span><span class="p">.</span><span class="n">MoveToNextPage</span><span class="p">();</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="flavour-of-iterators">
+<h2>Flavour of iterators<a class="headerlink" href="#flavour-of-iterators" title="Permalink to this headline">¶</a></h2>
+<p>As mentioned earlier Twitter exposes different support of pages. As a consequence parameters might differ between 2 types of iterator.</p>
+<div class="section" id="cursor-iterators">
+<h3>Cursor iterators<a class="headerlink" href="#cursor-iterators" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div><p>Cursor iterators accesses cursor endpoint properly supported by Twitter API</p>
+</div></blockquote>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">int</span> <span class="pre">PageSize</span></code> defines the maximum number of items that will be returned per request.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">string</span> <span class="pre">Cursor</span></code> defines the cursor that will be used for executing the first request.</p></li>
+</ul>
+<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="kt">var</span> <span class="n">friendIdsIterator</span> <span class="p">=</span> <span class="n">client</span><span class="p">.</span><span class="n">Users</span><span class="p">.</span><span class="n">GetFollowerIdsIterator</span><span class="p">(</span><span class="k">new</span> <span class="n">GetFollowerIdsParameters</span><span class="p">(</span><span class="s">&quot;tweetinvi&quot;</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">Cursor</span> <span class="p">=</span> <span class="s">&quot;previous_cursor&quot;</span><span class="p">,</span>
+    <span class="n">PageSize</span> <span class="p">=</span> <span class="m">50</span>
+<span class="p">});</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="minmax-iterators">
+<h3>MinMax iterators<a class="headerlink" href="#minmax-iterators" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div><p>MinMax iterators accesses older api endpoints that have less reliable support for cursors</p>
+</div></blockquote>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">int</span> <span class="pre">PageSize</span></code> defines the maximum number of items that will be returned per request.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">long?</span> <span class="pre">SinceId</span></code> defines the minimum id that can be returned by Twitter</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">long?</span> <span class="pre">MaxId</span></code> defines the maximum id that can be returned by Twitter</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ContinueMinMaxCursor</span></code> defines when the cursor is considered complete. By default it will be considered complete when 0 results are being returned.</p></li>
+</ul>
+<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="kt">var</span> <span class="n">timelineIterator</span> <span class="p">=</span> <span class="n">client</span><span class="p">.</span><span class="n">Timelines</span><span class="p">.</span><span class="n">GetHomeTimelineIterator</span><span class="p">(</span><span class="k">new</span> <span class="n">GetHomeTimelineParameters</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="n">MaxId</span> <span class="p">=</span> <span class="m">410984184018409</span><span class="p">,</span>
+    <span class="n">SinceId</span> <span class="p">=</span> <span class="m">3109841840184091</span><span class="p">,</span>
+    <span class="n">PageSize</span> <span class="p">=</span> <span class="m">50</span><span class="p">,</span>
+    <span class="n">ContinueMinMaxCursor</span> <span class="p">=</span> <span class="n">ContinueMinMaxCursor</span><span class="p">.</span><span class="n">UntilNoItemsReturned</span>
+<span class="p">});</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="multi-levels-iterators">
+<h3>Multi-Levels iterators<a class="headerlink" href="#multi-levels-iterators" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div><p>Twitter API misses some useful endpoints. Tweetinvi created multi level cursors that takes care of handling the complexity for you</p>
+</div></blockquote>
+<p>Twitter do not provide any endpoint to retrieve a collection of friends. It only supports retrieving friend ids.<br />The <code class="docutils literal notranslate"><span class="pre">Users.GetFollowersIterator</span></code> is an example of a multi level cursor and is used exactly as other cursors.</p>
+<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="kt">var</span> <span class="n">friendsIterator</span> <span class="p">=</span> <span class="n">client</span><span class="p">.</span><span class="n">Users</span><span class="p">.</span><span class="n">GetFollowersIterator</span><span class="p">(</span><span class="k">new</span> <span class="n">GetFollowersParameters</span><span class="p">(</span><span class="s">&quot;tweetinvi&quot;</span><span class="p">));</span>
+<span class="k">while</span> <span class="p">(!</span><span class="n">friendsIterator</span><span class="p">.</span><span class="n">Completed</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="kt">var</span> <span class="n">page</span> <span class="p">=</span> <span class="k">await</span> <span class="n">friendsIterator</span><span class="p">.</span><span class="n">MoveToNextPage</span><span class="p">();</span> 
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Here is what happens behind the scenes when a user has more than 5000 friends:</p>
+<ul class="simple">
+<li><p>1st call to <code class="docutils literal notranslate"><span class="pre">await</span> <span class="pre">friendsIterator.MoveToNextPage();</span></code>, Tweetinvi performs 2 requests and returns 100 users.</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">GetFriendIds</span></code> that return 5000 friend ids</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">GetUsers</span></code> that return 100 users</p></li>
+</ul>
+</li>
+<li><p>Next <strong>49x</strong> calls to <code class="docutils literal notranslate"><span class="pre">await</span> <span class="pre">friendsIterator.MoveToNextPage();</span></code>; Tweetinvi 1 request to get the next users.</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">GetUsers</span></code> that return 100 users</p></li>
+</ul>
+</li>
+<li><p>On the <strong>51st</strong> call to <code class="docutils literal notranslate"><span class="pre">await</span> <span class="pre">friendsIterator.MoveToNextPage();</span></code>; Tweetinvi performs again 2 requests.</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">GetFriendIds</span></code> that return 5000 friend ids</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">GetUsers</span></code> that return 100 users</p></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
 </div>
 
 
