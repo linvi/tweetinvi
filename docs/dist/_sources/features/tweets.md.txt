@@ -8,7 +8,7 @@ var publishedTweet = await client.Tweets.GetTweet(tweet.Id);
 await client.Tweets.DestroyTweet(tweet);
 ```
 
-Tweets are not just text, here are [various additional metadata](https://developer.twitter.com/en/docs/tweets/post-and-engage/api-reference/post-statuses-update) that you add to your tweets.
+Tweets are not just text, here are [various additional metadata](https://developer.twitter.com/en/docs/tweets/post-and-engage/api-reference/post-statuses-update) you can add to your tweets.
 
 ``` c#
 var fullTweet = await client.Tweets.PublishTweet(new PublishTweetParameters("A complex tweet from Tweetinvi")

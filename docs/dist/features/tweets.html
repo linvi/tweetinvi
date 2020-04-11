@@ -36,7 +36,7 @@
   <link rel="stylesheet" href="../_static/css/custom.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Media Upload" href="upload-media.html" />
+    <link rel="next" title="Users" href="users.html" />
     <link rel="prev" title="Basic Concepts" href="../intro/basic-concepts.html" /> 
 </head>
 
@@ -102,6 +102,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#oembed-tweets">OEmbed Tweets</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="users.html">Users</a></li>
 <li class="toctree-l1"><a class="reference internal" href="upload-media.html">Media Upload</a></li>
 <li class="toctree-l1"><a class="reference internal" href="authentication.html">Authentication</a></li>
 <li class="toctree-l1"><a class="reference internal" href="authentication-url-redirect.html">Authentication - URL Redirect</a></li>
@@ -186,7 +187,7 @@
 <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Tweets</span><span class="p">.</span><span class="n">DestroyTweet</span><span class="p">(</span><span class="n">tweet</span><span class="p">);</span>
 </pre></div>
 </div>
-<p>Tweets are not just text, here are <a class="reference external" href="https://developer.twitter.com/en/docs/tweets/post-and-engage/api-reference/post-statuses-update">various additional metadata</a> that you add to your tweets.</p>
+<p>Tweets are not just text, here are <a class="reference external" href="https://developer.twitter.com/en/docs/tweets/post-and-engage/api-reference/post-statuses-update">various additional metadata</a> you can add to your tweets.</p>
 <div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="kt">var</span> <span class="n">fullTweet</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Tweets</span><span class="p">.</span><span class="n">PublishTweet</span><span class="p">(</span><span class="k">new</span> <span class="n">PublishTweetParameters</span><span class="p">(</span><span class="s">&quot;A complex tweet from Tweetinvi&quot;</span><span class="p">)</span>
 <span class="p">{</span>
     <span class="n">Coordinates</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Coordinates</span><span class="p">(</span><span class="m">37.7821120598956</span><span class="p">,</span> <span class="p">-</span><span class="m">122.400612831116</span><span class="p">),</span>
@@ -303,7 +304,7 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="upload-media.html" class="btn btn-neutral float-right" title="Media Upload" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="users.html" class="btn btn-neutral float-right" title="Users" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="../intro/basic-concepts.html" class="btn btn-neutral float-left" title="Basic Concepts" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>

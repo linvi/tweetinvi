@@ -1,0 +1,300 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Users &mdash; Tweetinvi 5.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/custom.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Media Upload" href="upload-media.html" />
+    <link rel="prev" title="Tweets" href="tweets.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Tweetinvi
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">First steps</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../intro/getting-started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../intro/credentials.html">Credentials in Twitter</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../intro/basic-concepts.html">Basic Concepts</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Features</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="tweets.html">Tweets</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Users</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#get-a-user">Get a user</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#get-the-authenticated-user">Get the authenticated user</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#followers">Followers</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#listing-followers">Listing followers</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#friends">Friends</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="upload-media.html">Media Upload</a></li>
+<li class="toctree-l1"><a class="reference internal" href="authentication.html">Authentication</a></li>
+<li class="toctree-l1"><a class="reference internal" href="authentication-url-redirect.html">Authentication - URL Redirect</a></li>
+<li class="toctree-l1"><a class="reference internal" href="authentication-pin-code.html">Authentication - PIN based</a></li>
+</ul>
+<p class="caption"><span class="caption-text">More</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../more/extended-tweets.html">Extended Tweets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../4.0-to-5.0.html">Migrate from 4.0 to 5.0</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../license.html">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../help.html">Help and Feedback</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Tweetinvi</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+      <li>Users</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/features/users.md.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="users">
+<h1>Users<a class="headerlink" href="#users" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="get-a-user">
+<h2>Get a user<a class="headerlink" href="#get-a-user" title="Permalink to this headline">¶</a></h2>
+<p>Get a user by either screen name or by its id.</p>
+<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="kt">var</span> <span class="n">tweetinviUser</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Users</span><span class="p">.</span><span class="n">GetUser</span><span class="p">(</span><span class="s">&quot;tweetinviapi&quot;</span><span class="p">);</span>
+<span class="kt">var</span> <span class="n">tweetinviUser</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Users</span><span class="p">.</span><span class="n">GetUser</span><span class="p">(</span><span class="m">1577389800</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="get-the-authenticated-user">
+<h2>Get the authenticated user<a class="headerlink" href="#get-the-authenticated-user" title="Permalink to this headline">¶</a></h2>
+<p>Get the user associated with the client’s credentials. This user has additional fields and methods.</p>
+<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="kt">var</span> <span class="n">authenticatedUser</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Users</span><span class="p">.</span><span class="n">GetAuthenticatedUser</span><span class="p">();</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="followers">
+<h2>Followers<a class="headerlink" href="#followers" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="c1">// follow a user</span>
+<span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Users</span><span class="p">.</span><span class="n">FollowUser</span><span class="p">(</span><span class="s">&quot;tweetinviapi&quot;</span><span class="p">);</span>
+
+<span class="c1">// stop following a user</span>
+<span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Users</span><span class="p">.</span><span class="n">UnfollowUser</span><span class="p">(</span><span class="m">42</span><span class="p">);</span>
+</pre></div>
+</div>
+<div class="section" id="listing-followers">
+<h3>Listing followers<a class="headerlink" href="#listing-followers" title="Permalink to this headline">¶</a></h3>
+<p>By default twitter only support retrieving follower ids. This iterator can retrieve up to 5000 follower ids per page.</p>
+<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="c1">// Get a list of followers</span>
+<span class="kt">var</span> <span class="n">followerIds</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Users</span><span class="p">.</span><span class="n">GetFollowerIds</span><span class="p">(</span><span class="s">&quot;tweetinviapi&quot;</span><span class="p">);</span>
+<span class="c1">// or</span>
+<span class="kt">var</span> <span class="n">followerIdsIterator</span> <span class="p">=</span> <span class="n">client</span><span class="p">.</span><span class="n">Users</span><span class="p">.</span><span class="n">GetFollowerIdsIterator</span><span class="p">(</span><span class="k">new</span> <span class="n">GetFollowerIdsParameters</span><span class="p">(</span><span class="s">&quot;tweetinviapi&quot;</span><span class="p">));</span>
+<span class="k">while</span> <span class="p">(!</span><span class="n">followerIdsIterator</span><span class="p">.</span><span class="n">Completed</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="kt">var</span> <span class="n">followersPage</span> <span class="p">=</span> <span class="k">await</span> <span class="n">followerIdsIterator</span><span class="p">.</span><span class="n">MoveToNextPage</span><span class="p">();</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Tweetinvi can fetch populated user objects by performing a set of additional requests. This iterator can retrieve up to 100 users per page.</p>
+<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="kt">var</span> <span class="n">followersIterator</span> <span class="p">=</span> <span class="n">client</span><span class="p">.</span><span class="n">Users</span><span class="p">.</span><span class="n">GetFollowersIterator</span><span class="p">(</span><span class="k">new</span> <span class="n">GetFollowersParameters</span><span class="p">(</span><span class="s">&quot;tweetinviapi&quot;</span><span class="p">));</span>
+<span class="k">while</span> <span class="p">(!</span><span class="n">followersIterator</span><span class="p">.</span><span class="n">Completed</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="kt">var</span> <span class="n">followersPage</span> <span class="p">=</span> <span class="k">await</span> <span class="n">followersIterator</span><span class="p">.</span><span class="n">MoveToNextPage</span><span class="p">();</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="friends">
+<h2>Friends<a class="headerlink" href="#friends" title="Permalink to this headline">¶</a></h2>
+<p>By default twitter only support retrieving friend ids. This iterator can retrieve up to 5000 follower ids per page.</p>
+<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="c1">// Get a list of friends</span>
+<span class="kt">var</span> <span class="n">friends</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Users</span><span class="p">.</span><span class="n">GetFriends</span><span class="p">(</span><span class="s">&quot;tweetinviapi&quot;</span><span class="p">);</span>
+<span class="c1">// or</span>
+<span class="kt">var</span> <span class="n">friendIdsIterator</span> <span class="p">=</span> <span class="n">client</span><span class="p">.</span><span class="n">Users</span><span class="p">.</span><span class="n">GetFriendIdsIterator</span><span class="p">(</span><span class="k">new</span> <span class="n">GetFriendIdsParameters</span><span class="p">(</span><span class="s">&quot;tweetinviapi&quot;</span><span class="p">));</span>
+<span class="k">while</span> <span class="p">(!</span><span class="n">friendIdsIterator</span><span class="p">.</span><span class="n">Completed</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="kt">var</span> <span class="n">friendIdsPage</span> <span class="p">=</span> <span class="k">await</span> <span class="n">friendIdsIterator</span><span class="p">.</span><span class="n">MoveToNextPage</span><span class="p">();</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Tweetinvi can fetch populated user objects by performing a set of additional requests. This iterator can retrieve up to 100 users per page.</p>
+<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="kt">var</span> <span class="n">friendIdsIterator</span> <span class="p">=</span> <span class="n">client</span><span class="p">.</span><span class="n">Users</span><span class="p">.</span><span class="n">GetFriendIdsIterator</span><span class="p">(</span><span class="k">new</span> <span class="n">GetFriendIdsParameters</span><span class="p">(</span><span class="s">&quot;tweetinviapi&quot;</span><span class="p">));</span>
+<span class="k">while</span> <span class="p">(!</span><span class="n">friendIdsIterator</span><span class="p">.</span><span class="n">Completed</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="kt">var</span> <span class="n">followersPage</span> <span class="p">=</span> <span class="k">await</span> <span class="n">friendIdsIterator</span><span class="p">.</span><span class="n">MoveToNextPage</span><span class="p">();</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="upload-media.html" class="btn btn-neutral float-right" title="Media Upload" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="tweets.html" class="btn btn-neutral float-left" title="Tweets" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2020, linvi
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

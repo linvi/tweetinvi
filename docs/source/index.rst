@@ -23,6 +23,7 @@ The goal of this library is to make life of developers as easy as possible.
    :caption: Features
 
    features/tweets
+   features/users
    features/upload-media
    features/authentication
    features/authentication-url-redirect
