@@ -549,7 +549,7 @@ namespace Tweetinvi.Client
 
         public Task<long[]> GetUserIdsYouRequestedToFollow()
         {
-            return GetUserIdsYouRequestedToFollow(new GetUsersYouRequestedToFollowParameters());
+            return GetUserIdsYouRequestedToFollow(new GetUserIdsYouRequestedToFollowParameters());
         }
 
         public async Task<long[]> GetUserIdsYouRequestedToFollow(IGetUserIdsYouRequestedToFollowParameters parameters)
