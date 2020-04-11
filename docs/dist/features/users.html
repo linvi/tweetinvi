@@ -94,10 +94,14 @@
 <li class="toctree-l2"><a class="reference internal" href="#get-a-user">Get a user</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#get-the-authenticated-user">Get the authenticated user</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#followers">Followers</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#follower-pending-requests">Follower Pending Requests</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#listing-followers">Listing followers</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#friends">Friends</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#block">Block</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#mute">Mute</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#report">Report</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="upload-media.html">Media Upload</a></li>
@@ -182,6 +186,9 @@
 <p>Get a user by either screen name or by its id.</p>
 <div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="kt">var</span> <span class="n">tweetinviUser</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Users</span><span class="p">.</span><span class="n">GetUser</span><span class="p">(</span><span class="s">&quot;tweetinviapi&quot;</span><span class="p">);</span>
 <span class="kt">var</span> <span class="n">tweetinviUser</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Users</span><span class="p">.</span><span class="n">GetUser</span><span class="p">(</span><span class="m">1577389800</span><span class="p">);</span>
+
+<span class="c1">// You can aslo get multiple users at once</span>
+<span class="kt">var</span> <span class="n">users</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Users</span><span class="p">.</span><span class="n">GetUsers</span><span class="p">(</span><span class="k">new</span> <span class="kt">long</span><span class="p">[]{</span> <span class="m">42</span><span class="p">,</span> <span class="m">1577389800</span> <span class="p">});</span>
 </pre></div>
 </div>
 </div>
@@ -201,6 +208,12 @@
 <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Users</span><span class="p">.</span><span class="n">UnfollowUser</span><span class="p">(</span><span class="m">42</span><span class="p">);</span>
 </pre></div>
 </div>
+<div class="section" id="follower-pending-requests">
+<h3>Follower Pending Requests<a class="headerlink" href="#follower-pending-requests" title="Permalink to this headline">¶</a></h3>
+<p>When a user request to follow another private users, this operation needs to be authorized by the private user.<br />The following contains various methods allowing to check this.</p>
+<div class="warning">
+TODO
+</div></div>
 <div class="section" id="listing-followers">
 <h3>Listing followers<a class="headerlink" href="#listing-followers" title="Permalink to this headline">¶</a></h3>
 <p>By default twitter only support retrieving follower ids. This iterator can retrieve up to 5000 follower ids per page.</p>
@@ -243,6 +256,64 @@
 <span class="p">{</span>
     <span class="kt">var</span> <span class="n">followersPage</span> <span class="p">=</span> <span class="k">await</span> <span class="n">friendIdsIterator</span><span class="p">.</span><span class="n">MoveToNextPage</span><span class="p">();</span>
 <span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="block">
+<h2>Block<a class="headerlink" href="#block" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Users</span><span class="p">.</span><span class="n">BlockUser</span><span class="p">(</span><span class="n">userId</span><span class="p">);</span>
+<span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Users</span><span class="p">.</span><span class="n">UnblockUser</span><span class="p">(</span><span class="n">userId</span><span class="p">);</span>
+</pre></div>
+</div>
+<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="kt">var</span> <span class="n">blockedUserIds</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Users</span><span class="p">.</span><span class="n">GetBlockedUserIds</span><span class="p">();</span>
+<span class="c1">// or</span>
+<span class="kt">var</span> <span class="n">blockedUserIdsIterator</span> <span class="p">=</span> <span class="n">client</span><span class="p">.</span><span class="n">Users</span><span class="p">.</span><span class="n">GetBlockedUserIdsIterator</span><span class="p">();</span>
+<span class="k">while</span> <span class="p">(!</span><span class="n">blockedUserIdsIterator</span><span class="p">.</span><span class="n">Completed</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="kt">var</span> <span class="n">blockedUserIdsPage</span> <span class="p">=</span> <span class="k">await</span> <span class="n">blockedUserIdsIterator</span><span class="p">.</span><span class="n">MoveToNextPage</span><span class="p">();</span>
+<span class="p">}</span>
+
+<span class="kt">var</span> <span class="n">blockedUsers</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Users</span><span class="p">.</span><span class="n">GetBlockedUsers</span><span class="p">();</span>
+<span class="c1">// or</span>
+<span class="kt">var</span> <span class="n">blockedUsersIterator</span> <span class="p">=</span> <span class="n">client</span><span class="p">.</span><span class="n">Users</span><span class="p">.</span><span class="n">GetBlockedUsersIterator</span><span class="p">();</span>
+<span class="k">while</span> <span class="p">(!</span><span class="n">blockedUsersIterator</span><span class="p">.</span><span class="n">Completed</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="kt">var</span> <span class="n">blockedUsersPage</span> <span class="p">=</span> <span class="k">await</span> <span class="n">blockedUsersIterator</span><span class="p">.</span><span class="n">MoveToNextPage</span><span class="p">();</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="mute">
+<h2>Mute<a class="headerlink" href="#mute" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Users</span><span class="p">.</span><span class="n">MuteUser</span><span class="p">(</span><span class="n">userId</span><span class="p">);</span>
+<span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Users</span><span class="p">.</span><span class="n">UnmuteUser</span><span class="p">(</span><span class="n">userId</span><span class="p">);</span>
+</pre></div>
+</div>
+<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="kt">var</span> <span class="n">mutedUserIds</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Users</span><span class="p">.</span><span class="n">GetMutedUserIds</span><span class="p">();</span>
+<span class="c1">// or</span>
+<span class="kt">var</span> <span class="n">mutedUserIdsIterator</span> <span class="p">=</span> <span class="n">client</span><span class="p">.</span><span class="n">Users</span><span class="p">.</span><span class="n">GetMutedUserIdsIterator</span><span class="p">();</span>
+<span class="k">while</span> <span class="p">(!</span><span class="n">mutedUserIdsIterator</span><span class="p">.</span><span class="n">Completed</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="kt">var</span> <span class="n">mutedUserIdsPage</span> <span class="p">=</span> <span class="k">await</span> <span class="n">mutedUserIdsIterator</span><span class="p">.</span><span class="n">MoveToNextPage</span><span class="p">();</span>
+<span class="p">}</span>
+
+<span class="kt">var</span> <span class="n">mutedUsers</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Users</span><span class="p">.</span><span class="n">GetMutedUsers</span><span class="p">();</span>
+<span class="c1">// or</span>
+<span class="kt">var</span> <span class="n">mutedUsersIterator</span> <span class="p">=</span> <span class="n">client</span><span class="p">.</span><span class="n">Users</span><span class="p">.</span><span class="n">GetMutedUsersIterator</span><span class="p">();</span>
+<span class="k">while</span> <span class="p">(!</span><span class="n">mutedUsersIterator</span><span class="p">.</span><span class="n">Completed</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="kt">var</span> <span class="n">mutedUsersPage</span> <span class="p">=</span> <span class="k">await</span> <span class="n">mutedUsersIterator</span><span class="p">.</span><span class="n">MoveToNextPage</span><span class="p">();</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>You can also list the users whose retweets are muted.</p>
+<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="kt">var</span> <span class="n">usersWhoseRetweetsAreMuted</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Users</span><span class="p">.</span><span class="n">GetUserIdsWhoseRetweetsAreMuted</span><span class="p">();</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="report">
+<h2>Report<a class="headerlink" href="#report" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Users</span><span class="p">.</span><span class="n">ReportUserForSpam</span><span class="p">(</span><span class="s">&quot;tweetinviapi&quot;</span><span class="p">);</span>
 </pre></div>
 </div>
 </div>
