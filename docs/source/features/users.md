@@ -2,8 +2,6 @@
 
 ## Get a user
 
-Get a user by either screen name or by its id.
-
 ``` c#
 var tweetinviUser = await client.Users.GetUser("tweetinviapi");
 var tweetinviUser = await client.Users.GetUser(1577389800);
@@ -20,77 +18,11 @@ Get the user associated with the client's credentials. This user has additional 
 var authenticatedUser = await client.Users.GetAuthenticatedUser();
 ```
 
-## Followers
-
-``` c#
-// follow a user
-await client.Users.FollowUser("tweetinviapi");
-
-// stop following a user
-await client.Users.UnfollowUser(42);
-```
-
-### Follower Pending Requests
-
-When a user request to follow another private users, this operation needs to be authorized by the private user.\
-The following contains various methods allowing to check this.
-
-<div class="warning">
-TODO
-</div>
-
-
-### Listing followers
-
-By default twitter only support retrieving follower ids. This iterator can retrieve up to 5000 follower ids per page.
-
-``` c#
-// Get a list of followers
-var followerIds = await client.Users.GetFollowerIds("tweetinviapi");
-// or
-var followerIdsIterator = client.Users.GetFollowerIdsIterator(new GetFollowerIdsParameters("tweetinviapi"));
-while (!followerIdsIterator.Completed)
-{
-    var followersPage = await followerIdsIterator.MoveToNextPage();
-}
-```
-
-Tweetinvi can fetch populated user objects by performing a set of additional requests. This iterator can retrieve up to 100 users per page.
-
-``` c#
-var followersIterator = client.Users.GetFollowersIterator(new GetFollowersParameters("tweetinviapi"));
-while (!followersIterator.Completed)
-{
-    var followersPage = await followersIterator.MoveToNextPage();
-}
-```
-
-## Friends
-
-By default twitter only support retrieving friend ids. This iterator can retrieve up to 5000 follower ids per page.
-
-``` c#
-// Get a list of friends
-var friends = await client.Users.GetFriends("tweetinviapi");
-// or
-var friendIdsIterator = client.Users.GetFriendIdsIterator(new GetFriendIdsParameters("tweetinviapi"));
-while (!friendIdsIterator.Completed)
-{
-    var friendIdsPage = await friendIdsIterator.MoveToNextPage();
-}
-```
-
-Tweetinvi can fetch populated user objects by performing a set of additional requests. This iterator can retrieve up to 100 users per page.
-
-``` c#
-var friendIdsIterator = client.Users.GetFriendIdsIterator(new GetFriendIdsParameters("tweetinviapi"));
-while (!friendIdsIterator.Completed)
-{
-    var followersPage = await friendIdsIterator.MoveToNextPage();
-}
-```
-
 ## Block
+
+> Blocks the specified user from following the authenticating user. In addition the blocked user will not show in the authenticating users mentions or timeline (unless retweeted by another user). If a follow or friend relationship exists it is destroyed.
+
+[Learn more](https://help.twitter.com/en/using-twitter/blocking-and-unblocking-accounts)
 
 ``` c#
 await client.Users.BlockUser(userId);
@@ -116,6 +48,10 @@ while (!blockedUsersIterator.Completed)
 ```
 
 ## Mute
+
+> Mute is a feature that allows you to remove an account's Tweets from your timeline without unfollowing or blocking that account.
+
+[Learn more](https://help.twitter.com/en/using-twitter/twitter-mute)
 
 ``` c#
 await client.Users.MuteUser(userId);
@@ -148,6 +84,10 @@ var usersWhoseRetweetsAreMuted = await client.Users.GetUserIdsWhoseRetweetsAreMu
 
 ## Report
 
+> Report the specified user as a spam account to Twitter. Additionally, it blocks the user on behalf of the authenticated user.
+
+[Learn more](https://developer.twitter.com/en/docs/accounts-and-users/mute-block-report-users/api-reference/post-users-report_spam)
+
 ``` c#
-await client.Users.ReportUserForSpam("tweetinviapi");
+await client.Users.ReportUserForSpam("");
 ```

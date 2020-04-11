@@ -36,7 +36,7 @@
   <link rel="stylesheet" href="../_static/css/custom.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Media Upload" href="upload-media.html" />
+    <link rel="next" title="Followers, Friends and Relationships" href="users-followers-friends.html" />
     <link rel="prev" title="Tweets" href="tweets.html" /> 
 </head>
 
@@ -93,21 +93,17 @@
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Users</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#get-a-user">Get a user</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#get-the-authenticated-user">Get the authenticated user</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#followers">Followers</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#follower-pending-requests">Follower Pending Requests</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#listing-followers">Listing followers</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="#friends">Friends</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#block">Block</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#mute">Mute</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#report">Report</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="users-followers-friends.html">Followers, Friends and Relationships</a></li>
 <li class="toctree-l1"><a class="reference internal" href="upload-media.html">Media Upload</a></li>
 <li class="toctree-l1"><a class="reference internal" href="authentication.html">Authentication</a></li>
 <li class="toctree-l1"><a class="reference internal" href="authentication-url-redirect.html">Authentication - URL Redirect</a></li>
 <li class="toctree-l1"><a class="reference internal" href="authentication-pin-code.html">Authentication - PIN based</a></li>
+<li class="toctree-l1"><a class="reference internal" href="iterators.html">Iterators</a></li>
 </ul>
 <p class="caption"><span class="caption-text">More</span></p>
 <ul>
@@ -183,7 +179,6 @@
 <h1>Users<a class="headerlink" href="#users" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="get-a-user">
 <h2>Get a user<a class="headerlink" href="#get-a-user" title="Permalink to this headline">¶</a></h2>
-<p>Get a user by either screen name or by its id.</p>
 <div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="kt">var</span> <span class="n">tweetinviUser</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Users</span><span class="p">.</span><span class="n">GetUser</span><span class="p">(</span><span class="s">&quot;tweetinviapi&quot;</span><span class="p">);</span>
 <span class="kt">var</span> <span class="n">tweetinviUser</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Users</span><span class="p">.</span><span class="n">GetUser</span><span class="p">(</span><span class="m">1577389800</span><span class="p">);</span>
 
@@ -199,68 +194,12 @@
 </pre></div>
 </div>
 </div>
-<div class="section" id="followers">
-<h2>Followers<a class="headerlink" href="#followers" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="c1">// follow a user</span>
-<span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Users</span><span class="p">.</span><span class="n">FollowUser</span><span class="p">(</span><span class="s">&quot;tweetinviapi&quot;</span><span class="p">);</span>
-
-<span class="c1">// stop following a user</span>
-<span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Users</span><span class="p">.</span><span class="n">UnfollowUser</span><span class="p">(</span><span class="m">42</span><span class="p">);</span>
-</pre></div>
-</div>
-<div class="section" id="follower-pending-requests">
-<h3>Follower Pending Requests<a class="headerlink" href="#follower-pending-requests" title="Permalink to this headline">¶</a></h3>
-<p>When a user request to follow another private users, this operation needs to be authorized by the private user.<br />The following contains various methods allowing to check this.</p>
-<div class="warning">
-TODO
-</div></div>
-<div class="section" id="listing-followers">
-<h3>Listing followers<a class="headerlink" href="#listing-followers" title="Permalink to this headline">¶</a></h3>
-<p>By default twitter only support retrieving follower ids. This iterator can retrieve up to 5000 follower ids per page.</p>
-<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="c1">// Get a list of followers</span>
-<span class="kt">var</span> <span class="n">followerIds</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Users</span><span class="p">.</span><span class="n">GetFollowerIds</span><span class="p">(</span><span class="s">&quot;tweetinviapi&quot;</span><span class="p">);</span>
-<span class="c1">// or</span>
-<span class="kt">var</span> <span class="n">followerIdsIterator</span> <span class="p">=</span> <span class="n">client</span><span class="p">.</span><span class="n">Users</span><span class="p">.</span><span class="n">GetFollowerIdsIterator</span><span class="p">(</span><span class="k">new</span> <span class="n">GetFollowerIdsParameters</span><span class="p">(</span><span class="s">&quot;tweetinviapi&quot;</span><span class="p">));</span>
-<span class="k">while</span> <span class="p">(!</span><span class="n">followerIdsIterator</span><span class="p">.</span><span class="n">Completed</span><span class="p">)</span>
-<span class="p">{</span>
-    <span class="kt">var</span> <span class="n">followersPage</span> <span class="p">=</span> <span class="k">await</span> <span class="n">followerIdsIterator</span><span class="p">.</span><span class="n">MoveToNextPage</span><span class="p">();</span>
-<span class="p">}</span>
-</pre></div>
-</div>
-<p>Tweetinvi can fetch populated user objects by performing a set of additional requests. This iterator can retrieve up to 100 users per page.</p>
-<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="kt">var</span> <span class="n">followersIterator</span> <span class="p">=</span> <span class="n">client</span><span class="p">.</span><span class="n">Users</span><span class="p">.</span><span class="n">GetFollowersIterator</span><span class="p">(</span><span class="k">new</span> <span class="n">GetFollowersParameters</span><span class="p">(</span><span class="s">&quot;tweetinviapi&quot;</span><span class="p">));</span>
-<span class="k">while</span> <span class="p">(!</span><span class="n">followersIterator</span><span class="p">.</span><span class="n">Completed</span><span class="p">)</span>
-<span class="p">{</span>
-    <span class="kt">var</span> <span class="n">followersPage</span> <span class="p">=</span> <span class="k">await</span> <span class="n">followersIterator</span><span class="p">.</span><span class="n">MoveToNextPage</span><span class="p">();</span>
-<span class="p">}</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="section" id="friends">
-<h2>Friends<a class="headerlink" href="#friends" title="Permalink to this headline">¶</a></h2>
-<p>By default twitter only support retrieving friend ids. This iterator can retrieve up to 5000 follower ids per page.</p>
-<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="c1">// Get a list of friends</span>
-<span class="kt">var</span> <span class="n">friends</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Users</span><span class="p">.</span><span class="n">GetFriends</span><span class="p">(</span><span class="s">&quot;tweetinviapi&quot;</span><span class="p">);</span>
-<span class="c1">// or</span>
-<span class="kt">var</span> <span class="n">friendIdsIterator</span> <span class="p">=</span> <span class="n">client</span><span class="p">.</span><span class="n">Users</span><span class="p">.</span><span class="n">GetFriendIdsIterator</span><span class="p">(</span><span class="k">new</span> <span class="n">GetFriendIdsParameters</span><span class="p">(</span><span class="s">&quot;tweetinviapi&quot;</span><span class="p">));</span>
-<span class="k">while</span> <span class="p">(!</span><span class="n">friendIdsIterator</span><span class="p">.</span><span class="n">Completed</span><span class="p">)</span>
-<span class="p">{</span>
-    <span class="kt">var</span> <span class="n">friendIdsPage</span> <span class="p">=</span> <span class="k">await</span> <span class="n">friendIdsIterator</span><span class="p">.</span><span class="n">MoveToNextPage</span><span class="p">();</span>
-<span class="p">}</span>
-</pre></div>
-</div>
-<p>Tweetinvi can fetch populated user objects by performing a set of additional requests. This iterator can retrieve up to 100 users per page.</p>
-<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="kt">var</span> <span class="n">friendIdsIterator</span> <span class="p">=</span> <span class="n">client</span><span class="p">.</span><span class="n">Users</span><span class="p">.</span><span class="n">GetFriendIdsIterator</span><span class="p">(</span><span class="k">new</span> <span class="n">GetFriendIdsParameters</span><span class="p">(</span><span class="s">&quot;tweetinviapi&quot;</span><span class="p">));</span>
-<span class="k">while</span> <span class="p">(!</span><span class="n">friendIdsIterator</span><span class="p">.</span><span class="n">Completed</span><span class="p">)</span>
-<span class="p">{</span>
-    <span class="kt">var</span> <span class="n">followersPage</span> <span class="p">=</span> <span class="k">await</span> <span class="n">friendIdsIterator</span><span class="p">.</span><span class="n">MoveToNextPage</span><span class="p">();</span>
-<span class="p">}</span>
-</pre></div>
-</div>
-</div>
 <div class="section" id="block">
 <h2>Block<a class="headerlink" href="#block" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><p>Blocks the specified user from following the authenticating user. In addition the blocked user will not show in the authenticating users mentions or timeline (unless retweeted by another user). If a follow or friend relationship exists it is destroyed.</p>
+</div></blockquote>
+<p><a class="reference external" href="https://help.twitter.com/en/using-twitter/blocking-and-unblocking-accounts">Learn more</a></p>
 <div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Users</span><span class="p">.</span><span class="n">BlockUser</span><span class="p">(</span><span class="n">userId</span><span class="p">);</span>
 <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Users</span><span class="p">.</span><span class="n">UnblockUser</span><span class="p">(</span><span class="n">userId</span><span class="p">);</span>
 </pre></div>
@@ -285,6 +224,10 @@ TODO
 </div>
 <div class="section" id="mute">
 <h2>Mute<a class="headerlink" href="#mute" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><p>Mute is a feature that allows you to remove an account’s Tweets from your timeline without unfollowing or blocking that account.</p>
+</div></blockquote>
+<p><a class="reference external" href="https://help.twitter.com/en/using-twitter/twitter-mute">Learn more</a></p>
 <div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Users</span><span class="p">.</span><span class="n">MuteUser</span><span class="p">(</span><span class="n">userId</span><span class="p">);</span>
 <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Users</span><span class="p">.</span><span class="n">UnmuteUser</span><span class="p">(</span><span class="n">userId</span><span class="p">);</span>
 </pre></div>
@@ -313,7 +256,11 @@ TODO
 </div>
 <div class="section" id="report">
 <h2>Report<a class="headerlink" href="#report" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Users</span><span class="p">.</span><span class="n">ReportUserForSpam</span><span class="p">(</span><span class="s">&quot;tweetinviapi&quot;</span><span class="p">);</span>
+<blockquote>
+<div><p>Report the specified user as a spam account to Twitter. Additionally, it blocks the user on behalf of the authenticated user.</p>
+</div></blockquote>
+<p><a class="reference external" href="https://developer.twitter.com/en/docs/accounts-and-users/mute-block-report-users/api-reference/post-users-report_spam">Learn more</a></p>
+<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Users</span><span class="p">.</span><span class="n">ReportUserForSpam</span><span class="p">(</span><span class="s">&quot;&quot;</span><span class="p">);</span>
 </pre></div>
 </div>
 </div>
@@ -327,7 +274,7 @@ TODO
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="upload-media.html" class="btn btn-neutral float-right" title="Media Upload" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="users-followers-friends.html" class="btn btn-neutral float-right" title="Followers, Friends and Relationships" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="tweets.html" class="btn btn-neutral float-left" title="Tweets" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>

@@ -24,10 +24,12 @@ The goal of this library is to make life of developers as easy as possible.
 
    features/tweets
    features/users
+   features/users-followers-friends
    features/upload-media
    features/authentication
    features/authentication-url-redirect
    features/authentication-pin-code
+   features/iterators
 
 .. toctree::
    :maxdepth: 1
