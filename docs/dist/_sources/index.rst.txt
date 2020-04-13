@@ -23,9 +23,10 @@ The goal of this library is to make life of developers as easy as possible.
    :caption: Features
 
    features/tweets
-   features/users
-   features/users-followers-friends
    features/messages
+   features/users
+   features/search
+   features/users-followers-friends
    features/direct-api-calls
    features/upload-media
    features/iterators

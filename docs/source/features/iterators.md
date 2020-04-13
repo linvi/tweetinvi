@@ -39,7 +39,7 @@ var timelineIterator = client.Timelines.GetHomeTimelineIterator();
 while (!timelineIterator.Completed)
 {
     var page = await timelineIterator.MoveToNextPage(); 
-    timelineTweets.AddRange(page.ToArray());
+    timelineTweets.AddRange(page);
 }
 ```
 
