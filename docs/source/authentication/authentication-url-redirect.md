@@ -1,4 +1,4 @@
-# Authentication - URL Redirect
+# URL Redirect Authentication
 
 **URL redirect authentication** is better suited for Web Application.\
 If you are writing a desktop application I suggest that you use the [PIN based authentication](./authentication-pin-code).

@@ -25,12 +25,19 @@ The goal of this library is to make life of developers as easy as possible.
    features/tweets
    features/users
    features/users-followers-friends
+   features/messages
    features/upload-media
-   features/authentication
-   features/authentication-url-redirect
-   features/authentication-pin-code
    features/iterators
 
+.. toctree::
+   :maxdepth: 1
+   :hidden:
+   :caption: Authentication
+
+   authentication/authentication
+   authentication/authentication-url-redirect
+   authentication/authentication-pin-code
+   
 .. toctree::
    :maxdepth: 1
    :hidden:

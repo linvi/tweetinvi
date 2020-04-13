@@ -25,6 +25,7 @@
         <script src="../_static/underscore.js"></script>
         <script src="../_static/doctools.js"></script>
         <script src="../_static/language_data.js"></script>
+        <script src="../_static/js/custom.js"></script>
     
     <script type="text/javascript" src="../_static/js/theme.js"></script>
 
@@ -101,11 +102,15 @@
 <li class="toctree-l1"><a class="reference internal" href="../features/tweets.html">Tweets</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../features/users.html">Users</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../features/users-followers-friends.html">Followers, Friends and Relationships</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../features/messages.html">Messages</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../features/upload-media.html">Media Upload</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../features/authentication.html">Authentication</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../features/authentication-url-redirect.html">Authentication - URL Redirect</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../features/authentication-pin-code.html">Authentication - PIN based</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../features/iterators.html">Iterators</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Authentication</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../authentication/authentication.html">Introduction to Authentication</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../authentication/authentication-url-redirect.html">URL Redirect Authentication</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../authentication/authentication-pin-code.html">PIN based Authentication</a></li>
 </ul>
 <p class="caption"><span class="caption-text">More</span></p>
 <ul>
@@ -230,7 +235,7 @@
 </div></blockquote>
 <p><a class="reference internal" href="../features/iterators.html"><span class="doc">Learn more about iterators</span></a></p>
 <p>Find an example below with the user timeline iterator.</p>
-<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="kt">var</span> <span class="n">userTimelineIterator</span> <span class="p">=</span> <span class="n">client</span><span class="p">.</span><span class="n">Timelines</span><span class="p">.</span><span class="n">GetUserTimelineIterator</span><span class="p">(</span><span class="s">&quot;tweetinviapi&quot;</span><span class="p">);</span>
+<div class="iterator-available"><div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="kt">var</span> <span class="n">userTimelineIterator</span> <span class="p">=</span> <span class="n">client</span><span class="p">.</span><span class="n">Timelines</span><span class="p">.</span><span class="n">GetUserTimelineIterator</span><span class="p">(</span><span class="s">&quot;tweetinviapi&quot;</span><span class="p">);</span>
 
 <span class="k">while</span> <span class="p">(!</span><span class="n">userTimelineIterator</span><span class="p">.</span><span class="n">Completed</span><span class="p">)</span>
 <span class="p">{</span>
@@ -241,7 +246,7 @@
 <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="s">&quot;We have now retrieved all the tweets!&quot;</span><span class="p">);</span>
 </pre></div>
 </div>
-</div>
+</div></div>
 <div class="section" id="search">
 <h2>Search<a class="headerlink" href="#search" title="Permalink to this headline">¶</a></h2>
 <div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="c1">// Search tweets</span>

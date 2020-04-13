@@ -64,6 +64,10 @@ html_css_files = [
     'css/custom.css',
 ]
 
+html_js_files = [
+    'js/custom.js'
+]
+
 # This forces a refresh of the static content on every build
 def env_get_outdated(app, env, added, changed, removed):
     return ['index']

@@ -3,6 +3,17 @@
 Twitter API has multiple endpoints that exposes pages api. The implementation might differ from endpoint to endpoint.\
 Tweetinvi hides this complexity to you via `iterators`.
 
+<p class="iterator-available" style="margin-bottom: 10px;">
+    When you see a tag 
+    <span style="padding: 0px 5px;">
+    <span class="iterator" style="float: none; padding: 1px 10px 3px 10px;">
+        <b>iterators</b> 
+        <span class="fa fa-arrow-circle-right" style="margin-left: 10px;"></span>
+    </span>
+    </span>
+    it informs you that the endpoint can be reached via an iterator.
+</p>
+
 ## Iterator
 
 > Iterators let you request multiple pages until no more items are available.

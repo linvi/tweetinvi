@@ -29,23 +29,23 @@ await client.Users.BlockUser(userId);
 await client.Users.UnblockUser(userId);
 ```
 
+<div class="iterator-available">
+
 ``` c#
 var blockedUserIds = await client.Users.GetBlockedUserIds();
 // or
 var blockedUserIdsIterator = client.Users.GetBlockedUserIdsIterator();
-while (!blockedUserIdsIterator.Completed)
-{
-    var blockedUserIdsPage = await blockedUserIdsIterator.MoveToNextPage();
-}
+```
+</div>
+<div class="iterator-available">
 
+``` c#
 var blockedUsers = await client.Users.GetBlockedUsers();
 // or
 var blockedUsersIterator = client.Users.GetBlockedUsersIterator();
-while (!blockedUsersIterator.Completed)
-{
-    var blockedUsersPage = await blockedUsersIterator.MoveToNextPage();
-}
 ```
+
+</div>
 
 ## Mute
 
@@ -58,23 +58,24 @@ await client.Users.MuteUser(userId);
 await client.Users.UnmuteUser(userId);
 ```
 
+<div class="iterator-available">
+
 ``` c#
 var mutedUserIds = await client.Users.GetMutedUserIds();
 // or
 var mutedUserIdsIterator = client.Users.GetMutedUserIdsIterator();
-while (!mutedUserIdsIterator.Completed)
-{
-    var mutedUserIdsPage = await mutedUserIdsIterator.MoveToNextPage();
-}
+```
 
+</div>
+<div class="iterator-available">
+
+``` c#
 var mutedUsers = await client.Users.GetMutedUsers();
 // or
 var mutedUsersIterator = client.Users.GetMutedUsersIterator();
-while (!mutedUsersIterator.Completed)
-{
-    var mutedUsersPage = await mutedUsersIterator.MoveToNextPage();
-}
 ```
+
+</div>
 
 You can also list the users whose retweets are muted.
 

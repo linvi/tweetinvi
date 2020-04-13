@@ -2,7 +2,7 @@
 
 From a user account perspective another user can either be a follower or a person that you you follow also described as friend.
 
-## Followers
+## Add Friend
 
 ``` c#
 // follow a user
@@ -12,123 +12,99 @@ await client.Users.FollowUser("tweetinviapi");
 await client.Users.UnfollowUser(42);
 ```
 
-### List followers
-
-``` c#
-var followerIds = await client.Users.GetFollowerIds("tweetinviapi");
-
-// or
-
-var followerIdsIterator = client.Users.GetFollowerIdsIterator(new GetFollowerIdsParameters("tweetinviapi"));
-while (!followerIdsIterator.Completed)
-{
-    var followersPage = await followerIdsIterator.MoveToNextPage();
-}
-```
-
-Tweetinvi can fetch populated user objects by performing a set of additional requests. This iterator can retrieve up to 100 users per page.
-
-``` c#
-var followers = await client.Users.GetFollowers("tweetinviapi");
-
-// or
-
-var followersIterator = client.Users.GetFollowersIterator(new GetFollowersParameters("tweetinviapi"));
-while (!followersIterator.Completed)
-{
-    var followersPage = await followersIterator.MoveToNextPage();
-}
-```
-
-## Followers Outgoing Requests
-
-> As an authenticated user following a private user, an outgoing follower request is sent to this private user. 
-
-``` c#
-var userIdsYouRequestedToFollow = await client.Users.GetUserIdsYouRequestedToFollow();
-
-// or
-
-var userIdsYouRequestedToFollowIterator = client.Users.GetUserIdsYouRequestedToFollowIterator();
-while (!userIdsYouRequestedToFollowIterator.Completed)
-{
-    var followerIdsRequestPage = await userIdsYouRequestedToFollowIterator.MoveToNextPage();
-}
-```
-
-Tweetinvi can fetch populated user objects by performing a set of additional requests. This iterator can retrieve up to 100 users per page.
-
-``` c#
-var usersYouRequestedToFollow = await client.Users.GetUsersYouRequestedToFollow();
-
-// or
-
-var usersYouRequestedToFollowIterator = client.Users.GetUsersYouRequestedToFollowIterator();
-while (!usersYouRequestedToFollowIterator.Completed)
-{
-    var followerRequestPage = await usersYouRequestedToFollowIterator.MoveToNextPage();
-}
-```
-
-## Followers Incoming Requests
-
-> As a private user, any other user attempting to follow you will create an incoming request.
-
-``` c#
-var userIdsRequestingFriendship = await client.Users.GetUserIdsRequestingFriendship();
-
-// or
-
-var userIdsRequestingFriendshipIterator = client.Users.GetUserIdsRequestingFriendshipIterator();
-while (!userIdsRequestingFriendshipIterator.Completed)
-{
-    var userIdsPage = await userIdsRequestingFriendshipIterator.MoveToNextPage();
-}
-```
-
-Tweetinvi can fetch populated user objects by performing a set of additional requests. This iterator can retrieve up to 100 users per page.
-
-``` c#
-var userRequestingFriendship = await client.Users.GetUsersRequestingFriendship();
-
-// or
-
-var usersRequestingFriendshipIterator = client.Users.GetUsersRequestingFriendshipIterator();
-while (!usersRequestingFriendshipIterator.Completed)
-{
-    var userIdsPage = await usersRequestingFriendshipIterator.MoveToNextPage();
-}
-```
-
-## Friends
+## List Friends
 
 > List the users followed by a specific user.
 
+<div class="iterator-available">
+
 ``` c#
 var friendIds = await client.Users.GetFriendIds("tweetinviapi");
-
 // or
-
 var friendIdsIterator = client.Users.GetFriendIdsIterator(new GetFriendIdsParameters("tweetinviapi"));
-while (!friendIdsIterator.Completed)
-{
-    var friendIdsPage = await friendIdsIterator.MoveToNextPage();
-}
 ```
+</div>
 
 Tweetinvi can fetch populated user objects by performing a set of additional requests. This iterator can retrieve up to 100 users per page.
 
+<div class="iterator-available">
+
 ``` c#
 var friends = await client.Users.GetFriends("tweetinviapi");
-
 // or
-
-var friendIdsIterator = client.Users.GetFriendIdsIterator(new GetFriendIdsParameters("tweetinviapi"));
-while (!friendIdsIterator.Completed)
-{
-    var followersPage = await friendIdsIterator.MoveToNextPage();
-}
+var friendsIterator = client.Users.GetFriendsIterator(new GetFriendsParameters("tweetinviapi"));
 ```
+</div>
+
+## List Followers
+
+<div class="iterator-available">
+
+``` c#
+var followerIds = await client.Users.GetFollowerIds("tweetinviapi");
+// or
+var followerIdsIterator = client.Users.GetFollowerIdsIterator(new GetFollowerIdsParameters("tweetinviapi"));
+```
+</div>
+
+Tweetinvi can fetch populated user objects by performing a set of additional requests. This iterator can retrieve up to 100 users per page.
+
+<div class="iterator-available">
+
+``` c#
+var followers = await client.Users.GetFollowers("tweetinviapi");
+// or
+var followersIterator = client.Users.GetFollowersIterator(new GetFollowersParameters("tweetinviapi"));
+```
+</div>
+
+## Outgoing Follower Requests
+
+> As an authenticated user following a private user, an outgoing follower request is sent to this private user. 
+
+<div class="iterator-available">
+
+``` c#
+var userIdsYouRequestedToFollow = await client.Users.GetUserIdsYouRequestedToFollow();
+// or
+var userIdsYouRequestedToFollowIterator = client.Users.GetUserIdsYouRequestedToFollowIterator();
+```
+</div>
+
+Tweetinvi can fetch populated user objects by performing a set of additional requests. This iterator can retrieve up to 100 users per page.
+
+<div class="iterator-available">
+
+``` c#
+var usersYouRequestedToFollow = await client.Users.GetUsersYouRequestedToFollow();
+// or
+var usersYouRequestedToFollowIterator = client.Users.GetUsersYouRequestedToFollowIterator();
+```
+</div>
+
+## Incoming Follower Requests
+
+> As a private user, any other user attempting to follow you will create an incoming request.
+
+<div class="iterator-available">
+
+``` c#
+var userIdsRequestingFriendship = await client.Users.GetUserIdsRequestingFriendship();
+// or
+var userIdsRequestingFriendshipIterator = client.Users.GetUserIdsRequestingFriendshipIterator();
+```
+</div>
+
+Tweetinvi can fetch populated user objects by performing a set of additional requests. This iterator can retrieve up to 100 users per page.
+
+<div class="iterator-available">
+
+``` c#
+var userRequestingFriendship = await client.Users.GetUsersRequestingFriendship();
+// or
+var usersRequestingFriendshipIterator = client.Users.GetUsersRequestingFriendshipIterator();
+```
+</div>
 
 ## Relationships
 

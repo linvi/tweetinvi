@@ -30,20 +30,20 @@ var fullTweet = await client.Tweets.PublishTweet(new PublishTweetParameters("A c
 // publish a retweet
 var retweet = await client.Tweets.PublishRetweet(tweet);
 
+// destroy the retweet
+await client.Tweets.DestroyRetweet(retweet);
+```
+
+<div class="iterator-available">
+
+``` c#
 // get retweeters
 var retweeters = await client.Tweets.GetRetweeterIds();
 // or
 var retweeterIdsIterator = client.Tweets.GetRetweeterIdsIterator(tweet);
-while (!retweeterIdsIterator.Completed)
-{
-    var retweeterIdsPage = await retweeterIdsIterator.MoveToNextPage();
-}
-
-// destroy the retweet
-await client.Tweets.DestroyRetweet(retweet);
-// or 
-await client.Tweets.DestroyRetweet(retweet);
 ```
+
+</div>
 
 ## Replies
 
@@ -68,7 +68,7 @@ You can attach images, gif and videos that you uploaded to your tweets.
 
 ``` c#
 var tweetinviLogoBinary = File.ReadAllBytes("./tweetinvi-logo-purple.png");
-var uploadedImage = await client.Upload.UploadImage(tweetinviLogoBinary);
+var uploadedImage = await client.Upload.UploadTweetImage(tweetinviLogoBinary);
 var tweetWithImage = await client.Tweets.PublishTweet(new PublishTweetParameters("Tweet with an image")
 {
     Medias = { uploadedImage }
@@ -79,7 +79,7 @@ var tweetWithImage = await client.Tweets.PublishTweet(new PublishTweetParameters
 
 ``` c#
 var videoBinary = File.ReadAllBytes("./video.mp4");
-var uploadedVideo = await client.Upload.UploadVideo(videoBinary);
+var uploadedVideo = await client.Upload.UploadTweetVideo(videoBinary);
 
 // IMPORTANT: you need to wait for Twitter to process the video
 await client.Upload.WaitForMediaProcessingToGetAllMetadata(uploadedVideo);
@@ -97,16 +97,18 @@ var tweetWithVideo = await client.Tweets.PublishTweet(new PublishTweetParameters
 await client.Tweets.FavoriteTweet(tweet);
 // remove
 await client.Tweets.UnfavoriteTweet(tweet);
+```
 
+<div class="iterator-available">
+
+``` c#
 // get user favourites
 var favouritedTweets = await client.Tweets.GetUserFavoriteTweets("tweetinviapi");
 // or
 var favoriteTweetsIterator = client.Tweets.GetUserFavoriteTweetsIterator("tweetinviapi");
-while (!favoriteTweetsIterator.Completed)
-{
-    var favoritesPage = await favoriteTweetsIterator.MoveToNextPage();
-}
 ```
+
+</div>
 
 ## OEmbed Tweets
 

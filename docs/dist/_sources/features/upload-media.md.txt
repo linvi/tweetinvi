@@ -13,14 +13,24 @@ Restrictions to the media also apply, check this [documentation for more informa
 
 ``` c#
 var tweetinviLogoBinary = File.ReadAllBytes("./tweetinvi-logo-purple.png");
-var uploadedImage = await client.Upload.UploadImage(tweetinviLogoBinary);
+
+// for tweets
+var uploadedImage = await client.Upload.UploadTweetImage(tweetinviLogoBinary);
+
+// for messages
+var uploadedImage = await client.Upload.UploadMessageImage(tweetinviLogoBinary);
 ```
 
 ## Video
 
 ``` c#
 var videoBinary = File.ReadAllBytes("./video.mp4");
-var uploadedVideo = await client.Upload.UploadVideo(videoBinary);
+
+// for tweets
+var uploadedVideo = await client.Upload.UploadTweetVideo(videoBinary);
+
+// for messages
+var uploadedVideo = await client.Upload.UploadMessageVideo(videoBinary);
 ```
 
 <div class="warning">
@@ -71,7 +81,7 @@ var uploadedVideo = await client.Upload.UploadBinaryParameters(new UploadVideoPa
 Twitter let you [add metadata](https://developer.twitter.com/en/docs/media/upload-media/api-reference/post-media-metadata-create) to media after they have been uploaded.
 
 ``` c#
-var media = await client.Upload.UploadImage("../some/path");
+var media = await client.Upload.UploadTweetImage("../some/path");
 await client.Upload.AddMediaMetadata(new MediaMetadata(media)
 {
     AltText = "Hello",

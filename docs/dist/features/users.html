@@ -25,6 +25,7 @@
         <script src="../_static/underscore.js"></script>
         <script src="../_static/doctools.js"></script>
         <script src="../_static/language_data.js"></script>
+        <script src="../_static/js/custom.js"></script>
     
     <script type="text/javascript" src="../_static/js/theme.js"></script>
 
@@ -99,11 +100,15 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="users-followers-friends.html">Followers, Friends and Relationships</a></li>
+<li class="toctree-l1"><a class="reference internal" href="messages.html">Messages</a></li>
 <li class="toctree-l1"><a class="reference internal" href="upload-media.html">Media Upload</a></li>
-<li class="toctree-l1"><a class="reference internal" href="authentication.html">Authentication</a></li>
-<li class="toctree-l1"><a class="reference internal" href="authentication-url-redirect.html">Authentication - URL Redirect</a></li>
-<li class="toctree-l1"><a class="reference internal" href="authentication-pin-code.html">Authentication - PIN based</a></li>
 <li class="toctree-l1"><a class="reference internal" href="iterators.html">Iterators</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Authentication</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../authentication/authentication.html">Introduction to Authentication</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../authentication/authentication-url-redirect.html">URL Redirect Authentication</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../authentication/authentication-pin-code.html">PIN based Authentication</a></li>
 </ul>
 <p class="caption"><span class="caption-text">More</span></p>
 <ul>
@@ -204,24 +209,18 @@
 <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Users</span><span class="p">.</span><span class="n">UnblockUser</span><span class="p">(</span><span class="n">userId</span><span class="p">);</span>
 </pre></div>
 </div>
-<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="kt">var</span> <span class="n">blockedUserIds</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Users</span><span class="p">.</span><span class="n">GetBlockedUserIds</span><span class="p">();</span>
+<div class="iterator-available"><div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="kt">var</span> <span class="n">blockedUserIds</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Users</span><span class="p">.</span><span class="n">GetBlockedUserIds</span><span class="p">();</span>
 <span class="c1">// or</span>
 <span class="kt">var</span> <span class="n">blockedUserIdsIterator</span> <span class="p">=</span> <span class="n">client</span><span class="p">.</span><span class="n">Users</span><span class="p">.</span><span class="n">GetBlockedUserIdsIterator</span><span class="p">();</span>
-<span class="k">while</span> <span class="p">(!</span><span class="n">blockedUserIdsIterator</span><span class="p">.</span><span class="n">Completed</span><span class="p">)</span>
-<span class="p">{</span>
-    <span class="kt">var</span> <span class="n">blockedUserIdsPage</span> <span class="p">=</span> <span class="k">await</span> <span class="n">blockedUserIdsIterator</span><span class="p">.</span><span class="n">MoveToNextPage</span><span class="p">();</span>
-<span class="p">}</span>
-
-<span class="kt">var</span> <span class="n">blockedUsers</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Users</span><span class="p">.</span><span class="n">GetBlockedUsers</span><span class="p">();</span>
-<span class="c1">// or</span>
-<span class="kt">var</span> <span class="n">blockedUsersIterator</span> <span class="p">=</span> <span class="n">client</span><span class="p">.</span><span class="n">Users</span><span class="p">.</span><span class="n">GetBlockedUsersIterator</span><span class="p">();</span>
-<span class="k">while</span> <span class="p">(!</span><span class="n">blockedUsersIterator</span><span class="p">.</span><span class="n">Completed</span><span class="p">)</span>
-<span class="p">{</span>
-    <span class="kt">var</span> <span class="n">blockedUsersPage</span> <span class="p">=</span> <span class="k">await</span> <span class="n">blockedUsersIterator</span><span class="p">.</span><span class="n">MoveToNextPage</span><span class="p">();</span>
-<span class="p">}</span>
 </pre></div>
 </div>
 </div>
+<div class="iterator-available"><div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="kt">var</span> <span class="n">blockedUsers</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Users</span><span class="p">.</span><span class="n">GetBlockedUsers</span><span class="p">();</span>
+<span class="c1">// or</span>
+<span class="kt">var</span> <span class="n">blockedUsersIterator</span> <span class="p">=</span> <span class="n">client</span><span class="p">.</span><span class="n">Users</span><span class="p">.</span><span class="n">GetBlockedUsersIterator</span><span class="p">();</span>
+</pre></div>
+</div>
+</div></div>
 <div class="section" id="mute">
 <h2>Mute<a class="headerlink" href="#mute" title="Permalink to this headline">¶</a></h2>
 <blockquote>
@@ -232,24 +231,18 @@
 <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Users</span><span class="p">.</span><span class="n">UnmuteUser</span><span class="p">(</span><span class="n">userId</span><span class="p">);</span>
 </pre></div>
 </div>
-<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="kt">var</span> <span class="n">mutedUserIds</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Users</span><span class="p">.</span><span class="n">GetMutedUserIds</span><span class="p">();</span>
+<div class="iterator-available"><div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="kt">var</span> <span class="n">mutedUserIds</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Users</span><span class="p">.</span><span class="n">GetMutedUserIds</span><span class="p">();</span>
 <span class="c1">// or</span>
 <span class="kt">var</span> <span class="n">mutedUserIdsIterator</span> <span class="p">=</span> <span class="n">client</span><span class="p">.</span><span class="n">Users</span><span class="p">.</span><span class="n">GetMutedUserIdsIterator</span><span class="p">();</span>
-<span class="k">while</span> <span class="p">(!</span><span class="n">mutedUserIdsIterator</span><span class="p">.</span><span class="n">Completed</span><span class="p">)</span>
-<span class="p">{</span>
-    <span class="kt">var</span> <span class="n">mutedUserIdsPage</span> <span class="p">=</span> <span class="k">await</span> <span class="n">mutedUserIdsIterator</span><span class="p">.</span><span class="n">MoveToNextPage</span><span class="p">();</span>
-<span class="p">}</span>
-
-<span class="kt">var</span> <span class="n">mutedUsers</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Users</span><span class="p">.</span><span class="n">GetMutedUsers</span><span class="p">();</span>
-<span class="c1">// or</span>
-<span class="kt">var</span> <span class="n">mutedUsersIterator</span> <span class="p">=</span> <span class="n">client</span><span class="p">.</span><span class="n">Users</span><span class="p">.</span><span class="n">GetMutedUsersIterator</span><span class="p">();</span>
-<span class="k">while</span> <span class="p">(!</span><span class="n">mutedUsersIterator</span><span class="p">.</span><span class="n">Completed</span><span class="p">)</span>
-<span class="p">{</span>
-    <span class="kt">var</span> <span class="n">mutedUsersPage</span> <span class="p">=</span> <span class="k">await</span> <span class="n">mutedUsersIterator</span><span class="p">.</span><span class="n">MoveToNextPage</span><span class="p">();</span>
-<span class="p">}</span>
 </pre></div>
 </div>
-<p>You can also list the users whose retweets are muted.</p>
+</div>
+<div class="iterator-available"><div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="kt">var</span> <span class="n">mutedUsers</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Users</span><span class="p">.</span><span class="n">GetMutedUsers</span><span class="p">();</span>
+<span class="c1">// or</span>
+<span class="kt">var</span> <span class="n">mutedUsersIterator</span> <span class="p">=</span> <span class="n">client</span><span class="p">.</span><span class="n">Users</span><span class="p">.</span><span class="n">GetMutedUsersIterator</span><span class="p">();</span>
+</pre></div>
+</div>
+</div><p>You can also list the users whose retweets are muted.</p>
 <div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="kt">var</span> <span class="n">usersWhoseRetweetsAreMuted</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Users</span><span class="p">.</span><span class="n">GetUserIdsWhoseRetweetsAreMuted</span><span class="p">();</span>
 </pre></div>
 </div>

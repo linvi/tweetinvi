@@ -52,6 +52,8 @@ var userTimeline = await client.Timelines.GetUserTimeline("tweetinviapi");
 
 Find an example below with the user timeline iterator.
 
+<div class="iterator-available">
+
 ``` c#
 var userTimelineIterator = client.Timelines.GetUserTimelineIterator("tweetinviapi");
 
@@ -63,6 +65,7 @@ while (!userTimelineIterator.Completed)
 
 Console.WriteLine("We have now retrieved all the tweets!");
 ```
+</div>
 
 ## Search
 

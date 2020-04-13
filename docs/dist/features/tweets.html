@@ -25,6 +25,7 @@
         <script src="../_static/underscore.js"></script>
         <script src="../_static/doctools.js"></script>
         <script src="../_static/language_data.js"></script>
+        <script src="../_static/js/custom.js"></script>
     
     <script type="text/javascript" src="../_static/js/theme.js"></script>
 
@@ -104,11 +105,15 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="users.html">Users</a></li>
 <li class="toctree-l1"><a class="reference internal" href="users-followers-friends.html">Followers, Friends and Relationships</a></li>
+<li class="toctree-l1"><a class="reference internal" href="messages.html">Messages</a></li>
 <li class="toctree-l1"><a class="reference internal" href="upload-media.html">Media Upload</a></li>
-<li class="toctree-l1"><a class="reference internal" href="authentication.html">Authentication</a></li>
-<li class="toctree-l1"><a class="reference internal" href="authentication-url-redirect.html">Authentication - URL Redirect</a></li>
-<li class="toctree-l1"><a class="reference internal" href="authentication-pin-code.html">Authentication - PIN based</a></li>
 <li class="toctree-l1"><a class="reference internal" href="iterators.html">Iterators</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Authentication</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../authentication/authentication.html">Introduction to Authentication</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../authentication/authentication-url-redirect.html">URL Redirect Authentication</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../authentication/authentication-pin-code.html">PIN based Authentication</a></li>
 </ul>
 <p class="caption"><span class="caption-text">More</span></p>
 <ul>
@@ -209,22 +214,17 @@
 <div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="c1">// publish a retweet</span>
 <span class="kt">var</span> <span class="n">retweet</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Tweets</span><span class="p">.</span><span class="n">PublishRetweet</span><span class="p">(</span><span class="n">tweet</span><span class="p">);</span>
 
-<span class="c1">// get retweeters</span>
-<span class="kt">var</span> <span class="n">retweeters</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Tweets</span><span class="p">.</span><span class="n">GetRetweeterIds</span><span class="p">();</span>
-<span class="c1">// or</span>
-<span class="kt">var</span> <span class="n">retweeterIdsIterator</span> <span class="p">=</span> <span class="n">client</span><span class="p">.</span><span class="n">Tweets</span><span class="p">.</span><span class="n">GetRetweeterIdsIterator</span><span class="p">(</span><span class="n">tweet</span><span class="p">);</span>
-<span class="k">while</span> <span class="p">(!</span><span class="n">retweeterIdsIterator</span><span class="p">.</span><span class="n">Completed</span><span class="p">)</span>
-<span class="p">{</span>
-    <span class="kt">var</span> <span class="n">retweeterIdsPage</span> <span class="p">=</span> <span class="k">await</span> <span class="n">retweeterIdsIterator</span><span class="p">.</span><span class="n">MoveToNextPage</span><span class="p">();</span>
-<span class="p">}</span>
-
 <span class="c1">// destroy the retweet</span>
-<span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Tweets</span><span class="p">.</span><span class="n">DestroyRetweet</span><span class="p">(</span><span class="n">retweet</span><span class="p">);</span>
-<span class="c1">// or </span>
 <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Tweets</span><span class="p">.</span><span class="n">DestroyRetweet</span><span class="p">(</span><span class="n">retweet</span><span class="p">);</span>
 </pre></div>
 </div>
+<div class="iterator-available"><div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="c1">// get retweeters</span>
+<span class="kt">var</span> <span class="n">retweeters</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Tweets</span><span class="p">.</span><span class="n">GetRetweeterIds</span><span class="p">();</span>
+<span class="c1">// or</span>
+<span class="kt">var</span> <span class="n">retweeterIdsIterator</span> <span class="p">=</span> <span class="n">client</span><span class="p">.</span><span class="n">Tweets</span><span class="p">.</span><span class="n">GetRetweeterIdsIterator</span><span class="p">(</span><span class="n">tweet</span><span class="p">);</span>
+</pre></div>
 </div>
+</div></div>
 <div class="section" id="replies">
 <h2>Replies<a class="headerlink" href="#replies" title="Permalink to this headline">¶</a></h2>
 <div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="c1">// reply to a tweet</span>
@@ -247,7 +247,7 @@
 <div class="section" id="with-an-image">
 <h3>With an image<a class="headerlink" href="#with-an-image" title="Permalink to this headline">¶</a></h3>
 <div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="kt">var</span> <span class="n">tweetinviLogoBinary</span> <span class="p">=</span> <span class="n">File</span><span class="p">.</span><span class="n">ReadAllBytes</span><span class="p">(</span><span class="s">&quot;./tweetinvi-logo-purple.png&quot;</span><span class="p">);</span>
-<span class="kt">var</span> <span class="n">uploadedImage</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Upload</span><span class="p">.</span><span class="n">UploadImage</span><span class="p">(</span><span class="n">tweetinviLogoBinary</span><span class="p">);</span>
+<span class="kt">var</span> <span class="n">uploadedImage</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Upload</span><span class="p">.</span><span class="n">UploadTweetImage</span><span class="p">(</span><span class="n">tweetinviLogoBinary</span><span class="p">);</span>
 <span class="kt">var</span> <span class="n">tweetWithImage</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Tweets</span><span class="p">.</span><span class="n">PublishTweet</span><span class="p">(</span><span class="k">new</span> <span class="n">PublishTweetParameters</span><span class="p">(</span><span class="s">&quot;Tweet with an image&quot;</span><span class="p">)</span>
 <span class="p">{</span>
     <span class="n">Medias</span> <span class="p">=</span> <span class="p">{</span> <span class="n">uploadedImage</span> <span class="p">}</span>
@@ -258,7 +258,7 @@
 <div class="section" id="with-a-video">
 <h3>With a video<a class="headerlink" href="#with-a-video" title="Permalink to this headline">¶</a></h3>
 <div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="kt">var</span> <span class="n">videoBinary</span> <span class="p">=</span> <span class="n">File</span><span class="p">.</span><span class="n">ReadAllBytes</span><span class="p">(</span><span class="s">&quot;./video.mp4&quot;</span><span class="p">);</span>
-<span class="kt">var</span> <span class="n">uploadedVideo</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Upload</span><span class="p">.</span><span class="n">UploadVideo</span><span class="p">(</span><span class="n">videoBinary</span><span class="p">);</span>
+<span class="kt">var</span> <span class="n">uploadedVideo</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Upload</span><span class="p">.</span><span class="n">UploadTweetVideo</span><span class="p">(</span><span class="n">videoBinary</span><span class="p">);</span>
 
 <span class="c1">// IMPORTANT: you need to wait for Twitter to process the video</span>
 <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Upload</span><span class="p">.</span><span class="n">WaitForMediaProcessingToGetAllMetadata</span><span class="p">(</span><span class="n">uploadedVideo</span><span class="p">);</span>
@@ -277,18 +277,15 @@
 <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Tweets</span><span class="p">.</span><span class="n">FavoriteTweet</span><span class="p">(</span><span class="n">tweet</span><span class="p">);</span>
 <span class="c1">// remove</span>
 <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Tweets</span><span class="p">.</span><span class="n">UnfavoriteTweet</span><span class="p">(</span><span class="n">tweet</span><span class="p">);</span>
-
-<span class="c1">// get user favourites</span>
+</pre></div>
+</div>
+<div class="iterator-available"><div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="c1">// get user favourites</span>
 <span class="kt">var</span> <span class="n">favouritedTweets</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Tweets</span><span class="p">.</span><span class="n">GetUserFavoriteTweets</span><span class="p">(</span><span class="s">&quot;tweetinviapi&quot;</span><span class="p">);</span>
 <span class="c1">// or</span>
 <span class="kt">var</span> <span class="n">favoriteTweetsIterator</span> <span class="p">=</span> <span class="n">client</span><span class="p">.</span><span class="n">Tweets</span><span class="p">.</span><span class="n">GetUserFavoriteTweetsIterator</span><span class="p">(</span><span class="s">&quot;tweetinviapi&quot;</span><span class="p">);</span>
-<span class="k">while</span> <span class="p">(!</span><span class="n">favoriteTweetsIterator</span><span class="p">.</span><span class="n">Completed</span><span class="p">)</span>
-<span class="p">{</span>
-    <span class="kt">var</span> <span class="n">favoritesPage</span> <span class="p">=</span> <span class="k">await</span> <span class="n">favoriteTweetsIterator</span><span class="p">.</span><span class="n">MoveToNextPage</span><span class="p">();</span>
-<span class="p">}</span>
 </pre></div>
 </div>
-</div>
+</div></div>
 <div class="section" id="oembed-tweets">
 <h2>OEmbed Tweets<a class="headerlink" href="#oembed-tweets" title="Permalink to this headline">¶</a></h2>
 <p>You can generate oembed tweets from Tweetinvi. If you want to learn more please read <a class="reference external" href="https://developer.twitter.com/en/docs/tweets/post-and-engage/api-reference/get-statuses-oembed">Twitter documentation</a>.</p>

@@ -1,4 +1,4 @@
-# Authentication - PIN based
+# PIN based Authentication
 
 **PIN based authentication** is better suited for desktop applications.\
 If you are writing a web application I suggest that you use the [URL redirect authentication](./authentication-url-redirect).

@@ -25,6 +25,7 @@
         <script src="../_static/underscore.js"></script>
         <script src="../_static/doctools.js"></script>
         <script src="../_static/language_data.js"></script>
+        <script src="../_static/js/custom.js"></script>
     
     <script type="text/javascript" src="../_static/js/theme.js"></script>
 
@@ -36,8 +37,8 @@
   <link rel="stylesheet" href="../_static/css/custom.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Extended Tweets" href="../more/extended-tweets.html" />
-    <link rel="prev" title="Authentication - PIN based" href="authentication-pin-code.html" /> 
+    <link rel="next" title="Introduction to Authentication" href="../authentication/authentication.html" />
+    <link rel="prev" title="Media Upload" href="upload-media.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -92,10 +93,8 @@
 <li class="toctree-l1"><a class="reference internal" href="tweets.html">Tweets</a></li>
 <li class="toctree-l1"><a class="reference internal" href="users.html">Users</a></li>
 <li class="toctree-l1"><a class="reference internal" href="users-followers-friends.html">Followers, Friends and Relationships</a></li>
+<li class="toctree-l1"><a class="reference internal" href="messages.html">Messages</a></li>
 <li class="toctree-l1"><a class="reference internal" href="upload-media.html">Media Upload</a></li>
-<li class="toctree-l1"><a class="reference internal" href="authentication.html">Authentication</a></li>
-<li class="toctree-l1"><a class="reference internal" href="authentication-url-redirect.html">Authentication - URL Redirect</a></li>
-<li class="toctree-l1"><a class="reference internal" href="authentication-pin-code.html">Authentication - PIN based</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Iterators</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#iterator">Iterator</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#iterator-page">Iterator page</a></li>
@@ -109,6 +108,12 @@
 </li>
 </ul>
 </li>
+</ul>
+<p class="caption"><span class="caption-text">Authentication</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../authentication/authentication.html">Introduction to Authentication</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../authentication/authentication-url-redirect.html">URL Redirect Authentication</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../authentication/authentication-pin-code.html">PIN based Authentication</a></li>
 </ul>
 <p class="caption"><span class="caption-text">More</span></p>
 <ul>
@@ -183,7 +188,16 @@
   <div class="section" id="iterators">
 <h1>Iterators<a class="headerlink" href="#iterators" title="Permalink to this headline">¶</a></h1>
 <p>Twitter API has multiple endpoints that exposes pages api. The implementation might differ from endpoint to endpoint.<br />Tweetinvi hides this complexity to you via <code class="docutils literal notranslate"><span class="pre">iterators</span></code>.</p>
-<div class="section" id="iterator">
+<p class="iterator-available" style="margin-bottom: 10px;">
+    When you see a tag 
+    <span style="padding: 0px 5px;">
+    <span class="iterator" style="float: none; padding: 1px 10px 3px 10px;">
+        <b>iterators</b> 
+        <span class="fa fa-arrow-circle-right" style="margin-left: 10px;"></span>
+    </span>
+    </span>
+    it informs you that the endpoint can be reached via an iterator.
+</p><div class="section" id="iterator">
 <h2>Iterator<a class="headerlink" href="#iterator" title="Permalink to this headline">¶</a></h2>
 <blockquote>
 <div><p>Iterators let you request multiple pages until no more items are available.</p>
@@ -324,10 +338,10 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="../more/extended-tweets.html" class="btn btn-neutral float-right" title="Extended Tweets" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="../authentication/authentication.html" class="btn btn-neutral float-right" title="Introduction to Authentication" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="authentication-pin-code.html" class="btn btn-neutral float-left" title="Authentication - PIN based" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="upload-media.html" class="btn btn-neutral float-left" title="Media Upload" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

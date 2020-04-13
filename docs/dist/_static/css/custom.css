@@ -30,3 +30,20 @@ blockquote {
 .warning {
   background-color: rgb(255, 253, 137);
 }
+
+.function {
+  color: blue;
+  font-weight: bold;
+}
+
+.class {
+  color: #f123a8;
+  font-weight: bold;
+}
+
+.iterator-available .iterator {
+  float: right;
+  background-color: #ce1ac0;
+  padding: 3px 10px 5px 10px;
+  color: white;
+}
