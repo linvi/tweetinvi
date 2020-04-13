@@ -12,8 +12,5 @@ namespace Tweetinvi.Client
 
         Task<ITwitterResult<T>> Request<T>(Action<ITwitterQuery> configureQuery) where T : class;
         Task<ITwitterResult> Request(Action<ITwitterQuery> configureQuery);
-
-        Task<ITwitterRequest> PrepareTwitterRequest(Action<ITwitterQuery> configureQuery);
-        Task<ITwitterRequest> PrepareTwitterRequest(Action<ITwitterRequest> configureRequest);
     }
 }

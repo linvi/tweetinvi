@@ -14,3 +14,19 @@ var homeTimelineResult = await client.Execute.Request(request =>
 
 var jsonResponse = result.RawResult;
 ```
+
+You can also get objects.
+
+``` c#
+var result = await client.Execute.Request<TweetDTO[]>(request =>
+{
+    request.Url = "https://api.twitter.com/1.1/statuses/home_timeline.json";
+    request.HttpMethod = HttpMethod.GET;
+});
+
+// TweetDTO[]
+var tweetDtos = result.DataTransferObject;
+
+// ITweet[]
+var tweets = client.Factories.CreateTweets(tweetDtos);
+```

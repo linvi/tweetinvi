@@ -191,6 +191,20 @@
 <span class="kt">var</span> <span class="n">jsonResponse</span> <span class="p">=</span> <span class="n">result</span><span class="p">.</span><span class="n">RawResult</span><span class="p">;</span>
 </pre></div>
 </div>
+<p>You can also get objects.</p>
+<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="kt">var</span> <span class="n">result</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Execute</span><span class="p">.</span><span class="n">Request</span><span class="p">&lt;</span><span class="n">TweetDTO</span><span class="p">[]&gt;(</span><span class="n">request</span> <span class="p">=&gt;</span>
+<span class="p">{</span>
+    <span class="n">request</span><span class="p">.</span><span class="n">Url</span> <span class="p">=</span> <span class="s">&quot;https://api.twitter.com/1.1/statuses/home_timeline.json&quot;</span><span class="p">;</span>
+    <span class="n">request</span><span class="p">.</span><span class="n">HttpMethod</span> <span class="p">=</span> <span class="n">HttpMethod</span><span class="p">.</span><span class="n">GET</span><span class="p">;</span>
+<span class="p">});</span>
+
+<span class="c1">// TweetDTO[]</span>
+<span class="kt">var</span> <span class="n">tweetDtos</span> <span class="p">=</span> <span class="n">result</span><span class="p">.</span><span class="n">DataTransferObject</span><span class="p">;</span>
+
+<span class="c1">// ITweet[]</span>
+<span class="kt">var</span> <span class="n">tweets</span> <span class="p">=</span> <span class="n">client</span><span class="p">.</span><span class="n">Factories</span><span class="p">.</span><span class="n">CreateTweets</span><span class="p">(</span><span class="n">tweetDtos</span><span class="p">);</span>
+</pre></div>
+</div>
 </div>
 </div>
 
