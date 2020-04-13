@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Credentials in Twitter &mdash; Tweetinvi 5.0 documentation</title>
+  <title>Direct API calls &mdash; Tweetinvi 5.0 documentation</title>
   
 
   
@@ -37,8 +37,8 @@
   <link rel="stylesheet" href="../_static/css/custom.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Basic Concepts" href="basic-concepts.html" />
-    <link rel="prev" title="Getting Started" href="getting-started.html" /> 
+    <link rel="next" title="Media Upload" href="upload-media.html" />
+    <link rel="prev" title="Messages" href="messages.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -83,23 +83,23 @@
             
             
               <p class="caption"><span class="caption-text">First steps</span></p>
-<ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="getting-started.html">Getting Started</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Credentials in Twitter</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#create-your-first-set-of-credentials">Create your first set of credentials</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="basic-concepts.html">Basic Concepts</a></li>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../intro/getting-started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../intro/credentials.html">Credentials in Twitter</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../intro/basic-concepts.html">Basic Concepts</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Features</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="../features/tweets.html">Tweets</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../features/users.html">Users</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../features/users-followers-friends.html">Followers, Friends and Relationships</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../features/messages.html">Messages</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../features/direct-api-calls.html">Direct API calls</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../features/upload-media.html">Media Upload</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../features/iterators.html">Iterators</a></li>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="tweets.html">Tweets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="users.html">Users</a></li>
+<li class="toctree-l1"><a class="reference internal" href="users-followers-friends.html">Followers, Friends and Relationships</a></li>
+<li class="toctree-l1"><a class="reference internal" href="messages.html">Messages</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Direct API calls</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#example">Example</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="upload-media.html">Media Upload</a></li>
+<li class="toctree-l1"><a class="reference internal" href="iterators.html">Iterators</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Authentication</span></p>
 <ul>
@@ -158,13 +158,13 @@
     
       <li><a href="../index.html">Docs</a> &raquo;</li>
         
-      <li>Credentials in Twitter</li>
+      <li>Direct API calls</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="../_sources/intro/credentials.md.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/features/direct-api-calls.md.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -177,37 +177,21 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="credentials-in-twitter">
-<h1>Credentials in Twitter<a class="headerlink" href="#credentials-in-twitter" title="Permalink to this headline">¶</a></h1>
-<p>Twitter offers 2 types of credentials:</p>
-<ul class="simple">
-<li><p><strong>Application Credentials</strong> that let you perform operations from an application perspective. It consists of:</p>
-<ul>
-<li><p><code class="docutils literal notranslate"><span class="pre">Required</span></code> CONSUMER_KEY</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">Required</span></code> CONSUMER_SECRET</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">Optional</span></code> BEARER_TOKEN (learn more <a class="reference external" href="https://developer.twitter.com/en/docs/basics/authentication/oauth-2-0">here</a>)</p></li>
-</ul>
-</li>
-<li><p><strong>User Credentials</strong> that let you perform operations from a user perspective. It consists of:</p>
-<ul>
-<li><p><code class="docutils literal notranslate"><span class="pre">Required</span></code> Application Credentials (without bearer token)</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">Required</span></code> ACCESS_TOKEN</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">Required</span></code> ACCESS_TOKEN_SECRET</p></li>
-</ul>
-</li>
-</ul>
-<div class="section" id="create-your-first-set-of-credentials">
-<h2>Create your first set of credentials<a class="headerlink" href="#create-your-first-set-of-credentials" title="Permalink to this headline">¶</a></h2>
-<div class="warning">
-If you already have credentials skip this section
-</div><ol class="simple">
-<li><p>Create a new application on https://developer.twitter.com/en/apps/create</p></li>
-<li><p>Select the <code class="docutils literal notranslate"><span class="pre">Keys</span> <span class="pre">and</span> <span class="pre">Tokens</span></code> tab</p></li>
-<li><p>Click <code class="docutils literal notranslate"><span class="pre">Generate</span></code> next to the <strong>Access token &amp; access token secret</strong></p></li>
-<li><p>Now you can find your application credentials as well as the additional credentials for authenticating as a user.</p></li>
-</ol>
-<div style="max-width:700px;"><p><img alt="../_images/credentials-twitter-page.png" src="../_images/credentials-twitter-page.png" /></p>
-</div></div>
+  <div class="section" id="direct-api-calls">
+<h1>Direct API calls<a class="headerlink" href="#direct-api-calls" title="Permalink to this headline">¶</a></h1>
+<p>Tweetinvi offers a simple approach to calling the Twitter api directly.<br />Tweetinvi will take care of setting up the headers for you, you take care of the query!</p>
+<div class="section" id="example">
+<h2>Example<a class="headerlink" href="#example" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="kt">var</span> <span class="n">homeTimelineResult</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Execute</span><span class="p">.</span><span class="n">Request</span><span class="p">(</span><span class="n">request</span> <span class="p">=&gt;</span>
+<span class="p">{</span>
+    <span class="n">request</span><span class="p">.</span><span class="n">Url</span> <span class="p">=</span> <span class="s">&quot;https://api.twitter.com/1.1/statuses/home_timeline.json&quot;</span><span class="p">;</span>
+    <span class="n">request</span><span class="p">.</span><span class="n">HttpMethod</span> <span class="p">=</span> <span class="n">HttpMethod</span><span class="p">.</span><span class="n">GET</span><span class="p">;</span>
+<span class="p">});</span>
+
+<span class="kt">var</span> <span class="n">jsonResponse</span> <span class="p">=</span> <span class="n">result</span><span class="p">.</span><span class="n">RawResult</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
 </div>
 
 
@@ -218,10 +202,10 @@ If you already have credentials skip this section
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="basic-concepts.html" class="btn btn-neutral float-right" title="Basic Concepts" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="upload-media.html" class="btn btn-neutral float-right" title="Media Upload" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="getting-started.html" class="btn btn-neutral float-left" title="Getting Started" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="messages.html" class="btn btn-neutral float-left" title="Messages" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

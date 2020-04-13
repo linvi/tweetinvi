@@ -26,6 +26,7 @@ The goal of this library is to make life of developers as easy as possible.
    features/users
    features/users-followers-friends
    features/messages
+   features/direct-api-calls
    features/upload-media
    features/iterators
 
