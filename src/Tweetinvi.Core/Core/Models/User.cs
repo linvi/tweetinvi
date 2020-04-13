@@ -261,7 +261,7 @@ namespace Tweetinvi.Core.Models
 
         public override string ToString()
         {
-            return UserDTO?.Name ?? "Undefined";
+            return UserDTO?.ScreenName ?? "Undefined";
         }
     }
 }

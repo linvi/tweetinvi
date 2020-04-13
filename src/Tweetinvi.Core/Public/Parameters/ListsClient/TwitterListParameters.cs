@@ -12,13 +12,13 @@ namespace Tweetinvi.Parameters
     }
 
     /// <inheritdoc />
-    public class ListParameters : CustomRequestParameters, IListParameters
+    public class TwitterListParameters : CustomRequestParameters, IListParameters
     {
-        public ListParameters(long listId) : this(new TwitterListIdentifier(listId))
+        public TwitterListParameters(long listId) : this(new TwitterListIdentifier(listId))
         {
         }
 
-        public ListParameters(ITwitterListIdentifier list)
+        public TwitterListParameters(ITwitterListIdentifier list)
         {
             List = list;
         }

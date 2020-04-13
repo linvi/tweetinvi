@@ -10,7 +10,7 @@ namespace Tweetinvi.Parameters
     }
 
     /// <inheritdoc />
-    public class UnsubscribeFromListParameters : ListParameters, IUnsubscribeFromListParameters
+    public class UnsubscribeFromListParameters : TwitterListParameters, IUnsubscribeFromListParameters
     {
         public UnsubscribeFromListParameters(long listId) : base(listId)
         {

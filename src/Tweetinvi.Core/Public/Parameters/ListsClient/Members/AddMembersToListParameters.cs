@@ -17,7 +17,7 @@ namespace Tweetinvi.Parameters
     }
 
     /// <inheritdoc />
-    public class AddMembersToListParameters : ListParameters, IAddMembersToListParameters
+    public class AddMembersToListParameters : TwitterListParameters, IAddMembersToListParameters
     {
         public AddMembersToListParameters(long listId, IEnumerable<long> userIds)
             : this(new TwitterListIdentifier(listId), userIds.Select(x => new UserIdentifier(x)))

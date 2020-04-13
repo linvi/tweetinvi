@@ -17,7 +17,7 @@ namespace Tweetinvi.Parameters
     }
 
     /// <inheritdoc />
-    public class RemoveMembersFromListParameters : ListParameters, IRemoveMembersFromListParameters
+    public class RemoveMembersFromListParameters : TwitterListParameters, IRemoveMembersFromListParameters
     {
         public RemoveMembersFromListParameters(long listId, IEnumerable<long> userIds)
             : this(new TwitterListIdentifier(listId), userIds.Select(x => new UserIdentifier(x)))

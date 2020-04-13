@@ -26,7 +26,7 @@ namespace Tweetinvi.Parameters
     }
 
     /// <inheritdoc />
-    public class CheckIfUserIsMemberOfListParameters : ListParameters, ICheckIfUserIsMemberOfListParameters
+    public class CheckIfUserIsMemberOfListParameters : TwitterListParameters, ICheckIfUserIsMemberOfListParameters
     {
         public CheckIfUserIsMemberOfListParameters(long listId, long userId) : this(new TwitterListIdentifier(listId), new UserIdentifier(userId))
         {

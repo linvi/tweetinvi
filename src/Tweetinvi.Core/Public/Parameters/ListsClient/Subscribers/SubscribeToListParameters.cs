@@ -9,7 +9,7 @@ namespace Tweetinvi.Parameters
     {
     }
 
-    public class SubscribeToListParameters : ListParameters, ISubscribeToListParameters
+    public class SubscribeToListParameters : TwitterListParameters, ISubscribeToListParameters
     {
         public SubscribeToListParameters(long listId) : base(listId)
         {

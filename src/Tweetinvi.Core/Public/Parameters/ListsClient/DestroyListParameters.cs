@@ -11,7 +11,7 @@ namespace Tweetinvi.Parameters
 
     }
 
-    public class DestroyListParameters : ListParameters, IDestroyListParameters
+    public class DestroyListParameters : TwitterListParameters, IDestroyListParameters
     {
         public DestroyListParameters(long listId) : this(new TwitterListIdentifier(listId))
         {
