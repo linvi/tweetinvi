@@ -20,7 +20,7 @@ namespace Tweetinvi.Parameters
         /// <summary>
         /// Uploaded media id
         /// </summary>
-        long? AttachmentMediaId { get; set; }
+        long? MediaId { get; set; }
 
         /// <summary>
         /// Quick reply options
@@ -41,7 +41,7 @@ namespace Tweetinvi.Parameters
 
         public long RecipientId { get; }
 
-        public long? AttachmentMediaId { get; set; }
+        public long? MediaId { get; set; }
 
         public IQuickReplyOption[] QuickReplyOptions { get; set; }
     }

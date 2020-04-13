@@ -100,12 +100,12 @@ namespace Tweetinvi.Controllers.Messages
             };
 
             // If there is media attached, include it
-            if (parameters.AttachmentMediaId != null)
+            if (parameters.MediaId != null)
             {
                 createMessageDTO.MessageEvent.MessageCreate.MessageData.Attachment = new AttachmentDTO
                 {
                     Type = AttachmentType.Media,
-                    Media = new MediaEntity { Id = parameters.AttachmentMediaId }
+                    Media = new MediaEntity { Id = parameters.MediaId }
                 };
             }
 

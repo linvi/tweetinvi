@@ -26,7 +26,7 @@ namespace xUnitinvi.EndToEnd
             var videoBinary = await httpClient.GetByteArrayAsync("https://github.com/linvi/tweetinvi.issues/raw/master/sample_video.mp4");
             _logger.WriteLine("Video downloaded");
 
-            var uploadedVideo = await _tweetinviTestClient.Upload.UploadVideo(videoBinary);
+            var uploadedVideo = await _tweetinviTestClient.Upload.UploadTweetVideo(videoBinary);
             await _tweetinviTestClient.Upload.WaitForMediaProcessingToGetAllMetadata(uploadedVideo);
 
             var tweet = await _tweetinviTestClient.Tweets.PublishTweet(new PublishTweetParameters("superb video...")

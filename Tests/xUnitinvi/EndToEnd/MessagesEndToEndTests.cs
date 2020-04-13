@@ -96,7 +96,7 @@ namespace xUnitinvi.EndToEnd
             var media = await _tweetinviClient.Upload.UploadBinary(tweetinviLogoBinary);
             var message = await _tweetinviClient.Messages.PublishMessage(new PublishMessageParameters("hello", EndToEndTestConfig.TweetinviTest.UserId)
             {
-                AttachmentMediaId = media.Id
+                MediaId = media.Id
             });
 
             await _tweetinviClient.Messages.DestroyMessage(message);

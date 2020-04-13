@@ -82,7 +82,7 @@ namespace xUnitinvi.EndToEnd
                 var media = await userClient.Upload.UploadBinary(tweetinviLogoBinary);
                 await userClient.Messages.PublishMessage(new PublishMessageParameters("hello from tweetinvi -> https://github.com/linvi/tweetinvi", EndToEndTestConfig.TweetinviTest.UserId)
                 {
-                    AttachmentMediaId = media.Id
+                    MediaId = media.Id
                 });
 
                 await Task.Delay(timeoutBetweenOperations);

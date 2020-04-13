@@ -19,8 +19,8 @@ namespace Tweetinvi.Client
         /// <returns>Uploaded media</returns>
         Task<IMedia> UploadBinary(IUploadParameters parameters);
 
-        /// <inheritdoc cref="UploadImage(IUploadImageParameters)" />
-        Task<IMedia> UploadImage(byte[] binary);
+        /// <inheritdoc cref="UploadTweetImage(IUploadTweetImageParameters)" />
+        Task<IMedia> UploadTweetImage(byte[] binary);
 
         /// <summary>
         /// Upload an image to Twitter
@@ -29,10 +29,22 @@ namespace Tweetinvi.Client
         /// <para>APPEND : https://dev.twitter.com/en/docs/media/upload-media/api-reference/post-media-upload-append</para>
         /// <para>FINALIZE : https://dev.twitter.com/en/docs/media/upload-media/api-reference/post-media-upload-finalize</para>
         /// <returns>Uploaded media</returns>
-        Task<IMedia> UploadImage(IUploadImageParameters parameters);
+        Task<IMedia> UploadTweetImage(IUploadTweetImageParameters parameters);
 
-        /// <inheritdoc cref="UploadVideo(IUploadVideoParameters)" />
-        Task<IMedia> UploadVideo(byte[] binary);
+        /// <inheritdoc cref="UploadMessageImage(IUploadMessageImageParameters)" />
+        Task<IMedia> UploadMessageImage(byte[] binary);
+
+        /// <summary>
+        /// Upload an image to Twitter
+        /// </summary>
+        /// <para>INIT : https://dev.twitter.com/en/docs/media/upload-media/api-reference/post-media-upload-init</para>
+        /// <para>APPEND : https://dev.twitter.com/en/docs/media/upload-media/api-reference/post-media-upload-append</para>
+        /// <para>FINALIZE : https://dev.twitter.com/en/docs/media/upload-media/api-reference/post-media-upload-finalize</para>
+        /// <returns>Uploaded media</returns>
+        Task<IMedia> UploadMessageImage(IUploadMessageImageParameters parameters);
+
+        /// <inheritdoc cref="UploadTweetVideo(IUploadTweetVideoParameters)" />
+        Task<IMedia> UploadTweetVideo(byte[] binary);
 
         /// <summary>
         /// Upload a video in chunks and waits for the Twitter to have processed it
@@ -42,7 +54,20 @@ namespace Tweetinvi.Client
         /// <para>STATUS : https://dev.twitter.com/en/docs/media/upload-media/api-reference/get-media-upload-status</para>
         /// </summary>
         /// <returns>Uploaded media</returns>
-        Task<IMedia> UploadVideo(IUploadVideoParameters parameters);
+        Task<IMedia> UploadTweetVideo(IUploadTweetVideoParameters parameters);
+
+        /// <inheritdoc cref="UploadMessageVideo(IUploadMessageVideoParameters)" />
+        Task<IMedia> UploadMessageVideo(byte[] binary);
+
+        /// <summary>
+        /// Upload a video in chunks and waits for the Twitter to have processed it
+        /// <para>INIT : https://dev.twitter.com/en/docs/media/upload-media/api-reference/post-media-upload-init</para>
+        /// <para>APPEND : https://dev.twitter.com/en/docs/media/upload-media/api-reference/post-media-upload-append</para>
+        /// <para>FINALIZE : https://dev.twitter.com/en/docs/media/upload-media/api-reference/post-media-upload-finalize</para>
+        /// <para>STATUS : https://dev.twitter.com/en/docs/media/upload-media/api-reference/get-media-upload-status</para>
+        /// </summary>
+        /// <returns>Uploaded media</returns>
+        Task<IMedia> UploadMessageVideo(IUploadMessageVideoParameters parameters);
 
         /// <inheritdoc cref="AddMediaMetadata(IAddMediaMetadataParameters)" />
         Task AddMediaMetadata(IMediaMetadata metadata);

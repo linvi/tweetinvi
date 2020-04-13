@@ -8,6 +8,9 @@ namespace Tweetinvi.Client
     public interface IMessagesClient
     {
         /// <inheritdoc cref="PublishMessage(IPublishMessageParameters)" />
+        Task<IMessage> PublishMessage(string text, IUserIdentifier recipient);
+
+        /// <inheritdoc cref="PublishMessage(IPublishMessageParameters)" />
         Task<IMessage> PublishMessage(string text, long recipientId);
 
         /// <summary>

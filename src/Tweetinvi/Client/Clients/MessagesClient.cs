@@ -25,6 +25,11 @@ namespace Tweetinvi.Client
             _messageRequester = messageRequester;
         }
 
+        public Task<IMessage> PublishMessage(string text, IUserIdentifier recipient)
+        {
+            return PublishMessage(new PublishMessageParameters(text, recipient.Id));
+        }
+
         public Task<IMessage> PublishMessage(string text, long recipientId)
         {
             return PublishMessage(new PublishMessageParameters(text, recipientId));

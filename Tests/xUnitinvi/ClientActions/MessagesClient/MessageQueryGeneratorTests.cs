@@ -77,7 +77,7 @@ namespace xUnitinvi.ClientActions.MessagesClient
 
             var parameters = new PublishMessageParameters("plop", 42)
             {
-                AttachmentMediaId = 967,
+                MediaId = 967,
                 CustomQueryParameters = { new Tuple<string, string>("hello", "world") }
             };
 

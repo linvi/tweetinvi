@@ -26,22 +26,42 @@ namespace Tweetinvi.Client
             return chunkUploadResult.Media;
         }
 
-        public Task<IMedia> UploadImage(byte[] binary)
+        public Task<IMedia> UploadTweetImage(byte[] binary)
         {
-            return UploadImage(new UploadImageParameters(binary));
+            return UploadTweetImage(new UploadTweetImageParameters(binary));
         }
 
-        public Task<IMedia> UploadImage(IUploadImageParameters parameters)
+        public Task<IMedia> UploadTweetImage(IUploadTweetImageParameters parameters)
         {
             return UploadBinary(parameters);
         }
 
-        public Task<IMedia> UploadVideo(byte[] binary)
+        public Task<IMedia> UploadMessageImage(byte[] binary)
         {
-            return UploadVideo(new UploadVideoParameters(binary));
+            return UploadMessageImage(new UploadMessageImageParameters(binary));
         }
 
-        public Task<IMedia> UploadVideo(IUploadVideoParameters parameters)
+        public Task<IMedia> UploadMessageImage(IUploadMessageImageParameters parameters)
+        {
+            return UploadBinary(parameters);
+        }
+
+        public Task<IMedia> UploadTweetVideo(byte[] binary)
+        {
+            return UploadTweetVideo(new UploadTweetVideoParameters(binary));
+        }
+
+        public Task<IMedia> UploadTweetVideo(IUploadTweetVideoParameters parameters)
+        {
+            return UploadBinary(parameters);
+        }
+
+        public Task<IMedia> UploadMessageVideo(byte[] binary)
+        {
+            return UploadMessageVideo(new UploadMessageVideoParameters(binary));
+        }
+
+        public Task<IMedia> UploadMessageVideo(IUploadMessageVideoParameters parameters)
         {
             return UploadBinary(parameters);
         }

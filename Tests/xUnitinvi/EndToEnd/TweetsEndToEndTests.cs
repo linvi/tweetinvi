@@ -51,7 +51,7 @@ namespace xUnitinvi.EndToEnd
             });
 
             var tweetinviLogoBinary = File.ReadAllBytes("./tweetinvi-logo-purple.png");
-            var media = await _protectedClient.Upload.UploadImage(tweetinviLogoBinary);
+            var media = await _protectedClient.Upload.UploadTweetImage(tweetinviLogoBinary);
             var tweetWithMedia = await _protectedClient.Tweets.PublishTweet(new PublishTweetParameters("tweet with media")
             {
                 Medias = { media },

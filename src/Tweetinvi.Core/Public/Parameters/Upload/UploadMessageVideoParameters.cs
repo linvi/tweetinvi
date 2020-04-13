@@ -1,4 +1,4 @@
-namespace Tweetinvi.Parameters
+﻿namespace Tweetinvi.Parameters
 {
     /// <summary>
     /// For more description visit : https://dev.twitter.com/rest/media/uploading-media
@@ -6,16 +6,17 @@ namespace Tweetinvi.Parameters
     /// <para>APPEND : https://dev.twitter.com/en/docs/media/upload-media/api-reference/post-media-upload-append</para>
     /// <para>FINALIZE : https://dev.twitter.com/en/docs/media/upload-media/api-reference/post-media-upload-finalize</para>
     /// </summary>
-    public interface IUploadImageParameters : IUploadParameters
+    public interface IUploadMessageVideoParameters : IUploadParameters
     {
     }
 
-    public class UploadImageParameters : UploadBinaryParameters, IUploadImageParameters
+    /// <inheritdoc/>
+    public class UploadMessageVideoParameters : UploadBinaryParameters, IUploadMessageVideoParameters
     {
-        public UploadImageParameters(byte[] binary) : base(binary)
+        public UploadMessageVideoParameters(byte[] binary) : base(binary)
         {
-            MediaType = Models.MediaType.Media;
-            MediaCategory = Models.MediaCategory.Image;
+            MediaType = Models.MediaType.VideoMp4;
+            MediaCategory = Models.MediaCategory.DmVideo;
         }
     }
 }
