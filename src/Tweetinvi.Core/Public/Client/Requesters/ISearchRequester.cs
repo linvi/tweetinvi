@@ -21,7 +21,7 @@ namespace Tweetinvi.Client.Requesters
         /// </summary>
         /// <para> Read more : https://developer.twitter.com/en/docs/accounts-and-users/follow-search-get-users/api-reference/get-users-search </para>
         /// <returns>Iterator over the search results</returns>
-        ITwitterPageIterator<ITwitterResult<UserDTO[]>, int?> GetSearchUsersIterator(ISearchUsersParameters parameters);
+        ITwitterPageIterator<IFilteredTwitterResult<UserDTO[]>, int?> GetSearchUsersIterator(ISearchUsersParameters parameters);
 
         /// <summary>
         /// Create a saved search

@@ -1,4 +1,7 @@
-﻿namespace Tweetinvi.Parameters
+﻿using System;
+using System.Runtime.InteropServices;
+
+namespace Tweetinvi.Parameters
 {
     /// <summary>
     /// For more information read : https://developer.twitter.com/en/docs/accounts-and-users/follow-search-get-users/api-reference/get-users-search
@@ -37,7 +40,7 @@
             PageSize = TwitterLimits.DEFAULTS.SEARCH_USERS_MAX_PAGE_SIZE;
             Query = query;
             IncludeEntities = true;
-            Page = 0;
+            Page = 1;
         }
 
         public SearchUsersParameters(ISearchUsersParameters source) : base(source)
@@ -56,7 +59,28 @@
 
         public string Query { get; set; }
 
-        public int? Page { get; set; }
+        private int? _page;
+
+        public int? Page
+        {
+            get => _page;
+            set
+            {
+                if (value == null)
+                {
+                    _page = null;
+                }
+                else
+                {
+                    if (_page < 1)
+                    {
+                        throw new ArgumentOutOfRangeException(nameof(Page), "Search users page number cannot be lower than 1");
+                    }
+
+                    _page = value;
+                }
+            }
+        }
 
         public int PageSize { get; set; }
 

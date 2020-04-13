@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Tweetinvi.Core.DTO;
 using Tweetinvi.Core.Iterators;
 using Tweetinvi.Core.Web;
@@ -11,7 +13,7 @@ namespace Tweetinvi.Controllers.Search
     public interface ISearchController
     {
         ITwitterPageIterator<ITwitterResult<ISearchResultsDTO>, long?> GetSearchTweetsIterator(ISearchTweetsParameters parameters, ITwitterRequest request);
-        ITwitterPageIterator<ITwitterResult<UserDTO[]>, int?> GetSearchUsersIterator(ISearchUsersParameters parameters, ITwitterRequest request);
+        ITwitterPageIterator<IFilteredTwitterResult<UserDTO[]>, int?> GetSearchUsersIterator(ISearchUsersParameters parameters, ITwitterRequest request);
         Task<ITwitterResult<SavedSearchDTO>> CreateSavedSearch(ICreateSavedSearchParameters parameters, ITwitterRequest request);
         Task<ITwitterResult<SavedSearchDTO>> GetSavedSearch(IGetSavedSearchParameters parameters, ITwitterRequest request);
         Task<ITwitterResult<SavedSearchDTO[]>> ListSavedSearches(IListSavedSearchesParameters parameters, ITwitterRequest request);
@@ -52,19 +54,24 @@ namespace Tweetinvi.Controllers.Search
                 page => page?.DataTransferObject?.SearchMetadata?.NextResults == null);
         }
 
-        public ITwitterPageIterator<ITwitterResult<UserDTO[]>, int?> GetSearchUsersIterator(ISearchUsersParameters parameters, ITwitterRequest request)
+        public ITwitterPageIterator<IFilteredTwitterResult<UserDTO[]>, int?> GetSearchUsersIterator(ISearchUsersParameters parameters, ITwitterRequest request)
         {
-            var pageNumber = parameters.Page ?? 0;
-            return new TwitterPageIterator<ITwitterResult<UserDTO[]>, int?>(
+            var pageNumber = parameters.Page ?? 1;
+            var previousResultIds = new HashSet<long>();
+            return new TwitterPageIterator<IFilteredTwitterResult<UserDTO[]>, int?>(
                 parameters.Page,
-                cursor =>
+                async cursor =>
                 {
                     var cursoredParameters = new SearchUsersParameters(parameters)
                     {
                         Page = cursor
                     };
 
-                    return _searchQueryExecutor.SearchUsers(cursoredParameters, new TwitterRequest(request));
+                    var page = await _searchQueryExecutor.SearchUsers(cursoredParameters, new TwitterRequest(request)).ConfigureAwait(false);
+                    return new FilteredTwitterResult<UserDTO[]>(page)
+                    {
+                        FilteredDTOs = page.DataTransferObject.Where(x => !previousResultIds.Contains(x.Id)).ToArray()
+                    };
                 },
                 page =>
                 {
@@ -75,7 +82,18 @@ namespace Tweetinvi.Controllers.Search
 
                     return ++pageNumber;
                 },
-                page => page.DataTransferObject.Length == 0);
+                page =>
+                {
+                    var requestUserIds = page.DataTransferObject.Select(x => x.Id).ToArray();
+                    var newItemIds = requestUserIds.Except(previousResultIds).ToArray();
+
+                    foreach (var newItemId in newItemIds)
+                    {
+                        previousResultIds.Add(newItemId);
+                    }
+
+                    return newItemIds.Length == 0 || page.DataTransferObject.Length == 0;
+                });
         }
 
         public Task<ITwitterResult<SavedSearchDTO>> CreateSavedSearch(ICreateSavedSearchParameters parameters, ITwitterRequest request)

@@ -34,7 +34,7 @@ namespace Tweetinvi.Client.Requesters
             return _searchController.GetSearchTweetsIterator(parameters, request);
         }
 
-        public ITwitterPageIterator<ITwitterResult<UserDTO[]>, int?> GetSearchUsersIterator(ISearchUsersParameters parameters)
+        public ITwitterPageIterator<IFilteredTwitterResult<UserDTO[]>, int?> GetSearchUsersIterator(ISearchUsersParameters parameters)
         {
             _validator.Validate(parameters);
 
