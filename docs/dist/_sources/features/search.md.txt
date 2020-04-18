@@ -34,4 +34,23 @@ User search paging of Twitter API does not behave the same as other Twitter API 
 
 ## Tweet Search
 
+<div class="iterator-available">
+
+``` c#
+var tweets = await client.Search.SearchTweets("hello");
+
+//or
+
+var tweetsIterator = client.Search.GetSearchTweetsIterator(new SearchTweetsParameters("hello"));
+```
+</div>
+
+<div class="warning">
+
+Tweet search paging of Twitter API does not inform of no more results available.\
+As a result Tweetinvi will need to perform 1 additional request to detect the completion of the iterator.
+
+</div>
+
+
 ## Saved Searches

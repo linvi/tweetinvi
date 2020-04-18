@@ -206,7 +206,15 @@
 </details></div></div>
 <div class="section" id="tweet-search">
 <h2>Tweet Search<a class="headerlink" href="#tweet-search" title="Permalink to this headline">¶</a></h2>
+<div class="iterator-available"><div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="kt">var</span> <span class="n">tweets</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Search</span><span class="p">.</span><span class="n">SearchTweets</span><span class="p">(</span><span class="s">&quot;hello&quot;</span><span class="p">);</span>
+
+<span class="c1">//or</span>
+
+<span class="kt">var</span> <span class="n">tweetsIterator</span> <span class="p">=</span> <span class="n">client</span><span class="p">.</span><span class="n">Search</span><span class="p">.</span><span class="n">GetSearchTweetsIterator</span><span class="p">(</span><span class="k">new</span> <span class="n">SearchTweetsParameters</span><span class="p">(</span><span class="s">&quot;hello&quot;</span><span class="p">));</span>
+</pre></div>
 </div>
+</div><div class="warning"><p>Tweet search paging of Twitter API does not inform of no more results available.<br />As a result Tweetinvi will need to perform 1 additional request to detect the completion of the iterator.</p>
+</div></div>
 <div class="section" id="saved-searches">
 <h2>Saved Searches<a class="headerlink" href="#saved-searches" title="Permalink to this headline">¶</a></h2>
 </div>
