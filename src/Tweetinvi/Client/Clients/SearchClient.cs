@@ -106,7 +106,7 @@ namespace Tweetinvi.Client
         {
             var pageIterator = _client.Raw.Search.GetSearchUsersIterator(parameters);
             return new TwitterIteratorProxy<IFilteredTwitterResult<UserDTO[]>, IUser, int?>(pageIterator,
-                twitterResult => _client.Factories.CreateUsers(twitterResult?.FilteredDTOs));
+                twitterResult => _client.Factories.CreateUsers(twitterResult?.FilteredDTO));
         }
 
         public Task<ISavedSearch> CreateSavedSearch(string query)

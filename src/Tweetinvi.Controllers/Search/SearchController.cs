@@ -31,6 +31,18 @@ namespace Tweetinvi.Controllers.Search
 
         public ITwitterPageIterator<ITwitterResult<ISearchResultsDTO>, long?> GetSearchTweetsIterator(ISearchTweetsParameters parameters, ITwitterRequest request)
         {
+            long lastCursor = -1;
+
+            long? getNextCursor(ITwitterResult<ISearchResultsDTO> page)
+            {
+                if (page?.DataTransferObject?.SearchMetadata?.NextResults == null)
+                {
+                    return null;
+                }
+
+                return page.DataTransferObject.TweetDTOs.Min(x => x.Id) - 1;
+            }
+
             return new TwitterPageIterator<ITwitterResult<ISearchResultsDTO>, long?>(
                 parameters.MaxId,
                 cursor =>
@@ -42,16 +54,23 @@ namespace Tweetinvi.Controllers.Search
 
                     return _searchQueryExecutor.SearchTweets(cursoredParameters, new TwitterRequest(request));
                 },
+                getNextCursor,
                 page =>
                 {
-                    if (page?.DataTransferObject?.SearchMetadata?.NextResults == null)
+                    var nextCursor = getNextCursor(page);
+                    if (nextCursor == null)
                     {
-                        return null;
+                        return true;
                     }
 
-                    return page.DataTransferObject.SearchMetadata.MaxId;
-                },
-                page => page?.DataTransferObject?.SearchMetadata?.NextResults == null);
+                    if (lastCursor == nextCursor)
+                    {
+                        return true;
+                    }
+
+                    lastCursor = nextCursor.Value;
+                    return false;
+                });
         }
 
         public ITwitterPageIterator<IFilteredTwitterResult<UserDTO[]>, int?> GetSearchUsersIterator(ISearchUsersParameters parameters, ITwitterRequest request)
@@ -70,7 +89,7 @@ namespace Tweetinvi.Controllers.Search
                     var page = await _searchQueryExecutor.SearchUsers(cursoredParameters, new TwitterRequest(request)).ConfigureAwait(false);
                     return new FilteredTwitterResult<UserDTO[]>(page)
                     {
-                        FilteredDTOs = page.DataTransferObject.Where(x => !previousResultIds.Contains(x.Id)).ToArray()
+                        FilteredDTO = page.DataTransferObject.Where(x => !previousResultIds.Contains(x.Id)).ToArray()
                     };
                 },
                 page =>
