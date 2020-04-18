@@ -32,7 +32,7 @@ namespace xUnitinvi.Cursor
             A.CallTo(() => secondPage.Content).Returns(page2UserIdentifiers);
             A.CallTo(() => _transform(page2UserIdentifiers)).Returns(_page2UserIds);
 
-            A.CallTo(() => _source.MoveToNextPage()).ReturnsNextFromSequence(firstPage, secondPage);
+            A.CallTo(() => _source.NextPage()).ReturnsNextFromSequence(firstPage, secondPage);
         }
 
         private readonly long[] _page1UserIds;
@@ -41,13 +41,13 @@ namespace xUnitinvi.Cursor
         private readonly Func<IUserIdentifier[], long[]> _transform;
 
         [Fact]
-        public async Task MoveToNextPage_ReturnsFirstPage()
+        public async Task NextPage_ReturnsFirstPage()
         {
             // arrange
             var proxyIterator = new TwitterIteratorProxy<IUserIdentifier[], long, string>(_source, _transform);
 
             // act
-            var page = await proxyIterator.MoveToNextPage();
+            var page = await proxyIterator.NextPage();
 
             // assert
             Assert.False(page.IsLastPage);
@@ -60,16 +60,16 @@ namespace xUnitinvi.Cursor
         }
 
         [Fact]
-        public async Task MoveToNextPageSecondTimes_ReturnsSecondPage()
+        public async Task NextPageSecondTimes_ReturnsSecondPage()
         {
             // arrange
             var proxyIterator = new TwitterIteratorProxy<IUserIdentifier[], long, string>(_source, _transform);
 
             // 1st iteration
-            await proxyIterator.MoveToNextPage();
+            await proxyIterator.NextPage();
 
             // act
-            var page = await proxyIterator.MoveToNextPage();
+            var page = await proxyIterator.NextPage();
 
             // assert
             Assert.True(page.IsLastPage);

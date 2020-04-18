@@ -9,6 +9,6 @@ namespace Tweetinvi.Iterators
     public interface IMultiLevelCursorIterator<TParent, TItem, TCursor>
     {
         bool Completed { get; }
-        Task<IMultiLevelCursorIteratorPage<TParent, TItem, TCursor>> MoveToNextPage();
+        Task<IMultiLevelCursorIteratorPage<TParent, TItem, TCursor>> NextPage();
     }
 }

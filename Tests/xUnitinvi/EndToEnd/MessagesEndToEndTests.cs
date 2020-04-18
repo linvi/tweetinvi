@@ -50,7 +50,7 @@ namespace xUnitinvi.EndToEnd
                 while (messages.Count < 2 && !messagesIterator.Completed && totalCursorRequestRun < 5)
                 {
                     ++totalCursorRequestRun; // prevent getting out of RateLimits when Twitter continuously returns no elements
-                    var page = (await messagesIterator.MoveToNextPage()).ToArray();
+                    var page = (await messagesIterator.NextPage()).ToArray();
                     _logger.WriteLine($"Received {page.Length} elements");
                     messages.AddRange(page);
                 }

@@ -59,7 +59,7 @@ var userTimelineIterator = client.Timelines.GetUserTimelineIterator("tweetinviap
 
 while (!userTimelineIterator.Completed)
 {
-    var page = await userTimelineIterator.MoveToNextPage();
+    var page = await userTimelineIterator.NextPage();
     Console.WriteLine("Retrieved " + page.Count() + " tweets!");
 }
 

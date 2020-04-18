@@ -62,15 +62,15 @@ namespace xUnitinvi.Cursor
         private readonly MultiLevelPageProcessingResult<long, IUserIdentifier> _page2SecondProcessingResult;
 
         [Fact]
-        public async Task MoveToNextPage_ShouldIterateBothAtParentChildLevel()
+        public async Task NextPage_ShouldIterateBothAtParentChildLevel()
         {
             // arrange
             var iterator = new MultiLevelCursorIterator<long, IUserIdentifier, string>(_getPageFunc, _getUserIdentifiersFunc);
 
             // act
-            var firstPage = await iterator.MoveToNextPage();
-            var secondPage = await iterator.MoveToNextPage();
-            var thirdPage = await iterator.MoveToNextPage();
+            var firstPage = await iterator.NextPage();
+            var secondPage = await iterator.NextPage();
+            var thirdPage = await iterator.NextPage();
 
             // assert
             Assert.Equal(firstPage.Items, _page1ProcessingResult.Items);
@@ -86,18 +86,18 @@ namespace xUnitinvi.Cursor
         }
 
         [Fact]
-        public async Task MoveToNextPage_ShouldThrowIfAlreadyCompleted()
+        public async Task NextPage_ShouldThrowIfAlreadyCompleted()
         {
             // arrange
             var iterator = new MultiLevelCursorIterator<long, IUserIdentifier, string>(_getPageFunc, _getUserIdentifiersFunc);
 
             // act
-            await iterator.MoveToNextPage();
-            await iterator.MoveToNextPage();
-            await iterator.MoveToNextPage();
+            await iterator.NextPage();
+            await iterator.NextPage();
+            await iterator.NextPage();
 
             // act assert
-            await Assert.ThrowsAsync<TwitterIteratorAlreadyCompletedException>(() => iterator.MoveToNextPage());
+            await Assert.ThrowsAsync<TwitterIteratorAlreadyCompletedException>(() => iterator.NextPage());
         }
     }
 }

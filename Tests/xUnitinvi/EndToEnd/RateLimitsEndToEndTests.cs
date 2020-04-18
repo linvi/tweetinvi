@@ -133,7 +133,7 @@ namespace xUnitinvi.EndToEnd
             for (var i = 0; i < rateLimitsRemaining; ++i)
             {
                 var timelineIterator = client.Timelines.GetHomeTimelineIterator();
-                await timelineIterator.MoveToNextPage();
+                await timelineIterator.NextPage();
             }
 
             A.CallTo(() => taskDelayer.Delay(It.IsAny<TimeSpan>())).MustNotHaveHappened();
@@ -144,7 +144,7 @@ namespace xUnitinvi.EndToEnd
             try
             {
                 var timelineIterator = client.Timelines.GetHomeTimelineIterator();
-                await timelineIterator.MoveToNextPage();
+                await timelineIterator.NextPage();
             }
             // ReSharper disable once CC0004
             catch (Exception)

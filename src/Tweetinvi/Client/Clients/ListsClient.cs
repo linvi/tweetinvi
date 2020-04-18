@@ -132,7 +132,7 @@ namespace Tweetinvi.Client
         public async Task<ITwitterList[]> GetListsOwnedByAccount(IGetListsOwnedByAccountParameters parameters)
         {
             var iterator = GetListsOwnedByAccountIterator(parameters);
-            return (await iterator.MoveToNextPage().ConfigureAwait(false)).ToArray();
+            return (await iterator.NextPage().ConfigureAwait(false)).ToArray();
         }
 
         public ITwitterIterator<ITwitterList> GetListsOwnedByAccountIterator()
@@ -163,7 +163,7 @@ namespace Tweetinvi.Client
         public async Task<ITwitterList[]> GetListsOwnedByUser(IGetListsOwnedByUserParameters parameters)
         {
             var iterator = GetListsOwnedByUserIterator(parameters);
-            return (await iterator.MoveToNextPage().ConfigureAwait(false)).ToArray();
+            return (await iterator.NextPage().ConfigureAwait(false)).ToArray();
         }
 
         public ITwitterIterator<ITwitterList> GetListsOwnedByUserIterator(long userId)
@@ -261,7 +261,7 @@ namespace Tweetinvi.Client
         public async Task<ITwitterList[]> GetAccountListMemberships(IGetAccountListMembershipsParameters parameters)
         {
             var iterator = GetAccountListMembershipsIterator(parameters);
-            return (await iterator.MoveToNextPage().ConfigureAwait(false)).ToArray();
+            return (await iterator.NextPage().ConfigureAwait(false)).ToArray();
         }
 
         public ITwitterIterator<ITwitterList> GetAccountListMembershipsIterator()
@@ -292,7 +292,7 @@ namespace Tweetinvi.Client
         public async Task<ITwitterList[]> GetUserListMemberships(IGetUserListMembershipsParameters parameters)
         {
             var iterator = GetUserListMembershipsIterator(parameters);
-            return (await iterator.MoveToNextPage().ConfigureAwait(false)).ToArray();
+            return (await iterator.NextPage().ConfigureAwait(false)).ToArray();
         }
 
         public ITwitterIterator<ITwitterList> GetUserListMembershipsIterator(long userId)
@@ -333,7 +333,7 @@ namespace Tweetinvi.Client
         public async Task<IUser[]> GetMembersOfList(IGetMembersOfListParameters parameters)
         {
             var iterator = GetMembersOfListIterator(parameters);
-            return (await iterator.MoveToNextPage().ConfigureAwait(false)).ToArray();
+            return (await iterator.NextPage().ConfigureAwait(false)).ToArray();
         }
 
         public ITwitterIterator<IUser> GetMembersOfListIterator(long listId)
@@ -526,7 +526,7 @@ namespace Tweetinvi.Client
         public async Task<IUser[]> GetListSubscribers(IGetListSubscribersParameters parameters)
         {
             var iterator = GetListSubscribersIterator(parameters);
-            return (await iterator.MoveToNextPage().ConfigureAwait(false)).ToArray();
+            return (await iterator.NextPage().ConfigureAwait(false)).ToArray();
         }
 
         public ITwitterIterator<IUser> GetListSubscribersIterator(long listId)
@@ -571,7 +571,7 @@ namespace Tweetinvi.Client
         public async Task<ITwitterList[]> GetUserListSubscriptions(IGetUserListSubscriptionsParameters parameters)
         {
             var iterator = GetUserListSubscriptionsIterator(parameters);
-            return (await iterator.MoveToNextPage().ConfigureAwait(false)).ToArray();
+            return (await iterator.NextPage().ConfigureAwait(false)).ToArray();
         }
 
         public ITwitterIterator<ITwitterList> GetUserListSubscriptionsIterator(long userId)
@@ -666,7 +666,7 @@ namespace Tweetinvi.Client
         public async Task<ITweet[]> GetTweetsFromList(IGetTweetsFromListParameters parameters)
         {
             var iterator = GetTweetsFromListIterator(parameters);
-            return (await iterator.MoveToNextPage().ConfigureAwait(false)).ToArray();
+            return (await iterator.NextPage().ConfigureAwait(false)).ToArray();
         }
 
         public ITwitterIterator<ITweet, long?> GetTweetsFromListIterator(long listId)

@@ -21,7 +21,7 @@ namespace Tweetinvi.Core.Iterators
             ITwitterPageIterator<ITwitterResult<IIdsCursorQueryResultDTO>> iterator,
             int maxPageSize);
     }
-    
+
     public class MultiLevelCursorIteratorFactory : IMultiLevelCursorIteratorFactory
     {
         public IMultiLevelCursorIterator<TInput, TOutput> Create<TDTO, TInput, TOutput>(
@@ -33,7 +33,7 @@ namespace Tweetinvi.Core.Iterators
             var iterator = new MultiLevelCursorIterator<TInput, TOutput>(
                 async () =>
                 {
-                    var userIdsPage = await pageIterator.MoveToNextPage().ConfigureAwait(false);
+                    var userIdsPage = await pageIterator.NextPage().ConfigureAwait(false);
 
                     return new CursorPageResult<TInput, string>
                     {

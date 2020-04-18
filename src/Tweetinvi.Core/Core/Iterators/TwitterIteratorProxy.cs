@@ -25,9 +25,9 @@ namespace Tweetinvi.Core.Iterators
         public TCursor NextCursor { get; private set; }
         public bool Completed { get; private set; }
 
-        public async Task<ITwitterIteratorEnumerableResult<TOutput, TCursor>> MoveToNextPage()
+        public async Task<ITwitterIteratorEnumerableResult<TOutput, TCursor>> NextPage()
         {
-            var page = await _source.MoveToNextPage().ConfigureAwait(false);
+            var page = await _source.NextPage().ConfigureAwait(false);
             var items = _transform(page.Content);
 
             NextCursor = page.NextCursor;

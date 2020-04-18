@@ -18,9 +18,9 @@ Tweetinvi hides this complexity to you via `iterators`.
 
 > Iterators let you request multiple pages until no more items are available.
 
-* `MoveToNextPage()` request twitter for the next page of results
-* `NextCursor` is updated after each call to `MoveToNextPage`. It can be used to start a new request at this position.
-* `Completed` is updated after each call to `MoveToNextPage`. It is marked as true when no more results are available.
+* `NextPage()` request twitter for the next page of results
+* `NextCursor` is updated after each call to `NextPage`. It can be used to start a new request at this position.
+* `Completed` is updated after each call to `NextPage`. It is marked as true when no more results are available.
 
 ## Iterator page
 
@@ -38,7 +38,7 @@ var timelineIterator = client.Timelines.GetHomeTimelineIterator();
 
 while (!timelineIterator.Completed)
 {
-    var page = await timelineIterator.MoveToNextPage(); 
+    var page = await timelineIterator.NextPage(); 
     timelineTweets.AddRange(page);
 }
 ```
@@ -52,7 +52,7 @@ var firstFriendIdsIterator = client.Users.GetFollowerIdsIterator(new GetFollower
 {
     PageSize = 50
 });
-var firstPage = await firstFriendIdsIterator.MoveToNextPage();
+var firstPage = await firstFriendIdsIterator.NextPage();
 ```
 
 After having retrieved a first page, we can now request a new one from the previous cursor.
@@ -63,7 +63,7 @@ var friendIdsIterator = client.Users.GetFollowerIdsIterator(new GetFollowerIdsPa
     Cursor = firstFriendIdsIterator.NextCursor,
     // or Cursor = firstPage.NextCursor
 });
-var secondPage = await friendIdsIterator.MoveToNextPage();
+var secondPage = await friendIdsIterator.NextPage();
 ```
 
 ## Flavour of iterators
@@ -115,17 +115,17 @@ The `Users.GetFollowersIterator` is an example of a multi level cursor and is us
 var friendsIterator = client.Users.GetFollowersIterator(new GetFollowersParameters("tweetinvi"));
 while (!friendsIterator.Completed)
 {
-    var page = await friendsIterator.MoveToNextPage(); 
+    var page = await friendsIterator.NextPage(); 
 }
 ```
 
 Here is what happens behind the scenes when a user has more than 5000 friends:
 
-* 1st call to `await friendsIterator.MoveToNextPage();`, Tweetinvi performs 2 requests and returns 100 users.
+* 1st call to `await friendsIterator.NextPage();`, Tweetinvi performs 2 requests and returns 100 users.
     * `GetFriendIds` that return 5000 friend ids
     * `GetUsers` that return 100 users
-* Next **49x** calls to `await friendsIterator.MoveToNextPage();`; Tweetinvi 1 request to get the next users.
+* Next **49x** calls to `await friendsIterator.NextPage();`; Tweetinvi 1 request to get the next users.
     * `GetUsers` that return 100 users
-* On the **51st** call to `await friendsIterator.MoveToNextPage();`; Tweetinvi performs again 2 requests.
+* On the **51st** call to `await friendsIterator.NextPage();`; Tweetinvi performs again 2 requests.
     * `GetFriendIds` that return 5000 friend ids
     * `GetUsers` that return 100 users

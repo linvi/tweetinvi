@@ -292,7 +292,7 @@ namespace xUnitinvi.ClientActions.UsersClient
         // ONGOING REQUESTS
 
         [Fact]
-        public async Task GetUserIdsRequestingFriendship_MoveToNextPage_ReturnsAllPages()
+        public async Task GetUserIdsRequestingFriendship_NextPage_ReturnsAllPages()
         {
             // arrange
             var accountController = CreateUserController();
@@ -311,7 +311,7 @@ namespace xUnitinvi.ClientActions.UsersClient
         }
 
         [Fact]
-        public async Task GetUserIdsYouRequestedToFollow_MoveToNextPage_ReturnsAllPages()
+        public async Task GetUserIdsYouRequestedToFollow_NextPage_ReturnsAllPages()
         {
             // arrange
             var accountController = CreateUserController();

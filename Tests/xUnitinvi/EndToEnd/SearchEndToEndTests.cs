@@ -1,5 +1,7 @@
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Tweetinvi.Core.Extensions;
 using Tweetinvi.Models;
 using Tweetinvi.Parameters;
 using Tweetinvi.Parameters.Enum;
@@ -28,8 +30,8 @@ namespace xUnitinvi.EndToEnd
                 PageSize = 50,
             });
 
-            await searchTweetsIterator.MoveToNextPage();
-            var result2 = (await searchTweetsIterator.MoveToNextPage()).ToArray();
+            await searchTweetsIterator.NextPage();
+            var result2 = (await searchTweetsIterator.NextPage()).ToArray();
 
             var geoSearchTweets = await _tweetinviClient.Search.SearchTweets(new GeoCode
             {
@@ -83,8 +85,8 @@ namespace xUnitinvi.EndToEnd
                 PageSize = 10
             });
 
-            var result1 = (await searchUsersIterator.MoveToNextPage()).ToArray();
-            var result2 = (await searchUsersIterator.MoveToNextPage()).ToArray();
+            var result1 = (await searchUsersIterator.NextPage()).ToArray();
+            var result2 = (await searchUsersIterator.NextPage()).ToArray();
 
             // assert
             Assert.True(users.Length > 0);

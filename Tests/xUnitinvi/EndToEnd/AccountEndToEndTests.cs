@@ -29,9 +29,9 @@ namespace xUnitinvi.EndToEnd
             await _tweetinviTestClient.Users.GetBlockedUsers();
 
             var blockedUserIdsIterator = _tweetinviTestClient.Users.GetBlockedUserIdsIterator();
-            var blockedUsersFromIdsIterator = await blockedUserIdsIterator.MoveToNextPage();
+            var blockedUsersFromIdsIterator = await blockedUserIdsIterator.NextPage();
             var blockedUsersIterator = _tweetinviTestClient.Users.GetBlockedUsersIterator();
-            var blockedUsers = await blockedUsersIterator.MoveToNextPage();
+            var blockedUsers = await blockedUsersIterator.NextPage();
 
             await userToFollow.UnblockUser();
 
@@ -50,7 +50,7 @@ namespace xUnitinvi.EndToEnd
 
             // act
             var mutedUserIdsIterator = _tweetinviTestClient.Users.GetMutedUserIdsIterator();
-            var initialMutedUserIds = await mutedUserIdsIterator.MoveToNextPage();
+            var initialMutedUserIds = await mutedUserIdsIterator.NextPage();
 
             await _tweetinviTestClient.Users.MuteUser(userToMute);
 
@@ -58,13 +58,13 @@ namespace xUnitinvi.EndToEnd
             await _tweetinviTestClient.Users.GetMutedUsers();
 
             var newMutedUserIdsIterator = _tweetinviTestClient.Users.GetMutedUserIdsIterator();
-            var newMutedUserIds = await newMutedUserIdsIterator.MoveToNextPage();
+            var newMutedUserIds = await newMutedUserIdsIterator.NextPage();
             var newMutedUsersIterator = _tweetinviTestClient.Users.GetMutedUsersIterator();
-            var newMutedUsers = await newMutedUsersIterator.MoveToNextPage();
+            var newMutedUsers = await newMutedUsersIterator.NextPage();
             await _tweetinviTestClient.Users.UnmuteUser(userToMute);
 
             var restoredMutedUserIdsIterator = _tweetinviTestClient.Users.GetMutedUserIdsIterator();
-            var restoredMutedUserIds = await restoredMutedUserIdsIterator.MoveToNextPage();
+            var restoredMutedUserIds = await restoredMutedUserIdsIterator.NextPage();
 
             // assert
             Assert.True(newMutedUsers.Select(x => x.Id).ContainsSameObjectsAs(newMutedUserIds));

@@ -241,7 +241,7 @@
 
 <span class="k">while</span> <span class="p">(!</span><span class="n">userTimelineIterator</span><span class="p">.</span><span class="n">Completed</span><span class="p">)</span>
 <span class="p">{</span>
-    <span class="kt">var</span> <span class="n">page</span> <span class="p">=</span> <span class="k">await</span> <span class="n">userTimelineIterator</span><span class="p">.</span><span class="n">MoveToNextPage</span><span class="p">();</span>
+    <span class="kt">var</span> <span class="n">page</span> <span class="p">=</span> <span class="k">await</span> <span class="n">userTimelineIterator</span><span class="p">.</span><span class="n">NextPage</span><span class="p">();</span>
     <span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span><span class="s">&quot;Retrieved &quot;</span> <span class="p">+</span> <span class="n">page</span><span class="p">.</span><span class="n">Count</span><span class="p">()</span> <span class="p">+</span> <span class="s">&quot; tweets!&quot;</span><span class="p">);</span>
 <span class="p">}</span>
 

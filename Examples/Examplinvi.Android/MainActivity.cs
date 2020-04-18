@@ -43,7 +43,7 @@ namespace Examplinvi.Android
 
                 timelineListAdapter.Clear();
 
-                var tweets = tweetIterators.MoveToNextPage().Result;
+                var tweets = tweetIterators.NextPage().Result;
                 foreach (var tweet in tweets)
                 {
                     timelineListAdapter.Add(new TweetItem

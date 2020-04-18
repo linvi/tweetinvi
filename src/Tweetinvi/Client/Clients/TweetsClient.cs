@@ -162,7 +162,7 @@ namespace Tweetinvi.Client
         public async Task<long[]> GetRetweeterIds(IGetRetweeterIdsParameters parameters)
         {
             var iterator = GetRetweeterIdsIterator(parameters);
-            return (await iterator.MoveToNextPage().ConfigureAwait(false)).ToArray();
+            return (await iterator.NextPage().ConfigureAwait(false)).ToArray();
         }
 
         public ITwitterIterator<long> GetRetweeterIdsIterator(long tweetId)
@@ -199,7 +199,7 @@ namespace Tweetinvi.Client
         public async Task<ITweet[]> GetUserFavoriteTweets(IGetUserFavoriteTweetsParameters parameters)
         {
             var iterator = GetUserFavoriteTweetsIterator(parameters);
-            return (await iterator.MoveToNextPage().ConfigureAwait(false)).ToArray();
+            return (await iterator.NextPage().ConfigureAwait(false)).ToArray();
         }
 
         #region Favourite Tweets

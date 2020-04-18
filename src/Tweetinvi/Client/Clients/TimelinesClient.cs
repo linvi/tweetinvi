@@ -31,7 +31,7 @@ namespace Tweetinvi.Client
         public async Task<ITweet[]> GetHomeTimeline(IGetHomeTimelineParameters parameters)
         {
             var iterator = GetHomeTimelineIterator(parameters);
-            return (await iterator.MoveToNextPage().ConfigureAwait(false)).ToArray();
+            return (await iterator.NextPage().ConfigureAwait(false)).ToArray();
         }
 
         public ITwitterIterator<ITweet, long?> GetHomeTimelineIterator()
@@ -64,7 +64,7 @@ namespace Tweetinvi.Client
         public async Task<ITweet[]> GetUserTimeline(IGetUserTimelineParameters parameters)
         {
             var iterator = GetUserTimelineIterator(parameters);
-            return (await iterator.MoveToNextPage().ConfigureAwait(false)).ToArray();
+            return (await iterator.NextPage().ConfigureAwait(false)).ToArray();
         }
 
         public ITwitterIterator<ITweet, long?> GetUserTimelineIterator(long userId)
@@ -98,7 +98,7 @@ namespace Tweetinvi.Client
         public async Task<ITweet[]> GetMentionsTimeline(IGetMentionsTimelineParameters parameters)
         {
             var iterator = GetMentionsTimelineIterator(parameters);
-            return (await iterator.MoveToNextPage().ConfigureAwait(false)).ToArray();
+            return (await iterator.NextPage().ConfigureAwait(false)).ToArray();
         }
 
         public ITwitterIterator<ITweet, long?> GetMentionsTimelineIterator()
@@ -121,7 +121,7 @@ namespace Tweetinvi.Client
         public async Task<ITweet[]> GetRetweetsOfMeTimeline(IGetRetweetsOfMeTimelineParameters parameters)
         {
             var iterator = GetRetweetsOfMeTimelineIterator(parameters);
-            var firstResults = await iterator.MoveToNextPage().ConfigureAwait(false);
+            var firstResults = await iterator.NextPage().ConfigureAwait(false);
             return firstResults?.ToArray();
         }
 

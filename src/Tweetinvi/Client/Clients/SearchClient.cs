@@ -37,7 +37,7 @@ namespace Tweetinvi.Client
         public async Task<ITweet[]> SearchTweets(ISearchTweetsParameters parameters)
         {
             var iterator = GetSearchTweetsIterator(parameters);
-            return (await iterator.MoveToNextPage().ConfigureAwait(false)).ToArray();
+            return (await iterator.NextPage().ConfigureAwait(false)).ToArray();
         }
 
         public Task<ISearchResults> SearchTweetsWithMetadata(string query)
@@ -48,7 +48,7 @@ namespace Tweetinvi.Client
         public async Task<ISearchResults> SearchTweetsWithMetadata(ISearchTweetsParameters parameters)
         {
             var pageIterator = _client.Raw.Search.GetSearchTweetsIterator(parameters);
-            var page = await pageIterator.MoveToNextPage().ConfigureAwait(false);
+            var page = await pageIterator.NextPage().ConfigureAwait(false);
             return _client.Factories.CreateSearchResult(page?.Content?.DataTransferObject);
         }
 
@@ -94,7 +94,7 @@ namespace Tweetinvi.Client
         public async Task<IUser[]> SearchUsers(ISearchUsersParameters parameters)
         {
             var pageIterator = GetSearchUsersIterator(parameters);
-            return (await pageIterator.MoveToNextPage().ConfigureAwait(false)).ToArray();
+            return (await pageIterator.NextPage().ConfigureAwait(false)).ToArray();
         }
 
         public ITwitterIterator<IUser, int?> GetSearchUsersIterator(string query)

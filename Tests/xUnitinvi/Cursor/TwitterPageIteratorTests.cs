@@ -16,7 +16,7 @@ namespace xUnitinvi.Cursor
             {
                 DataTransferObject = 42
             };
-            
+
             _secondPage =  new TwitterResult<long>(null)
             {
                 DataTransferObject = 43
@@ -44,13 +44,13 @@ namespace xUnitinvi.Cursor
         private readonly Func<ITwitterResult<long>, bool> _isLastPage;
 
         [Fact]
-        public async Task MoveToNextPage_ReturnsPageFromLambda()
+        public async Task NextPage_ReturnsPageFromLambda()
         {
             // arrange
             var iterator = new TwitterPageIterator<ITwitterResult<long>, string>(null, _getNextPage, _extractNextCursor, _isLastPage);
 
             // act
-            var result = await iterator.MoveToNextPage();
+            var result = await iterator.NextPage();
 
             // assert
             Assert.Equal("cursor_for_page_2", result.NextCursor);
@@ -63,7 +63,7 @@ namespace xUnitinvi.Cursor
         }
 
         [Fact]
-        public async Task MoveToNextPage_WhenAlreadyCompleted_ThrowsException()
+        public async Task NextPage_WhenAlreadyCompleted_ThrowsException()
         {
             // arrange
             A.CallTo(() => _isLastPage(_firstPage)).Returns(true);
@@ -71,22 +71,22 @@ namespace xUnitinvi.Cursor
             var iterator = new TwitterPageIterator<ITwitterResult<long>, string>(null, _getNextPage, _extractNextCursor, _isLastPage);
 
             // 1st iteration
-            await iterator.MoveToNextPage();
+            await iterator.NextPage();
 
             // act - assert
-            await Assert.ThrowsAsync<TwitterIteratorAlreadyCompletedException>(async () => await iterator.MoveToNextPage());
+            await Assert.ThrowsAsync<TwitterIteratorAlreadyCompletedException>(async () => await iterator.NextPage());
             Assert.Equal("cursor_for_page_2", iterator.NextCursor);
             Assert.True(iterator.Completed);
         }
 
         [Fact]
-        public async Task MoveToNextPageFromPage2_ShouldReturnSecondPage()
+        public async Task NextPageFromPage2_ShouldReturnSecondPage()
         {
             // arrange
             var iterator = new TwitterPageIterator<ITwitterResult<long>, string>("cursor_for_page_2", _getNextPage, _extractNextCursor, _isLastPage);
 
             // act
-            var result = await iterator.MoveToNextPage();
+            var result = await iterator.NextPage();
 
             // assert
             Assert.Equal("cursor_for_page_3", result.NextCursor);
@@ -99,16 +99,16 @@ namespace xUnitinvi.Cursor
         }
 
         [Fact]
-        public async Task MoveToNextPageTwice_ReturnsSecondPage()
+        public async Task NextPageTwice_ReturnsSecondPage()
         {
             // arrange
             var iterator = new TwitterPageIterator<ITwitterResult<long>, string>(null, _getNextPage, _extractNextCursor, _isLastPage);
 
             // 1st iteration
-            await iterator.MoveToNextPage();
+            await iterator.NextPage();
 
             // act
-            var result = await iterator.MoveToNextPage();
+            var result = await iterator.NextPage();
 
             // assert
             Assert.Equal("cursor_for_page_3", result.NextCursor);

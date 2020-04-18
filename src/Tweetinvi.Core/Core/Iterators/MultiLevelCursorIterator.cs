@@ -11,17 +11,17 @@ namespace Tweetinvi.Core.Iterators
     public class MultiLevelCursorIterator<TParent, TItem> : MultiLevelCursorIterator<TParent, TItem, string>, IMultiLevelCursorIterator<TParent, TItem>
     {
         public MultiLevelCursorIterator(
-            Func<Task<ICursorPageResult<TParent, string>>> iterateSubLevel, 
+            Func<Task<ICursorPageResult<TParent, string>>> iterateSubLevel,
             Func<TParent[], Task<IPageProcessingResult<TParent, TItem>>> getChildItemsPageFromParent) : base(iterateSubLevel, getChildItemsPageFromParent)
         {
         }
     }
-    
+
     public class MultiLevelCursorIterator<TParent, TItem, TCursor> : IMultiLevelCursorIterator<TParent, TItem, TCursor>
     {
         private readonly Func<Task<ICursorPageResult<TParent, TCursor>>> _iterateSubLevel;
         private readonly Func<TParent[], Task<IPageProcessingResult<TParent, TItem>>> _getChildItemsPageFromParent;
-        
+
         private HashSet<TParent> _itemsLeftToProcess;
         private ICursorPageResult<TParent, TCursor> _lastParentPageResult;
 
@@ -33,16 +33,16 @@ namespace Tweetinvi.Core.Iterators
             _getChildItemsPageFromParent = getChildItemsPageFromParent;
             _itemsLeftToProcess = new HashSet<TParent>();
         }
-        
+
         public bool Completed => _lastParentPageResult != null && _lastParentPageResult.IsLastPage && _itemsLeftToProcess.Count == 0;
-        
-        public async Task<IMultiLevelCursorIteratorPage<TParent, TItem, TCursor>> MoveToNextPage()
+
+        public async Task<IMultiLevelCursorIteratorPage<TParent, TItem, TCursor>> NextPage()
         {
             if (Completed)
             {
                 throw new TwitterIteratorAlreadyCompletedException();
             }
-            
+
             if (_lastParentPageResult == null || _itemsLeftToProcess.Count == 0)
             {
                 _lastParentPageResult = await _iterateSubLevel().ConfigureAwait(false);
@@ -51,7 +51,7 @@ namespace Tweetinvi.Core.Iterators
 
             var childItemsPage = await _getChildItemsPageFromParent(_itemsLeftToProcess.ToArray()).ConfigureAwait(false);
             var processedParentItems = childItemsPage.AssociatedParentItems;
-            
+
             processedParentItems.ForEach(item => { _itemsLeftToProcess.Remove(item); });
 
             var pageResult = new MultiLevelCursorIteratorPage<TParent, TItem, TCursor>

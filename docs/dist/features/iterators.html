@@ -205,9 +205,9 @@
 <div><p>Iterators let you request multiple pages until no more items are available.</p>
 </div></blockquote>
 <ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">MoveToNextPage()</span></code> request twitter for the next page of results</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">NextCursor</span></code> is updated after each call to <code class="docutils literal notranslate"><span class="pre">MoveToNextPage</span></code>. It can be used to start a new request at this position.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">Completed</span></code> is updated after each call to <code class="docutils literal notranslate"><span class="pre">MoveToNextPage</span></code>. It is marked as true when no more results are available.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">NextPage()</span></code> request twitter for the next page of results</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">NextCursor</span></code> is updated after each call to <code class="docutils literal notranslate"><span class="pre">NextPage</span></code>. It can be used to start a new request at this position.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Completed</span></code> is updated after each call to <code class="docutils literal notranslate"><span class="pre">NextPage</span></code>. It is marked as true when no more results are available.</p></li>
 </ul>
 </div>
 <div class="section" id="iterator-page">
@@ -228,7 +228,7 @@
 
 <span class="k">while</span> <span class="p">(!</span><span class="n">timelineIterator</span><span class="p">.</span><span class="n">Completed</span><span class="p">)</span>
 <span class="p">{</span>
-    <span class="kt">var</span> <span class="n">page</span> <span class="p">=</span> <span class="k">await</span> <span class="n">timelineIterator</span><span class="p">.</span><span class="n">MoveToNextPage</span><span class="p">();</span> 
+    <span class="kt">var</span> <span class="n">page</span> <span class="p">=</span> <span class="k">await</span> <span class="n">timelineIterator</span><span class="p">.</span><span class="n">NextPage</span><span class="p">();</span> 
     <span class="n">timelineTweets</span><span class="p">.</span><span class="n">AddRange</span><span class="p">(</span><span class="n">page</span><span class="p">);</span>
 <span class="p">}</span>
 </pre></div>
@@ -241,7 +241,7 @@
 <span class="p">{</span>
     <span class="n">PageSize</span> <span class="p">=</span> <span class="m">50</span>
 <span class="p">});</span>
-<span class="kt">var</span> <span class="n">firstPage</span> <span class="p">=</span> <span class="k">await</span> <span class="n">firstFriendIdsIterator</span><span class="p">.</span><span class="n">MoveToNextPage</span><span class="p">();</span>
+<span class="kt">var</span> <span class="n">firstPage</span> <span class="p">=</span> <span class="k">await</span> <span class="n">firstFriendIdsIterator</span><span class="p">.</span><span class="n">NextPage</span><span class="p">();</span>
 </pre></div>
 </div>
 <p>After having retrieved a first page, we can now request a new one from the previous cursor.</p>
@@ -250,7 +250,7 @@
     <span class="n">Cursor</span> <span class="p">=</span> <span class="n">firstFriendIdsIterator</span><span class="p">.</span><span class="n">NextCursor</span><span class="p">,</span>
     <span class="c1">// or Cursor = firstPage.NextCursor</span>
 <span class="p">});</span>
-<span class="kt">var</span> <span class="n">secondPage</span> <span class="p">=</span> <span class="k">await</span> <span class="n">friendIdsIterator</span><span class="p">.</span><span class="n">MoveToNextPage</span><span class="p">();</span>
+<span class="kt">var</span> <span class="n">secondPage</span> <span class="p">=</span> <span class="k">await</span> <span class="n">friendIdsIterator</span><span class="p">.</span><span class="n">NextPage</span><span class="p">();</span>
 </pre></div>
 </div>
 </div>
@@ -304,24 +304,24 @@
 <div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="kt">var</span> <span class="n">friendsIterator</span> <span class="p">=</span> <span class="n">client</span><span class="p">.</span><span class="n">Users</span><span class="p">.</span><span class="n">GetFollowersIterator</span><span class="p">(</span><span class="k">new</span> <span class="n">GetFollowersParameters</span><span class="p">(</span><span class="s">&quot;tweetinvi&quot;</span><span class="p">));</span>
 <span class="k">while</span> <span class="p">(!</span><span class="n">friendsIterator</span><span class="p">.</span><span class="n">Completed</span><span class="p">)</span>
 <span class="p">{</span>
-    <span class="kt">var</span> <span class="n">page</span> <span class="p">=</span> <span class="k">await</span> <span class="n">friendsIterator</span><span class="p">.</span><span class="n">MoveToNextPage</span><span class="p">();</span> 
+    <span class="kt">var</span> <span class="n">page</span> <span class="p">=</span> <span class="k">await</span> <span class="n">friendsIterator</span><span class="p">.</span><span class="n">NextPage</span><span class="p">();</span> 
 <span class="p">}</span>
 </pre></div>
 </div>
 <p>Here is what happens behind the scenes when a user has more than 5000 friends:</p>
 <ul class="simple">
-<li><p>1st call to <code class="docutils literal notranslate"><span class="pre">await</span> <span class="pre">friendsIterator.MoveToNextPage();</span></code>, Tweetinvi performs 2 requests and returns 100 users.</p>
+<li><p>1st call to <code class="docutils literal notranslate"><span class="pre">await</span> <span class="pre">friendsIterator.NextPage();</span></code>, Tweetinvi performs 2 requests and returns 100 users.</p>
 <ul>
 <li><p><code class="docutils literal notranslate"><span class="pre">GetFriendIds</span></code> that return 5000 friend ids</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">GetUsers</span></code> that return 100 users</p></li>
 </ul>
 </li>
-<li><p>Next <strong>49x</strong> calls to <code class="docutils literal notranslate"><span class="pre">await</span> <span class="pre">friendsIterator.MoveToNextPage();</span></code>; Tweetinvi 1 request to get the next users.</p>
+<li><p>Next <strong>49x</strong> calls to <code class="docutils literal notranslate"><span class="pre">await</span> <span class="pre">friendsIterator.NextPage();</span></code>; Tweetinvi 1 request to get the next users.</p>
 <ul>
 <li><p><code class="docutils literal notranslate"><span class="pre">GetUsers</span></code> that return 100 users</p></li>
 </ul>
 </li>
-<li><p>On the <strong>51st</strong> call to <code class="docutils literal notranslate"><span class="pre">await</span> <span class="pre">friendsIterator.MoveToNextPage();</span></code>; Tweetinvi performs again 2 requests.</p>
+<li><p>On the <strong>51st</strong> call to <code class="docutils literal notranslate"><span class="pre">await</span> <span class="pre">friendsIterator.NextPage();</span></code>; Tweetinvi performs again 2 requests.</p>
 <ul>
 <li><p><code class="docutils literal notranslate"><span class="pre">GetFriendIds</span></code> that return 5000 friend ids</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">GetUsers</span></code> that return 100 users</p></li>

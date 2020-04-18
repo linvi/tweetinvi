@@ -60,7 +60,7 @@ namespace Tweetinvi.Client
         public async Task<IMessage[]> GetMessages(IGetMessagesParameters parameters)
         {
             var iterator = GetMessagesIterator(parameters);
-            return (await iterator.MoveToNextPage().ConfigureAwait(false)).ToArray();
+            return (await iterator.NextPage().ConfigureAwait(false)).ToArray();
         }
 
         public ITwitterIterator<IMessage> GetMessagesIterator()

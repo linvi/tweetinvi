@@ -135,7 +135,7 @@ namespace xUnitinvi.EndToEnd
             var retweeterIdsBeforeIterator = _protectedClient.Tweets.GetRetweeterIdsIterator(tweetId);
             while (!retweeterIdsBeforeIterator.Completed)
             {
-                allRetweeterIdsBefore.AddRange(await retweeterIdsBeforeIterator.MoveToNextPage());
+                allRetweeterIdsBefore.AddRange(await retweeterIdsBeforeIterator.NextPage());
             }
 
             await _protectedClient.Tweets.DestroyRetweet(retweet);

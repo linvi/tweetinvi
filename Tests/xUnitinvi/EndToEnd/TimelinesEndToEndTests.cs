@@ -27,7 +27,7 @@ namespace xUnitinvi.EndToEnd
             // arrange
             var testUser = await _tweetinviTestClient.Users.GetAuthenticatedUser();
             var tweetinviUser = await _tweetinviClient.Users.GetAuthenticatedUser();
-            var friendsBeforeAdd = await _tweetinviClient.Users.GetFriendIdsIterator(tweetinviUser).MoveToNextPage();
+            var friendsBeforeAdd = await _tweetinviClient.Users.GetFriendIdsIterator(tweetinviUser).NextPage();
             var alreadyFollowing = friendsBeforeAdd.Contains(testUser.Id);
 
             if (!alreadyFollowing)
@@ -39,7 +39,7 @@ namespace xUnitinvi.EndToEnd
 
             await Task.Delay(1000); // time required for timeline to be generated
             var recentTweetIterators = _tweetinviClient.Timelines.GetHomeTimelineIterator();
-            var recentTweets = await recentTweetIterators.MoveToNextPage();
+            var recentTweets = await recentTweetIterators.NextPage();
             var tweetToDelete = recentTweets.FirstOrDefault(x => x.Text == "tweet 1!");
 
             if (tweetToDelete != null)
@@ -58,8 +58,8 @@ namespace xUnitinvi.EndToEnd
                 PageSize = 1,
             });
 
-            var page1 = await iterator.MoveToNextPage();
-            var page2 = await iterator.MoveToNextPage();
+            var page1 = await iterator.NextPage();
+            var page2 = await iterator.NextPage();
 
             await tweet1.Destroy();
 
@@ -88,12 +88,12 @@ namespace xUnitinvi.EndToEnd
                 PageSize = 5,
             });
 
-            var page1 = await iterator.MoveToNextPage();
+            var page1 = await iterator.NextPage();
 
             IEnumerable<ITweet> page2 = new ITweet[] { };
             if (!iterator.Completed)
             {
-                page2 = await iterator.MoveToNextPage();
+                page2 = await iterator.NextPage();
             }
 
             await tweet1.Destroy();
@@ -115,7 +115,7 @@ namespace xUnitinvi.EndToEnd
             await _tweetinviClient.Timelines.GetMentionsTimeline();
             var iterator = _tweetinviClient.Timelines.GetMentionsTimelineIterator();
 
-            var page1 = await iterator.MoveToNextPage();
+            var page1 = await iterator.NextPage();
 
             await tweet1.Destroy();
 
@@ -145,7 +145,7 @@ namespace xUnitinvi.EndToEnd
             var retweets = new List<ITweet>();
             while (!iterator.Completed)
             {
-                var retweetsPage = await iterator.MoveToNextPage();
+                var retweetsPage = await iterator.NextPage();
                 retweets.AddRange(retweetsPage);
             }
 

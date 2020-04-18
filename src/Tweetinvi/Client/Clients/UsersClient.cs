@@ -176,7 +176,7 @@ namespace Tweetinvi.Client
         public async Task<long[]> GetFriendIds(IGetFriendIdsParameters parameters)
         {
             var iterator = GetFriendIdsIterator(parameters);
-            return (await iterator.MoveToNextPage().ConfigureAwait(false)).ToArray();
+            return (await iterator.NextPage().ConfigureAwait(false)).ToArray();
         }
 
         public ITwitterIterator<long> GetFriendIdsIterator(string username)
@@ -221,7 +221,7 @@ namespace Tweetinvi.Client
         public async Task<IUser[]> GetFriends(IGetFriendsParameters parameters)
         {
             var iterator = GetFriendsIterator(parameters);
-            return (await iterator.MoveToNextPage().ConfigureAwait(false)).ToArray();
+            return (await iterator.NextPage().ConfigureAwait(false)).ToArray();
         }
 
         public IMultiLevelCursorIterator<long, IUser> GetFriendsIterator(IGetFriendsParameters parameters)
@@ -260,7 +260,7 @@ namespace Tweetinvi.Client
         public async Task<long[]> GetFollowerIds(IGetFollowerIdsParameters parameters)
         {
             var iterator = GetFollowerIdsIterator(parameters);
-            return (await iterator.MoveToNextPage().ConfigureAwait(false)).ToArray();
+            return (await iterator.NextPage().ConfigureAwait(false)).ToArray();
         }
 
         public ITwitterIterator<long> GetFollowerIdsIterator(string username)
@@ -305,7 +305,7 @@ namespace Tweetinvi.Client
         public async Task<IUser[]> GetFollowers(IGetFollowersParameters parameters)
         {
             var iterator = GetFollowersIterator(parameters);
-            return (await iterator.MoveToNextPage().ConfigureAwait(false)).ToArray();
+            return (await iterator.NextPage().ConfigureAwait(false)).ToArray();
         }
 
         public IMultiLevelCursorIterator<long, IUser> GetFollowersIterator(IGetFollowersParameters parameters)
@@ -397,7 +397,7 @@ namespace Tweetinvi.Client
         public async Task<long[]> GetBlockedUserIds(IGetBlockedUserIdsParameters parameters)
         {
             var iterator = GetBlockedUserIdsIterator(parameters);
-            return (await iterator.MoveToNextPage().ConfigureAwait(false)).ToArray();
+            return (await iterator.NextPage().ConfigureAwait(false)).ToArray();
         }
 
         public ITwitterIterator<long> GetBlockedUserIdsIterator()
@@ -419,7 +419,7 @@ namespace Tweetinvi.Client
         public async Task<IUser[]> GetBlockedUsers(IGetBlockedUsersParameters parameters)
         {
             var iterator = GetBlockedUsersIterator(parameters);
-            return (await iterator.MoveToNextPage().ConfigureAwait(false)).ToArray();
+            return (await iterator.NextPage().ConfigureAwait(false)).ToArray();
         }
 
         public ITwitterIterator<IUser> GetBlockedUsersIterator()
@@ -504,7 +504,7 @@ namespace Tweetinvi.Client
         public async Task<long[]> GetUserIdsRequestingFriendship(IGetUserIdsRequestingFriendshipParameters parameters)
         {
             var iterator = GetUserIdsRequestingFriendshipIterator(parameters);
-            return (await iterator.MoveToNextPage().ConfigureAwait(false)).ToArray();
+            return (await iterator.NextPage().ConfigureAwait(false)).ToArray();
         }
 
         public ITwitterIterator<long> GetUserIdsRequestingFriendshipIterator()
@@ -526,7 +526,7 @@ namespace Tweetinvi.Client
         public async Task<IUser[]> GetUsersRequestingFriendship(IGetUsersRequestingFriendshipParameters parameters)
         {
             var iterator = GetUsersRequestingFriendshipIterator(parameters);
-            return (await iterator.MoveToNextPage().ConfigureAwait(false)).ToArray();
+            return (await iterator.NextPage().ConfigureAwait(false)).ToArray();
         }
 
         public IMultiLevelCursorIterator<long, IUser> GetUsersRequestingFriendshipIterator()
@@ -555,7 +555,7 @@ namespace Tweetinvi.Client
         public async Task<long[]> GetUserIdsYouRequestedToFollow(IGetUserIdsYouRequestedToFollowParameters parameters)
         {
             var iterator = GetUserIdsYouRequestedToFollowIterator(parameters);
-            return (await iterator.MoveToNextPage().ConfigureAwait(false)).ToArray();
+            return (await iterator.NextPage().ConfigureAwait(false)).ToArray();
         }
 
         public ITwitterIterator<long> GetUserIdsYouRequestedToFollowIterator()
@@ -577,7 +577,7 @@ namespace Tweetinvi.Client
         public async Task<IUser[]> GetUsersYouRequestedToFollow(IGetUsersYouRequestedToFollowParameters parameters)
         {
             var iterator = GetUsersYouRequestedToFollowIterator(parameters);
-            return (await iterator.MoveToNextPage().ConfigureAwait(false)).ToArray();
+            return (await iterator.NextPage().ConfigureAwait(false)).ToArray();
         }
 
         public IMultiLevelCursorIterator<long, IUser> GetUsersYouRequestedToFollowIterator()
@@ -669,7 +669,7 @@ namespace Tweetinvi.Client
         public async Task<long[]> GetMutedUserIds(IGetMutedUserIdsParameters parameters)
         {
             var iterator = GetMutedUserIdsIterator(parameters);
-            return (await iterator.MoveToNextPage().ConfigureAwait(false)).ToArray();
+            return (await iterator.NextPage().ConfigureAwait(false)).ToArray();
         }
 
         public ITwitterIterator<long> GetMutedUserIdsIterator()
@@ -691,7 +691,7 @@ namespace Tweetinvi.Client
         public async Task<IUser[]> GetMutedUsers(IGetMutedUsersParameters parameters)
         {
             var iterator = GetMutedUsersIterator(parameters);
-            return (await iterator.MoveToNextPage().ConfigureAwait(false)).ToArray();
+            return (await iterator.NextPage().ConfigureAwait(false)).ToArray();
         }
 
         public ITwitterIterator<IUser> GetMutedUsersIterator()

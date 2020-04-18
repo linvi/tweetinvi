@@ -55,7 +55,7 @@ namespace xUnitinvi.TestHelpers
 
             while (!_iterator.Completed)
             {
-                var page = await _iterator.MoveToNextPage();
+                var page = await _iterator.NextPage();
                 _resultPages.Add(page);
             }
         }
@@ -75,7 +75,7 @@ namespace xUnitinvi.TestHelpers
             Xunit.Assert.Equal(lastPage.Content, _expectedResults[_expectedResults.Length - 1]);
             Xunit.Assert.True(lastPage.IsLastPage);
 
-            await Xunit.Assert.ThrowsAsync<TwitterIteratorAlreadyCompletedException>(() => _iterator.MoveToNextPage());
+            await Xunit.Assert.ThrowsAsync<TwitterIteratorAlreadyCompletedException>(() => _iterator.NextPage());
         }
     }
 }
