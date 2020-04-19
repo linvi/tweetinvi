@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Direct API calls &mdash; Tweetinvi 5.0 documentation</title>
+  <title>Twitter Labs &mdash; Tweetinvi 5.0 documentation</title>
   
 
   
@@ -37,8 +37,8 @@
   <link rel="stylesheet" href="../_static/css/custom.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Media Upload" href="upload-media.html" />
-    <link rel="prev" title="Followers, Friends and Relationships" href="users-followers-friends.html" /> 
+    <link rel="next" title="Extended Tweets" href="extended-tweets.html" />
+    <link rel="prev" title="PIN based Authentication" href="../authentication/authentication-pin-code.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -89,18 +89,15 @@
 <li class="toctree-l1"><a class="reference internal" href="../intro/basic-concepts.html">Basic Concepts</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Features</span></p>
-<ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="tweets.html">Tweets</a></li>
-<li class="toctree-l1"><a class="reference internal" href="messages.html">Messages</a></li>
-<li class="toctree-l1"><a class="reference internal" href="users.html">Users</a></li>
-<li class="toctree-l1"><a class="reference internal" href="search.html">Search</a></li>
-<li class="toctree-l1"><a class="reference internal" href="users-followers-friends.html">Followers, Friends and Relationships</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Direct API calls</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#example">Example</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="upload-media.html">Media Upload</a></li>
-<li class="toctree-l1"><a class="reference internal" href="iterators.html">Iterators</a></li>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../features/tweets.html">Tweets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../features/messages.html">Messages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../features/users.html">Users</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../features/search.html">Search</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../features/users-followers-friends.html">Followers, Friends and Relationships</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../features/direct-api-calls.html">Direct API calls</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../features/upload-media.html">Media Upload</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../features/iterators.html">Iterators</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Authentication</span></p>
 <ul>
@@ -109,9 +106,12 @@
 <li class="toctree-l1"><a class="reference internal" href="../authentication/authentication-pin-code.html">PIN based Authentication</a></li>
 </ul>
 <p class="caption"><span class="caption-text">More</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="../more/twitter-labs.html">Twitter Labs</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../more/extended-tweets.html">Extended Tweets</a></li>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Twitter Labs</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#example">Example</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="extended-tweets.html">Extended Tweets</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../4.0-to-5.0.html">Migrate from 4.0 to 5.0</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../license.html">License</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../help.html">Help and Feedback</a></li>
@@ -160,13 +160,13 @@
     
       <li><a href="../index.html">Docs</a> &raquo;</li>
         
-      <li>Direct API calls</li>
+      <li>Twitter Labs</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="../_sources/features/direct-api-calls.md.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/more/twitter-labs.md.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -179,32 +179,21 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="direct-api-calls">
-<h1>Direct API calls<a class="headerlink" href="#direct-api-calls" title="Permalink to this headline">¶</a></h1>
-<p>Tweetinvi offers a simple approach to calling the Twitter api directly.<br />Tweetinvi will take care of setting up the headers for you, you take care of the query!</p>
+  <div class="section" id="twitter-labs">
+<h1>Twitter Labs<a class="headerlink" href="#twitter-labs" title="Permalink to this headline">¶</a></h1>
+<p>Twitter Labs is the next version of the Twitter API.<br />Tweetinvi 5.0 does not provide a wrapper around this new version of the API.</p>
+<p>You can use the <a class="reference internal" href="../features/direct-api-calls.html"><span class="doc">direct api calls</span></a> to perform requests and parse the results on your own.</p>
 <div class="section" id="example">
 <h2>Example<a class="headerlink" href="#example" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="kt">var</span> <span class="n">homeTimelineResult</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Execute</span><span class="p">.</span><span class="n">Request</span><span class="p">(</span><span class="n">request</span> <span class="p">=&gt;</span>
+<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="c1">// get labs api response</span>
+<span class="kt">var</span> <span class="n">getTweetResponse</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Execute</span><span class="p">.</span><span class="n">Request</span><span class="p">(</span><span class="n">request</span> <span class="p">=&gt;</span>
 <span class="p">{</span>
-    <span class="n">request</span><span class="p">.</span><span class="n">Url</span> <span class="p">=</span> <span class="s">&quot;https://api.twitter.com/1.1/statuses/home_timeline.json&quot;</span><span class="p">;</span>
-    <span class="n">request</span><span class="p">.</span><span class="n">HttpMethod</span> <span class="p">=</span> <span class="n">HttpMethod</span><span class="p">.</span><span class="n">GET</span><span class="p">;</span>
+    <span class="n">request</span><span class="p">.</span><span class="n">Url</span> <span class="p">=</span> <span class="s">&quot;https://api.twitter.com/labs/2/tweets/1138505981460193280?expansions=attachments.media_keys&amp;tweet.fields=created_at&quot;</span><span class="p">;</span>
 <span class="p">});</span>
 
-<span class="kt">var</span> <span class="n">jsonResponse</span> <span class="p">=</span> <span class="n">result</span><span class="p">.</span><span class="n">RawResult</span><span class="p">;</span>
-</pre></div>
-</div>
-<p>You can also get objects.</p>
-<div class="highlight-c# notranslate"><div class="highlight"><pre><span></span><span class="kt">var</span> <span class="n">result</span> <span class="p">=</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">Execute</span><span class="p">.</span><span class="n">Request</span><span class="p">&lt;</span><span class="n">TweetDTO</span><span class="p">[]&gt;(</span><span class="n">request</span> <span class="p">=&gt;</span>
-<span class="p">{</span>
-    <span class="n">request</span><span class="p">.</span><span class="n">Url</span> <span class="p">=</span> <span class="s">&quot;https://api.twitter.com/1.1/statuses/home_timeline.json&quot;</span><span class="p">;</span>
-    <span class="n">request</span><span class="p">.</span><span class="n">HttpMethod</span> <span class="p">=</span> <span class="n">HttpMethod</span><span class="p">.</span><span class="n">GET</span><span class="p">;</span>
-<span class="p">});</span>
-
-<span class="c1">// TweetDTO[]</span>
-<span class="kt">var</span> <span class="n">tweetDtos</span> <span class="p">=</span> <span class="n">result</span><span class="p">.</span><span class="n">DataTransferObject</span><span class="p">;</span>
-
-<span class="c1">// ITweet[]</span>
-<span class="kt">var</span> <span class="n">tweets</span> <span class="p">=</span> <span class="n">client</span><span class="p">.</span><span class="n">Factories</span><span class="p">.</span><span class="n">CreateTweets</span><span class="p">(</span><span class="n">tweetDtos</span><span class="p">);</span>
+<span class="kt">var</span> <span class="n">responseContent</span> <span class="p">=</span> <span class="n">JsonConvert</span><span class="p">.</span><span class="n">DeserializeObject</span><span class="p">&lt;</span><span class="kt">dynamic</span><span class="p">&gt;(</span><span class="n">getTweetResponse</span><span class="p">.</span><span class="n">RawResult</span><span class="p">);</span>
+<span class="kt">var</span> <span class="n">tweet</span> <span class="p">=</span> <span class="n">responseContent</span><span class="p">.</span><span class="n">data</span><span class="p">;</span>
+<span class="kt">var</span> <span class="n">tweetId</span> <span class="p">=</span> <span class="n">tweet</span><span class="p">.</span><span class="n">id</span><span class="p">;</span>
 </pre></div>
 </div>
 </div>
@@ -218,10 +207,10 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="upload-media.html" class="btn btn-neutral float-right" title="Media Upload" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="extended-tweets.html" class="btn btn-neutral float-right" title="Extended Tweets" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="users-followers-friends.html" class="btn btn-neutral float-left" title="Followers, Friends and Relationships" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="../authentication/authentication-pin-code.html" class="btn btn-neutral float-left" title="PIN based Authentication" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
