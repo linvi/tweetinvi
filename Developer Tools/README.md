@@ -1,3 +1,23 @@
+******** 5.0 builder *********
+
+1. Create the nuget package.
+
+``` sh
+# from the current project
+python3 builder.py
+#  remove the package from the cache
+rm -rf ~/.nuget/packages/tweetinviapi
+```
+
+2. Deploy the nuget package in your project
+
+``` sh
+# open your project directory
+rm -rf bin obj
+dotnet remove package TweetinviAPI
+dotnet add package TweetinviAPI -s '/Users/linvi/dev/tweetinvi/Developer Tools'
+```
+
 **********************************************************
 ****************** CONFIGURE MACHINE *********************
 **********************************************************
