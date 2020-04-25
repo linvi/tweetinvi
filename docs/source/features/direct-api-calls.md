@@ -30,3 +30,21 @@ var tweetDtos = result.DataTransferObject;
 // ITweet[]
 var tweets = client.Factories.CreateTweets(tweetDtos);
 ```
+
+## Going further
+
+Some requests (like the premium api) will require additional customization like setting the authentication.
+
+``` c#
+// Example using basic authentication
+
+var username = "Your username";
+var password = "Your password";
+var basicAuthContent = Convert.ToBase64String(ASCIIEncoding.ASCII.GetBytes(username + ":" + password));
+
+var result = await client.Execute.Request(request =>
+{
+    request.Url = "https://....";
+    request.CustomHeaders.Add("Authorization", "Basic " + basicAuthContent);
+});
+```
