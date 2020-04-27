@@ -85,7 +85,7 @@ namespace Tweetinvi.WebLogic
 
         protected Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken, string authorizationHeader)
         {
-            request.Headers.Add("User-Agent", "Tweetinvi/5.0.0");
+            request.Headers.Add("User-Agent", "Tweetinvi/5.0.0-alpha-2");
             request.Headers.ExpectContinue = false;
             request.Headers.CacheControl = new CacheControlHeaderValue { NoCache = true };
             request.Headers.Add("Authorization", authorizationHeader);
@@ -96,9 +96,23 @@ namespace Tweetinvi.WebLogic
                 request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(contentType));
             });
 
-            _twitterQuery?.CustomHeaders.ForEach(header =>
+            _twitterQuery?.CustomHeaders.ForEach(customHeader =>
             {
-                request.Headers.Add(header.Key, header.Value);
+                if (customHeader.Behaviour == CustomHeaderWill.RemoveGeneratedHeaders)
+                {
+                    request.Headers.Remove(customHeader.Key);
+                    return;
+                }
+
+                if (customHeader.Behaviour == CustomHeaderWill.OverrideGeneratedHeaders)
+                {
+                    if (request.Headers.Contains(customHeader.Key))
+                    {
+                        request.Headers.Remove(customHeader.Key);
+                    }
+                }
+
+                request.Headers.TryAddWithoutValidation(customHeader.Key, customHeader.Values);
             });
 
             return base.SendAsync(request, cancellationToken);

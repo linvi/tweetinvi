@@ -5,6 +5,7 @@ from shutil import copyfile, rmtree
 from pathlib import Path
 
 version = '5.0.0'
+nugetVersion = version + '-alpha-2'
 srcFolders = os.listdir('../src/')
 tweetinviProjects = list(filter(lambda folder: "Tweetinvi" in folder, srcFolders))
 
@@ -29,15 +30,17 @@ def createPath(path):
         print("Directory " , path ,  " already exists")  
 
 def update_version():
-    nuspecVersionRegex = re.compile(r'<version>[0-9\.]*</version>')
-    nuspecNewVersion = '<version>' + version + '</version>'
-    replace('./TweetinviAPI/TweetinviAPI.nuspec',
-            nuspecVersionRegex, nuspecNewVersion)
-    replace('./TweetinviAPI-Symbols/TweetinviAPI-Symbols.nuspec',
-            nuspecVersionRegex, nuspecNewVersion)
+    nuspecVersionRegex = re.compile(r'<version>.*</version>')
+    nuspecNewVersion = '<version>' + nugetVersion + '</version>'
+    replace('./TweetinviAPI/TweetinviAPI.nuspec', nuspecVersionRegex, nuspecNewVersion)
+    replace('./TweetinviAPI-Symbols/TweetinviAPI-Symbols.nuspec', nuspecVersionRegex, nuspecNewVersion)
+    replace('./TweetinviAspNet/TweetinviAPI.AspNetPlugin.nuspec', nuspecVersionRegex, nuspecNewVersion)
+
+    userAgentRegex = re.compile(r'"User-Agent",\s"Tweetinvi/.+"')
+    replace('../src/Tweetinvi.WebLogic/TwitterClientHandler.cs', userAgentRegex, '"User-Agent", "Tweetinvi/' + nugetVersion + '"')
     print('updated nuspec versions to ' + version)
 
-    csprojVersionRegex = re.compile(r'<VersionPrefix>[0-9\.]*</VersionPrefix>')
+    csprojVersionRegex = re.compile(r'<VersionPrefix>.*</VersionPrefix>')
     csprojNewVersion = '<VersionPrefix>' + version + '</VersionPrefix>'
 
     for projectPath in tweetinviProjects:
@@ -106,8 +109,6 @@ def clean_nuget_folder():
     createPath('./TweetinviAspNet/lib/netcoreapp2.1')
     createPath('./TweetinviAspNet/lib/netcoreapp3.1')
 
-    
-
 
 def build_tweetinvi_nuget_package():
     print('Building nuget package...')
@@ -146,14 +147,13 @@ def build_tweetinvi_nuget_symbols():
                  './TweetinviAPI-Symbols/lib/netstandard2.0/' + pdb)
 
     os.system('cd TweetinviAPI-Symbols && nuget pack')
-    os.rename('./TweetinviAPI-Symbols/TweetinviAPI.' + version + '.nupkg',
-              './TweetinviAPI-Symbols/TweetinviAPI.' + version + '.snupkg')
+    os.rename('./TweetinviAPI-Symbols/TweetinviAPI.' + nugetVersion + '.nupkg',
+              './TweetinviAPI-Symbols/TweetinviAPI.' + nugetVersion + '.snupkg')
 
 
 def build_aspNet_nuget_package():
     def copy_aspnet_file(filepath):
-        copyfile('../src/Tweetinvi.AspNet/bin/release/' +
-                 filepath, './TweetinviAspNet/lib/' + filepath)
+        copyfile('../src/Tweetinvi.AspNet/bin/release/' + filepath, './TweetinviAspNet/lib/' + filepath)
 
     Path("./TweetinviAspNet/lib/netstandard2.0").mkdir(parents=True, exist_ok=True)
     Path("./TweetinviAspNet/lib/netcoreapp2.1").mkdir(parents=True, exist_ok=True)

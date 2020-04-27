@@ -20,7 +20,7 @@ namespace Tweetinvi
             };
 
             HttpMethod = HttpMethod.GET;
-            CustomHeaders = new Dictionary<string, string>();
+            CustomHeaders = new CustomRequestHeaders();
         }
 
         public TwitterQuery(string queryURL, HttpMethod httpMethod) : this()

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using Tweetinvi.Core.Extensions;
 using Tweetinvi.Models;
 using HttpMethod = Tweetinvi.Models.HttpMethod;
 
@@ -22,16 +23,21 @@ namespace Tweetinvi
             Url = source.Url;
             HttpMethod = source.HttpMethod;
             AcceptHeaders = source.AcceptHeaders.ToList();
-            CustomHeaders = source.CustomHeaders.ToDictionary(x => x.Key, x => x.Value);
+            CustomHeaders = new CustomRequestHeaders();
+            source.CustomHeaders.ForEach(customHeader =>
+            {
+               CustomHeaders.Add(customHeader.Key, customHeader.Values, customHeader.Behaviour);
+            });
+
             AuthorizationHeader = source.AuthorizationHeader;
         }
-        
+
         public string Url { get; set; }
         public HttpMethod HttpMethod { get; set; }
         public virtual HttpContent HttpContent { get; set; }
         public bool IsHttpContentPartOfQueryParams { get; set; }
         public List<string> AcceptHeaders { get; set; }
-        public Dictionary<string, string> CustomHeaders { get; set; }
         public string AuthorizationHeader { get; set; }
+        public CustomRequestHeaders CustomHeaders { get; set; }
     }
 }

@@ -1,8 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Net.Http;
+using Tweetinvi.Core.Wrappers;
 
 namespace Tweetinvi.Models
 {
+
+
     /// <summary>
     /// Contains the fields that are required to build an HttpRequest to run the query
     /// </summary>
@@ -22,7 +25,7 @@ namespace Tweetinvi.Models
         /// Content of the HTTP request.
         /// </summary>
         HttpContent HttpContent { get; set; }
-        
+
         /// <summary>
         /// Whether the HttpContent should be considered as part of the query url
         /// </summary>
@@ -41,6 +44,6 @@ namespace Tweetinvi.Models
         /// <summary>
         /// Additional headers to add to the HttpRequest
         /// </summary>
-        Dictionary<string, string> CustomHeaders { get; set; }
+        CustomRequestHeaders CustomHeaders { get; set; }
     }
 }
