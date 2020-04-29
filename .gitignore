@@ -1,7 +1,7 @@
 ﻿# My own ignores
-/Developer Tools/temp*
-/Developer Tools/TweetinviAPI/lib
-/Developer Tools/tweetinvi.certificate.p12
+/tools/temp*
+/tools/TweetinviAPI/lib
+/tools/tweetinvi.certificate.p12
 /Examplinvi.Web/App_Data
 *.blob
 
@@ -10,9 +10,9 @@ lcov.cobertura.xml
 
 *.zip
 /Examplinvi.UniversalApp/Examplinvi.UniversalApp.nuget.targets
-/Developer Tools/OpenSSL
-/Developer Tools/TweetinviAPI
-/Developer Tools/nuget_packages/**/lib
+/tools/OpenSSL
+/tools/TweetinviAPI
+/tools/nuget_packages/**/lib
 /Examplinvi.WindowsPhone
 *.bak
 *.DotSettings.user
