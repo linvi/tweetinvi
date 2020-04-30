@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -46,6 +47,53 @@ namespace xUnitinvi.EndToEnd
             Assert.Contains(tweets.Select(x => x.Id), x => result2.Any(tweet => tweet.Id == x));
         }
 
+        [Fact(Skip = "Twitter search indexing duration is fluctuating too much for supporting this test")]
+        public async Task SearchTweetIterators()
+        {
+            if (!EndToEndTestConfig.ShouldRunEndToEndTests)
+                return;
+
+            var publishedTweets = new List<ITweet>();
+            var tweetUniqueMessage = "tweetinvitester";
+            for (var i = 0; i < 5; ++i)
+            {
+                var tweet = await _tweetinviTestClient.Tweets.PublishTweet($"{tweetUniqueMessage} {i}");
+                await Task.Delay(10000);
+                publishedTweets.Add(tweet);
+            }
+
+            // For twitter to index the results
+            await Task.Delay(TimeSpan.FromMinutes(45));
+
+            var tweets = await _tweetinviClient.Search.SearchTweets($"{tweetUniqueMessage}");
+            var searchTweetsIterator = _tweetinviClient.Search.GetSearchTweetsIterator(new SearchTweetsParameters($"{tweetUniqueMessage}")
+            {
+                PageSize = 3
+            });
+
+            var tweetsFromIterator = new List<ITweet>();
+            var requestsCount = 0;
+            while (!searchTweetsIterator.Completed)
+            {
+                ++requestsCount;
+                var page = await searchTweetsIterator.NextPage();
+                tweetsFromIterator.AddRange(page);
+            }
+
+            foreach (var publishedTweet in publishedTweets)
+            {
+                await publishedTweet.Destroy();
+            }
+
+            // assert
+            Assert.Equal(tweets.Length, 5);
+            Assert.True(tweetsFromIterator.Select(x => x.Id).ContainsSameObjectsAs(publishedTweets.Select(x => x.Id)));
+
+            // 2 request for result
+            // 1 request for checking completed
+            Assert.Equal(requestsCount, 3);
+        }
+
         [Fact]
         public async Task SearchWithFilters()
         {
@@ -90,7 +138,7 @@ namespace xUnitinvi.EndToEnd
 
             // assert
             Assert.True(users.Length > 0);
-            Assert.Equal(searchUsersIterator.NextCursor, 2);
+            Assert.Equal(searchUsersIterator.NextCursor, 3);
             Assert.Contains(users.Select(x => x.Id), x => result1.Any(tweet => tweet.Id == x));
             Assert.Contains(users.Select(x => x.Id), x => result2.Any(tweet => tweet.Id == x));
         }

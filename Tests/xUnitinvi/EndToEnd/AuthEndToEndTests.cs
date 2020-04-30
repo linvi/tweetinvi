@@ -112,7 +112,7 @@ namespace xUnitinvi.EndToEnd
             // assert
             Assert.Equal(authenticatedUser.ScreenName, EndToEndTestConfig.ProtectedUser.AccountId);
 
-            if (authenticatedClient.Credentials.ConsumerKey == EndToEndTestConfig.TweetinviApi)
+            if (authenticatedClient.Credentials.ConsumerKey == EndToEndTestConfig.TweetinviApi.Credentials.ConsumerKey)
             {
                 _logger.WriteLine("public static readonly IntegrationTestAccount ProtectedUserAuthenticatedToTweetinviApi = new IntegrationTestAccount\n" +
                                   "{\n" +
