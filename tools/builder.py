@@ -1,11 +1,27 @@
+#! /usr/local/bin/python3
+
 import os
 import re
 import glob
+import argparse
+import sys
+
 from shutil import copyfile, rmtree
 from pathlib import Path
 
-version = '5.0.0'
-nugetVersion = version + '-alpha-2'
+parser = argparse.ArgumentParser()
+parser.add_argument('--version', nargs=1, default='5.0.0')
+parser.add_argument('--pre', nargs=1, default='-alpha-2')
+parser.add_argument('--build-version', action='store_true')
+args = parser.parse_args()
+
+version = args.version
+nugetVersion = version + args.pre
+
+if args.build_version:
+    print(nugetVersion)
+    sys.exit(0)
+
 srcFolders = os.listdir('../src/')
 tweetinviProjects = list(filter(lambda folder: "Tweetinvi" in folder, srcFolders))
 

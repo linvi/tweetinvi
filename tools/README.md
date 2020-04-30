@@ -1,21 +1,14 @@
-******** 5.0 builder *********
+******** Installation *********
 
-1. Create the nuget package.
-
-``` sh
-# from the current project
-python3 builder.py
-#  remove the package from the cache
-rm -rf ~/.nuget/packages/tweetinviapi
-```
-
-2. Deploy the nuget package in your project
+A script has been built to quickly setup the environment so that we can quickly deploy locally a nuget version.
 
 ``` sh
-# open your project directory
-rm -rf bin obj
-dotnet remove package TweetinviAPI
-dotnet add package TweetinviAPI -s '/Users/linvi/dev/tweetinvi/Developer Tools'
+./deploy-locally.py
+
+# --install -> create the nuget sources; add an executable to /usr/bin/local deploy-locally; creates an environment variable
+# --uninstall -> cleanup the environment -> removes the nuget sources; remove the executable !!! KEEPS THE environment variable
+# --add -> add tweetinvi package to current project
+# --rm -> removes tweetinvi package from current project
 ```
 
 **********************************************************
